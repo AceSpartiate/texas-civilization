@@ -164,6 +164,40 @@ test('what differs on arrival is done as far as it can be, nothing is paid for w
   validateWorld(world);
 });
 
+test('the student may choose any slower way that carries the load and is free, and the server holds the choice to it', () => {
+  // Owner, 2026-09-24: "let the student choose" - the popup suggests the quickest, and walking so the horse stays home is theirs.
+  const world = running('errand-choose');
+  const family = household(world), buyer = person(world, 'rosa'), other = person(world, 'mateo');
+  family.resources = { ...family.resources, food: 60, money: 10, cotton: 30, seed: 0 };
+  const seed = [{ id: 'store:seed', n: 1, pay: 'coin' }];
+  const quoted = errandFor(world, 'hh-1', buyer.id, seed).quote;
+  assert.equal(quoted.quickest, 'horse');
+  assert.deepEqual(quoted.ways.map(way => [way.id, way.can]), [['horse', true], ['foot', true], ['wagon', true]]);
+  // Walking, chosen: said as the student's choice, with what would have been quicker.
+  const walked = errandFor(world, 'hh-1', buyer.id, seed, 'foot').quote;
+  assert.deepEqual([walked.can, walked.mode, walked.how], [true, 'foot', 'Goes on foot: 2 of 5 loads, as you chose. The horse would be quicker.']);
+  // A way too small for the load is shut, in the server's words, and refused if chosen anyway.
+  const six = [{ id: 'store:seed', n: 3, pay: 'coin' }];
+  const tooMuch = errandFor(world, 'hh-1', buyer.id, six, 'foot').quote;
+  assert.equal(tooMuch.can, false);
+  assert.equal(tooMuch.why, 'On foot a person carries 5, and this is 6 loads.');
+  assert.equal(tooMuch.ways.find(way => way.id === 'foot').why, tooMuch.why);
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'chore', entityId: buyer.id, chore: 'visit-shop', errand: six, mode: 'foot' }), /On foot a person carries 5, and this is 6 loads\./);
+  // A way somebody else has is shut in their name.
+  beginTravel(world, other, 'gonzales', null, 'visit', 'horse');
+  const taken = errandFor(world, 'hh-1', buyer.id, seed, 'horse').quote;
+  assert.equal(taken.why, `${other.name} has the horse, on the road to Gonzales.`);
+  assert.equal(taken.ways.find(way => way.id === 'horse').can, false);
+  // The order carries the choice, and goes that way: the wagon, chosen for two seed, keeps the horse free for nobody else here.
+  applyAction(world, 'hh-1', { action: 'chore', entityId: buyer.id, chore: 'visit-shop', errand: seed, mode: 'wagon' });
+  assert.equal(buyer.travel?.mode, 'wagon', 'the chosen way was not the way they went');
+  // Without a choice the order takes the quickest, as it always did.
+  const thomas = person(world, 'thomas');
+  applyAction(world, 'hh-1', { action: 'chore', entityId: thomas.id, chore: 'visit-shop', errand: seed });
+  assert.equal(thomas.travel?.mode, 'foot', 'with the horse and the wagon away, the quickest is walking');
+  validateWorld(world);
+});
+
 test('the way of going is the quickest that carries the load, said with the server\'s numbers', () => {
   const world = running('errand-mode');
   const family = household(world), buyer = person(world, 'rosa'), other = person(world, 'mateo');

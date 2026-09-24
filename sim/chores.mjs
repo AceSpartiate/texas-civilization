@@ -43,9 +43,11 @@ import { fellRefusal, fellTicks, fellTree, logsLeftOut, logsLying, nextTree, oxF
 import { KINDS, countsTrees, woodsRule } from './woods.mjs';
 import { TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
 import { carryOutErrand, planErrand } from './errands.mjs';
-import { ROLES as BEASTS, hasWords, userOf } from './keeping.mjs';
+import { ROLES as BEASTS, hasWords, letGo, takeToWar, userOf } from './keeping.mjs';
+import { holdingOf } from './grants.mjs';
+import { plotNeeds } from './houseplot.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
-import { SPELL_TICKS, buildRefusal, buildSpell, helpRefusal, hostOf, houseBuilt, houseSettled, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
+import { HOUSES, SPELL_TICKS, buildRefusal, buildSpell, helpRefusal, hostOf, houseBuilt, houseOf, houseSettled, pieced, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
 
 const round = value => Math.round(value * 10000) / 10000;
@@ -617,6 +619,7 @@ export const CHORES = {
   // The winter's choices (sim/winter.mjs, docs/COLONIES.md §7e): offered only in the second class period. Each goes to where
   // the thing is done and the `winter` step does it; somebody who has joined stays there until they are sent for.
   'enlist-regular': {
+    war: 'gone to enlist at San Felipe',
     name: 'Enlist in the regular army at San Felipe', skill: 'hands', where: 'home', winter: true,
     describe: 'Ride or walk to San Felipe, where the council sits, and sign on in the regular army for two years or the war, on the promise of $24 and 800 acres of land. A regular who leaves has deserted.',
     steps: [
@@ -626,6 +629,7 @@ export const CHORES = {
     ],
   },
   'enlist-auxiliary': {
+    war: 'gone to enlist at San Felipe',
     name: 'Enlist as an auxiliary volunteer at San Felipe', skill: 'hands', where: 'home', winter: true,
     describe: 'Ride or walk to San Felipe and sign on as an auxiliary volunteer: 640 acres of land for the war, or 320 for a year. An auxiliary can be sent for, and loses the land.',
     steps: [
@@ -638,6 +642,7 @@ export const CHORES = {
     ],
   },
   'join-garrison': {
+    war: 'gone to the garrison at Béxar',
     name: 'Join the garrison at Béxar', skill: 'hands', where: 'home', winter: true,
     describe: 'Go to Béxar and join the men holding the town and the Alamo, who are short of everything. They stay until sent for.',
     steps: [
@@ -649,6 +654,7 @@ export const CHORES = {
   },
   // The relief (sim/alamo.mjs, docs/COLONIES.md §7f): to Gonzales, to ride in with Kimbell and Martin on February 27.
   'join-relief': {
+    war: 'gone to ride for the Alamo',
     name: 'Ride to Gonzales to go in to the Alamo', skill: 'hands', where: 'home', winter: true,
     describe: 'Travis has written that he is besieged. Men are gathering at Gonzales to ride through the Mexican lines into the Alamo; whoever is there by the afternoon of February 27 goes with them.',
     steps: [
@@ -659,6 +665,7 @@ export const CHORES = {
     ],
   },
   'join-matamoros': {
+    war: 'gone south to the Matamoros men',
     name: 'Go south to join the Matamoros men', skill: 'hands', where: 'home', winter: true,
     describe: 'Go south to Refugio and join the volunteers gathering to carry the war to Matamoros. They stay until sent for.',
     steps: [
@@ -670,6 +677,7 @@ export const CHORES = {
   },
   // Houston's army of the spring (sim/houston.mjs): to wherever its camp is when they set out; they follow it after.
   'join-houston': {
+    war: "gone to join General Houston's army",
     name: 'Go and join General Houston\'s army', skill: 'hands', where: 'home', winter: true,
     describe: 'Go to the camp of the army Houston is gathering as he falls back east, and stay with it. They can be sent for to help the family.',
     steps: [
@@ -707,7 +715,7 @@ export const CHORES = {
   // bought nothing (the seed the owner could not buy, 2026-09-24).
   'visit-shop': {
     name: 'Go to town to trade', skill: 'hands', where: 'home', shops: true, errand: true,
-    plan: (world, household, entity, extra, deps) => planErrand(world, household, entity, extra.errand, deps),
+    plan: (world, household, entity, extra, deps) => planErrand(world, household, entity, extra.errand, { ...deps, mode: extra.errandMode }),
     describe: "Choose what to buy and sell in the family's own town before they go: the store, the smith, the gunsmith, the tavern and the rest, each at its own price in coin or food. They take the horse or the wagon if the load wants it.",
     steps: [
       { travel: 'town', doing: 'on the road to {town} to trade' },
@@ -1358,28 +1366,78 @@ export function needsOf(household, chore) {
  * What this work would hold from the moment it is given (sim/keeping.mjs): its own things (`takes`, a list or a function of
  * the family's state) and the beasts of the way it goes, when it makes a journey. Deduplicated, in a fixed order.
  */
-function heldBy(world, household, entity, chore, modeId) {
+function heldBy(world, household, entity, chore, modeId, choreId, extra = {}) {
   const own = typeof chore.takes === 'function' ? chore.takes(world, household, entity) : chore.takes || [];
   const road = chore.steps.some(step => step.travel) ? MODES[modeId]?.needs || [] : [];
-  return [...new Set([...own, ...road])];
+  const axe = axeFor(world, household, choreId, extra);
+  return { held: [...new Set([...own, ...(axe ? ['axe'] : []), ...road])], shares: axe === 'home' ? ['axe'] : [] };
 }
 /** Why the things this work takes cannot be had, because somebody else has them: their name, and what they are doing. */
-function takenWhy(world, household, entity, choreId) {
+function takenWhy(world, household, entity, choreId, extra = {}) {
   const chore = CHORES[choreId];
-  const own = typeof chore.takes === 'function' ? chore.takes(world, household, entity) : chore.takes || [];
+  const axe = axeFor(world, household, choreId, extra);
+  const own = [...(typeof chore.takes === 'function' ? chore.takes(world, household, entity) : chore.takes || []), ...(axe ? ['axe'] : [])];
+  const shares = axe === 'home' ? ['axe'] : [];
   for (const item of own) {
-    const holder = userOf(world, household, item, entity, { work: choreId });
+    const holder = userOf(world, household, item, entity, { work: choreId, shares });
     if (!holder) continue;
-    const alsoHeld = own.filter(other => userOf(world, household, other, entity, { work: choreId }) === holder);
+    const alsoHeld = own.filter(other => userOf(world, household, other, entity, { work: choreId, shares }) === holder);
     return chore.wantsWagon ? `This much crop wants the wagon. ${hasWords(holder, alsoHeld, world, entity)}` : hasWords(holder, alsoHeld, world, entity);
   }
   return null;
 }
+/** Whether a place is on the family's own land: inside its holding (sim/grants.mjs `holdingOf`). */
+function onTheLand(world, household, point) {
+  const bounds = holdingOf(world, household)?.bounds;
+  return Boolean(bounds && point && point.x >= bounds.minX && point.x <= bounds.maxX && point.y >= bounds.minY && point.y <= bounds.maxY);
+}
+/** Where the family's small timber is - its own hunting ground or the nearest stand - found without writing the map. */
+function timberSite(world, household) {
+  const own = huntingGround(world, household, false);
+  if (own) return own;
+  const home = world.map.sites[household.homeSiteId];
+  const stands = Object.values(world.map.sites).filter(site => site.kind === 'woods' && !site.hunting && !site.logwood);
+  return stands.length ? stands.reduce((best, site) => Math.hypot(site.x - home.x, site.y - home.y) < Math.hypot(best.x - home.x, best.y - home.y) ? site : best) : null;
+}
+/** Whether the house as planned wants the felling axe: its pieces (sim/houseplot.mjs), or the whole house's needs. */
+function houseWantsAxe(household) {
+  const plan = houseOf(household);
+  if (!plan) return false;
+  return pieced(household) ? plotNeeds(plan.pieces).tools.includes('axe') : (HOUSES[plan.layout]?.needs || []).includes('axe');
+}
+/**
+ * The felling axe for this work (owner, 2026-09-24, docs/TOWNS.md §4b): 'home' for work that uses it on the family's own land,
+ * where everybody at it shares it (felling, the house, a lane or a clearing through timber); 'away' for work that carries it
+ * off the land (logs, a bee tree or a small tree fetched from timber past the family's line), which is one person's until
+ * they are home; null for work that wants no axe, or a family that has none (the work's own refusal says so).
+ */
+function axeFor(world, household, choreId, extra = {}) {
+  if (household.tools?.axe === undefined) return null;
+  const place = site => (site && !onTheLand(world, household, site) ? 'away' : 'home');
+  if (choreId === 'fell-trees') return 'home';
+  if (choreId === 'build-house') return houseWantsAxe(household) ? 'home' : null;
+  if (choreId === 'cut-lane') return laneState(world, household)?.route?.ground?.some(([, timber]) => timber > 0) ? 'home' : null;
+  if (choreId === 'clear-plot') return plotsOf(world, household).find(plot => plot.id === extra.plotId)?.ground === 'timber' ? 'home' : null;
+  if (choreId === 'fetch-logs') return place(logwoodGround(world, household, false));
+  if (choreId === 'cut-bee-tree' || choreId === 'make-furniture') return place(timberSite(world, household));
+  return null;
+}
 /** The beasts a work held for a road it no longer takes with them: let go (sim/keeping.mjs). */
 function releaseBeasts(state) {
-  if (!state.with) return;
-  const left = state.with.filter(item => !BEASTS.includes(item));
-  if (left.length) state.with = left; else delete state.with;
+  letGo({ chore: state }, BEASTS);
+}
+/**
+ * A man going to the war takes the family's rifle for as long as he is away (owner, 2026-09-24): every way he goes - the
+ * winter's enlisting and joining here, a settlement's call (sim/calls.mjs), the march upriver (sim/directors.mjs) - comes
+ * through this, and his family's story says so. When somebody else has the rifle - a hunter out in the timber - he goes
+ * without it, and the story says that instead.
+ */
+export function goToWar(world, household, entity, doing) {
+  const other = takeToWar(world, household, entity, doing);
+  record(world, 'property', {
+    actorId: entity.id, householdId: household.id, importance: 2,
+    text: other ? `${entity.name} went without the family's rifle: ${hasWords(other, ['rifle'], world)}` : `${entity.name} took the family's rifle. Nobody at home can hunt or shoot until he is back.`,
+  });
 }
 /**
  * A class saved before 2026-09-24 has no `with` on anybody's work (sim/keeping.mjs). Called once at the save's door
@@ -1393,7 +1451,18 @@ export function deriveUses(world) {
     for (const id of household.members || []) {
       const person = world.entities?.[id], state = person?.chore;
       const chore = state && CHORES[state.id];
-      if (!chore || state.with || ['dead', 'captured'].includes(person.health?.condition)) continue;
+      if (!chore || ['dead', 'captured'].includes(person.health?.condition)) continue;
+      // The felling axe (2026-09-24): written for work saved before it, the rest of a save from the day before kept as it is.
+      if (!state.with?.includes('axe')) {
+        const axe = axeFor(world, household, state.id, { plotId: state.plotId });
+        const home = person.location?.siteId === household.homeSiteId && !person.travel;
+        const ahead = (chore.steps || []).slice(Math.max(0, state.step + (person.travel ? 1 : 0))).some(step => step.travel);
+        if (axe === 'home' || (axe === 'away' && (!home || ahead))) {
+          state.with = [...(state.with || []), 'axe'];
+          if (axe === 'home') state.shares = [...(state.shares || []), 'axe'];
+        }
+      }
+      if (state.with?.some(item => item !== 'axe')) continue;
       const held = [];
       if (Array.isArray(chore.takes)) held.push(...chore.takes);
       if (state.id === 'haul-logs' && state.load?.n > 1) held.push('ox');
@@ -1401,9 +1470,28 @@ export function deriveUses(world) {
       const ahead = (chore.steps || []).slice(Math.max(0, state.step + (person.travel ? 1 : 0))).some(step => step.travel);
       if (!person.travel && state.mode && ahead) held.push(...(MODES[state.mode]?.needs || []));
       const kept = [...new Set(held)].filter(item => !(BEASTS.includes(item) && userOf(world, household, item, person)));
-      if (kept.length) state.with = kept;
+      if (kept.length) state.with = [...new Set([...(state.with || []), ...kept])];
+    }
+    // A man away at the war in a class saved before 2026-09-24 has the family's rifle with him (sim/keeping.mjs `takeToWar`):
+    // turned out for a call, gone upriver, serving, or marching. The first of the family found has it, as the first to go did.
+    for (const id of household.members || []) {
+      const person = world.entities?.[id];
+      if (!person || person.carries || ['dead', 'captured'].includes(person.health?.condition) || person.service?.status === 'prisoner') continue;
+      if (!person.travel && person.location?.siteId === household.homeSiteId) continue;
+      const words = warWords(world, person);
+      if (words) takeToWar(world, household, person, words);
     }
   }
+}
+/** Where a man away at the war is, in the words the refusal of the rifle uses: null for somebody who is not at the war. */
+const SERVING = Object.freeze({ regular: 'in the regular army', 'auxiliary-war': 'with the auxiliary volunteers', 'auxiliary-year': 'with the auxiliary volunteers', garrison: 'with the garrison at Béxar', relief: 'gone to ride for the Alamo', matamoros: 'with the Matamoros men', fannin: "with Fannin's command", houston: "with General Houston's army" });
+function warWords(world, person) {
+  if (person.service?.status === 'serving') return SERVING[person.service.kind] || 'away with the army';
+  if (person.travel?.purpose === 'march') return 'with the army';
+  const promise = (person.commitments || []).find(one => one.status === 'active' && ['volunteer', 'gonzales-march'].includes(one.id));
+  if (promise?.id === 'volunteer') return `gone with the volunteers to ${(world.map.sites[promise.gather]?.name || 'the gathering').replace(/^The /, 'the ')}`;
+  if (promise?.id === 'gonzales-march') return 'gone upriver with the men at Gonzales';
+  return null;
 }
 
 /**
@@ -1641,12 +1729,16 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
     const mode = modeAvailability?.(world, entity, modeId);
     if (mode && !mode.can) throw new Error(mode.why);
   }
-  // What the work holds from now until it is done (sim/keeping.mjs): its own things, and the beasts its road will take.
-  const held = heldBy(world, household, entity, chore, modeId);
-  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }), ...(errand && { errand }), ...(held.length && { with: held }) };
+  // What the work holds from now until it is done (sim/keeping.mjs): its own things, the felling axe as the work uses it, and
+  // the beasts its road will take. The axe is asked again with the plot chosen: a clearing through timber wants it.
+  if (extra.plotId) { const why = takenWhy(world, household, entity, choreId, extra); if (why) throw new Error(why); }
+  const { held, shares } = heldBy(world, household, entity, chore, modeId, choreId, extra);
+  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }), ...(errand && { errand }), ...(held.length && { with: held }), ...(shares.length && { shares }) };
   entity.task = 'work';
   // A chore kept in its own module may need to set something up as it begins: a road chore halts the family (sim/road.mjs).
   chore.begin?.(world, household, entity);
+  // Going to the war: he takes the family's rifle (owner, 2026-09-24, sim/keeping.mjs `takeToWar`).
+  if (chore.war) goToWar(world, household, entity, chore.war);
   if (chore.helps) {
     const host = hostOf(world, entity);
     Object.assign(entity.chore, { hostHouseholdId: host.id, spells: 0 });

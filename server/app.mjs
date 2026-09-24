@@ -874,7 +874,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
           if (text.length > 2000) return json(res, 400, { error: 'That list is too long.' });
           try { list = JSON.parse(text); } catch { return json(res, 400, { error: 'That list could not be read.' }); }
         }
-        return json(res, 200, { mapId: state.sessionId, errand: errandFor(state.world, identity.householdId, url.searchParams.get('entityId'), list) });
+        return json(res, 200, { mapId: state.sessionId, errand: errandFor(state.world, identity.householdId, url.searchParams.get('entityId'), list, url.searchParams.get('mode') || null) });
       }
       // The list of work that exists never changes during a class; only who may do it
       // does, and that rides on the tick. Same reason the map is fetched once.

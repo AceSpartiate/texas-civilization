@@ -199,48 +199,68 @@ function reckon(world, household, entity, list) {
  * sim/chores.mjs, which that one imports).
  */
 function chooseMode(world, household, entity, load, needsWagon, modeAvailability) {
-  const from = entity.location?.siteId, to = townOf(household);
-  let passed = null;
-  const refused = [];
-  for (const id of needsWagon ? ['wagon'] : QUICKEST) {
-    const mode = MODES[id];
-    if (mode.carry + 1e-9 < load) continue;
-    const path = from && world.map.sites[to] ? findWay(world, from, to, id) : null;
-    const open = id === DEFAULT_MODE ? { can: true } : (modeAvailability ? modeAvailability(world, entity, id, path) : { can: false, why: 'No way of going was given.' });
-    if (open.can && (path || id === DEFAULT_MODE)) {
-      // Why this way and not a quicker one: the wagon itself is the errand, the load is more than the horse carries, or the
-      // quicker way is somebody else's today (their name, and what they are doing with it).
-      const why = needsWagon ? ', and the wheelwright works on the wagon itself'
-        : id === 'wagon' && load > MODES.horse.carry ? `, more than the horse carries (${MODES.horse.carry})`
-          : passed ? `. ${passed}` : '';
-      return { mode: id, how: `${MODE_WORDS[id]}: ${Math.round(load * 10) / 10} of ${mode.carry} loads${why}${why.endsWith('.') ? '' : '.'}` };
-    }
-    const why = open.why || (path ? null : `There is no road to town for the ${id}.`);
-    passed ??= why;
-    if (why) refused.push(why);
+  const ways = waysOf(world, household, entity, load, needsWagon, modeAvailability);
+  const open = ways.find(way => way.can);
+  if (open) {
+    // Why this way and not a quicker one: the wagon itself is the errand, the load is more than the horse carries, or the
+    // quicker way is somebody else's today (their name, and what they are doing with it).
+    const passed = ways.slice(0, ways.indexOf(open)).find(way => way.why && !way.tooMuch)?.why;
+    const why = needsWagon ? ', and the wheelwright works on the wagon itself'
+      : open.id === 'wagon' && load > MODES.horse.carry ? `, more than the horse carries (${MODES.horse.carry})`
+        : passed ? `. ${passed}` : '';
+    return { mode: open.id, how: `${MODE_WORDS[open.id]}: ${Math.round(load * 10) / 10} of ${MODES[open.id].carry} loads${why}${why.endsWith('.') ? '' : '.'}`, ways };
   }
-  if (!needsWagon && load > MODES.wagon.carry) return { why: `That is ${loads(load)}, and the wagon carries ${MODES.wagon.carry}. Send less.` };
+  if (!needsWagon && load > MODES.wagon.carry) return { why: `That is ${loads(load)}, and the wagon carries ${MODES.wagon.carry}. Send less.`, ways };
   // Nothing free carries it: said with every reason, in the holders' own names, and what the student can do about it.
+  const refused = ways.filter(way => way.why && !way.tooMuch && !way.notTheWagon).map(way => way.why);
   const wants = needsWagon ? 'The wheelwright works on the wagon itself, so this wants the wagon'
     : load > MODES.horse.carry ? `This wants the wagon: ${loads(load)}, and the horse carries ${MODES.horse.carry}`
       : `This is more than can be carried on foot: ${loads(load)}, and a person carries ${MODES.foot.carry}`;
   const waitFor = load > MODES.horse.carry || needsWagon ? 'the wagon is free' : 'the horse or the wagon is free';
-  return { why: `${wants}. ${refused.join(' ') || 'The wagon cannot go.'} Send a smaller load, or wait until ${waitFor}.` };
+  return { why: `${wants}. ${refused.join(' ') || 'The wagon cannot go.'} Send a smaller load, or wait until ${waitFor}.`, ways };
+}
+/** The quicker way, as a sentence starts it; and what each way carries, the same. */
+const QUICKER = Object.freeze({ foot: 'Walking', horse: 'The horse', wagon: 'The wagon' });
+const CARRIES = Object.freeze({ foot: 'On foot a person carries', horse: 'The horse carries', wagon: 'The wagon carries' });
+/**
+ * Every way this person could go with this load, quickest first (owner, 2026-09-24: the popup suggests the quickest, and the
+ * student may choose any slower way that still carries it and is free): whether each is open, and the server's reason when
+ * it is not - too small for the load, the wheelwright's work wanting the wagon, somebody else having it, no road.
+ */
+function waysOf(world, household, entity, load, needsWagon, modeAvailability) {
+  const from = entity.location?.siteId, to = townOf(household);
+  return QUICKEST.map(id => {
+    const mode = MODES[id], base = { id, name: mode.name, carry: mode.carry };
+    if (needsWagon && id !== 'wagon') return { ...base, can: false, why: 'The wheelwright works on the wagon itself, so the wagon has to go.', notTheWagon: true };
+    if (mode.carry + 1e-9 < load) return { ...base, can: false, why: `${CARRIES[id]} ${mode.carry}, and this is ${loads(load)}.`, tooMuch: true };
+    const path = from && world.map.sites[to] ? findWay(world, from, to, id) : null;
+    const open = id === DEFAULT_MODE ? { can: true } : (modeAvailability ? modeAvailability(world, entity, id, path) : { can: false, why: 'No way of going was given.' });
+    if (open.can && (path || id === DEFAULT_MODE)) return { ...base, can: true };
+    return { ...base, can: false, why: open.why || `There is no road to town for the ${id}.` };
+  });
 }
 
 /**
- * What the popup shows for a list: whether it can be sent and why not, the load, how the person would go and why, each line
- * as it would be done, and the family's stock after. The same reckoning the order is refused by, so the popup and the
- * refusal can never disagree.
+ * What the popup shows for a list: whether it can be sent and why not, the load, every way of going with the server's reason
+ * for any that cannot (`ways`), the quickest that can (`quickest`, the popup's suggestion), how the person would go and why,
+ * each line as it would be done, and the family's stock after. `mode` is the way the student chose, if they chose one: any
+ * that carries the load and is free (owner, 2026-09-24), and refused in that way's own words if not. The same reckoning the
+ * order is refused by, so the popup and the refusal can never disagree.
  */
-export function errandQuote(world, household, entity, list, { modeAvailability } = {}) {
+export function errandQuote(world, household, entity, list, { modeAvailability, mode = null } = {}) {
   const reckoned = reckon(world, household, entity, list);
   if (reckoned.why) return { can: false, why: reckoned.why, stock: stockOf(household) };
   const way = chooseMode(world, household, entity, reckoned.load, reckoned.wagon, modeAvailability);
-  return {
-    can: !way.why, ...(way.why && { why: way.why }), ...(way.mode && { mode: way.mode, how: way.how }),
-    load: reckoned.load, lines: reckoned.lines, stock: stockOf(household), after: reckoned.after,
-  };
+  const ways = way.ways.map(({ tooMuch, notTheWagon, ...shown }) => shown);
+  const base = { load: reckoned.load, lines: reckoned.lines, stock: stockOf(household), after: reckoned.after, ways, ...(way.mode && { quickest: way.mode }) };
+  if (mode && mode !== way.mode) {
+    const chosen = ways.find(one => one.id === mode);
+    if (!chosen) return { ...base, can: false, why: 'No such way of going.' };
+    if (!chosen.can) return { ...base, can: false, mode, why: chosen.why };
+    const slower = way.mode ? ` ${QUICKER[way.mode]} would be quicker.` : "";
+    return { ...base, can: true, mode, how: `${MODE_WORDS[mode]}: ${Math.round(reckoned.load * 10) / 10} of ${MODES[mode].carry} loads, as you chose.${slower}` };
+  }
+  return { ...base, can: !way.why, ...(way.why && { why: way.why }), ...(way.mode && { mode: way.mode, how: way.how }) };
 }
 
 /**
@@ -250,6 +270,7 @@ export function errandQuote(world, household, entity, list, { modeAvailability }
 export function planErrand(world, household, entity, list, deps = {}) {
   const quote = errandQuote(world, household, entity, list, deps);
   if (!quote.can) throw new Error(quote.why);
+
   return { mode: quote.mode, errand: quote.lines.map(({ id, n, pay }) => ({ id, n, ...(pay && { pay }) })) };
 }
 

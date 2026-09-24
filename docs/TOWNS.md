@@ -164,18 +164,46 @@ as holding anything). A refused order holds nothing. The flight east takes whate
 the ox and wagon, a journey still to come its beasts. Somebody in the middle of the old walk to the shops goes on with it
 under the name `visit-shop-street`, offered to nobody. No save version moved.
 
-### Open for the owner
+### Decided by the owner, 2026-09-24 (the four questions left open that morning)
 
-1. **The family's tools are not held** - hoe, felling axe, broadaxe, froe, auger. The work that uses them is the family's
-   together at one place (raising the house, clearing, planting, harvest), which you decided goes faster with more hands
-   (SETTLING_IN.md); one axe held by one person would undo that. Should the felling axe be held when somebody takes it *off*
-   the land - fetching logs, a bee tree - so nobody can fell or build meanwhile?
-2. **The rifle and the war.** A man who turns out for a call is told he "takes the family's rifle" (sim/calls.mjs), but
-   nothing holds it: the family at home still hunts. Holding it would leave a family whose men are away without meat.
-3. **One rifle a family.** Since today a second hunter waits for the first to come home. Families nobody plays hunt one at
-   a time too. Measured once, first class period only (same computer; a 15-family class on the colonies, families nobody plays, four seeds, before and after this change): nobody went hungry or died either way; the mean food in a house at the period's end fell from 37.9 to 33.9. The winter and spring are not measured (`scripts/balance-study.mjs` is the whole war).
-4. **The server chooses the way of going.** A student cannot keep the horse at home by sending somebody on foot with a small
-   load; the quickest way that carries it is taken. Say if a student should be able to choose a slower way.
+Built the same day on v2026.09.24.4 ([tests](../tests/war-rifle.test.mjs), [injections](evidence/war-rifle-injections.json),
+13 of 13 caught; [study](evidence/rifle-food-study.json)).
+
+1. **"Tools: hold the felling axe off the land."** The felling axe is one person's while they carry it away from the
+   family's own land - fetching logs, a bee tree, a small tree for furniture from timber past the family's line (a place
+   outside `holdingOf`'s bounds) - from the moment the work is given until they are home (`axeHome` on arriving). Nobody fells,
+   builds, cuts a lane through timber or clears a timber plot with it meanwhile, and the refusal names who has it: *"Rosa has the
+   felling axe, on the road to the timber on the Guadalupe River."* **At home all tools stay shared as before**: work that uses
+   the axe on the family's own land holds it *shared* (`chore.shares`) - felling, the house when its pieces want the axe, a lane
+   or a clearing through timber - so any number of the family work it together, and nobody carries it off while they are at
+   it (*"Mateo has the felling axe, felling a post oak."*). House work stops by itself when the log pile runs short
+   (sim/houseplot.mjs), so fetching logs is never locked out for good. The hoe, broadaxe, froe and auger never leave the land
+   and are not held. Every way the trip ends lets it go: home, called off, dropped, the person dead or taken.
+2. **"The rifle and the war: he takes the rifle."** A man who turns out for his settlement's call (sim/calls.mjs), goes
+   upriver with the march (sim/directors.mjs `handleMarch`), or leaves to enlist or to join the garrison, the relief, the
+   Matamoros men or Houston (the winter's chores, `war`) carries the family's rifle for as long as he is away
+   (`person.carries`, sim/keeping.mjs `takeToWar`). Nobody at home can hunt or practise; the refusal names him in the words he
+   went with: *"Alvin has the rifle, gone with the volunteers to Gonzales."* He has it on the march and in the ranks, and until he
+   is in the yard again (sent for, released, shut out and turned back, the period's end setting him down at home). **The dead,
+   the captured and the prisoners hold nothing** (`homeAgain`): `ceiling:` the rifle is not lost with them, because nothing in
+   the game sells a rifle and a family left without one could never hunt again. If somebody of the family has the rifle out
+   hunting when he goes, he goes without it, and the story says so. Carrying food to Gonzales ("help") is not turning out and
+   takes no rifle. The family owns one gun: no second gun exists anywhere in the game (the wagon's load, the house, the shops),
+   and none was invented. Old saves: a man away at the war opens with the rifle (`deriveUses`, from his active commitment or
+   service).
+3. **"One rifle per family: keep it, and measure."** Kept. Measured over all three periods - autumn, winter, spring - on four
+   classes of fifteen families nobody plays on the colonies, before (two hunters at once, the rifle at home: 45023e7) and
+   after (one rifle, gone to the war with whoever turns out): mean food a house at each period's end 37.9 / 65.1 / 12.1 before
+   and 34.9 / 64.3 / 12.4 after; household-ticks with no food in the house **914 before, 743 after**; houses that ever ran out
+   34 and 34; **deaths 14 and 14, the same fourteen people** in both. Nobody starved who would not have before. Nothing was
+   retuned. (`scripts/rifle-food-study.mjs`, [record](evidence/rifle-food-study.json).)
+4. **"The way of travelling: let the student choose."** The popup still suggests the quickest way that carries the load, from
+   the server, marked *(quickest)* and chosen. Under *Going by* the student may choose any slower way that still carries it and
+   is free - walk, so the horse stays home. A way that cannot go is shut, with the server's reason under the row (*"With the ox
+   and wagon: Alvin has the ox and wagon, on the road home."*, *"On foot a person carries 5, and this is 6 loads."*). The order
+   carries the chosen `mode`; the server checks it against the same reckoning and refuses it in that way's words, and an order
+   with none goes the quickest way, as before. A choice is said: *"Goes on foot: 3 of 5 loads, as you chose. The horse would be
+   quicker."*
 
 ## 5. How a student uses it
 

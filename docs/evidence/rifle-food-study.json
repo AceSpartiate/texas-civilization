@@ -1,0 +1,261 @@
+{
+  "record": "Families nobody plays through the three class periods, 15 families a class on the colonies, four seeds: before (two hunters at once, the rifle stays home: commit 45023e7) and after (one rifle a family, gone to the war with whoever turns out)",
+  "date": "2026-09-24",
+  "script": "scripts/rifle-food-study.mjs, run once on each tree",
+  "before": [
+    {
+      "seed": "rifle-a",
+      "periods": [
+        {
+          "label": "autumn",
+          "ticks": 382,
+          "meanFood": 39.9
+        },
+        {
+          "label": "winter",
+          "ticks": 195,
+          "meanFood": 58.8
+        },
+        {
+          "label": "spring",
+          "ticks": 252,
+          "meanFood": 12.3
+        }
+      ],
+      "hungryHouseTicks": 243,
+      "housesEverHungry": 10,
+      "dead": 3,
+      "deadIds": [
+        "hh-3-elena",
+        "hh-14-thomas",
+        "hh-15-thomas"
+      ],
+      "sickDeaths": 0,
+      "rifleAwayHouseTicks": 0,
+      "deathLines": 63
+    },
+    {
+      "seed": "rifle-b",
+      "periods": [
+        {
+          "label": "autumn",
+          "ticks": 382,
+          "meanFood": 37.1
+        },
+        {
+          "label": "winter",
+          "ticks": 195,
+          "meanFood": 58.1
+        },
+        {
+          "label": "spring",
+          "ticks": 252,
+          "meanFood": 13.2
+        }
+      ],
+      "hungryHouseTicks": 204,
+      "housesEverHungry": 7,
+      "dead": 3,
+      "deadIds": [
+        "hh-2-thomas",
+        "hh-9-mateo",
+        "hh-12-thomas"
+      ],
+      "sickDeaths": 1,
+      "rifleAwayHouseTicks": 0,
+      "deathLines": 63
+    },
+    {
+      "seed": "rifle-c",
+      "periods": [
+        {
+          "label": "autumn",
+          "ticks": 382,
+          "meanFood": 36.6
+        },
+        {
+          "label": "winter",
+          "ticks": 195,
+          "meanFood": 73.3
+        },
+        {
+          "label": "spring",
+          "ticks": 252,
+          "meanFood": 13.1
+        }
+      ],
+      "hungryHouseTicks": 181,
+      "housesEverHungry": 8,
+      "dead": 2,
+      "deadIds": [
+        "hh-6-elena",
+        "hh-11-thomas"
+      ],
+      "sickDeaths": 1,
+      "rifleAwayHouseTicks": 0,
+      "deathLines": 62
+    },
+    {
+      "seed": "rifle-d",
+      "periods": [
+        {
+          "label": "autumn",
+          "ticks": 382,
+          "meanFood": 38.1
+        },
+        {
+          "label": "winter",
+          "ticks": 195,
+          "meanFood": 70.2
+        },
+        {
+          "label": "spring",
+          "ticks": 252,
+          "meanFood": 9.7
+        }
+      ],
+      "hungryHouseTicks": 286,
+      "housesEverHungry": 9,
+      "dead": 6,
+      "deadIds": [
+        "hh-1-thomas",
+        "hh-8-thomas",
+        "hh-10-thomas",
+        "hh-11-elena",
+        "hh-12-thomas",
+        "hh-14-thomas"
+      ],
+      "sickDeaths": 0,
+      "rifleAwayHouseTicks": 0,
+      "deathLines": 66
+    }
+  ],
+  "after": [
+    {
+      "seed": "rifle-a",
+      "periods": [
+        {
+          "label": "autumn",
+          "ticks": 382,
+          "meanFood": 40.4
+        },
+        {
+          "label": "winter",
+          "ticks": 195,
+          "meanFood": 60.4
+        },
+        {
+          "label": "spring",
+          "ticks": 252,
+          "meanFood": 12.9
+        }
+      ],
+      "hungryHouseTicks": 162,
+      "housesEverHungry": 8,
+      "dead": 3,
+      "deadIds": [
+        "hh-3-elena",
+        "hh-14-thomas",
+        "hh-15-thomas"
+      ],
+      "sickDeaths": 0,
+      "rifleAwayHouseTicks": 4445,
+      "deathLines": 63
+    },
+    {
+      "seed": "rifle-b",
+      "periods": [
+        {
+          "label": "autumn",
+          "ticks": 382,
+          "meanFood": 31.4
+        },
+        {
+          "label": "winter",
+          "ticks": 195,
+          "meanFood": 55.2
+        },
+        {
+          "label": "spring",
+          "ticks": 252,
+          "meanFood": 13.4
+        }
+      ],
+      "hungryHouseTicks": 193,
+      "housesEverHungry": 8,
+      "dead": 3,
+      "deadIds": [
+        "hh-2-thomas",
+        "hh-9-mateo",
+        "hh-12-thomas"
+      ],
+      "sickDeaths": 1,
+      "rifleAwayHouseTicks": 3604,
+      "deathLines": 63
+    },
+    {
+      "seed": "rifle-c",
+      "periods": [
+        {
+          "label": "autumn",
+          "ticks": 382,
+          "meanFood": 34
+        },
+        {
+          "label": "winter",
+          "ticks": 195,
+          "meanFood": 64.8
+        },
+        {
+          "label": "spring",
+          "ticks": 252,
+          "meanFood": 13.5
+        }
+      ],
+      "hungryHouseTicks": 161,
+      "housesEverHungry": 8,
+      "dead": 2,
+      "deadIds": [
+        "hh-6-elena",
+        "hh-11-thomas"
+      ],
+      "sickDeaths": 1,
+      "rifleAwayHouseTicks": 2924,
+      "deathLines": 62
+    },
+    {
+      "seed": "rifle-d",
+      "periods": [
+        {
+          "label": "autumn",
+          "ticks": 382,
+          "meanFood": 33.6
+        },
+        {
+          "label": "winter",
+          "ticks": 195,
+          "meanFood": 77
+        },
+        {
+          "label": "spring",
+          "ticks": 252,
+          "meanFood": 10
+        }
+      ],
+      "hungryHouseTicks": 227,
+      "housesEverHungry": 10,
+      "dead": 6,
+      "deadIds": [
+        "hh-1-thomas",
+        "hh-8-thomas",
+        "hh-10-thomas",
+        "hh-11-elena",
+        "hh-12-thomas",
+        "hh-14-thomas"
+      ],
+      "sickDeaths": 0,
+      "rifleAwayHouseTicks": 3589,
+      "deathLines": 66
+    }
+  ]
+}

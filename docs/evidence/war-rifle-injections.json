@@ -1,0 +1,143 @@
+{
+  "record": "The owner's four answers of 2026-09-24 (docs/TOWNS.md §4b): each regression put back alone over the 13 test files they touch",
+  "date": "2026-09-24",
+  "caught": "13 of 13",
+  "injections": [
+    {
+      "id": "call-leaves-rifle",
+      "guards": "a man who turns out takes the rifle",
+      "pass": 138,
+      "fail": 3,
+      "failed": [
+        "a man who turns out takes the rifle: nobody at home can hunt or practise, and the refusal names him and where he went",
+        "a man killed or taken holds nothing: the family has its rifle again",
+        "a man who turns out while somebody has the rifle out goes without it, and is not handed it on a reload"
+      ],
+      "caught": true
+    },
+    {
+      "id": "march-leaves-rifle",
+      "guards": "going upriver with the march",
+      "pass": 140,
+      "fail": 1,
+      "failed": [
+        "going upriver with the march takes the rifle too"
+      ],
+      "caught": true
+    },
+    {
+      "id": "winter-leaves-rifle",
+      "guards": "leaving to join the garrison",
+      "pass": 140,
+      "fail": 1,
+      "failed": [
+        "leaving to join the garrison takes the rifle"
+      ],
+      "caught": true
+    },
+    {
+      "id": "rifle-never-home",
+      "guards": "a man who turns out takes the rifle",
+      "pass": 139,
+      "fail": 2,
+      "failed": [
+        "a man who turns out takes the rifle: nobody at home can hunt or practise, and the refusal names him and where he went",
+        "a man killed or taken holds nothing: the family has its rifle again"
+      ],
+      "caught": true
+    },
+    {
+      "id": "prisoner-holds",
+      "guards": "a man killed or taken",
+      "pass": 140,
+      "fail": 1,
+      "failed": [
+        "a man killed or taken holds nothing: the family has its rifle again"
+      ],
+      "caught": true
+    },
+    {
+      "id": "takes-from-hunter",
+      "guards": "goes without it",
+      "pass": 140,
+      "fail": 1,
+      "failed": [
+        "a man who turns out while somebody has the rifle out goes without it, and is not handed it on a reload"
+      ],
+      "caught": true
+    },
+    {
+      "id": "old-save-rifle-home",
+      "guards": "a class saved with a man away",
+      "pass": 140,
+      "fail": 1,
+      "failed": [
+        "a class saved with a man away at the war opens with the rifle gone with him"
+      ],
+      "caught": true
+    },
+    {
+      "id": "axe-not-held-away",
+      "guards": "the felling axe carried off the land",
+      "pass": 138,
+      "fail": 3,
+      "failed": [
+        "the felling axe carried off the land is one person's until home, and nobody fells or builds with it meanwhile",
+        "at home the felling axe is shared by the work at home, and cannot be carried off while it is at work there",
+        "the axe is let go on every way the trip ends: called off, and a class saved with it off the land opens with it gone"
+      ],
+      "caught": true
+    },
+    {
+      "id": "axe-never-home",
+      "guards": "the felling axe carried off the land",
+      "pass": 140,
+      "fail": 1,
+      "failed": [
+        "the felling axe carried off the land is one person's until home, and nobody fells or builds with it meanwhile"
+      ],
+      "caught": true
+    },
+    {
+      "id": "axe-home-not-shared",
+      "guards": "at home the felling axe is shared",
+      "pass": 139,
+      "fail": 2,
+      "failed": [
+        "two people felling one place never fell the same tree, and called in, what came down is still said",
+        "at home the felling axe is shared by the work at home, and cannot be carried off while it is at work there"
+      ],
+      "caught": true
+    },
+    {
+      "id": "old-save-axe-home",
+      "guards": "the axe is let go on every way",
+      "pass": 140,
+      "fail": 1,
+      "failed": [
+        "the axe is let go on every way the trip ends: called off, and a class saved with it off the land opens with it gone"
+      ],
+      "caught": true
+    },
+    {
+      "id": "mode-choice-ignored",
+      "guards": "the student may choose",
+      "pass": 140,
+      "fail": 1,
+      "failed": [
+        "the student may choose any slower way that carries the load and is free, and the server holds the choice to it"
+      ],
+      "caught": true
+    },
+    {
+      "id": "mode-choice-unchecked",
+      "guards": "the student may choose",
+      "pass": 140,
+      "fail": 1,
+      "failed": [
+        "the student may choose any slower way that carries the load and is free, and the server holds the choice to it"
+      ],
+      "caught": true
+    }
+  ]
+}

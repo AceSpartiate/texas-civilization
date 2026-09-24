@@ -53,14 +53,15 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
   async function fetchFacts(list = null) {
     if (!state) return;
     const seq = ++state.seq;
-    const query = `/api/errand?entityId=${encodeURIComponent(state.entityId)}${list?.length ? `&list=${encodeURIComponent(JSON.stringify(list))}` : ''}`;
+    const mode = state.mode;
+    const query = `/api/errand?entityId=${encodeURIComponent(state.entityId)}${list?.length ? `&list=${encodeURIComponent(JSON.stringify(list))}` : ''}${list?.length && mode ? `&mode=${encodeURIComponent(mode)}` : ''}`;
     try {
       const { errand } = await api(query);
       if (!state || seq !== state.seq) return;
       state.facts = errand;
       state.quote = errand.quote || null;
       // A quote is only good for the list it was asked about: Send waits for the answer to the list on the screen.
-      state.quotedList = list?.length ? list : null;
+      state.quotedKey = list?.length ? JSON.stringify([list, mode]) : null;
       state.error = '';
     } catch (error) {
       if (!state || seq !== state.seq) return;
@@ -84,7 +85,7 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
     $('#errand-title').textContent = facts ? `${name} to ${facts.town.name}` : 'To town';
     $('#errand-text').textContent = facts ? `What should ${name} buy or sell in ${facts.town.name}? Choose before they go; they do it at the shops and bring it home.` : 'Asking the town what it has…';
     const list = currentList();
-    const fresh = list.length > 0 && JSON.stringify(list) === JSON.stringify(state.quotedList || null);
+    const fresh = list.length > 0 && JSON.stringify([list, state.mode]) === state.quotedKey;
     const quote = fresh ? state.quote : null;
     $('#errand-stock').textContent = facts ? stockWords(quote?.stock || facts.stock) : '';
     const after = quote?.can ? quote.after : null;
@@ -133,13 +134,42 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
     }));
     if (focused?.id) host.querySelector(`[data-line="${CSS.escape(focused.id)}"] [data-act="${focused.act}"]`)?.focus({ preventScroll: true });
     $('#errand-how').textContent = !list.length ? 'Nothing is on the list yet.' : !quote ? 'Reckoning the load…' : quote.can ? quote.how : '';
+    drawWays(quote, list);
     const why = state.error || facts?.shut || (quote && !quote.can ? quote.why : '');
     $('#errand-why').textContent = why || '';
     const send = $('#errand-send');
     send.disabled = Boolean(state.busy) || !quote?.can || Boolean(facts?.shut);
     send.textContent = state.busy ? 'Sending…' : `Send ${name}`;
     // What a proof reads: the server's sentences as drawn, and the list as the page would send it.
-    window.__errand = { entityId: state.entityId, list, how: $('#errand-how').textContent, why, can: !send.disabled, lines: (facts?.lines || []).map(line => ({ id: line.id, why: line.why || null, count: state.counts.get(line.id) || 0 })) };
+    window.__errand = { entityId: state.entityId, list, mode: state.mode, ways: quote?.ways || null, quickest: quote?.quickest || null, how: $('#errand-how').textContent, why, can: !send.disabled, lines: (facts?.lines || []).map(line => ({ id: line.id, why: line.why || null, count: state.counts.get(line.id) || 0 })) };
+  }
+
+  /**
+   * How they go (owner, 2026-09-24): the server's ways, quickest first, the quickest that carries the load marked and chosen
+   * unless the student chose another; a way that cannot go is shut and says why, in the server's words, under the row.
+   */
+  function drawWays(quote, list) {
+    const host = $('#errand-ways');
+    if (!host) return;
+    const ways = quote?.ways;
+    host.hidden = !list.length || !ways;
+    if (host.hidden) { host.replaceChildren(); return; }
+    const chosen = state.mode || quote.quickest || null;
+    const row = element('div', '', 'errand-ways-row');
+    row.append(element('span', 'Going by', 'errand-ways-label'));
+    for (const way of ways) {
+      const button = element('button', way.id === quote.quickest ? `${way.name} (quickest)` : way.name, 'errand-way');
+      button.type = 'button';
+      button.dataset.way = way.id;
+      button.setAttribute('aria-pressed', String(way.id === chosen));
+      button.disabled = !way.can;
+      if (!way.can) button.title = way.why;
+      row.append(button);
+    }
+    const shut = ways.filter(way => !way.can && way.why).map(way => element('li', `${way.name}: ${way.why}`));
+    const reasons = element('ul', '', 'errand-ways-why');
+    reasons.append(...shut);
+    host.replaceChildren(row, ...(shut.length ? [reasons] : []));
   }
 
   async function send() {
@@ -147,7 +177,7 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
     const list = currentList();
     state.busy = true; draw();
     try {
-      await sendCommand({ action: 'chore', chore: 'visit-shop', entityId: state.entityId, errand: list });
+      await sendCommand({ action: 'chore', chore: 'visit-shop', entityId: state.entityId, errand: list, ...(state.mode && { mode: state.mode }) });
       const sent = state.entityId;
       close();
       onSent(sent);
@@ -163,6 +193,15 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
     if (!state) return;
     if (event.target.closest('#errand-close, #errand-cancel')) { close(); return; }
     if (event.target.closest('#errand-send')) { send(); return; }
+    // A way of going chosen: the quickest again is no choice at all, and the server says whether the one chosen can go.
+    const way = event.target.closest('[data-way]');
+    if (way && !way.disabled) {
+      state.mode = way.dataset.way === state.quote?.quickest ? null : way.dataset.way;
+      state.quotedKey = undefined;
+      draw();
+      requote();
+      return;
+    }
     const button = event.target.closest('[data-act]'), row = event.target.closest('[data-line]');
     if (!button || !row || button.disabled) return;
     const id = row.dataset.line, line = state.facts?.lines.find(one => one.id === id);
@@ -174,7 +213,7 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
     else if (act.startsWith('pay-')) state.pays.set(id, act.slice(4));
     if (!state.counts.get(id)) state.counts.delete(id);
     state.error = '';
-    state.quotedList = undefined;
+    state.quotedKey = undefined;
     draw();
     requote();
   });
@@ -187,7 +226,7 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
 
   return {
     open(entityId) {
-      state = { entityId, facts: null, quote: null, counts: new Map(), pays: new Map(), seq: 0, busy: false, error: '', key: null, quotedList: null };
+      state = { entityId, facts: null, quote: null, counts: new Map(), pays: new Map(), mode: null, seq: 0, busy: false, error: '', key: null, quotedKey: null };
       draw();
       fetchFacts();
       root.querySelector('#errand-cancel')?.focus({ preventScroll: true });

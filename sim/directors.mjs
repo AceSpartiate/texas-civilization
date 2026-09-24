@@ -1,6 +1,6 @@
 import { record } from './events.mjs';
 import { spotlight } from './host.mjs';
-import { SHOT_COST } from './chores.mjs';
+import { SHOT_COST, goToWar } from './chores.mjs';
 import { establishTruth, learn } from './knowledge.mjs';
 import { TIRING_MILES } from './routines.mjs';
 import { awardGlory } from './glory.mjs';
@@ -456,6 +456,8 @@ export function handleMarch(world, householdId, entity, action, { beginTravel, t
     // A real journey over the ford and up the west bank. `findPath` routes it; nobody is
     // ever placed at the camp without having walked there.
     beginTravel(world, entity, CAMP_SITE, march.choiceId, 'help', mode);
+    // He takes the family's rifle upriver, for as long as he is away (owner, 2026-09-24; sim/keeping.mjs).
+    goToWar(world, household, entity, 'gone upriver with the men at Gonzales');
   } else {
     entity.task = 'help';
     const consequence = record(world, 'consequence', { actorId: entity.id, householdId, importance: 2, causes: [march.choiceId], text: `${entity.name} stayed in Gonzales when the others crossed. The family's supplies went on without him.` });

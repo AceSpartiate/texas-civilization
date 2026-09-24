@@ -105,7 +105,7 @@ the principal for the orders only a principal may be given (`applyAction` in `si
 | Fetch logs from the timber (`fetch-logs`, 2026-09-19, [BIOME_GAMEPLAY](BIOME_GAMEPLAY.md) §3.2) | Take the ox and wagon to the nearest timber, off your land if need be, and bring six logs home. |
 
 **Go to town to trade** (`visit-shop`) opens the errand popup since 2026-09-24 (owner; `docs/TOWNS.md` §4b): what to buy
-and sell is chosen first, the server says how they will go, and the popup sends the order with its list. While it is open the
+and sell is chosen first, the server suggests how they will go and the student may choose a slower way that carries the load (owner, 2026-09-24), and the popup sends the order with its list. While it is open the
 bar steps aside, by §12.13's rule for a rider. The travel-mode buttons on the person's card now say what the holder of a
 thing is doing with it: *"Maria has the horse, on the road to Gonzales."*
 

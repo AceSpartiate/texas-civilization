@@ -1,5 +1,44 @@
 # Claude handoff — Astra foundation
 
+## The owner's four answers: the axe off the land, the rifle to the war, one rifle measured, the way chosen — 2026-09-24 (after v2026.09.24.4; not yet committed or released)
+
+The four questions the errand entry below left open, answered by the owner the same day and recorded as dated decisions in
+[docs/TOWNS.md §4b](docs/TOWNS.md). CLAUDE.md item 16 updated. No save version.
+
+- **The felling axe is held off the land.** `sim/chores.mjs` `axeFor`: work that carries it past the family's line
+  (`fetch-logs`, `cut-bee-tree`, `make-furniture` when the timber is outside `holdingOf`) holds it alone from the order until
+  home (`axeHome` in `progressTravel`); work that uses it on the land (felling, the house when its pieces want the axe, a lane
+  or a clearing through timber) holds it **shared** (`chore.shares`, `userOf`'s `shares`), so the family works it together
+  and nobody carries it off meanwhile. Refusals name the holder: *"Rosa has the felling axe, on the road to the timber on
+  …"*, *"Mateo has the felling axe, felling a post oak."* House work stops itself when the logs run short, so fetching is never
+  locked out for good. Old saves derive the axe (`deriveUses`).
+- **He takes the rifle to the war.** `sim/keeping.mjs` `takeToWar` writes `person.carries` from every way a man goes:
+  `sim/calls.mjs` `handleCall` (turn-out), `sim/directors.mjs` `handleMarch` (go-upriver), and the winter's six war chores
+  (`war` words; `beginChore` → `goToWar`). Nobody at home hunts or practises: *"Alvin has the rifle, gone with the volunteers to
+  Gonzales."* `homeAgain` (each tick after `keepWithRiders`) lets it go when he is home, dead, captured or a prisoner
+  (`ceiling:` the rifle is not lost with him; nothing sells one). A hunter out with it means he goes without, said, and
+  remembered (`carries.items` empty) so a reload does not hand it to him. Carrying food ("help") takes no rifle. The family
+  owns one gun; none was invented. Old saves: a man away with an active commitment or service opens holding it (`warWords`).
+- **One rifle kept, and measured** (`scripts/rifle-food-study.mjs`, [record](docs/evidence/rifle-food-study.json)): four classes
+  of fifteen families nobody plays, all three periods, before (45023e7: two hunters, rifle at home) and after (both rules):
+  mean food a house at each period's end 37.9 / 65.1 / 12.1 → 34.9 / 64.3 / 12.4; household-ticks with no food 914 → 743;
+  houses ever out of food 34 → 34; **deaths 14 → 14, the same fourteen people**. Nobody starved who would not have. Nothing
+  retuned.
+- **The student chooses the way.** `sim/errands.mjs` `waysOf`/`errandQuote(..., { mode })`: every way, quickest first, with
+  `can`/`why`; `quickest` is the suggestion; a chosen way is held to it (*"On foot a person carries 5, and this is 6 loads."*, the
+  holder's name) and said (*"Goes on foot: 3 of 5 loads, as you chose. The horse would be quicker."*). The order's `mode`
+  reaches `planErrand` as `extra.errandMode`; `GET /api/errand` takes `mode`. Page: `public/errand.js` `drawWays`,
+  `#errand-ways` (index.html, style.css). Screenshot looked at: `errand-ways-1366.png` (session scratchpad) - the horse marked
+  quickest, *On foot* chosen, the wagon shut with Alvin's name under the row.
+- **Tests.** New `tests/war-rifle.test.mjs` (9: the call, the march, the garrison; sent for and home; dead, captured, prisoner;
+  going without; old save; the axe carried off, shared at home, let go and derived) and one in `tests/errands.test.mjs` (the
+  choice). **Injections** ([record](docs/evidence/war-rifle-injections.json)) over the 13 test files they touch: **13 of 13
+  caught**; 9 fail only their own test, the call left unheld also fails the two tests that start from a turned-out man, the
+  rifle never coming home also fails death's test, the axe never held away fails all three axe tests, and sharing removed at
+  home also fails `tests/felling.test.mjs`'s two fellers in one place. `npm test`: **1104 pass**.
+- **Browser** (same computer only). `test:errand` extended (a way chosen, the wagon shut in the holder's name, the walker
+  goes on foot and the horse stays home): PASS, with errand (9 checks), shops (5), family-commands (23), family-panel, panels (2 sizes), lesson, riding, farm, host-view, travel and travel-drawn.
+
 ## The errand chosen before anybody leaves, and one person at a time with a thing — 2026-09-24 (after v2026.09.24.3; not yet committed or released)
 
 Owner: *"When sending someone to town to stores, there should be a popup first asking what they should buy or sell.

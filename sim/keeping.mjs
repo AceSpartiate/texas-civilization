@@ -27,22 +27,29 @@
 // A class saved before 2026-09-24 has no `with` on anybody's work; the save's one door (server/storage.mjs `readSave`,
 // sim/chores.mjs `deriveUses`) writes it from the work itself, so a hunt in hand opens holding the rifle. No version moved.
 //
-// ceiling: the family's tools - hoe, felling axe, broadaxe, froe, auger - are not held. The work that uses them is the
-// family's together at one place (raising the house, clearing a plot, planting and bringing in the field), which the owner
-// decided goes faster with more hands (docs/SETTLING_IN.md), and one axe held by one person would undo that. Open for the
-// owner (docs/TOWNS.md §4b): whether the felling axe is held when somebody takes it off the land (fetching logs, a bee
-// tree), and whether the rifle goes with somebody who turns out for a call or the army (sim/calls.mjs says they take it;
-// nothing holds it yet, so the family at home still hunts).
+// **The owner's answers, 2026-09-24** (docs/TOWNS.md §4b):
+//
+//   - **The felling axe is held off the land.** Whoever carries it away from the family's own land - fetching logs, a bee
+//     tree, a small tree for furniture from timber off the land - has it until they are home, and nobody fells or builds
+//     with it meanwhile. At home the tools stay the family's together: everybody working the axe at home shares it
+//     (`chore.shares`), and one of them cannot carry it off while the others are at it.
+//   - **He takes the rifle to war.** A man who turns out for a call, goes upriver with the march, or leaves to enlist or join
+//     a garrison, the relief, the Matamoros men or Houston carries the family's rifle for as long as he is away
+//     (`person.carries`, written by `takeToWar`), and the refusal names him. He has it until he is home again; the dead and
+//     the taken hold nothing (`homeAgain`).
+//     ceiling: a man killed or taken does not lose the rifle with him - the family has it again - because nothing in the
+//     game sells a rifle, and a family left without one for the rest of the class could never hunt again.
+//   - The other tools - hoe, broadaxe, froe, auger - are never carried off the land by any work, and stay shared.
 //
 // This file imports only the travel table, so `sim/world.mjs` (journeys), `sim/army.mjs` (the march) and `sim/chores.mjs`
 // (work) can all ask it without an import arrow between them.
 import { DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
 
 /** The plain word for each piece of property, used in every sentence about it. */
-export const NOUN = Object.freeze({ ox: 'ox', horse: 'horse', wagon: 'wagon', rifle: 'rifle' });
+export const NOUN = Object.freeze({ ox: 'ox', horse: 'horse', wagon: 'wagon', rifle: 'rifle', axe: 'felling axe' });
 export const ROLES = Object.freeze(['horse', 'ox', 'wagon']);
-/** Every thing only one person at a time can have: the three beasts, and the family's rifle (owner, 2026-09-24). */
-export const ITEMS = Object.freeze([...ROLES, 'rifle']);
+/** Every thing only one person at a time can have: the three beasts, the family's rifle, and the felling axe off the land. */
+export const ITEMS = Object.freeze([...ROLES, 'rifle', 'axe']);
 /**
  * Work that shares what it holds with others given the same work: everybody bringing in one field loads the one wagon
  * standing in it. Anybody else still cannot take it away.
@@ -80,7 +87,7 @@ export function holderOf(world, beast) {
  * and through them the errand to town (sim/errands.mjs), the director of a family nobody plays, and auto. `work` is the work
  * `asker` would be given: somebody sent to the same shared work is not refused what their fellow workers hold (`SHARED`).
  */
-export function userOf(world, household, item, asker = null, { work = null } = {}) {
+export function userOf(world, household, item, asker = null, { work = null, shares = [] } = {}) {
   if (!household) return null;
   if (ROLES.includes(item)) {
     const beast = world.entities[propertyId(household.id, item)];
@@ -90,11 +97,44 @@ export function userOf(world, household, item, asker = null, { work = null } = {
   for (const id of household.members || []) {
     const person = world.entities[id];
     if (!person || person === asker || GONE.includes(person.health?.condition)) continue;
+    // Gone to the war with it (`takeToWar`), until home again.
+    if (away(world, household, person) && person.carries?.items?.includes(item)) return person;
     if (!person.chore?.with?.includes(item)) continue;
     if (work && SHARED[work] && person.chore.id === work) continue;
+    // Work at home that shares it with other work at home: the felling axe among everybody felling and building.
+    if (shares.includes(item) && person.chore.shares?.includes(item)) continue;
     return person;
   }
   return null;
+}
+/** Not standing on the family's own place: on a road, or anywhere but home. */
+const away = (world, household, person) => Boolean(person.travel) || person.location?.siteId !== household.homeSiteId;
+
+/**
+ * A man going to the war takes the family's rifle (owner, 2026-09-24): called from every way he goes - a settlement's call
+ * (sim/calls.mjs), the march upriver (sim/directors.mjs), the winter's enlisting and joining (sim/chores.mjs, the winter's
+ * chores) - after his road has begun, with the words the refusal will use ("gone with the volunteers to Gonzales"). Returns
+ * who else has it when somebody already does - a hunter out in the timber - and then he goes without it; the caller says so.
+ */
+export function takeToWar(world, household, entity, doing) {
+  const holder = userOf(world, household, 'rifle', entity);
+  // Gone without it, and remembered so: a class reopened does not hand him the rifle he never took (sim/chores.mjs `deriveUses`).
+  entity.carries = { items: holder ? [] : ['rifle'], doing };
+  return holder;
+}
+/**
+ * Once a tick (sim/world.mjs, after the journeys): whoever went to the war with the rifle and is home again, or is dead or
+ * taken, has let it go. A prisoner (sim/houston.mjs, `service.status` 'prisoner') is taken. Only a man at home and still is
+ * home; one who has come home and gone out again on an errand went without it.
+ */
+export function homeAgain(world) {
+  for (const household of Object.values(world.households)) {
+    for (const id of household.members || []) {
+      const person = world.entities[id];
+      if (!person?.carries) continue;
+      if (GONE.includes(person.health?.condition) || person.service?.status === 'prisoner' || !away(world, household, person)) delete person.carries;
+    }
+  }
 }
 
 /**
@@ -104,6 +144,10 @@ export function userOf(world, household, item, asker = null, { work = null } = {
  */
 export function hasWords(holder, roles, world = null, asker = null) {
   const what = `${holder?.name || 'Somebody'} has the ${roles.map(role => NOUN[role]).join(' and ')}`;
+  // Gone to the war with it: said in the words he went with, until he is on his way home.
+  const war = holder?.carries && roles.some(role => holder.carries.items?.includes(role));
+  const homeward = holder?.travel && holder.travel.to === world?.households?.[holder.householdId]?.homeSiteId;
+  if (war && world && !homeward) return `${what}, ${holder.carries.doing}.`;
   const where = world && holder?.kind === 'person' ? doingWith(world, holder, asker) : null;
   return where ? `${what}, ${where}.` : `${what}.`;
 }
@@ -129,10 +173,25 @@ function doingWith(world, person, asker) {
  * work lets go of them (sim/world.mjs `harness`). What the work holds that is not on the road - the rifle - it keeps.
  */
 export function intoTheRoad(entity, roles) {
-  const held = entity.chore?.with;
-  if (!held) return;
-  const left = held.filter(item => !roles.includes(item));
-  if (left.length) entity.chore.with = left; else delete entity.chore.with;
+  letGo(entity, roles);
+}
+/** Work lets go of these things: out of `with`, and out of `shares` with them. */
+export function letGo(entity, items) {
+  const state = entity.chore;
+  if (!state?.with) return;
+  const left = state.with.filter(item => !items.includes(item));
+  if (left.length) state.with = left; else delete state.with;
+  if (state.shares) {
+    const shared = state.shares.filter(item => left.includes(item));
+    if (shared.length) state.shares = shared; else delete state.shares;
+  }
+}
+/**
+ * Home with the felling axe from off the land (sim/world.mjs `progressTravel`, on arriving home): it is the family's again
+ * at home, shared by whoever works it there, and the work that carried it off holds it no more.
+ */
+export function axeHome(entity) {
+  if (entity.chore?.with?.includes('axe') && !entity.chore.shares?.includes('axe')) letGo(entity, ['axe']);
 }
 /** A stored use that is not a thing a family holds (sim/world.mjs `validateWorld`). */
 export function usesInvalid(world) {
@@ -140,6 +199,13 @@ export function usesInvalid(world) {
     const held = entity.chore?.with;
     if (held === undefined) continue;
     if (!Array.isArray(held) || !held.length || held.some(item => !ITEMS.includes(item)) || new Set(held).size !== held.length) return 'Invalid use of family property';
+    const shared = entity.chore.shares;
+    if (shared !== undefined && (!Array.isArray(shared) || !shared.length || shared.some(item => !held.includes(item)))) return 'Invalid use of family property';
+  }
+  for (const entity of Object.values(world.entities)) {
+    const carried = entity.carries;
+    if (carried === undefined) continue;
+    if (!carried || !Array.isArray(carried.items) || carried.items.some(item => !ITEMS.includes(item)) || typeof carried.doing !== 'string' || !carried.doing) return 'Invalid use of family property';
   }
   return null;
 }

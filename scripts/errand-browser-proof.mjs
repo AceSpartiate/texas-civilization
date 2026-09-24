@@ -190,6 +190,37 @@ try {
   await page.setViewportSize({ width: 1366, height: 768 });
   ok(`at 1024x768 the popup fits (${narrow.errand.w}x${narrow.errand.h}), keeps off the column and has nothing over its controls`);
 
+  // ------------------------------------------------ the way of going is the student's: walk, so the horse stays home
+  // Owner, 2026-09-24: the popup suggests the quickest, and the student may choose any slower way that carries the load.
+  await page.locator(`.panel-row[data-entity-id="${second.id}"] .panel-icon[data-key="visit-shop"]`).click();
+  await page.locator('#errand').waitFor({ state: 'visible' });
+  await page.waitForFunction(() => document.querySelectorAll('#errand .errand-line').length > 5);
+  // Powder paid in food, so the coin and the seed the first errand brings home are counted clean below.
+  await setCount(page, 'store:powder', 1);
+  await page.locator('#errand [data-line="store:powder"] [data-act="pay-food"]').click();
+  await page.waitForFunction(() => document.querySelector('#errand [data-way="horse"]')?.getAttribute('aria-pressed') === 'true', null, { timeout: 15000 });
+  const offeredWays = await page.evaluate(() => [...document.querySelectorAll('#errand [data-way]')].map(button => ({ way: button.dataset.way, label: button.textContent, open: !button.disabled, pressed: button.getAttribute('aria-pressed') === 'true', why: button.title || null })));
+  observed.ways = offeredWays;
+  assert.deepEqual(offeredWays.map(one => one.way), ['horse', 'foot', 'wagon']);
+  assert.match(offeredWays[0].label, /quickest/);
+  // The wagon is on the road with Alvin: shut, and the reason under the row in his name.
+  const wagonWay = offeredWays.find(one => one.way === 'wagon');
+  assert.equal(wagonWay.open, false, 'the wagon was offered while Alvin has it');
+  assert.match(wagonWay.why, new RegExp(`^${first.name} has the ox and wagon`));
+  await page.locator('#errand [data-way="foot"]').click();
+  await page.waitForFunction(() => /as you chose/.test(document.querySelector('#errand-how').textContent) && !document.querySelector('#errand-send').disabled, null, { timeout: 15000 });
+  observed.chosen = (await popup(page)).how;
+  assert.equal(observed.chosen, 'Goes on foot: 3 of 5 loads, as you chose. The horse would be quicker.');
+  await page.screenshot({ path: join(SHOTS, 'errand-ways-1366.png') });
+  const chose = await measure(page);
+  assert.ok(chose.fits && !chose.covered.length && chose.overColumn === 0, `the popup with its ways does not fit or is covered: ${JSON.stringify(chose)}`);
+  await page.locator('#errand-send').click();
+  await page.locator('#errand').waitFor({ state: 'hidden', timeout: 10000 });
+  const walker = app.state.world.entities[second.id];
+  assert.equal(walker.travel?.mode, 'foot', `they went ${walker.travel?.mode}, not the way the student chose`);
+  assert.equal(app.state.world.entities['hh-1-horse']?.borrowedBy ?? null, null, 'the horse left the yard although the student chose to walk');
+  ok(`the student chooses: the popup marks the horse quickest and the wagon shut ("${wagonWay.why}"); on foot is chosen and said, "${observed.chosen}", and ${walker.name} walks while the horse stays home`);
+
   // ------------------------------------------------------------------------------------------- and the goods come home
   await page.waitForFunction(id => { const one = window.__snapshot?.world.entities.find(e => e.id === id); return one && !one.chore && !one.travel; }, first.id, { timeout: 120000 });
   const home = await page.evaluate(() => window.__snapshot.world.household.resources);

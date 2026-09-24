@@ -11,7 +11,7 @@ import { awayProjection, milesATick, roadTicksFor, tooFastToFollow } from './sig
 import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection } from './directors.mjs';
 import { abandonChore, advanceChores, answerChore, askProjection, beginChore, choreAvailability, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
 import { GAME } from './hunting.mjs';
-import { bringAlong, hasWords, holderOf, intoTheRoad, keepWithRiders, leaveBehind, modeWith, NOUN, ROLES as BEASTS, userOf, usesInvalid } from './keeping.mjs';
+import { axeHome, bringAlong, hasWords, holderOf, homeAgain, intoTheRoad, keepWithRiders, leaveBehind, modeWith, NOUN, ROLES as BEASTS, userOf, usesInvalid } from './keeping.mjs';
 import { SERVING_ACTIONS, recallFromService, servingWhy, winterInvalid } from './winter.mjs';
 import { answerCourier } from './alamo.mjs';
 import { advanceRunners, runnerInvalid } from './alamo-runner.mjs';
@@ -547,6 +547,8 @@ export function progressTravel(world, entity, units = 1) {
     // itself: a family that left the wagon at the timber has a wagon at the timber.
     if (entity.borrowedBy && (travel.to === world.households[entity.householdId]?.homeSiteId || !world.entities[entity.borrowedBy])) entity.borrowedBy = null;
     if (entity.laden && world.households[entity.householdId]?.homeSiteId === travel.to) entity.laden = false;
+    // Home with the felling axe from off the land: it is the family's again, to share at home (sim/keeping.mjs).
+    if (entity.kind === 'person' && world.households[entity.householdId]?.homeSiteId === travel.to) axeHome(entity);
     if (travel.silent) return;
     record(world, 'arrival', { actorId: entity.id, householdId: entity.householdId, text: `${entity.name} arrived at ${world.map.sites[travel.to].name}.`, destination: travel.to, purpose: travel.purpose, causes: [travel.progressEventId || travel.causeId] });
   }
@@ -600,6 +602,8 @@ export function stepWorld(world, { realMs = 0, decisionBudgetMs } = {}) {
   advanceDirectors(world, { beginTravel, dispatchReport });
   // Whatever somebody rode to the army marches with them (sim/keeping.mjs), once the army has moved.
   keepWithRiders(world);
+  // Whoever went to the war with the rifle and is home again, or is dead or taken, has let it go (sim/keeping.mjs).
+  homeAgain(world);
   // Each student's own guided beginning moves on by what the tick actually did (sim/lesson.mjs): a house that now
   // stands, ground now cleared, a crop now in. Last, so a step is never called finished a tick before it is.
   advanceLessons(world);
@@ -823,7 +827,7 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // the "choose one of your family" rule below because renaming the *family* names nobody.
   if (input.action === 'rename') { rename(world, household, input); return; }
   // The errand to town carries its whole list in the one order (sim/errands.mjs), checked and planned by the server.
-  if (input.action === 'chore') { beginChore(world, household, entity, input.chore, { beginTravel, modeAvailability }, mode, input.errand !== undefined ? { errand: input.errand } : {}); noteOrder(entity, input.chore, mode); return; }
+  if (input.action === 'chore') { beginChore(world, household, entity, input.chore, { beginTravel, modeAvailability }, mode, input.errand !== undefined ? { errand: input.errand, ...(input.mode && { errandMode: input.mode }) } : {}); noteOrder(entity, input.chore, mode); return; }
   // Survey, with the place the student chose on the family's own land (sim/survey.mjs). The server decides whether it can be.
   if (input.action === 'survey-plot') {
     const plot = { x: Number(input.x), y: Number(input.y) };
@@ -935,14 +939,14 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
  * popup opens and as the list changes, never on the tick. `shut` is why nobody can be sent at all right now, in the server's
  * words: the person's own refusal, or the guided start's. Only the family's own person, and only its own town.
  */
-export function errandFor(world, householdId, entityId, list = null) {
+export function errandFor(world, householdId, entityId, list = null, mode = null) {
   const household = world.households[householdId], entity = world.entities[entityId];
   if (!household || !entity || entity.householdId !== householdId || entity.kind !== 'person') throw new Error('Choose one of your family.');
   const open = choreAvailability(world, household, entity, 'visit-shop');
   const shut = lessonRefusal(world, household, { action: 'chore', chore: 'visit-shop', entityId }) || (open.can ? null : open.why);
   return {
     person: { id: entity.id, name: entity.name }, ...errandOffers(world, household, entity), ...(shut && { shut }),
-    ...(Array.isArray(list) && list.length && { quote: errandQuote(world, household, entity, list, { modeAvailability }) }),
+    ...(Array.isArray(list) && list.length && { quote: errandQuote(world, household, entity, list, { modeAvailability, mode }) }),
   };
 }
 // The map is public geography and never changes during a class, so it is fetched once
@@ -979,8 +983,8 @@ function projectHousehold(world, household) {
  */
 function choreShown(world, household, e) {
   if (!e.chore) return e.chore;
-  const { with: held, errand, ...shown } = e.chore;
-  return e.chore.ask ? { ...shown, ask: askProjection(world, household, e) } : (held || errand ? shown : e.chore);
+  const { with: held, shares, errand, ...shown } = e.chore;
+  return e.chore.ask ? { ...shown, ask: askProjection(world, household, e) } : (held || shares || errand ? shown : e.chore);
 }
 export function projectWorld(world, householdId, role, { includeMap = true, copy = true, now = Date.now() } = {}) {
   const household = world.households[householdId];
