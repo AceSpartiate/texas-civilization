@@ -309,28 +309,66 @@ cells high, which against the gable behind the walls is hidden whole under the r
 
 Now: the atlas measures the feet of the full walls' three visible corner posts (`ground`, `groundOf` in
 `scripts/build-atlas-manifest.mjs`; the fourth corner closes the figure). The sheet's roof puts its gables over the
-left-front face (the door's) and the right-back face — mirrored at a quarter turn, right-front and left-back. The plan says
-which pen and which end; the turn says which face that gable is:
+left-front face (the door's) and the right-back face — mirrored, right-front (the door's) and left-back. The plan says
+which pen and which end; the turn, and the picture each pen is drawn with (below, 2026-09-24), say which face that gable is:
 
 | | 0° | 90° | 180° | 270° |
 |---|---|---|---|---|
-| east gable | right-back | right-front | left-front | left-back |
-| west gable | left-front | left-back | right-back | right-front |
+| east gable | right-back | **right-front** (door) | left-back | left-back |
+| west gable | left-back | left-back | right-back | **right-front** (door) |
 
 `standChimneys` in `public/house-plot.js` puts each chimney's foot at the middle of its gable wall on the ground, standing
 out `CHIMNEY_STANDS_OUT` (a tenth) of the pen's depth (`ceiling:` a guessed chimney depth), and draws it before its pen when
 that gable is behind the walls (the pen hides its foot and it rises over the ridge) and after the pen and its roof when it
 faces the viewer. Chimneys are drawn `CHIMNEY_HIGH` (2.1) cells high so one behind the walls clears the ridge. The
-saddlebag's double chimney stands at the middle between the west pen's east gable and the east pen's west gable, drawn after
-the pen whose gable it is in front of and before the other, 0.6 of a cell wide so at 0° and 180° it touches both pictures;
-`stand-in:` still a flat rectangle, and at 90° and 270° the two pens' pictures stand one behind the other with ground
-between them, so it rises in front of the far pen and the near pen hides its foot. A chimney whose pen has no measured walls
-(a jacal, or no `spriteFrame`) stays at its cell. `stand-in:` the sheet has one pen, its door in the left-front gable, so at
-90° and 180° — and on the dog-run's west pen at 0° and 270° — a chimney stands in front of a door that gable should not have
-(`docs/ART_REQUESTS.md`, *the house from its other sides*). The chimney's cell is still the plan's ground and the server's
-footprint: no plan, footprint or spacing number moved, and every picture still stands inside `PICTURE_REACH`
-(`tests/house-spacing.test.mjs`). Test: `tests/house-chimney.test.mjs` holds every plan at every turn, in the chooser, the
-preview and the house that stands, to the gable walls read by eye off the sheet.
+saddlebag's double chimney is drawn with the single stick-and-mud chimney's picture (`stand-in:` for its own two-sided
+picture, request 2026-09-15; until 2026-09-24 a flat rectangle 0.6 of a cell wide). At 0° and 180° both its gables are back
+gables: it stands at the middle between them, drawn before both pens, `CHIMNEY_HIGH` high, in the gap between the two
+pictures with their roofs' eaves over its sides. At 90° and 270° the two pens stand one behind the other with ground between:
+it stands in line with the far pen's gable toward the viewer, where a single chimney would, brought `DOUBLE_TOWARD` (0.8 of
+a cell) down the screen toward the near pen, whose roof hides its foot, and `DOUBLE_RISE` (2.7) high - taller, and so wider,
+than a single chimney, so it hides the far pen's door whole; drawn after the far pen and before the near one. A chimney whose pen has no measured walls (a jacal, or no `spriteFrame`) stays at its cell. The
+chimney's cell is still the plan's ground and the server's footprint: no plan, footprint or spacing number moved, and every
+picture still stands inside `PICTURE_REACH` (`tests/house-spacing.test.mjs`). Test: `tests/house-chimney.test.mjs` holds
+every plan at every turn, in the chooser, the preview and the house that stands, to the gable walls read by eye off the sheet.
+
+**No chimney in front of a door (2026-09-24).** Owner: *"fix the chimney standing in front of the door."* Until this date
+every pen took the house's mirroring (mirrored at 90° and 270°, not at 0° and 180°), and the sheet's one pen has its door in
+the left-front gable, so a chimney on that gable stood in front of the door: the cabins at 90° and 180°, the dog-run's west
+pen at 0° and 270°, its east pen at 90° and 180°. The art was checked first: no sheet has a corner-on pen without its door
+or with it elsewhere, or a door drawn apart from its wall (house-modules has the one pen, walls and low walls both with the
+door in the left-front gable; houses-settling, buildings and architecture-extra are front-on whole houses). So each pen's
+picture is now chosen for its chimney (`mirrorPens`): in either picture the gable toward the viewer has the door and the one
+behind the walls has none, so a chimney whose gable is to the screen's right stands against the unmirrored pen's right-back
+gable, and one to the left against the mirrored pen's left-back. A chimney whose gable is away from the viewer is behind the
+walls of either, and the pen keeps the house's mirroring.
+
+What each plan looks like now: the **cabins** at 0° as before (chimney behind to the right, door left-front); at 180°
+mirrored, the chimney behind to the left and the door right-front — the same picture as at 270°; at 270° as before. The
+**dog-run** at 0° and 180° is two mirror-image pens, each door on the gable facing the passage and each chimney behind its
+outer end; at 90° and 270° the far pen's chimney is behind it and its door faces the passage, as before. The **saddlebag**
+at 0° and 180° is two mirror-image pens, each door on its outer gable and the double chimney between their back gables. No
+source registered here says which way a dog-run pen's door faced: `HIST-GONZ-035` (Smithwick) gives Austin's house a
+passage, a porch on the front and "chimney at each end", and `HIST-GONZ-025` the passage under one roof; neither says the
+doors opened on the passage (the houses-settling sheet's own dog-run has them on the front long wall). Doors on the passage
+here are what the one picture allows, not a historical claim.
+
+`ceiling:` a mirrored pen lays its ridge on the other diagonal, so at 0° and 180° a dog-run's or saddlebag's two ridges run
+on different diagonals, a V, where the house has one ridge line, and a cabin at 180° is its picture at 270°. A pen's ground
+is square and the corner-on picture is 45° off either axis, so no footprint, tap box or spacing number moved; the double
+chimney between two back gables is drawn at `CHIMNEY_HIGH`, since at `DOUBLE_RISE` it stood a fifth of a cell above
+`PICTURE_REACH.up`. `stand-in:` a chimney whose gable faces the viewer has no picture to stand against — the gable toward
+the viewer is the door's in both — so on the **cabins at 90°**, the **dog-run's near pen at 90° and 270°** and the
+**saddlebag's far pen at 90° and 270°** the chimney stands in front of the door and **covers it whole**, and the gable reads
+as the chimney's end (coordinator, 2026-09-24, on the montage: the cabins and the dog-run read correctly; the saddlebag's
+rectangle was narrower than the door, which showed either side of it, and is now the chimney picture above). Until the
+sheet has a pen with its door in the other gable (`docs/ART_REQUESTS.md`, *the house from its other sides*). Not guessed around: standing that chimney on the
+back gable puts it on the far side of the pen from its cell, and on the long wall under the eaves contradicts
+`HIST-GONZ-025`'s "centred in one gable wall". Test: `tests/house-chimney.test.mjs` *no … chimney is drawn over a door*:
+every plan at every turn, in the chooser, the preview and the house that stands, finds each pen's door in the picture as
+drawn (the sheet's door, read by eye as a four-cornered opening, through the transform its walls were drawn with) and fails
+if a chimney drawn after that pen overlaps it — and a chimney whose gable the plan puts toward the viewer (and only that one)
+must cover all four of its corners with its outline (read by eye off the chimney pictures).
 
 ### 6.5 Where a house may stand, at the size it is drawn (2026-09-23)
 
@@ -493,6 +531,6 @@ Stages consume logs once on starting, preserve partial work when interrupted, st
 
 The earlier table is the design proposal. **Shipped tuning** in `sim/houseplot.mjs` is: round pen 50 sound logs/30 spells (four sills, forty wall-course logs, six roof logs); hewn pen 50/40; jacal 0/14; passage 4/4; stick chimney 0/4; stone chimney 0/10; double chimney 0/7; shed 10 any/7; porch 4 any/4; loft 4 wall/3; floor 6 wall/4. One ordinary spell is one game hour; lone upper courses take longer. All these counts remain invented, not historical measurements.
 
-**Ceilings:** stone availability is not enforced because there is no rock layer; porch/weather/fire effects remain future work. Pens are built before their attached additions; door/window cutting and rafters/clapboards are not separate jobs. Ten wall courses are simulated but share one walls-stage sprite, rather than ten distinct drawn courses. **Amended 2026-09-23** (student: *"the roof doesn't seem to stay where it's supposed to be. It slides forward."*): the modular roof was drawn at the walls' ground anchor, which for a roof is the tip of its eaves, so it sat a third of the pen's width forward and down, covering the walls to the ground; it is now seated on the walls by points the atlas measures (`roofSeat` in `public/house-plot.js`), and every stage of a pen is drawn at its full walls' pixel scale (the sill had come out 28% bigger than the walls). `tests/house-roof.test.mjs`. The passage roof between dog-run pens still stands on its own posts at a hand-chosen size, below the pens' eaves. **Amended 2026-09-23 (turned houses):** a placed house's quarter turn turned the canvas, so its pieces lay on their sides at 90 degrees and upside down at 180; it now turns the house on the ground only - each piece upright in its turned cells, back to front, so a dog-run at 90 runs into the screen - and mirrors every piece at 90 and 270, which is the corner-on pen seen after a quarter turn (`drawHousePlot` `rotation`, `tests/house-turn.test.mjs`). `stand-in:` the pen's back gable and the passage, porch and shed room seen end-on are requested (ART_REQUESTS.md, 2026-09-23). Floor/loft benefits and progress are listed in the panel, with no room interior view. Modular replacement art is requested in `ART_REQUESTS.md`; the renderer and supplied art are not finished production building visuals.
+**Ceilings:** stone availability is not enforced because there is no rock layer; porch/weather/fire effects remain future work. Pens are built before their attached additions; door/window cutting and rafters/clapboards are not separate jobs. Ten wall courses are simulated but share one walls-stage sprite, rather than ten distinct drawn courses. **Amended 2026-09-23** (student: *"the roof doesn't seem to stay where it's supposed to be. It slides forward."*): the modular roof was drawn at the walls' ground anchor, which for a roof is the tip of its eaves, so it sat a third of the pen's width forward and down, covering the walls to the ground; it is now seated on the walls by points the atlas measures (`roofSeat` in `public/house-plot.js`), and every stage of a pen is drawn at its full walls' pixel scale (the sill had come out 28% bigger than the walls). `tests/house-roof.test.mjs`. The passage roof between dog-run pens still stands on its own posts at a hand-chosen size, below the pens' eaves. **Amended 2026-09-23 (turned houses):** a placed house's quarter turn turned the canvas, so its pieces lay on their sides at 90 degrees and upside down at 180; it now turns the house on the ground only - each piece upright in its turned cells, back to front, so a dog-run at 90 runs into the screen - and mirrors every piece at 90 and 270, which is the corner-on pen seen after a quarter turn (`drawHousePlot` `rotation`, `tests/house-turn.test.mjs`). **Amended 2026-09-24:** a log pen whose chimney is to its left on the screen is mirrored at 0 and 180 too, so the chimney stands against its doorless back gable (§6.4, *No chimney in front of a door*; `mirrorPens`). `stand-in:` the pen's back gable and the passage, porch and shed room seen end-on are requested (ART_REQUESTS.md, 2026-09-23). Floor/loft benefits and progress are listed in the panel, with no room interior view. Modular replacement art is requested in `ART_REQUESTS.md`; the renderer and supplied art are not finished production building visuals.
 
 **Evidence:** `tests/house-plot.test.mjs` passes seven tests. `scripts/house-plot-regression-proof.mjs` substitutes seven exact regressions through isolated Node loaders; each selected test fails, without editing production files ([record](evidence/house-plot-regressions.json)). The student browser proof `scripts/house-plot-browser-proof.mjs` passed on the same computer ([record](evidence/house-plot-browser.json)), covering plans, interior additions/removal, refusal, phone layout and construction/shelter through the live server. **Amended 2026-09-23:** the component editor is hidden and a plan opens a placement step, so the proof now goes plan, preview over the land, quarter turn, *Build here*, construction and shelter, and holds the preview to the house that stands: the same size in the people's yardstick, turn and footprint (`tests/house-preview.test.mjs`, HANDOFF.md *House placement preview*).

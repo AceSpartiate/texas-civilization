@@ -23,7 +23,7 @@ does not have:
 | Four glyph icons drawn in code (a squirrel on a branch, a fish over the water, two shells on the sand, a bee tree) | `drawGlyph` in `public/family-panel.js` | Request 2026-09-20 — the gathering icons | `icon-take-small-game`, `icon-fish-the-water`, `icon-gather-oysters`, `icon-cut-bee-tree` |
 | Three glyph icons drawn in code (a long-horned cow, a hog with its snout in the mast, a rider's hat over the grass) | `drawGlyph` in `public/family-panel.js` | Request 2026-09-20 — the stock icons | `icon-butcher-beef`, `icon-butcher-hog`, `icon-look-to-stock` |
 | A new town's shops are the nearest buildings the library has, two trades sharing a sprite | `SHOP_SPRITES` in `sim/shops.mjs`, drawn in `drawWorld` in `public/app.js` | Request 2026-09-16 — the shops of the towns | `shop-*` buildings, one per trade |
-| Whole jacal stage sprites; `lean-to` shed frame; procedural double chimney (a flat rectangle, since 2026-09-23 stood at the middle between the saddlebag's two gable walls, as wide as the gap between the pens' pictures and a little more so it touches both; at 90 and 270 degrees the two pens stand one behind the other with ground between their pictures, so it rises in front of the far pen and the near pen hides its foot); no separate interior floor/loft display | `drawHousePlot` and `standChimneys` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney (two-sided, its foot marked), and separately registered floor and loft overlays |
+| Whole jacal stage sprites; `lean-to` shed frame; the double chimney drawn with the single stick-and-mud chimney's picture (`house-chimney-stick`; until 2026-09-24 a flat rectangle, whose width let the far pen's door show either side of it at 90 and 270 degrees). At 0 and 180 degrees it stands behind both pens, at the middle between their back gables, `CHIMNEY_HIGH` high, the eaves over its sides; at 90 and 270 in line with the far pen's gable toward the viewer, brought `DOUBLE_TOWARD` toward the near pen, whose roof hides its foot, and `DOUBLE_RISE` (2.7) high so that it hides the far pen's door whole; no separate interior floor/loft display | `drawHousePlot` and `standChimneys` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney (two-sided, its foot marked), and separately registered floor and loft overlays |
 | Generic `chapel` and `adobe-flat` silhouettes represent San Fernando and the Governor's Palace | `public/bexar-layout.js` | Request 2026-09-14 — Béxar civic architecture | Researched 1836 civic façades in the existing illustrated style |
 | A child in an unavailable action pose is a grown figure drawn smaller (90% at 10–17, 70% at 5–9, 55% at 2–4, 45% an infant). Idle, cardinal walking, rest and injured-rest use delivered `girl`, `boy`, `smallchild` and `infant` art | `CHILD_POSES` and `entityClip` in `public/motion.js` | Request 2026-09-12, priority 1 — children | Any later child-specific action poses. **Keep the scaling**: the delivered sheets fill their cells and need it |
 | A person's appearance - a parent's chosen, a child's taken after the parents - is shown only in words in the family book ("olive skin, black hair, rust clothes, a beard"); the figure on the map is still chosen by sex and age | `public/appearance.js`, `sim/appearance.mjs` | Request below — layered people art | Layered or palette-swappable sheets for the whole cast |
@@ -41,7 +41,7 @@ does not have:
 | The panel icon for fetching logs from the timber is a canvas glyph: three logs laid across a wagon bed on two wheels, in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-19 — the logs fetched from the timber | `icon-fetch-logs` |
 | In a **hard** norther the broad oak, the spreading oak, the pecan and the grass tuft now take Astra's painted gale poses, and a camp fire's smoke streams (delivered 2026-09-21). Everything else still standing in that wind — pine, cedar, mesquite, live oak, elm, scrub, reeds, prickly pear, and every sized tree of `trees-colonies-1` and `-2` — is the library's own upright sprite sheared about its foot | `GALE_POSES` and `windLean` in `public/weather-art.js`, applied by `postOak`, `plain` and `drawGroundDetail` in `public/app.js` | Request 2026-09-20 — the country in a norther | A gale silhouette for each remaining tree kind and ground mark, at the same one strength as the five delivered |
 
-| A house placed at a quarter or half turn is drawn from the one front view the house-modules sheet has: each piece stands upright in its turned cells, and at 90 and 270 degrees every piece is that picture mirrored (the gable brought round to the other face, the ridge on the other diagonal). At 0 and 270 the gable facing the viewer is the door's; at 90 and 180 it is really the pen's back gable, yet shows the door. The porch, shed room and passage are their one picture whichever way they run. Since 2026-09-23 a chimney stands against its gable wall, so at 90 and 180 (and on the dog-run's west pen at 0 and 270, whose chimney is on the gable the sheet gives the door) it stands in front of a door the house should not have there | `drawHousePlot` (`rotation`, `turned`) in `public/house-plot.js`, called by `drawPlacedHouse` in `public/app.js` | Request 2026-09-23 — the house from its other sides | The pen's back gable (no door) for full walls, low walls and sill, and each piece's end-on view: passage, porch and shed room running into the screen |
+| A house placed at a quarter or half turn is drawn from the one front view the house-modules sheet has: each piece stands upright in its turned cells, and at 90 and 270 degrees every piece is that picture mirrored (the gable brought round to the other face, the ridge on the other diagonal). The gable facing the viewer always shows the door, in the picture and mirrored. The porch, shed room and passage are their one picture whichever way they run. Since 2026-09-24 each log pen's picture is chosen for its chimney (`mirrorPens`): a chimney on a gable to the screen's side stands against the doorless back gable of the unmirrored pen (to the right) or the mirrored pen (to the left), so the cabins at 180 degrees and the two-pen houses at 0 and 180 are drawn with their pens as mirror images (a dog-run's doors toward the passage, a saddlebag's on its outer ends; their two ridges on different diagonals, `ceiling:`). A chimney whose gable faces the viewer still stands in front of the door, and covers it whole, so the gable reads as the chimney's end: the cabins at 90 degrees, the dog-run's near pen at 90 and 270, the saddlebag's far pen at 90 and 270 (its double chimney, since 2026-09-24 the single chimney's picture, brought toward the near pen and drawn taller) | `drawHousePlot` (`rotation`, `turned`) in `public/house-plot.js`, called by `drawPlacedHouse` in `public/app.js` | Request 2026-09-23 — the house from its other sides | The pen's back gable (no door in the gable toward the viewer) for full walls, low walls and sill - or a pen with its door on its long side - and each piece's end-on view: passage, porch and shed room running into the screen. With them every pen takes the house's mirroring again, the two-pen houses' ridges on one diagonal, and no chimney stands before a door at any turn |
 | The mark that leads a student to the one thing to press is CSS: a triangular caret over the icon, a rust box-shadow ring round it, and ten coloured bars for the lesson’s steps | `.panel-icon[data-pointed=true]` and `.lesson-pip` in `public/style.css`; the pips built by `renderLesson` in `public/app.js` | Request 2026-09-21 — the guided start’s marks | `lesson-point`, `lesson-ring`, `lesson-pip`, `lesson-pip-done` |
 
 
@@ -93,7 +93,8 @@ into the existing pipeline, and how it will be checked. When a request is delive
 
 ## Request 2026-09-23 — the house from its other sides
 
-**Status: open; the front view, mirrored at a quarter turn, in use (see *Stand-ins in use* above).** A student places a house
+**Status: open; the front view, mirrored at a quarter turn - and, since 2026-09-24, for a pen's chimney - in use (see
+*Stand-ins in use* above).** A student places a house
 on the family's land and turns it a quarter at a time (HANDOFF.md *House placement preview*). Until 2026-09-23 the page turned
 the pictures with it, so a house at 90 degrees lay on its side and one at 180 stood on its roof, chimney pointing at the
 ground. Now a turn turns the house on the ground - its footprint, which way the long side runs, which piece stands in front
@@ -102,13 +103,19 @@ pen corner-on from one side only: the gable and door on the face to the left, a 
 running back to the right. Mirrored, that picture is honestly the pen turned a quarter (gable on the other face, ridge on the
 other diagonal); a half turn has the same silhouette. What the sheet cannot show is the back of the pen.
 
-- **Why.** At 90 and 180 degrees the gable end facing the viewer is the pen's back wall, which on a single-door pen has no
-  door - and the page draws the door there anyway. A dog-run or saddlebag turned 90 degrees runs into the screen, where its
-  passage, porch and shed room are still drawn broadside.
+- **Why.** The gable end facing the viewer is the door's in the one picture and in it mirrored, so a chimney against a gable
+  toward the viewer stands in front of the door (owner, 2026-09-24: *"fix the chimney standing in front of the door"*). Since
+  2026-09-24 a chimney to the side stands against the back gable of whichever picture puts it there (`mirrorPens` in
+  `public/house-plot.js`), at the cost of two-pen houses drawn as mirror-image pens; one toward the viewer - the cabins at
+  90 degrees, the dog-run's near pen at 90 and 270, the saddlebag's far pen at 90 and 270 - has no picture to stand against,
+  and stands in front of the door, covering it whole. A dog-run or saddlebag turned
+  90 degrees runs into the screen, where its passage, porch and shed room are still drawn broadside.
 - **What.** In the house-modules style, at the same scale, cell size and corner-on view as the delivered pieces:
   - `house-round-back-sill`, `-back-low-walls`, `-back-full-walls` and the same three for `hewn`: the pen with the gable
-    face to the left **without** its door (a window or blank logs), so the pen seen from behind. The roof needs no new
-    frame: the delivered roofs, mirrored or not, already lie along either diagonal.
+    face to the left **without** its door (a window or blank logs), so the pen seen from behind. Either of two drawings
+    serves: the door in the right-back gable, hidden behind the walls, or the door on a long side (the right-front face,
+    where the window is now) - which is where the houses-settling sheet's own cabins and dog-run have it. The roof needs
+    no new frame: the delivered roofs, mirrored or not, already lie along either diagonal.
   - `house-passage-floor-end`, `house-passage-roof-end`: the open passage seen end-on, running away from the viewer
     between two pens that stand one behind the other.
   - `house-porch-end`, `house-shed-room-end`: the porch and the shed room seen from their narrow ends, their long side
@@ -117,13 +124,15 @@ other diagonal); a half turn has the same silhouette. What the sheet cannot show
   one from the silhouette, `seatOf` in `scripts/build-atlas-manifest.mjs`); every frame's ground anchor the middle of its
   front edge, as now.
 - **How it plugs in.** Add the frames to the house-modules registration in `scripts/build-atlas-manifest.mjs` and
-  `npm run build:art`. In `drawHousePlot` (`public/house-plot.js`) a pen at 90 or 180 degrees takes the `back` frames in
-  `drawLogPen` (still mirrored at 90), and a passage, porch or shed room at 90 or 270 takes its `-end` frame, unmirrored;
-  delete the stand-in row. Nothing in the server changes: the turn, footprint and envelope are already the server's.
+  `npm run build:art`. In `drawHousePlot` (`public/house-plot.js`) a pen whose chimney's gable faces the viewer takes the
+  `back` frames in `drawLogPen`, every pen takes the house's mirroring again (delete `mirrorPens`' choice and its
+  `ceiling:`), and a passage, porch or shed room at 90 or 270 takes its `-end` frame, unmirrored; delete the stand-in row. Nothing in the server changes: the turn, footprint and envelope are already the server's.
 - **Check.** `tests/house-turn.test.mjs`, `tests/house-roof.test.mjs` and `tests/house-chimney.test.mjs` still pass
   (upright, back to front, roof seated, chimney against its gable at every turn - a back full-walls frame needs its ground
-  corners measured too: add it to `GROUNDED` in `scripts/build-atlas-manifest.mjs`); in `scripts/house-plot-browser-proof.mjs`'s pictures of the built house at 0/90/180/270 the door shows only
-  at 0 and 270, and a dog-run at 90 reads as one house running away from the viewer.
+  corners measured too: add it to `GROUNDED` in `scripts/build-atlas-manifest.mjs`); `tests/house-chimney.test.mjs` *no …
+  chimney is drawn over a door* then fails on the gables toward the viewer, which is its list of stand-ins: drop that
+  exception. In `scripts/house-plot-browser-proof.mjs`'s pictures of the built house at
+  0/90/180/270 no chimney stands in front of a door, and a dog-run at 90 reads as one house running away from the viewer.
 
 ---
 

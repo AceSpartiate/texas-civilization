@@ -1,5 +1,76 @@
 # Claude handoff — Astra foundation
 
+## No chimney in front of a door — 2026-09-24 (after v2026.09.24.1; not yet committed or released)
+
+Owner: *"fix the chimney standing in front of the door."* Since the chimney fix below, a chimney stands against its gable
+wall — and the house-modules sheet has one corner-on pen, its door in the left-front gable, so wherever the chimney's gable
+was that face the chimney covered the door: the cabins at 90° and 180°, the dog-run's west pen at 0° and 270° and its east
+pen at 90° and 180°. Client only: no projection field, command, plan, footprint, tap box, spacing number or save version.
+
+- **Art checked first, none usable.** No sheet has a corner-on pen without its door, with the door on another face, or a
+  door drawn apart from its wall: house-modules' walls and low walls both have it in the left-front gable (the sill has no
+  walls); houses-settling, buildings and architecture-extra are front-on whole houses with their own chimneys.
+- **What changed.** `mirrorPens` in `public/house-plot.js` chooses each log pen's picture for its chimney. In either
+  picture the gable toward the viewer has the door and the one behind the walls has none, so a chimney whose gable is to the
+  screen's right stands against the unmirrored pen's right-back gable and one to the left against the mirrored pen's
+  left-back; a gable away from the viewer is behind the walls of either, and the pen keeps the house's mirroring. Walls and
+  roof are drawn with the pen's `flip`; everything else with the house's. The saddlebag's double chimney, between two back
+  gables at 0°/180°, is drawn before both pens and `CHIMNEY_HIGH` high (at `DOUBLE_RISE` it stood 0.18 of a cell above
+  `PICTURE_REACH.up`).
+- **Each plan now.** Cabins: 0° as before; 180° mirrored, chimney behind to the left, door right-front (the same picture
+  as 270°); 270° as before; **90° still in front of the door, hiding it whole**. Dog-run: 0° and 180° two mirror-image pens, each door on
+  the gable toward the passage and each chimney behind its outer end; 90° and 270° the far pen as before (chimney behind,
+  door toward the passage), **the near pen's chimney still in front of its door, hiding it whole**. Saddlebag: 0° and 180° two mirror-image
+  pens, doors on the outer gables, the double chimney behind between their back gables, the eaves over its sides; **90° and
+  270° it stands in front of the far pen's door, hiding it whole** (follow-up below). Montages: `door-before.png` / `door-after.png` (session
+  scratchpad, every plan at 0/90/180/270).
+- **Stopped, not guessed: a chimney whose gable faces the viewer.** Both pictures show the door in the gable toward the
+  viewer, so there is no picture for it. Standing it on the back gable puts it on the far side of the pen from its cell;
+  on the long wall under the eaves contradicts `HIST-GONZ-025` ("centred in one gable wall") and covers the window. It
+  stays in front of the door, covering it whole, `stand-in:` for *the house from its other sides* (ART_REQUESTS.md, now asking for the back
+  gable without its door **or** a pen with its door on its long side).
+- **Cost (`ceiling:`).** A mirrored pen lays its ridge on the other diagonal, so at 0°/180° a two-pen house's ridges form
+  a V instead of one line, and a cabin at 180° is its 270° picture. A pen's ground is square and the picture 45° off either
+  axis, so no footprint moved; **`PICTURE_REACH` unchanged** and server spacing as it was (`tests/house-spacing.test.mjs`).
+- **History.** Nothing registered says which way a dog-run pen's door faced: `HIST-GONZ-035` (Smithwick) gives Austin's
+  house a passage, a porch on the front and "chimney at each end"; `HIST-GONZ-025` two pens under one roof. Doors on the
+  passage are what the one picture allows, not a claim (the houses-settling dog-run has them on the front long wall).
+- **Tests.** New in `tests/house-chimney.test.mjs`: *no {plan} chimney is drawn over a door* (4 tests) — every plan at every
+  turn, chooser (65 high at the site), site, placed at three zooms and as preview, roofing and finished; the door read by eye
+  off the sheet (`DOOR`) mapped through each pen's drawn transform; a chimney drawn after a pen must not overlap it,
+  except exactly the chimneys whose gable the plan turns toward the viewer. Changed where the expectation legitimately
+  moved: `GABLE` table (east at 180° and west at 0° are now left-back), the double chimney at 0°/180° behind both pens and
+  touching their walls or roofs; `tests/house-turn.test.mjs` `mirroredAt` (the pen with its chimney on its left mirrored at
+  0°/180°), the site test and the dog-run ends test reading each pen's own mirroring. **Injection:** every pen back on the
+  house's mirroring — against HEAD's turn and chimney tests all 28 pass, and the new door tests fail for round-log, hewn-log
+  and dog-run (saddlebag passes: its old chimney stood beyond the end of the east pen's door gable, not over the door; only
+  the `GABLE` model caught it); against today's files, those 3 plus the 4 `GABLE` tests and 7 turn tests fail. The double
+  chimney at `DOUBLE_RISE` behind both pens: only the spacing test fails. `npm test`: 1070 pass.
+- **Follow-up the same day: the saddlebag at 90°/270°, and "covers the whole door".** The coordinator, on the stand-in
+  montage: the cabins at 90° and the dog-run's near pen read correctly, the chimney hiding the door gable so it reads as the
+  chimney's end; the saddlebag was wrong — its flat rectangle was narrower than the far pen's door, which showed either side.
+  Now the double chimney is drawn with the single chimney's picture (`house-chimney-stick`, `stand-in:` for its own
+  two-sided picture, ART_REQUESTS request 2026-09-15; the rectangle stays as the fallback with no sheet). 0°/180° unchanged:
+  at the middle between the two back gables, behind both pens, `CHIMNEY_HIGH`. 90°/270°: in line with the far pen's gable
+  toward the viewer, where a single chimney would stand, brought `DOUBLE_TOWARD` (0.8 of a cell) down the screen so its foot
+  is behind the near pen's roof, and `DOUBLE_RISE` 2.35 → 2.7 so it is wide enough at the door's top to hide it (along the
+  gable's own depth it left the house's ground before it reached the near pen; at 2.35 the door's top corner showed).
+  `ceiling:` both tuned by eye. **`PICTURE_REACH` unchanged**, spacing tests pass. The door test now asserts, for a
+  chimney against a gable toward the viewer, that the chimney's outline (read by eye off the three chimney pictures,
+  `OUTLINE`) contains all four corners of the door (`DOOR`, now a four-cornered opening following the face's slope, not
+  a box); every other chimney drawn after a pen must not overlap its door. The saddlebag's 90°/270° position test is now
+  "between the far pen's front gable and the near pen's back gable, in line with the far one". Test first: against the
+  rectangle, the saddlebag door test and position test fail. Injections: single chimneys drawn at 0.8 of their height —
+  exactly the round-log, hewn-log and dog-run door tests fail; the double at 90°/270° drawn at `CHIMNEY_HIGH` — only the
+  saddlebag door test fails; the double back at the old middle — the saddlebag door and position tests fail. Montage
+  `door-after.png` redrawn (scratchpad) and looked at: no chimney leaves part of a door showing, every chimney touches its
+  house.
+- **Browser.** `scripts/house-plot-browser-proof.mjs` now expects the round-log's pen mirrored at 180° and checks, in one
+  frame's drawing, that no chimney drawn after the walls covers their door — only at 90° does it (`chimneyOverDoor` in
+  [evidence](docs/evidence/house-plot-browser.json)); the chimney moved onto the door gable at 0°/180° with mirroring kept
+  made it fail at 0°. PASS; house-plot-regression PASS (8 of 8); family-panel, panels, lesson, travel-drawn and host-view
+  proofs PASS. Same computer only.
+
 ## Everybody drawn as who they are — 2026-09-24 (after v2026.09.23.3; not yet committed or released)
 
 The bug the host-view note below had seen: on the Host's map the far family `hh-9` (nobody's) had *Antonia*, its mother, drawn
@@ -106,7 +177,8 @@ plan, footprint, spacing number or save version.
   the east pen's west gable, after the pen in front and before the one behind; at 0°/180° it touches both pictures, at
   90°/270° the pens stand one behind the other with ground between and it rises in front of the far pen, its foot hidden by
   the near one. `stand-in:` at 90°/180°, and on the dog-run's west pen at 0°/270°, a chimney stands in front of a gable the
-  sheet has drawn a door in (`docs/ART_REQUESTS.md`, *the house from its other sides*).
+  sheet has drawn a door in (`docs/ART_REQUESTS.md`, *the house from its other sides*). **Amended 2026-09-24** (*No chimney in front of a door*,
+  above): only where the chimney's gable faces the viewer.
 - **Kept.** Preview is the built house (one draw); roofs seated; every picture upright, mirrored only at a quarter turn;
   **`PICTURE_REACH` unchanged** — every picture still inside the claim (`tests/house-spacing.test.mjs`), so server spacing
   is as it was; zoom and tap boxes as before (the chimney's drawn box is still noted).

@@ -11,7 +11,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { drawHousePlot, houseFootprint, plotCell } from '../public/house-plot.js';
-import { CABIN_PEOPLE } from '../sim/house-footprint.mjs';
+import { CABIN_PEOPLE, turned } from '../sim/house-footprint.mjs';
 import { plotCatalogue } from '../sim/houseplot.mjs';
 import { pageCamera } from './support/page-camera.mjs';
 
@@ -66,6 +66,28 @@ function recorder() {
 const finished = id => catalogue.plans.find(plan => plan.id === id).pieces.map(([type, x, y]) => [type, x, y, catalogue.pieces.find(piece => piece.id === type).stageCount, 0]);
 const camera = pageCamera(2600, p => ({ x: 720 + p.x * 2600, y: 500 + p.y * 2600 }));
 const placement = rotation => ({ x: 0.1, y: -0.05, rotation });
+/**
+ * Whether each picture drawn should be mirrored, from the plan alone. At a quarter turn every picture is: the corner-on pen
+ * seen after a quarter turn is its picture mirrored. At 0 and 180 degrees a log pen is mirrored when its chimney's gable
+ * is to the left on the screen - west of the pen at 0, east of it at 180 - so that the picture's back gable, which has no
+ * door, is that side (2026-09-24, "fix the chimney standing in front of the door"; tests/house-chimney.test.mjs), and
+ * nothing else is. A pen's pictures are its walls, standing where the pen does (`originX` and its turned middle), and the
+ * roof drawn on them. Until 2026-09-24 no picture at 0 or 180 was mirrored.
+ */
+function mirroredAt(ctx, plan, rotation, originX, cell) {
+  const pieces = catalogue.plans.find(each => each.id === plan).pieces, chimneys = pieces.filter(([type]) => /^chimney/.test(type));
+  const pens = pieces.filter(([type]) => type.startsWith('pen-')).map(([type, x, y]) => {
+    const gables = chimneys.filter(([, cx, cy]) => cy >= y && cy < y + 2 && (cx === x + 2 || cx === x - 1)).map(([, cx]) => cx === x + 2);
+    const left = gables.length > 0 && gables.every(east => turned(east ? 1 : -1, 0, rotation)[0] < 0);
+    return { x: originX + turned(x + 1 - catalogue.columns / 2, y + 1 - catalogue.rows / 2, rotation)[0] * cell, mirrored: rotation % 180 !== 0 || (type !== 'pen-jacal' && left) };
+  });
+  let pen = null;
+  return ctx.drawn.map(({ name, foot }) => {
+    if (/-(sill|low-walls|full-walls)$/.test(name)) pen = pens.reduce((a, b) => Math.abs(b.x - foot.x) < Math.abs(a.x - foot.x) ? b : a);
+    else if (!/roof-(partial|finished)$/.test(name)) pen = null;
+    return pen ? pen.mirrored : rotation % 180 !== 0;
+  });
+}
 /** The pictures standing on the ground: every one but a roof, which is seated on its walls (tests/house-roof.test.mjs). */
 const standing = ctx => ctx.drawn.filter(each => !/roof/.test(each.name));
 
@@ -76,12 +98,14 @@ for (const plan of ['round-log', 'hewn-log', 'dog-run', 'saddlebag', 'jacal']) {
         const ctx = recorder(), where = `${plan} at ${rotation}${alpha < 1 ? ' (its preview)' : ''}`;
         drawPlacedHouse(ctx, camera, { placement: placement(rotation), pieces: finished(plan) }, alpha);
         assert.ok(ctx.drawn.length >= 1, `${where}: nothing was drawn`);
-        for (const { name, transform: [a, b, c, d] } of ctx.drawn) {
+        const mirrored = mirroredAt(ctx, plan, rotation, camera.toScreen(placement(rotation)).x, plotCell(cabinSize(camera)));
+        for (const [i, { name, transform: [a, b, c, d] }] of ctx.drawn.entries()) {
           // No turn and no shear: the picture's up is the screen's up, and it is not stood on its head.
           assert.ok(Math.abs(b) < 1e-9 && Math.abs(c) < 1e-9, `${where}: ${name} is drawn turned (${[a, b, c, d].map(n => n.toFixed(3))})`);
           assert.ok(d > 0, `${where}: ${name} is drawn upside down`);
-          // Mirrored at a quarter turn - the gable brought round to the other face - and as drawn at a half turn.
-          assert.equal(a < 0, rotation % 180 !== 0, `${where}: ${name} is ${a < 0 ? '' : 'not '}mirrored`);
+          // Mirrored at a quarter turn - the gable brought round to the other face - and as drawn at a half turn, but for a
+          // pen whose chimney is on its left (`mirroredAt`).
+          assert.equal(a < 0, mirrored[i], `${where}: ${name} is ${a < 0 ? '' : 'not '}mirrored`);
         }
         // Each piece stands in the footprint the preview outlines, turned on the ground round the point it was placed at.
         const at = camera.toScreen(placement(rotation)), cell = plotCell(cabinSize(camera)), foot = houseFootprint({ pieces: finished(plan) }, catalogue, rotation);
@@ -113,9 +137,9 @@ test('a dog-run runs across the screen at 0 and 180 degrees and into it at 90 an
     // The chimneys stand at the two ends of that line, beyond the middle of each pen's ground, one drawn first (the far or
     // left one) and one last. A chimney against the gable toward the viewer has its foot about level with the pen's own.
     const frame = spriteFrame('house-round-full-walls'), { left, right } = frame.ground, scale = cell * 2.2 / frame.h;
-    const middle = foot => ({ x: foot.x + (rotation % 180 ? -1 : 1) * ((left[0] + right[0]) / 2 - frame.anchorX) * frame.w * scale, y: foot.y + ((left[1] + right[1]) / 2 - frame.anchorY) * frame.h * scale });
+    const middle = ({ foot, transform: [a] }) => ({ x: foot.x + Math.sign(a) * ((left[0] + right[0]) / 2 - frame.anchorX) * frame.w * scale, y: foot.y + ((left[1] + right[1]) / 2 - frame.anchorY) * frame.h * scale });
     const ends = rotation % 180 ? chimneys.map(each => each.foot.y) : chimneys.map(each => each.foot.x);
-    const line = rotation % 180 ? walls.map(each => middle(each.foot).y) : walls.map(each => middle(each.foot).x);
+    const line = rotation % 180 ? walls.map(each => middle(each).y) : walls.map(each => middle(each).x);
     assert.ok(Math.min(...ends) < Math.min(...line) && Math.max(...ends) > Math.max(...line), `${rotation}: the chimneys are not at the ends`);
     if (rotation % 180) assert.deepEqual([ctx.drawn[0].name, ctx.drawn.at(-1).name].map(name => /chimney/.test(name)), [true, true], `${rotation}: the far chimney is not drawn first and the near one last`);
   }
@@ -127,8 +151,11 @@ test('a dog-run runs across the screen at 0 and 180 degrees and into it at 90 an
   assert.ok(side(90).dy > -0.1 * cell && side(270).dy < -cell / 2, 'a quarter turn does not bring the chimney end to the front or the back');
 });
 
-test('the house at its site, placed nowhere, is drawn as it always was: upright, unmirrored', () => {
+test('the house at its site, placed nowhere, is drawn as it always was: upright, unmirrored but the pen with its chimney on its left', () => {
   const ctx = recorder();
   drawHousePlot(ctx, 720, 500, 163.35, { house: { pieces: finished('dog-run') } }, catalogue, drawSprite, spriteFrame);
-  assert.ok(ctx.drawn.length > 4 && ctx.drawn.every(({ transform: [a, b, c, d] }) => a > 0 && d > 0 && b === 0 && c === 0));
+  const mirrored = mirroredAt(ctx, 'dog-run', 0, 720, plotCell(163.35));
+  assert.ok(ctx.drawn.length > 4 && ctx.drawn.every(({ transform: [a, b, c, d] }, i) => (a < 0) === mirrored[i] && d > 0 && b === 0 && c === 0));
+  // The west pen, whose chimney is west of it: its walls and the roof on them.
+  assert.deepEqual(ctx.drawn.filter((each, i) => mirrored[i]).map(each => each.name), ['house-round-full-walls', 'house-hewn-roof-finished']);
 });

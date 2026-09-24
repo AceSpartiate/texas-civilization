@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-24T11:56:10.288Z",
+  "date": "2026-09-24T12:57:46.798Z",
   "result": "PASS",
   "scope": "Same-computer student integration",
   "checks": [
@@ -12,7 +12,8 @@
     "stage construction consumes 50 logs",
     "built house the preview’s size, turn and footprint",
     "finished shelter displayed",
-    "the built house at 0/90/180/270 degrees: every picture upright (no rotation or shear), mirrored at 90 and 270",
+    "the built house at 0/90/180/270 degrees: every picture upright (no rotation or shear), mirrored at 90 and 270, and its pen at 180 too, where its chimney is to the left",
+    "no chimney drawn over the door at 0, 180 or 270 degrees; at 90, where the chimney gable faces the viewer, the stand-in (ART_REQUESTS 2026-09-23)",
     "a tap on the placed house where it is drawn opens its rooms; the site point is no longer a house",
     "pictures: every plan in the chooser, the preview at 0/90/180/270 degrees, the built house at three zooms (roof seated: tests/house-roof.test.mjs)",
     "a second house over the first as drawn: preview tinted and refused, the server refuses it in the same words",
@@ -57,9 +58,10 @@
   },
   "turns": {
     "0": {
-      "pictures": 33,
-      "chimneysAgainstTheirPen": 11,
-      "housePicturesOnTheMap": 1518,
+      "pictures": 36,
+      "chimneysAgainstTheirPen": 12,
+      "chimneyOverDoor": false,
+      "housePicturesOnTheMap": 1656,
       "turned": 0,
       "mirrored": 0,
       "footprintCells": {
@@ -68,22 +70,24 @@
       }
     },
     "90": {
-      "pictures": 33,
-      "chimneysAgainstTheirPen": 11,
-      "housePicturesOnTheMap": 1518,
+      "pictures": 36,
+      "chimneysAgainstTheirPen": 12,
+      "chimneyOverDoor": true,
+      "housePicturesOnTheMap": 1656,
       "turned": 0,
-      "mirrored": 33,
+      "mirrored": 36,
       "footprintCells": {
         "w": 2,
         "h": 3
       }
     },
     "180": {
-      "pictures": 33,
-      "chimneysAgainstTheirPen": 11,
-      "housePicturesOnTheMap": 1518,
+      "pictures": 36,
+      "chimneysAgainstTheirPen": 12,
+      "chimneyOverDoor": false,
+      "housePicturesOnTheMap": 1656,
       "turned": 0,
-      "mirrored": 0,
+      "mirrored": 24,
       "footprintCells": {
         "w": 3,
         "h": 2
@@ -92,6 +96,7 @@
     "270": {
       "pictures": 33,
       "chimneysAgainstTheirPen": 11,
+      "chimneyOverDoor": false,
       "housePicturesOnTheMap": 1518,
       "turned": 0,
       "mirrored": 33,
