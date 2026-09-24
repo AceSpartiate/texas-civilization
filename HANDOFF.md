@@ -366,6 +366,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
 
+## Released as v2026.09.24.2 — 2026-09-24
+
+**[v2026.09.24.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.24.2)**, from `f5174d7`: no chimney leaves a door showing (`4bf5ee4`; saddlebag chimney is the stick-and-mud picture, `stand-in:`); dog-run and saddlebag drawn as one building on one ridge (`housePicture`, `alongRidge`, passage roofed with the pens' roof, `stand-in:`); `PICTURE_REACH` grew to {up 1.5, side 1.3, down 0.8}, so houses are held ~120–160 ft further apart. 1077 tests. Open for the owner: the plan's dog-run passage is one 8-ft cell where HIST-GONZ-025 gives ten or fifteen feet.
+
 ## Released as v2026.09.24.1 — 2026-09-24
 
 **[v2026.09.24.1](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.24.1)**, from `4b7b8f1`: every person drawn as their own sex and age band (`seenAs` in `sim/town.mjs`, one chooser `figureOf` in `public/motion.js`), including default families and town keepers; the farm and host-view proofs pass again (`1f01f9a`, proof-only). 1066 tests; host-view, family-panel, panels, lesson, travel-drawn, house-plot, hunt, riding, shops, furniture proofs pass.
