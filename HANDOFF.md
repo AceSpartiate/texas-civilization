@@ -1,5 +1,62 @@
 # Claude handoff — Astra foundation
 
+## One building: a two-pen house along one ridge — 2026-09-24 (after v2026.09.24.1; not yet committed or released)
+
+Owner: *"the angle of the houses makes it so they don't seem to be connected single buildings. fix this."* The page stood a
+dog-run's or saddlebag's two pens where their cells are, side by side along the house's long side; the house-modules sheet
+draws a pen corner-on with its ridge on a diagonal, so the two ridges ran side by side — at 0°/180°, each pen mirrored for
+its own chimney (`mirrorPens`, the entry below), a V — with grass between, and the passage a small roof on four posts of
+its own. Client drawing plus the spacing reach; no projection field, command, plan, footprint, cell or save version.
+
+- **Art checked first.** houses-settling has a whole dog-run in all four stages, one roof over both pens and the passage —
+  but front-on, its long side across the screen, at a single cabin's width, chimneys and passage roof drawn in from the
+  roofing stage whatever is built, and no end-on view for 90°/270°; no saddlebag at all. Not used (it would mix views beside
+  corner-on cabins, misstate what is built, and cannot turn). house-modules' `house-passage-roof` is flatter than the pens'
+  roofs, nearly square and on posts, and meets neither; nothing spans two pens. So the house is composed from the pieces.
+- **What changed** (`public/house-plot.js`). `housePicture` (replaces `mirrorPens`) draws every pen of a house the same way
+  round — fewer chimneys on the door's gable, the house's quarter-turn mirroring on a tie; cabins unchanged. `alongRidge`
+  stands a row of log pens one behind the other along that picture's ridge: a plan cell is half the pen's depth along the
+  ridge line (`RIDGE`, read by eye off the finished roof; the sheet's ridge is steeper than the walls' ground, 0.88 against
+  0.72), east up the ridge at 0°/270°, west at 90°/180°, the row's middle where the pens' feet were at the house's middle,
+  the pens' ground centred across the screen, drawn far pen → between → near pen. The passage is roofed with the pens' own
+  roof seated at its middle, so it runs into both roofs (`stand-in:`, new ART_REQUESTS *one roof over a two-pen house*); its
+  floor's back edge is on the far pen's front wall. The double chimney stands at the middle between the far pen's front gable
+  and the near pen's back gable (`DOUBLE_TOWARD` gone), `DOUBLE_RISE` high. The chooser draws 5 px lower so the dog-run's far
+  roof is not cut off.
+- **Each plan now.** Cabins: as before at every turn. Dog-run: one long house, one roof over both pens and the passage, up to
+  the right at 0°/180° and to the left at 90°/270° (0° and 180° are one picture, as are 90° and 270°); the passage is the gap
+  in the long wall toward the viewer; the far chimney behind the far end; **the near chimney stands on the near end's gable,
+  the door's, and covers the door whole** — at every turn now, not only 90°/270°. Saddlebag: two pens on one ridge line joined
+  at the double chimney, which rises between the roofs and covers the far pen's door whole at every turn; the near pen's door
+  on its outer gable. While the walls go up the two pens stand on the same line, end chimneys at their ends. The joins show
+  the roof pictures' end poles (the stand-in's cost). **No conflict remains** under "covers the whole door".
+- **Spacing changed.** The pictures run on the art's diagonal while the ground stays the cells: at 0°/180° the far roof rises
+  1.47 cells above the back wall and the near pen's foot stands 0.77 below the front one (in front of the preview's
+  outline); at 90°/270° the house reaches 1.25 either side. **`PICTURE_REACH` `{ up: 1, side: 0.9, down: 0.2 }` → `{ up: 1.5,
+  side: 1.3, down: 0.8 }`**: two houses side by side are held 0.8 cell (about 119 ft of the map) further apart, one north of
+  another 1.1 cells (about 164 ft) further — every plan, the reach being one for all (`ceiling:`; a reach per plan is the
+  way out if a class finds houses held too far apart). 1.5 × `CELL_MILES` = 0.042 mi, inside `SITE_MARGIN` 0.05.
+- **Tests.** New `tests/house-connected.test.mjs` (7): for dog-run and saddlebag, in the chooser, at the site, placed and
+  previewed at every turn and three zooms, pens at stages 1, 5, 12, 13 — (a) both pens the same way round, the far ridge on
+  the near ridge's line within 5 frame px and carried on beyond it; (b) facing gables one plan cell apart and every picture
+  between touching both pens; (c) the passage roof on that line, overlapping both ridges; (d) far pen, between, near pen.
+  Ridges and corner posts read by eye in the test. Changed where the expectation moved: `tests/house-chimney.test.mjs`
+  (`ROW_GABLE` for two-pen houses; the double chimney at the middle between the facing gables; `towardViewer` counts the near
+  end's side gable), `tests/house-turn.test.mjs` (`mirroredAt` the house's for two-pen houses; their feet checked against the
+  claim, not the footprint; the dog-run test now "runs along its ridge"; the site test now "upright and unmirrored"),
+  `tests/house-roof.test.mjs` (the passage roof, drawn after its floor, is not paired with a pen), `tests/house-spacing.test.mjs`
+  (`CLEAR`, `CLEAR_NORTH` at the new reach), `scripts/house-spacing-injections.mjs` (its reach swap string).
+  **Injections** (`inject.mjs` in the scratchpad, whole house suite, file restored each time): each pen chosen alone again —
+  the (a), (b) and passage tests fail plus 10 changed older ones; pieces left where their cells are — all 7 new tests plus 2
+  older ones; the sheet's four-post passage roof back — only the passage test; the passage drawn last — the (d) test plus 5
+  older back-to-front ones; the pens 1.4 × as far apart — (b), the passage test and 7 older ones. `npm test`: 1077 pass (1070 + 7). `scripts/house-spacing-injections.mjs`: PASS, 8 of 8 at the new reach.
+- **Browser.** `scripts/house-plot-browser-proof.mjs` PASS (the chooser's dog-run and saddlebag drawn whole, `test-results/house-plans.png`); house-plot-regression PASS (8 of 8); family-panel, panels, lesson and host-view PASS; travel-drawn failed once on its walk-in timing ("they walk in view … again at the end", nothing of the house drawing) and passed on a lone rerun. `node --check` on an .mjs copy of `public/house-plot.js`. Same computer only.
+- **Montages** (session scratchpad): `connected-before.png`, `connected-after.png` — every plan at 0/90/180/270, finished
+  and with the walls up to course 7 (the jacal with its thatch going on). Looked at closely: each dog-run and saddlebag reads
+  as one building; no chimney leaves part of a door showing.
+- **Noticed, not changed.** `HIST-GONZ-025` gives a dog-run's passage as ten or fifteen feet; the plan's is one eight-foot
+  cell. Widening it is a plan and footprint change for the owner.
+
 ## No chimney in front of a door — 2026-09-24 (after v2026.09.24.1; not yet committed or released)
 
 Owner: *"fix the chimney standing in front of the door."* Since the chimney fix below, a chimney stands against its gable

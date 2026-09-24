@@ -19,7 +19,7 @@
     "all 14 names changed in place and saved themselves - left by Tab, and the last by a pause in typing: Asa, Keziah, Hiram, Delia, Obed, Minerva, Levi, Soledad, Jonas, Effie, Silas, Orpha, Enos, Tomasa",
     "a name with no letters is refused in the server’s words, and the box goes back to the name the world holds",
     "after a reload every new name is in its box on the panel and in the family book",
-    "on a 400 px phone the panel is a column of portraits with one row open, taking 7% of the screen and no row outside the column and that row, with the map on top at 54% of the 192 points the guided start leaves",
+    "on a 400 px phone the panel is a column of portraits with one row open, taking 7% of the screen and no row outside the column and that row, with the map on top at 53% of the 192 points the guided start leaves",
     "on a phone, pressing another portrait opens that person’s row",
     "no page errors anywhere in the run"
   ],
@@ -73,19 +73,19 @@
     "phone": {
       "panel": {
         "x": 12,
-        "y": 382.484375,
+        "y": 381.484375,
         "width": 376,
         "height": 255
       },
       "openRows": 1,
       "columnRight": 56,
       "openRow": {
-        "y": 390,
+        "y": 389,
         "height": 44
       },
-      "stripBottom": 263,
+      "stripBottom": 262,
       "sampled": 192,
-      "mapShare": 0.5364583333333334,
+      "mapShare": 0.53125,
       "strays": [],
       "bar": {
         "points": 24,

@@ -40,14 +40,18 @@ export const CELL_MILES = PERSON_MILES * CABIN_PEOPLE * CELL_SHARE;
  * How far a house's pictures reach past its ground footprint, in cells: up the screen (north) for the roofs and chimneys
  * of the three-quarter view standing above the ground they cover, either side for pictures drawn wider than their cells,
  * and down the screen for the foot of each picture. Measured on every plan at every quarter turn from the house sheets
- * (tests/house-spacing.test.mjs holds every picture inside it): the saddlebag's roofs rise 0.9 of a cell above its back
- * wall, the jacal's picture is 0.86 of a cell wider each side than its pen, every foot 0.16 below.
+ * (tests/house-spacing.test.mjs holds every picture inside it). Since 2026-09-24 a dog-run's and a saddlebag's pens stand
+ * one behind the other along their roof's ridge, which the house-modules sheet draws on a diagonal (public/house-plot.js
+ * `alongRidge`), so they set all three: at 0 and 180 degrees the far pen's roof rises 1.47 cells above the house's back
+ * wall and the near pen's foot stands 0.77 below its front one; at 90 and 270 the house reaches 1.25 either side. Until
+ * then it was `{ up: 1, side: 0.9, down: 0.2 }`, from the saddlebag's roofs (0.9 up), the jacal's picture (0.86 wider each
+ * side than its pen) and every foot (0.16 below).
  * ceiling: one reach for every plan at every turn, the widest of them, measured on each picture's whole frame, clear edges
- * and all. So two houses as close as allowed show a gap - a round-log cabin east of another could stand about a cell
- * closer before any picture touched. A reach per plan and turn, read from the atlas, is the way out if a student finds the
- * houses held too far apart.
+ * and all. So two houses as close as allowed show a gap - a round-log cabin north of another could stand about a cell
+ * closer, and east of it half a cell, before any picture touched. A reach per plan and turn, read from the atlas, is the
+ * way out if a student finds the houses held too far apart.
  */
-export const PICTURE_REACH = Object.freeze({ up: 1, side: 0.9, down: 0.2 });
+export const PICTURE_REACH = Object.freeze({ up: 1.5, side: 1.3, down: 0.8 });
 
 /**
  * A point on the ground `(x, y)` from the middle of the plot, turned by a quarter turn `rotation` (0, 90, 180 or 270) the

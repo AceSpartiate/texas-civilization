@@ -87,11 +87,15 @@ const atStage = (id, penStage) => catalogue.plans.find(plan => plan.id === id).p
 });
 const cameraAt = scale => pageCamera(scale, p => ({ x: 720 + p.x * scale, y: 500 + p.y * scale }));
 
-/** Each roof drawn and the walls it went on, as the screen shows them. */
+/**
+ * Each roof drawn and the walls it went on, as the screen shows them. Not the dog-run's passage roof, drawn after its
+ * floor: since 2026-09-24 that is a pen's roof too, on no walls of its own, which tests/house-connected.test.mjs holds to
+ * the pens' ridge line.
+ */
 function roofsOn(ctx) {
   const pairs = [];
   ctx.drawn.forEach((each, index) => {
-    if (!/roof-(partial|finished)$/.test(each.name || '')) return;
+    if (!/roof-(partial|finished)$/.test(each.name || '') || ctx.drawn[index - 1]?.name === 'house-passage-floor') return;
     const walls = ctx.drawn.slice(0, index).reverse().find(before => /full-walls$/.test(before.name || ''));
     pairs.push({ roof: each, walls });
   });

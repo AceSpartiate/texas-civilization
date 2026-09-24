@@ -353,7 +353,7 @@ passage, a porch on the front and "chimney at each end", and `HIST-GONZ-025` the
 doors opened on the passage (the houses-settling sheet's own dog-run has them on the front long wall). Doors on the passage
 here are what the one picture allows, not a historical claim.
 
-`ceiling:` a mirrored pen lays its ridge on the other diagonal, so at 0° and 180° a dog-run's or saddlebag's two ridges run
+`ceiling:` (for the two-pen houses, undone the same day: *One building*, below) a mirrored pen lays its ridge on the other diagonal, so at 0° and 180° a dog-run's or saddlebag's two ridges run
 on different diagonals, a V, where the house has one ridge line, and a cabin at 180° is its picture at 270°. A pen's ground
 is square and the corner-on picture is 45° off either axis, so no footprint, tap box or spacing number moved; the double
 chimney between two back gables is drawn at `CHIMNEY_HIGH`, since at `DOUBLE_RISE` it stood a fifth of a cell above
@@ -369,6 +369,79 @@ every plan at every turn, in the chooser, the preview and the house that stands,
 drawn (the sheet's door, read by eye as a four-cornered opening, through the transform its walls were drawn with) and fails
 if a chimney drawn after that pen overlaps it — and a chimney whose gable the plan puts toward the viewer (and only that one)
 must cover all four of its corners with its outline (read by eye off the chimney pictures).
+
+**One building: two pens along one ridge (2026-09-24).** Owner: *"the angle of the houses makes it so they don't seem to be
+connected single buildings. fix this."* They did not: the page stood a dog-run's or saddlebag's two pens where their cells
+are, side by side along the house's long side, and the sheet draws a pen corner-on with its ridge on a diagonal, so the two
+ridges ran side by side — at 0° and 180°, each pen mirrored for its own chimney (above), on two diagonals, a V — with grass
+between the pictures, and the dog-run's passage a small roof on four posts of its own (at 90° and 270° a separate roof between
+two cabins standing one behind the other). A dog-run was "two pens … under one roof" with the passage between (`HIST-GONZ-025`),
+Austin's house a double log cabin with a "passage" and a "chimney at each end" (`HIST-GONZ-035`), a saddlebag two pens round
+"a big double chimney" (`HIST-TEX-017`).
+
+*The art, checked first.* The houses-settling sheet has a whole dog-run, in all four stages (site, walls, roofing,
+finished): one continuous roof over two pens and the open passage, a chimney at each end — but **front-on**, its long side
+and ridge across the screen, while every pen the plot draws is house-modules' corner-on pen. Weighed and not used: the jacal
+already mixes views (front-on at every turn) and a cabin beside it would still be corner-on; it has no end-on view, so at 90°
+and 270° its long side would lie across a footprint that runs into the screen; its roofing picture draws both chimneys and the
+passage roof whatever the plot has built, where the plot builds each piece on its own; and it is drawn at the width of a
+single cabin, not to the pieces' scale. The saddlebag has no whole picture at all. On house-modules the passage roof
+(`house-passage-roof`) is flatter than a pen's roof, nearly square and on four posts, and meets neither pen's roof; no piece
+spans between two pens or tiles along a ridge. So the house is composed from the pieces.
+
+*What changed* (`public/house-plot.js`). `housePicture` chooses one picture for the whole house — its pens all drawn the same
+way round — the one with fewer chimneys on the door's gable, the house's own quarter-turn mirroring where the two are as
+good (it replaces `mirrorPens`, which chose each pen alone; for a cabin the choice is the same as before). `alongRidge` stands
+a house of one row of log pens one pen behind the other along that picture's ridge: each piece moves from where its cells
+put it along the house's long side to as far along the ridge — a cell of the plan (eight feet) is half the pen's depth, the
+walls' own measured ground laid on the finished roof's ridge line (`RIDGE`, read by eye: the sheet's ridge is steeper than
+the walls' ground, slope 0.88 against 0.72, and laid along the walls' ground two pens' ridges came out a sixth of a cell
+apart). The row's middle (the passage, the double chimney) stays where the pens' feet were at the house's middle, across the
+screen the middle of the pens' ground stands there (so the house reaches as far left as right), and the house is drawn back
+to front along the ridge: far pen, what stands between, near pen. The end that goes up the ridge is east at 0° and 270°, west
+at 90° and 180°. The passage is roofed with the pens' own roof — the finished one, or the partial one while the walls are
+still to chink — seated as on a pen standing at the middle of the passage, so it runs on from one pen's roof into the other's
+along the one ridge, half a cell over each (`stand-in:`, request 2026-09-24 *one roof over a two-pen house*); its floor is drawn
+with its back edge on the far pen's front wall (`PASSAGE_FLOOR_HIGH`, `PASSAGE_FLOOR_BACK`, `ceiling:` read by eye). The
+double chimney stands at the middle between the far pen's front gable and the near pen's back gable, which face one another
+across its cell, `DOUBLE_RISE` (2.7) high, drawn after the far pen and before the near one, whose roof hides its foot
+(`DOUBLE_TOWARD` is gone). The chooser draws its houses 5 pixels lower in their 130-pixel canvas, so the dog-run's far roof is
+not cut off at the top.
+
+*What each plan looks like now.* **Cabins**: unchanged at every turn. **Dog-run**: one long house at every turn, one roof over
+both pens and the passage, running up the screen to the right at 0° and 180° and to the left at 90° and 270°; the passage shows
+as the open gap in the long wall toward the viewer, its floor in it; the far chimney rises behind the far end, and the near
+chimney stands against the near end's gable — the door's, in the one picture — and covers that door whole (`stand-in:`,
+*the house from its other sides*); the far pen's door faces the passage, behind the near pen. At 0° and 180° the house is the
+same picture, the pens' ends swapped, as are 90° and 270°. **Saddlebag**: two pens on one ridge line joined at the double
+chimney, which rises over both roofs between them and covers the far pen's door whole at every turn; the near pen's door is
+on its outer gable. While the walls go up, the two pens stand along the same line with the end chimneys at their ends.
+Montages: `connected-before.png`, `connected-after.png` (session scratchpad; every plan at every turn, finished and with the
+walls going up).
+
+*No chimney-door conflict remains* under the "covers the whole door" standard: in every drawing the chimneys drawn over a
+door are exactly those against a gable the picture draws with its door, and each covers it whole
+(`tests/house-chimney.test.mjs`). A two-pen house has one such gable at every turn — the near end of its ridge — where until
+this date it had one at 90° and 270° only; that is the cost of the one ridge, and the door gable reads as the chimney's end.
+
+*Spacing changed.* The house now runs on the art's diagonal while its ground stays its cells (no plan, footprint or cell
+moved): at 0° and 180° a dog-run's far pen stands 1.23 cells higher on the screen than its near one, its far roof rising
+1.47 cells above its back wall and its near pen's foot 0.77 below its front one (the near pen stands in front of the preview's
+outline); at 90° and 270° it reaches 1.25 cells either side. `PICTURE_REACH` went from `{ up: 1, side: 0.9, down: 0.2 }` to
+`{ up: 1.5, side: 1.3, down: 0.8 }` (`sim/house-footprint.mjs`): the server now holds two houses side by side 0.8 of a cell
+(about 119 feet of the map) further apart and one north of another 1.1 cells (about 164 feet) further — every plan, since
+the reach is one for all (`ceiling:`, below). 1.5 × `CELL_MILES` is 0.042 miles, still inside `SITE_MARGIN` (0.05).
+
+Tests: new `tests/house-connected.test.mjs` — for the dog-run and saddlebag, in the chooser, at the site, placed and previewed
+at every turn and three zooms: (a) both pens drawn the same way round, the far pen's ridge on the near pen's ridge line
+(within 5 frame pixels, a quarter of the ridge log) and carried on beyond it, the ridges read by eye off the roof frames;
+(b) the pens' facing gable walls the plan's one cell apart (half a pen's depth, from the corner posts read by eye) and every
+picture between them touching both pens; (c) the passage roof on the same line, overlapping both pens' ridges; (d) back to
+front, the far pen (east at 0° and 270°, west at 90° and 180°) before what stands between and that before the near pen.
+Injections, each against the whole house suite: every pen chosen alone again (`mirrorPens`) — the (a) and (b) tests, the
+passage test and 10 changed older ones fail; the pieces left where their cells are — all 7 new tests and 2 older ones; the
+sheet's four-post passage roof back — only the passage test; the passage drawn last — the (d) test and 5 older ones; the pens
+1.4 times as far apart — the (b) and passage tests and 7 older ones.
 
 ### 6.5 Where a house may stand, at the size it is drawn (2026-09-23)
 
@@ -394,15 +467,17 @@ footprint at its quarter turn:
 - *Not on the field* — the footprint over a staked or cleared plot is refused, *"That would stand on your field."* The other
   way round, Survey refuses ten acres over any house's drawn footprint as it did the yard round the site, *"That would take in
   the house yard."* (sim/survey.mjs `plotRefusal`).
-- *Spacing* — a house **claims** its footprint grown by `PICTURE_REACH`: 1 cell up the screen (north) for the roofs and
-  chimneys of the three-quarter view that stand above their ground, 0.9 either side for pictures wider than their cells, 0.2
-  down the screen. **No two claims may overlap**, *"Leave space between this house and the existing house."* So neither
+- *Spacing* — a house **claims** its footprint grown by `PICTURE_REACH`: 1.5 cells up the screen (north) for the roofs and
+  chimneys of the three-quarter view that stand above their ground, 1.3 either side for pictures wider than their cells, 0.8
+  down the screen (1, 0.9 and 0.2 until 2026-09-24, when a two-pen house came to stand along its ridge, §6.4). **No two claims may overlap**, *"Leave space between this house and the existing house."* So neither
   house's ground nor its pictures covers the other's: a cabin just south of another is not drawn under that one's roof, and
   two side by side never share a picture's width. It is judged on the ground the pictures stand over, not on the screen, so
-  it is the same at every zoom. The reach was measured on every plan at every turn from the house sheets (the saddlebag's
-  roofs rise 0.9 of a cell above its back wall, the jacal's picture is 0.86 wider each side than its pen, every foot 0.16
-  below); `tests/house-spacing.test.mjs` holds every picture inside the claim.
-- *Neighbours* — the claim must lie inside the family's own land. `PICTURE_REACH` × `CELL_MILES` (at most 0.028 miles) is
+  it is the same at every zoom. The reach was measured on every plan at every turn from the house sheets (since 2026-09-24 the
+  dog-run's far roof rises 1.47 cells above its back wall and its near pen's foot stands 0.77 below its front one at 0° and
+  180°, and it reaches 1.25 either side at 90° and 270°; before, the saddlebag's roofs rose 0.9, the jacal's picture was 0.86
+  wider each side than its pen and every foot 0.16 below); `tests/house-spacing.test.mjs` holds every picture inside the
+  claim.
+- *Neighbours* — the claim must lie inside the family's own land. `PICTURE_REACH` × `CELL_MILES` (at most 0.042 miles) is
   less than `SITE_MARGIN` (0.05), so a house set back from its line never stands over a neighbour's ground; holdings do not
   overlap (sim/grants.mjs), so no two families' houses can be drawn over one another.
 

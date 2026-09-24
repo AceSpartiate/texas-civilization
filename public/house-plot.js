@@ -67,7 +67,7 @@ export function renderHousePlot(world, catalogue, { open, send, rerender, drawSp
     preview.width = 280; preview.height = 130;
     preview.setAttribute('aria-hidden', 'true');
     const finished = (plan?.pieces || []).map(([type, x, y]) => [type, x, y, catalogue.pieces.find(piece => piece.id === type)?.stageCount || 1, 0]);
-    if (drawSprite) drawHousePlot(preview.getContext('2d'), 140, 100, 65, { house: { pieces: finished } }, catalogue, drawSprite, spriteFrame);
+    if (drawSprite) drawHousePlot(preview.getContext('2d'), 140, 105, 65, { house: { pieces: finished } }, catalogue, drawSprite, spriteFrame);
     button.append(preview, el('strong', plan?.name || choice.id), el('span', land.canAddHouse ? 'Build another' : house?.plan === choice.id ? 'Selected' : 'Choose this house'));
 
     button.type = 'button'; button.dataset.plan = choice.id; button.disabled = !choice.can || pending;
@@ -147,7 +147,7 @@ function drawLogPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip = false)
   const course = Math.max(0, p.stage - 1);
   const base = course === 0 ? `house-${material}-sill` : course <= 4 ? `house-${material}-low-walls` : `house-${material}-full-walls`;
   const walls = spriteFrame(`house-${material}-full-walls`), frame = spriteFrame(base);
-  const roofName = p.stage >= p.kind.stageCount ? 'house-hewn-roof-finished' : 'house-round-roof-partial';
+  const roofName = penRoof([p]);
   const seat = p.stage >= 12 ? roofSeat(walls, spriteFrame(roofName), x, y, height, flip) : null;
   if (!walls || !frame || (p.stage >= 12 && !seat)) return 0;
   const drawn = drawSprite(ctx, base, x, y, height * (frame.logicalHeight || frame.h) / (walls.logicalHeight || walls.h));
@@ -155,6 +155,12 @@ function drawLogPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip = false)
   if (seat) drawSprite(ctx, roofName, seat.x, seat.y, seat.height, { anchor: seat.anchor });
   return drawn;
 }
+
+/**
+ * The roof a pen has on (`drawLogPen`), and a passage between pens (`drawHousePlot`): the finished one when every pen is
+ * done, the partial one while any is still to be chinked.
+ */
+const penRoof = pens => pens.every(p => p.stage >= p.kind.stageCount) ? 'house-hewn-roof-finished' : 'house-round-roof-partial';
 
 /** How wide one eight-foot cell of the plot is drawn, for a house drawn `size` high: the one rule both draws below use. */
 export const plotCell = size => size * CELL_SHARE;
@@ -169,31 +175,29 @@ export const plotCell = size => size * CELL_SHARE;
  */
 export const CHIMNEY_STANDS_OUT = 0.1;
 /**
- * How far the saddlebag's double chimney is brought down the screen, toward the near pen, from where a single chimney
- * would stand against the far pen's gable toward the viewer, at 90 and 270 degrees: in cells of the plot (coordinator,
- * 2026-09-24: drawn at the middle between the two pens, the flat rectangle rose in front of the far pen's door, narrower
- * than it, and the door showed either side). In line with that gable and drawn with the single chimney's picture
- * `DOUBLE_RISE` high, it hides the door whole, as the cabin's chimney does at 90 degrees; this far down its foot is behind
- * the near pen's roof, so it stands between the two pens and touches both. Along the gable's own depth it could not go
- * so far: its foot left the house's ground to the side before it reached the near pen.
- * ceiling: tuned by eye to the house-modules sheet for the one plan with a double chimney; a double chimney's own picture
- * (docs/ART_REQUESTS.md, request 2026-09-15) replaces it.
- */
-export const DOUBLE_TOWARD = 0.8;
-/**
  * How high a chimney is drawn, in cells of the plot (the pen's full walls are 2.2): high enough that one against the gable
  * behind the walls rises over the ridge, as the chimney does in the whole-house pictures (the houses-settling sheet). At
  * 1.55 its top was under the roof's back slope once it stood against its wall, and the pen hid it whole. And how high the
- * saddlebag's double chimney - the same picture - is drawn where it stands between a far pen and a near one (90 and 270
- * degrees): its foot `DOUBLE_TOWARD` down the screen from the far pen's gable, behind the near pen's roof, it has to be
- * taller, and so wider, than a single chimney to hide the far pen's door whole (2.35 left the door's top corner showing).
- * Between the two pens' back gables (0 and 180, `mirrorPens`) its foot is as far up the screen as a single chimney's behind
- * its walls, and it is drawn as high as one, `CHIMNEY_HIGH`: it clears both ridges, and at 2.35 it stood a fifth of a cell
- * above `PICTURE_REACH.up`.
+ * saddlebag's double chimney - the same picture - is drawn where it stands between its far pen's front gable and its near
+ * pen's back gable (`standChimneys`): half a cell of the ridge out from the far pen's door, behind the near pen's roof, it
+ * has to be taller, and so wider, than a single chimney to hide that door whole (at 2.35 the door's top corner showed;
+ * until 2026-09-24 it stood `DOUBLE_TOWARD`, 0.8 of a cell, down the screen from the far gable at 90 and 270 degrees, and
+ * `CHIMNEY_HIGH` behind both pens' back gables at 0 and 180).
  * ceiling: one height, tuned by eye to the house-modules sheet; the reach it takes up the screen is inside
  * `PICTURE_REACH.up` (tests/house-spacing.test.mjs), so a taller chimney has to move that and the server's spacing with it.
  */
 export const CHIMNEY_HIGH = 2.1, DOUBLE_RISE = 2.7;
+/**
+ * The passage of a dog-run between its two pens along their ridge (`alongRidge`): its roof is the roof its pens have on -
+ * the finished one, or the partial one while their walls are still to chink (`penRoof`) - seated as on a pen standing at
+ * the middle of the passage, so it runs on from one pen's roof to the other's a pen's depth long, half a cell of the ridge
+ * over each. Its floor (`house-passage-floor`) is drawn
+ * `PASSAGE_FLOOR_HIGH` cells high - its deck as wide as a pen's gable wall, read by eye (150 pixels of the floor's frame to
+ * the walls' 186) - with its foot `PASSAGE_FLOOR_BACK` cells of the ridge toward the near pen, so its back edge is on the
+ * far pen's front wall and the near pen stands over its front.
+ * ceiling: the floor's deck read by eye; the pens' roof reused because the sheet's passage roof does not meet them.
+ */
+export const PASSAGE_FLOOR_HIGH = 1.5, PASSAGE_FLOOR_BACK = 0.6;
 
 /**
  * A gable wall of a pen as the full walls are drawn, in pixels of their frame: the middle of the wall where it meets the
@@ -245,43 +249,105 @@ function chimneyGables(order) {
 }
 
 /**
- * Which way each log pen's picture is drawn, so that its chimney is never on the gable the sheet draws the door in (owner,
- * 2026-09-24: "fix the chimney standing in front of the door"). Sets `flip` on each pen in `order`; `flip` is the house's
- * own (a quarter turn mirrors every piece, `drawHousePlot`).
- *
- * The house-modules sheet draws a pen once, corner-on, the door in its left-front gable and no door in its right-back
- * gable, which is behind the walls. Mirrored, the door's gable is the right-front and the doorless one the left-back.
- * Either way the gable facing the viewer has the door and the one behind the walls has none. So a chimney whose gable is
- * to the screen's right is drawn against the unmirrored pen's back gable, and one to the left against the mirrored pen's:
- * the round-log cabin at 180 degrees is mirrored (its chimney is to the left), and a dog-run at 0 or 180 has its two pens
- * drawn as mirror images, each door toward the passage and each chimney on its outer end - the saddlebag's the other way
- * round, each door on its outer end and the double chimney between the two back gables. A chimney whose gable is away
- * from the viewer (a quarter turn) is behind the walls of either picture, and the pen keeps the house's.
- *
- * ceiling: a mirrored pen lays its ridge on the other diagonal, so at 0 and 180 degrees the two pens of a dog-run or a
- * saddlebag have their ridges on different diagonals, a V, where the house has one ridge line - and a cabin at 180 is
- * the same picture as at 270. The sheet's corner-on pen on a square grid has its ridge 45 degrees off either axis in both
- * pictures, and a pen's ground is square, so no footprint moves; the pen's back-gable frames (docs/ART_REQUESTS.md,
- * request 2026-09-23) would let every pen take the house's own mirroring again.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-23 - the house from its other sides. A chimney whose gable faces the
- * viewer - the cabins at 90 degrees, the dog-run's near pen at 90 and 270, the saddlebag's far pen at 90 and 270 - has no
- * picture to stand against: the gable toward the viewer is the door's in both. It stays against that gable, in front of
- * the door and hiding it whole - so the gable reads as the chimney's end (coordinator, 2026-09-24) - until the sheet has a
- * pen with its door in the other gable (tests/house-chimney.test.mjs holds the whole door covered).
+ * Whether a pen's gable that faces `(dx, dy)` on the ground, turned (`turned`), is the one the sheet draws in front - the
+ * door's - in the picture drawn mirrored (`flip`) or not. The sheet draws a pen corner-on, the door in its left-front gable
+ * and none in its right-back one, behind the walls; mirrored, the door's gable is the right-front and the other the
+ * left-back. A gable toward the viewer is the front one in either picture, one away from the viewer the back one in
+ * either, and one to the side the front one of the picture that has its door on that side.
  */
-function mirrorPens(order, rotation, flip) {
+export const doorGable = (dx, dy, flip) => dy > 0 || (dy === 0 && (flip ? dx > 0 : dx < 0));
+
+/**
+ * Which way a house's log pens are drawn - all of them the same way, mirrored (`true`) or not - so that as few of its
+ * chimneys as can be stand on the gable the sheet draws the door in (owner, 2026-09-24: "fix the chimney standing in front
+ * of the door"), and so that a house of two pens has one ridge line (owner, 2026-09-24: "the angle of the houses makes it
+ * so they don't seem to be connected single buildings"). Sets `flip` on each pen in `order`; `flip` is the house's own
+ * mirroring (a quarter turn mirrors every piece, `drawHousePlot`), which it keeps where the two pictures are as good.
+ *
+ * The round-log cabin at 180 degrees is mirrored, its chimney against the doorless back gable to the left; at 0 and 270
+ * either picture puts its chimney behind the walls and at 90 in front, so it keeps the house's. A dog-run or saddlebag
+ * has one chimney gable on the door's side whichever way it is drawn (`alongRidge`), and keeps the house's.
+ *
+ * Until 2026-09-24 each pen was chosen alone (`mirrorPens`), so a dog-run at 0 or 180 had its two pens as mirror images,
+ * each chimney behind its outer end, and their two ridges on different diagonals, a V: two cabins, not one house.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-23 - the house from its other sides. A chimney whose gable is the door's
+ * - the cabins at 90 degrees, the dog-run's near pen and the saddlebag's far pen at every turn - has no picture to stand
+ * against: the gable is the door's in both. It stays against that gable, in front of the door and hiding it whole, so the
+ * gable reads as the chimney's end (coordinator, 2026-09-24), until the sheet has a pen with its door in the other gable
+ * (tests/house-chimney.test.mjs holds the whole door covered).
+ */
+function housePicture(order, rotation, flip) {
+  const logPens = order.filter(each => each.p.kind.pen && each.p.type !== 'pen-jacal');
   for (const pen of order.filter(each => each.p.kind.pen)) pen.flip = flip;
-  const sides = new Map();
-  for (const { walls } of chimneyGables(order)) for (const [pen, east] of walls) {
-    if (!pen || pen.p.type === 'pen-jacal') continue;
-    sides.set(pen, [...(sides.get(pen) || []), turned(east ? 1 : -1, 0, rotation)[0]]);
+  const gables = chimneyGables(order).flatMap(({ walls }) => walls).filter(([pen]) => pen && pen.p.type !== 'pen-jacal').map(([, east]) => turned(east ? 1 : -1, 0, rotation));
+  const onDoors = mirrored => gables.filter(([dx, dy]) => doorGable(dx, dy, mirrored)).length;
+  const chosen = onDoors(!flip) < onDoors(flip) ? !flip : flip;
+  for (const pen of logPens) pen.flip = chosen;
+  return chosen;
+}
+
+/**
+ * The ridge of the pen's finished roof on the house-modules sheet (`house-hewn-roof-finished`), in its frame's pixels: two
+ * points on the axis of the ridge log, from its lower edge read column by column every five pixels from 125 to 210 and
+ * fitted to a line, half the log's thickness above it. The sheet draws the roof's ridge steeper than the ground of the
+ * walls it sits on (slope 0.88 against 0.72): drawn along the walls' ground, two pens' ridges came out a sixth of a cell
+ * apart. The partial roof (`house-round-roof-partial`) has its ridge within a degree of this one (read by its log ends).
+ * ceiling: read by eye; a ridge line drawn with the roof (docs/ART_REQUESTS.md, request 2026-09-24 - one roof over a
+ * two-pen house) replaces it.
+ */
+export const RIDGE = Object.freeze([[110, 96], [205, 12]]);
+
+/**
+ * The pens of a house in one row - a dog-run or a saddlebag - stood one behind the other along their roof's ridge, so
+ * that the house reads as one building under one ridge line (owner, 2026-09-24: "the angle of the houses makes it so they
+ * don't seem to be connected single buildings"). The house-modules sheet draws a pen corner-on, its ridge running back up
+ * the screen on a diagonal (to the right; mirrored, to the left), and nothing in it runs along the house's long side on
+ * the ground: stood side by side where their cells are, two pens made two ridges side by side - two cabins with grass
+ * between, and mirrored one against the other as `mirrorPens` chose them, a V. So each piece is moved from where its cells
+ * put it along the house's long side to as far along the ridge: one cell of the plan (eight feet) is half the pen's depth
+ * along the ridge - the walls' own ground (`ground`, from the front corner to the right one) laid on the ridge's line
+ * (`RIDGE`). The end that goes up the ridge, away from the viewer, is the one whose gable is the back one in the house's
+ * picture (`doorGable`): east at 0 and 270 degrees, west at 90 and 180.
+ *
+ * The middle of the row - the passage, the double chimney - stays where the row's feet were at the middle of the house,
+ * but across the screen the middle of the pens' ground stands there, not their feet (a foot is the front corner, a fifth
+ * of a cell to the side of the middle of the pen): so the house reaches as far past its ground to the left as to the
+ * right. A piece in front of a pen or behind it (a porch, a shed room: only a free-built plot has them) moves with its pen.
+ * Returns `{ along, flip, walls }` for the row, `along` the screen offset of one cell up the ridge, or null for a house
+ * that is not one row of log pens with measured walls, which stays where its cells are.
+ *
+ * ceiling: the house runs on the art's diagonal while the ground the server checks is its cells, so a dog-run's far pen
+ * stands a cell and a quarter higher than its near one: its pictures reach past its ground further up and down the screen
+ * at 0 and 180 degrees, and either side at 90 and 270, than a cabin's, and its near pen stands in front of its ground's
+ * front edge (`PICTURE_REACH`, which the server's spacing reads). The pen's long side toward the viewer (docs/
+ * ART_REQUESTS.md, request 2026-09-24 - one roof over a two-pen house) would let a house run along its ground.
+ */
+function alongRidge(order, rotation, cell, spriteFrame, flip, catalogue, x, y) {
+  const pens = order.filter(each => each.p.kind.pen);
+  if (pens.length < 2 || pens.some(pen => pen.p.type === 'pen-jacal' || pen.p.y !== pens[0].p.y)) return null;
+  const wallsName = `house-${pens[0].p.type === 'pen-hewn' ? 'hewn' : 'round'}-full-walls`, walls = spriteFrame?.(wallsName);
+  if (!walls?.ground) return null;
+  const scale = cell * 2.2 / (walls.logicalHeight || walls.h), { left: l, front: f, right: r } = walls.ground, side = flip ? -1 : 1;
+  const depth = Math.hypot((r[0] - f[0]) * walls.w, (r[1] - f[1]) * walls.h);
+  const [[ax, ay], [bx, by]] = RIDGE, ridge = Math.hypot(bx - ax, by - ay);
+  const along = { x: side * (bx - ax) / ridge * depth / 2 * scale, y: (by - ay) / ridge * depth / 2 * scale };
+  // Which way the plan's east runs along the ridge: up it where the east gable is the back one in this picture.
+  const [ex, ey] = turned(1, 0, rotation), up = doorGable(ex, ey, flip) ? -1 : 1;
+  const middle = (Math.min(...pens.map(pen => pen.p.x)) + Math.max(...pens.map(pen => pen.p.x + pen.p.kind.w))) / 2, rowY = pens[0].p.y;
+  // Where the row's feet stand at its middle - the front edge of its pens' cells - and the pens' ground middle across.
+  const [mx, my] = turned(middle - catalogue.columns / 2, rowY + 1 - catalogue.rows / 2, rotation);
+  const across = -side * ((l[0] + r[0]) / 2 - walls.anchorX) * walls.w * scale;
+  for (const each of order) {
+    const t = each.p.x + each.p.kind.w / 2 - middle, [cx, cy] = turned(t, 0, rotation);
+    each.along = t * up;
+    const inRow = each.p.y >= rowY && each.p.y + each.p.kind.h <= rowY + 2;
+    const from = inRow ? { x: x + mx * cell, y: y + my * cell } : { x: each.footX - cx * cell, y: each.footY - cy * cell };
+    each.footX = from.x + across + each.along * along.x;
+    each.footY = from.y + each.along * along.y;
   }
-  for (const [pen, dxs] of sides) {
-    // One chimney gable, to the right or the left: the picture whose back gable is that side. Chimneys on both gables of
-    // one pen (only a free-built plot has them) leave one against a door whichever way it is drawn; it keeps the house's.
-    if (dxs.every(dx => dx > 0)) pen.flip = false;
-    else if (dxs.every(dx => dx < 0)) pen.flip = true;
-  }
+  // Back to front along the ridge: the far pen, what stands between, the near pen.
+  order.sort((a, b) => a.footY - b.footY);
+  return { along, flip, walls: wallsName, pens: pens.map(pen => pen.p) };
 }
 
 /**
@@ -292,56 +358,53 @@ function mirrorPens(order, rotation, flip) {
  * end wall is: the chimney stood on the grass to the right of a cabin, in front of it at 90 degrees, behind it at 270.
  *
  * The plot says which pen and which end - east of the pen is its east gable, west its west - and the turn says where on
- * the screen that gable faces (`turned`). Each pen's picture is chosen by `mirrorPens`: its gables are the left-front face
- * (the door's) and the right-back face, mirrored the right-front and the left-back. A gable toward the viewer is the front
- * one in either picture; a gable to the side is the back one in the picture `mirrorPens` chose, and one away from the
- * viewer is the back one in either:
+ * the screen that gable faces (`turned`). The house's pens are drawn one way, as `housePicture` chose: their gables are the
+ * left-front face (the door's) and the right-back face, mirrored the right-front and the left-back (`doorGable`). A cabin
+ * is drawn so that a gable to the side is its back one; a house of two pens in the house's own mirroring, so that their
+ * ridges run on one line (`alongRidge`), and the gable at the near end of that line is the door's:
  *
- *                  0          90            180          270
+ *                   0            90            180           270
+ *   a cabin
  *   east gable   right-back   right-front   left-back    left-back
  *   west gable   left-back    left-back     right-back   right-front
+ *   two pens
+ *   east gable   right-back   right-front   left-front   left-back
+ *   west gable   left-front   left-back     right-back   right-front
  *
  * A chimney against a gable behind the walls is drawn before its pen, which hides its foot, and it rises behind the roof;
  * against one in front it is drawn after its pen. The saddlebag's double chimney stands between its two pens, the one
- * pen's east gable and the other's west. At 0 and 180 degrees both are back gables: it stands at the middle between them
- * and is drawn before both pens. At 90 and 270 it stands in line with the far pen's gable toward the viewer, where a single
- * chimney would, brought `DOUBLE_TOWARD` down the screen toward the near pen, and is drawn after the far pen and before the
- * near one, whose roof hides its foot.
+ * pen's east gable and the other's west: one behind the other along their ridge, the far pen's front gable faces the near
+ * pen's back gable across the chimney's cell, and it stands at the middle between them, drawn after the far pen and before
+ * the near one, whose roof hides its foot (until 2026-09-24 it stood behind both pens' back gables at 0 and 180 degrees,
+ * and at 90 and 270 against the far pen's gable brought 0.8 of a cell toward the near one).
  *
- * `order` is the pieces back to front, `{ p, footX, footY, flip, ... }` as `drawHousePlot` places them and `mirrorPens`
- * turns them; it is changed in place. A chimney whose pen has no measured walls - a jacal, or no `spriteFrame` - stays at
- * its own cell, as it always was.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-23 - the house from its other sides; the right-front gables in the table
- * are the door's (`mirrorPens`).
+ * `order` is the pieces back to front, `{ p, footX, footY, flip, ... }` as `drawHousePlot` places them and `housePicture`
+ * and `alongRidge` turn and move them; it is changed in place. A chimney whose pen has no measured walls - a jacal, or no
+ * `spriteFrame` - stays at its own cell, as it always was.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-23 - the house from its other sides; the front gables in the table are
+ * the door's (`housePicture`).
  */
 function standChimneys(order, rotation, cell, spriteFrame) {
   const gable = ([pen, east]) => {
     const walls = pen && pen.p.type !== 'pen-jacal' && spriteFrame?.(`house-${pen.p.type === 'pen-hewn' ? 'hewn' : 'round'}-full-walls`);
     if (!walls?.ground) return null;
-    const [dx, dy] = turned(east ? 1 : -1, 0, rotation), front = dy > 0 || (pen.flip ? dx > 0 : dx < 0);
+    const [dx, dy] = turned(east ? 1 : -1, 0, rotation), front = doorGable(dx, dy, pen.flip);
     return { pen, front, foot: out => gableFoot(walls, front, pen.footX, pen.footY, cell * 2.2, pen.flip, out) };
   };
   for (const { chimney, walls: ends } of chimneyGables(order)) {
     const walls = ends.map(gable);
     if (!walls.length || !walls.every(Boolean)) continue;
     if (walls.length === 2) {
+      // Between two pens one behind the other along the ridge (`alongRidge`): the far pen's front gable and the near pen's
+      // back gable face one another across the chimney's cell, and it stands at the middle between them, drawn after the
+      // far pen and before the near one, whose roof hides its foot. Its two pens are drawn one way (`housePicture`), so one
+      // gable is the front one and the other the back.
       order.splice(order.indexOf(chimney), 1);
-      const facing = walls.find(each => each.front), before = facing?.pen, behind = walls.filter(each => !each.front).map(each => each.pen);
-      if (!before) {
-        // Side by side, between the two back gables.
-        const [a, b] = walls.map(each => each.foot(0));
-        Object.assign(chimney, { footX: (a.x + b.x) / 2, footY: (a.y + b.y) / 2, behind: true });
-        order.splice(Math.min(...behind.map(pen => order.indexOf(pen))), 0, chimney);
-        continue;
-      }
-      // One behind the other: in line with the far pen's gable toward the viewer, where a single chimney stands, and
-      // brought toward the near pen (`DOUBLE_TOWARD`), whose roof hides its foot.
-      const foot = facing.foot(CHIMNEY_STANDS_OUT);
-      Object.assign(chimney, { footX: foot.x, footY: foot.y + DOUBLE_TOWARD * cell });
-      // The pen whose gable it stands behind comes after it.
-      const after = behind[0];
-      if (after && order.indexOf(after) < order.indexOf(before)) { order.splice(order.indexOf(after), 1); order.splice(order.indexOf(before) + 1, 0, after); }
-      order.splice(order.indexOf(before) + 1, 0, chimney);
+      const far = walls.find(each => each.front)?.pen, near = walls.find(each => !each.front)?.pen;
+      const [a, b] = walls.map(each => each.foot(0));
+      Object.assign(chimney, { footX: (a.x + b.x) / 2, footY: (a.y + b.y) / 2 });
+      if (far && near && order.indexOf(near) < order.indexOf(far)) { order.splice(order.indexOf(near), 1); order.splice(order.indexOf(far) + 1, 0, near); }
+      order.splice(order.indexOf(far || near) + 1, 0, chimney);
       continue;
     }
     const [wall] = walls, foot = wall.foot(CHIMNEY_STANDS_OUT);
@@ -362,16 +425,17 @@ function standChimneys(order, rotation, cell, spriteFrame) {
  * `rotation` turns the house on the ground and never its pictures (2026-09-23: a house turned 90 degrees lay on its side,
  * and one at 180 stood on its roof, chimney and all). Everything on the map - tree, person, ox, house - is drawn upright
  * in the one fixed three-quarter view, so a turn moves each piece to its turned cells (`turned`) and draws it upright
- * there, back to front by its turned front edge: a dog-run at 90 degrees runs into the screen, its far chimney and pen
- * behind the passage, its near pen and chimney in front. The sheet draws a pen corner-on, the gable and door on the face
- * to the left and the ridge running back to the right. A quarter turn brings the gable round to the other face and lays
- * the ridge along the other diagonal, which is the picture mirrored; a half turn leaves the silhouette as it was. So at
- * 90 and 270 degrees every piece is mirrored about its own foot, and at 0 and 180 it is not - but for a log pen whose
- * chimney is to its left on the screen, mirrored so that the chimney stands against its doorless back gable (2026-09-24,
- * `mirrorPens`).
+ * there, back to front by its turned front edge. The sheet draws a pen corner-on, the gable and door on the face to the
+ * left and the ridge running back to the right. A quarter turn brings the gable round to the other face and lays the ridge
+ * along the other diagonal, which is the picture mirrored; a half turn leaves the silhouette as it was. So at 90 and 270
+ * degrees every piece is mirrored about its own foot, and at 0 and 180 it is not - but for a cabin whose chimney is to
+ * its left on the screen, mirrored so that the chimney stands against its doorless back gable (2026-09-24,
+ * `housePicture`). A dog-run or saddlebag stands along its pens' one ridge (2026-09-24, `alongRidge`): up the screen to
+ * the right at 0 and 180 degrees, to the left at 90 and 270, its far chimney and pen behind the passage or the double
+ * chimney, its near pen and chimney in front.
  * stand-in: docs/ART_REQUESTS.md, request 2026-09-23 - the house from its other sides. The gable facing the viewer always
- * shows the door, so a chimney on a gable toward the viewer (`mirrorPens`) stands in front of it, and the porch, shed room
- * and passage are their one picture (mirrored at a quarter turn) whichever way they run.
+ * shows the door, so a chimney on a gable toward the viewer (`housePicture`) stands in front of it, and the porch and shed
+ * room are their one picture (mirrored at a quarter turn) whichever way they run.
  *
  * `drawn`, when given, collects the screen box of every picture drawn, `{ left, top, right, bottom }`: where a tap on
  * the house lands (public/app.js `houseAt`).
@@ -383,7 +447,7 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
   const pieces = (land.house?.pieces || []).map(([type, px, py, stage, progress]) => ({ type, x: px, y: py, stage, progress, kind: catalogue.pieces.find(each => each.id === type) }))
     .filter(p => p.kind && (p.stage > 0 || p.progress > 0));
   const cell = plotCell(size), flip = Math.round(rotation / 90) % 2 !== 0;
-  // Every picture upright - mirrored at a quarter turn, or a pen's as `mirrorPens` chose (`options.flip`) - and where it
+  // Every picture upright - mirrored at a quarter turn, or a pen's as `housePicture` chose (`options.flip`) - and where it
   // was drawn noted.
   const sprite = (c, name, sx, sy, height, options) => {
     const mirror = options && 'flip' in options ? options.flip : flip;
@@ -406,11 +470,11 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
   });
   // Back to front by the turned front edge, so a piece nearer the viewer is drawn over one further off.
   const order = placed.sort((a, b) => a.front - b.front);
-  mirrorPens(order, rotation, flip);
+  const row = alongRidge(order, rotation, cell, spriteFrame, housePicture(order, rotation, flip), catalogue, x, y);
   standChimneys(order, rotation, cell, spriteFrame);
-  for (const { p, w, h, footX, footY, flip: penFlip, behind } of order) {
+  for (const { p, w, h, footX, footY, flip: penFlip } of order) {
     if (p.kind.pen) {
-      // The modular pen drawn the way `mirrorPens` chose; its whole picture, where the pieces cannot be drawn, as the house is.
+      // The modular pen drawn the way `housePicture` chose; its whole picture, where the pieces cannot be drawn, as the house is.
       const penSprite = (c, name, sx, sy, height, options) => sprite(c, name, sx, sy, height, { ...options, flip: penFlip });
       if (!drawLogPen(ctx, p, footX, footY, cell * 2.2, penSprite, spriteFrame, penFlip)) sprite(ctx, penPicture(p), footX, footY, cell * 2.2);
       continue;
@@ -422,7 +486,21 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
     }
     if (p.type === 'porch') { if (!sprite(ctx, 'house-porch', footX, footY, cell * 0.9)) sprite(ctx, 'shed-open', footX, footY, cell * 0.9); continue; }
     ctx.save();
-    if (p.type === 'passage') {
+    if (p.type === 'passage' && row) {
+      // Between two pens along their ridge (`alongRidge`): the floor with its back edge on the far pen's front wall, and
+      // the passage roofed with the pens' own roof, seated as on a pen standing at the middle of the passage, so that it
+      // runs on from the far pen's roof to the near one's along the one ridge.
+      // stand-in: docs/ART_REQUESTS.md, request 2026-09-24 - one roof over a two-pen house. The sheet's passage roof
+      // (`house-passage-roof`) is drawn flatter than the pens' and nearly square, on four posts, and meets neither roof.
+      const floorAt = { x: footX - PASSAGE_FLOOR_BACK * row.along.x, y: footY - PASSAGE_FLOOR_BACK * row.along.y };
+      if (!sprite(ctx, 'house-passage-floor', floorAt.x, floorAt.y, cell * PASSAGE_FLOOR_HIGH, { flip: row.flip })) {
+        ctx.fillStyle = '#7b6a52';
+        ctx.fillRect(floorAt.x - cell / 2, floorAt.y - cell * .35, cell, cell * .35);
+      }
+      const walls = spriteFrame(row.walls), roofName = penRoof(row.pens), roof = spriteFrame(roofName);
+      const seat = p.stage >= p.kind.stageCount ? roofSeat(walls, roof, footX, footY, cell * 2.2, row.flip) : null;
+      if (seat) sprite(ctx, roofName, seat.x, seat.y, seat.height, { anchor: seat.anchor, flip: row.flip });
+    } else if (p.type === 'passage') {
       const floor = sprite(ctx, 'house-passage-floor', footX, footY, cell * .72);
       if (!floor) {
         ctx.fillStyle = '#7b6a52';
@@ -439,10 +517,10 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
       }
     } else {
       // stand-in: docs/ART_REQUESTS.md, request 2026-09-15 - the double chimney, two-sided, to its two-cell footprint. Until
-      // then it is the single stick-and-mud chimney's picture (since 2026-09-24; it was a flat rectangle): at 0 and 180
-      // degrees behind both pens, between their back gables, the roofs' eaves over its sides; at 90 and 270 against the far
-      // pen's gable, taller, hiding its door, its foot behind the near pen's roof.
-      const complete = p.stage >= p.kind.stageCount, high = cell * (behind ? CHIMNEY_HIGH : DOUBLE_RISE);
+      // then it is the single stick-and-mud chimney's picture (since 2026-09-24; it was a flat rectangle), between the far
+      // pen's front gable and the near pen's back gable, taller than a single chimney so it hides the far pen's door,
+      // its foot behind the near pen's roof.
+      const complete = p.stage >= p.kind.stageCount, high = cell * DOUBLE_RISE;
       if (!sprite(ctx, complete ? 'house-chimney-stick' : 'house-chimney-stick-building', footX, footY, high)) {
         ctx.fillStyle = '#9a6b43';
         const wide = cell * 0.6, tall = high * Math.min(1, (p.stage + 0.3) / p.kind.stageCount);

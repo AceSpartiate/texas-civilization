@@ -33,7 +33,7 @@ const cases = [
   },
   {
     name: 'spacing on the ground footprint alone, the pictures not counted',
-    file: 'sim/house-footprint.mjs', swaps: [['export const PICTURE_REACH = Object.freeze({ up: 1, side: 0.9, down: 0.2 });', 'export const PICTURE_REACH = Object.freeze({ up: 0, side: 0, down: 0 });']],
+    file: 'sim/house-footprint.mjs', swaps: [['export const PICTURE_REACH = Object.freeze({ up: 1.5, side: 1.3, down: 0.8 });', 'export const PICTURE_REACH = Object.freeze({ up: 0, side: 0, down: 0 });']],
     fails: [T.pictures, T.pictureOver],
   },
   {

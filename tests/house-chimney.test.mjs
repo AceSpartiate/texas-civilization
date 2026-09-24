@@ -89,10 +89,19 @@ const face = (name, front) => {
 // away from the viewer is the back one, and a gable toward the viewer the front one, of the house's quarter-turn mirroring:
 // that right-front is the door's gable, the stand-in until the sheet has a pen's back (docs/ART_REQUESTS.md, 2026-09-23).
 // Until 2026-09-24 every pen took the house's mirroring, and the east gable at 180 and the west at 0 were the left-front.
+// A house of two pens still does (2026-09-24, "they don't seem to be connected single buildings": its two pens drawn the
+// same way round so that their ridges run on one line, tests/house-connected.test.mjs), and has one chimney gable on the
+// door's side at every turn - the near end of its ridge.
 const GABLE = {
   east: { 0: 'right-back', 90: 'right-front', 180: 'left-back', 270: 'left-back' },
   west: { 0: 'left-back', 90: 'left-back', 180: 'right-back', 270: 'right-front' },
 };
+const ROW_GABLE = {
+  east: { 0: 'right-back', 90: 'right-front', 180: 'left-front', 270: 'left-back' },
+  west: { 0: 'left-front', 90: 'left-back', 180: 'right-back', 270: 'right-front' },
+};
+const twoPen = plan => catalogue.plans.find(each => each.id === plan).pieces.filter(([type]) => type.startsWith('pen-')).length > 1;
+const gables = plan => twoPen(plan) ? ROW_GABLE : GABLE;
 // A chimney's foot is centred on its wall to within a tenth of the wall's length, and stands outside it by no more than a
 // fifth of the pen's depth (public/house-plot.js `CHIMNEY_STANDS_OUT` is a tenth). Drawn at the front of its own
 // cell it was more than half the wall's length off the middle and most of a pen's depth out.
@@ -164,34 +173,24 @@ for (const plan of PLANS) {
           // Between the west pen's east gable and the east pen's west gable, touching both pens' pictures - the walls or the
           // roof on them.
           const west = pens.find(pen => pen.x + 2 === x && pen.y === y), east = pens.find(pen => pen.x === x + 1 && pen.y === y);
-          const [a, b] = [onScreen(west.walls, GABLE.east[rotation], rotation), onScreen(east.walls, GABLE.west[rotation], rotation)];
+          const [a, b] = [onScreen(west.walls, gables(plan).east[rotation], rotation), onScreen(east.walls, gables(plan).west[rotation], rotation)];
           for (const pen of [west, east]) assert.ok(overlaps(chimney.box, pen.walls.box) || overlaps(chimney.box, ctx.drawn[lastOf(ctx, pen.walls)].box), `${what} does not touch the pen at ${pen.x},${pen.y}`);
-          // Side by side (0 and 180 degrees), both its walls are back gables: it stands at the middle between them, in the gap
-          // between the two pictures with the roofs' eaves over its sides, and is drawn before both pens.
-          if (!a.front && !b.front) {
-            assert.equal(rotation % 180, 0, `${what}: both its walls behind their pens at a quarter turn`);
-            const middle = { x: (a.middle.x + b.middle.x) / 2, y: (a.middle.y + b.middle.y) / 2 }, wide = west.walls.box.right - west.walls.box.left;
-            const off = Math.hypot(chimney.foot.x - middle.x, chimney.foot.y - middle.y);
-            assert.ok(off <= BETWEEN * wide, `${what} stands ${(off / wide * 100).toFixed(1)}% of a pen's width off the middle between its two walls`);
-            assert.ok(chimney.index < Math.min(west.walls.index, east.walls.index), `${what} stands behind both pens and is drawn after one`);
-            return;
-          }
-          // One behind the other (90 and 270), it stands on the ground between the two pens - below the far pen's gable
-          // toward the viewer and above the near pen's gable behind its walls - in line with the far one's middle across the
-          // screen, as a single chimney stands against it (2026-09-24: at the middle between the two gables it rose in front
-          // of the far pen's door, narrower than it, and the door showed either side). Drawn after the far pen, before the
-          // near one, whose roof hides its foot.
+          // The two pens stand one behind the other along their ridge, the far one's door gable facing the near one's back
+          // gable across the chimney's cell (tests/house-connected.test.mjs): it stands at the middle between those two walls,
+          // drawn after the far pen, before the near one, whose roof hides its foot. Until 2026-09-24 it stood behind both
+          // pens' back gables at 0 and 180 degrees, and at 90 and 270 in line with the far pen's gable, brought 0.8 of a cell
+          // toward the near one.
+          assert.equal(a.front, !b.front, `${what}: its walls both ${a.front ? 'in front of' : 'behind'} their pens`);
           const [before, after] = a.front ? [west, east] : [east, west];
-          assert.equal(a.front, !b.front, `${what}: both its walls in front of their pens`);
-          const [far, near] = a.front ? [a, b] : [b, a], across = Math.abs(far.along[0]);
-          assert.ok(Math.abs(chimney.foot.x - far.middle.x) <= CENTRED * across + 0.2 * Math.abs(far.out[0]), `${what} stands ${((chimney.foot.x - far.middle.x) / across * 100).toFixed(0)}% of the far pen's gable's width off its middle`);
-          assert.ok(chimney.foot.y > far.middle.y && chimney.foot.y < near.middle.y, `${what} does not stand between the far pen's gable and the near pen's`);
-          assert.ok(chimney.index > lastOf(ctx, before.walls) && chimney.index < after.walls.index, `${what} is drawn at ${chimney.index}, not after the pen in front (${lastOf(ctx, before.walls)}) and before the one behind (${after.walls.index})`);
+          const middle = { x: (a.middle.x + b.middle.x) / 2, y: (a.middle.y + b.middle.y) / 2 }, wide = west.walls.box.right - west.walls.box.left;
+          const off = Math.hypot(chimney.foot.x - middle.x, chimney.foot.y - middle.y);
+          assert.ok(off <= BETWEEN * wide, `${what} stands ${(off / wide * 100).toFixed(1)}% of a pen's width off the middle between its two walls`);
+          assert.ok(chimney.index > lastOf(ctx, before.walls) && chimney.index < after.walls.index, `${what} is drawn at ${chimney.index}, not after the far pen (${lastOf(ctx, before.walls)}) and before the near one (${after.walls.index})`);
           return;
         }
         // East of its pen it is on the pen's east gable; west of it, the west.
         const east = pens.find(pen => pen.x + 2 === x && y >= pen.y && y < pen.y + 2), pen = east || pens.find(pen => pen.x - 1 === x && y >= pen.y && y < pen.y + 2);
-        const which = GABLE[east ? 'east' : 'west'][rotation], wall = onScreen(pen.walls, which, rotation), { along: t, out } = measure(chimney.foot, wall);
+        const which = gables(plan)[east ? 'east' : 'west'][rotation], wall = onScreen(pen.walls, which, rotation), { along: t, out } = measure(chimney.foot, wall);
         assert.ok(Math.abs(t) <= CENTRED, `${what} stands ${(t * 100).toFixed(0)}% of its ${which} wall's length off the middle of it`);
         assert.ok(out >= 0 && out <= OUTSIDE, `${what} stands ${(out * 100).toFixed(0)}% of the pen's depth ${out < 0 ? 'inside' : 'outside'} its ${which} wall`);
         // Behind the walls it is drawn first and the pen hides its foot; in front of them, after the pen and its roof.
@@ -232,13 +231,19 @@ const doorOn = walls => {
   return { corners, box: { left: Math.min(...corners.map(c => c.x)), right: Math.max(...corners.map(c => c.x)), top: Math.min(...corners.map(c => c.y)), bottom: Math.max(...corners.map(c => c.y)) } };
 };
 /**
- * Whether a chimney of the plan stands against a gable that faces the viewer at this turn, from the plan alone: east of
- * its pen it is the pen's east gable, west of it the west, and the saddlebag's double chimney both. Toward the viewer is
- * down the screen, `turned`'s y. The sheet's pen, mirrored or not, has its door in the gable toward the viewer, so these -
- * and only these - have no picture to stand against yet (docs/ART_REQUESTS.md, request 2026-09-23).
+ * Whether a chimney of the plan stands against a gable the sheet draws with the door, at this turn, from the plan alone:
+ * east of its pen it is the pen's east gable, west of it the west, and the saddlebag's double chimney both. The sheet's
+ * pen, mirrored or not, has its door in the gable toward the viewer - down the screen, `turned`'s y - so those have no
+ * picture to stand against yet (docs/ART_REQUESTS.md, request 2026-09-23). A cabin's pen is drawn so that a gable to the
+ * side is its back one. A house of two pens is drawn in the house's quarter-turn mirroring (`ROW_GABLE`), so a gable to
+ * the side is the door's on the left at 0 and 180 degrees and on the right at 90 and 270: the near end of its ridge, where
+ * the dog-run's near chimney stands - and the double chimney always has the far pen's door gable on one side.
  */
 function towardViewer(plan, [type, x, y], rotation) {
-  const faces = east => turned(east ? 1 : -1, 0, rotation)[1] > 0;
+  const faces = east => {
+    const [dx, dy] = turned(east ? 1 : -1, 0, rotation);
+    return dy > 0 || (dy === 0 && twoPen(plan) && (rotation % 180 ? dx > 0 : dx < 0));
+  };
   if (type === 'chimney-double') return faces(true) || faces(false);
   const pens = catalogue.plans.find(each => each.id === plan).pieces.filter(([t]) => t.startsWith('pen-'));
   return faces(pens.some(([, px, py]) => px + 2 === x && y >= py && y < py + 2));

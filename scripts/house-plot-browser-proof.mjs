@@ -160,7 +160,7 @@ try{
    assert.deepEqual(away.map(i=>i.name),[],`at ${rotation} degrees a chimney stands off its pen: ${JSON.stringify(away.map(i=>[i.name,+i.e.toFixed(1),+i.f.toFixed(1)]))}`);
    // Mirrored at a quarter turn, where the gable comes round to the other face; as drawn at a half turn - but for the pen's
    // walls and roof at 180, where the cabin's chimney, east of its pen, is to the left and the pen is drawn mirrored so that
-   // its doorless back gable is that side (2026-09-24, `mirrorPens`; tests/house-turn.test.mjs).
+   // its doorless back gable is that side (2026-09-24, `housePicture`; tests/house-turn.test.mjs).
    const penPart=i=>/-(sill|low-walls|full-walls)$|roof-(partial|finished)$/.test(i.name);
    assert.ok(images.every(i=>(i.a<0)===(rotation%180!==0||(rotation===180&&penPart(i)))),`at ${rotation} degrees the pictures are mirrored the wrong way: ${JSON.stringify(images.map(i=>[i.name,+i.a.toFixed(3)]))}`);
    // No chimney in front of a door (2026-09-24, owner: "fix the chimney standing in front of the door"). In one frame's drawing,
