@@ -237,6 +237,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
 
+## Released as v2026.09.24.1 — 2026-09-24
+
+**[v2026.09.24.1](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.24.1)**, from `4b7b8f1`: every person drawn as their own sex and age band (`seenAs` in `sim/town.mjs`, one chooser `figureOf` in `public/motion.js`), including default families and town keepers; the farm and host-view proofs pass again (`1f01f9a`, proof-only). 1066 tests; host-view, family-panel, panels, lesson, travel-drawn, house-plot, hunt, riding, shops, furniture proofs pass.
+
 ## Released as v2026.09.23.3 — 2026-09-23
 
 **[v2026.09.23.3](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.23.3)**, from `22b1f03`: chimneys stand against their gable wall at every turn (`groundOf`, `standChimneys`, HIST-GONZ-025); houses drawn no bigger than their ground at any zoom, one symbol at the home below 16 px (`houseScale`, `HOUSE_LEGIBLE`); the four stale browser proofs driven through today's game (`49388ff`). 1063 tests; house-plot, house-plot-regression, family-panel, panels, lesson, travel-drawn proofs pass. Known and not from this work: `test:farm` flakes at tick 1, `test:host-view` times out waiting for `#selection` on a clean `49388ff` — **both fixed after this release, and both were the proof, not the game** (*The last two failing proofs*, above): the farm proof's ground audit now runs on processor-drawn canvases, and host-view clicks a person nothing of the page covers.
