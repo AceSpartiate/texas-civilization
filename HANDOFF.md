@@ -553,6 +553,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
 
+## Released as v2026.09.24.5 — 2026-09-24
+
+**[v2026.09.24.5](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.24.5)**, from `05d5455`: the owner's four errand decisions (`fd13eea`: felling axe held off the land, the rifle goes to war, one rifle kept after a three-period food study, the student may choose a slower way) and counted tools (`sim/tools.mjs`; the gunsmith sells rifles, FIC-GONZ-388; `userOf` holds one copy; a rifle carried to war is lost with the man). 1112 tests; errand, shops, family-commands, family-panel, panels, lesson, riding, farm, host-view, travel proofs pass. Open for the owner: whether men who surrender get their rifles back; automatic families never shop, so a family that loses its rifle at war stays without one.
+
 ## Released as v2026.09.24.4 — 2026-09-24
 
 **[v2026.09.24.4](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.24.4)**, from `62a45f2`: the errand popup (`sim/errands.mjs`, `public/errand.js`, `/api/errand`) replaces asking on arrival, which is why seed could not be bought; the server picks the quickest mode that carries the load; `userOf` in `sim/keeping.mjs` holds the wagon, ox, horse and rifle for one person at a time. 1094 tests; errand, shops, family-commands, family-panel, panels, lesson, riding, farm, host-view, travel proofs pass. Open for the owner: docs/TOWNS.md §4b (tools not held; the rifle and the war; one rifle per family; choosing a slower way).
