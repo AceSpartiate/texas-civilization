@@ -15,7 +15,7 @@
 //
 // Every sentence a family reads here is the game's wording (`FIC-GONZ-031`); what each settlement asked is `HIST-TEX-014`.
 import { record } from './events.mjs';
-import { hasWords, takeToWar } from './keeping.mjs';
+import { takeToWar, warRifleWords } from './keeping.mjs';
 import { canAnswerCalls, canFight, cannotAnswerWhy, cannotFightWhy, tooYoung, tooYoungWhy } from './family.mjs';
 
 /** What a volunteer takes of the family's powder: the settlers brought their own arms (`HIST-GONZ-020`), and powder was short. */
@@ -181,10 +181,8 @@ export function handleCall(world, householdId, entity, action, { beginTravel, tr
   // He takes the family's rifle for as long as he is away (owner, 2026-09-24; sim/keeping.mjs `takeToWar`), unless somebody
   // else of the family has it out, and then he goes without it. Said either way, with the powder.
   const other = takeToWar(world, household, entity, `gone with the volunteers to ${place.name.replace(/^The /, 'the ')}`);
-  const powder = carried > 0 ? ` and ${carried} powder. There is ${household.resources.powder} left in the house` : '';
-  record(world, 'property', { actorId: entity.id, householdId, importance: 2, causes: [choiceId], text: other
-    ? `${entity.name} went without the family's rifle: ${hasWords(other, ['rifle'], world)}${carried > 0 ? ` He took ${carried} powder; there is ${household.resources.powder} left in the house.` : ''}`
-    : `${entity.name} took the family's rifle${powder}. Nobody at home can hunt or shoot until he is back.` });
+  const said = warRifleWords(world, household, entity, other);
+  record(world, 'property', { actorId: entity.id, householdId, importance: 2, causes: [choiceId], text: carried > 0 ? `${said} He took ${carried} powder; there is ${household.resources.powder} left in the house.` : said });
   if (entity.location.siteId === call.gather) { noteArrival(world, call, entity); return; }
   beginTravel(world, entity, call.gather, choiceId, 'volunteer', mode);
 }

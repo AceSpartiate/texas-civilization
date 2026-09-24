@@ -53,6 +53,7 @@ import { furnitureInvalid } from './furniture.mjs';
 import { interiorInvalid, interiorProjection, placeItem } from './interior.mjs';
 import { gearExertionShare, shopsInvalid, wagonSpeedShare } from './shops.mjs';
 import { errandOffers, errandQuote, errandsInvalid } from './errands.mjs';
+import { toolsInvalid } from './tools.mjs';
 import { fellingInvalid, logsLeftOut, logsProjection, recordFelling } from './felling.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, defaultNames, familyProjection, familyRoll, FAMILY_DIE, FAMILY_TABLE, tableOf, compositionFor,rolledWords, householdName, kinFor, mainPersonId, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
@@ -1235,7 +1236,7 @@ export function validateWorld(world) {
   if (badCall) throw new Error(badCall);
   const badShops = shopsInvalid(world) || errandsInvalid(world);
   if (badShops) throw new Error(badShops);
-  const badUse = usesInvalid(world);
+  const badUse = usesInvalid(world) || toolsInvalid(world);
   if (badUse) throw new Error(badUse);
   const badFurniture = furnitureInvalid(world);
   if (badFurniture) throw new Error(badFurniture);

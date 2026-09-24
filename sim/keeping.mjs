@@ -37,13 +37,16 @@
 //     a garrison, the relief, the Matamoros men or Houston carries the family's rifle for as long as he is away
 //     (`person.carries`, written by `takeToWar`), and the refusal names him. He has it until he is home again; the dead and
 //     the taken hold nothing (`homeAgain`).
-//     ceiling: a man killed or taken does not lose the rifle with him - the family has it again - because nothing in the
-//     game sells a rifle, and a family left without one for the rest of the class could never hunt again.
+//     Amended the same day (docs/TOWNS.md §4c): the gunsmith sells rifles now, so **a man killed, captured or taken prisoner
+//     loses the rifle he carried** (`homeAgain`), and a family can buy another. A family can own more than one of a thing
+//     (sim/tools.mjs), and each person holds one copy: the refusal comes only when every copy is out.
 //   - The other tools - hoe, broadaxe, froe, auger - are never carried off the land by any work, and stay shared.
 //
 // This file imports only the travel table, so `sim/world.mjs` (journeys), `sim/army.mjs` (the march) and `sim/chores.mjs`
 // (work) can all ask it without an import arrow between them.
 import { DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
+import { TOOL_WORDS, loseTool, toolCount } from './tools.mjs';
+import { record } from './events.mjs';
 
 /** The plain word for each piece of property, used in every sentence about it. */
 export const NOUN = Object.freeze({ ox: 'ox', horse: 'horse', wagon: 'wagon', rifle: 'rifle', axe: 'felling axe' });
@@ -94,19 +97,31 @@ export function userOf(world, household, item, asker = null, { work = null, shar
     const holder = beast ? holderOf(world, beast) : null;
     if (holder && holder !== asker) return holder;
   }
+  // Each person holds one copy (owner, 2026-09-24, docs/TOWNS.md §4c): a thing a family has two of is refused only when both are
+  // out. The work at home that shares the felling axe shares one copy among all of it.
+  const holders = [], home = [];
   for (const id of household.members || []) {
     const person = world.entities[id];
     if (!person || person === asker || GONE.includes(person.health?.condition)) continue;
     // Gone to the war with it (`takeToWar`), until home again.
-    if (away(world, household, person) && person.carries?.items?.includes(item)) return person;
+    if (away(world, household, person) && person.carries?.items?.includes(item)) { holders.push(person); continue; }
     if (!person.chore?.with?.includes(item)) continue;
     if (work && SHARED[work] && person.chore.id === work) continue;
     // Work at home that shares it with other work at home: the felling axe among everybody felling and building.
-    if (shares.includes(item) && person.chore.shares?.includes(item)) continue;
-    return person;
+    if (person.chore.shares?.includes(item)) { if (!shares.includes(item)) home.push(person); continue; }
+    holders.push(person);
   }
-  return null;
+  // A beast is one of its kind: whoever has it, as it always was (a harvest's shared wagon is one wagon, however many load it).
+  if (!COUNTED.includes(item)) return holders[0] || home[0] || null;
+  const used = holders.length + (home.length ? 1 : 0);
+  const copies = toolCount(household, item);
+  if (!used || used < copies) return null;
+  const all = [...new Set([...holders, ...home])];
+  return all.length === 1 ? all[0] : { kind: 'group', name: listed(all.map(one => one.name)), many: all, copies, householdId: household.id };
 }
+/** The things a family can own more than one of, held a copy at a time: the rifle and the felling axe. */
+const COUNTED = Object.freeze(['rifle', 'axe']);
+const listed = names => names.length < 2 ? names[0] : `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`;
 /** Not standing on the family's own place: on a road, or anywhere but home. */
 const away = (world, household, person) => Boolean(person.travel) || person.location?.siteId !== household.homeSiteId;
 
@@ -117,10 +132,21 @@ const away = (world, household, person) => Boolean(person.travel) || person.loca
  * who else has it when somebody already does - a hunter out in the timber - and then he goes without it; the caller says so.
  */
 export function takeToWar(world, household, entity, doing) {
-  const holder = userOf(world, household, 'rifle', entity);
+  // A family with no rifle left - it went to the war with somebody else and was lost - sends him without one: 'none'.
+  const holder = toolCount(household, 'rifle') ? userOf(world, household, 'rifle', entity) : 'none';
   // Gone without it, and remembered so: a class reopened does not hand him the rifle he never took (sim/chores.mjs `deriveUses`).
   entity.carries = { items: holder ? [] : ['rifle'], doing };
   return holder;
+}
+/**
+ * What the family's story says of the rifle as he goes (`takeToWar`'s answer): taken, one of several taken, or gone without,
+ * and why.
+ */
+export function warRifleWords(world, household, entity, other) {
+  if (other === 'none') return `${entity.name} went without a rifle: there is none in the house.`;
+  if (other) return `${entity.name} went without a rifle: ${hasWords(other, ['rifle'], world)}`;
+  if (toolCount(household, 'rifle') > 1 && !userOf(world, household, 'rifle')) return `${entity.name} took one of the family's rifles; another is still at home.`;
+  return `${entity.name} took the family's ${toolCount(household, 'rifle') > 1 ? 'last rifle' : 'rifle'}. Nobody at home can hunt or shoot until he is back.`;
 }
 /**
  * Once a tick (sim/world.mjs, after the journeys): whoever went to the war with the rifle and is home again, or is dead or
@@ -132,7 +158,14 @@ export function homeAgain(world) {
     for (const id of household.members || []) {
       const person = world.entities[id];
       if (!person?.carries) continue;
-      if (GONE.includes(person.health?.condition) || person.service?.status === 'prisoner' || !away(world, household, person)) delete person.carries;
+      const taken = GONE.includes(person.health?.condition) || person.service?.status === 'prisoner';
+      // The rifle is lost with him (owner's request of 2026-09-24, docs/TOWNS.md §4c): now that the gunsmith sells rifles, a
+      // family whose man was killed or taken is short the one he carried, and says so, and can buy another.
+      if (taken && person.carries.items?.includes('rifle')) {
+        loseTool(household, 'rifle');
+        record(world, 'property', { householdId: household.id, actorId: person.id, importance: 2, text: `The family's rifle was lost with ${person.name}. ${toolCount(household, 'rifle') ? `There ${toolCount(household, 'rifle') === 1 ? 'is one' : `are ${toolCount(household, 'rifle')}`} left in the house.` : 'There is no rifle in the house now; the gunsmith sells them.'}` });
+      }
+      if (taken || !away(world, household, person)) delete person.carries;
     }
   }
 }
@@ -143,6 +176,11 @@ export function homeAgain(world) {
  * timber." Without the world, or with nothing to add, as it always was: "Maria has the horse."
  */
 export function hasWords(holder, roles, world = null, asker = null) {
+  // Every copy out: "Alvin and Mateo have both rifles."
+  if (holder?.kind === 'group') {
+    const plural = roles.map(role => TOOL_WORDS[role]?.[1] || `${NOUN[role]}s`).join(' and ');
+    return `${holder.name} have ${holder.copies === 2 ? 'both' : `all ${holder.copies}`} ${plural}.`;
+  }
   const what = `${holder?.name || 'Somebody'} has the ${roles.map(role => NOUN[role]).join(' and ')}`;
   // Gone to the war with it: said in the words he went with, until he is on his way home.
   const war = holder?.carries && roles.some(role => holder.carries.items?.includes(role));

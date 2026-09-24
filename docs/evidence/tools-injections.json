@@ -1,0 +1,183 @@
+{
+  "record": "Tools counted and bought in town (docs/TOWNS.md §4c): each regression put back alone over the 14 test files it touches",
+  "date": "2026-09-24",
+  "caught": "13 of 13",
+  "injections": [
+    {
+      "id": "tools-flagged",
+      "guards": "the shops sell another of every tool",
+      "pass": 132,
+      "fail": 3,
+      "failed": [
+        "the blacksmith sells the tools a family left behind, and another beside one it has, and says what each is for",
+        "the shops sell another of every tool - a second axe, a rifle at the gunsmith - paid only from what the family has",
+        "tools weigh on the load, and the way of going still carries it"
+      ],
+      "caught": true
+    },
+    {
+      "id": "rifle-not-given",
+      "guards": "the shops sell another of every tool",
+      "pass": 133,
+      "fail": 2,
+      "failed": [
+        "the shops sell another of every tool - a second axe, a rifle at the gunsmith - paid only from what the family has",
+        "a man killed or taken at the war loses the rifle he carried; with none left nobody hunts until another is bought"
+      ],
+      "caught": true
+    },
+    {
+      "id": "hoe-replaced",
+      "guards": "a sound hoe bought beside a worn one",
+      "pass": 134,
+      "fail": 1,
+      "failed": [
+        "a sound hoe bought beside a worn one goes into use, and the worn one waits to be mended"
+      ],
+      "caught": true
+    },
+    {
+      "id": "worn-hoe-in-hand",
+      "guards": "a sound hoe bought beside a worn one",
+      "pass": 133,
+      "fail": 2,
+      "failed": [
+        "the store sells the seed, the powder and the hoe the town errands used to fetch, and buys food five for a real",
+        "a sound hoe bought beside a worn one goes into use, and the worn one waits to be mended"
+      ],
+      "caught": true
+    },
+    {
+      "id": "spare-never-mended",
+      "guards": "a sound hoe bought beside a worn one",
+      "pass": 134,
+      "fail": 1,
+      "failed": [
+        "a sound hoe bought beside a worn one goes into use, and the worn one waits to be mended"
+      ],
+      "caught": true
+    },
+    {
+      "id": "one-copy-only",
+      "guards": "each person holds one copy",
+      "pass": 132,
+      "fail": 3,
+      "failed": [
+        "each person holds one copy: two rifles are two hunters, and a third is told both are out",
+        "with two rifles a man can go to the war with one while another hunts at home; with one, the hunter keeps it",
+        "a second felling axe goes off the land while the first fells at home"
+      ],
+      "caught": true
+    },
+    {
+      "id": "group-unnamed",
+      "guards": "each person holds one copy",
+      "pass": 132,
+      "fail": 3,
+      "failed": [
+        "each person holds one copy: two rifles are two hunters, and a third is told both are out",
+        "with two rifles a man can go to the war with one while another hunts at home; with one, the hunter keeps it",
+        "a second felling axe goes off the land while the first fells at home"
+      ],
+      "caught": true
+    },
+    {
+      "id": "axe-not-counted",
+      "guards": "a second felling axe",
+      "pass": 134,
+      "fail": 1,
+      "failed": [
+        "a second felling axe goes off the land while the first fells at home"
+      ],
+      "caught": true
+    },
+    {
+      "id": "rifle-comes-home-dead",
+      "guards": "loses the rifle he carried",
+      "pass": 133,
+      "fail": 2,
+      "failed": [
+        "a man killed or taken at the war loses the rifle he carried; with none left nobody hunts until another is bought",
+        "a man killed or taken holds nothing, and the rifle he carried is lost with him"
+      ],
+      "caught": true
+    },
+    {
+      "id": "war-without-rifle-takes-one",
+      "guards": "loses the rifle he carried",
+      "pass": 134,
+      "fail": 1,
+      "failed": [
+        "a man killed or taken at the war loses the rifle he carried; with none left nobody hunts until another is bought"
+      ],
+      "caught": true
+    },
+    {
+      "id": "hunt-with-no-rifle",
+      "guards": "loses the rifle he carried",
+      "pass": 134,
+      "fail": 1,
+      "failed": [
+        "a man killed or taken at the war loses the rifle he carried; with none left nobody hunts until another is bought"
+      ],
+      "caught": true
+    },
+    {
+      "id": "old-save-no-rifle",
+      "guards": "a family counts its tools",
+      "pass": 97,
+      "fail": 38,
+      "failed": [
+        "on auto a hunt never stops to ask: the shot is decided at once, the hunt repeated when they come home, and stopped by the switch",
+        "by hand the question stands for the game's own window and then auto decides it: a steady hand takes the shot nobody answered",
+        "chores survive save and reload, and a person who cannot work stops working",
+        "what a person may be asked to do is decided on the server, with a reason",
+        "the wagon, the horse, the ox and the rifle are one person's at a time: the second is told who has it and what they are doing",
+        "every way a use ends lets go of it: home, called off, answered away, the flight east, and death",
+        "the flight east takes the family's things from whatever work had them at home, and none stays held",
+        "a class saved with work in hand opens with that work holding its things, and the old walk to the shops goes on as it was",
+        "a hunt goes to the family ground, in the words of its cover, and the ground moves with the house",
+        "a hunt is a sequence of places in the timber, not one spot for five ticks",
+        "every stage says what is being done, and none of them names an animal",
+        "the deer is there to be seen: ahead of the hunter while they wait, closer if they wait, and gone with the shot",
+        "the shot happens once, is written down, and is gone the tick after",
+        "they come home carrying it, and the walk out is not the walk back",
+        "one family has one rifle: a second hunter is told who has it, and goes once it is home",
+        "the hunt still costs about what it cost, and yields exactly what it yielded",
+        "a stalk only ever moves somebody about the place they are standing",
+        "the work stops and asks, and nothing moves until the family answers",
+        "the three answers are three different afternoons",
+        "whether the shot connects comes from the person, and is said before it is taken",
+        "waiting closes the range, so even a poor hand comes home with something",
+        "nobody stands in a wood for ever waiting on a student who has gone elsewhere",
+        "an answer nobody was offered is refused, and so is answering for another family",
+        "how a family travelled decides whether it can shoot straight",
+        "work given with the horse holds it before the road out begins",
+        "a family that never touches a coin still farms, hunts and buys what it needs with food",
+        "the gunsmith puts the rifle in order: a hand without the knack makes the long shot, and it wears off",
+        "a family counts its tools, and a class saved before opens with one of each it had and its one rifle",
+        "the shops sell another of every tool - a second axe, a rifle at the gunsmith - paid only from what the family has",
+        "each person holds one copy: two rifles are two hunters, and a third is told both are out",
+        "with two rifles a man can go to the war with one while another hunts at home; with one, the hunter keeps it",
+        "a man killed or taken at the war loses the rifle he carried; with none left nobody hunts until another is bought",
+        "a man who turns out takes the rifle: nobody at home can hunt or practise, and the refusal names him and where he went",
+        "a man killed or taken holds nothing, and the rifle he carried is lost with him",
+        "a man who turns out while somebody has the rifle out goes without it, and is not handed it on a reload",
+        "a class saved with a man away at the war opens with the rifle gone with him",
+        "going upriver with the march takes the rifle too",
+        "leaving to join the garrison takes the rifle"
+      ],
+      "caught": true
+    },
+    {
+      "id": "tools-weightless",
+      "guards": "tools weigh on the load",
+      "pass": 134,
+      "fail": 1,
+      "failed": [
+        "tools weigh on the load, and the way of going still carries it"
+      ],
+      "caught": true
+    }
+  ]
+}

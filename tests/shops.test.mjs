@@ -13,6 +13,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, beginTravel, errandFor, stepWorld, projectWorld, validateWorld } from '../sim/world.mjs';
 import { establishTruth, learn } from '../sim/knowledge.mjs';
 import { advanceRoutine } from '../sim/routines.mjs';
+import { toolCount } from '../sim/tools.mjs';
 import { KEEPERS, TOWN_TRADES, counterOptions, counterRefusal, TUNED_SHOTS, WAGON_SPEED_SHARE, keeperId } from '../sim/shops.mjs';
 import { TOWN_LAYOUTS, townPoint } from '../sim/town-layouts.mjs';
 
@@ -58,7 +59,7 @@ test('the right keepers stand in the right towns: a full street in Gonzales, a s
   assert.equal(smith.location.siteId, 'gonzales');
 });
 
-test('the blacksmith sells the tools a family left behind, once each, and says what each is for', () => {
+test('the blacksmith sells the tools a family left behind, and another beside one it has, and says what each is for', () => {
   const world = running('shops-smith');
   const household = world.households['hh-1'];
   delete household.tools.auger;
@@ -69,8 +70,11 @@ test('the blacksmith sells the tools a family left behind, once each, and says w
   assert.equal(household.tools.auger, 0);
   assert.equal(household.resources.money, 3);
   assert.ok(world.events.some(e => e.householdId === household.id && e.coin === -2), 'the coin is not in the account');
-  assert.match(lineOf(world, household, person, 'blacksmith:tool-auger').why, /already has an auger/);
-  assert.throws(() => applyAction(world, household.id, { action: 'chore', entityId: person.id, chore: 'visit-shop', errand: [{ id: 'blacksmith:tool-auger', n: 1, pay: 'coin' }] }), /already has an auger/);
+  // Since 2026-09-24 a family counts its tools (sim/tools.mjs, docs/TOWNS.md §4c): a second auger is sold as the first was.
+  assert.equal(lineOf(world, household, person, 'blacksmith:tool-auger').why, undefined, 'a second auger was refused');
+  shop(world, household, person, 'blacksmith:tool-auger:coin');
+  assert.equal(toolCount(household, 'auger'), 2);
+  assert.equal(household.resources.money, 1);
   validateWorld(world);
 });
 

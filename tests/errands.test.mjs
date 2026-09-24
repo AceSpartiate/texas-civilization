@@ -87,7 +87,8 @@ test('the list is checked before anybody leaves, in its order and against what t
   assert.match(why([{ id: 'store:gold', n: 1, pay: 'coin' }]), /not sold in this town/);
   assert.match(why([{ id: 'store:cotton', n: 1, pay: 'food' }, { id: 'store:cotton', n: 1, pay: 'coin' }]), /on the list twice/);
   assert.match(why([{ id: 'store:seed', n: 1.5, pay: 'food' }]), /whole numbers/);
-  assert.match(why([{ id: 'blacksmith:tool-froe', n: 2, pay: 'coin' }]), /one is all anybody needs/);
+  assert.match(why([{ id: 'doctor:see', n: 2, pay: 'coin' }]), /one is all anybody needs/);
+  assert.match(why([{ id: 'blacksmith:tool-froe', n: 5, pay: 'coin' }]), /at most 4 on one trip/);
   assert.match(why([{ id: 'store:seed', n: 1, pay: 'coin' }]), /costs 1 real, and there will not be that much coin/);
   assert.match(why([{ id: 'store:cotton', n: 5, pay: 'food' }]), /There will not be 5 cotton in the house to sell/);
   assert.match(why([{ id: 'store:hoe', n: 1, pay: 'food' }]), /paid in coin only/);

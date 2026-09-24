@@ -4,7 +4,7 @@
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768 and 1024x768. A student opened the popup from the family panel, put fourteen bales and a purchase of seed on the list, read the server's sentence that the wagon goes, sent it with Enter, was refused the wagon for a second person in the holder's name, closed the popup with Escape, and saw the coin and seed come home. No LAN or district claim.",
   "checks": [
-    "the icon opens the popup and sends nobody: 9 shops of Gonzales listed, \"The family has 30 food · 2 seed · 3 powder · 0 reales · 14 cotton.\"",
+    "the icon opens the popup and sends nobody: 9 shops of Gonzales listed, \"The family has 30 food · 2 seed · 3 powder · 0 reales · 14 cotton. Tools: a rifle · a hoe · a felling axe.\"",
     "the popup says how they will go, in the server's words: \"Takes the wagon: 14 of 20 loads, more than the horse carries (7).\" (1366x768: 500x616, clear of the column, nothing over its controls)",
     "Enter sends the one order: Alvin drives off to Gonzales with the ox and wagon",
     "a second person is refused the wagon with who has it and what to do: \"This wants the wagon: 10 loads, and the horse carries 7. Alvin has the ox and wagon, on the road to Gonzales. Send a smaller load, or wait until the wagon is free.\"; five bales go instead: \"Rides the horse: 5 of 7 loads.\"",
@@ -12,6 +12,7 @@
     "at 1024x768 the popup fits (500x616), keeps off the column and has nothing over its controls",
     "the student chooses: the popup marks the horse quickest and the wagon shut (\"Alvin has the ox and wagon, on the road home.\"); on foot is chosen and said, \"Goes on foot: 3 of 5 loads, as you chose. The horse would be quicker.\", and Keziah walks while the horse stays home",
     "the goods come home: 13 reales (14 for the cotton, 1 paid for seed) and 2 more seed in the house, the wagon free again, and the story says so: \"Alvin sold 14 cotton to Marta Ibarra for 14 reales.\" \"Alvin bought 2 seed at the store for 1 real.\"",
+    "a second rifle is bought at the gunsmith (\"Buy a rifle: 8 reales or 16 food\", the stock line \"The family has 27.5 food · 4 seed · 6 powder · 13 reales. Tools: a rifle · a hoe · a felling axe.\"), and Alvin and Keziah are both out hunting at once",
     "no page errors"
   ],
   "observed": {
@@ -90,7 +91,7 @@
     ],
     "chosen": "Goes on foot: 3 of 5 loads, as you chose. The horse would be quicker.",
     "home": {
-      "food": 27.7668,
+      "food": 27.7917,
       "seed": 4,
       "powder": 6,
       "money": 13,
@@ -99,6 +100,12 @@
     "story": [
       "Alvin sold 14 cotton to Marta Ibarra for 14 reales.",
       "Alvin bought 2 seed at the store for 1 real."
-    ]
+    ],
+    "rifleLine": {
+      "label": "Buy a rifle",
+      "price": "8 reales or 16 food",
+      "shut": false
+    },
+    "toolsStock": "The family has 27.5 food · 4 seed · 6 powder · 13 reales. Tools: a rifle · a hoe · a felling axe."
   }
 }

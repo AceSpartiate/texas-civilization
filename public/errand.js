@@ -87,7 +87,8 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
     const list = currentList();
     const fresh = list.length > 0 && JSON.stringify([list, state.mode]) === state.quotedKey;
     const quote = fresh ? state.quote : null;
-    $('#errand-stock').textContent = facts ? stockWords(quote?.stock || facts.stock) : '';
+    // And its tools, counted (owner, 2026-09-24: a family may own more than one of each; the server's words).
+    $('#errand-stock').textContent = facts ? `${stockWords(quote?.stock || facts.stock)}${facts.tools?.length ? ` Tools: ${facts.tools.join(' · ')}.` : ''}` : '';
     const after = quote?.can ? quote.after : null;
     $('#errand-after').textContent = after ? `${stockWords(after).replace('The family has', 'After it, the family will have')}` : '';
     const host = $('#errand-lines');

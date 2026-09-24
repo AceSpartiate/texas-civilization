@@ -25,10 +25,15 @@ import { TOWN_LAYOUTS, townPoint } from './town-layouts.mjs';
 import { learn } from './knowledge.mjs';
 import { carryCapacity } from './travel.mjs';
 import { purseOf, purseHeld } from './town.mjs';
+import { addTool, allWorn, toolCount } from './tools.mjs';
 
 const reales = amount => `${amount} ${amount === 1 ? 'real' : 'reales'}`;
 const round = value => Math.round(value * 10000) / 10000;
 
+/** The most of one tool on one trip to town: plenty for a family, and a load a tool (sim/errands.mjs). ceiling: a cap, not a rule. */
+export const TOOL_MOST = 4;
+/** A rifle at the gunsmith's (`FIC-GONZ-388`, invented), and the most brought home at once. */
+export const RIFLE_COIN = 8, RIFLE_FOOD = 16, RIFLE_MOST = 2;
 /** How many shots a rifle put in order by the gunsmith stays true for. */
 export const TUNED_SHOTS = 10;
 export const SHOES_SHARE = 0.85;
@@ -76,9 +81,11 @@ export const TRADES = Object.freeze({
         give: (world, household, entity) => { household.resources.powder = round((household.resources.powder ?? 0) + 3); return `${entity.name} bought three powder and lead at the store.`; },
       },
       {
-        id: 'hoe', kind: 'sell', label: 'Buy a sound hoe', coin: 2, food: null, once: true, load: 1, does: 'Iron comes a long way, and the store wants coin for it.',
-        refuse: (world, household) => household.tools?.hoe === undefined ? 'The family has no hoe to replace; the smith sells tools.' : (household.tools.hoe === 0 ? 'The hoe in the house is sound.' : null),
-        give: (world, household, entity) => { household.tools = { ...household.tools, hoe: 0 }; return `${entity.name} bought a sound hoe at the store.`; },
+        // A family may own as many hoes as it buys (owner, 2026-09-24, docs/TOWNS.md §4c): a new one beside a worn one goes into
+        // use and the worn one waits to be mended (sim/tools.mjs). Coin only, as it always was (the "null food" bug stays mended).
+        id: 'hoe', kind: 'sell', label: 'Buy a sound hoe', coin: 2, food: null, most: TOOL_MOST, load: 1, does: 'Iron comes a long way, and the store wants coin for it. Beside a worn hoe, the new one goes into use and the old waits to be mended.',
+        refuse: () => null,
+        give: (world, household, entity) => { const worn = allWorn(household, 'hoe'); addTool(household, 'hoe'); return `${entity.name} bought a sound hoe at the store${worn ? ', and the worn one waits to be mended' : ''}.`; },
       },
       {
         // Five food a real, and the sixth stays in the house: `per` is the lot the keeper pays for, so no part of a real is
@@ -97,10 +104,11 @@ export const TRADES = Object.freeze({
   blacksmith: {
     name: 'blacksmith', shop: "the blacksmith's",
     offers: Object.entries({ axe: [3, 6], auger: [2, 4], broadaxe: [3, 6], froe: [1, 2] }).map(([tool, [coin, food]]) => ({
-      id: `tool-${tool}`, kind: 'sell', label: `Buy ${TOOL_NAMES[tool]}`, coin, food, once: true, load: 1,
+      id: `tool-${tool}`, kind: 'sell', label: `Buy ${TOOL_NAMES[tool]}`, coin, food, most: TOOL_MOST, load: 1,
       does: { axe: 'For felling, building and making furniture.', auger: 'For boring holes: a bedstead, a table and shelves want one.', broadaxe: 'For hewing logs flat: a hewn-log house wants one.', froe: 'For riving roof boards.' }[tool],
-      refuse: (world, household) => household.tools?.[tool] !== undefined ? `The family already has ${TOOL_NAMES[tool]}.` : null,
-      give: (world, household, entity) => { household.tools = { ...household.tools, [tool]: 0 }; return `${entity.name} bought ${TOOL_NAMES[tool]} from the blacksmith.`; },
+      // Another of the same (owner, 2026-09-24): a second felling axe lets one carry an axe off the land while another fells at home.
+      refuse: () => null,
+      give: (world, household, entity) => { const had = toolCount(household, tool); addTool(household, tool); return `${entity.name} bought ${TOOL_NAMES[tool]} from the blacksmith${had ? `; the family has ${had + 1} now` : ''}.`; },
     })),
   },
   gunsmith: {
@@ -115,8 +123,19 @@ export const TRADES = Object.freeze({
         // The rifle goes to the gunsmith and home again: a load each way, and it has to be in the house to go (sim/keeping.mjs).
         id: 'rifle', kind: 'sell', label: "Have the family's rifle put in order", coin: 2, food: 4, once: true, load: 1, carried: 1, takes: 'rifle',
         does: `A rifle that shoots true: a hand that never had the knack makes the long shot, for the next ${TUNED_SHOTS} shots. A tired hand still misses.`,
-        refuse: (world, household) => (household.rifle?.shots ?? 0) > 0 ? 'The rifle is already in order.' : null,
+        refuse: (world, household) => !toolCount(household, 'rifle') ? 'There is no rifle in the house to put in order.' : (household.rifle?.shots ?? 0) > 0 ? 'The rifle is already in order.' : null,
         give: (world, household, entity) => { household.rifle = { shots: TUNED_SHOTS }; return `${entity.name} had the family's rifle put in order by the gunsmith.`; },
+      },
+      {
+        // A rifle of the family's own (owner, 2026-09-24: "send someone to buy more rifles"; docs/TOWNS.md §4c). Sold by the
+        // gunsmith, where a town has one, since the rifle is a gunsmith's work; a town with no gunsmith sells none. The price is
+        // invented (`FIC-GONZ-388`): ceiling: eight reales or sixteen food - dearer than anything else on the street, as a rifle
+        // was the dearest thing a settler owned (`HIST-GONZ-027`: the country could not supply an outfit), and no 1835 Texas price
+        // for one was found. A price from the record would replace it.
+        id: 'buy-rifle', kind: 'sell', label: 'Buy a rifle', coin: RIFLE_COIN, food: RIFLE_FOOD, most: RIFLE_MOST, load: 1,
+        does: 'A long rifle of the family\'s own: two can be out hunting at once, or one at the war while another hunts at home.',
+        refuse: () => null,
+        give: (world, household, entity) => { addTool(household, 'rifle'); return `${entity.name} bought a rifle from the gunsmith; the family has ${toolCount(household, 'rifle') === 1 ? 'a rifle again' : `${toolCount(household, 'rifle')} rifles now`}.`; },
       },
     ],
   },

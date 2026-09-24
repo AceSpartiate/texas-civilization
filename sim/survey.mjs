@@ -15,6 +15,7 @@
 // student chooses which plot on the map the same way. That the plot is ten acres, how long staking takes, and the words
 // for where it lies are FIC-GONZ-025.
 import { record } from './events.mjs';
+import { TOOL_LIFE } from './tools.mjs';
 import { distanceToPolyline } from './terrain.mjs';
 import { COVER_PACE, landAround, onRealLand } from './ground.mjs';
 import { holdingOf } from './grants.mjs';
@@ -118,8 +119,6 @@ export function plotWorkRefusal(world, household, job, plot, { entity = null } =
   }
   return 'No such work.';
 }
-/** A hoe gives this many jobs before it wants mending (sim/chores.mjs `TOOL_LIFE`, restated to keep the import one way). */
-const TOOL_LIFE = 5;
 
 /** What a plot is, in words, for the family choosing it: its ground, where it lies, and how far the clearing has got. */
 export function plotWords(world, household, plot) {

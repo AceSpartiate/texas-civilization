@@ -52,6 +52,7 @@ import { record } from './events.mjs';
 import { MILL_RETURN, TRADES, counterRefusal, tradesAt } from './shops.mjs';
 import { DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
 import { hasWords, userOf } from './keeping.mjs';
+import { toolWords } from './tools.mjs';
 import { findWay } from './ways.mjs';
 import { purseOf } from './town.mjs';
 
@@ -78,6 +79,8 @@ const pays = offer => offer.kind === 'service' ? [] : offer.kind === 'sell'
   ? ['coin', 'food'].filter(pay => Number.isFinite(pay === 'coin' ? offer.coin : offer.food) && (pay === 'coin' ? offer.coin : offer.food) > 0)
   : ['coin', 'food'].filter(pay => pay === 'coin' ? offer.coinEach > 0 : offer.foodEach > 0);
 const per = offer => offer.per ?? 1;
+/** The most of one line: a thing bought once (the doctor, shoes) one; a tool its shop's own most (sim/shops.mjs); else plenty. */
+const mostOf = offer => offer.most ?? (offer.kind === 'sell' && offer.once ? 1 : LINE_MOST);
 /** What one of this line is: a purchase, a lot sold, or a food ground. */
 function eachWords(offer) {
   if (offer.kind === 'service') return '1 food ground';
@@ -116,7 +119,7 @@ export function errandOffers(world, household, entity) {
     for (const offer of TRADES[trade].offers) {
       const shut = offer.refuse(world, household, entity)
         || (offer.takes && userOf(world, household, offer.takes, entity) ? hasWords(userOf(world, household, offer.takes, entity), [offer.takes], world, entity) : null);
-      const most = offer.kind === 'sell' ? (offer.once ? 1 : LINE_MOST) : LINE_MOST;
+      const most = mostOf(offer);
       lines.push({
         id: `${trade}:${offer.id}`, trade, shop: cap(TRADES[trade].shop), keeper: keeperAt(world, siteId, trade)?.name || null,
         label: offer.label, kind: offer.kind, does: offer.does, price: priceWords(offer), each: eachWords(offer), pays: pays(offer), most,
@@ -124,7 +127,7 @@ export function errandOffers(world, household, entity) {
       });
     }
   }
-  return { town: { id: siteId, name: site?.name || 'town' }, lines, stock: stockOf(household), carry: Object.fromEntries(Object.values(MODES).map(mode => [mode.id, mode.carry])) };
+  return { town: { id: siteId, name: site?.name || 'town' }, lines, stock: stockOf(household), tools: toolWords(household), carry: Object.fromEntries(Object.values(MODES).map(mode => [mode.id, mode.carry])) };
 }
 const stockOf = household => Object.fromEntries(STOCK.map(good => [good, round(household.resources?.[good] ?? 0)]));
 
@@ -153,7 +156,7 @@ function reckon(world, household, entity, list) {
     if (seen.has(raw.id)) return { why: `${offer.label} is on the list twice.` };
     seen.add(raw.id);
     const n = Number(raw.n);
-    const most = offer.kind === 'sell' && offer.once ? 1 : LINE_MOST;
+    const most = mostOf(offer);
     if (!Number.isInteger(n) || n < 1) return { why: `Say how many of "${offer.label}", in whole numbers.` };
     if (n > most) return { why: most === 1 ? `${offer.label}: one is all anybody needs.` : `${offer.label}: at most ${most} on one trip.` };
     const payWays = pays(offer);

@@ -58,11 +58,12 @@ Coin in either direction is in the ending's account.
 | --- | --- | --- |
 | **Store** | seed 1 real / 3 food | Two sacks: enough to plant a cleared plot. |
 | | powder and lead 1 / 2 | Three powder. The gunsmith gives five for its two. |
-| | a sound hoe 2 reales, coin only | Iron comes a long way. Refused when the hoe in the house is sound. |
+| | a sound hoe 2 reales, coin only | Iron comes a long way. Beside a worn hoe the new one goes into use (§4c). |
 | | sell food, a real for every 5, coin only | Whole reales only: what will not make five stays in the house. |
 | | sell cotton, 1 real or 2 food a whole bale | The weaver, where there is one, gives three food. |
-| **Blacksmith** | felling axe 3 reales / 6 food; auger 2 / 4; broadaxe 3 / 6; froe 1 / 2 | The tool, once. The auger is what most furniture wants. |
+| **Blacksmith** | felling axe 3 reales / 6 food; auger 2 / 4; broadaxe 3 / 6; froe 1 / 2 | The tool; another beside one the family has (§4c). The auger is what most furniture wants. |
 | **Gunsmith** | powder and lead 2 / 4 | Five powder. |
+| | a rifle 8 / 16 (§4c) | Another hunter out at once, or a rifle at home while a man is at the war. |
 | | the rifle put in order 2 / 4 | For the next ten shots, a hand without the knack makes the long shot; a tired hand still misses. Said on the shot. |
 | **Doctor** | see the doctor 2 / 3 | Tired: well at once. Hurt: mends in half the time left. Refused for somebody well. |
 | **Tavern** | a meal and the talk 1 / 1 | Eight miles off the legs, and the family learns every public report it has not had, as *Talk at the tavern*. |
@@ -185,7 +186,7 @@ Built the same day on v2026.09.24.4 ([tests](../tests/war-rifle.test.mjs), [inje
    (`person.carries`, sim/keeping.mjs `takeToWar`). Nobody at home can hunt or practise; the refusal names him in the words he
    went with: *"Alvin has the rifle, gone with the volunteers to Gonzales."* He has it on the march and in the ranks, and until he
    is in the yard again (sent for, released, shut out and turned back, the period's end setting him down at home). **The dead,
-   the captured and the prisoners hold nothing** (`homeAgain`): `ceiling:` the rifle is not lost with them, because nothing in
+   the captured and the prisoners hold nothing** (`homeAgain`); **amended the same day (§4c): the rifle is lost with them.** Until then: `ceiling:` the rifle is not lost with them, because nothing in
    the game sells a rifle and a family left without one could never hunt again. If somebody of the family has the rifle out
    hunting when he goes, he goes without it, and the story says so. Carrying food to Gonzales ("help") is not turning out and
    takes no rifle. The family owns one gun: no second gun exists anywhere in the game (the wagon's load, the house, the shops),
@@ -204,6 +205,50 @@ Built the same day on v2026.09.24.4 ([tests](../tests/war-rifle.test.mjs), [inje
    carries the chosen `mode`; the server checks it against the same reckoning and refuses it in that way's words, and an order
    with none goes the quickest way, as before. A choice is said: *"Goes on foot: 3 of 5 loads, as you chose. The horse would be
    quicker."*
+
+### 4c. More than one of a tool, and tools bought in town (owner, 2026-09-24, after v2026.09.24.4's four answers)
+
+> "players should be able to send someone to buy more rifles, hoes, tools in general."
+>
+> — the owner, 2026-09-24
+
+**Status: built the same day** (`sim/tools.mjs`; [tests](../tests/tools.test.mjs), [injections](evidence/tools-injections.json),
+13 of 13 caught). Claim `FIC-GONZ-388`. It amends §4 (the tool rows) and §4b's decision 2 (the rifle's `ceiling:`).
+
+- **Counted, not flagged.** A family owns a count of each tool - rifle, hoe, felling axe, broadaxe, froe, auger - and each copy
+  keeps its own wear (only the hoe wears). Stored so every class saved before opens as it was: `household.tools` unchanged (the
+  family has one; its number is the wear of the one in hand), `household.spares` the wear of each copy beyond the first, and
+  `household.rifles` the rifles, absent meaning the one rifle every family has always had. No save version moved.
+- **The hoe in hand is the soundest.** A new hoe bought beside a worn one goes into use and the worn one waits to be mended
+  (*Mend the hoe* mends the most worn copy); a sound spare is taken up the moment the one in use wears out. Planting waits only
+  when every hoe is worn. The store's hoe is still two reales, coin only - there is still no food price, so the "null food"
+  hoe of 2026-09-24 stays mended.
+- **Sold where the docs put them.** The store sells the hoe; the blacksmith the felling axe, auger, broadaxe and froe, at the
+  prices of §4; none is refused any longer for the family already having one. **The rifle is new to the shops: the gunsmith
+  sells it**, since a rifle is his work - Gonzales, San Felipe, Columbia and Mina have one (§3), and Liberty, Matagorda and
+  Victoria, with none, sell no rifle. **Eight reales or sixteen food** (`FIC-GONZ-388`, invented: `ceiling:` no 1835 Texas price
+  for a rifle was found; it is the dearest thing on the street, as `HIST-GONZ-027` has settlers told to bring their outfit
+  because the country could not supply it; a price from the record replaces it). At most four of a tool and two rifles on one
+  trip (`ceiling:` a cap for the popup, not a rule). A tool is a load (the rifle one each way to the gunsmith for putting in
+  order, one home when bought), and the way of going chosen still has to carry it. **No credit**: the list is paid from the coin
+  or food the family has, reckoned before anybody leaves and again at the counter (§4b).
+- **One copy held, not the kind** (sim/keeping.mjs `userOf`). Each person holds one copy: two rifles are two hunters at once, or
+  a man at the war and a hunter at home; a second felling axe goes off the land while the first fells at home (the work at home
+  shares one copy among all of it). A refusal comes only when every copy is out, and names everybody who has them: *"Alvin and
+  Mateo have both rifles."* A family with no rifle left is told *"There is no rifle in the house. The gunsmith sells them."*, and
+  a man who goes to the war then goes without one, and the story says so.
+- **The rifle is lost with the man who carried it** (the honest rule now that rifles are sold; it replaces §4b's `ceiling:`).
+  A man killed, captured or taken prisoner at the war does not bring the family's rifle home: it is gone (`homeAgain`), the
+  story says so (*"The family's rifle was lost with Alvin. There is no rifle in the house now; the gunsmith sells them."*), and
+  the family may buy another. A man who comes home brings his home. **Open for the owner:** whether a rifle lost this way should
+  instead come back with the survivors of a surrender (Goliad's men were disarmed; nothing here models that either way).
+- **Measured** ([record](evidence/rifle-food-study.json), `afterTools`): the same four classes of fifteen families nobody plays,
+  three periods. **None of them bought a rifle**: the director of a family nobody plays never sends anybody to the shops
+  (sim/neighbours.mjs has no errand to town), so buying is a student's. Fourteen rifles were lost with the fourteen dead, and
+  those fourteen families ended the class without one. Food and hunger moved by less than a food a house: mean food at the three
+  period ends 34.9 / 64.3 / 12.4 (before this change) and 34.9 / 64.3 / 12.5; household-ticks with no food 743 and 743; houses
+  ever out of food 34 and 34; deaths 14 and 14, the same people - the deaths come late, in the spring's fighting, so a lost rifle
+  costs little hunting in what is left of the class. Nothing was retuned.
 
 ## 5. How a student uses it
 

@@ -43,8 +43,9 @@ import { fellRefusal, fellTicks, fellTree, logsLeftOut, logsLying, nextTree, oxF
 import { KINDS, countsTrees, woodsRule } from './woods.mjs';
 import { TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
 import { carryOutErrand, planErrand } from './errands.mjs';
-import { ROLES as BEASTS, hasWords, letGo, takeToWar, userOf } from './keeping.mjs';
+import { ROLES as BEASTS, hasWords, letGo, takeToWar, userOf, warRifleWords } from './keeping.mjs';
 import { holdingOf } from './grants.mjs';
+import { TOOL_LIFE, allWorn, anyWorn, mendWorst, soundestFirst, toolCount } from './tools.mjs';
 import { plotNeeds } from './houseplot.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
 import { HOUSES, SPELL_TICKS, buildRefusal, buildSpell, helpRefusal, hostOf, houseBuilt, houseOf, houseSettled, pieced, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
@@ -57,7 +58,8 @@ const round = value => Math.round(value * 10000) / 10000;
 // and nothing in the interface claims otherwise.
 export const RIPEN_TICKS = 18;
 // A hoe gives this many field jobs, then wants mending. Fixed, and shown before use.
-export const TOOL_LIFE = 5;
+// The one number lives with the counts (sim/tools.mjs), and is still read from here by everything that always read it.
+export { TOOL_LIFE };
 
 export const SKILLS = ['farming', 'hunting', 'hands'];
 
@@ -1336,9 +1338,10 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
     const wear = household.tools?.hoe;
     if (wear === undefined) {
       if (choreId === 'mend-hoe') return { can: false, why: 'There is no hoe in the house to mend.' };
-    } else if (toolState(wear) !== chore.needsTool) return { can: false, why: 'The hoe is sound.' };
+    // Something to mend while any hoe is worn: a worn one beside a sound one waits to be mended (sim/tools.mjs).
+    } else if (chore.needsTool === 'worn' && !anyWorn(household, 'hoe')) return { can: false, why: toolCount(household, 'hoe') > 1 ? 'Every hoe in the house is sound.' : 'The hoe is sound.' };
   }
-  if (chore.tool && toolState(household.tools?.[chore.tool] ?? 0) === 'worn') return { can: false, why: 'The hoe is worn out and wants mending.' };
+  if (chore.tool && allWorn(household, chore.tool)) return { can: false, why: toolCount(household, chore.tool) > 1 ? 'Every hoe in the house is worn out and wants mending.' : 'The hoe is worn out and wants mending.' };
   for (const [resource, amount] of Object.entries(needsOf(household, chore))) {
     if ((household.resources[resource] ?? 0) < amount) return { can: false, why: resource === 'money' ? `It costs ${reales(amount)}, and there is not that much coin in the house.` : `Not enough ${resource}.` };
   }
@@ -1379,8 +1382,12 @@ function takenWhy(world, household, entity, choreId, extra = {}) {
   const own = [...(typeof chore.takes === 'function' ? chore.takes(world, household, entity) : chore.takes || []), ...(axe ? ['axe'] : [])];
   const shares = axe === 'home' ? ['axe'] : [];
   for (const item of own) {
+    // A rifle lost at the war and not yet bought again (sim/keeping.mjs `homeAgain`).
+    if (item === 'rifle' && !toolCount(household, 'rifle')) return 'There is no rifle in the house. The gunsmith sells them.';
     const holder = userOf(world, household, item, entity, { work: choreId, shares });
     if (!holder) continue;
+    // Every copy out: named all at once ("Alvin and Mateo have both rifles.").
+    if (holder.kind === 'group') return hasWords(holder, [item], world, entity);
     const alsoHeld = own.filter(other => userOf(world, household, other, entity, { work: choreId, shares }) === holder);
     return chore.wantsWagon ? `This much crop wants the wagon. ${hasWords(holder, alsoHeld, world, entity)}` : hasWords(holder, alsoHeld, world, entity);
   }
@@ -1436,7 +1443,7 @@ export function goToWar(world, household, entity, doing) {
   const other = takeToWar(world, household, entity, doing);
   record(world, 'property', {
     actorId: entity.id, householdId: household.id, importance: 2,
-    text: other ? `${entity.name} went without the family's rifle: ${hasWords(other, ['rifle'], world)}` : `${entity.name} took the family's rifle. Nobody at home can hunt or shoot until he is back.`,
+    text: warRifleWords(world, household, entity, other),
   });
 }
 /**
@@ -2246,9 +2253,15 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       step = { wear: 'hoe' };
     }
     if (step.wear) {
+      const was = toolState(household.tools[step.wear] ?? 0);
       household.tools[step.wear] = (household.tools[step.wear] ?? 0) + 1;
-      if (toolState(household.tools[step.wear]) === 'worn') {
-        record(world, 'property', { actorId: entity.id, householdId: household.id, text: `The ${step.wear} is worn out. It wants mending, or a new one from town.`, importance: 2 });
+      const wore = was === 'sound' && toolState(household.tools[step.wear]) === 'worn';
+      // A sound spare goes into use the moment the one in hand wears out (sim/tools.mjs).
+      soundestFirst(household, step.wear);
+      if (wore) {
+        record(world, 'property', { actorId: entity.id, householdId: household.id, importance: 2, text: allWorn(household, step.wear)
+          ? `The ${step.wear} is worn out. It wants mending, or a new one from town.`
+          : `One ${step.wear} is worn out and wants mending; the family works with another.` });
       }
       continue;
     }
@@ -2267,7 +2280,8 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       recordTrade(world, household.id, entity, trader, step.trade === 'iron' ? 'a hoe' : step.trade === 'powder' ? 'powder and lead' : step.trade === 'food' ? 'coin' : step.trade);
       continue;
     }
-    if (step.mend) { household.tools[step.mend] = 0; continue; }
+    // The most worn copy is the one mended (sim/tools.mjs); with one hoe, that hoe, as it always was.
+    if (step.mend) { mendWorst(household, step.mend); continue; }
     // The crop the family chose at the field goes in (the ask 'crop-choice').
     if (step.crop) { household.field = { ...household.field, crop: step.crop }; continue; }
     // A step owned by the chore's own module (`registerChores`): what the camp's work does when it is done (sim/camp.mjs).

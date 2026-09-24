@@ -1,5 +1,38 @@
 # Claude handoff — Astra foundation
 
+## Tools counted and bought in town — 2026-09-24 (after fd13eea; not yet committed or released)
+
+Owner: *"players should be able to send someone to buy more rifles, hoes, tools in general."* Recorded as
+[docs/TOWNS.md §4c](docs/TOWNS.md), claim `FIC-GONZ-388`; CLAUDE.md item 16 updated. No save version.
+
+- **Counts** (`sim/tools.mjs`, new, no imports). `household.tools` unchanged (one owned; the wear of the one in hand);
+  `household.spares[tool]` the wear of each further copy; `household.rifles` the rifles (absent = the one every family always
+  had). Old saves open with one of each they owned. The soundest hoe is kept in hand (`soundestFirst`): a hoe bought beside a
+  worn one goes into use, the worn one waits, *Mend the hoe* mends the worst (`mendWorst`), planting waits only when all are worn.
+- **Sold** (`sim/shops.mjs`): the store's hoe (2 reales, coin only - the "null food" fix kept) and the blacksmith's four tools
+  are no longer refused for the family having one (`TOOL_MOST` 4 a trip); **the gunsmith sells a rifle, 8 reales or 16 food**
+  (`RIFLE_COIN`/`RIFLE_FOOD`, invented `FIC-GONZ-388` with a `ceiling:`: no 1835 price found), in the four towns with a
+  gunsmith only. Tools are a load each; the way-of-going choice still has to carry them; no credit (the list is reckoned
+  against what the family has, before and at the counter).
+- **One copy held** (`sim/keeping.mjs` `userOf`, `COUNTED` rifle and axe): each holder takes a copy, the shared work at home one
+  copy among all of it; refused only when every copy is out, named together (*"Alvin and Mateo have both rifles."*). Beasts
+  unchanged. No rifle left: *"There is no rifle in the house. The gunsmith sells them."*, and a man going to the war goes
+  without (`takeToWar` → `'none'`, `warRifleWords`).
+- **The death rule** (replaces §4b's `ceiling:`): the rifle a man carried to the war is **lost with him** if he is killed,
+  captured or taken prisoner (`homeAgain` → `loseTool`), said in the story. Open for the owner: whether men who surrendered
+  should get theirs back.
+- **Study rerun** ([record](docs/evidence/rifle-food-study.json) `afterTools`): families nobody plays **bought no rifles** - their
+  director never sends anybody to the shops. 14 rifles lost with the 14 dead, 14 families ended without one; food, hunger
+  (743 household-ticks) and deaths (the same 14) as before within a tenth of a food.
+- **Tests.** New `tests/tools.test.mjs` (8: counts and old saves, buying, the hoe, two hunters, war with two rifles, the death
+  rule, two axes, the load). Changed: `tests/shops.test.mjs` (a second auger is sold), `tests/errands.test.mjs` (the most of a
+  line), `tests/war-rifle.test.mjs` (the rifle is lost with the dead; "went without a rifle"). **Injections**
+  ([record](docs/evidence/tools-injections.json)) over the 14 test files the change touches: **13 of 13 caught**; the family
+  with no rifle by default fails 38 tests across the suite (every hunt), as it should. `npm test`: **1112 pass**.
+- **Browser** (same computer only). `test:errand` extended: a second rifle and an axe bought at the gunsmith and blacksmith,
+  the stock line naming the family's tools, and two hunters out at once (10 checks). Screenshot looked at:
+  `errand-tools-1366.png` (session scratchpad). PASS: errand (10), shops, family-commands, family-panel, panels (2 sizes), lesson, riding, farm, host-view, travel.
+
 ## The owner's four answers: the axe off the land, the rifle to the war, one rifle measured, the way chosen — 2026-09-24 (after v2026.09.24.4; not yet committed or released)
 
 The four questions the errand entry below left open, answered by the owner the same day and recorded as dated decisions in

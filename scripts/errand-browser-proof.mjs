@@ -233,6 +233,43 @@ try {
   assert.equal(said.length, 2, `the family's story does not say what was done: ${said}`);
   ok(`the goods come home: 13 reales (14 for the cotton, 1 paid for seed) and 2 more seed in the house, the wagon free again, and the story says so: "${said.join('" "')}"`);
 
+  // ----------------------------------------------------------- a second rifle bought, and two hunters out at once
+  // Owner, 2026-09-24: "players should be able to send someone to buy more rifles, hoes, tools in general" (docs/TOWNS.md §4c).
+  await page.waitForFunction(id => { const one = window.__snapshot?.world.entities.find(e => e.id === id); return one && !one.chore && !one.travel; }, second.id, { timeout: 120000 });
+  await asMain(page, first.id);
+  await page.locator(`.panel-row[data-entity-id="${first.id}"] .panel-icon[data-key="visit-shop"]`).click();
+  await page.locator('#errand').waitFor({ state: 'visible' });
+  await page.waitForFunction(() => document.querySelector('#errand [data-line="gunsmith:buy-rifle"]'));
+  const rifleLine = await page.evaluate(() => { const line = document.querySelector('#errand [data-line="gunsmith:buy-rifle"]'); return { label: line.querySelector('.errand-label').textContent, price: line.querySelector('.errand-price').textContent, shut: line.dataset.shut === 'true' }; });
+  observed.rifleLine = rifleLine;
+  assert.equal(rifleLine.shut, false, 'a second rifle was refused to a family that has one');
+  await setCount(page, 'gunsmith:buy-rifle', 1);
+  await page.locator('#errand [data-line="gunsmith:buy-rifle"] [data-act="pay-coin"]').click();
+  await setCount(page, 'blacksmith:tool-axe', 1);
+  await page.locator('#errand [data-line="blacksmith:tool-axe"] [data-act="pay-coin"]').click();
+  await page.waitForFunction(() => !document.querySelector('#errand-send').disabled && /Rides the horse/.test(document.querySelector('#errand-how').textContent), null, { timeout: 15000 });
+  observed.toolsStock = await page.evaluate(() => document.querySelector('#errand-stock').textContent);
+  assert.match(observed.toolsStock, /Tools: a rifle · a hoe · a felling axe/);
+  await page.locator('#errand [data-line="gunsmith:buy-rifle"]').scrollIntoViewIfNeeded();
+  await page.screenshot({ path: join(SHOTS, 'errand-tools-1366.png') });
+  await page.locator('#errand-send').click();
+  await page.locator('#errand').waitFor({ state: 'hidden', timeout: 10000 });
+  await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.chore?.id === 'visit-shop', first.id, { timeout: 15000 });
+  await page.waitForFunction(id => { const one = window.__snapshot?.world.entities.find(e => e.id === id); return one && !one.chore && !one.travel; }, first.id, { timeout: 120000 });
+  const bought = app.state.world.households['hh-1'];
+  assert.equal(bought.rifles, 2, `the family has ${bought.rifles ?? 1} rifles after buying one`);
+  // Both hunt at once, each from their own icon.
+  for (const hunter of [first, second]) {
+    await asMain(page, hunter.id);
+    const hunt = page.locator(`.panel-row[data-entity-id="${hunter.id}"] .panel-icon[data-key="hunt-timber"]`);
+    await hunt.waitFor({ state: 'visible', timeout: 15000 });
+    await hunt.click();
+    await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.chore?.id === 'hunt-timber', hunter.id, { timeout: 15000 });
+  }
+  const out = await page.evaluate(ids => ids.map(id => window.__snapshot.world.entities.find(e => e.id === id).chore?.id), [first.id, second.id]);
+  assert.deepEqual(out, ['hunt-timber', 'hunt-timber']);
+  ok(`a second rifle is bought at the gunsmith ("${rifleLine.label}: ${rifleLine.price}", the stock line "${observed.toolsStock}"), and ${first.name} and ${second.name} are both out hunting at once`);
+
   assert.deepEqual(errors, [], `the page threw: ${errors.join(' | ')}`);
   ok('no page errors');
   writeFileSync('docs/evidence/errand-browser.json', `${JSON.stringify({

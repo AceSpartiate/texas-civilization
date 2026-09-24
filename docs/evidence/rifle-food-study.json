@@ -257,5 +257,88 @@
       "rifleAwayHouseTicks": 3589,
       "deathLines": 66
     }
-  ]
+  ],
+  "afterTools": {
+    "record": "Rerun 2026-09-24 after tools were counted and sold (docs/TOWNS.md §4c): the rifle a man carried is lost if he is killed or taken, and a family can buy another at the gunsmith. Families nobody plays never send anybody to the shops (sim/neighbours.mjs has no errand to town), so none bought one.",
+    "classes": [
+      {
+        "seed": "rifle-a",
+        "meanFood": [
+          40.4,
+          60.4,
+          12.9
+        ],
+        "hungryHouseTicks": 162,
+        "housesEverHungry": 8,
+        "dead": 3,
+        "deadIds": [
+          "hh-3-elena",
+          "hh-14-thomas",
+          "hh-15-thomas"
+        ],
+        "riflesBought": 0,
+        "riflesLost": 3,
+        "familiesEndingWithNoRifle": 3
+      },
+      {
+        "seed": "rifle-b",
+        "meanFood": [
+          31.4,
+          55.2,
+          13.8
+        ],
+        "hungryHouseTicks": 193,
+        "housesEverHungry": 8,
+        "dead": 3,
+        "deadIds": [
+          "hh-2-thomas",
+          "hh-9-mateo",
+          "hh-12-thomas"
+        ],
+        "riflesBought": 0,
+        "riflesLost": 3,
+        "familiesEndingWithNoRifle": 3
+      },
+      {
+        "seed": "rifle-c",
+        "meanFood": [
+          34,
+          64.8,
+          13.4
+        ],
+        "hungryHouseTicks": 161,
+        "housesEverHungry": 8,
+        "dead": 2,
+        "deadIds": [
+          "hh-6-elena",
+          "hh-11-thomas"
+        ],
+        "riflesBought": 0,
+        "riflesLost": 2,
+        "familiesEndingWithNoRifle": 2
+      },
+      {
+        "seed": "rifle-d",
+        "meanFood": [
+          33.6,
+          77,
+          9.8
+        ],
+        "hungryHouseTicks": 227,
+        "housesEverHungry": 10,
+        "dead": 6,
+        "deadIds": [
+          "hh-1-thomas",
+          "hh-8-thomas",
+          "hh-10-thomas",
+          "hh-11-elena",
+          "hh-12-thomas",
+          "hh-14-thomas"
+        ],
+        "riflesBought": 0,
+        "riflesLost": 6,
+        "familiesEndingWithNoRifle": 6
+      }
+    ]
+  }
 }

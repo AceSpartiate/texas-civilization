@@ -20,6 +20,7 @@ import { learn } from '../sim/knowledge.mjs';
 import { beginSecondPeriod } from '../sim/periods.mjs';
 import { choreAvailability } from '../sim/chores.mjs';
 import { userOf } from '../sim/keeping.mjs';
+import { toolCount } from '../sim/tools.mjs';
 import { readSave, writeSave } from '../server/storage.mjs';
 import { createSettledWorld, taught } from './support/settled.mjs';
 
@@ -83,7 +84,8 @@ test('a man who turns out takes the rifle: nobody at home can hunt or practise, 
   validateWorld(world);
 });
 
-test('a man killed or taken holds nothing: the family has its rifle again', () => {
+// Amended the same day (docs/TOWNS.md §4c): the gunsmith sells rifles now, so the one he carried is lost with him.
+test('a man killed or taken holds nothing, and the rifle he carried is lost with him', () => {
   for (const fate of ['dead', 'captured', 'prisoner']) {
     const world = called();
     const { household, volunteer } = turnOut(world);
@@ -94,6 +96,7 @@ test('a man killed or taken holds nothing: the family has its rifle again', () =
     stepWorld(world);
     assert.equal(userOf(world, household, 'rifle'), null, `a man ${fate} still holds the rifle`);
     assert.equal(volunteer.carries, undefined, `the rifle is still written down with a man ${fate}`);
+    assert.equal(toolCount(household, 'rifle'), 0, `the rifle came home without the man ${fate}`);
   }
 });
 
@@ -105,7 +108,7 @@ test('a man who turns out while somebody has the rifle out goes without it, and 
   assert.equal(userOf(world, household, 'rifle'), hunter);
   applyAction(world, household.id, { action: 'turn-out', entityId: volunteer.id });
   assert.equal(userOf(world, household, 'rifle'), hunter, 'the volunteer took the rifle out of the hunter\'s hands');
-  assert.ok(world.events.some(e => e.actorId === volunteer.id && /went without the family's rifle/.test(e.text)), 'the story does not say he went without it');
+  assert.ok(world.events.some(e => e.actorId === volunteer.id && /went without a rifle/.test(e.text)), 'the story does not say he went without it');
   const dir = mkdtempSync(join(tmpdir(), 'texas-war-'));
   try {
     for (let t = 0; t < 200 && hunter.chore; t++) stepWorld(world);
