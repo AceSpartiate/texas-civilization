@@ -1,6 +1,6 @@
 {
   "record": "family-commands-browser",
-  "date": "2026-09-22",
+  "date": "2026-09-24",
   "verdict": "PASS",
   "browser": "153.0.8010.53",
   "task": "docs/FAMILY_PANEL.md §11: orders from the panel in a press each, idle shown, an \"!\" for every person something waits on that takes the camera there and opens it, a main person held by the server (set-main) whose row alone has the journeys, and one menu for a call with a tick per person who may answer.",
@@ -13,11 +13,11 @@
     "before anybody is chosen the main person is the principal (hh-1-parent-1), starred on the panel, and the household holds nobody",
     "a rider stopped for hh-1-child-1: an \"!\" on that row alone (\"Ned Falk has stopped to speak with Jasper Proofwright. And 1 more. Go to Jasper Proofwright and answer.\"); pressing it took the camera to them (0.000 mi) and opened the conversation, the keyboard on \"encounter\"",
     "letting the rider ride on clears the \"!\"",
-    "a call to the family marks the 4 people the server lets answer it; pressing hh-1-child-2's \"!\" opened the one menu for it (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.\") with a row each, the keyboard on hh-1-parent-1's",
+    "a call to the family marks the 8 people the server lets answer it; pressing hh-1-child-6's \"!\" opened the one menu for it (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.\") with a row each, the keyboard on hh-1-parent-1's",
     "answering from the menu (nobody goes) clears the \"!\" from everybody who could have answered, and the menu goes",
-    "10 presses (0 refused in the server's words and another tried) set 10 of 20 people to work without finding anybody on the map; each icon glowed when the server took it, and the 4 still at it are not idle (1: work, 2: visit-shop, 1: make-furniture, 2: make-furniture, 3: make-furniture, 4: make-furniture, 5: make-furniture, 6: make-furniture, 7: make-furniture, 8: make-furniture)",
-    "of the 10 not given work, 8 are shown idle (something is open to them) and 2 are not (too young to be sent)",
-    "a stale \"harvest-field\" pressed for hh-1-parent-1 is refused by the server, in its words: \"The field is not ready.\"",
+    "12 presses (0 refused in the server's words and another tried) set 12 of 20 people to work without finding anybody on the map; each icon glowed when the server took it, and the 2 still at it are not idle (1: work, 2: visit-shop, 1: make-furniture, 2: make-furniture, 3: make-furniture, 4: make-furniture, 5: make-furniture, 6: make-furniture, 7: make-furniture, 8: make-furniture, 9: make-furniture, 10: make-furniture)",
+    "of the 8 not given work, 6 are shown idle (something is open to them) and 2 are not (too young to be sent)",
+    "hh-1-parent-2, at visit-shop, has no refused order drawn; a stale \"plant-field\" put back on the bar and pressed is refused by the server, in its words: \"Rhoda Proofwright is already walking home from Gonzales.\", and the work goes on",
     "hh-1-child-1 is left standing about (their work finished), and the row says \"Idle\" and marks the portrait",
     "hh-1-parent-2's errand stopped to ask (\"Rhoda Proofwright is in town. Which shop?\"): the \"!\" took the camera to them and opened the question on their card, the keyboard on \"Go to the store\"",
     "answering it clears the \"!\"",
@@ -27,7 +27,7 @@
     "hh-1-parent-2's row alone has House, which opens the rooms",
     "after a reload the same person is starred, and the card that opens with nobody chosen is theirs",
     "pressing the main person's star from Gonzales brings the camera back to them (0.000 mi); a double-click on a portrait chooses another",
-    "over 12 ticks the panel added 0 nodes and changed 360 attributes across 20 rows: kept, not rebuilt",
+    "over 11 ticks the panel added 0 nodes and changed 340 attributes across 20 rows: kept, not rebuilt",
     "at 400 px the page does not scroll sideways, the \"!\" is on screen and big enough to press, and pressing it opens the offer on the docked card",
     "the settlement's call marks 2 people (hh-1-thomas, hh-1-elena), and 2 of them may turn out",
     "at 400 px the call's menu opens from an \"!\" on screen with 2 rows and its confirm within reach, and closes",
@@ -53,7 +53,11 @@
         "hh-1-parent-1",
         "hh-1-parent-2",
         "hh-1-child-1",
-        "hh-1-child-2"
+        "hh-1-child-2",
+        "hh-1-child-3",
+        "hh-1-child-4",
+        "hh-1-child-5",
+        "hh-1-child-6"
       ],
       "text": "A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.",
       "kind": "supplies",
@@ -84,6 +88,30 @@
             "can": true,
             "checked": false,
             "sent": false
+          },
+          {
+            "id": "hh-1-child-3",
+            "can": true,
+            "checked": false,
+            "sent": false
+          },
+          {
+            "id": "hh-1-child-4",
+            "can": true,
+            "checked": false,
+            "sent": false
+          },
+          {
+            "id": "hh-1-child-5",
+            "can": true,
+            "checked": false,
+            "sent": false
+          },
+          {
+            "id": "hh-1-child-6",
+            "can": true,
+            "checked": false,
+            "sent": false
           }
         ],
         "said": ""
@@ -92,22 +120,22 @@
         "radio",
         "radio",
         "radio",
+        "radio",
+        "radio",
+        "radio",
+        "radio",
         "radio"
       ],
       "focused": "hh-1-parent-1",
-      "card": "hh-1-child-2",
+      "card": "hh-1-child-6",
       "opened": {
-        "id": "hh-1-child-2",
+        "id": "hh-1-child-6",
         "kind": "call",
         "target": "call-menu-one"
       },
       "answered": "nobody goes"
     },
     "idleBeforeOrders": [
-      "hh-1-child-3",
-      "hh-1-child-4",
-      "hh-1-child-5",
-      "hh-1-child-6",
       "hh-1-child-7",
       "hh-1-child-8",
       "hh-1-child-9",
@@ -170,15 +198,23 @@
           "id": "hh-1-child-8",
           "key": "make-furniture",
           "glowed": true
+        },
+        {
+          "id": "hh-1-child-9",
+          "key": "make-furniture",
+          "glowed": true
+        },
+        {
+          "id": "hh-1-child-10",
+          "key": "make-furniture",
+          "glowed": true
         }
       ],
-      "presses": 10,
+      "presses": 12,
       "refusals": [],
       "stillAtIt": [
         "hh-1-parent-1",
-        "hh-1-parent-2",
-        "hh-1-child-7",
-        "hh-1-child-8"
+        "hh-1-parent-2"
       ],
       "rows": [
         {
@@ -197,7 +233,7 @@
             "visit-shop"
           ],
           "idle": false,
-          "need": "asking"
+          "need": null
         },
         {
           "id": "hh-1-child-1",
@@ -244,19 +280,15 @@
         {
           "id": "hh-1-child-7",
           "role": "daughter",
-          "active": [
-            "make-furniture"
-          ],
-          "idle": false,
+          "active": [],
+          "idle": true,
           "need": null
         },
         {
           "id": "hh-1-child-8",
           "role": "daughter",
-          "active": [
-            "make-furniture"
-          ],
-          "idle": false,
+          "active": [],
+          "idle": true,
           "need": null
         },
         {
@@ -332,10 +364,10 @@
       ]
     },
     "refusal": {
-      "id": "hh-1-parent-1",
-      "key": "harvest-field",
-      "shown": "The field is not ready.",
-      "server": "The field is not ready."
+      "id": "hh-1-parent-2",
+      "key": "plant-field",
+      "server": "Rhoda Proofwright is already walking home from Gonzales.",
+      "chore": "visit-shop"
     },
     "idleHow": "their work finished",
     "idle": {
@@ -361,11 +393,16 @@
     },
     "mainPerson": {
       "mother": "hh-1-parent-2",
+      "principalJourneys": [
+        "travel-home"
+      ],
+      "motherJourneys": [
+        "travel-gonzales"
+      ],
       "rows": {
         "hh-1-parent-2": [
           "survey-plot",
           "plant-field",
-          "harvest-field",
           "fence-plot",
           "hunt-timber",
           "practise-shooting",
@@ -377,7 +414,6 @@
           "fish-the-water",
           "cut-bee-tree",
           "travel-gonzales",
-          "travel-home",
           "visit",
           "work",
           "rest"
@@ -387,9 +423,9 @@
       "refused": "Only your main person can be asked that. Choose them with the star on their row."
     },
     "churn": {
-      "ticks": 12,
+      "ticks": 11,
       "nodesAdded": 0,
-      "attributeChanges": 360,
+      "attributeChanges": 340,
       "rows": 20
     },
     "phone": {

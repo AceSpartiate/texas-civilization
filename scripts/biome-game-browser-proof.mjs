@@ -19,6 +19,7 @@ import { huntFacts } from '../sim/hunting.mjs';
 import { fenceWork } from '../sim/fields.mjs';
 import { plotFacts } from '../sim/survey.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { taught } from '../tests/support/settled.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -31,7 +32,11 @@ const grid = (bounds, side) => {
   return points;
 };
 
-const app = createClassroom({ seed: 'biome-game-proof', playerCount: 5, tickMs: 600, worldFactory: (seed, count) => createGonzalesWorld(seed, count, { map: 'colonies' }) });
+const app = createClassroom({ seed: 'biome-game-proof', playerCount: 5, tickMs: 600, worldFactory: (seed, count) => taught(createGonzalesWorld(seed, count, { map: 'colonies' })) });
+// The guided beginning already walked (`taught`): since 2026-09-21 a family a student has joined is held to one step at a
+// time (sim/lesson.mjs, docs/LESSON.md), and the hunt is step nine, so a hunt sent the moment the family is on its land is
+// refused "Not yet - first, put somebody to work." That order is proved by test:lesson; this proves what the country
+// changes in play once the family is free to do it.
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [];

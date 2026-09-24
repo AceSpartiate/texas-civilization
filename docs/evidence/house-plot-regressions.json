@@ -1,45 +1,59 @@
 {
-  "date": "2026-09-16T10:00:51.428Z",
+  "date": "2026-09-24T02:04:26.381Z",
   "isolation": "Node load hooks; production files unchanged",
   "result": [
     {
       "test": "every period plan",
+      "file": "tests/house-plot.test.mjs",
       "mutation": "room: 4, rest: 0.85",
       "replacement": "room: 9, rest: 0.85",
       "caught": true
     },
     {
       "test": "the plot refuses",
+      "file": "tests/house-plot.test.mjs",
       "mutation": "if (cellsOf(p).some(cell => taken.has(cell)))",
       "replacement": "if (false)",
       "caught": true
     },
     {
       "test": "a family on the real land plans",
+      "file": "tests/house-plot.test.mjs",
       "mutation": "household.house.plan = 'own';",
       "replacement": "household.house.plan = 'round-log';",
       "caught": true
     },
     {
       "test": "the house goes up stage by stage",
+      "file": "tests/house-plot.test.mjs",
       "mutation": "takeLogs(household.logs, stage.logs);",
       "replacement": "/* regression: free logs */",
       "caught": true
     },
     {
       "test": "a course above the sixth",
+      "file": "tests/house-plot.test.mjs",
       "mutation": "pieced(host) ? 'house' : HOUSES[host.house.layout].name.toLowerCase()",
       "replacement": "HOUSES[host.house.layout].name.toLowerCase()",
       "caught": true
     },
     {
       "test": "a chimney waits",
+      "file": "tests/house-plot.test.mjs",
       "mutation": "if (house.plan !== undefined && house.plan !== 'own' && !PLANS[house.plan])",
       "replacement": "if (false)",
       "caught": true
     },
     {
       "test": "families nobody plays",
+      "file": "tests/house-plot.test.mjs",
+      "mutation": "&& !fetchesLogs(world, household, homeSite)",
+      "replacement": "&& true",
+      "caught": true
+    },
+    {
+      "test": "a family nobody plays with no timber of its own",
+      "file": "tests/biome-game.test.mjs",
       "mutation": "treeless ? 'jacal'",
       "replacement": "treeless ? 'round-log'",
       "caught": true

@@ -290,20 +290,47 @@ try {
   if (unorderable.length) ok(`of the ${unorderable.length} not given work, ${unorderable.filter(row => row.idle).length} are shown idle (something is open to them) and ${unorderable.filter(row => !row.idle).length} are not (too young to be sent)`);
 
   // --------------------------------------------------------------------------------------- a refusal, in the server's words
-  // A stale icon: one the page shows shut, opened by hand as if the tick had not caught up, and pressed. The server decides.
-  const stale = await page.evaluate(() => {
-    const icon = [...document.querySelectorAll('.panel-icon[aria-disabled="true"][data-action="chore"]')].find(button => button.dataset.note);
-    if (!icon) return null;
-    icon.removeAttribute('aria-disabled');
-    return { id: icon.dataset.entityId, key: icon.dataset.key, shown: icon.dataset.note };
-  });
-  assert.ok(stale, 'no refused icon on the panel to press');
-  await asMain(page, stale.id);
-  await page.locator(`.panel-row[data-entity-id="${stale.id}"] .panel-icon[data-key="${stale.key}"]`).click();
+  // A stale icon: an order the page drew a moment ago, pressed after the server stopped allowing it. The server decides.
+  // Until 2026-09-22 a refused order was drawn dimmed on the bar and this took one of those and opened it by hand. Since the
+  // owner's action-bar rule of that day (docs/FAMILY_PANEL.md, commit 8e6ecd5) a refused order is not drawn at all - only
+  // what the person may do now, and the work they are doing - so the only `aria-disabled` icon left is the glowing one, and
+  // pressing it proved nothing. What is proved now is the same thing in the current bar: somebody at work has no refused
+  // order drawn, and an order put back on their bar by hand, as a tick that had not caught up would leave it, and pressed,
+  // is refused by the server in its own words and changes nothing.
+  // Somebody still at a chore: furniture is quick, so it is often only the errand to town. A refused order changes nothing
+  // (asserted below), so the errand's question further down is not disturbed by it.
+  const atChore = plan.filter(entry => entry.key !== 'work' && entry.id !== principalId && world().entities[entry.id].chore);
+  const busyId = (atChore.find(entry => !errands.includes(entry.key)) || atChore[0])?.id;
+  assert.ok(busyId, 'nobody still at a chore to hold a stale order');
+  await asMain(page, busyId);
+  const busyBar = await page.evaluate(id => [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon`)]
+    .map(icon => ({ key: icon.dataset.key, disabled: icon.getAttribute('aria-disabled') === 'true', active: icon.dataset.active === 'true' })), busyId);
+  assert.deepEqual(busyBar.filter(icon => icon.disabled && !icon.active), [], `a refused order is drawn on ${busyId}'s bar: ${JSON.stringify(busyBar)}`);
+  const choreBefore = world().entities[busyId].chore?.id;
+  const stale = await page.evaluate(id => {
+    const row = document.querySelector(`.panel-row[data-entity-id="${id}"]`);
+    const drawn = new Set([...row.querySelectorAll('.panel-icon')].map(icon => icon.dataset.key));
+    // An order the page draws open for somebody else, which it does not draw for this person.
+    const open = [...document.querySelectorAll('.panel-icon[data-action="chore"]:not([aria-disabled="true"]):not([data-active="true"])')]
+      .find(icon => icon.dataset.entityId !== id && !drawn.has(icon.dataset.key));
+    if (!open) return null;
+    const icon = open.cloneNode(true);
+    icon.dataset.entityId = id;
+    icon.dataset.staleProof = 'true';
+    row.querySelector('.panel-icons').append(icon);
+    icon.click();
+    return { id, key: icon.dataset.key };
+  }, busyId);
+  assert.ok(stale, `no order to put back on ${busyId}'s bar`);
   await page.waitForFunction(() => (document.querySelector('#error')?.textContent || '').trim().length > 0, null, { timeout: 10000 });
   stale.server = (await page.locator('#error').textContent()).trim();
+  assert.doesNotMatch(stale.server, /^Not yet/, 'the lesson refused it, not the person’s work');
+  assert.equal(world().entities[busyId].chore?.id, choreBefore, `${busyId}'s work changed on a refused order`);
+  stale.chore = choreBefore;
+  // The hand-made icon taken off again: the bar is left as the page drew it for everything after this.
+  await page.evaluate(() => document.querySelectorAll('[data-stale-proof]').forEach(icon => icon.remove()));
   measured.refusal = stale;
-  ok(`a stale "${stale.key}" pressed for ${stale.id} is refused by the server, in its words: "${stale.server}"`);
+  ok(`${stale.id}, at ${stale.chore}, has no refused order drawn; a stale "${stale.key}" put back on the bar and pressed is refused by the server, in its words: "${stale.server}", and the work goes on`);
 
   // ------------------------------------------------------------------------------------------------------------- idle
   const asker = plan.find(entry => errands.includes(entry.key))?.id;
@@ -412,7 +439,20 @@ try {
   // do it; that the household holds nobody until somebody chooses is asked at the top of this run instead. Back to the
   // principal, so what the star proves below is that choosing the mother *moves* the journeys, the yard and rest to her row.
   await asMain(page, principalId);
-  assert.ok(await page.locator(`.panel-row[data-entity-id="${principalId}"] .panel-icon[data-key="travel-gonzales"]`).count(), 'the principal, main until somebody is chosen, has no journey icon');
+  // The journeys a main person's bar draws are the ones open to them where they stand (public/family-panel.js: not on the
+  // road, and not to where they already are). Until 2026-09-22 the other one was drawn too, refused and dimmed, and this
+  // asked for "Travel to Gonzales" on a principal who was standing in Gonzales from the offer above; since the owner's
+  // action-bar rule of that day (docs/FAMILY_PANEL.md, 8e6ecd5) a refused order is not drawn, so what is asked is that
+  // every journey the server would take from them is on their bar.
+  const journeysOpen = id => {
+    const entity = world().entities[id], home = world().households['hh-1'].homeSiteId;
+    if (entity.travel) return [];
+    return [entity.location?.siteId !== 'gonzales' && 'travel-gonzales', entity.location?.siteId !== home && 'travel-home'].filter(Boolean);
+  };
+  const principalJourneys = journeysOpen(principalId);
+  assert.ok(principalJourneys.length, `the principal is on the road, so no journey is open to test (${JSON.stringify(world().entities[principalId].location)})`);
+  const principalBar = await page.evaluate(id => [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon`)].map(icon => icon.dataset.key), principalId);
+  assert.ok(principalJourneys.every(key => principalBar.includes(key)), `the principal, main until somebody is chosen, lacks the journeys open to him (${principalJourneys}): ${principalBar}`);
   await page.locator(`.panel-row[data-entity-id="${mother}"] .panel-focus`).click();
   await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.focused === 'true', mother);
   assert.equal(world().households['hh-1'].mainId, mother, 'the star did not reach the server');
@@ -421,7 +461,9 @@ try {
   assert.equal(await page.locator('.panel-row[data-focused=true]').count(), 1);
   await page.waitForFunction(({ mother, principalId }) => document.querySelector(`.panel-row[data-entity-id="${mother}"] .panel-icon[data-key="rest"]`) && !document.querySelector(`.panel-row[data-entity-id="${principalId}"] .panel-icon[data-key="rest"]`), { mother, principalId }, { timeout: 10000 });
   const rowsNow = await page.evaluate(({ mother, principalId }) => Object.fromEntries([mother, principalId].map(id => [id, [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon`)].map(icon => icon.dataset.key)])), { mother, principalId });
-  assert.ok(['travel-gonzales', 'travel-home', 'work', 'rest'].every(key => rowsNow[mother].includes(key)), `the main person's row lacks the journeys: ${rowsNow[mother]}`);
+  const motherOwn = [...journeysOpen(mother), 'work', 'rest'];
+  assert.ok(journeysOpen(mother).length, `the mother is on the road, so no journey moved to her row can be seen`);
+  assert.ok(motherOwn.every(key => rowsNow[mother].includes(key)), `the main person's row lacks the journeys open to her (${motherOwn}): ${rowsNow[mother]}`);
   assert.ok(!['travel-gonzales', 'travel-home', 'work', 'rest'].some(key => rowsNow[principalId].includes(key)), `the principal's row keeps the journeys: ${rowsNow[principalId]}`);
   // The server's refusal, in its words, for an order the page no longer offers: the principal sent to town as this student.
   const studentCookie = (await context.cookies()).map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
@@ -429,7 +471,7 @@ try {
   const refusedWords = (await refusedTravel.json()).error;
   assert.notEqual(refusedTravel.status, 200, 'the principal was sent to town while somebody else is the main person');
   assert.match(refusedWords, /Only your main person/, refusedWords);
-  measured.mainPerson = { mother, rows: rowsNow, refused: refusedWords };
+  measured.mainPerson = { mother, principalJourneys, motherJourneys: journeysOpen(mother), rows: rowsNow, refused: refusedWords };
   ok(`the star makes ${mother} the main person on the server (household.mainId), the journeys, the yard and rest move to her row and off the principal's, and the principal sent to town is refused: "${refusedWords}"`);
   // The rooms are opened from the main person's row.
   await page.locator(`.panel-row[data-entity-id="${mother}"] .panel-house`).waitFor({ state: 'visible' });

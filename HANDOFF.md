@@ -1,5 +1,42 @@
 # Claude handoff — Astra foundation
 
+## Four stale proofs driven through today's game — 2026-09-23 (after v2026.09.23.2; not yet committed or released)
+
+The four browser and regression proofs that failed on `cf32263` and `c010022` alike. Each failure was read at the step it
+failed and checked against the owner-decided docs; **every one was the proof out of date, none was the game broken**, so no
+game file changed and no unit test was added. Each proof still proves what it was written to prove, through the current game.
+
+- **`node scripts/house-plot-regression-proof.mjs`** — its *families nobody plays* mutation (`treeless ? 'jacal'` →
+  `'round-log'`) left its test passing. On 2026-09-19 (`ced5a9d`, docs/BIOME_GAMEPLAY.md §3.2) that test stopped asserting
+  a jacal and began asserting that a family with no timber *fetches its logs*, and says the jacal "is held in
+  tests/biome-game.test.mjs". Now each case names the test file that holds it: the jacal mutation runs against that biome
+  test, and *families nobody plays* gets the mutation its test does guard (`&& !fetchesLogs(...)` → `&& true`: nobody
+  fetches). 8 cases, each failing exactly one selected test; both selected tests pass unmutated
+  ([record](docs/evidence/house-plot-regressions.json)).
+- **`node scripts/biome-game-browser-proof.mjs`** — the hunt was refused *"Not yet - first, put somebody to work."*: the
+  guided start (docs/LESSON.md, 2026-09-21, after the proof was written) puts the hunt ninth. The class now starts `taught`
+  (`tests/support/settled.mjs`), as `test:family-commands` does; the lesson's own order is `test:lesson`'s. 6 checks; the
+  turkey is drawn as a turkey ([record](docs/evidence/biome-game-browser.json), shots looked at).
+- **`node scripts/field-art-browser-proof.mjs`** — pressed a *Roll the die* button and a journal close that the
+  family-making walk (public/creation.js, owner 2026-09-17) replaced. Now walks it with `meetFamily`, and asserts the walk
+  was shown. The art counts are unchanged: 7 timber stumps, 3 brush piles, none on prairie, no fire
+  ([record](docs/evidence/field-art-browser.json)).
+- **`npm run test:family-commands`** — two checks read refused icons, which the owner's action-bar rule of 2026-09-22
+  (docs/FAMILY_PANEL.md, `8e6ecd5`) stopped drawing. (1) *A stale order refused in words* picked an `aria-disabled` icon;
+  the only one left is the glowing *Doing this now.* one, and the check timed out. Now: the person at a chore has **no
+  refused order drawn**, and an order drawn open for somebody else, put back on their bar by hand as a lagging tick would
+  leave it and pressed, is refused by the server in its words and their work is unchanged. (2) *"the principal … has no
+  journey icon"* asked for *Travel to Gonzales* on a principal standing in Gonzales. Now: every journey open to a person
+  where they stand (not on the road, not to where they are) is on their bar, the principal's before the star and the
+  mother's after; the "moved off the principal's row" check is unchanged. Each new check was seen to fail: the page drawing
+  refused icons again stopped the run at (1), with every check before it passing, and *Return home* never offered stopped it
+  at (2). The hand-made icon is taken off again after (1), so later shots show the bar as the page drew it. 23 checks
+  ([record](docs/evidence/family-commands-browser.json), shots looked at).
+- **Checked:** `npm test` **1053**, 0 failed. Browser, same computer only: the four above, and `house-plot-browser-proof`,
+  lesson 33, panels 10 at 2 sizes, family-panel 17, travel-drawn 17 pass. **`test:farm` is flaky, and was before this:**
+  its ground audit finds the kept ground stale at tick 1, minute 20 (3.1% of the screen) in about half of runs — 3 of 4 at
+  a clean `cf32263`, 1 of 4 at `c010022`, with no game file changed; the other runs pass whole. Not fixed here.
+
 ## Houses as far apart as they are drawn — 2026-09-23 (after v2026.09.23.1; not yet committed or released)
 
 Owner: *"fix the overlapping houses so spacing matches the drawings."* The house was drawn at the map's symbol size (an
@@ -37,15 +74,13 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   proof now finishes the second house by hand only while its handle is still the class's world. Design and numbers:
   [WOODS_AND_BUILDING.md §6.5](docs/WOODS_AND_BUILDING.md).
 - **Checked:** `npm test` **1053** (1044 + 9). Browser, same computer: house-plot proof passes through the second house;
-  lesson 33 checks, panels 10 checks at 2 sizes, farm, travel-drawn and relay pass. **Four proofs fail, and fail identically
-  on a clean checkout of `cf32263`, so not from this change:** `house-plot-regression-proof` (its *families nobody plays*
-  mutation no longer fails its test), `biome-game-browser-proof` (*"Not yet - first, put somebody to work."*, the lesson
-  gate), `family-commands-browser-proof` (*"the principal ... has no journey icon"*), `field-art-browser-proof` (no *Roll the
-  die* button).
+  lesson 33 checks, panels 10 checks at 2 sizes, farm, travel-drawn and relay pass. Four other proofs failed here, and
+  failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
+  above.**
 
 ## Released as v2026.09.23.2 — 2026-09-23
 
-**[v2026.09.23.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.23.2)**, from `e1c4a60`: houses are spaced, and kept off water, the land line and fields, by their drawn footprint (`sim/house-footprint.mjs`, shared by server and page); the preview tints red over another house; old saves keep their houses where they stood. 1053 tests; house-plot proof covers a refused and an accepted second house. Already failing before this change, on a clean `cf32263` too: `house-plot-regression-proof`, `biome-game-browser-proof`, `family-commands-browser-proof`, `field-art-browser-proof`.
+**[v2026.09.23.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.23.2)**, from `e1c4a60`: houses are spaced, and kept off water, the land line and fields, by their drawn footprint (`sim/house-footprint.mjs`, shared by server and page); the preview tints red over another house; old saves keep their houses where they stood. 1053 tests; house-plot proof covers a refused and an accepted second house. Four proofs were already failing before this change, on a clean `cf32263` too (`house-plot-regression-proof`, `biome-game-browser-proof`, `family-commands-browser-proof`, `field-art-browser-proof`); all four were stale, not the game, and are fixed after this release (*Four stale proofs*, above).
 
 ## Released as v2026.09.23.1 — 2026-09-23
 
