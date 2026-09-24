@@ -156,6 +156,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
 
+## Released as v2026.09.23.3 — 2026-09-23
+
+**[v2026.09.23.3](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.23.3)**, from `22b1f03`: chimneys stand against their gable wall at every turn (`groundOf`, `standChimneys`, HIST-GONZ-025); houses drawn no bigger than their ground at any zoom, one symbol at the home below 16 px (`houseScale`, `HOUSE_LEGIBLE`); the four stale browser proofs driven through today's game (`49388ff`). 1063 tests; house-plot, house-plot-regression, family-panel, panels, lesson, travel-drawn proofs pass. Known and not from this work: `test:farm` flakes at tick 1, `test:host-view` times out waiting for `#selection` on a clean `49388ff`.
+
 ## Released as v2026.09.23.2 — 2026-09-23
 
 **[v2026.09.23.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.23.2)**, from `e1c4a60`: houses are spaced, and kept off water, the land line and fields, by their drawn footprint (`sim/house-footprint.mjs`, shared by server and page); the preview tints red over another house; old saves keep their houses where they stood. 1053 tests; house-plot proof covers a refused and an accepted second house. Four proofs were already failing before this change, on a clean `cf32263` too (`house-plot-regression-proof`, `biome-game-browser-proof`, `family-commands-browser-proof`, `field-art-browser-proof`); all four were stale, not the game, and are fixed after this release (*Four stale proofs*, above).
