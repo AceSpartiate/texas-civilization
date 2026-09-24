@@ -481,6 +481,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
 
+## Released as v2026.09.24.4 — 2026-09-24
+
+**[v2026.09.24.4](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.24.4)**, from `62a45f2`: the errand popup (`sim/errands.mjs`, `public/errand.js`, `/api/errand`) replaces asking on arrival, which is why seed could not be bought; the server picks the quickest mode that carries the load; `userOf` in `sim/keeping.mjs` holds the wagon, ox, horse and rifle for one person at a time. 1094 tests; errand, shops, family-commands, family-panel, panels, lesson, riding, farm, host-view, travel proofs pass. Open for the owner: docs/TOWNS.md §4b (tools not held; the rifle and the war; one rifle per family; choosing a slower way).
+
 ## Released as v2026.09.24.3 — 2026-09-24
 
 **[v2026.09.24.3](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.24.3)**, from `ab16bf8`: the dog-run's passage is 12 ft (owner, 2026-09-24; HIST-GONZ-025), pieces placed to the half cell, `PASSAGE_FEET` in `sim/houseplot.mjs`; old saves widened in place by `widenPassages`; `PICTURE_REACH` {1.6, 1.4, 0.9}. 1081 tests; house-plot, house-plot-regression, family-panel, panels, lesson, host-view proofs pass.
