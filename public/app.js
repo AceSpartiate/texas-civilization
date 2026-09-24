@@ -857,19 +857,84 @@ function houseAt(point) {
  * raised were drawn at the site. Where a tap opens the rooms follows what was drawn: each placed house where it stands
  * (`notePlacedHouse`), and the site only while a house stands at it - on the family's own map and the Host's, the lands
  * whose site `drawWorld` noted in `housesDrawn`.
+ * Zoomed out past `HOUSE_LEGIBLE` (`camera.house.one`) only the family's home is drawn (`landHome`), and only it is tapped.
  * ceiling: every house of the land is drawn as one standing item at the site's y (drawWorld), so a person just behind a
  * placed house can be drawn over its near side; a standing item per placed house, at its own y, is the way out.
  */
 function drawLandHouses(ctx, camera, siteId, q, size, current, completed = []) {
-  const tappable = housesDrawn.has(siteId), placed = Boolean(current?.placement);
-  const pieces = drawHousePlot(ctx, q.x, q.y, size, { house: placed ? { pieces: [] } : current }, plotCatalogue, drawSprite, spriteFrame);
-  let atSite = !placed;
-  for (const home of [...(completed || []), ...(placed ? [current] : [])]) {
-    if (home.placement) { const box = drawPlacedHouse(ctx, camera, home); if (tappable) notePlacedHouse(siteId, box, size); }
-    else { drawHousePlot(ctx, q.x, q.y, size, { house: home }, plotCatalogue, drawSprite, spriteFrame); atSite = true; }
+  const tappable = housesDrawn.has(siteId), placed = Boolean(current?.placement), home = landHome(current, completed);
+  const shown = house => !camera.house.one || house === home;
+  const pieces = shown(current) && !placed ? drawHousePlot(ctx, q.x, q.y, size, { house: current }, plotCatalogue, drawSprite, spriteFrame) : 0;
+  let atSite = shown(current) && !placed;
+  for (const house of [...(completed || []), ...(placed ? [current] : [])]) {
+    if (!shown(house)) continue;
+    if (house.placement) { const box = drawPlacedHouse(ctx, camera, house); if (tappable) notePlacedHouse(siteId, box, size); }
+    else { drawHousePlot(ctx, q.x, q.y, size, { house }, plotCatalogue, drawSprite, spriteFrame); atSite = true; }
   }
   if (tappable && !atSite) housesDrawn.delete(siteId);
   return pieces;
+}
+/**
+ * Two families' houses are never drawn over one another: of `houses` (`{ own, siteId, box, item }`, one a family, as
+ * drawWorld collects them), the ones to draw and the ones left out. Close in none is left out, and none could be drawn over
+ * another: a family's houses stand inside its own land (sim/house-placement.mjs), a neighbour's house as this family last
+ * saw it is drawn at its site, which is `HOUSE_CLEARANCE` (0.35 miles) or more off anybody else's grant (sim/grants.mjs),
+ * and a house is drawn no bigger than its ground. Zoomed out (`one`), each family's one house is `HOUSE_LEGIBLE` high
+ * whatever the ground under it: two families' leagues can lie a tenth of a mile apart, so two houses built by the line
+ * between them, or the family's house built near the site of the neighbour it borders, would be drawn into each other
+ * below about 255 pixels a mile. So the family's own house is kept first, and each other family's only where it would not
+ * be drawn over one already kept (measured by `box`, as it will be drawn); the name over it is still drawn.
+ * ceiling: first kept, first drawn, in the order of the map's sites, so on the Host's map the earlier family of two keeps
+ * its house zoomed out. The sites of the classes laid out so far stand 2.8 miles or more apart (ten seeds of both maps,
+ * 2026-09-23), so only houses built far off their sites can meet; shrinking both into their own land is the way out if a
+ * class shows the Host an empty place where a family lives.
+ */
+function keptApart(houses, one) {
+  if (!one) return { kept: houses, hidden: [] };
+  const boxes = [], kept = [], hidden = [];
+  for (const each of [...houses].sort((a, b) => Number(b.own) - Number(a.own))) {
+    const box = each.box();
+    if (box && boxes.some(other => box.left < other.right && other.left < box.right && box.top < other.bottom && other.top < box.bottom)) { hidden.push(each); continue; }
+    if (box) boxes.push(box);
+    kept.push(each);
+  }
+  return { kept, hidden };
+}
+/** A family's home: the first house it finished (sim/interior.mjs opens its rooms), or the one it is raising. */
+const landHome = (current, completed) => completed?.[0] || current;
+/**
+ * Where the one house `drawLandHouses` draws zoomed out (`camera.house.one`) covers the screen, measured by drawing it
+ * (`drawnBox`) as it will be drawn: at its placement as `drawPlacedHouse` draws it, or at the site.
+ */
+function landHomeBox(camera, q, current, completed) {
+  const home = landHome(current, completed), size = cabinSize(camera), cell = plotCell(size), rotation = home?.placement?.rotation || 0;
+  const at = home?.placement ? camera.toScreen(home.placement) : null;
+  return home && drawnBox(c => drawHousePlot(c, at ? at.x : q.x, at ? at.y + cell : q.y, size, { house: home }, plotCatalogue, drawSprite, spriteFrame, { rotation }));
+}
+/**
+ * The box on the screen, `{ left, top, right, bottom }`, that the pictures a drawing lays down cover, or null for none: the
+ * drawing is made into a context that only follows the transform and notes where each picture lands, so nothing is drawn.
+ * Shapes drawn without a picture (the fallbacks while a sheet loads) are not counted.
+ */
+function drawnBox(draw) {
+  let m = [1, 0, 0, 1, 0, 0], box = null;
+  const stack = [], times = ([a, b, c, d, e, f], [A, B, C, D, E, F]) => [a * A + c * B, b * A + d * B, a * C + c * D, b * C + d * D, a * E + c * F + e, b * E + d * F + f];
+  const followed = {
+    globalAlpha: 1,
+    save() { stack.push(m); }, restore() { m = stack.pop() || m; },
+    translate(x, y) { m = times(m, [1, 0, 0, 1, x, y]); }, scale(x, y) { m = times(m, [x, 0, 0, y, 0, 0]); },
+    rotate(t) { m = times(m, [Math.cos(t), Math.sin(t), -Math.sin(t), Math.cos(t), 0, 0]); },
+    transform(...by) { m = times(m, by); }, setTransform(...to) { m = to; },
+    drawImage(image, ...args) {
+      const [x, y, w, h] = args.length >= 8 ? args.slice(4, 8) : args.length >= 4 ? args : [args[0], args[1], image?.width || 0, image?.height || 0];
+      for (const [px, py] of [[x, y], [x + w, y], [x, y + h], [x + w, y + h]]) {
+        const sx = m[0] * px + m[2] * py + m[4], sy = m[1] * px + m[3] * py + m[5];
+        box = box ? { left: Math.min(box.left, sx), top: Math.min(box.top, sy), right: Math.max(box.right, sx), bottom: Math.max(box.bottom, sy) } : { left: sx, top: sy, right: sx, bottom: sy };
+      }
+    },
+  };
+  try { draw(new Proxy(followed, { get: (to, key) => key in to ? to[key] : () => {}, set: (to, key, value) => { to[key] = value; return true; } })); } catch { /* a shape this context cannot follow: its pictures so far */ }
+  return box;
 }
 /** A placed house drawn in `box` (screen pixels) opens its site's rooms, kept in sizes so a moved camera carries it. */
 function notePlacedHouse(siteId, box, size) {
@@ -1013,8 +1078,31 @@ const SIZE = {
  * The server checks where a house may stand at this same size (sim/house-footprint.mjs `CELL_MILES`, from `CABIN_PEOPLE`
  * and `PERSON_MILES`): until 2026-09-23 it checked an 80 by 64 foot envelope, so two houses it let stand a hundred feet
  * apart were drawn one over the other, and a house on dry ground beside a creek was drawn over the water.
+ *
+ * A family's house is `camera.house.size` (`houseScale`): never floored with the people, so never drawn past the ground
+ * the server holds for it. A town's cabins are drawn with the people, floored and all: nothing is placed beside them.
  */
-const cabinSize = (camera, settlement = false) => Math.max(5, camera.figure * (settlement ? SIZE.settlementCabin : SIZE.cabin));
+const cabinSize = (camera, settlement = false) => settlement ? Math.max(5, camera.figure * SIZE.settlementCabin) : camera.house.size;
+/**
+ * The smallest height, in pixels, a house is drawn at: the smallest at which the cabin's pen, its roof and its chimney
+ * still read as a cabin. Looked at on the house sheets at 8 to 23 pixels (2026-09-23): at 12 and under a finished round-log
+ * cabin is a brown blot and a dog-run two; at 14 the chimney stands off the pen; at 16 the roof's ridge reads.
+ */
+const HOUSE_LEGIBLE = 16;
+/**
+ * How a family's houses are drawn at `scale` pixels a mile: `{ size, one }`, `size` the height of a house in pixels.
+ *
+ * Close in, a house is drawn `CABIN_PEOPLE` people of `PERSON_MILES` high, with no floor: exactly the ground the server
+ * spaces houses by (sim/house-footprint.mjs `CELL_MILES`), so two houses the server keeps apart are drawn apart. People
+ * and everything else keep their seven-pixel floor (`figure`); until 2026-09-23 the house kept it too, and from about 370
+ * pixels a mile out every house grew past its ground and two as close as allowed were drawn into each other (owner: "fix
+ * the zoom issue"). Held to its ground a house shrinks with the land, so from where it would be drawn under
+ * `HOUSE_LEGIBLE` (about 255 pixels a mile) out, a family's houses are drawn as one house (`one`) - its home, the first it
+ * finished (sim/interior.mjs), or the one it is raising - `HOUSE_LEGIBLE` high, where that house stands. One house cannot be
+ * drawn over another of its own family; two families' are kept apart by `drawWorld` (`familyHouses`). The ceiling the
+ * people have (150 pixels) holds for the house too, so it is never larger than its ground at any zoom.
+ */
+const houseScale = scale => { const size = Math.min(150, scale * PERSON_MILES) * CABIN_PEOPLE; return size < HOUSE_LEGIBLE ? { size: HOUSE_LEGIBLE, one: true } : { size, one: false }; };
 // null means the camera follows the family. Dragging or zooming takes manual control
 // until the player presses Follow, so the view is never yanked away mid-gesture.
 let manualView = null;
@@ -1175,6 +1263,8 @@ function cameraFor(world, canvas, now = performance.now()) {
     // smaller still: this map is legible, not measured. Distance, travel time and
     // adjacency come from the simulation and are never inferred from how big art is.
     figure: Math.max(7, Math.min(150, scale * PERSON_MILES)),
+    // A family's house, which is not floored with the people (`houseScale`).
+    house: houseScale(scale),
     named: scale > 3.2,
   };
 }
@@ -2406,7 +2496,7 @@ export function drawWorld(world) {
   const camera = cameraFor(world, canvas, frameNow);
   drawnCamera = { cx: camera.cx, cy: camera.cy, scale: camera.scale, width: canvas.width, height: canvas.height };
   mapDrawWanted = false; lastMapDraw = performance.now(); gesturePicture = null;
-  window.__camera = { kind: camera.kind, scale: camera.scale, named: camera.named, cx: camera.cx, cy: camera.cy, following: camera.following, figure: camera.figure };
+  window.__camera = { kind: camera.kind, scale: camera.scale, named: camera.named, cx: camera.cx, cy: camera.cy, following: camera.following, figure: camera.figure, house: camera.house };
   // The ground is drawn again only when something it is drawn from changed (`groundInputs`, public/map-base.js): not for a
   // snapshot in which only people moved, nor for a click that renders one. The pick being made on the land is drawn into it.
   const pick = surveyLooking() && plotPick ? JSON.stringify([plotJob, plotPick.point, plotPick.facts?.can ?? null, plotPick.facts?.plotId ?? null]) : null;
@@ -2518,6 +2608,8 @@ export function drawWorld(world) {
   // Presentation evidence for proofs: each crossing drawn into the ground when it was last drawn, its kind and where
   // (docs/MAP_ACCURACY.md §10).
   if (ground && !audit) window.__crossingsDrawn = {};
+  // Each family's house, or houses, as one standing item, kept apart from the others' after this loop.
+  const familyHouses = [];
   for (const site of sitesOf(world)) {
     // A road junction is a shape in the network, not a place: it must never draw a building.
     if (site.kind === 'junction') continue;
@@ -2535,6 +2627,9 @@ export function drawWorld(world) {
     if (site.kind === 'homestead' && !ownLand && camera.scale < HOMESTEAD_LEGIBLE) continue;
     if (settlement || site.kind === 'homestead' || !site.kind) {
       const size = cabinSize(camera, settlement);
+      // What stands round a family's house - its camp, its log pile, its stock - is set out and drawn with the people,
+      // floored as they are: only the house is held to its ground (`houseScale`).
+      const yard = settlement ? size : Math.max(5, camera.figure * SIZE.cabin);
       // Where the family's own house is drawn, and on the Host's map every family's, so a tap on it can open the rooms inside.
       if (!settlement && (ownLand || host)) housesDrawn.set(site.id, { x: q.x, y: q.y - size * .35, size });
       // What is on this land, as this family knows it: its own as it is, a neighbour's as it was
@@ -2562,11 +2657,19 @@ export function drawWorld(world) {
         standing.push(...bexarDrawables(ctx,project,camera.scale/5280,{alamoProject:p=>{const o=alamoOnMap(p);return camera.toScreen({x:site.x+o.x,y:site.y+o.y});}}));
       }else if (ownLand && world.land?.house?.pieces && plotCatalogue) {
         // The family's house plot, piece by piece at its stage (public/house-plot.js); the camp beside it until a pen stands.
-        standing.push({ y: q.y, draw: () => { if (world.land.shelter === 'camp') homesteadCamp(ctx, q.x - size * .9, q.y + size * .35, size * .7, site.id); window.__plotPiecesDrawn = drawLandHouses(ctx, camera, site.id, q, size, world.land.house, world.land.completedHouses); } });
+        familyHouses.push({ own: true, siteId: site.id, box: () => landHomeBox(camera, q, world.land.house, world.land.completedHouses),
+          item: { y: q.y, draw: () => { if (world.land.shelter === 'camp') homesteadCamp(ctx, q.x - yard * .9, q.y + yard * .35, yard * .7, site.id); window.__plotPiecesDrawn = drawLandHouses(ctx, camera, site.id, q, size, world.land.house, world.land.completedHouses); } } });
       }else if (theirs?.pieces && plotCatalogue) {
         // The same house plot, for any family, on the Host's map.
-        standing.push({ y: q.y, draw: () => { if (theirs.view.shelter !== 'house') homesteadCamp(ctx, q.x - size * .9, q.y + size * .35, size * .7, site.id); hostLandsDrawn[site.id].pieces = theirs.pieces.length; drawLandHouses(ctx, camera, site.id, q, size, { pieces: theirs.pieces, placement: theirs.housePlacement }, theirs.completedHouses); } });
-      }else standing.push({ y: q.y, draw: () => view ? homesteadHouse(ctx, q.x, q.y, size, site.id, view) : miniBuilding(ctx, q.x, q.y, size, true, site.id) });
+        const current = { pieces: theirs.pieces, placement: theirs.housePlacement };
+        familyHouses.push({ own: false, siteId: site.id, box: () => landHomeBox(camera, q, current, theirs.completedHouses),
+          item: { y: q.y, draw: () => { if (theirs.view.shelter !== 'house') homesteadCamp(ctx, q.x - yard * .9, q.y + yard * .35, yard * .7, site.id); hostLandsDrawn[site.id].pieces = theirs.pieces.length; drawLandHouses(ctx, camera, site.id, q, size, current, theirs.completedHouses); } } });
+      }else if (view && site.kind === 'homestead') {
+        // A family's land as this family knows it, or as it last saw a neighbour's: a house the size a house is drawn, a
+        // camp the size a camp is.
+        const drawn = c => homesteadHouse(c, q.x, q.y, view.shelter === 'camp' ? yard : size, site.id, view);
+        familyHouses.push({ own: ownLand, siteId: site.id, box: () => drawnBox(drawn), item: { y: q.y, draw: () => drawn(ctx) } });
+      }else standing.push({ y: q.y, draw: () => view ? homesteadHouse(ctx, q.x, q.y, view.shelter === 'camp' ? yard : size, site.id, view) : miniBuilding(ctx, q.x, q.y, size, true, site.id) });
       // A new town's shops, each keeper's own building at its place (sim/shops.mjs, docs/TOWNS.md). Drawn for anybody, as
       // a town's buildings are; who is standing in them is still only seen by somebody who is there.
       // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the shops of the towns. Each trade is the nearest building the library has.
@@ -2586,7 +2689,7 @@ export function drawWorld(world) {
       // stand-in: a pile is `log-fallen` laid side by side until a log pile is drawn. Request 2026-09-15 - the trees of the colonies.
       const piled = theirs ? theirs.logs || 0 : ownLand && world.land?.logs ? world.land.logs.wall + world.land.logs.sill + world.land.logs.poor : 0;
       for (let i = 0; i < Math.min(4, Math.ceil(piled / 10)); i++) {
-        const x = q.x - size * (.9 + i * .06), y = q.y + size * (.28 + i * .07);
+        const x = q.x - yard * (.9 + i * .06), y = q.y + yard * (.28 + i * .07);
         standing.push({ y, draw: () => drawSprite(ctx, 'log-fallen', x, y, camera.figure * SIZE.logPile) });
       }
       if (ownLand) window.__logPileDrawn = Math.min(4, Math.ceil(piled / 10));
@@ -2594,8 +2697,8 @@ export function drawWorld(world) {
       if (theirs ? theirs.stock && !theirs.arriving : ownLand && world.household?.stock && world.land && !world.land.arriving) {
         const coat = ['red', 'pied', 'dun'][Array.from(site.id).reduce((sum, letter) => sum + letter.charCodeAt(0), 0) % 3];
         for (const [dx, dy, flip, clip, scale] of [[1.25, .35, false, `cattle-longhorn-${coat}-graze`, .55], [1.7, .55, true, 'hog-root', .3]]) {
-          const x = q.x + size * dx, y = q.y + size * dy;
-          standing.push({ y, draw: () => animated(ctx, clip, x, y, size * scale, `${site.id}:${clip}`, { flip }) });
+          const x = q.x + yard * dx, y = q.y + yard * dy;
+          standing.push({ y, draw: () => animated(ctx, clip, x, y, yard * scale, `${site.id}:${clip}`, { flip }) });
         }
       }
     } else if (CROSSING_KINDS.includes(site.kind)) {
@@ -2649,6 +2752,11 @@ export function drawWorld(world) {
       labels.push({ name: ownLand ? 'Home' : (host && landBySite.get(site.id)?.name) || site.name, x: q.x, y: q.y - Math.max(12, roof) });
     }
   }
+  const apart = keptApart(familyHouses, camera.house.one);
+  for (const each of apart.kept) standing.push(each.item);
+  for (const each of apart.hidden) housesDrawn.delete(each.siteId);
+  // Presentation evidence for proofs: the families whose house was left out this frame, being over another's (`keptApart`).
+  window.__familyHousesHidden = apart.hidden.map(each => each.siteId);
   // Somebody away on the road is sent no `location` at all (sim/world.mjs `seenTravel`): there is nothing here to draw
   // them at, and nothing to decide - the server already decided.
   const entities = entitiesOf(world).filter(entity => entity.location);

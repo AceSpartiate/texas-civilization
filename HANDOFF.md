@@ -1,5 +1,43 @@
 # Claude handoff — Astra foundation
 
+## Houses apart at every zoom — 2026-09-23 (after v2026.09.23.2; not yet committed or released)
+
+Owner: *"fix the zoom issue"* — zoomed far out, two houses placed as close as allowed were drawn touching or over one
+another. The server spaces houses by the ground they are drawn over close in (`CELL_MILES`, section below), and the page
+drew a house with the people, whose figure is floored at 7 pixels, so from about 370 pixels a mile out every house grew past
+its ground. **The server's rule is unchanged** (widening it would push houses a mile apart); the drawing changed. Client
+only: no projection field, command or save version.
+
+- **A family's house is never floored** (`houseScale` in `public/app.js`, on the camera as `camera.house`): drawn
+  `CABIN_PEOPLE` people of `PERSON_MILES` high at every zoom — placed house, preview and a house at its site alike — so it
+  is never drawn past its ground. People, the camp, log pile, stock and a town's cabins keep their floor.
+- **`HOUSE_LEGIBLE` = 16 pixels**, the smallest height at which the cabin reads on the house sheets (looked at from 8 to 23:
+  at 12 and under it is a blot). A house reaches it at about **255 pixels a mile**; from there out **the family's houses are
+  drawn as one, its home** (the first it finished, else the one being raised), 16 pixels high where it stands, and only it
+  answers a tap. The preview is drawn at the same size, so a first house's preview is the home it becomes.
+- **Two families zoomed out:** each one-house symbol is 16 pixels whatever the ground, and leagues can lie 0.085 miles apart,
+  so two houses built by a shared line could meet below 255. `keptApart` keeps the family's own house and each other
+  family's only where it would not be drawn over one already kept (measured as drawn); the name is still drawn. Close in
+  none can meet (every house is inside its own land and no bigger than its ground). `ceiling:` first kept first drawn in
+  site order on the Host's map; every class laid out so far has sites 2.8 miles or more apart.
+- **Looked at, not redesigned:** at 218 pixels a mile a family standing at its 16-pixel home with its oxen and wagon (all
+  floored) covers most of it (`test-results/houses-zoom-218.png`); at the colonies map's farthest zoom (3.4) the home of a
+  family near Brazoria and Columbia is drawn among those towns' floored cabins (`houses-zoom-3.png`).
+- **Evidence:** `tests/house-zoom.test.mjs` 4 tests at 83 zooms from the closest to the farthest on both maps: two houses as
+  close as allowed (3 plan pairs × 2 turns × 4 sides) never drawn with overlapping picture boxes; the switch at 16 pixels,
+  the home alone, the tap following; preview drawn exactly as the built house; two families' houses 0.185 miles apart kept
+  apart. Put back the old floored size and exactly these 4 fail, the other 1053 pass; four more injections (never one house,
+  every house when one, families not kept apart, a tap spot for a house not drawn), run against that file, each fail only
+  the tests written for them. `tests/support/page-camera.mjs` gives every house-drawing test the page's own `houseScale`.
+  `scripts/house-plot-browser-proof.mjs` now zooms the pair out in 35 wheel steps from 2,883 to the country's 3.4 pixels a
+  mile: never over one another, both at their ground's size to 255, the home alone past it, a tap spot per house drawn
+  ([record](docs/evidence/house-plot-browser.json), montage `test-results/houses-zoom-montage.png`, or `ZOOM_MONTAGE`).
+  Design: [WOODS_AND_BUILDING.md §6.5](docs/WOODS_AND_BUILDING.md).
+- **Checked:** `npm test` **1057** (1053 + 4). Browser, same computer: house-plot proof passes through the zoom-out;
+  house-plot-regression (8 cases), family-panel 17, panels 10 checks at 2 sizes, lesson 33, travel-drawn 17 and
+  house-spacing-injections (8 of 8) pass. `npm run test:host-view` fails after its third check, waiting for `#selection`
+  when the Host looks at Antonia — and fails identically on a clean export of `49388ff`, so not from this change; open.
+
 ## Four stale proofs driven through today's game — 2026-09-23 (after v2026.09.23.2; not yet committed or released)
 
 The four browser and regression proofs that failed on `cf32263` and `c010022` alike. Each failure was read at the step it
@@ -59,7 +97,7 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   moves them and validation does not judge spacing. Only a house still to be placed is held to the rule. A house placed
   nowhere is judged where it is drawn, a cell above the site point.
 - **Ceilings** (`ceiling:` in `sim/house-footprint.mjs`): exact only from about 370 pixels a mile in, where a person is
-  drawn his `PERSON_MILES`; one conservative `PICTURE_REACH` for every plan and turn, so houses as close as allowed show a
+  drawn his `PERSON_MILES` (lifted the same day: *Houses apart at every zoom*, above); one conservative `PICTURE_REACH` for every plan and turn, so houses as close as allowed show a
   gap (about a cell more than needed east of a round-log cabin); a house chosen whole claims its plan's pieces.
 - **Evidence:** `tests/house-spacing.test.mjs` 9 tests. `node scripts/house-spacing-injections.mjs`: 8 injections (true feet,
   no spacing, pictures not counted, water at nine points only, house on the field, field over a house, overlapping houses

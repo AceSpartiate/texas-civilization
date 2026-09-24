@@ -11,6 +11,7 @@ import { readFileSync } from 'node:fs';
 import { drawHousePlot, houseFootprint, plotCell } from '../public/house-plot.js';
 import { CABIN_PEOPLE, houseOnGround } from '../sim/house-footprint.mjs';
 import { plotCatalogue } from '../sim/houseplot.mjs';
+import { pageCamera } from './support/page-camera.mjs';
 
 const page = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const catalogue = plotCatalogue();
@@ -44,7 +45,7 @@ function recorder() {
   };
 }
 /** A camera as the page makes one (`figure` is scale times PERSON_MILES, 0.019), looking at the middle of the map. */
-const cameraAt = scale => ({ scale, figure: Math.max(7, Math.min(150, scale * 0.019)), toScreen: p => ({ x: 720 + p.x * scale, y: 500 + p.y * scale }) });
+const cameraAt = scale => pageCamera(scale, p => ({ x: 720 + p.x * scale, y: 500 + p.y * scale }));
 /** A plan finished, as the preview draws it (public/app.js `drawSitePick`). */
 const finished = id => catalogue.plans.find(plan => plan.id === id).pieces.map(([type, x, y]) => [type, x, y, catalogue.pieces.find(piece => piece.id === type).stageCount, 0]);
 const sprites = ctx => ctx.log.filter(entry => entry[0] === 'sprite');

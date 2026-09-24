@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-24T02:17:49.382Z",
+  "date": "2026-09-24T03:18:30.315Z",
   "result": "PASS",
   "scope": "Same-computer student integration",
   "checks": [
@@ -16,7 +16,8 @@
     "a tap on the placed house where it is drawn opens its rooms; the site point is no longer a house",
     "pictures: every plan in the chooser, the preview at 0/90/180/270 degrees, the built house at three zooms (roof seated: tests/house-roof.test.mjs)",
     "a second house over the first as drawn: preview tinted and refused, the server refuses it in the same words",
-    "a second house just clear of the first: built, and the two drawn clear of each other"
+    "a second house just clear of the first: built, and the two drawn clear of each other",
+    "zoomed out step by step to the farthest the map goes: the two never drawn over one another, each at its ground’s size down to 16 pixels high and one house, the home, from there out, a tap following what is drawn"
   ],
   "pictures": [
     "house-plans.png",
@@ -33,7 +34,8 @@
     "house-built-zoom-in.png",
     "house-built-zoom-out.png",
     "house-second-refused.png",
-    "houses-closest.png"
+    "houses-closest.png",
+    "houses-zoom-montage.png"
   ],
   "size": {
     "previewPixels": 163.4,
@@ -55,8 +57,8 @@
   },
   "turns": {
     "0": {
-      "pictures": 33,
-      "housePicturesOnTheMap": 1518,
+      "pictures": 30,
+      "housePicturesOnTheMap": 1380,
       "turned": 0,
       "mirrored": 0,
       "footprintCells": {
@@ -75,8 +77,8 @@
       }
     },
     "180": {
-      "pictures": 30,
-      "housePicturesOnTheMap": 1380,
+      "pictures": 36,
+      "housePicturesOnTheMap": 1656,
       "turned": 0,
       "mirrored": 0,
       "footprintCells": {
@@ -85,10 +87,10 @@
       }
     },
     "270": {
-      "pictures": 30,
-      "housePicturesOnTheMap": 1380,
+      "pictures": 42,
+      "housePicturesOnTheMap": 1932,
       "turned": 0,
-      "mirrored": 30,
+      "mirrored": 42,
       "footprintCells": {
         "w": 2,
         "h": 3
@@ -129,6 +131,660 @@
       }
     ],
     "shot": "test-results/houses-closest.png"
+  },
+  "zoom": {
+    "legible": 16,
+    "switchAt": 255.2,
+    "closest": 2883.07,
+    "farthest": 3.41,
+    "steps": [
+      {
+        "scale": 2883.07,
+        "figure": 54.78,
+        "houseHigh": 180.77,
+        "one": false,
+        "drawn": 2,
+        "boxes": [
+          {
+            "left": 522.1,
+            "top": 30.8,
+            "right": 773.9,
+            "bottom": 344.6
+          },
+          {
+            "left": 522.1,
+            "top": 375.4,
+            "right": 773.9,
+            "bottom": 689.2
+          }
+        ],
+        "taps": 2
+      },
+      {
+        "scale": 2363.72,
+        "figure": 44.91,
+        "houseHigh": 148.21,
+        "one": false,
+        "drawn": 2,
+        "boxes": [
+          {
+            "left": 544.8,
+            "top": 90.1,
+            "right": 751.2,
+            "bottom": 347.4
+          },
+          {
+            "left": 544.8,
+            "top": 372.6,
+            "right": 751.2,
+            "bottom": 629.9
+          }
+        ],
+        "taps": 2
+      },
+      {
+        "scale": 1937.93,
+        "figure": 36.82,
+        "houseHigh": 121.51,
+        "one": false,
+        "drawn": 2,
+        "boxes": [
+          {
+            "left": 563.4,
+            "top": 138.7,
+            "right": 732.6,
+            "bottom": 349.7
+          },
+          {
+            "left": 563.4,
+            "top": 370.3,
+            "right": 732.6,
+            "bottom": 581.3
+          }
+        ],
+        "taps": 2
+      },
+      {
+        "scale": 1588.84,
+        "figure": 30.19,
+        "houseHigh": 99.62,
+        "one": false,
+        "drawn": 2,
+        "boxes": [
+          {
+            "left": 578.6,
+            "top": 178.6,
+            "right": 717.4,
+            "bottom": 351.5
+          },
+          {
+            "left": 578.6,
+            "top": 368.5,
+            "right": 717.4,
+            "bottom": 541.4
+          }
+        ],
+        "taps": 2
+      },
+      {
+        "scale": 1302.63,
+        "figure": 24.75,
+        "houseHigh": 81.67,
+        "one": false,
+        "drawn": 2,
+        "boxes": [
+          {
+            "left": 591.1,
+            "top": 211.3,
+            "right": 704.9,
+            "bottom": 353.1
+          },
+          {
+            "left": 591.1,
+            "top": 366.9,
+            "right": 704.9,
+            "bottom": 508.7
+          }
+        ],
+        "taps": 2
+      },
+      {
+        "scale": 1067.98,
+        "figure": 20.29,
+        "houseHigh": 66.96,
+        "one": false,
+        "drawn": 2,
+        "boxes": [
+          {
+            "left": 601.4,
+            "top": 238.1,
+            "right": 694.6,
+            "bottom": 354.3
+          },
+          {
+            "left": 601.4,
+            "top": 365.7,
+            "right": 694.6,
+            "bottom": 481.9
+          }
+        ],
+        "taps": 2
+      },
+      {
+        "scale": 875.6,
+        "figure": 16.64,
+        "houseHigh": 54.9,
+        "one": false,
+        "drawn": 2,
+        "boxes": [
+          {
+            "left": 609.8,
+            "top": 260,
+            "right": 686.2,
+            "bottom": 355.3
+          },
+          {
+            "left": 609.8,
+            "top": 364.7,
+            "right": 686.2,
+            "bottom": 460
+          }
+        ],
+        "taps": 2
+      },
+      {
+        "scale": 717.87,
+        "figure": 13.64,
+        "houseHigh": 45.01,
+        "one": false,
+        "drawn": 2,
+        "boxes": [
+          {
+            "left": 616.6,
+            "top": 278,
+            "right": 679.4,
+            "bottom": 356.2
+          },
+          {
+            "left": 616.6,
+            "top": 363.8,
+            "right": 679.4,
+            "bottom": 442
+          }
+        ],
+        "taps": 2
+      },
+      {
+        "scale": 588.56,
+        "figure": 11.18,
+        "houseHigh": 36.9,
+        "one": false,
+        "drawn": 2,
+        "boxes": [
+          {
+            "left": 622.3,
+            "top": 292.8,
+            "right": 673.7,
+            "bottom": 356.9
+          },
+          {
+            "left": 622.3,
+            "top": 363.1,
+            "right": 673.7,
+            "bottom": 427.2
+          }
+        ],
+        "taps": 2
+      },
+      {
+        "scale": 482.54,
+        "figure": 9.17,
+        "houseHigh": 30.25,
+        "one": false,
+        "drawn": 2,
+        "boxes": [
+          {
+            "left": 626.9,
+            "top": 304.9,
+            "right": 669.1,
+            "bottom": 357.4
+          },
+          {
+            "left": 626.9,
+            "top": 362.6,
+            "right": 669.1,
+            "bottom": 415.1
+          }
+        ],
+        "taps": 2
+      },
+      {
+        "scale": 395.61,
+        "figure": 7.52,
+        "houseHigh": 24.8,
+        "one": false,
+        "drawn": 2,
+        "boxes": [
+          {
+            "left": 630.7,
+            "top": 314.8,
+            "right": 665.3,
+            "bottom": 357.9
+          },
+          {
+            "left": 630.7,
+            "top": 362.1,
+            "right": 665.3,
+            "bottom": 405.2
+          }
+        ],
+        "taps": 2
+      },
+      {
+        "scale": 324.35,
+        "figure": 7,
+        "houseHigh": 20.34,
+        "one": false,
+        "drawn": 2,
+        "boxes": [
+          {
+            "left": 633.8,
+            "top": 323,
+            "right": 662.2,
+            "bottom": 358.3
+          },
+          {
+            "left": 633.8,
+            "top": 361.7,
+            "right": 662.2,
+            "bottom": 397
+          }
+        ],
+        "taps": 2
+      },
+      {
+        "scale": 265.92,
+        "figure": 7,
+        "houseHigh": 16.67,
+        "one": false,
+        "drawn": 2,
+        "boxes": [
+          {
+            "left": 636.4,
+            "top": 329.6,
+            "right": 659.6,
+            "bottom": 358.6
+          },
+          {
+            "left": 636.4,
+            "top": 361.4,
+            "right": 659.6,
+            "bottom": 390.4
+          }
+        ],
+        "taps": 2
+      },
+      {
+        "scale": 218.02,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 637.1,
+            "top": 333.3,
+            "right": 659.4,
+            "bottom": 361.1
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 178.75,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 637.3,
+            "top": 335.8,
+            "right": 659.6,
+            "bottom": 363.6
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 146.55,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 637.5,
+            "top": 337.9,
+            "right": 659.8,
+            "bottom": 365.7
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 120.15,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 637.7,
+            "top": 339.6,
+            "right": 659.9,
+            "bottom": 367.4
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 98.51,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 637.8,
+            "top": 341,
+            "right": 660.1,
+            "bottom": 368.8
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 80.76,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 637.9,
+            "top": 342.2,
+            "right": 660.2,
+            "bottom": 370
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 66.21,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 638,
+            "top": 343.1,
+            "right": 660.3,
+            "bottom": 370.9
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 54.29,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 638,
+            "top": 343.9,
+            "right": 660.3,
+            "bottom": 371.7
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 44.51,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 638.1,
+            "top": 344.5,
+            "right": 660.4,
+            "bottom": 372.3
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 36.49,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 638.1,
+            "top": 345,
+            "right": 660.4,
+            "bottom": 372.8
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 29.92,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 638.2,
+            "top": 345.5,
+            "right": 660.5,
+            "bottom": 373.3
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 24.53,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 638.2,
+            "top": 345.8,
+            "right": 660.5,
+            "bottom": 373.6
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 20.11,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 638.2,
+            "top": 346.1,
+            "right": 660.5,
+            "bottom": 373.9
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 16.49,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 638.3,
+            "top": 346.3,
+            "right": 660.5,
+            "bottom": 374.1
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 13.52,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 638.3,
+            "top": 346.5,
+            "right": 660.6,
+            "bottom": 374.3
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 11.08,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 638.3,
+            "top": 346.7,
+            "right": 660.6,
+            "bottom": 374.5
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 9.09,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 638.3,
+            "top": 346.8,
+            "right": 660.6,
+            "bottom": 374.6
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 7.45,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 638.3,
+            "top": 346.9,
+            "right": 660.6,
+            "bottom": 374.7
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 6.11,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 638.3,
+            "top": 347,
+            "right": 660.6,
+            "bottom": 374.8
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 5.01,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 775.8,
+            "top": 347.1,
+            "right": 798.1,
+            "bottom": 374.9
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 4.11,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 893.7,
+            "top": 347.1,
+            "right": 916,
+            "bottom": 374.9
+          }
+        ],
+        "taps": 1
+      },
+      {
+        "scale": 3.41,
+        "figure": 7,
+        "houseHigh": 16,
+        "one": true,
+        "drawn": 1,
+        "boxes": [
+          {
+            "left": 984.1,
+            "top": 347.2,
+            "right": 1006.4,
+            "bottom": 375
+          }
+        ],
+        "taps": 1
+      }
+    ],
+    "montage": "test-results/houses-zoom-montage.png",
+    "montageScales": [
+      2883.1,
+      588.6,
+      324.3,
+      218,
+      3.4
+    ]
   },
   "roomsOpenedAt": {
     "x": 800.5,

@@ -12,6 +12,7 @@ import { readFileSync } from 'node:fs';
 import { drawHousePlot, houseFootprint, plotCell } from '../public/house-plot.js';
 import { CABIN_PEOPLE } from '../sim/house-footprint.mjs';
 import { plotCatalogue } from '../sim/houseplot.mjs';
+import { pageCamera } from './support/page-camera.mjs';
 
 const atlas = JSON.parse(readFileSync(new URL('../public/assets/frontier-v1/atlas.json', import.meta.url), 'utf8'));
 globalThis.fetch = async url => {
@@ -38,7 +39,7 @@ assert.ok(siteLine, 'the line of drawWorld that notes a house at its site was no
 const SIZE = new Function('CABIN_PEOPLE', `${declaration('const SIZE = {', '\n};')} return SIZE;`)(CABIN_PEOPLE);
 const page_ = new Function('SIZE', 'plotCatalogue', 'drawSprite', 'spriteFrame', 'drawHousePlot', 'houseFootprint', 'plotCell', 'window', 'drawnNow',
   [declaration('const cabinSize = ', ';\n'), declaration('const housesDrawn = new Map();', ';\n'), declaration('function houseAt(', '\n}\n'),
-    declaration('function drawLandHouses(', '\n}\n'), declaration('function notePlacedHouse(', '\n}\n'), declaration('function drawPlacedHouse(', '\n}\n'),
+    declaration('function drawLandHouses(', '\n}\n'), declaration('const landHome = ', ';\n'), declaration('function notePlacedHouse(', '\n}\n'), declaration('function drawPlacedHouse(', '\n}\n'),
     `const noteSite = (site, q, size) => { const settlement = false, ownLand = true, host = false; ${siteLine[0]} };`,
     'return { cabinSize, housesDrawn, houseAt, drawLandHouses, noteSite };'].join('\n'),
 )(SIZE, catalogue, drawSprite, spriteFrame, drawHousePlot, houseFootprint, plotCell, {}, spots => spots);
@@ -68,7 +69,7 @@ function recorder() {
 }
 
 const finished = id => catalogue.plans.find(plan => plan.id === id).pieces.map(([type, x, y]) => [type, x, y, catalogue.pieces.find(piece => piece.id === type).stageCount, 0]);
-const camera = { scale: 2600, figure: 2600 * 0.019, toScreen: p => ({ x: 720 + p.x * 2600, y: 500 + p.y * 2600 }) };
+const camera = pageCamera(2600, p => ({ x: 720 + p.x * 2600, y: 500 + p.y * 2600 }));
 const site = { id: 'home-1', x: 0, y: 0 };
 /** One frame of the family's land: its site noted, then its houses drawn, as drawWorld does. */
 function frame(current, completed = []) {

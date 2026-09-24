@@ -35,8 +35,11 @@ const app=createClassroom({seed:'plot-browser',playerCount:5,tickMs:80,worldFact
 const port=await app.listen(0,'127.0.0.1'),url=`http://127.0.0.1:${port}`;
 const browser=await chromium.launch({headless:true,...(process.env.BROWSER_EXECUTABLE&&{executablePath:process.env.BROWSER_EXECUTABLE})});
 const post=async(path,body,cookie)=>{const r=await fetch(url+path,{method:'POST',headers:{'Content-Type':'application/json',...(cookie&&{Cookie:cookie})},body:JSON.stringify(body)});assert.equal(r.status,200,await r.clone().text());return r;};
-// SIZE.cabin in public/app.js: a house on the map is this many people high (`cabinSize`).
-const CABIN=3.3;
+// SIZE.cabin in public/app.js: a house on the map is this many people high, a person PERSON_MILES of ground.
+const CABIN=3.3,PERSON_MILES=0.019,HOUSE_LEGIBLE=16;
+// How high a family's house is drawn at `scale` pixels a mile (public/app.js `houseScale`): the people's yardstick, not floored
+// with them, down to HOUSE_LEGIBLE pixels high; further out the family's houses are drawn as one, that high.
+const houseHigh=scale=>Math.max(HOUSE_LEGIBLE,Math.min(150,scale*PERSON_MILES)*CABIN);
 // Pictures of the house as the student sees it, for looking at: every plan in the chooser, the preview at each quarter turn,
 // the house that stands at three zooms (2026-09-23: "the roof ... slides forward"; tests/house-roof.test.mjs holds it).
 const SHOTS=process.env.HOUSE_SHOTS||'test-results';
@@ -73,14 +76,14 @@ try{
  // Over open ground just up and to the left of the father, where the preview can be seen beside the family's people.
  const beside=await page.evaluate(([id,box])=>{const c=document.querySelector('#world-map'),at=window.__drawnAt?.[id],f=window.__camera?.figure||0,k=box.width/c.width;return at&&{x:box.x+(at.x-3*f)*k,y:box.y+(at.y-3.5*f)*k};},[principal,box]);
  await pointer('pointermove',beside||middle);
- const drawnNow=()=>page.evaluate(()=>({houses:window.__placedHousesDrawn||[],figure:window.__camera?.figure,scale:window.__camera?.scale}));
+ const drawnNow=()=>page.evaluate(()=>({houses:window.__placedHousesDrawn||[],figure:window.__camera?.figure,scale:window.__camera?.scale,house:window.__camera?.house}));
  const previewAt=async rotation=>{await page.waitForFunction(r=>(window.__placedHousesDrawn||[]).some(h=>h.preview&&h.rotation===r&&h.pieces>0),rotation);const frame=await drawnNow();return [frame,frame.houses.find(h=>h.preview)];};
  const aim=beside||middle,k=await page.evaluate(()=>document.querySelector('#world-map').width)/box.width;
  const [firstFrame,first]=await previewAt(0);
  // It is drawn under the pointer: a hover before any press on the map once put it at no number at all, so nothing showed.
  assert.ok(Number.isFinite(first.x)&&Math.hypot(first.x-(aim.x-box.x)*k,first.y-(aim.y-box.y)*k)<2,`preview drawn at ${first.x},${first.y}, not under the pointer`);
  // The preview is a house the size of the map's houses, in the yardstick of the people standing by it: not seventeen feet.
- assert.ok(Math.abs(first.size-Math.max(5,firstFrame.figure*CABIN))<1e-6,`preview drawn ${first.size} pixels high where a house is ${CABIN} people of ${firstFrame.figure}`);
+ assert.ok(Math.abs(first.size-houseHigh(firstFrame.scale))<1e-6&&Math.abs(first.size-firstFrame.house.size)<1e-6,`preview drawn ${first.size} pixels high where a house is ${houseHigh(firstFrame.scale)} at ${firstFrame.scale} pixels a mile`);
  assert.ok(first.footprint.w>0&&first.footprint.h>0,'the preview outlined no footprint');
  mkdirSync('test-results',{recursive:true});await page.screenshot({path:'test-results/house-placement-preview.png'});
  if(process.env.PREVIEW_SHOT)await page.screenshot({path:process.env.PREVIEW_SHOT});
@@ -91,7 +94,7 @@ try{
  for(const turn of [90,180,270]){await press('#house-rotate');const [,turned]=await previewAt(turn);await shoot(`house-preview-${turn}`,turned);}
  await press('#house-rotate');await previewAt(0);await press('#house-rotate');
  const [previewFrame,preview]=await previewAt(90);
- assert.equal(preview.size/previewFrame.figure,first.size/firstFrame.figure);
+ assert.equal(preview.size/houseHigh(previewFrame.scale),first.size/houseHigh(firstFrame.scale));
  // Its footprint is the one at 0 turned a quarter on the ground: as wide as that one was deep.
  assert.ok(Math.abs(preview.footprint.w-first.footprint.h)<1e-6&&Math.abs(preview.footprint.h-first.footprint.w)<1e-6,`the footprint at 90 degrees ${JSON.stringify(preview.footprint)} is not the one at 0 ${JSON.stringify(first.footprint)} turned`);
  // A tap holds the preview where it is; "Build here" sends the one command. Nearest the middle first, until the land takes it.
@@ -130,8 +133,8 @@ try{
  // The house that stands is the house the preview showed: the same size for the same camera, turn and footprint.
  await page.waitForFunction(()=>(window.__placedHousesDrawn||[]).some(h=>!h.preview&&h.pieces>=2));
  const builtFrame=await drawnNow(),built=builtFrame.houses.find(h=>!h.preview&&h.pieces>=2);
- assert.ok(Math.abs(built.size-Math.max(5,builtFrame.figure*CABIN))<1e-6,`built house drawn ${built.size} pixels high where a house is ${CABIN} people of ${builtFrame.figure}`);
- assert.ok(Math.abs(built.size/builtFrame.figure-preview.size/previewFrame.figure)<1e-9,'the built house and its preview are not the same size in people');
+ assert.ok(Math.abs(built.size-houseHigh(builtFrame.scale))<1e-6,`built house drawn ${built.size} pixels high where a house is ${houseHigh(builtFrame.scale)} at ${builtFrame.scale} pixels a mile`);
+ assert.ok(Math.abs(built.size/houseHigh(builtFrame.scale)-preview.size/houseHigh(previewFrame.scale))<1e-9,'the built house and its preview are not the size a house is drawn');
  assert.equal(built.rotation,preview.rotation);
  for(const k of ['x','y','w','h'])assert.ok(Math.abs(built.footprint[k]/built.cell-preview.footprint[k]/preview.cell)<1e-9,`footprint ${k} differs from the preview's`);
  // The house that stands, at the camera's zoom, closer in and further out: the roof on its walls at every one.
@@ -261,10 +264,54 @@ try{
  assert.equal(refusedSaid,SPACE_REFUSAL,'the server\'s refusal is not what the panel says');
  assert.equal(app.state.world.households['hh-1'].completedHouses.length,1,'the house over the first was planned');
  await page.locator('#house-placement-cancel').click();
+ // Out step by step to the farthest the map goes, with the two houses as close as allowed (owner, 2026-09-23: "fix the zoom
+ // issue"): never drawn over one another. Each is drawn at its ground's size, not floored with the people, down to
+ // HOUSE_LEGIBLE pixels high; from there out the family's houses are drawn as one, its home (the first finished), and only
+ // it answers a tap (public/app.js `houseScale`, tests/house-zoom.test.mjs).
+ // The class's own world: `liveWorld` went stale when the order above was refused.
+ const homeAt=app.state.world.households['hh-1'].completedHouses[0].placement,zoomSteps=[],zoomShots=[];
+ if(await page.locator('#plot-close').isVisible())await page.locator('#plot-close').click();
+ const zoomFrame=()=>page.evaluate(()=>({camera:window.__camera,houses:(window.__placedHousesDrawn||[]).filter(h=>!h.preview&&h.pieces>=2),taps:[...(window.__housesDrawn||new Map()).values()].map(s=>({placed:Boolean(s.siteId),x:s.x,y:s.y})),w:document.querySelector('#world-map').width,h:document.querySelector('#world-map').height}));
+ for(let step=0;step<120;step++){
+   await page.waitForFunction(()=>window.__camera&&!window.__camera.quick);await page.waitForTimeout(250);
+   const f=await zoomFrame(),{camera}=f,trueHigh=Math.min(150,camera.scale*PERSON_MILES)*CABIN,one=trueHigh<HOUSE_LEGIBLE;
+   assert.equal(camera.house.one,one,`at ${camera.scale} pixels a mile the camera draws one house: ${camera.house.one}`);
+   assert.equal(f.houses.length,one?1:2,`at ${camera.scale.toFixed(1)} pixels a mile ${f.houses.length} houses were drawn: ${JSON.stringify(f.houses.map(h=>h.box))}`);
+   for(const h of f.houses)assert.ok(Math.abs(h.size-houseHigh(camera.scale))<1e-6,`at ${camera.scale.toFixed(1)} a house drawn ${h.size} pixels high, not ${houseHigh(camera.scale)}`);
+   if(f.houses.length===2)assert.equal(overlaps(screenBox(f.houses[0]),screenBox(f.houses[1])),false,`at ${camera.scale.toFixed(1)} pixels a mile the two houses are drawn over one another: ${JSON.stringify(f.houses.map(h=>h.box))}`);
+   const home={x:f.w/2+(homeAt.x-camera.cx)*camera.scale,y:f.h/2+(homeAt.y-camera.cy)*camera.scale};
+   if(one)assert.ok(Math.hypot(f.houses[0].x-home.x,f.houses[0].y-home.y)<0.01,`at ${camera.scale.toFixed(1)} the one house is not drawn at the family's home`);
+   // A tap answers where the houses are drawn: one spot per house drawn, none at the site.
+   assert.equal(f.taps.filter(t=>t.placed).length,f.houses.length,`at ${camera.scale.toFixed(1)} ${f.taps.length} houses answer a tap where ${f.houses.length} were drawn`);
+   assert.equal(f.taps.some(t=>!t.placed),false);
+   const around={left:Math.min(...f.houses.map(h=>h.box.left)),top:Math.min(...f.houses.map(h=>h.box.top)),right:Math.max(...f.houses.map(h=>h.box.right)),bottom:Math.max(...f.houses.map(h=>h.box.bottom))};
+   zoomSteps.push({scale:+camera.scale.toFixed(2),figure:+camera.figure.toFixed(2),houseHigh:+f.houses[0].size.toFixed(2),one,drawn:f.houses.length,boxes:f.houses.map(h=>Object.fromEntries(Object.entries(h.box).map(([k,v])=>[k,+v.toFixed(1)]))),taps:f.taps.length});
+   // A picture of the pair at this zoom, framed round them with a few people of ground to spare, cut from the map's own canvas
+   // so a notice over the map is not in it.
+   const half=Math.max(40,(around.right-around.left)/2+camera.figure*3,(around.bottom-around.top)/2+camera.figure*3),mid={x:(around.left+around.right)/2,y:(around.top+around.bottom)/2};
+   const image=await page.evaluate(([x,y,w,h])=>{const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(document.querySelector('#world-map'),x,y,w,h,0,0,w,h);return c.toDataURL('image/png').split(',')[1];},[mid.x-half,mid.y-half*.75,2*half,1.5*half].map(Math.round));
+   zoomShots.push({scale:camera.scale,one,drawn:f.houses.length,figure:camera.figure,image});
+   // Out a step about the open map where the pair was framed (zooming out draws them in towards it), sent to the map itself
+   // as the pointer events are (a notice can come up over it further out), and stop where the map goes no further.
+   await page.evaluate(([x,y])=>document.querySelector('#world-map').dispatchEvent(new WheelEvent('wheel',{clientX:x,clientY:y,deltaY:120,deltaMode:0,bubbles:true,cancelable:true})),[box.x+box.width*.45,box.y+box.height*.36]);
+   if(!await page.waitForFunction(s=>window.__camera.scale<s*0.999,camera.scale,{timeout:3000}).then(()=>true,()=>false))break;
+ }
+ const farthest=zoomSteps.at(-1).scale;
+ // And the last is the farthest the camera goes: the whole mapped country across the map (public/app.js `scaleLimits`).
+ const countryScale=await page.evaluate(()=>{const b=window.__snapshot.world.map?.bounds,c=document.querySelector('#world-map');return b&&Math.max(c.width/Math.max(3.4,b.maxX-b.minX),c.height/Math.max(3.4*.56,b.maxY-b.minY));});
+ assert.ok(countryScale&&Math.abs(farthest/countryScale-1)<0.01,`the zoom out stopped at ${farthest} pixels a mile, not the country's ${countryScale}`);
+ assert.ok(zoomSteps[0].drawn===2&&zoomSteps.some(s=>s.one)&&zoomSteps.some(s=>!s.one&&s.scale<368),`the zoom out did not pass through both sizes of house: ${JSON.stringify(zoomSteps.map(s=>[s.scale,s.drawn]))}`);
+ // Five of them side by side, from the closest to the farthest, for looking at.
+ const pick=[...new Set([zoomShots[0],...[600,300,200].map(target=>zoomShots.reduce((a,b)=>Math.abs(Math.log(b.scale/target))<Math.abs(Math.log(a.scale/target))?b:a)),zoomShots.at(-1)])];
+ const montagePath=process.env.ZOOM_MONTAGE||`${SHOTS}/houses-zoom-montage.png`,sheet=await browser.newPage({viewport:{width:pick.length*328,height:330}});
+ await sheet.setContent(`<body style="margin:0;display:flex;background:#222;font:13px sans-serif;color:#eee">${pick.map(s=>`<figure style="margin:4px;width:320px;text-align:center"><img src="data:image/png;base64,${s.image}" style="width:320px;height:240px;object-fit:contain;image-rendering:pixelated;background:#000"><figcaption>${s.scale.toFixed(0)} px/mile<br>person ${s.figure.toFixed(1)} px, house ${houseHigh(s.scale).toFixed(1)} px<br>${s.one?'one house: the home':'both houses at their ground’s size'}</figcaption></figure>`).join('')}</body>`);
+ await sheet.screenshot({path:montagePath});await sheet.close();
+ for(const s of pick)writeFileSync(`${SHOTS}/houses-zoom-${Math.round(s.scale)}.png`,Buffer.from(s.image,'base64'));
+ const zoomEvidence={legible:HOUSE_LEGIBLE,switchAt:+(HOUSE_LEGIBLE/(PERSON_MILES*CABIN)).toFixed(1),closest:zoomSteps[0].scale,farthest,steps:zoomSteps,montage:montagePath,montageScales:pick.map(s=>+s.scale.toFixed(1))};
  const spacingEvidence={way:pair.way,refusedAt:pair.over,refusedPreview:overHeld.preview.refused,refusedByServer:refusedSaid,secondFinished:live?'set on the class, as a later class would find it':'raised from the pile',builtAt:secondAt,claimGapMiles:+gap.toFixed(5),claimGapFeet:+(gap*5280).toFixed(1),figure:shotCamera.figure,scale:shotCamera.scale,drawnBoxes:both.map(h=>h.box),shot:closestShot};
  assert.deepEqual(errors,[]);validateWorld(app.state.world);
  const inPeople=frame=>+(frame.houses.find(h=>h.preview===(frame===previewFrame))?.size/frame.figure).toFixed(3);
  const size={previewPixels:+preview.size.toFixed(1),builtPixels:+built.size.toFixed(1),figurePixels:{preview:+previewFrame.figure.toFixed(2),built:+builtFrame.figure.toFixed(2)},housePeopleHigh:{preview:inPeople(previewFrame),built:inPeople(builtFrame)},footprintCells:{w:preview.footprint.w/preview.cell,h:preview.footprint.h/preview.cell},rotation:preview.rotation,wasPixelsInTrueFeet:+(previewFrame.scale*8/5280/.45).toFixed(2)};
- writeFileSync('docs/evidence/house-plot-browser.json',JSON.stringify({date:new Date().toISOString(),result:'PASS',scope:'Same-computer student integration',checks:['plan opens placement without planning','preview drawn a house high in the people’s yardstick','preview turned a quarter','Build here places at the preview’s turn','the next stage says what it wants: '+nextSaid,'phone fits','stage construction consumes 50 logs','built house the preview’s size, turn and footprint','finished shelter displayed','the built house at 0/90/180/270 degrees: every picture upright (no rotation or shear), mirrored at 90 and 270','a tap on the placed house where it is drawn opens its rooms; the site point is no longer a house','pictures: every plan in the chooser, the preview at 0/90/180/270 degrees, the built house at three zooms (roof seated: tests/house-roof.test.mjs)','a second house over the first as drawn: preview tinted and refused, the server refuses it in the same words','a second house just clear of the first: built, and the two drawn clear of each other'],pictures:['house-plans','house-preview-0','house-preview-90','house-preview-180','house-preview-270','house-built','house-built-0','house-built-90','house-built-180','house-built-270','house-rooms-opened','house-built-zoom-in','house-built-zoom-out','house-second-refused','houses-closest'].map(name=>`${name}.png`),size,turns,spacing:spacingEvidence,roomsOpenedAt:tappedAt&&{x:+tappedAt.x.toFixed(1),y:+tappedAt.y.toFixed(1)},placement:serverPlacement,errors},null,2));
- console.log('PASS: student picks a plan, places and turns its preview, builds here from logs, and the house that stands is the preview’s size, turn and footprint, upright at every turn, and opens where it stands; a second house over it is refused and one just clear of it stands.',JSON.stringify({size,turns,spacing:spacingEvidence}));
+ writeFileSync('docs/evidence/house-plot-browser.json',JSON.stringify({date:new Date().toISOString(),result:'PASS',scope:'Same-computer student integration',checks:['plan opens placement without planning','preview drawn a house high in the people’s yardstick','preview turned a quarter','Build here places at the preview’s turn','the next stage says what it wants: '+nextSaid,'phone fits','stage construction consumes 50 logs','built house the preview’s size, turn and footprint','finished shelter displayed','the built house at 0/90/180/270 degrees: every picture upright (no rotation or shear), mirrored at 90 and 270','a tap on the placed house where it is drawn opens its rooms; the site point is no longer a house','pictures: every plan in the chooser, the preview at 0/90/180/270 degrees, the built house at three zooms (roof seated: tests/house-roof.test.mjs)','a second house over the first as drawn: preview tinted and refused, the server refuses it in the same words','a second house just clear of the first: built, and the two drawn clear of each other','zoomed out step by step to the farthest the map goes: the two never drawn over one another, each at its ground’s size down to '+HOUSE_LEGIBLE+' pixels high and one house, the home, from there out, a tap following what is drawn'],pictures:['house-plans','house-preview-0','house-preview-90','house-preview-180','house-preview-270','house-built','house-built-0','house-built-90','house-built-180','house-built-270','house-rooms-opened','house-built-zoom-in','house-built-zoom-out','house-second-refused','houses-closest','houses-zoom-montage'].map(name=>`${name}.png`),size,turns,spacing:spacingEvidence,zoom:zoomEvidence,roomsOpenedAt:tappedAt&&{x:+tappedAt.x.toFixed(1),y:+tappedAt.y.toFixed(1)},placement:serverPlacement,errors},null,2));
+ console.log('PASS: student picks a plan, places and turns its preview, builds here from logs, and the house that stands is the preview’s size, turn and footprint, upright at every turn, and opens where it stands; a second house over it is refused and one just clear of it stands, and the two are never drawn over one another at any zoom.',JSON.stringify({size,turns,spacing:spacingEvidence,zoom:{...zoomEvidence,steps:zoomEvidence.steps.length}}));
 }finally{await browser.close();await app.close();}

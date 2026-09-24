@@ -15,6 +15,7 @@ import { readFileSync } from 'node:fs';
 import { drawHousePlot, houseFootprint, plotCell, roofSeat } from '../public/house-plot.js';
 import { CABIN_PEOPLE } from '../sim/house-footprint.mjs';
 import { plotCatalogue } from '../sim/houseplot.mjs';
+import { pageCamera } from './support/page-camera.mjs';
 
 const atlas = JSON.parse(readFileSync(new URL('../public/assets/frontier-v1/atlas.json', import.meta.url), 'utf8'));
 globalThis.fetch = async url => {
@@ -84,7 +85,7 @@ const atStage = (id, penStage) => catalogue.plans.find(plan => plan.id === id).p
   const kind = catalogue.pieces.find(piece => piece.id === type);
   return [type, x, y, kind.pen ? penStage : kind.stageCount, 0];
 });
-const cameraAt = scale => ({ scale, figure: Math.max(7, Math.min(150, scale * 0.019)), toScreen: p => ({ x: 720 + p.x * scale, y: 500 + p.y * scale }) });
+const cameraAt = scale => pageCamera(scale, p => ({ x: 720 + p.x * scale, y: 500 + p.y * scale }));
 
 /** Each roof drawn and the walls it went on, as the screen shows them. */
 function roofsOn(ctx) {

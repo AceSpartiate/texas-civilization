@@ -26,10 +26,13 @@ export const CELL_SHARE = 0.45;
 /**
  * One cell of the house plot, in miles of the map, as it is drawn: about 149 feet for eight. A round-log cabin (three
  * cells by two) covers about three acres of the map and a dog-run (seven by two) about seven.
- * ceiling: exact while the camera draws a person `PERSON_MILES` high, which is every zoom from about 370 pixels a mile in
- * (public/app.js `figure`, floored at 7 pixels); further out every symbol grows past its ground, houses with the people,
- * and two houses as close as allowed are drawn touching. Houses the server keeps apart at the family's own zoom are the
- * rule; holding them apart at the country's zoom too would push them a mile apart.
+ *
+ * Exact at every zoom the page draws a family's houses apart (public/app.js `houseScale`): a house is drawn at this size
+ * whatever the people are, who are floored at seven pixels, so it is never drawn past this ground. Where that would draw it
+ * under `HOUSE_LEGIBLE` (16 pixels, about 255 pixels a mile) and further out, the family's houses are drawn as one - its
+ * home, at that height - so no house can be drawn over another of its own family. Until 2026-09-23 the house was floored
+ * with the people, and from about 370 pixels a mile out two houses as close as allowed were drawn into each other (owner:
+ * "fix the zoom issue"). Holding them apart at the country's zoom here instead would push them a mile apart.
  */
 export const CELL_MILES = PERSON_MILES * CABIN_PEOPLE * CELL_SHARE;
 

@@ -21,6 +21,7 @@ import { woodsRule } from '../sim/woods.mjs';
 import { PLOT_SIDE, squareOf } from '../sim/fields.mjs';
 import { plotRefusal } from '../sim/survey.mjs';
 import { siteFactsFor } from '../sim/homesite.mjs';
+import { pageCamera } from './support/page-camera.mjs';
 
 const atlas = JSON.parse(readFileSync(new URL('../public/assets/frontier-v1/atlas.json', import.meta.url), 'utf8'));
 globalThis.fetch = async url => {
@@ -52,7 +53,7 @@ const pageRefusal = (view, sites, placing, placement) => new Function('sitesOf',
 
 const ctx = () => ({ globalAlpha: 1, save() {}, restore() {}, translate() {}, rotate() {}, scale() {}, transform() {}, fillRect() {}, strokeRect() {}, drawImage() {} });
 /** A camera as the page makes one, close enough in that a person is drawn `PERSON_MILES` high (`figure` unfloored). */
-const camera = { scale: 2600, figure: 2600 * PERSON_MILES, toScreen: p => ({ x: 720 + (p.x - 50) * 2600, y: 500 + (p.y - 20) * 2600 }) };
+const camera = pageCamera(2600, p => ({ x: 720 + (p.x - 50) * 2600, y: 500 + (p.y - 20) * 2600 }));
 const toWorld = (x, y) => ({ x: 50 + (x - 720) / camera.scale, y: 20 + (y - 500) / camera.scale });
 const finished = id => catalogue.plans.find(plan => plan.id === id).pieces.map(([type, x, y]) => [type, x, y, PIECES[type].stages.length, 0]);
 const PLANS = catalogue.plans.map(plan => plan.id);

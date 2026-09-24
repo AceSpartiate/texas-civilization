@@ -13,6 +13,7 @@ import { readFileSync } from 'node:fs';
 import { drawHousePlot, houseFootprint, plotCell } from '../public/house-plot.js';
 import { CABIN_PEOPLE } from '../sim/house-footprint.mjs';
 import { plotCatalogue } from '../sim/houseplot.mjs';
+import { pageCamera } from './support/page-camera.mjs';
 
 const atlas = JSON.parse(readFileSync(new URL('../public/assets/frontier-v1/atlas.json', import.meta.url), 'utf8'));
 globalThis.fetch = async url => {
@@ -63,7 +64,7 @@ function recorder() {
 }
 
 const finished = id => catalogue.plans.find(plan => plan.id === id).pieces.map(([type, x, y]) => [type, x, y, catalogue.pieces.find(piece => piece.id === type).stageCount, 0]);
-const camera = { scale: 2600, figure: 2600 * 0.019, toScreen: p => ({ x: 720 + p.x * 2600, y: 500 + p.y * 2600 }) };
+const camera = pageCamera(2600, p => ({ x: 720 + p.x * 2600, y: 500 + p.y * 2600 }));
 const placement = rotation => ({ x: 0.1, y: -0.05, rotation });
 /** The pictures standing on the ground: every one but a roof, which is seated on its walls (tests/house-roof.test.mjs). */
 const standing = ctx => ctx.drawn.filter(each => !/roof/.test(each.name));

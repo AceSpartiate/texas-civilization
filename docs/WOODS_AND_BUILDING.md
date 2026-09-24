@@ -355,12 +355,46 @@ ten-acre field (660 feet a side).
 nothing moves them and validation does not judge spacing, so every class saved with houses placed under the old envelope
 opens as it was. Only a house still to be placed is held to the rule.
 
-`ceiling:` (in the code) — the ground a house is drawn over is exact while the camera draws a person `PERSON_MILES` high,
-every zoom from about 370 pixels a mile in; further out every symbol grows past its ground and houses as close as allowed are
-drawn touching (`CELL_MILES`). One `PICTURE_REACH` for every plan and turn, the widest, measured on whole frames with their
+**At every zoom (2026-09-23, owner: *"fix the zoom issue"*).** The rule is judged on the ground, so it holds only while
+the page draws a house no bigger than that ground. It did not: the house was drawn with the people, whose figure is floored
+at 7 pixels, so from about 370 pixels a mile out every house grew past its ground and two as close as allowed were drawn into
+each other. Widening the rule instead would have pushed houses a mile apart. Now (`houseScale` in `public/app.js`, carried
+on the camera as `camera.house`):
+- **A family's house is never floored.** It is drawn `CABIN_PEOPLE` people of `PERSON_MILES` high at every zoom, exactly the
+  ground the server spaced it by (`CELL_MILES`), the placed house, its preview and a house at its site alike. People, the
+  camp, the log pile, the stock and a town's cabins keep their floor (`yard` in `drawWorld`).
+- **`HOUSE_LEGIBLE` = 16 pixels** is the smallest a house is drawn: the smallest height at which the cabin still reads,
+  looked at on the house sheets from 8 to 23 pixels (at 12 and under a finished round-log cabin is a brown blot and a
+  dog-run two; at 14 the chimney stands off the pen; at 16 the roof's ridge reads). A house reaches it at **about 255
+  pixels a mile** (16 / (0.019 × 3.3)).
+- **From there out a family's houses are drawn as one house** (`camera.house.one`): its home — the first it finished, whose
+  rooms `sim/interior.mjs` opens, or the one it is raising — 16 pixels high where that house stands. So no house can be drawn
+  over another of its family. Only the home answers a tap (`drawLandHouses`, `notePlacedHouse`, `houseAt`); a preview is
+  drawn at the same size the family's houses are, so the preview of a first house is the home it becomes.
+- **Two families.** Close in none can be drawn over another: each family's houses stand inside its own land, a neighbour's
+  house as a family last saw it is drawn at its site, 0.35 miles or more off anybody else's grant (`HOUSE_CLEARANCE`), and a
+  house is drawn no bigger than its ground. Zoomed out, each family's one house is 16 pixels whatever the ground, and
+  leagues can lie 0.085 miles apart (the closest in ten seeds of both maps), so two houses built by the line between them
+  — or a family's house built near the site of the neighbour it borders — would be drawn into each other below about 255
+  pixels a mile (another family's homestead is drawn only from `HOMESTEAD_LEGIBLE`, 11 pixels a mile). `keptApart` keeps the
+  family's own house first and each other family's only where its house, measured as it will be drawn (`landHomeBox`,
+  `drawnBox`), would not be drawn over one already kept; the name over it is still drawn.
+
+`ceiling:` (in the code) — one `PICTURE_REACH` for every plan and turn, the widest, measured on whole frames with their
 clear edges, so houses as close as allowed show a gap — a round-log cabin east of another could stand about a cell closer
 (`PICTURE_REACH`). A house chosen whole (`{ layout, work }`) claims its plan's pieces, and one with neither pieces nor a known
-plan claims the whole plot (`houseCells`).
+plan claims the whole plot (`houseCells`). Zoomed out, a neighbour's house over one already kept is left out, first kept
+first drawn in the map's site order, so on the Host's map the earlier of two families keeps its house (`keptApart`); the
+sites of every class laid out so far stand 2.8 miles or more apart, so only houses built far off their sites can meet, and
+shrinking both into their own land is the way out if the Host is shown an empty place where a family lives. Zoomed out, the
+preview of a second house is drawn 16 pixels high beside the home it will join, and once built it is not drawn separately
+until the camera is in past 255 pixels a mile.
+
+**What it looks like zoomed out.** At 218 pixels a mile the home is 16 pixels high and the people at it keep their 7-pixel
+floor, with the oxen (1.45 people) and wagon (1.55) at theirs: a family standing at its house, oxen and wagon in hand,
+covers most of it (`test-results/houses-zoom-218.png` from the browser proof). Not redesigned: people keep their floor. At
+the country's farthest zoom (3.4 pixels a mile on the colonies map) a town's cabins keep their floor too, and a family
+settled near Brazoria and Columbia has its home drawn among theirs (`houses-zoom-3.png`).
 
 **Evidence.** `tests/house-spacing.test.mjs` (9 tests): the server's footprint is the page's drawn footprint for all five
 plans at 0/90/180/270; every picture inside its claim; a house over another refused and one just clear (east, and north
@@ -374,6 +408,19 @@ written for it ([record](evidence/house-spacing-injections.json)). Browser: `scr
 second house over the first (preview tinted, the note says why, and "Build here" is refused by the server in the same words)
 and then just clear of it (built, 5 feet of the map clear in the rule's terms), and shoots the two as close as allowed
 ([record](evidence/house-plot-browser.json)).
+
+`tests/house-zoom.test.mjs` (4 tests), at 83 zooms from the closest the camera goes to the farthest on both maps (`scaleLimits`
+on a 1440 × 1000 map) and either side of 255: two houses as close as the server allows — 3 plan pairs × 2 turns × 4 sides —
+never drawn with overlapping picture boxes, each no bigger than its ground while two are drawn; the switch to one house at
+`HOUSE_LEGIBLE`, the one drawn at the home at 16 pixels, a tap spot for each house drawn and none for one not drawn; the
+preview drawn exactly as the built house (every picture, size, footprint and box) for round-log and dog-run at every turn;
+two families' houses 0.185 miles apart kept apart, the family's own kept. Each was failed under injection first: the old
+floored size fails all four and nothing else in the suite; against that file, never switching to one house fails the switch and the families'
+test; drawing every house when one is drawn fails the overlap and switch tests; families not kept apart fails that test
+alone; a tap spot for a house not drawn fails the switch test alone. The browser proof then zooms out step by step (35 wheel
+steps, 2,883 to 3.4 pixels a mile) with the two houses as close as allowed: never drawn over one another, both drawn at
+their ground's size down to 255 and the home alone from there, a tap spot for each house drawn, and the last step the
+country's own scale; a montage of five zooms is `test-results/houses-zoom-montage.png` (or `ZOOM_MONTAGE`).
 
 ---
 
