@@ -15,7 +15,7 @@ import { createClassroom, PACES } from '../server/app.mjs';
 import { createSettledWorld, keepFoundingFamilies } from '../tests/support/settled.mjs';
 // A settled class: these families are at home under a roof, as every class began before arrivals
 // (docs/SETTLING_IN.md step 2). This proves the work, not the arrival - tests/arrival.test.mjs does that.
-import { visualVariant, GAIT_CEILING } from '../public/motion.js';
+import { figureOf, GAIT_CEILING } from '../public/motion.js';
 import { meetFamily } from './support/meet-family.mjs';
 // docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
 // person, so this proof chooses them first, as a student does.
@@ -27,6 +27,8 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const pass = [];
 const ok = label => { pass.push(label); console.log('PASS', label); };
 
+// The hunter is the founding four's son, drawn as the adolescent boy he is (public/motion.js `figureOf`, sim/town.mjs `seenAs`).
+const HUNTER_FIGURE = figureOf({ id: 'hh-1-mateo', kind: 'person', sex: 'male', band: 'youth' });
 const app = createClassroom({ seed: 'hunt-proof', playerCount: 5, tickMs: 400, worldFactory: (seed, count) => keepFoundingFamilies(createSettledWorld(seed, count)) });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
@@ -129,7 +131,7 @@ try {
     }
     seen.clips = [...clips]; seen.stages = [...stages];
     return { ...seen, asking: Boolean(window.__snapshot?.world.entities.find(e => e.id === 'hh-1-mateo')?.chore?.ask) };
-  }, { stopAtAsk: untilAsk, variant: visualVariant('hh-1-mateo', false), below: GAIT_CEILING });
+  }, { stopAtAsk: untilAsk, variant: HUNTER_FIGURE, below: GAIT_CEILING });
 
   // ------------------------------------------------------ the work stops and asks the family
   const atAsk = await follow(true);
@@ -182,7 +184,7 @@ try {
   // The hunter's own colour, not just any figure's. Three other people are standing about
   // the farm in this frame, and `-idle-s` from one of them would have satisfied a looser
   // check while the hunter did nothing at all - which is the weak assertion this replaced.
-  const variant = visualVariant('hh-1-mateo', false);
+  const variant = HUNTER_FIGURE;
   const wanted = {
     reading: `${variant}-search`, still: `${variant}-idle-s`, carrying: `${variant}-carry`,
   };

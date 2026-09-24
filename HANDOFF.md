@@ -1,5 +1,54 @@
 # Claude handoff — Astra foundation
 
+## Everybody drawn as who they are — 2026-09-24 (after v2026.09.23.3; not yet committed or released)
+
+The bug the host-view note below had seen: on the Host's map the far family `hh-9` (nobody's) had *Antonia*, its mother, drawn
+as an old man and *Jonas*, its son, as a woman. Same computer only.
+
+- **Cause.** A household nobody joins keeps the founding four (docs/FAMILY_CREATION.md §2): a `kin.role`, no `sex`, no `age`.
+  All three projections — a student's own family (`projectWorld`), somebody met (`observedBy`), the Host's map
+  (`overviewEntity`) — sent only the stated `sex`/`age`, so the page's `castVariant` fell to its hash of the id, whose pool is
+  `teal` (a woman), `elder` (a man) and `blue` (a boy): `hh-9-elena` hashed to `elder`, `hh-9-mateo` to `teal`. Not the Host
+  projection omitting a field the others had, and not the student's own family (always rolled, except a class saved before
+  rolling, which had the same bug); **any student meeting a founding family saw it too.** Every town's keeper (43 in the Host proof's class)
+  had no `sex` either and fell to the same hash: Adelaide Vance and Lucía Benavides were `elder`, Hiram Stovall `teal`,
+  grown keepers the boy `blue`.
+- **Fix, at the root, server side.** `seenAs` in `sim/town.mjs` is the one glance every projection now sends (`sex`, `band`,
+  nothing else — `traits` are never read): `sexOf` in `sim/family.mjs` (stated sex, else the role: father/son a man,
+  mother/daughter a woman — read from the role the world authored, as sim/appearance.mjs, alamo.mjs and winter.mjs already
+  did, never a name), `bandOf` (the age's band, else a founding parent `adult` and a founding son or daughter `youth`,
+  `ceiling:` beside it), and for a townsperson the sex authored with their name: `sex` on `RESIDENTS` and `CARPENTERS`,
+  `STOREKEEPERS`' own `pronoun`, `KEPT_BY_WOMEN` in `sim/shops.mjs`, set on each keeper when made and found by id
+  (`townsfolkSex`) for a class saved before. **No save version moved**; the Host is shown nothing it was not allowed (a sex
+  and a band were already on its wire for rolled people; roles were already on its class panel).
+- **One chooser.** `figureOf` in `public/motion.js` (child's figure if the children's sheets draw them, else `castVariant`).
+  Where a person is drawn: the map, student and Host (`entityClip` → `miniPerson`); on the horse and driving the wagon
+  (`seatedClip` → `seatFigure`, now `figureOf`); the family panel's portrait (`renderFamilyPanel`, which had its own
+  `childFigure || castVariant`, now `figureOf`). Travel is the same map path; the rider/conversation poses are
+  `entityClip`'s; the card and the Host's panels draw no figure; the looks portraits (`public/looks-art.js`) read the family
+  book's `sex`, which already came from the role and now from `sexOf`. The id hash is left only for something sent with no
+  sex (a beast; a rider is the courier sheet). **No stand-ins added**: every sex and band has its figure.
+- **Tests.** `tests/figures-match-people.test.mjs` (3): across seeds until every face of the die, a lone father and a lone
+  mother were rolled, plus two parents alone and four founding households a class — every person in every family's own
+  view, in every yard and town a student walks into and on the Host's map is drawn (figure and actual map clip) as their own
+  sex and band against a truth written by hand (figures from the art notes, keepers' women by name, bands from the ages);
+  hh-9's Antonia a woman and Jonas an adolescent boy in the Host proof's own class; every keeper on the real land; a class
+  saved with no keeper's `sex` draws the same; and no page file but `motion.js` picks a figure. **Injections:** projections
+  back to the stated fields only — exactly the first two fail (*"hh-9's own map: Charity (hh-9-elena, female adult, mother)
+  is drawn as elder"*, *"Antonia, the mother, is drawn as elder"*), 1064 pass; the saved-class fallback removed — only the
+  second fails (*"Hiram Stovall is drawn differently in a class saved before"*); the portrait back to its own
+  `childFigure || castVariant` — only the third fails, 1065 pass. `tests/motion-binding.test.mjs` comment updated;
+  `scripts/hunt-browser-proof.mjs` asks `figureOf` for the hunter (the founding son, `blue` — the same figure the hash had
+  happened to give him), `scripts/riding-browser-proof.mjs` comment.
+- **Checked.** `npm test` **1066**, 0 failed. `node --check` on `.mjs` copies of `public/app.js`, `motion.js`,
+  `family-panel.js`. Browser: host-view 8 checks, family-panel 17, panels 10, lesson 33, travel-drawn 17, house-plot, hunt 15,
+  riding 16, shops 6, furniture 5 pass; evidence refreshed from those runs. **Looked at:**
+  [host-view-person.png](docs/evidence/host-view-person.png) — Antonia a woman in a skirt with her card open, Jonas a boy
+  resting, Lavinia a girl — and [host-view-farm.png](docs/evidence/host-view-farm.png), Thomas a man in the field.
+- **Changes in how some people look**, all now right: a founding daughter who was drawn as a grown woman (`hh-1-rosa`,
+  `teal`) is `blue-girl`, a founding son or daughter is drawn at an adolescent's 0.9, and a founding mother may be `indigo`
+  as well as `teal`.
+
 ## The last two failing proofs — 2026-09-24 (after v2026.09.23.3; not yet committed or released)
 
 Both were the proof, not the game: no file under `public/`, `sim/` or `server/` changed, so no unit test was added and no
@@ -29,9 +78,8 @@ Both were the proof, not the game: no file under `public/`, `sim/` or `server/` 
   *Whole class* ([record](docs/evidence/host-view-browser.json)).
 - **Checked:** `npm test` **1063**, 0 failed. Browser: farm 10 of 10, host-view 5 of 5, and house-plot, family-panel 17,
   panels 10 at 2 sizes, lesson 33, travel-drawn 17 pass. Evidence refreshed from passing runs only.
-- **Noticed, not changed:** on the Host's map the far family's figures and names do not look matched — *Antonia*
-  (`hh-9-elena`) is drawn as an old man, *Jonas* as a woman — and the 2026-09-17 shot shows the same. Worth a look
-  against docs/FAMILY_CREATION.md before anybody trusts it.
+- **Noticed then, fixed 2026-09-24 (section above):** on the Host's map the far family's figures did not match their people —
+  *Antonia* (`hh-9-elena`) drawn as an old man, *Jonas* as a woman.
 
 ## Chimneys against their gable walls — 2026-09-23 (not yet committed or released)
 

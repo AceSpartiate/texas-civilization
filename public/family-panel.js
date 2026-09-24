@@ -755,7 +755,7 @@ export function drawMark(canvas, name, { drawSprite, spriteFrame }) {
 
 /**
  * Draw a portrait: `portrait-<figure>`, the head and shoulders of the figure the map draws the person as (`figure`, chosen
- * by `castVariant` and `childFigure` in public/motion.js), fitted to the square on the page's flat ground.
+ * by `figureOf` in public/motion.js, the one chooser the map uses too), fitted to the square on the page's flat ground.
  *
  * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)". The `portrait-*` frames drawn today are
  * Claude-drawn (public/assets/claude-standins/, request 2026-09-15 - face portraits); Astra's of the same names replace

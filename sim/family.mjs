@@ -442,6 +442,31 @@ export function ageBand(age) {
   return age < 2 ? 'infant' : age < 5 ? 'small' : age < 10 ? 'child' : age < 18 ? 'youth' : 'adult';
 }
 
+/**
+ * A man or a woman, as the world has said it: a rolled person's own `sex`, or else what their place in the family says.
+ *
+ * The founding four (`HOUSEHOLD_SHAPE`: every household nobody joins, and every class saved before rolling) have no `sex`
+ * field, but the world states each one's role, and a father or a son is a man and a mother or a daughter a woman. That is
+ * read from the role the world authored, never from a name (the rule at the top of `NAME_POOLS`); sim/appearance.mjs,
+ * sim/alamo.mjs and sim/winter.mjs already read it this way. Until 2026-09-24 the projections sent only the stated field, so
+ * the page drew the founding four by a hash of their id and a far family's mother, Antonia (`hh-9-elena`), was an old man.
+ * Null for somebody the world says nothing of here (a townsperson: sim/town.mjs `seenAs` answers for them).
+ */
+const SEX_OF_ROLE = Object.freeze({ father: 'male', son: 'male', mother: 'female', daughter: 'female' });
+export const sexOf = entity => entity?.sex || SEX_OF_ROLE[entity?.kin?.role] || null;
+/**
+ * Roughly how old somebody looks (`ageBand`), or for the founding four, who have no age, what their role makes them: a
+ * parent is grown, and a son or daughter is drawn as an adolescent.
+ * ceiling: the founding four's children have no stated age, so 'youth' is the game's choice for them, not a fact - it is the
+ * band whose rules they already follow (old enough to be given work, `tooYoung` false; too young to answer a call,
+ * `canAnswerCalls`). Giving the founding four ages would settle it, and would change who may be sent in every such class.
+ */
+export function bandOf(entity) {
+  if (Number.isFinite(entity?.age)) return ageBand(entity.age);
+  const role = entity?.kin?.role;
+  return role === 'father' || role === 'mother' ? 'adult' : role === 'son' || role === 'daughter' ? 'youth' : null;
+}
+
 /** Old enough to be sent anywhere at all: given work, sent on a road, or asked a call. */
 export const SENT_FROM_AGE = 10;
 /** Old enough to be sent to fight. Boys of sixteen and seventeen did serve in 1835. */
@@ -720,7 +745,7 @@ export function familyProjection(world, household) {
       // How they look, in words and as the choices behind them (sim/appearance.mjs). Only a parent's can be chosen.
       const looks = appearanceOf(world, entity);
       return { id, name: entity?.name || id, ...(entity?.given && { given: entity.given }), role: kin.role || null, of, ...(Number.isFinite(entity?.age) && { age: entity.age }),
-        ...(looks && { appearance: looks, looks: looksWords(looks), ...(isParent(entity) && { choices: choicesFor(entity), chosen: lookChosen(entity), sex: entity.sex || (kin.role === 'mother' ? 'female' : 'male') }) }) };
+        ...(looks && { appearance: looks, looks: looksWords(looks), ...(isParent(entity) && { choices: choicesFor(entity), chosen: lookChosen(entity), sex: sexOf(entity) }) }) };
     }),
   };
 }

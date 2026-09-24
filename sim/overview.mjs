@@ -15,7 +15,8 @@
 // It is the map's facts only: who stands where doing what, and what each family has made of its land. Everything is picked
 // field by field rather than copied and trimmed, so a field added to an entity or a household later reaches the Host only by
 // being named here.
-import { ageBand, householdName } from './family.mjs';
+import { householdName } from './family.mjs';
+import { seenAs } from './town.mjs';
 import { interiorProjection } from './interior.mjs';
 import { facingOf } from './encounters.mjs';
 import { holdingOf } from './grants.mjs';
@@ -67,7 +68,8 @@ function overviewEntity(world, entity) {
     // The family's name is on its land (`lands[householdId].name`), once, rather than on every one of its people and beasts.
     ...(entity.householdId && { householdId: entity.householdId }),
     ...(entity.principal && { principal: true }),
-    ...(entity.sex && { sex: entity.sex }), ...(Number.isFinite(entity.age) && { band: ageBand(entity.age) }),
+    // A man or a woman and roughly how old, as a glance would tell (sim/town.mjs `seenAs`): the founding four's from their role.
+    ...(entity.kind === 'person' && seenAs(entity)),
     ...(entity.species && { species: entity.species }), ...(entity.laden && { laden: true }),
     ...(entity.resident && { resident: entity.resident }), ...(entity.about && { about: entity.about }),
     // A rider is a rider; what they carry stays on the server, exactly as a student is shown one (sim/town.mjs `observedBy`).

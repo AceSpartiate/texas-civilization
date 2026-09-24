@@ -629,3 +629,19 @@ computer only; no LAN and no district claim.
    (a birth every twelve months, which reads as the old stair) or more twins than the owner's one in a hundred.
 3. **The twin rate** is per delivery. A family whose roll gives it one child can never have twins.
 
+## Amendment, 2026-09-24 — the founding four are drawn as who their role says
+
+Not an owner decision; a bug found on the Host's map. A household nobody joins keeps the founding four (§2), and they have a
+`kin.role` but no `sex` or `age`. The projections sent only the stated fields, so the page drew each by a hash of the id
+from a pool of a woman, a man and a boy: the far family's mother *Antonia* (`hh-9-elena`) was an old man and her son *Jonas*
+a woman, on the Host's map and on any student's page that met them. Nothing hidden was involved.
+
+- **Sex is read from the role the world authored**, never from a name: a father or son is a man, a mother or daughter a
+  woman (`sexOf` in `sim/family.mjs`, as sim/appearance.mjs, sim/alamo.mjs and sim/winter.mjs already read it).
+- **Band:** a founding parent is drawn grown; a founding son or daughter as an adolescent (`bandOf`, `youth`). `ceiling:` they
+  have no age, so this is the game's choice — the band whose rules they already follow (given work; not answering a call).
+- **What travels:** `seenAs` in `sim/town.mjs` sends a glance (`sex`, `band`) to the family's own page, to whoever meets
+  them and to the Host. The hidden stats (§4) are not read by it and reach no payload.
+- A rolled person is unchanged. No save version moved: a class saved before rolling is drawn right as it opens.
+- **Evidence:** `tests/figures-match-people.test.mjs` (every face of the die, a lone father and a lone mother, two parents
+  alone, the founding four and every town's keepers, in every student's own and observed view and the Host's).

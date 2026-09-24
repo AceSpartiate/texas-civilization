@@ -237,7 +237,8 @@ test('the second cast is drawn: a family of distinct people, a mother who is pri
   // An adolescent has her own figure now, where she used to be drawn as a grown woman.
   assert.equal(castVariant(someone('hh-1-daughter', { sex: 'female', band: 'youth' })), 'blue-girl');
   assert.equal(castVariant(someone('hh-1-son', { sex: 'male', band: 'youth' })), 'blue');
-  // Nobody with no stated sex changes how they look.
+  // Something sent with no sex at all keeps the id's figure. No person is any more: the founding four and the townspeople are
+  // sent with theirs (sim/town.mjs `seenAs`, tests/figures-match-people.test.mjs).
   assert.equal(castVariant(someone('hh-1-elena')), visualVariant('hh-1-elena'));
 
   const order = ['adult', 'youth', 'child', 'small', 'infant'].map(band => figureScale({ band }));

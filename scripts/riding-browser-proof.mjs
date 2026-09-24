@@ -140,7 +140,8 @@ try {
     canvas: [document.querySelector('#world-map').getBoundingClientRect().width, document.querySelector('#world-map').getBoundingClientRect().height] }));
   const driver = wagon.seated.parts.find(part => part.part === 'rider'), box = wagon.seated.parts.find(part => part.part === 'wagon'), ox = wagon.seated.parts.find(part => part.part === 'ox');
   ok('the person driving the ox and wagon is drawn on the wagon, with the ox in front', Boolean(driver && box && ox));
-  // `hh-1-mateo` is dealt the `blue` figure by the stable hash of his id, which is one of the four Astra painted driving.
+  // `hh-1-mateo`, the founding four's son, is drawn as the adolescent boy `blue` (public/motion.js `figureOf`), one of the four
+  // Astra painted driving.
   const driven = `blue-wagon-driver-${wagon.seated.direction}`;
   ok(`drawn as Astra's whole seated driver with his reins and goad (${wagon.seated.art})`, wagon.seated.art === driven && driver.seated === true && driver.shown === undefined);
   ok(`the frame really painted this tick, at ${driver.height}px on the canvas`, wagon.clips.includes(driven) && driver.height > 8 && wagon.canvas.some(size => size > 0));

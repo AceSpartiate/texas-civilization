@@ -15,8 +15,8 @@
 // are deliberately NOT used here. A named historical person requires their own checked
 // claim, and putting one behind a trade counter would invent a life for them.
 import { record } from './events.mjs';
-import { advanceShopkeepers, createShopkeepers } from './shops.mjs';
-import { householdName, ageBand } from './family.mjs';
+import { advanceShopkeepers, createShopkeepers, keeperSex, KEEPERS } from './shops.mjs';
+import { householdName, sexOf, bandOf } from './family.mjs';
 import { facingOf, ridersInSight } from './encounters.mjs';
 
 /**
@@ -38,7 +38,7 @@ export function purseOf(world, trader) {
 }
 export const RESIDENTS = [
   {
-    id: 'town-ibarra', name: 'Marta Ibarra', trade: 'seed', deals: ['seed', 'powder', 'cotton', 'food'],
+    id: 'town-ibarra', name: 'Marta Ibarra', sex: 'female', trade: 'seed', deals: ['seed', 'powder', 'cotton', 'food'],
     // Deliberately mixed: DeWitt's colony was in Mexican Texas, and a town there was not
     // uniformly Anglo. This is a fictional person, not a representative of anyone.
     // She has always been the general store; now the description says so, and she takes
@@ -47,19 +47,19 @@ export const RESIDENTS = [
     round: [{ x: -.16, y: -.10 }, { x: -.05, y: .02 }, { x: -.20, y: .06 }],
   },
   {
-    id: 'town-pike', name: 'Josiah Pike', trade: 'iron',
+    id: 'town-pike', name: 'Josiah Pike', sex: 'male', trade: 'iron',
     about: 'works iron, and will set a worn tool right for a price',
     round: [{ x: .18, y: .08 }, { x: .24, y: -.02 }, { x: .12, y: .12 }],
   },
   {
     // The carpenter (docs/SETTLING_IN.md §6): a table, benches, a bedstead, shelves or a cradle, for coin or food.
     // Invented, like everybody here (FIC-GONZ-009); 1835 Gonzales had some thirty-odd buildings, and no named carpenter was found.
-    id: 'town-carpenter', name: 'Anselmo Lozano', trade: 'furniture',
+    id: 'town-carpenter', name: 'Anselmo Lozano', sex: 'male', trade: 'furniture',
     about: 'is the carpenter: tables, benches, bedsteads, shelves and cradles, for coin or for food',
     round: [{ x: .08, y: -.14 }, { x: .14, y: -.06 }, { x: .02, y: -.10 }],
   },
   {
-    id: 'town-crandall', name: 'Ruth Crandall', trade: null,
+    id: 'town-crandall', name: 'Ruth Crandall', sex: 'female', trade: null,
     about: 'is usually somewhere on the commons',
     round: [{ x: .02, y: .16 }, { x: -.08, y: .20 }, { x: .10, y: .18 }, { x: 0, y: .10 }],
   },
@@ -84,13 +84,40 @@ export const STOREKEEPERS = Object.freeze({
 
 /** A carpenter at every other settlement a family lives near, on the real map. Invented people, FIC-GONZ-009. */
 export const CARPENTERS = Object.freeze({
-  'san-felipe': { name: 'Ezekiel Marsh', round: [{ x: .10, y: -.12 }, { x: .16, y: -.04 }] },
-  columbia: { name: 'Pablo Garza', round: [{ x: -.10, y: .12 }, { x: -.16, y: .04 }] },
-  matagorda: { name: 'Nathaniel Toombs', round: [{ x: .12, y: .10 }, { x: .06, y: .16 }] },
-  mina: { name: 'Gideon Ashby', round: [{ x: -.12, y: -.08 }, { x: -.06, y: -.14 }] },
-  liberty: { name: 'Juan Manuel Rosales', round: [{ x: .12, y: .08 }, { x: .18, y: .02 }] },
-  victoria: { name: 'Absalom Grier', round: [{ x: -.14, y: .08 }, { x: -.08, y: .14 }] },
+  'san-felipe': { name: 'Ezekiel Marsh', sex: 'male', round: [{ x: .10, y: -.12 }, { x: .16, y: -.04 }] },
+  columbia: { name: 'Pablo Garza', sex: 'male', round: [{ x: -.10, y: .12 }, { x: -.16, y: .04 }] },
+  matagorda: { name: 'Nathaniel Toombs', sex: 'male', round: [{ x: .12, y: .10 }, { x: .06, y: .16 }] },
+  mina: { name: 'Gideon Ashby', sex: 'male', round: [{ x: -.12, y: -.08 }, { x: -.06, y: -.14 }] },
+  liberty: { name: 'Juan Manuel Rosales', sex: 'male', round: [{ x: .12, y: .08 }, { x: .18, y: .02 }] },
+  victoria: { name: 'Absalom Grier', sex: 'male', round: [{ x: -.14, y: .08 }, { x: -.08, y: .14 }] },
 });
+
+const pronounSex = pronoun => pronoun === 'she' ? 'female' : 'male';
+/**
+ * The sex authored for a townsperson, found by their id: for a class saved before 2026-09-24, when nobody in a town had a
+ * `sex` and the page drew each by a hash of the id (Marta Ibarra could be an old man and Josiah Pike a woman). The same
+ * tables every townsperson is made from, so a saved class and a new one draw the same keeper the same way; the missing field
+ * has a correct value, so no save version moved. Null for anybody who is not one of them.
+ */
+export function townsfolkSex(id) {
+  const resident = RESIDENTS.find(person => person.id === id);
+  if (resident) return resident.sex;
+  const [, kind, ...rest] = String(id).split('-'), settlementId = rest.join('-');
+  if (kind === 'store' && STOREKEEPERS[settlementId]) return pronounSex(STOREKEEPERS[settlementId].pronoun);
+  if (kind === 'carpenter' && CARPENTERS[settlementId]) return CARPENTERS[settlementId].sex;
+  if (KEEPERS[settlementId]?.[kind]) return keeperSex(settlementId, kind);
+  return null;
+}
+/**
+ * What a glance tells you of a person, and all the map needs to draw them as who they are: a man or a woman, and roughly how
+ * old - never the exact age. The one answer every projection sends (a student's own family in sim/world.mjs `projectWorld`,
+ * somebody met in `observedBy` below, everybody on the Host's map in sim/overview.mjs), and public/motion.js `figureOf` draws
+ * from it. Nothing hidden rides with it: the hidden stats (`traits`, docs/FAMILY_CREATION.md §4) are never read here.
+ */
+export function seenAs(entity) {
+  const sex = sexOf(entity) || (entity?.resident ? townsfolkSex(entity.id) : null), band = bandOf(entity);
+  return { ...(sex && { sex }), ...(band && { band }) };
+}
 
 /** Put the residents in the town. Called once, when the world is built. */
 export function createTownspeople(world) {
@@ -102,7 +129,7 @@ export function createTownspeople(world) {
     if (!families || !place) continue;
     const id = `town-store-${settlementId}`;
     world.entities[id] = {
-      id, name: keeper.name, kind: 'person', householdId: null, depth: 'moderate', principal: false, resident: 'seed',
+      id, name: keeper.name, sex: pronounSex(keeper.pronoun), kind: 'person', householdId: null, depth: 'moderate', principal: false, resident: 'seed',
       deals: ['seed', 'powder', 'cotton', 'food', 'iron'], purse: STORE_PURSE_PER_FAMILY * families, townSiteId: settlementId,
       about: `keeps the store at ${place.name}: seed, powder and lead, ironware, and ${keeper.pronoun} buys cotton`,
       location: { x: round(place.x + keeper.round[0].x), y: round(place.y + keeper.round[0].y), siteId: settlementId },
@@ -115,7 +142,7 @@ export function createTownspeople(world) {
     if (!families || !place) continue;
     const id = `town-carpenter-${settlementId}`;
     world.entities[id] = {
-      id, name: carpenter.name, kind: 'person', householdId: null, depth: 'moderate', principal: false, resident: 'furniture',
+      id, name: carpenter.name, sex: carpenter.sex, kind: 'person', householdId: null, depth: 'moderate', principal: false, resident: 'furniture',
       deals: ['furniture'], townSiteId: settlementId,
       about: `is the carpenter at ${place.name}: tables, benches, bedsteads, shelves and cradles, for coin or for food`,
       location: { x: round(place.x + carpenter.round[0].x), y: round(place.y + carpenter.round[0].y), siteId: settlementId },
@@ -128,7 +155,7 @@ export function createTownspeople(world) {
   const gonzalesFamilies = near.length ? near.filter(site => site.settlementId === 'gonzales').length : (world.playerCount || 15);
   for (const resident of RESIDENTS) {
     world.entities[resident.id] = {
-      id: resident.id, name: resident.name, kind: 'person',
+      id: resident.id, name: resident.name, sex: resident.sex, kind: 'person',
       // No household: they are not anybody's family, and no student commands them.
       // `resident` is what this person is known for and is what the student is shown;
       // `deals` is everything they will actually trade in. Marta's own description has
@@ -226,7 +253,7 @@ export function observedBy(world, householdId) {
     .map(entity => ({
       id: entity.id, name: entity.name, kind: 'person', ...(entity.about && { about: entity.about }),
       // What a glance tells you: a man or a woman, and roughly how old. Never the exact age.
-      ...(entity.sex && { sex: entity.sex }), ...(Number.isFinite(entity.age) && { band: ageBand(entity.age) }),
+      ...seenAs(entity),
       // Whose family they belong to is visible - that is the point of meeting them - but
       // nothing about that family's private state travels with it.
       householdId: entity.householdId, resident: entity.resident || null,

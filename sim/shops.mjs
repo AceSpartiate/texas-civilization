@@ -230,6 +230,16 @@ export const KEEPERS = Object.freeze({
   matagorda: { blacksmith: 'Horace Pell', tavern: 'Eliza Crump' },
   victoria: { blacksmith: 'Ramón Sosa' },
 });
+/**
+ * Which of those keepers are women, per town and trade; every other keeper is a man. Authored with the names, not read from
+ * them (this project infers nothing from what somebody is called), so the map draws each keeper as who they are
+ * (sim/town.mjs `seenAs`). Until 2026-09-24 no keeper had a sex and the page chose a figure by a hash of the id.
+ */
+export const KEPT_BY_WOMEN = Object.freeze({
+  gonzales: ['tavern', 'weaver'], 'san-felipe': ['tavern', 'weaver'], columbia: ['tavern', 'weaver'],
+  mina: ['tavern'], liberty: ['tavern'], matagorda: ['tavern'], victoria: [],
+});
+export const keeperSex = (settlementId, trade) => KEPT_BY_WOMEN[settlementId]?.includes(trade) ? 'female' : 'male';
 
 /**
  * Where every keeper keeps shop, in miles from the town's centre (owner, 2026-09-16: "use one of the pre-existing
@@ -321,7 +331,7 @@ export function createShopkeepers(world, near) {
         const id = keeperId(settlementId, trade);
         const buys = TRADES[trade].offers.some(offer => offer.kind === 'buy');
         keeper = world.entities[id] = {
-          id, name: KEEPERS[settlementId][trade], kind: 'person', householdId: null, depth: 'moderate', principal: false,
+          id, name: KEEPERS[settlementId][trade], sex: keeperSex(settlementId, trade), kind: 'person', householdId: null, depth: 'moderate', principal: false,
           resident: trade, deals: [trade],
           ...(buys && { purse: KEEPER_PURSE_PER_FAMILY * families }),
           about: `keeps ${TRADES[trade].shop} at ${site.name}`,

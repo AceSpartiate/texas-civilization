@@ -28,8 +28,11 @@ export function visualVariant(id, principal = false) {
  * in a rust coat do everything she ordered. `rust-woman` is kept out of the pool exactly as `rust` is, so no neighbour can
  * wear either and the mark still means "this is you".
  *
- * Somebody with no stated sex - the founding four, a town's keeper, a class saved before families were rolled - keeps the
- * old choice by id, which is what they have always looked like.
+ * The server sends every person the page may draw on foot with a sex and a band (sim/town.mjs `seenAs`): the founding four
+ * from the role the world gives them, a town's keeper from the tables they are made from. Until 2026-09-24 neither was sent,
+ * and both fell to the id hash below, whose pool is a woman, a man and a boy - so a far family's mother, Antonia
+ * (`hh-9-elena`), was drawn as an old man and her son as a woman, on the Host's map and on any student's who met them. The
+ * hash is now only for something with no sex at all (a beast, whose clip ignores it, or a rider, drawn as the courier).
  */
 export const WOMEN = ['teal', 'indigo'], MEN = ['elder', 'ochre'];
 const fromPool = (pool, id) => {
@@ -178,8 +181,16 @@ export const RIDING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'r
  * `blue-girl` - and every child's figure - keep the standing pose cut at the hip until their own layers land.
  */
 export const DRIVING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue']);
-/** Which figure somebody is drawn as on a mount: their own child's figure if they have one, else their cast figure. */
-export const seatFigure = entity => (!entity.carrier && childFigure(entity)) || castVariant(entity);
+/**
+ * Which figure somebody is drawn as: their own child's figure if the children's sheets draw them, else their cast figure.
+ * **The one chooser.** The map (`entityClip`, which keeps a grown figure's pose for a child where the child's sheet has none),
+ * a seat on the horse or the wagon (`seatedClip`), and the family panel's portrait (public/app.js `renderFamilyPanel`) all
+ * ask this, so a person is the same figure wherever they are drawn. `observed`: somebody of another family (or anybody on the
+ * Host's map), who never wears this student's principal's rust.
+ */
+export const figureOf = (entity, observed = false) => (!entity.carrier && childFigure(entity)) || castVariant(entity, observed);
+/** Which figure somebody is drawn as on a mount: `figureOf`, as a family's own. */
+export const seatFigure = entity => figureOf(entity);
 /**
  * What is drawn for somebody on a mount, and whether it is the whole rig or only them.
  *
@@ -294,9 +305,9 @@ export function entityClip(entity, observed = false) {
   // asked for by name in `drawSeated`, which knows it has a mount's height to give it.
   if (!observed && seatOf(entity) === 'horse') return seatedClip(entity, travelDirection(entity) || 'e', null);
   const clip = grownClip(entity, observed);
-  const young = entity.kind === 'person' && !entity.carrier && childFigure(entity);
-  if (!young) return clip;
-  const pose = clip.id.slice(castVariant(entity, observed).length + 1);
+  const grown = castVariant(entity, observed), young = entity.kind === 'person' && figureOf(entity, observed);
+  if (!young || young === grown) return clip;
+  const pose = clip.id.slice(grown.length + 1);
   return CHILD_POSES[young].includes(pose) ? { ...clip, id: `${young}-${pose}` } : clip;
 }
 function grownClip(entity, observed) {

@@ -1,10 +1,10 @@
 {
   "record": "riding-browser",
-  "date": "2026-09-21",
-  "browser": "152.0.7977.83",
+  "date": "2026-09-24",
+  "browser": "153.0.8010.53",
   "ownerDirection": "\"characters don't actually sit on the horse when using it. More than one character is able to use each mode of transportation even if it's already in use, that shouldn't be the case. A character should actually sit on the horse when using it. Same thing for the Ox and Wagon.\"",
   "checks": [
-    "hh-1-thomas is drawn as a figure on the map, not as a travel marker (0.00 heights a second)",
+    "hh-1-thomas is drawn whole on the map, nothing of them faded away (1.00 of them drawn)",
     "the person sent on the horse is drawn as one painted horse-and-rider (rust-ride-e)",
     "and not as a figure cropped at the hip laid over a separate horse",
     "the frame really painted this tick, at 89px on the canvas",
@@ -12,11 +12,11 @@
     "and no separate horse cycle is drawn under him at all: none",
     "a second person is told who has the horse: \"Bartolo has the horse.\"",
     "and an order for it sent anyway is refused by the server: 400 \"Bartolo has the horse.\"",
-    "hh-1-mateo is drawn as a figure on the map, not as a travel marker (0.00 heights a second)",
+    "hh-1-mateo is drawn whole on the map, nothing of them faded away (1.00 of them drawn)",
     "the person driving the ox and wagon is drawn on the wagon, with the ox in front",
     "drawn as Astra's whole seated driver with his reins and goad (blue-wagon-driver-w)",
-    "the frame really painted this tick, at 46px on the canvas",
-    "sitting up on the wagon's seat, not walking on the road (feet 15px above the wagon's wheels)",
+    "the frame really painted this tick, at 41px on the canvas",
+    "sitting up on the wagon's seat, not walking on the road (feet 17px above the wagon's wheels)",
     "the ox and the wagon are not drawn again by themselves",
     "with the ox walking and the wagon rolling: ox-walk, wagon-travel",
     "no page errors anywhere in the run"
@@ -56,8 +56,8 @@
         {
           "part": "rider",
           "x": 900,
-          "y": 579,
-          "height": 46,
+          "y": 577,
+          "height": 41,
           "seated": true
         }
       ]

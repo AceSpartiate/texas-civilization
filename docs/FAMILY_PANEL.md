@@ -187,7 +187,7 @@ Neither exists, and neither blocks the panel (`CLAUDE.md`, missing art). Both ar
 
 - **Portraits — stand-in:** the head and shoulders of the person's own figure, cropped from the atlas the map already draws
   them with: the same cast figure `castVariant` chooses (the principal in `rust`, women and girls in `teal`, men in `elder`,
-  boys of ten and over in `blue`) and the delivered `girl`, `boy`, `smallchild` and `infant` for children, standing facing
+  boys of ten and over in `blue`; since 2026-09-24 asked through `figureOf` in public/motion.js, the one chooser the map uses) and the delivered `girl`, `boy`, `smallchild` and `infant` for children, standing facing
   south. Before the sheets load, or if they fail, a drawn head-and-shoulders silhouette in the same colours.
 - **Icons — stand-in:** the nearest thing the library already draws (a survey stake for survey, a rail for fencing, a young
   and a ripe corn plant for planting and harvest, a bucket for the well, a stump for felling and the lane, a fallen log for

@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-24T10:45:05.985Z",
+  "date": "2026-09-24T11:56:10.288Z",
   "result": "PASS",
   "scope": "Same-computer student integration",
   "checks": [
@@ -57,9 +57,9 @@
   },
   "turns": {
     "0": {
-      "pictures": 42,
-      "chimneysAgainstTheirPen": 14,
-      "housePicturesOnTheMap": 1932,
+      "pictures": 33,
+      "chimneysAgainstTheirPen": 11,
+      "housePicturesOnTheMap": 1518,
       "turned": 0,
       "mirrored": 0,
       "footprintCells": {
@@ -68,11 +68,11 @@
       }
     },
     "90": {
-      "pictures": 36,
-      "chimneysAgainstTheirPen": 12,
-      "housePicturesOnTheMap": 1656,
+      "pictures": 33,
+      "chimneysAgainstTheirPen": 11,
+      "housePicturesOnTheMap": 1518,
       "turned": 0,
-      "mirrored": 36,
+      "mirrored": 33,
       "footprintCells": {
         "w": 2,
         "h": 3
@@ -90,11 +90,11 @@
       }
     },
     "270": {
-      "pictures": 42,
-      "chimneysAgainstTheirPen": 14,
-      "housePicturesOnTheMap": 1932,
+      "pictures": 33,
+      "chimneysAgainstTheirPen": 11,
+      "housePicturesOnTheMap": 1518,
       "turned": 0,
-      "mirrored": 42,
+      "mirrored": 33,
       "footprintCells": {
         "w": 2,
         "h": 3

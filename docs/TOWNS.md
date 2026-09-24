@@ -42,6 +42,12 @@ not a settlement families are dealt to, so its trades inform the larger towns ra
 
 A settlement no family is dealt near has no keepers. `TOWN_TRADES` and `KEEPERS` in `sim/shops.mjs` hold the table.
 
+**Each keeper is a man or a woman as authored with their name** (2026-09-24): `KEPT_BY_WOMEN` in `sim/shops.mjs` (the
+taverns everywhere and the weavers where there is one), `sex` on `RESIDENTS` and `CARPENTERS` and the `pronoun` of
+`STOREKEEPERS` in `sim/town.mjs`. Before, no keeper had a sex and the map drew each by a hash of the id, so Marta Ibarra
+could be an old man and Josiah Pike a woman. A class saved before is answered from the same tables by id (`townsfolkSex`),
+so no save version moved.
+
 ## 4. What each trade does
 
 Every offer says what it does before it is chosen and is refused in words when it cannot be done. A shop that sells takes
