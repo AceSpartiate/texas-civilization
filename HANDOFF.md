@@ -1,5 +1,38 @@
 # Claude handoff — Astra foundation
 
+## The last two failing proofs — 2026-09-24 (after v2026.09.23.3; not yet committed or released)
+
+Both were the proof, not the game: no file under `public/`, `sim/` or `server/` changed, so no unit test was added and no
+`.mjs` copy needed checking. Same computer only.
+
+- **`npm run test:farm` — flaky, 6 of 10 passing before (4 of 6 more with a debug capture); 10 of 10 after.** Its ground audit (`window.__groundAudit`,
+  `auditGround` in `public/app.js`) redraws the kept ground aside and compares pixels. The failures were always the same:
+  tick 1, minute 20, 3.1% of the screen, the whole screen's box. The two pictures saved at a miss show every tree and tuft
+  a shade softer in the kept ground than in the fresh one, at the same places (shifted by no whole pixel); a log of both
+  drawings showed **the same 834 `drawImage` calls, the same sheets, transforms, alpha, smoothing and quality, call for
+  call**. So nothing was stale: Chrome with the graphics card in use did not rasterise the same drawing the same way twice
+  (it moves a canvas read back a few times off the card, and a standalone page reproduced a 21.5% difference that way;
+  putting both grounds on `willReadFrequently` alone still failed 3 of 10, so it is not only that). Neither a race nor a
+  wait: no frame is drawn from an old snapshot. **Changed:** `scripts/farm-browser-proof.mjs` launches Chrome with
+  `--disable-accelerated-2d-canvas`, with the finding and a `ceiling:` beside it (a softer tree between two redraws on a
+  Chromebook is not caught, and is not a wrong field). **The check is not weakened:** with the plots left out of the
+  ground's key (`groundInputs` in `public/map-base.js`) the proof still fails, the clearing drawn stale from tick 12.
+- **`npm run test:host-view` — 0 of every run before; 5 of 5 after.** The Host's page is not broken. The proof picked the
+  person to click by being in `__drawnAt`, and at the closest zoom this family's three at home were one at the right edge
+  (drawn at x 1458 of a 1440 window, so the click landed on nothing) and two under the class panel and the Rumor Mill,
+  which since 2026-09-18 (docs/HOST_PAGE.md §2.2) run half the screen's height down the left. **Changed:**
+  `scripts/host-view-browser-proof.mjs` clicks one of the family who is drawn inside the window with nothing of the page
+  over them (`elementFromPoint` is the map); if none is, the teacher folds the two panels (they are `<details>`), looks
+  again, and opens them after the card. Every check is kept, and one is tighter: the card must be the person clicked, not
+  only one of the family. Seen to fail: with the Host's card shut in `renderSelection` the proof stops at `#selection`, its
+  first three checks passing. Shots looked at: Antonia's read-only card over the farm, the panels open again on
+  *Whole class* ([record](docs/evidence/host-view-browser.json)).
+- **Checked:** `npm test` **1063**, 0 failed. Browser: farm 10 of 10, host-view 5 of 5, and house-plot, family-panel 17,
+  panels 10 at 2 sizes, lesson 33, travel-drawn 17 pass. Evidence refreshed from passing runs only.
+- **Noticed, not changed:** on the Host's map the far family's figures and names do not look matched — *Antonia*
+  (`hh-9-elena`) is drawn as an old man, *Jonas* as a woman — and the 2026-09-17 shot shows the same. Worth a look
+  against docs/FAMILY_CREATION.md before anybody trusts it.
+
 ## Chimneys against their gable walls — 2026-09-23 (not yet committed or released)
 
 Owner: *"Something looks wrong with the chimneys too. Are they positioned correctly?"* They were not: every chimney was
@@ -158,7 +191,7 @@ server's words when *Build here* is pressed. Ground refusals still come from the
 
 ## Released as v2026.09.23.3 — 2026-09-23
 
-**[v2026.09.23.3](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.23.3)**, from `22b1f03`: chimneys stand against their gable wall at every turn (`groundOf`, `standChimneys`, HIST-GONZ-025); houses drawn no bigger than their ground at any zoom, one symbol at the home below 16 px (`houseScale`, `HOUSE_LEGIBLE`); the four stale browser proofs driven through today's game (`49388ff`). 1063 tests; house-plot, house-plot-regression, family-panel, panels, lesson, travel-drawn proofs pass. Known and not from this work: `test:farm` flakes at tick 1, `test:host-view` times out waiting for `#selection` on a clean `49388ff`.
+**[v2026.09.23.3](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.23.3)**, from `22b1f03`: chimneys stand against their gable wall at every turn (`groundOf`, `standChimneys`, HIST-GONZ-025); houses drawn no bigger than their ground at any zoom, one symbol at the home below 16 px (`houseScale`, `HOUSE_LEGIBLE`); the four stale browser proofs driven through today's game (`49388ff`). 1063 tests; house-plot, house-plot-regression, family-panel, panels, lesson, travel-drawn proofs pass. Known and not from this work: `test:farm` flakes at tick 1, `test:host-view` times out waiting for `#selection` on a clean `49388ff` — **both fixed after this release, and both were the proof, not the game** (*The last two failing proofs*, above): the farm proof's ground audit now runs on processor-drawn canvases, and host-view clicks a person nothing of the page covers.
 
 ## Released as v2026.09.23.2 — 2026-09-23
 

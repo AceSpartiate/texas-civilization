@@ -42,7 +42,16 @@ const app = createClassroom({ seed: 'farm-proof', playerCount: 5, tickMs: 300, w
   return world;
 } });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
-const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
+// The canvases drawn on the processor, not the graphics card, because the ground audit below compares two drawings pixel
+// for pixel. With the card in use, Chrome does not rasterise the same drawing the same way twice: in about half the runs
+// (4 in 10 failed, 2026-09-24) the audit at tick 1 found 3.1% of the screen different, every tree and tuft a shade
+// softer in the kept ground than in the fresh one - and a log of both drawings showed the same 834 drawImage calls, the same
+// sheets, transforms, alpha and smoothing, call for call. Nothing was stale; the pictures of the same sprites were not the
+// same. Drawn on the processor the two agree to the pixel (10 in 10), and the audit still finds a real stale ground: with
+// the plots left out of the ground's key (public/map-base.js `groundInputs`) it fails while the plot is being cleared (2026-09-24).
+// ceiling: this proves what is drawn into the kept ground, not how the card shrinks a sprite; a softer tree between two
+// redraws on a student's Chromebook is not caught here, and is not a wrong field.
+const browser = await chromium.launch({ headless: true, args: ['--disable-accelerated-2d-canvas'], ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [];
 const post = async (path, body, cookie) => {
   const response = await fetch(url + path, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(cookie && { Cookie: cookie }) }, body: JSON.stringify(body) });

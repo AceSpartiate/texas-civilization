@@ -131,15 +131,34 @@ try {
   await settle(host);
 
   // Look at one of them, read only.
-  // One who is on the screen at this zoom: since 2026-09-17 a figure off the screen is not drawn at all (public/map-base.js), and at the
-  // closest zoom somebody working at the edge of the field can be.
-  const onScreen = await host.evaluate(() => Object.keys(window.__drawnAt || {}));
-  const person = far.home.find(id => world.entities[id].kind === 'person' && onScreen.includes(id)) || far.home.find(id => onScreen.includes(id)) || far.home[0];
-  const spot = await host.evaluate(id => {
-    const canvas = document.querySelector('#world-map'), rect = canvas.getBoundingClientRect(), at = window.__drawnAt[id];
-    return at && { x: rect.left + at.x * rect.width / canvas.width, y: rect.top + at.y * rect.height / canvas.height };
-  }, person);
-  assert.ok(spot, `${person} was not drawn to be clicked`);
+  // One a teacher could actually click: drawn, inside the window, and with nothing of the page over them. Being in
+  // `__drawnAt` is not enough. A figure whose picture overlaps the edge is drawn with its foot off the canvas, and since the
+  // Rumor Mill went in under the class panel (2026-09-18, docs/HOST_PAGE.md §2.2) the Host's left column runs half the
+  // height of the screen and covers whoever stands there. At the closest zoom this family's three at home were one at the
+  // right edge (x 1458 of 1440) and two under the panels, and the click at the first of them landed on nothing - so no card,
+  // and a timeout waiting for #selection every run from then on (found 2026-09-24).
+  const clickable = () => host.evaluate(members => {
+    const canvas = document.querySelector('#world-map'), rect = canvas.getBoundingClientRect();
+    return members.map(id => {
+      const at = window.__drawnAt?.[id];
+      if (!at) return null;
+      const x = rect.left + at.x * rect.width / canvas.width, y = rect.top + at.y * rect.height / canvas.height;
+      return document.elementFromPoint(x, y) === canvas ? { id, x, y } : null;
+    }).filter(Boolean);
+  }, far.household.members);
+  let spots = await clickable();
+  // Nobody clear of the panels: the teacher folds them, as the page lets them (the two are <details>), and looks again.
+  observed.foldedPanels = !spots.length;
+  if (!spots.length) {
+    await host.locator('#host-class > summary').click();
+    await host.locator('#rumor-mill > summary').click();
+    await settle(host);
+    spots = await clickable();
+  }
+  const spot = spots.find(entry => world.entities[entry.id]?.kind === 'person') || spots[0];
+  assert.ok(spot, `none of ${far.household.id}'s people was drawn where a click could reach them: ${JSON.stringify(await host.evaluate(members => members.map(id => [id, window.__drawnAt?.[id] || null]), far.household.members))}`);
+  const person = spot.id;
+  observed.clicked = { person, at: { x: Math.round(spot.x), y: Math.round(spot.y) } };
   await host.mouse.click(spot.x, spot.y);
   await host.locator('#selection').waitFor({ state: 'visible' });
   const card = await host.evaluate(() => ({
@@ -151,11 +170,14 @@ try {
   }));
   observed.card = card;
   assert.ok(far.household.members.includes(card.id), `the card is about ${card.id}, not one of ${far.household.id}`);
+  assert.equal(card.id, person, `the card is about ${card.id}, not ${person} who was clicked`);
   assert.ok(card.state.includes(farm.land.name), `the card does not say whose they are: ${card.state}`);
   assert.deepEqual(card.orders, [], `the Host was offered orders: ${card.orders.join(', ')}`);
   await host.screenshot({ path: 'docs/evidence/host-view-person.png' });
   ok(`the Host looks at ${card.name}: "${card.state}", with no order offered`);
   await host.locator('#selection-close').click();
+  // The panels opened again, as the teacher left them, for the rest of the run and its screenshots.
+  if (observed.foldedPanels) { await host.locator('#host-class > summary').click(); await host.locator('#rumor-mill > summary').click(); }
 
   // A town that is not Gonzales, with its shops and the people keeping them.
   const towns = Object.values(world.map.sites).filter(site => site.kind === 'town' && site.id !== 'gonzales' && world.map.shops?.[site.id]?.length);
