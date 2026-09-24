@@ -236,14 +236,11 @@ test('the whole of it, played through: the family ends with a house, a field it 
   until(world, () => (household.resources.cotton ?? 0) > 0);
   assert.equal(step(), 'sell');
 
-  // 6. Sell it in town, at the store's own counter.
+  // 6. Sell it in town: the cotton on the list for the store, chosen before anybody leaves (docs/TOWNS.md §4b, 2026-09-24).
   assert.equal(household.resources.money, 0);
   const seller = hands(world, household)[0];
-  send(world, 'hh-1', { action: 'chore', entityId: seller.id, chore: 'visit-shop' });
-  until(world, () => seller.chore?.ask?.id === 'which-shop');
-  answer(world, household, seller, 'store');
-  until(world, () => seller.chore?.ask?.id === 'shop-counter');
-  answer(world, household, seller, 'store:cotton:coin');
+  const bales = Math.floor(household.resources.cotton);
+  send(world, 'hh-1', { action: 'chore', entityId: seller.id, chore: 'visit-shop', errand: [{ id: 'store:cotton', n: Math.min(bales, 5), pay: 'coin' }] });
   until(world, () => (household.resources.money ?? 0) > 0);
   assert.equal(step(), 'hunt');
 

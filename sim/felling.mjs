@@ -19,6 +19,7 @@
 // ceiling: felling a patch does not make it open ground for the going or for clearing; clearing a timber plot does not
 // fell its trees into logs. Joining them is the way out when the house plot needs more logs than a family can fell.
 import { record } from './events.mjs';
+import { userOf } from './keeping.mjs';
 import { PLOT_SIDE } from './fields.mjs';
 import { landAround, onRealLand } from './ground.mjs';
 import { holdingOf } from './grants.mjs';
@@ -143,11 +144,15 @@ export function logsLeftOut(world, household) {
   return left;
 }
 
-/** Whether the family's ox is at home and free to drag a load. */
-export function oxFree(world, household) {
+/**
+ * Whether the family's ox is at home and free to drag a load: for `entity`, free of anybody else's use (sim/keeping.mjs
+ * `userOf`, owner 2026-09-24) - a hauler already holding it is not refused their own ox.
+ */
+export function oxFree(world, household, entity = null) {
+  if (userOf(world, household, 'ox', entity)) return false;
   return household.property.some(id => {
     const beast = world.entities[id];
-    return beast?.species === 'ox' && beast.location?.siteId === household.homeSiteId && !beast.travel && !beast.borrowedBy && beast.condition !== 'lost';
+    return beast?.species === 'ox' && beast.location?.siteId === household.homeSiteId && !beast.travel && (!beast.borrowedBy || beast.borrowedBy === entity?.id) && beast.condition !== 'lost';
   });
 }
 
@@ -159,7 +164,11 @@ export function takeUpLogs(world, household, entity) {
   const lying = logsLying(world, household);
   if (!lying.length) return null;
   const first = lying[0];
-  let room = oxFree(world, household) ? DRAG_LOGS.ox : DRAG_LOGS.hand;
+  // Behind the ox when it is free for this hauler, and then it is theirs until the hauling is done (sim/keeping.mjs); a load
+  // on the shoulder otherwise.
+  const ox = oxFree(world, household, entity);
+  if (ox && entity?.chore && !entity.chore.with?.includes('ox')) entity.chore.with = [...(entity.chore.with || []), 'ox'];
+  let room = ox ? DRAG_LOGS.ox : DRAG_LOGS.hand;
   const load = { n: 0, wall: 0, sill: 0, poor: 0 };
   for (const entry of lying.filter(each => Math.hypot(each.x - first.x, each.y - first.y) <= FELL_REACH)) {
     const taken = Math.min(entry.left, room);

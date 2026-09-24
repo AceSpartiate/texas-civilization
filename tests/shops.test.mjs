@@ -10,10 +10,10 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createSettledWorld } from './support/settled.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
-import { applyAction, beginTravel, stepWorld, projectWorld, validateWorld } from '../sim/world.mjs';
+import { applyAction, beginTravel, errandFor, stepWorld, projectWorld, validateWorld } from '../sim/world.mjs';
 import { establishTruth, learn } from '../sim/knowledge.mjs';
 import { advanceRoutine } from '../sim/routines.mjs';
-import { KEEPERS, TOWN_TRADES, counterRefusal, TUNED_SHOTS, WAGON_SPEED_SHARE, keeperId } from '../sim/shops.mjs';
+import { KEEPERS, TOWN_TRADES, counterOptions, counterRefusal, TUNED_SHOTS, WAGON_SPEED_SHARE, keeperId } from '../sim/shops.mjs';
 import { TOWN_LAYOUTS, townPoint } from '../sim/town-layouts.mjs';
 
 const running = seed => { const world = createSettledWorld(seed, 5); world.status = 'running'; return world; };
@@ -23,19 +23,17 @@ const toAsk = (world, person) => { for (let t = 0; t < 400 && person.chore && !p
 const finish = (world, person) => { for (let t = 0; t < 600 && person.chore; t++) stepWorld(world); };
 const storyOf = (world, householdId) => world.events.filter(event => event.householdId === householdId).map(event => event.text);
 
-/** Send a person to a shop and take one counter option; returns the counter as it was offered. */
-function shop(world, household, person, trade, option, { stopAtCounter = false } = {}) {
-  applyAction(world, household.id, { action: 'chore', entityId: person.id, chore: 'visit-shop' });
-  toAsk(world, person);
-  const street = askOf(world, household, person);
-  assert.ok(street.options.some(o => o.id === trade), `${trade} is not on the street: ${street.options.map(o => o.id)}`);
-  applyAction(world, household.id, { action: 'answer-chore', entityId: person.id, option: trade });
-  toAsk(world, person);
-  const counter = askOf(world, household, person);
-  if (stopAtCounter) return counter;
-  applyAction(world, household.id, { action: 'answer-chore', entityId: person.id, option });
+/**
+ * What the errand popup lists for this family's town, line by line (sim/errands.mjs, docs/TOWNS.md §4b): since 2026-09-24
+ * what to buy and sell is chosen before anybody leaves, and nothing is asked at a counter.
+ */
+const linesOf = (world, household, person) => errandFor(world, household.id, person.id).lines;
+const lineOf = (world, household, person, id) => linesOf(world, household, person).find(line => line.id === id);
+/** Send a person to town with a one-line list - `trade:offer:pay`, `n` of it - and wait until they are home. */
+function shop(world, household, person, option, n = 1) {
+  const [trade, offer, pay] = option.split(':');
+  applyAction(world, household.id, { action: 'chore', entityId: person.id, chore: 'visit-shop', errand: [{ id: `${trade}:${offer}`, n, ...(pay && { pay }) }] });
   finish(world, person);
-  return counter;
 }
 
 test('the right keepers stand in the right towns: a full street in Gonzales, a smith and no more at Victoria', () => {
@@ -66,14 +64,13 @@ test('the blacksmith sells the tools a family left behind, once each, and says w
   delete household.tools.auger;
   household.resources.money = 5;
   const person = world.entities[household.members[0]];
-  const counter = shop(world, household, person, 'blacksmith', 'blacksmith:tool-auger:coin');
-  assert.match(counter.options.find(o => o.id === 'blacksmith:tool-auger:coin').note, /bedstead/);
+  assert.match(lineOf(world, household, person, 'blacksmith:tool-auger').does, /bedstead/);
+  shop(world, household, person, 'blacksmith:tool-auger:coin');
   assert.equal(household.tools.auger, 0);
   assert.equal(household.resources.money, 3);
   assert.ok(world.events.some(e => e.householdId === household.id && e.coin === -2), 'the coin is not in the account');
-  const again = shop(world, household, person, 'blacksmith', 'leave', { stopAtCounter: true });
-  assert.equal(again.options.find(o => o.id === 'blacksmith:tool-auger:coin').can, false);
-  assert.match(again.options.find(o => o.id === 'blacksmith:tool-auger:coin').why, /already has an auger/);
+  assert.match(lineOf(world, household, person, 'blacksmith:tool-auger').why, /already has an auger/);
+  assert.throws(() => applyAction(world, household.id, { action: 'chore', entityId: person.id, chore: 'visit-shop', errand: [{ id: 'blacksmith:tool-auger', n: 1, pay: 'coin' }] }), /already has an auger/);
   validateWorld(world);
 });
 
@@ -83,7 +80,7 @@ test('the gunsmith puts the rifle in order: a hand without the knack makes the l
   household.resources.money = 4; household.resources.powder = 20;
   const hunter = world.entities[household.members[3]];
   hunter.skills = { ...hunter.skills, hunting: 1 };
-  shop(world, household, world.entities[household.members[0]], 'gunsmith', 'gunsmith:rifle:coin');
+  shop(world, household, world.entities[household.members[0]], 'gunsmith:rifle:coin');
   assert.equal(household.rifle.shots, TUNED_SHOTS);
   applyAction(world, household.id, { action: 'chore', entityId: hunter.id, chore: 'hunt-timber' });
   toAsk(world, hunter);
@@ -105,10 +102,11 @@ test('the doctor sets a tired person right, and has nothing to do for a well one
   const person = world.entities[household.members[0]];
   person.health = { condition: 'tired' }; person.exertion = 40;
   // Seen at the counter; the walk home may tire them again, which is the road and not the doctor.
-  const counter = shop(world, household, person, 'doctor', 'doctor:see:coin');
+  assert.equal(lineOf(world, household, person, 'doctor:see').why, undefined, 'the doctor was refused somebody tired');
+  shop(world, household, person, 'doctor:see:coin');
   assert.ok(storyOf(world, household.id).some(text => /rested and well again/.test(text)), 'the doctor did nothing for a tired person');
   person.health = { condition: 'well' }; person.exertion = 0;
-  assert.ok(counter.options.find(o => o.id === 'doctor:see:coin').can);
+  assert.match(lineOf(world, household, person, 'doctor:see').why, /is well/, 'the popup offered the doctor to somebody well');
   // A walk to town can tire anybody again, so the well case is asked of the counter's own rule.
   assert.match(counterRefusal(world, household, person, 'doctor:see:coin'), /is well/);
 });
@@ -122,7 +120,7 @@ test('the tavern feeds somebody and the family hears what the town has heard', (
   household.resources.money = 2;
   const person = world.entities[household.members[0]];
   person.exertion = 10;
-  shop(world, household, person, 'tavern', 'tavern:meal:coin');
+  shop(world, household, person, 'tavern:meal:coin');
   assert.ok(world.knowledge.households[household.id]['tavern-news'], 'the family heard nothing at the tavern');
   assert.equal(world.knowledge.households[household.id]['tavern-news'].source, 'Talk at the tavern');
   assert.ok(storyOf(world, household.id).some(text => /heard the talk/.test(text)));
@@ -133,10 +131,10 @@ test('the tanner buys hides and sells shoes and a saddle, and shoes take wearine
   const household = world.households['hh-1'];
   household.resources.hides = 3; household.resources.money = 0; household.resources.food = 30;
   const person = world.entities[household.members[0]];
-  shop(world, household, person, 'tanner', 'tanner:hides:coin');
+  shop(world, household, person, 'tanner:hides:coin', 3);
   assert.equal(household.resources.hides, 0);
   assert.equal(household.resources.money, 3);
-  shop(world, household, person, 'tanner', 'tanner:shoes:food');
+  shop(world, household, person, 'tanner:shoes:food');
   assert.equal(household.gear.shoes, true);
   const walk = shod => {
     const w = running('shops-shoes');
@@ -150,8 +148,7 @@ test('the tanner buys hides and sells shoes and a saddle, and shoes take wearine
   // No horse, no saddle.
   delete household.gear;
   household.property = household.property.filter(id => !id.endsWith('-horse'));
-  const counter = shop(world, household, person, 'tanner', 'leave', { stopAtCounter: true });
-  assert.match(counter.options.find(o => o.id === 'tanner:saddle:food').why, /no horse/);
+  assert.match(lineOf(world, household, person, 'tanner:saddle').why, /no horse/);
 });
 
 test('the wheelwright, the mill and the weaver each do their one thing', () => {
@@ -164,12 +161,13 @@ test('the wheelwright, the mill and the weaver each do their one thing', () => {
   };
   assert.ok(Math.abs(speed(true) - speed(false) * WAGON_SPEED_SHARE) < 1e-9, 'a wagon in order is no faster');
 
-  // The same trip twice, once grinding and once not: the family eats the same on the road either way.
+  // The same trip twice, once grinding five food and once buying an auger for coin instead: the family eats the same on the
+  // road either way, and whoever goes goes the same way (the horse carries both loads).
   const milled = grind => {
     const w = running('shops-mill');
     const h = w.households['hh-1'];
-    h.resources.food = 20;
-    shop(w, h, w.entities[h.members[0]], 'mill', grind ? 'mill:grind' : 'leave');
+    h.resources.food = 20; h.resources.money = 2; delete h.tools.auger;
+    shop(w, h, w.entities[h.members[0]], grind ? 'mill:grind' : 'blacksmith:tool-auger:coin', grind ? 5 : 1);
     return { food: h.resources.food, story: storyOf(w, h.id) };
   };
   const ground = milled(true), plain = milled(false);
@@ -180,9 +178,9 @@ test('the wheelwright, the mill and the weaver each do their one thing', () => {
   const person = world.entities[household.members[0]];
 
   household.resources.cotton = 2; household.resources.food = 10;
-  shop(world, household, person, 'weaver', 'weaver:cotton:food');
+  shop(world, household, person, 'weaver:cotton:food', 2);
   assert.equal(household.resources.cotton, 0);
-  shop(world, household, person, 'weaver', 'weaver:blankets:food');
+  shop(world, household, person, 'weaver:blankets:food');
   assert.equal(household.gear.blankets, true);
   const rest = blankets => {
     const w = running('shops-blankets');
@@ -209,30 +207,29 @@ test('the store sells the seed, the powder and the hoe the town errands used to 
   // The family eats while the walk to town and back goes on, so what the counter took is read as a drop, not a total.
   const spent = of => { const before = household.resources[of]; return () => before - household.resources[of]; };
   const forSeed = spent('food');
-  shop(world, household, person, 'store', 'store:seed:food');
+  shop(world, household, person, 'store:seed:food');
   assert.equal(household.resources.seed, 2, 'two seed for three food, as the errand gave');
   assert.ok(forSeed() >= 3 && forSeed() < 4, `the seed cost ${forSeed().toFixed(2)} food, not the errand's three`);
-  shop(world, household, person, 'store', 'store:powder:coin');
+  shop(world, household, person, 'store:powder:coin');
   assert.equal(household.resources.powder, 3, 'three powder for a real, as the errand gave');
   assert.equal(household.resources.money, 3);
-  shop(world, household, person, 'store', 'store:hoe:coin');
+  // Iron comes a long way and the store wants coin for it: there is no food price for a hoe, so nothing to choose (found
+  // 2026-09-24 - the old counter offered "Buy a sound hoe: null food" and replaced a worn hoe for nothing).
+  assert.deepEqual(lineOf(world, household, person, 'store:hoe').pays, ['coin']);
+  // And the old counter, which a class saved in the middle of a walk to the shops still reaches, has no food price either.
+  assert.ok(!counterOptions('store').some(option => option.id === 'store:hoe:food'), 'the counter still offers a hoe for "null food"');
+  assert.match(counterRefusal(world, household, person, 'store:hoe:food'), /wants coin for it, not food/);
+  assert.throws(() => applyAction(world, household.id, { action: 'chore', entityId: person.id, chore: 'visit-shop', errand: [{ id: 'store:hoe', n: 1, pay: 'food' }] }), /paid in coin/);
+  shop(world, household, person, 'store:hoe:coin');
   assert.equal(household.tools.hoe, 0, 'the worn hoe was not replaced');
   assert.equal(household.resources.money, 1);
 
   // Food is bought by the lot: five a real, and what will not make a whole real stays in the house. The store pays for food
-  // in coin only - paying a family in the very thing it is selling would be no trade at all.
-  // He rides, so he carries seven (sim/travel.mjs): five of them make the one whole real, and the other two come home again
-  // rather than being taken for a part of one.
+  // in coin only - paying a family in the very thing it is selling would be no trade at all. One lot on the list: five food.
   household.resources.food = 12;
   const sold = spent('food');
-  applyAction(world, household.id, { action: 'chore', entityId: person.id, chore: 'visit-shop', mode: 'horse' });
-  toAsk(world, person);
-  applyAction(world, household.id, { action: 'answer-chore', entityId: person.id, option: 'store' });
-  toAsk(world, person);
-  const counter = askOf(world, household, person);
-  assert.deepEqual(counter.options.filter(option => option.id.startsWith('store:food')).map(option => option.id), ['store:food:coin'], 'the store offered to pay for food in food');
-  applyAction(world, household.id, { action: 'answer-chore', entityId: person.id, option: 'store:food:coin' });
-  finish(world, person);
+  assert.deepEqual(lineOf(world, household, person, 'store:food').pays, ['coin'], 'the store offered to pay for food in food');
+  shop(world, household, person, 'store:food:coin');
   assert.ok(sold() >= 5 && sold() < 6, `the store took ${sold().toFixed(2)} food for its real, not the five it paid for`);
   assert.equal(household.resources.money, 2, 'a real for five food');
   assert.ok(storyOf(world, household.id).some(text => /sold 5 food to .* for 1 real\./.test(text)), 'the sale was not said');
@@ -242,10 +239,9 @@ test('the store sells the seed, the powder and the hoe the town errands used to 
   const poor = bare.households['hh-1'];
   poor.resources = { ...poor.resources, money: 0, food: 2, cotton: 0 };
   const hand = bare.entities[poor.members[0]];
-  const bareCounter = shop(bare, poor, hand, 'store', 'leave', { stopAtCounter: true });
-  assert.match(bareCounter.options.find(option => option.id === 'store:food:coin').why, /not five food/);
-  assert.match(bareCounter.options.find(option => option.id === 'store:cotton:coin').why, /no whole bale/);
-  assert.match(bareCounter.options.find(option => option.id === 'store:seed:coin').why, /not that much coin/);
+  assert.match(lineOf(bare, poor, hand, 'store:food').why, /not five food/);
+  assert.match(lineOf(bare, poor, hand, 'store:cotton').why, /no whole bale/);
+  assert.match(errandFor(bare, poor.id, hand.id, [{ id: 'store:seed', n: 1, pay: 'coin' }]).quote.why, /not be that much coin/);
   validateWorld(world);
 });
 

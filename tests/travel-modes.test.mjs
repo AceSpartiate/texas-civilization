@@ -96,8 +96,8 @@ test('there is one wagon, so the second person to want it is told who has it', (
   const refused = travelModesFor(world, rosa).find(mode => mode.id === 'wagon');
   assert.equal(refused.can, false);
   // Named from the world: who has the ox is a person whose name this class dealt.
-  // The ox pulls the wagon, so he has both and is said to.
-  assert.equal(refused.why, `${mateo.name} has the ox and wagon.`);
+  // The ox pulls the wagon, so he has both and is said to - and what he is doing with them (owner, 2026-09-24).
+  assert.equal(refused.why, `${mateo.name} has the ox and wagon, on the road to Gonzales.`);
   assert.throws(() => beginTravel(world, rosa, 'gonzales', null, 'visit', 'wagon'), new RegExp(`${mateo.name} has the ox and wagon`));
   // The horse is a different animal and is still standing in the yard.
   assert.equal(travelModesFor(world, rosa).find(mode => mode.id === 'horse').can, true);
@@ -112,7 +112,7 @@ test('property left somewhere stays there, and cannot be used from anywhere else
   // Mateo rode to town, so the horse is in town, with him. Rosa is at home and cannot ride it.
   const home = travelModesFor(world, rosa).find(mode => mode.id === 'horse');
   assert.equal(home.can, false);
-  assert.equal(home.why, `${mateo.name} has the horse.`);
+  assert.equal(home.why, `${mateo.name} has the horse, at Gonzales.`);
   // Mateo, standing beside it, can.
   assert.equal(travelModesFor(world, mateo).find(mode => mode.id === 'horse').can, true);
   // He walks on without it: now it is nobody's, and simply not where Rosa is - which is what "not here" means.

@@ -66,17 +66,17 @@ export const TRADES = Object.freeze({
     name: 'storekeeper', shop: 'the store',
     offers: [
       {
-        id: 'seed', kind: 'sell', label: 'Buy seed', coin: 1, food: 3, does: 'Two sacks of seed: enough to plant a cleared plot.',
+        id: 'seed', kind: 'sell', label: 'Buy seed', coin: 1, food: 3, brings: { seed: 2 }, does: 'Two sacks of seed: enough to plant a cleared plot.',
         refuse: () => null,
         give: (world, household, entity) => { household.resources.seed = round((household.resources.seed ?? 0) + 2); return `${entity.name} bought two seed at the store.`; },
       },
       {
-        id: 'powder', kind: 'sell', label: 'Buy powder and lead', coin: 1, food: 2, does: 'Three powder. The gunsmith, where there is one, gives more for the money.',
+        id: 'powder', kind: 'sell', label: 'Buy powder and lead', coin: 1, food: 2, brings: { powder: 3 }, does: 'Three powder. The gunsmith, where there is one, gives more for the money.',
         refuse: () => null,
         give: (world, household, entity) => { household.resources.powder = round((household.resources.powder ?? 0) + 3); return `${entity.name} bought three powder and lead at the store.`; },
       },
       {
-        id: 'hoe', kind: 'sell', label: 'Buy a sound hoe', coin: 2, food: null, does: 'Iron comes a long way, and the store wants coin for it.',
+        id: 'hoe', kind: 'sell', label: 'Buy a sound hoe', coin: 2, food: null, once: true, load: 1, does: 'Iron comes a long way, and the store wants coin for it.',
         refuse: (world, household) => household.tools?.hoe === undefined ? 'The family has no hoe to replace; the smith sells tools.' : (household.tools.hoe === 0 ? 'The hoe in the house is sound.' : null),
         give: (world, household, entity) => { household.tools = { ...household.tools, hoe: 0 }; return `${entity.name} bought a sound hoe at the store.`; },
       },
@@ -97,7 +97,7 @@ export const TRADES = Object.freeze({
   blacksmith: {
     name: 'blacksmith', shop: "the blacksmith's",
     offers: Object.entries({ axe: [3, 6], auger: [2, 4], broadaxe: [3, 6], froe: [1, 2] }).map(([tool, [coin, food]]) => ({
-      id: `tool-${tool}`, kind: 'sell', label: `Buy ${TOOL_NAMES[tool]}`, coin, food,
+      id: `tool-${tool}`, kind: 'sell', label: `Buy ${TOOL_NAMES[tool]}`, coin, food, once: true, load: 1,
       does: { axe: 'For felling, building and making furniture.', auger: 'For boring holes: a bedstead, a table and shelves want one.', broadaxe: 'For hewing logs flat: a hewn-log house wants one.', froe: 'For riving roof boards.' }[tool],
       refuse: (world, household) => household.tools?.[tool] !== undefined ? `The family already has ${TOOL_NAMES[tool]}.` : null,
       give: (world, household, entity) => { household.tools = { ...household.tools, [tool]: 0 }; return `${entity.name} bought ${TOOL_NAMES[tool]} from the blacksmith.`; },
@@ -107,12 +107,13 @@ export const TRADES = Object.freeze({
     name: 'gunsmith', shop: "the gunsmith's",
     offers: [
       {
-        id: 'powder', kind: 'sell', label: 'Buy powder and lead', coin: 2, food: 4, does: 'Five powder: more for the money than the store gives.',
+        id: 'powder', kind: 'sell', label: 'Buy powder and lead', coin: 2, food: 4, brings: { powder: 5 }, does: 'Five powder: more for the money than the store gives.',
         refuse: () => null,
         give: (world, household, entity) => { household.resources.powder = round((household.resources.powder ?? 0) + 5); return `${entity.name} bought five powder and lead from the gunsmith.`; },
       },
       {
-        id: 'rifle', kind: 'sell', label: "Have the family's rifle put in order", coin: 2, food: 4,
+        // The rifle goes to the gunsmith and home again: a load each way, and it has to be in the house to go (sim/keeping.mjs).
+        id: 'rifle', kind: 'sell', label: "Have the family's rifle put in order", coin: 2, food: 4, once: true, load: 1, carried: 1, takes: 'rifle',
         does: `A rifle that shoots true: a hand that never had the knack makes the long shot, for the next ${TUNED_SHOTS} shots. A tired hand still misses.`,
         refuse: (world, household) => (household.rifle?.shots ?? 0) > 0 ? 'The rifle is already in order.' : null,
         give: (world, household, entity) => { household.rifle = { shots: TUNED_SHOTS }; return `${entity.name} had the family's rifle put in order by the gunsmith.`; },
@@ -122,7 +123,7 @@ export const TRADES = Object.freeze({
   doctor: {
     name: 'doctor', shop: "the doctor's",
     offers: [{
-      id: 'see', kind: 'sell', label: 'See the doctor', coin: 2, food: 3,
+      id: 'see', kind: 'sell', label: 'See the doctor', coin: 2, food: 3, once: true,
       does: 'Somebody tired is set right at once; somebody hurt mends in half the time left.',
       refuse: (world, household, entity) => ['tired', 'minor-injury'].includes(entity.health?.condition) ? null : `${entity.name} is well, and the doctor has nothing to do.`,
       give: (world, household, entity) => {
@@ -136,7 +137,7 @@ export const TRADES = Object.freeze({
   tavern: {
     name: 'tavern', shop: 'the tavern',
     offers: [{
-      id: 'meal', kind: 'sell', label: 'A meal, and the talk', coin: 1, food: 1,
+      id: 'meal', kind: 'sell', label: 'A meal, and the talk', coin: 1, food: 1, once: true,
       does: `A hot meal takes some of the road out of the legs, and whatever the town has heard is heard.`,
       refuse: () => null,
       give: (world, household, entity) => {
@@ -159,12 +160,12 @@ export const TRADES = Object.freeze({
         refuse: (world, household) => (household.resources.hides ?? 0) >= 1 ? null : 'There are no hides in the house. A deer taken brings one home.',
       },
       {
-        id: 'shoes', kind: 'sell', label: 'Buy shoes for the family', coin: 2, food: 4, does: 'Good shoes: a mile on foot tires the family less.',
+        id: 'shoes', kind: 'sell', label: 'Buy shoes for the family', coin: 2, food: 4, once: true, load: 1, does: 'Good shoes: a mile on foot tires the family less.',
         refuse: (world, household) => gear(household).shoes ? 'The family is already shod.' : null,
         give: (world, household, entity) => { household.gear = { ...gear(household), shoes: true }; return `${entity.name} bought shoes for the family from the tanner.`; },
       },
       {
-        id: 'saddle', kind: 'sell', label: 'Buy a saddle', coin: 3, food: 6, does: 'A proper saddle: a mile on the horse tires the rider less.',
+        id: 'saddle', kind: 'sell', label: 'Buy a saddle', coin: 3, food: 6, once: true, load: 1, does: 'A proper saddle: a mile on the horse tires the rider less.',
         refuse: (world, household) => gear(household).saddle ? 'The family already has a saddle.' : !household.property?.some(id => id.endsWith('-horse')) ? 'The family has no horse to put it on.' : null,
         give: (world, household, entity) => { household.gear = { ...gear(household), saddle: true }; return `${entity.name} bought a saddle from the saddler.`; },
       },
@@ -173,7 +174,8 @@ export const TRADES = Object.freeze({
   wheelwright: {
     name: 'wheelwright', shop: "the wheelwright's",
     offers: [{
-      id: 'wagon', kind: 'sell', label: 'Have the wagon put in good order', coin: 2, food: 4, does: 'Trued wheels and a greased axle: the ox and wagon go faster.',
+      // The wheelwright works on the wagon itself, so it goes to town (docs/TOWNS.md §4b): the errand takes it.
+      id: 'wagon', kind: 'sell', label: 'Have the wagon put in good order', coin: 2, food: 4, once: true, needsMode: 'wagon', does: 'Trued wheels and a greased axle: the ox and wagon go faster.',
       refuse: (world, household) => gear(household).wagon ? 'The wagon is already in good order.' : !household.property?.some(id => id.endsWith('-wagon')) ? 'The family has no wagon.' : null,
       give: (world, household, entity) => { household.gear = { ...gear(household), wagon: true }; return `${entity.name} had the wagon put in good order by the wheelwright.`; },
     }],
@@ -201,7 +203,7 @@ export const TRADES = Object.freeze({
         refuse: (world, household) => (household.resources.cotton ?? 0) >= 1 ? null : 'There is no whole bale of cotton in the house.',
       },
       {
-        id: 'blankets', kind: 'sell', label: 'Buy blankets', coin: 1, food: 2, does: 'Warm blankets: sleeping by the wagon mends a quarter better.',
+        id: 'blankets', kind: 'sell', label: 'Buy blankets', coin: 1, food: 2, once: true, load: 1, does: 'Warm blankets: sleeping by the wagon mends a quarter better.',
         refuse: (world, household) => gear(household).blankets ? 'The family already has blankets.' : null,
         give: (world, household, entity) => { household.gear = { ...gear(household), blankets: true }; return `${entity.name} bought blankets from the weaver.`; },
       },
@@ -376,9 +378,11 @@ export function counterOptions(trade) {
           ...(offer.coinEach ? [{ id: `${trade}:${offer.id}:coin`, label: `${offer.label} for coin`, note: offer.does }] : []),
           ...(offer.foodEach ? [{ id: `${trade}:${offer.id}:food`, label: `${offer.label} for food`, note: offer.does }] : []),
         ]
+        // A thing the keeper sells for coin only - the store's hoe - has no food price, and no food option (found 2026-09-24:
+        // the counter offered "Buy a sound hoe: null food", and a worn hoe was replaced for nothing).
         : [
-          { id: `${trade}:${offer.id}:coin`, label: `${offer.label}: ${reales(offer.coin)}`, note: offer.does },
-          { id: `${trade}:${offer.id}:food`, label: `${offer.label}: ${offer.food} food`, note: offer.does },
+          ...(Number.isFinite(offer.coin) ? [{ id: `${trade}:${offer.id}:coin`, label: `${offer.label}: ${reales(offer.coin)}`, note: offer.does }] : []),
+          ...(Number.isFinite(offer.food) ? [{ id: `${trade}:${offer.id}:food`, label: `${offer.label}: ${offer.food} food`, note: offer.does }] : []),
         ]),
     { id: 'leave', label: 'Nothing today', note: 'Nothing spent' },
   ];
@@ -392,6 +396,7 @@ export function counterRefusal(world, household, entity, optionId) {
   if (!offer) return 'That is not for sale here.';
   const why = offer.refuse(world, household, entity);
   if (why) return why;
+  if (offer.kind === 'sell' && !Number.isFinite(pay === 'coin' ? offer.coin : offer.food)) return pay === 'food' ? `${TRADES[parse(optionId).trade].shop.replace(/^the /, 'The ')} wants coin for it, not food.` : 'That is not sold for coin.';
   if (offer.kind === 'sell' && pay === 'coin' && (household.resources.money ?? 0) < offer.coin) return `It costs ${reales(offer.coin)}, and there is not that much coin in the house.`;
   if (offer.kind === 'sell' && pay === 'food' && (household.resources.food ?? 0) < offer.food) return 'There is not enough food to pay with.';
   if (offer.kind === 'buy' && pay === 'coin' && purseHeld(world, world.entities[entity.chore?.traderId]) < offer.coinEach) return 'The keeper has no coin left to pay out.';

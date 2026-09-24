@@ -15,11 +15,11 @@
     "letting the rider ride on clears the \"!\"",
     "a call to the family marks the 8 people the server lets answer it; pressing hh-1-child-6's \"!\" opened the one menu for it (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.\") with a row each, the keyboard on hh-1-parent-1's",
     "answering from the menu (nobody goes) clears the \"!\" from everybody who could have answered, and the menu goes",
-    "12 presses (0 refused in the server's words and another tried) set 12 of 20 people to work without finding anybody on the map; each icon glowed when the server took it, and the 2 still at it are not idle (1: work, 2: visit-shop, 1: make-furniture, 2: make-furniture, 3: make-furniture, 4: make-furniture, 5: make-furniture, 6: make-furniture, 7: make-furniture, 8: make-furniture, 9: make-furniture, 10: make-furniture)",
+    "12 presses (0 refused in the server's words and another tried) set 12 of 20 people to work without finding anybody on the map; each icon glowed when the server took it, and the 2 still at it are not idle (1: work, 2: buy-furniture, 1: make-furniture, 2: make-furniture, 3: make-furniture, 4: make-furniture, 5: make-furniture, 6: make-furniture, 7: make-furniture, 8: make-furniture, 9: make-furniture, 10: make-furniture)",
     "of the 8 not given work, 6 are shown idle (something is open to them) and 2 are not (too young to be sent)",
-    "hh-1-parent-2, at visit-shop, has no refused order drawn; a stale \"plant-field\" put back on the bar and pressed is refused by the server, in its words: \"Rhoda Proofwright is already walking home from Gonzales.\", and the work goes on",
+    "hh-1-parent-2, at buy-furniture, has no refused order drawn; a stale \"plant-field\" put back on the bar and pressed is refused by the server, in its words: \"Rhoda Proofwright is already carrying it home from Gonzales.\", and the work goes on",
     "hh-1-child-1 is left standing about (their work finished), and the row says \"Idle\" and marks the portrait",
-    "hh-1-parent-2's errand stopped to ask (\"Rhoda Proofwright is in town. Which shop?\"): the \"!\" took the camera to them and opened the question on their card, the keyboard on \"Go to the store\"",
+    "hh-1-parent-2's work stopped to ask (\"The carpenter has pieces made. Rhoda Proofwright can pay in coin or in food.\"): the \"!\" took the camera to them and opened the question on their card, the keyboard on \"Buy a bedstead for food\"",
     "answering it clears the \"!\"",
     "an offer from the next family marks hh-1-parent-1; the \"!\" took the camera to them and opened the offer (\"Trinidad of Trinidad's family offers 1 food for 1 seed.\"), the keyboard on Accept",
     "declining it clears the \"!\"",
@@ -156,7 +156,7 @@
         },
         {
           "id": "hh-1-parent-2",
-          "key": "visit-shop",
+          "key": "buy-furniture",
           "glowed": true
         },
         {
@@ -230,7 +230,7 @@
           "id": "hh-1-parent-2",
           "role": "mother",
           "active": [
-            "visit-shop"
+            "buy-furniture"
           ],
           "idle": false,
           "need": null
@@ -366,8 +366,8 @@
     "refusal": {
       "id": "hh-1-parent-2",
       "key": "plant-field",
-      "server": "Rhoda Proofwright is already walking home from Gonzales.",
-      "chore": "visit-shop"
+      "server": "Rhoda Proofwright is already carrying it home from Gonzales.",
+      "chore": "buy-furniture"
     },
     "idleHow": "their work finished",
     "idle": {
@@ -378,10 +378,10 @@
     "askerSentAgain": 1,
     "asking": {
       "asker": "hh-1-parent-2",
-      "chore": "visit-shop",
+      "chore": "buy-furniture",
       "card": "hh-1-parent-2",
-      "question": "Rhoda Proofwright is in town. Which shop?",
-      "focused": "Go to the store",
+      "question": "The carpenter has pieces made. Rhoda Proofwright can pay in coin or in food.",
+      "focused": "Buy a bedstead for food",
       "watching": "Watching Rhoda Proofwright"
     },
     "offer": {

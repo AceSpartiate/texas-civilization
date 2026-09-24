@@ -252,7 +252,8 @@ export const STEPS = Object.freeze([
     id: 'sell',
     title: 'Sell it in town',
     first: 'sell what you grew.',
-    says: () => 'Send somebody to town, to the store, and sell some of your crop. Payment in food or coin both count. Choose the sale at the store counter when your family member arrives.',
+    // Since 2026-09-24 what to sell is chosen before anybody leaves (docs/TOWNS.md §4b): there is no counter to answer on arrival.
+    says: () => 'Send somebody to town to trade, and put some of your crop on the list for the store before they go. Payment in food or coin both count.',
     // The trip to town, and the two errands that are the sale itself where a class has them.
     allow: () => ['chore:visit-shop', 'chore:sell-cotton', 'chore:sell-food', 'shop-counter', 'cotton-counter'],
     done: (world, household) => sold(household),

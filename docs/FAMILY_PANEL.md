@@ -104,6 +104,11 @@ the principal for the orders only a principal may be given (`applyAction` in `si
 | Haul logs to the house (`haul-logs`) | Bring the felled logs lying out to the house. |
 | Fetch logs from the timber (`fetch-logs`, 2026-09-19, [BIOME_GAMEPLAY](BIOME_GAMEPLAY.md) §3.2) | Take the ox and wagon to the nearest timber, off your land if need be, and bring six logs home. |
 
+**Go to town to trade** (`visit-shop`) opens the errand popup since 2026-09-24 (owner; `docs/TOWNS.md` §4b): what to buy
+and sell is chosen first, the server says how they will go, and the popup sends the order with its list. While it is open the
+bar steps aside, by §12.13's rule for a rider. The travel-mode buttons on the person's card now say what the holder of a
+thing is doing with it: *"Maria has the horse, on the road to Gonzales."*
+
 The five town errands - fetch seed, buy powder, sell food, take the cotton, buy a hoe - left this table on 2026-09-17:
 each of them walked a person to a counter the **Go to a shop** order already reaches, so they are the store's own trades
 now (`docs/TOWNS.md` §4). A family nobody plays is still sent on them by its director.

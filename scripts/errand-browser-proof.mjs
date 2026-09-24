@@ -1,0 +1,219 @@
+// The errand to town, in a real browser (owner, 2026-09-24; docs/TOWNS.md §4b).
+//
+// > "When sending someone to town to stores, there should be a popup first asking what they should buy or sell. ... They'll
+// > take priority on the wagon and take it so they can carry whatever it is they need to. If someone is using the wagon (or
+// > horse, or any item really), then no one else can use it."
+//
+// tests/errands.test.mjs proves the rules. This proves a student can use them with the controls they have: the "Go to town to
+// trade" icon opens the popup instead of sending anybody; the popup lists the town's shops with the server's prices and the
+// family's stock; fourteen bales on the list and the popup says, in the server's words, that the wagon goes and why; Enter
+// sends the one order and the person drives off with the ox and wagon; a second person's popup is refused the wagon with who
+// has it and what to do; Escape sends nobody; and the goods come home. At 1366x768 and 1024x768 (phones unsupported, owner),
+// the popup fits the screen, nothing is drawn over its own controls, and it keeps off the family's column.
+//
+// Same computer only. Run: npm run test:errand
+import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { createClassroom } from '../server/app.mjs';
+import { createSettledWorld, keepFoundingFamilies, taught } from '../tests/support/settled.mjs';
+import { meetFamily } from './support/meet-family.mjs';
+import { asMain } from './support/main-person.mjs';
+
+const require = createRequire(import.meta.url);
+const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
+const SHOTS = process.env.ERRAND_SHOTS || 'test-results';
+mkdirSync(SHOTS, { recursive: true });
+mkdirSync('test-results', { recursive: true });
+
+const pass = [];
+const ok = label => { pass.push(label); console.log('PASS', label); };
+const observed = {};
+
+// The family has a crop to sell and nothing much else: fourteen bales, no coin, a little seed. Set when the class is made -
+// the classroom's world is the server's, and this proof reads it (`app.state`, a copy) but never writes it.
+const app = createClassroom({ seed: 'errand-proof', playerCount: 5, tickMs: 200, worldFactory: (seed, count) => {
+  const world = taught(keepFoundingFamilies(createSettledWorld(seed, count)));
+  world.households['hh-1'].resources = { ...world.households['hh-1'].resources, cotton: 14, money: 0, seed: 2, food: 30 };
+  return world;
+} });
+const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
+const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
+const errors = [];
+const post = async (path, body, cookie) => {
+  const response = await fetch(url + path, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(cookie && { Cookie: cookie }) }, body: JSON.stringify(body) });
+  assert.equal(response.status, 200, `${path}: ${response.status}`);
+  return response;
+};
+const popup = page => page.evaluate(() => ({ shown: !document.querySelector('#errand').hidden, how: document.querySelector('#errand-how').textContent, why: document.querySelector('#errand-why').textContent, stock: document.querySelector('#errand-stock').textContent, send: !document.querySelector('#errand-send').disabled, state: window.__errand || null }));
+/** Press + on a line until its count reads `n`, waiting for the server's quote each time. */
+async function setCount(page, id, n) {
+  for (let i = 0; i < 40; i++) {
+    const count = Number(await page.locator(`#errand [data-line="${id}"]`).getAttribute('data-count'));
+    if (count === n) return;
+    await page.locator(`#errand [data-line="${id}"] [data-act="${count < n ? 'more' : 'less'}"]`).click();
+  }
+  throw new Error(`${id} never reached ${n}`);
+}
+/** The popup measured against the screen and the furniture it must not cover (docs/FAMILY_PANEL.md §12.11). */
+const measure = page => page.evaluate(() => {
+  const box = element => { const r = element?.getBoundingClientRect(); return r && r.width > 1 && r.height > 1 ? { x: Math.round(r.left), y: Math.round(r.top), w: Math.round(r.width), h: Math.round(r.height), r: Math.round(r.right), b: Math.round(r.bottom) } : null; };
+  const errand = box(document.querySelector('#errand'));
+  const overlap = other => other && errand ? Math.max(0, Math.min(errand.r, other.r) - Math.max(errand.x, other.x)) * Math.max(0, Math.min(errand.b, other.b) - Math.max(errand.y, other.y)) : 0;
+  const column = box(document.querySelector('#family-rows')), bar = box(document.querySelector('.panel-row[data-focused=true] .panel-icons'));
+  // Every control of the popup, sampled at its middle: what is actually drawn there must be the control itself.
+  const covered = [...document.querySelectorAll('#errand button')].filter(button => {
+    const r = button.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return false;
+    const list = document.querySelector('#errand-lines').getBoundingClientRect();
+    if (button.closest('#errand-lines') && (r.top < list.top || r.bottom > list.bottom)) return false; // scrolled inside the list
+    const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+    return !(hit && (hit === button || button.contains(hit)));
+  }).map(button => button.id || button.getAttribute('aria-label') || button.textContent);
+  return { screen: { w: innerWidth, h: innerHeight }, errand, fits: Boolean(errand) && errand.x >= 0 && errand.y >= 0 && errand.r <= innerWidth && errand.b <= innerHeight, overColumn: overlap(column), overBar: overlap(bar), covered };
+});
+
+try {
+  const host = await post('/api/host', { key: app.state.hostKey });
+  const hostCookie = host.headers.get('set-cookie').split(';')[0];
+  const context = await browser.newContext({ viewport: { width: 1366, height: 768 } });
+  const page = await context.newPage();
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto(url);
+  await page.locator('[name=name]').fill('Errand reader');
+  await page.locator('[name=code]').fill(app.state.sessionCode);
+  await page.getByRole('button', { name: 'Join', exact: true }).click();
+  await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
+  await meetFamily(page);
+  for (let i = 2; i <= 5; i++) await post('/api/join', { name: `Reader ${i}`, code: app.state.sessionCode });
+  await post('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);
+  await page.waitForFunction(() => window.__snapshot?.world.status === 'running');
+  if (await page.locator('#tutorial-skip').isVisible().catch(() => false)) await page.locator('#tutorial-skip').click();
+
+  const family = app.state.world.households['hh-1'];
+  const grown = family.members.map(id => app.state.world.entities[id]).filter(one => (one.age ?? 30) >= 16 && one.location.siteId === family.homeSiteId);
+  const [first, second] = grown;
+  assert.ok(first && second, 'this family has not two grown people at home, so this proves nothing');
+
+  // ------------------------------------------------------------------------------------------ the icon opens the popup
+  await asMain(page, first.id);
+  const icon = page.locator(`.panel-row[data-entity-id="${first.id}"] .panel-icon[data-key="visit-shop"]`);
+  await icon.waitFor({ state: 'visible' });
+  await icon.click();
+  await page.locator('#errand').waitFor({ state: 'visible' });
+  await page.waitForFunction(() => document.querySelectorAll('#errand .errand-line').length > 5);
+  assert.equal(app.state.world.entities[first.id].chore, null, 'pressing the icon sent somebody before anything was chosen');
+  const listed = await page.evaluate(() => [...document.querySelectorAll('#errand .errand-shop-name')].map(one => one.textContent));
+  observed.shops = listed;
+  assert.ok(listed.some(name => /^The store/.test(name)) && listed.some(name => /blacksmith/.test(name)), `the popup lists ${listed}`);
+  const opened = await popup(page);
+  assert.match(opened.stock, /14 cotton/, `the family's stock is not beside the list: ${opened.stock}`);
+  assert.equal(opened.send, false, 'Send was open with nothing on the list');
+  ok(`the icon opens the popup and sends nobody: ${listed.length} shops of Gonzales listed, "${opened.stock}"`);
+
+  // ------------------------------------------------------------------------------------ fourteen bales takes the wagon
+  await setCount(page, 'store:cotton', 14);
+  await page.locator('#errand [data-line="store:cotton"] [data-act="pay-coin"]').click();
+  await setCount(page, 'store:seed', 1);
+  await page.locator('#errand [data-line="store:seed"] [data-act="pay-coin"]').click();
+  await page.waitForFunction(() => /Takes the wagon/.test(document.querySelector('#errand-how').textContent) && !document.querySelector('#errand-send').disabled, null, { timeout: 15000 });
+  const quoted = await popup(page);
+  observed.how = quoted.how;
+  assert.equal(quoted.how, 'Takes the wagon: 14 of 20 loads, more than the horse carries (7).');
+  const shotWide = join(SHOTS, 'errand-1366.png');
+  await page.screenshot({ path: shotWide });
+  const wide = await measure(page);
+  observed.at1366 = wide;
+  assert.ok(wide.fits, `at 1366x768 the popup hangs off the screen: ${JSON.stringify(wide.errand)}`);
+  assert.deepEqual(wide.covered, [], `at 1366x768 something is drawn over the popup's own controls: ${wide.covered}`);
+  assert.equal(wide.overColumn, 0, 'at 1366x768 the popup covers the family\'s column');
+  assert.equal(wide.overBar, 0, 'at 1366x768 the popup is drawn over the ability bar, which steps aside while it is open');
+  ok(`the popup says how they will go, in the server's words: "${quoted.how}" (1366x768: ${wide.errand.w}x${wide.errand.h}, clear of the column, nothing over its controls)`);
+
+  // ------------------------------------------------------------------------------------------------- Enter sends it
+  await page.locator('#errand [data-line="store:cotton"] [data-act="more"]').focus();
+  await page.keyboard.press('Enter');
+  await page.locator('#errand').waitFor({ state: 'hidden', timeout: 10000 });
+  const sent = app.state.world.entities[first.id];
+  assert.equal(sent.chore?.id, 'visit-shop', 'Enter did not send the errand');
+  assert.equal(sent.travel?.mode, 'wagon', `they went ${sent.travel?.mode}, not with the wagon`);
+  assert.equal(app.state.world.entities['hh-1-wagon'].borrowedBy, first.id);
+  ok(`Enter sends the one order: ${sent.name} drives off to Gonzales with the ox and wagon`);
+
+  // ------------------------------------------------------------------ a second person is refused the wagon, in words
+  await asMain(page, second.id);
+  await page.locator(`.panel-row[data-entity-id="${second.id}"] .panel-icon[data-key="visit-shop"]`).click();
+  await page.locator('#errand').waitFor({ state: 'visible' });
+  await page.waitForFunction(() => document.querySelectorAll('#errand .errand-line').length > 5);
+  await setCount(page, 'store:cotton', 10);
+  await page.waitForFunction(() => /wants the wagon/.test(document.querySelector('#errand-why').textContent), null, { timeout: 15000 });
+  const refused = await popup(page);
+  observed.refused = refused.why;
+  assert.equal(refused.why, `This wants the wagon: 10 loads, and the horse carries 7. ${sent.name} has the ox and wagon, on the road to Gonzales. Send a smaller load, or wait until the wagon is free.`);
+  assert.equal(refused.send, false, 'Send was open on a list the server refuses');
+  await page.screenshot({ path: join(SHOTS, 'errand-refused-1366.png') });
+  // The same order sent anyway is refused by the server with the same sentence.
+  const forged = await page.evaluate(async id => { const r = await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `forged-${Date.now()}`, action: 'chore', chore: 'visit-shop', entityId: id, errand: [{ id: 'store:cotton', n: 10, pay: 'coin' }] }) }); return { status: r.status, body: await r.json() }; }, second.id);
+  assert.equal(forged.status, 400);
+  assert.equal(forged.body.error, refused.why);
+  // A smaller load goes on the horse.
+  await setCount(page, 'store:cotton', 5);
+  await page.waitForFunction(() => /Rides the horse/.test(document.querySelector('#errand-how').textContent), null, { timeout: 15000 });
+  observed.smaller = (await popup(page)).how;
+  ok(`a second person is refused the wagon with who has it and what to do: "${refused.why}"; five bales go instead: "${observed.smaller}"`);
+
+  // --------------------------------------------------------------------------------------------- Escape sends nobody
+  await page.keyboard.press('Escape');
+  await page.locator('#errand').waitFor({ state: 'hidden', timeout: 5000 });
+  assert.equal(app.state.world.entities[second.id].chore, null, 'Escape sent somebody');
+  // The bar is back the instant the list closes, drawn and of real size (docs/FAMILY_PANEL.md §12.13's other half).
+  const back = await page.evaluate(() => { const bar = document.querySelector('.panel-row[data-focused=true] .panel-icons'); const r = bar?.getBoundingClientRect(); return Boolean(bar) && getComputedStyle(bar).display !== 'none' && r.width > 20 && r.height > 20; });
+  assert.ok(back, 'the ability bar did not come back when the popup closed');
+  ok('Escape closes the popup and sends nobody, and the ability bar is back');
+
+  // ----------------------------------------------------------------------------- 1024x768: the popup still fits and works
+  await page.setViewportSize({ width: 1024, height: 768 });
+  await page.locator(`.panel-row[data-entity-id="${second.id}"] .panel-icon[data-key="visit-shop"]`).click();
+  await page.locator('#errand').waitFor({ state: 'visible' });
+  await page.waitForFunction(() => document.querySelectorAll('#errand .errand-line').length > 5);
+  await setCount(page, 'store:seed', 2);
+  await page.waitForFunction(() => /Rides the horse|Goes on foot/.test(document.querySelector('#errand-how').textContent), null, { timeout: 15000 });
+  await page.screenshot({ path: join(SHOTS, 'errand-1024.png') });
+  const narrow = await measure(page);
+  observed.at1024 = narrow;
+  assert.ok(narrow.fits, `at 1024x768 the popup hangs off the screen: ${JSON.stringify(narrow.errand)}`);
+  assert.deepEqual(narrow.covered, [], `at 1024x768 something is drawn over the popup's own controls: ${narrow.covered}`);
+  assert.equal(narrow.overColumn, 0, 'at 1024x768 the popup covers the family\'s column');
+  assert.equal(narrow.overBar, 0, 'at 1024x768 the popup is drawn over the ability bar');
+  await page.keyboard.press('Escape');
+  await page.setViewportSize({ width: 1366, height: 768 });
+  ok(`at 1024x768 the popup fits (${narrow.errand.w}x${narrow.errand.h}), keeps off the column and has nothing over its controls`);
+
+  // ------------------------------------------------------------------------------------------- and the goods come home
+  await page.waitForFunction(id => { const one = window.__snapshot?.world.entities.find(e => e.id === id); return one && !one.chore && !one.travel; }, first.id, { timeout: 120000 });
+  const home = await page.evaluate(() => window.__snapshot.world.household.resources);
+  observed.home = home;
+  assert.equal(home.money, 13, `the fourteen reales, less the one the seed cost, did not come home: ${home.money}`);
+  assert.equal(home.seed, 4, `the seed did not come home: ${home.seed}`);
+  assert.equal(app.state.world.entities['hh-1-wagon'].borrowedBy, null, 'the wagon is still held now it is home');
+  const said = await page.evaluate(() => (window.__snapshot?.world.events || []).map(event => event.text).filter(text => /sold 14 cotton|bought 2 seed/.test(text)));
+  observed.story = said;
+  assert.equal(said.length, 2, `the family's story does not say what was done: ${said}`);
+  ok(`the goods come home: 13 reales (14 for the cotton, 1 paid for seed) and 2 more seed in the house, the wagon free again, and the story says so: "${said.join('" "')}"`);
+
+  assert.deepEqual(errors, [], `the page threw: ${errors.join(' | ')}`);
+  ok('no page errors');
+  writeFileSync('docs/evidence/errand-browser.json', `${JSON.stringify({
+    record: 'The errand to town, in a browser: docs/TOWNS.md §4b',
+    date: new Date().toISOString().slice(0, 10),
+    verdict: 'PASS',
+    note: 'Same computer only, headless Chrome at 1366x768 and 1024x768. A student opened the popup from the family panel, put fourteen bales and a purchase of seed on the list, read the server\'s sentence that the wagon goes, sent it with Enter, was refused the wagon for a second person in the holder\'s name, closed the popup with Escape, and saw the coin and seed come home. No LAN or district claim.',
+    checks: pass,
+    observed,
+  }, null, 2)}\n`);
+  console.log(`\n${pass.length} checks passed.`);
+} finally {
+  await browser.close();
+  await app.close();
+}

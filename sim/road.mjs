@@ -594,6 +594,8 @@ export function registerRoadChores() {
 }
 const roadChores = () => ({
   'hunt-road': {
+    // The family's one rifle goes with whoever hunts (owner, 2026-09-24; sim/keeping.mjs).
+    takes: ['rifle'],
     name: 'Hunt from the camp', skill: 'hunting', where: 'road', road: true, halts: true, refuse: roadChoreRefusal,
     needs: { powder: 1 },
     describe: `The family halts where it is while they go out from the camp for game. The shot is theirs to take or wait for, as at home; what they bring back (${CAMP_HUNT_FOOD} food, more for a good hand) is the family’s. The Mexican army does not halt.`,

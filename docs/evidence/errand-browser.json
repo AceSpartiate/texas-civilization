@@ -1,0 +1,79 @@
+{
+  "record": "The errand to town, in a browser: docs/TOWNS.md §4b",
+  "date": "2026-09-24",
+  "verdict": "PASS",
+  "note": "Same computer only, headless Chrome at 1366x768 and 1024x768. A student opened the popup from the family panel, put fourteen bales and a purchase of seed on the list, read the server's sentence that the wagon goes, sent it with Enter, was refused the wagon for a second person in the holder's name, closed the popup with Escape, and saw the coin and seed come home. No LAN or district claim.",
+  "checks": [
+    "the icon opens the popup and sends nobody: 9 shops of Gonzales listed, \"The family has 30 food · 2 seed · 3 powder · 0 reales · 14 cotton.\"",
+    "the popup says how they will go, in the server's words: \"Takes the wagon: 14 of 20 loads, more than the horse carries (7).\" (1366x768: 500x616, clear of the column, nothing over its controls)",
+    "Enter sends the one order: Alvin drives off to Gonzales with the ox and wagon",
+    "a second person is refused the wagon with who has it and what to do: \"This wants the wagon: 10 loads, and the horse carries 7. Alvin has the ox and wagon, on the road to Gonzales. Send a smaller load, or wait until the wagon is free.\"; five bales go instead: \"Rides the horse: 5 of 7 loads.\"",
+    "Escape closes the popup and sends nobody, and the ability bar is back",
+    "at 1024x768 the popup fits (500x616), keeps off the column and has nothing over its controls",
+    "the goods come home: 13 reales (14 for the cotton, 1 paid for seed) and 2 more seed in the house, the wagon free again, and the story says so: \"Alvin sold 14 cotton to Marta Ibarra for 14 reales.\" \"Alvin bought 2 seed at the store for 1 real.\"",
+    "no page errors"
+  ],
+  "observed": {
+    "shops": [
+      "The store · Marta Ibarra",
+      "The blacksmith's · Josiah Pike",
+      "The gunsmith's · Tobias Rhine",
+      "The doctor's · Dr. Felipe Arocha",
+      "The tavern · Hannah Deering",
+      "The tanner's · Calvin Oakes",
+      "The wheelwright's · Rafael Cantú",
+      "The mill · Micajah Hobbs",
+      "The weaver's · Lucía Benavides"
+    ],
+    "how": "Takes the wagon: 14 of 20 loads, more than the horse carries (7).",
+    "at1366": {
+      "screen": {
+        "w": 1366,
+        "h": 768
+      },
+      "errand": {
+        "x": 433,
+        "y": 56,
+        "w": 500,
+        "h": 616,
+        "r": 933,
+        "b": 672
+      },
+      "fits": true,
+      "overColumn": 0,
+      "overBar": 0,
+      "covered": []
+    },
+    "refused": "This wants the wagon: 10 loads, and the horse carries 7. Alvin has the ox and wagon, on the road to Gonzales. Send a smaller load, or wait until the wagon is free.",
+    "smaller": "Rides the horse: 5 of 7 loads.",
+    "at1024": {
+      "screen": {
+        "w": 1024,
+        "h": 768
+      },
+      "errand": {
+        "x": 320,
+        "y": 56,
+        "w": 500,
+        "h": 616,
+        "r": 820,
+        "b": 672
+      },
+      "fits": true,
+      "overColumn": 0,
+      "overBar": 0,
+      "covered": []
+    },
+    "home": {
+      "food": 29.9939,
+      "seed": 4,
+      "powder": 3,
+      "money": 13,
+      "cotton": 0
+    },
+    "story": [
+      "Alvin sold 14 cotton to Marta Ibarra for 14 reales.",
+      "Alvin bought 2 seed at the store for 1 real."
+    ]
+  }
+}

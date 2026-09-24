@@ -80,11 +80,109 @@ prices written in two places and no way to compare them with anything else the s
 trades now, at exactly the prices those errands paid. The errands themselves still exist for the families nobody plays:
 their director sends them on one (`directorOnly` in `sim/chores.mjs`), which is why a neighbour is still seen walking to
 town for seed.
+## 4b. The errand chosen before anybody leaves, and one person at a time with a thing (owner, 2026-09-24)
+
+> "When sending someone to town to stores, there should be a popup first asking what they should buy or sell. (Currently I
+> can't buy more seed.) They'll take priority on the wagon and take it so they can carry whatever it is they need to. If
+> someone is using the wagon (or horse, or any item really), then no one else can use it."
+>
+> — the owner, 2026-09-24
+
+**Status: built 2026-09-24** (`sim/errands.mjs`, `sim/keeping.mjs`, `public/errand.js`; [tests](../tests/errands.test.mjs),
+[browser](evidence/errand-browser.json)). Claim `FIC-GONZ-387`. It amends §5 below: nothing is asked in town any more.
+
+### Why the seed could not be bought
+
+`visit-shop` walked a person to town and only then asked two questions - which shop, then what at its counter. Each waited
+two hours of 1835 (`ASK_PATIENCE`) and was then answered alone, and alone the answers were *Come home again* and *Nothing
+today*. Two hours is six ticks: under a minute at the study pace, six seconds at the quick one, and **no time at all for a
+person on auto**, whose questions are answered the tick they are asked. A student who had turned auto on (as the owner's
+solo game of 2026-09-21 shows, auto switched on the tick before the trip) or was looking at anybody else when the walker got
+to town, got the walk and never the seed. The seed itself was never refused: the store sells it for a real or three food,
+and a node run and a browser both bought it for anybody who answered in time.
+
+Found on the way, and mended: the store's hoe has no food price, but the counter offered *"Buy a sound hoe: null food"* and
+took nothing for it (`counterOptions`, `counterRefusal`).
+
+### The popup
+
+**Go to town to trade** on a person's row opens a list instead of sending anybody: every offer of every shop standing in the
+family's own town today, grouped by shop and keeper, each with its price in coin or food (the shop's own), what one of it is,
+why it cannot be had when it cannot (*The family already has a felling axe.*), a count and a Coin/Food choice. Beside it the
+family's stock, and once there is something on the list the stock after it and **how the person will go, in the server's
+own sentence**: *"Takes the wagon: 14 of 20 loads, more than the horse carries (7)."* A refusal is the server's sentence too,
+shown in the popup, and Send stays shut. Enter sends; Escape closes and sends nobody. While it is open the ability bar steps
+aside, as it does for a rider (owner, 2026-09-22, FAMILY_PANEL.md §12.13), and is back the instant it closes. Everything in
+it comes from `GET /api/errand` (the family's own person and town only; fetched when it opens and whenever the list, the
+family's stock or that person's ways of going change - never on the tick). The one order is `{ action: 'chore', chore:
+'visit-shop', entityId, errand: [{ id: 'trade:offer', n, pay }] }`, its id made as every command's is, after the spread.
+
+### The rules (sim/errands.mjs)
+
+- **What a line counts**: purchases of what a shop sells (two seed a purchase), lots of what it buys (five food a real, a
+  bale, a hide), food for the mill. Things bought once - a tool, shoes, the rifle put in order, the doctor - one at most.
+- **In what order**: what the family sells first, then the mill, then what it buys, each in the list's order - so the coin or
+  food a sale brings can pay for a purchase, whichever the student put first.
+- **Checked when it is sent**, against what the family has now: the shop is standing there; the shop's own refusal; the
+  family has what it sells and can pay what it buys; the load fits a way of going it has free. **Not** checked: a keeper's
+  purse, which a family finds out at the counter (owner, 2026-09-12, MONEY_AND_GLORY.md §3). The store buys cotton and food
+  for coin outside its purse (owner, 2026-09-16, §8.1); the tanner and the weaver pay from theirs.
+- **If things differ on arrival** (the honest rule, deterministic, no chance in it): prices never move, so a price cannot
+  differ. What can is what the house holds, whether a keeper is at the shop, and a keeper's purse. At each line as many are
+  done as can still be paid for, **nothing is paid for anything not received**, and what was not done is said in the family's
+  story with the reason (*"could do only 1 of 3: buy seed - It costs 1 real, and there is not that much coin in the house."*).
+- **The load**: every good a load a unit, in the house's own units (`sim/travel.mjs` `carry`: foot 5, horse 7, wagon 20); coin
+  weighs nothing; a tool, shoes, a saddle or blankets a load; the rifle a load each way. The larger of what is carried to town
+  (what is sold, food to pay with that no sale in town already paid, corn for the mill) and what is carried home.
+- **The way of going**: the server chooses **the quickest way that carries the load that the family has free** - the horse,
+  then on foot, then the ox and wagon - and takes it at the moment the errand starts; the popup shows it and why. Taken, it is
+  the person's until it is home (below). The wheelwright works on the wagon itself, so a list with him takes the wagon. A load
+  that wants the wagon while somebody else has it is refused with who has it and what to do: *"This wants the wagon: 10 loads,
+  and the horse carries 7. Rosa has the ox and wagon, on the road to Gonzales. Send a smaller load, or wait until the wagon is
+  free."*
+- `ceiling:` what is bought is the family's at the counter, as every errand has always paid out; the goods are not a load held
+  on the road that could be lost on the way home.
+
+### One person at a time with a thing (sim/keeping.mjs `userOf`)
+
+The one rule every order that needs a thing asks, in one place. A thing is held in one of two ways: **on the road or standing
+with somebody away from home** (`borrowedBy`, read against where the beast is - 2026-09-16), or **by the work somebody was
+given** (`chore.with` on the person, written when the work begins): the rifle for a hunt (in the timber, on the family's land,
+small game, at the mark, from the camp on the road east); the ox for hauling logs behind it; the ox and wagon for a harvest
+that wants them (shared by everybody bringing in the same crop, and nobody else's to drive off); and the beasts of a journey
+the work will make, from the moment it is given until the road begins. The refusal names the holder and what they are doing:
+*"Mateo has the rifle, on the road to the timber on the Guadalupe River."*, *"Rosa has the ox, dragging 6 logs behind the ox."*
+
+**Every way a use ends lets go of it, because the use is part of the work or the journey**: home again; the work finished,
+called off, dropped for a call or the march, or dropped when the family flees east; the person dead or taken (never counted
+as holding anything). A refused order holds nothing. The flight east takes whatever beasts stand at home, as it always did
+(sim/scrape.mjs); a beast away with somebody is not at home to take. A family nobody plays is run through the same
+`choresFor` and `modeAvailability`, so the director obeys the rule; auto too.
+
+**Old saves** (the one door, `server/storage.mjs` `readSave`): work in hand is given what it holds from the work itself -
+`sim/chores.mjs` `deriveUses` - so a hunt opens holding the rifle, a load behind the ox the ox, a harvest that wants the wagon
+the ox and wagon, a journey still to come its beasts. Somebody in the middle of the old walk to the shops goes on with it
+under the name `visit-shop-street`, offered to nobody. No save version moved.
+
+### Open for the owner
+
+1. **The family's tools are not held** - hoe, felling axe, broadaxe, froe, auger. The work that uses them is the family's
+   together at one place (raising the house, clearing, planting, harvest), which you decided goes faster with more hands
+   (SETTLING_IN.md); one axe held by one person would undo that. Should the felling axe be held when somebody takes it *off*
+   the land - fetching logs, a bee tree - so nobody can fell or build meanwhile?
+2. **The rifle and the war.** A man who turns out for a call is told he "takes the family's rifle" (sim/calls.mjs), but
+   nothing holds it: the family at home still hunts. Holding it would leave a family whose men are away without meat.
+3. **One rifle a family.** Since today a second hunter waits for the first to come home. Families nobody plays hunt one at
+   a time too. Measured once, first class period only (same computer; a 15-family class on the colonies, families nobody plays, four seeds, before and after this change): nobody went hungry or died either way; the mean food in a house at the period's end fell from 37.9 to 33.9. The winter and spring are not measured (`scripts/balance-study.mjs` is the whole war).
+4. **The server chooses the way of going.** A student cannot keep the horse at home by sending somebody on foot with a small
+   load; the quickest way that carries it is taken. Say if a student should be able to choose a slower way.
+
 ## 5. How a student uses it
 
-The **Go to a shop** icon on a person's row sends them to the family's own town. On the street they are asked which
-shop, from the shops standing there; at the counter, what to buy or sell. Nobody answering comes home having spent
-nothing. The keepers stand at their doors in the town and are seen, like anybody, only when one of the family is there.
+**Since 2026-09-24 (§4b):** the **Go to town to trade** icon opens the popup; what to buy and sell is chosen before anybody
+leaves, and nothing is asked in town. Until then: the icon sent them to the family's own town; on the street they were asked
+which shop, and at the counter what to buy or sell, and nobody answering came home having spent nothing. The keepers stand at
+their doors in the town and are seen, like anybody, only when one of the family is there.
 
 ## 5a. Where each keeper keeps shop (owner, 2026-09-16)
 

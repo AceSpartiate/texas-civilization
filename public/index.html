@@ -225,6 +225,23 @@
       <p id="call-menu-said" role="status"></p>
     </div>
 
+    <!-- The errand to town (docs/TOWNS.md §4b, owner 2026-09-24): what to buy and sell, chosen before anybody leaves. Every
+         line, price, the stock and how they will go are the server's (`/api/errand`, sim/errands.mjs); public/errand.js
+         draws them and sends the one order. Escape sends nobody; Enter sends the list. -->
+    <div id="errand" hidden role="dialog" aria-labelledby="errand-title" aria-describedby="errand-text">
+      <div id="errand-head"><span id="errand-title">To town</span><button type="button" id="errand-close" aria-label="Close, and send nobody">×</button></div>
+      <p id="errand-text" class="ask-text"></p>
+      <p id="errand-stock"></p>
+      <div id="errand-lines"></div>
+      <p id="errand-after"></p>
+      <p id="errand-how" role="status"></p>
+      <p id="errand-why" role="alert"></p>
+      <div id="errand-answer">
+        <button type="button" id="errand-send">Send them</button>
+        <button type="button" id="errand-cancel">Cancel</button>
+      </div>
+    </div>
+
     <!-- The first five minutes, before the teacher has begun. Never modal and never in
          the way: a student who would rather just start farming says so once and it goes. -->
     <!-- The die a family is rolled with (docs/FAMILY_CREATION.md). What the number means

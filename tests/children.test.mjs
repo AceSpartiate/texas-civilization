@@ -146,7 +146,8 @@ test('the rule: setting a child to their own work stops nobody else in the famil
   applyAction(world, household.id, { action: 'chore', entityId: kid.id, chore: 'child-play' });
   assert.ok(kid.chore, 'the child was not set to play');
   assert.deepEqual(can(of(world, household, father)), before, 'a child at play changed what the father could be set to');
-  const work = before.find(id => !id.startsWith('child-'));
+  // Any work the father may be given that is sent as a bare order: the errand to town is sent with its list (sim/errands.mjs).
+  const work = before.find(id => !id.startsWith('child-') && id !== 'visit-shop');
   assert.ok(work, 'the father had no work to be given');
   applyAction(world, household.id, { action: 'chore', entityId: father.id, chore: work });
   assert.ok(father.chore, 'the father could not be set to work while a child played');

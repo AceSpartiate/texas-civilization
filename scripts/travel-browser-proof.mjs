@@ -125,7 +125,8 @@ try {
   assert.equal(await shut.isDisabled(), true);
   const why = await shut.getAttribute('title');
   const holder = app.state.world.entities['hh-1-thomas'].name;
-  assert.equal(why, `${holder} has the ox and wagon.`, why);
+  // Said with what he is doing with them, where that adds anything (owner, 2026-09-24; sim/keeping.mjs `hasWords`).
+  assert.match(why, new RegExp(`^${holder} has the ox and wagon(, [^.]+)?\\.$`), why);
   ok(`a second person is told who has it, in words: "${why}"`);
   assert.equal(await page.locator('#travel-modes button[data-mode=foot]').isDisabled(), false);
   ok('and walking is never taken away from anybody');

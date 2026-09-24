@@ -226,12 +226,14 @@ try {
     'a guided beginning is running on this family, so it is gated to one step’s work and §11 cannot be measured here');
   // Who the panel shows idle before anybody is given anything.
   measured.idleBeforeOrders = (await page.evaluate(() => window.__familyPanel)).filter(row => row.idle).map(row => row.id);
-  // One press a person, top to bottom. The principal goes to work about the place; the next grown person to town for seed,
-  // which stops at the counter to ask (the "!" below); everybody else to the first chore still open to them that needs no
-  // place on the map. Each row is read again after the one before it was ordered, because one person taking the gun or the
-  // wagon shuts it to the next.
-  const errands = ['fetch-seed', 'fetch-powder', 'visit-shop', 'sell-food'];
-  const preferred = ['make-furniture', 'cut-lane', 'dig-well', 'build-house', 'plant-field', 'mend-hoe', 'practise-shooting', 'buy-furniture', ...errands, 'hunt-timber'];
+  // One press a person, top to bottom. The principal goes to work about the place; the next grown person to town to buy a
+  // piece from the carpenter, whose counter stops to ask which (the "!" below); everybody else to the first chore still open
+  // to them that needs no place on the map. Each row is read again after the one before it was ordered, because one person
+  // taking the gun or the wagon shuts it to the next. Until 2026-09-24 the asker went to the shops, where the walk stopped to
+  // ask which shop; since then what to buy there is chosen in a popup before anybody leaves (docs/TOWNS.md §4b), nothing is
+  // asked in town, and that icon opens the popup instead of taking an order - so it is on neither list.
+  const errands = ['buy-furniture'];
+  const preferred = ['make-furniture', 'cut-lane', 'dig-well', 'build-house', 'plant-field', 'mend-hoe', 'practise-shooting', ...errands, 'hunt-timber'];
   const rowIds = await page.evaluate(() => [...document.querySelectorAll('.panel-row')].map(row => row.dataset.entityId));
   const plan = [];
   let presses = 0;
@@ -297,8 +299,8 @@ try {
   // pressing it proved nothing. What is proved now is the same thing in the current bar: somebody at work has no refused
   // order drawn, and an order put back on their bar by hand, as a tick that had not caught up would leave it, and pressed,
   // is refused by the server in its own words and changes nothing.
-  // Somebody still at a chore: furniture is quick, so it is often only the errand to town. A refused order changes nothing
-  // (asserted below), so the errand's question further down is not disturbed by it.
+  // Somebody still at a chore: furniture is quick, so it is often only the trip to the carpenter. A refused order changes
+  // nothing (asserted below), so that trip's question further down is not disturbed by it.
   const atChore = plan.filter(entry => entry.key !== 'work' && entry.id !== principalId && world().entities[entry.id].chore);
   const busyId = (atChore.find(entry => !errands.includes(entry.key)) || atChore[0])?.id;
   assert.ok(busyId, 'nobody still at a chore to hold a stale order');
@@ -357,12 +359,12 @@ try {
   ok(`${toStop} is left standing about (${measured.idleHow}), and the row says "Idle" and marks the portrait`);
 
   // -------------------------------------------------------------------------------------------- work that stops to ask
-  assert.ok(asker, 'nobody could be sent on an errand to town, so nothing will stop to ask');
+  assert.ok(asker, 'nobody could be sent to the carpenter, so nothing will stop to ask');
   // A family of twenty (owner, 2026-09-22: the number rolled is the family; this seed now rolls twenty) takes twice as long to
   // order down the panel as the family this was written for, and a question left longer than `ASK_PATIENCE` (two fictional
-  // hours - a second and a half at this tick) is answered by the family's own default and the errand walks home. Found
-  // finished and home, the asker is sent again, so what is proved is the "!" on a question that is waiting, not the race.
-  // The "!" is pressed the moment it shows, and a question that lapsed before the press sends the errand again.
+  // hours - a second and a half at this tick) is answered by the family's own default and the work goes on without it. Found
+  // finished, the asker is sent again, so what is proved is the "!" on a question that is waiting, not the race.
+  // The "!" is pressed the moment it shows, and a question that lapsed before the press sends the work again.
   await page.locator('#map-nav [data-view=home]').click();
   await page.waitForTimeout(300);
   let opened = false;
@@ -385,14 +387,14 @@ try {
     await page.locator(`.panel-row[data-entity-id="${asker}"] .panel-icon[data-key="${again}"]`).click();
     await page.waitForFunction(id => Boolean(window.__snapshot?.world.entities.find(e => e.id === id)?.chore), asker, { timeout: 15000 });
   }
-  assert.ok(opened, `${asker}'s question could not be opened before it lapsed, in ${measured.askerSentAgain || 0} errands`);
+  assert.ok(opened, `${asker}'s question could not be opened before it lapsed, in ${measured.askerSentAgain || 0} tries`);
   const asked = await page.evaluate(id => ({ card: document.querySelector('#selection').dataset.entityId, question: document.querySelector('#selection-work .ask-text')?.textContent,
     focused: document.activeElement.querySelector('.work-name')?.textContent || document.activeElement.textContent, watching: document.querySelector('#map-nav [data-view=follow]').textContent }), asker);
   assert.equal(asked.card, asker);
   assert.ok(asked.watching.startsWith('Watching'), asked.watching);
   measured.asking = { asker, chore: plan.find(entry => entry.id === asker).key, ...asked };
   await shot(page, 'asking-opened');
-  ok(`${asker}'s errand stopped to ask ("${asked.question}"): the "!" took the camera to them and opened the question on their card, the keyboard on "${asked.focused}"`);
+  ok(`${asker}'s work stopped to ask ("${asked.question}"): the "!" took the camera to them and opened the question on their card, the keyboard on "${asked.focused}"`);
   // The last answer is the one that walks away without buying: it ends the question whatever the family can afford.
   await page.locator('#selection-work button[data-action="answer-chore"]:not([disabled])').last().click();
   await page.waitForFunction(id => window.__familyPanel?.find(row => row.id === id)?.need !== 'asking', asker, { timeout: 15000 });

@@ -9,9 +9,9 @@ import { advanceRoutine } from './routines.mjs';
 import { calendarMinutes, dateOf, withCalendarStep } from './clock.mjs';
 import { awayProjection, milesATick, roadTicksFor, tooFastToFollow } from './sight.mjs';
 import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection } from './directors.mjs';
-import { abandonChore, advanceChores, answerChore, askProjection, beginChore, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
+import { abandonChore, advanceChores, answerChore, askProjection, beginChore, choreAvailability, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
 import { GAME } from './hunting.mjs';
-import { bringAlong, hasWords, holderOf, keepWithRiders, leaveBehind, modeWith, NOUN } from './keeping.mjs';
+import { bringAlong, hasWords, holderOf, intoTheRoad, keepWithRiders, leaveBehind, modeWith, NOUN, ROLES as BEASTS, userOf, usesInvalid } from './keeping.mjs';
 import { SERVING_ACTIONS, recallFromService, servingWhy, winterInvalid } from './winter.mjs';
 import { answerCourier } from './alamo.mjs';
 import { advanceRunners, runnerInvalid } from './alamo-runner.mjs';
@@ -52,6 +52,7 @@ import { appearanceInvalid, setAppearance } from './appearance.mjs';
 import { furnitureInvalid } from './furniture.mjs';
 import { interiorInvalid, interiorProjection, placeItem } from './interior.mjs';
 import { gearExertionShare, shopsInvalid, wagonSpeedShare } from './shops.mjs';
+import { errandOffers, errandQuote, errandsInvalid } from './errands.mjs';
 import { fellingInvalid, logsLeftOut, logsProjection, recordFelling } from './felling.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, defaultNames, familyProjection, familyRoll, FAMILY_DIE, FAMILY_TABLE, tableOf, compositionFor,rolledWords, householdName, kinFor, mainPersonId, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
@@ -230,20 +231,6 @@ export function pointAt(points, distance) {
 // is the one journey a wagon is turned back from.
 const usesFord = (world, path) => path.routeIds.some(id => world.map.routes[id]?.kind === 'crossing');
 /**
- * Somebody of this family who has been set to work that will take this beast on a journey not yet begun: a chore sent
- * with the horse whose road out comes after a first step (making furniture asks first). They have it from the moment the
- * work is given, or two people could be sent with one horse and the second find it gone at the gate.
- */
-function promisedTo(world, beast, role, entity) {
-  if (beast.travel) return null;
-  const household = world.households[entity.householdId];
-  return (household?.members || []).map(id => world.entities[id]).find(person => person && person !== entity && !person.travel
-    && person.chore?.mode && MODES[person.chore.mode]?.needs.includes(role)
-    && person.location.siteId === beast.location.siteId
-    && !['dead', 'captured'].includes(person.health?.condition)
-    && (CHORES[person.chore.id]?.steps || []).slice(Math.max(0, person.chore.step)).some(step => step.travel)) || null;
-}
-/**
  * Whether this person can set out this way, and if not, why - in the words the student
  * will read on the control. This is a permission, so like `choresFor` it is computed on
  * the server and never inferred by the client.
@@ -260,16 +247,15 @@ export function modeAvailability(world, entity, modeId, path = null) {
     // A class saved before there were horses has no horse, which is a true thing about
     // that class rather than a broken one, and the control says so plainly.
     if (!beast) return { can: false, why: `Your family has no ${NOUN[role]}.` };
-    // Somebody else has it: on the road with them, standing where they are, marching with them, or promised to work that
-    // will take it (sim/keeping.mjs). Said in their own name, and for the wagon both beasts at once when one person has both
-    // - the ox pulls the wagon, so using one is using the other.
-    const holder = holderOf(world, beast) || promisedTo(world, beast, role, entity);
-    if (holder && holder !== entity) {
-      const held = mode.needs.filter(other => {
-        const also = world.entities[propertyId(entity.householdId, other)];
-        return also && (holderOf(world, also) || promisedTo(world, also, other, entity)) === holder;
-      });
-      return { can: false, why: hasWords(holder, held.length ? held : [role]) };
+    // Somebody else has it: on the road with them, standing where they are, marching with them, or held by work they were
+    // given - a journey their work will make, hauling logs behind the ox, a harvest that wants the wagon (sim/keeping.mjs
+    // `userOf`, the one rule). Said in their own name with what they are doing, and for the wagon both beasts at once when
+    // one person has both - the ox pulls the wagon, so using one is using the other.
+    const household = world.households[entity.householdId];
+    const holder = userOf(world, household, role, entity);
+    if (holder) {
+      const held = mode.needs.filter(other => userOf(world, household, other, entity) === holder);
+      return { can: false, why: hasWords(holder, held.length ? held : [role], world, entity) };
     }
     if (beast.condition && beast.condition !== 'sound') return { can: false, why: `The ${NOUN[role]} is in no state to go.` };
     // The whole point of property being rivalrous: it is somewhere, and if it is not
@@ -381,7 +367,9 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
     .map(site => ({ id: site.id, waterKind: site.waterKind || 'river', at: alongAt(points, site.over || site) }))
     .filter(ford => Number.isFinite(ford.at)).sort((a, b) => a.at - b.at);
   entity.travel = { from, to: destination, points, progress: 0, distance, speed: riding ? RIDER_SPEED : mode.speed * wagonSpeedShare(world, entity, mode.id), mode: mode.id, purpose, causeId: departure, ...(pace.length && { pace }), ...(fords.length && { fords }) };
-  if (!riding) leaveBehind(world, entity, mode);
+  // Whatever beasts the work held for this road are on it with them now, held by the road; any it does not take are let go
+  // with the rest (sim/keeping.mjs `intoTheRoad`). The rifle a hunt holds stays with the hunt.
+  if (!riding) { leaveBehind(world, entity, mode); intoTheRoad(entity, BEASTS); }
   entity.location = { ...points[0], siteId: null }; entity.task = 'travel';
   if (!riding) harness(world, entity, mode, path, departure);
 }
@@ -834,7 +822,8 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // Naming is the household's own, belongs to no one member of it, and is checked before
   // the "choose one of your family" rule below because renaming the *family* names nobody.
   if (input.action === 'rename') { rename(world, household, input); return; }
-  if (input.action === 'chore') { beginChore(world, household, entity, input.chore, { beginTravel, modeAvailability }, mode); noteOrder(entity, input.chore, mode); return; }
+  // The errand to town carries its whole list in the one order (sim/errands.mjs), checked and planned by the server.
+  if (input.action === 'chore') { beginChore(world, household, entity, input.chore, { beginTravel, modeAvailability }, mode, input.errand !== undefined ? { errand: input.errand } : {}); noteOrder(entity, input.chore, mode); return; }
   // Survey, with the place the student chose on the family's own land (sim/survey.mjs). The server decides whether it can be.
   if (input.action === 'survey-plot') {
     const plot = { x: Number(input.x), y: Number(input.y) };
@@ -940,6 +929,22 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
     record(world, 'assignment', { actorId: entity.id, householdId, text: `${entity.name} will ${input.action}.` });
   } else throw new Error('Action unavailable');
 }
+/**
+ * The errand popup's facts for one of this family (sim/errands.mjs, docs/TOWNS.md §4b): what the family's own town deals in
+ * today, the family's stock, and - for a list - whether it can be sent, the load and how the person would go. Fetched when the
+ * popup opens and as the list changes, never on the tick. `shut` is why nobody can be sent at all right now, in the server's
+ * words: the person's own refusal, or the guided start's. Only the family's own person, and only its own town.
+ */
+export function errandFor(world, householdId, entityId, list = null) {
+  const household = world.households[householdId], entity = world.entities[entityId];
+  if (!household || !entity || entity.householdId !== householdId || entity.kind !== 'person') throw new Error('Choose one of your family.');
+  const open = choreAvailability(world, household, entity, 'visit-shop');
+  const shut = lessonRefusal(world, household, { action: 'chore', chore: 'visit-shop', entityId }) || (open.can ? null : open.why);
+  return {
+    person: { id: entity.id, name: entity.name }, ...errandOffers(world, household, entity), ...(shut && { shut }),
+    ...(Array.isArray(list) && list.length && { quote: errandQuote(world, household, entity, list, { modeAvailability }) }),
+  };
+}
 // The map is public geography and never changes during a class, so it is fetched once
 // rather than repeated in every snapshot. Shaded relief alone was three quarters of a
 // student's payload; at thirty clients that is megabytes a second of unchanging ground.
@@ -967,6 +972,16 @@ function projectHousehold(world, household) {
   const main = mainPersonId(world, household);
   return { ...shown, ...(main !== household.principalId && { mainId: main }) };
 }
+/**
+ * A person's work as their family sees it: the question it has stopped on, with what is open now. What the work holds
+ * (`with`, sim/keeping.mjs) and an errand's list (`errand`, sim/errands.mjs) are the server's bookkeeping - the family chose
+ * the list and reads who has what in the refusals - and stay off the per-tick channel, whose size is budgeted.
+ */
+function choreShown(world, household, e) {
+  if (!e.chore) return e.chore;
+  const { with: held, errand, ...shown } = e.chore;
+  return e.chore.ask ? { ...shown, ask: askProjection(world, household, e) } : (held || errand ? shown : e.chore);
+}
 export function projectWorld(world, householdId, role, { includeMap = true, copy = true, now = Date.now() } = {}) {
   const household = world.households[householdId];
   // The last few a family can see, not every one it has ever seen.
@@ -992,7 +1007,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   visibleEvents.reverse();
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.kind === 'person' && seenAs(e)), ...(Number.isFinite(e.age) && { age: e.age }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(['coming', 'open'].includes(e.service.courier) && { courier: e.service.courier }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }), ...(e.kind === 'person' && decisionPressing(world, e.id) && { pressing: true }),
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.kind === 'person' && seenAs(e)), ...(Number.isFinite(e.age) && { age: e.age }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, chore: choreShown(world, household, e), condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(['coming', 'open'].includes(e.service.courier) && { courier: e.service.courier }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }), ...(e.kind === 'person' && decisionPressing(world, e.id) && { pressing: true }),
     // Which way somebody a rider has reined in for is turned, and whether they are the one talking (sim/encounters.mjs
     // `listeningOf`): the other half of the rider's own `facing`/`speaking`, so the page can draw the delivered speaking
     // and listening poses. Absent for everybody not in an open meeting, which is the correct empty value and why no save
@@ -1214,8 +1229,10 @@ export function validateWorld(world) {
   if (badExpress) throw new Error(badExpress);
   const badCall = callsInvalid(world);
   if (badCall) throw new Error(badCall);
-  const badShops = shopsInvalid(world);
+  const badShops = shopsInvalid(world) || errandsInvalid(world);
   if (badShops) throw new Error(badShops);
+  const badUse = usesInvalid(world);
+  if (badUse) throw new Error(badUse);
   const badFurniture = furnitureInvalid(world);
   if (badFurniture) throw new Error(badFurniture);
   const badInterior = interiorInvalid(world);

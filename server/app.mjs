@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { etagFor, fileFacts, notModified, PIN_LENGTH, PINNED_CACHE, REVALIDATE_CACHE, sendBody } from './delivery.mjs';
 import { setAbsent } from '../sim/absence.mjs';
 import { DECISION_BUDGET_MS, realTimeMeter } from '../sim/decision-budget.mjs';
-import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld, projectFamily, rollFamily } from '../sim/world.mjs';
+import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld, projectFamily, rollFamily, errandFor } from '../sim/world.mjs';
 import { familyMaking, householdName, rollRefusal } from '../sim/family.mjs';
 import { beginNextPeriod, periodOf } from '../sim/periods.mjs';
 import { dateOf } from '../sim/directors.mjs';
@@ -80,6 +80,8 @@ const files = new Map([
   // The guided start, on the screen (docs/FAMILY_PANEL.md §12, public/lesson.js): what the server's `world.lesson` shuts,
   // points at and says. It decides nothing; the lesson itself is the world's.
   ['/lesson.js', ['../public/lesson.js', 'text/javascript']],
+  // The errand to town, on the screen (docs/TOWNS.md §4b, public/errand.js): it draws the server's list and sends one order.
+  ['/errand.js', ['../public/errand.js', 'text/javascript']],
   // How the map answers a hand: pan, zoom, pinch, tap (docs/PERFORMANCE_NAVIGATION.md).
   ['/map-camera.js', ['../public/map-camera.js', 'text/javascript']],
   // The Host's live page in words (docs/HOST_PAGE.md); named off the /host prefix, which is the Host page itself.
@@ -860,6 +862,19 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         const household = state.world.households[identity.householdId];
         const facts = siteFactsFor(state.world, household, { x: Number(url.searchParams.get('x')), y: Number(url.searchParams.get('y')) });
         return json(res, 200, { mapId: state.sessionId, facts });
+      }
+      // The errand to town, before it is sent (sim/errands.mjs, docs/TOWNS.md §4b): what the family's own town deals in, the
+      // family's stock and, for a list, whether it can go and how the person would go. The family's own people only, read
+      // from the identity on the cookie; nothing is changed by asking.
+      if (req.method === 'GET' && url.pathname === '/api/errand') {
+        if (!identity.householdId) return json(res, 403, { error: 'Only a family sends anybody to town.' });
+        let list = null;
+        if (url.searchParams.has('list')) {
+          const text = url.searchParams.get('list');
+          if (text.length > 2000) return json(res, 400, { error: 'That list is too long.' });
+          try { list = JSON.parse(text); } catch { return json(res, 400, { error: 'That list could not be read.' }); }
+        }
+        return json(res, 200, { mapId: state.sessionId, errand: errandFor(state.world, identity.householdId, url.searchParams.get('entityId'), list) });
       }
       // The list of work that exists never changes during a class; only who may do it
       // does, and that rides on the tick. Same reason the map is fetched once.

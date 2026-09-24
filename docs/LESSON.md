@@ -123,7 +123,7 @@ As built:
 | 5 | `clear` | Clear that plot; fence it if you like | the family has cleared ground it broke itself |
 | 6 | `plant` | Plant the field, **and choose the crop at the rows** | the field is sown (`sim/improvements.mjs`) |
 | 7 | `harvest` | Bring it in when it is ripe; fence while it stands | the field is bare again, having been sown |
-| 8 | `sell` | Take it to the store in town and sell it for coin | there is coin in the house |
+| 8 | `sell` | Send somebody to town to trade, with some of the crop on the list for the store (chosen before they go, since 2026-09-24: [TOWNS.md §4b](TOWNS.md)) | there is coin in the house, or the crop left the house in trade |
 | 9 | `hunt` | Choose a place on your own land and send somebody hunting | somebody went out after game and came home |
 | 10 | `well` | Dig a well by the house | the well is dug, **or the house has running water within carrying distance** |
 

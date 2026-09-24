@@ -41,7 +41,9 @@ export const PANEL_SUMMARIES = Object.freeze({
   'sell-food': 'Carry spare food to the store in town and sell it for coin.',
   'mend-hoe': 'Set the worn hoe right again at home.',
   'replace-hoe': 'Go to the smith in town and buy a sound hoe for coin.',
-  'visit-shop': 'Go into town and trade at one of its shops: the smith, the gunsmith, the doctor, the tavern and more.',
+  'visit-shop': 'Choose what they should buy and sell at the shops in town, then send them with the list.',
+  // The old walk to the shops, kept only for a class saved in the middle of it (docs/TOWNS.md §4b): offered to nobody.
+  'visit-shop-street': 'Walk the street in town, choosing a shop there and what to buy at its counter.',
   'make-furniture': 'Fetch a small tree from the timber and make a piece of furniture for the house.',
   'buy-furniture': 'Go to the carpenter in town and buy a piece of furniture for coin or food.',
   'fell-trees': 'Fell the trees at a place in timber you choose on the family’s land.',
@@ -108,6 +110,8 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   // Fetching logs from the timber (sim/chores.mjs, docs/BIOME_GAMEPLAY.md §3.2): no frame yet. stand-in: docs/ART_REQUESTS.md,
   // request 2026-09-19 - the logs fetched from the timber; a glyph drawn by `drawGlyph` until `icon-fetch-logs` is registered.
   ['fetch-logs', { glyph: 'fetch-logs' }],
+  // The old walk to the shops, for a class saved in the middle of it: the same picture as going to town to trade.
+  ['visit-shop-street', { sprite: 'icon-visit-shop' }],
   // What a family ate between deer (sim/gathering.mjs, docs/BIOMES.md §17.3): no frames yet. stand-in: docs/ART_REQUESTS.md,
   // request 2026-09-20 - the gathering icons; each is a glyph drawn by `drawGlyph` until `icon-<key>` is registered.
   ['take-small-game', { glyph: 'small-game' }], ['fish-the-water', { glyph: 'fish' }], ['fish-road', { glyph: 'fish' }],

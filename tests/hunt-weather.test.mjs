@@ -147,6 +147,8 @@ test('the rain takes away the certainty that waiting buys, and says which it was
     hunter2.skills = { ...hunter2.skills, hunting: 1 };
     household2.resources = { ...household2.resources, powder: 3 };
     onDay(world2, day);
+    // This hunt's own story from here on: whatever the family did before the class was handed over is not this hunt.
+    const from = world2.events.length;
     applyAction(world2, household2.id, { action: 'hunt-land', entityId: hunter2.id, x: point.x, y: point.y });
     let asked = null, ticks = 0;
     for (let tick = 0; tick < 200 && hunter2.chore; tick++, ticks++) {
@@ -157,7 +159,7 @@ test('the rain takes away the certainty that waiting buys, and says which it was
       stepWorld(world2);
     }
     validateWorld(world2);
-    const events = world2.events.filter(event => event.householdId === household2.id);
+    const events = world2.events.slice(from).filter(event => event.householdId === household2.id);
     return { asked, ticks, kill: events.find(event => event.type === 'hunt-kill'), miss: events.find(event => /would not fire|fired and missed/.test(event.text || '')) };
   };
 

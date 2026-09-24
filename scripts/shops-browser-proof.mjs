@@ -1,9 +1,10 @@
 // The shops of the towns, in a real browser: docs/TOWNS.md.
 //
 // tests/shops.test.mjs proves what every trade does. This proves a student can use the street with
-// the controls they have: the Go to a shop icon on a person's row, the question in town listing the
-// shops that stand there, a counter whose every offer says what it does and what it costs, a meal at
-// the tavern paid for in food, and the keepers standing in the town when one of the family is there.
+// the controls they have: the Go to town to trade icon on a person's row, the popup listing the shops
+// that stand there (since 2026-09-24 chosen before anybody leaves, docs/TOWNS.md §4b), every offer
+// saying what it costs, a meal at the tavern paid for in food, and the keepers standing in the town
+// when one of the family is there. scripts/errand-browser-proof.mjs proves the popup's load and wagon.
 //
 // Run: npm run test:shops
 import assert from 'node:assert/strict';
@@ -32,8 +33,8 @@ const post = async (path, body, cookie) => {
   assert.equal(response.status, 200, `${path}: ${response.status}`);
   return response;
 };
-const answers = page => page.locator('#selection-work button[data-action=answer-chore]').evaluateAll(buttons =>
-  buttons.map(button => ({ option: button.dataset.option, label: button.querySelector('.work-name')?.textContent, note: button.querySelector('.work-note')?.textContent, disabled: button.disabled })));
+const lines = page => page.locator('#errand .errand-line').evaluateAll(items =>
+  items.map(item => ({ id: item.dataset.line, label: item.querySelector('.errand-label')?.textContent, note: item.querySelector('.errand-price')?.textContent, shop: item.closest('.errand-shop')?.querySelector('.errand-shop-name')?.textContent, shut: item.dataset.shut === 'true' })));
 
 try {
   const host = await post('/api/host', { key: app.state.hostKey });
@@ -59,18 +60,27 @@ try {
   await icon.click();
   ok(`the family panel offers the street: "${observed.icon}"`);
 
-  // In town, the question lists the shops that stand there.
-  await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.chore?.ask?.id === 'which-shop', worker, { timeout: 60000 });
-  await page.locator(`.panel-row[data-entity-id="${worker}"] .panel-portrait`).click();
-  await page.locator('#selection-work button[data-action=answer-chore]').first().waitFor({ state: 'visible' });
-  const street = await answers(page);
-  observed.street = street.map(o => o.label);
+  // The popup lists the shops that stand in the family's town, before anybody leaves.
+  await page.locator('#errand').waitFor({ state: 'visible' });
+  await page.waitForFunction(() => document.querySelectorAll('#errand .errand-line').length > 5);
+  const street = await lines(page);
+  observed.street = [...new Set(street.map(line => line.shop))];
   for (const trade of ['blacksmith', 'gunsmith', 'doctor', 'tavern', 'tanner', 'wheelwright', 'mill', 'weaver']) {
-    assert.ok(street.some(o => o.option === trade), `the street has no ${trade}: ${street.map(o => o.option)}`);
+    assert.ok(street.some(line => line.id.startsWith(`${trade}:`)), `the street has no ${trade}: ${street.map(line => line.id)}`);
   }
-  ok(`in Gonzales the street has ${street.length - 1} shops: ${observed.street.join('; ')}`);
+  for (const line of street) assert.ok(line.note && line.note.length > 4, `${line.id} says nothing of its price or why it is shut`);
+  observed.counter = street.filter(line => line.id.startsWith('tavern:'));
+  ok(`in Gonzales the popup lists ${observed.street.length} shops, every offer with its price: ${observed.street.join('; ')}`);
 
-  // The keepers are standing in the town the family's person is in.
+  // A meal at the tavern, paid in food, and the person sent with that list.
+  await page.locator('#errand [data-line="tavern:meal"] [data-act="more"]').click();
+  await page.locator('#errand [data-line="tavern:meal"] [data-act="pay-food"]').click();
+  await page.waitForFunction(() => !document.querySelector('#errand-send').disabled, null, { timeout: 15000 });
+  await page.locator('#errand-send').click();
+  await page.locator('#errand').waitFor({ state: 'hidden', timeout: 10000 });
+
+  // In town, the keepers are standing there with the family's person.
+  await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.location?.siteId === 'gonzales', worker, { timeout: 60000 });
   const keepers = await page.evaluate(() => window.__snapshot.world.others.filter(o => o.resident).map(o => o.name));
   observed.keepers = keepers;
   assert.ok(keepers.length >= 8, `only ${keepers.length} townspeople are in sight: ${keepers}`);
@@ -78,16 +88,6 @@ try {
   await page.screenshot({ path: 'test-results/shops-street.png' });
   ok(`${keepers.length} townspeople are in sight in Gonzales: ${keepers.join(', ')}`);
 
-  await page.locator('#selection-work button[data-action=answer-chore][data-option="tavern"]').click();
-  await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.chore?.ask?.id === 'shop-counter', worker, { timeout: 30000 });
-  await page.locator('#selection-work button[data-action=answer-chore][data-option="tavern:meal:food"]').waitFor({ state: 'visible' });
-  const counter = await answers(page);
-  observed.counter = counter;
-  for (const o of counter.filter(o => o.option !== 'leave')) assert.ok(o.note && o.note.length > 10, `${o.option} says nothing`);
-  assert.ok(counter.find(o => o.option === 'tavern:meal:coin').disabled, 'a meal for coin was offered to a family with no coin');
-  ok(`the tavern's counter says what each costs and does: ${counter.map(o => `${o.label} (${o.note})`).join('; ')}`);
-
-  await page.locator('#selection-work button[data-action=answer-chore][data-option="tavern:meal:food"]').click();
   await page.waitForFunction(() => (window.__snapshot?.world.events || []).some(e => /ate at the tavern/.test(e.text)), null, { timeout: 30000 });
   observed.story = await page.evaluate(() => window.__snapshot.world.events.find(e => /ate at the tavern/.test(e.text)).text);
   ok(`a meal at the tavern, paid in food, is in the family's story: "${observed.story}"`);
@@ -98,7 +98,7 @@ try {
     record: 'The shops of the towns, in a browser: docs/TOWNS.md',
     date: new Date().toISOString().slice(0, 10),
     verdict: 'PASS',
-    note: 'Same computer only. A student sent a person to town from the family panel, chose the tavern from the street, read its counter, and paid for a meal in food; the keepers were in sight while the person was in Gonzales. Every other trade is proved in tests/shops.test.mjs. No LAN or district claim.',
+    note: 'Same computer only. A student pressed Go to town to trade on the family panel, read every shop of Gonzales and its prices in the popup, put a meal at the tavern paid in food on the list and sent the person; the keepers were in sight while the person was in Gonzales, and the meal is in the story. Every other trade is proved in tests/shops.test.mjs; the load and the wagon in scripts/errand-browser-proof.mjs. No LAN or district claim.',
     checks: pass,
     observed,
   }, null, 2)}\n`);

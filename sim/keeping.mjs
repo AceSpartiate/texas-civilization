@@ -1,4 +1,5 @@
-// Who has the family's horse, ox and wagon (owner's playtest, 2026-09-16).
+// Who has the family's horse, ox and wagon (owner's playtest, 2026-09-16), and since 2026-09-24 its rifle: one person at a
+// time, and nobody else until they are done.
 //
 // "More than one character is able to use each mode of transportation even if it's already in use, that shouldn't be the
 // case." The rule before this was that a beast belonged to whoever took it only while it was on the road: the moment the
@@ -10,17 +11,43 @@
 // again when it comes back to its own family's land, when the person who has it goes on without it, or when they can no
 // longer go anywhere. Using the wagon uses the ox, because the ox pulls it: both are held together and freed together.
 //
-// ceiling: only journeys hold a beast. Hauling logs behind the ox (sim/felling.mjs `oxFree`) and a harvest that wants the
-// wagon in the yard use them at home without holding them, so somebody may still drive off with the ox mid-haul. Hold them
-// there too if a class ever finds the log pile short for it.
+// **Amended by the owner, 2026-09-24** (docs/TOWNS.md §4b): "If someone is using the wagon (or horse, or any item really),
+// then no one else can use it." So work holds things too, not only journeys - the ceiling this file carried until then
+// ("only journeys hold a beast ... somebody may still drive off with the ox mid-haul") is paid - and this file is the one
+// place that says who is using what (`userOf`). A thing is held in one of two ways, and no other:
 //
-// This file imports only the travel table, so `sim/world.mjs` (journeys) and `sim/army.mjs` (the march) can both ask it
-// without an import arrow between those two.
+//   - **On the road, or standing with somebody away from home** (`holderOf`): `borrowedBy` on the beast, read against where
+//     it is, as above.
+//   - **By the work somebody was given** (`chore.with` on the person): written when the work begins (sim/chores.mjs
+//     `beginChore`) - the rifle for a hunt, the ox for hauling logs behind it, the ox and wagon for a harvest that wants
+//     them, and the beasts a journey the work will make takes, from the moment the work is given until that road begins
+//     (`intoTheRoad`). It is part of the work, so **every way the work ends lets go of it**: finished, called off, left off
+//     for a call or the march, dropped when the family flees, or the person dead or taken. Nothing has to remember to clear it.
+//
+// A class saved before 2026-09-24 has no `with` on anybody's work; the save's one door (server/storage.mjs `readSave`,
+// sim/chores.mjs `deriveUses`) writes it from the work itself, so a hunt in hand opens holding the rifle. No version moved.
+//
+// ceiling: the family's tools - hoe, felling axe, broadaxe, froe, auger - are not held. The work that uses them is the
+// family's together at one place (raising the house, clearing a plot, planting and bringing in the field), which the owner
+// decided goes faster with more hands (docs/SETTLING_IN.md), and one axe held by one person would undo that. Open for the
+// owner (docs/TOWNS.md §4b): whether the felling axe is held when somebody takes it off the land (fetching logs, a bee
+// tree), and whether the rifle goes with somebody who turns out for a call or the army (sim/calls.mjs says they take it;
+// nothing holds it yet, so the family at home still hunts).
+//
+// This file imports only the travel table, so `sim/world.mjs` (journeys), `sim/army.mjs` (the march) and `sim/chores.mjs`
+// (work) can all ask it without an import arrow between them.
 import { DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
 
 /** The plain word for each piece of property, used in every sentence about it. */
-export const NOUN = Object.freeze({ ox: 'ox', horse: 'horse', wagon: 'wagon' });
+export const NOUN = Object.freeze({ ox: 'ox', horse: 'horse', wagon: 'wagon', rifle: 'rifle' });
 export const ROLES = Object.freeze(['horse', 'ox', 'wagon']);
+/** Every thing only one person at a time can have: the three beasts, and the family's rifle (owner, 2026-09-24). */
+export const ITEMS = Object.freeze([...ROLES, 'rifle']);
+/**
+ * Work that shares what it holds with others given the same work: everybody bringing in one field loads the one wagon
+ * standing in it. Anybody else still cannot take it away.
+ */
+const SHARED = Object.freeze({ 'harvest-field': true });
 const GONE = ['dead', 'captured'];
 
 const homeOf = (world, beast) => world.households[beast.householdId]?.homeSiteId;
@@ -47,8 +74,75 @@ export function holderOf(world, beast) {
   return marching(person) ? person : null;
 }
 
-/** The sentence refusing somebody a beast another has: "Maria has the horse." */
-export const hasWords = (holder, roles) => `${holder?.name || 'Somebody'} has the ${roles.map(role => NOUN[role]).join(' and ')}.`;
+/**
+ * Who is using this thing of the family's now, other than `asker`, or null when it is free for them. The one rule every order
+ * that needs a thing asks: `modeAvailability` (sim/world.mjs) for a journey, `choreAvailability` (sim/chores.mjs) for work,
+ * and through them the errand to town (sim/errands.mjs), the director of a family nobody plays, and auto. `work` is the work
+ * `asker` would be given: somebody sent to the same shared work is not refused what their fellow workers hold (`SHARED`).
+ */
+export function userOf(world, household, item, asker = null, { work = null } = {}) {
+  if (!household) return null;
+  if (ROLES.includes(item)) {
+    const beast = world.entities[propertyId(household.id, item)];
+    const holder = beast ? holderOf(world, beast) : null;
+    if (holder && holder !== asker) return holder;
+  }
+  for (const id of household.members || []) {
+    const person = world.entities[id];
+    if (!person || person === asker || GONE.includes(person.health?.condition)) continue;
+    if (!person.chore?.with?.includes(item)) continue;
+    if (work && SHARED[work] && person.chore.id === work) continue;
+    return person;
+  }
+  return null;
+}
+
+/**
+ * The sentence refusing somebody a thing another has, in the holder's own name and, when the world is given, with what they
+ * are doing with it (owner, 2026-09-24): "Maria has the horse, on the road to Gonzales." "Rosa has the rifle, hunting in the
+ * timber." Without the world, or with nothing to add, as it always was: "Maria has the horse."
+ */
+export function hasWords(holder, roles, world = null, asker = null) {
+  const what = `${holder?.name || 'Somebody'} has the ${roles.map(role => NOUN[role]).join(' and ')}`;
+  const where = world && holder?.kind === 'person' ? doingWith(world, holder, asker) : null;
+  return where ? `${what}, ${where}.` : `${what}.`;
+}
+/**
+ * What somebody holding a thing is doing with it, in the words the family already reads about them. Where they stand is
+ * said only when it is not where the person asking stands: two people in Gonzales need not be told the other is in Gonzales.
+ */
+function doingWith(world, person, asker) {
+  const travel = person.travel, home = world.households?.[person.householdId]?.homeSiteId;
+  const named = id => (world.map?.sites?.[id]?.name || '').replace(/^The /, 'the ');
+  if (travel) {
+    if (travel.purpose === 'march') return 'with the army';
+    if (travel.to === home) return 'on the road home';
+    return named(travel.to) ? `on the road to ${named(travel.to)}` : 'on the road';
+  }
+  if (person.chore?.doing) return person.chore.doing;
+  const site = person.location?.siteId;
+  return site && site !== home && site !== asker?.location?.siteId && named(site) ? `at ${named(site)}` : null;
+}
+
+/**
+ * A journey begins with what the work held for it: those beasts are on the road with the person now (`holderOf`), so the
+ * work lets go of them (sim/world.mjs `harness`). What the work holds that is not on the road - the rifle - it keeps.
+ */
+export function intoTheRoad(entity, roles) {
+  const held = entity.chore?.with;
+  if (!held) return;
+  const left = held.filter(item => !roles.includes(item));
+  if (left.length) entity.chore.with = left; else delete entity.chore.with;
+}
+/** A stored use that is not a thing a family holds (sim/world.mjs `validateWorld`). */
+export function usesInvalid(world) {
+  for (const entity of Object.values(world.entities)) {
+    const held = entity.chore?.with;
+    if (held === undefined) continue;
+    if (!Array.isArray(held) || !held.length || held.some(item => !ITEMS.includes(item)) || new Set(held).size !== held.length) return 'Invalid use of family property';
+  }
+  return null;
+}
 
 /**
  * The way of going whose beasts this person has with them, or on foot when they have none. What somebody leaving the army

@@ -234,20 +234,24 @@ test('they come home carrying it, and the walk out is not the walk back', () => 
   assert.match(back.doing, /carrying it home/);
 });
 
-test('two families hunting one stand of timber do not stand inside each other', () => {
+// Two of one family in one stand used to be how this file proved two hunters are spread apart in the timber. Since
+// 2026-09-24 the family's one rifle goes with whoever hunts (owner: "If someone is using the wagon (or horse, or any item
+// really), then no one else can use it"; sim/keeping.mjs), and every family hunts its own ground (`hunt-${householdId}`),
+// so two hunters never share a stand: the second of a family is told who has the rifle, and can go once it is home.
+test('one family has one rifle: a second hunter is told who has it, and goes once it is home', () => {
   const world = running('crowded');
-  // Put the second family's hunter at the same stand by sending both from the same house.
   const first = world.entities['hh-1-mateo'], second = world.entities['hh-1-rosa'];
+  world.households['hh-1'].resources.powder = 6;
   applyAction(world, 'hh-1', { action: 'chore', entityId: first.id, chore: 'hunt-timber' });
-  applyAction(world, 'hh-1', { action: 'chore', entityId: second.id, chore: 'hunt-timber' });
-  let apart = 0;
-  for (let tick = 0; tick < 400 && (first.chore || second.chore); tick++) {
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'chore', entityId: second.id, chore: 'hunt-timber' }), new RegExp(`${first.name} has the rifle, on the road to `));
+  assert.equal(second.chore, null, 'a refused hunt went out anyway');
+  for (let tick = 0; tick < 400 && first.chore; tick++) {
+    if (first.chore?.ask) applyAction(world, 'hh-1', { action: 'answer-chore', entityId: first.id, option: 'leave' });
     stepWorld(world);
-    if (first.location.siteId && first.location.siteId === second.location.siteId) {
-      apart = Math.max(apart, Math.hypot(first.location.x - second.location.x, first.location.y - second.location.y));
-    }
   }
-  assert.ok(apart > .02, `two hunters in one stand were never more than ${apart.toFixed(3)} miles apart`);
+  applyAction(world, 'hh-1', { action: 'chore', entityId: second.id, chore: 'hunt-timber' });
+  assert.equal(second.chore?.id, 'hunt-timber', 'the rifle was not free once the first hunter was home');
+  validateWorld(world);
 });
 
 test('the hunt still costs about what it cost, and yields exactly what it yielded', () => {

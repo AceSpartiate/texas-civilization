@@ -61,7 +61,8 @@ test('on auto a hunt never stops to ask: the shot is decided at once, the hunt r
   household.resources.powder = 6;
   for (const person of [elena, mateo]) applyAction(world, 'hh-1', { action: 'set-auto', entityId: person.id, auto: true });
   applyAction(world, 'hh-1', { action: 'chore', entityId: elena.id, chore: 'hunt-timber' });
-  applyAction(world, 'hh-1', { action: 'chore', entityId: mateo.id, chore: 'hunt-timber' });
+  // The family has one rifle, and Elena has it (owner, 2026-09-24; sim/keeping.mjs): Mateo is told so, and waits his turn.
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'chore', entityId: mateo.id, chore: 'hunt-timber' }), new RegExp(`${elena.name} has the rifle`));
   assert.deepEqual(elena.order, { chore: 'hunt-timber', mode: 'foot' }, 'the order was not remembered');
   assert.ok(REPEATED.includes(elena.order.chore));
   let asked = 0, marked = 0;
@@ -74,6 +75,13 @@ test('on auto a hunt never stops to ask: the shot is decided at once, the hunt r
   assert.equal(asked, 0, `a person on auto stood waiting on the family for ${asked} ticks`);
   assert.equal(marked, 0, 'a "!" was raised for a person on auto');
   assert.ok(finished(elena.id) >= 2, `Elena hunted ${finished(elena.id)} times: the order was not repeated`);
+  // Elena home and off auto: the rifle is Mateo's turn, and on auto he too decides at once.
+  applyAction(world, 'hh-1', { action: 'set-auto', entityId: elena.id, auto: false });
+  for (let t = 0; t < 400 && elena.chore; t++) stepWorld(world);
+  applyAction(world, 'hh-1', { action: 'chore', entityId: mateo.id, chore: 'hunt-timber' });
+  for (let t = 0; t < 400 && finished(mateo.id) < 1; t++) { stepWorld(world); if (mateo.chore?.ask) asked++; }
+  assert.equal(asked, 0, `Mateo on auto stood waiting on the family for ${asked} ticks`);
+  applyAction(world, 'hh-1', { action: 'set-auto', entityId: elena.id, auto: true });
   // Decided as a neighbour decides: the steady hand takes the long shot, the unsteady one waits for it to come closer.
   const decided = id => world.events.filter(event => event.actorId === id && event.type === 'choice' && /deciding for themself/.test(event.text)).map(event => event.decision);
   assert.ok(decided(elena.id).length >= 1 && decided(elena.id).every(choice => choice === 'take'), `Elena decided ${decided(elena.id)}`);

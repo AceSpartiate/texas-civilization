@@ -1,6 +1,7 @@
 import { mkdirSync, readFileSync, writeFileSync, renameSync, existsSync, openSync, fsyncSync, closeSync, unlinkSync, realpathSync } from 'node:fs';
 import { STARTING_POWDER } from '../sim/world.mjs';
 import { widenPassages } from '../sim/houseplot.mjs';
+import { deriveUses } from '../sim/chores.mjs';
 import { dirname, basename, join, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
 
@@ -63,6 +64,16 @@ export function readSave(path) {
     // class opens with the house it had, at the width a passage has now.
     for (const house of [household?.house, ...(Array.isArray(household?.completedHouses) ? household.completedHouses : [])]) widenPassages(house);
   }
+  // Somebody in the middle of the old walk to the shops - asked in town which shop, then what at its counter - goes on with
+  // it exactly as it was (2026-09-24, docs/TOWNS.md §4b): the errand is chosen before anybody leaves now and is still called
+  // `visit-shop`, so the old walk's steps are kept under `visit-shop-street`, offered to nobody. And every piece of work in
+  // hand is given what it holds (sim/keeping.mjs, sim/chores.mjs `deriveUses`): the rifle for a hunt, the ox for a load
+  // behind it, the beasts of a road still to come. No version moved: an old save gains a name and a list it did not have,
+  // and reads nothing another way.
+  for (const entity of Object.values(save.world?.entities || {})) {
+    if (entity?.chore?.id === 'visit-shop' && entity.chore.errand === undefined) entity.chore.id = 'visit-shop-street';
+  }
+  if (save.world?.households && save.world.entities) deriveUses(save.world);
   return save;
 }
 // Keep the previous class before a deliberate reset. This is an explicit teacher

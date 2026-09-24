@@ -176,7 +176,9 @@ test('the panel sends only what the server already accepts, and only the princip
     for (const icon of iconsOf(id).filter(one => one.can && !one.onMap && !one.visit)) {
       const trial = createSettledWorld('panel-orders', 5);
       trial.status = 'running';
-      const input = icon.kind === 'chore' ? { action: 'chore', chore: icon.key }
+      // Going to town to trade opens the errand popup, which sends the order with its list (public/errand.js, 2026-09-24).
+      const input = icon.key === 'visit-shop' ? { action: 'chore', chore: 'visit-shop', errand: [{ id: 'store:seed', n: 1, pay: 'food' }] }
+        : icon.kind === 'chore' ? { action: 'chore', chore: icon.key }
         : icon.destination ? { action: 'travel', destination: icon.destination === 'home' ? home : icon.destination }
           : { action: icon.key };
       assert.doesNotThrow(() => applyAction(trial, 'hh-1', { ...input, entityId: id }), `${icon.key} for ${id} is refused by the server`);

@@ -1,0 +1,174 @@
+{
+  "record": "The errand to town and one person at a time with a thing: each regression put back one at a time (docs/TOWNS.md §4b)",
+  "date": "2026-09-24",
+  "suite": "the test files most touched by the change - 20 for the first eight injections, and tests/scrape.test.mjs added for the other eight (tests/errands, shops, keeping, travel-modes, hunting, auto, lesson, chores, money, improvements, felling, family-panel, riding, crops, store, children, command-ids, hunt-land, powder, practice, scrape); the full npm test runs clean without them",
+  "caught": "16 of 16",
+  "injections": [
+    {
+      "id": "auto-buys-nothing",
+      "guards": "the seed the owner could not buy",
+      "pass": 199,
+      "fail": 1,
+      "caught": true,
+      "failed": [
+        "the seed the owner could not buy: with the list sent, a person on auto comes home with it, and nobody is asked anything in town"
+      ]
+    },
+    {
+      "id": "asked-in-town",
+      "guards": "the seed the owner could not buy",
+      "pass": 199,
+      "fail": 1,
+      "caught": true,
+      "failed": [
+        "the seed the owner could not buy: with the list sent, a person on auto comes home with it, and nobody is asked anything in town"
+      ]
+    },
+    {
+      "id": "paid-for-nothing",
+      "guards": "what differs on arrival",
+      "pass": 199,
+      "fail": 1,
+      "caught": true,
+      "failed": [
+        "what differs on arrival is done as far as it can be, nothing is paid for what is not received, and it is said"
+      ]
+    },
+    {
+      "id": "rifle-shared",
+      "guards": "one person's at a time",
+      "pass": 195,
+      "fail": 5,
+      "caught": true,
+      "failed": [
+        "on auto a hunt never stops to ask: the shot is decided at once, the hunt repeated when they come home, and stopped by the switch",
+        "the wagon, the horse, the ox and the rifle are one person's at a time: the second is told who has it and what they are doing",
+        "every way a use ends lets go of it: home, called off, answered away, the flight east, and death",
+        "a class saved with work in hand opens with that work holding its things, and the old walk to the shops goes on as it was",
+        "one family has one rifle: a second hunter is told who has it, and goes once it is home"
+      ]
+    },
+    {
+      "id": "dead-hold",
+      "guards": "every way a use ends",
+      "pass": 199,
+      "fail": 1,
+      "caught": true,
+      "failed": [
+        "every way a use ends lets go of it: home, called off, answered away, the flight east, and death"
+      ]
+    },
+    {
+      "id": "flight-keeps-work",
+      "guards": "the flight east",
+      "pass": 199,
+      "fail": 1,
+      "caught": true,
+      "failed": [
+        "the flight east takes the family's things from whatever work had them at home, and none stays held"
+      ]
+    },
+    {
+      "id": "old-save-no-uses",
+      "guards": "a class saved with work in hand",
+      "pass": 199,
+      "fail": 1,
+      "caught": true,
+      "failed": [
+        "a class saved with work in hand opens with that work holding its things, and the old walk to the shops goes on as it was"
+      ]
+    },
+    {
+      "id": "old-save-street-lost",
+      "guards": "a class saved with work in hand",
+      "pass": 199,
+      "fail": 1,
+      "caught": true,
+      "failed": [
+        "a class saved with work in hand opens with that work holding its things, and the old walk to the shops goes on as it was"
+      ]
+    },
+    {
+      "id": "lesson-plant-shut",
+      "guards": "planting step",
+      "pass": 192,
+      "fail": 2,
+      "caught": true,
+      "failed": [
+        "the seed can be bought on the guided start's planting step, and the popup says when a step does not allow the trip",
+        "the whole of it, played through: the family ends with a house, a field it cleared, the crop it chose, coin for it, and a hunt"
+      ]
+    },
+    {
+      "id": "purchase-before-sale",
+      "guards": "the list is checked before anybody leaves",
+      "pass": 193,
+      "fail": 1,
+      "caught": true,
+      "failed": [
+        "the list is checked before anybody leaves, in its order and against what the house holds, and refused in plain words"
+      ]
+    },
+    {
+      "id": "store-purse-for-cotton",
+      "guards": "the list is done exactly",
+      "pass": 193,
+      "fail": 1,
+      "caught": true,
+      "failed": [
+        "the list is done exactly at the shops, the coin is in the account, and the store buys cotton outside its purse"
+      ]
+    },
+    {
+      "id": "wagon-first",
+      "guards": "the way of going is the quickest",
+      "pass": 192,
+      "fail": 2,
+      "caught": true,
+      "failed": [
+        "the way of going is the quickest that carries the load, said with the server's numbers",
+        "the wagon, the horse, the ox and the rifle are one person's at a time: the second is told who has it and what they are doing"
+      ]
+    },
+    {
+      "id": "harvest-not-shared",
+      "guards": "held at home",
+      "pass": 193,
+      "fail": 1,
+      "caught": true,
+      "failed": [
+        "the ox hauling logs and the wagon in a harvest are held at home: shared by the harvesters, and nobody drives them away"
+      ]
+    },
+    {
+      "id": "uses-on-the-tick",
+      "guards": "the popup's facts are the family's own",
+      "pass": 193,
+      "fail": 1,
+      "caught": true,
+      "failed": [
+        "the popup's facts are the family's own: its own town, its own stock, nobody else's things, and small"
+      ]
+    },
+    {
+      "id": "page-pays-anything",
+      "guards": "the page sends exactly the list",
+      "pass": 193,
+      "fail": 1,
+      "caught": true,
+      "failed": [
+        "the page sends exactly the list on the screen, grouped as the server sent it"
+      ]
+    },
+    {
+      "id": "hoe-null-food",
+      "guards": "the store sells the seed",
+      "pass": 193,
+      "fail": 1,
+      "caught": true,
+      "failed": [
+        "the store sells the seed, the powder and the hoe the town errands used to fetch, and buys food five for a real"
+      ]
+    }
+  ]
+}

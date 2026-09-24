@@ -5,6 +5,7 @@ import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeadin
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
 import { autoLabel, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, standing, travellingLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
+import { mountErrand } from '/errand.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {alamoOnMap,bexarToSite} from '/bexar-layout.js';
 import {plotArt} from '/field-art.js';
@@ -117,6 +118,13 @@ let selectedId = null, selectionDismissed = false;
 let focusedId = null;
 // The call's one menu (docs/FAMILY_PANEL.md §11.2): which "!" opened it, and the ticked rows, kept across ticks.
 let callMenuFor = null;
+// The errand popup (public/errand.js). Its one order goes through here so the id is made the way every command's is, after
+// anything the order carries.
+const errandPopup = mountErrand({
+  $, element, api, say,
+  send: input => api('/api/command', { ...input, id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}` }),
+  onSent: () => { if (window.__snapshot) render(window.__snapshot); },
+});
 const EMPTY_MAP = { sites: {}, routes: {}, terrain: [] };
 // The catalogue of work is fixed for a class, so it is fetched once alongside the map.
 // Only whether a given person may do a given chore rides on the tick.
@@ -3165,6 +3173,7 @@ function renderHousehold(world) {
   $('#event-log').replaceChildren(...memory.slice(-12).reverse().map(event => { const li = element('li', `${event.text || event.type} (${timeLabel(event.minute ?? 0)} into the story)`); li.dataset.eventId = event.id; return li; }));
   renderFamilyPanel(world);
   renderCallMenu(world);
+  errandPopup.render(world);
   renderSelection(world);
 }
 // Instructions live beside the person they concern, anchored to where they stand.
@@ -5697,6 +5706,8 @@ document.addEventListener('click', async event => {
   if (panelButton) {
     if (panelButton.getAttribute('aria-disabled') === 'true') { showPanelTip(panelButton); return; }
     // Sending for somebody who serves is asked twice, on their card, where there is room to say what it costs.
+    // Going to town to trade asks first what to buy and sell (docs/TOWNS.md §4b, owner 2026-09-24): the popup sends the order.
+    if (panelButton.dataset.chore === 'visit-shop') { hidePanelTip(); errandPopup.open(panelButton.dataset.entityId); return; }
     if (panelButton.dataset.visit || panelButton.dataset.key === 'winter-recall') {
       selectedId = panelButton.dataset.entityId; selectionDismissed = false;
       const world = window.__snapshot?.world;

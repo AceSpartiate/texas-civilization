@@ -125,9 +125,11 @@ try {
   // held class refuses every order for its own reason and would answer this one without ever reading the horse.
   await running();
   const refused = await page.evaluate(() => window.__snapshot.world.travelModes['hh-1-rosa'].find(mode => mode.id === 'horse'));
-  ok(`a second person is told who has the horse: "${refused.why}"`, refused.can === false && refused.why === `${names['hh-1-thomas']} has the horse.`);
+  // Said with what he is doing with it, where that adds anything (owner, 2026-09-24; sim/keeping.mjs `hasWords`).
+  const hasIt = new RegExp(`^${names['hh-1-thomas']} has the horse(, [^.]+)?\\.$`);
+  ok(`a second person is told who has the horse: "${refused.why}"`, refused.can === false && hasIt.test(refused.why));
   const forged = await command({ action: 'chore', entityId: 'hh-1-rosa', chore: 'hunt-timber', mode: 'horse' });
-  ok(`and an order for it sent anyway is refused by the server: ${forged.status} "${forged.body.error}"`, forged.status !== 200 && forged.body.error === `${names['hh-1-thomas']} has the horse.`);
+  ok(`and an order for it sent anyway is refused by the server: ${forged.status} "${forged.body.error}"`, forged.status !== 200 && forged.body.error === refused.why);
 
   // ------------------------------------------------------------------------------------------ driving the wagon
   const drove = await command({ action: 'chore', entityId: 'hh-1-mateo', chore: 'hunt-timber', mode: 'wagon' });

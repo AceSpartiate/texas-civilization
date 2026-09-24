@@ -1,5 +1,73 @@
 # Claude handoff — Astra foundation
 
+## The errand chosen before anybody leaves, and one person at a time with a thing — 2026-09-24 (after v2026.09.24.3; not yet committed or released)
+
+Owner: *"When sending someone to town to stores, there should be a popup first asking what they should buy or sell.
+(Currently I can't buy more seed.) They'll take priority on the wagon and take it so they can carry whatever it is they need
+to. If someone is using the wagon (or horse, or any item really), then no one else can use it."* Recorded as
+[docs/TOWNS.md §4b](docs/TOWNS.md), claim `FIC-GONZ-387`, and item 16 of CLAUDE.md's reading list.
+
+- **The seed, found first.** Nothing refused the seed: the store sells it for a real or three food, and a node run and a
+  browser both bought it for anybody who answered in time. `visit-shop` asked *which shop* and *what at the counter* only on
+  arrival, each question waited `ASK_PATIENCE` (two hours of 1835: six ticks, under a minute at the study pace, six seconds at
+  the quick one) and silence answered *Come home again* / *Nothing today*; **a person on auto was answered the tick they
+  arrived**, so they never bought anything. The owner's own solo game of 2026-09-21 (`data/solo/games/deleted/3e5807f84e27.json`
+  in the installed build) shows it: auto switched on at tick 191, sent to the shops at 192. Found on the way: the store's hoe
+  has no food price and the counter offered *"Buy a sound hoe: null food"*, replacing a worn hoe for nothing — mended in
+  `counterOptions`/`counterRefusal`.
+- **The errand** (`sim/errands.mjs`). `visit-shop` is now the errand: the order carries its list, `{ action: 'chore', chore:
+  'visit-shop', entityId, errand: [{ id: 'trade:offer', n, pay }] }`. `planErrand` (the chore's new `plan` hook in
+  `beginChore`) checks it against the family's stock — shop standing there, the shop's own refusal, can pay, has what it sells,
+  one of anything bought once, the load fits a way of going it has free — and throws the popup's own sentence; the keeper's
+  purse is not checked (owner, 2026-09-12). At the shops `carryOutErrand` (a `run` step) does it **sales first, then the mill,
+  then purchases**, each in list order; what differs on arrival is done as far as it can still be paid for, nothing is paid for
+  what is not received, and the shortfall is said. The store buys cotton and food for coin outside its purse, as the owner
+  decided on 2026-09-16 (the old counter wrongly drew them from the purse). **The load**: every good a load a unit, coin
+  nothing, a tool/shoes/saddle/blankets one, the rifle one each way; the larger of the way there and the way home.
+  **The way of going**: the server takes the quickest that carries it and is free — horse, foot, then wagon — and says why:
+  *"Takes the wagon: 14 of 20 loads, more than the horse carries (7)."*; the wheelwright's line takes the wagon itself.
+- **The popup** (`public/errand.js`, `#errand`, `GET /api/errand` → `sim/world.mjs` `errandFor`). The Go to town to trade icon
+  opens it (`public/app.js` click dispatcher); the town's shops grouped with keeper, price, why a line is shut, a count and
+  Coin/Food; the stock, the stock after, the server's sentence for how they go, a refusal in its words with Send shut. Enter
+  sends, Escape sends nobody. Re-asked whenever the list, the family's stock or the person's travel modes change. The ability
+  bar steps aside while it is open, by §12.13's rule for a rider, and the person's card is hidden under it. The command's id is
+  made in `app.js` after the spread. Screenshots looked at: `errand-1366.png`, `errand-refused-1366.png`, `errand-1024.png`
+  (session scratchpad) — clear of the family's column and the bar at both sizes.
+- **One person at a time** (`sim/keeping.mjs` `userOf`, the one rule; `hasWords` now says what the holder is doing: *"Rosa has
+  the ox and wagon, on the road to Gonzales."*). Held on the road (`borrowedBy`, as before) or **by work** (`chore.with`,
+  written in `beginChore` from the chore's `takes` and its mode's `needs`): the rifle for hunt-timber, hunt-land,
+  take-small-game, practise-shooting and hunt-road; the ox for haul-logs (taken at the first load when free, `takeUpLogs`); the ox
+  and wagon for a harvest that wants them, **shared** by the harvesters. `promisedTo` is gone — `with` is it. `intoTheRoad` lets
+  the work's hold go when the road begins. Every exit releases because the hold is the work: finished, called off, abandoned for
+  a call, dropped by `flee`, dead or captured (never counted). The keeping.mjs ceiling ("somebody may still drive off with the ox
+  mid-haul") is paid. Refusals: `modeAvailability`, `choreAvailability` (`takenWhy`), `fetchLogsFacts`, `teamAt`, `oxFree`.
+- **Old saves.** `readSave` renames a saved `visit-shop` with no `errand` to the retired `visit-shop-street` (the old steps,
+  offered to nobody, still in the catalogue so its icon names it) and runs `deriveUses`: a hunt opens with the rifle, a load
+  behind the ox with the ox, a harvest wanting the wagon with both, a journey still to come with its beasts. No `saveVersion`.
+- **Lesson.** Step 8's sentence no longer names a counter on arrival; docs/LESSON.md's table row updated. `chore:visit-shop` is
+  still on plant/harvest/sell/hunt, so the seed is bought on the planting step (tested).
+- **Tests.** New `tests/errands.test.mjs` (13). Changed where the expectation moved: `tests/shops.test.mjs` (the counter tests
+  now send lists; the hoe has no food price), `tests/lesson.test.mjs` (the sale is a list), `tests/keeping.test.mjs` and
+  `tests/travel-modes.test.mjs` (the holder's doing in the sentence), `tests/hunting.test.mjs` (two hunters of one family in one
+  stand can no longer happen: now *one family has one rifle*), `tests/auto.test.mjs` (the second hunter waits for the rifle),
+  `tests/hunt-weather.test.mjs` (reads only the hunt's own events; the family's earlier history had changed), `tests/chores.test.mjs`,
+  `tests/family-panel.test.mjs`, `tests/children.test.mjs` (the errand is sent with a list). **Injections**
+  ([record](docs/evidence/errand-injections.json)), each put back alone over the 20-21 test files the change touches, file
+  restored: **16 of 16 caught**; 13 fail only their own test; the plant step shut also fails the lesson's playthrough, the wagon
+  tried first also fails the exclusive-use test (which asserts the horse), and the rifle shared fails the five tests that hold
+  the rifle rule. `npm test`: **1094 pass** (1081 + 13). `scripts/check-doc-links.mjs` clean.
+- **Browser** (same computer only). New `npm run test:errand` (`scripts/errand-browser-proof.mjs`, [evidence](docs/evidence/errand-browser.json)).
+  `scripts/shops-browser-proof.mjs` now buys the tavern meal through the popup; `scripts/family-commands-browser-proof.mjs`'s
+  asking work is making furniture (nothing is asked in town now); `scripts/riding-browser-proof.mjs` and
+  `scripts/travel-browser-proof.mjs` accept the holder's doing. PASS: errand (8 checks, 1366x768 and 1024x768), shops (5),
+  family-commands (23), family-panel, panels (10 checks, 2 sizes), lesson, riding, farm, host-view, travel (modes). travel-drawn
+  failed once on its walk-in timing ("they are back and walking before they are drawn at Gonzales", nothing of this change) and
+  passed on a lone rerun, as it did on 2026-09-24's house entry. `node --check` on .mjs copies of `public/app.js`,
+  `public/errand.js`, `public/family-panel.js`.
+- **Open for the owner** (docs/TOWNS.md §4b): tools not held (the family's shared work at one place goes faster with more
+  hands); whether the rifle goes with a man who turns out; one rifle a family (measured once, first class period only (same computer; a 15-family class on the colonies, families nobody plays, four seeds, before and after this change): nobody went hungry or died either way; the mean food in a house at the period's end fell from 37.9 to 33.9. The
+  winter and spring are not measured); the server, not the student, chooses the way of going.
+
 ## The dog-run's passage is twelve feet — 2026-09-24 (after v2026.09.24.2; not yet committed or released)
 
 Owner decision: widen the dog-run's open passage from one 8-ft plan cell to 12 feet. `HIST-GONZ-025` gives "a ten- or

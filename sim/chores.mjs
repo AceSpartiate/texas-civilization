@@ -42,6 +42,8 @@ import { BEEF_FAMILIES, BEEF_FOOD, BEEF_KEPT, BEEF_MILES, LOOKED_TO_DAYS, PORK_F
 import { fellRefusal, fellTicks, fellTree, logsLeftOut, logsLying, nextTree, oxFree, recordFelling, stackLogs, takeUpLogs } from './felling.mjs';
 import { KINDS, countsTrees, woodsRule } from './woods.mjs';
 import { TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
+import { carryOutErrand, planErrand } from './errands.mjs';
+import { ROLES as BEASTS, hasWords, userOf } from './keeping.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
 import { SPELL_TICKS, buildRefusal, buildSpell, helpRefusal, hostOf, houseBuilt, houseSettled, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
@@ -435,6 +437,9 @@ export const CHORES = {
   'harvest-field': {
     name: 'Bring in the crop', skill: 'farming', tool: 'hoe', where: 'home', heavy: true,
     field: 'ripe', wantsWagon: true,
+    // A crop that wants the wagon holds it and the ox in the field until it is in (owner, 2026-09-24; sim/keeping.mjs):
+    // shared with everybody else bringing in the same crop, and nobody else's to drive away.
+    takes: (world, household) => needsWagonToHarvest(household) ? ['ox', 'wagon'] : [],
     describe: 'The crop is ready. Walk out to every planted plot, cut it and carry it in.',
     steps: [
       { stroll: 'fields', doing: 'walking out to the fields' },
@@ -501,6 +506,8 @@ export const CHORES = {
   // own choosing instead, and two hunts on one panel was one too many (owner, 2026-09-17: "do we need two hunting options?").
   'hunt-timber': {
     plainCountry: true,
+    // The family's one rifle goes with whoever hunts (owner, 2026-09-24: "any item really"; sim/keeping.mjs).
+    takes: ['rifle'],
     name: 'Hunt in the timber', skill: 'hunting', where: 'home', hauls: true,
     describe: 'Out to the nearest timber or brush and back: close by where the land is timbered, a long way across the prairie where it is not. The kill is a big one; what comes home is what they can carry.',
     // A hunt used to be one line - five ticks of standing in one spot with a searching
@@ -535,6 +542,7 @@ export const CHORES = {
     ],
   },
   'practise-shooting': {
+    takes: ['rifle'],
     name: 'Practise at the mark', skill: 'hunting', where: 'home',
     needs: { powder: PRACTICE_COST },
     describe: 'An afternoon at a mark set up at the edge of the yard, and two powder gone. A steadier hand makes the long shot and brings more home.',
@@ -691,7 +699,28 @@ export const CHORES = {
       { mend: 'hoe' },
     ],
   },
+  // The errand to town (owner, 2026-09-24, docs/TOWNS.md §4b): what to buy and sell is chosen before anybody leaves, from
+  // what the family's own town deals in, and the one order carries the list (sim/errands.mjs). The server chooses how they
+  // go - the quickest way that carries the load - and at the shops they do what the list says, in its order. Nothing is
+  // asked in town, so nothing is lost to a question nobody was there to answer: until this, the street and the counter were
+  // two questions put on arrival, and silence - two hours of 1835, under a minute at the study pace, at once on auto -
+  // bought nothing (the seed the owner could not buy, 2026-09-24).
   'visit-shop': {
+    name: 'Go to town to trade', skill: 'hands', where: 'home', shops: true, errand: true,
+    plan: (world, household, entity, extra, deps) => planErrand(world, household, entity, extra.errand, deps),
+    describe: "Choose what to buy and sell in the family's own town before they go: the store, the smith, the gunsmith, the tavern and the rest, each at its own price in coin or food. They take the horse or the wagon if the load wants it.",
+    steps: [
+      { travel: 'town', doing: 'on the road to {town} to trade' },
+      { work: 1, doing: 'at the shops in {town}' },
+      { run: carryOutErrand },
+      { travel: 'home', doing: 'carrying it home from {town}' },
+    ],
+  },
+  // The street as it was until 2026-09-24: a question in town for which shop, and another at its counter. Kept only so a
+  // class saved with somebody in the middle of it opens where it was (server/storage.mjs renames the saved work to this).
+  // Never offered to anybody.
+  'visit-shop-street': {
+    retired: true,
     name: 'Go to a shop in town', skill: 'hands', where: 'home', hauls: true, shops: true,
     describe: "Walk the town's street: the blacksmith, the gunsmith, the doctor, the tavern and the rest, whichever the family's town has. Each shop says what it sells and buys, for coin or food.",
     steps: [
@@ -764,6 +793,9 @@ CHORES['fell-trees'] = {
   ],
 };
 CHORES['haul-logs'] = {
+  // The ox, when nobody else has it: dragged loads of six, and the ox the hauler's until the hauling is done (owner,
+  // 2026-09-24; sim/keeping.mjs). With the ox taken, a log a trip on the shoulder, as before.
+  takes: (world, household, entity) => oxFree(world, household, entity) ? ['ox'] : [],
   name: 'Haul logs to the house', skill: 'hands', where: 'home', heavy: true, hauling: true,
   describe: 'Bring the logs that lie where they were felled to the house, one on the shoulder a trip, or a load of six dragged behind the ox when the ox is at home.',
   steps: [
@@ -804,6 +836,8 @@ CHORES['fetch-logs'] = {
 function teamAt(world, household, siteId) {
   const wagon = world.entities[propertyId(household.id, 'wagon')];
   if (!wagon || wagon.travel || wagon.borrowedBy || wagon.location?.siteId !== siteId) return false;
+  // Nor held by somebody's work at home: a harvest loading it, somebody hauling behind the ox (sim/keeping.mjs).
+  if (userOf(world, household, 'wagon') || userOf(world, household, 'ox')) return false;
   return household.property.some(id => {
     const beast = world.entities[id];
     return beast?.species === 'ox' && beast.location?.siteId === siteId && !beast.travel && !beast.borrowedBy && beast.condition !== 'lost';
@@ -819,6 +853,9 @@ export function fetchLogsFacts(world, household) {
   const wood = logwoodGround(world, household, false), home = world.map.sites[household.homeSiteId];
   const teamLeft = Boolean(wood && teamAt(world, household, wood.id));
   if (!teamLeft && !(oxFree(world, household) && teamAt(world, household, household.homeSiteId))) {
+    // Somebody else has them: said in their name, as every refusal of a thing in use is (sim/keeping.mjs).
+    const holder = userOf(world, household, 'wagon') || userOf(world, household, 'ox');
+    if (holder) return { can: false, why: hasWords(holder, ['ox', 'wagon'].filter(role => userOf(world, household, role) === holder), world) };
     return { can: false, why: 'Fetching logs wants the ox and wagon at home.' };
   }
   if (!wood) return { can: false, why: 'There is no timber within reach of the house.' };
@@ -830,6 +867,7 @@ export function fetchLogsFacts(world, household) {
   return { can: true, miles: round(miles), hours, teamLeft, cost: teamLeft ? `about ${hours} ${hours === 1 ? 'hour' : 'hours'}, on foot to the ox and wagon left at ${where}, and home with them` : `the ox and wagon for about ${hours} ${hours === 1 ? 'hour' : 'hours'}, to ${where}` };
 }
 CHORES['hunt-land'] = {
+  takes: ['rifle'],
   name: 'Hunt on our land', skill: 'hunting', where: 'home', hauls: true, huntLand: true,
   describe: 'On foot to a place on the family\'s own land that you choose, and home again. Timber by the water is the best ground for deer and open prairie the poorest; the edge of the timber is better than the middle. What comes home is what they can carry.',
   steps: CHORES['hunt-timber'].steps,
@@ -992,6 +1030,7 @@ CHORES['look-to-stock'] = {
 };
 
 CHORES['take-small-game'] = {
+  takes: ['rifle'],
   name: 'Take small game', skill: 'hunting', where: 'home', hauls: true, forage: 'smallgame',
   offered: forageOffered('smallgame'), begin: forageBegin('smallgame'),
   needs: { powder: SHOT_COST },
@@ -1277,6 +1316,10 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (chore.wantsWagon && needsWagonToHarvest(household) && !wagonAtHome(world, household)) {
     return { can: false, why: 'This much crop wants the wagon, and the wagon is not here.' };
   }
+  // What the work takes, if somebody else has it (owner, 2026-09-24: "If someone is using the wagon (or horse, or any item
+  // really), then no one else can use it"). The one rule is sim/keeping.mjs `userOf`; the sentence names who has it and what
+  // they are doing with it.
+  { const why = takenWhy(world, household, entity, choreId); if (why) return { can: false, why }; }
   // A missing hoe used to read as a sound one. Now planting, harvest and breaking ground want it
   // in the house before they will start; mending wants it there to mend, but buying one is
   // exactly how a family without a hoe gets one, so that is not refused for want of a hoe.
@@ -1309,6 +1352,58 @@ export function needsOf(household, chore) {
   const perPlot = Object.fromEntries(Object.entries(chore.needsPerPlot || {})
     .map(([resource, amount]) => [resource, (resource === 'seed' && cotton ? COTTON_SEED_PER_PLOT : amount) * clearedOf(household)]));
   return { ...chore.needs, ...perPlot };
+}
+
+/**
+ * What this work would hold from the moment it is given (sim/keeping.mjs): its own things (`takes`, a list or a function of
+ * the family's state) and the beasts of the way it goes, when it makes a journey. Deduplicated, in a fixed order.
+ */
+function heldBy(world, household, entity, chore, modeId) {
+  const own = typeof chore.takes === 'function' ? chore.takes(world, household, entity) : chore.takes || [];
+  const road = chore.steps.some(step => step.travel) ? MODES[modeId]?.needs || [] : [];
+  return [...new Set([...own, ...road])];
+}
+/** Why the things this work takes cannot be had, because somebody else has them: their name, and what they are doing. */
+function takenWhy(world, household, entity, choreId) {
+  const chore = CHORES[choreId];
+  const own = typeof chore.takes === 'function' ? chore.takes(world, household, entity) : chore.takes || [];
+  for (const item of own) {
+    const holder = userOf(world, household, item, entity, { work: choreId });
+    if (!holder) continue;
+    const alsoHeld = own.filter(other => userOf(world, household, other, entity, { work: choreId }) === holder);
+    return chore.wantsWagon ? `This much crop wants the wagon. ${hasWords(holder, alsoHeld, world, entity)}` : hasWords(holder, alsoHeld, world, entity);
+  }
+  return null;
+}
+/** The beasts a work held for a road it no longer takes with them: let go (sim/keeping.mjs). */
+function releaseBeasts(state) {
+  if (!state.with) return;
+  const left = state.with.filter(item => !BEASTS.includes(item));
+  if (left.length) state.with = left; else delete state.with;
+}
+/**
+ * A class saved before 2026-09-24 has no `with` on anybody's work (sim/keeping.mjs). Called once at the save's door
+ * (server/storage.mjs `readSave`): each piece of work in hand is given what it holds, worked out from the work itself - the
+ * rifle for a hunt, the ox for a load being dragged, the ox and wagon for a harvest that wants them and has them standing at
+ * home, and the beasts of a journey the work has still to make. No save version moves: an absent `with` is a work that holds
+ * nothing, which is exactly what every class saved before held.
+ */
+export function deriveUses(world) {
+  for (const household of Object.values(world.households || {})) {
+    for (const id of household.members || []) {
+      const person = world.entities?.[id], state = person?.chore;
+      const chore = state && CHORES[state.id];
+      if (!chore || state.with || ['dead', 'captured'].includes(person.health?.condition)) continue;
+      const held = [];
+      if (Array.isArray(chore.takes)) held.push(...chore.takes);
+      if (state.id === 'haul-logs' && state.load?.n > 1) held.push('ox');
+      if (state.id === 'harvest-field' && needsWagonToHarvest(household) && wagonAtHome(world, household)) held.push('ox', 'wagon');
+      const ahead = (chore.steps || []).slice(Math.max(0, state.step + (person.travel ? 1 : 0))).some(step => step.travel);
+      if (!person.travel && state.mode && ahead) held.push(...(MODES[state.mode]?.needs || []));
+      const kept = [...new Set(held)].filter(item => !(BEASTS.includes(item) && userOf(world, household, item, person)));
+      if (kept.length) state.with = kept;
+    }
+  }
 }
 
 /**
@@ -1364,6 +1459,7 @@ for (const extra of pendingChores || []) registerChores(extra);
 pendingChores = null;
 
 export function choreCatalogue() {
+  // The retired walk to the shops stays in: a class saved in the middle of it shows it glowing on a row, by its name.
   return Object.entries(CHORES).map(([id, chore]) => ({
     id, name: chore.name, describe: chore.describe, skill: chore.skill,
     // Stated up front, so spending the last seed is a visible decision.
@@ -1407,6 +1503,7 @@ export function choresFor(world, household, entity, logsOut = null) {
     // reads this list: hidden from it as well, from 2026-09-17 to -19 no family nobody played bought powder or seed or sold
     // its cotton, and it hunted its three shots and went without (docs/BIOME_GAMEPLAY.md §5.2).
     && !(chore.directorOnly && !directed(world, household))
+    && !chore.retired
     // Nor furniture while the family is still on the road in, or once it has every piece (sim/furniture.mjs).
     && !(chore.furniture && (household.arriving || !wanting(household).length))
     && !(chore.shops && household.arriving)
@@ -1536,11 +1633,17 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   // does not refuse one student's order: it stops the whole class.
   // A chore that can only go one way goes that way, whatever was asked: logs come home in the wagon.
   if (chore.forceMode) modeId = typeof chore.forceMode === 'function' ? chore.forceMode(world, household) : chore.forceMode;
+  // Work planned before it is sent - the errand to town, whose list is checked and whose way of going the server chooses from
+  // the load (sim/errands.mjs) - says how it goes; its refusal is thrown from there, in its own words, before anything moves.
+  let errand = null;
+  if (chore.plan) ({ mode: modeId, errand } = chore.plan(world, household, entity, extra, { modeAvailability }));
   if (chore.steps.some(step => step.travel) && modeId !== DEFAULT_MODE) {
     const mode = modeAvailability?.(world, entity, modeId);
     if (mode && !mode.can) throw new Error(mode.why);
   }
-  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }) };
+  // What the work holds from now until it is done (sim/keeping.mjs): its own things, and the beasts its road will take.
+  const held = heldBy(world, household, entity, chore, modeId);
+  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }), ...(errand && { errand }), ...(held.length && { with: held }) };
   entity.task = 'work';
   // A chore kept in its own module may need to set something up as it begins: a road chore halts the family (sim/road.mjs).
   chore.begin?.(world, household, entity);
@@ -1657,7 +1760,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // A step may name its own way of going: logs come home in the wagon, however the fetcher went out to it.
       const wanted = step.mode || state.mode || DEFAULT_MODE;
       const held = wanted === DEFAULT_MODE || (modeAvailability?.(world, entity, wanted)?.can ?? true);
-      if (!held) state.mode = DEFAULT_MODE;
+      if (!held) { state.mode = DEFAULT_MODE; releaseBeasts(state); }
       beginTravel(world, entity, destination, null, 'chore', held ? wanted : DEFAULT_MODE);
       return;
     }

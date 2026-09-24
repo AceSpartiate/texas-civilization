@@ -120,6 +120,52 @@ button:disabled{opacity:.4;cursor:default}
 #call-menu-said{margin:6px 0 0;font-size:12.5px;color:#66311f;min-height:0}
 #call-menu-said:empty{display:none}
 @media (max-width:760px){#call-menu{left:8px;right:8px;top:56px;width:auto;transform:none;max-height:60vh}}
+/* The errand to town (docs/TOWNS.md §4b): the call menu's paper and place, a list of the town's shops, and the server's
+   sentence for how they will go. Laid out for 1366x768 and 1024x768 (phones unsupported, owner). */
+#errand{position:absolute;z-index:13;left:max(20rem,calc(50% - 250px));top:56px;width:min(500px,calc(100% - 20rem - 12px));max-height:calc(100% - 56px - 96px);display:flex;flex-direction:column;background:var(--paper);border:1px solid #8fa392;border-radius:10px;padding:10px 12px 12px;box-shadow:0 6px 20px rgba(20,28,20,.32)}
+#errand>*{flex:none}
+#errand-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#errand-title{font-family:Georgia,serif;font-size:18px}
+#errand-close{background:none;border:none;color:#62736b;font-size:20px;min-height:0;padding:0 4px;cursor:pointer}
+#errand-close:hover{background:none;color:#244c42}
+#errand-text{margin:2px 0 4px;font-size:13.5px}
+#errand-stock,#errand-after{margin:0 0 4px;font-size:12.5px;color:#4b3e28;font-weight:600}
+#errand-after{font-weight:400;color:#5b6a55}
+#errand-after:empty{display:none}
+#errand-lines{flex:1 1 auto;min-height:0;overflow-y:auto;border-top:1px solid #d3c299;border-bottom:1px solid #d3c299;padding:2px 2px 4px}
+.errand-shop-name{margin:8px 0 2px;font:600 13.5px/1.2 Georgia,serif;color:#28392f}
+.errand-shop-lines{list-style:none;margin:0;padding:0}
+.errand-line{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;align-items:center;padding:4px 6px;border-radius:6px}
+.errand-line:nth-child(odd){background:#f3f0e2}
+.errand-line:not([data-count="0"]){background:#fdf0dd;box-shadow:inset 3px 0 0 #c2582c}
+.errand-line[data-shut=true] .errand-label{color:#7b806f}
+.errand-words{display:flex;flex-direction:column;min-width:0}
+.errand-label{font-size:13.5px;color:#28392f}
+.errand-price{font-size:12px;color:#5b6a55;line-height:1.3}
+.errand-line[data-shut=true] .errand-price{color:#8a3b22}
+.errand-controls{display:flex;align-items:center;gap:4px}
+.errand-controls button{min-height:36px;min-width:36px;padding:2px 8px;font-size:13px;background:#f3ead2;color:#3f3524;border-color:#b09a6d}
+.errand-controls .errand-pay{min-width:0;font-size:12px}
+.errand-controls button[aria-pressed=true]{background:#7a4726;border-color:#5d3419;color:#fdf0dd}
+/* How a line would be paid, said quietly until the line is on the list. */
+.errand-line[data-count="0"] .errand-controls .errand-pay[aria-pressed=true]{background:#e6d6b3;border-color:#a88f60;color:#3f3524}
+.errand-controls button:disabled{opacity:.45;cursor:not-allowed}
+.errand-count{min-width:1.6em;text-align:center;font-weight:650}
+#errand-how{margin:6px 0 0;font-size:13px;font-weight:600;color:#2c4238}
+#errand-why{margin:4px 0 0;font-size:13px;color:#8a3b22}
+#errand-why:empty{display:none}
+#errand-answer{display:flex;gap:6px;margin-top:8px}
+#errand-answer button{flex:1 1 auto;min-height:40px;font-size:14px}
+#errand-send{background:#c2582c;border-color:#a8471f}
+#errand-send:disabled{opacity:.55;cursor:not-allowed}
+#errand-cancel{background:#f3ead2;color:#3f3524;border-color:#b09a6d}
+body[data-lesson=true] #errand{top:calc(14px + var(--lesson-room,116px));max-height:calc(100% - 14px - var(--lesson-room,116px) - 96px);z-index:15}
+/* The bar steps aside while the list is open, as it does for a rider (owner, 2026-09-22, docs/FAMILY_PANEL.md §12.13): the
+   list is the whole of what the moment is for, and the bar is back the instant it closes. The person's card beside it says
+   nothing the list does not, and is put away with it. Same specificity as the meeting's rule, for the same reason. */
+body[data-errand=true] .panel-row[data-focused=true] .panel-icons{display:none}
+body[data-errand=true] #selection{visibility:hidden}
+body:has(#errand:not([hidden])) #military-notice{display:none}
 
 @media (max-width:760px){
   /* One compact row of status, so the map keeps its height. */

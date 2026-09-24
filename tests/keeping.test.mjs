@@ -86,7 +86,8 @@ test('work given with the horse holds it before the road out begins', () => {
   applyAction(world, 'hh-1', { action: 'chore', entityId: mateo.id, chore: 'make-furniture', mode: 'horse' });
   assert.ok(mateo.chore?.ask, 'the work did not stop to ask first, so this proves nothing');
   assert.equal(beast(world, 'horse').travel, null);
-  assert.equal(modeOf(world, rosa, 'horse').why, `${mateo.name} has the horse.`);
+  // Said with what he is doing with it (owner, 2026-09-24): the work holds it (sim/keeping.mjs `chore.with`).
+  assert.equal(modeOf(world, rosa, 'horse').why, `${mateo.name} has the horse, deciding what to make.`);
   assert.throws(() => applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'hunt-timber', mode: 'horse' }), new RegExp(`${mateo.name} has the horse`));
   // Called off, it is free.
   applyAction(world, 'hh-1', { action: 'stop-chore', entityId: mateo.id });
@@ -113,7 +114,7 @@ test('a volunteer who rode to the army has the horse with them in the ranks, and
   assert.equal(volunteer.travel.mode, 'horse', 'a volunteer with their horse is drawn walking beside it');
   const stayer = household.members.map(id => world.entities[id]).find(p => p.id !== volunteerId && p.location.siteId === household.homeSiteId && !p.travel && (p.age ?? 20) >= 16);
   assert.ok(stayer, 'nobody at home to ask for the horse, so this proves nothing');
-  assert.equal(modeOf(world, stayer, 'horse').why, `${volunteer.name} has the horse.`);
+  assert.equal(modeOf(world, stayer, 'horse').why, `${volunteer.name} has the horse, with the army.`);
   validateWorld(world);
   // Sent for: home on the horse, and the horse is free once it is in the yard.
   applyAction(world, household.id, { action: 'send-for', entityId: volunteerId });
