@@ -1,5 +1,34 @@
 # Claude handoff — Astra foundation
 
+## Brown over the rivers — 2026-09-24 (on a worktree branch; not merged or released)
+
+Owner: *"why can I see brown trail looking things over the rivers?"* Reproduced on the Host's page of a thirty-family class
+on the real land at 1,400, 420 and 90 pixels a mile and looked at. [docs/MAP_ACCURACY.md §10.8](docs/MAP_ACCURACY.md) has
+all of it. No save version; nothing on the server changed.
+
+- **What they were: the flood, drawn on chords.** A class opens with the Guadalupe up (`HIST-TEX-225`), and a river in flood is
+  drawn gone brown (`drawHighWater`, public/weather-art.js). It was stroked with `lineTo` through the course's points while the
+  river under it is `curveThrough`'s curve, so close in the brown cut every bend in straight translucent bands over the grass -
+  32 px off the water at the Guadalupe's bends above Victoria. The fog was banked on the same chords. Both are on
+  `curveThrough` now (imported relative, `./curve.js`). The flood's colour is unchanged (docs/WEATHER.md §10.8); if it still
+  reads as a road to the owner, that colour is the next knob.
+- **And the family's lane, over water with no ford.** Lanes wade the smaller water by design (`sim/colonies-region.mjs`) but only
+  a road's wade was a ford. `wadesOf` (public/map-base.js) finds each meeting of a lane with drawn water more than a quarter
+  mile from a crossing; the page draws the road's own ford there from 45 px a mile (`window.__wadesDrawn`). Two `ceiling:`s in
+  `public/app.js`: the wade costs the family nothing, and the timber tracks are left.
+- **Routing, found and not mended** (the built map's): the timber tracks and Gonzales's bank path cross the Guadalupe, Colorado,
+  Trinity and Brazos a half mile to two and a half miles from the documented crossing, through the barrier cells each crossing
+  opens; a hunter walks over there with no ferry or wade. Laying them again is a `colonies-map.json.gz` rebuild and a map
+  decision for the owner. Also 26 road/creek meetings off any ford (braided creek-bottom runs, §10.6's ceiling), and Coleto
+  Creek, Cibolo Creek and the Neches/Angelina past the box as oddities.
+- **Tests.** New `tests/water-overdrawn.test.mjs` (2). Injections ([record](docs/evidence/water-overdrawn/injections.json),
+  script beside it): **4 of 4 caught, each failing only its own test**. `npm test`: **1114 pass**, 0 fail. `node --check` on `.mjs` copies of `public/app.js`, `map-base.js`, `weather-art.js`.
+- **Browser** (same computer only). Before/after shots of six places at three zooms, looked at (session scratchpad,
+  `rivers-before.png`, `rivers-after.png`). PASS: crossings (21 shots, each crossing drawn as its kind; the Gonzales ford's
+  flood now on the river's curve), farm, host-view; their rewritten evidence files were put back rather than committed.
+  **`scripts/weather-browser-proof.mjs` fails at HEAD as well** (0a175bb, checked with this change taken out): it waits 120 s
+  for `status === 'running'` before meeting the family, and a solo game is no longer running then. Not mended here.
+
 ## Tools counted and bought in town — 2026-09-24 (after fd13eea; not yet committed or released)
 
 Owner: *"players should be able to send someone to buy more rifles, hoes, tools in general."* Recorded as

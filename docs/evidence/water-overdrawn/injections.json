@@ -1,0 +1,50 @@
+{
+  "record": "Brown over the rivers, 2026-09-24: each new test proven by injecting the regression it guards (docs/MAP_ACCURACY.md §10.8)",
+  "date": "2026-09-24T23:31:15.688Z",
+  "files": [
+    "tests/water-overdrawn.test.mjs",
+    "tests/weather-art.test.mjs",
+    "tests/rivers.test.mjs",
+    "tests/map-base.test.mjs"
+  ],
+  "results": [
+    {
+      "guards": "flood",
+      "injected": "the high water laid along the chords between the points again, not the curve",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the river in flood and the fog on it lie on the water as it is drawn, never across its bends"
+      ],
+      "alone": true
+    },
+    {
+      "guards": "flood",
+      "injected": "the fog banked along the chords again",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the river in flood and the fog on it lie on the water as it is drawn, never across its bends"
+      ],
+      "alone": true
+    },
+    {
+      "guards": "lanes",
+      "injected": "no wade found on any lane (the lane drawn straight over the water, as it was)",
+      "file": "public/map-base.js",
+      "failed": [
+        "every place a family's lane goes over drawn water, a ford is drawn there"
+      ],
+      "alone": true
+    },
+    {
+      "guards": "lanes",
+      "injected": "a lane wades the creeks but not the rivers",
+      "file": "public/map-base.js",
+      "failed": [
+        "every place a family's lane goes over drawn water, a ford is drawn there"
+      ],
+      "alone": true
+    }
+  ],
+  "allAlone": true,
+  "restoredAndPassing": true
+}

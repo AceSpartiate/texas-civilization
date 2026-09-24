@@ -31,6 +31,10 @@
 //   - The fog's shape, the high water and the lean on the trees live in the kept ground (public/map-base.js), so they
 //     cost nothing on a frame that only moves people. The fog's veil is one drawImage whose alpha is the morning's.
 
+// Relative, not '/curve.js' as the page's other modules write it: the same file under the same URL in the browser, and
+// importable by the tests, which read this file directly.
+import { curveThrough } from './curve.js';
+
 export const KINDS = Object.freeze(['fair', 'rain', 'norther', 'storm', 'fog']);
 export const REGIONS = Object.freeze(['west', 'centre', 'east']);
 
@@ -496,7 +500,11 @@ export function drawHighWater(ctx, courses, waterAt) {
     const points = course.points;
     if (!(points?.length > 1)) continue;
     ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    const line = () => { ctx.beginPath(); points.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y))); };
+    // Along the same curve the water itself is drawn on (public/curve.js, `drawWater`), never the straight chords between its
+    // points. Laid as chords, the brown cut every bend: close in, where a river's points are hundreds of pixels apart, it
+    // stood off the channel in straight translucent bands across the bends and out over the grass, and read as brown trails
+    // over the rivers (owner, 2026-09-24).
+    const line = () => curveThrough(ctx, points);
     const was = ctx.globalAlpha;
     // The bottoms: a wide, soft, dark band of soaked ground either side of the channel, and wider again once the river
     // is out of them - Gray's approach to the Trinity, "a boggy, miry, nasty prairie... subject to overflow".
@@ -566,7 +574,8 @@ export function drawFogShape(ctx, canvas, spans, courses) {
   for (const course of courses) {
     const points = course.points;
     if (!(points?.length > 1)) continue;
-    const line = () => { ctx.beginPath(); points.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y))); };
+    // On the water's own curve, as the high water is (`drawHighWater`).
+    const line = () => curveThrough(ctx, points);
     // Banked in three passes rather than a blur: a blur of a whole screen is the one thing here that could not be
     // afforded, and three widening strokes at falling opacity read the same at every zoom.
     for (const [spread, alpha] of [[9, 0.16], [5, 0.2], [2.2, 0.3]]) {

@@ -1221,6 +1221,11 @@ happened to **them**, not a description of the sky.
    worst failure this drawing can have; `tests/weather-art.test.mjs` holds the page's two water levels to
    `sim/weather.mjs`'s so they cannot drift apart.
 
+**The flood and the fog lie on the water's own curve** (2026-09-24, owner: *"why can I see brown trail looking things over
+the rivers?"*). Both were stroked along the straight chords between a course's points while the river is drawn as a curve
+through them, so close in the brown cut every bend in straight bands over the grass. They are laid on `curveThrough` now;
+`tests/water-overdrawn.test.mjs` holds it, and docs/MAP_ACCURACY.md §10.8 has the rest.
+
 The cost, measured before and after with `scripts/perf-render-measure.mjs`, is in `docs/PERFORMANCE_RENDER.md`, "The
 weather, drawn". The pictures are in `docs/evidence/weather/`, written by `scripts/weather-browser-proof.mjs`, and every
 day in them is a real day of a real class taken from `weatherOn`.
