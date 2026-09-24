@@ -17403,6 +17403,20 @@
       "anchorY": 0.9289,
       "seatX": 0.5,
       "seatY": 0.2569,
+      "ground": {
+        "left": [
+          0.0149,
+          0.7708
+        ],
+        "front": [
+          0.6043,
+          0.9881
+        ],
+        "right": [
+          0.9851,
+          0.6601
+        ]
+      },
       "label": "house round full walls",
       "kind": "house-modules",
       "row": 1,
@@ -17503,6 +17517,20 @@
       "anchorY": 0.9275,
       "seatX": 0.4983,
       "seatY": 0.2347,
+      "ground": {
+        "left": [
+          0.0117,
+          0.7634
+        ],
+        "front": [
+          0.5883,
+          0.9885
+        ],
+        "right": [
+          0.985,
+          0.6603
+        ]
+      },
       "label": "house hewn full walls",
       "kind": "house-modules",
       "row": 2,

@@ -48,7 +48,7 @@ try{
  // Every picture of a house the map draws, cut from the house sheets, with the transform it is drawn under: a house turned
  // on the ground must never be drawn turned (2026-09-23: at 90 degrees it lay on its side, at 180 it stood on its roof).
  await page.addInitScript(()=>{const drawImage=CanvasRenderingContext2D.prototype.drawImage;fetch('/assets/frontier-v1/atlas.json').then(r=>r.json()).then(atlas=>{window.__houseCuts=new Map(Object.entries(atlas.frames).filter(([,f])=>f.sheet==='house-modules'||f.sheet==='houses-settling').map(([name,f])=>[`${f.x},${f.y},${f.w},${f.h}`,name]));});
-  CanvasRenderingContext2D.prototype.drawImage=function(...args){const name=args.length===9&&window.__houseCuts?.get(`${args[1]},${args[2]},${args[3]},${args[4]}`);if(name&&!this.canvas.closest?.('#house-plot')){const t=this.getTransform();(window.__houseImages||=[]).push({name,a:t.a,b:t.b,c:t.c,d:t.d,e:t.e,f:t.f});}return drawImage.apply(this,args);};});
+  CanvasRenderingContext2D.prototype.drawImage=function(...args){const name=args.length===9&&window.__houseCuts?.get(`${args[1]},${args[2]},${args[3]},${args[4]}`);if(name&&!this.canvas.closest?.('#house-plot')){const t=this.getTransform();(window.__houseImages||=[]).push({name,a:t.a,b:t.b,c:t.c,d:t.d,e:t.e,f:t.f,x:args[5],y:args[6],w:args[7],h:args[8]});}return drawImage.apply(this,args);};});
  await page.goto(url);await page.locator('[name=name]').fill('Builder');await page.locator('[name=code]').fill(app.state.sessionCode);await page.getByRole('button',{name:'Join',exact:true}).click();await page.waitForFunction(()=>window.__snapshot?.world.householdId==='hh-1');
  const press=async selector=>{await page.waitForFunction(s=>{const e=document.querySelector(s);return e&&!e.disabled&&!e.hidden;},selector);await page.evaluate(s=>document.querySelector(s).click(),selector);};
  for(let i=2;i<=5;i++)await post('/api/join',{name:`Builder ${i}`,code:app.state.sessionCode});
@@ -152,10 +152,16 @@ try{
    const drawnHouse=await builtNow(),hb=drawnHouse.box,images=all.filter(i=>i.e>=hb.left-1&&i.e<=hb.right+1&&i.f>=hb.top-1&&i.f<=hb.bottom+1);
    assert.ok(images.some(i=>/full-walls$/.test(i.name))&&images.some(i=>/chimney/.test(i.name)),`at ${rotation} degrees no pen or chimney picture was drawn: ${JSON.stringify(images.slice(0,4))}`);
    assert.deepEqual(turned,[],`at ${rotation} degrees a picture of the house was drawn turned`);
+   // Every chimney stands against its pen (2026-09-23, owner: "Something looks wrong with the chimneys too"): its foot, where
+   // it is drawn translated to, inside the picture of a pen's walls, not on the grass a cell away (tests/house-chimney.test.mjs
+   // holds it to the middle of its gable wall).
+   const inside=(i,p)=>{const xs=[p.e+p.a*p.x,p.e+p.a*(p.x+p.w)],ys=[p.f+p.d*p.y,p.f+p.d*(p.y+p.h)];return i.e>=Math.min(...xs)&&i.e<=Math.max(...xs)&&i.f>=Math.min(...ys)&&i.f<=Math.max(...ys);};
+   const chimneys=images.filter(i=>/chimney/.test(i.name)),away=chimneys.filter(i=>!images.some(p=>/full-walls$/.test(p.name)&&inside(i,p)));
+   assert.deepEqual(away.map(i=>i.name),[],`at ${rotation} degrees a chimney stands off its pen: ${JSON.stringify(away.map(i=>[i.name,+i.e.toFixed(1),+i.f.toFixed(1)]))}`);
    // Mirrored at a quarter turn, where the gable comes round to the other face; as drawn at a half turn.
    assert.ok(images.every(i=>(i.a<0)===(rotation%180!==0)),`at ${rotation} degrees the pictures are mirrored the wrong way: ${JSON.stringify(images.map(i=>[i.name,+i.a.toFixed(3)]))}`);
    const at=drawnHouse;await shoot(`house-built-${rotation}`,at);
-   turns[rotation]={pictures:images.length,housePicturesOnTheMap:all.length,turned:turned.length,mirrored:images.filter(i=>i.a<0).length,footprintCells:{w:+(at.footprint.w/at.cell).toFixed(3),h:+(at.footprint.h/at.cell).toFixed(3)}};
+   turns[rotation]={pictures:images.length,chimneysAgainstTheirPen:chimneys.length-away.length,housePicturesOnTheMap:all.length,turned:turned.length,mirrored:images.filter(i=>i.a<0).length,footprintCells:{w:+(at.footprint.w/at.cell).toFixed(3),h:+(at.footprint.h/at.cell).toFixed(3)}};
  }
  turnTo(placedTurn);await page.waitForFunction(r=>(window.__placedHousesDrawn||[]).some(h=>!h.preview&&h.pieces>=2&&h.rotation===r),placedTurn);
  // A tap on the house where it is drawn opens its rooms; the family's site point, where nothing of it stands, is not a house.

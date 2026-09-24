@@ -89,9 +89,11 @@ for (const plan of ['round-log', 'hewn-log', 'dog-run', 'saddlebag', 'jacal']) {
         for (const { name, foot: { x, y } } of standing(ctx)) {
           assert.ok(x >= box.left - 1e-6 && x <= box.right + 1e-6 && y >= box.top - 1e-6 && y <= box.bottom + 1e-6, `${where}: ${name} stands at ${x.toFixed(1)}, ${y.toFixed(1)}, off its footprint ${JSON.stringify(box)}`);
         }
-        // Drawn back to front: each thing on the ground stands no further back than the one drawn before it.
-        const feet = standing(ctx).map(each => each.foot.y);
-        feet.forEach((y, i) => assert.ok(i === 0 || y >= feet[i - 1] - 1e-6, `${where}: ${standing(ctx)[i].name} drawn after a piece in front of it`));
+        // Drawn back to front: each thing on the ground stands no further back than the one drawn before it. Not a chimney,
+        // which stands against its pen's gable wall and is drawn before the pen or after it by which side of the pen that
+        // wall is on, not by where its foot is (tests/house-chimney.test.mjs holds it there).
+        const grounded = standing(ctx).filter(each => !/chimney/.test(each.name)), feet = grounded.map(each => each.foot.y);
+        feet.forEach((y, i) => assert.ok(i === 0 || y >= feet[i - 1] - 1e-6, `${where}: ${grounded[i].name} drawn after a piece in front of it`));
         if (alpha < 1) assert.ok(ctx.outlines.every(({ transform: [, b, c] }) => b === 0 && c === 0), `${where}: the outline is drawn turned`);
       }
     });
@@ -108,17 +110,21 @@ test('a dog-run runs across the screen at 0 and 180 degrees and into it at 90 an
     // The pens stand three cells apart (a pen and the passage), along the house's long side.
     if (rotation % 180) { assert.ok(across < 1e-6 && Math.abs(into - 3 * cell) < 1e-6, `${rotation}: the pens are ${across} across and ${into} deep`); }
     else { assert.ok(into < 1e-6 && Math.abs(across - 3 * cell) < 1e-6, `${rotation}: the pens are ${across} across and ${into} deep`); }
-    // The chimneys stand at the two ends of that line, one drawn first (the far or left one) and one last.
+    // The chimneys stand at the two ends of that line, beyond the middle of each pen's ground, one drawn first (the far or
+    // left one) and one last. A chimney against the gable toward the viewer has its foot about level with the pen's own.
+    const frame = spriteFrame('house-round-full-walls'), { left, right } = frame.ground, scale = cell * 2.2 / frame.h;
+    const middle = foot => ({ x: foot.x + (rotation % 180 ? -1 : 1) * ((left[0] + right[0]) / 2 - frame.anchorX) * frame.w * scale, y: foot.y + ((left[1] + right[1]) / 2 - frame.anchorY) * frame.h * scale });
     const ends = rotation % 180 ? chimneys.map(each => each.foot.y) : chimneys.map(each => each.foot.x);
-    const line = rotation % 180 ? walls.map(each => each.foot.y) : walls.map(each => each.foot.x);
+    const line = rotation % 180 ? walls.map(each => middle(each.foot).y) : walls.map(each => middle(each.foot).x);
     assert.ok(Math.min(...ends) < Math.min(...line) && Math.max(...ends) > Math.max(...line), `${rotation}: the chimneys are not at the ends`);
     if (rotation % 180) assert.deepEqual([ctx.drawn[0].name, ctx.drawn.at(-1).name].map(name => /chimney/.test(name)), [true, true], `${rotation}: the far chimney is not drawn first and the near one last`);
   }
   // A half turn puts the house's ends the other way round: the round-log cabin's chimney, right of its pen at 0, is left of it.
   const side = rotation => { const ctx = recorder(); drawPlacedHouse(ctx, camera, { placement: placement(rotation), pieces: finished('round-log') }); const pen = ctx.drawn.find(each => /full-walls$/.test(each.name)).foot, chimney = ctx.drawn.find(each => /chimney/.test(each.name)).foot; return { dx: chimney.x - pen.x, dy: chimney.y - pen.y }; };
   assert.ok(side(0).dx > 0 && side(180).dx < 0, 'the chimney does not change ends at a half turn');
-  // At 90 the east end has come round to the front, the chimney before the pen; at 270 behind it.
-  assert.ok(side(90).dy > 0 && side(270).dy < 0, 'a quarter turn does not bring the chimney end to the front or the back');
+  // At 90 the east end has come round to the front, the chimney against the gable toward the viewer, its foot about level
+  // with the pen's; at 270 behind it, against the gable behind the walls.
+  assert.ok(side(90).dy > -0.1 * cell && side(270).dy < -cell / 2, 'a quarter turn does not bring the chimney end to the front or the back');
 });
 
 test('the house at its site, placed nowhere, is drawn as it always was: upright, unmirrored', () => {

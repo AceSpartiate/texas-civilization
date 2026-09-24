@@ -160,6 +160,113 @@ function drawLogPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip = false)
 export const plotCell = size => size * CELL_SHARE;
 
 /**
+ * How far a chimney's foot stands out from the middle of its gable wall, as a share of the pen's depth through that wall:
+ * half a chimney's depth, so its back is against the wall and its front stands clear of it. A stick-and-mud or stone
+ * chimney was built against the outside of a gable wall, centred on it (`HIST-GONZ-025`: "an exterior chimney centred in
+ * one gable wall").
+ * ceiling: one depth for every chimney, a guess at five feet of a sixteen-foot pen; the sheet's chimneys are drawn alone
+ * with no depth to read. A chimney drawn with its wall-side foot marked (docs/ART_REQUESTS.md, 2026-09-15) replaces it.
+ */
+export const CHIMNEY_STANDS_OUT = 0.1;
+/**
+ * How high a chimney is drawn, in cells of the plot (the pen's full walls are 2.2): high enough that one against the gable
+ * behind the walls rises over the ridge, as the chimney does in the whole-house pictures (the houses-settling sheet). At
+ * 1.55 its top was under the roof's back slope once it stood against its wall, and the pen hid it whole. And how high the
+ * saddlebag's double chimney rises from its foot between the pens, to clear their ridges.
+ * ceiling: one height, tuned by eye to the house-modules sheet; the reach it takes up the screen is inside
+ * `PICTURE_REACH.up` (tests/house-spacing.test.mjs), so a taller chimney has to move that and the server's spacing with it.
+ */
+export const CHIMNEY_HIGH = 2.1, DOUBLE_RISE = 2.35;
+
+/**
+ * A gable wall of a pen as the full walls are drawn, in pixels of their frame: the middle of the wall where it meets the
+ * ground, and the pen's depth through it pointing out of it. The atlas measures the feet of the three corner posts the
+ * viewer sees (`ground`: scripts/build-atlas-manifest.mjs `groundOf`); the fourth, behind the walls, closes the figure.
+ * The sheet draws the pen corner-on with its roof's gables on the face to the left and front (the door's) and the face to
+ * the right and back, so `front` is the one on the viewer's side, and the other is behind the walls. null with no ground.
+ */
+function gableOf(walls, front) {
+  const ground = walls?.ground;
+  if (!ground) return null;
+  const [l, f, r] = [ground.left, ground.front, ground.right].map(([u, v]) => [u * walls.w, v * walls.h]);
+  const b = [l[0] + r[0] - f[0], l[1] + r[1] - f[1]];
+  const [one, other] = front ? [l, f] : [r, b];
+  return { middle: [(one[0] + other[0]) / 2, (one[1] + other[1]) / 2], out: front ? [f[0] - r[0], f[1] - r[1]] : [r[0] - f[0], r[1] - f[1]] };
+}
+
+/**
+ * Where a chimney's foot goes against a pen's gable wall, when the pen's full walls are drawn with their foot at (x, y),
+ * `height` high, mirrored or not (a quarter turn, `drawHousePlot`): the middle of the wall on the ground, `out` of the
+ * pen's depth outside it. `front` is the gable on the viewer's side of the picture. null when the walls are not measured.
+ */
+export function gableFoot(walls, front, x, y, height, flip = false, out = CHIMNEY_STANDS_OUT) {
+  const gable = gableOf(walls, front);
+  if (!gable) return null;
+  const scale = height / (walls.logicalHeight || walls.h);
+  const [u, v] = [gable.middle[0] + out * gable.out[0], gable.middle[1] + out * gable.out[1]];
+  return { x: x + (flip ? -1 : 1) * (u - walls.anchorX * walls.w) * scale, y: y + (v - walls.anchorY * walls.h) * scale };
+}
+
+/**
+ * Stand each chimney against its gable wall, and put it in the drawing order where that wall is (owner, 2026-09-23:
+ * "Something looks wrong with the chimneys too. Are they positioned correctly?"). A chimney's piece of the plot is the
+ * cell beside its pen's end wall, and it was drawn with its foot at the front of that cell. But the sheet draws a pen
+ * corner-on, two and a half cells wide and little more than one deep, so the cell beside a pen is not where the picture's
+ * end wall is: the chimney stood on the grass to the right of a cabin, in front of it at 90 degrees, behind it at 270.
+ *
+ * The plot says which pen and which end - east of the pen is its east gable, west its west - and the turn says where on
+ * the screen that gable faces (`turned`). The sheet's gables are the pen's left-front face (the door's) and its right-back
+ * face, mirrored at a quarter turn to the right-front and the left-back, so a gable facing left (unmirrored) or toward the
+ * viewer (mirrored) is the front one, and one facing right or away is behind the walls:
+ *
+ *                  0         90            180          270
+ *   east gable   right-back  right-front   left-front   left-back
+ *   west gable   left-front  left-back     right-back   right-front
+ *
+ * A chimney against a gable behind the walls is drawn before its pen, which hides its foot, and it rises behind the roof;
+ * against one in front it is drawn after its pen. The saddlebag's double chimney stands between its two pens, at the
+ * middle of the one pen's east gable and the other's west, drawn after the pen whose gable it is in front of and before
+ * the one whose gable it is behind; at 0 and 180 degrees the two pens stand side by side, and are drawn in that order.
+ *
+ * `order` is the pieces back to front, `{ p, footX, footY, ... }` as `drawHousePlot` places them; it is changed in place.
+ * A chimney whose pen has no measured walls - a jacal, or no `spriteFrame` - stays at its own cell, as it always was.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-23 - the house from its other sides. The sheet has one pen, with its door
+ * in the gable to the left and front, so at 90 and 180 degrees, and on the dog-run's west pen at 0 and 270, a chimney
+ * stands in front of a gable the sheet has drawn a door in.
+ */
+function standChimneys(order, rotation, flip, cell, spriteFrame) {
+  const pens = order.filter(each => each.p.kind.pen);
+  const gable = (pen, east) => {
+    const walls = pen && pen.p.type !== 'pen-jacal' && spriteFrame?.(`house-${pen.p.type === 'pen-hewn' ? 'hewn' : 'round'}-full-walls`);
+    if (!walls?.ground) return null;
+    const [dx, dy] = turned(east ? 1 : -1, 0, rotation), front = flip ? dy > 0 : dx < 0;
+    return { pen, front, foot: out => gableFoot(walls, front, pen.footX, pen.footY, cell * 2.2, flip, out) };
+  };
+  const row = (pen, p) => p.y >= pen.p.y && p.y < pen.p.y + 2;
+  for (const chimney of order.filter(each => /^chimney/.test(each.p.type))) {
+    const { p } = chimney;
+    if (p.kind.place === 'between') {
+      const walls = [gable(pens.find(pen => pen.p.y === p.y && pen.p.x + 2 === p.x), true), gable(pens.find(pen => pen.p.y === p.y && pen.p.x === p.x + 1), false)];
+      if (!walls[0] || !walls[1]) continue;
+      const [a, b] = walls.map(each => each.foot(0));
+      Object.assign(chimney, { footX: (a.x + b.x) / 2, footY: (a.y + b.y) / 2 });
+      const before = walls.find(each => each.front).pen, after = walls.find(each => !each.front).pen;
+      order.splice(order.indexOf(chimney), 1);
+      // The pen whose gable it stands behind comes after it: at 0 and 180 the two stand side by side and either can go first.
+      if (order.indexOf(after) < order.indexOf(before)) { order.splice(order.indexOf(after), 1); order.splice(order.indexOf(before) + 1, 0, after); }
+      order.splice(order.indexOf(before) + 1, 0, chimney);
+      continue;
+    }
+    const wall = gable(pens.find(pen => row(pen, p) && pen.p.x + 2 === p.x), true) || gable(pens.find(pen => row(pen, p) && pen.p.x - 1 === p.x), false);
+    if (!wall) continue;
+    const foot = wall.foot(CHIMNEY_STANDS_OUT);
+    Object.assign(chimney, { footX: foot.x, footY: foot.y });
+    order.splice(order.indexOf(chimney), 1);
+    order.splice(order.indexOf(wall.pen) + (wall.front ? 1 : 0), 0, chimney);
+  }
+}
+
+/**
  * The house plot drawn on the family's own land, piece by piece at its stage, round the house's point. Returns how many
  * pieces were drawn. `spriteFrame(name)` gives a frame's measurements (public/art.js); without it a pen is drawn as its
  * whole picture, since the modular pieces cannot be seated on one another. Delivered modular art covers round/hewn pens,
@@ -209,7 +316,9 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
     return { p, w, h, front: cy + h / 2, footX: x + cx * cell, footY: y - cell + (cy + h / 2) * cell };
   });
   // Back to front by the turned front edge, so a piece nearer the viewer is drawn over one further off.
-  for (const { p, w, h, footX, footY } of placed.sort((a, b) => a.front - b.front)) {
+  const order = placed.sort((a, b) => a.front - b.front);
+  standChimneys(order, rotation, flip, cell, spriteFrame);
+  for (const { p, w, h, footX, footY } of order) {
     if (p.kind.pen) {
       if (!drawLogPen(ctx, p, footX, footY, cell * 2.2, sprite, spriteFrame, flip)) sprite(ctx, penPicture(p), footX, footY, cell * 2.2);
       continue;
@@ -231,15 +340,16 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
     } else if (p.type === 'chimney' || p.type === 'chimney-stone') {
       const complete = p.stage >= p.kind.stageCount;
       const name = p.type === 'chimney-stone' ? 'house-chimney-stone' : complete ? 'house-chimney-stick' : 'house-chimney-stick-building';
-      if (!sprite(ctx, name, footX, footY, cell * 1.55)) {
+      if (!sprite(ctx, name, footX, footY, cell * CHIMNEY_HIGH)) {
         ctx.fillStyle = p.type === 'chimney-stone' ? '#9b968a' : '#9a6b43';
         const wide = cell * .45, tall = cell * (p.kind.h + .9) * Math.min(1, (p.stage + .3) / p.kind.stageCount);
         ctx.fillRect(footX - wide / 2, footY - tall, wide, tall);
       }
     } else {
-      // stand-in: the double chimney still needs a two-sided sprite matching its two-cell footprint.
+      // stand-in: the double chimney still needs a two-sided sprite matching its two-cell footprint (docs/ART_REQUESTS.md).
+      // As wide as the gap between the two pens' pictures at 0 and 180 degrees and a little more, so it touches both walls.
       ctx.fillStyle = p.type === 'chimney-stone' ? '#9b968a' : '#9a6b43';
-      const wide = cell * 0.45, tall = cell * (p.kind.h + 0.9) * Math.min(1, (p.stage + 0.3) / p.kind.stageCount);
+      const wide = cell * 0.6, tall = cell * DOUBLE_RISE * Math.min(1, (p.stage + 0.3) / p.kind.stageCount);
       ctx.fillRect(footX - wide / 2, footY - tall, wide, tall);
       drawn?.push({ left: footX - wide / 2, top: footY - tall, right: footX + wide / 2, bottom: footY });
     }

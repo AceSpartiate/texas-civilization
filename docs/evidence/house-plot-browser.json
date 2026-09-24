@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-24T03:18:30.315Z",
+  "date": "2026-09-24T03:45:05.001Z",
   "result": "PASS",
   "scope": "Same-computer student integration",
   "checks": [
@@ -57,27 +57,8 @@
   },
   "turns": {
     "0": {
-      "pictures": 30,
-      "housePicturesOnTheMap": 1380,
-      "turned": 0,
-      "mirrored": 0,
-      "footprintCells": {
-        "w": 3,
-        "h": 2
-      }
-    },
-    "90": {
-      "pictures": 33,
-      "housePicturesOnTheMap": 1518,
-      "turned": 0,
-      "mirrored": 33,
-      "footprintCells": {
-        "w": 2,
-        "h": 3
-      }
-    },
-    "180": {
       "pictures": 36,
+      "chimneysAgainstTheirPen": 12,
       "housePicturesOnTheMap": 1656,
       "turned": 0,
       "mirrored": 0,
@@ -86,11 +67,34 @@
         "h": 2
       }
     },
-    "270": {
-      "pictures": 42,
-      "housePicturesOnTheMap": 1932,
+    "90": {
+      "pictures": 36,
+      "chimneysAgainstTheirPen": 12,
+      "housePicturesOnTheMap": 1656,
       "turned": 0,
-      "mirrored": 42,
+      "mirrored": 36,
+      "footprintCells": {
+        "w": 2,
+        "h": 3
+      }
+    },
+    "180": {
+      "pictures": 30,
+      "chimneysAgainstTheirPen": 10,
+      "housePicturesOnTheMap": 1380,
+      "turned": 0,
+      "mirrored": 0,
+      "footprintCells": {
+        "w": 3,
+        "h": 2
+      }
+    },
+    "270": {
+      "pictures": 36,
+      "chimneysAgainstTheirPen": 12,
+      "housePicturesOnTheMap": 1656,
+      "turned": 0,
+      "mirrored": 36,
       "footprintCells": {
         "w": 2,
         "h": 3
@@ -119,15 +123,15 @@
     "drawnBoxes": [
       {
         "left": 522.0907865364945,
-        "top": 30.819434080583207,
+        "top": 69.60003084348311,
         "right": 773.9091804026677,
-        "bottom": 344.64501275800603
+        "bottom": 305.86439475818634
       },
       {
         "left": 522.0907865364945,
-        "top": 375.3549882275838,
+        "top": 414.1355849904837,
         "right": 773.9091804026677,
-        "bottom": 689.1805669050068
+        "bottom": 650.3999489051869
       }
     ],
     "shot": "test-results/houses-closest.png"
@@ -147,15 +151,15 @@
         "boxes": [
           {
             "left": 522.1,
-            "top": 30.8,
+            "top": 69.6,
             "right": 773.9,
-            "bottom": 344.6
+            "bottom": 305.9
           },
           {
             "left": 522.1,
-            "top": 375.4,
+            "top": 414.1,
             "right": 773.9,
-            "bottom": 689.2
+            "bottom": 650.4
           }
         ],
         "taps": 2
@@ -169,15 +173,15 @@
         "boxes": [
           {
             "left": 544.8,
-            "top": 90.1,
+            "top": 121.9,
             "right": 751.2,
-            "bottom": 347.4
+            "bottom": 315.6
           },
           {
             "left": 544.8,
-            "top": 372.6,
+            "top": 404.4,
             "right": 751.2,
-            "bottom": 629.9
+            "bottom": 598.1
           }
         ],
         "taps": 2
@@ -191,15 +195,15 @@
         "boxes": [
           {
             "left": 563.4,
-            "top": 138.7,
+            "top": 164.8,
             "right": 732.6,
-            "bottom": 349.7
+            "bottom": 323.6
           },
           {
             "left": 563.4,
-            "top": 370.3,
+            "top": 396.4,
             "right": 732.6,
-            "bottom": 581.3
+            "bottom": 555.2
           }
         ],
         "taps": 2
@@ -213,15 +217,15 @@
         "boxes": [
           {
             "left": 578.6,
-            "top": 178.6,
+            "top": 200,
             "right": 717.4,
-            "bottom": 351.5
+            "bottom": 330.2
           },
           {
             "left": 578.6,
-            "top": 368.5,
+            "top": 389.8,
             "right": 717.4,
-            "bottom": 541.4
+            "bottom": 520
           }
         ],
         "taps": 2
@@ -235,15 +239,15 @@
         "boxes": [
           {
             "left": 591.1,
-            "top": 211.3,
+            "top": 228.8,
             "right": 704.9,
-            "bottom": 353.1
+            "bottom": 335.5
           },
           {
             "left": 591.1,
-            "top": 366.9,
+            "top": 384.5,
             "right": 704.9,
-            "bottom": 508.7
+            "bottom": 491.2
           }
         ],
         "taps": 2
@@ -257,15 +261,15 @@
         "boxes": [
           {
             "left": 601.4,
-            "top": 238.1,
+            "top": 252.4,
             "right": 694.6,
-            "bottom": 354.3
+            "bottom": 339.9
           },
           {
             "left": 601.4,
-            "top": 365.7,
+            "top": 380.1,
             "right": 694.6,
-            "bottom": 481.9
+            "bottom": 467.6
           }
         ],
         "taps": 2
@@ -279,15 +283,15 @@
         "boxes": [
           {
             "left": 609.8,
-            "top": 260,
+            "top": 271.8,
             "right": 686.2,
-            "bottom": 355.3
+            "bottom": 343.6
           },
           {
             "left": 609.8,
-            "top": 364.7,
+            "top": 376.4,
             "right": 686.2,
-            "bottom": 460
+            "bottom": 448.2
           }
         ],
         "taps": 2
@@ -301,15 +305,15 @@
         "boxes": [
           {
             "left": 616.6,
-            "top": 278,
+            "top": 287.7,
             "right": 679.4,
-            "bottom": 356.2
+            "bottom": 346.5
           },
           {
             "left": 616.6,
-            "top": 363.8,
+            "top": 373.5,
             "right": 679.4,
-            "bottom": 442
+            "bottom": 432.3
           }
         ],
         "taps": 2
@@ -323,15 +327,15 @@
         "boxes": [
           {
             "left": 622.3,
-            "top": 292.8,
+            "top": 300.7,
             "right": 673.7,
-            "bottom": 356.9
+            "bottom": 348.9
           },
           {
             "left": 622.3,
-            "top": 363.1,
+            "top": 371.1,
             "right": 673.7,
-            "bottom": 427.2
+            "bottom": 419.3
           }
         ],
         "taps": 2
@@ -345,15 +349,15 @@
         "boxes": [
           {
             "left": 626.9,
-            "top": 304.9,
+            "top": 311.4,
             "right": 669.1,
-            "bottom": 357.4
+            "bottom": 350.9
           },
           {
             "left": 626.9,
-            "top": 362.6,
+            "top": 369.1,
             "right": 669.1,
-            "bottom": 415.1
+            "bottom": 408.6
           }
         ],
         "taps": 2
@@ -367,15 +371,15 @@
         "boxes": [
           {
             "left": 630.7,
-            "top": 314.8,
+            "top": 320.2,
             "right": 665.3,
-            "bottom": 357.9
+            "bottom": 352.6
           },
           {
             "left": 630.7,
-            "top": 362.1,
+            "top": 367.4,
             "right": 665.3,
-            "bottom": 405.2
+            "bottom": 399.8
           }
         ],
         "taps": 2
@@ -389,15 +393,15 @@
         "boxes": [
           {
             "left": 633.8,
-            "top": 323,
+            "top": 327.3,
             "right": 662.2,
-            "bottom": 358.3
+            "bottom": 353.9
           },
           {
             "left": 633.8,
-            "top": 361.7,
+            "top": 366.1,
             "right": 662.2,
-            "bottom": 397
+            "bottom": 392.7
           }
         ],
         "taps": 2
@@ -411,15 +415,15 @@
         "boxes": [
           {
             "left": 636.4,
-            "top": 329.6,
+            "top": 333.2,
             "right": 659.6,
-            "bottom": 358.6
+            "bottom": 355
           },
           {
             "left": 636.4,
-            "top": 361.4,
+            "top": 365,
             "right": 659.6,
-            "bottom": 390.4
+            "bottom": 386.8
           }
         ],
         "taps": 2
@@ -433,9 +437,9 @@
         "boxes": [
           {
             "left": 637.1,
-            "top": 333.3,
+            "top": 336.2,
             "right": 659.4,
-            "bottom": 361.1
+            "bottom": 357.1
           }
         ],
         "taps": 1
@@ -449,9 +453,9 @@
         "boxes": [
           {
             "left": 637.3,
-            "top": 335.8,
+            "top": 338.2,
             "right": 659.6,
-            "bottom": 363.6
+            "bottom": 359.1
           }
         ],
         "taps": 1
@@ -465,9 +469,9 @@
         "boxes": [
           {
             "left": 637.5,
-            "top": 337.9,
+            "top": 339.9,
             "right": 659.8,
-            "bottom": 365.7
+            "bottom": 360.8
           }
         ],
         "taps": 1
@@ -481,9 +485,9 @@
         "boxes": [
           {
             "left": 637.7,
-            "top": 339.6,
+            "top": 341.2,
             "right": 659.9,
-            "bottom": 367.4
+            "bottom": 362.1
           }
         ],
         "taps": 1
@@ -497,9 +501,9 @@
         "boxes": [
           {
             "left": 637.8,
-            "top": 341,
+            "top": 342.4,
             "right": 660.1,
-            "bottom": 368.8
+            "bottom": 363.3
           }
         ],
         "taps": 1
@@ -513,9 +517,9 @@
         "boxes": [
           {
             "left": 637.9,
-            "top": 342.2,
+            "top": 343.3,
             "right": 660.2,
-            "bottom": 370
+            "bottom": 364.2
           }
         ],
         "taps": 1
@@ -529,9 +533,9 @@
         "boxes": [
           {
             "left": 638,
-            "top": 343.1,
+            "top": 344,
             "right": 660.3,
-            "bottom": 370.9
+            "bottom": 364.9
           }
         ],
         "taps": 1
@@ -545,9 +549,9 @@
         "boxes": [
           {
             "left": 638,
-            "top": 343.9,
+            "top": 344.6,
             "right": 660.3,
-            "bottom": 371.7
+            "bottom": 365.5
           }
         ],
         "taps": 1
@@ -561,9 +565,9 @@
         "boxes": [
           {
             "left": 638.1,
-            "top": 344.5,
+            "top": 345.1,
             "right": 660.4,
-            "bottom": 372.3
+            "bottom": 366
           }
         ],
         "taps": 1
@@ -577,9 +581,9 @@
         "boxes": [
           {
             "left": 638.1,
-            "top": 345,
+            "top": 345.5,
             "right": 660.4,
-            "bottom": 372.8
+            "bottom": 366.5
           }
         ],
         "taps": 1
@@ -593,9 +597,9 @@
         "boxes": [
           {
             "left": 638.2,
-            "top": 345.5,
+            "top": 345.9,
             "right": 660.5,
-            "bottom": 373.3
+            "bottom": 366.8
           }
         ],
         "taps": 1
@@ -609,9 +613,9 @@
         "boxes": [
           {
             "left": 638.2,
-            "top": 345.8,
+            "top": 346.2,
             "right": 660.5,
-            "bottom": 373.6
+            "bottom": 367.1
           }
         ],
         "taps": 1
@@ -625,9 +629,9 @@
         "boxes": [
           {
             "left": 638.2,
-            "top": 346.1,
+            "top": 346.4,
             "right": 660.5,
-            "bottom": 373.9
+            "bottom": 367.3
           }
         ],
         "taps": 1
@@ -641,9 +645,9 @@
         "boxes": [
           {
             "left": 638.3,
-            "top": 346.3,
+            "top": 346.6,
             "right": 660.5,
-            "bottom": 374.1
+            "bottom": 367.5
           }
         ],
         "taps": 1
@@ -657,9 +661,9 @@
         "boxes": [
           {
             "left": 638.3,
-            "top": 346.5,
+            "top": 346.7,
             "right": 660.6,
-            "bottom": 374.3
+            "bottom": 367.6
           }
         ],
         "taps": 1
@@ -673,9 +677,9 @@
         "boxes": [
           {
             "left": 638.3,
-            "top": 346.7,
+            "top": 346.8,
             "right": 660.6,
-            "bottom": 374.5
+            "bottom": 367.8
           }
         ],
         "taps": 1
@@ -689,9 +693,9 @@
         "boxes": [
           {
             "left": 638.3,
-            "top": 346.8,
+            "top": 346.9,
             "right": 660.6,
-            "bottom": 374.6
+            "bottom": 367.9
           }
         ],
         "taps": 1
@@ -705,9 +709,9 @@
         "boxes": [
           {
             "left": 638.3,
-            "top": 346.9,
+            "top": 347,
             "right": 660.6,
-            "bottom": 374.7
+            "bottom": 367.9
           }
         ],
         "taps": 1
@@ -721,9 +725,9 @@
         "boxes": [
           {
             "left": 638.3,
-            "top": 347,
+            "top": 347.1,
             "right": 660.6,
-            "bottom": 374.8
+            "bottom": 368
           }
         ],
         "taps": 1
@@ -737,9 +741,9 @@
         "boxes": [
           {
             "left": 775.8,
-            "top": 347.1,
+            "top": 347.2,
             "right": 798.1,
-            "bottom": 374.9
+            "bottom": 368.1
           }
         ],
         "taps": 1
@@ -753,9 +757,9 @@
         "boxes": [
           {
             "left": 893.7,
-            "top": 347.1,
+            "top": 347.2,
             "right": 916,
-            "bottom": 374.9
+            "bottom": 368.1
           }
         ],
         "taps": 1
@@ -771,7 +775,7 @@
             "left": 984.1,
             "top": 347.2,
             "right": 1006.4,
-            "bottom": 375
+            "bottom": 368.2
           }
         ],
         "taps": 1
@@ -788,7 +792,7 @@
   },
   "roomsOpenedAt": {
     "x": 800.5,
-    "y": 337
+    "y": 323
   },
   "placement": {
     "x": 108.56,

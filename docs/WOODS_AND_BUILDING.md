@@ -296,6 +296,42 @@ done — roofing, finished); a passage is the gap between; chimneys, shed rooms,
 (round and hewn, both faces), the passage roof, stick-and-mud, stone and double chimneys, a shed room, a porch, a
 puncheon floor, felled logs and a log pile, stumps of pine and pecan.
 
+**Chimneys against their gable walls (2026-09-23).** Owner: *"Something looks wrong with the chimneys too. Are they
+positioned correctly?"* They were not. The single-pen house had an exterior chimney centred in one gable wall
+(`HIST-GONZ-025`), the saddlebag *"a big double chimney"* between its two pens (`HIST-TEX-017`), the dog-run a chimney at
+each end (`HIST-GONZ-035`). The plan data was right — a chimney's cell is beside its pen's east or west end wall — but the
+page drew the chimney at the front of that cell, and the house-modules sheet draws a pen corner-on, about 2.6 cells wide and
+1.2 deep on the screen, so the cell beside a pen is not where the picture's wall is. The chimney stood on the grass to the
+right of a cabin at 0°, in front of it and below it at 90°, rising alone behind it at 270°, and apart from both pens of
+the dog-run. Three causes: no measure of where the picture's walls meet the ground (the atlas had only a ground anchor and,
+for roofs, a seat); the chimney placed by its cell and drawn in the order of its cell's front edge; and a chimney drawn 1.55
+cells high, which against the gable behind the walls is hidden whole under the roof.
+
+Now: the atlas measures the feet of the full walls' three visible corner posts (`ground`, `groundOf` in
+`scripts/build-atlas-manifest.mjs`; the fourth corner closes the figure). The sheet's roof puts its gables over the
+left-front face (the door's) and the right-back face — mirrored at a quarter turn, right-front and left-back. The plan says
+which pen and which end; the turn says which face that gable is:
+
+| | 0° | 90° | 180° | 270° |
+|---|---|---|---|---|
+| east gable | right-back | right-front | left-front | left-back |
+| west gable | left-front | left-back | right-back | right-front |
+
+`standChimneys` in `public/house-plot.js` puts each chimney's foot at the middle of its gable wall on the ground, standing
+out `CHIMNEY_STANDS_OUT` (a tenth) of the pen's depth (`ceiling:` a guessed chimney depth), and draws it before its pen when
+that gable is behind the walls (the pen hides its foot and it rises over the ridge) and after the pen and its roof when it
+faces the viewer. Chimneys are drawn `CHIMNEY_HIGH` (2.1) cells high so one behind the walls clears the ridge. The
+saddlebag's double chimney stands at the middle between the west pen's east gable and the east pen's west gable, drawn after
+the pen whose gable it is in front of and before the other, 0.6 of a cell wide so at 0° and 180° it touches both pictures;
+`stand-in:` still a flat rectangle, and at 90° and 270° the two pens' pictures stand one behind the other with ground
+between them, so it rises in front of the far pen and the near pen hides its foot. A chimney whose pen has no measured walls
+(a jacal, or no `spriteFrame`) stays at its cell. `stand-in:` the sheet has one pen, its door in the left-front gable, so at
+90° and 180° — and on the dog-run's west pen at 0° and 270° — a chimney stands in front of a door that gable should not have
+(`docs/ART_REQUESTS.md`, *the house from its other sides*). The chimney's cell is still the plan's ground and the server's
+footprint: no plan, footprint or spacing number moved, and every picture still stands inside `PICTURE_REACH`
+(`tests/house-spacing.test.mjs`). Test: `tests/house-chimney.test.mjs` holds every plan at every turn, in the chooser, the
+preview and the house that stands, to the gable walls read by eye off the sheet.
+
 ### 6.5 Where a house may stand, at the size it is drawn (2026-09-23)
 
 Owner: *"fix the overlapping houses so spacing matches the drawings."* A house is drawn at the map's symbol size —

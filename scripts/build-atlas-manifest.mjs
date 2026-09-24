@@ -264,6 +264,29 @@ function seatOf(image, frame) {
   return { seatX: +(((left + right) / 2 - frame.minX) / w).toFixed(4), seatY: +((top - frame.minY) / h).toFixed(4) };
 }
 
+// Where a pen's walls meet the ground (public/house-plot.js `gableMiddle`), so a chimney can be stood against a gable wall.
+// The sheet draws the pen corner-on: its ground is a four-sided figure whose left, front and right corners are the feet of
+// the three corner posts the viewer sees, the fourth hidden behind the walls. Until 2026-09-23 a chimney was drawn at its
+// own cell of the plot, and a cell of the plot is not where the picture's wall is: it stood on the grass beside the pen, in
+// front of it at a quarter turn (owner: "Something looks wrong with the chimneys too"). So the full walls are measured one
+// more way, from the silhouette: the left corner is the foot of the leftmost columns, the right the foot of the rightmost,
+// and the front the lowest pixel of the frame. The back corner is the fourth corner of the figure the three make.
+// ceiling: read off a silhouette, so the log ends standing past a corner move it: each lands within about 3% of the
+// frame's width of the post foot read by eye on a ten-pixel grid (tests/house-chimney.test.mjs holds the chimney to those).
+// A ground outline drawn with the art (docs/ART_REQUESTS.md, 2026-09-15 house plot's pieces) would replace the measure.
+const GROUNDED = /^house-(round|hewn)-full-walls$/;
+function groundOf(image, frame) {
+  const { width, data } = image, w = frame.maxX - frame.minX + 1, h = frame.maxY - frame.minY + 1;
+  const band = Math.max(2, Math.round(w * 0.01)), seen = (x, y) => data[(y * width + x) * 4 + 3] > 40;
+  let left = frame.maxX, right = frame.minX, lowest = frame.minY;
+  for (let y = frame.minY; y <= frame.maxY; y++) for (let x = frame.minX; x <= frame.maxX; x++) if (seen(x, y)) { left = Math.min(left, x); right = Math.max(right, x); lowest = Math.max(lowest, y); }
+  const footOf = (from, to) => { for (let y = frame.maxY; y >= frame.minY; y--) for (let x = from; x <= to; x++) if (seen(x, y)) return y; return frame.maxY; };
+  let lo = frame.maxX, hi = frame.minX;
+  for (let x = frame.minX; x <= frame.maxX; x++) if (seen(x, lowest)) { lo = Math.min(lo, x); hi = Math.max(hi, x); }
+  const at = (x, y) => [+((x - frame.minX) / w).toFixed(4), +((y - frame.minY) / h).toFixed(4)];
+  return { ground: { left: at(left + band / 2, footOf(left, left + band)), front: at((lo + hi) / 2, lowest), right: at(right - band / 2, footOf(right - band, right)) } };
+}
+
 export function buildManifest() {
 const sheets = {}, frames = {};
 for (const [sheet, names] of Object.entries(SHEETS)) {
@@ -331,6 +354,7 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
       w: frame.maxX - frame.minX + 1, h: frame.maxY - frame.minY + 1,
       ...anchorOf(image, frame),
       ...(sheet === 'house-modules' && SEATED.test(names[index]) ? seatOf(image, frame) : {}),
+      ...(sheet === 'house-modules' && GROUNDED.test(names[index]) ? groundOf(image, frame) : {}),
       ...(/^(people-|animal-|military-|courier-)/.test(sheet) ? { logicalHeight: Math.max(...placed.filter(p => p.row === frame.row).map(p => p.maxY - p.minY + 1)) } : {}),
       ...(sheet==='wagon-rig' && names[index]!=='wagon-wheel' ? {logicalHeight:placed[0].maxY-placed[0].minY+1} : {}),
       ...(sheet==='joe-poses' ? {logicalHeight:Math.max(...placed.map(p=>p.maxY-p.minY+1))} : {}),
