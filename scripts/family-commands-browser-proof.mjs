@@ -32,6 +32,7 @@ import { meetFamily } from './support/meet-family.mjs';
 // docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
 // person, so this proof chooses them first, as a student does.
 import { asMain } from './support/main-person.mjs';
+import { sendTheWay } from './support/going.mjs';
 // docs/LESSON.md (owner, 2026-09-21): while the guided beginning runs the server allows one step's work and refuses the
 // rest. §11, which this proves, is about the farm a student already has the run of. See `housedClass` below.
 import { taught } from '../tests/support/settled.mjs';
@@ -211,7 +212,7 @@ try {
   // Keep everybody home; if nobody is home to say so (the server's rule), send the one the server allows instead.
   const stay = page.locator('#call-menu-stay:not([disabled])');
   if (await stay.count()) { await stay.click(); measured.call.answered = 'nobody goes'; }
-  else { await page.locator('#call-menu input:not([disabled])').first().check(); await page.locator('#call-menu-confirm').click(); measured.call.answered = 'one sent'; }
+  else { await page.locator('#call-menu input:not([disabled])').first().check(); await page.locator('#call-menu-confirm').click(); await sendTheWay(page, { way: 'foot' }); measured.call.answered = 'one sent'; }
   await page.waitForFunction(() => window.__familyPanel.every(row => !row.needs.includes('call')) && document.querySelector('#call-menu').hidden, null, { timeout: 15000 });
   ok(`answering from the menu (${measured.call.answered}) clears the "!" from everybody who could have answered, and the menu goes`);
 
@@ -253,6 +254,9 @@ try {
       tried.add(key);
       await asMain(page, id);
       await page.locator(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`).click();
+      // A journey asks how they go first (owner, 2026-09-24): sent on foot, as every order here went before the question, so the
+      // trip to the carpenter is still under way when a stale order is pressed below (on the horse it is home already).
+      await sendTheWay(page, { way: 'foot' });
       presses++;
       // The server's answer: the order taken (the icon glows) or refused (its sentence on the error line).
       const answer = await page.waitForFunction(({ id, key }) => {
@@ -385,6 +389,7 @@ try {
     measured.askerSentAgain = (measured.askerSentAgain || 0) + 1;
     await asMain(page, asker);
     await page.locator(`.panel-row[data-entity-id="${asker}"] .panel-icon[data-key="${again}"]`).click();
+    await sendTheWay(page, { way: 'foot' });
     await page.waitForFunction(id => Boolean(window.__snapshot?.world.entities.find(e => e.id === id)?.chore), asker, { timeout: 15000 });
   }
   assert.ok(opened, `${asker}'s question could not be opened before it lapsed, in ${measured.askerSentAgain || 0} tries`);
@@ -408,6 +413,7 @@ try {
   const neighbour = app.state.world.households['hh-2'].principalId;
   await asMain(page, principalId);
   await page.locator(`.panel-row[data-entity-id="${principalId}"] .panel-icon[data-key="travel-gonzales"]`).click();
+  await sendTheWay(page, { way: 'foot' });
   await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="travel-gonzales"]`)?.dataset.active === 'true'
     || window.__snapshot.world.entities.find(e => e.id === id)?.location?.siteId === 'gonzales', principalId, { timeout: 15000 });
   await post('/api/command', { id: `proof-travel-${crypto.randomUUID()}`, action: 'travel', entityId: neighbour, destination: 'gonzales' }, neighbourCookie);
@@ -653,6 +659,7 @@ try {
   for (const id of canGo.slice(0, 2)) await page2.locator(`#call-menu input[data-call-menu-person="${id}"]`).check();
   assert.deepEqual((await page2.evaluate(() => window.__callMenu.rows.filter(row => row.checked).map(row => row.id))).sort(), canGo.slice(0, 2).sort(), 'the ticks were not kept');
   await page2.locator('#call-menu-confirm').click();
+  await sendTheWay(page2, { way: 'foot' });
   await page2.waitForFunction(() => document.querySelector('#call-menu').hidden && (window.__familyPanel || []).every(row => !row.needs.includes('call')), null, { timeout: 15000 });
   const call2 = app2.state.world.calls['hh-1'];
   assert.equal(call2.status, 'accepted');

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { etagFor, fileFacts, notModified, PIN_LENGTH, PINNED_CACHE, REVALIDATE_CACHE, sendBody } from './delivery.mjs';
 import { setAbsent } from '../sim/absence.mjs';
 import { DECISION_BUDGET_MS, realTimeMeter } from '../sim/decision-budget.mjs';
-import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld, projectFamily, rollFamily, errandFor } from '../sim/world.mjs';
+import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld, projectFamily, rollFamily, errandFor, goingFor } from '../sim/world.mjs';
 import { familyMaking, householdName, rollRefusal } from '../sim/family.mjs';
 import { beginNextPeriod, periodOf } from '../sim/periods.mjs';
 import { dateOf } from '../sim/directors.mjs';
@@ -82,6 +82,9 @@ const files = new Map([
   ['/lesson.js', ['../public/lesson.js', 'text/javascript']],
   // The errand to town, on the screen (docs/TOWNS.md §4b, public/errand.js): it draws the server's list and sends one order.
   ['/errand.js', ['../public/errand.js', 'text/javascript']],
+  // How they will go, asked before anybody leaves (docs/FAMILY_PANEL.md §15, public/going.js): it draws the server's ways and
+  // sends the one order with the way chosen.
+  ['/going.js', ['../public/going.js', 'text/javascript']],
   // How the map answers a hand: pan, zoom, pinch, tap (docs/PERFORMANCE_NAVIGATION.md).
   ['/map-camera.js', ['../public/map-camera.js', 'text/javascript']],
   // The Host's live page in words (docs/HOST_PAGE.md); named off the /host prefix, which is the Host page itself.
@@ -875,6 +878,17 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
           try { list = JSON.parse(text); } catch { return json(res, 400, { error: 'That list could not be read.' }); }
         }
         return json(res, 200, { mapId: state.sessionId, errand: errandFor(state.world, identity.householdId, url.searchParams.get('entityId'), list, url.searchParams.get('mode') || null) });
+      }
+      // How they will go (docs/FAMILY_PANEL.md §15, owner 2026-09-24): every way of going for the journey an order would start,
+      // with the server's facts and reasons, and the quickest marked. The order is the page's own, as it would send it.
+      if (req.method === 'GET' && url.pathname === '/api/ways') {
+        if (!identity.householdId) return json(res, 403, { error: 'Only a family sends anybody anywhere.' });
+        const text = url.searchParams.get('order') || '';
+        if (text.length > 1000) return json(res, 400, { error: 'That order is too long.' });
+        let order;
+        try { order = JSON.parse(text); } catch { return json(res, 400, { error: 'That order could not be read.' }); }
+        if (!order || typeof order !== 'object' || Array.isArray(order)) return json(res, 400, { error: 'That order could not be read.' });
+        return json(res, 200, { mapId: state.sessionId, going: goingFor(state.world, identity.householdId, url.searchParams.get('entityId'), order) });
       }
       // The list of work that exists never changes during a class; only who may do it
       // does, and that rides on the tick. Same reason the map is fetched once.

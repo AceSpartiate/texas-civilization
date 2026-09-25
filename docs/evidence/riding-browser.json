@@ -1,6 +1,6 @@
 {
   "record": "riding-browser",
-  "date": "2026-09-24",
+  "date": "2026-09-25",
   "browser": "153.0.8010.53",
   "ownerDirection": "\"characters don't actually sit on the horse when using it. More than one character is able to use each mode of transportation even if it's already in use, that shouldn't be the case. A character should actually sit on the horse when using it. Same thing for the Ox and Wagon.\"",
   "checks": [

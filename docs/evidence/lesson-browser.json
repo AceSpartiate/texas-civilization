@@ -1,6 +1,6 @@
 {
   "record": "lesson-browser",
-  "date": "2026-09-24",
+  "date": "2026-09-25",
   "browser": "153.0.8010.53",
   "screen": {
     "width": 1366,
@@ -18,7 +18,7 @@
     "the step keeps the server's words and a navigation control: \"Put somebody to work\" - Press the axe at the bottom of the screen to start work on the house. (11% of the screen)",
     "the skippable walk-through is put away while the class is being led",
     "the step shows only 2 available actions and rings the requested one",
-    "the card is clear of the step and folds its journey block away: 3.3% of the screen against 10.3% open, top at 312 under a strip ending at 223, and one press brings it back",
+    "the card is clear of the step and folds its neighbours list away: 3.3% of the screen against 5.3% open, top at 312 under a strip ending at 223, and one press brings it back",
     "the action bar hides unavailable orders",
     "the one icon the server's own step leaves open sends its order, and the glow comes back on it (plant-field)",
     "the bar is still a row of buttons in reading order, each named and each showing its sentence on focus: \"Travel to Gonzales. Go into the town of Gonzales and stay th…\"",
@@ -102,9 +102,9 @@
           "bottom": 223
         },
         "over": false,
-        "travelShown": false,
+        "goingBy": false,
         "visitShown": false,
-        "more": "Going by, and the neighbours",
+        "more": "The neighbours",
         "share": 3.3
       },
       "opened": {
@@ -112,7 +112,7 @@
           "left": 755,
           "top": 312,
           "right": 1015,
-          "bottom": 727
+          "bottom": 524
         },
         "strip": {
           "left": 810,
@@ -121,10 +121,10 @@
           "bottom": 223
         },
         "over": false,
-        "travelShown": true,
+        "goingBy": false,
         "visitShown": true,
         "more": "Put that away",
-        "share": 10.3
+        "share": 5.3
       }
     },
     "ordered": {
@@ -243,8 +243,8 @@
       ]
     },
     "resume": {
-      "until": 1790288175599,
-      "msWhenStopped": 299965,
+      "until": 1790301642676,
+      "msWhenStopped": 299960,
       "chromebook": {
         "size": [
           119,

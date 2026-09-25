@@ -1,0 +1,159 @@
+{
+  "record": "going-injections",
+  "date": "2026-09-25",
+  "files": [
+    "tests/going.test.mjs",
+    "tests/going-page.test.mjs",
+    "tests/errands.test.mjs",
+    "tests/travel-modes.test.mjs",
+    "tests/auto.test.mjs",
+    "tests/neighbours.test.mjs",
+    "tests/hunting.test.mjs",
+    "tests/geography.test.mjs",
+    "tests/tools.test.mjs",
+    "tests/upriver.test.mjs",
+    "tests/war-rifle.test.mjs",
+    "tests/family-panel.test.mjs",
+    "tests/keeping.test.mjs"
+  ],
+  "caught": 11,
+  "of": 11,
+  "results": [
+    {
+      "name": "the ways tried slowest first",
+      "file": "sim/going.mjs",
+      "from": ".sort((a, b) => b.speed - a.speed)",
+      "to": ".sort((a, b) => a.speed - b.speed)",
+      "caught": true,
+      "failed": [
+        "on auto a hunt never stops to ask: the shot is decided at once, the hunt repeated when they come home, and stopped by the switch",
+        "the student may choose any slower way that carries the load and is free, and the server holds the choice to it",
+        "the way of going is the quickest that carries the load, said with the server's numbers",
+        "the wagon, the horse, the ox and the rifle are one person's at a time: the second is told who has it and what they are doing",
+        "a class saved with work in hand opens with that work holding its things, and the old walk to the shops goes on as it was",
+        "every way of going is offered quickest first, with the server's facts, and the quickest that can go is marked",
+        "a way somebody else has is shut in the chooser in their name, and refused in their name however the order is sent",
+        "the way chosen is the way they go, and an order with no way goes the quickest that can",
+        "a journey that can go one way offers that way, and the others say why",
+        "a person on auto goes by the same rule: rides when the horse is home, walks when it is out",
+        "a family nobody plays sends its journeys with no way, and they go the quickest that can",
+        "a family nobody plays rides its horse on a journey when the horse is at hand, and walks when it is not",
+        "tools weigh on the load, and the way of going still carries it",
+        "a student cannot invent a way of going"
+      ]
+    },
+    {
+      "name": "an order with no way walks, as before",
+      "file": "sim/world.mjs",
+      "from": "const mode = input.mode || orderMode(world, household, entity, input);",
+      "to": "const mode = input.mode || DEFAULT_MODE;",
+      "caught": true,
+      "failed": [
+        "on auto a hunt never stops to ask: the shot is decided at once, the hunt repeated when they come home, and stopped by the switch",
+        "the way chosen is the way they go, and an order with no way goes the quickest that can",
+        "a family nobody plays sends its journeys with no way, and they go the quickest that can",
+        "a family nobody plays rides its horse on a journey when the horse is at hand, and walks when it is not",
+        "a student cannot invent a way of going"
+      ]
+    },
+    {
+      "name": "the chooser never asks who has a thing",
+      "file": "sim/going.mjs",
+      "from": "const open = modeAvailability ? modeAvailability(world, entity, id, path) :",
+      "to": "const open = modeAvailability ? { can: true } :",
+      "caught": true,
+      "failed": [
+        "the student may choose any slower way that carries the load and is free, and the server holds the choice to it",
+        "the way of going is the quickest that carries the load, said with the server's numbers",
+        "the wagon, the horse, the ox and the rifle are one person's at a time: the second is told who has it and what they are doing",
+        "the ox hauling logs and the wagon in a harvest are held at home: shared by the harvesters, and nobody drives them away",
+        "a way somebody else has is shut in the chooser in their name, and refused in their name however the order is sent",
+        "the way chosen is the way they go, and an order with no way goes the quickest that can",
+        "a journey that can go one way offers that way, and the others say why",
+        "a person on auto goes by the same rule: rides when the horse is home, walks when it is out",
+        "each person holds one copy: two rifles are two hunters, and a third is told both are out"
+      ]
+    },
+    {
+      "name": "auto repeats the way it last went",
+      "file": "sim/auto.mjs",
+      "from": "quickestForChore(world, household, person, order.chore, modeAvailability)",
+      "to": "order.mode",
+      "caught": true,
+      "failed": [
+        "a person on auto goes by the same rule: rides when the horse is home, walks when it is out"
+      ]
+    },
+    {
+      "name": "the director walks everybody",
+      "file": "sim/neighbours.mjs",
+      "from": "const ride = attempt;",
+      "to": "const ride = input => attempt({ ...input, mode: 'foot' });",
+      "caught": true,
+      "failed": [
+        "a family nobody plays sends its journeys with no way, and they go the quickest that can",
+        "a family nobody plays rides its horse on a journey when the horse is at hand, and walks when it is not"
+      ]
+    },
+    {
+      "name": "the page does not ask for work with a road in it",
+      "file": "public/going.js",
+      "from": "Boolean(catalogue.get?.(input.chore)?.journey)",
+      "to": "false",
+      "caught": true,
+      "failed": [
+        "every order that puts somebody on a road asks how they will go, and nothing else does"
+      ]
+    },
+    {
+      "name": "the page sends the quickest whatever was pressed",
+      "file": "public/going.js",
+      "from": "return pick ? pick.id : quickest || null;",
+      "to": "return quickest || null;",
+      "caught": true,
+      "failed": [
+        "the way the order carries is the student's while it can go, and the quickest otherwise"
+      ]
+    },
+    {
+      "name": "a shut way loses its reason on the page",
+      "file": "public/going.js",
+      "from": "if (!way.can) button.title = way.why || '';",
+      "to": "",
+      "caught": true,
+      "failed": [
+        "the one component draws the server's ways as they came: the quickest marked, the chosen pressed, a shut way shut with why"
+      ]
+    },
+    {
+      "name": "the four short works counted as journeys",
+      "file": "sim/chores.mjs",
+      "from": "!chore.forage && !chore.huntLand && !chore.plan",
+      "to": "!chore.huntLand && !chore.plan",
+      "caught": true,
+      "failed": [
+        "work that makes no journey is not asked, and the catalogue marks exactly the work that does"
+      ]
+    },
+    {
+      "name": "logs offered every way",
+      "file": "sim/chores.mjs",
+      "from": "...(only && { only, onlyWhy: ONLY_WHY[choreId]?.[only] || null }),",
+      "to": "",
+      "caught": true,
+      "failed": [
+        "a journey that can go one way offers that way, and the others say why"
+      ]
+    },
+    {
+      "name": "the quickest not marked",
+      "file": "public/going.js",
+      "from": "way.id === quickest ? `${way.name} (quickest)` : way.name",
+      "to": "way.name",
+      "caught": true,
+      "failed": [
+        "the one component draws the server's ways as they came: the quickest marked, the chosen pressed, a shut way shut with why"
+      ]
+    }
+  ]
+}

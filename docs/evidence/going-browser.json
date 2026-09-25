@@ -1,0 +1,385 @@
+{
+  "record": "going-browser",
+  "date": "2026-09-25",
+  "browser": "153.0.8010.53",
+  "ownerDirection": "\"when sending someone to travel, the game should ask how they'll travel.\"",
+  "checks": [
+    "Travel to Gonzales asks first and sends nobody: \"How will Ezra go?\", three ways with the server's facts, the horse marked quickest and chosen",
+    "the student picks walking and presses Enter: Ezra walks to Gonzales, the horse stays home, and the bar is back",
+    "the hunt in the timber asks with the horse chosen; Send sends Keziah, and the map draws them riding it (teal-ride-e)",
+    "buying furniture in town: the horse shut (\"Keziah has the horse, on the road to the timber on the Guadalupe River.\"), walking marked quickest, the student picks the wagon and Prudence drives it",
+    "Eli's chooser has the wagon shut (\"Prudence has the ox and wagon, on the road to Gonzales.\") and the horse in Keziah's name; it fits at 1366x768 (500x259) and 1024x768 (500x259); Escape sends nobody",
+    "no page errors anywhere in the run"
+  ],
+  "observed": {
+    "town": {
+      "shown": true,
+      "title": "How will Ezra go?",
+      "says": "To Gonzales.",
+      "ways": [
+        {
+          "way": "horse",
+          "label": "On the horse (quickest)5 miles an hour · about 3.5 hours there · carries 7Hardly tiring.",
+          "open": true,
+          "pressed": true,
+          "why": null
+        },
+        {
+          "way": "foot",
+          "label": "On foot3 miles an hour · about 6 hours there · carries 5Tiring: every mile is on their legs.",
+          "open": true,
+          "pressed": false,
+          "why": null
+        },
+        {
+          "way": "wagon",
+          "label": "With the ox and wagon2 miles an hour · about 9 hours there · carries 20Half as tiring as walking.",
+          "open": true,
+          "pressed": false,
+          "why": null
+        }
+      ],
+      "send": true,
+      "state": {
+        "entityId": "hh-1-thomas",
+        "order": {
+          "action": "travel",
+          "destination": "gonzales"
+        },
+        "ways": [
+          {
+            "id": "horse",
+            "name": "On the horse",
+            "carry": 7,
+            "pace": "5 miles an hour",
+            "tiring": "Hardly tiring.",
+            "miles": 17.3,
+            "hours": 3.5,
+            "time": "about 3.5 hours",
+            "can": true
+          },
+          {
+            "id": "foot",
+            "name": "On foot",
+            "carry": 5,
+            "pace": "3 miles an hour",
+            "tiring": "Tiring: every mile is on their legs.",
+            "miles": 17.3,
+            "hours": 5.8,
+            "time": "about 6 hours",
+            "can": true
+          },
+          {
+            "id": "wagon",
+            "name": "With the ox and wagon",
+            "carry": 20,
+            "pace": "2 miles an hour",
+            "tiring": "Half as tiring as walking.",
+            "miles": 17.3,
+            "hours": 9,
+            "time": "about 9 hours",
+            "can": true
+          }
+        ],
+        "quickest": "horse",
+        "chosen": "horse",
+        "why": "",
+        "can": true
+      }
+    },
+    "timber": {
+      "shown": true,
+      "title": "How will Keziah go?",
+      "says": "Hunt in the timber: to the timber on the Guadalupe River.",
+      "ways": [
+        {
+          "way": "horse",
+          "label": "On the horse (quickest)5 miles an hour · about 25 minutes there · carries 7Brings home 7 food of 14; the rest is left behind.Hardly tiring.",
+          "open": true,
+          "pressed": true,
+          "why": null
+        },
+        {
+          "way": "foot",
+          "label": "On foot3 miles an hour · about 40 minutes there · carries 5Brings home 5 food of 14; the rest is left behind.Tiring: every mile is on their legs.",
+          "open": true,
+          "pressed": false,
+          "why": null
+        },
+        {
+          "way": "wagon",
+          "label": "With the ox and wagon2 miles an hour · about 1 hour there · carries 20Brings home 14 food.Half as tiring as walking.",
+          "open": true,
+          "pressed": false,
+          "why": null
+        }
+      ],
+      "send": true,
+      "state": {
+        "entityId": "hh-1-elena",
+        "order": {
+          "action": "chore",
+          "chore": "hunt-timber"
+        },
+        "ways": [
+          {
+            "id": "horse",
+            "name": "On the horse",
+            "carry": 7,
+            "pace": "5 miles an hour",
+            "tiring": "Hardly tiring.",
+            "miles": 2.2,
+            "hours": 0.4,
+            "time": "about 25 minutes",
+            "brings": "Brings home 7 food of 14; the rest is left behind.",
+            "can": true
+          },
+          {
+            "id": "foot",
+            "name": "On foot",
+            "carry": 5,
+            "pace": "3 miles an hour",
+            "tiring": "Tiring: every mile is on their legs.",
+            "miles": 2.2,
+            "hours": 0.7,
+            "time": "about 40 minutes",
+            "brings": "Brings home 5 food of 14; the rest is left behind.",
+            "can": true
+          },
+          {
+            "id": "wagon",
+            "name": "With the ox and wagon",
+            "carry": 20,
+            "pace": "2 miles an hour",
+            "tiring": "Half as tiring as walking.",
+            "miles": 2.2,
+            "hours": 1.1,
+            "time": "about 1 hour",
+            "brings": "Brings home 14 food.",
+            "can": true
+          }
+        ],
+        "quickest": "horse",
+        "chosen": "horse",
+        "why": "",
+        "can": true
+      }
+    },
+    "timber1366": {
+      "screen": {
+        "w": 1366,
+        "h": 768
+      },
+      "going": {
+        "x": 433,
+        "y": 56,
+        "w": 500,
+        "h": 261,
+        "r": 933,
+        "b": 317
+      },
+      "fits": true,
+      "overColumn": 0,
+      "bar": null,
+      "covered": []
+    },
+    "ridden": {
+      "seat": "horse",
+      "art": "teal-ride-e"
+    },
+    "furniture": {
+      "shown": true,
+      "title": "How will Prudence go?",
+      "says": "Buy furniture from the carpenter: to Gonzales.",
+      "ways": [
+        {
+          "way": "horse",
+          "label": "On the horse5 miles an hour · about 3.5 hours there · carries 7Keziah has the horse, on the road to the timber on the Guadalupe River.",
+          "open": false,
+          "pressed": false,
+          "why": "Keziah has the horse, on the road to the timber on the Guadalupe River."
+        },
+        {
+          "way": "foot",
+          "label": "On foot (quickest)3 miles an hour · about 6 hours there · carries 5Tiring: every mile is on their legs.",
+          "open": true,
+          "pressed": true,
+          "why": null
+        },
+        {
+          "way": "wagon",
+          "label": "With the ox and wagon2 miles an hour · about 9 hours there · carries 20Half as tiring as walking.",
+          "open": true,
+          "pressed": false,
+          "why": null
+        }
+      ],
+      "send": true,
+      "state": {
+        "entityId": "hh-1-rosa",
+        "order": {
+          "action": "chore",
+          "chore": "buy-furniture"
+        },
+        "ways": [
+          {
+            "id": "horse",
+            "name": "On the horse",
+            "carry": 7,
+            "pace": "5 miles an hour",
+            "tiring": "Hardly tiring.",
+            "miles": 17.3,
+            "hours": 3.5,
+            "time": "about 3.5 hours",
+            "can": false,
+            "why": "Keziah has the horse, on the road to the timber on the Guadalupe River."
+          },
+          {
+            "id": "foot",
+            "name": "On foot",
+            "carry": 5,
+            "pace": "3 miles an hour",
+            "tiring": "Tiring: every mile is on their legs.",
+            "miles": 17.3,
+            "hours": 5.8,
+            "time": "about 6 hours",
+            "can": true
+          },
+          {
+            "id": "wagon",
+            "name": "With the ox and wagon",
+            "carry": 20,
+            "pace": "2 miles an hour",
+            "tiring": "Half as tiring as walking.",
+            "miles": 17.3,
+            "hours": 9,
+            "time": "about 9 hours",
+            "can": true
+          }
+        ],
+        "quickest": "foot",
+        "chosen": "foot",
+        "why": "",
+        "can": true
+      }
+    },
+    "taken": {
+      "shown": true,
+      "title": "How will Eli go?",
+      "says": "Make furniture: to the timber on the Guadalupe River.",
+      "ways": [
+        {
+          "way": "horse",
+          "label": "On the horse5 miles an hour · about 30 minutes there · carries 7Keziah has the horse, working up through the timber.",
+          "open": false,
+          "pressed": false,
+          "why": "Keziah has the horse, working up through the timber."
+        },
+        {
+          "way": "foot",
+          "label": "On foot (quickest)3 miles an hour · about 50 minutes there · carries 5Tiring: every mile is on their legs.",
+          "open": true,
+          "pressed": true,
+          "why": null
+        },
+        {
+          "way": "wagon",
+          "label": "With the ox and wagon2 miles an hour · about 2 hours there · carries 20Prudence has the ox and wagon, on the road to Gonzales.",
+          "open": false,
+          "pressed": false,
+          "why": "Prudence has the ox and wagon, on the road to Gonzales."
+        }
+      ],
+      "send": true,
+      "state": {
+        "entityId": "hh-1-mateo",
+        "order": {
+          "action": "chore",
+          "chore": "make-furniture"
+        },
+        "ways": [
+          {
+            "id": "horse",
+            "name": "On the horse",
+            "carry": 7,
+            "pace": "5 miles an hour",
+            "tiring": "Hardly tiring.",
+            "miles": 2.2,
+            "hours": 0.5,
+            "time": "about 30 minutes",
+            "can": false,
+            "why": "Keziah has the horse, working up through the timber."
+          },
+          {
+            "id": "foot",
+            "name": "On foot",
+            "carry": 5,
+            "pace": "3 miles an hour",
+            "tiring": "Tiring: every mile is on their legs.",
+            "miles": 2.2,
+            "hours": 0.8,
+            "time": "about 50 minutes",
+            "can": true
+          },
+          {
+            "id": "wagon",
+            "name": "With the ox and wagon",
+            "carry": 20,
+            "pace": "2 miles an hour",
+            "tiring": "Half as tiring as walking.",
+            "miles": 2.2,
+            "hours": 1.8,
+            "time": "about 2 hours",
+            "can": false,
+            "why": "Prudence has the ox and wagon, on the road to Gonzales."
+          }
+        ],
+        "quickest": "foot",
+        "chosen": "foot",
+        "why": "",
+        "can": true
+      }
+    },
+    "taken1366": {
+      "screen": {
+        "w": 1366,
+        "h": 768
+      },
+      "going": {
+        "x": 433,
+        "y": 56,
+        "w": 500,
+        "h": 259,
+        "r": 933,
+        "b": 315
+      },
+      "fits": true,
+      "overColumn": 0,
+      "bar": null,
+      "covered": []
+    },
+    "taken1024": {
+      "screen": {
+        "w": 1024,
+        "h": 768
+      },
+      "going": {
+        "x": 320,
+        "y": 56,
+        "w": 500,
+        "h": 259,
+        "r": 820,
+        "b": 315
+      },
+      "fits": true,
+      "overColumn": 0,
+      "bar": null,
+      "covered": []
+    }
+  },
+  "notProved": [
+    "Same computer only: no physical LAN, no Chromebook, no class.",
+    "The call menu asking each person it sends in turn is proved by its rules (tests/going-page.test.mjs) and the server (tests/going.test.mjs), not here: no call is open in this class.",
+    "The chooser on a phone: phones are not supported (owner)."
+  ]
+}

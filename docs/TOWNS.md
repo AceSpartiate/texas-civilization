@@ -199,12 +199,16 @@ Built the same day on v2026.09.24.4 ([tests](../tests/war-rifle.test.mjs), [inje
    34 and 34; **deaths 14 and 14, the same fourteen people** in both. Nobody starved who would not have before. Nothing was
    retuned. (`scripts/rifle-food-study.mjs`, [record](evidence/rifle-food-study.json).)
 4. **"The way of travelling: let the student choose."** The popup still suggests the quickest way that carries the load, from
-   the server, marked *(quickest)* and chosen. Under *Going by* the student may choose any slower way that still carries it and
+   the server, marked *(quickest)* and chosen. Among the ways the student may choose any slower way that still carries it and
    is free - walk, so the horse stays home. A way that cannot go is shut, with the server's reason under the row (*"With the ox
    and wagon: Alvin has the ox and wagon, on the road home."*, *"On foot a person carries 5, and this is 6 loads."*). The order
    carries the chosen `mode`; the server checks it against the same reckoning and refuses it in that way's words, and an order
    with none goes the quickest way, as before. A choice is said: *"Goes on foot: 3 of 5 loads, as you chose. The horse would be
    quicker."*
+   **Widened the same day to every journey** (owner, 2026-09-24: *"when sending someone to travel, the game should ask how
+   they'll travel"*; [FAMILY_PANEL.md §15](FAMILY_PANEL.md)): the errand's ways are now reckoned by the one function every
+   journey asks (`sim/going.mjs` `waysFor`) and drawn by the one component (`public/going.js` `drawWays`), a card a way with
+   its pace, time there and load, the reason for a shut way on the card itself. The sentences above are unchanged.
 
 ### 4c. More than one of a tool, and tools bought in town (owner, 2026-09-24, after v2026.09.24.4's four answers)
 

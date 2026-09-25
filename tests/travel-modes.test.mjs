@@ -15,7 +15,7 @@ import {
   applyAction, beginTravel, createWorld, modeAvailability, projectWorld, stepWorld,
   travelModesFor, travelRefusal, validateWorld,
 } from '../sim/world.mjs';
-import { MODES, propertyId, WALK_SPEED } from '../sim/travel.mjs';
+import { HORSE_SPEED, MODES, propertyId, WALK_SPEED } from '../sim/travel.mjs';
 import { CHORES, haulFor } from '../sim/chores.mjs';
 import { TIMELINE } from '../sim/directors.mjs';
 
@@ -246,10 +246,11 @@ test('a student cannot invent a way of going', () => {
   assert.throws(() => applyAction(world, 'hh-1', { action: 'travel', entityId: thomas.id, destination: 'gonzales', mode: 'steamboat' }), /No such way of going/);
   assert.equal(thomas.travel, null);
   assert.equal(modeAvailability(world, thomas, 'steamboat').can, false);
-  // An order from a class that predates the choice carries no mode at all, and walks.
+  // An order that carries no way at all - a command older than the question, the director's - goes the quickest way that can
+  // (owner, 2026-09-24; sim/going.mjs): the horse, standing free in the yard. Until then it walked.
   applyAction(world, 'hh-1', { action: 'travel', entityId: thomas.id, destination: 'gonzales' });
-  assert.equal(thomas.travel.mode, 'foot');
-  assert.equal(thomas.travel.speed, WALK_SPEED);
+  assert.equal(thomas.travel.mode, 'horse');
+  assert.equal(thomas.travel.speed, HORSE_SPEED);
 });
 
 test('a class saved before any of this existed still opens, and everybody in it walks', () => {

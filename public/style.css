@@ -46,7 +46,7 @@ button:disabled{opacity:.4;cursor:default}
    questions, and one press for how they travel and who the neighbours are. Nothing is shut, only put away. */
 #selection-more{width:100%;min-height:0;margin:0 0 6px;padding:4px 8px;font-size:11.5px;background:#eee3c7;color:#5a4a2e;border:1px dashed #b09a6d;box-shadow:none;text-align:left}
 #selection-more:hover:enabled{background:#e4d7b4;color:#3b3221}
-#selection[data-detail=folded] #selection-travel,#selection[data-detail=folded] #visit-row{display:none}
+#selection[data-detail=folded] #visit-row{display:none}
 #selection-trade{margin-top:8px}
 #selection-trade .trade-line{display:flex;align-items:center;gap:6px;margin:5px 0;flex-wrap:wrap}
 #selection-trade .trade-line span{font-size:12px;color:#4c5a48}
@@ -152,15 +152,20 @@ button:disabled{opacity:.4;cursor:default}
 .errand-controls button:disabled{opacity:.45;cursor:not-allowed}
 .errand-count{min-width:1.6em;text-align:center;font-weight:650}
 #errand-how{margin:6px 0 0;font-size:13px;font-weight:600;color:#2c4238}
-/* How they go (owner, 2026-09-24): the server's quickest marked and chosen, any slower way that carries the load the student's
-   to choose, and a way that cannot go shut with the server's reason under the row. */
+/* How they go (owner, 2026-09-24): the one component the errand and the journey chooser both draw (public/going.js
+   `drawWays`) - a card a way, the server's quickest marked and chosen, a way that cannot go shut with the server's reason in it. */
 #errand-ways{margin:6px 0 0}
-.errand-ways-row{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
-.errand-ways-label{font-size:12px;color:#5b6a55;margin-right:2px}
-.errand-way{min-height:34px;padding:3px 9px;font-size:12.5px;background:#f3ead2;color:#3f3524;border-color:#b09a6d}
-.errand-way[aria-pressed=true]{background:#244c42;border-color:#1b3a33;color:#fff}
-.errand-way:disabled{opacity:.5;cursor:not-allowed}
-.errand-ways-why{list-style:none;margin:3px 0 0;padding:0;font-size:11.5px;color:#6c6046;line-height:1.3}
+.going-ways-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.going-way{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:0;padding:6px 8px;text-align:left;font-size:12px;line-height:1.3;background:#f3ead2;color:#3f3524;border:1px solid #b09a6d;border-radius:7px;cursor:pointer}
+.going-way:hover:enabled{background:#eadfbf}
+.going-way[aria-pressed=true]{background:#244c42;border-color:#1b3a33;color:#fff;box-shadow:inset 0 0 0 2px #e0b25b}
+.going-way:disabled{opacity:1;cursor:not-allowed;background:#ebe6d7;border-style:dashed;color:#7b806f}
+.going-way-name{font-weight:650;font-size:13px}
+.going-way-facts,.going-way-tiring{font-size:11.5px;opacity:.9}
+.going-way-brings{font-size:11.5px;font-weight:600}
+.going-way-why{font-size:11.5px;color:#8a3b22;font-weight:600}
+#errand .going-way{padding:4px 7px}
+#errand .going-way-tiring{display:none}
 #errand-why{margin:4px 0 0;font-size:13px;color:#8a3b22}
 #errand-why:empty{display:none}
 #errand-answer{display:flex;gap:6px;margin-top:8px}
@@ -168,11 +173,34 @@ button:disabled{opacity:.4;cursor:default}
 #errand-send{background:#c2582c;border-color:#a8471f}
 #errand-send:disabled{opacity:.55;cursor:not-allowed}
 #errand-cancel{background:#f3ead2;color:#3f3524;border-color:#b09a6d}
+/* How they will go (docs/FAMILY_PANEL.md §15, owner 2026-09-24): asked before anybody leaves. The errand's paper and place;
+   the bar steps aside while it is open, as it does for the errand and a rider (§12.13). Laid out for 1366x768 and 1024x768. */
+#going{position:absolute;z-index:13;left:max(20rem,calc(50% - 250px));top:56px;width:min(500px,calc(100% - 20rem - 12px));max-height:calc(100% - 56px - 96px);display:flex;flex-direction:column;background:var(--paper);border:1px solid #8fa392;border-radius:10px;padding:10px 12px 12px;box-shadow:0 6px 20px rgba(20,28,20,.32)}
+#going>*{flex:none}
+#going-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#going-title{font-family:Georgia,serif;font-size:18px}
+#going-close{background:none;border:none;color:#62736b;font-size:20px;min-height:0;padding:0 4px;cursor:pointer}
+#going-close:hover{background:none;color:#244c42}
+#going-text{margin:2px 0 8px;font-size:13.5px}
+#going-ways .going-way{min-height:118px}
+#going-why{margin:6px 0 0;font-size:13px;color:#8a3b22}
+#going-why:empty{display:none}
+#going-answer{display:flex;gap:6px;margin-top:10px}
+#going-answer button{flex:1 1 auto;min-height:40px;font-size:14px}
+#going-send{background:#c2582c;border-color:#a8471f}
+#going-send:disabled{opacity:.55;cursor:not-allowed}
+#going-cancel{background:#f3ead2;color:#3f3524;border-color:#b09a6d}
+body[data-lesson=true] #going{top:calc(14px + var(--lesson-room,116px));z-index:15}
 body[data-lesson=true] #errand{top:calc(14px + var(--lesson-room,116px));max-height:calc(100% - 14px - var(--lesson-room,116px) - 96px);z-index:15}
 /* The bar steps aside while the list is open, as it does for a rider (owner, 2026-09-22, docs/FAMILY_PANEL.md §12.13): the
    list is the whole of what the moment is for, and the bar is back the instant it closes. The person's card beside it says
    nothing the list does not, and is put away with it. Same specificity as the meeting's rule, for the same reason. */
 body[data-errand=true] .panel-row[data-focused=true] .panel-icons{display:none}
+body[data-going=true] .panel-row[data-focused=true] .panel-icons{display:none}
+body[data-going=true] #selection{visibility:hidden}
+body:has(#going:not([hidden])) #military-notice{display:none}
+/* A call answered for several people asks each one how they go in turn; the menu waits under the chooser. */
+body[data-going=true] #call-menu{visibility:hidden}
 body[data-errand=true] #selection{visibility:hidden}
 body:has(#errand:not([hidden])) #military-notice{display:none}
 
@@ -398,13 +426,6 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 
 /* How somebody goes. Three small stamps rather than a dropdown: the choice has to be
    readable at a glance from across a classroom, and one of the three is often shut. */
-#selection-travel{margin:8px 0 2px}
-.travel-eyebrow{display:block;font-size:10px;letter-spacing:.09em;color:#6d5f43;margin-bottom:4px}
-#travel-modes{display:flex;gap:4px;flex-wrap:wrap}
-#travel-modes button{flex:1 1 auto;font:inherit;font-size:11px;padding:5px 7px;border-radius:5px;border:1px solid #b09a6d;background:#f3ead2;color:#3f3524;cursor:pointer;text-align:center}
-#travel-modes button[aria-pressed=true]{background:#7a4726;border-color:#5d3419;color:#fdf0dd}
-#travel-modes button:disabled{opacity:.45;cursor:not-allowed}
-#travel-note{margin:5px 0 0;font-size:11px;color:#6d5f43;min-height:1.2em}
 
 /* The family's record, in the family's own book rather than a bar over the world. */
 #reports{list-style:none;margin:0;padding:0}

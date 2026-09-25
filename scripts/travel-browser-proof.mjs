@@ -15,6 +15,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createSettledWorld, keepFoundingFamilies } from '../tests/support/settled.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { asMain } from './support/main-person.mjs';
 // A settled class: these families are at home under a roof, as every class began before arrivals
 // (docs/SETTLING_IN.md step 2). This proves the work, not the arrival - tests/arrival.test.mjs does that.
 
@@ -62,35 +63,32 @@ try {
     await page.locator('#journal-close').click();
     await page.locator('#selection').waitFor({ state: 'visible' });
   };
-  await choose('hh-1-thomas');
 
   // ------------------------------------------------------------------ the control exists
-  await page.locator('#selection-travel').waitFor({ state: 'visible' });
-  const offered = await page.locator('#travel-modes button').allTextContents();
-  assert.deepEqual(offered, ['On foot', 'On the horse', 'With the ox and wagon'], `offered ${JSON.stringify(offered)}`);
-  ok('a student is offered all three ways of going, named in words');
-  assert.equal(await page.locator('#travel-modes button[aria-pressed=true]').textContent(), 'On foot');
-  ok('and starts on the one that is always possible');
+  // Since 2026-09-24 how they go is asked when a journey is sent (owner: "when sending someone to travel, the game should ask
+  // how they'll travel"; public/going.js), not set beforehand on the card: pressing Travel opens the chooser.
+  const hunt = page.locator('.panel-row[data-entity-id="hh-1-thomas"] .panel-icon[data-key=hunt-timber]');
+  const note = await hunt.getAttribute('data-note');
+  await page.locator('#selection-close').click().catch(() => {});
+  await page.locator('button[data-action=travel][data-destination=gonzales]').click();
+  await page.locator('#going').waitFor({ state: 'visible' });
+  await page.waitForFunction(() => window.__going?.ways?.length === 3);
+  const offered = await page.locator('#going [data-way] .going-way-name').allTextContents();
+  assert.deepEqual(offered, ['On the horse (quickest)', 'On foot', 'With the ox and wagon'], `offered ${JSON.stringify(offered)}`);
+  ok('a student is offered all three ways of going, named in words, when they send somebody');
+  assert.equal(await page.locator('#going [data-way][aria-pressed=true]').getAttribute('data-way'), 'horse');
+  ok('and starts on the quickest that can go, which the server marks');
 
   // --------------------------------------------------- what a trip would bring home, said
-  // The hunt is an icon on Thomas's row of the family panel, and what it would bring home is in its popup (docs/FAMILY_PANEL.md).
-  // Nobody is made the main person here, though §12 draws only the main person's bar: this reads the icon's own words and
-  // never presses it, and an attribute is there to be read whether or not the icon is on the screen. Choosing him would
-  // start the camera watching him, and the measurement below is of the wagon moving *across the screen*.
-  const hunt = page.locator('.panel-row[data-entity-id="hh-1-thomas"] .panel-icon[data-key=hunt-timber]');
-  const onFoot = await hunt.getAttribute('data-note');
-  await page.locator('#travel-modes button[data-mode=wagon]').click();
-  await page.waitForFunction(() => document.querySelector('#travel-modes button[data-mode=wagon]')?.getAttribute('aria-pressed') === 'true');
-  await page.waitForFunction(() => !/left behind/.test(document.querySelector('.panel-row[data-entity-id="hh-1-thomas"] .panel-icon[data-key=hunt-timber]')?.dataset.note));
-  const withWagon = await hunt.getAttribute('data-note');
-  assert.match(onFoot, /Brings home 5 food of \d+; the rest is left behind\./, onFoot);
-  assert.ok(!/left behind/.test(withWagon), withWagon);
-  ok(`the hunt says what it will bring home before it is chosen: on foot "${onFoot.match(/Brings home[^.]+\./)[0]}"`);
+  // The hunt's icon says what a good trip gives; what each way brings home of it is the chooser's (docs/FAMILY_PANEL.md §15).
+  assert.match(note, /A good trip gives about \d+ food; what comes home depends on how they go\./, note);
+  ok(`the hunt says what it would give before it is chosen: "${note.match(/A good trip[^;]+/)[0]}"`);
 
   // --------------------------------------------------------------- the animals leave the yard
-  await page.locator('button[data-action=travel][data-destination=gonzales]').click();
+  await page.locator('#going [data-way=wagon]').click();
+  await page.locator('#going-send').click();
   await page.waitForFunction(() => window.__snapshot.world.entities.find(e => e.id === 'hh-1-thomas')?.travel?.mode === 'wagon');
-  ok('choosing the wagon and pressing Travel sends them with the wagon');
+  ok('choosing the wagon in the chooser and pressing Send sends them with the wagon');
   const harnessed = await page.evaluate(() => window.__snapshot.world.entities
     .filter(e => ['hh-1-animal', 'hh-1-wagon'].includes(e.id))
     .map(e => ({ id: e.id, travelling: Boolean(e.travel), borrowedBy: e.borrowedBy, mode: e.travel?.mode })));
@@ -119,17 +117,21 @@ try {
   ok('and are drawn with the walking and rolling cycles the art library has always carried');
 
   // --------------------------------------------------- one wagon, and the reason is plain
-  await choose('hh-1-rosa');
-  await page.locator('#selection-travel').waitFor({ state: 'visible' });
-  const shut = page.locator('#travel-modes button[data-mode=wagon]');
+  await asMain(page, 'hh-1-rosa');
+  await page.locator('.panel-row[data-entity-id="hh-1-rosa"] .panel-icon[data-key=hunt-timber]').click();
+  await page.locator('#going').waitFor({ state: 'visible' });
+  await page.waitForFunction(() => window.__going?.ways?.length === 3);
+  const shut = page.locator('#going [data-way=wagon]');
   assert.equal(await shut.isDisabled(), true);
   const why = await shut.getAttribute('title');
   const holder = app.state.world.entities['hh-1-thomas'].name;
   // Said with what he is doing with them, where that adds anything (owner, 2026-09-24; sim/keeping.mjs `hasWords`).
   assert.match(why, new RegExp(`^${holder} has the ox and wagon(, [^.]+)?\\.$`), why);
   ok(`a second person is told who has it, in words: "${why}"`);
-  assert.equal(await page.locator('#travel-modes button[data-mode=foot]').isDisabled(), false);
+  assert.equal(await page.locator('#going [data-way=foot]').isDisabled(), false);
   ok('and walking is never taken away from anybody');
+  await page.keyboard.press('Escape');
+  await page.locator('#going').waitFor({ state: 'hidden' });
 
   assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`);
   ok('no page errors anywhere in the run');

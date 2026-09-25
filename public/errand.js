@@ -8,6 +8,7 @@
 //
 // Kept apart from public/app.js, which hands it what it needs (`mountErrand`), so the list rules below are tested headlessly
 // (tests/errand-page.test.mjs) and the popup is proved in a browser (scripts/errand-browser-proof.mjs).
+import { drawWays } from './going.js';
 
 /** The list the server is sent, in the order the lines are drawn: every line with a count, and how it is paid. */
 export function errandList(lines, counts, pays) {
@@ -135,7 +136,7 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
     }));
     if (focused?.id) host.querySelector(`[data-line="${CSS.escape(focused.id)}"] [data-act="${focused.act}"]`)?.focus({ preventScroll: true });
     $('#errand-how').textContent = !list.length ? 'Nothing is on the list yet.' : !quote ? 'Reckoning the load…' : quote.can ? quote.how : '';
-    drawWays(quote, list);
+    drawWaysHere(quote, list);
     const why = state.error || facts?.shut || (quote && !quote.can ? quote.why : '');
     $('#errand-why').textContent = why || '';
     const send = $('#errand-send');
@@ -147,30 +148,16 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
 
   /**
    * How they go (owner, 2026-09-24): the server's ways, quickest first, the quickest that carries the load marked and chosen
-   * unless the student chose another; a way that cannot go is shut and says why, in the server's words, under the row.
+   * unless the student chose another; a way that cannot go is shut and says why, in the server's words. The one component
+   * every journey's chooser draws (public/going.js `drawWays`; owner, 2026-09-24: "the game should ask how they'll travel").
    */
-  function drawWays(quote, list) {
+  function drawWaysHere(quote, list) {
     const host = $('#errand-ways');
     if (!host) return;
     const ways = quote?.ways;
     host.hidden = !list.length || !ways;
     if (host.hidden) { host.replaceChildren(); return; }
-    const chosen = state.mode || quote.quickest || null;
-    const row = element('div', '', 'errand-ways-row');
-    row.append(element('span', 'Going by', 'errand-ways-label'));
-    for (const way of ways) {
-      const button = element('button', way.id === quote.quickest ? `${way.name} (quickest)` : way.name, 'errand-way');
-      button.type = 'button';
-      button.dataset.way = way.id;
-      button.setAttribute('aria-pressed', String(way.id === chosen));
-      button.disabled = !way.can;
-      if (!way.can) button.title = way.why;
-      row.append(button);
-    }
-    const shut = ways.filter(way => !way.can && way.why).map(way => element('li', `${way.name}: ${way.why}`));
-    const reasons = element('ul', '', 'errand-ways-why');
-    reasons.append(...shut);
-    host.replaceChildren(row, ...(shut.length ? [reasons] : []));
+    drawWays(host, { ways, quickest: quote.quickest || null, chosen: state.mode || quote.quickest || null }, element);
   }
 
   async function send() {

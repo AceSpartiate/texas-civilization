@@ -164,7 +164,7 @@ test('a second felling axe goes off the land while the first fells at home', () 
   feller.task = 'work';
   assert.equal(choreAvailability(world, family, carrier, 'make-furniture').why, `${feller.name} has the felling axe, felling a post oak.`);
   addTool(family, 'axe');
-  applyAction(world, 'hh-1', { action: 'chore', entityId: carrier.id, chore: 'make-furniture' });
+  applyAction(world, 'hh-1', { action: 'chore', entityId: carrier.id, chore: 'make-furniture', mode: 'foot' });
   assert.deepEqual(carrier.chore.with, ['axe'], 'the second axe did not go off the land');
   // Both out now: the third is told so.
   assert.equal(choreAvailability(world, family, person(world, 'thomas'), 'make-furniture').why, both(world, [carrier, feller], 'felling axes'));

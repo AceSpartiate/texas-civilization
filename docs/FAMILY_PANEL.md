@@ -7,6 +7,9 @@
 and rest buttons, and the family book's row of Rename buttons, are replaced by one panel on the left of the map. Read this
 before changing how a student gives a person an order, the portrait or icon art, or renaming.
 
+**Amended by the owner 2026-09-24 and built the same day** (§15): every order that puts somebody on a road asks first how they
+will go, in a chooser of the server's ways, the quickest marked and chosen; the card's *Going by* is gone.
+
 **Amended by the owner 2026-09-16 and built the same day** ([evidence](evidence/family-commands-browser.json)): an "!" on a
 row for anybody who needs the student, that takes the camera to them and opens what waits; idle shown; and one person the
 student chooses as their main one. See §11, which wins where it and the sections before it differ.
@@ -135,9 +138,7 @@ cotton) are hidden, as before.
 
 **What stays on the person's card, and why.** The card that opens beside a person keeps what is a *question* rather than an
 order, or needs more than one press: a call to answer (`#selection-call`), a rider to listen to, work that has stopped to ask
-something and its answers, how the person travels (*Going by*: on foot, the ox, the wagon, the horse — remembered per person
-and sent with the next icon that starts a journey; a way somebody else in the family is using is shut and says who has it,
-*"Maria has the horse."*, and the server refuses it however the order is sent — 2026-09-16, `sim/keeping.mjs`), which neighbour's homestead to go to, and trading with somebody standing
+something and its answers, which neighbour's homestead to go to, and trading with somebody standing
 there. The army's "send for" control and every call are unchanged; they were never icons of their own.
 
 ### What a person has become
@@ -1098,6 +1099,55 @@ standing still and still says Travelling. Their card says which; a second word o
 
 Held by `tests/family-panel.test.mjs` and by `npm run test:travel-drawn`, which reads the row on every painted frame of a
 whole journey.
+
+## 15. How they will go, asked before anybody leaves — owner 2026-09-24
+
+> "when sending someone to travel, the game should ask how they'll travel."
+>
+> — the owner, 2026-09-24
+
+**Status: built the same day** (`sim/going.mjs`, `public/going.js`; [tests](../tests/going.test.mjs),
+[page tests](../tests/going-page.test.mjs), [injections](evidence/going-injections.json) 11 of 11 caught,
+[browser](evidence/going-browser.json)). It **replaces** §4's *Going by* on the person's card (2026-09-16: a way pressed once,
+remembered per person in the page and sent with the next journey), which is gone: one question, one place. No save version.
+
+- **Which orders ask.** Every order that puts somebody on a road off the family's land: *Travel to Gonzales*, *Return home*
+  from away, *Go there* to a neighbour's homestead (`travel`); the answers to a call that go somewhere — carrying food to
+  Gonzales (`help`), going to see (`go-see`), the march upriver (`go-upriver`), a settlement's call (`turn-out`), from
+  the card or the call's one menu (§11.2), which asks each person it sends in turn; and every work with a road in it
+  (`sim/chores.mjs` `makesJourney`, sent to the page as `journey: true` on the chore catalogue): hunt in the timber, make
+  or buy furniture, fetch logs, the winter's enlisting, joining and voting, Houston's army. **Not asked**: the four short
+  works and the hunt on the family's own land (they stroll out over the family's own ground and take no way of going), work
+  at home, and the errand to town, whose popup already asks it with the list (`docs/TOWNS.md` §4b) and now draws **the
+  same component**. Sending for somebody at the army or recalling them from service is not asked either: they come home
+  on what they have with them (`modeWith`), the family's beasts being at home.
+- **The chooser** (`#going`, `public/going.js` `mountGoing`). *How will Rosa go?*, the journey in the server's words
+  (*"Hunt in the timber: to the timber on the Guadalupe River."*), and a card for each way, quickest first: its pace, about
+  how long it takes there, what it carries — and what is carried against it (*2 loads of the 5 it carries*) or what it
+  brings home of a good day (*Brings home 5 food of 14; the rest is left behind.*) — and how tiring it is. **The quickest that
+  can go is marked *(quickest)* and chosen.** A way that cannot go is shut, with the server's reason on it: *"Keziah has the
+  horse, on the road to the timber on the Guadalupe River."*, *"Prudence has the ox and wagon, on the road to Gonzales."*,
+  *"That road crosses at the ford, and the ford is no place for a wagon."*, *"The logs come home in the wagon, so the ox and
+  wagon go."* Enter sends them the way chosen; Escape sends nobody; the bar steps aside while it is open (§12.13) and the
+  card is put away under it. Laid out for 1366×768 and 1024×768 (500×259 at both, measured).
+- **The server decides all of it** (`GET /api/ways?entityId&order`, `sim/world.mjs` `goingFor`, `sim/going.mjs` `waysFor`):
+  the ways and their facts, why one is shut (`modeAvailability`, which reads `sim/keeping.mjs` `userOf`), the quickest, and
+  whether the order makes a journey from where the person stands at all (`journeyOf`; none, and the page sends it as it is).
+  Fetched when the chooser opens and again when the person's ways change, never on the tick. **One command carries the way**
+  (`mode`); the server checks it where the journey begins and refuses it in the holder's name if it is no longer free, and
+  the chooser then says so and asks again with that way shut.
+- **The one rule for an order with no way** (`orderMode`, `quickestWay`): the quickest that can go — the horse, then on foot,
+  then the ox and wagon, by the same function the chooser's *quickest* is. It is what a **family nobody plays** sends (its
+  director gives no way: `sim/neighbours.mjs` `ride` is plain `attempt` now, and its old "the horse, else walk" is the same
+  answer), what a **person on auto** takes when they repeat an order (`sim/auto.mjs`, chosen again each time, so a hunter on
+  auto whose horse is out walks rather than waiting for it), and what a command older than the question gets. Until today an
+  order with none walked. Tests that are *about* walking now say `mode: 'foot'`.
+- **The icon's note** for a hunt says what a good trip gives (*"A good trip gives about 14 food; what comes home depends on how
+  they go."*); what each way brings home of it is the chooser's.
+- **Open for the owner.** (1) A journey with **one** possible way — no horse owned, the wagon out, logs that come home in the
+  wagon — still shows the chooser with that way chosen, so the student learns the question; Enter sends it. Skipping it then
+  is one line (`goingFor` knows it). (2) Auto chooses the quickest each time, not the way the student last chose.
+  (3) The errand's popup keeps the ways under its list rather than as a second step.
 
 ## Usability amendment — 2026-09-21
 

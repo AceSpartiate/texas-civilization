@@ -137,8 +137,10 @@ export function thinkFor(world, household, { project, act }) {
   const tried = [];
   const attempt = input => { try { act(input); tried.push(input); return true; } catch { return false; } };
   // A journey is ridden when the horse is at hand, and walked when it is not: a family with a horse in the yard did not
-  // walk nine miles to the store (found in play 2026-09-14). The server refuses the horse when somebody else has it.
-  const ride = input => attempt({ ...input, mode: 'horse' }) || attempt(input);
+  // walk nine miles to the store (found in play 2026-09-14). Since 2026-09-24 that is the server's own rule for an order sent
+  // with no way (sim/going.mjs `quickestWay`, sim/world.mjs `orderMode`): the quickest way that can go, the one a student's
+  // chooser marks and chooses. The director sends none, so it goes by the same rule a student is offered.
+  const ride = attempt;
   // Its own people, as its own projection shows them.
   const people = (view.entities || []).filter(entity => entity.kind === 'person' && entity.householdId === household.id);
   const mouths = mouthsAt(world, household);

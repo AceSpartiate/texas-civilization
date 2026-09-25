@@ -197,7 +197,7 @@ function axeWorld(seed) {
 
 test('the felling axe carried off the land is one person\'s until home, and nobody fells or builds with it meanwhile', () => {
   const { world, household, rosa, mateo, thomas } = axeWorld('axe-away');
-  applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'make-furniture' });
+  applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'make-furniture', mode: 'foot' });
   assert.deepEqual(rosa.chore.with, ['axe'], 'going for a small tree off the land did not take the axe');
   assert.equal(rosa.chore.shares, undefined, 'an axe carried off the land was shared');
   // At home meanwhile: the work that wants the axe is refused, in her name.
@@ -223,16 +223,16 @@ test('at home the felling axe is shared by the work at home, and cannot be carri
   assert.throws(() => applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'make-furniture' }), new RegExp(`${mateo.name} has the felling axe`));
   // Done felling: it is free to go.
   mateo.chore = null; mateo.task = 'rest';
-  applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'make-furniture' });
+  applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'make-furniture', mode: 'foot' });
   assert.deepEqual(rosa.chore.with, ['axe']);
 });
 
 test('the axe is let go on every way the trip ends: called off, and a class saved with it off the land opens with it gone', () => {
   const { world, household, rosa, mateo } = axeWorld('axe-exits');
-  applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'make-furniture' });
+  applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'make-furniture', mode: 'foot' });
   applyAction(world, 'hh-1', { action: 'stop-chore', entityId: rosa.id });
   assert.equal(userOf(world, household, 'axe', mateo, { shares: ['axe'] }), null, 'the axe stayed off the land after the trip was called off');
-  applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'make-furniture' });
+  applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'make-furniture', mode: 'foot' });
   applyAction(world, 'hh-1', { action: 'answer-chore', entityId: rosa.id, option: 'benches' });
   until(world, () => rosa.travel);
   delete rosa.chore.with; // saved before 2026-09-24's second change

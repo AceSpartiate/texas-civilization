@@ -6,6 +6,7 @@ import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-p
 import { autoLabel, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, standing, travellingLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { mountErrand } from '/errand.js';
+import { asksTheWay, mountGoing } from '/going.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {alamoOnMap,bexarToSite} from '/bexar-layout.js';
 import {plotArt} from '/field-art.js';
@@ -124,6 +125,12 @@ const errandPopup = mountErrand({
   $, element, api, say,
   send: input => api('/api/command', { ...input, id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}` }),
   onSent: () => { if (window.__snapshot) render(window.__snapshot); },
+});
+// How they will go (public/going.js, docs/FAMILY_PANEL.md §15, owner 2026-09-24): every order that puts somebody on a road is
+// sent through it, and it sends the one order with the way chosen. Its id is made here, as every command's is.
+const goingPopup = mountGoing({
+  $, element, api, say,
+  send: input => api('/api/command', { ...input, id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}` }),
 });
 const EMPTY_MAP = { sites: {}, routes: {}, terrain: [] };
 // The catalogue of work is fixed for a class, so it is fetched once alongside the map.
@@ -1126,16 +1133,8 @@ let manualView = null;
  */
 let watchedId = null;
 const stopWatching = () => { watchedId = null; };
-/**
- * How each person goes, remembered per person rather than for the whole family.
- *
- * Rosa taking the wagon to the timber must not put Thomas on it too - there is one wagon,
- * and a shared setting would silently propose the impossible. Nothing here decides what
- * is allowed: the server sends every way with the reason for any that are shut, and this
- * only remembers which of the open ones was last pressed.
- */
-const travelModeByEntity = new Map();
-const modeFor = id => travelModeByEntity.get(id) || 'foot';
+// How each person goes is asked of every journey as it is sent (public/going.js, owner 2026-09-24), not remembered here: the
+// card's "Going by" that was pressed once and carried by the next order is gone, so one question has one place.
 // Which pieces of news this browser has already put in front of this student. Per viewer
 // and deliberately not on the server: it describes a person looking at a screen, not
 // anything a household knows. Cleared by opening the book, which is where it is read.
@@ -3174,6 +3173,7 @@ function renderHousehold(world) {
   renderFamilyPanel(world);
   renderCallMenu(world);
   errandPopup.render(world);
+  goingPopup.render(world);
   renderSelection(world);
 }
 // Instructions live beside the person they concern, anchored to where they stand.
@@ -3455,39 +3455,9 @@ function renderArmyControl(world, chosen, running) {
   said.push(option('send-for', `Send for ${ours.name}`, 'They leave the ranks and start home. Whatever the army does next happens without them.'));
   wrap.replaceChildren(...said);
 }
-function renderTravelModes(world, chosen, settable) {
-  const wrap = $('#selection-travel'), host = $('#travel-modes');
-  const offered = world.travelModes?.[chosen.id];
-  // And not while somebody is standing in a wood waiting to be answered. How they would
-  // set out on the next journey is not an answer to the question in front of them, and a
-  // greyed-out row of it above the question is clutter at the one moment that matters.
-  // Nor for somebody serving (sim/winter.mjs): they go nowhere but home, when sent for.
-  if (!offered?.length || chosen.observed || world.role === 'host' || chosen.chore?.ask || chosen.service?.status === 'serving') { wrap.hidden = true; return; }
-  wrap.hidden = false;
-  const open = offered.find(entry => entry.id === modeFor(chosen.id) && entry.can);
-  if (!open) travelModeByEntity.delete(chosen.id);
-  // Somebody already on the way is shown going the way they went, whatever this browser last had pressed.
-  const picked = chosen.travel?.mode || modeFor(chosen.id);
-  host.replaceChildren(...offered.map(entry => {
-    const spec = modeCache?.get(entry.id);
-    const button = element('button', spec?.name || entry.id);
-    button.dataset.mode = entry.id;
-    button.type = 'button';
-    // On the road the choice has already been made; it is shown, not offered.
-    button.disabled = !settable || !entry.can || Boolean(chosen.travel) || Boolean(chosen.chore);
-    button.setAttribute('aria-pressed', String(entry.id === picked));
-    button.title = entry.can ? (spec?.describe || '') : entry.why;
-    return button;
-  }));
-  const chosenSpec = modeCache?.get(picked);
-  const shut = offered.find(entry => entry.id !== picked && !entry.can);
-  $('#travel-note').textContent = chosen.travel
-    ? ''
-    : chosenSpec?.describe || (shut ? shut.why : '');
-}
 function renderWork(world, chosen, running) {
   const panel = $('#selection-work');
-  const key = JSON.stringify([chosen.id, running, chosen.service?.status ?? null, chosen.service?.besieged ?? null, chosen.service?.riding ?? null, chosen.service?.courier ?? null, chosen.service?.leave ?? null, chosen.service?.road ?? null, chosen.service?.drilled ?? null, Boolean(chosen.travel), modeFor(chosen.id), world.land, chosen.health?.condition, Boolean(chosen.chore), chosen.chore?.ask?.openedMinute ?? null,
+  const key = JSON.stringify([chosen.id, running, chosen.service?.status ?? null, chosen.service?.besieged ?? null, chosen.service?.riding ?? null, chosen.service?.courier ?? null, chosen.service?.leave ?? null, chosen.service?.road ?? null, chosen.service?.drilled ?? null, Boolean(chosen.travel), world.land, chosen.health?.condition, Boolean(chosen.chore), chosen.chore?.ask?.openedMinute ?? null,
     (world.work?.[chosen.id] || []).map(entry => ({ ...choreCache?.get(entry.id), ...entry }))]);
   if (renderedWork?.key === key) return;
   const restore = renderedWork?.chosenId === chosen.id ? rememberControls(panel) : () => {};
@@ -3670,7 +3640,9 @@ function renderFamilyPanel(world) {
       drawPortrait(row.canvas, { clip, figure, band: entity.band, principal, tint: hashOf(id) }, { drawClip, drawSprite, spriteFrame });
     }
     // The icons, from the server's own lists. The journeys, the yard and rest are on the main person's row: the server's rule.
-    const carry = world.travelModes?.[id]?.find(mode => mode.id === modeFor(id))?.carry;
+    // What a trip brings home depends on how they go, which is asked when it is sent (public/going.js): the icon says what a
+    // good trip gives, and the chooser what each way brings home of it.
+    const carry = null;
     const offered = world.work?.[id] || [];
     const icons = panelActions({ entity, offered, catalogue: choreCache || new Map(), main: focused, homeId, homesteads,
       atHome: entity.location?.siteId === homeId, settable, carry });
@@ -3924,8 +3896,14 @@ async function confirmCallMenu(stayOnly = false) {
   const refused = [];
   for (const step of plan) {
     const input = { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action: step.action, entityId: step.entityId };
-    // Every order that can put somebody on a road carries how they mean to go, as the card's buttons do.
-    if (['help', 'go-upriver', 'go-see', 'turn-out'].includes(step.action)) input.mode = modeFor(step.entityId);
+    // An answer that puts somebody on a road asks how they go first (public/going.js, owner 2026-09-24), one person at a time,
+    // and the chooser sends it. Cancelled, nobody further is sent; those already sent stay sent.
+    if (asksTheWay(input, choreCache)) {
+      const { sent, error } = await goingPopup.open(input);
+      if (sent) { callMenuFor?.sent.add(step.entityId); callMenuFor?.checked.delete(step.entityId); continue; }
+      if (error) { refused.push(`${menu.rows.find(row => row.id === step.entityId)?.name || step.entityId}: ${error}`); continue; }
+      break;
+    }
     try {
       await api('/api/command', input);
       callMenuFor.sent.add(step.entityId); callMenuFor.checked.delete(step.entityId);
@@ -4244,7 +4222,6 @@ function renderSelection(world) {
   listen.textContent = waiting ? `Listen to ${world.encounter.carrierName}` : 'Listen';
   renderCall(world, chosen, running); renderFlight(world, chosen, running);
   renderArmyControl(world, chosen, running);
-  renderTravelModes(world, chosen, settable);
   renderWork(world, chosen, settable);
   // Trading stays shut until the class is running, because the neighbour it is addressed
   // to may not have joined yet. An offer to an empty chair is not a trade.
@@ -4266,14 +4243,14 @@ function renderCardFold(world, chosen) {
   const panel = $('#selection'), more = $('#selection-more');
   if (!panel || !more) return;
   const stepRunning = Boolean(lessonShowing(world));
-  const foldable = stepRunning && [$('#selection-travel'), $('#visit-row')].some(part => part && !part.hidden);
+  const foldable = stepRunning && [$('#visit-row')].some(part => part && !part.hidden);
   if (cardUnfolded && cardUnfolded !== chosen.id) cardUnfolded = null;
   const folded = foldable && cardUnfolded !== chosen.id;
   setData(panel, 'detail', folded ? 'folded' : 'open');
   if (more.hidden !== !foldable) more.hidden = !foldable;
   if (!foldable) return;
   more.setAttribute('aria-expanded', String(!folded));
-  const words = folded ? 'Going by, and the neighbours' : 'Put that away';
+  const words = folded ? 'The neighbours' : 'Put that away';
   if (more.textContent !== words) { more.textContent = words; more.setAttribute('aria-label', words); }
 }
 $('#selection-more')?.addEventListener('click', () => {
@@ -5759,9 +5736,11 @@ document.addEventListener('click', async event => {
     if (action === 'flee') { input.refuge = $('#flight-refuge')?.value; input.take = Object.fromEntries([...document.querySelectorAll('#selection-flight .flight-amount')].map(one => [one.dataset.take, Number(one.value) || 0])); }
     if (button.dataset.option) input.option = button.dataset.option;
     if (button.dataset.question) { input.question = button.dataset.question; input.answer = button.dataset.answer; }
-    // Every order that can put somebody on a road carries how they mean to go.
-    if (['travel', 'chore', 'help', 'go-upriver', 'go-see', 'turn-out'].includes(action) && input.entityId) input.mode = modeFor(input.entityId);
     if (button.dataset.lineId) input.lineId = button.dataset.lineId;
+    // Every order that puts somebody on a road asks first how they will go (owner, 2026-09-24: "when sending someone to travel,
+    // the game should ask how they'll travel"; docs/FAMILY_PANEL.md §15). The chooser sends the one order with the way chosen,
+    // and says any refusal in the server's words; an order that turns out to make no journey from here is sent as it is.
+    if (asksTheWay(input, choreCache)) { hidePanelTip(); goingPopup.open(input); return; }
   }
   try {
     const result = await api('/api/command', input);
@@ -5844,15 +5823,6 @@ document.addEventListener('keydown', event => {
   if (input && event.key === 'Enter') { event.preventDefault(); input.blur(); }
 });
 $('#family-book')?.addEventListener('submit', event => event.preventDefault());
-$('#travel-modes')?.addEventListener('click', event => {
-  const button = event.target.closest('button[data-mode]');
-  if (!button || button.disabled) return;
-  const world = window.__snapshot?.world, chosen = world && selectedEntity(world);
-  if (!chosen) return;
-  travelModeByEntity.set(chosen.id, button.dataset.mode);
-  renderedWork = null;
-  render(window.__snapshot);
-});
 installMapNavigation();
 // The family journal is a secondary keyboard route into the same permitted entities.
 function showJournal(open) {

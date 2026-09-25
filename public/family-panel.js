@@ -229,7 +229,9 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
     // What it costs and what it brings, from the server's numbers; putting them side by side is formatting.
     const haul = entry.haul && Number.isFinite(carry)
       ? `Brings home ${Math.min(entry.haul.got, carry)} ${entry.haul.resource}${entry.haul.got > carry ? ` of ${entry.haul.got}; the rest is left behind.` : '.'}`
-      : '';
+      // With no way chosen yet - it is asked when they are sent (public/going.js, owner 2026-09-24) - what a good trip gives;
+      // the chooser says what each way brings home of it.
+      : entry.haul ? `A good trip gives about ${entry.haul.got} ${entry.haul.resource}; what comes home depends on how they go.` : '';
     const crop = entry.crop
       ? entry.crop.share < 1
         ? `About ${Math.round(entry.crop.grown * entry.crop.share)} food of ${Math.round(entry.crop.grown)} standing; the rest has gone to stock in an unfenced field.`

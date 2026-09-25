@@ -171,10 +171,10 @@
       <div id="selection-head"><span id="selection-name"></span><button id="selection-close" aria-label="Close">×</button></div>
       <p id="selection-state"></p>
       <!-- While a step of the guided start is running, the card opens with the person and their questions and nothing
-           else: the step is the one thing that has to be readable, and "Going by" and the list of neighbours are a
-           quarter of the right of a Chromebook screen. Nothing is shut - the server allows travel throughout the lesson
-           (sim/lesson.mjs ALWAYS) - it is one press away. -->
-      <button type="button" id="selection-more" hidden aria-expanded="false" aria-controls="selection-travel">More</button>
+           else: the step is the one thing that has to be readable, and the list of neighbours is a block of the right of
+           a Chromebook screen. Nothing is shut - the server allows travel throughout the lesson (sim/lesson.mjs ALWAYS) -
+           it is one press away. How they go is asked when they are sent (#going), not set here (owner, 2026-09-24). -->
+      <button type="button" id="selection-more" hidden aria-expanded="false" aria-controls="visit-row">More</button>
       <p id="selection-task" hidden></p>
       <!-- Somebody outside the family is asking this person for something. It is built
            from what the server sent - the question, and each answer with its own price -
@@ -195,14 +195,6 @@
           <select id="visit-select" aria-label="A neighbour's homestead"></select>
           <button data-action="travel" data-destination="" id="visit-go">Go there</button>
         </span>
-      </div>
-      <!-- How they go. One choice per person, and it governs whatever journey the next
-           order starts: a trip to town, or the road out that a chore begins with. The
-           reason any way is closed is the server's sentence, never a guess made here. -->
-      <div id="selection-travel" hidden>
-        <span class="travel-eyebrow">GOING BY</span>
-        <div id="travel-modes" role="group" aria-label="How this person travels"></div>
-        <p id="travel-note"></p>
       </div>
       <div id="selection-work"></div>
       <!-- Trading only exists where two people are standing together, so its controls
@@ -240,6 +232,21 @@
       <div id="errand-answer">
         <button type="button" id="errand-send">Send them</button>
         <button type="button" id="errand-cancel">Cancel</button>
+      </div>
+    </div>
+
+    <!-- How they will go (docs/FAMILY_PANEL.md §15, owner 2026-09-24: "when sending someone to travel, the game should ask
+         how they'll travel"). Every order that puts somebody on a road opens this first. Every way, its facts, why one is
+         shut and which is quickest are the server's (`/api/ways`, sim/going.mjs); public/going.js draws them and sends the
+         one order with the way chosen. Enter sends them; Escape sends nobody. -->
+    <div id="going" hidden role="dialog" aria-labelledby="going-title" aria-describedby="going-text">
+      <div id="going-head"><span id="going-title">How will they go?</span><button type="button" id="going-close" aria-label="Close, and send nobody">×</button></div>
+      <p id="going-text" class="ask-text"></p>
+      <div id="going-ways" role="group" aria-label="How they go"></div>
+      <p id="going-why" role="alert"></p>
+      <div id="going-answer">
+        <button type="button" id="going-send">Send them</button>
+        <button type="button" id="going-cancel">Cancel</button>
       </div>
     </div>
 

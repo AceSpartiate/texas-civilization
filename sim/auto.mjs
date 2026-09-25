@@ -13,7 +13,7 @@
 // the detachment in sim/army.mjs, Travis's couriers in sim/alamo.mjs, the wagon in sim/scrape.mjs (`autoFlee`) - at the
 // shares families nobody plays use (`FIC-GONZ-040`, `FIC-GONZ-048`), so a family on auto is played as its neighbours are
 // and nobody's odds change with the switch. This module is the switch itself and the repeating of an order.
-import { CHORES, beginChore, choresFor } from './chores.mjs';
+import { CHORES, beginChore, choresFor, quickestForChore } from './chores.mjs';
 import { campChoice } from './camp.mjs';
 import { record } from './events.mjs';
 import { mainPersonId } from './family.mjs';
@@ -90,7 +90,9 @@ export function advanceAuto(world, { beginTravel, modeAvailability }) {
       // nothing to fire walks to the timber to leave the deer standing, and would do it every afternoon.
       if ((household.resources?.powder ?? 0) < 1) { held('there is no powder in the house to hunt with.'); continue; }
       try {
-        beginChore(world, household, person, order.chore, { beginTravel, modeAvailability }, order.mode, order.ground ? { ground: { ...order.ground } } : {});
+        // The way is chosen again each time by the one rule (sim/going.mjs, owner 2026-09-24): the quickest that can go now, so a
+        // hunter on auto whose horse is out walks rather than waiting for it, and rides when it is home.
+        beginChore(world, household, person, order.chore, { beginTravel, modeAvailability }, quickestForChore(world, household, person, order.chore, modeAvailability), order.ground ? { ground: { ...order.ground } } : {});
         delete order.held;
       } catch (error) { held(error.message); }
     }

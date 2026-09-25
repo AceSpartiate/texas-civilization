@@ -43,6 +43,7 @@ import { fellRefusal, fellTicks, fellTree, logsLeftOut, logsLying, nextTree, oxF
 import { KINDS, countsTrees, woodsRule } from './woods.mjs';
 import { TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
 import { carryOutErrand, planErrand } from './errands.mjs';
+import { quickestWay } from './going.mjs';
 import { ROLES as BEASTS, hasWords, letGo, takeToWar, userOf, warRifleWords } from './keeping.mjs';
 import { holdingOf } from './grants.mjs';
 import { TOOL_LIFE, allWorn, anyWorn, mendWorst, soundestFirst, toolCount } from './tools.mjs';
@@ -1375,6 +1376,58 @@ function heldBy(world, household, entity, chore, modeId, choreId, extra = {}) {
   const axe = axeFor(world, household, choreId, extra);
   return { held: [...new Set([...own, ...(axe ? ['axe'] : []), ...road])], shares: axe === 'home' ? ['axe'] : [] };
 }
+/**
+ * Whether this work sends somebody on a journey off the family's land, which asks how they will go (owner, 2026-09-24:
+ * "when sending someone to travel, the game should ask how they'll travel"; sim/going.mjs). A work with a road in it: not the
+ * four short works and the hunt on the family's own land, which stroll out over the family's own ground on foot and take no
+ * way of going (`state.ground`); not the errand to town, whose popup asks it with the list (sim/errands.mjs); not a work
+ * nobody is offered any more.
+ */
+export const makesJourney = chore => Boolean(chore?.steps?.some(step => step.travel) && !chore.forage && !chore.huntLand && !chore.plan && !chore.retired);
+/** Where a work's first road goes, found without writing the map: the same places `advanceChore` sends them. */
+function journeyTarget(world, household, travel) {
+  if (travel === 'timber') return timberSite(world, household);
+  if (travel === 'logwood') return logwoodGround(world, household, false);
+  if (travel === 'water') return fishingSite(world, household, false);
+  if (travel === 'shore') return shoreSite(world, household, false);
+  const id = travel === 'town' ? townOf(household) : travel === 'houston-camp' ? houstonCamp(world) : travel === 'home' ? household.homeSiteId : travel;
+  return world.map.sites[id] || null;
+}
+/**
+ * The journey this work makes, as sim/going.mjs asks it: where to (`to`, or `point` for a place not yet on the map), the one way
+ * a work that can go only one way takes and why (`only`), and what a good trip would bring home (`haul`). Null for work that
+ * makes no journey, or whose first road is already behind them.
+ */
+export function choreJourney(world, household, entity, choreId) {
+  const chore = CHORES[choreId];
+  if (!makesJourney(chore)) return null;
+  const place = journeyTarget(world, household, chore.steps.find(step => step.travel).travel);
+  if (place && entity.location?.siteId === place.id) return null;
+  const kept = Boolean(place && world.map.sites[place.id]);
+  const only = chore.forceMode ? (typeof chore.forceMode === 'function' ? chore.forceMode(world, household) : chore.forceMode) : null;
+  const full = chore.hauls ? haulFor(entity, choreId) : null;
+  return {
+    to: kept ? place.id : null, ...(place && !kept && { point: { x: place.x, y: place.y } }), place: place?.name || null,
+    ...(only && { only, onlyWhy: ONLY_WHY[choreId]?.[only] || null }),
+    ...(full && { haul: { resource: full.resource, got: full.got } }),
+  };
+}
+/** Why a work that goes one way goes that way, said on the chooser's other ways. */
+const ONLY_WHY = Object.freeze({
+  'fetch-logs': {
+    wagon: 'The logs come home in the wagon, so the ox and wagon go.',
+    foot: 'The ox and wagon are standing at the timber: they walk out to them and drive them home.',
+  },
+});
+/**
+ * The quickest way this work's journey can go (sim/going.mjs `quickestWay`, the one rule): what an order sent with no way takes -
+ * a family nobody plays, a person on auto repeating a hunt, a command older than the question. On foot for work that makes no
+ * journey.
+ */
+export function quickestForChore(world, household, entity, choreId, modeAvailability) {
+  const journey = choreJourney(world, household, entity, choreId);
+  return journey ? quickestWay(world, entity, journey, modeAvailability) || DEFAULT_MODE : DEFAULT_MODE;
+}
 /** Why the things this work takes cannot be had, because somebody else has them: their name, and what they are doing. */
 function takenWhy(world, household, entity, choreId, extra = {}) {
   const chore = CHORES[choreId];
@@ -1562,6 +1615,8 @@ export function choreCatalogue() {
     // A cost that grows with the ground cannot be stated once for the whole class; the
     // per-tick permission carries the real number for this household.
     scales: Boolean(chore.needsPerPlot),
+    // Work with a road in it asks how they will go before it is sent (owner, 2026-09-24; sim/going.mjs, public/going.js).
+    ...(makesJourney(chore) && { journey: true }),
   }));
 }
 

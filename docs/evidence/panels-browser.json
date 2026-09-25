@@ -1,6 +1,6 @@
 {
   "record": "panels-browser",
-  "date": "2026-09-24",
+  "date": "2026-09-25",
   "browser": "153.0.8010.53",
   "screens": [
     {
@@ -70,38 +70,21 @@
               ]
             },
             {
-              "control": "#selection-more",
-              "label": "Going by, and the neighbours",
-              "box": {
-                "x": 653,
-                "y": 310,
-                "w": 234,
-                "h": 27
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 5,
-              "centreBlockedBy": "#encounter-origin",
-              "by": [
-                "#encounter-origin"
-              ]
-            },
-            {
               "control": "#selection-call",
               "label": "Go: ride for GonzalesTemperance takes th",
               "box": {
                 "x": 653,
-                "y": 466,
+                "y": 430,
                 "w": 234,
                 "h": 81
               },
               "onScreen": true,
               "points": 5,
               "blocked": 5,
-              "centreBlockedBy": "#encounter-asks",
+              "centreBlockedBy": "#encounter-said",
               "by": [
-                "#encounter-asks",
-                "#encounter-said"
+                "#encounter-said",
+                "#encounter-asks"
               ]
             },
             {
@@ -109,7 +92,7 @@
               "label": "Stay homeTemperance stays, and the farm ",
               "box": {
                 "x": 653,
-                "y": 547,
+                "y": 512,
                 "w": 234,
                 "h": 66
               },
@@ -126,7 +109,7 @@
               "label": "Listen to Silas Roe",
               "box": {
                 "x": 653,
-                "y": 614,
+                "y": 578,
                 "w": 234,
                 "h": 40
               },
@@ -162,7 +145,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 182,
+                "y": 183,
                 "w": 32,
                 "h": 32
               },
@@ -198,7 +181,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 235,
+                "y": 236,
                 "w": 32,
                 "h": 32
               },
@@ -337,10 +320,10 @@
                 "x": 640,
                 "y": 228,
                 "w": 260,
-                "h": 447
+                "h": 411
               },
               "overlapWidth": 260,
-              "overlapHeight": 447,
+              "overlapHeight": 411,
               "shares": true
             }
           }
@@ -393,7 +376,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 183,
+                "y": 182,
                 "w": 32,
                 "h": 32
               },
@@ -464,7 +447,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 236,
+                "y": 235,
                 "w": 32,
                 "h": 32
               },
@@ -479,7 +462,7 @@
             },
             {
               "control": "#selection-more",
-              "label": "Going by, and the neighbours",
+              "label": "The neighbours",
               "box": {
                 "x": 699,
                 "y": 310,
@@ -539,7 +522,7 @@
               "control": "#reports",
               "label": "Read what Silas Roe said",
               "box": {
-                "x": 1866,
+                "x": 1873,
                 "y": 963,
                 "w": 139,
                 "h": 44
@@ -710,7 +693,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 182,
+                "y": 184,
                 "w": 32,
                 "h": 32
               },
@@ -746,7 +729,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 235,
+                "y": 237,
                 "w": 32,
                 "h": 32
               },
@@ -928,7 +911,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 223,
+                "y": 225,
                 "w": 32,
                 "h": 32
               },
@@ -964,7 +947,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 276,
+                "y": 278,
                 "w": 32,
                 "h": 32
               },
@@ -1153,38 +1136,21 @@
               ]
             },
             {
-              "control": "#selection-more",
-              "label": "Going by, and the neighbours",
-              "box": {
-                "x": 482,
-                "y": 310,
-                "w": 234,
-                "h": 27
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 5,
-              "centreBlockedBy": "#encounter-origin",
-              "by": [
-                "#encounter-origin"
-              ]
-            },
-            {
               "control": "#selection-call",
               "label": "Go: ride for GonzalesTemperance takes th",
               "box": {
                 "x": 482,
-                "y": 466,
+                "y": 430,
                 "w": 234,
                 "h": 81
               },
               "onScreen": true,
               "points": 5,
               "blocked": 5,
-              "centreBlockedBy": "#encounter-asks",
+              "centreBlockedBy": "#encounter-said",
               "by": [
-                "#encounter-asks",
-                "#encounter-said"
+                "#encounter-said",
+                "#encounter-asks"
               ]
             },
             {
@@ -1192,7 +1158,7 @@
               "label": "Stay homeTemperance stays, and the farm ",
               "box": {
                 "x": 482,
-                "y": 547,
+                "y": 512,
                 "w": 234,
                 "h": 66
               },
@@ -1209,7 +1175,7 @@
               "label": "Listen to Silas Roe",
               "box": {
                 "x": 482,
-                "y": 614,
+                "y": 578,
                 "w": 234,
                 "h": 40
               },
@@ -1420,10 +1386,10 @@
                 "x": 469,
                 "y": 228,
                 "w": 260,
-                "h": 447
+                "h": 411
               },
               "overlapWidth": 260,
-              "overlapHeight": 447,
+              "overlapHeight": 411,
               "shares": true
             }
           }
@@ -1562,7 +1528,7 @@
             },
             {
               "control": "#selection-more",
-              "label": "Going by, and the neighbours",
+              "label": "The neighbours",
               "box": {
                 "x": 528,
                 "y": 310,
@@ -2235,7 +2201,7 @@
         "overlapHeight": 179,
         "shares": true
       },
-      "coveredByTheMeeting": 5,
+      "coveredByTheMeeting": 4,
       "siteOverTheCard": null
     },
     {
@@ -2274,7 +2240,7 @@
         "overlapHeight": 179,
         "shares": true
       },
-      "coveredByTheMeeting": 5,
+      "coveredByTheMeeting": 4,
       "siteOverTheCard": null
     }
   ],

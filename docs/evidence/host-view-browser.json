@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-24",
+  "date": "2026-09-25",
   "command": "npm run test:host-view",
   "scope": "Same computer only: headless Chrome 1440x950, a server on 127.0.0.1. Not a physical LAN, a phone or a classroom.",
   "class": {
@@ -10,11 +10,11 @@
   },
   "pass": [
     "the student's page, 158.5 miles away, has none of hh-9's people and no overview",
-    "the Host zoomed to Thomas's family's farm (house, round-log) and drew 3 of its people, 2 plot(s) and its line",
+    "the Host zoomed to Thomas's family's farm (house, round-log) and drew 1 of its people, 2 plot(s) and its line",
     "the Host zooms in as far as a student does (4737 pixels a mile)",
-    "the Host looks at Thomas: \"of Thomas's family · felling timber on the clearing · at home · well\", with no order offered",
+    "the Host looks at Antonia: \"of Thomas's family · felling timber on the clearing · at home · well\", with no order offered",
     "the Host went to San Felipe de Austin: 10 shops and 11 people drawn, keepers among them",
-    "Whole class: The whole class: 112 people, 148 figures in view, 12 people on the road.",
+    "Whole class: The whole class: 112 people, 148 figures in view, 13 people on the road.",
     "at 400 pixels wide the list of places is on screen and the page does not scroll sideways",
     "no page error on either page"
   ],
@@ -25,9 +25,7 @@
       "homeSiteId": "home-9",
       "milesFromStudent": 158.5,
       "atHome": [
-        "hh-9-thomas",
-        "hh-9-elena",
-        "hh-9-rosa"
+        "hh-9-elena"
       ]
     },
     "studentOthers": 1,
@@ -36,8 +34,8 @@
         "kind": "region",
         "scale": 2131.5789473684213,
         "named": true,
-        "cx": 156.58599999999998,
-        "cy": -40.656,
+        "cx": 156.539,
+        "cy": -40.609,
         "following": false,
         "figure": 40.5,
         "house": {
@@ -55,9 +53,7 @@
         "logs": 5
       },
       "drawnPeople": [
-        "hh-9-thomas",
-        "hh-9-elena",
-        "hh-9-rosa"
+        "hh-9-elena"
       ],
       "houseDrawn": {
         "householdId": "hh-9",
@@ -67,8 +63,8 @@
       },
       "plotsDrawn": 2,
       "holdings": 1,
-      "snapshotBytes": 55962,
-      "description": "The whole class: 112 people, 6 figures in view, 14 people on the road."
+      "snapshotBytes": 56509,
+      "description": "The whole class: 112 people, 3 figures in view, 15 people on the road."
     },
     "closestScale": {
       "host": 4736.842105263158,
@@ -76,15 +72,15 @@
     },
     "foldedPanels": false,
     "clicked": {
-      "person": "hh-9-thomas",
+      "person": "hh-9-elena",
       "at": {
-        "x": 595,
-        "y": 501
+        "x": 762,
+        "y": 401
       }
     },
     "card": {
-      "id": "hh-9-thomas",
-      "name": "Thomas",
+      "id": "hh-9-elena",
+      "name": "Antonia",
       "state": "of Thomas's family · felling timber on the clearing · at home · well",
       "subject": "The teacher watches; only the family gives orders.",
       "orders": []
@@ -193,7 +189,7 @@
         }
       },
       "follow": "Whole class",
-      "description": "The whole class: 112 people, 148 figures in view, 12 people on the road.",
+      "description": "The whole class: 112 people, 148 figures in view, 13 people on the road.",
       "land": true
     },
     "phone": {

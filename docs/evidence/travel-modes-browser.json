@@ -1,15 +1,15 @@
 {
   "record": "travel-modes-browser",
-  "date": "2026-09-24",
+  "date": "2026-09-25",
   "browser": "153.0.8010.53",
   "ownerDirection": "\"okay, so horse for speed, ox and wagon for heavy?\"",
   "checks": [
-    "a student is offered all three ways of going, named in words",
-    "and starts on the one that is always possible",
-    "the hunt says what it will bring home before it is chosen: on foot \"Brings home 5 food of 10; the rest is left behind.\"",
-    "choosing the wagon and pressing Travel sends them with the wagon",
+    "a student is offered all three ways of going, named in words, when they send somebody",
+    "and starts on the quickest that can go, which the server marks",
+    "the hunt says what it would give before it is chosen: \"A good trip gives about 10 food\"",
+    "choosing the wagon in the chooser and pressing Send sends them with the wagon",
     "the ox and the wagon are on the road with him, not left standing at home",
-    "the ox and wagon are drawn travelling, not teleported (76.9px and 42.0px of screen movement)",
+    "the ox and wagon are drawn travelling, not teleported (12.0px and 8.9px of screen movement)",
     "and are drawn with the walking and rolling cycles the art library has always carried",
     "a second person is told who has it, in words: \"Alvin has the ox and wagon, on the road to Gonzales.\"",
     "and walking is never taken away from anybody",
@@ -17,9 +17,9 @@
   ],
   "measured": {
     "screenPixelsMovedInNineTenthsOfASecond": {
-      "ox": 76.94153624668537,
-      "wagon": 42,
-      "man": 10.44030650891055
+      "ox": 12.041594578792296,
+      "wagon": 8.94427190999916,
+      "man": 4.242640687119286
     },
     "clipsBound": [
       "blue-girl-rest",

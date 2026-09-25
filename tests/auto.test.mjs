@@ -63,7 +63,7 @@ test('on auto a hunt never stops to ask: the shot is decided at once, the hunt r
   applyAction(world, 'hh-1', { action: 'chore', entityId: elena.id, chore: 'hunt-timber' });
   // The family has one rifle, and Elena has it (owner, 2026-09-24; sim/keeping.mjs): Mateo is told so, and waits his turn.
   assert.throws(() => applyAction(world, 'hh-1', { action: 'chore', entityId: mateo.id, chore: 'hunt-timber' }), new RegExp(`${elena.name} has the rifle`));
-  assert.deepEqual(elena.order, { chore: 'hunt-timber', mode: 'foot' }, 'the order was not remembered');
+  assert.deepEqual(elena.order, { chore: 'hunt-timber', mode: 'horse' }, 'the order was not remembered: sent with no way, it went the quickest (sim/going.mjs)');
   assert.ok(REPEATED.includes(elena.order.chore));
   let asked = 0, marked = 0;
   const finished = id => story(world, id).filter(text => /^.* finished: hunt/.test(text)).length;

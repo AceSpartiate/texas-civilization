@@ -13,6 +13,7 @@ import { createClassroom } from '../server/app.mjs';
 // docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
 // person, so this proof chooses them first, as a student does.
 import { asMain } from './support/main-person.mjs';
+import { sendTheWay } from './support/going.mjs';
 // The title screen and the family made on it (public/creation.js, owner 2026-09-17). This proof pressed straight through to
 // the panel and the curtain swallowed the press: `#creation-scene`, the canvas behind Begin, took every click at
 // `.panel-focus`. The panel is drawn under it and reads as visible, so the failure was a timeout on a button nobody could
@@ -71,6 +72,8 @@ try {
   await icon.waitFor({ state: 'visible' });
   observed.icon = `${await icon.getAttribute('data-name')}: ${await icon.getAttribute('data-summary') || ''}`;
   await icon.click();
+  // How they go is asked first (owner, 2026-09-24; public/going.js): on foot, as this proof always watched the walk.
+  await sendTheWay(page, { way: 'foot' });
   ok(`the family panel offers the work: ${observed.icon}`);
 
   // The question, with every piece saying what it does.

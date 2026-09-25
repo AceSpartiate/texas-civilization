@@ -1,5 +1,43 @@
 # Claude handoff — Astra foundation
 
+## Every journey asks how they will go — 2026-09-24 (after 0a175bb; not yet committed or released)
+
+Owner: *"when sending someone to travel, the game should ask how they'll travel."* Recorded as
+[docs/FAMILY_PANEL.md §15](docs/FAMILY_PANEL.md) (cross-referenced from docs/TOWNS.md §4b). No save version.
+
+- **Which orders ask**: `travel` (Gonzales, home from away, a neighbour's homestead), the call answers that go somewhere
+  (`help`, `go-see`, `go-upriver`, `turn-out`, from the card or the call's menu, which asks each person in turn), and every
+  work with a road in it (`sim/chores.mjs` `makesJourney` → `journey: true` on the catalogue: hunt in the timber, make/buy
+  furniture, fetch logs, the winter's enlisting/joining/voting, Houston). **Not asked**: the four short works and the hunt on
+  the family's land (they stroll on foot), work at home, the errand (its popup asks it, now with the same component), and
+  sending for / recalling somebody from the army (they come home on what they have, `modeWith`).
+- **Server** (`sim/going.mjs`, new): `waysFor` (every way quickest first with pace, miles and time there, carry and what is
+  carried or brought home, how tiring, `can`/`why` from `modeAvailability` → `userOf`), `quickestWay` (same per-way function).
+  `sim/world.mjs` `journeyOf`, `orderMode`, `goingFor` → `GET /api/ways?entityId&order`. **An order with no `mode` now goes
+  the quickest way that can** (was: walked) - the director (`ride` is plain `attempt`; same answer as its old horse-else-walk)
+  and auto (chosen again each time) use it. `sim/errands.mjs` `waysOf` is `waysFor` with the load (sentences unchanged).
+- **Page** (`public/going.js`, new; `#going`; `.going-way*`): `asksTheWay`, `chosenWay`, `drawWays` (also the errand's), `mountGoing`.
+  The quickest is marked and chosen; a shut way carries the server's reason; Enter sends, Escape sends nobody; the bar steps
+  aside (`body[data-going]`); a refusal on send is shown and the ways re-asked. **Removed**: the card's *Going by*
+  (`#selection-travel`, `renderTravelModes`, `travelModeByEntity`/`modeFor`). The hunt icon's note: *"A good trip gives about N food;
+  what comes home depends on how they go."*
+- **Tests.** New `tests/going.test.mjs` (8) and `tests/going-page.test.mjs` (3). Changed where the expectation moved (a no-mode
+  order rides now): `tests/travel-modes.test.mjs` (expects the horse), `tests/auto.test.mjs` (remembered mode 'horse'); tests
+  *about* walking now say `mode: 'foot'`: hunting, geography, tools, upriver, war-rifle. **Injections**
+  ([record](docs/evidence/going-injections.json), `scripts/going-injections.mjs`) over 13 test files: **11 of 11 caught**; the
+  auto, director, page, forage, logs and mark injections fail only their own tests; slowest-first, no-mode-walks and
+  no-holder-check fail every test that holds the rule (errands, keeping, travel-modes, tools). `npm test`: **1123 pass**.
+- **Browser** (same computer only). New `npm run test:going` ([evidence](docs/evidence/going-browser.json)): Travel to Gonzales
+  opens the chooser, horse marked and chosen, walking picked, Enter, he walks and the horse stays home; the timber hunt sent on
+  the horse and drawn riding it; furniture in town with the horse shut in the hunter's name and the wagon picked; the next
+  chooser with the wagon shut in the driver's name, fits 500x259 at 1366x768 and 1024x768, Escape sends nobody. Screenshots
+  looked at: `going-timber-1366.png`, `going-taken-1366.png`, `going-taken-1024.png` (session scratchpad). `test:travel`
+  rewritten for the chooser; `test:errand`, `test:family-commands`, `test:furniture`, `test:auto`, `test:slice` answer it
+  (`scripts/support/going.mjs` `sendTheWay`); `test:lesson` reads the card's fold without *Going by*. PASS: going (6), travel (10), errand (10), shops, family-commands (23), family-panel, panels, lesson, riding, travel-drawn (17), farm, host-view, furniture, auto. `test:slice` fails before this change reaches it: the family-creation curtain intercepts its first click (that proof never meets the family) - not fixed here. `node --check` on .mjs copies of `public/app.js`, `public/going.js`, `public/errand.js`, `public/family-panel.js`.
+- **Open for the owner.** (1) A journey with one possible way still shows the chooser (the student learns the question; Enter
+  sends it) - skip it instead? (2) Auto takes the quickest each time rather than the way the student last chose. (3) The
+  errand keeps its ways under its list, not as a second step.
+
 ## Tools counted and bought in town — 2026-09-24 (after fd13eea; not yet committed or released)
 
 Owner: *"players should be able to send someone to buy more rifles, hoes, tools in general."* Recorded as

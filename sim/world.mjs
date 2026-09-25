@@ -8,8 +8,8 @@ import { reportsFor, deliverReports } from './knowledge.mjs';
 import { advanceRoutine } from './routines.mjs';
 import { calendarMinutes, dateOf, withCalendarStep } from './clock.mjs';
 import { awayProjection, milesATick, roadTicksFor, tooFastToFollow } from './sight.mjs';
-import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection } from './directors.mjs';
-import { abandonChore, advanceChores, answerChore, askProjection, beginChore, choreAvailability, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
+import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection, CAMP_SITE } from './directors.mjs';
+import { abandonChore, advanceChores, answerChore, askProjection, beginChore, choreAvailability, choreJourney, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
 import { GAME } from './hunting.mjs';
 import { axeHome, bringAlong, hasWords, holderOf, homeAgain, intoTheRoad, keepWithRiders, leaveBehind, modeWith, NOUN, ROLES as BEASTS, userOf, usesInvalid } from './keeping.mjs';
 import { SERVING_ACTIONS, recallFromService, servingWhy, winterInvalid } from './winter.mjs';
@@ -53,6 +53,7 @@ import { furnitureInvalid } from './furniture.mjs';
 import { interiorInvalid, interiorProjection, placeItem } from './interior.mjs';
 import { gearExertionShare, shopsInvalid, wagonSpeedShare } from './shops.mjs';
 import { errandOffers, errandQuote, errandsInvalid } from './errands.mjs';
+import { quickestOf, quickestWay, shownWays, waysFor } from './going.mjs';
 import { toolsInvalid } from './tools.mjs';
 import { fellingInvalid, logsLeftOut, logsProjection, recordFelling } from './felling.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, defaultNames, familyProjection, familyRoll, FAMILY_DIE, FAMILY_TABLE, tableOf, compositionFor,rolledWords, householdName, kinFor, mainPersonId, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
@@ -789,11 +790,12 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   if (input.action === 'place-item') { placeItem(world, household, String(input.item || ''), input.spot ? String(input.spot) : null); return; }
   // And where it stands, on the real land, once the wagon is in (sim/homesite.mjs). It refuses in the lobby itself.
   if (input.action === 'choose-site') { chooseSite(world, household, { x: input.x, y: input.y }); return; }
-  // How they go, chosen once and applied to whatever journey this order starts - a trip
-  // to town, or the road out to the timber a chore begins with. A command from a class
-  // that predates the choice carries no mode and gets the one everybody had then.
-  const mode = input.mode || DEFAULT_MODE;
-  if (!MODES[mode]) throw new Error('No such way of going.');
+  // How they go, asked before the order is sent (owner, 2026-09-24: "when sending someone to travel, the game should ask how
+  // they'll travel"; sim/going.mjs) and carried by the order itself: a trip to town, the road out to the timber a chore begins
+  // with, a call, the march. Checked where the journey is begun, and refused there in the holder's name. An order with no way
+  // - the director of a family nobody plays, a command older than the question - goes the quickest way that can (`orderMode`,
+  // below, after the order's person is known).
+  if (input.mode !== undefined && !MODES[input.mode]) throw new Error('No such way of going.');
   if (world.status === 'lobby' && !LOBBY_ACTIONS.has(input.action)) throw new Error('Your neighbours are still arriving. You can see to your own family now; anything between families waits for the class to begin.');
   if (!entity || entity.householdId !== householdId || entity.kind !== 'person') throw new Error('Choose one of your family.');
   if (entity.health.condition === 'dead' || entity.health.condition === 'captured') throw new Error('This person cannot act.');
@@ -802,6 +804,7 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // children's own works and call them off again (`childAction`, sim/children.mjs), which are the only work in the game
   // that never leaves the family's own land and never touches an axe or a gun.
   if (tooYoung(entity) && !['rename', 'rest', 'ask-rider', 'leave-rider'].includes(input.action) && !childAction(input)) throw new Error(tooYoungWhy(entity));
+  const mode = input.mode || orderMode(world, household, entity, input);
   // The student's main person (sim/family.mjs `mainPersonId`, docs/FAMILY_PANEL.md §11.3): one at a time, anybody of the
   // family who can act and is old enough to be sent - refused above, in the words every order gets. Choosing another recalls
   // nobody: whoever was main stays in the army or on their road; only who may be given the next order moves.
@@ -948,6 +951,62 @@ export function errandFor(world, householdId, entityId, list = null, mode = null
   return {
     person: { id: entity.id, name: entity.name }, ...errandOffers(world, household, entity), ...(shut && { shut }),
     ...(Array.isArray(list) && list.length && { quote: errandQuote(world, household, entity, list, { modeAvailability, mode }) }),
+  };
+}
+/** The answer to a call that puts somebody on a road, and where it goes (sim/directors.mjs, sim/calls.mjs). */
+const CALL_ROADS = Object.freeze({ help: 'gonzales', 'go-see': 'gonzales', 'go-upriver': CAMP_SITE });
+/** The food a person carries to Gonzales when they answer the call to help (sim/directors.mjs `handleChoice`). */
+const HELP_FOOD = 2;
+/**
+ * The journey an order would start, or null when it starts none from where the person stands (owner, 2026-09-24; sim/going.mjs):
+ * a journey to a place (`travel`), the answer to a call that goes somewhere, or work with a road in it (sim/chores.mjs
+ * `choreJourney`). `to` is where; the rest is what the ways must answer (the food carried, the one way logs come home by).
+ */
+export function journeyOf(world, household, entity, input) {
+  if (!household || !entity || entity.kind !== 'person') return null;
+  if (input?.action === 'chore') return choreJourney(world, household, entity, input.chore);
+  const to = input?.action === 'travel' ? input.destination
+    : input?.action === 'turn-out' ? world.calls?.[household.id]?.gather
+    : CALL_ROADS[input?.action] || null;
+  if (!to || !world.map.sites[to] || entity.location?.siteId === to) return null;
+  return { to, place: world.map.sites[to].name, ...(input.action === 'help' && { load: HELP_FOOD }) };
+}
+/** The way an order with none goes: the quickest that can make its journey, and on foot when it makes none (sim/going.mjs). */
+export function orderMode(world, household, entity, input) {
+  const journey = journeyOf(world, household, entity, input);
+  return (journey && quickestWay(world, entity, journey, modeAvailability)) || DEFAULT_MODE;
+}
+/** What the chooser says the person is going to do, in the family's words. */
+function journeyWords(world, household, entity, input, journey) {
+  const place = (journey.place || 'there').replace(/^The /, 'the ');
+  if (input.action === 'chore') return `${CHORES[input.chore].name}${journey.place ? `: to ${place}` : ''}.`;
+  if (input.action === 'help') return `To carry ${HELP_FOOD} food to Gonzales.`;
+  if (input.action === 'go-see') return 'To Gonzales, to see whether it is true.';
+  if (input.action === 'go-upriver') return `Upriver with the men, to ${place}.`;
+  if (input.action === 'turn-out') return `With the volunteers, to ${place}.`;
+  return journey.to === household.homeSiteId ? 'Home to the family\'s own land.' : `To ${place}.`;
+}
+/**
+ * The chooser's facts for one order (owner, 2026-09-24: "when sending someone to travel, the game should ask how they'll
+ * travel"): every way of going for its journey, quickest first, with the server's facts and, for any that cannot go, why in
+ * the holder's own name; `quickest`, which the page marks and chooses; `shut`, why the order itself cannot be given now (the
+ * guided start's refusal, the work's own). `journey` is null when the order starts no journey from here, and the page then
+ * sends it as it is. Only the family's own person. Fetched when the chooser opens and whenever the family's beasts move, never
+ * on the tick (`GET /api/ways`).
+ */
+export function goingFor(world, householdId, entityId, input) {
+  const household = world.households[householdId], entity = world.entities[entityId];
+  if (!household || !entity || entity.householdId !== householdId || entity.kind !== 'person') throw new Error('Choose one of your family.');
+  const order = { ...(input || {}), entityId };
+  const person = { id: entity.id, name: entity.name };
+  const journey = journeyOf(world, household, entity, order);
+  if (!journey) return { person, journey: null };
+  const ways = waysFor(world, entity, journey, modeAvailability);
+  const own = order.action === 'chore' ? choreAvailability(world, household, entity, order.chore) : { can: true };
+  const shut = lessonRefusal(world, household, order) || (own.can ? null : own.why) || (entity.travel ? 'Still on the road.' : null);
+  return {
+    person, journey: { to: journey.to, place: journey.place, says: journeyWords(world, household, entity, order, journey), ...(journey.only && { only: journey.only }) },
+    ways: shownWays(ways), quickest: quickestOf(ways), ...(shut && { shut }),
   };
 }
 // The map is public geography and never changes during a class, so it is fetched once

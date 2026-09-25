@@ -50,10 +50,10 @@
  */
 import { record } from './events.mjs';
 import { MILL_RETURN, TRADES, counterRefusal, tradesAt } from './shops.mjs';
-import { DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
+import { MODES, propertyId } from './travel.mjs';
 import { hasWords, userOf } from './keeping.mjs';
 import { toolWords } from './tools.mjs';
-import { findWay } from './ways.mjs';
+import { shownWays, waysFor } from './going.mjs';
 import { purseOf } from './town.mjs';
 
 /** The longest list one person can be sent with, and the most of one line. ceiling: plenty for a class; a cap, not a rule. */
@@ -71,8 +71,6 @@ const cap = text => text.charAt(0).toUpperCase() + text.slice(1);
 /** The family's own town: sim/chores.mjs `townOf`, written out here because that module imports this one. */
 const townOf = household => household.settlementId || 'gonzales';
 const MODE_WORDS = Object.freeze({ foot: 'Goes on foot', horse: 'Rides the horse', wagon: 'Takes the wagon' });
-/** How the ways of going are tried: the quickest first (sim/travel.mjs speeds). */
-const QUICKEST = Object.freeze(Object.values(MODES).slice().sort((a, b) => b.speed - a.speed).map(mode => mode.id));
 
 const parse = id => { const [trade, offerId] = String(id || '').split(':'); const offer = TRADES[trade]?.offers.find(o => o.id === offerId); return offer ? { trade, offer } : null; };
 const pays = offer => offer.kind === 'service' ? [] : offer.kind === 'sell'
@@ -222,25 +220,16 @@ function chooseMode(world, household, entity, load, needsWagon, modeAvailability
   const waitFor = load > MODES.horse.carry || needsWagon ? 'the wagon is free' : 'the horse or the wagon is free';
   return { why: `${wants}. ${refused.join(' ') || 'The wagon cannot go.'} Send a smaller load, or wait until ${waitFor}.`, ways };
 }
-/** The quicker way, as a sentence starts it; and what each way carries, the same. */
+/** The quicker way, as a sentence starts it. */
 const QUICKER = Object.freeze({ foot: 'Walking', horse: 'The horse', wagon: 'The wagon' });
-const CARRIES = Object.freeze({ foot: 'On foot a person carries', horse: 'The horse carries', wagon: 'The wagon carries' });
 /**
  * Every way this person could go with this load, quickest first (owner, 2026-09-24: the popup suggests the quickest, and the
  * student may choose any slower way that still carries it and is free): whether each is open, and the server's reason when
- * it is not - too small for the load, the wheelwright's work wanting the wagon, somebody else having it, no road.
+ * it is not - too small for the load, the wheelwright's work wanting the wagon, somebody else having it, no road. The same
+ * reckoning every journey is asked (sim/going.mjs `waysFor`; owner, 2026-09-24: "the game should ask how they'll travel").
  */
 function waysOf(world, household, entity, load, needsWagon, modeAvailability) {
-  const from = entity.location?.siteId, to = townOf(household);
-  return QUICKEST.map(id => {
-    const mode = MODES[id], base = { id, name: mode.name, carry: mode.carry };
-    if (needsWagon && id !== 'wagon') return { ...base, can: false, why: 'The wheelwright works on the wagon itself, so the wagon has to go.', notTheWagon: true };
-    if (mode.carry + 1e-9 < load) return { ...base, can: false, why: `${CARRIES[id]} ${mode.carry}, and this is ${loads(load)}.`, tooMuch: true };
-    const path = from && world.map.sites[to] ? findWay(world, from, to, id) : null;
-    const open = id === DEFAULT_MODE ? { can: true } : (modeAvailability ? modeAvailability(world, entity, id, path) : { can: false, why: 'No way of going was given.' });
-    if (open.can && (path || id === DEFAULT_MODE)) return { ...base, can: true };
-    return { ...base, can: false, why: open.why || `There is no road to town for the ${id}.` };
-  });
+  return waysFor(world, entity, { to: townOf(household), load, needsWagon, noRoad: id => `There is no road to town for the ${id}.` }, modeAvailability);
 }
 
 /**
@@ -254,7 +243,7 @@ export function errandQuote(world, household, entity, list, { modeAvailability, 
   const reckoned = reckon(world, household, entity, list);
   if (reckoned.why) return { can: false, why: reckoned.why, stock: stockOf(household) };
   const way = chooseMode(world, household, entity, reckoned.load, reckoned.wagon, modeAvailability);
-  const ways = way.ways.map(({ tooMuch, notTheWagon, ...shown }) => shown);
+  const ways = shownWays(way.ways);
   const base = { load: reckoned.load, lines: reckoned.lines, stock: stockOf(household), after: reckoned.after, ways, ...(way.mode && { quickest: way.mode }) };
   if (mode && mode !== way.mode) {
     const chosen = ways.find(one => one.id === mode);

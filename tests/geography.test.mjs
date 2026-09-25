@@ -105,7 +105,7 @@ test('a journey to town stays inside classroom pacing and follows the road', () 
   const home = homesteads(world).reduce((far, site) => roadMiles(world, site.id, 'gonzales') > roadMiles(world, far.id, 'gonzales') ? site : far);
   const householdId = home.ownerHouseholdId;
   const principal = world.households[householdId].principalId;
-  applyAction(world, householdId, { action: 'travel', entityId: principal, destination: 'gonzales' });
+  applyAction(world, householdId, { action: 'travel', entityId: principal, destination: 'gonzales', mode: 'foot' });
 
   // One tick is twenty minutes and a person covers a mile, so the longest journey in the
   // class must still fit inside a lesson rather than running past the end of the slice.

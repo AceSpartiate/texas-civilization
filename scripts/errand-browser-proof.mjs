@@ -264,6 +264,10 @@ try {
     const hunt = page.locator(`.panel-row[data-entity-id="${hunter.id}"] .panel-icon[data-key="hunt-timber"]`);
     await hunt.waitFor({ state: 'visible', timeout: 15000 });
     await hunt.click();
+    // The hunt in the timber asks how they go first (owner, 2026-09-24; public/going.js): Enter sends them the quickest way free.
+    await page.locator('#going').waitFor({ state: 'visible' });
+    await page.waitForFunction(() => window.__going?.can && document.activeElement?.closest('#going'), null, { timeout: 15000 });
+    await page.keyboard.press('Enter');
     await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.chore?.id === 'hunt-timber', hunter.id, { timeout: 15000 });
   }
   const out = await page.evaluate(ids => ids.map(id => window.__snapshot.world.entities.find(e => e.id === id).chore?.id), [first.id, second.id]);

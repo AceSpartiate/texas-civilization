@@ -28,7 +28,7 @@ const running = (seed = 'hunt', count = 5) => {
  * Send somebody hunting and watch every tick of it: where they were, what they were
  * doing, and whether the world was still coherent.
  */
-function hunt(seed, { entityId = 'hh-1-mateo', householdId = 'hh-1', mode, answer = 'wait' } = {}) {
+function hunt(seed, { entityId = 'hh-1-mateo', householdId = 'hh-1', mode = 'foot', answer = 'wait' } = {}) {
   const world = running(seed);
   const entity = world.entities[entityId];
   applyAction(world, householdId, { action: 'chore', entityId, chore: 'hunt-timber', ...(mode && { mode }) });

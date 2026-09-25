@@ -1,6 +1,6 @@
 {
   "record": "The errand to town, in a browser: docs/TOWNS.md §4b",
-  "date": "2026-09-24",
+  "date": "2026-09-25",
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768 and 1024x768. A student opened the popup from the family panel, put fourteen bales and a purchase of seed on the list, read the server's sentence that the wagon goes, sent it with Enter, was refused the wagon for a second person in the holder's name, closed the popup with Escape, and saw the coin and seed come home. No LAN or district claim.",
   "checks": [
@@ -12,7 +12,7 @@
     "at 1024x768 the popup fits (500x616), keeps off the column and has nothing over its controls",
     "the student chooses: the popup marks the horse quickest and the wagon shut (\"Alvin has the ox and wagon, on the road home.\"); on foot is chosen and said, \"Goes on foot: 3 of 5 loads, as you chose. The horse would be quicker.\", and Keziah walks while the horse stays home",
     "the goods come home: 13 reales (14 for the cotton, 1 paid for seed) and 2 more seed in the house, the wagon free again, and the story says so: \"Alvin sold 14 cotton to Marta Ibarra for 14 reales.\" \"Alvin bought 2 seed at the store for 1 real.\"",
-    "a second rifle is bought at the gunsmith (\"Buy a rifle: 8 reales or 16 food\", the stock line \"The family has 27.5 food · 4 seed · 6 powder · 13 reales. Tools: a rifle · a hoe · a felling axe.\"), and Alvin and Keziah are both out hunting at once",
+    "a second rifle is bought at the gunsmith (\"Buy a rifle: 8 reales or 16 food\", the stock line \"The family has 27.6 food · 4 seed · 6 powder · 13 reales. Tools: a rifle · a hoe · a felling axe.\"), and Alvin and Keziah are both out hunting at once",
     "no page errors"
   ],
   "observed": {
@@ -69,21 +69,21 @@
     "ways": [
       {
         "way": "horse",
-        "label": "On the horse (quickest)",
+        "label": "On the horse (quickest)5 miles an hour · about 3.5 hours there · 3 loads of the 7 it carriesHardly tiring.",
         "open": true,
         "pressed": true,
         "why": null
       },
       {
         "way": "foot",
-        "label": "On foot",
+        "label": "On foot3 miles an hour · about 6 hours there · 3 loads of the 5 it carriesTiring: every mile is on their legs.",
         "open": true,
         "pressed": false,
         "why": null
       },
       {
         "way": "wagon",
-        "label": "With the ox and wagon",
+        "label": "With the ox and wagon2 miles an hour · about 10 hours there · 3 loads of the 20 it carriesAlvin has the ox and wagon, on the road home.",
         "open": false,
         "pressed": false,
         "why": "Alvin has the ox and wagon, on the road home."
@@ -91,7 +91,7 @@
     ],
     "chosen": "Goes on foot: 3 of 5 loads, as you chose. The horse would be quicker.",
     "home": {
-      "food": 27.7917,
+      "food": 27.8664,
       "seed": 4,
       "powder": 6,
       "money": 13,
@@ -106,6 +106,6 @@
       "price": "8 reales or 16 food",
       "shut": false
     },
-    "toolsStock": "The family has 27.5 food · 4 seed · 6 powder · 13 reales. Tools: a rifle · a hoe · a felling axe."
+    "toolsStock": "The family has 27.6 food · 4 seed · 6 powder · 13 reales. Tools: a rifle · a hoe · a felling axe."
   }
 }

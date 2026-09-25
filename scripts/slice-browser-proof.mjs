@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { mkdtempSync, rmSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import { createClassroom } from '../server/app.mjs';
+import { sendTheWay } from './support/going.mjs';
 import { createSettledWorld, keepFoundingFamilies } from '../tests/support/settled.mjs';
 // A settled class: these families are at home under a roof, as every class began before arrivals
 // (docs/SETTLING_IN.md step 2). This proves the work, not the arrival - tests/arrival.test.mjs does that.
@@ -47,6 +48,8 @@ try {
   // Kept as evidence because this is the control the hunt rehearses.
   await participant.screenshot({ path: 'test-results/call-from-gonzales.png' });
   await participant.locator('#selection-call button[data-action=help]').click();
+  // How he goes is asked first (owner, 2026-09-24; public/going.js): on foot, the walk this proof has always followed.
+  await sendTheWay(participant, { way: 'foot' });
   await participant.waitForFunction(() => window.__snapshot.world.entities.find(e => e.id === 'hh-1-thomas')?.travel?.progress > 0);
   // A traveller holds no site and is drawn on the road; the camera follows him there.
   assert.equal(await participant.evaluate(() => window.__snapshot.world.entities.find(e => e.id === 'hh-1-thomas').location.siteId), null);

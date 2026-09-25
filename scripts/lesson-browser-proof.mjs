@@ -267,25 +267,26 @@ try {
     const shown = selector => Boolean(box(document.querySelector(selector))?.bottom);
     const card = box(document.querySelector('#selection')), strip = box(document.querySelector('#lesson'));
     const over = card && strip && card.left < strip.right && strip.left < card.right && card.top < strip.bottom && strip.top < card.bottom;
-    return { card, strip, over, travelShown: shown('#selection-travel'), visitShown: shown('#visit-row'), more: document.querySelector('#selection-more')?.textContent || null,
+    return { card, strip, over, goingBy: Boolean(document.querySelector('#selection-travel')), visitShown: shown('#visit-row'), more: document.querySelector('#selection-more')?.textContent || null,
       share: card ? Math.round((card.right - card.left) * (card.bottom - card.top) / (innerWidth * innerHeight) * 1000) / 10 : 0 };
   });
   measured.card = { folded: await cardNow() };
   assert.equal(measured.card.folded.over, false, `the card stands on the step: card ${JSON.stringify(measured.card.folded.card)}, strip ${JSON.stringify(measured.card.folded.strip)}`);
-  assert.equal(measured.card.folded.travelShown, false, 'the "Going by" block is open on the card while a step is running');
+  // How they go is asked when they are sent since 2026-09-24 (public/going.js), so the card has no "Going by" at all.
+  assert.equal(measured.card.folded.goingBy, false, 'the old "Going by" block is still on the card');
   assert.equal(measured.card.folded.visitShown, false, 'the neighbours list is open on the card while a step is running');
   assert.ok(measured.card.folded.more, 'nothing on the card says how to get the folded part back');
   // **Folded, not shut.** The server allows `travel` on every step of the lesson on purpose (`ALWAYS` in sim/lesson.mjs),
   // so what the card puts away has to be one press from coming back, or the page would be stopping what the world permits.
   await page.locator('#selection-more').click();
-  await page.waitForFunction(() => document.querySelector('#selection-travel')?.getBoundingClientRect().height > 0, null, { timeout: 5000 });
+  await page.waitForFunction(() => document.querySelector('#visit-row')?.getBoundingClientRect().height > 0, null, { timeout: 5000 });
   measured.card.opened = await cardNow();
-  assert.equal(measured.card.opened.travelShown, true);
-  assert.ok(measured.card.opened.share > measured.card.folded.share, 'the card did not grow when its journey block came back');
+  assert.equal(measured.card.opened.visitShown, true);
+  assert.ok(measured.card.opened.share > measured.card.folded.share, 'the card did not grow when its neighbours list came back');
   assert.equal(measured.card.opened.over, false, 'the opened card stands on the step');
   await page.locator('#selection-more').click();
-  await page.waitForFunction(() => !(document.querySelector('#selection-travel')?.getBoundingClientRect().height > 0), null, { timeout: 5000 });
-  ok(`the card is clear of the step and folds its journey block away: ${measured.card.folded.share}% of the screen against ${measured.card.opened.share}% open, top at ${measured.card.folded.card.top} under a strip ending at ${measured.card.folded.strip.bottom}, and one press brings it back`);
+  await page.waitForFunction(() => !(document.querySelector('#visit-row')?.getBoundingClientRect().height > 0), null, { timeout: 5000 });
+  ok(`the card is clear of the step and folds its neighbours list away: ${measured.card.folded.share}% of the screen against ${measured.card.opened.share}% open, top at ${measured.card.folded.card.top} under a strip ending at ${measured.card.folded.strip.bottom}, and one press brings it back`);
   await shoot(page, 'step');
 
   assert.equal(await page.locator('.panel-row[data-focused=true] .panel-icon[aria-disabled=true]:not([data-active=true])').count(), 0);
