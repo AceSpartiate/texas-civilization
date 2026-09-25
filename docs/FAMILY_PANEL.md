@@ -420,7 +420,7 @@ one behind the parent, **the main person's switch** decides, a family by hand be
   - *Travis's couriers* (`sim/alamo.mjs`, `COURIER_OFFERED`, about a third offer): answered the moment Travis asks.
   - *the wagon* (`autoFlee`, `sim/scrape.mjs`): if the main person is on auto the family packs as a neighbour packs — food,
     then seed, cotton, powder, for the nearest refuge east — and goes the tick after the order.
-- **The repeat.** Hunting only (`REPEATED`): the order last given from the panel is remembered on the person (`entity.order`,
+- **The repeat.** *(Superseded 2026-09-25 by §16: one task, repeated, and work about the place while it cannot be done.)* Hunting only (`REPEATED`): the order last given from the panel is remembered on the person (`entity.order`,
   with the ground for a hunt on the family's land) and, on auto, taken up again the tick they are home and free — with a shot
   in the house, as a neighbour hunts; without one, or refused for any other reason, the reason is written down once and tried
   again each tick. Off, the hunt in hand finishes and nobody goes again. `ceiling:` only the hunts repeat; felling, hauling,
@@ -1146,7 +1146,7 @@ remembered per person in the page and sent with the next journey), which is gone
   they go."*); what each way brings home of it is the chooser's.
 - **Open for the owner.** ~~(1) A journey with **one** possible way — no horse owned, the wagon out, logs that come home in the
   wagon — still shows the chooser with that way chosen, so the student learns the question; Enter sends it. Skipping it then
-  is one line (`goingFor` knows it).~~ **Decided 2026-09-25, below.** (2) Auto chooses the quickest each time, not the way the
+  is one line (`goingFor` knows it).~~ **Decided 2026-09-25, below.** (2) Auto chooses the quickest each time (kept by §16, 2026-09-25), not the way the
   student last chose. (3) The errand's popup keeps the ways under its list rather than as a second step.
 - **A journey with one way is not asked — owner, 2026-09-25.** *"When a journey has only one possible way, skip the 'how will
   they go?' chooser."* Only a real choice is asked: two or more ways that can go. With exactly one - both horses and the wagon
@@ -1166,6 +1166,97 @@ remembered per person in the page and sent with the next journey), which is gone
   on every chooser while the first is out; a way is shut only when every animal of its kind is out, and says so in all their
   names (*"Alvin and Mateo have both horses."*). On the errand, a way's card also says what comes home on the hoof and, for an ox
   or a drove, the time home at an ox's pace (`leads`, sim/going.mjs).
+
+## 16. Auto keeps at one task, and works about the place while it waits — owner 2026-09-25
+
+> "the autoplay feature on characters (the little green circle) isn't quite visible enough and should glow more when active.
+> if it's on, the character should perform that task on repeat, and if it can't, then it should work around the house until
+> that task becomes available again. i'm thinking that i could put a character on planting autoplay, and another one on
+> harvest. then they'd naturally keep going until i turned off autoplay for them."
+>
+> — the owner, 2026-09-25
+
+**Status: built the same day** (`sim/auto.mjs`; [tests](../tests/auto-repeat.test.mjs), [injections](evidence/auto-injections.json),
+[browser](evidence/auto-browser.json)). It amends §11.7's *repeat* (hunting only) and its switch. No save version.
+
+**What auto did before.** One switch per person (`entity.auto`). A person on auto answered every question at once, as a family
+nobody plays answers (the shot, the army, Travis, the wagon east) - that is unchanged. And it repeated **only a hunt**: the hunt
+last given from the panel was remembered (`entity.order`) and taken up again the tick the hunter was home and free, if there was
+powder; any refusal was written down once and tried again next tick, **with the hunter standing about meanwhile**. Nothing else
+repeated. The repeat called the work directly, so **it walked round the guided start**: a hunt given on the step that allows any
+work went on through every step after it (found by the browser proof, which stopped hunting once this was fixed).
+
+**The rule now.**
+
+- **One task.** A person remembers the last work at home the student gave them that can be repeated (`REPEATED`): *plant the
+  field*, *bring in the crop*, the two hunts, small game, fishing, oysters, a bee tree, riding the range, *work on the house*, the
+  lane, the well and hauling logs. Each runs out by itself when there is nothing left to do. The next repeatable order replaces
+  it; nothing else does. **Not repeated** (`ceiling:` in `sim/auto.mjs`): the errand to town and furniture (coin), practice at the
+  mark (powder on purpose), killing a beef or a hog (the herd), survey, clearing and fencing (a plot chosen on the map each time),
+  felling and fetching logs (the family's timber), enlisting, joining and voting, a neighbour's raising, the road east's work and
+  the children's own works. Given to somebody on auto, those are done once and the person goes back to their task.
+- **Repeat after finishing.** Every tick, a person on auto who is home and free is asked whether their task can be done now -
+  **the guided start's step first** (`lessonRefusal`), then whether it is offered here, then the work's own refusal
+  (`choreAvailability`, which reads `userOf`: the rifle, the ox and wagon, the felling axe off the land), and for the two hunts a
+  shot in the house. If it can, it begins, the way of going chosen again by the one rule (§15: the quickest that can go; not the
+  way the student last chose - still the owner's open question (2)).
+- **Work about the place while it cannot be done.** If it cannot, they are set to *work about the place* (`task: 'work'`, the
+  everyday work of the homestead: a little food a day, `sim/routines.mjs`) and the reason is written into the family's record
+  once (*"Elena is working about the place until they can bring in the crop again: The field is not ready."*). The next tick asks
+  again, so the task comes back **the tick it can be done**. One exception, because it is work about the house that makes the
+  task possible again: work that wants the hoe, refused because every hoe is worn out, sends them to **mend the hoe** first (one
+  person at a time).
+- **Given before it can be done.** The owner's picture puts somebody on the harvest at the start of a season, when nothing is
+  ripe - an order that was always refused. For a person on auto it is **taken as their task** instead (`waitForTask`): the
+  server offers the refused icon to press (`waits` on `world.work`, and the popup says the server's reason and *"On auto, this is
+  remembered and done when it can be; until then they work about the place."*), and pressing it sends no chooser, since the way
+  is chosen when it goes. By hand the same order is still refused in the server's words. Not the hunt on the family's land (its
+  place is chosen on the map and refused for the place), and never past the lesson: a step's refusal is thrown before this is
+  asked.
+- **Two people, no deadlock.** Planting wants a bare field and the harvest a ripe one, so the planter waits while the crop grows
+  and the reaper while it is bare, and the field cycles by itself: bare, planted, ripe, bare, planted. The hoe is the family's at
+  home and shared (`docs/TOWNS.md` §4b), so the two never hold it from each other. For things only one person can have at a time
+  - the rifle - **whoever has been waiting is asked first**, so two hunters on auto take turns rather than the one home first
+  taking it straight back.
+- **The exits.** **Off**: the work in hand is finished and nothing more is started; whoever was working about the place goes on
+  doing it; the task is kept, so pressing the switch again takes it up. **Called away** - an errand, a call, the march, the army,
+  a journey: the switch stays on, nothing is started away from home, and the task is taken up again the tick they are home and
+  free. **The family on the road east**: paused the same way until it is home. **Dead or taken**: the switch goes off and the
+  task is forgotten, since nobody can press it for them any more (and `set-auto` refuses them). A family whose student has gone
+  is the director's (`docs/HOST_PAGE.md`): its orders are not remembered as the student's task.
+- **The row says it, in the server's words** (`autoTask.says`, `autoShown`): *"Auto: plant the field, over and over."* while at
+  it; *"Auto: bring in the crop. The field is not ready. Working about the place meanwhile."* while waiting; *"Auto: plant the
+  field. The hoe is worn out and wants mending. Mending it first."*; *"Auto: hunt in the timber, once the work in hand is done."*;
+  *"Auto: plant the field, taken up again when they are home."*; and with nothing remembered, *"Auto: nothing to repeat yet.
+  Give Rosa work at home - the field, a hunt, the house - and they will keep at it."* The page writes none of it (`autoLine`).
+
+**The switch, seen** (1). The mark was a 26-pixel winding key and nothing else; off it was a dim key on cream. Now it is the key
+**and the word**, always both, so on and off are read and not only seen: off, a light pill with dark letters, *Auto*; on, solid
+green with *Auto ✓*, a green ring and a glow that breathes - **green, never the gold** of the icon glowing for the work a person
+is doing now, so the two are not confused. `aria-pressed` is the server's `auto`; its accessible name and tooltip say what auto is
+doing (*"Rosa is on auto. Auto: plant the field, over and over. What they are asked is answered. Press to take the choices
+back."*); the focus ring is every button's, drawn outside the glow; with reduced motion the glow holds still. The portrait of
+somebody on auto has a green ring outside its edge (outside the gold one for the main person), which is what shows when the
+column is folded to faces and on a phone. The sentence goes on a line of its own under the name, green while at it, straw while
+waiting. Measured at 1366×768 and 1024×768 (`npm run test:auto`): every switch shown reads *Auto* off and *Auto ✓* on, the two on
+glow green and no other does, and the grown people's names are not cut short by the wider switch. **No switch under ten** any
+more: a child with works of their own had no "too young" reason on the row and so still showed a switch the server refuses them.
+
+**Proof.** `tests/auto-repeat.test.mjs` (seven tests): the season with two people (the field bare, planted, ripe, bare, planted,
+ripe, bare; three plantings and two harvests; nobody at one piece of work for 40 ticks; both working about the place whenever not
+at the task); the worn hoe mended and the field taken up again; the exits (off, called away to Gonzales and home, the family
+fled and home, dead); the lesson (a harvest refused on the planting step and not remembered; the field not replanted on the
+selling step, in the step's words; taken up the tick the lesson is done); what repeats and what is done once, and the director's
+orders not remembered; the page's words from the server and the refused harvest open to press on auto only; an old save's
+remembered hunt kept as the task. `tests/auto.test.mjs` changed: the second hunter on auto waits for the rifle and gets his turn;
+the held hunter works about the place. [Injections](evidence/auto-injections.json): 18 of 18 regressions caught by the test written
+for it, 11 of them by that test alone (the other seven are foundational - forgetting the task, standing about - and fail the old hunt test too). Browser, same computer: `npm run test:auto` (above), and the auto, family-panel (17), panels (10), lesson (33), farm (7) and family-commands (23)
+proofs re-run.
+
+**Open for the owner.** (1) Auto takes the quickest way each time, not the way the student last chose (§15's open question (2),
+unchanged). (2) Clearing and fencing are not repeated - a plot is chosen on the map each time; *clear the next staked plot* would
+be a small addition if the owner wants a clearer on auto. (3) A person on auto whom the student tells to *Rest* is back at their
+task (or about the place) the next tick; auto means auto, and the switch is how to stop it.
 
 ## Usability amendment — 2026-09-21
 

@@ -47,7 +47,7 @@ test('the switch is the person\'s and the world\'s: set from the family, shown o
   assert.match(autoLabel(elena, true), /take the choices back/);
   elena.auto = 'yes';
   assert.throws(() => validateWorld(world), /auto/);
-  elena.auto = true; elena.order = { chore: 'plant-field' };
+  elena.auto = true; elena.order = { chore: 'visit-shop' }; // the errand to town is done once, never repeated (sim/auto.mjs REPEATED)
   assert.throws(() => validateWorld(world), /remembered order/);
   delete elena.order;
   validateWorld(world);
@@ -61,13 +61,20 @@ test('on auto a hunt never stops to ask: the shot is decided at once, the hunt r
   household.resources.powder = 6;
   for (const person of [elena, mateo]) applyAction(world, 'hh-1', { action: 'set-auto', entityId: person.id, auto: true });
   applyAction(world, 'hh-1', { action: 'chore', entityId: elena.id, chore: 'hunt-timber' });
-  // The family has one rifle, and Elena has it (owner, 2026-09-24; sim/keeping.mjs): Mateo is told so, and waits his turn.
-  assert.throws(() => applyAction(world, 'hh-1', { action: 'chore', entityId: mateo.id, chore: 'hunt-timber' }), new RegExp(`${elena.name} has the rifle`));
   assert.deepEqual(elena.order, { chore: 'hunt-timber', mode: 'horse' }, 'the order was not remembered: sent with no way, it went the quickest (sim/going.mjs)');
   assert.ok(REPEATED.includes(elena.order.chore));
+  // The family has one rifle, and Elena has it (owner, 2026-09-24; sim/keeping.mjs). By hand, Thomas is told so in her name.
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'chore', entityId: 'hh-1-thomas', chore: 'hunt-timber' }), new RegExp(`${elena.name} has the rifle`));
+  // On auto, Mateo takes the hunt as his task and waits his turn about the place (owner, 2026-09-25; sim/auto.mjs).
+  applyAction(world, 'hh-1', { action: 'chore', entityId: mateo.id, chore: 'hunt-timber' });
+  assert.equal(mateo.order?.chore, 'hunt-timber', 'the refused hunt was not taken as his task');
+  assert.equal(mateo.chore, null);
+  assert.equal(mateo.task, 'work', 'waiting for the rifle, he is not working about the place');
+  assert.match(shown(world, 'hh-1', mateo.id).autoTask.says, new RegExp(`Auto: hunt in the timber\\. ${elena.name} has the rifle.*Working about the place`));
   let asked = 0, marked = 0;
   const finished = id => story(world, id).filter(text => /^.* finished: hunt/.test(text)).length;
-  for (let t = 0; t < 400 && finished(elena.id) < 2; t++) {
+  // They take turns with the one rifle: whoever has been waiting goes first, and nobody is left waiting for ever.
+  for (let t = 0; t < 900 && (finished(elena.id) < 2 || finished(mateo.id) < 1); t++) {
     stepWorld(world);
     if (elena.chore?.ask || mateo.chore?.ask) asked++;
     if (needsOf(view(world, 'hh-1'), elena.id).some(need => need.kind === 'asking')) marked++;
@@ -75,13 +82,7 @@ test('on auto a hunt never stops to ask: the shot is decided at once, the hunt r
   assert.equal(asked, 0, `a person on auto stood waiting on the family for ${asked} ticks`);
   assert.equal(marked, 0, 'a "!" was raised for a person on auto');
   assert.ok(finished(elena.id) >= 2, `Elena hunted ${finished(elena.id)} times: the order was not repeated`);
-  // Elena home and off auto: the rifle is Mateo's turn, and on auto he too decides at once.
-  applyAction(world, 'hh-1', { action: 'set-auto', entityId: elena.id, auto: false });
-  for (let t = 0; t < 400 && elena.chore; t++) stepWorld(world);
-  applyAction(world, 'hh-1', { action: 'chore', entityId: mateo.id, chore: 'hunt-timber' });
-  for (let t = 0; t < 400 && finished(mateo.id) < 1; t++) { stepWorld(world); if (mateo.chore?.ask) asked++; }
-  assert.equal(asked, 0, `Mateo on auto stood waiting on the family for ${asked} ticks`);
-  applyAction(world, 'hh-1', { action: 'set-auto', entityId: elena.id, auto: true });
+  assert.ok(finished(mateo.id) >= 1, `Mateo hunted ${finished(mateo.id)} times: waiting for the rifle, he never had his turn`);
   // Decided as a neighbour decides: the steady hand takes the long shot, the unsteady one waits for it to come closer.
   const decided = id => world.events.filter(event => event.actorId === id && event.type === 'choice' && /deciding for themself/.test(event.text)).map(event => event.decision);
   assert.ok(decided(elena.id).length >= 1 && decided(elena.id).every(choice => choice === 'take'), `Elena decided ${decided(elena.id)}`);
@@ -101,7 +102,8 @@ test('on auto a hunt never stops to ask: the shot is decided at once, the hunt r
   household.resources.powder = 0;
   for (let t = 0; t < 30; t++) stepWorld(world);
   assert.equal(elena.chore, null, 'somebody went hunting with nothing to fire');
-  assert.equal(story(world, elena.id).filter(text => /has not gone out again \(hunt/.test(text)).length, 1, 'the refusal was not written down exactly once');
+  assert.equal(story(world, elena.id).filter(text => /working about the place until they can hunt in the timber again: There is no powder/.test(text)).length, 1, 'the refusal was not written down exactly once');
+  assert.equal(elena.task, 'work', 'held, the hunter was not set to work about the place');
   household.resources.powder = 2;
   for (let t = 0; t < 3 && !elena.chore; t++) stepWorld(world);
   assert.equal(elena.chore?.id, 'hunt-timber', 'the hunter did not go out once there was powder');

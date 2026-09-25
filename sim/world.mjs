@@ -23,7 +23,7 @@ import { WATER_HIGH, WATER_SHUT, waterAt, weatherAt, weatherOn } from './weather
 // The road's chores join the one table here, once every module above is made (sim/road.mjs says why not at its own load).
 registerRoadChores();
 import { advanceLesson, advanceLessons, lessonHostWords, lessonInvalid, lessonProjection, lessonRefusal, lessonResumeOffer, resumeLesson, stopLesson } from './lesson.mjs';
-import { REPEATED, advanceAuto, noteOrder, setAuto } from './auto.mjs';
+import { REPEATED, advanceAuto, autoShown, noteOrder, setAuto, waitForTask, waitingWork } from './auto.mjs';
 import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
 // The children's own works (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21). Imported here as well
 // as for its gates, because importing it is what registers them into the chore table.
@@ -888,7 +888,13 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // the "choose one of your family" rule below because renaming the *family* names nobody.
   if (input.action === 'rename') { rename(world, household, input); return; }
   // The errand to town carries its whole list in the one order (sim/errands.mjs), checked and planned by the server.
-  if (input.action === 'chore') { beginChore(world, household, entity, input.chore, { beginTravel, modeAvailability }, mode, input.errand !== undefined ? { errand: input.errand, ...(input.mode && { errandMode: input.mode }), ...(input.town !== undefined && { errandTown: input.town }) } : {}); noteOrder(entity, input.chore, mode); return; }
+  // Somebody on auto given work that repeats and cannot be done yet takes it as their task, to wait for (sim/auto.mjs).
+  if (input.action === 'chore') {
+    try { beginChore(world, household, entity, input.chore, { beginTravel, modeAvailability }, mode, input.errand !== undefined ? { errand: input.errand, ...(input.mode && { errandMode: input.mode }), ...(input.town !== undefined && { errandTown: input.town }) } : {}); }
+    catch (error) { if (waitForTask(world, household, entity, input.chore, mode, error)) return; throw error; }
+    noteOrder(entity, input.chore, mode, {}, household);
+    return;
+  }
   // Survey, with the place the student chose on the family's own land (sim/survey.mjs). The server decides whether it can be.
   if (input.action === 'survey-plot') {
     const plot = { x: Number(input.x), y: Number(input.y) };
@@ -905,7 +911,7 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // Hunting a place on the family's own land, chosen on the map (sim/hunting.mjs). The server decides whether it can be.
   if (input.action === 'hunt-land') {
     beginChore(world, household, entity, 'hunt-land', { beginTravel, modeAvailability }, DEFAULT_MODE, { ground: { x: Number(input.x), y: Number(input.y) } });
-    noteOrder(entity, 'hunt-land', DEFAULT_MODE, { ground: { x: Number(input.x), y: Number(input.y) } });
+    noteOrder(entity, 'hunt-land', DEFAULT_MODE, { ground: { x: Number(input.x), y: Number(input.y) } }, household);
     return;
   }
   // Clearing or fencing one of the family's plots, chosen on the map by a point inside it (sim/fields.mjs).
@@ -1135,7 +1141,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   visibleEvents.reverse();
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.kind === 'person' && seenAs(e)), ...(Number.isFinite(e.age) && { age: e.age }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, chore: choreShown(world, household, e), condition: e.condition, species: e.species, laden: e.laden, ...(e.cart && { cart: true }), ...(e.carreta && { carreta: true }), borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(['coming', 'open'].includes(e.service.courier) && { courier: e.service.courier }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }), ...(e.kind === 'person' && decisionPressing(world, e.id) && { pressing: true }),
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.kind === 'person' && seenAs(e)), ...(Number.isFinite(e.age) && { age: e.age }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, chore: choreShown(world, household, e), condition: e.condition, species: e.species, laden: e.laden, ...(e.cart && { cart: true }), ...(e.carreta && { carreta: true }), borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(['coming', 'open'].includes(e.service.courier) && { courier: e.service.courier }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true, autoTask: autoShown(world, world.households[e.householdId], e) }), ...(e.kind === 'person' && decisionPressing(world, e.id) && { pressing: true }),
     // Which way somebody a rider has reined in for is turned, and whether they are the one talking (sim/encounters.mjs
     // `listeningOf`): the other half of the rider's own `facing`/`speaking`, so the page can draw the delivered speaking
     // and listening poses. Absent for everybody not in an open meeting, which is the correct empty value and why no save
@@ -1154,7 +1160,8 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   const others = overview ? overview.everyone : observedBy(world, householdId);
   // How many logs lie out is asked of every person's work list; counted once for the family here.
   const logsOut = household ? logsLeftOut(world, household) : 0;
-  const work = household ? Object.fromEntries(household.members.map(id => [id, choresFor(world, household, world.entities[id], logsOut)])) : {};
+  // Somebody on auto may also be given refused work that repeats, to wait for (sim/auto.mjs `waitingWork`, owner 2026-09-25).
+  const work = household ? Object.fromEntries(household.members.map(id => [id, waitingWork(world.entities[id], choresFor(world, household, world.entities[id], logsOut))])) : {};
   // Which ways each person could set out, on the same rule as the work: a permission, so
   // it is decided here and never guessed at by the client.
   // What the family has made of this land, and what state it is in. The renderer draws
@@ -1256,9 +1263,12 @@ export function validateWorld(world) {
     for (const [skill, level] of Object.entries(entity.skills || {})) {
       if (!Number.isInteger(level) || level < 1 || level > SKILL_CAP) throw new Error(`Invalid ${skill} skill`);
     }
-    // The auto switch and the order it repeats (sim/auto.mjs): absent on every class saved before, which is off.
+    // The auto switch and the one task it repeats (sim/auto.mjs): absent on every class saved before, which is off. A class
+    // saved before 2026-09-25 remembered only a hunt, in the same shape, so it opens with that hunt as the task; the list of
+    // work that repeats only grew, so no saved order becomes invalid and no save version moved.
     if (entity.auto !== undefined && entity.auto !== true) throw new Error('Invalid auto switch');
     if (entity.order !== undefined && !REPEATED.includes(entity.order?.chore)) throw new Error('Invalid remembered order');
+    if (entity.order?.held !== undefined && typeof entity.order.held !== 'string') throw new Error('Invalid remembered order');
     // Property is lent to somebody who exists - a person who took it on a journey, or a
     // whole household it is out with. A dangling borrower is how an ox ends up
     // permanently unusable, because nothing will ever hand it back.

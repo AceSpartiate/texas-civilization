@@ -66,6 +66,42 @@ a class made since carries `world.meansRoll = 2`; a class of the afternoon (`tru
   panel's foot (note and Done) stands over the last lines of its item list, so a pointer can miss an item there (proof pressed it by
   keyboard); a UI fix, not made here.
 
+## Auto keeps at one task, and works about the place while it waits — 2026-09-25 (not yet committed to main or released)
+
+Owner: *"the autoplay feature on characters (the little green circle) isn't quite visible enough and should glow more when
+active. if it's on, the character should perform that task on repeat, and if it can't, then it should work around the house
+until that task becomes available again. i'm thinking that i could put a character on planting autoplay, and another one on
+harvest. then they'd naturally keep going until i turned off autoplay for them."* Recorded as a dated amendment in
+[docs/FAMILY_PANEL.md §16](docs/FAMILY_PANEL.md) (and pointers in §11.7, §15 and [docs/LESSON.md](docs/LESSON.md)). No save version.
+
+- **Before:** the switch answered every question at once (unchanged) and repeated **only a hunt**, standing about while it was
+  refused; the repeat called the work directly and **walked round the guided start**.
+- **Now** (`sim/auto.mjs`): one remembered task (`REPEATED`: the field, the hunts, the gathering, the range, house, lane, well,
+  hauling); every tick a person on auto home and free is asked `heldWhy` - the lesson's step, `offered`, `choreAvailability`
+  (`userOf`), powder for the hunts - and either takes it up (the quickest way, §15 unchanged) or **works about the place**
+  (`task: 'work'`) with the reason written once; a hoe-work refused for a worn hoe mends it first. Refused repeatable work given to
+  somebody on auto is **taken as their task** (`waitForTask`; the page is told `waits` and sends it without the chooser), so the
+  harvest can be given before anything is ripe. Whoever has waited is asked first, so two hunters on auto share one rifle.
+  Exits: off (the work in hand finishes; the task is kept), called away / the family fled (paused, resumed at home), dead or
+  taken (switch and task cleared). The director's orders to an absent family are not remembered as the task.
+- **Page**: the switch is the key **and the word** (*Auto* / *Auto ✓*), green-filled with a breathing green glow when on
+  (never the gold of *Now:*), a green ring on the portrait, and a line under the name with the server's sentence
+  (`autoTask.says`): *"Auto: bring in the crop. The field is not ready. Working about the place meanwhile."* No switch under ten
+  (the server refuses `set-auto` there; a child with works of their own still showed it).
+- **Tests**: `npm test` **1168 pass**, 0 fail (1161 before). New `tests/auto-repeat.test.mjs` (7); `tests/auto.test.mjs` changed (the waiting hunter gets his turn; held means
+  about the place; the invalid-order case now uses `visit-shop`). Injections `scripts/auto-injections.mjs`, **18 of 18 caught**, 11 by their own test alone
+  ([record](docs/evidence/auto-injections.json)). Browser (same computer only): `npm run test:auto` extended - the switch off and
+  on at 1366×768 and 1024×768 (names not cut short), a planter and a reaper on auto, the field bare > planted > ripe > bare >
+  planted with nobody pressing anything, each row's reason in the server's words
+  ([record](docs/evidence/auto-browser.json), `auto-off-*.png`, `auto-on-*.png`). The proof now packs seed into the cart in the
+  lobby and stops the guided start with its X: `app.state` is a **copy**, so its old `powder = 8` never reached the world.
+  Re-run, PASS: auto (14), family-panel (17), panels (10), lesson (33), farm (7), family-commands (23). `node --check` on .mjs
+  copies of `public/app.js` and `public/family-panel.js`.
+- **Found, not fixed**: at 1024×768 a two-row ability bar (16 icons) rises above `#hud-left{bottom:200px}` and covers the
+  bottom of the column when it is full - the ceiling already written at that rule; the new auto lines make the column fuller.
+- **Open for the owner**: the way auto goes (quickest, not the last chosen); clearing and fencing not repeated; *Rest* on
+  somebody on auto lasts one tick.
+
 ## Farm plot art overhaul — 2026-09-25 (Astra; for the next release)
 
 Validation completed: **1,160 tests passed**, plus the field-surface, clearing-art, and farm browser proofs. Farm proof checked 58 cached-ground snapshots with none stale. Local files are ready to include with the other work below; this change has not been published separately.

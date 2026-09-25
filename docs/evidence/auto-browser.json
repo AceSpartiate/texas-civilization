@@ -3,31 +3,438 @@
   "date": "2026-09-25",
   "verdict": "PASS",
   "browser": "153.0.8010.53",
-  "task": "docs/FAMILY_PANEL.md §11.7: the auto switch on every row, held by the server (set-auto); a hunt on auto decided alone with no \"!\" and repeated when the hunter comes home; off, nobody goes again; nothing scrolling sideways at 400 px.",
+  "task": "docs/FAMILY_PANEL.md §11.7: the auto switch on every row, held by the server (set-auto); a hunt on auto decided alone with no \"!\" and repeated when the hunter comes home; off, nobody goes again; and §16 (owner 2026-09-25): the switch reads \"Auto\" off and \"Auto ✓\" with a green glow on, at 1366x768 and 1024x768; one person on auto to plant and another given the unripe harvest to wait for, the field planted, grown, brought in and planted again with nobody pressing anything, and each row saying what auto is doing and why it waits, in the server words; nothing scrolling sideways at 400 px.",
   "environment": "Same computer: a local classroom server at 150 ms a tick and headless Chrome. Not a physical LAN, a classroom, a real phone or a weak computer.",
   "checks": [
     "every row has the switch, and nobody is on auto to begin with",
+    "off, at 1366x768 and 1024x768: every switch shown reads \"Auto\" and nothing glows; the grown people's are on the screen with their names whole; no switch on a child under ten",
     "the word \"auto\" pressed on Ramón Proofwright's row: the server holds it, the row shows pressed on the next snapshot, and the record says so",
     "a hunt sent from the panel with the switch on, and the icon glowing",
-    "Ramón Proofwright decided the shot alone with no \"!\" and went out again by themself: 2 hunts in 2 s",
+    "Ramón Proofwright decided the shot alone with no \"!\" and went out again by themself: 2 hunts in 2.1 s",
     "pressed off: the hunt in hand finished and nobody went out again",
+    "Ramón Proofwright sent to plant the field from the panel, then put on auto: the row says \"Auto: plant the field\"",
+    "Ysabel Proofwright on auto and given the harvest before anything is ripe: it is her task, and she waits",
+    "the field planted, grown, brought in and planted again with nobody pressing anything: bare > planted > ripe > bare > planted in 7.2 s",
+    "each row said what auto was doing and, while it waited, why, in the server's words",
+    "on, at 1366x768 and 1024x768: both switches read \"Auto ✓\", are pressed, and glow green; the others read \"Auto\" and do not",
+    "pressed off: the line goes, and the switch reads \"Auto\" again",
     "at 400 px nothing scrolls sideways with the switch on every row",
     "no page errors anywhere in the run"
   ],
   "measured": {
-    "secondsToTwoHunts": 2,
+    "off": {
+      "1024": [
+        {
+          "id": "hh-1-parent-1",
+          "hidden": false,
+          "young": false,
+          "text": "Auto",
+          "pressed": "false",
+          "visible": true,
+          "glowing": false,
+          "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+          "background": "rgb(243, 234, 210)",
+          "color": "rgb(59, 52, 39)",
+          "line": null,
+          "nameFits": true
+        },
+        {
+          "id": "hh-1-parent-2",
+          "hidden": false,
+          "young": false,
+          "text": "Auto",
+          "pressed": "false",
+          "visible": true,
+          "glowing": false,
+          "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+          "background": "rgb(243, 234, 210)",
+          "color": "rgb(59, 52, 39)",
+          "line": null,
+          "nameFits": true
+        },
+        {
+          "id": "hh-1-child-1",
+          "hidden": true,
+          "young": true,
+          "text": "Auto",
+          "pressed": "false",
+          "visible": false,
+          "glowing": false,
+          "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+          "background": "rgb(243, 234, 210)",
+          "color": "rgb(59, 52, 39)",
+          "line": null,
+          "nameFits": true
+        },
+        {
+          "id": "hh-1-child-2",
+          "hidden": true,
+          "young": true,
+          "text": "Auto",
+          "pressed": "false",
+          "visible": false,
+          "glowing": false,
+          "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+          "background": "rgb(243, 234, 210)",
+          "color": "rgb(59, 52, 39)",
+          "line": null,
+          "nameFits": true
+        },
+        {
+          "id": "hh-1-child-3",
+          "hidden": true,
+          "young": true,
+          "text": "Auto",
+          "pressed": "false",
+          "visible": false,
+          "glowing": false,
+          "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+          "background": "rgb(243, 234, 210)",
+          "color": "rgb(59, 52, 39)",
+          "line": null,
+          "nameFits": true
+        }
+      ],
+      "1366": [
+        {
+          "id": "hh-1-parent-1",
+          "hidden": false,
+          "young": false,
+          "text": "Auto",
+          "pressed": "false",
+          "visible": true,
+          "glowing": false,
+          "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+          "background": "rgb(243, 234, 210)",
+          "color": "rgb(59, 52, 39)",
+          "line": null,
+          "nameFits": true
+        },
+        {
+          "id": "hh-1-parent-2",
+          "hidden": false,
+          "young": false,
+          "text": "Auto",
+          "pressed": "false",
+          "visible": true,
+          "glowing": false,
+          "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+          "background": "rgb(243, 234, 210)",
+          "color": "rgb(59, 52, 39)",
+          "line": null,
+          "nameFits": true
+        },
+        {
+          "id": "hh-1-child-1",
+          "hidden": true,
+          "young": true,
+          "text": "Auto",
+          "pressed": "false",
+          "visible": false,
+          "glowing": false,
+          "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+          "background": "rgb(243, 234, 210)",
+          "color": "rgb(59, 52, 39)",
+          "line": null,
+          "nameFits": true
+        },
+        {
+          "id": "hh-1-child-2",
+          "hidden": true,
+          "young": true,
+          "text": "Auto",
+          "pressed": "false",
+          "visible": false,
+          "glowing": false,
+          "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+          "background": "rgb(243, 234, 210)",
+          "color": "rgb(59, 52, 39)",
+          "line": null,
+          "nameFits": true
+        },
+        {
+          "id": "hh-1-child-3",
+          "hidden": true,
+          "young": true,
+          "text": "Auto",
+          "pressed": "false",
+          "visible": false,
+          "glowing": false,
+          "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+          "background": "rgb(243, 234, 210)",
+          "color": "rgb(59, 52, 39)",
+          "line": null,
+          "nameFits": true
+        }
+      ]
+    },
+    "secondsToTwoHunts": 2.1,
     "huntsFinished": 2,
     "snapshotsAsking": 0,
     "glowResumed": 0,
-    "huntsAfterOff": 1,
+    "huntsAfterOff": 0,
+    "seedTrace": [
+      6,
+      3,
+      0
+    ],
+    "season": {
+      "seconds": 7.2,
+      "fieldStates": [
+        "bare",
+        "planted",
+        "ripe",
+        "bare",
+        "planted"
+      ],
+      "plantings": 2,
+      "harvests": 1,
+      "said": {
+        "planter": [
+          "at it: Auto: plant the field, over and over.",
+          "waiting: Auto: plant the field. The field is already planted. Working about the place meanwhile."
+        ],
+        "reaper": [
+          "waiting: Auto: bring in the crop. The field is not ready. Working about the place meanwhile.",
+          "at it: Auto: bring in the crop, over and over."
+        ]
+      },
+      "glowSeen": {
+        "at": 1.9,
+        "looks": [
+          {
+            "id": "hh-1-parent-1",
+            "hidden": false,
+            "young": false,
+            "text": "Auto ✓",
+            "pressed": "true",
+            "visible": true,
+            "glowing": true,
+            "shadow": "rgb(111, 191, 74) 0px 0px 0px 2px, rgba(126, 217, 87, 0.8) 0px 0px 12px 4px",
+            "background": "rgb(59, 122, 42)",
+            "color": "rgb(255, 255, 255)",
+            "line": "Auto: plant the field. The field is already planted. Working about the place meanwhile.",
+            "nameFits": true
+          },
+          {
+            "id": "hh-1-parent-2",
+            "hidden": false,
+            "young": false,
+            "text": "Auto ✓",
+            "pressed": "true",
+            "visible": true,
+            "glowing": true,
+            "shadow": "rgb(111, 191, 74) 0px 0px 0px 2px, rgba(126, 217, 87, 0.8) 0px 0px 12px 4px",
+            "background": "rgb(59, 122, 42)",
+            "color": "rgb(255, 255, 255)",
+            "line": "Auto: bring in the crop. The field is not ready. Working about the place meanwhile.",
+            "nameFits": true
+          },
+          {
+            "id": "hh-1-child-1",
+            "hidden": true,
+            "young": true,
+            "text": "Auto",
+            "pressed": "false",
+            "visible": false,
+            "glowing": false,
+            "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+            "background": "rgb(243, 234, 210)",
+            "color": "rgb(59, 52, 39)",
+            "line": null,
+            "nameFits": true
+          },
+          {
+            "id": "hh-1-child-2",
+            "hidden": true,
+            "young": true,
+            "text": "Auto",
+            "pressed": "false",
+            "visible": false,
+            "glowing": false,
+            "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+            "background": "rgb(243, 234, 210)",
+            "color": "rgb(59, 52, 39)",
+            "line": null,
+            "nameFits": true
+          },
+          {
+            "id": "hh-1-child-3",
+            "hidden": true,
+            "young": true,
+            "text": "Auto",
+            "pressed": "false",
+            "visible": false,
+            "glowing": false,
+            "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+            "background": "rgb(243, 234, 210)",
+            "color": "rgb(59, 52, 39)",
+            "line": null,
+            "nameFits": true
+          }
+        ],
+        "lines": [
+          "Auto: plant the field. The field is already planted. Working about the place meanwhile.",
+          "Auto: bring in the crop. The field is not ready. Working about the place meanwhile."
+        ],
+        "looks1366": [
+          {
+            "id": "hh-1-parent-1",
+            "hidden": false,
+            "young": false,
+            "text": "Auto ✓",
+            "pressed": "true",
+            "visible": true,
+            "glowing": true,
+            "shadow": "rgb(111, 191, 74) 0px 0px 0px 2px, rgba(126, 217, 87, 0.8) 0px 0px 12px 4px",
+            "background": "rgb(59, 122, 42)",
+            "color": "rgb(255, 255, 255)",
+            "line": "Auto: plant the field. The field is already planted. Working about the place meanwhile.",
+            "nameFits": true
+          },
+          {
+            "id": "hh-1-parent-2",
+            "hidden": false,
+            "young": false,
+            "text": "Auto ✓",
+            "pressed": "true",
+            "visible": true,
+            "glowing": true,
+            "shadow": "rgb(111, 191, 74) 0px 0px 0px 2px, rgba(126, 217, 87, 0.8) 0px 0px 12px 4px",
+            "background": "rgb(59, 122, 42)",
+            "color": "rgb(255, 255, 255)",
+            "line": "Auto: bring in the crop. The field is not ready. Working about the place meanwhile.",
+            "nameFits": true
+          },
+          {
+            "id": "hh-1-child-1",
+            "hidden": true,
+            "young": true,
+            "text": "Auto",
+            "pressed": "false",
+            "visible": false,
+            "glowing": false,
+            "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+            "background": "rgb(243, 234, 210)",
+            "color": "rgb(59, 52, 39)",
+            "line": null,
+            "nameFits": true
+          },
+          {
+            "id": "hh-1-child-2",
+            "hidden": true,
+            "young": true,
+            "text": "Auto",
+            "pressed": "false",
+            "visible": false,
+            "glowing": false,
+            "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+            "background": "rgb(243, 234, 210)",
+            "color": "rgb(59, 52, 39)",
+            "line": null,
+            "nameFits": true
+          },
+          {
+            "id": "hh-1-child-3",
+            "hidden": true,
+            "young": true,
+            "text": "Auto",
+            "pressed": "false",
+            "visible": false,
+            "glowing": false,
+            "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+            "background": "rgb(243, 234, 210)",
+            "color": "rgb(59, 52, 39)",
+            "line": null,
+            "nameFits": true
+          }
+        ],
+        "looks1024": [
+          {
+            "id": "hh-1-parent-1",
+            "hidden": false,
+            "young": false,
+            "text": "Auto ✓",
+            "pressed": "true",
+            "visible": true,
+            "glowing": true,
+            "shadow": "rgb(111, 191, 74) 0px 0px 0px 2px, rgba(126, 217, 87, 0.8) 0px 0px 12px 4px",
+            "background": "rgb(59, 122, 42)",
+            "color": "rgb(255, 255, 255)",
+            "line": "Auto: plant the field. The field is already planted. Working about the place meanwhile.",
+            "nameFits": true
+          },
+          {
+            "id": "hh-1-parent-2",
+            "hidden": false,
+            "young": false,
+            "text": "Auto ✓",
+            "pressed": "true",
+            "visible": true,
+            "glowing": true,
+            "shadow": "rgb(111, 191, 74) 0px 0px 0px 2px, rgba(126, 217, 87, 0.8) 0px 0px 12px 4px",
+            "background": "rgb(59, 122, 42)",
+            "color": "rgb(255, 255, 255)",
+            "line": "Auto: bring in the crop. The field is not ready. Working about the place meanwhile.",
+            "nameFits": true
+          },
+          {
+            "id": "hh-1-child-1",
+            "hidden": true,
+            "young": true,
+            "text": "Auto",
+            "pressed": "false",
+            "visible": false,
+            "glowing": false,
+            "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+            "background": "rgb(243, 234, 210)",
+            "color": "rgb(59, 52, 39)",
+            "line": null,
+            "nameFits": true
+          },
+          {
+            "id": "hh-1-child-2",
+            "hidden": true,
+            "young": true,
+            "text": "Auto",
+            "pressed": "false",
+            "visible": false,
+            "glowing": false,
+            "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+            "background": "rgb(243, 234, 210)",
+            "color": "rgb(59, 52, 39)",
+            "line": null,
+            "nameFits": true
+          },
+          {
+            "id": "hh-1-child-3",
+            "hidden": true,
+            "young": true,
+            "text": "Auto",
+            "pressed": "false",
+            "visible": false,
+            "glowing": false,
+            "shadow": "rgba(41, 37, 27, 0.4) 0px 1px 3px 0px",
+            "background": "rgb(243, 234, 210)",
+            "color": "rgb(59, 52, 39)",
+            "line": null,
+            "nameFits": true
+          }
+        ]
+      }
+    },
     "phone": {
       "width": 400,
       "inner": 400
     }
   },
   "screenshots": [
+    "docs/evidence/auto-off-1366x768.png",
+    "docs/evidence/auto-off-1024x768.png",
     "docs/evidence/auto-switch-on.png",
     "docs/evidence/auto-hunting-again.png",
+    "docs/evidence/auto-on-1366x768.png",
+    "docs/evidence/auto-on-1024x768.png",
     "docs/evidence/auto-phone.png"
   ],
   "notProved": [

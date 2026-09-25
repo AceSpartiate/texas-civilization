@@ -718,12 +718,26 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .panel-focus[aria-pressed=true]{color:#c98a12;background:#fff3c4;border-color:#f0b43a}
 .panel-focus[data-drawn=true]{padding:2px}
 .panel-focus[data-drawn=true][aria-pressed=false] canvas{opacity:.45;filter:grayscale(.7)}
-/* The auto switch (docs/FAMILY_PANEL.md §11.7): the word, dim until pressed, green while the server says the person is on it. */
-.panel-auto{min-height:0;height:24px;padding:0 6px;border-radius:12px;border:1px solid #b09a6d;background:#f3ead2;color:#8f825b;font:700 10px/1 system-ui;letter-spacing:.08em;text-transform:uppercase;box-shadow:none}
-.panel-auto[aria-pressed=true]{color:#f7eed5;background:#4f7a3a;border-color:#6f9c58}
-.panel-auto[data-drawn=true]{width:26px;padding:2px;background:#f3ead2}
-.panel-auto[data-drawn=true][aria-pressed=true]{background:#e8f0dc;border-color:#6f9c58}
-.panel-row[data-on-auto=true] .panel-portrait{border-color:#6f9c58}
+/* The auto switch (docs/FAMILY_PANEL.md §11.7, and §16: owner 2026-09-25, "isn't quite visible enough and should glow more
+   when active"). The key and the word together, always both, so on and off are read and not only seen: off, a light pill with
+   dark letters that is plainly a button, "Auto"; on, solid green with "Auto ✓" and a green glow that breathes. Green, so it
+   is never taken for the gold glow of the work a person is doing now; pressed state from the server's `auto` alone
+   (aria-pressed); the focus ring is every button's (`button:focus-visible`), drawn outside the glow. */
+.panel-auto{display:inline-flex;align-items:center;gap:2px;min-height:0;height:26px;padding:0 6px 0 2px;border-radius:13px;border:1.5px solid #8f825b;background:#f3ead2;color:#3b3427;font:800 10px/1 system-ui;letter-spacing:.03em;text-transform:uppercase;box-shadow:0 1px 3px #29251b66;white-space:nowrap}
+.panel-auto:hover:enabled{background:#fff6dc;border-color:#4f7a3a}
+.panel-auto[data-mark] canvas{width:18px;height:18px;flex:none;border-radius:50%}
+.panel-auto-word{pointer-events:none}
+.panel-auto[aria-pressed=true]{color:#fff;background:#3b7a2a;border-color:#c4f0a6;box-shadow:0 0 0 2px #6fbf4a,0 0 12px 4px #7ed957cc;animation:panel-auto-glow 1.8s ease-in-out infinite}
+.panel-auto[aria-pressed=true]:hover:enabled{background:#468c33;border-color:#e0ffcc}
+.panel-auto[aria-pressed=true] canvas{background:#eaf7df}
+@keyframes panel-auto-glow{50%{box-shadow:0 0 0 2px #8fe066,0 0 18px 7px #7ed957}}
+/* The portrait says it too, for the column folded to faces and the phone, where the switch itself is put away: a green ring
+   outside the gold edge of the main person, not in place of it. */
+.panel-row[data-on-auto=true] .panel-portrait{border-color:#6fbf4a;box-shadow:0 0 0 2px #6fbf4acc,0 0 9px 2px #7ed95799,0 2px 6px #29251b55}
+.panel-row[data-on-auto=true][data-focused=true] .panel-portrait{border-color:#f0b43a;box-shadow:0 0 0 2px #f0b43acc,0 0 0 4px #6fbf4a,0 0 10px 4px #7ed95799}
+/* What auto is doing, and why it waits: the server's sentence (`autoTask.says`), green while at it, straw while waiting. */
+.panel-auto-line{grid-row:4;grid-column:1 / -1;font:600 11px/1.3 system-ui;color:#c9f0b0;padding:1px 1px 0}
+.panel-auto-line[data-waiting=true]{color:#f0dfa6}
 .panel-body{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:center;column-gap:5px;min-width:0;margin-left:-3px;padding:2px 6px 3px 8px;background:var(--shade);border:1px solid #8f825b;border-left:none;border-radius:0 6px 6px 0}
 .panel-label{grid-row:1;grid-column:1;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:#d8c9a2;white-space:nowrap}
 .panel-standing{grid-row:2;grid-column:1 / -1;font:italic 10.5px/1.2 Georgia,serif;color:#cdbb92;padding:0 1px}
@@ -795,7 +809,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #panel-tip-note{margin-top:3px;font-size:11.5px;color:#6c6046}
 #panel-tip-note:empty{display:none}
 #panel-tip[data-refused=true] #panel-tip-note{color:#8a3b22}
-@media(prefers-reduced-motion:reduce){.panel-icon[data-active=true],.panel-icon[data-pointed=true],.panel-attention{animation:none}}
+@media(prefers-reduced-motion:reduce){.panel-icon[data-active=true],.panel-icon[data-pointed=true],.panel-attention,.panel-auto[aria-pressed=true]{animation:none}}
 @media (max-width:760px){
   /* A phone: a column of portraits, only the chosen person's name beside it, and the main person's work along the bottom
      as on every other screen, scrolling sideways when it will not fit. */

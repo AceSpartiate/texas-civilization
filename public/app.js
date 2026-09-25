@@ -3,7 +3,7 @@ import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtRea
 import { drawArmy } from '/army-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, gaitMilesASecond, landRuns, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
-import { autoLabel, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, standing, travellingLine, RENAME_PAUSE_MS } from '/family-panel.js';
+import { autoLabel, autoLine, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, standing, travellingLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { mountErrand } from '/errand.js';
 import { asksTheWay, mountGoing } from '/going.js';
@@ -3690,9 +3690,18 @@ function renderFamilyPanel(world) {
     const onAuto = Boolean(entity.auto);
     // 'onAuto', not 'auto': the switch button carries data-auto, and a row attribute of the same name would catch its presses.
     setData(row.item, 'onAuto', String(onAuto));
-    if (row.auto.getAttribute('aria-pressed') !== String(onAuto)) { row.auto.setAttribute('aria-pressed', String(onAuto)); paintMark(row.auto, onAuto ? 'mark-auto-on' : 'mark-auto-off'); }
+    if (row.auto.getAttribute('aria-pressed') !== String(onAuto)) {
+      row.auto.setAttribute('aria-pressed', String(onAuto)); paintMark(row.auto, onAuto ? 'mark-auto-on' : 'mark-auto-off');
+      // The word is always shown beside the key (owner, 2026-09-25: "isn't quite visible enough"), so on and off are told
+      // apart by what it says and not by its colour alone.
+      row.auto.querySelector('.panel-auto-word').textContent = onAuto ? 'Auto ✓' : 'Auto';
+    }
     const autoWords = autoLabel(entity, onAuto);
     if (row.auto.getAttribute('aria-label') !== autoWords) { row.auto.setAttribute('aria-label', autoWords); row.auto.title = autoWords; }
+    const autoSays = autoLine(entity);
+    if (row.autoSays.textContent !== autoSays) row.autoSays.textContent = autoSays;
+    if (row.autoSays.hidden !== !autoSays) row.autoSays.hidden = !autoSays;
+    setData(row.autoSays, 'waiting', String(Boolean(onAuto && entity.autoTask?.waiting)));
     // The rooms of the house are set out from the main person's row: one place for the family's own detailed work.
     const houseShown = focused && house;
     if (row.house.hidden !== !houseShown) row.house.hidden = !houseShown;
@@ -3740,13 +3749,16 @@ function renderFamilyPanel(world) {
     if (row.why.hidden !== !silence) row.why.hidden = !silence;
     // No switch on a child too young to be sent, who has nothing for auto to repeat or answer. Only that case: somebody on
     // the road or in the ranks has a reason on their row too, and theirs is the switch auto-fight is for.
-    const noSwitch = Boolean(reason && /too young/.test(reason));
+    // A child under ten with works of their own has no "too young" reason on the row (sim/children.mjs), and still showed the
+    // switch - which the server refuses them (`tooYoung`, sim/world.mjs) - until 2026-09-25: the age is the server's, and the
+    // same line of ten `canLead` reads above.
+    const noSwitch = Boolean((reason && /too young/.test(reason)) || entity.age < 10);
     if (row.auto.hidden !== noSwitch) row.auto.hidden = noSwitch;
     // Idle: nothing to do and something could be given them. Everybody else on the panel is visibly at something (a glow).
     const idle = isIdle(entity, icons, { withArmy: army.has(id) });
     setData(row.item, 'idle', String(idle));
     if (row.idle.hidden !== !idle) row.idle.hidden = !idle;
-    seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), idle, focused, auto: onAuto, reason: reason || null, why: silence || null, travelling: travelling || null });
+    seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), idle, focused, auto: onAuto, autoSays: autoSays || null, autoWaiting: Boolean(onAuto && entity.autoTask?.waiting), reason: reason || null, why: silence || null, travelling: travelling || null });
     const visibleIcons = icons.filter(icon => icon.active || (icon.can && (!shutting || allowsIcon(lesson, icon))));
     const visibleReason = visibleIcons.length ? null : travelling || reason || 'No actions available right now.';
     const key = JSON.stringify([visibleReason, travelling, visibleIcons, shutting ? [lesson.step, lesson.allow, pointed] : null]);
@@ -4044,8 +4056,10 @@ function panelRow(id) {
   const focus = panelMark('button', '☆', 'panel-focus', 'mark-main');
   focus.type = 'button';
   focus.dataset.focus = id;
-  // The auto switch (docs/FAMILY_PANEL.md §11.7): the key, dim until pressed, green while the server says the person is on it.
-  const auto = panelMark('button', 'auto', 'panel-auto', 'mark-auto-off');
+  // The auto switch (docs/FAMILY_PANEL.md §11.7, §16): the key and the word, green and glowing while the server says they are on it.
+  // The word beside the key is its own, not the type the key replaced (owner, 2026-09-25): it is always shown, drawn key or not.
+  const auto = panelMark('button', '', 'panel-auto', 'mark-auto-off');
+  auto.append(element('span', 'Auto', 'panel-auto-word'));
   auto.type = 'button';
   auto.dataset.auto = id;
   auto.setAttribute('aria-pressed', 'false');
@@ -4062,9 +4076,13 @@ function panelRow(id) {
   // the body, so a child under ten shows a face, a name and the server's reason rather than a face, a name and nothing.
   const why = element('span', '', 'panel-why');
   why.hidden = true;
-  body.append(label, input, tools, note, why);
+  // What somebody on auto is auto-doing and, while they wait, why (owner, 2026-09-25, docs/FAMILY_PANEL.md §16): the server's
+  // sentence on a line of its own, on every row - the main person's too, since it says what the bar at the bottom cannot.
+  const autoSays = element('span', '', 'panel-auto-line');
+  autoSays.hidden = true;
+  body.append(label, input, tools, note, why, autoSays);
   item.append(portrait, attention, body, icons);
-  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, note, why, face: null, iconsKey: null };
+  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, autoSays, note, why, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
 }
@@ -4120,6 +4138,8 @@ function describeIcon(button, icon, lesson = null) {
   if (icon.can && !shut) button.removeAttribute('aria-disabled'); else button.setAttribute('aria-disabled', 'true');
   setData(button, 'shut', shut ? 'true' : '');
   setData(button, 'pointed', lesson?.pointed ? 'true' : '');
+  // Work somebody on auto is given to wait for (sim/auto.mjs `waitingWork`): sent as it is, the way chosen when it goes.
+  setData(button, 'waits', icon.waits ? 'true' : '');
   button.dataset.active = String(icon.active);
   if (icon.active) button.setAttribute('aria-current', 'true'); else button.removeAttribute('aria-current');
   button.setAttribute('aria-label', [`${icon.name}.`, icon.summary, note, lesson?.pointed ? 'This is the step to do now.' : ''].filter(Boolean).join(' '));
@@ -5848,7 +5868,8 @@ document.addEventListener('click', async event => {
     // Every order that puts somebody on a road asks first how they will go (owner, 2026-09-24: "when sending someone to travel,
     // the game should ask how they'll travel"; docs/FAMILY_PANEL.md §15). The chooser sends the one order with the way chosen,
     // and says any refusal in the server's words; an order that turns out to make no journey from here is sent as it is.
-    if (asksTheWay(input, choreCache)) { hidePanelTip(); goingPopup.open(input); return; }
+    // Work given to somebody on auto to wait for is not asked: the way is chosen by the one rule when it can go (sim/auto.mjs).
+    if (asksTheWay(input, choreCache) && button.dataset.waits !== 'true') { hidePanelTip(); goingPopup.open(input); return; }
   }
   try {
     const result = await api('/api/command', input);
