@@ -673,6 +673,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
 
+## Released as v2026.09.25.1 — 2026-09-25
+
+**[v2026.09.25.1](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.25.1)**, from `5435889`: every journey asks how they'll go (`sim/going.mjs`, `public/going.js`); flooded rivers follow the curve and read as water, lanes ford creeks (merge `67bd422`); the stock pens sell horses, oxen, cattle and hogs (`sim/beasts.mjs`, HIST-TEX-440); automatic families replace a lost rifle. 1138 tests. Open for the owner: one-way journeys still show the chooser; auto takes the quickest way, not the student's last; the hog is cheaper than a rifle; stock pens only in new classes; animals payable in kind; a second wagon; automatic families buy only rifles. `travel-drawn` flakes on short roads from Gonzales, and did so before this change as well.
+
 ## Released as v2026.09.24.5 — 2026-09-24
 
 **[v2026.09.24.5](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.24.5)**, from `05d5455`: the owner's four errand decisions (`fd13eea`: felling axe held off the land, the rifle goes to war, one rifle kept after a three-period food study, the student may choose a slower way) and counted tools (`sim/tools.mjs`; the gunsmith sells rifles, FIC-GONZ-388; `userOf` holds one copy; a rifle carried to war is lost with the man). 1112 tests; errand, shops, family-commands, family-panel, panels, lesson, riding, farm, host-view, travel proofs pass. Open for the owner: whether men who surrender get their rifles back; automatic families never shop, so a family that loses its rifle at war stays without one.
