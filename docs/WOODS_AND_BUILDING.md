@@ -608,6 +608,47 @@ country's own scale; a montage of five zooms is `test-results/houses-zoom-montag
 
 ---
 
+### 6.6 The carreta, made at home from the family's own logs — owner 2026-09-25 (evening)
+
+> "what was the cart thing that tejanos used? maybe we could use that? have it be something families can make at home? could
+> work the same, just with reduced carrying capacity?"
+>
+> — the owner, 2026-09-25
+
+**Status: built the same evening** (`sim/carreta.mjs`; [tests](../tests/carreta.test.mjs), [injections](evidence/afoot-injections.json),
+[browser](evidence/means-browser.json)). Claims `HIST-TEX-443` (the record) and `FIC-GONZ-398` (the rule). **This amends §6** with a
+second thing made from the log pile, and docs/SETTLING_IN.md §4b with a vehicle a family can make.
+
+- **The record** (`HIST-TEX-443`). The Mexican ox cart - the carreta - rode on solid wooden wheels, with an axle of wood, and was
+  bound with rawhide: in the Rio Grande towns "Carts with great, clumsy, solid wooden wheels were the only vehicles they had", and
+  "Rawhide entered into the construction of pretty much everything they used" (Smithwick p. 47); Woodman's guide of 1835 has "the
+  plank-wheeled vehicles now in use" in Texas and "the unhewn sticks which squeak in the holes of the plank wheels in common use"
+  (pp. 44, 48); Anglo settlers made their own, "Some of the men sawed wheels from logs and made vehicles called trucks" (Harris,
+  *QTSHA* 4:2 p. 114). The word "carreta" is not in these sources, nor its size, its load, or how long one took to make.
+- **The recipe.** *Make a carreta* (`make-carreta`, at home, heavy work, the *hands* knack): the **felling axe** (shared at home with
+  whoever else works it there), **3 logs from the pile** - two wheels cut as rounds from one, the axle and the frame from two more,
+  the poorest logs first, so wall timber is kept for the house - and **1 hide** for the rawhide lashings (a hunt brings one home),
+  in **12 ticks** of work at the maker's own pace. The logs and the hide are taken when it is done; called off, nothing is spent and
+  nothing is made. One at a time a family; four vehicles at most. Refused in words: *"A carreta wants the felling axe, and there is
+  none in the house."* *"A carreta wants 3 logs from the pile at the house: two wheels cut from one, the axle and the frame from the
+  others. There are 2. Fell and haul some first."* *"A carreta is lashed together with rawhide, and there is no hide in the house. A
+  hunt brings one home."* *"Rosa is already making a carreta."* On the icon (a glyph of two solid wheels, `stand-in:`) and in the
+  catalogue: *"Make an ox cart at home from three logs of the pile and a rawhide, which carries less than a wagon."*
+- **What it is.** A vehicle like the wagon (`kind: 'wagon'`, `carreta: true`, *"Carreta"*; the family wagon's id for a family that came
+  with none): an ox draws it; one person holds it at a time (sim/keeping.mjs `userOf`); a harvest that wants the wagon takes it; the
+  errand and the flight go by it. **It carries less**: **12** loads on a trip to the wagon's 20 (`CARRETA_CARRY`, the errand's ways say
+  *"With the ox and carreta"* and *"The carreta carries 12, and this is 15 loads."*), **10** spaces in the flight to a cart's 12 and a
+  wagon's 16 (`CARRETA_SPACE`), and **2** riders beside its driver, as a cart. The story: *"Vicente made a carreta: two solid wheels
+  cut from a log, an axle and a frame of wood, lashed with rawhide. An ox draws it, and it carries 12 loads, where a wagon carries 20."*
+- **Who.** Any family of a class on the second table of means (docs/FAMILY_CREATION.md, the second amendment of 2026-09-25), whatever
+  its means - above all a family that came with nothing to haul with. The game does not tell a Tejano family from an Anglo one, so
+  the poor band's cart stays a cart and the carreta is anybody's to make.
+- **Drawn** with the wagon's art a fifth smaller (`stand-in:` in public/app.js `miniWagon`; docs/ART_REQUESTS.md, request 2026-09-25 -
+  the carreta), named *Carreta* in the yard.
+- `ceiling:` offered only where the trees are counted and logs lie in a pile (every class of the real land); on the invented country
+  a family with no vehicle carries its crop in by hand. `ceiling:` one person makes it; the many hands of a raising are not modelled.
+  `ceiling:` a cart (the poor band's) still carries a wagon's 20 on a trip, as it always has.
+
 ## 7. Old saves
 
 A class saved before this has no `woods`, no log pile and its house as `{ layout, work }`. It keeps exactly that: its

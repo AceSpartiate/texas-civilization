@@ -7,12 +7,14 @@
 // hundred used it (`HIST-GONZ-023`) - and every number is invented (`FIC-GONZ-022`).
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createSettledWorld } from './support/settled.mjs';
+import { createSettledWorld, withoutStartingCoin } from './support/settled.mjs';
 import { applyAction, stepWorld, projectWorld, validateWorld } from '../sim/world.mjs';
 import { COIN, COTTON_RATE, choreAvailability, choresFor } from '../sim/chores.mjs';
 import { makeOffer, respondToOffer, describeGoods } from '../sim/trade.mjs';
 
-const running = (seed = 'money') => { const world = createSettledWorld(seed, 5); world.status = 'running'; return world; };
+// Coin from nothing: the three to ten reales a family's means start it with (sim/means.mjs) are taken out, so each rule here is
+// held against the empty purse every family had before 2026-09-25. The starting coin is tests/means.test.mjs's.
+const running = (seed = 'money') => { const world = withoutStartingCoin(createSettledWorld(seed, 5)); world.status = 'running'; return world; };
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 /** Send somebody on a chore and run until they are asked something at the counter, or finish. */
 function toCounter(world, householdId, entityId, chore) {

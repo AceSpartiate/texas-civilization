@@ -188,7 +188,7 @@ test('a family keeps at most four horses, and the flight east takes the bought o
 });
 
 test('a class saved before opens as it was, and one saved before there were horses can buy one and ride it', () => {
-  const world = running('beasts-old');
+  const world = modestMeans(running('beasts-old'));
   const family = world.households['hh-1'];
   assert.deepEqual(['horse', 'ox', 'wagon'].map(role => beastsOf(world, family, role).map(beast => beast.id)), [['hh-1-horse'], ['hh-1-animal'], ['hh-1-wagon']]);
   // Before there were horses: no horse, and the ox had no species.

@@ -15,7 +15,7 @@
 // done, and the store would rather trade than pay out coin. See tests/money.test.mjs.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createSettledWorld } from './support/settled.mjs';
+import { createSettledWorld, modestMeans } from './support/settled.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { COTTON_RATE, CHORES, choreAvailability } from '../sim/chores.mjs';
 import { MODES } from '../sim/travel.mjs';
@@ -95,6 +95,8 @@ test('a bale is worth about twice what it weighs in corn, and only once it reach
   assert.ok(COTTON_RATE > 1, 'cotton that trades one for one is corn with extra steps');
   const world = running('crops-9');
   const cotton = growing(world, 'cotton'), corn = growing(world, 'corn');
+  // Driven to town with the ox and wagon: one of each, whatever the means rolled (a family on foot has none to drive).
+  for (const household of [cotton, corn]) modestMeans(world, household.id);
   // A cotton family near town, so what it eats on a long road in is not what is weighed here.
   assert.ok(findPath(world.map, 'gonzales', cotton.homeSiteId).distance < 5, 'the cotton family lives a short drive from the store');
   for (const household of [cotton, corn]) ripen(household);
@@ -184,12 +186,14 @@ test('a class saved before anybody grew cotton still opens, and grows some', () 
 // This was a tripwire: "there is no money in it", asserting no household and no good was ever
 // named for a currency, so that money could not arrive by accident. It arrived on purpose
 // (docs/MONEY_AND_GLORY.md, step 1), and the tripwire is retired into what it now guards.
-test('coin is one thing among several, counted whole, and every family starts without any', () => {
+test('coin is one thing among several, counted whole, and every family starts with the few reales its means give it', () => {
   assert.ok(GOODS.includes('money'), 'coin cannot change hands between neighbours');
   assert.equal(GOODS.filter(good => /coin|money|peso|dollar|cash|real/i.test(good)).length, 1, `GOODS holds ${GOODS.join(', ')}`);
   const world = running('crops');
   for (const household of Object.values(world.households)) {
-    assert.equal(household.resources.money, 0, 'coin is scarce: nobody starts with any');
+    // Owner, 2026-09-25: "a minimum of 3 coin, and a maximum of 10", by the face of the means die (sim/means.mjs).
+    assert.equal(household.resources.money, household.means.coin, 'a family starts with other coin than its means gave it');
+    assert.ok(household.resources.money >= 3 && household.resources.money <= 10, `coin is scarce: a family started with ${household.resources.money}`);
     assert.ok(household.resources.food > 0, 'and barter goods are what a family starts with');
   }
 });

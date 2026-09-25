@@ -3,6 +3,7 @@
   "date": "2026-09-25",
   "files": [
     "tests/means.test.mjs",
+    "tests/afoot.test.mjs",
     "tests/wagons.test.mjs",
     "tests/arrival.test.mjs",
     "tests/family-roll.test.mjs",
@@ -11,7 +12,7 @@
     "tests/grants.test.mjs"
   ],
   "caught": 37,
-  "onlyThat": 19,
+  "onlyThat": 16,
   "of": 37,
   "results": [
     {
@@ -25,8 +26,9 @@
         }
       ],
       "caught": true,
-      "onlyThat": true,
+      "onlyThat": false,
       "failed": [
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
         "no family arrives with fewer than five days of food for its eaters, whatever its means and its size"
       ]
     },
@@ -75,6 +77,14 @@
       "caught": true,
       "onlyThat": false,
       "failed": [
+        "a class that rolled on the first table keeps it: four bands, a cart at the bottom, no coin, and the horse led",
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+        "a family with no vehicle does the whole of its lesson, and sells its crop in town on foot",
+        "a crop that would want the wagon is brought in by hand by a family with none, and slower; one whose wagon is away is told so",
+        "a family with no vehicle goes to town more than once for a big load, and flees east on foot with one on the horse",
+        "nothing hidden reaches a page from a family on foot; the horse rider and the coin cost the wire little",
+        "a family rolled in the lobby is on the road beside its wagon, and arrives with it",
+        "the family is told what land is theirs when it reaches it, and that no title has been issued",
         "the means die is the class's and the household's, the same every time, and every band is reached",
         "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room",
         "no family arrives with fewer than five days of food for its eaters, whatever its means and its size",
@@ -82,7 +92,8 @@
         "a family of many small children in one cart comes in slower than the ox, and one with room at the ox's pace",
         "the flight east and the way home are seated and paced as the family is; a cart holds three quarters of a wagon",
         "a class made before the means opens as it was: no means, no seats, the ox's pace, and a saved class keeps its own",
-        "nothing hidden is read or sent; no other family's means or seats reach a student; the seats cost the tick little"
+        "nothing hidden is read or sent; no other family's means or seats reach a student; the seats cost the tick little",
+        "the wagon comes in loaded, is unloaded at the land, and the arrival says what came"
       ]
     },
     {
@@ -98,6 +109,12 @@
       "caught": true,
       "onlyThat": false,
       "failed": [
+        "every face of the means die gives a fixed coin from 3 to 10, never falling as the face rises, and it is in the house",
+        "a class that rolled on the first table keeps it: four bands, a cart at the bottom, no coin, and the horse led",
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+        "a family with no vehicle does the whole of its lesson, and sells its crop in town on foot",
+        "a crop that would want the wagon is brought in by hand by a family with none, and slower; one whose wagon is away is told so",
+        "a family with no vehicle goes to town more than once for a big load, and flees east on foot with one on the horse",
         "the means die is the class's and the household's, the same every time, and every band is reached",
         "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room",
         "no family arrives with fewer than five days of food for its eaters, whatever its means and its size",
@@ -113,8 +130,8 @@
       "edits": [
         {
           "file": "sim/means.mjs",
-          "from": "from: 1, to: 6, wagons: 1, cart: true }",
-          "to": "from: 1, to: 6, wagons: 1 }"
+          "from": "from: 3, to: 6, wagons: 1, cart: true }",
+          "to": "from: 3, to: 6, wagons: 1 }"
         }
       ],
       "caught": true,
@@ -203,7 +220,11 @@
       "caught": true,
       "onlyThat": false,
       "failed": [
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+        "a family with no vehicle does the whole of its lesson, and sells its crop in town on foot",
+        "a crop that would want the wagon is brought in by hand by a family with none, and slower; one whose wagon is away is told so",
         "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room",
+        "no family arrives with fewer than five days of food for its eaters, whatever its means and its size",
         "a family with a cart does its first steps, brings in a crop that wants the wagon, and keeps the whole of its lesson"
       ]
     },
@@ -221,6 +242,7 @@
       "onlyThat": false,
       "failed": [
         "a driver to every vehicle, then the sick and the youngest ride, a baby in its carrier's arms, and the eldest walk",
+        "the horse carries a rider: one more seat after the vehicles', to the sick and then the youngest, and a baby in its carrier's arms",
         "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so"
       ]
     },
@@ -235,9 +257,10 @@
         }
       ],
       "caught": true,
-      "onlyThat": true,
+      "onlyThat": false,
       "failed": [
-        "a driver to every vehicle, then the sick and the youngest ride, a baby in its carrier's arms, and the eldest walk"
+        "a driver to every vehicle, then the sick and the youngest ride, a baby in its carrier's arms, and the eldest walk",
+        "the horse carries a rider: one more seat after the vehicles', to the sick and then the youngest, and a baby in its carrier's arms"
       ]
     },
     {
@@ -254,6 +277,7 @@
       "onlyThat": false,
       "failed": [
         "a driver to every vehicle, then the sick and the youngest ride, a baby in its carrier's arms, and the eldest walk",
+        "the horse carries a rider: one more seat after the vehicles', to the sick and then the youngest, and a baby in its carrier's arms",
         "the family goes at its slowest: the ox with a vehicle, a small child on foot slower, and on foot its smallest walker",
         "a family whose vehicle is gone flees on foot at the pace of its smallest walker, carrying a baby"
       ]
@@ -264,7 +288,7 @@
       "edits": [
         {
           "file": "sim/company.mjs",
-          "from": "export const ridersIn = vehicle => (vehicle?.cart ? CART_RIDERS : WAGON_RIDERS);",
+          "from": "export const ridersIn = vehicle => (vehicle?.cart || vehicle?.carreta ? CART_RIDERS : WAGON_RIDERS);",
           "to": "export const ridersIn = () => WAGON_RIDERS;"
         }
       ],
@@ -306,8 +330,8 @@
       "caught": true,
       "onlyThat": false,
       "failed": [
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
         "the family goes at its slowest: the ox with a vehicle, a small child on foot slower, and on foot its smallest walker",
-        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
         "a family of many small children in one cart comes in slower than the ox, and one with room at the ox's pace",
         "a family whose vehicle is gone flees on foot at the pace of its smallest walker, carrying a baby"
       ]
@@ -342,6 +366,8 @@
       "caught": true,
       "onlyThat": false,
       "failed": [
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+        "the horse carries a rider: one more seat after the vehicles', to the sick and then the youngest, and a baby in its carrier's arms",
         "the family goes at its slowest: the ox with a vehicle, a small child on foot slower, and on foot its smallest walker",
         "a family whose vehicle is gone flees on foot at the pace of its smallest walker, carrying a baby"
       ]
@@ -359,6 +385,8 @@
       "caught": true,
       "onlyThat": false,
       "failed": [
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+        "nothing hidden reaches a page from a family on foot; the horse rider and the coin cost the wire little",
         "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
         "a family of many small children in one cart comes in slower than the ox, and one with room at the ox's pace",
         "nothing hidden is read or sent; no other family's means or seats reach a student; the seats cost the tick little"
@@ -370,8 +398,8 @@
       "edits": [
         {
           "file": "sim/world.mjs",
-          "from": "const how = travel.afoot ? MODES.foot : modeOf(travel);",
-          "to": "const how = modeOf(travel);"
+          "from": "const how = travel.saddle ? MODES.horse : travel.afoot ? MODES.foot : modeOf(travel);",
+          "to": "const how = travel.saddle ? MODES.horse : modeOf(travel);"
         }
       ],
       "caught": true,
@@ -409,6 +437,8 @@
       "caught": true,
       "onlyThat": false,
       "failed": [
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+        "nothing hidden reaches a page from a family on foot; the horse rider and the coin cost the wire little",
         "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
         "nothing hidden is read or sent; no other family's means or seats reach a student; the seats cost the tick little"
       ]
@@ -468,7 +498,7 @@
       "edits": [
         {
           "file": "sim/scrape.mjs",
-          "from": "  if (world.meansRoll) setOut(travellers, mode === 'wagon' ? drawnVehicles(travellers) : [], journey);",
+          "from": "  if (world.meansRoll) setOut(travellers, mode === 'wagon' ? drawnVehicles(travellers) : [], journey, riddenHorses(world, travellers));",
           "to": "  if (false) setOut(travellers, [], journey);"
         },
         {
@@ -480,6 +510,7 @@
       "caught": true,
       "onlyThat": false,
       "failed": [
+        "a family with no vehicle goes to town more than once for a big load, and flees east on foot with one on the horse",
         "the flight east and the way home are seated and paced as the family is; a cart holds three quarters of a wagon",
         "a family whose vehicle is gone flees on foot at the pace of its smallest walker, carrying a baby"
       ]
@@ -490,7 +521,7 @@
       "edits": [
         {
           "file": "sim/scrape.mjs",
-          "from": "    if (world.meansRoll) setOut(home, mode === 'wagon' ? drawnVehicles(home) : [], journey);",
+          "from": "    if (world.meansRoll) setOut(home, mode === 'wagon' ? drawnVehicles(home) : [], journey, riddenHorses(world, home));",
           "to": "    if (false) setOut(home, [], journey);"
         },
         {
@@ -511,8 +542,8 @@
       "edits": [
         {
           "file": "sim/scrape.mjs",
-          "from": "?.cart ? FLIGHT_ROOM * (1 - CART_SPACE / WAGON_SPACE) : 0;",
-          "to": "?.cart ? 0 : 0;"
+          "from": "const roomOf = wagon => (wagon.cart ? CART_SPACE : wagon.carreta ? CARRETA_SPACE : WAGON_SPACE);",
+          "to": "const roomOf = wagon => (wagon.carreta ? CARRETA_SPACE : WAGON_SPACE);"
         }
       ],
       "caught": true,
@@ -550,8 +581,10 @@
         }
       ],
       "caught": true,
-      "onlyThat": true,
+      "onlyThat": false,
       "failed": [
+        "every face of the means die gives a fixed coin from 3 to 10, never falling as the face rises, and it is in the house",
+        "nothing hidden reaches a page from a family on foot; the horse rider and the coin cost the wire little",
         "the families nobody plays are given means on the first running tick and go on living their lives"
       ]
     },
@@ -568,6 +601,10 @@
       "caught": true,
       "onlyThat": false,
       "failed": [
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+        "a family with no vehicle does the whole of its lesson, and sells its crop in town on foot",
+        "a crop that would want the wagon is brought in by hand by a family with none, and slower; one whose wagon is away is told so",
+        "nothing hidden reaches a page from a family on foot; the horse rider and the coin cost the wire little",
         "a family on the road in can do nothing but come in, and comes in together",
         "every family in the largest class is on its land long before the news",
         "a family rolled in the lobby is on the road beside its wagon, and arrives with it",
@@ -608,6 +645,8 @@
       "caught": true,
       "onlyThat": false,
       "failed": [
+        "every face of the means die gives a fixed coin from 3 to 10, never falling as the face rises, and it is in the house",
+        "a class that rolled on the first table keeps it: four bands, a cart at the bottom, no coin, and the horse led",
         "no family arrives with fewer than five days of food for its eaters, whatever its means and its size",
         "a class made before the means opens as it was: no means, no seats, the ox's pace, and a saved class keeps its own"
       ]
@@ -634,13 +673,14 @@
       "edits": [
         {
           "file": "sim/means.mjs",
-          "from": "seats: seatWords(people, vehicles) };",
-          "to": "seats: seatWords(people, vehicles), who: people.map(one => one.traits) };"
+          "from": "seats: seatWords(people, vehicles, horses) };",
+          "to": "seats: seatWords(people, vehicles, horses), who: people.map(one => one.traits) };"
         }
       ],
       "caught": true,
       "onlyThat": false,
       "failed": [
+        "nothing hidden reaches a page from a family on foot; the horse rider and the coin cost the wire little",
         "the hidden stats reach no payload: not the family’s own, not a neighbour’s, not the Host’s",
         "nothing hidden is read or sent; no other family's means or seats reach a student; the seats cost the tick little"
       ]

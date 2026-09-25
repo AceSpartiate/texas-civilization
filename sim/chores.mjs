@@ -44,8 +44,8 @@ import { KINDS, countsTrees, woodsRule } from './woods.mjs';
 import { TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
 import { carryOutErrand, planErrand } from './errands.mjs';
 import { quickestWay } from './going.mjs';
-import { ROLES as BEASTS, hasWords, holderOf, letGo, takeToWar, userOf, warRifleWords } from './keeping.mjs';
-import { beastsOf, wagonWith } from './beasts.mjs';
+import { ROLES as BEASTS, hasWords, holderOf, letGo, takeToWar, userOf, vehicleCarry, warRifleWords } from './keeping.mjs';
+import { beastsOf, kept, wagonWith } from './beasts.mjs';
 import { holdingOf } from './grants.mjs';
 import { TOOL_LIFE, allWorn, anyWorn, mendWorst, soundestFirst, toolCount } from './tools.mjs';
 import { plotNeeds } from './houseplot.mjs';
@@ -383,6 +383,11 @@ export function skillsFor(id) {
 const paceFor = (ticks, skill, strength = 1) => Math.max(1, Math.round(ticks * (skill === 3 ? .7 : skill === 2 ? 1 : 1.35) * strength));
 const yieldFor = (amount, skill) => round(amount * (skill === 3 ? 1.4 : skill === 2 ? 1.15 : 1));
 
+/**
+ * The extra work of carrying a big crop in by hand, in ticks: as long as the cutting again (`FIC-GONZ-397`, invented), so a family
+ * without a vehicle brings in its crop in twice the time, and never not at all (`byHand`).
+ */
+export const HAND_CARRY_TICKS = 6;
 export const CHORES = {
   // Survey (docs/LAND_GRANTS.md §4, sim/survey.mjs): ten acres staked out where the student chose on the family's own land.
   // The person walks out over the family's own ground, paces and stakes it, and walks back; they never leave home.
@@ -445,11 +450,15 @@ export const CHORES = {
     field: 'ripe', wantsWagon: true,
     // A crop that wants the wagon holds it and the ox in the field until it is in (owner, 2026-09-24; sim/keeping.mjs):
     // shared with everybody else bringing in the same crop, and nobody else's to drive away.
-    takes: (world, household) => needsWagonToHarvest(household) ? ['ox', 'wagon'] : [],
+    takes: (world, household) => needsWagonToHarvest(household) && ownsVehicle(world, household) ? ['ox', 'wagon'] : [],
+    // A family with no vehicle at all (sim/means.mjs; owner, 2026-09-25: "it shouldn't block gameplay, but some things might have
+    // to happen slower") carries even a crop that would want the wagon in by hand, a load at a time: the cutting and as long again.
+    begin: (world, household, entity) => { if (byHand(world, household)) entity.chore.flags = [...(entity.chore.flags || []), 'by-hand']; },
     describe: 'The crop is ready. Walk out to every planted plot, cut it and carry it in.',
     steps: [
       { stroll: 'fields', doing: 'walking out to the fields' },
       { work: 6, doing: 'cutting the crop' },
+      { when: ['by-hand'], work: HAND_CARRY_TICKS, doing: 'carrying the crop in by hand, a load at a time' },
       { produceCrop: true },
       { field: 'bare' },
       { wear: 'hoe' },
@@ -1326,7 +1335,8 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   // Past a certain amount of ground the crop is simply more than four people can carry
   // in by hand. The ox and the wagon have to be standing here - which, now that taking
   // them somewhere means they are somewhere else, is a thing a family can get wrong.
-  if (chore.wantsWagon && needsWagonToHarvest(household) && !wagonAtHome(world, household)) {
+  // A family that has no vehicle at all carries it in by hand, slower (`byHand`); one whose vehicle is away is told to fetch it.
+  if (chore.wantsWagon && needsWagonToHarvest(household) && ownsVehicle(world, household) && !wagonAtHome(world, household)) {
     return { can: false, why: 'This much crop wants the wagon, and the wagon is not here.' };
   }
   // What the work takes, if somebody else has it (owner, 2026-09-24: "If someone is using the wagon (or horse, or any item
@@ -1477,6 +1487,8 @@ function axeFor(world, household, choreId, extra = {}) {
   if (household.tools?.axe === undefined) return null;
   const place = site => (site && !onTheLand(world, household, site) ? 'away' : 'home');
   if (choreId === 'fell-trees') return 'home';
+  // The carreta is made at home with the felling axe (sim/carreta.mjs), shared with whoever else works it there.
+  if (choreId === 'make-carreta') return 'home';
   if (choreId === 'build-house') return houseWantsAxe(household) ? 'home' : null;
   if (choreId === 'cut-lane') return laneState(world, household)?.route?.ground?.some(([, timber]) => timber > 0) ? 'home' : null;
   if (choreId === 'clear-plot') return plotsOf(world, household).find(plot => plot.id === extra.plotId)?.ground === 'timber' ? 'home' : null;
@@ -1564,6 +1576,13 @@ function warWords(world, person) {
  * parameter for exactly that reason. Keeping the arrow from existing is worth the
  * repetition - and this asks a narrower question, about one place rather than any place.
  */
+/**
+ * Whether the family owns a vehicle at all - a wagon, a cart or a carreta, not lost and not taken (sim/beasts.mjs `kept`). A family
+ * that came with none (sim/means.mjs, the band that is hard up) and has not made or bought one has not.
+ */
+export const ownsVehicle = (world, household) => beastsOf(world, household, 'wagon').some(kept);
+/** A crop that wants the wagon, brought in by a family that has none: by hand, slower (owner, 2026-09-25; `FIC-GONZ-397`). */
+export const byHand = (world, household) => needsWagonToHarvest(household) && !ownsVehicle(world, household);
 function wagonAtHome(world, household) {
   const standing = beast => beast && !beast.travel && beast.location.siteId === household.homeSiteId && (!beast.condition || beast.condition === 'sound');
   // Any of the family's wagons, and any of its oxen to pull it (sim/beasts.mjs): the first, or one bought or brought.
@@ -1964,7 +1983,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       if (quarry) {
         // The month goes in with it: a turkey is fat in the winter and a deer lean (sim/hunting.mjs `winterShare`).
         const month = dateOf(world, world.minute || 0).getUTCMonth();
-        const kill = killYield(quarry, chore.hauls ? carryCapacity(state.mode) : Infinity, amount => yieldFor(amount, skill), month);
+        const kill = killYield(quarry, chore.hauls ? vehicleCarry(world, entity, state.mode) : Infinity, amount => yieldFor(amount, skill), month);
         household.resources.food = round((household.resources.food ?? 0) + kill.carried);
         if (kill.hide) household.resources.hides = (household.resources.hides ?? 0) + kill.hide;
         const hide = kill.hide ? `, and ${quarry === 'bear' ? 'the skin' : quarry === 'bison' ? 'the robe' : 'the hide'}` : '';
@@ -2061,7 +2080,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // at the counter rather than at the door comes to the same number and keeps the
       // carrying rule in one place.
       const { good, want, rate, per, gives } = step.sell;
-      const carried = round(Math.min(household.resources[good] ?? 0, carryCapacity(state.mode)));
+      const carried = round(Math.min(household.resources[good] ?? 0, vehicleCarry(world, entity, state.mode)));
       // Coin is paid only for whole bundles - a whole bale, three food - so what is sold for
       // coin is the whole bundles carried, and anything left over stays in the house.
       // Coin is paid out of the storekeeper's purse, and no more than it holds.
@@ -2262,7 +2281,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // ceiling: the cap is applied per resource rather than as one load shared between
       // them, which is the same answer while no chore produces two things at once. If one
       // ever does, this has to become a budget spent in order.
-      const capacity = chore.hauls ? carryCapacity(state.mode) : Infinity;
+      const capacity = chore.hauls ? vehicleCarry(world, entity, state.mode) : Infinity;
       for (const [resource, amount] of Object.entries(step.produce)) {
         const got = yieldFor(amount, skill);
         const kept = round(Math.min(got, capacity));

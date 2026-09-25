@@ -149,7 +149,13 @@ const planted = household => sownPlots(household).length > 0 || harvested(househ
  * home with food has sold their crop. So either finishes it, and the step's words still ask for coin, which is what is
  * counted at the end.
  */
-const sold = household => (household.resources?.money ?? 0) > 0 || household.lesson?.sold === true;
+// **Since the owner's second amendment of 2026-09-25 a family starts with coin** (sim/means.mjs `MEANS_COIN`, 3 to 10 reales), so
+// coin in the house no longer says anything was sold: for such a family the coin is counted over what was in the house when this
+// step began (`had.money`, watched below as the cotton and the food are, and lowered when coin is spent), and the family that
+// started with none is read exactly as before.
+const startCoin = household => household.means?.coin ?? 0;
+const sold = household => household.lesson?.sold === true
+  || (household.resources?.money ?? 0) > (startCoin(household) ? (household.lesson?.had?.money ?? Infinity) : 0);
 /** Somebody went out after game and came home, whatever the shot did; or there is a hide in the house to show for one. */
 const hunted = household => household.lesson?.hunted === true || (household.resources?.hides ?? 0) > 0;
 /** Water at the door: the well is dug, or the house stands close enough to running water that nobody would dig one. */
@@ -166,18 +172,23 @@ const watered = household => household.well === true || !household.site?.needsWe
  */
 /** The family's vehicle as the arrival's words say it: its cart, for a family of the poorest means, and otherwise the wagon. */
 const haul = household => (household?.means?.cart ? 'cart' : 'wagon');
+/** A family that came with no vehicle (sim/means.mjs), walking in with its packs. */
+const walked = household => household?.means?.afoot === true;
 export const STEPS = Object.freeze([
   {
     id: 'arrive',
     title: 'Come in to your land',
     first: 'come in to your own land.',
     // A family of the poorest means comes in with a cart (sim/means.mjs), and the step says so.
-    says: (world, household) => household.arriving
-      ? `Your ${haul(household)} is on the track in to land of your own. Watch for it to stop.`
-      : `Choose a place on your own land for the house, and the ${haul(household)} will be drawn over to it.`,
+    // A family with no vehicle walks in with its packs, and the step says that instead (owner, 2026-09-25).
+    says: (world, household) => walked(household)
+      ? (household.arriving ? 'Your family is walking the track in to land of your own, the ox under its packs. Watch for them to stop.' : 'Choose a place on your own land for the house, and the family will carry its packs over to it.')
+      : household.arriving
+        ? `Your ${haul(household)} is on the track in to land of your own. Watch for it to stop.`
+        : `Choose a place on your own land for the house, and the ${haul(household)} will be drawn over to it.`,
     allow: () => ['choose-site', 'plan-house', 'place-piece', 'remove-piece'],
     done: (world, household) => !household.arriving && !choosing(household),
-    did: (world, household) => `The ${haul(household)} is in. The family is standing on land of its own.`,
+    did: (world, household) => (walked(household) ? 'The family is in, its packs down. It is standing on land of its own.' : `The ${haul(household)} is in. The family is standing on land of its own.`),
   },
   {
     id: 'order',
@@ -206,7 +217,7 @@ export const STEPS = Object.freeze([
     // could be set to. The reason was on the screen twice - inside the icon, and in the guide's second line - but never
     // in the sentence the student was reading.
     says: (world, household) => (houseOf(household)
-      ? 'Keep the family at the house until it stands. Set more than one of them to it and it goes faster; until there is a roof they camp by the wagon.'
+      ? `Keep the family at the house until it stands. Set more than one of them to it and it goes faster; until there is a roof they camp ${walked(household) ? 'by their packs' : 'by the wagon'}.`
       : 'Choose a house first: the "Choose a house" button is on the left, above your family. Then set somebody to build it, and more than one of them makes it go faster.'),
     allow: () => HOUSE_WORK,
     done: (world, household) => houseSettled(household),
@@ -412,9 +423,10 @@ export function advanceLesson(world, household) {
       return doing === 'visit-shop' || SELLS.has(doing);
     });
     state.had ??= {};
-    for (const good of ['cotton', 'food']) {
+    for (const good of ['cotton', 'food', ...(startCoin(household) ? ['money'] : [])]) {
       const now = household.resources?.[good] ?? 0;
       if (state.had[good] === undefined) state.had[good] = now;
+      else if (good === 'money') { if (now < state.had.money) state.had.money = now; }
       else if (atTheStore && now < state.had[good] - 0.5) state.sold = true;
       else if (now > state.had[good]) state.had[good] = now;
     }

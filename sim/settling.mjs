@@ -22,7 +22,7 @@ import { improvementsOf, setImprovement } from './improvements.mjs';
 import { WAGON_SPEED } from './travel.mjs';
 import { onRealLand, paceOf } from './ground.mjs';
 import { loadSentence, wagonsOf } from './wagon.mjs';
-import { drawnVehicles, setOut } from './company.mjs';
+import { drawnVehicles, riddenHorses, setOut } from './company.mjs';
 
 /**
  * How much of the usual rest a person gets lying out by the wagon at their own land.
@@ -53,7 +53,7 @@ export function forkOf(world, household) {
  * The whole family on its own track, not yet moving: the start of a new class.
  *
  * Every member and every piece of property gets the same journey at the wagon's pace, so the
- * family arrives together - nobody walks ahead of the ox, and the horse is led. Where each one
+ * family arrives together - nobody walks ahead of the ox, and the horse is led (or, since 2026-09-25, ridden: sim/company.mjs). Where each one
  * was standing in the yard, and what each was going to do, go with them as `settle`, so the
  * family ends up standing about its own land as a family always has.
  *
@@ -64,13 +64,26 @@ export function putOnTheRoad(world, household, only = null) {
   const fork = forkOf(world, household);
   const path = fork && findPath(world.map, fork, household.homeSiteId);
   if (!path) throw new Error(`No track in to ${household.homeSiteId}`);
-  const pace = paceOf(path.points, path.ground, 'wagon');
+  // A family with no vehicle (sim/means.mjs, the band that is hard up; owner, 2026-09-25: "it should be possible to start with no
+  // wagon") walks the road in, over the ground as a walker goes it (sim/ground.mjs `paceOf`), at the pace of its slowest walker
+  // (sim/company.mjs); whoever of it is already at the fork is turned to walking too. The ox walks with them under its packs.
+  // ceiling: the ox under packs keeps the walkers' pace, as the family's oxen do in the flight on foot (sim/scrape.mjs); a pack ox
+  // of the record would set a slower one.
+  const walking = household.means?.afoot === true && !wagonsOf(world, household).length;
+  const mode = walking ? 'foot' : 'wagon';
+  const pace = paceOf(path.points, path.ground, mode);
   // `only`: just these of the family - the wagons and oxen its means brought (sim/means.mjs) - and nobody else's journey touched.
   for (const id of only || [...household.members, ...household.property]) {
     const entity = world.entities[id];
-    if (entity.travel?.purpose === 'arrive') continue;
+    if (entity.travel?.purpose === 'arrive') {
+      if (walking && entity.travel.progress === 0 && entity.travel.mode !== 'foot') {
+        entity.travel.mode = 'foot';
+        if (pace.length) entity.travel.pace = pace.map(run => [...run]); else delete entity.travel.pace;
+      }
+      continue;
+    }
     const settle = { x: entity.location.x, y: entity.location.y, ...(entity.kind === 'person' && { task: entity.task }) };
-    entity.travel = { from: fork, to: household.homeSiteId, points: path.points.map(point => ({ ...point })), progress: 0, distance: path.distance, speed: WAGON_SPEED, mode: 'wagon', purpose: 'arrive', silent: true, settle, ...(pace.length && { pace: pace.map(run => [...run]) }) };
+    entity.travel = { from: fork, to: household.homeSiteId, points: path.points.map(point => ({ ...point })), progress: 0, distance: path.distance, speed: WAGON_SPEED, mode, purpose: 'arrive', silent: true, settle, ...(pace.length && { pace: pace.map(run => [...run]) }) };
     entity.location = { ...path.points[0], siteId: null };
     if (entity.kind === 'person') entity.task = 'travel';
   }
@@ -86,7 +99,7 @@ export function seatTheCompany(world, household) {
   if (!world.meansRoll) return;
   const movers = [...household.members, ...household.property].map(id => world.entities[id]).filter(entity => entity?.travel?.purpose === 'arrive' && entity.travel.progress === 0);
   if (!movers.length) return;
-  setOut(movers, drawnVehicles(movers), entity => entity.travel);
+  setOut(movers, drawnVehicles(movers), entity => entity.travel, riddenHorses(world, movers));
 }
 
 /**
@@ -126,12 +139,17 @@ export function sayTheArrival(world, household) {
  */
 export function teamWords(world, household) {
   const wagons = wagonsOf(world, household).length;
+  // A family with no vehicle at all (sim/means.mjs) walks in, the ox under packs.
+  if (!wagons && household.means?.afoot) return 'the ox under packs and the horse, on foot';
   // A family of the poorest means comes with a cart (sim/means.mjs).
   if (wagons === 1 && wagonsOf(world, household)[0].cart) return 'the cart, the ox and the horse';
   if (wagons < 2) return 'the wagon, the ox and the horse';
   return `its ${NUMBER_WORDS[wagons] || wagons} wagons, an ox to each, and the horse`;
 }
 const NUMBER_WORDS = Object.freeze({ 2: 'two', 3: 'three', 4: 'four' });
+
+/** Where a family with no roof camps, in the arrival's words: by the wagon, or by its packs for a family that came with none. */
+const campWord = (world, household) => (household.means?.afoot && !wagonsOf(world, household).length ? 'by their packs' : 'by the wagon');
 
 /** Whether anybody or anything of this family is still on the road in. */
 const stillArriving = (world, household) =>
@@ -150,20 +168,20 @@ export function advanceArrivals(world) {
     // The wagon drawn over to the site the family chose: said once, and not as a second arrival on the land.
     if (household.site && world.events.some(event => event.type === 'site-chosen' && event.householdId === household.id)
       && !world.events.some(event => event.type === 'arrival' && event.householdId === household.id && event.purpose === 'site')) {
-      record(world, 'arrival', { householdId: household.id, importance: 2, destination: household.homeSiteId, purpose: 'site', claimId: 'FIC-GONZ-026', text: housed(household) ? 'The wagon is drawn up at the house.' : 'The wagon is drawn up where the house will stand, and the family makes camp beside it.' });
+      record(world, 'arrival', { householdId: household.id, importance: 2, destination: household.homeSiteId, purpose: 'site', claimId: 'FIC-GONZ-026', text: household.means?.afoot && !wagonsOf(world, household).length ? (housed(household) ? 'The packs are carried up to the house.' : 'The packs are carried over to where the house will stand, and the family makes camp there.') : housed(household) ? 'The wagon is drawn up at the house.' : 'The wagon is drawn up where the house will stand, and the family makes camp beside it.' });
       continue;
     }
     record(world, 'arrival', {
       householdId: household.id, importance: 2, destination: household.homeSiteId, purpose: 'arrive', claimId: 'FIC-GONZ-024',
       // What the wagon brought is said once, here, and not every time it was repacked in the lobby.
       text: [
-        housed(household) ? 'The family has reached its own land.' : 'The family has reached its own land. There is no house yet, so they camp by the wagon.',
+        housed(household) ? 'The family has reached its own land.' : `The family has reached its own land. There is no house yet, so they camp ${campWord(world, household)}.`,
         ...(household.load ? [loadSentence(household.load)] : []),
         // The food carried on foot beside the vehicles (sim/means.mjs `ARRIVAL_DAYS`), said once with what was unloaded.
-        ...(household.packs?.food ? [`They carried ${household.packs.food} food more on foot, in sacks and bundles.`] : []),
-        ...(household.stock ? [`The cattle and hogs come in behind the ${wagonsOf(world, household).length > 1 ? 'wagons' : 'wagon'}.`] : []),
+        ...(household.packs?.food ? [household.means?.afoot ? `They carried ${household.packs.food} food on their backs, in sacks and bundles, and the ox carried the rest.` : `They carried ${household.packs.food} food more on foot, in sacks and bundles.`] : []),
+        ...(household.stock ? [`The cattle and hogs come in behind the ${household.means?.afoot ? 'family' : wagonsOf(world, household).length > 1 ? 'wagons' : 'wagon'}.`] : []),
         holdingWords(holdingOf(world, household)),
-        ...(household.choosingSite ? ["The wagon stands at the surveyor's mark. Choose where the house will stand."] : []),
+        ...(household.choosingSite ? [household.means?.afoot ? "The family stands at the surveyor's mark. Choose where the house will stand." : "The wagon stands at the surveyor's mark. Choose where the house will stand."] : []),
       ].join(' '),
     });
   }

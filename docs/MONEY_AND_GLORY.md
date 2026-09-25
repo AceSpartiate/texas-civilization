@@ -476,3 +476,26 @@ built: a second die gives a family a cart, one wagon, two or three, an ox to eac
 
 Until the owner answers, **no band brings coin** (`MEANS_BANDS` in sim/means.mjs has no coin field; the drafted 0, 2, 6 and 15
 reales are recorded there as the draft). Nothing about the ending changed.
+
+### Dated note, 2026-09-25 (evening): the owner has chosen unequal starting coin; how the ending counts it is still open
+
+**Owner:** *"families should get some starting coin, starting with a minimum of 3 coin, and a maximum of 10 coin. this should be a
+structured part of the wealth d20 roll."* So **the half of the question above about coin at the start is answered**: every family of
+a class made since starts with **3 to 10 reales**, a fixed number for each face of the means die, rising with the band (hard up 3;
+poor 3-4; modest 5-6; comfortable 7-8; well-to-do 9-10; the whole table in docs/FAMILY_CREATION.md, the second amendment of
+2026-09-25; `FIC-GONZ-397`). The paragraph just above ("no band brings coin") is **superseded** for those classes; a class that
+rolled on the first table that afternoon keeps none.
+
+**The other half is not answered, and nothing about the ending changed.** `finalNumber` still multiplies the coin in the house, so
+today a well-to-do family that spends nothing finishes with up to ten reales where a family that is hard up has three: a head start of
+at most **3.3 times** in the final number for the same glory, from the die alone (smaller than the fifteen times of the old draft, and
+real). **Still recommended, for the owner to choose:** score the coin **gained over the coin the family started with** -
+`money counted = max(money - household.means.coin, 0)`, with the floor of one real kept (§5) - so the starting coin buys things
+sooner (a horse, a rifle, seed) and counts for nothing at the end; every class played before started with none, so none would score
+differently. The number it needs is already stored on every family (`household.means.coin`), so the change is one line in
+`countedCoin` (sim/ending.mjs) and its sentence ("12 reales earned"). The second recommendation above (measure against the band) and
+the third (say it) stand as written.
+
+**What did change, and only in the account:** the ending's coin story now begins with the coin a family came with - *"The family came
+with 4 reales."* - so every real that came into the house is in it (sim/ending.mjs `familyEnding`). How it is counted is untouched.
+The guided start (docs/LESSON.md) no longer takes the starting coin for a crop sold.

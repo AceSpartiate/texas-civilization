@@ -19,6 +19,7 @@
  */
 import { DEFAULT_MODE, MODES, groundLeft, milesAnHour, FARMING_TICK_MINUTES } from './travel.mjs';
 import { findWay } from './ways.mjs';
+import { vehicleCarry } from './keeping.mjs';
 
 /**
  * The ways, quickest first: the horse, on foot, the ox and wagon (sim/travel.mjs speeds). The order is the truth on every
@@ -81,11 +82,13 @@ function oneWay(world, entity, id, { to = null, point = null, load = 0, needsWag
     const miles = Math.hypot(point.x - where.x, point.y - where.y);
     return { miles: round1(miles), hours: round1(miles / milesAnHour(mode.speed)) };
   })() : null);
+  // What this way carries: a carreta made at home carries less than the wagon (sim/keeping.mjs `vehicleCarry`, owner 2026-09-25).
+  const carry = vehicleCarry(world, entity, id), carreta = id === 'wagon' && carry !== mode.carry;
   const base = {
-    id, name: mode.name, carry: mode.carry, pace: `${round1(milesAnHour(mode.speed))} miles an hour`, tiring: TIRING[id],
+    id, name: carreta ? 'With the ox and carreta' : mode.name, carry, pace: `${round1(milesAnHour(mode.speed))} miles an hour`, tiring: TIRING[id],
     ...(time && { miles: time.miles, hours: time.hours, time: hoursWords(time.hours) }),
-    ...(load > 0 && { carrying: `${loadsWord(load)} of the ${mode.carry} it carries` }),
-    ...(haul && { brings: `Brings home ${Math.min(haul.got, mode.carry)} ${haul.resource}${haul.got > mode.carry ? ` of ${haul.got}; the rest is left behind` : ''}.` }),
+    ...(load > 0 && { carrying: `${loadsWord(load)} of the ${carry} it carries` }),
+    ...(haul && { brings: `Brings home ${Math.min(haul.got, carry)} ${haul.resource}${haul.got > carry ? ` of ${haul.got}; the rest is left behind` : ''}.` }),
     ...(home && { leads: homeWords(path, id, home) }),
   };
   if (only && id !== only) return { ...base, can: false, why: onlyWhy || `This goes ${MODES[only].name.toLowerCase()}.`, notTheWagon: true };
@@ -94,7 +97,7 @@ function oneWay(world, entity, id, { to = null, point = null, load = 0, needsWag
   // and a horse ridden in walks home tied on behind it - so it cannot also lead home a horse bought the same trip.
   if (newWagon && id === 'wagon') return { ...base, can: false, why: 'One person drives one wagon home. Whoever fetches the new wagon goes on foot or on the horse.', notTheWagon: true };
   if (newWagon && leadsHorse && id === 'horse') return { ...base, can: false, why: 'The horse ridden in walks home tied behind the new wagon, and one person leads one animal. Walk, or send somebody else for the new horse.', notTheWagon: true };
-  if (mode.carry + 1e-9 < load) return { ...base, can: false, why: `${CARRIES[id]} ${mode.carry}, and this is ${loadsWord(load)}.`, tooMuch: true };
+  if (carry + 1e-9 < load) return { ...base, can: false, why: `${carreta ? 'The carreta carries' : CARRIES[id]} ${carry}, and this is ${loadsWord(load)}.`, tooMuch: true };
   const open = modeAvailability ? modeAvailability(world, entity, id, path) : (id === DEFAULT_MODE ? { can: true } : { can: false, why: 'No way of going was given.' });
   // A way with no road there cannot go - except on foot, which crosses any country (sim/ways.mjs), and a place not yet on
   // the map, which every way reaches as it reaches the timber.

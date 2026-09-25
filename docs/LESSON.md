@@ -253,6 +253,16 @@ this**. What is new is the order they are put in, the gate, and the sentences.
 Nothing here asserts anything about 1835. The block of `HIST-TEX` numbers set aside for this work is deliberately
 unused: a tutorial makes no historical claim, and registering one would be registering nothing.
 
+### Amended 2026-09-25 (evening): starting coin, and a family on foot
+
+A family of a class made since starts with **3 to 10 reales** (docs/FAMILY_CREATION.md, the second amendment of 2026-09-25), so "coin
+in the house" no longer shows a crop was sold: for such a family the *Sell it in town* step counts coin **over what was in the house
+when the step began** (`lesson.had.money`, watched like the cotton and the food and lowered when coin is spent), and a family that
+started with none is read exactly as before (sim/lesson.mjs `sold`). A family that is hard up walks in, and the first step says so -
+*"Your family is walking the track in to land of your own, the ox under its packs."* - and the house step's camp is *"by their
+packs"*. Such a family can do every step (tests/afoot.test.mjs: it buys the seed it lacks on foot, sells on foot, and a crop that would
+want the wagon is carried in by hand).
+
 ## 8. As built
 
 | | |

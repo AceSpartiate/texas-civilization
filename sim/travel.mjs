@@ -213,6 +213,15 @@ export function groundLeft(travel) {
 
 /** What this person can bring home from where they are, given how they got there. */
 export const carryCapacity = mode => (MODES[mode] || MODES[DEFAULT_MODE]).carry;
+/**
+ * What a carreta carries on a trip, where the ox and wagon carry `MODES.wagon.carry` (owner, 2026-09-25: "could work the same, just
+ * with reduced carrying capacity"; sim/carreta.mjs, `FIC-GONZ-398`): twelve to the wagon's twenty, about as its ten spaces stand to
+ * the wagon's sixteen, rounded down. Invented. Read wherever a journey with the ox and wagon asks what it carries and the vehicle
+ * going is a carreta (sim/keeping.mjs `vehicleCarry`).
+ * ceiling: a cart (sim/means.mjs) still carries a wagon's twenty on a trip, as it always has; only its room in the load and in the
+ * flight is less. Whether it should carry less too is the owner's.
+ */
+export const CARRETA_CARRY = 12;
 
 /**
  * The entity id of a piece of a household's property, by the part it plays.

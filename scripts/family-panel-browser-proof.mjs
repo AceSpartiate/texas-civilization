@@ -26,7 +26,10 @@ const measured = {};
 
 // This seed rolls both parents and four children, so the order has something to prove. A quick tick, because the family
 // drives in and practises at the mark before the glow can go out; not so quick the class ends while names are typed.
-const app = createClassroom({ seed: 'panel-3', playerCount: 5, tickMs: 250, worldFactory: createGonzalesWorld });
+// Since the evening of 2026-09-25 this seed's means die rolls a 1: the family is hard up and its ox's packs bring one shot, where
+// practising at the mark wants two (sim/means.mjs, sim/wagon.mjs `PACK_SPACE`). The panel is the subject here, so the family is given
+// four more shots in the house at the founding; they survive the roll, which moves the stores only by what the packs change.
+const app = createClassroom({ seed: 'panel-3', playerCount: 5, tickMs: 250, worldFactory: (seed, count) => { const world = createGonzalesWorld(seed, count); world.households['hh-1'].resources.powder += 4; return world; } });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [];

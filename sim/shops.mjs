@@ -23,7 +23,7 @@
 import { record } from './events.mjs';
 import { TOWN_LAYOUTS, townPoint } from './town-layouts.mjs';
 import { learn } from './knowledge.mjs';
-import { carryCapacity } from './travel.mjs';
+import { vehicleCarry } from './keeping.mjs';
 import { purseOf, purseHeld } from './town.mjs';
 import { addTool, allWorn, toolCount } from './tools.mjs';
 import { BEASTS_MOST, BEAST_WORDS, LEAD_MOST, addBeast, beastsOf, kept } from './beasts.mjs';
@@ -255,7 +255,7 @@ export const TRADES = Object.freeze({
       does: 'The miller takes his toll in meal; what comes home goes a fifth further. As much as whoever went can carry.',
       refuse: (world, household) => (household.resources.food ?? 0) >= 1 ? null : 'There is no corn in the house to grind.',
       give: (world, household, entity) => {
-        const carried = Math.min(household.resources.food ?? 0, carryCapacity(entity.chore?.mode));
+        const carried = Math.min(household.resources.food ?? 0, vehicleCarry(world, entity, entity.chore?.mode));
         const gained = round(carried * (MILL_RETURN - 1));
         household.resources.food = round((household.resources.food ?? 0) + gained);
         return `${entity.name} had ${round(carried)} food ground at the mill, and it goes ${gained} further as meal.`;
@@ -556,7 +556,7 @@ export function takeCounter(world, household, entity, optionId) {
     // Sold by the lot: `per` is how many go to one payment (the store's five food a real, 2026-09-17; one of anything else),
     // every whole lot carried, and no more than the keeper's purse pays for. What will not make a whole lot stays at home.
     const per = offer.per ?? 1;
-    const carried = Math.floor(Math.min(household.resources[offer.good] ?? 0, carryCapacity(entity.chore?.mode)));
+    const carried = Math.floor(Math.min(household.resources[offer.good] ?? 0, vehicleCarry(world, entity, entity.chore?.mode)));
     const lots = pay === 'coin'
       ? Math.min(Math.floor(carried / per), Math.floor(purseOf(world, trader) / offer.coinEach))
       : Math.floor(carried / per);

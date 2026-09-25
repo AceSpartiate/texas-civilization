@@ -126,7 +126,9 @@ export const ORDINARY_CONDITIONS = ['well', 'tired', 'sick'];
  * replaced the courier's sheet on 2026-09-16, because the owner saw a stranger on the horse and "characters don't actually
  * sit on the horse".
  */
-export const inTheSaddle = entity => entity.kind === 'person' && !entity.carrier && entity.travel?.mode === 'horse';
+// And somebody the family put on the horse for its journey together (sim/company.mjs `saddle`; owner, 2026-09-25: "the horse
+// should carry a rider"): drawn in the saddle the same way, whatever way the rest of the family goes. A baby in their arms is not.
+export const inTheSaddle = entity => entity.kind === 'person' && !entity.carrier && (entity.travel?.mode === 'horse' || (Boolean(entity.travel?.saddle) && !entity.travel.carried));
 /** How tall a rider and horse are drawn, as a person is 1: the horse at its own size with somebody sitting up on it. */
 export const MOUNTED_HEIGHT = 1.8;
 export const mounted = entity => entity.kind === 'person' && (entity.carrier || inTheSaddle(entity));
@@ -205,8 +207,12 @@ export const teamDrivenBy = (entity, entities = []) => wagonTeams(entity?.househ
 export const passengersOf = (team, entities = []) => (team ? entities.filter(entity => entity.kind === 'person' && !entity.carrier && entity.householdId === team.wagon.householdId && entity.travel?.mode === 'wagon' && entity.travel.rides === team.wagon.id && entity.id !== team.driverId) : []);
 /** The wagon this person rides in and its team, or null: somebody the server seated in a wagon, not driving it. */
 export const teamRiddenBy = (entity, entities = []) => (entity?.kind === 'person' && entity.travel?.rides ? wagonTeams(entity.householdId, entities).find(team => team.wagon.id === entity.travel.rides) || null : null);
-/** Somebody the server said walks beside the wagons on the family's journey together (sim/company.mjs `afoot`). */
-export const walksBeside = entity => entity?.kind === 'person' && entity.travel?.mode === 'wagon' && Boolean(entity.travel.afoot);
+/**
+ * Somebody the server said walks beside the wagons on the family's journey together (sim/company.mjs `afoot`) - or, for a family
+ * with no vehicle (sim/means.mjs, owner 2026-09-25), walks with the others on foot: drawn in the same file, so a family of eight
+ * walking in reads as eight and not one figure.
+ */
+export const walksBeside = entity => entity?.kind === 'person' && (entity.travel?.mode === 'wagon' || entity.travel?.mode === 'foot') && Boolean(entity.travel.afoot);
 /** What this person is sitting on: 'horse', 'wagon', or null for anybody on their own feet. */
 export function seatOf(entity, entities = []) {
   if (entity.kind !== 'person' || entity.carrier || entity.observed) return null;
@@ -218,6 +224,11 @@ export function seatOf(entity, entities = []) {
 /** Whether a beast is drawn with the person on it rather than by itself: the ridden horse, the ox and wagon being driven. */
 export function carriedWithRider(entity, entities = []) {
   if (underARider(entity)) return true;
+  // The family's horse with somebody the server put on it for the journey together (sim/company.mjs), and a baby in that rider's
+  // arms: drawn with the rider, not again by themselves. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - riders, walkers
+  // and the cart; the baby is not drawn in the rider's arms until a figure carrying one lands.
+  if (entity.kind === 'animal' && entity.species === 'horse' && entities.some(one => one.kind === 'person' && one.travel?.saddle && !one.travel.carried && one.travel.rides === entity.id)) return true;
+  if (entity.kind === 'person' && entity.travel?.saddle && entity.travel.carried) return true;
   // A rider in the wagon is drawn in it with its driver (public/app.js `drawSeated`), not a second time walking beside it.
   if (entity.kind === 'person' && entity.travel?.rides) {
     const team = teamRiddenBy(entity, entities);

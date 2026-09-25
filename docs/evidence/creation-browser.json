@@ -9,8 +9,8 @@
   "note": "Same computer, headless Chrome, one student joined to a real class. Every check runs with the panel it measures visible: a hidden panel has an empty box and would pass against broken code. Play Solo is NOT covered here - a Solo game runs from its first tick, so `wagonProjection` sends nothing and a Solo player never sees the wagon panel or the stock choice at all. No LAN or district claim.",
   "checks": [
     "the title card says what comes next and fits the Chromebook: \"Your family You are one family among the settlers of Texas in the autumn of 1835. First you make them, in four steps: ro...\"",
-    "the die panel numbers itself and says the roll is taken once, without saying what it means: \"STEP 1 OF 4 Roll for your family The die decides how many are in your family and who they are. It is thrown once. There is no second roll, so the family it gives you is the family you play. A second die, thrown with it, decides what the family has to start with: a cart or wagons, and the oxen to draw them. 20 20 Roll the die\"",
-    "the second die says the family's means and the panel still fits: \"Poor. A cart and one ox to draw it, and the family's horse. 3 ride and 4 walk beside the cart.\"",
+    "the die panel numbers itself and says the roll is taken once, without saying what it means: \"STEP 1 OF 4 Roll for your family The die decides how many are in your family and who they are. It is thrown once. There is no second roll, so the family it gives you is the family you play. A second die, thrown with it, decides what the family has to start with: a cart, wagons or nothing to haul with, the oxen, and a few reales. 20 20 Roll the die\"",
+    "the second die says the family's means and the panel still fits: \"Hard up. No wagon or cart: an ox to carry the packs, the family's horse, and 3 reales. 1 rides the horse and 6 walk.\"",
     "the last name box says it is set once and labels the family it names (Anselmo, Charity, Emeterio, Minerva, Andrés, Docia, Effie)",
     "the names card says nothing is required, every box holds the dealt name, and an emptied box comes back as \"Anselmo\"",
     "the looks pop-up counts the parents (Step 4 of 4. Parent 1 of 2. Done brings up the next parent.) and says appearance decides nothing, is chosen once, and skips the children",
@@ -21,8 +21,8 @@
   ],
   "observed": {
     "titleCard": "Your family You are one family among the settlers of Texas in the autumn of 1835. First you make them, in four steps: roll the die for who they are, give the family a last name, name each of them, and choose how the parents look. From the moment the wagon starts in, the game walks you through the farm one task at a time - the house, the field, the crop, the town, the hunt and the well. The country is yours to work once that is done, or at once if you press the X on the guide to stop it. Begin",
-    "diePanel": "STEP 1 OF 4 Roll for your family The die decides how many are in your family and who they are. It is thrown once. There is no second roll, so the family it gives you is the family you play. A second die, thrown with it, decides what the family has to start with: a cart or wagons, and the oxen to draw them. 20 20 Roll the die",
-    "meansResult": "Poor. A cart and one ox to draw it, and the family's horse. 3 ride and 4 walk beside the cart.",
+    "diePanel": "STEP 1 OF 4 Roll for your family The die decides how many are in your family and who they are. It is thrown once. There is no second roll, so the family it gives you is the family you play. A second die, thrown with it, decides what the family has to start with: a cart, wagons or nothing to haul with, the oxen, and a few reales. 20 20 Roll the die",
+    "meansResult": "Hard up. No wagon or cart: an ox to carry the packs, the family's horse, and 3 reales. 1 rides the horse and 6 walk.",
     "surnamePanel": "STEP 2 OF 4 Name your family Family Last Name Everybody in the family carries it. It is chosen once and cannot be changed afterwards; first names can be changed at any time, on the family panel. YOUR FAMILY: Anselmo, Charity, Emeterio, Minerva, Andrés, Docia, Effie Name the family",
     "surnamePeople": "Anselmo, Charity, Emeterio, Minerva, Andrés, Docia, Effie",
     "surnamePreview": "Anselmo Halloran, Charity Halloran, Emeterio Halloran, Minerva Halloran, Andrés Halloran, Docia Halloran, Effie Halloran",
@@ -43,21 +43,21 @@
     "looksStep1": "Step 4 of 4. Parent 1 of 2. Done brings up the next parent.",
     "looksStep2": "Step 4 of 4. Parent 2 of 2. Done finishes your family.",
     "wagonText": "What you load is what the family arrives with. Tools, seed and powder can be bought in a town later, if there is coin; the things for the house cannot be bought anywhere.",
-    "wagonWhen": "You can change all of this until your teacher presses Start. After that the wagon is packed.",
+    "wagonWhen": "You can change all of this until your teacher presses Start. After that the ox's packs are packed.",
     "stockNo": "No stock. The family holds a labor of land, 177 acres, and brings no animals.",
-    "stockYes": "Drive cattle and hogs in. The family holds a league and a labor, 4,606 acres - about 26 times as much land - and the herd's keep takes 2 spaces of the wagon. The family arrives with 6 cattle and 12 hogs, which feed themselves on the range and feed the family.",
+    "stockYes": "Drive cattle and hogs in. The family holds a league and a labor, 4,606 acres - about 26 times as much land - and the herd's keep takes 2 spaces of the ox's packs. The family arrives with 6 cattle and 12 hogs, which feed themselves on the range and feed the family.",
     "toggleBefore": "Take out",
     "toggleAfter": "Load",
     "wagonBox": {
       "panel": {
         "x": 12,
-        "y": 64,
+        "y": 63,
         "width": 400,
         "height": 618
       },
       "control": {
         "x": 27,
-        "y": 624,
+        "y": 623.25,
         "width": 370,
         "height": 44
       }

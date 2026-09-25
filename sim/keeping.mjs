@@ -44,7 +44,7 @@
 //
 // This file imports only the travel table, so `sim/world.mjs` (journeys), `sim/army.mjs` (the march) and `sim/chores.mjs`
 // (work) can all ask it without an import arrow between them.
-import { DEFAULT_MODE, MODES } from './travel.mjs';
+import { CARRETA_CARRY, DEFAULT_MODE, MODES } from './travel.mjs';
 import { TOOL_WORDS, loseTool, toolCount } from './tools.mjs';
 import { BEAST_WORDS, allBeasts, beastsOf, kept } from './beasts.mjs';
 import { record } from './events.mjs';
@@ -148,6 +148,18 @@ export function beastFor(world, entity, role) {
   return beasts.find(beast => sound(beast) && holderOf(world, beast) === entity)
     || beasts.find(beast => sound(beast) && !holderOf(world, beast) && !beast.travel && beast.location?.siteId === entity.location?.siteId)
     || null;
+}
+/**
+ * What this person carries on a trip made this way (sim/travel.mjs `carry`), with the vehicle they have or would take: a carreta
+ * made at home carries `CARRETA_CARRY` where the ox and wagon carry the wagon's (owner, 2026-09-25: "could work the same, just with
+ * reduced carrying capacity"; sim/carreta.mjs). The wagon they have with them first, else the one they would take (`beastFor`).
+ */
+export function vehicleCarry(world, entity, modeId) {
+  const mode = MODES[modeId] || MODES[DEFAULT_MODE];
+  if (mode.id !== 'wagon' || !entity?.householdId) return mode.carry;
+  const household = world.households[entity.householdId];
+  const wagon = beastsOf(world, household, 'wagon').find(one => holderOf(world, one) === entity) || beastFor(world, entity, 'wagon');
+  return wagon?.carreta ? CARRETA_CARRY : mode.carry;
 }
 /** Not standing on the family's own place: on a road, or anywhere but home. */
 const away = (world, household, person) => Boolean(person.travel) || person.location?.siteId !== household.homeSiteId;

@@ -6,12 +6,13 @@
 // answering keeps the family's own crop, so a family nobody plays, and a student who never looks, grow what they grew.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createSettledWorld } from './support/settled.mjs';
+import { createSettledWorld, withoutStartingCoin } from './support/settled.mjs';
 import { applyAction, projectWorld, stepWorld } from '../sim/world.mjs';
 import { COTTON_SEED_PER_PLOT, SEED_PER_PLOT, clearedOf } from '../sim/improvements.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
-const running = seed => { const world = createSettledWorld(seed); world.status = 'running'; return world; };
+// Without the coin a family's means start it with (sim/means.mjs), so a sale for coin is counted from none.
+const running = seed => { const world = withoutStartingCoin(createSettledWorld(seed)); world.status = 'running'; return world; };
 const untilAsk = (world, person) => { for (let t = 0; t < 400 && person.chore && !person.chore.ask; t++) stepWorld(world); };
 const finish = (world, person) => { for (let t = 0; t < 600 && person.chore; t++) stepWorld(world); };
 const planter = (world, household) => world.entities[household.members[1]] || world.entities[household.members[0]];

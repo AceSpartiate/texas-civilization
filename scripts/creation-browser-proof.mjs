@@ -103,7 +103,8 @@ try {
   // the panel, taller with them, still fits the Chromebook with its button in reach.
   await page.locator('#means-result').waitFor({ state: 'visible', timeout: 10000 });
   observed.meansResult = await readable(page, '#means-result');
-  assert.match(observed.meansResult, /^(Poor|Modest|Comfortable|Well-to-do)\. (A cart|A wagon|Two wagons|Three wagons)/, 'the means are not said after the throw');
+  // Since the evening of 2026-09-25 (sim/means.mjs, the second table): a band with no vehicle, and the coin said with the band.
+  assert.match(observed.meansResult, /^(Hard up|Poor|Modest|Comfortable|Well-to-do)\. (No wagon or cart|A cart|A wagon|Two wagons|Three wagons)[^.]*, the family's horse, and (3|4|5|6|7|8|9|10) reales\./, 'the means are not said after the throw');
   await fits(page, '#family-roll', '#roll-family', CHROMEBOOK);
   await page.screenshot({ path: 'docs/evidence/creation-die-means.png' });
   shots.push('docs/evidence/creation-die-means.png');
@@ -209,9 +210,13 @@ try {
 
   // The load buttons say what pressing them does, not what the thing already is.
   const toggle = page.locator('#wagon-items button[data-focus-key$="-toggle"]').first();
-  await toggle.scrollIntoViewIfNeeded();
+  // Pressed from the keyboard, as a student may: the panel's foot, with its note and Done, stands over the last lines of the list,
+  // and the longer words of a family on foot ("No wagon or cart. The ox's packs: ...", 2026-09-25) left the first toggle under it,
+  // where a pointer click is refused by the browser however it is scrolled. What pressing it does is the same.
+  await toggle.evaluate(button => button.scrollIntoView({ block: 'center' }));
   observed.toggleBefore = (await toggle.innerText()).trim();
-  await toggle.click();
+  await toggle.focus();
+  await page.keyboard.press('Enter');
   await page.waitForFunction(label => {
     const button = document.querySelector('#wagon-items button[data-focus-key$="-toggle"]');
     return button && button.textContent.trim() !== label;

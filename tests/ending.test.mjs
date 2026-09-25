@@ -9,7 +9,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
-import { createSettledWorld } from './support/settled.mjs';
+import { createSettledWorld, withoutStartingCoin } from './support/settled.mjs';
+import { settleMeans } from '../sim/means.mjs';
 import { applyAction, stepWorld, projectWorld, validateWorld } from '../sim/world.mjs';
 import { learn } from '../sim/knowledge.mjs';
 import { makeOffer, respondToOffer } from '../sim/trade.mjs';
@@ -47,7 +48,9 @@ function play(seed, policies, { beforeTick, plant } = {}) {
 let played = null;
 /** One class played to its end: hh-1 went upriver, hh-3 stayed home with coin in the house. */
 const endedClass = () => played ??= play('ending', { 'hh-1': 'go-upriver', 'hh-3': 'stay' }, {
-  plant: world => { world.households['hh-3'].resources.money = 4; },
+  // Given its means first, as the first tick would, and then none of the coin they bring (sim/means.mjs): this class is about
+  // glory and the coin kept, from none.
+  plant: world => { settleMeans(world); withoutStartingCoin(world); world.households['hh-3'].resources.money = 4; },
   beforeTick: world => {
     // Nothing of the ending is on anybody's wire while the class runs.
     assert.equal('ending' in host(world), false, `the Host had an ending at tick ${world.tick}`);
@@ -150,12 +153,15 @@ test('every coin that came into the house or went out of it is in the family\'s 
   world.status = 'running';
   const [one, two] = Object.values(world.households);
   const finish = person => { for (let tick = 0; tick < 400 && person.chore; tick++) stepWorld(world); };
+  // The coin the family came with (sim/means.mjs), the account's first line.
+  const start = one.means.coin;
+  assert.ok(start >= 3 && one.resources.money === start, 'the family did not come with its coin');
   // Food sold for coin.
   one.resources.food = 20;
   const seller = world.entities[one.members[1]];
   applyAction(world, one.id, { action: 'chore', entityId: seller.id, chore: 'sell-food' });
   finish(seller);
-  const earned = one.resources.money;
+  const earned = one.resources.money - start;
   assert.ok(earned > 0, 'the sale brought no coin home');
   // A hoe bought with it.
   one.resources.money = COIN.hoe; one.tools.hoe = 999;
@@ -170,8 +176,9 @@ test('every coin that came into the house or went out of it is in the family\'s 
   respondToOffer(world, two.id, b, 'accept-offer', offer.id);
   validateWorld(world);
   world.status = 'ended';
-  assert.deepEqual(familyEnding(world, one.id).coin.map(line => line.coin), [earned, -COIN.hoe, -2]);
-  assert.deepEqual(familyEnding(world, two.id).coin.map(line => line.coin), [2]);
+  assert.deepEqual(familyEnding(world, one.id).coin.map(line => line.coin), [start, earned, -COIN.hoe, -2]);
+  assert.equal(familyEnding(world, one.id).coin[0].text, `The family came with ${start} reales.`);
+  assert.deepEqual(familyEnding(world, two.id).coin.map(line => line.coin), [two.means.coin, 2]);
 });
 
 test('no word on either screen names a virtue', () => {

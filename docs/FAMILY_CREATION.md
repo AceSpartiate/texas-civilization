@@ -707,9 +707,10 @@ family doesn't have enough wagons, older family members walk. have this potentia
   eaters; where the cart or wagon holds less, the rest is carried on foot beside it, "in sacks and bundles" - said on the pack
   screen and in the arrival line, and kept apart from the load so repacking moves only what the vehicle holds. Five days is the
   first period at Gonzales with the guided start inside it (4.7 days, measured). `ceiling:` no amount in the record read.
-- **No band brings coin.** Drafted as 0, 2, 6 and 15 reales, and taken out, because the ending is built and counts the coin in the
-  house (`finalNumber` in sim/ending.mjs), so the richest roll would have started ahead - see docs/MONEY_AND_GLORY.md, the amendment of
-  2026-09-25, **open for the owner**. The record gives the same answer from the other side: "none who have much money" (Holley).
+- ~~**No band brings coin.**~~ **Superseded the same evening** (the second amendment below): the owner chose starting coin of 3 to 10
+  reales on every face of the die. Drafted as 0, 2, 6 and 15 reales and withheld until then, because the ending is built and counts
+  the coin in the house (`finalNumber` in sim/ending.mjs); how the ending should count it is still **open for the owner**
+  (docs/MONEY_AND_GLORY.md, the amendment of 2026-09-25). A class that rolled on this first table keeps no coin.
 - **Slaveholding** was part of some Anglo families' wealth in the record (TSHA, *Old Three Hundred*). The families of this game are not
   slaveholders (docs/ALAMO_FATES.md; VISION.md: enslaved people are never property), and no band carries it. Noted for the owner.
 
@@ -732,3 +733,91 @@ family doesn't have enough wagons, older family members walk. have this potentia
 | Nobody plays, still rolled | Every family nobody plays has means after the first tick, of more than one band, and comes in. |
 | Old classes open | A class made before rolls no means, seats nobody, and goes at the ox's pace; a new class saved reopens with its means. |
 | Hidden means hidden | Planted hidden stats reach no family, family book or Host payload. |
+
+## Amendment, 2026-09-25 (evening) — starting coin, a family with no vehicle, the carreta, and the horse ridden
+
+**Owner** (the four answers, verbatim): *"families should get some starting coin, starting with a minimum of 3 coin, and a maximum of
+10 coin. this should be a structured part of the wealth d20 roll. yes, it should be possible to start with no wagon. it shouldn't
+block gameplay, but some things might have to happen slower. what was the cart thing that tejanos used? maybe we could use that? have
+it be something families can make at home? could work the same, just with reduced carrying capacity? yes, the horse should carry a
+rider."*
+
+**Status: built the same evening** (`sim/means.mjs` `MEANS_TABLE`, `MEANS_COIN`; `sim/company.mjs` `riddenHorses`; `sim/carreta.mjs`;
+[tests](../tests/afoot.test.mjs), [carreta tests](../tests/carreta.test.mjs), [injections](evidence/afoot-injections.json),
+[browser](evidence/means-browser.json)). Claims `FIC-GONZ-397` (the table, the coin, on foot), `FIC-GONZ-398` (the carreta),
+`HIST-TEX-443` (the carreta's record); `FIC-GONZ-393` and `-394` amended. It amends the first amendment above for every class made
+since: such a class carries `world.meansRoll = 2`, the **second table**; a class made that afternoon (`true`) keeps the first. No save
+version moved.
+
+### The second table: five bands, and coin on every face
+
+| Roll | Means | Comes with | Coin, face by face |
+| --- | --- | --- | --- |
+| 1–2 | **Hard up** | **no vehicle**; the family's one ox carries the packs | 3, 3 |
+| 3–6 | Poor | a cart and one ox | 3, 3, 4, 4 |
+| 7–14 | Modest | a wagon and an ox | 5, 5, 5, 5, 6, 6, 6, 6 |
+| 15–18 | Comfortable | two wagons, an ox to each | 7, 7, 8, 8 |
+| 19–20 | Well-to-do | three wagons, an ox to each | 9, 10 |
+
+- **The odds** are 10, 20, 40, 20 and 10 in a hundred. Every band keeps the family's horse.
+- **The coin is a structured part of the roll**, as the owner asked: each face gives a fixed number of reales (`MEANS_COIN`), never
+  less than the face below it, the least 3 and the most 10, every sum between reached, and no band's least below the band under it
+  (hard up 3; poor 3-4; modest 5-6; comfortable 7-8; well-to-do 9-10). Its mean over the die is 5.65 reales. It is in the house from
+  the roll (`household.resources.money`), kept on the means record (`household.means.coin`, checked against the face on every save),
+  and **said with the band in the creation walk**: *"Poor. A cart and one ox to draw it, the family's horse, and 4 reales. 4 ride and
+  8 walk beside the cart."* The sentence above the dice says the die gives "a cart, wagons or nothing to haul with, the oxen, and a
+  few reales". Families nobody plays get theirs on the first running tick.
+- **Invented**: no source read says what coin a family brought ("none who have much money", Holley, `HIST-TEX-442`), so the amounts
+  are the owner's range, spread by the game. The ending counts it as it counts all coin in the house; the fix recommended for
+  that is the owner's (docs/MONEY_AND_GLORY.md). The ending's account lists it first: *"The family came with 4 reales."*
+- **The guided start** counts a sale by coin over what was in the house when the step began, so the coin a family came with is not
+  taken for a crop sold (sim/lesson.mjs `sold`).
+
+### A family with no vehicle (hard up)
+
+- **The kit on the ox, the food on their backs.** The ox's packs hold **7** spaces (`PACK_SPACE`): the hoe, the felling axe, the seed
+  of the first planting and a shot of powder, and for a corn family the pot. The family's five days of food (`FIC-GONZ-396`) is
+  carried by its own people, *"in sacks and bundles"*; five a person of ten and over (`carriedOnFoot`, `MODES.foot.carry`) carries
+  it for every family the die can roll (measured on sizes 1-20, the least margin one food). The pack screen says *"Pack the ox's
+  packs"*, *"No wagon or cart. The ox's packs: 7 of 7 space filled"* and *"The family carries its food itself: 11 food on foot, in
+  sacks and bundles."*
+- **The road in is walked**, over the ground as a walker goes it, at the pace of the slowest walker, with **one on the horse** (below):
+  *"1 rides the horse and 7 walk."* The walkers are drawn in a file; the ox walks behind under its packs (`ceiling:` at the walkers'
+  pace, as the family's oxen do in the flight on foot). The arrival line: *"They carried 11 food on their backs, in sacks and bundles,
+  and the ox carried the rest."*
+- **Slower, never blocked** (the owner's words): the lesson's every step can be done (tested: arrive, the house, survey, clear, buying
+  the seed on foot, plant, harvest, sell on foot, hunt); a crop that would want the wagon is **carried in by hand**, the cutting and
+  as long again (`HAND_CARRY_TICKS`, sim/chores.mjs `byHand`), where a family whose wagon is only away is still told to fetch it; a
+  load more than the horse carries to town is refused with *"... Your family has no wagon. Send a smaller load, and go again for
+  the rest."*; logs are hauled from the family's own trees on the shoulder or behind the ox as ever, and **fetching logs from timber off
+  the land still wants a vehicle** (`ceiling:`; a family there makes a carreta first); the flight east is on foot with what its grown
+  people carry; stock cannot come in when the packs are full, in the packs' words.
+- **It can make a carreta** (docs/WOODS_AND_BUILDING.md §6.6), the family's first vehicle, and buy a wagon from the wheelwright.
+
+### The horse carries a rider
+
+On every journey the family makes together - the road in, the move to the site, the flight east and the way home - **every sound
+horse going with it is one more seat**, dealt after the vehicles' seats and in the same order: **the sick first, then the youngest**
+(sim/company.mjs `seatPlan`). A family with room in its wagons leaves the horse without a rider; one short of seats puts on it the
+next who would have walked - often a small child who would otherwise hold everybody back; a family with no vehicle puts its sick or
+its youngest up and walks the rest. A baby goes up in its carrier's arms. The rider is tired as a rider (`saddle`) and drawn in the
+saddle, and the horse is not drawn again by itself. Harris: in 1833 "Mother, sister, and myself rode in the cart" while the men
+"traveled on horseback" (`HIST-TEX-442`). `ceiling:` one rider a horse whatever their size, and nobody is chosen for being able to
+ride.
+
+### The cart and the carreta
+
+The game does not tell a Tejano family from an Anglo one - every name pool mixes both (sim/family.mjs `NAME_POOLS`) - so **the poor
+band's cart stays one kind of cart**, and the carreta is a thing **any** family can make at home. If the owner wants families of
+origins, the poor band's vehicle could be a carreta for a Tejano family and a cart for an Anglo one; nothing here decides that.
+
+### Gates
+
+| Gate | What it means |
+| --- | --- |
+| Coin by face | Every face 3 to 10, never falling, each band's spread as the table; in the house, on the record, said with the band. |
+| First table kept | A class of `meansRoll` true rolls four bands, a cart at 1-6, no coin, the horse led; saved and opened as it was. |
+| On foot, fed | A hard-up family has no vehicle, one ox, the kit in its packs, five days of food on its backs within what it can carry. |
+| Never blocked | It does the whole lesson, brings in a big crop by hand and slower, goes to town twice for a big load, flees on foot. |
+| The horse ridden | One seat a horse after the vehicles', the sick then the youngest; a baby in arms; tired and drawn as a rider. |
+| Hidden hidden | Planted hidden stats reach no payload; another family's rider, coin and carreta reach no student. |

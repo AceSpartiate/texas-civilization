@@ -7,7 +7,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 
-const FILES = ['tests/means.test.mjs', 'tests/wagons.test.mjs', 'tests/arrival.test.mjs', 'tests/family-roll.test.mjs', 'tests/wagon-load.test.mjs', 'tests/creation-words.test.mjs', 'tests/grants.test.mjs'];
+const FILES = ['tests/means.test.mjs', 'tests/afoot.test.mjs', 'tests/wagons.test.mjs', 'tests/arrival.test.mjs', 'tests/family-roll.test.mjs', 'tests/wagon-load.test.mjs', 'tests/creation-words.test.mjs', 'tests/grants.test.mjs'];
 const T = {
   die: "the means die is the class's and the household's, the same every time, and every band is reached",
   bands: 'each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room',
@@ -30,7 +30,7 @@ const INJECTIONS = [
   { name: 'three days, not five', expect: T.food, edits: [one('sim/means.mjs', 'export const ARRIVAL_DAYS = 5;', 'export const ARRIVAL_DAYS = 3;')] },
   { name: "the means die thrown on the family die's question", expect: T.die, edits: [one('sim/family.mjs', ':means-roll`) % FAMILY_DIE)', ':family-roll`) % FAMILY_DIE)')] },
   { name: 'the means not rolled with the family', expect: T.die, edits: [one('sim/world.mjs', '  if (world.meansRoll) applyMeans(world, household);\n', '')] },
-  { name: 'a poor family comes with a wagon, not a cart', expect: T.bands, edits: [one('sim/means.mjs', 'from: 1, to: 6, wagons: 1, cart: true }', 'from: 1, to: 6, wagons: 1 }')] },
+  { name: 'a poor family comes with a wagon, not a cart', expect: T.bands, edits: [one('sim/means.mjs', 'from: 3, to: 6, wagons: 1, cart: true }', 'from: 3, to: 6, wagons: 1 }')] },
   { name: 'a comfortable family comes with one wagon', expect: T.bands, edits: [one('sim/means.mjs', 'from: 15, to: 18, wagons: 2 }', 'from: 15, to: 18, wagons: 1 }')] },
   { name: 'the extra wagons come with no ox', expect: T.bands, edits: [one('sim/means.mjs', "  for (const role of ['wagon', 'ox']) {", "  for (const role of ['wagon']) {")] },
   { name: "a cart holds a wagon's room", expect: T.bands, edits: [one('sim/wagon.mjs', '(carted(household) ? WAGON_SPACE - CART_SPACE : 0)', '0')] },
@@ -39,28 +39,28 @@ const INJECTIONS = [
   { name: 'the oldest ride first', expect: T.seats, edits: [one('sim/company.mjs', '.sort((a, b) => (unwell(b) - unwell(a)) || byAge(a, b));', '.sort((a, b) => (unwell(b) - unwell(a)) || byAge(b, a));')] },
   { name: 'the sick wait their turn', expect: T.seats, edits: [one('sim/company.mjs', '.sort((a, b) => (unwell(b) - unwell(a)) || byAge(a, b));', '.sort((a, b) => byAge(a, b));')] },
   { name: 'a baby takes a seat of its own', expect: T.seats, edits: [one('sim/company.mjs', 'const carried = person => Number.isFinite(person.age) && person.age < CARRIED_UNDER;', 'const carried = () => false;')] },
-  { name: "a cart takes a wagon's riders", expect: T.seats, edits: [one('sim/company.mjs', 'export const ridersIn = vehicle => (vehicle?.cart ? CART_RIDERS : WAGON_RIDERS);', 'export const ridersIn = () => WAGON_RIDERS;')] },
+  { name: "a cart takes a wagon's riders", expect: T.seats, edits: [one('sim/company.mjs', 'export const ridersIn = vehicle => (vehicle?.cart || vehicle?.carreta ? CART_RIDERS : WAGON_RIDERS);', 'export const ridersIn = () => WAGON_RIDERS;')] },
   { name: 'a child of eight drives', expect: T.seats, edits: [one('sim/company.mjs', 'const mayDrive = person => !Number.isFinite(person.age) || person.age >= SENT_FROM_AGE;', 'const mayDrive = () => true;')] },
   { name: 'walkers never slow the family', expect: T.pace, edits: [one('sim/company.mjs', '  return vehicles.length ? Math.min(WAGON_SPEED, slowest) : Math.min(WALK_SPEED, slowest);', '  return vehicles.length ? WAGON_SPEED : WALK_SPEED;')] },
   { name: 'a small child walks as fast as a grown one', expect: T.pace, edits: [one('sim/company.mjs', '  return age >= 6 ? CHILD_WALK_SPEED : SMALL_WALK_SPEED;', '  return WALK_SPEED;')] },
   { name: "a family on foot at the ox's pace", expect: T.foot, edits: [one('sim/company.mjs', ': Math.min(WALK_SPEED, slowest);', ': WAGON_SPEED;')] },
   { name: 'nobody seated on the road in', expect: T.road, edits: [one('sim/settling.mjs', '  if (!world.meansRoll) return;\n  const movers', '  return;\n  const movers')] },
-  { name: 'a walker tired as a rider', expect: T.road, edits: [one('sim/world.mjs', 'const how = travel.afoot ? MODES.foot : modeOf(travel);', 'const how = modeOf(travel);')] },
+  { name: 'a walker tired as a rider', expect: T.road, edits: [one('sim/world.mjs', 'const how = travel.saddle ? MODES.horse : travel.afoot ? MODES.foot : modeOf(travel);', 'const how = travel.saddle ? MODES.horse : modeOf(travel);')] },
   { name: 'a baby carried tired by the road', expect: T.road, edits: [one('sim/world.mjs', 'const cost = travel.carried ? 0 :', 'const cost =')] },
   { name: 'the seats not sent to the family', expect: T.road, edits: [one('sim/world.mjs', 'mode: travel.mode, ...seatOfTravel(travel) } };', 'mode: travel.mode } };')] },
   { name: 'riders drawn walking beside the wagon as well', expect: T.road, edits: [one('public/motion.js', "  if (entity.kind === 'person' && entity.travel?.rides) {\n    const team", '  if (false) {\n    const team')] },
   { name: 'the page deals the drivers itself', expect: T.road, edits: [one('public/motion.js', 'const planned = aboard.some(entity => entity.travel.drives || entity.travel.rides || entity.travel.afoot);', 'const planned = false;')] },
   { name: 'a small child walking does not hold the cart back', expect: T.slow, edits: [one('sim/company.mjs', 'export const CHILD_WALK_SPEED = 2 / 3, SMALL_WALK_SPEED = 0.5;', 'export const CHILD_WALK_SPEED = 2 / 3, SMALL_WALK_SPEED = 0.65;')] },
-  { name: 'the flight east not seated', expect: T.flight, edits: [one('sim/scrape.mjs', "  if (world.meansRoll) setOut(travellers, mode === 'wagon' ? drawnVehicles(travellers) : [], journey);", '  if (false) setOut(travellers, [], journey);'), one('sim/scrape.mjs', '    if (!world.meansRoll) entity.travel = journey();\n    entity.location', '    entity.travel = journey();\n    entity.location')] },
-  { name: 'the way home not seated', expect: T.flight, edits: [one('sim/scrape.mjs', "    if (world.meansRoll) setOut(home, mode === 'wagon' ? drawnVehicles(home) : [], journey);", '    if (false) setOut(home, [], journey);'), one('sim/scrape.mjs', '      if (!world.meansRoll) entity.travel = journey();', '      entity.travel = journey();')] },
-  { name: "a cart holds a wagon's room in the flight", expect: T.flight, edits: [one('sim/scrape.mjs', '?.cart ? FLIGHT_ROOM * (1 - CART_SPACE / WAGON_SPACE) : 0;', '?.cart ? 0 : 0;')] },
+  { name: 'the flight east not seated', expect: T.flight, edits: [one('sim/scrape.mjs', "  if (world.meansRoll) setOut(travellers, mode === 'wagon' ? drawnVehicles(travellers) : [], journey, riddenHorses(world, travellers));", '  if (false) setOut(travellers, [], journey);'), one('sim/scrape.mjs', '    if (!world.meansRoll) entity.travel = journey();\n    entity.location', '    entity.travel = journey();\n    entity.location')] },
+  { name: 'the way home not seated', expect: T.flight, edits: [one('sim/scrape.mjs', "    if (world.meansRoll) setOut(home, mode === 'wagon' ? drawnVehicles(home) : [], journey, riddenHorses(world, home));", '    if (false) setOut(home, [], journey);'), one('sim/scrape.mjs', '      if (!world.meansRoll) entity.travel = journey();', '      entity.travel = journey();')] },
+  { name: "a cart holds a wagon's room in the flight", expect: T.flight, edits: [one('sim/scrape.mjs', 'const roomOf = wagon => (wagon.cart ? CART_SPACE : wagon.carreta ? CARRETA_SPACE : WAGON_SPACE);', 'const roomOf = wagon => (wagon.carreta ? CARRETA_SPACE : WAGON_SPACE);')] },
   { name: 'a cart is not the vehicle a crop wants', expect: T.cart, edits: [one('sim/means.mjs', "  if (band.cart && wagon) { wagon.cart = true; wagon.name = 'Family cart'; }", "  if (band.cart && wagon) { wagon.cart = true; wagon.name = 'Family cart'; wagon.condition = 'broken'; }")] },
   { name: 'the families nobody plays given no means', expect: T.nobody, edits: [one('sim/world.mjs', '  settleMeans(world);\n', '')] },
   { name: "the means written into a family's record", expect: T.nobody, edits: [one('sim/means.mjs', '  for (const household of Object.values(world.households)) if (!household.means) applyMeans(world, household);', "  for (const household of Object.values(world.households)) if (!household.means) { applyMeans(world, household); world.events.push({ id: `ev-m-${household.id}`, type: 'memory', householdId: household.id, text: 'The family means are rolled.' }); }")] },
   { name: 'a class made before seated too', expect: T.old, edits: [one('sim/settling.mjs', '  if (!world.meansRoll) return;\n  const movers', '  const movers')] },
   { name: 'means never checked on a save', expect: T.old, edits: [one('sim/means.mjs', 'export function meansInvalid(world) {\n', 'export function meansInvalid(world) {\n  return null;\n')] },
   { name: 'the Host not told who walks', expect: T.wire, edits: [one('sim/overview.mjs', ', ...seatOfTravel(entity.travel) };', ' };')] },
-  { name: "the family book carries the people's hidden stats", expect: T.wire, edits: [one('sim/means.mjs', 'seats: seatWords(people, vehicles) };', 'seats: seatWords(people, vehicles), who: people.map(one => one.traits) };')] },
+  { name: "the family book carries the people's hidden stats", expect: T.wire, edits: [one('sim/means.mjs', 'seats: seatWords(people, vehicles, horses) };', 'seats: seatWords(people, vehicles, horses), who: people.map(one => one.traits) };')] },
   { name: "another family's cart sent to a student", expect: T.wire, edits: [one('sim/world.mjs', 'const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId)', 'const entities = Object.values(world.entities).filter(e => (e.householdId === householdId || e.cart) && householdId)')] },
 ];
 

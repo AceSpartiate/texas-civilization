@@ -1,0 +1,718 @@
+{
+  "record": "afoot-injections",
+  "date": "2026-09-25",
+  "files": [
+    "tests/afoot.test.mjs",
+    "tests/carreta.test.mjs",
+    "tests/means.test.mjs",
+    "tests/lesson.test.mjs",
+    "tests/ending.test.mjs",
+    "tests/store.test.mjs"
+  ],
+  "caught": 41,
+  "onlyThat": 27,
+  "of": 41,
+  "results": [
+    {
+      "name": "the top face gives eleven reales",
+      "expect": "every face of the means die gives a fixed coin from 3 to 10, never falling as the face rises, and it is in the house",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "7, 7, 8, 8, 9, 10]);",
+          "to": "7, 7, 8, 8, 9, 11]);"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "every face of the means die gives a fixed coin from 3 to 10, never falling as the face rises, and it is in the house"
+      ]
+    },
+    {
+      "name": "the coin falls as the face rises",
+      "expect": "every face of the means die gives a fixed coin from 3 to 10, never falling as the face rises, and it is in the house",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "MEANS_COIN = Object.freeze([3, 3, 3, 3, 4, 4,",
+          "to": "MEANS_COIN = Object.freeze([3, 3, 4, 3, 4, 4,"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "every face of the means die gives a fixed coin from 3 to 10, never falling as the face rises, and it is in the house"
+      ]
+    },
+    {
+      "name": "the coin rolled and not put in the house",
+      "expect": "every face of the means die gives a fixed coin from 3 to 10, never falling as the face rises, and it is in the house",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "  if (coin) household.resources = { ...household.resources, money: (household.resources?.money ?? 0) + coin };\n",
+          "to": ""
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "every face of the means die gives a fixed coin from 3 to 10, never falling as the face rises, and it is in the house",
+        "a family with no vehicle does the whole of its lesson, and sells its crop in town on foot",
+        "every coin that came into the house or went out of it is in the family's account",
+        "the whole of it, played through: the family ends with a house, a field it cleared, the crop it chose, coin for it, and a hunt",
+        "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room",
+        "coin is one thing among several, counted whole, and every family starts with the few reales its means give it"
+      ]
+    },
+    {
+      "name": "the coin not said with the band",
+      "expect": "every face of the means die gives a fixed coin from 3 to 10, never falling as the face rises, and it is in the house",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "  return coin ? `${haul}, the family's horse, and ${realesWords(coin)}.` : `${haul}, and the family's horse.`;",
+          "to": "  return `${haul}, and the family's horse.`;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "every face of the means die gives a fixed coin from 3 to 10, never falling as the face rises, and it is in the house",
+        "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room"
+      ]
+    },
+    {
+      "name": "a class of the first table rolls on the second",
+      "expect": "a class that rolled on the first table keeps it: four bands, a cart at the bottom, no coin, and the horse led",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "export const bandsOf = world => (secondTable(world) ? MEANS_BANDS : MEANS_BANDS_BEFORE);",
+          "to": "export const bandsOf = () => MEANS_BANDS;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "a class that rolled on the first table keeps it: four bands, a cart at the bottom, no coin, and the horse led",
+        "made, it takes three logs, the poorest first, and a hide, and stands in the yard as the vehicle of a family that had none"
+      ]
+    },
+    {
+      "name": "a class of the first table given coin",
+      "expect": "a class that rolled on the first table keeps it: four bands, a cart at the bottom, no coin, and the horse led",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "  const coin = secondTable(world) ? coinFor(roll) : 0;",
+          "to": "  const coin = coinFor(roll);"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a class that rolled on the first table keeps it: four bands, a cart at the bottom, no coin, and the horse led"
+      ]
+    },
+    {
+      "name": "the horse ridden in a class of the first table",
+      "expect": "a class that rolled on the first table keeps it: four bands, a cart at the bottom, no coin, and the horse led",
+      "edits": [
+        {
+          "file": "sim/company.mjs",
+          "from": "export const riddenHorses = (world, movers = []) => (world?.meansRoll === 2 ?",
+          "to": "export const riddenHorses = (world, movers = []) => (world?.meansRoll ?"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a class that rolled on the first table keeps it: four bands, a cart at the bottom, no coin, and the horse led"
+      ]
+    },
+    {
+      "name": "a means record with the wrong coin let in",
+      "expect": "every face of the means die gives a fixed coin from 3 to 10, never falling as the face rises, and it is in the house",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "    if (means.coin !== undefined && (!secondTable(world) || means.coin !== coinFor(means.roll))) return 'Invalid means';\n    if (secondTable(world) && means.coin === undefined) return 'Invalid means';\n",
+          "to": ""
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "every face of the means die gives a fixed coin from 3 to 10, never falling as the face rises, and it is in the house",
+        "a class that rolled on the first table keeps it: four bands, a cart at the bottom, no coin, and the horse led"
+      ]
+    },
+    {
+      "name": "a family that is hard up comes with the family wagon",
+      "expect": "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "  if (band.afoot) for (const one of wagonsOf(world, household)) {",
+          "to": "  if (false) for (const one of wagonsOf(world, household)) {"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+        "a family with no vehicle does the whole of its lesson, and sells its crop in town on foot",
+        "a crop that would want the wagon is brought in by hand by a family with none, and slower; one whose wagon is away is told so",
+        "a family with no vehicle goes to town more than once for a big load, and flees east on foot with one on the horse",
+        "made, it takes three logs, the poorest first, and a hide, and stands in the yard as the vehicle of a family that had none",
+        "it is used as the wagon is, one person at a time, and carries less: twelve on a trip, ten in the flight, two riders",
+        "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room"
+      ]
+    },
+    {
+      "name": "a family on foot leaves its ox behind with the wagon",
+      "expect": "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "    household.property = household.property.filter(id => id !== one.id);\n  }",
+          "to": "    household.property = household.property.filter(id => id !== one.id);\n    const ox = beastsOf(world, household, 'ox')[0];\n    if (ox) { delete world.entities[ox.id]; household.property = household.property.filter(id => id !== ox.id); }\n  }"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+        "a crop that would want the wagon is brought in by hand by a family with none, and slower; one whose wagon is away is told so",
+        "a family with no vehicle goes to town more than once for a big load, and flees east on foot with one on the horse",
+        "it is used as the wagon is, one person at a time, and carries less: twelve on a trip, ten in the flight, two riders",
+        "a harvest that wants the wagon takes the carreta, and a family that made one no longer carries its crop in by hand",
+        "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room",
+        "a bale is worth about twice what it weighs in corn, and only once it reaches town"
+      ]
+    },
+    {
+      "name": "the ox's packs too small for a shot",
+      "expect": "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+      "edits": [
+        {
+          "file": "sim/wagon.mjs",
+          "from": "export const PACK_SPACE = 7;",
+          "to": "export const PACK_SPACE = 6;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+        "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room"
+      ]
+    },
+    {
+      "name": "a family on foot sent in by the wagon",
+      "expect": "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+      "edits": [
+        {
+          "file": "sim/settling.mjs",
+          "from": "  const mode = walking ? 'foot' : 'wagon';",
+          "to": "  const mode = 'wagon';"
+        },
+        {
+          "file": "sim/settling.mjs",
+          "from": "      if (walking && entity.travel.progress === 0 && entity.travel.mode !== 'foot') {",
+          "to": "      if (false) {"
+        },
+        {
+          "file": "sim/company.mjs",
+          "from": "    if (!vehicles.length && rest.mode === 'wagon') rest.mode = 'foot';\n",
+          "to": ""
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry"
+      ]
+    },
+    {
+      "name": "the arrival line says the ox carried nothing",
+      "expect": "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+      "edits": [
+        {
+          "file": "sim/settling.mjs",
+          "from": "food on their backs, in sacks and bundles, and the ox carried the rest.`",
+          "to": "food more on foot, in sacks and bundles.`"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry"
+      ]
+    },
+    {
+      "name": "walkers on foot drawn on one spot",
+      "expect": "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+      "edits": [
+        {
+          "file": "public/motion.js",
+          "from": "(entity.travel?.mode === 'wagon' || entity.travel?.mode === 'foot') && Boolean(entity.travel.afoot)",
+          "to": "entity.travel?.mode === 'wagon' && Boolean(entity.travel.afoot)"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry"
+      ]
+    },
+    {
+      "name": "a big crop refused a family that has no vehicle at all",
+      "expect": "a crop that would want the wagon is brought in by hand by a family with none, and slower; one whose wagon is away is told so",
+      "edits": [
+        {
+          "file": "sim/chores.mjs",
+          "from": "  if (chore.wantsWagon && needsWagonToHarvest(household) && ownsVehicle(world, household) && !wagonAtHome(world, household)) {",
+          "to": "  if (chore.wantsWagon && needsWagonToHarvest(household) && !wagonAtHome(world, household)) {"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a crop that would want the wagon is brought in by hand by a family with none, and slower; one whose wagon is away is told so"
+      ]
+    },
+    {
+      "name": "carried in by hand as fast as by the wagon",
+      "expect": "a crop that would want the wagon is brought in by hand by a family with none, and slower; one whose wagon is away is told so",
+      "edits": [
+        {
+          "file": "sim/chores.mjs",
+          "from": "    begin: (world, household, entity) => { if (byHand(world, household)) entity.chore.flags = [...(entity.chore.flags || []), 'by-hand']; },",
+          "to": "    begin: () => {},"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a crop that would want the wagon is brought in by hand by a family with none, and slower; one whose wagon is away is told so"
+      ]
+    },
+    {
+      "name": "a harvest by hand holds a wagon nobody has",
+      "expect": "a crop that would want the wagon is brought in by hand by a family with none, and slower; one whose wagon is away is told so",
+      "edits": [
+        {
+          "file": "sim/chores.mjs",
+          "from": "    takes: (world, household) => needsWagonToHarvest(household) && ownsVehicle(world, household) ? ['ox', 'wagon'] : [],",
+          "to": "    takes: (world, household) => needsWagonToHarvest(household) ? ['ox', 'wagon'] : [],"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a crop that would want the wagon is brought in by hand by a family with none, and slower; one whose wagon is away is told so"
+      ]
+    },
+    {
+      "name": "a family with no wagon told to wait for the wagon",
+      "expect": "a family with no vehicle goes to town more than once for a big load, and flees east on foot with one on the horse",
+      "edits": [
+        {
+          "file": "sim/errands.mjs",
+          "from": "  if (!needsWagon && !beastsOf(world, household, 'wagon').some(kept)) return",
+          "to": "  if (false) return"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a family with no vehicle goes to town more than once for a big load, and flees east on foot with one on the horse"
+      ]
+    },
+    {
+      "name": "the lesson on foot says the wagon",
+      "expect": "a family with no vehicle does the whole of its lesson, and sells its crop in town on foot",
+      "edits": [
+        {
+          "file": "sim/lesson.mjs",
+          "from": "    says: (world, household) => walked(household)\n",
+          "to": "    says: (world, household) => false\n"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a family with no vehicle does the whole of its lesson, and sells its crop in town on foot"
+      ]
+    },
+    {
+      "name": "the horse carries nobody",
+      "expect": "the horse carries a rider: one more seat after the vehicles', to the sick and then the youngest, and a baby in its carrier's arms",
+      "edits": [
+        {
+          "file": "sim/company.mjs",
+          "from": ", ...horses.map(horse => ({ id: horse.id, left: 1, saddle: true }))];",
+          "to": "];"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+        "a family with no vehicle goes to town more than once for a big load, and flees east on foot with one on the horse",
+        "nothing hidden reaches a page from a family on foot; the horse rider and the coin cost the wire little",
+        "the horse carries a rider: one more seat after the vehicles', to the sick and then the youngest, and a baby in its carrier's arms",
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+        "the flight east and the way home are seated and paced as the family is; a cart holds three quarters of a wagon",
+        "a family whose vehicle is gone flees on foot at the pace of its smallest walker, carrying a baby"
+      ]
+    },
+    {
+      "name": "the horse seated before the wagons",
+      "expect": "the horse carries a rider: one more seat after the vehicles', to the sick and then the youngest, and a baby in its carrier's arms",
+      "edits": [
+        {
+          "file": "sim/company.mjs",
+          "from": "const free = [...vehicles.map(vehicle => ({ id: vehicle.id, left: ridersIn(vehicle) })), ...horses.map(horse => ({ id: horse.id, left: 1, saddle: true }))];",
+          "to": "const free = [...horses.map(horse => ({ id: horse.id, left: 1, saddle: true })), ...vehicles.map(vehicle => ({ id: vehicle.id, left: ridersIn(vehicle) }))];"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the horse carries a rider: one more seat after the vehicles', to the sick and then the youngest, and a baby in its carrier's arms"
+      ]
+    },
+    {
+      "name": "a baby left off the horse its mother rides",
+      "expect": "the horse carries a rider: one more seat after the vehicles', to the sick and then the youngest, and a baby in its carrier's arms",
+      "edits": [
+        {
+          "file": "sim/company.mjs",
+          "from": "{ rides: theirs.drives || theirs.rides, ...(theirs.saddle && { saddle: true }) }",
+          "to": "{ rides: theirs.drives || theirs.rides }"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the horse carries a rider: one more seat after the vehicles', to the sick and then the youngest, and a baby in its carrier's arms"
+      ]
+    },
+    {
+      "name": "the rider on the horse tired as a walker",
+      "expect": "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "const how = travel.saddle ? MODES.horse : travel.afoot ? MODES.foot : modeOf(travel);",
+          "to": "const how = travel.saddle ? MODES.foot : travel.afoot ? MODES.foot : modeOf(travel);"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so"
+      ]
+    },
+    {
+      "name": "the rider on the horse not drawn in the saddle",
+      "expect": "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+      "edits": [
+        {
+          "file": "public/motion.js",
+          "from": " && (entity.travel?.mode === 'horse' || (Boolean(entity.travel?.saddle) && !entity.travel.carried));",
+          "to": " && entity.travel?.mode === 'horse';"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so"
+      ]
+    },
+    {
+      "name": "the ridden horse drawn again by itself",
+      "expect": "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+      "edits": [
+        {
+          "file": "public/motion.js",
+          "from": "  if (entity.kind === 'animal' && entity.species === 'horse' && entities.some(one => one.kind === 'person' && one.travel?.saddle && !one.travel.carried && one.travel.rides === entity.id)) return true;\n",
+          "to": ""
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so"
+      ]
+    },
+    {
+      "name": "the saddle not sent to the page",
+      "expect": "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+      "edits": [
+        {
+          "file": "sim/company.mjs",
+          "from": " rides: travel.rides, saddle: travel.saddle, afoot:",
+          "to": " rides: travel.rides, afoot:"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "a family that is hard up walks in: its kit on the ox, its food on its own backs, one on the horse, nobody hungry",
+        "nothing hidden reaches a page from a family on foot; the horse rider and the coin cost the wire little",
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so"
+      ]
+    },
+    {
+      "name": "the carreta offered with no log pile",
+      "expect": "the carreta is offered where logs lie in a pile, and refused in words for want of the axe, the logs, a hide, or the class begun",
+      "edits": [
+        {
+          "file": "sim/carreta.mjs",
+          "from": "export const carretaOffered = world => secondTable(world) && countsTrees(woodsRule(world));",
+          "to": "export const carretaOffered = world => secondTable(world);"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the carreta is offered where logs lie in a pile, and refused in words for want of the axe, the logs, a hide, or the class begun"
+      ]
+    },
+    {
+      "name": "a carreta made with no hide",
+      "expect": "the carreta is offered where logs lie in a pile, and refused in words for want of the axe, the logs, a hide, or the class begun",
+      "edits": [
+        {
+          "file": "sim/carreta.mjs",
+          "from": "  if ((household.resources?.hides ?? 0) < CARRETA_HIDES) return",
+          "to": "  if (false) return"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "the carreta is offered where logs lie in a pile, and refused in words for want of the axe, the logs, a hide, or the class begun",
+        "what the carreta is made of is said before it is sent, and nothing a family cannot see is read"
+      ]
+    },
+    {
+      "name": "a carreta made with too few logs",
+      "expect": "the carreta is offered where logs lie in a pile, and refused in words for want of the axe, the logs, a hide, or the class begun",
+      "edits": [
+        {
+          "file": "sim/carreta.mjs",
+          "from": "  if (logs < CARRETA_LOGS) return",
+          "to": "  if (false) return"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the carreta is offered where logs lie in a pile, and refused in words for want of the axe, the logs, a hide, or the class begun"
+      ]
+    },
+    {
+      "name": "two carretas made at once",
+      "expect": "the carreta is offered where logs lie in a pile, and refused in words for want of the axe, the logs, a hide, or the class begun",
+      "edits": [
+        {
+          "file": "sim/carreta.mjs",
+          "from": "  if (already && already !== entity) return",
+          "to": "  if (false) return"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the carreta is offered where logs lie in a pile, and refused in words for want of the axe, the logs, a hide, or the class begun"
+      ]
+    },
+    {
+      "name": "the wall timber cut for wheels first",
+      "expect": "made, it takes three logs, the poorest first, and a hide, and stands in the yard as the vehicle of a family that had none",
+      "edits": [
+        {
+          "file": "sim/carreta.mjs",
+          "from": "const LOG_ORDER = Object.freeze(['poor', 'sill', 'wall']);",
+          "to": "const LOG_ORDER = Object.freeze(['wall', 'sill', 'poor']);"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "made, it takes three logs, the poorest first, and a hide, and stands in the yard as the vehicle of a family that had none"
+      ]
+    },
+    {
+      "name": "the hide not taken",
+      "expect": "made, it takes three logs, the poorest first, and a hide, and stands in the yard as the vehicle of a family that had none",
+      "edits": [
+        {
+          "file": "sim/carreta.mjs",
+          "from": "  household.resources.hides -= CARRETA_HIDES;\n",
+          "to": ""
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "made, it takes three logs, the poorest first, and a hide, and stands in the yard as the vehicle of a family that had none"
+      ]
+    },
+    {
+      "name": "the carreta of a family on foot is not the family wagon",
+      "expect": "made, it takes three logs, the poorest first, and a hide, and stands in the yard as the vehicle of a family that had none",
+      "edits": [
+        {
+          "file": "sim/carreta.mjs",
+          "from": "  if (!world.entities[first]) {",
+          "to": "  if (false) {"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "made, it takes three logs, the poorest first, and a hide, and stands in the yard as the vehicle of a family that had none"
+      ]
+    },
+    {
+      "name": "the page not told it is a carreta",
+      "expect": "made, it takes three logs, the poorest first, and a hide, and stands in the yard as the vehicle of a family that had none",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "...(e.carreta && { carreta: true }), borrowedBy",
+          "to": "borrowedBy"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "made, it takes three logs, the poorest first, and a hide, and stands in the yard as the vehicle of a family that had none"
+      ]
+    },
+    {
+      "name": "a carreta let in a class of the first table",
+      "expect": "made, it takes three logs, the poorest first, and a hide, and stands in the yard as the vehicle of a family that had none",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "entity.cart || !secondTable(world) || !world.households",
+          "to": "entity.cart || !world.households"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "made, it takes three logs, the poorest first, and a hide, and stands in the yard as the vehicle of a family that had none"
+      ]
+    },
+    {
+      "name": "the carreta carries a wagon's load",
+      "expect": "it is used as the wagon is, one person at a time, and carries less: twelve on a trip, ten in the flight, two riders",
+      "edits": [
+        {
+          "file": "sim/keeping.mjs",
+          "from": "  return wagon?.carreta ? CARRETA_CARRY : mode.carry;",
+          "to": "  return mode.carry;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "it is used as the wagon is, one person at a time, and carries less: twelve on a trip, ten in the flight, two riders"
+      ]
+    },
+    {
+      "name": "the carreta seats a wagon's riders",
+      "expect": "it is used as the wagon is, one person at a time, and carries less: twelve on a trip, ten in the flight, two riders",
+      "edits": [
+        {
+          "file": "sim/company.mjs",
+          "from": "(vehicle?.cart || vehicle?.carreta ? CART_RIDERS : WAGON_RIDERS)",
+          "to": "(vehicle?.cart ? CART_RIDERS : WAGON_RIDERS)"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "it is used as the wagon is, one person at a time, and carries less: twelve on a trip, ten in the flight, two riders"
+      ]
+    },
+    {
+      "name": "the carreta holds a wagon's room in the flight",
+      "expect": "it is used as the wagon is, one person at a time, and carries less: twelve on a trip, ten in the flight, two riders",
+      "edits": [
+        {
+          "file": "sim/scrape.mjs",
+          "from": "const roomOf = wagon => (wagon.cart ? CART_SPACE : wagon.carreta ? CARRETA_SPACE : WAGON_SPACE);",
+          "to": "const roomOf = wagon => (wagon.cart ? CART_SPACE : WAGON_SPACE);"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "it is used as the wagon is, one person at a time, and carries less: twelve on a trip, ten in the flight, two riders"
+      ]
+    },
+    {
+      "name": "the carreta made broken",
+      "expect": "a harvest that wants the wagon takes the carreta, and a family that made one no longer carries its crop in by hand",
+      "edits": [
+        {
+          "file": "sim/carreta.mjs",
+          "from": "  Object.assign(carreta, { carreta: true, name: made ? 'Second carreta' : 'Carreta' });",
+          "to": "  Object.assign(carreta, { carreta: true, name: made ? 'Second carreta' : 'Carreta', condition: 'broken' });"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "made, it takes three logs, the poorest first, and a hide, and stands in the yard as the vehicle of a family that had none",
+        "it is used as the wagon is, one person at a time, and carries less: twelve on a trip, ten in the flight, two riders",
+        "a harvest that wants the wagon takes the carreta, and a family that made one no longer carries its crop in by hand"
+      ]
+    },
+    {
+      "name": "the coin the family came with taken for a crop sold",
+      "expect": "the whole of it, played through: the family ends with a house, a field it cleared, the crop it chose, coin for it, and a hunt",
+      "edits": [
+        {
+          "file": "sim/lesson.mjs",
+          "from": "  || (household.resources?.money ?? 0) > (startCoin(household) ? (household.lesson?.had?.money ?? Infinity) : 0);",
+          "to": "  || (household.resources?.money ?? 0) > 0;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "a family with no vehicle does the whole of its lesson, and sells its crop in town on foot",
+        "the whole of it, played through: the family ends with a house, a field it cleared, the crop it chose, coin for it, and a hunt"
+      ]
+    },
+    {
+      "name": "the coin the family came with missing from the ending's account",
+      "expect": "every coin that came into the house or went out of it is in the family's account",
+      "edits": [
+        {
+          "file": "sim/ending.mjs",
+          "from": "  const coin = [...start, ...world.events",
+          "to": "  const coin = [...world.events"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "every coin that came into the house or went out of it is in the family's account"
+      ]
+    }
+  ]
+}

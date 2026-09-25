@@ -11,7 +11,7 @@
   "checks": [
     "the main person's available work is bottom middle at 1366x768: 15 icons on 2 rows, centred at 683, 104px up, 58px each, 8.8% of the screen",
     "a person who is not the main one has no work on the screen",
-    "the star moves the bar: it is now hh-1-parent-2's 16 icons, still centred at 683",
+    "the star moves the bar: it is now hh-1-parent-2's 15 icons, still centred at 683",
     "the server's own lesson is on the screen: \"STEP 2 OF 10 - Put somebody to work\"",
     "no lesson, nothing drawn",
     "the guide selects the person and focuses the named action without issuing work or skipping the lesson",
@@ -33,7 +33,7 @@
     "at 1366x768 the X is 36x36px, inside the strip, on no word, reachable, and named \"Stop the guided start\"",
     "the X asks once, in the strip: \"Stop the guided start? You won’t be walked through the rest. For five minutes, a “Resume tutorial” button can bring it back.\" - and \"Keep going\" sends nothing",
     "\"Yes, stop it\" sends stop-lesson once; the strip goes, the snapshot carries no lesson, nothing on the bar is shut, and the old walk-through is not offered instead",
-    "stopping the lesson reveals 10 additional actions",
+    "stopping the lesson reveals 11 additional actions",
     "at 1366x768 \"Resume tutorial\" is 119x36px at 1235,10, on the screen, reachable, and on nothing else",
     "at 1024x768 \"Resume tutorial\" is 119x36px at 893,10, on the screen, reachable, and on nothing else",
     "after a reload the strip stays gone and the server sends no lesson",
@@ -226,6 +226,7 @@
       "asks": "Stop the guided start? You won’t be walked through the rest. For five minutes, a “Resume tutorial” button can bring it back.",
       "availableAfter": [
         "survey-plot",
+        "plant-field",
         "fence-plot",
         "hunt-timber",
         "visit-shop",
@@ -242,8 +243,8 @@
       ]
     },
     "resume": {
-      "until": 1790349947659,
-      "msWhenStopped": 299897,
+      "until": 1790362071973,
+      "msWhenStopped": 299981,
       "chromebook": {
         "size": [
           119,

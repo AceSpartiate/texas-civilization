@@ -1,5 +1,71 @@
 # Claude handoff — Astra foundation
 
+## Starting coin, a family with no vehicle, the carreta, and the horse ridden — 2026-09-25, evening (after 7b102ad; not yet committed or released)
+
+Owner, verbatim: *"families should get some starting coin, starting with a minimum of 3 coin, and a maximum of 10 coin. this should be
+a structured part of the wealth d20 roll. yes, it should be possible to start with no wagon. it shouldn't block gameplay, but some
+things might have to happen slower. what was the cart thing that tejanos used? maybe we could use that? have it be something families
+can make at home? could work the same, just with reduced carrying capacity? yes, the horse should carry a rider."* Recorded as dated
+amendments in [docs/FAMILY_CREATION.md](docs/FAMILY_CREATION.md) (the second amendment of 2026-09-25, and the "no band brings coin"
+bullet struck), [docs/SETTLING_IN.md §4b](docs/SETTLING_IN.md) ("Zero wagons" amended, and a dated sub-section),
+[docs/WOODS_AND_BUILDING.md §6.6](docs/WOODS_AND_BUILDING.md) (the carreta), [docs/MONEY_AND_GLORY.md](docs/MONEY_AND_GLORY.md) (dated
+note: coin chosen, the ending's count still open), [docs/LESSON.md](docs/LESSON.md). Claims `HIST-TEX-443` (the carreta's record),
+`FIC-GONZ-397` (the second table, coin, on foot), `FIC-GONZ-398` (the carreta); `FIC-GONZ-393` and `-394` amended. **No save version**:
+a class made since carries `world.meansRoll = 2`; a class of the afternoon (`true`) keeps the first table, no coin, the horse led.
+
+- **Coin, face by face** (`sim/means.mjs` `MEANS_COIN`): 1-20 → 3, 3 · 3, 3, 4, 4 · 5, 5, 5, 5, 6, 6, 6, 6 · 7, 7, 8, 8 · 9, 10 reales
+  (hard up 3; poor 3-4; modest 5-6; comfortable 7-8; well-to-do 9-10; mean 5.65). In the house at the roll, on `household.means.coin`
+  (validated against the face), and said with the band: *"Poor. A cart and one ox to draw it, the family's horse, and 4 reales. 4 ride
+  and 8 walk beside the cart."* The ending's account opens *"The family came with 4 reales."*; **scoring unchanged** (open, below). The
+  lesson's sale step now counts coin over what was in the house when it began, or starting coin would have finished it.
+- **The odds, re-cut**: 1-2 **hard up** (no vehicle), 3-6 poor (cart), 7-14 modest, 15-18 comfortable, 19-20 well-to-do = 10/20/40/20/10.
+- **No vehicle**: the family wagon is not the family's; its ox carries **7** spaces of packs (hoe, felling axe, first seed, a shot; the pot
+  for corn); five days of food on its own backs (five a person of ten and over, `carriedOnFoot`: fits every size 1-20, least margin 1);
+  walked in (`mode: 'foot'`, walker's ground pace, slowest walker's speed), one on the horse, the rest in a file; *"They carried 11 food
+  on their backs, in sacks and bundles, and the ox carried the rest."* **Slower, not blocked**: a crop that would want the wagon is
+  carried in by hand, 6 ticks more (`byHand`); a load over the horse's 7 is refused with *"Send a smaller load, and go again for the
+  rest."*; the flight is on foot; stock refused when the packs are full. Tested: the whole lesson (buying seed on foot, selling on foot),
+  a by-hand harvest, the Scrape, errands. `ceiling:` fetching logs from timber *off* the land still wants a vehicle; the pack ox and a
+  led horse keep the walkers' pace.
+- **The carreta** (`sim/carreta.mjs`, `make-carreta`). Research (`HIST-TEX-443`, read 2026-09-25): Smithwick p. 47 *"Carts with great,
+  clumsy, solid wooden wheels"*, *"Rawhide entered into the construction of pretty much everything"*; p. 18 the biscuit-wheeled
+  *"miniature Mexican cart"*; Woodman pp. 44, 48 *"plank-wheeled vehicles"*, *"unhewn sticks which squeak in the holes of the plank
+  wheels"*; Harris 4:2 p. 114 men *"sawed wheels from logs"*; TSHA *Cart War* (1857). Not found: the word "carreta", its size, load,
+  making time, or iron. **Recipe**: felling axe (shared at home), **3 logs** from the pile (poorest first), **1 hide**, **12 ticks**; taken at
+  the end, nothing if called off; one at a time. **Capacity**: **12** on a trip (wagon 20), **10** spaces in the flight (cart 12, wagon
+  16), **2** riders. An ox draws it; `userOf` holds it; the harvest, errand and flight use it. Offered only on land whose trees are
+  counted (every real-land class); refused in plain words. Drawn with the wagon's art at 0.8 and a glyph icon (`stand-in:`, new request
+  *the carreta* in docs/ART_REQUESTS.md with the pack ox). The game has no family origins, so the poor band's cart stays a cart.
+- **The horse carries a rider** (`sim/company.mjs` `riddenHorses`, `seatPlan(people, vehicles, horses)`): one more seat a sound horse,
+  after the vehicles' seats, same order (sick, then youngest); a baby in its carrier's arms; `saddle` on the travel record, tired as a
+  rider, drawn in the saddle behind the last vehicle (public/app.js), the horse not drawn again. On the road in, the move to the site,
+  the flight and the way home.
+- **Tests.** New `tests/afoot.test.mjs` (7), `tests/carreta.test.mjs` (5), the horse test in `tests/means.test.mjs` (14 now). Changed
+  because the world changed: `means` (five bands, coin, the horse rider counted apart), `lesson` (coin over the start), `ending` (the
+  class plays from no coin; the account's first line), `store` (every family starts with its means' coin), `travel-modes` (a family on
+  foot has no wagon), `powder`, `beasts`, `chores` (the carreta not offered on the invented map); fixtures `withoutStartingCoin` for
+  the coin-from-nothing files (money, crops, ending) and `modestMeans` now gives back the family wagon. **Injections**
+  (`scripts/afoot-injections.mjs`, [record](docs/evidence/afoot-injections.json)): **41 of 41 caught**, 27 by that test alone;
+  `scripts/means-injections.mjs` re-run with its strings brought up to date: **37 of 37**. `npm test`: **1174 pass**, 0 fail (1161 before).
+- **Browser** (same computer only). `npm run test:means` extended (11 checks): the coin on the means line; the poor cart with a child on
+  the horse drawn in the saddle; a hard-up family's packs panel (*"No wagon or cart. The ox's packs: 7 of 7"*, *"The family carries its
+  food itself: 11 food"*, 5.2 days), walking in apart with a 3-year-old in the saddle and the ox behind, and in with its food; a carreta
+  made from the family panel's icon on the real land and standing in the yard. `test:creation` (10; its means regex takes the new bands
+  and coin, and its toggle is pressed from the keyboard - the panel's foot covered it under the longer words) and `test:family-panel`
+  (17; its seed now rolls hard up with one shot, so the fixture adds four) changed. Re-run, PASS: means 11, creation 10, lesson 33,
+  wagons 4, errand 13, going 7, family-panel 17, panels 10, travel 10, farm 7, host-view 8, scrape 5. Screenshots looked at (session
+  scratchpad): `means-roll-1366.png` (the coin line), `means-afoot-arrival-1366.png`, `means-poor-arrival-1366.png`, `means-carreta-1366.png`;
+  no family arrives short of food (5.0 and 5.2 days in the shots, the floor tested on every size). `node --check` passes on .mjs copies of
+  public/app.js, motion.js and family-panel.js.
+- **Open for the owner.** (1) **How the ending counts starting coin** - recommended: score coin gained over `household.means.coin` (one
+  line in `countedCoin`); today a well-to-do family's head start is up to 3.3× the final number for the same glory. (2) The coin
+  amounts, the odds, the pack room (7), five a person carried, the carreta's recipe (3 logs, a hide, 12 ticks) and capacity (12/10/2)
+  are invented. (3) Should the **cart** also carry less than a wagon on a trip (it carries 20 as before)? (4) Families of origins: the
+  poor band's vehicle could be a carreta for a Tejano family if the game ever tells families apart. (5) A pack ox at the walkers' pace.
+  (6) Fetching logs off the land with no vehicle is still refused (a family makes a carreta first). (7) Found in passing: the pack
+  panel's foot (note and Done) stands over the last lines of its item list, so a pointer can miss an item there (proof pressed it by
+  keyboard); a UI fix, not made here.
+
 ## Farm plot art overhaul — 2026-09-25 (Astra; for the next release)
 
 Validation completed: **1,160 tests passed**, plus the field-surface, clearing-art, and farm browser proofs. Farm proof checked 58 cached-ground snapshots with none stale. Local files are ready to include with the other work below; this change has not been published separately.

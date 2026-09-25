@@ -18,10 +18,10 @@ import { join } from 'node:path';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectFamily, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { eatenADay, familyRoll, meansRoll } from '../sim/family.mjs';
-import { ARRIVAL_DAYS, MEANS_BANDS, bandFor, meansProjection, settleMeans } from '../sim/means.mjs';
+import { ARRIVAL_DAYS, MEANS_BANDS, MEANS_BANDS_BEFORE, MEANS_COIN, MEANS_TABLE, bandFor, carriedOnFoot, coinFor, meansProjection, settleMeans } from '../sim/means.mjs';
 import { CART_RIDERS, CHILD_WALK_SPEED, SMALL_WALK_SPEED, WAGON_RIDERS, companyPace, seatPlan, walkingPace } from '../sim/company.mjs';
-import { CART_SPACE, WAGON_SPACE, spaceOf, wagonSpaceFor } from '../sim/wagon.mjs';
-import { WAGON_SPEED, WALK_SPEED } from '../sim/travel.mjs';
+import { CART_SPACE, PACK_SPACE, WAGON_SPACE, spaceOf, wagonSpaceFor } from '../sim/wagon.mjs';
+import { MODES, WAGON_SPEED, WALK_SPEED } from '../sim/travel.mjs';
 import { beastsOf } from '../sim/beasts.mjs';
 import { FLIGHT_ROOM, flee, flightProjection, flightRoom, turnHome } from '../sim/scrape.mjs';
 import { choreAvailability } from '../sim/chores.mjs';
@@ -50,8 +50,11 @@ const person = (id, age, extra = {}) => ({ id, kind: 'person', age, health: { co
 const wagon = (id, cart = false) => ({ id, kind: 'wagon', ...(cart && { cart: true }) });
 
 test('the means die is the class\'s and the household\'s, the same every time, and every band is reached', () => {
-  assert.deepEqual(MEANS_BANDS.map(band => [band.from, band.to]), [[1, 6], [7, 14], [15, 18], [19, 20]]);
-  for (let roll = 1; roll <= 20; roll++) assert.equal(bandFor(roll).id, roll <= 6 ? 'poor' : roll <= 14 ? 'modest' : roll <= 18 ? 'comfortable' : 'well-to-do');
+  // The second table (owner, 2026-09-25, evening): the lowest two faces come with no vehicle. 10, 20, 40, 20 and 10 in a hundred.
+  assert.deepEqual(MEANS_BANDS.map(band => [band.from, band.to]), [[1, 2], [3, 6], [7, 14], [15, 18], [19, 20]]);
+  for (let roll = 1; roll <= 20; roll++) assert.equal(bandFor(roll).id, roll <= 2 ? 'hard-up' : roll <= 6 ? 'poor' : roll <= 14 ? 'modest' : roll <= 18 ? 'comfortable' : 'well-to-do');
+  // The first table, which a class made that afternoon keeps.
+  assert.deepEqual(MEANS_BANDS_BEFORE.map(band => [band.from, band.to]), [[1, 6], [7, 14], [15, 18], [19, 20]]);
   assert.throws(() => bandFor(0)); assert.throws(() => bandFor(21));
   const seen = new Set(), faces = new Set();
   let same = 0;
@@ -62,47 +65,59 @@ test('the means die is the class\'s and the household\'s, the same every time, a
     if (roll === familyRoll(`dice-${n}`, 'hh-1')) same++;
   }
   assert.equal(faces.size, 20, 'a face of the die is never rolled');
-  assert.equal(seen.size, 4, 'a band is never reached');
+  assert.equal(seen.size, 5, 'a band is never reached');
   assert.ok(same < 60, `the two dice run together (${same} of 400 the same)`);
   // Rolled by the family's own press, and kept: a reload reads the same means, and a second roll is refused.
   const world = rolled('comfortable');
   const household = world.households['hh-1'];
-  assert.deepEqual(household.means, { roll: meansRoll(world.seed, 'hh-1'), band: 'comfortable' });
+  assert.equal(world.meansRoll, MEANS_TABLE);
+  assert.deepEqual(household.means, { roll: meansRoll(world.seed, 'hh-1'), band: 'comfortable', coin: coinFor(meansRoll(world.seed, 'hh-1')) });
   assert.throws(() => rollFamily(world, household), /already rolled/);
   assert.match(world.events.find(event => event.type === 'family-rolled').text, new RegExp(`^Your family rolled an? \\d+, and an? ${household.means.roll} for what it has\\.$`));
   validateWorld(world);
 });
 
 test('each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room', () => {
-  const want = { poor: 1, modest: 1, comfortable: 2, 'well-to-do': 3 };
+  const want = { 'hard-up': 0, poor: 1, modest: 1, comfortable: 2, 'well-to-do': 3 };
   const stores = load => Object.fromEntries(load.filter(entry => ['provisions', 'seed', 'powder'].includes(entry.id)).map(entry => [entry.id, entry.amount]));
   for (const band of MEANS_BANDS) {
     for (const size of [1, 6, 14]) {
       const world = rolled(band.id, size), household = world.households['hh-1'];
       // A wagon's worth of stores to each wagon, from the load one wagon was packed with; a cart's trimmed to its room.
       const packed = stores(createGonzalesWorld(world.seed, 5).households['hh-1'].load);
-      if (!band.cart) assert.deepEqual(stores(household.load), Object.fromEntries(Object.entries(packed).map(([id, n]) => [id, n * want[band.id]])), `${band.id}: the stores are not a wagon's to each wagon`);
+      if (!band.cart && !band.afoot) assert.deepEqual(stores(household.load), Object.fromEntries(Object.entries(packed).map(([id, n]) => [id, n * want[band.id]])), `${band.id}: the stores are not a wagon's to each wagon`);
       const wagons = beastsOf(world, household, 'wagon'), oxen = beastsOf(world, household, 'ox');
       assert.equal(household.means.band, band.id);
       assert.equal(wagons.length, want[band.id], `${band.id}: ${wagons.length} vehicles`);
-      assert.equal(oxen.length, want[band.id], `${band.id}: ${oxen.length} oxen`);
+      // A family on foot keeps one ox, to carry the packs.
+      assert.equal(oxen.length, Math.max(1, want[band.id]), `${band.id}: ${oxen.length} oxen`);
       assert.equal(beastsOf(world, household, 'horse').length, 1, 'the horse is one a family whatever its means');
-      assert.equal(Boolean(wagons[0].cart), band.id === 'poor', `${band.id}: the family wagon is ${wagons[0].cart ? 'a cart' : 'a wagon'}`);
-      assert.equal(wagons[0].name, band.id === 'poor' ? 'Family cart' : 'Family wagon');
-      assert.equal(wagonSpaceFor(household), band.id === 'poor' ? CART_SPACE : WAGON_SPACE * want[band.id]);
+      if (band.afoot) {
+        assert.equal(world.entities['hh-1-wagon'], undefined, 'a family on foot came with the family wagon');
+        assert.ok(!household.property.some(id => /wagon/.test(id)), 'a family on foot still lists a wagon');
+      } else {
+        assert.equal(Boolean(wagons[0].cart), band.id === 'poor', `${band.id}: the family wagon is ${wagons[0].cart ? 'a cart' : 'a wagon'}`);
+        assert.equal(wagons[0].name, band.id === 'poor' ? 'Family cart' : 'Family wagon');
+      }
+      assert.equal(wagonSpaceFor(household), band.afoot ? PACK_SPACE : band.id === 'poor' ? CART_SPACE : WAGON_SPACE * want[band.id]);
       assert.ok(spaceOf(household.load) <= wagonSpaceFor(household), `${band.id}: the load is past the room`);
       // The first steps want these, and no band leaves them behind (docs/LESSON.md).
       for (const id of ['hoe', 'axe']) assert.ok(household.load.some(entry => entry.id === id), `${band.id} left the ${id}`);
       assert.ok(household.resources.seed >= 2, `${band.id} brought too little seed to plant`);
-      assert.equal(household.resources.money ?? 0, 0, 'a band brought coin, which waits on the owner (docs/MONEY_AND_GLORY.md)');
+      // Every family has at least one shot for its first hunt, on foot or not.
+      assert.ok(household.resources.powder >= 1, `${band.id} brought no powder`);
+      // The coin of the face rolled, in the house (owner, 2026-09-25).
+      assert.equal(household.resources.money, coinFor(household.means.roll), `${band.id}: the family did not come with its coin`);
       for (const beast of [...wagons, ...oxen]) assert.equal(beast.travel?.purpose, 'arrive', `${beast.id} is not on the road in`);
       const founding = world.events.find(event => event.type === 'household-founded' && event.householdId === 'hh-1').text;
-      assert.match(founding, band.id === 'poor' ? /with the cart, the ox and the horse/ : want[band.id] === 1 ? /with the wagon, the ox and the horse/ : /wagons, an ox to each, and the horse/);
+      assert.match(founding, band.afoot ? /with the ox under packs and the horse, on foot/ : band.id === 'poor' ? /with the cart, the ox and the horse/ : want[band.id] === 1 ? /with the wagon, the ox and the horse/ : /wagons, an ox to each, and the horse/);
       const shown = projectFamily(world, 'hh-1').means;
       assert.equal(shown.name, band.name);
-      assert.match(shown.words, band.id === 'poor' ? /^A cart and one ox/ : want[band.id] === 1 ? /^A wagon and an ox/ : /wagons, an ox to each/);
+      assert.equal(shown.coin, household.means.coin);
+      assert.match(shown.words, band.afoot ? /^No wagon or cart: an ox to carry the packs/ : band.id === 'poor' ? /^A cart and one ox/ : want[band.id] === 1 ? /^A wagon and an ox/ : /wagons, an ox to each/);
+      assert.match(shown.words, new RegExp(`, the family's horse, and ${household.means.coin} reales\.$`), 'the coin is not said with the band');
       const pack = projectWorld(world, 'hh-1', 'student', { includeMap: false }).wagon;
-      assert.equal(pack.vehicle, band.id === 'poor' ? 'cart' : undefined);
+      assert.equal(pack.vehicle, band.afoot ? 'packs' : band.id === 'poor' ? 'cart' : undefined);
       validateWorld(world);
     }
   }
@@ -119,6 +134,11 @@ test('no family arrives with fewer than five days of food for its eaters, whatev
         least = Math.min(least, days);
         assert.ok(days >= ARRIVAL_DAYS - 1e-9, `${band.id}, ${size} people: ${household.resources.food} food, ${days.toFixed(1)} days`);
         if (household.packs) packed++;
+        // A family on foot carries all of its food, and its people can: five a person of ten and over (`carriedOnFoot`).
+        if (band.afoot) {
+          assert.equal(household.resources.food, household.packs.food, 'a family on foot brought food in no pack of its own');
+          assert.ok(household.packs.food <= carriedOnFoot(world, household), `${size} on foot carry ${household.packs.food} food, more than ${carriedOnFoot(world, household)}`);
+        }
         // Repacking the cart moves what the cart holds, never what is carried on foot.
         const carried = household.packs?.food ?? 0;
         if (carried && household.load.some(entry => entry.id === 'provisions')) {
@@ -172,7 +192,36 @@ test('a driver to every vehicle, then the sick and the youngest ride, a baby in 
   // Nobody under ten drives, and with no vehicle everybody walks.
   const young = seatPlan([person('a', 30, { principal: true }), person('k', 8)], [wagon('w1'), wagon('w2')]);
   assert.equal(young.get('k').drives, undefined, 'a child of eight was given a wagon to drive');
-  assert.ok([...seatPlan(family, []).values()].every(seat => seat.afoot), 'somebody rode with no vehicle');
+  assert.ok([...seatPlan(family, []).values()].every(seat => seat.afoot), 'somebody rode with no vehicle and no horse');
+});
+
+test("the horse carries a rider: one more seat after the vehicles', to the sick and then the youngest, and a baby in its carrier's arms", () => {
+  // Owner, 2026-09-25: "yes, the horse should carry a rider" (sim/company.mjs, FIC-GONZ-394 amended).
+  const father = person('f', 40, { principal: true, kin: { role: 'father' } }), mother = person('m', 38, { sex: 'female', kin: { role: 'mother' } });
+  const kids = [14, 11, 8, 4].map((age, i) => person(`k${i}`, age, { kin: { role: 'son', parents: ['f', 'm'] } }));
+  const horse = { id: 'h1', kind: 'animal', species: 'horse' };
+  // No vehicle: the youngest who is not carried rides the horse, and the rest walk.
+  const afoot = seatPlan([father, mother, ...kids], [], [horse]);
+  assert.deepEqual(afoot.get('k3'), { rides: 'h1', saddle: true }, 'the youngest was not put on the horse');
+  assert.equal([...afoot.values()].filter(seat => seat.saddle).length, 1, 'a horse carried more than one');
+  for (const id of ['f', 'm', 'k0', 'k1', 'k2']) assert.deepEqual(afoot.get(id), { afoot: true });
+  // And a family of grown people and a child of four walks at a grown person's pace: the child is on the horse.
+  assert.equal(companyPace([father, mother, kids[3]], seatPlan([father, mother, kids[3]], [], [horse]), []), WALK_SPEED, 'the child on the horse held the family back');
+  // The sick before the youngest.
+  const sick = { ...kids[0], health: { condition: 'sick' } };
+  assert.deepEqual(seatPlan([father, mother, sick, ...kids.slice(1)], [], [horse]).get(sick.id), { rides: 'h1', saddle: true }, 'the sick walked while the horse carried a child');
+  // After the wagon's seats: a wagon's four ride and the horse takes the fifth youngest.
+  const many = [father, mother, ...[12, 10, 9, 7, 5, 3].map((age, i) => person(`c${i}`, age))];
+  const withWagon = seatPlan(many, [wagon('w')], [horse]);
+  assert.deepEqual(withWagon.get('c1'), { rides: 'h1', saddle: true }, "the horse did not take the one after the wagon's seats");
+  assert.deepEqual(['c2', 'c3', 'c4', 'c5'].map(id => withWagon.get(id)), Array(WAGON_RIDERS).fill({ rides: 'w' }));
+  // Room in the wagon for all: the horse carries nobody.
+  assert.ok(![...seatPlan([father, mother, kids[3]], [wagon('w')], [horse]).values()].some(seat => seat.saddle), 'somebody was put on the horse with room in the wagon');
+  // A baby rides where its carrier rides: on the horse in its mother's arms.
+  const lone = person('m', 30, { principal: true, sex: 'female' }), baby = person('b', 0, { kin: { parents: ['m'] } });
+  assert.deepEqual(seatPlan([lone, baby], [], [horse]).get('b'), { rides: 'h1', saddle: true, carried: 'm' });
+  // Two horses, two riders.
+  assert.equal([...seatPlan([father, mother, ...kids], [], [horse, { ...horse, id: 'h2' }]).values()].filter(seat => seat.saddle).length, 2);
 });
 
 test('the family goes at its slowest: the ox with a vehicle, a small child on foot slower, and on foot its smallest walker', () => {
@@ -202,7 +251,11 @@ test('on the road in each is seated, walkers are tired as walkers, the family co
   const family = people(world, household);
   const seats = family.map(one => one.travel);
   assert.equal(seats.filter(travel => travel.drives).length, 1, 'the cart has more or fewer than one driver');
-  assert.equal(seats.filter(travel => travel.rides && !travel.carried).length, CART_RIDERS);
+  assert.equal(seats.filter(travel => travel.rides && !travel.carried && !travel.saddle).length, CART_RIDERS);
+  // And one on the horse (owner, 2026-09-25: "the horse should carry a rider"), riding with the horse's id.
+  const onHorse = family.filter(one => one.travel.saddle && !one.travel.carried);
+  assert.equal(onHorse.length, 1, 'the horse did not carry one rider');
+  assert.equal(onHorse[0].travel.rides, 'hh-1-horse');
   assert.ok(seats.filter(travel => travel.afoot).length >= 11, 'a family of sixteen with a cart does not mostly walk');
   // The eldest walk: nobody riding is older than anybody walking (the driver aside).
   const riding = family.filter(one => one.travel.rides && !one.travel.carried), walking = family.filter(one => one.travel.afoot && !one.travel.carried);
@@ -217,8 +270,14 @@ test('on the road in each is seated, walkers are tired as walkers, the family co
   const [team] = wagonTeams('hh-1', seen);
   assert.equal(team.driverId, household.principalId);
   assert.equal(seatOf(seen.find(one => one.id === team.driverId), seen), 'wagon');
-  assert.deepEqual(passengersOf(team, seen).map(one => one.id).sort(), family.filter(one => one.travel.rides).map(one => one.id).sort());
+  assert.deepEqual(passengersOf(team, seen).map(one => one.id).sort(), family.filter(one => one.travel.rides && !one.travel.saddle).map(one => one.id).sort());
   for (const rider of passengersOf(team, seen)) assert.equal(carriedWithRider(rider, seen), true, `${rider.id} is drawn walking as well`);
+  // The one on the horse is drawn in the saddle, and the horse under them is not drawn again by itself.
+  const mounted = seen.find(one => one.id === onHorse[0].id), horse = seen.find(one => one.id === 'hh-1-horse');
+  assert.equal(mounted.travel.saddle, true, 'the page is not told who is on the horse');
+  assert.equal(seatOf(mounted, seen), 'horse', 'the rider on the horse is not drawn in the saddle');
+  assert.equal(carriedWithRider(horse, seen), true, 'the horse under its rider is drawn again by itself');
+  assert.equal(walksBeside(mounted), false, 'the rider on the horse is drawn walking beside the cart');
   // The page draws the drivers the server named and no others: a lone parent with three wagons and small children drives one,
   // and the other two go undriven rather than a child of the family being put on them.
   const lone = rolled('well-to-do', 3, { stem: 'lone' });
@@ -230,12 +289,13 @@ test('on the road in each is seated, walkers are tired as walkers, the family co
   assert.equal(seen.filter(walksBeside).length, family.filter(one => one.travel.afoot).length);
   // Walked, the road costs a walker a walked mile and a rider the wagon's half; a baby carried, nothing.
   world.status = 'running';
-  const walker = walking.find(one => one.age >= 10), rider = riding[0];
+  const walker = walking.find(one => one.age >= 10), rider = riding.find(one => !one.travel.saddle), horseman = onHorse[0];
   for (let t = 0; t < 3; t++) stepWorld(world);
   const miles = walker.travel?.progress;
   assert.ok(miles > 0, 'the family came in before a walked mile could be measured');
   assert.ok(Math.abs(walker.exertion - miles) < 1e-3, `the walker paid ${walker.exertion} for ${miles} miles`);
   assert.ok(Math.abs(rider.exertion - miles / 2) < 1e-3, `the rider paid ${rider.exertion} for ${miles} miles`);
+  assert.ok(Math.abs(horseman.exertion - miles * MODES.horse.exertion) < 1e-3, `the rider on the horse paid ${horseman.exertion} for ${miles} miles`);
   const baby = family.find(one => one.travel?.carried);
   if (baby) assert.equal(baby.exertion ?? 0, 0, 'a baby carried was tired by the road');
   for (let t = 0; t < 400 && household.arriving; t++) stepWorld(world);
@@ -247,9 +307,13 @@ test('on the road in each is seated, walkers are tired as walkers, the family co
 
 test('a family of many small children in one cart comes in slower than the ox, and one with room at the ox\'s pace', () => {
   const ticks = world => { const household = world.households['hh-1']; world.status = 'running'; let n = 0; while (household.arriving && n < 900) { stepWorld(world); n++; } return n; };
-  const poor = rolled('poor', 20, { stem: 'slow' });
-  const family = people(poor, poor.households['hh-1']);
-  const small = family.filter(one => one.travel.afoot && !one.travel.carried && one.age < 6);
+  // A poor family of twenty whose small children outnumber the cart's two seats and the horse's one.
+  let poor, family, small = [];
+  for (let n = 0; n < 40 && !small.length; n++) {
+    poor = rolled('poor', 20, { stem: `slow-${n}` });
+    family = people(poor, poor.households['hh-1']);
+    small = family.filter(one => one.travel.afoot && !one.travel.carried && one.age < 6);
+  }
   const distance = family[0].travel.distance;
   assert.ok(small.length, 'the fixture has no small child on foot, so this proves nothing');
   assert.equal(family[0].travel.speed, SMALL_WALK_SPEED, 'a child of under six walks and the family goes at the ox');
@@ -278,7 +342,8 @@ test('the flight east and the way home are seated and paced as the family is; a 
   const family = people(world, household).filter(one => one.travel?.purpose === 'flee');
   assert.equal(family.length, household.members.length);
   assert.equal(family.filter(one => one.travel.drives).length, 1);
-  assert.equal(family.filter(one => one.travel.rides && !one.travel.carried).length, CART_RIDERS);
+  assert.equal(family.filter(one => one.travel.rides && !one.travel.carried && !one.travel.saddle).length, CART_RIDERS);
+  assert.equal(family.filter(one => one.travel.saddle && !one.travel.carried).length, 1, 'nobody rode the horse east');
   const walking = family.filter(one => one.travel.afoot && !one.travel.carried);
   assert.equal(family[0].travel.speed, Math.min(WAGON_SPEED, ...walking.map(walkingPace)));
   assert.match(world.events.find(event => /set out east/.test(event.text)).text, /with the ox and cart/);
@@ -301,8 +366,10 @@ test('a family whose vehicle is gone flees on foot at the pace of its smallest w
   const shown = flightProjection(world, household);
   flee(world, household, { take: {}, refuge: shown.refuges[0].id });
   const family = people(world, household).filter(one => one.travel?.purpose === 'flee');
-  assert.ok(family.every(one => one.travel.afoot && one.travel.mode === 'foot'), 'somebody rode with no vehicle');
-  const walkers = family.filter(one => !one.travel.carried);
+  // Everybody on foot but the one the horse carries (and a baby in their arms).
+  assert.ok(family.every(one => one.travel.mode === 'foot' && (one.travel.afoot || one.travel.saddle)), 'somebody rode with no vehicle');
+  assert.equal(family.filter(one => one.travel.saddle && !one.travel.carried).length, 1, 'the horse carried nobody east');
+  const walkers = family.filter(one => !one.travel.carried && one.travel.afoot);
   assert.equal(family[0].travel.speed, Math.min(WALK_SPEED, ...walkers.map(walkingPace)));
   for (const baby of family.filter(one => one.age < 2)) assert.ok(baby.travel.carried, `${baby.id} walked`);
   validateWorld(world);

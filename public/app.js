@@ -359,6 +359,9 @@ function miniQuarry(ctx, x, y, size, { kind = 'deer', flip = false, alert = fals
   deerFallback(ctx, x, y, size, flip);
 }
 function miniWagon(ctx, x, y, size, entity = {}, flip = false) {
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - the carreta. A carreta made at home (sim/carreta.mjs) is drawn with the
+  // wagon's art, a fifth smaller, until `carreta-travel` and `carreta-idle` land; the library's `ox-cart` has its ox painted in.
+  if (entity.carreta) size *= 0.8;
   const rolling = entity.travel ? (entity.laden ? 'wagon-loaded-travel' : 'wagon-travel') : 'wagon-idle';
   if (entity.condition === 'sound' && animated(ctx, rolling, x, y, size, entity.id, { flip: !flip, gait: entity.gait })) return;
   // A wagon that has come to harm shows it. Nothing here invents that state: it is drawn
@@ -632,7 +635,14 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // train, each a stride behind the one before, so a family of ten walking reads as ten people and not one figure.
   const walker = walksBeside(entity) ? (marks.entities || []).filter(other => other.householdId === entity.householdId && walksBeside(other)).findIndex(other => other.id === entity.id) : -1;
   const vertical = behind.x === 0;
-  const offset = entity.travel
+  // Somebody the family put on the horse for its journey together (sim/company.mjs, owner 2026-09-25) rides behind the last of its
+  // vehicles - or behind the ox under its packs on a family with none - so horse, ox and cart are not drawn one on another.
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - the carreta (item 3). The ox of a family on foot walks under its packs and
+  // is drawn as the plain ox (`ox-walk`), a length behind, until `ox-packed-walk` lands.
+  const saddled = entity.kind === 'person' && entity.travel?.saddle && !entity.travel.carried;
+  const rigs = saddled ? wagonTeams(entity.householdId, marks.entities || []).length : 0;
+  const offset = saddled ? { x: behind.x * (rigs ? 82 * rigs : 64), y: behind.y * (rigs ? 60 * rigs : 56) + 4 }
+    : entity.travel
     ? (entity.kind === 'wagon' ? { x: -2.4, y: .5 } : entity.kind === 'animal' && entity.travel.mode === 'foot' ? { x: behind.x * 26, y: behind.y * 36 + 2 } : entity.kind === 'animal' ? { x: -1.1, y: .2 }
       : train > 0 ? { x: behind.x * 82 * train, y: behind.y * 60 * train + 3 * train }
       : walker >= 0 ? (vertical ? { x: 30 + (walker % 2) * 12, y: behind.y * (8 + 20 * walker) } : { x: behind.x * (-10 + 17 * walker), y: 14 + (walker % 2) * 5 })
@@ -3429,7 +3439,7 @@ function renderFlight(world, chosen, running) {
   wrap.append(element('p', flight.burned ? 'The army has passed and burned the farm. The family can still go east with what it can carry.'
     : flight.decidedToStay ? 'The family is staying, and takes what comes. The road east is still open if it changes its mind.'
     : 'The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs what it can and goes by itself.', 'ask-text'));
-  const carrier = flight.vehicle === 'cart' ? ' in the cart' : flight.wagons ? ` in the ${flight.wagons} wagons` : ' in the wagon';
+  const carrier = flight.vehicle === 'cart' ? ' in the cart' : flight.vehicle === 'carreta' ? ' in the carreta' : flight.wagons ? ` in the ${flight.wagons} wagons` : ' in the wagon';
   wrap.append(element('p', `Room for ${flight.room}${flight.mode === 'wagon' ? carrier : ', carried on foot'}. Food takes ${flight.space.food} each, seed ${flight.space.seed}, cotton ${flight.space.cotton}, powder ${flight.space.powder}.`, 'work-note'));
   const form = element('div', '', 'flight-form');
   for (const good of Object.keys(flight.space)) {
@@ -4685,20 +4695,26 @@ function renderWagonLoad(world) {
   reopen.hidden = !available || wagonPacking;
   if (!available) return;
   const space = wagon.space ?? catalogue.space;
-  // A family of the poorest means packs a cart (sim/means.mjs), and the server says so (`wagon.vehicle`).
-  const vehicle = wagon.vehicle === 'cart' ? 'cart' : wagon.wagons ? 'wagons' : 'wagon';
-  reopen.textContent = `Repack the ${vehicle} (${wagon.used} of ${space})`;
+  // A family of the poorest means packs a cart (sim/means.mjs), and the server says so (`wagon.vehicle`); one that is hard up
+  // packs its ox, and carries its food itself (`'packs'`, owner 2026-09-25: "it should be possible to start with no wagon").
+  const vehicle = wagon.vehicle === 'cart' ? 'cart' : wagon.vehicle === 'packs' ? 'packs' : wagon.wagons ? 'wagons' : 'wagon';
+  reopen.textContent = `Repack the ${vehicle === 'packs' ? "ox's packs" : vehicle} (${wagon.used} of ${space})`;
   if (!wagonPacking) return;
   const choice = world.land?.stockChoice;
   const shape = JSON.stringify([household.load, wagon, choice, household.stock]);
   if (shape === wagonShown) return;
   wagonShown = shape;
   // A family fitted out with more than one wagon packs them together, and the server says how many (sim/wagon.mjs).
-  $('#wagon-room').textContent = `${wagon.wagons ? `${wagon.wagons} wagons: ` : vehicle === 'cart' ? 'The cart: ' : ''}${wagon.used} of ${space} space filled, ${space - wagon.used} left.`;
-  $('#wagon-load-title').textContent = vehicle === 'cart' ? 'Pack the cart' : 'Pack the wagon';
+  $('#wagon-room').textContent = `${wagon.wagons ? `${wagon.wagons} wagons: ` : vehicle === 'cart' ? 'The cart: ' : vehicle === 'packs' ? "No wagon or cart. The ox's packs: " : ''}${wagon.used} of ${space} space filled, ${space - wagon.used} left.`;
+  $('#wagon-load-title').textContent = vehicle === 'cart' ? 'Pack the cart' : vehicle === 'packs' ? "Pack the ox's packs" : 'Pack the wagon';
+  // What is packed, in the words the panel's other lines use: the wagon, the wagons, the cart, or the ox's packs.
+  const packed = vehicle === 'packs' ? "the ox's packs" : `the ${vehicle}`;
+  if ($('#wagon-when')) $('#wagon-when').textContent = `You can change all of this until your teacher presses Start. After that ${packed} ${['packs', 'wagons'].includes(vehicle) ? 'are' : 'is'} packed.`;
   // What the family carries on foot besides (sim/means.mjs `ARRIVAL_DAYS`), in the server's number: it is not the load's to change.
   $('#wagon-packs').hidden = !wagon.packs;
-  $('#wagon-packs').textContent = wagon.packs ? `Besides the ${vehicle}, the family carries ${wagon.packs} food on foot, in sacks and bundles.` : '';
+  $('#wagon-packs').textContent = !wagon.packs ? '' : vehicle === 'packs'
+    ? `The family carries its food itself: ${wagon.packs} food on foot, in sacks and bundles.`
+    : `Besides the ${vehicle}, the family carries ${wagon.packs} food on foot, in sacks and bundles.`;
   // Driving stock in: what each answer brings, in acres, animals and wagon space, before it is chosen (FIC-GONZ-008).
   // The herd itself was built on 2026-09-20 (docs/STOCK.md) and this panel went on offering only the acres and the wagon
   // cost, so the largest thing the choice did was never said where the choice was made. The numbers are the server's
@@ -4707,7 +4723,7 @@ function renderWagonLoad(world) {
   if (choice) {
     $('#stock-no-text').textContent = `No stock. The family holds a labor of land, ${choice.laborAcres} acres, and brings no animals.`;
     const herd = choice.herd ? ` The family arrives with ${choice.herd.cattle} cattle and ${choice.herd.hogs} hogs, which feed themselves on the range and feed the family.` : '';
-    $('#stock-yes-text').textContent = `Drive cattle and hogs in. The family holds a league and a labor, ${choice.stockAcres.toLocaleString('en-US')} acres - about ${Math.round(choice.stockAcres / choice.laborAcres)} times as much land - and the herd's keep takes ${choice.space} spaces of the wagon.${herd}`;
+    $('#stock-yes-text').textContent = `Drive cattle and hogs in. The family holds a league and a labor, ${choice.stockAcres.toLocaleString('en-US')} acres - about ${Math.round(choice.stockAcres / choice.laborAcres)} times as much land - and the herd's keep takes ${choice.space} spaces of ${packed}.${herd}`;
     // The server's own sentence when the choice is shut, rather than two controls greyed for no stated reason.
     // ceiling: `stockRefusal` asked without an answer cannot refuse while the panel is up, so this is unreachable today;
     // it is wired because a silently dead control is how the next refusal would arrive invisible.

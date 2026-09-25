@@ -53,7 +53,7 @@ import { MILL_RETURN, TRADES, counterRefusal, tradesAt } from './shops.mjs';
 import { MODES } from './travel.mjs';
 import { hasWords, holderOf, userOf } from './keeping.mjs';
 import { toolWords } from './tools.mjs';
-import { LEAD_MOST, LEAD_PACE, beastWords, wagonWith } from './beasts.mjs';
+import { LEAD_MOST, LEAD_PACE, beastWords, beastsOf, kept, wagonWith } from './beasts.mjs';
 import { herdWords, hasStock } from './stock.mjs';
 import { shownWays, waysFor } from './going.mjs';
 import { purseOf } from './town.mjs';
@@ -232,7 +232,7 @@ function chooseMode(world, household, entity, load, needsWagon, modeAvailability
     const why = needsWagon ? ', and the wheelwright works on the wagon itself'
       : open.id === 'wagon' && load > MODES.horse.carry ? `, more than the horse carries (${MODES.horse.carry})`
         : passed ? `. ${passed}` : '';
-    return { mode: open.id, how: `${MODE_WORDS[open.id]}: ${Math.round(load * 10) / 10} of ${MODES[open.id].carry} loads${why}${why.endsWith('.') ? '' : '.'}`, ways };
+    return { mode: open.id, how: `${MODE_WORDS[open.id]}: ${Math.round(load * 10) / 10} of ${open.carry ?? MODES[open.id].carry} loads${why}${why.endsWith('.') ? '' : '.'}`, ways };
   }
   if (!needsWagon && load > MODES.wagon.carry) return { why: `That is ${loads(load)}, and the wagon carries ${MODES.wagon.carry}. Send less.`, ways };
   // Nothing free carries it: said with every reason, in the holders' own names, and what the student can do about it.
@@ -241,6 +241,9 @@ function chooseMode(world, household, entity, load, needsWagon, modeAvailability
     : load > MODES.horse.carry ? `This wants the wagon: ${loads(load)}, and the horse carries ${MODES.horse.carry}`
       : `This is more than can be carried on foot: ${loads(load)}, and a person carries ${MODES.foot.carry}`;
   const waitFor = load > MODES.horse.carry || needsWagon ? 'the wagon is free' : 'the horse or the wagon is free';
+  // A family with no vehicle at all (sim/means.mjs; owner, 2026-09-25: "it shouldn't block gameplay, but some things might have to
+  // happen slower") is not told to wait for a wagon it has not got: it goes more than once.
+  if (!needsWagon && !beastsOf(world, household, 'wagon').some(kept)) return { why: `${wants}. ${refused.join(' ')} Send a smaller load, and go again for the rest.`, ways };
   return { why: `${wants}. ${refused.join(' ') || 'The wagon cannot go.'} Send a smaller load, or wait until ${waitFor}.`, ways };
 }
 /** The quicker way, as a sentence starts it. */
@@ -291,7 +294,7 @@ export function errandQuote(world, household, entity, list, { modeAvailability, 
     if (!chosen) return { ...base, can: false, why: 'No such way of going.' };
     if (!chosen.can) return { ...base, can: false, mode, why: chosen.why };
     const slower = way.mode ? ` ${QUICKER[way.mode]} would be quicker.` : "";
-    return { ...base, can: true, mode, how: `${MODE_WORDS[mode]}: ${Math.round(reckoned.load * 10) / 10} of ${MODES[mode].carry} loads, as you chose.${slower}${andHome}` };
+    return { ...base, can: true, mode, how: `${MODE_WORDS[mode]}: ${Math.round(reckoned.load * 10) / 10} of ${chosen.carry ?? MODES[mode].carry} loads, as you chose.${slower}${andHome}` };
   }
   return { ...base, can: !way.why, ...(way.why && { why: way.why }), ...(way.mode && { mode: way.mode, how: `${way.how}${andHome}` }) };
 }

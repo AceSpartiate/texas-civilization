@@ -57,15 +57,33 @@ export const wagonCount = household => Math.max(1, (household?.property || []).f
  * one yoke and says nothing of what they held (`HIST-TEX-441`).
  */
 export const CART_SPACE = 12;
+/**
+ * How much room a carreta has, the ox cart a family makes at home (owner, 2026-09-25: "have it be something families can make at
+ * home? could work the same, just with reduced carrying capacity"; sim/carreta.mjs, `FIC-GONZ-398`): ten, to a cart's twelve and
+ * a wagon's sixteen. It is read by the flight east (sim/scrape.mjs), since a carreta is made after the family has come in and is
+ * never packed in the lobby. Invented: the record has the plank-wheeled carts and their squeaking axles, not what they held.
+ */
+export const CARRETA_SPACE = 10;
+/**
+ * How much room a family with no vehicle has for its load (owner, 2026-09-25: "yes, it should be possible to start with no
+ * wagon"; sim/means.mjs, `FIC-GONZ-397`): what its one ox carries under a pack - seven, which is the hoe, the felling axe, the
+ * seed its first planting wants (two sacks, or three for cotton) and a shot of powder, with a space to spare for corn: the
+ * least the first steps want, the hunt among them (docs/LESSON.md). The family's food goes on its own backs (`household.packs`). Invented.
+ */
+export const PACK_SPACE = 7;
 /** Whether this family's one vehicle is a cart (sim/means.mjs marks it, and the entity with it: `cart: true`). */
 export const carted = household => household?.means?.cart === true;
-/** "cart", "wagon" or "wagons": what the family's vehicles are called on the pack screen and in its refusals. */
-export const vehicleWord = household => (carted(household) ? 'cart' : wagonCount(household) > 1 ? 'wagons' : 'wagon');
+/** Whether this family came with no vehicle, its load on the ox (sim/means.mjs: the band that is hard up). */
+export const afoot = household => household?.means?.afoot === true;
+/** "cart", "wagon", "wagons" or "packs": what the family's vehicles are called on the pack screen and in its refusals. */
+export const vehicleWord = household => (afoot(household) ? 'packs' : carted(household) ? 'cart' : wagonCount(household) > 1 ? 'wagons' : 'wagon');
+/** Whether the vehicle word is said as many ("the wagons have", "the packs have"). */
+const many = household => afoot(household) || wagonCount(household) > 1;
 /**
- * The room the family's wagons have together, before the stock is fed: sixteen a wagon (`FIC-GONZ-024`, `FIC-GONZ-391`), and a
- * cart's twelve for the one vehicle of a family that came with a cart.
+ * The room the family's wagons have together, before the stock is fed: sixteen a wagon (`FIC-GONZ-024`, `FIC-GONZ-391`), a
+ * cart's twelve for the one vehicle of a family that came with a cart, and the ox's packs for a family that came with none.
  */
-export const wagonRoom = household => WAGON_SPACE * wagonCount(household) - (carted(household) ? WAGON_SPACE - CART_SPACE : 0);
+export const wagonRoom = household => afoot(household) ? PACK_SPACE : WAGON_SPACE * wagonCount(household) - (carted(household) ? WAGON_SPACE - CART_SPACE : 0);
 /** The room this family's wagons have, given what it drives in. */
 export const wagonSpaceFor = household => wagonRoom(household) - (household?.stock === true ? STOCK_SPACE : 0);
 /**
@@ -194,11 +212,11 @@ export function loadRefusal(world, household, itemId, amount) {
   if (!entry) return 'That is not one of the things a family can bring.';
   if (!Number.isInteger(amount) || amount < 0) return 'Say how many, in whole things.';
   const most = mostFor(household, entry), wagons = wagonCount(household);
-  if (amount > most) return most === 1 ? `A family brings one ${entry.name.toLowerCase()} at most.` : wagons > 1 ? `The ${wagons} wagons take ${most} of those at most.` : `The ${vehicleWord(household)} takes ${most} of those at most.`;
+  if (amount > most) return most === 1 ? `A family brings one ${entry.name.toLowerCase()} at most.` : wagons > 1 ? `The ${wagons} wagons take ${most} of those at most.` : `The ${vehicleWord(household)} ${many(household) ? 'take' : 'takes'} ${most} of those at most.`;
   const current = household.load.find(loaded => loaded.id === itemId)?.amount ?? 0;
   const after = spaceOf(household.load) + entry.space * (amount - current);
   const room = wagonSpaceFor(household);
-  if (after > room) return `There is no room. That needs ${entry.space * (amount - current)} more, and the ${wagons > 1 ? `${wagons} wagons have` : `${vehicleWord(household)} has`} ${room - spaceOf(household.load)} left of ${room}${household.stock ? ' with the stock to feed' : ''}.`;
+  if (after > room) return `There is no room. That needs ${entry.space * (amount - current)} more, and the ${wagons > 1 ? `${wagons} wagons have` : `${vehicleWord(household)} ${many(household) ? 'have' : 'has'}`} ${room - spaceOf(household.load)} left of ${room}${household.stock ? ' with the stock to feed' : ''}.`;
   return null;
 }
 
@@ -299,7 +317,7 @@ export function wagonProjection(world, household) {
   // More than one wagon: how many, and the most of each store they take together, so the page's `+` stops where the server does.
   const most = wagons > 1 ? Object.fromEntries(WAGON_ITEMS.filter(entry => entry.kind === 'stores').map(entry => [entry.id, mostFor(household, entry)])) : null;
   // A cart (sim/means.mjs): the panel packs "the cart" and says so, with the cart's room.
-  return { used: spaceOf(household.load), space: wagonSpaceFor(household), can: !why, ...(why && { why }), ...(most && { wagons, most }), ...(carted(household) && { vehicle: 'cart' }), ...(household.packs?.food && { packs: household.packs.food }) };
+  return { used: spaceOf(household.load), space: wagonSpaceFor(household), can: !why, ...(why && { why }), ...(most && { wagons, most }), ...(carted(household) && { vehicle: 'cart' }), ...(afoot(household) && { vehicle: 'packs' }), ...(household.packs?.food && { packs: household.packs.food }) };
 }
 
 /** A household's load record is well formed and fits the wagon. Absent is a class saved before step 3. */

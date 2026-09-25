@@ -48,10 +48,13 @@ test('the three ways of going are genuinely different, and none of them is simpl
   assert.equal(MODES.foot.exertion, 1, 'walking is the full price and the others are fractions of it');
 });
 
-test('a family starts with an ox, a horse and a wagon, and every one of them is somewhere', () => {
+test('a family starts with an ox, a horse and a wagon - or no vehicle, on foot - and every one of them is somewhere', () => {
   const world = running('property');
+  let walked = 0;
   for (const household of Object.values(world.households)) {
-    for (const role of ['ox', 'horse', 'wagon']) {
+    // A family that came on foot (sim/means.mjs, the band that is hard up; owner 2026-09-25) has no wagon at all.
+    if (household.means?.afoot) { walked++; assert.equal(beast(world, household.id, 'wagon'), undefined, `${household.id} came on foot with a wagon`); }
+    for (const role of household.means?.afoot ? ['ox', 'horse'] : ['ox', 'horse', 'wagon']) {
       const owned = beast(world, household.id, role);
       assert.ok(owned, `${household.id} has no ${role}`);
       assert.equal(owned.location.siteId, household.homeSiteId, `the ${role} does not start at home`);
@@ -61,6 +64,7 @@ test('a family starts with an ox, a horse and a wagon, and every one of them is 
     assert.equal(beast(world, household.id, 'ox').species, 'ox');
     assert.equal(beast(world, household.id, 'horse').species, 'horse', 'the renderer tells them apart by this and nothing else');
   }
+  assert.ok(walked > 0, "no family of 'property' came on foot, so the family with no wagon is not held here");
 });
 
 test('taking the wagon takes the ox and the wagon, and they come back with you', () => {

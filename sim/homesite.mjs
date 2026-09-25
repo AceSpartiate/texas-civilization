@@ -22,7 +22,7 @@ import { polylineLength } from './geography.mjs';
 import { groundAlong, layLane, paceOf, siteFacts, siteWords, WATER_CARRY_MILES } from './ground.mjs';
 import { holdingOf } from './grants.mjs';
 import { WAGON_SPEED } from './travel.mjs';
-import { drawnVehicles, setOut } from './company.mjs';
+import { drawnVehicles, riddenHorses, setOut } from './company.mjs';
 import { woodsRule } from './woods.mjs';
 
 /** How much longer the heavy work of a place goes, per mile past carrying distance that water is fetched from (FIC-GONZ-026). */
@@ -141,7 +141,9 @@ export function chooseSite(world, household, point) {
   // in a class made since the means were rolled.
   if (moving && world.meansRoll) {
     const movers = [...household.members, ...household.property].map(id => world.entities[id]).filter(entity => entity?.travel?.causeId === causeId && entity.travel.purpose === 'arrive');
-    setOut(movers, drawnVehicles(movers), entity => entity.travel);
+    // A family with no vehicle carries its packs over on foot (sim/company.mjs `setOut`), somebody on the horse.
+    // ceiling: the ground's slowing is the wagon's here, however the family goes; the move is a few hundred yards of its own land.
+    setOut(movers, drawnVehicles(movers), entity => entity.travel, riddenHorses(world, movers));
   }
 }
 

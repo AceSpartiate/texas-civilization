@@ -6,7 +6,7 @@
   "checks": [
     "the \"!\" opens the family's decision: \"The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answ…\"",
     "the load is tallied against the room (Loaded 22 of 15. → Loaded 15 of 15.); making for san-felipe",
-    "asked twice, the family loads 40 food, 4 seed and 6 cotton and sets out with the wagon; the house is burned behind it",
+    "asked twice, the family loads 32 food, 4 seed and 6 cotton and sets out with its cart; the house is burned behind it",
     "at phone width the page does not scroll sideways",
     "no page errors"
   ],

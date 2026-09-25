@@ -49,6 +49,7 @@ export const PANEL_SUMMARIES = Object.freeze({
   'fell-trees': 'Fell the trees at a place in timber you choose on the family’s land.',
   'haul-logs': 'Bring the felled logs lying out to the house.',
   'fetch-logs': 'Take the ox and wagon to the nearest timber, off your land if need be, and bring six logs home.',
+  'make-carreta': 'Make an ox cart at home from three logs of the pile and a rawhide, which carries less than a wagon.',
   'enlist-regular': 'Go to San Felipe and enlist in the regular army for $24 and 800 acres of land, promised.',
   'enlist-auxiliary': 'Go to San Felipe and sign on as an auxiliary volunteer, for 640 acres or 320, promised.',
   'join-garrison': 'Go to Béxar and join the men holding the town and the Alamo.',
@@ -110,6 +111,9 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   // Fetching logs from the timber (sim/chores.mjs, docs/BIOME_GAMEPLAY.md §3.2): no frame yet. stand-in: docs/ART_REQUESTS.md,
   // request 2026-09-19 - the logs fetched from the timber; a glyph drawn by `drawGlyph` until `icon-fetch-logs` is registered.
   ['fetch-logs', { glyph: 'fetch-logs' }],
+  // The carreta made at home (sim/carreta.mjs, owner 2026-09-25): no frame yet. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 -
+  // the carreta; a glyph drawn by `drawGlyph` (two solid wheels under a plank bed) until `icon-make-carreta` is registered.
+  ['make-carreta', { glyph: 'carreta' }],
   // The old walk to the shops, for a class saved in the middle of it: the same picture as going to town to trade.
   ['visit-shop-street', { sprite: 'icon-visit-shop' }],
   // What a family ate between deer (sim/gathering.mjs, docs/BIOMES.md §17.3): no frames yet. stand-in: docs/ART_REQUESTS.md,
@@ -608,6 +612,16 @@ function drawGlyph(ctx, glyph, size) {
     for (const y of [14, 20, 26]) { ctx.beginPath(); ctx.arc(40, y, 2.5, 0, Math.PI * 2); ctx.fill(); }
     ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(6, 31); ctx.lineTo(42, 31); ctx.stroke();
     ctx.lineWidth = 2.5; for (const x of [14, 34]) { ctx.beginPath(); ctx.arc(x, 38, 6, 0, Math.PI * 2); ctx.stroke(); }
+  } else if (glyph === 'carreta') {
+    // Two great solid wheels on a wooden axle under a plank bed and its tongue: the carreta made at home (sim/carreta.mjs).
+    ctx.strokeStyle = '#3a2a18';
+    ctx.fillStyle = '#8a6a3d';
+    ctx.fillRect(8, 16, 30, 6);
+    ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(38, 19); ctx.lineTo(46, 26); ctx.stroke();
+    ctx.fillStyle = '#a07c4a';
+    for (const x of [15, 31]) { ctx.beginPath(); ctx.arc(x, 31, 9, 0, Math.PI * 2); ctx.fill(); ctx.lineWidth = 2; ctx.stroke(); }
+    ctx.fillStyle = '#3a2a18';
+    for (const x of [15, 31]) { ctx.beginPath(); ctx.arc(x, 31, 2.5, 0, Math.PI * 2); ctx.fill(); }
   } else if (glyph === 'small-game') {
     // A squirrel on a branch, its tail up: the hour's work, not the day's (sim/gathering.mjs).
     ctx.strokeStyle = '#3a2a18';

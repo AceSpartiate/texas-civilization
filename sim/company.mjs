@@ -34,11 +34,23 @@
 // this game, riding or walking, and the day's seven hours of going (`ROAD_HOURS_A_DAY`) already has the nooning in it.
 // ceiling: the game has nobody old - a parent is 20 to 45 (docs/FAMILY_CREATION.md §3) - and does not model a woman carrying a
 // child, so "the oldest and the pregnant ride first" has nobody to apply to. A grandparent or a confinement would come first here.
-// ceiling: the horse is led, never ridden, on the family's journeys, as it always was. Harris's family rode "father's horse" when
-// the cart was full; a seat on the horse would be one more here.
+//
+// **The horse carries a rider** (owner, 2026-09-25, the second amendment of that day: "yes, the horse should carry a rider";
+// `FIC-GONZ-394` amended). Until then the horse was led, never ridden, on the family's journeys. Now, in a class on the second
+// table of means (sim/means.mjs `secondTable`), **every sound horse going with the family is one more seat**, dealt after the
+// vehicles' seats and in the same order: the sick first, then the youngest (`riddenHorses`, `seatPlan`). So a family with room in
+// its wagons leaves the horse without a rider, and one short of seats puts the next who would have walked on it - often a small
+// child who would otherwise hold everybody back, led by a walker. A family with no vehicle at all puts its sick or its youngest on
+// the horse and walks the rest. A baby goes on the horse in its carrier's arms, as it rides the wagon. A rider on the horse is
+// tired as a rider (`saddle` on the travel record, sim/world.mjs), and is drawn in the saddle (public/motion.js `inTheSaddle`).
+// The record: in the 1833 move "Mother, sister, and myself rode in the cart" while the men "traveled on horseback" (Harris, 4:2
+// pp. 91-92, `HIST-TEX-442`); a woman rode "carrying the babe" while her husband walked (4:2 p. 119).
+// ceiling: one rider a horse, whatever their size, and nobody is chosen by who can ride: a child of three is put up as readily as a
+// man. The led horse of a family's journey is the one the rider sits.
 //
 // Only a class made since the means were rolled (`world.meansRoll`) goes by this. A class saved before keeps everybody at the
-// ox's pace with the driver on the wagon and the rest beside it, exactly as it was, and no save version moved.
+// ox's pace with the driver on the wagon and the rest beside it, exactly as it was, and no save version moved. A class that rolled
+// on the first table (`world.meansRoll === true`) keeps the horse led.
 import { WAGON_SPEED, WALK_SPEED } from './travel.mjs';
 import { SENT_FROM_AGE, sexOf } from './family.mjs';
 
@@ -63,8 +75,16 @@ export function walkingPace(person) {
   return age >= 6 ? CHILD_WALK_SPEED : SMALL_WALK_SPEED;
 }
 
-/** How many ride in this vehicle beside its driver. A cart is a family's one vehicle of the poorest means (sim/means.mjs). */
-export const ridersIn = vehicle => (vehicle?.cart ? CART_RIDERS : WAGON_RIDERS);
+/**
+ * How many ride in this vehicle beside its driver. A cart is a family's one vehicle of the poorest means (sim/means.mjs); a carreta
+ * made at home (sim/carreta.mjs) seats a cart's two (`FIC-GONZ-398`).
+ */
+export const ridersIn = vehicle => (vehicle?.cart || vehicle?.carreta ? CART_RIDERS : WAGON_RIDERS);
+/**
+ * The horses among these movers that carry a rider on the family's journey together: every sound horse, in a class on the second
+ * table of means (`meansRoll` 2, sim/means.mjs; owner 2026-09-25: "the horse should carry a rider"), and none in a class before.
+ */
+export const riddenHorses = (world, movers = []) => (world?.meansRoll === 2 ? movers.filter(entity => entity?.kind === 'animal' && entity.species === 'horse' && (!entity.condition || entity.condition === 'sound')) : []);
 
 /** Somebody the game gives no age sorts as their place says: a parent grown, a founding son or daughter an adolescent. */
 const ageFor = person => (Number.isFinite(person.age) ? person.age : person.kin?.role === 'father' || person.kin?.role === 'mother' ? 30 : 12);
@@ -73,23 +93,25 @@ const carried = person => Number.isFinite(person.age) && person.age < CARRIED_UN
 const unwell = person => ['sick', 'wounded'].includes(person.health?.condition);
 
 /**
- * Who of these people drives, rides or walks, given the vehicles going with them (each drawn by an ox). Returns a map of person
- * id to `{ drives }`, `{ rides }`, `{ afoot: true }`, with `carried` (who carries them) on a baby, and the order it was dealt in.
- * Pure: the same people and vehicles always give the same plan.
+ * Who of these people drives, rides or walks, given the vehicles going with them (each drawn by an ox) and the horses that carry
+ * a rider (`riddenHorses`). Returns a map of person id to `{ drives }`, `{ rides }` (a vehicle, or a horse with `saddle`),
+ * `{ afoot: true }`, with `carried` (who carries them) on a baby, and the order it was dealt in. Pure: the same people, vehicles
+ * and horses always give the same plan.
  */
-export function seatPlan(people, vehicles = []) {
+export function seatPlan(people, vehicles = [], horses = []) {
   const plan = new Map();
   const order = new Map(people.map((person, i) => [person.id, i]));
   const byAge = (a, b) => ageFor(a) - ageFor(b) || order.get(a.id) - order.get(b.id);
   // 1. A driver to every vehicle: the principal, then the eldest who may be sent.
   const drivers = [...people.filter(person => person.principal && mayDrive(person)), ...people.filter(person => !person.principal && mayDrive(person) && !carried(person)).sort((a, b) => byAge(b, a))];
   vehicles.forEach((vehicle, i) => { if (drivers[i]) plan.set(drivers[i].id, { drives: vehicle.id }); });
-  // 3. The seats: the sick first, then the youngest up. The babies are left for their carriers.
-  const free = vehicles.map(vehicle => ({ id: vehicle.id, left: ridersIn(vehicle) }));
+  // 3. The seats: the sick first, then the youngest up, the vehicles' first and then one on each horse. The babies are left for
+  // their carriers.
+  const free = [...vehicles.map(vehicle => ({ id: vehicle.id, left: ridersIn(vehicle) })), ...horses.map(horse => ({ id: horse.id, left: 1, saddle: true }))];
   const waiting = people.filter(person => !plan.has(person.id) && !carried(person)).sort((a, b) => (unwell(b) - unwell(a)) || byAge(a, b));
   for (const person of waiting) {
     const seat = free.find(one => one.left > 0);
-    if (seat) { seat.left--; plan.set(person.id, { rides: seat.id }); } else plan.set(person.id, { afoot: true });
+    if (seat) { seat.left--; plan.set(person.id, { rides: seat.id, ...(seat.saddle && { saddle: true }) }); } else plan.set(person.id, { afoot: true });
   }
   // 2. Every baby with whoever carries it: its mother, else its father, else the eldest going.
   const going = new Set(people.map(person => person.id));
@@ -98,7 +120,7 @@ export function seatPlan(people, vehicles = []) {
     const parents = (baby.kin?.parents || []).filter(id => going.has(id)).map(id => people.find(person => person.id === id));
     const carrier = parents.find(parent => sexOf(parent) === 'female') || parents[0] || eldest;
     const theirs = carrier ? plan.get(carrier.id) : null;
-    const where = !theirs || theirs.afoot ? { afoot: true } : { rides: theirs.drives || theirs.rides };
+    const where = !theirs || theirs.afoot ? { afoot: true } : { rides: theirs.drives || theirs.rides, ...(theirs.saddle && { saddle: true }) };
     plan.set(baby.id, { ...where, ...(carrier && { carried: carrier.id }) });
   }
   return plan;
@@ -112,23 +134,26 @@ export function companyPace(people, plan, vehicles = []) {
 }
 
 /**
- * What one person's seat puts on their travel record: `drives` or `rides` with the vehicle's id, `afoot`, and `carried` by whom.
- * Read by sim/world.mjs `progressTravel` (what the miles cost them) and sent with their travel to the family and the Host.
+ * What one person's seat puts on their travel record: `drives` or `rides` with the vehicle's id, `saddle` when what they ride is the
+ * horse, `afoot`, and `carried` by whom. Read by sim/world.mjs `progressTravel` (what the miles cost them) and sent with their
+ * travel to the family and the Host.
  */
-export const seatFields = seat => (!seat ? {} : { ...(seat.drives && { drives: seat.drives }), ...(seat.rides && { rides: seat.rides }), ...(seat.afoot && { afoot: true }), ...(seat.carried && { carried: seat.carried }) });
+export const seatFields = seat => (!seat ? {} : { ...(seat.drives && { drives: seat.drives }), ...(seat.rides && { rides: seat.rides }), ...(seat.saddle && { saddle: true }), ...(seat.afoot && { afoot: true }), ...(seat.carried && { carried: seat.carried }) });
 /** The seat fields a travel record carries, copied out for a projection. */
-export const seatOfTravel = travel => seatFields(travel && { drives: travel.drives, rides: travel.rides, afoot: travel.afoot, carried: travel.carried });
+export const seatOfTravel = travel => seatFields(travel && { drives: travel.drives, rides: travel.rides, saddle: travel.saddle, afoot: travel.afoot, carried: travel.carried });
 
 /**
  * The family's people and beasts setting out together: every one of `movers` given `base` as its journey, at the company's pace,
- * with each person's seat on it. `vehicles` are the wagons and carts going, each with an ox. Returns the pace.
+ * with each person's seat on it. `vehicles` are the wagons and carts going, each with an ox; `horses` those that carry a rider
+ * (`riddenHorses`). A family going with no vehicle goes on foot, whatever way the journey was begun (`mode`). Returns the pace.
  */
-export function setOut(movers, vehicles, base) {
+export function setOut(movers, vehicles, base, horses = []) {
   const people = movers.filter(entity => entity.kind === 'person');
-  const plan = seatPlan(people, vehicles);
+  const plan = seatPlan(people, vehicles, horses);
   const speed = companyPace(people, plan, vehicles);
   for (const entity of movers) {
-    const { drives, rides, afoot, carried: by, ...rest } = base(entity);
+    const { drives, rides, saddle, afoot, carried: by, ...rest } = base(entity);
+    if (!vehicles.length && rest.mode === 'wagon') rest.mode = 'foot';
     entity.travel = { ...rest, speed, ...(entity.kind === 'person' && seatFields(plan.get(entity.id))) };
   }
   return speed;
@@ -141,12 +166,19 @@ export function drawnVehicles(movers) {
   return wagons.slice(0, oxen.length);
 }
 
-/** In words, for the family's means (sim/means.mjs): "4 ride and 6 walk beside the wagon." */
-export function seatWords(people, vehicles) {
-  const plan = seatPlan(people, vehicles);
+/**
+ * In words, for the family's means (sim/means.mjs): "4 ride and 6 walk beside the wagon." With no vehicle, "1 rides the horse and
+ * 5 walk." A rider on the horse is counted among those who ride.
+ */
+export function seatWords(people, vehicles, horses = []) {
+  const plan = seatPlan(people, vehicles, horses);
   const walk = people.filter(person => plan.get(person.id)?.afoot).length, ride = people.length - walk;
-  const beside = vehicles.length > 1 ? 'the wagons' : vehicles[0]?.cart ? 'the cart' : 'the wagon';
-  if (!vehicles.length) return people.length === 1 ? 'They walk.' : 'They all walk.';
+  const beside = vehicles.length > 1 ? 'the wagons' : vehicles[0]?.cart ? 'the cart' : vehicles[0]?.carreta ? 'the carreta' : 'the wagon';
+  if (!vehicles.length) {
+    if (!ride) return people.length === 1 ? 'They walk.' : 'They all walk.';
+    if (!walk) return people.length === 1 ? 'They ride the horse.' : `All ${people.length} ride.`;
+    return `${ride} ${ride === 1 ? 'rides' : 'ride'} ${horses.length > 1 ? 'the horses' : 'the horse'} and ${walk} ${walk === 1 ? 'walks' : 'walk'}.`;
+  }
   if (!walk) return people.length === 1 ? 'There is room for them to ride.' : `There is room for all ${people.length} to ride.`;
   return `${ride} ${ride === 1 ? 'rides' : 'ride'} and ${walk} ${walk === 1 ? 'walks' : 'walk'} beside ${beside}.`;
 }

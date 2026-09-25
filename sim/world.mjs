@@ -39,7 +39,9 @@ import { findWay } from './ways.mjs';
 import { STATES as IMPROVEMENT_STATES, improvementProjection } from './improvements.mjs';
 import { OLD_PATCHES, plotAt } from './fields.mjs';
 import { advanceArrivals, putOnTheRoad, sayTheArrival, shelterProjection } from './settling.mjs';
-import { applyMeans, meansInvalid, meansProjection, settleMeans } from './means.mjs';
+import { MEANS_TABLE, applyMeans, meansInvalid, meansProjection, settleMeans } from './means.mjs';
+// The carreta a family makes at home (owner, 2026-09-25): its chore registers itself into the one table (sim/chores.mjs).
+import './carreta.mjs';
 import { seatOfTravel } from './company.mjs';
 import { defaultLoad, householdFromLoad, loadForWagons, loadInvalid, setLoad, wagonProjection } from './wagon.mjs';
 import { editPlot, houseInvalid, houseProjection, noteLandSeen, planHouse, recordHelpDone } from './houses.mjs';
@@ -92,7 +94,10 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
   // since rolls anybody's means. A class made earlier on 2026-09-25 carries `wagonsBySize` instead and keeps a wagon for every
   // eight people (sim/beasts.mjs `fitOut`, docs/SETTLING_IN.md §4a); one made before that keeps one wagon a family. No save
   // version moved.
-  world.meansRoll = true;
+  // Since the owner's second amendment that evening the class rolls on the second table (`MEANS_TABLE`, sim/means.mjs): starting
+  // coin on every face, a band with no vehicle, the carreta made at home and the horse ridden on the family's journeys. A class
+  // made that afternoon keeps `true` and the first table.
+  world.meansRoll = MEANS_TABLE;
   for (let i = 1; i <= playerCount; i++) {
     const householdId = `hh-${i}`;
     const site = world.map.sites[`home-${i}`];
@@ -553,8 +558,9 @@ export function progressTravel(world, entity, units = 1) {
   if (entity.kind === 'person' && entity.householdId && !entity.report) {
     // Shoes on foot and a saddle on the horse take some of it off (sim/shops.mjs).
     // Beside the wagons on a family's journey (sim/company.mjs): a walker pays for a mile as a walker does, and a baby carried
-    // pays nothing. Riders and drivers pay the wagon's share, as the whole family on the road in always did.
-    const how = travel.afoot ? MODES.foot : modeOf(travel);
+    // pays nothing. Riders and drivers pay the wagon's share, as the whole family on the road in always did; somebody the family
+    // put on the horse (`saddle`, owner 2026-09-25: "the horse should carry a rider") pays a rider's.
+    const how = travel.saddle ? MODES.horse : travel.afoot ? MODES.foot : modeOf(travel);
     const cost = travel.carried ? 0 : (travel.progress - wasAt) * how.exertion * gearExertionShare(world, entity, how.id);
     entity.exertion = Math.min(EXERTION_CAP, Math.round(((entity.exertion || 0) + cost) * 10000) / 10000);
   }
@@ -1129,7 +1135,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   visibleEvents.reverse();
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.kind === 'person' && seenAs(e)), ...(Number.isFinite(e.age) && { age: e.age }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, chore: choreShown(world, household, e), condition: e.condition, species: e.species, laden: e.laden, ...(e.cart && { cart: true }), borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(['coming', 'open'].includes(e.service.courier) && { courier: e.service.courier }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }), ...(e.kind === 'person' && decisionPressing(world, e.id) && { pressing: true }),
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.kind === 'person' && seenAs(e)), ...(Number.isFinite(e.age) && { age: e.age }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, chore: choreShown(world, household, e), condition: e.condition, species: e.species, laden: e.laden, ...(e.cart && { cart: true }), ...(e.carreta && { carreta: true }), borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(['coming', 'open'].includes(e.service.courier) && { courier: e.service.courier }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }), ...(e.kind === 'person' && decisionPressing(world, e.id) && { pressing: true }),
     // Which way somebody a rider has reined in for is turned, and whether they are the one talking (sim/encounters.mjs
     // `listeningOf`): the other half of the rider's own `facing`/`speaking`, so the page can draw the delivered speaking
     // and listening poses. Absent for everybody not in an open meeting, which is the correct empty value and why no save

@@ -244,10 +244,10 @@ old enough to drive it goes undriven. The riders sit in the wagon behind the dri
 of the cover, `stand-in:`), and the walkers walk in a file along the near side of the train, a stride apart, so ten walking read as
 ten. The Host is sent the same seats. Another family's never reach a student.
 
-**Zero wagons.** No band arrives with nothing to haul with: the record's poorest class had a sleigh behind oxen, and a family with
-no vehicle could bring neither the hoe nor the axe the first steps of the lesson need. The poorest have a cart. A family whose
-vehicles are all gone later - lost in a bog, taken - already goes on foot, and the flight tests it. **An arrival on foot is open for
-the owner** (HANDOFF.md).
+**Zero wagons.** ~~No band arrives with nothing to haul with.~~ **Amended the same evening** (below): the owner answered the open
+question - *"yes, it should be possible to start with no wagon. it shouldn't block gameplay, but some things might have to happen
+slower"* - and a family that is hard up (the means die's 1-2) now arrives on foot. A family whose vehicles are all gone later - lost
+in a bog, taken - goes on foot as it always did.
 
 **Food for the road in, whatever the means** (`FIC-GONZ-396`): no family arrives with fewer than **five days** of food for its
 eaters. A cart's trim takes meal out, so a large poor family carries the rest on foot beside the cart (`household.packs`; "Besides
@@ -256,6 +256,33 @@ a family hauls, who rides and how fast it goes, not whether it eats the first we
 
 **Old classes.** A class saved before this opens as it was: no means, nobody seated, everybody on the road in at the ox's pace with
 the driver on the wagon and the rest beside it. No save version moved.
+
+#### Amended the evening of 2026-09-25 — on foot, the horse ridden, and the carreta
+
+> "yes, it should be possible to start with no wagon. it shouldn't block gameplay, but some things might have to happen slower.
+> what was the cart thing that tejanos used? maybe we could use that? have it be something families can make at home? could work
+> the same, just with reduced carrying capacity? yes, the horse should carry a rider."
+>
+> — the owner, 2026-09-25
+
+**Status: built the same evening**, for classes made since (`world.meansRoll` 2, the second table of docs/FAMILY_CREATION.md's
+second amendment of that day). Claims `FIC-GONZ-397`, `FIC-GONZ-398`, `HIST-TEX-443`; `FIC-GONZ-394` amended.
+
+- **The horse carries a rider** (`seatPlan`, `riddenHorses`). Rule 3 above gains one seat on every sound horse going with the family,
+  dealt **after the vehicles' seats and in the same order - the sick, then the youngest**. So the horse carries nobody when the wagons
+  have room, carries the next who would have walked when they have not (a small child who would otherwise slow everybody, most
+  often), and on a family with no vehicle carries its sick or its youngest. A baby rides in its carrier's arms, on the horse as in the
+  wagon. The rider is tired as a rider (`saddle` on the travel record: `MODES.horse.exertion`), and the page draws them in the saddle
+  and the horse not again by itself (public/motion.js `inTheSaddle`, `carriedWithRider`). On all four journeys together. A class of
+  the first table keeps the horse led.
+- **A family with no vehicle walks in** (sim/settling.mjs `putOnTheRoad`): every one of it on foot (`mode: 'foot'`), over the ground
+  as a walker goes it, at the pace of its slowest walker; nobody drives; the ox walks behind under its packs; the walkers are drawn in
+  the same file along the road (`walksBeside` reads a walk on foot too); the founding line says *"with the ox under packs and the
+  horse, on foot"*, the camp is *"by their packs"*, and the arrival says *"They carried 11 food on their backs, in sacks and bundles,
+  and the ox carried the rest."* Its kit and its food are docs/FAMILY_CREATION.md's.
+- **The carreta** (docs/WOODS_AND_BUILDING.md §6.6) is a vehicle like the wagon on these journeys: it has a driver and **two** riders
+  beside them, as a cart, and holds **10** of a wagon's 16 spaces in the flight east.
+- `ceiling:` a pack ox and a led horse keep the walkers' pace, as the family's beasts in the flight on foot always have.
 
 ---
 

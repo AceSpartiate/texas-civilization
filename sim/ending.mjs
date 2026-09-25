@@ -121,9 +121,13 @@ export function familyEnding(world, householdId) {
   const money = household.resources?.money ?? 0;
   const ledger = world.glory?.[householdId];
   const glory = ledger?.total ?? 0;
-  const coin = world.events
+  // The coin the family's means started it with (sim/means.mjs, owner 2026-09-25: three to ten reales) is the first line of the
+  // account, so every real that came into the house is in it. Only the account: how the final number counts it is the owner's
+  // open question (docs/MONEY_AND_GLORY.md, the amendment of 2026-09-25), and it is counted as all coin in the house always was.
+  const start = household.means?.coin ? [{ minute: 0, date: day(world, 0), coin: household.means.coin, text: `The family came with ${household.means.coin} reales.` }] : [];
+  const coin = [...start, ...world.events
     .filter(event => event.householdId === householdId && Number.isInteger(event.coin) && event.coin !== 0)
-    .map(event => ({ minute: event.minute, date: day(world, event.minute), coin: event.coin, text: event.text }));
+    .map(event => ({ minute: event.minute, date: day(world, event.minute), coin: event.coin, text: event.text }))];
   const awards = Object.values(ledger?.awards || {})
     .sort((a, b) => a.minute - b.minute)
     .map(award => {

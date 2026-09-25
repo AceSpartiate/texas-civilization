@@ -237,11 +237,16 @@ test('the whole of it, played through: the family ends with a house, a field it 
   assert.equal(step(), 'sell');
 
   // 6. Sell it in town: the cotton on the list for the store, chosen before anybody leaves (docs/TOWNS.md §4b, 2026-09-24).
-  assert.equal(household.resources.money, 0);
+  // The family came with coin (sim/means.mjs, owner 2026-09-25: three to ten reales), and that is not a crop sold: the step
+  // waits for coin over what was in the house when it began.
+  const coinBefore = household.resources.money;
+  assert.ok(coinBefore >= 3 && coinBefore === household.means.coin, 'the family did not come with its coin');
+  advanceLessons(world);
+  assert.equal(step(), 'sell', 'the coin the family came with was taken for a crop sold');
   const seller = hands(world, household)[0];
   const bales = Math.floor(household.resources.cotton);
   send(world, 'hh-1', { action: 'chore', entityId: seller.id, chore: 'visit-shop', errand: [{ id: 'store:cotton', n: Math.min(bales, 5), pay: 'coin' }] });
-  until(world, () => (household.resources.money ?? 0) > 0);
+  until(world, () => (household.resources.money ?? 0) > coinBefore);
   assert.equal(step(), 'hunt');
 
   // 7. Hunt, at a place the student chose, and home again whatever the shot did.

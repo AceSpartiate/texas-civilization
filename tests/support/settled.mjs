@@ -9,7 +9,7 @@
 // Not a test file: `node --test` picks up `*.test.mjs`, and this is imported, never run.
 import { createGonzalesWorld } from '../../sim/gonzales.mjs';
 import { validateWorld } from '../../sim/world.mjs';
-import { settleMeans } from '../../sim/means.mjs';
+import { coinFor, secondTable, settleMeans } from '../../sim/means.mjs';
 import { packForRoom } from '../../sim/wagon.mjs';
 
 /** Every family's arrival finished on the spot, without moving the clock, and a cabin standing. */
@@ -36,6 +36,17 @@ export function settle(world) {
  * running tick, before anything moves; a family already home has had that tick, so it has them before the test sets it up.
  */
 export const createSettledWorld = (seed, count) => { const world = createGonzalesWorld(seed, count); settleMeans(world); return settle(world); };
+
+/**
+ * Every family without the coin its means gave it (sim/means.mjs `MEANS_COIN`, owner 2026-09-25: three to ten reales a family),
+ * as every family was before that evening. For a test whose subject is coin coming into the house from nothing - a sale, a
+ * trade, the ending's floor of one real - and not the starting coin, which tests/means.test.mjs holds. The means keep their record
+ * of the coin rolled; only what is in the house is taken out.
+ */
+export function withoutStartingCoin(world) {
+  for (const household of Object.values(world.households)) if (household.means?.coin) household.resources = { ...household.resources, money: 0 };
+  return world;
+}
 
 /**
  * Every family already walked through the guided beginning (sim/lesson.mjs, docs/LESSON.md).
@@ -74,9 +85,16 @@ export function modestMeans(world, householdId = 'hh-1') {
     delete world.entities[id];
     household.property = household.property.filter(one => one !== id);
   }
+  // A family that came on foot (sim/means.mjs, the band that is hard up) is given back the family wagon it never had, where its ox is.
+  if (!world.entities[`${householdId}-wagon`]) {
+    const ox = world.entities[`${householdId}-animal`];
+    world.entities[`${householdId}-wagon`] = { id: `${householdId}-wagon`, name: 'Family wagon', kind: 'wagon', householdId, depth: 'aggregate', location: { ...ox.location }, travel: ox.travel ? structuredClone(ox.travel) : null, condition: 'sound', borrowedBy: null };
+    household.property = [...household.property, `${householdId}-wagon`];
+  }
   const wagon = world.entities[`${householdId}-wagon`];
   if (wagon?.cart) { delete wagon.cart; wagon.name = 'Family wagon'; }
-  if (household.means) household.means = { roll: 10, band: 'modest' };
+  // Rolled a 10 on the table the class rolls on: on the second (sim/means.mjs), with the 5 reales that face gives.
+  if (household.means) household.means = { roll: 10, band: 'modest', ...(secondTable(world) && { coin: coinFor(10) }) };
   // And its load what one wagon holds (sim/wagon.mjs `packForRoom`), the stores that came in the others gone with them.
   packForRoom(world, household);
   validateWorld(world);

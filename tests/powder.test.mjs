@@ -40,7 +40,10 @@ function untilAsk(world, householdId = 'hh-1', entityId = 'hh-1-mateo') {
 test('a family keeps powder in the house, and a shot spends it', () => {
   const world = running('spend');
   const household = world.households['hh-1'];
-  assert.equal(household.resources.powder, STARTING_POWDER);
+  // What the load packed: the default's three shots, or fewer for a family that came on foot with its ox under packs
+  // (sim/means.mjs, sim/wagon.mjs `PACK_SPACE`) - as this one of 'spend' did - which still brings one at the least.
+  assert.equal(household.resources.powder, household.means?.afoot ? household.load.find(entry => entry.id === 'powder').amount : STARTING_POWDER);
+  assert.ok(household.resources.powder >= 1, 'a family came with no shot to spend');
   assert.ok(STARTING_POWDER >= 2, 'a family that cannot afford a second thought has no decision to make');
   const before = household.resources.powder;
   const mateo = world.entities['hh-1-mateo'];
