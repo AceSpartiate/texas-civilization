@@ -237,12 +237,15 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
         ? `About ${Math.round(entry.crop.grown * entry.crop.share)} food of ${Math.round(entry.crop.grown)} standing; the rest has gone to stock in an unfenced field.`
         : `About ${Math.round(entry.crop.grown)} food standing.`
       : '';
+    // Refused work that somebody on auto may still be given, to wait for (sim/auto.mjs `waitingWork`): open to press, and its
+    // popup says the server's reason and the server's words for what pressing it does.
+    const waits = Boolean(entry.waits && !entry.can && active !== entry.id);
     icons.push({
       key: entry.id, kind: 'chore', name: spec.name || entry.id,
       summary: PANEL_SUMMARIES[entry.id] || firstSentence(spec.describe),
-      note: [entry.cost ? `Costs ${entry.cost}.` : '', haul, crop].filter(Boolean).join(' '),
-      can: Boolean(settable && entry.can), why: entry.can ? '' : why || '',
-      onMap: ON_MAP.includes(entry.id), active: active === entry.id,
+      note: waits ? [why, entry.waits].filter(Boolean).join(' ') : [entry.cost ? `Costs ${entry.cost}.` : '', haul, crop].filter(Boolean).join(' '),
+      can: Boolean(settable && (entry.can || waits)), why: entry.can ? '' : why || '',
+      onMap: ON_MAP.includes(entry.id), active: active === entry.id, ...(waits && { waits: true }),
     });
   }
   // Somebody doing a chore the server no longer lists (it happens: a field planted is a field not to plant) is still shown
@@ -472,8 +475,16 @@ export const takesSeveral = request => request?.kind === 'call';
  */
 export function autoLabel(entity, on) {
   return on
-    ? `${entity.name} decides for themself: the last order given them is repeated, and what they are asked is answered. Press to take the choices back.`
-    : `Let ${entity.name} decide for themself: repeat the last order given them, and answer what they are asked.`;
+    ? `${entity.name} is on auto. ${autoLine(entity) || 'The last work at home given them is repeated.'} What they are asked is answered. Press to take the choices back.`
+    : `Let ${entity.name} decide for themself: repeat the work at home given them, working about the place while it cannot be done, and answer what they are asked.`;
+}
+
+/**
+ * The row's line for somebody on auto (owner, 2026-09-25, docs/FAMILY_PANEL.md §16): what they are auto-doing and, while they
+ * wait, why - the server's own sentence (`autoTask.says`, sim/auto.mjs `autoShown`), never one written here. Empty when off.
+ */
+export function autoLine(entity) {
+  return entity?.auto ? entity.autoTask?.says || '' : '';
 }
 
 /**

@@ -177,6 +177,13 @@ knows the game is theirs.
 - **The family's own housekeeping and the things between families**: naming, the main person, the auto switch,
   appearance, setting something out in the house, calling off work, answering work, speaking to a rider, travelling,
   making and answering trade offers, and helping raise a neighbour's walls.
+  **Auto and the gate** (2026-09-25, [FAMILY_PANEL.md](FAMILY_PANEL.md) §16): the switch stays on `ALWAYS` and the lesson
+  never turns it off, but **auto does not walk round the gate**. Until that day a person on auto who was given a hunt on the
+  step that allows any work went on hunting through every step after it, because the repeat called the work directly and
+  never asked this file. Now the repeat asks `lessonRefusal` first: a task the current step does not allow is not taken up,
+  the person works about the place, and their row says the step's own words (*"Auto: plant the field. Not yet - first, sell
+  what you grew. Working about the place meanwhile."*). An order refused by the step is refused for a person on auto too,
+  and is not remembered as a task to wait for.
 - **The children's own works** (added 2026-09-21, `sim/children.mjs`, `docs/FAMILY_CREATION.md` §3's amendment): the six
   things a person under ten may be set to. **Not one of them is a step of this lesson and not one of them ever could
   be** — the lesson teaches building, clearing, planting, selling, hunting and the well, and a child under ten can do

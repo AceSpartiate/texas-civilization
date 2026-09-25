@@ -33,7 +33,7 @@
     "at 1366x768 the X is 36x36px, inside the strip, on no word, reachable, and named \"Stop the guided start\"",
     "the X asks once, in the strip: \"Stop the guided start? You won’t be walked through the rest. For five minutes, a “Resume tutorial” button can bring it back.\" - and \"Keep going\" sends nothing",
     "\"Yes, stop it\" sends stop-lesson once; the strip goes, the snapshot carries no lesson, nothing on the bar is shut, and the old walk-through is not offered instead",
-    "stopping the lesson reveals 10 additional actions",
+    "stopping the lesson reveals 11 additional actions",
     "at 1366x768 \"Resume tutorial\" is 119x36px at 1235,10, on the screen, reachable, and on nothing else",
     "at 1024x768 \"Resume tutorial\" is 119x36px at 893,10, on the screen, reachable, and on nothing else",
     "after a reload the strip stays gone and the server sends no lesson",
@@ -226,6 +226,7 @@
       "asks": "Stop the guided start? You won’t be walked through the rest. For five minutes, a “Resume tutorial” button can bring it back.",
       "availableAfter": [
         "survey-plot",
+        "plant-field",
         "fence-plot",
         "hunt-timber",
         "visit-shop",
@@ -242,8 +243,8 @@
       ]
     },
     "resume": {
-      "until": 1790349947659,
-      "msWhenStopped": 299897,
+      "until": 1790359641110,
+      "msWhenStopped": 299982,
       "chromebook": {
         "size": [
           119,

@@ -1,0 +1,335 @@
+{
+  "record": "auto-injections",
+  "date": "2026-09-25",
+  "files": [
+    "tests/auto-repeat.test.mjs",
+    "tests/auto.test.mjs",
+    "tests/going.test.mjs",
+    "tests/family-panel.test.mjs",
+    "tests/lesson.test.mjs",
+    "tests/errands.test.mjs",
+    "tests/chores.test.mjs",
+    "tests/save-cadence.test.mjs"
+  ],
+  "caught": 18,
+  "onlyThat": 11,
+  "of": 18,
+  "results": [
+    {
+      "name": "the task forgotten once it is taken up again: it is done twice and never after",
+      "expect": "planting and the harvest on auto, two people, across a season: the field is planted, grows, is brought in and planted again, and nobody is stuck",
+      "edits": [
+        {
+          "file": "sim/auto.mjs",
+          "from": "        delete order.held;\n      } catch (error) { hold(error.message); }",
+          "to": "        delete person.order;\n      } catch (error) { hold(error.message); }"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "planting and the harvest on auto, two people, across a season: the field is planted, grows, is brought in and planted again, and nobody is stuck",
+        "the exits: off, called away, dead, and the family on the road east",
+        "what repeats: the owner's field and hunts, the gathering and the house; never the errand, the herd or the war",
+        "on auto a hunt never stops to ask: the shot is decided at once, the hunt repeated when they come home, and stopped by the switch",
+        "a person on auto goes by the same rule: rides when the horse is home, walks when it is out"
+      ]
+    },
+    {
+      "name": "waiting, they stand about instead of working about the place",
+      "expect": "planting and the harvest on auto, two people, across a season: the field is planted, grows, is brought in and planted again, and nobody is stuck",
+      "edits": [
+        {
+          "file": "sim/auto.mjs",
+          "from": "        if (person.task !== 'work') person.task = 'work';\n        if (order.held === why) return;",
+          "to": "        if (order.held === why) return;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "planting and the harvest on auto, two people, across a season: the field is planted, grows, is brought in and planted again, and nobody is stuck",
+        "the guided start holds the gate for auto: a task the step does not allow is not taken up, nor taken as a task to wait for",
+        "a class saved before opens as it was: a person on auto with a remembered hunt keeps it as their one task",
+        "on auto a hunt never stops to ask: the shot is decided at once, the hunt repeated when they come home, and stopped by the switch"
+      ]
+    },
+    {
+      "name": "a task that could not be done is never asked again",
+      "expect": "planting and the harvest on auto, two people, across a season: the field is planted, grows, is brought in and planted again, and nobody is stuck",
+      "edits": [
+        {
+          "file": "sim/auto.mjs",
+          "from": "      const why = heldWhy(world, household, person, order);\n      if (why) {",
+          "to": "      if (order.held) continue;\n      const why = heldWhy(world, household, person, order);\n      if (why) {"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "planting and the harvest on auto, two people, across a season: the field is planted, grows, is brought in and planted again, and nobody is stuck",
+        "a worn hoe: auto mends it about the house, and goes back to the field",
+        "the exits: off, called away, dead, and the family on the road east",
+        "the guided start holds the gate for auto: a task the step does not allow is not taken up, nor taken as a task to wait for",
+        "a class saved before opens as it was: a person on auto with a remembered hunt keeps it as their one task",
+        "on auto a hunt never stops to ask: the shot is decided at once, the hunt repeated when they come home, and stopped by the switch"
+      ]
+    },
+    {
+      "name": "refused work is refused on auto too: nobody can be put on the harvest before it is ripe",
+      "expect": "planting and the harvest on auto, two people, across a season: the field is planted, grows, is brought in and planted again, and nobody is stuck",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "catch (error) { if (waitForTask(world, household, entity, input.chore, mode, error)) return; throw error; }",
+          "to": "catch (error) { throw error; }"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "planting and the harvest on auto, two people, across a season: the field is planted, grows, is brought in and planted again, and nobody is stuck",
+        "a worn hoe: auto mends it about the house, and goes back to the field",
+        "the page says what the server says: the switch's words, the row's line, and refused work that can be waited for",
+        "on auto a hunt never stops to ask: the shot is decided at once, the hunt repeated when they come home, and stopped by the switch"
+      ]
+    },
+    {
+      "name": "no turns with the rifle: the hunter home takes it straight back",
+      "expect": "on auto a hunt never stops to ask: the shot is decided at once, the hunt repeated when they come home, and stopped by the switch",
+      "edits": [
+        {
+          "file": "sim/auto.mjs",
+          "from": "for (const id of [...household.members].sort((a, b) => waiting(a) - waiting(b))) {",
+          "to": "for (const id of household.members) {"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "on auto a hunt never stops to ask: the shot is decided at once, the hunt repeated when they come home, and stopped by the switch"
+      ]
+    },
+    {
+      "name": "off, the task is still taken up",
+      "expect": "the exits: off, called away, dead, and the family on the road east",
+      "edits": [
+        {
+          "file": "sim/auto.mjs",
+          "from": "      const person = world.entities[id];\n      if (!person?.auto) continue;",
+          "to": "      const person = world.entities[id];\n      if (!person?.auto && !person?.order) continue;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "the exits: off, called away, dead, and the family on the road east",
+        "on auto a hunt never stops to ask: the shot is decided at once, the hunt repeated when they come home, and stopped by the switch",
+        "by hand the question stands for the game's own window and then auto decides it: a steady hand takes the shot nobody answered",
+        "the whole of it, played through: the family ends with a house, a field it cleared, the crop it chose, coin for it, and a hunt",
+        "the hunt counts when the hunter comes home, whatever the shot did, and never before they have gone"
+      ]
+    },
+    {
+      "name": "away from home, auto still gives them work at home",
+      "expect": "the exits: off, called away, dead, and the family on the road east",
+      "edits": [
+        {
+          "file": "sim/auto.mjs",
+          "from": "  && person.location?.siteId === household.homeSiteId && !(household.flight",
+          "to": "  && !(household.flight"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the exits: off, called away, dead, and the family on the road east"
+      ]
+    },
+    {
+      "name": "the family fled, auto still sets them to the field",
+      "expect": "the exits: off, called away, dead, and the family on the road east",
+      "edits": [
+        {
+          "file": "sim/auto.mjs",
+          "from": "  && person.location?.siteId === household.homeSiteId && !(household.flight && household.flight.status !== 'home');",
+          "to": "  && person.location?.siteId === household.homeSiteId;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the exits: off, called away, dead, and the family on the road east"
+      ]
+    },
+    {
+      "name": "the dead stay on auto",
+      "expect": "the exits: off, called away, dead, and the family on the road east",
+      "edits": [
+        {
+          "file": "sim/auto.mjs",
+          "from": "      if (GONE.includes(person.health?.condition)) { delete person.auto; delete person.order; continue; }\n",
+          "to": "      if (GONE.includes(person.health?.condition)) continue;\n"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the exits: off, called away, dead, and the family on the road east"
+      ]
+    },
+    {
+      "name": "auto walks round the guided start",
+      "expect": "the guided start holds the gate for auto: a task the step does not allow is not taken up, nor taken as a task to wait for",
+      "edits": [
+        {
+          "file": "sim/auto.mjs",
+          "from": "  if (notYet) return notYet;\n",
+          "to": ""
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the guided start holds the gate for auto: a task the step does not allow is not taken up, nor taken as a task to wait for"
+      ]
+    },
+    {
+      "name": "a worn hoe is left worn: they only work about the place",
+      "expect": "a worn hoe: auto mends it about the house, and goes back to the field",
+      "edits": [
+        {
+          "file": "sim/auto.mjs",
+          "from": "const hoe = CHORES[order.chore]?.tool === 'hoe' && allWorn(household, 'hoe');",
+          "to": "const hoe = false;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a worn hoe: auto mends it about the house, and goes back to the field"
+      ]
+    },
+    {
+      "name": "work done once replaces the task",
+      "expect": "what repeats: the owner's field and hunts, the gathering and the house; never the errand, the herd or the war",
+      "edits": [
+        {
+          "file": "sim/auto.mjs",
+          "from": "export function noteOrder(entity, choreId, mode, extra = {}, household = null) {\n  if (!REPEATED.includes(choreId)) return;",
+          "to": "export function noteOrder(entity, choreId, mode, extra = {}, household = null) {\n  if (!REPEATED.includes(choreId) && choreId !== 'mend-hoe') return;"
+        },
+        {
+          "file": "sim/auto.mjs",
+          "from": "  'build-house', 'cut-lane', 'dig-well', 'haul-logs',\n]);",
+          "to": "  'build-house', 'cut-lane', 'dig-well', 'haul-logs', 'mend-hoe',\n]);"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "what repeats: the owner's field and hunts, the gathering and the house; never the errand, the herd or the war"
+      ]
+    },
+    {
+      "name": "the director's orders become the student's task",
+      "expect": "what repeats: the owner's field and hunts, the gathering and the house; never the errand, the herd or the war",
+      "edits": [
+        {
+          "file": "sim/auto.mjs",
+          "from": "  if (household?.absent) return;\n",
+          "to": ""
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "what repeats: the owner's field and hunts, the gathering and the house; never the errand, the herd or the war"
+      ]
+    },
+    {
+      "name": "the page writes its own line for auto",
+      "expect": "the page says what the server says: the switch's words, the row's line, and refused work that can be waited for",
+      "edits": [
+        {
+          "file": "public/family-panel.js",
+          "from": "  return entity?.auto ? entity.autoTask?.says || '' : '';",
+          "to": "  return entity?.auto ? 'Auto: on.' : '';"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the page says what the server says: the switch's words, the row's line, and refused work that can be waited for"
+      ]
+    },
+    {
+      "name": "the page ignores the work that can be waited for",
+      "expect": "the page says what the server says: the switch's words, the row's line, and refused work that can be waited for",
+      "edits": [
+        {
+          "file": "public/family-panel.js",
+          "from": "const waits = Boolean(entry.waits && !entry.can && active !== entry.id);",
+          "to": "const waits = false;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the page says what the server says: the switch's words, the row's line, and refused work that can be waited for"
+      ]
+    },
+    {
+      "name": "the server offers no work to wait for",
+      "expect": "the page says what the server says: the switch's words, the row's line, and refused work that can be waited for",
+      "edits": [
+        {
+          "file": "sim/auto.mjs",
+          "from": "  if (!person?.auto || GONE.includes(person.health?.condition)) return entries;\n  return entries.map(",
+          "to": "  return entries;\n  return entries.map("
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the page says what the server says: the switch's words, the row's line, and refused work that can be waited for"
+      ]
+    },
+    {
+      "name": "the reason for waiting not said on the row",
+      "expect": "the page says what the server says: the switch's words, the row's line, and refused work that can be waited for",
+      "edits": [
+        {
+          "file": "sim/auto.mjs",
+          "from": "  if (order.held) return shown(`Auto: ${task}. ${order.held} Working about the place meanwhile.`, true);",
+          "to": "  if (order.held) return shown(`Auto: ${task}.`, true);"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "planting and the harvest on auto, two people, across a season: the field is planted, grows, is brought in and planted again, and nobody is stuck",
+        "the guided start holds the gate for auto: a task the step does not allow is not taken up, nor taken as a task to wait for",
+        "the page says what the server says: the switch's words, the row's line, and refused work that can be waited for",
+        "on auto a hunt never stops to ask: the shot is decided at once, the hunt repeated when they come home, and stopped by the switch"
+      ]
+    },
+    {
+      "name": "an old save's reason for waiting refused",
+      "expect": "a class saved before opens as it was: a person on auto with a remembered hunt keeps it as their one task",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "if (entity.order?.held !== undefined && typeof entity.order.held !== 'string')",
+          "to": "if (entity.order?.held !== undefined)"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "planting and the harvest on auto, two people, across a season: the field is planted, grows, is brought in and planted again, and nobody is stuck",
+        "a class saved before opens as it was: a person on auto with a remembered hunt keeps it as their one task"
+      ]
+    }
+  ]
+}
