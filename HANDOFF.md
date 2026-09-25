@@ -790,6 +790,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
 
+## Released as v2026.09.25.3 — 2026-09-25
+
+**[v2026.09.25.3](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.25.3)**, from `7d3484d`: the second die rolls a family's means (`sim/means.mjs`, FIC-GONZ-393, HIST-TEX-442): cart / one / two / three wagons; riders and walkers and the family's pace (`sim/company.mjs`, FIC-GONZ-394/395); five days of food at arrival, the rest carried on foot (FIC-GONZ-396); Astra's farm-plot art (`8f6f7fc`, docs/FIELD_ART.md). 1161 tests; means, creation, lesson, wagons, errand, going, family-panel, panels, travel, farm, host-view, scrape, field-surface proofs pass. Open for the owner: coin by band and how the ending counts it (MONEY_AND_GLORY.md); a family on foot with no vehicle; the band odds and seats; the horse ridden on family journeys. `test:road` times out on its second check; it did so before this change too.
+
 ## Released as v2026.09.25.2 — 2026-09-25
 
 **[v2026.09.25.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.25.2)**, from `48c8cf4`: one-way journeys skip the chooser; wagons by family size in new classes (one per eight people, FIC-GONZ-391, research HIST-TEX-441); counted wagons held one per use; the wheelwright's wagon at 100 reales with an ox on the same list (FIC-GONZ-392). 1148 tests; errand, going, wagons, shops, family-commands, family-panel, panels, lesson, riding, travel, farm, host-view proofs pass. Open for the owner: 100 reales is beyond most families; the record ties wagons to wealth, not size; one ox stands for a team; "Put the wagon in good order" covers all wagons.
