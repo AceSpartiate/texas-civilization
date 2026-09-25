@@ -21,7 +21,7 @@ import { findPath } from './geography.mjs';
 import { improvementsOf, setImprovement } from './improvements.mjs';
 import { WAGON_SPEED } from './travel.mjs';
 import { onRealLand, paceOf } from './ground.mjs';
-import { loadSentence } from './wagon.mjs';
+import { loadSentence, wagonsOf } from './wagon.mjs';
 
 /**
  * How much of the usual rest a person gets lying out by the wagon at their own land.
@@ -87,18 +87,35 @@ export function beginArrivals(world) {
     putOnTheRoad(world, household);
     // On the real land the wagon comes in to the surveyor's mark and the family chooses where the house goes (sim/homesite.mjs).
     if (onRealLand(world)) household.choosingSite = true;
-    // The wagon comes in with what the family packed (sim/wagon.mjs), and is unloaded at the land.
-    const wagon = world.entities[`${household.id}-wagon`];
-    if (wagon && household.load?.length) wagon.laden = true;
+    // The wagons come in with what the family packed (sim/wagon.mjs), and are unloaded at the land.
+    if (household.load?.length) for (const wagon of wagonsOf(world, household)) wagon.laden = true;
     // The founding line was written for a family that already lived here. Nothing has happened
     // in this class yet, so it is corrected in place rather than contradicted by a second one.
-    const founding = world.events.find(event => event.type === 'household-founded' && event.householdId === household.id);
-    if (founding) Object.assign(founding, {
-      claimId: 'FIC-GONZ-024',
-      text: `Dawn on September 28, 1835. Your family has turned off the road${household.settlementId ? ` near ${world.map.sites[household.settlementId].name}` : ''} with the wagon, the ox and the horse, towards land of its own.`,
-    });
+    sayTheArrival(world, household);
   }
 }
+/**
+ * The founding line of a family on the road in, corrected in place: said at the start of a new class, and said again when the
+ * family is rolled and fitted out with more wagons (sim/world.mjs `rollFamily`), before anything else has happened to it.
+ */
+export function sayTheArrival(world, household) {
+  const founding = world.events.find(event => event.type === 'household-founded' && event.householdId === household.id);
+  if (founding) Object.assign(founding, {
+    claimId: 'FIC-GONZ-024',
+    text: `Dawn on September 28, 1835. Your family has turned off the road${household.settlementId ? ` near ${world.map.sites[household.settlementId].name}` : ''} with ${teamWords(world, household)}, towards land of its own.`,
+  });
+}
+
+/**
+ * What the family comes in with, as the founding line says it: "the wagon, the ox and the horse", or for a family fitted out
+ * with more (sim/beasts.mjs `fitOut`) "its two wagons, an ox to each, and the horse".
+ */
+export function teamWords(world, household) {
+  const wagons = wagonsOf(world, household).length;
+  if (wagons < 2) return 'the wagon, the ox and the horse';
+  return `its ${NUMBER_WORDS[wagons] || wagons} wagons, an ox to each, and the horse`;
+}
+const NUMBER_WORDS = Object.freeze({ 2: 'two', 3: 'three', 4: 'four' });
 
 /** Whether anybody or anything of this family is still on the road in. */
 const stillArriving = (world, household) =>
@@ -126,7 +143,7 @@ export function advanceArrivals(world) {
       text: [
         housed(household) ? 'The family has reached its own land.' : 'The family has reached its own land. There is no house yet, so they camp by the wagon.',
         ...(household.load ? [loadSentence(household.load)] : []),
-        ...(household.stock ? ['The cattle and hogs come in behind the wagon.'] : []),
+        ...(household.stock ? [`The cattle and hogs come in behind the ${wagonsOf(world, household).length > 1 ? 'wagons' : 'wagon'}.`] : []),
         holdingWords(holdingOf(world, household)),
         ...(household.choosingSite ? ["The wagon stands at the surveyor's mark. Choose where the house will stand."] : []),
       ].join(' '),

@@ -7,9 +7,10 @@
 // marked quickest and chosen, each with the server's facts; the student picks walking, Enter sends, and the principal walks
 // while the horse stays home; the hunt in the timber opens the chooser with the horse chosen, Send sends, and the hunter is
 // drawn riding it; buying furniture in town finds the horse shut in the hunter's name, the student picks the wagon, and it
-// goes; the next person's chooser has the wagon shut in that driver's name and the horse in the hunter's, and Escape sends
-// nobody. At 1366x768 and 1024x768 (phones unsupported, owner) the chooser fits, nothing is drawn over its own controls, it
-// keeps off the family's column, and the ability bar steps aside while it is open and is back after.
+// goes after Escape has sent nobody the first time; the next person, with the horse and the wagon both out, has one way and is
+// sent on foot at once with no chooser drawn (owner, 2026-09-25: "When a journey has only one possible way, skip the chooser").
+// At 1366x768 and 1024x768 (phones unsupported, owner) the chooser fits, nothing is drawn over its own controls, it keeps off
+// the family's column, and the ability bar steps aside while it is open and is back after.
 //
 // Same computer only. Run: npm run test:going
 import assert from 'node:assert/strict';
@@ -155,23 +156,8 @@ try {
   assert.equal(shutHorse.open, false, 'the horse was offered while the hunter has it');
   assert.match(shutHorse.why, new RegExp(`^${hunter.name} has the horse`));
   assert.match(furniture.ways.find(one => one.way === 'foot').label, /quickest/);
-  await page.locator('#going [data-way="wagon"]').click();
-  await page.locator('#going-send').click();
-  await page.locator('#going').waitFor({ state: 'hidden', timeout: 10000 });
-  await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.travel?.mode === 'wagon', driver.id, { timeout: 10000 });
-  assert.equal(wagon().borrowedBy, driver.id);
-  ok(`buying furniture in town: the horse shut ("${shutHorse.why}"), walking marked quickest, the student picks the wagon and ${driver.name} drives it`);
-
-  // ------------------------------------ the next person: the wagon shut in the driver's name, and Escape sends nobody
-  await asMain(page, fourth.id);
-  await press(page, fourth.id, 'make-furniture');
-  const taken = await chooser(page);
-  observed.taken = taken;
-  const shutWagon = taken.ways.find(one => one.way === 'wagon');
-  assert.equal(shutWagon.open, false, 'the wagon was offered while it is on the road');
-  assert.match(shutWagon.why, new RegExp(`^${driver.name} has the ox and wagon`));
-  assert.match(taken.ways.find(one => one.way === 'horse').why, new RegExp(`^${hunter.name} has the horse`));
-  assert.ok(taken.ways.find(one => one.way === 'foot').pressed, 'walking, the one way left, is not chosen');
+  // Two ways open, walking and the wagon: a real choice, so it is asked (owner, 2026-09-25). Measured at both screens, and
+  // Escape sends nobody.
   await page.screenshot({ path: join(SHOTS, 'going-taken-1366.png') });
   const shut1366 = await measure(page);
   observed.taken1366 = shut1366;
@@ -187,8 +173,36 @@ try {
   await page.keyboard.press('Escape');
   await page.locator('#going').waitFor({ state: 'hidden', timeout: 10000 });
   await page.waitForTimeout(600);
-  assert.equal(world().entities[fourth.id].chore, null, 'Escape sent them anyway');
-  ok(`${fourth.name}'s chooser has the wagon shut ("${shutWagon.why}") and the horse in ${hunter.name}'s name; it fits at 1366x768 (${shut1366.going.w}x${shut1366.going.h}) and 1024x768 (${narrow.going.w}x${narrow.going.h}); Escape sends nobody`);
+  assert.equal(world().entities[driver.id].chore, null, 'Escape sent them anyway');
+  ok(`buying furniture has two ways open and asks, with the horse shut ("${shutHorse.why}"); it fits at 1366x768 (${shut1366.going.w}x${shut1366.going.h}) and 1024x768 (${narrow.going.w}x${narrow.going.h}); Escape sends nobody`);
+  await press(page, driver.id, 'buy-furniture');
+  await page.locator('#going [data-way="wagon"]').click();
+  await page.locator('#going-send').click();
+  await page.locator('#going').waitFor({ state: 'hidden', timeout: 10000 });
+  await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.travel?.mode === 'wagon', driver.id, { timeout: 10000 });
+  assert.equal(wagon().borrowedBy, driver.id);
+  ok(`asked again, the student picks the wagon over walking, the quickest, and ${driver.name} drives it`);
+
+  // --------------------- the next person: one way left, so nobody is asked (owner, 2026-09-25) and they walk straight away
+  await asMain(page, fourth.id);
+  const asked = await page.evaluate(() => { window.__goingSkipped = null; return window.__goingAsked || 0; });
+  const icon = page.locator(`.panel-row[data-entity-id="${fourth.id}"] .panel-icon[data-key="make-furniture"]`);
+  await icon.waitFor({ state: 'visible' });
+  await icon.click();
+  await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.travel?.mode === 'foot', fourth.id, { timeout: 15000 });
+  const skipped = await page.evaluate(() => ({ skipped: window.__goingSkipped, asked: window.__goingAsked, shown: !document.querySelector('#going').hidden, bar: Boolean(document.querySelector('.panel-row[data-focused=true] .panel-icons')) }));
+  observed.oneWay = skipped;
+  assert.equal(skipped.asked, asked + 1, 'the order did not go through the question at all, so this proves nothing about skipping it');
+  assert.equal(skipped.shown, false, 'the chooser was drawn for a journey with one way');
+  assert.equal(skipped.skipped?.mode, 'foot');
+  const shutWagon = skipped.skipped.ways.find(one => one.id === 'wagon');
+  assert.equal(shutWagon.can, false, 'the wagon was open while it is on the road');
+  assert.match(shutWagon.why, new RegExp(`^${driver.name} has the ox and wagon`));
+  assert.match(skipped.skipped.ways.find(one => one.id === 'horse').why, new RegExp(`^${hunter.name} has the horse`));
+  assert.deepEqual(skipped.skipped.ways.filter(one => one.can).map(one => one.id), ['foot']);
+  assert.equal(world().entities[fourth.id].travel?.mode, 'foot');
+  assert.ok(skipped.bar, 'the ability bar stepped aside for a chooser that was never drawn');
+  ok(`${fourth.name}, with the horse and the wagon both out ("${shutWagon.why}"), is sent to make furniture on foot straight away: no chooser drawn, the one way sent with the order`);
 
   assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`);
   ok('no page errors anywhere in the run');
@@ -198,7 +212,7 @@ try {
     record: 'going-browser',
     date: new Date().toISOString().slice(0, 10),
     browser: await browser.version(),
-    ownerDirection: '"when sending someone to travel, the game should ask how they\'ll travel."',
+    ownerDirection: ['"when sending someone to travel, the game should ask how they\'ll travel." (2026-09-24)', '"When a journey has only one possible way, skip the \'how will they go?\' chooser." (2026-09-25)'],
     checks: pass,
     observed,
     notProved: [

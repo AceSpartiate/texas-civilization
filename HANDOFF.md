@@ -1,5 +1,58 @@
 # Claude handoff — Astra foundation
 
+## Wagons by the family's size, the wheelwright's wagon, and the journey with one way — 2026-09-25 (after b45cab3; not yet committed or released)
+
+Owner, two decisions: *"When a journey has only one possible way, skip the 'how will they go?' chooser."* and *"families should
+arrive with an appropriate number of wagons. larger families get more than one wagon based on their population. research first.
+wheelwright sells one, very expensive."* Recorded as [docs/FAMILY_PANEL.md §15](docs/FAMILY_PANEL.md) (dated amendment),
+[docs/SETTLING_IN.md §4a](docs/SETTLING_IN.md), [docs/TOWNS.md §4f](docs/TOWNS.md) (and §4d's ceiling struck), with dated notes in
+FAMILY_CREATION.md §2, LAND_GRANTS.md §3 and COLONIES.md §5.3. Claims `HIST-TEX-441` (the research), `FIC-GONZ-391` (the rule),
+`FIC-GONZ-392` (the wheelwright's wagon). No save version.
+
+- **Research first** (`HIST-TEX-441`; read 2026-09-25 in the Internet Archive text of Parker 1836, Woodman 1835, Harris *QTSHA* 4:2 and
+  4:3, Smithwick 1900, Holley 1833, and the TSHA *Runaway Scrape* and *Cart War* entries through a fetch). One wagon to a family
+  moving overland (Parker pp. 147-48, 203-04; Woodman p. 188: "a strong large wagon, and buy a couple of oxen"); more wagons went with
+  **wealth**, not children (Harris pp. 113-14: wagon owners "the aristocracy", carts the next class; one big wagon behind six yoke
+  carried five families in the flight, 4:3 p. 163); many had none (Harrisburg 1833 "not a dray nor a wagon", p. 87; the Scrape's
+  "Wagons ... were scarce", Harris 4:3 p. 161, Smithwick p. 129). Wagons went behind a yoke or more. Carts and carretas were common
+  (Woodman p. 44; Smithwick p. 47). **No wagon was made in Texas and no wagon price was found**; a cart "rate[d] at $100" (Woodman
+  p. 169). **Not read:** Jordan, *Trails to Texas* (not online). Page numbers are from the text's running heads; wording to be
+  checked against page images before it is quoted to a class.
+- **The rule** (`FIC-GONZ-391`, `sim/beasts.mjs` `wagonsForPeople`/`fitOut`): **a wagon for every eight people, by head** (1-8 one,
+  9-16 two, 17-20 three), because seven or eight children was a large family of the record; an **ox to each wagon** (`ceiling:` the
+  game's ox is the team); the horse stays one. Fitted out at the roll, before the family goes on the road in; the load is packed
+  again with **a wagon's worth of stores to each wagon** (`loadForWagons`; room 16 a wagon, stores' most × wagons, tools/goods one
+  each); the founding line says the wagons. **New classes only** (`world.wagonsBySize`, set by `createWorld`): a saved class, in its
+  lobby or running, keeps one wagon a family. Families nobody plays keep the founding four and one wagon.
+- **Counted like horses**: `hh-1-wagon-2` "Second wagon"; `userOf` holds one wagon a person, so two wagons are two loads out at once,
+  each behind its own ox (the third is told *"A and B have both oxen and wagons."*). Every beast and wagon home from the road now stands
+  on its own `yardSpot` (the regex there had lost its backslash: every bought animal stood on the second one's spot). The flight east
+  loads every wagon an ox at home can draw (`FLIGHT_ROOM` × wagons). `teamAt`/`wagonAtHome`/the director's team-left read any wagon.
+- **The wheelwright's wagon** (`FIC-GONZ-392`, `sim/shops.mjs` `buy-wagon`): **100 reales, coin only** - the cart's price at a real
+  to the dollar, a floor, the dearest thing in the game (`ceiling:` a wagon price from the record replaces it). **An ox bought on the
+  same list draws it home**: refused alone in words; at the counter the ox is bought first and **yoked**, and the buyer drives home at
+  the wagon's pace; with no ox there the wagon is refused and nothing paid. **One person drives one wagon**: the buyer goes on foot or
+  on the horse (the wagon way is shut), a ridden horse is tied on behind (`leads`), so no horse bought the same trip; not on the same
+  list as the wheelwright's own service. At most four wagons. The director buys none.
+- **The one-way skip** (`goingFor` → `oneWay` when exactly one way can and nothing shuts the order; `public/going.js`
+  `skipsTheChooser`): sent at once with that mode, no chooser drawn; the server still checks the mode, and a refusal draws the chooser
+  (never skipped again for that order); none open still shows the refusal. The errand popup is unchanged.
+- **Page**: `public/motion.js` `wagonTeams`/`teamDrivenBy` - every wagon on the road has its own driver (the one it names; on the
+  arrival and in the flight the family dealt in order, principal first) and its own ox; `public/app.js` draws each driver on their
+  own wagon, each wagon after the first a length behind; the pack screen says "2 wagons: 24 of 32 space filled" and its `+` stops at
+  the server's most.
+- **Payload and fog**: a family of twenty is sent 25,335 bytes (24,378 with one wagon; bound moved 25,000 → 26,600, per-person bound
+  kept at 1,060 on the people alone, 1,056); another family's wagons never reach a student (test and injection).
+- **Tests.** New `tests/wagons.test.mjs` (10: every roll 1-20 on three seeds, arrival drivers, two loads at once, price, refusals,
+  bought and driven home, flight, old classes, fog, one-way). Changed `tests/scrape.test.mjs` (room by wagons), `tests/family-roll.test.mjs`
+  (bounds). **Injections** (`scripts/wagons-injections.mjs`, [record](docs/evidence/wagons-injections.json)): **24 of 24 caught** by the
+  test written for each (18 by that test alone), including "always ask" on the server and on the page. `npm test`: **1148 pass**, 0 fail.
+- **Browser** (same computer only; screenshots in the session scratchpad). New `npm run test:wagons` ([record](docs/evidence/wagons-browser.json)): a family of twelve rolled in the browser packs "2 wagons: 24 of 32 space filled"; on the track in both wagons are drawn, each with its own seated driver (rust and teal driver art) and ox, 106 px apart in line; in, both stand in the yard 95 px apart. `test:going` extended: buying furniture with two ways open asks (and fits at 1366 and 1024, Escape sends nobody); the fourth person, with the horse and the wagon out, is sent on foot at once with no chooser drawn. `test:errand` extended: the wheelwright's "Buy a new wagon: 100 reales" is refused alone, sent with an ox, the popup shows the wagon way shut and "Drives the new wagon home behind the new ox"; Soledad drives it home behind Buck, drawn on the wagon, and it stands in the yard. PASS: errand (13), going (7), shops, family-commands, family-panel, panels, lesson, riding, travel, farm, host-view, wagons. Screenshots looked at: `wagons-arrival-1366.png`, `wagons-yard-1366.png`, `wagons-pack-1366.png`, `errand-new-wagon-1366.png`, `errand-new-wagon-home-1366.png`. `node --check` passes on .mjs copies of public/app.js, going.js and motion.js. In the errand proof's last shot, at the page's closest zoom, the two wagons' yard spots are a screen apart, so only the new one is in frame.
+- **Open for the owner.** (1) 100 reales is out of most families' reach in a class (families that stay home end the first period
+  near 1 real, MONEY_AND_GLORY.md §8.1); if the wagon should be buyable in play, the price is one number. (2) Wealth, not size, bought
+  a second wagon in the record; a rolled wealth would replace the size rule. (3) The game's ox is a whole team; a yoke of two would
+  double the oxen on the wire. (4) The wheelwright's "good order" is still once for all of a family's wagons.
+
 ## Horses and stock at the stock pens; the families nobody plays buy a rifle again — 2026-09-24 (after 67bd422; not yet committed or released)
 
 Owner, two requests: *"have automatic families buy a replacement rifle."* and *"players should also be able to buy more horses

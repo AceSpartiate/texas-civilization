@@ -52,6 +52,8 @@ export function hoursWords(hours) {
  *   not kept), for the miles as the crow flies.
  * - `load`: what is carried, in the house's units, when a load must fit (the errand); a way that cannot carry it is shut.
  * - `needsWagon`: the wagon itself is the errand (the wheelwright).
+ * - `newWagon`: a new wagon is bought and driven home (the wheelwright's, 2026-09-25): the ox and wagon cannot be the way there,
+ *   and with `leadsHorse` (a horse bought too) nor can the horse, which would have to be led home behind it.
  * - `only` and `onlyWhy`: a journey that can go one way only (logs come home in the wagon), and why the others cannot.
  * - `haul`: `{ resource, got }`, what a good trip would give, for the "brings home" of each way (a hunt in the timber).
  * - `noRoad(id)`: the sentence for a way with no road there.
@@ -70,7 +72,7 @@ export function quickestWay(world, entity, journey = {}, modeAvailability = null
   return null;
 }
 /** One way of going for one journey: its facts, and whether it can go and why not. */
-function oneWay(world, entity, id, { to = null, point = null, load = 0, needsWagon = false, only = null, onlyWhy = null, haul = null, noRoad = null, home = null } = {}, modeAvailability = null) {
+function oneWay(world, entity, id, { to = null, point = null, load = 0, needsWagon = false, newWagon = false, leadsHorse = false, only = null, onlyWhy = null, haul = null, noRoad = null, home = null } = {}, modeAvailability = null) {
   const from = entity.location?.siteId;
   const where = world.map.sites[from];
   const mode = MODES[id];
@@ -88,6 +90,10 @@ function oneWay(world, entity, id, { to = null, point = null, load = 0, needsWag
   };
   if (only && id !== only) return { ...base, can: false, why: onlyWhy || `This goes ${MODES[only].name.toLowerCase()}.`, notTheWagon: true };
   if (needsWagon && id !== 'wagon') return { ...base, can: false, why: 'The wheelwright works on the wagon itself, so the wagon has to go.', notTheWagon: true };
+  // A new wagon from the wheelwright is driven home by whoever bought it (sim/shops.mjs `buy-wagon`): one person drives one wagon,
+  // and a horse ridden in walks home tied on behind it - so it cannot also lead home a horse bought the same trip.
+  if (newWagon && id === 'wagon') return { ...base, can: false, why: 'One person drives one wagon home. Whoever fetches the new wagon goes on foot or on the horse.', notTheWagon: true };
+  if (newWagon && leadsHorse && id === 'horse') return { ...base, can: false, why: 'The horse ridden in walks home tied behind the new wagon, and one person leads one animal. Walk, or send somebody else for the new horse.', notTheWagon: true };
   if (mode.carry + 1e-9 < load) return { ...base, can: false, why: `${CARRIES[id]} ${mode.carry}, and this is ${loadsWord(load)}.`, tooMuch: true };
   const open = modeAvailability ? modeAvailability(world, entity, id, path) : (id === DEFAULT_MODE ? { can: true } : { can: false, why: 'No way of going was given.' });
   // A way with no road there cannot go - except on foot, which crosses any country (sim/ways.mjs), and a place not yet on

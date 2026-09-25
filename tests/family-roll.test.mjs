@@ -203,16 +203,24 @@ test('a family of twenty fits the tick: what it is sent grows by the person, and
   // 4 and 23,459 for a 20 - 993 bytes for each person more. The bounds are those with about a twentieth to spare, because the
   // per-person one is what catches anything that grows with the family twice over: each person's kin carried on the tick
   // (every child's id on both parents) measured 1,119 a person and 25,876 in all, and must fail here.
+  // Since 2026-09-25 a family of seventeen or more comes with three wagons and three oxen (sim/beasts.mjs `fitOut`): four more
+  // entities: measured 2026-09-25 on these seeds, 25,335 bytes for the 20 where the same family with one wagon is 24,378 (957
+  // more, and the whole tick had already grown past the 23,459 above). The whole bound moves to 26,600, about a twentieth over;
+  // the per-person bound is unchanged and counts the people alone - the tick less its wagons and animals, which grow by the wagon -
+  // at 1,056 a person, so it still catches the kin carried twice.
   const sent = roll => {
     const world = lobby(seedRolling(roll, 'tick'), 5);
     rollFamily(world, world.households['hh-1']);
     settle(world);
     world.status = 'running';
-    return JSON.stringify(projectWorld(world, 'hh-1', 'student', { includeMap: false })).length;
+    const view = projectWorld(world, 'hh-1', 'student', { includeMap: false });
+    // What the family's wagons and oxen cost, apart: they grow by the wagon, not by the person.
+    const beasts = view.entities.filter(entity => entity.kind !== 'person').reduce((sum, entity) => sum + JSON.stringify(entity).length + 1, 0);
+    return { all: JSON.stringify(view).length, people: JSON.stringify(view).length - beasts };
   };
   const four = sent(4), twenty = sent(20);
-  assert.ok(twenty < 25000, `a family of twenty is sent ${twenty} bytes a tick`);
-  assert.ok((twenty - four) / 16 < 1060,`each person past four costs ${Math.round((twenty - four) / 16)} bytes a tick`);
+  assert.ok(twenty.all < 26600, `a family of twenty is sent ${twenty.all} bytes a tick`);
+  assert.ok((twenty.people - four.people) / 16 < 1060,`each person past four costs ${Math.round((twenty.people - four.people) / 16)} bytes a tick`);
 });
 
 test('the hidden stats differ on average between men and women, and people overlap', () => {

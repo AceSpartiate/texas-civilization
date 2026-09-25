@@ -19,6 +19,13 @@
  * does whoever leads it. Cattle and hogs bought are driven home at the same pace and join the herd (sim/stock.mjs), which is two
  * numbers on the range and not animals on the map. One person leads one animal home (`LEAD_MOST`).
  *
+ * **Wagons are counted too** (owner, 2026-09-25: "families should arrive with an appropriate number of wagons. larger families get
+ * more than one wagon based on their population. ... wheelwright sells one, very expensive."; docs/SETTLING_IN.md §4a,
+ * docs/TOWNS.md §4f). A family of more than `WAGON_PEOPLE` people is fitted out at its roll with a wagon for every eight of
+ * them and an ox to draw each (`wagonsForPeople`, `fitOut`, `FIC-GONZ-391`), and the wheelwright builds one more for coin
+ * (sim/shops.mjs, `FIC-GONZ-392`). A second wagon is its own entity beside the family wagon (`hh-1-wagon-2`), found as a wagon by
+ * what it is, and `userOf` holds one a person: two wagons are two loads out at once, each behind its own ox.
+ *
  * This file imports only the travel table, so sim/keeping.mjs, sim/world.mjs, sim/shops.mjs and sim/scrape.mjs can all ask it.
  */
 import { WAGON_SPEED, propertyId } from './travel.mjs';
@@ -61,33 +68,77 @@ export const kept = beast => !['taken', 'lost'].includes(beast?.condition);
 export const BEAST_NAMES = Object.freeze({
   horse: ['Dandy the gelding', 'Kit the mare', 'Pardo the gelding', 'Nell the mare', 'Blue the gelding', 'Chico the gelding'],
   ox: ['Buck the ox', 'Berry the ox', 'Duke the ox', 'Brindle the ox', 'Star the ox', 'Pomp the ox'],
+  // The family wagon is the first; the rest are counted, as a family would say them (`FIC-GONZ-391`).
+  wagon: ['Second wagon', 'Third wagon', 'Fourth wagon', 'Fifth wagon'],
 });
 /**
- * The most horses and the most oxen one family can own, the first among them (`FIC-GONZ-389`). ceiling: a cap so the family's own
- * projection stays small (each animal is an entity on the wire), counting those the army took or the road lost, since they are
- * still entities; nobody in a class of an hour buys this many, and a real reason would lift it.
+ * The most horses, the most oxen and the most wagons one family can own, the first among them (`FIC-GONZ-389`). ceiling: a cap so
+ * the family's own projection stays small (each animal is an entity on the wire), counting those the army took or the road lost,
+ * since they are still entities; nobody in a class of an hour buys this many, and a real reason would lift it. A family of twenty
+ * is fitted out with three wagons and three oxen (`wagonsForPeople`), so it can still buy one of each.
  */
 export const BEASTS_MOST = 4;
 
 /**
- * A new animal of the family's, standing where the buyer stands and theirs until it is home (`borrowedBy`, sim/keeping.mjs
- * `holderOf`: a beast standing with somebody away from home is theirs). Its id is the next free one after the first -
- * `hh-1-horse-2`, `hh-1-animal-3` - and never changes.
+ * How many people one wagon moves (owner, 2026-09-25; `FIC-GONZ-391`, on `HIST-TEX-441`). The record gives no rule by family
+ * size: a family came overland "with his family and a small portion of his goods in a wagon" (Parker), a party was told to bring
+ * "a strong large wagon" (Woodman), and more wagons went with more wealth, not more children - Harris's neighbours who owned wagons
+ * were "the aristocracy", and one big wagon behind six yoke carried five families in the flight. So the rule is the game's own,
+ * set where the record's families sit: seven or eight children was a large family of the time (docs/FAMILY_CREATION.md §2,
+ * Haines), so one wagon moves up to eight people - every family the record describes - and each eight more is another wagon.
+ * Counted by **head**, not by what they eat: the owner asked for wagons by population, and a child rides, sleeps and is clothed out
+ * of the wagon whatever share of the food it eats.
+ * ceiling: wealth is what really put a second wagon on the road; nothing in the game rolls a family's wealth, and one would replace this.
  */
-export function addBeast(world, household, role, entity) {
+export const WAGON_PEOPLE = 8;
+/** The wagons a family of this many people comes with: one to eight, one; nine to sixteen, two; seventeen to twenty, three. */
+export const wagonsForPeople = count => Math.max(1, Math.ceil((Number(count) || 0) / WAGON_PEOPLE));
+
+/**
+ * A new beast or wagon of the family's, with an id that is the next free one after the first - `hh-1-horse-2`, `hh-1-animal-3`,
+ * `hh-1-wagon-2` - and never changes. Bought, it stands where the buyer stands and is theirs until it is home (`borrowedBy`,
+ * sim/keeping.mjs `holderOf`: a beast standing with somebody away from home is theirs). Brought at the founding (`fitOut`), it
+ * stands in the yard and is nobody's (`entity` null, `at` its place).
+ */
+export function addBeast(world, household, role, entity, { at = null } = {}) {
   const base = propertyId(household.id, role);
   let n = 2;
   while (world.entities[`${base}-${n}`]) n++;
   const id = `${base}-${n}`;
   const names = BEAST_NAMES[role];
   const name = names[(n - 2) % names.length];
-  const at = entity.location || world.map.sites[household.homeSiteId];
+  const where = at || entity?.location || world.map.sites[household.homeSiteId];
   world.entities[id] = {
-    id, name, kind: 'animal', species: role, householdId: household.id, depth: 'aggregate',
-    location: { x: at.x, y: at.y, siteId: at.siteId ?? null }, travel: null, condition: 'sound', borrowedBy: entity.id,
+    id, name, ...(role === 'wagon' ? { kind: 'wagon' } : { kind: 'animal', species: role }), householdId: household.id, depth: 'aggregate',
+    location: { x: where.x, y: where.y, siteId: where.siteId ?? null }, travel: null, condition: 'sound', borrowedBy: entity?.id ?? null,
   };
   household.property = [...(household.property || []), id];
   return world.entities[id];
+}
+
+/**
+ * A family fitted out for its size, at its roll (sim/world.mjs `rollFamily`, a class made since 2026-09-25): as many wagons as
+ * `wagonsForPeople` gives its people, and an ox to draw every one (sim/travel.mjs: the ox and wagon go together, one ox to a
+ * wagon), set down in the yard beside the family wagon and Juniper, a little further along the rail each. Never takes a wagon
+ * away: every family has the first. Returns how many wagons it has.
+ * ceiling: the game's ox is the team - one ox draws one wagon, as Juniper always has - where the record's wagons went behind a
+ * yoke or more (`HIST-TEX-441`); a yoke of two would be two entities to every wagon on the wire.
+ */
+export function fitOut(world, household) {
+  const want = Math.min(BEASTS_MOST, wagonsForPeople(household.members.length));
+  const site = world.map.sites[household.homeSiteId];
+  for (const role of ['wagon', 'ox']) {
+    while (beastsOf(world, household, role).length < want) {
+      const beast = addBeast(world, household, role, null, { at: { x: site.x, y: site.y, siteId: site.id } });
+      beast.location = { ...yardSpot(site, beast), siteId: site.id };
+    }
+  }
+  return beastsOf(world, household, 'wagon').length;
+}
+/** The wagon this person has with them - on the road with them, or standing where they stand - or null (`holderOf` handed in). */
+export function wagonWith(world, entity, holderOf) {
+  const household = world.households[entity?.householdId];
+  return beastsOf(world, household, 'wagon').find(wagon => holderOf(world, wagon) === entity) || null;
 }
 
 /**
@@ -114,21 +165,24 @@ export function ledPace(world, entity) {
 }
 
 /**
- * Where an animal led home stands in the yard: a few rods west of the house, as Bess and Juniper were set down when the family came
- * (sim/world.mjs), each one bought a little further along the rail - so two horses are two horses and not one drawn on the other.
+ * Where a beast or a wagon stands in the yard, home from the road: a few rods west of the house, as Bess, Juniper and the family
+ * wagon were set down when the family came (sim/world.mjs), each one after the first a little further along the rail - so two
+ * horses are two horses and two wagons two wagons, not one drawn on the other.
  */
 export function yardSpot(site, beast) {
-  const n = Number(String(beast.id).match(/-(d+)$/)?.[1] || 2);
-  const [dx, dy] = beast.species === 'horse' ? [-.06, .01] : [-.035, .02];
+  // The number on the end of the id: `hh-1-horse-3` is the third horse, and the first has none. (Until 2026-09-25 this read
+  // `/-(d+)$/`, which matched no number, so every animal bought stood on the second one's spot.)
+  const n = Number(String(beast.id).match(/-(\d+)$/)?.[1] || 1);
+  const [dx, dy] = beast.kind === 'wagon' ? [-.045, .05] : beast.species === 'horse' ? [-.06, .01] : [-.035, .02];
   return { x: Math.round((site.x + dx - .02 * (n - 1)) * 10000) / 10000, y: Math.round((site.y + dy + .012) * 10000) / 10000 };
 }
 
-/** "two horses, an ox and the wagon": the family's animals as the popup's stock line says them. */
+/** "two horses, 2 oxen, 2 wagons": the family's animals as the popup's stock line says them, and its wagons when it has more than one. */
 export function beastWords(world, household) {
   const parts = [];
-  for (const role of ['horse', 'ox']) {
+  for (const role of ['horse', 'ox', 'wagon']) {
     const n = beastsOf(world, household, role).filter(kept).length;
-    if (!n) continue;
+    if (!n || (role === 'wagon' && n < 2)) continue;
     const [one, many] = BEAST_WORDS[role];
     parts.push(n === 1 ? `${role === 'ox' ? 'an' : 'a'} ${one}` : `${n} ${many}`);
   }
@@ -138,7 +192,7 @@ export function beastWords(world, household) {
 /** Stored animals that could not have been bought, and leads that are nobody's (sim/world.mjs `validateWorld`). */
 export function beastsInvalid(world) {
   for (const household of Object.values(world.households || {})) {
-    for (const role of ['horse', 'ox']) if (beastsOf(world, household, role).length > BEASTS_MOST) return 'Too many animals';
+    for (const role of ['horse', 'ox', 'wagon']) if (beastsOf(world, household, role).length > BEASTS_MOST) return 'Too many animals';
     for (const id of household.property || []) {
       const beast = world.entities[id];
       if (beast && beast.householdId !== household.id) return 'Invalid family property';

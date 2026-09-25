@@ -18,7 +18,7 @@ import { weatherAt } from './weather.mjs';
 import { ruin } from './improvements.mjs';
 import { findWay } from './ways.mjs';
 import { share } from './shares.mjs';
-import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
+import { WAGON_SPEED, WALK_SPEED } from './travel.mjs';
 import { beastsOf, roleOf } from './beasts.mjs';
 import { frailty } from './army.mjs';
 import { canAnswerCalls, eatenADay, householdName } from './family.mjs';
@@ -123,9 +123,10 @@ export const scrapeOn = world => world.period === 3 && !world.director?.complete
 /** The room this family has to carry things away in: the wagon and ox standing at home, or what its grown people carry. */
 export function flightRoom(world, household) {
   const standing = beast => beast && !beast.travel && beast.location.siteId === household.homeSiteId && (!beast.condition || beast.condition === 'sound');
-  // The wagon and any of the family's oxen to pull it (sim/beasts.mjs).
-  const drawn = standing(world.entities[propertyId(household.id, 'wagon')]) && beastsOf(world, household, 'ox').some(standing);
-  if (drawn) return { room: FLIGHT_ROOM, mode: 'wagon' };
+  // Every wagon standing at home that an ox standing there can draw, one ox to a wagon (sim/beasts.mjs): a family fitted out
+  // with two wagons loads two, and the room is the wagons' together - the same rule as the load in (owner, 2026-09-25).
+  const drawn = Math.min(beastsOf(world, household, 'wagon').filter(standing).length, beastsOf(world, household, 'ox').filter(standing).length);
+  if (drawn) return { room: FLIGHT_ROOM * drawn, mode: 'wagon', ...(drawn > 1 && { wagons: drawn }) };
   return { room: Math.round(atHome(world, household).filter(canAnswerCalls).length * CARRIED_ROOM * 100) / 100, mode: 'foot' };
 }
 
@@ -200,7 +201,7 @@ export function stayHome(world, household) {
 export function flee(world, household, { take = {}, refuge }) {
   const why = fleeRefusal(world, household, { take, refuge });
   if (why) throw new Error(why);
-  const { mode } = flightRoom(world, household);
+  const { mode, wagons } = flightRoom(world, household);
   const kept = { ...household.resources };
   // What is taken rides; the rest is left in the house for the fire.
   for (const good of Object.keys(FLIGHT_SPACE)) household.resources[good] = 0;
@@ -208,7 +209,7 @@ export function flee(world, household, { take = {}, refuge }) {
   // The flight waits at the flooded crossings by its own rule (`crossingsAlong`), not the ferries' ordinary hour.
   const path = findWay(world, household.homeSiteId, refuge, mode, { ferries: false });
   if (!path) throw new Error('No road east from here.');
-  const departure = tell(world, household, `The family loaded ${Object.entries(take).filter(([, amount]) => amount > 0).map(([good, amount]) => `${amount} ${good}`).join(', ') || 'what it could carry'} and set out east for ${world.map.sites[refuge].name}${mode === 'wagon' ? ' with the ox and wagon' : ' on foot'}.`);
+  const departure = tell(world, household, `The family loaded ${Object.entries(take).filter(([, amount]) => amount > 0).map(([good, amount]) => `${amount} ${good}`).join(', ') || 'what it could carry'} and set out east for ${world.map.sites[refuge].name}${mode === 'wagon' ? (wagons ? ` with the ${wagons} wagons and their oxen` : ' with the ox and wagon') : ' on foot'}.`);
   const speed = mode === 'wagon' ? WAGON_SPEED : WALK_SPEED;
   const travellers = [...goers, ...beasts(world, household).filter(beast => !beast.travel && beast.location.siteId === household.homeSiteId)];
   for (const entity of travellers) {

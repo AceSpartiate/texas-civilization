@@ -14,6 +14,7 @@ import { momentOf } from '../sim/directors.mjs';
 import { calendarMinutes } from '../sim/clock.mjs';
 import { CAPTURED_AT_HOME, FLIGHT_ROOM, SETTLEMENT_DAYS, share } from '../sim/scrape.mjs';
 import { needsOf } from '../public/family-panel.js';
+import { beastsOf } from '../sim/beasts.mjs';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -69,7 +70,9 @@ test('each settlement is told to leave on its day, its main person carries the "
     assert.equal(household.flight?.status, 'ordered', `${household.id} was not told to leave on March 14`);
     const projected = view(world, household.id);
     assert.equal(projected.flight.status, 'ordered');
-    assert.equal(projected.flight.room, FLIGHT_ROOM, 'a family with its wagon at home has less room than the wagon');
+    // A wagon's room for every wagon at home with an ox to draw it: a family of nine or more has two (sim/beasts.mjs, 2026-09-25).
+    const wagons = Math.min(beastsOf(world, household, 'wagon').length, beastsOf(world, household, 'ox').length);
+    assert.equal(projected.flight.room, FLIGHT_ROOM * wagons, 'a family with its wagons at home has less room than the wagons');
     assert.ok(projected.flight.refuges.length && projected.flight.refuges.every(refuge => world.map.sites[refuge.id].x > world.map.sites[household.homeSiteId].x), 'a refuge is not east');
     assert.deepEqual(needsOf(projected, main(world, household).id).map(need => need.kind), ['flight'], 'the main person carries no "!"');
   }
@@ -85,13 +88,14 @@ test('the family loads what fits, sets out together for the east, and the farm b
   household.played = true;
   stepWorld(world);
   const person = main(world, household);
-  household.resources = { ...household.resources, food: 100, seed: 6, cotton: 10, money: 3 };
+  household.resources = { ...household.resources, food: 400, seed: 6, cotton: 10, money: 3 };
   household.furniture = { table: 'made' };
   household.improvements = { ...household.improvements, cabin: 'sound' };
   const refuge = view(world, household.id).flight.refuges[0].id;
   const send = input => applyAction(world, household.id, { action: 'flee', entityId: person.id, ...input });
   assert.throws(() => send({ take: { food: 20 }, refuge: 'gonzales' }), /make for|east/);
-  assert.throws(() => send({ take: { food: 100 }, refuge }), /not fit/);
+  // More than the room of every wagon at home (a wagon's room each since 2026-09-25, tests/wagons.test.mjs): a quarter of room a food.
+  assert.throws(() => send({ take: { food: view(world, household.id).flight.room * 4 + 4 }, refuge }), /not fit/);
   assert.throws(() => send({ take: { food: 20, seed: 9 }, refuge }), /not that much seed/);
   assert.throws(() => send({ take: { hoe: 1 }, refuge }), /whole amounts/);
   const goers = household.members.map(id => world.entities[id]).filter(one => one.location.siteId === household.homeSiteId && one.health.condition !== 'dead');

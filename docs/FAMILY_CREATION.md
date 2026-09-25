@@ -76,7 +76,10 @@ two parents and 2 kids. each number over 4 is another kid."* Asked by multiple c
   - *More hands, and more mouths.* **Since 2026-09-22 a child eats by age** — a quarter, a half or three quarters of a grown
     share (the amendment at the foot of this file) — so a large family of young children eats well under its head count.
     Everybody of ten or more can be given the family's whole work.
-  - *The same wagon.* A large family packs the same wagon and brings the same stock (`docs/STOCK.md`) as a family of one.
+  - ~~*The same wagon.* A large family packs the same wagon and brings the same stock (`docs/STOCK.md`) as a family of one.~~
+    **Amended by the owner, 2026-09-25** (docs/SETTLING_IN.md §4a): *more wagons*. A family of nine to sixteen comes with two
+    wagons and seventeen to twenty with three, an ox to each, and packs a wagon's worth of stores to each wagon. It still brings
+    the same stock and the same one horse.
   - *Crowded houses.* The four set houses hold three (jacal), four (the cabins) and eight (the dog-run), so a family of nine or
     more is crowded in every one of them, and sleeps at 80 in 100 of the rest a house gives (`CROWDED_SHARE`). A class that
     builds from pieces (`docs/WOODS_AND_BUILDING.md`) can build room for twenty on its plot — three log pens with lofts and a

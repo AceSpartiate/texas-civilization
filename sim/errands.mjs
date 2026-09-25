@@ -50,10 +50,10 @@
  */
 import { record } from './events.mjs';
 import { MILL_RETURN, TRADES, counterRefusal, tradesAt } from './shops.mjs';
-import { MODES, propertyId } from './travel.mjs';
-import { hasWords, userOf } from './keeping.mjs';
+import { MODES } from './travel.mjs';
+import { hasWords, holderOf, userOf } from './keeping.mjs';
 import { toolWords } from './tools.mjs';
-import { LEAD_MOST, LEAD_PACE, beastWords } from './beasts.mjs';
+import { LEAD_MOST, LEAD_PACE, beastWords, wagonWith } from './beasts.mjs';
 import { herdWords, hasStock } from './stock.mjs';
 import { shownWays, waysFor } from './going.mjs';
 import { purseOf } from './town.mjs';
@@ -101,7 +101,9 @@ function priceWords(offer) {
  * brings can pay for what is bought after it. Deterministic; a list read in this order is the list as it is done.
  */
 const TURN = Object.freeze({ buy: 0, service: 1, sell: 2 });
-const inTurn = list => list.map((line, at) => ({ line, at, turn: TURN[parse(line?.id)?.offer.kind] ?? 0 }))
+// A new wagon last of all: the ox that draws it is bought first, whichever the student put first (sim/shops.mjs `buy-wagon`).
+const turnOf = offer => offer?.newWagon ? 3 : TURN[offer?.kind] ?? 0;
+const inTurn = list => list.map((line, at) => ({ line, at, turn: turnOf(parse(line?.id)?.offer) }))
   .sort((a, b) => a.turn - b.turn || a.at - b.at).map(({ line }) => line);
 /** Whoever keeps this shop in this town now, or null: the keeper who deals in it, standing there and well (sim/shops.mjs `tradesAt`). */
 const keeperAt = (world, siteId, trade) => Object.values(world.entities).find(entity => entity.deals?.includes(trade)
@@ -147,7 +149,7 @@ function reckon(world, household, entity, list, town = null) {
   // What is carried: `out` is everything taken from the house to town; `pack` is what is in hand in town, which is what comes
   // home. Food paid at a counter comes out of the pack first - the food a sale in town has just paid - and from the house
   // only for the rest, so a family selling cotton for food and buying seed with it carries home only what is left.
-  let out = 0, wagon = false;
+  let out = 0, wagon = false, newWagon = false;
   const pack = { food: 0, other: 0 };
   // What comes home on the hoof (sim/beasts.mjs): a horse or an ox led on a halter, cattle and hogs driven. None of it is a load.
   const leads = [], drives = {};
@@ -171,6 +173,7 @@ function reckon(world, household, entity, list, town = null) {
     if (refused) return { why: refused };
     if (offer.takes) { const holder = userOf(world, household, offer.takes, entity); if (holder) return { why: hasWords(holder, [offer.takes], world, entity) }; }
     if (offer.needsMode === 'wagon') wagon = true;
+    if (offer.newWagon) newWagon = true;
     const line = { id: raw.id, n, ...(pay && { pay }) };
     if (offer.kind === 'sell') {
       const price = pay === 'coin' ? offer.coin : offer.food, purse = pay === 'coin' ? 'money' : 'food';
@@ -182,7 +185,6 @@ function reckon(world, household, entity, list, town = null) {
       out += (offer.carried ?? 0) * n;
       if (offer.leads) for (let i = 0; i < n; i++) leads.push(offer.leads);
       for (const [kind, head] of Object.entries(offer.drives || {})) drives[kind] = (drives[kind] || 0) + head * n;
-      if (leads.length > LEAD_MOST) return { why: 'One person can lead one animal home: a horse or an ox, not both. Send somebody else for the other.' };
       lines.push({ ...line, costs: pay === 'coin' ? reales(price * n) : `${price * n} food`, ...(offer.brings && { gives: Object.entries(offer.brings).map(([good, amount]) => `${amount * n} ${good}`).join(', ') }) });
     } else if (offer.kind === 'buy') {
       const units = n * per(offer);
@@ -200,8 +202,19 @@ function reckon(world, household, entity, list, town = null) {
       lines.push({ ...line, costs: `${n} food`, gives: `${back} food as meal` });
     }
   }
+  // A new wagon (owner, 2026-09-25; sim/shops.mjs `buy-wagon`): an ox draws it home, so one is bought on the same list and yoked
+  // to it rather than led; the wheelwright cannot both work on the wagon brought in and send the buyer home in a new one.
+  if (newWagon) {
+    if (wagon) return { why: 'The wheelwright puts in order the wagon that is brought to him, and a new wagon is fetched by somebody on foot or on the horse. Send them separately.' };
+    const ox = leads.indexOf('ox');
+    if (ox < 0) return { why: 'A new wagon has to be drawn home, and an ox draws it. Put an ox from the stock pens on the list too.' };
+    leads.splice(ox, 1);
+  }
+  if (leads.length > LEAD_MOST) return { why: 'One person can lead one animal home: a horse or an ox, not both. Send somebody else for the other.' };
   const home = pack.food + pack.other;
-  return { lines, out: round(out), home: round(home), load: round(Math.max(out, home)), after: have, wagon, leads, drives, town: siteId };
+  // What is bought comes home in the new wagon, so only what is carried to town has to fit the way there.
+  if (newWagon && home > MODES.wagon.carry + 1e-9) return { why: `That is ${loads(home)} to bring home, and the new wagon carries ${MODES.wagon.carry}. Send less.` };
+  return { lines, out: round(out), home: round(home), load: round(newWagon ? out : Math.max(out, home)), after: have, wagon, newWagon, leads, drives, town: siteId };
 }
 
 /**
@@ -238,20 +251,22 @@ const QUICKER = Object.freeze({ foot: 'Walking', horse: 'The horse', wagon: 'The
  * it is not - too small for the load, the wheelwright's work wanting the wagon, somebody else having it, no road. The same
  * reckoning every journey is asked (sim/going.mjs `waysFor`; owner, 2026-09-24: "the game should ask how they'll travel").
  */
-function waysOf(world, household, entity, load, needsWagon, modeAvailability, { town = null, home = null } = {}) {
-  return waysFor(world, entity, { to: town || townOf(household), load, needsWagon, ...(home && { home }), noRoad: id => `There is no road to town for the ${id}.` }, modeAvailability);
+function waysOf(world, household, entity, load, needsWagon, modeAvailability, { town = null, home = null, newWagon = false, leadsHorse = false } = {}) {
+  return waysFor(world, entity, { to: town || townOf(household), load, needsWagon, ...(home && { home }), ...(newWagon && { newWagon, leadsHorse }), noRoad: id => `There is no road to town for the ${id}.` }, modeAvailability);
 }
 /**
  * What comes home on the hoof, and the pace it holds its bringer to (sim/beasts.mjs `LEAD_PACE`): "Leads the new horse home on a
  * halter." "Leads the new ox home, at an ox's pace." "Drives 2 cattle and 3 hogs home, at an ox's pace." Null when nothing does.
  */
-function homeOf(leads = [], drives = {}) {
+function homeOf(leads = [], drives = {}, newWagon = false) {
   const parts = [
+    // The new wagon behind the new ox, at the wagon's pace (sim/travel.mjs `WAGON_SPEED`, the same as a led ox's).
+    ...(newWagon ? ['drives the new wagon home behind the new ox'] : []),
     ...leads.map(role => `leads the new ${role} home${role === 'horse' ? ' on a halter' : ''}`),
     ...(Object.keys(drives).length ? [`drives ${Object.entries(drives).map(([kind, head]) => `${head} ${kind === 'cattle' ? 'cattle' : head === 1 ? 'hog' : 'hogs'}`).join(' and ')} home`] : []),
   ];
   if (!parts.length) return null;
-  const paces = [...leads.map(role => LEAD_PACE[role]), ...Object.keys(drives).map(kind => LEAD_PACE[kind])].filter(Number.isFinite);
+  const paces = [...(newWagon ? [LEAD_PACE.ox] : []), ...leads.map(role => LEAD_PACE[role]), ...Object.keys(drives).map(kind => LEAD_PACE[kind])].filter(Number.isFinite);
   const pace = paces.length ? Math.min(...paces) : null;
   return { pace, words: `${cap(parts.join(' and '))}${pace ? ", at an ox's pace" : ''}.` };
 }
@@ -266,8 +281,8 @@ function homeOf(leads = [], drives = {}) {
 export function errandQuote(world, household, entity, list, { modeAvailability, mode = null, town = null } = {}) {
   const reckoned = reckon(world, household, entity, list, town);
   if (reckoned.why) return { can: false, why: reckoned.why, stock: stockOf(household) };
-  const home = homeOf(reckoned.leads, reckoned.drives);
-  const way = chooseMode(world, household, entity, reckoned.load, reckoned.wagon, modeAvailability, { town: reckoned.town, home });
+  const home = homeOf(reckoned.leads, reckoned.drives, reckoned.newWagon);
+  const way = chooseMode(world, household, entity, reckoned.load, reckoned.wagon, modeAvailability, { town: reckoned.town, home, newWagon: reckoned.newWagon, leadsHorse: reckoned.leads.includes('horse') });
   const ways = shownWays(way.ways);
   const base = { load: reckoned.load, lines: reckoned.lines, stock: stockOf(household), after: reckoned.after, ways, ...(way.mode && { quickest: way.mode }), ...(home && { home: home.words }) };
   const andHome = home ? ` ${home.words}` : '';
@@ -367,7 +382,8 @@ export function carryOutErrand(world, household, entity, state) {
   }
   // A wagon with something in it is drawn with something in it, and is emptied in the yard (sim/world.mjs `progressTravel`).
   if (carried && state.mode === 'wagon') {
-    const wagon = world.entities[propertyId(household.id, 'wagon')];
+    // The wagon they came with, of however many the family owns (sim/beasts.mjs `wagonWith`).
+    const wagon = wagonWith(world, entity, holderOf);
     if (wagon?.borrowedBy === entity.id) wagon.laden = true;
   }
 }

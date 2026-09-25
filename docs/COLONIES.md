@@ -221,6 +221,10 @@ and the horse, towards land of its own."* **Neighbours are the families of the s
 them first, and a house-raising happens between them. `FIC-GONZ-024` is amended: separate families, each arriving at
 its own land on the same dawn, not one party.
 
+*Amended 2026-09-25 (owner; docs/SETTLING_IN.md §4a):* a family of nine or more comes in with a wagon for every eight people
+and an ox to each, in every settlement alike, and its founding line says so (*"... with its two wagons, an ox to each, and the
+horse, towards land of its own."*). Nothing about where it starts or its road in changes.
+
 ### 5.4 News by riders
 
 - **Word leaves Gonzales when the letters say it did.** Two dispatches carry the timeline's news outward: the demand for

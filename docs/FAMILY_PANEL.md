@@ -1144,10 +1144,24 @@ remembered per person in the page and sent with the next journey), which is gone
   order with none walked. Tests that are *about* walking now say `mode: 'foot'`.
 - **The icon's note** for a hunt says what a good trip gives (*"A good trip gives about 14 food; what comes home depends on how
   they go."*); what each way brings home of it is the chooser's.
-- **Open for the owner.** (1) A journey with **one** possible way — no horse owned, the wagon out, logs that come home in the
+- **Open for the owner.** ~~(1) A journey with **one** possible way — no horse owned, the wagon out, logs that come home in the
   wagon — still shows the chooser with that way chosen, so the student learns the question; Enter sends it. Skipping it then
-  is one line (`goingFor` knows it). (2) Auto chooses the quickest each time, not the way the student last chose.
-  (3) The errand's popup keeps the ways under its list rather than as a second step.
+  is one line (`goingFor` knows it).~~ **Decided 2026-09-25, below.** (2) Auto chooses the quickest each time, not the way the
+  student last chose. (3) The errand's popup keeps the ways under its list rather than as a second step.
+- **A journey with one way is not asked — owner, 2026-09-25.** *"When a journey has only one possible way, skip the 'how will
+  they go?' chooser."* Only a real choice is asked: two or more ways that can go. With exactly one - both horses and the wagon
+  out, logs that come home in the wagon, a family with no horse - the server says so (`goingFor` → `oneWay`, only when nothing
+  shuts the order) and the page sends the order straight away **with that way** (public/going.js `skipsTheChooser`): no
+  chooser is drawn, the bar never steps aside. **The command still carries the mode**, and the server still checks it where the
+  journey begins; if it refuses it (somebody took the last way meanwhile), the chooser is drawn with the refusal, and is never
+  skipped again for that order. **None that can go is still asked**, so the refusal is read on the chooser as before. The
+  errand's popup is unchanged: its ways sit under its list and are not a second step. Built the same day
+  ([tests](../tests/wagons.test.mjs), [injections](evidence/wagons-injections.json) - "always ask" on the server and on the page
+  each fail their test; [browser](evidence/going-browser.json): the fourth person, with the horse and the wagon both out, is
+  sent to make furniture on foot at once).
+- **More than one wagon** (owner, 2026-09-25, [SETTLING_IN.md](SETTLING_IN.md) §4a, [TOWNS.md](TOWNS.md) §4f). A family of nine or
+  more, or one that bought a wagon, is offered its second wagon on every chooser while the first is out; the way is shut only
+  when every wagon or every ox is out, in all their names (*"Ezra and Charity have both oxen and wagons."*).
 - **More than one horse or ox** (owner, 2026-09-24, [TOWNS.md](TOWNS.md) §4d). A family that bought a second horse is offered it
   on every chooser while the first is out; a way is shut only when every animal of its kind is out, and says so in all their
   names (*"Alvin and Mateo have both horses."*). On the errand, a way's card also says what comes home on the hoof and, for an ox

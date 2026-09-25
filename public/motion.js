@@ -137,28 +137,72 @@ export const underARider = entity => entity.kind === 'animal' && entity.species 
  * arrival, which nobody took it on - the principal if they are coming in with it, or else the first grown person who is.
  * Everybody else going the wagon's way walks beside it. Null while the wagon is not on the road.
  */
-export function wagonDriverId(householdId, entities = []) {
-  const wagon = entities.find(entity => entity.kind === 'wagon' && entity.householdId === householdId);
-  if (!wagon?.travel || wagon.travel.mode !== 'wagon') return null;
-  const aboard = entities.filter(entity => entity.kind === 'person' && entity.householdId === householdId && !entity.carrier && entity.travel?.mode === 'wagon');
-  if (wagon.borrowedBy) return aboard.some(entity => entity.id === wagon.borrowedBy) ? wagon.borrowedBy : null;
-  const young = ['child', 'small', 'infant'];
-  return (aboard.find(entity => entity.principal) || aboard.find(entity => !young.includes(entity.band)) || aboard[0])?.id || null;
+export function wagonDriverId(householdId, entities = [], wagonId = null) {
+  const teams = wagonTeams(householdId, entities);
+  const team = wagonId ? teams.find(one => one.wagon.id === wagonId) : teams[0];
+  return team?.driverId || null;
 }
+/**
+ * Every wagon of this family on the road, with who drives it and the ox that draws it (owner, 2026-09-25: a family of nine or more
+ * comes in with a wagon for every eight, sim/beasts.mjs). A wagon somebody took is theirs to drive - one wagon a person, the first
+ * that names them - and the ox that went with them draws it. On the family's arrival, which nobody took, and in the flight east,
+ * where every wagon names the one who leads the family, the drivers are dealt in order: the principal, then the grown people, then
+ * anybody, one to a wagon, and the oxen to the wagons in the order the family has them. A wagon with nobody left to drive it is
+ * drawn by itself. Pure: a reading of the projection, never a rule of the server's.
+ */
+export function wagonTeams(householdId, entities = []) {
+  const own = entities.filter(entity => entity.householdId === householdId);
+  const wagons = own.filter(entity => entity.kind === 'wagon' && entity.travel?.mode === 'wagon');
+  if (!wagons.length) return [];
+  const aboard = own.filter(entity => entity.kind === 'person' && !entity.carrier && entity.travel?.mode === 'wagon');
+  const young = ['child', 'small', 'infant'];
+  const order = [...aboard.filter(entity => entity.principal), ...aboard.filter(entity => !entity.principal && !young.includes(entity.band)), ...aboard.filter(entity => !entity.principal && young.includes(entity.band))];
+  const oxen = own.filter(entity => entity.kind === 'animal' && entity.species !== 'horse' && entity.travel?.mode === 'wagon');
+  const taken = new Set(), yoked = new Set();
+  const teams = wagons.map(wagon => ({ wagon, driverId: null, ox: null }));
+  // First the wagons somebody took on a journey of their own: theirs to drive. A name on several wagons - the flight - drives one.
+  for (const team of teams) {
+    const by = team.wagon.borrowedBy;
+    if (!by || taken.has(by)) continue;
+    if (!aboard.some(entity => entity.id === by)) { team.none = true; continue; }
+    team.driverId = by; taken.add(by);
+  }
+  // Then every other wagon - nobody's (the arrival), or one more of the flight's under a name already driving - from the family in
+  // order. A journey's wagon whose driver is not on it is nobody's to draw.
+  for (const team of teams) {
+    if (team.driverId || team.none) continue;
+    team.driverId = order.find(entity => !taken.has(entity.id))?.id || null;
+    if (team.driverId) taken.add(team.driverId);
+  }
+  // The ox each wagon goes behind: the one that went with its driver, else the next of the family's.
+  for (const team of teams) {
+    team.ox = oxen.find(ox => !yoked.has(ox.id) && team.driverId && ox.borrowedBy === team.driverId && ox.borrowedBy === team.wagon.borrowedBy) || null;
+    if (team.ox) yoked.add(team.ox.id);
+  }
+  for (const team of teams) {
+    if (team.ox) continue;
+    team.ox = oxen.find(ox => !yoked.has(ox.id) && (!ox.borrowedBy || ox.borrowedBy === team.wagon.borrowedBy)) || null;
+    if (team.ox) yoked.add(team.ox.id);
+  }
+  return teams;
+}
+/** The wagon this person drives, with its ox, or null. */
+export const teamDrivenBy = (entity, entities = []) => wagonTeams(entity?.householdId, entities).find(team => team.driverId === entity?.id) || null;
 /** What this person is sitting on: 'horse', 'wagon', or null for anybody on their own feet. */
 export function seatOf(entity, entities = []) {
   if (entity.kind !== 'person' || entity.carrier || entity.observed) return null;
   if (HURT_CONDITIONS.includes(entity.health?.condition) || STILL_CONDITIONS.includes(entity.health?.condition)) return null;
   if (inTheSaddle(entity)) return 'horse';
-  if (entity.travel?.mode === 'wagon' && wagonDriverId(entity.householdId, entities) === entity.id) return 'wagon';
+  if (entity.travel?.mode === 'wagon' && teamDrivenBy(entity, entities)) return 'wagon';
   return null;
 }
 /** Whether a beast is drawn with the person on it rather than by itself: the ridden horse, the ox and wagon being driven. */
 export function carriedWithRider(entity, entities = []) {
   if (underARider(entity)) return true;
   if ((entity.kind === 'wagon' || (entity.kind === 'animal' && entity.species !== 'horse')) && entity.travel?.mode === 'wagon') {
-    const driver = wagonDriverId(entity.householdId, entities);
-    return Boolean(driver && seatOf(entities.find(other => other.id === driver), entities) === 'wagon');
+    const team = wagonTeams(entity.householdId, entities).find(one => one.wagon.id === entity.id || one.ox?.id === entity.id);
+    const driver = team?.driverId && entities.find(other => other.id === team.driverId);
+    return Boolean(driver && seatOf(driver, entities) === 'wagon');
   }
   return false;
 }

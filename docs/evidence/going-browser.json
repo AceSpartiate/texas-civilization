@@ -2,13 +2,17 @@
   "record": "going-browser",
   "date": "2026-09-25",
   "browser": "153.0.8010.53",
-  "ownerDirection": "\"when sending someone to travel, the game should ask how they'll travel.\"",
+  "ownerDirection": [
+    "\"when sending someone to travel, the game should ask how they'll travel.\" (2026-09-24)",
+    "\"When a journey has only one possible way, skip the 'how will they go?' chooser.\" (2026-09-25)"
+  ],
   "checks": [
     "Travel to Gonzales asks first and sends nobody: \"How will Ezra go?\", three ways with the server's facts, the horse marked quickest and chosen",
     "the student picks walking and presses Enter: Ezra walks to Gonzales, the horse stays home, and the bar is back",
     "the hunt in the timber asks with the horse chosen; Send sends Keziah, and the map draws them riding it (teal-ride-e)",
-    "buying furniture in town: the horse shut (\"Keziah has the horse, working up through the timber.\"), walking marked quickest, the student picks the wagon and Prudence drives it",
-    "Eli's chooser has the wagon shut (\"Prudence has the ox and wagon, on the road to Gonzales.\") and the horse in Keziah's name; it fits at 1366x768 (500x259) and 1024x768 (500x259); Escape sends nobody",
+    "buying furniture has two ways open and asks, with the horse shut (\"Keziah has the horse, on the road to the timber on the Guadalupe River.\"); it fits at 1366x768 (500x251) and 1024x768 (500x251); Escape sends nobody",
+    "asked again, the student picks the wagon over walking, the quickest, and Prudence drives it",
+    "Eli, with the horse and the wagon both out (\"Prudence has the ox and wagon, on the road to Gonzales.\"), is sent to make furniture on foot straight away: no chooser drawn, the one way sent with the order",
     "no page errors anywhere in the run"
   ],
   "observed": {
@@ -194,10 +198,10 @@
       "ways": [
         {
           "way": "horse",
-          "label": "On the horse5 miles an hour · about 3.5 hours there · carries 7Keziah has the horse, working up through the timber.",
+          "label": "On the horse5 miles an hour · about 3.5 hours there · carries 7Keziah has the horse, on the road to the timber on the Guadalupe River.",
           "open": false,
           "pressed": false,
-          "why": "Keziah has the horse, working up through the timber."
+          "why": "Keziah has the horse, on the road to the timber on the Guadalupe River."
         },
         {
           "way": "foot",
@@ -232,7 +236,7 @@
             "hours": 3.5,
             "time": "about 3.5 hours",
             "can": false,
-            "why": "Keziah has the horse, working up through the timber."
+            "why": "Keziah has the horse, on the road to the timber on the Guadalupe River."
           },
           {
             "id": "foot",
@@ -263,40 +267,50 @@
         "can": true
       }
     },
-    "taken": {
-      "shown": true,
-      "title": "How will Eli go?",
-      "says": "Make furniture: to the timber on the Guadalupe River.",
-      "ways": [
-        {
-          "way": "horse",
-          "label": "On the horse5 miles an hour · about 30 minutes there · carries 7Keziah has the horse, downwind, with the shot there to take.",
-          "open": false,
-          "pressed": false,
-          "why": "Keziah has the horse, downwind, with the shot there to take."
-        },
-        {
-          "way": "foot",
-          "label": "On foot (quickest)3 miles an hour · about 50 minutes there · carries 5Tiring: every mile is on their legs.",
-          "open": true,
-          "pressed": true,
-          "why": null
-        },
-        {
-          "way": "wagon",
-          "label": "With the ox and wagon2 miles an hour · about 2 hours there · carries 20Prudence has the ox and wagon, on the road to Gonzales.",
-          "open": false,
-          "pressed": false,
-          "why": "Prudence has the ox and wagon, on the road to Gonzales."
-        }
-      ],
-      "send": true,
-      "state": {
+    "taken1366": {
+      "screen": {
+        "w": 1366,
+        "h": 768
+      },
+      "going": {
+        "x": 433,
+        "y": 56,
+        "w": 500,
+        "h": 251,
+        "r": 933,
+        "b": 307
+      },
+      "fits": true,
+      "overColumn": 0,
+      "bar": null,
+      "covered": []
+    },
+    "taken1024": {
+      "screen": {
+        "w": 1024,
+        "h": 768
+      },
+      "going": {
+        "x": 320,
+        "y": 56,
+        "w": 500,
+        "h": 251,
+        "r": 820,
+        "b": 307
+      },
+      "fits": true,
+      "overColumn": 0,
+      "bar": null,
+      "covered": []
+    },
+    "oneWay": {
+      "skipped": {
         "entityId": "hh-1-mateo",
         "order": {
           "action": "chore",
           "chore": "make-furniture"
         },
+        "mode": "foot",
         "ways": [
           {
             "id": "horse",
@@ -333,48 +347,11 @@
             "can": false,
             "why": "Prudence has the ox and wagon, on the road to Gonzales."
           }
-        ],
-        "quickest": "foot",
-        "chosen": "foot",
-        "why": "",
-        "can": true
-      }
-    },
-    "taken1366": {
-      "screen": {
-        "w": 1366,
-        "h": 768
+        ]
       },
-      "going": {
-        "x": 433,
-        "y": 56,
-        "w": 500,
-        "h": 259,
-        "r": 933,
-        "b": 315
-      },
-      "fits": true,
-      "overColumn": 0,
-      "bar": null,
-      "covered": []
-    },
-    "taken1024": {
-      "screen": {
-        "w": 1024,
-        "h": 768
-      },
-      "going": {
-        "x": 320,
-        "y": 56,
-        "w": 500,
-        "h": 259,
-        "r": 820,
-        "b": 315
-      },
-      "fits": true,
-      "overColumn": 0,
-      "bar": null,
-      "covered": []
+      "asked": 5,
+      "shown": false,
+      "bar": true
     }
   },
   "notProved": [

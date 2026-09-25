@@ -33,6 +33,18 @@ export function chosenWay(ways = [], quickest = null, pressed = null) {
   return pick ? pick.id : quickest || null;
 }
 
+/**
+ * The one way to send it by without asking (owner, 2026-09-25: "When a journey has only one possible way, skip the 'how will they
+ * go?' chooser. Only ask when there's a real choice"): the server's `oneWay`, when it says only one way can go and nothing shuts
+ * the order - and only before the chooser has been drawn and while no refusal is waiting to be read, so a way refused on sending
+ * is shown on the chooser rather than sent again. Null means ask.
+ */
+export function skipsTheChooser(going, { shown = false, error = '' } = {}) {
+  if (!going?.journey || shown || error || going.shut) return null;
+  const way = going.oneWay && (going.ways || []).find(one => one.id === going.oneWay && one.can);
+  return way ? way.id : null;
+}
+
 /** The order as the server is asked about it: what it is, without its id or a way already chosen. */
 export function orderAsked(input) {
   const { id, mode, entityId, ...order } = input || {};
@@ -96,6 +108,13 @@ export function mountGoing({ $, element, api, say = () => {}, send: sendCommand 
       state.refused = '';
       // Nothing to ask: the order makes no journey from where they stand. Sent as it is, with no chooser drawn.
       if (!going.journey) { await sendNow(); return; }
+      // Nothing to choose: one way can go (owner, 2026-09-25). Sent that way, with no chooser drawn; a refusal draws it.
+      const only = skipsTheChooser(going, { shown: state.shown, error: state.error });
+      if (only) {
+        window.__goingSkipped = { entityId: state.input.entityId, order: orderAsked(state.input), mode: only, ways: going.ways };
+        await sendNow(only, { quiet: true });
+        return;
+      }
     } catch (error) {
       if (!state || seq !== state.seq) return;
       state.error = error.message;
@@ -107,6 +126,7 @@ export function mountGoing({ $, element, api, say = () => {}, send: sendCommand 
     if (!state) return;
     const facts = state.facts;
     if (facts && !facts.journey) return;
+    state.shown = true;
     root.hidden = false;
     document.body.dataset.going = 'true';
     const name = facts?.person?.name || 'They';
@@ -123,10 +143,10 @@ export function mountGoing({ $, element, api, say = () => {}, send: sendCommand 
     window.__going = { entityId: state.input.entityId, order: orderAsked(state.input), ways: facts?.ways || null, quickest: facts?.quickest || null, chosen, why, can: !send.disabled };
   }
 
-  async function sendNow(mode = null) {
+  async function sendNow(mode = null, { quiet = false } = {}) {
     if (!state || state.busy) return;
     state.busy = true;
-    if (state.facts?.journey) draw();
+    if (state.facts?.journey && !quiet) draw();
     const input = { ...state.input, ...(mode && { mode }) };
     try {
       await sendCommand(input);
@@ -176,7 +196,7 @@ export function mountGoing({ $, element, api, say = () => {}, send: sendCommand 
       window.__goingPending = true;
       window.__goingAsked = (window.__goingAsked || 0) + 1;
       return new Promise(resolve => {
-        state = { input, facts: null, mode: null, busy: false, error: '', refused: '', seq: 0, key: null, resolve };
+        state = { input, facts: null, mode: null, busy: false, error: '', refused: '', seq: 0, key: null, shown: false, resolve };
         // The keyboard lands on the way that is chosen: Enter sends them by it, Tab reaches the others, Escape sends nobody.
         fetchFacts().then(() => { if (state?.facts?.journey) (root.querySelector('[data-way][aria-pressed=true]:not([disabled])') || root.querySelector('#going-cancel'))?.focus({ preventScroll: true }); });
       });

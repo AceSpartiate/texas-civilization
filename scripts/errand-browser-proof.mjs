@@ -11,7 +11,9 @@
 // has it and what to do; Escape sends nobody; and the goods come home. At 1366x768 and 1024x768 (phones unsupported, owner),
 // the popup fits the screen, nothing is drawn over its own controls, and it keeps off the family's column. Since the owner's
 // request of the same day for animals (docs/TOWNS.md §4d): a second horse is bought at the stock pens, is seen led home beside its
-// buyer and standing in the yard with Bess, and two riders go out at once.
+// buyer and standing in the yard with Bess, and two riders go out at once. Since the owner's request of 2026-09-25 (docs/TOWNS.md
+// §4f): the wheelwright's new wagon, a hundred reales with an ox from the stock pens, is bought by somebody on foot, driven home
+// behind the new ox and drawn in the yard beside the family wagon.
 //
 // Same computer only. Run: npm run test:errand
 import assert from 'node:assert/strict';
@@ -33,11 +35,11 @@ const pass = [];
 const ok = label => { pass.push(label); console.log('PASS', label); };
 const observed = {};
 
-// The family has a crop to sell and nothing much else: fourteen bales, 25 reales put by for a horse, a little seed. Set when the class is made -
+// The family has a crop to sell and nothing much else: fourteen bales, 150 reales put by for a horse and a wagon, a little seed. Set when the class is made -
 // the classroom's world is the server's, and this proof reads it (`app.state`, a copy) but never writes it.
 const app = createClassroom({ seed: 'errand-proof', playerCount: 5, tickMs: 200, worldFactory: (seed, count) => {
   const world = taught(keepFoundingFamilies(createSettledWorld(seed, count)));
-  world.households['hh-1'].resources = { ...world.households['hh-1'].resources, cotton: 14, money: 25, seed: 2, food: 30 };
+  world.households['hh-1'].resources = { ...world.households['hh-1'].resources, cotton: 14, money: 150, seed: 2, food: 30 };
   return world;
 } });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
@@ -227,13 +229,13 @@ try {
   await page.waitForFunction(id => { const one = window.__snapshot?.world.entities.find(e => e.id === id); return one && !one.chore && !one.travel; }, first.id, { timeout: 120000 });
   const home = await page.evaluate(() => window.__snapshot.world.household.resources);
   observed.home = home;
-  assert.equal(home.money, 38, `the fourteen reales, less the one the seed cost, did not come home beside the 25: ${home.money}`);
+  assert.equal(home.money, 163, `the fourteen reales, less the one the seed cost, did not come home beside the 150: ${home.money}`);
   assert.equal(home.seed, 4, `the seed did not come home: ${home.seed}`);
   assert.equal(app.state.world.entities['hh-1-wagon'].borrowedBy, null, 'the wagon is still held now it is home');
   const said = await page.evaluate(() => (window.__snapshot?.world.events || []).map(event => event.text).filter(text => /sold 14 cotton|bought 2 seed/.test(text)));
   observed.story = said;
   assert.equal(said.length, 2, `the family's story does not say what was done: ${said}`);
-  ok(`the goods come home: 38 reales (the 25 put by, 14 for the cotton, 1 paid for seed) and 2 more seed in the house, the wagon free again, and the story says so: "${said.join('" "')}"`);
+  ok(`the goods come home: 163 reales (the 150 put by, 14 for the cotton, 1 paid for seed) and 2 more seed in the house, the wagon free again, and the story says so: "${said.join('" "')}"`);
 
   // ----------------------------------------------------------- a second rifle bought, and two hunters out at once
   // Owner, 2026-09-24: "players should be able to send someone to buy more rifles, hoes, tools in general" (docs/TOWNS.md §4c).
@@ -349,6 +351,62 @@ try {
   await page.waitForFunction(ids => ids.every(id => window.__seatedDrawn?.[id]?.seat === 'horse'), [first.id, second.id], { timeout: 60000 });
   await page.screenshot({ path: join(SHOTS, 'errand-two-riders-1366.png') });
   ok(`two riders at once: ${first.name} and ${second.name} each ride to Gonzales on a horse of their own, both drawn in the saddle`);
+
+  // --------------------------- the wheelwright's new wagon, bought on foot with an ox, driven home and drawn in the yard
+  // Owner, 2026-09-25: "wheelwright sells one, very expensive." (docs/TOWNS.md §4f). Both horses are out with the riders, so
+  // whoever goes walks: the wagon cannot be the way there (one person drives one wagon home).
+  const third = grown.find(one => one !== first && one !== second);
+  assert.ok(third, 'this family has not a third grown person at home, so this proves nothing');
+  await asMain(page, third.id);
+  await page.locator(`.panel-row[data-entity-id="${third.id}"] .panel-icon[data-key="visit-shop"]`).click();
+  await page.locator('#errand').waitFor({ state: 'visible' });
+  await page.waitForFunction(() => document.querySelector('#errand [data-line="wheelwright:buy-wagon"]'));
+  const wagonLine = await page.evaluate(() => { const line = document.querySelector('#errand [data-line="wheelwright:buy-wagon"]'); return { label: line.querySelector('.errand-label').textContent, price: line.querySelector('.errand-price').textContent, shut: line.dataset.shut === 'true', text: line.textContent }; });
+  observed.wagonLine = wagonLine;
+  assert.equal(wagonLine.price, '100 reales');
+  assert.equal(wagonLine.shut, false, `the wheelwright's wagon is shut: ${wagonLine.text}`);
+  await setCount(page, 'wheelwright:buy-wagon', 1);
+  // Alone on the list, the server refuses it in words: an ox has to draw it home.
+  await page.waitForFunction(() => /an ox draws it/.test(document.querySelector('#errand-why').textContent), null, { timeout: 15000 });
+  observed.wagonAlone = (await popup(page)).why;
+  assert.equal((await popup(page)).send, false, 'Send was open for a wagon with no ox to draw it');
+  await setCount(page, 'stockman:ox', 1);
+  await page.waitForFunction(() => !document.querySelector('#errand-send').disabled && /Drives the new wagon home behind the new ox/.test(document.querySelector('#errand-how').textContent), null, { timeout: 15000 });
+  const wagonBuy = await popup(page);
+  observed.wagonHow = wagonBuy.how;
+  const wagonCards = await page.evaluate(() => [...document.querySelectorAll('#errand [data-way]')].map(button => ({ way: button.dataset.way, open: !button.disabled, why: button.title || null })));
+  observed.wagonCards = wagonCards;
+  assert.match(wagonCards.find(one => one.way === 'wagon').why, /^One person drives one wagon home/);
+  assert.match(wagonBuy.how, /^Goes on foot: 0 of 5 loads/);
+  await page.locator('#errand [data-line="wheelwright:buy-wagon"]').scrollIntoViewIfNeeded();
+  await page.screenshot({ path: join(SHOTS, 'errand-new-wagon-1366.png') });
+  const wagonFit = await measure(page);
+  observed.newWagonAt1366 = wagonFit;
+  assert.ok(wagonFit.fits && !wagonFit.covered.length && wagonFit.overColumn === 0, `the popup with the wheelwright's wagon does not fit or is covered: ${JSON.stringify(wagonFit)}`);
+  await page.locator('#errand-send').click();
+  await page.locator('#errand').waitFor({ state: 'hidden', timeout: 10000 });
+  // Driven home: the new wagon behind the new ox, the buyer drawn on it.
+  await page.waitForFunction(id => { const w = window.__snapshot?.world; const wagon = w?.entities.find(e => e.id === 'hh-1-wagon-2'); const driver = w?.entities.find(e => e.id === id); return wagon?.travel && driver?.travel?.mode === 'wagon'; }, third.id, { timeout: 180000 });
+  assert.equal(app.state.world.entities['hh-1-wagon-2'].borrowedBy, third.id);
+  assert.equal(app.state.world.entities['hh-1-animal-2'].travel?.purpose, 'harness', 'the new ox was led home, not yoked');
+  await page.waitForFunction(id => window.__seatedDrawn?.[id]?.seat === 'wagon', third.id, { timeout: 60000 });
+  observed.drivenHome = await page.evaluate(id => window.__seatedDrawn[id], third.id);
+  if (await page.locator('#selection-close').isVisible().catch(() => false)) await page.locator('#selection-close').click();
+  await page.screenshot({ path: join(SHOTS, 'errand-new-wagon-home-1366.png') });
+  await idle([third.id]);
+  const second2 = app.state.world.entities['hh-1-wagon-2'];
+  assert.equal(second2.location.siteId, family.homeSiteId, 'the new wagon did not come home');
+  assert.equal(second2.borrowedBy, null);
+  await page.waitForFunction(() => window.__drawnAt?.['hh-1-wagon'] && window.__drawnAt?.['hh-1-wagon-2'], null, { timeout: 30000 });
+  observed.wagonsInYard = await page.evaluate(() => ({ first: window.__drawnAt['hh-1-wagon'], second: window.__drawnAt['hh-1-wagon-2'] }));
+  observed.wagonsOnTheLand = ['hh-1-wagon', 'hh-1-wagon-2'].map(id => ({ id, ...app.state.world.entities[id].location }));
+  const wagonsApart = Math.round(Math.hypot(observed.wagonsInYard.first.x - observed.wagonsInYard.second.x, observed.wagonsInYard.first.y - observed.wagonsInYard.second.y));
+  assert.ok(wagonsApart >= 12, `the two wagons are drawn one on the other (${wagonsApart} px apart)`);
+  if (await page.locator('#selection-close').isVisible().catch(() => false)) await page.locator('#selection-close').click();
+  await page.screenshot({ path: join(SHOTS, 'errand-two-wagons-1366.png') });
+  const coin = app.state.world.households['hh-1'].resources.money;
+  observed.coinAfterWagon = coin;
+  ok(`the wheelwright's wagon (${wagonLine.label}: ${wagonLine.price}) is refused alone ("${observed.wagonAlone}"), sent with an ox from the pens: "${wagonBuy.how}"; ${third.name} drives it home behind Buck the ox (drawn ${observed.drivenHome.art || observed.drivenHome.seat}) and it stands in the yard ${wagonsApart} px from the family wagon`);
 
   assert.deepEqual(errors, [], `the page threw: ${errors.join(' | ')}`);
   ok('no page errors');

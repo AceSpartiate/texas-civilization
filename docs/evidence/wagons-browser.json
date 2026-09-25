@@ -1,0 +1,79 @@
+{
+  "record": "wagons-browser",
+  "date": "2026-09-25",
+  "browser": "153.0.8010.53",
+  "ownerDirection": "\"families should arrive with an appropriate number of wagons. larger families get more than one wagon based on their population.\" (2026-09-25)",
+  "checks": [
+    "a family of twelve packs two wagons: \"2 wagons: 24 of 32 space filled, 8 left.\"",
+    "both wagons on the track in, each drawn with its own driver (rust-wagon-driver-w, teal-wagon-driver-w), 106 px apart",
+    "in, both wagons stand in the yard 95 px apart",
+    "no page errors"
+  ],
+  "observed": {
+    "room": "2 wagons: 24 of 32 space filled, 8 left.",
+    "onTheRoad": [
+      {
+        "id": "hh-1-parent-1",
+        "art": "rust-wagon-driver-w",
+        "wagon": {
+          "part": "wagon",
+          "x": 1152,
+          "y": 715,
+          "height": 97
+        },
+        "ox": {
+          "part": "ox",
+          "x": 1012,
+          "y": 715,
+          "height": 91
+        }
+      },
+      {
+        "id": "hh-1-parent-2",
+        "art": "teal-wagon-driver-w",
+        "wagon": {
+          "part": "wagon",
+          "x": 1258,
+          "y": 720,
+          "height": 97
+        },
+        "ox": {
+          "part": "ox",
+          "x": 1118,
+          "y": 720,
+          "height": 91
+        }
+      }
+    ],
+    "roadGap": 106,
+    "inTheYard": {
+      "first": {
+        "x": 592.4592836265381,
+        "y": 528.2862689282912,
+        "size": 97.09667580834727
+      },
+      "second": {
+        "x": 497.60710456862387,
+        "y": 521.5908209947872,
+        "size": 97.09667580834727
+      }
+    },
+    "onTheLand": [
+      {
+        "id": "hh-1-wagon",
+        "x": 2.1550000000000002,
+        "y": -11.37,
+        "siteId": "home-1"
+      },
+      {
+        "id": "hh-1-wagon-2",
+        "x": 2.135,
+        "y": -11.358,
+        "siteId": "home-1"
+      }
+    ]
+  },
+  "notProved": [
+    "Same computer only: no physical LAN, no Chromebook, no class."
+  ]
+}

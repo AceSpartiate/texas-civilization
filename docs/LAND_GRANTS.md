@@ -60,7 +60,9 @@ clearing time except the timber-to-prairie ratio; what bringing stock costs.
   its own, is asked both questions, and is started by the player's own **Done packing** (`begin-solo`), because there is
   no teacher to press Start.
 - **What stock costs** (`FIC-GONZ-025`): a family driving stock arrives with fewer provisions — the wagon has
-  two spaces fewer — because the herd is fed on the road. ~~Stock do nothing else yet.~~ **Since 2026-09-20 the herd is
+  two spaces fewer — because the herd is fed on the road. *(2026-09-25, owner: a family of nine or more comes with more than
+  one wagon, docs/SETTLING_IN.md §4a. The herd's two spaces come out of its wagons together - 30 of 32 with two - and it brings
+  the same stock as any family: the herd is dealt by the grant, not by the wagons.)* ~~Stock do nothing else yet.~~ **Since 2026-09-20 the herd is
   a herd**: it feeds itself on the range and the mast, calves in the spring, is killed for meat, strays if nobody rides
   after it, and is left behind in the Runaway Scrape — [STOCK.md](STOCK.md), `FIC-GONZ-180` to `-185`. `ceiling:` no
   sale and no cattle drive; the wandering-stock loss in an unfenced field stays as it is for everyone.

@@ -44,8 +44,22 @@ export const WAGON_SPACE = 16;
  * loss in an unfenced field stays the same for every family.
  */
 export const STOCK_SPACE = 2;
-/** The room this family's wagon has, given what it drives in. */
-export const wagonSpaceFor = household => WAGON_SPACE - (household?.stock === true ? STOCK_SPACE : 0);
+/**
+ * How many wagons the family packs (owner, 2026-09-25; sim/beasts.mjs `wagonsForPeople`, `fitOut`): the family wagon and every
+ * one it was fitted out with at its roll, read off its property by id - `hh-1-wagon`, `hh-1-wagon-2` - because this file is
+ * handed a household and never the world. Only the lobby packs, when nothing can have been bought or lost; a class saved before
+ * has the one wagon it always had.
+ */
+export const wagonCount = household => Math.max(1, (household?.property || []).filter(id => id === `${household.id}-wagon` || id.startsWith(`${household.id}-wagon-`)).length);
+/** The room the family's wagons have together, before the stock is fed: sixteen a wagon (`FIC-GONZ-024`, `FIC-GONZ-391`). */
+export const wagonRoom = household => WAGON_SPACE * wagonCount(household);
+/** The room this family's wagons have, given what it drives in. */
+export const wagonSpaceFor = household => wagonRoom(household) - (household?.stock === true ? STOCK_SPACE : 0);
+/**
+ * The most of one thing the family packs: a store's lots go a wagon's worth to each wagon (eight barrels a wagon), and a tool
+ * or a good is still one at most. ceiling: one felling axe however many wagons; a second tool is bought in town (docs/TOWNS.md §4c).
+ */
+export const mostFor = (household, entry) => entry.kind === 'stores' ? entry.most * wagonCount(household) : entry.most;
 
 /**
  * What a family has in the house at the founding: three shots.
@@ -160,11 +174,12 @@ export function loadRefusal(world, household, itemId, amount) {
   const entry = ITEMS.get(itemId);
   if (!entry) return 'That is not one of the things a family can bring.';
   if (!Number.isInteger(amount) || amount < 0) return 'Say how many, in whole things.';
-  if (amount > entry.most) return entry.most === 1 ? `A family brings one ${entry.name.toLowerCase()} at most.` : `The wagon takes ${entry.most} of those at most.`;
+  const most = mostFor(household, entry), wagons = wagonCount(household);
+  if (amount > most) return most === 1 ? `A family brings one ${entry.name.toLowerCase()} at most.` : wagons > 1 ? `The ${wagons} wagons take ${most} of those at most.` : `The wagon takes ${most} of those at most.`;
   const current = household.load.find(loaded => loaded.id === itemId)?.amount ?? 0;
   const after = spaceOf(household.load) + entry.space * (amount - current);
   const room = wagonSpaceFor(household);
-  if (after > room) return `There is no room. That needs ${entry.space * (amount - current)} more, and the wagon has ${room - spaceOf(household.load)} left of ${room}${household.stock ? ' with the stock to feed' : ''}.`;
+  if (after > room) return `There is no room. That needs ${entry.space * (amount - current)} more, and the ${wagons > 1 ? `${wagons} wagons have` : 'wagon has'} ${room - spaceOf(household.load)} left of ${room}${household.stock ? ' with the stock to feed' : ''}.`;
   return null;
 }
 
@@ -187,10 +202,28 @@ export function setLoad(world, household, itemId, amount) {
   household.resources = { ...household.resources, ...loadStores(load) };
   household.tools = Object.fromEntries(loadTools(load).map(tool => [tool, household.tools[tool] ?? 0]));
   household.belongings = loadBelongings(load);
-  // The wagon on the road in is drawn with something in it, and unloaded where the journey ends
+  // The wagons on the road in are drawn with something in them, and unloaded where the journey ends
   // (`progressTravel` already clears `laden` at the family's own land).
-  const wagon = world.entities[`${household.id}-wagon`];
-  if (wagon && household.arriving) wagon.laden = load.length > 0;
+  if (household.arriving) for (const wagon of wagonsOf(world, household)) wagon.laden = load.length > 0;
+  return load;
+}
+/** Every wagon of the family's, the family wagon first (the same reading as sim/beasts.mjs `beastsOf`, by id, for this file). */
+export const wagonsOf = (world, household) => (household?.property || []).map(id => world.entities[id]).filter(entity => entity?.kind === 'wagon');
+
+/**
+ * The load packed again for the wagons a family is fitted out with at its roll (sim/world.mjs `rollFamily`): every store the
+ * wagon held goes into each wagon - a family of twelve in two wagons brings twice the meal, seed and powder a family of four
+ * brings in one - and the tools and goods are still one of each. It is the same sensible default the one wagon had, for a
+ * family that never opens the load screen, and a student repacks it like any other (`FIC-GONZ-391`). Returns the load.
+ */
+export function loadForWagons(world, household) {
+  if (!household.load) return null;
+  const wagons = wagonCount(household);
+  const amounts = Object.fromEntries(household.load.map(entry => [entry.id, ITEMS.get(entry.id)?.kind === 'stores' ? Math.min(entry.amount * wagons, mostFor(household, ITEMS.get(entry.id))) : entry.amount]));
+  const load = canonical(amounts);
+  household.load = load;
+  household.resources = { ...household.resources, ...loadStores(load) };
+  if (household.arriving) for (const wagon of wagonsOf(world, household)) wagon.laden = load.length > 0;
   return load;
 }
 
@@ -215,7 +248,10 @@ export function loadSentence(load) {
 export function wagonProjection(world, household) {
   if (!household?.load || world.status !== 'lobby') return null;
   const why = loadRefusal(world, household);
-  return { used: spaceOf(household.load), space: wagonSpaceFor(household), can: !why, ...(why && { why }) };
+  const wagons = wagonCount(household);
+  // More than one wagon: how many, and the most of each store they take together, so the page's `+` stops where the server does.
+  const most = wagons > 1 ? Object.fromEntries(WAGON_ITEMS.filter(entry => entry.kind === 'stores').map(entry => [entry.id, mostFor(household, entry)])) : null;
+  return { used: spaceOf(household.load), space: wagonSpaceFor(household), can: !why, ...(why && { why }), ...(most && { wagons, most }) };
 }
 
 /** A household's load record is well formed and fits the wagon. Absent is a class saved before step 3. */
@@ -225,7 +261,7 @@ export function loadInvalid(household) {
   const seen = new Set();
   for (const entry of household.load) {
     const known = ITEMS.get(entry?.id);
-    if (!known || seen.has(entry.id) || !Number.isInteger(entry.amount) || entry.amount < 1 || entry.amount > known.most) return 'Invalid wagon load';
+    if (!known || seen.has(entry.id) || !Number.isInteger(entry.amount) || entry.amount < 1 || entry.amount > mostFor(household, known)) return 'Invalid wagon load';
     seen.add(entry.id);
   }
   if (spaceOf(household.load) > wagonSpaceFor(household)) return 'The wagon is loaded past its space';

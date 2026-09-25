@@ -18,7 +18,7 @@ import { overlaps, squareOf } from './fields.mjs';
 import { CHORES, logwoodGround } from './chores.mjs';
 import { LOOKED_TO_DAYS, herdOf } from './stock.mjs';
 import { share } from './shares.mjs';
-import { STOCK_SPACE, WAGON_SPACE, spaceOf } from './wagon.mjs';
+import { STOCK_SPACE, spaceOf, wagonRoom } from './wagon.mjs';
 import { COTTON_SEED_PER_PLOT, SEED_PER_PLOT } from './improvements.mjs';
 import { huntingPlace } from './hunting.mjs';
 import { packFlight } from './scrape.mjs';
@@ -57,7 +57,7 @@ function dealStock(world, household) {
   // Stock costs two spaces in the wagon, and half the default loads are packed to within one of full. A family that
   // wanted stock carried less, which is `FIC-GONZ-025`'s own rule said the other way round: a barrel of meal comes out
   // to make room, and if even that will not do it the family drives nothing in.
-  const room = () => WAGON_SPACE - STOCK_SPACE - spaceOf(real.load);
+  const room = () => wagonRoom(real) - STOCK_SPACE - spaceOf(real.load);
   for (let tries = 0; tries < 4 && room() < 0; tries++) {
     const barrels = (real.load || []).find(entry => entry.id === 'provisions');
     if (!barrels || barrels.amount < 1) break;
@@ -337,8 +337,9 @@ export function thinkFor(world, household, { project, act }) {
   // The ox and wagon left standing at the timber, by somebody called off to the war in the middle of fetching logs: fetched
   // home with a load (`fetch-logs` walks out to them), logs wanted or not. Found 2026-09-19: a family's team stood at the
   // timber the rest of the class, and its house wanted logs.
-  const wagon = (view.entities || []).find(entity => entity.kind === 'wagon' && entity.householdId === household.id);
-  const teamLeft = Boolean(wagon && !wagon.travel && !wagon.borrowedBy && wagon.location?.siteId && wagon.location.siteId !== view.household.homeSiteId);
+  // Any of its wagons (sim/beasts.mjs: a family of nine or more has two).
+  const teamLeft = (view.entities || []).some(wagon => wagon.kind === 'wagon' && wagon.householdId === household.id
+    && !wagon.travel && !wagon.borrowedBy && wagon.location?.siteId && wagon.location.siteId !== view.household.homeSiteId);
   for (const person of idle) {
     // Somebody away from home with nothing to do there comes home.
     // Somebody who went with the volunteers, or to help at Gonzales, is where the family sent them (task 'help'), and stays;

@@ -44,8 +44,8 @@ import { KINDS, countsTrees, woodsRule } from './woods.mjs';
 import { TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
 import { carryOutErrand, planErrand } from './errands.mjs';
 import { quickestWay } from './going.mjs';
-import { ROLES as BEASTS, hasWords, letGo, takeToWar, userOf, warRifleWords } from './keeping.mjs';
-import { beastsOf } from './beasts.mjs';
+import { ROLES as BEASTS, hasWords, holderOf, letGo, takeToWar, userOf, warRifleWords } from './keeping.mjs';
+import { beastsOf, wagonWith } from './beasts.mjs';
 import { holdingOf } from './grants.mjs';
 import { TOOL_LIFE, allWorn, anyWorn, mendWorst, soundestFirst, toolCount } from './tools.mjs';
 import { plotNeeds } from './houseplot.mjs';
@@ -846,8 +846,9 @@ CHORES['fetch-logs'] = {
  * that is `oxFree` and the wagon beside it.
  */
 function teamAt(world, household, siteId) {
-  const wagon = world.entities[propertyId(household.id, 'wagon')];
-  if (!wagon || wagon.travel || wagon.borrowedBy || wagon.location?.siteId !== siteId) return false;
+  // Any of the family's wagons will do (sim/beasts.mjs: a family of nine or more has two, and the wheelwright sells one).
+  const standing = beastsOf(world, household, 'wagon').some(wagon => !wagon.travel && !wagon.borrowedBy && wagon.location?.siteId === siteId && wagon.condition !== 'lost' && wagon.condition !== 'taken');
+  if (!standing) return false;
   // Nor held by somebody's work at home: a harvest loading it, somebody hauling behind the ox (sim/keeping.mjs).
   if (userOf(world, household, 'wagon') || userOf(world, household, 'ox')) return false;
   return household.property.some(id => {
@@ -1564,10 +1565,9 @@ function warWords(world, person) {
  * repetition - and this asks a narrower question, about one place rather than any place.
  */
 function wagonAtHome(world, household) {
-  const wagon = world.entities?.[propertyId(household.id, 'wagon')];
   const standing = beast => beast && !beast.travel && beast.location.siteId === household.homeSiteId && (!beast.condition || beast.condition === 'sound');
-  // Any of the family's oxen will pull it (sim/beasts.mjs): the first, or one bought in town.
-  return standing(wagon) && beastsOf(world, household, 'ox').some(standing);
+  // Any of the family's wagons, and any of its oxen to pull it (sim/beasts.mjs): the first, or one bought or brought.
+  return beastsOf(world, household, 'wagon').some(standing) && beastsOf(world, household, 'ox').some(standing);
 }
 
 /** Every chore this person could be sent on, with the reason for any that are refused. */
@@ -2275,7 +2275,8 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
         }
         // A wagon with something in it is drawn with something in it.
         if (kept > 0 && chore.hauls && state.mode === 'wagon') {
-          const wagon = world.entities[propertyId(household.id, 'wagon')];
+          // The wagon they have with them, of however many the family owns (sim/beasts.mjs `wagonWith`).
+          const wagon = wagonWith(world, entity, holderOf) || world.entities[propertyId(household.id, 'wagon')];
           if (wagon) wagon.laden = true;
         }
         // What was gathered, said in the words of the thing itself rather than as a number of food

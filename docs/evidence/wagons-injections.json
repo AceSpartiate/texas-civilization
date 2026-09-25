@@ -1,0 +1,428 @@
+{
+  "record": "wagons-injections",
+  "date": "2026-09-25",
+  "files": [
+    "tests/wagons.test.mjs",
+    "tests/beasts.test.mjs",
+    "tests/going.test.mjs",
+    "tests/going-page.test.mjs",
+    "tests/riding.test.mjs",
+    "tests/errands.test.mjs",
+    "tests/arrival.test.mjs",
+    "tests/wagon-load.test.mjs",
+    "tests/shops.test.mjs",
+    "tests/keeping.test.mjs",
+    "tests/family-roll.test.mjs",
+    "tests/grants.test.mjs",
+    "tests/travel-modes.test.mjs"
+  ],
+  "caught": 24,
+  "onlyThat": 18,
+  "of": 24,
+  "results": [
+    {
+      "name": "nobody fitted out at the roll",
+      "expect": "every family is fitted out with a wagon for every eight people and an ox to draw each, on every roll and across seeds",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "if (world.wagonsBySize && fitOut(world, household) > 1) loadForWagons(world, household);",
+          "to": ""
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "every family is fitted out with a wagon for every eight people and an ox to draw each, on every roll and across seeds",
+        "every wagon comes in with its own driver and ox, drawn in line, and the family is in when the last wheel is",
+        "two wagons are two loads out at once, each behind its own ox, and a third is told both are out",
+        "the flight east loads every wagon an ox can draw at home",
+        "a class made before wagons went by size keeps one wagon a family, rolled or running, and opens as it was"
+      ]
+    },
+    {
+      "name": "a wagon for every ten, not every eight",
+      "expect": "every family is fitted out with a wagon for every eight people and an ox to draw each, on every roll and across seeds",
+      "edits": [
+        {
+          "file": "sim/beasts.mjs",
+          "from": "export const WAGON_PEOPLE = 8;",
+          "to": "export const WAGON_PEOPLE = 10;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "every family is fitted out with a wagon for every eight people and an ox to draw each, on every roll and across seeds",
+        "a class made before wagons went by size keeps one wagon a family, rolled or running, and opens as it was"
+      ]
+    },
+    {
+      "name": "a second wagon and no ox to draw it",
+      "expect": "every family is fitted out with a wagon for every eight people and an ox to draw each, on every roll and across seeds",
+      "edits": [
+        {
+          "file": "sim/beasts.mjs",
+          "from": "  for (const role of ['wagon', 'ox']) {\n    while (beastsOf(world, household, role).length < want) {",
+          "to": "  for (const role of ['wagon']) {\n    while (beastsOf(world, household, role).length < want) {"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "every family is fitted out with a wagon for every eight people and an ox to draw each, on every roll and across seeds",
+        "two wagons are two loads out at once, each behind its own ox, and a third is told both are out",
+        "the flight east loads every wagon an ox can draw at home"
+      ]
+    },
+    {
+      "name": "the stores not packed into the second wagon",
+      "expect": "every family is fitted out with a wagon for every eight people and an ox to draw each, on every roll and across seeds",
+      "edits": [
+        {
+          "file": "sim/wagon.mjs",
+          "from": "ITEMS.get(entry.id)?.kind === 'stores' ? Math.min(entry.amount * wagons, mostFor(household, ITEMS.get(entry.id))) : entry.amount",
+          "to": "entry.amount"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "every family is fitted out with a wagon for every eight people and an ox to draw each, on every roll and across seeds"
+      ]
+    },
+    {
+      "name": "the wagons' room one wagon's",
+      "expect": "every family is fitted out with a wagon for every eight people and an ox to draw each, on every roll and across seeds",
+      "edits": [
+        {
+          "file": "sim/wagon.mjs",
+          "from": "export const wagonRoom = household => WAGON_SPACE * wagonCount(household);",
+          "to": "export const wagonRoom = household => WAGON_SPACE;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "the roll is the family: one parent on 1 to 3, both from 4, and every number over that another child",
+        "a class rolled on an earlier table keeps its own: the 2026-09-14 faces, and six sides",
+        "a 20 is two parents and eighteen children with their own names and ages, and it survives a save",
+        "a family of twenty fits the tick: what it is sent grows by the person, and nothing is sent twenty times over",
+        "the hidden stats reach no payload: not the family’s own, not a neighbour’s, not the Host’s",
+        "the wagon is packed in the lobby only, and packing it does not stop the roll",
+        "every family is fitted out with a wagon for every eight people and an ox to draw each, on every roll and across seeds",
+        "every wagon comes in with its own driver and ox, drawn in line, and the family is in when the last wheel is",
+        "two wagons are two loads out at once, each behind its own ox, and a third is told both are out",
+        "the flight east loads every wagon an ox can draw at home",
+        "a class made before wagons went by size keeps one wagon a family, rolled or running, and opens as it was",
+        "no other family's wagons reach a student"
+      ]
+    },
+    {
+      "name": "a class made before fitted out too",
+      "expect": "a class made before wagons went by size keeps one wagon a family, rolled or running, and opens as it was",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "if (world.wagonsBySize && fitOut(world, household) > 1)",
+          "to": "if (fitOut(world, household) > 1)"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a class made before wagons went by size keeps one wagon a family, rolled or running, and opens as it was"
+      ]
+    },
+    {
+      "name": "every wagon is the one wagon",
+      "expect": "two wagons are two loads out at once, each behind its own ox, and a third is told both are out",
+      "edits": [
+        {
+          "file": "sim/keeping.mjs",
+          "from": "const copies = beasts ? Math.max(1, beasts.length)",
+          "to": "const copies = beasts ? (item === 'wagon' ? 1 : Math.max(1, beasts.length))"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "two wagons are two loads out at once, each behind its own ox, and a third is told both are out",
+        "a new wagon is driven home behind the ox bought with it, at the wagon's pace, with the horse ridden in tied on behind"
+      ]
+    },
+    {
+      "name": "the principal drawn driving every wagon in",
+      "expect": "every wagon comes in with its own driver and ox, drawn in line, and the family is in when the last wheel is",
+      "edits": [
+        {
+          "file": "public/motion.js",
+          "from": "    team.driverId = order.find(entity => !taken.has(entity.id))?.id || null;",
+          "to": "    team.driverId = order[0]?.id || null;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "every wagon comes in with its own driver and ox, drawn in line, and the family is in when the last wheel is"
+      ]
+    },
+    {
+      "name": "every wagon drawn behind the first ox",
+      "expect": "every wagon comes in with its own driver and ox, drawn in line, and the family is in when the last wheel is",
+      "edits": [
+        {
+          "file": "public/motion.js",
+          "from": "    team.ox = oxen.find(ox => !yoked.has(ox.id) && (!ox.borrowedBy || ox.borrowedBy === team.wagon.borrowedBy)) || null;",
+          "to": "    team.ox = oxen[0] || null;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "every wagon comes in with its own driver and ox, drawn in line, and the family is in when the last wheel is"
+      ]
+    },
+    {
+      "name": "a wagon at a horse's price",
+      "expect": "the wheelwright sells a new wagon for a hundred reales, coin only, the dearest thing in any town",
+      "edits": [
+        {
+          "file": "sim/shops.mjs",
+          "from": "export const WAGON_COIN = 100;",
+          "to": "export const WAGON_COIN = 25;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the wheelwright sells a new wagon for a hundred reales, coin only, the dearest thing in any town"
+      ]
+    },
+    {
+      "name": "a wagon sold for food",
+      "expect": "the wheelwright sells a new wagon for a hundred reales, coin only, the dearest thing in any town",
+      "edits": [
+        {
+          "file": "sim/shops.mjs",
+          "from": "label: 'Buy a new wagon', coin: WAGON_COIN, food: null,",
+          "to": "label: 'Buy a new wagon', coin: WAGON_COIN, food: 200,"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the wheelwright sells a new wagon for a hundred reales, coin only, the dearest thing in any town"
+      ]
+    },
+    {
+      "name": "no cap on wagons",
+      "expect": "the wheelwright sells a new wagon for a hundred reales, coin only, the dearest thing in any town",
+      "edits": [
+        {
+          "file": "sim/shops.mjs",
+          "from": "        refuse: (world, household) => beastsFull(world, household, 'wagon'),",
+          "to": "        refuse: () => null,"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the wheelwright sells a new wagon for a hundred reales, coin only, the dearest thing in any town"
+      ]
+    },
+    {
+      "name": "a new wagon with no ox to draw it",
+      "expect": "a new wagon wants an ox bought with it and a buyer who does not go by the wagon, and is refused at the counter with no ox to draw it",
+      "edits": [
+        {
+          "file": "sim/errands.mjs",
+          "from": "    if (ox < 0) return { why: 'A new wagon has to be drawn home, and an ox draws it. Put an ox from the stock pens on the list too.' };\n    leads.splice(ox, 1);",
+          "to": "    if (ox >= 0) leads.splice(ox, 1);"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a new wagon wants an ox bought with it and a buyer who does not go by the wagon, and is refused at the counter with no ox to draw it"
+      ]
+    },
+    {
+      "name": "the counter sells a wagon with no ox there",
+      "expect": "a new wagon wants an ox bought with it and a buyer who does not go by the wagon, and is refused at the counter with no ox to draw it",
+      "edits": [
+        {
+          "file": "sim/shops.mjs",
+          "from": "  const why = offer.refuse(world, household, entity) || offer.atCounter?.(world, household, entity);",
+          "to": "  const why = offer.refuse(world, household, entity);"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a new wagon wants an ox bought with it and a buyer who does not go by the wagon, and is refused at the counter with no ox to draw it"
+      ]
+    },
+    {
+      "name": "the buyer goes by the wagon and drives two home",
+      "expect": "a new wagon wants an ox bought with it and a buyer who does not go by the wagon, and is refused at the counter with no ox to draw it",
+      "edits": [
+        {
+          "file": "sim/going.mjs",
+          "from": "  if (newWagon && id === 'wagon') return",
+          "to": "  if (false) return"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a new wagon wants an ox bought with it and a buyer who does not go by the wagon, and is refused at the counter with no ox to draw it"
+      ]
+    },
+    {
+      "name": "the buyer does not drive the new wagon home",
+      "expect": "a new wagon is driven home behind the ox bought with it, at the wagon's pace, with the horse ridden in tied on behind",
+      "edits": [
+        {
+          "file": "sim/shops.mjs",
+          "from": "  if (entity.chore) entity.chore.mode = 'wagon';",
+          "to": ""
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a new wagon is driven home behind the ox bought with it, at the wagon's pace, with the horse ridden in tied on behind"
+      ]
+    },
+    {
+      "name": "the horse ridden in is left in town",
+      "expect": "a new wagon is driven home behind the ox bought with it, at the wagon's pace, with the horse ridden in tied on behind",
+      "edits": [
+        {
+          "file": "sim/shops.mjs",
+          "from": "  if (horse) leads.push(horse.id);",
+          "to": ""
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a new wagon is driven home behind the ox bought with it, at the wagon's pace, with the horse ridden in tied on behind"
+      ]
+    },
+    {
+      "name": "the new ox led home, not yoked",
+      "expect": "a new wagon is driven home behind the ox bought with it, at the wagon's pace, with the horse ridden in tied on behind",
+      "edits": [
+        {
+          "file": "sim/shops.mjs",
+          "from": "  const leads = (entity.leads || []).filter(id => id !== ox?.id);",
+          "to": "  const leads = [...(entity.leads || [])];"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a new wagon is driven home behind the ox bought with it, at the wagon's pace, with the horse ridden in tied on behind"
+      ]
+    },
+    {
+      "name": "the flight loads one wagon",
+      "expect": "the flight east loads every wagon an ox can draw at home",
+      "edits": [
+        {
+          "file": "sim/scrape.mjs",
+          "from": "  if (drawn) return { room: FLIGHT_ROOM * drawn, mode: 'wagon', ...(drawn > 1 && { wagons: drawn }) };",
+          "to": "  if (drawn) return { room: FLIGHT_ROOM, mode: 'wagon' };"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the flight east loads every wagon an ox can draw at home"
+      ]
+    },
+    {
+      "name": "another family's wagons in a student's projection",
+      "expect": "no other family's wagons reach a student",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId)",
+          "to": "const entities = Object.values(world.entities).filter(e => (e.householdId === householdId || (e.kind === 'wagon' && e.householdId)) && householdId)"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "no other family's animals reach a student, and each one bought adds little to the family's own projection",
+        "no other family's wagons reach a student"
+      ]
+    },
+    {
+      "name": "always ask: the server never says there is one way",
+      "expect": "a journey with one way that can go is sent that way without asking; a real choice, or none, is asked",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "...(!shut && open.length === 1 && { oneWay: open[0].id })",
+          "to": "...{}"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a journey with one way that can go is sent that way without asking; a real choice, or none, is asked"
+      ]
+    },
+    {
+      "name": "always ask: the page never skips the chooser",
+      "expect": "a journey with one way that can go is sent that way without asking; a real choice, or none, is asked",
+      "edits": [
+        {
+          "file": "public/going.js",
+          "from": "  return way ? way.id : null;\n}",
+          "to": "  return null;\n}"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a journey with one way that can go is sent that way without asking; a real choice, or none, is asked"
+      ]
+    },
+    {
+      "name": "the chooser skipped with a real choice",
+      "expect": "a journey with one way that can go is sent that way without asking; a real choice, or none, is asked",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "...(!shut && open.length === 1 && { oneWay: open[0].id })",
+          "to": "...(!shut && open.length >= 1 && { oneWay: open[0].id })"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a journey with one way that can go is sent that way without asking; a real choice, or none, is asked"
+      ]
+    },
+    {
+      "name": "the page sends again after a refusal",
+      "expect": "a journey with one way that can go is sent that way without asking; a real choice, or none, is asked",
+      "edits": [
+        {
+          "file": "public/going.js",
+          "from": "  if (!going?.journey || shown || error || going.shut) return null;",
+          "to": "  if (!going?.journey || going.shut) return null;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a journey with one way that can go is sent that way without asking; a real choice, or none, is asked"
+      ]
+    }
+  ]
+}

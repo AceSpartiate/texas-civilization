@@ -71,6 +71,7 @@ Coin in either direction is in the ending's account.
 | | shoes 2 / 4 | A mile on foot tires the family 15% less. |
 | | a saddle 3 / 6 | A mile on the horse tires the rider a quarter less. Refused with no horse. |
 | **Wheelwright** | the wagon put in good order 2 / 4 | The ox and wagon go 15% faster. Refused with no wagon. |
+| | a new wagon 100 reales, coin only (§4f) | Driven home behind an ox bought with it at the stock pens; two wagons are two loads out at once. |
 | **Mill** | have corn ground (the miller's toll is taken in meal) | The food carried goes a fifth further. |
 | **Weaver** | sell cotton, 1 real or 3 food a whole bale | More food a bale than the store's two. |
 | | blankets 1 / 2 | Sleeping by the wagon mends a quarter better. |
@@ -297,9 +298,10 @@ Built the same day on v2026.09.24.4 ([tests](../tests/war-rifle.test.mjs), [inje
   family (`BEASTS_MOST`, `ceiling:` a cap for the family's own projection, counting any the army took). **Two horses are two
   riders**: `userOf` holds one animal a person, the chooser of every journey offers the second horse while the first is out, and
   the refusal comes only when every one is out: *"Alvin and Mateo have both horses."* A second ox drags logs while the first pulls
-  the wagon. **Not sold: a second wagon.** The record's wagon shop stood three miles out of Brazoria, where no family is dealt
+  the wagon. ~~**Not sold: a second wagon.** The record's wagon shop stood three miles out of Brazoria, where no family is dealt
   (§2), a cart was a hundred dollars at San Patricio (Woodman), and the family's wagon is also its load in (docs/SETTLING_IN.md).
-  `ceiling:` one wagon a family; a wheelwright who builds wagons would lift it.
+  `ceiling:` one wagon a family; a wheelwright who builds wagons would lift it.~~ **Lifted by the owner, 2026-09-25 (§4f):** the
+  wheelwright sells a wagon, and a large family comes with more than one.
 - **How it comes home: on a halter.** A horse or an ox bought is not ridden or yoked home. It walks home led by its buyer, beside
   them on the same road, whichever way they go - on foot, on the family's horse (the buyer rides the horse they came on), or tied
   behind the wagon - and is theirs until it is in the yard (`person.leads`), where it is set down a few rods west of the house beside the family's
@@ -349,6 +351,46 @@ amends §4c's measurement and §7's last line: the automatic neighbours use the 
   before and 34.3 / 64.0 / 12.5 after (the rifles are paid for in food in March, which the winter period's end counts);
   household-ticks with no food 755 and 749; houses ever out of food 34 and 35; **deaths 14 and 14, the same fourteen people** -
   the rifles are lost late, in the spring's fighting, so a rifle bought again hunts little of what is left. Nothing was retuned.
+
+### 4f. A new wagon at the wheelwright's (owner, 2026-09-25)
+
+> "families should arrive with an appropriate number of wagons. larger families get more than one wagon based on their
+> population. research first. wheelwright sells one, very expensive."
+>
+> — the owner, 2026-09-25
+
+**Status: built the same day** (`sim/shops.mjs` `buy-wagon`, `boughtWagon`; `sim/errands.mjs`; `sim/going.mjs`;
+[tests](../tests/wagons.test.mjs), [injections](evidence/wagons-injections.json), [browser](evidence/errand-browser.json)). Claim
+`FIC-GONZ-392`, on `HIST-TEX-441`. It lifts §4d's "Not sold: a second wagon"; wagons by the family's size are
+[SETTLING_IN.md §4a](SETTLING_IN.md).
+
+- **Who sells it.** The wheelwright, where a town has one: Gonzales (Rafael Cantú), San Felipe (Obadiah Fenn), Columbia (Levi
+  Stroud) - each of which also has stock pens. The record has no wagon made in Texas (*"There was no one that made wagons or
+  carts. There was a wheelwright ... but could not do heavy work"*, Harris); the wheelwright who builds one is the game's own.
+- **How dear.** **A hundred reales, coin only** - the dearest thing in the game: four horses, twelve and a half rifles. No price for
+  a wagon in Texas before 1836 was found; the one number is a cart's, *"Carts rate at $100, here"* (a colonist's letter in Woodman,
+  1835), and a wagon was the bigger thing, so the cart's price at a real to the dollar is a floor under it. `ceiling:` a wagon's
+  own price from the record replaces it. Coin only: two hundred food at the counter's two food a real is ten wagon loads to town.
+  **No credit**, as in §4c.
+- **How it comes home: driven, behind an ox bought with it.** A new wagon has to be drawn home, so **an ox from the stock pens goes
+  on the same list** (the popup refuses the wagon alone: *"A new wagon has to be drawn home, and an ox draws it. Put an ox from
+  the stock pens on the list too."*). At the counter the ox is bought first whichever way the list reads, and is **yoked** to the
+  new wagon instead of led; the buyer drives it home at the wagon's pace (*"Drives the new wagon home behind the new ox, at an ox's
+  pace."*). If the ox could not be bought - nobody at the pens that day, the coin short - the wagon is refused at the counter in
+  words (*"There is no ox with Soledad to draw a new wagon home. The wheelwright keeps it until one comes."*) and nothing is paid
+  for it.
+- **One person drives one wagon.** Whoever fetches it goes **on foot or on the horse**, never by the ox and wagon (that way is shut
+  on the popup: *"One person drives one wagon home. Whoever fetches the new wagon goes on foot or on the horse."*). A horse ridden
+  in walks home tied on behind the new wagon (`leads`), so a rider cannot also lead home a horse bought the same trip. The
+  wheelwright cannot both put in order the wagon brought to him and send the buyer home in a new one: separate trips.
+- **Its own wagon.** `hh-1-wagon-2`, *Second wagon*, with its own place in the yard beside the family wagon (every beast and
+  wagon home from the road now stands on its own spot along the rail, sim/beasts.mjs `yardSpot`), counted by `userOf`: two wagons
+  are two loads out at once. At most four a family (`BEASTS_MOST`). Putting the wagon in good order is still once for the family
+  (`ceiling:`).
+- **Fog of war.** Another family's wagons never reach a student: only a family's own entities are in its projection.
+- **The families nobody plays** buy no wagon (owner: rifles only).
+- **Old saves.** A class saved before has the wheelwright it had, whose counter now also offers the wagon; nothing old is read
+  another way, and no save version moved.
 
 ## 5. How a student uses it
 

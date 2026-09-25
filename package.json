@@ -34,6 +34,7 @@
     "test:shops": "node scripts/shops-browser-proof.mjs",
     "test:errand": "node scripts/errand-browser-proof.mjs",
     "test:going": "node scripts/going-browser-proof.mjs",
+    "test:wagons": "node scripts/wagons-browser-shots.mjs",
     "test:concepcion": "node scripts/concepcion-browser-proof.mjs",
     "test:siege": "node scripts/siege-browser-proof.mjs",
     "test:movement": "node scripts/movement-browser-proof.mjs",

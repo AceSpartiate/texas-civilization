@@ -22,7 +22,7 @@
 // same way, which gives it exactly the land a new class on that map would have, so no save
 // version moved; and nothing in such a class drove stock, so it holds a labor.
 import { OPENING_HERD } from './stock.mjs';
-import { STOCK_SPACE, WAGON_SPACE, spaceOf } from './wagon.mjs';
+import { STOCK_SPACE, spaceOf, wagonCount, wagonRoom } from './wagon.mjs';
 
 export const LABOR_ACRES = 177.1;
 export const LEAGUE_AND_LABOR_ACRES = 4605.5;
@@ -130,8 +130,9 @@ export function stockRefusal(world, household, stock) {
   if (!household.load) return 'This family packed its wagon before there was any choosing, and it came without stock.';
   if (stock === undefined) return null;
   if (typeof stock !== 'boolean') return 'Say whether the family drives stock in, yes or no.';
-  if (stock && !household.stock && spaceOf(household.load) > WAGON_SPACE - STOCK_SPACE) {
-    return `Driving stock leaves the wagon ${WAGON_SPACE - STOCK_SPACE} spaces, and it is loaded with ${spaceOf(household.load)}. Take something out first.`;
+  // The herd's keep comes out of the family's wagons together: two wagons have thirty-two spaces, and the stock takes two of them.
+  if (stock && !household.stock && spaceOf(household.load) > wagonRoom(household) - STOCK_SPACE) {
+    return `Driving stock leaves the ${wagonCount(household) > 1 ? 'wagons' : 'wagon'} ${wagonRoom(household) - STOCK_SPACE} spaces, and ${wagonCount(household) > 1 ? 'they are' : 'it is'} loaded with ${spaceOf(household.load)}. Take something out first.`;
   }
   return null;
 }

@@ -157,6 +157,45 @@ would mean a second clock. So:
   no hoe in the house."), cannot mend what it has not got, and can buy one in Gonzales. Tools are owned and not yet read until step 4; belongings
   are a list until steps 6–7. A class saved before has no load, keeps its stores and cannot be repacked.
 
+### 4a. A wagon for every eight people — owner 2026-09-25
+
+> "families should arrive with an appropriate number of wagons. larger families get more than one wagon based on their
+> population. research first. wheelwright sells one, very expensive."
+>
+> — the owner, 2026-09-25
+
+**Status: built the same day** (`sim/beasts.mjs` `wagonsForPeople`, `fitOut`; `sim/wagon.mjs` `wagonCount`, `loadForWagons`;
+[tests](../tests/wagons.test.mjs), [injections](evidence/wagons-injections.json), [browser](evidence/wagons-browser.json)).
+Claims `HIST-TEX-441` (the research) and `FIC-GONZ-391` (the rule). **This amends §4**: "the wagon" of a large family is now
+its wagons, and their load scales with them.
+
+- **The research** (`HIST-TEX-441`, read on the page in Parker 1836, Woodman 1835, Harris 1900-01, Smithwick 1900, Holley 1833
+  and two TSHA entries): a family moving overland came with **one** wagon - *"his family and a small portion of his goods in a
+  wagon"* (Parker) - and more wagons went with **wealth**, not children: Harris's neighbours who owned wagons were *"the
+  aristocracy"*, those with carts the next class, and one big wagon behind six yoke carried five families in the flight. Many
+  families had no wagon at all (they landed by sea, used carts, sleighs or "trucks", or walked), and a Tejano family's vehicle
+  was as likely a carreta. **No rule by family size exists in the record**, so the rule is the game's own.
+- **The rule** (`FIC-GONZ-391`): **one wagon moves up to eight people, and each eight more is another** - one to eight
+  people, one wagon; nine to sixteen, two; seventeen to twenty, three - counted by **head** (the owner's "population"; a child
+  rides, sleeps and is clothed out of the wagon whatever it eats). Eight is where the record's families sit: seven or eight
+  children was a large family of the time (docs/FAMILY_CREATION.md §2). On the die that is two wagons on eight rolls in twenty
+  (9-16) and three on four (17-20).
+- **An ox to every wagon.** The ox and wagon go together (sim/travel.mjs), so every wagon comes with its own ox (Buck, Berry,
+  ...), standing in the yard beside the family wagon and Juniper. `ceiling:` the game's ox is the team - the record's wagons
+  went behind a yoke or more. The horse stays one a family.
+- **The load scales with the wagons.** Each wagon holds sixteen, so two hold thirty-two; the stores are packed **a wagon's worth
+  to each wagon** - a family of twelve that never opens the pack screen brings twice the meal, seed and powder a family of four
+  brings in one - and the most of each store is a wagon's most for each wagon (eight barrels a wagon). Tools and goods are still
+  one of each. The pack screen says *"2 wagons: 24 of 32 space filled"*; the stock's two spaces come out of the wagons together.
+- **On the road in** every wagon has its own driver - the principal on the family wagon, the next grown person on the second -
+  and its own ox, and is drawn a wagon's length behind the one before (public/motion.js `wagonTeams`). The founding line says
+  *"with its two wagons, an ox to each, and the horse"*; the arrival waits for the last wheel.
+- **Two wagons are two loads out at once**, each behind its own ox (sim/keeping.mjs `userOf`); the third person to want one is
+  told *"Ezra and Charity have both oxen and wagons."* The flight east loads every wagon an ox can draw (sim/scrape.mjs).
+- **New classes only.** A class carries `wagonsBySize` from when it is made; one saved before - in its lobby or long running -
+  keeps one wagon a family, as the stock pens came to new classes only. No save version moved. Families nobody plays keep the
+  founding four and their one wagon; the director buys no wagon (owner: rifles only).
+
 ---
 
 ## 5. Houses: layouts, construction methods, benefits and problems

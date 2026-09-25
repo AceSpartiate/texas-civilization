@@ -4,17 +4,18 @@
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768 and 1024x768. A student opened the popup from the family panel, put fourteen bales and a purchase of seed on the list, read the server's sentence that the wagon goes, sent it with Enter, was refused the wagon for a second person in the holder's name, closed the popup with Escape, and saw the coin and seed come home. No LAN or district claim.",
   "checks": [
-    "the icon opens the popup and sends nobody: 10 shops of Gonzales listed, \"The family has 30 food · 2 seed · 3 powder · 25 reales · 14 cotton. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.\"",
+    "the icon opens the popup and sends nobody: 10 shops of Gonzales listed, \"The family has 30 food · 2 seed · 3 powder · 150 reales · 14 cotton. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.\"",
     "the popup says how they will go, in the server's words: \"Takes the wagon: 14 of 20 loads, more than the horse carries (7).\" (1366x768: 500x616, clear of the column, nothing over its controls)",
     "Enter sends the one order: Alvin drives off to Gonzales with the ox and wagon",
     "a second person is refused the wagon with who has it and what to do: \"This wants the wagon: 10 loads, and the horse carries 7. Alvin has the ox and wagon, on the road to Gonzales. Send a smaller load, or wait until the wagon is free.\"; five bales go instead: \"Rides the horse: 5 of 7 loads.\"",
     "Escape closes the popup and sends nobody, and the ability bar is back",
     "at 1024x768 the popup fits (500x616), keeps off the column and has nothing over its controls",
     "the student chooses: the popup marks the horse quickest and the wagon shut (\"Alvin has the ox and wagon, on the road to Gonzales.\"); on foot is chosen and said, \"Goes on foot: 3 of 5 loads, as you chose. The horse would be quicker.\", and Keziah walks while the horse stays home",
-    "the goods come home: 38 reales (the 25 put by, 14 for the cotton, 1 paid for seed) and 2 more seed in the house, the wagon free again, and the story says so: \"Alvin sold 14 cotton to Marta Ibarra for 14 reales.\" \"Alvin bought 2 seed at the store for 1 real.\"",
-    "a second rifle is bought at the gunsmith (\"Buy a rifle: 8 reales or 16 food\", the stock line \"The family has 27.4 food · 4 seed · 6 powder · 38 reales. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.\"), and Alvin and Keziah are both out hunting at once",
+    "the goods come home: 163 reales (the 150 put by, 14 for the cotton, 1 paid for seed) and 2 more seed in the house, the wagon free again, and the story says so: \"Alvin sold 14 cotton to Marta Ibarra for 14 reales.\" \"Alvin bought 2 seed at the store for 1 real.\"",
+    "a second rifle is bought at the gunsmith (\"Buy a rifle: 8 reales or 16 food\", the stock line \"The family has 27.4 food · 4 seed · 6 powder · 163 reales. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.\"), and Alvin and Keziah are both out hunting at once",
     "a second horse is bought at the stock pens (Buy a horse: 25 reales, Buy an ox: 15 reales, Buy a cow and calf: 10 reales, Buy a hog: 4 reales or 14 food): \"Rides the horse: 0 of 7 loads. Leads the new horse home on a halter.\"; Dandy the gelding is seen led home beside Alvin, who rides Bess, and stands drawn in the yard beside her",
     "two riders at once: Alvin and Keziah each ride to Gonzales on a horse of their own, both drawn in the saddle",
+    "the wheelwright's wagon (Buy a new wagon: 100 reales) is refused alone (\"A new wagon has to be drawn home, and an ox draws it. Put an ox from the stock pens on the list too.\"), sent with an ox from the pens: \"Goes on foot: 0 of 5 loads. Alvin and Keziah have both horses. Drives the new wagon home behind the new ox, at an ox's pace.\"; Soledad drives it home behind Buck the ox (drawn wagon) and it stands in the yard 700 px from the family wagon",
     "no page errors"
   ],
   "observed": {
@@ -94,10 +95,10 @@
     ],
     "chosen": "Goes on foot: 3 of 5 loads, as you chose. The horse would be quicker.",
     "home": {
-      "food": 27.524,
+      "food": 27.4879,
       "seed": 4,
       "powder": 6,
-      "money": 38,
+      "money": 163,
       "cotton": 0
     },
     "story": [
@@ -109,7 +110,7 @@
       "price": "8 reales or 16 food",
       "shut": false
     },
-    "toolsStock": "The family has 27.4 food · 4 seed · 6 powder · 38 reales. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.",
+    "toolsStock": "The family has 27.4 food · 4 seed · 6 powder · 163 reales. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.",
     "pens": [
       {
         "id": "stockman:horse",
@@ -137,7 +138,7 @@
       }
     ],
     "horseHow": "Rides the horse: 0 of 7 loads. Leads the new horse home on a halter.",
-    "animalsStock": "The family has 38.8 food · 4 seed · 4 powder · 27 reales · 2 hides. Tools: 2 rifles · a hoe · 2 felling axes. Animals: a horse · an ox.",
+    "animalsStock": "The family has 38.8 food · 4 seed · 4 powder · 152 reales · 2 hides. Tools: 2 rifles · a hoe · 2 felling axes. Animals: a horse · an ox.",
     "animalsAt1366": {
       "screen": {
         "w": 1366,
@@ -173,6 +174,102 @@
         "y": 350.5875,
         "size": 74.25000000000001
       }
-    }
+    },
+    "wagonLine": {
+      "label": "Buy a new wagon",
+      "price": "100 reales",
+      "shut": false,
+      "text": "Buy a new wagon100 reales−0+"
+    },
+    "wagonAlone": "A new wagon has to be drawn home, and an ox draws it. Put an ox from the stock pens on the list too.",
+    "wagonHow": "Goes on foot: 0 of 5 loads. Alvin and Keziah have both horses. Drives the new wagon home behind the new ox, at an ox's pace.",
+    "wagonCards": [
+      {
+        "way": "horse",
+        "open": false,
+        "why": "Alvin and Keziah have both horses."
+      },
+      {
+        "way": "foot",
+        "open": true,
+        "why": null
+      },
+      {
+        "way": "wagon",
+        "open": false,
+        "why": "One person drives one wagon home. Whoever fetches the new wagon goes on foot or on the horse."
+      }
+    ],
+    "newWagonAt1366": {
+      "screen": {
+        "w": 1366,
+        "h": 768
+      },
+      "errand": {
+        "x": 433,
+        "y": 56,
+        "w": 500,
+        "h": 616,
+        "r": 933,
+        "b": 672
+      },
+      "fits": true,
+      "overColumn": 0,
+      "overBar": 0,
+      "covered": []
+    },
+    "drivenHome": {
+      "seat": "wagon",
+      "direction": "n",
+      "art": null,
+      "parts": [
+        {
+          "part": "ox",
+          "x": 683,
+          "y": 348,
+          "height": 72
+        },
+        {
+          "part": "wagon",
+          "x": 683,
+          "y": 384,
+          "height": 77
+        },
+        {
+          "part": "rider",
+          "x": 683,
+          "y": 370,
+          "height": 45,
+          "shown": 0.6300000000000001
+        }
+      ]
+    },
+    "wagonsInYard": {
+      "first": {
+        "x": 208.42347719513143,
+        "y": -160.91529125474932,
+        "size": 76.72500000000001
+      },
+      "second": {
+        "x": 705.8461538461538,
+        "y": 331.1968269230769,
+        "size": 76.72500000000001
+      }
+    },
+    "wagonsOnTheLand": [
+      {
+        "id": "hh-1-wagon",
+        "x": 3.555,
+        "y": -16.508,
+        "siteId": "home-1"
+      },
+      {
+        "id": "hh-1-wagon-2",
+        "x": 3.535,
+        "y": -16.508,
+        "siteId": "home-1"
+      }
+    ],
+    "coinAfterWagon": 10
   }
 }

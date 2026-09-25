@@ -57,6 +57,18 @@ export const TUNED_SHOTS = 10;
  * twelve it gives the family butchered (sim/stock.mjs), so food is never turned into more food by buying a hog and killing it.
  */
 export const HORSE_COIN = 25, OX_COIN = 15, COW_CALF_COIN = 10, HOG_COIN = 4, HOG_FOOD = 14;
+/**
+ * A new wagon at the wheelwright's (owner, 2026-09-25: "wheelwright sells one, very expensive."; docs/TOWNS.md §4f,
+ * `FIC-GONZ-392`, on `HIST-TEX-441`). **No price for a wagon in Texas before 1836 was found.** The one number the record gives is
+ * a cart: "Carts rate at $100, here" (a colonist's letter from the Irish colony, in Woodman 1835, p. 169), and a wagon was the
+ * bigger and dearer thing - wagon owners were the neighbourhood's "aristocracy" (Harris) and nobody in Texas made wagons or carts
+ * ("There was a wheelwright ... but could not do heavy work", Harris; cart wheels "not yet manufactured in Texas", Holley 1833).
+ * So a hundred reales, the cart's price at a real to the dollar: a floor under what a wagon cost, and four horses. Coin only,
+ * as the horse and the ox are - at the two food a real a counter takes, two hundred food is ten wagon loads to carry to town.
+ * ceiling: the price is the cart's; a wagon's own price from the record replaces it. The wheelwright who builds one is the
+ * game's own - Harris's could not - as the owner asked.
+ */
+export const WAGON_COIN = 100;
 /** The most head of cattle (a cow and calf a purchase) and of hogs one person drives home on one trip. ceiling: a cap, not a rule. */
 export const COW_CALF_MOST = 2, HOG_MOST = 6;
 export const SHOES_SHARE = 0.85;
@@ -215,12 +227,26 @@ export const TRADES = Object.freeze({
   },
   wheelwright: {
     name: 'wheelwright', shop: "the wheelwright's",
-    offers: [{
-      // The wheelwright works on the wagon itself, so it goes to town (docs/TOWNS.md §4b): the errand takes it.
-      id: 'wagon', kind: 'sell', label: 'Have the wagon put in good order', coin: 2, food: 4, once: true, needsMode: 'wagon', does: 'Trued wheels and a greased axle: the ox and wagon go faster.',
-      refuse: (world, household) => gear(household).wagon ? 'The wagon is already in good order.' : !household.property?.some(id => id.endsWith('-wagon')) ? 'The family has no wagon.' : null,
-      give: (world, household, entity) => { household.gear = { ...gear(household), wagon: true }; return `${entity.name} had the wagon put in good order by the wheelwright.`; },
-    }],
+    offers: [
+      {
+        // The wheelwright works on the wagon itself, so it goes to town (docs/TOWNS.md §4b): the errand takes it.
+        // ceiling: put in order once for the family, so every wagon it owns goes the faster; one wagon's own order is the way out.
+        id: 'wagon', kind: 'sell', label: 'Have the wagon put in good order', coin: 2, food: 4, once: true, needsMode: 'wagon', does: 'Trued wheels and a greased axle: the ox and wagon go faster.',
+        refuse: (world, household) => gear(household).wagon ? 'The wagon is already in good order.' : !beastsOf(world, household, 'wagon').some(kept) ? 'The family has no wagon.' : null,
+        give: (world, household, entity) => { household.gear = { ...gear(household), wagon: true }; return `${entity.name} had the wagon put in good order by the wheelwright.`; },
+      },
+      {
+        // A new wagon (owner, 2026-09-25; docs/TOWNS.md §4f): the dearest thing in the game, and driven home. An ox draws it, so an
+        // ox from the stock pens goes on the same list (sim/errands.mjs), is yoked to it at the counter, and whoever bought it
+        // drives it home at the wagon's pace; the horse they rode in on is tied on behind (`leads`).
+        id: 'buy-wagon', kind: 'sell', label: 'Buy a new wagon', coin: WAGON_COIN, food: null, most: 1, newWagon: true,
+        does: 'A new wagon, driven home behind an ox from the stock pens - put an ox on the list too. Two wagons are two loads out at once. Whoever fetches it goes on foot or on the horse.',
+        refuse: (world, household) => beastsFull(world, household, 'wagon'),
+        // At the counter: the ox bought this trip has to be there to draw it, or nothing is paid for the wagon.
+        atCounter: (world, household, entity) => beastsOf(world, household, 'ox').some(beast => entity.leads?.includes(beast.id)) ? null : `There is no ox with ${entity.name} to draw a new wagon home. The wheelwright keeps it until one comes.`,
+        give: (world, household, entity) => boughtWagon(world, household, entity),
+      },
+    ],
   },
   mill: {
     name: 'miller', shop: 'the mill',
@@ -298,6 +324,22 @@ function boughtBeast(world, household, entity, role) {
   entity.leads = [...(entity.leads || []), beast.id];
   const n = beastsOf(world, household, role).filter(kept).length;
   return `${entity.name} bought ${beast.name} at the stock pens, to lead home; the family has ${n === 2 ? 'two' : n} ${BEAST_WORDS[role][1]} now.`;
+}
+/**
+ * A new wagon bought: the family's now, standing in town with its buyer, with the ox bought this trip yoked to it instead of led
+ * home on a halter, and the buyer's own way home is the ox and wagon (`chore.mode`). A horse they rode in on walks home tied on
+ * behind (`leads`): one person drives one wagon, and leads one animal.
+ */
+function boughtWagon(world, household, entity) {
+  const ox = beastsOf(world, household, 'ox').find(beast => entity.leads?.includes(beast.id));
+  const wagon = addBeast(world, household, 'wagon', entity);
+  const leads = (entity.leads || []).filter(id => id !== ox?.id);
+  const horse = beastsOf(world, household, 'horse').find(beast => beast.borrowedBy === entity.id && !beast.travel && beast.location?.siteId === entity.location?.siteId && !leads.includes(beast.id));
+  if (horse) leads.push(horse.id);
+  if (leads.length) entity.leads = leads; else delete entity.leads;
+  if (entity.chore) entity.chore.mode = 'wagon';
+  const n = beastsOf(world, household, 'wagon').filter(kept).length;
+  return `${entity.name} bought a new wagon from the wheelwright${ox ? ` and yoked ${ox.name} to it` : ''}, to drive home${horse ? ` with ${horse.name} tied on behind` : ''}; the family has ${n === 2 ? 'two' : n} wagons now.`;
 }
 /** Cattle or hogs bought: onto the family's herd, and driven home at their pace (sim/stock.mjs `addToHerd`). */
 function boughtStock(world, household, entity, kind, head) {
@@ -492,7 +534,7 @@ const parse = optionId => { const [trade, offerId, pay] = optionId.split(':'); r
 export function counterRefusal(world, household, entity, optionId) {
   const { offer, pay } = parse(optionId);
   if (!offer) return 'That is not for sale here.';
-  const why = offer.refuse(world, household, entity);
+  const why = offer.refuse(world, household, entity) || offer.atCounter?.(world, household, entity);
   if (why) return why;
   if (offer.kind === 'sell' && !Number.isFinite(pay === 'coin' ? offer.coin : offer.food)) return pay === 'food' ? `${TRADES[parse(optionId).trade].shop.replace(/^the /, 'The ')} wants coin for it, not food.` : 'That is not sold for coin.';
   if (offer.kind === 'sell' && pay === 'coin' && (household.resources.money ?? 0) < offer.coin) return `It costs ${reales(offer.coin)}, and there is not that much coin in the house.`;

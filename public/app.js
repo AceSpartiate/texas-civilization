@@ -1,7 +1,7 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
 import { drawArmy } from '/army-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, gaitMilesASecond, landRuns, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, gaitMilesASecond, landRuns, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
 import { autoLabel, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, standing, travellingLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
@@ -540,11 +540,13 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   const vertical = direction === 'n' || direction === 's';
   const along = vertical ? 1 : flip ? -1 : 1;
   const own = entities.filter(other => other.householdId === entity.householdId);
+  // The wagon they drive and the ox before it, of however many the family has on the road (public/motion.js `wagonTeams`).
+  const team = seat === 'wagon' ? teamDrivenBy(entity, entities) : null;
   const mount = {
     // The horse they are on: the one the server has them holding (a family may own more than one, sim/beasts.mjs), else the first.
     horse: own.find(other => other.kind === 'animal' && other.species === 'horse' && other.borrowedBy === entity.id && other.travel?.mode === 'horse') || own.find(other => other.kind === 'animal' && other.species === 'horse'),
-    ox: own.find(other => other.kind === 'animal' && other.species !== 'horse'),
-    wagon: own.find(other => other.kind === 'wagon'),
+    ox: team?.ox || own.find(other => other.kind === 'animal' && other.species !== 'horse'),
+    wagon: team?.wagon || own.find(other => other.kind === 'wagon'),
   };
   // Asked before anything is drawn, because the whole layout depends on the answer: one painted rig has no horse under it
   // and nothing to clip. A sheet still on its way answers no and is asked for, so the next frame can answer yes.
@@ -602,8 +604,12 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // An animal walking on its own feet beside the family - a horse or an ox bought in town and led home on a halter (sim/beasts.mjs),
   // or the beasts walking east in the flight - is drawn a length behind, on its lead, so it is not hidden under the one leading it.
   const behind = { e: { x: -1, y: 0 }, w: { x: 1, y: 0 }, n: { x: 0, y: 1 }, s: { x: 0, y: -1 } }[travelDirection(entity) || 'e'] || { x: -1, y: 0 };
+  // A family with more than one wagon on the road (sim/beasts.mjs, 2026-09-25) is at one point on it: each wagon after the first,
+  // with its driver on it, is drawn a wagon's length and a little behind the one before, in line, so two wagons read as two.
+  const train = seat === 'wagon' ? wagonTeams(entity.householdId, marks.entities || []).findIndex(team => team.driverId === entity.id) : 0;
   const offset = entity.travel
-    ? (entity.kind === 'wagon' ? { x: -2.4, y: .5 } : entity.kind === 'animal' && entity.travel.mode === 'foot' ? { x: behind.x * 26, y: behind.y * 36 + 2 } : entity.kind === 'animal' ? { x: -1.1, y: .2 } : { x: 0, y: 0 })
+    ? (entity.kind === 'wagon' ? { x: -2.4, y: .5 } : entity.kind === 'animal' && entity.travel.mode === 'foot' ? { x: behind.x * 26, y: behind.y * 36 + 2 } : entity.kind === 'animal' ? { x: -1.1, y: .2 }
+      : train > 0 ? { x: behind.x * 44 * train, y: behind.y * 52 * train + 3 * train } : { x: 0, y: 0 })
     : stableOffset(entity.id);
   const x = point.x + offset.x * spread, y = point.y + offset.y * spread * .8;
   // Everything is drawn standing on (x, y), so `size` is a height and the click target
@@ -4654,13 +4660,14 @@ function renderWagonLoad(world) {
   reopen.hidden = !available || wagonPacking;
   if (!available) return;
   const space = wagon.space ?? catalogue.space;
-  reopen.textContent = `Repack the wagon (${wagon.used} of ${space})`;
+  reopen.textContent = `Repack the ${wagon.wagons ? 'wagons' : 'wagon'} (${wagon.used} of ${space})`;
   if (!wagonPacking) return;
   const choice = world.land?.stockChoice;
   const shape = JSON.stringify([household.load, wagon, choice, household.stock]);
   if (shape === wagonShown) return;
   wagonShown = shape;
-  $('#wagon-room').textContent = `${wagon.used} of ${space} space filled, ${space - wagon.used} left.`;
+  // A family fitted out with more than one wagon packs them together, and the server says how many (sim/wagon.mjs).
+  $('#wagon-room').textContent = `${wagon.wagons ? `${wagon.wagons} wagons: ` : ''}${wagon.used} of ${space} space filled, ${space - wagon.used} left.`;
   // Driving stock in: what each answer brings, in acres, animals and wagon space, before it is chosen (FIC-GONZ-008).
   // The herd itself was built on 2026-09-20 (docs/STOCK.md) and this panel went on offering only the acres and the wagon
   // cost, so the largest thing the choice did was never said where the choice was made. The numbers are the server's
@@ -4695,6 +4702,8 @@ function renderWagonLoad(world) {
   };
   $('#wagon-items').replaceChildren(...catalogue.items.map(item => {
     const count = loaded.get(item.id) || 0;
+    // The most of a store the family's wagons take together, the server's; one wagon's is the catalogue's.
+    const most = wagon.most?.[item.id] ?? item.most;
     const li = element('li', ''); li.dataset.item = item.id; li.dataset.loaded = String(count > 0);
     const space = item.space === 1 ? '1 space' : `${item.space} space`;
     li.append(element('span', `${item.name} · ${space}${item.most > 1 ? ' each' : ''}`, 'wagon-name'));
@@ -4703,7 +4712,7 @@ function renderWagonLoad(world) {
       controls.append(
         control('−', item.id, count - 1, `${item.id}-less`, { 'aria-label': `One less: ${item.name}`, ...(count === 0 && { disabled: 'true' }) }),
         element('span', String(count), 'wagon-count'),
-        control('+', item.id, count + 1, `${item.id}-more`, { 'aria-label': `One more: ${item.name}`, ...(count >= item.most && { disabled: 'true' }) }),
+        control('+', item.id, count + 1, `${item.id}-more`, { 'aria-label': `One more: ${item.name}`, ...(count >= most && { disabled: 'true' }) }),
       );
     } else {
       // The label says what pressing does, not what the thing is. "Loaded" named a state, and pressing it took the thing

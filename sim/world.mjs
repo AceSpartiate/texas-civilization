@@ -12,7 +12,7 @@ import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProje
 import { abandonChore, advanceChores, answerChore, askProjection, beginChore, choreAvailability, choreJourney, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
 import { GAME } from './hunting.mjs';
 import { axeHome, beastFor, bringAlong, hasWords, holderOf, homeAgain, intoTheRoad, keepWithRiders, leaveBehind, modeWith, NOUN, ROLES as BEASTS, userOf, usesInvalid } from './keeping.mjs';
-import { beastsInvalid, beastsOf, ledPace, yardSpot } from './beasts.mjs';
+import { beastsInvalid, beastsOf, fitOut, ledPace, yardSpot } from './beasts.mjs';
 import { SERVING_ACTIONS, recallFromService, servingWhy, winterInvalid } from './winter.mjs';
 import { answerCourier } from './alamo.mjs';
 import { advanceRunners, runnerInvalid } from './alamo-runner.mjs';
@@ -38,8 +38,8 @@ import { paceOf } from './ground.mjs';
 import { findWay } from './ways.mjs';
 import { STATES as IMPROVEMENT_STATES, improvementProjection } from './improvements.mjs';
 import { OLD_PATCHES, plotAt } from './fields.mjs';
-import { advanceArrivals, putOnTheRoad, shelterProjection } from './settling.mjs';
-import { defaultLoad, householdFromLoad, loadInvalid, setLoad, wagonProjection } from './wagon.mjs';
+import { advanceArrivals, putOnTheRoad, sayTheArrival, shelterProjection } from './settling.mjs';
+import { defaultLoad, householdFromLoad, loadForWagons, loadInvalid, setLoad, wagonProjection } from './wagon.mjs';
 import { editPlot, houseInvalid, houseProjection, noteLandSeen, planHouse, recordHelpDone } from './houses.mjs';
 import { grantInvalid, grantProjection, layOutGrants, setStock } from './grants.mjs';
 import { chooseSite, siteInvalid, siteProjection } from './homesite.mjs';
@@ -84,6 +84,11 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
   // Families nobody plays live their own lives in a class made with this on (sim/neighbours.mjs, docs/COLONIES.md §5.9).
   // Absent on every class made before, which keep their unplayed families idle, so no save version moved.
   if (neighbours) world.neighbours = true;
+  // Wagons by the family's size (owner, 2026-09-25; sim/beasts.mjs `fitOut`, docs/SETTLING_IN.md §4a): a family is fitted out
+  // at its roll with a wagon for every eight people. Marked on the class, so only a class made since fits anybody out: a class
+  // saved before - in its lobby or long running - keeps the one wagon each family has, as the stock pens came to new classes
+  // only (docs/TOWNS.md §4d). No save version moved.
+  world.wagonsBySize = true;
   for (let i = 1; i <= playerCount; i++) {
     const householdId = `hh-${i}`;
     const site = world.map.sites[`home-${i}`];
@@ -178,6 +183,9 @@ export function rollFamily(world, household) {
     addPerson(world, household, site, j, { ...person, adult: person.age >= 16 });
   });
   household.principalId = household.members[0];
+  // Wagons for the family it is now (sim/beasts.mjs `fitOut`), and the load packed again into them (sim/wagon.mjs), before it
+  // goes on the road in: a family of nine or more comes in with a wagon for every eight and an ox to draw each.
+  if (world.wagonsBySize && fitOut(world, household) > 1) loadForWagons(world, household);
   // A main person chosen among the founding four names somebody who is gone; the principal is the main person again.
   delete household.mainId;
   household.roll = roll;
@@ -185,7 +193,7 @@ export function rollFamily(world, household) {
   // Read on the 2026-09-22 table, and marked so: a class rolled on the 2026-09-14 one has `die` 20 and no table, and keeps it.
   household.rollTable = FAMILY_TABLE;
   // A family rolled while it is still on the road in goes on the road beside its wagon.
-  if (household.arriving) putOnTheRoad(world, household);
+  if (household.arriving) { putOnTheRoad(world, household); sayTheArrival(world, household); }
   // The number, and nothing about what it means: the owner's direction is that the rule is
   // never explained.
   record(world, 'family-rolled', { householdId: household.id, text: `Your family rolled ${rolledWords(roll)}.`, importance: 2, claimId: 'FIC-GONZ-021' });
@@ -257,7 +265,8 @@ export function modeAvailability(world, entity, modeId, path = null) {
     const household = world.households[entity.householdId];
     const holder = userOf(world, household, role, entity);
     if (holder) {
-      const held = mode.needs.filter(other => userOf(world, household, other, entity) === holder);
+      // The same people holding every copy of the other part too - "Alvin and Mateo have both oxen and wagons." - are one holder.
+      const held = mode.needs.filter(other => { const by = userOf(world, household, other, entity); return by === holder || (by?.kind === 'group' && holder.kind === 'group' && by.name === holder.name); });
       return { can: false, why: hasWords(holder, held.length ? held : [role], world, entity) };
     }
     // The one this person would take (sim/keeping.mjs `beastFor`): theirs already, or one standing here that nobody has. With
@@ -559,10 +568,13 @@ export function progressTravel(world, entity, units = 1) {
     // today only the family's arrival on its land (sim/settling.mjs) - ends there. Every other
     // journey ends on the place's own point, at rest.
     // An animal led home from town is set down in the yard a few rods from the house, as the family's first beasts stand
-    // (sim/beasts.mjs `yardSpot`), not on the house's own point.
+    // (sim/beasts.mjs `yardSpot`), not on the house's own point - and since 2026-09-25 so is every beast and wagon that comes
+    // home from a journey, each on its own spot along the rail: a family with two wagons has two wagons standing, not one
+    // drawn on the other on the house's point.
     const home = world.households[entity.householdId]?.homeSiteId;
+    const homeward = travel.to === home && (travel.purpose === 'lead' || travel.purpose === 'harness');
     const spot = Number.isFinite(travel.settle?.x) ? travel.settle
-      : travel.purpose === 'lead' && travel.to === home ? yardSpot(world.map.sites[travel.to], entity) : world.map.sites[travel.to];
+      : homeward ? yardSpot(world.map.sites[travel.to], entity) : world.map.sites[travel.to];
     entity.location = { x: spot.x, y: spot.y, siteId: travel.to };
     entity.task = travel.purpose === 'help' ? 'help' : travel.settle?.task || 'rest'; entity.travel = null;
     // Home again, so the beast belongs to nobody and anybody of the family may take it. Anywhere else it stays with
@@ -1029,9 +1041,13 @@ export function goingFor(world, householdId, entityId, input) {
   const ways = waysFor(world, entity, journey, modeAvailability);
   const own = order.action === 'chore' ? choreAvailability(world, household, entity, order.chore) : { can: true };
   const shut = lessonRefusal(world, household, order) || (own.can ? null : own.why) || (entity.travel ? 'Still on the road.' : null);
+  // One way that can go, and nothing shutting the order (owner, 2026-09-25: "When a journey has only one possible way, skip the
+  // 'how will they go?' chooser"): the page sends it that way without asking. The order still carries the way, and the server
+  // still checks it where the journey begins. None that can go is still asked, so the refusal is read on the chooser.
+  const open = ways.filter(way => way.can);
   return {
     person, journey: { to: journey.to, place: journey.place, says: journeyWords(world, household, entity, order, journey), ...(journey.only && { only: journey.only }) },
-    ways: shownWays(ways), quickest: quickestOf(ways), ...(shut && { shut }),
+    ways: shownWays(ways), quickest: quickestOf(ways), ...(shut && { shut }), ...(!shut && open.length === 1 && { oneWay: open[0].id }),
   };
 }
 // The map is public geography and never changes during a class, so it is fetched once
@@ -1171,6 +1187,8 @@ export function validateWorld(world) {
   if (world.schemaVersion !== 3 || !Number.isInteger(world.tick) || world.tick < 0 || !Number.isFinite(world.minute) || world.minute < 0 || !['lobby', 'running', 'paused', 'ended'].includes(world.status)) throw new Error('Invalid world');
   // Absent on every class saved before a second period existed, which were all in the first (sim/periods.mjs).
   if (world.period !== undefined && ![1, 2, 3].includes(world.period)) throw new Error('Invalid class period');
+  // Absent on every class made before wagons went by the family's size (2026-09-25), which keeps one wagon a family.
+  if (world.wagonsBySize !== undefined && world.wagonsBySize !== true) throw new Error('Invalid wagon rule');
   const ids = new Set();
   for (const [id, entity] of Object.entries(world.entities)) {
     if (id !== entity.id || ids.has(id)) throw new Error('Duplicate or mismatched entity ID');

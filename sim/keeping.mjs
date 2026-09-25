@@ -96,7 +96,7 @@ export function userOf(world, household, item, asker = null, { work = null, shar
   // Each person holds one copy (owner, 2026-09-24, docs/TOWNS.md §4c): a thing a family has two of is refused only when both are
   // out. The work at home that shares the felling axe shares one copy among all of it. Since the same day a family may own more
   // than one horse or ox (sim/beasts.mjs, §4d): each animal is one person's, so two horses are two riders.
-  const holders = [], home = [];
+  const holders = [], home = [], sharedWork = new Set();
   const beasts = ROLES.includes(item) ? beastsOf(world, household, item).filter(kept) : null;
   // Beasts out with somebody: counted by the animal, since one person may have two with them (riding one, leading one home).
   let out = 0;
@@ -114,12 +114,16 @@ export function userOf(world, household, item, asker = null, { work = null, shar
     if (away(world, household, person) && person.carries?.items?.includes(item)) { holders.push(person); continue; }
     if (!person.chore?.with?.includes(item)) continue;
     if (work && SHARED[work] && person.chore.id === work) continue;
+    // Everybody at one shared work loads the one wagon: a second harvester holds no second copy (a family with two wagons since
+    // 2026-09-25 has the other free for the road).
+    if (SHARED[person.chore.id]) { if (sharedWork.has(person.chore.id)) continue; sharedWork.add(person.chore.id); }
     // Work at home that shares it with other work at home: the felling axe among everybody felling and building.
     if (person.chore.shares?.includes(item)) { if (!shares.includes(item)) home.push(person); continue; }
     holders.push(person);
   }
-  // A thing the family has one of - the wagon, the one horse every family has had - is whoever has it, as it always was (a
-  // harvest's shared wagon is one wagon, however many load it).
+  // A thing the family has one of - the one wagon, the one horse every family has had - is whoever has it, as it always was (a
+  // harvest's shared wagon is one wagon, however many load it). A family with more than one wagon (sim/beasts.mjs `fitOut`, the
+  // wheelwright's) counts them as it counts horses: two wagons are two loads out at once, each behind its own ox.
   const copies = beasts ? Math.max(1, beasts.length) : COUNTED.includes(item) ? toolCount(household, item) : 1;
   if (copies === 1 && !COUNTED.includes(item)) return holders[0] || home[0] || null;
   const used = out + (holders.length - withBeasts) + (home.length ? 1 : 0);
