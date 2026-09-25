@@ -159,6 +159,8 @@ would mean a second clock. So:
 
 ### 4a. A wagon for every eight people — owner 2026-09-25
 
+**Amended for every class made since by §4b** (later the same day): the wagons come from the family's rolled means, not its size.
+
 > "families should arrive with an appropriate number of wagons. larger families get more than one wagon based on their
 > population. research first. wheelwright sells one, very expensive."
 >
@@ -195,6 +197,65 @@ its wagons, and their load scales with them.
 - **New classes only.** A class carries `wagonsBySize` from when it is made; one saved before - in its lobby or long running -
   keeps one wagon a family, as the stock pens came to new classes only. No save version moved. Families nobody plays keep the
   founding four and their one wagon; the director buys no wagon (owner: rifles only).
+
+### 4b. Wagons by the family's means, and who rides and who walks — owner 2026-09-25, later the same day
+
+> "introduce rolling for starting wealth. tie it into the extra wagons. part of wealth will be number of wagons. if a family doesn't
+> have enough wagons, older family members walk. have this potentially affect travelling speed."
+>
+> — the owner, 2026-09-25
+
+**Status: built the same day** (`sim/means.mjs`, `sim/company.mjs`; [tests](../tests/means.test.mjs),
+[injections](evidence/means-injections.json), [browser](evidence/means-browser.json)). Claims `HIST-TEX-442`, `FIC-GONZ-393` to
+`-395`. **This amends §4a for every class made since**: the wagons come from the family's means, rolled on a second die with the
+family (docs/FAMILY_CREATION.md, the amendment of 2026-09-25) - a **cart**, one wagon, two or three, an ox to each - and not from
+its size. A class made earlier that day keeps §4a's wagon for every eight people; one made before that, one wagon a family.
+
+**Who rides** (`seatPlan`, `FIC-GONZ-394`). On a journey the whole family makes together - the road in, the move to the site it
+chose, the flight east and the way home - every vehicle an ox draws has:
+
+1. **a driver**: the principal first, then the eldest of the rest who may be sent (ten or more);
+2. **room for four more** in a wagon, **two** in a cart, which go to **the sick first, then the youngest**, and on up by age;
+3. **a baby under two** in its mother's arms (or its father's, or the eldest's): it rides where she rides and walks where she walks,
+   and takes no seat - Harris's mother walked "with an infant in her arms" while "my two little sisters rode in the sleigh";
+4. **everybody else walks beside the wagons** - the older of the family, as the owner said.
+
+**The pace** (`companyPace`, `FIC-GONZ-395`): **a family moving together goes at its slowest.** The ox is the pace with a vehicle
+(`WAGON_SPEED`, not quite two miles an hour) and the record never has walkers failing to keep up with it (`HIST-TEX-442`), so:
+
+| Walker | Pace | Holds the ox back? |
+| --- | --- | --- |
+| Ten and over, or no stated age | three miles an hour | no |
+| Six to nine | two miles an hour | no - keeps up |
+| Two to five | a mile and a half | **yes** |
+| Under two | carried | - |
+
+So walking grown people never slow a family; **a small child on foot does**, and they ride first, so it happens only when the seats
+run out - a poor family's cart with many small children, or eighteen children in one wagon. **A family with no vehicle** (the
+flight east after a wagon is lost, or taken) walks at its slowest walker's pace and carries what people carry
+(`CARRIED_ROOM`). **Walkers tire as walkers**: a mile beside the wagon costs them a walked mile, riders and drivers half, as the
+whole family on the road in always paid; a baby carried nothing. Nobody is made to stop (`ceiling:`: nobody rests on the road in
+this game; the day's seven hours of going already has the nooning in it). The plan is made when the family sets out and holds to the
+end of the road (`ceiling:`).
+
+**What the page draws** (public/motion.js `wagonTeams`, `passengersOf`, `bedLayout`, `walksBeside`; public/app.js `drawSeated`,
+`drawEntity`): the server names each vehicle's driver, and the page draws that person driving and nobody else - a wagon with nobody
+old enough to drive it goes undriven. The riders sit in the wagon behind the driver (their own figure cut at the waist on the front
+of the cover, `stand-in:`), and the walkers walk in a file along the near side of the train, a stride apart, so ten walking read as
+ten. The Host is sent the same seats. Another family's never reach a student.
+
+**Zero wagons.** No band arrives with nothing to haul with: the record's poorest class had a sleigh behind oxen, and a family with
+no vehicle could bring neither the hoe nor the axe the first steps of the lesson need. The poorest have a cart. A family whose
+vehicles are all gone later - lost in a bog, taken - already goes on foot, and the flight tests it. **An arrival on foot is open for
+the owner** (HANDOFF.md).
+
+**Food for the road in, whatever the means** (`FIC-GONZ-396`): no family arrives with fewer than **five days** of food for its
+eaters. A cart's trim takes meal out, so a large poor family carries the rest on foot beside the cart (`household.packs`; "Besides
+the cart, the family carries 11 food on foot, in sacks and bundles." on the pack screen, and the arrival line). The means change what
+a family hauls, who rides and how fast it goes, not whether it eats the first week.
+
+**Old classes.** A class saved before this opens as it was: no means, nobody seated, everybody on the road in at the ox's pace with
+the driver on the wagon and the rest beside it. No save version moved.
 
 ---
 

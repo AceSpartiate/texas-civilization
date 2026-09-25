@@ -11,7 +11,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { createSettledWorld, taught } from './support/settled.mjs';
+import { createSettledWorld, taught, modestMeans } from './support/settled.mjs';
 import { applyAction, beginTravel, goingFor, journeyOf, modeAvailability, orderMode, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { CHORES, choreCatalogue, makesJourney } from '../sim/chores.mjs';
 import { advanceAuto } from '../sim/auto.mjs';
@@ -59,7 +59,8 @@ test('every way of going is offered quickest first, with the server\'s facts, an
 });
 
 test('a way somebody else has is shut in the chooser in their name, and refused in their name however the order is sent', () => {
-  const world = running('going-taken');
+  // One ox and one wagon, so the wagon out is the family's only one (sim/means.mjs gives a family of other means more).
+  const world = modestMeans(running('going-taken'));
   const rosa = person(world, 'rosa'), alvin = person(world, 'thomas'), hunter = person(world, 'mateo');
   beginTravel(world, rosa, 'gonzales', null, 'visit', 'wagon');
   const going = ways(world, hunter, { action: 'chore', chore: 'hunt-timber' });

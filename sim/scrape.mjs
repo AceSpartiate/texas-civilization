@@ -20,6 +20,8 @@ import { findWay } from './ways.mjs';
 import { share } from './shares.mjs';
 import { WAGON_SPEED, WALK_SPEED } from './travel.mjs';
 import { beastsOf, roleOf } from './beasts.mjs';
+import { drawnVehicles, setOut } from './company.mjs';
+import { CART_SPACE, WAGON_SPACE } from './wagon.mjs';
 import { frailty } from './army.mjs';
 import { canAnswerCalls, eatenADay, householdName } from './family.mjs';
 import { spotlight } from './host.mjs';
@@ -126,7 +128,9 @@ export function flightRoom(world, household) {
   // Every wagon standing at home that an ox standing there can draw, one ox to a wagon (sim/beasts.mjs): a family fitted out
   // with two wagons loads two, and the room is the wagons' together - the same rule as the load in (owner, 2026-09-25).
   const drawn = Math.min(beastsOf(world, household, 'wagon').filter(standing).length, beastsOf(world, household, 'ox').filter(standing).length);
-  if (drawn) return { room: FLIGHT_ROOM * drawn, mode: 'wagon', ...(drawn > 1 && { wagons: drawn }) };
+  // A cart (sim/means.mjs) holds what it held on the road in, three quarters of a wagon's: the family wagon is the cart, and loads first.
+  const cart = drawn && beastsOf(world, household, 'wagon').filter(standing)[0]?.cart ? FLIGHT_ROOM * (1 - CART_SPACE / WAGON_SPACE) : 0;
+  if (drawn) return { room: FLIGHT_ROOM * drawn - cart, mode: 'wagon', ...(drawn > 1 && { wagons: drawn }), ...(cart && { cart: true }) };
   return { room: Math.round(atHome(world, household).filter(canAnswerCalls).length * CARRIED_ROOM * 100) / 100, mode: 'foot' };
 }
 
@@ -209,12 +213,17 @@ export function flee(world, household, { take = {}, refuge }) {
   // The flight waits at the flooded crossings by its own rule (`crossingsAlong`), not the ferries' ordinary hour.
   const path = findWay(world, household.homeSiteId, refuge, mode, { ferries: false });
   if (!path) throw new Error('No road east from here.');
-  const departure = tell(world, household, `The family loaded ${Object.entries(take).filter(([, amount]) => amount > 0).map(([good, amount]) => `${amount} ${good}`).join(', ') || 'what it could carry'} and set out east for ${world.map.sites[refuge].name}${mode === 'wagon' ? (wagons ? ` with the ${wagons} wagons and their oxen` : ' with the ox and wagon') : ' on foot'}.`);
+  const { cart } = flightRoom(world, household);
+  const departure = tell(world, household, `The family loaded ${Object.entries(take).filter(([, amount]) => amount > 0).map(([good, amount]) => `${amount} ${good}`).join(', ') || 'what it could carry'} and set out east for ${world.map.sites[refuge].name}${mode === 'wagon' ? (wagons ? ` with the ${wagons} wagons and their oxen` : cart ? ' with the ox and cart' : ' with the ox and wagon') : ' on foot'}.`);
   const speed = mode === 'wagon' ? WAGON_SPEED : WALK_SPEED;
   const travellers = [...goers, ...beasts(world, household).filter(beast => !beast.travel && beast.location.siteId === household.homeSiteId)];
+  const journey = () => ({ from: household.homeSiteId, to: refuge, points: path.points.map(point => ({ ...point })), progress: 0, distance: path.distance, speed, mode, purpose: 'flee', silent: true, causeId: departure, ...(path.pace?.length && { pace: path.pace }) });
+  // Who rides and who walks, and the pace of the slowest, in a class made since the means were rolled (sim/company.mjs): the
+  // youngest and the sick in the wagons, the rest beside them, and a family on foot at the pace of its smallest walker.
+  if (world.meansRoll) setOut(travellers, mode === 'wagon' ? drawnVehicles(travellers) : [], journey);
   for (const entity of travellers) {
     entity.chore = null;
-    entity.travel = { from: household.homeSiteId, to: refuge, points: path.points.map(point => ({ ...point })), progress: 0, distance: path.distance, speed, mode, purpose: 'flee', silent: true, causeId: departure, ...(path.pace?.length && { pace: path.pace }) };
+    if (!world.meansRoll) entity.travel = journey();
     entity.location = { ...path.points[0], siteId: null };
     if (entity.kind === 'person') entity.task = 'travel';
     if (entity.kind === 'wagon') entity.laden = true;
@@ -363,8 +372,12 @@ export function turnHome(world, causeId) {
     const path = findWay(world, at, household.homeSiteId, mode, { ferries: false });
     if (!goers.length || !path) continue;
     const departure = tell(world, household, `With the news from San Jacinto the family turned for home from ${world.map.sites[at].name}.`, { causes: causeId ? [causeId] : [] });
-    for (const entity of [...goers, ...beasts(world, household).filter(beast => beast.location.siteId === at && !beast.travel)]) {
-      entity.travel = { from: at, to: household.homeSiteId, points: path.points.map(point => ({ ...point })), progress: 0, distance: path.distance, speed: mode === 'wagon' ? WAGON_SPEED : WALK_SPEED, mode, purpose: 'return', silent: true, causeId: departure, ...(path.pace?.length && { pace: path.pace }) };
+    const home = [...goers, ...beasts(world, household).filter(beast => beast.location.siteId === at && !beast.travel)];
+    const journey = () => ({ from: at, to: household.homeSiteId, points: path.points.map(point => ({ ...point })), progress: 0, distance: path.distance, speed: mode === 'wagon' ? WAGON_SPEED : WALK_SPEED, mode, purpose: 'return', silent: true, causeId: departure, ...(path.pace?.length && { pace: path.pace }) });
+    // Home as they went (sim/company.mjs), in a class made since the means were rolled.
+    if (world.meansRoll) setOut(home, mode === 'wagon' ? drawnVehicles(home) : [], journey);
+    for (const entity of home) {
+      if (!world.meansRoll) entity.travel = journey();
       entity.location = { ...path.points[0], siteId: null };
       if (entity.kind === 'person') entity.task = 'travel';
     }
@@ -406,9 +419,10 @@ export function flightProjection(world, household) {
   const shown = { status: flight.status, ...(flight.refuge && { refuge: flight.refuge, refugeName: world.map.sites[flight.refuge]?.name }), ...(flight.crossing && { waitingAt: world.map.sites[flight.crossing.siteId]?.name }), ...(flight.mode && { mode: flight.mode }) };
   // On the road: the weather, the bog, the camp, the danger and the open question (sim/road.mjs).
   if (!['ordered', 'stayed'].includes(flight.status)) return { ...shown, ...roadProjection(world, household) };
-  const { room, mode } = flightRoom(world, household);
+  const { room, mode, wagons, cart } = flightRoom(world, household);
   return {
-    ...shown, room, mode, space: FLIGHT_SPACE, ...(flight.stayedMinute !== undefined && { decidedToStay: true }),
+    // What carries it, for the card's words: the cart of a family of the poorest means, or how many wagons (sim/means.mjs).
+    ...shown, room, mode, ...(wagons && { wagons }), ...(cart && { vehicle: 'cart' }), space: FLIGHT_SPACE, ...(flight.stayedMinute !== undefined && { decidedToStay: true }),
     have: Object.fromEntries(Object.keys(FLIGHT_SPACE).map(good => [good, Math.floor(household.resources?.[good] ?? 0)])),
     refuges: REFUGES.filter(id => world.map.sites[id] && world.map.sites[id].x > home.x + 2).map(id => ({ id, name: world.map.sites[id].name, miles: Math.round(Math.hypot(world.map.sites[id].x - home.x, world.map.sites[id].y - home.y)) })),
     burned: Boolean(flight.burned),

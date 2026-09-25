@@ -1,0 +1,35 @@
+{
+  "result": "PASS",
+  "samples": [
+    {
+      "title": "Turned earth",
+      "hash": 2386599871
+    },
+    {
+      "title": "Young corn",
+      "hash": 1605932116
+    },
+    {
+      "title": "Ripe corn",
+      "hash": 1628551165
+    },
+    {
+      "title": "Clearing in progress",
+      "hash": 2509522412
+    },
+    {
+      "title": "Young cotton",
+      "hash": 1024509400
+    },
+    {
+      "title": "Ripe cotton",
+      "hash": 2951793239
+    }
+  ],
+  "stable": true,
+  "bareCalls": 0,
+  "cropNames": [
+    "cotton-mature"
+  ],
+  "tinyVisible": true
+}

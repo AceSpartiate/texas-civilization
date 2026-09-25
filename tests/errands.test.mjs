@@ -14,7 +14,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { createSettledWorld, settle, taught } from './support/settled.mjs';
+import { createSettledWorld, modestMeans, settle, taught } from './support/settled.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, beginTravel, errandFor, projectWorld, stepWorld, travelModesFor, validateWorld } from '../sim/world.mjs';
 import { propertyId } from '../sim/travel.mjs';
@@ -25,7 +25,8 @@ import { byShop, errandList, stockWords } from '../public/errand.js';
 
 /** A settled class under way, its first family a student's and past the guided start. */
 function running(seed) {
-  const world = taught(createSettledWorld(seed, 5));
+  // hh-1 has the one wagon and one ox these tests are about (sim/means.mjs gives a family of other means more or a cart).
+  const world = modestMeans(taught(createSettledWorld(seed, 5)));
   world.status = 'running';
   world.households['hh-1'].played = true;
   return world;

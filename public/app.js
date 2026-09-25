@@ -1,7 +1,7 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
 import { drawArmy } from '/army-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, gaitMilesASecond, landRuns, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, gaitMilesASecond, landRuns, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
 import { autoLabel, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, standing, travellingLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
@@ -10,6 +10,7 @@ import { asksTheWay, mountGoing } from '/going.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {alamoOnMap,bexarToSite} from '/bexar-layout.js';
 import {plotArt} from '/field-art.js';
+import { drawFieldSurface } from '/field-surface.js';
 import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
 import { drawTownGround, townDrawables } from '/town-art.js';
 import { renderInterior, clearInteriorChoice } from '/interior.js';
@@ -553,8 +554,26 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   const delivered = seatedClip(entity, direction, seat);
   const ready = Boolean(delivered.whole || delivered.seated) && clipReady(delivered.id);
   const drawn = [];
-  for (const part of seatLayout(seat, direction, SIZE, figureScale(entity), ready ? (seat === 'horse' ? MOUNTED_HEIGHT : 1) : 0)) {
+  // Whoever rides in this wagon behind its driver (sim/company.mjs; owner, 2026-09-25), sat in it after the wagon and before the
+  // driver, so the driver is drawn in front of them. They are not drawn again beside it (public/motion.js `carriedWithRider`).
+  const layout = seatLayout(seat, direction, SIZE, figureScale(entity), ready ? (seat === 'horse' ? MOUNTED_HEIGHT : 1) : 0);
+  const riders = passengersOf(team, entities).map((rider, i) => ({ ...bedLayout(direction, i, SIZE, figureScale(rider)), rider }));
+  // Going north they sit nearer the camera than the driver (`front`), so they are drawn after the driver instead.
+  const driverAt = layout.findIndex(part => part.part === 'rider');
+  if (riders.length) layout.splice(riders[0].front ? driverAt + 1 : driverAt, 0, ...riders.reverse());
+  for (const part of layout) {
     const px = x + part.dx * size * along, py = y + part.dy * size, height = part.height * size;
+    if (part.part === 'passenger') {
+      // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - riders in the wagon. Their own idle figure, cut below the waist.
+      ctx.save();
+      ctx.beginPath(); ctx.rect(px - height * 2, py - height * 1.5, height * 4, height * (.5 + part.shown)); ctx.clip();
+      const clip = seatedClip(part.rider, direction, null);
+      if (!animated(ctx, clip.id, px, py, height, part.rider.id, { paused: true })) miniPerson(ctx, px, py, size, { ...part.rider, travel: null, flip });
+      ctx.restore();
+      drawnAt.set(part.rider.id, { x: px, y: py - height * .45, size: height });
+      drawn.push({ part: 'passenger', id: part.rider.id, x: Math.round(px), y: Math.round(py), height: Math.round(height) });
+      continue;
+    }
     if (part.part === 'rider' && (part.whole || part.seated)) {
       // Drawn entire and standing on its own ground line: the painted rig already has its legs, or the driver their boots.
       // A ridden east cycle is mirrored for west as every other east cycle is; a painted north or south one never is.
@@ -605,11 +624,19 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // or the beasts walking east in the flight - is drawn a length behind, on its lead, so it is not hidden under the one leading it.
   const behind = { e: { x: -1, y: 0 }, w: { x: 1, y: 0 }, n: { x: 0, y: 1 }, s: { x: 0, y: -1 } }[travelDirection(entity) || 'e'] || { x: -1, y: 0 };
   // A family with more than one wagon on the road (sim/beasts.mjs, 2026-09-25) is at one point on it: each wagon after the first,
-  // with its driver on it, is drawn a wagon's length and a little behind the one before, in line, so two wagons read as two.
+  // with its driver on it, is drawn a whole rig's length - its ox and its wagon - behind the one before, in line, so two wagons read
+  // as two and the ox of one does not stand over the driver and the riders of the one ahead (widened from a wagon's length when
+  // riders came into the wagons, 2026-09-25).
   const train = seat === 'wagon' ? wagonTeams(entity.householdId, marks.entities || []).findIndex(team => team.driverId === entity.id) : 0;
+  // Those the server said walk beside the wagons (sim/company.mjs, 2026-09-25) are drawn in a file along the near side of the
+  // train, each a stride behind the one before, so a family of ten walking reads as ten people and not one figure.
+  const walker = walksBeside(entity) ? (marks.entities || []).filter(other => other.householdId === entity.householdId && walksBeside(other)).findIndex(other => other.id === entity.id) : -1;
+  const vertical = behind.x === 0;
   const offset = entity.travel
     ? (entity.kind === 'wagon' ? { x: -2.4, y: .5 } : entity.kind === 'animal' && entity.travel.mode === 'foot' ? { x: behind.x * 26, y: behind.y * 36 + 2 } : entity.kind === 'animal' ? { x: -1.1, y: .2 }
-      : train > 0 ? { x: behind.x * 44 * train, y: behind.y * 52 * train + 3 * train } : { x: 0, y: 0 })
+      : train > 0 ? { x: behind.x * 82 * train, y: behind.y * 60 * train + 3 * train }
+      : walker >= 0 ? (vertical ? { x: 30 + (walker % 2) * 12, y: behind.y * (8 + 20 * walker) } : { x: behind.x * (-10 + 17 * walker), y: 14 + (walker % 2) * 5 })
+      : { x: 0, y: 0 })
     : stableOffset(entity.id);
   const x = point.x + offset.x * spread, y = point.y + offset.y * spread * .8;
   // Everything is drawn standing on (x, y), so `size` is a height and the click target
@@ -2232,7 +2259,7 @@ function drawTerrain(ctx, world, camera) {
       const xs = points.map(p => p.x), ys = points.map(p => p.y);
       const left = Math.min(...xs), top = Math.min(...ys);
       const right = left + (Math.max(...xs) - left) * .5, bottom = top + (Math.max(...ys) - top) * .5;
-      fieldPatch(ctx, camera, { left, top, right, bottom }, null, 'sound');
+      fieldPatch(ctx, camera, { left, top, right, bottom }, null, 'sound', feature.id);
     } else if (feature.kind === 'woods' && inventedWoods(camera.scale) > 0.02 && !woodsShown(world)) {
       // Close in, timber resolves into individual trees rather than a green wash. Timber
       // follows the water here, so a share of it is drawn as river-bottom cottonwood
@@ -2264,33 +2291,10 @@ const PLOT_SIDE = Math.sqrt(10 / 640);
  * fence that kept stock out of it when there is one (HIST-GONZ-013, HIST-GONZ-018). `growing` is the household's field
  * ({ crop, state }) when a crop stands on this ground, or null.
  */
-function fieldPatch(ctx, camera, { left, top, right, bottom }, growing, fence) {
+function fieldPatch(ctx, camera, { left, top, right, bottom }, growing, fence, identity = 'field') {
   const figure = camera.figure;
   const points = [{ x: left, y: top }, { x: right, y: top }, { x: right, y: bottom }, { x: left, y: bottom }];
-  ctx.save();
-  ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath();
-  // Broken ground first, as the map's own field colour, so a plot reads as field at any zoom.
-  ctx.fillStyle = TERRAIN_STYLE.field.fill; ctx.fill();
-  const spacing = Math.max(4, camera.scale * .045);
-  // What is standing is what the household actually planted, never a crop picked for the look of it.
-  const crop = growing ? `${growing.crop}-${growing.state === 'ripe' ? 'mature' : 'young'}` : null;
-  const plants = growing && hasSprite(crop) && figure * SIZE.crop > 9;
-  if (!growing) {
-    // Turned earth. Nothing is growing, and nothing is drawn growing.
-    ctx.fillStyle = 'rgba(150,124,86,.45)'; ctx.fill();
-    ctx.save(); ctx.clip(); ctx.strokeStyle = 'rgba(117,85,49,.24)'; ctx.lineWidth = Math.max(1, figure * .045);
-    for (let y = top + spacing; y < bottom; y += Math.max(7, spacing)) { ctx.beginPath(); ctx.moveTo(left, y); ctx.lineTo(right, y); ctx.stroke(); }
-    ctx.restore();
-  } else if (spacing > 4.5 && right - left > 12) {
-    ctx.fillStyle = 'rgba(150,124,86,.3)'; ctx.fill();
-    ctx.strokeStyle = '#8a9350'; ctx.lineWidth = Math.max(1, spacing * .28);
-    const step = plants ? Math.max(spacing, figure * SIZE.crop * .62) : spacing;
-    for (let rowY = top + step; rowY < bottom - step * .4; rowY += step) {
-      if (!plants) { ctx.beginPath(); ctx.moveTo(left + spacing * .5, rowY); ctx.lineTo(right - spacing * .5, rowY); ctx.stroke(); continue; }
-      for (let plantX = left + step * .6; plantX < right - step * .3; plantX += step * .8) drawSprite(ctx, crop, plantX, rowY, figure * SIZE.crop);
-    }
-  } else { ctx.fillStyle = 'rgba(138,147,80,.45)'; ctx.fill(); }
-  ctx.restore();
+  drawFieldSurface(ctx, { left, top, right, bottom }, { identity, growing, figure, drawSprite });
   // A family starts without a fence, splits rails to raise one round a plot, and until they do the stock are in its crop.
   if (camera.scale > 40 && fence && fence !== 'none') railFence(ctx, points, figure, fence === 'ruined');
   return points;
@@ -2333,17 +2337,17 @@ function drawPlots(ctx, world, camera) {
     const whose = host ? { householdId } : {};
     if (plot.state === 'cleared') {
       const growing = plot.sown && field && field.state !== 'bare' ? field : null;
-      const corners = fieldPatch(ctx, camera, rectOf(plot), growing, plot.fence);
+      const corners = fieldPatch(ctx, camera, rectOf(plot), growing, plot.fence, `${householdId}:${plot.id}`);
       drawn.push({ id: plot.id, ...whose, state: plot.state, ground: plot.ground, sown: Boolean(growing), fence: plot.fence || 'none', corners });
       continue;
     }
     // Staked: the clearing done so far, as a square of turned earth growing from the middle.
     const share = plot.work && plot.spells ? Math.min(1, plot.work / plot.spells) : 0;
-    const corners = square(plot, { stroke: '#6b4f2a', fill: 'rgba(107,79,42,.08)', posts: true });
+    const corners = square(plot, { stroke: '#77684788', dash: [3, 7], posts: true });
     if (share > 0) {
       const inner = Math.sqrt(share) * PLOT_SIDE / 2;
       const a = camera.toScreen({ x: plot.x - inner, y: plot.y - inner }), b = camera.toScreen({ x: plot.x + inner, y: plot.y + inner });
-      ctx.save(); ctx.fillStyle = 'rgba(150,124,86,.5)'; ctx.fillRect(Math.min(a.x, b.x), Math.min(a.y, b.y), Math.abs(b.x - a.x), Math.abs(b.y - a.y)); ctx.restore();
+      drawFieldSurface(ctx, { left: Math.min(a.x, b.x), top: Math.min(a.y, b.y), right: Math.max(a.x, b.x), bottom: Math.max(a.y, b.y) }, { identity: `${householdId}:${plot.id}`, figure: camera.figure, clearing: true });
     }
     drawn.push({ id: plot.id, ...whose, state: plot.state, ground: plot.ground, work: plot.work || 0, spells: plot.spells, cleared: share, corners });
   }
@@ -3425,7 +3429,8 @@ function renderFlight(world, chosen, running) {
   wrap.append(element('p', flight.burned ? 'The army has passed and burned the farm. The family can still go east with what it can carry.'
     : flight.decidedToStay ? 'The family is staying, and takes what comes. The road east is still open if it changes its mind.'
     : 'The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs what it can and goes by itself.', 'ask-text'));
-  wrap.append(element('p', `Room for ${flight.room}${flight.mode === 'wagon' ? ' in the wagon' : ', carried on foot'}. Food takes ${flight.space.food} each, seed ${flight.space.seed}, cotton ${flight.space.cotton}, powder ${flight.space.powder}.`, 'work-note'));
+  const carrier = flight.vehicle === 'cart' ? ' in the cart' : flight.wagons ? ` in the ${flight.wagons} wagons` : ' in the wagon';
+  wrap.append(element('p', `Room for ${flight.room}${flight.mode === 'wagon' ? carrier : ', carried on foot'}. Food takes ${flight.space.food} each, seed ${flight.space.seed}, cotton ${flight.space.cotton}, powder ${flight.space.powder}.`, 'work-note'));
   const form = element('div', '', 'flight-form');
   for (const good of Object.keys(flight.space)) {
     const label = element('label', '', 'flight-take');
@@ -4583,7 +4588,24 @@ let tutorialStep = null;
 // A twenty-sided die (owner, 2026-09-14): drawn as its outline with the face's number, since no font has twenty faces.
 const DIE_SIDES = 20;
 let rollState = 'idle', tumble = null, rollStarted = 0;
-function stopTumble() { clearInterval(tumble); tumble = null; $('#family-die')?.classList.remove('rolling'); }
+function stopTumble() { clearInterval(tumble); tumble = null; $('#family-die')?.classList.remove('rolling'); $('#means-die')?.classList.remove('rolling'); }
+/**
+ * The second die (owner, 2026-09-25: "introduce rolling for starting wealth"; sim/means.mjs): thrown by the same press in a class
+ * made since, and stopped on the server's number, with what it gave in the server's own words - the band, what the family comes
+ * with, and who of them rides and walks. A class made before has one die, as it always had.
+ */
+function renderMeansDie(family) {
+  const shown = Boolean(family?.meansDie || family?.means);
+  $('#means-die').hidden = !shown;
+  $('#means-roll-text').hidden = !shown;
+  const means = rollState === 'rolled' ? family.means : null;
+  $('#means-result').hidden = !means;
+  if (!means) return;
+  $('#means-die').textContent = String(means.roll);
+  $('#means-name').textContent = `${means.name}.`;
+  $('#means-words').textContent = means.words;
+  $('#means-seats').textContent = means.seats || '';
+}
 function renderFamilyRoll(world) {
   const panel = $('#family-roll');
   if (!panel) return;
@@ -4599,10 +4621,12 @@ function renderFamilyRoll(world) {
   if (rollState === 'idle' && creationStep(world, family) !== 'roll') { panel.hidden = true; return; }
   panel.hidden = false;
   const die = $('#family-die'), button = $('#roll-family');
+  renderMeansDie(family);
   if (rollState === 'rolled') {
     die.textContent = String(family.roll);
     // "an 8", "an 11", "an 18": said as they sound, since a twenty-sided die reaches them (sim/family.mjs `rolledWords`).
-    $('#family-roll-result').textContent = `You rolled ${[8, 11, 18].includes(family.roll) ? 'an' : 'a'} ${family.roll}.`;
+    const said = roll => `${[8, 11, 18].includes(roll) ? 'an' : 'a'} ${roll}`;
+    $('#family-roll-result').textContent = family.means ? `You rolled ${said(family.roll)} for your family and ${said(family.means.roll)} for what it has.` : `You rolled ${said(family.roll)}.`;
     button.textContent = 'Meet your family';
     button.disabled = false;
   } else {
@@ -4621,11 +4645,12 @@ $('#roll-family')?.addEventListener('click', async () => {
   }
   if (rollState !== 'idle') return;
   rollState = 'rolling'; rollStarted = Date.now();
-  const die = $('#family-die');
+  const die = $('#family-die'), second = $('#means-die');
+  const both = [die, ...(second && !second.hidden ? [second] : [])];
   if (!reducedMotion.matches) {
-    die.classList.add('rolling');
-    tumble = setInterval(() => { die.textContent = String(1 + Math.floor(Math.random() * DIE_SIDES)); }, 90);
-  } else die.textContent = '?';
+    for (const one of both) one.classList.add('rolling');
+    tumble = setInterval(() => { for (const one of both) one.textContent = String(1 + Math.floor(Math.random() * DIE_SIDES)); }, 90);
+  } else for (const one of both) one.textContent = '?';
   if (window.__snapshot) renderFamilyRoll(window.__snapshot.world);
   try {
     await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'roll-family' });
@@ -4660,14 +4685,20 @@ function renderWagonLoad(world) {
   reopen.hidden = !available || wagonPacking;
   if (!available) return;
   const space = wagon.space ?? catalogue.space;
-  reopen.textContent = `Repack the ${wagon.wagons ? 'wagons' : 'wagon'} (${wagon.used} of ${space})`;
+  // A family of the poorest means packs a cart (sim/means.mjs), and the server says so (`wagon.vehicle`).
+  const vehicle = wagon.vehicle === 'cart' ? 'cart' : wagon.wagons ? 'wagons' : 'wagon';
+  reopen.textContent = `Repack the ${vehicle} (${wagon.used} of ${space})`;
   if (!wagonPacking) return;
   const choice = world.land?.stockChoice;
   const shape = JSON.stringify([household.load, wagon, choice, household.stock]);
   if (shape === wagonShown) return;
   wagonShown = shape;
   // A family fitted out with more than one wagon packs them together, and the server says how many (sim/wagon.mjs).
-  $('#wagon-room').textContent = `${wagon.wagons ? `${wagon.wagons} wagons: ` : ''}${wagon.used} of ${space} space filled, ${space - wagon.used} left.`;
+  $('#wagon-room').textContent = `${wagon.wagons ? `${wagon.wagons} wagons: ` : vehicle === 'cart' ? 'The cart: ' : ''}${wagon.used} of ${space} space filled, ${space - wagon.used} left.`;
+  $('#wagon-load-title').textContent = vehicle === 'cart' ? 'Pack the cart' : 'Pack the wagon';
+  // What the family carries on foot besides (sim/means.mjs `ARRIVAL_DAYS`), in the server's number: it is not the load's to change.
+  $('#wagon-packs').hidden = !wagon.packs;
+  $('#wagon-packs').textContent = wagon.packs ? `Besides the ${vehicle}, the family carries ${wagon.packs} food on foot, in sacks and bundles.` : '';
   // Driving stock in: what each answer brings, in acres, animals and wagon space, before it is chosen (FIC-GONZ-008).
   // The herd itself was built on 2026-09-20 (docs/STOCK.md) and this panel went on offering only the acres and the wagon
   // cost, so the largest thing the choice did was never said where the choice was made. The numbers are the server's

@@ -12,7 +12,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { createSettledWorld, settle, taught } from './support/settled.mjs';
+import { createSettledWorld, modestMeans, settle, taught } from './support/settled.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, errandFor, goingFor, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { userOf } from '../sim/keeping.mjs';
@@ -219,7 +219,8 @@ test('a class saved before opens as it was, and one saved before there were hors
 });
 
 test("no other family's animals reach a student, and each one bought adds little to the family's own projection", () => {
-  const world = running('beasts-fog');
+  // Two families of one wagon and one ox, which is what this counts from (sim/means.mjs gives others more, or a cart).
+  const world = modestMeans(modestMeans(running('beasts-fog'), 'hh-1'), 'hh-2');
   const family = world.households['hh-1'], buyer = person(world, 'rosa');
   send(world, buyer, [horse]);
   for (let t = 0; t < 900 && !buyer.leads; t++) stepWorld(world);

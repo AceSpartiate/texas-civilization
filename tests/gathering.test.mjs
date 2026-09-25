@@ -14,6 +14,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { settleMeans } from '../sim/means.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { CHORES, forageFor } from '../sim/chores.mjs';
 import { FORAGE, SALT_STANDS, fishingWater, onSaltWater } from '../sim/gathering.mjs';
@@ -26,7 +27,10 @@ const CHORE_OF = { smallgame: 'take-small-game', fish: 'fish-the-water', oysters
 
 /** A class on the real land, everybody home and under a roof. */
 function landed(seed, count = 12) {
-  const world = settle(createGonzalesWorld(seed, count, { map: 'colonies' }));
+  // Home with its means, which a class made since 2026-09-25 gives on its first running tick (sim/means.mjs).
+  const setUp = createGonzalesWorld(seed, count, { map: 'colonies' });
+  settleMeans(setUp);
+  const world = settle(setUp);
   world.status = 'running';
   return world;
 }

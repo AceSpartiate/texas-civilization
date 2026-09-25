@@ -29,9 +29,15 @@ import { skipsTheChooser } from '../public/going.js';
 import { readSave, writeSave } from '../server/storage.mjs';
 
 const seedRolling = (roll, stem) => { for (let n = 0; ; n++) if (familyRoll(`${stem}-${n}`, 'hh-1') === roll) return `${stem}-${n}`; };
+/**
+ * A class made on 2026-09-25 before the means were rolled: its wagons go by the family's size. Since the means (sim/means.mjs,
+ * tests/means.test.mjs) a new class rolls them instead, and a class saved with `wagonsBySize` keeps this rule, which is what
+ * these tests hold.
+ */
+function bySize(world) { delete world.meansRoll; world.wagonsBySize = true; return world; }
 /** A class in its lobby with hh-1 rolled to this many people. */
 function rolled(roll, stem = 'wagons') {
-  const world = createGonzalesWorld(seedRolling(roll, stem), 5);
+  const world = bySize(createGonzalesWorld(seedRolling(roll, stem), 5));
   rollFamily(world, world.households['hh-1']);
   return world;
 }
@@ -55,7 +61,7 @@ test('every family is fitted out with a wagon for every eight people and an ox t
   assert.deepEqual([1, 8, 9, 16, 17, 20].map(wagonsForPeople), [1, 1, 2, 2, 3, 3]);
   for (let roll = 1; roll <= 20; roll++) {
     for (const stem of ['wagons-a', 'wagons-b', 'wagons-c']) {
-      const unrolled = createGonzalesWorld(seedRolling(roll, stem), 5);
+      const unrolled = bySize(createGonzalesWorld(seedRolling(roll, stem), 5));
       const before = stores(unrolled.households['hh-1'].load);
       const world = rolled(roll, stem), family = world.households['hh-1'];
       assert.equal(family.members.length, roll, 'the roll is not the family');
@@ -228,7 +234,7 @@ test('the flight east loads every wagon an ox can draw at home', () => {
 
 test('a class made before wagons went by size keeps one wagon a family, rolled or running, and opens as it was', () => {
   const old = createGonzalesWorld(seedRolling(20, 'wagons-old'), 5);
-  delete old.wagonsBySize;
+  delete old.wagonsBySize; delete old.meansRoll;
   rollFamily(old, old.households['hh-1']);
   assert.equal(old.households['hh-1'].members.length, 20);
   assert.equal(beastsOf(old, old.households['hh-1'], 'wagon').length, 1, 'a class made before fitted a family out');

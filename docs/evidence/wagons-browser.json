@@ -5,7 +5,7 @@
   "ownerDirection": "\"families should arrive with an appropriate number of wagons. larger families get more than one wagon based on their population.\" (2026-09-25)",
   "checks": [
     "a family of twelve packs two wagons: \"2 wagons: 24 of 32 space filled, 8 left.\"",
-    "both wagons on the track in, each drawn with its own driver (rust-wagon-driver-w, teal-wagon-driver-w), 106 px apart",
+    "both wagons on the track in, each drawn with its own driver (rust-wagon-driver-w, teal-wagon-driver-w), 197 px apart",
     "in, both wagons stand in the yard 95 px apart",
     "no page errors"
   ],
@@ -33,19 +33,19 @@
         "art": "teal-wagon-driver-w",
         "wagon": {
           "part": "wagon",
-          "x": 1258,
+          "x": 1349,
           "y": 720,
           "height": 97
         },
         "ox": {
           "part": "ox",
-          "x": 1118,
+          "x": 1210,
           "y": 720,
           "height": 91
         }
       }
     ],
-    "roadGap": 106,
+    "roadGap": 197,
     "inTheYard": {
       "first": {
         "x": 592.4592836265381,

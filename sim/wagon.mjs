@@ -51,8 +51,21 @@ export const STOCK_SPACE = 2;
  * has the one wagon it always had.
  */
 export const wagonCount = household => Math.max(1, (household?.property || []).filter(id => id === `${household.id}-wagon` || id.startsWith(`${household.id}-wagon-`)).length);
-/** The room the family's wagons have together, before the stock is fed: sixteen a wagon (`FIC-GONZ-024`, `FIC-GONZ-391`). */
-export const wagonRoom = household => WAGON_SPACE * wagonCount(household);
+/**
+ * How much room a cart has, where a family of the poorest means comes with one in place of the wagon (owner, 2026-09-25;
+ * sim/means.mjs, `FIC-GONZ-393`): three quarters of a wagon's. Invented, like the wagon's sixteen; the record has carts behind
+ * one yoke and says nothing of what they held (`HIST-TEX-441`).
+ */
+export const CART_SPACE = 12;
+/** Whether this family's one vehicle is a cart (sim/means.mjs marks it, and the entity with it: `cart: true`). */
+export const carted = household => household?.means?.cart === true;
+/** "cart", "wagon" or "wagons": what the family's vehicles are called on the pack screen and in its refusals. */
+export const vehicleWord = household => (carted(household) ? 'cart' : wagonCount(household) > 1 ? 'wagons' : 'wagon');
+/**
+ * The room the family's wagons have together, before the stock is fed: sixteen a wagon (`FIC-GONZ-024`, `FIC-GONZ-391`), and a
+ * cart's twelve for the one vehicle of a family that came with a cart.
+ */
+export const wagonRoom = household => WAGON_SPACE * wagonCount(household) - (carted(household) ? WAGON_SPACE - CART_SPACE : 0);
 /** The room this family's wagons have, given what it drives in. */
 export const wagonSpaceFor = household => wagonRoom(household) - (household?.stock === true ? STOCK_SPACE : 0);
 /**
@@ -146,6 +159,12 @@ export function loadStores(load) {
   }
   return stores;
 }
+/**
+ * The stores in the house from a load, with the food the family carries beside its vehicles (`household.packs`, sim/means.mjs
+ * `ARRIVAL_DAYS`): fixed when its means are rolled, and never the load's to take away, so repacking the cart moves only what the
+ * cart holds.
+ */
+export const storesWithPacks = (household, load) => { const stores = loadStores(load); stores.food += household?.packs?.food ?? 0; return stores; };
 /** The tools a load puts in the house. */
 export const loadTools = load => (load || []).filter(entry => ITEMS.get(entry.id)?.kind === 'tool').map(entry => entry.id);
 /** The belongings a load puts in the house. */
@@ -175,11 +194,11 @@ export function loadRefusal(world, household, itemId, amount) {
   if (!entry) return 'That is not one of the things a family can bring.';
   if (!Number.isInteger(amount) || amount < 0) return 'Say how many, in whole things.';
   const most = mostFor(household, entry), wagons = wagonCount(household);
-  if (amount > most) return most === 1 ? `A family brings one ${entry.name.toLowerCase()} at most.` : wagons > 1 ? `The ${wagons} wagons take ${most} of those at most.` : `The wagon takes ${most} of those at most.`;
+  if (amount > most) return most === 1 ? `A family brings one ${entry.name.toLowerCase()} at most.` : wagons > 1 ? `The ${wagons} wagons take ${most} of those at most.` : `The ${vehicleWord(household)} takes ${most} of those at most.`;
   const current = household.load.find(loaded => loaded.id === itemId)?.amount ?? 0;
   const after = spaceOf(household.load) + entry.space * (amount - current);
   const room = wagonSpaceFor(household);
-  if (after > room) return `There is no room. That needs ${entry.space * (amount - current)} more, and the ${wagons > 1 ? `${wagons} wagons have` : 'wagon has'} ${room - spaceOf(household.load)} left of ${room}${household.stock ? ' with the stock to feed' : ''}.`;
+  if (after > room) return `There is no room. That needs ${entry.space * (amount - current)} more, and the ${wagons > 1 ? `${wagons} wagons have` : `${vehicleWord(household)} has`} ${room - spaceOf(household.load)} left of ${room}${household.stock ? ' with the stock to feed' : ''}.`;
   return null;
 }
 
@@ -199,7 +218,7 @@ export function setLoad(world, household, itemId, amount) {
   amounts[itemId] = amount;
   const load = canonical(amounts);
   household.load = load;
-  household.resources = { ...household.resources, ...loadStores(load) };
+  household.resources = { ...household.resources, ...storesWithPacks(household, load) };
   household.tools = Object.fromEntries(loadTools(load).map(tool => [tool, household.tools[tool] ?? 0]));
   household.belongings = loadBelongings(load);
   // The wagons on the road in are drawn with something in them, and unloaded where the journey ends
@@ -222,7 +241,35 @@ export function loadForWagons(world, household) {
   const amounts = Object.fromEntries(household.load.map(entry => [entry.id, ITEMS.get(entry.id)?.kind === 'stores' ? Math.min(entry.amount * wagons, mostFor(household, ITEMS.get(entry.id))) : entry.amount]));
   const load = canonical(amounts);
   household.load = load;
-  household.resources = { ...household.resources, ...loadStores(load) };
+  household.resources = { ...household.resources, ...storesWithPacks(household, load) };
+  if (household.arriving) for (const wagon of wagonsOf(world, household)) wagon.laden = load.length > 0;
+  return load;
+}
+
+/**
+ * The load made to fit the family's room, for a family whose means have just been rolled (sim/means.mjs `applyMeans`): the stores
+ * packed a wagon's worth to each wagon (as `loadForWagons` packs them), and then, where a cart has less room than the load, a barrel of meal out
+ * at a time down to one, then the powder down to one shot, then the last barrel, then the bedding and the pot - what a family of
+ * the poorest means leaves behind to bring the hoe, the axe and the seed. Tools and seed are never taken out: the family's first
+ * steps need them (docs/LESSON.md). Returns the load.
+ * ceiling: the order things come out is the game's own; a student repacks the cart as they like before Start.
+ */
+export const TRIM_ORDER = Object.freeze([['provisions', 1], ['powder', 1], ['provisions', 0], ['bedding', 0], ['pot', 0], ['powder', 0]]);
+export function packForRoom(world, household) {
+  if (!household.load) return null;
+  // What the load put in the house before, so what changes is the difference: in the lobby the stores are the load's, and a
+  // family given its means on the first running tick (sim/means.mjs `settleMeans`) keeps whatever else it has.
+  const before = loadStores(household.load);
+  const wagons = wagonCount(household);
+  const amounts = Object.fromEntries(household.load.map(entry => [entry.id, ITEMS.get(entry.id)?.kind === 'stores' ? Math.min(entry.amount * wagons, mostFor(household, ITEMS.get(entry.id))) : entry.amount]));
+  const used = () => spaceOf(Object.entries(amounts).map(([id, amount]) => ({ id, amount })));
+  for (const [id, floor] of TRIM_ORDER) while (used() > wagonSpaceFor(household) && (amounts[id] ?? 0) > floor) amounts[id]--;
+  const load = canonical(amounts);
+  household.load = load;
+  const after = loadStores(load);
+  household.resources = { ...household.resources, ...Object.fromEntries(Object.keys(after).map(resource => [resource, Math.max(0, (household.resources?.[resource] ?? 0) + after[resource] - before[resource])])) };
+  household.tools = Object.fromEntries(loadTools(load).map(tool => [tool, household.tools?.[tool] ?? 0]));
+  household.belongings = loadBelongings(load);
   if (household.arriving) for (const wagon of wagonsOf(world, household)) wagon.laden = load.length > 0;
   return load;
 }
@@ -251,7 +298,8 @@ export function wagonProjection(world, household) {
   const wagons = wagonCount(household);
   // More than one wagon: how many, and the most of each store they take together, so the page's `+` stops where the server does.
   const most = wagons > 1 ? Object.fromEntries(WAGON_ITEMS.filter(entry => entry.kind === 'stores').map(entry => [entry.id, mostFor(household, entry)])) : null;
-  return { used: spaceOf(household.load), space: wagonSpaceFor(household), can: !why, ...(why && { why }), ...(most && { wagons, most }) };
+  // A cart (sim/means.mjs): the panel packs "the cart" and says so, with the cart's room.
+  return { used: spaceOf(household.load), space: wagonSpaceFor(household), can: !why, ...(why && { why }), ...(most && { wagons, most }), ...(carted(household) && { vehicle: 'cart' }), ...(household.packs?.food && { packs: household.packs.food }) };
 }
 
 /** A household's load record is well formed and fits the wagon. Absent is a class saved before step 3. */

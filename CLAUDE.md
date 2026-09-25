@@ -7,7 +7,7 @@ Read these before substantial changes:
 3. `TECH.md` and `GAME.md` — implemented architecture and gameplay.
 4. `HISTORY.md` before any historical content change.
 5. `docs/SETTLING_IN.md` before changing the class start, the lobby, the director's timeline, or anything about houses, furniture, the wagon load or appearance — owner-decided (2026-09-12) and next to build.
-6. `docs/FAMILY_CREATION.md` before touching `sim/family.mjs`, the join flow, or who can be sent to fight — the rolled family and its hidden stats are owner-decided (2026-09-12) and amend `VISION.md` §7 and §16.
+6. `docs/FAMILY_CREATION.md` before touching `sim/family.mjs`, `sim/means.mjs`, the join flow, or who can be sent to fight — the rolled family and its hidden stats are owner-decided (2026-09-12) and amend `VISION.md` §7 and §16; the family's means, rolled on a second die with it, are owner-decided (2026-09-25), and who rides and who walks on the family's journeys is `docs/SETTLING_IN.md` §4b (`sim/company.mjs`).
 7. `docs/MONEY_AND_GLORY.md` before any economy, director or ending work — money, hidden glory and the winner are owner-decided (2026-09-12) and amend `VISION.md` §20.
 8. `docs/LAND_GRANTS.md` before touching a family's land, the field, clearing, fencing or the stock a family brings — land grants and Survey are owner-decided (2026-09-13) and replace the four-clearings rule.
 9. `docs/COLONIES.md` before changing where families start, the arrival, news between settlements, or the timeline past October 2 — families spread across the settled colonies are owner-decided (2026-09-14) and amend `FIC-GONZ-024`.

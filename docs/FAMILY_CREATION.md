@@ -4,6 +4,8 @@
 changing `sim/family.mjs`, the join flow, chores that depend on who does them, or anything that
 decides who can be sent to fight.
 
+**Since 2026-09-25 the die is thrown with a second one, for the family's means** (the amendment at the foot of this file, `sim/means.mjs`).
+
 **The words on the wizard's screens were reviewed 2026-09-21** — the amendment at the foot of this file is the record of
 what each screen must say, and `tests/creation-words.test.mjs` holds it. Read it before changing a sentence on
 `#family-roll`, `#surname`, `#names`, `#looks` or `#wagon-load`.
@@ -79,7 +81,9 @@ two parents and 2 kids. each number over 4 is another kid."* Asked by multiple c
   - ~~*The same wagon.* A large family packs the same wagon and brings the same stock (`docs/STOCK.md`) as a family of one.~~
     **Amended by the owner, 2026-09-25** (docs/SETTLING_IN.md §4a): *more wagons*. A family of nine to sixteen comes with two
     wagons and seventeen to twenty with three, an ox to each, and packs a wagon's worth of stores to each wagon. It still brings
-    the same stock and the same one horse.
+    the same stock and the same one horse. **Amended again later on 2026-09-25** (the amendment at the foot of this file): in a
+    class made since, the wagons come from the family's **means**, rolled on a second die, not from its size, and a large family
+    with too few seats walks beside them (SETTLING_IN.md §4b).
   - *Crowded houses.* The four set houses hold three (jacal), four (the cabins) and eight (the dog-run), so a family of nine or
     more is crowded in every one of them, and sleeps at 80 in 100 of the rest a house gives (`CROWDED_SHARE`). A class that
     builds from pieces (`docs/WOODS_AND_BUILDING.md`) can build room for twenty on its plot — three log pens with lofts and a
@@ -648,3 +652,83 @@ a woman, on the Host's map and on any student's page that met them. Nothing hidd
 - A rolled person is unchanged. No save version moved: a class saved before rolling is drawn right as it opens.
 - **Evidence:** `tests/figures-match-people.test.mjs` (every face of the die, a lone father and a lone mother, two parents
   alone, the founding four and every town's keepers, in every student's own and observed view and the Host's).
+
+## Amendment, 2026-09-25 — the family's means, rolled on a second die
+
+**Owner:** *"introduce rolling for starting wealth. tie it into the extra wagons. part of wealth will be number of wagons. if a
+family doesn't have enough wagons, older family members walk. have this potentially affect travelling speed."*
+
+**Status: built the same day** (`sim/means.mjs`, `sim/company.mjs`; `sim/family.mjs` `meansRoll`; [tests](../tests/means.test.mjs),
+[injections](evidence/means-injections.json), [browser](evidence/means-browser.json)). Claims `HIST-TEX-442` (the research),
+`FIC-GONZ-393` (the bands), `FIC-GONZ-394` (who rides), `FIC-GONZ-395` (the pace). It amends §2 (the roll), the 2026-09-25 note there
+(*more wagons*, now by means and not by size) and the wizard's first step; who rides and who walks is
+[SETTLING_IN.md §4b](SETTLING_IN.md). No save version moved.
+
+### The second die
+
+- **Thrown by the same press as the first.** *Roll the die* on `#family-roll` throws two twenty-sided dice: the family's, and a green
+  one beside it for what the family has to start with. Both tumble and stop on the server's numbers; the line under them reads
+  *"You rolled a 7 for your family and a 12 for what it has."* and below it the server's words for the means - *"Modest. A wagon and
+  an ox to draw it, and the family's horse. 5 ride and 4 walk beside the wagon."* The step count and the other screens are unchanged:
+  it is still **Step 1 of 4**, and the panel still says the roll is thrown once and there is no second roll, which is true of the
+  two dice together. One press was chosen over a fifth step so the five-step walk the owner set on 2026-09-17 is unchanged and every
+  browser proof that walks it still walks it; the rolling is real - the server throws the second die on that press
+  (`rollFamily` in sim/world.mjs calls `applyMeans`), nothing is decided earlier and revealed.
+- **Seeded like the first**: `meansRoll(seed, householdId)` hashes the class and the household on a question of its own, so a saved
+  class reloads to the same means and the two dice do not run together (measured over 400 seeds in the test).
+- **What the number gives is shown, as the band.** Unlike the family's die, whose mapping the owner keeps hidden (§2), the means are
+  things a family can see it has - its cart or wagons and its oxen - so the band's name and what it brings are said at once. **The
+  table itself is written nowhere a student reads it**, only its result.
+- **Nothing hidden is read.** The bands do not touch the hidden stats (§4); who rides is decided from age and sickness, both of which
+  the family already sees. Tested by planting values in the stats and finding them in no payload.
+
+### The bands (`FIC-GONZ-393`)
+
+| Roll | Means | Comes with |
+| --- | --- | --- |
+| 1–6 | Poor | a **cart** and one ox |
+| 7–14 | Modest | a wagon and an ox |
+| 15–18 | Comfortable | two wagons, an ox to each |
+| 19–20 | Well-to-do | three wagons, an ox to each |
+
+- **From the record** (`HIST-TEX-441`, `-442`): Harris's father put their neighbours into three classes by what they hauled with -
+  wagons the aristocracy, carts the second class, a sleigh the lower - and even that lower class had oxen and a horse. So every family
+  keeps its horse, and the poorest have a cart. **No count** of how many families were of each sort was found; the shares of the die
+  are the game's own, weighted to the middle.
+- **A cart** is the family's one vehicle, *Family cart*, with **12** spaces to a wagon's 16 and three quarters of a wagon's room in
+  the flight east, and room for its driver and two more (§4b). Everywhere else the work asks for "the wagon" - a harvest that wants
+  one, fetching logs, the ford - the cart serves and is still called the wagon there (`ceiling:`, as `HIST-TEX-441` already had every
+  vehicle counted and drawn as the wagon). It is drawn with the wagon's art (`stand-in:`, docs/ART_REQUESTS.md).
+- **The load** is packed a wagon's worth of stores to each wagon, as the size rule did, and for a cart trimmed to its room a barrel of
+  meal at a time down to one, then the powder to one shot; never the hoe, the axe or the seed, which the first steps need
+  (docs/LESSON.md). A student repacks it as they like until Start.
+- **Five days of food at the least** (`FIC-GONZ-396`, added the same day after the first poor arrival was looked at: a family of
+  twelve in a cart came in with 4 food). Every family, of any means and size, arrives with at least five days of food for its
+  eaters; where the cart or wagon holds less, the rest is carried on foot beside it, "in sacks and bundles" - said on the pack
+  screen and in the arrival line, and kept apart from the load so repacking moves only what the vehicle holds. Five days is the
+  first period at Gonzales with the guided start inside it (4.7 days, measured). `ceiling:` no amount in the record read.
+- **No band brings coin.** Drafted as 0, 2, 6 and 15 reales, and taken out, because the ending is built and counts the coin in the
+  house (`finalNumber` in sim/ending.mjs), so the richest roll would have started ahead - see docs/MONEY_AND_GLORY.md, the amendment of
+  2026-09-25, **open for the owner**. The record gives the same answer from the other side: "none who have much money" (Holley).
+- **Slaveholding** was part of some Anglo families' wealth in the record (TSHA, *Old Three Hundred*). The families of this game are not
+  slaveholders (docs/ALAMO_FATES.md; VISION.md: enslaved people are never property), and no band carries it. Noted for the owner.
+
+### Who gets means, and when
+
+- A family somebody plays: on its roll, as above. **Start**, which rolls a joined family that never rolled, throws both dice.
+- **Families nobody plays** are given their means on the class's first running tick, before anything moves (`settleMeans`), so they
+  come in with a cart or with wagons like anybody. Nothing is written into their record, so a student who joins one later can still
+  roll it (`rollRefusal`).
+- **A class made before** (`world.meansRoll` absent): no means, and the wagons it had - one a family, or a wagon for every eight
+  people in a class made earlier on 2026-09-25 (`world.wagonsBySize`, which that class keeps: `FIC-GONZ-391` is retired for new
+  classes only).
+
+### Gates
+
+| Gate | What it means |
+| --- | --- |
+| The die is the seed's | The same means every time for a class and a household; every face and every band reached; the two dice not in step. |
+| Bands give what they say | Every band on three family sizes: its vehicles, an ox to each, one horse, the cart's room, the stores per wagon, the hoe, axe and seed kept, no coin. |
+| Nobody plays, still rolled | Every family nobody plays has means after the first tick, of more than one band, and comes in. |
+| Old classes open | A class made before rolls no means, seats nobody, and goes at the ox's pace; a new class saved reopens with its means. |
+| Hidden means hidden | Planted hidden stats reach no family, family book or Host payload. |

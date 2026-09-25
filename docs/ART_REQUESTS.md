@@ -31,6 +31,8 @@ does not have:
 | Thirteen tree kinds use delivered species art: pine, longleaf, cedar, mesquite, live oak, elm, post oak, blackjack, pecan, hackberry, sweetgum, bald cypress and sabal palm. Magnolia and beech have medium and large frames. Shortleaf shares loblolly art; the other oaks (water, bur, white, Texas) take the post oak's, and hickory, walnut and ash the pecan's | `KINDS` picture and optional per-size `pictures` in `sim/woods.mjs`, drawn by `drawGroundDetail` in `public/app.js` | Delivered through `biome-trees-fields.png`, 2026-09-22 | Shortleaf and species-specific later breadth |
 | **A child** riding the family horse is their own figure's idle pose (`seatedClip`), facing the way they go, cut off below the waist and drawn over the back of the family's walking horse (`horse-walk`, `-n`, `-s`); the horse is not drawn again. Everybody grown or adolescent came off this row on 2026-09-21: all eight identities are Astra's own painted horse-and-rider now (`RIDING_FIGURES`), drawn as one frame at the rider's height with no horse under it | `seatOf`, `seatedClip`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js` | Request 2026-09-14 — family members on horseback | `girl`, `boy`, `smallchild` and `infant` mounted on the family's chestnut, east/south/north as the eight have |
 | **A second-cast driver (`rust-woman`, `indigo`, `ochre`, `blue-girl`) or a child** driving the ox and wagon is their own figure's idle pose, cut off below the waist, sitting at the front of the side-view wagon (`wagon-travel`) with the ox (`ox-walk`, `-n`, `-s`) ahead; the ox and wagon are not drawn again. The four original-cast identities came off this row on 2026-09-21: `rust`, `teal`, `elder` and `blue` are Astra's whole seated driver layers with their reins and goad, in all four headings (`DRIVING_FIGURES`). Going north or south the wagon still stays side-on and the ox is above or below it | `wagonDriverId`, `seatOf`, `seatedClip`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js` | Request 2026-09-16 — driving the ox wagon | Seated driver layers for `rust-woman`, `indigo`, `ochre`, `blue-girl` and the four children, on the same four headings as the delivered sixteen |
+| **Riders in a wagon or cart** on a family's journey together (2026-09-25) are their own figure's idle pose cut off below the waist, set on the front of the covered wagon's cover behind the driver, two abreast toward the tail (`bedLayout`); a baby in a lap is drawn the same, smaller. The walkers beside the train are the ordinary walk cycles in a file along its near side; **a baby carried by a walker is drawn as the infant's own figure beside them**, not in anybody's arms | `bedLayout`, `passengersOf`, `walksBeside` in `public/motion.js`; `drawSeated` and `drawEntity` in `public/app.js` | Request 2026-09-25 — riders, walkers and the cart | Seated riders in an open-backed wagon and a cart; a walking figure carrying an infant, for the first and second casts |
+| **A family's cart** (the poorest means, 2026-09-25) is drawn as the family wagon - `wagon-travel`, `wagon-covered` - with the ox before it. The library's `ox-cart` is a still picture with its ox painted in, so drawing it would put two oxen on one cart and nothing rolling | `miniWagon` in `public/app.js` (the entity's `cart` is on the wire and not yet read) | Request 2026-09-25 — riders, walkers and the cart | `cart-travel` (east, north, south, four frames, wheels turning) and `cart-idle`, two-wheeled and uncovered, without its ox |
 | A rider never gets down to talk: they speak from the saddle, turned east, west, north or south toward the listener (the vertical dialogue delivered 2026-09-14 is in use). The person he stopped now answers him in their own delivered speaking and listening poses (2026-09-21), on their own feet | `carrierClip` and `grownClip` in `public/motion.js`, from `facingOf` and `listeningOf` in `sim/encounters.mjs` | Request 2026-09-12, priority 3 | `courier-dismount` (delivered 2026-09-14, registered, not yet bound: it needs the encounter to know when a rider has got down and where the horse stands) |
 | The road's three panel icons are glyphs drawn in canvas strokes: a rifle over a campfire (`hunt-road`), a figure under a blanket with a cup beside (`tend-sick`), a coin passed over a ferry's rail (`trade-crossing`) | `drawGlyph` in `public/family-panel.js`; `PANEL_ICONS` carries `glyph` and no sprite, and `drawIcon` takes `icon-<key>` the moment it is registered | Request 2026-09-16 — the road's icons | `icon-hunt-road`, `icon-tend-sick`, `icon-trade-crossing` |
 | The camp's four icons - drill, beef and corn, the guard, the scouts - are canvas glyphs (a musket at the shoulder; horns over a corn ear; a bayonet and a crescent moon; a horseshoe and a spyglass) in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-16 — the camp's icons | `icon-camp-drill`, `icon-camp-forage`, `icon-camp-guard`, `icon-camp-scout` |
@@ -92,6 +94,31 @@ into the existing pipeline, and how it will be checked. When a request is delive
 
 ---
 
+## Request 2026-09-25 — riders, walkers and the cart
+
+**Why.** The owner, 2026-09-25: *"introduce rolling for starting wealth. tie it into the extra wagons ... if a family doesn't have
+enough wagons, older family members walk."* A family's means now give it a cart, one wagon, two or three (sim/means.mjs), and on its
+journeys together the server seats the youngest and the sick in them and walks the rest beside them (sim/company.mjs,
+docs/SETTLING_IN.md §4b). The record: "my two little sisters rode in the sleigh" while her mother walked "with an infant in her arms"
+(Harris, `HIST-TEX-442`). The page can show who rides and who walks only with stand-ins.
+
+**What**, in the frontier-v1 style and the scale of `wagon-covered` and `ox-walk`:
+
+1. **The cart**: a two-wheeled, uncovered ox cart without its ox (the team is drawn separately), `cart-travel` east (mirrored for
+   west), north and south, four frames with the wheels turning, and `cart-idle`, loaded and empty. The library's `ox-cart` has its ox
+   painted in and does not move.
+2. **Riders**: seated figures to sit in the bed of an open wagon and a cart - the original and second casts and the children's
+   figures (`girl`, `boy`, `smallchild`), east/north/south - anchored at the hip like the delivered driver layers, and the wagon's
+   tail with its cover drawn back so they can be seen in it.
+3. **A walker carrying an infant**: the walk cycle of `rust-woman`, `indigo`, `ochre` and `blue-girl` (and one man) with a swaddled
+   infant in the arms, cardinal directions as the walk cycles.
+
+**How it plugs in.** `bedLayout` in `public/motion.js` returns where each rider sits; with seated rider layers registered it draws
+them whole instead of cut at the waist. `miniWagon` in `public/app.js` draws `cart-*` for an entity with `cart: true` (already on the
+wire). A carried baby (`travel.carried`, already on the wire) is not drawn on its own once the carrying walk lands.
+
+**Check.** At the family panel's zoom the riders read as sitting in the wagon, not standing on it; a cart is visibly smaller than a
+wagon with its one ox; the carried baby moves with the walker.
 ## Request 2026-09-24 — one roof over a two-pen house
 
 **Status: open; the pens' own roof over the passage in use (see *Stand-ins in use* above).** Owner, 2026-09-24: *"the

@@ -9,6 +9,8 @@
 // Not a test file: `node --test` picks up `*.test.mjs`, and this is imported, never run.
 import { createGonzalesWorld } from '../../sim/gonzales.mjs';
 import { validateWorld } from '../../sim/world.mjs';
+import { settleMeans } from '../../sim/means.mjs';
+import { packForRoom } from '../../sim/wagon.mjs';
 
 /** Every family's arrival finished on the spot, without moving the clock, and a cabin standing. */
 export function settle(world) {
@@ -29,7 +31,11 @@ export function settle(world) {
   return world;
 }
 
-export const createSettledWorld = (seed, count) => settle(createGonzalesWorld(seed, count));
+/**
+ * Home, with its means (sim/means.mjs): a class made since 2026-09-25 gives every family nobody rolled its means on the first
+ * running tick, before anything moves; a family already home has had that tick, so it has them before the test sets it up.
+ */
+export const createSettledWorld = (seed, count) => { const world = createGonzalesWorld(seed, count); settleMeans(world); return settle(world); };
 
 /**
  * Every family already walked through the guided beginning (sim/lesson.mjs, docs/LESSON.md).
@@ -53,5 +59,26 @@ export function taught(world) {
  */
 export function keepFoundingFamilies(world) {
   for (const household of Object.values(world.households)) household.name ??= `${world.entities[household.principalId].name}'s family`;
+  return world;
+}
+
+/**
+ * This family of modest means - one wagon and one ox, as every family had before the means were rolled (sim/means.mjs) - for a
+ * test whose subject is what one of each does: who holds the ox, whether the wagon is free. Its other wagons and oxen, and a
+ * cart's mark, are taken away before anything has happened to them.
+ */
+export function modestMeans(world, householdId = 'hh-1') {
+  const household = world.households[householdId];
+  for (const id of [...household.property]) {
+    if (!/-(wagon|animal)-\d+$/.test(id)) continue;
+    delete world.entities[id];
+    household.property = household.property.filter(one => one !== id);
+  }
+  const wagon = world.entities[`${householdId}-wagon`];
+  if (wagon?.cart) { delete wagon.cart; wagon.name = 'Family wagon'; }
+  if (household.means) household.means = { roll: 10, band: 'modest' };
+  // And its load what one wagon holds (sim/wagon.mjs `packForRoom`), the stores that came in the others gone with them.
+  packForRoom(world, household);
+  validateWorld(world);
   return world;
 }

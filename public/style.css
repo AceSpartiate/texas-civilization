@@ -474,6 +474,12 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .family-die.rolling{animation:family-die-tumble .18s linear infinite}
 @keyframes family-die-tumble{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 #roll-family{margin-top:10px}
+/* The family's die and, in a class made since 2026-09-25, the means die beside it (sim/means.mjs), thrown by one press. */
+.family-dice{display:flex;justify-content:center;gap:18px}
+.family-dice .family-die[hidden]{display:none}
+.means-die{background:radial-gradient(circle at 50% 58%,#5d6b44 0 34%,#465433 35%)}
+#means-result{font-size:13px;line-height:1.45;text-align:left;background:#fffaf0a8;border:1px solid #c9b58b;border-radius:6px;padding:6px 8px}
+#means-result[hidden]{display:none}
 
 /* Packing the wagon: the same paper as the roll and the walk-through, on the left above the
    walk-through's corner, and scrolling inside itself so it never pushes the map away. */

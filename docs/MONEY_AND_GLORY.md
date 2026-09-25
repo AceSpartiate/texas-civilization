@@ -445,3 +445,34 @@ seed), so this is recorded, not tuned. Put to the owner the same day by multiple
   into a scoreboard chase and changes every decision a student makes.
 - **A replacement for the epilogue.** §20's epilogue is a story selected from causal threads. The
   numbers sit beside it.
+
+## Amendment, 2026-09-25 — rolled means, and a fair ending (open for the owner)
+
+**Not a decision; a question the owner has to answer before starting wealth can include coin.** The owner asked the same day for a
+roll of starting wealth tied to the wagons (docs/FAMILY_CREATION.md and docs/SETTLING_IN.md §4b, amendments of 2026-09-25). It is
+built: a second die gives a family a cart, one wagon, two or three, an ox to each. **It gives no coin**, and this is why.
+
+- **The ending is built and counts coin.** `final = max(money, 1) × (1 + glory) + land` (§5, sim/ending.mjs `finalNumber`). A band
+  that started with coin would carry it straight into the score: a well-to-do family given the drafted fifteen reales and spending
+  none would finish **fifteen times** a poor family of the same glory, for having rolled well. The winner would be the die's.
+- **Wagons are not counted**, so they can differ between families now without touching the ending. A family with more wagons hauls
+  more to town and loads more in the flight east - it can earn more - and what it earns is its own play. (It is still an advantage
+  the roll gave; see the second recommendation.)
+- **The record agrees coin should be small**: "Money is scarce, in Texas", "none who have much money" (Holley, 1833); "Specie is the
+  only current money of the country" (Woodman, 1835) - `HIST-TEX-442`, `HIST-GONZ-023`.
+
+**Recommended, for the owner to choose:**
+
+1. **Score the coin a family gained, not the coin it holds**: `money counted = max(money − starting coin, 0)`, with the floor of one
+   real kept (§5). Starting coin is then a head start in what a family can *buy* - a horse sooner, a rifle - and nothing in the
+   final number. Every family has started with none since money came in (§3), so no class played so far would score differently.
+   `household.means` already records the roll; a band's starting coin would be read from it, so the fix is one line in
+   `countedCoin` and a field on each band.
+2. **Or, measure against the family's band**: divide what was gained by what the band started with, or compare each family only
+   with families of its own means. Fairer to a poor family's harder start, but the Host's one named winner (§5) would then need
+   explaining to a class, which (1) does not.
+3. **Either way, say it**: the ending's own sentence ("12 reales × (1 + 4 glory)") would say "12 reales earned" once coin at the start
+   exists.
+
+Until the owner answers, **no band brings coin** (`MEANS_BANDS` in sim/means.mjs has no coin field; the drafted 0, 2, 6 and 15
+reales are recorded there as the draft). Nothing about the ending changed.

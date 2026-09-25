@@ -21,7 +21,7 @@ import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createClassroom } from '../server/app.mjs';
-import { createSettledWorld, keepFoundingFamilies, taught } from '../tests/support/settled.mjs';
+import { createSettledWorld, keepFoundingFamilies, modestMeans, taught } from '../tests/support/settled.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { asMain } from './support/main-person.mjs';
 
@@ -38,7 +38,8 @@ const observed = {};
 // The family has a crop to sell and nothing much else: fourteen bales, 150 reales put by for a horse and a wagon, a little seed. Set when the class is made -
 // the classroom's world is the server's, and this proof reads it (`app.state`, a copy) but never writes it.
 const app = createClassroom({ seed: 'errand-proof', playerCount: 5, tickMs: 200, worldFactory: (seed, count) => {
-  const world = taught(keepFoundingFamilies(createSettledWorld(seed, count)));
+  // One wagon and one ox, as the refusals below are about (sim/means.mjs would give this seed's family two).
+  const world = modestMeans(taught(keepFoundingFamilies(createSettledWorld(seed, count))));
   world.households['hh-1'].resources = { ...world.households['hh-1'].resources, cotton: 14, money: 150, seed: 2, food: 30 };
   return world;
 } });

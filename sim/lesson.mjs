@@ -164,17 +164,20 @@ const watered = household => household.well === true || !household.site?.needsWe
  * were asked for actually happened. `allow` is the whole permission: what the server will let
  * through while this step is running, beside `ALWAYS`.
  */
+/** The family's vehicle as the arrival's words say it: its cart, for a family of the poorest means, and otherwise the wagon. */
+const haul = household => (household?.means?.cart ? 'cart' : 'wagon');
 export const STEPS = Object.freeze([
   {
     id: 'arrive',
     title: 'Come in to your land',
     first: 'come in to your own land.',
+    // A family of the poorest means comes in with a cart (sim/means.mjs), and the step says so.
     says: (world, household) => household.arriving
-      ? 'Your wagon is on the track in to land of your own. Watch for it to stop.'
-      : 'Choose a place on your own land for the house, and the wagon will be drawn over to it.',
+      ? `Your ${haul(household)} is on the track in to land of your own. Watch for it to stop.`
+      : `Choose a place on your own land for the house, and the ${haul(household)} will be drawn over to it.`,
     allow: () => ['choose-site', 'plan-house', 'place-piece', 'remove-piece'],
     done: (world, household) => !household.arriving && !choosing(household),
-    did: () => 'The wagon is in. The family is standing on land of its own.',
+    did: (world, household) => `The ${haul(household)} is in. The family is standing on land of its own.`,
   },
   {
     id: 'order',

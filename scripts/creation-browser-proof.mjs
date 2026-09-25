@@ -99,6 +99,15 @@ try {
 
   await page.locator('#roll-family').click();
   await page.waitForFunction(() => document.querySelector('#roll-family')?.textContent === 'Meet your family', null, { timeout: 20000 });
+  // The second die, thrown by the same press (owner, 2026-09-25; sim/means.mjs): the family's means in the server's words, and
+  // the panel, taller with them, still fits the Chromebook with its button in reach.
+  await page.locator('#means-result').waitFor({ state: 'visible', timeout: 10000 });
+  observed.meansResult = await readable(page, '#means-result');
+  assert.match(observed.meansResult, /^(Poor|Modest|Comfortable|Well-to-do)\. (A cart|A wagon|Two wagons|Three wagons)/, 'the means are not said after the throw');
+  await fits(page, '#family-roll', '#roll-family', CHROMEBOOK);
+  await page.screenshot({ path: 'docs/evidence/creation-die-means.png' });
+  shots.push('docs/evidence/creation-die-means.png');
+  ok(`the second die says the family's means and the panel still fits: "${observed.meansResult}"`);
   await page.locator('#roll-family').click();
 
   // ---------------------------------------------------------------- the last name

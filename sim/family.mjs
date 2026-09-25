@@ -164,6 +164,12 @@ export const tableOf = household => household?.rollTable ?? (household?.die === 
 export const listWords = names => names.length < 3 ? names.join(' and ') : `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`;
 export const rolledWords = roll => `${[8, 11, 18].includes(roll) ? 'an' : 'a'} ${roll}`;
 export const familyRoll = (seed, householdId) => 1 + (hashOf(`${seed}:${householdId}:family-roll`) % FAMILY_DIE);
+/**
+ * The second die, thrown with the first: what the family has to start with (owner, 2026-09-25: "introduce rolling for starting
+ * wealth"; sim/means.mjs, docs/FAMILY_CREATION.md's amendment of that day). The same twenty sides, hashed from the class and the
+ * household like the family's own roll and on a question of its own, so the two never run together.
+ */
+export const meansRoll = (seed, householdId) => 1 + (hashOf(`${seed}:${householdId}:means-roll`) % FAMILY_DIE);
 
 /**
  * What each face made on the 2026-09-14 table, `d20-faces`, kept for classes rolled then, as [parents, children] (owner, 2026-09-14: bigger frontier families, and

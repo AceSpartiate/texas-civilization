@@ -1,0 +1,665 @@
+{
+  "record": "means-injections",
+  "date": "2026-09-25",
+  "files": [
+    "tests/means.test.mjs",
+    "tests/wagons.test.mjs",
+    "tests/arrival.test.mjs",
+    "tests/family-roll.test.mjs",
+    "tests/wagon-load.test.mjs",
+    "tests/creation-words.test.mjs",
+    "tests/grants.test.mjs"
+  ],
+  "caught": 37,
+  "onlyThat": 19,
+  "of": 37,
+  "results": [
+    {
+      "name": "the old trim: nothing carried on foot, a poor family of twelve arrives with 4 food",
+      "expect": "no family arrives with fewer than five days of food for its eaters, whatever its means and its size",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "  packForRoom(world, household);\n  carryTheRest(world, household);\n",
+          "to": "  packForRoom(world, household);\n"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "no family arrives with fewer than five days of food for its eaters, whatever its means and its size"
+      ]
+    },
+    {
+      "name": "the food carried on foot lost when the cart is repacked",
+      "expect": "no family arrives with fewer than five days of food for its eaters, whatever its means and its size",
+      "edits": [
+        {
+          "file": "sim/wagon.mjs",
+          "from": "  household.resources = { ...household.resources, ...storesWithPacks(household, load) };\n  household.tools",
+          "to": "  household.resources = { ...household.resources, ...loadStores(load) };\n  household.tools"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "no family arrives with fewer than five days of food for its eaters, whatever its means and its size"
+      ]
+    },
+    {
+      "name": "three days, not five",
+      "expect": "no family arrives with fewer than five days of food for its eaters, whatever its means and its size",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "export const ARRIVAL_DAYS = 5;",
+          "to": "export const ARRIVAL_DAYS = 3;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "no family arrives with fewer than five days of food for its eaters, whatever its means and its size"
+      ]
+    },
+    {
+      "name": "the means die thrown on the family die's question",
+      "expect": "the means die is the class's and the household's, the same every time, and every band is reached",
+      "edits": [
+        {
+          "file": "sim/family.mjs",
+          "from": ":means-roll`) % FAMILY_DIE)",
+          "to": ":family-roll`) % FAMILY_DIE)"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "the means die is the class's and the household's, the same every time, and every band is reached",
+        "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room",
+        "no family arrives with fewer than five days of food for its eaters, whatever its means and its size",
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+        "a family of many small children in one cart comes in slower than the ox, and one with room at the ox's pace",
+        "the flight east and the way home are seated and paced as the family is; a cart holds three quarters of a wagon",
+        "a class made before the means opens as it was: no means, no seats, the ox's pace, and a saved class keeps its own",
+        "nothing hidden is read or sent; no other family's means or seats reach a student; the seats cost the tick little"
+      ]
+    },
+    {
+      "name": "the means not rolled with the family",
+      "expect": "the means die is the class's and the household's, the same every time, and every band is reached",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "  if (world.meansRoll) applyMeans(world, household);\n",
+          "to": ""
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "the means die is the class's and the household's, the same every time, and every band is reached",
+        "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room",
+        "no family arrives with fewer than five days of food for its eaters, whatever its means and its size",
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+        "a family of many small children in one cart comes in slower than the ox, and one with room at the ox's pace",
+        "the flight east and the way home are seated and paced as the family is; a cart holds three quarters of a wagon",
+        "a class made before the means opens as it was: no means, no seats, the ox's pace, and a saved class keeps its own"
+      ]
+    },
+    {
+      "name": "a poor family comes with a wagon, not a cart",
+      "expect": "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "from: 1, to: 6, wagons: 1, cart: true }",
+          "to": "from: 1, to: 6, wagons: 1 }"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room",
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+        "a family of many small children in one cart comes in slower than the ox, and one with room at the ox's pace",
+        "the flight east and the way home are seated and paced as the family is; a cart holds three quarters of a wagon"
+      ]
+    },
+    {
+      "name": "a comfortable family comes with one wagon",
+      "expect": "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "from: 15, to: 18, wagons: 2 }",
+          "to": "from: 15, to: 18, wagons: 1 }"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room"
+      ]
+    },
+    {
+      "name": "the extra wagons come with no ox",
+      "expect": "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "  for (const role of ['wagon', 'ox']) {",
+          "to": "  for (const role of ['wagon']) {"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room"
+      ]
+    },
+    {
+      "name": "a cart holds a wagon's room",
+      "expect": "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room",
+      "edits": [
+        {
+          "file": "sim/wagon.mjs",
+          "from": "(carted(household) ? WAGON_SPACE - CART_SPACE : 0)",
+          "to": "0"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room"
+      ]
+    },
+    {
+      "name": "the stores not packed into the other wagons",
+      "expect": "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room",
+      "edits": [
+        {
+          "file": "sim/wagon.mjs",
+          "from": "ITEMS.get(entry.id)?.kind === 'stores' ? Math.min(entry.amount * wagons, mostFor(household, ITEMS.get(entry.id))) : entry.amount]));\n  const used",
+          "to": "entry.amount]));\n  const used"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room"
+      ]
+    },
+    {
+      "name": "the hoe and the seed trimmed out of a cart first",
+      "expect": "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room",
+      "edits": [
+        {
+          "file": "sim/wagon.mjs",
+          "from": "[['provisions', 1], ['powder', 1], ['provisions', 0],",
+          "to": "[['hoe', 0], ['seed', 0], ['provisions', 1], ['powder', 1], ['provisions', 0],"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "each band comes with the vehicles it says, an ox to each and the horse, and the load packed for their room",
+        "a family with a cart does its first steps, brings in a crop that wants the wagon, and keeps the whole of its lesson"
+      ]
+    },
+    {
+      "name": "the oldest ride first",
+      "expect": "a driver to every vehicle, then the sick and the youngest ride, a baby in its carrier's arms, and the eldest walk",
+      "edits": [
+        {
+          "file": "sim/company.mjs",
+          "from": ".sort((a, b) => (unwell(b) - unwell(a)) || byAge(a, b));",
+          "to": ".sort((a, b) => (unwell(b) - unwell(a)) || byAge(b, a));"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "a driver to every vehicle, then the sick and the youngest ride, a baby in its carrier's arms, and the eldest walk",
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so"
+      ]
+    },
+    {
+      "name": "the sick wait their turn",
+      "expect": "a driver to every vehicle, then the sick and the youngest ride, a baby in its carrier's arms, and the eldest walk",
+      "edits": [
+        {
+          "file": "sim/company.mjs",
+          "from": ".sort((a, b) => (unwell(b) - unwell(a)) || byAge(a, b));",
+          "to": ".sort((a, b) => byAge(a, b));"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a driver to every vehicle, then the sick and the youngest ride, a baby in its carrier's arms, and the eldest walk"
+      ]
+    },
+    {
+      "name": "a baby takes a seat of its own",
+      "expect": "a driver to every vehicle, then the sick and the youngest ride, a baby in its carrier's arms, and the eldest walk",
+      "edits": [
+        {
+          "file": "sim/company.mjs",
+          "from": "const carried = person => Number.isFinite(person.age) && person.age < CARRIED_UNDER;",
+          "to": "const carried = () => false;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "a driver to every vehicle, then the sick and the youngest ride, a baby in its carrier's arms, and the eldest walk",
+        "the family goes at its slowest: the ox with a vehicle, a small child on foot slower, and on foot its smallest walker",
+        "a family whose vehicle is gone flees on foot at the pace of its smallest walker, carrying a baby"
+      ]
+    },
+    {
+      "name": "a cart takes a wagon's riders",
+      "expect": "a driver to every vehicle, then the sick and the youngest ride, a baby in its carrier's arms, and the eldest walk",
+      "edits": [
+        {
+          "file": "sim/company.mjs",
+          "from": "export const ridersIn = vehicle => (vehicle?.cart ? CART_RIDERS : WAGON_RIDERS);",
+          "to": "export const ridersIn = () => WAGON_RIDERS;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "a driver to every vehicle, then the sick and the youngest ride, a baby in its carrier's arms, and the eldest walk",
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+        "a family of many small children in one cart comes in slower than the ox, and one with room at the ox's pace",
+        "the flight east and the way home are seated and paced as the family is; a cart holds three quarters of a wagon"
+      ]
+    },
+    {
+      "name": "a child of eight drives",
+      "expect": "a driver to every vehicle, then the sick and the youngest ride, a baby in its carrier's arms, and the eldest walk",
+      "edits": [
+        {
+          "file": "sim/company.mjs",
+          "from": "const mayDrive = person => !Number.isFinite(person.age) || person.age >= SENT_FROM_AGE;",
+          "to": "const mayDrive = () => true;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a driver to every vehicle, then the sick and the youngest ride, a baby in its carrier's arms, and the eldest walk"
+      ]
+    },
+    {
+      "name": "walkers never slow the family",
+      "expect": "the family goes at its slowest: the ox with a vehicle, a small child on foot slower, and on foot its smallest walker",
+      "edits": [
+        {
+          "file": "sim/company.mjs",
+          "from": "  return vehicles.length ? Math.min(WAGON_SPEED, slowest) : Math.min(WALK_SPEED, slowest);",
+          "to": "  return vehicles.length ? WAGON_SPEED : WALK_SPEED;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "the family goes at its slowest: the ox with a vehicle, a small child on foot slower, and on foot its smallest walker",
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+        "a family of many small children in one cart comes in slower than the ox, and one with room at the ox's pace",
+        "a family whose vehicle is gone flees on foot at the pace of its smallest walker, carrying a baby"
+      ]
+    },
+    {
+      "name": "a small child walks as fast as a grown one",
+      "expect": "the family goes at its slowest: the ox with a vehicle, a small child on foot slower, and on foot its smallest walker",
+      "edits": [
+        {
+          "file": "sim/company.mjs",
+          "from": "  return age >= 6 ? CHILD_WALK_SPEED : SMALL_WALK_SPEED;",
+          "to": "  return WALK_SPEED;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "the family goes at its slowest: the ox with a vehicle, a small child on foot slower, and on foot its smallest walker",
+        "a family of many small children in one cart comes in slower than the ox, and one with room at the ox's pace"
+      ]
+    },
+    {
+      "name": "a family on foot at the ox's pace",
+      "expect": "a family whose vehicle is gone flees on foot at the pace of its smallest walker, carrying a baby",
+      "edits": [
+        {
+          "file": "sim/company.mjs",
+          "from": ": Math.min(WALK_SPEED, slowest);",
+          "to": ": WAGON_SPEED;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "the family goes at its slowest: the ox with a vehicle, a small child on foot slower, and on foot its smallest walker",
+        "a family whose vehicle is gone flees on foot at the pace of its smallest walker, carrying a baby"
+      ]
+    },
+    {
+      "name": "nobody seated on the road in",
+      "expect": "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+      "edits": [
+        {
+          "file": "sim/settling.mjs",
+          "from": "  if (!world.meansRoll) return;\n  const movers",
+          "to": "  return;\n  const movers"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+        "a family of many small children in one cart comes in slower than the ox, and one with room at the ox's pace",
+        "nothing hidden is read or sent; no other family's means or seats reach a student; the seats cost the tick little"
+      ]
+    },
+    {
+      "name": "a walker tired as a rider",
+      "expect": "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "const how = travel.afoot ? MODES.foot : modeOf(travel);",
+          "to": "const how = modeOf(travel);"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so"
+      ]
+    },
+    {
+      "name": "a baby carried tired by the road",
+      "expect": "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "const cost = travel.carried ? 0 :",
+          "to": "const cost ="
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so"
+      ]
+    },
+    {
+      "name": "the seats not sent to the family",
+      "expect": "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "mode: travel.mode, ...seatOfTravel(travel) } };",
+          "to": "mode: travel.mode } };"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+        "nothing hidden is read or sent; no other family's means or seats reach a student; the seats cost the tick little"
+      ]
+    },
+    {
+      "name": "riders drawn walking beside the wagon as well",
+      "expect": "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+      "edits": [
+        {
+          "file": "public/motion.js",
+          "from": "  if (entity.kind === 'person' && entity.travel?.rides) {\n    const team",
+          "to": "  if (false) {\n    const team"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so"
+      ]
+    },
+    {
+      "name": "the page deals the drivers itself",
+      "expect": "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+      "edits": [
+        {
+          "file": "public/motion.js",
+          "from": "const planned = aboard.some(entity => entity.travel.drives || entity.travel.rides || entity.travel.afoot);",
+          "to": "const planned = false;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so"
+      ]
+    },
+    {
+      "name": "a small child walking does not hold the cart back",
+      "expect": "a family of many small children in one cart comes in slower than the ox, and one with room at the ox's pace",
+      "edits": [
+        {
+          "file": "sim/company.mjs",
+          "from": "export const CHILD_WALK_SPEED = 2 / 3, SMALL_WALK_SPEED = 0.5;",
+          "to": "export const CHILD_WALK_SPEED = 2 / 3, SMALL_WALK_SPEED = 0.65;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "the family goes at its slowest: the ox with a vehicle, a small child on foot slower, and on foot its smallest walker",
+        "a family of many small children in one cart comes in slower than the ox, and one with room at the ox's pace"
+      ]
+    },
+    {
+      "name": "the flight east not seated",
+      "expect": "the flight east and the way home are seated and paced as the family is; a cart holds three quarters of a wagon",
+      "edits": [
+        {
+          "file": "sim/scrape.mjs",
+          "from": "  if (world.meansRoll) setOut(travellers, mode === 'wagon' ? drawnVehicles(travellers) : [], journey);",
+          "to": "  if (false) setOut(travellers, [], journey);"
+        },
+        {
+          "file": "sim/scrape.mjs",
+          "from": "    if (!world.meansRoll) entity.travel = journey();\n    entity.location",
+          "to": "    entity.travel = journey();\n    entity.location"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "the flight east and the way home are seated and paced as the family is; a cart holds three quarters of a wagon",
+        "a family whose vehicle is gone flees on foot at the pace of its smallest walker, carrying a baby"
+      ]
+    },
+    {
+      "name": "the way home not seated",
+      "expect": "the flight east and the way home are seated and paced as the family is; a cart holds three quarters of a wagon",
+      "edits": [
+        {
+          "file": "sim/scrape.mjs",
+          "from": "    if (world.meansRoll) setOut(home, mode === 'wagon' ? drawnVehicles(home) : [], journey);",
+          "to": "    if (false) setOut(home, [], journey);"
+        },
+        {
+          "file": "sim/scrape.mjs",
+          "from": "      if (!world.meansRoll) entity.travel = journey();",
+          "to": "      entity.travel = journey();"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the flight east and the way home are seated and paced as the family is; a cart holds three quarters of a wagon"
+      ]
+    },
+    {
+      "name": "a cart holds a wagon's room in the flight",
+      "expect": "the flight east and the way home are seated and paced as the family is; a cart holds three quarters of a wagon",
+      "edits": [
+        {
+          "file": "sim/scrape.mjs",
+          "from": "?.cart ? FLIGHT_ROOM * (1 - CART_SPACE / WAGON_SPACE) : 0;",
+          "to": "?.cart ? 0 : 0;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the flight east and the way home are seated and paced as the family is; a cart holds three quarters of a wagon"
+      ]
+    },
+    {
+      "name": "a cart is not the vehicle a crop wants",
+      "expect": "a family with a cart does its first steps, brings in a crop that wants the wagon, and keeps the whole of its lesson",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "  if (band.cart && wagon) { wagon.cart = true; wagon.name = 'Family cart'; }",
+          "to": "  if (band.cart && wagon) { wagon.cart = true; wagon.name = 'Family cart'; wagon.condition = 'broken'; }"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+        "the flight east and the way home are seated and paced as the family is; a cart holds three quarters of a wagon",
+        "a family with a cart does its first steps, brings in a crop that wants the wagon, and keeps the whole of its lesson"
+      ]
+    },
+    {
+      "name": "the families nobody plays given no means",
+      "expect": "the families nobody plays are given means on the first running tick and go on living their lives",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "  settleMeans(world);\n",
+          "to": ""
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the families nobody plays are given means on the first running tick and go on living their lives"
+      ]
+    },
+    {
+      "name": "the means written into a family's record",
+      "expect": "the families nobody plays are given means on the first running tick and go on living their lives",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "  for (const household of Object.values(world.households)) if (!household.means) applyMeans(world, household);",
+          "to": "  for (const household of Object.values(world.households)) if (!household.means) { applyMeans(world, household); world.events.push({ id: `ev-m-${household.id}`, type: 'memory', householdId: household.id, text: 'The family means are rolled.' }); }"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "a family on the road in can do nothing but come in, and comes in together",
+        "every family in the largest class is on its land long before the news",
+        "a family rolled in the lobby is on the road beside its wagon, and arrives with it",
+        "the camp costs a little: rest mends two-thirds as well, and the food keeps worse",
+        "a class saved before arrivals is housed, camps nowhere, and eats and rests as it did",
+        "on the road in each is seated, walkers are tired as walkers, the family comes in together, and the page draws them so",
+        "a family with a cart does its first steps, brings in a crop that wants the wagon, and keeps the whole of its lesson",
+        "the families nobody plays are given means on the first running tick and go on living their lives",
+        "the wagon comes in loaded, is unloaded at the land, and the arrival says what came"
+      ]
+    },
+    {
+      "name": "a class made before seated too",
+      "expect": "a class made before the means opens as it was: no means, no seats, the ox's pace, and a saved class keeps its own",
+      "edits": [
+        {
+          "file": "sim/settling.mjs",
+          "from": "  if (!world.meansRoll) return;\n  const movers",
+          "to": "  const movers"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a class made before the means opens as it was: no means, no seats, the ox's pace, and a saved class keeps its own"
+      ]
+    },
+    {
+      "name": "means never checked on a save",
+      "expect": "a class made before the means opens as it was: no means, no seats, the ox's pace, and a saved class keeps its own",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "export function meansInvalid(world) {\n",
+          "to": "export function meansInvalid(world) {\n  return null;\n"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "no family arrives with fewer than five days of food for its eaters, whatever its means and its size",
+        "a class made before the means opens as it was: no means, no seats, the ox's pace, and a saved class keeps its own"
+      ]
+    },
+    {
+      "name": "the Host not told who walks",
+      "expect": "nothing hidden is read or sent; no other family's means or seats reach a student; the seats cost the tick little",
+      "edits": [
+        {
+          "file": "sim/overview.mjs",
+          "from": ", ...seatOfTravel(entity.travel) };",
+          "to": " };"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "nothing hidden is read or sent; no other family's means or seats reach a student; the seats cost the tick little"
+      ]
+    },
+    {
+      "name": "the family book carries the people's hidden stats",
+      "expect": "nothing hidden is read or sent; no other family's means or seats reach a student; the seats cost the tick little",
+      "edits": [
+        {
+          "file": "sim/means.mjs",
+          "from": "seats: seatWords(people, vehicles) };",
+          "to": "seats: seatWords(people, vehicles), who: people.map(one => one.traits) };"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "the hidden stats reach no payload: not the family’s own, not a neighbour’s, not the Host’s",
+        "nothing hidden is read or sent; no other family's means or seats reach a student; the seats cost the tick little"
+      ]
+    },
+    {
+      "name": "another family's cart sent to a student",
+      "expect": "nothing hidden is read or sent; no other family's means or seats reach a student; the seats cost the tick little",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId)",
+          "to": "const entities = Object.values(world.entities).filter(e => (e.householdId === householdId || e.cart) && householdId)"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "nothing hidden is read or sent; no other family's means or seats reach a student; the seats cost the tick little"
+      ]
+    }
+  ]
+}

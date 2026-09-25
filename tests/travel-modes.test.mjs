@@ -10,7 +10,7 @@
 // the lesson and `FIC-GONZ-014` registers it.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createSettledWorld } from './support/settled.mjs';
+import { createSettledWorld, modestMeans } from './support/settled.mjs';
 import {
   applyAction, beginTravel, createWorld, modeAvailability, projectWorld, stepWorld,
   travelModesFor, travelRefusal, validateWorld,
@@ -305,7 +305,8 @@ test('work that cannot be set out on is refused before it is written down', () =
   // three times over - by `applyAction`, by `beginTravel` and here - so breaking any one
   // of them alone changes nothing observable. A real mode that is merely unavailable is
   // caught here and nowhere else.
-  const world = running('half-written');
+  // One ox and one wagon, so a second person asking for them is refused (sim/means.mjs gives a family of other means more).
+  const world = modestMeans(running('half-written'));
   const mateo = person(world, 'hh-1', 'mateo'), rosa = person(world, 'hh-1', 'rosa');
   beginTravel(world, mateo, 'gonzales', null, 'visit', 'wagon');
   assert.throws(

@@ -261,8 +261,17 @@
       <h2 id="family-roll-title">Roll for your family</h2>
       <p id="family-roll-text">The die decides how many are in your family and who they are. It is thrown once. There is no
         second roll, so the family it gives you is the family you play.</p>
-      <div id="family-die" class="family-die" aria-hidden="true">20</div>
+      <!-- The second die, thrown by the same press in a class made since 2026-09-25 (sim/means.mjs): what the family has to
+           start with. Shown only when the server says the class rolls it (`family.meansDie`). The bands are the server's
+           words after the throw; what number gives which is not written here. -->
+      <p id="means-roll-text" hidden>A second die, thrown with it, decides what the family has to start with: a cart or
+        wagons, and the oxen to draw them.</p>
+      <div class="family-dice">
+        <div id="family-die" class="family-die" aria-hidden="true">20</div>
+        <div id="means-die" class="family-die means-die" aria-hidden="true" hidden>20</div>
+      </div>
       <p id="family-roll-result" role="status"></p>
+      <p id="means-result" hidden><strong id="means-name"></strong> <span id="means-words"></span> <span id="means-seats"></span></p>
       <button type="button" id="roll-family">Roll the die</button>
     </section>
 
@@ -287,6 +296,7 @@
         town later, if there is coin; the things for the house cannot be bought anywhere.</p>
       <p id="wagon-when">You can change all of this until your teacher presses Start. After that the wagon is packed.</p>
       <p id="wagon-room" role="status"></p>
+      <p id="wagon-packs" hidden></p>
       <!-- Whether the family drives stock in: how much land it holds (docs/LAND_GRANTS.md) and the herd itself
            (docs/STOCK.md), both stated here since 2026-09-21. -->
       <fieldset id="wagon-stock" hidden>

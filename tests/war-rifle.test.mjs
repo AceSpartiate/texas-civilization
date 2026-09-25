@@ -22,7 +22,7 @@ import { choreAvailability } from '../sim/chores.mjs';
 import { userOf } from '../sim/keeping.mjs';
 import { toolCount } from '../sim/tools.mjs';
 import { readSave, writeSave } from '../server/storage.mjs';
-import { createSettledWorld, taught } from './support/settled.mjs';
+import { createSettledWorld, taught, modestMeans } from './support/settled.mjs';
 
 const view = (world, id) => projectWorld(world, id, 'student', { includeMap: false });
 const until = (world, done, limit = 8000) => { for (let t = 0; t < limit && !done() && world.status === 'running' && !world.director?.complete; t++) stepWorld(world); };
@@ -183,7 +183,8 @@ test('leaving to join the garrison takes the rifle', () => {
 
 // ------------------------------------------------------------------------------------------------ the felling axe
 function axeWorld(seed) {
-  const world = taught(createSettledWorld(seed, 5));
+  // A family of one wagon, whose load has room for the stock this sets it driving (sim/means.mjs: a cart has less).
+  const world = modestMeans(taught(createSettledWorld(seed, 5)));
   world.status = 'running';
   const household = world.households['hh-1'];
   household.played = true;

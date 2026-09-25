@@ -12,6 +12,7 @@
 //   army. What a family finds when it comes home is half the cattle and a quarter of the hogs.
 //
 // Each test here was proven by injecting the regression it guards (scripts/stock-injections.mjs).
+import { settleMeans } from '../sim/means.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
@@ -25,11 +26,18 @@ import { KEEP_CATTLE, KEEP_HOGS, STOCK_SHARE } from '../sim/neighbours.mjs';
 import { holdingOf } from '../sim/grants.mjs';
 import { dateOf } from '../sim/clock.mjs';
 import { STOCK_SPACE, WAGON_SPACE, spaceOf } from '../sim/wagon.mjs';
-import { settle } from './support/settled.mjs';
+import { settle, modestMeans } from './support/settled.mjs';
 
 const DAY = 1440;
 const landed = (seed, count = 8) => {
-  const world = settle(createGonzalesWorld(seed, count, { map: 'colonies' }));
+  // Home with its means, which a class made since 2026-09-25 gives on its first running tick (sim/means.mjs): given here, so a
+  // family's food carried on foot is not added in the middle of a measurement.
+  // Every family of modest means, one wagon and one ox, whose load has the room for stock these tests set it driving: the herd is
+  // what they are about, and a cart's twelve spaces would not take stock and the default load together (sim/grants.mjs refuses it).
+  const setUp = createGonzalesWorld(seed, count, { map: 'colonies' });
+  settleMeans(setUp);
+  const world = settle(setUp);
+  for (const id of Object.keys(world.households)) modestMeans(world, id);
   world.status = 'running';
   return world;
 };

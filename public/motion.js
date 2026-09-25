@@ -160,8 +160,18 @@ export function wagonTeams(householdId, entities = []) {
   const oxen = own.filter(entity => entity.kind === 'animal' && entity.species !== 'horse' && entity.travel?.mode === 'wagon');
   const taken = new Set(), yoked = new Set();
   const teams = wagons.map(wagon => ({ wagon, driverId: null, ox: null }));
+  // A family's journey together in a class made since 2026-09-25 (sim/company.mjs): the server has said who drives each wagon, who
+  // rides and who walks, and that is the whole answer - nobody it seated as a rider or a walker is dealt a wagon to drive here.
+  const planned = aboard.some(entity => entity.travel.drives || entity.travel.rides || entity.travel.afoot);
+  if (planned) {
+    for (const team of teams) {
+      const by = aboard.find(entity => entity.travel.drives === team.wagon.id);
+      if (by) { team.driverId = by.id; taken.add(by.id); } else team.none = true;
+    }
+  }
   // First the wagons somebody took on a journey of their own: theirs to drive. A name on several wagons - the flight - drives one.
   for (const team of teams) {
+    if (planned) break;
     const by = team.wagon.borrowedBy;
     if (!by || taken.has(by)) continue;
     if (!aboard.some(entity => entity.id === by)) { team.none = true; continue; }
@@ -188,6 +198,15 @@ export function wagonTeams(householdId, entities = []) {
 }
 /** The wagon this person drives, with its ox, or null. */
 export const teamDrivenBy = (entity, entities = []) => wagonTeams(entity?.householdId, entities).find(team => team.driverId === entity?.id) || null;
+/**
+ * Who rides in this wagon beside its driver, as the server seated them on a family's journey together (sim/company.mjs `rides`),
+ * in the family's own order: the babies in their carriers' laps and the youngest, the sick first.
+ */
+export const passengersOf = (team, entities = []) => (team ? entities.filter(entity => entity.kind === 'person' && !entity.carrier && entity.householdId === team.wagon.householdId && entity.travel?.mode === 'wagon' && entity.travel.rides === team.wagon.id && entity.id !== team.driverId) : []);
+/** The wagon this person rides in and its team, or null: somebody the server seated in a wagon, not driving it. */
+export const teamRiddenBy = (entity, entities = []) => (entity?.kind === 'person' && entity.travel?.rides ? wagonTeams(entity.householdId, entities).find(team => team.wagon.id === entity.travel.rides) || null : null);
+/** Somebody the server said walks beside the wagons on the family's journey together (sim/company.mjs `afoot`). */
+export const walksBeside = entity => entity?.kind === 'person' && entity.travel?.mode === 'wagon' && Boolean(entity.travel.afoot);
 /** What this person is sitting on: 'horse', 'wagon', or null for anybody on their own feet. */
 export function seatOf(entity, entities = []) {
   if (entity.kind !== 'person' || entity.carrier || entity.observed) return null;
@@ -199,6 +218,12 @@ export function seatOf(entity, entities = []) {
 /** Whether a beast is drawn with the person on it rather than by itself: the ridden horse, the ox and wagon being driven. */
 export function carriedWithRider(entity, entities = []) {
   if (underARider(entity)) return true;
+  // A rider in the wagon is drawn in it with its driver (public/app.js `drawSeated`), not a second time walking beside it.
+  if (entity.kind === 'person' && entity.travel?.rides) {
+    const team = teamRiddenBy(entity, entities);
+    const driver = team?.driverId && entities.find(other => other.id === team.driverId);
+    return Boolean(driver && seatOf(driver, entities) === 'wagon');
+  }
   if ((entity.kind === 'wagon' || (entity.kind === 'animal' && entity.species !== 'horse')) && entity.travel?.mode === 'wagon') {
     const team = wagonTeams(entity.householdId, entities).find(one => one.wagon.id === entity.id || one.ox?.id === entity.id);
     const driver = team?.driverId && entities.find(other => other.id === team.driverId);
@@ -312,6 +337,25 @@ export function seatLayout(seat, direction = 'e', { horse = 1.5, ox = 1.45, wago
     return direction === 's' ? [box, driver, team] : [team, box, driver];
   }
   return [];
+}
+/**
+ * Where a rider sits in the wagon behind its driver (sim/company.mjs; owner, 2026-09-25), as `seatLayout`'s parts are: `dx` along
+ * the way they face, `dy` to the ground line, cut at the hip like the composite driver. Two abreast from the seat back toward the
+ * tail, a cart's two and a wagon's four, each a little lower and further back than the one before; going north or south the wagon
+ * is still side-on, so they sit along it.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - riders in the wagon. Their own figure's idle pose cut off below the waist,
+ * set on the front of the wagon's cover behind the driver: the covered wagon has no open bed to seat anybody in.
+ */
+export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rider = 1) {
+  const vertical = direction === 'n' || direction === 's';
+  const box = vertical ? 0 : -0.55 * wagon;
+  const row = Math.floor(index / 2), side = index % 2;
+  // Going north the bed is nearer the camera than the driver's seat, so they sit lower on the screen and in front of the driver;
+  // going south, higher and behind. Either way two abreast, either side of the driver.
+  const dx = vertical ? (side ? 0.24 : -0.24) * wagon : box + (0.24 - 0.2 * row - 0.08 * side) * wagon;
+  const back = vertical ? (direction === 'n' ? 1 : -1) * 0.13 * wagon * (row + 1) : 0;
+  const seat = wagon * SEAT.wagonSeat * (1.02 - 0.04 * side);
+  return { part: 'passenger', dx, dy: -seat + SEAT.hip * rider + back, height: rider, shown: 1 - SEAT.hip + SEAT.overlap, ...(direction === 'n' && { front: true }) };
 }
 export function carrierClip(entity) {
   const vertical = entity.facing === 'n' || entity.facing === 's';

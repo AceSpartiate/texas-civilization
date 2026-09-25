@@ -95,7 +95,7 @@
     ],
     "chosen": "Goes on foot: 3 of 5 loads, as you chose. The horse would be quicker.",
     "home": {
-      "food": 27.4879,
+      "food": 27.4713,
       "seed": 4,
       "powder": 6,
       "money": 163,
@@ -246,8 +246,8 @@
     },
     "wagonsInYard": {
       "first": {
-        "x": 208.42347719513143,
-        "y": -160.91529125474932,
+        "x": 208.22175943511715,
+        "y": -161.26073291877327,
         "size": 76.72500000000001
       },
       "second": {

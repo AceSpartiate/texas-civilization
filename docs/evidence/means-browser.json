@@ -1,0 +1,173 @@
+{
+  "record": "means-browser",
+  "date": "2026-09-25",
+  "browser": "153.0.8010.53",
+  "ownerDirection": "\"introduce rolling for starting wealth. tie it into the extra wagons. part of wealth will be number of wagons. if a family doesn't have enough wagons, older family members walk. have this potentially affect travelling speed.\" (2026-09-25)",
+  "checks": [
+    "the die panel throws two dice (12 and 1) and says \"Poor. A cart and one ox to draw it, and the family's horse. 3 ride and 9 walk beside the cart.\"",
+    "the pack screen packs the cart: \"The cart: 12 of 12 space filled, 0 left.\"; \"Besides the cart, the family carries 11 food on foot, in sacks and bundles.\" (15 food, 5.2 days)",
+    "a poor family of twelve on the track in: the cart driven by its principal, 2 in it, 9 walking beside it apart, at 0.65 a tick",
+    "a well-to-do roll says \"Well-to-do. Three wagons, an ox to each, and the family's horse. There is room for all 8 to ride.\"",
+    "a well-to-do family of eight comes in with three wagons, each drawn driven (rust-wagon-driver-w, teal-wagon-driver-w, blue-wagon-driver-w), 4+1+0 riding, nobody walking",
+    "no page errors"
+  ],
+  "observed": {
+    "poorRoll": {
+      "result": "You rolled a 12 for your family and a 1 for what it has.",
+      "means": "Poor. A cart and one ox to draw it, and the family's horse. 3 ride and 9 walk beside the cart.",
+      "family": "12",
+      "second": "1"
+    },
+    "cartPack": {
+      "title": "Pack the cart",
+      "room": "The cart: 12 of 12 space filled, 0 left.",
+      "packs": "Besides the cart, the family carries 11 food on foot, in sacks and bundles.",
+      "food": 15
+    },
+    "poorOnTheRoad": {
+      "driver": "hh-1-parent-1",
+      "passengers": [
+        {
+          "part": "passenger",
+          "id": "hh-1-child-9",
+          "x": 701,
+          "y": 373,
+          "height": 27
+        },
+        {
+          "part": "passenger",
+          "id": "hh-1-child-8",
+          "x": 665,
+          "y": 372,
+          "height": 27
+        }
+      ],
+      "wagon": {
+        "part": "wagon",
+        "x": 683,
+        "y": 384,
+        "height": 77
+      },
+      "walkers": [
+        {
+          "id": "hh-1-parent-2",
+          "at": {
+            "x": 740.1153846153846,
+            "y": 373.9096153846154,
+            "size": 49.50000000000001
+          }
+        },
+        {
+          "id": "hh-1-child-1",
+          "at": {
+            "x": 762.9615384615385,
+            "y": 404.3711538461539,
+            "size": 49.50000000000001
+          }
+        },
+        {
+          "id": "hh-1-child-2",
+          "at": {
+            "x": 740.1153846153846,
+            "y": 434.83269230769235,
+            "size": 49.50000000000001
+          }
+        },
+        {
+          "id": "hh-1-child-3",
+          "at": {
+            "x": 762.9615384615385,
+            "y": 465.2942307692308,
+            "size": 49.50000000000001
+          }
+        },
+        {
+          "id": "hh-1-child-4",
+          "at": {
+            "x": 740.1153846153846,
+            "y": 495.75576923076926,
+            "size": 49.50000000000001
+          }
+        },
+        {
+          "id": "hh-1-child-5",
+          "at": {
+            "x": 762.9615384615385,
+            "y": 526.2173076923077,
+            "size": 49.50000000000001
+          }
+        },
+        {
+          "id": "hh-1-child-6",
+          "at": {
+            "x": 740.1153846153846,
+            "y": 556.6788461538462,
+            "size": 49.50000000000001
+          }
+        },
+        {
+          "id": "hh-1-child-7",
+          "at": {
+            "x": 762.9615384615385,
+            "y": 587.1403846153847,
+            "size": 49.50000000000001
+          }
+        },
+        {
+          "id": "hh-1-child-10",
+          "at": {
+            "x": 740.1153846153846,
+            "y": 617.6019230769232,
+            "size": 49.50000000000001
+          }
+        }
+      ]
+    },
+    "richRoll": {
+      "result": "You rolled an 8 for your family and a 20 for what it has.",
+      "means": "Well-to-do. Three wagons, an ox to each, and the family's horse. There is room for all 8 to ride.",
+      "family": "8",
+      "second": "20"
+    },
+    "richPack": "3 wagons: 33 of 48 space filled, 15 left.",
+    "richOnTheRoad": [
+      {
+        "id": "hh-1-parent-1",
+        "art": "rust-wagon-driver-w",
+        "passengers": 4,
+        "wagon": {
+          "part": "wagon",
+          "x": 725,
+          "y": 384,
+          "height": 77
+        }
+      },
+      {
+        "id": "hh-1-parent-2",
+        "art": "teal-wagon-driver-w",
+        "passengers": 1,
+        "wagon": {
+          "part": "wagon",
+          "x": 881,
+          "y": 389,
+          "height": 77
+        }
+      },
+      {
+        "id": "hh-1-child-1",
+        "art": "blue-wagon-driver-w",
+        "passengers": 0,
+        "wagon": {
+          "part": "wagon",
+          "x": 1037,
+          "y": 393,
+          "height": 77
+        }
+      }
+    ]
+  },
+  "notProved": [
+    "Same computer only: no physical LAN, no Chromebook, no class.",
+    "The Runaway Scrape with walkers is proved headless (tests/means.test.mjs), not in this browser proof."
+  ]
+}

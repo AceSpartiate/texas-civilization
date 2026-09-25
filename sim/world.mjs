@@ -39,6 +39,8 @@ import { findWay } from './ways.mjs';
 import { STATES as IMPROVEMENT_STATES, improvementProjection } from './improvements.mjs';
 import { OLD_PATCHES, plotAt } from './fields.mjs';
 import { advanceArrivals, putOnTheRoad, sayTheArrival, shelterProjection } from './settling.mjs';
+import { applyMeans, meansInvalid, meansProjection, settleMeans } from './means.mjs';
+import { seatOfTravel } from './company.mjs';
 import { defaultLoad, householdFromLoad, loadForWagons, loadInvalid, setLoad, wagonProjection } from './wagon.mjs';
 import { editPlot, houseInvalid, houseProjection, noteLandSeen, planHouse, recordHelpDone } from './houses.mjs';
 import { grantInvalid, grantProjection, layOutGrants, setStock } from './grants.mjs';
@@ -84,11 +86,13 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
   // Families nobody plays live their own lives in a class made with this on (sim/neighbours.mjs, docs/COLONIES.md §5.9).
   // Absent on every class made before, which keep their unplayed families idle, so no save version moved.
   if (neighbours) world.neighbours = true;
-  // Wagons by the family's size (owner, 2026-09-25; sim/beasts.mjs `fitOut`, docs/SETTLING_IN.md §4a): a family is fitted out
-  // at its roll with a wagon for every eight people. Marked on the class, so only a class made since fits anybody out: a class
-  // saved before - in its lobby or long running - keeps the one wagon each family has, as the stock pens came to new classes
-  // only (docs/TOWNS.md §4d). No save version moved.
-  world.wagonsBySize = true;
+  // A family's means, rolled beside its family (owner, 2026-09-25, later the same day: "introduce rolling for starting wealth.
+  // tie it into the extra wagons"; sim/means.mjs, docs/SETTLING_IN.md §4b): the wagons come from the family's means, not its
+  // size, and who rides and who walks on its journeys is seated by sim/company.mjs. Marked on the class, so only a class made
+  // since rolls anybody's means. A class made earlier on 2026-09-25 carries `wagonsBySize` instead and keeps a wagon for every
+  // eight people (sim/beasts.mjs `fitOut`, docs/SETTLING_IN.md §4a); one made before that keeps one wagon a family. No save
+  // version moved.
+  world.meansRoll = true;
   for (let i = 1; i <= playerCount; i++) {
     const householdId = `hh-${i}`;
     const site = world.map.sites[`home-${i}`];
@@ -186,6 +190,9 @@ export function rollFamily(world, household) {
   // Wagons for the family it is now (sim/beasts.mjs `fitOut`), and the load packed again into them (sim/wagon.mjs), before it
   // goes on the road in: a family of nine or more comes in with a wagon for every eight and an ox to draw each.
   if (world.wagonsBySize && fitOut(world, household) > 1) loadForWagons(world, household);
+  // The second die, thrown by the same press (sim/means.mjs): what the family has to start with - its wagons or cart, the oxen
+  // to draw them and its coin - and the load packed again for the room it has. A class made before has no means to roll.
+  if (world.meansRoll) applyMeans(world, household);
   // A main person chosen among the founding four names somebody who is gone; the principal is the main person again.
   delete household.mainId;
   household.roll = roll;
@@ -196,7 +203,7 @@ export function rollFamily(world, household) {
   if (household.arriving) { putOnTheRoad(world, household); sayTheArrival(world, household); }
   // The number, and nothing about what it means: the owner's direction is that the rule is
   // never explained.
-  record(world, 'family-rolled', { householdId: household.id, text: `Your family rolled ${rolledWords(roll)}.`, importance: 2, claimId: 'FIC-GONZ-021' });
+  record(world, 'family-rolled', { householdId: household.id, text: `Your family rolled ${rolledWords(roll)}${household.means ? `, and ${rolledWords(household.means.roll)} for what it has` : ''}.`, importance: 2, claimId: 'FIC-GONZ-021' });
   return roll;
 }
 export { WALK_SPEED, HORSE_SPEED, RIDER_SPEED, WAGON_SPEED } from './travel.mjs';
@@ -488,7 +495,8 @@ export function seenTravel(world, entity) {
       travel: { from: travel.from, to: travel.to, distance: travel.distance, mode: travel.mode, ...awayProjection(world, travel, { milesATick: step, minutes: calendarMinutes(world) }) },
     };
   }
-  return { location: entity.location, travel: { from: travel.from, to: travel.to, points: travel.points, progress: travel.progress, distance: travel.distance, speed: travel.speed, step, mode: travel.mode } };
+  // Who drives, rides and walks on a family's journey together (sim/company.mjs): the family's own, so its page draws them there.
+  return { location: entity.location, travel: { from: travel.from, to: travel.to, points: travel.points, progress: travel.progress, distance: travel.distance, speed: travel.speed, step, mode: travel.mode, ...seatOfTravel(travel) } };
 }
 export function progressTravel(world, entity, units = 1) {
   const travel = entity.travel; if (!travel) return;
@@ -544,7 +552,10 @@ export function progressTravel(world, entity, units = 1) {
   // they arrive fit to do something. A tired principal is the one who risks hurt upriver.
   if (entity.kind === 'person' && entity.householdId && !entity.report) {
     // Shoes on foot and a saddle on the horse take some of it off (sim/shops.mjs).
-    const cost = (travel.progress - wasAt) * modeOf(travel).exertion * gearExertionShare(world, entity, modeOf(travel).id);
+    // Beside the wagons on a family's journey (sim/company.mjs): a walker pays for a mile as a walker does, and a baby carried
+    // pays nothing. Riders and drivers pay the wagon's share, as the whole family on the road in always did.
+    const how = travel.afoot ? MODES.foot : modeOf(travel);
+    const cost = travel.carried ? 0 : (travel.progress - wasAt) * how.exertion * gearExertionShare(world, entity, how.id);
     entity.exertion = Math.min(EXERTION_CAP, Math.round(((entity.exertion || 0) + cost) * 10000) / 10000);
   }
   // The fords come down to this tick's stretch of road: each is waded as it is reached (`wadeAt`).
@@ -599,6 +610,9 @@ export function stepWorld(world, { realMs = 0, decisionBudgetMs } = {}) {
   const calendar = calendarMinutes(world);
   return withCalendarStep(world, calendar, () => {
   world.tick++; world.minute += calendar;
+  // Every family of a class made since the means were rolled has them before anything moves: those nobody plays, and any
+  // Start rolled for, are given theirs on the first running tick (sim/means.mjs `settleMeans`). Nothing to do after that.
+  settleMeans(world);
   // The real seconds the server says passed since its last running tick are spent on every open military question, and a
   // question out of time is decided by its documented fallback before anything moves (sim/decision-budget.mjs). A tick
   // stepped in process carries none.
@@ -1064,7 +1078,10 @@ export const projectMap = world => structuredClone(mapForPage(world.map));
  */
 export const projectFamily = (world, householdId) => {
   const household = world.households[householdId];
-  return household ? structuredClone(familyProjection(world, household)) : null;
+  // The family's means beside its roll (sim/means.mjs): what the second die gave, in the server's words.
+  const means = household && meansProjection(world, household);
+  // `meansDie`: this class throws the second die with the first, so the page draws two before the roll as well as after.
+  return household ? structuredClone({ ...familyProjection(world, household), ...(world.meansRoll && { meansDie: true }), ...(means && { means }) }) : null;
 };
 /**
  * The household as its family sees it, with its main person resolved (sim/family.mjs `mainPersonId`). `mainId` is sent
@@ -1112,7 +1129,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   visibleEvents.reverse();
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.kind === 'person' && seenAs(e)), ...(Number.isFinite(e.age) && { age: e.age }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, chore: choreShown(world, household, e), condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(['coming', 'open'].includes(e.service.courier) && { courier: e.service.courier }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }), ...(e.kind === 'person' && decisionPressing(world, e.id) && { pressing: true }),
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.kind === 'person' && seenAs(e)), ...(Number.isFinite(e.age) && { age: e.age }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, chore: choreShown(world, household, e), condition: e.condition, species: e.species, laden: e.laden, ...(e.cart && { cart: true }), borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(['coming', 'open'].includes(e.service.courier) && { courier: e.service.courier }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }), ...(e.kind === 'person' && decisionPressing(world, e.id) && { pressing: true }),
     // Which way somebody a rider has reined in for is turned, and whether they are the one talking (sim/encounters.mjs
     // `listeningOf`): the other half of the rider's own `facing`/`speaking`, so the page can draw the delivered speaking
     // and listening poses. Absent for everybody not in an open meeting, which is the correct empty value and why no save
@@ -1189,6 +1206,8 @@ export function validateWorld(world) {
   if (world.period !== undefined && ![1, 2, 3].includes(world.period)) throw new Error('Invalid class period');
   // Absent on every class made before wagons went by the family's size (2026-09-25), which keeps one wagon a family.
   if (world.wagonsBySize !== undefined && world.wagonsBySize !== true) throw new Error('Invalid wagon rule');
+  // Absent on every class made before the means were rolled (2026-09-25), whose families have none (sim/means.mjs).
+  { const badMeans = meansInvalid(world); if (badMeans) throw new Error(badMeans); }
   const ids = new Set();
   for (const [id, entity] of Object.entries(world.entities)) {
     if (id !== entity.id || ids.has(id)) throw new Error('Duplicate or mismatched entity ID');

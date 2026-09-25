@@ -14,7 +14,7 @@
     "the Host zooms in as far as a student does (4737 pixels a mile)",
     "the Host looks at Antonia: \"of Thomas's family · felling timber on the clearing · at home · well\", with no order offered",
     "the Host went to San Felipe de Austin: 11 shops and 12 people drawn, keepers among them",
-    "Whole class: The whole class: 115 people, 151 figures in view, 11 people on the road.",
+    "Whole class: The whole class: 115 people, 153 figures in view, 11 people on the road.",
     "at 400 pixels wide the list of places is on screen and the page does not scroll sideways",
     "no page error on either page"
   ],
@@ -63,7 +63,7 @@
       },
       "plotsDrawn": 2,
       "holdings": 1,
-      "snapshotBytes": 57288,
+      "snapshotBytes": 58948,
       "description": "The whole class: 115 people, 3 figures in view, 15 people on the road."
     },
     "closestScale": {
@@ -195,7 +195,7 @@
         }
       },
       "follow": "Whole class",
-      "description": "The whole class: 115 people, 151 figures in view, 11 people on the road.",
+      "description": "The whole class: 115 people, 153 figures in view, 11 people on the road.",
       "land": true
     },
     "phone": {

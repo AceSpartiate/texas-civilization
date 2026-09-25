@@ -18,7 +18,8 @@ import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createClassroom } from '../server/app.mjs';
-import { createSettledWorld, keepFoundingFamilies, taught } from '../tests/support/settled.mjs';
+// hh-1 of modest means - one wagon, one ox - since what this proves is who has the wagon (sim/means.mjs gives others more).
+import { createSettledWorld, keepFoundingFamilies, modestMeans, taught } from '../tests/support/settled.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { asMain } from './support/main-person.mjs';
 
@@ -32,7 +33,7 @@ const pass = [];
 const ok = label => { pass.push(label); console.log('PASS', label); };
 const observed = {};
 
-const app = createClassroom({ seed: 'going-proof', playerCount: 5, tickMs: 250, worldFactory: (seed, count) => taught(keepFoundingFamilies(createSettledWorld(seed, count))) });
+const app = createClassroom({ seed: 'going-proof', playerCount: 5, tickMs: 250, worldFactory: (seed, count) => modestMeans(taught(keepFoundingFamilies(createSettledWorld(seed, count)))) });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [];

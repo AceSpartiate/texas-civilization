@@ -22,6 +22,7 @@ import { polylineLength } from './geography.mjs';
 import { groundAlong, layLane, paceOf, siteFacts, siteWords, WATER_CARRY_MILES } from './ground.mjs';
 import { holdingOf } from './grants.mjs';
 import { WAGON_SPEED } from './travel.mjs';
+import { drawnVehicles, setOut } from './company.mjs';
 import { woodsRule } from './woods.mjs';
 
 /** How much longer the heavy work of a place goes, per mile past carrying distance that water is fetched from (FIC-GONZ-026). */
@@ -136,6 +137,12 @@ export function chooseSite(world, household, point) {
     }
   }
   if (moving) household.arriving = true;
+  // The camp moved as the family came in: the youngest in the wagons, the rest beside them, at the pace of the slowest (sim/company.mjs),
+  // in a class made since the means were rolled.
+  if (moving && world.meansRoll) {
+    const movers = [...household.members, ...household.property].map(id => world.entities[id]).filter(entity => entity?.travel?.causeId === causeId && entity.travel.purpose === 'arrive');
+    setOut(movers, drawnVehicles(movers), entity => entity.travel);
+  }
 }
 
 /** How much longer heavy work at home takes while water is carried from far off. 1 with a well, or water near. */

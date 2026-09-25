@@ -1,5 +1,69 @@
 # Claude handoff — Astra foundation
 
+## Farm plot art overhaul — 2026-09-25 (Astra; for the next release)
+
+Validation completed: **1,160 tests passed**, plus the field-surface, clearing-art, and farm browser proofs. Farm proof checked 58 cached-ground snapshots with none stale. Local files are ready to include with the other work below; this change has not been published separately.
+
+Replaced the plain field rectangles with rough turf margins, shaded textured soil, clods, denser irregular furrows, and young/ripe corn and cotton rows. Partially cleared ground has its own disturbed-soil appearance. Plot geometry, yields, and permissions are unchanged. Implementation and art manifest: [docs/FIELD_ART.md](docs/FIELD_ART.md). New module: `public/field-surface.js`, served by `server/app.mjs` and called from the existing `fieldPatch`/`drawPlots` code. Preserve the module and its server route together when packaging. Visual contact sheet: `docs/evidence/field-surface-contact.png`. The dedicated browser proof passes and rejects an injected blank renderer; the actual-game clearing art and farm browser proofs pass, including cached-ground correctness. Added alongside the uncommitted work documented below.
+
+## The family's means, rolled on a second die; who rides and who walks — 2026-09-25 (after 79e031a; not yet committed or released)
+
+Owner: *"introduce rolling for starting wealth. tie it into the extra wagons. part of wealth will be number of wagons. if a family
+doesn't have enough wagons, older family members walk. have this potentially affect travelling speed."* Recorded as dated amendments
+in [docs/FAMILY_CREATION.md](docs/FAMILY_CREATION.md) (foot, and §2's wagon note), [docs/SETTLING_IN.md §4b](docs/SETTLING_IN.md)
+(and a pointer on §4a), and [docs/MONEY_AND_GLORY.md](docs/MONEY_AND_GLORY.md) (the fairness note, open). Claims `HIST-TEX-442` (the
+research), `FIC-GONZ-393` (bands), `-394` (seats), `-395` (pace); `FIC-GONZ-391` retired for new classes. No save version.
+
+- **Research** (`HIST-TEX-442`, read 2026-09-25 in the Internet Archive text of Holley 1833, Woodman 1835, Parker 1836, Smithwick
+  1900, Harris *QTSHA* 4:2 and 4:3, Marcy 1859, and the TSHA *Old Three Hundred* page): a family's standing was reckoned by what it
+  hauled with (Harris's three classes); coin was scarce for everybody ("none who have much money", Holley p. 128; "Specie is the only
+  current money", Woodman p. 117); small children rode and the rest walked ("Mother and I were walking, she with an infant in her
+  arms. Brother drove the oxen, and my two little sisters rode in the sleigh", Harris 4:3 p. 162); the ox was the pace. **Not found:**
+  counts of rich and poor, how much coin anybody brought, the old or sick riding first, any child's walking pace.
+- **The roll.** One press of *Roll the die* throws two d20s (`sim/family.mjs` `meansRoll`, seeded on its own question); the panel
+  draws both, says *"You rolled a 12 for your family and a 1 for what it has."* and the server's words: *"Poor. A cart and one ox to
+  draw it, and the family's horse. 3 ride and 9 walk beside the cart."* Still Step 1 of 4; no new wizard step, so every proof that
+  walks creation still walks it. Families nobody plays get means on the first running tick (`settleMeans`), writing no event.
+- **Bands** (`sim/means.mjs`): 1-6 poor, a **cart** (12 spaces, 2 riders, three quarters of a wagon's flight room, "Family cart");
+  7-14 modest, one wagon; 15-18 comfortable, two; 19-20 well-to-do, three; an ox to each, one horse always, stock unchanged. Load
+  packed a wagon's stores per wagon and trimmed for a cart (never the hoe, axe or seed; `packForRoom` moves resources by the
+  difference). **No coin in any band** (drafted 0/2/6/15, withheld: the built ending counts coin).
+- **Seats** (`sim/company.mjs` `seatPlan`): a driver per drawn vehicle (principal, then eldest 10+), 4 riders a wagon / 2 a cart to
+  the sick then the youngest, a baby under 2 in its mother's arms (no seat), everyone else walks. **Pace** (`companyPace`): the ox's
+  0.65, or the slowest walker if slower - 10+ walk 1, 6-9 2/3 (keeps up), 2-5 0.5 (does not); no vehicle, the slowest walker.
+  Walkers pay a walked mile of exertion, riders half, carried babies none; nobody is made to stop (`ceiling:`). Applied to the road in,
+  the move to the chosen site, the flight east and the way home; errands unchanged. Gated on `world.meansRoll`.
+- **Five days of food at the least** (`FIC-GONZ-396`, after the coordinator saw a poor family of twelve arrive with *Food 4.0* - the cart's
+  trim had left one barrel): where the load holds less than five days for the family's eaters, the rest is carried on foot
+  (`household.packs.food`, fixed at the means roll, outside the load, so repacking moves only the cart's). That family now arrives
+  with 15 food (5.2 days, 11 carried). Five days = the Gonzales first period with the guided start in it (4.7 days, measured). Measured
+  too: an idle family's routine work at home adds food, so none was starving - but a student sets every hand to the house and field.
+  Tested on every band, sizes 1-20, two seeds each, and the families nobody plays; three injections caught (the old trim, packs lost on
+  repack, three days). Sources give no amount (`ceiling:`).
+- **Zero wagons**: no band arrives with no vehicle - the record's poorest had a sleigh behind oxen, and the lesson's first steps need
+  the hoe and axe a vehicle brings. A family whose vehicles are all lost or taken flees on foot at its smallest walker's pace
+  (tested). A cart family plants, brings in a crop that "wants the wagon" with the cart, and does its lesson (tested).
+- **Page**: `wagonTeams` draws the server's drivers only (a wagon with nobody 10+ to drive goes undriven); riders sit in the wagon
+  behind the driver (`bedLayout`, `stand-in:`, in front of the driver going north); walkers in a file along the near side; a train's
+  rigs now a whole rig apart (82, was 44), so a following ox no longer stands over the riders ahead. Pack panel: "Pack the cart",
+  "The cart: 12 of 12". Lesson step 1 says "Your cart". Host sent the seats too.
+- **Tests.** New `tests/means.test.mjs` (13). Changed, each because a family can now have a cart or more wagons than the one the test
+  was about: `tests/support/settled.mjs` (`createSettledWorld` gives means first, as the first tick would; new `modestMeans`),
+  `tests/wagons.test.mjs` (built as a by-size class, `bySize`), `arrival`, `beasts`, `errands`, `felling`, `gathering`, `going`,
+  `travel-modes`, `war-rifle`, `stock` (its fixture now of modest means, since a cart's twelve spaces will not take stock and the default load). **Injections** (`scripts/means-injections.mjs`, [record](docs/evidence/means-injections.json)): **37 of 37
+  caught** by the test written for each (19 by it alone). `npm test`: **1161 pass**, 0 fail (1148 before).
+- **Browser** (same computer only). New `npm run test:means` ([record](docs/evidence/means-browser.json)): the two dice and the means
+  words; a poor family of twelve packs "The cart: 12 of 12", comes in with the principal driving, 2 riding, 9 walking apart beside
+  it; a well-to-do family of eight comes in with three wagons, each drawn driven, nobody walking. `test:creation` extended (the means
+  after the throw; the taller panel still fits 1366×768; `creation-die-means.png`). `test:wagons` now builds a by-size class.
+  Re-run, PASS: creation (10), wagons (4), lesson (33), errand (13; its class now `modestMeans`), going (7; same), family-panel (17), panels (10), travel (10), farm (7), host-view (8), scrape (5; the flight card now says "Room for 15 in the cart" and the load fits the room it reads), looks (8), family-commands (23). **`test:road` fails with a TimeoutError after its second check on this tree and identically on the tree without these changes** (a `.panel-focus` button "not visible"), so it is not this work's; not fixed here. Screenshots looked at: `means-roll-1366.png`, `means-poor-arrival-1366.png`, `means-rich-arrival-1366.png`.
+- **Open for the owner.** (1) **Coin by band**, and how the ending should count it (docs/MONEY_AND_GLORY.md, the amendment: score coin
+  gained over starting coin, recommended). (2) **Slaveholding** was part of some Anglo families' means in the record; the game's
+  families are not slaveholders and no band carries it. (3) **An arrival on foot** with no vehicle at all: not built. (4) The die's
+  shares (30/40/20/10 in 100) and a cart's 12 spaces and 2 riders are invented. (5) Women drive: the second driver is the eldest after
+  the principal, often the mother (Harris's brother drove; the game's driver art has women). (6) The horse is led, never ridden, on a
+  family journey; a seat on it would be one more rider. (7) Found in passing: docs/MONEY_AND_GLORY.md §3 cites `HIST-GONZ-022` for
+  barter, but that row is about corn; `HIST-GONZ-023` is the coin row.
 ## Wagons by the family's size, the wheelwright's wagon, and the journey with one way — 2026-09-25 (after b45cab3; not yet committed or released)
 
 Owner, two decisions: *"When a journey has only one possible way, skip the 'how will they go?' chooser."* and *"families should

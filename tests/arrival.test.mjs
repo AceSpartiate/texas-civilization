@@ -13,6 +13,7 @@ import { CAMP_REST_SHARE, CAMP_SPOILAGE_PER_DAY, forkOf, housed } from '../sim/s
 import { momentOf } from '../sim/directors.mjs';
 import { WAGON_SPEED } from '../sim/travel.mjs';
 import { settle } from './support/settled.mjs';
+import { settleMeans } from '../sim/means.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const everything = (world, household) => [...household.members, ...household.property].map(id => world.entities[id]);
@@ -52,6 +53,9 @@ test('a family on the road in can do nothing but come in, and comes in together'
   assert.throws(() => applyAction(world, household.id, { action: 'travel', entityId: household.principalId, destination: 'gonzales' }), /Already traveling/);
   assert.match(view(world, household.id).work[worker.id].find(entry => entry.id === 'plant-field').why, /on the road/);
 
+  // The first running tick gives every family nobody rolled its means (sim/means.mjs `settleMeans`): given here first, so the
+  // yard the family comes in to is the one with all its wagons and oxen in it.
+  settleMeans(world);
   const settled = settle(structuredClone(world));
   const distance = world.entities[household.principalId].travel.distance;
   const expected = Math.ceil(distance / WAGON_SPEED - 1e-9);

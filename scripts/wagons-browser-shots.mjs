@@ -25,7 +25,10 @@ const observed = {};
 // A class whose first family rolls a twelve: two parents and ten children, two wagons.
 let seed = null;
 for (let n = 0; !seed; n++) if (familyRoll(`wagons-shot-${n}`, 'hh-1') === 12) seed = `wagons-shot-${n}`;
-const app = createClassroom({ seed, playerCount: 5, tickMs: 700, worldFactory: (s, count) => createGonzalesWorld(s, count) });
+// A class made on 2026-09-25 before the means were rolled keeps its wagons by size (docs/SETTLING_IN.md §4a); a new class rolls
+// them (§4b, scripts/means-browser-proof.mjs). This proves the size rule, so the class is made as one of those.
+const bySize = world => { delete world.meansRoll; world.wagonsBySize = true; return world; };
+const app = createClassroom({ seed, playerCount: 5, tickMs: 700, worldFactory: (s, count) => bySize(createGonzalesWorld(s, count)) });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [];

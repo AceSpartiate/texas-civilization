@@ -16,6 +16,7 @@ import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { rollFamily, stepWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
+import { flightRoom } from '../sim/scrape.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
@@ -77,7 +78,10 @@ try {
   await student.locator('#selection-flight [data-action="flee"]').waitFor({ state: 'visible', timeout: 15000 });
   observed.card = (await student.locator('#selection-flight').innerText()).replace(/\s+/g, ' ').trim();
   assert.match(observed.card, /told to leave for the east/);
-  assert.match(observed.card, /Room for 20 in the wagon/);
+  // The room of what the family has at home to carry it (sim/scrape.mjs `flightRoom`): a wagon's 20, a cart's 15 or the wagons'
+  // together, since a family's means give it a cart or more wagons (sim/means.mjs, 2026-09-25).
+  const room = flightRoom(app.state.world, app.state.world.households['hh-1']);
+  assert.match(observed.card, new RegExp(`Room for ${room.room} in the ${room.cart ? 'cart' : room.wagons ? `${room.wagons} wagons` : 'wagon'}`));
   ok(`the "!" opens the family's decision: "${observed.card.slice(0, 120)}…"`);
 
   // Load the wagon and choose where to make for; too much is said to be too much.
@@ -86,7 +90,9 @@ try {
   await student.locator('#selection-flight .flight-amount[data-take="cotton"]').fill('6');
   observed.over = await student.locator('#flight-room').evaluate(one => ({ text: one.textContent, over: one.dataset.over }));
   assert.equal(observed.over.over, 'true', 'an overloaded wagon was not marked');
-  await student.locator('#selection-flight .flight-amount[data-take="food"]').fill('40');
+  // As much food as fits beside the seed and the cotton: forty in a wagon, fewer in a cart.
+  const fitFood = Math.min(40, Math.floor((room.room - 4 * 1 - 6 * 0.5) / 0.25));
+  await student.locator('#selection-flight .flight-amount[data-take="food"]').fill(String(fitFood));
   observed.fits = await student.locator('#flight-room').evaluate(one => ({ text: one.textContent, over: one.dataset.over }));
   assert.equal(observed.fits.over, 'false');
   const refuge = await student.locator('#flight-refuge').evaluate(select => select.value);
@@ -98,7 +104,7 @@ try {
   await student.locator('#selection-flight [data-action="flee"]', { hasText: 'Confirm' }).click();
   await student.waitForFunction(() => window.__snapshot?.world.flight?.status === 'fled', null, { timeout: 15000 });
   const household = app.state.world.households['hh-1'];
-  assert.deepEqual({ food: household.resources.food, seed: household.resources.seed, cotton: household.resources.cotton }, { food: 40, seed: 4, cotton: 6 });
+  assert.deepEqual({ food: household.resources.food, seed: household.resources.seed, cotton: household.resources.cotton }, { food: fitFood, seed: 4, cotton: 6 });
   assert.equal(household.improvements.cabin, 'ruined');
   await student.waitForFunction(() => window.__snapshot?.world.land?.cabin === 'ruined', null, { timeout: 15000 });
   observed.land = await student.evaluate(() => ({ cabin: window.__snapshot.world.land.cabin, wagon: Boolean(window.__snapshot.world.entities.find(e => e.kind === 'wagon')?.travel), card: document.querySelector('#selection-flight')?.innerText }));
@@ -107,7 +113,7 @@ try {
   assert.ok(app.state.world.events.some(event => event.householdId === 'hh-1' && /watched it burn/.test(event.text)));
   await student.waitForTimeout(500);
   await student.screenshot({ path: 'docs/evidence/scrape-leaving.png' });
-  ok('asked twice, the family loads 40 food, 4 seed and 6 cotton and sets out with the wagon; the house is burned behind it');
+  ok(`asked twice, the family loads ${fitFood} food, 4 seed and 6 cotton and sets out with its ${room.cart ? 'cart' : 'wagon'}; the house is burned behind it`);
 
   await student.setViewportSize({ width: 400, height: 860 });
   await student.waitForTimeout(600);

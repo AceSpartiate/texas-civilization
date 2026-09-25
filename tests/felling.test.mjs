@@ -148,7 +148,8 @@ test('hauling brings the logs to the house, six behind the ox or one on the shou
     const lying = logsLying(world, household).reduce((sum, entry) => sum + entry.left, 0);
     const byUse = Object.fromEntries(USE_ORDER.map(use => [use, logsLying(world, household).filter(entry => entry.use === use).reduce((sum, entry) => sum + entry.left, 0)]));
     const ox = world.entities[household.property.find(id => world.entities[id].species === 'ox')];
-    if (!withOx) ox.borrowedBy = 'hh-1';
+    // Every ox of the family's out, since a family of more means has more than one (sim/means.mjs).
+    if (!withOx) for (const one of household.property.map(id => world.entities[id]).filter(beast => beast.species === 'ox')) one.borrowedBy = 'hh-1';
     assert.equal(oxFree(world, household), withOx);
     assert.ok(choresFor(world, household, axe).some(chore => chore.id === 'haul-logs' && chore.can));
     applyAction(world, 'hh-1', { action: 'chore', entityId: axe.id, chore: 'haul-logs' });
