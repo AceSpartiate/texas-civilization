@@ -892,6 +892,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
 
+## Released as v2026.09.25.4 — 2026-09-25
+
+**[v2026.09.25.4](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.25.4)**, from `8ebaae2`: autoplay repeats one task and works about the place while it can't (`sim/auto.mjs`, FAMILY_PANEL §16; merged `17f42d1`); starting coin 3-10 on the means die; hard-up families on foot; the carreta made at home (`sim/carreta.mjs`, HIST-TEX-443, FIC-GONZ-398); the horse ridden on family journeys (FIC-GONZ-397). 1181 tests; auto, family-panel, lesson, means, panels, farm proofs pass on the merged tree. Open for the owner: how the ending counts starting coin (a well-to-do family can finish 3.3x ahead); auto's way of going; whether clearing and fencing repeat; the invented coin, odds, pack and carreta numbers; the cart's trip capacity; logs off the land with no vehicle; the 1024x768 panel overlap with a two-row action bar.
+
 ## Released as v2026.09.25.3 — 2026-09-25
 
 **[v2026.09.25.3](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.25.3)**, from `7d3484d`: the second die rolls a family's means (`sim/means.mjs`, FIC-GONZ-393, HIST-TEX-442): cart / one / two / three wagons; riders and walkers and the family's pace (`sim/company.mjs`, FIC-GONZ-394/395); five days of food at arrival, the rest carried on foot (FIC-GONZ-396); Astra's farm-plot art (`8f6f7fc`, docs/FIELD_ART.md). 1161 tests; means, creation, lesson, wagons, errand, going, family-panel, panels, travel, farm, host-view, scrape, field-surface proofs pass. Open for the owner: coin by band and how the ending counts it (MONEY_AND_GLORY.md); a family on foot with no vehicle; the band odds and seats; the horse ridden on family journeys. `test:road` times out on its second check; it did so before this change too.
