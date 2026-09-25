@@ -69,6 +69,26 @@ the choices this build makes, each recorded so it can be reversed in one place.
    happened, what their own person did, and why the battle ended as it did, and a choice where the history offered
    one. This is what "walk away understanding what happened" is held to.
 
+## 2b. Decided by the owner, 2026-09-25, by multiple choice over docs/battle-research/staging.md
+
+1. **The Alamo — a student may watch their own man fall.** It is drawn without gore and the camera stays on the wall.
+   The rest of the family's story (news, the journal, what the others at home know) learns only when the word reaches
+   them.
+2. **The worst killing is shown like the battles.** The Goliad massacre and the slaughter after San Jacinto are drawn as
+   the battles are: figures fall and lie still, no gore, no graphic bodies (§2.3). The research's gentler recommendation
+   (far off, heard, then told) was declined. The escapes, those spared and the facts are still told plainly afterwards.
+3. **Béxar as four held episodes**: the entry at 3 a.m. on December 5, the fighting where Milam died, the Priest's House,
+   and the white flag, about 12 real minutes in all, with the town fighting at a slower pace between them; a family's
+   man's fate lands on a day weighted by the real daily losses.
+4. **The map extends south to the Nueces**, so a man who went south is really at San Patricio and the fights at San
+   Patricio and Agua Dulce are drawn where they happened.
+5. **The Alamo is the longest.** The owner: "I'm assuming that the alamo is the longest since it's a long siege?" The
+   thirteen days of siege (February 23 – March 6) are played as a living siege — the daily bombardment and the
+   defenders' answer, the Mexican batteries and lines creeping closer, couriers going out, the Gonzales relief riding in
+   on March 1 — and the assault itself is the longest held single fight.
+
+Every other question in `docs/battle-research/staging.md` takes its recommended answer.
+
 ## 3. The shared contract (what every engagement is built on)
 
 - **`sim/battle-stage.mjs`** — the one engine. An engagement is data (`sim/battles/<id>.mjs`): its site, its start
