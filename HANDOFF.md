@@ -928,6 +928,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
 
+## Released as v2026.09.25.5 — 2026-09-25
+
+**[v2026.09.25.5](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.25.5)**, from `05437b8`: the family column is bounded above the measured action bar and scrolls (`columnRoom`, `fitColumn`); owner decisions recorded: the ending counts coin held, autoplay does not repeat clearing or fencing. 1184 tests; panels, family-panel, auto, lesson proofs pass. Known: children's names cut beside the Idle/Auto badges; the meeting panel still overlaps the column at 1024; `test:family-twenty` fails its phone check, as before this change (phones unsupported).
+
 ## Released as v2026.09.25.4 — 2026-09-25
 
 **[v2026.09.25.4](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.25.4)**, from `8ebaae2`: autoplay repeats one task and works about the place while it can't (`sim/auto.mjs`, FAMILY_PANEL §16; merged `17f42d1`); starting coin 3-10 on the means die; hard-up families on foot; the carreta made at home (`sim/carreta.mjs`, HIST-TEX-443, FIC-GONZ-398); the horse ridden on family journeys (FIC-GONZ-397). 1181 tests; auto, family-panel, lesson, means, panels, farm proofs pass on the merged tree. Decided by the owner since (2026-09-25): the ending counts coin held (MONEY_AND_GLORY.md); autoplay does not repeat clearing or fencing (FAMILY_PANEL §16). Open for the owner: auto's way of going; the invented coin, odds, pack and carreta numbers; the cart's trip capacity; logs off the land with no vehicle. (The 1024x768 panel overlap with a two-row action bar: fixed since, FAMILY_PANEL §17.)
