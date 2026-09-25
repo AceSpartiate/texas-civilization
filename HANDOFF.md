@@ -726,6 +726,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
 
+## Released as v2026.09.25.2 — 2026-09-25
+
+**[v2026.09.25.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.25.2)**, from `48c8cf4`: one-way journeys skip the chooser; wagons by family size in new classes (one per eight people, FIC-GONZ-391, research HIST-TEX-441); counted wagons held one per use; the wheelwright's wagon at 100 reales with an ox on the same list (FIC-GONZ-392). 1148 tests; errand, going, wagons, shops, family-commands, family-panel, panels, lesson, riding, travel, farm, host-view proofs pass. Open for the owner: 100 reales is beyond most families; the record ties wagons to wealth, not size; one ox stands for a team; "Put the wagon in good order" covers all wagons.
+
 ## Released as v2026.09.25.1 — 2026-09-25
 
 **[v2026.09.25.1](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.25.1)**, from `5435889`: every journey asks how they'll go (`sim/going.mjs`, `public/going.js`); flooded rivers follow the curve and read as water, lanes ford creeks (merge `67bd422`); the stock pens sell horses, oxen, cattle and hogs (`sim/beasts.mjs`, HIST-TEX-440); automatic families replace a lost rifle. 1138 tests. Open for the owner: one-way journeys still show the chooser; auto takes the quickest way, not the student's last; the hog is cheaper than a rifle; stock pens only in new classes; animals payable in kind; a second wagon; automatic families buy only rifles. `travel-drawn` flakes on short roads from Gonzales, and did so before this change as well.
