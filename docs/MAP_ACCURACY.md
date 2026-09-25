@@ -769,6 +769,86 @@ Checks: `tests/crossings.test.mjs`, *a ford costs a wade, and the water being up
 injections ([wade-injections.json](evidence/crossings/wade-injections.json)) - the ford made free, the wagon made as quick as
 a man, high water made ordinary, the wade never going wrong, and the water up whatever the weather.
 
+### 10.8 Brown over the rivers (owner, 2026-09-24)
+
+Owner: *"why can I see brown trail looking things over the rivers?"* Reproduced on the Host's page of a thirty-family class
+on the real land at 1,400, 420 and 90 pixels a mile - the San Bernard, the Guadalupe above Victoria and at Gonzales, Piney
+Creek - and looked at. Two layers drew brown over the water, neither of them a road:
+
+1. **The high water, laid along chords** (the main one, and at every zoom). A class opens with the Guadalupe up
+   (`HIST-TEX-225`, docs/WEATHER.md §10.8), and a river in flood is drawn gone brown (`drawHighWater`, public/weather-art.js)
+   into the kept ground over everything under the people. It was stroked with `lineTo` through the course's points - the
+   points `weatherCourses` (public/app.js) hands it - while the water under it is `drawWater`'s **curve** through the same
+   points (public/curve.js). Close in, a river's points are a hundred pixels and more apart, so the brown cut straight across
+   every bend: translucent brown bands, road-coloured, standing off the channel over the grass and crossing the blue at the
+   bends. 32 pixels off the water's line at the Guadalupe's bends above Victoria at 1,400 pixels a mile. The fog was banked
+   along the same chords (`drawFogShape`). **Mended:** both are laid on `curveThrough`, the water's own curve, so the flood
+   is the river and nothing else. **And its colour, second pass the same day:** on its curve the flood was still the
+   owner's brown trail - a tan body (`#8a7444`) under a lighter tan crown (`#a78d53`) that, laid over the river, came to
+   CIEDE2000 ΔE 10.6-15.3 from the roads' own dirt and only 11-13 L* darker, so the whole flooded river read as a wide dirt
+   track. It is water now (`FLOOD`, public/weather-art.js): a soft dark silty edge (`#3c4428`) and a muddy olive body
+   (`#5a6a3c`) laid in three strokes, widest and faintest first, so the edge thins out over the bank instead of stopping at a
+   kerb; small ripples of current (`#b4c2a6`) scattered across it and bowed downstream, the mark the river's own water is drawn
+   with, coming in over 16 to 32 pixels of flood so a narrow flood never carries a dotted line down its middle; and, past the
+   level that shuts a ford, sticks of drift (`#3a3226`) scattered across it rather than a dashed line along it. A first try
+   with long light streaks along the water drew a paved road with lane markings, and was taken out. The blue core stays
+   covered (the reason it was covered on 2026-09-20: a flooded river that shows the ordinary river's blue reads as an
+   ordinary river). As seen mid-channel the flood is ΔE ≥ 24.3 from every road surface, 19-35 L* darker than all of them,
+   ΔE ≥ 14.7 from the ruts and a lane's stakes, and ΔE ≥ 25 from the ordinary river.
+2. **A family's lane, over the water with no ford.** The lane is dealt per class over the easiest ground to the road
+   (`sim/colonies-region.mjs`, `sim/homesite.mjs`), kept off the five big rivers (`BARRIER_RIVERS`) and wading the rest,
+   "as the roads wade them" - but a road's wade is one of the map's fords (§10.1) and a lane's had nothing, so the lane was
+   drawn straight over the creek or the river. On two classes of thirty families the lanes meet drawn water 53 times, 7 of
+   them rivers (the San Bernard, the San Marcos, Oyster Creek). **Mended:** `wadesOf` (public/map-base.js) finds each place a
+   lane's line meets the water as the page draws it - the class's creeks, and the land's rivers at their finest level - more
+   than a quarter mile from any crossing of the map, and the page draws the road's own ford there (`drawCrossing`), from the
+   zoom a road's ford is drawn (45 pixels a mile, a creek's with its creek). `window.__wadesDrawn` is the proofs' evidence.
+   What a lane wades is the game's, not the record's: a farm lane down to a creek and up the far bank is what an 1835
+   holding had, and no lane of the record is on this map.
+
+**Nothing was moved on the server.** No lane, road or crossing changed, no save version: a class saved before draws the
+same lanes with their fords.
+
+**What the routing still does, found on the way and not mended** (the built map's and the simulation's, not the page's):
+
+- **The timber tracks and Gonzales's bank path go over the big rivers beside their documented crossings, not at them.**
+  In a thirty-family class: the tracks to Gonzales's upper and lower timber and *Along the bank* to Williams's camp cross
+  the Guadalupe 0.49 mi below the ford; Victoria's two timber tracks cross the Guadalupe 0.68 and 0.76 mi from the ferry at
+  Victoria; Matagorda's lower timber track the Colorado 0.97 mi from its ferry; Liberty's two the Trinity 0.49 and 0.83 mi
+  from the Atascosito crossing; Columbia's upper timber track the Brazos 2.5 mi from any crossing. The build routes them
+  through the barrier cells each crossing opens for 0.6 mi round it (`CROSSINGS` in `scripts/build-colonies-map.mjs`), and
+  simplifying the line cuts a meander. A hunter sent to that timber walks over the river there and pays no ferry and no
+  wade. No ford is drawn on them: one there would be an invented crossing a few hundred yards from a real one. Laying the
+  tracks again over the crossing points is a rebuild of `colonies-map.json.gz` and a map decision. `ceiling:` in
+  `public/app.js`.
+- **A lane's wade costs nothing.** A road's ford is a wade (`fordMinutes`, §10.7); a lane's is only drawn. `ceiling:` in
+  `public/app.js`; a wade as a place of the map, dealt with the lane, is the way out.
+- **A road laid along a creek bottom still meets it more than once** (§10.6's `ceiling:`): 26 meetings of roads with creeks
+  stand more than a quarter mile from a crossing, nearly all the other meetings of a braided run whose one ford is within
+  1.5 miles. Three more are odd and worth a look when the water is next rebuilt: Coleto Creek's two runs joined across the
+  La Bahía road at Goliad by the class's map, Cibolo Creek as the province draws it on the road to Béxar, and the Neches and
+  the Angelina on the roads to Nacogdoches past the box, which no audit reads.
+
+**Checks.** `tests/water-overdrawn.test.mjs` (3), each proven by injecting the regression it guards and watching it alone fail
+([evidence/water-overdrawn/injections.json](evidence/water-overdrawn/injections.json), 5 of 5; the script is
+[evidence/water-overdrawn/injections.mjs](evidence/water-overdrawn/injections.mjs)):
+
+| check | injected |
+|---|---|
+| The river in flood and the fog on it lie on the water as it is drawn, within two pixels of its curve at the Guadalupe's bends above Victoria, where the chords are 32 pixels off | the high water back on the chords; the fog back on the chords |
+| Every place a family's lane goes over drawn water - two classes of thirty, creeks and rivers - has a crossing within a quarter mile or a wade within a tenth | no wade on any lane; a lane wading the creeks but not the rivers |
+| A river in flood reads as water: as drawn over the river at five water levels, mid-channel and at the bank, it is CIEDE2000 ΔE ≥ 20 from every road surface (`drawRoad`'s three strokes, read from its source, a ford's ground, the old line styles) and ≥ 15 L* darker; each ripple and stick ΔE ≥ 10 from every road colour and mark; and ΔE ≥ 15 from the ordinary river | the flood back in its old tan |
+
+The floors: ΔE 2000 past 10 is two different colours side by side, so a road's surface is held at twice that, and 15 L* in
+value as well, so the flood is not a road in grey either or to a student who does not see colour well; a ripple is a mark a
+pixel or two wide and needs only to be another colour.
+
+**Browser** (same computer only, headless Chrome; not a LAN or district test): the San Bernard where a lane crosses it, Piney
+Creek, the Guadalupe above Victoria and at Gonzales, the Colorado at Matagorda and Stevens Creek on the road to Béxar, each at
+1,400, 420 and 90 pixels a mile, before and after, looked at - and after the colour, in the class's own flood, on an
+ordinary day and with a shut river under the morning fog; the crossings (21 shots, PASS), farm and host-view proofs rerun and PASS. The weather proof
+fails before its first picture at HEAD too (it waits for a solo game to be running before the family is met) and was not rerun.
+
 ## 11. The places past the box (2026-09-19)
 
 Owner, by multiple choice: the places past the old box. The colonies' box is where the game is played; the country round it was

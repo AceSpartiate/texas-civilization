@@ -93,6 +93,45 @@ export function distanceToSegments(p, points, indices) {
 }
 
 /**
+ * Where a family's lane goes over drawn water with no crossing of the map's there: each place its line meets a water
+ * course's line, `{ x, y, a, b, kind, name }` in map miles (`a`-`b` the stretch of water it meets, for which way the ford
+ * lies across it). The lane is dealt per class (sim/colonies-region.mjs, sim/homesite.mjs) over the easiest ground to the
+ * road, kept off the big rivers and "wading the smaller watercourses, as the roads wade them" - but the roads' wades are
+ * the map's fords (docs/MAP_ACCURACY.md §10) and a lane's had nothing, so the page drew a brown track straight over the
+ * water (owner, 2026-09-24). The page draws a ford at each of these, the same mark a road's ford is.
+ *
+ * `courses` are `{ points, kind, name }` in map miles, the water as it is drawn: the class's creeks, and the land's rivers
+ * at their finest level. `crossings` are the map's own crossings where each is drawn; a meeting within `clear` of one is
+ * that crossing's, and meetings of one water closer than `apart` along the lane are one wade.
+ */
+export function wadesOf(line, courses, crossings = [], { clear = 0.25, apart = 0.1 } = {}) {
+  if (!(line?.length > 1)) return [];
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  for (const p of line) { minX = Math.min(minX, p.x); maxX = Math.max(maxX, p.x); minY = Math.min(minY, p.y); maxY = Math.max(maxY, p.y); }
+  const wades = [];
+  for (const course of courses) {
+    const points = course.points;
+    if (!(points?.length > 1)) continue;
+    for (let j = 1; j < points.length; j++) {
+      const c = points[j - 1], d = points[j];
+      if (Math.max(c.x, d.x) < minX || Math.min(c.x, d.x) > maxX || Math.max(c.y, d.y) < minY || Math.min(c.y, d.y) > maxY) continue;
+      const sx = d.x - c.x, sy = d.y - c.y;
+      for (let i = 1; i < line.length; i++) {
+        const a = line[i - 1], b = line[i], rx = b.x - a.x, ry = b.y - a.y, den = rx * sy - ry * sx;
+        if (!den) continue;
+        const t = ((c.x - a.x) * sy - (c.y - a.y) * sx) / den, u = ((c.x - a.x) * ry - (c.y - a.y) * rx) / den;
+        if (t < 0 || t > 1 || u < 0 || u > 1) continue;
+        const at = { x: a.x + rx * t, y: a.y + ry * t };
+        if (crossings.some(p => Math.hypot(p.x - at.x, p.y - at.y) < clear)) continue;
+        if (wades.some(w => w.name === (course.name ?? null) && Math.hypot(w.x - at.x, w.y - at.y) < apart)) continue;
+        wades.push({ x: at.x, y: at.y, a: c, b: d, kind: course.kind, name: course.name ?? null });
+      }
+    }
+  }
+  return wades;
+}
+
+/**
  * Set a node's text only when it differs. Assigning `textContent` replaces the node's children even with the same words,
  * which the drawing loop did twelve times a second to five nodes: a DOM mutation and a style and layout pass each time.
  */

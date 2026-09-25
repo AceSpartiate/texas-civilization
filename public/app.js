@@ -24,7 +24,7 @@ import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woo
 import { bindEnding, renderEnding } from '/ending.js';
 import { bindLooks, renderLooks } from '/appearance.js';
 import { bindCreation, creationStep, renderCreation, showTitle } from '/creation.js';
-import { aroundHole, groundInputs, applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale, away } from '/map-base.js';
+import { aroundHole, groundInputs, applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale, away, wadesOf } from '/map-base.js';
 import { canSmoothOffThread, smoothOffThread, toBitmap } from '/smooth-worker.js';
 import { DEFAULT_GROUND, groundClass, groundClassAt, markFor } from '/ground-classes.js';
 import { decodeLand, decodeOutside, decodeProvince, emptyMiddle, landWeights, lineBand, tileGrid, withoutClaims } from '/land-levels.js';
@@ -1070,6 +1070,30 @@ const NAMED_CLOSE = ['landing', 'farmstead'];
 const CROSSING_KINDS = ['ford', 'ferry', 'bridge'];
 /** Pixels a mile from which a ford the record does not name (`FIC-GONZ-090`) is named: they lie every few miles on some roads. */
 const FORD_LEGIBLE = 150;
+/**
+ * The water a lane can wade, as it is drawn (`wadesOf`, public/map-base.js): the class's creeks, and the rivers - the land's
+ * own at their finest level on the real land, the class's terrain on the invented country. Kept while neither changes.
+ */
+const wadeWater = { terrain: null, levels: null, list: [] };
+function wadeWaterOf(world) {
+  const terrain = world.map?.terrain || [], levels = levelsOf(world);
+  if (wadeWater.terrain === terrain && wadeWater.levels === levels) return wadeWater.list;
+  const rivers = levels ? [...levels.province.rivers, ...(levels.outside?.province.rivers || [])].map(river => ({ points: river.levels[0], kind: 'river', name: river.name })) : [];
+  const list = [...terrain.filter(f => f.kind === 'creek' || (f.kind === 'river' && !levels)).map(f => ({ points: f.points, kind: f.kind, name: f.name })), ...rivers]
+    .filter(course => course.points?.length > 1);
+  Object.assign(wadeWater, { terrain, levels, list });
+  return list;
+}
+/** Each lane's wades, kept by the lane's own points: a lane laid again (sim/homesite.mjs) is a new line. */
+const lanesWaded = new WeakMap();
+function lanesWades(world, route) {
+  const water = wadeWaterOf(world), kept = lanesWaded.get(route.points);
+  if (kept?.water === water) return kept.wades;
+  const crossings = sitesOf(world).filter(site => CROSSING_KINDS.includes(site.kind) || site.kind === 'crossing').map(site => site.over || site);
+  const wades = wadesOf(route.points, water, crossings);
+  lanesWaded.set(route.points, { water, wades });
+  return wades;
+}
 // Every drawn object as a multiple of a person, so the whole scene grows together and
 // an ox never ends up smaller than the family leading it.
 /** A pole, a log tree and a large tree, as shares of a timber tree's drawn height (sim/woods.mjs `SIZES`). */
@@ -2574,6 +2598,8 @@ export function drawWorld(world) {
   const host = hostView(world);
   // Every family's land by its house, for the Host's map (empty for a student).
   const landBySite = new Map(landsOf(world).map(land => [land.homeSiteId, land]));
+  // Presentation evidence for proofs: each wade drawn on a family's lane when the ground was last drawn (`wadesOf`).
+  if (ground && !audit) window.__wadesDrawn = [];
   // Worn dirt, not a drafting line: a soft verge with a packed track down the middle.
   if (ground) for (const route of Object.values(world.map?.routes || {})) {
     const ctx = ground;
@@ -2595,6 +2621,28 @@ export function drawWorld(world) {
     }
     if (worn.length > 1) {
       drawRoad(ctx,worn,width);
+    }
+    // A family's lane wades the smaller water between its house and the road (sim/colonies-region.mjs), as the roads do;
+    // a road's wade is a ford of the map's, and a lane's is drawn as the same ford, where the lane meets the water as it
+    // is drawn (`wadesOf`), from the zoom a road's ford is (docs/MAP_ACCURACY.md §10.8). Without it the lane was a brown
+    // track laid straight over the creek or the river (owner, 2026-09-24).
+    // ceiling: drawn, not walked. The simulation lets a lane's wade cost nothing (a road's ford is `fordMinutes`); a wade as a
+    // place of the map, dealt with the lane, is the way out if the lane's water should ever slow the family.
+    // ceiling: lanes only. The timber tracks and Gonzales's bank path are the built map's, and where they go over a big
+    // river they do it beside that river's documented crossing (docs/MAP_ACCURACY.md §10.8): a ford drawn there would be
+    // an invented crossing next to a real one. Laying those tracks again over the crossings is the way out.
+    if (world.map.sites?.[route.to]?.kind === 'homestead') {
+      for (const wade of lanesWades(world, route)) {
+        const creek = wade.kind === 'creek';
+        if (camera.scale < LANDING_LEGIBLE || (creek && creekOpacity(camera.scale) <= .5)) continue;
+        const at = camera.toScreen(wade), a = camera.toScreen(wade.a), b = camera.toScreen(wade.b);
+        if (at.x < -60 || at.y < -60 || at.x > ctx.canvas.width + 60 || at.y > ctx.canvas.height + 60) continue;
+        const across = Math.atan2(b.y - a.y, b.x - a.x) + Math.PI / 2;
+        const water = creek ? waterWidth(WATER.creek.miles, camera.scale, WATER.creek.floor) : waterWidth(WATER.river.miles, camera.scale, WATER.river.floor);
+        const length = world.map?.source ? Math.max(creek ? 8 : 12, creek ? water * 2.2 : camera.scale * .065) : Math.max(12, camera.figure * 1.8);
+        drawCrossing(ctx, at.x, at.y, length, across);
+        if (!audit) (window.__wadesDrawn ||= []).push({ routeId: route.id, water: wade.name, kind: wade.kind, x: Math.round(at.x), y: Math.round(at.y) });
+      }
     }
   }
   window.__laneDrawn = world.land?.lane ? { miles: world.land.lane.miles, cut: world.land.lane.cut } : null;
