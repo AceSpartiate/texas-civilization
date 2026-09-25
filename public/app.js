@@ -3,7 +3,7 @@ import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtRea
 import { drawArmy } from '/army-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, gaitMilesASecond, landRuns, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
-import { autoLabel, autoLine, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, standing, travellingLine, RENAME_PAUSE_MS } from '/family-panel.js';
+import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, standing, travellingLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { mountErrand } from '/errand.js';
 import { asksTheWay, mountGoing } from '/going.js';
@@ -3638,8 +3638,9 @@ function renderFamilyPanel(world) {
   // up the family's roll on people it is about to replace. Nor before the family's book has arrived, which is what says
   // whether it has been rolled and who is father, mother and child - a panel drawn before it showed the founding four for a
   // moment (found by scripts/family-panel-browser-proof.mjs). And the Host has no family.
-  if (!household || world.role === 'host' || !familyCache || familyCache.canRoll || rollState === 'rolling') { panel.hidden = true; hidePanelTip(); return; }
+  if (!household || world.role === 'host' || !familyCache || familyCache.canRoll || rollState === 'rolling') { panel.hidden = true; hidePanelTip(); queueColumnFit(); return; }
   panel.hidden = false;
+  queueColumnFit();
   const people = entitiesOf(world).filter(entity => entity.kind === 'person' && (household.members || []).includes(entity.id));
   const byId = new Map(people.map(entity => [entity.id, entity]));
   const book = new Map((familyCache?.people || []).map(person => [person.id, person]));
@@ -3793,6 +3794,71 @@ function renderFamilyPanel(world) {
     const row = panelRows.get(id);
     return { id, role: row.item.dataset.role, name: byId.get(id).name, active: [...row.icons.querySelectorAll('[data-active=true]')].map(icon => icon.dataset.key), ...seen[at] };
   });
+}
+/**
+ * The column's foot, measured (docs/FAMILY_PANEL.md §17, owner 2026-09-25: "Fix it"). The column is its own scroll region
+ * (`#family-panel`, public/style.css), and here its box is bounded above whatever stands along the bottom - the ability bar,
+ * one row or two, as tall as its names make it, lifted during the guided start - by that bar's own measured top, written
+ * into `--column-room`. It replaces `#hud-left{bottom:200px}`, two heights written down for a bar whose tiles then grew.
+ *
+ * Measured after the frame's changes, not in the middle of them (one animation frame, coalesced): the bar is hidden while a
+ * rider talks, an errand or a way of going is chosen, and those are drawn after the panel in the same render.
+ *
+ * - **No bar drawn** - the meeting, the errand or the going chooser has it - keeps the room the bar last had, so the
+ *   column does not run down under the meeting for the minute it stands and jump back up after. Before any bar has been
+ *   measured there is none to stop above, only the Journal and Land buttons and the screen's edge.
+ * - **Tight**: when the rows do not all fit, the auto sentence goes off everybody's row but the main person's
+ *   (`#family-panel[data-tight=true]`). The sentence is still the switch's tooltip and accessible name (`autoLabel`), and the
+ *   switch keeps its word and its glow. Decided afresh only when something that changes the answer changes - the room, the
+ *   rows, the sentences, the fold, the main person - with the sentences put back to measure, and the scroll kept, in the
+ *   same task, so nothing is ever painted in between.
+ * - **The main person is scrolled into view** when they are chosen and whenever the room changes, and at no other time: a
+ *   student scrolling down the list to find the youngest is not dragged back up every tick.
+ */
+let columnFitQueued = false, barRoomWas = null, columnKey = null, roomKey = null, scrolledFor = null;
+function queueColumnFit() {
+  if (columnFitQueued) return;
+  columnFitQueued = true;
+  requestAnimationFrame(() => { columnFitQueued = false; fitColumn(); });
+}
+addEventListener('resize', queueColumnFit);
+function fitColumn() {
+  const panel = $('#family-panel'), column = $('#hud-left');
+  const stage = column?.offsetParent?.getBoundingClientRect();
+  // A phone puts the family across the top (the stylesheet's `bottom:auto` there), and a page with no family has no column.
+  if (!panel || panel.hidden || !stage || matchMedia('(max-width:760px)').matches) {
+    document.body.style.removeProperty('--column-room'); columnKey = roomKey = null; return;
+  }
+  const barBox = $('.panel-row[data-focused=true] .panel-icons')?.getBoundingClientRect();
+  let bar = barBox && barBox.width > 0 && barBox.height > 0 ? barBox : null;
+  if (bar) barRoomWas = stage.bottom - bar.top;
+  else if (barRoomWas !== null) bar = { top: stage.bottom - barRoomWas, left: stage.left, right: stage.right, width: stage.width, height: barRoomWas };
+  const box = panel.getBoundingClientRect();
+  const tools = $('#map-tools')?.getBoundingClientRect();
+  const room = columnRoom({ height: stage.bottom, column: { left: box.left, right: box.right }, bar, others: tools ? [tools] : [] });
+  const roomText = `${room}px`;
+  if (document.body.style.getPropertyValue('--column-room') !== roomText) document.body.style.setProperty('--column-room', roomText);
+  const lines = [...panel.querySelectorAll('.panel-auto-line')].filter(line => !line.hidden).map(line => line.textContent);
+  const key = JSON.stringify([room, Math.round(stage.height), panelRows.size, lines, panel.dataset.collapsed || '', focusedId]);
+  if (key !== columnKey) {
+    columnKey = key;
+    const kept = panel.scrollTop;
+    setData(panel, 'tight', 'false');
+    setData(panel, 'tight', String(panel.scrollHeight > panel.clientHeight + 1));
+    panel.scrollTop = kept;
+  }
+  // The room, not the sentences: a row's auto line changing as its person waits must not scroll the list under a student.
+  const roomNow = `${room}:${Math.round(stage.height)}`;
+  if (roomNow !== roomKey) { roomKey = roomNow; scrolledFor = null; }
+  const chosen = focusedId ? panelRows.get(focusedId)?.item : null;
+  if (chosen && scrolledFor !== focusedId) {
+    scrolledFor = focusedId;
+    const view = panel.getBoundingClientRect(), row = chosen.getBoundingClientRect();
+    const top = row.top - view.top - panel.clientTop + panel.scrollTop;
+    const next = scrollToShow({ top, bottom: top + row.height }, { scrollTop: panel.scrollTop, clientHeight: panel.clientHeight });
+    if (Math.abs(next - panel.scrollTop) >= 1) panel.scrollTop = next;
+  }
+  window.__column = { room, tight: panel.dataset.tight === 'true', barTop: bar ? Math.round(bar.top) : null, bottom: Math.round(panel.getBoundingClientRect().bottom) };
 }
 /**
  * The Host's live page (docs/HOST_PAGE.md, owner 2026-09-16): the class family by family in words, the Rumor Mill, and the
@@ -5668,6 +5734,7 @@ function renderPanelBackdrop() {
  */
 let placingWas = false;
 function renderScreenMoments() {
+  queueColumnFit();
   const shown = one => Boolean($(one) && !$(one).hidden);
   document.body.dataset.meeting = String(shown('#encounter'));
   const placing = shown('#site-choose') || shown('#survey-choose');

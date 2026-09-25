@@ -150,14 +150,14 @@
           "x": 810,
           "y": 10,
           "width": 544,
-          "height": 212.703125,
+          "height": 193.109375,
           "top": 10,
           "right": 1354,
-          "bottom": 222.703125,
+          "bottom": 203.109375,
           "left": 810
         },
         "overlapWidth": -494,
-        "overlapHeight": 211
+        "overlapHeight": 191
       },
       {
         "where": "1024x768",
@@ -165,14 +165,14 @@
           "x": 468,
           "y": 10,
           "width": 544,
-          "height": 212.703125,
+          "height": 193.109375,
           "top": 10,
           "right": 1012,
-          "bottom": 222.703125,
+          "bottom": 203.109375,
           "left": 468
         },
         "overlapWidth": -152,
-        "overlapHeight": 211
+        "overlapHeight": 191
       }
     ],
     "names": [
@@ -243,8 +243,8 @@
       ]
     },
     "resume": {
-      "until": 1790373732702,
-      "msWhenStopped": 299961,
+      "until": 1790376076323,
+      "msWhenStopped": 299973,
       "chromebook": {
         "size": [
           119,

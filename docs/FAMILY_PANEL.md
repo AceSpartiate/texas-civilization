@@ -1192,7 +1192,7 @@ work went on through every step after it (found by the browser proof, which stop
   field*, *bring in the crop*, the two hunts, small game, fishing, oysters, a bee tree, riding the range, *work on the house*, the
   lane, the well and hauling logs. Each runs out by itself when there is nothing left to do. The next repeatable order replaces
   it; nothing else does. **Not repeated** (`ceiling:` in `sim/auto.mjs`): the errand to town and furniture (coin), practice at the
-  mark (powder on purpose), killing a beef or a hog (the herd), survey, clearing and fencing (a plot chosen on the map each time),
+  mark (powder on purpose), killing a beef or a hog (the herd), survey, clearing and fencing (a plot chosen on the map each time; owner-decided, §16.1),
   felling and fetching logs (the family's timber), enlisting, joining and voting, a neighbour's raising, the road east's work and
   the children's own works. Given to somebody on auto, those are done once and the person goes back to their task.
 - **Repeat after finishing.** Every tick, a person on auto who is home and free is asked whether their task can be done now -
@@ -1253,10 +1253,58 @@ the held hunter works about the place. [Injections](evidence/auto-injections.jso
 for it, 11 of them by that test alone (the other seven are foundational - forgetting the task, standing about - and fail the old hunt test too). Browser, same computer: `npm run test:auto` (above), and the auto, family-panel (17), panels (10), lesson (33), farm (7) and family-commands (23)
 proofs re-run.
 
+### 16.1 Clearing and fencing stay one at a time — owner decision, 2026-09-25
+
+**Owner, 2026-09-25:** autoplay does **not** repeat clearing or fencing; **they stay one at a time.** A plot is staked on the map and
+cleared or fenced once, by a student's choice each time; given to somebody on auto, either is done once and the person goes back to
+their remembered task, exactly as built (`REPEATED` in `sim/auto.mjs` leaves out `clear-plot` and `fence-plot`). The suggestion that
+stood here - *clear the next staked plot* as a small addition for a clearer on auto - was weighed and not taken. No code changed.
+
 **Open for the owner.** (1) Auto takes the quickest way each time, not the way the student last chose (§15's open question (2),
-unchanged). (2) Clearing and fencing are not repeated - a plot is chosen on the map each time; *clear the next staked plot* would
-be a small addition if the owner wants a clearer on auto. (3) A person on auto whom the student tells to *Rest* is back at their
+unchanged). (2) ~~Clearing and fencing are not repeated~~ - decided, §16.1: they stay one at a time. (3) A person on auto whom the student tells to *Rest* is back at their
 task (or about the place) the next tick; auto means auto, and the switch is how to stop it.
+
+## 17. The column never goes under the bar — owner 2026-09-25 ("Fix it"), built the same day
+
+**What was wrong.** The column stopped at a fixed `bottom:200px` (240px during the guided start), written down on 2026-09-22 for
+a bar of one row of 98px tiles, with a `ceiling:` saying so. The bar has since become a compact grid of named tiles, at most two
+rows (8e6ecd5), and a tile's name wraps to three or four lines ("Buy furniture from the carpenter"): measured, a two-row bar is
+**186px** tall and its top stands **290px** above the foot of the screen (330px during the guided start) - at 1366x768 and at
+1024x768 alike. So a full column ran 90px down under the bar at both sizes, and the auto sentences of §16 made the column
+fuller. Found at 1024x768 in the auto proof's screenshots (the youngest row's foot under *Survey ten acres*).
+
+**The rule now.**
+
+- **The column is its own scroll region, bounded above the bar by the bar's own measured top**, less 8px - one row, two, lifted
+  during the guided start or not, whatever its names make it. Measured by the page every time the panel is drawn and on a resize
+  (`fitColumn` in `public/app.js`, `columnRoom` in `public/family-panel.js`), into `--column-room`, the way `--lesson-room` is.
+  The column stops above the bar **wherever the bar stands across the screen** (the owner's rule of 2026-09-21, "the left
+  column stops above the ability bar"), so choosing somebody with more work, whose bar is wider, cannot slide it under the column.
+- **The Journal, Land and Follow buttons** are stopped above only where they stand across the column's width - at both supported
+  sizes they stand clear of it to the right. **The screen's edge**: never nearer than 12px.
+- **No bar drawn** - while a rider talks, or an errand or a way of going is being chosen - the column keeps the room the bar last
+  had, so it does not run down under the meeting for a minute and jump back after it.
+- **The main person is scrolled into view** in the column when they are chosen (by portrait, star, or the guided start's finder)
+  and when the room changes; at no other time, so a student scrolling down to the youngest is not dragged back up each tick.
+  Keyboard focus moves through the rows in page order as before (father, mother, children oldest first), and the browser scrolls
+  a focused control into view in the column itself.
+- **Tight**: when the rows do not all fit, the auto sentence (§16) goes off every row but the main person's. It is still the
+  switch's tooltip and accessible name (`autoLabel` carries it), and the switch keeps *Auto ✓* and its green glow, and the portrait
+  its green ring. Nothing else on a row is hidden: portrait, name, the switch, the star, *Idle*, the standing and the reason stay.
+- **Found by looking at the screenshots:** the *Hide names* button was a flex item free to shrink (`min-height:0`), and in a
+  column too short for its rows it shrank to a sliver under the father's row. It is `flex:none` now.
+
+**Measured** (`npm run test:panels`, a family of twenty rolled by the server, two on auto, same computer): the column ends at
+470px above the bar's top at 478px during the guided start and at 510px above 518px with the full bar, at 1366x768 and at
+1024x768; five and six rows in view, every one on top at its portrait; the youngest child reached by scrolling; the last grown
+child made main with the list at its top scrolled into view. With the old `bottom:200px` put back the proof fails (*"the column
+ends at 568px, under the bar's top at 478px"*); with the scroll into view taken out it fails on the main person's row. `npm run test:family-twenty`'s 1366, 1440 and 1024 bar checks pass now (at 1024 they failed before, 528 over 478); its phone check at 400px fails, identically on the tree before this.
+
+**What this does not fix, and is not proved.** A 768px-high screen gives the column five or six rows under the family's status
+lines (207px) - the rest is a scroll. Names beside *Idle* and *Auto* on a 10-to-17-year-old's row are cut to a letter or two at
+this width (pre-existing since the switch took its word, §16; the name box scrolls, and the portrait's tooltip names them). The
+meeting over the column (§12.12) is unchanged and still the owner's. No Chromebook, no touch screen; phones (unsupported) are
+untouched - there the column runs across the top and the property is removed.
 
 ## Usability amendment — 2026-09-21
 

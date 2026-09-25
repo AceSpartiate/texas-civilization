@@ -28,7 +28,11 @@
     "1024x768: all four fit the screen and none has anything drawn over its own controls",
     "1024x768: none of the four is drawn over the guided start, and nothing covers a word or a control of it",
     "1024x768: no ability bar under the meeting, and the bar is back the moment the meeting shuts",
-    "1024x768: both placement panels stand clear of the folded faces, and the names open again when the stake is put away"
+    "1024x768: both placement panels stand clear of the folded faces, and the names open again when the stake is put away",
+    "1366x768, the guided start: a family of twenty, two on auto - the column ends at 470px above the bar's top at 478px (2 rows), 5 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 394px)",
+    "1024x768, the guided start: a family of twenty, two on auto - the column ends at 470px above the bar's top at 478px (2 rows), 5 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 394px)",
+    "1366x768, the full bar: a family of twenty, two on auto - the column ends at 510px above the bar's top at 518px (2 rows), 6 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 354px)",
+    "1024x768, the full bar: a family of twenty, two on auto - the column ends at 510px above the bar's top at 518px (2 rows), 6 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 354px)"
   ],
   "measured": {
     "1366x768": [
@@ -275,10 +279,10 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 516
+                "h": 469
               },
               "overlapWidth": -163,
-              "overlapHeight": 300,
+              "overlapHeight": 253,
               "shares": false
             },
             "faces": {
@@ -522,7 +526,7 @@
               "control": "#reports",
               "label": "Read what Silas Roe said",
               "box": {
-                "x": 1866,
+                "x": 1873,
                 "y": 963,
                 "w": 139,
                 "h": 44
@@ -586,10 +590,10 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 516
+                "h": 469
               },
               "overlapWidth": -203,
-              "overlapHeight": 300,
+              "overlapHeight": 253,
               "shares": false
             },
             "faces": {
@@ -813,7 +817,7 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 516
+                "h": 469
               },
               "overlapWidth": 150,
               "overlapHeight": 220,
@@ -1031,7 +1035,7 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 516
+                "h": 469
               },
               "overlapWidth": 150,
               "overlapHeight": 179,
@@ -1341,10 +1345,10 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 516
+                "h": 469
               },
               "overlapWidth": 8,
-              "overlapHeight": 300,
+              "overlapHeight": 253,
               "shares": true
             },
             "faces": {
@@ -1652,10 +1656,10 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 516
+                "h": 469
               },
               "overlapWidth": -32,
-              "overlapHeight": 300,
+              "overlapHeight": 253,
               "shares": false
             },
             "faces": {
@@ -1879,7 +1883,7 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 516
+                "h": 469
               },
               "overlapWidth": 150,
               "overlapHeight": 220,
@@ -2097,7 +2101,7 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 516
+                "h": 469
               },
               "overlapWidth": 150,
               "overlapHeight": 179,
@@ -2173,10 +2177,10 @@
           "x": 12,
           "y": 12,
           "w": 248,
-          "h": 516
+          "h": 469
         },
         "overlapWidth": -163,
-        "overlapHeight": 300,
+        "overlapHeight": 253,
         "shares": false
       },
       "siteOverTheColumn": {
@@ -2184,7 +2188,7 @@
           "x": 12,
           "y": 12,
           "w": 248,
-          "h": 516
+          "h": 469
         },
         "overlapWidth": 150,
         "overlapHeight": 220,
@@ -2195,7 +2199,7 @@
           "x": 12,
           "y": 12,
           "w": 248,
-          "h": 516
+          "h": 469
         },
         "overlapWidth": 150,
         "overlapHeight": 179,
@@ -2212,10 +2216,10 @@
           "x": 12,
           "y": 12,
           "w": 248,
-          "h": 516
+          "h": 469
         },
         "overlapWidth": 8,
-        "overlapHeight": 300,
+        "overlapHeight": 253,
         "shares": true
       },
       "siteOverTheColumn": {
@@ -2223,7 +2227,7 @@
           "x": 12,
           "y": 12,
           "w": 248,
-          "h": 516
+          "h": 469
         },
         "overlapWidth": 150,
         "overlapHeight": 220,
@@ -2234,7 +2238,7 @@
           "x": 12,
           "y": 12,
           "w": 248,
-          "h": 516
+          "h": 469
         },
         "overlapWidth": 150,
         "overlapHeight": 179,
@@ -2254,6 +2258,374 @@
     "test-results/panels-site-choose-1024.png",
     "test-results/panels-survey-choose-1024.png"
   ],
+  "column": {
+    "measured": {
+      "seed": "column-10",
+      "onAuto": [
+        "hh-1-parent-2",
+        "hh-1-child-1"
+      ],
+      "1366x768-lesson": {
+        "father": {
+          "viewport": {
+            "width": 1366,
+            "height": 768
+          },
+          "column": {
+            "left": 12,
+            "right": 316,
+            "top": 207,
+            "bottom": 470
+          },
+          "bar": {
+            "left": 435,
+            "right": 931,
+            "top": 478,
+            "bottom": 664,
+            "rows": 2
+          },
+          "tools": {
+            "left": 810,
+            "right": 1352,
+            "top": 710,
+            "bottom": 754
+          },
+          "toolsAcross": false,
+          "room": "298px",
+          "scrolls": true,
+          "scrollTop": 0,
+          "scrollHeight": 1096,
+          "clientHeight": 263,
+          "tight": true,
+          "lesson": true,
+          "faces": [
+            "hh-1-parent-1 233-281",
+            "hh-1-parent-2 286-334",
+            "hh-1-child-1 339-387",
+            "hh-1-child-2 392-440",
+            "hh-1-child-3 445-493"
+          ],
+          "switches": [
+            {
+              "id": "hh-1-parent-2",
+              "word": "Auto ✓",
+              "pressed": "true",
+              "lineShown": false,
+              "line": "Auto: nothing to repeat yet. Give Temperance Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
+              "main": false
+            },
+            {
+              "id": "hh-1-child-1",
+              "word": "Auto ✓",
+              "pressed": "true",
+              "lineShown": false,
+              "line": "Auto: nothing to repeat yet. Give Delia Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
+              "main": false
+            }
+          ],
+          "main": {
+            "id": "hh-1-parent-1",
+            "inside": true
+          }
+        },
+        "last": {
+          "inside": true,
+          "onTop": true,
+          "aboveBar": true,
+          "scrollTop": 833,
+          "by": null
+        },
+        "laterMain": {
+          "id": "hh-1-child-10",
+          "scrollTop": 394,
+          "bar": {
+            "left": 435,
+            "right": 931,
+            "top": 478,
+            "bottom": 664,
+            "rows": 2
+          },
+          "column": {
+            "left": 12,
+            "right": 316,
+            "top": 207,
+            "bottom": 470
+          },
+          "tight": true
+        }
+      },
+      "1024x768-lesson": {
+        "father": {
+          "viewport": {
+            "width": 1024,
+            "height": 768
+          },
+          "column": {
+            "left": 12,
+            "right": 316,
+            "top": 207,
+            "bottom": 470
+          },
+          "bar": {
+            "left": 264,
+            "right": 760,
+            "top": 478,
+            "bottom": 664,
+            "rows": 2
+          },
+          "tools": {
+            "left": 468,
+            "right": 1010,
+            "top": 710,
+            "bottom": 754
+          },
+          "toolsAcross": false,
+          "room": "298px",
+          "scrolls": true,
+          "scrollTop": 0,
+          "scrollHeight": 1096,
+          "clientHeight": 263,
+          "tight": true,
+          "lesson": true,
+          "faces": [
+            "hh-1-parent-1 233-281",
+            "hh-1-parent-2 286-334",
+            "hh-1-child-1 339-387",
+            "hh-1-child-2 392-440",
+            "hh-1-child-3 445-493"
+          ],
+          "switches": [
+            {
+              "id": "hh-1-parent-2",
+              "word": "Auto ✓",
+              "pressed": "true",
+              "lineShown": false,
+              "line": "Auto: nothing to repeat yet. Give Temperance Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
+              "main": false
+            },
+            {
+              "id": "hh-1-child-1",
+              "word": "Auto ✓",
+              "pressed": "true",
+              "lineShown": false,
+              "line": "Auto: nothing to repeat yet. Give Delia Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
+              "main": false
+            }
+          ],
+          "main": {
+            "id": "hh-1-parent-1",
+            "inside": true
+          }
+        },
+        "last": {
+          "inside": true,
+          "onTop": true,
+          "aboveBar": true,
+          "scrollTop": 833,
+          "by": null
+        },
+        "laterMain": {
+          "id": "hh-1-child-10",
+          "scrollTop": 394,
+          "bar": {
+            "left": 264,
+            "right": 760,
+            "top": 478,
+            "bottom": 664,
+            "rows": 2
+          },
+          "column": {
+            "left": 12,
+            "right": 316,
+            "top": 207,
+            "bottom": 470
+          },
+          "tight": true
+        }
+      },
+      "1366x768-full": {
+        "father": {
+          "viewport": {
+            "width": 1366,
+            "height": 768
+          },
+          "column": {
+            "left": 12,
+            "right": 316,
+            "top": 207,
+            "bottom": 510
+          },
+          "bar": {
+            "left": 435,
+            "right": 931,
+            "top": 518,
+            "bottom": 704,
+            "rows": 2
+          },
+          "tools": {
+            "left": 810,
+            "right": 1352,
+            "top": 710,
+            "bottom": 754
+          },
+          "toolsAcross": false,
+          "room": "258px",
+          "scrolls": true,
+          "scrollTop": 0,
+          "scrollHeight": 1096,
+          "clientHeight": 303,
+          "tight": true,
+          "lesson": false,
+          "faces": [
+            "hh-1-parent-1 233-281",
+            "hh-1-parent-2 286-334",
+            "hh-1-child-1 339-387",
+            "hh-1-child-2 392-440",
+            "hh-1-child-3 445-493",
+            "hh-1-child-4 498-546"
+          ],
+          "switches": [
+            {
+              "id": "hh-1-parent-2",
+              "word": "Auto ✓",
+              "pressed": "true",
+              "lineShown": false,
+              "line": "Auto: nothing to repeat yet. Give Temperance Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
+              "main": false
+            },
+            {
+              "id": "hh-1-child-1",
+              "word": "Auto ✓",
+              "pressed": "true",
+              "lineShown": false,
+              "line": "Auto: nothing to repeat yet. Give Delia Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
+              "main": false
+            }
+          ],
+          "main": {
+            "id": "hh-1-parent-1",
+            "inside": true
+          }
+        },
+        "last": {
+          "inside": true,
+          "onTop": true,
+          "aboveBar": true,
+          "scrollTop": 793,
+          "by": null
+        },
+        "laterMain": {
+          "id": "hh-1-child-10",
+          "scrollTop": 354,
+          "bar": {
+            "left": 435,
+            "right": 931,
+            "top": 518,
+            "bottom": 704,
+            "rows": 2
+          },
+          "column": {
+            "left": 12,
+            "right": 316,
+            "top": 207,
+            "bottom": 510
+          },
+          "tight": true
+        }
+      },
+      "1024x768-full": {
+        "father": {
+          "viewport": {
+            "width": 1024,
+            "height": 768
+          },
+          "column": {
+            "left": 12,
+            "right": 316,
+            "top": 207,
+            "bottom": 510
+          },
+          "bar": {
+            "left": 264,
+            "right": 760,
+            "top": 518,
+            "bottom": 704,
+            "rows": 2
+          },
+          "tools": {
+            "left": 468,
+            "right": 1010,
+            "top": 710,
+            "bottom": 754
+          },
+          "toolsAcross": false,
+          "room": "258px",
+          "scrolls": true,
+          "scrollTop": 0,
+          "scrollHeight": 1096,
+          "clientHeight": 303,
+          "tight": true,
+          "lesson": false,
+          "faces": [
+            "hh-1-parent-1 233-281",
+            "hh-1-parent-2 286-334",
+            "hh-1-child-1 339-387",
+            "hh-1-child-2 392-440",
+            "hh-1-child-3 445-493",
+            "hh-1-child-4 498-546"
+          ],
+          "switches": [
+            {
+              "id": "hh-1-parent-2",
+              "word": "Auto ✓",
+              "pressed": "true",
+              "lineShown": false,
+              "line": "Auto: nothing to repeat yet. Give Temperance Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
+              "main": false
+            },
+            {
+              "id": "hh-1-child-1",
+              "word": "Auto ✓",
+              "pressed": "true",
+              "lineShown": false,
+              "line": "Auto: nothing to repeat yet. Give Delia Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
+              "main": false
+            }
+          ],
+          "main": {
+            "id": "hh-1-parent-1",
+            "inside": true
+          }
+        },
+        "last": {
+          "inside": true,
+          "onTop": true,
+          "aboveBar": true,
+          "scrollTop": 793,
+          "by": null
+        },
+        "laterMain": {
+          "id": "hh-1-child-10",
+          "scrollTop": 354,
+          "bar": {
+            "left": 264,
+            "right": 760,
+            "top": 518,
+            "bottom": 704,
+            "rows": 2
+          },
+          "column": {
+            "left": 12,
+            "right": 316,
+            "top": 207,
+            "bottom": 510
+          },
+          "tight": true
+        }
+      }
+    },
+    "task": "docs/FAMILY_PANEL.md §17: a rolled family of twenty with two people on auto, at 1366x768 and 1024x768, during the guided start (its bar lifted 40px) and after it is stopped (the full bar): the column's foot above the bar's top and the bottom buttons, every row in view on top at its portrait, the main person scrolled into view, and the youngest child reached by scrolling. Screenshots: test-results/column-*.png (or COLUMN_SHOTS)."
+  },
   "notProved": [
     "The meeting still stands over the family's column on a phone (and by 64px at 1024). Nobody has decided that one; it is recorded with numbers, not asserted.",
     "On a phone the site panel lies over the docked person card, three of its controls included (siteOverTheCard in contested). Its old full-width place overlapped the card too, by box arithmetic; nobody has decided which of the two should give way.",

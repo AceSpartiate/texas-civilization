@@ -768,8 +768,8 @@ version moved.
   8 walk beside the cart."* The sentence above the dice says the die gives "a cart, wagons or nothing to haul with, the oxen, and a
   few reales". Families nobody plays get theirs on the first running tick.
 - **Invented**: no source read says what coin a family brought ("none who have much money", Holley, `HIST-TEX-442`), so the amounts
-  are the owner's range, spread by the game. The ending counts it as it counts all coin in the house; the fix recommended for
-  that is the owner's (docs/MONEY_AND_GLORY.md). The ending's account lists it first: *"The family came with 4 reales."*
+  are the owner's range, spread by the game. The ending counts it as it counts all coin in the house - **owner-decided
+  2026-09-25: coin held, not coin gained; starting rich is an advantage, as it was historically** (docs/MONEY_AND_GLORY.md). The ending's account lists it first: *"The family came with 4 reales."*
 - **The guided start** counts a sale by coin over what was in the house when the step began, so the coin a family came with is not
   taken for a crop sold (sim/lesson.mjs `sold`).
 

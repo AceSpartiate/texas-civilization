@@ -639,14 +639,23 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
    98px tile with its name under it, 64px up - about 195px from the foot of the screen, 235px while a lesson lifts it 40px
    more - and no family of four ever filled the column far enough down to notice. A family of twenty (the owner's roll of
    2026-09-22) does, and its youngest children's portraits were under the father's work: scripts/family-twenty-browser-proof.mjs.
-   ceiling: two fixed heights for the bar rather than its measured one; measure it into a custom property, as --lesson-room
-   is, if the bar's tiles change height again. */
+   2026-09-25 (owner: "Fix it"): the ceiling that stood here - "two fixed heights for the bar rather than its measured one" -
+   was paid. The bar's tiles had changed height again (two rows of named 70px tiles, 160px and more, 64px up or 104px during
+   the guided start), a two-row bar at 1024x768 rose above 200px and covered the foot of a full column, and the auto lines
+   made the column fuller. The foot is now the bar's own measured top, less 8px, or the Journal and Land buttons' where they
+   stand across the column, or 12px from the screen's edge: `--column-room`, written by fitColumn in public/app.js from
+   `columnRoom` (public/family-panel.js), the way `--lesson-room` is. The 200px is only the first frame's, before anything
+   has been measured. Held at 1366x768 and 1024x768 for a family of twenty by `npm run test:panels`. */
 @media (min-width:761px){
-  #hud-left{bottom:200px}
-  body[data-lesson=true] #hud-left{bottom:240px}
+  #hud-left{bottom:var(--column-room,200px)}
 }
+/* When the rows do not all fit, the auto sentence goes off every row but the main person's; it is still the switch's
+   tooltip and accessible name, and the switch keeps "Auto ✓" and its glow (docs/FAMILY_PANEL.md §17). */
+#family-panel[data-tight=true] .panel-row:not([data-focused=true]) .panel-auto-line{display:none}
+/* `flex:none` on the Hide names button above: with `min-height:0` it was a flex item free to shrink, and in a column too
+   short for its rows it shrank to a sliver under the father's row - found in the screenshots of a family of twenty, 2026-09-25. */
 #family-panel{pointer-events:none;min-height:0;max-width:min(19rem,calc(100vw - 24px));overflow-y:auto;overscroll-behavior:contain;padding:2px 4px 4px 0;flex:0 1 auto;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
-#family-collapse{pointer-events:auto;min-height:0;height:20px;padding:0 8px;border-radius:10px;border:1px solid #8f825b;background:var(--shade);color:#d8c9a2;font:600 9.5px/1 system-ui;letter-spacing:.09em;text-transform:uppercase;box-shadow:none}
+#family-collapse{pointer-events:auto;flex:none;min-height:0;height:20px;padding:0 8px;border-radius:10px;border:1px solid #8f825b;background:var(--shade);color:#d8c9a2;font:600 9.5px/1 system-ui;letter-spacing:.09em;text-transform:uppercase;box-shadow:none}
 #family-collapse:hover:enabled{background:#4b4331;color:#f7eed5}
 #family-panel[data-collapsed=true] .panel-body{display:none}
 #family-panel[data-collapsed=true] .panel-attention{left:32px}

@@ -492,6 +492,42 @@ export function autoLine(entity) {
 }
 
 /**
+ * How far above the foot of the map the family column must stop (docs/FAMILY_PANEL.md §17, owner 2026-09-25: "Fix it", after a
+ * two-row ability bar covered the bottom of a full column at 1024x768). Every number is a box the browser measured this frame;
+ * nothing here is a height written down for one screen, which is what the fixed `bottom:200px` was.
+ *
+ * - `height` is the bottom of the box the column is positioned in (the map), `column` the column's own left and right.
+ * - `bar` is the ability bar. **The column always stops above it**, wherever it stands across the screen (owner, 2026-09-21:
+ *   "the left column stops above the ability bar"), so a bar that grows wider when another person is chosen cannot slide
+ *   under a column that was only clear of it by being narrow. No bar (none drawn, or not measured): nothing to stop above.
+ * - `others` are the rest of the furniture along the bottom - the Journal, Land and Follow buttons - which the column stops
+ *   above only where one of them stands across the column's own width.
+ *
+ * Returns the gap, in whole pixels, from the foot of the map to the column's bottom edge: never less than `edge`, so the
+ * column is never off the screen either.
+ */
+export function columnRoom({ height, column, bar = null, others = [], gap = 8, edge = 12 }) {
+  const drawn = box => Boolean(box) && box.width > 0 && box.height > 0;
+  const across = box => box.right > column.left && box.left < column.right;
+  let foot = height - edge;
+  if (drawn(bar)) foot = Math.min(foot, bar.top - gap);
+  for (const box of others) if (drawn(box) && across(box)) foot = Math.min(foot, box.top - gap);
+  return Math.max(edge, Math.ceil(height - foot));
+}
+
+/**
+ * Where a scrolling list has to be scrolled to so that one row of it is in view, moving it as little as possible - the
+ * `block: 'nearest'` of `scrollIntoView`, done on the column alone. `scrollIntoView` scrolls every ancestor that can scroll,
+ * and would drag the map's own stage with it. `row` is the row's top and bottom in the list's content (0 is the top of the
+ * list scrolled to its top); `view` is the list's `scrollTop` and `clientHeight`. A row taller than the view shows its top.
+ */
+export function scrollToShow(row, { scrollTop, clientHeight }) {
+  if (row.top < scrollTop || row.bottom - row.top >= clientHeight) return Math.max(0, Math.floor(row.top));
+  if (row.bottom > scrollTop + clientHeight) return Math.ceil(row.bottom - clientHeight);
+  return scrollTop;
+}
+
+/**
  * The one menu for a call: every person who may answer it, with the answer that sends them and the one that keeps them,
  * as the server priced each for that person. `people` is the family's book (`/api/family`), for the line saying who they
  * are; `entities` the projection's people. Null when nothing is open to answer.

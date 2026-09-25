@@ -326,6 +326,7 @@ At the end the fog lifts (`VISION.md` §20) and each family sees, for the first 
 | How is the result shown? | **The Host names a winner**, showing every family's money, glory and final number. |
 | Can a family that never fights win? | **Yes, but it should be difficult.** |
 | What counts as money at the end? | Not asked. Default is coin on hand (§3); change only on the owner's say-so. |
+| Does the coin a family came with count at the end? | **Yes: coin held, not coin gained** (owner, 2026-09-25). Starting rich is an advantage, as it was historically; the account says what the family came with. |
 
 ---
 
@@ -446,9 +447,29 @@ seed), so this is recorded, not tuned. Put to the owner the same day by multiple
 - **A replacement for the epilogue.** §20's epilogue is a story selected from causal threads. The
   numbers sit beside it.
 
-## Amendment, 2026-09-25 — rolled means, and a fair ending (open for the owner)
+## Amendment, 2026-09-25 — rolled means, and the ending counts coin held (owner-decided)
 
-**Not a decision; a question the owner has to answer before starting wealth can include coin.** The owner asked the same day for a
+### Decision, 2026-09-25 (owner): the ending counts the coin a family holds, starting coin and all
+
+**Owner, 2026-09-25:** the ending counts **coin held** - `final = max(money, 1) × (1 + glory) + land`, the coin in the house at the
+end, whatever part of it the family came with - **not coin gained**. **Starting rich is an advantage, as it was historically.** A
+well-to-do family that came with ten reales and a family that came hard up with three, finishing with the same glory and having
+spent and earned alike, finish up to 3.3 times apart on the die's account, and that is meant: the means die is the family's
+fortune as it arrived, and fortune in 1835 was not equal.
+
+- **What this settles.** The question this amendment and its evening note left open. The recommendations below - score coin gained
+  over `household.means.coin`, or measure each family against its band - were **weighed and not taken**; they stay below only as the
+  history of what was considered, and nothing in them is to be built.
+- **What it leaves as it was.** `sim/ending.mjs` already scores coin held (`countedCoin(money) = max(COIN_FLOOR, money)`, the money in
+  the house at the end; `finalNumber` multiplies it), so **no code changed**. The ending's account still opens with *"The family came
+  with N reales."* (`familyEnding`), so a class can see at the reveal how much of a family's coin it brought and how much it made -
+  the difference is told, not subtracted. The ending's sentence stays *"12 reales × (1 + 4 glory)"*, not "12 reales earned".
+- **Still true:** coin is small (3-10 at the start, the record's scarcity, `HIST-TEX-442`, `HIST-GONZ-023`), and glory multiplies it;
+  a family that fights well from a poor start can still finish first.
+
+*What follows is the record of the question as it was put, kept as history of what the owner weighed.*
+
+**Not a decision (at the time); a question the owner had to answer before starting wealth could include coin.** The owner asked the same day for a
 roll of starting wealth tied to the wagons (docs/FAMILY_CREATION.md and docs/SETTLING_IN.md §4b, amendments of 2026-09-25). It is
 built: a second die gives a family a cart, one wagon, two or three, an ox to each. **It gives no coin**, and this is why.
 
@@ -461,7 +482,7 @@ built: a second die gives a family a cart, one wagon, two or three, an ox to eac
 - **The record agrees coin should be small**: "Money is scarce, in Texas", "none who have much money" (Holley, 1833); "Specie is the
   only current money of the country" (Woodman, 1835) - `HIST-TEX-442`, `HIST-GONZ-023`.
 
-**Recommended, for the owner to choose:**
+**Recommended then, for the owner to choose (not taken - the owner chose coin held):**
 
 1. **Score the coin a family gained, not the coin it holds**: `money counted = max(money − starting coin, 0)`, with the floor of one
    real kept (§5). Starting coin is then a head start in what a family can *buy* - a horse sooner, a rifle - and nothing in the
@@ -477,7 +498,7 @@ built: a second die gives a family a cart, one wagon, two or three, an ox to eac
 Until the owner answers, **no band brings coin** (`MEANS_BANDS` in sim/means.mjs has no coin field; the drafted 0, 2, 6 and 15
 reales are recorded there as the draft). Nothing about the ending changed.
 
-### Dated note, 2026-09-25 (evening): the owner has chosen unequal starting coin; how the ending counts it is still open
+### Dated note, 2026-09-25 (evening): the owner has chosen unequal starting coin (how the ending counts it: decided since, coin held - above)
 
 **Owner:** *"families should get some starting coin, starting with a minimum of 3 coin, and a maximum of 10 coin. this should be a
 structured part of the wealth d20 roll."* So **the half of the question above about coin at the start is answered**: every family of
@@ -486,10 +507,10 @@ poor 3-4; modest 5-6; comfortable 7-8; well-to-do 9-10; the whole table in docs/
 2026-09-25; `FIC-GONZ-397`). The paragraph just above ("no band brings coin") is **superseded** for those classes; a class that
 rolled on the first table that afternoon keeps none.
 
-**The other half is not answered, and nothing about the ending changed.** `finalNumber` still multiplies the coin in the house, so
+**The other half was not answered that evening** (it is now: coin held, the decision at the head of this amendment)**, and nothing about the ending changed.** `finalNumber` still multiplies the coin in the house, so
 today a well-to-do family that spends nothing finishes with up to ten reales where a family that is hard up has three: a head start of
 at most **3.3 times** in the final number for the same glory, from the die alone (smaller than the fifteen times of the old draft, and
-real). **Still recommended, for the owner to choose:** score the coin **gained over the coin the family started with** -
+real). **Recommended then, and not taken:** score the coin **gained over the coin the family started with** -
 `money counted = max(money - household.means.coin, 0)`, with the floor of one real kept (§5) - so the starting coin buys things
 sooner (a horse, a rifle, seed) and counts for nothing at the end; every class played before started with none, so none would score
 differently. The number it needs is already stored on every family (`household.means.coin`), so the change is one line in

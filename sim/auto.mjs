@@ -45,7 +45,8 @@ import { allWorn } from './tools.mjs';
  * planted and the crop in, the house raised, the lane cut, the well dug, the logs hauled.
  * ceiling: not repeated, because each changes what the family has in a way a student should decide each time - the errand
  * to town and the furniture (coin), practice at the mark (powder on purpose), killing a beef or a hog (the herd), surveying,
- * clearing and fencing (a plot chosen on the map each time), felling and fetching logs (the family's timber), enlisting,
+ * clearing and fencing (a plot chosen on the map each time; not a ceiling for these two - the owner decided on 2026-09-25 that
+ * they stay one at a time, docs/FAMILY_PANEL.md §16.1), felling and fetching logs (the family's timber), enlisting,
  * joining and voting (once), help at a neighbour's raising (their land), the road east's work, and the children's own
  * works (a child cannot be set to work about the place). An order of any of those given to somebody on auto is done once and
  * leaves the remembered task as it was, so they go back to it when it is done.

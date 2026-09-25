@@ -1,5 +1,39 @@
 # Claude handoff — Astra foundation
 
+## Two owner decisions, and the column above the bar — 2026-09-25, late (after 817c104; not yet committed or released)
+
+- **Decided (owner): the ending counts coin held**, not coin gained - starting rich is an advantage, as it was historically.
+  Recorded at the head of docs/MONEY_AND_GLORY.md's 2026-09-25 amendment (the recommendations kept only as what was weighed) and
+  in its §6 table; docs/FAMILY_CREATION.md's coin bullet says so. `sim/ending.mjs` already scores it (`countedCoin(money)`) and still
+  opens the account with *"The family came with N reales."*; no code changed. Struck from the open lists below.
+- **Decided (owner): autoplay does not repeat clearing or fencing** - they stay one at a time. docs/FAMILY_PANEL.md §16.1; the
+  comment on `REPEATED` in `sim/auto.mjs` says it is a decision, not a ceiling. No behaviour changed. Struck from the open lists.
+- **Fixed (owner: "Fix it"): no row of the family column is under the ability bar** (docs/FAMILY_PANEL.md §17). The two-row
+  bar was measured at 186px, its top 290px up (330px in the guided start), at both supported sizes - so the fixed
+  `#hud-left{bottom:200px}` ran a full column 90px under it. The column's foot is now the bar's measured top less 8px
+  (`columnRoom` in public/family-panel.js; `fitColumn` in public/app.js writes `--column-room`), above the Journal/Land buttons
+  where they cross it, never off the screen; the main person is scrolled into view when chosen; when the rows do not all fit, the
+  auto sentence goes off every row but the main person's into the switch's tooltip (the *Auto ✓* word and glow stay). The
+  `ceiling:` at that rule is replaced with what is true now. Found in the screenshots and fixed: *Hide names* shrank to a sliver in
+  a scrolling column (`flex:none`).
+- **Tests.** New `tests/family-column.test.mjs` (3): the column's foot above the bar and inside the screen for no bar, one row
+  and two, plain and lifted, 4/16/26 icons, families of 4, 12 and 20 at 1366x768 and 1024x768; the bottom buttons only where they
+  cross; the main person scrolled into view from either end. **Injection**: `columnRoom` returning the old fixed 200 - the two
+  `columnRoom` tests fail and nothing else of the 1184. `npm test`: **1184 pass**, 0 fail (1181 before).
+- **Browser** (same computer). `npm run test:panels` extended (`measureTheColumn`): a server-rolled family of twenty, two on
+  auto pressed from their rows, at 1366x768 and 1024x768, in the guided start and after it is stopped: column above the bar
+  (470 over 478, 510 over 518), every row in view on top, the youngest reached by scrolling, the last grown child made main
+  scrolled into view. With `bottom:200px` put back it fails (*"the column ends at 568px, under the bar's top at 478px"*); with the
+  scroll into view taken out it fails on that row. Screenshots looked at: session scratchpad `column-1024x768.png`,
+  `column-1366x768.png` (and `-lesson`, `-last`, `-main` of each).
+  Re-run, PASS: panels (14), family-panel (17), auto (14), lesson (33). `node --check` passes on .mjs copies of public/app.js and
+  public/family-panel.js. **`test:family-twenty`** now passes its 1366, 1440 and 1024 bar checks (on the tree before this it failed
+  at 1024: *"the panel runs down under the ability bar"*, 528 over 478) and then fails on the **phone** at 400px (map on top at 34%
+  before `flex:none` on *Hide names*, panel 35% after; its thresholds are 40% and 30%). The tree before this fails the same phone
+  check identically (34%) once its 1024 check is stepped past, so it is not this work's; phones are unsupported (8e6ecd5).
+- **Found, not fixed**: a 10-to-17-year-old's name beside *Idle* and *Auto* is cut to a letter or two at 19rem (since §16's
+  switch took its word); the meeting over the column (§12.12) is still the owner's.
+
 ## Starting coin, a family with no vehicle, the carreta, and the horse ridden — 2026-09-25, evening (after 7b102ad; not yet committed or released)
 
 Owner, verbatim: *"families should get some starting coin, starting with a minimum of 3 coin, and a maximum of 10 coin. this should be
@@ -57,8 +91,9 @@ a class made since carries `world.meansRoll = 2`; a class of the afternoon (`tru
   scratchpad): `means-roll-1366.png` (the coin line), `means-afoot-arrival-1366.png`, `means-poor-arrival-1366.png`, `means-carreta-1366.png`;
   no family arrives short of food (5.0 and 5.2 days in the shots, the floor tested on every size). `node --check` passes on .mjs copies of
   public/app.js, motion.js and family-panel.js.
-- **Open for the owner.** (1) **How the ending counts starting coin** - recommended: score coin gained over `household.means.coin` (one
-  line in `countedCoin`); today a well-to-do family's head start is up to 3.3× the final number for the same glory. (2) The coin
+- **Open for the owner.** (1) ~~How the ending counts starting coin~~ - **decided 2026-09-25 by the owner: coin held**, starting coin
+  and all; starting rich is an advantage, as it was historically (docs/MONEY_AND_GLORY.md, the decision at the head of the
+  amendment; `sim/ending.mjs` unchanged). (2) The coin
   amounts, the odds, the pack room (7), five a person carried, the carreta's recipe (3 logs, a hide, 12 ticks) and capacity (12/10/2)
   are invented. (3) Should the **cart** also carry less than a wagon on a trip (it carries 20 as before)? (4) Families of origins: the
   poor band's vehicle could be a carreta for a Tejano family if the game ever tells families apart. (5) A pack ox at the walkers' pace.
@@ -97,10 +132,11 @@ harvest. then they'd naturally keep going until i turned off autoplay for them."
   lobby and stops the guided start with its X: `app.state` is a **copy**, so its old `powder = 8` never reached the world.
   Re-run, PASS: auto (14), family-panel (17), panels (10), lesson (33), farm (7), family-commands (23). `node --check` on .mjs
   copies of `public/app.js` and `public/family-panel.js`.
-- **Found, not fixed**: at 1024×768 a two-row ability bar (16 icons) rises above `#hud-left{bottom:200px}` and covers the
-  bottom of the column when it is full - the ceiling already written at that rule; the new auto lines make the column fuller.
-- **Open for the owner**: the way auto goes (quickest, not the last chosen); clearing and fencing not repeated; *Rest* on
-  somebody on auto lasts one tick.
+- ~~**Found, not fixed**: at 1024×768 a two-row ability bar (16 icons) rises above `#hud-left{bottom:200px}` and covers the
+  bottom of the column when it is full~~ - **fixed 2026-09-25**, the entry at the top (docs/FAMILY_PANEL.md §17).
+- **Open for the owner**: the way auto goes (quickest, not the last chosen); *Rest* on
+  somebody on auto lasts one tick. (Clearing and fencing not repeated: **decided by the owner 2026-09-25 - they stay one at a
+  time**, docs/FAMILY_PANEL.md §16.1.)
 
 ## Farm plot art overhaul — 2026-09-25 (Astra; for the next release)
 
@@ -159,8 +195,8 @@ research), `FIC-GONZ-393` (bands), `-394` (seats), `-395` (pace); `FIC-GONZ-391`
   it; a well-to-do family of eight comes in with three wagons, each drawn driven, nobody walking. `test:creation` extended (the means
   after the throw; the taller panel still fits 1366×768; `creation-die-means.png`). `test:wagons` now builds a by-size class.
   Re-run, PASS: creation (10), wagons (4), lesson (33), errand (13; its class now `modestMeans`), going (7; same), family-panel (17), panels (10), travel (10), farm (7), host-view (8), scrape (5; the flight card now says "Room for 15 in the cart" and the load fits the room it reads), looks (8), family-commands (23). **`test:road` fails with a TimeoutError after its second check on this tree and identically on the tree without these changes** (a `.panel-focus` button "not visible"), so it is not this work's; not fixed here. Screenshots looked at: `means-roll-1366.png`, `means-poor-arrival-1366.png`, `means-rich-arrival-1366.png`.
-- **Open for the owner.** (1) **Coin by band**, and how the ending should count it (docs/MONEY_AND_GLORY.md, the amendment: score coin
-  gained over starting coin, recommended). (2) **Slaveholding** was part of some Anglo families' means in the record; the game's
+- **Open for the owner.** (1) ~~Coin by band, and how the ending should count it~~ - both answered 2026-09-25: 3-10 reales on the means
+  die (that evening), and the ending counts **coin held** (owner; docs/MONEY_AND_GLORY.md). (2) **Slaveholding** was part of some Anglo families' means in the record; the game's
   families are not slaveholders and no band carries it. (3) **An arrival on foot** with no vehicle at all: not built. (4) The die's
   shares (30/40/20/10 in 100) and a cart's 12 spaces and 2 riders are invented. (5) Women drive: the second driver is the eldest after
   the principal, often the mother (Harris's brother drove; the game's driver art has women). (6) The horse is led, never ridden, on a
@@ -894,7 +930,7 @@ server's words when *Build here* is pressed. Ground refusals still come from the
 
 ## Released as v2026.09.25.4 — 2026-09-25
 
-**[v2026.09.25.4](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.25.4)**, from `8ebaae2`: autoplay repeats one task and works about the place while it can't (`sim/auto.mjs`, FAMILY_PANEL §16; merged `17f42d1`); starting coin 3-10 on the means die; hard-up families on foot; the carreta made at home (`sim/carreta.mjs`, HIST-TEX-443, FIC-GONZ-398); the horse ridden on family journeys (FIC-GONZ-397). 1181 tests; auto, family-panel, lesson, means, panels, farm proofs pass on the merged tree. Open for the owner: how the ending counts starting coin (a well-to-do family can finish 3.3x ahead); auto's way of going; whether clearing and fencing repeat; the invented coin, odds, pack and carreta numbers; the cart's trip capacity; logs off the land with no vehicle; the 1024x768 panel overlap with a two-row action bar.
+**[v2026.09.25.4](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.25.4)**, from `8ebaae2`: autoplay repeats one task and works about the place while it can't (`sim/auto.mjs`, FAMILY_PANEL §16; merged `17f42d1`); starting coin 3-10 on the means die; hard-up families on foot; the carreta made at home (`sim/carreta.mjs`, HIST-TEX-443, FIC-GONZ-398); the horse ridden on family journeys (FIC-GONZ-397). 1181 tests; auto, family-panel, lesson, means, panels, farm proofs pass on the merged tree. Decided by the owner since (2026-09-25): the ending counts coin held (MONEY_AND_GLORY.md); autoplay does not repeat clearing or fencing (FAMILY_PANEL §16). Open for the owner: auto's way of going; the invented coin, odds, pack and carreta numbers; the cart's trip capacity; logs off the land with no vehicle. (The 1024x768 panel overlap with a two-row action bar: fixed since, FAMILY_PANEL §17.)
 
 ## Released as v2026.09.25.3 — 2026-09-25
 
