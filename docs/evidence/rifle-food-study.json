@@ -340,5 +340,580 @@
         "familiesEndingWithNoRifle": 6
       }
     ]
+  },
+  "afterRebuy": {
+    "record": "Rerun 2026-09-24 after the families nobody plays were given a rifle errand (docs/TOWNS.md §4e, sim/neighbours.mjs rifleErrand). before = commit 67bd422 run with the same extended script; after = this tree. Same four seeds, fifteen families nobody plays, three periods.",
+    "script": "node scripts/rifle-food-study.mjs [root] rifle-a,rifle-b,rifle-c,rifle-d",
+    "totals": {
+      "before": {
+        "meanFood": [
+          34.3,
+          65.4,
+          12.6
+        ],
+        "hungryHouseTicks": 755,
+        "housesEverHungry": 34,
+        "dead": 14,
+        "riflesLost": 14,
+        "riflesRebought": 0,
+        "endedWithoutRifle": 14
+      },
+      "after": {
+        "meanFood": [
+          34.3,
+          64,
+          12.5
+        ],
+        "hungryHouseTicks": 749,
+        "housesEverHungry": 35,
+        "dead": 14,
+        "riflesLost": 14,
+        "riflesRebought": 14,
+        "endedWithoutRifle": 0
+      }
+    },
+    "sameDead": true,
+    "before": [
+      {
+        "seed": "rifle-a",
+        "periods": [
+          {
+            "label": "autumn",
+            "ticks": 382,
+            "meanFood": 40
+          },
+          {
+            "label": "winter",
+            "ticks": 195,
+            "meanFood": 61.5
+          },
+          {
+            "label": "spring",
+            "ticks": 252,
+            "meanFood": 12.9
+          }
+        ],
+        "hungryHouseTicks": 171,
+        "housesEverHungry": 8,
+        "dead": 3,
+        "deadIds": [
+          "hh-3-elena",
+          "hh-14-thomas",
+          "hh-15-thomas"
+        ],
+        "sickDeaths": 0,
+        "rifleAwayHouseTicks": 4424,
+        "deathLines": 63,
+        "riflesLost": [
+          {
+            "householdId": "hh-3",
+            "date": "1836-03-08"
+          },
+          {
+            "householdId": "hh-14",
+            "date": "1836-03-08"
+          },
+          {
+            "householdId": "hh-15",
+            "date": "1836-03-14"
+          }
+        ],
+        "riflesRebought": [],
+        "sentToTown": 0,
+        "endedWithoutRifle": [
+          "hh-3",
+          "hh-14",
+          "hh-15"
+        ]
+      },
+      {
+        "seed": "rifle-b",
+        "periods": [
+          {
+            "label": "autumn",
+            "ticks": 382,
+            "meanFood": 33.5
+          },
+          {
+            "label": "winter",
+            "ticks": 195,
+            "meanFood": 59.3
+          },
+          {
+            "label": "spring",
+            "ticks": 252,
+            "meanFood": 13.8
+          }
+        ],
+        "hungryHouseTicks": 198,
+        "housesEverHungry": 8,
+        "dead": 3,
+        "deadIds": [
+          "hh-2-thomas",
+          "hh-9-mateo",
+          "hh-12-thomas"
+        ],
+        "sickDeaths": 1,
+        "rifleAwayHouseTicks": 3610,
+        "deathLines": 63,
+        "riflesLost": [
+          {
+            "householdId": "hh-11",
+            "date": "1836-03-04"
+          },
+          {
+            "householdId": "hh-2",
+            "date": "1836-03-14"
+          },
+          {
+            "householdId": "hh-12",
+            "date": "1836-03-14"
+          }
+        ],
+        "riflesRebought": [],
+        "sentToTown": 0,
+        "endedWithoutRifle": [
+          "hh-2",
+          "hh-11",
+          "hh-12"
+        ]
+      },
+      {
+        "seed": "rifle-c",
+        "periods": [
+          {
+            "label": "autumn",
+            "ticks": 382,
+            "meanFood": 33.9
+          },
+          {
+            "label": "winter",
+            "ticks": 195,
+            "meanFood": 67.7
+          },
+          {
+            "label": "spring",
+            "ticks": 252,
+            "meanFood": 13.4
+          }
+        ],
+        "hungryHouseTicks": 161,
+        "housesEverHungry": 8,
+        "dead": 2,
+        "deadIds": [
+          "hh-6-elena",
+          "hh-11-thomas"
+        ],
+        "sickDeaths": 1,
+        "rifleAwayHouseTicks": 3294,
+        "deathLines": 62,
+        "riflesLost": [
+          {
+            "householdId": "hh-5",
+            "date": "1836-03-04"
+          },
+          {
+            "householdId": "hh-11",
+            "date": "1836-03-14"
+          }
+        ],
+        "riflesRebought": [],
+        "sentToTown": 0,
+        "endedWithoutRifle": [
+          "hh-5",
+          "hh-11"
+        ]
+      },
+      {
+        "seed": "rifle-d",
+        "periods": [
+          {
+            "label": "autumn",
+            "ticks": 382,
+            "meanFood": 29.9
+          },
+          {
+            "label": "winter",
+            "ticks": 195,
+            "meanFood": 72.9
+          },
+          {
+            "label": "spring",
+            "ticks": 252,
+            "meanFood": 10.1
+          }
+        ],
+        "hungryHouseTicks": 225,
+        "housesEverHungry": 10,
+        "dead": 6,
+        "deadIds": [
+          "hh-1-thomas",
+          "hh-8-thomas",
+          "hh-10-thomas",
+          "hh-11-elena",
+          "hh-12-thomas",
+          "hh-14-thomas"
+        ],
+        "sickDeaths": 0,
+        "rifleAwayHouseTicks": 3603,
+        "deathLines": 66,
+        "riflesLost": [
+          {
+            "householdId": "hh-8",
+            "date": "1836-03-04"
+          },
+          {
+            "householdId": "hh-11",
+            "date": "1836-03-08"
+          },
+          {
+            "householdId": "hh-14",
+            "date": "1836-03-08"
+          },
+          {
+            "householdId": "hh-1",
+            "date": "1836-03-14"
+          },
+          {
+            "householdId": "hh-10",
+            "date": "1836-03-14"
+          },
+          {
+            "householdId": "hh-12",
+            "date": "1836-03-14"
+          }
+        ],
+        "riflesRebought": [],
+        "sentToTown": 0,
+        "endedWithoutRifle": [
+          "hh-1",
+          "hh-8",
+          "hh-10",
+          "hh-11",
+          "hh-12",
+          "hh-14"
+        ]
+      }
+    ],
+    "after": [
+      {
+        "seed": "rifle-a",
+        "periods": [
+          {
+            "label": "autumn",
+            "ticks": 382,
+            "meanFood": 40
+          },
+          {
+            "label": "winter",
+            "ticks": 195,
+            "meanFood": 59.7
+          },
+          {
+            "label": "spring",
+            "ticks": 252,
+            "meanFood": 13.3
+          }
+        ],
+        "hungryHouseTicks": 168,
+        "housesEverHungry": 8,
+        "dead": 3,
+        "deadIds": [
+          "hh-3-elena",
+          "hh-14-thomas",
+          "hh-15-thomas"
+        ],
+        "sickDeaths": 0,
+        "rifleAwayHouseTicks": 4424,
+        "deathLines": 63,
+        "riflesLost": [
+          {
+            "householdId": "hh-3",
+            "date": "1836-03-08"
+          },
+          {
+            "householdId": "hh-14",
+            "date": "1836-03-08"
+          },
+          {
+            "householdId": "hh-15",
+            "date": "1836-03-14"
+          }
+        ],
+        "riflesRebought": [
+          {
+            "householdId": "hh-3",
+            "date": "1836-03-10",
+            "by": "hh-3-rosa",
+            "home": "columbia",
+            "town": "columbia",
+            "paid": "16 food"
+          },
+          {
+            "householdId": "hh-14",
+            "date": "1836-03-12",
+            "by": "hh-14-elena",
+            "home": "san-felipe",
+            "town": "san-felipe",
+            "paid": "16 food"
+          },
+          {
+            "householdId": "hh-15",
+            "date": "1836-03-20",
+            "by": "hh-15-rosa",
+            "home": "columbia",
+            "town": "columbia",
+            "paid": "16 food"
+          }
+        ],
+        "sentToTown": 3,
+        "endedWithoutRifle": []
+      },
+      {
+        "seed": "rifle-b",
+        "periods": [
+          {
+            "label": "autumn",
+            "ticks": 382,
+            "meanFood": 33.5
+          },
+          {
+            "label": "winter",
+            "ticks": 195,
+            "meanFood": 58.4
+          },
+          {
+            "label": "spring",
+            "ticks": 252,
+            "meanFood": 13
+          }
+        ],
+        "hungryHouseTicks": 200,
+        "housesEverHungry": 9,
+        "dead": 3,
+        "deadIds": [
+          "hh-2-thomas",
+          "hh-9-mateo",
+          "hh-12-thomas"
+        ],
+        "sickDeaths": 1,
+        "rifleAwayHouseTicks": 3610,
+        "deathLines": 63,
+        "riflesLost": [
+          {
+            "householdId": "hh-11",
+            "date": "1836-03-04"
+          },
+          {
+            "householdId": "hh-2",
+            "date": "1836-03-14"
+          },
+          {
+            "householdId": "hh-12",
+            "date": "1836-03-14"
+          }
+        ],
+        "riflesRebought": [
+          {
+            "householdId": "hh-11",
+            "date": "1836-03-06",
+            "by": "hh-11-elena",
+            "home": "mina",
+            "town": "mina",
+            "paid": "16 food"
+          },
+          {
+            "householdId": "hh-2",
+            "date": "1836-03-15",
+            "by": "hh-2-elena",
+            "home": "san-felipe",
+            "town": "san-felipe",
+            "paid": "16 food"
+          },
+          {
+            "householdId": "hh-12",
+            "date": "1836-03-24",
+            "by": "hh-12-rosa",
+            "home": "liberty",
+            "town": "san-felipe",
+            "paid": "16 food"
+          }
+        ],
+        "sentToTown": 3,
+        "endedWithoutRifle": []
+      },
+      {
+        "seed": "rifle-c",
+        "periods": [
+          {
+            "label": "autumn",
+            "ticks": 382,
+            "meanFood": 33.9
+          },
+          {
+            "label": "winter",
+            "ticks": 195,
+            "meanFood": 67
+          },
+          {
+            "label": "spring",
+            "ticks": 252,
+            "meanFood": 13.5
+          }
+        ],
+        "hungryHouseTicks": 161,
+        "housesEverHungry": 8,
+        "dead": 2,
+        "deadIds": [
+          "hh-6-elena",
+          "hh-11-thomas"
+        ],
+        "sickDeaths": 1,
+        "rifleAwayHouseTicks": 3294,
+        "deathLines": 62,
+        "riflesLost": [
+          {
+            "householdId": "hh-5",
+            "date": "1836-03-04"
+          },
+          {
+            "householdId": "hh-11",
+            "date": "1836-03-14"
+          }
+        ],
+        "riflesRebought": [
+          {
+            "householdId": "hh-5",
+            "date": "1836-03-11",
+            "by": "hh-5-elena",
+            "home": "gonzales",
+            "town": "gonzales",
+            "paid": "16 food"
+          },
+          {
+            "householdId": "hh-11",
+            "date": "1836-03-19",
+            "by": "hh-11-elena",
+            "home": "matagorda",
+            "town": "columbia",
+            "paid": "16 food"
+          }
+        ],
+        "sentToTown": 2,
+        "endedWithoutRifle": []
+      },
+      {
+        "seed": "rifle-d",
+        "periods": [
+          {
+            "label": "autumn",
+            "ticks": 382,
+            "meanFood": 29.9
+          },
+          {
+            "label": "winter",
+            "ticks": 195,
+            "meanFood": 70.9
+          },
+          {
+            "label": "spring",
+            "ticks": 252,
+            "meanFood": 10.2
+          }
+        ],
+        "hungryHouseTicks": 220,
+        "housesEverHungry": 10,
+        "dead": 6,
+        "deadIds": [
+          "hh-1-thomas",
+          "hh-8-thomas",
+          "hh-10-thomas",
+          "hh-11-elena",
+          "hh-12-thomas",
+          "hh-14-thomas"
+        ],
+        "sickDeaths": 0,
+        "rifleAwayHouseTicks": 3603,
+        "deathLines": 66,
+        "riflesLost": [
+          {
+            "householdId": "hh-8",
+            "date": "1836-03-04"
+          },
+          {
+            "householdId": "hh-11",
+            "date": "1836-03-08"
+          },
+          {
+            "householdId": "hh-14",
+            "date": "1836-03-08"
+          },
+          {
+            "householdId": "hh-1",
+            "date": "1836-03-14"
+          },
+          {
+            "householdId": "hh-10",
+            "date": "1836-03-14"
+          },
+          {
+            "householdId": "hh-12",
+            "date": "1836-03-14"
+          }
+        ],
+        "riflesRebought": [
+          {
+            "householdId": "hh-8",
+            "date": "1836-03-06",
+            "by": "hh-8-rosa",
+            "home": "san-felipe",
+            "town": "san-felipe",
+            "paid": "16 food"
+          },
+          {
+            "householdId": "hh-11",
+            "date": "1836-03-10",
+            "by": "hh-11-thomas",
+            "home": "mina",
+            "town": "mina",
+            "paid": "16 food"
+          },
+          {
+            "householdId": "hh-14",
+            "date": "1836-03-11",
+            "by": "hh-14-mateo",
+            "home": "mina",
+            "town": "mina",
+            "paid": "16 food"
+          },
+          {
+            "householdId": "hh-1",
+            "date": "1836-03-17",
+            "by": "hh-1-elena",
+            "home": "columbia",
+            "town": "columbia",
+            "paid": "16 food"
+          },
+          {
+            "householdId": "hh-10",
+            "date": "1836-03-17",
+            "by": "hh-10-elena",
+            "home": "san-felipe",
+            "town": "san-felipe",
+            "paid": "16 food"
+          },
+          {
+            "householdId": "hh-12",
+            "date": "1836-03-18",
+            "by": "hh-12-rosa",
+            "home": "matagorda",
+            "town": "columbia",
+            "paid": "16 food"
+          }
+        ],
+        "sentToTown": 6,
+        "endedWithoutRifle": []
+      }
+    ]
   }
 }

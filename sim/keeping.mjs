@@ -44,8 +44,9 @@
 //
 // This file imports only the travel table, so `sim/world.mjs` (journeys), `sim/army.mjs` (the march) and `sim/chores.mjs`
 // (work) can all ask it without an import arrow between them.
-import { DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
+import { DEFAULT_MODE, MODES } from './travel.mjs';
 import { TOOL_WORDS, loseTool, toolCount } from './tools.mjs';
+import { BEAST_WORDS, allBeasts, beastsOf, kept } from './beasts.mjs';
 import { record } from './events.mjs';
 
 /** The plain word for each piece of property, used in every sentence about it. */
@@ -92,17 +93,23 @@ export function holderOf(world, beast) {
  */
 export function userOf(world, household, item, asker = null, { work = null, shares = [] } = {}) {
   if (!household) return null;
-  if (ROLES.includes(item)) {
-    const beast = world.entities[propertyId(household.id, item)];
-    const holder = beast ? holderOf(world, beast) : null;
-    if (holder && holder !== asker) return holder;
-  }
   // Each person holds one copy (owner, 2026-09-24, docs/TOWNS.md §4c): a thing a family has two of is refused only when both are
-  // out. The work at home that shares the felling axe shares one copy among all of it.
+  // out. The work at home that shares the felling axe shares one copy among all of it. Since the same day a family may own more
+  // than one horse or ox (sim/beasts.mjs, §4d): each animal is one person's, so two horses are two riders.
   const holders = [], home = [];
+  const beasts = ROLES.includes(item) ? beastsOf(world, household, item).filter(kept) : null;
+  // Beasts out with somebody: counted by the animal, since one person may have two with them (riding one, leading one home).
+  let out = 0;
+  for (const beast of beasts || []) {
+    const holder = holderOf(world, beast);
+    if (!holder || holder === asker) continue;
+    out++;
+    if (!holders.includes(holder)) holders.push(holder);
+  }
+  const withBeasts = holders.length;
   for (const id of household.members || []) {
     const person = world.entities[id];
-    if (!person || person === asker || GONE.includes(person.health?.condition)) continue;
+    if (!person || person === asker || GONE.includes(person.health?.condition) || holders.includes(person)) continue;
     // Gone to the war with it (`takeToWar`), until home again.
     if (away(world, household, person) && person.carries?.items?.includes(item)) { holders.push(person); continue; }
     if (!person.chore?.with?.includes(item)) continue;
@@ -111,17 +118,33 @@ export function userOf(world, household, item, asker = null, { work = null, shar
     if (person.chore.shares?.includes(item)) { if (!shares.includes(item)) home.push(person); continue; }
     holders.push(person);
   }
-  // A beast is one of its kind: whoever has it, as it always was (a harvest's shared wagon is one wagon, however many load it).
-  if (!COUNTED.includes(item)) return holders[0] || home[0] || null;
-  const used = holders.length + (home.length ? 1 : 0);
-  const copies = toolCount(household, item);
+  // A thing the family has one of - the wagon, the one horse every family has had - is whoever has it, as it always was (a
+  // harvest's shared wagon is one wagon, however many load it).
+  const copies = beasts ? Math.max(1, beasts.length) : COUNTED.includes(item) ? toolCount(household, item) : 1;
+  if (copies === 1 && !COUNTED.includes(item)) return holders[0] || home[0] || null;
+  const used = out + (holders.length - withBeasts) + (home.length ? 1 : 0);
   if (!used || used < copies) return null;
   const all = [...new Set([...holders, ...home])];
   return all.length === 1 ? all[0] : { kind: 'group', name: listed(all.map(one => one.name)), many: all, copies, householdId: household.id };
 }
-/** The things a family can own more than one of, held a copy at a time: the rifle and the felling axe. */
+/** The things a family can own more than one of, held a copy at a time: the rifle and the felling axe (the beasts count themselves). */
 const COUNTED = Object.freeze(['rifle', 'axe']);
 const listed = names => names.length < 2 ? names[0] : `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`;
+/**
+ * The beast of this part this person would take now, or null: the one they already have with them first, else one standing where
+ * they stand that nobody has, sound, and not one they are leading home (`leads`, sim/beasts.mjs) - a horse bought in town
+ * walks home on its halter, and its buyer rides home on the horse they came on. `modeAvailability` and `harness` (sim/world.mjs)
+ * both ask it, so the beast checked is the beast taken.
+ */
+export function beastFor(world, entity, role) {
+  const household = world.households[entity.householdId];
+  const leading = entity.leads || [];
+  const beasts = beastsOf(world, household, role).filter(beast => !leading.includes(beast.id));
+  const sound = beast => !beast.condition || beast.condition === 'sound';
+  return beasts.find(beast => sound(beast) && holderOf(world, beast) === entity)
+    || beasts.find(beast => sound(beast) && !holderOf(world, beast) && !beast.travel && beast.location?.siteId === entity.location?.siteId)
+    || null;
+}
 /** Not standing on the family's own place: on a road, or anywhere but home. */
 const away = (world, household, person) => Boolean(person.travel) || person.location?.siteId !== household.homeSiteId;
 
@@ -157,6 +180,8 @@ export function homeAgain(world) {
   for (const household of Object.values(world.households)) {
     for (const id of household.members || []) {
       const person = world.entities[id];
+      // Somebody dead or taken leads nothing home: the animal stands where they fell, free for whoever of the family comes to it.
+      if (person && (person.leads || person.drives) && (GONE.includes(person.health?.condition) || person.service?.status === 'prisoner')) { delete person.leads; delete person.drives; }
       if (!person?.carries) continue;
       const taken = GONE.includes(person.health?.condition) || person.service?.status === 'prisoner';
       // The rifle is lost with him (owner's request of 2026-09-24, docs/TOWNS.md §4c): now that the gunsmith sells rifles, a
@@ -178,7 +203,7 @@ export function homeAgain(world) {
 export function hasWords(holder, roles, world = null, asker = null) {
   // Every copy out: "Alvin and Mateo have both rifles."
   if (holder?.kind === 'group') {
-    const plural = roles.map(role => TOOL_WORDS[role]?.[1] || `${NOUN[role]}s`).join(' and ');
+    const plural = roles.map(role => TOOL_WORDS[role]?.[1] || BEAST_WORDS[role]?.[1] || `${NOUN[role]}s`).join(' and ');
     return `${holder.name} have ${holder.copies === 2 ? 'both' : `all ${holder.copies}`} ${plural}.`;
   }
   const what = `${holder?.name || 'Somebody'} has the ${roles.map(role => NOUN[role]).join(' and ')}`;
@@ -253,12 +278,13 @@ export function usesInvalid(world) {
  * goes home on: the horse they rode to the gathering came with them.
  */
 export function modeWith(world, entity) {
+  const household = world.households[entity.householdId];
   const found = Object.values(MODES).find(mode => mode.needs.length
-    && mode.needs.every(role => holderOf(world, world.entities[propertyId(entity.householdId, role)] || {}) === entity));
+    && mode.needs.every(role => beastsOf(world, household, role).some(beast => holderOf(world, beast) === entity && !entity.leads?.includes(beast.id))));
   return found ? found.id : DEFAULT_MODE;
 }
 
-const theirs = (world, entity) => ROLES.map(role => world.entities[propertyId(entity.householdId, role)]).filter(beast => beast && beast.borrowedBy === entity.id);
+const theirs = (world, entity) => allBeasts(world, world.households[entity.householdId]).filter(beast => beast.borrowedBy === entity.id);
 
 /** Before a journey is judged: a beast marching with this person is set down beside them, so it can go on with them. */
 export function bringAlong(world, entity) {
@@ -270,11 +296,14 @@ export function bringAlong(world, entity) {
   }
 }
 
-/** As a journey begins: any beast of theirs it does not take is left where it stands, and is free for whoever is there. */
-export function leaveBehind(world, entity, mode) {
-  for (const role of ROLES) {
-    const beast = world.entities[propertyId(entity.householdId, role)];
-    if (beast && beast.borrowedBy === entity.id && !mode.needs.includes(role) && !beast.travel) beast.borrowedBy = null;
+/**
+ * As a journey begins: any beast of theirs it does not take is left where it stands, and is free for whoever is there. `taking`
+ * is the beasts the way takes (`beastFor` for each part it needs); what they lead home on a halter goes with them too.
+ */
+export function leaveBehind(world, entity, taking = []) {
+  for (const beast of theirs(world, entity)) {
+    if (taking.includes(beast) || entity.leads?.includes(beast.id) || beast.travel) continue;
+    beast.borrowedBy = null;
   }
 }
 
@@ -285,9 +314,8 @@ export function leaveBehind(world, entity, mode) {
  */
 export function keepWithRiders(world) {
   for (const household of Object.values(world.households)) {
-    for (const role of ROLES) {
-      const beast = world.entities[propertyId(household.id, role)];
-      if (!beast?.borrowedBy) continue;
+    for (const beast of allBeasts(world, household)) {
+      if (!beast.borrowedBy) continue;
       const person = world.entities[beast.borrowedBy];
       if (!person || person.kind !== 'person') continue;
       if (marching(person) && !GONE.includes(person.health?.condition) && (beast.travel?.purpose === 'march' || holderOf(world, beast) === person)) {

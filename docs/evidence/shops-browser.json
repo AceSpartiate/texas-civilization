@@ -5,8 +5,8 @@
   "note": "Same computer only. A student pressed Go to town to trade on the family panel, read every shop of Gonzales and its prices in the popup, put a meal at the tavern paid in food on the list and sent the person; the keepers were in sight while the person was in Gonzales, and the meal is in the story. Every other trade is proved in tests/shops.test.mjs; the load and the wagon in scripts/errand-browser-proof.mjs. No LAN or district claim.",
   "checks": [
     "the family panel offers the street: \"Choose what they should buy and sell at the shops in town, then send them with the list.\"",
-    "in Gonzales the popup lists 9 shops, every offer with its price: The store · Marta Ibarra; The blacksmith's · Josiah Pike; The gunsmith's · Tobias Rhine; The doctor's · Dr. Felipe Arocha; The tavern · Hannah Deering; The tanner's · Calvin Oakes; The wheelwright's · Rafael Cantú; The mill · Micajah Hobbs; The weaver's · Lucía Benavides",
-    "11 townspeople are in sight in Gonzales: Marta Ibarra, Josiah Pike, Anselmo Lozano, Ruth Crandall, Tobias Rhine, Dr. Felipe Arocha, Hannah Deering, Calvin Oakes, Rafael Cantú, Micajah Hobbs, Lucía Benavides",
+    "in Gonzales the popup lists 10 shops, every offer with its price: The store · Marta Ibarra; The blacksmith's · Josiah Pike; The gunsmith's · Tobias Rhine; The doctor's · Dr. Felipe Arocha; The tavern · Hannah Deering; The tanner's · Calvin Oakes; The wheelwright's · Rafael Cantú; The mill · Micajah Hobbs; The weaver's · Lucía Benavides; The stock pens · Anselmo Treviño",
+    "12 townspeople are in sight in Gonzales: Marta Ibarra, Josiah Pike, Anselmo Lozano, Ruth Crandall, Tobias Rhine, Dr. Felipe Arocha, Hannah Deering, Calvin Oakes, Rafael Cantú, Micajah Hobbs, Lucía Benavides, Anselmo Treviño",
     "a meal at the tavern, paid in food, is in the family's story: \"Rhoda ate at the tavern. Nobody there knew anything the family had not heard.\"",
     "no page errors"
   ],
@@ -21,7 +21,8 @@
       "The tanner's · Calvin Oakes",
       "The wheelwright's · Rafael Cantú",
       "The mill · Micajah Hobbs",
-      "The weaver's · Lucía Benavides"
+      "The weaver's · Lucía Benavides",
+      "The stock pens · Anselmo Treviño"
     ],
     "counter": [
       {
@@ -43,7 +44,8 @@
       "Calvin Oakes",
       "Rafael Cantú",
       "Micajah Hobbs",
-      "Lucía Benavides"
+      "Lucía Benavides",
+      "Anselmo Treviño"
     ],
     "story": "Rhoda ate at the tavern. Nobody there knew anything the family had not heard."
   }

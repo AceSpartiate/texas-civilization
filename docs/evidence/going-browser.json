@@ -7,7 +7,7 @@
     "Travel to Gonzales asks first and sends nobody: \"How will Ezra go?\", three ways with the server's facts, the horse marked quickest and chosen",
     "the student picks walking and presses Enter: Ezra walks to Gonzales, the horse stays home, and the bar is back",
     "the hunt in the timber asks with the horse chosen; Send sends Keziah, and the map draws them riding it (teal-ride-e)",
-    "buying furniture in town: the horse shut (\"Keziah has the horse, on the road to the timber on the Guadalupe River.\"), walking marked quickest, the student picks the wagon and Prudence drives it",
+    "buying furniture in town: the horse shut (\"Keziah has the horse, working up through the timber.\"), walking marked quickest, the student picks the wagon and Prudence drives it",
     "Eli's chooser has the wagon shut (\"Prudence has the ox and wagon, on the road to Gonzales.\") and the horse in Keziah's name; it fits at 1366x768 (500x259) and 1024x768 (500x259); Escape sends nobody",
     "no page errors anywhere in the run"
   ],
@@ -194,10 +194,10 @@
       "ways": [
         {
           "way": "horse",
-          "label": "On the horse5 miles an hour · about 3.5 hours there · carries 7Keziah has the horse, on the road to the timber on the Guadalupe River.",
+          "label": "On the horse5 miles an hour · about 3.5 hours there · carries 7Keziah has the horse, working up through the timber.",
           "open": false,
           "pressed": false,
-          "why": "Keziah has the horse, on the road to the timber on the Guadalupe River."
+          "why": "Keziah has the horse, working up through the timber."
         },
         {
           "way": "foot",
@@ -232,7 +232,7 @@
             "hours": 3.5,
             "time": "about 3.5 hours",
             "can": false,
-            "why": "Keziah has the horse, on the road to the timber on the Guadalupe River."
+            "why": "Keziah has the horse, working up through the timber."
           },
           {
             "id": "foot",
@@ -270,10 +270,10 @@
       "ways": [
         {
           "way": "horse",
-          "label": "On the horse5 miles an hour · about 30 minutes there · carries 7Keziah has the horse, working up through the timber.",
+          "label": "On the horse5 miles an hour · about 30 minutes there · carries 7Keziah has the horse, downwind, with the shot there to take.",
           "open": false,
           "pressed": false,
-          "why": "Keziah has the horse, working up through the timber."
+          "why": "Keziah has the horse, downwind, with the shot there to take."
         },
         {
           "way": "foot",
@@ -308,7 +308,7 @@
             "hours": 0.5,
             "time": "about 30 minutes",
             "can": false,
-            "why": "Keziah has the horse, working up through the timber."
+            "why": "Keziah has the horse, downwind, with the shot there to take."
           },
           {
             "id": "foot",

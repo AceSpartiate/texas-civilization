@@ -19,6 +19,7 @@ import { ruin } from './improvements.mjs';
 import { findWay } from './ways.mjs';
 import { share } from './shares.mjs';
 import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
+import { beastsOf, roleOf } from './beasts.mjs';
 import { frailty } from './army.mjs';
 import { canAnswerCalls, eatenADay, householdName } from './family.mjs';
 import { spotlight } from './host.mjs';
@@ -112,7 +113,8 @@ export { share };
 const settlementOf = household => household.settlementId || 'gonzales';
 const people = (world, household) => household.members.map(id => world.entities[id]).filter(Boolean);
 const atHome = (world, household) => people(world, household).filter(person => !GONE.includes(person.health?.condition) && person.location?.siteId === household.homeSiteId && !person.travel);
-const beasts = (world, household) => ['horse', 'ox', 'wagon'].map(role => world.entities[propertyId(household.id, role)]).filter(Boolean);
+// Every animal and the wagon the family owns: the ones it always had, and any bought in town (sim/beasts.mjs).
+const beasts = (world, household) => ['horse', 'ox', 'wagon'].flatMap(role => beastsOf(world, household, role));
 const tell = (world, household, text, extra = {}) => record(world, 'consequence', { householdId: household.id, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-046', text, ...extra });
 
 /** Whether the flight is on: the third class period. */
@@ -120,8 +122,9 @@ export const scrapeOn = world => world.period === 3 && !world.director?.complete
 
 /** The room this family has to carry things away in: the wagon and ox standing at home, or what its grown people carry. */
 export function flightRoom(world, household) {
-  const wagon = world.entities[propertyId(household.id, 'wagon')], ox = world.entities[propertyId(household.id, 'ox')];
-  const drawn = [wagon, ox].every(beast => beast && !beast.travel && beast.location.siteId === household.homeSiteId && (!beast.condition || beast.condition === 'sound'));
+  const standing = beast => beast && !beast.travel && beast.location.siteId === household.homeSiteId && (!beast.condition || beast.condition === 'sound');
+  // The wagon and any of the family's oxen to pull it (sim/beasts.mjs).
+  const drawn = standing(world.entities[propertyId(household.id, 'wagon')]) && beastsOf(world, household, 'ox').some(standing);
   if (drawn) return { room: FLIGHT_ROOM, mode: 'wagon' };
   return { room: Math.round(atHome(world, household).filter(canAnswerCalls).length * CARRIED_ROOM * 100) / 100, mode: 'foot' };
 }
@@ -352,7 +355,10 @@ export function turnHome(world, causeId) {
     if (!flight || flight.status !== 'refuged') continue;
     const at = flight.refuge;
     const goers = people(world, household).filter(person => !GONE.includes(person.health?.condition) && person.location?.siteId === at && !person.travel && person.health.condition !== 'wounded');
-    const mode = flight.mode === 'wagon' && beasts(world, household).filter(beast => beast.location.siteId === at).length === 3 ? 'wagon' : 'foot';
+    // Home with the wagon only when every beast the family has is there with it, the wagon and an ox among them: as it was when a
+    // family had one of each (all three at the refuge), and the same rule for one that bought more (sim/beasts.mjs).
+    const all = beasts(world, household), there = all.filter(beast => beast.location.siteId === at);
+    const mode = flight.mode === 'wagon' && there.length === all.length && there.some(beast => roleOf(beast) === 'wagon') && there.some(beast => roleOf(beast) === 'ox') ? 'wagon' : 'foot';
     const path = findWay(world, at, household.homeSiteId, mode, { ferries: false });
     if (!goers.length || !path) continue;
     const departure = tell(world, household, `With the news from San Jacinto the family turned for home from ${world.map.sites[at].name}.`, { causes: causeId ? [causeId] : [] });

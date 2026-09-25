@@ -22,7 +22,7 @@ does not have:
 | ~~A trash can drawn in code with a pen~~ | `DrawBin` in `launcher/SoloGameDialog.cs` | Delivered 2026-09-22 in `launcher/art/icon-delete-save.png` | Illustrated frontier pail is embedded and tinted; line drawing is packaging fallback only |
 | Four glyph icons drawn in code (a squirrel on a branch, a fish over the water, two shells on the sand, a bee tree) | `drawGlyph` in `public/family-panel.js` | Request 2026-09-20 — the gathering icons | `icon-take-small-game`, `icon-fish-the-water`, `icon-gather-oysters`, `icon-cut-bee-tree` |
 | Three glyph icons drawn in code (a long-horned cow, a hog with its snout in the mast, a rider's hat over the grass) | `drawGlyph` in `public/family-panel.js` | Request 2026-09-20 — the stock icons | `icon-butcher-beef`, `icon-butcher-hog`, `icon-look-to-stock` |
-| A new town's shops are the nearest buildings the library has, two trades sharing a sprite | `SHOP_SPRITES` in `sim/shops.mjs`, drawn in `drawWorld` in `public/app.js` | Request 2026-09-16 — the shops of the towns | `shop-*` buildings, one per trade |
+| A new town's shops are the nearest buildings the library has, two trades sharing a sprite (the stock pens, 2026-09-24, a `shed-open` or an ordinary house; `stand-in:` in `SHOP_SPRITES`) | `SHOP_SPRITES` in `sim/shops.mjs`, drawn in `drawWorld` in `public/app.js` | Request 2026-09-16 — the shops of the towns | `shop-*` buildings, one per trade |
 | Whole jacal stage sprites; `lean-to` shed frame; the double chimney drawn with the single stick-and-mud chimney's picture (`house-chimney-stick`; until 2026-09-24 a flat rectangle, whose width let the far pen's door show either side of it at 90 and 270 degrees). Since 2026-09-24 the saddlebag's two pens stand one behind the other along their ridge at every turn, and it stands at the middle between the far pen's front gable and the near pen's back gable, `DOUBLE_RISE` (2.7) high so that it hides the far pen's door whole, its foot behind the near pen's roof (until then, at 0 and 180 degrees behind both pens' back gables, and at 90 and 270 brought `DOUBLE_TOWARD` toward the near pen); no separate interior floor/loft display | `drawHousePlot` and `standChimneys` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney (two-sided, its foot marked), and separately registered floor and loft overlays |
 | Generic `chapel` and `adobe-flat` silhouettes represent San Fernando and the Governor's Palace | `public/bexar-layout.js` | Request 2026-09-14 — Béxar civic architecture | Researched 1836 civic façades in the existing illustrated style |
 | A child in an unavailable action pose is a grown figure drawn smaller (90% at 10–17, 70% at 5–9, 55% at 2–4, 45% an infant). Idle, cardinal walking, rest and injured-rest use delivered `girl`, `boy`, `smallchild` and `infant` art | `CHILD_POSES` and `entityClip` in `public/motion.js` | Request 2026-09-12, priority 1 — children | Any later child-specific action poses. **Keep the scaling**: the delivered sheets fill their cells and need it |
@@ -556,7 +556,8 @@ drilling, going out for beef and corn, standing guard, riding with the scouts.
 not already drawn, each keeper's own building ([TOWNS.md](TOWNS.md) §5a). In Gonzales each keeper uses a building already drawn;
 elsewhere each trade is the nearest building the library has: store `trading-house`, carpenter and wheelwright `timber-shop`,
 blacksmith `shed-open`, gunsmith `cabin-small`, doctor `house-hewn-log`, tavern `house-dog-run`, tanner and mill `storehouse`,
-weaver `cabin-weathered`.
+weaver `cabin-weathered`, and since 2026-09-24 the stock pens (TOWNS.md §4d) `shed-open`, drawn in Gonzales as the open shed at
+the west edge of town (`gonzales-outbuilding-art-2`) and elsewhere as the next of a town's ordinary houses.
 
 - **Why.** A student in town should be able to tell the smithy from the tavern without reading a label; two trades share a
   sprite today and the mill is a storehouse.
@@ -566,7 +567,8 @@ weaver `cabin-weathered`.
   house with a gallery and benches), `shop-tanner` (a shed with hides stretched on frames and a bark pit), `shop-wheelwright`
   (a shed with wheels leaning against it), `shop-mill` (a small log gristmill with a millstone by the door; horse-powered, not a
   water wheel, unless a town's research documents one), `shop-weaver` (a cabin with a loom visible through the open door and
-  cloth on a line), `shop-carpenter` (a shed with planks and a sawhorse). No lettering; a sign may be a picture.
+  cloth on a line), `shop-carpenter` (a shed with planks and a sawhorse), and `shop-stockman` (added 2026-09-24: a rail pen with a
+  horse or two and a cow inside, a snubbing post and a small shed at one corner). No lettering; a sign may be a picture.
 - **How it plugs in.** `SHOP_SPRITES` in `sim/shops.mjs` names the sprite a new town's shop is drawn as; replace each with its
   `shop-*` frame once registered through `npm run build:art`. Gonzales keeps its own drawn buildings.
 - **Check.** At the zoom a town's labels appear, each trade is told apart without its label.

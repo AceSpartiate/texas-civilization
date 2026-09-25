@@ -26,6 +26,8 @@ import { learn } from './knowledge.mjs';
 import { carryCapacity } from './travel.mjs';
 import { purseOf, purseHeld } from './town.mjs';
 import { addTool, allWorn, toolCount } from './tools.mjs';
+import { BEASTS_MOST, BEAST_WORDS, LEAD_MOST, addBeast, beastsOf, kept } from './beasts.mjs';
+import { addToHerd } from './stock.mjs';
 
 const reales = amount => `${amount} ${amount === 1 ? 'real' : 'reales'}`;
 const round = value => Math.round(value * 10000) / 10000;
@@ -36,6 +38,27 @@ export const TOOL_MOST = 4;
 export const RIFLE_COIN = 8, RIFLE_FOOD = 16, RIFLE_MOST = 2;
 /** How many shots a rifle put in order by the gunsmith stays true for. */
 export const TUNED_SHOTS = 10;
+/**
+ * The stock pens' prices (owner, 2026-09-24: "players should also be able to buy more horses and other animals. they should be
+ * relatively expensive though"; docs/TOWNS.md §4d, `FIC-GONZ-389`). In coin, one real to the dollar of the record's prices:
+ * Parker, in Texas the winter of 1834-35 (`HIST-TEX-440`), "a good serviceable horse ... from twenty to thirty dollars; a cow with
+ * a calf by her side, for ten dollars; and a yoke of oxen for about thirty dollars" - so a horse 25, an ox 15 (half the yoke), a
+ * cow and calf 10, the four sources that give that price agreeing. A hog has no price in the record read; pork was $4.50 the
+ * hundredweight at Nacogdoches in 1834 (Woodman), so a hog is 4. ceiling: the scale - a real to the dollar - is the game's own:
+ * the game's rifle (8, `FIC-GONZ-388`) was never priced from the record, and the real is the game's coin, not the eighth of a
+ * peso it was. It puts a horse at three rifles and an ox near two, as the owner asked; a price for a rifle from the record would
+ * set the scale instead.
+ *
+ * **Coin only for the horse, the ox and the cow and calf**, as the store's hoe is. At the two food a real a dear thing takes at a
+ * counter (the rifle, the tools) a horse would be fifty food, and food paid is carried to town (sim/errands.mjs): fifty loads is
+ * more than two wagons carry (twenty each), so a food price could never be paid. ceiling: payment in kind - a trade of cattle for a
+ * horse, or food brought in over several trips - is the way out; the record has cattle passing as money ("a cow and calf being
+ * rated at ten dollars", `HIST-TEX-440`). **A hog for coin or food**: fourteen food, which the wagon carries, and more than the
+ * twelve it gives the family butchered (sim/stock.mjs), so food is never turned into more food by buying a hog and killing it.
+ */
+export const HORSE_COIN = 25, OX_COIN = 15, COW_CALF_COIN = 10, HOG_COIN = 4, HOG_FOOD = 14;
+/** The most head of cattle (a cow and calf a purchase) and of hogs one person drives home on one trip. ceiling: a cap, not a rule. */
+export const COW_CALF_MOST = 2, HOG_MOST = 6;
 export const SHOES_SHARE = 0.85;
 export const SADDLE_SHARE = 0.75;
 export const WAGON_SPEED_SHARE = 1.15;
@@ -185,7 +208,7 @@ export const TRADES = Object.freeze({
       },
       {
         id: 'saddle', kind: 'sell', label: 'Buy a saddle', coin: 3, food: 6, once: true, load: 1, does: 'A proper saddle: a mile on the horse tires the rider less.',
-        refuse: (world, household) => gear(household).saddle ? 'The family already has a saddle.' : !household.property?.some(id => id.endsWith('-horse')) ? 'The family has no horse to put it on.' : null,
+        refuse: (world, household) => gear(household).saddle ? 'The family already has a saddle.' : !beastsOf(world, household, 'horse').some(kept) ? 'The family has no horse to put it on.' : null,
         give: (world, household, entity) => { household.gear = { ...gear(household), saddle: true }; return `${entity.name} bought a saddle from the saddler.`; },
       },
     ],
@@ -228,28 +251,82 @@ export const TRADES = Object.freeze({
       },
     ],
   },
+  // The stock pens (owner, 2026-09-24: "players should also be able to buy more horses and other animals. they should be
+  // relatively expensive though"; docs/TOWNS.md §4d). No town's research lists a livery or a stock dealer, so the trade is added
+  // in the documented way - the larger towns, and Victoria, whose colony's wealth was cattle and horses (docs/town-research/
+  // victoria.md §7.7) - kept by invented people. The emigrant was told to buy his stock in Texas: "The emigrant had better buy
+  // his cattle and horses here" (Parker, `HIST-TEX-440`). A horse or an ox walks home on a halter beside its buyer
+  // (sim/beasts.mjs); cattle and hogs are driven home to the herd (sim/stock.mjs).
+  stockman: {
+    name: 'stock trader', shop: 'the stock pens',
+    offers: [
+      {
+        id: 'horse', kind: 'sell', label: 'Buy a horse', coin: HORSE_COIN, food: null, most: LEAD_MOST, leads: 'horse',
+        does: 'A broken saddle horse, led home on a halter. Another rider out at once: two horses are two people on horseback.',
+        refuse: (world, household) => beastsFull(world, household, 'horse'),
+        give: (world, household, entity) => boughtBeast(world, household, entity, 'horse'),
+      },
+      {
+        id: 'ox', kind: 'sell', label: 'Buy an ox', coin: OX_COIN, food: null, most: LEAD_MOST, leads: 'ox',
+        does: "A broken ox, led home at an ox's pace. It drags logs, or pulls the wagon while the family's other ox is out.",
+        refuse: (world, household) => beastsFull(world, household, 'ox'),
+        give: (world, household, entity) => boughtBeast(world, household, entity, 'ox'),
+      },
+      {
+        id: 'cattle', kind: 'sell', label: 'Buy a cow and calf', coin: COW_CALF_COIN, food: null, most: COW_CALF_MOST, drives: { cattle: 2 },
+        does: 'A cow with a calf at her side, driven home to the herd at a walk. They feed themselves on the range; ride out after them or they stray.',
+        refuse: () => null,
+        give: (world, household, entity) => boughtStock(world, household, entity, 'cattle', 2),
+      },
+      {
+        id: 'hog', kind: 'sell', label: 'Buy a hog', coin: HOG_COIN, food: HOG_FOOD, most: HOG_MOST, drives: { hogs: 1 },
+        does: 'A hog for the mast, driven home. Hogs farrow on the autumn mast, and a hog killed salts down and keeps.',
+        refuse: () => null,
+        give: (world, household, entity) => boughtStock(world, household, entity, 'hogs', 1),
+      },
+    ],
+  },
 });
+/** Why the family can have no more of this beast: it keeps as many as it can (sim/beasts.mjs `BEASTS_MOST`). */
+function beastsFull(world, household, role) {
+  const n = beastsOf(world, household, role).length;
+  return n >= BEASTS_MOST ? `The family has ${n} ${BEAST_WORDS[role][1]}, as many as it can keep.` : null;
+}
+/** A horse or an ox bought: the family's now, standing in town with its buyer, and led home by them (sim/beasts.mjs). */
+function boughtBeast(world, household, entity, role) {
+  const beast = addBeast(world, household, role, entity);
+  entity.leads = [...(entity.leads || []), beast.id];
+  const n = beastsOf(world, household, role).filter(kept).length;
+  return `${entity.name} bought ${beast.name} at the stock pens, to lead home; the family has ${n === 2 ? 'two' : n} ${BEAST_WORDS[role][1]} now.`;
+}
+/** Cattle or hogs bought: onto the family's herd, and driven home at their pace (sim/stock.mjs `addToHerd`). */
+function boughtStock(world, household, entity, kind, head) {
+  addToHerd(household, kind, head);
+  entity.drives = { ...entity.drives, [kind]: (entity.drives?.[kind] || 0) + head };
+  return kind === 'cattle' ? `${entity.name} bought a cow and calf at the stock pens, to drive home to the herd.` : `${entity.name} bought a hog at the stock pens, to drive home.`;
+}
 
-/** Which trades stand at each settlement beyond the store, the smith and the carpenter (docs/TOWNS.md §3). */
+/** Which trades stand at each settlement beyond the store, the smith and the carpenter (docs/TOWNS.md §3). The stock pens last, so
+ * every other keeper in a new class keeps the building they always had (`placesInLayout` hands them out in this order). */
 export const TOWN_TRADES = Object.freeze({
-  gonzales: ['blacksmith', 'gunsmith', 'doctor', 'tavern', 'tanner', 'wheelwright', 'mill', 'weaver'],
-  'san-felipe': ['blacksmith', 'gunsmith', 'doctor', 'tavern', 'tanner', 'wheelwright', 'mill', 'weaver'],
-  columbia: ['blacksmith', 'gunsmith', 'doctor', 'tavern', 'tanner', 'wheelwright', 'weaver'],
+  gonzales: ['blacksmith', 'gunsmith', 'doctor', 'tavern', 'tanner', 'wheelwright', 'mill', 'weaver', 'stockman'],
+  'san-felipe': ['blacksmith', 'gunsmith', 'doctor', 'tavern', 'tanner', 'wheelwright', 'mill', 'weaver', 'stockman'],
+  columbia: ['blacksmith', 'gunsmith', 'doctor', 'tavern', 'tanner', 'wheelwright', 'weaver', 'stockman'],
   mina: ['blacksmith', 'gunsmith', 'tavern'],
   liberty: ['blacksmith', 'tavern'],
   matagorda: ['blacksmith', 'tavern'],
-  victoria: ['blacksmith'],
+  victoria: ['blacksmith', 'stockman'],
 });
 
 /** The invented keepers, per town and trade. Mixed names, as every town here is (FIC-GONZ-009). */
 export const KEEPERS = Object.freeze({
-  gonzales: { blacksmith: 'Josiah Pike', gunsmith: 'Tobias Rhine', doctor: 'Dr. Felipe Arocha', tavern: 'Hannah Deering', tanner: 'Calvin Oakes', wheelwright: 'Rafael Cantú', mill: 'Micajah Hobbs', weaver: 'Lucía Benavides' },
-  'san-felipe': { blacksmith: 'Ira Pettibone', gunsmith: 'Seth Haverly', doctor: 'Dr. Josiah Crane', tavern: 'Martha Cudworth', tanner: 'Esteban Lerma', wheelwright: 'Obadiah Fenn', mill: 'Silas Garrow', weaver: 'Prudence Lamb' },
-  columbia: { blacksmith: 'Jesse Worrell', gunsmith: 'Daniel Hext', doctor: 'Dr. Amos Kellum', tavern: 'Rebecca Tolliver', tanner: 'José María Huizar', wheelwright: 'Levi Stroud', weaver: 'Charity Pruett' },
+  gonzales: { blacksmith: 'Josiah Pike', gunsmith: 'Tobias Rhine', doctor: 'Dr. Felipe Arocha', tavern: 'Hannah Deering', tanner: 'Calvin Oakes', wheelwright: 'Rafael Cantú', mill: 'Micajah Hobbs', weaver: 'Lucía Benavides', stockman: 'Anselmo Treviño' },
+  'san-felipe': { blacksmith: 'Ira Pettibone', gunsmith: 'Seth Haverly', doctor: 'Dr. Josiah Crane', tavern: 'Martha Cudworth', tanner: 'Esteban Lerma', wheelwright: 'Obadiah Fenn', mill: 'Silas Garrow', weaver: 'Prudence Lamb', stockman: 'Amos Birdwell' },
+  columbia: { blacksmith: 'Jesse Worrell', gunsmith: 'Daniel Hext', doctor: 'Dr. Amos Kellum', tavern: 'Rebecca Tolliver', tanner: 'José María Huizar', wheelwright: 'Levi Stroud', weaver: 'Charity Pruett', stockman: 'Gideon Marsh' },
   mina: { blacksmith: 'Caleb Varner', gunsmith: 'Wiley Pratt', tavern: 'Nancy Blevins' },
   liberty: { blacksmith: 'Moses Tubb', tavern: 'Dolores Ybarbo' },
   matagorda: { blacksmith: 'Horace Pell', tavern: 'Eliza Crump' },
-  victoria: { blacksmith: 'Ramón Sosa' },
+  victoria: { blacksmith: 'Ramón Sosa', stockman: 'Tomás Villarreal' },
 });
 /**
  * Which of those keepers are women, per town and trade; every other keeper is a man. Authored with the names, not read from
@@ -285,12 +362,14 @@ export const GONZALES_PLACES = Object.freeze({
   weaver: { building: 'gonzales-house-art-21', x: .29, y: .15 },
   carpenter: { building: 'gonzales-house-art-22', x: .19, y: .21 },
   mill: { building: 'gonzales-house-art-23', x: -.12, y: .22 },
+  // The stock pens at the edge of town, in the drawing's open shed there (docs/TOWNS.md §4d).
+  stockman: { building: 'gonzales-outbuilding-art-2', x: -.32, y: .10 },
 });
 /** A new town's places, in the order store, carpenter, then its trades. */
 const NEW_PLACES = [{ x: -.16, y: -.13 }, { x: .18, y: .05 }, { x: .20, y: -.16 }, { x: -.24, y: .10 }, { x: .04, y: .22 }, { x: -.04, y: -.24 }, { x: .28, y: .18 }, { x: -.28, y: -.06 }, { x: -.16, y: .26 }, { x: .30, y: -.04 }];
-/** The building each kind of shop is drawn as in a new town. stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the shops of the towns. */
-export const SHOP_SPRITES = Object.freeze({ store: 'trading-house', carpenter: 'timber-shop', blacksmith: 'shed-open', gunsmith: 'cabin-small', doctor: 'house-hewn-log', tavern: 'house-dog-run', tanner: 'storehouse', wheelwright: 'timber-shop', mill: 'storehouse', weaver: 'cabin-weathered' });
-export const SHOP_LABELS = Object.freeze({ store: 'General store', carpenter: 'Carpenter', blacksmith: 'Blacksmith', gunsmith: 'Gunsmith', doctor: 'Doctor', tavern: 'Tavern', tanner: 'Tanner & saddler', wheelwright: 'Wheelwright', mill: 'Mill', weaver: 'Weaver' });
+/** The building each kind of shop is drawn as in a new town, the stock pens (2026-09-24) among them. stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the shops of the towns. */
+export const SHOP_SPRITES = Object.freeze({ store: 'trading-house', carpenter: 'timber-shop', blacksmith: 'shed-open', gunsmith: 'cabin-small', doctor: 'house-hewn-log', tavern: 'house-dog-run', tanner: 'storehouse', wheelwright: 'timber-shop', mill: 'storehouse', weaver: 'cabin-weathered', stockman: 'shed-open' });
+export const SHOP_LABELS = Object.freeze({ store: 'General store', carpenter: 'Carpenter', blacksmith: 'Blacksmith', gunsmith: 'Gunsmith', doctor: 'Doctor', tavern: 'Tavern', tanner: 'Tanner & saddler', wheelwright: 'Wheelwright', mill: 'Mill', weaver: 'Weaver', stockman: 'Stock pens' });
 /** Where a keeper stands: just in front of the door. */
 const DOOR = 0.012;
 const place = value => { const fixed = +value.toFixed(3); return fixed === 0 ? 0 : fixed; };

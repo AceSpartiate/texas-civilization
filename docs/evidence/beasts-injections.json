@@ -1,0 +1,388 @@
+{
+  "record": "beasts-injections",
+  "date": "2026-09-25",
+  "files": [
+    "tests/beasts.test.mjs",
+    "tests/rebuy.test.mjs",
+    "tests/errands.test.mjs",
+    "tests/tools.test.mjs",
+    "tests/shops.test.mjs",
+    "tests/going.test.mjs",
+    "tests/neighbours.test.mjs",
+    "tests/keeping.test.mjs",
+    "tests/stock.test.mjs",
+    "tests/war-rifle.test.mjs",
+    "tests/travel-modes.test.mjs"
+  ],
+  "caught": 22,
+  "onlyThat": 15,
+  "of": 22,
+  "results": [
+    {
+      "name": "every horse is the one horse",
+      "expect": "two horses are two riders, and a third is told both are out",
+      "edits": [
+        {
+          "file": "sim/keeping.mjs",
+          "from": "const copies = beasts ? Math.max(1, beasts.length)",
+          "to": "const copies = beasts ? (item === 'horse' ? 1 : Math.max(1, beasts.length))"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "two horses are two riders, and a third is told both are out"
+      ]
+    },
+    {
+      "name": "the horse bought is left standing in town",
+      "expect": "a horse bought walks home on a halter beside the rider on the horse she came on, and is its own animal with its own name",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "for (const id of entity.leads || []) {",
+          "to": "for (const id of (entity.leads || []).filter(id => !id.includes('-horse-'))) {"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "a horse bought walks home on a halter beside the rider on the horse she came on, and is its own animal with its own name",
+        "a class saved before opens as it was, and one saved before there were horses can buy one and ride it"
+      ]
+    },
+    {
+      "name": "she rides the new horse home and leaves her own",
+      "expect": "a horse bought walks home on a halter beside the rider on the horse she came on, and is its own animal with its own name",
+      "edits": [
+        {
+          "file": "sim/keeping.mjs",
+          "from": "const beasts = beastsOf(world, household, role).filter(beast => !leading.includes(beast.id));",
+          "to": "const beasts = beastsOf(world, household, role).reverse();"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "a horse bought walks home on a halter beside the rider on the horse she came on, and is its own animal with its own name",
+        "two horses are two riders, and a third is told both are out"
+      ]
+    },
+    {
+      "name": "a led ox keeps up with a trotting horse",
+      "expect": "an ox bought holds its leader to the ox's pace, the chooser says so, and it drags logs while the first ox pulls the wagon",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "const led = riding ? null : ledPace(world, entity);",
+          "to": "const led = null;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "an ox bought holds its leader to the ox's pace, the chooser says so, and it drags logs while the first ox pulls the wagon",
+        "one person leads one animal home; cattle and hogs are driven to the herd, and no led animal is a load"
+      ]
+    },
+    {
+      "name": "a led animal counted as a load",
+      "expect": "an ox bought holds its leader to the ox's pace, the chooser says so, and it drags logs while the first ox pulls the wagon",
+      "edits": [
+        {
+          "file": "sim/errands.mjs",
+          "from": "if (offer.leads) for (let i = 0; i < n; i++) leads.push(offer.leads);",
+          "to": "if (offer.leads) for (let i = 0; i < n; i++) { leads.push(offer.leads); pack.other += 1; }"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "an ox bought holds its leader to the ox's pace, the chooser says so, and it drags logs while the first ox pulls the wagon"
+      ]
+    },
+    {
+      "name": "the chooser does not say the way home",
+      "expect": "an ox bought holds its leader to the ox's pace, the chooser says so, and it drags logs while the first ox pulls the wagon",
+      "edits": [
+        {
+          "file": "sim/going.mjs",
+          "from": "...(home && { leads: homeWords(path, id, home) }),",
+          "to": ""
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "an ox bought holds its leader to the ox's pace, the chooser says so, and it drags logs while the first ox pulls the wagon"
+      ]
+    },
+    {
+      "name": "one person leads a horse and an ox home",
+      "expect": "one person leads one animal home; cattle and hogs are driven to the herd, and no led animal is a load",
+      "edits": [
+        {
+          "file": "sim/errands.mjs",
+          "from": "if (leads.length > LEAD_MOST) return",
+          "to": "if (leads.length > LEAD_MOST + 1) return"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "one person leads one animal home; cattle and hogs are driven to the herd, and no led animal is a load"
+      ]
+    },
+    {
+      "name": "cattle bought never reach the herd",
+      "expect": "one person leads one animal home; cattle and hogs are driven to the herd, and no led animal is a load",
+      "edits": [
+        {
+          "file": "sim/stock.mjs",
+          "from": "  herd[kind] = (herd[kind] || 0) + head;",
+          "to": ""
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "one person leads one animal home; cattle and hogs are driven to the herd, and no led animal is a load"
+      ]
+    },
+    {
+      "name": "a horse at a rifle's price",
+      "expect": "the stock pens sell a horse, an ox and a cow and calf for coin and a hog for coin or food, dearer than a rifle but the hog, paid only from what the family has",
+      "edits": [
+        {
+          "file": "sim/shops.mjs",
+          "from": "export const HORSE_COIN = 25,",
+          "to": "export const HORSE_COIN = 8,"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the stock pens sell a horse, an ox and a cow and calf for coin and a hog for coin or food, dearer than a rifle but the hog, paid only from what the family has"
+      ]
+    },
+    {
+      "name": "a food price the wagon could never carry",
+      "expect": "the stock pens sell a horse, an ox and a cow and calf for coin and a hog for coin or food, dearer than a rifle but the hog, paid only from what the family has",
+      "edits": [
+        {
+          "file": "sim/shops.mjs",
+          "from": "label: 'Buy a horse', coin: HORSE_COIN, food: null,",
+          "to": "label: 'Buy a horse', coin: HORSE_COIN, food: 50,"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "the stock pens sell a horse, an ox and a cow and calf for coin and a hog for coin or food, dearer than a rifle but the hog, paid only from what the family has"
+      ]
+    },
+    {
+      "name": "no cap on horses",
+      "expect": "a family keeps at most four horses, and the flight east takes the bought ones with the rest",
+      "edits": [
+        {
+          "file": "sim/shops.mjs",
+          "from": "return n >= BEASTS_MOST ? `The family has",
+          "to": "return n >= BEASTS_MOST + 99 ? `The family has"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a family keeps at most four horses, and the flight east takes the bought ones with the rest"
+      ]
+    },
+    {
+      "name": "the flight east takes only the first of each",
+      "expect": "a family keeps at most four horses, and the flight east takes the bought ones with the rest",
+      "edits": [
+        {
+          "file": "sim/scrape.mjs",
+          "from": "const beasts = (world, household) => ['horse', 'ox', 'wagon'].flatMap(role => beastsOf(world, household, role));",
+          "to": "const beasts = (world, household) => ['horse', 'ox', 'wagon'].map(role => beastsOf(world, household, role)[0]).filter(Boolean);"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a family keeps at most four horses, and the flight east takes the bought ones with the rest"
+      ]
+    },
+    {
+      "name": "an old ox with no species is no ox",
+      "expect": "a class saved before opens as it was, and one saved before there were horses can buy one and ride it",
+      "edits": [
+        {
+          "file": "sim/beasts.mjs",
+          "from": "return entity.species === 'horse' ? 'horse' : 'ox';",
+          "to": "return entity.species === 'horse' ? 'horse' : entity.species === 'ox' ? 'ox' : null;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "a class saved before opens as it was, and one saved before there were horses can buy one and ride it",
+        "a class saved before any of this existed still opens, and everybody in it walks"
+      ]
+    },
+    {
+      "name": "another family's animals in a student's projection",
+      "expect": "no other family's animals reach a student, and each one bought adds little to the family's own projection",
+      "edits": [
+        {
+          "file": "sim/world.mjs",
+          "from": "const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId)",
+          "to": "const entities = Object.values(world.entities).filter(e => (e.householdId === householdId || (e.kind === 'animal' && e.householdId)) && householdId)"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "no other family's animals reach a student, and each one bought adds little to the family's own projection"
+      ]
+    },
+    {
+      "name": "the director never sends anybody for a rifle",
+      "expect": "with no rifle left and somebody free, one person goes to the gunsmith on the errand a student sends, and the rifle comes home",
+      "edits": [
+        {
+          "file": "sim/neighbours.mjs",
+          "from": "      rifle() && 'visit-shop',",
+          "to": ""
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "with no rifle left and somebody free, one person goes to the gunsmith on the errand a student sends, and the rifle comes home",
+        "it pays in food only above the floor it keeps, else in coin, and never on credit",
+        "nobody is sent while the family still owns a rifle, one at the war included, nor while nobody is free, nor twice",
+        "a family whose town has no gunsmith goes to the nearest town that has one, by the road"
+      ]
+    },
+    {
+      "name": "the director spends below its floor",
+      "expect": "it pays in food only above the floor it keeps, else in coin, and never on credit",
+      "edits": [
+        {
+          "file": "sim/neighbours.mjs",
+          "from": "(resources.food || 0) - RIFLE_FOOD >= rifleFloor(mouths) ? 'food'",
+          "to": "(resources.food || 0) >= RIFLE_FOOD ? 'food'"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "it pays in food only above the floor it keeps, else in coin, and never on credit"
+      ]
+    },
+    {
+      "name": "the director buys on credit",
+      "expect": "it pays in food only above the floor it keeps, else in coin, and never on credit",
+      "edits": [
+        {
+          "file": "sim/neighbours.mjs",
+          "from": "(resources.money || 0) >= RIFLE_COIN ? 'coin' : null",
+          "to": "'coin'"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "it pays in food only above the floor it keeps, else in coin, and never on credit"
+      ]
+    },
+    {
+      "name": "the director buys a rifle beside the one it has",
+      "expect": "nobody is sent while the family still owns a rifle, one at the war included, nor while nobody is free, nor twice",
+      "edits": [
+        {
+          "file": "sim/neighbours.mjs",
+          "from": "if (!real || toolCount(real, 'rifle') > 0) return null;",
+          "to": "if (!real) return null;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "a family nobody plays rides its horse on a journey when the horse is at hand, and walks when it is not",
+        "nobody is sent while the family still owns a rifle, one at the war included, nor while nobody is free, nor twice"
+      ]
+    },
+    {
+      "name": "a rifle at the war counted as lost",
+      "expect": "nobody is sent while the family still owns a rifle, one at the war included, nor while nobody is free, nor twice",
+      "edits": [
+        {
+          "file": "sim/neighbours.mjs",
+          "from": "if (!real || toolCount(real, 'rifle') > 0) return null;",
+          "to": "if (!real || (toolCount(real, 'rifle') > 0 && !real.members.some(id => world.entities[id]?.carries?.items?.includes('rifle')))) return null;"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "nobody is sent while the family still owns a rifle, one at the war included, nor while nobody is free, nor twice"
+      ]
+    },
+    {
+      "name": "somebody at work sent for the rifle",
+      "expect": "nobody is sent while the family still owns a rifle, one at the war included, nor while nobody is free, nor twice",
+      "edits": [
+        {
+          "file": "sim/neighbours.mjs",
+          "from": "  const idle = people.filter(person => !tooYoung(person) && !person.chore && !person.travel",
+          "to": "  const idle = people.filter(person => !tooYoung(person) && !person.travel"
+        },
+        {
+          "file": "sim/chores.mjs",
+          "from": "  if (entity.chore) return { can: false, why: `${entity.name} is already ${entity.chore.doing}.` };",
+          "to": "  if (entity.chore && choreId !== 'visit-shop') return { can: false, why: `${entity.name} is already ${entity.chore.doing}.` };"
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "nobody is sent while the family still owns a rifle, one at the war included, nor while nobody is free, nor twice"
+      ]
+    },
+    {
+      "name": "two sent for one rifle",
+      "expect": "nobody is sent while the family still owns a rifle, one at the war included, nor while nobody is free, nor twice",
+      "edits": [
+        {
+          "file": "sim/neighbours.mjs",
+          "from": "'hunt-road', 'tend-sick', 'trade-crossing', 'visit-shop']);",
+          "to": "'hunt-road', 'tend-sick', 'trade-crossing']);"
+        }
+      ],
+      "caught": true,
+      "onlyThat": false,
+      "failed": [
+        "it pays in food only above the floor it keeps, else in coin, and never on credit",
+        "nobody is sent while the family still owns a rifle, one at the war included, nor while nobody is free, nor twice"
+      ]
+    },
+    {
+      "name": "the director always goes to its own town",
+      "expect": "a family whose town has no gunsmith goes to the nearest town that has one, by the road",
+      "edits": [
+        {
+          "file": "sim/neighbours.mjs",
+          "from": "...(rifle().town !== (view.household.settlementId || 'gonzales') && { town: rifle().town })",
+          "to": ""
+        }
+      ],
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "a family whose town has no gunsmith goes to the nearest town that has one, by the road"
+      ]
+    }
+  ]
+}

@@ -115,3 +115,28 @@ cost the colonies their stock; that a stock raiser held a league and a farmer a 
 **Invented, and it is all numbers:** the opening six and twelve; the shares that calve and farrow; the month between
 countings; the stray rates; forty food off a beef and fifteen kept; twelve off a hog; thirty days for a ride round the
 range; half the cattle and a quarter of the hogs found on coming home; three families in four driving stock in.
+
+## 7. Stock bought at the stock pens (owner, 2026-09-24)
+
+> "players should also be able to buy more horses and other animals. they should be relatively expensive though."
+
+Amends §5 and §6 ([TOWNS.md](TOWNS.md) §4d, `FIC-GONZ-389`, the prices `HIST-TEX-440`). Nothing here contradicted buying stock: §5's
+*"Nothing here sells stock for coin"* is about a family selling its own, and stays true. So the stock pens of Gonzales, San
+Felipe, Columbia and Victoria sell **a cow and calf for 10 reales** (two head; the ten dollars Parker, Almonte and a colonist's
+letter all give) and **a hog for 4 reales or 14 food** (no hog price was found; see `HIST-TEX-440`).
+
+- **The rules of §2 hold for bought head exactly as for the herd a family drove in.** They join `household.herd` at the counter
+  (`addToHerd`), so they feed themselves, calve and farrow, stray if nobody rides the range, are divided when a beef is killed,
+  and are **left on the range when the family flees** and half the cattle and a quarter of the hogs found again on coming home.
+  No fodder, no daily work, no new rule.
+- **Driven home**, not carried: at the ox team's pace (`LEAD_PACE`), which the buyer walks or rides at, and never a load. At most
+  two cows and calves and six hogs on one trip (`ceiling:` a cap, not a rule).
+- **A family that drove none in** starts a herd with what it buys. Its land grant is not made again - the league was given to a
+  stock raiser at the arrival (docs/LAND_GRANTS.md) - and `ceiling:` its bought cattle run on the open range round a labor, as
+  the record's loose stock ran, and nothing asks where they graze.
+- **Priced so food never makes more food**: the hog's fourteen food is more than the twelve it gives butchered, and the cow and
+  calf is coin only (the thirty food the two would feed the family is more than the wagon carries to pay with anyway).
+- `ceiling:` **the families nobody plays buy no stock**; their director deals the opening herd (§3) and buys only a rifle again
+  (TOWNS.md §4e).
+- Horses and oxen bought are not stock in this sense: they are animals of their own on the map, led home on a halter, and are
+  taken by the Mexican army with the wagon when a family is overtaken (sim/road.mjs), not left on the range.

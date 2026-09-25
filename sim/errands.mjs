@@ -53,6 +53,8 @@ import { MILL_RETURN, TRADES, counterRefusal, tradesAt } from './shops.mjs';
 import { MODES, propertyId } from './travel.mjs';
 import { hasWords, userOf } from './keeping.mjs';
 import { toolWords } from './tools.mjs';
+import { LEAD_MOST, LEAD_PACE, beastWords } from './beasts.mjs';
+import { herdWords, hasStock } from './stock.mjs';
 import { shownWays, waysFor } from './going.mjs';
 import { purseOf } from './town.mjs';
 
@@ -110,8 +112,8 @@ const keeperAt = (world, siteId, trade) => Object.values(world.entities).find(en
  * what one of it is, the most the list may hold of it, and why it cannot be had at all right now (the shop's own refusal).
  * Nothing here is another family's: the town's shops are on the public map, and the stock is this family's own.
  */
-export function errandOffers(world, household, entity) {
-  const siteId = townOf(household), site = world.map.sites[siteId];
+export function errandOffers(world, household, entity, town = null) {
+  const siteId = town || townOf(household), site = world.map.sites[siteId];
   const lines = [];
   for (const trade of tradesAt(world, siteId)) {
     for (const offer of TRADES[trade].offers) {
@@ -125,18 +127,21 @@ export function errandOffers(world, household, entity) {
       });
     }
   }
-  return { town: { id: siteId, name: site?.name || 'town' }, lines, stock: stockOf(household), tools: toolWords(household), carry: Object.fromEntries(Object.values(MODES).map(mode => [mode.id, mode.carry])) };
+  return { town: { id: siteId, name: site?.name || 'town' }, lines, stock: stockOf(household), tools: toolWords(household), animals: animalsOf(world, household), carry: Object.fromEntries(Object.values(MODES).map(mode => [mode.id, mode.carry])) };
 }
 const stockOf = household => Object.fromEntries(STOCK.map(good => [good, round(household.resources?.[good] ?? 0)]));
+/** The family's animals as the popup's stock line says them (sim/beasts.mjs): "2 horses", "an ox", and the herd on the range. */
+const animalsOf = (world, household) => [...beastWords(world, household), ...(hasStock(household) ? [`${herdWords(household)} on the range`] : [])];
 
 /**
  * Check a list against what the family has now, in its order, without changing anything. Returns the lines as they would be
  * done, the load there and back, the family's stock after, and the first reason it cannot be sent, if there is one.
  */
-function reckon(world, household, entity, list) {
+function reckon(world, household, entity, list, town = null) {
   if (!Array.isArray(list) || !list.length) return { why: 'Choose something to buy or sell first.' };
   if (list.length > ERRAND_LINES) return { why: `One person can be sent with at most ${ERRAND_LINES} things on the list.` };
-  const siteId = townOf(household), open = new Set(tradesAt(world, siteId)), seen = new Set();
+  if (town !== null && (typeof town !== 'string' || !world.map.sites[town] || !tradesAt(world, town).length)) return { why: 'Nobody keeps shop there.' };
+  const siteId = town || townOf(household), open = new Set(tradesAt(world, siteId)), seen = new Set();
   const have = stockOf(household);
   const lines = [];
   // What is carried: `out` is everything taken from the house to town; `pack` is what is in hand in town, which is what comes
@@ -144,6 +149,8 @@ function reckon(world, household, entity, list) {
   // only for the rest, so a family selling cotton for food and buying seed with it carries home only what is left.
   let out = 0, wagon = false;
   const pack = { food: 0, other: 0 };
+  // What comes home on the hoof (sim/beasts.mjs): a horse or an ox led on a halter, cattle and hogs driven. None of it is a load.
+  const leads = [], drives = {};
   const foodFrom = amount => { const inHand = Math.min(pack.food, amount); pack.food = round(pack.food - inHand); out += amount - inHand; };
   for (const raw of inTurn(list)) {
     const found = parse(raw?.id);
@@ -173,6 +180,9 @@ function reckon(world, household, entity, list) {
       for (const [good, amount] of Object.entries(offer.brings || {})) { have[good] = round((have[good] ?? 0) + amount * n); pack.other += amount * n; }
       pack.other += (offer.load ?? 0) * n;
       out += (offer.carried ?? 0) * n;
+      if (offer.leads) for (let i = 0; i < n; i++) leads.push(offer.leads);
+      for (const [kind, head] of Object.entries(offer.drives || {})) drives[kind] = (drives[kind] || 0) + head * n;
+      if (leads.length > LEAD_MOST) return { why: 'One person can lead one animal home: a horse or an ox, not both. Send somebody else for the other.' };
       lines.push({ ...line, costs: pay === 'coin' ? reales(price * n) : `${price * n} food`, ...(offer.brings && { gives: Object.entries(offer.brings).map(([good, amount]) => `${amount * n} ${good}`).join(', ') }) });
     } else if (offer.kind === 'buy') {
       const units = n * per(offer);
@@ -191,7 +201,7 @@ function reckon(world, household, entity, list) {
     }
   }
   const home = pack.food + pack.other;
-  return { lines, out: round(out), home: round(home), load: round(Math.max(out, home)), after: have, wagon };
+  return { lines, out: round(out), home: round(home), load: round(Math.max(out, home)), after: have, wagon, leads, drives, town: siteId };
 }
 
 /**
@@ -199,8 +209,8 @@ function reckon(world, household, entity, list) {
  * them, with the server's sentence for it. `modeAvailability` is sim/world.mjs's, handed in (this module is imported by
  * sim/chores.mjs, which that one imports).
  */
-function chooseMode(world, household, entity, load, needsWagon, modeAvailability) {
-  const ways = waysOf(world, household, entity, load, needsWagon, modeAvailability);
+function chooseMode(world, household, entity, load, needsWagon, modeAvailability, trip = {}) {
+  const ways = waysOf(world, household, entity, load, needsWagon, modeAvailability, trip);
   const open = ways.find(way => way.can);
   if (open) {
     // Why this way and not a quicker one: the wagon itself is the errand, the load is more than the horse carries, or the
@@ -228,8 +238,22 @@ const QUICKER = Object.freeze({ foot: 'Walking', horse: 'The horse', wagon: 'The
  * it is not - too small for the load, the wheelwright's work wanting the wagon, somebody else having it, no road. The same
  * reckoning every journey is asked (sim/going.mjs `waysFor`; owner, 2026-09-24: "the game should ask how they'll travel").
  */
-function waysOf(world, household, entity, load, needsWagon, modeAvailability) {
-  return waysFor(world, entity, { to: townOf(household), load, needsWagon, noRoad: id => `There is no road to town for the ${id}.` }, modeAvailability);
+function waysOf(world, household, entity, load, needsWagon, modeAvailability, { town = null, home = null } = {}) {
+  return waysFor(world, entity, { to: town || townOf(household), load, needsWagon, ...(home && { home }), noRoad: id => `There is no road to town for the ${id}.` }, modeAvailability);
+}
+/**
+ * What comes home on the hoof, and the pace it holds its bringer to (sim/beasts.mjs `LEAD_PACE`): "Leads the new horse home on a
+ * halter." "Leads the new ox home, at an ox's pace." "Drives 2 cattle and 3 hogs home, at an ox's pace." Null when nothing does.
+ */
+function homeOf(leads = [], drives = {}) {
+  const parts = [
+    ...leads.map(role => `leads the new ${role} home${role === 'horse' ? ' on a halter' : ''}`),
+    ...(Object.keys(drives).length ? [`drives ${Object.entries(drives).map(([kind, head]) => `${head} ${kind === 'cattle' ? 'cattle' : head === 1 ? 'hog' : 'hogs'}`).join(' and ')} home`] : []),
+  ];
+  if (!parts.length) return null;
+  const paces = [...leads.map(role => LEAD_PACE[role]), ...Object.keys(drives).map(kind => LEAD_PACE[kind])].filter(Number.isFinite);
+  const pace = paces.length ? Math.min(...paces) : null;
+  return { pace, words: `${cap(parts.join(' and '))}${pace ? ", at an ox's pace" : ''}.` };
 }
 
 /**
@@ -239,20 +263,22 @@ function waysOf(world, household, entity, load, needsWagon, modeAvailability) {
  * that carries the load and is free (owner, 2026-09-24), and refused in that way's own words if not. The same reckoning the
  * order is refused by, so the popup and the refusal can never disagree.
  */
-export function errandQuote(world, household, entity, list, { modeAvailability, mode = null } = {}) {
-  const reckoned = reckon(world, household, entity, list);
+export function errandQuote(world, household, entity, list, { modeAvailability, mode = null, town = null } = {}) {
+  const reckoned = reckon(world, household, entity, list, town);
   if (reckoned.why) return { can: false, why: reckoned.why, stock: stockOf(household) };
-  const way = chooseMode(world, household, entity, reckoned.load, reckoned.wagon, modeAvailability);
+  const home = homeOf(reckoned.leads, reckoned.drives);
+  const way = chooseMode(world, household, entity, reckoned.load, reckoned.wagon, modeAvailability, { town: reckoned.town, home });
   const ways = shownWays(way.ways);
-  const base = { load: reckoned.load, lines: reckoned.lines, stock: stockOf(household), after: reckoned.after, ways, ...(way.mode && { quickest: way.mode }) };
+  const base = { load: reckoned.load, lines: reckoned.lines, stock: stockOf(household), after: reckoned.after, ways, ...(way.mode && { quickest: way.mode }), ...(home && { home: home.words }) };
+  const andHome = home ? ` ${home.words}` : '';
   if (mode && mode !== way.mode) {
     const chosen = ways.find(one => one.id === mode);
     if (!chosen) return { ...base, can: false, why: 'No such way of going.' };
     if (!chosen.can) return { ...base, can: false, mode, why: chosen.why };
     const slower = way.mode ? ` ${QUICKER[way.mode]} would be quicker.` : "";
-    return { ...base, can: true, mode, how: `${MODE_WORDS[mode]}: ${Math.round(reckoned.load * 10) / 10} of ${MODES[mode].carry} loads, as you chose.${slower}` };
+    return { ...base, can: true, mode, how: `${MODE_WORDS[mode]}: ${Math.round(reckoned.load * 10) / 10} of ${MODES[mode].carry} loads, as you chose.${slower}${andHome}` };
   }
-  return { ...base, can: !way.why, ...(way.why && { why: way.why }), ...(way.mode && { mode: way.mode, how: way.how }) };
+  return { ...base, can: !way.why, ...(way.why && { why: way.why }), ...(way.mode && { mode: way.mode, how: `${way.how}${andHome}` }) };
 }
 
 /**
@@ -263,7 +289,10 @@ export function planErrand(world, household, entity, list, deps = {}) {
   const quote = errandQuote(world, household, entity, list, deps);
   if (!quote.can) throw new Error(quote.why);
 
-  return { mode: quote.mode, errand: quote.lines.map(({ id, n, pay }) => ({ id, n, ...(pay && { pay }) })) };
+  // Another town than the family's own (the director sending for a rifle to the nearest gunsmith, sim/neighbours.mjs): kept on the
+  // work, so its road goes there. The family's own town is not written down, as it never was.
+  const town = deps.town && deps.town !== townOf(household) ? deps.town : null;
+  return { mode: quote.mode, errand: quote.lines.map(({ id, n, pay }) => ({ id, n, ...(pay && { pay }) })), ...(town && { town }) };
 }
 
 /**
@@ -349,6 +378,7 @@ export function errandsInvalid(world) {
     const list = entity.chore?.errand;
     if (list === undefined) continue;
     if (entity.chore.id !== 'visit-shop' || !Array.isArray(list) || !list.length || list.length > ERRAND_LINES) return 'Invalid errand';
+    if (entity.chore.town !== undefined && (typeof entity.chore.town !== 'string' || !world.map.sites[entity.chore.town])) return 'Invalid errand';
     for (const line of list) {
       const found = parse(line?.id);
       if (!found || !Number.isInteger(line.n) || line.n < 1 || line.n > LINE_MOST) return 'Invalid errand';

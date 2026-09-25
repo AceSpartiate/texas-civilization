@@ -96,6 +96,16 @@ function herdOn(household) {
   household.herd ??= herdOf(household);
   return household.herd;
 }
+/**
+ * Head bought at the stock pens and driven home, onto the range with the rest (docs/TOWNS.md §4d, sim/shops.mjs `stockman`). A
+ * family that drove no stock in starts a herd of its own with them. Its land grant is not made again: the league a stock raiser
+ * was given was given at the arrival (docs/LAND_GRANTS.md). ceiling: a family on a labor keeps its bought cattle on the open
+ * range round it, as the record's loose stock ran, and nothing here asks where they graze.
+ */
+export function addToHerd(household, kind, head) {
+  const herd = herdOn(household);
+  herd[kind] = (herd[kind] || 0) + head;
+}
 export const hasStock = household => { const herd = herdOf(household); return herd.cattle > 0 || herd.hogs > 0; };
 /** How many head of everything, for the words and for the ending. */
 export const headCount = household => { const herd = herdOf(household); return herd.cattle + herd.hogs; };

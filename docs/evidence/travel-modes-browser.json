@@ -9,7 +9,7 @@
     "the hunt says what it would give before it is chosen: \"A good trip gives about 10 food\"",
     "choosing the wagon in the chooser and pressing Send sends them with the wagon",
     "the ox and the wagon are on the road with him, not left standing at home",
-    "the ox and wagon are drawn travelling, not teleported (12.0px and 8.9px of screen movement)",
+    "the ox and wagon are drawn travelling, not teleported (13.6px and 5.4px of screen movement)",
     "and are drawn with the walking and rolling cycles the art library has always carried",
     "a second person is told who has it, in words: \"Alvin has the ox and wagon, on the road to Gonzales.\"",
     "and walking is never taken away from anybody",
@@ -17,9 +17,9 @@
   ],
   "measured": {
     "screenPixelsMovedInNineTenthsOfASecond": {
-      "ox": 12.041594578792296,
-      "wagon": 8.94427190999916,
-      "man": 4.242640687119286
+      "ox": 13.601470508735444,
+      "wagon": 5.385164807134505,
+      "man": 2
     },
     "clipsBound": [
       "blue-girl-rest",

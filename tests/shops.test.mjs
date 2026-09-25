@@ -276,6 +276,8 @@ test('in Gonzales every keeper keeps one of the buildings already drawn, at its 
     'gonzales-store-art': art.match(/id:'gonzales-store-art'[^}]*x:(-?[.\d]+),y:(-?[.\d]+)/).slice(1).map(Number),
     'gonzales-iron-art': art.match(/id:'gonzales-iron-art'[^}]*x:(-?[.\d]+),y:(-?[.\d]+)/).slice(1).map(Number),
     ...Object.fromEntries(homes.map(([x, y], i) => [`gonzales-house-art-${i}`, [x, y]])),
+    // The sheds and stores at the edge of town, where the stock pens are (docs/TOWNS.md §4d).
+    ...Object.fromEntries(JSON.parse(art.match(/\.\.\.(\[\[[^;]*?\]\])\.map\(\(\[x,y\],i\)=>\(\{id:`gonzales-outbuilding-art/)[1].replace(/(^|[^\d])\./g, '$10.')).map(([x, y], i) => [`gonzales-outbuilding-art-${i}`, [x, y]])),
   };
   const world = createGonzalesWorld('shops-places', 5);
   world.status = 'running';

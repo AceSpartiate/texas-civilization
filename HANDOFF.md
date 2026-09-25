@@ -1,5 +1,53 @@
 # Claude handoff — Astra foundation
 
+## Horses and stock at the stock pens; the families nobody plays buy a rifle again — 2026-09-24 (after 67bd422; not yet committed or released)
+
+Owner, two requests: *"have automatic families buy a replacement rifle."* and *"players should also be able to buy more horses
+and other animals. they should be relatively expensive though."* Recorded as [docs/TOWNS.md §4d and §4e](docs/TOWNS.md) and
+[docs/STOCK.md §7](docs/STOCK.md); claims `HIST-TEX-440` (the prices), `FIC-GONZ-389` (the pens, the animals), `FIC-GONZ-390`
+(the director's rifle). No save version.
+
+- **The stock pens** (`sim/shops.mjs` `stockman`), a new trade added the documented way (no livery or dealer is in any town's
+  research): Gonzales (Anselmo Treviño, in the open shed at the west edge of the drawn town), San Felipe, Columbia and Victoria
+  (De León's ranching colony), invented keepers. **A horse 25 reales, an ox 15, a cow and calf 10 - coin only - and a hog 4 reales
+  or 14 food**: one real to the dollar of Parker 1834-35 (a horse $20-30, a yoke of oxen about $30, a cow and calf $10, the last
+  also Almonte and Woodman). A horse is 3.1 rifles, an ox 1.9, a cow and calf 1.25, a hog half one. No hog, ox-alone, rifle or
+  wagon price was found (`HIST-TEX-440`). Coin only because a food price at two food a real is more than two wagons carry.
+- **Counted animals** (`sim/beasts.mjs`, new): every horse or ox bought is its own entity (`hh-1-horse-2`, `hh-1-animal-2`), named
+  in the order bought (Dandy the gelding, Buck the ox, ...), drawn with the family's own figures, at most four of a kind.
+  `sim/keeping.mjs` `userOf` counts them like tools: **two horses are two riders**, refused only when every one is out
+  (*"Alvin and Mateo have both horses."*). `beastFor` picks the animal a person takes; `modeAvailability`, `beginTravel`,
+  `harness`, `leaveBehind`, `modeWith`, `keepWithRiders`, the flight east and the overtaking read every animal. No second wagon
+  (`ceiling:`).
+- **Home on a halter**: the buyer leads it home beside them whichever way they go (riding the horse they came on), one animal a
+  person; a led ox and cattle or hogs driven hold them to an ox's pace; nothing led is a load. The popup says so and each way's
+  card gives the time home. Cattle and hogs join the herd at the counter.
+- **The director's rifle** (`sim/neighbours.mjs` `rifleErrand`): no rifle owned (none home, none at the war), somebody free, one
+  at a time; paid in food above `rifleFloor` (3 food a grown share, the larder it keeps for any trade, `ceiling:`) else 8 coin,
+  never credit; the nearest gunsmith town by road (Liberty → San Felipe, Matagorda → Columbia); the student's own `visit-shop`
+  errand (now carrying an optional `town`, validated) and the quickest way.
+- **Study** (`scripts/rifle-food-study.mjs`, extended; [record](docs/evidence/rifle-food-study.json) `afterRebuy`): all 14 rifles lost with the dead were bought again (0 before), 1-10 days
+  after the loss (median 3), every one for 16 food, three at another town's gunsmith; no family ended without a rifle (14
+  before). Mean food at period ends 34.3 / 65.4 / 12.6 → 34.3 / 64.0 / 12.5; household-ticks with no food 755 → 749; houses ever
+  out of food 34 → 35; deaths 14 and 14, the same people. The before is commit 67bd422 run with the same extended script.
+- **Tests.** New `tests/beasts.test.mjs` (8) and `tests/rebuy.test.mjs` (4). Changed: `tests/shops.test.mjs` (Gonzales's
+  outbuildings are drawn buildings too). **Injections** ([record](docs/evidence/beasts-injections.json)) over 11 test files:
+  **22 of 22 caught** by the test written for each (15 by that test alone; the rest also fail neighbouring tests, e.g. the
+  director with a second rifle also breaks its riding test). Every new test failed under its injection first. `npm test`: **1138 pass**, 0 fail.
+- **Browser** (same computer only). `test:errand` extended: the stock pens' four lines and prices, the popup's animal line and
+  *"Rides the horse: 0 of 7 loads. Leads the new horse home on a halter."*, the new horse seen led home beside its rider and
+  standing in the yard beside Bess, and two riders out at once on two horses. Screenshots looked at (session scratchpad):
+  `errand-animals-1366.png`, `errand-led-home-1366.png`, `errand-two-horses-1366.png`, `errand-two-riders-1366.png`.
+  PASS: errand (12 checks), going, shops, family-commands, family-panel, panels, lesson, riding, travel, farm, host-view.
+  **travel-drawn is flaky, and was before this change**: 4 of 7 runs pass on this tree and 8 of 10 on 67bd422 (a clean worktree).
+  Every failure is a short road for the random Solo family (4.3, 9.2 and 11.8 miles; one HEAD run also failed its frame-pair
+  pace check): too little road is walked in view at one end. Not this change's; a proof that pinned the family's road would fix it.
+  `node --check` passes on .mjs copies of public/app.js, errand.js and going.js.
+- **Open for the owner.** (1) The hog is cheaper than a rifle, as the record's hog was; if "relatively expensive" should cover
+  it too, a lot of hogs or a dearer hog is one number. (2) Whether classes already in progress should get the stock pens (today
+  a trade appears only in a class made after it, as every trade has). (3) Payment in kind (cattle for a horse) instead of coin
+  only. (4) A second wagon from a wheelwright. (5) The director buys no animals and no other tools.
+
 ## Every journey asks how they will go — 2026-09-24 (after 0a175bb; not yet committed or released)
 
 Owner: *"when sending someone to travel, the game should ask how they'll travel."* Recorded as

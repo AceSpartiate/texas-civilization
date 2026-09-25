@@ -541,7 +541,8 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   const along = vertical ? 1 : flip ? -1 : 1;
   const own = entities.filter(other => other.householdId === entity.householdId);
   const mount = {
-    horse: own.find(other => other.kind === 'animal' && other.species === 'horse'),
+    // The horse they are on: the one the server has them holding (a family may own more than one, sim/beasts.mjs), else the first.
+    horse: own.find(other => other.kind === 'animal' && other.species === 'horse' && other.borrowedBy === entity.id && other.travel?.mode === 'horse') || own.find(other => other.kind === 'animal' && other.species === 'horse'),
     ox: own.find(other => other.kind === 'animal' && other.species !== 'horse'),
     wagon: own.find(other => other.kind === 'wagon'),
   };
@@ -598,8 +599,11 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // their wagon are at the same point on the same road, so without this they would be
   // drawn standing inside each other; a hand's width apart reads as a family travelling
   // together and still never claims a different true position.
+  // An animal walking on its own feet beside the family - a horse or an ox bought in town and led home on a halter (sim/beasts.mjs),
+  // or the beasts walking east in the flight - is drawn a length behind, on its lead, so it is not hidden under the one leading it.
+  const behind = { e: { x: -1, y: 0 }, w: { x: 1, y: 0 }, n: { x: 0, y: 1 }, s: { x: 0, y: -1 } }[travelDirection(entity) || 'e'] || { x: -1, y: 0 };
   const offset = entity.travel
-    ? (entity.kind === 'wagon' ? { x: -2.4, y: .5 } : entity.kind === 'animal' ? { x: -1.1, y: .2 } : { x: 0, y: 0 })
+    ? (entity.kind === 'wagon' ? { x: -2.4, y: .5 } : entity.kind === 'animal' && entity.travel.mode === 'foot' ? { x: behind.x * 26, y: behind.y * 36 + 2 } : entity.kind === 'animal' ? { x: -1.1, y: .2 } : { x: 0, y: 0 })
     : stableOffset(entity.id);
   const x = point.x + offset.x * spread, y = point.y + offset.y * spread * .8;
   // Everything is drawn standing on (x, y), so `size` is a height and the click target

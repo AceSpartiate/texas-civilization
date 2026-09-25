@@ -11,7 +11,8 @@ import { awayProjection, milesATick, roadTicksFor, tooFastToFollow } from './sig
 import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection, CAMP_SITE } from './directors.mjs';
 import { abandonChore, advanceChores, answerChore, askProjection, beginChore, choreAvailability, choreJourney, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
 import { GAME } from './hunting.mjs';
-import { axeHome, bringAlong, hasWords, holderOf, homeAgain, intoTheRoad, keepWithRiders, leaveBehind, modeWith, NOUN, ROLES as BEASTS, userOf, usesInvalid } from './keeping.mjs';
+import { axeHome, beastFor, bringAlong, hasWords, holderOf, homeAgain, intoTheRoad, keepWithRiders, leaveBehind, modeWith, NOUN, ROLES as BEASTS, userOf, usesInvalid } from './keeping.mjs';
+import { beastsInvalid, beastsOf, ledPace, yardSpot } from './beasts.mjs';
 import { SERVING_ACTIONS, recallFromService, servingWhy, winterInvalid } from './winter.mjs';
 import { answerCourier } from './alamo.mjs';
 import { advanceRunners, runnerInvalid } from './alamo-runner.mjs';
@@ -245,10 +246,10 @@ export function modeAvailability(world, entity, modeId, path = null) {
   if (!mode) return { can: false, why: 'No such way of going.' };
   if (tooYoung(entity)) return { can: false, why: tooYoungWhy(entity) };
   for (const role of mode.needs) {
-    const beast = world.entities[propertyId(entity.householdId, role)];
     // A class saved before there were horses has no horse, which is a true thing about
     // that class rather than a broken one, and the control says so plainly.
-    if (!beast) return { can: false, why: `Your family has no ${NOUN[role]}.` };
+    const owned = beastsOf(world, world.households[entity.householdId], role);
+    if (!owned.length) return { can: false, why: `Your family has no ${NOUN[role]}.` };
     // Somebody else has it: on the road with them, standing where they are, marching with them, or held by work they were
     // given - a journey their work will make, hauling logs behind the ox, a harvest that wants the wagon (sim/keeping.mjs
     // `userOf`, the one rule). Said in their own name with what they are doing, and for the wagon both beasts at once when
@@ -259,10 +260,14 @@ export function modeAvailability(world, entity, modeId, path = null) {
       const held = mode.needs.filter(other => userOf(world, household, other, entity) === holder);
       return { can: false, why: hasWords(holder, held.length ? held : [role], world, entity) };
     }
-    if (beast.condition && beast.condition !== 'sound') return { can: false, why: `The ${NOUN[role]} is in no state to go.` };
+    // The one this person would take (sim/keeping.mjs `beastFor`): theirs already, or one standing here that nobody has. With
+    // more than one (a horse bought in town, sim/beasts.mjs) any of them will do.
+    if (beastFor(world, entity, role)) continue;
+    const free = owned.filter(beast => !holderOf(world, beast) && !entity.leads?.includes(beast.id));
+    if (free.length && free.every(beast => beast.condition && beast.condition !== 'sound')) return { can: false, why: `The ${NOUN[role]} is in no state to go.` };
     // The whole point of property being rivalrous: it is somewhere, and if it is not
     // where you are then you cannot take it. Walk to it, or go without it.
-    if (beast.travel || beast.location.siteId !== entity.location.siteId) return { can: false, why: `The ${NOUN[role]} is not here.` };
+    return { can: false, why: `The ${NOUN[role]} is not here.` };
   }
   // ceiling: today the only road a student can order that uses the ford is the march
   // upriver, and the wagon is refused there before anything moves - so in ordinary play
@@ -307,13 +312,21 @@ export function travelRefusal(world, entity, destination, modeId = DEFAULT_MODE)
  * `silent` keeps the family's event log about the family: three more arrival lines for
  * one trip to town would bury the one that matters.
  */
-function harness(world, entity, mode, path, causeId) {
-  for (const role of mode.needs) {
-    const beast = world.entities[propertyId(entity.householdId, role)];
+function harness(world, entity, mode, path, causeId, taking) {
+  for (const beast of taking) {
     beast.borrowedBy = entity.id;
     const pace = path.pace || paceOf(path.points, path.ground, mode.id);
     beast.travel = { from: entity.travel.from, to: entity.travel.to, points: path.points, progress: 0, distance: path.distance, speed: entity.travel.speed, mode: mode.id, purpose: 'harness', causeId, silent: true, ...(pace.length && { pace }) };
     beast.location = { ...path.points[0], siteId: null };
+  }
+  // What they bought and lead home on a halter walks beside them (sim/beasts.mjs): on the same road at the same pace, theirs
+  // until it is in the yard. It walks, whatever way its leader goes, so it is drawn walking and never under a rider.
+  for (const id of entity.leads || []) {
+    const beast = world.entities[id];
+    if (!beast || beast.travel) continue;
+    beast.borrowedBy = entity.id;
+    beast.travel = { from: entity.travel.from, to: entity.travel.to, points: entity.travel.points, progress: 0, distance: entity.travel.distance, speed: entity.travel.speed, mode: DEFAULT_MODE, purpose: 'lead', causeId, silent: true, ...(entity.travel.pace && { pace: entity.travel.pace }) };
+    beast.location = { ...entity.travel.points[0], siteId: null };
   }
 }
 /** Further from a place's point than this, somebody is standing somewhere else in it. */
@@ -368,12 +381,17 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
   const fords = (path.fords || []).map(id => world.map.sites[id]).filter(Boolean)
     .map(site => ({ id: site.id, waterKind: site.waterKind || 'river', at: alongAt(points, site.over || site) }))
     .filter(ford => Number.isFinite(ford.at)).sort((a, b) => a.at - b.at);
-  entity.travel = { from, to: destination, points, progress: 0, distance, speed: riding ? RIDER_SPEED : mode.speed * wagonSpeedShare(world, entity, mode.id), mode: mode.id, purpose, causeId: departure, ...(pace.length && { pace }), ...(fords.length && { fords }) };
+  // An ox led home on its halter, or cattle and hogs driven, set the pace home: whoever brings them walks at theirs (sim/beasts.mjs
+  // `LEAD_PACE`). A led horse keeps up with anybody.
+  const own = riding ? RIDER_SPEED : mode.speed * wagonSpeedShare(world, entity, mode.id);
+  const led = riding ? null : ledPace(world, entity);
+  entity.travel = { from, to: destination, points, progress: 0, distance, speed: led ? Math.min(own, led) : own, mode: mode.id, purpose, causeId: departure, ...(pace.length && { pace }), ...(fords.length && { fords }) };
   // Whatever beasts the work held for this road are on it with them now, held by the road; any it does not take are let go
   // with the rest (sim/keeping.mjs `intoTheRoad`). The rifle a hunt holds stays with the hunt.
-  if (!riding) { leaveBehind(world, entity, mode); intoTheRoad(entity, BEASTS); }
+  const taking = riding ? [] : mode.needs.map(role => beastFor(world, entity, role));
+  if (!riding) { leaveBehind(world, entity, taking); intoTheRoad(entity, BEASTS); }
   entity.location = { ...points[0], siteId: null }; entity.task = 'travel';
-  if (!riding) harness(world, entity, mode, path, departure);
+  if (!riding) harness(world, entity, mode, path, departure, taking);
 }
 /** How far along a line a point stands, in miles: the nearest place on it, measured from the start. */
 function alongAt(points, point) {
@@ -540,7 +558,11 @@ export function progressTravel(world, entity, units = 1) {
     // A journey that knows where in the place its traveller stands and what they do there -
     // today only the family's arrival on its land (sim/settling.mjs) - ends there. Every other
     // journey ends on the place's own point, at rest.
-    const spot = Number.isFinite(travel.settle?.x) ? travel.settle : world.map.sites[travel.to];
+    // An animal led home from town is set down in the yard a few rods from the house, as the family's first beasts stand
+    // (sim/beasts.mjs `yardSpot`), not on the house's own point.
+    const home = world.households[entity.householdId]?.homeSiteId;
+    const spot = Number.isFinite(travel.settle?.x) ? travel.settle
+      : travel.purpose === 'lead' && travel.to === home ? yardSpot(world.map.sites[travel.to], entity) : world.map.sites[travel.to];
     entity.location = { x: spot.x, y: spot.y, siteId: travel.to };
     entity.task = travel.purpose === 'help' ? 'help' : travel.settle?.task || 'rest'; entity.travel = null;
     // Home again, so the beast belongs to nobody and anybody of the family may take it. Anywhere else it stays with
@@ -551,6 +573,9 @@ export function progressTravel(world, entity, units = 1) {
     if (entity.laden && world.households[entity.householdId]?.homeSiteId === travel.to) entity.laden = false;
     // Home with the felling axe from off the land: it is the family's again, to share at home (sim/keeping.mjs).
     if (entity.kind === 'person' && world.households[entity.householdId]?.homeSiteId === travel.to) axeHome(entity);
+    // Home with what they bought on the hoof (sim/beasts.mjs): the led animal is in the yard with them, the family's to use, and the
+    // cattle and hogs out on the range with the herd.
+    if (entity.kind === 'person' && world.households[entity.householdId]?.homeSiteId === travel.to) { delete entity.leads; delete entity.drives; }
     if (travel.silent) return;
     record(world, 'arrival', { actorId: entity.id, householdId: entity.householdId, text: `${entity.name} arrived at ${world.map.sites[travel.to].name}.`, destination: travel.to, purpose: travel.purpose, causes: [travel.progressEventId || travel.causeId] });
   }
@@ -831,7 +856,7 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // the "choose one of your family" rule below because renaming the *family* names nobody.
   if (input.action === 'rename') { rename(world, household, input); return; }
   // The errand to town carries its whole list in the one order (sim/errands.mjs), checked and planned by the server.
-  if (input.action === 'chore') { beginChore(world, household, entity, input.chore, { beginTravel, modeAvailability }, mode, input.errand !== undefined ? { errand: input.errand, ...(input.mode && { errandMode: input.mode }) } : {}); noteOrder(entity, input.chore, mode); return; }
+  if (input.action === 'chore') { beginChore(world, household, entity, input.chore, { beginTravel, modeAvailability }, mode, input.errand !== undefined ? { errand: input.errand, ...(input.mode && { errandMode: input.mode }), ...(input.town !== undefined && { errandTown: input.town }) } : {}); noteOrder(entity, input.chore, mode); return; }
   // Survey, with the place the student chose on the family's own land (sim/survey.mjs). The server decides whether it can be.
   if (input.action === 'survey-plot') {
     const plot = { x: Number(input.x), y: Number(input.y) };
@@ -1295,7 +1320,7 @@ export function validateWorld(world) {
   if (badCall) throw new Error(badCall);
   const badShops = shopsInvalid(world) || errandsInvalid(world);
   if (badShops) throw new Error(badShops);
-  const badUse = usesInvalid(world) || toolsInvalid(world);
+  const badUse = usesInvalid(world) || toolsInvalid(world) || beastsInvalid(world);
   if (badUse) throw new Error(badUse);
   const badFurniture = furnitureInvalid(world);
   if (badFurniture) throw new Error(badFurniture);

@@ -13,8 +13,8 @@
     "the Host zoomed to Thomas's family's farm (house, round-log) and drew 1 of its people, 2 plot(s) and its line",
     "the Host zooms in as far as a student does (4737 pixels a mile)",
     "the Host looks at Antonia: \"of Thomas's family · felling timber on the clearing · at home · well\", with no order offered",
-    "the Host went to San Felipe de Austin: 10 shops and 11 people drawn, keepers among them",
-    "Whole class: The whole class: 112 people, 148 figures in view, 13 people on the road.",
+    "the Host went to San Felipe de Austin: 11 shops and 12 people drawn, keepers among them",
+    "Whole class: The whole class: 115 people, 151 figures in view, 11 people on the road.",
     "at 400 pixels wide the list of places is on screen and the page does not scroll sideways",
     "no page error on either page"
   ],
@@ -63,8 +63,8 @@
       },
       "plotsDrawn": 2,
       "holdings": 1,
-      "snapshotBytes": 56509,
-      "description": "The whole class: 112 people, 3 figures in view, 15 people on the road."
+      "snapshotBytes": 57285,
+      "description": "The whole class: 115 people, 3 figures in view, 15 people on the road."
     },
     "closestScale": {
       "host": 4736.842105263158,
@@ -101,7 +101,7 @@
           "one": false
         }
       },
-      "shops": 10,
+      "shops": 11,
       "people": [
         "town-store-san-felipe",
         "town-carpenter-san-felipe",
@@ -113,6 +113,7 @@
         "town-wheelwright-san-felipe",
         "town-mill-san-felipe",
         "town-weaver-san-felipe",
+        "town-stockman-san-felipe",
         "courier-6"
       ],
       "drawn": [
@@ -167,6 +168,11 @@
           "keeper": true
         },
         {
+          "id": "town-stockman-san-felipe",
+          "name": "Amos Birdwell",
+          "keeper": true
+        },
+        {
           "id": "courier-6",
           "name": "Tobias Crow",
           "keeper": false
@@ -189,7 +195,7 @@
         }
       },
       "follow": "Whole class",
-      "description": "The whole class: 112 people, 148 figures in view, 13 people on the road.",
+      "description": "The whole class: 115 people, 151 figures in view, 11 people on the road.",
       "land": true
     },
     "phone": {

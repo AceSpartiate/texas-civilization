@@ -1148,6 +1148,10 @@ remembered per person in the page and sent with the next journey), which is gone
   wagon — still shows the chooser with that way chosen, so the student learns the question; Enter sends it. Skipping it then
   is one line (`goingFor` knows it). (2) Auto chooses the quickest each time, not the way the student last chose.
   (3) The errand's popup keeps the ways under its list rather than as a second step.
+- **More than one horse or ox** (owner, 2026-09-24, [TOWNS.md](TOWNS.md) §4d). A family that bought a second horse is offered it
+  on every chooser while the first is out; a way is shut only when every animal of its kind is out, and says so in all their
+  names (*"Alvin and Mateo have both horses."*). On the errand, a way's card also says what comes home on the hoof and, for an ox
+  or a drove, the time home at an ox's pace (`leads`, sim/going.mjs).
 
 ## Usability amendment — 2026-09-21
 

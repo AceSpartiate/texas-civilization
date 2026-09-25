@@ -33,12 +33,12 @@ not a settlement families are dealt to, so its trades inform the larger towns ra
 
 | Town | Trades beyond the store and the carpenter | Why |
 | --- | --- | --- |
-| **Gonzales** | blacksmith (Josiah Pike, who was always there), gunsmith, doctor, tavern, tanner, wheelwright, mill, weaver | Every class on the invented country has only Gonzales. **Invented**: no 1835 Gonzales trade list was found; a municipality of about 900 (`HIST-TEX-011`) is given the street Brazoria documents. |
-| **San Felipe** | the same eight | The colony's capital; taverns, a hotel and a blacksmith documented. |
-| **Columbia** | blacksmith, gunsmith, doctor, tavern, tanner, wheelwright, weaver | Hotel and tavern documented; the lower Brazos's trades. |
+| **Gonzales** | blacksmith (Josiah Pike, who was always there), gunsmith, doctor, tavern, tanner, wheelwright, mill, weaver, stock pens (§4d) | Every class on the invented country has only Gonzales. **Invented**: no 1835 Gonzales trade list was found; a municipality of about 900 (`HIST-TEX-011`) is given the street Brazoria documents. |
+| **San Felipe** | the same eight, and the stock pens (§4d) | The colony's capital; taverns, a hotel and a blacksmith documented. |
+| **Columbia** | blacksmith, gunsmith, doctor, tavern, tanner, wheelwright, weaver, stock pens (§4d) | Hotel and tavern documented; the lower Brazos's trades. |
 | **Mina** | blacksmith, gunsmith, tavern | Hotel and gunsmith remembered; its mill came in 1838. |
 | **Liberty**, **Matagorda** | blacksmith, tavern | Small. |
-| **Victoria** | blacksmith | Small. |
+| **Victoria** | blacksmith, stock pens | Small; the stock pens since 2026-09-24 (§4d), because De León's colony's wealth was cattle and horses. |
 
 A settlement no family is dealt near has no keepers. `TOWN_TRADES` and `KEEPERS` in `sim/shops.mjs` hold the table.
 
@@ -74,6 +74,10 @@ Coin in either direction is in the ending's account.
 | **Mill** | have corn ground (the miller's toll is taken in meal) | The food carried goes a fifth further. |
 | **Weaver** | sell cotton, 1 real or 3 food a whole bale | More food a bale than the store's two. |
 | | blankets 1 / 2 | Sleeping by the wagon mends a quarter better. |
+| **Stock pens** (§4d) | a horse 25 reales, coin only | Led home on a halter; another rider out at once. |
+| | an ox 15, coin only | Led home at an ox's pace; drags logs, or pulls the wagon while the other ox is out. |
+| | a cow and calf 10, coin only | Driven home to the herd (docs/STOCK.md). |
+| | a hog 4 / 14 | Driven home to the herd. |
 
 Until 2026-09-17 the five things the store does were also five errands of their own on the family panel - fetch seed,
 buy powder, sell food, take the cotton to the store, buy a hoe - so a student had two ways to the same counter, with the
@@ -254,6 +258,98 @@ Built the same day on v2026.09.24.4 ([tests](../tests/war-rifle.test.mjs), [inje
   ever out of food 34 and 34; deaths 14 and 14, the same people - the deaths come late, in the spring's fighting, so a lost rifle
   costs little hunting in what is left of the class. Nothing was retuned.
 
+### 4d. Horses, oxen and stock bought at the stock pens (owner, 2026-09-24)
+
+> "players should also be able to buy more horses and other animals. they should be relatively expensive though."
+>
+> — the owner, 2026-09-24
+
+**Status: built the same day** (`sim/beasts.mjs`, `sim/shops.mjs` `stockman`; [tests](../tests/beasts.test.mjs),
+[injections](evidence/beasts-injections.json), [browser](evidence/errand-browser.json)). Claim `FIC-GONZ-389`, on the prices of
+`HIST-TEX-440`. It amends §3 and §4 (a new trade), §4b (a beast is one of several; what is led home is not a load) and
+[STOCK.md](STOCK.md) §7.
+
+- **Who sells them.** No town's research lists a livery or a stock dealer, so the trade is added the documented way: **the stock
+  pens**, kept by an invented stock trader, in the larger towns - Gonzales (Anselmo Treviño), San Felipe (Amos Birdwell),
+  Columbia (Gideon Marsh) - and in **Victoria** (Tomás Villarreal), whose colony's wealth was cattle and horses
+  (docs/town-research/victoria.md §7.7). Mina, Liberty and Matagorda stay small. The emigrant was told to buy his stock in Texas:
+  *"The emigrant had better buy his cattle and horses here; for those brought from a more northern climate do not thrive well"*
+  (Parker, `HIST-TEX-440`). In Gonzales the pens are the open shed drawn at the west edge of town; elsewhere the next of the
+  town's ordinary houses (a stand-in, docs/ART_REQUESTS.md). The trade is last in each town's list, so every other keeper of a new
+  class keeps the building they had.
+- **What, and for how much.** One real to the dollar of the record. Parker, in Texas the winter of 1834-35: *"a good serviceable
+  horse may be bought for, from twenty to thirty dollars; a cow with a calf by her side, for ten dollars; and a yoke of oxen for
+  about thirty dollars"*; Almonte (1834) and a colonist's letter printed by Woodman (1835) give the same ten dollars for a cow
+  and calf. So **a horse 25 reales, an ox 15** (half the yoke), **a cow and calf 10** (two head), and **a hog 4 reales or 14
+  food** (no price for a hog was found; pork was $4.50 the hundredweight at Nacogdoches in 1834, Woodman). Against the rifle's
+  8 reales (`FIC-GONZ-388`): **a horse is 3.1 rifles, an ox 1.9, a cow and calf 1.25, a hog half of one.** `ceiling:` the scale -
+  a real to the dollar - is the game's own; the rifle was never priced from the record, and a rifle price from it would set the
+  scale instead. The hog is cheaper than a rifle because the record's hog is a fraction of a cow and calf; the owner's
+  "relatively expensive" is met by the horse, the ox and the cattle.
+- **Coin only, but the hog.** At the two food a real a dear thing takes at a counter (the rifle, the tools) a horse would be fifty
+  food, and food paid is carried to town (§4b): more than two wagons carry. So the horse, the ox and the cow and calf take coin,
+  as the store's hoe does. The hog takes fourteen food, which the wagon carries and which is more than the twelve a hog gives
+  butchered, so food is never turned into more food by buying a hog and killing it. `ceiling:` payment in kind - cattle for a
+  horse; the record has *"a cow and calf being rated at ten dollars"* as money - is the way out. **No credit**, as in §4c.
+- **Each animal its own.** A horse or an ox bought is a new animal beside Bess the mare and Juniper the ox, with an id that never
+  changes (`hh-1-horse-2`, `hh-1-animal-2`) and a name in the order it was bought (*Dandy the gelding*, *Kit the mare*, ...;
+  *Buck the ox*, *Berry the ox*, ...), drawn with the family's own horse and ox figures. At most four horses and four oxen a
+  family (`BEASTS_MOST`, `ceiling:` a cap for the family's own projection, counting any the army took). **Two horses are two
+  riders**: `userOf` holds one animal a person, the chooser of every journey offers the second horse while the first is out, and
+  the refusal comes only when every one is out: *"Alvin and Mateo have both horses."* A second ox drags logs while the first pulls
+  the wagon. **Not sold: a second wagon.** The record's wagon shop stood three miles out of Brazoria, where no family is dealt
+  (§2), a cart was a hundred dollars at San Patricio (Woodman), and the family's wagon is also its load in (docs/SETTLING_IN.md).
+  `ceiling:` one wagon a family; a wheelwright who builds wagons would lift it.
+- **How it comes home: on a halter.** A horse or an ox bought is not ridden or yoked home. It walks home led by its buyer, beside
+  them on the same road, whichever way they go - on foot, on the family's horse (the buyer rides the horse they came on), or tied
+  behind the wagon - and is theirs until it is in the yard (`person.leads`), where it is set down a few rods west of the house beside the family's
+  first animals (`yardSpot`). On the road it is drawn a length behind whoever leads it. **One person leads one animal** (*"One person can
+  lead one animal home: a horse or an ox, not both. Send somebody else for the other."*). A led horse keeps up with anybody; **a
+  led ox, and cattle and hogs driven, hold whoever brings them to an ox's pace** (`LEAD_PACE`, two miles an hour, `HIST-TEX-093`),
+  so a rider leading an ox comes home at the ox's pace. Nothing led or driven is a load. The popup says so with the way of going
+  (*"Rides the horse: 0 of 7 loads. Leads the new ox home, at an ox's pace."*) and each way's card gives the time home (*"Home in
+  about 7 hours."*). Somebody who drops the errand in town still leads the animal home on their next road; somebody killed or
+  taken leads nothing, and the animal stands where they were, free to whoever of the family comes to it.
+- **Cattle and hogs** join the herd at the counter ([STOCK.md](STOCK.md) §7): they feed themselves, increase, stray if nobody
+  rides the range, are divided when butchered, and are left on the range in the Scrape, as the herd is. A family that drove no
+  stock in starts a herd; its land grant is not made again.
+- **The flight east** takes every animal standing at home, the bought ones with the first, and soldiers who overtake a family take
+  them all, said by the number (*"took 4 horses, the ox, the wagon"*).
+- **Fog of war.** Another family's animals never reach a student: only a family's own entities are in its projection, and people
+  are all that is seen of anybody else. The popup's animal line is the family's own.
+- **Old saves.** Nothing old is read another way: the first horse, ox and wagon are found by the ids they always had, an animal
+  with no `species` (a class saved before there were horses) is an ox, and a class saved before this has no stock pens - like
+  every trade added after a class began, it is not added to a class in progress (§6). No save version moved.
+
+### 4e. The families nobody plays buy a rifle again (owner, 2026-09-24)
+
+> "have automatic families buy a replacement rifle."
+>
+> — the owner, 2026-09-24
+
+**Status: built the same day** (`sim/neighbours.mjs` `rifleErrand`; [tests](../tests/rebuy.test.mjs),
+[injections](evidence/beasts-injections.json), [study](evidence/rifle-food-study.json) `afterRebuy`). Claim `FIC-GONZ-390`. It
+amends §4c's measurement and §7's last line: the automatic neighbours use the shops, for this one thing.
+
+- **When** (the director's own rules, deterministic, nothing drawn): the family owns **no rifle** - none in the house and none
+  away with a man at the war, who brings his home; **somebody free** at home to go (the director's idle hands; one at a time,
+  never a second while the first is on the way); and it can pay **without credit**, in **food** while what is left keeps **the
+  floor** (`rifleFloor`: three food for every grown person's share it eats, `FOOD_KEPT_PER_PERSON`, the larder it keeps before any
+  trade, about eight days' eating), else in **coin**. Food first, as the director values a real at three food. `ceiling:` the
+  floor is that larder, not a reckoning of the weeks to the harvest or of the game the rifle will bring.
+- **Where**: the nearest town with a gunsmith keeping shop - Gonzales, San Felipe, Columbia, Mina - by the road on foot; its own
+  town when it has one. A family of Liberty goes to San Felipe, one of Matagorda to Columbia.
+- **How**: the student's own errand (`visit-shop` with `[{ id: 'gunsmith:buy-rifle', n: 1, pay }]`, and the town when it is not
+  the family's own), the same server checks, and the quickest way that works (sim/going.mjs), as every order sent with no way.
+  An absent student's family, the director's since docs/HOST_PAGE.md, does the same.
+- **Measured** (`scripts/rifle-food-study.mjs`, the same four classes of fifteen families nobody plays, three periods, on the tree
+  before this and after): **all 14 rifles lost with the dead were bought again** (none before), 1 to 10 days after the loss (median 3), between
+  March 6 and 24, every one paid in 16 food; three families went to another town's gunsmith (Liberty to San Felipe, Matagorda to
+  Columbia twice); no family ended the class without a rifle (14 before). Mean food at the three period ends 34.3 / 65.4 / 12.6
+  before and 34.3 / 64.0 / 12.5 after (the rifles are paid for in food in March, which the winter period's end counts);
+  household-ticks with no food 755 and 749; houses ever out of food 34 and 35; **deaths 14 and 14, the same fourteen people** -
+  the rifles are lost late, in the spring's fighting, so a rifle bought again hunts little of what is left. Nothing was retuned.
+
 ## 5. How a student uses it
 
 **Since 2026-09-24 (§4b):** the **Go to town to trade** icon opens the popup; what to buy and sell is chosen before anybody
@@ -327,4 +423,5 @@ old three, and the icon says there are no shops rather than sending anybody to a
 - `ceiling:` a keeper never runs out of goods, only of coin; nothing a family buys is taken from anybody else.
 - `ceiling:` the tavern hears only what is already public; it does not yet start rumors of its own.
 - `ceiling:` the weaver sells blankets but no cloth, and nobody wears what they buy on the map.
-- The automatic neighbours do not use the shops yet.
+- ~~The automatic neighbours do not use the shops yet.~~ Since 2026-09-24 they buy a rifle again when theirs is lost (§4e), and
+  nothing else there: seed, powder and cotton still go by the old errands (`directorOnly`). `ceiling:` they buy no animals.

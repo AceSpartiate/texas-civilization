@@ -57,6 +57,8 @@ export function drawWays(host, { ways = [], quickest = null, chosen = null } = {
     const facts = [way.pace, way.time && `${way.time} there`, way.carrying || `carries ${way.carry}`].filter(Boolean).join(' · ');
     button.append(element('span', facts, 'going-way-facts'));
     if (way.brings) button.append(element('span', way.brings, 'going-way-brings'));
+    // An animal bought on the errand, led or driven home, and the pace it holds them to (sim/going.mjs `homeWords`).
+    if (way.leads) button.append(element('span', way.leads, 'going-way-brings'));
     button.append(element('span', way.can ? way.tiring : way.why, way.can ? 'going-way-tiring' : 'going-way-why'));
     row.append(button);
   }

@@ -27,6 +27,9 @@ import { fellFacts, logsLying } from './felling.mjs';
 import { logsShort } from './houseplot.mjs';
 import { countsTrees, treesIn, woodsRule } from './woods.mjs';
 import { landAround } from './ground.mjs';
+import { toolCount } from './tools.mjs';
+import { RIFLE_COIN, RIFLE_FOOD, tradesAt } from './shops.mjs';
+import { findWay } from './ways.mjs';
 
 /** Decisions are spread over ticks: each family thinks every third tick, not all of them on the same one. */
 export const THINK_EVERY = 3;
@@ -74,9 +77,42 @@ function strayingSoon(world, household) {
   return !Number.isFinite(real.herdLookedDay) || day - real.herdLookedDay >= LOOKED_TO_DAYS - 3;
 }
 
+/**
+ * A family nobody plays that has no rifle left sends somebody for another (owner, 2026-09-24: "have automatic families buy a
+ * replacement rifle"; docs/TOWNS.md §4e, `FIC-GONZ-390`). Until this the director never sent anybody to the shops, so a family whose
+ * man was killed or taken at the war with its only rifle (sim/keeping.mjs `homeAgain`) never hunted again: fourteen of sixty in the
+ * study of the same morning (docs/evidence/rifle-food-study.json).
+ *
+ * **When**: no rifle in the house and none away with anybody (a rifle at the war with a man is still the family's, and he brings it
+ * home); somebody free at home to go (the idle loop of `thinkFor`); and the rifle paid for **without credit**, in food while what is
+ * left keeps the larder the director never trades below (`FOOD_KEPT_PER_PERSON` a grown person's share: the rifle's own floor,
+ * `rifleFloor`), else in coin. Food first, as the family values it (`TRADE_VALUE`: a real is worth three food to it).
+ * **Where**: the nearest town with a gunsmith keeping shop today (Gonzales, San Felipe, Columbia, Mina, docs/TOWNS.md §3), by the
+ * road on foot. **How**: the one errand to town a student sends (`visit-shop`, sim/errands.mjs), the same server rules, and the way
+ * of going the server gives an order with none - the quickest that works (sim/going.mjs). Deterministic; nothing is drawn.
+ *
+ * ceiling: the floor is the director's own larder for any trade, about eight days' eating, not a reckoning of the weeks to the next
+ * harvest or of the game the rifle will bring. A family down to it forages and waits; a reason to spend deeper would lower it.
+ */
+export const rifleFloor = mouths => mouths * FOOD_KEPT_PER_PERSON;
+export function rifleErrand(world, household, view, mouths) {
+  const real = world.households?.[household.id];
+  if (!real || toolCount(real, 'rifle') > 0) return null;
+  const resources = view.household.resources || {};
+  const pay = (resources.food || 0) - RIFLE_FOOD >= rifleFloor(mouths) ? 'food' : (resources.money || 0) >= RIFLE_COIN ? 'coin' : null;
+  if (!pay) return null;
+  const home = view.household.homeSiteId;
+  let best = null;
+  for (const town of Object.keys(world.map.sites).filter(id => tradesAt(world, id).includes('gunsmith'))) {
+    const way = findWay(world, home, town, 'foot');
+    if (way && (!best || way.distance < best.miles)) best = { town, miles: way.distance };
+  }
+  return best && { town: best.town, pay };
+}
+
 /** The four short works a family falls back on when the house is short of food (sim/gathering.mjs). */
 export const FORAGE_WORK = Object.freeze(['take-small-game', 'fish-the-water', 'gather-oysters', 'cut-bee-tree']);
-export const ONE_AT_A_TIME = Object.freeze([...FORAGE_WORK, 'butcher-beef', 'butcher-hog', 'look-to-stock', 'hunt-timber', 'hunt-land', 'haul-logs', 'fetch-logs', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well', 'hunt-road', 'tend-sick', 'trade-crossing']);
+export const ONE_AT_A_TIME = Object.freeze([...FORAGE_WORK, 'butcher-beef', 'butcher-hog', 'look-to-stock', 'hunt-timber', 'hunt-land', 'haul-logs', 'fetch-logs', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well', 'hunt-road', 'tend-sick', 'trade-crossing', 'visit-shop']);
 /** Plots a family nobody plays keeps, its first patch among them: enough to feed it, and a harvest it can carry in. */
 export const NEIGHBOUR_PLOTS = 3;
 /** The house it chooses, best first, where its tools allow. */
@@ -295,6 +331,9 @@ export function thinkFor(world, household, { project, act }) {
   let fellCache = null;
   const fellAt = () => (fellCache ??= moreLogs && home ? fellPlaces(world, view.household, home, land.grant?.bounds) : []);
   const unfenced = nearest(plots.filter(plot => plot.state === 'cleared' && plot.fence !== 'sound'));
+  // Asked once a think, and only when somebody idle reaches it: the roads to the gunsmiths are looked up only then.
+  let rifleCache;
+  const rifle = () => (rifleCache === undefined ? (rifleCache = rifleErrand(world, household, view, mouths)) : rifleCache);
   // The ox and wagon left standing at the timber, by somebody called off to the war in the middle of fetching logs: fetched
   // home with a load (`fetch-logs` walks out to them), logs wanted or not. Found 2026-09-19: a family's team stood at the
   // timber the rest of the class, and its house wanted logs.
@@ -332,6 +371,8 @@ export function thinkFor(world, household, { project, act }) {
       // and all of it keeps, where most of a beef goes to the neighbours (sim/stock.mjs).
       hungry && herdOf(view.household).hogs > KEEP_HOGS && 'butcher-hog',
       hungry && herdOf(view.household).cattle > KEEP_CATTLE && 'butcher-beef',
+      // No rifle left in the house - lost with a man at the war - and one to be had without going hungry for it (`rifleErrand`).
+      rifle() && 'visit-shop',
       // Powder bought before the last shot is gone, in food or coin, while there is still food to pay with: measured
       // 2026-09-19, a family that never went for powder fired its three shots by November and sat at no food for the rest
       // of the class (docs/BIOME_GAMEPLAY.md §5.2).
@@ -362,6 +403,7 @@ export function thinkFor(world, household, { project, act }) {
       : chore === 'survey-plot' ? surveyPlaces(home, land.grant?.bounds, plots).some(point => attempt({ action: 'survey-plot', entityId: person.id, ...point }))
       : chore === 'clear-plot' ? attempt({ action: 'clear-plot', entityId: person.id, x: staked.x, y: staked.y })
       : chore === 'fence-plot' ? attempt({ action: 'fence-plot', entityId: person.id, x: unfenced.x, y: unfenced.y })
+      : chore === 'visit-shop' ? attempt({ action: 'chore', entityId: person.id, chore, errand: [{ id: 'gunsmith:buy-rifle', n: 1, pay: rifle().pay }], ...(rifle().town !== (view.household.settlementId || 'gonzales') && { town: rifle().town }) })
       : CHORES[chore]?.steps.some(step => step.travel) ? ride({ action: 'chore', entityId: person.id, chore })
       : attempt({ action: 'chore', entityId: person.id, chore });
     if (sent && ONE_AT_A_TIME.includes(chore)) busy.add(chore);

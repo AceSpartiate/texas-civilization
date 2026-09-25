@@ -33,6 +33,7 @@ import { REGIONS, WATER_SHUT, rainingAt, waterAt, weatherAt, weatherOn } from '.
 import { record } from './events.mjs';
 import { canAnswerCalls, householdName, mainPersonId, tooYoung } from './family.mjs';
 import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
+import { beastsOf } from './beasts.mjs';
 import { findWay } from './ways.mjs';
 import { CARRIED_ROOM, FLIGHT_SPACE, REFUGES, SETTLEMENT_DAYS, share } from './scrape.mjs';
 import { spotlight } from './host.mjs';
@@ -207,7 +208,8 @@ function standsAt(world, household) {
 
 const GONE = ['dead', 'captured'];
 const people = (world, household) => household.members.map(id => world.entities[id]).filter(one => one && !GONE.includes(one.health?.condition));
-const beasts = (world, household) => ['horse', 'ox', 'wagon'].map(role => world.entities[propertyId(household.id, role)]).filter(Boolean);
+// Every animal and the wagon the family owns: the ones it always had, and any bought in town (sim/beasts.mjs).
+const beasts = (world, household) => ['horse', 'ox', 'wagon'].flatMap(role => beastsOf(world, household, role));
 /** The family's people who are with it on the road or at the refuge, and the beasts likewise. */
 export function withFamily(world, household) {
   const flight = household.flight;
@@ -430,7 +432,10 @@ export function overtake(world, household, near) {
   delete flight.ask; delete flight.bog; delete flight.danger; delete flight.oxSpentUntil;
   const taken = Object.entries(household.resources || {}).filter(([good, amount]) => good in FLIGHT_SPACE && amount > 0).map(([good, amount]) => `${round(amount)} ${good}`);
   for (const good of Object.keys(FLIGHT_SPACE)) if (household.resources) household.resources[good] = 0;
-  const animals = had.map(beast => beast.kind === 'wagon' ? 'the wagon' : `the ${beast.species || beast.kind}`);
+  // "the wagon, the ox, the horse", as it always read; a family that bought more is told how many: "two horses".
+  const counted = new Map();
+  for (const beast of had) { const word = beast.kind === 'wagon' ? 'wagon' : beast.species || beast.kind; counted.set(word, (counted.get(word) || 0) + 1); }
+  const animals = [...counted].map(([word, n]) => n === 1 ? `the ${word}` : `${n === 2 ? 'two' : n === 3 ? 'three' : n} ${word === 'ox' ? 'oxen' : `${word}s`}`);
   for (const beast of had) {
     beast.travel = null; beast.condition = 'taken'; beast.laden = false; beast.borrowedBy = null;
     beast.location = { x: site.x, y: site.y, siteId };

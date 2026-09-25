@@ -45,6 +45,7 @@ import { TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, take
 import { carryOutErrand, planErrand } from './errands.mjs';
 import { quickestWay } from './going.mjs';
 import { ROLES as BEASTS, hasWords, letGo, takeToWar, userOf, warRifleWords } from './keeping.mjs';
+import { beastsOf } from './beasts.mjs';
 import { holdingOf } from './grants.mjs';
 import { TOOL_LIFE, allWorn, anyWorn, mendWorst, soundestFirst, toolCount } from './tools.mjs';
 import { plotNeeds } from './houseplot.mjs';
@@ -718,7 +719,7 @@ export const CHORES = {
   // bought nothing (the seed the owner could not buy, 2026-09-24).
   'visit-shop': {
     name: 'Go to town to trade', skill: 'hands', where: 'home', shops: true, errand: true,
-    plan: (world, household, entity, extra, deps) => planErrand(world, household, entity, extra.errand, { ...deps, mode: extra.errandMode }),
+    plan: (world, household, entity, extra, deps) => planErrand(world, household, entity, extra.errand, { ...deps, mode: extra.errandMode, town: extra.errandTown }),
     describe: "Choose what to buy and sell in the family's own town before they go: the store, the smith, the gunsmith, the tavern and the rest, each at its own price in coin or food. They take the horse or the wagon if the load wants it.",
     steps: [
       { travel: 'town', doing: 'on the road to {town} to trade' },
@@ -1564,9 +1565,9 @@ function warWords(world, person) {
  */
 function wagonAtHome(world, household) {
   const wagon = world.entities?.[propertyId(household.id, 'wagon')];
-  const ox = world.entities?.[propertyId(household.id, 'ox')];
-  return [wagon, ox].every(beast =>
-    beast && !beast.travel && beast.location.siteId === household.homeSiteId && (!beast.condition || beast.condition === 'sound'));
+  const standing = beast => beast && !beast.travel && beast.location.siteId === household.homeSiteId && (!beast.condition || beast.condition === 'sound');
+  // Any of the family's oxen will pull it (sim/beasts.mjs): the first, or one bought in town.
+  return standing(wagon) && beastsOf(world, household, 'ox').some(standing);
 }
 
 /** Every chore this person could be sent on, with the reason for any that are refused. */
@@ -1785,8 +1786,8 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   if (chore.forceMode) modeId = typeof chore.forceMode === 'function' ? chore.forceMode(world, household) : chore.forceMode;
   // Work planned before it is sent - the errand to town, whose list is checked and whose way of going the server chooses from
   // the load (sim/errands.mjs) - says how it goes; its refusal is thrown from there, in its own words, before anything moves.
-  let errand = null;
-  if (chore.plan) ({ mode: modeId, errand } = chore.plan(world, household, entity, extra, { modeAvailability }));
+  let errand = null, town = null;
+  if (chore.plan) ({ mode: modeId, errand, town = null } = chore.plan(world, household, entity, extra, { modeAvailability }));
   if (chore.steps.some(step => step.travel) && modeId !== DEFAULT_MODE) {
     const mode = modeAvailability?.(world, entity, modeId);
     if (mode && !mode.can) throw new Error(mode.why);
@@ -1795,7 +1796,7 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   // the beasts its road will take. The axe is asked again with the plot chosen: a clearing through timber wants it.
   if (extra.plotId) { const why = takenWhy(world, household, entity, choreId, extra); if (why) throw new Error(why); }
   const { held, shares } = heldBy(world, household, entity, chore, modeId, choreId, extra);
-  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }), ...(errand && { errand }), ...(held.length && { with: held }), ...(shares.length && { shares }) };
+  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }), ...(errand && { errand }), ...(town && { town }), ...(held.length && { with: held }), ...(shares.length && { shares }) };
   entity.task = 'work';
   // A chore kept in its own module may need to set something up as it begins: a road chore halts the family (sim/road.mjs).
   chore.begin?.(world, household, entity);
@@ -1868,7 +1869,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
     if (!step) return finishChore(world, household, entity, chore);
     // A step that belongs to an answer nobody gave is not this hunt's step.
     if (step.when && !step.when.some(flag => (state.flags || []).includes(flag))) continue;
-    if (step.doing) state.doing = step.doing.replace('{town}', world.map.sites[townOf(household)]?.name || 'town').replace('{cover}', state.ground?.cover || coverWord(world, household))
+    if (step.doing) state.doing = step.doing.replace('{town}', world.map.sites[state.town || townOf(household)]?.name || 'town').replace('{cover}', state.ground?.cover || coverWord(world, household))
       .replace('{logwood}', () => (logwoodGround(world, household, false)?.name || 'the timber').replace(/^The /, 'the '))
       .replace('{water}', () => (fishingSite(world, household, false)?.name || 'The creek').replace(/^The /, 'the '));
     if (step.walk) {
@@ -1901,7 +1902,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
         // The water a family fishes and the shore it gathers on, each found from the house (sim/gathering.mjs).
         : step.travel === 'water' ? fishingSite(world, household)?.id
         : step.travel === 'shore' ? shoreSite(world, household)?.id
-        : step.travel === 'town' ? townOf(household)
+        : step.travel === 'town' ? state.town || townOf(household)
         // Houston's camp is wherever it is when they set out (sim/houston.mjs).
         : step.travel === 'houston-camp' ? houstonCamp(world) : step.travel;
       // Already standing there: nothing to walk, so fall through to the next step.

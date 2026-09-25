@@ -55,6 +55,8 @@ export function hoursWords(hours) {
  * - `only` and `onlyWhy`: a journey that can go one way only (logs come home in the wagon), and why the others cannot.
  * - `haul`: `{ resource, got }`, what a good trip would give, for the "brings home" of each way (a hunt in the timber).
  * - `noRoad(id)`: the sentence for a way with no road there.
+ * - `home`: `{ pace, words }`, what comes home on the hoof from the errand (sim/errands.mjs, sim/beasts.mjs) - a horse or an ox led
+ *   on a halter, cattle and hogs driven - and the pace it holds its bringer to, for the way home of each way (`leads`).
  */
 export function waysFor(world, entity, journey = {}, modeAvailability = null) {
   return QUICKEST.map(id => oneWay(world, entity, id, journey, modeAvailability));
@@ -68,7 +70,7 @@ export function quickestWay(world, entity, journey = {}, modeAvailability = null
   return null;
 }
 /** One way of going for one journey: its facts, and whether it can go and why not. */
-function oneWay(world, entity, id, { to = null, point = null, load = 0, needsWagon = false, only = null, onlyWhy = null, haul = null, noRoad = null } = {}, modeAvailability = null) {
+function oneWay(world, entity, id, { to = null, point = null, load = 0, needsWagon = false, only = null, onlyWhy = null, haul = null, noRoad = null, home = null } = {}, modeAvailability = null) {
   const from = entity.location?.siteId;
   const where = world.map.sites[from];
   const mode = MODES[id];
@@ -82,6 +84,7 @@ function oneWay(world, entity, id, { to = null, point = null, load = 0, needsWag
     ...(time && { miles: time.miles, hours: time.hours, time: hoursWords(time.hours) }),
     ...(load > 0 && { carrying: `${loadsWord(load)} of the ${mode.carry} it carries` }),
     ...(haul && { brings: `Brings home ${Math.min(haul.got, mode.carry)} ${haul.resource}${haul.got > mode.carry ? ` of ${haul.got}; the rest is left behind` : ''}.` }),
+    ...(home && { leads: homeWords(path, id, home) }),
   };
   if (only && id !== only) return { ...base, can: false, why: onlyWhy || `This goes ${MODES[only].name.toLowerCase()}.`, notTheWagon: true };
   if (needsWagon && id !== 'wagon') return { ...base, can: false, why: 'The wheelwright works on the wagon itself, so the wagon has to go.', notTheWagon: true };
@@ -91,6 +94,16 @@ function oneWay(world, entity, id, { to = null, point = null, load = 0, needsWag
   // the map, which every way reaches as it reaches the timber.
   if (open.can && (path || id === DEFAULT_MODE || !to || !world.map.sites[to])) return { ...base, can: true };
   return { ...base, can: false, why: open.why || (noRoad ? noRoad(id) : `There is no road there for the ${NOUN[id]}.`) };
+}
+/**
+ * The way home with an animal on the hoof: what is led or driven, and - when it walks slower than this way goes - the time home at
+ * its pace ("Leads the new ox home, at an ox's pace. Home in about 6 hours."). A led horse keeps up with any way.
+ */
+function homeWords(path, id, home) {
+  const slower = home.pace && home.pace < MODES[id].speed - 1e-9;
+  if (!slower || !path) return home.words;
+  const ticks = groundLeft({ points: path.points, pace: path.pace, distance: path.distance, progress: 0 }) / home.pace;
+  return `${home.words} Home in ${hoursWords(round1(ticks * FARMING_TICK_MINUTES / 60))}.`;
 }
 const CARRIES = Object.freeze({ foot: 'On foot a person carries', horse: 'The horse carries', wagon: 'The wagon carries' });
 const NOUN = Object.freeze({ foot: 'walker', horse: 'horse', wagon: 'wagon' });
