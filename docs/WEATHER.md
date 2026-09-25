@@ -1223,8 +1223,10 @@ happened to **them**, not a description of the sky.
 
 **The flood and the fog lie on the water's own curve** (2026-09-24, owner: *"why can I see brown trail looking things over
 the rivers?"*). Both were stroked along the straight chords between a course's points while the river is drawn as a curve
-through them, so close in the brown cut every bend in straight bands over the grass. They are laid on `curveThrough` now;
-`tests/water-overdrawn.test.mjs` holds it, and docs/MAP_ACCURACY.md §10.8 has the rest.
+through them, so close in the brown cut every bend in straight bands over the grass. They are laid on `curveThrough` now.
+And the flood is no longer the roads' tan: a muddy olive body with a soft dark silty edge, ripples of current scattered on
+it and drift in sticks once it is over its banks (`FLOOD`), held by CIEDE2000 ΔE and lightness apart from every road colour
+and from the ordinary river. `tests/water-overdrawn.test.mjs` holds both, and docs/MAP_ACCURACY.md §10.8 has the rest.
 
 The cost, measured before and after with `scripts/perf-render-measure.mjs`, is in `docs/PERFORMANCE_RENDER.md`, "The
 weather, drawn". The pictures are in `docs/evidence/weather/`, written by `scripts/weather-browser-proof.mjs`, and every

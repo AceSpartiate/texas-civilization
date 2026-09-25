@@ -1,4 +1,4 @@
-// The two tests of tests/water-overdrawn.test.mjs, each proven by injecting the regression it guards and watching it, and
+// The three tests of tests/water-overdrawn.test.mjs, each proven by injecting the regression it guards and watching it, and
 // only it, fail (CLAUDE.md: "A new test is not evidence until it has failed"). docs/MAP_ACCURACY.md §10.8.
 //
 //   node docs/evidence/water-overdrawn/injections.mjs
@@ -13,6 +13,7 @@ const FILES = ['tests/water-overdrawn.test.mjs', 'tests/weather-art.test.mjs', '
 const TESTS = {
   flood: 'the river in flood and the fog on it lie on the water',
   lanes: 'a ford is drawn there',
+  looks: 'reads as water, never as a road',
 };
 const INJECTIONS = [
   // The owner's brown trails: the high water laid along the straight chords between the points, as it was.
@@ -29,6 +30,9 @@ const INJECTIONS = [
     file: 'public/map-base.js', from: '  if (!(line?.length > 1)) return [];\n  let minX', to: '  return [];\n  let minX' },
   { guards: 'lanes', what: 'a lane wades the creeks but not the rivers',
     file: 'public/map-base.js', from: '    if (!(points?.length > 1)) continue;\n    for (let j = 1;', to: "    if (!(points?.length > 1) || course.kind === 'river') continue;\n    for (let j = 1;" },
+  // The flood in the tan it was drawn in before 2026-09-24's second pass: on its curve, a wide band of the roads' own dirt.
+  { guards: 'looks', what: 'the flood back in its old tan (#8a7444 edge, #a78d53 body)',
+    file: 'public/weather-art.js', from: "bank: '#3c4428', body: '#5a6a3c',", to: "bank: '#8a7444', body: '#a78d53'," },
 ];
 const results = [];
 for (const injection of INJECTIONS) {

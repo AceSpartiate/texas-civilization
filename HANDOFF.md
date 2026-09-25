@@ -10,8 +10,12 @@ all of it. No save version; nothing on the server changed.
   drawn gone brown (`drawHighWater`, public/weather-art.js). It was stroked with `lineTo` through the course's points while the
   river under it is `curveThrough`'s curve, so close in the brown cut every bend in straight translucent bands over the grass -
   32 px off the water at the Guadalupe's bends above Victoria. The fog was banked on the same chords. Both are on
-  `curveThrough` now (imported relative, `./curve.js`). The flood's colour is unchanged (docs/WEATHER.md §10.8); if it still
-  reads as a road to the owner, that colour is the next knob.
+  `curveThrough` now (imported relative, `./curve.js`). **Then its colour** (coordinator, after looking): on the curve the
+  flood was a wide tan band the roads' colour - ΔE 10.6-15.3 from road dirt, 11-13 L* darker. Now `FLOOD`: a muddy olive
+  body (`#5a6a3c`) with a soft dark silty edge, ripples of current scattered across it (from 16-32 px of flood), sticks of
+  drift once it is over its banks. Mid-channel ΔE ≥ 24.3 from every road surface and 19-35 L* darker; ripples ΔE ≥ 10 from
+  every road colour; ΔE ≥ 25 from the ordinary river, whose blue stays covered (the 2026-09-20 reason). A try with long light
+  streaks along the water drew a paved highway with lanes and was taken out.
 - **And the family's lane, over water with no ford.** Lanes wade the smaller water by design (`sim/colonies-region.mjs`) but only
   a road's wade was a ford. `wadesOf` (public/map-base.js) finds each meeting of a lane with drawn water more than a quarter
   mile from a crossing; the page draws the road's own ford there from 45 px a mile (`window.__wadesDrawn`). Two `ceiling:`s in
@@ -21,10 +25,11 @@ all of it. No save version; nothing on the server changed.
   opens; a hunter walks over there with no ferry or wade. Laying them again is a `colonies-map.json.gz` rebuild and a map
   decision for the owner. Also 26 road/creek meetings off any ford (braided creek-bottom runs, §10.6's ceiling), and Coleto
   Creek, Cibolo Creek and the Neches/Angelina past the box as oddities.
-- **Tests.** New `tests/water-overdrawn.test.mjs` (2). Injections ([record](docs/evidence/water-overdrawn/injections.json),
-  script beside it): **4 of 4 caught, each failing only its own test**. `npm test`: **1114 pass**, 0 fail. `node --check` on `.mjs` copies of `public/app.js`, `map-base.js`, `weather-art.js`.
+- **Tests.** New `tests/water-overdrawn.test.mjs` (3). Injections ([record](docs/evidence/water-overdrawn/injections.json),
+  script beside it): **5 of 5 caught, each failing only its own test** (the fifth: the flood back in its old tan). `npm test`: **1115 pass**, 0 fail. `node --check` on `.mjs` copies of `public/app.js`, `map-base.js`, `weather-art.js`.
 - **Browser** (same computer only). Before/after shots of six places at three zooms, looked at (session scratchpad,
-  `rivers-before.png`, `rivers-after.png`). PASS: crossings (21 shots, each crossing drawn as its kind; the Gonzales ford's
+  `rivers-before.png`, `rivers-after.png`; after the colour `rivers-after2.png`, and the ordinary day and a shut river
+  under fog in `rivers-after2-normal-shut.png`). PASS: crossings (21 shots, each crossing drawn as its kind; the Gonzales ford's
   flood now on the river's curve), farm, host-view; their rewritten evidence files were put back rather than committed.
   **`scripts/weather-browser-proof.mjs` fails at HEAD as well** (0a175bb, checked with this change taken out): it waits 120 s
   for `status === 'running'` before meeting the family, and a solo game is no longer running then. Not mended here.

@@ -487,6 +487,43 @@ export function washAcross(ctx, spans, [r, g, b], alphaOf) {
  * the country down with it - Harris on the Trinity, "Drift wood covered the water as far as we could see".
  */
 export const WATER_HIGH = 0.3, WATER_SHUT = 0.85;
+/** The river in flood: its dark silty edge, its muddy olive body, the light ripples of the current on it, and the dark drift once it is over its banks. */
+export const FLOOD = Object.freeze({ bank: '#3c4428', body: '#5a6a3c', ripple: '#b4c2a6', drift: '#3a3226' });
+/**
+ * The curve `curveThrough` lays through these points, as a dense line of points: the ripples and the drift are placed on
+ * the water as it is drawn, not on the chords between its points, which cut the bends (the first fault of 2026-09-24).
+ */
+function curvePoints(points, per = 8) {
+  const out = [];
+  let at = null;
+  const sample = { beginPath() {}, lineTo(x, y) { at = { x, y }; out.push(at); }, moveTo(x, y) { at = { x, y }; out.push(at); },
+    bezierCurveTo(ax, ay, bx, by, x, y) {
+      for (let n = 1; n <= per; n++) {
+        const t = n / per, u = 1 - t;
+        out.push({ x: u * u * u * at.x + 3 * u * u * t * ax + 3 * u * t * t * bx + t * t * t * x, y: u * u * u * at.y + 3 * u * u * t * ay + 3 * u * t * t * by + t * t * t * y });
+      }
+      at = { x, y };
+    } };
+  curveThrough(sample, points);
+  return out;
+}
+/**
+ * Places along a course in screen points, every `spacing` pixels, each with its direction and a steady index to scatter by:
+ * only those on a `width` by `height` screen, and at most `cap` of them. The ripples and the drift on a flood are laid here.
+ */
+function alongCourse(points, spacing, width, height, visit, cap = 1600) {
+  // `next` is how far along the whole course the next place falls; each place's index is its count from the start.
+  let count = 0, travelled = 0, next = 0;
+  for (let i = 1; i < points.length; i++) {
+    const a = points[i - 1], b = points[i], dx = b.x - a.x, dy = b.y - a.y, length = Math.hypot(dx, dy);
+    if (!length) continue;
+    for (; next < travelled + length; next += spacing) {
+      const d = next - travelled, x = a.x + dx * d / length, y = a.y + dy * d / length;
+      if (x > -40 && y > -40 && x < width + 40 && y < height + 40) { visit({ x, y, tx: dx / length, ty: dy / length, index: Math.round(next / spacing) }); if (++count >= cap) return; }
+    }
+    travelled += length;
+  }
+}
 export function drawHighWater(ctx, courses, waterAt) {
   let drawn = 0, shut = 0;
   for (const course of courses) {
@@ -511,23 +548,52 @@ export function drawHighWater(ctx, courses, waterAt) {
     ctx.globalAlpha = was * (0.3 + 0.22 * over) * rise;
     ctx.strokeStyle = '#5c6446'; ctx.lineWidth = course.width * (2.2 + rise * 2.6 + over * 5);
     line(); ctx.stroke();
-    // The water itself, run fuller and gone brown with what it is carrying. Wider than the channel was drawn, always:
-    // a stroke narrower than the water left a blue core showing through a river in flood (seen 2026-09-20).
-    ctx.globalAlpha = was * (0.55 + 0.4 * rise);
-    ctx.strokeStyle = '#8a7444'; ctx.lineWidth = course.width * (1.3 + rise * 0.6 + over * 1.9);
-    line(); ctx.stroke();
-    ctx.globalAlpha = was * 0.45 * rise;
-    ctx.strokeStyle = '#a78d53'; ctx.lineWidth = course.width * (0.7 + rise * 0.35 + over * 1.1);
-    line(); ctx.stroke();
-    // Drift, once it is over: Harris on the Trinity, "Drift wood covered the water as far as we could see." Dashes on
-    // the water, laid along it, which cost one more stroke and are what says a river is carrying the country away.
-    if (over > 0.05) {
-      const wide = course.width * (1 + over * 1.6);
-      ctx.globalAlpha = was * 0.5 * over;
-      ctx.strokeStyle = '#6b5530'; ctx.lineWidth = Math.max(1, wide * 0.13);
-      ctx.setLineDash([Math.max(3, wide * 0.6), Math.max(6, wide * 1.7)]);
+    // The water itself, run fuller and thick with what it is carrying. Wider than the channel was drawn, always: a stroke
+    // narrower than the water left a blue core showing through a river in flood (seen 2026-09-20), and a flooded river
+    // that shows the ordinary river's blue reads as an ordinary river.
+    //
+    // Water, never a road (owner, 2026-09-24: "brown trail looking things over the rivers"). It was a tan body (#8a7444)
+    // with a lighter tan crown (#a78d53), within a few ΔE of the roads' own dirt (public/landscape-art.js `drawRoad`), so
+    // once it lay on the river's curve the whole flooded river read as a wide dirt track. Now: a dark silty bank edge, a
+    // body of silty olive - the colour of a flooded Texas river in the bottoms, and far darker than any road - and a sheen
+    // with streaks of current running along it, which a road never has. `FLOOD` holds the colours, and
+    // tests/water-overdrawn.test.mjs holds them apart from the roads' by ΔE 2000 and lightness.
+    // Laid in three, widest and faintest first, so the edge of the water is soft - silt thinning out over the bank - rather
+    // than the hard kerb of a band of one colour, which is what a road is.
+    const flood = course.width * (1.08 + rise * 0.45 + over * 1.6);
+    for (const [color, share, alpha] of [[FLOOD.bank, 1.25, 0.45], [FLOOD.body, 1.08, 0.6], [FLOOD.body, 0.8, 0.72 + 0.2 * rise]]) {
+      ctx.globalAlpha = was * alpha;
+      ctx.strokeStyle = color; ctx.lineWidth = flood * share;
       line(); ctx.stroke();
-      ctx.setLineDash([]);
+    }
+    // The current: small ripples scattered across the water and bowed downstream - the same mark the river's own water is
+    // drawn with (public/landscape-art.js `drawWater`), so a reader already knows it as water. Never a dashed line along
+    // the middle, nor any line along it at all: on a dark band that is a painted highway's centre line, and a first try at
+    // streaks of current made the flood a paved road with lanes (seen 2026-09-24).
+    const canvas = ctx.canvas || { width: Infinity, height: Infinity }, bed = curvePoints(points);
+    // Only once the water is wide enough to hold a ripple you can see as one: narrower, a row of them down the middle is a
+    // dotted line, and a dotted line on a band is a road's. They come in over 16 to 32 pixels of flood.
+    const ripple = Math.max(4, flood * 0.16), shows = smoothStep(16, 32, flood);
+    ctx.strokeStyle = FLOOD.ripple; ctx.lineWidth = Math.max(0.7, flood * 0.03);
+    if (shows > 0.02) alongCourse(bed, Math.max(9, flood * 0.32), canvas.width, canvas.height, p => {
+      const across = Math.sin(p.index * 2.399) * flood * 0.3, x = p.x - p.ty * across, y = p.y + p.tx * across;
+      ctx.globalAlpha = was * shows * (0.28 + 0.12 * Math.abs(Math.sin(p.index * 1.7)));
+      ctx.beginPath(); ctx.moveTo(x - p.tx * ripple, y - p.ty * ripple);
+      ctx.quadraticCurveTo(x + p.ty * ripple * 0.45, y - p.tx * ripple * 0.45, x + p.tx * ripple, y + p.ty * ripple);
+      ctx.stroke();
+    });
+    // Drift, once it is over: Harris on the Trinity, "Drift wood covered the water as far as we could see." What says a river
+    // is carrying the country away.
+    if (over > 0.05) {
+      // Scattered across the water and lying with the current, a stick at a time; not a dashed line down the middle.
+      const stick = Math.max(3, flood * 0.14);
+      ctx.strokeStyle = FLOOD.drift; ctx.lineWidth = Math.max(1, flood * 0.035);
+      alongCourse(bed, Math.max(14, flood * 0.7), canvas.width, canvas.height, p => {
+        const across = Math.sin(p.index * 4.13) * flood * 0.3, x = p.x - p.ty * across, y = p.y + p.tx * across, turn = Math.sin(p.index * 0.77) * 0.5;
+        const tx = p.tx * Math.cos(turn) - p.ty * Math.sin(turn), ty = p.tx * Math.sin(turn) + p.ty * Math.cos(turn);
+        ctx.globalAlpha = was * 0.55 * over;
+        ctx.beginPath(); ctx.moveTo(x - tx * stick, y - ty * stick); ctx.lineTo(x + tx * stick, y + ty * stick); ctx.stroke();
+      });
       shut++;
     }
     ctx.globalAlpha = was;

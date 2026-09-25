@@ -1,6 +1,6 @@
 {
   "record": "Brown over the rivers, 2026-09-24: each new test proven by injecting the regression it guards (docs/MAP_ACCURACY.md §10.8)",
-  "date": "2026-09-24T23:31:15.688Z",
+  "date": "2026-09-25T02:09:17.598Z",
   "files": [
     "tests/water-overdrawn.test.mjs",
     "tests/weather-art.test.mjs",
@@ -41,6 +41,15 @@
       "file": "public/map-base.js",
       "failed": [
         "every place a family's lane goes over drawn water, a ford is drawn there"
+      ],
+      "alone": true
+    },
+    {
+      "guards": "looks",
+      "injected": "the flood back in its old tan (#8a7444 edge, #a78d53 body)",
+      "file": "public/weather-art.js",
+      "failed": [
+        "a river in flood reads as water, never as a road: far from the roads' colours in hue and in value, and not the ordinary river"
       ],
       "alone": true
     }
