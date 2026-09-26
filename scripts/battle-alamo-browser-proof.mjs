@@ -181,6 +181,8 @@ try {
   assert.ok(said.some(id => id.startsWith('rp-')) && said.some(id => id.startsWith('nw-') || id.startsWith('fb-')), `the orders and shouts of the fight were not drawn: ${said}`);
   ok(`words drawn over the speakers: ${said.join(', ')}`);
   assert.ok(fellSeen, `${man.name} was never seen to fall`);
+  const clips = await inside.evaluate(() => window.__battleView?.memberClips || []);
+  assert.ok(clips.includes('volunteer-fire-reload'), `the family's man never fired from his post: ${clips}`);
   assert.ok(fellSeen.drawn, 'he was not drawn when he fell');
   assert.equal(fellSeen.camera, 'battle', 'the camera left the fight when he fell');
   assert.ok(!fellSeen.journal.some(text => /killed|fell|dead/i.test(text)), `the journal knew: ${fellSeen.journal.at(-1)}`);
