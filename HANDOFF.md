@@ -55,7 +55,7 @@ $assets = @('TexasRevolutionSetup.exe', "TexasRevolution-Gonzales-$s.zip", "Texa
 gh release create "v$s" @assets -R AceSpartiate/texas-civilization --target main --title "..." --notes-file notes.md --latest
 ```
 
-## San Jacinto on the battle engine, and the capture of Santa Anna — 2026-09-26 (merged with main at 84b9c24; not released)
+## San Jacinto on the battle engine, and the capture of Santa Anna — 2026-09-26 (merged with main at 84b9c24; released in v2026.09.26.2)
 
 docs/BATTLES.md §5 step 3 for San Jacinto, from `docs/battle-research/staging.md` §8 with the owner's decisions (§2b.2: the
 killing after the rout drawn as the battles are; J1, J3, J4 their recommended answers). docs/BATTLES.md **§8** is what was
