@@ -2865,6 +2865,924 @@
         ]
       }
     },
+    "famous-crockett": {
+      "image": "atlases/famous-crockett.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1237962,
+      "sha256": "2e4f9693f9d32546d5bc11ba0cd7ce8ab8c6e6bb770491b187ea439ef0e58220",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.698326,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              9,
+              300
+            ],
+            "columns": [
+              [
+                68,
+                239
+              ],
+              [
+                379,
+                550
+              ],
+              [
+                696,
+                879
+              ],
+              [
+                1021,
+                1194
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              318,
+              619
+            ],
+            "columns": [
+              [
+                76,
+                227
+              ],
+              [
+                391,
+                538
+              ],
+              [
+                714,
+                857
+              ],
+              [
+                1026,
+                1172
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              626,
+              923
+            ],
+            "columns": [
+              [
+                86,
+                210
+              ],
+              [
+                385,
+                538
+              ],
+              [
+                697,
+                882
+              ],
+              [
+                1006,
+                1225
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              942,
+              1224
+            ],
+            "columns": [
+              [
+                45,
+                309
+              ],
+              [
+                363,
+                603
+              ],
+              [
+                692,
+                906
+              ],
+              [
+                984,
+                1202
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-travis": {
+      "image": "atlases/famous-travis.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1163935,
+      "sha256": "51569c188de9f45837483ffb5633aecd9f6bd885940bb08e068a2b4d4ca4cf42",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.704665,
+        "cornerAlpha": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              5,
+              311
+            ],
+            "columns": [
+              [
+                87,
+                260
+              ],
+              [
+                401,
+                573
+              ],
+              [
+                696,
+                881
+              ],
+              [
+                1017,
+                1200
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              322,
+              629
+            ],
+            "columns": [
+              [
+                90,
+                238
+              ],
+              [
+                403,
+                553
+              ],
+              [
+                719,
+                865
+              ],
+              [
+                1035,
+                1182
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              635,
+              937
+            ],
+            "columns": [
+              [
+                100,
+                227
+              ],
+              [
+                398,
+                587
+              ],
+              [
+                714,
+                922
+              ],
+              [
+                998,
+                1224
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              946,
+              1239
+            ],
+            "columns": [
+              [
+                75,
+                315
+              ],
+              [
+                379,
+                628
+              ],
+              [
+                698,
+                936
+              ],
+              [
+                1010,
+                1193
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-bowie": {
+      "image": "atlases/famous-bowie.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1280882,
+      "sha256": "4ad75b92feabb9973aa9bd8f59b63ce634bb230d9c8493d44506dea38d1ddcd7",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.680792,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              10,
+              316
+            ],
+            "columns": [
+              [
+                73,
+                270
+              ],
+              [
+                391,
+                586
+              ],
+              [
+                708,
+                903
+              ],
+              [
+                1028,
+                1221
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              326,
+              635
+            ],
+            "columns": [
+              [
+                81,
+                232
+              ],
+              [
+                389,
+                543
+              ],
+              [
+                709,
+                867
+              ],
+              [
+                1030,
+                1180
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              642,
+              945
+            ],
+            "columns": [
+              [
+                97,
+                221
+              ],
+              [
+                396,
+                583
+              ],
+              [
+                709,
+                921
+              ],
+              [
+                1017,
+                1182
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              964,
+              1221
+            ],
+            "columns": [
+              [
+                10,
+                299
+              ],
+              [
+                321,
+                619
+              ],
+              [
+                636,
+                933
+              ],
+              [
+                951,
+                1243
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-emily-west": {
+      "image": "atlases/famous-emily-west.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1334869,
+      "sha256": "a2fad06f106bfb7aa24ddf2a4a5766b11b06377d6a4d9d81fd4527df4f2eb85e",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.641318,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              6,
+              303
+            ],
+            "columns": [
+              [
+                110,
+                305
+              ],
+              [
+                413,
+                604
+              ],
+              [
+                702,
+                893
+              ],
+              [
+                985,
+                1187
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              315,
+              626
+            ],
+            "columns": [
+              [
+                108,
+                269
+              ],
+              [
+                414,
+                578
+              ],
+              [
+                717,
+                890
+              ],
+              [
+                1009,
+                1184
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              632,
+              934
+            ],
+            "columns": [
+              [
+                113,
+                274
+              ],
+              [
+                410,
+                598
+              ],
+              [
+                713,
+                872
+              ],
+              [
+                1009,
+                1169
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              940,
+              1242
+            ],
+            "columns": [
+              [
+                76,
+                298
+              ],
+              [
+                346,
+                608
+              ],
+              [
+                678,
+                925
+              ],
+              [
+                1001,
+                1210
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-santa-anna": {
+      "image": "atlases/famous-santa-anna.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1194798,
+      "sha256": "6fac9a9c4fae2d1a4426c3e4a16eeddd1d948ddfc4efe00dddb2fc94685c045b",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.689831,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              5,
+              315
+            ],
+            "columns": [
+              [
+                99,
+                272
+              ],
+              [
+                399,
+                575
+              ],
+              [
+                698,
+                872
+              ],
+              [
+                1024,
+                1173
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              321,
+              633
+            ],
+            "columns": [
+              [
+                93,
+                245
+              ],
+              [
+                395,
+                553
+              ],
+              [
+                704,
+                862
+              ],
+              [
+                1010,
+                1167
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              632,
+              946
+            ],
+            "columns": [
+              [
+                111,
+                212
+              ],
+              [
+                387,
+                604
+              ],
+              [
+                679,
+                908
+              ],
+              [
+                937,
+                1173
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              945,
+              1245
+            ],
+            "columns": [
+              [
+                86,
+                258
+              ],
+              [
+                398,
+                531
+              ],
+              [
+                681,
+                860
+              ],
+              [
+                994,
+                1196
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-houston": {
+      "image": "atlases/famous-houston.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1300269,
+      "sha256": "4f388da5d07583edabb44512bc1d77dc017d632dfdc0bd69268267d17574c970",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.658918,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              5,
+              307
+            ],
+            "columns": [
+              [
+                81,
+                265
+              ],
+              [
+                396,
+                579
+              ],
+              [
+                718,
+                901
+              ],
+              [
+                1032,
+                1210
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              316,
+              635
+            ],
+            "columns": [
+              [
+                81,
+                234
+              ],
+              [
+                397,
+                553
+              ],
+              [
+                719,
+                871
+              ],
+              [
+                1030,
+                1179
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              635,
+              942
+            ],
+            "columns": [
+              [
+                98,
+                214
+              ],
+              [
+                399,
+                596
+              ],
+              [
+                669,
+                906
+              ],
+              [
+                955,
+                1221
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              945,
+              1241
+            ],
+            "columns": [
+              [
+                46,
+                296
+              ],
+              [
+                373,
+                613
+              ],
+              [
+                644,
+                949
+              ],
+              [
+                1033,
+                1188
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-emily-west-picnic": {
+      "image": "atlases/famous-emily-west-picnic.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1381954,
+      "sha256": "462b9aa5d551243d6154578513ab4b2cf45664e4f48ea19ef72dc50b58b28377",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.605491,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              73,
+              604
+            ],
+            "columns": [
+              [
+                60,
+                597
+              ],
+              [
+                655,
+                1189
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              673,
+              1201
+            ],
+            "columns": [
+              [
+                60,
+                590
+              ],
+              [
+                655,
+                1189
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-santa-anna-picnic": {
+      "image": "atlases/famous-santa-anna-picnic.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1236551,
+      "sha256": "8717f9b6cad3596a5a0abf886db0a19f4ba8f29fdf432e783764d841e35bfd17",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.657706,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              31,
+              610
+            ],
+            "columns": [
+              [
+                144,
+                550
+              ],
+              [
+                764,
+                1169
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              619,
+              1210
+            ],
+            "columns": [
+              [
+                150,
+                537
+              ],
+              [
+                730,
+                1175
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-picnic-props": {
+      "image": "atlases/famous-picnic-props.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1557526,
+      "sha256": "a44a922237264cfb021f629b23e8880839cf9e6d2a27da62ebea3b7d38e7752d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.608905,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              94,
+              636
+            ],
+            "columns": [
+              [
+                20,
+                702
+              ],
+              [
+                702,
+                1239
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              691,
+              1176
+            ],
+            "columns": [
+              [
+                94,
+                623
+              ],
+              [
+                722,
+                1197
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "flag-come-and-take-it": {
       "image": "atlases/flag-come-and-take-it.png",
       "width": 1254,
@@ -18413,6 +19331,2702 @@
           396
         ],
         "visiblePixels": 115054,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-walk-e-1": {
+      "sheet": "famous-crockett",
+      "x": 68,
+      "y": 9,
+      "w": 171,
+      "h": 290,
+      "anchorX": 0.4854,
+      "anchorY": 0.9276,
+      "logicalHeight": 301,
+      "label": "crockett walk e 1",
+      "kind": "famous-crockett",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          70,
+          11,
+          167,
+          286
+        ],
+        "visiblePixels": 23059,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-walk-e-2": {
+      "sheet": "famous-crockett",
+      "x": 379,
+      "y": 10,
+      "w": 171,
+      "h": 289,
+      "anchorX": 0.4912,
+      "anchorY": 0.9273,
+      "logicalHeight": 301,
+      "label": "crockett walk e 2",
+      "kind": "famous-crockett",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          381,
+          12,
+          167,
+          285
+        ],
+        "visiblePixels": 22691,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-walk-e-3": {
+      "sheet": "famous-crockett",
+      "x": 696,
+      "y": 10,
+      "w": 183,
+      "h": 290,
+      "anchorX": 0.4809,
+      "anchorY": 0.9276,
+      "logicalHeight": 301,
+      "label": "crockett walk e 3",
+      "kind": "famous-crockett",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          698,
+          12,
+          179,
+          286
+        ],
+        "visiblePixels": 22866,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-walk-e-4": {
+      "sheet": "famous-crockett",
+      "x": 1021,
+      "y": 10,
+      "w": 173,
+      "h": 289,
+      "anchorX": 0.4855,
+      "anchorY": 0.9273,
+      "logicalHeight": 301,
+      "label": "crockett walk e 4",
+      "kind": "famous-crockett",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1023,
+          12,
+          169,
+          285
+        ],
+        "visiblePixels": 23043,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-walk-s-1": {
+      "sheet": "famous-crockett",
+      "x": 76,
+      "y": 318,
+      "w": 151,
+      "h": 301,
+      "anchorX": 0.4503,
+      "anchorY": 0.9535,
+      "logicalHeight": 301,
+      "label": "crockett walk s 1",
+      "kind": "famous-crockett",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          78,
+          320,
+          147,
+          297
+        ],
+        "visiblePixels": 24847,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-walk-s-2": {
+      "sheet": "famous-crockett",
+      "x": 391,
+      "y": 319,
+      "w": 147,
+      "h": 298,
+      "anchorX": 0.4422,
+      "anchorY": 0.9631,
+      "logicalHeight": 301,
+      "label": "crockett walk s 2",
+      "kind": "famous-crockett",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          393,
+          321,
+          143,
+          294
+        ],
+        "visiblePixels": 24596,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-walk-n-1": {
+      "sheet": "famous-crockett",
+      "x": 714,
+      "y": 319,
+      "w": 143,
+      "h": 300,
+      "anchorX": 0.472,
+      "anchorY": 0.96,
+      "logicalHeight": 301,
+      "label": "crockett walk n 1",
+      "kind": "famous-crockett",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          716,
+          321,
+          139,
+          296
+        ],
+        "visiblePixels": 24768,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-walk-n-2": {
+      "sheet": "famous-crockett",
+      "x": 1026,
+      "y": 319,
+      "w": 146,
+      "h": 299,
+      "anchorX": 0.4623,
+      "anchorY": 0.9666,
+      "logicalHeight": 301,
+      "label": "crockett walk n 2",
+      "kind": "famous-crockett",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1028,
+          321,
+          142,
+          295
+        ],
+        "visiblePixels": 24923,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-idle": {
+      "sheet": "famous-crockett",
+      "x": 86,
+      "y": 627,
+      "w": 124,
+      "h": 296,
+      "anchorX": 0.5403,
+      "anchorY": 0.9527,
+      "logicalHeight": 301,
+      "label": "crockett idle",
+      "kind": "famous-crockett",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          88,
+          629,
+          120,
+          292
+        ],
+        "visiblePixels": 23166,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-listen": {
+      "sheet": "famous-crockett",
+      "x": 385,
+      "y": 627,
+      "w": 153,
+      "h": 295,
+      "anchorX": 0.5294,
+      "anchorY": 0.9458,
+      "logicalHeight": 301,
+      "label": "crockett listen",
+      "kind": "famous-crockett",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          387,
+          629,
+          149,
+          291
+        ],
+        "visiblePixels": 24944,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-speak": {
+      "sheet": "famous-crockett",
+      "x": 697,
+      "y": 626,
+      "w": 185,
+      "h": 297,
+      "anchorX": 0.4405,
+      "anchorY": 0.9461,
+      "logicalHeight": 301,
+      "label": "crockett speak",
+      "kind": "famous-crockett",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          699,
+          628,
+          181,
+          293
+        ],
+        "visiblePixels": 25037,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-command": {
+      "sheet": "famous-crockett",
+      "x": 1006,
+      "y": 626,
+      "w": 219,
+      "h": 296,
+      "anchorX": 0.3904,
+      "anchorY": 0.9459,
+      "logicalHeight": 301,
+      "label": "crockett command",
+      "kind": "famous-crockett",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1008,
+          628,
+          215,
+          292
+        ],
+        "visiblePixels": 26341,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-aim": {
+      "sheet": "famous-crockett",
+      "x": 45,
+      "y": 942,
+      "w": 264,
+      "h": 277,
+      "anchorX": 0.3011,
+      "anchorY": 0.9495,
+      "logicalHeight": 301,
+      "label": "crockett aim",
+      "kind": "famous-crockett",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          47,
+          944,
+          260,
+          273
+        ],
+        "visiblePixels": 25147,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-fire": {
+      "sheet": "famous-crockett",
+      "x": 363,
+      "y": 942,
+      "w": 240,
+      "h": 278,
+      "anchorX": 0.3792,
+      "anchorY": 0.9388,
+      "logicalHeight": 301,
+      "label": "crockett fire",
+      "kind": "famous-crockett",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          365,
+          944,
+          236,
+          274
+        ],
+        "visiblePixels": 24828,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-reload": {
+      "sheet": "famous-crockett",
+      "x": 692,
+      "y": 942,
+      "w": 214,
+      "h": 280,
+      "anchorX": 0.4136,
+      "anchorY": 0.9607,
+      "logicalHeight": 301,
+      "label": "crockett reload",
+      "kind": "famous-crockett",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          694,
+          944,
+          210,
+          276
+        ],
+        "visiblePixels": 24823,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-rest-seated": {
+      "sheet": "famous-crockett",
+      "x": 984,
+      "y": 965,
+      "w": 218,
+      "h": 259,
+      "anchorX": 0.6124,
+      "anchorY": 0.9266,
+      "logicalHeight": 301,
+      "label": "crockett rest seated",
+      "kind": "famous-crockett",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          986,
+          967,
+          214,
+          255
+        ],
+        "visiblePixels": 32292,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-walk-e-1": {
+      "sheet": "famous-travis",
+      "x": 87,
+      "y": 7,
+      "w": 173,
+      "h": 304,
+      "anchorX": 0.4971,
+      "anchorY": 0.9276,
+      "logicalHeight": 307,
+      "label": "travis walk e 1",
+      "kind": "famous-travis",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          89,
+          9,
+          169,
+          300
+        ],
+        "visiblePixels": 24162,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-walk-e-2": {
+      "sheet": "famous-travis",
+      "x": 401,
+      "y": 5,
+      "w": 172,
+      "h": 306,
+      "anchorX": 0.5029,
+      "anchorY": 0.9281,
+      "logicalHeight": 307,
+      "label": "travis walk e 2",
+      "kind": "famous-travis",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          403,
+          7,
+          168,
+          302
+        ],
+        "visiblePixels": 24335,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-walk-e-3": {
+      "sheet": "famous-travis",
+      "x": 696,
+      "y": 8,
+      "w": 185,
+      "h": 303,
+      "anchorX": 0.5135,
+      "anchorY": 0.9274,
+      "logicalHeight": 307,
+      "label": "travis walk e 3",
+      "kind": "famous-travis",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          698,
+          10,
+          181,
+          299
+        ],
+        "visiblePixels": 23760,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-walk-e-4": {
+      "sheet": "famous-travis",
+      "x": 1017,
+      "y": 8,
+      "w": 183,
+      "h": 303,
+      "anchorX": 0.5109,
+      "anchorY": 0.9274,
+      "logicalHeight": 307,
+      "label": "travis walk e 4",
+      "kind": "famous-travis",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1019,
+          10,
+          179,
+          299
+        ],
+        "visiblePixels": 23117,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-walk-s-1": {
+      "sheet": "famous-travis",
+      "x": 90,
+      "y": 322,
+      "w": 148,
+      "h": 307,
+      "anchorX": 0.4223,
+      "anchorY": 0.9544,
+      "logicalHeight": 307,
+      "label": "travis walk s 1",
+      "kind": "famous-travis",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          92,
+          324,
+          144,
+          303
+        ],
+        "visiblePixels": 25085,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-walk-s-2": {
+      "sheet": "famous-travis",
+      "x": 403,
+      "y": 322,
+      "w": 150,
+      "h": 307,
+      "anchorX": 0.5433,
+      "anchorY": 0.9446,
+      "logicalHeight": 307,
+      "label": "travis walk s 2",
+      "kind": "famous-travis",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          405,
+          324,
+          146,
+          303
+        ],
+        "visiblePixels": 24935,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-walk-n-1": {
+      "sheet": "famous-travis",
+      "x": 719,
+      "y": 322,
+      "w": 146,
+      "h": 307,
+      "anchorX": 0.5137,
+      "anchorY": 0.9283,
+      "logicalHeight": 307,
+      "label": "travis walk n 1",
+      "kind": "famous-travis",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          721,
+          324,
+          142,
+          303
+        ],
+        "visiblePixels": 24889,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-walk-n-2": {
+      "sheet": "famous-travis",
+      "x": 1035,
+      "y": 322,
+      "w": 147,
+      "h": 305,
+      "anchorX": 0.5442,
+      "anchorY": 0.9279,
+      "logicalHeight": 307,
+      "label": "travis walk n 2",
+      "kind": "famous-travis",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1037,
+          324,
+          143,
+          301
+        ],
+        "visiblePixels": 24700,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-idle": {
+      "sheet": "famous-travis",
+      "x": 100,
+      "y": 635,
+      "w": 127,
+      "h": 302,
+      "anchorX": 0.5394,
+      "anchorY": 0.9404,
+      "logicalHeight": 307,
+      "label": "travis idle",
+      "kind": "famous-travis",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          102,
+          637,
+          123,
+          298
+        ],
+        "visiblePixels": 23094,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-speak": {
+      "sheet": "famous-travis",
+      "x": 398,
+      "y": 635,
+      "w": 189,
+      "h": 299,
+      "anchorX": 0.3862,
+      "anchorY": 0.9431,
+      "logicalHeight": 307,
+      "label": "travis speak",
+      "kind": "famous-travis",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          400,
+          637,
+          185,
+          295
+        ],
+        "visiblePixels": 25984,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-command": {
+      "sheet": "famous-travis",
+      "x": 714,
+      "y": 635,
+      "w": 208,
+      "h": 301,
+      "anchorX": 0.3534,
+      "anchorY": 0.9269,
+      "logicalHeight": 307,
+      "label": "travis command",
+      "kind": "famous-travis",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          716,
+          637,
+          204,
+          297
+        ],
+        "visiblePixels": 26562,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-write": {
+      "sheet": "famous-travis",
+      "x": 998,
+      "y": 663,
+      "w": 226,
+      "h": 271,
+      "anchorX": 0.5088,
+      "anchorY": 0.9336,
+      "logicalHeight": 307,
+      "label": "travis write",
+      "kind": "famous-travis",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1000,
+          665,
+          222,
+          267
+        ],
+        "visiblePixels": 30674,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-ready": {
+      "sheet": "famous-travis",
+      "x": 75,
+      "y": 946,
+      "w": 240,
+      "h": 292,
+      "anchorX": 0.3688,
+      "anchorY": 0.9486,
+      "logicalHeight": 307,
+      "label": "travis ready",
+      "kind": "famous-travis",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          77,
+          948,
+          236,
+          288
+        ],
+        "visiblePixels": 27001,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-aim": {
+      "sheet": "famous-travis",
+      "x": 379,
+      "y": 950,
+      "w": 249,
+      "h": 288,
+      "anchorX": 0.3434,
+      "anchorY": 0.9514,
+      "logicalHeight": 307,
+      "label": "travis aim",
+      "kind": "famous-travis",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          381,
+          952,
+          245,
+          284
+        ],
+        "visiblePixels": 26790,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-fire": {
+      "sheet": "famous-travis",
+      "x": 698,
+      "y": 946,
+      "w": 238,
+      "h": 293,
+      "anchorX": 0.3887,
+      "anchorY": 0.942,
+      "logicalHeight": 307,
+      "label": "travis fire",
+      "kind": "famous-travis",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          700,
+          948,
+          234,
+          289
+        ],
+        "visiblePixels": 26534,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-wounded-kneel": {
+      "sheet": "famous-travis",
+      "x": 1010,
+      "y": 1001,
+      "w": 183,
+      "h": 227,
+      "anchorX": 0.4399,
+      "anchorY": 0.9295,
+      "logicalHeight": 307,
+      "label": "travis wounded kneel",
+      "kind": "famous-travis",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1012,
+          1003,
+          179,
+          223
+        ],
+        "visiblePixels": 21902,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-walk-e-1": {
+      "sheet": "famous-bowie",
+      "x": 73,
+      "y": 10,
+      "w": 197,
+      "h": 305,
+      "anchorX": 0.5102,
+      "anchorY": 0.9279,
+      "logicalHeight": 309,
+      "label": "bowie walk e 1",
+      "kind": "famous-bowie",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          75,
+          12,
+          193,
+          301
+        ],
+        "visiblePixels": 23810,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-walk-e-2": {
+      "sheet": "famous-bowie",
+      "x": 391,
+      "y": 12,
+      "w": 195,
+      "h": 303,
+      "anchorX": 0.4974,
+      "anchorY": 0.9274,
+      "logicalHeight": 309,
+      "label": "bowie walk e 2",
+      "kind": "famous-bowie",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          393,
+          14,
+          191,
+          299
+        ],
+        "visiblePixels": 24194,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-walk-e-3": {
+      "sheet": "famous-bowie",
+      "x": 708,
+      "y": 13,
+      "w": 195,
+      "h": 303,
+      "anchorX": 0.4692,
+      "anchorY": 0.9274,
+      "logicalHeight": 309,
+      "label": "bowie walk e 3",
+      "kind": "famous-bowie",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          710,
+          15,
+          191,
+          299
+        ],
+        "visiblePixels": 23980,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-walk-e-4": {
+      "sheet": "famous-bowie",
+      "x": 1028,
+      "y": 13,
+      "w": 193,
+      "h": 303,
+      "anchorX": 0.4585,
+      "anchorY": 0.9274,
+      "logicalHeight": 309,
+      "label": "bowie walk e 4",
+      "kind": "famous-bowie",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1030,
+          15,
+          189,
+          299
+        ],
+        "visiblePixels": 23911,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-walk-s-1": {
+      "sheet": "famous-bowie",
+      "x": 81,
+      "y": 327,
+      "w": 151,
+      "h": 306,
+      "anchorX": 0.4768,
+      "anchorY": 0.9281,
+      "logicalHeight": 309,
+      "label": "bowie walk s 1",
+      "kind": "famous-bowie",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          329,
+          147,
+          302
+        ],
+        "visiblePixels": 26498,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-walk-s-2": {
+      "sheet": "famous-bowie",
+      "x": 389,
+      "y": 327,
+      "w": 154,
+      "h": 306,
+      "anchorX": 0.4481,
+      "anchorY": 0.9281,
+      "logicalHeight": 309,
+      "label": "bowie walk s 2",
+      "kind": "famous-bowie",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          391,
+          329,
+          150,
+          302
+        ],
+        "visiblePixels": 26421,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-walk-n-1": {
+      "sheet": "famous-bowie",
+      "x": 709,
+      "y": 328,
+      "w": 158,
+      "h": 305,
+      "anchorX": 0.5475,
+      "anchorY": 0.9279,
+      "logicalHeight": 309,
+      "label": "bowie walk n 1",
+      "kind": "famous-bowie",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          711,
+          330,
+          154,
+          301
+        ],
+        "visiblePixels": 27499,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-walk-n-2": {
+      "sheet": "famous-bowie",
+      "x": 1030,
+      "y": 326,
+      "w": 150,
+      "h": 309,
+      "anchorX": 0.4933,
+      "anchorY": 0.9482,
+      "logicalHeight": 309,
+      "label": "bowie walk n 2",
+      "kind": "famous-bowie",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1032,
+          328,
+          146,
+          305
+        ],
+        "visiblePixels": 25948,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-idle": {
+      "sheet": "famous-bowie",
+      "x": 97,
+      "y": 642,
+      "w": 124,
+      "h": 303,
+      "anchorX": 0.5323,
+      "anchorY": 0.9439,
+      "logicalHeight": 309,
+      "label": "bowie idle",
+      "kind": "famous-bowie",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          99,
+          644,
+          120,
+          299
+        ],
+        "visiblePixels": 24077,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-speak": {
+      "sheet": "famous-bowie",
+      "x": 396,
+      "y": 642,
+      "w": 187,
+      "h": 302,
+      "anchorX": 0.3957,
+      "anchorY": 0.9503,
+      "logicalHeight": 309,
+      "label": "bowie speak",
+      "kind": "famous-bowie",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          398,
+          644,
+          183,
+          298
+        ],
+        "visiblePixels": 26838,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-command": {
+      "sheet": "famous-bowie",
+      "x": 709,
+      "y": 642,
+      "w": 212,
+      "h": 302,
+      "anchorX": 0.3514,
+      "anchorY": 0.9503,
+      "logicalHeight": 309,
+      "label": "bowie command",
+      "kind": "famous-bowie",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          711,
+          644,
+          208,
+          298
+        ],
+        "visiblePixels": 26892,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-unwell": {
+      "sheet": "famous-bowie",
+      "x": 1017,
+      "y": 650,
+      "w": 165,
+      "h": 292,
+      "anchorX": 0.5121,
+      "anchorY": 0.9315,
+      "logicalHeight": 309,
+      "label": "bowie unwell",
+      "kind": "famous-bowie",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1019,
+          652,
+          161,
+          288
+        ],
+        "visiblePixels": 27273,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-sick-seated": {
+      "sheet": "famous-bowie",
+      "x": 10,
+      "y": 964,
+      "w": 289,
+      "h": 255,
+      "anchorX": 0.6125,
+      "anchorY": 0.9294,
+      "logicalHeight": 309,
+      "label": "bowie sick seated",
+      "kind": "famous-bowie",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          12,
+          966,
+          285,
+          251
+        ],
+        "visiblePixels": 34181,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-sick-bed": {
+      "sheet": "famous-bowie",
+      "x": 321,
+      "y": 990,
+      "w": 298,
+      "h": 229,
+      "anchorX": 0.5168,
+      "anchorY": 0.9258,
+      "logicalHeight": 309,
+      "label": "bowie sick bed",
+      "kind": "famous-bowie",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          323,
+          992,
+          294,
+          225
+        ],
+        "visiblePixels": 33240,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-still-bed": {
+      "sheet": "famous-bowie",
+      "x": 636,
+      "y": 1026,
+      "w": 297,
+      "h": 193,
+      "anchorX": 0.6195,
+      "anchorY": 0.9275,
+      "logicalHeight": 309,
+      "label": "bowie still bed",
+      "kind": "famous-bowie",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          638,
+          1028,
+          293,
+          189
+        ],
+        "visiblePixels": 29864,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-rise-bed": {
+      "sheet": "famous-bowie",
+      "x": 951,
+      "y": 968,
+      "w": 292,
+      "h": 253,
+      "anchorX": 0.5959,
+      "anchorY": 0.9289,
+      "logicalHeight": 309,
+      "label": "bowie rise bed",
+      "kind": "famous-bowie",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          953,
+          970,
+          288,
+          249
+        ],
+        "visiblePixels": 38288,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-walk-e-1": {
+      "sheet": "famous-emily-west",
+      "x": 110,
+      "y": 6,
+      "w": 195,
+      "h": 297,
+      "anchorX": 0.541,
+      "anchorY": 0.9293,
+      "logicalHeight": 311,
+      "label": "emily west walk e 1",
+      "kind": "famous-emily-west",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          112,
+          8,
+          191,
+          293
+        ],
+        "visiblePixels": 29972,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-walk-e-2": {
+      "sheet": "famous-emily-west",
+      "x": 413,
+      "y": 6,
+      "w": 191,
+      "h": 296,
+      "anchorX": 0.5366,
+      "anchorY": 0.9291,
+      "logicalHeight": 311,
+      "label": "emily west walk e 2",
+      "kind": "famous-emily-west",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          415,
+          8,
+          187,
+          292
+        ],
+        "visiblePixels": 29680,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-walk-e-3": {
+      "sheet": "famous-emily-west",
+      "x": 702,
+      "y": 7,
+      "w": 191,
+      "h": 296,
+      "anchorX": 0.5288,
+      "anchorY": 0.9291,
+      "logicalHeight": 311,
+      "label": "emily west walk e 3",
+      "kind": "famous-emily-west",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          704,
+          9,
+          187,
+          292
+        ],
+        "visiblePixels": 28430,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-walk-e-4": {
+      "sheet": "famous-emily-west",
+      "x": 985,
+      "y": 7,
+      "w": 202,
+      "h": 296,
+      "anchorX": 0.5446,
+      "anchorY": 0.9291,
+      "logicalHeight": 311,
+      "label": "emily west walk e 4",
+      "kind": "famous-emily-west",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          987,
+          9,
+          198,
+          292
+        ],
+        "visiblePixels": 30511,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-walk-s-1": {
+      "sheet": "famous-emily-west",
+      "x": 108,
+      "y": 315,
+      "w": 161,
+      "h": 310,
+      "anchorX": 0.4907,
+      "anchorY": 0.9419,
+      "logicalHeight": 311,
+      "label": "emily west walk s 1",
+      "kind": "famous-emily-west",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          110,
+          317,
+          157,
+          306
+        ],
+        "visiblePixels": 30259,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-walk-s-2": {
+      "sheet": "famous-emily-west",
+      "x": 414,
+      "y": 317,
+      "w": 164,
+      "h": 308,
+      "anchorX": 0.4787,
+      "anchorY": 0.9286,
+      "logicalHeight": 311,
+      "label": "emily west walk s 2",
+      "kind": "famous-emily-west",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          416,
+          319,
+          160,
+          304
+        ],
+        "visiblePixels": 30231,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-walk-n-1": {
+      "sheet": "famous-emily-west",
+      "x": 717,
+      "y": 315,
+      "w": 173,
+      "h": 311,
+      "anchorX": 0.4566,
+      "anchorY": 0.9293,
+      "logicalHeight": 311,
+      "label": "emily west walk n 1",
+      "kind": "famous-emily-west",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          719,
+          317,
+          169,
+          307
+        ],
+        "visiblePixels": 31452,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-walk-n-2": {
+      "sheet": "famous-emily-west",
+      "x": 1009,
+      "y": 315,
+      "w": 175,
+      "h": 311,
+      "anchorX": 0.4771,
+      "anchorY": 0.9293,
+      "logicalHeight": 311,
+      "label": "emily west walk n 2",
+      "kind": "famous-emily-west",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1011,
+          317,
+          171,
+          307
+        ],
+        "visiblePixels": 31380,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-idle": {
+      "sheet": "famous-emily-west",
+      "x": 113,
+      "y": 633,
+      "w": 161,
+      "h": 300,
+      "anchorX": 0.5652,
+      "anchorY": 0.93,
+      "logicalHeight": 311,
+      "label": "emily west idle",
+      "kind": "famous-emily-west",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          115,
+          635,
+          157,
+          296
+        ],
+        "visiblePixels": 27206,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-speak": {
+      "sheet": "famous-emily-west",
+      "x": 410,
+      "y": 632,
+      "w": 188,
+      "h": 302,
+      "anchorX": 0.4574,
+      "anchorY": 0.9371,
+      "logicalHeight": 311,
+      "label": "emily west speak",
+      "kind": "famous-emily-west",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          412,
+          634,
+          184,
+          298
+        ],
+        "visiblePixels": 29460,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-listen": {
+      "sheet": "famous-emily-west",
+      "x": 713,
+      "y": 633,
+      "w": 159,
+      "h": 301,
+      "anchorX": 0.544,
+      "anchorY": 0.9336,
+      "logicalHeight": 311,
+      "label": "emily west listen",
+      "kind": "famous-emily-west",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          715,
+          635,
+          155,
+          297
+        ],
+        "visiblePixels": 28039,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-stand-firm": {
+      "sheet": "famous-emily-west",
+      "x": 1009,
+      "y": 633,
+      "w": 160,
+      "h": 301,
+      "anchorX": 0.5406,
+      "anchorY": 0.9468,
+      "logicalHeight": 311,
+      "label": "emily west stand firm",
+      "kind": "famous-emily-west",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1011,
+          635,
+          156,
+          297
+        ],
+        "visiblePixels": 28084,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-carry-tray": {
+      "sheet": "famous-emily-west",
+      "x": 76,
+      "y": 940,
+      "w": 222,
+      "h": 299,
+      "anchorX": 0.5248,
+      "anchorY": 0.9298,
+      "logicalHeight": 311,
+      "label": "emily west carry tray",
+      "kind": "famous-emily-west",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          78,
+          942,
+          218,
+          295
+        ],
+        "visiblePixels": 34298,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-set-tray": {
+      "sheet": "famous-emily-west",
+      "x": 346,
+      "y": 940,
+      "w": 262,
+      "h": 297,
+      "anchorX": 0.5973,
+      "anchorY": 0.9293,
+      "logicalHeight": 311,
+      "label": "emily west set tray",
+      "kind": "famous-emily-west",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          348,
+          942,
+          258,
+          293
+        ],
+        "visiblePixels": 37907,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-sit-converse": {
+      "sheet": "famous-emily-west",
+      "x": 678,
+      "y": 965,
+      "w": 247,
+      "h": 272,
+      "anchorX": 0.4433,
+      "anchorY": 0.9265,
+      "logicalHeight": 311,
+      "label": "emily west sit converse",
+      "kind": "famous-emily-west",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          680,
+          967,
+          243,
+          268
+        ],
+        "visiblePixels": 40544,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-carry-bundle": {
+      "sheet": "famous-emily-west",
+      "x": 1001,
+      "y": 940,
+      "w": 209,
+      "h": 302,
+      "anchorX": 0.555,
+      "anchorY": 0.9272,
+      "logicalHeight": 311,
+      "label": "emily west carry bundle",
+      "kind": "famous-emily-west",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1003,
+          942,
+          205,
+          298
+        ],
+        "visiblePixels": 34132,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-walk-e-1": {
+      "sheet": "famous-santa-anna",
+      "x": 99,
+      "y": 5,
+      "w": 173,
+      "h": 310,
+      "anchorX": 0.5116,
+      "anchorY": 0.929,
+      "logicalHeight": 312,
+      "label": "santa anna walk e 1",
+      "kind": "famous-santa-anna",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          101,
+          7,
+          169,
+          306
+        ],
+        "visiblePixels": 25563,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-walk-e-2": {
+      "sheet": "famous-santa-anna",
+      "x": 399,
+      "y": 5,
+      "w": 176,
+      "h": 310,
+      "anchorX": 0.4915,
+      "anchorY": 0.929,
+      "logicalHeight": 312,
+      "label": "santa anna walk e 2",
+      "kind": "famous-santa-anna",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          401,
+          7,
+          172,
+          306
+        ],
+        "visiblePixels": 25539,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-walk-e-3": {
+      "sheet": "famous-santa-anna",
+      "x": 698,
+      "y": 5,
+      "w": 174,
+      "h": 309,
+      "anchorX": 0.5,
+      "anchorY": 0.9288,
+      "logicalHeight": 312,
+      "label": "santa anna walk e 3",
+      "kind": "famous-santa-anna",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          700,
+          7,
+          170,
+          305
+        ],
+        "visiblePixels": 21850,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-walk-e-4": {
+      "sheet": "famous-santa-anna",
+      "x": 1024,
+      "y": 5,
+      "w": 149,
+      "h": 310,
+      "anchorX": 0.4966,
+      "anchorY": 0.929,
+      "logicalHeight": 312,
+      "label": "santa anna walk e 4",
+      "kind": "famous-santa-anna",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1026,
+          7,
+          145,
+          306
+        ],
+        "visiblePixels": 23481,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-walk-s-1": {
+      "sheet": "famous-santa-anna",
+      "x": 93,
+      "y": 322,
+      "w": 152,
+      "h": 311,
+      "anchorX": 0.4901,
+      "anchorY": 0.9293,
+      "logicalHeight": 312,
+      "label": "santa anna walk s 1",
+      "kind": "famous-santa-anna",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          95,
+          324,
+          148,
+          309
+        ],
+        "visiblePixels": 25339,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-walk-s-2": {
+      "sheet": "famous-santa-anna",
+      "x": 395,
+      "y": 321,
+      "w": 158,
+      "h": 310,
+      "anchorX": 0.4652,
+      "anchorY": 0.929,
+      "logicalHeight": 312,
+      "label": "santa anna walk s 2",
+      "kind": "famous-santa-anna",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          397,
+          323,
+          154,
+          306
+        ],
+        "visiblePixels": 25602,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-walk-n-1": {
+      "sheet": "famous-santa-anna",
+      "x": 704,
+      "y": 324,
+      "w": 158,
+      "h": 307,
+      "anchorX": 0.5158,
+      "anchorY": 0.9283,
+      "logicalHeight": 312,
+      "label": "santa anna walk n 1",
+      "kind": "famous-santa-anna",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          706,
+          326,
+          154,
+          303
+        ],
+        "visiblePixels": 26845,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-walk-n-2": {
+      "sheet": "famous-santa-anna",
+      "x": 1010,
+      "y": 323,
+      "w": 157,
+      "h": 307,
+      "anchorX": 0.5,
+      "anchorY": 0.9414,
+      "logicalHeight": 312,
+      "label": "santa anna walk n 2",
+      "kind": "famous-santa-anna",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1012,
+          325,
+          153,
+          303
+        ],
+        "visiblePixels": 26579,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-idle": {
+      "sheet": "famous-santa-anna",
+      "x": 111,
+      "y": 633,
+      "w": 101,
+      "h": 310,
+      "anchorX": 0.5644,
+      "anchorY": 0.9387,
+      "logicalHeight": 312,
+      "label": "santa anna idle",
+      "kind": "famous-santa-anna",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          113,
+          634,
+          97,
+          307
+        ],
+        "visiblePixels": 18249,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-speak": {
+      "sheet": "famous-santa-anna",
+      "x": 387,
+      "y": 632,
+      "w": 217,
+      "h": 312,
+      "anchorX": 0.3502,
+      "anchorY": 0.9583,
+      "logicalHeight": 312,
+      "label": "santa anna speak",
+      "kind": "famous-santa-anna",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          389,
+          634,
+          213,
+          308
+        ],
+        "visiblePixels": 26758,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-command": {
+      "sheet": "famous-santa-anna",
+      "x": 679,
+      "y": 632,
+      "w": 229,
+      "h": 312,
+      "anchorX": 0.3624,
+      "anchorY": 0.9551,
+      "logicalHeight": 312,
+      "label": "santa anna command",
+      "kind": "famous-santa-anna",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          681,
+          634,
+          225,
+          308
+        ],
+        "visiblePixels": 26621,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-map": {
+      "sheet": "famous-santa-anna",
+      "x": 937,
+      "y": 668,
+      "w": 236,
+      "h": 278,
+      "anchorX": 0.4534,
+      "anchorY": 0.9317,
+      "logicalHeight": 312,
+      "label": "santa anna map",
+      "kind": "famous-santa-anna",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          939,
+          670,
+          232,
+          274
+        ],
+        "visiblePixels": 34690,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-disguised-walk": {
+      "sheet": "famous-santa-anna",
+      "x": 86,
+      "y": 946,
+      "w": 172,
+      "h": 298,
+      "anchorX": 0.4884,
+      "anchorY": 0.9295,
+      "logicalHeight": 312,
+      "label": "santa anna disguised walk",
+      "kind": "famous-santa-anna",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          88,
+          948,
+          168,
+          294
+        ],
+        "visiblePixels": 23368,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-disguised-idle": {
+      "sheet": "famous-santa-anna",
+      "x": 398,
+      "y": 945,
+      "w": 133,
+      "h": 300,
+      "anchorX": 0.4962,
+      "anchorY": 0.97,
+      "logicalHeight": 312,
+      "label": "santa anna disguised idle",
+      "kind": "famous-santa-anna",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          400,
+          947,
+          129,
+          296
+        ],
+        "visiblePixels": 24415,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-disguised-seated": {
+      "sheet": "famous-santa-anna",
+      "x": 681,
+      "y": 993,
+      "w": 179,
+      "h": 249,
+      "anchorX": 0.5587,
+      "anchorY": 0.9277,
+      "logicalHeight": 312,
+      "label": "santa anna disguised seated",
+      "kind": "famous-santa-anna",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          683,
+          995,
+          175,
+          245
+        ],
+        "visiblePixels": 29067,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-disguised-speak": {
+      "sheet": "famous-santa-anna",
+      "x": 994,
+      "y": 950,
+      "w": 202,
+      "h": 292,
+      "anchorX": 0.4777,
+      "anchorY": 0.9281,
+      "logicalHeight": 312,
+      "label": "santa anna disguised speak",
+      "kind": "famous-santa-anna",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          996,
+          952,
+          198,
+          288
+        ],
+        "visiblePixels": 32748,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-walk-e-1": {
+      "sheet": "famous-houston",
+      "x": 81,
+      "y": 5,
+      "w": 184,
+      "h": 302,
+      "anchorX": 0.5245,
+      "anchorY": 0.9272,
+      "logicalHeight": 316,
+      "label": "houston walk e 1",
+      "kind": "famous-houston",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          7,
+          180,
+          298
+        ],
+        "visiblePixels": 25555,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-walk-e-2": {
+      "sheet": "famous-houston",
+      "x": 396,
+      "y": 6,
+      "w": 183,
+      "h": 301,
+      "anchorX": 0.5464,
+      "anchorY": 0.9269,
+      "logicalHeight": 316,
+      "label": "houston walk e 2",
+      "kind": "famous-houston",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          398,
+          8,
+          179,
+          297
+        ],
+        "visiblePixels": 26421,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-walk-e-3": {
+      "sheet": "famous-houston",
+      "x": 718,
+      "y": 6,
+      "w": 183,
+      "h": 299,
+      "anchorX": 0.4809,
+      "anchorY": 0.9298,
+      "logicalHeight": 316,
+      "label": "houston walk e 3",
+      "kind": "famous-houston",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          720,
+          8,
+          179,
+          295
+        ],
+        "visiblePixels": 23094,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-walk-e-4": {
+      "sheet": "famous-houston",
+      "x": 1032,
+      "y": 7,
+      "w": 178,
+      "h": 300,
+      "anchorX": 0.4888,
+      "anchorY": 0.93,
+      "logicalHeight": 316,
+      "label": "houston walk e 4",
+      "kind": "famous-houston",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1034,
+          9,
+          174,
+          296
+        ],
+        "visiblePixels": 22874,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-walk-s-1": {
+      "sheet": "famous-houston",
+      "x": 81,
+      "y": 316,
+      "w": 153,
+      "h": 313,
+      "anchorX": 0.4412,
+      "anchorY": 0.9553,
+      "logicalHeight": 316,
+      "label": "houston walk s 1",
+      "kind": "famous-houston",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          318,
+          149,
+          309
+        ],
+        "visiblePixels": 28159,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-walk-s-2": {
+      "sheet": "famous-houston",
+      "x": 397,
+      "y": 317,
+      "w": 156,
+      "h": 316,
+      "anchorX": 0.4455,
+      "anchorY": 0.943,
+      "logicalHeight": 316,
+      "label": "houston walk s 2",
+      "kind": "famous-houston",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          399,
+          319,
+          152,
+          312
+        ],
+        "visiblePixels": 28792,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-walk-n-1": {
+      "sheet": "famous-houston",
+      "x": 719,
+      "y": 319,
+      "w": 152,
+      "h": 316,
+      "anchorX": 0.5395,
+      "anchorY": 0.9272,
+      "logicalHeight": 316,
+      "label": "houston walk n 1",
+      "kind": "famous-houston",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          721,
+          321,
+          148,
+          312
+        ],
+        "visiblePixels": 30090,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-walk-n-2": {
+      "sheet": "famous-houston",
+      "x": 1030,
+      "y": 319,
+      "w": 149,
+      "h": 316,
+      "anchorX": 0.5671,
+      "anchorY": 0.9525,
+      "logicalHeight": 316,
+      "label": "houston walk n 2",
+      "kind": "famous-houston",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1032,
+          321,
+          145,
+          312
+        ],
+        "visiblePixels": 29201,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-idle": {
+      "sheet": "famous-houston",
+      "x": 98,
+      "y": 638,
+      "w": 116,
+      "h": 304,
+      "anchorX": 0.5259,
+      "anchorY": 0.9276,
+      "logicalHeight": 316,
+      "label": "houston idle",
+      "kind": "famous-houston",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          100,
+          640,
+          112,
+          300
+        ],
+        "visiblePixels": 21234,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-speak": {
+      "sheet": "famous-houston",
+      "x": 399,
+      "y": 635,
+      "w": 197,
+      "h": 304,
+      "anchorX": 0.4391,
+      "anchorY": 0.9474,
+      "logicalHeight": 316,
+      "label": "houston speak",
+      "kind": "famous-houston",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          401,
+          637,
+          193,
+          300
+        ],
+        "visiblePixels": 28854,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-command": {
+      "sheet": "famous-houston",
+      "x": 669,
+      "y": 638,
+      "w": 237,
+      "h": 299,
+      "anchorX": 0.3882,
+      "anchorY": 0.9498,
+      "logicalHeight": 316,
+      "label": "houston command",
+      "kind": "famous-houston",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          671,
+          640,
+          233,
+          295
+        ],
+        "visiblePixels": 31139,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-map": {
+      "sheet": "famous-houston",
+      "x": 955,
+      "y": 654,
+      "w": 266,
+      "h": 285,
+      "anchorX": 0.4192,
+      "anchorY": 0.9298,
+      "logicalHeight": 316,
+      "label": "houston map",
+      "kind": "famous-houston",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          957,
+          656,
+          262,
+          281
+        ],
+        "visiblePixels": 40471,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-injured-seated": {
+      "sheet": "famous-houston",
+      "x": 46,
+      "y": 945,
+      "w": 250,
+      "h": 288,
+      "anchorX": 0.572,
+      "anchorY": 0.9271,
+      "logicalHeight": 316,
+      "label": "houston injured seated",
+      "kind": "famous-houston",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          48,
+          947,
+          246,
+          284
+        ],
+        "visiblePixels": 36929,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-injured-speak": {
+      "sheet": "famous-houston",
+      "x": 373,
+      "y": 945,
+      "w": 240,
+      "h": 288,
+      "anchorX": 0.5896,
+      "anchorY": 0.9271,
+      "logicalHeight": 316,
+      "label": "houston injured speak",
+      "kind": "famous-houston",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          375,
+          947,
+          236,
+          284
+        ],
+        "visiblePixels": 39132,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-injured-rest": {
+      "sheet": "famous-houston",
+      "x": 644,
+      "y": 1008,
+      "w": 305,
+      "h": 228,
+      "anchorX": 0.5262,
+      "anchorY": 0.9298,
+      "logicalHeight": 316,
+      "label": "houston injured rest",
+      "kind": "famous-houston",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          646,
+          1010,
+          301,
+          224
+        ],
+        "visiblePixels": 40435,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-injured-stand": {
+      "sheet": "famous-houston",
+      "x": 1033,
+      "y": 945,
+      "w": 155,
+      "h": 296,
+      "anchorX": 0.4129,
+      "anchorY": 0.9324,
+      "logicalHeight": 316,
+      "label": "houston injured stand",
+      "kind": "famous-houston",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1035,
+          947,
+          151,
+          292
+        ],
+        "visiblePixels": 26905,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-picnic-listen": {
+      "sheet": "famous-emily-west-picnic",
+      "x": 60,
+      "y": 75,
+      "w": 537,
+      "h": 528,
+      "anchorX": 0.4292,
+      "anchorY": 0.9299,
+      "logicalHeight": 531,
+      "label": "emily west picnic listen",
+      "kind": "famous-emily-west-picnic",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          62,
+          77,
+          533,
+          524
+        ],
+        "visiblePixels": 145846,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-picnic-speak": {
+      "sheet": "famous-emily-west-picnic",
+      "x": 655,
+      "y": 73,
+      "w": 534,
+      "h": 531,
+      "anchorX": 0.4298,
+      "anchorY": 0.9284,
+      "logicalHeight": 531,
+      "label": "emily west picnic speak",
+      "kind": "famous-emily-west-picnic",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          657,
+          75,
+          530,
+          527
+        ],
+        "visiblePixels": 149789,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-picnic-laugh": {
+      "sheet": "famous-emily-west-picnic",
+      "x": 60,
+      "y": 676,
+      "w": 530,
+      "h": 525,
+      "anchorX": 0.4387,
+      "anchorY": 0.9295,
+      "logicalHeight": 531,
+      "label": "emily west picnic laugh",
+      "kind": "famous-emily-west-picnic",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          62,
+          678,
+          526,
+          521
+        ],
+        "visiblePixels": 144251,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "emily-west-picnic-alarm": {
+      "sheet": "famous-emily-west-picnic",
+      "x": 655,
+      "y": 673,
+      "w": 534,
+      "h": 528,
+      "anchorX": 0.4363,
+      "anchorY": 0.9299,
+      "logicalHeight": 531,
+      "label": "emily west picnic alarm",
+      "kind": "famous-emily-west-picnic",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          657,
+          675,
+          530,
+          524
+        ],
+        "visiblePixels": 146089,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-picnic-listen": {
+      "sheet": "famous-santa-anna-picnic",
+      "x": 144,
+      "y": 31,
+      "w": 406,
+      "h": 579,
+      "anchorX": 0.5308,
+      "anchorY": 0.9447,
+      "logicalHeight": 591,
+      "label": "santa anna picnic listen",
+      "kind": "famous-santa-anna-picnic",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          146,
+          33,
+          402,
+          575
+        ],
+        "visiblePixels": 124686,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-picnic-speak": {
+      "sheet": "famous-santa-anna-picnic",
+      "x": 764,
+      "y": 31,
+      "w": 405,
+      "h": 579,
+      "anchorX": 0.5136,
+      "anchorY": 0.9465,
+      "logicalHeight": 591,
+      "label": "santa anna picnic speak",
+      "kind": "famous-santa-anna-picnic",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          766,
+          33,
+          401,
+          575
+        ],
+        "visiblePixels": 124618,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-picnic-notice": {
+      "sheet": "famous-santa-anna-picnic",
+      "x": 150,
+      "y": 648,
+      "w": 387,
+      "h": 562,
+      "anchorX": 0.5129,
+      "anchorY": 0.9306,
+      "logicalHeight": 591,
+      "label": "santa anna picnic notice",
+      "kind": "famous-santa-anna-picnic",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          152,
+          650,
+          383,
+          558
+        ],
+        "visiblePixels": 120857,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-picnic-rise": {
+      "sheet": "famous-santa-anna-picnic",
+      "x": 730,
+      "y": 619,
+      "w": 445,
+      "h": 591,
+      "anchorX": 0.5112,
+      "anchorY": 0.934,
+      "logicalHeight": 591,
+      "label": "santa anna picnic rise",
+      "kind": "famous-santa-anna-picnic",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          732,
+          621,
+          441,
+          587
+        ],
+        "visiblePixels": 136208,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "picnic-command-tent": {
+      "sheet": "famous-picnic-props",
+      "x": 20,
+      "y": 94,
+      "w": 682,
+      "h": 535,
+      "anchorX": 0.4267,
+      "anchorY": 0.929,
+      "label": "picnic command tent",
+      "kind": "famous-picnic-props",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          22,
+          96,
+          679,
+          531
+        ],
+        "visiblePixels": 199911,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "picnic-blanket": {
+      "sheet": "famous-picnic-props",
+      "x": 702,
+      "y": 323,
+      "w": 537,
+      "h": 313,
+      "anchorX": 0.4469,
+      "anchorY": 0.9297,
+      "label": "picnic blanket",
+      "kind": "famous-picnic-props",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          703,
+          325,
+          534,
+          309
+        ],
+        "visiblePixels": 89834,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "picnic-basket": {
+      "sheet": "famous-picnic-props",
+      "x": 94,
+      "y": 691,
+      "w": 529,
+      "h": 485,
+      "anchorX": 0.482,
+      "anchorY": 0.9299,
+      "label": "picnic basket",
+      "kind": "famous-picnic-props",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          96,
+          693,
+          525,
+          481
+        ],
+        "visiblePixels": 177577,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "picnic-jug-cups": {
+      "sheet": "famous-picnic-props",
+      "x": 722,
+      "y": 733,
+      "w": 475,
+      "h": 426,
+      "anchorX": 0.5526,
+      "anchorY": 0.9296,
+      "label": "picnic jug cups",
+      "kind": "famous-picnic-props",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          724,
+          735,
+          471,
+          422
+        ],
+        "visiblePixels": 117093,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

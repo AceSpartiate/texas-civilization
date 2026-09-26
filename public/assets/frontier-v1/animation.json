@@ -2192,6 +2192,402 @@
       "motion": "none",
       "direction": "stationary"
     },
+    "crockett-walk-e": {
+      "frames": [
+        {
+          "sprite": "crockett-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "crockett-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "crockett-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "crockett-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "crockett-walk-s": {
+      "frames": [
+        {
+          "sprite": "crockett-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "crockett-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "crockett-walk-n": {
+      "frames": [
+        {
+          "sprite": "crockett-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "crockett-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "travis-walk-e": {
+      "frames": [
+        {
+          "sprite": "travis-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "travis-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "travis-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "travis-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "travis-walk-s": {
+      "frames": [
+        {
+          "sprite": "travis-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "travis-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "travis-walk-n": {
+      "frames": [
+        {
+          "sprite": "travis-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "travis-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "bowie-walk-e": {
+      "frames": [
+        {
+          "sprite": "bowie-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "bowie-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "bowie-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "bowie-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "bowie-walk-s": {
+      "frames": [
+        {
+          "sprite": "bowie-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "bowie-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "bowie-walk-n": {
+      "frames": [
+        {
+          "sprite": "bowie-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "bowie-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "emily-west-walk-e": {
+      "frames": [
+        {
+          "sprite": "emily-west-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "emily-west-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "emily-west-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "emily-west-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "emily-west-walk-s": {
+      "frames": [
+        {
+          "sprite": "emily-west-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "emily-west-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "emily-west-walk-n": {
+      "frames": [
+        {
+          "sprite": "emily-west-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "emily-west-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "santa-anna-walk-e": {
+      "frames": [
+        {
+          "sprite": "santa-anna-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "santa-anna-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "santa-anna-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "santa-anna-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "santa-anna-walk-s": {
+      "frames": [
+        {
+          "sprite": "santa-anna-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "santa-anna-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "santa-anna-walk-n": {
+      "frames": [
+        {
+          "sprite": "santa-anna-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "santa-anna-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "houston-walk-e": {
+      "frames": [
+        {
+          "sprite": "houston-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "houston-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "houston-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "houston-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "houston-walk-s": {
+      "frames": [
+        {
+          "sprite": "houston-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "houston-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "houston-walk-n": {
+      "frames": [
+        {
+          "sprite": "houston-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "houston-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "emily-west-picnic-converse": {
+      "frames": [
+        {
+          "sprite": "emily-west-picnic-listen",
+          "duration": 1300
+        },
+        {
+          "sprite": "emily-west-picnic-speak",
+          "duration": 900
+        },
+        {
+          "sprite": "emily-west-picnic-laugh",
+          "duration": 850
+        },
+        {
+          "sprite": "emily-west-picnic-listen",
+          "duration": 1250
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "west-facing at a camp table"
+    },
+    "santa-anna-picnic-converse": {
+      "frames": [
+        {
+          "sprite": "santa-anna-picnic-listen",
+          "duration": 1300
+        },
+        {
+          "sprite": "santa-anna-picnic-speak",
+          "duration": 950
+        },
+        {
+          "sprite": "santa-anna-picnic-listen",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east-facing at a camp chair"
+    },
+    "santa-anna-picnic-alarm": {
+      "frames": [
+        {
+          "sprite": "santa-anna-picnic-notice",
+          "duration": 900
+        },
+        {
+          "sprite": "santa-anna-picnic-rise",
+          "duration": 850
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east-facing; turns toward the battle"
+    },
     "flag-come-and-take-it-wind": {
       "frames": [
         {

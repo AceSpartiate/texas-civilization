@@ -1,5 +1,9 @@
 # Claude handoff — Astra foundation
 
+## Named-character art available — 2026-09-26
+
+Six new 4×4 historical-person sheets and 18 directional walking clips are registered in `scripts/art-deliveries/famous-people.mjs`: Crockett, Travis, Bowie, Emily D. West, Santa Anna and Houston. Three companion sheets in `famous-picnic.mjs` add conversation/alarm animation and camp props. The full IDs and provenance are in `docs/ART_MANIFEST.md` and `docs/art-provenance.json`; the visual contract and open poses are in `docs/ART_REQUESTS.md` under *Named historical people*. Emily now wears an owner-chosen yellow dress with uncovered braided hair. San Jacinto stages the owner-chosen picnic as an explicitly labelled later tradition from early afternoon until the guns, visible only to live battle witnesses and the Host; the capture parley draws injured Houston and Santa Anna in his plain clothes. `HIST-TEX-560` and `FIC-GONZ-560` separate the historical evidence from the dramatic staging. For the next gameplay pass, bind each remaining name through the shared itinerary and information rules in `docs/BATTLES.md` §2c; the art itself does not create historical entities or reveal future fates. Joe's older dedicated sheet remains available. These sprites are artist interpretations, not portrait claims.
+
 ## The launcher downloads only what changed — 2026-09-26 (released in v2026.09.26.2)
 
 Owner: *"we should dedicate a sub agent to updating the launcher. currently the entirr game is downloaded again for every

@@ -1,5 +1,13 @@
 # Art requests for Astra
 
+## Named historical people — delivery 2026-09-26
+
+Six first-priority people from `docs/BATTLES.md` §2c now have distinct 16-frame atlases: David Crockett, William Barret Travis, James Bowie, Emily D. West, Antonio López de Santa Anna, and Sam Houston. The sheets, frame IDs, clips and origin records are in `scripts/art-deliveries/famous-people.mjs` and the generated `ART_MANIFEST.md`. Each has four east walk frames, two south, two north, and eight action/story poses. East mirrors west. All are original visual interpretations; **no exact likeness is claimed**. Emily's more elegant yellow dress and uncovered braided updo are the owner's Yellow Rose-inspired visual direction, **not evidence of what she wore or of the legend's events**. Joe already has his separate `joe-poses` sheet. The San Jacinto capture parley selects wounded Houston and plain-clothes Santa Anna; the other new poses await the named-person itinerary and staging work. Do not infer a battle outcome from the availability of a sprite.
+
+Three companion atlases in `scripts/art-deliveries/famous-picnic.mjs` add Emily seated at a camp table in a four-pose conversation sequence, Santa Anna seated opposite her in four poses through an alarmed rise, and four separate picnic props. `sim/battles/san-jacinto.mjs` places this vignette behind the Mexican breastwork beginning at 13:00 April 21; `public/battle-view.js` animates it and keeps a dashed `LATER STORY` label beside it. The scene disappears after the first guns; it is projected only to the Host and live battle witnesses. Its position, clothes, picnic and alleged distraction are dramatic tradition staging (`HIST-TEX-560`, `FIC-GONZ-560`), not an assertion of documented causation.
+
+Still requested for the named-person roster: mounted Houston and Santa Anna; Crockett's capture/surrender and the disputed, non-graphic fate presentation chosen in `docs/BATTLES.md` §2c; Travis's fall and Joe's subsequent movement; Susanna and Angelina Dickinson together; Seguín and the Tejano/Tejana cast; Milam, Fannin, Austin, Burleson, Cos, Moore, Castañeda, Urrea, Castrillón, Almonte, and the other named people in `docs/battle-research/famous-people.md`. These need the same identity-preserving directional walks and the specific authored actions of their itinerary, with no generic figure silently presented as their portrait. The remaining gameplay work, including who is visible and what is known at a given date, is separate from art production.
+
 ## Standard practice for missing art
 
 Owner's direction, 2026-09-12, and a standing rule in `CLAUDE.md`. When the game needs art the library

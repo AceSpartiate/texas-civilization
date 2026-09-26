@@ -33,6 +33,21 @@ const battle = (minute, over = {}) => ({
   lines: [], fallen: [], members: [], commands: { volley: [{ text: '¡Preparen!', gloss: 'Make ready!' }, { text: '¡Apunten!', gloss: 'Take aim!' }, { text: '¡Fuego!', gloss: 'Fire!' }] }, formations: [], ...over,
 });
 
+test('the named picnic uses authored conversation and alarm art with a visible tradition label', () => {
+  const art = fakeArt(), view = createBattleView(art), ctx = fakeContext();
+  const scene = { id: 'emily-west-picnic', kind: 'tradition', claimId: 'HIST-TEX-560', x: 0.12, y: 0.1, moment: 'converse' };
+  const before = view.draw(ctx, battle(1, { legendScene: scene }), { camera, time: 1000, now: 1000, tickMs: 1000, bounds: { width: 1366, height: 768 } });
+  assert.equal(before.legendScene?.id, scene.id);
+  for (const id of ['picnic-command-tent', 'picnic-basket']) assert.ok(art.drawn.some(one => one.sprite === id), `${id} missing`);
+  for (const id of ['emily-west-picnic-converse', 'santa-anna-picnic-converse']) assert.ok(art.drawn.some(one => one.clip === id), `${id} missing`);
+  assert.ok(ctx.calls.some(call => call[0] === 'setLineDash'), 'tradition label was not dashed');
+  art.drawn.length = 0;
+  const during = view.draw(fakeContext(), battle(2, { legendScene: { ...scene, moment: 'alarm' } }), { camera, time: 2000, now: 2000, tickMs: 1000, bounds: { width: 1366, height: 768 } });
+  assert.equal(during.legendScene?.moment, 'alarm');
+  assert.ok(art.drawn.some(one => one.sprite === 'emily-west-picnic-alarm'));
+  assert.ok(art.drawn.some(one => one.clip === 'santa-anna-picnic-alarm'));
+});
+
 test('the Gonzales gun and completed flag select their delivered animated art', () => {
   const art = fakeArt(), view = createBattleView(art);
   const cannon = { side: 'texian', x: -0.08, y: 0, shots: [0], crew: 3, metal: 'bronze', claimId: 'HIST-TEX-475' };

@@ -141,6 +141,8 @@ Then, by multiple choice:
    there when the attack comes. Captioned as a story told later, with the dashed `tradition` edge; the caption also says
    she had been taken by his army at New Washington five days before.
 
+   **Implemented art and staging, 2026-09-26:** Emily has a yellow-dress, uncovered-hair directional sheet and a four-pose seated picnic conversation; Santa Anna has paired conversation and alarm poses, and the camp has separate tent and meal props (`scripts/art-deliveries/famous-people.mjs`, `famous-picnic.mjs`). `legendScene` begins at 13:00 on April 21 near the Mexican camp and ends after the first guns. Its battle caption and dashed on-map label say this is a later story. The real outcome does not depend on the scene, and no invented words are attributed to either named person (`HIST-TEX-560`, `FIC-GONZ-560`).
+
 Every other question in `docs/battle-research/famous-people.md` takes its recommended answer (about fifteen people carried
 across events on a dated itinerary; named deaths drawn without gore; killings after surrender other than Crockett's told,
 not drawn; Bowie in his south-side room, lying still when that barrack falls, the manner marked disputed; famous people

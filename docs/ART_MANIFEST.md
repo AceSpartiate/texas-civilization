@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1223 usable sprites, 89 PNG atlases, 459 clips** (233 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1331 usable sprites, 98 PNG atlases, 480 clips** (254 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -38,6 +38,15 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icons-family-actions-2 | 13 | 1254 × 1254 | 1706833 |
 | icons-family-service | 16 | 1254 × 1254 | 1734840 |
 | icons-family-subsistence | 8 | 1774 × 887 | 2248974 |
+| famous-crockett | 16 | 1254 × 1254 | 1237962 |
+| famous-travis | 16 | 1254 × 1254 | 1163935 |
+| famous-bowie | 16 | 1254 × 1254 | 1280882 |
+| famous-emily-west | 16 | 1254 × 1254 | 1334869 |
+| famous-santa-anna | 16 | 1254 × 1254 | 1194798 |
+| famous-houston | 16 | 1254 × 1254 | 1300269 |
+| famous-emily-west-picnic | 4 | 1254 × 1254 | 1381954 |
+| famous-santa-anna-picnic | 4 | 1254 × 1254 | 1236551 |
+| famous-picnic-props | 4 | 1254 × 1254 | 1557526 |
 | flag-come-and-take-it | 4 | 1254 × 1254 | 1140674 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
@@ -450,6 +459,114 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icon-butcher-beef | icons-family-subsistence | State artwork; no motion required |
 | icon-butcher-hog | icons-family-subsistence | State artwork; no motion required |
 | icon-look-to-stock | icons-family-subsistence | State artwork; no motion required |
+| crockett-walk-e-1 | famous-crockett | crockett-walk-e |
+| crockett-walk-e-2 | famous-crockett | crockett-walk-e |
+| crockett-walk-e-3 | famous-crockett | crockett-walk-e |
+| crockett-walk-e-4 | famous-crockett | crockett-walk-e |
+| crockett-walk-s-1 | famous-crockett | crockett-walk-s |
+| crockett-walk-s-2 | famous-crockett | crockett-walk-s |
+| crockett-walk-n-1 | famous-crockett | crockett-walk-n |
+| crockett-walk-n-2 | famous-crockett | crockett-walk-n |
+| crockett-idle | famous-crockett | State artwork; no motion required |
+| crockett-listen | famous-crockett | State artwork; no motion required |
+| crockett-speak | famous-crockett | State artwork; no motion required |
+| crockett-command | famous-crockett | State artwork; no motion required |
+| crockett-aim | famous-crockett | State artwork; no motion required |
+| crockett-fire | famous-crockett | State artwork; no motion required |
+| crockett-reload | famous-crockett | State artwork; no motion required |
+| crockett-rest-seated | famous-crockett | State artwork; no motion required |
+| travis-walk-e-1 | famous-travis | travis-walk-e |
+| travis-walk-e-2 | famous-travis | travis-walk-e |
+| travis-walk-e-3 | famous-travis | travis-walk-e |
+| travis-walk-e-4 | famous-travis | travis-walk-e |
+| travis-walk-s-1 | famous-travis | travis-walk-s |
+| travis-walk-s-2 | famous-travis | travis-walk-s |
+| travis-walk-n-1 | famous-travis | travis-walk-n |
+| travis-walk-n-2 | famous-travis | travis-walk-n |
+| travis-idle | famous-travis | State artwork; no motion required |
+| travis-speak | famous-travis | State artwork; no motion required |
+| travis-command | famous-travis | State artwork; no motion required |
+| travis-write | famous-travis | State artwork; no motion required |
+| travis-ready | famous-travis | State artwork; no motion required |
+| travis-aim | famous-travis | State artwork; no motion required |
+| travis-fire | famous-travis | State artwork; no motion required |
+| travis-wounded-kneel | famous-travis | State artwork; no motion required |
+| bowie-walk-e-1 | famous-bowie | bowie-walk-e |
+| bowie-walk-e-2 | famous-bowie | bowie-walk-e |
+| bowie-walk-e-3 | famous-bowie | bowie-walk-e |
+| bowie-walk-e-4 | famous-bowie | bowie-walk-e |
+| bowie-walk-s-1 | famous-bowie | bowie-walk-s |
+| bowie-walk-s-2 | famous-bowie | bowie-walk-s |
+| bowie-walk-n-1 | famous-bowie | bowie-walk-n |
+| bowie-walk-n-2 | famous-bowie | bowie-walk-n |
+| bowie-idle | famous-bowie | State artwork; no motion required |
+| bowie-speak | famous-bowie | State artwork; no motion required |
+| bowie-command | famous-bowie | State artwork; no motion required |
+| bowie-unwell | famous-bowie | State artwork; no motion required |
+| bowie-sick-seated | famous-bowie | State artwork; no motion required |
+| bowie-sick-bed | famous-bowie | State artwork; no motion required |
+| bowie-still-bed | famous-bowie | State artwork; no motion required |
+| bowie-rise-bed | famous-bowie | State artwork; no motion required |
+| emily-west-walk-e-1 | famous-emily-west | emily-west-walk-e |
+| emily-west-walk-e-2 | famous-emily-west | emily-west-walk-e |
+| emily-west-walk-e-3 | famous-emily-west | emily-west-walk-e |
+| emily-west-walk-e-4 | famous-emily-west | emily-west-walk-e |
+| emily-west-walk-s-1 | famous-emily-west | emily-west-walk-s |
+| emily-west-walk-s-2 | famous-emily-west | emily-west-walk-s |
+| emily-west-walk-n-1 | famous-emily-west | emily-west-walk-n |
+| emily-west-walk-n-2 | famous-emily-west | emily-west-walk-n |
+| emily-west-idle | famous-emily-west | State artwork; no motion required |
+| emily-west-speak | famous-emily-west | State artwork; no motion required |
+| emily-west-listen | famous-emily-west | State artwork; no motion required |
+| emily-west-stand-firm | famous-emily-west | State artwork; no motion required |
+| emily-west-carry-tray | famous-emily-west | State artwork; no motion required |
+| emily-west-set-tray | famous-emily-west | State artwork; no motion required |
+| emily-west-sit-converse | famous-emily-west | State artwork; no motion required |
+| emily-west-carry-bundle | famous-emily-west | State artwork; no motion required |
+| santa-anna-walk-e-1 | famous-santa-anna | santa-anna-walk-e |
+| santa-anna-walk-e-2 | famous-santa-anna | santa-anna-walk-e |
+| santa-anna-walk-e-3 | famous-santa-anna | santa-anna-walk-e |
+| santa-anna-walk-e-4 | famous-santa-anna | santa-anna-walk-e |
+| santa-anna-walk-s-1 | famous-santa-anna | santa-anna-walk-s |
+| santa-anna-walk-s-2 | famous-santa-anna | santa-anna-walk-s |
+| santa-anna-walk-n-1 | famous-santa-anna | santa-anna-walk-n |
+| santa-anna-walk-n-2 | famous-santa-anna | santa-anna-walk-n |
+| santa-anna-idle | famous-santa-anna | State artwork; no motion required |
+| santa-anna-speak | famous-santa-anna | State artwork; no motion required |
+| santa-anna-command | famous-santa-anna | State artwork; no motion required |
+| santa-anna-map | famous-santa-anna | State artwork; no motion required |
+| santa-anna-disguised-walk | famous-santa-anna | State artwork; no motion required |
+| santa-anna-disguised-idle | famous-santa-anna | State artwork; no motion required |
+| santa-anna-disguised-seated | famous-santa-anna | State artwork; no motion required |
+| santa-anna-disguised-speak | famous-santa-anna | State artwork; no motion required |
+| houston-walk-e-1 | famous-houston | houston-walk-e |
+| houston-walk-e-2 | famous-houston | houston-walk-e |
+| houston-walk-e-3 | famous-houston | houston-walk-e |
+| houston-walk-e-4 | famous-houston | houston-walk-e |
+| houston-walk-s-1 | famous-houston | houston-walk-s |
+| houston-walk-s-2 | famous-houston | houston-walk-s |
+| houston-walk-n-1 | famous-houston | houston-walk-n |
+| houston-walk-n-2 | famous-houston | houston-walk-n |
+| houston-idle | famous-houston | State artwork; no motion required |
+| houston-speak | famous-houston | State artwork; no motion required |
+| houston-command | famous-houston | State artwork; no motion required |
+| houston-map | famous-houston | State artwork; no motion required |
+| houston-injured-seated | famous-houston | State artwork; no motion required |
+| houston-injured-speak | famous-houston | State artwork; no motion required |
+| houston-injured-rest | famous-houston | State artwork; no motion required |
+| houston-injured-stand | famous-houston | State artwork; no motion required |
+| emily-west-picnic-listen | famous-emily-west-picnic | emily-west-picnic-converse |
+| emily-west-picnic-speak | famous-emily-west-picnic | emily-west-picnic-converse |
+| emily-west-picnic-laugh | famous-emily-west-picnic | emily-west-picnic-converse |
+| emily-west-picnic-alarm | famous-emily-west-picnic | State artwork; no motion required |
+| santa-anna-picnic-listen | famous-santa-anna-picnic | santa-anna-picnic-converse |
+| santa-anna-picnic-speak | famous-santa-anna-picnic | santa-anna-picnic-converse |
+| santa-anna-picnic-notice | famous-santa-anna-picnic | santa-anna-picnic-alarm |
+| santa-anna-picnic-rise | famous-santa-anna-picnic | santa-anna-picnic-alarm |
+| picnic-command-tent | famous-picnic-props | State artwork; no motion required |
+| picnic-blanket | famous-picnic-props | State artwork; no motion required |
+| picnic-basket | famous-picnic-props | State artwork; no motion required |
+| picnic-jug-cups | famous-picnic-props | State artwork; no motion required |
 | flag-come-and-take-it | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-1 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-2 | flag-come-and-take-it | flag-come-and-take-it-wind |
@@ -1480,6 +1597,27 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | infant-idle-w | breathe | 1 | 3000 | yes | west |
 | infant-idle-e | breathe | 1 | 3000 | yes | east |
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
+| crockett-walk-e | Pose cycle | 4 | 760 | yes | east |
+| crockett-walk-s | Pose cycle | 2 | 580 | yes | south |
+| crockett-walk-n | Pose cycle | 2 | 580 | yes | north |
+| travis-walk-e | Pose cycle | 4 | 760 | yes | east |
+| travis-walk-s | Pose cycle | 2 | 580 | yes | south |
+| travis-walk-n | Pose cycle | 2 | 580 | yes | north |
+| bowie-walk-e | Pose cycle | 4 | 760 | yes | east |
+| bowie-walk-s | Pose cycle | 2 | 580 | yes | south |
+| bowie-walk-n | Pose cycle | 2 | 580 | yes | north |
+| emily-west-walk-e | Pose cycle | 4 | 760 | yes | east |
+| emily-west-walk-s | Pose cycle | 2 | 580 | yes | south |
+| emily-west-walk-n | Pose cycle | 2 | 580 | yes | north |
+| santa-anna-walk-e | Pose cycle | 4 | 760 | yes | east |
+| santa-anna-walk-s | Pose cycle | 2 | 580 | yes | south |
+| santa-anna-walk-n | Pose cycle | 2 | 580 | yes | north |
+| houston-walk-e | Pose cycle | 4 | 760 | yes | east |
+| houston-walk-s | Pose cycle | 2 | 580 | yes | south |
+| houston-walk-n | Pose cycle | 2 | 580 | yes | north |
+| emily-west-picnic-converse | Pose cycle | 4 | 4300 | yes | west-facing at a camp table |
+| santa-anna-picnic-converse | Pose cycle | 3 | 3450 | yes | east-facing at a camp chair |
+| santa-anna-picnic-alarm | Pose cycle | 2 | 1750 | one-shot | east-facing; turns toward the battle |
 | flag-come-and-take-it-wind | Pose cycle | 4 | 2700 | yes | not applicable |
 | rust-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | teal-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |

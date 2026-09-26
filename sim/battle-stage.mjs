@@ -129,6 +129,7 @@ export function checkEngagement(def) {
     }
     for (const breach of phase.breaches || []) if (!breach.point || !SIDES.includes(breach.side) || !(breach.at >= 0 && breach.at <= phase.minutes)) fail(`a breach in ${phase.id} is malformed`);
     for (const flag of phase.flags || []) if (!FLAG_KINDS.includes(flag.kind) || !SIDES.includes(flag.side) || !flag.claimId || !(flag.from >= 0 && flag.from <= phase.minutes)) fail(`a flag in ${phase.id} is malformed`);
+    if (phase.legendScene && (phase.legendScene.kind !== 'tradition' || !phase.legendScene.id || !phase.legendScene.at || !phase.legendScene.claimId || !['converse', 'alarm'].includes(phase.legendScene.moment) || (phase.legendScene.fromMinute !== undefined && (!(phase.legendScene.fromMinute >= 0) || phase.legendScene.fromMinute >= phase.minutes)))) fail(`legend scene in ${phase.id} must be a dated and sourced tradition`);
   }
   const phaseIds = new Set(def.phases.map(phase => phase.id));
   for (const work of def.works || []) {
@@ -477,6 +478,9 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
     ...(phase.light || def.light ? { light: phase.light || def.light } : {}),
     ...(def.scenery && { scenery: def.scenery(ground).map(item => ({ ...item, lit: Array.isArray(item.lit) ? item.lit.includes(phase.id) : Boolean(item.lit) })) }),
     ...(phase.herd && !state.over && { herd: { ...placeOf(ground, phase.herd, phase.minutes, into), count: phase.herd.count, moving: specMoving(phase.herd, into), ...(phase.herd.scatter && { scatter: true }) } }),
+    ...(phase.legendScene && !state.over && into >= (phase.legendScene.fromMinute || 0) && ground[phase.legendScene.at]
+      ? { legendScene: { id: phase.legendScene.id, kind: 'tradition', claimId: phase.legendScene.claimId,
+          moment: phase.legendScene.moment, x: ground[phase.legendScene.at].x, y: ground[phase.legendScene.at].y } } : {}),
   };
   // Groups drawn apart from their side (Béxar's divisions in their houses, men on the roofs, a file under the loopholes, the
   // townspeople let out through a breach): each where it stands now, facing what it faces, doing what it does.

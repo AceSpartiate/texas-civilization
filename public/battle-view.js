@@ -563,6 +563,7 @@ export function createBattleView(art) {
     let cannonShown = null;
     if (battle.cannon) cannonShown = drawCannon(ctx, battle, camera, figurePx, time, now, wind, still);
     const flagShown = battle.flag ? drawFlag(ctx, battle.flag, camera, figurePx, time, wind) : null;
+    const legendShown = battle.legendScene ? drawLegendScene(ctx, battle.legendScene, camera, figurePx, time, reducedMotion) : null;
     if (battle.parley) drawParley(ctx, battle, camera, figurePx, time);
     // Guns standing on the ground (Béxar's: the plaza's, the Alamo's, Neill's), each firing the shots the server dated.
     const gunsShown = (battle.guns || []).map(gun => drawGun(ctx, gun, camera, figurePx, time, now, wind, still, bounds)).filter(Boolean);
@@ -604,6 +605,7 @@ export function createBattleView(art) {
       breaches: breachesShown, breachesOpened: view.breachesSeen.size, civilians, civiliansSeen: view.civiliansSeen, namedFalls: [...view.namedFalls], whiteFlag: (battle.flags || []).length ? view.whiteFlag || null : null,
       // San Jacinto: who is down by body, how many have their hands up, what stands on the ground, each side's style.
       fallenBy: Object.fromEntries([...fallenSlots.entries()].map(([key, m]) => [key, m.size])), surrendering, works: worksDrawn,
+      legendScene: legendShown,
       styles: Object.fromEntries(battle.sides.map(side => [side.side, side.style])),
       memberFalls: [...view.memberFallAt.entries()].filter(([, fall]) => fall.at <= now).map(([id, fall]) => ({ id, fate: fall.fate })),
       // §6.13: the parts each side is drawn in, what their men were doing, the houses and groves, the herd, the night.
@@ -944,13 +946,52 @@ export function createBattleView(art) {
       // A man lying hurt (`pose: 'injured'`): Houston, his ankle shattered, when Santa Anna is brought before him (`HIST-TEX-526`).
       const kind = spot.side === 'mexican' ? 'regular' : 'volunteer';
       const clip = who?.pose === 'injured' ? `${kind}-injured-rest` : spot.side === 'mexican' ? (who?.mounted ? `dragoon-idle-${faceRight ? 'e' : 'w'}` : `regular-idle-${faceRight ? 'e' : 'w'}`) : `volunteer-idle-${faceRight ? 'e' : 'w'}`;
-      if (!art.animated(ctx, clip, x, p.y, size, `parley:${spot.side}`, { timeMs: time, ...(who?.pose === 'injured' && { flip: !faceRight }) })) art.miniPerson(ctx, x, p.y, size, { side: spot.side });
+      // The capture parley is the first battle scene to use the named roster art. Santa Anna is in the plain soldier's
+      // clothes he wore when found, while Houston sits with his bandaged ankle; all other parley figures retain stand-ins.
+      const namedSprite = who?.name === 'Houston' && who.pose === 'injured' ? 'houston-injured-seated'
+        : who?.name === 'Santa Anna' && !who.mounted ? 'santa-anna-disguised-idle' : null;
+      if (!(namedSprite && art.drawSprite(ctx, namedSprite, x, p.y, size, { flip: !faceRight }))
+        && !art.animated(ctx, clip, x, p.y, size, `parley:${spot.side}`, { timeMs: time, ...(who?.pose === 'injured' && { flip: !faceRight }) })) {
+        art.miniPerson(ctx, x, p.y, size, { side: spot.side });
+      }
       view.parleySpots[spot.side] = { x, y: p.y - size };
       if (who?.name && figurePx >= 14) {
         ctx.font = `${Math.round(Math.max(11, Math.min(15, figurePx * 0.3)))}px system-ui`; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
         ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(252,249,238,.92)'; ctx.strokeText(who.name, x, p.y + 14); ctx.fillStyle = '#26382e'; ctx.fillText(who.name, x, p.y + 14);
       }
     }
+  }
+
+  /** The owner's Yellow Rose vignette. It is sent only to a page entitled to this phase of the battle. */
+  function drawLegendScene(ctx, scene, camera, figurePx, time, reducedMotion) {
+    if (scene.id !== 'emily-west-picnic' || scene.kind !== 'tradition') return null;
+    const p = camera.toScreen(scene);
+    // A slightly enlarged, dashed-edge vignette at normal battle zoom lets the class read the faces without implying
+    // that this late legend is one more surveyed fact on the field.
+    const scenePx = Math.max(figurePx, 46);
+    art.drawSprite(ctx, 'picnic-command-tent', p.x, p.y - scenePx * 0.65, scenePx * 3.7);
+    art.drawSprite(ctx, 'picnic-blanket', p.x, p.y + scenePx * 0.45, scenePx * 2.3);
+    art.drawSprite(ctx, 'picnic-basket', p.x - scenePx * 1.05, p.y + scenePx * 0.8, scenePx * 0.9);
+    art.drawSprite(ctx, 'picnic-jug-cups', p.x + scenePx * 1.05, p.y + scenePx * 0.82, scenePx * 0.65);
+    const left = p.x - scenePx * 0.95, right = p.x + scenePx * 0.9, level = p.y + scenePx * 0.45;
+    if (scene.moment === 'alarm') {
+      art.animated(ctx, 'santa-anna-picnic-alarm', left, level, scenePx * 1.25, 'santa-anna:picnic-alarm', { timeMs: time, paused: reducedMotion });
+      art.drawSprite(ctx, 'emily-west-picnic-alarm', right, level, scenePx * 1.25);
+    } else {
+      art.animated(ctx, 'santa-anna-picnic-converse', left, level, scenePx * 1.25, 'santa-anna:picnic', { timeMs: time, paused: reducedMotion });
+      art.animated(ctx, 'emily-west-picnic-converse', right, level, scenePx * 1.25, 'emily-west:picnic', { timeMs: time + 700, paused: reducedMotion });
+    }
+    // A dashed label stays with the figures even when the main battle caption changes phase.
+    ctx.save();
+    ctx.font = `${Math.round(Math.max(11, figurePx * 0.32))}px system-ui`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const label = 'LATER STORY · Emily West / Santa Anna';
+    const width = Math.max(190, ctx.measureText(label).width + 20), top = p.y - scenePx * 3.4;
+    ctx.fillStyle = 'rgba(252,249,238,.94)'; ctx.strokeStyle = '#6e6044'; ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 3]); ctx.fillRect(p.x - width / 2, top, width, 21); ctx.strokeRect(p.x - width / 2, top, width, 21);
+    ctx.setLineDash([]); ctx.fillStyle = '#3b392f'; ctx.fillText(label, p.x, top + 11);
+    ctx.restore();
+    return { id: scene.id, kind: scene.kind, claimId: scene.claimId, moment: scene.moment, x: Math.round(p.x), y: Math.round(p.y) };
   }
 
   function drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds) {

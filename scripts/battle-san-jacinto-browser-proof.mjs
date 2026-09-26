@@ -145,7 +145,7 @@ try {
 
   const sample = async (page, label) => {
     const one = await page.evaluate(() => ({ phase: window.__snapshot.world.battle?.phase, minute: window.__snapshot.world.minute, view: window.__battleView, frame: window.__animation?.drawMs, camera: window.__camera?.kind, size: `${innerWidth}x${innerHeight}` }));
-    evidence.samples.push({ label, phase: one.phase, minute: one.minute, camera: one.camera, size: one.size, view: one.view && { figures: one.view.figures, regularity: one.view.regularity, styles: one.view.styles, shotsTotal: one.view.shotsTotal, shotsBy: one.view.shotsBy, smokeInView: one.view.smokeInView, bubbles: one.view.bubbles.map(b => b.text), fallen: one.view.fallen, surrendering: one.view.surrendering, members: one.view.members, memberClips: one.view.memberClips, gunShots: one.view.gunShots, works: one.view.works, frameMs: one.view.frameMs } });
+    evidence.samples.push({ label, phase: one.phase, minute: one.minute, camera: one.camera, size: one.size, view: one.view && { figures: one.view.figures, regularity: one.view.regularity, styles: one.view.styles, shotsTotal: one.view.shotsTotal, shotsBy: one.view.shotsBy, smokeInView: one.view.smokeInView, bubbles: one.view.bubbles.map(b => b.text), fallen: one.view.fallen, surrendering: one.view.surrendering, members: one.view.members, memberClips: one.view.memberClips, gunShots: one.view.gunShots, works: one.view.works, legendScene: one.view.legendScene, frameMs: one.view.frameMs } });
     return one;
   };
   // The advance: the formed line against the camp at rest.
@@ -155,6 +155,10 @@ try {
   assert.equal(advance.view.styles.texian, 'ranks'); assert.equal(advance.view.styles.mexican, 'camp');
   assert.ok(advance.view.regularity.texian * 4 < advance.view.regularity.mexican, `the Texian line is not the formed side: ${JSON.stringify(advance.view.regularity)}`);
   assert.equal(advance.camera, 'battle', 'Watch did not hold the camera on the fight');
+  assert.equal(advance.view.legendScene?.id, 'emily-west-picnic', 'the named picnic did not draw during the advance');
+  assert.equal(advance.view.legendScene?.kind, 'tradition', 'the picnic lost its disputed-story label');
+  assert.ok(advance.view.legendScene.x > 250 && advance.view.legendScene.x < 1080, 'the picnic fell under the interface or off screen');
+  ok('Emily West and Santa Anna are visible at the picnic as a labelled later story, with animated conversation before the guns');
   ok(`the formed Texian line against the camp at rest: nearest-neighbour spread ${advance.view.regularity.texian.toFixed(3)} against ${advance.view.regularity.mexican.toFixed(3)}; the breastwork and the marsh drawn (${advance.view.works} pieces)`);
   await shot(fighter, 'advance');
 
