@@ -6,12 +6,12 @@
   "note": "A class on the colonies map played in process through two periods and into the spring to the morning of March 19, 1836, with two families' fathers put with Fannin at Goliad as men who got away from the south; then served live and watched through Coleto and Palm Sunday at the Quick pace.",
   "checks": [
     "three students joined and made their families; Elias Square and Jethro Hurt are with Fannin at Goliad",
-    "\"Fannin marches out\" came through the man during the road, and Follow framed the column 0.27 miles from its middle",
+    "\"Fannin marches out\" came through the man during the march-out, and Follow framed the column 0.21 miles from its middle",
     "\"Caught on the prairie\" came with Watch when the cavalry caught the column",
-    "fire from both sides and smoke on the screen at each of 9 sampled moments of the assaults (smoke in view 6-136 puffs)",
-    "words drawn over the speakers: k-carts | k-fog | k-oxen | k-graze | k-slow | k-behind | k-timber | k-caballo | k-form | k-carts-in | k-formar | command:texian:0",
-    "the family's own man hh-1-parent-1 is in the square at Coleto, drawn in its poses: volunteer-march, volunteer-idle-w, volunteer-w, volunteer-fire-reload, volunteer-load, volunteer-injured",
-    "the battle draws in 8.0 ms at its slowest 95th percentile, of a map frame of 26.1 ms at most",
+    "fire from both sides and smoke on the screen at each of 9 sampled moments of the assaults (smoke in view 12-128 puffs)",
+    "words drawn over the speakers: k-carts | k-fog | k-oxen | k-graze | k-slow | k-behind | k-timber | k-caballo | k-form | k-carts-in | k-formar | command:mexican:2",
+    "the family's own man hh-1-parent-1 is in the square at Coleto, drawn in its poses: volunteer-march, volunteer-idle-w, volunteer-fire-reload, volunteer-load, volunteer-w, volunteer-injured",
+    "the battle draws in 2.5 ms at its slowest 95th percentile, of a map frame of 7.8 ms at most",
     "at 1024x768 the second family sees its man hit in the assault-2 and drawn sitting hurt, no blood (wounded on its screen)",
     "the Host sees Coleto live (assault-2), its camera on the field and its spotlight lit",
     "the family with nobody there was sent nothing of Coleto - no battle, no card, no name - before and after a reload",
@@ -37,17 +37,16 @@
         },
         "regularity": {
           "texian": 0.032029575982079735,
-          "mexican": 0.2945644302798019
+          "mexican": 0.29456443027980184
         },
         "shotsBy": {
-          "mexican": 5
+          "mexican": 7,
+          "texian": 5
         },
-        "smokeInView": 6,
+        "smokeInView": 12,
         "bubbles": [
           "Get the carts inside!",
-          "¡En columna! ¡Armen la bayoneta!",
-          "Present!",
-          "¡Preparen las armas!"
+          "¡En columna! ¡Armen la bayoneta!"
         ],
         "members": [
           "hh-1-parent-1",
@@ -56,7 +55,6 @@
         "memberClips": [
           "volunteer-march",
           "volunteer-idle-w",
-          "volunteer-w",
           "volunteer-fire-reload",
           "volunteer-load"
         ],
@@ -66,9 +64,9 @@
         "guns": 4,
         "cannonShots": 0,
         "frameMs": {
-          "last": 1.4,
-          "median": 1,
-          "p95": 4.1
+          "last": 1.9,
+          "median": 0.7,
+          "p95": 1.9
         }
       }
     },
@@ -85,17 +83,16 @@
         },
         "regularity": {
           "texian": 0.032029575982079374,
-          "mexican": 0.2945644302798019
+          "mexican": 0.2945644302797964
         },
         "shotsBy": {
-          "mexican": 19,
-          "texian": 5
+          "mexican": 11,
+          "texian": 10
         },
-        "smokeInView": 24,
+        "smokeInView": 20,
         "bubbles": [
           "¡En columna! ¡Armen la bayoneta!",
-          "Here they come, all round!",
-          "¡Apunten!"
+          "Here they come, all round!"
         ],
         "members": [
           "hh-1-parent-1",
@@ -104,9 +101,9 @@
         "memberClips": [
           "volunteer-march",
           "volunteer-idle-w",
-          "volunteer-w",
           "volunteer-fire-reload",
-          "volunteer-load"
+          "volunteer-load",
+          "volunteer-w"
         ],
         "fallen": 0,
         "down": {},
@@ -114,9 +111,9 @@
         "guns": 4,
         "cannonShots": 0,
         "frameMs": {
-          "last": 1.7,
-          "median": 1,
-          "p95": 4.1
+          "last": 1.1,
+          "median": 0.7,
+          "p95": 1.9
         }
       }
     },
@@ -136,10 +133,10 @@
           "mexican": 0.2948046400312437
         },
         "shotsBy": {
-          "mexican": 25,
+          "mexican": 15,
           "texian": 12
         },
-        "smokeInView": 43,
+        "smokeInView": 32,
         "bubbles": [
           "Here they come, all round!",
           "¡A la carga!"
@@ -151,9 +148,9 @@
         "memberClips": [
           "volunteer-march",
           "volunteer-idle-w",
-          "volunteer-w",
           "volunteer-fire-reload",
-          "volunteer-load"
+          "volunteer-load",
+          "volunteer-w"
         ],
         "fallen": 4,
         "down": {},
@@ -161,9 +158,9 @@
         "guns": 4,
         "cannonShots": 2,
         "frameMs": {
-          "last": 2.1,
-          "median": 1.1,
-          "p95": 4
+          "last": 2.4,
+          "median": 0.8,
+          "p95": 1.9
         }
       }
     },
@@ -180,17 +177,18 @@
         },
         "regularity": {
           "texian": 0.033129753478113484,
-          "mexican": 0.2977419027703251
+          "mexican": 0.29774190277032503
         },
         "shotsBy": {
-          "mexican": 30,
-          "texian": 15
+          "mexican": 18,
+          "texian": 19
         },
-        "smokeInView": 60,
+        "smokeInView": 51,
         "bubbles": [
           "¡A la carga!",
           "Steady! Wait for them!",
-          "He’s hit! Get him inside!"
+          "He’s hit! Get him inside!",
+          "Front rank, make ready!"
         ],
         "members": [
           "hh-1-parent-1",
@@ -199,9 +197,9 @@
         "memberClips": [
           "volunteer-march",
           "volunteer-idle-w",
-          "volunteer-w",
           "volunteer-fire-reload",
-          "volunteer-load"
+          "volunteer-load",
+          "volunteer-w"
         ],
         "fallen": 8,
         "down": {},
@@ -209,9 +207,9 @@
         "guns": 4,
         "cannonShots": 5,
         "frameMs": {
-          "last": 2.2,
-          "median": 1.3,
-          "p95": 3.9
+          "last": 1.7,
+          "median": 0.9,
+          "p95": 2.1
         }
       }
     },
@@ -231,14 +229,16 @@
           "mexican": 0.33029008535956317
         },
         "shotsBy": {
-          "mexican": 33,
-          "texian": 20
+          "mexican": 25,
+          "texian": 24
         },
-        "smokeInView": 74,
+        "smokeInView": 68,
         "bubbles": [
           "¡A la carga!",
           "Steady! Wait for them!",
-          "He’s hit! Get him inside!"
+          "He’s hit! Get him inside!",
+          "Fire! Rear rank, make ready!",
+          "¡Preparen las armas!"
         ],
         "members": [
           "hh-1-parent-1",
@@ -247,9 +247,9 @@
         "memberClips": [
           "volunteer-march",
           "volunteer-idle-w",
-          "volunteer-w",
           "volunteer-fire-reload",
-          "volunteer-load"
+          "volunteer-load",
+          "volunteer-w"
         ],
         "fallen": 10,
         "down": {},
@@ -257,16 +257,16 @@
         "guns": 4,
         "cannonShots": 6,
         "frameMs": {
-          "last": 3.3,
-          "median": 1.6,
-          "p95": 3.9
+          "last": 1.4,
+          "median": 1.1,
+          "p95": 2.3
         }
       }
     },
     {
       "label": "1366 second 0",
       "phase": "assault-2",
-      "minute": 249710,
+      "minute": 249705,
       "camera": "battle",
       "size": "1366x768",
       "view": {
@@ -275,14 +275,14 @@
           "mexican": 51
         },
         "regularity": {
-          "texian": 0.03524029729442472,
-          "mexican": 0.33029008535950993
+          "texian": 0.035240297294426,
+          "mexican": 0.3302900853595956
         },
         "shotsBy": {
-          "mexican": 48,
-          "texian": 28
+          "mexican": 34,
+          "texian": 29
         },
-        "smokeInView": 99,
+        "smokeInView": 84,
         "bubbles": [
           "How many of them are there?",
           "¡A formar!"
@@ -294,9 +294,9 @@
         "memberClips": [
           "volunteer-march",
           "volunteer-idle-w",
-          "volunteer-w",
           "volunteer-fire-reload",
-          "volunteer-load"
+          "volunteer-load",
+          "volunteer-w"
         ],
         "fallen": 10,
         "down": {},
@@ -304,16 +304,16 @@
         "guns": 4,
         "cannonShots": 6,
         "frameMs": {
-          "last": 3.1,
-          "median": 2.3,
-          "p95": 7.9
+          "last": 1.1,
+          "median": 1.3,
+          "p95": 2.3
         }
       }
     },
     {
       "label": "1366 second 1",
       "phase": "assault-2",
-      "minute": 249720,
+      "minute": 249715,
       "camera": "battle",
       "size": "1366x768",
       "view": {
@@ -322,16 +322,18 @@
           "mexican": 51
         },
         "regularity": {
-          "texian": 0.034660871496933046,
-          "mexican": 0.33029008535954174
+          "texian": 0.034660871496935114,
+          "mexican": 0.3302900853595618
         },
         "shotsBy": {
-          "mexican": 53,
-          "texian": 31
+          "mexican": 37,
+          "texian": 34
         },
-        "smokeInView": 103,
+        "smokeInView": 89,
         "bubbles": [
-          "They’re coming again!"
+          "¡A formar!",
+          "They’re coming again!",
+          "Front rank, make ready!"
         ],
         "members": [
           "hh-1-parent-1",
@@ -340,9 +342,9 @@
         "memberClips": [
           "volunteer-march",
           "volunteer-idle-w",
-          "volunteer-w",
           "volunteer-fire-reload",
           "volunteer-load",
+          "volunteer-w",
           "volunteer-injured"
         ],
         "fallen": 10,
@@ -353,9 +355,9 @@
         "guns": 4,
         "cannonShots": 6,
         "frameMs": {
-          "last": 3.6,
-          "median": 2.6,
-          "p95": 8
+          "last": 1.4,
+          "median": 1.4,
+          "p95": 2.3
         }
       }
     },
@@ -367,72 +369,21 @@
       "size": "1366x768",
       "view": {
         "figures": {
-          "texian": 50,
-          "mexican": 49
+          "texian": 52,
+          "mexican": 51
         },
         "regularity": {
-          "texian": 0.052402609478288585,
-          "mexican": 0.33641958885747925
+          "texian": 0.034982378234719405,
+          "mexican": 0.3302900853595413
         },
         "shotsBy": {
-          "mexican": 56,
-          "texian": 38
+          "mexican": 42,
+          "texian": 41
         },
-        "smokeInView": 119,
+        "smokeInView": 108,
         "bubbles": [
           "They’re coming again!",
           "¡Caballería, a la carga!",
-          "Hold the rear! Hold!"
-        ],
-        "members": [
-          "hh-1-parent-1",
-          "hh-2-parent-1"
-        ],
-        "memberClips": [
-          "volunteer-march",
-          "volunteer-idle-w",
-          "volunteer-w",
-          "volunteer-fire-reload",
-          "volunteer-load",
-          "volunteer-injured"
-        ],
-        "fallen": 15,
-        "down": {
-          "hh-2-parent-1": "wounded"
-        },
-        "light": "day",
-        "guns": 4,
-        "cannonShots": 8,
-        "frameMs": {
-          "last": 3.7,
-          "median": 2.8,
-          "p95": 8
-        }
-      }
-    },
-    {
-      "label": "1366 second 3",
-      "phase": "assault-2",
-      "minute": 249740,
-      "camera": "battle",
-      "size": "1366x768",
-      "view": {
-        "figures": {
-          "texian": 50,
-          "mexican": 48
-        },
-        "regularity": {
-          "texian": 0.05240260947828975,
-          "mexican": 0.33851606661656186
-        },
-        "shotsBy": {
-          "mexican": 60,
-          "texian": 40
-        },
-        "smokeInView": 136,
-        "bubbles": [
-          "¡Caballería, a la carga!",
-          "Hold the rear! Hold!",
           "Present!",
           "¡Preparen las armas!"
         ],
@@ -443,9 +394,60 @@
         "memberClips": [
           "volunteer-march",
           "volunteer-idle-w",
-          "volunteer-w",
           "volunteer-fire-reload",
           "volunteer-load",
+          "volunteer-w",
+          "volunteer-injured"
+        ],
+        "fallen": 11,
+        "down": {
+          "hh-2-parent-1": "wounded"
+        },
+        "light": "day",
+        "guns": 4,
+        "cannonShots": 8,
+        "frameMs": {
+          "last": 2.1,
+          "median": 1.4,
+          "p95": 2.4
+        }
+      }
+    },
+    {
+      "label": "1366 second 3",
+      "phase": "assault-2",
+      "minute": 249735,
+      "camera": "battle",
+      "size": "1366x768",
+      "view": {
+        "figures": {
+          "texian": 50,
+          "mexican": 48
+        },
+        "regularity": {
+          "texian": 0.05240260947828994,
+          "mexican": 0.33851606661655
+        },
+        "shotsBy": {
+          "mexican": 58,
+          "texian": 42
+        },
+        "smokeInView": 128,
+        "bubbles": [
+          "¡Caballería, a la carga!",
+          "Hold the rear! Hold!",
+          "¡Apunten!"
+        ],
+        "members": [
+          "hh-1-parent-1",
+          "hh-2-parent-1"
+        ],
+        "memberClips": [
+          "volunteer-march",
+          "volunteer-idle-w",
+          "volunteer-fire-reload",
+          "volunteer-load",
+          "volunteer-w",
           "volunteer-injured"
         ],
         "fallen": 16,
@@ -454,11 +456,11 @@
         },
         "light": "day",
         "guns": 4,
-        "cannonShots": 10,
+        "cannonShots": 9,
         "frameMs": {
-          "last": 4.5,
-          "median": 3,
-          "p95": 7.8
+          "last": 1.8,
+          "median": 1.4,
+          "p95": 2.5
         }
       }
     },
@@ -478,10 +480,10 @@
           "mexican": 0.3682970501886399
         },
         "shotsBy": {
-          "mexican": 118,
-          "texian": 70
+          "mexican": 109,
+          "texian": 71
         },
-        "smokeInView": 167,
+        "smokeInView": 169,
         "bubbles": [
           "¡No hay más cartuchos!"
         ],
@@ -492,9 +494,9 @@
         "memberClips": [
           "volunteer-march",
           "volunteer-idle-w",
-          "volunteer-w",
           "volunteer-fire-reload",
           "volunteer-load",
+          "volunteer-w",
           "volunteer-injured"
         ],
         "fallen": 19,
@@ -505,9 +507,9 @@
         "guns": 4,
         "cannonShots": 13,
         "frameMs": {
-          "last": 3.9,
-          "median": 3.8,
-          "p95": 5.2
+          "last": 2,
+          "median": 1.7,
+          "p95": 3
         }
       }
     },
@@ -527,10 +529,10 @@
           "mexican": 0.21438728777090776
         },
         "shotsBy": {
-          "mexican": 142,
+          "mexican": 129,
           "texian": 78
         },
-        "smokeInView": 153,
+        "smokeInView": 163,
         "bubbles": [
           "They’ve got cannon up.",
           "¡Fuego!"
@@ -542,9 +544,9 @@
         "memberClips": [
           "volunteer-march",
           "volunteer-idle-w",
-          "volunteer-w",
           "volunteer-fire-reload",
           "volunteer-load",
+          "volunteer-w",
           "volunteer-injured"
         ],
         "fallen": 20,
@@ -555,9 +557,9 @@
         "guns": 6,
         "cannonShots": 16,
         "frameMs": {
-          "last": 3.9,
-          "median": 4,
-          "p95": 5.2
+          "last": 2,
+          "median": 1.7,
+          "p95": 2.9
         }
       }
     },
@@ -577,10 +579,10 @@
           "mexican": 0.21473421757801123
         },
         "shotsBy": {
-          "mexican": 152,
+          "mexican": 133,
           "texian": 85
         },
-        "smokeInView": 6,
+        "smokeInView": 0,
         "bubbles": [
           "This isn’t the way to Copano."
         ],
@@ -591,9 +593,9 @@
         "memberClips": [
           "volunteer-march",
           "volunteer-idle-w",
-          "volunteer-w",
           "volunteer-fire-reload",
           "volunteer-load",
+          "volunteer-w",
           "volunteer-injured",
           "volunteer-surrender",
           "volunteer-idle-e"
@@ -604,9 +606,9 @@
         "guns": 0,
         "cannonShots": 0,
         "frameMs": {
-          "last": 1.5,
-          "median": 0.5,
-          "p95": 1.3
+          "last": 0.4,
+          "median": 0.3,
+          "p95": 0.6
         }
       }
     },
@@ -622,14 +624,14 @@
           "mexican": 40
         },
         "regularity": {
-          "texian": 0.32239229159172034,
+          "texian": 0.32230578957729233,
           "mexican": 0.21473421757789923
         },
         "shotsBy": {
-          "mexican": 152,
+          "mexican": 133,
           "texian": 85
         },
-        "smokeInView": 6,
+        "smokeInView": 0,
         "bubbles": [
           "This isn’t the way to Copano."
         ],
@@ -640,9 +642,9 @@
         "memberClips": [
           "volunteer-march",
           "volunteer-idle-w",
-          "volunteer-w",
           "volunteer-fire-reload",
           "volunteer-load",
+          "volunteer-w",
           "volunteer-injured",
           "volunteer-surrender",
           "volunteer-idle-e"
@@ -653,16 +655,16 @@
         "guns": 0,
         "cannonShots": 0,
         "frameMs": {
-          "last": 1.3,
-          "median": 0.5,
-          "p95": 1.5
+          "last": 0.6,
+          "median": 0.3,
+          "p95": 0.8
         }
       }
     },
     {
       "label": "1024 volleys 2",
       "phase": "volleys",
-      "minute": 260710,
+      "minute": 260708,
       "camera": "battle",
       "size": "1024x768",
       "view": {
@@ -671,11 +673,11 @@
           "mexican": 40
         },
         "regularity": {
-          "texian": 0.20621975401545228,
-          "mexican": 0.21640594093763
+          "texian": 0.2062197540154376,
+          "mexican": 0.21473421757788266
         },
         "shotsBy": {
-          "mexican": 152,
+          "mexican": 139,
           "texian": 85
         },
         "smokeInView": 6,
@@ -687,9 +689,9 @@
         "memberClips": [
           "volunteer-march",
           "volunteer-idle-w",
-          "volunteer-w",
           "volunteer-fire-reload",
           "volunteer-load",
+          "volunteer-w",
           "volunteer-injured",
           "volunteer-surrender",
           "volunteer-idle-e",
@@ -703,16 +705,16 @@
         "guns": 0,
         "cannonShots": 0,
         "frameMs": {
-          "last": 1.1,
-          "median": 0.7,
-          "p95": 1.5
+          "last": 0.4,
+          "median": 0.3,
+          "p95": 0.8
         }
       }
     },
     {
       "label": "1024 volleys 3",
       "phase": "volleys",
-      "minute": 260714,
+      "minute": 260712,
       "camera": "battle",
       "size": "1024x768",
       "view": {
@@ -721,14 +723,14 @@
           "mexican": 40
         },
         "regularity": {
-          "texian": 0.20621975401543152,
-          "mexican": 0.27385404546984654
+          "texian": 0.20621975401546191,
+          "mexican": 0.2738540454698405
         },
         "shotsBy": {
-          "mexican": 158,
+          "mexican": 139,
           "texian": 85
         },
-        "smokeInView": 12,
+        "smokeInView": 6,
         "bubbles": [],
         "members": [
           "hh-1-parent-1",
@@ -737,9 +739,9 @@
         "memberClips": [
           "volunteer-march",
           "volunteer-idle-w",
-          "volunteer-w",
           "volunteer-fire-reload",
           "volunteer-load",
+          "volunteer-w",
           "volunteer-injured",
           "volunteer-surrender",
           "volunteer-idle-e",
@@ -753,9 +755,9 @@
         "guns": 0,
         "cannonShots": 0,
         "frameMs": {
-          "last": 1.1,
-          "median": 0.8,
-          "p95": 1.5
+          "last": 0.7,
+          "median": 0.4,
+          "p95": 0.8
         }
       }
     }
@@ -767,26 +769,26 @@
   "march": {
     "title": "Fannin marches out",
     "words": "At Elias Square's side, a sergeant of the company: \"We're marching out for Victoria this morning, with the guns and the carts. Fog on the river.\"",
-    "phase": "road",
+    "phase": "march-out",
     "contact": false,
     "field": {
-      "x": 11.18174168816578,
-      "y": 56.32796831081483
+      "x": 5.465818019713537,
+      "y": 58.03717363974037
     },
-    "cameraMilesFromColumn": 0.265
+    "cameraMilesFromColumn": 0.208
   },
   "frameMs": {
-    "battleP95Max": 8,
+    "battleP95Max": 2.5,
     "mapDrawMs": [
-      6.799999982118607,
-      6.699999988079071,
-      7.700000017881393,
-      8.400000005960464,
-      26.099999994039536,
-      11.599999994039536,
-      10.399999976158142,
-      10.799999982118607,
-      10.800000011920929
+      7.800000011920929,
+      4.0999999940395355,
+      7.5999999940395355,
+      5.699999988079071,
+      5.699999988079071,
+      3.9000000059604645,
+      5.5999999940395355,
+      7,
+      6.5
     ]
   },
   "account": "What became of Elias Square"

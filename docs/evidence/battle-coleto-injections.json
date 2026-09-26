@@ -207,7 +207,64 @@
       ]
     }
   ],
-  "browser": [],
-  "cleanBrowserChecks": null,
+  "browser": [
+    {
+      "name": "no smoke: a shot leaves nothing behind",
+      "file": "public/battle-view.js",
+      "expect": "no smoke on screen",
+      "caught": true,
+      "failure": "no smoke on screen at 249575 in the assault-1: 0",
+      "checksPassedFirst": 3
+    },
+    {
+      "name": "the square drawn loose, like the marksmen",
+      "file": "public/battle-view.js",
+      "expect": "the square is not more even than the marksmen",
+      "caught": false,
+      "failure": null,
+      "checksPassedFirst": 17
+    },
+    {
+      "name": "the family's man stays at Goliad",
+      "file": "sim/fannin.mjs",
+      "expect": "is not in the square at Coleto",
+      "caught": true,
+      "failure": "the family's man is not in the square at Coleto",
+      "checksPassedFirst": 5
+    },
+    {
+      "name": "no card when the column marches out",
+      "file": "sim/fannin.mjs",
+      "expect": "no Follow card came through the man when the column marched out",
+      "caught": true,
+      "failure": "no Follow card came through the man when the column marched out",
+      "checksPassedFirst": 1
+    },
+    {
+      "name": "the family with nobody there is sent the fight",
+      "file": "sim/fannin.mjs",
+      "expect": "the family with nobody there was sent the battle",
+      "caught": true,
+      "failure": "the family with nobody there was sent the battle (Coleto)",
+      "checksPassedFirst": 9
+    },
+    {
+      "name": "nobody falls",
+      "file": "public/battle-view.js",
+      "expect": "the prisoners were not drawn falling",
+      "caught": true,
+      "failure": "the prisoners were not drawn falling: 0,0,0,0",
+      "checksPassedFirst": 14
+    },
+    {
+      "name": "no account at the word",
+      "file": "sim/directors.mjs",
+      "expect": "no account came through the family at the word",
+      "caught": true,
+      "failure": "no account came through the family at the word",
+      "checksPassedFirst": 16
+    }
+  ],
+  "cleanBrowserChecks": 17,
   "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
 }
