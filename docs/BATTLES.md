@@ -228,7 +228,7 @@ paraphrase"). Lines are sent as the clock reaches them, and drawn at the real mo
 `falls` are drawn at their minute: a man going down and lying still (`*-reclining`) and, with `carried`, borne off by two
 comrades; with `wounded`, sitting hurt and helped back from the line. No blood, no gore (`VISION.md` §16). A side in
 `noFalling` never falls. A family's person's fate, in a battle where people died, is to be resolved at a staged moment
-inside the fighting (§2.6) - not built yet, since nobody's fate is at stake at Gonzales.
+inside the fighting (§2.6) - built for Coleto and Palm Sunday (§7.2), since nobody's fate is at stake at Gonzales.
 
 ### 6.7 Viewers, pacing, arrival
 
@@ -277,5 +277,51 @@ Its record is `docs/evidence/battle-injections.json`.
   drawn on foot. A detachment drawn apart from its side is the way out.
 - ceiling: figures stand on open ground whatever is under them; the volley's rhythm is each page's own.
 - A family's person is drawn in the militia's firing poses (stand-in, `docs/ART_REQUESTS.md` request 2026-09-25).
-- The staged fate of a family's person inside a deadly battle is not built (none is at stake at Gonzales).
+- The staged fate of a family's person inside a deadly battle: built with Coleto (§7.2).
 - The town before the fight (alarm, flag, muster) is a separate build (`sim/town-scenes.mjs`).
+
+## 7. Coleto and Palm Sunday on the engine (2026-09-25, not released)
+
+Built from `docs/battle-research/staging.md` §6–§7 with the owner's answers K1 (nobody new joins Fannin), K2 (a man with his
+horse may ride with Horton and get away), K3 (all three assaults, about ten real minutes), G2 (a man still wounded cannot
+run) and §2b.2 (the massacre drawn as the battles are, no gore). Claims `HIST-TEX-515`–`-521`, `FIC-GONZ-437`–`-440`.
+
+### 7.1 Where it is
+
+| Piece | File | What it does |
+| --- | --- | --- |
+| Coleto | `sim/battles/coleto.mjs` | Sixteen phases, 09:00 March 19 to 14:00 March 20: the march out in fog, the halt, caught, the square, three assaults with the pauses between, dusk, the night (four hours a tick), the small hours, first light, the guns at 6:15, the surrender, the march back. The Texians in a `square`; the Mexicans in four parts round it, loose in the grass at night; four corner guns and a two-gun battery (`cannons`); a white flag (`phase.flag`). `coletoSlot` places a family's man in the column or in a face of the square. |
+| Palm Sunday | `sim/battles/goliad-massacre.mjs` | Nine phases, 18:00 March 26 to 10:00 March 27: the evening (the song; Francita Alavez bringing men out, named, no words), the night, the muster, three columns out on three roads, the volleys (nothing said, no volley words), the escapes to the river timber, the wounded killed inside, the burning told. `massacrePlace` places a man by his fate. |
+| The director's part | `sim/fannin.mjs` | Every tick of the spring (`advanceColeto`, `advanceMassacre` from `sim/directors.mjs` `advanceScrape`): the men with Fannin enlisted and walked with the column; Horton's scouts; each fate at its staged moment from the old rolls; surrender, prisoners, the march back; the cards (`fanninAlert`), what each page is sent (`fanninView`), the accounts (`hortonAccount`, `escapedAccount`, `tellFannin` at `massacre-word`). |
+| Timeline | `sim/directors.mjs` | New `fannin-marches` (09:00 Mar 19) and `goliad-eve` (18:00 Mar 26); `coleto`, `goliad-surrender` and `goliad-massacre` dated from the phases. `fightColeto`/`goliadMassacre` (sim/houston.mjs) now only take anybody the engine did not. |
+| Recall | `sim/winter.mjs` `FANNIN_MARCHES` | 09:00 on the director's clock (it was 06:00 read off the raw minute: shut at noon on the 18th). |
+| The map | `scripts/build-colonies-map.mjs` | A `coleto` field at the marker; the Goliad–Victoria road laid in two legs through it (only that road changed; checked by decoding). A class saved before keeps its map and the ground falls back to the marker's offset from Goliad. |
+
+### 7.2 Engine additions (generic, additive)
+
+- **`parts`** on a phase's side: detachments each with its own place (`at`/`from`/`to`/`keys`), style, fire, `share` of the
+  drawn sample (largest remainder, adding to the whole), `face`, `mounted`, `figure`, `name`. `partPlace` for the director.
+  The renderer draws each part as its own unit (`unitsOf`); a fall may name its `part`.
+- **`square`** style: four faces of three ranks facing out, carts inside, fire by faces in turn and each face by its ranks.
+- **`cannons`**: several guns at named ground points, on the field `from`/`until` phases, each shot `{ gun, at }`; crews of
+  their own side.
+- **`light`** (`dusk`, `night`, `dawn`, `fog`): the field darkened under the flashes. `ceiling:` only while a fight is shown.
+- **`face: <point>`**; `action: 'surrender'` (hands raised); per-phase `count`/`drawn`; `uncounted` sides (no number sent);
+  a side's own volley words (`commands.texian`); step may be 60 or 240 as well as a divisor of 20.
+- **A person's staged fate**: `participants[id].down = { kind, minute }` is projected as `view.down` only for members drawn
+  and only once its minute has come; `lyingOnField` puts `fallen: true` on the man's own family's entity until the word.
+- A man who falls lies where he fell while his company moves (`view.lying`).
+
+### 7.3 Pace (Study, 9.5 s a tick)
+
+Coleto 85 ticks (about 13 real minutes; the fighting, caught to the third assault and the guns, 58 ticks, about 9);
+Palm Sunday 44 ticks (about 7). Before, the spring spent about 12 ticks on those hours. Both end on the spring's
+four-hour clock so the army's April marches land as they did (`tests/battle-coleto.test.mjs`).
+
+### 7.4 Limits
+
+- ceiling: four of Fannin's nine guns are drawn; Horton's riders are drawn on foot; the night is drawn only while a fight is.
+- ceiling: the three roads leave Goliad in the direction of the places they go to; their first half-mile is not surveyed.
+- ceiling: a man killed at Coleto stands (lying, on his family's map only) where he fell until the word of April 1.
+- stand-ins: the marksmen prone, unarmed prisoners, Alavez's figure, the carts, the white flag (`docs/ART_REQUESTS.md`,
+  request 2026-09-25 "Coleto and Goliad").
