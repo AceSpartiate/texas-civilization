@@ -45,12 +45,12 @@ other blocks).
   without a played family): **about +10 real minutes at Study** (+4:20 Brisk, +1:05 Quick). Of the 65 held ticks, the
   fighting (guns → killing) is 26, 4:07; the build-up (arrival, skirmish, Cos and the bridge) 15, 2:22; the parade and
   advance 18, 2:51; the prisoners and the capture 6, 0:57.
-- **Evidence**: `npm test` TESTS_FINAL pass after merging main; `tests/battle-san-jacinto.test.mjs` (14) and
-  `tests/battle-view-san-jacinto.test.mjs` (4); `npm run test:battle-san-jacinto` PROOFS_FINAL; INJ_FINAL; OTHERS_FINAL Same computer only; not LAN or district
+- **Evidence**: `npm test` 1274 pass after merging main; `tests/battle-san-jacinto.test.mjs` (14) and
+  `tests/battle-view-san-jacinto.test.mjs` (4); `npm run test:battle-san-jacinto` 15 checks (a real spring class; the father pressed to join from the refuge on the panel; 1366x768 and 1024x768; the battle draws in 2.5-3.2 ms at its slowest 95th percentile across runs); `npm run test:san-jacinto-injections` 35 of 35 caught by the check written for them (26 unit, 9 browser; a browser injection re-run alone after a Playwright timeout, and the group injection re-aimed at the riders' own line and re-run alone after the south's merge), `docs/evidence/san-jacinto-injections.json`; Also green after the last merge: `test:battle-gonzales` (12), `test:battle-bexar` (15), `test:battle-south` (15), `test:alamo-siege` (8), `test:lesson` (33), `test:panels` (14), `test:scrape` (5). Same computer only; not LAN or district
   acceptance.
 - **Found, not mine**: `npm run test:camp` and `npm run test:road` fail on this branch and identically on e440bbe before any
   of this (camp: the father never joins after his icon is pressed, line 90; road: it waits for a `.panel-focus` for a
-  second parent that is not drawn). Their evidence files are from 2026-09-18 and -21.
+  second parent that is not drawn). Their evidence files are from 2026-09-18 and -21. And on main as merged: `scripts/battle-south-injections.mjs` does not parse (a raw line break inside the string of "the houses never fire back", line 65), and two patterns of `scripts/battle-bexar-injections-list.mjs` ("a family's man drawn down before his moment", "his own wound is never drawn") no longer match `poseOf` since the south changed it. Left for their builders.
 - **Not done / limits**: docs/BATTLES.md §8.7 (field points read from words, not surveyed; the regiments walk as one block
   and the Twin Sisters are drawn only once on their station; a man still on the road at the word stands released where he
   arrives; a man sick at an older camp is not carried to Harrisburg). Art requested (`docs/ART_REQUESTS.md`, "San Jacinto"):
