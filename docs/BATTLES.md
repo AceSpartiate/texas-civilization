@@ -135,7 +135,11 @@ Then, by multiple choice:
    attacked — rests on one hearsay note written years later (Bollaert, 1842) and is widely doubted: it is shown only as
    `tradition`, in plain words fit for a middle-school class, never as the record and never sexualized. Her dignity and
    her constrained choices are kept as `VISION.md` §15 asks; she is a person with her own story, not a device of the
-   battle.
+   battle. **How the tradition is staged** (owner, 2026-09-26, by multiple choice, after being told the concern that she
+   was a captive and flirting can read as her choosing her captor): on the afternoon of April 21, a picnic laid out in
+   Santa Anna's tent area, and she flirts with him — kept light and non-physical: talk, laughter, a meal served — so he is
+   there when the attack comes. Captioned as a story told later, with the dashed `tradition` edge; the caption also says
+   she had been taken by his army at New Washington five days before.
 
 Every other question in `docs/battle-research/famous-people.md` takes its recommended answer (about fifteen people carried
 across events on a dated itinerary; named deaths drawn without gore; killings after surrender other than Crockett's told,
