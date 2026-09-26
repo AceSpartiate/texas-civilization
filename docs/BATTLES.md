@@ -119,6 +119,14 @@ Then, by multiple choice:
    "Hold your fire", Santa Anna as "the Napoleon of the West" and the like are said on the field in a dashed bubble with a
    gloss saying they were told later, as "Come and take it!" is at Gonzales (§2b.6). They are never shown as documented.
 
+5. **The Twin Sisters are treated the same way** (owner, 2026-09-26: "Treat the Twin Sisters in a similar fashion."). The
+   two cannon sent by the people of Cincinnati are named on the map and followed as famous things across their dated
+   itinerary, from their arrival with Houston's army in April 1836 to the skirmish of April 20 and the battle of April 21,
+   served by their documented crews and commanders (Neill until he was wounded on the 20th; Hockley and McCulloch on the
+   21st — to be checked), firing when and from where the record puts them. What is documented is shown as documented;
+   the stories told later (their naming for the Rice twins, the load of broken horseshoes, where they went and where they
+   are buried) are spoken or captioned as `tradition`, never as the record.
+
 Every other question in `docs/battle-research/famous-people.md` takes its recommended answer (about fifteen people carried
 across events on a dated itinerary; named deaths drawn without gore; killings after surrender other than Crockett's told,
 not drawn; Bowie in his south-side room, lying still when that barrack falls, the manner marked disputed; famous people
