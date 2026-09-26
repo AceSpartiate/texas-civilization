@@ -1,6 +1,6 @@
 # Claude handoff — Astra foundation
 
-## The famous people: one roster, drawn and named on every field and on the map, dying as the record has them — 2026-09-26 (worktree branch from main 9e7aa74, main merged at aeaa13e; not released)
+## The famous people: one roster, drawn and named on every field and on the map, dying as the record has them — 2026-09-26 (worktree branch from main 9e7aa74, main merged at db9d268; not released)
 
 The owner: *"famous npc's: have we taken the time to ensure they do what they're supposed to? they should be labelled, saying
 and doing the things that they likely would have, dying the way they should (Travis, Bowie, Crocett come to mind as an
