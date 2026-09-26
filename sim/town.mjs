@@ -19,6 +19,7 @@ import { advanceShopkeepers, createShopkeepers, keeperSex, KEEPERS } from './sho
 import { householdName, sexOf, bandOf } from './family.mjs';
 import { facingOf, ridersInSight } from './encounters.mjs';
 import { heldByBattle } from './battle-stage.mjs';
+import { advanceTownScenes, residentSpot } from './town-scenes.mjs';
 
 /**
  * How much coin the Gonzales store holds at the start of a class, per family in it.
@@ -204,10 +205,16 @@ export function advanceTown(world) {
   for (const resident of RESIDENTS) {
     const entity = world.entities[resident.id];
     if (!entity || entity.travel || entity.shopSpot) continue;
+    // In the days before the fight the town's scenes put them where the town was gathering (sim/town-scenes.mjs); the page
+    // walks them there.
+    const scene = residentSpot(world, resident.id);
+    if (scene) { entity.location = { ...scene, siteId: 'gonzales' }; continue; }
     // Deterministic from the tick, so a reloaded world puts everyone back where they were.
     const spot = resident.round[Math.floor(world.tick / 3 + resident.id.length) % resident.round.length];
     entity.location = { x: round(town.x + spot.x), y: round(town.y + spot.y), siteId: 'gonzales' };
   }
+  // Anybody of a family lending a hand in one of those scenes whose work is done, or who has been sent elsewhere, stops.
+  advanceTownScenes(world);
 }
 
 /** Whoever is standing at this site and deals in this trade, or null. */
