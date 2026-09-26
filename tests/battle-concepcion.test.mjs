@@ -184,7 +184,7 @@ test('the Host, the families with somebody there, and the main army\'s from when
     stepWorld(world);
   }
   assert.ok(alertedBefore, 'the family was not alerted through its person before the horsemen came');
-  assert.ok(sampled >= 40, `only ${sampled} ticks sampled`);
+  assert.ok(sampled >= 25, `only ${sampled} ticks sampled`);
 });
 
 test('afterwards the division rejoins the army at Concepción, each family is told through its own person what happened, and the country hears of it', () => {

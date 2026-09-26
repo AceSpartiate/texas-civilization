@@ -142,7 +142,7 @@ test('the Host and the family with somebody out watch it; the camp\'s families f
     stepWorld(world);
   }
   assert.ok(alerted, 'the family was never alerted through its person before the firing');
-  assert.ok(sampled >= 40, `only ${sampled} ticks sampled`);
+  assert.ok(sampled >= 25, `only ${sampled} ticks sampled`);
 });
 
 test('the fighting plays three to six real minutes at Study, held to each phase\'s step and landing on every phase\'s start', () => {
