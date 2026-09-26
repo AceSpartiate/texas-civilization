@@ -1352,7 +1352,8 @@ function cameraFor(world, canvas, now = performance.now()) {
   // once a student pressed the portrait of somebody the class's clock had carried out of sight (found 2026-09-21 by
   // scripts/travel-sight-proof.mjs).
   // Never kept on somebody who has fallen (docs/BATTLES.md §2b.1: the camera stays on the wall, not on him).
-  const watched = watchedId ? entitiesOf(world).find(entity => entity.id === watchedId && entity.location && !entity.service?.seenFall) : null;
+  if (watchedId && entitiesOf(world).some(entity => entity.id === watchedId && entity.service?.seenFall)) watchedId = null;
+  const watched = watchedId ? entitiesOf(world).find(entity => entity.id === watchedId && entity.location) : null;
   const at = watched?.location
     ? motionProjection.position(watched, now, reducedMotion.matches || world.status !== 'running')
     : null;

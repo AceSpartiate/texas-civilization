@@ -158,8 +158,10 @@ export function battleStep(world) {
     if (!step) {
       // A phase nobody is held for (a siege's night): the clock goes at its own pace, but lands on the start of the next
       // phase that is watched, so a watched day never begins in the middle of a long tick.
+      // Or on its end, so a class leaves a long engagement on the calendar's own grid and the next dated moment is met.
       const next = state.phases.slice(state.phase.index + 1).find(one => stepOf(world, state.def, one));
-      if (next) { const room = next.from - world.minute; if (room > 0 && (best === null || room < best)) best = room; }
+      const room = (next ? next.from : state.end) - world.minute;
+      if (room > 0 && (best === null || room < best)) best = room;
       continue;
     }
     const room = state.phase.to - world.minute;
