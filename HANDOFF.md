@@ -45,7 +45,9 @@ and S2 (a). Built on branch `worktree-agent-a2540001666444729`; **not pushed, no
 `tests/battle-view-south.test.mjs`; `npm run test:battle-south` 15 checks at 1366x768 and 1024x768
 (`docs/evidence/battle-south-browser.json`, screenshots `docs/evidence/battle-south/`); `node scripts/battle-south-injections.mjs`
 23 of 23 caught by their own check (`docs/evidence/battle-south-injections.json`; run before the merge, strings updated to the
-merged code). Also passing after the merge: see this entry's proof list in the branch's final report.
+merged code). Also passing after the merge: `test:battle-gonzales` (12), `test:battle-bexar` (15), `test:alamo-siege` (8),
+`test:lesson` (33), `test:panels` (14), `test:map-accuracy`, `test:crossings`, `test:winter` (6) and `scripts/map-outside-browser-proof.mjs`.
+`test:navigation` times out in `openGame` - it does the same on the base commit e440bbe, so it is not this build's; not investigated.
 
 **Regenerating on a merge.** `node scripts/build-colonies-map.mjs` after merging any change to its script (another place such as
 Coleto's `coleto`), then the new hash in `tests/map-outside.test.mjs`; the strip only with `node scripts/build-south.mjs
