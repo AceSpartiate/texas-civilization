@@ -22,10 +22,10 @@ const UNIT = [
     from: "    // docs/BATTLES.md §7): the garrison went into the Alamo that afternoon (`HIST-TEX-054`).\n    takePost(world, person);", to: "    // docs/BATTLES.md §7): the garrison went into the Alamo that afternoon (`HIST-TEX-054`).\n    person.location = onMap(world, { x: 110, y: 280 });",
     test: DATA, expect: 'the garrison walks in from the town through the south gate to posts on the walls, a leg at a time, and nobody is set down' },
   { name: 'the north battery never comes closer', file: 'sim/battles/alamo.mjs',
-    from: "    'battery-north': { at: north, from: 50,", to: "    'battery-north': { at: 'battery-north-far', from: 50,",
+    from: "    [north]: { from: 50, to: 660, every: 38 },", to: "    'battery-north-far': { from: 50, to: 660, every: 38 },",
     test: DATA, expect: 'the siege is lived: the guns every day and the answer, the north battery and the lines closer, the huts, and the night quiet' },
   { name: 'the siege held for a class with nobody there', file: 'sim/battle-stage.mjs',
-    from: "  if (phase.watched === 'involved' && !def.involved(world)) return null;", to: '',
+    from: "      const background = state.phase.background && watchedByAFamily(world, state.battle) ? state.phase.background : null;", to: '      const background = state.phase.background || null;',
     test: DATA, expect: 'the clock lives the siege a quarter-day a tick only for a class with somebody there, holds the assault for everybody, and never runs faster' },
   { name: 'a courier walks out', file: 'sim/alamo.mjs',
     from: "  if (person.travel.mode === 'foot') Object.assign(person.travel, { speed: Math.max(person.travel.speed, MODES.horse.speed), saddle: true, lent: 'garrison' });", to: '',
@@ -40,7 +40,7 @@ const UNIT = [
     from: '  const ids = FALL_PHASES[wallOf(person.service?.post)] || FALL_PHASES.north;', to: '  const ids = FALL_PHASES.north;',
     test: DATA, expect: 'each fighter falls when the storming reaches his post - the north wall first, the rooms last - and a woman is spared when it stops' },
   { name: 'the family\'s journal is told at the moment he falls', file: 'sim/alamo-battle.mjs',
-    from: "      Object.assign(service, { fate: 'fell', fellAt: minute });", to: "      Object.assign(service, { fate: 'fell', fellAt: minute }); record(world, 'consequence', { actorId: person.id, householdId: person.householdId, text: `${person.name} was killed on the wall.` });",
+    from: "    Object.assign(service, { fate: 'fell', fellAt: due.minute });", to: "    Object.assign(service, { fate: 'fell', fellAt: due.minute }); record(world, 'consequence', { actorId: person.id, householdId: person.householdId, text: `${person.name} was killed on the wall.` });",
     test: DATA, expect: 'the student may watch their own man fall; the family\'s journal and its people learn nothing until the word comes' },
   { name: 'every family is sent the Alamo', file: 'sim/alamo-battle.mjs',
     from: "  if (role !== 'student' || !householdId || !watchersOf(world).has(householdId)) return", to: "  if (role !== 'student' || !householdId) return",
@@ -58,13 +58,13 @@ const UNIT = [
     from: '    const gunsShown = (battle.guns || []).map(', to: '    const gunsShown = [].map(',
     test: VIEW, expect: 'the guns fire each dated shot once, the defenders\' canister throws a cone of smoke, and the batteries bombard all day' },
   { name: 'a fallen man goes on firing', file: 'public/battle-view.js',
-    from: '    if (Number.isFinite(member.fellAt)) {', to: '    if (false) {',
+    from: '    if (fell && since >= 0) {', to: '    if (false) {',
     test: VIEW, expect: 'a family\'s man at his post fires until the moment he falls, then goes down and lies still, and never fires again' },
   { name: 'Travis and Joe are not drawn', file: 'public/battle-view.js',
     from: '    const peopleShown = drawPeople(ctx, battle, camera, figurePx, time, now);', to: '    const peopleShown = [];',
     test: VIEW, expect: 'Travis is drawn at the north battery, says only his documented words there, and falls among the first; Joe hides, then comes out' },
   { name: 'no ladders', file: 'public/battle-view.js',
-    from: '      if (side.ladders && side.action !== \'gone\') drawLadders(ctx, side, centre, facing, camera, figurePx, time);', to: '',
+    from: '      if (side.ladders && side.action !== \'gone\' && shown) drawLadders(ctx, side, placeAt(shown, now), side.facing, camera, figurePx, time);', to: '',
     test: VIEW, expect: 'the columns carry ladders, climb the north wall on them, and the assault is fought in the dark until the dawn comes up' },
   { name: 'the Come and Take It cloth over Béxar', file: 'public/battle-view.js',
     from: "    if (flag.kind !== 'red' && art.animated(ctx, 'flag-come-and-take-it-wind',", to: "    if (art.animated(ctx, 'flag-come-and-take-it-wind',",
@@ -78,13 +78,13 @@ const BROWSER = [
   { name: 'the guns never fire', file: 'public/battle-view.js',
     from: '    const gunsShown = (battle.guns || []).map(', to: '    const gunsShown = [].map(', expect: 'the Mexican guns did not fire' },
   { name: 'the family\'s man stands idle at his post', file: 'public/battle-view.js',
-    from: "        firing: ['scattered', 'volley', 'picket'].includes(texianSide?.fire) && texianSide.action !== 'gone' && !(fellAt <= now),", to: '        firing: false,', expect: 'never fired from his post' },
+    from: "        firing: ['scattered', 'volley', 'picket'].includes(force?.fire) && force.action !== 'gone',", to: '        firing: false,', expect: 'never fired from his post' },
   { name: 'the columns come as a crowd, not in files', file: 'public/battle-view.js',
     from: "  if (['ranks', 'mounted', 'column', 'wall'].includes(style)) {", to: "  if (['ranks', 'mounted', 'wall'].includes(style)) {", expect: 'the column or the wall is not in order' },
   { name: 'his fall is never shown', file: 'sim/alamo-battle.mjs',
-    from: '  const battle = { ...projectBattle(world, \'alamo\', { members: own.map(person => person.id), memberFalls: falls(own),', to: '  const battle = { ...projectBattle(world, \'alamo\', { members: own.map(person => person.id), memberFalls: {},', expect: 'was never seen to fall' },
+    from: "  const battle = { ...projectBattle(world, 'alamo', { members: own.map(person => person.id), units: units(own), fates }),", to: "  const battle = { ...projectBattle(world, 'alamo', { members: own.map(person => person.id), units: units(own), fates: {} }),", expect: 'was never seen to fall' },
   { name: 'the journal is told at the moment he falls', file: 'sim/alamo-battle.mjs',
-    from: "      delete service.walk;\n      person.task = 'rest';", to: "      delete service.walk;\n      record(world, 'consequence', { actorId: person.id, householdId: person.householdId, text: `${person.name} was killed on the wall.` });\n      person.task = 'rest';", expect: 'the journal knew' },
+    from: "    delete service.walk;\n    person.task = 'rest';", to: "    delete service.walk;\n    record(world, 'consequence', { actorId: person.id, householdId: person.householdId, text: `${person.name} was killed on the wall.` });\n    person.task = 'rest';", expect: 'the journal knew' },
   { name: 'the family with nobody there is sent the Alamo', file: 'sim/alamo-battle.mjs',
     from: "  if (role !== 'student' || !householdId || !watchersOf(world).has(householdId)) return", to: "  if (role !== 'student' || !householdId) return", expect: 'the family with nobody there was sent the Alamo' },
   { name: 'the Host is not sent the Alamo', file: 'sim/alamo-battle.mjs',
@@ -121,6 +121,16 @@ function runBrowser() {
 }
 
 const which = process.argv[2] || 'all';
+// `dry`: say which injections' text is not found exactly once, and change nothing.
+if (which === 'dry') {
+  for (const injection of [...UNIT, ...BROWSER]) {
+    const original = readFileSync(injection.file, 'utf8');
+    const from = original.includes(CR + LF) ? injection.from.split(LF).join(CR + LF) : injection.from;
+    const count = original.split(from).length - 1;
+    console.log(`${count === 1 ? 'found' : `FOUND ${count} TIMES`}: ${injection.name}`);
+  }
+  process.exit(0);
+}
 // A fourth word runs only the injections whose name has it in, and keeps every other result from the last record.
 const only = process.argv[3] || null;
 const chosen = list => list.filter(one => !only || one.name.includes(only));
