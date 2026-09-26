@@ -418,13 +418,14 @@ export function createBattleView(art) {
     const last = view.cannonFiredAt.filter(t => t <= now).at(-1);
     const since = last === undefined ? Infinity : now - last;
     const metal = gun.metal === 'bronze' ? 'bronze' : 'iron';
-    const name = `cannon-${metal}-${right ? 'e' : 'w'}`;
+    const cartwheels = gun.claimId === 'HIST-TEX-475' && metal === 'bronze';
+    const name = cartwheels ? `cannon-cartwheels-${right ? 'e' : 'w'}` : `cannon-${metal}-${right ? 'e' : 'w'}`;
     const firing = since < 900;
-    if (firing) art.animated(ctx, `${name}-recoil`, p.x, p.y, size, 0, { timeMs: since });
+    if (firing) art.animated(ctx, cartwheels ? `cannon-cartwheels-${right ? 'e' : 'w'}-recoil` : `${name}-recoil`, p.x, p.y, size, 0, { timeMs: since });
     else art.drawSprite(ctx, name, p.x, p.y, size) || (ctx.fillStyle = '#3b3a36', ctx.fillRect(p.x - size * 0.4, p.y - size * 0.3, size * 0.8, size * 0.22));
     // The crew: one ramming between shots, one bringing the charge, one at the touch-hole who pulls and covers his ears.
-    // stand-in: the library's gun-crew cycles are drawn for a carriage gun's crew; the Gonzales gun's own crew and mount are
-    // not drawn (docs/ART_REQUESTS.md, request 2026-09-25 "the Gonzales cannon on its wheels").
+    // stand-in: the library's gun-crew cycles still depict a carriage gun's crew; the dedicated Gonzales crew remains
+    // requested in docs/ART_REQUESTS.md. The cart-wheel gun itself is delivered and drawn above.
     const back = right ? -1 : 1;
     const crew = [
       { clip: firing ? 'volunteer-gun-fire' : 'volunteer-gun-ram', dx: back * 0.75, t: firing ? since : time },
@@ -447,13 +448,15 @@ export function createBattleView(art) {
 
   /**
    * The flag, where the record puts it (sim/battles/<id>.mjs `flag`).
-   * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Come and Take It flag" - drawn on the canvas, a white field with a
-   * black cannon, a star over it and the words under it, until Astra's flag lands.
+   * The completed flag uses the delivered cloth cycle. Canvas is a fallback if art fails to load.
    */
   function drawFlag(ctx, flag, camera, figurePx, time, wind) {
     const texian = view.sides.get(flag.side), side = texian ? placeAt(texian, performance.now()) : null;
     const base = side ? { x: flag.x + (side.x - texian.to.x), y: flag.y + (side.y - texian.to.y) } : flag;
     const p = camera.toScreen(base), pole = figurePx * 1.9, w = figurePx * 1.15, h = figurePx * 0.72;
+    if (art.animated(ctx, 'flag-come-and-take-it-wind', p.x, p.y, pole, 'gonzales-flag', { timeMs: time })) {
+      return { x: Math.round(p.x), y: Math.round(p.y - pole), w: Math.round(w), h: Math.round(h), words: figurePx >= 22 };
+    }
     const wave = Math.sin(time / 420) * 0.08 + (wind?.x || 0) * 0.3;
     ctx.save();
     ctx.strokeStyle = '#4a3a26'; ctx.lineWidth = Math.max(1.2, figurePx * 0.05);
