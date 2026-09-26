@@ -1,0 +1,204 @@
+{
+  "record": "battle-alamo-injections",
+  "date": "2026-09-26",
+  "gates": {
+    "unit": "node --test tests/battle-alamo.test.mjs and tests/battle-alamo-view.test.mjs, the named test and no other",
+    "browser": "scripts/battle-alamo-browser-proof.mjs"
+  },
+  "unit": [
+    {
+      "name": "the assault an hour late on the calendar",
+      "file": "sim/battles/alamo.mjs",
+      "test": "tests/battle-alamo.test.mjs",
+      "expect": "the Alamo is data the engine holds to its rules, dated on the director's calendar, and its assault is the longest held fight",
+      "caught": true,
+      "failed": [
+        "the Alamo is data the engine holds to its rules, dated on the director's calendar, and its assault is the longest held fight"
+      ]
+    },
+    {
+      "name": "a route cuts through the north quarters",
+      "file": "sim/alamo-posts.mjs",
+      "test": "tests/battle-alamo.test.mjs",
+      "expect": "every post and every way in and out is walked over the plan a foot at a time without going through a wall",
+      "caught": true,
+      "failed": [
+        "every post and every way in and out is walked over the plan a foot at a time without going through a wall"
+      ]
+    },
+    {
+      "name": "the garrison set down at its posts",
+      "file": "sim/alamo-posts.mjs",
+      "test": "tests/battle-alamo.test.mjs",
+      "expect": "the garrison walks in from the town through the south gate to posts on the walls, a leg at a time, and nobody is set down",
+      "caught": false,
+      "failed": [
+        "the garrison walks in from the town through the south gate to posts on the walls, a leg at a time, and nobody is set down",
+        "the relief rides from Gonzales to wait short of the lines, rides in with the company to the gate, and walks to a post: never set down"
+      ]
+    },
+    {
+      "name": "the north battery never comes closer",
+      "file": "sim/battles/alamo.mjs",
+      "test": "tests/battle-alamo.test.mjs",
+      "expect": "the siege is lived: the guns every day and the answer, the north battery and the lines closer, the huts, and the night quiet",
+      "caught": true,
+      "failed": [
+        "the siege is lived: the guns every day and the answer, the north battery and the lines closer, the huts, and the night quiet"
+      ]
+    },
+    {
+      "name": "the siege held for a class with nobody there",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-alamo.test.mjs",
+      "expect": "the clock lives the siege a quarter-day a tick only for a class with somebody there, holds the assault for everybody, and never runs faster",
+      "caught": true,
+      "failed": [
+        "the clock lives the siege a quarter-day a tick only for a class with somebody there, holds the assault for everybody, and never runs faster"
+      ]
+    },
+    {
+      "name": "a courier walks out",
+      "file": "sim/alamo.mjs",
+      "test": "tests/battle-alamo.test.mjs",
+      "expect": "a courier rides out through the gate at a rider's pace, reaches Gonzales before the relief rides, and may go back in with it",
+      "caught": true,
+      "failed": [
+        "a courier rides out through the gate at a rider's pace, reaches Gonzales before the relief rides, and may go back in with it"
+      ]
+    },
+    {
+      "name": "the relief rides to Béxar's plaza, inside the Mexican lines",
+      "file": "sim/alamo.mjs",
+      "test": "tests/battle-alamo.test.mjs",
+      "expect": "the relief rides from Gonzales to wait short of the lines, rides in with the company to the gate, and walks to a post: never set down",
+      "caught": true,
+      "failed": [
+        "the relief rides from Gonzales to wait short of the lines, rides in with the company to the gate, and walks to a post: never set down"
+      ]
+    },
+    {
+      "name": "a man still on the road is taken inside",
+      "file": "sim/alamo.mjs",
+      "test": "tests/battle-alamo.test.mjs",
+      "expect": "a relief man still on the road when the company goes in is left behind, told so, and turns home",
+      "caught": true,
+      "failed": [
+        "a relief man still on the road when the company goes in is left behind, told so, and turns home"
+      ]
+    },
+    {
+      "name": "everybody falls when the north wall does",
+      "file": "sim/alamo-battle.mjs",
+      "test": "tests/battle-alamo.test.mjs",
+      "expect": "each fighter falls when the storming reaches his post - the north wall first, the rooms last - and a woman is spared when it stops",
+      "caught": true,
+      "failed": [
+        "each fighter falls when the storming reaches his post - the north wall first, the rooms last - and a woman is spared when it stops"
+      ]
+    },
+    {
+      "name": "the family's journal is told at the moment he falls",
+      "file": "sim/alamo-battle.mjs",
+      "test": "tests/battle-alamo.test.mjs",
+      "expect": "the student may watch their own man fall; the family's journal and its people learn nothing until the word comes",
+      "caught": true,
+      "failed": [
+        "the student may watch their own man fall; the family's journal and its people learn nothing until the word comes"
+      ]
+    },
+    {
+      "name": "every family is sent the Alamo",
+      "file": "sim/alamo-battle.mjs",
+      "test": "tests/battle-alamo.test.mjs",
+      "expect": "only the Host and a family with somebody there are sent the Alamo: nobody else, not a count, not a card, and nothing from the future",
+      "caught": true,
+      "failed": [
+        "only the Host and a family with somebody there are sent the Alamo: nobody else, not a count, not a card, and nothing from the future"
+      ]
+    },
+    {
+      "name": "the storming's card not at the man's side",
+      "file": "sim/alamo-battle.mjs",
+      "test": "tests/battle-alamo.test.mjs",
+      "expect": "the cards come through the person: none before the alarm on March 6, the alarm's at the man's side with Watch",
+      "caught": true,
+      "failed": [
+        "the cards come through the person: none before the alarm on March 6, the alarm's at the man's side with Watch"
+      ]
+    },
+    {
+      "name": "an old save's garrison left on the plaza",
+      "file": "sim/alamo-battle.mjs",
+      "test": "tests/battle-alamo.test.mjs",
+      "expect": "a class saved in the middle of the assault opens in the middle of it; one saved before posts or battles opens without a new saveVersion",
+      "caught": true,
+      "failed": [
+        "a class saved in the middle of the assault opens in the middle of it; one saved before posts or battles opens without a new saveVersion"
+      ]
+    },
+    {
+      "name": "the garrison bunched in the middle of each wall",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-alamo-view.test.mjs",
+      "expect": "the garrison stands along its walls, evenly, each wall facing out over itself, and a family's man takes one place on it",
+      "caught": true,
+      "failed": [
+        "the garrison stands along its walls, evenly, each wall facing out over itself, and a family's man takes one place on it"
+      ]
+    },
+    {
+      "name": "the guns are not drawn",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-alamo-view.test.mjs",
+      "expect": "the guns fire each dated shot once, the defenders' canister throws a cone of smoke, and the batteries bombard all day",
+      "caught": true,
+      "failed": [
+        "the guns fire each dated shot once, the defenders' canister throws a cone of smoke, and the batteries bombard all day"
+      ]
+    },
+    {
+      "name": "a fallen man goes on firing",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-alamo-view.test.mjs",
+      "expect": "a family's man at his post fires until the moment he falls, then goes down and lies still, and never fires again",
+      "caught": true,
+      "failed": [
+        "a family's man at his post fires until the moment he falls, then goes down and lies still, and never fires again"
+      ]
+    },
+    {
+      "name": "Travis and Joe are not drawn",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-alamo-view.test.mjs",
+      "expect": "Travis is drawn at the north battery, says only his documented words there, and falls among the first; Joe hides, then comes out",
+      "caught": true,
+      "failed": [
+        "Travis is drawn at the north battery, says only his documented words there, and falls among the first; Joe hides, then comes out"
+      ]
+    },
+    {
+      "name": "no ladders",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-alamo-view.test.mjs",
+      "expect": "the columns carry ladders, climb the north wall on them, and the assault is fought in the dark until the dawn comes up",
+      "caught": true,
+      "failed": [
+        "the columns carry ladders, climb the north wall on them, and the assault is fought in the dark until the dawn comes up"
+      ]
+    },
+    {
+      "name": "the reminder that he is inside hides the storming's card",
+      "file": "public/military-attention.js",
+      "test": "tests/battle-alamo-view.test.mjs",
+      "expect": "the storming's card goes up over the quiet reminder that somebody is inside, and not over a question",
+      "caught": true,
+      "failed": [
+        "the storming's card goes up over the quiet reminder that somebody is inside, and not over a question"
+      ]
+    }
+  ],
+  "browser": [],
+  "cleanBrowserChecks": null,
+  "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
+}

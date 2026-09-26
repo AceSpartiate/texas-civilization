@@ -57,6 +57,15 @@ does not have:
 | **The wounded carried**: a man hit is drawn as the library's seated wounded soldier (`regular-injured`/`volunteer-injured`) helped back by two walking figures; a dead man as `*-reclining` with two walking beside him; a dragoon hit in the saddle is drawn dismounted | `drawFallen` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 3 | `bearers-carry` (two men carrying a third on a blanket, both facings) and `dragoon-wounded-led` |
 | **The Gonzales cannon** is the library's field gun (`cannon-bronze-e`/`-w` and its recoil) served by the carriage-gun crew cycles (`volunteer-gun-ram`, `-shot-carry`, `-fire`) | `drawCannon` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 4 | `cannon-cartwheels` (a small brass six-pounder on a pair of cart wheels, `HIST-TEX-475`) and its settler crew |
 | **The Come and Take It flag** is drawn on the canvas: a white field, a black gun, a star over it and the words (not shown at Gonzales on the field: `FIC-GONZ-419`) | `drawFlag` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 5 | `flag-come-and-take-it` on a pole, still and in a light wind |
+| **Scaling ladders and a man climbing a wall** (the Alamo, 2026-09-25): two rails and rungs drawn on the canvas at the head of each column, carried level; at the north wall leaning up against it with the marching regular (`regular-march-n`) moved up each | `drawLadders` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the Alamo, item 1 | `ladder-carried` (four men, both facings), `ladder-set` against a wall, `regular-climb` (four frames up a ladder) |
+| **The Alamo's guns served**: the 18-pounder, the north battery, the church's guns and the Mexican batteries are all the library's field gun (`cannon-iron-*`/`cannon-bronze-*` and recoil) with the carriage-gun crews (`volunteer-gun-*`, `regular-gun-*`); canister is puffs thrown in a cone | `drawGun` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the Alamo, item 2 | `cannon-18pdr` on its garrison carriage at an embrasure (both facings, recoil), a siege-battery gun behind earth, and `canister-burst` |
+| **The garrison on the walls** stand at the wall's line in the volunteer firing cycle; nobody is drawn on a parapet or roof, above the wall | `layoutSide` and `draw` in `public/battle-view.js` | Request 2026-09-25 — the Alamo, item 3 | Volunteers firing over a parapet (upper body over a wall top), both facings and north/south |
+| **Night, and dawn coming up** over the assault: a dark blue wash over the map by the phase's `light`, under the flashes and the words | `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the Alamo, item 4 | A night grade for the ground and figures, and a dawn grade |
+| **The red flag on San Fernando's tower**: a plain red field on a pole drawn on the canvas at the town's point, without the tower | `drawFlag` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the Alamo, item 5 | `flag-red` on the church tower of San Fernando, still and in wind |
+| **Mounted volunteers** (the Gonzales men riding in): the library's mounted courier (`mounted-courier-e`) | `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the Alamo, item 6 | `volunteer-mounted` walk and trot, east/north/south |
+| **Lancers** riding at men who run: `dragoon-march-*` (no lance); the striking is never drawn | `draw` in `public/battle-view.js` | Request 2026-09-25 — the Alamo, item 7 | `lancer-march` and `lancer-idle` with the lance up, both facings |
+| **Travis** is the volunteer figure, named; **Joe** uses his own delivered sheet (`joe-hide`, `joe-emerge`) | `drawPeople` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the Alamo, item 8 | A Travis figure (officer's coat, the volunteer firing cycle) |
+| **Smoke going up from burning huts and the pyres, far off**: the library's `smoke-rise`, drawn large | `drawPlume` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the Alamo, item 9 | `smoke-column-far`, a tall column seen from a distance (no fire, no bodies) |
 
 ## Claude-drawn stand-ins (replace with Astra's)
 
@@ -101,6 +110,37 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night
+
+**Why.** The owner, 2026-09-25 (docs/BATTLES.md §2b): the Alamo is the longest - the thirteen days of the siege lived and the
+assault the longest held fight - and a student may watch their own man fall on the wall. It is built on the engine
+(`sim/battles/alamo.mjs`, docs/BATTLES.md §7) with stand-ins for all of this (*Stand-ins in use*, the rows naming this request).
+
+**What**, in the frontier-v1 style, at the figures' scale:
+
+1. **Scaling ladders**: `ladder-carried` (a ladder carried level by four regulars, east and west, walking) and `ladder-set` (standing
+   against a wall about ten feet high), and `regular-climb`, four frames of a man going up one (`HIST-TEX-500`, `-501`).
+2. **The guns served**: `cannon-18pdr`, the Alamo's big iron gun on a garrison carriage at an embrasure, both facings, with recoil;
+   a Mexican siege gun behind a low earth bank; and `canister-burst`, the cone of smoke and thrown dust from a gun firing canister.
+3. **Men on a wall**: volunteers firing over a parapet - the body from the waist up over the top of a wall - east, west, north and
+   south, with a loading frame below the parapet.
+4. **Night and dawn**: a night grade and a dawn grade for ground and figures, so the assault from five to half past six reads as
+   dark lifting to first light (sunrise 6:20, computed).
+5. **The red flag of no quarter** on San Fernando's tower (`HIST-TEX-054`, `-504`): `flag-red`, still and in wind, to set on the
+   tower in the Béxar art.
+6. **Mounted volunteers**: `volunteer-mounted` walking and trotting, east/north/south, for the Gonzales men riding in (`HIST-TEX-057`).
+7. **Lancers**: `lancer-march`, `lancer-idle`, lance up, both facings (`HIST-TEX-436`); never a strike.
+8. **Travis**: an officer's figure in the volunteer firing cycle, for the north battery (`HIST-TEX-502`).
+9. **Smoke at a distance**: `smoke-column-far`, a tall column from far off, for the huts on February 25 and the pyres on March 6.
+
+**How it plugs in.** `drawLadders`, `drawGun`, `drawPeople`, `drawPlume` and `drawFlag` in `public/battle-view.js` draw the
+stand-ins by these names' places; each is marked `stand-in:`. A delivered sheet registers in the atlas and the renderer draws it
+instead; the night grade replaces the wash drawn by `battle.light`.
+
+**Check.** `npm run test:battle-alamo` at 1366x768 and 1024x768: the ladders read as ladders against the north wall at the
+compound's zoom, the 18-pounder is visibly the biggest gun, the men on the walls stand behind them, and the dark lifts through the
+assault. No blood, no wound shown, no body closer than the compound's framing (VISION.md §16).
 
 ## Request 2026-09-25 — the carreta
 

@@ -327,6 +327,8 @@ export function createBattleView(art) {
           // men riding in) is drawn as the library's mounted courier, until a mounted volunteer set exists.
           clip = 'mounted-courier-e'; flip = !right;
         } else if (kind === 'dragoon') {
+          // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 7 - lancers (Ramírez y Sesma's, outside the
+          // Alamo's walls) are drawn as the library's dragoons, without lances, until a lancer set exists.
           clip = moving ? 'dragoon-march' : right ? 'dragoon-idle-e' : 'dragoon-idle-w';
           flip = moving ? !right : false;
           // A dragoon firing his carbine from the saddle: the flash and the smoke from where his hands are, on his own long
