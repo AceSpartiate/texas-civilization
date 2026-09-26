@@ -34,7 +34,6 @@ does not have:
 | ~~A trash can drawn in code with a pen~~ | `DrawBin` in `launcher/SoloGameDialog.cs` | Delivered 2026-09-22 in `launcher/art/icon-delete-save.png` | Illustrated frontier pail is embedded and tinted; line drawing is packaging fallback only |
 | ~~Gathering glyphs drawn in code~~ | `PANEL_ICONS` in `public/family-panel.js` | Existing `icons-family-subsistence.png` art wired 2026-09-26 | Four production sprites selected directly; `fish-road` reuses the water-fishing icon |
 | ~~Stock glyphs drawn in code~~ | `PANEL_ICONS` in `public/family-panel.js` | Existing `icons-family-subsistence.png` art wired 2026-09-26 | Three production sprites selected directly |
-| A new town's shops are the nearest buildings the library has, two trades sharing a sprite (the stock pens, 2026-09-24, a `shed-open` or an ordinary house; `stand-in:` in `SHOP_SPRITES`) | `SHOP_SPRITES` in `sim/shops.mjs`, drawn in `drawWorld` in `public/app.js` | Request 2026-09-16 — the shops of the towns | `shop-*` buildings, one per trade |
 | Whole jacal stage sprites; `lean-to` shed frame; the double chimney drawn with the single stick-and-mud chimney's picture (`house-chimney-stick`; until 2026-09-24 a flat rectangle, whose width let the far pen's door show either side of it at 90 and 270 degrees). Since 2026-09-24 the saddlebag's two pens stand one behind the other along their ridge at every turn, and it stands at the middle between the far pen's front gable and the near pen's back gable, `DOUBLE_RISE` (2.7) high so that it hides the far pen's door whole, its foot behind the near pen's roof (until then, at 0 and 180 degrees behind both pens' back gables, and at 90 and 270 brought `DOUBLE_TOWARD` toward the near pen); no separate interior floor/loft display | `drawHousePlot` and `standChimneys` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney (two-sided, its foot marked), and separately registered floor and loft overlays |
 | Generic `chapel` and `adobe-flat` silhouettes represent San Fernando and the Governor's Palace | `public/bexar-layout.js` | Request 2026-09-14 — Béxar civic architecture | Researched 1836 civic façades in the existing illustrated style |
 | A child in an unavailable action pose is a grown figure drawn smaller (90% at 10–17, 70% at 5–9, 55% at 2–4, 45% an infant). Idle, cardinal walking, rest and injured-rest use delivered `girl`, `boy`, `smallchild` and `infant` art | `CHILD_POSES` and `entityClip` in `public/motion.js` | Request 2026-09-12, priority 1 — children | Any later child-specific action poses. **Keep the scaling**: the delivered sheets fill their cells and need it |
@@ -142,7 +141,7 @@ can never be mistaken for hers:
 
 **Not attempted, still on the nearest library art** (each needs animation sheets or whole buildings in Astra's painted
 style, which a hand-written SVG cannot match without jarring beside her work; their rows stay under *Stand-ins in use*):
-the shops of the towns, the buildings the towns' research found, the house plot's remaining pieces, the remaining trees,
+the buildings the towns' research found, the house plot's remaining pieces, the remaining trees,
 Béxar's civic façades, family members on horseback, driving the ox wagon, the rider who gets down, the saddlebag interior,
 the second cast's remaining sheets and layered people.
 
@@ -812,15 +811,9 @@ drilling, going out for beef and corn, standing guard, riding with the scouts.
 
 ## Request 2026-09-16 — the shops of the towns
 
-**Status: in progress; blacksmith, wheelwright and tavern delivered 2026-09-26.** Their distinct transparent sprites are registered in `docs/ART_MANIFEST.md` and drawn on the existing keeper buildings in towns beyond Gonzales. The remaining seven trades still use nearest-building stand-ins. The owner asked for towns that feel alive, with a shop per keeper and, in the towns
-not already drawn, each keeper's own building ([TOWNS.md](TOWNS.md) §5a). In Gonzales each keeper uses a building already drawn;
-elsewhere each remaining trade is the nearest building the library has: store `trading-house`, carpenter `timber-shop`,
-gunsmith `cabin-small`, doctor `house-hewn-log`, tanner and mill `storehouse`,
-weaver `cabin-weathered`, and since 2026-09-24 the stock pens (TOWNS.md §4d) `shed-open`, drawn in Gonzales as the open shed at
-the west edge of town (`gonzales-outbuilding-art-2`) and elsewhere as the next of a town's ordinary houses.
+**Status: building art delivered 2026-09-26.** All ten requested `shop-*` sprites are distinct transparent cutouts registered in `docs/ART_MANIFEST.md` and drawn on the existing keeper buildings in towns beyond Gonzales. The store retains its already-distinct `trading-house`. Gonzales retains its researched, bespoke buildings; its stock pens are the open shed at the west edge of town (`gonzales-outbuilding-art-2`). The owner asked for towns that feel alive, with a shop per keeper and, in towns not already drawn, each keeper's own building ([TOWNS.md](TOWNS.md) §5a).
 
-- **Why.** A student in town should be able to tell the smithy from the tavern without reading a label; two trades share a
-  sprite today and the mill is a storehouse.
+- **Why.** A student in town should be able to tell the smithy from the tavern without reading a label.
 - **What.** At homestead scale, in the frontier-v1 style and the projection and footprint of `cabin-small`, anchored at the base
   centre: `shop-blacksmith` (an open forge shed, anvil, bellows, smoke), `shop-gunsmith` (a log shop with a rifle-shaped sign
   and a bench under the eave), `shop-doctor` (a small frame or hewn-log office with a shingle), `shop-tavern` (a double log
@@ -828,10 +821,9 @@ the west edge of town (`gonzales-outbuilding-art-2`) and elsewhere as the next o
   (a shed with wheels leaning against it), `shop-mill` (a small log gristmill with a millstone by the door; horse-powered, not a
   water wheel, unless a town's research documents one), `shop-weaver` (a cabin with a loom visible through the open door and
   cloth on a line), `shop-carpenter` (a shed with planks and a sawhorse), and `shop-stockman` (added 2026-09-24: a rail pen with a
-  horse or two and a cow inside, a snubbing post and a small shed at one corner). No lettering; a sign may be a picture.
-- **How it plugs in.** `SHOP_SPRITES` in `sim/shops.mjs` names the sprite a new town's shop is drawn as; replace each with its
-  `shop-*` frame once registered through `npm run build:art`. Towns with documented building IDs keep their placement and identity while the trade sprite replaces the visual stand-in. Gonzales keeps its own drawn buildings.
-- **Check.** At the zoom a town's labels appear, each trade is told apart without its label.
+  horse and cow animated separately inside, a snubbing post and a small shed at one corner). No lettering; a sign may be a picture.
+- **How it plugs in.** `SHOP_SPRITES` in `sim/shops.mjs` selects each registered `shop-*` frame. Towns with documented building IDs keep their placement and identity while the trade sprite replaces the visual stand-in. `public/town-art.js` draws the existing horse and cow grazing clips behind the stock pen's front rail; the animals are not frozen into the pen sprite. Gonzales keeps its own drawn buildings.
+- **Check.** At the zoom a town's labels appear, each trade is told apart without its label. Ten unique mappings and atlas entries are asserted in `tests/shops.test.mjs`; the browser town proof checks the full town drawing path.
 
 ## Request 2026-09-16 — the winter's icons
 

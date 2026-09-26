@@ -3,8 +3,8 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 106,
-    "sprites": 1402,
+    "sheets": 113,
+    "sprites": 1409,
     "clips": 493,
     "poseCycles": 267,
     "rigs": 4
@@ -6732,6 +6732,265 @@
               [
                 99,
                 1474
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "shop-mill": {
+      "image": "atlases/shop-mill.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1832816,
+      "sha256": "a47fc31df5dd6032108608742bf3cf5b44440edd9e88a9903219c9b9f10ee691",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.698095,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              188,
+              839
+            ],
+            "columns": [
+              [
+                124,
+                1431
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "shop-tanner": {
+      "image": "atlases/shop-tanner.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2504300,
+      "sha256": "28ab986328b1794776b365ff3725ece66f1de982b54f8a6e0e576d3cfde74469",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.496519,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              79,
+              936
+            ],
+            "columns": [
+              [
+                156,
+                1452
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "shop-weaver": {
+      "image": "atlases/shop-weaver.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2294523,
+      "sha256": "ef34556849d5d86679c5ff321043cc221daf59710c4a1cbcdf46ec35006fd3e5",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.556852,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              110,
+              876
+            ],
+            "columns": [
+              [
+                155,
+                1474
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "shop-carpenter": {
+      "image": "atlases/shop-carpenter.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2437325,
+      "sha256": "51fdd0c3819875315576d8cb72a8c8f21dff5cdc7e8cd256e3f923665e6d62c9",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.486523,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              102,
+              929
+            ],
+            "columns": [
+              [
+                142,
+                1405
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "shop-gunsmith": {
+      "image": "atlases/shop-gunsmith.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2035238,
+      "sha256": "f0f09307454e71d88718f53aac412ff9585a982c95940e73b203b0a428bd7aab",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.603477,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              136,
+              852
+            ],
+            "columns": [
+              [
+                258,
+                1431
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "shop-doctor": {
+      "image": "atlases/shop-doctor.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2118390,
+      "sha256": "6402f99abaf28278390c5db88d1bb59f4866de1068ea218ec6715b4ffeba523f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.555614,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              117,
+              891
+            ],
+            "columns": [
+              [
+                223,
+                1339
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "shop-stockman": {
+      "image": "atlases/shop-stockman.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1863839,
+      "sha256": "03afc074c843d8cb30bf7fa3caa2f845b9b35ee6c9403b89c6ae115976605141",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.67724,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              186,
+              813
+            ],
+            "columns": [
+              [
+                49,
+                1497
               ]
             ]
           }
@@ -38673,6 +38932,230 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/shop-tavern"
+    },
+    "shop-mill": {
+      "sheet": "shop-mill",
+      "x": 124,
+      "y": 188,
+      "w": 1307,
+      "h": 651,
+      "anchorX": 0.5226,
+      "anchorY": 0.9293,
+      "label": "shop mill",
+      "kind": "shop-mill",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          126,
+          190,
+          1303,
+          647
+        ],
+        "visiblePixels": 460388,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/shop-mill.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/shop-mill"
+    },
+    "shop-tanner": {
+      "sheet": "shop-tanner",
+      "x": 156,
+      "y": 79,
+      "w": 1296,
+      "h": 857,
+      "anchorX": 0.6323,
+      "anchorY": 0.93,
+      "label": "shop tanner",
+      "kind": "shop-tanner",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          158,
+          81,
+          1292,
+          853
+        ],
+        "visiblePixels": 748283,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/shop-tanner.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/shop-tanner"
+    },
+    "shop-weaver": {
+      "sheet": "shop-weaver",
+      "x": 155,
+      "y": 110,
+      "w": 1319,
+      "h": 766,
+      "anchorX": 0.569,
+      "anchorY": 0.9295,
+      "label": "shop weaver",
+      "kind": "shop-weaver",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          157,
+          112,
+          1315,
+          762
+        ],
+        "visiblePixels": 680385,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/shop-weaver.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/shop-weaver"
+    },
+    "shop-carpenter": {
+      "sheet": "shop-carpenter",
+      "x": 142,
+      "y": 102,
+      "w": 1263,
+      "h": 827,
+      "anchorX": 0.6639,
+      "anchorY": 0.942,
+      "label": "shop carpenter",
+      "kind": "shop-carpenter",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          144,
+          104,
+          1259,
+          823
+        ],
+        "visiblePixels": 794252,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/shop-carpenter.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/shop-carpenter"
+    },
+    "shop-gunsmith": {
+      "sheet": "shop-gunsmith",
+      "x": 258,
+      "y": 136,
+      "w": 1173,
+      "h": 716,
+      "anchorX": 0.4233,
+      "anchorY": 0.9455,
+      "label": "shop gunsmith",
+      "kind": "shop-gunsmith",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          260,
+          138,
+          1169,
+          712
+        ],
+        "visiblePixels": 609488,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/shop-gunsmith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/shop-gunsmith"
+    },
+    "shop-doctor": {
+      "sheet": "shop-doctor",
+      "x": 223,
+      "y": 117,
+      "w": 1116,
+      "h": 774,
+      "anchorX": 0.448,
+      "anchorY": 0.9289,
+      "label": "shop doctor",
+      "kind": "shop-doctor",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          225,
+          119,
+          1112,
+          770
+        ],
+        "visiblePixels": 687295,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/shop-doctor.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/shop-doctor"
+    },
+    "shop-stockman": {
+      "sheet": "shop-stockman",
+      "x": 49,
+      "y": 186,
+      "w": 1448,
+      "h": 627,
+      "anchorX": 0.5,
+      "anchorY": 0.9298,
+      "label": "shop stockman",
+      "kind": "shop-stockman",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          51,
+          188,
+          1444,
+          623
+        ],
+        "visiblePixels": 443393,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/shop-stockman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/shop-stockman"
     },
     "building-frame-one-storey": {
       "sheet": "town-buildings-researched",
@@ -73276,7 +73759,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 106,
+    "sourceCount": 113,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

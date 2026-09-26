@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1402 usable sprites, 106 PNG atlases, 493 clips** (267 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1409 usable sprites, 113 PNG atlases, 493 clips** (267 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -77,6 +77,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | shop-blacksmith | 1 | 1536 × 1024 | 2331341 |
 | shop-wheelwright | 1 | 1536 × 1024 | 2401248 |
 | shop-tavern | 1 | 1536 × 1024 | 2369580 |
+| shop-mill | 1 | 1536 × 1024 | 1832816 |
+| shop-tanner | 1 | 1536 × 1024 | 2504300 |
+| shop-weaver | 1 | 1536 × 1024 | 2294523 |
+| shop-carpenter | 1 | 1536 × 1024 | 2437325 |
+| shop-gunsmith | 1 | 1536 × 1024 | 2035238 |
+| shop-doctor | 1 | 1536 × 1024 | 2118390 |
+| shop-stockman | 1 | 1536 × 1024 | 1863839 |
 | town-buildings-researched | 16 | 1254 × 1254 | 2122682 |
 | travel-markers | 16 | 1254 × 1254 | 1343435 |
 | trees-colonies-1 | 16 | 1254 × 1254 | 1626976 |
@@ -917,6 +924,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | shop-blacksmith | shop-blacksmith | State artwork; no motion required |
 | shop-wheelwright | shop-wheelwright | State artwork; no motion required |
 | shop-tavern | shop-tavern | State artwork; no motion required |
+| shop-mill | shop-mill | State artwork; no motion required |
+| shop-tanner | shop-tanner | State artwork; no motion required |
+| shop-weaver | shop-weaver | State artwork; no motion required |
+| shop-carpenter | shop-carpenter | State artwork; no motion required |
+| shop-gunsmith | shop-gunsmith | State artwork; no motion required |
+| shop-doctor | shop-doctor | State artwork; no motion required |
+| shop-stockman | shop-stockman | State artwork; no motion required |
 | building-frame-one-storey | town-buildings-researched | State artwork; no motion required |
 | building-frame-storey-half | town-buildings-researched | State artwork; no motion required |
 | building-frame-two-storey | town-buildings-researched | State artwork; no motion required |

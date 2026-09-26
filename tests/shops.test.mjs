@@ -14,7 +14,7 @@ import { applyAction, beginTravel, errandFor, stepWorld, projectWorld, validateW
 import { establishTruth, learn } from '../sim/knowledge.mjs';
 import { advanceRoutine } from '../sim/routines.mjs';
 import { toolCount } from '../sim/tools.mjs';
-import { KEEPERS, TOWN_TRADES, counterOptions, counterRefusal, TUNED_SHOTS, WAGON_SPEED_SHARE, keeperId } from '../sim/shops.mjs';
+import { KEEPERS, TOWN_TRADES, SHOP_SPRITES, counterOptions, counterRefusal, TUNED_SHOTS, WAGON_SPEED_SHARE, keeperId } from '../sim/shops.mjs';
 import { TOWN_LAYOUTS, townPoint } from '../sim/town-layouts.mjs';
 
 const running = seed => { const world = createSettledWorld(seed, 5); world.status = 'running'; return world; };
@@ -23,6 +23,17 @@ const askOf = (world, household, person) => view(world, household.id).entities.f
 const toAsk = (world, person) => { for (let t = 0; t < 400 && person.chore && !person.chore.ask; t++) stepWorld(world); };
 const finish = (world, person) => { for (let t = 0; t < 600 && person.chore; t++) stepWorld(world); };
 const storyOf = (world, householdId) => world.events.filter(event => event.householdId === householdId).map(event => event.text);
+
+test('each requested trade has its own registered building art', () => {
+  const trades = ['blacksmith', 'wheelwright', 'tavern', 'mill', 'tanner', 'weaver', 'carpenter', 'gunsmith', 'doctor', 'stockman'];
+  const manifest = JSON.parse(readFileSync(new URL('../public/assets/frontier-v1/manifest.json', import.meta.url), 'utf8'));
+  assert.equal(new Set(trades.map(trade => SHOP_SPRITES[trade])).size, trades.length);
+  for (const trade of trades) {
+    const sprite = `shop-${trade}`;
+    assert.equal(SHOP_SPRITES[trade], sprite);
+    assert.ok(manifest.sheets[sprite], `${sprite} is absent from the production atlas`);
+  }
+});
 
 /**
  * What the errand popup lists for this family's town, line by line (sim/errands.mjs, docs/TOWNS.md §4b): since 2026-09-24
