@@ -4286,3 +4286,9 @@ path correction. Visual result: `docs/evidence/looks-popup.png` and `docs/eviden
 **Remaining art:** exact moustache, straw hat, braid, loose hair and headscarf silhouettes, plus cleaner semantic paint
 masks and bespoke seated/combat layers. The current cast supplies the closest matching silhouette for those choices;
 see `docs/ART_REQUESTS.md`. Do not return to code-drawn flat figures for this feature.
+
+**Two-tone correction, 2026-09-26.** The first palette pass cut across the forehead of a hatted figure, leaving the
+sprite's original skin above the chosen skin colour. `public/person-palette.js` now recolours skin across the whole face
+by its source pigment while leaving the hat intact; the blouse/skirt tint uses a narrower lightness range so neither
+part blows out to a different-looking colour. `tests/person-palette.test.mjs` checks the forehead/cheek seam and
+clothing hue; `npm run test:looks` passed nine checks with updated father and mother screenshots in `docs/evidence/`.
