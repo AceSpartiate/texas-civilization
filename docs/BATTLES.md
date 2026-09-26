@@ -365,7 +365,7 @@ doubted). Talk: "¡Viva Santa Anna!" (documented grade, no name), Travis's words
 
 ### 7.6 Evidence
 
-`tests/battle-alamo.test.mjs` (13), `tests/battle-alamo-view.test.mjs` (6), the Alamo tests updated where the rules moved
+`tests/battle-alamo.test.mjs` (13), `tests/battle-alamo-view.test.mjs` (7), the Alamo tests updated where the rules moved
 (`tests/alamo.test.mjs`, `tests/alamo-runner.test.mjs`: fates now fall by seven, and the man walks in before the runner walks to
 him); `npm run test:battle-alamo` (13 checks, `docs/evidence/battle-alamo-browser.json`); `scripts/battle-alamo-injections.mjs`
 (`docs/evidence/battle-alamo-injections.json`). Same computer only.
