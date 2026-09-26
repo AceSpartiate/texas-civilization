@@ -42,7 +42,7 @@ const UNIT = [
   { name: 'the director\'s moment of Concepción left at an hour the fight does not keep', file: 'sim/directors.mjs',
     from: "concepcion: CONCEPCION_START + phaseOffset(CONCEPCION, 'fog-lifts'),", to: 'concepcion: 42240 + 60,', test: C, expect: T.clock },
   { name: 'a group of a side drawn with any sample, unchecked', file: 'sim/battle-stage.mjs',
-    from: "      if (!(group.count > 0) || !(group.drawn > 0) || group.drawn > 60 || !STYLES.includes(group.style) || !FIRE.includes(group.fire || 'none')) fail(`group ${group.key} in ${phase.id} needs a count, a sample of at most 60, a style and a fire`);", to: '', test: C, expect: T.clock },
+    from: '|| !(group.drawn > 0) || group.drawn > 40) fail(`group ${group?.id} in ${phase.id} is malformed`);', to: ') fail(`group ${group?.id} in ${phase.id} is malformed`);', test: C, expect: T.clock },
   { name: 'the division\'s question shut when the army moves to Espada, as it was', file: 'sim/directors.mjs',
     from: "  once(world, 'to-espada', () => {", to: "  once(world, 'to-espada', () => { if (world.army?.detachment) world.army.detachment.closed = true;", test: C, expect: T.leaves },
   { name: 'a man in the division can be sent for before it rejoins the army', file: 'sim/world.mjs',
@@ -72,15 +72,15 @@ const UNIT = [
   { name: 'no account when the word of the Grass Fight rides home', file: 'sim/directors.mjs',
     from: '    grassAccounts(world, eventId);', to: '', test: G, expect: T.gWord },
   { name: 'a group\'s men counted with their side, not apart', file: 'public/battle-view.js',
-    from: '        drawn[side.side].push(point);\n        (drawnBy[keyOf(side)] ||= []).push(point);', to: '        drawn[side.side].push(point);\n        (drawnBy[side.side] ||= []).push(point);', test: V, expect: T.vGroups },
+    from: '        if (side.key === side.side) drawn[side.side].push(point);', to: '        drawn[side.side].push(point);', test: V, expect: T.vGroups },
   { name: 'men under a bank drawn loading at the lip, never dropping below it', file: 'public/battle-view.js',
     from: "            if (side.style === 'bank') { sprite = `${kind}-load`; flip = !right; dy = figurePx * 0.32; }", to: "            if (side.style === 'bank') { sprite = `${kind}-load`; flip = !right; }", test: V, expect: T.vBank },
   { name: 'the fallen carried along with their side as it moves', file: 'public/battle-view.js',
-    from: '        if (down) { const at = `${keyOf(side)}:${slot.index}`; if (!view.fallenGround.has(at)) view.fallenGround.set(at, ground); ground = view.fallenGround.get(at);', to: '        if (down) { const at = `${keyOf(side)}:${slot.index}`; view.fallenGround.set(at, ground);', test: V, expect: T.vFallen },
+    from: '        if (fallen.has(slot.index)) { if (!view.fallenGround.has(pin)) view.fallenGround.set(pin, ground); ground = view.fallenGround.get(pin);', to: '        if (fallen.has(slot.index)) { view.fallenGround.set(pin, ground);', test: V, expect: T.vFallen },
   { name: 'a family\'s person hit goes on firing', file: 'public/battle-view.js',
-    from: '    if (member.fate) {', to: '    if (false) {', test: V, expect: T.vFate },
+    from: '    if (fell && since >= 0) {', to: '    if (false) {', test: V, expect: T.vFate },
   { name: 'every gun served by volunteers, whoever\'s it is', file: 'public/battle-view.js',
-    from: "    const who = gun.side === 'mexican' ? 'regular' : 'volunteer';", to: "    const who = 'volunteer';", test: V, expect: T.vGun },
+    from: "    const who = gun.side === 'mexican' ? 'regular' : 'volunteer', back = right ? -1 : 1;", to: "    const who = 'volunteer', back = right ? -1 : 1;", test: V, expect: T.vGun },
   { name: 'Bowie\'s companies given ground too small for them', file: 'sim/battles/concepcion.mjs',
     from: "count: 41, drawn: 20, style, spread: { width: 0.2, depth: 0.06 }", to: "count: 41, drawn: 20, style, spread: { width: 0.05, depth: 0.02 }", test: V, expect: T.vFits },
 ];
@@ -91,9 +91,9 @@ const BROWSER = [
   { name: 'the Mexican infantry drawn loose, like the volunteers', fight: 'concepcion', file: 'sim/battles/concepcion.mjs',
     from: "      mexican: { style: 'ranks', keys: [[0, 'line'], [3, 'charge']", to: "      mexican: { style: 'rout', spread: { width: 0.36, depth: 0.26 }, keys: [[0, 'line'], [3, 'charge']", expect: 'not looser than the Mexican ranks' },
   { name: 'nobody in the division is ever hit where the seed hits them', fight: 'concepcion', file: 'sim/concepcion-grass.mjs',
-    from: '    const minute = concepcionMoment(world, state, personId, fate);', to: '    const minute = Infinity;', expect: 'was not drawn killed at the staged moment' },
+    from: "      if (fate !== 'unhurt') stageFate(world, 'concepcion', personId, { fate, minute: concepcionMoment(world, state, personId, fate) });", to: '', expect: 'was not drawn killed at the staged moment' },
   { name: 'a family\'s person hit drawn going on firing', fight: 'concepcion', file: 'public/battle-view.js',
-    from: '    if (member.fate) {', to: '    if (false) {', expect: 'the fate was not drawn in its pose' },
+    from: '    if (fell && since >= 0) {', to: '    if (false) {', expect: 'the fate was not drawn in its pose' },
   { name: 'the family with its man at Espada never hears the firing', fight: 'concepcion', file: 'sim/concepcion-grass.mjs',
     from: '        else if (withArmy && heard) out.battle =', to: '        else if (false) out.battle =', expect: 'the family nearby was not sent the firing' },
   { name: 'no account afterwards', fight: 'concepcion', file: 'sim/concepcion-grass.mjs',
@@ -136,9 +136,10 @@ function runBrowser(fight) {
 const which = process.argv[2] || 'all';
 // `check`: only that every injection's text is found exactly once, so a stale pattern is caught before a long run.
 if (which === 'check') {
-  for (const injection of [...UNIT, ...BROWSER]) inject(injection, () => null);
-  console.log(`${UNIT.length + BROWSER.length} injections each found exactly once.`);
-  process.exit(0);
+  const stale = [];
+  for (const injection of [...UNIT, ...BROWSER]) { try { inject(injection, () => null); } catch (error) { stale.push(error.message); } }
+  console.log(stale.length ? `STALE:\n${stale.join('\n')}` : `${UNIT.length + BROWSER.length} injections each found exactly once.`);
+  process.exit(stale.length ? 1 : 0);
 }
 const record = { unit: [], browser: [] };
 const evidencePath = 'docs/evidence/battle-1835-injections.json';
