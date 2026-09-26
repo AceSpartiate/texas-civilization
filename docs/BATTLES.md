@@ -385,7 +385,7 @@ Gonzales and Béxar project and draw as before.
 A day of the siege (6:00–18:00) is held at four hours a tick and a night goes at the class's pace, the army's coming, the huts and
 the relief closer - all as Béxar's `background` pace, so **only while a played, present family has somebody in the garrison,
 inside, or riding with the relief** (`watchedByAFamily`, `FIC-GONZ-431`). The assault is held for everybody (`step`), the longest
-held fight. Measured by `tests/battle-alamo.test.mjs` (a man on auto so the courier days' own pace is not counted): SIEGE_LINE.
+held fight. Measured by `tests/battle-alamo.test.mjs` (a man on auto so the courier days' own pace is not counted): **64 ticks from February 23 to the assault with somebody inside against 28 with nobody: 36 more, 5.7 real minutes at Study** (2.4 at Brisk, 0.6 at Quick); the assault **42 ticks, 6.6 real minutes at Study** for every class, against Gonzales's 36.
 
 ### 8.4 Arrival and participation (staging.md §5.6 (a)–(h))
 

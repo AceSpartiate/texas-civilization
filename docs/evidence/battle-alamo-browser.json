@@ -6,13 +6,13 @@
   "checks": [
     "a class on the colonies map through the join flow; Trinidad of hh-1 in the garrison at Béxar (set in process), hh-2 with nobody there",
     "on 1836-02-23 the card \"The Mexican army has come\" came through Trinidad (arrival), and Watch framed the compound",
-    "the guns on 1836-02-24, 1836-02-27, 1836-03-01, 1836-03-03: Mexican batteries {\"eighteen\":44,\"battery-north\":137,\"battery-west\":111,\"north-gun\":23,\"battery-south\":87}; smoke 26/170/170/170; the runner answered \"stay\" 2 times in the meeting",
+    "the guns on 1836-02-24, 1836-02-27, 1836-03-01, 1836-03-03: Mexican batteries {\"eighteen\":32,\"battery-north-far\":66,\"battery-west\":91,\"north-gun\":19,\"battery-south\":72,\"battery-north-mid\":39,\"battery-north-close\":3}; smoke 36/170/170/170; the runner answered \"stay\" 2 times in the meeting",
     "at the alarm on 1836-03-06 the card came at Trinidad's side: \"At Trinidad Garrison's side, on the guns at the back of the church: “They're coming - they…\", and Watch was pressed",
-    "fire and smoke on screen at all 12 sampled moments of the assault (alarm, repulse, north-wall, fallback, rooms; shots 593 -> 645; smoke in view 137-170)",
-    "the columns come in files and the garrison stands along its walls: Duque's column 0.000, the north wall 0.027 (nearest-neighbour spread)",
-    "words drawn over the speakers: a-coming, a-corn, a-marchen, a-shut, r-flag, r-means, r-answer, d24-down, d24-fuego, d24-help, d25-close, h-huts, h-fire, h-atras, h-back, d26-cold, d26-wood, d27-closer, d27-fannin, d28-dirt, d29-north, rl-quien, rl-gonzales, rl-open, m1-help, m2-powder, m3-fannin, m3-close, m4-wall, m5-quiet, v-silencio, al-viva, al-travis, al-walls, rp-canister, rp-escalas, rp-again, rp-adelante, nw-arriba, nw-over, nw-back, fb-doors, fb-hold, rm-bayoneta, command:0, rm-church",
+    "fire and smoke on screen at all 12 sampled moments of the assault (alarm, repulse, north-wall, fallback, rooms; shots 531 -> 605; smoke in view 142-170)",
+    "the columns come in files and the garrison stands along its walls: Duque's column 0.002, the north wall 0.016 (nearest-neighbour spread)",
+    "words drawn over the speakers: a-coming, a-corn, a-marchen, a-shut, r-flag, r-means, r-answer, d24-down, d24-fuego, d24-help, d25-close, h-huts, h-fire, h-atras, h-back, d26-cold, d26-wood, d27-closer, d27-fannin, d28-dirt, d29-north, rl-quien, rl-gonzales, rl-open, m1-help, m2-powder, m3-fannin, m3-close, m4-wall, m5-quiet, v-silencio, al-viva, al-travis, al-walls, rp-canister, rp-escalas, rp-again, rp-adelante, nw-arriba, nw-over, nw-back, fb-doors, fb-hold, rm-bayoneta, rm-church",
     "Trinidad was drawn at his post and seen to go down in the rooms, the camera on the fight; the family's journal and record of him say nothing (well)",
-    "the battle draws in 1.4 ms at its slowest 95th percentile, of a map frame of 5.5 ms at most",
+    "the battle draws in 1.5 ms at its slowest 95th percentile, of a map frame of 22.3 ms at most",
     "the Host sees it live (end), its camera battle on the compound, its spotlight lit",
     "the family with nobody there was sent nothing of the Alamo - no battle, no card, no name - before and after a reload",
     "afterwards the card \"What you saw from the walls\" says what the student saw and that nobody at home knows; the journal says nothing of it",
@@ -25,25 +25,25 @@
       "date": "1836-02-24",
       "gunShots": {
         "eighteen": 2,
-        "battery-north": 3,
+        "battery-north-far": 3,
         "battery-west": 2
       },
       "shotsBy": {
-        "texian": 5,
-        "mexican": 7
+        "mexican": 5,
+        "texian": 3
       },
-      "smoke": 26,
-      "parts": {
-        "texian:north": 9,
-        "texian:west": 7,
-        "texian:southwest": 3,
-        "texian:south": 5,
-        "texian:palisade": 4,
-        "texian:church": 1,
-        "mexican:lines-north": 7,
-        "mexican:lines-east": 5,
-        "mexican:lines-south": 6,
-        "mexican:lines-west": 6
+      "smoke": 36,
+      "groups": {
+        "north": 9,
+        "west": 7,
+        "southwest": 3,
+        "south": 5,
+        "palisade": 4,
+        "church": 3,
+        "lines-north": 7,
+        "lines-east": 5,
+        "lines-south": 6,
+        "lines-west": 6
       }
     },
     {
@@ -51,28 +51,28 @@
       "phase": "day-27",
       "date": "1836-02-27",
       "gunShots": {
-        "eighteen": 18,
-        "battery-north": 49,
-        "battery-west": 39,
+        "eighteen": 15,
+        "battery-north-far": 42,
+        "battery-west": 36,
         "north-gun": 8,
-        "battery-south": 25
+        "battery-south": 23
       },
       "shotsBy": {
-        "texian": 38,
-        "mexican": 124
+        "mexican": 12,
+        "texian": 17
       },
       "smoke": 170,
-      "parts": {
-        "texian:north": 9,
-        "texian:west": 7,
-        "texian:southwest": 3,
-        "texian:south": 5,
-        "texian:palisade": 4,
-        "texian:church": 1,
-        "mexican:lines-north": 7,
-        "mexican:lines-east": 5,
-        "mexican:lines-south": 6,
-        "mexican:lines-west": 6
+      "groups": {
+        "north": 9,
+        "west": 7,
+        "southwest": 3,
+        "south": 5,
+        "palisade": 4,
+        "church": 1,
+        "lines-north": 0,
+        "lines-east": 5,
+        "lines-south": 6,
+        "lines-west": 6
       }
     },
     {
@@ -80,28 +80,30 @@
       "phase": "relief",
       "date": "1836-03-01",
       "gunShots": {
-        "eighteen": 32,
-        "battery-north": 98,
-        "battery-west": 80,
-        "north-gun": 17,
-        "battery-south": 60
+        "eighteen": 25,
+        "battery-north-far": 66,
+        "battery-west": 69,
+        "north-gun": 15,
+        "battery-south": 52,
+        "battery-north-mid": 15
       },
       "shotsBy": {
-        "texian": 63,
-        "mexican": 249
+        "mexican": 13,
+        "texian": 21
       },
       "smoke": 170,
-      "parts": {
-        "texian:north": 3,
-        "texian:west": 3,
-        "texian:southwest": 1,
-        "texian:south": 2,
-        "texian:palisade": 2,
-        "texian:relief": 8,
-        "mexican:lines-north": 7,
-        "mexican:lines-east": 5,
-        "mexican:lines-south": 6,
-        "mexican:lines-west": 6
+      "groups": {
+        "north": 3,
+        "west": 3,
+        "southwest": 1,
+        "south": 2,
+        "palisade": 2,
+        "church": 0,
+        "relief": 8,
+        "lines-north": 0,
+        "lines-east": 5,
+        "lines-south": 6,
+        "lines-west": 6
       }
     },
     {
@@ -109,28 +111,30 @@
       "phase": "day-3",
       "date": "1836-03-03",
       "gunShots": {
-        "eighteen": 44,
-        "battery-north": 137,
-        "battery-west": 111,
-        "north-gun": 23,
-        "battery-south": 87
+        "eighteen": 32,
+        "battery-north-far": 66,
+        "battery-west": 91,
+        "north-gun": 19,
+        "battery-south": 72,
+        "battery-north-mid": 39,
+        "battery-north-close": 3
       },
       "shotsBy": {
-        "texian": 83,
-        "mexican": 347
+        "mexican": 18,
+        "texian": 24
       },
       "smoke": 170,
-      "parts": {
-        "texian:north": 9,
-        "texian:west": 7,
-        "texian:southwest": 3,
-        "texian:south": 5,
-        "texian:palisade": 4,
-        "texian:church": 1,
-        "mexican:lines-north": 7,
-        "mexican:lines-east": 5,
-        "mexican:lines-south": 6,
-        "mexican:lines-west": 6
+      "groups": {
+        "north": 9,
+        "west": 7,
+        "southwest": 3,
+        "south": 5,
+        "palisade": 4,
+        "church": 1,
+        "lines-north": 5,
+        "lines-east": 5,
+        "lines-south": 6,
+        "lines-west": 6
       }
     }
   ],
@@ -142,45 +146,60 @@
       "camera": "battle",
       "size": "1366x768",
       "figures": {
-        "texian": 29,
-        "mexican": 63
+        "texian": 0,
+        "mexican": 0
       },
-      "partStyles": {
-        "texian:north": "wall",
-        "texian:west": "wall",
-        "texian:southwest": "wall",
-        "texian:south": "wall",
-        "texian:palisade": "wall",
-        "texian:church": "wall",
-        "mexican:cos": "column",
-        "mexican:duque": "column",
-        "mexican:romero": "column",
-        "mexican:morales": "column",
-        "mexican:reserve": "column",
-        "mexican:lancers-east": "mounted",
-        "mexican:lancers-south": "mounted"
+      "groups": {
+        "north": 9,
+        "west": 7,
+        "southwest": 3,
+        "south": 5,
+        "palisade": 4,
+        "church": 1,
+        "cos": 12,
+        "duque": 14,
+        "romero": 12,
+        "morales": 5,
+        "reserve": 8,
+        "lancers-east": 6,
+        "lancers-south": 3
       },
-      "partRegularity": {
-        "texian:north": 0.027142162790071044,
-        "texian:west": 0.0012958882270739196,
-        "texian:southwest": 0.014003530067352242,
-        "texian:south": 0.009149679157783381,
-        "texian:palisade": 0.0038104330618673717,
-        "texian:church": null,
-        "mexican:cos": 0.0013155928690215925,
-        "mexican:duque": 0.0003916397069778808,
-        "mexican:romero": 0.0010516729702763712,
-        "mexican:morales": 0.07843806547592985,
-        "mexican:reserve": 0.0009125960562666734,
-        "mexican:lancers-east": 0.03111164326386655,
-        "mexican:lancers-south": 0.05116450846396075
+      "groupStyles": {
+        "north": "wall",
+        "west": "wall",
+        "southwest": "wall",
+        "south": "wall",
+        "palisade": "wall",
+        "church": "wall",
+        "cos": "column",
+        "duque": "column",
+        "romero": "column",
+        "morales": "column",
+        "reserve": "column",
+        "lancers-east": "mounted",
+        "lancers-south": "mounted"
       },
-      "shotsTotal": 593,
+      "groupRegularity": {
+        "north": 0.015605900307490253,
+        "west": 0.0011507066746806935,
+        "southwest": 0.013406309651081773,
+        "south": 0.013914596746888047,
+        "palisade": 0.01639502185814113,
+        "church": null,
+        "cos": 0.0019119079340938138,
+        "duque": 0.0019659408491703215,
+        "romero": 0.0019119079340463325,
+        "morales": 0.08758563348607931,
+        "reserve": 0.0005802005768091928,
+        "lancers-east": 0.02609001178813441,
+        "lancers-south": 0.009703731044834548
+      },
+      "shotsTotal": 531,
       "shotsBy": {
-        "texian": 111,
-        "mexican": 480
+        "mexican": 22,
+        "texian": 36
       },
-      "smokeInView": 137,
+      "smokeInView": 142,
       "bubbles": [
         "¡Silencio!",
         "¡Viva Santa Anna!",
@@ -198,56 +217,71 @@
       "frameMs": {
         "last": 0.9,
         "median": 0.7,
-        "p95": 1.2
+        "p95": 1.3
       },
-      "mapDrawMs": 4.199999988079071
+      "mapDrawMs": 4.699999988079071
     },
     {
       "label": "1",
       "phase": "repulse",
-      "minute": 230380,
+      "minute": 230378,
       "camera": "battle",
       "size": "1366x768",
       "figures": {
-        "texian": 29,
-        "mexican": 60
+        "texian": 0,
+        "mexican": 0
       },
-      "partStyles": {
-        "texian:north": "wall",
-        "texian:west": "wall",
-        "texian:southwest": "wall",
-        "texian:south": "wall",
-        "texian:palisade": "wall",
-        "texian:church": "wall",
-        "mexican:cos": "column",
-        "mexican:duque": "column",
-        "mexican:romero": "column",
-        "mexican:morales": "column",
-        "mexican:reserve": "column",
-        "mexican:lancers-east": "mounted",
-        "mexican:lancers-south": "mounted"
+      "groups": {
+        "north": 9,
+        "west": 7,
+        "southwest": 3,
+        "south": 5,
+        "palisade": 4,
+        "church": 1,
+        "cos": 12,
+        "duque": 14,
+        "romero": 12,
+        "morales": 5,
+        "reserve": 8,
+        "lancers-east": 6,
+        "lancers-south": 3
       },
-      "partRegularity": {
-        "texian:north": 0.027142162790071044,
-        "texian:west": 0.0012958882270739196,
-        "texian:southwest": 0.014003530067352242,
-        "texian:south": 0.009149679157783381,
-        "texian:palisade": 0.0038104330618673717,
-        "texian:church": null,
-        "mexican:cos": 0.0013155928689791028,
-        "mexican:duque": 0.0736660001009234,
-        "mexican:romero": 0.0010516729702884024,
-        "mexican:morales": 0.07843806547587785,
-        "mexican:reserve": 0.0009125960562666734,
-        "mexican:lancers-east": 0.03111164326386655,
-        "mexican:lancers-south": 0.05116450846396075
+      "groupStyles": {
+        "north": "wall",
+        "west": "wall",
+        "southwest": "wall",
+        "south": "wall",
+        "palisade": "wall",
+        "church": "wall",
+        "cos": "column",
+        "duque": "column",
+        "romero": "column",
+        "morales": "column",
+        "reserve": "column",
+        "lancers-east": "mounted",
+        "lancers-south": "mounted"
       },
-      "shotsTotal": 598,
+      "groupRegularity": {
+        "north": 0.015605900307490253,
+        "west": 0.0011507066746806935,
+        "southwest": 0.013406309651081773,
+        "south": 0.013914596746888047,
+        "palisade": 0.01639502185814113,
+        "church": null,
+        "cos": 0.0019119079340393253,
+        "duque": 0.0019659408491522405,
+        "romero": 0.0019119079340328764,
+        "morales": 0.08758563348610197,
+        "reserve": 0.0005802005768091928,
+        "lancers-east": 0.02609001178813441,
+        "lancers-south": 0.009703731044834548
+      },
+      "shotsTotal": 542,
       "shotsBy": {
-        "texian": 116,
-        "mexican": 480
+        "mexican": 27,
+        "texian": 38
       },
-      "smokeInView": 146,
+      "smokeInView": 150,
       "bubbles": [
         "¡Silencio!",
         "¡Viva Santa Anna!",
@@ -265,11 +299,11 @@
       ],
       "light": 0.74,
       "frameMs": {
-        "last": 0.9,
+        "last": 0.8,
         "median": 0.7,
-        "p95": 1.2
+        "p95": 1.3
       },
-      "mapDrawMs": 4.300000011920929
+      "mapDrawMs": 3.800000011920929
     },
     {
       "label": "2",
@@ -278,45 +312,60 @@
       "camera": "battle",
       "size": "1366x768",
       "figures": {
-        "texian": 29,
-        "mexican": 55
+        "texian": 0,
+        "mexican": 0
       },
-      "partStyles": {
-        "texian:north": "wall",
-        "texian:west": "wall",
-        "texian:southwest": "wall",
-        "texian:south": "wall",
-        "texian:palisade": "wall",
-        "texian:church": "wall",
-        "mexican:cos": "column",
-        "mexican:duque": "column",
-        "mexican:romero": "column",
-        "mexican:morales": "column",
-        "mexican:reserve": "column",
-        "mexican:lancers-east": "mounted",
-        "mexican:lancers-south": "mounted"
+      "groups": {
+        "north": 9,
+        "west": 7,
+        "southwest": 3,
+        "south": 5,
+        "palisade": 4,
+        "church": 1,
+        "cos": 9,
+        "duque": 11,
+        "romero": 10,
+        "morales": 5,
+        "reserve": 8,
+        "lancers-east": 6,
+        "lancers-south": 3
       },
-      "partRegularity": {
-        "texian:north": 0.027142162790071044,
-        "texian:west": 0.0012958882270739196,
-        "texian:southwest": 0.014003530067352242,
-        "texian:south": 0.009149679157783381,
-        "texian:palisade": 0.0038104330618673717,
-        "texian:church": null,
-        "mexican:cos": 0.00028656848223803917,
-        "mexican:duque": 0.07366600010095048,
-        "mexican:romero": 0.07446214294887628,
-        "mexican:morales": 0.07843806547595449,
-        "mexican:reserve": 0.0009125960562666734,
-        "mexican:lancers-east": 0.03111164326386655,
-        "mexican:lancers-south": 0.05116450846396075
+      "groupStyles": {
+        "north": "wall",
+        "west": "wall",
+        "southwest": "wall",
+        "south": "wall",
+        "palisade": "wall",
+        "church": "wall",
+        "cos": "column",
+        "duque": "column",
+        "romero": "column",
+        "morales": "column",
+        "reserve": "column",
+        "lancers-east": "mounted",
+        "lancers-south": "mounted"
       },
-      "shotsTotal": 603,
+      "groupRegularity": {
+        "north": 0.015605900307490253,
+        "west": 0.0011507066746806935,
+        "southwest": 0.013406309651081773,
+        "south": 0.013914596746888047,
+        "palisade": 0.01639502185814113,
+        "church": null,
+        "cos": 0.002072666053828116,
+        "duque": 0.05842995711767182,
+        "romero": 0.06766057395638175,
+        "morales": 0.08758563348610927,
+        "reserve": 0.0005802005768091928,
+        "lancers-east": 0.02609001178813441,
+        "lancers-south": 0.009703731044834548
+      },
+      "shotsTotal": 551,
       "shotsBy": {
-        "texian": 120,
-        "mexican": 481
+        "mexican": 29,
+        "texian": 41
       },
-      "smokeInView": 151,
+      "smokeInView": 158,
       "bubbles": [
         "¡Silencio!",
         "¡Viva Santa Anna!",
@@ -335,11 +384,11 @@
       ],
       "light": 0.74,
       "frameMs": {
-        "last": 1.4,
+        "last": 1.1,
         "median": 0.7,
         "p95": 1.3
       },
-      "mapDrawMs": 5.4000000059604645
+      "mapDrawMs": 4.4000000059604645
     },
     {
       "label": "3",
@@ -348,45 +397,60 @@
       "camera": "battle",
       "size": "1366x768",
       "figures": {
-        "texian": 27,
-        "mexican": 53
+        "texian": 0,
+        "mexican": 0
       },
-      "partStyles": {
-        "texian:north": "wall",
-        "texian:west": "wall",
-        "texian:southwest": "wall",
-        "texian:south": "wall",
-        "texian:palisade": "wall",
-        "texian:church": "wall",
-        "mexican:cos": "column",
-        "mexican:duque": "column",
-        "mexican:romero": "column",
-        "mexican:morales": "column",
-        "mexican:reserve": "column",
-        "mexican:lancers-east": "mounted",
-        "mexican:lancers-south": "mounted"
+      "groups": {
+        "north": 9,
+        "west": 7,
+        "southwest": 3,
+        "south": 5,
+        "palisade": 4,
+        "church": 1,
+        "cos": 9,
+        "duque": 9,
+        "romero": 10,
+        "morales": 5,
+        "reserve": 8,
+        "lancers-east": 6,
+        "lancers-south": 3
       },
-      "partRegularity": {
-        "texian:north": 0.012200082923710246,
-        "texian:west": 0.0012958882270739196,
-        "texian:southwest": 0.014003530067352242,
-        "texian:south": 0.009149679157783381,
-        "texian:palisade": 0.0038104330618673717,
-        "texian:church": null,
-        "mexican:cos": 0.00028656848194187596,
-        "mexican:duque": 0.06448461390683262,
-        "mexican:romero": 0.07446214294884596,
-        "mexican:morales": 0.07843806547595863,
-        "mexican:reserve": 0.0009125960562666734,
-        "mexican:lancers-east": 0.03111164326386655,
-        "mexican:lancers-south": 0.05116450846396075
+      "groupStyles": {
+        "north": "wall",
+        "west": "wall",
+        "southwest": "wall",
+        "south": "wall",
+        "palisade": "wall",
+        "church": "wall",
+        "cos": "column",
+        "duque": "column",
+        "romero": "column",
+        "morales": "column",
+        "reserve": "column",
+        "lancers-east": "mounted",
+        "lancers-south": "mounted"
       },
-      "shotsTotal": 608,
+      "groupRegularity": {
+        "north": 0.015605900307490253,
+        "west": 0.0011507066746806935,
+        "southwest": 0.013406309651081773,
+        "south": 0.013914596746888047,
+        "palisade": 0.01639502185814113,
+        "church": null,
+        "cos": 0.00207266605383709,
+        "duque": 0.05282543116475853,
+        "romero": 0.06766057395639023,
+        "morales": 0.08758563348616114,
+        "reserve": 0.0005802005768091928,
+        "lancers-east": 0.02609001178813441,
+        "lancers-south": 0.009703731044834548
+      },
+      "shotsTotal": 559,
       "shotsBy": {
-        "texian": 125,
-        "mexican": 481
+        "mexican": 32,
+        "texian": 43
       },
-      "smokeInView": 158,
+      "smokeInView": 162,
       "bubbles": [
         "¡Silencio!",
         "¡Viva Santa Anna!",
@@ -394,8 +458,7 @@
         "To the walls! They’re at the walls!",
         "Canister! Load canister!",
         "¡Escalas al frente!",
-        "They’re coming again!",
-        "¡Adelante!"
+        "They’re coming again!"
       ],
       "memberFalls": [],
       "people": [
@@ -407,11 +470,11 @@
       ],
       "light": 0.74,
       "frameMs": {
-        "last": 1.6,
-        "median": 0.8,
+        "last": 0.9,
+        "median": 0.7,
         "p95": 1.3
       },
-      "mapDrawMs": 5
+      "mapDrawMs": 4.399999976158142
     },
     {
       "label": "4",
@@ -420,41 +483,54 @@
       "camera": "battle",
       "size": "1366x768",
       "figures": {
-        "texian": 25,
-        "mexican": 54
+        "texian": 0,
+        "mexican": 0
       },
-      "partStyles": {
-        "texian:north": "wall",
-        "texian:west": "wall",
-        "texian:southwest": "wall",
-        "texian:south": "wall",
-        "texian:palisade": "wall",
-        "texian:church": "wall",
-        "mexican:mass": "loose",
-        "mexican:morales": "column",
-        "mexican:reserve": "column",
-        "mexican:lancers-east": "mounted",
-        "mexican:lancers-south": "mounted"
+      "groups": {
+        "north": 5,
+        "west": 7,
+        "southwest": 3,
+        "south": 5,
+        "palisade": 4,
+        "church": 1,
+        "mass": 30,
+        "morales": 4,
+        "reserve": 8,
+        "lancers-east": 6,
+        "lancers-south": 3
       },
-      "partRegularity": {
-        "texian:north": 0.002215244459765356,
-        "texian:west": 0.0012958882270748477,
-        "texian:southwest": 0.014003530067363821,
-        "texian:south": 0.00914967915779215,
-        "texian:palisade": 0.003810433061864587,
-        "texian:church": null,
-        "mexican:mass": 0.30829050381346074,
-        "mexican:morales": 0.3166657076097068,
-        "mexican:reserve": 0.0009125960563170031,
-        "mexican:lancers-east": 0.031111643263867127,
-        "mexican:lancers-south": 0.05116450846396106
+      "groupStyles": {
+        "north": "wall",
+        "west": "wall",
+        "southwest": "wall",
+        "south": "wall",
+        "palisade": "wall",
+        "church": "wall",
+        "mass": "loose",
+        "morales": "column",
+        "reserve": "column",
+        "lancers-east": "mounted",
+        "lancers-south": "mounted"
       },
-      "shotsTotal": 617,
+      "groupRegularity": {
+        "north": 0.005821345400088667,
+        "west": 0.0011507066746788658,
+        "southwest": 0.013406309651101315,
+        "south": 0.013914596746898185,
+        "palisade": 0.01639502185814073,
+        "church": null,
+        "mass": 0.3423922254839421,
+        "morales": 0.3142494011160914,
+        "reserve": 0.0005802005768082389,
+        "lancers-east": 0.026090011788134006,
+        "lancers-south": 0.00970373104483547
+      },
+      "shotsTotal": 564,
       "shotsBy": {
-        "texian": 128,
-        "mexican": 487
+        "mexican": 34,
+        "texian": 44
       },
-      "smokeInView": 161,
+      "smokeInView": 164,
       "bubbles": [
         "¡Viva Santa Anna!",
         "Come on boys, the Mexicans are upon us, and we’ll give them Hell.",
@@ -468,11 +544,11 @@
       "people": [],
       "light": 0.62,
       "frameMs": {
-        "last": 0.9,
-        "median": 0.8,
+        "last": 1,
+        "median": 0.7,
         "p95": 1.3
       },
-      "mapDrawMs": 4.5
+      "mapDrawMs": 4
     },
     {
       "label": "5",
@@ -481,41 +557,54 @@
       "camera": "battle",
       "size": "1366x768",
       "figures": {
-        "texian": 21,
-        "mexican": 50
+        "texian": 0,
+        "mexican": 0
       },
-      "partStyles": {
-        "texian:north": "wall",
-        "texian:west": "wall",
-        "texian:southwest": "wall",
-        "texian:south": "wall",
-        "texian:palisade": "wall",
-        "texian:church": "wall",
-        "mexican:mass": "loose",
-        "mexican:morales": "column",
-        "mexican:reserve": "column",
-        "mexican:lancers-east": "mounted",
-        "mexican:lancers-south": "mounted"
+      "groups": {
+        "north": 5,
+        "west": 7,
+        "southwest": 3,
+        "south": 5,
+        "palisade": 4,
+        "church": 1,
+        "mass": 26,
+        "morales": 4,
+        "reserve": 8,
+        "lancers-east": 6,
+        "lancers-south": 3
       },
-      "partRegularity": {
-        "texian:north": null,
-        "texian:west": 0.0012958882270748477,
-        "texian:southwest": 0.014003530067363821,
-        "texian:south": 0.00914967915779215,
-        "texian:palisade": 0.003810433061864587,
-        "texian:church": null,
-        "mexican:mass": 0.3514196379715052,
-        "mexican:morales": 0.3166657076093778,
-        "mexican:reserve": 0.0009125960563170031,
-        "mexican:lancers-east": 0.031111643263867127,
-        "mexican:lancers-south": 0.05116450846396106
+      "groupStyles": {
+        "north": "wall",
+        "west": "wall",
+        "southwest": "wall",
+        "south": "wall",
+        "palisade": "wall",
+        "church": "wall",
+        "mass": "loose",
+        "morales": "column",
+        "reserve": "column",
+        "lancers-east": "mounted",
+        "lancers-south": "mounted"
       },
-      "shotsTotal": 621,
+      "groupRegularity": {
+        "north": 0.005821345400088667,
+        "west": 0.0011507066746788658,
+        "southwest": 0.013406309651101315,
+        "south": 0.013914596746898185,
+        "palisade": 0.01639502185814073,
+        "church": null,
+        "mass": 0.35882201987911166,
+        "morales": 0.3142494011158671,
+        "reserve": 0.0005802005768082389,
+        "lancers-east": 0.026090011788134006,
+        "lancers-south": 0.00970373104483547
+      },
+      "shotsTotal": 573,
       "shotsBy": {
-        "texian": 131,
-        "mexican": 488
+        "mexican": 36,
+        "texian": 49
       },
-      "smokeInView": 164,
+      "smokeInView": 170,
       "bubbles": [
         "¡Viva Santa Anna!",
         "Come on boys, the Mexicans are upon us, and we’ll give them Hell.",
@@ -530,45 +619,67 @@
       "people": [],
       "light": 0.62,
       "frameMs": {
-        "last": 1.2,
-        "median": 0.8,
+        "last": 0.9,
+        "median": 0.7,
         "p95": 1.3
       },
-      "mapDrawMs": 4.799999982118607
+      "mapDrawMs": 4.5999999940395355
     },
     {
       "label": "6",
-      "phase": "fallback",
-      "minute": 230404,
+      "phase": "north-wall",
+      "minute": 230402,
       "camera": "battle",
       "size": "1366x768",
       "figures": {
-        "texian": 13,
-        "mexican": 42
+        "texian": 0,
+        "mexican": 0
       },
-      "partStyles": {
-        "texian:barrack": "street",
-        "texian:church": "street",
-        "texian:runners": "rout",
-        "mexican:plaza": "loose",
-        "mexican:morales": "loose",
-        "mexican:lancers-east": "mounted",
-        "mexican:lancers-south": "mounted"
+      "groups": {
+        "north": 3,
+        "west": 4,
+        "southwest": 1,
+        "south": 5,
+        "palisade": 4,
+        "church": 1,
+        "mass": 26,
+        "morales": 4,
+        "reserve": 8,
+        "lancers-east": 6,
+        "lancers-south": 3
       },
-      "partRegularity": {
-        "texian:barrack": 0.13766750579371015,
-        "texian:runners": 0.14234085098827823,
-        "mexican:plaza": 0.17961799046457028,
-        "mexican:morales": 0.04978891402213574,
-        "mexican:lancers-east": 0.031111643263867127,
-        "mexican:lancers-south": 0.05116450846396106
+      "groupStyles": {
+        "north": "wall",
+        "west": "wall",
+        "southwest": "wall",
+        "south": "wall",
+        "palisade": "wall",
+        "church": "wall",
+        "mass": "loose",
+        "morales": "column",
+        "reserve": "column",
+        "lancers-east": "mounted",
+        "lancers-south": "mounted"
       },
-      "shotsTotal": 626,
+      "groupRegularity": {
+        "north": 0.002807484960336572,
+        "west": 0.0004417904680074887,
+        "southwest": null,
+        "south": 0.013914596746898185,
+        "palisade": 0.01639502185814073,
+        "church": null,
+        "mass": 0.35882201987884743,
+        "morales": 0.3142494011160137,
+        "reserve": 0.0005802005768082389,
+        "lancers-east": 0.026090011788134006,
+        "lancers-south": 0.00970373104483547
+      },
+      "shotsTotal": 578,
       "shotsBy": {
-        "texian": 133,
-        "mexican": 491
+        "mexican": 40,
+        "texian": 49
       },
-      "smokeInView": 167,
+      "smokeInView": 170,
       "bubbles": [
         "Come on boys, the Mexicans are upon us, and we’ll give them Hell.",
         "To the walls! They’re at the walls!",
@@ -577,18 +688,17 @@
         "They’re coming again!",
         "¡Adelante!",
         "¡Arriba!",
-        "They’re over the north wall!",
-        "Fall back to the barracks!"
+        "They’re over the north wall!"
       ],
       "memberFalls": [],
       "people": [],
-      "light": 0.5,
+      "light": 0.62,
       "frameMs": {
         "last": 1.2,
-        "median": 0.8,
+        "median": 0.7,
         "p95": 1.3
       },
-      "mapDrawMs": 4
+      "mapDrawMs": 3.9000000059604645
     },
     {
       "label": "7",
@@ -597,33 +707,42 @@
       "camera": "battle",
       "size": "1366x768",
       "figures": {
-        "texian": 14,
-        "mexican": 42
+        "texian": 0,
+        "mexican": 0
       },
-      "partStyles": {
-        "texian:barrack": "street",
-        "texian:church": "street",
-        "texian:runners": "rout",
-        "mexican:plaza": "loose",
-        "mexican:morales": "loose",
-        "mexican:lancers-east": "mounted",
-        "mexican:lancers-south": "mounted"
+      "groups": {
+        "barrack": 9,
+        "church": 3,
+        "runners": 4,
+        "plaza": 26,
+        "morales": 4,
+        "lancers-east": 6,
+        "lancers-south": 3
       },
-      "partRegularity": {
-        "texian:barrack": 0.13766750579371015,
-        "texian:church": null,
-        "texian:runners": 0.0868710885794909,
-        "mexican:plaza": 0.17961799046422305,
-        "mexican:morales": 0.04978891402213574,
-        "mexican:lancers-east": 0.03111164326388472,
-        "mexican:lancers-south": 0.05116450846396106
+      "groupStyles": {
+        "barrack": "street",
+        "church": "street",
+        "runners": "rout",
+        "plaza": "loose",
+        "morales": "loose",
+        "lancers-east": "mounted",
+        "lancers-south": "mounted"
       },
-      "shotsTotal": 627,
+      "groupRegularity": {
+        "barrack": 0.15391530544217488,
+        "church": 0.29440698148531586,
+        "runners": 0.22482788780518764,
+        "plaza": 0.25608346858229836,
+        "morales": 0.15279424298911273,
+        "lancers-east": 0.026090011788143887,
+        "lancers-south": 0.00970373104483547
+      },
+      "shotsTotal": 584,
       "shotsBy": {
-        "texian": 133,
-        "mexican": 492
+        "mexican": 44,
+        "texian": 51
       },
-      "smokeInView": 167,
+      "smokeInView": 170,
       "bubbles": [
         "¡Escalas al frente!",
         "They’re coming again!",
@@ -636,11 +755,11 @@
       "people": [],
       "light": 0.5,
       "frameMs": {
-        "last": 0.7,
+        "last": 1,
         "median": 0.8,
         "p95": 1.3
       },
-      "mapDrawMs": 3.5
+      "mapDrawMs": 4.199999988079071
     },
     {
       "label": "8",
@@ -649,31 +768,40 @@
       "camera": "battle",
       "size": "1366x768",
       "figures": {
-        "texian": 14,
-        "mexican": 39
+        "texian": 0,
+        "mexican": 0
       },
-      "partStyles": {
-        "texian:barrack": "street",
-        "texian:church": "street",
-        "texian:runners": "rout",
-        "mexican:plaza": "loose",
-        "mexican:morales": "loose",
-        "mexican:lancers-east": "mounted",
-        "mexican:lancers-south": "mounted"
+      "groups": {
+        "barrack": 9,
+        "church": 3,
+        "runners": 5,
+        "plaza": 23,
+        "morales": 4,
+        "lancers-east": 6,
+        "lancers-south": 3
       },
-      "partRegularity": {
-        "texian:barrack": 0.26913319292612964,
-        "texian:church": null,
-        "texian:runners": 0.2696324704826743,
-        "mexican:plaza": 0.19250168464396447,
-        "mexican:morales": 0.04978891402213574,
-        "mexican:lancers-east": 0.031111643263862888,
-        "mexican:lancers-south": 0.05116450846396106
+      "groupStyles": {
+        "barrack": "street",
+        "church": "street",
+        "runners": "rout",
+        "plaza": "loose",
+        "morales": "loose",
+        "lancers-east": "mounted",
+        "lancers-south": "mounted"
       },
-      "shotsTotal": 630,
+      "groupRegularity": {
+        "barrack": 0.15391530544217488,
+        "church": 0.29440698148531586,
+        "runners": 0.22596323282562839,
+        "plaza": 0.3185755172158673,
+        "morales": 0.15279424298911273,
+        "lancers-east": 0.026090011788118577,
+        "lancers-south": 0.00970373104483547
+      },
+      "shotsTotal": 590,
       "shotsBy": {
-        "texian": 134,
-        "mexican": 494
+        "mexican": 48,
+        "texian": 51
       },
       "smokeInView": 170,
       "bubbles": [
@@ -689,47 +817,57 @@
       "people": [],
       "light": 0.5,
       "frameMs": {
-        "last": 0.9,
+        "last": 1,
         "median": 0.8,
-        "p95": 1.3
+        "p95": 1.4
       },
-      "mapDrawMs": 4.300000011920929
+      "mapDrawMs": 4.699999988079071
     },
     {
       "label": "9",
       "phase": "rooms",
-      "minute": 230418,
+      "minute": 230416,
       "camera": "battle",
       "size": "1366x768",
       "figures": {
-        "texian": 7,
-        "mexican": 43
+        "texian": 0,
+        "mexican": 0
       },
-      "partStyles": {
-        "texian:barrack": "street",
-        "texian:church": "street",
-        "mexican:plaza": "loose",
-        "mexican:doors": "ranks",
-        "mexican:church-door": "loose",
-        "mexican:lancers-east": "mounted",
-        "mexican:lancers-south": "mounted"
+      "groups": {
+        "barrack": 5,
+        "church": 3,
+        "plaza": 17,
+        "doors": 8,
+        "church-door": 6,
+        "lancers-east": 6,
+        "lancers-south": 6
       },
-      "partRegularity": {
-        "texian:barrack": 0.3068686186648721,
-        "texian:church": null,
-        "mexican:plaza": 0.1097839789121964,
-        "mexican:doors": 0.035557977313495234,
-        "mexican:church-door": 0.2132470078106883,
-        "mexican:lancers-east": 0.03111164326387269,
-        "mexican:lancers-south": 0.05116450846396127
+      "groupStyles": {
+        "barrack": "street",
+        "church": "street",
+        "plaza": "loose",
+        "doors": "ranks",
+        "church-door": "loose",
+        "lancers-east": "mounted",
+        "lancers-south": "mounted"
       },
-      "shotsTotal": 636,
+      "groupRegularity": {
+        "barrack": 0.39378883181420604,
+        "church": 0.29440698148530964,
+        "plaza": 0.22615070830319103,
+        "doors": 0.05425217603748485,
+        "church-door": 0.21172573059441374,
+        "lancers-east": 0.02609001178811761,
+        "lancers-south": 0.02609001178803837
+      },
+      "shotsTotal": 598,
       "shotsBy": {
-        "texian": 135,
-        "mexican": 498
+        "mexican": 53,
+        "texian": 52
       },
       "smokeInView": 170,
       "bubbles": [
+        "¡Adelante!",
         "¡Arriba!",
         "They’re over the north wall!",
         "Fall back to the barracks!",
@@ -746,44 +884,53 @@
       ],
       "light": 0.32,
       "frameMs": {
-        "last": 1,
+        "last": 8.8,
         "median": 0.8,
-        "p95": 1.4
+        "p95": 1.5
       },
-      "mapDrawMs": 4.800000011920929
+      "mapDrawMs": 22.30000001192093
     },
     {
       "label": "10",
       "phase": "rooms",
-      "minute": 230422,
+      "minute": 230420,
       "camera": "battle",
       "size": "1366x768",
       "figures": {
-        "texian": 4,
-        "mexican": 43
+        "texian": 0,
+        "mexican": 0
       },
-      "partStyles": {
-        "texian:barrack": "street",
-        "texian:church": "street",
-        "mexican:plaza": "loose",
-        "mexican:doors": "ranks",
-        "mexican:church-door": "loose",
-        "mexican:lancers-east": "mounted",
-        "mexican:lancers-south": "mounted"
+      "groups": {
+        "barrack": 3,
+        "church": 3,
+        "plaza": 17,
+        "doors": 8,
+        "church-door": 6,
+        "lancers-east": 6,
+        "lancers-south": 6
       },
-      "partRegularity": {
-        "texian:barrack": null,
-        "texian:church": null,
-        "mexican:plaza": 0.1097839789121964,
-        "mexican:doors": 0.035557977313495234,
-        "mexican:church-door": 0.2132470078119439,
-        "mexican:lancers-east": 0.03111164326387269,
-        "mexican:lancers-south": 0.05116450846396127
+      "groupStyles": {
+        "barrack": "street",
+        "church": "street",
+        "plaza": "loose",
+        "doors": "ranks",
+        "church-door": "loose",
+        "lancers-east": "mounted",
+        "lancers-south": "mounted"
       },
-      "shotsTotal": 640,
+      "groupRegularity": {
+        "barrack": 0.11898566445538408,
+        "church": 0.29440698148530964,
+        "plaza": 0.22615070830319103,
+        "doors": 0.05425217603748485,
+        "church-door": 0.2117257305946981,
+        "lancers-east": 0.026090011788117862,
+        "lancers-south": 0.02609001178803837
+      },
+      "shotsTotal": 601,
       "shotsBy": {
-        "texian": 136,
-        "mexican": 501
+        "mexican": 54,
+        "texian": 52
       },
       "smokeInView": 170,
       "bubbles": [
@@ -804,11 +951,11 @@
       ],
       "light": 0.32,
       "frameMs": {
-        "last": 1.1,
+        "last": 0.9,
         "median": 0.8,
         "p95": 1.4
       },
-      "mapDrawMs": 5.5
+      "mapDrawMs": 3.7000000178813934
     },
     {
       "label": "11",
@@ -817,30 +964,40 @@
       "camera": "battle",
       "size": "1024x768",
       "figures": {
-        "texian": 2,
-        "mexican": 41
+        "texian": 0,
+        "mexican": 0
       },
-      "partStyles": {
-        "texian:barrack": "street",
-        "texian:church": "street",
-        "mexican:plaza": "loose",
-        "mexican:doors": "ranks",
-        "mexican:church-door": "loose",
-        "mexican:lancers-east": "mounted",
-        "mexican:lancers-south": "mounted"
+      "groups": {
+        "barrack": 0,
+        "church": 3,
+        "plaza": 17,
+        "doors": 6,
+        "church-door": 6,
+        "lancers-east": 6,
+        "lancers-south": 6
       },
-      "partRegularity": {
-        "texian:church": null,
-        "mexican:plaza": 0.10978397891219954,
-        "mexican:doors": 0.21414694256409492,
-        "mexican:church-door": 0.2132470078118129,
-        "mexican:lancers-east": 0.031111643263872755,
-        "mexican:lancers-south": 0.05116450846396033
+      "groupStyles": {
+        "barrack": "street",
+        "church": "street",
+        "plaza": "loose",
+        "doors": "ranks",
+        "church-door": "loose",
+        "lancers-east": "mounted",
+        "lancers-south": "mounted"
       },
-      "shotsTotal": 645,
+      "groupRegularity": {
+        "barrack": null,
+        "church": 0.29440698148531486,
+        "plaza": 0.22615070830319184,
+        "doors": 0.24284771850530792,
+        "church-door": 0.2117257305948785,
+        "lancers-east": 0.02609001178811701,
+        "lancers-south": 0.026090011788037933
+      },
+      "shotsTotal": 605,
       "shotsBy": {
-        "texian": 138,
-        "mexican": 504
+        "mexican": 55,
+        "texian": 52
       },
       "smokeInView": 170,
       "bubbles": [
@@ -848,12 +1005,13 @@
         "Fall back to the barracks!",
         "¡El cañón a las puertas!",
         "Hold the door!",
-        "¡A la bayoneta!",
-        "¡A la iglesia!",
-        "¡Preparen las armas!"
+        "¡A la bayoneta!"
       ],
       "memberFalls": [
-        "hh-1-parent-1"
+        {
+          "id": "hh-1-parent-1",
+          "fate": "killed"
+        }
       ],
       "people": [
         {
@@ -864,34 +1022,38 @@
       ],
       "light": 0.32,
       "frameMs": {
-        "last": 1,
-        "median": 0.8,
-        "p95": 1.4
+        "last": 0.9,
+        "median": 0.9,
+        "p95": 1.5
       },
-      "mapDrawMs": 3.800000011920929
+      "mapDrawMs": 3.699999988079071
     },
     {
       "label": "12",
       "phase": "end",
-      "minute": 230435,
+      "minute": 230430,
       "camera": "battle",
       "size": "1024x768",
       "figures": {
         "texian": 0,
-        "mexican": 25
+        "mexican": 0
       },
-      "partStyles": {
-        "mexican:plaza": "loose",
-        "mexican:church-door": "loose"
+      "groups": {
+        "plaza": 19,
+        "church-door": 6
       },
-      "partRegularity": {
-        "mexican:plaza": 0.18536354039335343,
-        "mexican:church-door": 0.21324700781180517
+      "groupStyles": {
+        "plaza": "loose",
+        "church-door": "loose"
       },
-      "shotsTotal": 646,
+      "groupRegularity": {
+        "plaza": 0.2084796210449462,
+        "church-door": 0.21172573059487648
+      },
+      "shotsTotal": 607,
       "shotsBy": {
-        "texian": 138,
-        "mexican": 505
+        "mexican": 56,
+        "texian": 52
       },
       "smokeInView": 170,
       "bubbles": [
@@ -900,7 +1062,10 @@
         "¡A la iglesia!"
       ],
       "memberFalls": [
-        "hh-1-parent-1"
+        {
+          "id": "hh-1-parent-1",
+          "fate": "killed"
+        }
       ],
       "people": [
         {
@@ -909,13 +1074,13 @@
           "fell": false
         }
       ],
-      "light": 0.167,
+      "light": 0.2,
       "frameMs": {
-        "last": 0.8,
+        "last": 0.6,
         "median": 0.9,
-        "p95": 1.4
+        "p95": 1.5
       },
-      "mapDrawMs": 4
+      "mapDrawMs": 3.800000011920929
     }
   ],
   "screens": [
@@ -929,36 +1094,36 @@
   ],
   "runners": 4,
   "frameMs": {
-    "battleP95Max": 1.4,
+    "battleP95Max": 1.5,
     "battleMedian": [
       0.7,
       0.7,
       0.7,
+      0.7,
+      0.7,
+      0.7,
+      0.7,
       0.8,
       0.8,
       0.8,
       0.8,
-      0.8,
-      0.8,
-      0.8,
-      0.8,
-      0.8,
+      0.9,
       0.9
     ],
     "mapDrawMs": [
-      4.199999988079071,
-      4.300000011920929,
-      5.4000000059604645,
-      5,
-      4.5,
-      4.799999982118607,
-      4,
-      3.5,
-      4.300000011920929,
-      4.800000011920929,
-      5.5,
+      4.699999988079071,
       3.800000011920929,
-      4
+      4.4000000059604645,
+      4.399999976158142,
+      4,
+      4.5999999940395355,
+      3.9000000059604645,
+      4.199999988079071,
+      4.699999988079071,
+      22.30000001192093,
+      3.7000000178813934,
+      3.699999988079071,
+      3.800000011920929
     ]
   },
   "verdict": "PASS"

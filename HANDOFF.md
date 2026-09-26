@@ -1,11 +1,11 @@
 # Claude handoff — Astra foundation
 
-## The Alamo on the engine: the living siege and the dawn assault — 2026-09-25, night (after fd1e40b; not released)
+## The Alamo on the engine: the living siege and the dawn assault — 2026-09-26 (after 1c77c91, the storming of Béxar; not released)
 
 Wave 2 of docs/BATTLES.md §5 for the Alamo, owner-directed 2026-09-25 (§2b.1 *a student may watch their own man fall*; §2b.5
-*"I'm assuming that the alamo is the longest since it's a long siege?"*). docs/BATTLES.md **§7** is the build and its limits.
+*"I'm assuming that the alamo is the longest since it's a long siege?"*). docs/BATTLES.md **§8** is the build and its limits. It is built on the engine as Béxar left it (§7), with **one path for a person's fate at its moment** (`stageFate`/`fatesDue`/`memberFates`): merging Béxar, the Alamo's own staged-fate mechanism, its parts-of-a-side and its long steps were replaced by Béxar's groups, fixed guns and background pace.
 
-- **The engagement** (`sim/battles/alamo.mjs`, 51 phases): the army's coming at 2:30 on Feb 23, the red flag and the
+- **The engagement** (`sim/battles/alamo.mjs`, 38 phases): the army's coming at 2:30 on Feb 23, the red flag and the
   18-pounder's answer, a held day and a free night for each day of the guns (batteries from 350 yards, a new one at 300 on the
   25th, three sides from the 26th, the north battery brought within musket shot on March 3, the lines far then near), the fight
   at the huts on the 25th, the Gonzales men riding in before dawn on March 1 (one hurt by the walls' own fire), Bonham on the 3rd,
@@ -20,7 +20,7 @@ Wave 2 of docs/BATTLES.md §5 for the Alamo, owner-directed 2026-09-25 (§2b.1 *
   reach Gonzales before the relief (and be sent back in with it from there); the relief rides at the company's pace to wait
   half a mile short of the lines and rides in with its company to the gate; late men are told and turned home; the order to go
   says how long the road to Gonzales is and whether it is in time. `docs/ALAMO_FATES.md` relief and courier rows amended.
-- **Fates at their moments** (`sim/alamo-battle.mjs` `fallMinute`, `stageFates`): the fate rule is unchanged; a fighter falls
+- **Fates at their moments** (`sim/alamo-battle.mjs` `fallMinute`, `stageFates`, through the engine's `stageFate`/`fatesDue`): the fate rule is unchanged; a fighter falls
   when the storming reaches his post (the north wall in the repulse or at the wall, the west and south when the walls are
   carried, the long barrack and the church in the rooms); a woman or child is spared when the firing stops and walked to
   Músquiz's house. The student watching sees their own man firing at his post and going down there, and he is never drawn
@@ -31,19 +31,19 @@ Wave 2 of docs/BATTLES.md §5 for the Alamo, owner-directed 2026-09-25 (§2b.1 *
   storming; a family only while one of its own is inside or with the relief near the walls; cards at the person's side with
   Watch at the army's coming, the relief and the alarm (none before it). The quiet "inside the Alamo" reminder no longer holds
   the card back. Another family's fallen man is simply not seen standing again.
-- **Pace** (`FIC-GONZ-431`): siege days at four hours a tick only while a played family is involved. Measured: **72 ticks
-  against 23 from Feb 23 to the assault: +49 ticks, 7.8 real minutes at Study** for a class with somebody inside, nothing for a
-  class without. The assault is held for everybody: **42 ticks, 6.6 real minutes at Study** (Gonzales 36).
-- **Engine, generic and additive** (for the builders of the other conflicts; docs/BATTLES.md §7.2): parts of a side (`groups`),
-  more guns (`def.guns`/`phase.guns`, `every`, `canister`), named people, `light`, `frame`, `plumes`, `smokeScale`,
-  `flag.at`/`kind: 'red'` (kept off the delivered Come and Take It cloth), steps of 60 and 240 (`LONG_STEPS`), `watched:
-  'involved'` (`stepOf`), a tick landing on the next held phase or the engagement's end, `memberFalls`/`memberFacing` in
-  `projectBattle`, a small part's gap in `layoutSide`, `isMember`. Gonzales projects and draws as before. `directorProjection`
-  gained three lines; `sim/town.mjs` `observedBy` drops another family's fallen man; `sim/world.mjs` projects `seenFall`;
-  `sim/chores.mjs` `alsoFrom`/`estimate`; `public/family-panel.js` shows the estimate.
+- **Pace** (`FIC-GONZ-431`): siege days at four hours a tick as Béxar's background pace, only while a played family has
+  somebody there. Measured: **64 ticks against 28 from Feb 23 to the assault: +36 ticks, 5.7 real minutes at Study** for a class
+  with somebody inside. The assault is held for everybody: **42 ticks, 6.6 real minutes at Study** (Gonzales 36).
+- **Engine, generic and additive, on Béxar's** (docs/BATTLES.md §8.2): on a group `ladders`, `climbing`, `figure: 'rider'`; on a
+  gun `canister`, `name`; on a phase `people`, `light`, `plumes`; on an engagement `smokeScale`, `frameTight`,
+  `holdsParticipants: false`, `landOnEnd`, `flag.at`/`kind: 'red'` (kept off the delivered Come and Take It cloth); `battleStep`
+  lands on the next held phase however many unheld ones lie between, and on a first phase held only at a background pace; a wall
+  of a given length and a small party's gap in `layoutSide`; `isMember`. Gonzales and Béxar project and draw as before (their
+  tests and proofs re-run). `directorProjection` gained four lines; `sim/town.mjs` `observedBy` drops another family's fallen man;
+  `sim/world.mjs` projects `seenFall`; `sim/chores.mjs` `alsoFrom`/`estimate`; `public/family-panel.js` shows the estimate.
 - **Tests.** New `tests/battle-alamo.test.mjs` (13) and `tests/battle-alamo-view.test.mjs` (7); updated where the rules moved:
   `tests/alamo.test.mjs`, `tests/alamo-runner.test.mjs` (fates fall by seven; the man walks in before the runner comes),
-  `tests/battle-stage.test.mjs` (long steps). `npm test` after merging main: NPM_LINE.
+  `tests/battle-stage.test.mjs` (long steps). `npm test` after merging main (Béxar): **1255 pass, 0 fail**.
 - **Browser** (same computer): new `npm run test:battle-alamo` - **13 checks** at 1366x768 and 1024x768: the card and Watch on
   Feb 23; the guns on four siege days; the runner answered "stay" in the meeting; the alarm's card at the man's side; fire and
   smoke at every one of 12 sampled moments of the assault; columns in files and walls in line (nearest-neighbour spread 0.000

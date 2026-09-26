@@ -861,12 +861,14 @@ export function createBattleView(art) {
         if (points?.length) { const pick = points[Math.floor(hash(line.id) * points.length)]; return { x: pick.x, y: pick.y - figurePx * 1.02 }; }
         if (body) { const c = camera.toScreen(placeAt(body, now)); return { x: c.x, y: c.y - figurePx * 1.2 }; }
       }
-      const points = drawn[line.side];
+      // A side drawn only in its groups (the Alamo's columns, its walls): over any man of that side's groups.
+      const points = drawn[line.side]?.length ? drawn[line.side]
+        : (battle.groups || []).filter(group => group.side === line.side).flatMap(group => drawnBy[`g:${group.id}`] || []);
       if (!points?.length) return null;
       if (line.role === 'officer' || line.role === 'commander') {
         // The officer rides or stands at the front of the middle of his men.
         const side = view.sides.get(line.side);
-        if (side) { const c = camera.toScreen(placeAt(side, now)); return { x: c.x, y: c.y - figurePx * (line.side === 'mexican' ? 1.4 : 1.05) }; }
+        if (side && side.action !== 'gone') { const c = camera.toScreen(placeAt(side, now)); return { x: c.x, y: c.y - figurePx * (line.side === 'mexican' ? 1.4 : 1.05) }; }
       }
       const pick = points[Math.floor(hash(line.id) * points.length)];
       return { x: pick.x, y: pick.y - figurePx * 1.02 };

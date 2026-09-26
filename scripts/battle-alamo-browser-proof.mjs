@@ -113,7 +113,7 @@ try {
   // ---------------------------------------------------------------- the siege: several days of the guns
   const siegeSample = async label => {
     const one = await inside.evaluate(() => ({ phase: window.__snapshot.world.battle?.phase, date: window.__snapshot.world.historicalDate, view: window.__battleView }));
-    evidence.siege.push({ label, phase: one.phase, date: one.date, gunShots: one.view?.gunShots, shotsBy: one.view?.shotsBy, smoke: one.view?.smoke, parts: one.view?.partFigures });
+    evidence.siege.push({ label, phase: one.phase, date: one.date, gunShots: one.view?.gunShotsBy, shotsBy: one.view?.shotsBy, smoke: one.view?.smoke, groups: one.view?.groups });
     return one;
   };
   const days = [];
@@ -124,13 +124,13 @@ try {
     if (phase === 'day-26') await shot(inside, 'siege-day');
   }
   for (let i = 1; i < days.length; i++) {
-    const was = days[i - 1].view.gunShots || {}, now = days[i].view.gunShots || {};
+    const was = days[i - 1].view.gunShotsBy || {}, now = days[i].view.gunShotsBy || {};
     const battery = id => Object.entries(id).filter(([gun]) => gun.startsWith('battery-')).reduce((sum, [, n]) => sum + n, 0);
     assert.ok(battery(now) > battery(was), `the Mexican guns did not fire between ${days[i - 1].phase} and ${days[i].phase}`);
     assert.ok((now.eighteen || 0) + (now['north-gun'] || 0) >= (was.eighteen || 0) + (was['north-gun'] || 0), 'the defenders\' answer went backwards');
   }
-  assert.ok((days.at(-1).view.gunShots.eighteen || 0) + (days.at(-1).view.gunShots['north-gun'] || 0) > 0, 'the defenders never answered');
-  ok(`the guns on ${days.map(day => day.date).join(', ')}: Mexican batteries ${JSON.stringify(days.at(-1).view.gunShots)}; smoke ${days.map(day => day.view.smoke).join('/')}; the runner answered "stay" ${evidence.runners || 0} times in the meeting`);
+  assert.ok((days.at(-1).view.gunShotsBy.eighteen || 0) + (days.at(-1).view.gunShotsBy['north-gun'] || 0) > 0, 'the defenders never answered');
+  ok(`the guns on ${days.map(day => day.date).join(', ')}: Mexican batteries ${JSON.stringify(days.at(-1).view.gunShotsBy)}; smoke ${days.map(day => day.view.smoke).join('/')}; the runner answered "stay" ${evidence.runners || 0} times in the meeting`);
 
   // ---------------------------------------------------------------- March 6
   await waitFor(inside, () => window.__snapshot.world.battleAlert?.id?.includes(':assault:'), undefined, 300000);
@@ -194,8 +194,8 @@ try {
   ok(`the battle draws in ${Math.max(...frames).toFixed(1)} ms at its slowest 95th percentile, of a map frame of ${Math.max(...evidence.frameMs.mapDrawMs).toFixed(1)} ms at most`);
 
   // ---------------------------------------------------------------- the Host
-  const hostView = await host.evaluate(() => ({ phase: window.__snapshot.world.battle?.phase, focus: window.__snapshot.world.host?.focus, camera: window.__camera?.kind, drawn: window.__battleView?.figures, seen: window.__spotlightSeen }));
-  assert.ok(hostView.phase && hostView.drawn?.mexican > 0, `the Host was not sent the Alamo live: ${JSON.stringify(hostView)}`);
+  const hostView = await host.evaluate(() => ({ phase: window.__snapshot.world.battle?.phase, focus: window.__snapshot.world.host?.focus, camera: window.__camera?.kind, drawn: window.__battleView?.groups, seen: window.__spotlightSeen }));
+  assert.ok(hostView.phase && Object.values(hostView.drawn || {}).reduce((sum, n) => sum + n, 0) > 0, `the Host was not sent the Alamo live: ${JSON.stringify(hostView)}`);
   assert.equal(hostView.focus, 'battle', 'the Host\'s camera was not sent to the compound');
   assert.ok(hostView.seen?.some(key => key.startsWith('alamo-fall')), `the Host's spotlight never lit the assault: ${JSON.stringify(hostView.seen)}`);
   ok(`the Host sees it live (${hostView.phase}), its camera ${hostView.camera} on the compound, its spotlight lit`);
