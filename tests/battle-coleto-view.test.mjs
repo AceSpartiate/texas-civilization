@@ -181,10 +181,15 @@ test('the surrender is drawn with hands raised and a white flag at a corner; Pal
   const volleys = projected(GOLIAD_MASSACRE, 'volleys', 10);
   assert.deepEqual(volleys.lines.filter(line => line.phase === 'volleys'), []);
   const killing = fakeArt();
-  const evidence = run(createBattleView(killing), minute => projected(GOLIAD_MASSACRE, 'volleys', Math.min(19, minute)), { seconds: 12 });
+  const said = new Set(), killer = createBattleView(killing);
+  let evidence = null;
+  for (let t = 0; t < 12000; t += 1000 / 60) {
+    evidence = killer.draw(fakeContext(), projected(GOLIAD_MASSACRE, 'volleys', Math.min(19, Math.floor(t / 1000))), { camera, time: t, now: t, tickMs: 1000, bounds });
+    for (const bubble of evidence.bubbles) said.add(bubble.text);
+  }
   assert.ok(evidence.fallen >= 40, `the prisoners did not fall: ${evidence.fallen}`);
   assert.ok(evidence.shotsBy.mexican > 0 && !evidence.shotsBy.texian, 'the wrong side fired');
-  assert.ok(!evidence.bubbles.some(bubble => /Preparen|Apunten|Fuego/.test(bubble.text)), 'an order was given at the killing');
+  assert.ok(![...said].some(text => /Preparen|Apunten|Fuego/.test(text)), `an order was given at the killing: ${[...said]}`);
   assert.ok(!killing.drawn.some(one => /blood|gore|corpse/.test(one.sprite || one.clip || '')));
 });
 

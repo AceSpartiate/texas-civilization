@@ -1,0 +1,212 @@
+{
+  "record": "battle-coleto-injections",
+  "date": "2026-09-26",
+  "gates": {
+    "unit": "node --test tests/battle-coleto*.test.mjs, the named test and no other",
+    "browser": "scripts/battle-coleto-browser-proof.mjs"
+  },
+  "unit": [
+    {
+      "name": "the column never leaves Goliad: the men stand at the presidio while the fight is fought nine miles off",
+      "file": "sim/fannin.mjs",
+      "test": "tests/battle-coleto.test.mjs",
+      "expect": "Fannin's men march out of Goliad with the column at nine, walk with it to Coleto and stand in the square when it forms; nobody new joins him",
+      "caught": false,
+      "failed": [
+        "Fannin's men march out of Goliad with the column at nine, walk with it to Coleto and stand in the square when it forms; nobody new joins him",
+        "a man with his own horse may ride with Horton's scouts, is cut off in the timber when the column is caught, and rides home; nobody without one does"
+      ]
+    },
+    {
+      "name": "recall read off the class's own minute: shut eighteen hours before anybody marched",
+      "file": "sim/winter.mjs",
+      "test": "tests/battle-coleto.test.mjs",
+      "expect": "recall shuts when the column marches, on the director's clock - not eighteen hours before",
+      "caught": true,
+      "failed": [
+        "recall shuts when the column marches, on the director's clock - not eighteen hours before"
+      ]
+    },
+    {
+      "name": "a death on the family's screen the moment he falls, before the word",
+      "file": "sim/fannin.mjs",
+      "test": "tests/battle-coleto.test.mjs",
+      "expect": "each man's fate falls at its moment inside the fighting, from the roll the game always made; a wound shows at once, a death waits for the word, and the dead man lies where he fell",
+      "caught": true,
+      "failed": [
+        "each man's fate falls at its moment inside the fighting, from the roll the game always made; a wound shows at once, a death waits for the word, and the dead man lies where he fell"
+      ]
+    },
+    {
+      "name": "the dead man is marched back to Goliad with the prisoners",
+      "file": "sim/fannin.mjs",
+      "test": "tests/battle-coleto.test.mjs",
+      "expect": "each man's fate falls at its moment inside the fighting, from the roll the game always made; a wound shows at once, a death waits for the word, and the dead man lies where he fell",
+      "caught": true,
+      "failed": [
+        "each man's fate falls at its moment inside the fighting, from the roll the game always made; a wound shows at once, a death waits for the word, and the dead man lies where he fell"
+      ]
+    },
+    {
+      "name": "nobody rides with Horton",
+      "file": "sim/fannin.mjs",
+      "test": "tests/battle-coleto.test.mjs",
+      "expect": "a man with his own horse may ride with Horton's scouts, is cut off in the timber when the column is caught, and rides home; nobody without one does",
+      "caught": true,
+      "failed": [
+        "a man with his own horse may ride with Horton's scouts, is cut off in the timber when the column is caught, and rides home; nobody without one does"
+      ]
+    },
+    {
+      "name": "a man still wounded runs for the river (G2 undone)",
+      "file": "sim/fannin.mjs",
+      "test": "tests/battle-coleto.test.mjs",
+      "expect": "Palm Sunday: each prisoner meets the record's share at its own moment; a man still wounded cannot run; the man who gets away starts home at once and tells it himself",
+      "caught": true,
+      "failed": [
+        "Palm Sunday: each prisoner meets the record's share at its own moment; a man still wounded cannot run; the man who gets away starts home at once and tells it himself"
+      ]
+    },
+    {
+      "name": "the man who got away waits at the river for the word before he starts home",
+      "file": "sim/fannin.mjs",
+      "test": "tests/battle-coleto.test.mjs",
+      "expect": "Palm Sunday: each prisoner meets the record's share at its own moment; a man still wounded cannot run; the man who gets away starts home at once and tells it himself",
+      "caught": true,
+      "failed": [
+        "Palm Sunday: each prisoner meets the record's share at its own moment; a man still wounded cannot run; the man who gets away starts home at once and tells it himself"
+      ]
+    },
+    {
+      "name": "the account at the word tells Coleto and leaves Palm Sunday out",
+      "file": "sim/fannin.mjs",
+      "test": "tests/battle-coleto.test.mjs",
+      "expect": "afterwards every other family with a man there is told through whoever hears it at home - Coleto and Goliad together, the escapes, those spared, and \"Remember Goliad\"",
+      "caught": true,
+      "failed": [
+        "afterwards every other family with a man there is told through whoever hears it at home - Coleto and Goliad together, the escapes, those spared, and \"Remember Goliad\""
+      ]
+    },
+    {
+      "name": "every family is sent the fight, wherever its people are",
+      "file": "sim/fannin.mjs",
+      "test": "tests/battle-coleto.test.mjs",
+      "expect": "who is sent what: the Host always, framed on the field while it is fought; a family only while its man is there; nobody else, not a fate before it falls",
+      "caught": true,
+      "failed": [
+        "who is sent what: the Host always, framed on the field while it is fought; a family only while its man is there; nobody else, not a fate before it falls"
+      ]
+    },
+    {
+      "name": "the march and the muster offered as Watch",
+      "file": "sim/fannin.mjs",
+      "test": "tests/battle-coleto.test.mjs",
+      "expect": "the alerts come through the man: Follow on the march, Watch when the column is caught and when the guns open, Follow at the muster; never to a family with nobody there",
+      "caught": true,
+      "failed": [
+        "the alerts come through the man: Follow on the march, Watch when the column is caught and when the guns open, Follow at the muster; never to a family with nobody there"
+      ]
+    },
+    {
+      "name": "a class saved before the engine is never given Coleto",
+      "file": "sim/fannin.mjs",
+      "test": "tests/battle-coleto.test.mjs",
+      "expect": "a class saved in the middle of Coleto reopens in the middle of it, and one saved before the engine gains it from the clock, with no save version moved",
+      "caught": true,
+      "failed": [
+        "a class saved in the middle of Coleto reopens in the middle of it, and one saved before the engine gains it from the clock, with no save version moved"
+      ]
+    },
+    {
+      "name": "the night at Coleto watched twenty minutes a tick: the fight runs past the lesson",
+      "file": "sim/battles/coleto.mjs",
+      "test": "tests/battle-coleto.test.mjs",
+      "expect": "the clock is held for Coleto: the fighting about ten real minutes at the Study pace, the whole of it under fifteen, never faster than it was going",
+      "caught": true,
+      "failed": [
+        "the clock is held for Coleto: the fighting about ten real minutes at the Study pace, the whole of it under fifteen, never faster than it was going"
+      ]
+    },
+    {
+      "name": "the square's men face in",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-coleto-view.test.mjs",
+      "expect": "the square is four faces of three ranks, each man facing out of his own face, drawn evenly; the marksmen in the grass are loose",
+      "caught": true,
+      "failed": [
+        "the square is four faces of three ranks, each man facing out of his own face, drawn evenly; the marksmen in the grass are loose"
+      ]
+    },
+    {
+      "name": "the square's faces run past its inner rank, and meet at the corners",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-coleto-view.test.mjs",
+      "expect": "the square is four faces of three ranks, each man facing out of his own face, drawn evenly; the marksmen in the grass are loose",
+      "caught": true,
+      "failed": [
+        "the square is four faces of three ranks, each man facing out of his own face, drawn evenly; the marksmen in the grass are loose"
+      ]
+    },
+    {
+      "name": "a fallen man moves with his company",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-coleto-view.test.mjs",
+      "expect": "a man who falls lies where he fell while his company falls back; a family's man hit is drawn down, never before; in the square he faces out of his own face",
+      "caught": true,
+      "failed": [
+        "a man who falls lies where he fell while his company falls back; a family's man hit is drawn down, never before; in the square he faces out of his own face"
+      ]
+    },
+    {
+      "name": "the night is drawn as day",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-coleto-view.test.mjs",
+      "expect": "several guns fire, each shot once, served by men of their own side; the night darkens the field under the flashes",
+      "caught": true,
+      "failed": [
+        "several guns fire, each shot once, served by men of their own side; the night darkens the field under the flashes"
+      ]
+    },
+    {
+      "name": "a Mexican gun served by Texian volunteers",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-coleto-view.test.mjs",
+      "expect": "several guns fire, each shot once, served by men of their own side; the night darkens the field under the flashes",
+      "caught": true,
+      "failed": [
+        "several guns fire, each shot once, served by men of their own side; the night darkens the field under the flashes"
+      ]
+    },
+    {
+      "name": "an order given at the killing on Palm Sunday",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-coleto-view.test.mjs",
+      "expect": "the surrender is drawn with hands raised and a white flag at a corner; Palm Sunday's named woman is drawn in her own figure and named, and its guard counts nobody",
+      "caught": false,
+      "failed": []
+    },
+    {
+      "name": "Francita Alavez drawn as a soldier",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-coleto-view.test.mjs",
+      "expect": "the surrender is drawn with hands raised and a white flag at a corner; Palm Sunday's named woman is drawn in her own figure and named, and its guard counts nobody",
+      "caught": true,
+      "failed": [
+        "the surrender is drawn with hands raised and a white flag at a corner; Palm Sunday's named woman is drawn in her own figure and named, and its guard counts nobody"
+      ]
+    },
+    {
+      "name": "Follow put on the card as Watch",
+      "file": "public/military-attention.js",
+      "test": "tests/battle-coleto-view.test.mjs",
+      "expect": "the card: Follow on a march or a muster, Watch in a fight, through the family's own man",
+      "caught": true,
+      "failed": [
+        "the card: Follow on a march or a muster, Watch in a fight, through the family's own man"
+      ]
+    }
+  ],
+  "browser": [],
+  "cleanBrowserChecks": null,
+  "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
+}

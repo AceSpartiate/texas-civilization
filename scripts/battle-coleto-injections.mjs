@@ -11,8 +11,8 @@ import { spawnSync } from 'node:child_process';
 
 const COLETO = 'tests/battle-coleto.test.mjs', VIEW = 'tests/battle-coleto-view.test.mjs';
 const UNIT = [
-  { name: 'the column never leaves Goliad: the men stand at the presidio while the fight is fought nine miles off', file: 'sim/fannin.mjs',
-    from: '    walkToward(world, person, at, siteId);', to: "    walkToward(world, person, world.map.sites.goliad, 'goliad');",
+  { name: 'the column never leaves Goliad: the men wait at the presidio and cannot reach the square in time', file: 'sim/fannin.mjs',
+    from: "    const centre = partPlace(ground, phase, 'texian', slot.part, into);", to: '    const centre = ground.goliad;',
     test: COLETO, expect: 'Fannin\'s men march out of Goliad with the column at nine, walk with it to Coleto and stand in the square when it forms; nobody new joins him' },
   { name: 'recall read off the class\'s own minute: shut eighteen hours before anybody marched', file: 'sim/winter.mjs',
     from: 'world.minute >= FANNIN_MARCHES + campClock(world))', to: 'world.minute >= FANNIN_MARCHES)',
