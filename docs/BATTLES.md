@@ -435,12 +435,13 @@ the army's existing roll when the man joins the force and staged with `stageFate
 has come, and sent to a page by `projectBattle`'s `fates` only from that minute; `units` names the body each man stands in.
 What they add:
 
-- **`fog: [from, to]`** in a phase and **`scenery(ground)`** on an engagement (sprites, clips and a water ribbon the map lacks).
+- **`fog: [from, to]`** in a phase. The south's `scenery(ground)` (§6.13) is used, and draws besides a ribbon of water, a clip and a
+  sprite at its own size (the river and the creek, the pecans and mesquite, the cut bank and the mission the map lacks).
 - A side may face a named point (`face: '<point>'`, as a group does).
 - **`withAForce`**: anybody in any engagement's `participants` not yet released; the army's ranks leave them to the fight.
-- The renderer: a `packhorse` figure; a `bank` figure loading drawn a third of a figure lower than one firing; the fallen kept
-  where they fell while their body moves on or leaves the field; a man who runs drawn going the other way; the fog veil; the
-  scenery. `window.__battleView` adds `regularityBy`, `fog`, `scenery`.
+- The renderer: a `packhorse` figure; a `bank` figure loading drawn a third of a figure lower than one firing; the south's
+  `fallenSpots` for every body, not only parts, and kept after a body has left the field; a man who runs drawn going the other
+  way; the fog veil. `window.__battleView` adds `regularityBy`, `fog`, `scenery`.
 - `public/app.js`: a side or group that has gone is not framed.
 
 ### 8.3 Arrival, participation, aftermath
