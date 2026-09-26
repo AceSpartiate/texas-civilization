@@ -1,0 +1,2721 @@
+{
+  "record": "famous-people-browser",
+  "date": "2026-09-26",
+  "browser": "153.0.8010.53",
+  "environment": "Same computer: local classroom servers and headless Chrome at 1366x768 and 1024x768, served at 500 ms (the Alamo) and 450 ms (San Jacinto) a tick. Two real classes on the colonies map with rolled families played in process: one to the edge of the Alamo siege with hh-1's father set in the garrison (in process), one to noon on April 19, 1836. Not physical LAN or district acceptance.",
+  "checks": [
+    "the Twin Sisters named and firing before the camp on April 20 (Neill hurt at them) and within two hundred yards on the 21st under Hockley: {\"twins-20-1\":{\"name\":\"Twin Sisters\",\"shots\":2,\"onScreen\":true},\"twins-20-2\":{\"shots\":2,\"onScreen\":true},\"mexican-gun\":{\"shots\":4,\"onScreen\":true},\"twin-sister-1\":{\"name\":\"Twin Sisters\",\"shots\":3,\"onScreen\":true},\"twin-sister-2\":{\"shots\":3,\"onScreen\":true}}",
+    "Houston named with his army and riding with the line; \"Stop that firing, stop that firing… I say, stop the firing.\" out of him, as tradition",
+    "Emily West and Santa Anna at the picnic under the dashed \"later story\" label; her words drawn with their stage direction: (sarcastically) Another plate, General? A great general must keep up his strength. / (dryly) Such a quiet afternoon for a war, General. / (with a forced smile) Stay a while, General. Your whole camp is resting. / (sarcastically) Of course, General. Whatever you say, General. / (quietly) Those are cannon, General.",
+    "Castrillón falls walking away in the charge; at the capture Santa Anna's \"Napoleon of the West\" and Houston's answer are spoken as tradition, from their own figures",
+    "San Jacinto with its famous people draws in 27.9 ms at its slowest 95th percentile",
+    "a family far off was sent nothing of San Jacinto"
+  ],
+  "alamo": {},
+  "sanJacinto": {
+    "samples": [
+      [
+        4472852,
+        "1836-04-20",
+        295560,
+        "arrive",
+        "battle"
+      ],
+      [
+        4473009,
+        "1836-04-20",
+        295560,
+        "arrive",
+        "battle"
+      ],
+      [
+        4473166,
+        "1836-04-20",
+        295580,
+        "arrive",
+        "battle"
+      ],
+      [
+        4473325,
+        "1836-04-20",
+        295580,
+        "arrive",
+        "battle"
+      ],
+      [
+        4473479,
+        "1836-04-20",
+        295580,
+        "arrive",
+        "battle"
+      ],
+      [
+        4473634,
+        "1836-04-20",
+        295600,
+        "arrive",
+        "battle"
+      ],
+      [
+        4473794,
+        "1836-04-20",
+        295600,
+        "arrive",
+        "battle"
+      ],
+      [
+        4473950,
+        "1836-04-20",
+        295600,
+        "arrive",
+        "battle"
+      ],
+      [
+        4474108,
+        "1836-04-20",
+        295620,
+        "camped",
+        "region"
+      ],
+      [
+        4474263,
+        "1836-04-20",
+        295620,
+        "camped",
+        "region"
+      ],
+      [
+        4474418,
+        "1836-04-20",
+        295620,
+        "camped",
+        "region"
+      ],
+      [
+        4474574,
+        "1836-04-20",
+        295800,
+        "skirmish",
+        "battle"
+      ],
+      [
+        4474729,
+        "1836-04-20",
+        295800,
+        "skirmish",
+        "battle"
+      ],
+      [
+        4474923,
+        "1836-04-20",
+        295810,
+        "skirmish",
+        "battle"
+      ],
+      [
+        4475090,
+        "1836-04-20",
+        295810,
+        "skirmish",
+        "battle"
+      ],
+      [
+        4475245,
+        "1836-04-20",
+        295810,
+        "skirmish",
+        "battle"
+      ],
+      [
+        4475403,
+        "1836-04-20",
+        295820,
+        "skirmish",
+        "battle"
+      ],
+      [
+        4475564,
+        "1836-04-20",
+        295820,
+        "skirmish",
+        "battle"
+      ],
+      [
+        4475718,
+        "1836-04-20",
+        295820,
+        "skirmish",
+        "battle"
+      ],
+      [
+        4475874,
+        "1836-04-20",
+        295830,
+        "skirmish",
+        "battle"
+      ],
+      [
+        4476030,
+        "1836-04-20",
+        295830,
+        "skirmish",
+        "battle"
+      ],
+      [
+        4476187,
+        "1836-04-20",
+        295830,
+        "skirmish",
+        "battle"
+      ],
+      [
+        4476344,
+        "1836-04-20",
+        295840,
+        "skirmish",
+        "battle"
+      ],
+      [
+        4476501,
+        "1836-04-20",
+        295840,
+        "skirmish",
+        "battle"
+      ],
+      [
+        4476655,
+        "1836-04-20",
+        295840,
+        "skirmish",
+        "battle"
+      ],
+      [
+        4476872,
+        "1836-04-20",
+        295850,
+        "skirmish",
+        "battle"
+      ],
+      [
+        4477028,
+        "1836-04-20",
+        295850,
+        "skirmish",
+        "battle"
+      ],
+      [
+        4477200,
+        "1836-04-20",
+        295860,
+        "night",
+        "region"
+      ],
+      [
+        4477359,
+        "1836-04-20",
+        295860,
+        "night",
+        "region"
+      ],
+      [
+        4477511,
+        "1836-04-20",
+        295860,
+        "night",
+        "region"
+      ],
+      [
+        4477667,
+        "1836-04-20",
+        296100,
+        "night",
+        "region"
+      ],
+      [
+        4477823,
+        "1836-04-20",
+        296100,
+        "night",
+        "region"
+      ],
+      [
+        4477980,
+        "1836-04-20",
+        296100,
+        "night",
+        "region"
+      ],
+      [
+        4478138,
+        "1836-04-21",
+        296340,
+        "night",
+        "region"
+      ],
+      [
+        4478295,
+        "1836-04-21",
+        296340,
+        "night",
+        "region"
+      ],
+      [
+        4478449,
+        "1836-04-21",
+        296340,
+        "night",
+        "region"
+      ],
+      [
+        4478606,
+        "1836-04-21",
+        296580,
+        "night",
+        "region"
+      ],
+      [
+        4478763,
+        "1836-04-21",
+        296580,
+        "night",
+        "region"
+      ],
+      [
+        4478920,
+        "1836-04-21",
+        296580,
+        "night",
+        "region"
+      ],
+      [
+        4479084,
+        "1836-04-21",
+        296820,
+        "morning",
+        "battle"
+      ],
+      [
+        4479249,
+        "1836-04-21",
+        296820,
+        "morning",
+        "battle"
+      ],
+      [
+        4479405,
+        "1836-04-21",
+        296820,
+        "morning",
+        "battle"
+      ],
+      [
+        4479561,
+        "1836-04-21",
+        296840,
+        "morning",
+        "battle"
+      ],
+      [
+        4479714,
+        "1836-04-21",
+        296840,
+        "morning",
+        "battle"
+      ],
+      [
+        4479904,
+        "1836-04-21",
+        296860,
+        "morning",
+        "battle"
+      ],
+      [
+        4480061,
+        "1836-04-21",
+        296860,
+        "morning",
+        "battle"
+      ],
+      [
+        4480221,
+        "1836-04-21",
+        296860,
+        "morning",
+        "battle"
+      ],
+      [
+        4480374,
+        "1836-04-21",
+        296880,
+        "morning",
+        "battle"
+      ],
+      [
+        4480533,
+        "1836-04-21",
+        296880,
+        "morning",
+        "battle"
+      ],
+      [
+        4480689,
+        "1836-04-21",
+        296880,
+        "morning",
+        "battle"
+      ],
+      [
+        4480846,
+        "1836-04-21",
+        296900,
+        "morning",
+        "battle"
+      ],
+      [
+        4481004,
+        "1836-04-21",
+        296900,
+        "morning",
+        "battle"
+      ],
+      [
+        4481161,
+        "1836-04-21",
+        296900,
+        "morning",
+        "battle"
+      ],
+      [
+        4481313,
+        "1836-04-21",
+        296920,
+        "morning",
+        "battle"
+      ],
+      [
+        4481474,
+        "1836-04-21",
+        296920,
+        "morning",
+        "battle"
+      ],
+      [
+        4481631,
+        "1836-04-21",
+        296920,
+        "morning",
+        "battle"
+      ],
+      [
+        4481790,
+        "1836-04-21",
+        296940,
+        "waiting",
+        "region"
+      ],
+      [
+        4481948,
+        "1836-04-21",
+        296940,
+        "waiting",
+        "region"
+      ],
+      [
+        4482107,
+        "1836-04-21",
+        296940,
+        "waiting",
+        "region"
+      ],
+      [
+        4482263,
+        "1836-04-21",
+        297180,
+        "waiting",
+        "region"
+      ],
+      [
+        4482418,
+        "1836-04-21",
+        297180,
+        "waiting",
+        "region"
+      ],
+      [
+        4482574,
+        "1836-04-21",
+        297180,
+        "waiting",
+        "region"
+      ],
+      [
+        4482734,
+        "1836-04-21",
+        297210,
+        "parade",
+        "battle"
+      ],
+      [
+        4482890,
+        "1836-04-21",
+        297210,
+        "parade",
+        "battle"
+      ],
+      [
+        4483048,
+        "1836-04-21",
+        297210,
+        "parade",
+        "battle"
+      ],
+      [
+        4483204,
+        "1836-04-21",
+        297215,
+        "parade",
+        "battle"
+      ],
+      [
+        4483360,
+        "1836-04-21",
+        297215,
+        "parade",
+        "battle"
+      ],
+      [
+        4483561,
+        "1836-04-21",
+        297220,
+        "parade",
+        "battle"
+      ],
+      [
+        4483720,
+        "1836-04-21",
+        297220,
+        "parade",
+        "battle"
+      ],
+      [
+        4483880,
+        "1836-04-21",
+        297220,
+        "parade",
+        "battle"
+      ],
+      [
+        4484039,
+        "1836-04-21",
+        297225,
+        "parade",
+        "battle"
+      ],
+      [
+        4484194,
+        "1836-04-21",
+        297225,
+        "parade",
+        "battle"
+      ],
+      [
+        4484352,
+        "1836-04-21",
+        297225,
+        "parade",
+        "battle"
+      ],
+      [
+        4484509,
+        "1836-04-21",
+        297230,
+        "parade",
+        "battle"
+      ],
+      [
+        4484663,
+        "1836-04-21",
+        297230,
+        "parade",
+        "battle"
+      ],
+      [
+        4484821,
+        "1836-04-21",
+        297230,
+        "parade",
+        "battle"
+      ],
+      [
+        4484978,
+        "1836-04-21",
+        297235,
+        "parade",
+        "battle"
+      ],
+      [
+        4485136,
+        "1836-04-21",
+        297235,
+        "parade",
+        "battle"
+      ],
+      [
+        4485291,
+        "1836-04-21",
+        297235,
+        "parade",
+        "battle"
+      ],
+      [
+        4485447,
+        "1836-04-21",
+        297240,
+        "advance",
+        "battle"
+      ],
+      [
+        4485696,
+        "1836-04-21",
+        297240,
+        "advance",
+        "battle"
+      ],
+      [
+        4485854,
+        "1836-04-21",
+        297242,
+        "advance",
+        "battle"
+      ],
+      [
+        4486010,
+        "1836-04-21",
+        297242,
+        "advance",
+        "battle"
+      ],
+      [
+        4486166,
+        "1836-04-21",
+        297242,
+        "advance",
+        "battle"
+      ],
+      [
+        4486324,
+        "1836-04-21",
+        297244,
+        "advance",
+        "battle"
+      ],
+      [
+        4486481,
+        "1836-04-21",
+        297244,
+        "advance",
+        "battle"
+      ],
+      [
+        4486638,
+        "1836-04-21",
+        297244,
+        "advance",
+        "battle"
+      ],
+      [
+        4486797,
+        "1836-04-21",
+        297246,
+        "advance",
+        "battle"
+      ],
+      [
+        4486954,
+        "1836-04-21",
+        297246,
+        "advance",
+        "battle"
+      ],
+      [
+        4487112,
+        "1836-04-21",
+        297246,
+        "advance",
+        "battle"
+      ],
+      [
+        4487267,
+        "1836-04-21",
+        297248,
+        "advance",
+        "battle"
+      ],
+      [
+        4487423,
+        "1836-04-21",
+        297248,
+        "advance",
+        "battle"
+      ],
+      [
+        4487581,
+        "1836-04-21",
+        297248,
+        "advance",
+        "battle"
+      ],
+      [
+        4487743,
+        "1836-04-21",
+        297250,
+        "advance",
+        "battle"
+      ],
+      [
+        4487909,
+        "1836-04-21",
+        297250,
+        "advance",
+        "battle"
+      ],
+      [
+        4488097,
+        "1836-04-21",
+        297252,
+        "advance",
+        "battle"
+      ],
+      [
+        4488257,
+        "1836-04-21",
+        297252,
+        "advance",
+        "battle"
+      ],
+      [
+        4488413,
+        "1836-04-21",
+        297252,
+        "advance",
+        "battle"
+      ],
+      [
+        4488569,
+        "1836-04-21",
+        297254,
+        "advance",
+        "battle"
+      ],
+      [
+        4488724,
+        "1836-04-21",
+        297254,
+        "advance",
+        "battle"
+      ],
+      [
+        4488880,
+        "1836-04-21",
+        297254,
+        "advance",
+        "battle"
+      ],
+      [
+        4489036,
+        "1836-04-21",
+        297256,
+        "advance",
+        "battle"
+      ],
+      [
+        4489191,
+        "1836-04-21",
+        297256,
+        "advance",
+        "battle"
+      ],
+      [
+        4489349,
+        "1836-04-21",
+        297256,
+        "advance",
+        "battle"
+      ],
+      [
+        4489504,
+        "1836-04-21",
+        297258,
+        "advance",
+        "battle"
+      ],
+      [
+        4489660,
+        "1836-04-21",
+        297258,
+        "advance",
+        "battle"
+      ],
+      [
+        4489815,
+        "1836-04-21",
+        297258,
+        "advance",
+        "battle"
+      ],
+      [
+        4489972,
+        "1836-04-21",
+        297260,
+        "advance",
+        "battle"
+      ],
+      [
+        4490128,
+        "1836-04-21",
+        297260,
+        "advance",
+        "battle"
+      ],
+      [
+        4490284,
+        "1836-04-21",
+        297260,
+        "advance",
+        "battle"
+      ],
+      [
+        4490438,
+        "1836-04-21",
+        297262,
+        "advance",
+        "battle"
+      ],
+      [
+        4490594,
+        "1836-04-21",
+        297262,
+        "advance",
+        "battle"
+      ],
+      [
+        4490751,
+        "1836-04-21",
+        297262,
+        "advance",
+        "battle"
+      ],
+      [
+        4490908,
+        "1836-04-21",
+        297264,
+        "guns",
+        "battle"
+      ],
+      [
+        4491064,
+        "1836-04-21",
+        297264,
+        "guns",
+        "battle"
+      ],
+      [
+        4491221,
+        "1836-04-21",
+        297264,
+        "guns",
+        "battle"
+      ],
+      [
+        4491379,
+        "1836-04-21",
+        297266,
+        "guns",
+        "battle"
+      ],
+      [
+        4491538,
+        "1836-04-21",
+        297266,
+        "guns",
+        "battle"
+      ],
+      [
+        4491952,
+        "1836-04-21",
+        297268,
+        "guns",
+        "battle"
+      ],
+      [
+        4492113,
+        "1836-04-21",
+        297268,
+        "guns",
+        "battle"
+      ],
+      [
+        4492270,
+        "1836-04-21",
+        297270,
+        "volley",
+        "battle"
+      ],
+      [
+        4492426,
+        "1836-04-21",
+        297270,
+        "volley",
+        "battle"
+      ],
+      [
+        4492583,
+        "1836-04-21",
+        297270,
+        "volley",
+        "battle"
+      ],
+      [
+        4492740,
+        "1836-04-21",
+        297271,
+        "volley",
+        "battle"
+      ],
+      [
+        4492898,
+        "1836-04-21",
+        297271,
+        "volley",
+        "battle"
+      ],
+      [
+        4493095,
+        "1836-04-21",
+        297272,
+        "charge",
+        "battle"
+      ],
+      [
+        4493317,
+        "1836-04-21",
+        297272,
+        "charge",
+        "battle"
+      ],
+      [
+        4493477,
+        "1836-04-21",
+        297272,
+        "charge",
+        "battle"
+      ],
+      [
+        4493633,
+        "1836-04-21",
+        297273,
+        "charge",
+        "battle"
+      ],
+      [
+        4493794,
+        "1836-04-21",
+        297273,
+        "charge",
+        "battle"
+      ],
+      [
+        4493946,
+        "1836-04-21",
+        297273,
+        "charge",
+        "battle"
+      ],
+      [
+        4494103,
+        "1836-04-21",
+        297274,
+        "charge",
+        "battle"
+      ],
+      [
+        4494261,
+        "1836-04-21",
+        297274,
+        "charge",
+        "battle"
+      ],
+      [
+        4494468,
+        "1836-04-21",
+        297275,
+        "charge",
+        "battle"
+      ],
+      [
+        4494635,
+        "1836-04-21",
+        297275,
+        "charge",
+        "battle"
+      ],
+      [
+        4494790,
+        "1836-04-21",
+        297275,
+        "charge",
+        "battle"
+      ],
+      [
+        4494945,
+        "1836-04-21",
+        297276,
+        "charge",
+        "battle"
+      ],
+      [
+        4495101,
+        "1836-04-21",
+        297276,
+        "charge",
+        "battle"
+      ],
+      [
+        4495257,
+        "1836-04-21",
+        297276,
+        "charge",
+        "battle"
+      ],
+      [
+        4495412,
+        "1836-04-21",
+        297277,
+        "charge",
+        "battle"
+      ],
+      [
+        4495570,
+        "1836-04-21",
+        297277,
+        "charge",
+        "battle"
+      ],
+      [
+        4495725,
+        "1836-04-21",
+        297277,
+        "charge",
+        "battle"
+      ],
+      [
+        4495882,
+        "1836-04-21",
+        297278,
+        "rout",
+        "battle"
+      ],
+      [
+        4496038,
+        "1836-04-21",
+        297278,
+        "rout",
+        "battle"
+      ],
+      [
+        4496196,
+        "1836-04-21",
+        297278,
+        "rout",
+        "battle"
+      ],
+      [
+        4496352,
+        "1836-04-21",
+        297279,
+        "rout",
+        "battle"
+      ],
+      [
+        4496508,
+        "1836-04-21",
+        297279,
+        "rout",
+        "battle"
+      ],
+      [
+        4496666,
+        "1836-04-21",
+        297279,
+        "rout",
+        "battle"
+      ],
+      [
+        4496822,
+        "1836-04-21",
+        297280,
+        "rout",
+        "battle"
+      ],
+      [
+        4496981,
+        "1836-04-21",
+        297280,
+        "rout",
+        "battle"
+      ],
+      [
+        4497133,
+        "1836-04-21",
+        297280,
+        "rout",
+        "battle"
+      ],
+      [
+        4497292,
+        "1836-04-21",
+        297281,
+        "rout",
+        "battle"
+      ],
+      [
+        4497444,
+        "1836-04-21",
+        297281,
+        "rout",
+        "battle"
+      ],
+      [
+        4497631,
+        "1836-04-21",
+        297282,
+        "rout",
+        "battle"
+      ],
+      [
+        4497785,
+        "1836-04-21",
+        297282,
+        "rout",
+        "battle"
+      ],
+      [
+        4497943,
+        "1836-04-21",
+        297282,
+        "rout",
+        "battle"
+      ],
+      [
+        4498100,
+        "1836-04-21",
+        297283,
+        "rout",
+        "battle"
+      ],
+      [
+        4498254,
+        "1836-04-21",
+        297283,
+        "rout",
+        "battle"
+      ],
+      [
+        4498409,
+        "1836-04-21",
+        297283,
+        "rout",
+        "battle"
+      ],
+      [
+        4498562,
+        "1836-04-21",
+        297284,
+        "rout",
+        "battle"
+      ],
+      [
+        4498725,
+        "1836-04-21",
+        297284,
+        "rout",
+        "battle"
+      ],
+      [
+        4498878,
+        "1836-04-21",
+        297284,
+        "rout",
+        "battle"
+      ],
+      [
+        4499034,
+        "1836-04-21",
+        297285,
+        "rout",
+        "battle"
+      ],
+      [
+        4499192,
+        "1836-04-21",
+        297285,
+        "rout",
+        "battle"
+      ],
+      [
+        4499349,
+        "1836-04-21",
+        297285,
+        "rout",
+        "battle"
+      ],
+      [
+        4499506,
+        "1836-04-21",
+        297286,
+        "rout",
+        "battle"
+      ],
+      [
+        4499664,
+        "1836-04-21",
+        297286,
+        "rout",
+        "battle"
+      ],
+      [
+        4499819,
+        "1836-04-21",
+        297286,
+        "rout",
+        "battle"
+      ],
+      [
+        4499974,
+        "1836-04-21",
+        297287,
+        "rout",
+        "battle"
+      ],
+      [
+        4500130,
+        "1836-04-21",
+        297287,
+        "rout",
+        "battle"
+      ],
+      [
+        4500287,
+        "1836-04-21",
+        297287,
+        "rout",
+        "battle"
+      ],
+      [
+        4500444,
+        "1836-04-21",
+        297288,
+        "killing",
+        "battle"
+      ],
+      [
+        4500598,
+        "1836-04-21",
+        297288,
+        "killing",
+        "battle"
+      ],
+      [
+        4500755,
+        "1836-04-21",
+        297288,
+        "killing",
+        "battle"
+      ],
+      [
+        4500910,
+        "1836-04-21",
+        297308,
+        "killing",
+        "battle"
+      ],
+      [
+        4501066,
+        "1836-04-21",
+        297308,
+        "killing",
+        "battle"
+      ],
+      [
+        4501266,
+        "1836-04-21",
+        297328,
+        "killing",
+        "battle"
+      ],
+      [
+        4501427,
+        "1836-04-21",
+        297328,
+        "killing",
+        "battle"
+      ],
+      [
+        4501584,
+        "1836-04-21",
+        297328,
+        "killing",
+        "battle"
+      ],
+      [
+        4501738,
+        "1836-04-21",
+        297348,
+        "killing",
+        "battle"
+      ],
+      [
+        4501893,
+        "1836-04-21",
+        297348,
+        "killing",
+        "battle"
+      ],
+      [
+        4502049,
+        "1836-04-21",
+        297348,
+        "killing",
+        "battle"
+      ],
+      [
+        4502205,
+        "1836-04-21",
+        297368,
+        "killing",
+        "battle"
+      ],
+      [
+        4502360,
+        "1836-04-21",
+        297368,
+        "killing",
+        "battle"
+      ],
+      [
+        4502518,
+        "1836-04-21",
+        297368,
+        "killing",
+        "battle"
+      ],
+      [
+        4502674,
+        "1836-04-21",
+        297388,
+        "prisoners",
+        "battle"
+      ],
+      [
+        4502832,
+        "1836-04-21",
+        297388,
+        "prisoners",
+        "battle"
+      ],
+      [
+        4502988,
+        "1836-04-21",
+        297388,
+        "prisoners",
+        "battle"
+      ],
+      [
+        4503146,
+        "1836-04-21",
+        297408,
+        "prisoners",
+        "battle"
+      ],
+      [
+        4503299,
+        "1836-04-21",
+        297408,
+        "prisoners",
+        "battle"
+      ],
+      [
+        4503458,
+        "1836-04-21",
+        297408,
+        "prisoners",
+        "battle"
+      ],
+      [
+        4503614,
+        "1836-04-21",
+        297428,
+        "prisoners",
+        "battle"
+      ],
+      [
+        4503770,
+        "1836-04-21",
+        297428,
+        "prisoners",
+        "battle"
+      ],
+      [
+        4503926,
+        "1836-04-21",
+        297428,
+        "prisoners",
+        "battle"
+      ],
+      [
+        4504083,
+        "1836-04-21",
+        297448,
+        "search",
+        "region"
+      ],
+      [
+        4504239,
+        "1836-04-21",
+        297448,
+        "search",
+        "region"
+      ],
+      [
+        4504418,
+        "1836-04-21",
+        297688,
+        "search",
+        "region"
+      ],
+      [
+        4504582,
+        "1836-04-21",
+        297688,
+        "search",
+        "region"
+      ],
+      [
+        4504737,
+        "1836-04-21",
+        297688,
+        "search",
+        "region"
+      ],
+      [
+        4504894,
+        "1836-04-22",
+        297928,
+        "search",
+        "region"
+      ],
+      [
+        4505051,
+        "1836-04-22",
+        297928,
+        "search",
+        "region"
+      ],
+      [
+        4505208,
+        "1836-04-22",
+        297928,
+        "search",
+        "region"
+      ],
+      [
+        4505364,
+        "1836-04-22",
+        298168,
+        "search",
+        "region"
+      ],
+      [
+        4505523,
+        "1836-04-22",
+        298168,
+        "search",
+        "region"
+      ],
+      [
+        4505675,
+        "1836-04-22",
+        298168,
+        "search",
+        "region"
+      ],
+      [
+        4505831,
+        "1836-04-22",
+        298408,
+        "search",
+        "region"
+      ],
+      [
+        4505986,
+        "1836-04-22",
+        298408,
+        "search",
+        "region"
+      ],
+      [
+        4506144,
+        "1836-04-22",
+        298408,
+        "search",
+        "region"
+      ],
+      [
+        4506300,
+        "1836-04-22",
+        298440,
+        "taken",
+        "battle"
+      ],
+      [
+        4506453,
+        "1836-04-22",
+        298440,
+        "taken",
+        "battle"
+      ],
+      [
+        4506610,
+        "1836-04-22",
+        298440,
+        "taken",
+        "battle"
+      ],
+      [
+        4506767,
+        "1836-04-22",
+        298460,
+        "taken",
+        "battle"
+      ],
+      [
+        4506923,
+        "1836-04-22",
+        298460,
+        "taken",
+        "battle"
+      ],
+      [
+        4507079,
+        "1836-04-22",
+        298460,
+        "taken",
+        "battle"
+      ],
+      [
+        4507234,
+        "1836-04-22",
+        298480,
+        "taken",
+        "battle"
+      ],
+      [
+        4507392,
+        "1836-04-22",
+        298480,
+        "taken",
+        "battle"
+      ],
+      [
+        4507550,
+        "1836-04-22",
+        298480,
+        "taken",
+        "battle"
+      ],
+      [
+        4507708,
+        "1836-04-22",
+        298500,
+        "held",
+        "region"
+      ]
+    ],
+    "shotPicnic": true,
+    "shotCharge": true,
+    "seen": {
+      "arrive": {
+        "houston": {
+          "name": "Houston",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "neill": {
+          "name": "Neill",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "emily-west": {
+          "name": "Emily West",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "camped": {
+        "houston": {
+          "name": "Houston",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "neill": {
+          "name": "Neill",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "emily-west": {
+          "name": "Emily West",
+          "poses": [
+            "carry"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "skirmish": {
+        "houston": {
+          "name": "Houston",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "neill": {
+          "name": "Neill",
+          "poses": [
+            "command",
+            "wounded"
+          ],
+          "fell": false,
+          "hurt": true,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "sherman": {
+          "name": "Sherman",
+          "poses": [
+            "ride",
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "lamar": {
+          "name": "Lamar",
+          "poses": [
+            "ride",
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "rusk": {
+          "name": "Rusk",
+          "poses": [
+            "ride",
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "walk",
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "night": {
+        "houston": {
+          "name": "Houston",
+          "poses": [
+            "seated"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "emily-west": {
+          "name": "Emily West",
+          "poses": [
+            "seated"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "morning": {
+        "houston": {
+          "name": "Houston",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "cos": {
+          "name": "Cos",
+          "poses": [
+            "walk",
+            "ride"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "emily-west": {
+          "name": "Emily West",
+          "poses": [
+            "carry"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "deaf-smith": {
+          "name": "Deaf Smith",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "waiting": {
+        "houston": {
+          "name": "Houston",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "emily-west": {
+          "name": "Emily West",
+          "poses": [
+            "carry"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "parade": {
+        "houston": {
+          "name": "Houston",
+          "poses": [
+            "walk",
+            "ride"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "rusk": {
+          "name": "Rusk",
+          "poses": [
+            "walk",
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "burleson": {
+          "name": "Burleson",
+          "poses": [
+            "walk",
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "sherman": {
+          "name": "Sherman",
+          "poses": [
+            "walk",
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "seguin": {
+          "name": "Seguín",
+          "poses": [
+            "walk",
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "lamar": {
+          "name": "Lamar",
+          "poses": [
+            "walk",
+            "ride"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "hockley": {
+          "name": "Hockley",
+          "poses": [
+            "walk",
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "mcculloch": {
+          "name": "McCulloch",
+          "poses": [
+            "walk",
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "advance": {
+        "houston": {
+          "name": "Houston",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "rusk": {
+          "name": "Rusk",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "burleson": {
+          "name": "Burleson",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "sherman": {
+          "name": "Sherman",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "seguin": {
+          "name": "Seguín",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "lamar": {
+          "name": "Lamar",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "hockley": {
+          "name": "Hockley",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "mcculloch": {
+          "name": "McCulloch",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "guns": {
+        "houston": {
+          "name": "Houston",
+          "poses": [
+            "ride"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "rusk": {
+          "name": "Rusk",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "burleson": {
+          "name": "Burleson",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "sherman": {
+          "name": "Sherman",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "seguin": {
+          "name": "Seguín",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "lamar": {
+          "name": "Lamar",
+          "poses": [
+            "ride"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "hockley": {
+          "name": "Hockley",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "mcculloch": {
+          "name": "McCulloch",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "castrillon": {
+          "name": "Castrillón",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "volley": {
+        "houston": {
+          "name": "Houston",
+          "poses": [
+            "ride"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "rusk": {
+          "name": "Rusk",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "burleson": {
+          "name": "Burleson",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "sherman": {
+          "name": "Sherman",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "seguin": {
+          "name": "Seguín",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "lamar": {
+          "name": "Lamar",
+          "poses": [
+            "ride"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "hockley": {
+          "name": "Hockley",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "mcculloch": {
+          "name": "McCulloch",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "castrillon": {
+          "name": "Castrillón",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "charge": {
+        "houston": {
+          "name": "Houston",
+          "poses": [
+            "walk",
+            "wounded"
+          ],
+          "fell": false,
+          "hurt": true,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "rusk": {
+          "name": "Rusk",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "burleson": {
+          "name": "Burleson",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "sherman": {
+          "name": "Sherman",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "seguin": {
+          "name": "Seguín",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "lamar": {
+          "name": "Lamar",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "castrillon": {
+          "name": "Castrillón",
+          "poses": [
+            "command",
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "rout": {
+        "houston": {
+          "name": "Houston",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "rusk": {
+          "name": "Rusk",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "burleson": {
+          "name": "Burleson",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "sherman": {
+          "name": "Sherman",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "seguin": {
+          "name": "Seguín",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "lamar": {
+          "name": "Lamar",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "castrillon": {
+          "name": "Castrillón",
+          "poses": [
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "killing": {
+        "houston": {
+          "name": "Houston",
+          "poses": [
+            "ride"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "rusk": {
+          "name": "Rusk",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "castrillon": {
+          "name": "Castrillón",
+          "poses": [
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "prisoners": {
+        "almonte": {
+          "name": "Almonte",
+          "poses": [
+            "surrender"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "burleson": {
+          "name": "Burleson",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "houston": {
+          "name": "Houston",
+          "poses": [
+            "wounded"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "castrillon": {
+          "name": "Castrillón",
+          "poses": [
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "search": {
+        "houston": {
+          "name": "Houston",
+          "poses": [
+            "wounded"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "taken": {
+        "almonte": {
+          "name": "Almonte",
+          "poses": [
+            "prisoner"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "held": {
+        "houston": {
+          "name": "Houston",
+          "poses": [
+            "wounded"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "prisoner"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      }
+    },
+    "lines": [
+      {
+        "id": "sj-stop-firing",
+        "text": "Stop that firing, stop that firing… I say, stop the firing.",
+        "gloss": "told later: as Dr. Nicholas Labadie remembered it, when the men fired off their damp guns; often retold as “Hold your fire!”",
+        "kind": "tradition",
+        "side": "texian",
+        "claimId": "HIST-TEX-564",
+        "person": "houston",
+        "name": "Houston",
+        "at": {
+          "x": 1057,
+          "y": 345
+        },
+        "named": true
+      },
+      {
+        "id": "sj-emily-waiting-0",
+        "text": "Another plate, General? A great general must keep up his strength.",
+        "gloss": "a story told later, not the record; his army had taken her at New Washington five days before",
+        "kind": "tradition",
+        "side": "texian",
+        "claimId": "HIST-TEX-560",
+        "person": "emily-west",
+        "name": "Emily West",
+        "at": {
+          "x": 987,
+          "y": 531
+        },
+        "named": true,
+        "manner": "sarcastically"
+      },
+      {
+        "id": "sj-emily-waiting-1",
+        "text": "Such a quiet afternoon for a war, General.",
+        "gloss": "a story told later, not the record; his army had taken her at New Washington five days before",
+        "kind": "tradition",
+        "side": "texian",
+        "claimId": "HIST-TEX-560",
+        "person": "emily-west",
+        "name": "Emily West",
+        "at": {
+          "x": 986,
+          "y": 536
+        },
+        "named": true,
+        "manner": "dryly"
+      },
+      {
+        "id": "sj-emily-parade-0",
+        "text": "Stay a while, General. Your whole camp is resting.",
+        "gloss": "a story told later, not the record; his army had taken her at New Washington five days before",
+        "kind": "tradition",
+        "side": "texian",
+        "claimId": "HIST-TEX-560",
+        "person": "emily-west",
+        "name": "Emily West",
+        "at": {
+          "x": 988,
+          "y": 518
+        },
+        "named": true,
+        "manner": "with a forced smile"
+      },
+      {
+        "id": "sj-emily-advance-0",
+        "text": "Of course, General. Whatever you say, General.",
+        "gloss": "a story told later, not the record; his army had taken her at New Washington five days before",
+        "kind": "tradition",
+        "side": "texian",
+        "claimId": "HIST-TEX-560",
+        "person": "emily-west",
+        "name": "Emily West",
+        "at": {
+          "x": 791,
+          "y": 434
+        },
+        "named": true,
+        "manner": "sarcastically"
+      },
+      {
+        "id": "sj-emily-guns-0",
+        "text": "Those are cannon, General.",
+        "gloss": "a story told later, not the record; his army had taken her at New Washington five days before",
+        "kind": "tradition",
+        "side": "texian",
+        "claimId": "HIST-TEX-560",
+        "person": "emily-west",
+        "name": "Emily West",
+        "at": {
+          "x": 791,
+          "y": 434
+        },
+        "named": true,
+        "manner": "quietly"
+      },
+      {
+        "id": "sj-napoleon",
+        "text": "That man may consider himself born to no common destiny who has conquered the Napoleon of the West; and it now remains for him to be generous to the vanquished.",
+        "gloss": "told later: as W. C. Crane printed it in 1884, from those who were there",
+        "kind": "tradition",
+        "side": "mexican",
+        "claimId": "HIST-TEX-559",
+        "person": "santa-anna",
+        "name": "Santa Anna",
+        "at": {
+          "x": 792,
+          "y": 353
+        },
+        "named": true
+      },
+      {
+        "id": "sj-remember",
+        "text": "You should have remembered that at the Alamo.",
+        "gloss": "told later: Houston’s answer, as Crane printed it in 1884",
+        "kind": "tradition",
+        "side": "texian",
+        "claimId": "HIST-TEX-559",
+        "person": "houston",
+        "name": "Houston",
+        "at": {
+          "x": 792,
+          "y": 353
+        },
+        "named": true
+      }
+    ],
+    "guns": {
+      "twins-20-1": {
+        "name": "Twin Sisters",
+        "shots": 2,
+        "onScreen": true
+      },
+      "twins-20-2": {
+        "shots": 2,
+        "onScreen": true
+      },
+      "mexican-gun": {
+        "shots": 4,
+        "onScreen": true
+      },
+      "twin-sister-1": {
+        "name": "Twin Sisters",
+        "shots": 3,
+        "onScreen": true
+      },
+      "twin-sister-2": {
+        "shots": 3,
+        "onScreen": true
+      }
+    },
+    "legend": [
+      {
+        "phase": "waiting",
+        "id": "emily-west-picnic",
+        "kind": "tradition",
+        "claimId": "HIST-TEX-560",
+        "moment": "converse",
+        "x": 1058,
+        "y": 354
+      },
+      {
+        "phase": "waiting",
+        "id": "emily-west-picnic",
+        "kind": "tradition",
+        "claimId": "HIST-TEX-560",
+        "moment": "converse",
+        "x": 1058,
+        "y": 354
+      },
+      {
+        "phase": "waiting",
+        "id": "emily-west-picnic",
+        "kind": "tradition",
+        "claimId": "HIST-TEX-560",
+        "moment": "converse",
+        "x": 1058,
+        "y": 354
+      }
+    ],
+    "frameMs": {
+      "p95Max": 27.9,
+      "byPhase": {
+        "arrive": 27.9,
+        "camped": 7.7,
+        "skirmish": 7.7,
+        "night": 5.1,
+        "morning": 5.1,
+        "waiting": 4.6,
+        "parade": 4.6,
+        "advance": 4.3,
+        "guns": 4.2,
+        "volley": 2.7,
+        "charge": 2.1,
+        "rout": 2.1,
+        "killing": 1.9,
+        "prisoners": 1.7,
+        "search": 1.6,
+        "taken": 1.6,
+        "held": 1.6
+      }
+    }
+  },
+  "screens": [
+    "test-results/famous-sj-picnic-1366.png",
+    "test-results/famous-sj-charge-1024.png",
+    "test-results/famous-sj-taken.png"
+  ],
+  "verdict": "PASS",
+  "errors": []
+}

@@ -227,7 +227,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       guns: { 'mexican-gun': [3, 11], 'twins-20-1': [6, 13], 'twins-20-2': [8, 16] },
       people: [
         { id: 'houston', with: 'texian', offset: { along: 0.04, across: -0.02 }, pose: 'command' },
-        { id: 'neill', at: 'twinsCamp1', face: 'breastwork', pose: 'command', during: [0, 20] },
+        { id: 'neill', at: 'twinsCamp1', face: 'breastwork', pose: 'command', during: [0, 30] },
         { id: 'sherman', with: 'sherman', offset: { along: 0.012, across: 0 }, pose: 'ride' },
         { id: 'lamar', with: 'sherman', offset: { along: 0.004, across: 0.012 }, pose: 'ride' },
         { id: 'rusk', with: 'sherman', offset: { along: 0.004, across: -0.012 }, pose: 'ride' },

@@ -10,7 +10,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
-const T = 'tests/famous-people.test.mjs';
+const T = 'tests/famous-people.test.mjs', V = 'tests/famous-people-view.test.mjs';
 const UNIT = [
   { name: 'Travis on the map at Béxar into the siege, where the Alamo draws him too', file: 'sim/people.mjs',
     from: "map: [{ from: on(1836, 2, 3, 16), until: 'alamo-siege', site: 'bexar',", to: "map: [{ from: on(1836, 2, 3, 16), until: 'alamo-assault', site: 'bexar',",
@@ -51,7 +51,14 @@ const UNIT = [
   { name: 'the famous dead sent lying on the field in the phases before they fall', file: 'sim/battle-stage.mjs',
     from: '    if (!fellIn || fellIn.index >= phase.index || phase.index >= until', to: '    if (!fellIn || fellIn.index === phase.index || phase.index >= until',
     expect: 'a fate is never sent before its minute, and nothing of a later phase is sent' },
-].map(one => ({ ...one, test: T }));
+].map(one => ({ ...one, test: T })).concat([
+  { name: 'the famous drawn with no name under them', file: 'public/battle-view.js',
+    from: "ctx.fillStyle = '#26382e'; ctx.fillText(text, x, top + font); said.labelled = true;", to: "ctx.fillStyle = '#26382e';",
+    test: V, expect: 'at the Alamo each famous person is named under their figure, Travis\'s words come out of him under his name, and Crockett taken carries the "one account" tag' },
+  { name: 'a stage direction left out of the bubble', file: 'public/speech.js',
+    from: "  const manner = line.manner ? `(${line.manner})` : '';", to: "  const manner = '';",
+    test: V, expect: 'at San Jacinto the Twin Sisters are named under the gun, Emily West\'s words carry their stage direction, and the Napoleon of the West comes out of Santa Anna' },
+]);
 const BROWSER = [
   { name: 'the famous drawn without their names', file: 'public/battle-view.js',
     from: "ctx.fillStyle = '#26382e'; ctx.fillText(text, x, top + font); said.labelled = true;", to: "ctx.fillStyle = '#26382e';",
@@ -95,14 +102,14 @@ const evidencePath = 'docs/evidence/famous-people-injections.json';
 let previous = {};
 try { previous = JSON.parse(readFileSync(evidencePath, 'utf8')); } catch { /* the first run */ }
 if (which === 'all' || which === 'unit') {
-  const clean = runUnit(T); if (!clean.passed) throw new Error(`${T} fails before any injection: ${clean.failed.join('; ')}`);
+  for (const file of [T, V]) { const clean = runUnit(file); if (!clean.passed) throw new Error(`${file} fails before any injection: ${clean.failed.join('; ')}`); }
   for (const injection of UNIT) {
     const seen = inject(injection, () => runUnit(injection.test));
     const caught = !seen.passed && seen.failed.length === 1 && seen.failed[0] === injection.expect;
     record.unit.push({ name: injection.name, file: injection.file, test: injection.test, expect: injection.expect, caught, failed: seen.failed });
     console.log(`${caught ? 'caught' : seen.passed ? 'MISSED' : 'CAUGHT BY ANOTHER OR MORE THAN ONE'}: ${injection.name} -> ${seen.failed.join(' | ') || 'every test passed'}`);
   }
-  const after = runUnit(T); if (!after.passed) throw new Error(`${T} fails after every file was put back: ${after.failed.join('; ')}`);
+  for (const file of [T, V]) { const after = runUnit(file); if (!after.passed) throw new Error(`${file} fails after every file was put back: ${after.failed.join('; ')}`); }
 }
 if (which === 'all' || which === 'browser') {
   const clean = runBrowser();
@@ -118,7 +125,7 @@ if (which === 'all' || which === 'browser') {
 mkdirSync('docs/evidence', { recursive: true });
 const merged = {
   record: 'famous-people-injections', date: new Date().toISOString().slice(0, 10),
-  gates: { unit: `node --test ${T}, the named test and no other`, browser: 'scripts/famous-people-browser-proof.mjs' },
+  gates: { unit: `node --test ${T} and ${V}, the named test and no other in its file`, browser: 'scripts/famous-people-browser-proof.mjs' },
   unit: record.unit.length ? record.unit : previous.unit || [],
   browser: record.browser.length ? record.browser : previous.browser || [],
   cleanBrowserChecks: record.cleanBrowserChecks ?? previous.cleanBrowserChecks ?? null,

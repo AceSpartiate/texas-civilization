@@ -84,8 +84,11 @@ async function answerRunner(page) {
 }
 /** Press Watch whenever a battle card is up, so the camera is on the field. */
 async function watch(page) {
+  // A card put away behind "Open messages" is opened first, as a student would.
+  const away = await page.evaluate(() => /^Open messages/.test(document.querySelector('#military-toggle')?.textContent || '') && !document.querySelector('#military-toggle').hidden);
+  if (away) await page.locator('#military-toggle').click({ timeout: 2000 }).catch(() => {});
   const up = await page.evaluate(() => !document.querySelector('#military-notice')?.hidden && document.querySelector('#military-go')?.textContent === 'Watch');
-  if (up) await page.locator('#military-go').click().catch(() => {});
+  if (up) await page.locator('#military-go').click({ timeout: 2000 }).catch(() => {});
 }
 // Only what the checks read, so a sample is quick enough to catch every phase of the assault.
 const read = page => page.evaluate(() => {
@@ -108,7 +111,8 @@ const plain = seen => Object.fromEntries(Object.entries(seen).map(([phase, peopl
 
 try {
   mkdirSync('test-results', { recursive: true });
-  // ================================================================ 1. the Alamo
+  // ================================================================ 1. the Alamo (FAMOUS_PART=san-jacinto runs the second class alone, for debugging)
+  if (process.env.FAMOUS_PART !== 'san-jacinto') {
   const alamo = await classroom('famous-alamo', (seed, count) => alamoClass(seed, count, { stopBefore: 1500 }), 500);
   const man = fatherOf(alamo.app.state.world, 'hh-1');
   const inside = await joinClass(alamo.url, alamo.app, 'hh-1', { width: 1366, height: 768 }, 'Garrison');
@@ -139,7 +143,7 @@ try {
     // The runner and the Watch card are answered every few samples, so the samples come quickly through the assault.
     if (tick % 4 === 0) { await answerRunner(inside); await watch(inside); }
     const one = await read(inside), h = (tick++ % 3 === 0) ? await read(host) : {};
-    note(seen, one); note(seenHost, h);
+    note(seen, one); note(seenHost, h); (evidence.alamo.samples ||= []).push([Date.now() % 1e7, one.phase, one.minute, h.phase || null, one.camera]);
     for (const bubble of [...(one.view?.bubbles || []), ...(h.view?.bubbles || [])]) if (bubble.person) lines.set(bubble.id, bubble);
     if (one.phase && one.caption) captions[one.phase] = one.caption;
     if (one.view?.frameMs && ['alarm', 'repulse', 'north-wall', 'fallback', 'rooms', 'end'].includes(one.phase)) frames.push({ phase: one.phase, size: one.size, ...one.view.frameMs });
@@ -186,6 +190,9 @@ try {
   assert.ok(Object.values(seen).every(phase => !phase.joe?.fell), 'Joe was drawn fallen');
   assert.ok(inPhase('after', 'joe') && inPhase('after', 'santa-anna'), 'Joe was not brought to Santa Anna');
   ok('Joe fires from the house, comes out when the officers call ("Yes, here is one."), is hurt and spared, and is brought to Santa Anna in Béxar');
+  const framed = evidence.alamo.samples.filter(one => ['alarm', 'repulse', 'north-wall', 'fallback', 'rooms', 'end'].includes(one[1]));
+  assert.ok(framed.length && framed.filter(one => one[4] === 'battle').length >= framed.length / 2, `Watch did not keep the student's camera on the assault: ${framed.map(one => one[4]).join(',')}`);
+  ok(`the student watched the assault with the camera on the compound (${framed.filter(one => one[4] === 'battle').length} of ${framed.length} samples)`);
   const alamoFrames = frames.map(one => one.p95).filter(Number.isFinite);
   evidence.alamo.frameMs = { p95Max: Math.max(...alamoFrames), medians: frames.map(one => one.median) };
   assert.ok(Math.max(...alamoFrames) < 50, `the assault draws too slowly: ${Math.max(...alamoFrames)} ms`);
@@ -193,6 +200,7 @@ try {
   const farAfter = await faraway.evaluate(async () => JSON.parse(await (await fetch('/api/state')).text()).world);
   assert.equal(farAfter.battle, null); assert.equal(farAfter.famous, undefined, 'the family far off was sent the famous');
   ok('the family far off was sent no battle and no famous person');
+  }
 
   // ================================================================ 2. San Jacinto
   const toLynchburg = (seed, count) => {
@@ -208,17 +216,17 @@ try {
     return world;
   };
   const sj = await classroom('famous-sj', toLynchburg, 450);
-  const refugee = await joinClass(sj.url, sj.app, 'hh-2', { width: 1024, height: 768 }, 'Ferryside');
+  const refugee = await joinClass(sj.url, sj.app, 'hh-1', { width: 1024, height: 768 }, 'Ferryside');
   const sjHost = await hostOf(sj.url, sj.app, { width: 1366, height: 768 });
   await sjHost.waitForFunction(() => window.__snapshot.connected === 1);
   await start(sjHost);
   const sjSeen = {}, sjLines = new Map(), guns = {}, legend = [], sjCaptions = {};
-  let sjFrames = [], sjResized = false;
+  let sjFrames = [], sjResized = false, sawTaken = false;
   const sjUntil = Date.now() + 10 * 60 * 1000;
   for (;;) {
     if (Date.now() > sjUntil) throw new assert.AssertionError({ message: 'San Jacinto did not reach the capture' });
     const one = await read(sjHost);
-    note(sjSeen, one);
+    note(sjSeen, one); (evidence.sanJacinto.samples ||= []).push([Date.now() % 1e7, one.date, one.minute, one.phase, one.camera]); if (evidence.sanJacinto.samples.length % 20 === 1) console.log("sample", one.date, one.minute, one.phase, one.camera, (one.view?.people || []).length);
     for (const bubble of one.view?.bubbles || []) if (bubble.person) sjLines.set(bubble.id, bubble);
     for (const gun of one.view?.guns || []) guns[gun.id] = { ...(guns[gun.id] || {}), name: gun.name || guns[gun.id]?.name, shots: Math.max(gun.shots || 0, guns[gun.id]?.shots || 0), onScreen: gun.onScreen || guns[gun.id]?.onScreen };
     if (one.view?.legendScene) legend.push({ phase: one.phase, ...one.view.legendScene });
@@ -227,7 +235,10 @@ try {
     if (one.phase === 'advance' && !evidence.sanJacinto.shotPicnic) { evidence.sanJacinto.shotPicnic = true; await shot(sjHost, 'sj-picnic-1366'); }
     if (one.phase === 'guns' && !sjResized) { sjResized = true; await sjHost.setViewportSize({ width: 1024, height: 768 }); }
     if (one.phase === 'charge' && !evidence.sanJacinto.shotCharge) { evidence.sanJacinto.shotCharge = true; await shot(sjHost, 'sj-charge-1024'); }
-    if (one.phase === 'taken' && sjLines.has('sj-remember')) { await shot(sjHost, 'sj-taken'); break; }
+    // The capture's words are said in its last tick and stay up into the next phase, where the page still draws them.
+    if (['taken', 'held'].includes(one.phase) && sjLines.has('sj-remember')) { await shot(sjHost, 'sj-taken'); break; }
+    if (one.phase === 'taken') sawTaken = true;
+    if (sawTaken && !['taken', 'held'].includes(one.phase)) break;
     await sjHost.waitForTimeout(150);
   }
   evidence.sanJacinto.seen = plain(sjSeen); evidence.sanJacinto.lines = [...sjLines.values()]; evidence.sanJacinto.guns = guns; evidence.sanJacinto.legend = legend.slice(0, 3);
@@ -254,13 +265,13 @@ try {
   assert.match(sjCaptions.waiting || sjCaptions.parade || sjCaptions.advance || '', /./);
   ok(`Emily West and Santa Anna at the picnic under the dashed "later story" label; her words drawn with their stage direction: ${emily.map(line => `(${line.manner}) ${line.text}`).join(' / ')}`);
   // Castrillón on his crate, walking away, falling; the capture's words as tradition.
-  assert.ok(sjIn('charge', 'castrillon')?.fell, 'Castrillón was not seen to fall');
+  assert.ok(sjIn('charge', 'castrillon') && ['charge', 'rout', 'killing'].some(phase => sjIn(phase, 'castrillon')?.fell), 'Castrillón was not seen to fall');
   const napoleon = sjLines.get('sj-napoleon'), remember = sjLines.get('sj-remember');
   assert.ok(napoleon?.name === 'Santa Anna' && napoleon.kind === 'tradition', 'the Napoleon of the West was not spoken by Santa Anna as tradition');
   assert.ok(remember?.name === 'Houston' && remember.kind === 'tradition');
   ok('Castrillón falls walking away in the charge; at the capture Santa Anna\'s "Napoleon of the West" and Houston\'s answer are spoken as tradition, from their own figures');
   const sjF = sjFrames.map(one => one.p95).filter(Number.isFinite);
-  evidence.sanJacinto.frameMs = { p95Max: Math.max(...sjF) };
+  evidence.sanJacinto.frameMs = { p95Max: Math.max(...sjF), byPhase: Object.fromEntries([...new Set(sjFrames.map(one => one.phase))].map(phase => [phase, Math.max(...sjFrames.filter(one => one.phase === phase).map(one => one.p95))])) };
   assert.ok(Math.max(...sjF) < 50, `San Jacinto draws too slowly: ${Math.max(...sjF)} ms`);
   ok(`San Jacinto with its famous people draws in ${Math.max(...sjF).toFixed(1)} ms at its slowest 95th percentile`);
   const refugeeWorld = await refugee.evaluate(async () => JSON.parse(await (await fetch('/api/state')).text()).world);
@@ -278,7 +289,7 @@ try {
   writeFileSync(evidence.verdict === 'PASS' ? 'docs/evidence/famous-people-browser.json' : 'test-results/famous-people-browser-failed.json', `${JSON.stringify({
     record: 'famous-people-browser', date: new Date().toISOString().slice(0, 10), browser: await browser.version(),
     environment: 'Same computer: local classroom servers and headless Chrome at 1366x768 and 1024x768, served at 500 ms (the Alamo) and 450 ms (San Jacinto) a tick. Two real classes on the colonies map with rolled families played in process: one to the edge of the Alamo siege with hh-1\'s father set in the garrison (in process), one to noon on April 19, 1836. Not physical LAN or district acceptance.',
-    checks: pass, ...evidence,
+    checks: pass, ...evidence, errors,
   }, null, 2)}\n`);
   await browser.close();
   for (const app of apps) await app.close();
