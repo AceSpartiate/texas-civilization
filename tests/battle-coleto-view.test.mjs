@@ -61,6 +61,11 @@ test('the square is four faces of three ranks, each man facing out of his own fa
     const outward = slot.out.along ? slot.along * slot.out.along : slot.across * slot.out.across;
     assert.ok(outward > 0.02, 'a man in the square faces in');
   }
+  // No two of its men stand on one spot, at the corners least of all, where two faces meet (found by the browser proof,
+  // 2026-09-25: a square whose faces ran further than its inner rank stood had its corners doubled, and read as loose).
+  const nearest = square.map((slot, i) => Math.min(...square.filter((_, j) => j !== i).map(other => Math.hypot(slot.along - other.along, slot.across - other.across))));
+  assert.ok(Math.min(...nearest) > 0.012, `two men of the square stand ${Math.min(...nearest).toFixed(3)} miles apart`);
+  assert.ok(regularity(square.map(slot => ({ x: slot.across, y: slot.along }))) < 0.2, 'the square is not even');
   const night = projected(COLETO, 'night');
   const marksmen = unitsOf(night).filter(unit => unit.side === 'mexican' && unit.style === 'loose');
   assert.ok(marksmen.length >= 3, 'the marksmen are not loose in the grass at night');

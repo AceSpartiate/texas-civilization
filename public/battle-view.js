@@ -31,7 +31,8 @@ const LAYOUT = Object.freeze({
   rout: { width: 0.6, depth: 0.5, gap: 0.03 },
 });
 /** The hollow square (sim/battles/coleto.mjs `coletoSlot` stands a family's man in its front rank at `outer`). */
-const SQUARE = Object.freeze({ outer: 0.06, rank: 0.018, across: 0.021 });
+// Its innermost rank stands further out than the faces run, so no two faces' men meet at a corner.
+const SQUARE = Object.freeze({ outer: 0.09, rank: 0.018, across: 0.021 });
 /** How dark a phase's light lays over the field, drawn under the flashes so a shot in the dark is seen as it was. */
 const LIGHT = Object.freeze({ night: 'rgba(10,16,40,.46)', dusk: 'rgba(48,30,60,.24)', dawn: 'rgba(96,110,130,.16)', fog: 'rgba(222,226,228,.22)' });
 /** One load of a musket in the library's cycle: aim 700, fire 120, load 750, ramrod 900 (public/assets/frontier-v1/animation.json). */
@@ -304,6 +305,12 @@ export function createBattleView(art) {
       const cycleAt = (time + hash(`${battle.id}:${side.key}`) * VOLLEY_MS) % VOLLEY_MS, cycleNo = Math.floor((time + hash(`${battle.id}:${side.key}`) * VOLLEY_MS) / VOLLEY_MS);
       const ranks = Math.max(1, ...slots.map(slot => slot.rank + 1));
       const firingRank = cycleNo % Math.min(ranks, side.dismounted ? Math.max(1, side.dismounted) : ranks);
+      // A square fires by faces in turn, a quarter of the cycle apart, each face by its ranks: a rolling fire all round it, not
+      // one rank of the whole square at a time.
+      const faceCycle = slot => {
+        const shifted = time + hash(`${battle.id}:${side.key}`) * VOLLEY_MS + slot.face * VOLLEY_MS / 4, no = Math.floor(shifted / VOLLEY_MS);
+        return { at: shifted % VOLLEY_MS, no, rank: no % ranks };
+      };
       const fallen = fallenSlots.get(side.key) || new Map();
       const unitDrawn = [];
       drawnBy.set(side.key, unitDrawn);
@@ -372,12 +379,12 @@ export function createBattleView(art) {
               puff(muzzle.x, muzzle.y, now, { wind }); flash(muzzle.x, muzzle.y, right, now, 1);
             }
           }
-        } else if (volley && (slot.rank === firingRank) && (kind !== 'dragoon')) {
-          const into = cycleAt - VOLLEY_WORDS_AT[1];
+        } else if (volley && (slot.face === undefined ? slot.rank === firingRank : slot.rank === faceCycle(slot).rank) && (kind !== 'dragoon')) {
+          const into = (slot.face === undefined ? cycleAt : faceCycle(slot).at) - VOLLEY_WORDS_AT[1];
           if (into < 0 || into > FIRE_CLIP_MS) { sprite = `${kind}-${right ? 'e' : 'w'}`; still = true; flip = false; }
           else {
             clip = `${kind}-fire-reload`; timeMs = into;
-            const shotKey = `${seed}:v${cycleNo}`;
+            const shotKey = `${seed}:v${slot.face === undefined ? cycleNo : faceCycle(slot).no}`;
             if (into >= AIM_MS && into < AIM_MS + 400 && !view.shotsSeen.has(shotKey) && !still) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.012, y: ground.y - 0.004 };

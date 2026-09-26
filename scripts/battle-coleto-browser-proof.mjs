@@ -162,14 +162,16 @@ try {
   const firing = moments.filter(one => /^assault-/.test(one.phase));
   assert.ok(firing.length >= 6, `only ${firing.length} moments of the assaults were sampled`);
   for (const one of firing) assert.equal(one.camera, 'battle', `at ${one.minute} Watch was not on the fight`);
-  for (let i = 1; i < firing.length; i++) {
-    if (firing[i].phase !== firing[i - 1].phase) continue;
-    for (const side of ['texian', 'mexican']) assert.ok((firing[i].view.shotsBy[side] || 0) > (firing[i - 1].view.shotsBy[side] || 0), `no shot was fired by the ${side} side between two moments of the ${firing[i].phase}`);
+  // Every three and a half seconds or so both sides have fired again (the square by faces in turn, each face by its ranks;
+  // the owner's finding was a line that fired once and froze).
+  for (let i = 2; i < firing.length; i++) {
+    if (firing[i].phase !== firing[i - 2].phase) continue;
+    for (const side of ['texian', 'mexican']) assert.ok((firing[i].view.shotsBy[side] || 0) > (firing[i - 2].view.shotsBy[side] || 0), `no shot was fired by the ${side} side between two moments of the ${firing[i].phase}`);
   }
   for (const one of firing) assert.ok(one.view.smokeInView >= 3, `no smoke on screen at ${one.minute} in the ${one.phase}: ${one.view.smokeInView}`);
   ok(`fire from both sides and smoke on the screen at each of ${firing.length} sampled moments of the assaults (smoke in view ${Math.min(...firing.map(one => one.view.smokeInView))}-${Math.max(...firing.map(one => one.view.smokeInView))} puffs)`);
   const allSaid = await fighter.evaluate(() => window.__battleView.linesShown);
-  const bubbles = [...new Set(moments.flatMap(one => one.view.bubbles))];
+  const bubbles = [...new Set(moments.flatMap(one => one.view.bubbles.map(bubble => bubble.text)))];
   assert.ok(allSaid.length >= 3 && bubbles.some(text => /rank|Present|Fire!/.test(text)) && bubbles.some(text => /¡/.test(text)), `the orders on both sides were not drawn over the speakers: ${JSON.stringify({ allSaid, bubbles })}`);
   ok(`words drawn over the speakers: ${[...new Set([...allSaid, ...bubbles])].slice(0, 12).join(' | ')}`);
   const inSquare = await fighter.evaluate(id => ({ clips: window.__battleView?.memberClips, members: window.__battleView?.members, drawn: window.__drawnAt?.[id] }), manA);
@@ -258,8 +260,11 @@ try {
   ok('the family with nobody there was sent nothing of Palm Sunday');
 
   // ------------------------------------------------------------------ afterwards: the account at the word
-  await fighter.waitForFunction(() => /What became of/.test(window.__snapshot?.world.battleAccount?.title || ''), null, { timeout: 480000 });
-  await fighter.waitForFunction(() => !document.querySelector('#military-notice').hidden && /What became of/.test(document.querySelector('#military-title').textContent), null, { timeout: 60000 });
+  // The word comes on April 1 (sim/directors.mjs `massacre-word`); the card must be on the page within seconds of it.
+  for (let i = 0; i < 1200 && !world().director.milestones['massacre-word']; i++) await fighter.waitForTimeout(500);
+  assert.ok(world().director.milestones['massacre-word'], 'the word of the massacre never came');
+  const accounted = await fighter.waitForFunction(() => !document.querySelector('#military-notice').hidden && /What became of/.test(document.querySelector('#military-title').textContent), null, { timeout: 30000 }).then(() => true, () => false);
+  assert.ok(accounted, 'no account came through the family at the word');
   const account = await fighter.evaluate(() => ({ title: document.querySelector('#military-title').textContent, words: document.querySelector('#military-words').textContent, journal: window.__snapshot.world.events.some(event => /Why it ended so/.test(event.text) && /Remember Goliad/.test(event.text)) }));
   for (const part of ['What happened', 'Why it ended so', 'Francita Alavez', 'Remember Goliad']) assert.ok(account.words.includes(part), `the account has no "${part}"`);
   assert.ok(account.journal, 'the journal did not keep the account');

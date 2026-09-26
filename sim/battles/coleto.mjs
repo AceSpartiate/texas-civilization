@@ -56,7 +56,7 @@ export function coletoGround(world) {
     // The marksmen lay closer, in the grass, all night.
     'left-grass': at(C, 0, 0.16), 'right-grass': at(C, 0, -0.16), 'front-grass': at(C, 0.17), 'rear-grass': at(C, -0.18),
     // The guns at the square's corners, and the Mexican battery that came up in the night, in front by the timber.
-    'corner-fl': at(C, 0.07, 0.07), 'corner-fr': at(C, 0.07, -0.07), 'corner-bl': at(C, -0.07, 0.07), 'corner-br': at(C, -0.07, -0.07),
+    'corner-fl': at(C, 0.11, 0.11), 'corner-fr': at(C, 0.11, -0.11), 'corner-bl': at(C, -0.11, 0.11), 'corner-br': at(C, -0.11, -0.11),
     'battery-1': at(C, 0.3, 0.04), 'battery-2': at(C, 0.3, -0.05),
     // The guard on either side of the prisoners marched back to Goliad.
     'back-left': at(C, 0, 0.08), 'back-right': at(C, 0, -0.08), 'gate-left': at(G, 0.15, 0.08), 'gate-right': at(G, 0.15, -0.08),
@@ -378,6 +378,6 @@ export function coletoSlot(personId, index, { horton, phase }) {
   if (phase === 'march-back') return { part: null, along: -0.04 - 0.3 * a, across: ((index % 4) - 1.5) * 0.022 };
   // In the square: a face by who he is, in its front rank, somewhere along it (the renderer's square: sim/../public/battle-view.js).
   const face = ['front', 'left', 'right', 'rear'][Math.floor(a * 4) % 4];
-  const t = (b - 0.5) * 0.08, out = 0.06;
+  const t = (b - 0.5) * 0.08, out = 0.09;
   return { part: null, face, ...(face === 'front' ? { along: out, across: t } : face === 'rear' ? { along: -out, across: t } : face === 'left' ? { along: t, across: out } : { along: t, across: -out }) };
 }
