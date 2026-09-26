@@ -14,7 +14,10 @@ import { closeCampQuestion, openCampQuestion } from './camp.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
 import { advanceArmy, closeDetachment, closeQuestion, countermandStorm, dieOfWounds, disbandArmy, fightConcepcion, fightGrass, fightStorming, formArmy, goForClothing, marchOut, moveCamp, openDetachment, openQuestion, questionOpen, recordPresent, returnFromClothing, tellGrassFight, tellStorming } from './army.mjs';
 import { GONZALES, gonzalesGround } from './battles/gonzales.mjs';
+import { COLETO } from './battles/coleto.mjs';
+import { GOLIAD_MASSACRE } from './battles/goliad-massacre.mjs';
 import { armBattle, battleState, looseSlot, phaseOffset, placeFrom, projectBattle, sidePlace } from './battle-stage.mjs';
+import { advanceColeto, advanceMassacre, fanninAccount, fanninAlert, fanninView, tellFannin } from './fannin.mjs';
 import { findWay } from './ways.mjs';
 import { MODES } from './travel.mjs';
 
@@ -54,6 +57,17 @@ export const EXPRESS_GRACE_MINUTES = 4320;
 // Gonzales could no longer reach the line before the dawn skirmish (`FIC-GONZ-446`).
 const GONZALES_START = 4200;
 const gonzalesAt = phase => GONZALES_START + phaseOffset(GONZALES, phase);
+// Coleto and Palm Sunday on the engine (sim/battles/coleto.mjs, sim/battles/goliad-massacre.mjs, docs/battle-research/staging.md
+// §6-§7): Fannin's column out of Goliad at nine on March 19 (`fannin-marches`, the same minute sim/winter.mjs shuts recall at),
+// and the evening of March 26 at the presidio (`goliad-eve`). Their phases date the old moments: `coleto` is the column caught
+// at one in the afternoon (it was noon, and its hour is not in the record), `goliad-surrender` seven on the 20th (it was noon;
+// the guns opened at 6:15 and Fannin surrendered within the hour), and `goliad-massacre` the volleys at seven on the 27th.
+// The same minute as sim/winter.mjs `FANNIN_MARCHES` (held equal by tests/battle-coleto.test.mjs; not imported, since winter.mjs is
+// reached through this module's own imports and would not yet be read).
+const FANNIN_MARCHES = 221760 + 18 * 1440 + 540;
+const coletoAt = phase => FANNIN_MARCHES + phaseOffset(COLETO, phase);
+const GOLIAD_EVE = 221760 + 25 * 1440 + 18 * 60;
+const massacreAt = phase => GOLIAD_EVE + phaseOffset(GOLIAD_MASSACRE, phase);
 const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   notice: 600, publicNotice: 1440, gathering: 3000, 'upriver-call': 3960, crossing: GONZALES_START, approach: gonzalesAt('dawn-skirmish'), exchange: gonzalesAt('fight'), withdrawal: gonzalesAt('withdrawal'), resolved: gonzalesAt('field'), publicOutcome: 5400, finish: 5680,
   // After the fight: the gathering and the march, build step 5 (docs/COLONIES.md §5.5). Only a
@@ -119,13 +133,13 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   'courier-4-opens': 228240, 'courier-4': 229080, 'alamo-assault': 229260, 'agua-dulce-news': 231120, 'survivors-leave': 232200,
   'fall-rumour': 237240, 'fall-confirmed': 239520, 'fall-colonies': 240240, 'alamo-end': 240420,
   // The third period (docs/COLONIES.md §7g, sim/scrape.mjs and sim/houston.mjs; `HIST-TEX-062` to `-067`). Dawn on March 14
-  // is 240840. Houston over the Colorado the 17th; Fannin out of Goliad the 19th and caught at Coleto at noon (its hour is
-  // not in the record); the surrender the 20th; word of it the evening of the 25th; the massacre at sunrise on the 27th, its
+  // is 240840. Houston over the Colorado the 17th; Fannin out of Goliad at nine on the 19th and caught at Coleto about one (the
+  // engagement's own clock, above); the surrender the 20th; word of it the evening of the 25th; the massacre at sunrise on the 27th, its
   // word about April 1; the army at San Felipe the 28th; Santa Anna over the Brazos the 11th; the army at Harrisburg the 18th
   // and Lynchburg the 20th; the battle at half past four on the 21st; Santa Anna taken the 22nd; the word on the 23rd; the
   // period ends at dawn on the 25th, the families on the road home.
-  'scrape-opens': 240840, 'houston-colorado': 245160, coleto: 248400, 'goliad-surrender': 249840, 'goliad-word': 257400,
-  'goliad-massacre': 259620, 'houston-san-felipe': 261360, 'houston-groces': 264240, 'massacre-word': 267120, 'santa-anna-brazos': 281520,
+  'scrape-opens': 240840, 'houston-colorado': 245160, 'fannin-marches': FANNIN_MARCHES, coleto: coletoAt('caught'), 'goliad-surrender': coletoAt('surrender'), 'goliad-word': 257400,
+  'goliad-eve': GOLIAD_EVE, 'goliad-massacre': massacreAt('volleys'), 'houston-san-felipe': 261360, 'houston-groces': 264240, 'massacre-word': 267120, 'santa-anna-brazos': 281520,
   // The army over the Brazos at Groce's on the steamboat Yellow Stone from dawn on April 12 (`HIST-TEX-089`): April 1 is
   // 266400, and 266400 + 11 × 1440 + 6 × 60 = 282600, the date of the Bernardo camp in sim/houston.mjs `HOUSTON_CAMPS`.
   'houston-brazos': 282600,
@@ -1235,16 +1249,22 @@ function advanceScrape(world, { beginTravel } = {}) {
   advanceArmiesPassing(world);
   if (!world.director.milestones['san-jacinto']) catchUpCamp(world, go);
   once(world, 'houston-colorado', () => { word(world, 'houston-colorado', everyone, { truth: HOUSTON_WORD.colorado, claimId: 'HIST-TEX-066', source: 'Word from the army' }); followCamp(world, go); });
-  once(world, 'coleto', () => { fightColeto(world, said('HIST-TEX-063', 'Fannin marched out of Goliad this morning and was caught on the open prairie by Urrea\'s cavalry near Coleto Creek.')); spotlight(world, { key: 'coleto', text: 'Fannin\'s command, caught on the open prairie near Coleto Creek, fights through the day and surrenders the next morning.', siteId: 'goliad', claimId: 'HIST-TEX-063' }); });
+  // Coleto and Palm Sunday on the engine (sim/fannin.mjs): the march out, the square, the fates at their moments, the alerts,
+  // the Host's camera on the field, the men who get away. The two moments below are the record's lines and, for a class that
+  // never marched anybody out on the engine, the old one-step rolls.
+  advanceColeto(world, { start: momentOf(world, 'fannin-marches'), beginTravel });
+  advanceMassacre(world, { start: momentOf(world, 'goliad-eve'), beginTravel });
+  once(world, 'coleto', () => { fightColeto(world, said('HIST-TEX-063', 'Fannin marched out of Goliad this morning and was caught on the open prairie by Urrea\'s cavalry near Coleto Creek.')); });
   once(world, 'goliad-surrender', () => said('HIST-TEX-063', 'Fannin has surrendered his whole command to Urrea.'));
   // With the word of Fannin's defeat the army asks every man with Houston whether he leaves for his family (sim/camp.mjs).
   once(world, 'goliad-word', () => { word(world, 'goliad-defeat', everyone, { truth: HOUSTON_WORD.goliadDefeat, claimId: 'HIST-TEX-063', source: 'Word from the army' }); openCampQuestion(world, 'leave', null, go); });
   once(world, 'goliad-leave-close', () => closeCampQuestion(world, 'leave', go));
-  once(world, 'goliad-massacre', () => { goliadMassacre(world); spotlight(world, { key: 'goliad-massacre', text: 'Fannin\'s men, prisoners at Goliad, are marched out and shot. A few escape. No family knows yet.', siteId: 'goliad', claimId: 'HIST-TEX-064' }); });
+  once(world, 'goliad-massacre', () => goliadMassacre(world));
   once(world, 'houston-san-felipe', () => { takeInEnlisted(world); followCamp(world, go); word(world, 'houston-san-felipe', everyone, { truth: HOUSTON_WORD.sanFelipe, claimId: 'HIST-TEX-066', source: 'Word from the army' }); });
   // Up the west bank to Groce's, the evening of the 30th (`HIST-TEX-086`): the men with the army march with it.
   once(world, 'houston-groces', () => followCamp(world, go));
-  once(world, 'massacre-word', () => { word(world, 'goliad-massacre', everyone, { truth: HOUSTON_WORD.massacre, status: 'unconfirmed', claimId: 'HIST-TEX-064', source: 'Word from the west' }); tellGoliad(world, go); });
+  // The word, and for each family that had a man with Fannin the account of Coleto and Palm Sunday through whoever hears it.
+  once(world, 'massacre-word', () => { word(world, 'goliad-massacre', everyone, { truth: HOUSTON_WORD.massacre, status: 'unconfirmed', claimId: 'HIST-TEX-064', source: 'Word from the west' }); tellGoliad(world, go); tellFannin(world); });
   once(world, 'santa-anna-brazos', () => word(world, 'santa-anna-brazos', everyone, { truth: HOUSTON_WORD.santaAnnaBrazos, claimId: 'HIST-TEX-067', source: 'Word from the Brazos' }));
   // Over the Brazos on the Yellow Stone, April 12-13 (`HIST-TEX-089`): said in the story, and the men with the army cross to
   // Bernardo by Groce's ferry. A class whose map has no Bernardo keeps the army at Groce's (sim/houston.mjs `houstonCamp`).
@@ -1421,10 +1441,13 @@ export function directorProjection(world, householdId, role) {
       if (ownAtField(world, householdId).length) battle = { ...projectBattle(world, 'gonzales', { members: formationMembers(world).map(person => person.id), legacyPhase }), reconstruction: false };
     }
   }
+  // Coleto and Palm Sunday (sim/fannin.mjs), by the same rules: the Host always, a family only while one of its own is there.
+  const fannin = !battle ? fanninView(world, householdId, role) : null;
+  if (fannin) { battle = fannin.battle; if (fannin.host) host = fannin.host; }
   // The card through the family's person (docs/BATTLES.md §2.7, §2.8): the alert before the fighting with a Watch, and the
   // account afterwards. Only ever this family's own.
-  const battleAlert = role === 'student' && householdId ? alertFor(world, householdId, state, Boolean(battle)) : null;
-  const battleAccount = role === 'student' && householdId ? accountFor(world, householdId) : null;
+  const battleAlert = role === 'student' && householdId ? alertFor(world, householdId, state, Boolean(battle)) || fanninAlert(world, householdId, Boolean(battle)) : null;
+  const battleAccount = role === 'student' && householdId ? accountFor(world, householdId) || fanninAccount(world, householdId) : null;
   // The upriver call takes the panel while it is open, because it is the one in front
   // of the family right now. The food call stays in the event log either way.
   const march = householdId && world.marches?.[householdId];

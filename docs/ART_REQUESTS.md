@@ -56,6 +56,11 @@ does not have:
 | **A dragoon firing from the saddle** keeps his mounted pose (`dragoon-idle-e`/`-w`) while the flash and the smoke are drawn at his hands | `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 2 | `dragoon-fire` (aim and fire from the saddle, both facings) |
 | **The wounded carried**: a man hit is drawn as the library's seated wounded soldier (`regular-injured`/`volunteer-injured`) helped back by two walking figures; a dead man as `*-reclining` with two walking beside him; a dragoon hit in the saddle is drawn dismounted | `drawFallen` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 3 | `bearers-carry` (two men carrying a third on a blanket, both facings) and `dragoon-wounded-led` |
 | **The Gonzales cannon** is the library's field gun (`cannon-bronze-e`/`-w` and its recoil) served by the carriage-gun crew cycles (`volunteer-gun-ram`, `-shot-carry`, `-fire`) | `drawCannon` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 4 | `cannon-cartwheels` (a small brass six-pounder on a pair of cart wheels, `HIST-TEX-475`) and its settler crew |
+| **The marksmen in the grass at Coleto** are drawn in the loose order's standing and kneeling poses, firing | the `ringed` grass parts in `sim/battles/coleto.mjs`, drawn by `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 1 | `regular-prone-fire` (lying in the grass, aim and fire, both facings) |
+| **The Goliad prisoners** are drawn in the militia's walk and stand, which carry muskets; the prisoners had none | `columns` in `sim/battles/goliad-massacre.mjs` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 2 | `prisoner-walk` and `prisoner-stand`, unarmed, hands free |
+| **Francita Alavez** is drawn as the first cast's woman (`rust-woman-walk`, `rust-woman-idle-e`/`-w`), named on the map | the `alavez` part in `sim/battles/goliad-massacre.mjs` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 3 | `alavez-walk` and `alavez-idle`: a Mexican officer's wife of 1836 |
+| **The carts inside Coleto's square** are the library's `ox-cart`, its ox painted in | `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 4 | `cart-baggage` (no ox) and `cart-tipped` (on its side, a breastwork) |
+| **The white flag at Coleto** is drawn on the canvas: a plain white cloth on a pole | `drawFlag` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 5 | `flag-white` on a pole, still and in a light wind |
 | **The Come and Take It flag** is drawn on the canvas: a white field, a black gun, a star over it and the words (not shown at Gonzales on the field: `FIC-GONZ-419`) | `drawFlag` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 5 | `flag-come-and-take-it` on a pole, still and in a light wind |
 
 ## Claude-drawn stand-ins (replace with Astra's)
@@ -1208,6 +1213,25 @@ it sits inside a row, not on the map.
 
 **Fallback:** if a damaged or unusual package cannot load the embedded PNG, `DrawBin` falls back to its former pen drawing.
 A picture of the earlier menu is `evidence/solo-dialog.png`.
+
+## Request 2026-09-25 — Coleto and Goliad
+
+**Status: open; stand-ins in use since 2026-09-25 (see *Stand-ins in use*).** Coleto (March 19–20, 1836) and the Goliad
+massacre (March 27) are fought on the battle engine (`sim/battles/coleto.mjs`, `sim/battles/goliad-massacre.mjs`,
+`docs/BATTLES.md` §7; staging in `docs/battle-research/staging.md` §6.9 and §7.9). Five things they need are not in the library;
+each is drawn now from the nearest art and marked `stand-in:` in the code. The delivery contract is the people sheets' own:
+transparent PNG, the figure on its ground anchor, the `volunteer-*`/`regular-*` logical height, east frames mirrored for west.
+No blood, no wound shown, no body detail (`VISION.md` §16).
+
+1. **A marksman lying in the grass, firing** - `regular-prone-lie`, `regular-prone-aim`, `regular-prone-fire`, east-facing, a
+   Mexican cazador in the tall grass at night. Plugs into the loose parts of Coleto's `dusk`, `night` and `small-hours`.
+2. **An unarmed prisoner** - `prisoner-walk-1`..`-4` (east), `prisoner-stand-e`: a volunteer in the San Antonio Greys' or a
+   frontier coat, hands free, no musket, no belts. Plugs into the three columns of Palm Sunday (`figure` on a part).
+3. **Francita Alavez** - `alavez-walk-1`..`-4`, `alavez-idle-e`: a Mexican officer's wife of 1836 in a rebozo and long skirt.
+   Plugs into the `alavez` part (`figure: 'alavez'`).
+4. **The baggage carts** - `cart-baggage` (a two-wheeled cart with its load, no ox) and `cart-tipped` (on its side, a
+   breastwork). Plugs into the square's carts in `draw` (`public/battle-view.js`).
+5. **A white flag** - `flag-white` on a pole, still and in a light wind. Plugs into `drawFlag` for `kind: 'white'`.
 
 ## Request 2026-09-25 — battles: the pieces the engine stands in for
 

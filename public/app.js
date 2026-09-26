@@ -767,7 +767,9 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
   // A family's own person in a fight, drawn doing what the force round them does - loading and firing at their own pace -
   // at the place the server put them (public/battle-view.js `memberPose`, docs/BATTLES.md §2.6). Their name, their ring and
   // their click are this function's, as for anybody.
-  const pose = entity.kind === 'person' ? battleView.memberPose(entity, animationTime) : null;
+  // A family's man killed in a fight his family has not yet had word of lies where he fell, on his own family's map only
+  // (sim/battle-stage.mjs `lyingOnField`, `FIC-GONZ-439`): no blood, no gore.
+  const pose = entity.kind === 'person' ? battleView.memberPose(entity, animationTime) || (entity.fallen ? { sprite: 'volunteer-reclining', flip: false } : null) : null;
   if (pose) {
     const done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, size, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, size, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
     if (!done) miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed });
@@ -1273,7 +1275,14 @@ const clampTo = (value, limits) => Math.max(limits.min, Math.min(limits.max, val
  */
 const fieldFrame = points => points.flatMap(point => [{ x: point.x - 0.13, y: point.y - 0.24 }, { x: point.x + 0.13, y: point.y + 0.1 }]);
 // Each side where it stands, and the gun (public/battle-view.js draws them there).
-const battlePoints = world => [...(world.battle?.sides || world.battle?.formations || []), ...(world.battle?.cannon ? [world.battle.cannon] : [])].map(point => ({ x: point.x, y: point.y }));
+// Everything drawn of the fight: each side, or each of its parts (a side in parts is framed by where its parts stand, not by
+// their middle: Palm Sunday's three roads, the ring round Coleto's square), and the guns. A body of men gone from the field is
+// not framed, unless nothing else is left to frame.
+const battlePoints = world => {
+  const units = (world.battle?.sides || []).flatMap(side => side.parts || [side]);
+  const here = units.filter(unit => unit.action !== 'gone');
+  return [...(here.length ? here : units.length ? units : world.battle?.formations || []), ...(world.battle?.cannon ? [world.battle.cannon] : []), ...(world.battle?.cannons || [])].map(point => ({ x: point.x, y: point.y }));
+};
 function framingFor(world) {
   // The country outside the box (docs/MAP_ACCURACY.md §11) is drawn where it is, but it never frames a view: framing the
   // region on Matamoros, 250 miles south of the colonies, would shrink the settlements to nothing. The map still zooms out

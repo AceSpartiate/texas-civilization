@@ -23,7 +23,7 @@
 import { record } from './events.mjs';
 import { awardGlory } from './glory.mjs';
 import { canAnswerCalls, canFight, cannotFightWhy, cannotAnswerWhy } from './family.mjs';
-import { houstonCamp, houstonOpen } from './houston.mjs';
+import { campClock, houstonCamp, houstonOpen } from './houston.mjs';
 
 /** Where each kind of service is joined, and what it promises. */
 export const SERVICE = Object.freeze({
@@ -144,11 +144,16 @@ export function castVote(world, household, entity) {
 }
 
 /** Why somebody cannot be sent for, or null. */
-/** Six in the morning of March 19, 1836: Fannin's column leaves Goliad in the fog (`HIST-TEX-063`). */
-export const FANNIN_MARCHES = 221760 + 18 * 1440 + 360;
+/**
+ * Nine in the morning of March 19, 1836, on the timeline: Fannin's column leaves Goliad in the fog (`HIST-TEX-515`; the
+ * director's `fannin-marches`, sim/directors.mjs). It was six, and read off the class's own minute: in a class that arrived on
+ * September 28 (eighteen hours ahead of the timeline, sim/houston.mjs `campClock`) recall shut at noon on March 18, eighteen
+ * hours before anybody marched (docs/battle-research/staging.md §6.6 (b)). Read against the director's clock now.
+ */
+export const FANNIN_MARCHES = 221760 + 18 * 1440 + 540;
 export function recallRefusal(entity, world = null) {
-  // With Fannin from the morning of March 19 (sim/houston.mjs): on the prairie, then a prisoner; nobody can be sent after them.
-  if (entity?.service?.kind === 'fannin' && ['serving', 'prisoner'].includes(entity.service.status) && Number.isFinite(world?.minute) && world.minute >= FANNIN_MARCHES) return `${entity.name} has marched out of Goliad with Fannin, and nobody can be sent after them.`;
+  // With Fannin from the morning of March 19 (sim/fannin.mjs): on the prairie, then a prisoner; nobody can be sent after them.
+  if (entity?.service?.kind === 'fannin' && ['serving', 'prisoner'].includes(entity.service.status) && Number.isFinite(world?.minute) && world.minute >= FANNIN_MARCHES + campClock(world)) return `${entity.name} has marched out of Goliad with Fannin, and nobody can be sent after them.`;
   if (!serving(entity)) return `${entity.name} is not away with anybody to be sent for.`;
   if (entity.service.besieged) return `${entity.name} is shut in the Alamo, and nobody can be sent for through the Mexican lines.`;
   if (entity.service.riding) return `${entity.name} has ridden for the Alamo with the Gonzales men.`;

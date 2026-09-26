@@ -63,6 +63,11 @@ const PLACES = [
   ['bexar', 'Béxar', 'town', -98.4936282, 29.4241219, 'HIST-TEX-010', false],
   // The 1835 settlement stood against the presidio walls; the present town is across the river, 1.46 miles off (HIST-TEX-025).
   ['goliad', 'Goliad', 'town', -97.3830, 28.6476, 'HIST-TEX-025', false],
+  // The prairie by Coleto Creek where Fannin's column was caught on March 19, 1836 and formed its square: the Fannin
+  // Battleground State Historic Site, 28°41′11″N 97°14′02″W, about 9.4 miles east-north-east of the presidio (HIST-TEX-516).
+  // A field, not a settlement: nothing to buy, nobody's land, and no road of its own - the Atascosito road to Victoria passes
+  // about a mile off, and the column is walked to it across the prairie (sim/battles/coleto.mjs).
+  ['coleto', 'Coleto', 'field', -97.2339, 28.6864, 'HIST-TEX-516', false],
   // The plaza of the 1834 plat (King Park); the official point is 0.61 miles north of it (HIST-TEX-025).
   ['refugio', 'Refugio', 'town', -97.274887, 28.296482, 'HIST-TEX-025', false],
   ['la-grange-crossing', 'The Colorado crossing', 'crossing', -96.876647, 29.9055033, 'HIST-TEX-008', false],
@@ -116,7 +121,10 @@ const ROADS = [
   ['la-grange-crossing', 'san-felipe', 'The road to San Felipe'],
   ['washington', 'la-grange-crossing', 'The La Bahía road'],
   ['la-grange-crossing', 'goliad', 'The La Bahía road'],
-  ['goliad', 'victoria', 'The Atascosito road'],
+  // Goliad to Victoria by the prairie at Coleto, where Fannin's column was caught on this road on March 19, 1836 (HIST-TEX-515,
+  // HIST-TEX-516): the one road east from Goliad, laid in two legs so the field is on it. Course FIC-GONZ-027.
+  ['goliad', 'coleto', 'The Atascosito road'],
+  ['coleto', 'victoria', 'The Atascosito road'],
   // The road ran "from Refugio and Goliad to the Atascosito Crossing on the Colorado River, on to the Brazos near San Felipe
   // de Austin" (TSHA, HIST-TEX-156): over the Colorado nine miles below Columbus, not at Beeson's.
   ['victoria', 'lower-colorado-crossing', 'The Atascosito road'],

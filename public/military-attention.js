@@ -47,7 +47,9 @@ export function militaryNotices(world) {
   const deciding = notices.length || world.request?.status === 'open' || meeting?.status === 'open';
   const alert = world.battleAlert;
   if (alert && !deciding && own.some(person => person.id === alert.entityId)) {
-    notices.push({ id: alert.id, entityId: alert.entityId, kind: 'battle', title: alert.title, text: alert.text, action: 'Watch', field: alert.field });
+    // Watch for a fight; Follow for a march or a muster (Coleto's march out, the prisoners formed on Palm Sunday), which frames
+    // the field the same way (docs/battle-research/staging.md §6.7, §7.7).
+    notices.push({ id: alert.id, entityId: alert.entityId, kind: 'battle', title: alert.title, text: alert.text, action: alert.action || 'Watch', field: alert.field });
   }
   // Afterwards, the family's own person's account of it, in plain words (§2.8). The journal keeps it.
   const account = world.battleAccount;

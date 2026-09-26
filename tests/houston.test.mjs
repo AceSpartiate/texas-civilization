@@ -15,6 +15,7 @@ import { rollFates } from '../sim/army.mjs';
 import { COLETO, MASSACRE, SAN_JACINTO, houstonCamp } from '../sim/houston.mjs';
 import { landPromised } from '../sim/winter.mjs';
 import { share } from '../sim/scrape.mjs';
+import { battleState } from '../sim/battle-stage.mjs';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -111,18 +112,25 @@ test('with Fannin: sent for until March 19, then Coleto, prison, and Palm Sunday
   const [early, ...rest] = men;
   applyAction(world, early.householdId, { action: 'winter-recall', entityId: early.id });
   assert.equal(early.service.status, 'released');
+  // Coleto is fought on the engine since 2026-09-25 (sim/fannin.mjs, tests/battle-coleto.test.mjs): the men are in the square
+  // from one in the afternoon, held there, and each fate falls at its moment; by the surrender every man has his.
   untilMoment(world, 'coleto');
-  assert.throws(() => applyAction(world, rest[0].householdId, { action: 'winter-recall', entityId: rest[0].id }), /marched out of Goliad/);
+  assert.throws(() => applyAction(world, rest[0].householdId, { action: 'winter-recall', entityId: rest[0].id }), /Fannin/);
   const fates = Object.fromEntries(rollFates(world, rest.map(one => one.id), { event: 'coleto', ...COLETO }).map(({ id, fate }) => [id, fate]));
+  untilMoment(world, 'goliad-surrender');
+  assert.throws(() => applyAction(world, rest[0].householdId, { action: 'winter-recall', entityId: rest[0].id }), /marched out of Goliad|Fannin/);
   for (const one of rest) {
     assert.equal(one.service.coleto, fates[one.id], `${one.name}'s fate at Coleto did not follow the roll`);
     assert.equal(one.service.status, 'prisoner');
     assert.equal(one.health.condition, fates[one.id] === 'wounded' ? 'wounded' : 'well', 'a death was on the screen before the word');
   }
-  untilMoment(world, 'goliad-massacre');
+  // Palm Sunday on the engine: each fate at its moment, all of them by the time the killing is over.
+  until(world, () => world.battles?.['goliad-massacre'] && battleState(world, 'goliad-massacre')?.over);
   for (const one of rest) {
     const roll = share(world, one.id, 'goliad');
-    const want = fates[one.id] === 'killed' ? 'killed' : roll < MASSACRE.executed ? 'executed' : roll < MASSACRE.executed + MASSACRE.escaped ? 'escaped' : 'spared';
+    // A man still wounded cannot run (owner's G2, 2026-09-25): an escape is his death inside with the wounded.
+    const rolled = roll < MASSACRE.executed ? 'executed' : roll < MASSACRE.executed + MASSACRE.escaped ? 'escaped' : 'spared';
+    const want = fates[one.id] === 'killed' ? 'killed' : fates[one.id] === 'wounded' && rolled === 'escaped' ? 'executed' : rolled;
     assert.equal(one.service.fate, want, `${one.name}'s fate on Palm Sunday did not follow the share`);
     assert.ok(one.health.condition !== 'dead', 'a death was on the screen before the word');
   }
