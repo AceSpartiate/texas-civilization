@@ -97,7 +97,7 @@ the choices this build makes, each recorded so it can be reversed in one place.
 **Decided by the owner, 2026-09-26, by multiple choice** (put after the south, the Alamo, Concepción, Coleto and San Jacinto were
 built):
 
-7. **Agua Dulce Creek is placed twenty-six miles below San Patricio, per the Handbook of Texas (TSHA)** — not Wikipedia's
+7. **Superseded the same day by §2b.12 (the creek crossing, about sixteen miles out).** **Agua Dulce Creek is placed twenty-six miles below San Patricio, per the Handbook of Texas (TSHA)** — not Wikipedia's
    point near Banquete, about ten miles out, which the south's build had used. The record gives no bearing, so the distance is
    the walked road's own: the ground is where the least-effort road south from San Patricio measures 26.0 miles (-97.81,
    27.639), a mile and a third short of the end of the walked road where Grant's men wait with the horses. So the drive north
@@ -114,6 +114,28 @@ built):
    a man in the town (`watchedByAFamily`); with nobody there the storming's quiet hours go at the class's own pace.
 10. **Recorded, no change:** a family whose man is killed at Béxar learns it from the victory news on December 15
     (`bexar-victory`, `tellStorming`), not at the moment he falls.
+
+**Decided by the owner, 2026-09-26, by multiple choice** (put after the whole class was measured at 3 h 37 min at Study, 84
+minutes of it the battles):
+
+11. **"Keep fighting, speed lead-ups."** Every battle's **fighting** still plays at full length on the Host's screen whoever is
+    there. The **quiet days and hours around it** - the lead-up, the aftermath, the lulls between a day's assaults - pass at the
+    class's ordinary pace **unless a played, present family (not run by the neighbours, not absent) has somebody there**; then
+    they are held as before. One generic mechanism: a phase marked `quiet` (§13). A class with nobody's family at the lead-ups
+    saves 19 minutes at Study (3 h 37 min to 3 h 18 min); a class with a played family's man at every fight takes as long as
+    before but for Agua Dulce's longer drive (§2b.12; five ticks). §13.4.
+12. **"At the creek crossing, 16 mi."** Agua Dulce is fought where the road south from San Patricio crosses the creek the map's
+    NHD calls Agua Dulce, about sixteen road miles out (15.6) - replacing §2b.7's twenty-six miles, which the integrator had
+    placed on the owner's earlier choice. The record gives neither: the Handbook of Texas says "twenty-six miles below San
+    Patricio" and Wikipedia's point is near Banquete, about ten miles out. The charge's caption, the account and `HIST-TEX-512`
+    say plainly that this telling places it at the creek crossing, that the Handbook gives twenty-six miles and that another
+    placement puts it near Banquete. The ground is a quarter mile south of the road's ford on the creek, on the bank Grant's men
+    came up to with the herd; the walked road's end, where they wait, is 11.7 road miles on. So the drive north is longer: Grant's
+    party sets out at **ten to seven** (it was half past eight at twenty-six miles, half past five near Banquete), a drive of 2 h
+    40 min at the herd's three miles an hour, and **the charge stays at half past ten**. A class saved with the ground at either
+    earlier place has it moved at the save's door while Grant's drive has not begun (`sim/south.mjs` `moveAguaDulce`, unchanged:
+    it moves any ground that is not the built map's); one that has fought there keeps it. No `saveVersion` bump. Only the ground,
+    the two roads through it and the creeks drawn round it changed in the map (decoded; the fords are the same fords).
 
 Every other question in `docs/battle-research/staging.md` takes its recommended answer.
 
@@ -390,7 +412,7 @@ recorded). Claims `HIST-TEX-510`–`-514`, `FIC-GONZ-435`–`-436`. The map is `
 
 | Piece | File |
 | --- | --- |
-| The engagements | `sim/battles/san-patricio.mjs` (night 01:00 → the square 03:00 → the houses → the last house → prisoners gathered 03:35 → 04:15), `sim/battles/agua-dulce.mjs` (the drive north 08:30, 05:30 until §2b.7 → the last hour 09:30 → the charge **10:30** → six prisoners 10:50 → 11:50) |
+| The engagements | `sim/battles/san-patricio.mjs` (night 01:00 → the square 03:00 → the houses → the last house → prisoners gathered 03:35 → 04:15), `sim/battles/agua-dulce.mjs` (the drive north 06:50 since §2b.12 - 05:30 near Banquete, 08:30 for a day at twenty-six miles → the last hour 09:30 → the charge **10:30** → six prisoners 10:50 → 11:50) |
 | The director's part | `sim/south.mjs`, called from `advanceAlamo` in `sim/directors.mjs` and from `directorProjection` (one line each) |
 | The map at the save's door | `openSouth`, called from `server/storage.mjs` `readSave` |
 | The join and the recall | `sim/winter.mjs` (`SERVICE.matamoros` at San Patricio, `southClosing`, `recallRefusal`) and the chore's `travel: 'south'` in `sim/chores.mjs` |
@@ -398,8 +420,9 @@ recorded). Claims `HIST-TEX-510`–`-514`, `FIC-GONZ-435`–`-436`. The map is `
 - **Arrival.** A man sent south joins at San Patricio (at Refugio on a map without the south). A man still at Refugio walks on
   (`walkOnSouth`). The join is refused, in words, once the family's quickest way would not reach San Patricio half a day before
   the raid. About six in the morning of February 20 Grant rides south with the men put in his party at the record's shares
-  (`grantRides`, `JOHNSON_SHARE`) to the end of the walked road, and at 8:30 on March 2 (5:30 before §2b.7 moved the ground to the
-  Handbook's twenty-six miles, a mile and a third from the road's end) they drive the herd north to the creek.
+  (`grantRides`, `JOHNSON_SHARE`) to the end of the walked road, and at 6:50 on March 2 (§2b.12: the ground at the creek crossing,
+  11.7 road miles from the road's end; 5:30 near Banquete, 8:30 for the day it stood at twenty-six miles) they drive the herd north
+  to the creek.
 - **In the force.** Every man of the party at its muster when the fight is armed is put in it before the first shot, in a part:
   the square, a house, the back door; the lead, the middle or the drag of the drive. He is walked to his place at a runner's pace.
 - **Fates at staged moments.** His fate is `fightSouth`'s own roll (`southFate`: `SOUTH_RATES`, frailty-weighted), so no class's
@@ -419,8 +442,9 @@ recorded). Claims `HIST-TEX-510`–`-514`, `FIC-GONZ-435`–`-436`. The map is `
   word comes (March 3, March 7) each family that had a man there is told, through somebody at home, *What happened*, *What yours
   did*, *Why it ended so*, and where the accounts disagree; the card stays a day and the journal keeps it.
 - **Pace.** San Patricio's fighting (03:00-03:35) is 25 ticks, about 4 minutes at Study; Agua Dulce's charge and the minutes after
-  it about 3 1/2; San Patricio's night before is watched at twenty minutes a tick, and so is Agua Dulce's hour-long drive (four
-  hours until §2b.7, nine ticks fewer now).
+  it about 3 1/2; San Patricio's night before, and Agua Dulce's drive (2 h 40 min since §2b.12) and last hour, are watched at their
+  steps only while a played family has a man there (§2b.11, §13), and otherwise go at the class's pace. The fates are staged in
+  minutes from the first shot (`STAGED` in `sim/south.mjs`), so a drive retimed never moves one.
 
 Evidence: `tests/battle-south.test.mjs` (11), `tests/battle-view-south.test.mjs` (5), `tests/south-map.test.mjs` (8),
 `npm run test:battle-south` (16 checks, `docs/evidence/battle-south-browser.json`, screenshots in `docs/evidence/battle-south/`),
@@ -431,7 +455,8 @@ Evidence: `tests/battle-south.test.mjs` (11), `tests/battle-view-south.test.mjs`
 - ceiling: the horse guard at the ranch four miles out is told, never drawn; no family's man is put in it.
 - ceiling: the houses, the lit windows, the groves and the herd stand where this build set them (`FIC-GONZ-435`).
 - ceiling: the drive north is drawn in a straight line from the end of the walked road to the ground, within a mile of the road.
-- ceiling: the Agua Dulce ground is the Handbook's distance along the road (§2b.7), not a point on the creek the map's NHD draws.
+- ceiling: the Agua Dulce ground is the road's crossing of the creek the map's NHD draws (§2b.12), a placement the record does not
+  give (it gives twenty-six miles, and a point near Banquete); a source placing the fight on the ground would undo it.
 - ceiling: a prisoner out of sight keeps his last place on the server (the end of the road south); nobody is shown it, and a
   march to Matamoros beyond the walked country is the way out.
 - ceiling: the prisoners' guard is not drawn marching with them; a prisoner column on the engine is the way out.
@@ -807,4 +832,71 @@ minutes at Study (9.5 s a tick). The ticks the fights hold add 532 of them, **ab
 Concepción 7.3, the Grass Fight 7.7, Béxar 14.3, the Alamo 7.9 (and the south's two fights inside its siege 5.2 and 6.0),
 Coleto 12.3, Palm Sunday 6.3, San Jacinto 10.3. Main before this merge ran 1,117 ticks (2 h 57 min), so the three merged
 branches add about 40 minutes. A played family's man in Béxar's town or the Alamo's garrison adds its `background` pace on top
-(§7.3: about 7.4 minutes; §9.3: about 5.5).
+(§7.3: about 7.4 minutes; §9.3: about 5.5). **Since §13 (2026-09-26) a class with nobody's family at the fights runs 1,250 ticks,
+3 h 18 min.**
+
+## 13. Keep fighting, speed lead-ups (owner, 2026-09-26; not released)
+
+The owner's §2b.11. Measured before it: a whole class 3 h 37 min at Study, the fights 84 minutes of it, much of that the hours
+around the fighting held at their steps for a class where nobody's family was there to watch them.
+
+### 13.1 The mechanism (one flag, in the engine)
+
+- **`quiet: true` on a phase** (`sim/battles/*.mjs`): a lead-up, an aftermath, a lull between a day's assaults, a night between two
+  days' fighting. Only on a phase with a `step`, never on a `contact` phase (`checkEngagement`, `sim/battle-stage.mjs:92`).
+- **`familyThere(world, state)`** (`sim/battle-stage.mjs:247`): a played, present family (`played`, not `absent`) has a living
+  person in the force (`watchedByAFamily`, unchanged) **or standing within `THERE_MILES` (half a mile) of a side, part or group of
+  the phase** - so the men at the mill who said yes to Milam, a camp being asked to ride out after the pack train, or a man come
+  up to the rendezvous count on the tick before a director enrols them. Half a mile takes in the town a fight is fought in and not
+  the town seven miles off, nor the refugees at Lynch's ferry (0.78 mile from San Jacinto's camps).
+- **`battleStep`** (`sim/battle-stage.mjs:312`): a quiet phase with nobody there gives the largest tick the page already draws as
+  an ordinary one that fits before the phase's end (`QUIET_STEPS`, line 181: every battle step and pace and the half day, which are
+  public/motion.js `CALENDAR_STEPS` exactly), and `battleMinutes` takes the smaller of that and the class's own pace. So every
+  phase still begins on a tick of its own (a director's moment dated at a phase is met on its minute, and the Host is shown every
+  phase), the fighting after it is met on its first minute, and no tick is an odd size that would snap every traveller on the map.
+  With somebody there, the phase is held at its step as before. Nothing is stored; no `saveVersion` moves.
+- **Background paces are unchanged** (Béxar between its episodes, the Alamo's siege days): still `watchedByAFamily` alone, as §2b.9
+  recorded. A Host's time jump still refuses over a quiet phase (`sim/time.mjs`), as over any stepped one.
+- ceiling: the Host watching a class with nobody there sees a lead-up pass in a few ticks; its lines and captions are shown, but
+  briefly. Holding the lead-ups whenever the Host's spotlight is on a fight would undo it.
+
+### 13.2 Which phases are the fighting
+
+The line drawn: the fighting runs from the forming-up to attack (San Jacinto's parade, as the owner's "the quiet afternoon before
+the parade" puts it; the Alamo's columns moving up; the prisoners mustered and marched out at Goliad) through the last shot of that
+day, and includes the killing after a rout. Quiet: everything before and after, the nights between two days' fighting (Coleto's),
+and the lulls where nobody fires between a day's assaults (Gonzales's, Coleto's two). Two phases that could be either are kept
+held: Gonzales's **parley** (the documented words of Castañeda and Moore) and San Patricio's **gathered** (without it San Patricio's
+fight is under §2.2's three real minutes).
+
+| Engagement | Fighting - held for every class | Quiet - held only with a played family there | Already so (unchanged) |
+| --- | --- | --- | --- |
+| Gonzales | contact (the outpost fires), dawn-skirmish, parley, fight | rendezvous, approach, wait, lull, withdrawal, field | home (not held) |
+| Concepción | alarm, ringed, fog-lifts, charges, retreat | march, breakfast, aftermath, main-army | camp - the night at the bend - and burial (not held) |
+| Grass Fight | bowie, ambush, sortie, follow | alarm, ride-out, grass, back | |
+| Béxar | feint, entry, cannonade, karnes, yard, milam, priests-house, flag, truce | call, roll, out, marching-out | pinned-5/6/7, afternoon, night-7, row, night-8 (`background`, family-gated since §2b.3 - confirmed); night-4, parley, terms (not held) |
+| San Patricio | surprise, houses, yield, gathered | night, after | |
+| Agua Dulce | ambush | drive, herd, after | |
+| The Alamo | advance, alarm, repulse, north-wall, fallback, rooms, end | | the siege's days, arrival, red flag, huts, relief (`background`, family-gated since §9.3); its nights, last evening, the quiet night and the day after (not held) |
+| Coleto | caught, square, assault-1, assault-2, assault-3, guns | march-out, road, lull-1, lull-2, dusk, night, small-hours, before-dawn, surrender, march-back | |
+| Palm Sunday | muster, marched, volleys, escapes, inside | eve, night, before-dawn, after | |
+| San Jacinto | parade, advance, guns, volley, charge, rout, killing | arrive, skirmish, morning (the first day: the armies meet, the skirmish, Cos, Deaf Smith for the bridge), prisoners, taken | camped, night (the breastwork), waiting (the quiet afternoon), search, held (not held) |
+
+### 13.3 What changed for families and tests
+
+A played family with a man in the force, or on the fight's ground, sees exactly what it saw. Tests that followed a family's man
+through a lead-up now mark his family played, as a joined family is (`tests/battle-coleto.test.mjs` `fanninClass({ played })`,
+`tests/battle-san-jacinto.test.mjs` `withTheArmy(..., { played })`); the pacing checks of Béxar and Concepción assert a quiet phase is
+held when a family is there and otherwise goes in ordinary ticks. `tests/battle-quiet.test.mjs` (5) holds the rule.
+
+### 13.4 Numbers (`scripts/battle-class-time.mjs`, `docs/evidence/battle-class-time.json`; 5 and 15 families alike)
+
+| Class | Before | After | Change |
+| --- | --- | --- | --- |
+| (a) nobody's family at any fight | 1,370 ticks, 3 h 37 min (fights 84.2 min) | 1,250 ticks, 3 h 18 min (fights 65.2 min) | **-120 ticks, -19.0 min** |
+| (b) a played family's man in every fight | 1,440 ticks, 3 h 48 min (fights 95.3 min) | 1,445 ticks, 3 h 49 min (fights 96.1 min) | +5 ticks (Agua Dulce's longer drive, §2b.12) |
+
+The target put with the decision was 25-35 minutes. Measured on the same class, no classification that keeps the fighting whole
+reaches it: making the parley, San Patricio's gathered, San Jacinto's parade and Palm Sunday's muster quiet as well saves 22.6
+minutes, and San Jacinto's advance and Palm Sunday's march out on top 24.7. What is left is the fighting itself (Béxar's four
+episodes, the Alamo's assault, Coleto's three assaults and the guns) and the ticks that land a fight on its phases.
