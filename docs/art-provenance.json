@@ -1515,6 +1515,45 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-fannin.png",
       "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
       "review": "Map, wound, surrender and captivity poses support Coleto and Goliad scenes without depicting an execution or deciding when a family learns the outcome."
+    },
+    {
+      "sheet": "shop-blacksmith",
+      "promptId": "frontier-v1/shop-blacksmith",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e0f97830-ba1b-47dc-bf5f-385bd985235e.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2a9da188-c973-4c52-a571-52c74aed36e9.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/shop-blacksmith.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Anvil, bellows and forge remain legible when the shop is reduced to town scale; genuine alpha beyond the silhouette."
+    },
+    {
+      "sheet": "shop-wheelwright",
+      "promptId": "frontier-v1/shop-wheelwright",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e1e35e07-a7c5-499f-a605-ba7a7699a09f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/shop-wheelwright.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Wheels read independently of the blacksmith forge and ordinary timber shop at town scale; genuine alpha."
+    },
+    {
+      "sheet": "shop-tavern",
+      "promptId": "frontier-v1/shop-tavern",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-09f89de7-59ee-474d-bc77-915bebe8bd96.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/shop-tavern.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Two-bay gallery and benches distinguish it from a cabin; genuine alpha and no invented signage."
     }
   ],
   "rejectedAttempts": [

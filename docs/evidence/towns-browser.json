@@ -1,14 +1,14 @@
 {
   "record": "The towns of the colonies, drawn in a browser: docs/TOWNS.md §5b",
-  "date": "2026-09-21",
+  "date": "2026-09-26",
   "verdict": "PASS",
   "note": "Same computer only. A 30-family class on the colonies map, served live; the Host page went to each drawn town from its Go to list. No LAN or district claim.",
   "checks": [
-    "San Felipe de Austin: 46 buildings drawn at 1357 px a mile; 10 keepers' buildings named; 10 people drawn there",
-    "Victoria: 36 buildings drawn at 1357 px a mile; 3 keepers' buildings named; 3 people drawn there",
+    "San Felipe de Austin: 46 buildings drawn at 1357 px a mile; 11 keepers' buildings named; 11 people drawn there",
+    "Victoria: 36 buildings drawn at 1357 px a mile; 4 keepers' buildings named; 4 people drawn there",
     "Mina: 27 buildings drawn at 1357 px a mile; 5 keepers' buildings named; 5 people drawn there",
     "Matagorda: 46 buildings drawn at 1357 px a mile; 4 keepers' buildings named; 4 people drawn there",
-    "Columbia: 18 buildings drawn at 1357 px a mile; 9 keepers' buildings named; 9 people drawn there",
+    "Columbia: 18 buildings drawn at 1357 px a mile; 10 keepers' buildings named; 10 people drawn there",
     "Liberty: 11 buildings drawn at 1357 px a mile; 4 keepers' buildings named; 4 people drawn there",
     "Washington: 23 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
     "Brazoria: 48 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
@@ -74,9 +74,14 @@
           "trade": "weaver",
           "building": "sf-house-6",
           "label": "Weaver"
+        },
+        {
+          "trade": "stockman",
+          "building": "sf-house-7",
+          "label": "Stock pens"
         }
       ],
-      "keepersDrawn": 10
+      "keepersDrawn": 11
     },
     "victoria": {
       "drawn": 36,
@@ -96,9 +101,14 @@
           "trade": "blacksmith",
           "building": "vic-jacal-2",
           "label": "Blacksmith"
+        },
+        {
+          "trade": "stockman",
+          "building": "vic-jacal-3",
+          "label": "Stock pens"
         }
       ],
-      "keepersDrawn": 3
+      "keepersDrawn": 4
     },
     "mina": {
       "drawn": 27,
@@ -207,9 +217,14 @@
           "trade": "weaver",
           "building": "col-house-7",
           "label": "Weaver"
+        },
+        {
+          "trade": "stockman",
+          "building": "col-house-8",
+          "label": "Stock pens"
         }
       ],
-      "keepersDrawn": 9
+      "keepersDrawn": 10
     },
     "liberty": {
       "drawn": 11,
@@ -287,34 +302,5 @@
       "keepersDrawn": 0
     }
   },
-  "screenshots": [
-    "docs/evidence/town-san-felipe.png",
-    "docs/evidence/town-san-felipe-close.png",
-    "docs/evidence/town-victoria.png",
-    "docs/evidence/town-victoria-close.png",
-    "docs/evidence/town-mina.png",
-    "docs/evidence/town-mina-close.png",
-    "docs/evidence/town-matagorda.png",
-    "docs/evidence/town-matagorda-close.png",
-    "docs/evidence/town-columbia.png",
-    "docs/evidence/town-columbia-close.png",
-    "docs/evidence/town-liberty.png",
-    "docs/evidence/town-liberty-close.png",
-    "docs/evidence/town-washington.png",
-    "docs/evidence/town-washington-close.png",
-    "docs/evidence/town-brazoria.png",
-    "docs/evidence/town-brazoria-close.png",
-    "docs/evidence/town-velasco.png",
-    "docs/evidence/town-velasco-close.png",
-    "docs/evidence/town-harrisburg.png",
-    "docs/evidence/town-harrisburg-close.png",
-    "docs/evidence/town-anahuac.png",
-    "docs/evidence/town-anahuac-close.png",
-    "docs/evidence/town-nacogdoches.png",
-    "docs/evidence/town-nacogdoches-close.png",
-    "docs/evidence/town-refugio.png",
-    "docs/evidence/town-refugio-close.png",
-    "docs/evidence/town-goliad.png",
-    "docs/evidence/town-goliad-close.png"
-  ]
+  "screenshots": []
 }

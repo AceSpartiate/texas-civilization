@@ -6611,6 +6611,117 @@
         ]
       }
     },
+    "shop-blacksmith": {
+      "image": "atlases/shop-blacksmith.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2331341,
+      "sha256": "9868a6cd5c94c6a147d3535cf92e0b813b6ae5ca0ce61032059a725d0ccc6890",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.505554,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              32,
+              947
+            ],
+            "columns": [
+              [
+                154,
+                1446
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "shop-wheelwright": {
+      "image": "atlases/shop-wheelwright.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2401248,
+      "sha256": "b5c2c0c16155ac9abab48f831e4a9b623032ff0801ba468366a6aae34d201961",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.440867,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              89,
+              926
+            ],
+            "columns": [
+              [
+                182,
+                1424
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "shop-tavern": {
+      "image": "atlases/shop-tavern.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2369580,
+      "sha256": "e6ba4e5de28a0af3e077b363dc8a02afafa9b977d5ed746dd01d5db803cc8ae2",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.455924,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              86,
+              884
+            ],
+            "columns": [
+              [
+                99,
+                1474
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "town-buildings-researched": {
       "image": "atlases/town-buildings-researched.png",
       "width": 1254,
@@ -30997,6 +31108,78 @@
           528
         ],
         "visiblePixels": 140499,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "shop-blacksmith": {
+      "sheet": "shop-blacksmith",
+      "x": 154,
+      "y": 32,
+      "w": 1292,
+      "h": 915,
+      "anchorX": 0.5155,
+      "anchorY": 0.929,
+      "label": "shop blacksmith",
+      "kind": "shop-blacksmith",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          156,
+          34,
+          1288,
+          911
+        ],
+        "visiblePixels": 757938,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "shop-wheelwright": {
+      "sheet": "shop-wheelwright",
+      "x": 182,
+      "y": 89,
+      "w": 1242,
+      "h": 837,
+      "anchorX": 0.4489,
+      "anchorY": 0.9295,
+      "label": "shop wheelwright",
+      "kind": "shop-wheelwright",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          184,
+          91,
+          1238,
+          833
+        ],
+        "visiblePixels": 863021,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "shop-tavern": {
+      "sheet": "shop-tavern",
+      "x": 99,
+      "y": 86,
+      "w": 1375,
+      "h": 798,
+      "anchorX": 0.4891,
+      "anchorY": 0.9361,
+      "label": "shop tavern",
+      "kind": "shop-tavern",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          101,
+          88,
+          1371,
+          794
+        ],
+        "visiblePixels": 838586,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

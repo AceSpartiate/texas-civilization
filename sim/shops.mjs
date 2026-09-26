@@ -410,7 +410,7 @@ export const GONZALES_PLACES = Object.freeze({
 /** A new town's places, in the order store, carpenter, then its trades. */
 const NEW_PLACES = [{ x: -.16, y: -.13 }, { x: .18, y: .05 }, { x: .20, y: -.16 }, { x: -.24, y: .10 }, { x: .04, y: .22 }, { x: -.04, y: -.24 }, { x: .28, y: .18 }, { x: -.28, y: -.06 }, { x: -.16, y: .26 }, { x: .30, y: -.04 }];
 /** The building each kind of shop is drawn as in a new town, the stock pens (2026-09-24) among them. stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the shops of the towns. */
-export const SHOP_SPRITES = Object.freeze({ store: 'trading-house', carpenter: 'timber-shop', blacksmith: 'shed-open', gunsmith: 'cabin-small', doctor: 'house-hewn-log', tavern: 'house-dog-run', tanner: 'storehouse', wheelwright: 'timber-shop', mill: 'storehouse', weaver: 'cabin-weathered', stockman: 'shed-open' });
+export const SHOP_SPRITES = Object.freeze({ store: 'trading-house', carpenter: 'timber-shop', blacksmith: 'shop-blacksmith', gunsmith: 'cabin-small', doctor: 'house-hewn-log', tavern: 'shop-tavern', tanner: 'storehouse', wheelwright: 'shop-wheelwright', mill: 'storehouse', weaver: 'cabin-weathered', stockman: 'shed-open' });
 export const SHOP_LABELS = Object.freeze({ store: 'General store', carpenter: 'Carpenter', blacksmith: 'Blacksmith', gunsmith: 'Gunsmith', doctor: 'Doctor', tavern: 'Tavern', tanner: 'Tanner & saddler', wheelwright: 'Wheelwright', mill: 'Mill', weaver: 'Weaver', stockman: 'Stock pens' });
 /** Where a keeper stands: just in front of the door. */
 const DOOR = 0.012;
@@ -485,7 +485,7 @@ export function createShopkeepers(world, near) {
       keeper.townSiteId = settlementId;
       keeper.shopSpot = { x: at.x, y: place(at.y + DOOR) };
       keeper.location = { x: place(site.x + keeper.shopSpot.x), y: place(site.y + keeper.shopSpot.y), siteId: settlementId };
-      shops.push({ trade, keeperId: keeper.id, x: at.x, y: at.y, label: SHOP_LABELS[trade], ...(at.building ? { building: at.building } : { sprite: SHOP_SPRITES[trade] }) });
+      shops.push({ trade, keeperId: keeper.id, x: at.x, y: at.y, label: SHOP_LABELS[trade], sprite: SHOP_SPRITES[trade], ...(at.building ? { building: at.building } : {}) });
     });
     world.map.shops = { ...(world.map.shops || {}), [settlementId]: shops };
   }

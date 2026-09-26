@@ -25,6 +25,7 @@ const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [];
 mkdirSync('docs/evidence', { recursive: true });
+const screenshots = process.env.TOWNS_PROOF_SCREENSHOTS !== '0';
 
 try {
   const host = await (await browser.newContext({ viewport: { width: 1440, height: 950 } })).newPage();
@@ -43,11 +44,11 @@ try {
       keepersDrawn: (window.__snapshot.world.others || []).filter(e => e.townSiteId === town || e.location?.siteId === town).filter(e => window.__drawnAt?.[e.id]).length,
     }), id);
     observed[id] = seen;
-    await host.screenshot({ path: `docs/evidence/town-${id}.png` });
+    if (screenshots) await host.screenshot({ path: `docs/evidence/town-${id}.png` });
     // Closer in, where the documented buildings are named.
     for (let i = 0; i < 3; i++) await host.locator('[data-view=in]').click();
     await host.waitForTimeout(800);
-    await host.screenshot({ path: `docs/evidence/town-${id}-close.png` });
+    if (screenshots) await host.screenshot({ path: `docs/evidence/town-${id}-close.png` });
     assert.equal(seen.drawn, TOWN_LAYOUTS[id].buildings.length, `${id} drew ${seen.drawn} of ${TOWN_LAYOUTS[id].buildings.length} buildings`);
     // A town families are dealt near has keepers, each in a drawn building; the other places have none.
     assert.ok(seen.shops.every(shop => shop.building), `${id}'s keepers are not in drawn buildings`);
@@ -59,7 +60,7 @@ try {
     record: 'The towns of the colonies, drawn in a browser: docs/TOWNS.md §5b',
     date: new Date().toISOString().slice(0, 10), verdict: 'PASS',
     note: 'Same computer only. A 30-family class on the colonies map, served live; the Host page went to each drawn town from its Go to list. No LAN or district claim.',
-    checks: pass, observed, screenshots: Object.keys(TOWN_LAYOUTS).flatMap(id => [`docs/evidence/town-${id}.png`, `docs/evidence/town-${id}-close.png`]),
+    checks: pass, observed, screenshots: screenshots ? Object.keys(TOWN_LAYOUTS).flatMap(id => [`docs/evidence/town-${id}.png`, `docs/evidence/town-${id}-close.png`]) : [],
   }, null, 2)}\n`);
   console.log(`\n${pass.length} checks passed.`);
 } finally {

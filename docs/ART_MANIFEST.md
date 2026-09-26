@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1399 usable sprites, 103 PNG atlases, 493 clips** (267 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1402 usable sprites, 106 PNG atlases, 493 clips** (267 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -74,6 +74,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | animal-stock | 16 | 1254 × 1254 | 946031 |
 | home-furnishings | 16 | 1254 × 1254 | 1795581 |
 | home-interiors | 4 | 1254 × 1254 | 1850877 |
+| shop-blacksmith | 1 | 1536 × 1024 | 2331341 |
+| shop-wheelwright | 1 | 1536 × 1024 | 2401248 |
+| shop-tavern | 1 | 1536 × 1024 | 2369580 |
 | town-buildings-researched | 16 | 1254 × 1254 | 2122682 |
 | travel-markers | 16 | 1254 × 1254 | 1343435 |
 | trees-colonies-1 | 16 | 1254 × 1254 | 1626976 |
@@ -911,6 +914,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | interior-hewn-log | home-interiors | State artwork; no motion required |
 | interior-dog-run | home-interiors | State artwork; no motion required |
 | interior-jacal | home-interiors | State artwork; no motion required |
+| shop-blacksmith | shop-blacksmith | State artwork; no motion required |
+| shop-wheelwright | shop-wheelwright | State artwork; no motion required |
+| shop-tavern | shop-tavern | State artwork; no motion required |
 | building-frame-one-storey | town-buildings-researched | State artwork; no motion required |
 | building-frame-storey-half | town-buildings-researched | State artwork; no motion required |
 | building-frame-two-storey | town-buildings-researched | State artwork; no motion required |

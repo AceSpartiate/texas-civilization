@@ -812,10 +812,10 @@ drilling, going out for beef and corn, standing guard, riding with the scouts.
 
 ## Request 2026-09-16 — the shops of the towns
 
-**Status: open; the nearest buildings stand in.** The owner asked for towns that feel alive, with a shop per keeper and, in the towns
+**Status: in progress; blacksmith, wheelwright and tavern delivered 2026-09-26.** Their distinct transparent sprites are registered in `docs/ART_MANIFEST.md` and drawn on the existing keeper buildings in towns beyond Gonzales. The remaining seven trades still use nearest-building stand-ins. The owner asked for towns that feel alive, with a shop per keeper and, in the towns
 not already drawn, each keeper's own building ([TOWNS.md](TOWNS.md) §5a). In Gonzales each keeper uses a building already drawn;
-elsewhere each trade is the nearest building the library has: store `trading-house`, carpenter and wheelwright `timber-shop`,
-blacksmith `shed-open`, gunsmith `cabin-small`, doctor `house-hewn-log`, tavern `house-dog-run`, tanner and mill `storehouse`,
+elsewhere each remaining trade is the nearest building the library has: store `trading-house`, carpenter `timber-shop`,
+gunsmith `cabin-small`, doctor `house-hewn-log`, tanner and mill `storehouse`,
 weaver `cabin-weathered`, and since 2026-09-24 the stock pens (TOWNS.md §4d) `shed-open`, drawn in Gonzales as the open shed at
 the west edge of town (`gonzales-outbuilding-art-2`) and elsewhere as the next of a town's ordinary houses.
 
@@ -830,7 +830,7 @@ the west edge of town (`gonzales-outbuilding-art-2`) and elsewhere as the next o
   cloth on a line), `shop-carpenter` (a shed with planks and a sawhorse), and `shop-stockman` (added 2026-09-24: a rail pen with a
   horse or two and a cow inside, a snubbing post and a small shed at one corner). No lettering; a sign may be a picture.
 - **How it plugs in.** `SHOP_SPRITES` in `sim/shops.mjs` names the sprite a new town's shop is drawn as; replace each with its
-  `shop-*` frame once registered through `npm run build:art`. Gonzales keeps its own drawn buildings.
+  `shop-*` frame once registered through `npm run build:art`. Towns with documented building IDs keep their placement and identity while the trade sprite replaces the visual stand-in. Gonzales keeps its own drawn buildings.
 - **Check.** At the zoom a town's labels appear, each trade is told apart without its label.
 
 ## Request 2026-09-16 — the winter's icons

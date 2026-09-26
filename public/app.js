@@ -2853,7 +2853,7 @@ export function drawWorld(world) {
         // A town of the colonies from its research sketch (sim/town-layouts.mjs, docs/TOWNS.md §5b), its keepers' buildings named.
         const layout=TOWN_LAYOUTS[site.id],project=p=>camera.toScreen({x:site.x+p.x,y:site.y+p.y});
         if(ground)drawTownGround(ground,layout,project,camera.scale);
-        standing.push(...townDrawables(ctx,layout,project,camera.scale,Object.fromEntries((world.map?.shops?.[site.id]||[]).filter(shop=>shop.building).map(shop=>[shop.building,shop.label]))));
+        standing.push(...townDrawables(ctx,layout,project,camera.scale,Object.fromEntries((world.map?.shops?.[site.id]||[]).filter(shop=>shop.building).map(shop=>[shop.building,{ label: shop.label, sprite: shop.sprite }]))));
         window.__townsDrawn={...(window.__townsDrawn||{}),[site.id]:layout.buildings.length};
       }else if(site.id==='bexar'&&camera.scale>=200){
         // Scenic local feet around the existing, server-projected town. No new entities or travel shortcuts. Laid by the

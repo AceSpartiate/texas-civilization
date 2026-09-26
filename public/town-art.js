@@ -29,8 +29,8 @@ export function drawTownGround(ctx, layout, project, scale) {
 }
 
 /**
- * Every building as a drawable. `labels` names the buildings a shopkeeper keeps, by building id, from the map's own shops
- * (sim/shops.mjs); a building's own documented name shows otherwise. Names appear only when the town is close.
+ * Every building as a drawable. `labels` supplies a keeper's label and trade sprite by building id, from the map's own
+ * shops (sim/shops.mjs); a building's documented name and sprite show otherwise. Names appear only when the town is close.
  */
 /**
  * The drawables of a town are the same from one frame to the next while the camera stands still, so they are kept by what
@@ -64,9 +64,11 @@ function makeTownDrawables(ctx, layout, project, scale, labels) {
     return pieces;
   });
   return [...walls, ...layout.buildings.map(building => {
-    const p = project(townPoint(layout, building)), label = labels[building.id] || building.label;
+    const p = project(townPoint(layout, building)), shop = labels[building.id];
+    const label = typeof shop === 'string' ? shop : shop?.label || building.label;
+    const sprite = typeof shop === 'object' && shop?.sprite ? shop.sprite : building.sprite;
     return { y: p.y, draw: () => {
-      drawSprite(ctx, building.sprite, p.x, p.y, building.height * DRAWN_HEIGHT * pixelsPerFoot);
+      drawSprite(ctx, sprite, p.x, p.y, building.height * DRAWN_HEIGHT * pixelsPerFoot);
       // A keeper's trade shows as soon as the town does, as in Gonzales; a building's own documented name only close in,
       // where the names of a street of buildings no longer sit on top of each other.
       if (label && scale > (labels[building.id] ? 1000 : 2600)) {
