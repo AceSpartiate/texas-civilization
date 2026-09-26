@@ -15,9 +15,13 @@
 //
 // Nothing here depends on who came. Imports nothing from the director.
 //
-// Where: "twenty-six miles below San Patricio" (TSHA), the owner's choice of 2026-09-26 over Wikipedia's point near Banquete
-// (`HIST-TEX-512`): the walked road's twenty-sixth mile, a mile and a third short of its end, where Grant's men wait with the
-// horses. So the party sets out north at half past eight, not half past five, and the charge stays at half past ten.
+// Where: where the road south from San Patricio crosses the map's Agua Dulce Creek, about sixteen road miles out - the owner's
+// choice of 2026-09-26, "At the creek crossing, 16 mi" (`HIST-TEX-512`). The Handbook of Texas gives "twenty-six miles below San
+// Patricio" (the ground stood there for a day, on the owner's earlier choice) and Wikipedia's point is near Banquete, about ten
+// miles out (where the south's build first put it); the account and the charge's caption say all three. The ground is eleven
+// and a half miles short of the end of the walked road, where Grant's men wait with the horses, so the party sets out north at
+// ten to seven (half past eight while the ground stood at twenty-six miles, half past five near Banquete) and the charge stays
+// at half past ten.
 //
 // ceiling: the drive north from the end of the walked road to the ground is drawn in a straight line between the two, not
 //   along the road's own course; the road is within a mile of the line the whole way.
@@ -33,7 +37,8 @@ export function aguaDulceGround(world) {
   const south = { x: dx / span, y: dy / span }, side = { x: -south.y, y: south.x };
   const at = (s, n) => ({ x: ground.x + south.x * s + side.x * n, y: ground.y + south.y * s + side.y * n });
   // How far south of the ground the party is at half past nine: three and a fifth miles where the camp is far enough off (the
-  // ground near Banquete, a class saved before 2026-09-26), three quarters of the way out from it where the camp is close.
+  // ground at the creek crossing, or near Banquete in a class that fought there), three quarters of the way out from it where
+  // the camp is close (the ground at twenty-six miles, in a class that fought there on 2026-09-26).
   const lead = Math.min(3.2, span * 0.75);
   return {
     camp: { x: camp.x, y: camp.y },
@@ -90,16 +95,17 @@ export const AGUA_DULCE = Object.freeze({
   ],
   phases: [
     {
-      // 08:30 - 09:30. North from the end of the walked road with the horses, gathered and set moving. Watched at twenty
-      // minutes a tick. (05:30 - 09:30 until 2026-09-26, when the ground was twelve miles from San Patricio and not twenty-six.)
-      id: 'drive', minutes: 60, title: 'Driving the horses north', step: 20, quiet: true, claimId: 'HIST-TEX-511',
+      // 06:50 - 09:30. North from the end of the walked road with the horses, gathered and set moving: eight and a half miles at
+      // the herd's three miles an hour. Watched at twenty minutes a tick while a played family has a man with Grant (§2b.11).
+      // (05:30 - 09:30 with the ground near Banquete; 08:30 - 09:30 while it stood at the Handbook's twenty-six miles.)
+      id: 'drive', minutes: 160, title: 'Driving the horses north', step: 20, quiet: true, claimId: 'HIST-TEX-511',
       caption: 'South of the Nueces, Dr. James Grant’s party - about two dozen men - is driving several hundred horses north toward San Patricio. They do not know that Urrea has taken San Patricio three days before.',
-      texian: party({ keys: [[0, 'camp'], [60, 'herd-start']] }, { keys: [[0, 'camp'], [60, 'herd-start']] }, { keys: [[0, 'camp'], [60, 'herd-start']] }),
+      texian: party({ keys: [[0, 'camp'], [160, 'herd-start']] }, { keys: [[0, 'camp'], [160, 'herd-start']] }, { keys: [[0, 'camp'], [160, 'herd-start']] }),
       mexican: dragoons({ at: 'grove-east' }, { at: 'grove-west' }),
-      herd: { keys: [[0, 'camp'], [60, 'herd-ahead-start']], count: 300 },
+      herd: { keys: [[0, 'camp'], [160, 'herd-ahead-start']], count: 300 },
       lines: [
         say('ad-keep', 20, TEX, 'volunteer', 'reconstructed', 'Keep them bunched!'),
-        say('ad-sp', 45, TEX, 'volunteer', 'reconstructed', 'San Patricio by tonight.'),
+        say('ad-sp', 120, TEX, 'volunteer', 'reconstructed', 'San Patricio by tonight.'),
       ],
     },
     {
@@ -117,7 +123,7 @@ export const AGUA_DULCE = Object.freeze({
     {
       // 10:30 - 10:50. The charge from both groves; the men scatter; the chase. contact.
       id: 'ambush', minutes: 20, title: 'The dragoons come out of the trees', step: 1, contact: true, claimId: 'HIST-TEX-511',
-      caption: 'Between ten and eleven the dragoons charge out of both groves. The horses scatter; Grant’s men scatter too, and are ridden down one by one as they run. The Mexicans call that any who give up will be spared.',
+      caption: 'Between ten and eleven the dragoons charge out of both groves. The horses scatter; Grant’s men scatter too, and are ridden down one by one as they run. The Mexicans call that any who give up will be spared. (This telling puts the fight where the road south crosses Agua Dulce Creek, about sixteen miles below San Patricio. The Handbook of Texas says twenty-six miles below San Patricio; another account puts it near Banquete, about ten miles out.)',
       texian: party(
         { keys: [[0, 'ground'], [4, 'break-out'], [20, 'away']], style: 'rout', action: 'withdraw', face: 'away' },
         { keys: [[0, 'ground'], [8, 'cut']], style: 'rout', action: 'withdraw', face: 'away' },

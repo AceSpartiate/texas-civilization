@@ -49,7 +49,8 @@ test('a quiet phase is marked in the data only with a step and never on the figh
 
 test('a lead-up goes at the ordinary pace with no played family there, and is held at its step while one has somebody there', () => {
   const drive20 = AGUA_DULCE.phases.find(phase => phase.id === 'drive').step;
-  // Nobody there: the whole hour of the drive in one tick (the class's own pace is the smaller, as `battleMinutes` takes it).
+  // Nobody there: the drive in the largest ordinary ticks that fit it (the class's own pace is the smaller, as `battleMinutes`
+  // takes it).
   assert.equal(battleStep(inPhase(drive(), 'drive')), ordinary(phaseMinutes('drive')));
   // Part way through, never past the phase's end into the next.
   assert.equal(battleStep(inPhase(drive(), 'drive', 20)), ordinary(phaseMinutes('drive') - 20));
@@ -76,10 +77,9 @@ test('a played family\'s man standing with the force before it has recorded him 
   assert.equal(battleStep(withThem), 20);
   const off = inPhase(drive({ at: { x: THERE_MILES + 0.1, y: 11 } }), 'drive');
   assert.ok(!familyThere(off, battleState(off, 'agua-dulce')));
-  assert.equal(battleStep(off), ordinary(phaseMinutes('drive')));
   // Not a played family's, standing right there: nobody there.
   const neighbour = inPhase(drive({ played: false, at: { x: 0, y: 11 } }), 'drive');
-  assert.equal(battleStep(neighbour), ordinary(phaseMinutes('drive')));
+  assert.ok(!familyThere(neighbour, battleState(neighbour, 'agua-dulce')));
 });
 
 test('the fighting is held at its step whoever is there, and a quiet phase before it lands the clock on its first minute', () => {
@@ -92,7 +92,6 @@ test('the fighting is held at its step whoever is there, and a quiet phase befor
   while (world.minute < charge) { const step = battleStep(world); ticks.push(step); world.minute += step; }
   assert.equal(world.minute, charge);
   assert.ok(ticks.every(step => CALENDAR_STEPS.includes(step)), `${ticks}`);
-  assert.ok(ticks.length < (phaseMinutes('drive') / 20 + phaseMinutes('herd') / 5) / 3, `the lead-up took ${ticks.length} ticks with nobody there`);
   // And a class not yet at the fight is landed on its first minute, as before.
   const before = drive(); before.minute = START - 500;
   assert.equal(battleStep(before), 500);

@@ -104,12 +104,14 @@ function keepCreeks(map, built, ids) {
 }
 
 /**
- * The Agua Dulce ground where the owner put it on 2026-09-26 - the Handbook of Texas's "twenty-six miles below San Patricio",
- * not Wikipedia's point near Banquete (docs/BATTLES.md §2b) - for a class saved with the south before then: the ground, the
- * fords of the road south that moved with it, the two roads through it and the creeks round the new fords, from the built map.
- * Only while Grant's drive north has not begun: a class that has fought Agua Dulce keeps the ground it was fought on (its dead
- * lie there). Nothing else is touched and no save version moves - the class's map lacked nothing, it had the fight ten miles
- * out, and every home and every other place is what it was. Returns whether it changed anything.
+ * The Agua Dulce ground where the owner put it on 2026-09-26 - where the road south crosses the map's Agua Dulce Creek, about
+ * sixteen miles out ("At the creek crossing, 16 mi", docs/BATTLES.md §2b.12) - for a class saved with the south at either
+ * earlier ground: Wikipedia's point near Banquete, ten miles out, or the Handbook of Texas's twenty-six miles, where it stood
+ * for a day. Whichever it had, the ground, any ford of the road south that moved, the two roads through it and the creeks round
+ * it come from the built map. Only while Grant's drive north has not begun: a class that has fought Agua Dulce keeps the ground
+ * it was fought on (its dead lie there). Nothing else is touched and no save version moves - the class's map lacked nothing,
+ * it had the fight somewhere else on the same road, and every home and every other place is what it was. Returns whether it
+ * changed anything.
  * ceiling: a man standing at the old ground (nobody waits there; Grant's party is at the road's end) is at the moved one.
  */
 export function moveAguaDulce(world) {
@@ -202,19 +204,20 @@ export function grantRides(world, { beginTravel }) {
  * minute) it happens, chosen from those by a share that is always the same for this class and this man (`FIC-GONZ-435`).
  * The fate itself is the roll `fightSouth` makes; only the moment and the place are staged.
  */
+// Minutes from the first shot (the fight's first `contact` phase), so a lead-up retimed - Agua Dulce's drive, whenever its ground
+// moves - never moves a fate inside the fighting.
 const STAGED = Object.freeze({
   'san-patricio': {
-    // Night 0-120, the square 120-125, the houses 125-130, the last house 130-135, the prisoners after.
-    killed: [{ part: 'square', at: 122 }, { part: 'house-b', at: 129 }, { part: 'house-c', at: 131 }, { part: 'square', at: 132 }],
-    captured: [{ part: 'square', at: 125 }, { part: 'house-a', at: 125 }, { part: 'house-b', at: 130 }, { part: 'house-c', at: 130 }],
-    escaped: [{ part: 'back-door', at: 133 }],
+    // The square 0-5, the houses 5-10, the last house 10-15, the prisoners after (the night before is 120 minutes).
+    killed: [{ part: 'square', at: 2 }, { part: 'house-b', at: 9 }, { part: 'house-c', at: 11 }, { part: 'square', at: 12 }],
+    captured: [{ part: 'square', at: 5 }, { part: 'house-a', at: 5 }, { part: 'house-b', at: 10 }, { part: 'house-c', at: 10 }],
+    escaped: [{ part: 'back-door', at: 13 }],
   },
   'agua-dulce': {
-    // The drive 0-60, the last hour 60-120, the charge and the chase 120-140, the prisoners after (the drive was 0-240 until
-    // 2026-09-26, when the ground moved to the Handbook's twenty-six miles; the same minutes into the charge).
-    killed: [{ part: 'middle', at: 123 }, { part: 'middle', at: 127 }, { part: 'middle', at: 131 }, { part: 'middle', at: 136 }],
-    captured: [{ part: 'drag', at: 131 }],
-    escaped: [{ part: 'lead', at: 125 }],
+    // The charge and the chase 0-20, the prisoners after.
+    killed: [{ part: 'middle', at: 3 }, { part: 'middle', at: 7 }, { part: 'middle', at: 11 }, { part: 'middle', at: 16 }],
+    captured: [{ part: 'drag', at: 11 }],
+    escaped: [{ part: 'lead', at: 5 }],
   },
 });
 /** The roll `fightSouth` (sim/alamo.mjs) makes, exactly: so a man's fate is what it would have been before the engine. */
@@ -298,7 +301,7 @@ function keepFight(world, id, { beginTravel } = {}) {
       const staged = options[Math.floor(share(world, person.id, `${id}:moment`) * options.length)];
       battle.participants[person.id] = { householdId: person.householdId, joined: world.minute };
       // The engine's staged fate (sim/battle-stage.mjs `stageFate`, shared with Béxar): the roll, its unit, its minute.
-      stageFate(world, id, person.id, { fate, unit: staged.part, minute: battle.start + staged.at });
+      stageFate(world, id, person.id, { fate, unit: staged.part, minute: contactFrom + staged.at });
       person.service.fight = id;
       // Where the card says he is: in the town, or with the party at the creek.
       person.service.siteId = id;
@@ -467,6 +470,6 @@ export function southAccount(world, id, men) {
     : 'Why it ended so: Grant\'s men were few, on tired horses, busy with the herd and not expecting an enemy - they did not know Urrea had already taken San Patricio. The dragoons chose their ground and came out of cover; men on scattered horses could not stand against a charge.';
   const disputed = id === 'san-patricio'
     ? 'The accounts do not agree: the Handbook of Texas says the prisoners were taken to Matamoros, and one later account says they were all dead within three days. The date and hour differ too - three in the morning of the 27th, or half past three on the 26th.'
-    : 'The accounts do not agree on how many were with Grant (twenty-six, or about fifty) or exactly where the creek fight was. This telling puts it where the Handbook of Texas does, twenty-six miles below San Patricio on the road south; another account puts it near Banquete, only about ten miles out.';
+    : 'The accounts do not agree on how many were with Grant (twenty-six, or about fifty) or exactly where the creek fight was. This telling puts it where the road south crosses Agua Dulce Creek, about sixteen miles below San Patricio. The Handbook of Texas says twenty-six miles below San Patricio; another account puts it near Banquete, only about ten miles out.';
   return [happened, `What yours did: ${men.map(did).join(' ')}`, why, disputed].join('\n\n');
 }

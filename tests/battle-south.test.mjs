@@ -79,8 +79,9 @@ test('San Patricio is fought at three in the morning of February 27, Agua Dulce 
   assert.equal(hour(world, from(sp, 'surprise')), '2/27 3:00');
   assert.equal(from(sp, 'surprise'), momentOf(world, 'san-patricio'), 'the old moment and the fight disagree');
   assert.equal(hour(world, from(sp, 'yield') + 5), '2/27 3:15', 'over within a quarter of an hour');
-  // Half past eight since 2026-09-26: the ground is the Handbook's, a mile and a third from where Grant's men wait (it was 5:30).
-  assert.equal(hour(world, from(ad, 'drive')), '3/2 8:30');
+  // Ten to seven since 2026-09-26: the ground is at the creek crossing, eleven and a half miles from where Grant's men wait (it
+  // was 5:30 near Banquete, and 8:30 for the day it stood at the Handbook's twenty-six miles).
+  assert.equal(hour(world, from(ad, 'drive')), '3/2 6:50');
   assert.equal(hour(world, from(ad, 'ambush')), '3/2 10:30');
   assert.equal(from(ad, 'ambush'), momentOf(world, 'agua-dulce'), 'Agua Dulce is not at half past ten');
 });
@@ -266,6 +267,8 @@ test('afterwards the escaped ride for Goliad and the prisoners are marched south
     assert.ok(told, `${person.name}'s family was not told of ${fight}`);
     assert.match(told.text, /What happened:/); assert.match(told.text, /What yours did:/); assert.match(told.text, /Why it ended so:/);
     assert.match(told.text, /do not agree/, 'the disputes are not said');
+    // Where the creek fight is placed, and the two other placements, said plainly (owner, 2026-09-26; `HIST-TEX-512`).
+    if (fight === 'agua-dulce') assert.match(told.text, /where the road south crosses Agua Dulce Creek, about sixteen miles below San Patricio\. The Handbook of Texas says twenty-six miles below San Patricio; another account puts it near Banquete, only about ten miles out/, 'the account does not say where the fight is placed');
     assert.ok(told.text.includes(person.name));
     const said = fate.fate === 'killed' ? /killed/ : fate.fate === 'captured' ? /(prisoner|sent south toward Matamoros)/ : /(Goliad)/;
     assert.match(told.text, said);

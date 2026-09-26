@@ -23,8 +23,9 @@ const UNIT = [
     from: 'members.filter(one => fates[one] && fates[one].minute <= world.minute)', to: 'members.filter(one => fates[one])',
     test: SOUTH, expect: 'each man\'s fate is the roll it always was, lands at its own moment inside the fight, and is on no screen and in no report before' },
   { name: 'Agua Dulce kept at six in the morning', file: 'sim/directors.mjs',
-    // Both moments moved together, as the fight was dated before 2026-09-25 (the drive two hours before the charge since 2026-09-26).
-    from: "'agua-dulce-drive': 223710,\n  'agua-dulce': 223830,", to: "'agua-dulce-drive': 223440,\n  'agua-dulce': 223560,",
+    // Both moments moved together, as the fight was dated before 2026-09-25 (the drive three hours and forty minutes before the
+    // charge since the ground moved to the creek crossing, 2026-09-26).
+    from: "'agua-dulce-drive': 223610,\n  'agua-dulce': 223830,", to: "'agua-dulce-drive': 223340,\n  'agua-dulce': 223560,",
     test: SOUTH, expect: 'San Patricio is fought at three in the morning of February 27, Agua Dulce at half past ten on March 2, and the day never moves' },
   { name: 'the men are put in the force only after the first shot', file: 'sim/south.mjs',
     from: '  if (!state.over && world.minute < contactFrom) {', to: '  if (!state.over && world.minute >= contactFrom) {',
@@ -59,21 +60,29 @@ const UNIT = [
   { name: 'a family\'s man killed is still drawn at his work', file: 'public/battle-view.js',
     from: "    if (fell && since >= 0 && fell.fate !== 'escaped') {", to: "    if (fell && since >= 0 && fell.fate !== 'escaped' && fell.fate !== 'killed') {",
     test: VIEW, expect: 'a family\'s man is drawn in his part - asleep, in the house, giving up - and once his fate has come, in it' },
-  // The owner's decisions of 2026-09-26 (docs/BATTLES.md §2b.7, §2b.8).
-  { name: 'Agua Dulce kept at the point near Banquete, ten miles out', file: 'scripts/build-colonies-map.mjs',
-    from: "['agua-dulce', 'Agua Dulce Creek', 'ground', -97.81, 27.639,", to: "['agua-dulce', 'Agua Dulce Creek', 'ground', -97.84972, 27.8475,",
+  // The owner's decisions of 2026-09-26 (docs/BATTLES.md §2b.8, §2b.12). The ground's point is held by the record's points, the
+  // roads' lengths, the crossing of the creek and the door that moves an older class's ground to it: all four are the check
+  // written for it (the door's, because an older class's ground is then the built map's and is not moved).
+  ...[['the Handbook\'s twenty-six miles', '-97.81, 27.639'], ['the point near Banquete, ten miles out', '-97.84972, 27.8475']].map(([where, point]) => ({
+    name: `Agua Dulce kept at ${where}`, file: 'scripts/build-colonies-map.mjs',
+    from: "['agua-dulce', 'Agua Dulce Creek', 'ground', -97.81428, 27.7886,", to: `['agua-dulce', 'Agua Dulce Creek', 'ground', ${point},`,
     rebuild: true,
-    // The ground's point is held by the record's points, the roads' lengths, the Handbook's distance and the door that moves an
-    // older class's ground to it: all four are the check written for it.
     test: MAP, expect: [
       'San Patricio, the Agua Dulce ground and the end of the road south are places at the record\'s points',
       'the Nueces is crossed only at San Patricio, and the roads from Refugio and Goliad reach San Patricio and go on by Agua Dulce',
-      'the Agua Dulce ground is the Handbook\'s twenty-six miles below San Patricio on the road south, not the point near Banquete',
-      'a class saved with the south before the owner moved Agua Dulce has it moved at the save\'s door, unless its drive north has begun',
-    ] },
-  { name: 'a class saved with the old ground keeps it at the door', file: 'sim/south.mjs',
+      'the Agua Dulce ground is where the road south crosses Agua Dulce Creek, about sixteen miles below San Patricio',
+      'a class saved with the south at either earlier Agua Dulce ground has it moved at the save\'s door, unless its drive north has begun',
+    ] })),
+  { name: 'a class saved with an earlier ground keeps it at the door', file: 'sim/south.mjs',
     from: '  if (southWalkable(world)) return moveAguaDulce(world);', to: '  if (southWalkable(world)) return false;',
-    test: MAP, expect: 'a class saved with the south before the owner moved Agua Dulce has it moved at the save\'s door, unless its drive north has begun' },
+    test: MAP, expect: 'a class saved with the south at either earlier Agua Dulce ground has it moved at the save\'s door, unless its drive north has begun' },
+  { name: 'the account still puts the creek fight at the Handbook\'s twenty-six miles', file: 'sim/south.mjs',
+    from: 'This telling puts it where the road south crosses Agua Dulce Creek, about sixteen miles below San Patricio. The Handbook of Texas says twenty-six miles below San Patricio;',
+    to: 'This telling puts it where the Handbook of Texas does, twenty-six miles below San Patricio on the road south;',
+    test: SOUTH, expect: 'afterwards the escaped ride for Goliad and the prisoners are marched south; at the word each family is told in plain words, and nobody else' },
+  { name: 'a man\'s fate at Agua Dulce staged from the drive\'s start, so a longer drive puts it before the charge', file: 'sim/south.mjs',
+    from: '      stageFate(world, id, person.id, { fate, unit: staged.part, minute: contactFrom + staged.at });', to: '      stageFate(world, id, person.id, { fate, unit: staged.part, minute: battle.start + staged.at });',
+    test: SOUTH, expect: 'each man\'s fate is the roll it always was, lands at its own moment inside the fight, and is on no screen and in no report before' },
   { name: 'the prisoners are left standing at the end of the road south', file: 'sim/south.mjs',
     from: '        person.service.offMap = world.minute;\n', to: '',
     test: SOUTH, expect: 'the prisoners are seen marched away down the road south, then are gone from the map: not left standing at its end, and seen by nobody there' },
