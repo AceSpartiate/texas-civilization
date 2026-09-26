@@ -160,10 +160,10 @@
       "name": "Santa Anna's column is drawn beside the battle",
       "file": "sim/armies.mjs",
       "test": "tests/battle-san-jacinto.test.mjs",
-      "expect": "Santa Anna is brought before the wounded Houston on the 22nd: the prisoners' documented cry, both named, neither given words; his column is not drawn beside the battle",
+      "expect": "Santa Anna is brought before the wounded Houston on the 22nd: the prisoners' documented cry, both named, their words only the later telling; his column is not drawn beside the battle",
       "caught": true,
       "failed": [
-        "Santa Anna is brought before the wounded Houston on the 22nd: the prisoners' documented cry, both named, neither given words; his column is not drawn beside the battle"
+        "Santa Anna is brought before the wounded Houston on the 22nd: the prisoners' documented cry, both named, their words only the later telling; his column is not drawn beside the battle"
       ]
     },
     {

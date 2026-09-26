@@ -40,20 +40,22 @@ W. P. Smith's and Condelle's out of anonymous men).
 Yellow Rose's, so the audit's Castrillón row is `-561`; `-566` (Ruiz) is left free.
 
 **Evidence** (same computer only; not physical LAN or district acceptance).
-- `npm test`: 1,355 tests, 1,354 pass. The one failure is **main's**, not this branch's: `tests/movement.test.mjs` "the
-  simulation covers exactly the ground it did…" fails because `sim/appearance.mjs` now imports `../public/look-vocabulary.js`
-  (main e396a13, "Redesign parent appearance"); it fails on main the same way.
+- `npm test`: **1,360 of 1,360** after merging main at aeaa13e (main's quiet lead-ups and aftermaths, Agua Dulce at the creek
+  crossing). The merge put the famous people's entries on main's `quiet` phases, kept the corrected Grant caption, and made
+  this section of BATTLES.md §14 after main's §13.
 - New: `tests/famous-people.test.mjs` (14) and `tests/famous-people-view.test.mjs` (2); updated where the rules moved:
   `battle-stage`, `battle-south`, `battle-bexar`, `battle-alamo`, `battle-alamo-view`, `battle-coleto`, `battle-san-jacinto`,
   `asset-http` (the page's new module is served).
 - `npm run test:famous-people`: 17 checks at 1366x768 and 1024x768 (`docs/evidence/famous-people-browser.json`, screenshots
-  `test-results/famous-*.png`). The assault draws in 3.3 ms at its slowest 95th percentile; San Jacinto 29.9 ms, which is the
-  first frames that decode the new famous sheets (1.6-4.6 ms by phase after, `sanJacinto.frameMs.byPhase`).
+  `test-results/famous-*.png`). The assault draws in 2.0 ms at its slowest 95th percentile; San Jacinto 31.2 ms, which is the
+  first frames that decode the new famous sheets (1.6-4.6 ms by phase after, `sanJacinto.frameMs.byPhase`). Since main's quiet
+  phases, the proof puts a played family's man with Houston (in process, as the Alamo proof puts one in the garrison) so the
+  first day and the capture are held and watched.
 - `npm run test:famous-people-injections`: **18 of 18 caught** alone by the check written for each (15 unit, 3 browser;
   `docs/evidence/famous-people-injections.json`).
 - Re-run on this tree, all pass: `test:battle-alamo` 13, `-gonzales` 12, `-bexar` 15, `-south` 16, `-san-jacinto` 16,
   `-concepcion` 13, `-grass` 13, `-coleto` 17, `test:alamo-siege` 8, `test:gonzales-town` 10, `test:lesson` 33, `test:panels` 14.
-- The battle harnesses touched, unit gates re-run on this tree: `battle-injections` 29 of 29, `battle-alamo-injections` 29 of 29, `san-jacinto-injections` 35 of 35 (two `expect`s followed the renamed capture test), `battle-bexar-injections` 21 of 21, `battle-south-injections` 28 of 28, `battle-1835-injections` 32 of 32, `battle-coleto-injections` 27 of 27. Their browser gates were not re-run; the proofs they drive all pass (above). Two patterns re-aimed at the new code (`scripts/battle-injections.mjs`: the named
+- The battle harnesses touched, unit gates re-run on this tree: `battle-injections` 35 of 35, `battle-alamo-injections` 29 of 29, `san-jacinto-injections` 35 of 35 (two `expect`s followed the renamed capture test), `battle-bexar-injections` 21 of 21, `battle-south-injections` 31 of 31, `battle-1835-injections` 32 of 32, `battle-coleto-injections` 27 of 27. Their browser gates were not re-run; the proofs they drive all pass (above). Two patterns re-aimed at the new code (`scripts/battle-injections.mjs`: the named
   man's reconstructed words, the later lines sent early; `scripts/battle-alamo-injections.mjs`: Travis and Joe not drawn).
   Found in passing and **not** this branch's: `scripts/art-wiring-injections.mjs` has three patterns and
   `scripts/mounted-wiring-injections.mjs` one that are no longer in their files (hunting, `listeningOf`, `seatLayout`).
