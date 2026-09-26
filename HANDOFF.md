@@ -1,5 +1,71 @@
 # Claude handoff — Astra foundation
 
+## Battles on one engine, and the fight at Gonzales rebuilt on it — 2026-09-25, night (after a9dbc36; not released)
+
+Wave 1 of docs/BATTLES.md §5, owner-directed 2026-09-25 (*"when i try to watch a battle ... i see npc's just standing around
+... there's no smoke from the gunfire"*; *"build it for every conflict"*). docs/BATTLES.md §6 is the engine as built and how
+to add the next engagement.
+
+- **Research.** `docs/battle-research/gonzales.md` (Castañeda's own two reports, Macomb, Rusk, Mason, Smith, Taylor, TSHA;
+  46 KB): the timeline, the ground, the counts (Texians ~150–168, fifty mounted; ~100 dragoons, all mounted, never
+  dismounted), the parley's documented words, the cannon (brass six-pounder on cart wheels, scrap and slugs), the flag
+  (design documented; **whether it flew on Oct 2 disputed**), the Mexican loss (**0, 1 or 2, disputed**), the fog and no
+  recorded wind. Claims `HIST-TEX-470`–`-479`, `FIC-GONZ-415`–`-419` (upper halves of the reserved blocks, leaving
+  `-460`–`-469` and `-410`–`-414` to the town-before-the-fight build), engine rules `FIC-GONZ-445`–`-449`; `FIC-GONZ-023`
+  amended.
+- **The engine** (`sim/battle-stage.mjs`): engagements as checked data (the talk rules refuse a named man reconstructed
+  words), phases dated on the director's clock, state in `world.battles[id]` holding only who was in the force, alerted,
+  told and heard - the phase, places, fire, lines, shots and falls are recomputed from the minute, so a save reopens
+  mid-fight and an old save gains the record on its next tick. **No `saveVersion` bump.** `director.battle`/`frames` are
+  kept, their formations now read off the engine.
+- **Gonzales** (`sim/battles/gonzales.mjs`): eleven phases from 22:00 Oct 1 (over the river at Mrs. DeWitt's, Smith's
+  address) to 14:00 Oct 2 (home with the cannon): the march up in fog, the outpost at 3, the wait, the dawn skirmish with
+  the charge and the first gun, the lull, the parley (Smither, Castañeda, Moore - documented words only, each labelled with
+  its source), the cannon and the advance at the double, the dragoons riding off, the field. Director moments now dated from
+  it: `approach` 05:40 (was 06:00), `exchange` 08:40 (07:20), `withdrawal` 09:00 (08:40), `resolved` 09:40 (10:00); a new
+  `upriver-call` at 18:00 Oct 1. The macro-outcome is unchanged and depends on nobody.
+- **Pacing** (`battleMinutes` in `sim/military-pacing.mjs`, also on the invented map): the fighting from first light to the
+  field cleared is 36 ticks - **5:42 at Study, 2:24 at Brisk, 0:36 at Quick**; only ever slower; a Host jump refuses while it
+  is fought. Measured whole-class cost: the invented country 338 -> 371 ticks to its end (+5 min at Study); the real land
+  194 -> 245 ticks to the gathering (+8 min at Study), which includes the upriver call's longer night.
+- **Arriving in time** (`FIC-GONZ-446`): every path to "set out upriver and got there too late" closed - the call opens at
+  dusk and shuts per family when a walk could no longer reach the men before first light (a family reaching town later is
+  told so, never asked); the road ends with the men, not on the Mexican camp's point; the ford is crossed with them whatever
+  the river; nobody in the line can be ordered away (by hand; auto is guarded too) until they walk back to Gonzales with the
+  men. Participation is now `fought` for anybody in the line while it fired (was `present`) - glory 3, not 2.
+- **Viewers** (`FIC-GONZ-447`): the Host live, its camera following the field while it is fought (the delayed Host
+  reconstruction is gone); a family live only while one of its people is with the men; the town hears the gun in words
+  (`FIC-GONZ-417`: twice, never the rifles); nobody else anything, reconnect included.
+- **The card** (`FIC-GONZ-448`): the alert through the person before contact with **Watch** (frames the field and keeps the
+  fight framed as it moves until the student moves the camera; never over an open decision; never moves the camera by
+  itself); afterwards the account through the person - *What happened*, *What X did*, *Why it ended so*, what next - for a day
+  on the card and in the journal.
+- **The renderer** (`public/battle-view.js`, replacing `drawFormations`): dragoons mounted in ranks, Texians loose (measured
+  nearest-neighbour spread 0.32 against 0.026), every man on his own looping fire-and-load cycle, the officer's volley words,
+  flashes, smoke that gathers, lingers, drifts on the day's wind and thins, the gun served by three and fired at its dated
+  minutes, the parley, speech bubbles through `public/speech.js` at the moment of the tick each line is dated, generic
+  falling / wounded / carried (one Mexican hit at dawn is drawn helped back, wounded), a caption of the phase over the map, and
+  a family's own person posed in the force. Five stand-ins, each `stand-in:` in code and a row in docs/ART_REQUESTS.md
+  (request 2026-09-25 — battles). Battle drawing measured at 1.4–2.1 ms at its 95th percentile per frame.
+- **Tests.** New: `tests/battle-stage.test.mjs` (5), `tests/battle-arrival.test.mjs` (5), `tests/battle-viewers.test.mjs`
+  (4), `tests/battle-view.test.mjs` (5). Updated for the owner's new rules (the Host live, the town sees nothing, `fought`,
+  the call's words and window, the engine's phase names): battle-ground, battle-members, clock, decisions, glory, gonzales,
+  host-live, movement, outcome-news, upriver. `npm test`: **1203 pass, 0 fail (1184 before; the 15 tests the owner's new rules changed were updated, 19 added)**.
+- **Injections** (`npm run test:battle-injections`, `docs/evidence/battle-injections.json`): ****29 of 29 caught** by the check written for them - 19 unit injections, each failing its named test and no other in its file, and 10 browser injections, each failing the proof with its own message, among them the owner's own finding (every man fires once and freezes: *"no shot was fired between two moments of the dawn-skirmish by the Texians (0 -> 0)"*); clean runs before and after, every file restored byte for byte**.
+- **Browser** (same computer, headless Chrome): new `npm run test:battle-gonzales` - a class through the real join flow at
+  1366x768 and 1024x768 (**11 checks: the alert before contact and Watch framing the field; fire and smoke at all 8 sampled moments (Texian shots 16 -> 115, 15-102 puffs in view); loose 0.324 against ranks 0.026; 27 lines drawn including the parley's documented words; the family's man in the force firing; the Host live on the field; the town and the farm sent nothing before and after a reload; the town hearing the gun; the account**); `docs/evidence/battle-gonzales-browser.json`, screenshots
+  `test-results/battle-gonzales-*.png`. Re-run: PASS test:alamo-siege (8), test:lesson (33), test:panels, test:host-view, test:host-live (11; its spotlight check now asks for the field, not the town).
+- **Not done / limits**: the town before the fight is the other build's; the later engagements are wave 2; the staged fate
+  of a family's person inside a deadly battle is designed (§2.6) but not built; the dawn charge moves the whole Mexican
+  sample (40 of 100 in the record) and the fifty Texian horsemen are drawn on foot (`ceiling:`); a family's person fires in
+  the militia's poses (stand-in); `test:slice` was already failing at a9dbc36 (the family-creation curtain intercepts its
+  first click) and still does.
+- **For the owner to confirm**: `fought` for the man in the line (glory 3); the flag not drawn on the field (`FIC-GONZ-419`);
+  the hit dragoon shown wounded, not dead (`FIC-GONZ-418`); the town hearing the gun (`FIC-GONZ-417`); the Host's live view
+  replacing the delayed reconstruction; the call opening at dusk and shutting about 00:50 on the invented country (03:00 on
+  the real land, whose camp is nearer) instead of 22:00–06:00; the added class time; the crossing moment kept at 22:00 though the
+  crossing began about 19:00.
+
 ## Two owner decisions, and the column above the bar — 2026-09-25, late (after 817c104; not yet committed or released)
 
 - **Decided (owner): the ending counts coin held**, not coin gained - starting rich is an advantage, as it was historically.

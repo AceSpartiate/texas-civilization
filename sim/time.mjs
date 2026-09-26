@@ -6,6 +6,7 @@ import { advanceRelays, milesATick, progressTravel, validateWorld } from './worl
 import { groundLeft } from './travel.mjs';
 import { calendarMinutes } from './clock.mjs';
 import { attendedMilitary, militaryDecision, militaryJourney } from './military-pacing.mjs';
+import { liveBattles } from './battle-stage.mjs';
 
 export function resolveTimeJump(world, requestedMinutes) {
   if (!Number.isInteger(requestedMinutes) || requestedMinutes < 0 || requestedMinutes > 60 * 24 * 60) throw new Error('Time jump must be whole minutes, at most 60 days.');
@@ -18,6 +19,9 @@ export function resolveTimeJump(world, requestedMinutes) {
   const decision = militaryDecision(world);
   const travelling = attendedMilitary(world).find(person => militaryJourney(world, person));
   if (decision || travelling) return { requestedMinutes, advancedMinutes: 0, blockedBy: `military:${decision || travelling.id}`, eventId: null };
+  // A battle being fought is watched, never jumped over (docs/BATTLES.md §2.2): the jump refuses until it is over.
+  const fight = liveBattles(world)[0];
+  if (fight) return { requestedMinutes, advancedMinutes: 0, blockedBy: `battle:${fight.def.id}`, eventId: null };
   const limit = from + requestedMinutes;
   // A jump is made of ticks, and a tick may stand for more than twenty minutes of the calendar
   // on the real land (sim/clock.mjs). Somebody's arrival is still counted in the ticks their

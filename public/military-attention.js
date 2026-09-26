@@ -41,6 +41,21 @@ export function militaryNotices(world) {
         text: `At ${at}: the garrison is surrounded. You can look in on them. Watch for requests for couriers; offering to ride is a chance to leave, not a promise of being chosen.`, action: `Go to ${person.given || person.name}` });
     }
   }
-  // Decisions first, then quiet siege reminders. Stable order keeps the queue calm.
-  return notices.sort((a,b) => Number(a.kind === 'siege') - Number(b.kind === 'siege'));
+  // A fight a family's own person is going to or is in (docs/BATTLES.md §2.7): through that person, before contact, with
+  // Watch, which frames the camera on the field. Never put up over a decision that is open - the family's call, a rider
+  // standing with one of them, any question above - so it never stacks on something waiting for an answer.
+  const deciding = notices.length || world.request?.status === 'open' || meeting?.status === 'open';
+  const alert = world.battleAlert;
+  if (alert && !deciding && own.some(person => person.id === alert.entityId)) {
+    notices.push({ id: alert.id, entityId: alert.entityId, kind: 'battle', title: alert.title, text: alert.text, action: 'Watch', field: alert.field });
+  }
+  // Afterwards, the family's own person's account of it, in plain words (§2.8). The journal keeps it.
+  const account = world.battleAccount;
+  if (account) {
+    const person = own.find(one => one.id === account.entityId);
+    notices.push({ id: account.id, entityId: account.entityId, kind: 'account', title: account.title, text: account.text, action: `Go to ${person?.given || person?.name || 'them'}` });
+  }
+  // Decisions first, then the fight, then quiet reminders. Stable order keeps the queue calm.
+  const order = kind => (kind === 'siege' ? 3 : kind === 'account' ? 2 : kind === 'battle' ? 1 : 0);
+  return notices.sort((a, b) => order(a.kind) - order(b.kind));
 }

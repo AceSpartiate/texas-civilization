@@ -71,6 +71,8 @@
     "measure:screen": "node scripts/screen-measure.mjs",
     "test:creation-screen": "node scripts/creation-screen-proof.mjs",
     "study:creation": "node scripts/creation-overlap-study.mjs",
-    "test:panels": "node scripts/panels-browser-proof.mjs"
+    "test:panels": "node scripts/panels-browser-proof.mjs",
+    "test:battle-gonzales": "node scripts/battle-gonzales-browser-proof.mjs",
+    "test:battle-injections": "node scripts/battle-injections.mjs"
   }
 }

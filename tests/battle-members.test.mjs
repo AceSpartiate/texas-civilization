@@ -63,16 +63,18 @@ test('somebody who went upriver stands with the Texian force, not in the Mexican
   validateWorld(world);
 });
 
-test('when they set off home, the road starts where they are standing', () => {
+test('they come home with the men, and the road starts where they are standing', () => {
   const world = play('road-from-here', { 'hh-1': 'go-upriver' }, { until: TIMELINE.resolved + 40 });
   const person = world.entities[world.households['hh-1'].principalId];
   assert.equal(person.location.siteId, CAMP_SITE);
-  const stood = { x: person.location.x, y: person.location.y };
-  const camp = world.map.sites[CAMP_SITE];
-  assert.ok(apart(stood, camp) > 0.25, 'the fixture really does stand them away from the camp’s point');
-  applyAction(world, 'hh-1', { action: 'travel', entityId: person.id, destination: world.households['hh-1'].homeSiteId });
-  assert.deepEqual(person.travel.points[0], stood, 'the journey began somewhere they were not standing');
-  assert.deepEqual({ x: person.location.x, y: person.location.y }, stood, 'and they were drawn jumping there');
+  // With the men until they leave the field (sim/battle-stage.mjs `heldByBattle`): no order sends them off before it.
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'travel', entityId: person.id, destination: world.households['hh-1'].homeSiteId }), /with the men/);
+  let stood = null;
+  for (let tick = 0; tick < 40 && !person.travel; tick++) { stood = { x: person.location.x, y: person.location.y }; stepWorld(world); }
+  assert.ok(person.travel, 'they were never sent back to Gonzales with the men');
+  assert.equal(person.travel.to, 'gonzales', 'the men went back to Gonzales, and so do they');
+  // The step taken in the tick they set off is their own walk to the start of the road, not a jump.
+  assert.ok(apart(person.travel.points[0], stood) < 0.06, 'the journey began somewhere they were not standing');
   assert.ok(Math.abs(person.travel.distance - (person.travel.points.slice(1).reduce((sum, point, i) => sum + apart(point, person.travel.points[i]), 0))) < 1e-6, 'the distance is the road actually walked');
   validateWorld(world);
 });
@@ -82,16 +84,18 @@ test('the battle records who took part and how, and tells no client', () => {
   assert.equal(world.director.complete, true);
   const record = world.participation?.gonzales || {};
   const principal = id => world.households[id].principalId;
-  assert.equal(record[principal('hh-1')]?.role, 'present', 'standing at the camp while it happened');
+  // In the line when it fired (docs/BATTLES.md §2.6): since 2026-09-25 somebody who went up the river takes part, and the
+  // record says so. Standing in town with the food is still `supplied`.
+  assert.equal(record[principal('hh-1')]?.role, 'fought', 'in the line with the men while they fired');
   assert.equal(record[principal('hh-2')]?.role, 'supplied', 'carrying food that reached town, and no further');
   assert.equal(record[principal('hh-3')], undefined, 'a family that stayed home took part in nothing');
   assert.equal(Object.keys(record).length, 2);
   assert.ok(Object.values(record).every(entry => Number.isFinite(entry.minute) && world.households[entry.householdId]));
-  assert.ok(record[principal('hh-1')].minute >= TIMELINE.approach && record[principal('hh-1')].minute <= TIMELINE.withdrawal, 'present is stamped while it was happening');
-  // Nobody from a household fought at Gonzales: the call was to come with the supplies.
-  assert.ok(Object.values(record).every(entry => entry.role !== 'fought'));
+  assert.ok(record[principal('hh-1')].minute >= TIMELINE.approach && record[principal('hh-1')].minute <= TIMELINE.withdrawal, 'the fighting is stamped while it was happening');
+  // And the engine's own record of it is never on anybody's wire either.
+  assert.ok(Number.isFinite(world.battles.gonzales.participants[principal('hh-1')].fought));
 
-  const leak = /"participation"|"supplied"|"present"/;
+  const leak = /"participation"|"participants"|"supplied"|"present"|"fought"/;
   // Read as the class stood before its end: once it has ended the ending reveals every family's
   // part on purpose (sim/ending.mjs, docs/MONEY_AND_GLORY.md step 4), and tests/ending.test.mjs
   // proves the reveal waits for it.

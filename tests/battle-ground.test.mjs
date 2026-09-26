@@ -110,13 +110,18 @@ test('a household standing at Gonzales is actually sent the battle it is entitle
   const projection = projectWorld(world, anyone, 'student', { includeMap: false });
   assert.ok('battle' in projection, 'a student projection must carry the battle field');
 
-  const hostView = projectWorld(world, null, 'host', { includeMap: false });
-  assert.ok(hostView.battle, 'once the outcome is public the Host must receive the reconstruction');
-  for (const formation of hostView.battle.formations) {
-    assert.ok(Number.isFinite(formation.x) && Number.isFinite(formation.y),
-      `${formation.id} reached the Host without a drawable position`);
-    assert.ok(Math.hypot(formation.x - world.map.sites.gonzales.x, formation.y - world.map.sites.gonzales.y) < 12,
-      `${formation.id} reached the Host ${Math.hypot(formation.x - world.map.sites.gonzales.x, formation.y - world.map.sites.gonzales.y).toFixed(0)} miles from Gonzales; the Host frames the town and would draw it off-screen`);
+  // The Host watches it live, framed on the field (docs/BATTLES.md §2.1): sent while it is fought, at drawable places on
+  // Williams's land, with its camera told to go there.
+  const live = createGonzalesWorld('battle-ground-host', 5);
+  live.status = 'running';
+  for (let tick = 0; tick < 600 && live.director.battle.phase !== 'exchange'; tick++) stepWorld(live);
+  const hostView = projectWorld(live, null, 'host', { includeMap: false });
+  assert.ok(hostView.battle, 'the Host was not sent the fight while it was fought');
+  assert.equal(hostView.host.focus, 'battle', 'the Host\'s camera was not sent to the field');
+  const camp = live.map.sites['williams-camp'];
+  for (const side of hostView.battle.sides) {
+    assert.ok(Number.isFinite(side.x) && Number.isFinite(side.y), `${side.side} reached the Host without a drawable position`);
+    assert.ok(Math.hypot(side.x - camp.x, side.y - camp.y) < 3, `${side.side} reached the Host ${Math.hypot(side.x - camp.x, side.y - camp.y).toFixed(1)} miles from Williams's land`);
   }
 });
 

@@ -32,6 +32,7 @@ import { decodeLand, decodeOutside, decodeProvince, emptyMiddle, landWeights, li
 import { frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, wheelZoomFactor, worldAt, zoomAbout } from '/map-camera.js';
 const $ = selector => document.querySelector(selector);
 import { militaryNotices } from '/military-attention.js';
+import { createBattleView } from '/battle-view.js';
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
 let events;
@@ -42,6 +43,10 @@ window.__viewFormations = [];
 window.__camera = null;
 const motionProjection = new ProjectionMotion();
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+// The one battle renderer (public/battle-view.js, docs/BATTLES.md §3): drawn with the page's own art, and asked by
+// `drawFigure` which pose a family's own person in the force is in. Declared up here, above the page's first `connect`, so a
+// page opened in the middle of a fight has it (the TDZ guard in tests/app-module.test.mjs).
+const battleView = createBattleView({ animated: (...args) => animated(...args), drawSprite: (...args) => drawSprite(...args), miniPerson: (...args) => miniPerson(...args) });
 let animationTime = 0, previousFrame = 0, paintedFrame = 0, animationDrawMs = 0;
 // A traveller's cycle is played from their own place in their stride rather than the shared clock (public/motion.js `GaitClock`).
 const gaitClock = new GaitClock(), gaits = new Map();
@@ -759,6 +764,17 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
     ctx.beginPath(); ctx.ellipse(x, y, height * .42, height * .16, 0, 0, Math.PI * 2); ctx.stroke();
     ctx.setLineDash([]);
   }
+  // A family's own person in a fight, drawn doing what the force round them does - loading and firing at their own pace -
+  // at the place the server put them (public/battle-view.js `memberPose`, docs/BATTLES.md §2.6). Their name, their ring and
+  // their click are this function's, as for anybody.
+  const pose = entity.kind === 'person' ? battleView.memberPose(entity, animationTime) : null;
+  if (pose) {
+    const done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, size, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, size, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
+    if (!done) miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed });
+    if (marks.ground) battleView.memberDrawn(entity.id, marks.ground, size);
+    ctx.globalAlpha = alphaWas;
+    return;
+  }
   // The sheets all face right, so anyone walking west is mirrored. A rider who has
   // reined in is turned toward the person they are speaking to instead, which the server
   // works out from where the two of them actually are.
@@ -1049,50 +1065,44 @@ $('#interior-close')?.addEventListener('click', () => { interiorSiteId = null; c
 // The nearest figure within a fingertip (`nearestSpot`: reach neither grows with a zoomed-in ox nor shrinks below a finger),
 // where the camera now puts it.
 function entityAt(point) { return nearestSpot(drawnNow(drawnAt), point); }
-// Formation soldiers are visual samples of aggregate state, never duplicate person entities.
-let visibleBattlePhase = null, battleAnimationStart = 0;
-function drawFormations(ctx, battle, project, named, tick, figure = 16) {
-  const formations = battle?.formations || [];
-  const phaseKey = battle ? `${battle.phase}:${Boolean(battle.reconstruction)}` : null;
-  if (phaseKey !== visibleBattlePhase) { visibleBattlePhase = phaseKey; battleAnimationStart = animationTime; }
-  const phaseTime = Math.max(0, animationTime - battleAnimationStart);
-  for (const formation of formations) {
-    const center = project(formation), count = Math.min(24, Math.max(0, formation.count || 0));
-    // Capped: `figure` now grows with the zoom, and sampled formation members are a
-    // visual summary of a count, not individuals to be examined close up.
-    const size = Math.max(6, Math.min(30, figure * .8)), spacing = size * 1.35;
-    const identityOffset = stableOffset(formation.id);
-    for (let index = 0; index < count; index++) {
-      const column = index % 6, row = Math.floor(index / 6);
-      const x = center.x + (column - 2.5) * spacing + identityOffset.x * .08;
-      const y = center.y + row * spacing + identityOffset.y * .08;
-      const direction = formation.side === 'texian' ? 1 : -1;
-      const role = formation.side === 'texian' ? 'volunteer' : 'regular';
-      const marching = (battle.phase === 'approach' && formation.side === 'texian') || (battle.phase === 'withdrawal' && formation.side === 'mexican');
-      const clip = battle.phase === 'exchange' ? `${role}-fire-reload` : marching ? `${role}-march` : `${role}-idle-e`;
-      const shotTime = Math.max(0, phaseTime - (index % 6) * 110);
-      const drawn = animated(ctx, clip, x, y, size, `${formation.id}:${index}`, { flip: marching ? false : direction < 0, timeMs: battle.phase === 'exchange' ? shotTime : animationTime });
-      if (!drawn) miniPerson(ctx, x, y, size, { side: formation.side, flip: direction < 0 });
-      // One illustrative discharge per phase, never a frame callback or combat result.
-      if (battle.phase === 'exchange' && shotTime >= 700 && shotTime < 1840) {
-        const smokeTime = shotTime - 700;
-        if (smokeTime < 120) drawSprite(ctx, direction > 0 ? 'muzzle-flash-e' : 'muzzle-flash-w', x + direction * size * .7, y - size * .52, size * .3);
-        animated(ctx,'musket-smoke',x + direction * size*.8,y-size*.5,size*.6,0,{timeMs:smokeTime,alpha:1-smokeTime/1140});
-      }
-    }
-    if (formation.side === 'texian' && count) {
-      const gunX = center.x + spacing * 3.8, gunY = center.y + spacing;
-      const shotTime = phaseTime - 650, firing = battle.phase === 'exchange' && shotTime >= 0;
-      const gunSize = size * 1.65;
-      if (firing && shotTime < 900) animated(ctx,'cannon-iron-e-recoil',gunX,gunY,gunSize,0,{timeMs:shotTime});
-      else drawSprite(ctx,'cannon-iron-e',gunX,gunY,gunSize);
-      if (firing && shotTime < 1300) animated(ctx,'cannon-smoke',gunX+gunSize*.65,gunY-gunSize*.35,gunSize*.9,0,{timeMs:shotTime,alpha:1-shotTime/1300});
-    }
-    if (named) { ctx.fillStyle = '#405543'; ctx.font = '13px system-ui'; ctx.textAlign = 'center'; ctx.fillText(formation.side === 'mexican' ? 'Mexican troops' : 'Texian volunteers', center.x, center.y + Math.ceil(count / 6) * spacing + 12); }
+// Formation soldiers are visual samples of aggregate state, never duplicate person entities; they are drawn by
+// public/battle-view.js since 2026-09-25, which replaced `drawFormations` here.
+/**
+ * What is happening in the fight, in words, over the top of the map while it is fought: the phase's name and the server's
+ * caption for it (sim/battles/<id>.mjs). Drawn on the canvas, under every panel, so it never covers a control; a student
+ * who has only watched still has the sentence that says what they are watching (owner: "players should walk away
+ * understanding what happened").
+ */
+function drawBattleCaption(ctx, battle, canvas) {
+  const text = battle.caption || '', title = battle.title || '';
+  if (!text) return;
+  ctx.save();
+  const width = Math.min(560, canvas.width - 40);
+  ctx.font = '14px Georgia';
+  const words = text.split(/\s+/), lines = [];
+  let line = '';
+  for (const word of words) { const next = line ? `${line} ${word}` : word; if (line && ctx.measureText(next).width > width - 24) { lines.push(line); line = word; } else line = next; }
+  if (line) lines.push(line);
+  const height = 16 + (title ? 20 : 0) + lines.length * 18;
+  // Under whatever the page has at the top middle - the Host's spotlight banner, the guided start - never behind it.
+  const box = canvas.getBoundingClientRect(), k = canvas.height / (box.height || 1);
+  let top = 58;
+  for (const selector of ['#host-spotlight', '#lesson', '#lesson-resume']) {
+    const element = $(selector);
+    if (!element || element.hidden) continue;
+    const at = element.getBoundingClientRect();
+    if (at.height && at.left < box.left + (canvas.width / k + width / k) / 2 && at.right > box.left + (canvas.width / k - width / k) / 2) top = Math.max(top, (at.bottom - box.top) * k + 8);
   }
-  return formations.map(formation => formation.id);
-}
-export function visibleEntityIds(world, siteId = null) {
+  const left = (canvas.width - width) / 2;
+  ctx.fillStyle = 'rgba(251,246,234,.9)'; ctx.strokeStyle = '#8a7a58'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.roundRect ? ctx.roundRect(left, top, width, height, 7) : ctx.rect(left, top, width, height); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#2f2a1f'; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+  if (title) { ctx.font = 'bold 14px Georgia'; ctx.fillText(title, left + 12, top + 8); }
+  ctx.font = '14px Georgia';
+  lines.forEach((one, index) => ctx.fillText(one, left + 12, top + 8 + (title ? 20 : 0) + index * 18));
+  ctx.restore();
+  window.__battleCaption = { title, text, top, height };
+}export function visibleEntityIds(world, siteId = null) {
   return entitiesOf(world).filter(entity => !siteId || entity.location?.siteId === siteId).map(entity => entity.id);
 }
 // One map, one camera. The view follows the student's own household and widens when
@@ -1102,6 +1112,8 @@ export function visibleEntityIds(world, siteId = null) {
 // they are allowed to see: the camera moves over a projection the server already decided,
 // so looking somewhere is never a way of learning something.
 const MIN_EXTENT = 3.4;
+/** The least ground a fight is framed with, in miles across: both lines and the ground between, men big enough to see. */
+const BATTLE_EXTENT = 0.75;
 // `PERSON_MILES`, the symbolic size of a person in miles of ground (see `figure` in cameraFor), is imported from
 // sim/house-footprint.mjs, where the server works out from it the ground a house is drawn over.
 // How tall a person may be drawn at the closest zoom, in screen pixels: the camera must be able to get this close.
@@ -1192,6 +1204,8 @@ const houseScale = scale => { const size = Math.min(150, scale * PERSON_MILES) *
 // null means the camera follows the family. Dragging or zooming takes manual control
 // until the player presses Follow, so the view is never yanked away mid-gesture.
 let manualView = null;
+// The view Watch set on a fight's card, while it is still the view: the camera then frames the fight as it moves (`cameraFor`).
+let fieldWatch = null;
 /**
  * One of your own people, kept in the middle of the view.
  *
@@ -1253,7 +1267,13 @@ const clampTo = (value, limits) => Math.max(limits.min, Math.min(limits.max, val
 // The fighting stood about seven miles upriver of the ford (HIST-GONZ-008), so framing
 // it alongside the viewer's own people is what pulls the camera out far enough to hold
 // both. Without this the formations are drawn correctly and off-screen.
-const battlePoints = world => (world.battle?.formations || []).map(formation => ({ x: formation.x, y: formation.y }));
+/**
+ * The ground a fight is framed on: each side and the gun with room round them for their ranks and their smoke, and more
+ * above than below, because the top of the page carries the banner and the caption and the figures stand up from their feet.
+ */
+const fieldFrame = points => points.flatMap(point => [{ x: point.x - 0.13, y: point.y - 0.24 }, { x: point.x + 0.13, y: point.y + 0.1 }]);
+// Each side where it stands, and the gun (public/battle-view.js draws them there).
+const battlePoints = world => [...(world.battle?.sides || world.battle?.formations || []), ...(world.battle?.cannon ? [world.battle.cannon] : [])].map(point => ({ x: point.x, y: point.y }));
 function framingFor(world) {
   // The country outside the box (docs/MAP_ACCURACY.md §11) is drawn where it is, but it never frames a view: framing the
   // region on Matamoros, 250 miles south of the colonies, would shrink the settlements to nothing. The map still zooms out
@@ -1262,6 +1282,9 @@ function framingFor(world) {
   const fighting = battlePoints(world);
   if (world.role === 'host') {
     const focus = world.host?.focus;
+    // A fight being fought: the field itself, both sides and the ground between, with room round it for the smoke
+    // (docs/BATTLES.md §2.1). The town seven miles off is not in it.
+    if (focus === 'battle' && fighting.length) return { kind: 'battle', title: world.battle.name || 'The fight', points: fieldFrame(fighting) };
     if (['gonzales', 'reconstruction'].includes(focus)) {
       const town = world.map?.sites?.gonzales;
       const points = [...(town ? [town] : sites), ...fighting];
@@ -1290,14 +1313,15 @@ function framingFor(world) {
     ? { kind: 'journey', title: `${travelling[0].name} is travelling`, points }
     : { kind: 'home', title: familyCache?.name ? `${familyCache.name} land` : 'Your land', points };
 }
-function autoView(world, canvas) {
-  const framing = framingFor(world);
+function autoView(world, canvas, framing = framingFor(world)) {
   const points = framing.points.length ? framing.points : [{ x: 0, y: 0 }];
   let minX = Math.min(...points.map(p => p.x)), maxX = Math.max(...points.map(p => p.x));
   let minY = Math.min(...points.map(p => p.y)), maxY = Math.max(...points.map(p => p.y));
-  // A lone homestead must still show the ground around it rather than zooming forever.
-  const padX = Math.max((MIN_EXTENT - (maxX - minX)) / 2, (maxX - minX) * .18, .25);
-  const padY = Math.max((MIN_EXTENT * .56 - (maxY - minY)) / 2, (maxY - minY) * .18, .18);
+  // A lone homestead must still show the ground around it rather than zooming forever. A fight is framed close: its two
+  // sides a few hundred yards apart are the whole picture, and at a homestead's extent every man in it is a dot.
+  const extent = framing.kind === 'battle' ? BATTLE_EXTENT : MIN_EXTENT, least = framing.kind === 'battle' ? .05 : null;
+  const padX = Math.max((extent - (maxX - minX)) / 2, (maxX - minX) * .18, least ?? .25);
+  const padY = Math.max((extent * .56 - (maxY - minY)) / 2, (maxY - minY) * .18, least ?? .18);
   minX -= padX; maxX += padX; minY -= padY; maxY += padY;
   return {
     ...framing,
@@ -1320,13 +1344,17 @@ function cameraFor(world, canvas, now = performance.now()) {
     ? motionProjection.position(watched, now, reducedMotion.matches || world.status !== 'running')
     : null;
   const following = !manualView && !watched;
+  // Watch on a fight's card (docs/BATTLES.md §2.7): the fight framed as it moves - both sides, the gun and their smoke -
+  // for as long as the student leaves the view where Watch put it. A pan or a zoom makes a new view, and that wins.
+  const fieldView = !watched && fieldWatch && manualView === fieldWatch.view && world.battle?.sides
+    ? autoView(world, canvas, { kind: 'battle', title: world.battle.name || 'The fight', points: fieldFrame(battlePoints(world)) }) : null;
   const raw = at
     ? { cx: at.x, cy: at.y, scale: clampTo(Math.max(auto.scale, limits.max * .55), limits) }
-    : following ? auto : manualView;
+    : fieldView || (following ? auto : manualView);
   const scale = clampTo(raw.scale, limits);
   const { cx, cy } = clampCentre(raw.cx, raw.cy, scale, world, canvas);
   return {
-    ...auto, cx, cy, scale, following, limits,
+    ...(fieldView || auto), cx, cy, scale, following, limits,
     toScreen: p => ({ x: canvas.width / 2 + (p.x - cx) * scale, y: canvas.height / 2 + (p.y - cy) * scale }),
     toWorld: s => ({ x: cx + (s.x - canvas.width / 2) / scale, y: cy + (s.y - canvas.height / 2) / scale }),
     // Detail follows the camera instead of a mode switch, so one view serves both scales.
@@ -1563,7 +1591,7 @@ function installMapNavigation() {
 function applyMapView(action, { street = false, at = null } = {}) {
   const snapshot = window.__snapshot; if (!snapshot) return;
   const world = snapshot.world, canvas = $('#world-map');
-  if (action === 'follow') { manualView = null; stopWatching(); drawWorld(world); return; }
+  if (action === 'follow') { manualView = null; fieldWatch = null; stopWatching(); drawWorld(world); return; }
   const view = cameraFor(world, canvas);
   // Zooming or going somewhere leaves off watching, as the wheel and a drag do: watching beats a manual view in
   // `cameraFor`, so while somebody was watched these buttons changed nothing at all (found 2026-09-14).
@@ -3014,7 +3042,16 @@ export function drawWorld(world) {
     }
     return { id: army.id, side: army.side, ours: army.ours, strength: army.strength, how, boat, x: Math.round(at.x), y: Math.round(at.y) };
   });
-  window.__viewFormations = drawFormations(ctx, world.battle, camera.toScreen, camera.named, world.tick, camera.figure);
+  // The fight, if this page may watch one (public/battle-view.js; sim/battle-stage.mjs `projectBattle`): both sides as they
+  // fought, the fire, the smoke on the day's wind, the words, the cannon. It replaced `drawFormations` on 2026-09-25.
+  const fight = world.battle?.sides ? world.battle : null;
+  const fightWind = fight && weather ? weatherMix(weather, fight.sides[0].x, world.minute).wind : null;
+  window.__battleView = battleView.draw(ctx, fight, {
+    camera, time: animationTime, now: frameNow, tickMs: window.__snapshot?.tickMs ?? 1000, wind: fightWind,
+    reducedMotion: reducedMotion.matches, paused: world.status !== 'running', bounds: { width: canvas.width, height: canvas.height }, named: camera.named,
+  });
+  if (fight) drawBattleCaption(ctx, fight, canvas);
+  window.__viewFormations = fight ? fight.formations.map(formation => formation.id) : [];
   canvas.dataset.formationIds = window.__viewFormations.join(' ');
   window.__viewEntities = entities.map(entity => entity.id);
   // Where each figure was actually drawn this frame, and how tall it was drawn, in screen
@@ -3761,7 +3798,8 @@ function renderFamilyPanel(world) {
     if (row.idle.hidden !== !idle) row.idle.hidden = !idle;
     seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), idle, focused, auto: onAuto, autoSays: autoSays || null, autoWaiting: Boolean(onAuto && entity.autoTask?.waiting), reason: reason || null, why: silence || null, travelling: travelling || null });
     const visibleIcons = icons.filter(icon => icon.active || (icon.can && (!shutting || allowsIcon(lesson, icon))));
-    const visibleReason = visibleIcons.length ? null : travelling || reason || 'No actions available right now.';
+    // Somebody with the men in a fight says why nothing can be asked of them (sim/battle-stage.mjs `heldByBattle`).
+    const visibleReason = visibleIcons.length ? null : travelling || entity.held || reason || 'No actions available right now.';
     const key = JSON.stringify([visibleReason, travelling, visibleIcons, shutting ? [lesson.step, lesson.allow, pointed] : null]);
     if (row.iconsKey !== key) {
       row.iconsKey = key;
@@ -3908,7 +3946,9 @@ function renderHostLive(snapshot, host) {
       // The camera goes there once, zoomed in as a family's land is framed; anything the teacher does after wins.
       const canvas = $('#world-map'), view = cameraFor(snapshot.world, canvas);
       stopWatching();
-      manualView = { cx: shown.x, cy: shown.y, scale: clampTo(Math.max(view.scale, view.limits.max * .45), view.limits) };
+      // A fight's spotlight follows the fight instead (`framingFor`, focus `battle`): both sides stay in the frame as they
+      // move, which one fixed point at one zoom could not do across a charge and a withdrawal.
+      manualView = snapshot.world.host?.focus === 'battle' && snapshot.world.battle ? null : { cx: shown.x, cy: shown.y, scale: clampTo(Math.max(view.scale, view.limits.max * .45), view.limits) };
       window.__spotlightSeen = (window.__spotlightSeen || []).concat(shown.key);
     }
     if (!shown) hostLiveKeys.spotlight = null;
@@ -3940,7 +3980,7 @@ async function chooseFocus(id) {
 function goToPerson(id) {
   const world = window.__snapshot?.world;
   selectedId = id; selectionDismissed = false;
-  watchedId = id; manualView = null; panelExpanded = id;
+  watchedId = id; manualView = null; fieldWatch = null; panelExpanded = id;
   if (world) { drawWorld(world); renderFamilyPanel(world); renderSelection(world); renderTutorial(world); }
 }
 /** Where on the card each need is answered. A rider has a panel of their own. */
@@ -5360,12 +5400,30 @@ $('#military-go')?.addEventListener('click', async () => {
   if (!notice) return;
   militaryCollapsed = true;
   renderMilitaryNotice(world);
+  // Watch: the camera on the field, both sides in the frame when they are drawn (docs/BATTLES.md §2.7). Only ever on this
+  // press - the card itself never moves the camera, so it cannot take the view away mid-drag or mid-order.
+  if (notice.kind === 'battle') { watchField(world, notice.field); return; }
   const person = entitiesOf(world).find(one => one.id === notice.entityId);
   if (notice.entityId !== focusedId && person && !(person.age < 10) && !['dead', 'captured'].includes(person.health?.condition)) await chooseFocus(notice.entityId);
   goToPerson(notice.entityId);
-  if (notice.kind === 'siege') $('#selection-close')?.focus();
+  if (notice.kind === 'siege' || notice.kind === 'account') $('#selection-close')?.focus();
   else openNeed(notice.entityId);
 });
+/** The camera on a fight's field: both sides and the gun in the frame if they are drawn, or the field's middle close in. */
+function watchField(world, field) {
+  const canvas = $('#world-map'), view = cameraFor(world, canvas);
+  const points = world.battle ? battlePoints(world) : [];
+  stopWatching();
+  if (points.length) {
+    const framed = fieldFrame(points), xs = framed.map(p => p.x), ys = framed.map(p => p.y);
+    const width = Math.max(...xs) - Math.min(...xs), height = Math.max(...ys) - Math.min(...ys);
+    const scale = clampTo(Math.min(canvas.width / width, canvas.height / height), view.limits);
+    manualView = { cx: (Math.max(...xs) + Math.min(...xs)) / 2, cy: (Math.max(...ys) + Math.min(...ys)) / 2, scale };
+  } else if (field) manualView = { cx: field.x, cy: field.y, scale: clampTo(Math.max(view.scale, view.limits.max * .4), view.limits) };
+  fieldWatch = { view: manualView };
+  window.__watchedField = { at: performance.now(), view: { ...manualView } };
+  drawWorld(world);
+}
 let encounterOpen = false, lastEncounterId = null;
 /**
  * A conversation happens a line at a time.
@@ -5570,7 +5628,8 @@ function renderSlice(world) {
   $('#battle-info').dataset.phase = battle?.phase || '';
   $('#battle-caption').textContent = battle?.caption || '';
   $('#reconstruction-banner').hidden = !battle?.reconstruction;
-  $('#battle-phase').textContent = battle ? { gathering: 'People gather near Gonzales.', approach: 'The formations move into view.', exchange: 'An exchange of fire.', withdrawal: 'The formations move apart.', resolved: 'The encounter has ended.' }[battle.phase] || '' : '';
+  // What is being said, for a screen reader, since the words are drawn over the speakers on the canvas.
+  $('#battle-phase').textContent = battle ? `${battle.title || ''}${battle.lines?.length ? ` ${battle.lines.slice(-2).map(line => `${line.name ? `${line.name}: ` : ''}${line.text}${line.gloss ? ` (${line.gloss})` : ''}`).join(' ')}` : ''}`.trim() : '';
   $('#host-caption').textContent = world.host?.caption || '';
 }
 // The teacher's last resort, and the only place a family key leaves its own household.
@@ -5618,7 +5677,7 @@ function renderJoinLinks(snapshot) {
   }));
 }
 function render(snapshot) {
-  if (motionProjection.session !== snapshot.sessionId) { animationTime = 0; visibleBattlePhase = null; battleAnimationStart = 0; }
+  if (motionProjection.session !== snapshot.sessionId) { animationTime = 0; }
   // The kept ground is not thrown away here: it is drawn again when what it is drawn from changed (`groundInputs`), which a
   // render that only moved people did not.
   motionProjection.accept(snapshot, performance.now());

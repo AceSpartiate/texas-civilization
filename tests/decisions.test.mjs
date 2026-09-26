@@ -134,7 +134,8 @@ test('a march nobody answered is written down, and it names who was left standin
   const waiting = world.entities[march.actorId].name;
   for (let tick = 0; tick < 400 && world.minute < TIMELINE.approach + 60; tick++) stepWorld(world);
   assert.equal(world.marches['hh-1'].status, 'expired');
-  const said = world.events.filter(event => /crossed the river without/.test(event.text) && event.householdId === 'hh-1');
+  // Shut when a walk could no longer reach the men before first light (sim/directors.mjs `marchCloses`, `FIC-GONZ-446`), not at dawn.
+  const said = world.events.filter(event => /went up the river without/.test(event.text) && event.householdId === 'hh-1');
   assert.equal(said.length, 1);
   assert.ok(said[0].text.includes(waiting), `"${said[0].text}" does not name who was left`);
   assert.equal(said[0].actorId, march.actorId);

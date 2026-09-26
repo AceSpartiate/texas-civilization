@@ -18,6 +18,7 @@ import { dateOf } from './directors.mjs';
  */
 export const STORY_LINES = Object.freeze({
   'cannon-request': { told: 'a Mexican detachment came to the Guadalupe opposite Gonzales for the town\'s cannon, and the settlers would not give it up' },
+  'upriver-call': { told: 'the men at Gonzales gathered at the ferry at dusk to cross the Guadalupe with the cannon and go up the river after the Mexican camp' },
   'force-crossing': { told: 'the Texians crossed the Guadalupe in the night and went upriver after the Mexican camp' },
   'gonzales-outcome': { told: 'the Mexican detachment withdrew, and the Texians kept the cannon' },
   'goliad-taken': { told: 'the volunteers took the presidio at Goliad in the night, with its stores and arms' },

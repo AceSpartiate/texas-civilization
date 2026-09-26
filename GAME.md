@@ -243,18 +243,20 @@ The launched default advances 20 fictional minutes per one-second server tick. T
 | First household hears the cannon situation | 600 | 0:30 |
 | Initial news becomes public | 1440 | 1:12 |
 | People gather | 3000 | 2:30 |
-| Texian approach / request closes | 4680 | 3:54 |
-| Brief exchange | 4760 | 3:58 |
-| Mexican withdrawal | 4840 | 4:02 |
-| Historical outcome / eligible help consequence | 4920 | 4:06 |
-| Public outcome / Host reconstruction | 5400 | 4:30 |
+| The men gather at the ferry; the upriver call opens | 3960 | |
+| The men over the river; the fight on the engine begins | 4200 | |
+| Dawn skirmish (`approach`); requests close | 4660 | |
+| The cannon and the advance (`exchange`) | 4840 | |
+| Mexican withdrawal | 4860 | |
+| The field cleared: outcome, eligible help consequence (`resolved`) | 4900 | |
+| Public outcome | 5400 | |
 | Slice stops with state preserved | 5680 | 4:44 |
 
 These are prototype pacing values, not documented times of day or performance promises. Pauses and processing delays lengthen runtime. The interface shows a historical date derived from September 29, 1835 plus elapsed fictional minutes; the approach is dated October 2. Report ages still explain how long news took to arrive and how old its observation is.
 
-Households with a member at Gonzales can see the gathering and simple approach, exchange, withdrawal and resolution. The opposing formations consist of actual small drawn people generated from aggregate formation state. There is no tactical army-control game and no gore.
+Since 2026-09-25 the fight is staged on the battle engine (docs/BATTLES.md §6, `sim/battle-stage.mjs`, `sim/battles/gonzales.mjs`, `public/battle-view.js`): the men over the river at Mrs. DeWitt's, the march up the river in the fog, the outpost firing at three, the wait, the dawn skirmish and the charge, the lull, the parley between Castañeda and Moore, the cannon and the advance, the dragoons riding away, and the men home with the cannon by two - the dragoons drawn mounted in ranks, the Texians loose, every man on his own fire-and-load cycle, smoke that drifts on the day's wind, and words over the speakers. A household sees it live only while one of its people is with the men; the town seven miles off hears the gun in words. The clock is held for the fighting: about 5 minutes 42 seconds at the Study pace. A family's person sent up the river arrives before first light and fights, and is told afterwards what happened. There is no tactical army-control game and no gore.
 
-When outcome news later becomes public, the Host automatically changes focus and presents a clearly labeled delayed educational reconstruction using stored battle-phase samples. The teacher does not trigger Gonzales or move the camera through a presentation. This is a minimal public regional view plus reconstruction; a sophisticated Host Director, narration, sound and full debrief remain later work.
+The Host sees the fight live and its camera goes to the field for the fighting (it replaced the delayed reconstruction on 2026-09-25). The teacher does not trigger Gonzales or move the camera through a presentation. This is a minimal public regional view plus reconstruction; a sophisticated Host Director, narration, sound and full debrief remain later work.
 
 ## Preserving the story
 

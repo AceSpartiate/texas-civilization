@@ -1,0 +1,284 @@
+{
+  "record": "battle-injections",
+  "date": "2026-09-26",
+  "gates": {
+    "unit": "node --test tests/battle-*.test.mjs, the named test and no other",
+    "browser": "scripts/battle-gonzales-browser-proof.mjs"
+  },
+  "unit": [
+    {
+      "name": "the call shuts by a third of the walk, too late for a man answering at the last minute",
+      "file": "sim/directors.mjs",
+      "test": "tests/battle-arrival.test.mjs",
+      "expect": "answered at any time the call is open - even the last minute, on foot or on the horse - the man is with the men before first light, and fights",
+      "caught": true,
+      "failed": [
+        "answered at any time the call is open - even the last minute, on foot or on the horse - the man is with the men before first light, and fights"
+      ]
+    },
+    {
+      "name": "somebody reaching town after the call shut is asked anyway",
+      "file": "sim/directors.mjs",
+      "test": "tests/battle-arrival.test.mjs",
+      "expect": "once the call shuts it cannot be answered, and a family reaching town too late to catch the men is told so and never asked",
+      "caught": true,
+      "failed": [
+        "once the call shuts it cannot be answered, and a family reaching town too late to catch the men is told so and never asked"
+      ]
+    },
+    {
+      "name": "the river holds the man going with the men at the ford",
+      "file": "sim/world.mjs",
+      "test": "tests/battle-arrival.test.mjs",
+      "expect": "the river over the ford does not hold somebody going with the men: they crossed that night, and so does he",
+      "caught": true,
+      "failed": [
+        "the river over the ford does not hold somebody going with the men: they crossed that night, and so does he"
+      ]
+    },
+    {
+      "name": "a man in the line can be ordered home before it is over",
+      "file": "sim/world.mjs",
+      "test": "tests/battle-arrival.test.mjs",
+      "expect": "nobody with the men can be sent anywhere else until they come back with them",
+      "caught": true,
+      "failed": [
+        "nobody with the men can be sent anywhere else until they come back with them"
+      ]
+    },
+    {
+      "name": "a Host's time jump runs through the fight",
+      "file": "sim/time.mjs",
+      "test": "tests/battle-arrival.test.mjs",
+      "expect": "a Host's time jump stops at the fight and never passes it",
+      "caught": true,
+      "failed": [
+        "a Host's time jump stops at the fight and never passes it"
+      ]
+    },
+    {
+      "name": "a named man is given reconstructed words",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-stage.test.mjs",
+      "expect": "an engagement is checked when it loads: documented words carry a claim, a named man speaks nothing reconstructed, nobody falls who may not",
+      "caught": true,
+      "failed": [
+        "an engagement is checked when it loads: documented words carry a claim, a named man speaks nothing reconstructed, nobody falls who may not"
+      ]
+    },
+    {
+      "name": "the old dawn moment kept, so the director and the fight disagree about first light",
+      "file": "sim/directors.mjs",
+      "test": "tests/battle-stage.test.mjs",
+      "expect": "the fight stands on the director's clock: its phases date the old moments, and nothing moves the day",
+      "caught": true,
+      "failed": [
+        "the fight stands on the director's clock: its phases date the old moments, and nothing moves the day"
+      ]
+    },
+    {
+      "name": "an old save is never given the fight",
+      "file": "sim/directors.mjs",
+      "test": "tests/battle-stage.test.mjs",
+      "expect": "a class saved in the middle of the fight reopens in the middle of it, and an old save with no record of it gains one from the clock",
+      "caught": true,
+      "failed": [
+        "a class saved in the middle of the fight reopens in the middle of it, and an old save with no record of it gains one from the clock"
+      ]
+    },
+    {
+      "name": "the fight run at the farming clock's twenty minutes, as it was, over in two real minutes",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-stage.test.mjs",
+      "expect": "the fighting plays three to six real minutes at the Study pace on both maps, and the clock never runs faster for it",
+      "caught": true,
+      "failed": [
+        "the fighting plays three to six real minutes at the Study pace on both maps, and the clock never runs faster for it"
+      ]
+    },
+    {
+      "name": "a phase's later lines are sent before they are said",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-stage.test.mjs",
+      "expect": "a page is sent nothing that has not happened yet: no later line, shot, fall or phase",
+      "caught": true,
+      "failed": [
+        "a page is sent nothing that has not happened yet: no later line, shot, fall or phase"
+      ]
+    },
+    {
+      "name": "every family is sent the fight, wherever its people are",
+      "file": "sim/directors.mjs",
+      "test": "tests/battle-viewers.test.mjs",
+      "expect": "the Host and the families with somebody there watch it live; the town, the farm, a spectator and a reconnect are sent nothing",
+      "caught": true,
+      "failed": [
+        "the Host and the families with somebody there watch it live; the town, the farm, a spectator and a reconnect are sent nothing"
+      ]
+    },
+    {
+      "name": "the alert is put again every tick",
+      "file": "sim/directors.mjs",
+      "test": "tests/battle-viewers.test.mjs",
+      "expect": "the family whose man is going is alerted through him before contact, once; nobody else is",
+      "caught": true,
+      "failed": [
+        "the family whose man is going is alerted through him before contact, once; nobody else is"
+      ]
+    },
+    {
+      "name": "the town hears every shot of the gun, not the report once for each moment",
+      "file": "sim/directors.mjs",
+      "test": "tests/battle-viewers.test.mjs",
+      "expect": "the town hears the gun - twice, in words - and never the fight; the farm hears nothing",
+      "caught": true,
+      "failed": [
+        "the town hears the gun - twice, in words - and never the fight; the farm hears nothing"
+      ]
+    },
+    {
+      "name": "the account does not say why it ended as it did",
+      "file": "sim/directors.mjs",
+      "test": "tests/battle-viewers.test.mjs",
+      "expect": "afterwards the family is told through its man what happened, what he did and why it ended so, and the journal keeps it",
+      "caught": true,
+      "failed": [
+        "afterwards the family is told through its man what happened, what he did and why it ended so, and the journal keeps it"
+      ]
+    },
+    {
+      "name": "volunteers laid out on a grid",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view.test.mjs",
+      "expect": "volunteers are laid out loose and regulars in ranks, and no two loose men stand on one spot",
+      "caught": true,
+      "failed": [
+        "volunteers are laid out loose and regulars in ranks, and no two loose men stand on one spot"
+      ]
+    },
+    {
+      "name": "the smoke ignores the wind",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view.test.mjs",
+      "expect": "every man fires on his own cycle, again and again, and the smoke gathers, lingers, drifts with the wind and thins when the firing stops",
+      "caught": true,
+      "failed": [
+        "every man fires on his own cycle, again and again, and the smoke gathers, lingers, drifts with the wind and thins when the firing stops"
+      ]
+    },
+    {
+      "name": "the officer says nothing before a volley",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view.test.mjs",
+      "expect": "the officer gives the words of each volley, and every line is drawn over whoever said it at the moment the tick dated it",
+      "caught": true,
+      "failed": [
+        "the officer gives the words of each volley, and every line is drawn over whoever said it at the moment the tick dated it"
+      ]
+    },
+    {
+      "name": "a side the record forbids is drawn falling",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view.test.mjs",
+      "expect": "a fall is drawn where the record puts one, carried off after; a side that may not fall never does; a family's man fires with the force",
+      "caught": true,
+      "failed": [
+        "a fall is drawn where the record puts one, carried off after; a side that may not fall never does; a family's man fires with the force"
+      ]
+    },
+    {
+      "name": "the alert is put up over the family's open call",
+      "file": "public/military-attention.js",
+      "test": "tests/battle-view.test.mjs",
+      "expect": "the card: Watch through the family's own person before the fighting, never over an open decision, and the account after",
+      "caught": true,
+      "failed": [
+        "the card: Watch through the family's own person before the fighting, never over an open decision, and the account after"
+      ]
+    }
+  ],
+  "browser": [
+    {
+      "name": "no smoke: a shot leaves nothing behind",
+      "file": "public/battle-view.js",
+      "expect": "no smoke on screen",
+      "caught": true,
+      "failure": "no smoke on screen at 5750 in the dawn-skirmish: 0",
+      "checksPassedFirst": 2
+    },
+    {
+      "name": "the owner's finding: every man fires once and freezes",
+      "file": "public/battle-view.js",
+      "expect": "no shot was fired between two moments",
+      "caught": true,
+      "failure": "no shot was fired between two moments of the dawn-skirmish by the Texians (0 -> 0)",
+      "checksPassedFirst": 2
+    },
+    {
+      "name": "the Texians drawn in ranks like the Mexicans",
+      "file": "public/battle-view.js",
+      "expect": "the Texian spread is not looser",
+      "caught": true,
+      "failure": "the Texian spread is not looser than the Mexican ranks: undefined",
+      "checksPassedFirst": 3
+    },
+    {
+      "name": "nobody says anything",
+      "file": "public/battle-view.js",
+      "expect": "too few words were drawn",
+      "caught": true,
+      "failure": "too few words were drawn over the speakers: []",
+      "checksPassedFirst": 4
+    },
+    {
+      "name": "the family's person stands idle among the men firing",
+      "file": "public/battle-view.js",
+      "expect": "never fired",
+      "caught": true,
+      "failure": "the family's person never fired: [\"volunteer-idle-w\",\"volunteer-march\"]",
+      "checksPassedFirst": 5
+    },
+    {
+      "name": "the Host is not sent the fight",
+      "file": "sim/directors.mjs",
+      "expect": "the Host was not sent the fight live",
+      "caught": true,
+      "failure": "the Host was not sent the fight live: {\"focus\":\"battle\",\"camera\":\"region\",\"seen\":[\"gonzales-dawn:5740\",\"gonzales:5920\"]}",
+      "checksPassedFirst": 7
+    },
+    {
+      "name": "the town seven miles off is sent the fight",
+      "file": "sim/directors.mjs",
+      "expect": "the family in town was sent the battle",
+      "caught": true,
+      "failure": "the family in town was sent the battle",
+      "checksPassedFirst": 8
+    },
+    {
+      "name": "no alert",
+      "file": "sim/directors.mjs",
+      "expect": "no alert with Watch came",
+      "caught": true,
+      "failure": "no alert with Watch came through the person before the fighting",
+      "checksPassedFirst": 1
+    },
+    {
+      "name": "Watch does nothing",
+      "file": "public/app.js",
+      "expect": "Watch did not frame the field",
+      "caught": true,
+      "failure": "Watch did not frame the field: the camera is 1.92 miles from it",
+      "checksPassedFirst": 1
+    },
+    {
+      "name": "no account afterwards",
+      "file": "sim/directors.mjs",
+      "expect": "the account never appeared",
+      "caught": true,
+      "failure": "the account never appeared after the men left the field",
+      "checksPassedFirst": 10
+    }
+  ],
+  "cleanBrowserChecks": 11,
+  "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
+}
