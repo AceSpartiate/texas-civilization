@@ -1063,6 +1063,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
 
+## Released as v2026.09.25.7 — 2026-09-25
+
+**[v2026.09.25.7](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.25.7)**, from `a9b7a09`: the Come and Take It flag over the gun on the field at Gonzales, and "Come and take it!" shouted by unnamed volunteers at the dawn skirmish and the dragoons' withdrawal and called across the river by one of the eighteen on September 30 — all `tradition`, glossed as remembered later (owner: "have the flag be drawn, and have the men say it as a taunt of sorts"; `FIC-GONZ-419`, `HIST-TEX-469`, docs/BATTLES.md §2b.6). Verify tree: 1213 tests; battle-gonzales 12, gonzales-town 10. Six injections caught.
+
 ## Released as v2026.09.25.6 — 2026-09-25
 
 **[v2026.09.25.6](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.25.6)**, from `ad39ee2`: battles on one engine (`sim/battle-stage.mjs`, `public/battle-view.js`) with the Battle of Gonzales rebuilt on it (ranks against loose volunteers, looping fire and drifting smoke, the parley, arrival in time, Watch alert, Host live on the field, the account afterwards), and Gonzales before the fight (`sim/town-scenes.mjs`: 36 dated scenes, the flag, the cannon, the eighteen, clickable cards, walking residents). Verify tree: 1212 tests; battle-gonzales 11, gonzales-town 10, alamo-siege 8. Known: `test:slice` is stale (predates family creation and the Host-live rule) and fails; the later battles are wave 2, building.
