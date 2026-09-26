@@ -87,6 +87,9 @@ try {
   const icon = key => student.locator(`.panel-icon[data-entity-id="${person.id}"][data-key="${key}"]`);
   await icon('join-houston').waitFor({ state: 'visible', timeout: 30000 });
   await icon('join-houston').click();
+  // The order that puts him on a road asks first how he goes (docs/TOWNS.md §4b); the server's suggestion is taken.
+  const send = student.getByRole('button', { name: /^Send / });
+  if (await send.waitFor({ state: 'visible', timeout: 5000 }).then(() => true, () => false)) await send.click();
   await student.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.service?.kind === 'houston', person.id, { timeout: 180000 });
   observed.joined = { name: person.name, at: me().service.siteId, minute: world().minute };
   ok(`${person.name} was sent from the panel and joined Houston's army at ${world().map.sites[me().service.siteId].name}`);
