@@ -31,7 +31,10 @@ say this telling places it at the creek crossing, the Handbook gives twenty-six 
 saved with the ground near Banquete or at twenty-six miles is moved at the door until the drive begins (`moveAguaDulce`, unchanged;
 its test now covers both). docs/MAP_ACCURACY.md §13.7.
 
-**Evidence (same computer).** `npm test` 1343 of 1343 on the merged tree. New `tests/battle-quiet.test.mjs` (5), each seen failing on the old behaviour
+**Evidence (same computer).** `npm test` 1343 of 1343 on the tree merged with main at 9dfdcc9. Main moved again to e396a13 and was
+merged too: 1343 of 1344 there, the one failure main's own (`tests/movement.test.mjs` "the simulation covers exactly the ground it
+did": `sim/appearance.mjs` now imports `public/look-vocabulary.js`; this branch touches neither file). The proofs and harnesses below
+were run on the 9dfdcc9 merge. New `tests/battle-quiet.test.mjs` (5), each seen failing on the old behaviour
 by its injections in `scripts/battle-injections.mjs` (six added; the harness now takes a list when one mistake is rightly seen by
 two tests); `tests/south-map.test.mjs` failed against the old map (the ground, the roads, the crossing, the door at twenty-six
 miles). Tests updated for the pacing, and how: Coleto's march and viewer tests and San Jacinto's pacing and Santa Anna tests play the
