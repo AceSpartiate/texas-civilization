@@ -1536,6 +1536,202 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/shop-tavern.png",
       "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
       "review": "Two-bay gallery and benches distinguish it from a cabin; genuine alpha and no invented signage."
+    },
+    {
+      "sheet": "shop-mill",
+      "promptId": "frontier-v1/shop-mill",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "One transparent 1835 Texas horse-powered gristmill in the established buildings-atlas style: low log-and-timber mill house, wide doorway and visible millstone, simple wooden horse sweep, warm hand-inked outlines, elevated three-quarter view. No water wheel, lettering, people or scenery.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-dd3b7c3d-a26a-4033-b630-ef4fc1452351.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/shop-mill.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Millstone and horse sweep distinguish the mill from a storehouse; genuine alpha beyond the silhouette."
+    },
+    {
+      "sheet": "shop-tanner",
+      "promptId": "frontier-v1/shop-tanner",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "One transparent 1835 Texas tanner open-sided timber shed in the established buildings-atlas style: two stretched hides on frames, shallow bark-tanning pit and leather straps, warm hand-inked outlines, elevated three-quarter view. No people, lettering or scenery.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b44c762a-8bb4-42eb-a5c5-d77e27a2dcd3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/shop-tanner.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Hide frames and pit identify the trade; genuine alpha beyond the silhouette."
+    },
+    {
+      "sheet": "shop-weaver",
+      "promptId": "frontier-v1/shop-weaver",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "One transparent 1835 Texas weaver log shop in the established buildings-atlas style: broad open doorway with handloom and partly woven cloth, spinning wheel under the eave, short clothesline of dyed fabric, warm hand-inked outlines, elevated three-quarter view. No people, lettering or scenery.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9f2e2934-fc6d-4754-8c8d-9f7add36f8c7.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/shop-weaver.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Loom and cloth line identify the trade; genuine alpha beyond the silhouette."
+    },
+    {
+      "sheet": "shop-carpenter",
+      "promptId": "frontier-v1/shop-carpenter",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "One transparent 1835 Texas carpenter open timber shed in the established buildings-atlas style: broad bench, sawhorse, hand plane, rough planks and a half-built door, warm hand-inked outlines, elevated three-quarter view. No people, letters, modern tools or scenery.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-956bd971-c77b-4b52-9eb9-0c1622007571.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/shop-carpenter.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Planks and hand-work bench distinguish the trade from a generic shed; genuine alpha."
+    },
+    {
+      "sheet": "shop-gunsmith",
+      "promptId": "frontier-v1/shop-gunsmith",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "One transparent 1835 Texas gunsmith log shop in the established buildings-atlas style: low roof, open door, eave bench with period hand tools and flintlock long gun, pictorial rifle-shaped sign, warm hand-inked outlines, elevated three-quarter view. No forge, people, letters, modern firearms or scenery.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-30e49900-751a-4002-be92-0ede4f7b5b0e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/shop-gunsmith.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Workbench and pictorial musket sign distinguish it from the smithy; genuine alpha."
+    },
+    {
+      "sheet": "shop-doctor",
+      "promptId": "frontier-v1/shop-doctor",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "One transparent modest 1835 Texas doctor hewn-log office in the established buildings-atlas style: open doorway with simple table and medicine jars, tiny pictorial mortar-and-pestle shingle, warm hand-inked outlines, elevated three-quarter view. No red cross, people, letters or scenery.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a635faad-d623-4de7-a794-31c1a83d1be7.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/shop-doctor.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Mortar-and-pestle shingle and jars signal the medical role without an anachronistic red cross; genuine alpha."
+    },
+    {
+      "sheet": "shop-stockman",
+      "promptId": "frontier-v1/shop-stockman",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "One transparent 1835 Texas stockman rail pen in the established buildings-atlas style: rectangular split-rail enclosure, gate, snubbing post, trough and tiny shelter, open interior for separately animated livestock, warm hand-inked outlines, elevated three-quarter view. No baked-in animals, people, lettering or scenery.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-95351455-bb3d-4580-b830-b13220ed8857.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/shop-stockman.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Pen remains readable at town scale; empty interior reserves room for existing animated horse and cow actors rather than freezing animals into architecture."
+    },
+    {
+      "sheet": "town-mexican-river",
+      "promptId": "frontier-v1/town-mexican-river",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "One transparent compact 1835 northern Mexican river-town map vignette for Matamoros and Laredo: cluster of low flat-roofed adobe and stone buildings, restrained church tower, small stepped landing at bottom edge. Schematic rather than exact reconstruction; warm hand-inked textured frontier style, elevated three-quarter view. No Anglo log cabins, painted river, people, text or opaque background.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/town-buildings-researched.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-967a5949-c01d-444e-9532-fae18bbeac3e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/town-mexican-river.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "A schematic site-type illustration, not a historical reconstruction or a claim about exact buildings."
+    },
+    {
+      "sheet": "presidio-spanish",
+      "promptId": "frontier-v1/presidio-spanish",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "One transparent compact 1835 Spanish colonial presidio place-type vignette: modest square stone-and-adobe walled compound, visible corner bastion, courtyard, gate and mission church beside it. Schematic rather than exact reconstruction; warm hand-inked textured frontier style, elevated three-quarter view. No painted river, people, text or opaque background.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/town-buildings-researched.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7b326994-3daf-4af1-b3b2-bb40f963fe6b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/presidio-spanish.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "A schematic site-type illustration, not a historical reconstruction or a claim about exact buildings."
+    },
+    {
+      "sheet": "village-irish-colony",
+      "promptId": "frontier-v1/village-irish-colony",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "One transparent compact 1835 Irish-colony village vignette for San Patricio: modest jacales and log or plank houses around a small chapel on a low bluff. Schematic rather than exact reconstruction; warm hand-inked textured frontier style, elevated three-quarter view. No painted river, people, text or opaque background.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/town-buildings-researched.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-16b1147f-b2f9-4888-a951-7caa75726e6a.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/village-irish-colony.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "A schematic site-type illustration, not a historical reconstruction or a claim about exact buildings."
+    },
+    {
+      "sheet": "ferry-landing",
+      "promptId": "frontier-v1/ferry-landing",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "One transparent compact 1835 Gaines ferry landing vignette: cut earth bank, short plank ramp, small rough timber shed, stout rope post and crates. Schematic rather than exact reconstruction; warm hand-inked textured frontier style, elevated three-quarter view. No boat, painted water, people, text or opaque background.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/town-buildings-researched.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1d4ee230-298b-4067-a924-90bdb8af2b67.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/ferry-landing.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "A schematic site-type illustration, not a historical reconstruction or a claim about exact buildings."
+    },
+    {
+      "sheet": "gonzales-cannon-buried",
+      "promptId": "frontier-v1/gonzales-cannon-buried",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "prompt": "Edit the small brass Gonzales cannon barrel, preserving its design, colour, side-facing east view and transparency. Lower it into a shallow excavated hole so the lower half is concealed by freshly turned dark soil and only its upper half and muzzle are exposed. No wheels, carriage, people, trees, labels, scenery or opaque background.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-852a671e-3009-4e83-9d1b-c06b21e2d44c.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-36488c86-a194-4f9a-b589-6609d64f9b8f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-cannon-buried.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "The same brass barrel reads as half exposed from soil, not a field-carriage gun under a canvas ellipse."
+    },
+    {
+      "sheet": "gonzales-log-breastwork",
+      "promptId": "frontier-v1/gonzales-log-breastwork",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "One transparent 1835 Gonzales ferry-landing breastwork made only of low horizontally laid rough logs braced with short stakes, with small gaps for defenders. Warm hand-painted dark-brown ink outlines, elevated three-quarter view, wide low silhouette. No earth rampart, people, boats, cannon, text or opaque ground.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/fortifications.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a093533b-fd60-4726-8d0c-c779b239d7f9.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-log-breastwork.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "A log wall instead of the previous earth-rampart stand-in; genuine alpha."
+    },
+    {
+      "sheet": "gonzales-dugout-canoe",
+      "promptId": "frontier-v1/gonzales-dugout-canoe",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "One transparent 1835 Gonzales drawn-up hand-hewn dugout canoe, single hollowed log with uneven adze-cut interior and blunt ends, warm hand-painted dark-brown ink outlines, elevated three-quarter view. No plank skiff, rowboat, people, river water, text or opaque ground.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/transport.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5f75ef3b-3a2b-4afd-b0be-81b387f26ab7.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-dugout-canoe.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Hollow-log construction distinguishes it from the prior plank skiff; two scene instances remain separately placed."
     }
   ]
 }

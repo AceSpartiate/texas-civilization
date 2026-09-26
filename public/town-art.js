@@ -2,7 +2,7 @@
 //
 // The same data the server puts the shopkeepers in, so a keeper always stands at a building that is drawn. Streets and
 // squares go on the ground first; buildings are returned as drawables so they sort with the people standing among them.
-import { drawSprite } from '/art.js';
+import { drawClip, drawSprite } from '/art.js';
 import { drawRoad } from '/landscape-art.js';
 import { DRAWN_HEIGHT, FEET_PER_MILE, townPoint } from '/town-layouts.js';
 
@@ -68,7 +68,15 @@ function makeTownDrawables(ctx, layout, project, scale, labels) {
     const label = typeof shop === 'string' ? shop : shop?.label || building.label;
     const sprite = typeof shop === 'object' && shop?.sprite ? shop.sprite : building.sprite;
     return { y: p.y, draw: () => {
-      drawSprite(ctx, sprite, p.x, p.y, building.height * DRAWN_HEIGHT * pixelsPerFoot);
+      const height = building.height * DRAWN_HEIGHT * pixelsPerFoot;
+      if (sprite === 'shop-stockman') {
+        // Living stock are separate from the pen art. Draw them behind its front rail so neither animal is frozen into
+        // the structure, and let each existing grazing clip run at a stable, different phase.
+        const timeMs = performance.now();
+        drawClip(ctx, 'horse-graze', p.x - height * .34, p.y - height * .23, height * .27, { timeMs, seed: `${building.id}-horse` });
+        drawClip(ctx, 'cow-graze', p.x + height * .21, p.y - height * .19, height * .23, { timeMs, seed: `${building.id}-cow` });
+      }
+      drawSprite(ctx, sprite, p.x, p.y, height);
       // A keeper's trade shows as soon as the town does, as in Gonzales; a building's own documented name only close in,
       // where the names of a street of buildings no longer sit on top of each other.
       if (label && scale > (labels[building.id] ? 1000 : 2600)) {

@@ -3,8 +3,8 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 106,
-    "sprites": 1402,
+    "sheets": 120,
+    "sprites": 1416,
     "clips": 493,
     "poseCycles": 267,
     "rigs": 4
@@ -4411,6 +4411,117 @@
         ]
       }
     },
+    "gonzales-cannon-buried": {
+      "image": "atlases/gonzales-cannon-buried.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1652878,
+      "sha256": "528a6c103af5044fbe7b39d8f80586c5bbf283ac5b40ab7dce586e79f98a6018",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.69696,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              329,
+              849
+            ],
+            "columns": [
+              [
+                26,
+                1501
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "gonzales-log-breastwork": {
+      "image": "atlases/gonzales-log-breastwork.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1221292,
+      "sha256": "c78793d2bedae79fa853d2cea7f82ea348ac2d4fb22207952706726114781c66",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.678483,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              271,
+              713
+            ],
+            "columns": [
+              [
+                8,
+                1762
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "gonzales-dugout-canoe": {
+      "image": "atlases/gonzales-dugout-canoe.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2208839,
+      "sha256": "9ef57219feac85bff990f53439a7077971d506e802b1dc8580e805f1fba2f66a",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.605344,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              111,
+              958
+            ],
+            "columns": [
+              [
+                27,
+                1504
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "house-modules": {
       "image": "atlases/house-modules.png",
       "width": 1448,
@@ -5593,6 +5704,154 @@
         ]
       }
     },
+    "town-mexican-river": {
+      "image": "atlases/town-mexican-river.png",
+      "width": 1426,
+      "height": 1103,
+      "bytes": 1719481,
+      "sha256": "40d84c29f77efe741e7fc88ce212a9a8674ce76c2b227580c68968ec5f46a1e3",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.596445,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              143,
+              991
+            ],
+            "columns": [
+              [
+                46,
+                1381
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "presidio-spanish": {
+      "image": "atlases/presidio-spanish.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2103476,
+      "sha256": "a0976bc094ca37405bb7cc0447906da87957b060ce88bf6bdf3bd33810d6cff9",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.623217,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              172,
+              814
+            ],
+            "columns": [
+              [
+                40,
+                1493
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "village-irish-colony": {
+      "image": "atlases/village-irish-colony.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2454172,
+      "sha256": "b6b7b34a8d1a9a426f57c7a2d3dc0c5bcde63c190208f8f50d276b0995a8bdda",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.5717,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              142,
+              948
+            ],
+            "columns": [
+              [
+                89,
+                1487
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "ferry-landing": {
+      "image": "atlases/ferry-landing.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2091884,
+      "sha256": "ca31fb4c95d21b809f3b560ec51fcb79ccc40e9f8dd8557aa3c55e30e2ef3151",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.649968,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              73,
+              969
+            ],
+            "columns": [
+              [
+                141,
+                1374
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "ox-packed": {
       "image": "atlases/ox-packed.png",
       "width": 1254,
@@ -6732,6 +6991,265 @@
               [
                 99,
                 1474
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "shop-mill": {
+      "image": "atlases/shop-mill.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1832816,
+      "sha256": "a47fc31df5dd6032108608742bf3cf5b44440edd9e88a9903219c9b9f10ee691",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.698095,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              188,
+              839
+            ],
+            "columns": [
+              [
+                124,
+                1431
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "shop-tanner": {
+      "image": "atlases/shop-tanner.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2504300,
+      "sha256": "28ab986328b1794776b365ff3725ece66f1de982b54f8a6e0e576d3cfde74469",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.496519,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              79,
+              936
+            ],
+            "columns": [
+              [
+                156,
+                1452
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "shop-weaver": {
+      "image": "atlases/shop-weaver.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2294523,
+      "sha256": "ef34556849d5d86679c5ff321043cc221daf59710c4a1cbcdf46ec35006fd3e5",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.556852,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              110,
+              876
+            ],
+            "columns": [
+              [
+                155,
+                1474
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "shop-carpenter": {
+      "image": "atlases/shop-carpenter.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2437325,
+      "sha256": "51fdd0c3819875315576d8cb72a8c8f21dff5cdc7e8cd256e3f923665e6d62c9",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.486523,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              102,
+              929
+            ],
+            "columns": [
+              [
+                142,
+                1405
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "shop-gunsmith": {
+      "image": "atlases/shop-gunsmith.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2035238,
+      "sha256": "f0f09307454e71d88718f53aac412ff9585a982c95940e73b203b0a428bd7aab",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.603477,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              136,
+              852
+            ],
+            "columns": [
+              [
+                258,
+                1431
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "shop-doctor": {
+      "image": "atlases/shop-doctor.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2118390,
+      "sha256": "6402f99abaf28278390c5db88d1bb59f4866de1068ea218ec6715b4ffeba523f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.555614,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              117,
+              891
+            ],
+            "columns": [
+              [
+                223,
+                1339
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "shop-stockman": {
+      "image": "atlases/shop-stockman.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1863839,
+      "sha256": "03afc074c843d8cb30bf7fa3caa2f845b9b35ee6c9403b89c6ae115976605141",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.67724,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              186,
+              813
+            ],
+            "columns": [
+              [
+                49,
+                1497
               ]
             ]
           }
@@ -29388,6 +29906,102 @@
       "locationKits": [],
       "promptId": "frontier-v1/flag-come-and-take-it"
     },
+    "gonzales-cannon-buried": {
+      "sheet": "gonzales-cannon-buried",
+      "x": 26,
+      "y": 329,
+      "w": 1475,
+      "h": 520,
+      "anchorX": 0.5525,
+      "anchorY": 0.9288,
+      "label": "gonzales cannon buried",
+      "kind": "gonzales-cannon-buried",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          28,
+          331,
+          1471,
+          516
+        ],
+        "visiblePixels": 452803,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-cannon-buried.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-cannon-buried"
+    },
+    "gonzales-log-breastwork": {
+      "sheet": "gonzales-log-breastwork",
+      "x": 8,
+      "y": 271,
+      "w": 1754,
+      "h": 442,
+      "anchorX": 0.5975,
+      "anchorY": 0.9299,
+      "label": "gonzales log breastwork",
+      "kind": "gonzales-log-breastwork",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          10,
+          273,
+          1750,
+          438
+        ],
+        "visiblePixels": 484230,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-log-breastwork.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-log-breastwork"
+    },
+    "gonzales-dugout-canoe": {
+      "sheet": "gonzales-dugout-canoe",
+      "x": 27,
+      "y": 111,
+      "w": 1477,
+      "h": 847,
+      "anchorX": 0.7891,
+      "anchorY": 0.9386,
+      "label": "gonzales dugout canoe",
+      "kind": "gonzales-dugout-canoe",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          29,
+          113,
+          1473,
+          843
+        ],
+        "visiblePixels": 598977,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-dugout-canoe.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-dugout-canoe"
+    },
     "house-round-sill": {
       "sheet": "house-modules",
       "x": 29,
@@ -34368,6 +34982,134 @@
       "locationKits": [],
       "promptId": "frontier-v1/steamboat-laden"
     },
+    "town-mexican-river": {
+      "sheet": "town-mexican-river",
+      "x": 46,
+      "y": 143,
+      "w": 1335,
+      "h": 848,
+      "anchorX": 0.6315,
+      "anchorY": 0.9292,
+      "label": "town mexican river",
+      "kind": "town-mexican-river",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          48,
+          145,
+          1331,
+          844
+        ],
+        "visiblePixels": 611857,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/town-mexican-river.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/town-mexican-river"
+    },
+    "presidio-spanish": {
+      "sheet": "presidio-spanish",
+      "x": 40,
+      "y": 172,
+      "w": 1453,
+      "h": 642,
+      "anchorX": 0.1094,
+      "anchorY": 0.9299,
+      "label": "presidio spanish",
+      "kind": "presidio-spanish",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          42,
+          174,
+          1449,
+          638
+        ],
+        "visiblePixels": 580736,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/presidio-spanish.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/presidio-spanish"
+    },
+    "village-irish-colony": {
+      "sheet": "village-irish-colony",
+      "x": 89,
+      "y": 142,
+      "w": 1398,
+      "h": 806,
+      "anchorX": 0.485,
+      "anchorY": 0.9293,
+      "label": "village irish colony",
+      "kind": "village-irish-colony",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          91,
+          144,
+          1394,
+          802
+        ],
+        "visiblePixels": 655391,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/village-irish-colony.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/village-irish-colony"
+    },
+    "ferry-landing": {
+      "sheet": "ferry-landing",
+      "x": 141,
+      "y": 73,
+      "w": 1233,
+      "h": 896,
+      "anchorX": 0.8017,
+      "anchorY": 0.9297,
+      "label": "ferry landing",
+      "kind": "ferry-landing",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          143,
+          75,
+          1229,
+          892
+        ],
+        "visiblePixels": 533806,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ferry-landing.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/ferry-landing"
+    },
     "ox-packed-walk-e-1": {
       "sheet": "ox-packed",
       "x": 16,
@@ -38673,6 +39415,230 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/shop-tavern"
+    },
+    "shop-mill": {
+      "sheet": "shop-mill",
+      "x": 124,
+      "y": 188,
+      "w": 1307,
+      "h": 651,
+      "anchorX": 0.5226,
+      "anchorY": 0.9293,
+      "label": "shop mill",
+      "kind": "shop-mill",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          126,
+          190,
+          1303,
+          647
+        ],
+        "visiblePixels": 460388,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/shop-mill.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/shop-mill"
+    },
+    "shop-tanner": {
+      "sheet": "shop-tanner",
+      "x": 156,
+      "y": 79,
+      "w": 1296,
+      "h": 857,
+      "anchorX": 0.6323,
+      "anchorY": 0.93,
+      "label": "shop tanner",
+      "kind": "shop-tanner",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          158,
+          81,
+          1292,
+          853
+        ],
+        "visiblePixels": 748283,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/shop-tanner.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/shop-tanner"
+    },
+    "shop-weaver": {
+      "sheet": "shop-weaver",
+      "x": 155,
+      "y": 110,
+      "w": 1319,
+      "h": 766,
+      "anchorX": 0.569,
+      "anchorY": 0.9295,
+      "label": "shop weaver",
+      "kind": "shop-weaver",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          157,
+          112,
+          1315,
+          762
+        ],
+        "visiblePixels": 680385,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/shop-weaver.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/shop-weaver"
+    },
+    "shop-carpenter": {
+      "sheet": "shop-carpenter",
+      "x": 142,
+      "y": 102,
+      "w": 1263,
+      "h": 827,
+      "anchorX": 0.6639,
+      "anchorY": 0.942,
+      "label": "shop carpenter",
+      "kind": "shop-carpenter",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          144,
+          104,
+          1259,
+          823
+        ],
+        "visiblePixels": 794252,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/shop-carpenter.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/shop-carpenter"
+    },
+    "shop-gunsmith": {
+      "sheet": "shop-gunsmith",
+      "x": 258,
+      "y": 136,
+      "w": 1173,
+      "h": 716,
+      "anchorX": 0.4233,
+      "anchorY": 0.9455,
+      "label": "shop gunsmith",
+      "kind": "shop-gunsmith",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          260,
+          138,
+          1169,
+          712
+        ],
+        "visiblePixels": 609488,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/shop-gunsmith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/shop-gunsmith"
+    },
+    "shop-doctor": {
+      "sheet": "shop-doctor",
+      "x": 223,
+      "y": 117,
+      "w": 1116,
+      "h": 774,
+      "anchorX": 0.448,
+      "anchorY": 0.9289,
+      "label": "shop doctor",
+      "kind": "shop-doctor",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          225,
+          119,
+          1112,
+          770
+        ],
+        "visiblePixels": 687295,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/shop-doctor.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/shop-doctor"
+    },
+    "shop-stockman": {
+      "sheet": "shop-stockman",
+      "x": 49,
+      "y": 186,
+      "w": 1448,
+      "h": 627,
+      "anchorX": 0.5,
+      "anchorY": 0.9298,
+      "label": "shop stockman",
+      "kind": "shop-stockman",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          51,
+          188,
+          1444,
+          623
+        ],
+        "visiblePixels": 443393,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/shop-stockman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/shop-stockman"
     },
     "building-frame-one-storey": {
       "sheet": "town-buildings-researched",
@@ -73276,7 +74242,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 106,
+    "sourceCount": 120,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

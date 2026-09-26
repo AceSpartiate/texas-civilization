@@ -102,14 +102,11 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
     'enlist-regular', 'enlist-auxiliary', 'join-garrison', 'join-matamoros', 'go-vote', 'join-relief', 'join-houston', 'winter-recall',
     'travel-gonzales', 'travel-home', 'visit', 'work', 'rest', 'stop-chore',
   ].map(key => [key, { sprite: `icon-${key}` }]),
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the camp's icons. The camp's four (sim/camp.mjs) are drawn glyphs
-  // (`drawGlyph`) until a sheet lands: Astra's `icon-camp-<key>` frames replace them by naming the sprite here.
+  // The camp's four (sim/camp.mjs) select their registered `icon-<key>` sprites in drawIcon; glyphs remain load fallbacks.
   ['camp-drill', { glyph: 'drill' }], ['camp-forage', { glyph: 'forage' }], ['camp-guard', { glyph: 'guard' }], ['camp-scout', { glyph: 'scout' }],
-  // The road's chores (sim/road.mjs, docs/ROAD_EAST.md): no frame yet. stand-in: docs/ART_REQUESTS.md, request 2026-09-16 -
-  // the road's icons; each is a glyph drawn by `drawGlyph` until `icon-<key>` is registered, which `drawIcon` then prefers.
+  // The road's chores (sim/road.mjs, docs/ROAD_EAST.md) have registered `icon-<key>` frames; glyphs are load fallbacks.
   ['hunt-road', { glyph: 'hunt-road' }], ['tend-sick', { glyph: 'tend-sick' }], ['trade-crossing', { glyph: 'trade-crossing' }],
-  // Fetching logs from the timber (sim/chores.mjs, docs/BIOME_GAMEPLAY.md §3.2): no frame yet. stand-in: docs/ART_REQUESTS.md,
-  // request 2026-09-19 - the logs fetched from the timber; a glyph drawn by `drawGlyph` until `icon-fetch-logs` is registered.
+  // Fetching logs from the timber uses registered `icon-fetch-logs`; the glyph is a load fallback.
   ['fetch-logs', { glyph: 'fetch-logs' }],
   ['make-carreta', { sprite: 'icon-make-carreta' }],
   // The old walk to the shops, for a class saved in the middle of it: the same picture as going to town to trade.

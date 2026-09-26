@@ -15,6 +15,7 @@ import { drawFieldSurface } from '/field-surface.js';
 import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
 import { TOWN_WALK, TownWalker, drawTownSpeech, renderSceneCard, townSceneAt, townSceneDrawables } from '/town-scenes.js';
 import { drawTownGround, townDrawables } from '/town-art.js';
+import { placeSprite } from '/place-art.js';
 import { renderInterior, clearInteriorChoice } from '/interior.js';
 import { TOWN_LAYOUTS, townPoint } from '/town-layouts.js';
 import {drawWater,drawRoad,drawCrossing,drawFerry,crossingAngle} from '/landscape-art.js';
@@ -2815,9 +2816,11 @@ export function drawWorld(world) {
     // A road junction is a shape in the network, not a place: it must never draw a building.
     if (site.kind === 'junction') continue;
     const q = camera.toScreen(site), settlement = site.kind === 'town' || site.id === 'gonzales';
-    // A place of the country outside the box (docs/MAP_ACCURACY.md §11): Matamoros, Laredo, San Patricio, the presidio.
-    // Its name is drawn and nothing else - the map has no art for a Mexican town, and a settler's cabin would be a lie.
+    // A place of the country outside the box (docs/MAP_ACCURACY.md §11): Matamoros, Laredo and the presidio.
+    // These and San Patricio and Gaines's ferry use type-specific map vignettes, not a settler's cabin.
     const distant = site.kind === 'distant';
+    const placeArt = placeSprite(site), placeHeight = placeArt ? Math.max(24, Math.min(90, camera.figure * 5)) : 0;
+    if (placeArt) standing.push({ y: q.y, draw: () => drawSprite(ctx, placeArt, q.x, q.y, placeHeight) });
     // A colony fifteen miles across is fifty pixels wide at province scale, and sixteen
     // holdings drawn inside it are one brown smudge with the labels piled on top. Another
     // family's homestead is drawn only once it would be legible on its own; the student's
@@ -2879,7 +2882,7 @@ export function drawWorld(world) {
       }else standing.push({ y: q.y, draw: () => view ? homesteadHouse(ctx, q.x, q.y, view.shelter === 'camp' ? yard : size, site.id, view) : miniBuilding(ctx, q.x, q.y, size, true, site.id) });
       // A new town's shops, each keeper's own building at its place (sim/shops.mjs, docs/TOWNS.md). Drawn for anybody, as
       // a town's buildings are; who is standing in them is still only seen by somebody who is there.
-      // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the shops of the towns. Each trade is the nearest building the library has.
+      // Each trade now has its own art (docs/ART_REQUESTS.md, request 2026-09-16).
       if (settlement && site.id !== 'gonzales' && camera.scale >= 200 && world.map?.shops?.[site.id]) {
         for (const shop of world.map.shops[site.id]) {
           // A keeper in one of the town's own drawn buildings is drawn with the town (public/town-art.js).
@@ -2947,11 +2950,11 @@ export function drawWorld(world) {
     // A crossing is named as a landing is, the three named crossings of the big rivers (`stage`) as they always were, and a ford
     // the record does not name only close in.
     const crossing = CROSSING_KINDS.includes(site.kind) && site.id !== 'ford' && !site.stage;
-    const worthNaming = settlement || distant || ownLand || (camera.scale >= HOMESTEAD_LEGIBLE && (site.id === 'ford' || (crossing ? camera.scale >= (site.claimId?.startsWith('FIC') ? FORD_LEGIBLE : LANDING_LEGIBLE) : camera.named && site.kind !== 'camp' && (!NAMED_CLOSE.includes(site.kind) || camera.scale >= LANDING_LEGIBLE))));
+    const worthNaming = settlement || distant || placeArt || ownLand || (camera.scale >= HOMESTEAD_LEGIBLE && (site.id === 'ford' || (crossing ? camera.scale >= (site.claimId?.startsWith('FIC') ? FORD_LEGIBLE : LANDING_LEGIBLE) : camera.named && site.kind !== 'camp' && (!NAMED_CLOSE.includes(site.kind) || camera.scale >= LANDING_LEGIBLE))));
     // A place name goes above its buildings. Below is where the family stands, and a
     // homestead's own name landing on top of four people and an ox is unreadable.
     if (worthNaming) {
-      const roof = distant ? 0 : site.id === 'ford' || crossing ? (site.kind === 'ferry' ? camera.figure * 1.6 + 6 : -10) : camera.figure * (settlement ? SIZE.settlementCabin * 1.5 : SIZE.cabin) + 6;
+      const roof = placeArt ? placeHeight * .92 : distant ? 0 : site.id === 'ford' || crossing ? (site.kind === 'ferry' ? camera.figure * 1.6 + 6 : -10) : camera.figure * (settlement ? SIZE.settlementCabin * 1.5 : SIZE.cabin) + 6;
       // A family's own place is "Home". The map was generated when every household was
       // called Family N and it is fetched once a class, so it cannot follow a rename -
       // but nobody calls their own house by its number, and this is the one label that

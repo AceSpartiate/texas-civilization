@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1402 usable sprites, 106 PNG atlases, 493 clips** (267 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1416 usable sprites, 120 PNG atlases, 493 clips** (267 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -53,6 +53,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-santa-anna-picnic | 4 | 1254 × 1254 | 1236551 |
 | famous-picnic-props | 4 | 1254 × 1254 | 1557526 |
 | flag-come-and-take-it | 4 | 1254 × 1254 | 1140674 |
+| gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
+| gonzales-log-breastwork | 1 | 1774 × 887 | 1221292 |
+| gonzales-dugout-canoe | 1 | 1536 × 1024 | 2208839 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
 | people-mounted-cast1-e | 16 | 1254 × 1254 | 1086305 |
@@ -64,6 +67,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | wildlife-mustang | 16 | 1254 × 1254 | 1311610 |
 | steamboat-steam | 4 | 1254 × 1254 | 1044017 |
 | steamboat-laden | 4 | 1254 × 1254 | 1151494 |
+| town-mexican-river | 1 | 1426 × 1103 | 1719481 |
+| presidio-spanish | 1 | 1536 × 1024 | 2103476 |
+| village-irish-colony | 1 | 1536 × 1024 | 2454172 |
+| ferry-landing | 1 | 1536 × 1024 | 2091884 |
 | ox-packed | 16 | 1254 × 1254 | 1531260 |
 | courier-dismount | 16 | 1254 × 1254 | 1219584 |
 | courier-encounters-vertical | 16 | 1254 × 1254 | 1034014 |
@@ -77,6 +84,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | shop-blacksmith | 1 | 1536 × 1024 | 2331341 |
 | shop-wheelwright | 1 | 1536 × 1024 | 2401248 |
 | shop-tavern | 1 | 1536 × 1024 | 2369580 |
+| shop-mill | 1 | 1536 × 1024 | 1832816 |
+| shop-tanner | 1 | 1536 × 1024 | 2504300 |
+| shop-weaver | 1 | 1536 × 1024 | 2294523 |
+| shop-carpenter | 1 | 1536 × 1024 | 2437325 |
+| shop-gunsmith | 1 | 1536 × 1024 | 2035238 |
+| shop-doctor | 1 | 1536 × 1024 | 2118390 |
+| shop-stockman | 1 | 1536 × 1024 | 1863839 |
 | town-buildings-researched | 16 | 1254 × 1254 | 2122682 |
 | travel-markers | 16 | 1254 × 1254 | 1343435 |
 | trees-colonies-1 | 16 | 1254 × 1254 | 1626976 |
@@ -647,6 +661,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | flag-come-and-take-it-wind-1 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-2 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-3 | flag-come-and-take-it | flag-come-and-take-it-wind |
+| gonzales-cannon-buried | gonzales-cannon-buried | State artwork; no motion required |
+| gonzales-log-breastwork | gonzales-log-breastwork | State artwork; no motion required |
+| gonzales-dugout-canoe | gonzales-dugout-canoe | State artwork; no motion required |
 | house-round-sill | house-modules | State artwork; no motion required |
 | house-round-low-walls | house-modules | State artwork; no motion required |
 | house-round-full-walls | house-modules | State artwork; no motion required |
@@ -791,6 +808,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-laden-2 | steamboat-laden | steamboat-laden |
 | steamboat-laden-3 | steamboat-laden | steamboat-laden |
 | steamboat-laden-4 | steamboat-laden | steamboat-laden |
+| town-mexican-river | town-mexican-river | State artwork; no motion required |
+| presidio-spanish | presidio-spanish | State artwork; no motion required |
+| village-irish-colony | village-irish-colony | State artwork; no motion required |
+| ferry-landing | ferry-landing | State artwork; no motion required |
 | ox-packed-walk-e-1 | ox-packed | ox-packed-walk-e |
 | ox-packed-walk-e-2 | ox-packed | ox-packed-walk-e |
 | ox-packed-walk-e-3 | ox-packed | ox-packed-walk-e |
@@ -917,6 +938,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | shop-blacksmith | shop-blacksmith | State artwork; no motion required |
 | shop-wheelwright | shop-wheelwright | State artwork; no motion required |
 | shop-tavern | shop-tavern | State artwork; no motion required |
+| shop-mill | shop-mill | State artwork; no motion required |
+| shop-tanner | shop-tanner | State artwork; no motion required |
+| shop-weaver | shop-weaver | State artwork; no motion required |
+| shop-carpenter | shop-carpenter | State artwork; no motion required |
+| shop-gunsmith | shop-gunsmith | State artwork; no motion required |
+| shop-doctor | shop-doctor | State artwork; no motion required |
+| shop-stockman | shop-stockman | State artwork; no motion required |
 | building-frame-one-storey | town-buildings-researched | State artwork; no motion required |
 | building-frame-storey-half | town-buildings-researched | State artwork; no motion required |
 | building-frame-two-storey | town-buildings-researched | State artwork; no motion required |

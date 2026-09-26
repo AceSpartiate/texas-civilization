@@ -36,7 +36,6 @@ does not have:
 | ~~Stock glyphs drawn in code~~ | `PANEL_ICONS` in `public/family-panel.js` | Existing `icons-family-subsistence.png` art wired 2026-09-26 | Three production sprites selected directly |
 | A column's foraging parties are three `dragoon-march` riders each; a column on the march is `regular-march` men in files of three with a `dragoon-march` at the head | the parties in `drawWorld` in `public/app.js`; `drawArmy` (`moving`) in `public/army-view.js` | Request 2026-09-26 — the Mexican advance, items 1 and 3 | `forager-ride-*` / `forager-drive-*`, `regular-march-column` |
 | The smoke of a burning town or farm is the library's `smoke-rise` (chimney smoke) drawn three to four figures tall, with a painted grey plume if that clip has not loaded | `window.__firesDrawn` in `drawWorld`, `public/app.js` | Request 2026-09-26 — the Mexican advance, item 2 | `farm-smoke-rise`, `town-smoke-rise` |
-| A new town's shops are the nearest buildings the library has, two trades sharing a sprite (the stock pens, 2026-09-24, a `shed-open` or an ordinary house; `stand-in:` in `SHOP_SPRITES`) | `SHOP_SPRITES` in `sim/shops.mjs`, drawn in `drawWorld` in `public/app.js` | Request 2026-09-16 — the shops of the towns | `shop-*` buildings, one per trade |
 | Whole jacal stage sprites; `lean-to` shed frame; the double chimney drawn with the single stick-and-mud chimney's picture (`house-chimney-stick`; until 2026-09-24 a flat rectangle, whose width let the far pen's door show either side of it at 90 and 270 degrees). Since 2026-09-24 the saddlebag's two pens stand one behind the other along their ridge at every turn, and it stands at the middle between the far pen's front gable and the near pen's back gable, `DOUBLE_RISE` (2.7) high so that it hides the far pen's door whole, its foot behind the near pen's roof (until then, at 0 and 180 degrees behind both pens' back gables, and at 90 and 270 brought `DOUBLE_TOWARD` toward the near pen); no separate interior floor/loft display | `drawHousePlot` and `standChimneys` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney (two-sided, its foot marked), and separately registered floor and loft overlays |
 | Generic `chapel` and `adobe-flat` silhouettes represent San Fernando and the Governor's Palace | `public/bexar-layout.js` | Request 2026-09-14 — Béxar civic architecture | Researched 1836 civic façades in the existing illustrated style |
 | A child in an unavailable action pose is a grown figure drawn smaller (90% at 10–17, 70% at 5–9, 55% at 2–4, 45% an infant). Idle, cardinal walking, rest and injured-rest use delivered `girl`, `boy`, `smallchild` and `infant` art | `CHILD_POSES` and `entityClip` in `public/motion.js` | Request 2026-09-12, priority 1 — children | Any later child-specific action poses. **Keep the scaling**: the delivered sheets fill their cells and need it |
@@ -51,14 +50,11 @@ does not have:
 | ~~The carreta's icon drawn as a glyph~~ | `PANEL_ICONS` in `public/family-panel.js` | Delivered 2026-09-26 in `icons-gather-stock-carreta.png` | `icon-make-carreta` selected directly |
 | **A family's poor cart** now uses delivered uncovered `cart-open` directional views without its ox, but its wheels are still static and it has no painted loaded state | `miniWagon` in `public/app.js` | Request 2026-09-25 — riders, walkers and the cart | Four-frame east/north/south wheel rotation and loaded views, preserving the new open-cart silhouette |
 | A rider never gets down to talk: they speak from the saddle, turned east, west, north or south toward the listener (the vertical dialogue delivered 2026-09-14 is in use). The person he stopped now answers him in their own delivered speaking and listening poses (2026-09-21), on their own feet | `carrierClip` and `grownClip` in `public/motion.js`, from `facingOf` and `listeningOf` in `sim/encounters.mjs` | Request 2026-09-12, priority 3 | `courier-dismount` (delivered 2026-09-14, registered, not yet bound: it needs the encounter to know when a rider has got down and where the horse stands) |
-| The road's three panel icons are glyphs drawn in canvas strokes: a rifle over a campfire (`hunt-road`), a figure under a blanket with a cup beside (`tend-sick`), a coin passed over a ferry's rail (`trade-crossing`) | `drawGlyph` in `public/family-panel.js`; `PANEL_ICONS` carries `glyph` and no sprite, and `drawIcon` takes `icon-<key>` the moment it is registered | Request 2026-09-16 — the road's icons | `icon-hunt-road`, `icon-tend-sick`, `icon-trade-crossing` |
-| The camp's four icons - drill, beef and corn, the guard, the scouts - are canvas glyphs (a musket at the shoulder; horns over a corn ear; a bayonet and a crescent moon; a horseshoe and a spyglass) in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-16 — the camp's icons | `icon-camp-drill`, `icon-camp-forage`, `icon-camp-guard`, `icon-camp-scout` |
 | The trees of the biomes of 1836: longleaf, bald cypress, Texas sabal palm, beech and magnolia all use their delivered silhouettes. Anacua and Texas ebony still take `oak-spreading`; tupelo and cedar elm take `elm`; willow takes `cottonwood` | `KINDS` (`picture`, `pictures`, `sized`, `scale`) in `sim/woods.mjs`, sent in the woods catalogue and drawn by `drawGroundDetail` in `public/app.js` | Delivered through `biome-trees-fields.png`, 2026-09-22 | Anacua, Texas ebony, tupelo, cedar elm and willow remain species stand-ins |
 | The ground of the biomes of 1836 uses delivered tall grass, river cane, palmetto, thorn thicket, Spanish dagger, marsh cordgrass, dune grass and cypress knees. Palm groves now scatter sabal palms; town fields mix young and mature irrigated rows, fallow earth and stubble | `GROUND_CLASSES` marks in `public/ground-classes.js` | Delivered through `biome-ground-bexar.png` and `biome-trees-fields.png`, 2026-09-22 | No listed ground-cover stand-in remains |
 | Béxar's fields are the `fields` wash with stubble and fallow scattered on it; **the acequias are still not drawn** and no brush fence stands. The art for them landed 2026-09-21 (`acequia-straight`, `-bend`, `-crossing`, `fence-brush`, all registered and unused) and what is missing is now the LAYOUT: where each ditch ran, which is a researched course and a claim ID, not a sprite | `fields` in `public/ground-classes.js`; the envelope in `scripts/terrain/biomes.mjs` `BEXAR_FIELDS`; nothing yet in `public/bexar-layout.js` | Request 2026-09-19 — Béxar's fields and acequias | The acequia courses themselves, laid by `public/bexar-layout.js` from the delivered pieces |
 | **Words only for everything but the deer, the turkey and the mustang.** Since 2026-09-19 (docs/BIOME_GAMEPLAY.md §3.1) a hunt on a class of the biomes brings the quarry its place holds - turkey, bear, buffalo, antelope, mustang, javelina, ducks and geese, a wild cow, or a deer - and says so before it goes ("Waiting here, a turkey: four food."), at the shot ("downwind of a bear") and in the record ("brought down a buffalo"). The deer (2026-09-15), the turkey and the mustang (both 2026-09-21) are drawn where the server put them; every other quarry is given no place to be drawn at (`chore.quarry` stays unset), because a deer drawn where the words say a bear would be a wrong picture | `DRAWN_GAME`, `quarryAt` and `GAME` in `sim/hunting.mjs`; the drawing is decided where `quarryPoint` is called in `sim/chores.mjs`, and `miniQuarry` in `public/app.js` picks the sheet by `quarry.kind` | Request 2026-09-19 — the game of 1836 | `wildlife-bear`, `-javelina`, `-pronghorn`, `-bison`, `-geese`, `-cattle`; each one lands, its id joins `DRAWN_GAME` and nothing else has to change |
-| The panel icon for fetching logs from the timber is a canvas glyph: three logs laid across a wagon bed on two wheels, in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-19 — the logs fetched from the timber | `icon-fetch-logs` |
-| **Gonzales before the fight** (2026-09-25): the completed flag now uses `flag-come-and-take-it-wind`, and the gun on cart wheels uses `cannon-cartwheels`; the breastwork of logs is still `earth-rampart`, canoes are `skiff`, the gun in the peach orchard is `cannon-bronze-e` under a canvas mound and ploughed ground uses canvas furrows; painting the flag and fitting the gun are the `repair` pose, digging is `work`, looking across the river is `search`, carrying cloth and bundles is `carry`, and the regidor reading the letter is `speak` without a letter in hand | `STAND_INS` in `sim/town-scenes.mjs`; `drawFlag`, `drawProp`, `sceneClip` in `public/town-scenes.js` | Request 2026-09-25 — Gonzales before the fight | Remaining props and action poses in items 1–7; the gun and completed flag have landed |
+| **Gonzales before the fight** (2026-09-25): the completed flag uses `flag-come-and-take-it-wind`; the cart-wheel cannon, buried cannon, log breastwork and drawn-up dugout canoes have dedicated art. Ploughed ground still uses canvas furrows; painting the flag and fitting the gun use `repair`, digging uses `work`, looking across the river uses `search`, carrying cloth and bundles uses `carry`, and the regidor reads the letter with `speak` and no letter in hand | `STAND_INS` in `sim/town-scenes.mjs`; `drawFlag`, `drawProp`, `sceneClip` in `public/town-scenes.js` | Request 2026-09-25 — Gonzales before the fight | Remaining action poses, flag-work states and ploughed-ground texture in items 1–5 |
 | In a **hard** norther the broad oak, the spreading oak, the pecan and the grass tuft now take Astra's painted gale poses, and a camp fire's smoke streams (delivered 2026-09-21). Everything else still standing in that wind — pine, cedar, mesquite, live oak, elm, scrub, reeds, prickly pear, and every sized tree of `trees-colonies-1` and `-2` — is the library's own upright sprite sheared about its foot | `GALE_POSES` and `windLean` in `public/weather-art.js`, applied by `postOak`, `plain` and `drawGroundDetail` in `public/app.js` | Request 2026-09-20 — the country in a norther | A gale silhouette for each remaining tree kind and ground mark, at the same one strength as the five delivered |
 
 | A house placed at a quarter or half turn is drawn from the one front view the house-modules sheet has: each piece stands upright in its turned cells, and at 90 and 270 degrees every piece is that picture mirrored (the gable brought round to the other face, the ridge on the other diagonal). The gable facing the viewer always shows the door, in the picture and mirrored. The porch, shed room and passage are their one picture whichever way they run. Since 2026-09-24 a house's pictures are chosen for its chimneys, one picture for the whole house (`housePicture`; that morning each pen alone, `mirrorPens`): a cabin whose chimney gable is to the screen's side stands it against the doorless back gable of the unmirrored pen (to the right) or the mirrored pen (to the left), so the cabin at 180 degrees is mirrored; a dog-run or saddlebag keeps the house's mirroring, both pens the same way round along one ridge (`alongRidge`). A chimney on the gable the picture draws with its door stands in front of the door, and covers it whole, so the gable reads as the chimney's end: the cabins at 90 degrees, and at every turn the dog-run's near chimney (the near end of its ridge) and the saddlebag's double chimney (the far pen's door gable) | `drawHousePlot` (`rotation`, `turned`) in `public/house-plot.js`, called by `drawPlacedHouse` in `public/app.js` | Request 2026-09-23 — the house from its other sides | The pen's back gable (no door in the gable toward the viewer) for full walls, low walls and sill - or a pen with its door on its long side - and each piece's end-on view: passage, porch and shed room running into the screen. With them every pen takes the house's mirroring again and no chimney stands before a door at any turn |
@@ -144,7 +140,7 @@ can never be mistaken for hers:
 
 **Not attempted, still on the nearest library art** (each needs animation sheets or whole buildings in Astra's painted
 style, which a hand-written SVG cannot match without jarring beside her work; their rows stay under *Stand-ins in use*):
-the shops of the towns, the buildings the towns' research found, the house plot's remaining pieces, the remaining trees,
+the buildings the towns' research found, the house plot's remaining pieces, the remaining trees,
 Béxar's civic façades, family members on horseback, driving the ox wagon, the rider who gets down, the saddlebag interior,
 the second cast's remaining sheets and layered people.
 
@@ -279,6 +275,8 @@ assault. No blood, no wound shown, no body closer than the compound's framing (V
 
 **Check.** In the Host's framing of the advance the Mexican camp reads as men resting, not as men hurt or dead; the breastwork reads as baggage piled into a wall with a gap; the Texian horsemen read as Texians.
 ## Request 2026-09-25 — Gonzales before the fight
+
+**Status: three additional props delivered and wired 2026-09-26.** `gonzales-cannon-buried`, `gonzales-log-breastwork` and `gonzales-dugout-canoe` replace the canvas mound, earth-rampart and plank skiff in the live scene. The two canoe props remain separate instances, so they can be placed independently. Flag-work states, ploughed ground and character actions remain open below.
 
 **Why.** The owner, 2026-09-25: *"when i try to watch a battle, or actions that led to a battle, i see npc's just standing around.
 example: there's no one worried at gonzales that the mexicans are coming. there's no group of women making the come and take it
@@ -561,10 +559,10 @@ than a stand-in, and they are marked `ceiling:` rather than `stand-in:` for that
 
 ## Request 2026-09-19 — the places past the box
 
-**Status: open; nothing drawn, and no stand-in.** Owner, 2026-09-19, by multiple choice: the places past the old box. Five
-places outside the colonies now stand on the map ([MAP_ACCURACY.md](MAP_ACCURACY.md) §11): **Matamoros** and **Laredo** on the
+**Status: schematic place art delivered and wired 2026-09-26.** Owner, 2026-09-19, by multiple choice: the places past the old box. Five
+places outside the colonies stand on the map ([MAP_ACCURACY.md](MAP_ACCURACY.md) §11): **Matamoros** and **Laredo** on the
 Rio Grande, the **Presidio del Río Grande** (San Juan Bautista at present Guerrero, Coahuila), **San Patricio** on the Nueces,
-and **Gaines's ferry** on the Sabine. Each is drawn as its name and nothing more.
+and **Gaines's ferry** on the Sabine. Four transparent place-type vignettes are now registered and drawn: the Mexican river-town image serves Matamoros and Laredo; the other three are distinct. They are visual classifications, not exact reconstructions of an 1836 street plan.
 
 - **Why no stand-in.** The library's settlement art is an Anglo colonist's cabin and its town art is the colonies'. A cabin at
   Matamoros or at the presidio would say something false about the place - these are a Mexican river port, a Spanish presidio
@@ -578,8 +576,8 @@ and **Gaines's ferry** on the Sabine. Each is drawn as its name and nothing more
   - `village-irish-colony` — a handful of jacales and log houses round a small chapel, on a low bluff over a river.
   - `ferry-landing` — a landing on a big river: a cut bank, a plank ramp, a shed and a rope post, without the boat (the boat is
     the ferry art above).
-- **Where it goes.** `public/atlas` as the towns are, drawn for a place of kind `distant` in `public/app.js`, which today draws
-  the name only.
+- **Where it goes.** `public/place-art.js` maps live site IDs to the four frames in `public/assets/frontier-v1/atlases/`; `public/app.js` draws them at those sites and places the labels above them. San Patricio is a `village` and Gaines's ferry a `ferry` in the current map; this binding uses IDs so they receive art without changing those kinds or their routes.
+- **Check.** `tests/place-art.test.mjs` confirms the five sites, atlas entries and mapping; the browser map proof passes with no page errors. Keep the researched map location and route behavior independent of these schematic pictures.
 
 ## Request 2026-09-19 — the ferry flatboat
 
@@ -670,9 +668,9 @@ natural biomes of Texas (docs/BIOMES.md, built the same day).
 
 ## Request 2026-09-19 — the logs fetched from the timber
 
-**Status: open; a glyph drawn in canvas strokes in use (see *Stand-ins in use* above).** A family with no timber of its own
+**Status: delivered in `icons-family-service.png`; glyph remains only as a load fallback.** A family with no timber of its own
 can take the ox and wagon to the nearest timber and bring six logs home (`fetch-logs`, docs/BIOME_GAMEPLAY.md §3.2). The
-order is on the family panel with no icon art.
+order is on the family panel with the registered `icon-fetch-logs` art.
 
 - **Why.** One stroke-drawn glyph beside the illustrated icons reads as a placeholder, and it must be told from *Fell trees*
   and *Haul logs to the house*.
@@ -799,11 +797,11 @@ A student with a man in the army reads "The army is crossing the Brazos on the s
 
 ## Request 2026-09-16 — the road's icons
 
-**Status: open; glyphs drawn in canvas strokes in use since 2026-09-17 (see *Stand-ins in use* above).** The road east
+**Status: delivered in `icons-family-service.png`; glyphs remain only as load fallbacks.** The road east
 ([ROAD_EAST.md](ROAD_EAST.md)) gives a family three things to do while it flees: a hunt from the camp, a day's nursing of the
-sick, and buying food among the families camped at a crossing. Each is an order on the family panel with no icon art.
+sick, and buying food among the families camped at a crossing. Each order now has registered icon art on the family panel.
 
-- **Why.** Three stroke-drawn glyphs sit beside thirty-eight illustrated icons and read as placeholders; the hunt's glyph in
+- **Why.** Three stroke-drawn glyphs sat beside the illustrated icons and read as placeholders; the hunt's glyph in
   particular must be told from the two hunts at home.
 - **What.** Three icons in the action-icon contract (request 2026-09-15 — action icons, 128 by 128, one silhouette each,
   reading at 38 pixels and dimmed to 40 per cent): `icon-hunt-road` (a rifle leaning over a small campfire beside a halted
@@ -811,38 +809,32 @@ sick, and buying food among the families camped at a crossing. Each is an order 
   (a coin passed hand to hand over a ferry's rail, water below).
 - **How it plugs in.** Registered through `npm run build:art`; `drawIcon` in `public/family-panel.js` takes `icon-<key>` for
   a key whose `PANEL_ICONS` entry has only a glyph, with no change to the page; the glyph stays as the fallback for a sheet
-  that has not arrived.
+  that has not loaded yet.
 - **Check.** At 38 CSS pixels on the panel's dark row each is told apart from the others and from `icon-hunt-timber` and
   `icon-hunt-land`.
 
 ## Request 2026-09-16 — the camp's icons
 
-**Status: open; drawn glyphs in use since 2026-09-17 (see *Stand-ins in use* above).** A man serving with General Houston's
+**Status: delivered in `icons-family-service.png`; glyphs remain only as load fallbacks.** A man serving with General Houston's
 army in the spring of 1836 has the camp's work on his row of the family panel ([HOUSTON_CAMP.md](HOUSTON_CAMP.md), `sim/camp.mjs`):
 drilling, going out for beef and corn, standing guard, riding with the scouts.
 
-- **Why.** The four are canvas strokes (a musket at the shoulder, horns over a corn ear, a bayonet under a crescent moon, a
+- **Why.** The four were canvas strokes (a musket at the shoulder, horns over a corn ear, a bayonet under a crescent moon, a
   horseshoe and a spyglass) beside illustrated icons, and they read as placeholders.
 - **What.** Four icons in the action-icon contract (request 2026-09-15 — action icons): `icon-camp-drill` (a file of men
   with muskets at the shoulder, or one man at the position of the soldier), `icon-camp-forage` (a man leading a beef, a sack of
   corn over the saddle), `icon-camp-guard` (a sentry with a fixed bayonet by a fire, night), `icon-camp-scout` (a rider low on
   the horse's neck, looking out over prairie).
-- **How it plugs in.** Registered through `npm run build:art`; `PANEL_ICONS` in `public/family-panel.js` names the sprite
-  (`sprite: 'icon-camp-<key>'`) in place of the glyph for each key, and `drawGlyph`'s four camp cases are deleted.
+- **How it plugs in.** Registered through `npm run build:art`; `drawIcon` in `public/family-panel.js` chooses each
+  `icon-camp-<key>` frame when loaded, retaining its glyph as an unloaded-art fallback.
 - **Check.** At 38 CSS pixels on the panel's dark row each is told apart from the others, from the winter's eight and from the
   farm icons; the drill and the guard are distinguishable at a glance.
 
 ## Request 2026-09-16 — the shops of the towns
 
-**Status: in progress; blacksmith, wheelwright and tavern delivered 2026-09-26.** Their distinct transparent sprites are registered in `docs/ART_MANIFEST.md` and drawn on the existing keeper buildings in towns beyond Gonzales. The remaining seven trades still use nearest-building stand-ins. The owner asked for towns that feel alive, with a shop per keeper and, in the towns
-not already drawn, each keeper's own building ([TOWNS.md](TOWNS.md) §5a). In Gonzales each keeper uses a building already drawn;
-elsewhere each remaining trade is the nearest building the library has: store `trading-house`, carpenter `timber-shop`,
-gunsmith `cabin-small`, doctor `house-hewn-log`, tanner and mill `storehouse`,
-weaver `cabin-weathered`, and since 2026-09-24 the stock pens (TOWNS.md §4d) `shed-open`, drawn in Gonzales as the open shed at
-the west edge of town (`gonzales-outbuilding-art-2`) and elsewhere as the next of a town's ordinary houses.
+**Status: building art delivered 2026-09-26.** All ten requested `shop-*` sprites are distinct transparent cutouts registered in `docs/ART_MANIFEST.md` and drawn on the existing keeper buildings in towns beyond Gonzales. The store retains its already-distinct `trading-house`. Gonzales retains its researched, bespoke buildings; its stock pens are the open shed at the west edge of town (`gonzales-outbuilding-art-2`). The owner asked for towns that feel alive, with a shop per keeper and, in towns not already drawn, each keeper's own building ([TOWNS.md](TOWNS.md) §5a).
 
-- **Why.** A student in town should be able to tell the smithy from the tavern without reading a label; two trades share a
-  sprite today and the mill is a storehouse.
+- **Why.** A student in town should be able to tell the smithy from the tavern without reading a label.
 - **What.** At homestead scale, in the frontier-v1 style and the projection and footprint of `cabin-small`, anchored at the base
   centre: `shop-blacksmith` (an open forge shed, anvil, bellows, smoke), `shop-gunsmith` (a log shop with a rifle-shaped sign
   and a bench under the eave), `shop-doctor` (a small frame or hewn-log office with a shingle), `shop-tavern` (a double log
@@ -850,16 +842,13 @@ the west edge of town (`gonzales-outbuilding-art-2`) and elsewhere as the next o
   (a shed with wheels leaning against it), `shop-mill` (a small log gristmill with a millstone by the door; horse-powered, not a
   water wheel, unless a town's research documents one), `shop-weaver` (a cabin with a loom visible through the open door and
   cloth on a line), `shop-carpenter` (a shed with planks and a sawhorse), and `shop-stockman` (added 2026-09-24: a rail pen with a
-  horse or two and a cow inside, a snubbing post and a small shed at one corner). No lettering; a sign may be a picture.
-- **How it plugs in.** `SHOP_SPRITES` in `sim/shops.mjs` names the sprite a new town's shop is drawn as; replace each with its
-  `shop-*` frame once registered through `npm run build:art`. Towns with documented building IDs keep their placement and identity while the trade sprite replaces the visual stand-in. Gonzales keeps its own drawn buildings.
-- **Check.** At the zoom a town's labels appear, each trade is told apart without its label.
+  horse and cow animated separately inside, a snubbing post and a small shed at one corner). No lettering; a sign may be a picture.
+- **How it plugs in.** `SHOP_SPRITES` in `sim/shops.mjs` selects each registered `shop-*` frame. Towns with documented building IDs keep their placement and identity while the trade sprite replaces the visual stand-in. `public/town-art.js` draws the existing horse and cow grazing clips behind the stock pen's front rail; the animals are not frozen into the pen sprite. Gonzales keeps its own drawn buildings.
+- **Check.** At the zoom a town's labels appear, each trade is told apart without its label. Ten unique mappings and atlas entries are asserted in `tests/shops.test.mjs`; the browser town proof checks the full town drawing path.
 
 ## Request 2026-09-16 — the winter's icons
 
-**Status: open; Claude-drawn stand-ins in use since 2026-09-16 (see *Claude-drawn stand-ins* above).** The second class period's choices ([COLONIES.md](COLONIES.md) §6n) are orders on the
-family panel with no icon art: enlisting (two orders), joining the garrison at Béxar, going south to the Matamoros men, voting,
-and sending for somebody who serves.
+**Status: delivered in `icons-family-service.png` and selected directly by `PANEL_ICONS`.** The second class period's choices ([COLONIES.md](COLONIES.md) §6n) include enlisting, joining the garrison at Béxar, going south to the Matamoros men, voting and sending for somebody who serves.
 
 - **Why.** A flag, a box and an arrow drawn in canvas strokes read as placeholders beside the illustrated icons, and two
   enlistment orders share one glyph.
