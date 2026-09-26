@@ -27,6 +27,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { rollFamily, stepWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { momentOf } from '../sim/directors.mjs';
+import { grownMen, serve } from '../tests/support/san-jacinto.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -212,14 +213,28 @@ try {
     for (let i = 0; i < 9000 && !world.director.complete; i++) stepWorld(world);
     beginThirdPeriod(world); world.status = 'running';
     for (let i = 0; i < 3000 && world.minute < momentOf(world, 'san-jacinto-field') - 60; i++) stepWorld(world);
+    // A played family's man with Houston at Lynchburg, put there in process (tests/support/san-jacinto.mjs `serve`): the first
+    // day's skirmish and the capture are quiet phases, held only while a played family is there (docs/BATTLES.md §13), and the
+    // Twin Sisters' April 20 and the Napoleon of the West are in them. The lesson is past for both families the proof plays.
+    const man = grownMen(world).find(one => one.householdId === 'hh-1');
+    serve(world, man, 'lynchburg');
+    for (const id of ['hh-1', 'hh-2']) world.households[id].lesson = { ...world.households[id].lesson, step: 'done', stopped: true, at: world.minute };
+    // The family kept far off has nobody with the army: any man of it serving is back with his family (in process, said here).
+    const home = world.households['hh-2'].members.map(id => world.entities[id]).find(one => !one.service && one.location)?.location;
+    for (const id of world.households['hh-2'].members) {
+      const one = world.entities[id];
+      if (one.service?.kind === 'houston') { delete one.service; one.travel = null; one.chore = null; if (home) one.location = { ...home }; }
+    }
     world.status = 'lobby';
     return world;
   };
   const sj = await classroom('famous-sj', toLynchburg, 450);
-  const refugee = await joinClass(sj.url, sj.app, 'hh-1', { width: 1024, height: 768 }, 'Ferryside');
+  const soldier = await joinClass(sj.url, sj.app, 'hh-1', { width: 1024, height: 768 }, 'Lineman');
+  const refugee = await joinClass(sj.url, sj.app, 'hh-2', { width: 1024, height: 768 }, 'Ferryside');
   const sjHost = await hostOf(sj.url, sj.app, { width: 1366, height: 768 });
-  await sjHost.waitForFunction(() => window.__snapshot.connected === 1);
+  await sjHost.waitForFunction(() => window.__snapshot.connected === 2);
   await start(sjHost);
+  evidence.sanJacinto.soldierFamily = await soldier.evaluate(() => window.__snapshot?.world.householdId);
   const sjSeen = {}, sjLines = new Map(), guns = {}, legend = [], sjCaptions = {};
   let sjFrames = [], sjResized = false, sawTaken = false;
   const sjUntil = Date.now() + 10 * 60 * 1000;
