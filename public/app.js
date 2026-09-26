@@ -25,6 +25,8 @@ import { CABIN_PEOPLE, PERSON_MILES, houseOnGround, spacingRefusal, standingAt }
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
 import { bindLooks, renderLooks } from '/appearance.js';
+import { drawAvatar, drawAvatarPortrait } from '/avatar-art.js';
+import { decodeAppearance } from '/look-vocabulary.js';
 import { bindCreation, creationStep, renderCreation, showTitle } from '/creation.js';
 import { aroundHole, groundInputs, applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale, away, wadesOf } from '/map-base.js';
 import { canSmoothOffThread, smoothOffThread, toBitmap } from '/smooth-worker.js';
@@ -261,6 +263,15 @@ const CLOTH = ['#7d6a4c', '#5d6b52', '#8a6a4a', '#6d5a68', '#4f6570'];
 function miniPerson(ctx, x, y, size, entity) {
   // A child is drawn smaller than a grown person, in their own figure or a grown one (public/motion.js `entityClip`).
   if (!entity.side) size *= figureScale(entity);
+  if (entity.appearance) {
+    drawAvatar(ctx, x, y, size, entity.appearance, entity.sex, {
+      walking: !reducedMotion.matches && Boolean(entity.travel && !entity.travel.halted || entity.stepping),
+      phase: reducedMotion.matches ? 0 : performance.now() / 165,
+      flip: Boolean(entity.flip),
+      working: Boolean(entity.chore && !entity.travel),
+    });
+    return;
+  }
   const binding = entity.side ? { id: `${entity.side === 'mexican' ? 'regular' : 'volunteer'}-idle-e` } : entityClip(entity, entity.observed);
   // A north or south cycle is drawn facing that way already; mirroring it would turn a
   // person walking away into a person walking away backwards.
@@ -302,6 +313,13 @@ function miniPerson(ctx, x, y, size, entity) {
     shape(() => ctx.ellipse(x, y - size * .845, size * .21, size * .062, 0, 0, Math.PI * 2), '#8a7047');
     shape(() => ctx.ellipse(x, y - size * .90, size * .105, size * .055, 0, 0, Math.PI * 2), '#9c8154');
   }
+}
+function recliningAvatar(ctx, x, y, size, entity) {
+  ctx.save();
+  ctx.translate(x + size * .43, y - size * .14);
+  ctx.rotate(Math.PI / 2);
+  drawAvatar(ctx, 0, 0, size * .9, entity.appearance, entity.sex);
+  ctx.restore();
 }
 // Juniper is an ox and must stay one; the sprite chosen is stable per animal so the same
 // beast is recognisable from one lesson to the next.
@@ -571,7 +589,7 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   // Asked before anything is drawn, because the whole layout depends on the answer: one painted rig has no horse under it
   // and nothing to clip. A sheet still on its way answers no and is asked for, so the next frame can answer yes.
   const delivered = seatedClip(entity, direction, seat);
-  const ready = Boolean(delivered.whole || delivered.seated) && clipReady(delivered.id);
+  const ready = !entity.appearance && Boolean(delivered.whole || delivered.seated) && clipReady(delivered.id);
   const drawn = [];
   // Whoever rides in this wagon behind its driver (sim/company.mjs; owner, 2026-09-25), sat in it after the wagon and before the
   // driver, so the driver is drawn in front of them. They are not drawn again beside it (public/motion.js `carriedWithRider`).
@@ -587,7 +605,7 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
       ctx.save();
       ctx.beginPath(); ctx.rect(px - height * 2, py - height * 1.5, height * 4, height * (.5 + part.shown)); ctx.clip();
       const clip = seatedClip(part.rider, direction, null);
-      if (!animated(ctx, clip.id, px, py, height, part.rider.id, { paused: true })) miniPerson(ctx, px, py, size, { ...part.rider, travel: null, flip });
+      if (part.rider.appearance || !animated(ctx, clip.id, px, py, height, part.rider.id, { paused: true })) miniPerson(ctx, px, py, size, { ...part.rider, travel: null, flip });
       ctx.restore();
       drawnAt.set(part.rider.id, { x: px, y: py - height * .45, size: height });
       drawn.push({ part: 'passenger', id: part.rider.id, x: Math.round(px), y: Math.round(py), height: Math.round(height) });
@@ -602,7 +620,7 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
       ctx.save();
       ctx.beginPath(); ctx.rect(px - height * 2, py - height * 1.5, height * 4, height * (.5 + part.shown)); ctx.clip();
       const clip = seatedClip(entity, direction, null);
-      if (!animated(ctx, clip.id, px, py, height, entity.id, { paused: true })) miniPerson(ctx, px, py, size, { ...entity, travel: null, flip });
+      if (entity.appearance || !animated(ctx, clip.id, px, py, height, entity.id, { paused: true })) miniPerson(ctx, px, py, size, { ...entity, travel: null, flip });
       ctx.restore();
     } else {
       // The family's own beast, as the server has it on the road with them; a stand-in of the right kind if it is not in view.
@@ -808,7 +826,10 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
   if (pose) {
     // A rider is drawn a horse's height (docs/BATTLES.md §6.13: Grant's men at Agua Dulce).
     const drawnSize = size * (pose.scale || 1);
-    const done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, drawnSize, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, drawnSize, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
+    let done;
+    if (entity.appearance && entity.fallen) { recliningAvatar(ctx, x, y, drawnSize, entity); done = true; }
+    else if (entity.appearance) done = drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: reducedMotion.matches ? 0 : performance.now() / 165, working: true, flip: pose.flip });
+    else done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, drawnSize, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, drawnSize, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
     if (!done) miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed });
     if (marks.ground) battleView.memberDrawn(entity.id, marks.ground, size);
     ctx.globalAlpha = alphaWas;
@@ -817,7 +838,8 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
   // A family's own man who fell in a fight the family watched lies where he fell (docs/BATTLES.md §2b.1, §6.14): the server
   // sends `down` to his own family only, and the family's reports still wait for the word.
   if (entity.kind === 'person' && entity.service?.down && !entity.travel) {
-    if (!drawSprite(ctx, 'volunteer-reclining', x, y, size)) miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed });
+    if (entity.appearance) recliningAvatar(ctx, x, y, size, entity);
+    else if (!drawSprite(ctx, 'volunteer-reclining', x, y, size)) miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed });
     ctx.globalAlpha = alphaWas;
     return;
   }
@@ -3850,10 +3872,11 @@ function renderFamilyPanel(world) {
     setData(row.input, 'current', firstName);
     // The portrait: the person's own figure, redrawn only when who they are drawn as changes.
     const figure = figureOf(entity), clip = `${figure}-idle-s`;
-    const face = `${clip}:${entity.band || ''}:${principal}`;
+    const face = `${clip}:${entity.band || ''}:${principal}:${JSON.stringify(entity.appearance || null)}`;
     if (row.face !== face) {
       row.face = face;
-      drawPortrait(row.canvas, { clip, figure, band: entity.band, principal, tint: hashOf(id) }, { drawClip, drawSprite, spriteFrame });
+      if (entity.appearance) drawAvatarPortrait(row.canvas, entity.appearance, entity.sex);
+      else drawPortrait(row.canvas, { clip, figure, band: entity.band, principal, tint: hashOf(id) }, { drawClip, drawSprite, spriteFrame });
     }
     // The icons, from the server's own lists. The journeys, the yard and rest are on the main person's row: the server's rule.
     // What a trip brings home depends on how they go, which is asked when it is sent (public/going.js): the icon says what a
@@ -5806,6 +5829,11 @@ function renderTownScene(world) {
   });
 }
 function render(snapshot) {
+  // The live map sends four palette indexes instead of four repeated words for every
+  // person in the class. Expand only after receipt; simulation and saves keep words.
+  for (const entity of [...(snapshot.world?.entities || []), ...(snapshot.world?.others || [])]) {
+    if (entity.a !== undefined && !entity.appearance) entity.appearance = decodeAppearance(entity.a, entity.sex);
+  }
   if (motionProjection.session !== snapshot.sessionId) { animationTime = 0; }
   // The kept ground is not thrown away here: it is drawn again when what it is drawn from changed (`groundInputs`), which a
   // render that only moved people did not.

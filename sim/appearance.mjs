@@ -17,18 +17,15 @@
  * Stored as `entity.appearance` on a parent only once somebody has chosen; everything else is
  * derived, so a class saved before this needs nothing and no save version moves.
  *
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-12 (second) - layered people. The figures are
- * baked-colour art, so what somebody looks like is shown in words in the family book and the
- * figure on the map is still chosen by sex and age.
+ * The chooser and live client now share an appearance-driven avatar renderer. The authored
+ * cast sheets remain for people without family appearance; layered painted replacements
+ * can eventually replace the procedural layers without changing saved choices.
  */
 
 import { rollRefusal } from './family.mjs';
-
-/** Ordered lightest to darkest, so "between the parents" means something. Words, not judgements. */
-export const SKIN = Object.freeze(['fair', 'light', 'olive', 'tan', 'brown', 'dark brown', 'deep brown']);
-export const HAIR = Object.freeze(['black', 'dark brown', 'brown', 'auburn', 'red', 'fair', 'grey']);
-export const CLOTHING = Object.freeze(['rust', 'indigo', 'ochre', 'teal', 'butternut', 'grey', 'cream']);
-export const HEAD = Object.freeze({ male: Object.freeze(['hat', 'beard']), female: Object.freeze(['bonnet', 'pinned hair']) });
+/** SKIN is ordered lightest to darkest, so "between the parents" means something. */
+import { SKIN, HAIR, CLOTHING, HEAD } from '../public/look-vocabulary.js';
+export { SKIN, HAIR, CLOTHING, HEAD, appearanceCode } from '../public/look-vocabulary.js';
 
 const PARENT_ROLES = ['father', 'mother'];
 export const isParent = entity => PARENT_ROLES.includes(entity?.kin?.role);
@@ -84,7 +81,7 @@ export function appearanceOf(world, entity) {
 /** In words, for the family book: "olive skin, black hair, rust clothes, a hat". */
 export function looksWords(appearance) {
   if (!appearance) return '';
-  const head = { hat: 'a hat', beard: 'a beard', bonnet: 'a bonnet', 'pinned hair': 'hair pinned up' }[appearance.head];
+  const head = { hat: 'a hat', beard: 'a beard', bonnet: 'a bonnet', 'pinned hair': 'hair pinned up', bareheaded: 'bareheaded', 'hat and beard': 'a hat and beard', moustache: 'a moustache', 'straw hat': 'a straw hat', braid: 'a braid', 'loose hair': 'loose hair', headscarf: 'a headscarf' }[appearance.head];
   return [`${appearance.skin} skin`, `${appearance.hair} hair`, `${appearance.clothing} clothes`, head].filter(Boolean).join(', ');
 }
 

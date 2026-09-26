@@ -9,7 +9,19 @@ import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectFamily, stepWorld, projectWorld, validateWorld } from '../sim/world.mjs';
 import { learn } from '../sim/knowledge.mjs';
-import { CLOTHING, HAIR, HEAD, SKIN, appearanceOf } from '../sim/appearance.mjs';
+import { CLOTHING, HAIR, HEAD, SKIN, appearanceCode, appearanceOf } from '../sim/appearance.mjs';
+import { decodeAppearance } from '../public/look-vocabulary.js';
+
+test('every offered appearance survives the compact map channel exactly', () => {
+  for (const sex of ['male', 'female']) for (const skin of SKIN) for (const hair of HAIR)
+    for (const clothing of CLOTHING) for (const head of HEAD[sex]) {
+      const appearance = { skin, hair, clothing, head };
+      assert.deepEqual(decodeAppearance(appearanceCode(appearance, sex), sex), appearance);
+    }
+  assert.deepEqual(decodeAppearance(appearanceCode({ skin: 'olive', hair: 'brown', clothing: 'rust' }, 'female'), 'female'),
+    { skin: 'olive', hair: 'brown', clothing: 'rust' });
+  assert.equal(decodeAppearance(-1, 'female'), null);
+});
 
 const rolled = (seed, householdId = 'hh-1') => {
   const world = createGonzalesWorld(seed, 5);
@@ -48,6 +60,10 @@ test('a parent\'s looks are chosen after the roll, from the choices for them, an
   assert.match(shown.looks, /olive skin, black hair, indigo clothes/);
   assert.equal(shown.chosen, true);
   assert.deepEqual(shown.choices.head, HEAD[parent.sex]);
+  const projected = projectWorld(world, 'hh-1', 'student', { includeMap: false });
+  assert.equal(projected.entities.find(person => person.id === parent.id).a, appearanceCode(shown.appearance, parent.sex), 'the map figure lost the chosen portrait');
+  const host = projectWorld(world, 'hh-1', 'host', { includeMap: false });
+  assert.equal(host.others.find(person => person.id === parent.id)?.a, appearanceCode(shown.appearance, parent.sex), 'the Host figure lost the chosen portrait');
   for (const child of book.filter(person => ['son', 'daughter'].includes(person.role))) {
     assert.ok(child.looks, 'a child has no looks in the book');
     assert.equal(child.choices, undefined, 'a child was offered choices');

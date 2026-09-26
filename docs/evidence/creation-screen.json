@@ -250,27 +250,27 @@
         "height": 768
       },
       "card": {
-        "x": 403,
+        "x": 288,
         "y": 12,
-        "w": 560,
+        "w": 790,
         "h": 744
       },
-      "controls": 24,
-      "scrolls": 5,
+      "controls": 36,
+      "scrolls": 249,
       "endOfStep": {
         "control": "#looks-done",
         "label": "Done",
         "box": {
-          "x": 420,
-          "y": 695,
-          "w": 526,
+          "x": 312,
+          "y": 690,
+          "w": 742,
           "h": 44
         },
-        "below": -17,
+        "below": -22,
         "inView": true
       },
       "tightestGap": {
-        "gap": 8,
+        "gap": 9,
         "between": [
           "#looks-parts",
           "#looks-parts"
@@ -281,16 +281,16 @@
         ],
         "boxes": [
           {
-            "x": 420,
-            "y": 259,
-            "w": 66,
-            "h": 88
+            "x": 312,
+            "y": 341,
+            "w": 72,
+            "h": 82
           },
           {
-            "x": 494,
-            "y": 259,
-            "w": 66,
-            "h": 88
+            "x": 393,
+            "y": 341,
+            "w": 72,
+            "h": 82
           }
         ],
         "tags": [
@@ -309,47 +309,47 @@
         "height": 768
       },
       "card": {
-        "x": 403,
+        "x": 288,
         "y": 12,
-        "w": 560,
+        "w": 790,
         "h": 744
       },
-      "controls": 24,
-      "scrolls": 17,
+      "controls": 36,
+      "scrolls": 249,
       "endOfStep": {
         "control": "#looks-done",
         "label": "Done",
         "box": {
-          "x": 420,
-          "y": 695,
-          "w": 526,
+          "x": 312,
+          "y": 690,
+          "w": 742,
           "h": 44
         },
-        "below": -17,
+        "below": -22,
         "inView": true
       },
       "tightestGap": {
-        "gap": 8,
+        "gap": 9,
         "between": [
           "#looks-parts",
           "#looks-parts"
         ],
         "labels": [
-          "Fair",
-          "Light"
+          "Rust",
+          "Indigo"
         ],
         "boxes": [
           {
-            "x": 420,
-            "y": 259,
-            "w": 66,
-            "h": 88
+            "x": 312,
+            "y": 404,
+            "w": 72,
+            "h": 82
           },
           {
-            "x": 494,
-            "y": 259,
-            "w": 66,
-            "h": 88
+            "x": 393,
+            "y": 404,
+            "w": 72,
+            "h": 82
           }
         ],
         "tags": [
@@ -638,27 +638,27 @@
         "height": 768
       },
       "card": {
-        "x": 232,
+        "x": 117,
         "y": 12,
-        "w": 560,
+        "w": 790,
         "h": 744
       },
-      "controls": 24,
-      "scrolls": 5,
+      "controls": 36,
+      "scrolls": 244,
       "endOfStep": {
         "control": "#looks-done",
         "label": "Done",
         "box": {
-          "x": 249,
-          "y": 695,
-          "w": 526,
+          "x": 141,
+          "y": 690,
+          "w": 742,
           "h": 44
         },
-        "below": -17,
+        "below": -22,
         "inView": true
       },
       "tightestGap": {
-        "gap": 8,
+        "gap": 9,
         "between": [
           "#looks-parts",
           "#looks-parts"
@@ -669,16 +669,16 @@
         ],
         "boxes": [
           {
-            "x": 249,
-            "y": 259,
-            "w": 66,
-            "h": 88
+            "x": 141,
+            "y": 336,
+            "w": 72,
+            "h": 82
           },
           {
-            "x": 323,
-            "y": 259,
-            "w": 66,
-            "h": 88
+            "x": 222,
+            "y": 336,
+            "w": 72,
+            "h": 82
           }
         ],
         "tags": [
@@ -697,47 +697,47 @@
         "height": 768
       },
       "card": {
-        "x": 232,
+        "x": 117,
         "y": 12,
-        "w": 560,
+        "w": 790,
         "h": 744
       },
-      "controls": 24,
-      "scrolls": 17,
+      "controls": 36,
+      "scrolls": 244,
       "endOfStep": {
         "control": "#looks-done",
         "label": "Done",
         "box": {
-          "x": 249,
-          "y": 695,
-          "w": 526,
+          "x": 141,
+          "y": 690,
+          "w": 742,
           "h": 44
         },
-        "below": -17,
+        "below": -22,
         "inView": true
       },
       "tightestGap": {
-        "gap": 8,
+        "gap": 9,
         "between": [
           "#looks-parts",
           "#looks-parts"
         ],
         "labels": [
-          "Fair",
-          "Light"
+          "Rust",
+          "Indigo"
         ],
         "boxes": [
           {
-            "x": 249,
-            "y": 259,
-            "w": 66,
-            "h": 88
+            "x": 141,
+            "y": 404,
+            "w": 72,
+            "h": 82
           },
           {
-            "x": 323,
-            "y": 259,
-            "w": 66,
-            "h": 88
+            "x": 222,
+            "y": 404,
+            "w": 72,
+            "h": 82
           }
         ],
         "tags": [
@@ -1027,26 +1027,26 @@
       },
       "card": {
         "x": 12,
-        "y": 12,
+        "y": 8,
         "w": 366,
-        "h": 820
+        "h": 828
       },
-      "controls": 24,
-      "scrolls": 200,
+      "controls": 36,
+      "scrolls": 663,
       "endOfStep": {
         "control": "#looks-done",
         "label": "Done",
         "box": {
-          "x": 29,
-          "y": 771,
-          "w": 332,
+          "x": 27,
+          "y": 778,
+          "w": 336,
           "h": 44
         },
-        "below": -17,
+        "below": -14,
         "inView": true
       },
       "tightestGap": {
-        "gap": 8,
+        "gap": 9,
         "between": [
           "#looks-parts",
           "#looks-parts"
@@ -1057,16 +1057,16 @@
         ],
         "boxes": [
           {
-            "x": 29,
-            "y": 278,
-            "w": 66,
-            "h": 76
+            "x": 27,
+            "y": 302,
+            "w": 67,
+            "h": 82
           },
           {
             "x": 103,
-            "y": 278,
-            "w": 66,
-            "h": 76
+            "y": 302,
+            "w": 67,
+            "h": 82
           }
         ],
         "tags": [
@@ -1086,46 +1086,46 @@
       },
       "card": {
         "x": 12,
-        "y": 12,
+        "y": 8,
         "w": 366,
-        "h": 820
+        "h": 828
       },
-      "controls": 24,
-      "scrolls": 193,
+      "controls": 36,
+      "scrolls": 645,
       "endOfStep": {
         "control": "#looks-done",
         "label": "Done",
         "box": {
-          "x": 29,
-          "y": 771,
-          "w": 332,
+          "x": 27,
+          "y": 778,
+          "w": 336,
           "h": 44
         },
-        "below": -17,
+        "below": -14,
         "inView": true
       },
       "tightestGap": {
-        "gap": 8,
+        "gap": 9,
         "between": [
           "#looks-parts",
           "#looks-parts"
         ],
         "labels": [
-          "Fair",
-          "Light"
+          "Rust",
+          "Indigo"
         ],
         "boxes": [
           {
-            "x": 29,
-            "y": 259,
-            "w": 66,
-            "h": 76
+            "x": 27,
+            "y": 271,
+            "w": 67,
+            "h": 82
           },
           {
             "x": 103,
-            "y": 259,
-            "w": 66,
-            "h": 76
+            "y": 271,
+            "w": 67,
+            "h": 82
           }
         ],
         "tags": [

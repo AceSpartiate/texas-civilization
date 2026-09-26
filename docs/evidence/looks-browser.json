@@ -1,6 +1,6 @@
 {
   "record": "Naming the family and How We Look, in a browser (owner, 2026-09-17)",
-  "date": "2026-09-25",
+  "date": "2026-09-26",
   "verdict": "PASS",
   "note": "Same computer only. A student joined, rolled, gave the family its last name in the pop-up, chose each parent's looks from pictures, and reloaded. The pictures are Claude-drawn stand-ins; the figure on the map is unchanged (layered people art, docs/ART_REQUESTS.md). No LAN or district claim.",
   "checks": [
@@ -8,7 +8,8 @@
     "after the roll the \"Family Last Name\" box comes up, before the looks, and Escape does not close it",
     "the naming card holds every one of the family by their first name (Adela, Alvin, Andrés, Basilio, Chana, Delia, Emeterio, Jasper, Levi, Marcela, Marcos, Obed, Petra, Prudence, Refugia, Rufino, Simeon, Teodoro) and Continue keeps them",
     "named, every member carries the last name (Alvin Navarro, Refugia Navarro, Marcos Navarro, Levi Navarro, Delia Navarro, Jasper Navarro, Rufino Navarro, Petra Navarro, Basilio Navarro, Andrés Navarro, Simeon Navarro, Marcela Navarro, Adela Navarro, Prudence Navarro, Chana Navarro, Teodoro Navarro, Obed Navarro, Emeterio Navarro); the panel's boxes hold the first names",
-    "each parent's looks came up in turn with a picture on every choice, the defaults pressed, the preview following, and Done kept father: dark brown hair, hat; mother: black hair, pinned hair",
+    "each parent's looks came up in turn with a picture on every choice, the defaults pressed, the preview following, and Done kept father: black hair, hat; mother: dark brown hair, bonnet",
+    "after reload both parent portraits use the same layers and choices as the creation preview",
     "reloaded, nothing is asked again, and the journal says who is whose without editing: \"Alvin Navarro - father, 42. Married to Refugia Navarro. Father to Marcos Navarro, Levi Navarro, Delia Navarro, Jasper Navarro, Rufino Navarro, Petra Navarro, Basilio Navarro, Andrés Navarro, Simeon Navarro, Marcela Navarro, Adela Navarro, Prudence Navarro, Chana Navarro, Teodoro Navarro, Obed Navarro and Emeterio Navarro.\"",
     "at phone width the looks pop-up fits and the page does not scroll sideways",
     "no page errors"
@@ -55,8 +56,8 @@
       "Simeon",
       "Teodoro"
     ],
-    "chose-father": "dark brown hair, hat",
-    "chose-mother": "black hair, pinned hair",
+    "chose-father": "black hair, hat",
+    "chose-mother": "dark brown hair, bonnet",
     "kin": "Alvin Navarro - father, 42. Married to Refugia Navarro. Father to Marcos Navarro, Levi Navarro, Delia Navarro, Jasper Navarro, Rufino Navarro, Petra Navarro, Basilio Navarro, Andrés Navarro, Simeon Navarro, Marcela Navarro, Adela Navarro, Prudence Navarro, Chana Navarro, Teodoro Navarro, Obed Navarro and Emeterio Navarro."
   },
   "screenshots": [

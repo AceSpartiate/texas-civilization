@@ -35,6 +35,13 @@ try {
   const page = await context.newPage();
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(url);
+  const paletteComplete = await page.evaluate(async () => {
+    const [vocabulary, palette] = await Promise.all([import('/look-vocabulary.js'), import('/looks-art.js')]);
+    return vocabulary.SKIN.every(value => palette.SKIN_COLOURS[value])
+      && vocabulary.HAIR.every(value => palette.HAIR_COLOURS[value])
+      && vocabulary.CLOTHING.every(value => palette.CLOTHING_COLOURS[value]);
+  });
+  assert.equal(paletteComplete, true, 'a server appearance option has no portrait colour');
   await page.locator('[name=name]').fill('Looks reader');
   await page.locator('[name=code]').fill(app.state.sessionCode);
   await page.getByRole('button', { name: 'Join', exact: true }).click();
@@ -104,12 +111,15 @@ try {
       assert.deepEqual(pressed, [parent.appearance[part]], `the default ${part} is not the one chosen`);
     }
     const before = await page.locator('#looks-preview').evaluate(canvas => canvas.toDataURL());
+    const beforeFigure = await page.locator('#looks-figure').evaluate(canvas => canvas.toDataURL());
     const hair = parent.choices.hair.find(value => value !== parent.appearance.hair && value !== 'grey');
     const head = parent.choices.head.find(value => value !== parent.appearance.head);
     await page.locator(`#looks-parts button[data-part="hair"][data-value="${hair}"]`).click();
     await page.locator(`#looks-parts button[data-part="head"][data-value="${head}"]`).click();
     const after = await page.locator('#looks-preview').evaluate(canvas => canvas.toDataURL());
+    const afterFigure = await page.locator('#looks-figure').evaluate(canvas => canvas.toDataURL());
     assert.notEqual(after, before, 'the preview did not follow the choice');
+    assert.notEqual(afterFigure, beforeFigure, 'the map-figure preview did not follow the choice');
     assert.equal(await page.locator(`#looks-parts button[data-part="hair"][data-value="${hair}"]`).getAttribute('aria-pressed'), 'true');
     if (index === 0) await page.screenshot({ path: 'docs/evidence/looks-popup.png' });
     await page.locator('#looks-done').click();
@@ -128,6 +138,25 @@ try {
   await page.waitForTimeout(1500);
   assert.equal(await page.locator('#surname').isHidden(), true, 'the last name was asked for again');
   assert.equal(await page.locator('#looks').isHidden(), true, 'the looks were asked for again');
+  const savedLooks = await family(page);
+  for (const parent of parents) {
+    const onMap = await page.evaluate(id => window.__snapshot.world.entities.find(one => one.id === id)?.appearance, parent.id);
+    assert.deepEqual(onMap, savedLooks.people.find(one => one.id === parent.id).appearance, 'the compact map look decodes to a different parent');
+  }
+  const portraitsMatch = await page.evaluate(async ids => {
+    const { drawAvatarPortrait } = await import('/avatar-art.js');
+    return ids.map(id => {
+      const person = window.__snapshot.world.entities.find(one => one.id === id);
+      const actual = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-portrait canvas`);
+      if (!person?.appearance || !actual) return false;
+      const expected = document.createElement('canvas');
+      expected.width = expected.height = actual.width;
+      drawAvatarPortrait(expected, person.appearance, person.sex);
+      return expected.toDataURL() === actual.toDataURL();
+    });
+  }, parents.map(person => person.id));
+  assert.deepEqual(portraitsMatch, parents.map(() => true), 'a family-panel portrait differs from the chosen appearance');
+  ok('after reload both parent portraits use the same layers and choices as the creation preview');
   // The journal is pressed with the wagon panel still open on purpose. That click is what caught a dim given to the
   // wagon panel on 2026-09-21 and taken out again the same day: a lobby panel that covers the family explains nothing
   // by dimming, and it cost this button (docs/FAMILY_PANEL.md §12.11).
