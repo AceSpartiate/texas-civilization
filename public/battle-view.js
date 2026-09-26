@@ -332,7 +332,7 @@ export function createBattleView(art) {
     // The cannon and the men serving it.
     let cannonShown = null;
     if (battle.cannon) cannonShown = drawCannon(ctx, battle, camera, figurePx, time, now, wind, still);
-    if (battle.flag) drawFlag(ctx, battle.flag, camera, figurePx, time, wind);
+    const flagShown = battle.flag ? drawFlag(ctx, battle.flag, camera, figurePx, time, wind) : null;
     if (battle.parley) drawParley(ctx, battle, camera, figurePx, time);
     // Flashes: a tenth of a second each, over the figures.
     view.flashes = view.flashes.filter(f => now - f.born < 130);
@@ -357,7 +357,7 @@ export function createBattleView(art) {
       flashes, shots, shotsTotal: view.shotsTotal, shotsBy: { ...view.shotsBy }, smoke: smokeDrawn.alive, smokeInView: smokeDrawn.inView, smokeCentre: smokeDrawn.centre, bubbles, linesShown: [...view.linesShown],
       members: [...view.members.keys()], memberClips: [...view.memberClips],
       memberPoses: [...view.members.keys()].map(id => ({ id, drawn: view.memberSpots.has(id) })),
-      cannon: cannonShown, cannonShots: view.cannonFiredAt.length, fallen: [...fallenSlots.values()].reduce((s, m) => s + m.size, 0),
+      cannon: cannonShown, flag: flagShown, cannonShots: view.cannonFiredAt.length, fallen: [...fallenSlots.values()].reduce((s, m) => s + m.size, 0),
       frameMs: { last: +ms.toFixed(2), median: +sorted[Math.floor(sorted.length / 2)].toFixed(2), p95: +sorted[Math.floor(sorted.length * 0.95)].toFixed(2) },
     };
     view.memberSpots.clear();
@@ -475,6 +475,8 @@ export function createBattleView(art) {
       ctx.fillText(flag.words || 'COME AND TAKE IT', w * 0.5, h * 0.82, w * 0.92);
     }
     ctx.restore();
+    // Where it was drawn, for the proof that it is on the screen and not only in the data.
+    return { x: Math.round(p.x), y: Math.round(p.y - pole), w: Math.round(w), h: Math.round(h), words: figurePx >= 22 };
   }
 
   function drawParley(ctx, battle, camera, figurePx, time) {

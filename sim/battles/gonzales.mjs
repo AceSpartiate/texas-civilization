@@ -51,6 +51,8 @@ export function gonzalesGround(world) {
 const TEX = 'texian', MEX = 'mexican';
 /** One line. `name` only ever on a documented line (sim/battle-stage.mjs `checkEngagement`). */
 const say = (id, at, side, role, kind, text, extra = {}) => ({ id, at, side, role, kind, text, ...extra });
+/** What the page writes under the taunt, so nobody reads a later memory as a quotation (`HIST-TEX-469`). */
+const TAUNT_GLOSS = 'shouted at the dragoons; remembered later, not written down in 1835';
 
 export const GONZALES = Object.freeze({
   id: 'gonzales',
@@ -74,10 +76,10 @@ export const GONZALES = Object.freeze({
   noFalling: [TEX],
   // The gun on its pair of cart wheels, in the middle of the Texian line (`HIST-TEX-475`, `-476`). Brass.
   cannon: { side: TEX, offset: { along: 0.03, across: 0.01 }, metal: 'bronze', crew: 3, claimId: 'HIST-TEX-475' },
-  // The flag is not drawn on the field: whether it flew on October 2 is disputed, and no 1835 account puts it there
-  // (`HIST-TEX-475`). `FIC-GONZ-419` records the choice; the owner may overturn it (docs/battle-research/gonzales.md §18),
-  // and the renderer's stand-in flag is ready for the day it is (`flag: { side, kind, offset, words }`).
-  flag: null,
+  // The flag over the gun. Whether it flew on October 2 is disputed and no 1835 account puts it on the field
+  // (`HIST-TEX-475`); the owner chose to draw it (2026-09-25: "have the flag be drawn"), recorded as `FIC-GONZ-419`. The
+  // women in the town paint it on September 30 and October 1 (sim/town-scenes.mjs), and it goes over the river with the men.
+  flag: { side: TEX, kind: 'come-and-take-it', offset: { along: -0.02, across: 0.03 }, words: 'COME AND TAKE IT', claimId: 'FIC-GONZ-419' },
   // The three Spanish words of a volley, documented in the militia regulation of 1822 (`HIST-TEX-479`). Nobody fired a volley
   // at Gonzales by default, so these are said only if a phase gives the Mexican side `fire: 'volley'`.
   commands: {
@@ -153,6 +155,10 @@ export const GONZALES = Object.freeze({
         say('g-here', 12, TEX, 'volunteer', 'reconstructed', 'Here they come!'),
         say('g-carga', 18, MEX, 'officer', 'reconstructed', '¡Sable en mano! ¡A la carga!', { gloss: 'Swords out! Charge!' }),
         say('g-trees', 25, TEX, 'volunteer', 'reconstructed', 'Back to the trees!'),
+        // The owner, 2026-09-25: "have the men say it as a taunt of sorts." Said by nobody named, and shown as `tradition`: no
+        // 1835 document has anybody say it; Mason (1874) and a statement endorsed as Rusk's remember it said (`HIST-TEX-469`,
+        // `FIC-GONZ-419`).
+        say('g-taunt-1', 37, TEX, 'volunteer', 'tradition', 'Come and take it!', { claimId: 'HIST-TEX-469', gloss: TAUNT_GLOSS }),
       ],
     },
     {
@@ -199,6 +205,8 @@ export const GONZALES = Object.freeze({
         say('g-fire', 1, TEX, 'volunteer', 'documented', 'Fire!', { claimId: 'HIST-TEX-470', gloss: 'passed along the line (Smith)' }),
         say('g-boys', 5, TEX, 'volunteer', 'reconstructed', 'Come on, boys!'),
         say('g-retirada', 9, MEX, 'officer', 'reconstructed', '¡Media vuelta! ¡Retirada!', { gloss: 'About face! Fall back!' }),
+        say('g-taunt-2', 14, TEX, 'volunteer', 'tradition', 'Come and take it!', { claimId: 'HIST-TEX-469', gloss: TAUNT_GLOSS }),
+        say('g-taunt-3', 17, TEX, 'volunteer', 'tradition', 'Come back and take it!', { claimId: 'HIST-TEX-469', gloss: TAUNT_GLOSS }),
       ],
     },
     {
