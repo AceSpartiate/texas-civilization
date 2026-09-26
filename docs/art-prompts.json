@@ -1690,6 +1690,48 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/ferry-landing.png",
       "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
       "review": "A schematic site-type illustration, not a historical reconstruction or a claim about exact buildings."
+    },
+    {
+      "sheet": "gonzales-cannon-buried",
+      "promptId": "frontier-v1/gonzales-cannon-buried",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "prompt": "Edit the small brass Gonzales cannon barrel, preserving its design, colour, side-facing east view and transparency. Lower it into a shallow excavated hole so the lower half is concealed by freshly turned dark soil and only its upper half and muzzle are exposed. No wheels, carriage, people, trees, labels, scenery or opaque background.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-852a671e-3009-4e83-9d1b-c06b21e2d44c.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-36488c86-a194-4f9a-b589-6609d64f9b8f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-cannon-buried.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "The same brass barrel reads as half exposed from soil, not a field-carriage gun under a canvas ellipse."
+    },
+    {
+      "sheet": "gonzales-log-breastwork",
+      "promptId": "frontier-v1/gonzales-log-breastwork",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "One transparent 1835 Gonzales ferry-landing breastwork made only of low horizontally laid rough logs braced with short stakes, with small gaps for defenders. Warm hand-painted dark-brown ink outlines, elevated three-quarter view, wide low silhouette. No earth rampart, people, boats, cannon, text or opaque ground.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/fortifications.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a093533b-fd60-4726-8d0c-c779b239d7f9.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-log-breastwork.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "A log wall instead of the previous earth-rampart stand-in; genuine alpha."
+    },
+    {
+      "sheet": "gonzales-dugout-canoe",
+      "promptId": "frontier-v1/gonzales-dugout-canoe",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "One transparent 1835 Gonzales drawn-up hand-hewn dugout canoe, single hollowed log with uneven adze-cut interior and blunt ends, warm hand-painted dark-brown ink outlines, elevated three-quarter view. No plank skiff, rowboat, people, river water, text or opaque ground.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/transport.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5f75ef3b-3a2b-4afd-b0be-81b387f26ab7.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-dugout-canoe.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Hollow-log construction distinguishes it from the prior plank skiff; two scene instances remain separately placed."
     }
   ]
 }

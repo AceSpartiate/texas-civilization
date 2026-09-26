@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1413 usable sprites, 117 PNG atlases, 493 clips** (267 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1416 usable sprites, 120 PNG atlases, 493 clips** (267 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -53,6 +53,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-santa-anna-picnic | 4 | 1254 × 1254 | 1236551 |
 | famous-picnic-props | 4 | 1254 × 1254 | 1557526 |
 | flag-come-and-take-it | 4 | 1254 × 1254 | 1140674 |
+| gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
+| gonzales-log-breastwork | 1 | 1774 × 887 | 1221292 |
+| gonzales-dugout-canoe | 1 | 1536 × 1024 | 2208839 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
 | people-mounted-cast1-e | 16 | 1254 × 1254 | 1086305 |
@@ -658,6 +661,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | flag-come-and-take-it-wind-1 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-2 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-3 | flag-come-and-take-it | flag-come-and-take-it-wind |
+| gonzales-cannon-buried | gonzales-cannon-buried | State artwork; no motion required |
+| gonzales-log-breastwork | gonzales-log-breastwork | State artwork; no motion required |
+| gonzales-dugout-canoe | gonzales-dugout-canoe | State artwork; no motion required |
 | house-round-sill | house-modules | State artwork; no motion required |
 | house-round-low-walls | house-modules | State artwork; no motion required |
 | house-round-full-walls | house-modules | State artwork; no motion required |

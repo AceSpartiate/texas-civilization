@@ -138,9 +138,9 @@ export function drawFlag(ctx, x, y, height, { time = 0, stage = 'done', pole = t
 /**
  * The scene's props: the gun in the ground and on its wheels, the boats drawn up behind the breastwork, the table the flag is
  * made on, the dragoons' tents across the river, a family's wagon.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - Gonzales before the fight. The breastwork of logs is the library's
- * `earth-rampart`; the canoes are its `skiff`; the gun on cart wheels is delivered; the gun in the ground is a
- * mound drawn in canvas over the same gun; the peach orchard's ploughed ground is canvas furrows; the flag is canvas.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - Gonzales before the fight. The buried gun, log breastwork and
+ * dugout canoe now have dedicated sprites; the peach orchard's ploughed ground is still canvas furrows and the flag work
+ * still has its canvas-stage drawing.
  */
 function drawProp(ctx, prop, p, figure, time) {
   const flip = prop.face === 'w';
@@ -150,20 +150,12 @@ function drawProp(ctx, prop, p, figure, time) {
       for (let i = -3; i <= 3; i++) { ctx.beginPath(); ctx.moveTo(p.x - figure * .9, p.y + i * figure * .09); ctx.lineTo(p.x + figure * .9, p.y + i * figure * .09 - figure * .05); ctx.stroke(); }
       ctx.restore(); return;
     }
-    case 'cannon-buried': {
-      ctx.save();
-      drawSprite(ctx, 'cannon-bronze-e', p.x, p.y + figure * .16, figure * .55, { flip });
-      ctx.fillStyle = '#7b5d3c'; ctx.strokeStyle = '#4c3824'; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.ellipse(p.x, p.y + figure * .04, figure * .55, figure * .15, 0, 0, Math.PI); ctx.fill(); ctx.stroke();
-      ctx.fillStyle = '#8f6f49';
-      ctx.beginPath(); ctx.ellipse(p.x + figure * .62, p.y - figure * .02, figure * .24, figure * .1, 0, 0, Math.PI * 2); ctx.fill();
-      ctx.restore(); return;
-    }
+    case 'cannon-buried': drawSprite(ctx, 'gonzales-cannon-buried', p.x, p.y, figure * .55, { flip }); return;
     case 'cannon': drawSprite(ctx, `cannon-cartwheels-${flip ? 'w' : 'e'}`, p.x, p.y, figure * .75) || drawSprite(ctx, 'cannon-bronze-e', p.x, p.y, figure * .62, { flip }); return;
     case 'wheel': drawSprite(ctx, 'wagon-wheel', p.x, p.y, figure * .5); return;
-    case 'skiff': drawSprite(ctx, 'skiff', p.x, p.y, figure * .42, { flip }); return;
+    case 'skiff': drawSprite(ctx, 'gonzales-dugout-canoe', p.x, p.y, figure * .42, { flip }); return;
     case 'flatboat': drawSprite(ctx, 'ferry-flatboat', p.x, p.y, figure * .6, { flip }); return;
-    case 'breastwork': drawSprite(ctx, 'earth-rampart', p.x, p.y, figure * .55, { flip }); return;
+    case 'breastwork': drawSprite(ctx, 'gonzales-log-breastwork', p.x, p.y, figure * .55, { flip }); return;
     case 'tent': drawSprite(ctx, 'tent', p.x, p.y, figure * 1.05); return;
     case 'fire': drawClip(ctx, 'fire-flicker', p.x, p.y, figure * .45, { timeMs: time, seed: prop.id }) || drawSprite(ctx, 'campfire', p.x, p.y, figure * .4); return;
     case 'horse': drawClip(ctx, 'horse-chestnut-idle', p.x, p.y, figure * 1.1, { timeMs: time, seed: prop.id, flip }); return;

@@ -4395,6 +4395,117 @@
         ]
       }
     },
+    "gonzales-cannon-buried": {
+      "image": "atlases/gonzales-cannon-buried.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1652878,
+      "sha256": "528a6c103af5044fbe7b39d8f80586c5bbf283ac5b40ab7dce586e79f98a6018",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.69696,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              329,
+              849
+            ],
+            "columns": [
+              [
+                26,
+                1501
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "gonzales-log-breastwork": {
+      "image": "atlases/gonzales-log-breastwork.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1221292,
+      "sha256": "c78793d2bedae79fa853d2cea7f82ea348ac2d4fb22207952706726114781c66",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.678483,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              271,
+              713
+            ],
+            "columns": [
+              [
+                8,
+                1762
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "gonzales-dugout-canoe": {
+      "image": "atlases/gonzales-dugout-canoe.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2208839,
+      "sha256": "9ef57219feac85bff990f53439a7077971d506e802b1dc8580e805f1fba2f66a",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.605344,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              111,
+              958
+            ],
+            "columns": [
+              [
+                27,
+                1504
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "house-modules": {
       "image": "atlases/house-modules.png",
       "width": 1448,
@@ -24895,6 +25006,78 @@
           568
         ],
         "visiblePixels": 117504,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "gonzales-cannon-buried": {
+      "sheet": "gonzales-cannon-buried",
+      "x": 26,
+      "y": 329,
+      "w": 1475,
+      "h": 520,
+      "anchorX": 0.5525,
+      "anchorY": 0.9288,
+      "label": "gonzales cannon buried",
+      "kind": "gonzales-cannon-buried",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          28,
+          331,
+          1471,
+          516
+        ],
+        "visiblePixels": 452803,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "gonzales-log-breastwork": {
+      "sheet": "gonzales-log-breastwork",
+      "x": 8,
+      "y": 271,
+      "w": 1754,
+      "h": 442,
+      "anchorX": 0.5975,
+      "anchorY": 0.9299,
+      "label": "gonzales log breastwork",
+      "kind": "gonzales-log-breastwork",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          10,
+          273,
+          1750,
+          438
+        ],
+        "visiblePixels": 484230,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "gonzales-dugout-canoe": {
+      "sheet": "gonzales-dugout-canoe",
+      "x": 27,
+      "y": 111,
+      "w": 1477,
+      "h": 847,
+      "anchorX": 0.7891,
+      "anchorY": 0.9386,
+      "label": "gonzales dugout canoe",
+      "kind": "gonzales-dugout-canoe",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          29,
+          113,
+          1473,
+          843
+        ],
+        "visiblePixels": 598977,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
