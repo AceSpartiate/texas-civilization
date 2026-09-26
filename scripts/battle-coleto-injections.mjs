@@ -76,8 +76,9 @@ const UNIT = [
 const BROWSER = [
   { name: 'no smoke: a shot leaves nothing behind', file: 'public/battle-view.js',
     from: '    const w = wind || { x: 0, y: 0 };', to: '    return;', expect: 'no smoke on screen' },
-  { name: 'the square drawn loose, like the marksmen', file: 'public/battle-view.js',
-    from: "  if (style === 'square') {", to: '  if (false) {', expect: 'do not stand in a hollow square' },
+  // The square still in its faces, firing by them, but its men drawn all through its middle: not a hollow square.
+  { name: 'the square drawn solid, men all through its middle', file: 'public/battle-view.js',
+    from: '      const reach = SQUARE.outer - rank * SQUARE.rank,', to: '      const reach = (SQUARE.outer - rank * SQUARE.rank) * ((i % 5) / 4),', expect: 'do not stand in a hollow square' },
   { name: 'the family\'s man stays at Goliad', file: 'sim/fannin.mjs',
     from: '    walkToward(world, person, at, siteId);', to: "    walkToward(world, person, world.map.sites.goliad, 'goliad');", expect: 'is not in the square at Coleto' },
   { name: 'no card when the column marches out', file: 'sim/fannin.mjs',
@@ -85,7 +86,7 @@ const BROWSER = [
   { name: 'the family with nobody there is sent the fight', file: 'sim/fannin.mjs',
     from: '    if (!inIt && !inTown) continue;', to: '', expect: 'the family with nobody there was sent the battle' },
   { name: 'nobody falls', file: 'public/battle-view.js',
-    from: '      if (battle.noFalling?.includes(fall.side)) continue;', to: '      continue;', expect: 'the prisoners were not drawn falling' },
+    from: '      if (!side || battle.noFalling?.includes(fall.side)) continue;', to: '      continue;', expect: 'the prisoners were not drawn falling' },
   { name: 'no account at the word', file: 'sim/directors.mjs',
     from: 'tellGoliad(world, go); tellFannin(world); });', to: 'tellGoliad(world, go); });', expect: 'no account came through the family at the word' },
 ];
