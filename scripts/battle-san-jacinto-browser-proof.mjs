@@ -224,11 +224,14 @@ try {
 
   // ------------------------------------------------------------------ Santa Anna brought in, and the account afterwards
   await until(host, 'Santa Anna was never brought in', () => window.__snapshot.world.battle?.phase === 'taken', null, { timeout: 300000 });
+  await until(host, 'the prisoners never called him', () => window.__snapshot.world.battle?.lines?.some(line => line.text === '¡El Presidente!'), null, { timeout: 120000 });
   const taken = await host.evaluate(() => ({ parley: window.__snapshot.world.battle.parley, lines: window.__snapshot.world.battle.lines.map(line => line.text) }));
   assert.deepEqual(taken.parley.people.map(one => one.name), ['Houston', 'Santa Anna']);
   await host.waitForTimeout(1500);
   await shot(host, 'santa-anna');
-  ok(`Santa Anna brought before the wounded Houston: ${taken.lines.filter(text => /Presidente/.test(text)).join(' ')}`);
+  const presidente = taken.lines.filter(text => /Presidente/.test(text));
+  assert.ok(presidente.length, 'the prisoners’ cry was not sent');
+  ok(`Santa Anna brought before the wounded Houston, the prisoners calling ${presidente.join(' ')}`);
   await until(fighter, 'the account never appeared', () => window.__snapshot.world.battleAccount, null, { timeout: 300000 });
   await fighter.waitForFunction(() => !document.querySelector('#military-notice').hidden && /San Jacinto/.test(document.querySelector('#military-title').textContent) && /What happened/.test(document.querySelector('#military-words').textContent), null, { timeout: 30000 });
   const account = await fighter.evaluate(() => ({ title: document.querySelector('#military-title').textContent, words: document.querySelector('#military-words').textContent, journal: window.__snapshot.world.events.some(event => /Why it ended so/.test(event.text) && /San Jacinto|Santa Anna/.test(event.text)) }));

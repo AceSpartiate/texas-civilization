@@ -277,5 +277,87 @@ Its record is `docs/evidence/battle-injections.json`.
   drawn on foot. A detachment drawn apart from its side is the way out.
 - ceiling: figures stand on open ground whatever is under them; the volley's rhythm is each page's own.
 - A family's person is drawn in the militia's firing poses (stand-in, `docs/ART_REQUESTS.md` request 2026-09-25).
-- The staged fate of a family's person inside a deadly battle is not built (none is at stake at Gonzales).
+- The staged fate of a family's person inside a deadly battle: built for San Jacinto, §7.5.
 - The town before the fight (alarm, flag, muster) is a separate build (`sim/town-scenes.mjs`).
+
+## 7. San Jacinto on the engine (2026-09-25, not released)
+
+Staged from `docs/battle-research/staging.md` §8 with the owner's §2b and the recommended J1, J3, J4. Claims `HIST-TEX-522`–`-527`
+and `FIC-GONZ-441`–`-444` (the staging sheet's proposed `-517`–`-519`/`-438` numbers were taken by the south and Coleto).
+
+### 7.1 Where it is
+
+| Piece | File | What it does |
+| --- | --- | --- |
+| The engagement | `sim/battles/san-jacinto.mjs` | Seventeen phases from noon April 20 (`san-jacinto-field`) to the word at noon April 23; the ground placed from Lynchburg's point by longitude and latitude (`sanJacintoGround`, null on a map without Lynchburg). |
+| Its director | `sim/san-jacinto.mjs` | Who is in camp and in the line (`advanceSanJacinto`), the fates at their minutes (`strikeSanJacinto`), the two alerts, the guns heard at Lynchburg, the Host's spotlights, the projection (`sanJacintoProjection`) and the account (`tellSanJacintoAccounts`, `sanJacintoAccount`). `sim/directors.mjs` only calls it. |
+| Arrival | `sim/houston.mjs` `inTheLine`, `leftWithBaggage`, `fightSanJacinto`, `joinEstimate`; `sim/winter.mjs` `joinService`; `sim/chores.mjs` `join-houston` (`fromFlight`, `estimate`, `begin`); `sim/road.mjs` `withFamily`; `sim/scrape.mjs` | staging.md §8.6 fixes a-h. |
+| The clock | `momentOf(world, 'san-jacinto')` is now the `volley` phase (16:30, unchanged), `santa-anna-taken` the `taken` phase (12:00 Apr 22, unchanged). |
+
+### 7.2 The phases
+
+`arrive` 12:00 Apr 20 (60 min, step 20) · `camped` (180) · `skirmish` 16:00 (60, step 10: Sherman's horsemen as a party, one hurt) ·
+`night` (960: the breastwork) · `morning` 09:00 Apr 21 (120, step 20: Cos's column in, Deaf Smith's party out for Vince's bridge,
+the Host's spotlight on the bridge) · `waiting` (270: "siesta" said as the Handbook's word) · `parade` 15:30 (30, step 5) ·
+`advance` 16:00 (24, step 2: the tune named as tradition, both versions, no sound) · `guns` 16:24 (6, step 2, contact) ·
+`volley` 16:30 (2, step 1) · `charge` 16:32 (6, step 1: "Remember the Alamo!" / "Remember Goliad!", documented) · `rout` 16:38
+(10, step 1: both sides `rout`, a share with hands up, "Me no Alamo!" as tradition) · `killing` 16:48 (100, step 20: figures fall
+in the marsh and lie still, §2b.2) · `prisoners` dusk (60, step 20) · `search` (992) · `taken` 12:00 Apr 22 (60, step 20:
+Santa Anna before the wounded Houston, the prisoners' documented "¡El Presidente!", neither named man given words) · `held`
+(1380, to the word). From the volley to the killing is Houston's eighteen minutes.
+
+### 7.3 Engine additions (generic, additive)
+
+- Style **`camp`** (a force at rest: scattered, a third sitting, fires nothing) in `STYLES` and the renderer.
+- **`parties`** on a phase: a few men of a side drawn apart from it with their own place, style and fire (Sherman's party,
+  Cos's column, Deaf Smith's, Lamar's horse). A fall may name its `party`. Parties are not counted in their side's figures.
+- **`guns`**: several guns, each with an id, dated shots (`phase.shots[id]`), `from`/`until`, and `pin` (stays at its
+  station once it has taken it). `cannon` + `phase.cannon` (Gonzales) still work.
+- **`works`**: what stands on the ground (`breastwork` with its opening, `fires`, `marsh`, `water`), from/until a phase.
+- `parley.at` (a named point), `pose: 'injured'` for a person in it; a side's `count` per phase; `ragged` ranks; `surrendering`
+  share; `commands.bySide` (the Texian officers' English volley words).
+- `projectBattle(..., { memberStates })`: a family's own man `down` (`killed`/`wounded`) from the minute the director says, to
+  his family and the Host only. `memberPose` draws him reclining or sitting hurt.
+- `rankSlot` (a family's man in a formed line; an undrilled man lags his rank while it walks).
+- `battleStep`: a phase with no step lands the clock on the next watched phase; `startsAt(id, resolve)` lets the clock hold
+  for a fight before its record exists (an old save opened mid-charge). `resolveTimeJump` crosses an engagement's quiet
+  hours but not a watched phase. `public/motion.js` `CALENDAR_STEPS` gains 1.
+- Renderer: the dead and the surrendering are pinned where they fell while their side runs on; a later fall never lands on a
+  man already down; each gun's crew is its own side's.
+
+### 7.4 Arrival (FIC-GONZ-442)
+
+In the line = serving with Houston, at the Lynchburg camp, not travelling, not sick or wounded, not left with the baggage.
+At `houston-lynchburg` every well man is force-marched there (by noon on the 20th); a sick or hurt man stays with the
+baggage at Harrisburg (J1), `present`. A joiner keeps the camp he reached and follows at the forced march; one too late is
+told the place he reached. `join-houston` may be started from the refuge or the family's road (J4) and says when he would
+be with the army. A serving man is never counted with his refugee family (not taken by the column, not fed or sickened with
+it). A serving man not in the line is said as what he was (`service.absent`: `baggage`, `camp`, `road`) and released with
+the rest at the word.
+
+### 7.5 Viewers, alerts, aftermath (FIC-GONZ-443, -444)
+
+A family with a man in the camp is sent the battle from noon on the 20th; its man is alerted through twice (the armies
+meet; the parade, "Parade under arms. We're going at them this afternoon."), each with Watch, before contact. From the
+parade he is held (`heldByBattle`) and in the ranks; his fate is rolled at the volley and, if killed or hurt, he goes down
+at his own minute of the charge on his family's page and the Host's only; the panel and journal wait for the word. Another
+family standing at Lynchburg does not see the men on the field (`sim/town.mjs` `observedBy`) and hears the guns in words.
+The Host is sent it live, focus `battle` in watched phases, spotlights on the field, the bridge and the capture. At the
+word each family with a man with the army gets the plain-words account (through him, or if he fell through the family's
+next person), `tellSanJacinto` releases the men home, `turnHome` sends the refugees back, and the class's last words
+(`scrape-end`) say how the war ended. The ending's rules are unchanged.
+
+### 7.6 Evidence
+
+`tests/battle-san-jacinto.test.mjs` (14), `tests/battle-view-san-jacinto.test.mjs` (6), `npm run test:battle-san-jacinto`
+(a real spring class, join from the refuge on the panel, 1366 and 1024), `scripts/san-jacinto-injections.mjs` →
+`docs/evidence/san-jacinto-injections.json`.
+
+### 7.7 Limits
+
+- ceiling: the field's points are read from the record's words, not surveyed; figures stand on whatever the map has there.
+- ceiling: sixty figures a side; the Texian line walks as one block with Lamar's horse apart; the regiments are not drawn apart.
+- ceiling: a man still on the road to the army when the word comes walks on to it and stands released there.
+- ceiling: a man sick or hurt at an old camp when the army marches is left there, not carried to Harrisburg with the baggage.
+- Stand-ins: the Twin Sisters, the camp at rest, the breastwork, the Texian horsemen, the marsh (`docs/ART_REQUESTS.md`,
+  request 2026-09-25 "San Jacinto").

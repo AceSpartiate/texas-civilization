@@ -1,0 +1,299 @@
+{
+  "record": "san-jacinto-injections",
+  "date": "2026-09-26",
+  "gates": {
+    "unit": "node --test tests/battle-san-jacinto.test.mjs tests/battle-view-san-jacinto.test.mjs, the named test and no other",
+    "browser": "scripts/battle-san-jacinto-browser-proof.mjs"
+  },
+  "unit": [
+    {
+      "name": "a service record fights: a man anywhere is rolled",
+      "file": "sim/houston.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "presence by place: only the men standing at the Lynchburg camp are in the line; a man stranded at an old camp is not rolled and is told so",
+      "caught": false,
+      "failed": []
+    },
+    {
+      "name": "the sick march with the army from Harrisburg",
+      "file": "sim/houston.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "the army's march to Lynchburg takes every well man at Harrisburg there by the 20th; a sick man stays with the baggage, is present and not in the line, and is said so",
+      "caught": true,
+      "failed": [
+        "the army's march to Lynchburg takes every well man at Harrisburg there by the 20th; a sick man stays with the baggage, is present and not in the line, and is said so"
+      ]
+    },
+    {
+      "name": "a joiner is given the camp he never reached, and stands at the old one",
+      "file": "sim/winter.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "a man who joins at a camp the army has left keeps that camp and follows it at the forced march; one who arrives after the battle is told the real place",
+      "caught": true,
+      "failed": [
+        "a man who joins at a camp the army has left keeps that camp and follows it at the forced march; one who arrives after the battle is told the real place"
+      ]
+    },
+    {
+      "name": "a man too late is told the volunteers are gone from Gonzales",
+      "file": "sim/winter.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "a man who joins at a camp the army has left keeps that camp and follows it at the forced march; one who arrives after the battle is told the real place",
+      "caught": true,
+      "failed": [
+        "a man who joins at a camp the army has left keeps that camp and follows it at the forced march; one who arrives after the battle is told the real place"
+      ]
+    },
+    {
+      "name": "nobody can join from the refuge or the road",
+      "file": "sim/chores.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "a man can set out to join Houston from the family's refuge or its road east, the control says when he would be with the army, and he is in the line",
+      "caught": true,
+      "failed": [
+        "a man can set out to join Houston from the family's refuge or its road east, the control says when he would be with the army, and he is in the line"
+      ]
+    },
+    {
+      "name": "the join is offered with no word of when he would reach the army",
+      "file": "sim/chores.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "a man can set out to join Houston from the family's refuge or its road east, the control says when he would be with the army, and he is in the line",
+      "caught": true,
+      "failed": [
+        "a man can set out to join Houston from the family's refuge or its road east, the control says when he would be with the army, and he is in the line"
+      ]
+    },
+    {
+      "name": "a serving man is counted with his refugee family",
+      "file": "sim/road.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "a family refuged at Lynchburg: a man with the army camped there is not with his family, is not taken when the column comes, and does not eat its food",
+      "caught": true,
+      "failed": [
+        "a family refuged at Lynchburg: a man with the army camped there is not with his family, is not taken when the column comes, and does not eat its food"
+      ]
+    },
+    {
+      "name": "nobody falls in at the parade",
+      "file": "sim/san-jacinto.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "from the parade the men of the families are in the line, held there, in the ranks and firing with it; the alert comes through each before contact, and nobody else is told",
+      "caught": true,
+      "failed": [
+        "from the parade the men of the families are in the line, held there, in the ranks and firing with it; the alert comes through each before contact, and nobody else is told"
+      ]
+    },
+    {
+      "name": "the alert never comes",
+      "file": "sim/san-jacinto.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "from the parade the men of the families are in the line, held there, in the ranks and firing with it; the alert comes through each before contact, and nobody else is told",
+      "caught": true,
+      "failed": [
+        "from the parade the men of the families are in the line, held there, in the ranks and firing with it; the alert comes through each before contact, and nobody else is told"
+      ]
+    },
+    {
+      "name": "every family is sent the fight",
+      "file": "sim/san-jacinto.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "from the parade the men of the families are in the line, held there, in the ranks and firing with it; the alert comes through each before contact, and nobody else is told",
+      "caught": false,
+      "failed": [
+        "the army's march to Lynchburg takes every well man at Harrisburg there by the 20th; a sick man stays with the baggage, is present and not in the line, and is said so",
+        "from the parade the men of the families are in the line, held there, in the ranks and firing with it; the alert comes through each before contact, and nobody else is told",
+        "afterwards: the account through the man in plain words, the families at their refuges turn for home, the men go home, and the class ends on the road home with the war won"
+      ]
+    },
+    {
+      "name": "a man's fall is sent before it happens",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "a man killed goes down at his own minute in the charge: his family's page and the Host's draw it then, nobody else's, and his panel and journal wait for the word",
+      "caught": true,
+      "failed": [
+        "a man killed goes down at his own minute in the charge: his family's page and the Host's draw it then, nobody else's, and his panel and journal wait for the word"
+      ]
+    },
+    {
+      "name": "a man's fall is sent to every family",
+      "file": "sim/san-jacinto.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "a man killed goes down at his own minute in the charge: his family's page and the Host's draw it then, nobody else's, and his panel and journal wait for the word",
+      "caught": true,
+      "failed": [
+        "a man killed goes down at his own minute in the charge: his family's page and the Host's draw it then, nobody else's, and his panel and journal wait for the word"
+      ]
+    },
+    {
+      "name": "the fallen man walks on with the line",
+      "file": "sim/san-jacinto.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "a man killed goes down at his own minute in the charge: his family's page and the Host's draw it then, nobody else's, and his panel and journal wait for the word",
+      "caught": true,
+      "failed": [
+        "a man killed goes down at his own minute in the charge: his family's page and the Host's draw it then, nobody else's, and his panel and journal wait for the word"
+      ]
+    },
+    {
+      "name": "the account comes through the dead man",
+      "file": "sim/san-jacinto.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "a man killed goes down at his own minute in the charge: his family's page and the Host's draw it then, nobody else's, and his panel and journal wait for the word",
+      "caught": true,
+      "failed": [
+        "a man killed goes down at his own minute in the charge: his family's page and the Host's draw it then, nobody else's, and his panel and journal wait for the word"
+      ]
+    },
+    {
+      "name": "Santa Anna's column is drawn beside the battle",
+      "file": "sim/armies.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "Santa Anna is brought before the wounded Houston on the 22nd: the prisoners' documented cry, both named, neither given words; his column is not drawn beside the battle",
+      "caught": true,
+      "failed": [
+        "Santa Anna is brought before the wounded Houston on the 22nd: the prisoners' documented cry, both named, neither given words; his column is not drawn beside the battle"
+      ]
+    },
+    {
+      "name": "the family at Lynchburg sees the men out on the field",
+      "file": "sim/town.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "afterwards: the account through the man in plain words, the families at their refuges turn for home, the men go home, and the class ends on the road home with the war won",
+      "caught": true,
+      "failed": [
+        "afterwards: the account through the man in plain words, the families at their refuges turn for home, the men go home, and the class ends on the road home with the war won"
+      ]
+    },
+    {
+      "name": "no account",
+      "file": "sim/directors.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "afterwards: the account through the man in plain words, the families at their refuges turn for home, the men go home, and the class ends on the road home with the war won",
+      "caught": false,
+      "failed": [
+        "the army's march to Lynchburg takes every well man at Harrisburg there by the 20th; a sick man stays with the baggage, is present and not in the line, and is said so",
+        "a man killed goes down at his own minute in the charge: his family's page and the Host's draw it then, nobody else's, and his panel and journal wait for the word",
+        "afterwards: the account through the man in plain words, the families at their refuges turn for home, the men go home, and the class ends on the road home with the war won"
+      ]
+    },
+    {
+      "name": "an old save opened in the charge runs on half a day",
+      "file": "sim/san-jacinto.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "a class saved in the middle of San Jacinto reopens in the middle of it; one saved before the engine gains it from the clock; no save version moves; a Host's jump crosses the quiet night but not the fight",
+      "caught": true,
+      "failed": [
+        "a class saved in the middle of San Jacinto reopens in the middle of it; one saved before the engine gains it from the clock; no save version moves; a Host's jump crosses the quiet night but not the fight"
+      ]
+    },
+    {
+      "name": "a Host's jump runs over the parade",
+      "file": "sim/time.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "a class saved in the middle of San Jacinto reopens in the middle of it; one saved before the engine gains it from the clock; no save version moves; a Host's jump crosses the quiet night but not the fight",
+      "caught": true,
+      "failed": [
+        "a class saved in the middle of San Jacinto reopens in the middle of it; one saved before the engine gains it from the clock; no save version moves; a Host's jump crosses the quiet night but not the fight"
+      ]
+    },
+    {
+      "name": "a quiet phase's long tick carries the class past the parade",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-san-jacinto.test.mjs",
+      "expect": "the fighting plays three to six real minutes at the Study pace, the clock lands on every watched phase and never runs faster for it",
+      "caught": false,
+      "failed": [
+        "the fighting plays three to six real minutes at the Study pace, the clock lands on every watched phase and never runs faster for it",
+        "presence by place: only the men standing at the Lynchburg camp are in the line; a man stranded at an old camp is not rolled and is told so",
+        "from the parade the men of the families are in the line, held there, in the ranks and firing with it; the alert comes through each before contact, and nobody else is told",
+        "a man killed goes down at his own minute in the charge: his family's page and the Host's draw it then, nobody else's, and his panel and journal wait for the word",
+        "Santa Anna is brought before the wounded Houston on the 22nd: the prisoners' documented cry, both named, neither given words; his column is not drawn beside the battle",
+        "afterwards: the account through the man in plain words, the families at their refuges turn for home, the men go home, and the class ends on the road home with the war won",
+        "a class saved in the middle of San Jacinto reopens in the middle of it; one saved before the engine gains it from the clock; no save version moves; a Host's jump crosses the quiet night but not the fight"
+      ]
+    },
+    {
+      "name": "a camp at rest is drawn standing in rows",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view-san-jacinto.test.mjs",
+      "expect": "a camp at rest is scattered and unformed, some standing and some sitting, and fires nothing; the formed line against it stands in even ranks",
+      "caught": true,
+      "failed": [
+        "a camp at rest is scattered and unformed, some standing and some sitting, and fires nothing; the formed line against it stands in even ranks"
+      ]
+    },
+    {
+      "name": "the Texian officers give the Mexican words",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view-san-jacinto.test.mjs",
+      "expect": "the Texian line fires its volley on its own officers' words in English; the Mexican ranks on theirs in Spanish",
+      "caught": true,
+      "failed": [
+        "the Texian line fires its volley on its own officers' words in English; the Mexican ranks on theirs in Spanish"
+      ]
+    },
+    {
+      "name": "the dead slide along with their side",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view-san-jacinto.test.mjs",
+      "expect": "in the rout a share of the broken side gives itself up where it stands, and the dead lie where they fell while the side runs on past them",
+      "caught": true,
+      "failed": [
+        "in the rout a share of the broken side gives itself up where it stands, and the dead lie where they fell while the side runs on past them"
+      ]
+    },
+    {
+      "name": "a later fall lands on a man already down",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view-san-jacinto.test.mjs",
+      "expect": "in the rout a share of the broken side gives itself up where it stands, and the dead lie where they fell while the side runs on past them",
+      "caught": false,
+      "failed": []
+    },
+    {
+      "name": "only the first gun is drawn",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view-san-jacinto.test.mjs",
+      "expect": "each gun fires on its own dated shots, stays at its station once pinned, and its crew is its own side's",
+      "caught": true,
+      "failed": [
+        "each gun fires on its own dated shots, stays at its station once pinned, and its crew is its own side's"
+      ]
+    },
+    {
+      "name": "a party is counted into its side",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view-san-jacinto.test.mjs",
+      "expect": "a party of horse is drawn apart from its side, as riders, with its own fall; the breastwork, the fires and the marsh stand on the ground",
+      "caught": true,
+      "failed": [
+        "a party of horse is drawn apart from its side, as riders, with its own fall; the breastwork, the fires and the marsh stand on the ground"
+      ]
+    },
+    {
+      "name": "nothing stands on the ground",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view-san-jacinto.test.mjs",
+      "expect": "a party of horse is drawn apart from its side, as riders, with its own fall; the breastwork, the fires and the marsh stand on the ground",
+      "caught": true,
+      "failed": [
+        "a party of horse is drawn apart from its side, as riders, with its own fall; the breastwork, the fires and the marsh stand on the ground"
+      ]
+    },
+    {
+      "name": "a family's man killed goes on firing",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view-san-jacinto.test.mjs",
+      "expect": "a family's own man down is drawn so from the minute the server says: lying still if killed, sitting hurt if wounded, and firing no more",
+      "caught": true,
+      "failed": [
+        "a family's own man down is drawn so from the minute the server says: lying still if killed, sitting hurt if wounded, and firing no more"
+      ]
+    }
+  ],
+  "browser": [],
+  "cleanBrowserChecks": null,
+  "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
+}

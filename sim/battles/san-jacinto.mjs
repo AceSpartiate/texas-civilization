@@ -27,6 +27,8 @@
  * (Houston), the Mexican camp on the plain toward the San Jacinto with the marsh and Peggy's Lake behind it, under a mile
  * between them, the guns within two hundred yards of the breastwork (`HIST-TEX-522`).
  * A map without Lynchburg (the invented country) has no San Jacinto: null, and the engine is never armed there.
+ * ceiling: the points are read from the record's words, not surveyed, and figures stand on whatever the map has there; a
+ * battlefield site from the San Jacinto Battleground's survey is the way out if the owner wants the field exact.
  */
 const LYNCHBURG = Object.freeze({ lon: -95.0740, lat: 29.7690 });
 const MILES_EAST = 60.26, MILES_NORTH = 68.88;
@@ -88,6 +90,8 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
   // The ground the camera frames and the engine draws on (sim/battle-stage.mjs `projectBattle`).
   sides: {
     // 910 engaged (`HIST-TEX-067`). Drawn as a sample of sixty: one figure for about fifteen men.
+    // ceiling: the regiments walk as one block (Sherman, Burleson, the regulars not drawn apart) with Lamar's horse as a
+    // party; parties per regiment are the way out if a class needs the order of battle drawn.
     texian: { name: 'Houston’s army', count: 910, drawn: 60, claimId: 'HIST-TEX-522', spread: { width: 0.5, depth: 0.14 } },
     // About 700 until Cos came, about 1,200 after (`HIST-TEX-067`). Drawn as a sample of sixty.
     mexican: { name: 'Santa Anna’s army', count: 1200, drawn: 60, claimId: 'HIST-TEX-067', spread: { width: 0.5, depth: 0.3 } },

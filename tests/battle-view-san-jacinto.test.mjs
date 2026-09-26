@@ -80,8 +80,9 @@ test('in the rout a share of the broken side gives itself up where it stands, an
   assert.deepEqual(after.sort(), before.sort(), 'the dead slid along with the side running past them');
   // A later fall never lands on a man already down: counts add up.
   const view3 = createBattleView(fakeArt());
-  run(view3, (minute, t) => ({ ...make(minute, t), fallen: [{ side: 'mexican', count: 6, minute: 1, claimId: 'X' }, { side: 'mexican', count: 6, minute: 2, claimId: 'X' }] }), { seconds: 4 });
-  assert.equal(view3.evidence.fallenBy.mexican, 12);
+  // Five falls of ten out of sixty: laid over each other by chance, some would land on men already down.
+  run(view3, (minute, t) => ({ ...make(minute, t), fallen: [1, 2, 3, 4, 5].map(at => ({ side: 'mexican', count: 10, minute: at, claimId: 'X' })) }), { seconds: 7 });
+  assert.equal(view3.evidence.fallenBy.mexican, 50, 'a later fall landed on a man already down');
 });
 
 test('each gun fires on its own dated shots, stays at its station once pinned, and its crew is its own side\'s', () => {

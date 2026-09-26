@@ -200,6 +200,8 @@ export function takeInEnlisted(world) {
  * The camp guard at Harrisburg (owner's J1, 2026-09-25, docs/battle-research/staging.md §8.11; `HIST-TEX-083`, `-523`): when
  * the army marches from Harrisburg for Lynchburg, a man sick or hurt stays with the baggage and the sick there - "some 248
  * men, mostly sick and ineffective" (TSHA) - and every well man goes. `FIC-GONZ-442`. He is present, not in the line.
+ * ceiling: a man sick or hurt at an older camp when the army marches is left with the baggage where he is, not carried to
+ * Harrisburg with it; carrying the sick with the baggage train is the way out if a class ever needs him there.
  */
 export const BAGGAGE_CONDITIONS = Object.freeze(['sick', 'minor-injury', 'wounded']);
 function leftWithBaggage(world, person, camp) {

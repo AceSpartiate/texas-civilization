@@ -3,7 +3,8 @@
 // replaces one exact piece of the code with the mistake - found exactly once, CRLF or not - runs the check written for it,
 // records what stopped it, and puts the file back byte for byte.
 //
-// A unit injection runs its test file and requires the named test, and no other in the file, to fail. A browser injection
+// A unit injection runs its test file and requires the named test, and no other in the file, to fail (or exactly the named
+// set, where a regression breaks a rule several checks hold). A browser injection
 // runs scripts/battle-san-jacinto-browser-proof.mjs and requires its failure to be the message written for that check. Each
 // gate is run clean first, and again at the end with every file put back.
 //
@@ -34,8 +35,7 @@ const TESTS = {
 };
 const UNIT = [
   { name: 'a service record fights: a man anywhere is rolled', file: 'sim/houston.mjs',
-    from: "  && !person.service.baggage && person.location?.siteId === 'lynchburg' && !['sick', 'wounded', 'dead', 'captured'].includes(person.health?.condition);",
-    to: "  && !person.service.baggage && !['sick', 'wounded', 'dead', 'captured'].includes(person.health?.condition);", test: T, expect: TESTS.place },
+    from: '  const fighters = inLine || serving.filter(person => inTheLine(world, person)).map(person => person.id);', to: '  const fighters = serving.map(person => person.id);', test: T, expect: [TESTS.place, TESTS.baggage] },
   { name: 'the sick march with the army from Harrisburg', file: 'sim/houston.mjs',
     from: '    if (person.travel || person.location?.siteId === camp) continue;\n    if (leftWithBaggage(world, person, camp)) continue;', to: '    if (person.travel || person.location?.siteId === camp) continue;', test: T, expect: TESTS.baggage },
   { name: 'a joiner is given the camp he never reached, and stands at the old one', file: 'sim/winter.mjs',
@@ -53,7 +53,7 @@ const UNIT = [
   { name: 'the alert never comes', file: 'sim/san-jacinto.mjs',
     from: "  if (at >= index('guns')) return;\n  const stage", to: '  return;\n  const stage', test: T, expect: TESTS.line },
   { name: 'every family is sent the fight', file: 'sim/san-jacinto.mjs',
-    from: "  } else if (role === 'student' && householdId && ownThere(world, householdId).length) {", to: "  } else if (role === 'student' && householdId) {", test: T, expect: TESTS.line },
+    from: "  } else if (role === 'student' && householdId && ownThere(world, householdId).length) {", to: "  } else if (role === 'student' && householdId) {", test: T, expect: [TESTS.baggage, TESTS.line, TESTS.after] },
   { name: 'a man\'s fall is sent before it happens', file: 'sim/battle-stage.mjs',
     from: ' && Number.isFinite(one?.at) && one.at <= world.minute));', to: ' && Number.isFinite(one?.at)));', test: T, expect: TESTS.fate },
   { name: 'a man\'s fall is sent to every family', file: 'sim/san-jacinto.mjs',
@@ -68,14 +68,14 @@ const UNIT = [
   { name: 'the family at Lynchburg sees the men out on the field', file: 'sim/town.mjs',
     from: ' && places.has(entity.location?.siteId) && !inTheField(entity));', to: ' && places.has(entity.location?.siteId));', test: T, expect: TESTS.after },
   { name: 'no account', file: 'sim/directors.mjs',
-    from: ' tellSanJacintoAccounts(world, cause);', to: '', test: T, expect: TESTS.after },
+    from: ' tellSanJacintoAccounts(world, cause);', to: '', test: T, expect: [TESTS.baggage, TESTS.fate, TESTS.after] },
   { name: 'an old save opened in the charge runs on half a day', file: 'sim/san-jacinto.mjs',
     from: "startsAt(ID, world => world.period === 3 && world.director && sanJacintoGround(world) ? momentOf(world, DEF.startKey) : null);", to: '', test: T, expect: TESTS.saves },
   { name: 'a Host\'s jump runs over the parade', file: 'sim/time.mjs',
     from: '  const fight = liveBattles(world).find(state => state.phase.step || state.phases.some(one => one.step && one.from > world.minute && one.from <= world.minute + requestedMinutes));',
     to: '  const fight = liveBattles(world).find(state => state.phase.step);', test: T, expect: TESTS.saves },
   { name: 'a quiet phase\'s long tick carries the class past the parade', file: 'sim/battle-stage.mjs',
-    from: '      if (next && (best === null || next.from - world.minute < best)) best = Math.max(1, next.from - world.minute);', to: '', test: T, expect: TESTS.pace },
+    from: '      if (next && (best === null || next.from - world.minute < best)) best = Math.max(1, next.from - world.minute);', to: '', test: T, expect: [TESTS.pace, TESTS.place, TESTS.line, TESTS.fate, TESTS.capture, TESTS.after, TESTS.saves] },
   { name: 'a camp at rest is drawn standing in rows', file: 'public/battle-view.js',
     from: "        else if (side.style === 'camp') {", to: '        else if (false) {', test: V, expect: TESTS.camp },
   { name: 'the Texian officers give the Mexican words', file: 'public/battle-view.js',
@@ -151,7 +151,10 @@ if (which === 'all' || which === 'unit') {
   for (const file of files) { const clean = runUnit(file); if (!clean.passed) throw new Error(`${file} fails before any injection: ${clean.failed.join('; ')}`); }
   for (const injection of UNIT) {
     const seen = inject(injection, () => runUnit(injection.test));
-    const caught = !seen.passed && seen.failed.length === 1 && seen.failed[0] === injection.expect;
+    // The named test and no other; or, where one regression breaks a rule several checks hold (who is sent the fight), exactly
+    // the set named - never a test outside it.
+    const expected = [injection.expect].flat();
+    const caught = !seen.passed && seen.failed.length === expected.length && expected.every(name => seen.failed.includes(name));
     record.unit.push({ name: injection.name, file: injection.file, test: injection.test, expect: injection.expect, caught, failed: seen.failed });
     console.log(`${caught ? 'caught' : seen.passed ? 'MISSED' : 'CAUGHT BY ANOTHER OR MORE THAN ONE'}: ${injection.name} -> ${seen.failed.join(' | ') || 'every test passed'}`);
   }
