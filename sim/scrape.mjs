@@ -29,6 +29,9 @@ import { spotlight } from './host.mjs';
 // their fields onto `household.flight` beside these; a cycle, safe because each side uses the other only inside functions.
 import { advanceRoad, roadInvalid, roadProjection } from './road.mjs';
 import { isStage } from './colonies-map.mjs';
+// The Mexican columns and the burn zone (sim/advance.mjs), and what the family learns of its farm (sim/advance-word.mjs).
+import { COLUMNS, advanceModelled, burnMinute, farmFate } from './advance.mjs';
+import { learnOwnBurning, recordFarmBurned } from './advance-word.mjs';
 
 const GONE = ['dead', 'captured'];
 const DAY = 1440;
@@ -160,10 +163,14 @@ export function fleeRefusal(world, household, { take = {}, refuge } = {}) {
 export function orderOut(world, household, causeId) {
   if (household.flight) return;
   household.flight = { status: 'ordered', orderedMinute: world.minute };
-  tell(world, household, `Word has come from ${world.map.sites[settlementOf(household)].name}: the Mexican army is coming, and every family is to leave for the east. Load what the wagon will carry and go. What is left behind will be burned so the enemy cannot use it.`, { type: 'pressure', causes: causeId ? [causeId] : [] });
+  tell(world, household, `Word has come from ${world.map.sites[settlementOf(household)].name}: the Mexican army is coming, and every family is to leave for the east. Load what the wagon will carry and go. ${advanceModelled(world) ? 'What is left behind stays in the house, and if the Mexican army comes this way it will be burned.' : 'What is left behind will be burned so the enemy cannot use it.'}`, { type: 'pressure', causes: causeId ? [causeId] : [] });
 }
 
-/** The Texas army burns the house, the field and the fences, and whatever was not carried away is lost. */
+/**
+ * The Texas army burns the house, the field and the fences, and whatever was not carried away is lost: the rule on the
+ * invented Gonzales country, which has no Mexican columns on it (sim/advance.mjs `advanceModelled`). On the real land the
+ * farm burns only when a column's foragers reach it (`burnByForagers`), and only inside the burn zone.
+ */
 export function burnFarm(world, household, { watching }) {
   const ruined = ruin(world, household, ['cabin', 'field', 'fence'], { text: watching
     ? 'As the family drove off, men of the Texas army set fire to the house and the field behind them, so the Mexican army would find nothing to use. They watched it burn from the road.'
@@ -183,9 +190,70 @@ export function burnFarm(world, household, { watching }) {
 }
 
 /**
+ * A column's foragers reach a farm in the burn zone (sim/advance.mjs `farmFate`, `FIC-GONZ-465`): the house, the field and
+ * the fences are burned, whatever the family left in the house is gone, the stock on the range is driven off with the
+ * column, and whoever of the family is still at home may be taken prisoner (`CAPTURED_AT_HOME`, as before).
+ *
+ * **The family is not told.** The burning is the world's; the family learns it when one of its people sees the smoke or
+ * the word reaches them (sim/advance-word.mjs), and until then its own page shows the farm as the family left it
+ * (`flight.unseen`, read by `landAsKnown`). The event of the burning is sealed, revealed with the ending, and the Host is
+ * shown it at once.
+ */
+export function burnByForagers(world, household, fate, column) {
+  if (!household.flight) household.flight = { status: 'stayed', orderedMinute: world.minute };
+  const flight = household.flight;
+  // What the family's page keeps showing until the family knows: the land as they left it.
+  flight.unseen = structuredClone({ improvements: household.improvements ?? null, field: household.field ?? null, plots: household.plots ?? null, furniture: household.furniture ?? null, interior: household.interior ?? null });
+  const name = column?.name || 'The Mexican army';
+  ruin(world, household, ['cabin', 'field', 'fence'], { visibility: 'sealed', text: `Foragers of ${name} came to the farm and burned the house, the field and the fences.` });
+  household.furniture = {};
+  delete household.interior;
+  delete household.herdLookedDay;
+  // What was left in the house for the fire is gone with it (`flee` keeps it on `flight.left` until now).
+  const lost = flight.left ? Object.entries(flight.left).filter(([, amount]) => amount > 0).map(([good, amount]) => `${amount} ${good}`) : [];
+  delete flight.left;
+  // The stock left on the range: foragers drive off what they find (sim/stock.mjs `findStockAgain` reads the mark).
+  if (household.herdLeft) household.herdLeft.driven = true;
+  flight.burned = world.minute;
+  flight.burnedBy = { hand: 'mexican', columnId: fate.columnId, name, ...(lost.length && { lost }) };
+  if (flight.status === 'ordered') flight.status = 'stayed';
+  recordFarmBurned(world, household);
+  const place = world.map.sites[household.homeSiteId]?.settlementId ? `near ${world.map.sites[world.map.sites[household.homeSiteId].settlementId]?.name}` : 'on its land';
+  record(world, 'world-event', { visibility: 'public', importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-465', text: `Foragers of ${name} burned ${householdName(world, household)}'s farm ${place}.` });
+  // Whoever is at home is there: they see it, and are taken at the share the Mexican army's coming always carried. The
+  // family knows it then and there, by its own people (household-level knowledge, docs/LIVING_INFORMATION.md's boundary).
+  const there = atHome(world, household);
+  for (const person of there) {
+    if (share(world, person.id, 'enemy') >= CAPTURED_AT_HOME) continue;
+    person.health = { condition: 'captured' }; person.task = 'rest'; person.chore = null;
+    tell(world, household, `${person.name} was at home when foragers of ${name} came, and was taken prisoner.`, { actorId: person.id, claimId: 'FIC-GONZ-465' });
+    if (household.played) spotlight(world, { key: `taken:${person.id}`, text: `Foragers of ${name} take ${person.name}, of ${householdName(world, household)}, prisoner at home.`, siteId: household.homeSiteId, householdId: household.id });
+  }
+  if (there.length) learnOwnBurning(world, household, 'there');
+  // A student's house burning is a moment most of the class would miss (owner, 2026-09-16): the Host's camera goes to it, and
+  // the family is not told by the camera (`tell: false`).
+  if (household.played) spotlight(world, { key: `burned:${household.id}`, text: `Foragers of ${name} burn ${householdName(world, household)}'s house and field ${place}.`, siteId: household.homeSiteId, claimId: 'FIC-GONZ-465', householdId: household.id, tell: false });
+}
+
+/**
  * The family leaves: what it takes is all it keeps, everybody at home sets out together for the refuge - by the wagon when
  * the ox and wagon stand at home, on foot otherwise - and the farm burns behind them.
  */
+/**
+ * The household as its own family knows it: a farm burned while nobody of the family could see it (`flight.unseen`) is
+ * shown as they left it - its improvements, field, plots, furniture and room - and the burning is not on its flight. The
+ * world is unchanged; this is what its page is sent (sim/world.mjs `projectWorld`).
+ */
+export function householdAsKnown(household) {
+  const flight = household?.flight;
+  if (!flight?.unseen) return household;
+  const { unseen, burned, burnedBy, ...knownFlight } = flight;
+  const shown = { ...household, flight: knownFlight };
+  for (const [key, value] of Object.entries(unseen)) { if (value === null) delete shown[key]; else shown[key] = value; }
+  if (shown.herdLeft?.driven) { const { driven, ...herd } = shown.herdLeft; shown.herdLeft = herd; }
+  return shown;
+}
+
 /** Why the family cannot decide to stay, or null. */
 export function stayRefusal(world, household) {
   if (!scrapeOn(world) || !household.flight) return 'Nobody has told the family to leave.';
@@ -202,7 +270,9 @@ export function stayHome(world, household) {
   if (why) throw new Error(why);
   household.flight.status = 'stayed';
   household.flight.stayedMinute = world.minute;
-  tell(world, household, 'The family will stay, and take what comes. The Texas army will burn what it finds standing, and whoever is at home when the Mexican army comes may be taken. The road east is still open.', { importance: 2 });
+  tell(world, household, advanceModelled(world)
+    ? 'The family will stay, and take what comes. If the Mexican army\'s foragers come this way they will burn what they find standing, and whoever is at home may be taken. The road east is still open.'
+    : 'The family will stay, and take what comes. The Texas army will burn what it finds standing, and whoever is at home when the Mexican army comes may be taken. The road east is still open.', { importance: 2 });
 }
 
 export function flee(world, household, { take = {}, refuge }) {
@@ -233,7 +303,15 @@ export function flee(world, household, { take = {}, refuge }) {
     if (entity.kind !== 'person') entity.borrowedBy = goers[0]?.id || null;
   }
   household.flight = { ...household.flight, status: 'fled', refuge, leftMinute: world.minute, mode, took: take, crossed: [] };
-  burnFarm(world, household, { watching: true });
+  // On the real land the farm is left standing, with whatever did not fit in the house: burned by a column's foragers if
+  // they come this way (`burnByForagers`), found again on the family's return if they never do (sim/advance.mjs, owner
+  // 2026-09-26). On the invented Gonzales country, which has no columns, the Texas army burns it as they go (owner, 2026-09-16).
+  if (advanceModelled(world)) {
+    if (!household.flight.burned) {
+      const left = Object.fromEntries(Object.keys(FLIGHT_SPACE).map(good => [good, Math.max(0, Math.floor((kept[good] ?? 0) - (take[good] ?? 0)))]).filter(([, amount]) => amount > 0));
+      if (Object.keys(left).length) household.flight.left = { ...(household.flight.left || {}), ...left };
+    }
+  } else burnFarm(world, household, { watching: true });
   // The herd stays where it is (sim/stock.mjs, `FIC-GONZ-184`): nobody drives cattle ahead of an army, and the hogs are
   // in the timber. It is the largest single thing a family loses by going, and it is written down rather than quietly
   // becoming nothing.
@@ -331,16 +409,52 @@ export function advanceFlight(world, minutes) {
     }
     if (flight.status === 'returning' && !travellers.length) {
       flight.status = 'home'; flight.homeMinute = world.minute;
-      tell(world, household, 'The family is home. The house and the field are burned, and what was not carried away is gone. They begin again with what they brought.');
+      if (flight.burned || !advanceModelled(world)) {
+        // Home to what is left (`HIST-GONZ-019`): whatever word they had of it, now they see it.
+        if (flight.unseen) learnOwnBurning(world, household, 'home');
+        tell(world, household, flight.burnedBy?.hand === 'mexican'
+          ? `The family is home. The house is ashes, the field is burned over and the rails are gone; what was left in the house went with it. They begin again with what they brought.`
+          : 'The family is home. The house and the field are burned, and what was not carried away is gone. They begin again with what they brought.', { claimId: flight.burnedBy ? 'HIST-GONZ-019' : 'FIC-GONZ-046' });
+      } else {
+        // The Mexican army never came this way: the house stands, and what was left in it is where they left it (`FIC-GONZ-465`).
+        const found = Object.entries(flight.left || {}).filter(([, amount]) => amount > 0);
+        for (const [good, amount] of found) household.resources[good] = (household.resources[good] ?? 0) + amount;
+        delete flight.left;
+        tell(world, household, `The family is home. The Mexican army never came this way: the house stands and the field is as they left it${found.length ? `, and what they left in the house is still there: ${found.map(([good, amount]) => `${amount} ${good}`).join(', ')}` : ''}.`, { claimId: 'FIC-GONZ-465' });
+      }
       // And whatever is still on the range of the herd they could not drive (sim/stock.mjs `findStockAgain`): half the
-      // cattle, a quarter of the hogs, and the rest gone wild in the timber.
+      // cattle, a quarter of the hogs, and the rest gone wild in the timber; less of the cattle where foragers drove them off.
       findStockAgain(world, household);
     }
   }
 }
 
-/** The armies pass: the Texas army burns what a family that stayed left standing; the Mexican army takes who it finds at home. */
+/**
+ * The armies pass. On the real land (sim/advance.mjs): a column's foragers reach each farm in the burn zone at its minute and
+ * burn it, taking whoever they find at home (`burnByForagers`), and a farm outside it is never reached; the Texians' own
+ * burnings are the towns', on their dates. On the invented Gonzales country: the Texas army burns what a family that stayed
+ * left standing, and the Mexican army takes who it finds at home on the settlement's day.
+ */
 export function advanceArmiesPassing(world) {
+  if (advanceModelled(world)) {
+    for (const household of Object.values(world.households)) {
+      // A family still deciding when the settlement's two days are out has stayed, as it always did (the Texas army's passing
+      // was the moment); nothing burns for it. Without this a family that cannot or will not go - Liberty has no refuge east
+      // of some of its farms - would hold the class's calendar at the farming scale for the rest of the spring.
+      const days = SETTLEMENT_DAYS[settlementOf(household)];
+      if (household.flight?.status === 'ordered' && days && world.minute >= days.burn) {
+        household.flight.status = 'stayed';
+        household.flight.stayedMinute = world.minute;
+        tell(world, household, 'The family has not gone. It stays where it is and takes what comes; the road east is still open.', { importance: 2 });
+      }
+      if (household.flight?.burned) continue;
+      const at = burnMinute(world, household);
+      if (at === null || world.minute < at) continue;
+      const fate = farmFate(world, household);
+      burnByForagers(world, household, fate, COLUMNS.find(column => column.id === fate.columnId));
+    }
+    return;
+  }
   const done = world.director.milestones;
   for (const household of Object.values(world.households)) {
     const days = SETTLEMENT_DAYS[settlementOf(household)];
@@ -430,7 +544,8 @@ export function flightProjection(world, household) {
     ...shown, room, mode, ...(wagons && { wagons }), ...(cart && { vehicle: 'cart' }), ...(carreta && { vehicle: 'carreta' }), space: FLIGHT_SPACE, ...(flight.stayedMinute !== undefined && { decidedToStay: true }),
     have: Object.fromEntries(Object.keys(FLIGHT_SPACE).map(good => [good, Math.floor(household.resources?.[good] ?? 0)])),
     refuges: REFUGES.filter(id => world.map.sites[id] && world.map.sites[id].x > home.x + 2).map(id => ({ id, name: world.map.sites[id].name, miles: Math.round(Math.hypot(world.map.sites[id].x - home.x, world.map.sites[id].y - home.y)) })),
-    burned: Boolean(flight.burned),
+    // Burned as far as the family knows: a farm burned while nobody of it could see is not burned on its page yet (`unseen`).
+    burned: Boolean(flight.burned && !flight.unseen),
   };
 }
 
@@ -441,6 +556,10 @@ export function scrapeInvalid(world) {
     if (flight === undefined) continue;
     if (!flight || !FLIGHT_STATUSES.includes(flight.status)) return 'Invalid flight';
     if (flight.refuge !== undefined && !world.map.sites[flight.refuge]) return 'Invalid refuge';
+    // What the advance writes (sim/scrape.mjs `burnByForagers`, `flee`): absent on every class saved before it.
+    if (flight.left !== undefined && (!flight.left || typeof flight.left !== 'object' || Object.entries(flight.left).some(([good, amount]) => !(good in FLIGHT_SPACE) || !Number.isInteger(amount) || amount < 0))) return 'Invalid goods left at home';
+    if (flight.unseen !== undefined && (!Number.isFinite(flight.burned) || !flight.unseen || typeof flight.unseen !== 'object')) return 'Invalid unseen farm';
+    if (flight.burnedBy !== undefined && (!Number.isFinite(flight.burned) || !['mexican', 'texian'].includes(flight.burnedBy?.hand))) return 'Invalid burning';
   }
   const badRoad = roadInvalid(world);
   if (badRoad) return badRoad;

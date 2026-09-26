@@ -2,6 +2,7 @@
 import { buildColoniesRegion } from './colonies-region.mjs';
 import { armiesSeen } from './armies.mjs';
 import { famousSeen } from './famous.mjs';
+import { firesSeen } from './advance.mjs';
 import { mapForPage } from './province.mjs';
 import { advanceNeighbours } from './neighbours.mjs';
 import { record } from './events.mjs';
@@ -19,7 +20,7 @@ import { SERVING_ACTIONS, recallFromService, recallRefusal, servingWhy, winterIn
 import { answerCourier } from './alamo.mjs';
 import { advanceRunners, runnerInvalid } from './alamo-runner.mjs';
 import { decisionClockInvalid, decisionPressing, spendDecisionBudget } from './decision-budget.mjs';
-import { advanceFlight, flee, flightProjection, scrapeInvalid, share, stayHome } from './scrape.mjs';
+import { advanceFlight, flee, flightProjection, householdAsKnown, scrapeInvalid, share, stayHome } from './scrape.mjs';
 import { answerRoad, registerRoadChores } from './road.mjs';
 import { WATER_HIGH, WATER_SHUT, waterAt, weatherAt, weatherOn } from './weather.mjs';
 // The road's chores join the one table here, once every module above is made (sim/road.mjs says why not at its own load).
@@ -74,14 +75,15 @@ export function seededRandom(seed) {
   for (const char of String(seed)) value = Math.imul(value ^ char.charCodeAt(0), 16777619);
   return () => { value ^= value << 13; value ^= value >>> 17; value ^= value << 5; return (value >>> 0) / 4294967296; };
 }
-export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzales', neighbours = false } = {}) {
+export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzales', neighbours = false, zoneDeal = true } = {}) {
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
   const random = seededRandom(seed);
   const world = { schemaVersion: 3, seed: String(seed), playerCount, tick: 0, minute: 0, status: 'lobby', entities: {}, households: {}, map: { sites: {}, routes: {}, terrain: [] }, events: [], nextEventId: 1, nextCourierId: 1, truth: {}, knowledge: { households: {}, public: {} }, barriers: [], offers: {}, nextOfferId: 1, encounters: {}, nextEncounterId: 1 };
   // Geography is researched pattern with invented coordinates; see sim/geography.mjs.
   // A class on the real land of the colonies (docs/COLONIES.md) or on the invented Gonzales country every class had before.
   if (!['gonzales', 'colonies'].includes(map)) throw new Error('Unknown map');
-  const region = map === 'colonies' ? buildColoniesRegion(random, playerCount) : buildGonzalesRegion(random, playerCount);
+  // `zoneDeal: false` is a class dealt as before 2026-09-26, half inside the burn zone or not (sim/colonies-region.mjs): an old save, for tests.
+  const region = map === 'colonies' ? buildColoniesRegion(random, playerCount, { zone: zoneDeal }) : buildGonzalesRegion(random, playerCount);
   world.map.sites = region.sites; world.map.routes = region.routes; world.map.terrain = region.terrain; world.map.relief = region.relief; world.map.bounds = region.bounds; world.map.homeBounds = region.homeBounds;
   // A class on the real land carries no province of its own: the page is sent the current one (sim/province.mjs).
   if (region.province) world.map.province = region.province;
@@ -1116,7 +1118,8 @@ export const projectFamily = (world, householdId) => {
  * chosen nobody sends nothing new - the per-tick payload was one byte under its budget (tests/family.test.mjs).
  */
 function projectHousehold(world, household) {
-  const shown = { ...household };
+  // The farm as the family knows it: burned while nobody of it could see, it is still standing on its page (sim/scrape.mjs).
+  const shown = { ...householdAsKnown(household) };
   delete shown.mainId;
   const main = mainPersonId(world, household);
   return { ...shown, ...(main !== household.principalId && { mainId: main }) };
@@ -1181,7 +1184,10 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   // it is decided here and never guessed at by the client.
   // What the family has made of this land, and what state it is in. The renderer draws
   // the field at the size this says and the fence only when there is one to draw.
-  const land = household ? { ...improvementProjection(household), ...shelterProjection(household), ...houseProjection(world, household), ...grantProjection(world, household), ...siteProjection(world, household), ...plotProjection(world, household), ...logsProjection(world, household, logsOut), interior: interiorProjection(household) } : null;
+  // As the family knows it (sim/scrape.mjs `householdAsKnown`): a farm the Mexican army's foragers burned while nobody of the
+  // family could see is drawn as they left it until the smoke or the word reaches them.
+  const known = household && householdAsKnown(household);
+  const land = household ? { ...improvementProjection(known), ...shelterProjection(known), ...houseProjection(world, known), ...grantProjection(world, known), ...siteProjection(world, known), ...plotProjection(world, known), ...logsProjection(world, known, logsOut), interior: interiorProjection(known) } : null;
   // What is in the wagon, and whether it can still be repacked. The catalogue comes once, from /api/chores.
   const wagon = household ? wagonProjection(world, household) : null;
 
@@ -1217,6 +1223,9 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // The famous people on the map between their battles, where this page could see them (sim/famous.mjs, docs/BATTLES.md
     // §2c): drawn with their names. Absent when there is nobody to see, which is also a class saved before they were followed.
     ...(() => { const famous = famousSeen(world, householdId, role); return famous.length ? { famous } : {}; })(),
+    // Smoke over a burning town or farm, where this page could see it (sim/advance.mjs `firesSeen`): the Host all of it, a
+    // family what its own people are near enough to see. Absent when there is none, which is also every class before.
+    ...(() => { const fires = firesSeen(world, householdId, role); return fires.length ? { fires } : {}; })(),
     // The family's flight east, once it has been told to go (sim/scrape.mjs).
     ...(household?.flight ? { flight: flightProjection(world, household) } : {}),
     // Every family's land as it truly stands, and where the army is, for the Host's map only (sim/overview.mjs).

@@ -20,7 +20,7 @@
 // it takes to dig out and what it costs the ox and the diggers, that a family may leave its wagon and go on on foot, a hunt
 // from the camp with the family halted, a real for two food among the families camped at a crossing or a refuge, a day of
 // nursing that keeps the sick alive and mends them sooner, and the pursuit: each Mexican column as a head moving between
-// the dated places of `SETTLEMENT_DAYS`, a warning when one is within `WARNING_MILES`, and a family overtaken when it sits
+// the record's dated places (sim/advance.mjs since 2026-09-26), a warning when one is within `WARNING_MILES`, and a family overtaken when it sits
 // within `OVERTAKEN_MILES` of one - robbed of its wagon, its animals and its goods, its grown men taken prisoner at a share,
 // the rest let go to walk on with nothing.
 //
@@ -35,16 +35,12 @@ import { canAnswerCalls, householdName, mainPersonId, tooYoung } from './family.
 import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
 import { beastsOf } from './beasts.mjs';
 import { findWay } from './ways.mjs';
-import { CARRIED_ROOM, FLIGHT_SPACE, REFUGES, SETTLEMENT_DAYS, share } from './scrape.mjs';
+import { CARRIED_ROOM, FLIGHT_SPACE, REFUGES, share } from './scrape.mjs';
 import { spotlight } from './host.mjs';
 import { awardGlory } from './glory.mjs';
-import { findPath, pointAlong, polylineLength } from './geography.mjs';
+import { COLUMNS, ORDER_GRACE_MINUTES, ROAD_DETOUR, clockOf, columnLeg as advanceLeg, headAt } from './advance.mjs';
 
 const DAY = 1440;
-/** Minutes from midnight on September 29, 1835 to midnight on March 1 and April 1, 1836 (as sim/scrape.mjs counts them). */
-const MARCH_1 = 221760, APRIL_1 = 266400;
-const march = (day, hour = 6) => MARCH_1 + (day - 1) * DAY + hour * 60;
-const april = (day, hour = 6) => APRIL_1 + (day - 1) * DAY + hour * 60;
 const round = value => Math.round(value * 100) / 100;
 
 /**
@@ -90,92 +86,36 @@ export const CAMP_HUNT_FOOD = 6;
 export const ROAD_FISH_FOOD = 2;
 
 /**
- * The Mexican columns as the refugees felt them: a head moving between dated places, the dates the settlements' own
- * (`SETTLEMENT_DAYS` in sim/scrape.mjs, `HIST-TEX-065`) with the crossings between placed by the record where it has them
- * (Thompson's ferry on the Brazos below Richmond, April 12, `HIST-TEX-073`) and by the armies' movements where it does not
- * (`ceiling:` Sesma's advance stood at the Colorado from March 21 and Santa Anna's main body crossed about April 1; the
- * head here is the main body; Urrea's dates between Victoria and the Brazos are placed; Gaona's wandering column reaches
- * San Felipe on the 12th). Before its first date a column is not in the country; after its last it stands where it stopped,
- * except Santa Anna's, which ends at San Jacinto on the afternoon of April 21 (`HIST-TEX-067`).
- *
- * Between two dated places a column marches along the map's roads (owner, 2026-09-17: "Game's roads, same dates"), at
- * whatever pace on that stretch brings it in on the record's date. A stop that is not a place on the map (the Brazos below
- * Richmond) names the place whose road it takes (`via`, the Columbia road down the Brazos), and leaves that road where the road
- * comes nearest the stop, going on across country from there.
+ * The Mexican columns as the refugees felt them. Since 2026-09-26 each is a body of men on its dated road with a commander,
+ * its camps and its crossings (sim/advance.mjs `COLUMNS`, docs/battle-research/mexican-advance.md), marching along the map's
+ * roads (owner, 2026-09-17: "Game's roads, same dates") at whatever pace brings it in on the record's date. Before its first
+ * date a column is not in the country; after its last it stands where it stopped, except Santa Anna's, which ends at San
+ * Jacinto on the afternoon of April 21 (`HIST-TEX-067`), and Cos's, which the battle draws coming in over Vince's bridge.
+ * The dates are the record's timeline, read against the class's own clock (`clockOf`).
  */
-let columnsMemo = null;
-export function columns() {
-  if (columnsMemo) return columnsMemo;
-  const at = (siteId, minute) => ({ siteId, minute });
-  const days = SETTLEMENT_DAYS;
-  columnsMemo = Object.freeze([
-    { id: 'santa-anna', name: 'Santa Anna’s column', path: [at('gonzales', days.gonzales.enemy), at('columbus-crossing', april(1, 12)), at('san-felipe', days['san-felipe'].enemy), { point: { x: 103, y: -1 }, siteId: 'san-felipe', via: 'columbia', minute: april(12, 12), name: 'the Brazos below Richmond' }, at('harrisburg', days.harrisburg.enemy), at('lynchburg', april(20, 12))], until: april(21, 16) },
-    { id: 'urrea', name: 'Urrea’s column', path: [at('refugio', days.refugio.enemy), at('goliad', days.goliad.enemy), at('victoria', days.victoria.enemy), at('matagorda', april(17, 12)), at('columbia', days.columbia.enemy), at('brazoria', april(21, 12))] },
-    { id: 'gaona', name: 'Gaona’s column', path: [at('mina', days.mina.enemy), at('san-felipe', april(12, 12))] },
-  ]);
-  return columnsMemo;
-}
+export const columns = () => COLUMNS;
+export { ROAD_DETOUR };
+/** The line a column's head follows from one dated stop to the next on this world's map (sim/advance.mjs `columnLeg`). */
+export const columnLeg = (world, a, b) => advanceLeg(world.map, a, b);
 
-const placeOf = (world, stop) => stop.point || world.map.sites[stop.siteId];
-/**
- * A road that goes further than this many times the straight line is not the column's road: the map has no road between
- * the two places, and the column goes across country. Gonzales to the Colorado at Beeson's was the one such stretch until
- * the road between them was put on the map (`HIST-TEX-087`, 2026-09-17); a stop off the roads - Thompson's on the Brazos -
- * is still reached across country.
- */
-export const ROAD_DETOUR = 1.6;
-
-/** The line a column's head follows from one dated stop to the next: the roads where the map has them. */
-export function columnLeg(world, a, b) {
-  const from = placeOf(world, a), to = placeOf(world, b);
-  if (!from || !to) return null;
-  const straight = [{ x: from.x, y: from.y }, { x: to.x, y: to.y }];
-  if (a.point) return straight;
-  const roadTo = b.point ? b.via : b.siteId;
-  const road = roadTo && roadTo !== a.siteId ? findPath(world.map, a.siteId, roadTo) : null;
-  if (!road) return straight;
-  let points = road.points;
-  if (b.point) {
-    let nearest = 0;
-    road.points.forEach((point, index) => { if (Math.hypot(point.x - to.x, point.y - to.y) < Math.hypot(road.points[nearest].x - to.x, road.points[nearest].y - to.y)) nearest = index; });
-    points = [...road.points.slice(0, nearest + 1), { x: to.x, y: to.y }];
-  }
-  return polylineLength(points) > ROAD_DETOUR * Math.hypot(to.x - from.x, to.y - from.y) ? straight : points;
-}
-
-const legsMemo = new WeakMap();
-const legsOf = (world, column) => {
-  if (!legsMemo.has(world.map)) legsMemo.set(world.map, new Map());
-  const memo = legsMemo.get(world.map);
-  if (!memo.has(column.id)) memo.set(column.id, column.path.slice(1).map((b, i) => { const points = columnLeg(world, column.path[i], b); return points && { points, length: polylineLength(points) }; }));
-  return memo.get(column.id);
-};
-
-/** Where a column's head stands at this minute, and the place it is making for: null before it enters the country. */
+/** Where a column's head stands at this minute of the class's clock, and the place it is making for: null before it enters the country. */
 export function columnHead(world, column, minute) {
-  const path = column.path;
-  if (!path.length || minute < path[0].minute || (column.until && minute >= column.until)) return null;
-  for (let i = 1; i < path.length; i++) {
-    const a = path[i - 1], b = path[i];
-    if (minute <= b.minute) {
-      const t = b.minute === a.minute ? 1 : (minute - a.minute) / (b.minute - a.minute);
-      const leg = legsOf(world, column)[i - 1];
-      if (!leg) return null;
-      const at = t >= 1 ? leg.points.at(-1) : pointAlong(leg.points, leg.length * t);
-      return { x: at.x, y: at.y, toward: b.siteId, towardName: b.name || world.map.sites[b.siteId]?.name };
-    }
-  }
-  const last = path[path.length - 1], place = placeOf(world, last);
-  return place ? { x: place.x, y: place.y, toward: last.siteId, towardName: last.name || world.map.sites[last.siteId]?.name } : null;
+  const head = headAt(world.map, column, minute - clockOf(world));
+  return head && { x: head.x, y: head.y, toward: head.toward, towardName: head.towardName, ...(head.retreat && { retreat: true }) };
 }
 
-/** The nearest column to a point right now: its name, how far, and the place it is making for. Null when none is in the country. */
-export function pursuit(world, point) {
+/**
+ * The nearest column to a point right now: its name, how far, and the place it is making for. Null when none is in the
+ * country. Given a column's id, that column's, whether or not another is nearer.
+ */
+export function pursuit(world, point, onlyId = null) {
   if (!point || !world.map?.sites?.gonzales) return null;
   let nearest = null;
   for (const column of columns()) {
+    if (onlyId && column.id !== onlyId) continue;
     const head = columnHead(world, column, world.minute);
-    if (!head) continue;
+    // A column going back after San Jacinto is hunting nobody (sim/advance.mjs, the retreat).
+    if (!head || head.retreat) continue;
     const miles = Math.hypot(head.x - point.x, head.y - point.y);
     if (!nearest || miles < nearest.miles) nearest = { id: column.id, name: column.name, miles: round(miles), toward: head.toward, towardName: head.towardName };
   }
@@ -505,7 +445,12 @@ export function advanceRoad(world, household) {
   }
   // The pursuit: a warning while a column is near, put to the family once for each column; overtaken when it sits in reach.
   const point = familyPoint(world, household);
-  const near = point ? pursuit(world, point) : null;
+  const nearest = point ? pursuit(world, point) : null;
+  // The column the family was warned of stays the one it is warned of while it is still within reach, though another
+  // marching beside it is a few yards nearer this tick (since 2026-09-26 columns march together: Santa Anna's with Sesma's
+  // division, the army at Old Fort). Being overtaken is by whichever column is on top of the family.
+  const kept = nearest && flight.danger && flight.danger.id !== nearest.id ? pursuit(world, point, flight.danger.id) : null;
+  const near = kept && kept.miles <= WARNING_MILES ? kept : nearest;
   if (near && near.miles <= WARNING_MILES && !(flight.overtakenBy || []).includes(near.id)) {
     if (!flight.danger || flight.danger.id !== near.id) {
       flight.danger = { id: near.id, name: near.name, miles: near.miles, towardName: near.towardName, minute: world.minute };
@@ -519,7 +464,14 @@ export function advanceRoad(world, household) {
   }
   const held = Boolean(flight.bog) || camp;
   const still = !moving || held || Boolean(flight.crossing);
-  if (near && !(flight.overtakenBy || []).includes(near.id) && (near.miles <= (still ? OVERTAKEN_MILES : CLOSE_MILES))) overtake(world, household, near);
+  // A family the army has already come up with and stripped where it sits is not taken again by the next column down the same
+  // road (since 2026-09-26 three pass San Felipe in ten days): only once it has set out again (`leftMinute`) can it be caught.
+  const strippedHere = flight.overtaken && !(flight.leftMinute > flight.overtaken.minute);
+  // Nor in the day its order gives it (`ORDER_GRACE_MINUTES`, `FIC-GONZ-465`): the record's Gonzales families left with
+  // Houston the night before Sesma came in (`HIST-TEX-580`), and a family told at dawn on the 14th is let get clear of the town.
+  const graced = Number.isFinite(flight.orderedMinute) && world.minute < flight.orderedMinute + ORDER_GRACE_MINUTES;
+  const caught = !strippedHere && !graced && [near, nearest].find(one => one && !(flight.overtakenBy || []).includes(one.id) && one.miles <= (still ? OVERTAKEN_MILES : CLOSE_MILES));
+  if (caught) overtake(world, household, caught);
   // A question nobody answered in its time is decided as auto decides.
   if (flight.ask && world.tick - flight.ask.openedTick >= ROAD_PATIENCE_TICKS) {
     const option = roadAutoAnswer(world, household);

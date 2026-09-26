@@ -20,6 +20,7 @@ import { CHORES } from '../sim/chores.mjs';
 import { WAGON_SPEED, WALK_SPEED } from '../sim/travel.mjs';
 import { share } from '../sim/scrape.mjs';
 import { BOG_SHARE, ROAD_FISH_FOOD, DIG_MILES, PRISONER_SHARE, SPENT_PACE, WARNING_MILES, OVERTAKEN_MILES, columnHead, columns, dayOf, pursuit, weatherOf } from '../sim/road.mjs';
+import { clockOf } from '../sim/advance.mjs';
 import { WATER_HIGH, WATER_SHUT, waterAt } from '../sim/weather.mjs';
 import { FORAGE } from '../sim/gathering.mjs';
 import { GLORY_WEIGHT, distanceMultiplier } from '../sim/glory.mjs';
@@ -210,7 +211,8 @@ test('the pursuit: a family camped at San Felipe is warned as Santa Anna’s col
   assert.deepEqual(needsOf(shown ? view(world, household.id) : null, person.id).map(need => need.kind), ['road']);
   assert.equal(calendarMinutes(world), battleMinutes(world, 20), 'the calendar did not hold for the warning');
   assert.ok(world.events.some(event => event.householdId === household.id && /Word along the road: Santa Anna/.test(event.text)), 'the warning is not in the family\'s record');
-  assert.equal(whereWords(world, person, household), 'at San Felipe de Austin, fled from home');
+  // Sick or well by now, as the road has left them (since 2026-09-26 the column comes on the record's April 6, not March 24).
+  assert.match(whereWords(world, person, household), /^(sick, )?at San Felipe de Austin, fled from home$/);
   applyAction(world, household.id, { action: 'road-answer', entityId: person.id, option: 'press-on' });
   assert.equal(household.flight.status, 'fled');
   assert.equal(household.flight.refuge, 'lynchburg');
@@ -224,31 +226,37 @@ test('the pursuit: a family camped at San Felipe is warned as Santa Anna’s col
 });
 
 test('the columns march along the map’s roads between their dated places and arrive on the record’s dates, Gonzales to Beeson’s by its own road; across country only to a place off the roads', () => {
+  // Since 2026-09-26 the columns are the record's (sim/advance.mjs, docs/battle-research/mexican-advance.md); a column's dates
+  // are the record's timeline, read against the class's clock (`clockOf`).
   const world = createGonzalesWorld(SEED, 5, { map: 'colonies' });
+  const clock = clockOf(world);
   const column = id => columns().find(one => one.id === id);
   const offRoad = (head, points) => Math.min(...points.slice(1).map((b, i) => { const a = points[i]; const dx = b.x - a.x, dy = b.y - a.y; const t = Math.max(0, Math.min(1, ((head.x - a.x) * dx + (head.y - a.y) * dy) / (dx * dx + dy * dy || 1))); return Math.hypot(head.x - a.x - t * dx, head.y - a.y - t * dy); }));
   const straightOff = (head, a, b) => offRoad(head, [world.map.sites[a], world.map.sites[b]]);
-  // Urrea from Victoria to Matagorda, and Gaona from Mina to San Felipe: halfway in time, on the road and off the straight line.
-  for (const [id, from, to] of [['urrea', 'victoria', 'matagorda'], ['gaona', 'mina', 'san-felipe']]) {
-    const path = column(id).path, i = path.findIndex(stop => stop.siteId === to && !stop.point);
-    const head = columnHead(world, column(id), Math.round((path[i - 1].minute + path[i].minute) / 2));
+  // Sesma from Béxar to Gonzales, Urrea from Coleto to Victoria, Filisola from the Atascosito crossing to San Felipe: halfway in
+  // time, on the road and off the straight line, and at the place on the record's date.
+  // (The road from Béxar runs nearly straight, so only the other two are held off the straight line.)
+  for (const [id, from, to, bends] of [['sesma', 'bexar', 'gonzales', false], ['urrea', 'coleto', 'victoria', true], ['filisola', 'lower-colorado-crossing', 'san-felipe', true]]) {
+    const path = column(id).path, i = path.findIndex((stop, k) => k > 0 && stop.siteId === to && path[k - 1].siteId === from);
+    assert.ok(i > 0, `${id} has no stretch from ${from} to ${to}`);
+    const head = columnHead(world, column(id), Math.round((path[i - 1].minute + path[i].minute) / 2) + clock);
     const road = findPath(world.map, from, to).points;
     assert.ok(offRoad(head, road) < 0.01, `${id}'s head is ${offRoad(head, road).toFixed(2)} miles off the road from ${from} to ${to}`);
-    assert.ok(straightOff(head, from, to) > 0.3, `${id}'s head still walks the straight line from ${from} to ${to}`);
-    const there = columnHead(world, column(id), path[i].minute);
+    if (bends) assert.ok(straightOff(head, from, to) > 0.05, `${id}'s head still walks the straight line from ${from} to ${to}`);
+    const there = columnHead(world, column(id), path[i].minute + clock);
     assert.ok(Math.hypot(there.x - world.map.sites[to].x, there.y - world.map.sites[to].y) < 0.01, `${id} did not reach ${to} on its date`);
   }
-  // Santa Anna down the Brazos: along the road from San Felipe to where it leaves it, then across to Thompson's.
-  const santa = column('santa-anna'), brazos = santa.path.findIndex(stop => stop.point);
-  const early = columnHead(world, santa, santa.path[brazos - 1].minute + 60);
+  // Santa Anna down the Brazos: along the road from San Felipe to where it leaves it, then across to Thompson's ferry.
+  const santa = column('santa-anna'), brazos = santa.path.findIndex(stop => stop.point && stop.via === 'columbia');
+  const early = columnHead(world, santa, santa.path[brazos - 1].minute + 60 + clock);
   assert.ok(offRoad(early, findPath(world.map, 'san-felipe', 'columbia').points) < 0.01, 'Santa Anna did not leave San Felipe by the road');
-  // Gonzales to the Colorado at Beeson's: by the road between them (HIST-TEX-087, on the map since 2026-09-17). Until then the
-  // map had no such road and the column went straight across country rather than round by San Felipe.
-  const colorado = santa.path.findIndex(stop => stop.siteId === 'columbus-crossing');
-  const midway = columnHead(world, santa, Math.round((santa.path[colorado - 1].minute + santa.path[colorado].minute) / 2));
+  // Gonzales to the Colorado opposite Beeson's: by the road between them (HIST-TEX-087, on the map since 2026-09-17), not round
+  // by San Felipe; Sesma's camp is off the road, on the west bank, and is reached across the last stretch.
+  const sesma = column('sesma'), colorado = sesma.path.findIndex(stop => stop.point && stop.via === 'columbus-crossing');
+  const midway = columnHead(world, sesma, Math.round((sesma.path[colorado - 1].minute + sesma.path[colorado].minute) / 2) + clock);
   const beesons = findPath(world.map, 'gonzales', 'columbus-crossing');
   assert.ok(!beesons.nodes.some(node => node.id === 'san-felipe'), "the way from Gonzales to Beeson's still goes round by San Felipe");
-  assert.ok(offRoad(midway, beesons.points) < 0.01, `Santa Anna's head is ${offRoad(midway, beesons.points).toFixed(2)} miles off the road to Beeson's`);
+  assert.ok(offRoad(midway, beesons.points) < 0.01, `Sesma's head is ${offRoad(midway, beesons.points).toFixed(2)} miles off the road to Beeson's`);
 });
 
 test('a family that stays is overtaken: the wagon, the animals and the goods taken, the grown men prisoners at the share, the rest let go; a played family is spotlit; and it is not taken twice', () => {

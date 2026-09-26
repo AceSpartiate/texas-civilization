@@ -2,8 +2,9 @@
 // were just off in the middle of no where. no mexican army, no texas army. nothing."), and the Mexican columns of the
 // spring, which the owner asked to see as well.
 //
-// sim/armies.mjs says where each army stands and who may see it. Nothing here is new history: an army's strength is the men
-// the simulation holds in it, and a Mexican column has none - only where its head is on its dated march (sim/road.mjs).
+// sim/armies.mjs says where each army stands and who may see it. A Texian army's strength is the men the simulation holds in it;
+// a Mexican column's, since 2026-09-26, is the record's for the stretch it is on, with its commander (sim/advance.mjs,
+// docs/battle-research/mexican-advance.md, `HIST-TEX-580` to `-597`).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
@@ -86,23 +87,26 @@ test('the steamboat Yellow Stone lies at the Brazos crossing for her own fortnig
   assert.equal(yellowStone(older), null, 'no bank, no boat');
 });
 
-test('the Mexican columns are on the map in the spring, with no strength, and the garrison and Fannin stand where they serve', () => {
+test('the Mexican columns are on the map in the spring with the record\'s strength and commander, and the garrison and Fannin stand where they serve', () => {
   const world = spring();
   const [one, two] = men(world);
   serve(world, one, 'garrison', 'bexar');
   serve(world, two, 'fannin', 'goliad');
-  // Before the columns enter the country there are none; the spring brings them (sim/road.mjs `columns`).
+  // The spring opens with Sesma's column on the road from Béxar to Gonzales, about 750 strong (`HIST-TEX-580`); Santa Anna
+  // does not leave Béxar until March 31 (`HIST-TEX-585`).
   const early = armiesNow(world).filter(army => army.side === 'mexican');
-  assert.deepEqual(early, [], 'a Mexican column was on the map before it entered the country');
-  // Santa Anna reaches Gonzales on March 24 (sim/road.mjs `columns`, HIST-TEX-065): the world is stepped to the day.
-  for (let t = 0; t < 9000 && !armiesNow(world).some(army => army.side === 'mexican'); t++) stepWorld(world);
+  const sesma = early.find(army => army.id === 'sesma');
+  assert.ok(sesma, 'Sesma\'s column is not on the road at the spring\'s opening');
+  assert.equal(sesma.strength, 750);
+  assert.equal(sesma.commander, 'sesma');
+  assert.match(sesma.place, /making for Gonzales|in camp at Gonzales/);
+  assert.ok(!early.some(army => army.id === 'santa-anna'), 'Santa Anna\'s column was on the map before he left Béxar');
+  for (let t = 0; t < 9000 && !armiesNow(world).some(army => army.id === 'santa-anna'); t++) stepWorld(world);
   const armies = armiesNow(world);
-  const mexican = armies.filter(army => army.side === 'mexican');
-  assert.ok(mexican.length, 'no Mexican column is on the map in the spring');
-  for (const column of mexican) {
-    assert.equal(column.strength, null, 'a Mexican column was given a strength the record does not fix here');
-    assert.match(column.place, /making for |on the march/);
-  }
+  const santa = armies.find(army => army.id === 'santa-anna');
+  assert.ok(santa, 'Santa Anna\'s column never entered the country');
+  assert.equal(santa.strength, 30, 'Santa Anna left Béxar with his staff and thirty dragoons');
+  for (const column of armies.filter(army => army.side === 'mexican')) assert.match(column.place, /making for |in camp at |falling back/);
   const garrison = armies.find(army => army.id === 'garrison');
   if (garrison) assert.equal(Math.round(garrison.x), Math.round(world.map.sites.bexar.x), 'the garrison is not at Béxar');
   const fannin = armies.find(army => army.id === 'fannin');

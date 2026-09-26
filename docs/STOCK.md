@@ -102,7 +102,9 @@ that fled ended with nothing**, and that is the loudest thing this module does: 
   here a class is dealt across whole settlements and at four miles most families had nobody at all to divide with. The
   way out is to deal families nearer each other, not to send meat further.
 - `ceiling:` the stock a family loses to the Mexican army is the wagon and the animals with it (`sim/road.mjs`), and the
-  herd on the range is simply left. Nobody drives it off, and nobody comes back to find it taken.
+  herd on the range is simply left. **Amended 2026-09-26 ([SCRAPE.md](SCRAPE.md) §4, `FIC-GONZ-465`):** where a column's foragers
+  reach the farm, inside the burn zone, they drive off what they find, and a quarter of the cattle is found again on coming
+  home, not half (`FOUND_AFTER_FORAGERS`); the hogs keep their quarter. Outside the zone the herd is simply left, as before.
 - `ceiling:` **no milk, no butter, no hides off a family's own beef, no oxen bred from its own cattle.** Each is real and
   each is another kind of work.
 

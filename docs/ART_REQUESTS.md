@@ -34,6 +34,8 @@ does not have:
 | ~~A trash can drawn in code with a pen~~ | `DrawBin` in `launcher/SoloGameDialog.cs` | Delivered 2026-09-22 in `launcher/art/icon-delete-save.png` | Illustrated frontier pail is embedded and tinted; line drawing is packaging fallback only |
 | ~~Gathering glyphs drawn in code~~ | `PANEL_ICONS` in `public/family-panel.js` | Existing `icons-family-subsistence.png` art wired 2026-09-26 | Four production sprites selected directly; `fish-road` reuses the water-fishing icon |
 | ~~Stock glyphs drawn in code~~ | `PANEL_ICONS` in `public/family-panel.js` | Existing `icons-family-subsistence.png` art wired 2026-09-26 | Three production sprites selected directly |
+| A column's foraging parties are three `dragoon-march` riders each; a column on the march is `regular-march` men in files of three with a `dragoon-march` at the head | the parties in `drawWorld` in `public/app.js`; `drawArmy` (`moving`) in `public/army-view.js` | Request 2026-09-26 — the Mexican advance, items 1 and 3 | `forager-ride-*` / `forager-drive-*`, `regular-march-column` |
+| The smoke of a burning town or farm is the library's `smoke-rise` (chimney smoke) drawn three to four figures tall, with a painted grey plume if that clip has not loaded | `window.__firesDrawn` in `drawWorld`, `public/app.js` | Request 2026-09-26 — the Mexican advance, item 2 | `farm-smoke-rise`, `town-smoke-rise` |
 | A new town's shops are the nearest buildings the library has, two trades sharing a sprite (the stock pens, 2026-09-24, a `shed-open` or an ordinary house; `stand-in:` in `SHOP_SPRITES`) | `SHOP_SPRITES` in `sim/shops.mjs`, drawn in `drawWorld` in `public/app.js` | Request 2026-09-16 — the shops of the towns | `shop-*` buildings, one per trade |
 | Whole jacal stage sprites; `lean-to` shed frame; the double chimney drawn with the single stick-and-mud chimney's picture (`house-chimney-stick`; until 2026-09-24 a flat rectangle, whose width let the far pen's door show either side of it at 90 and 270 degrees). Since 2026-09-24 the saddlebag's two pens stand one behind the other along their ridge at every turn, and it stands at the middle between the far pen's front gable and the near pen's back gable, `DOUBLE_RISE` (2.7) high so that it hides the far pen's door whole, its foot behind the near pen's roof (until then, at 0 and 180 degrees behind both pens' back gables, and at 90 and 270 brought `DOUBLE_TOWARD` toward the near pen); no separate interior floor/loft display | `drawHousePlot` and `standChimneys` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney (two-sided, its foot marked), and separately registered floor and loft overlays |
 | Generic `chapel` and `adobe-flat` silhouettes represent San Fernando and the Governor's Palace | `public/bexar-layout.js` | Request 2026-09-14 — Béxar civic architecture | Researched 1836 civic façades in the existing illustrated style |
@@ -154,6 +156,26 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-26 — the Mexican advance
+
+**Status: open; stand-ins in use since 2026-09-26 (see *Stand-ins in use*).** The Mexican columns now march through the
+Runaway Scrape on the campaign map with their camps, their foragers and the smoke of the towns and farms they burn
+(`sim/advance.mjs`, `public/army-view.js`, `drawWorld` in `public/app.js`; docs/SCRAPE.md). Delivery contract as the
+battle people sheets: transparent PNG on the ground anchor, the `regular-*`/`dragoon-*` logical height, east mirrored for west;
+no gore, nothing burning drawn close up (`VISION.md` §16).
+
+1. **A foraging party** - `forager-ride-1`..`-4` (east): two or three Mexican horsemen, one leading a pack mule loaded with sacks of
+   corn, and `forager-drive-1`..`-4`: two horsemen driving three or four head of cattle ahead of them. Plugs into the parties drawn
+   round each column (`foragers` in the projection).
+2. **A burning farm seen from afar** - `farm-smoke-rise` (a looping 6-8 frame clip): a tall, dark column of smoke leaning with the
+   wind over a low orange glow at its foot, readable at 30-160 px; and `town-smoke-rise`, the same broader for a town. Plugs into
+   the `fires` of the projection, drawn in `drawWorld`.
+3. **A column on the march** - `regular-march-column` (east, 4 frames): six to eight infantry in files of three with a mounted
+   officer at the head and a cart behind, for the column drawn between its camps (`drawArmy` in `public/army-view.js`, `moving`).
+
+**Check.** At the Host's map scale a column reads as men on the march and a camp as a camp; a family's own smoke reads as a farm
+burning twenty miles off, never as a campfire.
 
 ## Request 2026-09-26 — the famous people: the roster's remaining figures and poses
 

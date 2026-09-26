@@ -3,15 +3,15 @@
 //
 // Everything here is already in the world: the force that marched on Béxar in 1835 (`world.army`, sim/army.mjs), the men in
 // each winter service (`service.kind`: the garrison at Béxar, Fannin at Goliad, Houston's army in the spring), and the
-// columns of the Runaway Scrape (`columns`, `columnHead` in sim/road.mjs, `HIST-TEX-065` to `-067`). This module says where
-// each one stands now and who may see it; the page draws a camp and its men, or a marker when it is far off
-// (public/army-view.js).
+// columns of the Runaway Scrape (sim/advance.mjs, `HIST-TEX-580` to `-597`). This module says where each one stands now and
+// who may see it; the page draws a camp and its men, a column on the march, or a marker when it is far off (public/army-view.js).
 //
-// **No new history and no invented numbers.** An army's strength here is the count of men the simulation actually holds in
-// it - this class's own volunteers - and never a figure for the whole force, which the record gives and the game does not
-// model. A Mexican column has no strength at all: what is known of it is where its head is on its dated march.
+// **No invented numbers.** A Texian army's strength here is the count of men the simulation actually holds in it - this
+// class's own volunteers - and never a figure for the whole force, which the game does not model. A Mexican column's, since
+// 2026-09-26, is the record's for the stretch of its march it is on (docs/battle-research/mexican-advance.md §6), or none where
+// the record gives none; the men drawn are a sample of it.
 import { houstonCamp, campName, yellowStone } from './houston.mjs';
-import { columnHead, columns } from './road.mjs';
+import { COLUMN_SIGHT_MILES, columnsNow, foragersOf } from './advance.mjs';
 import { battleState } from './battle-stage.mjs';
 
 /** How near an army has to be for a family to see it, in miles. Beyond that it is not on their map at all. */
@@ -71,15 +71,23 @@ export function armiesNow(world, householdId = null) {
     entry.ours += men.filter(mine).length;
     if (!existing) found.push(entry);
   }
-  // The Mexican columns of the spring, each a head on its dated road (sim/road.mjs). No strength: what the refugees knew was
-  // that a column was coming, and how far off.
-  for (const column of columns()) {
-    const head = columnHead(world, column, world.minute);
-    if (!head) continue;
+  // The Mexican columns of the spring, each a body of men on its dated road with its commander, in camp or marching, and its
+  // foragers ranging out (sim/advance.mjs, docs/battle-research/mexican-advance.md). The strength is the record's for that
+  // stretch of the march (`HIST-TEX-580` to `-589`), where it has one: the men drawn are a sample of it, as a battle's are.
+  for (const { column, head } of columnsNow(world)) {
     // From the moment the armies meet at San Jacinto the battle draws Santa Anna's army itself, camp, rout and prisoners
-    // (sim/battles/san-jacinto.mjs): the column's marker would be a second Mexican army beside it.
-    if (column.id === 'santa-anna' && jacinto && !jacinto.before) continue;
-    found.push({ id: column.id, name: column.name, side: 'mexican', x: head.x, y: head.y, place: head.towardName ? `making for ${head.towardName}` : 'on the march', strength: null, ours: 0 });
+    // (sim/battles/san-jacinto.mjs), and Cos's men coming in over Vince's bridge: a column's marker would be a second army.
+    // Urrea's column at Coleto likewise, while that fight is drawn.
+    if (column.battle && world.battles?.[column.battle]) {
+      const fight = battleState(world, column.battle);
+      if (fight && !fight.before && (column.battle === 'san-jacinto' || !fight.over)) continue;
+    }
+    const place = head.camp ? `in camp at ${head.place}` : head.retreat ? `falling back toward ${head.towardName}` : head.towardName ? `making for ${head.towardName}` : 'on the march';
+    found.push({
+      id: column.id, name: column.name, side: 'mexican', x: head.x, y: head.y, place, strength: head.strength ?? null, ours: 0,
+      ...(column.commander && { commander: column.commander }), camp: head.camp, moving: head.moving, right: head.right,
+      ...(head.retreat && { retreat: true }), foragers: foragersOf(world, column, head),
+    });
   }
   return found;
 }
@@ -94,8 +102,19 @@ export function armiesSeen(world, householdId, role) {
   if (role === 'host') return armies;
   const household = householdId && world.households?.[householdId];
   if (!household) return [];
-  const points = household.members.map(id => world.entities[id]).filter(person => person?.location && !GONE.includes(person.health?.condition)).map(person => person.location);
+  const eyes = household.members.map(id => world.entities[id]).filter(person => person?.location && !GONE.includes(person.health?.condition)).map(person => person.location);
+  const points = [...eyes];
   const home = world.map?.sites?.[household.homeSiteId];
   if (home) points.push(home);
-  return armies.filter(army => army.ours > 0 || points.some(point => Math.hypot(point.x - army.x, point.y - army.y) <= ARMY_SIGHT_MILES));
+  // A Mexican column is seen only where the family's own people are (2026-09-26, docs/SCRAPE.md §4): within
+  // `COLUMN_SIGHT_MILES` of it or of its foragers. Not from the land the family has left, which nobody of it is standing on;
+  // where the column went while they were away comes to them by word (sim/advance-word.mjs).
+  const near = (army, reach) => [army, ...(army.foragers || [])].some(one => eyes.some(point => Math.hypot(point.x - one.x, point.y - one.y) <= reach));
+  return armies.filter(army => army.side === 'mexican' ? near(army, COLUMN_SIGHT_MILES)
+    : army.ours > 0 || points.some(point => Math.hypot(point.x - army.x, point.y - army.y) <= ARMY_SIGHT_MILES)).map(army => {
+    if (army.side !== 'mexican') return army;
+    // Only the foragers the family could see, and never which farm a party is riding for.
+    const foragers = (army.foragers || []).filter(one => eyes.some(point => Math.hypot(point.x - one.x, point.y - one.y) <= COLUMN_SIGHT_MILES)).map(({ to, ...party }) => party);
+    return { ...army, foragers };
+  });
 }

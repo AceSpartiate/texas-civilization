@@ -3150,7 +3150,30 @@ export function drawWorld(world) {
       boat = army.boat.state === 'crossing' ? 'steamboat-laden' : 'steamboat-cotton-moored';
       if (!animated(ctx, boat, bank.x, bank.y, camera.figure * SIZE.steamboat, army.id)) boat = null;
     }
-    return { id: army.id, side: army.side, ours: army.ours, strength: army.strength, how, boat, x: Math.round(at.x), y: Math.round(at.y) };
+    // A column's foragers ranging out from its line (sim/advance.mjs `foragersOf`): a few horsemen each, as far as this page
+    // may see them. stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the Mexican advance", item 1 - the dragoons the
+    // battles already draw, riding, until a foraging party (horsemen driving cattle, a cart) exists.
+    const foragers = (army.foragers || []).map((party, index) => {
+      const p = camera.toScreen(party), size = Math.max(9, Math.min(28, camera.figure * .8));
+      for (let rider = 0; rider < 3; rider++) {
+        const x = p.x + (rider - 1) * size * .7, y = p.y + (rider % 2) * size * .25;
+        if (!animated(ctx, 'dragoon-march', x, y, size, `${army.id}:forager:${index}:${rider}`, { flip: party.right === false })) miniPerson(ctx, x, y, size, { side: 'mexican', flip: party.right === false });
+      }
+      return { x: Math.round(p.x), y: Math.round(p.y) };
+    });
+    return { id: army.id, side: army.side, ours: army.ours, strength: army.strength, how, boat, x: Math.round(at.x), y: Math.round(at.y), camp: Boolean(army.camp), foragers };
+  });
+  // Smoke over a burning town or farm, where the server says this page could see it (sim/advance.mjs `firesSeen`): a column
+  // of smoke seen from afar, never what is burning (VISION.md §16). stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the
+  // Mexican advance", item 2 - the library's rising chimney smoke, drawn large, until a burning-farm plume exists.
+  window.__firesDrawn = (world.fires || []).map(fire => {
+    const p = camera.toScreen(fire), size = Math.max(26, Math.min(160, camera.figure * (fire.kind === 'town' ? 4.4 : 3)));
+    if (!animated(ctx, 'smoke-rise', p.x, p.y, size, `fire:${fire.id}`)) {
+      const g = ctx.createLinearGradient(p.x, p.y, p.x, p.y - size * 1.6);
+      g.addColorStop(0, 'rgba(90,86,80,.55)'); g.addColorStop(1, 'rgba(160,156,150,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(p.x, p.y - size * .8, size * .28, size * .8, 0, 0, Math.PI * 2); ctx.fill();
+    }
+    return { id: fire.id, kind: fire.kind, x: Math.round(p.x), y: Math.round(p.y) };
   });
   // The famous people on the map between their battles, with their names, where the server says this page could see them
   // (sim/famous.mjs, public/famous-view.js; docs/BATTLES.md §2c).

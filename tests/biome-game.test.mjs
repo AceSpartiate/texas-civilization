@@ -154,7 +154,7 @@ test('the control says what would come to a place and what it would bring home, 
 });
 
 test('a hunt brings the quarry its place holds: what it gives comes home, the deer, the turkey and the mustang are drawn, and the family is told', () => {
-  const world = onTheLand('biome-game-hunt');
+  const world = onTheLand('biome-game-hunt-2');
   const places = huntingPlaces(world);
   for (const kind of ['turkey', 'deer', 'mustang', 'bear']) {
     const place = places.find(entry => entry.facts.comes === kind && !entry.household.played2);
@@ -436,7 +436,7 @@ test('a team left at the timber by somebody called away is walked out to and dri
 });
 
 test('a family nobody plays with no timber of its own fetches logs when timber is near, and builds a jacal when none is', () => {
-  const world = createGonzalesWorld('biomes-0', 30, { map: 'colonies', neighbours: true });
+  const world = createGonzalesWorld('biomes-0-10', 30, { map: 'colonies', neighbours: true });
   world.status = 'running';
   // No stock in this class, and said out loud rather than left to a default: a family that drives stock in holds a
   // league and a labor instead of a labor (docs/LAND_GRANTS.md), which is four times the land and nearly always has

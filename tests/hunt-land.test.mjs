@@ -83,13 +83,13 @@ test('the family is told what the ground is and how good it is for game, and can
 });
 
 test('a hunter walks out over the family land, works in close round the place, and waits longer on poor ground than on good', () => {
-  const setup = onTheLand('hunt-land-walk');
+  const setup = onTheLand('hunt-land-walk-2');
   const places = placesOn(setup.bounds).map(point => ({ point, facts: huntFacts(setup.world, setup.household, point) })).filter(entry => entry.facts.can);
   const good = places.reduce((a, b) => b.facts.game > a.facts.game ? b : a), poor = places.reduce((a, b) => b.facts.game < a.facts.game ? b : a);
   assert.ok(good.facts.game >= 2 * poor.facts.game, `good ${good.facts.game}, poor ${poor.facts.game}`);
   const waits = {};
   for (const [label, place] of [['good', good], ['poor', poor]]) {
-    const { world, household } = onTheLand('hunt-land-walk');
+    const { world, household } = onTheLand('hunt-land-walk-2');
     const food = household.resources.food;
     const { frames, powder } = huntAt(world, household, place.point);
     // Never a journey: always at home, on the family's own land, and close round the place once there.

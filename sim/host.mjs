@@ -32,11 +32,13 @@ const placeName = (world, siteId) => world.map?.sites?.[siteId]?.name || siteId 
  * Something happened that the whole class should see: where, and in what words. The Host's camera goes there and the
  * banner says so until `SPOTLIGHT_MINUTES` pass or the next one comes; the teacher can always press Whole class.
  */
-export function spotlight(world, { key, text, siteId = null, x = null, y = null, claimId = null, householdId = null }) {
+export function spotlight(world, { key, text, siteId = null, x = null, y = null, claimId = null, householdId = null, tell = true }) {
   const site = siteId ? world.map?.sites?.[siteId] : null;
   const at = { x: x ?? site?.x, y: y ?? site?.y };
   if (!Number.isFinite(at.x) || !Number.isFinite(at.y)) return null;
-  const eventId = record(world, 'spotlight', { visibility: 'public', importance: 3, text, siteId, classification: claimId ? 'DOCUMENTED' : 'FICTIONAL FOR GAMEPLAY', claimId, ...(householdId && { householdId }) });
+  // `tell: false` is a thing the family does not know yet (a farm burned while it is away, sim/scrape.mjs `burnByForagers`):
+  // the Host is shown it and the family's own record is not written by the camera.
+  const eventId = record(world, 'spotlight', { visibility: 'public', importance: 3, text, siteId, classification: claimId ? 'DOCUMENTED' : 'FICTIONAL FOR GAMEPLAY', claimId, ...(householdId && tell && { householdId }) });
   world.spotlight = { key, text, siteId, x: at.x, y: at.y, minute: world.minute, eventId, ...(claimId && { claimId }), ...(householdId && { householdId }) };
   return world.spotlight;
 }

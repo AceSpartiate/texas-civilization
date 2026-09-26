@@ -224,25 +224,34 @@ test('a class made in the week of 2026-09-15 opens on its own grid, its felled t
 });
 
 test('a family with no timber on its land still raises a house: a jacal, which wants no logs', () => {
-  // A Matagorda family on marsh and coastal prairie: no log timber anywhere on its holding. (The seed was `fell-tiles-2`
-  // until 2026-09-19, when the named creeks' wider galleries put a belt of timber on that holding; `fell-tiles-1`'s
-  // Matagorda family is still without.)
-  const world = createGonzalesWorld('fell-tiles-1', 5, { map: 'colonies' });
+  // A family on marsh and coastal prairie: no log timber anywhere on its holding. (The seed was `fell-tiles-2` until
+  // 2026-09-19, when the named creeks' wider galleries put a belt of timber on that holding. Since 2026-09-26 half of every
+  // class's land is dealt inside the Mexican columns' burn zone, family by family (sim/colonies-region.mjs, `FIC-GONZ-464`),
+  // and the first family of `fell-tiles-1` moved; the family without timber is looked for rather than assumed to be first.)
+  const world = createGonzalesWorld('fell-tiles-1-5', 5, { map: 'colonies' });
   world.status = 'running';
   for (let tick = 0; tick < 200 && Object.values(world.households).some(h => h.arriving); tick++) stepWorld(world);
-  const household = world.households['hh-1'], bounds = holdingOf(world, household).bounds;
-  const places = [];
-  for (let i = 0; i < 11; i++) for (let j = 0; j < 11; j++) places.push({ x: +(bounds.minX + (bounds.maxX - bounds.minX) * (i + 0.5) / 11).toFixed(3), y: +(bounds.minY + (bounds.maxY - bounds.minY) * (j + 0.5) / 11).toFixed(3) });
-  applyAction(world, 'hh-1', { action: 'choose-site', ...places.find(point => siteFactsFor(world, household, point).can) });
+  const gridOf = bounds => {
+    const found = [];
+    for (let i = 0; i < 11; i++) for (let j = 0; j < 11; j++) found.push({ x: +(bounds.minX + (bounds.maxX - bounds.minX) * (i + 0.5) / 11).toFixed(3), y: +(bounds.minY + (bounds.maxY - bounds.minY) * (j + 0.5) / 11).toFixed(3) });
+    return found;
+  };
+  let household = null, places = null;
+  for (const one of Object.values(world.households)) {
+    const grid = gridOf(holdingOf(world, one).bounds);
+    applyAction(world, one.id, { action: 'choose-site', ...grid.find(point => siteFactsFor(world, one, point).can) });
+    if (!household && grid.every(point => !fellFacts(world, one, point).can)) { household = one; places = grid; }
+  }
+  assert.ok(household, 'no family in the class is without timber, so this test checks nothing');
   for (let tick = 0; tick < 60 && household.members.some(id => world.entities[id].travel); tick++) stepWorld(world);
   assert.ok(places.every(point => !fellFacts(world, household, point).can), 'no timber to fell anywhere on the holding');
   assert.ok(places.some(point => fellRefusal(world, household, point) === 'No timber stands there to fell.'));
-  applyAction(world, 'hh-1', { action: 'plan-house', layout: 'jacal' });
+  applyAction(world, household.id, { action: 'plan-house', layout: 'jacal' });
   const people = household.members.map(id => world.entities[id]).filter(person => choreAvailability(world, household, person, 'build-house')?.can);
   assert.ok(people.length > 0, 'somebody can build');
   let ticks = 0;
   for (; ticks < 400 && !houseBuilt(household); ticks++) {
-    for (const person of people) if (!person.chore && !person.travel) applyAction(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'build-house' });
+    for (const person of people) if (!person.chore && !person.travel) applyAction(world, household.id, { action: 'chore', entityId: person.id, chore: 'build-house' });
     stepWorld(world);
   }
   assert.ok(houseBuilt(household), `the jacal stands after ${ticks} ticks`);

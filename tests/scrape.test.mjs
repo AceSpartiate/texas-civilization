@@ -2,8 +2,9 @@
 //
 // The second period ends with interim standings and the Host continues the same class to dawn on March 14 with nothing
 // skipped. Each settlement's families are told to leave on its day; the family chooses what fits in the wagon and where east
-// it makes for, and sets out together while the Texas army burns the farm behind it; a family that stays is burned out anyway
-// and whoever is at home when the Mexican army passes may be taken. The rivers hold the family at every crossing; rain, cold
+// it makes for, and sets out together, leaving the farm standing with what did not fit; since 2026-09-26 a farm burns only when
+// a Mexican column's foragers reach it, inside the burn zone (sim/advance.mjs, docs/SCRAPE.md), and whoever is at home then
+// may be taken. The rivers hold the family at every crossing; rain, cold
 // and hunger make people sick and a few die. Word of San Jacinto turns every family home to what is left.
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -15,6 +16,7 @@ import { calendarMinutes } from '../sim/clock.mjs';
 import { CAPTURED_AT_HOME, FLIGHT_ROOM, SETTLEMENT_DAYS, share } from '../sim/scrape.mjs';
 import { needsOf } from '../public/family-panel.js';
 import { beastsOf } from '../sim/beasts.mjs';
+import { burnMinute, farmFate } from '../sim/advance.mjs';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -82,7 +84,9 @@ test('each settlement is told to leave on its day, its main person carries the "
   assert.equal(elsewhere.flight?.status, 'ordered', `${elsewhere.settlementId} was never told to leave`);
 });
 
-test('the family loads what fits, sets out together for the east, and the farm burns behind it; the rivers hold it; it camps at the refuge and comes home with the victory', () => {
+test('the family loads what fits and sets out together for the east, leaving the farm standing with what did not fit; the rivers hold it; it camps at the refuge and comes home with the victory', () => {
+  // Since 2026-09-26 the farm is not burned as the family goes (owner: the burning follows history, docs/SCRAPE.md): it stands
+  // with what was left in it until a Mexican column's foragers reach it, and outside the burn zone they never do.
   const world = spring();
   const household = families(world, 'gonzales')[0];
   household.played = true;
@@ -103,10 +107,10 @@ test('the family loads what fits, sets out together for the east, and the farm b
   validateWorld(world);
   assert.equal(household.flight.status, 'fled');
   assert.deepEqual({ food: household.resources.food, seed: household.resources.seed, cotton: household.resources.cotton, money: household.resources.money }, { food: 40, seed: 6, cotton: 8, money: 3 }, 'the family did not keep exactly what it loaded, and its coin');
-  assert.equal(household.improvements.cabin, 'ruined', 'the house did not burn');
-  assert.deepEqual(household.furniture, {}, 'the furniture survived the fire');
-  assert.equal(household.interior, undefined);
-  assert.ok(world.events.some(event => event.householdId === household.id && /watched it burn/.test(event.text)), 'the family did not watch the farm burn');
+  assert.equal(household.improvements.cabin, 'sound', 'the house burned as the family left');
+  assert.deepEqual(household.furniture, { table: 'made' }, 'the furniture went with the family or burned');
+  assert.deepEqual([household.flight.left?.food, household.flight.left?.cotton, household.flight.left?.seed], [360, 2, undefined], 'what did not fit is not left in the house');
+  assert.ok(!world.events.some(event => event.householdId === household.id && /watched it burn/.test(event.text)), 'the family watched a burning that did not happen');
   for (const one of goers) assert.equal(one.travel?.purpose, 'flee', `${one.name} did not set out`);
   assert.equal(world.entities[`${household.id}-wagon`].travel?.purpose, 'flee', 'the wagon stayed');
   assert.equal(world.entities[`${household.id}-wagon`].laden, true);
@@ -132,31 +136,41 @@ test('the family loads what fits, sets out together for the east, and the farm b
   world.status = 'running';
   until(world, () => household.flight.status === 'home', 4000);
   assert.equal(household.flight.status, 'home', 'the family never reached home');
-  assert.ok(world.events.some(event => event.householdId === household.id && /home\. The house and the field are burned/.test(event.text)));
-  assert.equal(household.improvements.cabin, 'ruined');
+  // Home to what the burn zone left: the house ashes inside it, the house standing and the goods where they were outside it.
+  if (farmFate(world, household)) {
+    assert.equal(household.improvements.cabin, 'ruined');
+    assert.ok(world.events.some(event => event.householdId === household.id && /home\. The house is ashes/.test(event.text)));
+  } else {
+    assert.equal(household.improvements.cabin, 'sound');
+    assert.ok(world.events.some(event => event.householdId === household.id && /home\. The Mexican army never came this way: the house stands.*still there: 360 food, 2 cotton/.test(event.text)));
+  }
   validateWorld(world);
 });
 
-test('a family that stays is burned out when the army passes, and whoever is at home when the Mexican army comes may be taken', () => {
+test('a family that stays is burned out when a column\'s foragers reach the farm, and whoever is at home may be taken', () => {
   const world = spring();
-  const household = families(world, 'gonzales')[0];
+  // A family inside the burn zone (sim/advance.mjs): the foragers come.
+  const household = Object.values(world.households).find(one => farmFate(world, one));
+  assert.ok(household, 'this class has no family inside the burn zone');
   household.played = true;
   household.improvements = { ...household.improvements, cabin: 'sound' };
-  const days = SETTLEMENT_DAYS.gonzales;
   // Staying is an answer of its own since auto packs the wagon of a family that answers nothing for a day (sim/auto.mjs).
   until(world, () => household.flight?.status === 'ordered');
   applyAction(world, household.id, { action: 'flight-stay', entityId: main(world, household).id });
   assert.equal(household.flight.status, 'stayed');
   assert.equal(calendarMinutes(world), 240, 'the calendar still held after the family decided to stay');
   assert.throws(() => applyAction(world, household.id, { action: 'flight-stay', entityId: main(world, household).id }), /already decided/);
-  untilMinute(world, days.burn);
-  assert.equal(household.flight.status, 'stayed');
-  assert.equal(household.improvements.cabin, 'ruined', 'the army passed and did not burn the farm');
-  assert.ok(world.events.some(event => event.householdId === household.id && /The Texas army passed and set fire/.test(event.text)));
-  assert.equal(calendarMinutes(world), 240, 'the calendar still held after the farm burned');
-  // Still at home when the Mexican army comes through.
   const home = household.members.map(id => world.entities[id]).filter(one => one.location.siteId === household.homeSiteId && one.health.condition === 'well');
-  untilMinute(world, days.enemy);
+  const at = burnMinute(world, household);
+  // Up to the tick that reaches the foragers' minute, and then that tick.
+  until(world, () => world.minute + calendarMinutes(world) >= at);
+  assert.equal(household.improvements.cabin, 'sound', 'the farm burned before the foragers came');
+  untilMinute(world, at);
+  assert.equal(household.flight.status, 'stayed');
+  assert.equal(household.improvements.cabin, 'ruined', 'the foragers came and did not burn the farm');
+  assert.equal(household.flight.burnedBy.hand, 'mexican');
+  assert.ok(world.events.some(event => event.householdId === household.id && /Foragers of .+ came to the farm on .+ and burned the house, the field and the fences while the family's own people looked on/.test(event.text)), 'the family at home was not told what it saw');
+  // Whoever was at home when the foragers came is taken at the share.
   for (const one of home) assert.equal(one.health.condition, share(world, one.id, 'enemy') < CAPTURED_AT_HOME ? 'captured' : 'well', `${one.name}'s capture did not follow the share`);
   // Burned out, the family can still go with what it can carry.
   assert.equal(view(world, household.id).flight.burned, true);

@@ -180,6 +180,11 @@ ground no steeper than a house could stand on, not inside a mile of the town, an
 other anchor. Grants are laid out round the anchors exactly as `sim/grants.mjs` does now. The house site itself is
 chosen on arrival (`docs/LAND_GRANTS.md` §8.2).
 
+**Amended 2026-09-26 (owner, "Place land at the start"; [SCRAPE.md](SCRAPE.md) §2, `FIC-GONZ-464`):** of the families dealt,
+family 1 is given land inside the Mexican columns' burn zone, family 2 outside it, and so on, every rule above still holding
+and the counts by 1834 population kept; students join families in that order, so the played families are half and half and an
+odd one over is inside. Dealt as before and then moved as little as it can, from a stream of its own.
+
 ### 5.2 Places and roads on the real map
 
 - **Settlements** are sites at their coordinates, projected by `milesFrom` (`sim/terrain-data.mjs`): the seven starts and
@@ -926,6 +931,15 @@ Decided by the owner by multiple choice (§7g). Research [goliad-scrape-san-jaci
   pursuit - each Mexican column a head between the dated places above, a warning at twenty miles with the choice to press on,
   and a family that sits still overtaken and robbed, its grown men taken prisoner at a share, nobody killed. `HIST-TEX-068`
   to `-074`, `FIC-GONZ-049` to `-052`. Every choice a default made in the owner's absence, listed there for the owner to change.
+- **Amended 2026-09-26 ([SCRAPE.md](SCRAPE.md), not released): the Mexican advance and the burn zone.** The owner: *"we need to
+  fully model the Mexican army as it pushes towards the Texian army during the runaway scrape. we'll need to ensure that 50% of
+  player farms are in the zone that will see their farms burned"*, and by multiple choice **"Place land at the start"**. The
+  columns are the record's (Sesma, Tolsa, Santa Anna, Cos, Gaona, Urrea, Filisola, `HIST-TEX-580` to `-597`); **leaving no
+  longer burns the farm** on the real land - it stands with what did not fit until a column's foragers reach it, inside the
+  burn zone only, a day at least after the order (`FIC-GONZ-465`); the Texians burn the towns the record says they burned
+  (`HIST-TEX-594`); a family learns of its farm by its own people or by the word (`FIC-GONZ-463`); and the land is dealt
+  **half inside the zone and half outside**, family by family in join order (`FIC-GONZ-464`). The `burn` and `enemy` days
+  above are read only on the invented Gonzales country.
 
 ## 7. Questions for the owner — all answered 2026-09-14
 

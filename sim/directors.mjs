@@ -9,6 +9,8 @@ import { distantHouseholds, expressLeaves, startExpress } from './expresses.mjs'
 import { callOptions, expireCalls, offerCalls, settleCalls } from './calls.mjs';
 import { ALAMO_WORD, COURIER_DAYS, askCouriers, beginSiege, warnGarrison, fightSouth, gonzalesFamilies, otherFamilies, reliefEnters, reliefRides, sendCouriers, splitSouth, stormAlamo, survivorsLeave, tellFall, tellSouth, word } from './alamo.mjs';
 import { SETTLEMENT_DAYS, advanceArmiesPassing, orderOut, turnHome } from './scrape.mjs';
+import { advanceModelled } from './advance.mjs';
+import { advanceAdvanceWord } from './advance-word.mjs';
 import { HOUSTON_WORD, catchUpCamp, fightColeto, followCamp, goliadMassacre, takeInEnlisted, tellGoliad, tellSanJacinto } from './houston.mjs';
 import { closeCampQuestion, openCampQuestion } from './camp.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
@@ -1316,6 +1318,8 @@ function advanceScrape(world, { beginTravel } = {}) {
     if (days && world.minute >= days.order && !household.flight) orderOut(world, household, null);
   }
   advanceArmiesPassing(world);
+  // The word of the Mexican advance: each family's own farm, the towns burned and where the columns are (sim/advance-word.mjs).
+  if (advanceModelled(world)) advanceAdvanceWord(world);
   if (!world.director.milestones['san-jacinto']) catchUpCamp(world, go);
   // San Jacinto on the engine: who is in the camp and the line, the alert, the guns heard, the Host's camera (sim/san-jacinto.mjs).
   advanceSanJacinto(world);

@@ -277,13 +277,20 @@ export function leaveStock(world, household) {
  * stock, and what a family found on its return was a fraction of what it drove out of.
  */
 export const FOUND_AGAIN = Object.freeze({ cattle: 0.5, hogs: 0.25 });
+/**
+ * Where a column's foragers came (sim/scrape.mjs `burnByForagers`, `driven` on the herd left): the Mexican army lived off the
+ * country's cattle, so a quarter of the cattle is found, not half (`FIC-GONZ-465`). The hogs in the timber are no easier to
+ * drive than to find, and keep their quarter.
+ */
+export const FOUND_AFTER_FORAGERS = Object.freeze({ cattle: 0.25, hogs: 0.25 });
 export function findStockAgain(world, household) {
   const left = household.herdLeft;
   if (!left) return null;
   delete household.herdLeft;
+  const shares = left.driven ? FOUND_AFTER_FORAGERS : FOUND_AGAIN;
   const found = {
-    cattle: Math.floor(left.cattle * FOUND_AGAIN.cattle),
-    hogs: Math.floor(left.hogs * FOUND_AGAIN.hogs),
+    cattle: Math.floor(left.cattle * shares.cattle),
+    hogs: Math.floor(left.hogs * shares.hogs),
   };
   const herd = herdOn(household);
   herd.cattle += found.cattle;

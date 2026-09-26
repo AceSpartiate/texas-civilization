@@ -44,7 +44,38 @@ export const STORY_LINES = Object.freeze({
   'goliad-massacre': { told: 'the prisoners taken with Fannin were marched out of Goliad and shot' },
   'santa-anna-brazos': { told: 'Santa Anna crossed the Brazos at Fort Bend and made for Harrisburg' },
   'san-jacinto': { told: 'General Houston destroyed Santa Anna\'s army at San Jacinto and took Santa Anna prisoner, and the war was won' },
+  // The Mexican advance (sim/advance.mjs, sim/advance-word.mjs, 2026-09-26): the towns burned, and where the columns came.
+  'burned:gonzales': { told: 'General Houston had Gonzales burned as the army left it' },
+  'burned:refugio': { told: 'King\'s men at Refugio set fire to the houses round the mission church' },
+  'burned:goliad': { told: 'Fannin burned Goliad and left it, and only the church was standing' },
+  'burned:beesons': { told: 'Texian scouts burned Beeson\'s house on the Colorado' },
+  'burned:san-felipe': { told: 'Captain Baker\'s men burned San Felipe before they crossed the Brazos' },
+  'burned:bastrop': { told: 'Gaona\'s column plundered Bastrop and left it wrecked' },
+  'burned:staffords': { told: 'Santa Anna\'s column burned Stafford\'s plantation on the Brazos' },
+  'burned:harrisburg': { told: 'Harrisburg was burned, all but one house' },
+  'burned:new-washington': { told: 'Santa Anna\'s men burned New Washington and Morgan\'s warehouses' },
+  'burned:powells': { told: 'the Mexican rear guard burned Mrs. Powell\'s house as the army went back' },
+  'column:sesma-gonzales': { told: 'Mexican soldiers under Sesma came into what was left of Gonzales' },
+  'column:sesma-colorado': { told: 'Sesma\'s column camped on the Colorado two miles from General Houston\'s army' },
+  'column:sesma-atascosito': { told: 'the Mexicans crossed the Colorado at the Atascosito crossing' },
+  'column:mexicans-san-felipe': { told: 'the Mexican army came to San Felipe and found it in ashes' },
+  'column:santa-anna-gonzales': { told: 'Santa Anna himself left Béxar and went east by Gonzales' },
+  'column:santa-anna-harrisburg': { told: 'Santa Anna came into Harrisburg by night, after the government had gone' },
+  'column:santa-anna-new-washington': { told: 'Santa Anna was at New Washington on the bay' },
+  'column:gaona-bastrop': { told: 'a Mexican column under Gaona came to Bastrop' },
+  'column:urrea-victoria': { told: 'Urrea took Victoria' },
+  'column:urrea-texana': { told: 'Urrea\'s column came to Texana on the Navidad' },
+  'column:urrea-matagorda': { told: 'Urrea took Matagorda and the goods in its warehouses' },
+  'column:urrea-columbia': { told: 'Urrea took Columbia' },
+  'column:urrea-brazoria': { told: 'Urrea came to Brazoria and let be the families who had stayed' },
+  'column:army-powells': { told: 'the Mexican army gathered at Mrs. Powell\'s on the San Bernard and began to go back' },
 });
+/**
+ * News that is one family's own and not the country's talk: its own farm burned (sim/advance-word.mjs `farmTopic`). The mill
+ * tells what the colonies were saying; that a particular family's house burned is the family's, and the Host sees it on the
+ * map and in the spotlight.
+ */
+const OWN = topicId => topicId.startsWith('farm-burned:');
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 /** How firm a telling is: a family that has it confirmed outweighs one that has it as a rumour. */
@@ -70,7 +101,7 @@ function heardTopics(world) {
   }
   const known = new Set(Object.keys(world.knowledge?.public || {}));
   for (const family of families) for (const topicId of Object.keys(world.knowledge?.households?.[family.id] || {})) known.add(topicId);
-  return [...known].filter(topicId => tellings[topicId]?.length).map(topicId => {
+  return [...known].filter(topicId => tellings[topicId]?.length && !OWN(topicId)).map(topicId => {
     const told = tellings[topicId];
     // When the word last changed: new words, or firmer than it stood. A far family hearing old news late - the rumour of a
     // thing already confirmed nearer home - is not new news, and does not undo the firmer word.

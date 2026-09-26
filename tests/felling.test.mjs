@@ -75,7 +75,7 @@ test('the family is told what stands to fell, and cannot fell off its land, with
 });
 
 test('the trees come down one at a time, wall timber first, each a stump with its logs lying, until none is left in reach', () => {
-  const { world, household, bounds } = onTheLand('fell-down');
+  const { world, household, bounds } = onTheLand('fell-down-2');
   const { point } = timberOn(world, household, bounds).find(entry => entry.facts.trees >= 2 && entry.facts.trees <= 6);
   const before = standingTrees(world, point);
   const axe = world.entities[household.principalId];

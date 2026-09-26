@@ -141,7 +141,7 @@ export function raiseFence(world, household, entity, plotId) {
  * property that can be ruined from the first save that contains it. Proved by
  * tests/improvements.test.mjs, which calls it directly.
  */
-export function ruin(world, household, kinds, { by = null, text = null } = {}) {
+export function ruin(world, household, kinds, { by = null, text = null, visibility = null } = {}) {
   const ruined = [];
   for (const kind of kinds) {
     if (kind === 'field') {
@@ -168,6 +168,8 @@ export function ruin(world, household, kinds, { by = null, text = null } = {}) {
   if (!ruined.length) return ruined;
   record(world, 'consequence', {
     householdId: household.id, importance: 3, ...(by && { actorId: by }),
+    // 'sealed': it happened, and the family does not know yet (sim/scrape.mjs `burnByForagers`); revealed with the ending.
+    ...(visibility && { visibility }),
     text: text || `What the family made of this place is gone: ${ruined.join(', ')}.`,
   });
   return ruined;

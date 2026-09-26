@@ -13,12 +13,13 @@
 // than saved. ceiling: the home country the relief is drawn over spans the whole class, which at thirty families is
 // most of the colonies, so its relief is coarse.
 import { LEAGUE_MILES, findPath, polylineLength } from './geography.mjs';
-import { coloniesMap, BARRIER_RIVERS, dealCounts } from './colonies-map.mjs';
+import { coloniesMap, BARRIER_RIVERS, START_WEIGHTS, dealCounts } from './colonies-map.mjs';
 import { realTerrain } from './terrain-data.mjs';
 import { groundAlong, layLane } from './ground.mjs';
 import { sampleReliefGrid } from './terrain.mjs';
 import { WOODS_SOURCE } from './woods.mjs';
 import { coloniesProvince } from './province.mjs';
+import { burnSamples, inBurnZone } from './advance.mjs';
 
 const round = value => { const fixed = +value.toFixed(2); return fixed === 0 ? 0 : fixed; };
 const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
@@ -37,6 +38,12 @@ const segmentDistance = (p, a, b) => {
 export const LAND_FROM_TOWN = Object.freeze({ nearest: 2, farthest: 12 });
 /** How close to a named watercourse a homestead stands (HIST-GONZ-009: settlers took the rivers and creeks). */
 export const WATER_WITHIN = 0.5;
+/**
+ * The standable half-mile points a family's land takes up when the class is dealt half inside the burn zone and half
+ * outside it (`FIC-GONZ-464`): twelve is three square miles, a league with its elbow room. A side of a settlement with
+ * fewer has no room for a family on that side at all.
+ */
+export const POINTS_A_FAMILY = 12;
 /** The longest way by road from a family's land to its own settlement, in miles (FIC-GONZ-027). */
 export const ROAD_TO_TOWN = 30;
 /** The steepest ground a house is set on, as rise over run across an eighth of a mile (FIC-GONZ-027). */
@@ -159,7 +166,11 @@ export function creekRuns(course, inKept) {
   return runs.map((points, i) => ({ points, cut: cuts[i] })).filter(run => run.points.length >= 2);
 }
 
-export function buildColoniesRegion(random, playerCount) {
+/**
+ * `zone: false` deals the land as every class before 2026-09-26 was dealt, with no regard to the burn zone: what an old save's
+ * map is, for the tests that hold an old save to its own land (tests/mexican-advance.test.mjs).
+ */
+export function buildColoniesRegion(random, playerCount, { zone = true } = {}) {
   const built = coloniesMap();
   const land = realTerrain();
   const sites = {}, routes = {}, terrain = [];
@@ -171,7 +182,7 @@ export function buildColoniesRegion(random, playerCount) {
   const counts = dealCounts(playerCount);
   const seats = Object.entries(counts).flatMap(([id, count]) => Array(count).fill(id));
   for (let i = seats.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [seats[i], seats[j]] = [seats[j], seats[i]]; }
-  const settled = [...new Set(seats)];
+  let settled = [...new Set(seats)];
 
   const named = built.watercourses.filter(course => course.name);
   const water = segmentIndex(named);
@@ -208,7 +219,9 @@ export function buildColoniesRegion(random, playerCount) {
   /** Road miles from a spot to its settlement by its nearest reachable road: the track, along the road either way, then the network. */
   const roadMilesToTown = (spot, settlement) => {
     const best = nearestReachable(spot);
-    if (!best) return Infinity;
+    // A house on the road itself has no lane in to it: its track would be a single point (found 2026-09-26, when a family's
+    // land was dealt again on its side of the burn zone and came down on a vertex of the mail road by Beeson's).
+    if (!best || best.d < 0.02) return Infinity;
     const route = routes[best.routeId], graph = { sites, routes };
     const toStart = polylineLength(route.points.slice(0, best.vertex + 1)), toEnd = polylineLength(route.points.slice(best.vertex));
     const via = (end, along) => end === settlement.id ? along : (findPath(graph, end, settlement.id)?.distance ?? Infinity) + along;
@@ -230,7 +243,7 @@ export function buildColoniesRegion(random, playerCount) {
 
   // Land for each family near its settlement. League-sized elbow room first, closing up only if a crowded
   // settlement needs it, as the invented map's scatter did.
-  let places = null;
+  let places = null, spacing = null;
   for (let separation = LEAGUE_MILES * 1.15; separation > 0.9 && !places; separation *= 0.92) {
     const placed = [];
     for (const settlementId of seats) {
@@ -245,9 +258,104 @@ export function buildColoniesRegion(random, playerCount) {
       if (!spot) break;
       placed.push(spot);
     }
-    if (placed.length === seats.length) places = placed;
+    if (placed.length === seats.length) { places = placed; spacing = separation; }
   }
   if (!places) throw new Error('Could not give every family land near its settlement');
+
+  // Half the families inside the burn zone and half outside it (owner, 2026-09-26, by multiple choice: "Place land at the
+  // start"; docs/SCRAPE.md §2, `FIC-GONZ-464`). The zone is the country the Mexican columns' foragers reached while they
+  // advanced (sim/advance.mjs), worked out on this map's own roads before any family's track is laid. Family 1 is inside,
+  // family 2 outside, and so on down the class: students join families in that order (server/app.mjs `/api/join`), so
+  // however many join, the played families are half and half, and an odd one over goes inside - at least half of every
+  // class's farms burn, which is the owner's "ensure that 50%".
+  //
+  // It is done after the land is dealt as it always was, and moves as little as it can: a family whose land already lies on
+  // its side keeps it, a seat is exchanged with a later family's only where a settlement has no room on the side a family
+  // needs (Liberty is never inside), and a family on the wrong side is given land again on the right one from a stream of its
+  // own, so the seed's other draws - every crop, load and timber band after this - are the draws they always were.
+  const zoneMap = { sites, routes };
+  const zoned = zone && Boolean(sites['san-felipe']) && burnSamples(zoneMap).all.length > 0;
+  const inside = index => index % 2 === 0;
+  const inZone = point => inBurnZone(zoneMap, point);
+  if (zoned) {
+    // Where each settlement can take a family inside the zone and where outside: its ring of land, on a half-mile grid, where
+    // a house could stand by water; a family to every `POINTS_A_FAMILY` of it.
+    const ground = {};
+    const standable = (at, settlement) => {
+      const fromTown = distance(at, settlement);
+      return fromTown >= LAND_FROM_TOWN.nearest && fromTown <= LAND_FROM_TOWN.farthest && towns.every(town => distance(town, at) > 1.2)
+        && Number.isFinite(land.heightAt(at.x, at.y)) && land.heightAt(at.x, at.y) >= 1 && barriers.distanceTo(at, 1) > 0.3
+        && water.distanceTo(at, 1) <= WATER_WITHIN && level(at);
+    };
+    for (const id of Object.keys(START_WEIGHTS)) {
+      const s = sites[id], found = { in: [], out: [] };
+      for (let x = s.x - LAND_FROM_TOWN.farthest; x <= s.x + LAND_FROM_TOWN.farthest; x += 0.5) {
+        for (let y = s.y - LAND_FROM_TOWN.farthest; y <= s.y + LAND_FROM_TOWN.farthest; y += 0.5) {
+          const at = { x: round(x), y: round(y) };
+          if (standable(at, s)) found[inZone(at) ? 'in' : 'out'].push(at);
+        }
+      }
+      ground[id] = found;
+    }
+    const room = Object.fromEntries(Object.entries(ground).map(([id, found]) => [id, { in: Math.floor(found.in.length / POINTS_A_FAMILY), out: Math.floor(found.out.length / POINTS_A_FAMILY) }]));
+    const used = Object.fromEntries(Object.keys(ground).map(id => [id, { in: 0, out: 0 }]));
+    const free = (id, side) => (room[id]?.[side] ?? 0) - (used[id]?.[side] ?? 0);
+    // Whether the families still to seat can fill the sides still open: each settlement's families split between the sides it
+    // has room on, with enough of them inside to fill the inside places and no more than its room there.
+    const feasible = (rest, from) => {
+      let slotsIn = 0;
+      for (let i = from; i < seats.length; i++) if (inside(i)) slotsIn++;
+      const count = {};
+      for (const one of rest) count[one.settlementId] = (count[one.settlementId] || 0) + 1;
+      let least = 0, most = 0;
+      for (const [id, n] of Object.entries(count)) {
+        if (n > Math.max(0, free(id, 'in')) + Math.max(0, free(id, 'out'))) return false;
+        least += Math.max(0, n - Math.max(0, free(id, 'out')));
+        most += Math.min(n, Math.max(0, free(id, 'in')));
+      }
+      return least <= slotsIn && slotsIn <= most;
+    };
+    // Each family takes the first seat in the dealt order that can serve its side and leaves the rest servable: its own,
+    // nearly always. `ceiling:` a class no order can serve (none found in 5-30 families) takes the settlement of nearest 1834
+    // weight with room, and the counts move by one; it is never refused.
+    const left = places.map(place => ({ settlementId: place.settlementId, place })), ordered = [];
+    for (let i = 0; i < places.length; i++) {
+      const side = inside(i) ? 'in' : 'out';
+      let pick = left.findIndex((one, k) => free(one.settlementId, side) > 0 && (used[one.settlementId][side]++, (() => { const ok = feasible(left.filter((_, j) => j !== k), i + 1); used[one.settlementId][side]--; return ok; })()));
+      if (pick < 0) pick = left.findIndex(one => free(one.settlementId, side) > 0);
+      if (pick >= 0) { used[left[pick].settlementId][side]++; ordered.push(left.splice(pick, 1)[0]); continue; }
+      const instead = Object.keys(START_WEIGHTS).filter(id => free(id, side) > 0).sort((a, b) => Math.abs(START_WEIGHTS[a] - START_WEIGHTS[left[0].settlementId]) - Math.abs(START_WEIGHTS[b] - START_WEIGHTS[left[0].settlementId]))[0] || left[0].settlementId;
+      left.shift();
+      used[instead][side]++;
+      ordered.push({ settlementId: instead, place: null });
+    }
+    // Land again, on the right side, for each family whose dealt land is on the wrong one: from a stream of its own, seeded by
+    // the land already dealt, so the class's own stream is untouched. Random throws round its settlement first, then the
+    // standable ground on that side in the stream's order; closing up from the class's spacing only if it must.
+    let state = 2166136261;
+    for (const char of JSON.stringify(places)) state = Math.imul(state ^ char.charCodeAt(0), 16777619);
+    const own = () => { state ^= state << 13; state ^= state >>> 17; state ^= state << 5; return (state >>> 0) / 4294967296; };
+    const right = (place, i) => place && inZone(place) === inside(i);
+    ordered.forEach((one, i) => {
+      if (right(one.place, i)) return;
+      const settlement = sites[one.settlementId], side = ground[one.settlementId][inside(i) ? 'in' : 'out'];
+      const others = ordered.filter((other, j) => j !== i && right(other.place, j)).map(other => other.place);
+      let spot = null;
+      for (let separation = spacing; separation > 0.9 && !spot; separation *= 0.92) {
+        for (let attempt = 0; attempt < 600 && !spot; attempt++) {
+          const angle = own() * Math.PI * 2, reach = LAND_FROM_TOWN.nearest + own() * (LAND_FROM_TOWN.farthest - LAND_FROM_TOWN.nearest);
+          const candidate = { x: settlement.x + Math.cos(angle) * reach, y: settlement.y + Math.sin(angle) * reach }, at = { x: round(candidate.x), y: round(candidate.y) };
+          if (inZone(at) === inside(i) && fit(candidate, settlement, others, separation)) spot = at;
+        }
+        const start = Math.floor(own() * side.length);
+        for (let k = 0; k < side.length && !spot; k++) { const at = side[(start + k * 7919) % side.length]; if (fit(at, settlement, others, separation)) spot = at; }
+      }
+      if (!spot) throw new Error(`Could not give family ${i + 1} land ${inside(i) ? 'inside' : 'outside'} the burn zone near ${settlement.name}`);
+      one.place = { ...spot, settlementId: one.settlementId };
+    });
+    places = ordered.map(one => one.place);
+    settled = [...new Set(places.map(place => place.settlementId))];
+  }
 
   // Each homestead's track runs straight to the nearest point of a road it can reach without crossing a big river
   // (smaller watercourses are waded, as the roads wade them).

@@ -79,6 +79,24 @@ export function drawArmy(ctx, army, at, { scale, figure, time = 0, draw = null, 
   const colours = army.side === 'mexican' ? MEXICAN : TEXIAN;
   if (scale < CAMP_SCALE) { drawArmyMark(ctx, army, at, colours, Math.max(11, Math.min(20, figure))); return 'mark'; }
   const size = Math.max(10, Math.min(46, figure * 1.1));
+  // A column on the march (sim/advance.mjs): no tents and no fire, the men in files on the road, the horse at the head.
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the Mexican advance", item 3 - the battles' marching regulars in files
+  // and one dragoon, until a column on the march exists.
+  if (army.moving) {
+    const men = menDrawn(army.strength ?? CAMP_MEN), role = army.side === 'mexican' ? 'regular' : 'volunteer', dir = army.right === false ? 1 : -1;
+    for (let index = 0; index < men; index++) {
+      const file = index % 3, rank = Math.floor(index / 3);
+      const x = at.x + dir * rank * size * 0.55, y = at.y + (file - 1) * size * 0.32;
+      const drawn = draw && draw(`${role}-march`, x, y, size, `${army.id}:${index}`, { flip: army.right === false });
+      if (!drawn && mini) mini(ctx, x, y, size, { side: army.side, flip: army.right === false });
+    }
+    if (army.side === 'mexican') {
+      const x = at.x - dir * size * 0.9;
+      if (!(draw && draw('dragoon-march', x, at.y, size, `${army.id}:head`, { flip: army.right === false })) && mini) mini(ctx, x, at.y, size, { side: army.side, flip: army.right === false });
+    }
+    drawArmyLabel(ctx, army, { x: at.x, y: at.y - size * 1.3 }, colours);
+    return 'column';
+  }
   // The tents behind, the fire in the middle, the men in front of it: a camp read at a glance.
   const tents = army.side === 'mexican' ? 2 : 3;
   for (let i = 0; i < tents; i++) tent(ctx, at.x + (i - (tents - 1) / 2) * size * 1.5, at.y - size * 0.55, size, colours);
@@ -113,7 +131,8 @@ export function drawArmyMark(ctx, army, at, colours, size) {
 
 /** The army's name, and what the family has in it, over the camp or the flag. */
 export function drawArmyLabel(ctx, army, at, colours) {
-  const words = army.ours > 0 ? `${army.name} · ${army.ours} of yours` : army.name;
+  // A Mexican column carries the record's strength for the stretch it is on (sim/advance.mjs), said as the record says it.
+  const words = army.ours > 0 ? `${army.name} · ${army.ours} of yours` : army.side === 'mexican' && army.strength ? `${army.name} · about ${army.strength.toLocaleString('en-US')}` : army.name;
   ctx.save();
   ctx.font = '12px Georgia';
   ctx.textAlign = 'center';

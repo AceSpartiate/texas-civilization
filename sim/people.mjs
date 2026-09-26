@@ -120,10 +120,40 @@ export const PEOPLE = Object.freeze({
     fullName: 'Antonio López de Santa Anna',
     // Taken the day after San Jacinto, in a private's clothes (`HIST-TEX-523`, `-559`).
     fate: { kind: 'captured', battle: 'san-jacinto', phase: 'taken', at: 0, claimId: 'HIST-TEX-559' },
-    // With his column in the spring (sim/road.mjs `columns`), where the game already draws it.
-    map: [{ from: on(1836, 3, 6, 18), until: 'san-jacinto-field', with: 'column:santa-anna', doing: 'ride', claimId: 'HIST-TEX-559' }],
+    // At Béxar until March 31, then with his column (sim/advance.mjs `COLUMNS`, `HIST-TEX-585`).
+    map: [
+      { from: on(1836, 3, 6, 18), until: on(1836, 3, 31, 8), site: 'bexar', doing: 'command', claimId: 'HIST-TEX-585' },
+      { from: on(1836, 3, 31, 8), until: 'san-jacinto-field', with: 'column:santa-anna', doing: 'ride', claimId: 'HIST-TEX-585' },
+    ],
   }),
-  cos: person('cos', 'Cos', MX, 'general', 1, 'HIST-TEX-557', { fullName: 'Martín Perfecto de Cos' }),
+  // With the 500 he brought from Old Fort to San Jacinto (`HIST-TEX-589`), until the battle draws him.
+  cos: person('cos', 'Cos', MX, 'general', 1, 'HIST-TEX-557', { fullName: 'Martín Perfecto de Cos',
+    map: [{ from: on(1836, 4, 18, 12), until: 'san-jacinto-field', with: 'column:cos', doing: 'ride', claimId: 'HIST-TEX-589' }] }),
+  // The generals of the other columns of the advance (docs/battle-research/mexican-advance.md §3), each with his column.
+  // Sesma with his division: on the Colorado, with Santa Anna from the Atascosito crossing to San Felipe, at Old Fort and then
+  // in Filisola's camp (sim/advance.mjs: columns that marched as one are one column).
+  sesma: person('sesma', 'Sesma', MX, 'general', 1, 'HIST-TEX-580', { fullName: 'Joaquín Ramírez y Sesma',
+    map: [
+      { from: on(1836, 3, 11, 8), until: on(1836, 4, 5, 6), with: 'column:sesma', doing: 'ride', claimId: 'HIST-TEX-580' },
+      { from: on(1836, 4, 5, 6), until: on(1836, 4, 9, 8), with: 'column:santa-anna', doing: 'ride', claimId: 'HIST-TEX-585' },
+      { from: on(1836, 4, 9, 8), until: on(1836, 4, 18, 6), with: 'column:sesma-brazos', doing: 'ride', claimId: 'HIST-TEX-586' },
+      { from: on(1836, 4, 18, 6), until: on(1836, 5, 17, 12), with: 'column:filisola', doing: 'ride', claimId: 'HIST-TEX-596' },
+    ] }),
+  tolsa: person('tolsa', 'Tolsa', MX, 'general', 2, 'HIST-TEX-582', { fullName: 'Eugenio Tolsa',
+    map: [
+      { from: on(1836, 3, 17, 8), until: on(1836, 3, 25, 12), with: 'column:tolsa', doing: 'ride', claimId: 'HIST-TEX-582' },
+      { from: on(1836, 3, 25, 12), until: on(1836, 4, 5, 6), with: 'column:sesma', doing: 'ride', claimId: 'HIST-TEX-582' },
+      { from: on(1836, 4, 5, 6), until: on(1836, 4, 9, 8), with: 'column:santa-anna', doing: 'ride', claimId: 'HIST-TEX-585' },
+      { from: on(1836, 4, 9, 8), until: on(1836, 4, 18, 6), with: 'column:sesma-brazos', doing: 'ride', claimId: 'HIST-TEX-586' },
+      { from: on(1836, 4, 18, 6), until: on(1836, 5, 17, 12), with: 'column:filisola', doing: 'ride', claimId: 'HIST-TEX-596' },
+    ] }),
+  gaona: person('gaona', 'Gaona', MX, 'general', 1, 'HIST-TEX-583', { fullName: 'Antonio Gaona',
+    map: [
+      { from: on(1836, 3, 24, 8), until: on(1836, 4, 20, 12), with: 'column:gaona', doing: 'ride', claimId: 'HIST-TEX-583' },
+      { from: on(1836, 4, 20, 12), until: on(1836, 5, 17, 12), with: 'column:filisola', doing: 'ride', claimId: 'HIST-TEX-596' },
+    ] }),
+  filisola: person('filisola', 'Filisola', MX, 'general', 1, 'HIST-TEX-590', { fullName: 'Vicente Filisola',
+    map: [{ from: on(1836, 3, 31, 8), until: on(1836, 5, 17, 12), with: 'column:filisola', doing: 'ride', claimId: 'HIST-TEX-590' }] }),
   // ---------------------------------------------------------------- 1835
   moore: person('moore', 'Moore', TX, 'officer', 1, 'HIST-TEX-474', { fullName: 'John Henry Moore' }),
   castaneda: person('castaneda', 'Castañeda', MX, 'general', 1, 'HIST-TEX-474', { fullName: 'Francisco de Castañeda' }),
@@ -168,7 +198,13 @@ export const PEOPLE = Object.freeze({
     // Killed after he had surrendered and dismounted: told, not drawn; last seen riding with the lancers after him.
     fate: { kind: 'killed', told: true, battle: 'agua-dulce', phase: 'ambush', at: 16, claimId: 'HIST-TEX-556' },
   }),
-  urrea: person('urrea', 'Urrea', MX, 'general', 2, 'HIST-TEX-063', { fullName: 'José de Urrea' }),
+  // With his column from Refugio (`HIST-TEX-591` to `-593`), except while Coleto draws him on its field.
+  urrea: person('urrea', 'Urrea', MX, 'general', 1, 'HIST-TEX-063', { fullName: 'José de Urrea',
+    map: [
+      { from: on(1836, 3, 14, 6), until: 'fannin-marches', with: 'column:urrea', doing: 'ride', claimId: 'HIST-TEX-591' },
+      { from: on(1836, 3, 21, 7, 30), until: on(1836, 4, 25, 15), with: 'column:urrea', doing: 'ride', claimId: 'HIST-TEX-591' },
+      { from: on(1836, 4, 25, 15), until: on(1836, 5, 17, 12), with: 'column:filisola', doing: 'ride', claimId: 'HIST-TEX-596' },
+    ] }),
   horton: person('horton', 'Horton', TX, 'rider', 2, 'HIST-TEX-563', { fullName: 'Albert Clinton Horton' }),
   // ---------------------------------------------------------------- San Jacinto
   houston: person('houston', 'Houston', TX, 'houston', 1, 'HIST-TEX-564', {

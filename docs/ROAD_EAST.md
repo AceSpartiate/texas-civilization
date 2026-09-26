@@ -1,5 +1,13 @@
 # The road east: what a family does besides run, and what runs behind it
 
+**Amended 2026-09-26 ([SCRAPE.md](SCRAPE.md), not released):** the pursuit's columns are now the record's (docs/battle-research/mexican-advance.md,
+`HIST-TEX-580` to `-597`) and live in `sim/advance.mjs`: Sesma at Gonzales on March 14 and on the Colorado from the 20th,
+Santa Anna's from Béxar on March 31 by the Atascosito crossing, San Felipe and Thompson's ferry (above Richmond, not below) to
+Harrisburg and New Washington, Cos, Gaona, Urrea and Filisola on their own dated roads. The rows below that name the old dated
+places and say "the game's burning of a family's farm stays the Texas army's" are superseded: a family's farm burns only when a
+column's foragers reach it inside the burn zone. A family warned of one column stays warned of it while it is within reach; one
+already stripped where it sits is not taken again until it sets out; and none is overtaken in the day its order gives it.
+
 **Status: owner-asked 2026-09-16, built 2026-09-17 in the owner's absence.** Amends `docs/COLONIES.md` §6p (the Runaway Scrape)
 in what happens between leaving and arriving. `sim/road.mjs` (the chores, the questions, the weather, the pursuit; registered
 into the chore table by `registerRoadChores`), `sim/scrape.mjs` (the flight's state, which the road writes its fields onto),
