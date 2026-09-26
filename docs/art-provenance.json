@@ -1645,6 +1645,58 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/shop-stockman.png",
       "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
       "review": "Pen remains readable at town scale; empty interior reserves room for existing animated horse and cow actors rather than freezing animals into architecture."
+    },
+    {
+      "sheet": "town-mexican-river",
+      "promptId": "frontier-v1/town-mexican-river",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/town-buildings-researched.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-967a5949-c01d-444e-9532-fae18bbeac3e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/town-mexican-river.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "A schematic site-type illustration, not a historical reconstruction or a claim about exact buildings."
+    },
+    {
+      "sheet": "presidio-spanish",
+      "promptId": "frontier-v1/presidio-spanish",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/town-buildings-researched.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7b326994-3daf-4af1-b3b2-bb40f963fe6b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/presidio-spanish.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "A schematic site-type illustration, not a historical reconstruction or a claim about exact buildings."
+    },
+    {
+      "sheet": "village-irish-colony",
+      "promptId": "frontier-v1/village-irish-colony",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/town-buildings-researched.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-16b1147f-b2f9-4888-a951-7caa75726e6a.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/village-irish-colony.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "A schematic site-type illustration, not a historical reconstruction or a claim about exact buildings."
+    },
+    {
+      "sheet": "ferry-landing",
+      "promptId": "frontier-v1/ferry-landing",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/town-buildings-researched.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1d4ee230-298b-4067-a924-90bdb8af2b67.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/ferry-landing.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "A schematic site-type illustration, not a historical reconstruction or a claim about exact buildings."
     }
   ],
   "rejectedAttempts": [

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1409 usable sprites, 113 PNG atlases, 493 clips** (267 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1413 usable sprites, 117 PNG atlases, 493 clips** (267 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -64,6 +64,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | wildlife-mustang | 16 | 1254 × 1254 | 1311610 |
 | steamboat-steam | 4 | 1254 × 1254 | 1044017 |
 | steamboat-laden | 4 | 1254 × 1254 | 1151494 |
+| town-mexican-river | 1 | 1426 × 1103 | 1719481 |
+| presidio-spanish | 1 | 1536 × 1024 | 2103476 |
+| village-irish-colony | 1 | 1536 × 1024 | 2454172 |
+| ferry-landing | 1 | 1536 × 1024 | 2091884 |
 | ox-packed | 16 | 1254 × 1254 | 1531260 |
 | courier-dismount | 16 | 1254 × 1254 | 1219584 |
 | courier-encounters-vertical | 16 | 1254 × 1254 | 1034014 |
@@ -798,6 +802,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-laden-2 | steamboat-laden | steamboat-laden |
 | steamboat-laden-3 | steamboat-laden | steamboat-laden |
 | steamboat-laden-4 | steamboat-laden | steamboat-laden |
+| town-mexican-river | town-mexican-river | State artwork; no motion required |
+| presidio-spanish | presidio-spanish | State artwork; no motion required |
+| village-irish-colony | village-irish-colony | State artwork; no motion required |
+| ferry-landing | ferry-landing | State artwork; no motion required |
 | ox-packed-walk-e-1 | ox-packed | ox-packed-walk-e |
 | ox-packed-walk-e-2 | ox-packed | ox-packed-walk-e |
 | ox-packed-walk-e-3 | ox-packed | ox-packed-walk-e |

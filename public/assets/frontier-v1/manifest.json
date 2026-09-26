@@ -3,8 +3,8 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 113,
-    "sprites": 1409,
+    "sheets": 117,
+    "sprites": 1413,
     "clips": 493,
     "poseCycles": 267,
     "rigs": 4
@@ -5587,6 +5587,154 @@
               [
                 656,
                 1247
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "town-mexican-river": {
+      "image": "atlases/town-mexican-river.png",
+      "width": 1426,
+      "height": 1103,
+      "bytes": 1719481,
+      "sha256": "40d84c29f77efe741e7fc88ce212a9a8674ce76c2b227580c68968ec5f46a1e3",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.596445,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              143,
+              991
+            ],
+            "columns": [
+              [
+                46,
+                1381
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "presidio-spanish": {
+      "image": "atlases/presidio-spanish.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2103476,
+      "sha256": "a0976bc094ca37405bb7cc0447906da87957b060ce88bf6bdf3bd33810d6cff9",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.623217,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              172,
+              814
+            ],
+            "columns": [
+              [
+                40,
+                1493
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "village-irish-colony": {
+      "image": "atlases/village-irish-colony.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2454172,
+      "sha256": "b6b7b34a8d1a9a426f57c7a2d3dc0c5bcde63c190208f8f50d276b0995a8bdda",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.5717,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              142,
+              948
+            ],
+            "columns": [
+              [
+                89,
+                1487
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "ferry-landing": {
+      "image": "atlases/ferry-landing.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2091884,
+      "sha256": "ca31fb4c95d21b809f3b560ec51fcb79ccc40e9f8dd8557aa3c55e30e2ef3151",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.649968,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              73,
+              969
+            ],
+            "columns": [
+              [
+                141,
+                1374
               ]
             ]
           }
@@ -34626,6 +34774,134 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/steamboat-laden"
+    },
+    "town-mexican-river": {
+      "sheet": "town-mexican-river",
+      "x": 46,
+      "y": 143,
+      "w": 1335,
+      "h": 848,
+      "anchorX": 0.6315,
+      "anchorY": 0.9292,
+      "label": "town mexican river",
+      "kind": "town-mexican-river",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          48,
+          145,
+          1331,
+          844
+        ],
+        "visiblePixels": 611857,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/town-mexican-river.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/town-mexican-river"
+    },
+    "presidio-spanish": {
+      "sheet": "presidio-spanish",
+      "x": 40,
+      "y": 172,
+      "w": 1453,
+      "h": 642,
+      "anchorX": 0.1094,
+      "anchorY": 0.9299,
+      "label": "presidio spanish",
+      "kind": "presidio-spanish",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          42,
+          174,
+          1449,
+          638
+        ],
+        "visiblePixels": 580736,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/presidio-spanish.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/presidio-spanish"
+    },
+    "village-irish-colony": {
+      "sheet": "village-irish-colony",
+      "x": 89,
+      "y": 142,
+      "w": 1398,
+      "h": 806,
+      "anchorX": 0.485,
+      "anchorY": 0.9293,
+      "label": "village irish colony",
+      "kind": "village-irish-colony",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          91,
+          144,
+          1394,
+          802
+        ],
+        "visiblePixels": 655391,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/village-irish-colony.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/village-irish-colony"
+    },
+    "ferry-landing": {
+      "sheet": "ferry-landing",
+      "x": 141,
+      "y": 73,
+      "w": 1233,
+      "h": 896,
+      "anchorX": 0.8017,
+      "anchorY": 0.9297,
+      "label": "ferry landing",
+      "kind": "ferry-landing",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          143,
+          75,
+          1229,
+          892
+        ],
+        "visiblePixels": 533806,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ferry-landing.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/ferry-landing"
     },
     "ox-packed-walk-e-1": {
       "sheet": "ox-packed",
@@ -73759,7 +74035,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 113,
+    "sourceCount": 117,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"
