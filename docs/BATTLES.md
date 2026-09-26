@@ -127,6 +127,16 @@ Then, by multiple choice:
    the stories told later (their naming for the Rice twins, the load of broken horseshoes, where they went and where they
    are buried) are spoken or captioned as `tradition`, never as the record.
 
+6. **Emily West is included** (owner, 2026-09-26: "include Emily West"). A free woman of color from New York who came to
+   Texas in 1835 under a contract to work for James Morgan at New Washington; taken by the Mexican army when Santa Anna
+   burned New Washington on April 16, 1836, and in the Mexican camp at San Jacinto; she applied for a passport to go home
+   to New York in 1837 (to be checked against sources before shown). Named on the map and followed along that itinerary
+   like the others. The "Yellow Rose of Texas" story — that she kept Santa Anna occupied in his tent when the Texians
+   attacked — rests on one hearsay note written years later (Bollaert, 1842) and is widely doubted: it is shown only as
+   `tradition`, in plain words fit for a middle-school class, never as the record and never sexualized. Her dignity and
+   her constrained choices are kept as `VISION.md` §15 asks; she is a person with her own story, not a device of the
+   battle.
+
 Every other question in `docs/battle-research/famous-people.md` takes its recommended answer (about fifteen people carried
 across events on a dated itinerary; named deaths drawn without gore; killings after surrender other than Crockett's told,
 not drawn; Bowie in his south-side room, lying still when that barrack falls, the manner marked disputed; famous people
