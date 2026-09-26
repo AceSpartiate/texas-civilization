@@ -17,8 +17,10 @@
 //     Clements's refusal, read across the river - is `kind: 'documented'` with its claim; every other line is
 //     `kind: 'reconstructed'` and is said by an unnamed townsperson, a volunteer, or one of the invented people of the town
 //     (`FIC-GONZ-009`). tests/town-scenes.test.mjs holds every line to this.
-//   - "Come and take it" is never said to the soldiers: no 1835 document has anybody say it (`HIST-TEX-469`). It is the
-//     words painted on the flag, and the women making the flag say what goes on it.
+//   - "Come and take it": no 1835 document has anybody say it (`HIST-TEX-469`). It is the words painted on the flag, and the
+//     women making it say what goes on it. The owner chose (2026-09-25) to have the men call it as a taunt: one of the
+//     eighteen calls it across the river after the refusal, as Mason remembered in 1874 - `kind: 'tradition'`, never
+//     documented, never in a named person's mouth.
 //   - The flag's makers are unknown (`HIST-TEX-468`): the women making it are unnamed, and the card says who the traditions
 //     name and that the wedding dress is a story told later.
 //   - The figures are a picture of the town, not a count (`HISTORY.md`: the population of Gonzales in 1835 was NOT FOUND).
@@ -241,7 +243,10 @@ const CROSSING_READING = [
   // Spanish reads "No puedo ni hare la entrega".
   // One exchange, said every tick of the beat, so nobody standing there misses it: the reading, then the men's answer.
   [['gz-clements', 'I cannot now will not deliver to you the cannon', { kind: 'documented', claimId: 'HIST-TEX-462' }], ['gz-eighteen-1', 'That is our answer, then.'],
-    ['gz-eighteen-2', 'He will tell them at Béxar they must take it by force.', said('HIST-TEX-462')]],
+    ['gz-eighteen-2', 'He will tell them at Béxar they must take it by force.', said('HIST-TEX-462')],
+    // The owner, 2026-09-25: "have the men say it as a taunt of sorts." Called across the river by one of the eighteen, as
+    // Charles Mason, one of them, remembered in 1874 (`HIST-TEX-469`) - shown as `tradition`, never as the record.
+    ['gz-eighteen-3', 'Come and take it!', { kind: 'tradition', claimId: 'HIST-TEX-469', gloss: 'called across the river, as Charles Mason remembered it in 1874' }]],
 ];
 const CROSSING_GONE = [
   [['gz-eighteen-1', 'They are gone off the mound, upriver.', said('HIST-TEX-465')], ['gz-eighteen-2', 'To the Williams place, the scouts say.', said('HIST-GONZ-008')]],

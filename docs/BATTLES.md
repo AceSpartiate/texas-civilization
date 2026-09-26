@@ -87,6 +87,13 @@ the choices this build makes, each recorded so it can be reversed in one place.
    defenders' answer, the Mexican batteries and lines creeping closer, couriers going out, the Gonzales relief riding in
    on March 1 — and the assault itself is the longest held single fight.
 
+6. **The Come and Take It flag is drawn on the field, and the men shout its words** (owner, 2026-09-25, after v2026.09.25.6
+   shipped without either: "have the flag be drawn, and have the men say it as a taunt of sorts"). The flag stands over
+   the gun with the Texians from the rendezvous to the march home. Unnamed volunteers shout "Come and take it!" at the
+   dragoons after the dawn skirmish and as they wheel away, and one of the eighteen calls it across the river after the
+   refusal on September 30. Every shout is `tradition`, glossed as remembered later, never in a named mouth — no 1835
+   document has anybody say it (`HIST-TEX-469`, `FIC-GONZ-419`).
+
 Every other question in `docs/battle-research/staging.md` takes its recommended answer.
 
 ## 3. The shared contract (what every engagement is built on)
