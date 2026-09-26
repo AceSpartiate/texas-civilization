@@ -179,6 +179,10 @@ try {
   const coleto = world().map.sites.coleto, a = world().entities[manA];
   assert.ok(Math.hypot(a.location.x - coleto.x, a.location.y - coleto.y) < 0.15, 'the family\'s man is not in the square at Coleto');
   ok(`the family's own man ${manA} is in the square at Coleto, drawn in its poses: ${inSquare.clips.join(', ')}`);
+  // His card, if it is open, says he cannot be sent for while it is fought, and offers nothing that would.
+  const hisCard = await fighter.evaluate(() => ({ text: document.querySelector('#selection-work')?.innerText || '', recall: document.querySelectorAll('#selection-work [data-action="winter-recall"]').length }));
+  assert.ok(hisCard.recall === 0, `the man in the square was offered "Send for them": ${hisCard.text.slice(0, 160)}`);
+  if (hisCard.text) assert.match(hisCard.text, /cannot be sent anywhere until it is over/);
   const frames = moments.map(one => one.view?.frameMs?.p95).filter(Number.isFinite);
   evidence.frameMs = { battleP95Max: Math.max(...frames), mapDrawMs: moments.map(one => one.frame).filter(Number.isFinite) };
   ok(`the battle draws in ${Math.max(...frames).toFixed(1)} ms at its slowest 95th percentile, of a map frame of ${Math.max(...evidence.frameMs.mapDrawMs).toFixed(1)} ms at most`);
