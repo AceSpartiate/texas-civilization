@@ -50,8 +50,8 @@
       "name": "a hit falls when the charges begin, not at a discharge of the gun",
       "file": "sim/concepcion-grass.mjs",
       "test": "tests/battle-concepcion.test.mjs",
-      "expect": "a family's person's fate falls at a discharge of the gun, visible to those watching and never before: crossing the open, down, carried under the bank",
-      "caught": false,
+      "expect": "a family's person's fate falls at a discharge of the gun, visible to those watching and never before: crossing the open, down where he fell, or hurt and helped back under the bank",
+      "caught": true,
       "failed": [
         "a family's person's fate falls at a discharge of the gun, visible to those watching and never before: crossing the open, down where he fell, or hurt and helped back under the bank"
       ]
@@ -117,14 +117,13 @@
       ]
     },
     {
-      "name": "the Grass Fight's question left open after the men have ridden out",
+      "name": "the Grass Fight's question left open an hour after the men have ridden out",
       "file": "sim/concepcion-grass.mjs",
       "test": "tests/battle-grass.test.mjs",
       "expect": "a yes is a departure: a rider goes with Bowie's horsemen and a man on foot with Jack's infantry, and the question shuts when they ride out",
-      "caught": false,
+      "caught": true,
       "failed": [
-        "a yes is a departure: a rider goes with Bowie's horsemen and a man on foot with Jack's infantry, and the question shuts when they ride out",
-        "back in camp the army keeps the record, and when the fuller word rides home each family is told in plain words through its person"
+        "a yes is a departure: a rider goes with Bowie's horsemen and a man on foot with Jack's infantry, and the question shuts when they ride out"
       ]
     },
     {
@@ -201,8 +200,8 @@
       "name": "a family's person hit goes on firing",
       "file": "public/battle-view.js",
       "test": "tests/battle-view-groups.test.mjs",
-      "expect": "a family's person is drawn at their own fate: hit, then lying still and carried, or sitting hurt, or running from the field",
-      "caught": false,
+      "expect": "a family's person is drawn at their own fate: hit, then lying still, or sitting hurt and helped back, or running from the field",
+      "caught": true,
       "failed": [
         "a family's person is drawn at their own fate: hit, then lying still, or sitting hurt and helped back, or running from the field"
       ]
@@ -211,8 +210,8 @@
       "name": "every gun served by volunteers, whoever's it is",
       "file": "public/battle-view.js",
       "test": "tests/battle-view-groups.test.mjs",
-      "expect": "the pack train is drawn as horses under packs, the gun is served by its own side and stays where it was taken, and the ground the map lacks is drawn",
-      "caught": false,
+      "expect": "the pack train is drawn as horses under packs, a Mexican gun is served by regulars where it stands, and the ground the map lacks is drawn",
+      "caught": true,
       "failed": [
         "the pack train is drawn as horses under packs, a Mexican gun is served by regulars where it stands, and the ground the map lacks is drawn"
       ]
