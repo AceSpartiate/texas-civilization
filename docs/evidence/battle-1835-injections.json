@@ -51,9 +51,9 @@
       "file": "sim/concepcion-grass.mjs",
       "test": "tests/battle-concepcion.test.mjs",
       "expect": "a family's person's fate falls at a discharge of the gun, visible to those watching and never before: crossing the open, down, carried under the bank",
-      "caught": true,
+      "caught": false,
       "failed": [
-        "a family's person's fate falls at a discharge of the gun, visible to those watching and never before: crossing the open, down, carried under the bank"
+        "a family's person's fate falls at a discharge of the gun, visible to those watching and never before: crossing the open, down where he fell, or hurt and helped back under the bank"
       ]
     },
     {
@@ -121,9 +121,10 @@
       "file": "sim/concepcion-grass.mjs",
       "test": "tests/battle-grass.test.mjs",
       "expect": "a yes is a departure: a rider goes with Bowie's horsemen and a man on foot with Jack's infantry, and the question shuts when they ride out",
-      "caught": true,
+      "caught": false,
       "failed": [
-        "a yes is a departure: a rider goes with Bowie's horsemen and a man on foot with Jack's infantry, and the question shuts when they ride out"
+        "a yes is a departure: a rider goes with Bowie's horsemen and a man on foot with Jack's infantry, and the question shuts when they ride out",
+        "back in camp the army keeps the record, and when the fuller word rides home each family is told in plain words through its person"
       ]
     },
     {
@@ -201,9 +202,9 @@
       "file": "public/battle-view.js",
       "test": "tests/battle-view-groups.test.mjs",
       "expect": "a family's person is drawn at their own fate: hit, then lying still and carried, or sitting hurt, or running from the field",
-      "caught": true,
+      "caught": false,
       "failed": [
-        "a family's person is drawn at their own fate: hit, then lying still and carried, or sitting hurt, or running from the field"
+        "a family's person is drawn at their own fate: hit, then lying still, or sitting hurt and helped back, or running from the field"
       ]
     },
     {
@@ -211,9 +212,9 @@
       "file": "public/battle-view.js",
       "test": "tests/battle-view-groups.test.mjs",
       "expect": "the pack train is drawn as horses under packs, the gun is served by its own side and stays where it was taken, and the ground the map lacks is drawn",
-      "caught": true,
+      "caught": false,
       "failed": [
-        "the pack train is drawn as horses under packs, the gun is served by its own side and stays where it was taken, and the ground the map lacks is drawn"
+        "the pack train is drawn as horses under packs, a Mexican gun is served by regulars where it stands, and the ground the map lacks is drawn"
       ]
     },
     {
@@ -227,7 +228,101 @@
       ]
     }
   ],
-  "browser": [],
-  "cleanBrowserChecks": null,
+  "browser": [
+    {
+      "name": "no fog on the morning at Concepción",
+      "fight": "concepcion",
+      "file": "public/battle-view.js",
+      "expect": "no fog over the field",
+      "caught": true,
+      "failure": "no fog over the field in the ringed phase: 0",
+      "checksPassedFirst": 4
+    },
+    {
+      "name": "the Mexican infantry drawn loose, like the volunteers",
+      "fight": "concepcion",
+      "file": "sim/battles/concepcion.mjs",
+      "expect": "not looser than the Mexican ranks",
+      "caught": true,
+      "failure": "the Texians under the bank are not looser than the Mexican ranks: {\"texian\":0.16721011257669186,\"mexican\":0.15572485840104341,\"bowie\":0.3059170412966305,\"coleman\":0.04356437096880873,\"cavalry\":0.02441406243296715}",
+      "checksPassedFirst": 4
+    },
+    {
+      "name": "nobody in the division is ever hit where the seed hits them",
+      "fight": "concepcion",
+      "file": "sim/concepcion-grass.mjs",
+      "expect": "was not drawn killed at the staged moment",
+      "caught": true,
+      "failure": "the family's person was not drawn killed at the staged moment",
+      "checksPassedFirst": 6
+    },
+    {
+      "name": "a family's person hit drawn going on firing",
+      "fight": "concepcion",
+      "file": "public/battle-view.js",
+      "expect": "the fate was not drawn in its pose",
+      "caught": true,
+      "failure": "the fate was not drawn in its pose: {\"fates\":[{\"id\":\"hh-1-thomas\",\"fate\":\"killed\"}],\"clips\":[\"volunteer-march\",\"volunteer-idle-e\",\"volunteer-fire-reload\",\"volunteer-load\"],\"phase\":\"aftermath\",\"minute\":43370,\"health\":\"dead\"}",
+      "checksPassedFirst": 6
+    },
+    {
+      "name": "the family with its man at Espada never hears the firing",
+      "fight": "concepcion",
+      "file": "sim/concepcion-grass.mjs",
+      "expect": "the family nearby was not sent the firing",
+      "caught": true,
+      "failure": "the family nearby was not sent the firing it could hear: {\"alert\":\"Firing up the river\"}",
+      "checksPassedFirst": 8
+    },
+    {
+      "name": "no account afterwards",
+      "fight": "concepcion",
+      "file": "sim/concepcion-grass.mjs",
+      "expect": "the account never came",
+      "caught": true,
+      "failure": "the account never came",
+      "checksPassedFirst": 10
+    },
+    {
+      "name": "no alert through the person",
+      "fight": "grass",
+      "file": "sim/concepcion-grass.mjs",
+      "expect": "no alert with Watch came",
+      "caught": true,
+      "failure": "no alert with Watch came through the person before the fighting",
+      "checksPassedFirst": 2
+    },
+    {
+      "name": "Jack's infantry drawn scattered on its way out, not in double file",
+      "fight": "grass",
+      "file": "sim/battles/grass-fight.mjs",
+      "expect": "not in double file",
+      "caught": true,
+      "failure": "Jack's infantry is not in double file on its way out: {\"texian\":0.2161842637995271,\"mexican\":0.13358808775530803,\"jack\":0.17544659931578924,\"train\":0.0012342287185905148}",
+      "checksPassedFirst": 4
+    },
+    {
+      "name": "the Host's camera kept off the field",
+      "fight": "grass",
+      "file": "sim/concepcion-grass.mjs",
+      "expect": "the Host's camera was not sent to the field",
+      "caught": true,
+      "failure": "the Host's camera was not sent to the field while it was fought: {\"battle\":\"grass-fight\",\"phase\":\"ambush\",\"focus\":\"regional\",\"camera\":\"region\",\"drawn\":{\"texian\":23,\"mexican\":11},\"smoke\":56,\"seen\":[\"grass-fight:85260\"]}",
+      "checksPassedFirst": 7
+    },
+    {
+      "name": "a family with nobody there sent the fight",
+      "fight": "grass",
+      "file": "sim/concepcion-grass.mjs",
+      "expect": "the family nearby was not sent the firing it could hear",
+      "caught": true,
+      "failure": "the family nearby was not sent the firing it could hear: {\"battle\":\"follow\",\"members\":[\"hh-1-thomas\",\"hh-2-thomas\"],\"alert\":\"Firing to the west\"}",
+      "checksPassedFirst": 8
+    }
+  ],
+  "cleanBrowserChecks": {
+    "concepcion": 13,
+    "grass": 13
+  },
   "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
 }

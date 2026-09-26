@@ -7,10 +7,10 @@
       "3 students joined on the page and the Host started the class",
       "hh-1 pressed \"go with Bowie and Fannin\" on its man's card (\"Thomas is with the army at the Salado, 66.4 miles from your land. Bowie and Fannin are tak…\") and hh-2 kept its man with the main army",
       "the alert \"The division marches\" came through the person before contact (\"At Thomas's side: Bowie and Fannin are taking their division up the river from E…\"), and Watch framed the fight with the family's person on screen",
-      "fire and smoke on the screen at every one of 10 sampled moments (smoke in view 21-170 puffs; the Texians firing again between every two moments of a phase)",
-      "fog over the field while ringed (0.917); in the charges the Texians loose under the bank (0.167) and the Mexican infantry in ranks (0.051); the gun fired",
+      "fire and smoke on the screen at every one of 10 sampled moments (smoke in view 23-170 puffs; the Texians firing again between every two moments of a phase)",
+      "fog over the field while ringed (0.917); in the charges the Texians loose under the bank (0.167) and the Mexican infantry in ranks (0.053); the gun fired",
       "words drawn over the speakers: c-close, c-sanjose, c-here, c-guns, c-arms, c-fog, c-scout, c-karnes, c-alli, c-tobank, c-under, c-steps, c-waste, c-many, c-ten, command:2, c-knife, c-lifts, c-gun, c-bugle-1, c-bayoneta, c-marchen, c-gunners, c-wait, c-bugle-2, c-pecans, command:0, c-comeon, command:1, c-bugle-3, c-down, c-bugle-4, c-take, c-retirada, c-turn",
-      "the family's own person hh-1-thomas is drawn in the force in its poses (volunteer-march, volunteer-idle-e, volunteer-fire-reload, volunteer-load, volunteer-injured, volunteer-reclining), and hh-1-thomas is drawn killed in the retreat at minute 43365, their panel saying dead",
+      "the family's own person hh-1-thomas is drawn in the force in its poses (volunteer-march, volunteer-idle-e, volunteer-fire-reload, volunteer-load, volunteer-injured, volunteer-reclining), and hh-1-thomas is drawn killed in the aftermath at minute 43370, their panel saying dead",
       "the Host sees it live (charges), its camera framed on the field (battle), smoke in view 103, its spotlight lit there",
       "the family with its man at Espada is sent the fight it can hear (Firing up the river), with nobody's person in it",
       "the family with nobody there was sent nothing of the fight - no battle, no alert, no name - before and after a reload",
@@ -37,13 +37,12 @@
             "cavalry": 0.02441406243296151
           },
           "shotsBy": {
-            "mexican": 8,
+            "mexican": 10,
             "texian": 13
           },
-          "smokeInView": 21,
+          "smokeInView": 23,
           "fog": 0.917,
           "bubbles": [
-            "Get your rifles! Down under the bank!",
             "Keep under the bank!"
           ],
           "members": [
@@ -58,16 +57,16 @@
           "memberFalls": [],
           "gunShots": 0,
           "frameMs": {
-            "last": 1.9,
-            "median": 1,
-            "p95": 2
+            "last": 1.4,
+            "median": 0.5,
+            "p95": 2.3
           }
         }
       },
       {
         "label": "1366 ringed 1",
         "phase": "ringed",
-        "minute": 43290,
+        "minute": 43300,
         "size": "1366x768",
         "camera": "battle",
         "view": {
@@ -82,11 +81,11 @@
             "cavalry": 0.02441406243296151
           },
           "shotsBy": {
-            "mexican": 19,
+            "mexican": 21,
             "texian": 22
           },
-          "smokeInView": 41,
-          "fog": 0.875,
+          "smokeInView": 43,
+          "fog": 0.833,
           "bubbles": [
             "Keep under the bank!",
             "Cut steps — here, with your knife.",
@@ -104,9 +103,9 @@
           "memberFalls": [],
           "gunShots": 0,
           "frameMs": {
-            "last": 1.3,
-            "median": 1.1,
-            "p95": 2
+            "last": 1.8,
+            "median": 0.7,
+            "p95": 2.3
           }
         }
       },
@@ -138,7 +137,7 @@
             "Don’t waste powder on the fog.",
             "How many are out there?",
             "Can’t see ten yards.",
-            "¡Fuego!"
+            "I’m hit — no. The knife took it."
           ],
           "members": [
             "hh-1-thomas"
@@ -152,42 +151,43 @@
           "memberFalls": [],
           "gunShots": 0,
           "frameMs": {
-            "last": 2.2,
+            "last": 2.3,
             "median": 1.3,
-            "p95": 2.1
+            "p95": 2.4
           }
         }
       },
       {
         "label": "1024 charges 0",
         "phase": "charges",
-        "minute": 43332,
+        "minute": 43334,
         "size": "1024x768",
         "camera": "battle",
         "view": {
           "groups": {
-            "bowie": 14,
+            "bowie": 15,
             "coleman": 5,
             "cavalry": 40
           },
           "regularityBy": {
-            "texian": 0.16721011257669186,
-            "mexican": 0.05294983185109631,
-            "bowie": 0.3059170412966305,
-            "coleman": 0.04356437096880873,
-            "cavalry": 0.02441406243296715
+            "texian": 0.16721011257667587,
+            "mexican": 0.05294983185108361,
+            "bowie": 0.21031847557549707,
+            "coleman": 0.0435643709688347,
+            "cavalry": 0.024414062432967065
           },
           "shotsBy": {
             "mexican": 26,
-            "texian": 53
+            "texian": 54
           },
-          "smokeInView": 79,
+          "smokeInView": 84,
           "fog": 0,
           "bubbles": [
             "I’m hit — no. The knife took it.",
             "The fog’s lifting!",
             "Infantry — a whole line of them, and a cannon!",
-            "[The bugle sounds the charge]"
+            "[The bugle sounds the charge]",
+            "¡Armen la bayoneta!"
           ],
           "members": [
             "hh-1-thomas"
@@ -199,41 +199,40 @@
             "volunteer-load"
           ],
           "memberFalls": [],
-          "gunShots": 0,
+          "gunShots": 1,
           "frameMs": {
-            "last": 2.2,
-            "median": 1.6,
-            "p95": 2.5
+            "last": 3.3,
+            "median": 1.7,
+            "p95": 3.2
           }
         }
       },
       {
         "label": "1024 charges 1",
         "phase": "charges",
-        "minute": 43336,
+        "minute": 43338,
         "size": "1024x768",
         "camera": "battle",
         "view": {
           "groups": {
-            "bowie": 15,
+            "bowie": 14,
             "coleman": 4,
             "cavalry": 40
           },
           "regularityBy": {
-            "texian": 0.16721011257665722,
-            "mexican": 0.05115854177320347,
-            "bowie": 0.21031847557558012,
-            "coleman": 0.14460162953382,
-            "cavalry": 0.024414062432966455
+            "texian": 0.16721011257669818,
+            "mexican": 0.09986695175578712,
+            "bowie": 0.305917041296646,
+            "coleman": 0.14460162953388758,
+            "cavalry": 0.024414062432966767
           },
           "shotsBy": {
             "mexican": 26,
-            "texian": 64
+            "texian": 65
           },
-          "smokeInView": 98,
+          "smokeInView": 99,
           "fog": 0,
           "bubbles": [
-            "Infantry — a whole line of them, and a cannon!",
             "[The bugle sounds the charge]",
             "¡Armen la bayoneta!",
             "¡Marchen!",
@@ -257,9 +256,9 @@
           ],
           "gunShots": 2,
           "frameMs": {
-            "last": 2.2,
-            "median": 1.6,
-            "p95": 2.7
+            "last": 3.1,
+            "median": 1.9,
+            "p95": 4.3
           }
         }
       },
@@ -277,19 +276,18 @@
           },
           "regularityBy": {
             "texian": 0.16721011257669186,
-            "mexican": 0.14542083035912862,
+            "mexican": 0.14542083035912876,
             "bowie": 0.3059170412966305,
-            "coleman": 0.04356437096880616,
+            "coleman": 0.04356437096880537,
             "cavalry": 0.02441406243296715
           },
           "shotsBy": {
             "mexican": 27,
-            "texian": 71
+            "texian": 72
           },
-          "smokeInView": 110,
+          "smokeInView": 111,
           "fog": 0,
           "bubbles": [
-            "¡Armen la bayoneta!",
             "¡Marchen!",
             "The gunners! Pick off the gunners!",
             "Load, and wait for them!",
@@ -316,9 +314,9 @@
           ],
           "gunShots": 3,
           "frameMs": {
-            "last": 3.1,
-            "median": 1.8,
-            "p95": 2.8
+            "last": 3.5,
+            "median": 2.1,
+            "p95": 4.9
           }
         }
       },
@@ -336,16 +334,16 @@
           },
           "regularityBy": {
             "texian": 0.16721011257661134,
-            "mexican": 0.1634652898247845,
+            "mexican": 0.1634652898247843,
             "bowie": 0.2103184755755435,
-            "coleman": 0.05843417431490486,
+            "coleman": 0.05843417431490685,
             "cavalry": 0.02441406243296677
           },
           "shotsBy": {
             "mexican": 40,
-            "texian": 78
+            "texian": 80
           },
-          "smokeInView": 138,
+          "smokeInView": 140,
           "fog": 0,
           "bubbles": [
             "Load, and wait for them!",
@@ -353,7 +351,7 @@
             "That’s pecans, not grape!",
             "Come on, then!",
             "[A third time the charge is sounded]",
-            "¡Apunten!"
+            "¡Fuego!"
           ],
           "members": [
             "hh-1-thomas"
@@ -374,36 +372,34 @@
           ],
           "gunShots": 5,
           "frameMs": {
-            "last": 2.5,
-            "median": 1.8,
-            "p95": 2.9
+            "last": 3.2,
+            "median": 2.3,
+            "p95": 4.9
           }
         }
       },
       {
         "label": "1024 charges 4",
-        "phase": "charges",
-        "minute": 43348,
+        "phase": "retreat",
+        "minute": 43350,
         "size": "1024x768",
         "camera": "battle",
         "view": {
           "groups": {
-            "bowie": 15,
-            "coleman": 4,
-            "cavalry": 40
+            "bowie": 19,
+            "cavalry": 39
           },
           "regularityBy": {
-            "texian": 0.16721011257661134,
-            "mexican": 0.1630363320030064,
-            "bowie": 0.2103184755755435,
-            "coleman": 0.058434174314907196,
-            "cavalry": 0.02441406243296677
+            "texian": 0.14343675663541886,
+            "mexican": 0.36438100012808844,
+            "bowie": 0.11181466422226609,
+            "cavalry": 0.025332436964439136
           },
           "shotsBy": {
             "mexican": 41,
-            "texian": 89
+            "texian": 92
           },
-          "smokeInView": 150,
+          "smokeInView": 153,
           "fog": 0,
           "bubbles": [
             "Come on, then!",
@@ -429,16 +425,16 @@
           ],
           "gunShots": 5,
           "frameMs": {
-            "last": 1.5,
-            "median": 1.8,
-            "p95": 2.8
+            "last": 3.6,
+            "median": 2.6,
+            "p95": 4.9
           }
         }
       },
       {
         "label": "1024 retreat 0",
         "phase": "retreat",
-        "minute": 43355,
+        "minute": 43360,
         "size": "1024x768",
         "camera": "battle",
         "view": {
@@ -447,16 +443,16 @@
             "cavalry": 40
           },
           "regularityBy": {
-            "texian": 0.14343675663541744,
-            "mexican": 0.36438100012809954,
-            "bowie": 0.11533465151761724,
-            "cavalry": 0.024414062432977054
+            "texian": 0.14343675663543334,
+            "mexican": 0.36438100012808144,
+            "bowie": 0.11533465151762455,
+            "cavalry": 0.024414062433010846
           },
           "shotsBy": {
             "mexican": 41,
-            "texian": 93
+            "texian": 96
           },
-          "smokeInView": 154,
+          "smokeInView": 157,
           "fog": 0,
           "bubbles": [
             "Down! Load under the bank!",
@@ -483,39 +479,37 @@
           ],
           "gunShots": 5,
           "frameMs": {
-            "last": 1.3,
-            "median": 1.9,
-            "p95": 2.8
+            "last": 2.6,
+            "median": 2.8,
+            "p95": 4.9
           }
         }
       },
       {
         "label": "1024 retreat 1",
-        "phase": "retreat",
-        "minute": 43365,
+        "phase": "aftermath",
+        "minute": 43370,
         "size": "1024x768",
         "camera": "battle",
         "view": {
           "groups": {
             "bowie": 20,
-            "cavalry": 40
+            "army": 30
           },
           "regularityBy": {
-            "texian": 0.14343675663539507,
-            "mexican": 0.36438100012811386,
-            "bowie": 0.11533465151762773,
-            "cavalry": 0.02441406243299303
+            "texian": 0.1434367566354197,
+            "mexican": null,
+            "bowie": 0.11533465151758472,
+            "army": 0.0018574207781063214
           },
           "shotsBy": {
             "mexican": 41,
-            "texian": 104
+            "texian": 106
           },
           "smokeInView": 170,
           "fog": 0,
           "bubbles": [
-            "[The bugle sounds the retreat]",
             "The gun! Take the gun!",
-            "¡Retirada!",
             "Turn it on them!"
           ],
           "members": [
@@ -537,9 +531,9 @@
           ],
           "gunShots": 7,
           "frameMs": {
-            "last": 1.4,
-            "median": 1.9,
-            "p95": 2.8
+            "last": 3,
+            "median": 3,
+            "p95": 4.9
           }
         }
       }
@@ -565,8 +559,8 @@
         "volunteer-injured",
         "volunteer-reclining"
       ],
-      "phase": "retreat",
-      "minute": 43365,
+      "phase": "aftermath",
+      "minute": 43370,
       "health": "dead"
     },
     "host": {
@@ -595,12 +589,12 @@
       "4 students joined on the page and the Host started the class",
       "at the alarm hh-1's rider and hh-2's man on foot pressed \"go\" and hh-3's pressed \"stay in camp\" (\"Gregorio is with the army at the old mill above Béxar, 179.7 miles from your land. Deaf Sm…\")",
       "the alert \"After the pack train\" came through the person before contact (\"At Gregorio's side: Gregorio is going out with Bowie's horsemen after the pack t…\"), and Watch framed the fight with the family's person on screen",
-      "fire and smoke on the screen at every one of 9 sampled moments (smoke in view 17-170 puffs; the Texians firing again between every two moments of a phase)",
+      "fire and smoke on the screen at every one of 9 sampled moments (smoke in view 16-169 puffs; the Texians firing again between every two moments of a phase)",
       "the guard scattered in its creek bed (0.134), Jack's men in double file (0.026), the ditch and the sortie's ranks drawn",
-      "words drawn over the speakers: g-ugartechea, g-silver, g-horse, g-foot, g-double, g-file, g-cold, g-pie, g-fuego, g-ravine, g-cover, g-down, g-flank, g-charge, g-cleared, g-other, g-turn, g-grape, g-back",
-      "the family's own person hh-1-thomas is drawn in the force in its poses (volunteer-idle-w, volunteer-march, volunteer-fire-reload, volunteer-load, volunteer-injured, volunteer-idle-e), and hh-2-thomas is drawn wounded in the grass at minute 85325, their panel saying minor-injury",
-      "the Host sees it live (ambush), its camera framed on the field (battle), smoke in view 113, its spotlight lit there",
-      "the family with its man in camp is sent the fight it can hear (undefined), with nobody's person in it",
+      "words drawn over the speakers: g-ugartechea, g-silver, g-horse, g-foot, g-double, g-file, g-cold, g-pie, g-fuego, g-ravine, g-cover, g-down, g-flank, g-charge, g-cleared, g-other, g-turn, g-grape",
+      "the family's own person hh-1-thomas is drawn in the force in its poses (volunteer-idle-w, volunteer-march, volunteer-fire-reload, volunteer-load, volunteer-injured), and hh-2-thomas is drawn wounded in the follow at minute 85320, their panel saying minor-injury",
+      "the Host sees it live (ambush), its camera framed on the field (battle), smoke in view 111, its spotlight lit there",
+      "the family with its man in camp is sent the fight it can hear (Firing to the west), with nobody's person in it",
       "the family with nobody there was sent nothing of the fight - no battle, no alert, no name - before and after a reload",
       "the account came through the person on 1835-12-03 (\"Word of the fight west of Béxar\") and the journal keeps it",
       "the family nearby is told what its own person was doing while it was fought",
@@ -619,16 +613,16 @@
             "train": 16
           },
           "regularityBy": {
-            "texian": 0.21618426379952652,
+            "texian": 0.2161842637995271,
             "mexican": 0.13358808775530803,
-            "jack": 0.026416351053406104,
+            "jack": 0.026416351053405188,
             "train": 0.0012342287185905148
           },
           "shotsBy": {
-            "texian": 7,
-            "mexican": 10
+            "texian": 6,
+            "mexican": 9
           },
-          "smokeInView": 17,
+          "smokeInView": 16,
           "fog": 0,
           "bubbles": [
             "Keep your file!",
@@ -647,16 +641,16 @@
           "memberFalls": [],
           "gunShots": 0,
           "frameMs": {
-            "last": 2.3,
-            "median": 1.7,
-            "p95": 3.6
+            "last": 0.9,
+            "median": 0.8,
+            "p95": 1.4
           }
         }
       },
       {
         "label": "1366 bowie 1",
         "phase": "bowie",
-        "minute": 85268,
+        "minute": 85266,
         "size": "1366x768",
         "camera": "battle",
         "view": {
@@ -665,18 +659,19 @@
             "train": 16
           },
           "regularityBy": {
-            "texian": 0.21618426379957645,
-            "mexican": 0.1335880877553245,
-            "jack": 0.02641635105341141,
-            "train": 0.0012342287185738998
+            "texian": 0.2161842637995783,
+            "mexican": 0.13358808775532316,
+            "jack": 0.026416351053417914,
+            "train": 0.0012342287185769028
           },
           "shotsBy": {
-            "texian": 12,
-            "mexican": 17
+            "texian": 9,
+            "mexican": 11
           },
-          "smokeInView": 29,
+          "smokeInView": 21,
           "fog": 0,
           "bubbles": [
+            "That water’s cold!",
             "¡Pie a tierra!",
             "¡Fuego!"
           ],
@@ -693,16 +688,16 @@
           "memberFalls": [],
           "gunShots": 0,
           "frameMs": {
-            "last": 1.9,
-            "median": 1.8,
-            "p95": 3.5
+            "last": 0.8,
+            "median": 0.8,
+            "p95": 1.4
           }
         }
       },
       {
         "label": "1366 bowie 2",
         "phase": "bowie",
-        "minute": 85272,
+        "minute": 85270,
         "size": "1366x768",
         "camera": "battle",
         "view": {
@@ -711,16 +706,16 @@
             "train": 16
           },
           "regularityBy": {
-            "texian": 0.21618426379957748,
-            "mexican": 0.13358808775532574,
-            "jack": 0.026416351053398072,
-            "train": 0.0012342287185745627
+            "texian": 0.21618426379957648,
+            "mexican": 0.13358808775532333,
+            "jack": 0.026416351053428624,
+            "train": 0.0012342287185747151
           },
           "shotsBy": {
-            "texian": 18,
-            "mexican": 21
+            "texian": 14,
+            "mexican": 18
           },
-          "smokeInView": 39,
+          "smokeInView": 33,
           "fog": 0,
           "bubbles": [
             "¡Pie a tierra!",
@@ -740,36 +735,36 @@
           "memberFalls": [],
           "gunShots": 0,
           "frameMs": {
-            "last": 2.2,
-            "median": 1.8,
-            "p95": 3
+            "last": 1.2,
+            "median": 0.8,
+            "p95": 1.4
           }
         }
       },
       {
         "label": "1024 ambush 0",
         "phase": "ambush",
-        "minute": 85284,
+        "minute": 85282,
         "size": "1024x768",
         "camera": "battle",
         "view": {
           "groups": {
-            "jack": 37,
+            "jack": 39,
             "ditch": 12,
             "train": 16
           },
           "regularityBy": {
             "texian": 0.21618426379957703,
             "mexican": 0.1362214822573077,
-            "jack": 0.17708672285439642,
+            "jack": 0.1754465993157769,
             "ditch": 0.1581910303709641,
             "train": 0.0012342287185744681
           },
           "shotsBy": {
-            "texian": 47,
-            "mexican": 40
+            "texian": 40,
+            "mexican": 38
           },
-          "smokeInView": 87,
+          "smokeInView": 79,
           "fog": 0,
           "bubbles": [
             "They’re in the creek bed — keep your heads down!",
@@ -783,20 +778,14 @@
             "volunteer-idle-w",
             "volunteer-march",
             "volunteer-fire-reload",
-            "volunteer-load",
-            "volunteer-injured"
+            "volunteer-load"
           ],
-          "memberFalls": [
-            {
-              "id": "hh-2-thomas",
-              "fate": "wounded"
-            }
-          ],
+          "memberFalls": [],
           "gunShots": 0,
           "frameMs": {
-            "last": 2.4,
-            "median": 2.1,
-            "p95": 3.4
+            "last": 0.9,
+            "median": 0.9,
+            "p95": 1.6
           }
         }
       },
@@ -815,15 +804,15 @@
           "regularityBy": {
             "texian": 0.2161842637995768,
             "mexican": 0.13622148225730815,
-            "jack": 0.18528400154395222,
+            "jack": 0.1852840015439526,
             "ditch": 0.1581910303709635,
             "train": 0.001234228718574874
           },
           "shotsBy": {
-            "texian": 56,
-            "mexican": 56
+            "texian": 54,
+            "mexican": 52
           },
-          "smokeInView": 113,
+          "smokeInView": 108,
           "fog": 0,
           "bubbles": [
             "Down! They’re in the ditch!",
@@ -849,38 +838,38 @@
           ],
           "gunShots": 0,
           "frameMs": {
-            "last": 7.7,
-            "median": 2.1,
-            "p95": 3.5
+            "last": 1,
+            "median": 0.9,
+            "p95": 1.7
           }
         }
       },
       {
         "label": "1024 ambush 2",
         "phase": "sortie",
-        "minute": 85295,
+        "minute": 85290,
         "size": "1024x768",
         "camera": "battle",
         "view": {
           "groups": {
-            "jack": 37,
+            "jack": 38,
             "sortie": 30,
             "swisher": 12,
             "train": 16
           },
           "regularityBy": {
-            "texian": 0.21380427880331251,
-            "mexican": 0.13622148225732555,
-            "jack": 0.17951313050671397,
-            "sortie": 0.043841667752564185,
-            "swisher": 0.13364091255400323,
-            "train": 0.0012342287185664145
+            "texian": 0.21380427880335087,
+            "mexican": 0.13622148225730818,
+            "jack": 0.18112536333669055,
+            "sortie": 0.04384166775257538,
+            "swisher": 0.1336409125540714,
+            "train": 0.0012342287185751419
           },
           "shotsBy": {
-            "texian": 78,
-            "mexican": 59
+            "texian": 71,
+            "mexican": 55
           },
-          "smokeInView": 138,
+          "smokeInView": 128,
           "fog": 0,
           "bubbles": [
             "Right and left — flank them!",
@@ -906,16 +895,16 @@
           ],
           "gunShots": 0,
           "frameMs": {
-            "last": 3,
-            "median": 2.2,
-            "p95": 3.8
+            "last": 1.1,
+            "median": 1,
+            "p95": 1.7
           }
         }
       },
       {
         "label": "1024 sortie 0",
         "phase": "sortie",
-        "minute": 85305,
+        "minute": 85300,
         "size": "1024x768",
         "camera": "battle",
         "view": {
@@ -926,18 +915,18 @@
             "train": 16
           },
           "regularityBy": {
-            "texian": 0.2161842637995509,
-            "mexican": 0.13622148225734215,
-            "jack": 0.17951313050671425,
-            "sortie": 0.043841667752561125,
-            "swisher": 0.13364091255391677,
-            "train": 0.0012342287185712472
+            "texian": 0.2161842637995507,
+            "mexican": 0.13622148225734354,
+            "jack": 0.17951313050671475,
+            "sortie": 0.043841667752560445,
+            "swisher": 0.13364091255406677,
+            "train": 0.0012342287185715423
           },
           "shotsBy": {
-            "texian": 90,
-            "mexican": 59
+            "texian": 87,
+            "mexican": 55
           },
-          "smokeInView": 157,
+          "smokeInView": 148,
           "fog": 0,
           "bubbles": [
             "They’re out of it — running for the creek!",
@@ -961,18 +950,18 @@
               "fate": "wounded"
             }
           ],
-          "gunShots": 2,
+          "gunShots": 1,
           "frameMs": {
-            "last": 3.4,
-            "median": 2.3,
-            "p95": 4.1
+            "last": 2,
+            "median": 1,
+            "p95": 2
           }
         }
       },
       {
         "label": "1024 sortie 1",
         "phase": "follow",
-        "minute": 85315,
+        "minute": 85310,
         "size": "1024x768",
         "camera": "battle",
         "view": {
@@ -982,19 +971,20 @@
             "train": 16
           },
           "regularityBy": {
-            "texian": 0.2138042788033365,
+            "texian": 0.21618426379952793,
             "mexican": null,
-            "jack": 0.17951313050671414,
-            "sortie": 0.029212626448215376,
-            "train": 0.0012342287185654732
+            "jack": 0.17951313050671425,
+            "sortie": 0.02921262644823738,
+            "train": 0.0012342287185712472
           },
           "shotsBy": {
-            "texian": 99,
-            "mexican": 59
+            "texian": 95,
+            "mexican": 55
           },
-          "smokeInView": 170,
+          "smokeInView": 162,
           "fog": 0,
           "bubbles": [
+            "They’re out of it — running for the creek!",
             "More of them — out of the town, with a cannon!",
             "Turn and face them, boys!",
             "Grapeshot — get down!"
@@ -1018,38 +1008,39 @@
           ],
           "gunShots": 3,
           "frameMs": {
-            "last": 2.5,
-            "median": 2.4,
-            "p95": 4.1
+            "last": 1.5,
+            "median": 1.1,
+            "p95": 2.1
           }
         }
       },
       {
         "label": "1024 sortie 2",
-        "phase": "grass",
-        "minute": 85325,
+        "phase": "follow",
+        "minute": 85320,
         "size": "1024x768",
         "camera": "battle",
         "view": {
           "groups": {
             "jack": 37,
+            "sortie": 28,
             "train": 16
           },
           "regularityBy": {
-            "texian": 0.21380427880330743,
+            "texian": 0.21380427880330638,
             "mexican": null,
-            "jack": 0.17951313050671394,
-            "train": null
+            "jack": 0.179513130506714,
+            "sortie": 0.029212626448210884,
+            "train": 0.0012342287185779404
           },
           "shotsBy": {
-            "texian": 106,
-            "mexican": 59
+            "texian": 100,
+            "mexican": 55
           },
-          "smokeInView": 164,
+          "smokeInView": 169,
           "fog": 0,
           "bubbles": [
-            "Grapeshot — get down!",
-            "Back! Back — they have the range from the town!"
+            "Grapeshot — get down!"
           ],
           "members": [
             "hh-1-thomas",
@@ -1070,9 +1061,9 @@
           ],
           "gunShots": 3,
           "frameMs": {
-            "last": 2.2,
-            "median": 2.5,
-            "p95": 3.8
+            "last": 1,
+            "median": 1.1,
+            "p95": 2
           }
         }
       }
@@ -1080,7 +1071,7 @@
     "alert": {
       "title": "After the pack train",
       "words": "At Gregorio's side: Gregorio is going out with Bowie's horsemen after the pack train, west of the town. They say it carries silver.",
-      "minute": 85206,
+      "minute": 85202,
       "contact": false
     },
     "fate": {
@@ -1095,11 +1086,10 @@
         "volunteer-march",
         "volunteer-fire-reload",
         "volunteer-load",
-        "volunteer-injured",
-        "volunteer-idle-e"
+        "volunteer-injured"
       ],
-      "phase": "grass",
-      "minute": 85325,
+      "phase": "follow",
+      "minute": 85320,
       "health": "minor-injury"
     },
     "host": {
@@ -1111,7 +1101,7 @@
         "texian": 23,
         "mexican": 28
       },
-      "smoke": 113,
+      "smoke": 111,
       "seen": [
         "grass-fight:85260"
       ]
