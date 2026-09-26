@@ -35,27 +35,30 @@ export function recolourPersonFrame(imageData, frameName, appearance) {
     // Ink, edge antialiasing, bright apron and white shirt stay painted as authored.
     if (brightness < 38 || Math.min(r, g, b) > 174 && Math.max(r, g, b) - Math.min(r, g, b) < 38) continue;
     const x = (index / 4 % width) / width, y = Math.floor(index / 4 / width) / height;
-    const face = y > (hatted ? .205 : .12) && y < .385 && x > .29 && x < .72;
-    const hands = y > .36 && y < .77 && (x < .31 || x > .69);
-    const warmPigment = r > g * 1.08 && g > b * 1.13 && brightness > 54;
+    // The face extends up under the brim. A y-only cut left its forehead in the
+    // original pigment, producing the conspicuous two-tone skin in the chooser.
+    const face = y > .115 && y < .385 && x > .29 && x < .72;
+    const hands = y > .36 && y < .77 && (x < .245 || x > .755);
+    const skinPigment = r > g * (variant === 'elder' ? 1.3 : 1.37)
+      && g > b * 1.24 && brightness > 48;
     let part = null;
-    if ((face || hands) && warmPigment) part = 'skin';
+    if ((face || hands) && skinPigment) part = 'skin';
     else if (y < .385 && y > (hatted ? .18 : .015) && x > .17 && x < .83
-      && brightness < (variant === 'elder' ? 207 : 118)
+      && brightness < (variant === 'elder' ? 207 : 162)
       && (!hatted || y > .245 || x < .34 || x > .66)) {
       // Leave eyes, black outline and hat bands intact. The source sheet supplies the
       // actual hairstyle; this palette pass only dyes its interior strands.
       if (variant === 'elder' ? Math.max(r, g, b) - Math.min(r, g, b) < 45 : r >= g && g >= b * .8) part = 'hair';
     } else if (y > .245 && y < .88 && x > .07 && x < .93) {
       const nearWhite = Math.min(r, g, b) > 115 && Math.max(r, g, b) - Math.min(r, g, b) < 39;
-      const skinLikely = warmPigment && hands && x < .25 || warmPigment && hands && x > .75;
+      const skinLikely = skinPigment && hands;
       if (!nearWhite && !skinLikely && brightness > 42) part = 'clothing';
     }
     if (!part) continue;
     const original = source[part], desired = target[part];
     // Preserve the painted light/dark value and a little of each original brush mark.
-    const ratio = Math.max(.28, Math.min(1.9, brightness / light(...original)));
-    const strength = part === 'clothing' && isWoman ? .82 : .86;
+    const ratio = Math.max(.44, Math.min(part === 'clothing' ? 1.22 : 1.48, brightness / light(...original)));
+    const strength = part === 'clothing' && isWoman ? .96 : .97;
     for (let c = 0; c < 3; c++) data[index + c] = clamp((1 - strength) * data[index + c] + strength * desired[c] * ratio);
   }
   return imageData;
