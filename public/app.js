@@ -644,6 +644,9 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // One of the family who fell at the Alamo, which the student watched (docs/BATTLES.md §2b.1): drawn lying where he fell
   // while the fight is drawn, and not after it - he is not seen standing at his post again. The family is told nothing.
   if (entity.service?.seenFall && !battleView.isMember(entity.id)) return;
+  // A prisoner walked south out of sight down the road to Matamoros (sim/south.mjs `marchPrisoners`, owner 2026-09-26): seen
+  // marched away, then gone from the map - not left standing at the road's end.
+  if (entity.service?.offMap) return;
   // The horse is under its rider, and the ox and wagon under their driver, drawn with them (public/motion.js `seatOf`).
   if (!marks.observed && carriedWithRider(entity, marks.entities || [])) return;
   const seat = marks.observed ? null : seatOf(entity, marks.entities || []);
@@ -1395,7 +1398,7 @@ function cameraFor(world, canvas, now = performance.now()) {
   // once a student pressed the portrait of somebody the class's clock had carried out of sight (found 2026-09-21 by
   // scripts/travel-sight-proof.mjs).
   // Never kept on somebody who has fallen (docs/BATTLES.md §2b.1: the camera stays on the wall, not on him).
-  if (watchedId && entitiesOf(world).some(entity => entity.id === watchedId && entity.service?.seenFall)) watchedId = null;
+  if (watchedId && entitiesOf(world).some(entity => entity.id === watchedId && (entity.service?.seenFall || entity.service?.offMap))) watchedId = null;
   const watched = watchedId ? entitiesOf(world).find(entity => entity.id === watchedId && entity.location) : null;
   const at = watched?.location
     ? motionProjection.position(watched, now, reducedMotion.matches || world.status !== 'running')

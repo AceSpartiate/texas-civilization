@@ -19,6 +19,7 @@ import { SOUTH_RATES, share } from '../sim/alamo.mjs';
 import { frailty } from '../sim/army.mjs';
 import { recallRefusal, winterRefusal } from '../sim/winter.mjs';
 import { southFate, southProjection } from '../sim/south.mjs';
+import { observedBy } from '../sim/town.mjs';
 import { dateOf } from '../sim/clock.mjs';
 import { PACES } from '../server/app.mjs';
 import { momentOf, sendSouth, until, untilMoment, winterClass } from './support/south.mjs';
@@ -78,7 +79,8 @@ test('San Patricio is fought at three in the morning of February 27, Agua Dulce 
   assert.equal(hour(world, from(sp, 'surprise')), '2/27 3:00');
   assert.equal(from(sp, 'surprise'), momentOf(world, 'san-patricio'), 'the old moment and the fight disagree');
   assert.equal(hour(world, from(sp, 'yield') + 5), '2/27 3:15', 'over within a quarter of an hour');
-  assert.equal(hour(world, from(ad, 'drive')), '3/2 5:30');
+  // Half past eight since 2026-09-26: the ground is the Handbook's, a mile and a third from where Grant's men wait (it was 5:30).
+  assert.equal(hour(world, from(ad, 'drive')), '3/2 8:30');
   assert.equal(hour(world, from(ad, 'ambush')), '3/2 10:30');
   assert.equal(from(ad, 'ambush'), momentOf(world, 'agua-dulce'), 'Agua Dulce is not at half past ten');
 });
@@ -275,6 +277,37 @@ test('afterwards the escaped ride for Goliad and the prisoners are marched south
   // The card through the family, the day the word comes.
   const withAccount = [...households].map(id => southProjection(world, id, 'student')).filter(one => one?.account);
   assert.ok(withAccount.length >= 1, 'no family had the account on its card');
+});
+
+// Owner, 2026-09-26, by multiple choice (docs/BATTLES.md §2b): the prisoners of San Patricio and Agua Dulce are seen marched away
+// down the road south, then are gone from the map - not left standing at the end of the road. Their fate waits for the word.
+test('the prisoners are seen marched away down the road south, then are gone from the map: not left standing at its end, and seen by nobody there', () => {
+  const { world, men } = southClass();
+  const prisoners = () => men.filter(id => {
+    const person = world.entities[id], fight = person.service?.fight;
+    return fight && world.battles[fight]?.fates?.[id]?.fate === 'captured';
+  });
+  until(world, () => world.battles['agua-dulce'] && battleState(world, 'agua-dulce')?.over && prisoners().some(id => world.entities[id].travel?.to === 'matamoros-road'));
+  const taken = prisoners();
+  assert.ok(taken.length >= 1, 'nobody of the fourteen was taken prisoner');
+  // Seen marched away: on the road south, drawn walking, still on the family's map.
+  const walking = taken.find(id => world.entities[id].travel?.to === 'matamoros-road');
+  assert.ok(walking, 'no prisoner was marched down the road south');
+  assert.ok(!student(world, world.entities[walking].householdId).entities.find(one => one.id === walking)?.service?.offMap, 'a prisoner was gone from the map before he was marched out of sight');
+  // Then out of sight: every prisoner off the map once the road is walked, and never standing at its end.
+  until(world, () => taken.every(id => Number.isFinite(world.entities[id].service?.offMap)) || world.director.milestones['agua-dulce-news'], 4000);
+  const end = world.map.sites['matamoros-road'];
+  for (const id of taken) {
+    const person = world.entities[id];
+    assert.ok(Number.isFinite(person.service.offMap), `${person.name} was left standing at the end of the road south (${person.location.siteId})`);
+    const own = student(world, person.householdId).entities.find(one => one.id === id);
+    assert.equal(own?.service?.offMap, true, `${person.name}'s family still has him on its map`);
+    // Another family standing at the road's end does not see him there.
+    const other = Object.values(world.households).find(household => household.id !== person.householdId);
+    const witness = world.entities[other.members.find(mid => world.entities[mid].kind === 'person')];
+    witness.travel = null; witness.location = { x: end.x, y: end.y, siteId: 'matamoros-road' };
+    assert.ok(!observedBy(world, other.id).some(one => one.id === id), `${person.name} is still seen standing at the end of the road south`);
+  }
 });
 
 test('a class saved in the middle of San Patricio reopens there, and one saved before the engine gains the fight from the clock', () => {

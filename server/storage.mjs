@@ -78,7 +78,8 @@ export function readSave(path) {
   // A class on the real land saved before the map went south to the Nueces (2026-09-25, docs/MAP_ACCURACY.md §13) gains San
   // Patricio, the Agua Dulce ground and the roads to them from the built map - added, nothing it had moved - so its Matamoros men
   // are where the record puts them and fight where the fights were (sim/south.mjs `openSouth`). No version moved: the places
-  // are added, every existing place, road and home is what it was, and a class that already has them is untouched.
+  // are added, every existing place, road and home is what it was, and a class that already has them is untouched but for the
+  // Agua Dulce ground, moved to the Handbook's twenty-six miles (owner, 2026-09-26) while Grant's drive has not begun.
   if (save.world) openSouth(save.world);
   return save;
 }

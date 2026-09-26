@@ -158,9 +158,11 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   // Since 2026-09-25 the southern fights are on the battle engine (sim/south.mjs, docs/BATTLES.md §6.14): Grant rides south of
   // the Nueces for horses about six in the morning of February 20 (`FIC-GONZ-436`; 169920 + 26 × 1440 + 360); San Patricio's
   // night begins at one on the 27th, two hours before `san-patricio`; Grant's party sets out north with the herd at half past
-  // five on March 2 (221760 + 1440 + 330), and **Agua Dulce is fought at half past ten** (+ 630), where it was six until
-  // then - "between 10 and 11 am" (Wikipedia; `HIST-TEX-511`, staging.md §4.2).
-  'grant-rides': 207720, 'san-patricio-night': 217500, 'agua-dulce-drive': 223530,
+  // eight on March 2 (221760 + 1440 + 510; half past five until 2026-09-26, when the ground moved to the Handbook's twenty-six
+  // miles below San Patricio, a mile and a third from the end of the walked road - docs/BATTLES.md §2b), and **Agua Dulce is
+  // fought at half past ten** (+ 630), where it was six until 2026-09-25 - "between 10 and 11 am" (Wikipedia; `HIST-TEX-511`,
+  // staging.md §4.2).
+  'grant-rides': 207720, 'san-patricio-night': 217500, 'agua-dulce-drive': 223710,
   'agua-dulce': 223830, 'courier-3-opens': 225000, 'san-patricio-news': 225360, 'courier-3': 225840, 'declaration-news': 226800,
   'courier-4-opens': 228240, 'courier-4': 229080, 'alamo-assault': 229260, 'agua-dulce-news': 231120, 'survivors-leave': 232200,
   'fall-rumour': 237240, 'fall-confirmed': 239520, 'fall-colonies': 240240, 'alamo-end': 240420,

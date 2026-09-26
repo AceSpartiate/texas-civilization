@@ -94,6 +94,27 @@ the choices this build makes, each recorded so it can be reversed in one place.
    refusal on September 30. Every shout is `tradition`, glossed as remembered later, never in a named mouth — no 1835
    document has anybody say it (`HIST-TEX-469`, `FIC-GONZ-419`).
 
+**Decided by the owner, 2026-09-26, by multiple choice** (put after the south, the Alamo, Concepción, Coleto and San Jacinto were
+built):
+
+7. **Agua Dulce Creek is placed twenty-six miles below San Patricio, per the Handbook of Texas (TSHA)** — not Wikipedia's
+   point near Banquete, about ten miles out, which the south's build had used. The record gives no bearing, so the distance is
+   the walked road's own: the ground is where the least-effort road south from San Patricio measures 26.0 miles (-97.81,
+   27.639), a mile and a third short of the end of the walked road where Grant's men wait with the horses. So the drive north
+   is short: Grant's party sets out at half past eight (it was half past five) and the charge stays at half past ten; Grant's
+   ride south on February 20 is to the same road's end and did not change. The creek the map's NHD calls Agua Dulce is crossed
+   by the road about sixteen miles out, not at the ground; the account and `HIST-TEX-512` name the Handbook's placement as the
+   one chosen and the other as the dispute. A class saved with the ground near Banquete has it moved at the save's door while
+   Grant's drive has not begun (`sim/south.mjs` `moveAguaDulce`); one that has fought there keeps it. No `saveVersion` bump.
+8. **The prisoners taken at San Patricio and Agua Dulce are walked south out of sight.** They are seen marched away down the
+   road south and at its end (`matamoros-road`) are gone from the map (`service.offMap`: not drawn, not seen by another family
+   there, the camera let go) — not left standing at the road's end. Their fate is told later, with the word, and its dispute
+   (`HIST-TEX-510`).
+9. **Recorded, no change:** Béxar's between-episode pace (`background`) holds the class only while a played, present family has
+   a man in the town (`watchedByAFamily`); with nobody there the storming's quiet hours go at the class's own pace.
+10. **Recorded, no change:** a family whose man is killed at Béxar learns it from the victory news on December 15
+    (`bexar-victory`, `tellStorming`), not at the moment he falls.
+
 Every other question in `docs/battle-research/staging.md` takes its recommended answer.
 
 ## 3. The shared contract (what every engagement is built on)
@@ -317,7 +338,7 @@ recorded). Claims `HIST-TEX-510`–`-514`, `FIC-GONZ-435`–`-436`. The map is `
 
 | Piece | File |
 | --- | --- |
-| The engagements | `sim/battles/san-patricio.mjs` (night 01:00 → the square 03:00 → the houses → the last house → prisoners gathered 03:35 → 04:15), `sim/battles/agua-dulce.mjs` (the drive north 05:30 → the last hour 09:30 → the charge **10:30** → six prisoners 10:50 → 11:50) |
+| The engagements | `sim/battles/san-patricio.mjs` (night 01:00 → the square 03:00 → the houses → the last house → prisoners gathered 03:35 → 04:15), `sim/battles/agua-dulce.mjs` (the drive north 08:30, 05:30 until §2b.7 → the last hour 09:30 → the charge **10:30** → six prisoners 10:50 → 11:50) |
 | The director's part | `sim/south.mjs`, called from `advanceAlamo` in `sim/directors.mjs` and from `directorProjection` (one line each) |
 | The map at the save's door | `openSouth`, called from `server/storage.mjs` `readSave` |
 | The join and the recall | `sim/winter.mjs` (`SERVICE.matamoros` at San Patricio, `southClosing`, `recallRefusal`) and the chore's `travel: 'south'` in `sim/chores.mjs` |
@@ -325,7 +346,8 @@ recorded). Claims `HIST-TEX-510`–`-514`, `FIC-GONZ-435`–`-436`. The map is `
 - **Arrival.** A man sent south joins at San Patricio (at Refugio on a map without the south). A man still at Refugio walks on
   (`walkOnSouth`). The join is refused, in words, once the family's quickest way would not reach San Patricio half a day before
   the raid. About six in the morning of February 20 Grant rides south with the men put in his party at the record's shares
-  (`grantRides`, `JOHNSON_SHARE`) to the end of the walked road, and at 5:30 on March 2 they drive the herd north to the creek.
+  (`grantRides`, `JOHNSON_SHARE`) to the end of the walked road, and at 8:30 on March 2 (5:30 before §2b.7 moved the ground to the
+  Handbook's twenty-six miles, a mile and a third from the road's end) they drive the herd north to the creek.
 - **In the force.** Every man of the party at its muster when the fight is armed is put in it before the first shot, in a part:
   the square, a house, the back door; the lead, the middle or the drag of the drive. He is walked to his place at a runner's pace.
 - **Fates at staged moments.** His fate is `fightSouth`'s own roll (`southFate`: `SOUTH_RATES`, frailty-weighted), so no class's
@@ -340,11 +362,13 @@ recorded). Claims `HIST-TEX-510`–`-514`, `FIC-GONZ-435`–`-436`. The map is `
 - **The alert** at the first shot, at the man's side: "Soldiers in the square! They're at the doors!"; "Horsemen in the trees
   ahead!" (staging §4.7). With Watch.
 - **Afterwards.** The escaped ride for Fannin at Goliad at once; the dead lie where they fell; the prisoners are held where they
-  were taken until Agua Dulce is fought, then walked out of the walked country toward Matamoros (to `matamoros-road`). When the
+  were taken until Agua Dulce is fought, then walked out of the walked country toward Matamoros, and at the end of its road
+  (`matamoros-road`) pass out of sight, gone from the map (§2b.8; `service.offMap`). When the
   word comes (March 3, March 7) each family that had a man there is told, through somebody at home, *What happened*, *What yours
   did*, *Why it ended so*, and where the accounts disagree; the card stays a day and the journal keeps it.
 - **Pace.** San Patricio's fighting (03:00-03:35) is 25 ticks, about 4 minutes at Study; Agua Dulce's charge and the minutes after
-  it about 3 1/2; both nights before are watched at twenty minutes a tick.
+  it about 3 1/2; San Patricio's night before is watched at twenty minutes a tick, and so is Agua Dulce's hour-long drive (four
+  hours until §2b.7, nine ticks fewer now).
 
 Evidence: `tests/battle-south.test.mjs` (10), `tests/battle-view-south.test.mjs` (5), `tests/south-map.test.mjs` (6),
 `npm run test:battle-south` (15 checks, `docs/evidence/battle-south-browser.json`, screenshots in `docs/evidence/battle-south/`),
@@ -354,7 +378,10 @@ Evidence: `tests/battle-south.test.mjs` (10), `tests/battle-view-south.test.mjs`
 
 - ceiling: the horse guard at the ranch four miles out is told, never drawn; no family's man is put in it.
 - ceiling: the houses, the lit windows, the groves and the herd stand where this build set them (`FIC-GONZ-435`).
-- ceiling: the drive north is drawn in a straight line from the end of the walked road to the creek, within a mile of the road.
+- ceiling: the drive north is drawn in a straight line from the end of the walked road to the ground, within a mile of the road.
+- ceiling: the Agua Dulce ground is the Handbook's distance along the road (§2b.7), not a point on the creek the map's NHD draws.
+- ceiling: a prisoner out of sight keeps his last place on the server (the end of the road south); nobody is shown it, and a
+  march to Matamoros beyond the walked country is the way out.
 - ceiling: the prisoners' guard is not drawn marching with them; a prisoner column on the engine is the way out.
 - The night, the riders, the herd and the groves are stand-ins (`docs/ART_REQUESTS.md`, request 2026-09-25 "the south's fights").
 

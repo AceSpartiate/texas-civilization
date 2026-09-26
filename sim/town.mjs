@@ -257,7 +257,9 @@ export function observedBy(world, householdId) {
     .filter(entity => entity.householdId !== householdId && entity.kind === 'person' && places.has(entity.location?.siteId) && !inTheField(entity))
     // Somebody of another family who fell at the Alamo is not seen standing at his post again (sim/alamo-battle.mjs); nothing
     // of how or when is sent - he is simply not among the living one can see.
-    .filter(entity => !(Number.isFinite(entity.service?.fellAt) && entity.service.fellAt <= world.minute));
+    .filter(entity => !(Number.isFinite(entity.service?.fellAt) && entity.service.fellAt <= world.minute))
+    // Nor is a prisoner walked south out of sight down the road to Matamoros (sim/south.mjs `marchPrisoners`).
+    .filter(entity => !Number.isFinite(entity.service?.offMap));
   // A rider carrying word is visible while they are still coming, because watching
   // somebody ride up to your door is the arrival, and news that materialises at the moment
   // it is spoken has no approach at all. Anybody within sight of one of this family's own

@@ -60,7 +60,8 @@ const inSouth = p => p.x >= SOUTH_BOX.minX && p.x <= SOUTH_BOX.maxX && p.y >= SO
  */
 export function openSouth(world) {
   const map = world?.map;
-  if (map?.source !== 'texas-colonies-map' || !map.sites || !map.routes || southWalkable(world)) return false;
+  if (map?.source !== 'texas-colonies-map' || !map.sites || !map.routes) return false;
+  if (southWalkable(world)) return moveAguaDulce(world);
   const built = coloniesMap();
   const added = new Set();
   for (const place of Object.values(built.places)) {
@@ -79,10 +80,15 @@ export function openSouth(world) {
     const route = routeOfRoad(road);
     map.routes[route.id] = route;
   }
-  // The creek round each new ford, as sim/colonies-region.mjs keeps it (`CREEK_AT_CROSSING`), so no ford stands on dry ground.
+  keepCreeks(map, built, added);
+  return true;
+}
+
+/** The creek round each new or moved ford, as sim/colonies-region.mjs keeps it (`CREEK_AT_CROSSING`), so no ford stands on dry ground. */
+function keepCreeks(map, built, ids) {
   map.terrain ||= [];
   const have = new Set(map.terrain.map(feature => feature.id));
-  for (const site of [...added].map(id => map.sites[id]).filter(one => one.waterKind === 'creek')) {
+  for (const site of [...ids].map(id => map.sites[id]).filter(one => one.waterKind === 'creek')) {
     const box = { minX: site.x - CREEK_AT_CROSSING, maxX: site.x + CREEK_AT_CROSSING, minY: site.y - CREEK_AT_CROSSING, maxY: site.y + CREEK_AT_CROSSING };
     const inBox = p => p.x >= box.minX && p.x <= box.maxX && p.y >= box.minY && p.y <= box.maxY;
     built.watercourses.forEach((course, index) => {
@@ -95,6 +101,34 @@ export function openSouth(world) {
       });
     });
   }
+}
+
+/**
+ * The Agua Dulce ground where the owner put it on 2026-09-26 - the Handbook of Texas's "twenty-six miles below San Patricio",
+ * not Wikipedia's point near Banquete (docs/BATTLES.md §2b) - for a class saved with the south before then: the ground, the
+ * fords of the road south that moved with it, the two roads through it and the creeks round the new fords, from the built map.
+ * Only while Grant's drive north has not begun: a class that has fought Agua Dulce keeps the ground it was fought on (its dead
+ * lie there). Nothing else is touched and no save version moves - the class's map lacked nothing, it had the fight ten miles
+ * out, and every home and every other place is what it was. Returns whether it changed anything.
+ * ceiling: a man standing at the old ground (nobody waits there; Grant's party is at the road's end) is at the moved one.
+ */
+export function moveAguaDulce(world) {
+  const map = world.map, built = coloniesMap(), ground = built.places['agua-dulce'], site = map.sites['agua-dulce'];
+  if (!ground || !site || Math.hypot(site.x - ground.x, site.y - ground.y) < 0.01) return false;
+  if (world.minute >= momentOf(world, 'agua-dulce-drive') || world.battles?.['agua-dulce']) return false;
+  const moved = new Set(['agua-dulce']);
+  for (const place of Object.values(built.places)) {
+    const here = map.sites[place.id];
+    if (place.kind !== 'ford' || place.outside || !inSouth(place) || !here || Math.hypot(here.x - place.x, here.y - place.y) < 0.01) continue;
+    moved.add(place.id);
+  }
+  for (const id of moved) map.sites[id] = siteOfPlace(built.places[id]);
+  for (const road of built.roads) {
+    if (![road.from, road.to].includes('agua-dulce')) continue;
+    const route = routeOfRoad(road);
+    map.routes[route.id] = route;
+  }
+  keepCreeks(map, built, moved);
   return true;
 }
 
@@ -176,10 +210,11 @@ const STAGED = Object.freeze({
     escaped: [{ part: 'back-door', at: 133 }],
   },
   'agua-dulce': {
-    // The drive 0-240, the last hour 240-300, the charge and the chase 300-320, the prisoners after.
-    killed: [{ part: 'middle', at: 303 }, { part: 'middle', at: 307 }, { part: 'middle', at: 311 }, { part: 'middle', at: 316 }],
-    captured: [{ part: 'drag', at: 311 }],
-    escaped: [{ part: 'lead', at: 305 }],
+    // The drive 0-60, the last hour 60-120, the charge and the chase 120-140, the prisoners after (the drive was 0-240 until
+    // 2026-09-26, when the ground moved to the Handbook's twenty-six miles; the same minutes into the charge).
+    killed: [{ part: 'middle', at: 123 }, { part: 'middle', at: 127 }, { part: 'middle', at: 131 }, { part: 'middle', at: 136 }],
+    captured: [{ part: 'drag', at: 131 }],
+    escaped: [{ part: 'lead', at: 125 }],
   },
 });
 /** The roll `fightSouth` (sim/alamo.mjs) makes, exactly: so a man's fate is what it would have been before the engine. */
@@ -216,6 +251,8 @@ export function advanceSouth(world, movement = {}) {
  * Once both fights are over, the prisoners of each are marched south under guard toward Matamoros (`HIST-TEX-059`,
  * `HIST-TEX-510`), walked out of the walked country to the end of its road and never set down at Matamoros. Held where they
  * were taken until then: Urrea's men were about San Patricio and the Nueces until Agua Dulce was fought (`FIC-GONZ-436`).
+ * At the road's end they pass out of sight (owner, 2026-09-26, docs/BATTLES.md §2b): gone from the map (`service.offMap`),
+ * not left standing at the end of the road; nothing is said of them until the word, which tells their fate and its dispute.
  * ceiling: the guard marching with them is not drawn; a prisoner column on the engine is the way out.
  */
 function marchPrisoners(world, { beginTravel } = {}) {
@@ -225,7 +262,14 @@ function marchPrisoners(world, { beginTravel } = {}) {
     if (!SOUTH_FIGHTS[id]) continue;
     for (const [pid, fate] of Object.entries(battle.fates || {})) {
       const person = world.entities[pid];
-      if (fate.fate !== 'captured' || !person || person.service?.marched || person.travel || person.location?.siteId === 'matamoros-road') continue;
+      if (fate.fate !== 'captured' || !person || Number.isFinite(person.service?.offMap)) continue;
+      // Walked to the end of the road: out of sight down it, and off the map.
+      if (!person.travel && person.location?.siteId === 'matamoros-road') {
+        person.service.marched ??= world.minute;
+        person.service.offMap = world.minute;
+        continue;
+      }
+      if (person.service?.marched || person.travel) continue;
       person.service.marched = world.minute;
       person.service.siteId = 'matamoros-road';
       const here = { x: person.location.x, y: person.location.y };
@@ -423,6 +467,6 @@ export function southAccount(world, id, men) {
     : 'Why it ended so: Grant\'s men were few, on tired horses, busy with the herd and not expecting an enemy - they did not know Urrea had already taken San Patricio. The dragoons chose their ground and came out of cover; men on scattered horses could not stand against a charge.';
   const disputed = id === 'san-patricio'
     ? 'The accounts do not agree: the Handbook of Texas says the prisoners were taken to Matamoros, and one later account says they were all dead within three days. The date and hour differ too - three in the morning of the 27th, or half past three on the 26th.'
-    : 'The accounts do not agree on how many were with Grant (twenty-six, or about fifty) or exactly where the creek fight was - twenty-six miles below San Patricio, or near Banquete, ten.';
+    : 'The accounts do not agree on how many were with Grant (twenty-six, or about fifty) or exactly where the creek fight was. This telling puts it where the Handbook of Texas does, twenty-six miles below San Patricio on the road south; another account puts it near Banquete, only about ten miles out.';
   return [happened, `What yours did: ${men.map(did).join(' ')}`, why, disputed].join('\n\n');
 }

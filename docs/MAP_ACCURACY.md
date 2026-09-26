@@ -1165,7 +1165,9 @@ lacked was land to read there - heights for the roads' routing, water, woods - a
   `build-outside` and `build-woods` read it, so they still give the box's files back byte for byte. **The box's eight files are
   unchanged**; only `colonies-map.json.gz` was rebuilt. The page's files are unchanged: nothing of the strip is sent to it.
 - **`scripts/build-colonies-map.mjs`**: San Patricio a `village` at its point (`HIST-TEX-159`), `agua-dulce` a `ground` at
-  Wikipedia's point on Agua Dulce Creek (`HIST-TEX-512`), `matamoros-road` where the walked road south ends at 27.62°N
+  Wikipedia's point on Agua Dulce Creek (`HIST-TEX-512`) - **moved on 2026-09-26 by the owner's choice to the Handbook of Texas's
+  "twenty-six miles below San Patricio"**, the point where the least-effort road south measures 26.0 miles (-97.81, 27.639; §13.6),
+  `matamoros-road` where the walked road south ends at 27.62°N
   (`FIC-GONZ-436`); the **Nueces a barrier**, crossed only at San Patricio (`san-patricio-crossing`, the id the outside ford had);
   roads Refugio → San Patricio (39.4 mi), San Patricio → Goliad (56.0 mi, the id of the outside road it replaces), San Patricio →
   Agua Dulce (12.1 mi) → the road's end (16.7 mi), each the least effort over the ground (`FIC-GONZ-027`); the creeks round San
@@ -1192,10 +1194,10 @@ its script changes. Nothing else regenerates.
 
 ### 13.4 Checks
 
-`tests/south-map.test.mjs` (6): the strip on the box's lattice with the box's own cells unchanged; San Patricio, Agua Dulce and the
+`tests/south-map.test.mjs` (8): the strip on the box's lattice with the box's own cells unchanged; San Patricio, Agua Dulce and the
 road's end at their points with heights and woods; the Nueces crossed only at San Patricio and the roads' lengths; walked and
 ridden from Refugio, Goliad and Gonzales, the word carried, never to Matamoros or Laredo; an old save opened at the door with
-nothing it had moved; the strip's files as built. `tests/crossings.test.mjs` (the Nueces crossing on the outside country's river
+nothing it had moved; the strip's files as built; the Handbook's twenty-six road miles; an older class's ground moved at the door. `tests/crossings.test.mjs` (the Nueces crossing on the outside country's river
 the page draws), `tests/map-outside.test.mjs` (the box's hashes; the new map's). Injections: `scripts/battle-south-injections.mjs`.
 
 ### 13.5 Ceilings
@@ -1206,3 +1208,15 @@ the page draws), `tests/map-outside.test.mjs` (the box's hashes; the new map's).
   nothing in the simulation reads, still ends at the box.
 - `ceiling:` the ecoregion grid (`ecoregionAt`) ends at the box; nothing south of it asks.
 - `ceiling:` a class made on the 2016 woods grid (2026-09-15 to -19) sees no woods in the strip.
+
+### 13.6 Agua Dulce moved to the Handbook's distance (2026-09-26)
+
+Owner, by multiple choice (docs/BATTLES.md §2b.7): Agua Dulce Creek is placed twenty-six miles below San Patricio per the
+Handbook of Texas, not at Wikipedia's point near Banquete (-97.84972, 27.8475). One line of `scripts/build-colonies-map.mjs`, found
+by building: the road from San Patricio is 26.0 miles (it was 12.1) and on to the road's end 1.3 (16.7). Decoded against the map
+before: only `agua-dulce`, the four fords of that road (Sandy Hollow, Agua Dulce, Banquete, Pintas creeks), the two roads through
+the ground and the creeks drawn round it changed (Chiltipin, San Diego, El Caro creeks and the Resaca de Enmedio no longer drawn;
+San Fernando and Tranquitas creeks drawn) - every other place, road and watercourse is byte for byte. The road still fords the
+creek the NHD calls Agua Dulce, about sixteen miles out; the ground is not on it (`HIST-TEX-512` says so). A class saved with the
+ground near Banquete is given the new one at the save's door until Grant's drive begins (`sim/south.mjs` `moveAguaDulce`).
+

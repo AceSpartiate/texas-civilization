@@ -15,7 +15,11 @@
 //
 // Nothing here depends on who came. Imports nothing from the director.
 //
-// ceiling: the drive north from the end of the walked road to the creek is drawn in a straight line between the two, not
+// Where: "twenty-six miles below San Patricio" (TSHA), the owner's choice of 2026-09-26 over Wikipedia's point near Banquete
+// (`HIST-TEX-512`): the walked road's twenty-sixth mile, a mile and a third short of its end, where Grant's men wait with the
+// horses. So the party sets out north at half past eight, not half past five, and the charge stays at half past ten.
+//
+// ceiling: the drive north from the end of the walked road to the ground is drawn in a straight line between the two, not
 //   along the road's own course; the road is within a mile of the line the whole way.
 // ceiling: the groves stand where this file puts them, either side of the road short of the ground (`FIC-GONZ-435`); the record
 //   says two groves and not where.
@@ -28,12 +32,15 @@ export function aguaDulceGround(world) {
   // South, down the road toward Matamoros; its negative is north, the way the party was driving.
   const south = { x: dx / span, y: dy / span }, side = { x: -south.y, y: south.x };
   const at = (s, n) => ({ x: ground.x + south.x * s + side.x * n, y: ground.y + south.y * s + side.y * n });
+  // How far south of the ground the party is at half past nine: three and a fifth miles where the camp is far enough off (the
+  // ground near Banquete, a class saved before 2026-09-26), three quarters of the way out from it where the camp is close.
+  const lead = Math.min(3.2, span * 0.75);
   return {
     camp: { x: camp.x, y: camp.y },
     // Where the party is at half past nine, and where the herd is caught at half past ten.
-    'herd-start': at(3.2, 0.02), ground: at(0.15, 0),
+    'herd-start': at(lead, 0.02), ground: at(0.15, 0),
     // The herd a little ahead of the riders, north.
-    'herd-ahead-start': at(3.02, 0), 'herd-ahead': at(-0.02, 0), 'herd-scatter': at(-0.5, 0.35),
+    'herd-ahead-start': at(lead - 0.18, 0), 'herd-ahead': at(-0.02, 0), 'herd-scatter': at(-0.5, 0.35),
     // The two groves, either side of the road just short of the creek (`FIC-GONZ-435`).
     'grove-east': at(-0.08, 0.32), 'grove-west': at(-0.14, -0.3),
     // Where each body of dragoons comes out to, and where the chase runs.
@@ -83,15 +90,16 @@ export const AGUA_DULCE = Object.freeze({
   ],
   phases: [
     {
-      // 05:30 - 09:30. North from the end of the walked road with the horses. Watched at twenty minutes a tick.
-      id: 'drive', minutes: 240, title: 'Driving the horses north', step: 20, claimId: 'HIST-TEX-511',
+      // 08:30 - 09:30. North from the end of the walked road with the horses, gathered and set moving. Watched at twenty
+      // minutes a tick. (05:30 - 09:30 until 2026-09-26, when the ground was twelve miles from San Patricio and not twenty-six.)
+      id: 'drive', minutes: 60, title: 'Driving the horses north', step: 20, claimId: 'HIST-TEX-511',
       caption: 'South of the Nueces, Dr. James Grant’s party - about two dozen men - is driving several hundred horses north toward San Patricio. They do not know that Urrea has taken San Patricio three days before.',
-      texian: party({ keys: [[0, 'camp'], [240, 'herd-start']] }, { keys: [[0, 'camp'], [240, 'herd-start']] }, { keys: [[0, 'camp'], [240, 'herd-start']] }),
+      texian: party({ keys: [[0, 'camp'], [60, 'herd-start']] }, { keys: [[0, 'camp'], [60, 'herd-start']] }, { keys: [[0, 'camp'], [60, 'herd-start']] }),
       mexican: dragoons({ at: 'grove-east' }, { at: 'grove-west' }),
-      herd: { keys: [[0, 'camp'], [240, 'herd-ahead-start']], count: 300 },
+      herd: { keys: [[0, 'camp'], [60, 'herd-ahead-start']], count: 300 },
       lines: [
-        say('ad-keep', 60, TEX, 'volunteer', 'reconstructed', 'Keep them bunched!'),
-        say('ad-sp', 180, TEX, 'volunteer', 'reconstructed', 'San Patricio by tonight.'),
+        say('ad-keep', 20, TEX, 'volunteer', 'reconstructed', 'Keep them bunched!'),
+        say('ad-sp', 45, TEX, 'volunteer', 'reconstructed', 'San Patricio by tonight.'),
       ],
     },
     {
