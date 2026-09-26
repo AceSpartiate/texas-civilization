@@ -52,21 +52,24 @@ export function militaryJourney(world, person) {
 }
 
 /**
- * Whether a played family at its screen has somebody within `COLUMN_WATCH_MILES` of a Mexican column or its foragers
- * (sim/advance.mjs): then the march is in front of them and is watched at the travel scale, as a journey is (`FIC-GONZ-467`).
- * Everywhere else the columns are background and hold nothing. ceiling: one family near a column slows the whole class, as
+ * Whether a played family at its screen has somebody within `COLUMN_WATCH_MILES` of a Mexican column **on the march** or its
+ * foragers (sim/advance.mjs): then the march is in front of them and is watched at the travel scale, as a journey is
+ * (`FIC-GONZ-467`). A column in camp holds nothing - Sesma's week opposite Beeson's, Filisola's at Old Fort - and neither does a
+ * man serving with an army, whose camp keeps its own clock. Everywhere else the columns are background and hold nothing.
+ * Measured with scripts/battle-class-time.mjs (`columnsWatched`) before this narrowing: every family at its screen, a column
+ * held the class 18 to 29 minutes at Study; see docs/evidence/advance-class-time.json for after. ceiling: one family near a column slows the whole class, as
  * any held clock here does, until the look-ahead scheduler of docs/MILITARY_EXPERIENCE.md exists.
  */
 export const COLUMN_WATCH_MILES = 6;
 export function columnWatched(world) {
   if (world.period !== 3 || !world.map?.source) return false;
-  const heads = columnsNow(world).filter(({ head }) => !head.retreat);
+  const heads = columnsNow(world).filter(({ head }) => !head.retreat && head.moving);
   if (!heads.length) return false;
   const points = heads.flatMap(({ column, head }) => [head, ...foragersOf(world, column, head)]);
   return Object.values(world.entities || {}).some(person => {
     const household = world.households?.[person.householdId];
     return person.kind === 'person' && household?.played && !household.absent && !person.auto && person.location
-      && !['dead', 'captured'].includes(person.health?.condition)
+      && person.service?.status !== 'serving' && !['dead', 'captured'].includes(person.health?.condition)
       && points.some(point => Math.hypot(point.x - person.location.x, point.y - person.location.y) <= COLUMN_WATCH_MILES);
   });
 }

@@ -25,6 +25,7 @@ import { calendarMinutes, withCalendarStep } from '../sim/clock.mjs';
 import { ENGAGEMENTS, liveBattles, battleState, battleStep } from '../sim/battle-stage.mjs';
 import { hostEnding } from '../sim/ending.mjs';
 import { PACES } from '../server/app.mjs';
+import { MILITARY_TRAVEL_MINUTES, columnWatched } from '../sim/military-pacing.mjs';
 
 const sizes = process.argv.slice(2).map(Number).filter(Boolean);
 const BLANK = Object.fromEntries(Object.keys(ENGAGEMENTS).map(id => [id, { id, start: NaN }]));
@@ -54,6 +55,17 @@ function asIfThere(world, fn) {
     if (hadAbsent) household.absent = absent; else delete household.absent;
   }
 }
+/** Ask `fn` as if every family were played and at its screen (the column watch holds only for those). */
+function asIfAllPlayed(world, fn) {
+  const kept = Object.values(world.households).map(household => [household, Object.hasOwn(household, 'played'), household.played, Object.hasOwn(household, 'absent'), household.absent]);
+  for (const [household] of kept) { household.played = true; household.absent = false; }
+  try { return fn(); } finally {
+    for (const [household, hadPlayed, played, hadAbsent, absent] of kept) {
+      if (hadPlayed) household.played = played; else delete household.played;
+      if (hadAbsent) household.absent = absent; else delete household.absent;
+    }
+  }
+}
 /** The fight holding this tick: one being fought, else the next to start. */
 function holder(world) {
   const live = liveBattles(world);
@@ -66,7 +78,7 @@ function runClass(families, scenario) {
   const started = Date.now();
   const world = createGonzalesWorld(`class-time-${families}`, families, { map: 'colonies', neighbours: true });
   world.status = 'running';
-  const byFight = {}, periods = [];
+  const byFight = {}, periods = [], columns = { heldTicks: 0, addedTicks: 0 };
   // The clock is the smaller of what it would carry with no fight and what the fights hold it to (sim/military-pacing.mjs takes
   // the smaller of the two), so for `nobody` this is `calendarMinutes` itself, and for `there` the same with the fights asked as
   // if a played family had a man in each.
@@ -80,6 +92,11 @@ function runClass(families, scenario) {
     const from = world.tick;
     for (let t = 0; t < 20000 && !world.director.complete && world.status === 'running'; t++) {
       const { step, free } = clock(world);
+      // The Mexican columns in front of a family (sim/military-pacing.mjs `columnWatched`, 2026-09-26): in `there`, every
+      // family counted played and at its screen, what watching a column that close would add - the most it can.
+      if (scenario === 'there' && world.period === 3 && step > MILITARY_TRAVEL_MINUTES && asIfAllPlayed(world, () => columnWatched(world))) {
+        columns.heldTicks++; columns.addedTicks += step / MILITARY_TRAVEL_MINUTES - 1;
+      }
       if (step < free) {
         const id = holder(world), one = byFight[id] ||= { heldTicks: 0, minutes: 0, unheldTicks: 0 };
         one.heldTicks++; one.minutes += step; one.unheldTicks += step / free;
@@ -105,6 +122,7 @@ function runClass(families, scenario) {
     families, scenario, ticks: world.tick, studyMinutes: study(world.tick), periods, reachedEnding: Boolean(ending?.families?.length) && periods.every(p => p.complete),
     endingFamilies: ending?.families?.length ?? 0, fights, addedTicks: +added.toFixed(1), addedStudyMinutes: study(added), familiesThere,
     engagementsArmed: Object.keys(world.battles || {}), secondsToRun: Math.round((Date.now() - started) / 1000),
+    ...(scenario === 'there' && { columnsWatched: { heldTicks: columns.heldTicks, addedTicks: +columns.addedTicks.toFixed(1), addedStudyMinutes: study(columns.addedTicks) } }),
   };
 }
 
@@ -116,7 +134,9 @@ for (const families of sizes.length ? sizes : [5, 15]) {
     console.log(`${families} families, ${scenario}: ${one.ticks} ticks (${one.studyMinutes} min at Study), periods ${one.periods.map(p => `${p.period}:${p.ticks}${p.complete ? '' : ' INCOMPLETE'}`).join(' ')}, ending ${one.reachedEnding ? 'reached' : 'NOT reached'}; battles added ${one.addedTicks} ticks = ${one.addedStudyMinutes} min at Study (${one.secondsToRun} s to run)`);
     for (const [id, fight] of Object.entries(one.fights)) console.log(`  ${id}: held ${fight.heldTicks} ticks, +${fight.addedTicks} ticks, +${fight.addedStudyMinutes} min`);
     console.log(`  families' people in each force: ${Object.entries(one.familiesThere).map(([id, n]) => `${id} ${n}`).join(', ')}`);
+    if (one.columnsWatched) console.log(`  a column within ${'six'} miles of a family's people: ${one.columnsWatched.heldTicks} ticks, would add ${one.columnsWatched.addedTicks} ticks = ${one.columnsWatched.addedStudyMinutes} min at Study if every family were at its screen`);
   }
 }
 mkdirSync('docs/evidence', { recursive: true });
-writeFileSync('docs/evidence/battle-class-time.json', `${JSON.stringify({ record: 'battle-class-time', date: new Date().toISOString().slice(0, 10), pace: { study: PACES.study }, classes }, null, 2)}\n`.replace(/\n/g, '\r\n'));
+// `CLASS_TIME_OUT` writes the record somewhere else, for a measure beside the battles' own (docs/evidence/advance-class-time.json).
+writeFileSync(process.env.CLASS_TIME_OUT || 'docs/evidence/battle-class-time.json', `${JSON.stringify({ record: 'battle-class-time', date: new Date().toISOString().slice(0, 10), pace: { study: PACES.study }, classes }, null, 2)}\n`.replace(/\n/g, '\r\n'));

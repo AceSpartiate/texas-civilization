@@ -22,6 +22,7 @@ import { BURNINGS, COLUMNS, COLUMN_SIGHT_MILES, MAX_MARCH_MPH, MAX_MILES_A_DAY, 
 import { advanceAdvanceWord } from '../sim/advance-word.mjs';
 import { FOUND_AFTER_FORAGERS, findStockAgain } from '../sim/stock.mjs';
 import { advanceArmiesPassing } from '../sim/scrape.mjs';
+import { COLUMN_WATCH_MILES, MILITARY_TRAVEL_MINUTES, columnWatched, militaryMinutes } from '../sim/military-pacing.mjs';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -221,19 +222,37 @@ test('a family learns its farm burned only by its own people seeing it or by the
   validateWorld(world);
 });
 
-test('smoke seen from the family\'s own people tells them at once; nothing is learned by a family out of sight and word', () => {
+test('the smoke is seen only near and only while it stands, the word comes no faster than people carry it, and nothing else tells a family', () => {
   const world = spring();
   const household = Object.values(world.households).find(one => inside(world, one));
   const home = world.map.sites[household.homeSiteId];
-  household.flight = { status: 'fled', orderedMinute: world.minute, refuge: 'lynchburg', burned: world.minute, burnedBy: { hand: 'mexican', columnId: 'sesma', name: 'Sesma’s column' }, unseen: { improvements: { cabin: 'sound' }, field: null, plots: null, furniture: null, interior: null } };
-  const person = world.entities[household.members[0]];
-  for (const id of household.members) world.entities[id].location = { x: home.x + 60, y: home.y, siteId: null };
+  const burnedNow = minute => ({ status: 'fled', orderedMinute: minute, refuge: 'lynchburg', burned: minute, burnedBy: { hand: 'mexican', columnId: 'sesma', name: 'Sesma’s column' }, unseen: { improvements: { cabin: 'sound' }, field: null, plots: null, furniture: null, interior: null } });
+  const at = miles => { for (const id of household.members) world.entities[id].location = { x: home.x + miles, y: home.y, siteId: null }; };
+  const start = world.minute;
+  // Sixty miles off: nothing at once, nothing a day later (forty miles of word), the word a day and a half after.
+  household.flight = burnedNow(start);
+  at(60);
   advanceAdvanceWord(world);
   assert.equal(household.flight.burnKnown, undefined, 'a family sixty miles off learned it the moment it happened');
-  person.location = { x: home.x + SMOKE_SIGHT_MILES - 1, y: home.y, siteId: null };
+  world.minute = start + 1440;
+  advanceAdvanceWord(world);
+  assert.equal(household.flight.burnKnown, undefined, 'the word covered sixty miles in a day');
+  world.minute = start + 1440 * 1.6;
+  advanceAdvanceWord(world);
+  assert.equal(household.flight.burnKnown?.how, 'word', 'the word never came at a rider\'s pace');
+  // Within sight of the smoke while it stands: seen.
+  world.minute = start;
+  delete household.flight.burnKnown;
+  household.flight = burnedNow(start);
+  at(SMOKE_SIGHT_MILES - 1);
   advanceAdvanceWord(world);
   assert.equal(household.flight.burnKnown?.how, 'sight', 'a family whose own person stood in sight of the smoke did not see it');
   assert.ok(world.events.some(event => event.householdId === household.id && /smoke over the family's own land/.test(event.text)));
+  // Coming near two days after, when the smoke has long gone: the word, not the smoke.
+  household.flight = burnedNow(start - 2 * 1440);
+  at(SMOKE_SIGHT_MILES - 1);
+  advanceAdvanceWord(world);
+  assert.equal(household.flight.burnKnown?.how, 'word', 'a family saw smoke two days after it had gone');
 });
 
 test('the burned farm is burned when the family comes home; a farm outside the zone stands, with what was left in it', () => {
@@ -282,7 +301,42 @@ test('a family sees a column only where its own people are; the Host sees every 
   world.entities[household.members[0]].location = { x: santa.x + 3, y: santa.y, siteId: null };
   const seen = armiesSeen(world, household.id, 'student').find(army => army.id === 'santa-anna');
   assert.ok(seen, 'a family whose person stood three miles off did not see the column');
-  assert.ok((seen.foragers || []).every(party => party.to === undefined), 'a student was told which farm a party is riding for');
+  // A party riding out to a farm: the Host is told which, a family standing by it sees the party and is not.
+  const target = Object.values(world.households).find(one => inside(world, one) && one.id !== household.id);
+  target.flight = { status: 'fled', orderedMinute: 0, refuge: 'lynchburg', leftMinute: 0 };
+  world.minute = burnMinute(world, target) - 20;
+  const riding = armiesSeen(world, undefined, 'host').flatMap(army => (army.foragers || []).map(party => ({ army, party }))).find(({ party }) => party.to === target.homeSiteId);
+  assert.ok(riding, 'the Host was not shown the party riding to the farm');
+  world.entities[household.members[0]].location = { x: riding.party.x + 0.5, y: riding.party.y, siteId: null };
+  const theirs = armiesSeen(world, household.id, 'student').find(army => army.id === riding.army.id);
+  assert.ok(theirs?.foragers?.length, 'a family standing by a party did not see it');
+  assert.ok(theirs.foragers.every(party => party.to === undefined), 'a student was told which farm a party is riding for');
+});
+
+test('a column on the march in front of a played family is watched at two hours a tick; one in camp, or far off, holds nothing', () => {
+  const world = spring();
+  const household = Object.values(world.households)[0];
+  household.played = true; delete household.absent;
+  const person = world.entities[household.members[0]];
+  delete person.auto; delete person.service;
+  // Everybody else of the family far off, at Nacogdoches, where no column came.
+  for (const id of household.members) world.entities[id].location = { ...world.map.sites.nacogdoches, siteId: 'nacogdoches' };
+  // Santa Anna's column at the first hour of April it is on the march (from San Felipe down the river).
+  let t = on(1836, 4, 9, 12);
+  while (!headAt(world.map, column('santa-anna'), t)?.moving) t += 60;
+  world.minute = t + clockOf(world);
+  const head = headAt(world.map, column('santa-anna'), t);
+  person.location = { x: head.x + COLUMN_WATCH_MILES - 1, y: head.y, siteId: null };
+  assert.equal(columnWatched(world), true, 'a family beside a marching column was not watched');
+  assert.equal(militaryMinutes(world, 240), MILITARY_TRAVEL_MINUTES);
+  person.location = { ...world.map.sites.nacogdoches, siteId: 'nacogdoches' };
+  assert.equal(columnWatched(world), false, 'a column a hundred miles off held the class');
+  // The same column camped at Thompson's ferry on the 13th holds nothing, however near.
+  world.minute = on(1836, 4, 13, 12) + clockOf(world);
+  const camp = headAt(world.map, column('santa-anna'), on(1836, 4, 13, 12));
+  assert.equal(camp.camp, true);
+  person.location = { x: camp.x + 1, y: camp.y, siteId: null };
+  assert.equal(columnWatched(world), false, 'a column in camp held the class');
 });
 
 test('the foragers drive off the stock left on the range: a quarter of the cattle is found again, not half', () => {

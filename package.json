@@ -87,6 +87,8 @@
     "test:battle-coleto": "node scripts/battle-coleto-browser-proof.mjs",
     "test:battle-coleto-injections": "node scripts/battle-coleto-injections.mjs",
     "test:famous-people": "node scripts/famous-people-browser-proof.mjs",
-    "test:famous-people-injections": "node scripts/famous-people-injections.mjs"
+    "test:famous-people-injections": "node scripts/famous-people-injections.mjs",
+    "test:mexican-advance": "node scripts/mexican-advance-browser-proof.mjs",
+    "test:mexican-advance-injections": "node scripts/mexican-advance-injections.mjs"
   }
 }

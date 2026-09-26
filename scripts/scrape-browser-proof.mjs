@@ -3,7 +3,8 @@
 // tests/scrape.test.mjs proves the rules - the orders, the room, the burning, the rivers, the sickness, the road home. This
 // proves what a student does: on the morning of March 14 a "!" on the main person's row opens the card at the family's
 // decision; the student loads the wagon, chooses where east to make for, presses Leave and confirms; the family is on the
-// road with the wagon, the house is drawn burned, and the record says they watched it burn.
+// road with the wagon, and the house is left standing with what did not fit (since 2026-09-26 a farm burns only when a Mexican
+// column's foragers reach it, docs/SCRAPE.md; tests/mexican-advance.test.mjs and npm run test:mexican-advance hold that).
 //
 // The class is a real one on the colonies map with rolled families, played in process through the first two periods and
 // continued into the spring; the seed is one whose first family lives at Gonzales, so the order comes at once.
@@ -98,22 +99,23 @@ try {
   const refuge = await student.locator('#flight-refuge').evaluate(select => select.value);
   ok(`the load is tallied against the room (${observed.over.text} → ${observed.fits.text}); making for ${refuge}`);
 
-  // Leaving is asked twice; then the family is on the road and the farm burned.
+  // Leaving is asked twice; then the family is on the road and the farm left standing behind it.
   await student.locator('#selection-flight [data-action="flee"]').click();
   assert.equal(app.state.world.households['hh-1'].flight.status, 'ordered', 'one press sent the family');
   await student.locator('#selection-flight [data-action="flee"]', { hasText: 'Confirm' }).click();
   await student.waitForFunction(() => window.__snapshot?.world.flight?.status === 'fled', null, { timeout: 15000 });
   const household = app.state.world.households['hh-1'];
   assert.deepEqual({ food: household.resources.food, seed: household.resources.seed, cotton: household.resources.cotton }, { food: fitFood, seed: 4, cotton: 6 });
-  assert.equal(household.improvements.cabin, 'ruined');
-  await student.waitForFunction(() => window.__snapshot?.world.land?.cabin === 'ruined', null, { timeout: 15000 });
+  assert.equal(household.improvements.cabin, 'sound', 'the house burned as the family left');
+  // What did not fit stays in the house (a little of the sixty eaten before the family went).
+  assert.ok(household.flight.left?.food >= 60 - fitFood - 3, 'what did not fit was not left in the house');
   observed.land = await student.evaluate(() => ({ cabin: window.__snapshot.world.land.cabin, wagon: Boolean(window.__snapshot.world.entities.find(e => e.kind === 'wagon')?.travel), card: document.querySelector('#selection-flight')?.innerText }));
   assert.equal(observed.land.wagon, true, 'the wagon is not drawn on the road');
   assert.equal(app.state.world.entities['hh-1-wagon'].travel?.purpose, 'flee', 'the wagon is not fleeing');
-  assert.ok(app.state.world.events.some(event => event.householdId === 'hh-1' && /watched it burn/.test(event.text)));
+  assert.ok(!app.state.world.events.some(event => event.householdId === 'hh-1' && /watched it burn/.test(event.text)), 'the family watched a burning that no longer happens');
   await student.waitForTimeout(500);
   await student.screenshot({ path: 'docs/evidence/scrape-leaving.png' });
-  ok(`asked twice, the family loads ${fitFood} food, 4 seed and 6 cotton and sets out with its ${room.cart ? 'cart' : 'wagon'}; the house is burned behind it`);
+  ok(`asked twice, the family loads ${fitFood} food, 4 seed and 6 cotton and sets out with its ${room.cart ? 'cart' : 'wagon'}; the house stands behind it with ${household.flight.left.food} food left in it`);
 
   await student.setViewportSize({ width: 400, height: 860 });
   await student.waitForTimeout(600);

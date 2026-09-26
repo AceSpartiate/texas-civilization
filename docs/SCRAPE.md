@@ -132,9 +132,16 @@ riders, refugees and the army's own people (`WORD_MILES_A_DAY`) - and reaches th
 
 ## 6. Pacing (`FIC-GONZ-467`)
 
-The columns are background. While a played family at its screen has somebody within six miles of a column or its foragers, the
-clock is held to two hours a tick, as a journey is watched (`columnWatched`); everywhere else they hold nothing. Class time at
-Study pace, `scripts/battle-class-time.mjs` 5 and 15 families: see *Evidence*.
+The columns are background. While a played family at its screen has somebody (not serving with an army) within six miles of a
+column **on the march** or its foragers, the clock is held to two hours a tick, as a journey is watched (`columnWatched`); a
+column in camp and a column far off hold nothing.
+
+**Class time at Study pace** (`scripts/battle-class-time.mjs 5 15`, `docs/evidence/advance-class-time.json`; the same script on
+the tree before this work for the baseline): a class of families nobody plays runs **1,251 ticks (198.1 minutes) before and
+after**, the third period 392 ticks both; with a played family in every fight, **1,448 ticks (229.3 minutes) before and after**.
+The columns add nothing to either, because they hold only for a played family at its screen. The most they can add, counted
+as if **every** family were played, present and not on auto: **35 ticks, 5.5 minutes** in a class of five and **76 ticks,
+12.0 minutes** in fifteen (before the watch was narrowed to marching columns and families' own people: 18.4 and 28.6).
 
 ## 7. What else changed with it
 
