@@ -96,6 +96,34 @@ the choices this build makes, each recorded so it can be reversed in one place.
 
 Every other question in `docs/battle-research/staging.md` takes its recommended answer.
 
+## 2c. Famous people — decided by the owner, 2026-09-26
+
+Asked after `docs/battle-research/famous-people.md` found that no famous person is a person in the game. Owner: "famous
+npc's: have we taken the time to ensure they do what they're supposed to? they should be labelled, saying and doing the
+things that they likely would have, dying the way they should (Travis, Bowie, Crocett come to mind as an example)."
+Then, by multiple choice:
+
+1. **Crockett, as de la Peña tells it.** He fights through the dawn assault; after it ends, about 6:30, he is among the
+   handful of men found alive and brought before Santa Anna in front of the Alamo, who orders them killed; officers kill
+   them with swords, drawn without gore. Labelled as one account and disputed, with the killed-fighting account (Joe,
+   Susanna Dickinson, Ruiz) named on screen too, and the dispute over the de la Peña narrative's authenticity stated. (The
+   owner first described him fighting all night, captured the next morning and shot by a firing squad while Santa Anna
+   ate breakfast; told that no source supports the night, the firing squad or the breakfast, the owner chose de la Peña.)
+2. **Names on the map, no cards.** Famous people are drawn with their names; nothing is tapped for a "who was this" card.
+   What a student learns of them comes from what they do and say, the captions and the accounts afterwards.
+3. **Joe is named, and his actions are carefully recreated** from his own testimony (reviewed sources only; his humanity
+   and constrained choices intact — `docs/MILITARY_EXPERIENCE.md`): with Travis at the north wall, back to the quarters
+   after Travis fell, firing from there, found and spared, brought before Santa Anna, and sent to Gonzales with Susanna
+   Dickinson. No text may say "every man was killed" without Joe.
+4. **Famous words nobody wrote down at the time are spoken, labelled tradition** — Travis's line in the sand, Houston's
+   "Hold your fire", Santa Anna as "the Napoleon of the West" and the like are said on the field in a dashed bubble with a
+   gloss saying they were told later, as "Come and take it!" is at Gonzales (§2b.6). They are never shown as documented.
+
+Every other question in `docs/battle-research/famous-people.md` takes its recommended answer (about fifteen people carried
+across events on a dated itinerary; named deaths drawn without gore; killings after surrender other than Crockett's told,
+not drawn; Bowie in his south-side room, lying still when that barrack falls, the manner marked disputed; famous people
+on the campaign map under the normal sight rules).
+
 ## 3. The shared contract (what every engagement is built on)
 
 - **`sim/battle-stage.mjs`** — the one engine. An engagement is data (`sim/battles/<id>.mjs`): its site, its start
