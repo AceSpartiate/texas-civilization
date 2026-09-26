@@ -64,8 +64,8 @@ test('Concepción is on the engine and on the director\'s clock: the division le
   // A group of a side is held to the rules of a side, and a fall has to be in a group on the field.
   const bad = change => { const def = copy(CONCEPCION); def.ground = CONCEPCION.ground; change(def); return () => checkEngagement(def); };
   const charges = def => def.phases.find(phase => phase.id === 'charges');
-  assert.throws(bad(def => { charges(def).groups[0].drawn = 61; }), /at most 60/);
-  assert.throws(bad(def => { charges(def).falls.push({ side: 'texian', group: 'nobody', count: 1, at: 3, claimId: 'HIST-TEX-481' }); }), /group that is not on the field/);
+  assert.throws(bad(def => { charges(def).groups[0].drawn = 61; }), /malformed/);
+  assert.throws(bad(def => { charges(def).falls.push({ side: 'texian', unit: 'nobody', count: 1, at: 3, claimId: 'HIST-TEX-481' }); }), /group that is not there/);
 });
 
 test('the division leaves Espada with every family\'s person who went, and each is under the bank, in the line, before the horsemen come out of the fog', () => {
@@ -111,22 +111,23 @@ test('nobody in the division can be sent anywhere else until it rejoins the army
   assert.equal(withTheArmy(world, a.personId), false, 'he could not be sent for once back with the army');
 });
 
-test('a family\'s person\'s fate falls at a discharge of the gun, visible to those watching and never before: crossing the open, down, carried under the bank', () => {
+test('a family\'s person\'s fate falls at a discharge of the gun, visible to those watching and never before: crossing the open, down where he fell, or hurt and helped back under the bank', () => {
   for (const fate of ['killed', 'wounded']) {
     const { world, a } = divisionClass();
     withFate(world, a.personId, fate);
     const person = world.entities[a.personId];
     untilMinute(world, from(world, 'charges'));
-    const shots = battleState(world, 'concepcion').phase.cannon.map(at => from(world, 'charges') + at);
-    let hitAt = null, crossing = false;
+    const shots = battleState(world, 'concepcion').phase.guns.brass.map(at => from(world, 'charges') + at);
+    let hitAt = null, crossing = false, fellAt = null;
     while (phaseOf(world) === 'charges' || phaseOf(world) === 'retreat') {
       const host = view(world, undefined, 'host'), own = view(world, a.householdId);
-      const sent = [...(host.battle.memberFates || []), ...(own.battle?.memberFates || [])];
+      // Sent as the engine sends every member's fate (sim/battle-stage.mjs `projectBattle`): a map, only once its minute comes.
+      const sent = [host.battle.memberFates || {}, own.battle?.memberFates || {}].flatMap(map => Object.entries(map).map(([id, one]) => ({ id, ...one })));
       for (const one of sent) assert.ok(one.minute <= world.minute, `a fate at ${one.minute} was sent at ${world.minute}`);
       if (world.battles.concepcion.participants[a.personId].at === 'coleman') crossing = true;
       if (hitAt === null) {
-        if (world.battles.concepcion.fates[a.personId]) {
-          hitAt = world.battles.concepcion.fates[a.personId].minute;
+        if (world.battles.concepcion.fates[a.personId]?.applied) {
+          hitAt = world.battles.concepcion.fates[a.personId].minute; fellAt = { ...person.location };
           assert.ok(sent.some(one => one.id === a.personId && one.fate === fate), 'the fate was not sent once it fell');
         } else {
           assert.equal(person.health.condition, 'well', `${fate}: the fate fell before its moment`);
@@ -139,9 +140,12 @@ test('a family\'s person\'s fate falls at a discharge of the gun, visible to tho
     assert.ok(crossing, `${fate}: he was never drawn crossing the open with Coleman's men`);
     assert.equal(person.health.condition, fate === 'killed' ? 'dead' : 'minor-injury');
     assert.equal(world.participation.concepcion[a.personId].role, 'fought');
-    // Carried back under the bank once the gun is taken.
-    assert.ok(world.battles.concepcion.fates[a.personId].carried, `${fate}: never carried back`);
-    assert.ok(miles(person.location, CONCEPCION.ground(world).fannin) < 0.1, `${fate}: not under the bank after the retreat`);
+    // A man killed lies where he fell; a man hurt is helped back under the bank once the gun is taken.
+    if (fate === 'killed') assert.ok(miles(person.location, fellAt) < 1e-9, 'the dead man was moved');
+    else {
+      assert.ok(world.battles.concepcion.fates[a.personId].carried, 'the hurt man was never helped back');
+      assert.ok(miles(person.location, CONCEPCION.ground(world).fannin) < 0.1, 'the hurt man is not under the bank after the retreat');
+    }
     // A reload never re-rolls it.
     const saved = copy(world);
     assert.deepEqual(saved.battles.concepcion.fates, world.battles.concepcion.fates);

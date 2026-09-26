@@ -49,7 +49,7 @@ test('the Grass Fight is on the engine: the alarm at ten, Bowie\'s charge at ele
   // Neither side "in rows" for most of it: the guard in a creek bed, Jack's infantry in double file until the ditch fires.
   const bowie = GRASS_FIGHT.phases.find(phase => phase.id === 'bowie');
   assert.equal(bowie.mexican.style, 'bank');
-  assert.equal(GRASS_FIGHT.phases.find(phase => phase.id === 'ride-out').groups.find(group => group.key === 'jack').style, 'column');
+  assert.equal(GRASS_FIGHT.phases.find(phase => phase.id === 'ride-out').groups.find(group => group.id === 'jack').style, 'column');
   assert.ok(GRASS_FIGHT.noFalling.length === 0 && GRASS_FIGHT.phases.flatMap(phase => phase.falls || []).filter(fall => fall.side === 'texian').every(fall => fall.wounded), 'a Texian is drawn lying still');
   const ugartechea = GRASS_FIGHT.phases[0].lines.find(line => line.text === 'Ugartechea!');
   assert.equal(ugartechea.kind, 'documented'); assert.equal(ugartechea.name, undefined);
@@ -96,15 +96,15 @@ test('a fate falls at its moment and never before: a man with Jack hurt at the d
     const at = from(world, phase) + offset;
     while (world.minute < at) {
       const host = view(world, undefined, 'host');
-      assert.ok(!(host.battle?.memberFates || []).some(each => each.id === one.personId), `${fate}: sent before it fell`);
+      assert.ok(!host.battle?.memberFates?.[one.personId], `${fate}: sent before it fell`);
       assert.notEqual(person.health.condition, 'minor-injury', `${fate}: fell before its moment`);
       assert.ok(!person.travel || person.travel.purpose !== 'home', `${fate}: ran before its moment`);
       stepWorld(world);
     }
     const battle = world.battles['grass-fight'];
-    assert.equal(battle.fates[one.personId]?.fate, fate, `${fate}: did not fall at ${phase}`);
+    assert.ok(battle.fates[one.personId]?.applied && battle.fates[one.personId].fate === fate, `${fate}: did not fall at ${phase}`);
     assert.equal(battle.fates[one.personId].minute, at);
-    assert.ok(view(world, undefined, 'host').battle.memberFates.some(each => each.id === one.personId && each.fate === fate), `${fate}: not shown once it fell`);
+    assert.equal(view(world, undefined, 'host').battle.memberFates?.[one.personId]?.fate, fate, `${fate}: not shown once it fell`);
     if (fate === 'ran') {
       assert.equal(person.travel?.purpose, 'home', 'he ran and is not on the road home');
       assert.equal(withTheArmy(world, one.personId), false);

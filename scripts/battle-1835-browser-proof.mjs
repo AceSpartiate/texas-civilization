@@ -190,7 +190,7 @@ async function prove(fight) {
     // ---------------------------------------------------------------- the fighting, sampled at several moments at two sizes
     const sample = async (page, label) => {
       const one = await page.evaluate(() => ({ phase: window.__snapshot.world.battle?.phase, minute: window.__snapshot.world.minute, view: window.__battleView, camera: window.__camera?.kind, size: `${innerWidth}x${innerHeight}` }));
-      evidence.samples.push({ label, phase: one.phase, minute: one.minute, size: one.size, camera: one.camera, view: one.view && { groups: one.view.groups, regularityBy: one.view.regularityBy, shotsBy: one.view.shotsBy, smokeInView: one.view.smokeInView, fog: one.view.fog, bubbles: one.view.bubbles.map(b => b.text), members: one.view.members, memberClips: one.view.memberClips, memberFates: one.view.memberFates, cannonShots: one.view.cannonShots, frameMs: one.view.frameMs } });
+      evidence.samples.push({ label, phase: one.phase, minute: one.minute, size: one.size, camera: one.camera, view: one.view && { groups: one.view.groups, regularityBy: one.view.regularityBy, shotsBy: one.view.shotsBy, smokeInView: one.view.smokeInView, fog: one.view.fog, bubbles: one.view.bubbles.map(b => b.text), members: one.view.members, memberClips: one.view.memberClips, memberFalls: one.view.memberFalls, gunShots: one.view.gunShots, frameMs: one.view.frameMs } });
       return one;
     };
     const keepWatching = async page => { if (await page.locator('#military-go').isVisible().catch(() => false) && (await page.locator('#military-go').textContent()) === 'Watch') await page.locator('#military-go').click(); };
@@ -222,7 +222,7 @@ async function prove(fight) {
       // The first moment of the charges: before the Mexican dead leave gaps in the ranks (which a nearest-neighbour measure reads as loosening).
       const charge = moments.filter(one => one.phase === 'charges' && one.view.regularityBy?.texian && one.view.regularityBy?.mexican).sort((p, q) => p.view.regularityBy.mexican - q.view.regularityBy.mexican)[0];
       assert.ok(charge && charge.view.regularityBy.texian > 3 * charge.view.regularityBy.mexican, `the Texians under the bank are not looser than the Mexican ranks: ${JSON.stringify(charge?.view.regularityBy)}`);
-      assert.ok(moments.some(one => one.view.cannonShots > 0), 'the Mexican gun never fired');
+      assert.ok(moments.some(one => one.view.gunShots > 0), 'the Mexican gun never fired');
       ok(`fog over the field while ringed (${foggy.view.fog}); in the charges the Texians loose under the bank (${charge.view.regularityBy.texian.toFixed(3)}) and the Mexican infantry in ranks (${charge.view.regularityBy.mexican.toFixed(3)}); the gun fired`);
     } else {
       const bed = moments.find(one => one.phase === 'bowie' && one.view.regularityBy?.mexican);
@@ -247,9 +247,9 @@ async function prove(fight) {
     assert.ok(personIn.clips.some(clip => ['volunteer-fire-reload', 'volunteer-load', 'volunteer-e', 'volunteer-w'].includes(clip)), `the family's person never took the force's poses: ${JSON.stringify(personIn.clips)}`);
     const fatePage = fight === 'concepcion' ? fighter : students['hh-2'];
     const expected = fight === 'concepcion' ? 'killed' : 'wounded';
-    const fell = await fatePage.waitForFunction(([id, fate]) => window.__battleView?.memberFates?.some(one => one.id === id && one.fate === fate && one.drawn), [fated, expected], { timeout: 120000 }).then(() => true, () => false);
+    const fell = await fatePage.waitForFunction(([id, fate]) => window.__battleView?.memberFalls?.some(one => one.id === id && one.fate === fate) && window.__battleView.memberPoses?.some(one => one.id === id && one.drawn), [fated, expected], { timeout: 120000 }).then(() => true, () => false);
     assert.ok(fell, `the family's person was not drawn ${expected} at the staged moment`);
-    const fateSeen = await fatePage.evaluate(id => ({ fates: window.__battleView.memberFates, clips: window.__battleView.memberClips, phase: window.__snapshot.world.battle.phase, minute: window.__snapshot.world.minute, health: window.__snapshot.world.entities.find(one => one.id === id)?.health?.condition }), fated);
+    const fateSeen = await fatePage.evaluate(id => ({ fates: window.__battleView.memberFalls, clips: window.__battleView.memberClips, phase: window.__snapshot.world.battle.phase, minute: window.__snapshot.world.minute, health: window.__snapshot.world.entities.find(one => one.id === id)?.health?.condition }), fated);
     assert.ok(fateSeen.clips.includes(expected === 'killed' ? 'volunteer-reclining' : 'volunteer-injured') || fateSeen.clips.includes('volunteer-injured'), `the fate was not drawn in its pose: ${JSON.stringify(fateSeen)}`);
     await shot(fatePage, 'fate');
     evidence.fate = fateSeen;

@@ -126,7 +126,7 @@ function concepcionGroup(world, personId) {
 function concepcionMoment(world, state, personId, fate) {
   const charges = phaseOf(state, 'charges'), retreat = phaseOf(state, 'retreat');
   if (fate === 'unhurt') return retreat.from;
-  const shots = charges.cannon || [];
+  const shots = charges.guns?.brass || [];
   return charges.from + shots[Math.floor(hashOf(`${world.seed}:${personId}:discharge`) * shots.length)];
 }
 
