@@ -86,7 +86,8 @@ export function drawSpeech(ctx, line, x, y, { alpha = 1, bounds = null, scale = 
   ctx.fillStyle = '#5d5341';
   gloss.forEach((text, index) => ctx.fillText(text, left + PAD, top + PAD + headH + words.length * LINE * scale + index * GLOSS_LINE * scale));
   ctx.restore();
-  return { x: left, y: top, w, h };
+  // What was drawn, for the proofs: the speaker's name heading the bubble, and the stage direction ahead of the words.
+  return { x: left, y: top, w, h, ...(head && { named: true }), ...(manner && { manner: line.manner }) };
 }
 
 /** How opaque a line is `ageMs` after it was first shown, for a line meant to be read for `holdMs`. */

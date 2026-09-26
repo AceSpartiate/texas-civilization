@@ -299,6 +299,12 @@ test('a fate is never sent before its minute, and nothing of a later phase is se
     const early = fieldAt(fate.battle, fate.phase, Math.max(0, fate.at - 1));
     const shown = personIn(early.view, one.id);
     if (fate.at > 0) assert.ok(!shown?.fell && !shown?.hurt, `${one.id}'s fate is sent a minute early`);
+    // Nor in any phase of the fight before it, whether or not they are drawn there.
+    const phases = ENGAGEMENTS[fate.battle].phases;
+    for (const phase of phases.slice(0, phases.findIndex(p => p.id === fate.phase))) {
+      const then = personIn(fieldAt(fate.battle, phase.id, Math.floor(phase.minutes / 2)).view, one.id);
+      assert.ok(!then?.fell && !then?.hurt, `${one.id} is sent fallen in ${phase.id}, before their fate`);
+    }
     // Nobody of a later phase is in this one's projection.
     const def = ENGAGEMENTS[fate.battle], index = def.phases.findIndex(p => p.id === fate.phase);
     const drawnNow = new Set((def.phases[index].people || []).map(entry => entry.id));

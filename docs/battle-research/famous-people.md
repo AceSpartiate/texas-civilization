@@ -4,7 +4,12 @@
 should be labelled, saying and doing the things that they likely would have, dying the way they should (Travis, Bowie,
 Crocett come to mind as an example)."*
 
-**Status: research and a plan. Nothing here is built.** Written 2026-09-26 on the worktree branch of `main` at `d9daea3`,
+**Built 2026-09-26 (not released): `docs/BATTLES.md` §2c and §13, `sim/people.mjs`.** The owner's decisions replaced the card
+(§3.5, P2) with names only, staged Crockett as de la Peña tells it (P1) and had the legends spoken as tradition (P8); the claim
+rows below were registered in `HISTORY.md` with the Castrillón row as `HIST-TEX-561` (the Yellow Rose took `-560`) and the
+Twin Sisters as `-558`/`-570`. What follows is the research as it was written.
+
+**Status when written: research and a plan. Nothing here was built.** Written 2026-09-26 on the worktree branch of `main` at `d9daea3`,
 reading `main` and the three finished but unmerged battle branches (the Alamo `worktree-agent-a202a97daf53da315`,
 Concepción and the Grass Fight `worktree-agent-adfe769d1fe9ef0ce`, Coleto and Goliad `worktree-agent-ab3929988a2ad1e82`).
 Line numbers marked *(branch)* are on that branch; the rest are on `main`. Read with `docs/BATTLES.md` §2 (the talk rules),

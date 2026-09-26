@@ -1,0 +1,143 @@
+{
+  "record": "famous-people-injections",
+  "date": "2026-09-26",
+  "gates": {
+    "unit": "node --test tests/famous-people.test.mjs, the named test and no other",
+    "browser": "scripts/famous-people-browser-proof.mjs"
+  },
+  "unit": [
+    {
+      "name": "Travis on the map at Béxar into the siege, where the Alamo draws him too",
+      "file": "sim/people.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "the roster's itineraries fit the engagements' clocks: nobody is on the campaign map while their own battle draws them",
+      "caught": true,
+      "failed": [
+        "the roster's itineraries fit the engagements' clocks: nobody is on the campaign map while their own battle draws them"
+      ]
+    },
+    {
+      "name": "Travis falls somewhere other than the north battery",
+      "file": "sim/battles/alamo.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "Travis falls at the north battery at his moment, and not a minute before; he lies there until the dead are carried out",
+      "caught": true,
+      "failed": [
+        "Travis falls at the north battery at his moment, and not a minute before; he lies there until the dead are carried out"
+      ]
+    },
+    {
+      "name": "Bowie drawn falling like a man in a fight, not lying still on his cot",
+      "file": "sim/people.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "Bowie lies ill on his cot in his room on the south side, and lies still there when that barrack is carried; nothing of how is drawn",
+      "caught": true,
+      "failed": [
+        "Bowie lies ill on his cot in his room on the south side, and lies still there when that barrack is carried; nothing of how is drawn"
+      ]
+    },
+    {
+      "name": "Crockett's death shown as the record, not as one account",
+      "file": "sim/battles/alamo.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "Crockett fights through the assault and, as de la Peña tells it, is taken and killed before Santa Anna after it - labelled one account, the other accounts on screen",
+      "caught": true,
+      "failed": [
+        "Crockett fights through the assault and, as de la Peña tells it, is taken and killed before Santa Anna after it - labelled one account, the other accounts on screen"
+      ]
+    },
+    {
+      "name": "Castrillón shot standing on his crate, not walking away",
+      "file": "sim/battles/san-jacinto.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "the church guns and their gunners fall together; Castrillón falls walking away at San Jacinto; Grant and Fannin are told, never drawn",
+      "caught": true,
+      "failed": [
+        "the church guns and their gunners fall together; Castrillón falls walking away at San Jacinto; Grant and Fannin are told, never drawn"
+      ]
+    },
+    {
+      "name": "a named line allowed from somebody not drawn in its phase",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "every named line comes out of its speaker's own figure, drawn there at that minute, and none is reconstructed",
+      "caught": true,
+      "failed": [
+        "every named line comes out of its speaker's own figure, drawn there at that minute, and none is reconstructed"
+      ]
+    },
+    {
+      "name": "the account says every man who fought was killed",
+      "file": "sim/alamo.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "Joe lives in every text: he fights beside Travis, takes cover and fires, comes out, is hurt and saved, is brought before Santa Anna and goes to Gonzales",
+      "caught": true,
+      "failed": [
+        "Joe lives in every text: he fights beside Travis, takes cover and fires, comes out, is hurt and saved, is brought before Santa Anna and goes to Gonzales"
+      ]
+    },
+    {
+      "name": "Emily West's words without their stage direction",
+      "file": "sim/battles/san-jacinto.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "Emily West's picnic is a story told later: tradition, with a stage direction, never the record, never more than talk and a meal",
+      "caught": true,
+      "failed": [
+        "Emily West's picnic is a story told later: tradition, with a stage direction, never the record, never more than talk and a meal"
+      ]
+    },
+    {
+      "name": "the line in the sand spoken as the record",
+      "file": "sim/battles/alamo.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "the legends are spoken on the field as tradition, glossed as told later: the line in the sand, \"stop that firing\", the Napoleon of the West",
+      "caught": true,
+      "failed": [
+        "the legends are spoken on the field as tradition, glossed as told later: the line in the sand, \"stop that firing\", the Napoleon of the West"
+      ]
+    },
+    {
+      "name": "the Twin Sisters unnamed on April 20",
+      "file": "sim/battles/san-jacinto.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "the Twin Sisters are named and fire where the record puts them: before the camp on April 20 under Neill, who is hit, and within two hundred yards on the 21st under Hockley",
+      "caught": true,
+      "failed": [
+        "the Twin Sisters are named and fire where the record puts them: before the camp on April 20 under Neill, who is hit, and within two hundred yards on the 21st under Hockley"
+      ]
+    },
+    {
+      "name": "Houston hurt in the volley, before the charge",
+      "file": "sim/people.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "Houston rides with the line, is wounded in the charge at his minute, and lies wounded the next day; the Napoleon of the West comes out of Santa Anna",
+      "caught": true,
+      "failed": [
+        "Houston rides with the line, is wounded in the charge at his minute, and lies wounded the next day; the Napoleon of the West comes out of Santa Anna"
+      ]
+    },
+    {
+      "name": "a family sees a famous person a hundred times further off than its people could",
+      "file": "sim/famous.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "a family sees a famous person on the map only where its own people could, and nobody is drawn on the map and a field at once",
+      "caught": true,
+      "failed": [
+        "a family sees a famous person on the map only where its own people could, and nobody is drawn on the map and a field at once"
+      ]
+    },
+    {
+      "name": "the famous dead sent lying on the field in the phases before they fall",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "a fate is never sent before its minute, and nothing of a later phase is sent",
+      "caught": true,
+      "failed": [
+        "a fate is never sent before its minute, and nothing of a later phase is sent"
+      ]
+    }
+  ],
+  "browser": [],
+  "cleanBrowserChecks": null,
+  "environment": "Same computer: node --test, and local classroom servers with headless Chrome at 1366x768 and 1024x768."
+}

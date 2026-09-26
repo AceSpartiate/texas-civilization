@@ -63,7 +63,7 @@ const UNIT = [
     from: "    if (fell && since >= 0 && fell.fate !== 'escaped') {", to: '    if (false) {',
     test: VIEW, expect: 'a family\'s man at his post fires until the moment he falls, then goes down and lies still, and never fires again' },
   { name: 'Travis and Joe are not drawn', file: 'public/battle-view.js',
-    from: '    const peopleShown = drawPeople(ctx, battle, camera, figurePx, time, now);', to: '    const peopleShown = [];',
+    from: '    const peopleShown = drawPeople(ctx, battle, camera, figurePx, time, now, bounds);', to: '    const peopleShown = [];',
     test: VIEW, expect: 'Travis is drawn at the north battery, says only his documented words there, and falls among the first; Joe hides, then comes out' },
   { name: 'no ladders', file: 'public/battle-view.js',
     from: '      if (side.ladders && side.action !== \'gone\' && shown) drawLadders(ctx, side, placeAt(shown, now), side.facing, camera, figurePx, time);', to: '',

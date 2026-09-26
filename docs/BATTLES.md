@@ -209,6 +209,7 @@ on the campaign map under the normal sight rules).
 | `HIST-TEX-500`–`-509`, `FIC-GONZ-430`–`-434` | The Alamo assault (the siege's own claims stay in the `-430`–`-449` block) |
 | `HIST-TEX-510`–`-529`, `FIC-GONZ-435`–`-444` | San Patricio / Agua Dulce, Coleto, Goliad, San Jacinto |
 | `FIC-GONZ-445`–`-449` | The engine itself: pacing, viewers, falling, talk rules |
+| `HIST-TEX-540`–`-579`, `FIC-GONZ-450`–`-459` | The famous people (§2c, §13); `HIST-TEX-560` and `FIC-GONZ-560` are the Yellow Rose picnic's |
 
 ## 5. Build order
 
@@ -821,3 +822,84 @@ Concepción 7.3, the Grass Fight 7.7, Béxar 14.3, the Alamo 7.9 (and the south'
 Coleto 12.3, Palm Sunday 6.3, San Jacinto 10.3. Main before this merge ran 1,117 ticks (2 h 57 min), so the three merged
 branches add about 40 minutes. A played family's man in Béxar's town or the Alamo's garrison adds its `background` pace on top
 (§7.3: about 7.4 minutes; §9.3: about 5.5).
+
+## 13. The famous people on the engine (2026-09-26; not released)
+
+Built to §2c (the owner's six decisions and the owner's addition on Emily West's words) from the audit
+`docs/battle-research/famous-people.md`, whose other recommendations are taken except the "who was" card (replaced by §2c.2).
+Claims `HIST-TEX-540`–`-570` (`-560` is the picnic's, so the audit's Castrillón row is `-561`) and `FIC-GONZ-450`–`-459`.
+The sources were re-read on 2026-09-26 for this build; where the Handbook's entries disagree the row says so.
+
+### 13.1 Where it is
+
+| Piece | File | What it does |
+| --- | --- | --- |
+| The roster | `sim/people.mjs` | About fifty people and one famous thing (the Twin Sisters): stable id, the name drawn under them, side, art, claim; a fate at an engagement's phase and minute (`killed`, `executed`, `wounded`, `captured`; `told` for a man killed after he was taken; `liesUntil`); a dated campaign-map itinerary (`map`: a site, a straight road between two sites, a point by longitude and latitude, with Houston's camp, with a Mexican column, or with the army of 1835). Data only; imports nothing. |
+| Each engagement's people | `sim/battles/*.mjs` `phase.people` | Where each named person stands in that phase (a ground point, keyframes, or `with` a unit and an `offset`), their pose, the minutes they are seen (`during`) and a dashed `tag`. A named line names its speaker by roster id (`person`); parleys and the legend name theirs the same way; a gun may be a famous thing (`person`). |
+| The engine | `sim/battle-stage.mjs` | `checkEngagement` refuses a person not on the roster, a named line from a speaker not drawn there, a reconstructed line in a named mouth, a fate at a minute its person is not drawn, a `told` man drawn at or after his killing. `peopleNow` projects each person with their fate only from its minute (`fell`, `hurt`) and the dead of earlier phases lying where they fell until `liesUntil`; `peopleOnFields` says who a live battle is drawing. |
+| The map | `sim/famous.mjs` | `famousNow` reads the itineraries off the clock; `famousSeen` sends the Host all of them and a family only those within `FAMOUS_SIGHT_MILES` (3) of one of its own living people, and never one a live battle is drawing. `projectWorld` sends `famous`. |
+| The page | `public/battle-view.js` (`PERSON_ART`, `drawPeople`, `drawPerson`), `public/famous-view.js`, `public/speech.js` | Each drawn from their own sheet where it exists and from the library's volunteer, regular or rider where not (stand-ins, `docs/ART_REQUESTS.md` request 2026-09-26); every name under its figure, stepped out of another's way; a dashed tag; the Twin Sisters' name under the gun; a named bubble headed with the speaker's name; a `manner` in italics ahead of the words. |
+
+### 13.2 What is on each field
+
+- **Gonzales**: Moore at the head of the Texians and Castañeda with his dragoons through the night and the fight; W. P. Smith's
+  words from W. P. Smith; Smither riding in, his words from him (they came out of Moore's parley figure until now); Almeron
+  Dickinson with the men.
+- **Concepción and the Grass Fight**: Bowie and Fannin with their companies; Karnes the sentinel; Bowie at the head of the
+  horsemen, Deaf Smith riding in, Burleson sending them.
+- **Béxar**: Milam from his call (his words now from him) to the yard; Johnson, Burleson, Cos, Neill with his gun, Deaf Smith at
+  the fence, Karnes at his door, Condelle with the Morelos battalion (his words from him), J. W. Smith and Sánchez Navarro at the
+  talks, Burleson riding in to them, Cos at the head of his army marching out.
+- **The south**: Johnson going out the back door; Urrea; Grant at the head of his drive and last seen riding away with the
+  lancers after him - never drawn dying (`told`); the caption says he gave himself up and was killed then.
+- **The Alamo**: Travis, Bowie and Crockett going in; Travis at the 18-pounder for its answer and writing in his quarters; Bowie
+  on his cot in the low barrack's east room from February 24; Crockett at the palisade; Almeron Dickinson, Esparza and (from
+  March 3) Bonham at the church guns; Mrs. Dickinson with Angelina in the sacristy; Martin riding out on the 24th, Seguín on the
+  night of the 25th, Kimbell and Martin at the head of the relief, Bonham riding in with Williamson's letter, J. W. Smith riding
+  out on March 3; **the line in the sand** on the evening of March 3 in a phase of its own (`the-line`, 60 minutes, background
+  20: the story's own date); Santa Anna with the reserve, Cos at the head of his column, Castrillón at the head of Duque's. The
+  assault: Travis and Joe from the quarters to the north battery, Travis speaking Joe's words and falling at the fourth minute of
+  `repulse` and lying there until the pyres; Joe going to the house and firing from it; Crockett firing at the palisade and
+  falling back to the church; soldiers reaching Bowie's door and Bowie lying still on his cot at the eighth minute of `fallback`;
+  the church guns and their gunners falling at the twelfth of `rooms` (Bonham tagged "Place: a story told of him"). `end`: Joe
+  coming out, hurt, Barragán saving him; Mrs. Dickinson brought out; **Crockett among the handful taken, tagged "One account (de
+  la Peña) · disputed", brought before Santa Anna with Castrillón there, and killed with them at the twentieth minute**, the
+  caption giving both accounts and the dispute. `after`: Santa Anna, Mrs. Dickinson and Joe into Béxar to Músquiz's.
+- **Coleto and Goliad**: Fannin at the head of his column and in the square, wounded from the first assault, surrendering;
+  Horton; Urrea; Fannin among the wounded at Goliad until the `inside` phase, never drawn at his death (`told`), the caption
+  naming Spohn.
+- **San Jacinto**: Houston in camp, his "stop that firing" as tradition; Santa Anna riding up, Emily West made to go with his
+  army and working in its camp; **the Twin Sisters** named before the camp on April 20 under Neill, firing with the Mexican
+  twelve-pounder, Neill hit at the thirteenth minute; Sherman, Lamar and Rusk with the horsemen (two of them hurt: Houston's "two
+  men severely wounded"); Cos coming in, Deaf Smith riding out; the picnic with Emily West's words and their stage directions;
+  Houston, Rusk, Burleson, Sherman, Seguín, Lamar, Hockley and McCulloch at the line; the Twin Sisters named at their station
+  under Hockley and McCulloch; Castrillón on his crate, walking away and falling at the fifth minute of the charge; Houston hurt
+  at the third; Almonte surrendering to Burleson at dusk; the Napoleon of the West and Houston's answer as tradition at the
+  capture, Almonte interpreting; Houston wounded and Santa Anna a prisoner after.
+
+### 13.3 On the map
+
+Travis, Bowie and Crockett at Béxar from their arrivals to the siege; Austin with the army of 1835 until he leaves, then
+Burleson (not while the Grass Fight or Béxar draws him); Mrs. Dickinson with Angelina, Ben and Joe from Béxar to Gonzales after
+the fall (Joe eight hours behind: "on the way, the pair met Joe"); Santa Anna with his column; Houston with his army from March
+11 and the Twin Sisters with it from April 11; Emily West at New Washington and then with Santa Anna's column.
+
+### 13.4 Evidence
+
+`tests/famous-people.test.mjs` (14); the battle tests updated where the rules moved (`battle-stage`, `battle-south`,
+`battle-bexar`, `battle-alamo`, `battle-alamo-view`, `battle-coleto`, `battle-san-jacinto`, `asset-http`);
+`npm run test:famous-people` (`docs/evidence/famous-people-browser.json`); `npm run test:famous-people-injections`
+(`docs/evidence/famous-people-injections.json`). Same computer only.
+
+### 13.5 Limits
+
+- ceiling: a famous person between two towns walks the straight line, not the map's road; a leg laid along the map's path
+  (`findPath`) is the way out if a class watches Mrs. Dickinson's walk closely (`sim/famous.mjs`).
+- ceiling: the map shows a famous person only on the legs the roster dates; where the record is silent (Santa Anna in Béxar from
+  March 6 until his column is in the country; Emily West after San Jacinto) they are not drawn.
+- ceiling: a line in a phase not held at a step (the siege's nights, San Jacinto's quiet afternoon) is seen only for the tick it
+  falls in; a class with a family inside is held at the siege's background pace, so the line in the sand is seen there.
+- Kimbell's death is told, not drawn: the record does not say where in the fort he fell.
+- Stand-ins: every famous person without a sheet, and the poses the sheets lack (`docs/ART_REQUESTS.md`, request 2026-09-26).
+- Not built: Seguín's company at Béxar in December; the Esparza family in the sacristy; Ugartechea; Ruiz and the bodies (`HIST-TEX-566`
+  is left free); the noncombatants killed in the storming.

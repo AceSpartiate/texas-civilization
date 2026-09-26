@@ -1104,7 +1104,7 @@ export function createBattleView(art) {
       view.peopleSpots[person.id] = view.peopleSpots[person.name] = { x: p.x, y: p.y - figurePx * (person.pose === 'ride' && !fell ? 1.35 : 1) };
       view.peopleShown.add(person.id);
       labels.push({ person, x: p.x, y: p.y });
-      shown.push({ id: person.id, name: person.name, fell, hurt, pose: fell ? person.still || 'still' : hurt ? 'wounded' : person.moving ? 'walk' : person.pose, drawnAs: how, x: Math.round(p.x), y: Math.round(p.y), ...(person.tag && { tag: person.tag }), onScreen: !bounds || (p.x >= 0 && p.y >= 0 && p.x <= bounds.width && p.y <= bounds.height) });
+      shown.push({ id: person.id, name: person.name, fell, hurt, pose: fell ? person.still || 'still' : hurt ? 'wounded' : person.moving ? 'walk' : person.pose, drawnAs: how, x: Math.round(p.x), y: Math.round(p.y), labelled: false, onScreen: !bounds || (p.x >= 0 && p.y >= 0 && p.x <= bounds.width && p.y <= bounds.height) });
     }
     // Every famous person's name under them (owner, docs/BATTLES.md §2c.2: "names on the map, no cards"), stepped down out of
     // each other's way where several stand together (the church guns at the Alamo), and a dashed tag under a name where the
@@ -1118,14 +1118,15 @@ export function createBattleView(art) {
       let top = y + 3;
       for (let i = 0; i < 6 && boxes.some(b => x - w / 2 < b.x + b.w && b.x < x + w / 2 && top < b.y + b.h && b.y < top + font + 3); i++) top += font + 3;
       boxes.push({ x: x - w / 2, y: top, w, h: font + 3 });
-      ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(252,249,238,.92)'; ctx.strokeText(text, x, top + font); ctx.fillStyle = '#26382e'; ctx.fillText(text, x, top + font);
+      const said = shown.find(one => one.id === person.id);
+      ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(252,249,238,.92)'; ctx.strokeText(text, x, top + font); ctx.fillStyle = '#26382e'; ctx.fillText(text, x, top + font); said.labelled = true;
       if (person.tag) {
         const tagFont = Math.max(10, font - 2);
         ctx.font = `italic ${tagFont}px system-ui`;
         const tw = ctx.measureText(person.tag).width + 10, ty = top + font + 4;
         ctx.fillStyle = 'rgba(252,249,238,.94)'; ctx.fillRect(x - tw / 2, ty, tw, tagFont + 6);
         ctx.setLineDash([4, 3]); ctx.strokeStyle = '#6e6044'; ctx.lineWidth = 1.2; ctx.strokeRect(x - tw / 2, ty, tw, tagFont + 6); ctx.setLineDash([]);
-        ctx.fillStyle = '#3b392f'; ctx.fillText(person.tag, x, ty + tagFont + 2);
+        ctx.fillStyle = '#3b392f'; ctx.fillText(person.tag, x, ty + tagFont + 2); said.tag = person.tag;
         boxes.push({ x: x - tw / 2, y: ty, w: tw, h: tagFont + 6 });
         ctx.font = `${font}px system-ui`;
       }
@@ -1414,7 +1415,7 @@ export function createBattleView(art) {
         y -= 48 * scale;
       }
       const box = drawSpeech(ctx, line, at.x, y, { alpha, bounds, scale });
-      if (box) { boxes.push(box); shown.push({ id: line.id, text: line.text, gloss: line.gloss || null, kind: line.kind, side: line.side, claimId: line.claimId || null, ...(line.person && { person: line.person, name: line.name, at: { x: Math.round(at.x), y: Math.round(at.y) } }), ...(line.manner && { manner: line.manner }) }); }
+      if (box) { boxes.push(box); shown.push({ id: line.id, text: line.text, gloss: line.gloss || null, kind: line.kind, side: line.side, claimId: line.claimId || null, ...(line.person && { person: line.person, name: line.name, at: { x: Math.round(at.x), y: Math.round(at.y) }, named: Boolean(box.named) }), ...(box.manner && { manner: box.manner }) }); }
     };
     for (const { at, line } of view.linesSeen.values()) {
       const hold = Math.max(3800, 70 * line.text.length);

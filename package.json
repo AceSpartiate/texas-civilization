@@ -85,6 +85,8 @@
     "test:battle-grass": "node scripts/battle-1835-browser-proof.mjs grass",
     "test:battle-1835-injections": "node scripts/battle-1835-injections.mjs",
     "test:battle-coleto": "node scripts/battle-coleto-browser-proof.mjs",
-    "test:battle-coleto-injections": "node scripts/battle-coleto-injections.mjs"
+    "test:battle-coleto-injections": "node scripts/battle-coleto-injections.mjs",
+    "test:famous-people": "node scripts/famous-people-browser-proof.mjs",
+    "test:famous-people-injections": "node scripts/famous-people-injections.mjs"
   }
 }
