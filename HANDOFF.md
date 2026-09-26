@@ -1,6 +1,6 @@
 # Claude handoff — Astra foundation
 
-## Keep fighting, speed lead-ups; Agua Dulce at the creek crossing — 2026-09-26 (branch worktree-agent-af5486f1ef3c3dd15, from main 9e7aa74, main merged at 9dfdcc9; not released)
+## Keep fighting, speed lead-ups; Agua Dulce at the creek crossing — 2026-09-26 (branch worktree-agent-af5486f1ef3c3dd15, from main 9e7aa74, main merged at 9dfdcc9; released in v2026.09.26.4)
 
 Two owner decisions of 2026-09-26, recorded in docs/BATTLES.md **§2b.11** and **§2b.12** with the owner's words; the engine's side
 is **§13**.
@@ -1619,6 +1619,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   lesson 33 checks, panels 10 checks at 2 sizes, farm, travel-drawn and relay pass. Four other proofs failed here, and
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
+
+## Released as v2026.09.26.4 — 2026-09-26
+
+**[v2026.09.26.4](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.26.4)**, from `e5b92fc`: quiet lead-up phases (`quiet: true`, `familyThere`, `battleStep`) pass at the class pace unless a played family has somebody there — a class with nobody at the battles 3 h 37 → 3 h 18 min at Study (owner kept the borderline moments held); Agua Dulce at the creek crossing, 15.6 road miles; the parent appearance redesign (e396a13) with its vocabulary moved to `sim/look-vocabulary.mjs` (654f800). Sets of changes: 4.0 MB from .3, 22.2 MB from .2. Verify tree: 1344 tests; every battle proof, looks 9, lesson 33 pass (battle-gonzales failed once on a cold first run, then 12/12 alone — a flake seen before).
 
 ## Released as v2026.09.26.3 — 2026-09-26
 
