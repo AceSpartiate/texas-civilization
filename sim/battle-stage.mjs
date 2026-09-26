@@ -87,6 +87,9 @@ export function checkEngagement(def) {
     // A background pace (Béxar's four days between its held episodes): calendar minutes a tick at most while a played
     // family has somebody in the force, a whole number of twenty-minute ticks, and never alongside a step.
     if (phase.background !== undefined && (phase.step !== undefined || !(phase.background > 0) || phase.background % 20 !== 0)) fail(`phase ${phase.id}'s background pace must be whole twenties of minutes, and not with a step`);
+    // A quiet phase (owner, 2026-09-26: the lead-up and the aftermath, docs/BATTLES.md §2b.11): held at its step only while a
+    // played family has somebody there. Never the fighting, and never a phase that is not held at all.
+    if (phase.quiet !== undefined && (phase.quiet !== true || phase.step === undefined || phase.contact)) fail(`phase ${phase.id} is quiet only with a step, and never while it is fought`);
     for (const side of SIDES) {
       const at = phase[side];
       if (!at || !STYLES.includes(at.style) || !FIRE.includes(at.fire || 'none')) fail(`phase ${phase.id} side ${side} needs a style and a fire`);
@@ -171,6 +174,11 @@ for (const def of Object.values(ENGAGEMENTS)) checkEngagement(def);
 export const BATTLE_STEPS = Object.freeze([...new Set(Object.values(ENGAGEMENTS).flatMap(def => def.phases.map(phase => phase.step).filter(Boolean)))].sort((a, b) => a - b));
 /** And every background pace (a fight going on between its held episodes), which is an ordinary tick too. */
 export const BATTLE_PACES = Object.freeze([...new Set(Object.values(ENGAGEMENTS).flatMap(def => def.phases.map(phase => phase.background).filter(Boolean)))].sort((a, b) => a - b));
+/**
+ * The ticks a quiet phase with nobody there is taken in, largest first: every step and pace a battle is held at, and the
+ * clock's own half day, all of which the page draws as an ordinary tick (docs/BATTLES.md §2b.11).
+ */
+const QUIET_STEPS = Object.freeze([...new Set([...BATTLE_STEPS, ...BATTLE_PACES, 720])].sort((a, b) => b - a));
 
 /** Each phase with the minute of this class's clock it runs from and to. */
 export function schedule(def, start) {
@@ -224,6 +232,32 @@ export function watchedByAFamily(world, battle) {
     return Boolean(person && household?.played && !household.absent && !['dead', 'captured'].includes(person.health?.condition));
   });
 }
+/**
+ * How near a unit of the fight a family's person must stand to be there before the force has recorded them: half a mile, which
+ * takes in the town a fight is fought in (Béxar, San Patricio, Goliad) and not the town seven miles down the river, nor the
+ * refugees at Lynch's ferry three quarters of a mile from San Jacinto's camps.
+ */
+export const THERE_MILES = 0.5;
+/**
+ * Whether a played, present family has somebody at this fight now: one of its people in the force (`watchedByAFamily`), or
+ * standing within `THERE_MILES` of a side, a part or a group of the phase - the men at the mill who said yes to Milam and go in
+ * at three, a camp being asked to ride out after the pack train, a man come up to the rendezvous - so the tick that enrols
+ * them is not the one that runs the lead-up past them. What a quiet phase waits on (owner, 2026-09-26, docs/BATTLES.md §2b.11).
+ */
+export function familyThere(world, state) {
+  if (watchedByAFamily(world, state.battle)) return true;
+  const people = Object.values(world.entities || {}).filter(person => {
+    const household = world.households?.[person.householdId];
+    return person.kind === 'person' && Number.isFinite(person.location?.x) && household?.played && !household.absent && !['dead', 'captured'].includes(person.health?.condition);
+  });
+  if (!people.length || !state.phase) return false;
+  const ground = state.def.ground(world);
+  if (!ground) return false;
+  const phase = state.phase, into = Math.min(state.into ?? 0, phase.minutes);
+  const units = [...SIDES, ...SIDES.flatMap(side => (phase[side].parts || []).map(part => part.id)), ...(phase.groups || []).map(group => group.id)];
+  const places = units.map(id => { try { return unitPlace(ground, phase, id, into); } catch { return null; } }).filter(Boolean);
+  return people.some(person => places.some(place => Math.hypot(place.x - person.location.x, place.y - person.location.y) <= THERE_MILES));
+}
 
 /** Where an engagement stands at this minute of the class's clock: its phase, how far into it, and whether it is live. */
 export function battleState(world, id, minute = world.minute) {
@@ -272,6 +306,16 @@ export function battleStep(world) {
   for (const state of clockStates(world)) {
     const step = state.phase.step;
     const room = state.phase.to - world.minute;
+    // A quiet phase - the lead-up or the aftermath - with no played family there goes at the class's own pace (owner,
+    // 2026-09-26: "Keep fighting, speed lead-ups"; docs/BATTLES.md §2b.11), and a tick still lands on its end, so every phase
+    // begins on a tick of its own and the fighting after it is met on its first minute.
+    if (step && state.phase.quiet && !familyThere(world, state)) {
+      // In ticks the page draws as ordinary ones (public/motion.js `CALENDAR_STEPS`), so no traveller anywhere on the map is
+      // snapped by an odd-sized tick: two hours and twenty minutes go as 120 and 20, not as one tick of 140.
+      const minutes = QUIET_STEPS.find(one => one <= room) ?? 1;
+      if (best === null || minutes < best) best = minutes;
+      continue;
+    }
     if (!step) {
       // Between held episodes (Béxar): the fight goes on at its background pace while a played family has somebody in it,
       // and in any case a tick lands on the start of the next watched phase rather than running past it.

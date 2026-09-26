@@ -23,11 +23,14 @@ const DEF = SAN_JACINTO_BATTLE;
 const at = (world, phase) => momentOf(world, DEF.startKey) + phaseOffset(DEF, phase);
 const copy = value => JSON.parse(JSON.stringify(value));
 /** A family's man with Houston at Harrisburg before the army marches for Lynchburg, and the class stepped to `phase`. */
-function withTheArmy(count = 3, phase = 'arrive') {
+// `played`: the men's families are played and present, so the fight's lead-up and aftermath are held for them as a watching
+// student's are (docs/BATTLES.md §2b.11); a family nobody plays has them pass at the class's own pace.
+function withTheArmy(count = 3, phase = 'arrive', { played = false } = {}) {
   const world = spring();
   untilMoment(world, 'houston-harrisburg');
   until(world, () => houstonCamp(world) === 'harrisburg');
   const men = grownMen(world).slice(0, count).map(man => serve(world, man, 'harrisburg'));
+  if (played) for (const man of men) { world.households[man.householdId].played = true; delete world.households[man.householdId].absent; }
   until(world, () => world.minute >= at(world, phase));
   return { world, men };
 }
@@ -53,7 +56,7 @@ test('San Jacinto stands on the director\'s clock: the armies meet April 20, the
 });
 
 test('the fighting plays three to six real minutes at the Study pace, the clock lands on every watched phase and never runs faster for it', () => {
-  const { world } = withTheArmy(1, 'camped');
+  const { world } = withTheArmy(1, 'camped', { played: true });
   const seen = {};
   let last = world.minute;
   const quiet = calendarMinutes(world);
@@ -338,7 +341,7 @@ test('a man killed goes down at his own minute in the charge: his family\'s page
 });
 
 test('Santa Anna is brought before the wounded Houston on the 22nd: the prisoners\' documented cry, both named, neither given words; his column is not drawn beside the battle', () => {
-  const { world } = withTheArmy(1, 'arrive');
+  const { world } = withTheArmy(1, 'arrive', { played: true });
   stepWorld(world);
   assert.ok(!armiesNow(world).some(army => army.id === 'santa-anna'), 'Santa Anna’s column was drawn beside the battle');
   assert.ok(!armiesNow(world).some(army => army.id === 'houston'), 'Houston’s army was drawn twice');

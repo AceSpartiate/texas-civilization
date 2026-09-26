@@ -92,7 +92,7 @@ export const AGUA_DULCE = Object.freeze({
     {
       // 08:30 - 09:30. North from the end of the walked road with the horses, gathered and set moving. Watched at twenty
       // minutes a tick. (05:30 - 09:30 until 2026-09-26, when the ground was twelve miles from San Patricio and not twenty-six.)
-      id: 'drive', minutes: 60, title: 'Driving the horses north', step: 20, claimId: 'HIST-TEX-511',
+      id: 'drive', minutes: 60, title: 'Driving the horses north', step: 20, quiet: true, claimId: 'HIST-TEX-511',
       caption: 'South of the Nueces, Dr. James Grant’s party - about two dozen men - is driving several hundred horses north toward San Patricio. They do not know that Urrea has taken San Patricio three days before.',
       texian: party({ keys: [[0, 'camp'], [60, 'herd-start']] }, { keys: [[0, 'camp'], [60, 'herd-start']] }, { keys: [[0, 'camp'], [60, 'herd-start']] }),
       mexican: dragoons({ at: 'grove-east' }, { at: 'grove-west' }),
@@ -104,7 +104,7 @@ export const AGUA_DULCE = Object.freeze({
     },
     {
       // 09:30 - 10:30. The last hour, the herd and the strings of riders coming up to the creek; the dragoons in the trees.
-      id: 'herd', minutes: 60, title: 'Coming up to Agua Dulce Creek', step: 5, claimId: 'HIST-TEX-511',
+      id: 'herd', minutes: 60, title: 'Coming up to Agua Dulce Creek', step: 5, quiet: true, claimId: 'HIST-TEX-511',
       caption: 'The party comes up the road toward Agua Dulce Creek, strung out behind the herd. In two groves of trees ahead, Urrea’s dragoons are waiting, mounted and hidden.',
       texian: party({ keys: [[0, 'herd-start'], [60, 'ground']] }, { keys: [[0, 'herd-start'], [60, 'ground']] }, { keys: [[0, 'herd-start'], [60, 'ground']] }),
       mexican: dragoons({ at: 'grove-east' }, { at: 'grove-west' }),
@@ -144,7 +144,7 @@ export const AGUA_DULCE = Object.freeze({
     },
     {
       // 10:50 - 11:50. Six prisoners held; the dead where they fell; the dragoons gathering the horses. Not held.
-      id: 'after', minutes: 60, title: 'Six prisoners', step: 20, claimId: 'HIST-TEX-511',
+      id: 'after', minutes: 60, title: 'Six prisoners', step: 20, quiet: true, claimId: 'HIST-TEX-511',
       caption: 'It is over. Grant is dead, cut down after he was surrounded. Reuben Brown was lassoed from his horse and taken. Six men are prisoners and will be sent to Matamoros; six got away and are riding for Fannin at Goliad. The dragoons gather up the horses.',
       texian: party({ at: 'away', action: 'gone' }, { at: 'cut', action: 'stand' }, { at: 'taken', pose: 'surrender', action: 'stand' }, { style: 'loose', action: 'stand' }),
       mexican: dragoons({ keys: [[0, 'chase-east'], [40, 'herd-scatter']] }, { at: 'taken' }, { action: 'stand' }),

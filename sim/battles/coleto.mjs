@@ -145,7 +145,7 @@ export const COLETO = Object.freeze({
   phases: [
     {
       // 09:00-10:00. Out of the presidio in the fog, the column with its carts and guns; Horton's horsemen ahead.
-      id: 'march-out', minutes: 60, step: 20, light: 'fog', title: 'Out of Goliad, in the fog', claimId: 'HIST-TEX-515',
+      id: 'march-out', minutes: 60, step: 20, quiet: true, light: 'fog', title: 'Out of Goliad, in the fog', claimId: 'HIST-TEX-515',
       caption: 'About nine in the morning of March 19, Colonel Fannin at last marches his men out of Goliad for Victoria, in a heavy fog, with nine brass cannon, carts and slow, hungry oxen. Crossing the San Antonio River, the largest gun falls into the water and is left.',
       texian: { style: 'column', from: 'gate', to: 'out', action: 'advance', fire: 'none', face: 'square', drawn: 55 },
       mexican: { style: 'column', at: 'urrea', action: 'gone', fire: 'none' },
@@ -159,7 +159,7 @@ export const COLETO = Object.freeze({
     },
     {
       // 10:00-13:00. On the Victoria road; a cart breaks down; the halt past Manahuilla Creek to graze the oxen.
-      id: 'road', minutes: 180, step: 60, title: 'The halt on the prairie', claimId: 'HIST-TEX-515',
+      id: 'road', minutes: 180, step: 60, quiet: true, title: 'The halt on the prairie', claimId: 'HIST-TEX-515',
       caption: 'The fog lifts. A cart breaks down and the overloaded oxen go slowly. About a mile past Manahuilla Creek, Fannin halts for an hour to rest the men and let the hungry oxen graze. Horton’s horsemen ride on ahead toward the Coleto timber.',
       texian: { style: 'column', keys: [[0, 'out'], [90, 'halt'], [150, 'halt'], [180, 'short']], action: 'advance', fire: 'none', face: 'square', drawn: 55 },
       mexican: { style: 'column', at: 'urrea', action: 'gone', fire: 'none' },
@@ -228,7 +228,7 @@ export const COLETO = Object.freeze({
     },
     {
       // 14:20-15:40. They fall back out of range and form again.
-      id: 'lull-1', minutes: 80, step: 20, title: 'Between the attacks', claimId: 'HIST-TEX-515',
+      id: 'lull-1', minutes: 80, step: 20, quiet: true, title: 'Between the attacks', claimId: 'HIST-TEX-515',
       caption: 'The Mexicans fall back out of range and form again. Inside the square the wounded lie among the carts. There is little water.',
       texian: { ...SQUARE, fire: 'picket' },
       ...ringed({ fire: 'picket' }), guns: guns(),
@@ -261,7 +261,7 @@ export const COLETO = Object.freeze({
       ],
     },
     {
-      id: 'lull-2', minutes: 50, step: 10, title: 'Between the attacks', claimId: 'HIST-TEX-515',
+      id: 'lull-2', minutes: 50, step: 10, quiet: true, title: 'Between the attacks', claimId: 'HIST-TEX-515',
       caption: 'Another pause. The Mexicans re-form out of range. The Texians load, and pass round what water is left.',
       texian: { ...SQUARE, fire: 'picket' },
       ...ringed({ fire: 'picket' }), guns: guns(),
@@ -289,7 +289,7 @@ export const COLETO = Object.freeze({
     },
     {
       // 18:15-19:15. Urrea stops the attacks; his marksmen go into the grass round the square.
-      id: 'dusk', minutes: 60, step: 20, light: 'dusk', title: 'Dark on the prairie', claimId: 'HIST-TEX-515',
+      id: 'dusk', minutes: 60, step: 20, quiet: true, light: 'dusk', title: 'Dark on the prairie', claimId: 'HIST-TEX-515',
       caption: 'At sunset Urrea stops the attacks for want of ammunition. His marksmen creep into the tall grass around the square and fire at anything that moves. The Texians have little water and dare light no fires.',
       texian: { ...SQUARE, fire: 'picket' },
       ...ringed({ fire: 'scattered', grass: true }), guns: guns(),
@@ -300,7 +300,7 @@ export const COLETO = Object.freeze({
     },
     {
       // 19:15-03:15. The night: sniping from the grass, the Mexican reinforcements coming up. Held at four hours a tick.
-      id: 'night', minutes: 480, step: 240, light: 'night', title: 'The night', claimId: 'HIST-TEX-515',
+      id: 'night', minutes: 480, step: 240, quiet: true, light: 'night', title: 'The night', claimId: 'HIST-TEX-515',
       caption: 'All night the marksmen fire from the grass. Inside the square the wounded cannot be treated. More Mexican soldiers and cannon come up in the dark.',
       texian: { ...SQUARE, fire: 'picket' },
       ...ringed({ fire: 'scattered', grass: true, count: 700 }), guns: guns(),
@@ -308,7 +308,7 @@ export const COLETO = Object.freeze({
     },
     {
       // 03:15-04:15. The Texians dig and barricade with carts and dead animals.
-      id: 'small-hours', minutes: 60, step: 20, light: 'night', title: 'Digging in', claimId: 'HIST-TEX-515',
+      id: 'small-hours', minutes: 60, step: 20, quiet: true, light: 'night', title: 'Digging in', claimId: 'HIST-TEX-515',
       caption: 'In the small hours the Texians dig trenches and pile up their carts and the bodies of dead oxen and horses as a barricade.',
       texian: { ...SQUARE, fire: 'picket' },
       ...ringed({ fire: 'scattered', grass: true, count: 1000 }), guns: guns(),
@@ -320,7 +320,7 @@ export const COLETO = Object.freeze({
     },
     {
       // 04:15-06:15. First light: the Mexicans are more than 1,400, formed round the square, with their guns in front.
-      id: 'before-dawn', minutes: 120, step: 60, light: 'dawn', title: 'First light', claimId: 'HIST-TEX-515',
+      id: 'before-dawn', minutes: 120, step: 60, quiet: true, light: 'dawn', title: 'First light', claimId: 'HIST-TEX-515',
       caption: 'At first light the Texians see what came up in the night: more than a thousand Mexican soldiers formed around them, and cannon in front, by the timber.',
       texian: { ...SQUARE, fire: 'none' },
       ...ringed({ fire: 'none', count: 1400, drawn: 20 }), guns: guns({}, { battery: true }),
@@ -342,7 +342,7 @@ export const COLETO = Object.freeze({
     },
     {
       // 07:00-09:00. A white flag; the terms (DISPUTED: `HIST-TEX-515`); the arms laid down.
-      id: 'surrender', minutes: 120, step: 20, title: 'The surrender', claimId: 'HIST-TEX-515',
+      id: 'surrender', minutes: 120, step: 20, quiet: true, title: 'The surrender', claimId: 'HIST-TEX-515',
       caption: 'A white flag goes up. Fannin’s officers write terms asking that the wounded be cared for and the men held as prisoners of war. Urrea cannot promise that Santa Anna will keep them. The Texians lay down their arms.',
       texian: { ...SQUARE, pose: 'surrender', fire: 'none' },
       ...ringed({ fire: 'none', count: 1400, drawn: 20 }), guns: guns({}, { battery: true }),
@@ -357,7 +357,7 @@ export const COLETO = Object.freeze({
       // 09:00-14:00. The unwounded marched back to Goliad under guard (`HIST-TEX-521`). It ends at two, on the spring's four-hour
       // clock (the period's ticks fall at 2, 6, 10...), so the ticks after the fight fall where they always did: a fight that
       // ended off it moved every later tick of the class, and the army's dated marches in April with them (tests/camp.test.mjs).
-      id: 'march-back', minutes: 300, step: 60, title: 'Back to Goliad, prisoners', claimId: 'HIST-TEX-521',
+      id: 'march-back', minutes: 300, step: 60, quiet: true, title: 'Back to Goliad, prisoners', claimId: 'HIST-TEX-521',
       caption: 'The prisoners are marched back to Goliad under guard and shut in the presidio. The wounded are brought in after them.',
       texian: { style: 'column', from: 'square', to: 'gate', action: 'advance', fire: 'none', face: 'goliad', drawn: 52 },
       mexican: { style: 'column', from: 'back-left', to: 'gate-left', action: 'follow', fire: 'none', count: 1400, drawn: 12, face: 'goliad' },

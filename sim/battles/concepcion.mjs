@@ -139,7 +139,7 @@ export const CONCEPCION = Object.freeze({
   phases: [
     {
       // Oct 27, 14:00 - 16:00. Up the river from Espada, past San Juan and San José (`HIST-TEX-019`; the hour `FIC-GONZ-420`).
-      id: 'march', minutes: 120, title: 'Up the river from Espada', step: 20, claimId: 'HIST-TEX-019',
+      id: 'march', minutes: 120, title: 'Up the river from Espada', step: 20, quiet: true, claimId: 'HIST-TEX-019',
       caption: 'Bowie and Fannin take about ninety men up the San Antonio River from Mission Espada, past San Juan and San José, to find a camp nearer Béxar. The rest of the army stays at Espada.',
       texian: { style: 'column', from: 'espada', to: 'fannin', action: 'advance', fire: 'none', face: 'bend' },
       mexican: { style: 'ranks', at: 'line', action: 'gone', fire: 'none' },
@@ -165,7 +165,7 @@ export const CONCEPCION = Object.freeze({
     },
     {
       // 05:40 - 06:50. Breakfast, horses saddled for a scout, and the fog comes down thick (Creed Taylor).
-      id: 'breakfast', minutes: 70, title: 'Fog at daybreak', step: 10, claimId: 'HIST-TEX-480', fog: [0.3, 0.9],
+      id: 'breakfast', minutes: 70, title: 'Fog at daybreak', step: 10, quiet: true, claimId: 'HIST-TEX-480', fog: [0.3, 0.9],
       caption: 'At daybreak the men eat jerked beef and cornbread and saddle horses to scout toward the town. A thick fog comes down on the river.',
       texian: { style: 'bank', at: 'fannin', action: 'hold', fire: 'none' },
       mexican: { style: 'ranks', at: 'line', action: 'gone', fire: 'none' },
@@ -277,7 +277,7 @@ export const CONCEPCION = Object.freeze({
     {
       // 08:50 - 09:30. Quiet. Men give water to the Mexican wounded left on the field (Creed Taylor; Smithwick). The main army
       // is on the road up from Espada.
-      id: 'aftermath', minutes: 40, title: 'After the fight', step: 20, claimId: 'HIST-TEX-481',
+      id: 'aftermath', minutes: 40, title: 'After the fight', step: 20, quiet: true, claimId: 'HIST-TEX-481',
       caption: 'It is quiet. Some of the Texians carry water to the Mexican wounded left on the field. The rest of the army is hurrying up the river road from Espada.',
       texian: { style: 'loose', at: 'upTheBank', action: 'hold', fire: 'none', spread: { width: 0.24, depth: 0.12 } },
       mexican: { style: 'rout', at: 'away', action: 'gone', fire: 'none' },
@@ -291,7 +291,7 @@ export const CONCEPCION = Object.freeze({
     {
       // 09:30 - 10:00. The main army comes up, loud at having missed it; a padre comes out from the town with carts and, after
       // speaking with Austin, takes the Mexican dead and wounded (`HIST-TEX-481`).
-      id: 'main-army', minutes: 30, title: 'The army comes up', step: 10, claimId: 'HIST-TEX-481',
+      id: 'main-army', minutes: 30, title: 'The army comes up', step: 10, quiet: true, claimId: 'HIST-TEX-481',
       caption: 'The main army arrives from Espada, too late for the fight. A priest comes out from Béxar with carts and, after speaking with Austin, takes the Mexican dead and wounded back into the town.',
       texian: { style: 'loose', at: 'upTheBank', action: 'hold', fire: 'none', spread: { width: 0.24, depth: 0.12 } },
       mexican: { style: 'rout', at: 'away', action: 'gone', fire: 'none' },

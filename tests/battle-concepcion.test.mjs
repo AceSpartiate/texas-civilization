@@ -11,7 +11,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { applyAction, stepWorld, validateWorld } from '../sim/world.mjs';
 import { TIMELINE, dateOf } from '../sim/directors.mjs';
-import { ENGAGEMENTS, battleState, checkEngagement, projectBattle, schedule } from '../sim/battle-stage.mjs';
+import { ENGAGEMENTS, battleState, checkEngagement, familyThere, projectBattle, schedule } from '../sim/battle-stage.mjs';
+import { CALENDAR_STEPS } from '../public/motion.js';
 import { CONCEPCION, CONCEPCION_PLACES } from '../sim/battles/concepcion.mjs';
 import { MISSIONS, concepcionFate, withTheArmy } from '../sim/army.mjs';
 import { resolveTimeJump } from '../sim/time.mjs';
@@ -223,7 +224,11 @@ test('the fighting plays three to six real minutes at the Study pace, held to ea
     const state = battleState(world, 'concepcion');
     if (world.minute === state.phase.from) visited.add(state.phase.id);
     const step = calendarMinutes(world);
-    if (state.phase.step) assert.ok(step <= state.phase.step, `${state.phase.id} ran at ${step} minutes a tick`);
+    // A quiet phase (the march, the fog at daybreak, after the fight) is held only while a played family has somebody there
+    // (docs/BATTLES.md §2b.11); otherwise it goes at the class's pace, in ticks the page draws as walks.
+    const quiet = state.phase.quiet && !familyThere(world, state);
+    if (state.phase.step && !quiet) assert.ok(step <= state.phase.step, `${state.phase.id} ran at ${step} minutes a tick`);
+    if (quiet) assert.ok(CALENDAR_STEPS.includes(step) && world.minute + step <= state.phase.to, `${state.phase.id} ran an odd ${step}-minute tick`);
     if (state.fighting) fighting++;
     all++;
     stepWorld(world);
