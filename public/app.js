@@ -3617,6 +3617,12 @@ function populateWork(world, chosen, running) {
     host.append(stop);
     return;
   }
+  // A prisoner of the Mexican army (Fannin's men after Coleto, sim/fannin.mjs): where, and that nothing can be asked of him.
+  if (chosen.service?.status === 'prisoner') {
+    const where = world.map?.sites?.[chosen.service.siteId]?.name || chosen.service.siteId;
+    host.append(element('p', `${chosen.name} is a prisoner of the Mexican army at ${where}, with the rest of Fannin's men. The family can do nothing for them.`, 'ask-text'));
+    return;
+  }
   // Somebody with the army, the garrison or the expedition (sim/winter.mjs): where they are, what it promised, and sending for
   // them, asked twice because a regular who leaves has deserted and an auxiliary loses the land.
   if (chosen.service?.status === 'serving') {
@@ -3656,6 +3662,8 @@ function populateWork(world, chosen, running) {
       }
     }
     if (chosen.service.besieged || chosen.service.riding) return;
+    // In a fight (sim/battle-stage.mjs `heldByBattle`): nobody can be sent for, and the card says so instead of offering it.
+    if (chosen.held) { host.append(element('p', chosen.held, 'work-note')); return; }
     const recall = element('button', 'Send for them to come home', 'work-stop');
     recall.dataset.action = 'winter-recall';
     recall.dataset.entityId = chosen.id;
