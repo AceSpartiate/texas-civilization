@@ -213,7 +213,10 @@ const beasts = (world, household) => ['horse', 'ox', 'wagon'].flatMap(role => be
 /** The family's people who are with it on the road or at the refuge, and the beasts likewise. */
 export function withFamily(world, household) {
   const flight = household.flight;
-  const there = one => flight?.status === 'fled' ? one.travel?.purpose === 'flee' : flight?.status === 'refuged' ? (!one.travel && one.location?.siteId === flight.refuge) : false;
+  // A man serving with the army is never with his family, even camped at the same place: Lynchburg and San Felipe are both
+  // refuges and Houston's camps, and a serving man at Lynchburg was taken prisoner with his refugee family by Santa Anna's
+  // column the day before the battle (docs/battle-research/staging.md §8.6 e, `FIC-GONZ-442`).
+  const there = one => one.service?.status !== 'serving' && (flight?.status === 'fled' ? one.travel?.purpose === 'flee' : flight?.status === 'refuged' ? (!one.travel && one.location?.siteId === flight.refuge) : false);
   return { people: people(world, household).filter(there), beasts: beasts(world, household).filter(beast => there(beast) && !['taken', 'lost'].includes(beast.condition)) };
 }
 /** Where the family stands: the leader's point on the road, or the refuge. */

@@ -1,0 +1,775 @@
+{
+  "record": "battle-san-jacinto-browser",
+  "date": "2026-09-26",
+  "browser": "153.0.8010.53",
+  "environment": "Same computer: a local classroom server and headless Chrome at 1366x768 and 1024x768. Not physical LAN or district acceptance.",
+  "checks": [
+    "the father Bartolo Lineman was pressed to join Houston from the refuge at Liberty; the control said \"Going on foot, Bartolo Lineman would be with the army at Lynchburg about April 20.\"",
+    "he joined the army at Lynchburg",
+    "\"The armies face each other\" came through Bartolo Lineman at 295580 (arrive), before contact; Watch put the camera 0.47 miles from the field",
+    "\"The attack at San Jacinto\" came at the parade (parade), before contact: \"At Bartolo Lineman's side: the captain passes the word down the company - \"Parade under arms. We're going at them this afternoon.\" Bartolo Lineman is in the line.\"",
+    "the formed Texian line against the camp at rest: nearest-neighbour spread 0.038 against 0.286; the breastwork and the marsh drawn (73 pieces)",
+    "fire and smoke on the screen at every one of 13 sampled moments (shots 38 -> 245; smoke in view 23-162; the guns fired 8 times)",
+    "the line came apart into a rout on both sides; 36 figures down and lying still, 13 with hands raised - no blood, no gore",
+    "words over the speakers: sj-there, sj-many, command:0, command:1, command:2, sj-out, sj-taunt, sj-cobardes, sj-back, sj-more, sj-bridge, sj-wait, sj-fall-in, sj-finally, sj-about-time, sj-hold, sj-dress, sj-tejanos, sj-formar, sj-armas, sj-alamo-0, sj-alamo-1, sj-fuego, sj-alamo-2, sj-goliad-0, sj-goliad-1, sj-goliad-2, sj-over, sj-rindo, sj-me-no-alamo, sj-alamo-again-0, sj-alamo-again-1, sj-alamo-again-2, sj-stop, sj-piedad, sj-cease",
+    "Bartolo Lineman is in the line and drawn doing what it does: volunteer-idle-w, volunteer-idle-e, volunteer-march, volunteer-e, volunteer-fire-reload",
+    "the battle draws in 2.1 ms at its slowest 95th percentile",
+    "the Host sees it live (killing), its camera on the field; spotlights seen: sj-arrive:295560, sj-skirmish:295800, sj-bridge:296880, sj-parade:297210, san-jacinto:297270",
+    "the family with nobody there was sent nothing of the fight - no battle, no alert, no name - before and after a reload",
+    "the family camped at Lynchburg heard it, in words: \"At Lynchburg, Rhoda Ferryside hears cannon to the south-west, toward the Mexican camp, and then a long roll of musketry. Nobody at the ferry can say yet what it means.\"",
+    "Santa Anna brought before the wounded Houston: ",
+    "the account came through the person (\"What Bartolo Lineman saw at San Jacinto\") and the journal keeps it"
+  ],
+  "samples": [
+    {
+      "label": "1366 advance",
+      "phase": "advance",
+      "minute": 297242,
+      "camera": "battle",
+      "size": "1366x768",
+      "view": {
+        "figures": {
+          "texian": 59,
+          "mexican": 60
+        },
+        "regularity": {
+          "texian": 0.037799219913065736,
+          "mexican": 0.2858795036397412
+        },
+        "styles": {
+          "texian": "ranks",
+          "mexican": "camp"
+        },
+        "shotsTotal": 25,
+        "shotsBy": {
+          "texian": 5,
+          "mexican": 20
+        },
+        "smokeInView": 24,
+        "bubbles": [
+          "About time."
+        ],
+        "fallen": 1,
+        "surrendering": 0,
+        "members": [
+          "hh-1-parent-1"
+        ],
+        "memberClips": [
+          "volunteer-idle-w",
+          "volunteer-idle-e",
+          "volunteer-march"
+        ],
+        "cannonShots": 0,
+        "works": 73,
+        "frameMs": {
+          "last": 1,
+          "median": 1,
+          "p95": 1.2
+        }
+      }
+    },
+    {
+      "label": "1366 fighting 0",
+      "phase": "guns",
+      "minute": 297266,
+      "camera": "battle",
+      "size": "1366x768",
+      "view": {
+        "figures": {
+          "texian": 58,
+          "mexican": 60
+        },
+        "regularity": {
+          "texian": 0.03785568271463224,
+          "mexican": 0.2127902383767102
+        },
+        "styles": {
+          "texian": "ranks",
+          "mexican": "ranks"
+        },
+        "shotsTotal": 38,
+        "shotsBy": {
+          "texian": 5,
+          "mexican": 32
+        },
+        "smokeInView": 23,
+        "bubbles": [
+          "¡Los tejanos! ¡A las armas!"
+        ],
+        "fallen": 1,
+        "surrendering": 0,
+        "members": [
+          "hh-1-parent-1"
+        ],
+        "memberClips": [
+          "volunteer-idle-w",
+          "volunteer-idle-e",
+          "volunteer-march"
+        ],
+        "cannonShots": 2,
+        "works": 42,
+        "frameMs": {
+          "last": 0.9,
+          "median": 1,
+          "p95": 1.2
+        }
+      }
+    },
+    {
+      "label": "1366 fighting 1",
+      "phase": "guns",
+      "minute": 297268,
+      "camera": "battle",
+      "size": "1366x768",
+      "view": {
+        "figures": {
+          "texian": 58,
+          "mexican": 60
+        },
+        "regularity": {
+          "texian": 0.03785568271463224,
+          "mexican": 0.2127902383767102
+        },
+        "styles": {
+          "texian": "ranks",
+          "mexican": "ranks"
+        },
+        "shotsTotal": 48,
+        "shotsBy": {
+          "texian": 5,
+          "mexican": 40
+        },
+        "smokeInView": 36,
+        "bubbles": [
+          "¡Los tejanos! ¡A las armas!",
+          "¡A formar! ¡A formar!",
+          "¡Mi fusil! ¿Dónde está mi fusil?"
+        ],
+        "fallen": 1,
+        "surrendering": 0,
+        "members": [
+          "hh-1-parent-1"
+        ],
+        "memberClips": [
+          "volunteer-idle-w",
+          "volunteer-idle-e",
+          "volunteer-march"
+        ],
+        "cannonShots": 4,
+        "works": 42,
+        "frameMs": {
+          "last": 1,
+          "median": 0.9,
+          "p95": 1.2
+        }
+      }
+    },
+    {
+      "label": "1366 fighting 2",
+      "phase": "volley",
+      "minute": 297270,
+      "camera": "battle",
+      "size": "1366x768",
+      "view": {
+        "figures": {
+          "texian": 58,
+          "mexican": 60
+        },
+        "regularity": {
+          "texian": 0.03785568271463224,
+          "mexican": 0.2127902383767102
+        },
+        "styles": {
+          "texian": "ranks",
+          "mexican": "ranks"
+        },
+        "shotsTotal": 59,
+        "shotsBy": {
+          "texian": 5,
+          "mexican": 49
+        },
+        "smokeInView": 52,
+        "bubbles": [
+          "¡A formar! ¡A formar!",
+          "¡Mi fusil! ¿Dónde está mi fusil?",
+          "Aim low!"
+        ],
+        "fallen": 1,
+        "surrendering": 0,
+        "members": [
+          "hh-1-parent-1"
+        ],
+        "memberClips": [
+          "volunteer-idle-w",
+          "volunteer-idle-e",
+          "volunteer-march",
+          "volunteer-e"
+        ],
+        "cannonShots": 5,
+        "works": 42,
+        "frameMs": {
+          "last": 1.1,
+          "median": 0.9,
+          "p95": 1.2
+        }
+      }
+    },
+    {
+      "label": "1366 fighting 3",
+      "phase": "charge",
+      "minute": 297272,
+      "camera": "battle",
+      "size": "1366x768",
+      "view": {
+        "figures": {
+          "texian": 60,
+          "mexican": 57
+        },
+        "regularity": {
+          "texian": 0.29525499079488304,
+          "mexican": 0.22229647465365926
+        },
+        "styles": {
+          "texian": "loose",
+          "mexican": "ranks"
+        },
+        "shotsTotal": 95,
+        "shotsBy": {
+          "texian": 30,
+          "mexican": 58
+        },
+        "smokeInView": 92,
+        "bubbles": [
+          "¡A formar! ¡A formar!",
+          "¡Mi fusil! ¿Dónde está mi fusil?"
+        ],
+        "fallen": 4,
+        "surrendering": 0,
+        "members": [
+          "hh-1-parent-1"
+        ],
+        "memberClips": [
+          "volunteer-idle-w",
+          "volunteer-idle-e",
+          "volunteer-march",
+          "volunteer-e"
+        ],
+        "cannonShots": 7,
+        "works": 42,
+        "frameMs": {
+          "last": 1.2,
+          "median": 1,
+          "p95": 1.4
+        }
+      }
+    },
+    {
+      "label": "1366 fighting 4",
+      "phase": "charge",
+      "minute": 297273,
+      "camera": "battle",
+      "size": "1366x768",
+      "view": {
+        "figures": {
+          "texian": 60,
+          "mexican": 57
+        },
+        "regularity": {
+          "texian": 0.2952549907949635,
+          "mexican": 0.22229647465356486
+        },
+        "styles": {
+          "texian": "loose",
+          "mexican": "ranks"
+        },
+        "shotsTotal": 113,
+        "shotsBy": {
+          "texian": 43,
+          "mexican": 63
+        },
+        "smokeInView": 109,
+        "bubbles": [
+          "¡Mi fusil! ¿Dónde está mi fusil?",
+          "Remember the Alamo!"
+        ],
+        "fallen": 4,
+        "surrendering": 0,
+        "members": [
+          "hh-1-parent-1"
+        ],
+        "memberClips": [
+          "volunteer-idle-w",
+          "volunteer-idle-e",
+          "volunteer-march",
+          "volunteer-e"
+        ],
+        "cannonShots": 8,
+        "works": 41,
+        "frameMs": {
+          "last": 1,
+          "median": 1,
+          "p95": 1.4
+        }
+      }
+    },
+    {
+      "label": "1024 rout 0",
+      "phase": "rout",
+      "minute": 297279,
+      "camera": "battle",
+      "size": "1024x768",
+      "view": {
+        "figures": {
+          "texian": 57,
+          "mexican": 49
+        },
+        "regularity": {
+          "texian": 0.24532802048657654,
+          "mexican": 0.31153024418105796
+        },
+        "styles": {
+          "texian": "rout",
+          "mexican": "rout"
+        },
+        "shotsTotal": 175,
+        "shotsBy": {
+          "texian": 75,
+          "mexican": 91
+        },
+        "smokeInView": 162,
+        "bubbles": [
+          "Remember Goliad!",
+          "Remember Goliad!",
+          "Over! Over the top!"
+        ],
+        "fallen": 15,
+        "surrendering": 10,
+        "members": [
+          "hh-1-parent-1"
+        ],
+        "memberClips": [
+          "volunteer-idle-w",
+          "volunteer-idle-e",
+          "volunteer-march",
+          "volunteer-e",
+          "volunteer-fire-reload"
+        ],
+        "cannonShots": 8,
+        "works": 44,
+        "frameMs": {
+          "last": 1.3,
+          "median": 1.1,
+          "p95": 1.6
+        }
+      }
+    },
+    {
+      "label": "1024 rout 1",
+      "phase": "rout",
+      "minute": 297281,
+      "camera": "battle",
+      "size": "1024x768",
+      "view": {
+        "figures": {
+          "texian": 57,
+          "mexican": 44
+        },
+        "regularity": {
+          "texian": 0.24532802048647462,
+          "mexican": 0.37736992401098685
+        },
+        "styles": {
+          "texian": "rout",
+          "mexican": "rout"
+        },
+        "shotsTotal": 184,
+        "shotsBy": {
+          "texian": 84,
+          "mexican": 91
+        },
+        "smokeInView": 156,
+        "bubbles": [
+          "Remember Goliad!",
+          "Over! Over the top!",
+          "¡Me rindo! ¡Me rindo!"
+        ],
+        "fallen": 19,
+        "surrendering": 9,
+        "members": [
+          "hh-1-parent-1"
+        ],
+        "memberClips": [
+          "volunteer-idle-w",
+          "volunteer-idle-e",
+          "volunteer-march",
+          "volunteer-e",
+          "volunteer-fire-reload"
+        ],
+        "cannonShots": 8,
+        "works": 48,
+        "frameMs": {
+          "last": 2.5,
+          "median": 1.1,
+          "p95": 1.7
+        }
+      }
+    },
+    {
+      "label": "1024 rout 2",
+      "phase": "rout",
+      "minute": 297282,
+      "camera": "battle",
+      "size": "1024x768",
+      "view": {
+        "figures": {
+          "texian": 57,
+          "mexican": 45
+        },
+        "regularity": {
+          "texian": 0.24532802048655375,
+          "mexican": 0.45107984484383296
+        },
+        "styles": {
+          "texian": "rout",
+          "mexican": "rout"
+        },
+        "shotsTotal": 193,
+        "shotsBy": {
+          "texian": 93,
+          "mexican": 91
+        },
+        "smokeInView": 149,
+        "bubbles": [
+          "¡Me rindo! ¡Me rindo!"
+        ],
+        "fallen": 19,
+        "surrendering": 9,
+        "members": [
+          "hh-1-parent-1"
+        ],
+        "memberClips": [
+          "volunteer-idle-w",
+          "volunteer-idle-e",
+          "volunteer-march",
+          "volunteer-e",
+          "volunteer-fire-reload"
+        ],
+        "cannonShots": 8,
+        "works": 54,
+        "frameMs": {
+          "last": 2.3,
+          "median": 1.2,
+          "p95": 2.1
+        }
+      }
+    },
+    {
+      "label": "1024 rout 3",
+      "phase": "rout",
+      "minute": 297284,
+      "camera": "battle",
+      "size": "1024x768",
+      "view": {
+        "figures": {
+          "texian": 57,
+          "mexican": 40
+        },
+        "regularity": {
+          "texian": 0.24532802048655006,
+          "mexican": 0.4894098228456306
+        },
+        "styles": {
+          "texian": "rout",
+          "mexican": "rout"
+        },
+        "shotsTotal": 200,
+        "shotsBy": {
+          "texian": 100,
+          "mexican": 91
+        },
+        "smokeInView": 129,
+        "bubbles": [
+          "¡Me rindo! ¡Me rindo!",
+          "Me no Alamo!"
+        ],
+        "fallen": 23,
+        "surrendering": 9,
+        "members": [
+          "hh-1-parent-1"
+        ],
+        "memberClips": [
+          "volunteer-idle-w",
+          "volunteer-idle-e",
+          "volunteer-march",
+          "volunteer-e",
+          "volunteer-fire-reload"
+        ],
+        "cannonShots": 8,
+        "works": 75,
+        "frameMs": {
+          "last": 1.3,
+          "median": 1.2,
+          "p95": 2
+        }
+      }
+    },
+    {
+      "label": "1024 rout 4",
+      "phase": "rout",
+      "minute": 297285,
+      "camera": "battle",
+      "size": "1024x768",
+      "view": {
+        "figures": {
+          "texian": 57,
+          "mexican": 41
+        },
+        "regularity": {
+          "texian": 0.24532802048652508,
+          "mexican": 0.5113128954021516
+        },
+        "styles": {
+          "texian": "rout",
+          "mexican": "rout"
+        },
+        "shotsTotal": 208,
+        "shotsBy": {
+          "texian": 107,
+          "mexican": 91
+        },
+        "smokeInView": 123,
+        "bubbles": [
+          "Me no Alamo!",
+          "Remember the Alamo!"
+        ],
+        "fallen": 23,
+        "surrendering": 9,
+        "members": [
+          "hh-1-parent-1"
+        ],
+        "memberClips": [
+          "volunteer-idle-w",
+          "volunteer-idle-e",
+          "volunteer-march",
+          "volunteer-e",
+          "volunteer-fire-reload"
+        ],
+        "cannonShots": 8,
+        "works": 81,
+        "frameMs": {
+          "last": 1.6,
+          "median": 1.3,
+          "p95": 2
+        }
+      }
+    },
+    {
+      "label": "1024 killing 0",
+      "phase": "killing",
+      "minute": 297308,
+      "camera": "battle",
+      "size": "1024x768",
+      "view": {
+        "figures": {
+          "texian": 57,
+          "mexican": 35
+        },
+        "regularity": {
+          "texian": 0.212140536848485,
+          "mexican": 0.5514315834936373
+        },
+        "styles": {
+          "texian": "loose",
+          "mexican": "rout"
+        },
+        "shotsTotal": 230,
+        "shotsBy": {
+          "texian": 129,
+          "mexican": 91
+        },
+        "smokeInView": 112,
+        "bubbles": [
+          "Remember the Alamo!",
+          "Remember the Alamo!"
+        ],
+        "fallen": 29,
+        "surrendering": 13,
+        "members": [
+          "hh-1-parent-1"
+        ],
+        "memberClips": [
+          "volunteer-idle-w",
+          "volunteer-idle-e",
+          "volunteer-march",
+          "volunteer-e",
+          "volunteer-fire-reload"
+        ],
+        "cannonShots": 8,
+        "works": 84,
+        "frameMs": {
+          "last": 1.6,
+          "median": 1.4,
+          "p95": 2
+        }
+      }
+    },
+    {
+      "label": "1024 killing 1",
+      "phase": "killing",
+      "minute": 297348,
+      "camera": "battle",
+      "size": "1024x768",
+      "view": {
+        "figures": {
+          "texian": 57,
+          "mexican": 32
+        },
+        "regularity": {
+          "texian": 0.21214053684873796,
+          "mexican": 0.5929432522640548
+        },
+        "styles": {
+          "texian": "loose",
+          "mexican": "rout"
+        },
+        "shotsTotal": 236,
+        "shotsBy": {
+          "texian": 135,
+          "mexican": 91
+        },
+        "smokeInView": 132,
+        "bubbles": [
+          "Remember the Alamo!",
+          "Stop! They’ve surrendered!",
+          "¡Piedad!"
+        ],
+        "fallen": 32,
+        "surrendering": 12,
+        "members": [
+          "hh-1-parent-1"
+        ],
+        "memberClips": [
+          "volunteer-idle-w",
+          "volunteer-idle-e",
+          "volunteer-march",
+          "volunteer-e",
+          "volunteer-fire-reload"
+        ],
+        "cannonShots": 8,
+        "works": 84,
+        "frameMs": {
+          "last": 1.9,
+          "median": 1.4,
+          "p95": 2
+        }
+      }
+    },
+    {
+      "label": "1024 killing 2",
+      "phase": "killing",
+      "minute": 297368,
+      "camera": "battle",
+      "size": "1024x768",
+      "view": {
+        "figures": {
+          "texian": 57,
+          "mexican": 28
+        },
+        "regularity": {
+          "texian": 0.21214053684863887,
+          "mexican": 0.6010266217215324
+        },
+        "styles": {
+          "texian": "loose",
+          "mexican": "rout"
+        },
+        "shotsTotal": 245,
+        "shotsBy": {
+          "texian": 144,
+          "mexican": 91
+        },
+        "smokeInView": 139,
+        "bubbles": [
+          "Stop! They’ve surrendered!",
+          "¡Piedad!",
+          "Cease firing! Cease firing, I said!"
+        ],
+        "fallen": 36,
+        "surrendering": 11,
+        "members": [
+          "hh-1-parent-1"
+        ],
+        "memberClips": [
+          "volunteer-idle-w",
+          "volunteer-idle-e",
+          "volunteer-march",
+          "volunteer-e",
+          "volunteer-fire-reload"
+        ],
+        "cannonShots": 8,
+        "works": 84,
+        "frameMs": {
+          "last": 1.4,
+          "median": 1.4,
+          "p95": 2
+        }
+      }
+    }
+  ],
+  "alerts": [
+    {
+      "shown": true,
+      "go": "Watch",
+      "title": "The armies face each other",
+      "words": "At Bartolo Lineman's side: Santa Anna's army has come up and made its camp across the prairie, under a mile off. The men say there will be a fight.",
+      "minute": 295580,
+      "field": {
+        "x": 143.97805,
+        "y": -17.886052000000127
+      },
+      "contact": false,
+      "phase": "arrive"
+    },
+    {
+      "shown": true,
+      "go": "Watch",
+      "title": "The attack at San Jacinto",
+      "words": "At Bartolo Lineman's side: the captain passes the word down the company - \"Parade under arms. We're going at them this afternoon.\" Bartolo Lineman is in the line.",
+      "minute": 297210,
+      "field": {
+        "x": 143.97805,
+        "y": -17.886052000000127
+      },
+      "contact": false,
+      "phase": "parade"
+    }
+  ],
+  "estimate": "Going on foot, Bartolo Lineman would be with the army at Lynchburg about April 20.",
+  "frameMs": {
+    "battleP95Max": 2.1,
+    "battleMedianMax": 1.4,
+    "mapDrawMs": [
+      4,
+      4.0999999940395355,
+      4.4000000059604645,
+      4,
+      4,
+      4.699999988079071,
+      7.800000011920929,
+      6.4000000059604645,
+      4.200000017881393,
+      4.699999988079071,
+      4.800000011920929,
+      4.799999982118607,
+      4.0999999940395355
+    ]
+  },
+  "heard": [
+    "At Lynchburg, Rhoda Ferryside hears cannon to the south-west, toward the Mexican camp, and then a long roll of musketry. Nobody at the ferry can say yet what it means.",
+    "At Lynchburg, Rhoda Ferryside hears the firing going on and on toward the marsh by the San Jacinto, until near dark."
+  ],
+  "account": {
+    "title": "What Bartolo Lineman saw at San Jacinto",
+    "words": "What happened: for five weeks General Houston had led the army east, away from Santa Anna, while the families fled ahead of both armies. On April 20 Santa Anna's army camped on the plain by the San Jacinto, under a mile from Houston's camp in the timber along Buffalo Bayou. In the night the Mexicans threw up a low wall of packs and saddles, and on the morning of the 21st General Cos came in with about 540 more men who had marched all night; Houston sent Deaf Smith to destroy Vince's bridge behind them. The afternoon was quiet in the Mexican camp and many of the soldiers were resting. At half past three Houston formed his 910 men in one long line, and they walked across the open prairie behind a low rise until they were close. The two cannon fired, the men fired, and then they ran at the Mexican camp shouting \"Remember the Alamo! Remember Goliad!\"\n\nWhat your family's own did: Bartolo Lineman was in the line, went over the breastwork with the rest, and came through unhurt. Many men stayed on with the army through the summer; Bartolo Lineman is let go, and starting home.\n\nWhy it ended so: the Mexican army was caught unready, resting and not formed, and it broke in about eighteen minutes and ran toward the marsh and the lake behind its camp. Many Mexican soldiers were killed as they ran or tried to surrender, and the Texian officers could not stop it: about 630 were killed and about 730 taken prisoner, while nine Texians were killed or mortally wounded and about thirty wounded. The next day Santa Anna was found hiding in the grass in a common soldier's clothes, and was known when the prisoners called him \"el presidente\". He was brought before Houston, who lay wounded, and as a prisoner he ordered his troops to fall back. His capture ended the fighting of the war."
+  }
+}

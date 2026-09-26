@@ -61,7 +61,7 @@ const UNIT = [
     from: '      vx: w.x * 2.2e-6 + (Math.random() - 0.5) * 2e-7, vy: w.y * 2.2e-6', to: '      vx: (Math.random() - 0.5) * 2e-7, vy: 0',
     test: 'tests/battle-view.test.mjs', expect: 'every man fires on his own cycle, again and again, and the smoke gathers, lingers, drifts with the wind and thins when the firing stops' },
   { name: 'the officer says nothing before a volley', file: 'public/battle-view.js',
-    from: "      if (side.fire !== 'volley' || !battle.commands?.volley) continue;", to: '      continue;',
+    from: "      if (side.fire !== 'volley' || !words) continue;", to: '      continue;',
     test: 'tests/battle-view.test.mjs', expect: 'the officer gives the words of each volley, and every line is drawn over whoever said it at the moment the tick dated it' },
   { name: 'a side the record forbids is drawn falling', file: 'public/battle-view.js',
     from: '      if (!side || battle.noFalling?.includes(fall.side)) continue;', to: '      if (!side) continue;',

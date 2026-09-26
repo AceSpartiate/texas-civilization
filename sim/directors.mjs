@@ -9,11 +9,13 @@ import { distantHouseholds, expressLeaves, startExpress } from './expresses.mjs'
 import { callOptions, expireCalls, offerCalls, settleCalls } from './calls.mjs';
 import { ALAMO_WORD, COURIER_DAYS, askCouriers, beginSiege, warnGarrison, fightSouth, gonzalesFamilies, otherFamilies, reliefEnters, reliefRides, sendCouriers, splitSouth, stormAlamo, survivorsLeave, tellFall, tellSouth, word } from './alamo.mjs';
 import { SETTLEMENT_DAYS, advanceArmiesPassing, orderOut, turnHome } from './scrape.mjs';
-import { HOUSTON_WORD, catchUpCamp, fightColeto, fightSanJacinto, followCamp, goliadMassacre, takeInEnlisted, tellGoliad, tellSanJacinto } from './houston.mjs';
+import { HOUSTON_WORD, catchUpCamp, fightColeto, followCamp, goliadMassacre, takeInEnlisted, tellGoliad, tellSanJacinto } from './houston.mjs';
 import { closeCampQuestion, openCampQuestion } from './camp.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
 import { advanceArmy, closeDetachment, closeQuestion, countermandStorm, dieOfWounds, disbandArmy, fightConcepcion, fightGrass, fightStorming, formArmy, goForClothing, marchOut, moveCamp, openDetachment, openQuestion, questionOpen, recordPresent, returnFromClothing, tellGrassFight, tellStorming } from './army.mjs';
 import { GONZALES, gonzalesGround } from './battles/gonzales.mjs';
+import { SAN_JACINTO_BATTLE } from './battles/san-jacinto.mjs';
+import { advanceSanJacinto, sanJacintoField, sanJacintoProjection, strikeSanJacinto, tellSanJacintoAccounts } from './san-jacinto.mjs';
 import { armBattle, battleState, looseSlot, phaseOffset, placeFrom, projectBattle, sidePlace } from './battle-stage.mjs';
 import { findWay } from './ways.mjs';
 import { MODES } from './travel.mjs';
@@ -54,6 +56,11 @@ export const EXPRESS_GRACE_MINUTES = 4320;
 // Gonzales could no longer reach the line before the dawn skirmish (`FIC-GONZ-446`).
 const GONZALES_START = 4200;
 const gonzalesAt = phase => GONZALES_START + phaseOffset(GONZALES, phase);
+// San Jacinto on the engine (sim/battles/san-jacinto.mjs, docs/BATTLES.md §7): the armies meet at noon on April 20 (266400 +
+// 19 × 1440 + 12 × 60), and the engagement's own phases date the old moments - the battle at half past four on the 21st (the
+// volley), Santa Anna brought in at noon on the 22nd - which stand where they always stood (tests/battle-san-jacinto.test.mjs).
+const SAN_JACINTO_START = 294480;
+const jacintoAt = phase => SAN_JACINTO_START + phaseOffset(SAN_JACINTO_BATTLE, phase);
 const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   notice: 600, publicNotice: 1440, gathering: 3000, 'upriver-call': 3960, crossing: GONZALES_START, approach: gonzalesAt('dawn-skirmish'), exchange: gonzalesAt('fight'), withdrawal: gonzalesAt('withdrawal'), resolved: gonzalesAt('field'), publicOutcome: 5400, finish: 5680,
   // After the fight: the gathering and the march, build step 5 (docs/COLONIES.md §5.5). Only a
@@ -138,7 +145,7 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   // the word of Goliad (open from `goliad-word` to dawn on the 28th, when the army marches for the Brazos), and which road at
   // the fork at Roberts', beyond Spring Creek (noon on April 16 to noon on the 17th, `HIST-TEX-082`).
   'goliad-leave-close': 261000, 'which-road': 288720, 'which-road-close': 290160,
-  'houston-harrisburg': 290160, 'houston-lynchburg': 293040, 'san-jacinto': 296190, 'santa-anna-taken': 297360,
+  'houston-harrisburg': 290160, 'houston-lynchburg': 293040, 'san-jacinto-field': SAN_JACINTO_START, 'san-jacinto': jacintoAt('volley'), 'santa-anna-taken': jacintoAt('taken'),
   'victory-word': 298800, 'scrape-end': 301320,
 });
 /**
@@ -1234,6 +1241,8 @@ function advanceScrape(world, { beginTravel } = {}) {
   }
   advanceArmiesPassing(world);
   if (!world.director.milestones['san-jacinto']) catchUpCamp(world, go);
+  // San Jacinto on the engine: who is in the camp and the line, the alert, the guns heard, the Host's camera (sim/san-jacinto.mjs).
+  advanceSanJacinto(world);
   once(world, 'houston-colorado', () => { word(world, 'houston-colorado', everyone, { truth: HOUSTON_WORD.colorado, claimId: 'HIST-TEX-066', source: 'Word from the army' }); followCamp(world, go); });
   once(world, 'coleto', () => { fightColeto(world, said('HIST-TEX-063', 'Fannin marched out of Goliad this morning and was caught on the open prairie by Urrea\'s cavalry near Coleto Creek.')); spotlight(world, { key: 'coleto', text: 'Fannin\'s command, caught on the open prairie near Coleto Creek, fights through the day and surrenders the next morning.', siteId: 'goliad', claimId: 'HIST-TEX-063' }); });
   once(world, 'goliad-surrender', () => said('HIST-TEX-063', 'Fannin has surrendered his whole command to Urrea.'));
@@ -1261,15 +1270,19 @@ function advanceScrape(world, { beginTravel } = {}) {
   once(world, 'which-road-close', () => closeCampQuestion(world, 'road', go));
   once(world, 'houston-harrisburg', () => followCamp(world, go));
   once(world, 'houston-lynchburg', () => followCamp(world, go));
-  once(world, 'san-jacinto', () => { fightSanJacinto(world, record(world, 'milestone', { visibility: 'sealed', importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-067', text: 'The battle of San Jacinto.' })); spotlight(world, { key: 'san-jacinto', text: 'Houston\'s army crosses the prairie at San Jacinto and breaks Santa Anna\'s camp in eighteen minutes.', siteId: 'lynchburg', claimId: 'HIST-TEX-067' }); });
-  once(world, 'santa-anna-taken', () => { said('HIST-TEX-067', 'Santa Anna has been found hiding in the grass and brought in a prisoner.'); spotlight(world, { key: 'santa-anna-taken', text: 'Santa Anna is found hiding in the grass and brought in a prisoner to Houston\'s camp.', siteId: 'lynchburg', claimId: 'HIST-TEX-067' }); });
-  once(world, 'victory-word', () => { const cause = said('HIST-TEX-067', HOUSTON_WORD.victory); word(world, 'san-jacinto', everyone, { truth: HOUSTON_WORD.victory, claimId: 'HIST-TEX-067', source: 'A rider from the army' }); tellSanJacinto(world, go); turnHome(world, cause); });
+  // The men in the line are rolled at the first volley, and each one hit goes down at his own minute of the charge
+  // (sim/san-jacinto.mjs `strikeSanJacinto`); the Host's camera on the field itself, not the town (docs/BATTLES.md §2.1).
+  once(world, 'san-jacinto', () => { strikeSanJacinto(world, record(world, 'milestone', { visibility: 'sealed', importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-067', text: 'The battle of San Jacinto.' })); spotlight(world, { key: 'san-jacinto', text: 'Houston\'s army crosses the prairie at San Jacinto and breaks Santa Anna\'s camp in eighteen minutes.', ...(sanJacintoField(world) || { siteId: 'lynchburg' }), claimId: 'HIST-TEX-067' }); });
+  once(world, 'santa-anna-taken', () => { said('HIST-TEX-067', 'Santa Anna has been found hiding in the grass and brought in a prisoner.'); spotlight(world, { key: 'santa-anna-taken', text: 'Santa Anna is found hiding in the grass and brought in a prisoner to Houston\'s camp.', ...(sanJacintoField(world) || { siteId: 'lynchburg' }), claimId: 'HIST-TEX-067' }); });
+  once(world, 'victory-word', () => { const cause = said('HIST-TEX-067', HOUSTON_WORD.victory); word(world, 'san-jacinto', everyone, { truth: HOUSTON_WORD.victory, claimId: 'HIST-TEX-067', source: 'A rider from the army' }); tellSanJacintoAccounts(world, cause); tellSanJacinto(world, go); turnHome(world, cause); });
   if (world.minute >= momentOf(world, 'san-jacinto') && !world.director.milestones['san-jacinto']) return;
   once(world, 'scrape-end', () => {
     world.director.complete = true; world.director.phase = 'preserved'; world.status = 'ended';
     record(world, 'slice-preserved', {
       visibility: 'public', classification: 'DOCUMENTED', claimId: 'HIST-TEX-067',
-      text: 'April 25, 1836. The war is won, and the families are on the road home to what is left. Here the story ends.',
+      // How the class's war ended, said once more as it closes (docs/BATTLES.md §7.8): the battle, the capture and the order to
+      // fall back (`HIST-TEX-067`, `-526`). The ending's own reckoning follows it, unchanged (sim/ending.mjs).
+      text: 'April 25, 1836. The war is won: at San Jacinto on April 21 Houston\'s army destroyed Santa Anna\'s in eighteen minutes, Santa Anna was taken the next day, and as a prisoner he ordered his troops to fall back. The families are on the road home to what is left. Here the story ends.',
     });
   });
 }
@@ -1451,7 +1464,12 @@ export function directorProjection(world, householdId, role) {
     shown.answerers = Object.fromEntries(people.map(id => [id, shown.kind === 'call' ? callOptions(world, householdId, call, world.entities[id]) : requestOptions(world, householdId, shown, shown.kind, world.entities[id])]));
     shown.options = shown.answerers[shown.actorId || household.principalId] || Object.values(shown.answerers)[0] || [];
   }
-  return structuredClone({ request: shown, battle, ...(battleAlert && { battleAlert }), ...(battleAccount && { battleAccount }), host: role === 'host' ? host : null, slice: { title: 'Gonzales', complete: world.director.complete }, historicalDate: dateOf(world, world.minute).toISOString().slice(0, 10) });
+  // San Jacinto (sim/san-jacinto.mjs): the same four things, for the spring's battle, from its own director.
+  const jacinto = sanJacintoProjection(world, householdId, role);
+  if (jacinto?.battle) battle = jacinto.battle;
+  if (jacinto?.host) host = jacinto.host;
+  const alertShown = jacinto?.battleAlert || battleAlert, accountShown = jacinto?.battleAccount || battleAccount;
+  return structuredClone({ request: shown, battle, ...(alertShown && { battleAlert: alertShown }), ...(accountShown && { battleAccount: accountShown }), host: role === 'host' ? host : null, slice: { title: 'Gonzales', complete: world.director.complete }, historicalDate: dateOf(world, world.minute).toISOString().slice(0, 10) });
 }
 /** The alert card, while the fight is coming or being fought and this family's person is going or there. */
 function alertFor(world, householdId, state, watching) {

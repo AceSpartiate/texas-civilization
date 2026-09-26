@@ -57,6 +57,11 @@ does not have:
 | **The wounded carried**: a man hit is drawn as the library's seated wounded soldier (`regular-injured`/`volunteer-injured`) helped back by two walking figures; a dead man as `*-reclining` with two walking beside him; a dragoon hit in the saddle is drawn dismounted | `drawFallen` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 3 | `bearers-carry` (two men carrying a third on a blanket, both facings) and `dragoon-wounded-led` |
 | **The Gonzales cannon** is the library's field gun (`cannon-bronze-e`/`-w` and its recoil) served by the carriage-gun crew cycles (`volunteer-gun-ram`, `-shot-carry`, `-fire`) | `drawCannon` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 4 | `cannon-cartwheels` (a small brass six-pounder on a pair of cart wheels, `HIST-TEX-475`) and its settler crew |
 | **The Come and Take It flag** is drawn on the canvas: a white field, a black gun, a star over it and the words (not shown at Gonzales on the field: `FIC-GONZ-419`) | `drawFlag` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 5 | `flag-come-and-take-it` on a pole, still and in a light wind |
+| **The Twin Sisters** at San Jacinto are the library's iron field gun (`cannon-iron-e`/`-w` and its recoil), two of them, each served by the carriage-gun crew cycles; the Mexican gun in the breastwork is the bronze gun served by `regular-gun-*` | `drawCannon` in `public/battle-view.js` (`stand-in:` on `guns` in `sim/battles/san-jacinto.mjs`) | Request 2026-09-25 — San Jacinto, item 1 | `cannon-sixpounder-e` (a light iron six-pounder on its field carriage) and a crew in volunteers' clothes |
+| **A camp at rest** (the Mexican camp at San Jacinto, both armies' camps on April 20-21) is drawn as the standing idle cycle and the seated wounded soldier (`*-injured-rest`) for a man sitting at rest, with the library's `fire-flicker` for the fires | `draw` (style `camp`) and `drawWorks` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — San Jacinto, item 2 | `regular-rest-sit`, `regular-sleep`, `volunteer-rest-sit`, `musket-stack` |
+| **The breastwork of packs, saddles and baggage** is a line of the library's `crate`, `sacks`, `barrel` and `packed-belongings`, with the opening in its middle | `drawWorks` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — San Jacinto, item 2 | `breastwork-packs` in three or four segments, about five feet high (`HIST-TEX-522`) |
+| **A Texian horseman** (Sherman's party, Lamar's sixty-one, Deaf Smith's party) is the library's mounted courier (`mounted-courier-e`, `mounted-courier-listen`); a shot from the saddle is drawn as the flash only | `figureOf` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — San Jacinto, item 3 | `volunteer-mounted` walk and idle, and `volunteer-mounted-fire` |
+| **The marsh and Peggy's Lake** are the library's cordgrass, reeds and water ripples scattered over the ground; nobody is drawn wading | `drawWorks` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — San Jacinto, item 4 | `marsh-edge` tiles and a wading figure clipped at the waterline |
 
 ## Claude-drawn stand-ins (replace with Astra's)
 
@@ -101,6 +106,19 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-25 — San Jacinto
+
+**Status: open; stand-ins in use since 2026-09-25 (see *Stand-ins in use*).** San Jacinto on the battle engine (`sim/battles/san-jacinto.mjs`, `docs/BATTLES.md` §7) draws the formed Texian line walking against a camp at rest, the two six-pounders, the breastwork, the rout into the marsh and Peggy's Lake, and Santa Anna brought before the wounded Houston. Four things are stood in for. Delivery contract as the people sheets: transparent PNG, the figure standing on its ground anchor, the logical height of `volunteer-*` and `regular-*`, east-facing frames mirrored for west.
+
+1. **The Twin Sisters.** `cannon-sixpounder-e` and a two-frame recoil: a light iron six-pounder on a field carriage with its trail (`HIST-TEX-522`: "two six-pounders"), smaller than `cannon-iron-e`; its crew in volunteers' clothes (`volunteer-gun-*` serve until then). How the guns were brought forward on the field is **not verified**: draw the gun alone, no team.
+2. **A camp at rest, and its breastwork.** `regular-rest-sit` (sitting on the ground, musket across the knees), `regular-sleep` (lying on a blanket, plainly asleep - never to be mistaken for `regular-reclining`, which is a man killed), `volunteer-rest-sit`, and `musket-stack` (three muskets stacked). And `breastwork-packs`: a low wall of packs, saddles, boxes and brush about five feet high, in three or four segments that can be laid end to end with a gap between two for a gun (Houston: "constructed of packs and baggage, leaving an opening in the centre").
+3. **A Texian horseman.** `volunteer-mounted` walk (east, north, south, four frames) and idle, in the clothes and hats of `volunteer-*`, with a rifle; and `volunteer-mounted-fire` (two frames: the rifle at the shoulder, the discharge). Plugs into `figureOf` for a Texian `mounted` side or party.
+4. **The marsh.** `marsh-edge` (a few tiles of cordgrass and open water, to scatter) and `figure-wading` (a man up to the thighs in water, running, in either side's clothes), so the rout into the marsh can be drawn in it. No blood, no gore, and nobody drawn shot at close range (`VISION.md` §16; `docs/BATTLES.md` §2b.2).
+
+**How it plugs in.** `public/battle-view.js`: `drawCannon` names `cannon-sixpounder-*` for San Jacinto's guns; the `camp` branch of `draw` names `*-rest-sit` and `*-sleep` by the slot's `rest`; `drawWorks` names `breastwork-packs` and `marsh-edge`; `figureOf` names `volunteer-mounted`. Every `stand-in:` comment names this request.
+
+**Check.** In the Host's framing of the advance the Mexican camp reads as men resting, not as men hurt or dead; the breastwork reads as baggage piled into a wall with a gap; the Texian horsemen read as Texians.
 
 ## Request 2026-09-25 — the carreta
 

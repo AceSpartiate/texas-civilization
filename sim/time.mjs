@@ -20,7 +20,9 @@ export function resolveTimeJump(world, requestedMinutes) {
   const travelling = attendedMilitary(world).find(person => militaryJourney(world, person));
   if (decision || travelling) return { requestedMinutes, advancedMinutes: 0, blockedBy: `military:${decision || travelling.id}`, eventId: null };
   // A battle being fought is watched, never jumped over (docs/BATTLES.md §2.2): the jump refuses until it is over.
-  const fight = liveBattles(world)[0];
+  // A long engagement's quiet hours (San Jacinto's night, the day after it) are not watched, and a jump may cross them: it is
+  // refused only while a watched phase runs or one begins inside the jump, and the jump's ticks land on it (`battleStep`).
+  const fight = liveBattles(world).find(state => state.phase.step || state.phases.some(one => one.step && one.from > world.minute && one.from <= world.minute + requestedMinutes));
   if (fight) return { requestedMinutes, advancedMinutes: 0, blockedBy: `battle:${fight.def.id}`, eventId: null };
   const limit = from + requestedMinutes;
   // A jump is made of ticks, and a tick may stand for more than twenty minutes of the calendar

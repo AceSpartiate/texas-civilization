@@ -113,15 +113,22 @@ export function joinService(world, household, entity, kind) {
   // Arrived after the way was shut (sim/alamo.mjs): the chore's `shut-out` step takes them home again.
   if (!stillOpen(world, household, kind)) {
     if (entity.chore) entity.chore.flags = [...(entity.chore.flags || []), 'shut-out'];
-    return record(world, 'consequence', { actorId: entity.id, householdId: household.id, importance: 2, text: kind === 'garrison' ? `${entity.name} reached Béxar too late: the Mexican army is in the town and the Alamo is shut.` : kind === 'relief' ? `${entity.name} reached Gonzales after the men for the Alamo had ridden.` : `${entity.name} found the volunteers gone from ${place(world, terms.siteId)}.` });
+    // Houston's army is named by where the man actually came to, not where the service was first joined (Gonzales): a man
+    // who reached Lynchburg after the battle was told he "found the volunteers gone from Gonzales" (staging.md §8.6 c).
+    const reached = place(world, entity.location?.siteId || terms.siteId);
+    return record(world, 'consequence', { actorId: entity.id, householdId: household.id, importance: 2, text: kind === 'garrison' ? `${entity.name} reached Béxar too late: the Mexican army is in the town and the Alamo is shut.` : kind === 'relief' ? `${entity.name} reached Gonzales after the men for the Alamo had ridden.` : kind === 'houston' ? `${entity.name} reached ${reached} after the battle was fought. The army is going home, and so does ${entity.name}.` : `${entity.name} found the volunteers gone from ${place(world, terms.siteId)}.` });
   }
-  // Houston's army is wherever its camp is now; somebody who reaches an empty camp follows it (sim/houston.mjs `followCamp`).
-  const siteId = kind === 'houston' ? houstonCamp(world) : terms.siteId;
+  // Houston's army: the man is with it at the camp he reached (`FIC-GONZ-442`). If the army has marched on from there, he
+  // is standing at his own `siteId` and `catchUpCamp` (sim/houston.mjs) takes him on after it at the forced march. It used
+  // to be set to the camp *now*, which left a man who reached an old camp standing there, since `catchUpCamp` moves only a
+  // man standing where the army last sent him (staging.md §8.6 b).
+  const siteId = kind === 'houston' ? (entity.location?.siteId || houstonCamp(world)) : terms.siteId;
   entity.service = { kind, status: 'serving', since: world.minute, siteId, ...(terms.acres && { acres: terms.acres }) };
   const eventId = record(world, 'army', {
     actorId: entity.id, householdId: household.id, importance: 3, classification: 'DOCUMENTED', claimId: terms.claimId,
     text: terms.acres
       ? `${entity.name} put their name to the roll of ${terms.name} at ${place(world, terms.siteId)}, on the promise of ${terms.acres} acres of land.`
+      : kind === 'houston' ? `${entity.name} has joined ${terms.name} at ${place(world, siteId)}.${siteId !== houstonCamp(world) ? ` The army has marched on to ${place(world, houstonCamp(world))}, and ${entity.name} follows it.` : ''}`
       : `${entity.name} has joined ${terms.name} at ${place(world, terms.siteId)}.`,
   });
   // Glory now for enlisting (owner); the garrison and the expedition earn theirs from what they are there for, later.

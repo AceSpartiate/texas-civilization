@@ -20,7 +20,7 @@
 // hunted species is ever named.
 import { heavyWorkPace, tooYoung, tooYoungWhy } from './family.mjs';
 import { castVote, joinService, servingWhy, winterOffered, winterRefusal } from './winter.mjs';
-import { houstonCamp } from './houston.mjs';
+import { houstonCamp, joinEstimateWords } from './houston.mjs';
 import { record } from './events.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
 import { awayProjection, milesATick, tooFastToFollow } from './sight.mjs';
@@ -689,10 +689,24 @@ export const CHORES = {
     ],
   },
   // Houston's army of the spring (sim/houston.mjs): to wherever its camp is when they set out; they follow it after.
+  // Joined from home, and since 2026-09-25 from the family's refuge or its road east too (owner's J4, docs/battle-research/
+  // staging.md §8.6 d; `FIC-GONZ-442`): the army passed through the country the refugees were crossing, and men joined it from
+  // the Scrape. `fromFlight` lets him step off the family's road where he stands (`begin`); the family goes on without him.
+  // `estimate` says on the control when he would be with the army, from where he is, at a walker's pace.
   'join-houston': {
     war: "gone to join General Houston's army",
-    name: 'Go and join General Houston\'s army', skill: 'hands', where: 'home', winter: true,
-    describe: 'Go to the camp of the army Houston is gathering as he falls back east, and stay with it. They can be sent for to help the family.',
+    name: 'Go and join General Houston\'s army', skill: 'hands', where: 'home', winter: true, fromFlight: true,
+    describe: 'Go to the camp of the army Houston is gathering as he falls back east, and stay with it. They can be sent for to help the family. From the road or the refuge the family goes on without them.',
+    estimate: (world, household, entity) => joinEstimateWords(world, entity),
+    begin: (world, household, entity) => {
+      if (entity.travel?.purpose !== 'flee') return;
+      // Off the family's road where he stands, onto his own: from the nearest place, walking there from here first.
+      const here = entity.location;
+      const near = Object.values(world.map.sites).reduce((best, site) => !best || Math.hypot(site.x - here.x, site.y - here.y) < Math.hypot(best.x - here.x, best.y - here.y) ? site : best, null);
+      entity.travel = null;
+      entity.location = { x: here.x, y: here.y, siteId: near.id };
+      record(world, 'departure', { actorId: entity.id, householdId: household.id, importance: 2, text: `${entity.name} left the family on the road east near ${near.name} to go and join the army. The family goes on without them.` });
+    },
     steps: [
       { travel: 'houston-camp', doing: 'on the road to the army' },
       { work: 1, doing: 'reporting to the army' },
@@ -1272,6 +1286,8 @@ function timberFor(world, household) {
  * The reason is shown to the student: a control that is refused without saying why is
  * worse than no control.
  */
+/** Whether this person is with the family on its flight east: on its road with it, or camped with it at its refuge (sim/scrape.mjs). */
+const withFlight = (household, entity) => (household.flight?.status === 'fled' && entity.travel?.purpose === 'flee') || (household.flight?.status === 'refuged' && !entity.travel && entity.location?.siteId === household.flight.refuge);
 export function choreAvailability(world, household, entity, choreId, logsOut = null) {
   const chore = CHORES[choreId];
   if (!chore) return { can: false, why: 'No such work.' };
@@ -1285,7 +1301,9 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   // Somebody the class's clock is carrying faster than a student can follow is not on the map at all (sim/sight.mjs,
   // owner 2026-09-21). Their row on the family panel is the one place a student is certain to look for them, so it says
   // what became of them rather than the bare "on the road" that would now read as a person who had vanished.
-  if (entity.travel && !chore.road) {
+  // A work that may be begun from the family's road or refuge (`fromFlight`, joining Houston) is begun where he is with them.
+  const withTheFlight = Boolean(chore.fromFlight) && withFlight(household, entity);
+  if (entity.travel && !chore.road && !withTheFlight) {
     if (!tooFastToFollow(entity.travel, milesATick(world, entity), world.minute)) return { can: false, why: `${entity.name} is on the road.` };
     const to = world.map?.sites?.[entity.travel.to]?.name || 'where they were sent';
     const away = awayProjection(world, entity.travel, { milesATick: milesATick(world, entity), minutes: calendarMinutes(world) });
@@ -1300,7 +1318,7 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (chore.winter) { const why = winterRefusal(world, household, entity, choreId); if (why) return { can: false, why }; }
   // A chore registered from its own module carries its own refusal (`registerChores`).
   if (chore.refusal) { const why = chore.refusal(world, household, entity); if (why) return { can: false, why }; }
-  if (chore.where === 'home' && entity.location.siteId !== household.homeSiteId) return { can: false, why: `${entity.name} is not at home.` };
+  if (chore.where === 'home' && entity.location.siteId !== household.homeSiteId && !withTheFlight) return { can: false, why: `${entity.name} is not at home.` };
   if (chore.helps) { const why = helpRefusal(world, entity); if (why) return { can: false, why }; }
   // On the real land the house, the field and the well wait for the family to say where the house stands (sim/homesite.mjs).
   if ((chore.onSite || chore.house || chore.field || chore.plotWork) && choosing(household)) return { can: false, why: 'Choose where the house will stand first.' };
@@ -1712,6 +1730,8 @@ export function choresFor(world, household, entity, logsOut = null) {
     const cost = chore.fetchesLogs ? fetchLogsFacts(world, household).cost || ''
       // The four gathering works cost hours and a walk rather than a resource, and one of them costs a shot as well.
       : chore.forage ? forageCost(world, household, id)
+      // When a man going to join the army would be with it (sim/houston.mjs `joinEstimate`): said before he is sent.
+      : chore.estimate && can ? chore.estimate(world, household, entity)
       : chore.needsAny ? chore.needsAny.map(costWords).join(' or ') : costWords(needsOf(household, chore));
     const crop = chore.wantsWagon
       ? { grown: round(yieldFor(standingCrop(household), entity.skills?.[chore.skill] ?? 1)), share: harvestShare(household) }

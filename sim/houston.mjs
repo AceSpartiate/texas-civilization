@@ -16,6 +16,9 @@ import { record } from './events.mjs';
 import { awardGlory } from './glory.mjs';
 import { frailty, rollFates, WOUND_GRADES } from './army.mjs';
 import { share } from './scrape.mjs';
+import { findWay } from './ways.mjs';
+import { FORCED_MARCH_HOURS, MODES, WALK_SPEED, milesADay } from './travel.mjs';
+import { dateOf } from './clock.mjs';
 
 const GONE = ['dead', 'captured'];
 const MARCH_1 = 221760, APRIL_1 = 266400, DAY = 1440;
@@ -127,6 +130,49 @@ export const DRILL_TO_STEADY = 3;
 export const DRILLED_STEADINESS = 0.75;
 export const drilledSteady = person => (person?.service?.drilled || 0) >= DRILL_TO_STEADY;
 const steadiness = person => frailty(person) * (drilledSteady(person) ? DRILLED_STEADINESS : 1);
+/**
+ * When a man setting out now would be with the army (staging.md §8.6 fix 3, owner's J4; `FIC-GONZ-442`): from where he
+ * stands, at his own pace, to the camp as it is when he sets out, and then after the army at its forced march each time it
+ * has moved on before he gets there, against the camps' own dates. Said on the control so the family sees it before it
+ * sends him - and it says only when and where he would catch the army, never what the army will do.
+ * ceiling: straight roads' lengths from `findWay`, a day on the road of the ordinary hours, no flood or ferry wait; the
+ * travel itself is the authority, and the words say "about".
+ */
+const wayMiles = new WeakMap();
+function milesBetween(world, from, to, modeId) {
+  if (from === to) return 0;
+  if (!wayMiles.has(world.map)) wayMiles.set(world.map, new Map());
+  const memo = wayMiles.get(world.map), key = `${from}>${to}:${modeId}`;
+  if (!memo.has(key)) memo.set(key, findWay(world, from, to, modeId)?.distance ?? null);
+  return memo.get(key);
+}
+export function joinEstimate(world, entity, modeId = 'foot') {
+  const from = entity.location?.siteId || nearestSite(world, entity.location);
+  if (!from) return null;
+  const clock = campClock(world), day = 1440;
+  const campAt = minute => [...HOUSTON_CAMPS].reverse().find(camp => minute >= camp.from + clock && (!LATER_CAMPS.includes(camp.siteId) || world.map?.sites?.[camp.siteId]))?.siteId || 'gonzales';
+  let at = from, minute = world.minute, target = campAt(minute), speed = MODES[modeId]?.speed || WALK_SPEED, hours = undefined;
+  for (let hop = 0; hop < HOUSTON_CAMPS.length + 1; hop++) {
+    const miles = milesBetween(world, at, target, modeId);
+    if (miles === null) return null;
+    minute += Math.ceil(miles / milesADay(speed, false, hours) * day);
+    at = target;
+    const next = campAt(minute);
+    if (next === target) return { siteId: target, minute };
+    // After the army at its own pace, on foot (sim/houston.mjs `catchUpCamp`).
+    target = next; speed = WALK_SPEED; hours = FORCED_MARCH_HOURS; modeId = 'foot';
+  }
+  return { siteId: at, minute };
+}
+const nearestSite = (world, point) => point && Number.isFinite(point.x) ? Object.values(world.map.sites).reduce((best, site) => !best || Math.hypot(site.x - point.x, site.y - point.y) < Math.hypot(best.x - point.x, best.y - point.y) ? site : best, null)?.id : null;
+/** The estimate in the words the control shows. */
+export function joinEstimateWords(world, entity, modeId = 'foot') {
+  const found = joinEstimate(world, entity, modeId);
+  if (!found) return '';
+  const date = dateOf(world, found.minute).toLocaleDateString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' });
+  return `Going on foot, ${entity.name} would be with the army at ${campName(world, found.siteId)} about ${date}.`;
+}
+
 /** After the battle nobody new joins. */
 export const houstonOpen = world => world.period === 3 && !world.director?.milestones?.['san-jacinto'];
 
@@ -150,11 +196,34 @@ export function takeInEnlisted(world) {
   }
 }
 
+/**
+ * The camp guard at Harrisburg (owner's J1, 2026-09-25, docs/battle-research/staging.md §8.11; `HIST-TEX-083`, `-523`): when
+ * the army marches from Harrisburg for Lynchburg, a man sick or hurt stays with the baggage and the sick there - "some 248
+ * men, mostly sick and ineffective" (TSHA) - and every well man goes. `FIC-GONZ-442`. He is present, not in the line.
+ */
+export const BAGGAGE_CONDITIONS = Object.freeze(['sick', 'minor-injury', 'wounded']);
+function leftWithBaggage(world, person, camp) {
+  if (camp !== 'lynchburg' || person.service.baggage) return Boolean(person.service.baggage);
+  if (!BAGGAGE_CONDITIONS.includes(person.health?.condition)) return false;
+  person.service.baggage = world.minute;
+  const where = campName(world, person.location?.siteId || 'harrisburg');
+  tell(world, person, `The army has marched for Lynchburg and the enemy. ${person.name}, ${person.health.condition === 'sick' ? 'sick' : 'hurt'}, stays behind at ${where} with the baggage and the other sick men.`, { claimId: 'HIST-TEX-083', type: 'army', importance: 3 });
+  return true;
+}
+/**
+ * Whether a man with Houston is in the line at San Jacinto (`FIC-GONZ-442`, staging.md §8.6 fix 1): serving, not on the road,
+ * standing at the Lynchburg camp, not left with the baggage, and on his feet. A service record alone never made anybody
+ * fight: a man still marching or stranded at an old camp used to be rolled as a fighter.
+ */
+export const inTheLine = (world, person) => person?.service?.kind === 'houston' && person.service.status === 'serving' && !person.travel
+  && !person.service.baggage && person.location?.siteId === 'lynchburg' && !['sick', 'wounded', 'dead', 'captured'].includes(person.health?.condition);
+
 /** The camp moves: everybody in the army who is standing still marches to the new one; late-comers follow it. */
 export function followCamp(world, { beginTravel }) {
   const camp = houstonCamp(world);
   for (const person of inService(world, 'houston')) {
     if (person.travel || person.location?.siteId === camp) continue;
+    if (leftWithBaggage(world, person, camp)) continue;
     person.service.siteId = camp;
     // The army's own days on the road are a forced march's (`FORCED_MARCH_HOURS`), not a family's.
     try { beginTravel(world, person, camp, null, 'march'); person.travel.forced = true; } catch { /* ceiling: somebody with no road to the camp stands where they are */ }
@@ -172,6 +241,7 @@ export function catchUpCamp(world, { beginTravel }) {
   const camp = houstonCamp(world);
   for (const person of inService(world, 'houston')) {
     if (person.travel || !person.location?.siteId || person.location.siteId !== person.service.siteId || person.service.siteId === camp) continue;
+    if (leftWithBaggage(world, person, camp)) continue;
     person.service.siteId = camp;
     try { beginTravel(world, person, camp, null, 'march'); person.travel.forced = true; } catch { /* ceiling: somebody with no road to the camp stands where they are */ }
   }
@@ -217,11 +287,24 @@ export function tellGoliad(world, { beginTravel }) {
   }
 }
 
-/** San Jacinto: everybody with Houston fights. Nobody's family knows yet. */
-export function fightSanJacinto(world, causeId) {
-  for (const { person, fate } of rollFates(world, inService(world, 'houston').map(person => person.id), { event: 'san-jacinto', ...SAN_JACINTO, weightOf: steadiness })) {
+/**
+ * San Jacinto: every man in the line fights (`inTheLine`, or the line the battle's director recorded, sim/san-jacinto.mjs).
+ * Nobody's family knows yet. The roll is the same seeded one it always was; where each man falls, and when, is the battle's
+ * (`FIC-GONZ-443`). A man with the army and not in the line - left with the baggage, sick in the camp, still on the road -
+ * has no fate: he is said as what he was, and the baggage and the camp were there for it (`present`).
+ */
+export function fightSanJacinto(world, causeId, { inLine = null } = {}) {
+  const serving = inService(world, 'houston');
+  const fighters = inLine || serving.filter(person => inTheLine(world, person)).map(person => person.id);
+  for (const { person, fate } of rollFates(world, fighters, { event: 'san-jacinto', ...SAN_JACINTO, weightOf: steadiness })) {
     awardGlory(world, { event: 'san-jacinto', claimId: 'HIST-TEX-067', personId: person.id, householdId: person.householdId, role: 'fought', fromSiteId: 'lynchburg', causes: causeId ? [causeId] : [] });
     person.service = { ...person.service, fate };
+  }
+  for (const person of serving) {
+    if (fighters.includes(person.id)) continue;
+    const where = person.service.baggage ? 'baggage' : !person.travel && person.location?.siteId === 'lynchburg' ? 'camp' : 'road';
+    person.service = { ...person.service, absent: where };
+    if (where !== 'road') awardGlory(world, { event: 'san-jacinto', claimId: 'HIST-TEX-067', personId: person.id, householdId: person.householdId, role: 'present', fromSiteId: where === 'baggage' ? 'harrisburg' : 'lynchburg', causes: causeId ? [causeId] : [] });
   }
 }
 
@@ -229,15 +312,23 @@ export function fightSanJacinto(world, causeId) {
 export function tellSanJacinto(world, { beginTravel }) {
   for (const person of Object.values(world.entities)) {
     const service = person.service;
-    if (!person.householdId || service?.kind !== 'houston' || !service.fate || service.told) continue;
+    if (!person.householdId || service?.kind !== 'houston' || !(service.fate || service.absent) || service.told) continue;
     service.told = true;
     // A drilled man is said to be one (sim/camp.mjs): the family reads what the camp's work came to.
     const drilled = drilledSteady(person) ? ', steady in the line from the drill at the camp,' : '';
-    if (service.fate === 'killed') { service.status = 'fell'; person.health = { condition: 'dead' }; person.task = 'rest'; tell(world, person, `${person.name}${drilled} was killed in the charge at San Jacinto.`, { claimId: 'HIST-TEX-067' }); continue; }
-    if (service.fate === 'wounded') { person.health = { condition: WOUND_GRADES.slight.condition, grade: 'slight', recoversAt: world.minute + WOUND_GRADES.slight.minutes }; tell(world, person, `${person.name}${drilled} was slightly hurt at San Jacinto, and is on their feet.`, { claimId: 'HIST-TEX-067' }); }
+    // With the army and not in the line (`fightSanJacinto`): said as what he was, and released home with the rest.
+    if (!service.fate && service.absent) {
+      const text = service.absent === 'baggage' ? `${person.name} was left sick with the baggage at Harrisburg when the army marched, and was not in the battle at San Jacinto.`
+        : service.absent === 'camp' ? `${person.name} was in the camp at San Jacinto, too sick or hurt to stand in the line, when the army attacked.`
+          : `${person.name} had not reached the army at San Jacinto when it attacked, and was not in the battle.`;
+      tell(world, person, text, { claimId: 'HIST-TEX-067' });
+    } else if (service.fate === 'killed') { service.status = 'fell'; person.health = { condition: 'dead' }; person.task = 'rest'; tell(world, person, `${person.name}${drilled} was killed in the charge at San Jacinto.`, { claimId: 'HIST-TEX-067' }); continue; }
+    else if (service.fate === 'wounded') { person.health = { condition: WOUND_GRADES.slight.condition, grade: 'slight', recoversAt: world.minute + WOUND_GRADES.slight.minutes }; tell(world, person, `${person.name}${drilled} was slightly hurt at San Jacinto, and is on their feet.`, { claimId: 'HIST-TEX-067' }); }
     else tell(world, person, `${person.name}${drilled} came through the fight at San Jacinto unhurt.`, { claimId: 'HIST-TEX-067' });
     person.service = { ...person.service, status: 'released', until: world.minute };
     const home = world.households[person.householdId]?.homeSiteId;
+    // ceiling: a man still on the road to the army when the word comes keeps walking to it, and stands released where he
+    // arrives; the class ends two days later. Turning him about on the road is the way out if a class ever runs longer.
     if (home && person.location?.siteId && !person.travel && person.health.condition !== 'wounded') { try { beginTravel(world, person, home, null, 'home'); } catch { /* ceiling: they stand where they are */ } }
   }
 }

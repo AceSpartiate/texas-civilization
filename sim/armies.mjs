@@ -12,6 +12,7 @@
 // model. A Mexican column has no strength at all: what is known of it is where its head is on its dated march.
 import { houstonCamp, campName, yellowStone } from './houston.mjs';
 import { columnHead, columns } from './road.mjs';
+import { battleState } from './battle-stage.mjs';
 
 /** How near an army has to be for a family to see it, in miles. Beyond that it is not on their map at all. */
 export const ARMY_SIGHT_MILES = 25;
@@ -50,9 +51,12 @@ export function armiesNow(world, householdId = null) {
     { kind: 'matamoros', id: 'matamoros', name: 'the Matamoros men', side: 'texian' },
     { kind: 'houston', id: 'houston', name: "Houston's army", side: 'texian' },
   ];
+  // While San Jacinto is fought the battle draws both armies where they stand on the field (sim/battles/san-jacinto.mjs).
+  const jacinto = world.battles?.['san-jacinto'] ? battleState(world, 'san-jacinto') : null;
+  const fieldHasThem = Boolean(jacinto && !jacinto.before && !jacinto.over);
   for (const service of services) {
     const men = serving(world, service.kind);
-    if (!men.length) continue;
+    if (!men.length || (service.kind === 'houston' && fieldHasThem)) continue;
     // Houston's army is wherever its camp is today (sim/houston.mjs); the rest stand where their men stand.
     const camp = service.kind === 'houston' ? at(world, houstonCamp(world)) : null;
     const where = camp || at(world, men[0].service.siteId) || (men[0].location && { x: men[0].location.x, y: men[0].location.y, place: world.map?.sites?.[men[0].location.siteId]?.name || 'the field' });
@@ -72,6 +76,9 @@ export function armiesNow(world, householdId = null) {
   for (const column of columns()) {
     const head = columnHead(world, column, world.minute);
     if (!head) continue;
+    // From the moment the armies meet at San Jacinto the battle draws Santa Anna's army itself, camp, rout and prisoners
+    // (sim/battles/san-jacinto.mjs): the column's marker would be a second Mexican army beside it.
+    if (column.id === 'santa-anna' && jacinto && !jacinto.before) continue;
     found.push({ id: column.id, name: column.name, side: 'mexican', x: head.x, y: head.y, place: head.towardName ? `making for ${head.towardName}` : 'on the march', strength: null, ours: 0 });
   }
   return found;

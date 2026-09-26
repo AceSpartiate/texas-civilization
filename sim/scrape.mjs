@@ -294,7 +294,9 @@ export function advanceFlight(world, minutes) {
     }
     // On the road the family eats what it carries, and goes hungry when that is gone. Each by their age (sim/family.mjs
     // `eatenADay`, FIC-GONZ-360): a small child a quarter or half of a grown share.
-    const alive = people(world, household).filter(person => !GONE.includes(person.health?.condition) && (person.travel?.purpose === 'flee' || person.travel?.purpose === 'return' || person.location?.siteId === flight.refuge));
+    // Not a man serving with the army who happens to camp where his family took refuge (Lynchburg, San Felipe): he eats the
+    // army's rations and is sick or well with it (`FIC-GONZ-442`).
+    const alive = people(world, household).filter(person => !GONE.includes(person.health?.condition) && person.service?.status !== 'serving' && (person.travel?.purpose === 'flee' || person.travel?.purpose === 'return' || person.location?.siteId === flight.refuge));
     if (flight.status !== 'returning' && household.resources) household.resources.food = Math.max(0, Math.round((household.resources.food - eatenADay(world, alive) * days) * 10000) / 10000);
     const hungry = (household.resources?.food ?? 0) <= 0;
     // Sickness, and the rare death, rolled by the day.
@@ -367,7 +369,7 @@ export function turnHome(world, causeId) {
     const flight = household.flight;
     if (!flight || flight.status !== 'refuged') continue;
     const at = flight.refuge;
-    const goers = people(world, household).filter(person => !GONE.includes(person.health?.condition) && person.location?.siteId === at && !person.travel && person.health.condition !== 'wounded');
+    const goers = people(world, household).filter(person => !GONE.includes(person.health?.condition) && person.service?.status !== 'serving' && person.location?.siteId === at && !person.travel && person.health.condition !== 'wounded');
     // Home with the wagon only when every beast the family has is there with it, the wagon and an ox among them: as it was when a
     // family had one of each (all three at the refuge), and the same rule for one that bought more (sim/beasts.mjs).
     const all = beasts(world, household), there = all.filter(beast => beast.location.siteId === at);

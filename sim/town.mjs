@@ -18,6 +18,7 @@ import { record } from './events.mjs';
 import { advanceShopkeepers, createShopkeepers, keeperSex, KEEPERS } from './shops.mjs';
 import { householdName, sexOf, bandOf } from './family.mjs';
 import { facingOf, ridersInSight } from './encounters.mjs';
+import { heldByBattle } from './battle-stage.mjs';
 
 /**
  * How much coin the Gonzales store holds at the start of a class, per family in it.
@@ -241,8 +242,12 @@ export function observedBy(world, householdId) {
   if (!householdId) return [];
   const mine = Object.values(world.entities).filter(entity => entity.householdId === householdId && entity.location?.siteId);
   const places = new Set(mine.map(entity => entity.location.siteId));
+  // Somebody in the line of a fight is out on the field, not standing in the town the camp is named for: a family camped at
+  // Lynchburg does not see the men at San Jacinto, and is not sent them (docs/BATTLES.md §2.1). A family with its own man in
+  // that fight is sent the fight, and them in it, by the battle itself (`members`).
+  const inTheField = entity => Boolean(heldByBattle(world, entity)) && !mine.some(own => heldByBattle(world, own));
   const standingWith = Object.values(world.entities)
-    .filter(entity => entity.householdId !== householdId && entity.kind === 'person' && places.has(entity.location?.siteId));
+    .filter(entity => entity.householdId !== householdId && entity.kind === 'person' && places.has(entity.location?.siteId) && !inTheField(entity));
   // A rider carrying word is visible while they are still coming, because watching
   // somebody ride up to your door is the arrival, and news that materialises at the moment
   // it is spoken has no approach at all. Anybody within sight of one of this family's own
