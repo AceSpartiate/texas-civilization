@@ -149,6 +149,7 @@ export const COLETO = Object.freeze({
       caption: 'About nine in the morning of March 19, Colonel Fannin at last marches his men out of Goliad for Victoria, in a heavy fog, with nine brass cannon, carts and slow, hungry oxen. Crossing the San Antonio River, the largest gun falls into the water and is left.',
       texian: { style: 'column', from: 'gate', to: 'out', action: 'advance', fire: 'none', face: 'square', drawn: 55 },
       mexican: { style: 'column', at: 'urrea', action: 'gone', fire: 'none' },
+      // ceiling: Horton's horsemen are drawn on foot (the library has no mounted volunteer); a mounted volunteer figure is the way out.
       groups: [{ id: 'horton', side: TEX, name: 'Horton’s horsemen', style: 'loose', drawn: 5, from: 'gate-ahead', to: 'out-ahead', spread: { width: 0.08, depth: 0.05 }, face: 'square', action: 'advance' }],
       lines: [
         say('k-carts', 10, TEX, 'volunteer', 'reconstructed', 'Keep those carts closed up!'),

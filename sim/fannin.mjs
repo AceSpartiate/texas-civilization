@@ -94,7 +94,8 @@ export function advanceColeto(world, { start, beginTravel }) {
       // A man still hurt from the south rides in a cart with the column's baggage (staging.md §6.6).
       if (person.health?.condition === 'wounded') entry.cart = true;
       // His fate at a staged moment, the engine's (`stageFate`): seen by his own family, watching, when it comes; a man killed
-      // lies where he fell on his family's map until the word (`lies`, sim/battle-stage.mjs `lyingOnField`).
+      // lies where he fell on his family's map until the word (`lies`, sim/battle-stage.mjs `lyingOnField`). ceiling: for twelve
+      // days he lies there alone on the prairie; the burial of the dead of Coleto is not staged.
       if (!horton && fate !== 'unhurt') { const at = coletoMoment(world, state, person.id, fate); stageFate(world, 'coleto', person.id, { fate, minute: at.minute, phase: at.phase, ...(fate === 'wounded' && { grade: 'severe' }), ...(fate === 'killed' && { lies: true }) }); }
       // Whatever road he was on, the column takes him now: he walks to it from where he stands.
       person.travel = null; person.chore = null;
