@@ -6,6 +6,7 @@ import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { beginSecondPeriod } from '../sim/periods.mjs';
+import { momentOf } from '../sim/directors.mjs';
 import { COURIER_CHOSEN, askCouriers, share } from '../sim/alamo.mjs';
 import { BESIDE_FEET, RUNNER_FEET_PER_TICK, TRAVIS_DOOR, onMap, runnerOf, runnerOpening } from '../sim/alamo-runner.mjs';
 import { alamoOnMap } from '../public/bexar-layout.js';
@@ -64,6 +65,8 @@ test('Travis\'s runner walks from the colonel\'s door, and the question opens on
   const [man] = menOfFamilies(world, 1);
   garrison(world, man);
   untilMoment(world, 'alamo-siege');
+  // Since 2026-09-25 he walks in from the town to his post on the walls rather than being set down in the fort (sim/alamo-posts.mjs).
+  until(world, () => !man.service.walk, 60);
   assert.equal(man.location.siteId, 'bexar');
   assert.ok(feet(man.location, world.map.sites.bexar) > 1000, 'shut in the Alamo but standing in the town\'s plaza');
   // The far end of the compound's plaza, so the walk takes several ticks.
@@ -237,6 +240,8 @@ test('at the assault a fighter inside is killed and a woman and a boy are spared
   untilMoment(world, 'courier-1');
   assert.equal(courier.service.courier, 'sent');
   untilMoment(world, 'alamo-assault');
+  // Each fate falls at its own moment inside the assault since 2026-09-25 (sim/alamo-battle.mjs): the morning is over by seven.
+  until(world, () => world.minute >= momentOf(world, 'alamo-assault') + 120);
   // Whoever is still inside at the assault; somebody the fallback sent out with the letters is not.
   for (const person of [fighter, woman, boy]) {
     if (!person.service.besieged) continue;

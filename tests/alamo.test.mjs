@@ -145,7 +145,10 @@ test('on March 6 every man inside dies and every woman is spared, and no family 
   const farMan = men(world).find(person => !gonzales.some(household => household.id === person.householdId));
   const woman = women(world).find(person => person.householdId !== man.householdId);
   for (const person of [man, farMan, woman]) serve(world, person, 'garrison', 'bexar');
+  // Since 2026-09-25 each fate falls at its own moment inside the assault (sim/alamo-battle.mjs), not all at five: the
+  // morning is over by seven.
   untilMoment(world, 'alamo-assault');
+  until(world, () => world.minute >= momentOf(world, 'alamo-assault') + 120);
   assert.equal(man.service.fate, 'fell');
   assert.equal(woman.service.fate, 'spared');
   assert.ok(world.glory[man.householdId].awards[`alamo:${man.id}`]?.role === 'fought', 'a man who fell earned no glory for it');

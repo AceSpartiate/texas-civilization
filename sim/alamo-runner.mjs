@@ -14,16 +14,10 @@
 // The compound's plan is the one the map draws (public/alamo-layout.js, public/bexar-layout.js `alamoOnMap`).
 import { record } from './events.mjs';
 import { establishTruth } from './knowledge.mjs';
-import { share } from './alamo.mjs';
-
-/**
- * Where the compound's plan lies on the map: its origin (the north-west corner of the plan, public/alamo-layout.js) in miles
- * east and south of Béxar's site point. The plan is laid north-up at its true feet (public/bexar-layout.js `alamoOnMap`), so a
- * foot of the plan is a foot of the map. Copied as numbers because nothing under sim/ reads the renderer
- * (tests/movement.test.mjs); tests/alamo-runner.test.mjs fails if this and `alamoOnMap` ever part.
- */
-export const ALAMO_ORIGIN = Object.freeze({ x: 0.28673085317694386, y: -0.1601460310951376 });
-const alamoOnMap = feet => ({ x: ALAMO_ORIGIN.x + feet.x / 5280, y: ALAMO_ORIGIN.y + feet.y / 5280 });
+import { alamoRole } from './alamo.mjs';
+// Where the compound lies on the map, and each person's post on its walls: sim/alamo-posts.mjs (docs/BATTLES.md §7).
+import { ALAMO_ORIGIN, onMap, postFor, spotOf, walkToPost } from './alamo-posts.mjs';
+export { ALAMO_ORIGIN, onMap };
 
 /** The east door of the first west-range room, labelled "Travis / Joe quarters · reconstructed" on the plan, in its feet. */
 export const TRAVIS_DOOR = Object.freeze({ x: 18, y: 64 });
@@ -46,17 +40,18 @@ const FEET_PER_MILE = 5280;
 const GONE = ['dead', 'captured'];
 
 const bexar = world => world.map?.sites?.bexar;
-/** A point of the compound's plan, in feet, as a point on the map. */
-export function onMap(world, feet) {
-  const site = bexar(world), offset = alamoOnMap(feet);
-  return { x: site.x + offset.x, y: site.y + offset.y, siteId: 'bexar' };
-}
-/** Where this person stands inside the walls: somewhere on the main plaza, always the same place for the same person. */
-export const postOf = (world, person) => ({ x: 40 + 140 * share(world, person.id, 'alamo-post-x'), y: 130 + 280 * share(world, person.id, 'alamo-post-y') });
-/** Put somebody shut in the Alamo at their place inside it. The town's point on the map is the Main Plaza, not the fort. */
+/**
+ * Where this person stands inside the walls: their post on the walls, or in the church for a woman or a child
+ * (sim/alamo-posts.mjs), the same place for the same person. Replaced the hashed spot on the main plaza on 2026-09-25.
+ */
+export const postOf = (world, person) => spotOf(postFor(world, person, alamoRole(person)));
+/**
+ * Send somebody shut in the Alamo to their place inside it on their own legs: in from the town through the south gate, or
+ * from wherever inside they stand. Nobody is set down there (docs/battle-research/staging.md §5.6, `FIC-GONZ-430`).
+ */
 export function takePost(world, person) {
   if (!bexar(world)) return;
-  person.location = onMap(world, postOf(world, person));
+  walkToPost(world, person, postFor(world, person, alamoRole(person)));
 }
 
 const runnerId = person => `alamo-runner-${person.id}`;

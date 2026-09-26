@@ -26,6 +26,9 @@ import { frailty } from './army.mjs';
 import { modeWith } from './keeping.mjs';
 import { canAnswerCalls } from './family.mjs';
 import { closeRunner, sendRunner, takePost } from './alamo-runner.mjs';
+import { endShortOf, leaveBy, onMap, pointAlong, postLabel, wayOut } from './alamo-posts.mjs';
+import { MODES, milesADay, roadTicks } from './travel.mjs';
+import { findWay } from './ways.mjs';
 
 const GONE = ['dead', 'captured'];
 const BEXAR = 'bexar', GONZALES = 'gonzales';
@@ -88,8 +91,8 @@ export function beginSiege(world, causeId) {
       person.chore = null; person.task = 'rest';
     }
     person.service.besieged = true;
-    // ceiling: set down at their place inside the walls; the walk from the town into the fort on the afternoon of the 23rd is
-    // not drawn. The Alamo was where the garrison went (`HIST-TEX-054`), and the runner needs them there to walk to.
+    // Across the river and in through the south gate to their post on the walls, on their own legs (sim/alamo-posts.mjs,
+    // docs/BATTLES.md §7): the garrison went into the Alamo that afternoon (`HIST-TEX-054`).
     takePost(world, person);
     tell(world, person, `The Mexican army has come into Béxar under a red flag. ${person.name} is shut in the Alamo with the garrison.`, { claimId: 'HIST-TEX-054' });
   }
@@ -214,31 +217,77 @@ export function sendCouriers(world, day, { beginTravel }) {
     }
     service.courier = 'sent';
     Object.assign(service, { status: 'released', until: world.minute, besieged: false });
-    const eventId = tell(world, person, `${person.name} slipped out through the Mexican lines in the dark with Travis's letters, riding for Gonzales.`, { claimId: 'HIST-TEX-055' });
+    const back = world.minute < reliefLeaves(world) ? ` The men gathering at Gonzales ride for the Alamo at two on February 27: if ${person.name} is there before them, the family may send him back in with them, as Albert Martin went.` : '';
+    const eventId = tell(world, person, `${person.name} slipped out through the Mexican lines in the dark with Travis's letters, riding for Gonzales.${back}`, { claimId: 'HIST-TEX-055' });
     awardGlory(world, { event: 'alamo', claimId: 'HIST-TEX-055', personId: person.id, householdId: person.householdId, role: 'present', fromSiteId: BEXAR, causes: [eventId] });
-    try { beginTravel(world, person, GONZALES, eventId, 'home'); } catch { /* ceiling: a courier with nowhere to ride stands where they are */ }
+    rideOut(world, person, eventId, beginTravel);
   }
 }
+/**
+ * A courier rides (docs/battle-research/staging.md §5.6 (d), `FIC-GONZ-433`): out from his post through the south gate on the
+ * family's horse if he has it there, or on one of the garrison's, and on along the Gonzales road from where it passes the
+ * walls - not walked, and not through the walls to Béxar's plaza first. Riding, he can reach Gonzales before the relief
+ * leaves on February 27, and go back in with it if his family sends him (Albert Martin did).
+ * ceiling: the garrison's horse he is lent is not an entity; it is his pace and his seat.
+ */
+function rideOut(world, person, eventId, beginTravel) {
+  const here = { x: person.location.x, y: person.location.y };
+  delete person.service.walk;
+  try { beginTravel(world, person, GONZALES, eventId, 'home', modeWith(world, person)); } catch { /* ceiling: a courier with nowhere to ride stands where they are */ }
+  if (!person.travel || !world.map.sites[BEXAR]) return;
+  const post = person.service.post;
+  if (post) leaveBy(person.travel, here, wayOut(post).map(feet => onMap(world, feet)));
+  if (person.travel.mode === 'foot') Object.assign(person.travel, { speed: Math.max(person.travel.speed, MODES.horse.speed), saddle: true, lent: 'garrison' });
+}
 
-/** February 27, two in the afternoon: whoever waits in Gonzales to go in rides for Béxar with Kimbell and Martin. */
+/**
+ * February 27, two in the afternoon: whoever waits in Gonzales to go in rides for Béxar with Kimbell and Martin - at the
+ * company's pace, on the family's horse or one the company found him, and not to Béxar's plaza inside the Mexican lines but
+ * to where the company waited in the dark on the Gonzales road, short of them (docs/battle-research/staging.md §5.6 (a),
+ * `FIC-GONZ-433`). Seventy miles at thirty-five a day: there on the 29th, a night to spare before they go in at three.
+ * A man who was sent here and is not in Gonzales at two is told the company rode without him (§5.6 (b)).
+ */
 export function reliefRides(world, { beginTravel }) {
+  const wait = world.map.sites[BEXAR] ? onMap(world, { x: 3200, y: 250 }) : null;
   for (const person of inService(world, 'relief')) {
-    if (person.location?.siteId !== GONZALES || person.travel) continue;
+    if (person.location?.siteId !== GONZALES || person.travel) {
+      Object.assign(person.service, { status: 'released', until: world.minute });
+      tell(world, person, `The Gonzales men rode for the Alamo at two o'clock without ${person.name}, who was not in Gonzales when they went.`, { claimId: 'HIST-TEX-057', importance: 2 });
+      continue;
+    }
     person.service.riding = true;
     const eventId = tell(world, person, `${person.name} rode out of Gonzales for the Alamo with Kimbell and Martin's company.`, { claimId: 'HIST-TEX-057' });
     const mode = modeWith(world, person);
-    try { beginTravel(world, person, BEXAR, eventId, 'march', mode); } catch { try { beginTravel(world, person, BEXAR, eventId, 'march'); } catch { /* ceiling: set down at Béxar on March 1 */ } }
+    try { beginTravel(world, person, BEXAR, eventId, 'march', mode); } catch { try { beginTravel(world, person, BEXAR, eventId, 'march'); } catch { /* ceiling: stays in Gonzales and is left behind */ } }
+    if (!person.travel) continue;
+    if (wait) endShortOf(person.travel, wait);
+    // With the company: over the fords as it crossed them, at its pace, and in the saddle.
+    person.travel.withForce = true;
+    if (person.travel.mode === 'foot') Object.assign(person.travel, { speed: Math.max(person.travel.speed, MODES.horse.speed), saddle: true, lent: 'company' });
+    // They rode at two. A class whose tick landed later than that (half a day a tick in the campaign) has them as far down the
+    // road as the hours since two would carry them, so a coarse tick never makes the company late for the lines.
+    const since = Math.max(0, world.minute - reliefLeaves(world));
+    if (since > 0) {
+      person.travel.progress = Math.min(person.travel.distance, person.travel.speed * roadTicks(since));
+      person.location = { ...pointAlong(person.travel.points, person.travel.progress), siteId: null };
+    }
   }
 }
 
-/** Before dawn, March 1: the relief is through the lines and inside the walls. */
+/**
+ * Before dawn, March 1: the relief is through the lines and inside the walls. Nobody is moved here: the company rode from
+ * where it waited to the gate while the relief phase ran (sim/alamo-battle.mjs `followTheRelief`), and whoever came in with it
+ * now belongs to the garrison and walks from the gate to a post. A man still on the road did not get in (`leftBehind`).
+ */
 export function reliefEnters(world) {
   for (const person of inService(world, 'relief')) {
     if (!person.service.riding) continue;
-    const site = world.map.sites[BEXAR];
-    person.travel = null;
-    person.location = { x: site.x, y: site.y, siteId: BEXAR };
+    // Still on the road: the company went in without him (sim/alamo-battle.mjs `leftBehind`). A man who waited with it goes
+    // in, whether or not the clock showed the ride to the gate: in a class nobody watches it is one long tick, and he walks
+    // on from wherever the ride left him (sim/alamo-posts.mjs `walkToPost`).
+    if (person.travel || person.service.late) { person.service.late = true; continue; }
     person.service = { kind: 'garrison', status: 'serving', since: world.minute, siteId: BEXAR, besieged: true, relief: true };
+    person.task = 'rest';
     takePost(world, person);
     tell(world, person, `${person.name} got through the Mexican lines in the dark with the Gonzales men, and is inside the Alamo.`, { claimId: 'HIST-TEX-057' });
   }
@@ -249,10 +298,14 @@ export function reliefEnters(world) {
  * (`alamoRole`, `FIC-GONZ-381`), and the place they are in: a fighter inside at the assault is killed, as every combatant
  * was (`HIST-TEX-058`, `-435`, `-436`); a noncombatant is spared (`HIST-TEX-432`, `-433`). Whoever was sent out as a courier
  * is not inside (`service.besieged` false) and is not touched. Nobody's family knows any of it yet.
+ *
+ * Since 2026-09-25 each fate falls at its own moment inside the assault (sim/alamo-battle.mjs `stageFates`, `FIC-GONZ-432`):
+ * a fighter when the storming reaches his post, a woman or child when the firing stops. This is what is left of the one-update
+ * rule - the backstop at the end of the day for anybody the staging did not reach - and it never overwrites a staged fate.
  */
 export function stormAlamo(world, causeId) {
   for (const person of inService(world, 'garrison')) {
-    if (!person.service.besieged) continue;
+    if (!person.service.besieged || person.service.fate) continue;
     const fell = alamoRole(person) === 'fighter';
     person.service.fate = fell ? 'fell' : 'spared';
     awardGlory(world, { event: 'alamo', claimId: 'HIST-TEX-058', personId: person.id, householdId: person.householdId, role: fell ? 'fought' : 'present', fromSiteId: BEXAR, causes: causeId ? [causeId] : [] });
@@ -264,6 +317,7 @@ export function survivorsLeave(world, { beginTravel }) {
   for (const person of inService(world, 'garrison')) {
     if (person.service.fate !== 'spared') continue;
     Object.assign(person.service, { status: 'released', until: world.minute, besieged: false });
+    delete person.service.walk; person.task = 'rest';
     try { beginTravel(world, person, householdOf(world, person).homeSiteId, null, 'home'); } catch { /* ceiling: they stand at Béxar */ }
   }
 }
@@ -272,19 +326,41 @@ export function survivorsLeave(world, { beginTravel }) {
 export function tellFall(world, households) {
   const ids = new Set(households.map(household => household.id));
   for (const person of Object.values(world.entities)) {
-    if (!ids.has(person.householdId) || person.service?.kind !== 'garrison' || !person.service.fate || person.service.told) continue;
+    if (!ids.has(person.householdId) || person.service?.kind !== 'garrison' || person.service.told) continue;
+    // A courier who rode out is told of too: the family learns what he escaped (staging.md §5.8's last sentence).
+    const courier = person.service.courier === 'sent' && !person.service.fate;
+    if (!person.service.fate && !courier) continue;
     person.service.told = true;
+    let text, claimId = 'HIST-TEX-058';
     if (person.service.fate === 'fell') {
       Object.assign(person.service, { status: 'fell', besieged: false });
       person.health = { condition: 'dead' }; person.task = 'rest'; person.chore = null;
-      tell(world, person, person.service.relief
-        ? `${person.name} was killed when the Alamo was stormed at dawn on March 6, with the Gonzales men who had gone in on March 1. The garrison was overwhelmed.`
-        : `${person.name} was killed when the Alamo was stormed at dawn on March 6. The garrison was overwhelmed.`, { claimId: 'HIST-TEX-058' });
+      delete person.service.walk;
+      text = person.service.relief
+        ? `${person.name} was killed when the Alamo was stormed at dawn on March 6, with the Gonzales men who had gone in on March 1. ${person.name} was on ${postLabel(person.service.post)}. The garrison was overwhelmed.`
+        : `${person.name} was killed when the Alamo was stormed at dawn on March 6, on ${postLabel(person.service.post)} with the garrison. The garrison was overwhelmed.`;
+    } else if (person.service.fate === 'spared') {
+      claimId = 'HIST-TEX-432';
+      text = `${person.name} was among the women and children spared when the Alamo fell: in the church's sacristy while it was fought, and brought out when it was over. Santa Anna's officers questioned them at Músquiz's house in Béxar and let them go, and ${person.name} came away east as Mrs. Dickinson did.`;
     } else {
-      tell(world, person, `${person.name} was among the women and children spared when the Alamo fell. Santa Anna's officers questioned them and let them go, and ${person.name} came away east as Mrs. Dickinson did.`, { claimId: 'HIST-TEX-432' });
+      claimId = 'HIST-TEX-431';
+      text = `${person.name} had ridden out of the Alamo as a courier with Travis's letters, and was not inside when it fell.`;
     }
+    const eventId = tell(world, person, `${text}\n\n${FALL_ACCOUNT}`, { claimId });
+    // The same account on the family's card for a day (docs/BATTLES.md §2.8), through what the word brought.
+    const battle = world.battles?.alamo;
+    if (battle) (battle.told ||= {})[person.householdId] = { eventId, minute: world.minute, entityId: person.id, text: `${text}\n\n${FALL_ACCOUNT}` };
   }
 }
+/**
+ * What happened, in plain words (docs/battle-research/staging.md §5.8; `HIST-TEX-058`, `-435`, `-436`, `-500` to `-503`), told
+ * with every family's word of the fall; the doubted stories are named as doubted (owner questions A1 and A2, as recommended).
+ */
+export const FALL_ACCOUNT = [
+  'What happened: before dawn on March 6 about fifteen hundred Mexican soldiers in four columns, carrying ladders, came at the Alamo from every side. The defenders\' cannon drove them back at first, but they came on again, crowded against the north wall and climbed over it. The defenders fell back into the long barrack and the church and fought room by room, and those who ran out over the walls were caught by cavalry waiting outside. In about an hour it was over. Every man who fought was killed - the few taken alive were shot on Santa Anna\'s orders - and several hundred Mexican soldiers were killed or wounded. The women and children, and Joe, whom Travis held as a slave, were spared. The dead defenders were burned.',
+  'Why it ended so: fewer than two hundred men held walls built for many more, against nearly two thousand, and no help came but the thirty-two from Gonzales. Once the north wall was climbed there was nowhere left to fight from but the rooms.',
+  'Stories told many years later - that Travis drew a line in the sand, that the bugles played the degüello, the call of no quarter - are doubted by historians.',
+].join('\n\n');
 
 /** February 27: nobody new goes south; those there are split between Johnson's party and Grant's. */
 export function splitSouth(world) {
@@ -332,6 +408,33 @@ export function tellSouth(world, fight) {
       tell(world, person, `${person.name} was taken prisoner at ${place} and marched to Matamoros.`, { claimId: 'HIST-TEX-059' });
     }
   }
+}
+
+/**
+ * When the Gonzales men ride, February 27 at two in the afternoon, in minutes from midnight on September 29, 1835: the director's
+ * `relief-leaves` (sim/directors.mjs `TIMELINE`), which this module cannot import. tests/battle-alamo.test.mjs holds the two equal.
+ */
+export const RELIEF_LEAVES_FROM_SEPT_29 = 218280;
+const reliefLeaves = world => RELIEF_LEAVES_FROM_SEPT_29 + (world.director?.arrival ? 1080 : 0);
+/**
+ * What the family is told on the order to go in with the relief, before anybody goes (docs/battle-research/staging.md §5.6 (c),
+ * `FIC-GONZ-433`): how long the road to Gonzales is from where the person is, on foot and on the horse, and whether that is
+ * before the Gonzales men ride. If it is not, it says so - and the family may still send him, and he will be told there.
+ */
+export function reliefEstimate(world, household, entity) {
+  const from = entity.location?.siteId, deadline = reliefLeaves(world);
+  if (!from || !world.map?.sites?.[GONZALES] || world.minute >= deadline) return null;
+  const leg = modeId => {
+    if (from === GONZALES) return 0;
+    const path = findWay(world, from, GONZALES, modeId);
+    return path ? path.distance / milesADay(MODES[modeId].speed) * 1440 : null;
+  };
+  const days = minutes => minutes < 1440 ? 'under a day' : `about ${Math.round(minutes / 1440)} day${Math.round(minutes / 1440) === 1 ? '' : 's'}`;
+  const ways = [['on foot', leg('foot')], ...(modeWith(world, entity) === 'horse' || Object.values(world.entities).some(one => one.householdId === household.id && one.kind === 'animal' && one.species === 'horse') ? [['on the horse', leg('horse')]] : [])].filter(([, minutes]) => minutes !== null);
+  if (!ways.length) return null;
+  const said = ways.map(([how, minutes]) => `${how} ${days(minutes)}, ${world.minute + minutes + 20 <= deadline ? 'in time' : 'too late'}`).join('; ');
+  const any = ways.some(([, minutes]) => world.minute + minutes + 20 <= deadline);
+  return `To Gonzales ${said}. The men ride for the Alamo at two in the afternoon on February 27${any ? '' : ', and nobody from here can reach Gonzales before then'}.`;
 }
 
 /** Families nobody plays near enough to act: the share of their grown hands who ride to Gonzales to go in with the relief. */

@@ -619,6 +619,9 @@ function drawnHeightOf(entity, size, seat) {
   return size * (mounted(entity) ? MOUNTED_HEIGHT : 1);
 }
 function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
+  // One of the family who fell at the Alamo, which the student watched (docs/BATTLES.md §2b.1): drawn lying where he fell
+  // while the fight is drawn, and not after it - he is not seen standing at his post again. The family is told nothing.
+  if (entity.service?.seenFall && !battleView.isMember(entity.id)) return;
   // The horse is under its rider, and the ox and wagon under their driver, drawn with them (public/motion.js `seatOf`).
   if (!marks.observed && carriedWithRider(entity, marks.entities || [])) return;
   const seat = marks.observed ? null : seatOf(entity, marks.entities || []);
@@ -769,8 +772,12 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
   // their click are this function's, as for anybody.
   const pose = entity.kind === 'person' ? battleView.memberPose(entity, animationTime) : null;
   if (pose) {
-    const done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, size, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, size, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
-    if (!done) miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed });
+    // Going down (a family's person falling at the Alamo): tipped over about the feet, as the men round them are drawn.
+    const px = pose.rotate ? 0 : x, py = pose.rotate ? 0 : y;
+    if (pose.rotate) { ctx.save(); ctx.translate(x, y); ctx.rotate(pose.rotate); }
+    const done = pose.sprite ? drawSprite(ctx, pose.sprite, px, py, size, { flip: pose.flip }) : animated(ctx, pose.clip, px, py, size, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
+    if (!done) miniPerson(ctx, px, py, size, { ...entity, observed: marks.observed });
+    if (pose.rotate) ctx.restore();
     if (marks.ground) battleView.memberDrawn(entity.id, marks.ground, size);
     ctx.globalAlpha = alphaWas;
     return;
@@ -1271,9 +1278,14 @@ const clampTo = (value, limits) => Math.max(limits.min, Math.min(limits.max, val
  * The ground a fight is framed on: each side and the gun with room round them for their ranks and their smoke, and more
  * above than below, because the top of the page carries the banner and the caption and the figures stand up from their feet.
  */
-const fieldFrame = points => points.flatMap(point => [{ x: point.x - 0.13, y: point.y - 0.24 }, { x: point.x + 0.13, y: point.y + 0.1 }]);
-// Each side where it stands, and the gun (public/battle-view.js draws them there).
-const battlePoints = world => [...(world.battle?.sides || world.battle?.formations || []), ...(world.battle?.cannon ? [world.battle.cannon] : [])].map(point => ({ x: point.x, y: point.y }));
+const fieldFrame = points => points.frame ? points : points.flatMap(point => [{ x: point.x - 0.13, y: point.y - 0.24 }, { x: point.x + 0.13, y: point.y + 0.1 }]);
+// Each side where it stands, and the gun (public/battle-view.js draws them there) - or the ground the phase itself frames
+// (`battle.frame`, sim/battle-stage.mjs: the Alamo's compound and what is round it), taken as it is, with no room added.
+const battlePoints = world => {
+  const frame = world.battle?.frame;
+  if (frame) return Object.assign([{ x: frame.x0, y: frame.y0 }, { x: frame.x1, y: frame.y1 }], { frame: true });
+  return [...(world.battle?.sides || world.battle?.formations || []), ...(world.battle?.cannon ? [world.battle.cannon] : [])].map(point => ({ x: point.x, y: point.y }));
+};
 function framingFor(world) {
   // The country outside the box (docs/MAP_ACCURACY.md §11) is drawn where it is, but it never frames a view: framing the
   // region on Matamoros, 250 miles south of the colonies, would shrink the settlements to nothing. The map still zooms out
@@ -1339,7 +1351,8 @@ function cameraFor(world, canvas, now = performance.now()) {
   // than holding on a person who is not on the map. Without the `location` test `raw` below was null and the frame threw,
   // once a student pressed the portrait of somebody the class's clock had carried out of sight (found 2026-09-21 by
   // scripts/travel-sight-proof.mjs).
-  const watched = watchedId ? entitiesOf(world).find(entity => entity.id === watchedId && entity.location) : null;
+  // Never kept on somebody who has fallen (docs/BATTLES.md §2b.1: the camera stays on the wall, not on him).
+  const watched = watchedId ? entitiesOf(world).find(entity => entity.id === watchedId && entity.location && !entity.service?.seenFall) : null;
   const at = watched?.location
     ? motionProjection.position(watched, now, reducedMotion.matches || world.status !== 'running')
     : null;

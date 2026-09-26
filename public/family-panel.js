@@ -250,7 +250,7 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
     icons.push({
       key: entry.id, kind: 'chore', name: spec.name || entry.id,
       summary: PANEL_SUMMARIES[entry.id] || firstSentence(spec.describe),
-      note: waits ? [why, entry.waits].filter(Boolean).join(' ') : [entry.cost ? `Costs ${entry.cost}.` : '', haul, crop].filter(Boolean).join(' '),
+      note: waits ? [why, entry.waits].filter(Boolean).join(' ') : [entry.cost ? `Costs ${entry.cost}.` : '', haul, crop, entry.estimate || ''].filter(Boolean).join(' '),
       can: Boolean(settable && (entry.can || waits)), why: entry.can ? '' : why || '',
       onMap: ON_MAP.includes(entry.id), active: active === entry.id, ...(waits && { waits: true }),
     });
