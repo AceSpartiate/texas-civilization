@@ -93,6 +93,8 @@ export const AGUA_DULCE = Object.freeze({
       // 08:30 - 09:30. North from the end of the walked road with the horses, gathered and set moving. Watched at twenty
       // minutes a tick. (05:30 - 09:30 until 2026-09-26, when the ground was twelve miles from San Patricio and not twenty-six.)
       id: 'drive', minutes: 60, title: 'Driving the horses north', step: 20, claimId: 'HIST-TEX-511',
+      // Grant at the head of his party driving the horses north (`HIST-TEX-511`).
+      people: [{ id: 'grant', with: 'lead', offset: { along: 0.01, across: 0 }, pose: 'ride' }],
       caption: 'South of the Nueces, Dr. James Grant’s party - about two dozen men - is driving several hundred horses north toward San Patricio. They do not know that Urrea has taken San Patricio three days before.',
       texian: party({ keys: [[0, 'camp'], [60, 'herd-start']] }, { keys: [[0, 'camp'], [60, 'herd-start']] }, { keys: [[0, 'camp'], [60, 'herd-start']] }),
       mexican: dragoons({ at: 'grove-east' }, { at: 'grove-west' }),
@@ -105,6 +107,8 @@ export const AGUA_DULCE = Object.freeze({
     {
       // 09:30 - 10:30. The last hour, the herd and the strings of riders coming up to the creek; the dragoons in the trees.
       id: 'herd', minutes: 60, title: 'Coming up to Agua Dulce Creek', step: 5, claimId: 'HIST-TEX-511',
+      // Urrea with his dragoons in the trees (`HIST-TEX-059`).
+      people: [{ id: 'grant', with: 'lead', offset: { along: 0.01, across: 0 }, pose: 'ride' }, { id: 'urrea', with: 'east-grove', offset: { along: -0.01, across: 0 }, pose: 'ride' }],
       caption: 'The party comes up the road toward Agua Dulce Creek, strung out behind the herd. In two groves of trees ahead, Urrea’s dragoons are waiting, mounted and hidden.',
       texian: party({ keys: [[0, 'herd-start'], [60, 'ground']] }, { keys: [[0, 'herd-start'], [60, 'ground']] }, { keys: [[0, 'herd-start'], [60, 'ground']] }),
       mexican: dragoons({ at: 'grove-east' }, { at: 'grove-west' }),
@@ -117,6 +121,8 @@ export const AGUA_DULCE = Object.freeze({
     {
       // 10:30 - 10:50. The charge from both groves; the men scatter; the chase. contact.
       id: 'ambush', minutes: 20, title: 'The dragoons come out of the trees', step: 1, contact: true, claimId: 'HIST-TEX-511',
+      // Grant last seen riding for his life, the lancers after him: what happened some miles on is told, not drawn (`HIST-TEX-556`).
+      people: [{ id: 'grant', with: 'lead', offset: { along: -0.03, across: 0.01 }, pose: 'ride', during: [0, 12] }, { id: 'urrea', with: 'east-grove', offset: { along: -0.01, across: 0 }, pose: 'ride' }],
       caption: 'Between ten and eleven the dragoons charge out of both groves. The horses scatter; Grant’s men scatter too, and are ridden down one by one as they run. The Mexicans call that any who give up will be spared.',
       texian: party(
         { keys: [[0, 'ground'], [4, 'break-out'], [20, 'away']], style: 'rout', action: 'withdraw', face: 'away' },
@@ -145,7 +151,8 @@ export const AGUA_DULCE = Object.freeze({
     {
       // 10:50 - 11:50. Six prisoners held; the dead where they fell; the dragoons gathering the horses. Not held.
       id: 'after', minutes: 60, title: 'Six prisoners', step: 20, claimId: 'HIST-TEX-511',
-      caption: 'It is over. Grant is dead, cut down after he was surrounded. Reuben Brown was lassoed from his horse and taken. Six men are prisoners and will be sent to Matamoros; six got away and are riding for Fannin at Goliad. The dragoons gather up the horses.',
+      people: [{ id: 'urrea', with: 'east-grove', offset: { along: -0.01, across: 0 }, pose: 'ride' }],
+      caption: 'It is over. Grant is dead: run down some miles off, he gave himself up and got down from his horse, and was killed then. Reuben Brown was lassoed from his horse and taken. Six men are prisoners and will be sent to Matamoros; six got away and are riding for Fannin at Goliad. The dragoons gather up the horses.',
       texian: party({ at: 'away', action: 'gone' }, { at: 'cut', action: 'stand' }, { at: 'taken', pose: 'surrender', action: 'stand' }, { style: 'loose', action: 'stand' }),
       mexican: dragoons({ keys: [[0, 'chase-east'], [40, 'herd-scatter']] }, { at: 'taken' }, { action: 'stand' }),
       herd: { at: 'herd-scatter', count: 300 },

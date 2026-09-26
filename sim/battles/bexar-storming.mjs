@@ -98,7 +98,7 @@ export function bexarGround(world) {
 }
 
 const TEX = 'texian', MEX = 'mexican';
-/** One line. `name` only on a documented line or a `tradition` one (sim/battle-stage.mjs `checkEngagement`). */
+/** One line. A named person (`person`, a roster id) speaks only documented or tradition words (sim/battle-stage.mjs `checkEngagement`). */
 const say = (id, at, side, role, kind, text, extra = {}) => ({ id, at, side, role, kind, text, ...extra });
 const fall = (side, count, at, claimId, extra = {}) => ({ side, count, at, claimId, ...extra });
 
@@ -164,13 +164,15 @@ export const BEXAR_STORMING = Object.freeze({
       // Dec 4, 18:00-20:00. The army ordered into winter quarters that morning; a deserter says the town is weak; Milam calls
       // for men, and they "fall into ranks to see if we are strong enough" (Maverick). The one time the Texians stand in rows.
       id: 'call', minutes: 120, step: 20, title: 'Milam’s call', claimId: 'HIST-TEX-036', frame: AT_THE_MILL,
+      // Milam calls for men and the call comes out of him (tradition, `HIST-TEX-492`); Burleson with the camp.
+      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }],
       caption: 'December 4, evening, at the old mill above Béxar. Half the army is packing up for home. A Mexican officer has come over and says the town is weak, and Ben Milam is calling for men to go in with him. Men step forward into ranks to see if they are enough.',
       texian: { style: 'ranks', at: 'mill', action: 'stand', fire: 'none' },
       mexican: { style: 'street', spread: { width: 0.07, depth: 0.05 }, at: 'barricade', action: 'stand', fire: 'none' },
       groups: [reserve({ at: 'millGun' })],
       lines: [
         // Owner question B2 (a): Milam says it, drawn as tradition, with the claim row explaining how we know it.
-        say('b-milam', 10, TEX, 'commander', 'tradition', 'Who will go with old Ben Milam into San Antonio?', { name: 'Milam', claimId: 'HIST-TEX-492', gloss: 'As told years later (TSHA; F. W. Johnson) - no letter of 1835 gives his words' }),
+        say('b-milam', 10, TEX, 'commander', 'tradition', 'Who will go with old Ben Milam into San Antonio?', { person: 'milam', claimId: 'HIST-TEX-492', gloss: 'As told years later (TSHA; F. W. Johnson) - no letter of 1835 gives his words' }),
         say('b-go', 22, TEX, 'volunteer', 'reconstructed', 'I’ll go.'),
         say('b-put', 38, TEX, 'volunteer', 'reconstructed', 'Put me down.'),
         say('b-walled', 58, TEX, 'volunteer', 'reconstructed', 'Two hundred men against a walled town?'),
@@ -180,6 +182,7 @@ export const BEXAR_STORMING = Object.freeze({
     {
       // Dec 4, 20:00 - Dec 5, 02:00. The two divisions formed at the mill after dark. Not held: nothing moves.
       id: 'night-4', minutes: 360, title: 'Night at the mill', claimId: 'HIST-TEX-037', frame: AT_THE_MILL,
+      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }],
       caption: 'Night at the mill. The volunteers have elected Milam to lead them and are formed in two divisions, his own and F. W. Johnson’s. Burleson will hold the camp with the rest.',
       texian: { style: 'column', at: 'mill', action: 'stand', fire: 'none' },
       mexican: { style: 'street', spread: { width: 0.07, depth: 0.05 }, at: 'barricade', action: 'stand', fire: 'none' },
@@ -188,6 +191,7 @@ export const BEXAR_STORMING = Object.freeze({
     {
       // Dec 5, 02:00-03:00. The roll: 230 signed, 210 answered (Ehrenberg).
       id: 'roll', minutes: 60, step: 20, title: 'The roll at two in the morning', claimId: 'HIST-TEX-036', frame: AT_THE_MILL,
+      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }],
       caption: 'Two in the morning. The roll is called. Some who put their names down do not answer; about two hundred and ten do.',
       texian: { style: 'column', at: 'mill', action: 'stand', fire: 'none' },
       mexican: { style: 'street', spread: { width: 0.07, depth: 0.05 }, at: 'barricade', action: 'stand', fire: 'none' },
@@ -201,6 +205,8 @@ export const BEXAR_STORMING = Object.freeze({
       // Dec 5, 03:00-05:00. "At three O'clock we hurried noiselessly" (Ehrenberg): out of the mill, over the cornfield in the
       // dark, and down to the brush fence; Neill with a gun and Roberts's company across the river for the Alamo.
       id: 'out', minutes: 120, step: 20, title: 'Out of the mill in the dark', claimId: 'HIST-TEX-494', frame: AT_THE_MILL,
+      // Neill takes his gun across the river toward the Alamo (`HIST-TEX-494`).
+      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'neill', with: 'neill', offset: { along: 0.01, across: 0 } }],
       caption: 'Three in the morning, cold, with a norther blowing. The two divisions leave the mill in silence and cross the cornfield toward the town. Colonel Neill takes a cannon across the river toward the Alamo.',
       texian: { style: 'column', from: 'mill', to: 'fence', action: 'advance', fire: 'none' },
       mexican: { style: 'street', spread: { width: 0.07, depth: 0.05 }, at: 'barricade', action: 'stand', fire: 'none' },
@@ -220,6 +226,8 @@ export const BEXAR_STORMING = Object.freeze({
       // Dec 5, 05:00-05:30. Neill's gun on the Alamo from the north (Burleson, Dec 14); blankets dropped about two hundred
       // yards out; over the brush fence; a sentinel challenges and is shot - Deaf Smith fired (`HIST-TEX-494`).
       id: 'feint', minutes: 30, step: 5, contact: true, title: 'Neill’s gun, and the fence', claimId: 'HIST-TEX-494',
+      // Deaf Smith, guiding the columns in, fires on the sentinel (`HIST-TEX-494`, `-555`).
+      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }, { id: 'neill', with: 'neill', offset: { along: 0.01, across: 0 } }, { id: 'deaf-smith', with: 'texian', offset: { along: 0.03, across: 0.01 } }],
       caption: 'Five o’clock. Neill’s gun opens on the Alamo from the north to draw the Mexicans’ eyes. The volunteers drop their blankets and coats, climb a brush fence, and a sentinel calls out and is shot.',
       texian: { style: 'column', keys: [[0, 'fence'], [16, 'fence'], [30, 'acequia']], action: 'advance', fire: 'none' },
       mexican: { style: 'street', spread: { width: 0.07, depth: 0.05 }, at: 'barricade', action: 'hold', fire: 'picket' },
@@ -243,6 +251,7 @@ export const BEXAR_STORMING = Object.freeze({
       // for a short time to a very heavy fire of grape and musketry"; Greys on the Veramendi roof driven down, cutting their way
       // back in with knives; one private killed on the day, and more than half of all the wounded (`HIST-TEX-490`, `-494`).
       id: 'entry', minutes: 90, step: 10, contact: true, title: 'Into the houses', claimId: 'HIST-TEX-494',
+      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }],
       caption: 'Down the two streets in the half-dark, keeping to the walls. Milam’s men break into a stone house on the west side of the street and Johnson’s into one on the river side. Grape and musket fire sweep the street from the plaza. Men who climb onto a roof are driven off it.',
       texian: { style: 'street', keys: [[0, 'acequia'], [20, 'garza']], action: 'advance', fire: 'scattered', spread: { width: 0.05, depth: 0.05 } },
       mexican: { ...atTheBarricade({ fire: 'volley' }) },
@@ -272,6 +281,7 @@ export const BEXAR_STORMING = Object.freeze({
       // Dec 5, 07:00-08:00. "At seven o'clock, a heavy cannonading from the town was seconded by a well directed fire from the
       // Alamo"; the twelve-pounder dismounted; "a close and well directed fire from our rifles" (Johnson, `HIST-TEX-494`).
       id: 'cannonade', minutes: 60, step: 20, contact: true, title: 'The cannonade at seven', claimId: 'HIST-TEX-494',
+      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }],
       caption: 'Seven o’clock. The guns in the town open on the two houses, and the Alamo’s guns fire on them from the east. The Texians’ big gun is knocked off its carriage. From inside the houses the riflemen fire back through holes cut in the walls.',
       texian: inTheHouse(),
       mexican: atTheBarricade({ fire: 'volley' }),
@@ -287,6 +297,7 @@ export const BEXAR_STORMING = Object.freeze({
       // Dec 5, 08:00 - Dec 6, 06:00. Pinned in the houses; that night trenches and "a safe communication", "the want of proper
       // tools" (Johnson). Background: the town fighting at the ordinary military cap (`FIC-GONZ-429`).
       id: 'pinned-5', minutes: 1320, background: 120, contact: true, title: 'Pinned in the houses', claimId: 'HIST-TEX-038',
+      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }],
       caption: 'The first day and night in the houses. The riflemen fire through loopholes they have cut in the stone; cannon fire rakes the middle of the streets. The people of Béxar lie shut in their own houses all around. After dark the men dig a trench across the street between the two houses.',
       texian: inTheHouse(),
       mexican: atTheBarricade(),
@@ -310,6 +321,7 @@ export const BEXAR_STORMING = Object.freeze({
       // wall; mesquite burning between the lines until eight; that night, sandbags (`HIST-TEX-038`, `-490`). Townspeople found
       // in a house broken into are let go (`HIST-TEX-043`): drawn unhurt, walking out.
       id: 'pinned-6', minutes: 1440, background: 120, contact: true, title: 'The second day', claimId: 'HIST-TEX-038',
+      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }],
       caption: 'December 6. McDonald’s men take a house ahead of Milam’s, beating in the door; the family shut inside comes out unhurt and is let go toward the camp. The big gun is set in a hole in a wall and fires on the church. At night the men fill sandbags.',
       texian: inTheHouse(),
       mexican: atTheBarricade(),
@@ -331,6 +343,7 @@ export const BEXAR_STORMING = Object.freeze({
     {
       // Dec 7, 06:00-12:00. At daylight a Mexican trench found on the Alamo side; firing until eleven, "when they were silenced".
       id: 'pinned-7', minutes: 360, background: 120, contact: true, title: 'The third morning', claimId: 'HIST-TEX-038',
+      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }],
       caption: 'December 7. At daylight the Mexicans have dug a trench toward the Alamo and strengthened their battery on the street leading there. Their guns fire until about eleven, and then fall quiet.',
       texian: inTheHouse(),
       mexican: atTheBarricade(),
@@ -343,6 +356,8 @@ export const BEXAR_STORMING = Object.freeze({
       // division, "into which the whole of the company immediately followed him" (Johnson, `HIST-TEX-038`). The crowbar is
       // the act; the words are not his.
       id: 'karnes', minutes: 40, step: 5, contact: true, title: 'Karnes and the crowbar', claimId: 'HIST-TEX-038',
+      // Karnes at the door he forced with a crowbar about noon on the 7th (`HIST-TEX-038`).
+      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }, { id: 'karnes', at: 'karnes', pose: 'command', face: 'plaza' }],
       caption: 'About noon. Henry Karnes of York’s company runs to the door of a house ahead with a crowbar, forces it, and the whole company follows him in. The family inside is let go.',
       texian: inTheHouse(),
       mexican: atTheBarricade(),
@@ -364,6 +379,7 @@ export const BEXAR_STORMING = Object.freeze({
     {
       // Dec 7, 12:40-14:40. "In the evening, heavy fire" (Johnson). Background.
       id: 'afternoon', minutes: 120, background: 120, contact: true, title: 'The afternoon of the 7th', claimId: 'HIST-TEX-038',
+      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }],
       caption: 'The afternoon of December 7. York’s company holds the house Karnes broke into. The firing grows heavy again.',
       texian: inTheHouse(),
       mexican: atTheBarricade(),
@@ -375,6 +391,8 @@ export const BEXAR_STORMING = Object.freeze({
     {
       // Dec 7, 14:40-15:30. The yards between the houses, under fire.
       id: 'yard', minutes: 50, step: 10, contact: true, title: 'The Veramendi yard', claimId: 'HIST-TEX-039',
+      // Milam crossing to the Veramendi house; at half past three he is shot passing into its yard (`HIST-TEX-039`).
+      people: [{ id: 'milam', keys: [[0, 'garza'], [30, 'garza'], [50, 'yard']], pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }],
       caption: 'Mid-afternoon. Men cross the walled yards between the houses under fire from the roofs round the plaza.',
       texian: inTheHouse(),
       mexican: atTheBarricade(),
@@ -387,6 +405,7 @@ export const BEXAR_STORMING = Object.freeze({
       // my position, he received a rifle shot in the head, which caused his instant death" (Johnson, `HIST-TEX-039`). No words:
       // the men round him stop firing, and the yard falls quiet (staging.md §3.4). Milam says nothing here.
       id: 'milam', minutes: 30, step: 5, contact: true, title: 'Milam falls', claimId: 'HIST-TEX-039',
+      people: [{ id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }],
       caption: 'Half past three. Ben Milam is shot in the head as he passes into the yard of the Veramendi house, and dies at once. The men nearest him stop firing.',
       texian: inTheHouse(),
       mexican: atTheBarricade(),
@@ -398,6 +417,8 @@ export const BEXAR_STORMING = Object.freeze({
       // Dec 7, 16:00 - Dec 8, 06:00. At seven the officers give the command to Johnson; at ten Llewellyn's, English's, Crane's
       // and Landrum's companies take the Navarro house, "close to the square"; "exceedingly cold and wet" (`HIST-TEX-038`, -039).
       id: 'night-7', minutes: 840, background: 120, contact: true, title: 'The night of the 7th', claimId: 'HIST-TEX-038',
+      // Johnson in command from seven that evening (`HIST-TEX-039`).
+      people: [{ id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }],
       caption: 'The night of December 7, cold and wet. Milam is buried quietly in the dark. At seven the officers give the command to F. W. Johnson. At ten four companies take the Navarro house, close to the square.',
       texian: inTheHouse(),
       mexican: atTheBarricade(),
@@ -419,6 +440,7 @@ export const BEXAR_STORMING = Object.freeze({
       // reaches the Alamo, and about fifty from the Alamo fire on the camp and are driven off by a six-pounder (`HIST-TEX-038`,
       // `-040`).
       id: 'row', minutes: 960, background: 120, contact: true, title: 'Zambrano Row', claimId: 'HIST-TEX-038',
+      people: [{ id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }],
       caption: 'December 8. Companies come in from the camp. At nine the Texians take a row of houses leading to the square, room by room, breaking through the walls between. In the evening a column of about six hundred Mexican reinforcements, most of them untrained, marches into the Alamo.',
       texian: inTheHouse(),
       mexican: atTheBarricade(),
@@ -448,6 +470,7 @@ export const BEXAR_STORMING = Object.freeze({
       // barricade with "blankets, shirts, the library of the priest"; then "the enemy opened a furious cannonade from all
       // their batteries" (Johnson; Cooke 1844; `HIST-TEX-495`).
       id: 'priests-house', minutes: 80, step: 5, contact: true, title: 'The Priest’s House', claimId: 'HIST-TEX-495',
+      people: [{ id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }],
       caption: 'Half past ten at night, under a bright moon. About fifty of the New Orleans Greys and Patton’s company creep along the walls past a line of loopholes, climb into the priest’s house on the plaza, and spike a cannon two or three yards from its door. Then every Mexican gun opens on them.',
       texian: inTheHouse(),
       mexican: atTheBarricade(),
@@ -471,6 +494,8 @@ export const BEXAR_STORMING = Object.freeze({
       // Alamo; about one the cavalry is ordered to saddle; about four several presidial companies ride away south (about 175,
       // DISPUTED); Condelle withdraws the plaza guns and will not surrender (`HIST-TEX-040`, `-491`).
       id: 'night-8', minutes: 420, background: 120, contact: true, title: 'The last night', claimId: 'HIST-TEX-040',
+      // Colonel Condelle with his Morelos battalion, whose words Sánchez Navarro reported (`HIST-TEX-491`).
+      people: [{ id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }, { id: 'condelle', with: 'morelos', offset: { along: 0.006, across: 0 } }],
       caption: 'The last night. The Mexican guns fire without stopping. In the dark General Cos draws his men back into the Alamo, and some of his cavalry companies ride away south. From the houses the Texians see only the firing slacken and men moving toward the Alamo.',
       texian: inTheHouse(),
       mexican: { style: 'column', keys: [[0, 'barricade'], [150, 'barricade'], [400, 'alamoWest']], action: 'withdraw', fire: 'none', face: 'away' },
@@ -486,13 +511,14 @@ export const BEXAR_STORMING = Object.freeze({
         say('b-caballo', 102, MEX, 'officer', 'reconstructed', '¡A caballo!', { gloss: 'To horse!', unit: 'presidiales' }),
         say('b-going', 285, TEX, 'volunteer', 'reconstructed', 'Horses - a lot of them - going south.', { unit: 'greys' }),
         // Reported speech: Sánchez Navarro reports Condelle's refusal in these terms (`HIST-TEX-491`).
-        say('b-condelle', 300, MEX, 'officer', 'documented', 'El Batallón Morelos no se ha rendido nunca.', { name: 'Condelle', claimId: 'HIST-TEX-491', unit: 'morelos', gloss: 'The Morelos battalion has never surrendered - his words as Sánchez Navarro reported them' }),
+        say('b-condelle', 300, MEX, 'officer', 'documented', 'El Batallón Morelos no se ha rendido nunca.', { person: 'condelle', claimId: 'HIST-TEX-491', unit: 'morelos', gloss: 'The Morelos battalion has never surrendered - his words as Sánchez Navarro reported them' }),
       ],
     },
     {
       // Dec 9, 06:20-07:00. The cannonade stops; "at half-past six o'clock" a flag of truce (Johnson); Sánchez Navarro used a
       // white flag "because the Texians did not understand the bugle" (`HIST-TEX-041`, `-491`).
       id: 'flag', minutes: 40, step: 5, contact: true, title: 'The white flag', claimId: 'HIST-TEX-491',
+      people: [{ id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }],
       caption: 'Half past six in the morning, December 9. The guns stop. A Mexican bugle sounds a call the Texians do not know, and then a white flag comes out to the plaza. The Texians come out onto the roofs and into the street to see.',
       texian: { style: 'street', keys: [[0, 'garza'], [18, 'garza'], [40, 'rowFront']], action: 'advance', fire: 'none', spread: { width: 0.05, depth: 0.04 } },
       mexican: { style: 'street', spread: { width: 0.07, depth: 0.05 }, at: 'plaza', action: 'stand', fire: 'none' },
@@ -509,22 +535,25 @@ export const BEXAR_STORMING = Object.freeze({
       // Dec 9, 07:00-07:20. Sánchez Navarro comes to the town offices; colonists led by "a certain Smith" (J. W. Smith) meet the
       // flag, and Padre Refugio de la Garza joins them (`HIST-TEX-041`). Nobody says a documented word here, so nobody speaks.
       id: 'truce', minutes: 20, step: 5, contact: true, title: 'The flag of truce', claimId: 'HIST-TEX-041',
+      people: [{ id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }],
       caption: 'Seven o’clock. The Mexican officer with the flag is met by John W. Smith, who knows the town, and the parish priest, Padre Refugio de la Garza. They go to find the Texian commander.',
       texian: { style: 'street', at: 'rowFront', action: 'stand', fire: 'none', spread: { width: 0.05, depth: 0.04 } },
       mexican: { style: 'street', spread: { width: 0.07, depth: 0.05 }, at: 'plaza', action: 'stand', fire: 'none' },
       groups: [reserve(), johnson({ fire: 'none', cover: undefined }), reinforcement({ fire: 'none', cover: undefined }), alamo({ fire: 'none' })],
       flags: [{ side: MEX, kind: 'white', at: 'barricade', from: 0, claimId: 'HIST-TEX-491' }],
-      parley: { part: 0.5, people: [{ side: TEX, name: 'J. W. Smith' }, { side: MEX, name: 'Sánchez Navarro' }] },
+      parley: { part: 0.5, people: [{ side: TEX, id: 'jw-smith' }, { side: MEX, id: 'sanchez-navarro' }] },
     },
     {
       // Dec 9, 07:20-09:20. "On the morning of the 9th ... I proceeded to town" (Burleson): at nine he rides in.
       id: 'parley', minutes: 120, title: 'The talks begin', claimId: 'HIST-TEX-041',
+      // Burleson rides in to the talks from the camp (`HIST-TEX-554`).
+      people: [{ id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', keys: [[0, 'mill'], [60, 'rowFront']], pose: 'ride' }],
       caption: 'The morning of December 9. General Burleson rides in from the camp at nine. Cos’s officers have come without written authority, and go back to the Alamo for it.',
       texian: { style: 'street', at: 'rowFront', action: 'stand', fire: 'none', spread: { width: 0.05, depth: 0.04 } },
       mexican: { style: 'street', spread: { width: 0.07, depth: 0.05 }, at: 'plaza', action: 'stand', fire: 'none' },
       groups: [reserve(), johnson({ fire: 'none', cover: undefined }), reinforcement({ fire: 'none', cover: undefined }), alamo({ fire: 'none' })],
       flags: [{ side: MEX, kind: 'white', at: 'barricade', from: 0, claimId: 'HIST-TEX-491' }],
-      parley: { part: 0.5, people: [{ side: TEX, name: 'J. W. Smith' }, { side: MEX, name: 'Sánchez Navarro' }] },
+      parley: { part: 0.5, people: [{ side: TEX, id: 'jw-smith' }, { side: MEX, id: 'sanchez-navarro' }] },
     },
     {
       // Dec 9, 09:20 - Dec 14, 09:00. Terms agreed "by two o'clock a. m. of the 10th"; the capitulation dated the 11th; the army
@@ -541,6 +570,8 @@ export const BEXAR_STORMING = Object.freeze({
       // Dec 14, 09:00-11:00. "General Cos left this morning for the mission of San José, and, to-morrow, commences his march
       // to the Rio Grande" (Burleson): the paroled army marching out with its muskets, how many DISPUTED (`HIST-TEX-496`).
       id: 'marching-out', minutes: 120, step: 20, title: 'Cos marches out', claimId: 'HIST-TEX-496',
+      // Cos at the head of his army, marching out on parole (`HIST-TEX-496`, `-557`).
+      people: [{ id: 'cos', with: 'cos-army', offset: { along: 0.012, across: 0 }, pose: 'ride' }],
       caption: 'December 14. General Cos’s army marches out of Béxar for Mission San José and the Rio Grande, the men carrying their muskets. The reports disagree about how many went: from about five hundred to about eleven hundred.',
       texian: { style: 'street', at: 'rowFront', action: 'stand', fire: 'none', spread: { width: 0.08, depth: 0.05 } },
       mexican: { style: 'street', spread: { width: 0.07, depth: 0.05 }, at: 'alamoWest', action: 'gone', fire: 'none' },

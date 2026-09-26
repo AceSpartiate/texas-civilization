@@ -112,6 +112,8 @@ export const SAN_PATRICIO = Object.freeze({
       // 01:00 - 03:00. The column comes up in the cold rain; the town sleeps. Watched at twenty minutes a tick so the class
       // can see it come, and so the clock lands on three exactly.
       id: 'night', minutes: 120, title: 'Before three in the morning', step: 20, claimId: 'HIST-TEX-510',
+      // Johnson in a house by the square, and out of its back door with a few men when the soldiers come (`HIST-TEX-514`).
+      people: [{ id: 'johnson', with: 'back-door', offset: { along: 0.004, across: 0 } }],
       caption: 'A bitterly cold, wet night at San Patricio on the Nueces. Johnson’s men are asleep - eight on the square by the fire, the rest in three houses. Urrea’s column, about four hundred men on a forced march, comes up in the dark. Local men who side with the government have shown the soldiers which houses to surround, and left lanterns burning in their own windows.',
       texian: texians(asleep('square'), inside('house-a'), inside('house-b'), inside('house-c'), inside('house-c')),
       mexican: mexicans(
@@ -127,6 +129,8 @@ export const SAN_PATRICIO = Object.freeze({
     {
       // 03:00 - 03:05. In among the houses: the square first. contact: the fight a family's person is in.
       id: 'surprise', minutes: 5, title: 'Three in the morning: the soldiers are in the square', step: 1, contact: true, claimId: 'HIST-TEX-510',
+      // Urrea with his men in the square (`HIST-TEX-059`, `-510`).
+      people: [{ id: 'johnson', with: 'back-door', offset: { along: 0.004, across: 0 } }, { id: 'urrea', with: 'at-square', offset: { along: -0.01, across: 0.004 }, pose: 'command' }],
       caption: 'About three in the morning Urrea’s men are in the town. They go straight to the square, where Captain Pearson and eight men are asleep by the fire, and to the doors of the three houses. (Some accounts put it half an hour later, on the 26th.)',
       texian: texians({ at: 'square', style: 'loose', fire: 'scattered', pose: 'stand' }, inside('house-a'), inside('house-b', 'scattered'), inside('house-c'), inside('house-c')),
       mexican: mexicans(
@@ -145,6 +149,7 @@ export const SAN_PATRICIO = Object.freeze({
       // 03:05 - 03:10. One house gives up at once; another fights, and a Mexican officer is killed at its door; Johnson and a
       // few go out the back of theirs.
       id: 'houses', minutes: 5, title: 'The houses', step: 1, contact: true, claimId: 'HIST-TEX-510',
+      people: [{ id: 'johnson', with: 'back-door', offset: { along: 0.004, across: 0 } }, { id: 'urrea', with: 'at-square', offset: { along: -0.01, across: 0.004 }, pose: 'command' }],
       caption: 'The men in one house give up at once. From another the Texians fire back, and a Mexican officer is killed at the door. Out of the back of a third, Colonel Johnson and a few others slip away into the dark.',
       texian: texians(handsUp('square', 'prisoners', 2), handsUp('house-a', 'prisoners', 3), inside('house-b', 'scattered'), inside('house-c'),
         { keys: [[0, 'house-c'], [1, 'back-door'], [5, 'escape']], style: 'rout', pose: 'stand', action: 'withdraw', face: 'away' }),
@@ -161,6 +166,7 @@ export const SAN_PATRICIO = Object.freeze({
     {
       // 03:10 - 03:15. The last house gives up: "within fifteen minutes" it is over (Wikipedia).
       id: 'yield', minutes: 5, title: 'It is over in a quarter of an hour', step: 1, contact: true, claimId: 'HIST-TEX-510',
+      people: [{ id: 'urrea', with: 'at-square', offset: { along: -0.01, across: 0.004 }, pose: 'command' }],
       caption: 'The last of the houses gives up. Within a quarter of an hour of the first shot it is over. Those who got out the back are away in the dark on the road to Goliad.',
       texian: texians({ at: 'prisoners', pose: 'surrender' }, { at: 'prisoners', pose: 'surrender' }, handsUp('house-b', 'prisoners', 3), handsUp('house-c', 'prisoners', 3),
         { keys: [[0, 'escape'], [5, 'gone']], style: 'rout', pose: 'stand', action: 'withdraw', face: 'away' }),
@@ -176,6 +182,7 @@ export const SAN_PATRICIO = Object.freeze({
       // 03:15 - 03:35. The prisoners gathered into the square under guard, the escaped gone into the dark. Watched at two minutes
       // a tick, so the class sees who is left and where, before the clock goes on.
       id: 'gathered', minutes: 20, title: 'The prisoners are gathered', step: 2, claimId: 'HIST-TEX-510',
+      people: [{ id: 'urrea', with: 'at-square', offset: { along: -0.01, across: 0.004 }, pose: 'command' }],
       caption: 'The Texians who gave up are gathered on the square under guard, hands up. The men killed lie where they fell. Of those who went out the back, nothing more is seen.',
       texian: texians({ at: 'prisoners', pose: 'surrender' }, { at: 'prisoners', pose: 'surrender' }, { at: 'prisoners', pose: 'surrender' }, { at: 'prisoners', pose: 'surrender' }, { at: 'gone', action: 'gone' }),
       mexican: mexicans({ keys: [[0, 'mx-square'], [10, 'prisoners']], action: 'advance' }, { at: 'mx-a', action: 'stand' }, { at: 'mx-b', action: 'stand' }, { at: 'mx-c', action: 'stand' }),
@@ -184,6 +191,7 @@ export const SAN_PATRICIO = Object.freeze({
     {
       // 03:35 - 04:15. The prisoners under guard on the square; the dead where they fell. Not held.
       id: 'after', minutes: 40, title: 'Prisoners on the square', step: 20, claimId: 'HIST-TEX-510',
+      people: [{ id: 'urrea', with: 'at-square', offset: { along: -0.01, across: 0.004 }, pose: 'command' }],
       caption: 'The prisoners are kept under guard on the square. They will be marched south toward Matamoros. (One account says none of them lived three days; the Handbook of Texas says they were taken to Matamoros.)',
       texian: texians({ at: 'prisoners', pose: 'surrender' }, { at: 'prisoners', pose: 'surrender' }, { at: 'prisoners', pose: 'surrender' }, { at: 'prisoners', pose: 'surrender' }, { at: 'gone', action: 'gone' }),
       mexican: mexicans({ at: 'prisoners', action: 'stand' }, { at: 'mx-a', action: 'stand' }, { at: 'mx-b', action: 'stand' }, { at: 'mx-c', action: 'stand' }),

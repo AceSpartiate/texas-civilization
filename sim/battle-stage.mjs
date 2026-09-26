@@ -27,6 +27,7 @@ import { CONCEPCION } from './battles/concepcion.mjs';
 import { GRASS_FIGHT } from './battles/grass-fight.mjs';
 import { COLETO } from './battles/coleto.mjs';
 import { GOLIAD_MASSACRE } from './battles/goliad-massacre.mjs';
+import { PEOPLE, PERSON_POSES, FATE_KINDS } from './people.mjs';
 
 /** How a side stands and moves (docs/BATTLES.md §2.4). The renderer lays figures out by these and nothing else. */
 // `square` (2026-09-25, Coleto; docs/battle-research/staging.md §9): four faces of three ranks facing outward, carts inside.
@@ -116,16 +117,36 @@ export function checkEngagement(def) {
     for (const group of phase.groups || []) {
       if (!group?.id || units.has(group.id) || !SIDES.includes(group.side) || !STYLES.includes(group.style) || !FIRE.includes(group.fire || 'none') || !(group.drawn > 0) || group.drawn > 40) fail(`group ${group?.id} in ${phase.id} is malformed`);
       if (group.cover !== undefined && !COVERS.includes(group.cover)) fail(`group ${group.id} in ${phase.id} stands behind nothing the renderer knows`);
+      if (group.pose !== undefined && !POSES.includes(group.pose)) fail(`group ${group.id} in ${phase.id} has an unknown pose`);
       if (group.civilians && (group.fire || 'none') !== 'none') fail(`the townspeople in ${phase.id} are given a fire`);
       if (group.civilians) civilians.add(group.id);
       units.add(group.id); figures += group.drawn;
     }
     if (figures > 170) fail(`phase ${phase.id} draws ${figures} figures; a Chromebook's frame holds about 170`);
+    // Named people where the record puts them (docs/BATTLES.md §2c; sim/people.mjs): a roster id, a place (a ground point,
+    // keyframes, a walk, or beside a unit of this phase), a pose, and the minutes of the phase they are seen in.
+    for (const entry of phase.people || []) {
+      if (!PEOPLE[entry.id]) fail(`${entry.id} in ${phase.id} is nobody on the roster of famous people`);
+      if (entry.name !== undefined || entry.falls !== undefined) fail(`${entry.id} in ${phase.id} takes their name and fate from the roster, not the phase`);
+      if (!entry.at && !entry.keys && !entry.from && !entry.with) fail(`${entry.id} in ${phase.id} stands nowhere`);
+      if (entry.with !== undefined && !units.has(entry.with)) fail(`${entry.id} in ${phase.id} stands with ${entry.with}, which is not there`);
+      if (entry.pose !== undefined && !PERSON_POSES.includes(entry.pose)) fail(`${entry.id} in ${phase.id} has an unknown pose ${entry.pose}`);
+      if (entry.during !== undefined && !(entry.during[0] >= 0 && entry.during[1] <= phase.minutes && entry.during[0] < entry.during[1])) fail(`${entry.id} in ${phase.id} is seen outside the phase`);
+      if (entry.tag !== undefined && !(typeof entry.tag === 'string' && entry.tag.length <= 60)) fail(`${entry.id}'s tag in ${phase.id} is not a short label`);
+    }
+    for (const one of phase.parley?.people || []) if (!PEOPLE[one.id]) fail(`a parley in ${phase.id} names somebody not on the roster`);
+    for (const id of phase.legendScene?.people || []) if (!PEOPLE[id]) fail(`the legend in ${phase.id} names somebody not on the roster`);
     for (const line of phase.lines || []) {
       if (!line.id || !line.text || !LINE_KINDS.includes(line.kind) || !SIDES.includes(line.side) || !(line.at >= 0 && line.at <= phase.minutes)) fail(`line ${line.id} in ${phase.id} is malformed`);
       if (line.kind === 'documented' && !line.claimId) fail(`documented line ${line.id} carries no claim`);
-      if (line.name && line.kind === 'reconstructed') fail(`reconstructed line ${line.id} is put in a named person's mouth`);
+      // FIC-GONZ-447, as the owner's §2c.4 left it: a named person speaks documented or tradition words, never reconstructed ones,
+      // and the speaker is named by the roster so the words come out of that person's own figure (`FIC-GONZ-457`).
+      if (line.name !== undefined) fail(`line ${line.id} names its speaker in text; name the person on the roster (\`person\`)`);
+      if (line.person !== undefined && !PEOPLE[line.person]) fail(`line ${line.id} is put in the mouth of ${line.person}, who is not on the roster`);
+      if (line.person && line.kind === 'reconstructed') fail(`reconstructed line ${line.id} is put in a named person's mouth`);
+      if (line.person && !seenSpeaking(phase, line.person, line.at)) fail(`${line.person} says ${line.id} in ${phase.id} without being drawn there`);
       if (line.kind === 'tradition' && !line.claimId) fail(`tradition line ${line.id} carries no claim saying why it is doubted`);
+      if (line.manner !== undefined && !(typeof line.manner === 'string' && line.manner.length <= 30)) fail(`line ${line.id}'s manner is not a short stage direction`);
       if (line.unit !== undefined && (!units.has(line.unit) || civilians.has(line.unit))) fail(`line ${line.id} in ${phase.id} is said by nobody there`);
     }
     for (const fall of phase.falls || []) {
@@ -142,20 +163,43 @@ export function checkEngagement(def) {
     }
     for (const breach of phase.breaches || []) if (!breach.point || !SIDES.includes(breach.side) || !(breach.at >= 0 && breach.at <= phase.minutes)) fail(`a breach in ${phase.id} is malformed`);
     for (const flag of phase.flags || []) if (!FLAG_KINDS.includes(flag.kind) || !SIDES.includes(flag.side) || !flag.claimId || !(flag.from >= 0 && flag.from <= phase.minutes)) fail(`a flag in ${phase.id} is malformed`);
-    // Named people where the record puts them (the Alamo's Travis and Joe): a claim for each, and a fall inside the phase.
-    for (const person of phase.people || []) {
-      if (!person.id || !person.name || !SIDES.includes(person.side) || !person.at || !person.claimId) fail(`a named person in ${phase.id} needs an id, a name, a side, a place and the claim that puts them there`);
-      if (person.falls !== undefined && !(person.falls >= 0 && person.falls <= phase.minutes)) fail(`${person.name} falls outside ${phase.id}`);
-    }
     if (phase.legendScene && (phase.legendScene.kind !== 'tradition' || !phase.legendScene.id || !phase.legendScene.at || !phase.legendScene.claimId || !['converse', 'alarm'].includes(phase.legendScene.moment) || (phase.legendScene.fromMinute !== undefined && (!(phase.legendScene.fromMinute >= 0) || phase.legendScene.fromMinute >= phase.minutes)))) fail(`legend scene in ${phase.id} must be a dated and sourced tradition`);
   }
   const phaseIds = new Set(def.phases.map(phase => phase.id));
+  // A famous gun (the Twin Sisters) is a thing on the roster, named from it (docs/BATTLES.md §2c.5).
+  for (const gun of def.guns || []) if (gun.person !== undefined && !PEOPLE[gun.person]?.thing) fail(`gun ${gun.id} is named for ${gun.person}, which is no famous thing on the roster`);
   for (const work of def.works || []) {
     if (!work.id || !WORK_KINDS.includes(work.kind) || !work.at || !(work.width > 0) || !work.claimId) fail(`work ${work.id} is malformed`);
     for (const key of ['from', 'until']) if (work[key] && !phaseIds.has(work[key])) fail(`work ${work.id}'s ${key} is not a phase`);
   }
   if (!def.phases.some(phase => phase.contact)) fail('no phase is marked as contact');
+  // Each famous fate that falls in this engagement: in a phase of it, at a minute the person is seen there, and - for a man
+  // killed after he was taken (`told`: Grant, Fannin) - never drawn at it or after it (`FIC-GONZ-454`).
+  for (const one of Object.values(PEOPLE)) {
+    const fate = one.fate;
+    if (!fate || fate.battle !== def.id) continue;
+    if (!FATE_KINDS.includes(fate.kind) || !fate.claimId) fail(`${one.id}'s fate is malformed`);
+    const at = def.phases.findIndex(phase => phase.id === fate.phase);
+    if (at < 0 || !(fate.at >= 0 && fate.at <= def.phases[at].minutes)) fail(`${one.id}'s fate falls outside ${def.id}`);
+    const phase = def.phases[at];
+    if (fate.byFall) { if (!(phase.falls || []).some(fall => fall.name === one.name && fall.at === fate.at)) fail(`${one.id}'s named fall is not in ${phase.id}`); continue; }
+    if (fate.told) {
+      // Last seen before it, and not again: the rest is told.
+      if (def.phases.slice(at).some((later, i) => (later.people || []).some(entry => entry.id === one.id && (i > 0 || (entry.during?.[1] ?? later.minutes) > fate.at)))) fail(`${one.id} was killed after he was taken and is told, not drawn, but ${def.id} draws him at it`);
+      continue;
+    }
+    if (!seenSpeaking(phase, one.id, fate.at)) fail(`${one.id} is not drawn in ${phase.id} at the minute of their fate`);
+    if (fate.liesUntil && def.phases.findIndex(later => later.id === fate.liesUntil) <= at) fail(`${one.id} lies until a phase that is not after the fall`);
+  }
   return def;
+}
+/** Whether a person's entry in a phase is on the field at this minute of it (`during`, or the whole phase). */
+const seenAt = (entry, minute, length) => minute >= (entry.during?.[0] ?? 0) && minute <= (entry.during?.[1] ?? length);
+/** Whether a named line's speaker is drawn in its phase at its minute: among its people, at its parley, or in its legend. */
+function seenSpeaking(phase, id, minute) {
+  return (phase.people || []).some(entry => entry.id === id && seenAt(entry, minute, phase.minutes))
+    || (phase.parley?.people || []).some(one => one.id === id)
+    || ((phase.legendScene?.people || []).includes(id) && minute >= (phase.legendScene.fromMinute || 0));
 }
 /** Whether a thing shown from phase `from` until phase `until` (both optional) stands in this phase. */
 const standsIn = (def, thing, phase) => {
@@ -390,7 +434,7 @@ function linesSaid(state, minute) {
     if (phase.from > minute) break;
     for (const line of phase.lines || []) {
       const at = phase.from + line.at;
-      if (at <= minute) said.push({ ...line, minute: at, phase: phase.id });
+      if (at <= minute) said.push({ ...line, minute: at, phase: phase.id, ...(line.person && { name: PEOPLE[line.person].name }) });
     }
   }
   return said.slice(-8);
@@ -448,6 +492,69 @@ function breachesBy(state, minute, ground) {
       if (from > minute || !ground[breach.point]) continue;
       out.push({ x: ground[breach.point].x, y: ground[breach.point].y, side: breach.side, from, at, open: at <= minute, ...(breach.claimId && { claimId: breach.claimId }) });
     }
+  }
+  return out;
+}
+
+/** Where a unit of a phase faces: a side toward the other side, a group toward its `face` point or the other side. */
+function unitFacing(ground, phase, unitId, into) {
+  const here = unitPlace(ground, phase, unitId, into);
+  const group = (phase.groups || []).find(one => one.id === unitId);
+  const side = SIDES.includes(unitId) ? unitId : group?.side || SIDES.find(one => phase[one].parts?.some(part => part.id === unitId));
+  const enemy = group?.face && ground[group.face] ? ground[group.face] : sidePlace(ground, phase, side === 'texian' ? 'mexican' : 'texian', into);
+  return facingOf(here, enemy);
+}
+/** Where a famous person's entry puts them at this minute of the phase: a point, keyframes, a walk, or beside a unit. */
+export function personPlace(ground, phase, entry, into) {
+  if (entry.with) {
+    const centre = unitPlace(ground, phase, entry.with, into);
+    return entry.offset ? placeFrom(centre, unitFacing(ground, phase, entry.with, into), entry.offset) : centre;
+  }
+  return placeOf(ground, entry, phase.minutes, into);
+}
+/** Whether a unit of a phase is on the move at this minute (a person beside it walks with it). */
+function unitMoving(phase, unitId, into) {
+  if (SIDES.includes(unitId)) return sideMoving(phase, unitId, into);
+  const group = (phase.groups || []).find(one => one.id === unitId) || SIDES.map(side => phase[side].parts?.find(part => part.id === unitId)).find(Boolean);
+  return group ? specMoving(group, into) : false;
+}
+/**
+ * The famous people on the field at this minute (docs/BATTLES.md §2c; `FIC-GONZ-450`, `-452`, `-454`): each where the phase
+ * puts them, named from the roster, posed, facing the enemy, with their fate only once its minute has come - a fall (`fell`), a
+ * wound (`hurt`) - and those who fell in an earlier phase of this fight lying where they fell until `liesUntil`. A `told` fate
+ * is never projected, and nothing of a later phase is sent.
+ */
+function peopleNow(state, phase, into, ground) {
+  const out = [];
+  const faces = (entry, place) => {
+    if (entry.face && ground[entry.face]) return ground[entry.face].x >= place.x;
+    if (entry.with) return unitFacing(ground, phase, entry.with, into).x >= 0;
+    const enemy = sidePlace(ground, phase, PEOPLE[entry.id].side === 'mexican' ? 'texian' : 'mexican', into);
+    return enemy.x >= place.x;
+  };
+  for (const entry of phase.people || []) {
+    // Seen from the start of its window until its end (a man who rides out of the frame is gone at its last minute).
+    if (into < (entry.during?.[0] ?? 0) || (entry.during && into >= entry.during[1])) continue;
+    const who = PEOPLE[entry.id], fate = who.fate?.battle === state.def.id && who.fate.phase === phase.id && !who.fate.told ? who.fate : null;
+    const place = personPlace(ground, phase, entry, into);
+    const moving = entry.with ? unitMoving(phase, entry.with, into) : specMoving(entry, into);
+    out.push({
+      id: who.id, name: who.name, side: who.side, art: who.art, x: place.x, y: place.y, pose: entry.pose || (moving ? 'walk' : 'stand'),
+      moving, right: faces(entry, place), claimId: entry.claimId || who.claimId, ...(entry.tag && { tag: entry.tag }),
+      ...(who.thing && { thing: true }), ...(who.child && { child: true }),
+      ...(fate && ['killed', 'executed'].includes(fate.kind) && into >= fate.at && { fell: phase.from + fate.at, ...(fate.pose && { still: fate.pose }) }),
+      ...(fate && fate.kind === 'wounded' && into >= fate.at && { hurt: phase.from + fate.at }),
+    });
+  }
+  // The dead of this fight's earlier phases, lying where they fell (Travis on the north battery; Bowie on his cot).
+  for (const who of Object.values(PEOPLE)) {
+    const fate = who.fate;
+    if (!fate || fate.battle !== state.def.id || fate.told || fate.byFall || !['killed', 'executed'].includes(fate.kind)) continue;
+    const fellIn = state.phases.find(one => one.id === fate.phase), until = fate.liesUntil ? state.phases.findIndex(one => one.id === fate.liesUntil) : state.phases.length;
+    if (!fellIn || fellIn.index >= phase.index || phase.index >= until || out.some(one => one.id === who.id)) continue;
+    const entry = fellIn.people.find(one => one.id === who.id);
+    const place = personPlace(ground, fellIn, entry, fate.at);
+    out.push({ id: who.id, name: who.name, side: who.side, art: who.art, x: place.x, y: place.y, pose: entry.pose || 'stand', moving: false, right: true, claimId: fate.claimId, fell: fellIn.from + fate.at, ...(fate.pose && { still: fate.pose }), ...(entry.tag && { tag: entry.tag }) });
   }
   return out;
 }
@@ -510,7 +617,8 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
     ...(phase.herd && !state.over && { herd: { ...placeOf(ground, phase.herd, phase.minutes, into), count: phase.herd.count, moving: specMoving(phase.herd, into), ...(phase.herd.scatter && { scatter: true }) } }),
     ...(phase.legendScene && !state.over && into >= (phase.legendScene.fromMinute || 0) && ground[phase.legendScene.at]
       ? { legendScene: { id: phase.legendScene.id, kind: 'tradition', claimId: phase.legendScene.claimId,
-          moment: phase.legendScene.moment, x: ground[phase.legendScene.at].x, y: ground[phase.legendScene.at].y } } : {}),
+          moment: phase.legendScene.moment, x: ground[phase.legendScene.at].x, y: ground[phase.legendScene.at].y,
+          people: (phase.legendScene.people || []).map(one => ({ id: one, name: PEOPLE[one].name })) } } : {}),
   };
   // Groups drawn apart from their side (Béxar's divisions in their houses, men on the roofs, a file under the loopholes, the
   // townspeople let out through a breach): each where it stands now, facing what it faces, doing what it does.
@@ -526,6 +634,8 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
         spread: group.spread || null, ...(group.cover && { cover: group.cover }), ...(group.civilians && { civilians: true }), ...(group.mounted && { mounted: true }), ...(group.named && { named: true }),
         // Scaling ladders carried or set against a wall, and a figure of its own (the Alamo's mounted relief, Concepción's riders).
         ...(group.ladders && { ladders: group.ladders }), ...(group.climbing && { climbing: true }), ...(group.figure && { figure: group.figure }),
+        // Men with their hands up (the handful taken alive at the Alamo, docs/BATTLES.md §2c.1), as a part's `pose` is drawn.
+        ...(group.pose && { pose: group.pose }),
       };
     });
   }
@@ -534,7 +644,7 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
   if (guns.length) {
     view.guns = guns.map(gun => {
       const at = ground[gun.at], target = ground[gun.face] || (gun.side === 'texian' ? mexican : texian);
-      return { id: gun.id, side: gun.side, x: at.x, y: at.y, facing: facingOf(at, target), metal: gun.metal || 'iron', crew: gun.crew ?? 3, shots: state.over ? [] : gunShots(state, gun.id, world.minute), claimId: gun.claimId, ...(gun.canister && { canister: true }), ...(gun.name && { name: gun.name }) };
+      return { id: gun.id, side: gun.side, x: at.x, y: at.y, facing: facingOf(at, target), metal: gun.metal || 'iron', crew: gun.crew ?? 3, shots: state.over ? [] : gunShots(state, gun.id, world.minute), claimId: gun.claimId, ...(gun.canister && { canister: true }), ...(gun.name && { name: gun.name }), ...(gun.person && { named: true, person: gun.person, name: PEOPLE[gun.person].name }) };
     });
   }
   // What stands on the ground (San Jacinto's breastwork, the camps' fires, the marsh), laid across the line between the camps.
@@ -555,10 +665,10 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
   const frame = (phase.frame || def.frame || []).map(name => ground[name]).filter(Boolean);
   if (frame.length) view.frame = frame.map(point => ({ x: point.x, y: point.y }));
   if (frame.length && def.frameTight) view.frameTight = true;
-  // Named people where the record puts them (Travis at the north battery), and whether they have fallen by now.
-  const people = (phase.people || []).map(person => ({ id: person.id, name: person.name, side: person.side, ...ground[person.at], pose: person.pose || 'stand',
-    ...(person.falls !== undefined && into >= person.falls && { fell: phase.from + person.falls }), claimId: person.claimId }));
-  if (people.length && !state.over) view.people = people;
+  // Named people where the record puts them (sim/people.mjs; Travis at the north battery), doing what it says, with a fate only
+  // from its minute; the fallen lie where they fell in the phases after, until they are carried out.
+  const people = state.over ? [] : peopleNow(state, phase, into, ground);
+  if (people.length) view.people = people;
   // Smoke going up far off - huts burning, the pyres - never what is burning (VISION.md §16).
   const plumes = (phase.plumes || []).filter(plume => into >= (plume.from || 0) && ground[plume.at]).map(plume => ({ x: ground[plume.at].x, y: ground[plume.at].y }));
   if (plumes.length && !state.over) view.plumes = plumes;
@@ -591,7 +701,7 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
   }
   if (phase.parley && !state.over) {
     const between = phase.parley.at ? ground[phase.parley.at] : lerp(texian, mexican, phase.parley.part ?? 0.5);
-    view.parley = { x: between.x, y: between.y, people: phase.parley.people };
+    view.parley = { x: between.x, y: between.y, people: phase.parley.people.map(one => ({ ...one, name: PEOPLE[one.id].name, art: PEOPLE[one.id].art })) };
   }
   // The shape the old renderer and the old tests read: two formations with a count and a place and nobody's name.
   view.formations = sides.map(side => ({ id: `formation-${side.side}`, side: side.side, x: side.x, y: side.y, count: side.drawn }));

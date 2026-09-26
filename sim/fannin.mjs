@@ -461,7 +461,7 @@ export function wordAccount(world, people) {
   return [
     `What happened: ${COLETO_STORY} ${GOLIAD_STORY}`,
     ...people.map(whatHeDid),
-    `Why it ended so: ${WHY_COLETO} The killing at Goliad was Santa Anna's order, carried out against Urrea's wish. It was said afterward that Fannin asked to be shot in the heart and not the face, and to be buried; he was shot in the face and his body burned with the rest.`,
+    `Why it ended so: ${WHY_COLETO} The killing at Goliad was Santa Anna's order, carried out against Urrea's wish. Joseph Spohn, a prisoner spared to interpret, said afterward that Fannin gave his watch so that he would be buried, and asked not to be shot so close that it burned his face; the story told later, of three last requests all refused, grew from that. His body was burned with the rest.`,
   ].join('\n\n');
 }
 

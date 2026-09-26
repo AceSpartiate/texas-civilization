@@ -50,11 +50,22 @@ export function sanJacintoGround(world) {
     // The two guns side by side on Burleson's right, a few yards apart; the Mexican gun in the breastwork's opening.
     twinSister1: from(breastwork, -0.114, 0.03),
     twinSister2: from(breastwork, -0.114, 0.06),
+    // Hockley commanding the guns and McCulloch serving one of them (the Handbook, `HIST-TEX-558`), a few yards behind each.
+    hockleyAt: from(breastwork, -0.13, 0.03),
+    mccullochAt: from(breastwork, -0.13, 0.068),
     // The breastwork of packs and baggage at the front of the Mexican camp, and the camp behind it.
     breastwork,
     mexicanCamp: from(breastwork, 0.08),
     // A tent area behind the breastwork for the owner's explicitly traditional Emily West vignette; its exact place is invented.
     picnicTent: from(breastwork, 0.06, -0.04),
+    // The Twin Sisters on April 20, in front of the camp in the timber, where they answered the Mexican twelve-pounder and
+    // repulsed the infantry's probe of the woods (Houston's report; the Handbook's Neill, `HIST-TEX-565`). The spot is the game's.
+    twinsCamp1: from(camp, 0.14, 0.03),
+    twinsCamp2: from(camp, 0.14, 0.055),
+    // Castrillón on an ammunition crate at the breastwork, and where he had walked to when he was shot (Rusk, as the Handbook
+    // gives it, `HIST-TEX-561`). The spots are the game's.
+    crate: from(breastwork, 0.012, -0.06),
+    castrillonWalk: from(breastwork, 0.05, -0.07),
     // Over the breastwork: where the Texian line was when the Mexican line broke.
     overWork: from(breastwork, 0.07),
     // The marsh behind the camp and Peggy's Lake beyond it, south and east (`HIST-TEX-524`).
@@ -79,9 +90,29 @@ export function sanJacintoGround(world) {
 }
 
 const TEX = 'texian', MEX = 'mexican';
-/** One line. `name` only ever on a documented line (sim/battle-stage.mjs `checkEngagement`). */
+/** One line. A named person (`person`, a roster id) speaks only documented or tradition words (sim/battle-stage.mjs `checkEngagement`). */
 const say = (id, at, side, role, kind, text, extra = {}) => ({ id, at, side, role, kind, text, ...extra });
 /** The same documented cry from several men of the line, a moment apart, so it is heard along it and not from one mouth. */
+/** The two in the owner's Yellow Rose picnic, whose figures the legend draws (docs/BATTLES.md §2c.6). */
+const LEGEND = Object.freeze(['santa-anna', 'emily-west']);
+/**
+ * Emily West's words at the picnic (owner, 2026-09-26: "maybe in the chat bubbles where emily is flirting with santa anna it says
+ * *sarcasticly* or something like that?"). They are the game's words in a named mouth - the one exception the owner made to the
+ * rule that a named person speaks only what a source gives them (`FIC-GONZ-458`) - so each is `tradition`, dashed, with a stage
+ * direction (`manner`) that shows she is playing a part with her captor, and a gloss that the story was told later and that his
+ * army had taken her five days before. Light and never physical: talk, a meal served. Santa Anna is given no words.
+ */
+const PICNIC_GLOSS = 'a story told later, not the record; his army had taken her at New Washington five days before';
+const picnic = (phase, lines) => lines.map(([at, manner, text], i) => say(`sj-emily-${phase}-${i}`, at, TEX, 'person', 'tradition', text, { person: 'emily-west', manner, claimId: 'HIST-TEX-560', gloss: PICNIC_GLOSS }));
+/** Houston and his colonels at the heads of their commands in the line (Houston's report, `HIST-TEX-522`; `FIC-GONZ-452`). */
+const LINE_OFFICERS = Object.freeze([
+  { id: 'houston', with: 'texian', offset: { along: 0.03, across: 0 }, pose: 'ride' },
+  { id: 'rusk', with: 'texian', offset: { along: 0.02, across: 0.03 } },
+  { id: 'burleson', with: 'texian', offset: { along: 0.015, across: -0.02 }, pose: 'command' },
+  { id: 'sherman', with: 'texian', offset: { along: 0.015, across: -0.19 }, pose: 'command' },
+  { id: 'seguin', with: 'texian', offset: { along: 0.005, across: -0.23 }, pose: 'command' },
+  { id: 'lamar', with: 'lamar', offset: { along: 0.012, across: 0 }, pose: 'ride' },
+]);
 const cry = (id, at, text, claimId, source) => [0, 1, 2].map(i => say(`${id}-${i}`, at + i, TEX, 'volunteer', 'documented', text, { claimId, ...(i === 0 && { gloss: source }) }));
 
 export const SAN_JACINTO_BATTLE = Object.freeze({
@@ -107,8 +138,12 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
   // moves with its side is the way out.
   // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "San Jacinto", item 1 - the Twin Sisters are the library's iron field
   // gun served by the carriage-gun crew; how they were brought forward (by hand or by horse) is not verified and not drawn.
+  // The Twin Sisters are named on the field as the famous people are (owner, 2026-09-26, docs/BATTLES.md §2c.5; `HIST-TEX-558`):
+  // the name is drawn under the first of the pair. On April 20 they stand in front of the camp (`twins-20-*`).
   guns: [
-    { id: 'twin-sister-1', side: TEX, at: 'twinSister1', face: 'breastwork', metal: 'iron', crew: 3, claimId: 'HIST-TEX-522' },
+    { id: 'twins-20-1', person: 'twin-sisters', side: TEX, at: 'twinsCamp1', face: 'breastwork', metal: 'iron', crew: 3, claimId: 'HIST-TEX-565' },
+    { id: 'twins-20-2', side: TEX, at: 'twinsCamp2', face: 'breastwork', metal: 'iron', crew: 3, claimId: 'HIST-TEX-565' },
+    { id: 'twin-sister-1', person: 'twin-sisters', side: TEX, at: 'twinSister1', face: 'breastwork', metal: 'iron', crew: 3, claimId: 'HIST-TEX-522' },
     { id: 'twin-sister-2', side: TEX, at: 'twinSister2', face: 'breastwork', metal: 'iron', crew: 3, claimId: 'HIST-TEX-522' },
     { id: 'mexican-gun', side: MEX, at: 'breastwork', face: 'close', metal: 'bronze', crew: 3, claimId: 'HIST-TEX-522' },
   ],
@@ -143,44 +178,83 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       caption: 'April 20. Santa Anna’s army comes up and makes its camp on the open plain toward the San Jacinto River, under a mile from Houston’s camp in the timber along Buffalo Bayou.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'column', from: 'mexApproach', to: 'mexicanCamp', action: 'advance', fire: 'none', count: 700 },
+      // Houston in his camp; the Twin Sisters with Neill in front of it (`HIST-TEX-558`, `-565`); Santa Anna riding up with his
+      // army, and Emily West, whom his army had taken at New Washington, made to go with it (`HIST-TEX-569`).
+      guns: { 'twins-20-1': [], 'twins-20-2': [] },
+      people: [
+        { id: 'houston', with: 'texian', offset: { along: 0.04, across: -0.02 }, pose: 'command' },
+        { id: 'neill', at: 'twinsCamp1', face: 'breastwork', pose: 'command' },
+        { id: 'santa-anna', with: 'mexican', offset: { along: 0.03, across: 0.02 }, pose: 'ride' },
+        { id: 'emily-west', with: 'mexican', offset: { along: -0.05, across: -0.03 } },
+      ],
       lines: [
+        // Houston's own "stop that firing", as a man who was there remembered it years later (owner, §2c.4: famous words nobody
+        // wrote down at the time are spoken as tradition). The men were firing off their damp loads; Houston wanted no alarm
+        // given. The oath in it is left out, marked by the ellipsis. Often retold as "Hold your fire!" (`HIST-TEX-564`).
+        say('sj-stop-firing', 4, TEX, 'commander', 'tradition', 'Stop that firing, stop that firing… I say, stop the firing.', { person: 'houston', claimId: 'HIST-TEX-564', gloss: 'told later: as Dr. Nicholas Labadie remembered it, when the men fired off their damp guns; often retold as “Hold your fire!”' }),
         say('sj-there', 20, TEX, 'volunteer', 'reconstructed', 'There they are.'),
         say('sj-many', 50, TEX, 'volunteer', 'reconstructed', 'How many of them, you reckon?'),
       ],
     },
     {
       id: 'camped', minutes: 180, title: 'The two camps', claimId: 'HIST-TEX-523',
-      caption: 'The two armies are camped in sight of each other across the prairie. Neither moves.',
+      caption: 'The two armies are camped in sight of each other across the prairie. Neither moves. The Twin Sisters, two cannon sent by the people of Cincinnati, stand in front of the Texian camp.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', pose: 'rest', count: 700 },
+      guns: { 'twins-20-1': [], 'twins-20-2': [] },
+      people: [
+        { id: 'houston', with: 'texian', offset: { along: 0.04, across: -0.02 }, pose: 'command' },
+        { id: 'neill', at: 'twinsCamp1', face: 'breastwork', pose: 'command' },
+        { id: 'santa-anna', with: 'mexican', offset: { along: -0.02, across: 0.02 }, pose: 'command' },
+        { id: 'emily-west', at: 'picnicTent', pose: 'carry' },
+      ],
     },
     {
-      // 16:00-17:00. "That afternoon Sidney Sherman with a small detachment of cavalry engaged the enemy infantry, almost
-      // bringing on a general action" (TSHA, `HIST-TEX-523`); one Texian wounded (`HIST-TEX-083`; the count is disputed,
-      // `HIST-TEX-527`). The hour is the game's.
-      id: 'skirmish', minutes: 60, step: 10, title: 'The skirmish of April 20', claimId: 'HIST-TEX-523',
-      caption: 'In the afternoon Colonel Sherman takes a small party of horsemen out onto the prairie and skirmishes with the Mexican infantry. It almost brings on a general battle, and does not.',
+      // 16:00-17:00. The Mexican twelve-pounder opens on the Texian camp and the infantry probe the woods; the Twin Sisters answer
+      // "with grape and canister" and drive them back, and Neill, commanding them, is hit in the hip by a fragment of grapeshot
+      // (Houston's report; the Handbook's Neill, `HIST-TEX-565`). Then "Sidney Sherman with a small detachment of cavalry engaged
+      // the enemy infantry, almost bringing on a general action. In the clash Olwyns J. Trask was mortally wounded, one other
+      // Texan was wounded" (TSHA, `HIST-TEX-523`, `-565`; Houston: "two men severely wounded"), and Lamar, a private, rode in to
+      // bring out Rusk and Walter Lane. The hour of each is the game's. (Until 2026-09-26 one Texian was hurt here: `HIST-TEX-083`
+      // counted the skirmish alone; the audit's error 5, reconciled in `HIST-TEX-565`.)
+      id: 'skirmish', minutes: 60, step: 10, title: 'The skirmish of April 20', claimId: 'HIST-TEX-565',
+      caption: 'In the afternoon the Mexican twelve-pounder opens on the Texian camp and its infantry comes up toward the woods. The Twin Sisters answer with grape and canister and drive them back; Colonel Neill, commanding the guns, is wounded in the hip. Then Colonel Sherman takes a party of horsemen out onto the prairie and skirmishes with the Mexican infantry and cavalry. Olwyns Trask is mortally wounded and another man hurt; Mirabeau Lamar, a private, rides in and brings out Rusk and Walter Lane when they are cut off. It almost brings on a general battle, and does not.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'ranks', keys: [[0, 'mexicanCamp'], [15, 'breastwork'], [50, 'breastwork'], [60, 'mexicanCamp']], action: 'hold', fire: 'volley', count: 700 },
       groups: [
-        { id: 'sherman', side: TEX, name: 'Sherman’s horsemen', drawn: 6, style: 'mounted', mounted: true, keys: [[0, 'texianCamp'], [14, 'skirmish'], [46, 'skirmish'], [60, 'texianCamp']], action: 'advance', fire: 'scattered', claimId: 'HIST-TEX-523' },
+        { id: 'sherman', side: TEX, name: 'Sherman’s horsemen', drawn: 6, style: 'mounted', mounted: true, keys: [[0, 'texianCamp'], [22, 'texianCamp'], [32, 'skirmish'], [50, 'skirmish'], [60, 'texianCamp']], action: 'advance', fire: 'scattered', claimId: 'HIST-TEX-523' },
       ],
-      falls: [{ side: TEX, unit: 'sherman', count: 1, at: 30, claimId: 'HIST-TEX-083', wounded: true, carried: true }],
+      guns: { 'mexican-gun': [3, 11], 'twins-20-1': [6, 13], 'twins-20-2': [8, 16] },
+      people: [
+        { id: 'houston', with: 'texian', offset: { along: 0.04, across: -0.02 }, pose: 'command' },
+        { id: 'neill', at: 'twinsCamp1', face: 'breastwork', pose: 'command', during: [0, 20] },
+        { id: 'sherman', with: 'sherman', offset: { along: 0.012, across: 0 }, pose: 'ride' },
+        { id: 'lamar', with: 'sherman', offset: { along: 0.004, across: 0.012 }, pose: 'ride' },
+        { id: 'rusk', with: 'sherman', offset: { along: 0.004, across: -0.012 }, pose: 'ride' },
+        { id: 'santa-anna', with: 'mexican', offset: { along: -0.03, across: 0.02 }, pose: 'command' },
+      ],
+      falls: [
+        { side: TEX, unit: 'sherman', count: 1, at: 40, claimId: 'HIST-TEX-565', wounded: true, carried: true },
+        { side: TEX, unit: 'sherman', count: 1, at: 43, claimId: 'HIST-TEX-565', wounded: true, carried: true },
+      ],
       lines: [
-        say('sj-out', 8, TEX, 'volunteer', 'reconstructed', 'Sherman’s taking the horse out!'),
-        say('sj-taunt', 22, TEX, 'rider', 'reconstructed', 'Come out and fight!'),
-        say('sj-cobardes', 26, MEX, 'soldier', 'reconstructed', '¡Vengan, pues!', { gloss: 'Come on, then!' }),
-        say('sj-back', 48, TEX, 'volunteer', 'reconstructed', 'They’re coming back in.'),
+        say('sj-grape', 5, TEX, 'gunner', 'reconstructed', 'Grape! Give them grape!'),
+        say('sj-colonel', 13, TEX, 'volunteer', 'reconstructed', 'The colonel’s hit!'),
+        say('sj-out', 22, TEX, 'volunteer', 'reconstructed', 'Sherman’s taking the horse out!'),
+        say('sj-taunt', 33, TEX, 'rider', 'reconstructed', 'Come out and fight!'),
+        say('sj-cobardes', 36, MEX, 'soldier', 'reconstructed', '¡Vengan, pues!', { gloss: 'Come on, then!' }),
+        say('sj-back', 54, TEX, 'volunteer', 'reconstructed', 'They’re coming back in.'),
       ],
     },
     {
       // 17:00-09:00. "Throughout the night, Mexican troops worked to fortify their camp, creating breastworks out of
       // everything they could find, including saddles and brush" (Wikipedia, `HIST-TEX-524`).
       id: 'night', minutes: 960, title: 'The night of April 20', claimId: 'HIST-TEX-524',
-      guns: { 'mexican-gun': [] },
+      guns: { 'mexican-gun': [], 'twins-20-1': [], 'twins-20-2': [] },
       caption: 'Night. In the Mexican camp the soldiers work through the dark throwing up a breastwork of packs, saddles and baggage across the front of the camp.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', pose: 'rest', count: 700 },
+      people: [{ id: 'houston', with: 'texian', offset: { along: 0.04, across: -0.02 }, pose: 'seated' }, { id: 'emily-west', at: 'picnicTent', pose: 'seated' }],
     },
     {
       // 09:00-11:00, April 21. "About nine o'clock they learned that Martín Perfecto de Cos had crossed Vince's bridge with
@@ -188,13 +262,22 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // `HIST-TEX-153`). Cos's men "had marched steadily for more than 24 hours with no rest and no food" and were let sleep
       // (`HIST-TEX-524`).
       id: 'morning', minutes: 120, step: 20, title: 'Cos comes in, and the bridge', claimId: 'HIST-TEX-523',
-      guns: { 'mexican-gun': [] },
       caption: 'April 21. About nine, General Cos comes in with about 540 more men, who have marched all night; they lie down to sleep. Houston sends Deaf Smith and a few men to destroy Vince’s bridge, eight miles off on the road the reinforcements came by.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', pose: 'rest', count: 1200 },
       groups: [
         { id: 'cos', side: MEX, name: 'Cos’s men', count: 540, drawn: 16, style: 'column', keys: [[0, 'cosRoad'], [60, 'mexicanCamp']], face: 'breastwork', action: 'advance', fire: 'none', claimId: 'HIST-TEX-523' },
         { id: 'deaf-smith', side: TEX, name: 'Deaf Smith’s party', drawn: 3, style: 'mounted', mounted: true, keys: [[60, 'texianCamp'], [120, 'bridgeRoad']], face: 'bridgeRoad', action: 'advance', fire: 'none', claimId: 'HIST-TEX-153' },
+      ],
+      guns: { 'mexican-gun': [], 'twins-20-1': [], 'twins-20-2': [] },
+      // Cos at the head of the men he brings in over Vince's bridge (`HIST-TEX-523`, `-557`), on the parole he gave at Béxar; Deaf
+      // Smith at the head of his party riding out to destroy the bridge (`HIST-TEX-153`, `-555`).
+      people: [
+        { id: 'houston', with: 'texian', offset: { along: 0.04, across: -0.02 }, pose: 'command' },
+        { id: 'cos', with: 'cos', offset: { along: 0.01, across: 0 }, pose: 'ride' },
+        { id: 'deaf-smith', with: 'deaf-smith', offset: { along: 0.008, across: 0 }, pose: 'ride', during: [60, 120] },
+        { id: 'santa-anna', with: 'mexican', offset: { along: -0.03, across: 0.02 }, pose: 'command' },
+        { id: 'emily-west', at: 'picnicTent', pose: 'carry' },
       ],
       lines: [
         say('sj-more', 20, TEX, 'volunteer', 'reconstructed', 'More of them coming in.'),
@@ -207,53 +290,69 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       id: 'waiting', minutes: 270, title: 'The quiet afternoon', claimId: 'HIST-TEX-524',
       guns: { 'mexican-gun': [] },
       caption: 'The afternoon is quiet in the Mexican camp. Cos’s men are asleep; others rest, eat and see to the horses. The Handbook of Texas calls it the afternoon siesta. A later, disputed story places Emily West and Santa Anna at a picnic near his tent; in that telling, their conversation helps keep him there as the attack approaches. Emily had been taken by his army at New Washington. This scene is tradition, not an established cause of the victory. In the Texian camp the men wait for Houston to decide.',
-      legendScene: { id: 'emily-west-picnic', kind: 'tradition', at: 'picnicTent', fromMinute: 120, moment: 'converse', claimId: 'HIST-TEX-560' },
+      legendScene: { id: 'emily-west-picnic', kind: 'tradition', at: 'picnicTent', fromMinute: 120, moment: 'converse', claimId: 'HIST-TEX-560', people: LEGEND },
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', pose: 'rest', count: 1200 },
-      lines: [say('sj-wait', 90, TEX, 'volunteer', 'reconstructed', 'Waiting again.')],
+      guns: { 'mexican-gun': [], 'twins-20-1': [], 'twins-20-2': [] },
+      // Until the picnic the two are about the Mexican camp: Santa Anna at his headquarters, Emily West made to work in it.
+      people: [
+        { id: 'houston', with: 'texian', offset: { along: 0.04, across: -0.02 }, pose: 'command' },
+        { id: 'santa-anna', with: 'mexican', offset: { along: -0.03, across: 0.02 }, pose: 'command', during: [0, 120] },
+        { id: 'emily-west', at: 'picnicTent', pose: 'carry', during: [0, 120] },
+      ],
+      lines: [
+        say('sj-wait', 90, TEX, 'volunteer', 'reconstructed', 'Waiting again.'),
+        ...picnic('waiting', [[150, 'sarcastically', 'Another plate, General? A great general must keep up his strength.'], [225, 'dryly', 'Such a quiet afternoon for a war, General.']]),
+      ],
     },
     {
       // 15:30-16:00. "At half-past three o'clock in the evening, I ordered the officers of the Texan army to parade their
       // respective commands" (Houston's report, `HIST-TEX-522`).
       id: 'parade', minutes: 30, step: 5, title: 'Half past three: the army parades', claimId: 'HIST-TEX-522',
-      legendScene: { id: 'emily-west-picnic', kind: 'tradition', at: 'picnicTent', moment: 'converse', claimId: 'HIST-TEX-560' },
+      legendScene: { id: 'emily-west-picnic', kind: 'tradition', at: 'picnicTent', moment: 'converse', claimId: 'HIST-TEX-560', people: LEGEND },
       guns: { 'mexican-gun': [] },
-      caption: 'At half past three Houston orders the army to parade. The companies form in the edge of the timber in one long line: Sherman’s regiment on the left, Burleson’s in the centre, the two cannon, the regulars, and Lamar’s sixty-one horsemen on the far right.',
+      caption: 'At half past three Houston orders the army to parade. The companies form in the edge of the timber in one long line: Sherman’s regiment on the left with Seguín’s Tejano company, Burleson’s in the centre, the two cannon under Hockley, the regulars, and Lamar’s sixty-one horsemen on the far right. The cannon are the Twin Sisters, sent by the people of Cincinnati; by a family story told later they were named at Brazoria for the twin daughters of Dr. Charles Rice.',
       texian: { style: 'ranks', keys: [[0, 'texianCamp'], [20, 'line']], action: 'advance', fire: 'none' },
       mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', pose: 'rest' },
       groups: [
         { id: 'lamar', side: TEX, name: 'Lamar’s horsemen', count: 61, drawn: 6, style: 'mounted', mounted: true, keys: [[0, 'texianCamp'], [20, 'cavalryLine']], action: 'advance', fire: 'none', claimId: 'HIST-TEX-522' },
       ],
+      people: [...LINE_OFFICERS, { id: 'hockley', with: 'texian', offset: { along: 0.02, across: 0.05 }, pose: 'command' }, { id: 'mcculloch', with: 'texian', offset: { along: 0.02, across: 0.075 } }],
       lines: [
         say('sj-fall-in', 3, TEX, 'officer', 'reconstructed', 'Fall in! Fall in!'),
         say('sj-finally', 10, TEX, 'volunteer', 'reconstructed', 'Is he finally going to fight?'),
         say('sj-about-time', 16, TEX, 'volunteer', 'reconstructed', 'About time.'),
+        ...picnic('parade', [[8, 'with a forced smile', 'Stay a while, General. Your whole camp is resting.']]),
       ],
     },
     {
       // 16:00-16:24. The line walks out across the prairie, "screened by trees and the rising ground" (TSHA, `HIST-TEX-523`).
       // The tune is a tradition told two ways, named in the caption with both and played by nobody (owner's J3, `HIST-TEX-525`).
       id: 'advance', minutes: 24, step: 2, title: 'The advance across the prairie', claimId: 'HIST-TEX-522',
-      legendScene: { id: 'emily-west-picnic', kind: 'tradition', at: 'picnicTent', moment: 'converse', claimId: 'HIST-TEX-560' },
+      legendScene: { id: 'emily-west-picnic', kind: 'tradition', at: 'picnicTent', moment: 'converse', claimId: 'HIST-TEX-560', people: LEGEND },
       guns: { 'mexican-gun': [] },
-      caption: 'The line walks out across the open prairie, the rise screening it from the Mexican camp, the two cannon wheeled along with it. A tune is played as it goes, by tradition "Will You Come to the Bower?" - by a fifer and a drummer, the story goes, or by two fiddlers named Davis; the two traditions disagree.',
+      caption: 'The line walks out across the open prairie, the rise screening it from the Mexican camp, Houston riding in front of it and the Twin Sisters wheeled along with it. A tune is played as it goes, by tradition "Will You Come to the Bower?" - by a fifer and a drummer, the story goes, or by two fiddlers named Davis; the two traditions disagree.',
       texian: { style: 'ranks', from: 'line', to: 'close', action: 'advance', fire: 'none' },
       mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', pose: 'rest' },
       groups: [
         { id: 'lamar', side: TEX, name: 'Lamar’s horsemen', count: 61, drawn: 6, style: 'mounted', mounted: true, from: 'cavalryLine', to: 'cavalryClose', action: 'advance', fire: 'none', claimId: 'HIST-TEX-522' },
       ],
+      people: [...LINE_OFFICERS, { id: 'hockley', with: 'texian', offset: { along: 0.02, across: 0.05 }, pose: 'command' }, { id: 'mcculloch', with: 'texian', offset: { along: 0.02, across: 0.075 } }],
       lines: [
         say('sj-hold', 4, TEX, 'officer', 'reconstructed', 'Hold your fire. Keep the line.'),
         say('sj-dress', 12, TEX, 'officer', 'reconstructed', 'Dress on the centre!'),
         say('sj-tejanos', 20, MEX, 'sentry', 'reconstructed', '¡Los tejanos! ¡A las armas!', { gloss: 'The Texians! To arms!' }),
+        ...picnic('advance', [[8, 'sarcastically', 'Of course, General. Whatever you say, General.']]),
       ],
     },
     {
       // 16:24-16:30. The Twin Sisters "took station within two hundred yards of the enemy's breastwork" (Houston, `HIST-TEX-522`)
       // and open. contact: the fighting a family's person must be in the line for (docs/BATTLES.md §2.6).
       id: 'guns', minutes: 6, step: 2, contact: true, title: 'The Twin Sisters open', claimId: 'HIST-TEX-522',
-      legendScene: { id: 'emily-west-picnic', kind: 'tradition', at: 'picnicTent', moment: 'alarm', claimId: 'HIST-TEX-560' },
-      caption: 'The two six-pounders, the Twin Sisters, take their station within two hundred yards of the breastwork and open on it. In the Mexican camp men run for their arms.',
+      legendScene: { id: 'emily-west-picnic', kind: 'tradition', at: 'picnicTent', moment: 'alarm', claimId: 'HIST-TEX-560', people: LEGEND },
+      // What the guns fired: John M. Wade, who served them, remembered homemade grape of screw nuts, scraps of iron and cut bar
+      // lead (the Handbook's Twin Sisters, `HIST-TEX-558`); the "broken horseshoes" are a later telling (`HIST-TEX-570`).
+      caption: 'The two cannon, the Twin Sisters, under Colonel Hockley, take their station within two hundred yards of the breastwork and open on it with grape. John M. Wade, who served them, remembered loading them with homemade grape of screw nuts, scraps of iron and cut bar lead; later tellers say broken horseshoes. In the Mexican camp men run for their arms. On the Mexican side of the breastwork General Castrillón gets up on an ammunition crate to rally his men.',
       texian: { style: 'ranks', at: 'close', action: 'hold', fire: 'none' },
       // Some Mexican units form in haste behind the breastwork: ranks, ragged, firing as they can (staging §8.3).
       mexican: { style: 'ranks', at: 'mexicanCamp', action: 'hold', fire: 'scattered', ragged: true },
@@ -261,9 +360,16 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
         { id: 'lamar', side: TEX, name: 'Lamar’s horsemen', count: 61, drawn: 6, style: 'mounted', mounted: true, at: 'cavalryClose', action: 'hold', fire: 'none', claimId: 'HIST-TEX-522' },
       ],
       guns: { 'twin-sister-1': [0, 3], 'twin-sister-2': [1, 4], 'mexican-gun': [5] },
+      people: [
+        ...LINE_OFFICERS,
+        { id: 'hockley', at: 'hockleyAt', face: 'breastwork', pose: 'command' },
+        { id: 'mcculloch', at: 'mccullochAt', face: 'breastwork' },
+        { id: 'castrillon', at: 'crate', face: 'close', pose: 'command', during: [3, 6] },
+      ],
       lines: [
         say('sj-formar', 1, MEX, 'officer', 'reconstructed', '¡A formar! ¡A formar!', { gloss: 'Form up! Form up!' }),
         say('sj-armas', 3, MEX, 'soldier', 'reconstructed', '¡Mi fusil! ¿Dónde está mi fusil?', { gloss: 'My musket! Where is my musket?' }),
+        ...picnic('guns', [[1, 'quietly', 'Those are cannon, General.']]),
       ],
     },
     {
@@ -276,6 +382,12 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
         { id: 'lamar', side: TEX, name: 'Lamar’s horsemen', count: 61, drawn: 6, style: 'mounted', mounted: true, at: 'cavalryClose', action: 'hold', fire: 'scattered', claimId: 'HIST-TEX-522' },
       ],
       guns: { 'twin-sister-1': [1], 'twin-sister-2': [1], 'mexican-gun': [] },
+      people: [
+        ...LINE_OFFICERS,
+        { id: 'hockley', at: 'hockleyAt', face: 'breastwork', pose: 'command' },
+        { id: 'mcculloch', at: 'mccullochAt', face: 'breastwork' },
+        { id: 'castrillon', at: 'crate', face: 'close', pose: 'command' },
+      ],
       falls: [{ side: MEX, count: 3, at: 1, claimId: 'HIST-TEX-067' }],
     },
     {
@@ -283,13 +395,20 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // "Remember Goliad!" (TSHA). The Mexican gun fires once. The Texians lost nine killed or mortally wounded and thirty
       // wounded (TSHA; Houston's report has two and twenty-three, `HIST-TEX-527`): drawn as one down and two hurt of sixty.
       id: 'charge', minutes: 6, step: 1, contact: true, title: '"Remember the Alamo!"', claimId: 'HIST-TEX-522',
-      caption: 'The line runs at the breastwork shouting "Remember the Alamo! Remember Goliad!" and goes over it. The Mexican gun fires once. The line comes apart as the men go in, each on his own.',
+      caption: 'The line runs at the breastwork shouting "Remember the Alamo! Remember Goliad!" and goes over it. The Mexican gun fires once. Houston’s horse is shot under him and a musket ball shatters his ankle; he rides on. General Castrillón, on his crate, cannot make his men stand; he turns and walks away from the Texians and is shot. The line comes apart as the men go in, each on his own.',
       texian: { style: 'loose', keys: [[0, 'close'], [3, 'breastwork'], [6, 'overWork']], action: 'advance', fire: 'scattered', spread: { width: 0.5, depth: 0.16 } },
       mexican: { style: 'ranks', at: 'mexicanCamp', action: 'hold', fire: 'scattered', ragged: true },
       groups: [
         { id: 'lamar', side: TEX, name: 'Lamar’s horsemen', count: 61, drawn: 6, style: 'mounted', mounted: true, from: 'cavalryClose', to: 'cavalryChase', action: 'advance', fire: 'scattered', claimId: 'HIST-TEX-522' },
       ],
       guns: { 'twin-sister-1': [], 'twin-sister-2': [], 'mexican-gun': [1] },
+      // Houston's horse Saracen shot under him and his ankle shattered by a musket ball; he rides on (`HIST-TEX-564`, the
+      // roster's fate at the third minute). Castrillón, "after the panicked soldiers failed to respond, he slowly turned and
+      // walked away from the oncoming Texans. He was shot" (Rusk, as the Handbook gives it, `HIST-TEX-561`). No words.
+      people: [
+        ...LINE_OFFICERS,
+        { id: 'castrillon', keys: [[0, 'crate'], [2, 'crate'], [5, 'castrillonWalk']], face: 'mexicanCamp', pose: 'command' },
+      ],
       falls: [
         { side: MEX, count: 4, at: 2, claimId: 'HIST-TEX-067' },
         { side: TEX, count: 1, at: 2, claimId: 'HIST-TEX-527', carried: true },
@@ -314,6 +433,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       groups: [
         { id: 'lamar', side: TEX, name: 'Lamar’s horsemen', count: 61, drawn: 6, style: 'mounted', mounted: true, from: 'cavalryChase', to: 'marshEdge', action: 'advance', fire: 'scattered', claimId: 'HIST-TEX-522' },
       ],
+      people: LINE_OFFICERS,
       falls: [
         { side: MEX, count: 4, at: 2, claimId: 'HIST-TEX-524' },
         { side: MEX, count: 4, at: 5, claimId: 'HIST-TEX-524' },
@@ -334,6 +454,8 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       caption: 'The killing goes on after the fighting is over. Mexican soldiers who ran into the marsh and toward Peggy’s Lake are shot there by Texians on the banks, many of them trying to surrender. Houston, his ankle shattered by a musket ball, and Rusk try to stop it and cannot.',
       texian: { style: 'loose', at: 'marshEdge', action: 'hold', fire: 'scattered', spread: { width: 0.5, depth: 0.12 } },
       mexican: { style: 'rout', keys: [[0, 'marsh'], [100, 'lake']], action: 'withdraw', face: 'away', fire: 'none', surrendering: 0.35 },
+      // Houston, wounded, and Rusk trying to stop it (`HIST-TEX-524`), at the bank.
+      people: [{ id: 'houston', with: 'texian', offset: { along: -0.02, across: 0.02 }, pose: 'ride' }, { id: 'rusk', with: 'texian', offset: { along: -0.01, across: 0.05 }, pose: 'command' }],
       falls: [
         { side: MEX, count: 3, at: 10, claimId: 'HIST-TEX-524' },
         { side: MEX, count: 3, at: 30, claimId: 'HIST-TEX-524' },
@@ -350,29 +472,41 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // 18:28-19:28. Dusk: the prisoners gathered, the camp taken. 630 killed and 730 taken (`HIST-TEX-067`).
       id: 'prisoners', minutes: 60, step: 20, title: 'Dusk: the prisoners', claimId: 'HIST-TEX-067',
       guns: { 'twin-sister-1': [], 'twin-sister-2': [] },
-      caption: 'Dusk. The firing stops. The prisoners are gathered in the taken camp under guard: some 730 were taken, and about 630 Mexican soldiers were killed. Nine Texians were killed or mortally wounded and about thirty wounded; the wounded are carried back to the camp.',
+      caption: 'Dusk. The firing stops. Colonel Almonte, Santa Anna’s aide, surrenders the men still with him to Burleson. The prisoners are gathered in the taken camp under guard: some 730 were taken, and about 630 Mexican soldiers were killed. Nine Texians were killed or mortally wounded and about thirty wounded; the wounded are carried back to the camp.',
       texian: { style: 'loose', at: 'mexicanCamp', action: 'hold', fire: 'none', spread: { width: 0.4, depth: 0.2 } },
       mexican: { style: 'loose', at: 'prisonerGround', action: 'hold', fire: 'none', surrendering: 1, spread: { width: 0.22, depth: 0.14 }, count: 730 },
+      // Almonte surrenders the men still with him to Burleson at dusk (the Handbook's Burleson and Almonte, `HIST-TEX-568`).
+      people: [
+        { id: 'almonte', with: 'mexican', offset: { along: 0.03, across: 0 }, pose: 'surrender' },
+        { id: 'burleson', with: 'mexican', offset: { along: 0.055, across: 0.01 }, pose: 'command', face: 'prisonerGround' },
+        { id: 'houston', with: 'texian', offset: { along: -0.06, across: 0.03 }, pose: 'wounded' },
+      ],
       lines: [say('sj-over-now', 20, TEX, 'volunteer', 'reconstructed', 'It’s over.')],
     },
     {
       // 19:28 April 21 - noon April 22. The night, and the search next morning.
       id: 'search', minutes: 992, title: 'The camp taken', claimId: 'HIST-TEX-523',
-      caption: 'The night after the battle. The prisoners are under guard in the taken camp. In the morning parties ride out over the prairie looking for the men who got away, and for Santa Anna.',
+      caption: 'The night after the battle. The prisoners are under guard in the taken camp. Houston lies under a tree with his ankle bandaged. In the morning parties ride out over the prairie looking for the men who got away, and for Santa Anna.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'loose', at: 'prisonerGround', action: 'hold', fire: 'none', surrendering: 1, spread: { width: 0.22, depth: 0.14 }, count: 730 },
+      people: [{ id: 'houston', with: 'texian', offset: { along: 0, across: 0 }, pose: 'wounded' }],
     },
     {
       // Noon-13:00, April 22. Santa Anna "hiding in the grass. He was dirty and wet and was dressed as a common soldier. The
       // search party did not recognize him until he was addressed as 'el presidente' by other Mexican prisoners" (TSHA,
       // `HIST-TEX-523`); "He was brought before Houston, who had been shot in the ankle and badly wounded" (Wikipedia,
-      // `HIST-TEX-526`). The hour is the game's. Neither man is given a word: no source read gives them one.
+      // `HIST-TEX-526`). The hour is the game's. What the two said is a later telling: "Those who were present at the interview
+      // relate the following as the substance of the conversation", W. C. Crane printed in 1884 - Santa Anna's "Napoleon of the
+      // West" and Houston's answer - spoken here as tradition (owner, docs/BATTLES.md §2c.4; `HIST-TEX-559`). Almonte interprets.
       id: 'taken', minutes: 60, step: 20, title: 'Santa Anna is brought in', claimId: 'HIST-TEX-526',
-      caption: 'April 22. A search party brings in a man it found hiding in the grass, dirty and wet, dressed as a common soldier. As he is brought past the prisoners they call him "el presidente": he is Santa Anna. He is brought before Houston, who lies wounded.',
+      caption: 'April 22. A search party brings in a man it found hiding in the grass, dirty and wet, dressed as a common soldier. As he is brought past the prisoners they call him "el presidente": he is Santa Anna. He is brought before Houston, who lies wounded, and Colonel Almonte interprets. What they said was written down long afterward, from those who were there: a story told later, not the record.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'loose', at: 'prisonerGround', action: 'hold', fire: 'none', surrendering: 1, spread: { width: 0.22, depth: 0.14 }, count: 730 },
-      parley: { at: 'texianCamp', people: [{ side: TEX, name: 'Houston', pose: 'injured' }, { side: MEX, name: 'Santa Anna' }] },
+      parley: { at: 'texianCamp', people: [{ side: TEX, id: 'houston', pose: 'injured' }, { side: MEX, id: 'santa-anna' }] },
+      people: [{ id: 'almonte', with: 'texian', offset: { along: 0.006, across: 0.012 }, pose: 'prisoner', during: [20, 60] }],
       lines: [
+        say('sj-napoleon', 32, MEX, 'commander', 'tradition', 'That man may consider himself born to no common destiny who has conquered the Napoleon of the West; and it now remains for him to be generous to the vanquished.', { person: 'santa-anna', claimId: 'HIST-TEX-559', gloss: 'told later: as W. C. Crane printed it in 1884, from those who were there' }),
+        say('sj-remember', 40, TEX, 'commander', 'tradition', 'You should have remembered that at the Alamo.', { person: 'houston', claimId: 'HIST-TEX-559', gloss: 'told later: Houston’s answer, as Crane printed it in 1884' }),
         say('sj-presidente-1', 10, MEX, 'prisoner', 'documented', '¡El Presidente!', { claimId: 'HIST-TEX-523', gloss: 'The President! - the prisoners, as the Handbook of Texas tells it' }),
         say('sj-presidente-2', 11, MEX, 'prisoner', 'documented', '¡El Presidente!', { claimId: 'HIST-TEX-523', gloss: 'The President!' }),
         say('sj-is-it', 30, TEX, 'volunteer', 'reconstructed', 'That’s him? That’s Santa Anna?'),
@@ -382,9 +516,13 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // 13:00 April 22 - noon April 23: Santa Anna a prisoner; he wrote to Filisola ordering the troops to retreat to Béxar
       // (Wikipedia, `HIST-TEX-526`). The engagement ends when the word of the victory goes out (`victory-word`).
       id: 'held', minutes: 1380, title: 'Santa Anna a prisoner', claimId: 'HIST-TEX-526',
-      caption: 'Santa Anna is a prisoner in Houston’s camp. He writes to General Filisola, now the senior Mexican officer in Texas, ordering the Mexican troops to fall back to Béxar.',
+      caption: 'Santa Anna is a prisoner in Houston’s camp. He writes to General Filisola, now the senior Mexican officer in Texas, ordering the Mexican troops to fall back to Béxar. (Of the Twin Sisters, a story told later says that in 1865 men who had fought for the Confederacy buried them near Harrisburg rather than surrender them; they have never been found.)',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'loose', at: 'prisonerGround', action: 'hold', fire: 'none', surrendering: 1, spread: { width: 0.22, depth: 0.14 }, count: 730 },
+      people: [
+        { id: 'houston', with: 'texian', offset: { along: 0, across: -0.01 }, pose: 'wounded' },
+        { id: 'santa-anna', with: 'texian', offset: { along: 0.008, across: 0.01 }, pose: 'prisoner' },
+      ],
     },
   ],
   ground: sanJacintoGround,

@@ -130,6 +130,9 @@ export const GOLIAD_MASSACRE = Object.freeze({
     {
       // 18:00-19:00, March 26. The song over the walls; Francita Alavez brings some of the men out and hides them.
       id: 'eve', minutes: 60, step: 20, light: 'dusk', title: 'The evening before', claimId: 'HIST-TEX-517',
+      // Fannin, wounded at Coleto, among the prisoners in the presidio (`HIST-TEX-562`). He is never drawn at his death: from
+      // the `inside` phase he is not on the field, and the caption tells it (sim/people.mjs `told`; `FIC-GONZ-454`).
+      people: [{ id: 'fannin', with: 'texian', offset: { along: -0.01, across: 0.01 }, pose: 'wounded' }],
       caption: 'Evening, March 26, at the presidio of Goliad. Colonel Portilla, commanding here, has received Santa Anna’s order about the prisoners. The prisoners have been told they will be sent to New Orleans. Francita Alavez, the wife of a Mexican officer, goes into the fort, brings some of the men out, and hides them.',
       texian: { ...INSIDE, drawn: 53 },
       mexican: { ...GATE },
@@ -147,17 +150,20 @@ export const GOLIAD_MASSACRE = Object.freeze({
     },
     {
       id: 'night', minutes: 480, step: 240, light: 'night', title: 'The night before Palm Sunday', claimId: 'HIST-TEX-517',
+      people: [{ id: 'fannin', with: 'texian', offset: { along: -0.01, across: 0.01 }, pose: 'wounded' }],
       caption: 'The night before Palm Sunday. The prisoners are shut in the presidio.',
       texian: { ...INSIDE }, mexican: { ...GATE },
     },
     {
       id: 'before-dawn', minutes: 180, step: 60, light: 'dawn', title: 'Before sunrise', claimId: 'HIST-TEX-517',
+      people: [{ id: 'fannin', with: 'texian', offset: { along: -0.01, across: 0.01 }, pose: 'wounded' }],
       caption: 'Before sunrise the guard is turned out.',
       texian: { ...INSIDE }, mexican: { ...GATE },
     },
     {
       // 06:00-06:30. The muster: three groups formed; the doctors and the men to be spared kept back (`HIST-TEX-517`, `-518`).
       id: 'muster', minutes: 30, step: 5, title: 'The muster, Palm Sunday', claimId: 'HIST-TEX-517',
+      people: [{ id: 'fannin', with: 'wounded', offset: { along: 0, across: 0.004 }, pose: 'wounded' }],
       caption: 'Sunrise, Palm Sunday, March 27. The prisoners who can walk are formed into three groups in the parade ground. They are told different things: that they will gather wood, drive cattle, or march to the ships at Copano. The doctors and some men with useful trades are kept back.',
       ...both(columns(id => ({ at: `out-${id}` })), guards(id => ({ at: `guard-out-${id}` }))),
       lines: [
@@ -168,6 +174,7 @@ export const GOLIAD_MASSACRE = Object.freeze({
     {
       // 06:30-07:00. Out of the gate on three roads, under guard.
       id: 'marched', minutes: 30, step: 5, title: 'Marched out on three roads', claimId: 'HIST-TEX-517',
+      people: [{ id: 'fannin', with: 'wounded', offset: { along: 0, across: 0.004 }, pose: 'wounded' }],
       caption: 'The three groups are marched out of the presidio under guard, each on a different road: the road to Béxar, the road to Victoria, and the road to San Patricio.',
       ...both(columns(id => ({ from: `out-${id}`, to: `halt-${id}` }), { action: 'advance' }), guards(id => ({ from: `guard-out-${id}`, to: `guard-${id}` }), { action: 'follow' })),
       lines: [say('m-where', 20, TEX, 'prisoner', 'reconstructed', 'This isn’t the way to Copano.')],
@@ -176,6 +183,7 @@ export const GOLIAD_MASSACRE = Object.freeze({
       // 07:00-07:20. At the halting places the guards fire (`HIST-TEX-517`); men break for the river timber (`HIST-TEX-518`).
       // contact: what a family's man with the prisoners is there for (docs/BATTLES.md §2.6). Nothing is said.
       id: 'volleys', minutes: 20, step: 2, contact: true, title: 'The killing on the roads', claimId: 'HIST-TEX-517',
+      people: [{ id: 'fannin', with: 'wounded', offset: { along: 0, across: 0.004 }, pose: 'wounded' }],
       caption: 'Half a mile or more from the presidio, each group is halted, and the guards open fire on the prisoners at close range. Most of the men are killed. A few break away and run for the trees along the river.',
       ...both(columns(id => ({ at: `halt-${id}` }), { runners: { keys: [[0, 'halt-victoria'], [4, 'halt-victoria'], [20, 'chase-victoria']] } }),
         guards(id => ({ at: `guard-${id}` }), { fire: 'volley', face: 'halt', riders: { keys: [[0, 'gate'], [8, 'gate'], [20, 'halt-victoria']] } })),
@@ -190,6 +198,7 @@ export const GOLIAD_MASSACRE = Object.freeze({
     {
       // 07:20-07:40. Twenty-eight get away; riders go after them a little way and turn back (`HIST-TEX-518`).
       id: 'escapes', minutes: 20, step: 5, title: 'Into the river timber', claimId: 'HIST-TEX-518',
+      people: [{ id: 'fannin', with: 'wounded', offset: { along: 0, across: 0.004 }, pose: 'wounded' }],
       caption: 'Some of the men who ran reach the trees along the San Antonio River. Riders go after them, and turn back. Twenty-eight men escape that morning, some by lying still among the dead until they could run.',
       ...both(columns(id => ({ at: `halt-${id}` }), { runners: { from: 'chase-victoria', to: 'river-victoria' } }),
         guards(id => ({ at: `guard-${id}` }), { face: 'halt', riders: { keys: [[0, 'halt-victoria'], [8, 'chase-victoria'], [20, 'gate']] } })),
@@ -197,7 +206,7 @@ export const GOLIAD_MASSACRE = Object.freeze({
     {
       // 07:40-08:00. Inside the presidio Fannin and the wounded are killed under Capt. Carolino Huerta (`HIST-TEX-517`).
       id: 'inside', minutes: 20, step: 5, title: 'Inside the presidio', claimId: 'HIST-TEX-517',
-      caption: 'Inside the presidio, the wounded who could not march are killed, under the orders of Captain Carolino Huerta. Colonel Fannin, wounded at Coleto, is shot in the courtyard. The doctors and the men kept back are spared.',
+      caption: 'Inside the presidio, the wounded who could not march are killed, under the orders of Captain Carolino Huerta. Colonel Fannin, wounded at Coleto, is taken out and shot in the courtyard, apart from the others. Joseph Spohn, a prisoner spared to interpret, said afterward that Fannin gave his watch so that he would be buried, and asked that they not fire so close that it burned his face; later tellings add other requests. The doctors and the men kept back are spared.',
       ...both(columns(id => ({ at: `halt-${id}` }), { runners: { at: 'river-victoria', action: 'gone' } }), guards(id => ({ at: `guard-${id}` }), { face: 'halt' })),
       falls: [{ side: TEX, unit: 'wounded', count: 4, at: 6, claimId: 'HIST-TEX-517' }],
     },

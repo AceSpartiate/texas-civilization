@@ -62,6 +62,26 @@ const hash = key => {
   return (h >>> 0) / 4294967296;
 };
 const clamp01 = value => Math.max(0, Math.min(1, value));
+/**
+ * The famous people's own art (scripts/art-deliveries/famous-people.mjs, famous-alamo-survivors.mjs, famous-bexar-goliad.mjs;
+ * the Joe sheet): for each pose the sprite, a `clip:` for an animated clip, or a list of sprites cycled (aim, fire, reload).
+ * `walk` is the east-walking clip, mirrored for the west. A pose missing here is drawn from the library's volunteer or
+ * regular (public/battle-view.js `drawPerson`; stand-ins listed in docs/ART_REQUESTS.md, request 2026-09-26).
+ */
+const PERSON_ART = Object.freeze({
+  travis: { stand: 'travis-idle', command: 'travis-command', write: 'travis-write', point: 'travis-command', fire: ['travis-aim', 'travis-fire', 'travis-ready'], wounded: 'travis-wounded-kneel', walk: 'travis-walk-e' },
+  bowie: { stand: 'bowie-idle', command: 'bowie-command', sick: 'bowie-sick-bed', 'still-bed': 'bowie-still-bed', seated: 'bowie-sick-seated', walk: 'bowie-walk-e' },
+  crockett: { stand: 'crockett-idle', command: 'crockett-command', fire: ['crockett-aim', 'crockett-fire', 'crockett-reload'], seated: 'crockett-rest-seated', walk: 'crockett-walk-e' },
+  joe: { stand: 'clip:joe-idle', hide: 'clip:joe-hide', emerge: 'clip:joe-emerge', seated: 'clip:joe-rest', wounded: 'clip:joe-rest', walk: 'joe-walk' },
+  seguin: { stand: 'seguin-idle', command: 'seguin-command', ride: 'seguin-mounted-e', walk: 'seguin-walk-e' },
+  'susanna-dickinson': { stand: 'susanna-dickinson-hold-angelina', carry: 'susanna-dickinson-carry-angelina', sick: 'susanna-dickinson-shelter-with-angelina', seated: 'susanna-dickinson-rest-with-angelina', walk: 'susanna-dickinson-walk-e' },
+  'angelina-dickinson': { stand: 'angelina-dickinson-sit', seated: 'angelina-dickinson-sleep' },
+  milam: { stand: 'milam-idle', command: 'milam-rally', point: 'milam-point', fire: ['milam-cover', 'milam-advance', 'milam-cover'], still: 'milam-still', walk: 'milam-walk-e' },
+  fannin: { stand: 'fannin-idle', command: 'fannin-command', wounded: 'fannin-injured-seated', surrender: 'fannin-surrender', prisoner: 'fannin-prisoner-seated', walk: 'fannin-walk-e' },
+  houston: { stand: 'houston-idle', command: 'houston-command', wounded: 'houston-injured-seated', walk: 'houston-walk-e' },
+  'santa-anna': { stand: 'santa-anna-idle', command: 'santa-anna-command', prisoner: 'santa-anna-disguised-seated', walk: 'santa-anna-walk-e' },
+  'emily-west': { stand: 'emily-west-idle', carry: 'emily-west-carry-bundle', seated: 'emily-west-sit-converse', walk: 'emily-west-walk-e' },
+});
 const lerp = (a, b, t) => a + (b - a) * t;
 
 /**
@@ -190,6 +210,8 @@ export function createBattleView(art) {
     loopholeShots: 0, gunShotsTotal: 0, gunShotsBy: {}, peopleFellAt: new Map(), peopleSpots: {}, peopleShown: new Set(), civiliansSeen: 0, breachesSeen: new Set(), namedFalls: new Set(), unitsSeen: new Set(),
     // §6.13: where each fallen figure went down (he lies there while his part moves on), and the herd.
     fallenSpots: new Map(), herd: null,
+    // Joe's shots from the house he took cover in, each fired once (a flash and a puff at its door).
+    hiddenShots: new Set(),
   };
   // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "San Jacinto", item 3 - a Texian horseman (Sherman's, Lamar's, Deaf
   // Smith's party) is the library's mounted courier, the only Texian-dressed rider it has, until a mounted volunteer exists.
@@ -662,6 +684,7 @@ export function createBattleView(art) {
     let cannonShown = null;
     if (battle.cannon) cannonShown = drawCannon(ctx, battle, camera, figurePx, time, now, wind, still);
     const flagShown = battle.flag ? drawFlag(ctx, battle.flag, camera, figurePx, time, wind) : null;
+    view.parleySpots = {}; view.legendSpots = {};
     const legendShown = battle.legendScene ? drawLegendScene(ctx, battle.legendScene, camera, figurePx, time, reducedMotion) : null;
     if (battle.parley) drawParley(ctx, battle, camera, figurePx, time);
     // Guns standing on the ground (Béxar's: the plaza's, the Alamo's, Neill's), each firing the shots the server dated.
@@ -670,7 +693,7 @@ export function createBattleView(art) {
     const breachesShown = drawBreaches(ctx, camera, figurePx, time, now, still, battle);
     for (const flag of battle.flags || []) drawWhiteFlag(ctx, flag, camera, figurePx, time, wind);
     // Named people where the record puts them (the Alamo's Travis and Joe), and smoke going up far off.
-    const peopleShown = drawPeople(ctx, battle, camera, figurePx, time, now);
+    const peopleShown = drawPeople(ctx, battle, camera, figurePx, time, now, bounds);
     for (const plume of battle.plumes || []) drawPlume(ctx, plume, camera, figurePx, time, reducedMotion);
     // Night (§6.13): the field dark but for lit windows, the fire and the flashes, which are drawn over it.
     const night = battle.light === 'night' || battle.light === 'dawn' ? drawNight(ctx, battle, camera, figurePx, now, bounds) : null;
@@ -1007,7 +1030,16 @@ export function createBattleView(art) {
       { clip: firing ? `${who}-gun-fire` : `${who}-idle-e`, dx: back * 0.2, dy: 0.35, t: firing ? since : time },
     ].slice(0, gun.crew ?? 3);
     for (const man of crew) art.animated(ctx, man.clip, p.x + man.dx * figurePx, p.y + (man.dy || 0) * figurePx, figurePx, `crew:${gun.id}:${man.dx}`, { timeMs: man.t, flip: !right, paused: reducedMotion });
-    return { id: gun.id, x: Math.round(p.x), y: Math.round(p.y), firing, shots: fired.length, onScreen: true };
+    // A famous gun is named on the field as a famous person is (owner, 2026-09-26: "Treat the Twin Sisters in a similar
+    // fashion"; docs/BATTLES.md §2c.5).
+    if (gun.named && gun.name) {
+      ctx.save();
+      const font = Math.round(Math.max(11, Math.min(15, figurePx * 0.3)));
+      ctx.font = `${font}px system-ui`; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+      ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(252,249,238,.92)'; ctx.strokeText(gun.name, p.x, p.y + font + 6); ctx.fillStyle = '#26382e'; ctx.fillText(gun.name, p.x, p.y + font + 6);
+      ctx.restore();
+    }
+    return { id: gun.id, x: Math.round(p.x), y: Math.round(p.y), firing, shots: fired.length, onScreen: true, ...(gun.named && { name: gun.name }) };
   }
 
   /**
@@ -1061,27 +1093,102 @@ export function createBattleView(art) {
    * coming out when the officers call - his own account, never a mechanic (docs/MILITARY_EXPERIENCE.md "Survivors and Joe").
    * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 8 - Travis is drawn as the volunteer figure.
    */
-  function drawPeople(ctx, battle, camera, figurePx, time, now) {
+  function drawPeople(ctx, battle, camera, figurePx, time, now, bounds) {
     view.peopleSpots = {};
-    const shown = [];
+    const shown = [], labels = [];
     for (const person of battle.people || []) {
       const p = camera.toScreen(person), fellAt = view.peopleFellAt.get(person.id);
-      let ok = 0;
-      if (Number.isFinite(fellAt) && fellAt <= now) ok = art.drawSprite(ctx, now - fellAt < 700 ? 'volunteer-injured' : 'volunteer-reclining', p.x, p.y, figurePx);
-      else if (person.pose === 'hide') ok = art.animated(ctx, 'joe-hide', p.x, p.y, figurePx, `person:${person.id}`, { timeMs: time });
-      else if (person.pose === 'emerge') ok = art.animated(ctx, 'joe-emerge', p.x, p.y, figurePx, `person:${person.id}`, { timeMs: time });
-      else if (person.pose === 'fire') ok = art.animated(ctx, 'volunteer-fire-reload', p.x, p.y, figurePx, `person:${person.id}`, { timeMs: time % FIRE_CLIP_MS });
-      else ok = art.animated(ctx, 'volunteer-idle-e', p.x, p.y, figurePx, `person:${person.id}`, { timeMs: time });
-      if (!ok) art.miniPerson(ctx, p.x, p.y, figurePx, { side: person.side });
-      view.peopleSpots[person.name] = { x: p.x, y: p.y - figurePx };
+      const fell = Number.isFinite(fellAt) && fellAt <= now;
+      const hurt = Number.isFinite(person.hurt) && person.hurt <= battle.minute;
+      const how = drawPerson(ctx, person, p, figurePx, time, { fell, fellAgo: fell ? now - fellAt : 0, hurt, now });
+      view.peopleSpots[person.id] = view.peopleSpots[person.name] = { x: p.x, y: p.y - figurePx * (person.pose === 'ride' && !fell ? 1.35 : 1) };
       view.peopleShown.add(person.id);
-      if (figurePx >= 14) {
-        ctx.font = `${Math.round(Math.max(11, Math.min(15, figurePx * 0.3)))}px system-ui`; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
-        ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(252,249,238,.92)'; ctx.strokeText(person.name, p.x, p.y + 14); ctx.fillStyle = '#26382e'; ctx.fillText(person.name, p.x, p.y + 14);
-      }
-      shown.push({ id: person.id, name: person.name, fell: Number.isFinite(fellAt) && fellAt <= now });
+      labels.push({ person, x: p.x, y: p.y });
+      shown.push({ id: person.id, name: person.name, fell, hurt, pose: fell ? person.still || 'still' : hurt ? 'wounded' : person.moving ? 'walk' : person.pose, drawnAs: how, x: Math.round(p.x), y: Math.round(p.y), ...(person.tag && { tag: person.tag }), onScreen: !bounds || (p.x >= 0 && p.y >= 0 && p.x <= bounds.width && p.y <= bounds.height) });
     }
+    // Every famous person's name under them (owner, docs/BATTLES.md §2c.2: "names on the map, no cards"), stepped down out of
+    // each other's way where several stand together (the church guns at the Alamo), and a dashed tag under a name where the
+    // record is one account among others (Crockett: "One account (de la Peña) · disputed").
+    const boxes = [];
+    const font = Math.round(Math.max(11, Math.min(15, figurePx * 0.3)));
+    ctx.save();
+    ctx.font = `${font}px system-ui`; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+    for (const { person, x, y } of labels) {
+      const text = person.name, w = ctx.measureText(text).width + 6;
+      let top = y + 3;
+      for (let i = 0; i < 6 && boxes.some(b => x - w / 2 < b.x + b.w && b.x < x + w / 2 && top < b.y + b.h && b.y < top + font + 3); i++) top += font + 3;
+      boxes.push({ x: x - w / 2, y: top, w, h: font + 3 });
+      ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(252,249,238,.92)'; ctx.strokeText(text, x, top + font); ctx.fillStyle = '#26382e'; ctx.fillText(text, x, top + font);
+      if (person.tag) {
+        const tagFont = Math.max(10, font - 2);
+        ctx.font = `italic ${tagFont}px system-ui`;
+        const tw = ctx.measureText(person.tag).width + 10, ty = top + font + 4;
+        ctx.fillStyle = 'rgba(252,249,238,.94)'; ctx.fillRect(x - tw / 2, ty, tw, tagFont + 6);
+        ctx.setLineDash([4, 3]); ctx.strokeStyle = '#6e6044'; ctx.lineWidth = 1.2; ctx.strokeRect(x - tw / 2, ty, tw, tagFont + 6); ctx.setLineDash([]);
+        ctx.fillStyle = '#3b392f'; ctx.fillText(person.tag, x, ty + tagFont + 2);
+        boxes.push({ x: x - tw / 2, y: ty, w: tw, h: tagFont + 6 });
+        ctx.font = `${font}px system-ui`;
+      }
+    }
+    ctx.restore();
     return shown;
+  }
+
+  /**
+   * One famous person, as themselves where the library has their sheet (scripts/art-deliveries/famous-*.mjs) and as the
+   * nearest figure it has where it has not. stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the famous people" - every
+   * `officer`, `frontiersman`, `general` and `rider` in sim/people.mjs is a volunteer, a regular, a dragoon or the mounted
+   * courier; Crockett taken, and the famous fallen who have no still pose of their own, are the volunteer's surrender and
+   * reclining frames; nobody but Houston and Santa Anna has a horse of their own. Returns what it drew, for the evidence.
+   */
+  function drawPerson(ctx, person, p, figurePx, time, { fell, fellAgo, hurt, now }) {
+    if (person.thing) return null;
+    const own = PERSON_ART[person.art] || null;
+    const mexican = person.side === 'mexican';
+    const kind = mexican ? 'regular' : 'volunteer';
+    const size = person.child ? figurePx * 0.6 : figurePx;
+    const flip = !person.right;
+    const key = `person:${person.id}`;
+    const sprite = name => art.drawSprite(ctx, name, p.x, p.y, size, { flip }) ? name : null;
+    const clip = (name, timeMs = time, extra = {}) => art.animated(ctx, name, p.x, p.y, extra.size || size, key, { timeMs, flip, ...extra }) ? name : null;
+    // The fallen: a moment hurt, then lying still, no blood (`VISION.md` §16). A man killed on his cot simply lies still.
+    if (fell) {
+      if (person.still && own?.[person.still]) return sprite(own[person.still]);
+      if (fellAgo < 700 && !person.still) return sprite(`${kind}-injured`);
+      return (own?.still && sprite(own.still)) || sprite(`${kind}-reclining`);
+    }
+    const pose = hurt ? 'wounded' : person.moving && person.pose !== 'ride' ? 'walk' : person.pose || 'stand';
+    const named = own?.[pose];
+    if (pose === 'walk') {
+      if (own?.walk) return clip(own.walk) || clip(`${kind}-march`);
+      return clip(`${kind}-march`);
+    }
+    if (pose === 'ride') {
+      if (named) return sprite(named);
+      return clip(mexican ? 'dragoon-march' : 'mounted-courier-e', time, { size: figurePx * 1.35 });
+    }
+    if (pose === 'fire') {
+      if (Array.isArray(named)) { const t = (time + hash(key) * 4000) % 3600; return sprite(named[t < 1500 ? 0 : t < 1800 ? 1 : 2]); }
+      if (named) return clip(named, time % FIRE_CLIP_MS);
+      return clip(`${kind}-fire-reload`, (time + hash(key) * FIRE_CLIP_MS) % FIRE_CLIP_MS);
+    }
+    // Joe, firing from the house he took cover in (his own account): hidden, with the flash and the smoke at its door.
+    if (pose === 'fire-hidden') {
+      const t = (time + hash(key) * 6000) % 5200;
+      if (t < 120 && !view.hiddenShots.has(`${person.id}:${Math.floor((time + hash(key) * 6000) / 5200)}`)) {
+        view.hiddenShots.add(`${person.id}:${Math.floor((time + hash(key) * 6000) / 5200)}`);
+        flash(person.x, person.y, person.right, now, 0.8);
+        puff(person.x + (person.right ? 0.002 : -0.002), person.y, now, { wind: null });
+      }
+      return clip(own?.hide ? own.hide.slice(5) : `${kind}-idle-e`);
+    }
+    if (named) return typeof named === 'string' && named.startsWith('clip:') ? clip(named.slice(5)) : sprite(named);
+    // Stand-ins for poses without art of their own.
+    if (pose === 'captive' || pose === 'surrender') return clip(`${kind}-surrender`);
+    if (pose === 'wounded') return clip(`${kind}-injured-rest`);
+    if (pose === 'sick' || pose === 'seated') return clip(`${kind}-injured-rest`);
+    if (pose === 'prisoner') return clip(`${kind}-surrender`);
+    return clip(`${kind}-idle-${person.right ? 'e' : 'w'}`, time, { flip: false }) || null;
   }
 
   /**
@@ -1188,6 +1295,7 @@ export function createBattleView(art) {
         art.miniPerson(ctx, x, p.y, size, { side: spot.side });
       }
       view.parleySpots[spot.side] = { x, y: p.y - size };
+      if (who?.id) view.parleySpots[who.id] = view.parleySpots[spot.side];
       if (who?.name && figurePx >= 14) {
         ctx.font = `${Math.round(Math.max(11, Math.min(15, figurePx * 0.3)))}px system-ui`; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
         ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(252,249,238,.92)'; ctx.strokeText(who.name, x, p.y + 14); ctx.fillStyle = '#26382e'; ctx.fillText(who.name, x, p.y + 14);
@@ -1222,6 +1330,8 @@ export function createBattleView(art) {
     art.drawSprite(ctx, 'picnic-basket', p.x - scenePx * 1.05, p.y + scenePx * 0.8, scenePx * 0.9);
     art.drawSprite(ctx, 'picnic-jug-cups', p.x + scenePx * 1.05, p.y + scenePx * 0.82, scenePx * 0.65);
     const left = p.x - scenePx * 0.95, right = p.x + scenePx * 0.9, level = p.y + scenePx * 0.45;
+    // Where each of the two is, so what the legend has her say comes out of her own figure (`FIC-GONZ-458`).
+    view.legendSpots = { 'santa-anna': { x: left, y: level - scenePx * 1.1 }, 'emily-west': { x: right, y: level - scenePx * 1.1 } };
     if (scene.moment === 'alarm') {
       art.animated(ctx, 'santa-anna-picnic-alarm', left, level, scenePx * 1.25, 'santa-anna:picnic-alarm', { timeMs: time, paused: reducedMotion });
       art.drawSprite(ctx, 'emily-west-picnic-alarm', right, level, scenePx * 1.25);
@@ -1270,8 +1380,10 @@ export function createBattleView(art) {
     const boxes = [];
     const scale = Math.max(0.85, Math.min(1.15, figurePx / 30));
     const speakerAt = line => {
+      // A named line comes out of that person's own figure, wherever it is drawn: on the field, at a parley, in the legend
+      // (`FIC-GONZ-457`). The server never sends one whose speaker is not drawn in its phase (sim/battle-stage.mjs).
+      if (line.person) return view.peopleSpots?.[line.person] || view.parleySpots?.[line.person] || view.legendSpots?.[line.person] || null;
       if (line.name && view.peopleSpots?.[line.name]) return view.peopleSpots[line.name];
-      if (line.name && view.parleySpots?.[line.side]) return view.parleySpots[line.side];
       // A line said in a group (a company at a door, the men on a roof): over one of its men, or over the group's house if
       // every man in it is inside the walls.
       if (line.unit) {
@@ -1302,7 +1414,7 @@ export function createBattleView(art) {
         y -= 48 * scale;
       }
       const box = drawSpeech(ctx, line, at.x, y, { alpha, bounds, scale });
-      if (box) { boxes.push(box); shown.push({ id: line.id, text: line.text, gloss: line.gloss || null, kind: line.kind, side: line.side, claimId: line.claimId || null }); }
+      if (box) { boxes.push(box); shown.push({ id: line.id, text: line.text, gloss: line.gloss || null, kind: line.kind, side: line.side, claimId: line.claimId || null, ...(line.person && { person: line.person, name: line.name, at: { x: Math.round(at.x), y: Math.round(at.y) } }), ...(line.manner && { manner: line.manner }) }); }
     };
     for (const { at, line } of view.linesSeen.values()) {
       const hold = Math.max(3800, 70 * line.text.length);

@@ -63,6 +63,25 @@ export const ALAMO_FEET = Object.freeze({
   'north-foot': [122, -45], 'north-foot-w': [55, -40], 'north-foot-e': [195, -35], 'east-prairie': [1350, 430], 'mexican-camp': [-900, -300],
   // The pyres, outside the walls to the south-east (`HIST-TEX-501`: the dead stacked and burned).
   pyres: [700, 1100],
+  // Where the famous people stand (docs/BATTLES.md §2c; `FIC-GONZ-452`: the area is the record's, the spot this game's).
+  // Joe beside Travis on the north battery, and the house he took cover in (the plan's reconstructed west-range room).
+  'joe-battery': [104, 30], 'joe-door': [26, 66],
+  // Bowie's room on the south side (the Handbook; Ruiz): the low barrack's east room by the gate, and its door on the plaza.
+  'bowie-room': [137, 530], 'bowie-door': [137, 514],
+  // Crockett's post, the palisade between the church and the low barrack (the Handbook, "the low stockade in front of the church").
+  'crockett-post': [236, 474],
+  // The church guns on the platform at its east end, where Bonham, Almeron Dickinson and Gregorio Esparza are placed (the
+  // Handbook has Bonham "believed" at a cannon in the chapel; Dickinson commanded the artillery; Esparza "tended a cannon").
+  'guns-bonham': [384, 382], 'guns-dickinson': [392, 402], 'guns-esparza': [376, 396],
+  // The sacristy, the survivors' refuge (`HIST-TEX-432`; "some accounts say in the powder magazine, others in the church").
+  sacristy: [326, 366],
+  // In front of the church after the fighting, where the handful found alive were brought before Santa Anna (de la Peña, as the
+  // owner chose, §2c.1; the narrative gives no place, and this spot is the game's).
+  'before-church': [262, 404], 'santa-anna-plaza': [236, 392], 'officers-come': [206, 360],
+  // Béxar, where the spared were taken to Músquiz's house and Santa Anna questioned Joe (`HIST-TEX-432`, `-549`).
+  'musquiz-door': [-1400, 812],
+  // The camera's frame for the afternoon: the pyres and the town.
+  'frame-after-a': [-1650, -300], 'frame-after-b': [900, 1250],
   // What the camera takes in: the siege with its batteries; the assault with its columns; the north wall close; the plaza.
   'frame-siege-a': [-950, -1150], 'frame-siege-b': [1150, 1500],
   'frame-assault-a': [-700, -900], 'frame-assault-b': [1100, 1250],
@@ -105,6 +124,20 @@ function toEngine(phases) {
   });
 }
 const say = (id, at, side, role, kind, text, extra = {}) => ({ id, at, side, role, kind, text, ...extra });
+/**
+ * The famous people through the days of the guns (sim/people.mjs; docs/BATTLES.md §2c): Travis writing his letters in his
+ * quarters (`HIST-TEX-540`), Bowie on his cot in a room on the south side from February 24 (`HIST-TEX-542`), Crockett at the
+ * palisade Travis gave him to hold (`HIST-TEX-544`), and from the church guns the captain of the artillery (`HIST-TEX-547`).
+ */
+const TRAVIS_WRITES = Object.freeze({ id: 'travis', at: 'travis-quarters', pose: 'write' });
+const BOWIE_SICK = Object.freeze({ id: 'bowie', at: 'bowie-room', pose: 'sick' });
+const CROCKETT_POST = Object.freeze({ id: 'crockett', at: 'crockett-post', face: 'south-out' });
+const DICKINSON_GUNS = Object.freeze({ id: 'almeron-dickinson', at: 'guns-dickinson', face: 'east-out' });
+const ESPARZA_GUNS = Object.freeze({ id: 'esparza', at: 'guns-esparza', face: 'east-out' });
+const BONHAM_GUNS = Object.freeze({ id: 'bonham', at: 'guns-bonham', face: 'east-out' });
+// Mrs. Dickinson with Angelina in the church (`HIST-TEX-432`, `-548`): Angelina is drawn in her mother's arms (her own sheet).
+const SUSANNA_SACRISTY = Object.freeze({ id: 'susanna-dickinson', at: 'sacristy', pose: 'sick' });
+const siegePeople = (...more) => [TRAVIS_WRITES, BOWIE_SICK, CROCKETT_POST, DICKINSON_GUNS, ESPARZA_GUNS, SUSANNA_SACRISTY, ...more];
 /** A day of the siege begins at six in the morning, a night at six in the evening. */
 const DAY_LIGHT = 0, NIGHT_LIGHT = 0.72;
 
@@ -152,7 +185,7 @@ function day(id, { title, caption, claimId, north, south = true, near = false, l
     id, minutes, title, caption, claimId, background: step, light: DAY_LIGHT, frame: ['frame-siege-a', 'frame-siege-b'],
     texian: { style: 'wall', at: 'plaza', fire: 'picket', groups: walls('picket') },
     mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: lines(near, 'picket') },
-    guns: bombardment({ north, south }), lines: talk, ...extra,
+    guns: bombardment({ north, south }), lines: talk, people: siegePeople(), ...extra,
   };
 }
 /** A night of the siege, six to six: the walls kept by a few, the lines quiet, the clock not held. */
@@ -178,7 +211,8 @@ export const ALAMO = Object.freeze({
   // February 23 (`HIST-TEX-054`).
   startKey: 'alamo-siege',
   claimId: 'HIST-TEX-058',
-  outcome: 'The Alamo is stormed at dawn on March 6 and every man who fought is killed; the women and children and Joe are spared.',
+  // Never "every man was killed" without Joe, who fought and lived (docs/BATTLES.md §2c.3, `HIST-TEX-549`).
+  outcome: 'The Alamo is stormed at dawn on March 6 and nearly every defender is killed; Joe, who fought beside Travis, and the women and children are spared.',
   held: name => `${name} is inside the Alamo with the garrison.`,
   // Whoever is inside is held by the siege's own rules (shut in, and still able to answer Travis's runner), not the engine's.
   holdsParticipants: false,
@@ -224,6 +258,14 @@ export const ALAMO = Object.freeze({
       caption: 'About half past two the bell of San Fernando rings: Mexican cavalry is in sight. Santa Anna’s army marches into Béxar, and the garrison - about a hundred and fifty men fit to fight and fourteen sick - goes across the river into the Alamo with cattle and corn, and a few families with it.',
       texian: { style: 'loose', at: 'plaza', fire: 'none', groups: [{ id: 'garrison-in', name: 'The garrison, going in', style: 'column', drawn: 24, keys: [[0, 'town-edge'], [40, 'gate-out'], [60, 'plaza']], action: 'withdraw', fire: 'none', face: 'away' }] },
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [{ id: 'army-in', name: 'Santa Anna’s army', style: 'column', drawn: 36, keys: [[0, 'west-road'], [60, 'town']], action: 'advance', fire: 'none', face: 'plaza' }] },
+      // Travis and Bowie at the head of the garrison going in, Crockett with them (`HIST-TEX-540`, `-542`, `-544`); Santa Anna
+      // riding in with his army (`HIST-TEX-054`).
+      people: [
+        { id: 'travis', with: 'garrison-in', offset: { along: -0.012, across: 0.004 } },
+        { id: 'bowie', with: 'garrison-in', offset: { along: -0.006, across: -0.006 } },
+        { id: 'crockett', with: 'garrison-in', offset: { along: 0.004, across: 0.006 } },
+        { id: 'santa-anna', with: 'army-in', pose: 'ride', offset: { along: 0.03, across: 0.01 } },
+      ],
       lines: [
         say('a-coming', 4, TEX, 'volunteer', 'reconstructed', 'They’re coming! Into the Alamo!'),
         say('a-corn', 16, TEX, 'volunteer', 'reconstructed', 'Bring the corn! Drive the cattle in!'),
@@ -238,6 +280,12 @@ export const ALAMO = Object.freeze({
       texian: { style: 'wall', at: 'plaza', fire: 'none', groups: walls('none') },
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [{ id: 'town', name: 'Santa Anna’s army, in Béxar', style: 'ranks', at: 'town-edge', face: 'plaza', drawn: 24, fire: 'none' }] },
       guns: { eighteen: { shots: [40] } },
+      // Travis at the 18-pounder for its answer (his own letter, `HIST-TEX-504`), Santa Anna in the town under the flag.
+      people: [
+        { id: 'travis', at: 'sw-battery', pose: 'command', face: 'town' },
+        { id: 'santa-anna', with: 'town', offset: { along: -0.02, across: 0 } },
+        CROCKETT_POST,
+      ],
       lines: [
         say('r-flag', 10, TEX, 'volunteer', 'reconstructed', 'Look at the church tower. A red flag.'),
         say('r-means', 22, TEX, 'volunteer', 'reconstructed', 'It means no quarter.'),
@@ -248,7 +296,8 @@ export const ALAMO = Object.freeze({
     // ---------------------------------------------------------------- February 24 - March 5, the days of the guns
     day('day-24', {
       title: 'February 24: the guns', claimId: 'HIST-TEX-505', south: false,
-      caption: 'The Mexican guns open on the Alamo from about three hundred and fifty yards and keep it up all day; the defenders answer with their own. Bowie falls ill, and Travis commands alone. That evening Albert Martin rides out with Travis’s letter “To the People of Texas & All Americans in the World”.',
+      caption: 'The Mexican guns open on the Alamo from about three hundred and fifty yards and keep it up all day; the defenders answer with their own. Bowie falls ill and takes to his cot, and Travis commands alone. That evening Albert Martin rides out with Travis’s letter “To the People of Texas & All Americans in the World”.',
+      extra: { people: siegePeople({ id: 'martin', keys: [[680, 'travis-quarters'], [700, 'gate-in'], [708, 'gate-out'], [720, 'relief-east']], pose: 'ride', during: [680, 720] }) },
       lines: [
         say('d24-down', 60, TEX, 'volunteer', 'reconstructed', 'Keep your heads down!'),
         say('d24-fuego', 120, MEX, 'gunner', 'reconstructed', '¡Fuego!', { gloss: 'Fire!' }),
@@ -273,6 +322,7 @@ export const ALAMO = Object.freeze({
         { side: MEX, group: 'huts', count: 2, at: 50, claimId: 'HIST-TEX-505', wounded: true, carried: true },
       ],
       plumes: [{ at: 'huts', from: 40 }],
+      people: [{ id: 'travis', at: 'sw-battery', pose: 'command', face: 'huts' }, BOWIE_SICK, CROCKETT_POST, DICKINSON_GUNS],
       lines: [
         say('h-huts', 6, TEX, 'volunteer', 'reconstructed', 'They’re in the huts!'),
         say('h-fire', 22, TEX, 'volunteer', 'reconstructed', 'Burn them out!'),
@@ -286,9 +336,11 @@ export const ALAMO = Object.freeze({
       caption: 'The huts burn. That night Juan Seguín and Antonio Cruz ride out through the Mexican lines to bring help.',
       texian: { style: 'wall', at: 'plaza', fire: 'picket', groups: walls('picket') },
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: lines(false, 'picket') },
-      guns: bombardment({}), plumes: [{ at: 'huts', from: 0 }],
+      guns: bombardment({}), plumes: [{ at: 'huts', from: 0 }], people: siegePeople(),
     },
-    night('night-25', { caption: NIGHT_WORDS }),
+    // About nine that night Seguín rides out through the Mexican lines as a courier (`HIST-TEX-431`, `-551`; some accounts say
+    // the 23rd).
+    night('night-25', { caption: 'Night. About nine o’clock Captain Juan Seguín and Antonio Cruz ride out of the gate and through the Mexican lines for help.', extra: { people: [{ id: 'seguin', keys: [[160, 'travis-quarters'], [178, 'gate-in'], [184, 'gate-out'], [200, 'relief-east']], pose: 'ride', during: [160, 200] }] } }),
     day('day-26', {
       title: 'February 26: a norther', claimId: 'HIST-TEX-505',
       caption: 'A norther blows in, bitterly cold. The Mexican guns are on three sides of the Alamo now, and their fire goes on all day.',
@@ -322,6 +374,12 @@ export const ALAMO = Object.freeze({
       texian: { style: 'wall', at: 'plaza', fire: 'none', groups: [...walls('none', { thin: true }), { id: 'relief', name: 'The Gonzales men', style: 'column', figure: 'rider', drawn: 8, keys: [[0, 'relief-wait'], [34, 'relief-east'], [54, 'gate-out'], [60, 'gate-in'], [100, 'plaza']], face: 'plaza', fire: 'none', action: 'advance' }] },
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: lines(false) },
       falls: [{ side: TEX, group: 'relief', count: 1, at: 50, claimId: 'HIST-TEX-506', wounded: true }],
+      // At their head George Kimbell, lieutenant of the Gonzales Ranging Company, and Albert Martin, who had carried Travis's
+      // letter out on the 24th (`HIST-TEX-057`, `-438`). All the relief were killed on March 6.
+      people: [
+        { id: 'kimbell', with: 'relief', pose: 'ride', offset: { along: 0.006, across: 0.003 } },
+        { id: 'martin', with: 'relief', pose: 'ride', offset: { along: 0.004, across: -0.004 } },
+      ],
       lines: [
         say('rl-quien', 44, TEX, 'sentry', 'reconstructed', 'Who’s there?'),
         say('rl-gonzales', 51, TEX, 'rider', 'reconstructed', 'Don’t shoot! Gonzales men!'),
@@ -343,19 +401,41 @@ export const ALAMO = Object.freeze({
     night('night-2', { caption: NIGHT_WORDS }),
     day('day-3', {
       title: 'March 3: Bonham, and the north battery', claimId: 'HIST-TEX-506', north: 'battery-north-close', near: true,
-      caption: 'About eleven in the morning James Bonham rides in through the gate: Fannin is not coming. More Mexican battalions march into Béxar, and a battery goes up on the north side within musket shot of the wall. That evening John W. Smith rides out with Travis’s last letters.',
-      lines: [say('m3-fannin', 330, TEX, 'volunteer', 'reconstructed', 'Fannin’s not coming.'), say('m3-close', 520, TEX, 'volunteer', 'reconstructed', 'That battery’s near enough to hit with a rifle.')],
+      // Bonham brought R. M. Williamson's letter "assuring Travis that help was on its way"; the Handbook calls the memory of
+      // him bringing word that Fannin was not coming wrong (`HIST-TEX-546`, the audit's error 6 fixed 2026-09-26).
+      caption: 'About eleven in the morning James Bonham rides in through the gate with a letter from Robert M. Williamson in Texas, promising Travis that help is on its way and urging him to hold out. (He is often remembered as bringing word that Fannin was not coming; the Handbook of Texas says that memory is wrong.) More Mexican battalions march into Béxar, and a battery goes up on the north side within musket shot of the wall. That evening John W. Smith rides out with Travis’s last letters.',
+      extra: { people: siegePeople(
+        { id: 'bonham', keys: [[284, 'relief-east'], [298, 'gate-out'], [302, 'gate-in'], [318, 'travis-quarters'], [340, 'travis-quarters'], [360, 'guns-bonham']], pose: 'ride', during: [284, 720] },
+        { id: 'jw-smith', keys: [[680, 'travis-quarters'], [700, 'gate-in'], [708, 'gate-out'], [720, 'relief-east']], pose: 'ride', during: [680, 720] },
+      ) },
+      lines: [say('m3-help', 330, TEX, 'volunteer', 'reconstructed', 'Bonham says help is coming.'), say('m3-close', 520, TEX, 'volunteer', 'reconstructed', 'That battery’s near enough to hit with a rifle.')],
     }),
-    night('night-3', { near: true, caption: 'Night. The Mexican lines are close round the walls now; only a single rider in the dark can get through.' }),
+    {
+      // Mar 3, 18:00-19:00. The line in the sand, as the story told later has it (`HIST-TEX-567`; owner, docs/BATTLES.md §2c.4:
+      // spoken on the field as tradition, never as the record). Louis Rose told it to the Zuber family, and W. P. Zuber printed it
+      // in the Texas Almanac for 1873; the story puts it on March 3, the night Rose left, and historians doubt all of it.
+      // Held at the siege's own background pace (a played family inside), like the days.
+      id: 'the-line', minutes: 60, background: 20, title: 'March 3: the line in the sand (a story told later)', claimId: 'HIST-TEX-567', light: 0.45, frame: ['frame-siege-a', 'frame-siege-b'],
+      caption: 'A story told many years later says that this evening Travis gathered the garrison in the plaza, drew a line on the ground with his sword and asked every man who would stay and die with him to cross it; all did but one, Louis Rose, who went over the wall that night. Rose told it to the Zuber family, and W. P. Zuber printed it in 1873. Historians doubt it: no one who was there wrote it down at the time.',
+      texian: { style: 'wall', at: 'plaza', fire: 'none', groups: [...walls('none', { thin: true }), { id: 'garrison', name: 'The garrison', style: 'loose', drawn: 16, at: 'plaza', face: 'north-in', fire: 'none', spread: { width: 0.025, depth: 0.018 } }] },
+      mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: lines(true) },
+      people: [{ id: 'travis', at: 'north-in', pose: 'command', face: 'plaza' }, BOWIE_SICK, { id: 'crockett', with: 'garrison', offset: { along: 0.006, across: 0.008 } }, SUSANNA_SACRISTY],
+      lines: [
+        say('line-sand', 12, TEX, 'officer', 'tradition', 'I now want every man who is determined to stay here and die with me to come across this line.', { person: 'travis', claimId: 'HIST-TEX-567', gloss: 'told later: Louis Rose’s story as W. P. Zuber printed it (1873, reprinted later); historians doubt it' }),
+      ],
+    },
+    night('night-3', { minutes: 660, near: true, caption: 'Night. The Mexican lines are close round the walls now; only a single rider in the dark can get through.' }),
     day('day-4', {
       title: 'March 4: the guns', claimId: 'HIST-TEX-505', north: 'battery-north-close', near: true,
       caption: 'The north battery pounds the north wall. The Mexican lines are close all round.',
+      extra: { people: siegePeople(BONHAM_GUNS) },
       lines: [say('m4-wall', 260, TEX, 'volunteer', 'reconstructed', 'The north wall won’t stand much more of that.')],
     }),
     night('night-4', { near: true, caption: NIGHT_WORDS }),
     day('day-5', {
       title: 'March 5: the guns', claimId: 'HIST-TEX-505', north: 'battery-north-close', near: true,
       caption: 'The guns go on all day. In the evening James Allen, the last courier, rides out through the lines.',
+      extra: { people: siegePeople(BONHAM_GUNS) },
       lines: [say('m5-quiet', 600, TEX, 'volunteer', 'reconstructed', 'Something’s different out there.')],
     }),
     {
@@ -381,6 +461,13 @@ export const ALAMO = Object.freeze({
         cavalry('lancers-east', 'cavalry-camp', { keys: [[0, 'cavalry-camp'], [300, 'cavalry-east']] }),
         cavalry('lancers-south', 'cavalry-camp', { keys: [[0, 'cavalry-camp'], [300, 'cavalry-south']] }),
       ] },
+      // Travis asleep in his quarters with Joe (Joe's account, `HIST-TEX-502`); Santa Anna with the reserve; Cos at the head of
+      // the column he leads against the Alamo, on the parole he gave at Béxar (`HIST-TEX-500`, `-557`).
+      people: [
+        { id: 'travis', at: 'travis-quarters', pose: 'seated' }, { id: 'joe', at: 'joe-door', pose: 'seated' }, BOWIE_SICK, SUSANNA_SACRISTY,
+        { id: 'santa-anna', with: 'reserve', offset: { along: 0.01, across: 0.006 } },
+        { id: 'cos', with: 'cos', offset: { along: 0.012, across: 0 } },
+      ],
     },
     // ---------------------------------------------------------------- March 6, the assault
     {
@@ -396,6 +483,12 @@ export const ALAMO = Object.freeze({
         { id: 'reserve', name: 'The reserve, with Santa Anna', style: 'column', drawn: 8, at: 'reserve', face: 'plaza', fire: 'none' },
         cavalry('lancers-east', 'cavalry-east'), cavalry('lancers-south', 'cavalry-south'),
       ] },
+      people: [
+        { id: 'travis', at: 'travis-quarters', pose: 'seated' }, { id: 'joe', at: 'joe-door', pose: 'seated' }, BOWIE_SICK, SUSANNA_SACRISTY,
+        { id: 'crockett', at: 'crockett-post', pose: 'seated', face: 'south-out' },
+        { id: 'santa-anna', with: 'reserve', offset: { along: 0.01, across: 0.006 } },
+        { id: 'cos', with: 'cos', offset: { along: 0.012, across: 0 } },
+      ],
       lines: [say('v-silencio', 8, MEX, 'officer', 'reconstructed', '¡Silencio!', { gloss: 'Silence!' })],
     },
     {
@@ -413,10 +506,21 @@ export const ALAMO = Object.freeze({
         cavalry('lancers-east', 'cavalry-east'), cavalry('lancers-south', 'cavalry-south'),
       ] },
       guns: { 'north-gun': { shots: [4], canister: true }, 'church-guns': { shots: [5], canister: true } },
-      people: [{ id: 'travis', name: 'Travis', side: TEX, at: 'north-battery', pose: 'fire', claimId: 'HIST-TEX-502' }],
+      // "Travis sprang up, seized his rifle and sword, and called to Joe to follow him. Joe took his gun and followed. Travis ran
+      // across the Alamo and mounted the wall" (Joe, as Gray wrote it on March 20, 1836, `HIST-TEX-502`); the wall is the north
+      // battery, where Ruiz found him (`HIST-TEX-541`). The others at their posts (`FIC-GONZ-452`).
+      people: [
+        { id: 'travis', keys: [[0, 'travis-quarters'], [3, 'north-battery']], pose: 'fire', face: 'north-out' },
+        { id: 'joe', keys: [[0, 'joe-door'], [3.5, 'joe-battery']], pose: 'fire', face: 'north-out' },
+        { id: 'crockett', at: 'crockett-post', pose: 'fire', face: 'south-out' },
+        BOWIE_SICK, SUSANNA_SACRISTY,
+        { ...DICKINSON_GUNS, pose: 'fire' }, { ...BONHAM_GUNS, pose: 'fire' }, { ...ESPARZA_GUNS, pose: 'fire' },
+        { id: 'santa-anna', with: 'reserve', offset: { along: 0.01, across: 0.006 } },
+        { id: 'cos', with: 'cos', offset: { along: 0.012, across: 0 } },
+      ],
       lines: [
         say('al-viva', 0, MEX, 'soldier', 'documented', '¡Viva Santa Anna!', { claimId: 'HIST-TEX-501', gloss: 'shouted in the columns, which gave them away' }),
-        say('al-travis', 2, TEX, 'officer', 'documented', 'Come on boys, the Mexicans are upon us, and we’ll give them Hell.', { name: 'Travis', claimId: 'HIST-TEX-502', gloss: 'Joe’s account, as W. F. Gray wrote it down on March 20, 1836' }),
+        say('al-travis', 2, TEX, 'officer', 'documented', 'Come on boys, the Mexicans are upon us, and we’ll give them Hell.', { person: 'travis', claimId: 'HIST-TEX-502', gloss: 'Joe’s account, as W. F. Gray wrote it down on March 20, 1836' }),
         say('al-walls', 4, TEX, 'volunteer', 'reconstructed', 'To the walls! They’re at the walls!'),
       ],
     },
@@ -434,7 +538,21 @@ export const ALAMO = Object.freeze({
         cavalry('lancers-east', 'cavalry-east'), cavalry('lancers-south', 'cavalry-south'),
       ] },
       guns: { 'north-gun': { shots: [1, 4, 7, 10], canister: true }, 'church-guns': { shots: [2, 6, 11], canister: true }, eighteen: { shots: [3, 9, 14], canister: true } },
-      people: [{ id: 'travis', name: 'Travis', side: TEX, at: 'north-battery', pose: 'fire', falls: 4, claimId: 'HIST-TEX-502' }],
+      // "He discharged his gun; so did Joe. In an instant Travis was shot down. He fell within the wall, on the sloping ground, and
+      // sat up" (`HIST-TEX-502`); four minutes in, among the first (`HIST-TEX-541`, the roster's fate). "When his master fell he
+      // ran and ensconced himself in a house, from which he says he fired on them several times, after they got in." Duque is hit
+      // and Castrillón takes his column (`HIST-TEX-561`).
+      people: [
+        { id: 'travis', at: 'north-battery', pose: 'fire', face: 'north-out' },
+        { id: 'joe', keys: [[0, 'joe-battery'], [5, 'joe-battery'], [9, 'joe-door']], pose: 'fire', face: 'north-out', during: [0, 9] },
+        { id: 'joe', at: 'joe-door', pose: 'fire-hidden', face: 'plaza', during: [9, 16] },
+        { id: 'crockett', at: 'crockett-post', pose: 'fire', face: 'south-out' },
+        BOWIE_SICK, SUSANNA_SACRISTY,
+        { ...DICKINSON_GUNS, pose: 'fire' }, { ...BONHAM_GUNS, pose: 'fire' }, { ...ESPARZA_GUNS, pose: 'fire' },
+        { id: 'santa-anna', with: 'reserve', offset: { along: 0.01, across: 0.006 } },
+        { id: 'cos', with: 'cos', offset: { along: 0.012, across: 0 } },
+        { id: 'castrillon', with: 'duque', offset: { along: 0.01, across: 0.004 }, during: [3, 16] },
+      ],
       falls: [
         { side: MEX, group: 'duque', count: 3, at: 2, claimId: 'HIST-TEX-501' },
         { side: MEX, group: 'cos', count: 3, at: 4, claimId: 'HIST-TEX-501' },
@@ -469,6 +587,14 @@ export const ALAMO = Object.freeze({
         cavalry('lancers-east', 'cavalry-east'), cavalry('lancers-south', 'cavalry-south'),
       ] },
       guns: { 'church-guns': { shots: [1, 6], canister: true }, eighteen: { shots: [2] } },
+      people: [
+        { id: 'joe', at: 'joe-door', pose: 'fire-hidden', face: 'plaza' },
+        { id: 'crockett', at: 'crockett-post', pose: 'fire', face: 'south-out' },
+        BOWIE_SICK, SUSANNA_SACRISTY,
+        { ...DICKINSON_GUNS, pose: 'fire' }, { ...BONHAM_GUNS, pose: 'fire' }, { ...ESPARZA_GUNS, pose: 'fire' },
+        { id: 'santa-anna', with: 'reserve', offset: { along: 0.01, across: 0.006 } },
+        { id: 'castrillon', with: 'mass', offset: { along: 0.012, across: 0.006 } },
+      ],
       falls: [
         { side: MEX, group: 'mass', count: 4, at: 2, claimId: 'HIST-TEX-501' },
         { side: TEX, group: 'north', count: 4, at: 5, claimId: 'HIST-TEX-501' },
@@ -495,10 +621,24 @@ export const ALAMO = Object.freeze({
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [
         { id: 'plaza', name: 'In the plaza', style: 'loose', drawn: 26, keys: [[0, 'north-in'], [6, 'plaza']], face: 'long-barrack', fire: 'scattered', action: 'advance', spread: { width: 0.03, depth: 0.03 } },
         { id: 'morales', name: 'Morales’s cazadores', style: 'loose', drawn: 5, at: 'sw-battery', face: 'long-barrack', fire: 'scattered', spread: { width: 0.01, depth: 0.01 } },
+        // Into the low barrack from the south-west battery, to the door of Bowie's room (`HIST-TEX-543`).
+        { id: 'low-barrack', name: 'At the low barrack', style: 'loose', drawn: 4, keys: [[0, 'sw-battery'], [6, 'bowie-door']], face: 'bowie-room', fire: 'none', action: 'advance', spread: { width: 0.006, depth: 0.004 } },
         cavalry('lancers-east', 'cavalry-east', { keys: [[0, 'cavalry-east'], [12, 'east-prairie']], action: 'advance' }),
         cavalry('lancers-south', 'cavalry-south'),
       ] },
       guns: { 'turned-gun': { shots: [5, 9] }, 'church-guns': { shots: [3, 8] } },
+      // The low barrack on the south side is carried. Soldiers reach the door of Bowie's room, and he lies still on his cot:
+      // "Bowie lay on his cot in a room on the south side" (the Handbook; Ruiz); how he died - shot, bayoneted, firing from his
+      // bed - is told differently, and none of it is drawn (`HIST-TEX-543`; owner's recommended P7 (a)). Crockett and the men of
+      // the palisade fall back fighting toward the church (`HIST-TEX-544`).
+      people: [
+        { id: 'bowie', at: 'bowie-room', pose: 'sick' },
+        { id: 'crockett', keys: [[0, 'crockett-post'], [6, 'crockett-post'], [11, 'before-church']], pose: 'fire', face: 'plaza' },
+        { id: 'joe', at: 'joe-door', pose: 'fire-hidden', face: 'plaza' },
+        SUSANNA_SACRISTY,
+        { ...DICKINSON_GUNS, pose: 'fire' }, { ...BONHAM_GUNS, pose: 'fire' }, { ...ESPARZA_GUNS, pose: 'fire' },
+        { id: 'santa-anna', at: 'duque-reel', face: 'plaza' },
+      ],
       falls: [{ side: TEX, group: 'barrack', count: 2, at: 7, claimId: 'HIST-TEX-501' }, { side: MEX, group: 'plaza', count: 3, at: 4, claimId: 'HIST-TEX-501' }],
       lines: [
         say('fb-doors', 3, MEX, 'officer', 'reconstructed', '¡El cañón a las puertas!', { gloss: 'The gun on the doors!' }),
@@ -506,9 +646,10 @@ export const ALAMO = Object.freeze({
       ],
     },
     {
-      // 06:16-06:30. Room by room; Bowie in his bed; Joe in a house, firing; the church last (`HIST-TEX-501`, `-502`).
+      // 06:16-06:30. Room by room; Joe in a house, firing; the church last, its guns and their gunners with it (`HIST-TEX-501`,
+      // `-502`, `-546`, `-547`, `-550`). Bowie lies still on his cot in the low barrack (fallen in `fallback`).
       id: 'rooms', minutes: 14, step: 2, contact: true, title: 'Room by room', claimId: 'HIST-TEX-501', light: 0.32, frame: ['frame-plaza-a', 'frame-plaza-b'],
-      caption: 'The long barrack is fought for room by room. Bowie is killed in his bed. Joe, whom Travis held as a slave, has hidden in a house and fires from it. The church is taken last, and its guns fall silent.',
+      caption: 'The long barrack is fought for room by room. In the low barrack on the south side Bowie lies dead on his cot; how he died is told differently. Joe, whom Travis held as a slave, has taken cover in a house and fires from it. The church is taken last, and its guns fall silent: Almeron Dickinson, the captain of the artillery, is killed there, and Gregorio Esparza, and James Bonham, by the story told of him, at one of the church’s cannon.',
       texian: { style: 'street', at: 'long-barrack', fire: 'scattered', groups: [
         { id: 'barrack', name: 'In the long barrack', style: 'street', drawn: 7, at: 'long-barrack', face: 'plaza', fire: 'scattered', spread: { width: 0.006, depth: 0.03 } },
         { id: 'church', name: 'In the church', style: 'street', drawn: 4, at: 'church-front', face: 'plaza', fire: 'scattered', spread: { width: 0.01, depth: 0.008 } },
@@ -520,7 +661,13 @@ export const ALAMO = Object.freeze({
         cavalry('lancers-east', 'east-prairie'), cavalry('lancers-south', 'cavalry-south'),
       ] },
       guns: { 'turned-gun': { shots: [1, 4, 7, 10] }, 'church-guns': { shots: [2, 6] } },
-      people: [{ id: 'joe', name: 'Joe', side: TEX, at: 'travis-quarters', pose: 'hide', claimId: 'HIST-TEX-502' }],
+      people: [
+        { id: 'joe', at: 'joe-door', pose: 'fire-hidden', face: 'plaza' },
+        { id: 'crockett', with: 'church', offset: { along: 0.004, across: -0.006 }, pose: 'fire' },
+        SUSANNA_SACRISTY,
+        { ...DICKINSON_GUNS, pose: 'fire' }, { ...BONHAM_GUNS, pose: 'fire', tag: 'Place: a story told of him' }, { ...ESPARZA_GUNS, pose: 'fire' },
+        { id: 'santa-anna', at: 'duque-reel', face: 'plaza' },
+      ],
       falls: [
         { side: TEX, group: 'barrack', count: 3, at: 3, claimId: 'HIST-TEX-501' },
         { side: TEX, group: 'barrack', count: 4, at: 8, claimId: 'HIST-TEX-501' },
@@ -534,27 +681,51 @@ export const ALAMO = Object.freeze({
     },
     {
       // 06:30-07:00. The firing stops about sunrise (computed 6:20); the women and children brought out of the sacristy; Joe
-      // found and saved (`HIST-TEX-501`, `-502`, `-432`, `-434`). Nobody is drawn being killed after surrender: the executions
-      // are told in the account (`HIST-TEX-435`).
+      // found, attacked and saved (`HIST-TEX-501`, `-502`, `-432`, `-434`, `-549`).
+      // Crockett as de la Peña tells it (owner, docs/BATTLES.md §2c.1; `HIST-TEX-545`, `FIC-GONZ-451`): "Some seven men survived
+      // the general massacre and, under the protection of General Castrillon, they were brought before Santa Anna"; Santa Anna
+      // "answered Castrillon's intervention in Crockett's behalf with a gesture of indignation" and ordered them killed; officers
+      // "with swords in hand, fell upon these unfortunate, defenseless men". Drawn without gore: they go down and lie still.
+      // Labelled on the field as one account and disputed, and the other accounts named in the caption. The Handbook has the men
+      // taken "at about six o'clock"; the minute of their deaths here is this game's. No other killing after surrender is drawn.
       id: 'end', minutes: 30, step: 5, title: 'Sunrise', claimId: 'HIST-TEX-501', light: [0.2, 0], frame: ['frame-plaza-a', 'frame-plaza-b'],
-      caption: 'About sunrise the firing stops: it has lasted less than an hour and a half. The women and children are brought out of the church’s sacristy. Mexican officers call out for any Black men, and Joe comes out; two soldiers attack him and a captain saves him. Every man who fought is dead.',
-      texian: { style: 'street', at: 'church-front', fire: 'none', groups: [] },
+      caption: 'About sunrise the firing stops: it has lasted less than an hour and a half. Nearly every defender is dead. The women and children are brought out of the church’s sacristy. Mexican officers call out for any Black men; Joe, who fought beside Travis, comes out, two soldiers attack him, and Captain Barragán saves him. ONE ACCOUNT, by the Mexican officer José Enrique de la Peña: some seven men were found alive, David Crockett among them; General Castrillón brought them before Santa Anna and asked for their lives, and Santa Anna ordered them killed, and officers fell on them with swords. OTHER ACCOUNTS say Crockett died fighting: Joe said he was found dead with a few friends and many Mexican soldiers around them, and Susanna Dickinson said he was one of the first to fall. De la Peña’s account was not printed until 1955, and historians have argued over whether it is genuine. How Crockett died is not known for certain.',
+      texian: { style: 'street', at: 'church-front', fire: 'none', groups: [
+        { id: 'taken', name: 'The men found alive', style: 'loose', pose: 'surrender', drawn: 5, keys: [[0, 'church-front'], [8, 'before-church']], face: 'santa-anna-plaza', fire: 'none', spread: { width: 0.008, depth: 0.005 } },
+      ] },
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [
         { id: 'plaza', name: 'In the plaza', style: 'loose', drawn: 22, at: 'plaza', face: 'church-front', fire: 'none', spread: { width: 0.035, depth: 0.03 } },
         { id: 'church-door', name: 'At the church', style: 'loose', drawn: 6, at: 'church-front', face: 'church-platform', fire: 'none', spread: { width: 0.012, depth: 0.012 } },
+        { id: 'officers', name: 'Officers round Santa Anna', style: 'loose', drawn: 4, keys: [[0, 'officers-come'], [15, 'officers-come'], [19, 'before-church']], face: 'before-church', fire: 'none', action: 'advance', spread: { width: 0.006, depth: 0.004 } },
+        { id: 'at-joe', name: 'Two soldiers', style: 'loose', drawn: 2, keys: [[0, 'plaza'], [8, 'plaza'], [10, 'joe-door']], face: 'joe-door', fire: 'none', action: 'advance', spread: { width: 0.003, depth: 0.002 } },
       ] },
-      people: [{ id: 'joe', name: 'Joe', side: TEX, at: 'travis-quarters', pose: 'emerge', claimId: 'HIST-TEX-502' }],
+      people: [
+        { id: 'joe', at: 'joe-door', pose: 'hide', during: [0, 6] },
+        { id: 'joe', at: 'joe-door', pose: 'emerge', face: 'plaza', during: [6, 30] },
+        { id: 'barragan', keys: [[0, 'plaza'], [9, 'plaza'], [12, 'joe-door']], pose: 'command', face: 'joe-door' },
+        { id: 'susanna-dickinson', keys: [[0, 'sacristy'], [4, 'sacristy'], [10, 'church-front']], pose: 'stand' },
+        { id: 'crockett', with: 'taken', offset: { along: 0.002, across: 0.001 }, pose: 'captive', tag: 'One account (de la Peña) · disputed' },
+        { id: 'castrillon', with: 'taken', offset: { along: -0.004, across: 0.004 }, face: 'santa-anna-plaza', during: [0, 18] },
+        { id: 'santa-anna', keys: [[0, 'duque-reel'], [6, 'north-in'], [12, 'santa-anna-plaza']], pose: 'command', face: 'before-church' },
+      ],
+      falls: [{ side: TEX, group: 'taken', count: 5, at: 20, claimId: 'HIST-TEX-545' }],
       lines: [
         say('e-negros', 6, MEX, 'officer', 'reconstructed', 'Are there any Black men here?', { gloss: 'the officers calling out after the fight, as Joe told it (Gray, March 20, 1836); the words in Spanish are not recorded' }),
-        say('e-joe', 9, TEX, 'person', 'documented', 'Yes, here is one.', { name: 'Joe', claimId: 'HIST-TEX-502', gloss: 'Joe’s account, as W. F. Gray wrote it down' }),
+        say('e-joe', 9, TEX, 'person', 'documented', 'Yes, here is one.', { person: 'joe', claimId: 'HIST-TEX-502', gloss: 'Joe’s account, as W. F. Gray wrote it down' }),
       ],
     },
     {
-      // Mar 6, 07:00-18:00. The pyres, told and seen from a distance; the spared taken to Músquiz's house. Not held.
-      id: 'after', minutes: 660, title: 'March 6: afterwards', claimId: 'HIST-TEX-501', light: 0, frame: ['frame-assault-a', 'frame-assault-b'],
-      caption: 'The dead defenders are stacked and burned on pyres outside the walls. The Mexican dead are buried. The women and children are taken into Béxar, to Ramón Músquiz’s house, to be questioned by Santa Anna.',
+      // Mar 6, 07:00-18:00. The pyres, told and seen from a distance; the spared taken to Músquiz's house, and Joe into Béxar,
+      // "detained several days; was shown a grand review of the army", and questioned by Santa Anna (`HIST-TEX-549`). Not held.
+      id: 'after', minutes: 660, title: 'March 6: afterwards', claimId: 'HIST-TEX-501', light: 0, frame: ['frame-after-a', 'frame-after-b'],
+      caption: 'The dead defenders are stacked and burned on pyres outside the walls. The Mexican dead are buried. Mrs. Dickinson and her baby Angelina and the other women and children are taken into Béxar, to Ramón Músquiz’s house, to be questioned by Santa Anna. Joe is taken into the town too; Santa Anna questions him about Texas and its army, and he is shown a grand review of the Mexican army.',
       texian: { style: 'street', at: 'church-front', fire: 'none', groups: [] },
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [{ id: 'guard', name: 'A guard on the Alamo', style: 'loose', drawn: 10, at: 'plaza', face: 'church-front', fire: 'none', spread: { width: 0.03, depth: 0.03 } }] },
+      people: [
+        { id: 'santa-anna', keys: [[0, 'santa-anna-plaza'], [90, 'musquiz']], pose: 'command', face: 'musquiz-door' },
+        { id: 'susanna-dickinson', keys: [[0, 'church-front'], [120, 'musquiz-door']], pose: 'stand' },
+        { id: 'joe', keys: [[0, 'joe-door'], [150, 'musquiz-door'], [660, 'musquiz-door']], pose: 'stand', face: 'musquiz' },
+      ],
       plumes: [{ at: 'pyres', from: 60 }],
     },
   ]),

@@ -49,10 +49,17 @@ export function gonzalesGround(world) {
 }
 
 const TEX = 'texian', MEX = 'mexican';
-/** One line. `name` only ever on a documented line (sim/battle-stage.mjs `checkEngagement`). */
+/** One line. A named person (`person`, a roster id) speaks only documented or tradition words (sim/battle-stage.mjs `checkEngagement`). */
 const say = (id, at, side, role, kind, text, extra = {}) => ({ id, at, side, role, kind, text, ...extra });
 /** What the page writes under the taunt, so nobody reads a later memory as a quotation (`HIST-TEX-469`). */
 const TAUNT_GLOSS = 'shouted at the dragoons; remembered later, not written down in 1835';
+/**
+ * The commanders with their men through the night and the fight (sim/people.mjs, docs/BATTLES.md §2c): Colonel Moore, elected
+ * on October 1, at the head of the Texians, and Lieutenant Castañeda with his dragoons (`HIST-TEX-474`). At the parley they
+ * are the parley's own figures.
+ */
+const MOORE = Object.freeze({ id: 'moore', with: 'texian', offset: { along: 0.025, across: -0.02 }, pose: 'command' });
+const CASTANEDA = Object.freeze({ id: 'castaneda', with: 'mexican', pose: 'ride', offset: { along: 0.03, across: 0 } });
 
 export const GONZALES = Object.freeze({
   id: 'gonzales',
@@ -97,10 +104,12 @@ export const GONZALES = Object.freeze({
       caption: 'Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them.',
       texian: { style: 'loose', at: 'rendezvous', action: 'stand', fire: 'none', spread: { width: 0.22, depth: 0.14 } },
       mexican: { style: 'mounted', at: 'camp', action: 'stand', fire: 'none' },
+      // The Reverend W. P. Smith speaks from among the men in their hollow square, so his words come out of him (`HIST-TEX-470`).
+      people: [MOORE, CASTANEDA, { id: 'wp-smith', with: 'texian', offset: { along: 0, across: 0.01 }, pose: 'command' }],
       lines: [
         say('g-dry', 40, TEX, 'volunteer', 'reconstructed', 'Keep your powder dry.'),
-        say('g-smith-1', 90, TEX, 'speaker', 'documented', 'Let us march silently, obey the commands of our superior officers…', { name: 'W. P. Smith', claimId: 'HIST-TEX-470' }),
-        say('g-smith-2', 110, TEX, 'speaker', 'documented', 'We must fight, and we will fight!', { name: 'W. P. Smith', claimId: 'HIST-TEX-470' }),
+        say('g-smith-1', 90, TEX, 'speaker', 'documented', 'Let us march silently, obey the commands of our superior officers…', { person: 'wp-smith', claimId: 'HIST-TEX-470' }),
+        say('g-smith-2', 110, TEX, 'speaker', 'documented', 'We must fight, and we will fight!', { person: 'wp-smith', claimId: 'HIST-TEX-470' }),
         say('g-talk', 150, TEX, 'volunteer', 'reconstructed', 'No talking in the ranks.'),
       ],
     },
@@ -110,6 +119,7 @@ export const GONZALES = Object.freeze({
       caption: 'The Texians march up the west bank in the dark, in silence, with the cannon. A fog has come down on the river.',
       texian: { style: 'column', from: 'rendezvous', to: 'timber', action: 'advance', fire: 'none' },
       mexican: { style: 'mounted', at: 'camp', action: 'stand', fire: 'none' },
+      people: [MOORE, CASTANEDA],
       lines: [
         say('g-close', 20, TEX, 'volunteer', 'reconstructed', 'Close up.'),
         say('g-quiet', 70, TEX, 'volunteer', 'reconstructed', 'Quiet!'),
@@ -122,6 +132,7 @@ export const GONZALES = Object.freeze({
       caption: 'About three in the morning a dog barks. The Mexican outpost fires into the fog, and the dragoons mount and ride up onto a rise behind their camp.',
       texian: { style: 'loose', at: 'timber', action: 'hold', fire: 'none' },
       mexican: { style: 'mounted', from: 'camp', to: 'rise', action: 'advance', fire: 'picket' },
+      people: [MOORE, CASTANEDA],
       lines: [
         say('g-quien', 2, MEX, 'sentry', 'reconstructed', '¿Quién vive?', { gloss: 'Who goes there?' }),
         say('g-hold', 6, TEX, 'volunteer', 'reconstructed', 'Hold your fire!'),
@@ -134,6 +145,7 @@ export const GONZALES = Object.freeze({
       caption: 'The Texians wait in the edge of the timber for daylight. The dragoons wait mounted on the rise. Neither side can see the other in the fog.',
       texian: { style: 'loose', at: 'timber', action: 'hold', fire: 'none' },
       mexican: { style: 'mounted', at: 'rise', action: 'stand', fire: 'none' },
+      people: [MOORE, CASTANEDA],
       lines: [
         say('g-see', 30, TEX, 'volunteer', 'reconstructed', 'Can’t see a thing.'),
         say('g-far', 90, TEX, 'volunteer', 'reconstructed', 'How far are they?'),
@@ -147,6 +159,7 @@ export const GONZALES = Object.freeze({
       caption: 'At first light the Texians go out of the timber and open fire. Forty dragoons charge them; the Texians fall back to the trees and fire the cannon, and the dragoons go back up onto the rise.',
       texian: { style: 'loose', keys: [[0, 'timber'], [10, 'open'], [24, 'open'], [32, 'timber']], action: 'advance', fire: 'scattered' },
       mexican: { style: 'mounted', keys: [[0, 'rise'], [16, 'rise'], [23, 'charge'], [29, 'charge'], [40, 'rise']], action: 'advance', fire: 'scattered' },
+      people: [MOORE, CASTANEDA],
       cannon: [31],
       // ceiling: the whole sample charges, where the record has forty of a hundred go and the rest held back; a detachment
       // drawn apart from its side is the way out when a second engagement needs one.
@@ -168,6 +181,7 @@ export const GONZALES = Object.freeze({
       caption: 'The firing dies away. The Texians take Williams’s houses and cornfield, with some horses and baggage, and pull down the fence in front of the cannon. The dragoons wait mounted on the rise.',
       texian: { style: 'loose', keys: [[0, 'timber'], [40, 'cornfield']], action: 'advance', fire: 'none' },
       mexican: { style: 'mounted', at: 'rise', action: 'stand', fire: 'none' },
+      people: [MOORE, CASTANEDA],
       lines: [
         say('g-fence', 45, TEX, 'volunteer', 'reconstructed', 'Pull that fence down.'),
         say('g-horses', 65, TEX, 'volunteer', 'reconstructed', 'Whose horses are these?'),
@@ -181,15 +195,17 @@ export const GONZALES = Object.freeze({
       caption: 'The fog lifts. A parley is sounded, and Lieutenant Castañeda and Colonel Moore meet between the lines, each with a man beside him.',
       texian: { style: 'loose', at: 'cornfield', action: 'hold', fire: 'none' },
       mexican: { style: 'mounted', at: 'rise', action: 'stand', fire: 'none' },
-      parley: { part: 0.5, people: [{ side: TEX, name: 'Moore' }, { side: MEX, name: 'Castañeda', mounted: true }] },
+      parley: { part: 0.5, people: [{ side: TEX, id: 'moore' }, { side: MEX, id: 'castaneda', mounted: true }] },
+      // Smither rides in between the lines calling not to shoot: his words come out of him, riding (`HIST-TEX-474`).
+      people: [{ id: 'smither', keys: [[0, 'rise'], [6, 'cornfield']], pose: 'ride', during: [0, 12] }],
       lines: [
-        say('g-smither', 3, TEX, 'rider', 'documented', 'Don’t shoot, don’t shoot!', { name: 'Smither', claimId: 'HIST-TEX-474', gloss: 'Launcelot Smither, riding in (Mason; Rusk)' }),
+        say('g-smither', 3, TEX, 'rider', 'documented', 'Don’t shoot, don’t shoot!', { person: 'smither', claimId: 'HIST-TEX-474', gloss: 'Launcelot Smither, riding in (Mason; Rusk)' }),
         say('g-que', 8, MEX, 'dragoon', 'reconstructed', '¿Qué dicen?', { gloss: 'What are they saying?' }),
-        say('g-why', 13, MEX, 'commander', 'documented', 'Why are you attacking me?', { name: 'Castañeda', claimId: 'HIST-TEX-474', gloss: 'Castañeda’s own report, in translation' }),
+        say('g-why', 13, MEX, 'commander', 'documented', 'Why are you attacking me?', { person: 'castaneda', claimId: 'HIST-TEX-474', gloss: 'Castañeda’s own report, in translation' }),
         say('g-federal', 16, TEX, 'commander', 'documented', 'Because you are a Centralist, and we are Federalists.', { claimId: 'HIST-TEX-474', gloss: 'what Castañeda reported he was told' }),
         say('g-constitution', 19, TEX, 'commander', 'documented', 'The cannon is for the defence of the Constitution.', { claimId: 'HIST-TEX-474', gloss: 'Macomb’s account, in paraphrase' }),
-        say('g-republican', 23, MEX, 'commander', 'documented', 'I am a republican. I am obliged to obey my orders.', { name: 'Castañeda', claimId: 'HIST-TEX-474', gloss: 'Macomb’s account, in paraphrase' }),
-        say('g-instantly', 27, TEX, 'commander', 'documented', 'Join us and keep your rank, or fight instantly.', { name: 'Moore', claimId: 'HIST-TEX-474', gloss: 'Macomb’s account, in paraphrase' }),
+        say('g-republican', 23, MEX, 'commander', 'documented', 'I am a republican. I am obliged to obey my orders.', { person: 'castaneda', claimId: 'HIST-TEX-474', gloss: 'Macomb’s account, in paraphrase' }),
+        say('g-instantly', 27, TEX, 'commander', 'documented', 'Join us and keep your rank, or fight instantly.', { person: 'moore', claimId: 'HIST-TEX-474', gloss: 'Macomb’s account, in paraphrase' }),
         say('g-want', 33, TEX, 'volunteer', 'reconstructed', 'What’s he want?'),
       ],
     },
@@ -200,6 +216,9 @@ export const GONZALES = Object.freeze({
       caption: 'The parley ends. The Texians fire the cannon and advance at the double, firing, and the dragoons wheel their horses and ride away.',
       texian: { style: 'loose', keys: [[0, 'cornfield'], [12, 'closed']], action: 'advance', fire: 'scattered' },
       mexican: { style: 'mounted', keys: [[0, 'rise'], [9, 'rise'], [20, 'wheel']], action: 'withdraw', face: 'away', fire: 'none' },
+      // Almeron Dickinson, one of the Eighteen, with the men near the gun; who served it is disputed (`HIST-TEX-475`), so he is
+      // drawn with them and not as its gunner.
+      people: [MOORE, CASTANEDA, { id: 'almeron-dickinson', with: 'texian', offset: { along: 0.02, across: 0.035 } }],
       cannon: [2, 13],
       lines: [
         say('g-fire', 1, TEX, 'volunteer', 'documented', 'Fire!', { claimId: 'HIST-TEX-470', gloss: 'passed along the line (Smith)' }),
@@ -215,6 +234,7 @@ export const GONZALES = Object.freeze({
       caption: 'The dragoons ride off up the road toward Béxar until they are out of sight. They were under orders not to force a fight, and they did not. Nobody goes after them.',
       texian: { style: 'loose', at: 'closed', action: 'hold', fire: 'none' },
       mexican: { style: 'column', from: 'wheel', to: 'gone', action: 'withdraw', face: 'away', fire: 'none' },
+      people: [MOORE, CASTANEDA],
       lines: [say('g-gone', 22, TEX, 'volunteer', 'reconstructed', 'They’re gone.')],
     },
     {

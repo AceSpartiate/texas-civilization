@@ -95,7 +95,7 @@ function concepcionScenery(ground) {
 }
 
 const TEX = 'texian', MEX = 'mexican';
-/** One line. `name` only ever on a documented line (sim/battle-stage.mjs `checkEngagement`). */
+/** One line. A named person (`person`, a roster id) speaks only documented or tradition words (sim/battle-stage.mjs `checkEngagement`). */
 const say = (id, at, side, role, kind, text, extra = {}) => ({ id, at, side, role, kind, text, ...extra });
 /** Bowie's companies on the north arm of the bend, in every phase they are there. */
 const bowie = (style, at, extra = {}) => ({ id: 'bowie', side: TEX, name: 'Bowie with Coleman’s, Goheen’s and Bennet’s', count: 41, drawn: 20, style, spread: { width: 0.2, depth: 0.06 }, ...at, ...extra });
@@ -140,6 +140,8 @@ export const CONCEPCION = Object.freeze({
     {
       // Oct 27, 14:00 - 16:00. Up the river from Espada, past San Juan and San José (`HIST-TEX-019`; the hour `FIC-GONZ-420`).
       id: 'march', minutes: 120, title: 'Up the river from Espada', step: 20, claimId: 'HIST-TEX-019',
+      // Bowie with his companies and Fannin with his, who commanded the division together (`HIST-TEX-020`; sim/people.mjs).
+      people: [{ id: 'bowie', with: 'bowie', offset: { along: 0.01, across: 0 }, pose: 'command' }, { id: 'fannin', with: 'texian', offset: { along: 0.01, across: 0 }, pose: 'command' }],
       caption: 'Bowie and Fannin take about ninety men up the San Antonio River from Mission Espada, past San Juan and San José, to find a camp nearer Béxar. The rest of the army stays at Espada.',
       texian: { style: 'column', from: 'espada', to: 'fannin', action: 'advance', fire: 'none', face: 'bend' },
       mexican: { style: 'ranks', at: 'line', action: 'gone', fire: 'none' },
@@ -154,6 +156,8 @@ export const CONCEPCION = Object.freeze({
       // 16:00 - 05:40. The camp in the bottom: guns from the town at sundown, men asleep on their arms, pickets out, lookouts
       // in the mission's cupola (`HIST-TEX-480`). Not watched: the clock goes at the class's own pace, and lands on first light.
       id: 'camp', minutes: 820, title: 'Camp in the river bend', claimId: 'HIST-TEX-480',
+      // Bowie with his companies and Fannin with his, who commanded the division together (`HIST-TEX-020`; sim/people.mjs).
+      people: [{ id: 'bowie', with: 'bowie', offset: { along: 0.01, across: 0 }, pose: 'command' }, { id: 'fannin', with: 'texian', offset: { along: 0.01, across: 0 }, pose: 'command' }],
       caption: 'The men camp in the river bottom under a high bank, the river behind them, horses tied below. At sundown guns fire from Béxar and hit nobody. The men sleep on their arms, with pickets out and lookouts in the mission tower. The night passes quietly.',
       texian: { style: 'bank', at: 'fannin', action: 'hold', fire: 'none' },
       mexican: { style: 'ranks', at: 'line', action: 'gone', fire: 'none' },
@@ -166,6 +170,8 @@ export const CONCEPCION = Object.freeze({
     {
       // 05:40 - 06:50. Breakfast, horses saddled for a scout, and the fog comes down thick (Creed Taylor).
       id: 'breakfast', minutes: 70, title: 'Fog at daybreak', step: 10, claimId: 'HIST-TEX-480', fog: [0.3, 0.9],
+      // Bowie with his companies and Fannin with his, who commanded the division together (`HIST-TEX-020`; sim/people.mjs).
+      people: [{ id: 'bowie', with: 'bowie', offset: { along: 0.01, across: 0 }, pose: 'command' }, { id: 'fannin', with: 'texian', offset: { along: 0.01, across: 0 }, pose: 'command' }],
       caption: 'At daybreak the men eat jerked beef and cornbread and saddle horses to scout toward the town. A thick fog comes down on the river.',
       texian: { style: 'bank', at: 'fannin', action: 'hold', fire: 'none' },
       mexican: { style: 'ranks', at: 'line', action: 'gone', fire: 'none' },
@@ -179,6 +185,9 @@ export const CONCEPCION = Object.freeze({
       // 06:50 - 07:00. The cavalry's advance guard comes out of the fog and fires on the sentinel just relieved, Henry Karnes;
       // his powder horn is shot away. The camp is called to arms (`HIST-TEX-480`). contact from here.
       id: 'alarm', minutes: 10, title: 'Horsemen in the fog', step: 2, contact: true, claimId: 'HIST-TEX-480', fog: [0.95, 1],
+      // Henry Karnes, the sentinel just relieved, first fired on in the fog (`HIST-TEX-038`; the audit's §2.2).
+      // Bowie with his companies and Fannin with his, who commanded the division together (`HIST-TEX-020`; sim/people.mjs).
+      people: [{ id: 'bowie', with: 'bowie', offset: { along: 0.01, across: 0 }, pose: 'command' }, { id: 'fannin', with: 'texian', offset: { along: 0.01, across: 0 }, pose: 'command' }, { id: 'karnes', with: 'texian', offset: { along: 0.05, across: 0.02 }, pose: 'fire' }],
       caption: 'About half an hour after sunrise, Mexican horsemen ride out of the fog and fire on the picket. The camp runs to its rifles and gets down under the bank.',
       texian: { style: 'bank', at: 'fannin', action: 'hold', fire: 'none' },
       mexican: { style: 'ranks', at: 'line', action: 'gone', fire: 'none' },
@@ -194,6 +203,8 @@ export const CONCEPCION = Object.freeze({
       // bank with knives; climb, fire, drop back to load; a ball breaks the knife in a man's waistband (`HIST-TEX-480`). The
       // length is disputed (the report under an hour, Barr about two); an hour here (`FIC-GONZ-420`).
       id: 'ringed', minutes: 60, title: 'Ringed in the fog', step: 10, contact: true, claimId: 'HIST-TEX-480', fog: [1, 0.75],
+      // Bowie with his companies and Fannin with his, who commanded the division together (`HIST-TEX-020`; sim/people.mjs).
+      people: [{ id: 'bowie', with: 'bowie', offset: { along: 0.01, across: 0 }, pose: 'command' }, { id: 'fannin', with: 'texian', offset: { along: 0.01, across: 0 }, pose: 'command' }],
       caption: 'The cavalry surrounds the camp in the fog and fires from a distance, doing no harm. The Texians cut steps in the bank with their knives, climb up to fire, and drop back under the bank to load.',
       texian: { style: 'bank', at: 'fannin', action: 'hold', fire: 'scattered' },
       mexican: { style: 'column', at: 'line', action: 'gone', fire: 'none' },
@@ -211,6 +222,8 @@ export const CONCEPCION = Object.freeze({
       // 08:00 - 08:10. The fog lifts: infantry in line about two hundred yards off, cavalry across the front and flanks, the
       // gun ahead of the line. "The engagement was immediately general" (`HIST-TEX-480`). The director's `concepcion`.
       id: 'fog-lifts', minutes: 10, title: 'The fog lifts', step: 5, contact: true, claimId: 'HIST-TEX-480', fog: [0.6, 0],
+      // Bowie with his companies and Fannin with his, who commanded the division together (`HIST-TEX-020`; sim/people.mjs).
+      people: [{ id: 'bowie', with: 'bowie', offset: { along: 0.01, across: 0 }, pose: 'command' }, { id: 'fannin', with: 'texian', offset: { along: 0.01, across: 0 }, pose: 'command' }],
       caption: 'About eight o’clock the fog lifts. Mexican infantry stands in line on the plain about two hundred yards off, with a brass cannon in front of it and cavalry across the front and flanks. The firing becomes general.',
       texian: { style: 'bank', at: 'fannin', action: 'hold', fire: 'scattered' },
       mexican: { style: 'ranks', at: 'line', action: 'stand', fire: 'volley' },
@@ -226,6 +239,8 @@ export const CONCEPCION = Object.freeze({
       // moved across to Fannin's side, and Andrews is hit crossing the open (`HIST-TEX-480`, `-481`). The order within is the
       // game's (`FIC-GONZ-420`). A family's person hit here is hit at one of the gun's discharges (`FIC-GONZ-422`).
       id: 'charges', minutes: 20, title: 'Three charges', step: 2, contact: true, claimId: 'HIST-TEX-480',
+      // Bowie with his companies and Fannin with his, who commanded the division together (`HIST-TEX-020`; sim/people.mjs).
+      people: [{ id: 'bowie', with: 'bowie', offset: { along: 0.01, across: 0 }, pose: 'command' }, { id: 'fannin', with: 'texian', offset: { along: 0.01, across: 0 }, pose: 'command' }],
       caption: 'The Mexican cannon fires grapeshot at about eighty yards and the bugle sounds the charge. Three times the infantry comes on behind the gun, and three times the riflemen shoot down the gunners and drive it back. Bowie moves men across the open to help Fannin’s side.',
       texian: { style: 'bank', at: 'fannin', action: 'hold', fire: 'scattered' },
       mexican: { style: 'ranks', keys: [[0, 'line'], [3, 'charge'], [5, 'line'], [8, 'charge'], [10, 'line'], [13, 'charge'], [16, 'line']], action: 'advance', fire: 'volley' },
@@ -262,6 +277,8 @@ export const CONCEPCION = Object.freeze({
       // second gun fires three times at long range and is got off by mules; the infantry wades back toward Béxar; the cavalry
       // withdraws in order (`HIST-TEX-480`).
       id: 'retreat', minutes: 20, title: 'The gun taken', step: 5, contact: true, claimId: 'HIST-TEX-480',
+      // Bowie with his companies and Fannin with his, who commanded the division together (`HIST-TEX-020`; sim/people.mjs).
+      people: [{ id: 'bowie', with: 'bowie', offset: { along: 0.01, across: 0 }, pose: 'command' }, { id: 'fannin', with: 'texian', offset: { along: 0.01, across: 0 }, pose: 'command' }],
       caption: 'The bugle sounds the retreat. The Texians climb the bank, take the cannon and turn it on the retreating soldiers. The Mexican infantry wades back across the river toward Béxar; the cavalry rides off.',
       texian: { style: 'loose', keys: [[0, 'fannin'], [6, 'upTheBank']], action: 'advance', fire: 'scattered', spread: { width: 0.24, depth: 0.12 } },
       mexican: { style: 'rout', keys: [[0, 'line'], [12, 'ford'], [20, 'away']], action: 'withdraw', face: 'away', fire: 'none', spread: { width: 0.36, depth: 0.26 } },
@@ -278,6 +295,8 @@ export const CONCEPCION = Object.freeze({
       // 08:50 - 09:30. Quiet. Men give water to the Mexican wounded left on the field (Creed Taylor; Smithwick). The main army
       // is on the road up from Espada.
       id: 'aftermath', minutes: 40, title: 'After the fight', step: 20, claimId: 'HIST-TEX-481',
+      // Bowie with his companies and Fannin with his, who commanded the division together (`HIST-TEX-020`; sim/people.mjs).
+      people: [{ id: 'bowie', with: 'bowie', offset: { along: 0.01, across: 0 }, pose: 'command' }, { id: 'fannin', with: 'texian', offset: { along: 0.01, across: 0 }, pose: 'command' }],
       caption: 'It is quiet. Some of the Texians carry water to the Mexican wounded left on the field. The rest of the army is hurrying up the river road from Espada.',
       texian: { style: 'loose', at: 'upTheBank', action: 'hold', fire: 'none', spread: { width: 0.24, depth: 0.12 } },
       mexican: { style: 'rout', at: 'away', action: 'gone', fire: 'none' },
@@ -292,6 +311,8 @@ export const CONCEPCION = Object.freeze({
       // 09:30 - 10:00. The main army comes up, loud at having missed it; a padre comes out from the town with carts and, after
       // speaking with Austin, takes the Mexican dead and wounded (`HIST-TEX-481`).
       id: 'main-army', minutes: 30, title: 'The army comes up', step: 10, claimId: 'HIST-TEX-481',
+      // Bowie with his companies and Fannin with his, who commanded the division together (`HIST-TEX-020`; sim/people.mjs).
+      people: [{ id: 'bowie', with: 'bowie', offset: { along: 0.01, across: 0 }, pose: 'command' }, { id: 'fannin', with: 'texian', offset: { along: 0.01, across: 0 }, pose: 'command' }],
       caption: 'The main army arrives from Espada, too late for the fight. A priest comes out from Béxar with carts and, after speaking with Austin, takes the Mexican dead and wounded back into the town.',
       texian: { style: 'loose', at: 'upTheBank', action: 'hold', fire: 'none', spread: { width: 0.24, depth: 0.12 } },
       mexican: { style: 'rout', at: 'away', action: 'gone', fire: 'none' },

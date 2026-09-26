@@ -3,12 +3,13 @@
 // One helper for every scene that talks - a battle's orders and shouts, a town's worried talk before one - so a line
 // looks the same wherever it is said. A line is data from the server, never invented here:
 //
-//   { id, text, gloss?, kind: 'documented' | 'reconstructed' | 'tradition', claimId?, speaker: { role, side?, name? } }
+//   { id, text, gloss?, kind: 'documented' | 'reconstructed' | 'tradition', claimId?, name?, manner?, speaker: { role, side? } }
 //
 // `gloss` is the English under a Spanish order. `kind` is shown only as the bubble's edge: a documented line is drawn
 // with a solid edge, anything reconstructed or traditional with a dashed one, so a class can be taught to tell the
-// difference and nothing reconstructed is dressed up as a quotation. A named historical person speaks only a
-// documented line; that rule is the server's to keep, and this draws whatever it is given.
+// difference and nothing reconstructed is dressed up as a quotation. `name` heads the bubble of a named historical person,
+// who speaks only documented or tradition words (docs/BATTLES.md §2c.4); `manner` is a stage direction drawn in italics ahead
+// of the words. Those rules are the server's to keep (sim/battle-stage.mjs), and this draws whatever it is given.
 
 const PAD = 6, GAP = 10, MAX_WIDTH = 220, LINE = 15, GLOSS_LINE = 13;
 
@@ -33,14 +34,21 @@ export function drawSpeech(ctx, line, x, y, { alpha = 1, bounds = null, scale = 
   ctx.save();
   ctx.globalAlpha *= Math.min(1, alpha);
   const size = Math.max(11, Math.round(13 * scale));
+  // A named speaker's bubble says who is speaking, first, in small capitals (`FIC-GONZ-457`); a stage direction (`manner`,
+  // owner 2026-09-26: Emily West's lines to Santa Anna "*sarcastically*") goes in italics ahead of the words.
+  const head = line.name ? `${line.name}:` : '';
+  const manner = line.manner ? `(${line.manner})` : '';
   ctx.font = `${size}px Georgia`;
-  const width = Math.min(MAX_WIDTH * scale, Math.max(60, ctx.measureText(line.text).width + 2));
-  const words = wrap(ctx, line.text, width);
+  const width = Math.min(MAX_WIDTH * scale, Math.max(60, ctx.measureText(`${manner} ${line.text}`).width + 2));
+  const words = wrap(ctx, manner ? `⁣${manner} ${line.text}` : line.text, width);
   ctx.font = `italic ${Math.max(10, size - 2)}px Georgia`;
   const gloss = line.gloss ? wrap(ctx, line.gloss, width) : [];
+  ctx.font = `bold ${Math.max(10, size - 2)}px Georgia`;
+  const headWidth = head ? ctx.measureText(head).width : 0;
   ctx.font = `${size}px Georgia`;
-  const inner = Math.max(...words.map(text => ctx.measureText(text).width), ...(gloss.length ? [Math.min(width, Math.max(...gloss.map(text => ctx.measureText(text).width)))] : [0]));
-  const w = inner + PAD * 2, h = words.length * LINE * scale + gloss.length * GLOSS_LINE * scale + PAD * 2;
+  const inner = Math.max(headWidth, ...words.map(text => ctx.measureText(text).width), ...(gloss.length ? [Math.min(width, Math.max(...gloss.map(text => ctx.measureText(text).width)))] : [0]));
+  const headH = head ? GLOSS_LINE * scale : 0;
+  const w = inner + PAD * 2, h = headH + words.length * LINE * scale + gloss.length * GLOSS_LINE * scale + PAD * 2;
   let left = x - w / 2;
   const top = Math.max(2, y - GAP * scale - h);
   if (bounds) left = Math.max(2, Math.min(bounds.width - w - 2, left));
@@ -61,10 +69,22 @@ export function drawSpeech(ctx, line, x, y, { alpha = 1, bounds = null, scale = 
   ctx.fillStyle = '#2f2a1f';
   ctx.textAlign = 'left';
   ctx.textBaseline = 'top';
-  words.forEach((text, index) => ctx.fillText(text, left + PAD, top + PAD + index * LINE * scale));
+  if (head) { ctx.font = `bold ${Math.max(10, size - 2)}px Georgia`; ctx.fillStyle = '#4c3a1e'; ctx.fillText(head, left + PAD, top + PAD); ctx.fillStyle = '#2f2a1f'; ctx.font = `${size}px Georgia`; }
+  words.forEach((text, index) => {
+    const at = top + PAD + headH + index * LINE * scale;
+    // The stage direction, in italics, where it begins the first line (it is marked with an invisible separator).
+    if (index === 0 && text.startsWith('⁣')) {
+      const close = text.indexOf(')') + 1 || text.length, direction = text.slice(1, close), rest = text.slice(close);
+      ctx.font = `italic ${size}px Georgia`; ctx.fillStyle = '#5d5341'; ctx.fillText(direction, left + PAD, at);
+      const dx = ctx.measureText(direction).width;
+      ctx.font = `${size}px Georgia`; ctx.fillStyle = '#2f2a1f'; ctx.fillText(rest, left + PAD + dx, at);
+      return;
+    }
+    ctx.fillText(text, left + PAD, at);
+  });
   ctx.font = `italic ${Math.max(10, size - 2)}px Georgia`;
   ctx.fillStyle = '#5d5341';
-  gloss.forEach((text, index) => ctx.fillText(text, left + PAD, top + PAD + words.length * LINE * scale + index * GLOSS_LINE * scale));
+  gloss.forEach((text, index) => ctx.fillText(text, left + PAD, top + PAD + headH + words.length * LINE * scale + index * GLOSS_LINE * scale));
   ctx.restore();
   return { x: left, y: top, w, h };
 }

@@ -87,7 +87,7 @@ function grassScenery(ground) {
 }
 
 const TEX = 'texian', MEX = 'mexican';
-/** One line. `name` only ever on a documented line (sim/battle-stage.mjs `checkEngagement`). */
+/** One line. A named person (`person`, a roster id) speaks only documented or tradition words (sim/battle-stage.mjs `checkEngagement`). */
 const say = (id, at, side, role, kind, text, extra = {}) => ({ id, at, side, role, kind, text, ...extra });
 /** Jack's infantry, about a hundred from many companies: a sample of sixty. */
 const jack = (style, at, extra = {}) => ({ id: 'jack', side: TEX, name: 'Jack’s infantry', count: 100, drawn: 40, style, ...at, ...extra });
@@ -126,6 +126,8 @@ export const GRASS_FIGHT = Object.freeze({
       // 10:00 - 10:30. Deaf Smith rides in; "Ugartechea!"; the silver rumour; Burleson sends Bowie with the horsemen and Jack
       // with about a hundred on foot; men run for horses and rifles (`HIST-TEX-031`, `-483`). A family is asked here.
       id: 'alarm', minutes: 30, title: 'Deaf Smith rides in', step: 2, claimId: 'HIST-TEX-483',
+      // Deaf Smith rides in with word of the pack train; Burleson, commanding the army, sends Bowie out (`HIST-TEX-031`, `-555`).
+      people: [{ id: 'bowie', with: 'texian', offset: { along: 0.02, across: 0 }, pose: 'ride' }, { id: 'deaf-smith', with: 'texian', offset: { along: 0.05, across: 0.03 }, pose: 'ride', during: [0, 12] }, { id: 'burleson', with: 'texian', offset: { along: -0.02, across: -0.03 }, pose: 'command' }],
       caption: 'Deaf Smith gallops into the camp at the mill: a Mexican pack train with cavalry is coming in from the west. The camp is sure it carries silver to pay the soldiers in Béxar. Bowie is to take the horsemen and William Jack about a hundred men on foot.',
       texian: { style: 'loose', at: 'millHorse', action: 'hold', fire: 'none', spread: { width: 0.2, depth: 0.1 } },
       mexican: { style: 'mounted', from: 'trainFar', to: 'trainNear', action: 'advance', fire: 'none' },
@@ -141,6 +143,8 @@ export const GRASS_FIGHT = Object.freeze({
       // 10:30 - 11:00. Bowie's riders at a canter; Jack's men "at a brisk trot", over the creek, then "double quick time for
       // about half an hour... in tolerably good order and in double file" (`HIST-TEX-483`). Ordered, not chaotic.
       id: 'ride-out', minutes: 30, title: 'After the pack train', step: 5, claimId: 'HIST-TEX-483',
+      // Bowie at the head of the horsemen (`HIST-TEX-031`).
+      people: [{ id: 'bowie', with: 'texian', offset: { along: 0.02, across: 0 }, pose: 'ride' }],
       caption: 'Bowie’s horsemen ride out west at a canter. Jack’s infantry follows at a trot, fords a cold creek, and keeps on at the double in good order, two by two.',
       texian: { style: 'mounted', from: 'millHorse', to: 'bowieRide', action: 'advance', fire: 'none' },
       mexican: { style: 'mounted', from: 'trainNear', to: 'creekBed', action: 'advance', fire: 'none' },
@@ -155,6 +159,7 @@ export const GRASS_FIGHT = Object.freeze({
       // 11:00 - 11:20. About a mile from town Bowie charges the train; its guard takes to a dry creek bed; both sides dismount
       // and fight on foot from ravines (`HIST-TEX-483`). Not rows on either side. contact from here.
       id: 'bowie', minutes: 20, title: 'Bowie charges the train', step: 2, contact: true, claimId: 'HIST-TEX-483',
+      people: [{ id: 'bowie', with: 'texian', offset: { along: 0.02, across: 0 }, pose: 'ride' }],
       caption: 'About a mile west of the town Bowie’s horsemen charge the train. Its guard jumps down into a dry creek bed, and both sides get off their horses and fight on foot from the ravines.',
       texian: { style: 'loose', keys: [[0, 'bowieRide'], [5, 'bowieLine']], action: 'advance', fire: 'scattered' },
       mexican: { style: 'bank', at: 'creekBed', action: 'hold', fire: 'scattered', spread: { width: 0.3, depth: 0.07 } },
@@ -172,6 +177,7 @@ export const GRASS_FIGHT = Object.freeze({
       // whole line", then a second and a third; the column splits right and left; the charge on Sublett's order; the ditch
       // "cleared... in a few moments" (`HIST-TEX-483`). A family's person with Jack is hurt, or runs, at the first volley.
       id: 'ambush', minutes: 10, title: 'The ditch', step: 2, contact: true, claimId: 'HIST-TEX-483',
+      people: [{ id: 'bowie', with: 'texian', offset: { along: 0.02, across: 0 }, pose: 'ride' }],
       caption: 'Jack’s column is fired on from a ditch hidden in the mesquite, forty to sixty yards off. The men split right and left, charge the ditch, and clear it in a few moments.',
       texian: { style: 'loose', at: 'bowieLine', action: 'hold', fire: 'scattered' },
       mexican: { style: 'bank', at: 'creekBed', action: 'hold', fire: 'scattered', spread: { width: 0.3, depth: 0.07 } },
@@ -196,6 +202,7 @@ export const GRASS_FIGHT = Object.freeze({
       // men and Rusk's fifteen come up; the gun fires three rounds of grape and canister; the sortie goes back "under the
       // protection of their batteries in town" (`HIST-TEX-483`; the sortie's size DISPUTED).
       id: 'sortie', minutes: 20, title: 'The sortie from the town', step: 5, contact: true, claimId: 'HIST-TEX-483',
+      people: [{ id: 'bowie', with: 'texian', offset: { along: 0.02, across: 0 }, pose: 'ride' }],
       caption: 'Soldiers come out of Béxar with a cannon against the other flank. Bowie’s men turn to meet them and more men come up from the camp. The cannon fires grapeshot three times, and the soldiers fall back toward the town.',
       texian: { style: 'loose', keys: [[0, 'bowieLine'], [8, 'bowieTurn']], action: 'advance', fire: 'scattered', face: 'sortieLine' },
       mexican: { style: 'bank', at: 'creekBed', action: 'hold', fire: 'picket', spread: { width: 0.3, depth: 0.07 } },
@@ -216,6 +223,7 @@ export const GRASS_FIGHT = Object.freeze({
     {
       // 11:50 - 12:05. The Texians follow until the town's guns fire on them and they are ordered back (*Telegraph*, Dec 2).
       id: 'follow', minutes: 15, title: 'Under the town’s guns', step: 5, contact: true, claimId: 'HIST-TEX-483',
+      people: [{ id: 'bowie', with: 'texian', offset: { along: 0.02, across: 0 }, pose: 'ride' }],
       caption: 'The Texians follow the soldiers toward the town until the big guns in Béxar fire on them, and they are ordered back.',
       texian: { style: 'loose', keys: [[0, 'bowieTurn'], [7, 'follow'], [15, 'back']], action: 'advance', fire: 'scattered', face: 'townEdge' },
       mexican: { style: 'bank', at: 'creekBed', action: 'gone', fire: 'none' },
@@ -231,6 +239,7 @@ export const GRASS_FIGHT = Object.freeze({
     {
       // 12:05 - 12:35. The packs are cut open: grass, cut for the horses in Béxar; forty or so animals driven off (`HIST-TEX-031`).
       id: 'grass', minutes: 30, title: 'Grass', step: 10, claimId: 'HIST-TEX-031',
+      people: [{ id: 'bowie', with: 'texian', offset: { along: 0.02, across: 0 }, pose: 'ride' }],
       caption: 'The men cut open the packs. They hold grass - cut to feed the horses in Béxar - not silver. The animals are driven back to the camp.',
       texian: { style: 'loose', at: 'packs', action: 'hold', fire: 'none' },
       mexican: { style: 'bank', at: 'creekBed', action: 'gone', fire: 'none' },
@@ -243,6 +252,7 @@ export const GRASS_FIGHT = Object.freeze({
     {
       // 12:35 - 13:35. Back to the mill with the animals. Watched lightly; the family's person walks with them.
       id: 'back', minutes: 60, title: 'Back to the camp', step: 20, claimId: 'HIST-TEX-031',
+      people: [{ id: 'bowie', with: 'texian', offset: { along: 0.02, across: 0 }, pose: 'ride' }],
       caption: 'The men go back to the camp at the mill with the pack animals and the grass. Nobody on the Texian side was killed.',
       texian: { style: 'column', from: 'packs', to: 'millHorse', action: 'withdraw', fire: 'none', face: 'mill' },
       mexican: { style: 'bank', at: 'creekBed', action: 'gone', fire: 'none' },
