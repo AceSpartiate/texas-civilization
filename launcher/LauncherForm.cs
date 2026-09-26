@@ -118,7 +118,14 @@ public sealed class LauncherForm : Form, IBackdrop
         // Found 2026-09-17: a computer showed Release v2026.09.17.2 and no Solo Mode button, because the game files were new
         // and the launcher was not. The setup stamps its tag into the launcher (scripts/package.ps1), so a mismatch is said.
         var launcherTag = LauncherTag;
-        if (launcherTag is not null && AppPaths.InstalledRelease is { } game && !string.Equals(launcherTag, game, StringComparison.OrdinalIgnoreCase))
+        // From 2026-09-26 a small update changes the game and keeps the launcher, so the launcher's tag
+        // is older than the game's whenever the launcher did not change. The game's own list of files
+        // names the launcher it was built for; where it has one, that is the question, not the tag.
+        var builtFor = ReleaseManifest.ReadInstalled(AppPaths.Root)?.Launcher;
+        var mismatched = builtFor is not null && DeltaUpdate.LauncherId is { } running
+            ? !string.Equals(builtFor, running, StringComparison.OrdinalIgnoreCase)
+            : launcherTag is not null && AppPaths.InstalledRelease is { } stamped && !string.Equals(launcherTag, stamped, StringComparison.OrdinalIgnoreCase);
+        if (mismatched && launcherTag is not null && AppPaths.InstalledRelease is { } game)
         {
             _release.Text = $"Release {game} · launcher {launcherTag}";
             Say("This launcher is from a different release than the game beside it. Download TexasRevolutionSetup.exe again from the release page and choose Update.");
@@ -983,7 +990,12 @@ public sealed class LauncherForm : Form, IBackdrop
                 _updates.Accent = Palette.UpdateAmber;
                 LayoutStack();
                 _updates.Invalidate();
-                Say($"A newer build is available: {release.Name}.");
+                // Said in the size a teacher on a slow school connection cares about: a few hundred
+                // kilobytes of changes, or the whole game when the launcher itself has changed.
+                var (bytes, changesOnly) = DeltaUpdate.Estimate(release, AppPaths.InstalledRelease, DeltaUpdate.LauncherId);
+                Say(bytes <= 0 ? $"A newer build is available: {release.Name}."
+                    : changesOnly ? $"A newer build is available: {release.Name}. Only what changed is downloaded: about {DeltaUpdate.Plain(bytes)}."
+                    : $"A newer build is available: {release.Name} ({DeltaUpdate.Plain(bytes)} to download).");
                 break;
         }
     }
@@ -997,8 +1009,10 @@ public sealed class LauncherForm : Form, IBackdrop
             Say("Stop the class first. Updating restarts the launcher, and a class should not be interrupted.");
             return;
         }
+        var (bytes, changesOnly) = DeltaUpdate.Estimate(release, AppPaths.InstalledRelease, DeltaUpdate.LauncherId);
+        var size = bytes <= 0 ? "" : changesOnly ? $" (only what changed: about {DeltaUpdate.Plain(bytes)})" : $" ({DeltaUpdate.Plain(bytes)})";
         if (MessageBox.Show(
-                $"Download and install {release.Name}?" + Environment.NewLine + Environment.NewLine
+                $"Download and install {release.Name}{size}?" + Environment.NewLine + Environment.NewLine
                 + "Texas Revolution will close and reopen. Your saved classes are not touched.",
                 "Texas Revolution", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK) return;
 
@@ -1015,7 +1029,8 @@ public sealed class LauncherForm : Form, IBackdrop
         });
         try
         {
-            var payload = await _updater.StageAsync(release, progress, CancellationToken.None);
+            var staged = await _updater.StageAsync(release, progress, CancellationToken.None);
+            var payload = staged.Payload;
             // Nothing may be running out of this folder while it is replaced: no playtest server,
             // and no status check starting the bundled node every second and a half.
             _poll.Stop();

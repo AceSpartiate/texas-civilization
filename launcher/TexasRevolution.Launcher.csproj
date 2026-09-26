@@ -54,6 +54,17 @@
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2210.55" />
   </ItemGroup>
 
+  <!--
+    Which launcher this is, for the small update (DeltaUpdate.cs). scripts/package.ps1 passes the
+    SHA-256 of this folder's sources as -p:LauncherId and writes the same value into the release's
+    list of files; a set of changes is only ever used between two releases whose launcher is the
+    same, because a changed launcher arrives only inside the setup program. A build without it (a
+    working copy's `dotnet build`) always takes the whole download.
+  -->
+  <ItemGroup Condition="'$(LauncherId)' != ''">
+    <AssemblyMetadata Include="LauncherId" Value="$(LauncherId)" />
+  </ItemGroup>
+
   <!-- The installed program's own emblem, read at runtime by Branding. -->
   <ItemGroup>
     <EmbeddedResource Include="TexasRevolution.ico" LogicalName="TexasRevolution.Launcher.emblem.ico" />
