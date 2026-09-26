@@ -1,6 +1,6 @@
 # Claude handoff — Astra foundation
 
-## The famous people: one roster, drawn and named on every field and on the map, dying as the record has them — 2026-09-26 (worktree branch from main 9e7aa74, main merged at db9d268; not released)
+## The famous people: one roster, drawn and named on every field and on the map, dying as the record has them — 2026-09-26 (worktree branch from main 9e7aa74, main merged at db9d268; released in v2026.09.26.5)
 
 The owner: *"famous npc's: have we taken the time to ensure they do what they're supposed to? they should be labelled, saying
 and doing the things that they likely would have, dying the way they should (Travis, Bowie, Crocett come to mind as an
@@ -1700,6 +1700,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   lesson 33 checks, panels 10 checks at 2 sizes, farm, travel-drawn and relay pass. Four other proofs failed here, and
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
+
+## Released as v2026.09.26.5 — 2026-09-26
+
+**[v2026.09.26.5](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.26.5)**, from `bf64971`: the famous people (`sim/people.mjs`, `sim/famous.mjs`, `public/famous-view.js`; docs/BATTLES.md §2c, §14) — about fifty named people and the Twin Sisters drawn and labelled on the field and the map, their words from their own figures with the speaker named and stage directions, deaths as recorded (Travis at the north battery, Bowie on his cot, Crockett per de la Peña, disputed), Joe alive in every text, Emily West's picnic as tradition; the audit's errors fixed. Owner kept: line in the sand March 3, Labadie's words for Houston, Emily West's five lines. Set of changes from .4: 610 KB. Verify tree: 1362 tests; famous-people 17 and every battle proof, lesson 33 pass.
 
 ## Released as v2026.09.26.4 — 2026-09-26
 
