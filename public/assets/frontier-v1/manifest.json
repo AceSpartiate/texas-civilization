@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 86,
-    "sprites": 1183,
-    "clips": 450,
-    "poseCycles": 227,
+    "sheets": 89,
+    "sprites": 1223,
+    "clips": 459,
+    "poseCycles": 233,
     "rigs": 4
   },
   "entrypoints": {
@@ -512,6 +512,130 @@
               [
                 690,
                 1200
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "carreta-solid-wheels": {
+      "image": "atlases/carreta-solid-wheels.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1525356,
+      "sha256": "fd2b68ee8c140fe81dde59695f5d729e4fd3a6e22c53f5fa887d747fcf81cb08",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.604773,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              129,
+              315
+            ],
+            "columns": [
+              [
+                18,
+                321
+              ],
+              [
+                334,
+                634
+              ],
+              [
+                647,
+                947
+              ],
+              [
+                962,
+                1254
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              394,
+              633
+            ],
+            "columns": [
+              [
+                20,
+                301
+              ],
+              [
+                337,
+                602
+              ],
+              [
+                642,
+                926
+              ],
+              [
+                962,
+                1233
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              686,
+              905
+            ],
+            "columns": [
+              [
+                22,
+                298
+              ],
+              [
+                338,
+                601
+              ],
+              [
+                643,
+                925
+              ],
+              [
+                964,
+                1236
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              958,
+              1201
+            ],
+            "columns": [
+              [
+                14,
+                324
+              ],
+              [
+                348,
+                603
+              ],
+              [
+                650,
+                915
+              ],
+              [
+                940,
+                1253
               ]
             ]
           }
@@ -2939,6 +3063,80 @@
         ]
       }
     },
+    "icons-gather-stock-carreta": {
+      "image": "atlases/icons-gather-stock-carreta.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2465242,
+      "sha256": "72e7363b5d895bb39cd80078343db13c32ed49f9d6abe88eb72c256f1617b914",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.409006,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              9,
+              446
+            ],
+            "columns": [
+              [
+                16,
+                439
+              ],
+              [
+                450,
+                881
+              ],
+              [
+                891,
+                1325
+              ],
+              [
+                1355,
+                1760
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              466,
+              867
+            ],
+            "columns": [
+              [
+                10,
+                437
+              ],
+              [
+                450,
+                859
+              ],
+              [
+                891,
+                1325
+              ],
+              [
+                1339,
+                1763
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "people-mounted-cast1-e": {
       "image": "atlases/people-mounted-cast1-e.png",
       "width": 1254,
@@ -3917,6 +4115,130 @@
               [
                 656,
                 1247
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "ox-packed": {
+      "image": "atlases/ox-packed.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1531260,
+      "sha256": "4d1740cae545fa085bb653d3caa529804bd133071b8c2ee351530a3ca5ecfe0b",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.604534,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              63,
+              288
+            ],
+            "columns": [
+              [
+                16,
+                321
+              ],
+              [
+                321,
+                625
+              ],
+              [
+                627,
+                936
+              ],
+              [
+                936,
+                1245
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              344,
+              618
+            ],
+            "columns": [
+              [
+                62,
+                269
+              ],
+              [
+                373,
+                579
+              ],
+              [
+                685,
+                890
+              ],
+              [
+                1003,
+                1206
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              655,
+              932
+            ],
+            "columns": [
+              [
+                55,
+                269
+              ],
+              [
+                372,
+                579
+              ],
+              [
+                685,
+                890
+              ],
+              [
+                981,
+                1191
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              953,
+              1202
+            ],
+            "columns": [
+              [
+                18,
+                328
+              ],
+              [
+                387,
+                583
+              ],
+              [
+                683,
+                873
+              ],
+              [
+                925,
+                1243
               ]
             ]
           }
@@ -11562,6 +11884,542 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/cannon-cartwheels"
+    },
+    "carreta-travel-e-1": {
+      "sheet": "carreta-solid-wheels",
+      "x": 18,
+      "y": 130,
+      "w": 303,
+      "h": 185,
+      "anchorX": 0.2888,
+      "anchorY": 0.9297,
+      "label": "carreta travel e 1",
+      "kind": "carreta-solid-wheels",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          20,
+          132,
+          299,
+          181
+        ],
+        "visiblePixels": 30489,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/carreta-solid-wheels.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "carreta-travel-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/carreta-solid-wheels"
+    },
+    "carreta-travel-e-2": {
+      "sheet": "carreta-solid-wheels",
+      "x": 334,
+      "y": 129,
+      "w": 300,
+      "h": 186,
+      "anchorX": 0.2967,
+      "anchorY": 0.9247,
+      "label": "carreta travel e 2",
+      "kind": "carreta-solid-wheels",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          336,
+          131,
+          296,
+          182
+        ],
+        "visiblePixels": 30369,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/carreta-solid-wheels.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "carreta-travel-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/carreta-solid-wheels"
+    },
+    "carreta-travel-e-3": {
+      "sheet": "carreta-solid-wheels",
+      "x": 647,
+      "y": 130,
+      "w": 300,
+      "h": 185,
+      "anchorX": 0.2917,
+      "anchorY": 0.9297,
+      "label": "carreta travel e 3",
+      "kind": "carreta-solid-wheels",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          649,
+          132,
+          296,
+          181
+        ],
+        "visiblePixels": 30284,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/carreta-solid-wheels.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "carreta-travel-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/carreta-solid-wheels"
+    },
+    "carreta-travel-e-4": {
+      "sheet": "carreta-solid-wheels",
+      "x": 962,
+      "y": 130,
+      "w": 292,
+      "h": 185,
+      "anchorX": 0.3031,
+      "anchorY": 0.9297,
+      "label": "carreta travel e 4",
+      "kind": "carreta-solid-wheels",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          964,
+          132,
+          290,
+          181
+        ],
+        "visiblePixels": 30157,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/carreta-solid-wheels.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "carreta-travel-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/carreta-solid-wheels"
+    },
+    "carreta-travel-s-1": {
+      "sheet": "carreta-solid-wheels",
+      "x": 20,
+      "y": 395,
+      "w": 281,
+      "h": 237,
+      "anchorX": 0.4893,
+      "anchorY": 0.9283,
+      "label": "carreta travel s 1",
+      "kind": "carreta-solid-wheels",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          22,
+          397,
+          277,
+          233
+        ],
+        "visiblePixels": 38824,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/carreta-solid-wheels.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "carreta-travel-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/carreta-solid-wheels"
+    },
+    "carreta-travel-s-2": {
+      "sheet": "carreta-solid-wheels",
+      "x": 337,
+      "y": 395,
+      "w": 265,
+      "h": 238,
+      "anchorX": 0.5019,
+      "anchorY": 0.9286,
+      "label": "carreta travel s 2",
+      "kind": "carreta-solid-wheels",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          339,
+          397,
+          261,
+          234
+        ],
+        "visiblePixels": 38567,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/carreta-solid-wheels.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "carreta-travel-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/carreta-solid-wheels"
+    },
+    "carreta-travel-s-3": {
+      "sheet": "carreta-solid-wheels",
+      "x": 642,
+      "y": 394,
+      "w": 284,
+      "h": 238,
+      "anchorX": 0.4965,
+      "anchorY": 0.9286,
+      "label": "carreta travel s 3",
+      "kind": "carreta-solid-wheels",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          644,
+          396,
+          280,
+          234
+        ],
+        "visiblePixels": 39238,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/carreta-solid-wheels.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "carreta-travel-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/carreta-solid-wheels"
+    },
+    "carreta-travel-s-4": {
+      "sheet": "carreta-solid-wheels",
+      "x": 962,
+      "y": 395,
+      "w": 271,
+      "h": 238,
+      "anchorX": 0.5018,
+      "anchorY": 0.9286,
+      "label": "carreta travel s 4",
+      "kind": "carreta-solid-wheels",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          964,
+          397,
+          267,
+          234
+        ],
+        "visiblePixels": 38620,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/carreta-solid-wheels.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "carreta-travel-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/carreta-solid-wheels"
+    },
+    "carreta-travel-n-1": {
+      "sheet": "carreta-solid-wheels",
+      "x": 22,
+      "y": 686,
+      "w": 276,
+      "h": 219,
+      "anchorX": 0.5,
+      "anchorY": 0.9269,
+      "label": "carreta travel n 1",
+      "kind": "carreta-solid-wheels",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          24,
+          688,
+          272,
+          215
+        ],
+        "visiblePixels": 35157,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/carreta-solid-wheels.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "carreta-travel-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/carreta-solid-wheels"
+    },
+    "carreta-travel-n-2": {
+      "sheet": "carreta-solid-wheels",
+      "x": 338,
+      "y": 686,
+      "w": 263,
+      "h": 219,
+      "anchorX": 0.4981,
+      "anchorY": 0.9269,
+      "label": "carreta travel n 2",
+      "kind": "carreta-solid-wheels",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          340,
+          688,
+          259,
+          215
+        ],
+        "visiblePixels": 35067,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/carreta-solid-wheels.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "carreta-travel-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/carreta-solid-wheels"
+    },
+    "carreta-travel-n-3": {
+      "sheet": "carreta-solid-wheels",
+      "x": 643,
+      "y": 686,
+      "w": 282,
+      "h": 219,
+      "anchorX": 0.4982,
+      "anchorY": 0.9269,
+      "label": "carreta travel n 3",
+      "kind": "carreta-solid-wheels",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          645,
+          688,
+          278,
+          215
+        ],
+        "visiblePixels": 35817,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/carreta-solid-wheels.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "carreta-travel-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/carreta-solid-wheels"
+    },
+    "carreta-travel-n-4": {
+      "sheet": "carreta-solid-wheels",
+      "x": 964,
+      "y": 686,
+      "w": 272,
+      "h": 219,
+      "anchorX": 0.4945,
+      "anchorY": 0.9269,
+      "label": "carreta travel n 4",
+      "kind": "carreta-solid-wheels",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          966,
+          688,
+          268,
+          215
+        ],
+        "visiblePixels": 35347,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/carreta-solid-wheels.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "carreta-travel-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/carreta-solid-wheels"
+    },
+    "carreta-idle-e": {
+      "sheet": "carreta-solid-wheels",
+      "x": 14,
+      "y": 1002,
+      "w": 310,
+      "h": 187,
+      "anchorX": 0.2952,
+      "anchorY": 0.9251,
+      "label": "carreta idle e",
+      "kind": "carreta-solid-wheels",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          16,
+          1004,
+          306,
+          183
+        ],
+        "visiblePixels": 31916,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/carreta-solid-wheels.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/carreta-solid-wheels"
+    },
+    "carreta-idle-s": {
+      "sheet": "carreta-solid-wheels",
+      "x": 348,
+      "y": 975,
+      "w": 255,
+      "h": 226,
+      "anchorX": 0.498,
+      "anchorY": 0.9292,
+      "label": "carreta idle s",
+      "kind": "carreta-solid-wheels",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          350,
+          977,
+          251,
+          222
+        ],
+        "visiblePixels": 35183,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/carreta-solid-wheels.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/carreta-solid-wheels"
+    },
+    "carreta-idle-n": {
+      "sheet": "carreta-solid-wheels",
+      "x": 650,
+      "y": 958,
+      "w": 265,
+      "h": 205,
+      "anchorX": 0.4943,
+      "anchorY": 0.9268,
+      "label": "carreta idle n",
+      "kind": "carreta-solid-wheels",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          652,
+          960,
+          261,
+          201
+        ],
+        "visiblePixels": 32746,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/carreta-solid-wheels.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/carreta-solid-wheels"
+    },
+    "carreta-loaded-e": {
+      "sheet": "carreta-solid-wheels",
+      "x": 940,
+      "y": 974,
+      "w": 313,
+      "h": 213,
+      "anchorX": 0.278,
+      "anchorY": 0.9296,
+      "label": "carreta loaded e",
+      "kind": "carreta-solid-wheels",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          942,
+          976,
+          309,
+          209
+        ],
+        "visiblePixels": 35358,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/carreta-solid-wheels.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/carreta-solid-wheels"
     },
     "cart-open-e": {
       "sheet": "cart-open",
@@ -21513,6 +22371,262 @@
       "locationKits": [],
       "promptId": "frontier-v1/house-modules"
     },
+    "icon-take-small-game-alt": {
+      "sheet": "icons-gather-stock-carreta",
+      "x": 16,
+      "y": 63,
+      "w": 423,
+      "h": 381,
+      "anchorX": 0.5047,
+      "anchorY": 0.9423,
+      "label": "icon take small game alt",
+      "kind": "icons-gather-stock-carreta",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          18,
+          65,
+          419,
+          377
+        ],
+        "visiblePixels": 110213,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-gather-stock-carreta.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-gather-stock-carreta"
+    },
+    "icon-fish-the-water-alt": {
+      "sheet": "icons-gather-stock-carreta",
+      "x": 450,
+      "y": 13,
+      "w": 431,
+      "h": 431,
+      "anchorX": 0.4942,
+      "anchorY": 0.9374,
+      "label": "icon fish the water alt",
+      "kind": "icons-gather-stock-carreta",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          452,
+          15,
+          427,
+          427
+        ],
+        "visiblePixels": 61924,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-gather-stock-carreta.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-gather-stock-carreta"
+    },
+    "icon-gather-oysters-alt": {
+      "sheet": "icons-gather-stock-carreta",
+      "x": 891,
+      "y": 117,
+      "w": 434,
+      "h": 329,
+      "anchorX": 0.5046,
+      "anchorY": 0.9362,
+      "label": "icon gather oysters alt",
+      "kind": "icons-gather-stock-carreta",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          893,
+          119,
+          430,
+          325
+        ],
+        "visiblePixels": 106069,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-gather-stock-carreta.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-gather-stock-carreta"
+    },
+    "icon-cut-bee-tree-alt": {
+      "sheet": "icons-gather-stock-carreta",
+      "x": 1355,
+      "y": 9,
+      "w": 405,
+      "h": 435,
+      "anchorX": 0.542,
+      "anchorY": 0.9678,
+      "label": "icon cut bee tree alt",
+      "kind": "icons-gather-stock-carreta",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1357,
+          11,
+          401,
+          431
+        ],
+        "visiblePixels": 117677,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-gather-stock-carreta.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-gather-stock-carreta"
+    },
+    "icon-butcher-beef-alt": {
+      "sheet": "icons-gather-stock-carreta",
+      "x": 10,
+      "y": 466,
+      "w": 427,
+      "h": 394,
+      "anchorX": 0.5059,
+      "anchorY": 0.9289,
+      "label": "icon butcher beef alt",
+      "kind": "icons-gather-stock-carreta",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          12,
+          468,
+          423,
+          390
+        ],
+        "visiblePixels": 112891,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-gather-stock-carreta.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-gather-stock-carreta"
+    },
+    "icon-butcher-hog-alt": {
+      "sheet": "icons-gather-stock-carreta",
+      "x": 450,
+      "y": 487,
+      "w": 409,
+      "h": 380,
+      "anchorX": 0.4352,
+      "anchorY": 0.9395,
+      "label": "icon butcher hog alt",
+      "kind": "icons-gather-stock-carreta",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          452,
+          489,
+          405,
+          376
+        ],
+        "visiblePixels": 115592,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-gather-stock-carreta.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-gather-stock-carreta"
+    },
+    "icon-look-to-stock-alt": {
+      "sheet": "icons-gather-stock-carreta",
+      "x": 891,
+      "y": 553,
+      "w": 434,
+      "h": 310,
+      "anchorX": 0.4931,
+      "anchorY": 0.929,
+      "label": "icon look to stock alt",
+      "kind": "icons-gather-stock-carreta",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          893,
+          555,
+          430,
+          306
+        ],
+        "visiblePixels": 110464,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-gather-stock-carreta.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-gather-stock-carreta"
+    },
+    "icon-make-carreta": {
+      "sheet": "icons-gather-stock-carreta",
+      "x": 1339,
+      "y": 474,
+      "w": 424,
+      "h": 389,
+      "anchorX": 0.5295,
+      "anchorY": 0.928,
+      "label": "icon make carreta",
+      "kind": "icons-gather-stock-carreta",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1341,
+          476,
+          420,
+          385
+        ],
+        "visiblePixels": 116129,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/icons-gather-stock-carreta.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/icons-gather-stock-carreta"
+    },
     "rust-ride-e-1": {
       "sheet": "people-mounted-cast1-e",
       "x": 75,
@@ -25688,6 +26802,548 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/steamboat-laden"
+    },
+    "ox-packed-walk-e-1": {
+      "sheet": "ox-packed",
+      "x": 16,
+      "y": 63,
+      "w": 305,
+      "h": 225,
+      "anchorX": 0.4721,
+      "anchorY": 0.9467,
+      "label": "ox packed walk e 1",
+      "kind": "ox-packed",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          18,
+          65,
+          303,
+          221
+        ],
+        "visiblePixels": 39963,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-packed.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-packed-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-packed"
+    },
+    "ox-packed-walk-e-2": {
+      "sheet": "ox-packed",
+      "x": 321,
+      "y": 69,
+      "w": 304,
+      "h": 218,
+      "anchorX": 0.4309,
+      "anchorY": 0.9266,
+      "label": "ox packed walk e 2",
+      "kind": "ox-packed",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          322,
+          71,
+          301,
+          214
+        ],
+        "visiblePixels": 38087,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-packed.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-packed-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-packed"
+    },
+    "ox-packed-walk-e-3": {
+      "sheet": "ox-packed",
+      "x": 627,
+      "y": 67,
+      "w": 309,
+      "h": 220,
+      "anchorX": 0.4725,
+      "anchorY": 0.95,
+      "label": "ox packed walk e 3",
+      "kind": "ox-packed",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          629,
+          69,
+          306,
+          216
+        ],
+        "visiblePixels": 39076,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-packed.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-packed-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-packed"
+    },
+    "ox-packed-walk-e-4": {
+      "sheet": "ox-packed",
+      "x": 936,
+      "y": 69,
+      "w": 309,
+      "h": 218,
+      "anchorX": 0.4498,
+      "anchorY": 0.945,
+      "label": "ox packed walk e 4",
+      "kind": "ox-packed",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          938,
+          71,
+          305,
+          214
+        ],
+        "visiblePixels": 38018,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-packed.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-packed-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-packed"
+    },
+    "ox-packed-walk-s-1": {
+      "sheet": "ox-packed",
+      "x": 62,
+      "y": 348,
+      "w": 207,
+      "h": 270,
+      "anchorX": 0.4372,
+      "anchorY": 0.9296,
+      "label": "ox packed walk s 1",
+      "kind": "ox-packed",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          64,
+          350,
+          203,
+          266
+        ],
+        "visiblePixels": 31022,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-packed.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-packed-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-packed"
+    },
+    "ox-packed-walk-s-2": {
+      "sheet": "ox-packed",
+      "x": 373,
+      "y": 345,
+      "w": 206,
+      "h": 272,
+      "anchorX": 0.4078,
+      "anchorY": 0.9596,
+      "label": "ox packed walk s 2",
+      "kind": "ox-packed",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          375,
+          347,
+          202,
+          268
+        ],
+        "visiblePixels": 31655,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-packed.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-packed-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-packed"
+    },
+    "ox-packed-walk-s-3": {
+      "sheet": "ox-packed",
+      "x": 685,
+      "y": 346,
+      "w": 205,
+      "h": 270,
+      "anchorX": 0.6098,
+      "anchorY": 0.9593,
+      "label": "ox packed walk s 3",
+      "kind": "ox-packed",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          687,
+          348,
+          201,
+          266
+        ],
+        "visiblePixels": 31024,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-packed.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-packed-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-packed"
+    },
+    "ox-packed-walk-s-4": {
+      "sheet": "ox-packed",
+      "x": 1003,
+      "y": 344,
+      "w": 203,
+      "h": 271,
+      "anchorX": 0.4384,
+      "anchorY": 0.9557,
+      "label": "ox packed walk s 4",
+      "kind": "ox-packed",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1005,
+          346,
+          199,
+          267
+        ],
+        "visiblePixels": 30829,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-packed.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-packed-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-packed"
+    },
+    "ox-packed-walk-n-1": {
+      "sheet": "ox-packed",
+      "x": 55,
+      "y": 655,
+      "w": 214,
+      "h": 277,
+      "anchorX": 0.535,
+      "anchorY": 0.9278,
+      "label": "ox packed walk n 1",
+      "kind": "ox-packed",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          57,
+          657,
+          210,
+          273
+        ],
+        "visiblePixels": 30875,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-packed.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-packed-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-packed"
+    },
+    "ox-packed-walk-n-2": {
+      "sheet": "ox-packed",
+      "x": 372,
+      "y": 655,
+      "w": 207,
+      "h": 272,
+      "anchorX": 0.4348,
+      "anchorY": 0.9632,
+      "label": "ox packed walk n 2",
+      "kind": "ox-packed",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          374,
+          657,
+          203,
+          268
+        ],
+        "visiblePixels": 29414,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-packed.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-packed-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-packed"
+    },
+    "ox-packed-walk-n-3": {
+      "sheet": "ox-packed",
+      "x": 685,
+      "y": 657,
+      "w": 205,
+      "h": 274,
+      "anchorX": 0.5024,
+      "anchorY": 0.927,
+      "label": "ox packed walk n 3",
+      "kind": "ox-packed",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          687,
+          659,
+          201,
+          270
+        ],
+        "visiblePixels": 29288,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-packed.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-packed-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-packed"
+    },
+    "ox-packed-walk-n-4": {
+      "sheet": "ox-packed",
+      "x": 981,
+      "y": 656,
+      "w": 210,
+      "h": 275,
+      "anchorX": 0.5262,
+      "anchorY": 0.9345,
+      "label": "ox packed walk n 4",
+      "kind": "ox-packed",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          983,
+          658,
+          206,
+          271
+        ],
+        "visiblePixels": 30531,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-packed.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-packed-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-packed"
+    },
+    "ox-packed-idle-e": {
+      "sheet": "ox-packed",
+      "x": 18,
+      "y": 960,
+      "w": 310,
+      "h": 231,
+      "anchorX": 0.4097,
+      "anchorY": 0.9567,
+      "label": "ox packed idle e",
+      "kind": "ox-packed",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          20,
+          962,
+          306,
+          227
+        ],
+        "visiblePixels": 41457,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-packed.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "ox-packed-idle-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-packed"
+    },
+    "ox-packed-idle-s": {
+      "sheet": "ox-packed",
+      "x": 387,
+      "y": 953,
+      "w": 196,
+      "h": 249,
+      "anchorX": 0.4617,
+      "anchorY": 0.9518,
+      "label": "ox packed idle s",
+      "kind": "ox-packed",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          389,
+          955,
+          192,
+          245
+        ],
+        "visiblePixels": 28772,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-packed.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "ox-packed-idle-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-packed"
+    },
+    "ox-packed-idle-n": {
+      "sheet": "ox-packed",
+      "x": 683,
+      "y": 957,
+      "w": 190,
+      "h": 244,
+      "anchorX": 0.5211,
+      "anchorY": 0.9631,
+      "label": "ox packed idle n",
+      "kind": "ox-packed",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          685,
+          959,
+          186,
+          240
+        ],
+        "visiblePixels": 26887,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-packed.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "ox-packed-idle-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-packed"
+    },
+    "ox-packed-rest-e": {
+      "sheet": "ox-packed",
+      "x": 925,
+      "y": 965,
+      "w": 318,
+      "h": 228,
+      "anchorX": 0.4088,
+      "anchorY": 0.9386,
+      "label": "ox packed rest e",
+      "kind": "ox-packed",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          927,
+          967,
+          314,
+          224
+        ],
+        "visiblePixels": 42748,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-packed.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-packed"
     },
     "courier-dismount-1": {
       "sheet": "courier-dismount",
@@ -50618,6 +52274,78 @@
       "direction": "west",
       "recoilSign": -1
     },
+    "carreta-travel-e": {
+      "frames": [
+        {
+          "sprite": "carreta-travel-e-1",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-e-2",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-e-3",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-e-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "carreta-travel-s": {
+      "frames": [
+        {
+          "sprite": "carreta-travel-s-1",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-s-2",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-s-3",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-s-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "carreta-travel-n": {
+      "frames": [
+        {
+          "sprite": "carreta-travel-n-1",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-n-2",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-n-3",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-n-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "rust-woman-carry": {
       "frames": [
         {
@@ -53137,6 +54865,114 @@
       "authored": true,
       "motion": "rock",
       "direction": "east; west by mirroring"
+    },
+    "ox-packed-walk-e": {
+      "frames": [
+        {
+          "sprite": "ox-packed-walk-e-1",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-e-2",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-e-3",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-e-4",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "ox-packed-idle-e": {
+      "frames": [
+        {
+          "sprite": "ox-packed-idle-e",
+          "duration": 2700
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "ox-packed-walk-s": {
+      "frames": [
+        {
+          "sprite": "ox-packed-walk-s-1",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-s-2",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-s-3",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-s-4",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "ox-packed-idle-s": {
+      "frames": [
+        {
+          "sprite": "ox-packed-idle-s",
+          "duration": 2700
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "ox-packed-walk-n": {
+      "frames": [
+        {
+          "sprite": "ox-packed-walk-n-1",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-n-2",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-n-3",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-n-4",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "ox-packed-idle-n": {
+      "frames": [
+        {
+          "sprite": "ox-packed-idle-n",
+          "duration": 2700
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
     },
     "courier-dismount": {
       "frames": [
@@ -63143,7 +64979,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 86,
+    "sourceCount": 89,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

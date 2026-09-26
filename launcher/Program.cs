@@ -238,14 +238,75 @@ internal static class Program
             }
             case "check-updates":
             {
-                var release = await Updates.LatestAsync();
+                var release = await Updates.LatestAsync(api: ReleaseApi(args));
                 if (release is null) { Console.WriteLine("could not reach GitHub"); return 1; }
                 Console.WriteLine($"latest={release.Tag} installed={AppPaths.InstalledRelease ?? "(working copy)"} newer={Updates.IsNewerThanInstalled(release)?.ToString() ?? "(unknown)"}");
+                var (bytes, changes) = DeltaUpdate.Estimate(release, AppPaths.InstalledRelease, DeltaUpdate.LauncherId);
+                Console.WriteLine($"download={bytes} changesOnly={changes} launcherId={DeltaUpdate.LauncherId ?? "(none)"}");
                 return 0;
             }
+            case "update":
+            {
+                // What the Update button does, without the window: ask for the latest release, take
+                // only its changes if that can be done and the whole of it if not, and swap it in.
+                // `--release-api <url>` asks somewhere other than GitHub, which is how the small
+                // update and every way it falls back are proved against a local server
+                // (scripts/verify-delta-update.ps1) without publishing anything.
+                var release = await Updates.LatestAsync(api: ReleaseApi(args));
+                if (release is null) { Console.WriteLine("could not reach the release server"); return 1; }
+                switch (Updates.IsNewerThanInstalled(release))
+                {
+                    case null: Console.WriteLine("refused: this is a working copy, not an installed release"); return 2;
+                    case false: Console.WriteLine($"up to date release={release.Tag}"); return 0;
+                }
+                if ((await server.StatusAsync()).Running || await server.SoloRunningAsync())
+                {
+                    Console.WriteLine("refused: stop the class (and Play Solo) first");
+                    return 3;
+                }
+                string? last = null;
+                // Written as it happens: a Progress<T> with no window posts to the thread pool, and the
+                // lines would arrive after the result they led up to.
+                var progress = new InlineProgress<(int Percent, string What)>(step =>
+                {
+                    // Each kind of message once, not every percent of it.
+                    var kind = new string(step.What.TakeWhile(ch => !char.IsDigit(ch)).ToArray());
+                    if (kind != last) { last = kind; Console.WriteLine($"  {step.What}"); }
+                });
+                try
+                {
+                    var staged = await new Updater().StageAsync(release, progress, CancellationToken.None);
+                    Console.WriteLine($"staged release={UpdateSwap.ReleaseOf(staged.Payload) ?? "(none)"} mode={(staged.ChangesOnly ? "changes" : "whole")} downloaded={staged.Downloaded} files={staged.ChangedFiles}"
+                                      + (staged.WhyWhole is null ? "" : $" because=\"{staged.WhyWhole}\""));
+                    Updater.Install(staged.Payload, progress);
+                    Console.WriteLine($"installed release={AppPaths.InstalledRelease ?? "(none)"}");
+                    if (!args.Contains("--no-restart", StringComparer.OrdinalIgnoreCase)) Updater.Restart();
+                    return 0;
+                }
+                catch (Exception error)
+                {
+                    Console.WriteLine($"update failed, previous version kept: {error.Message}");
+                    return 1;
+                }
+            }
             default:
-                Console.Error.WriteLine("Use --status, --start, --stop, --solo, --stop-solo, --check-updates, --install-update <file> or --uninstall, or open it with no arguments for the window. A setup copy also takes --install [folder] [--desktop] and --extract [folder].");
+                Console.Error.WriteLine("Use --status, --start, --stop, --solo, --stop-solo, --check-updates, --update [--no-restart], --install-update <file> or --uninstall, or open it with no arguments for the window. A setup copy also takes --install [folder] [--desktop] and --extract [folder].");
                 return 2;
         }
+    }
+
+    private sealed class InlineProgress<T> : IProgress<T>
+    {
+        private readonly Action<T> _report;
+        private readonly object _gate = new();
+        public InlineProgress(Action<T> report) => _report = report;
+        public void Report(T value) { lock (_gate) _report(value); }
+    }
+
+    /// <summary>`--release-api &lt;url&gt;`: an http(s) address to ask instead of GitHub, or null.</summary>
+    private static string? ReleaseApi(string[] args)
+    {
+        var value = args.SkipWhile(arg => !arg.TrimStart('-', '/').Equals("release-api", StringComparison.OrdinalIgnoreCase)).Skip(1).FirstOrDefault();
+        return Uri.TryCreate(value, UriKind.Absolute, out var uri) && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps) ? uri.ToString() : null;
     }
 }

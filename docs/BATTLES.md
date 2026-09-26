@@ -117,6 +117,56 @@ built):
 
 Every other question in `docs/battle-research/staging.md` takes its recommended answer.
 
+## 2c. Famous people — decided by the owner, 2026-09-26
+
+Asked after `docs/battle-research/famous-people.md` found that no famous person is a person in the game. Owner: "famous
+npc's: have we taken the time to ensure they do what they're supposed to? they should be labelled, saying and doing the
+things that they likely would have, dying the way they should (Travis, Bowie, Crocett come to mind as an example)."
+Then, by multiple choice:
+
+1. **Crockett, as de la Peña tells it.** He fights through the dawn assault; after it ends, about 6:30, he is among the
+   handful of men found alive and brought before Santa Anna in front of the Alamo, who orders them killed; officers kill
+   them with swords, drawn without gore. Labelled as one account and disputed, with the killed-fighting account (Joe,
+   Susanna Dickinson, Ruiz) named on screen too, and the dispute over the de la Peña narrative's authenticity stated. (The
+   owner first described him fighting all night, captured the next morning and shot by a firing squad while Santa Anna
+   ate breakfast; told that no source supports the night, the firing squad or the breakfast, the owner chose de la Peña.)
+2. **Names on the map, no cards.** Famous people are drawn with their names; nothing is tapped for a "who was this" card.
+   What a student learns of them comes from what they do and say, the captions and the accounts afterwards.
+3. **Joe is named, and his actions are carefully recreated** from his own testimony (reviewed sources only; his humanity
+   and constrained choices intact — `docs/MILITARY_EXPERIENCE.md`): with Travis at the north wall, back to the quarters
+   after Travis fell, firing from there, found and spared, brought before Santa Anna, and sent to Gonzales with Susanna
+   Dickinson. No text may say "every man was killed" without Joe.
+4. **Famous words nobody wrote down at the time are spoken, labelled tradition** — Travis's line in the sand, Houston's
+   "Hold your fire", Santa Anna as "the Napoleon of the West" and the like are said on the field in a dashed bubble with a
+   gloss saying they were told later, as "Come and take it!" is at Gonzales (§2b.6). They are never shown as documented.
+
+5. **The Twin Sisters are treated the same way** (owner, 2026-09-26: "Treat the Twin Sisters in a similar fashion."). The
+   two cannon sent by the people of Cincinnati are named on the map and followed as famous things across their dated
+   itinerary, from their arrival with Houston's army in April 1836 to the skirmish of April 20 and the battle of April 21,
+   served by their documented crews and commanders (Neill until he was wounded on the 20th; Hockley and McCulloch on the
+   21st — to be checked), firing when and from where the record puts them. What is documented is shown as documented;
+   the stories told later (their naming for the Rice twins, the load of broken horseshoes, where they went and where they
+   are buried) are spoken or captioned as `tradition`, never as the record.
+
+6. **Emily West is included** (owner, 2026-09-26: "include Emily West"). A free woman of color from New York who came to
+   Texas in 1835 under a contract to work for James Morgan at New Washington; taken by the Mexican army when Santa Anna
+   burned New Washington on April 16, 1836, and in the Mexican camp at San Jacinto; she applied for a passport to go home
+   to New York in 1837 (to be checked against sources before shown). Named on the map and followed along that itinerary
+   like the others. The "Yellow Rose of Texas" story — that she kept Santa Anna occupied in his tent when the Texians
+   attacked — rests on one hearsay note written years later (Bollaert, 1842) and is widely doubted: it is shown only as
+   `tradition`, in plain words fit for a middle-school class, never as the record and never sexualized. Her dignity and
+   her constrained choices are kept as `VISION.md` §15 asks; she is a person with her own story, not a device of the
+   battle. **How the tradition is staged** (owner, 2026-09-26, by multiple choice, after being told the concern that she
+   was a captive and flirting can read as her choosing her captor): on the afternoon of April 21, a picnic laid out in
+   Santa Anna's tent area, and she flirts with him — kept light and non-physical: talk, laughter, a meal served — so he is
+   there when the attack comes. Captioned as a story told later, with the dashed `tradition` edge; the caption also says
+   she had been taken by his army at New Washington five days before.
+
+Every other question in `docs/battle-research/famous-people.md` takes its recommended answer (about fifteen people carried
+across events on a dated itinerary; named deaths drawn without gore; killings after surrender other than Crockett's told,
+not drawn; Bowie in his south-side room, lying still when that barrack falls, the manner marked disputed; famous people
+on the campaign map under the normal sight rules).
+
 ## 3. The shared contract (what every engagement is built on)
 
 - **`sim/battle-stage.mjs`** — the one engine. An engagement is data (`sim/battles/<id>.mjs`): its site, its start

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1183 usable sprites, 86 PNG atlases, 450 clips** (227 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1223 usable sprites, 89 PNG atlases, 459 clips** (233 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -17,6 +17,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | biome-ground-bexar | 16 | 1254 × 1254 | 2215982 |
 | biome-trees-fields | 16 | 1254 × 1254 | 1966285 |
 | cannon-cartwheels | 4 | 1254 × 1254 | 1420895 |
+| carreta-solid-wheels | 16 | 1254 × 1254 | 1525356 |
 | cart-open | 4 | 1254 × 1254 | 1049202 |
 | people-cast2-carry | 12 | 1254 × 1254 | 1294419 |
 | people-cast2-dialogue | 16 | 1254 × 1254 | 867662 |
@@ -39,6 +40,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icons-family-subsistence | 8 | 1774 × 887 | 2248974 |
 | flag-come-and-take-it | 4 | 1254 × 1254 | 1140674 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
+| icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
 | people-mounted-cast1-e | 16 | 1254 × 1254 | 1086305 |
 | people-mounted-cast1-s | 16 | 1254 × 1254 | 1213409 |
 | people-mounted-cast1-n | 16 | 1254 × 1254 | 1283689 |
@@ -48,6 +50,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | wildlife-mustang | 16 | 1254 × 1254 | 1311610 |
 | steamboat-steam | 4 | 1254 × 1254 | 1044017 |
 | steamboat-laden | 4 | 1254 × 1254 | 1151494 |
+| ox-packed | 16 | 1254 × 1254 | 1531260 |
 | courier-dismount | 16 | 1254 × 1254 | 1219584 |
 | courier-encounters-vertical | 16 | 1254 × 1254 | 1034014 |
 | people-dialogue | 16 | 1254 × 1254 | 1237850 |
@@ -160,6 +163,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | cannon-cartwheels-recoil-e | cannon-cartwheels | cannon-cartwheels-e-recoil |
 | cannon-cartwheels-w | cannon-cartwheels | cannon-cartwheels-w-recoil |
 | cannon-cartwheels-recoil-w | cannon-cartwheels | cannon-cartwheels-w-recoil |
+| carreta-travel-e-1 | carreta-solid-wheels | carreta-travel-e |
+| carreta-travel-e-2 | carreta-solid-wheels | carreta-travel-e |
+| carreta-travel-e-3 | carreta-solid-wheels | carreta-travel-e |
+| carreta-travel-e-4 | carreta-solid-wheels | carreta-travel-e |
+| carreta-travel-s-1 | carreta-solid-wheels | carreta-travel-s |
+| carreta-travel-s-2 | carreta-solid-wheels | carreta-travel-s |
+| carreta-travel-s-3 | carreta-solid-wheels | carreta-travel-s |
+| carreta-travel-s-4 | carreta-solid-wheels | carreta-travel-s |
+| carreta-travel-n-1 | carreta-solid-wheels | carreta-travel-n |
+| carreta-travel-n-2 | carreta-solid-wheels | carreta-travel-n |
+| carreta-travel-n-3 | carreta-solid-wheels | carreta-travel-n |
+| carreta-travel-n-4 | carreta-solid-wheels | carreta-travel-n |
+| carreta-idle-e | carreta-solid-wheels | State artwork; no motion required |
+| carreta-idle-s | carreta-solid-wheels | State artwork; no motion required |
+| carreta-idle-n | carreta-solid-wheels | State artwork; no motion required |
+| carreta-loaded-e | carreta-solid-wheels | State artwork; no motion required |
 | cart-open-e | cart-open | State artwork; no motion required |
 | cart-open-e-variant | cart-open | State artwork; no motion required |
 | cart-open-s | cart-open | State artwork; no motion required |
@@ -451,6 +470,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | house-chimney-stick | house-modules | State artwork; no motion required |
 | house-chimney-stone | house-modules | State artwork; no motion required |
 | house-floor-loft | house-modules | State artwork; no motion required |
+| icon-take-small-game-alt | icons-gather-stock-carreta | State artwork; no motion required |
+| icon-fish-the-water-alt | icons-gather-stock-carreta | State artwork; no motion required |
+| icon-gather-oysters-alt | icons-gather-stock-carreta | State artwork; no motion required |
+| icon-cut-bee-tree-alt | icons-gather-stock-carreta | State artwork; no motion required |
+| icon-butcher-beef-alt | icons-gather-stock-carreta | State artwork; no motion required |
+| icon-butcher-hog-alt | icons-gather-stock-carreta | State artwork; no motion required |
+| icon-look-to-stock-alt | icons-gather-stock-carreta | State artwork; no motion required |
+| icon-make-carreta | icons-gather-stock-carreta | State artwork; no motion required |
 | rust-ride-e-1 | people-mounted-cast1-e | rust-ride-e |
 | rust-ride-e-2 | people-mounted-cast1-e | rust-ride-e |
 | rust-ride-e-3 | people-mounted-cast1-e | rust-ride-e |
@@ -571,6 +598,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-laden-2 | steamboat-laden | steamboat-laden |
 | steamboat-laden-3 | steamboat-laden | steamboat-laden |
 | steamboat-laden-4 | steamboat-laden | steamboat-laden |
+| ox-packed-walk-e-1 | ox-packed | ox-packed-walk-e |
+| ox-packed-walk-e-2 | ox-packed | ox-packed-walk-e |
+| ox-packed-walk-e-3 | ox-packed | ox-packed-walk-e |
+| ox-packed-walk-e-4 | ox-packed | ox-packed-walk-e |
+| ox-packed-walk-s-1 | ox-packed | ox-packed-walk-s |
+| ox-packed-walk-s-2 | ox-packed | ox-packed-walk-s |
+| ox-packed-walk-s-3 | ox-packed | ox-packed-walk-s |
+| ox-packed-walk-s-4 | ox-packed | ox-packed-walk-s |
+| ox-packed-walk-n-1 | ox-packed | ox-packed-walk-n |
+| ox-packed-walk-n-2 | ox-packed | ox-packed-walk-n |
+| ox-packed-walk-n-3 | ox-packed | ox-packed-walk-n |
+| ox-packed-walk-n-4 | ox-packed | ox-packed-walk-n |
+| ox-packed-idle-e | ox-packed | ox-packed-idle-e |
+| ox-packed-idle-s | ox-packed | ox-packed-idle-s |
+| ox-packed-idle-n | ox-packed | ox-packed-idle-n |
+| ox-packed-rest-e | ox-packed | State artwork; no motion required |
 | courier-dismount-1 | courier-dismount | courier-dismount |
 | courier-dismount-2 | courier-dismount | courier-dismount |
 | courier-dismount-3 | courier-dismount | courier-dismount |
@@ -1314,6 +1357,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | beech-large-wind | sway | 1 | 3800 | yes | not applicable |
 | cannon-cartwheels-e-recoil | Pose cycle | 3 | 760 | one-shot | east |
 | cannon-cartwheels-w-recoil | Pose cycle | 3 | 760 | one-shot | west |
+| carreta-travel-e | Pose cycle | 4 | 980 | yes | east; west by mirroring |
+| carreta-travel-s | Pose cycle | 4 | 980 | yes | south |
+| carreta-travel-n | Pose cycle | 4 | 980 | yes | north |
 | rust-woman-carry | Pose cycle | 4 | 760 | yes | east; west by mirroring |
 | indigo-carry | Pose cycle | 4 | 760 | yes | east; west by mirroring |
 | ochre-carry | Pose cycle | 4 | 760 | yes | east; west by mirroring |
@@ -1464,6 +1510,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | mustang-gallop | Pose cycle | 8 | 1080 | yes | east; west by mirroring |
 | steamboat-steam | Pose cycle | 4 | 1320 | yes | east; west by mirroring |
 | steamboat-laden | Pose cycle | 4 | 1440 | yes | east; west by mirroring |
+| ox-packed-walk-e | Pose cycle | 4 | 960 | yes | east |
+| ox-packed-idle-e | breathe | 1 | 2700 | yes | east |
+| ox-packed-walk-s | Pose cycle | 4 | 960 | yes | south |
+| ox-packed-idle-s | breathe | 1 | 2700 | yes | south |
+| ox-packed-walk-n | Pose cycle | 4 | 960 | yes | north |
+| ox-packed-idle-n | breathe | 1 | 2700 | yes | north |
 | courier-dismount | Pose cycle | 4 | 2050 | one-shot | east; west by mirroring |
 | courier-remount | Pose cycle | 4 | 2050 | one-shot | east; west by mirroring |
 | courier-onfoot-listen | Pose cycle | 3 | 2050 | yes | east; west by mirroring |

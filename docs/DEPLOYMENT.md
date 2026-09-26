@@ -293,7 +293,8 @@ is printed with it. `npm run test:solo` is the browser proof; `tests/solo.test.m
 
 ## Updating, launcher included
 
-Updating downloads the release's **setup program**, runs it with `--extract` into a staging
+From 2026-09-26 an update downloads only what changed when it can (*Only what changed*, below).
+Otherwise updating downloads the release's **setup program**, runs it with `--extract` into a staging
 folder, checks that what it unpacked is a Texas Revolution build stamped with the release's own
 tag, and only then replaces the installation (`launcher/Updater.cs`, `launcher/UpdateSwap.cs`).
 An interrupted download, a setup that will not run, or a build stamped with some other tag leaves
@@ -327,26 +328,112 @@ game and keep the old launcher - without Solo Mode and without the self-update. 
 the last one that needs `TexasRevolutionSetup.exe` run over the top; from then on the launcher
 updates itself.
 
-**Publishing a release that installed launchers will take.** The launcher asks GitHub for the
-latest release, compares its tag with the installed `release.txt`, and downloads the release's
-`TexasRevolutionSetup.exe`, or failing that its `.zip` whose name does **not** contain `NeedsNode`
-(`launcher/Updates.cs`). So a release needs:
+### Only what changed — 2026-09-26
 
-1. `scripts/package.ps1 -Stamp yyyy-MM-dd -Tag vyyyy.MM.dd -Destination <existing folder>` — the
-   tag passed here is what gets stamped into `release.txt`, so it must equal the release tag; an
-   updating launcher now refuses a build whose stamp differs.
-2. All three outputs attached: `TexasRevolutionSetup.exe` (what updates the launcher and the game),
-   `TexasRevolution-Gonzales-<stamp>.zip` (the update archive older launchers take) and the
-   `-NeedsNode.zip`.
+Owner: *"currently the entirr game is downloaded again for every update. why not just download
+what's new?"* From this release an update first downloads only what changed
+(`launcher/DeltaUpdate.cs`, `launcher/Updater.cs`), and the whole setup program is the fallback.
+
+- **What a release carries for it.** `scripts/package.ps1` hashes every file it ships and writes
+  the list - path, size and SHA-256 of each, the release tag, the list `format` (the oldest
+  updater that can read it) and the **launcher id**, a SHA-256 over the launcher's own sources,
+  which is also stamped into the setup program (`-p:LauncherId`) - into the package as
+  `release-manifest.json` and beside the downloads as `TexasRevolution-manifest.json` (the same
+  bytes; about 42 KB for 294 files). It also makes one **set of changes**,
+  `TexasRevolution-Changes-From-<tag>.patch`, from each of the last 20 published releases that
+  had the same launcher: a zip of the files whose hash differs from that release's list. The
+  earlier lists are fetched read-only with `gh release download` (or taken from
+  `-BaseManifests <folder>`). Sets are made newest first and stop when together they would
+  outweigh the update archive. `scripts/release-changes.ps1` does all of this.
+- **What the launcher does.** It asks for the latest release as before. If the release has a
+  list and a set of changes from the installed tag, it downloads the list, refuses it if it is
+  for another release, in a newer format, or for a different launcher, then copies every
+  installed file that already hashes as listed into staging, downloads the one set of changes,
+  takes out of it only the files still needed, hashes each against the list, checks that staging
+  holds exactly the listed files, and swaps the result in through the same swap and rollback as
+  before. The staged build is byte for byte what the setup program would have unpacked. It keeps
+  the running launcher, which is why a set is only ever made between releases with the same
+  launcher id.
+- **The whole download is the fallback**, with the reason said in one line: no list (every
+  release before this one), no set of changes from the installed release (more than 20 releases
+  behind, or past the budget), a changed launcher, a list for a newer launcher, a file that does
+  not hash as listed, a set of changes cut off or damaged, a launcher nobody packaged (a working
+  copy). A first install is the setup program as always.
+- **What the teacher sees.** The check says *"Only what changed is downloaded: about 45 KB"* or
+  *"(247 MB to download)"*; the confirmation says the same; the progress line reads
+  *"Downloading 3 KB of changes (3 files)…"*, then *"Downloaded 45 KB instead of the whole game."*
+  When it falls back: *"Downloading the whole game (247 MB), because that release brings a new
+  launcher."*
+- **What is preserved.** `data` (saves, class records, Solo games) is never in a list and a list
+  that names it, the launcher, the emblem or the update's own backup is refused. A top-level file
+  the installed build's own list shipped and the new build does not is moved into the backup
+  with everything replaced, so the result is a fresh install of the new build plus `data`, and a
+  rollback restores it; this applies to the whole download too.
+- **Hosting, and why.** Release assets on the same GitHub release, because they come from the
+  same address a school's filter already lets through for the full download
+  (`github.com/.../releases/download/...`), need no service, and cost two small assets and up to
+  twenty sets per release against GitHub's limit of 1,000 assets. A store of individual files
+  was not chosen: the package is about 294 files, which would be hundreds of assets per release,
+  and `raw.githubusercontent.com` - often filtered in schools - serves only files in the
+  repository, while `runtime/node.exe` is not in it. Neither new asset ends in `.zip`: a launcher
+  from before 2026-09-16 takes the release's first `.zip` without `NeedsNode` as the game.
+
+Measured on this computer (`scripts/verify-delta-update.ps1`, [evidence](evidence/launcher-delta-update.json)):
+two consecutive packages built by `package.ps1`, served from 127.0.0.1 in the shape of the GitHub
+release API, an installed launcher updated with `--update --release-api`: **45,119 bytes**
+downloaded (the 42,579-byte list and a 2,540-byte set of three files) instead of the
+**259,169,530-byte** setup program, the installed tree then byte for byte a fresh install of the
+new build, the save untouched and a removed file gone; a tampered set, a set cut off half way, a
+release without a set from the installed one and a release without a list each took the whole
+setup program and ended byte for byte a fresh install; the whole download cut off half way left
+the old installation exactly as it was; and the launcher of v2026.09.26.1 took the new release
+through its own path. The real releases of 2026-09-25 changed 5 to 35 files each: sets of changes
+of **180 KB to 5 MB** against a 167-171 MB archive and a 247-259 MB setup program; four days of
+releases (v2026.09.22.1 to v2026.09.26.1) add up to 99 files, 8.3 MB. Logic: `tests/launcher`
+(20 tests, `dotnet run --project tests/launcher`), each seen failing under
+`scripts/launcher-delta-injections.ps1` ([evidence](evidence/launcher-delta-injections.json)).
+Not proved: a real GitHub release, a school network, a filtering proxy.
+
+**Launchers already in the field** (v2026.09.16 to v2026.09.26.1) ignore the two new assets and
+take the next release as they always have, by downloading `TexasRevolutionSetup.exe`; that
+brings them this launcher, and the release after it is the first they can take as changes.
+Launchers from before 2026-09-16 take the update archive, which is unchanged.
+
+ceiling: an interrupted download starts again rather than resuming; the unchanged files are
+copied twice on the local disk (into staging, then by the swap); after a small update the
+installed launcher, carried on a memory stick, installs the older game it was built with and
+then offers the update; sets of changes reach back only 20 releases or one archive's worth of
+upload. Each is marked in `launcher/Updater.cs`, `launcher/DeltaUpdate.cs` or
+`scripts/release-changes.ps1` with what would justify more.
+
+**Publishing a release that installed launchers will take.** The launcher asks GitHub for the
+latest release, compares its tag with the installed `release.txt`, and downloads its list and
+set of changes when it can; otherwise the release's `TexasRevolutionSetup.exe`, or failing that
+its `.zip` whose name does **not** contain `NeedsNode` (`launcher/Updates.cs`). So a release needs:
+
+1. `scripts/package.ps1 -Stamp <yyyy.mm.dd.n> -Tag v<yyyy.mm.dd.n> -Destination <existing folder>`,
+   run where `gh` is signed in (it only reads the earlier releases' lists) — the tag passed here
+   is what gets stamped into `release.txt` and the list, so it must equal the release tag; an
+   updating launcher refuses a build or a list whose stamp differs.
+2. Every output attached: `TexasRevolutionSetup.exe` (what updates the launcher, and the fallback),
+   `TexasRevolution-Gonzales-<stamp>.zip` (the update archive older launchers take), the
+   `-NeedsNode.zip`, and everything in `changes-<stamp>\` (`TexasRevolution-manifest.json` and the
+   `TexasRevolution-Changes-From-<tag>.patch` sets). From the destination folder:
+
+   ```powershell
+   $s = '<yyyy.mm.dd.n>'
+   $assets = @('TexasRevolutionSetup.exe', "TexasRevolution-Gonzales-$s.zip", "TexasRevolution-Gonzales-$s-NeedsNode.zip") + @(Get-ChildItem "changes-$s" -File | ForEach-Object FullName)
+   gh release create "v$s" @assets -R AceSpartiate/texas-civilization --target main --title "..." --notes-file notes.md --latest
+   ```
+
+   `package.ps1` prints this command with the stamp filled in. A release without the
+   `changes-<stamp>` files still works - every launcher takes the whole download - and the next
+   release has no list to make a set of changes from.
 3. The release marked latest. Only the latest release is ever offered.
 
-A release without the update archive is invisible to every launcher installed before this change:
+A release without the update archive is invisible to every launcher installed before 2026-09-16:
 the check reports a newer release and then "That release has no downloadable build attached." The
 release of 2026-09-11 went out exactly that way; v2026.09.12 was the first to carry it.
-
-ceiling: an update downloads the whole setup program (about 136 MB) rather than only what changed.
-A delta, or a separate launcher asset, is the way out if release sizes or school bandwidth make
-that hurt.
 
 ## A package that came from the Internet
 

@@ -6,6 +6,8 @@ Start with the complete [ART_MANIFEST.md](ART_MANIFEST.md) or machine-readable [
 
 ## What is delivered
 
+The September 26 batch adds `ox-packed.png` (cardinal four-frame pack-ox walks plus idle views), `carreta-solid-wheels.png` (cardinal four-frame solid-wheel travel, empty parked views and loaded east), and `icons-gather-stock-carreta.png` (the new `icon-make-carreta` plus seven alternate gathering and stock views). The renderer selects the packed ox for foot-travelling families, the carreta for homemade cart vehicles, and the open-cart views for poor starting carts. The family panel now selects its existing gathering and stock art in `icons-family-subsistence.png` and the new carreta icon, instead of code-drawn glyphs. The poorer cart still needs genuine rolling-wheel frames and loaded art; the carreta still needs a loaded travel variant. The complete frame and clip inventory is generated in `ART_MANIFEST.md` and `public/assets/frontier-v1/manifest.json`.
+
 The September 25 art batch adds `cannon-cartwheels.png` (four east/west rest and recoil
 frames, with two authored recoil clips), `flag-come-and-take-it.png` (still plus three
 light-wind poses and a loop), and `cart-open.png` (east, south and north open cart views

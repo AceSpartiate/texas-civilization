@@ -336,6 +336,78 @@
       "direction": "west",
       "recoilSign": -1
     },
+    "carreta-travel-e": {
+      "frames": [
+        {
+          "sprite": "carreta-travel-e-1",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-e-2",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-e-3",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-e-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "carreta-travel-s": {
+      "frames": [
+        {
+          "sprite": "carreta-travel-s-1",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-s-2",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-s-3",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-s-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "carreta-travel-n": {
+      "frames": [
+        {
+          "sprite": "carreta-travel-n-1",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-n-2",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-n-3",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-travel-n-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "rust-woman-carry": {
       "frames": [
         {
@@ -2855,6 +2927,114 @@
       "authored": true,
       "motion": "rock",
       "direction": "east; west by mirroring"
+    },
+    "ox-packed-walk-e": {
+      "frames": [
+        {
+          "sprite": "ox-packed-walk-e-1",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-e-2",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-e-3",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-e-4",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "ox-packed-idle-e": {
+      "frames": [
+        {
+          "sprite": "ox-packed-idle-e",
+          "duration": 2700
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "ox-packed-walk-s": {
+      "frames": [
+        {
+          "sprite": "ox-packed-walk-s-1",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-s-2",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-s-3",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-s-4",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "ox-packed-idle-s": {
+      "frames": [
+        {
+          "sprite": "ox-packed-idle-s",
+          "duration": 2700
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "ox-packed-walk-n": {
+      "frames": [
+        {
+          "sprite": "ox-packed-walk-n-1",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-n-2",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-n-3",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-packed-walk-n-4",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "ox-packed-idle-n": {
+      "frames": [
+        {
+          "sprite": "ox-packed-idle-n",
+          "duration": 2700
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
     },
     "courier-dismount": {
       "frames": [
