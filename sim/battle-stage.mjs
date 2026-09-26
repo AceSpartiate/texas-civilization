@@ -349,6 +349,7 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, mem
     step: phase.step || null, sides,
     lines: state.over ? [] : linesSaid(state, world.minute),
     commands: def.commands || null,
+    ...(def.smokeScale && { smokeScale: def.smokeScale }),
     fallen: fallenBy(state, world.minute),
     members: [...members],
     ...(def.noFalling && { noFalling: def.noFalling }),

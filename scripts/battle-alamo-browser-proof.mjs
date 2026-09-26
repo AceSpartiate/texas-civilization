@@ -227,13 +227,17 @@ try {
   await shot(inside, 'word');
 
   assert.deepEqual(errors, [], `a page threw: ${errors.join(' | ')}`);
+  evidence.verdict = 'PASS';
+  console.log(`\n${pass.length} checks passed. Wrote docs/evidence/battle-alamo-browser.json`);
+} catch (error) {
+  evidence.verdict = 'FAIL'; evidence.failure = error.message;
+  throw error;
+} finally {
   mkdirSync('docs/evidence', { recursive: true });
-  writeFileSync('docs/evidence/battle-alamo-browser.json', `${JSON.stringify({
+  writeFileSync(evidence.verdict === 'PASS' ? 'docs/evidence/battle-alamo-browser.json' : 'test-results/battle-alamo-browser-failed.json', `${JSON.stringify({
     record: 'battle-alamo-browser', date: new Date().toISOString().slice(0, 10), browser: await browser.version(),
-    environment: `Same computer: a local classroom server and headless Chrome at 1366x768 and 1024x768, served at 300 ms a tick. A real class on the colonies map with rolled families, played in process through the first period and into the winter; hh-1's father set in the garrison at Béxar in process; hh-2 kept from Béxar. Not physical LAN or district acceptance.`,
+    environment: 'Same computer: a local classroom server and headless Chrome at 1366x768 and 1024x768, served at 300 ms a tick. A real class on the colonies map with rolled families, played in process through the first period and into the winter; the father of hh-1 set in the garrison at Béxar in process; hh-2 kept from Béxar. Not physical LAN or district acceptance.',
     checks: pass, ...evidence,
   }, null, 2)}\n`);
-  console.log(`\n${pass.length} checks passed. Wrote docs/evidence/battle-alamo-browser.json`);
-} finally {
   await browser.close(); await app.close(); rmSync(directory, { recursive: true, force: true });
 }

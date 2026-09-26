@@ -66,8 +66,9 @@ export const ALAMO_FEET = Object.freeze({
   // What the camera takes in: the siege with its batteries; the assault with its columns; the north wall close; the plaza.
   'frame-siege-a': [-950, -1150], 'frame-siege-b': [1150, 1500],
   'frame-assault-a': [-700, -900], 'frame-assault-b': [1100, 1250],
-  'frame-north-a': [-450, -520], 'frame-north-b': [650, 420],
-  'frame-plaza-a': [-300, -150], 'frame-plaza-b': [700, 700],
+  'frame-close-a': [-520, -620], 'frame-close-b': [820, 820],
+  'frame-north-a': [-320, -380], 'frame-north-b': [700, 700],
+  'frame-plaza-a': [-180, -120], 'frame-plaza-b': [620, 660],
   'frame-relief-a': [-200, -300], 'frame-relief-b': [3400, 800],
   'frame-arrival-a': [-4300, -600], 'frame-arrival-b': [700, 1300],
 });
@@ -176,6 +177,9 @@ export const ALAMO = Object.freeze({
   outcome: 'The Alamo is stormed at dawn on March 6 and every man who fought is killed; the women and children and Joe are spared.',
   held: name => `${name} is inside the Alamo with the garrison.`,
   involved: alamoInvolved,
+  // The compound is a few figures wide at the map's symbol scale: its smoke is drawn a third the size of a field battle's, so
+  // a gun's bank covers a wall and not the whole fort (public/battle-view.js `smokeScale`).
+  smokeScale: 0.35,
   sides: {
     // 189 on the official list, 182-257 by the estimates (`HIST-TEX-058`); about 156 fit to fight and 14 sick at the start.
     texian: { name: 'The garrison', count: 189, drawn: 31, claimId: 'HIST-TEX-058' },
@@ -385,7 +389,7 @@ export const ALAMO = Object.freeze({
     {
       // 05:30-05:36. "¡Viva Santa Anna!" and the bugles; Travis to the north battery (`HIST-TEX-501`, `-502`). contact: the
       // fighting a family's person is in, at his post.
-      id: 'alarm', minutes: 6, step: 2, contact: true, title: 'The alarm', claimId: 'HIST-TEX-501', light: 0.82, frame: ['frame-assault-a', 'frame-assault-b'],
+      id: 'alarm', minutes: 6, step: 2, contact: true, title: 'The alarm', claimId: 'HIST-TEX-501', light: 0.82, frame: ['frame-close-a', 'frame-close-b'],
       caption: 'The silence breaks: shouts of “¡Viva Santa Anna!”, and the bugles sounding the attack. The defenders wake and run to the walls. Travis runs to the north battery.',
       texian: { style: 'wall', at: 'plaza', fire: 'scattered', groups: walls('scattered') },
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [
@@ -406,7 +410,7 @@ export const ALAMO = Object.freeze({
     },
     {
       // 05:36-05:52. Canister; the columns halt, re-form, come on and merge at the north wall; Travis killed (`HIST-TEX-501`, `-502`).
-      id: 'repulse', minutes: 16, step: 2, contact: true, title: 'Canister', claimId: 'HIST-TEX-501', light: 0.74, frame: ['frame-assault-a', 'frame-assault-b'],
+      id: 'repulse', minutes: 16, step: 2, contact: true, title: 'Canister', claimId: 'HIST-TEX-501', light: 0.74, frame: ['frame-close-a', 'frame-close-b'],
       caption: 'The defenders’ cannon fire canister into the columns and the riflemen fire from the walls. The columns halt, re-form and come on again. Cos’s column swings round from the west and Romero’s is driven round from the east, until they are one crowd at the foot of the north wall. Travis is killed at the north battery, among the first.',
       texian: { style: 'wall', at: 'plaza', fire: 'scattered', groups: walls('scattered') },
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [
@@ -436,7 +440,7 @@ export const ALAMO = Object.freeze({
     },
     {
       // 05:52-06:04. Over the north wall; the south-west battery taken; the walls left (`HIST-TEX-501`).
-      id: 'north-wall', minutes: 12, step: 2, contact: true, title: 'Over the north wall', claimId: 'HIST-TEX-501', light: 0.62, frame: ['frame-assault-a', 'frame-assault-b'],
+      id: 'north-wall', minutes: 12, step: 2, contact: true, title: 'Over the north wall', claimId: 'HIST-TEX-501', light: 0.62, frame: ['frame-north-a', 'frame-north-b'],
       caption: 'The Mexican soldiers go up the ladders and the rough face of the north wall and over it. In the south, Morales’s men take the south-west battery. The defenders leave the walls.',
       texian: { style: 'wall', at: 'plaza', fire: 'scattered', groups: [
         { id: 'north', name: 'The north wall', style: 'wall', at: 'north-wall', face: 'north-out', drawn: 7, fire: 'scattered', spread: { width: 0.034, depth: 0.004 } },
@@ -469,7 +473,7 @@ export const ALAMO = Object.freeze({
     {
       // 06:04-06:16. Into the long barrack and the church; the captured guns turned on the doors; the runners and the lancers
       // (`HIST-TEX-501`, `-436`). The runners are seen going and the lancers riding at them; nobody is seen struck.
-      id: 'fallback', minutes: 12, step: 2, contact: true, title: 'The long barrack and the church', claimId: 'HIST-TEX-501', light: 0.5, frame: ['frame-assault-a', 'frame-assault-b'],
+      id: 'fallback', minutes: 12, step: 2, contact: true, title: 'The long barrack and the church', claimId: 'HIST-TEX-501', light: 0.5, frame: ['frame-north-a', 'frame-north-b'],
       caption: 'The defenders fall back across the plaza into the long barrack and the church. The Mexican soldiers turn the captured guns on the barrack’s doors. Men who go over the east and south walls are ridden down by the lancers waiting outside for them.',
       texian: { style: 'street', at: 'long-barrack', fire: 'scattered', groups: [
         { id: 'barrack', name: 'In the long barrack', style: 'street', drawn: 9, at: 'long-barrack', face: 'plaza', fire: 'scattered', spread: { width: 0.006, depth: 0.03 } },

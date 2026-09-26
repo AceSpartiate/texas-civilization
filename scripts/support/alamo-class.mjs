@@ -35,6 +35,8 @@ export function alamoClass(seed, playerCount, { inside = 'hh-1', outside = ['hh-
       if (['garrison', 'relief'].includes(person.service?.kind)) { person.service = null; person.chore = null; person.travel = null; person.location = { ...world.map.sites[world.households[id].homeSiteId], siteId: world.households[id].homeSiteId }; }
     }
   }
+  // The two families the proofs play are past the lesson of their first hour (sim/lesson.mjs): it is March 1836.
+  for (const id of [inside, ...outside]) world.households[id].lesson = { ...world.households[id].lesson, step: 'done', stopped: true, at: world.minute };
   world.status = 'lobby';
   return world;
 }

@@ -86,11 +86,14 @@ export function layoutSide(side) {
   // Loose, bank, street and rout: scattered through an area with a minimum gap, no two figures on one spot, no rows.
   const spec = LAYOUT[style] || LAYOUT.loose;
   const width = side.spread?.width ?? spec.width, depth = side.spread?.depth ?? spec.depth;
+  // A small party in a small place (men in a room of the long barrack) stands closer than a field's volunteers do: the gap
+  // shrinks with the ground each man has, so the whole count is drawn. A field-sized force keeps the style's own gap.
+  const gap = side.spread ? Math.min(spec.gap, 0.6 * Math.sqrt(width * depth / Math.max(1, n))) : spec.gap;
   for (let i = 0, tries = 0; out.length < n && tries < n * 40; tries++) {
     const a = hash(`${seed}:${tries}:a`), b = hash(`${seed}:${tries}:b`);
     // Thicker toward the middle and the front, thinner at the ends: men bunch behind the best cover, not in a grid.
     const across = (a - 0.5) * width * (0.7 + 0.6 * b), along = -Math.pow(b, 1.4) * depth;
-    if (out.some(o => Math.hypot(o.along - along, o.across - across) < spec.gap)) continue;
+    if (out.some(o => Math.hypot(o.along - along, o.across - across) < gap)) continue;
     out.push({ along, across, rank: 0, index: i++, kneel: hash(`${seed}:${tries}:k`) < (style === 'bank' ? 0.6 : 0.3), wait: WAIT_MIN_MS + hash(`${seed}:${tries}:w`) * WAIT_SPAN_MS, phase: hash(`${seed}:${tries}:p`) });
   }
   return out;
@@ -197,7 +200,7 @@ export function createBattleView(art) {
       // ground's y is), and a little rise of the hot smoke up the page. A still fog morning barely moves it; a norther
       // carries it off the field.
       vx: w.x * 2.2e-6 + (Math.random() - 0.5) * 2e-7, vy: w.y * 2.2e-6 - 1.2e-7 - Math.random() * 1e-7,
-      size0: big ? 1.6 : 0.6, size1: big ? 7 : 3.1 + Math.random() * 1.4, alpha: big ? 0.85 : 0.62,
+      size0: big ? 1.6 : 0.6, size1: big ? 7 : 3.1 + Math.random() * 1.4, alpha: big ? 0.85 : 0.62, scale: view.smokeScale ?? 1,
       seed: Math.random(),
     });
     if (view.smoke.length > SMOKE_CAP) view.smoke.splice(0, view.smoke.length - SMOKE_CAP);
@@ -245,6 +248,9 @@ export function createBattleView(art) {
     const still = reducedMotion || paused;
     if (!battle) { view.key = null; view.members.clear(); view.evidence = null; return null; }
     view.frameNow = now;
+    // How big smoke is drawn against a figure (`battle.smokeScale`): a fight in a small place, seen close, keeps its smoke to
+    // the size of the ground it is on rather than the figures, which are drawn larger than life (PERSON_MILES).
+    view.smokeScale = battle.smokeScale ?? 1;
     accept(battle, now, tickMs);
     const figurePx = Math.max(7, Math.min(60, camera.figure * 0.95));
     const drawn = { texian: [], mexican: [] }, drawnParts = {};
@@ -686,7 +692,7 @@ export function createBattleView(art) {
       const age = now - s.born, t = age / s.life;
       const at = camera.toScreen({ x: s.x + s.vx * age, y: s.y + s.vy * age });
       if (bounds && at.x >= 0 && at.y >= 0 && at.x <= bounds.width && at.y <= bounds.height) inView++;
-      const size = figurePx * lerp(s.size0, s.size1, Math.sqrt(t));
+      const size = figurePx * lerp(s.size0, s.size1, Math.sqrt(t)) * (s.scale ?? 1);
       const alpha = s.alpha * (t < 0.04 ? t / 0.04 : Math.pow(1 - t, 1.3));
       const sprite = t < 0.08 ? 'smoke-growing' : s.seed < 0.5 ? 'smoke-dispersing' : 'smoke-dense';
       if (!art.drawSprite(ctx, sprite, at.x, at.y - figurePx * 0.4, size, { alpha: sprite === 'smoke-dense' ? alpha * 0.7 : alpha, flip: s.seed > 0.7 })) {
