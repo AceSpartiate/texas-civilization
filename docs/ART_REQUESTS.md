@@ -93,6 +93,10 @@ does not have:
 | **The dry creek bed and the ditch in the mesquite** are `earth-rampart` laid low among `mesquite-large-wind`; the creek Jack forded is a drawn ribbon of water | `grassScenery` in `sim/battles/grass-fight.mjs` (`stand-in:`) | Request 2026-09-25 — Concepción and the Grass Fight, item 7 | `creek-bed-dry` ground piece, `creek-ford` |
 | **A family's person hit in a fight** is drawn as `volunteer-injured` for a second and then `volunteer-reclining` (killed), or `volunteer-injured` (wounded), carried by two `volunteer-march` figures once the fight has passed; one who runs is `volunteer-march` facing away | `poseOf` and the carriers in `draw`, `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, items 1 and 3 | each cast's own `-injured` and `-reclining`, and `bearers-carry` |
 
+| **The marksmen in the grass at Coleto** are drawn in the loose order's standing and kneeling poses, firing | the `ringed` grass parts in `sim/battles/coleto.mjs`, drawn by `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 1 | `regular-prone-fire` (lying in the grass, aim and fire, both facings) |
+| **The Goliad prisoners** are drawn in the militia's walk and stand, which carry muskets; the prisoners had none | `columns` in `sim/battles/goliad-massacre.mjs` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 2 | `prisoner-walk` and `prisoner-stand`, unarmed, hands free |
+| **Francita Alavez** is drawn as the first cast's woman (`rust-woman-walk`, `rust-woman-idle-e`/`-w`), named on the map | the `alavez` part in `sim/battles/goliad-massacre.mjs` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 3 | `alavez-walk` and `alavez-idle`: a Mexican officer's wife of 1836 |
+| **The carts inside Coleto's square** are the library's `ox-cart`, its ox painted in | `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 4 | `cart-baggage` (no ox) and `cart-tipped` (on its side, a breastwork) |
 ## Claude-drawn stand-ins (replace with Astra's)
 
 Owner's instruction, 2026-09-16: complete the outstanding requests with Claude-drawn art, marked so Astra can replace any of
@@ -1355,6 +1359,25 @@ it sits inside a row, not on the map.
 
 **Fallback:** if a damaged or unusual package cannot load the embedded PNG, `DrawBin` falls back to its former pen drawing.
 A picture of the earlier menu is `evidence/solo-dialog.png`.
+
+## Request 2026-09-25 — Coleto and Goliad
+
+**Status: open; stand-ins in use since 2026-09-25 (see *Stand-ins in use*).** Coleto (March 19–20, 1836) and the Goliad
+massacre (March 27) are fought on the battle engine (`sim/battles/coleto.mjs`, `sim/battles/goliad-massacre.mjs`,
+`docs/BATTLES.md` §11; staging in `docs/battle-research/staging.md` §6.9 and §7.9). Four things they need are not in the library (a fifth, the white flag, is §7's);
+each is drawn now from the nearest art and marked `stand-in:` in the code. The delivery contract is the people sheets' own:
+transparent PNG, the figure on its ground anchor, the `volunteer-*`/`regular-*` logical height, east frames mirrored for west.
+No blood, no wound shown, no body detail (`VISION.md` §16).
+
+1. **A marksman lying in the grass, firing** - `regular-prone-lie`, `regular-prone-aim`, `regular-prone-fire`, east-facing, a
+   Mexican cazador in the tall grass at night. Plugs into the loose parts of Coleto's `dusk`, `night` and `small-hours`.
+2. **An unarmed prisoner** - `prisoner-walk-1`..`-4` (east), `prisoner-stand-e`: a volunteer in the San Antonio Greys' or a
+   frontier coat, hands free, no musket, no belts. Plugs into the three columns of Palm Sunday (`figure` on a part).
+3. **Francita Alavez** - `alavez-walk-1`..`-4`, `alavez-idle-e`: a Mexican officer's wife of 1836 in a rebozo and long skirt.
+   Plugs into the `alavez` part (`figure: 'alavez'`).
+4. **The baggage carts** - `cart-baggage` (a two-wheeled cart with its load, no ox) and `cart-tipped` (on its side, a
+   breastwork). Plugs into the square's carts in `draw` (`public/battle-view.js`).
+5. **A white flag** - the storming of Béxar's own request 2026-09-25 "a white flag, a bugler and the parleying officers" covers Coleto's too (`drawWhiteFlag`, `phase.flags`).
 
 ## Request 2026-09-25 — battles: the pieces the engine stands in for
 

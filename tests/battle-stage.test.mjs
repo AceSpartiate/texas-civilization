@@ -11,6 +11,7 @@ import { calendarMinutes, CALENDAR_SCALE } from '../sim/clock.mjs';
 import { ENGAGEMENTS, BATTLE_STEPS, battleState, checkEngagement, projectBattle, schedule } from '../sim/battle-stage.mjs';
 import { GONZALES } from '../sim/battles/gonzales.mjs';
 import { PACES } from '../server/app.mjs';
+import { CALENDAR_STEPS } from '../public/motion.js';
 import { gonzalesClass, principalOf, stepUntil, TIMELINE } from './support/battle.mjs';
 
 const phaseOf = world => battleState(world, 'gonzales')?.phase?.id;
@@ -102,8 +103,9 @@ test('the fighting plays three to six real minutes at the Study pace on both map
     assert.ok(real('study') >= 180 && real('study') <= 360, `${map || 'invented'}: the fighting took ${ticks} ticks, ${real('study')} real seconds at the Study pace`);
     // Brisk and Quick shorten it in proportion, since it is counted in ticks.
     assert.ok(real('brisk') < real('study') && real('quick') < real('brisk'));
-    // Every step it takes is one the page draws as a walk, not a jump.
-    assert.ok(BATTLE_STEPS.every(step => 20 % step === 0));
+    // Every step it takes is one the page draws as a walk, not a jump: a divisor of twenty minutes or one of the other clocks'
+    // whole hours (Coleto's night and march, 2026-09-25), each in public/motion.js `CALENDAR_STEPS`.
+    assert.ok(BATTLE_STEPS.every(step => CALENDAR_STEPS.includes(step) && (20 % step === 0 || [60, 240].includes(step))), `${BATTLE_STEPS}`);
   }
 });
 

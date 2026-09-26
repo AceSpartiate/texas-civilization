@@ -25,9 +25,18 @@ import { SAN_PATRICIO } from './battles/san-patricio.mjs';
 import { AGUA_DULCE } from './battles/agua-dulce.mjs';
 import { CONCEPCION } from './battles/concepcion.mjs';
 import { GRASS_FIGHT } from './battles/grass-fight.mjs';
+import { COLETO } from './battles/coleto.mjs';
+import { GOLIAD_MASSACRE } from './battles/goliad-massacre.mjs';
 
 /** How a side stands and moves (docs/BATTLES.md §2.4). The renderer lays figures out by these and nothing else. */
-export const STYLES = Object.freeze(['ranks', 'loose', 'wall', 'bank', 'street', 'column', 'mounted', 'rout', 'camp']);
+// `square` (2026-09-25, Coleto; docs/battle-research/staging.md §9): four faces of three ranks facing outward, carts inside.
+export const STYLES = Object.freeze(['ranks', 'loose', 'wall', 'bank', 'street', 'column', 'mounted', 'rout', 'camp', 'square']);
+/**
+ * The calendar steps a phase may be held at: those dividing twenty minutes, and the other clocks' whole hour and four hours,
+ * which public/motion.js `CALENDAR_STEPS` draws as an ordinary tick (Coleto's march out and its night, 2026-09-25: held for every
+ * class alike, unlike a `background` pace, so a fight's ticks fall on the same minutes whoever is in it).
+ */
+const HELD_STEP = step => step > 0 && (20 % step === 0 || [60, 240].includes(step));
 /**
  * What the men of a part of a side are doing when it is not the side's own style (docs/BATTLES.md §6.13, 2026-09-25): asleep
  * (lying), shut in a house and firing only from it (`hidden`: the flash and the smoke at the house, nobody drawn - where Béxar's
@@ -55,7 +64,7 @@ export const LINE_KINDS = Object.freeze(['documented', 'reconstructed', 'traditi
 export const SIDES = Object.freeze(['texian', 'mexican']);
 
 /** Every engagement on the engine. Add one here and in sim/battles/ (docs/BATTLES.md §6). */
-export const ENGAGEMENTS = Object.freeze({ [GONZALES.id]: GONZALES, [CONCEPCION.id]: CONCEPCION, [GRASS_FIGHT.id]: GRASS_FIGHT, [BEXAR_STORMING.id]: BEXAR_STORMING, [SAN_PATRICIO.id]: SAN_PATRICIO, [AGUA_DULCE.id]: AGUA_DULCE, [ALAMO.id]: ALAMO, [SAN_JACINTO_BATTLE.id]: SAN_JACINTO_BATTLE });
+export const ENGAGEMENTS = Object.freeze({ [GONZALES.id]: GONZALES, [CONCEPCION.id]: CONCEPCION, [GRASS_FIGHT.id]: GRASS_FIGHT, [BEXAR_STORMING.id]: BEXAR_STORMING, [SAN_PATRICIO.id]: SAN_PATRICIO, [AGUA_DULCE.id]: AGUA_DULCE, [ALAMO.id]: ALAMO, [COLETO.id]: COLETO, [GOLIAD_MASSACRE.id]: GOLIAD_MASSACRE, [SAN_JACINTO_BATTLE.id]: SAN_JACINTO_BATTLE });
 
 /**
  * The rules an engagement's data is held to, checked when this module loads so a malformed battle never reaches a class.
@@ -74,7 +83,7 @@ export function checkEngagement(def) {
     if (!phase.id || seen.has(phase.id)) fail(`phase ${phase.id} is missing or repeated`);
     seen.add(phase.id);
     if (!(phase.minutes > 0) || !Number.isInteger(phase.minutes)) fail(`phase ${phase.id} needs whole minutes`);
-    if (phase.step !== undefined && (!(phase.step > 0) || phase.minutes % phase.step !== 0 || 20 % phase.step !== 0)) fail(`phase ${phase.id}'s step must divide both its length and twenty minutes`);
+    if (phase.step !== undefined && (!HELD_STEP(phase.step) || phase.minutes % phase.step !== 0)) fail(`phase ${phase.id}'s step must divide both its length and twenty minutes (or be a whole hour or four)`);
     // A background pace (Béxar's four days between its held episodes): calendar minutes a tick at most while a played
     // family has somebody in the force, a whole number of twenty-minute ticks, and never alongside a step.
     if (phase.background !== undefined && (phase.step !== undefined || !(phase.background > 0) || phase.background % 20 !== 0)) fail(`phase ${phase.id}'s background pace must be whole twenties of minutes, and not with a step`);
@@ -83,6 +92,7 @@ export function checkEngagement(def) {
       if (!at || !STYLES.includes(at.style) || !FIRE.includes(at.fire || 'none')) fail(`phase ${phase.id} side ${side} needs a style and a fire`);
       if (at.cover !== undefined && !COVERS.includes(at.cover)) fail(`phase ${phase.id} side ${side} stands behind nothing the renderer knows`);
       if (at.pose !== undefined && !POSES.includes(at.pose)) fail(`phase ${phase.id} side ${side} has an unknown pose`);
+      if (at.drawn !== undefined && !(at.drawn > 0 && at.drawn <= 60)) fail(`phase ${phase.id} side ${side} draws more than sixty`);
     }
     // Groups drawn apart from their side: a division in its own house, men on a roof, a file along a wall, the townspeople.
     const units = new Set(SIDES), civilians = new Set();
@@ -102,7 +112,7 @@ export function checkEngagement(def) {
       }
       if (drawn > def.sides[side].drawn) fail(`the parts of ${side} in ${phase.id} draw more than the side's ${def.sides[side].drawn}`);
     }
-    let figures = SIDES.reduce((sum, side) => sum + def.sides[side].drawn, 0);
+    let figures = SIDES.reduce((sum, side) => sum + (phase[side].drawn ?? def.sides[side].drawn), 0);
     for (const group of phase.groups || []) {
       if (!group?.id || units.has(group.id) || !SIDES.includes(group.side) || !STYLES.includes(group.style) || !FIRE.includes(group.fire || 'none') || !(group.drawn > 0) || group.drawn > 40) fail(`group ${group?.id} in ${phase.id} is malformed`);
       if (group.cover !== undefined && !COVERS.includes(group.cover)) fail(`group ${group.id} in ${phase.id} stands behind nothing the renderer knows`);
@@ -337,7 +347,9 @@ function specMoving(at, into) {
 }
 /** The unit vector from one side toward the other: which way each faces. */
 function facingOf(from, to) {
-  const dx = to.x - from.x, dy = to.y - from.y, span = Math.hypot(dx, dy) || 1;
+  const dx = to.x - from.x, dy = to.y - from.y, span = Math.hypot(dx, dy);
+  // Two places on one spot (a side ringed round the other has its middle on it) face nowhere: east, rather than no way at all.
+  if (span < 1e-9) return { x: 1, y: 0 };
   return { x: dx / span, y: dy / span };
 }
 
@@ -466,9 +478,13 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
   const toward = { texian: facingOf(texian, mexican), mexican: facingOf(mexican, texian) };
   const sides = SIDES.map(side => {
     const at = phase[side], info = def.sides[side], place = side === 'texian' ? texian : mexican;
+    // A phase may give a side its own count, sample and name (Urrea's 280 at Coleto are 1,400 by morning; 2026-09-25), and a side
+    // the record gives no number for (`uncounted`, the guard at Goliad) is sent with none and labelled with none. `face` may name
+    // a point of the ground to face (a square facing every way keeps its front where the record puts it).
+    const facing = at.face === 'away' ? { x: -toward[side].x, y: -toward[side].y } : at.face && ground[at.face] ? facingOf(place, ground[at.face]) : toward[side];
     return {
-      side, name: info.name, count: at.count ?? info.count, drawn: info.drawn, style: at.style, fire: state.over ? 'none' : at.fire || 'none',
-      action: state.over ? 'gone' : at.action || 'stand', moving: !state.over && sideMoving(phase, side, into), x: place.x, y: place.y, facing: at.face === 'away' ? { x: -toward[side].x, y: -toward[side].y } : at.face && ground[at.face] ? facingOf(place, ground[at.face]) : toward[side],
+      side, name: at.name || info.name, count: at.count ?? (info.uncounted ? null : info.count), drawn: at.drawn ?? info.drawn, style: at.style, fire: state.over ? 'none' : at.fire || 'none',
+      action: state.over ? 'gone' : at.action || 'stand', moving: !state.over && sideMoving(phase, side, into), x: place.x, y: place.y, facing,
       spread: at.spread || info.spread, ...(at.mounted !== undefined ? { mounted: at.mounted } : info.mounted !== undefined ? { mounted: info.mounted } : {}),
       ...(at.dismounted && { dismounted: at.dismounted }), ...(info.figure && { figure: info.figure }), ...(at.cover && { cover: at.cover }),
       // A side forming in haste stands in uneven ranks; a share of a broken side has its hands up (drawn, not counted).
@@ -486,8 +502,9 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
     fallen: fallenBy(state, world.minute, ground),
     members: [...members],
     ...(def.noFalling && { noFalling: def.noFalling }),
-    // §6.13: the light the fight is fought in, the houses, fire and groves it is fought among, and the herd.
-    ...(phase.light || def.light ? { light: phase.light || def.light } : {}),
+    // §6.13: the light the fight is fought in, the houses, fire and groves it is fought among, and the herd. A named light here
+    // ('night', 'dawn', 'dusk', 'fog'); a light given as a number or eased across the phase (the Alamo's) is sent below.
+    ...(typeof (phase.light ?? def.light) === 'string' ? { light: phase.light ?? def.light } : {}),
     ...(def.scenery && { scenery: def.scenery(ground).map(item => ({ ...item, lit: Array.isArray(item.lit) ? item.lit.includes(phase.id) : Boolean(item.lit) })) }),
     ...(phase.herd && !state.over && { herd: { ...placeOf(ground, phase.herd, phase.minutes, into), count: phase.herd.count, moving: specMoving(phase.herd, into), ...(phase.herd.scatter && { scatter: true }) } }),
   };
@@ -502,7 +519,7 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
         id: group.id, side: group.side, name: group.name || null, count: group.count || null, drawn: group.drawn, style: group.style,
         fire: state.over ? 'none' : group.fire || 'none', action: state.over ? 'gone' : group.action || 'stand',
         moving: !state.over && specMoving(group, into), x: place.x, y: place.y, facing: group.away ? { x: -facing.x, y: -facing.y } : facing,
-        spread: group.spread || null, ...(group.cover && { cover: group.cover }), ...(group.civilians && { civilians: true }), ...(group.mounted && { mounted: true }),
+        spread: group.spread || null, ...(group.cover && { cover: group.cover }), ...(group.civilians && { civilians: true }), ...(group.mounted && { mounted: true }), ...(group.named && { named: true }),
         // Scaling ladders carried or set against a wall, and a figure of its own (the Alamo's mounted relief, Concepción's riders).
         ...(group.ladders && { ladders: group.ladders }), ...(group.climbing && { climbing: true }), ...(group.figure && { figure: group.figure }),
       };
@@ -582,6 +599,19 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
  * went to fight fights, and comes back with the men (owner, 2026-09-25: "it needs to happen in such a way that their
  * character arrives in time to participate and does participate"). Returns the reason in the family's words, or null.
  */
+/**
+ * Whether this person was killed in a fight their family has not yet had word of: the man is drawn lying where he fell on his
+ * own family's map (staging.md §9, "drawn for the participant's viewpoint only"), while his health, the journal and the
+ * family's reports wait for the word (`FIC-GONZ-439`). Read off the staged fates (`stageFate`). Returns where and when, or null.
+ */
+export function lyingOnField(world, entity) {
+  if (entity?.health?.condition === 'dead') return null;
+  for (const [id, battle] of Object.entries(world.battles || {})) {
+    const fate = battle.fates?.[entity.id];
+    if (fate?.fate === 'killed' && fate.minute <= world.minute && fate.lies) return { battle: id, minute: fate.minute };
+  }
+  return null;
+}
 export function heldByBattle(world, entity) {
   for (const [id, battle] of Object.entries(world.battles || {})) {
     if (!battle.participants?.[entity.id] || battle.participants[entity.id].released) continue;

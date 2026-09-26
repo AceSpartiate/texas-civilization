@@ -33,6 +33,13 @@ const LAYOUT = Object.freeze({
   // A force at rest (docs/battle-research/staging.md §9, San Jacinto): scattered about its fires, some standing, some sitting.
   camp: { width: 0.45, depth: 0.3, gap: 0.024 },
 });
+/**
+ * The hollow square (Coleto, 2026-09-25; sim/battles/coleto.mjs `coletoSlot` stands a family's man in its front rank at
+ * `outer`). Its innermost rank stands further out than its faces run, so no two faces' men meet at a corner.
+ */
+const SQUARE = Object.freeze({ outer: 0.09, rank: 0.018, across: 0.021 });
+/** The wash over the field for the light of the hour (`phase.light`); a night's own is `drawNight`'s. */
+const DIM = Object.freeze({ dusk: 'rgba(48,30,60,.24)', fog: 'rgba(222,226,228,.22)' });
 /** One load of a musket in the library's cycle: aim 700, fire 120, load 750, ramrod 900 (public/assets/frontier-v1/animation.json). */
 const FIRE_CLIP_MS = 2470, AIM_MS = 700;
 /** How long a Texian waits, at his own pace, between loads: seconds, not a drill-book rate. `FIC-GONZ-446`. */
@@ -73,6 +80,18 @@ export function layoutSide(side) {
   // A wall of a given length (the Alamo's garrison along its walls, docs/BATTLES.md §9): its men spread evenly along it.
   if (style === 'wall' && side.spread?.width) {
     for (let i = 0; i < n; i++) out.push({ along: (hash(`${seed}:${side.key || ''}:${i}:j`) - 0.5) * 0.002, across: n > 1 ? (i / (n - 1) - 0.5) * side.spread.width : 0, rank: 0, index: i, wait: WAIT_MIN_MS + hash(`${seed}:${i}:w`) * WAIT_SPAN_MS, phase: hash(`${seed}:${i}:p`) });
+    return out;
+  }
+  // A hollow square (Coleto, 2026-09-25): four faces of three ranks, each facing outward, the front rank outermost. `out` is the
+  // way the man faces in the side's frame, so each face fires outward on its own.
+  if (style === 'square') {
+    const per = Math.max(1, Math.ceil(n / 12));
+    for (let i = 0; i < n; i++) {
+      const face = i % 4, rank = Math.floor(i / 4) % 3, file = Math.floor(i / 12);
+      const reach = SQUARE.outer - rank * SQUARE.rank, t = (file - (per - 1) / 2) * SQUARE.across + (hash(`${seed}:${i}:j`) - 0.5) * 0.003;
+      const out1 = [{ along: 1, across: 0 }, { along: 0, across: 1 }, { along: 0, across: -1 }, { along: -1, across: 0 }][face];
+      out.push({ along: out1.along ? out1.along * reach : t, across: out1.across ? out1.across * reach : t, rank, index: i, out: out1, face });
+    }
     return out;
   }
   if (['ranks', 'mounted', 'column', 'wall'].includes(style)) {
@@ -134,6 +153,13 @@ const onGround = (centre, facing, slot) => ({
   x: centre.x + facing.x * slot.along - facing.y * slot.across,
   y: centre.y + facing.y * slot.along + facing.x * slot.across,
 });
+/** How hollow a set of points stands: the nearest to their middle over the mean distance from it (0 solid, 1 a ring). */
+export function hollowness(points) {
+  if (points.length < 4) return null;
+  const c = points.reduce((s, p) => ({ x: s.x + p.x / points.length, y: s.y + p.y / points.length }), { x: 0, y: 0 });
+  const d = points.map(p => Math.hypot(p.x - c.x, p.y - c.y)), mean = d.reduce((s, v) => s + v, 0) / d.length;
+  return mean ? Math.min(...d) / mean : null;
+}
 /** How regular a set of screen points is: the spread of each one's distance to its nearest neighbour over the mean. */
 export function regularity(points) {
   if (points.length < 3) return null;
@@ -276,7 +302,8 @@ export function createBattleView(art) {
   }
   function poseOf(member, time) {
     const side = view.sides.get(member.unit || 'texian') || view.sides.get('texian');
-    const right = (side?.facing?.x ?? 1) >= 0;
+    // In a square each man faces out of his own face of it (`member.right`); elsewhere the way his body of men faces.
+    const right = member.right ?? ((side?.facing?.x ?? 1) >= 0);
     // A family's own person hit at the moment the server staged (docs/BATTLES.md §2.6): down and lying still if killed, sitting
     // hurt and carried off if wounded, a slight wound up again after a while. No blood, no gore (VISION.md §16).
     const fell = view.memberFallAt.get(member.id), since = fell ? time + view.skew - fell.at : -1;
@@ -348,6 +375,8 @@ export function createBattleView(art) {
         firing: ['scattered', 'volley', 'picket'].includes(force?.fire) && force.action !== 'gone' && !['asleep', 'surrender'].includes(pose),
         moving: body ? Boolean(body.moving) : ['advance', 'withdraw', 'follow'].includes(texianSide?.action),
         wait: WAIT_MIN_MS + hash(`${id}:w`) * WAIT_SPAN_MS, offset: hash(`${id}:o`) * 20000, kneel: hash(`${id}:k`) < 0.3,
+        // In a square, out of his own face: east of its middle faces east (where app.js drew him last frame).
+        ...(force?.style === 'square' && view.memberSpots.get(id) && view.sides.get(body?.key || 'texian') && { right: view.memberSpots.get(id).x >= placeAt(view.sides.get(body?.key || 'texian'), now).x }),
       });
     }
     // Members fire on their own cycle; their shot is spawned from where app.js drew them. A member who has fallen does not.
@@ -364,7 +393,7 @@ export function createBattleView(art) {
       const key = `${id}:${Math.floor((time + member.offset) / cycle)}`;
       if (t >= shotAt && t < shotAt + 400 && !view.shotsSeen.has(key)) {
         view.shotsSeen.add(key);
-        const right = ((member.unit ? view.sides.get(member.unit) : texianSide)?.facing?.x ?? 1) >= 0;
+        const right = member.right ?? (((member.unit ? view.sides.get(member.unit) : texianSide)?.facing?.x ?? 1) >= 0);
         puff(spot.x + (right ? 1 : -1) * 0.012, spot.y - 0.006, now, { wind });
         flash(spot.x + (right ? 1 : -1) * 0.012, spot.y, right, now, 1); shots++;
       }
@@ -387,7 +416,7 @@ export function createBattleView(art) {
       const key = layoutKey(side);
       if (!view.layouts.has(key)) view.layouts.set(key, layoutSide(side));
       const slots = view.layouts.get(key);
-      const facing = side.facing, right = facing.x >= 0;
+      const facing = side.facing, sideRight = facing.x >= 0;
       const volley = side.fire === 'volley';
       drawnBy[side.key] = [];
       if (side.key !== side.side) view.unitsSeen.add(side.key);
@@ -395,13 +424,28 @@ export function createBattleView(art) {
       const cycleAt = (time + hash(`${battle.id}:${side.side}`) * VOLLEY_MS) % VOLLEY_MS, cycleNo = Math.floor((time + hash(`${battle.id}:${side.side}`) * VOLLEY_MS) / VOLLEY_MS);
       const ranks = Math.max(1, ...slots.map(slot => slot.rank + 1));
       const firingRank = cycleNo % Math.min(ranks, side.dismounted ? Math.max(1, side.dismounted) : ranks);
+      // A square fires by faces in turn, a quarter of the cycle apart, each face by its ranks: a rolling fire all round it, not
+      // one rank of the whole square at a time.
+      const faceCycle = slot => {
+        const shifted = time + hash(`${battle.id}:${side.side}`) * VOLLEY_MS + slot.face * VOLLEY_MS / 4, no = Math.floor(shifted / VOLLEY_MS);
+        return { at: shifted % VOLLEY_MS, no, rank: no % ranks };
+      };
+      // The carts inside a square (`HIST-TEX-515`), drawn among the men: the baggage and, at night, the barricade.
+      // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "Coleto and Goliad", item 4 - the library's `ox-cart`, its ox painted
+      // in, until a cart without its ox, standing and tipped as a breastwork, is drawn.
+      if (side.style === 'square' && side.action !== 'gone') {
+        for (const [along, across, flipCart] of [[0.012, -0.018, false], [-0.02, 0.014, true], [0.024, 0.026, false]]) {
+          const cart = camera.toScreen(onGround(centre, facing, { along, across }));
+          if (!offScreen(cart)) figures.push({ y: cart.y, kind: 'cover', point: cart, sprite: 'ox-cart', size: figurePx * 1.25, flip: flipCart });
+        }
+      }
       const fallen = fallenSlots.get(side.key) || new Map();
       // Behind a street's palisade or a breastwork of sandbags: the cover drawn in front of the men.
       // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a street barricade" and "a sandbag breastwork" - the library's
       // palisade and sacks, until the ditch-bank-and-palisade with a gun embrasure is drawn.
       if (['barricade', 'sandbags'].includes(side.cover) && side.action !== 'gone') {
         const front = camera.toScreen({ x: centre.x + facing.x * 0.012, y: centre.y + facing.y * 0.012 });
-        if (!offScreen(front)) figures.push({ y: front.y + 1, kind: 'cover', point: front, sprite: side.cover === 'barricade' ? 'palisade' : 'sacks', size: figurePx * (side.cover === 'barricade' ? 2.2 : 1.5), flip: !right });
+        if (!offScreen(front)) figures.push({ y: front.y + 1, kind: 'cover', point: front, sprite: side.cover === 'barricade' ? 'palisade' : 'sacks', size: figurePx * (side.cover === 'barricade' ? 2.2 : 1.5), flip: !sideRight });
       }
       const pose = side.pose && side.pose !== 'stand' ? side.pose : side.style === 'camp' ? 'asleep' : 'stand';
       for (const slot of slots) {
@@ -426,12 +470,15 @@ export function createBattleView(art) {
         if (side.cover === 'roof') point.y -= figurePx * 0.5;
         const size = kind === 'dragoon' || kind === 'rider' ? figurePx * 1.35 : figurePx;
         const seed = seedKey;
+        // Which way this man faces: out of his face of a square, or the way his body of men faces.
+        const right = slot.out ? (facing.x * slot.out.along - facing.y * slot.out.across) >= 0 : sideRight;
         let clip = null, sprite = null, timeMs = time, flip = !right, still = false, dy = 0;
         if (down) {
           // A wounded man went with his side when it left the field.
           if (down.wounded && side.action === 'gone') continue;
           // Falling, then lying still: no blood, no gore (VISION.md §16), and carried off once the fighting is over.
-          figures.push({ y: point.y, kind: 'fallen', side: side.side, point, size: figurePx, down, slot, ground, facingRight: right });
+          // Hurt inside a square, he is helped in among the carts, not back from a line that faces every way.
+          figures.push({ y: point.y, kind: 'fallen', side: side.side, point, size: figurePx, down, slot, ground, facingRight: right, ...(side.style === 'square' && { inward: camera.toScreen(centre) }) });
           continue;
         }
         if (side.action === 'gone') continue;
@@ -549,12 +596,12 @@ export function createBattleView(art) {
               puff(muzzle.x, muzzle.y, now, { wind }); flash(muzzle.x, muzzle.y, right, now, 1);
             }
           }
-        } else if (volley && (slot.rank === firingRank) && (kind !== 'dragoon')) {
-          const into = cycleAt - VOLLEY_WORDS_AT[1];
+        } else if (volley && (slot.face === undefined ? slot.rank === firingRank : slot.rank === faceCycle(slot).rank) && (kind !== 'dragoon')) {
+          const into = (slot.face === undefined ? cycleAt : faceCycle(slot).at) - VOLLEY_WORDS_AT[1];
           if (into < 0 || into > FIRE_CLIP_MS) { sprite = `${kind}-${right ? 'e' : 'w'}`; still = true; flip = false; }
           else {
             clip = `${kind}-fire-reload`; timeMs = into;
-            const shotKey = `${seed}:v${cycleNo}`;
+            const shotKey = `${seed}:v${slot.face === undefined ? cycleNo : faceCycle(slot).no}`;
             if (into >= AIM_MS && into < AIM_MS + 400 && !view.shotsSeen.has(shotKey) && !still) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.012, y: ground.y - 0.004 };
@@ -630,6 +677,9 @@ export function createBattleView(art) {
     if (typeof battle.light === 'number' && battle.light > 0) {
       ctx.save(); ctx.fillStyle = `rgba(14,20,44,${(0.62 * battle.light).toFixed(3)})`; ctx.fillRect(0, 0, ctx.canvas?.width || bounds?.width || 0, ctx.canvas?.height || bounds?.height || 0); ctx.restore();
     }
+    // Dusk and fog (Coleto, 2026-09-25): a lighter wash over the field, under the flashes. ceiling: the light is drawn only while a
+    // fight is shown; the country itself has no night yet.
+    if (DIM[battle.light] && bounds) { ctx.save(); ctx.fillStyle = DIM[battle.light]; ctx.fillRect(0, 0, bounds.width, bounds.height); ctx.restore(); }
     // Flashes: a tenth of a second each, over the figures.
     view.flashes = view.flashes.filter(f => now - f.born < 130);
     for (const f of view.flashes) {
@@ -648,7 +698,7 @@ export function createBattleView(art) {
     view.civiliansSeen = Math.max(view.civiliansSeen, civilians);
     view.shotsTotal += shots;
     for (const bubble of bubbles) view.linesShown.add(bubble.id);
-    if (named) labelSides(ctx, battle, camera, figurePx, drawn);
+    if (named) labelSides(ctx, battle, camera, figurePx, drawn, drawnBy);
     const ms = performance.now() - started;
     view.frameMs.push(ms); if (view.frameMs.length > 240) view.frameMs.shift();
     const sorted = [...view.frameMs].sort((a, b) => a - b);
@@ -667,6 +717,9 @@ export function createBattleView(art) {
       // San Jacinto: who is down by body, how many have their hands up, what stands on the ground, each side's style.
       fallenBy: Object.fromEntries([...fallenSlots.entries()].map(([key, m]) => [key, m.size])), surrendering, works: worksDrawn,
       styles: Object.fromEntries(battle.sides.map(side => [side.side, side.style])),
+      // How hollow each side stands: the nearest man to its middle over the mean distance of all of them (a square's is about
+      // three quarters; men scattered over the ground, a tenth or so).
+      hollow: Object.fromEntries(Object.entries(drawn).map(([name, points]) => [name, hollowness(points)])),
       memberFalls: [...view.memberFallAt.entries()].filter(([, fall]) => fall.at <= now).map(([id, fall]) => ({ id, fate: fall.fate })),
       // §6.13: the parts each side is drawn in, what their men were doing, the houses and groves, the herd, the night.
       parts: Object.fromEntries(battle.sides.map(side => [side.side, (side.parts || []).length])), poses, scenery: sceneryDrawn, herd: herdDrawn,
@@ -674,7 +727,7 @@ export function createBattleView(art) {
       memberFates: Object.fromEntries([...view.memberFallAt.entries()].filter(([id, fall]) => fall.at <= now && view.members.has(id)).map(([id, fall]) => [id, fall.fate])),
       // The Alamo (docs/BATTLES.md §9): each gun's shots, the named people, the dark, the plumes, and each group's own order
       // (a column's files against a wall's line against a crowd: nearest-neighbour spread over the mean).
-      gunShotsBy: { ...view.gunShotsBy }, people: peopleShown, light: typeof battle.light === 'number' ? battle.light : 0, plumes: (battle.plumes || []).length,
+      gunShotsBy: { ...view.gunShotsBy }, people: peopleShown, light: typeof battle.light === 'number' ? battle.light : battle.light || 'day', plumes: (battle.plumes || []).length,
       groupStyles: Object.fromEntries((battle.groups || []).map(group => [group.id, group.style])),
       groupRegularity: Object.fromEntries(Object.entries(drawnBy).filter(([key]) => key.startsWith('g:')).map(([key, points]) => [key.slice(2), regularity(points)])),
       // Concepción and the Grass Fight: how regularly each body stands, the fog, the scenery drawn.
@@ -792,6 +845,12 @@ export function createBattleView(art) {
   function drawFallen(ctx, f, now) {
     const since = now - f.down.at, kind = f.side === 'mexican' ? 'regular' : 'volunteer';
     const x = f.point.x, y = f.point.y;
+    if (f.down.wounded && f.inward) {
+      // In a square he is brought in toward the carts in the middle, and sits there: nobody could carry him anywhere else.
+      const part = Math.min(1, since / 25000) * 0.6, ix = x + (f.inward.x - x) * part, iy = y + (f.inward.y - y) * part;
+      if (!art.drawSprite(ctx, `${kind}-injured`, ix, iy, f.size)) art.miniPerson(ctx, ix, iy, f.size, { side: f.side });
+      return;
+    }
     if (f.down.wounded) {
       // Hit, and helped back from the line, sitting up: a wound, not a death (the record's own word where it is disputed).
       // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the wounded carried" - a dragoon hit in the saddle is drawn as the
@@ -1208,28 +1267,37 @@ export function createBattleView(art) {
       if (alpha > 0) put(line, speakerAt(line), alpha);
     }
     // The officer's words, each volley, from the record's reconstructed drill (never a named man's).
+    // A side's own words where the engagement gives them (the Texian square at Coleto, `commands.texian`); none where it gives none.
     for (const side of battle.sides) {
-      // A side's own words where the engagement gives them (`commands.bySide`: San Jacinto's Texian officers, in English).
-      const words = battle.commands?.bySide?.[side.side]?.volley || battle.commands?.volley;
+      // A side's own words where the engagement gives them (`commands.bySide`: San Jacinto's Texian officers, in English;
+      // `commands.texian`: the Texian square at Coleto).
+      const words = battle.commands?.bySide?.[side.side]?.volley || battle.commands?.[side.side]?.volley || battle.commands?.volley;
       if (side.fire !== 'volley' || !words) continue;
       const cycleAt = (time + hash(`${battle.id}:${side.side}`) * VOLLEY_MS) % VOLLEY_MS;
       words.forEach((word, i) => {
         const since = cycleAt - VOLLEY_WORDS_AT[i];
         if (since < 0 || since > 1300) return;
-        put({ ...word, id: `command:${i}`, side: side.side, role: 'officer', kind: word.kind || 'reconstructed' }, speakerAt({ side: side.side, role: 'officer', id: 'officer' }), speechAlpha(since, 900));
+        put({ ...word, id: side.side === 'mexican' ? `command:${i}` : `command:${side.side}:${i}`, side: side.side, role: 'officer', kind: word.kind || 'reconstructed' }, speakerAt({ side: side.side, role: 'officer', id: 'officer' }), speechAlpha(since, 900));
       });
     }
     return shown;
   }
 
-  function labelSides(ctx, battle, camera, figurePx, drawn) {
+  function labelSides(ctx, battle, camera, figurePx, drawn, drawnBy = {}) {
     ctx.font = '13px system-ui'; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+    const label = (text, points) => {
+      const x = points.reduce((s, p) => s + p.x, 0) / points.length, y = Math.max(...points.map(p => p.y)) + 16;
+      ctx.lineWidth = 3.5; ctx.strokeStyle = 'rgba(252,249,238,.92)'; ctx.strokeText(text, x, y); ctx.fillStyle = '#26382e'; ctx.fillText(text, x, y);
+    };
     for (const side of battle.sides) {
       const points = drawn[side.side];
       if (!points.length) continue;
-      const x = points.reduce((s, p) => s + p.x, 0) / points.length, y = Math.max(...points.map(p => p.y)) + 16;
-      const text = `${side.name}${side.count ? ` · about ${side.count}` : ''}`;
-      ctx.lineWidth = 3.5; ctx.strokeStyle = 'rgba(252,249,238,.92)'; ctx.strokeText(text, x, y); ctx.fillStyle = '#26382e'; ctx.fillText(text, x, y);
+      label(`${side.name}${side.count ? ` · about ${side.count}` : ''}`, points);
+    }
+    // A group of people the record names (`named`: Francita Alavez at Goliad) is named where she is.
+    for (const group of battle.groups || []) {
+      const points = drawnBy[`g:${group.id}`];
+      if (group.named && group.name && points?.length) label(group.name, points);
     }
   }
 

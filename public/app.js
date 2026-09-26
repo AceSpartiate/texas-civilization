@@ -794,7 +794,9 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
   // A family's own person in a fight, drawn doing what the force round them does - loading and firing at their own pace -
   // at the place the server put them (public/battle-view.js `memberPose`, docs/BATTLES.md §2.6). Their name, their ring and
   // their click are this function's, as for anybody.
-  const pose = entity.kind === 'person' ? battleView.memberPose(entity, animationTime) : null;
+  // A family's man killed in a fight his family has not yet had word of lies where he fell, on his own family's map only
+  // (sim/battle-stage.mjs `lyingOnField`, `FIC-GONZ-439`): no blood, no gore.
+  const pose = entity.kind === 'person' ? battleView.memberPose(entity, animationTime) || (entity.fallen ? { sprite: 'volunteer-reclining', flip: false } : null) : null;
   if (pose) {
     // A rider is drawn a horse's height (docs/BATTLES.md §6.13: Grant's men at Agua Dulce).
     const drawnSize = size * (pose.scale || 1);
@@ -1311,17 +1313,21 @@ const clampTo = (value, limits) => Math.max(limits.min, Math.min(limits.max, val
  */
 const fieldFrame = points => points.frame ? points : points.flatMap(point => [{ x: point.x - 0.13, y: point.y - 0.24 }, { x: point.x + 0.13, y: point.y + 0.1 }]);
 // Where the engagement names the ground it is fought over (Béxar: the houses north of the plaza and the Alamo's guns at the
-// east edge), that ground; otherwise each side and group where it stands, and the gun - but not a body that has left the field
-// (`action: 'gone'`: the Mexicans gone toward Béxar at Concepción). A frame the engagement marks tight (`frameTight`, the Alamo's
-// compound, whose frames already hold the room round it) is taken as it is, with no room added.
-// A group more than a mile from the sides (San Jacinto's Deaf Smith riding for Vince's bridge) has left the field and is not
-// framed either: the camera stays on the fight.
+// east edge), that ground; otherwise every body of men drawn - each side and each group drawn apart from it (Palm Sunday's
+// three roads, the Mexicans round Coleto's square, Concepción's companies) - and the guns. A body gone from the field is not
+// framed, unless nothing else is left to frame (the Mexicans gone toward Béxar at Concepción). Nor is a group more than a mile
+// from the sides (San Jacinto's Deaf Smith riding for Vince's bridge): the camera stays on the fight. A frame the engagement
+// marks tight (`frameTight`, the Alamo's compound, whose frames already hold the room round it) is taken as it is.
 const nearTheSides = (sides, body) => !sides.length || Math.hypot(body.x - sides.reduce((s, one) => s + one.x, 0) / sides.length, body.y - sides.reduce((s, one) => s + one.y, 0) / sides.length) < 1;
 const battlePoints = world => {
-  const sides = world.battle?.sides || world.battle?.formations || [];
-  const bodies = [...sides, ...(world.battle?.groups || []).filter(group => nearTheSides(sides, group))].filter(body => body.action !== 'gone');
-  const points = (world.battle?.frame?.length ? world.battle.frame : [...bodies, ...(world.battle?.cannon ? [world.battle.cannon] : [])]).map(point => ({ x: point.x, y: point.y }));
-  return world.battle?.frame?.length && world.battle.frameTight ? Object.assign(points, { frame: true }) : points;
+  const fight = world.battle;
+  if (fight?.frame?.length) {
+    const points = fight.frame.map(point => ({ x: point.x, y: point.y }));
+    return fight.frameTight ? Object.assign(points, { frame: true }) : points;
+  }
+  const sides = fight?.sides || [];
+  const bodies = [...sides, ...(fight?.groups || []).filter(group => nearTheSides(sides, group))], here = bodies.filter(body => body.action !== 'gone');
+  return [...(here.length ? here : bodies.length ? bodies : fight?.formations || []), ...(fight?.cannon ? [fight.cannon] : []), ...(fight?.guns || [])].map(point => ({ x: point.x, y: point.y }));
 };
 function framingFor(world) {
   // The country outside the box (docs/MAP_ACCURACY.md §11) is drawn where it is, but it never frames a view: framing the
@@ -3640,7 +3646,7 @@ function renderArmyControl(world, chosen, running) {
 }
 function renderWork(world, chosen, running) {
   const panel = $('#selection-work');
-  const key = JSON.stringify([chosen.id, running, chosen.service?.status ?? null, chosen.service?.besieged ?? null, chosen.service?.riding ?? null, chosen.service?.courier ?? null, chosen.service?.leave ?? null, chosen.service?.road ?? null, chosen.service?.drilled ?? null, Boolean(chosen.travel), world.land, chosen.health?.condition, Boolean(chosen.chore), chosen.chore?.ask?.openedMinute ?? null,
+  const key = JSON.stringify([chosen.id, running, chosen.service?.status ?? null, chosen.service?.besieged ?? null, chosen.service?.riding ?? null, chosen.service?.courier ?? null, chosen.service?.leave ?? null, chosen.service?.road ?? null, chosen.service?.drilled ?? null, chosen.service?.siteId ?? null, chosen.held ?? null, Boolean(chosen.travel), world.land, chosen.health?.condition, Boolean(chosen.chore), chosen.chore?.ask?.openedMinute ?? null,
     (world.work?.[chosen.id] || []).map(entry => ({ ...choreCache?.get(entry.id), ...entry }))]);
   if (renderedWork?.key === key) return;
   const restore = renderedWork?.chosenId === chosen.id ? rememberControls(panel) : () => {};
@@ -3679,6 +3685,12 @@ function populateWork(world, chosen, running) {
     stop.className = 'work-stop';
     stop.disabled = !running;
     host.append(stop);
+    return;
+  }
+  // A prisoner of the Mexican army (Fannin's men after Coleto, sim/fannin.mjs): where, and that nothing can be asked of him.
+  if (chosen.service?.status === 'prisoner') {
+    const where = world.map?.sites?.[chosen.service.siteId]?.name || chosen.service.siteId;
+    host.append(element('p', `${chosen.name} is a prisoner of the Mexican army at ${where}, with the rest of Fannin's men. The family can do nothing for them.`, 'ask-text'));
     return;
   }
   // Somebody with the army, the garrison or the expedition (sim/winter.mjs): where they are, what it promised, and sending for
@@ -3720,8 +3732,8 @@ function populateWork(world, chosen, running) {
       }
     }
     if (chosen.service.besieged || chosen.service.riding) return;
-    // In a fight in the south, or after it before the word (sim/winter.mjs `recallRefusal`): nobody can reach them, in the
-    // server's words, and no button that the server would refuse.
+    // In a fight (sim/battle-stage.mjs `heldByBattle`), or in the south after it before the word (sim/winter.mjs
+    // `recallRefusal`): nobody can reach them, in the server's words, and no button that the server would refuse.
     if (chosen.service.unreachable || chosen.held) { host.append(element('p', chosen.service.unreachable || chosen.held, 'work-note')); return; }
     const recall = element('button', 'Send for them to come home', 'work-stop');
     recall.dataset.action = 'winter-recall';

@@ -5,10 +5,13 @@
 //   then the Colorado at Beeson's, San Felipe, Groce's above it, Bernardo over the Brazos from it, Harrisburg, and the San Jacinto
 //   at Lynchburg. Anybody grown may go; anybody may be sent for to help their family, as many men were after word of Goliad
 //   (a regular who leaves has deserted). The regulars and auxiliaries at San Felipe are taken into it when it reaches them.
-// - **Goliad**: those with Fannin (who got away from the south, `sim/alamo.mjs`) can be sent for until March 18. On the 19th
-//   Fannin is caught on the prairie at Coleto - about 3 in 100 killed and 20 wounded - and surrenders on the 20th; on Palm
-//   Sunday, March 27, about 89 in 100 of the prisoners are shot, 7 in 100 get away, and 5 in 100 are spared as physicians
-//   or workmen and marched to Matamoros. Nobody new joins Fannin.
+// - **Goliad**: those with Fannin (who got away from the south, `sim/alamo.mjs`) can be sent for until nine on the morning of
+//   March 19, when the column marches out. That day Fannin is caught on the prairie at Coleto - about 3 in 100 killed and 20
+//   wounded - and surrenders on the 20th; on Palm Sunday, March 27, about 89 in 100 of the prisoners are killed, 7 in 100 get
+//   away, and the other 4 in 100 are spared as physicians or workmen and marched to Matamoros. A man still wounded that
+//   morning cannot run: he is killed with the wounded inside, or spared (owner's G2). Nobody new joins Fannin. Since
+//   2026-09-25 both are fought on the battle engine (sim/fannin.mjs, sim/battles/coleto.mjs, sim/battles/goliad-massacre.mjs):
+//   the rolls below are the same, and each falls at a staged moment inside the fighting.
 // - **San Jacinto** (April 21): 1 in 100 killed and 3 in 100 wounded, weighted by hidden strength and health.
 // - **The word**: Fannin's defeat is known on March 25, the massacre about April 1, the victory on April 23; a family's dead
 //   are dead on its screen when the word comes, as at the Alamo.
@@ -176,7 +179,11 @@ export function joinEstimateWords(world, entity, modeId = 'foot') {
 /** After the battle nobody new joins. */
 export const houstonOpen = world => world.period === 3 && !world.director?.milestones?.['san-jacinto'];
 
-/** The rates: Coleto's ten killed and sixty wounded of about 330; the massacre's 342 shot of about 430 with 28 escaped and 20 spared; San Jacinto's 9 of 910 and 30 wounded. */
+/**
+ * The rates: Coleto's ten killed and sixty wounded of about 330; the massacre's some 382 killed of about 430 - 342 shot on the
+ * roads and about 40 wounded inside - which is 89 in 100, with 28 escaped (6.5 in 100, kept at 7 as it always was) and the rest,
+ * about 20, spared (4 in 100); San Jacinto's 9 of 910 and 30 wounded. One place for the numbers (staging.md §7.6).
+ */
 export const COLETO = Object.freeze({ death: 0.03, wound: 0.2 });
 export const MASSACRE = Object.freeze({ executed: 0.89, escaped: 0.07 });
 export const SAN_JACINTO = Object.freeze({ death: 0.01, wound: 0.03 });
@@ -249,22 +256,32 @@ export function catchUpCamp(world, { beginTravel }) {
   }
 }
 
-/** Coleto: Fannin's command caught on the prairie. Each is rolled; then all are prisoners. */
+/**
+ * Coleto in one step, for anybody with Fannin the battle did not take (a class saved in the middle of the old one-tick Coleto):
+ * each is rolled; then all are prisoners. Everybody the engine marched out is rolled at a staged moment instead (sim/fannin.mjs).
+ */
 export function fightColeto(world, causeId) {
-  for (const { person, fate } of rollFates(world, inService(world, 'fannin').map(person => person.id), { event: 'coleto', ...COLETO })) {
+  const marched = id => Boolean(world.battles?.coleto?.participants?.[id]);
+  for (const { person, fate } of rollFates(world, inService(world, 'fannin').filter(person => !marched(person.id)).map(person => person.id), { event: 'coleto', ...COLETO })) {
     awardGlory(world, { event: 'coleto', claimId: 'HIST-TEX-063', personId: person.id, householdId: person.householdId, role: 'fought', fromSiteId: 'goliad', causes: causeId ? [causeId] : [] });
     person.service = { ...person.service, coleto: fate, status: 'prisoner', prisonerSince: world.minute };
     if (fate === 'wounded') person.health = { condition: WOUND_GRADES.severe.condition, grade: 'severe', recoversAt: world.minute + WOUND_GRADES.severe.minutes };
   }
 }
 
-/** Palm Sunday: the prisoners at Goliad. Nobody's family knows yet. */
+/**
+ * Palm Sunday in one step, for any prisoner the engine's Palm Sunday did not take (sim/fannin.mjs `advanceMassacre` stages
+ * everybody else's at its moment): a man killed at Coleto stays killed; otherwise the seeded share, and a man still wounded
+ * cannot run (owner's G2). Nobody's family knows yet.
+ */
 export function goliadMassacre(world) {
   for (const person of Object.values(world.entities)) {
     const service = person.service;
     if (!person.householdId || service?.kind !== 'fannin' || service.status !== 'prisoner' || GONE.includes(person.health?.condition)) continue;
+    if (service.fate || world.battles?.['goliad-massacre']?.participants?.[person.id]) continue;
     const roll = share(world, person.id, 'goliad');
-    const fate = service.coleto === 'killed' ? 'killed' : roll < MASSACRE.executed ? 'executed' : roll < MASSACRE.executed + MASSACRE.escaped ? 'escaped' : 'spared';
+    const rolled = roll < MASSACRE.executed ? 'executed' : roll < MASSACRE.executed + MASSACRE.escaped ? 'escaped' : 'spared';
+    const fate = service.coleto === 'killed' ? 'killed' : person.health?.condition === 'wounded' && rolled === 'escaped' ? 'executed' : rolled;
     service.fate = fate;
     awardGlory(world, { event: 'goliad', claimId: 'HIST-TEX-064', personId: person.id, householdId: person.householdId, role: 'present', fromSiteId: 'goliad' });
   }

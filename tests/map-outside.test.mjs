@@ -85,7 +85,10 @@ const BOX_FILES = {
   // Agua Dulce ground and the end of the walked road south, the Nueces a barrier crossed at San Patricio, the roads from
   // Refugio and Goliad to San Patricio and on south by Agua Dulce, and the fords on the creeks they cross. Every other place
   // and road is byte for byte what it was (checked by decoding both). Was 9a60fdb6...96e04a01.
-  'colonies-map.json.gz': '2e476e8b795c0cd7def14b90545bf2c39598a852cc479c5d0293e8933037c439',
+  // Rebuilt again 2026-09-25 for Coleto (HIST-TEX-516), on top of the south: the `coleto` field at the Fannin Battleground
+  // marker, and the road from Goliad to Victoria laid in two legs through it (27.47 miles before, 10.08 + 17.39 after). Every
+  // other place, road, crossing and watercourse is byte for byte the south's (checked by decoding both). Was 2e476e8b...c037c439.
+  'colonies-map.json.gz': '24c768f4eddffda44d3d8217b8aa61780d3da13b10f7670729d4a77d83a73b19',
   'colonies-province.json.gz': '8ef9b839a6f03b82a1ef81e832eb3d483cd7761e8f4eef32eea33b3508883dc7',
   'colonies-water.json.gz': '22900ae34954db4225fba11e1e977beab6161e4d53d84b5ebc923089e3162c44',
   // The biomes of 1836 (2026-09-19). The grid a class of the week before was made on is kept as it was, beside it, and read

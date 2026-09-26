@@ -190,6 +190,48 @@ the one per-person fate path (`stageFate`/`fatesDue`), the one pinning of the fa
   firing is heard; the Grass Fight's account held to Dec 3 though the family watched it; a hit man's panel showing the wound
   before the word; Concepción's hits always among the men crossing the open.
 
+## Coleto and the Goliad massacre on the battle engine — 2026-09-25, night (after e440bbe; not released)
+
+The later engagements of docs/BATTLES.md §5 step 3, for Fannin's command: docs/BATTLES.md §11 is what was built and where.
+
+- **Coleto** (`sim/battles/coleto.mjs`): Fannin's men really march out of Goliad at nine on March 19 in fog and walk with the
+  column to a new `coleto` place at the Fannin Battleground marker (the Goliad–Victoria road now runs through it in two legs;
+  `public/terrain/colonies-map.json.gz` rebuilt, nothing else in it changed, `tests/map-outside.test.mjs` hash updated). Caught
+  at one; **the Texians form a square** three ranks deep, guns at the corners, carts inside, firing by faces; three assaults
+  from four sides until sunset; the marksmen loose in the grass all night in the dark; the battery at 6:15; the white flag; the
+  march back as prisoners. Talk per staging §6.4, all reconstructed; Fannin and Urrea say nothing.
+- **Palm Sunday** (`sim/battles/goliad-massacre.mjs`), drawn as the battles are (owner §2b.2): the song at dusk, Francita Alavez
+  bringing men out (named, no words), the muster, three columns on three roads, the guards' fire and the prisoners falling and
+  lying still - no gore, no word spoken, no volley words - a few running for the river, the wounded killed inside, the burning
+  told only. Plain captions.
+- **The family's man** (`sim/fannin.mjs`): enlisted from the men already with Fannin (K1), drawn in the column and the square;
+  his fate is the old roll falling at a staged moment (Coleto's assaults or the small hours; Palm Sunday's volleys, inside,
+  kept back, or the escape); a wound shows at once, a death waits for the word, and he lies where he fell on his own family's
+  map (`lyingOnField`). **K2:** with his own horse he may be one of Horton's scouts (30 in 360) and rides home, telling his own
+  story. **G2:** still wounded on Palm Sunday he cannot run. The man who escapes starts home at once and tells his own story;
+  every other family is told Coleto and Goliad together at the word (April 1) through whoever hears it at home - the escapes,
+  those spared, Alavez, "Remember Goliad!" (`HIST-TEX-520`, recorded for the San Jacinto build), Fannin's requests as
+  tradition. A prisoner can be given no order (it could be before).
+- **Fixes of staging §10:** the men leave Goliad; recall shuts at nine on the director's clock (`FANNIN_MARCHES` + `campClock`,
+  was noon on the 18th); the houston.mjs comments now match `MASSACRE` (89 / 7 / 4 in 100).
+- **Cards and viewers:** Follow on the march and at the muster, Watch when caught and when the guns open; the Host live, framed
+  on the field, spotlight lit; a family with nobody there is sent nothing. A man in a fight is no longer offered "Send for
+  them"; a prisoner's card says he is one.
+- **Engine additions** (generic, BATTLES.md §11.2), on the storming of Béxar's groups, guns, flags and staged fates: `square`,
+  `light`, `face: <point>`, `surrender`, per-phase counts, `uncounted`, per-side volley words, steps of 60 and 240, `lyingOnField`.
+- **Pace at Study:** Coleto about 13 real minutes (fighting about 9), Palm Sunday about 7; both end on the spring's four-hour
+  clock (ending off it moved every later tick and broke the army's April dates - `tests/camp.test.mjs` found it).
+  `tests/road.test.mjs` now reads the road's calendar through `battleMinutes`, since Coleto holds everybody's clock.
+- **Evidence:** `tests/battle-coleto.test.mjs` (11), `tests/battle-coleto-view.test.mjs` (6); `npm run test:battle-coleto`
+  (17 checks, 1366x768 and 1024x768, same computer; re-run after merging main) -> `docs/evidence/battle-coleto-browser.json` and
+  `battle-coleto-*.png`; `node scripts/battle-coleto-injections.mjs`: **27 of 27** (20 unit, 7 browser) caught by the check written
+  for them -> `docs/evidence/battle-coleto-injections.json`. `npm test` 1,273 of 1,273 after merging main (Béxar, then the south); `test:battle-gonzales`,
+  `test:battle-bexar`, `test:battle-south`, `test:alamo-siege`, `test:lesson`, `test:panels` pass.
+- **Claims:** `HIST-TEX-515`–`-521`, `FIC-GONZ-437`–`-440` (staging's proposed numbers renumbered into this block).
+  **Art:** request 2026-09-25 "Coleto and Goliad", four stand-ins (the white flag is Béxar's).
+- **Not done:** Ward's and Miller's men are not families' people; the spared are not walked south; Horton's riders drawn on
+  foot; the night is dark only while a fight is shown.
+
 ## The south to the Nueces, and San Patricio and Agua Dulce on the battle engine — 2026-09-26 (merged with main after 1c77c91; released in v2026.09.26.1)
 
 Owner's direction of 2026-09-25 (docs/BATTLES.md §2, §2b.4: "the map extends south to the Nueces") and staging.md §4 with S1 (a)
