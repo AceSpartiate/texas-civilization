@@ -127,6 +127,19 @@ public sealed class DeltaUnusable : Exception
 /// that has changed, a list in a newer format, a file that does not hash as the list says, a
 /// download cut off - falls back to the full download, and the teacher is told why in a line.
 /// Nothing is replaced until the staged build is complete.</para>
+///
+/// <para>ceiling: the unchanged files - a quarter of a gigabyte, mostly the runtime and the art -
+/// are copied into staging and then copied again by the swap, so that the one proven whole-folder
+/// swap and rollback is all that ever replaces an installation. A per-file swap would save that
+/// local disk work; it is worth writing if a slow school disk is found making the update wait
+/// longer than the download it saved.</para>
+///
+/// <para>ceiling: the small update keeps the launcher, and the installed launcher is a setup
+/// program carrying the game it was built with. After a small update that copy, carried to another
+/// machine on a memory stick, installs the older game - which then says it is older and offers
+/// the update. The whole download (a changed launcher, or a setup program run over the top)
+/// brings it level again. A launcher asset of its own would end that, at the cost of the memory
+/// stick copy no longer carrying a game at all.</para>
 /// </remarks>
 public static class DeltaUpdate
 {

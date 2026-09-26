@@ -18,6 +18,12 @@ namespace TexasRevolution.Launcher;
 /// remembers. A marker file says a swap is under way; a launch that finds it (the power went
 /// in the middle) rolls back before doing anything else.</para>
 ///
+/// <para>From 2026-09-26 a top-level file or folder the previous build's own list shipped and
+/// the new build does not (<see cref="DeltaUpdate.Retired"/>) is moved into the backup too,
+/// journalled as retired, so the installation ends as a fresh install of the new build would and
+/// a rollback puts it back. The staged build this swaps in is the same whether it was unpacked
+/// from the whole setup program or assembled from only the changes.</para>
+///
 /// <para><c>data</c> is never in a build and never touched. The emblem written beside the
 /// executable at install is not in a build either, so it stays; the next launch rewrites it
 /// from the new executable, which keeps the setup emblem and the installed emblem apart.</para>
