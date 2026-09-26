@@ -80,26 +80,30 @@ export function alamoGround(world) {
   return ground;
 }
 
-/**
- * Whether anybody of a family somebody is playing is in it now: in the garrison or inside the walls, or with the Gonzales men
- * going in. The
- * siege's quiet days are watched a quarter-day a tick only then (`watched: 'involved'`, `FIC-GONZ-431`); the assault is
- * held for everybody, as every battle is (docs/BATTLES.md §2.2).
- */
-export function alamoInvolved(world) {
-  for (const person of Object.values(world.entities || {})) {
-    if (!person.householdId || person.kind !== 'person' || ['dead', 'captured'].includes(person.health?.condition)) continue;
-    const service = person.service;
-    // In the garrison at Béxar before the army comes too, so the clock lands on the afternoon it does and not past it.
-    const garrison = service?.kind === 'garrison' && service.status === 'serving';
-    if (!service?.besieged && !garrison && !(service?.kind === 'relief' && service.riding)) continue;
-    const household = world.households?.[person.householdId];
-    if (household?.played && !household.absent) return true;
-  }
-  return false;
-}
-
 const TEX = 'texian', MEX = 'mexican';
+/**
+ * The phases are written side by side - each side's parts under it - and handed to the engine in its own shape
+ * (sim/battle-stage.mjs): every part a group with its side (`phase.groups`), the sides' own bodies gone, a fall in a part named
+ * by `unit`, a part turned away `away`, and a gun's dated shots a list.
+ */
+function toEngine(phases) {
+  return phases.map(raw => {
+    const phase = { ...raw };
+    const groups = [];
+    for (const side of [TEX, MEX]) {
+      const { groups: parts = [], ...body } = raw[side];
+      phase[side] = { ...body, action: 'gone', fire: 'none' };
+      for (const part of parts) {
+        const { face, ...rest } = part;
+        groups.push({ ...rest, side, ...(face === 'away' ? { away: true } : face ? { face } : {}) });
+      }
+    }
+    phase.groups = groups;
+    if (raw.falls) phase.falls = raw.falls.map(({ group, ...fall }) => ({ ...fall, ...(group && { unit: group }) }));
+    if (raw.guns) phase.guns = Object.fromEntries(Object.entries(raw.guns).map(([id, fire]) => [id, fire.shots ? fire.shots : fire]));
+    return phase;
+  });
+}
 const say = (id, at, side, role, kind, text, extra = {}) => ({ id, at, side, role, kind, text, ...extra });
 /** A day of the siege begins at six in the morning, a night at six in the evening. */
 const DAY_LIGHT = 0, NIGHT_LIGHT = 0.72;
@@ -135,7 +139,7 @@ function lines(near, fire = 'none') {
 /** The guns of a siege day: the batteries all day, the defenders answering (`HIST-TEX-504`, `-505`). */
 function bombardment({ north = 'battery-north-far', south = true }) {
   return {
-    'battery-north': { at: north, from: 50, to: 660, every: 38 },
+    [north]: { from: 50, to: 660, every: 38 },
     'battery-west': { from: 70, to: 660, every: 44 },
     ...(south && { 'battery-south': { from: 60, to: 660, every: 52 } }),
     eighteen: { from: 110, to: 640, every: 130 },
@@ -145,7 +149,7 @@ function bombardment({ north = 'battery-north-far', south = true }) {
 /** A day of the siege, six to six: the guns, the walls manned, the lines where they are that day. */
 function day(id, { title, caption, claimId, north, south = true, near = false, lines: talk = [], minutes = 720, step = 240, extra = {} }) {
   return {
-    id, minutes, title, caption, claimId, step, watched: 'involved', light: DAY_LIGHT, frame: ['frame-siege-a', 'frame-siege-b'],
+    id, minutes, title, caption, claimId, background: step, light: DAY_LIGHT, frame: ['frame-siege-a', 'frame-siege-b'],
     texian: { style: 'wall', at: 'plaza', fire: 'picket', groups: walls('picket') },
     mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: lines(near, 'picket') },
     guns: bombardment({ north, south }), lines: talk, ...extra,
@@ -176,25 +180,33 @@ export const ALAMO = Object.freeze({
   claimId: 'HIST-TEX-058',
   outcome: 'The Alamo is stormed at dawn on March 6 and every man who fought is killed; the women and children and Joe are spared.',
   held: name => `${name} is inside the Alamo with the garrison.`,
-  involved: alamoInvolved,
+  // Whoever is inside is held by the siege's own rules (shut in, and still able to answer Travis's runner), not the engine's.
+  holdsParticipants: false,
+  // Leave the class on its calendar's grid when the day of March 6 is over, so the period's last dated moments are met.
+  landOnEnd: true,
+  // The frames below already hold the room round the compound.
+  frameTight: true,
   // The compound is a few figures wide at the map's symbol scale: its smoke is drawn a third the size of a field battle's, so
   // a gun's bank covers a wall and not the whole fort (public/battle-view.js `smokeScale`).
   smokeScale: 0.35,
   sides: {
     // 189 on the official list, 182-257 by the estimates (`HIST-TEX-058`); about 156 fit to fight and 14 sick at the start.
-    texian: { name: 'The garrison', count: 189, drawn: 31, claimId: 'HIST-TEX-058' },
+    // The sides' own bodies are never drawn (every phase draws its parts as groups): one figure each, which the engine's
+    // figure count needs and the page never shows.
+    texian: { name: 'The garrison', count: 189, drawn: 1, claimId: 'HIST-TEX-058' },
     // About 1,500 into Béxar on February 23, nearly 2,400 after March 3; about 1,800 in the assault with 500 cavalry.
-    mexican: { name: 'Santa Anna’s army', count: 2400, drawn: 60, claimId: 'HIST-TEX-500' },
+    mexican: { name: 'Santa Anna’s army', count: 2400, drawn: 1, claimId: 'HIST-TEX-500' },
   },
   // The red flag of no quarter on the tower of San Fernando, from the first afternoon to the end (`HIST-TEX-054`).
   flag: { side: MEX, kind: 'red', at: 'town', claimId: 'HIST-TEX-054', words: 'No quarter' },
   guns: [
-    { id: 'battery-north', name: 'The north battery', side: MEX, at: 'battery-north-far', face: 'north-wall', metal: 'bronze', crew: 3, claimId: 'HIST-TEX-505' },
+    // The north battery, brought closer: 350 yards, then nearer, then within musket shot on March 3 (`HIST-TEX-505`, `-506`).
+    ...['far', 'mid', 'close'].map(how => ({ id: `battery-north-${how}`, name: 'The north battery', side: MEX, at: `battery-north-${how}`, face: 'north-wall', metal: 'bronze', crew: 3, claimId: 'HIST-TEX-505' })),
     { id: 'battery-west', name: 'The battery by the river', side: MEX, at: 'battery-west', face: 'west-wall', metal: 'bronze', crew: 3, claimId: 'HIST-TEX-505' },
     { id: 'battery-south', name: 'The south battery', side: MEX, at: 'battery-south', face: 'south-wall', metal: 'bronze', crew: 2, claimId: 'HIST-TEX-505' },
     { id: 'eighteen', name: 'The 18-pounder', side: TEX, at: 'sw-battery', face: 'town', metal: 'iron', crew: 3, claimId: 'HIST-TEX-504' },
-    { id: 'north-gun', name: 'The north battery', side: TEX, at: 'north-battery', face: 'north-out', metal: 'iron', crew: 2, claimId: 'HIST-TEX-501' },
-    { id: 'church-guns', name: 'The church guns', side: TEX, at: 'church-platform', face: 'east-out', metal: 'iron', crew: 2, claimId: 'HIST-TEX-501' },
+    { id: 'north-gun', name: 'The north battery', side: TEX, at: 'north-battery', face: 'north-out', metal: 'iron', crew: 2, canister: true, claimId: 'HIST-TEX-501' },
+    { id: 'church-guns', name: 'The church guns', side: TEX, at: 'church-platform', face: 'east-out', metal: 'iron', crew: 2, canister: true, claimId: 'HIST-TEX-501' },
     { id: 'turned-gun', name: 'A captured gun', side: MEX, at: 'plaza-gun', face: 'long-barrack', metal: 'iron', crew: 3, claimId: 'HIST-TEX-501' },
   ],
   commands: {
@@ -204,14 +216,14 @@ export const ALAMO = Object.freeze({
       { text: '¡Fuego!', gloss: 'Fire!', kind: 'reconstructed' },
     ],
   },
-  phases: [
+  phases: toEngine([
     // ---------------------------------------------------------------- February 23
     {
       // 14:30-15:30. The bell, the army into the town from the west road, the garrison across the river into the Alamo.
-      id: 'arrival', minutes: 60, step: 10, watched: 'involved', title: 'February 23: the Mexican army comes', claimId: 'HIST-TEX-054', frame: ['frame-arrival-a', 'frame-arrival-b'],
+      id: 'arrival', minutes: 60, background: 20, title: 'February 23: the Mexican army comes', claimId: 'HIST-TEX-054', frame: ['frame-arrival-a', 'frame-arrival-b'],
       caption: 'About half past two the bell of San Fernando rings: Mexican cavalry is in sight. Santa Anna’s army marches into Béxar, and the garrison - about a hundred and fifty men fit to fight and fourteen sick - goes across the river into the Alamo with cattle and corn, and a few families with it.',
-      texian: { style: 'column', keys: [[0, 'town-edge'], [40, 'gate-out'], [60, 'plaza']], action: 'withdraw', fire: 'none', face: 'away' },
-      mexican: { style: 'column', keys: [[0, 'west-road'], [60, 'town']], action: 'advance', fire: 'none' },
+      texian: { style: 'loose', at: 'plaza', fire: 'none', groups: [{ id: 'garrison-in', name: 'The garrison, going in', style: 'column', drawn: 24, keys: [[0, 'town-edge'], [40, 'gate-out'], [60, 'plaza']], action: 'withdraw', fire: 'none', face: 'away' }] },
+      mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [{ id: 'army-in', name: 'Santa Anna’s army', style: 'column', drawn: 36, keys: [[0, 'west-road'], [60, 'town']], action: 'advance', fire: 'none', face: 'plaza' }] },
       lines: [
         say('a-coming', 4, TEX, 'volunteer', 'reconstructed', 'They’re coming! Into the Alamo!'),
         say('a-corn', 16, TEX, 'volunteer', 'reconstructed', 'Bring the corn! Drive the cattle in!'),
@@ -221,7 +233,7 @@ export const ALAMO = Object.freeze({
     },
     {
       // 15:30-18:30. The red flag; a bugle for a parley; the 18-pounder's answer (`HIST-TEX-504`).
-      id: 'red-flag', minutes: 180, step: 60, watched: 'involved', title: 'February 23: the red flag', claimId: 'HIST-TEX-504', frame: ['frame-siege-a', 'frame-siege-b'],
+      id: 'red-flag', minutes: 180, background: 60, title: 'February 23: the red flag', claimId: 'HIST-TEX-504', frame: ['frame-siege-a', 'frame-siege-b'],
       caption: 'A blood-red flag goes up on the tower of San Fernando: no quarter. A Mexican bugle sounds for a parley, and Travis answers with the 18-pounder. He wrote the next day: “I have answered the demand with a cannon shot, and our flag still waves proudly from the walls.”',
       texian: { style: 'wall', at: 'plaza', fire: 'none', groups: walls('none') },
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [{ id: 'town', name: 'Santa Anna’s army, in Béxar', style: 'ranks', at: 'town-edge', face: 'plaza', drawn: 24, fire: 'none' }] },
@@ -251,7 +263,7 @@ export const ALAMO = Object.freeze({
     }),
     {
       // 10:00-12:00. The huts (`HIST-TEX-505`): two or three hundred soldiers in them, fired on and burned out.
-      id: 'huts', minutes: 120, step: 20, watched: 'involved', title: 'February 25: the fight at the huts', claimId: 'HIST-TEX-505', frame: ['frame-siege-a', 'frame-siege-b'],
+      id: 'huts', minutes: 120, background: 20, title: 'February 25: the fight at the huts', claimId: 'HIST-TEX-505', frame: ['frame-siege-a', 'frame-siege-b'],
       caption: 'About ten in the morning two or three hundred Mexican soldiers cross the river and get into the huts ninety or a hundred yards from the walls. The defenders fire on them, and men run out and set the huts alight. Travis wrote that six Mexican soldiers were killed and four wounded, and that none of the garrison was.',
       texian: { style: 'wall', at: 'plaza', fire: 'scattered', groups: [...walls('scattered'), { id: 'sortie', name: 'Men with torches', style: 'loose', drawn: 5, keys: [[0, 'gate-out'], [30, 'sortie'], [70, 'sortie'], [100, 'gate-out']], face: 'huts', fire: 'scattered', action: 'advance', spread: { width: 0.02, depth: 0.01 } }] },
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [...lines(false), { id: 'huts', name: 'Soldiers in the huts', style: 'loose', drawn: 12, keys: [[0, 'huts'], [80, 'huts'], [110, 'lines-south']], face: 'south-wall', fire: 'scattered', action: 'hold', spread: { width: 0.04, depth: 0.02 } }] },
@@ -305,7 +317,7 @@ export const ALAMO = Object.freeze({
       // Mar 1, 03:00-05:00. The Gonzales men come in (`HIST-TEX-057`, `-438`, `-506`): through the lines, a shot from the
       // walls in the dark wounds one of them, then the gate by four, and on to the walls.
       // Held to five, so the men who came in are seen walking from the gate to their posts (sim/alamo-posts.mjs).
-      id: 'relief', minutes: 120, step: 10, watched: 'involved', title: 'March 1: the Gonzales men ride in', claimId: 'HIST-TEX-506', light: 0.8, frame: ['frame-relief-a', 'frame-relief-b'],
+      id: 'relief', minutes: 120, background: 20, title: 'March 1: the Gonzales men ride in', claimId: 'HIST-TEX-506', light: 0.8, frame: ['frame-relief-a', 'frame-relief-b'],
       caption: 'Before dawn on March 1, thirty-two men of the Gonzales ranging company, guided by John W. Smith, come through the Mexican lines and ride for the walls. In the dark a sentry fires on them, taking them for Mexicans, and one of them is wounded; then they are known and let in - the only help that ever reached the Alamo.',
       texian: { style: 'wall', at: 'plaza', fire: 'none', groups: [...walls('none', { thin: true }), { id: 'relief', name: 'The Gonzales men', style: 'column', figure: 'rider', drawn: 8, keys: [[0, 'relief-wait'], [34, 'relief-east'], [54, 'gate-out'], [60, 'gate-in'], [100, 'plaza']], face: 'plaza', fire: 'none', action: 'advance' }] },
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: lines(false) },
@@ -352,7 +364,7 @@ export const ALAMO = Object.freeze({
       caption: 'The Mexican guns fire into the evening. At ten o’clock they stop. After twelve days of them, the garrison sleeps.',
       texian: { style: 'wall', at: 'plaza', fire: 'none', groups: walls('none', { thin: true }) },
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: lines(true) },
-      guns: { 'battery-north': { at: 'battery-north-close', from: 20, to: 230, every: 50 }, 'battery-west': { from: 30, to: 230, every: 60 } },
+      guns: { 'battery-north-close': { from: 20, to: 230, every: 50 }, 'battery-west': { from: 30, to: 230, every: 60 } },
     },
     {
       // 22:00, Mar 5 - 05:00, Mar 6. The columns form and lie on the cold ground (`HIST-TEX-500`, `-501`). Not held; no card -
@@ -545,6 +557,6 @@ export const ALAMO = Object.freeze({
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [{ id: 'guard', name: 'A guard on the Alamo', style: 'loose', drawn: 10, at: 'plaza', face: 'church-front', fire: 'none', spread: { width: 0.03, depth: 0.03 } }] },
       plumes: [{ at: 'pyres', from: 60 }],
     },
-  ],
+  ]),
   ground: alamoGround,
 });

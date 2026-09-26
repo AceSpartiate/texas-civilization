@@ -8,7 +8,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { stepWorld, validateWorld, applyAction } from '../sim/world.mjs';
 import { calendarMinutes, CALENDAR_SCALE } from '../sim/clock.mjs';
-import { ENGAGEMENTS, BATTLE_STEPS, LONG_STEPS, battleState, checkEngagement, projectBattle, schedule } from '../sim/battle-stage.mjs';
+import { ENGAGEMENTS, BATTLE_STEPS, battleState, checkEngagement, projectBattle, schedule } from '../sim/battle-stage.mjs';
 import { GONZALES } from '../sim/battles/gonzales.mjs';
 import { PACES } from '../server/app.mjs';
 import { gonzalesClass, principalOf, stepUntil, TIMELINE } from './support/battle.mjs';
@@ -102,9 +102,8 @@ test('the fighting plays three to six real minutes at the Study pace on both map
     assert.ok(real('study') >= 180 && real('study') <= 360, `${map || 'invented'}: the fighting took ${ticks} ticks, ${real('study')} real seconds at the Study pace`);
     // Brisk and Quick shorten it in proportion, since it is counted in ticks.
     assert.ok(real('brisk') < real('study') && real('quick') < real('brisk'));
-    // Every step it takes is one the page draws as a walk, not a jump: a divisor of the farming tick, or (since the Alamo's
-    // siege, docs/BATTLES.md §7.3) one of the longer steps the page already draws as an ordinary tick.
-    assert.ok(BATTLE_STEPS.every(step => 20 % step === 0 || LONG_STEPS.includes(step)));
+    // Every step it takes is one the page draws as a walk, not a jump.
+    assert.ok(BATTLE_STEPS.every(step => 20 % step === 0));
   }
 });
 

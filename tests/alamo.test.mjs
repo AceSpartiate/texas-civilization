@@ -156,7 +156,9 @@ test('on March 6 every man inside dies and every woman is spared, and no family 
   // Not dead, rather than well: the man sent may have been laid up by a norther before he rode (`COLD_WEIGHT`), and
   // what this holds is that **the family cannot see the death** until the word comes, not what else ails him.
   assert.notEqual(view(world, man.householdId).entities.find(e => e.id === man.id).health.condition, 'dead', 'the family saw the death before any word came');
-  assert.doesNotMatch(JSON.stringify(view(world, man.householdId)), /"fate"/, 'the fate rode the wire');
+  // Since 2026-09-25 the student watching may see his fall (docs/BATTLES.md §2b.1, `memberFates`); the family's record of him
+  // still carries no fate until the word.
+  assert.doesNotMatch(JSON.stringify(view(world, man.householdId).entities), /"fate"/, 'the fate rode the wire');
   untilMoment(world, 'survivors-leave');
   assert.equal(woman.travel?.to, world.households[woman.householdId].homeSiteId, 'the spared woman did not start home');
   untilMoment(world, 'fall-rumour');

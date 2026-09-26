@@ -1193,7 +1193,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   // And, for the five real minutes after the X, the offer to take it back up (owner, 2026-09-22): when the window shuts by
   // the server's clock and how long that is from now. Absent the rest of the time, which is the whole of the page's cue.
   const lessonResume = household && role !== 'host' && !lesson ? lessonResumeOffer(world, household, now) : null;
-  const view = { tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: mapForPage(world.map) }), household: household && projectHousehold(world, household), entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
+  const view = { tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: mapForPage(world.map) }), household: household && projectHousehold(world, household), entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role, { seen: (others || []).map(other => other.id) }),
     // The weather, region by region (sim/weather.mjs, docs/WEATHER.md): what kind of day it is in each of the three
     // countries, how high their rivers are running, and where the wind is from. The page draws it and says nothing
     // (owner, 2026-09-20: "Players should see the weather. If implemented correctly, no text should be required"), so the

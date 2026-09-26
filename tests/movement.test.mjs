@@ -10,7 +10,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { ProjectionMotion, CALENDAR_STEPS, drawnProgress, gaitStep, clipGait, GaitClock, STRIDE, GAIT_FLOOR } from '../public/motion.js';
 import { CALENDAR_SCALE, TICK_MINUTES } from '../sim/clock.mjs';
-import { BATTLE_STEPS } from '../sim/battle-stage.mjs';
+import { BATTLE_PACES, BATTLE_STEPS } from '../sim/battle-stage.mjs';
 import { WALK_SPEED, HORSE_SPEED, RIDER_SPEED, WAGON_SPEED } from '../sim/travel.mjs';
 import { ARMY_MILES_PER_DAY } from '../sim/army.mjs';
 import { PACES } from '../server/app.mjs';
@@ -117,7 +117,7 @@ test('the walk cycle plays at the rate the drawn ground demands, never faster th
 
 test('the simulation covers exactly the ground it did: every pace constant, and a real walk tick by tick', () => {
   // And the steps a battle is watched at (sim/battle-stage.mjs, docs/BATTLES.md §2.2): an ordinary tick while a fight is fought.
-  assert.deepEqual([...new Set([...Object.values(CALENDAR_SCALE), ...BATTLE_STEPS])].sort((a, b) => a - b), [...CALENDAR_STEPS], 'the drawing and the clock disagree about what one tick of calendar is');
+  assert.deepEqual([...new Set([...Object.values(CALENDAR_SCALE), ...BATTLE_STEPS, ...BATTLE_PACES])].sort((a, b) => a - b), [...CALENDAR_STEPS], 'the drawing and the clock disagree about what one tick of calendar is');
   assert.equal(TICK_MINUTES, 20);
   assert.deepEqual({ ...CALENDAR_SCALE }, { home: 20, news: 60, gathering: 240, campaign: 720, preserved: 20 });
   // The family horse is five miles an hour since 2026-09-18 (sim/travel.mjs, `FIC-GONZ-059`); it went at the courier's 2.6 before.

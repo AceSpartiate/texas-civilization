@@ -20,7 +20,7 @@ import { awardGlory } from './glory.mjs';
 import { spotlight } from './host.mjs';
 import { calendarMinutes } from './clock.mjs';
 import { ALAMO } from './battles/alamo.mjs';
-import { armBattle, battleState, placeOf, projectBattle, stepOf } from './battle-stage.mjs';
+import { armBattle, battleState, fatesDue, projectBattle, stageFate, unitPlace, watchedByAFamily } from './battle-stage.mjs';
 import { alamoRole, share, stormAlamo } from './alamo.mjs';
 import { OUT_OF_THE_CHURCH, POSTS, SACRISTY, TO_SACRISTY, advanceWalks, inFeet, onMap, postFor, postLabel, setWalk, spotOf, wallOf, walkToPost } from './alamo-posts.mjs';
 
@@ -62,10 +62,11 @@ const onCalendar = world => world.period === 2 && Boolean(world.map?.sites?.bexa
  */
 export function advanceAlamoBattle(world, { momentOf, beginTravel } = {}) {
   if (!onCalendar(world)) return;
-  armBattle(world, 'alamo', momentOf(world, ALAMO.startKey));
+  const battle = armBattle(world, 'alamo', momentOf(world, ALAMO.startKey));
+  enlist(world, battle);
   const state = battleState(world, 'alamo');
   if (!state || state.before) return;
-  const battle = state.battle, phaseId = state.phase?.id;
+  const phaseId = state.phase?.id;
   // A class saved in the siege before posts existed: whoever stands inside at a plaza spot is given a post and walks to it.
   for (const person of insideNow(world)) if (!person.service.post && !state.over) walkToPost(world, person, postFor(world, person, alamoRole(person)));
   if (!state.over) followTheRelief(world, state);
@@ -83,12 +84,9 @@ export function advanceAlamoBattle(world, { momentOf, beginTravel } = {}) {
   for (const person of Object.values(world.entities)) if (person.service?.walked !== undefined && !person.service.walk && person.task === 'travel' && !person.travel) { person.task = 'rest'; delete person.service.walked; }
   for (const person of Object.values(world.entities)) if (person.service?.walk && !person.travel) { person.task = 'travel'; person.service.walked = true; }
   if (!state.over) stageFates(world, state);
-  // Who of the families is in it, from when: what the debrief is written from. Never sent. Kept apart from the engine's
-  // `participants`, which hold a person from every order (`heldByBattle`): somebody inside already can be given none, and
-  // must still be able to answer Travis's runner.
-  battle.inside ||= {};
   for (const person of insideNow(world)) {
-    const entry = battle.inside[person.id] ||= { householdId: person.householdId, joined: world.minute, post: person.service.post?.id };
+    const entry = battle.participants[person.id];
+    if (!entry) continue;
     if (!Number.isFinite(entry.fought) && state.fighting && alamoRole(person) === 'fighter') entry.fought = world.minute;
   }
   sendCards(world, state);
@@ -107,6 +105,23 @@ export function advanceAlamoBattle(world, { momentOf, beginTravel } = {}) {
 }
 
 /**
+ * Who of the families is in the force, and from when (the engine's `participants`, sim/battle-stage.mjs): the garrison at
+ * Béxar - before the army comes as after - and the Gonzales men riding in. What holds the siege's quiet days for a class with
+ * somebody there (`background`, `watchedByAFamily`) and what the debrief is written from. The Alamo holds nobody from an
+ * order by this (`holdsParticipants: false`): somebody inside can be given none already, and must still answer Travis's
+ * runner. A courier who rides out, and a relief man left behind, are released from it.
+ */
+function enlist(world, battle) {
+  for (const person of Object.values(world.entities)) {
+    if (!person.householdId || person.kind !== 'person') continue;
+    const service = person.service, entry = battle.participants[person.id];
+    const inForce = alive(person) && ((service?.kind === 'garrison' && (service.besieged || service.status === 'serving')) || (service?.kind === 'relief' && service.riding));
+    if (inForce && (!entry || entry.released)) battle.participants[person.id] = { householdId: person.householdId, joined: entry?.joined ?? world.minute };
+    else if (!inForce && entry && !entry.released && !Number.isFinite(service?.fellAt) && service?.fate !== 'spared') entry.released = world.minute;
+  }
+}
+
+/**
  * The Gonzales men from where they waited in the dark (`FIC-GONZ-433`): while the relief phase runs, each family's man with
  * them rides with the company, a few feet from its middle, from the Gonzales road to the gate; at four the director's
  * `relief-enters` has them inside (sim/alamo.mjs `reliefEnters`). One who is still on the road is left behind.
@@ -114,10 +129,8 @@ export function advanceAlamoBattle(world, { momentOf, beginTravel } = {}) {
 function followTheRelief(world, state) {
   const phase = state.phase;
   if (phase?.id !== 'relief') return;
-  const part = phase.texian.groups.find(one => one.id === 'relief');
-  const ground = ALAMO.ground(world);
-  const into = world.minute - phase.from;
-  const at = placeOf(ground, part, phase.minutes, into);
+  const at = unitPlace(ALAMO.ground(world), phase, 'relief', world.minute - phase.from);
+  if (!at) return;
   withTheRelief(world).forEach((person, index) => {
     if (person.travel) { person.service.late = true; return; }
     if (person.service.late) return;
@@ -146,17 +159,28 @@ function leftBehind(world, beginTravel) {
  */
 function stageFates(world, state) {
   const endFrom = phaseStart(state, 'end');
+  // Staged once the columns move, through the engine's one path for a person's fate at its moment (`stageFate`): every fighter
+  // then inside, at the minute the storming reaches his post. Never sent before that minute (`projectBattle` `fates`).
+  if (world.minute >= phaseStart(state, 'advance')) {
+    for (const person of insideNow(world)) {
+      if (alamoRole(person) !== 'fighter' || person.service.fate) continue;
+      const minute = fallMinute(world, person);
+      if (minute !== null) stageFate(world, 'alamo', person.id, { fate: 'killed', minute });
+    }
+  }
+  for (const due of fatesDue(world, 'alamo')) {
+    const person = world.entities[due.personId], service = person?.service;
+    state.battle.fates[due.personId].applied = world.minute;
+    if (!service?.besieged || service.fate || !alive(person)) continue;
+    Object.assign(service, { fate: 'fell', fellAt: due.minute });
+    delete service.walk;
+    person.task = 'rest';
+    awardGlory(world, { event: 'alamo', claimId: 'HIST-TEX-058', personId: person.id, householdId: person.householdId, role: 'fought', fromSiteId: 'bexar' });
+  }
   for (const person of insideNow(world)) {
     const service = person.service;
-    if (service.fate) continue;
-    if (alamoRole(person) === 'fighter') {
-      const minute = fallMinute(world, person);
-      if (minute === null || world.minute < minute) continue;
-      Object.assign(service, { fate: 'fell', fellAt: minute });
-      delete service.walk;
-      person.task = 'rest';
-      awardGlory(world, { event: 'alamo', claimId: 'HIST-TEX-058', personId: person.id, householdId: person.householdId, role: 'fought', fromSiteId: 'bexar' });
-    } else if (world.minute >= endFrom) {
+    if (service.fate || alamoRole(person) === 'fighter') continue;
+    if (world.minute >= endFrom) {
       service.fate = 'spared';
       awardGlory(world, { event: 'alamo', claimId: 'HIST-TEX-058', personId: person.id, householdId: person.householdId, role: 'present', fromSiteId: 'bexar' });
     }
@@ -201,7 +225,8 @@ function sendCards(world, state) {
   // Afterwards: what the student watched, for the one who watched it - the card, and never the journal (the word is still
   // days off, sim/alamo.mjs `tellFall`).
   if ((phaseId === 'end' || phaseId === 'after') && !state.over) {
-    for (const [personId, entry] of Object.entries(battle.inside || {})) {
+    for (const [personId, entry] of Object.entries(battle.participants || {})) {
+      if (!world.entities[personId]?.service?.besieged) continue;
       const person = world.entities[personId];
       if (!person || battle.debrief?.[entry.householdId]) continue;
       battle.debrief ||= {};
@@ -252,24 +277,21 @@ export function alamoProjection(world, householdId, role) {
   // Over: nothing more to watch, and only this family's own cards - what it watched, and the account when the word comes.
   if (!state.live) return role === 'student' && householdId ? cardsFor(world, householdId, state, false) : null;
   const inside = insideNow(world);
-  const falls = people => Object.fromEntries(people.filter(person => Number.isFinite(person.service.fellAt)).map(person => [person.id, person.service.fellAt]));
-  const facing = people => Object.fromEntries(people.map(person => [person.id, facingOut(world, person)]));
+  // Which part of the garrison each stands in - the wall his post is on - so the page poses him with its fire.
+  const units = people => Object.fromEntries(people.map(person => [person.id, UNIT_OF_POST[person.service.post?.id]]).filter(([, unit]) => unit));
+  const fates = state.battle.fates || {};
   if (role === 'host') {
-    const battle = { ...projectBattle(world, 'alamo', { members: inside.map(person => person.id), memberFalls: falls(inside), memberFacing: facing(inside) }), reconstruction: false };
-    const held = Boolean(stepOf(world, state.def, state.phase)) || state.fighting;
+    const battle = { ...projectBattle(world, 'alamo', { members: inside.map(person => person.id), units: units(inside), fates }), reconstruction: false };
+    const held = Boolean(state.phase.step) || Boolean(state.phase.background && watchedByAFamily(world, state.battle)) || state.fighting;
     return { battle, host: { focus: held ? 'battle' : 'regional', caption: 'The Alamo, live. Families with somebody there see it too; the rest have not heard.', ...onMap(world, { x: 180, y: 280 }) } };
   }
   if (role !== 'student' || !householdId || !watchersOf(world).has(householdId)) return { battle: null, ...cardsFor(world, householdId, state, false) };
   const own = inside.filter(person => person.householdId === householdId);
-  const battle = { ...projectBattle(world, 'alamo', { members: own.map(person => person.id), memberFalls: falls(own), memberFacing: facing(own) }), reconstruction: false };
+  const battle = { ...projectBattle(world, 'alamo', { members: own.map(person => person.id), units: units(own), fates }), reconstruction: false };
   return { battle, ...cardsFor(world, householdId, state, true) };
 }
-/** Which way somebody at a post faces: out over their wall. */
-function facingOut(world, person) {
-  const post = person.service?.post;
-  const out = { north: { x: 0, y: -1 }, west: { x: -1, y: 0 }, south: { x: 0, y: 1 }, church: { x: 1, y: 0 }, barrack: { x: -1, y: 0 } }[wallOf(post)] || { x: 0, y: -1 };
-  return post?.id === 'southwest' ? { x: -0.9, y: 0.4 } : out;
-}
+/** The garrison's part a post stands in (sim/battles/alamo.mjs `walls`): the north battery's men with the north wall's. */
+const UNIT_OF_POST = Object.freeze({ north: 'north', 'north-battery': 'north', west: 'west', southwest: 'southwest', south: 'south', palisade: 'palisade', church: 'church', 'long-barrack': 'barrack' });
 /** This family's card, and the debrief afterwards: only its own, never another's. */
 function cardsFor(world, householdId, state, watching) {
   const out = {};

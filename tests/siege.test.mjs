@@ -88,8 +88,9 @@ test('after November 2 the army camps above the town, goes back down to Concepci
   assert.ok(seen.camps.concepcion.y > bexar.y, 'Concepción is not south of the town');
   assert.equal(seen.camps.mill.camp, 'the old mill above Béxar');
   assert.ok(Math.abs(seen.camps.mill.y - (bexar.y + SIEGE_CAMPS.mill.dy)) < 1e-6);
-  // And never in the town: Béxar was Cos's until December.
-  assert.ok(Math.hypot(world.army.x - bexar.x, world.army.y - bexar.y) >= 0.5, 'the army is camped in Béxar');
+  // And never in the town: Béxar was Cos's until December. The mill is about 0.45 of a mile above the plaza (FIC-GONZ-428,
+  // 2026-09-25: "within one-half a mile", Field), clear of the town's northern houses about 0.15 of a mile out.
+  assert.ok(Math.hypot(world.army.x - bexar.x, world.army.y - bexar.y) >= 0.4, 'the army is camped in Béxar');
   assert.equal(armyInvalid(world), null);
 });
 

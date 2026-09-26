@@ -141,7 +141,7 @@ try {
   ok(`at the ${alarm.phase} on ${alarm.date} the card came at ${man.name}'s side: "${alarm.alert.text.slice(0, 90)}…", and Watch was pressed`);
   const sample = async (label) => {
     const one = await inside.evaluate(() => ({ phase: window.__snapshot.world.battle?.phase, minute: window.__snapshot.world.minute, view: window.__battleView, camera: window.__camera?.kind, frame: window.__animation?.drawMs, size: `${innerWidth}x${innerHeight}` }));
-    evidence.assault.push({ label, phase: one.phase, minute: one.minute, camera: one.camera, size: one.size, figures: one.view?.figures, partStyles: one.view?.partStyles, partRegularity: one.view?.partRegularity, shotsTotal: one.view?.shotsTotal, shotsBy: one.view?.shotsBy, smokeInView: one.view?.smokeInView, bubbles: one.view?.bubbles?.map(b => b.text), memberFalls: one.view?.memberFalls, people: one.view?.people, light: one.view?.light, frameMs: one.view?.frameMs, mapDrawMs: one.frame });
+    evidence.assault.push({ label, phase: one.phase, minute: one.minute, camera: one.camera, size: one.size, figures: one.view?.figures, groups: one.view?.groups, groupStyles: one.view?.groupStyles, groupRegularity: one.view?.groupRegularity, shotsTotal: one.view?.shotsTotal, shotsBy: one.view?.shotsBy, smokeInView: one.view?.smokeInView, bubbles: one.view?.bubbles?.map(b => b.text), memberFalls: one.view?.memberFalls, people: one.view?.people, light: one.view?.light, frameMs: one.view?.frameMs, mapDrawMs: one.frame });
     return one;
   };
   const moments = [];
@@ -154,7 +154,7 @@ try {
     if (i === 3) await shot(inside, 'assault-1366');
     if (i === 10) { await inside.setViewportSize({ width: 1024, height: 768 }); }
     if (i === 14) await shot(inside, 'assault-1024');
-    if (!fellSeen && one.view?.memberFalls?.includes(manId)) {
+    if (!fellSeen && one.view?.memberFalls?.some(fall => fall.id === manId)) {
       fellSeen = { phase: one.phase, minute: one.minute, drawn: await inside.evaluate(id => window.__drawnAt?.[id] || null, manId), camera: one.camera,
         journal: await inside.evaluate(id => window.__snapshot.world.events.filter(event => event.actorId === id).map(event => event.text), manId),
         record: await inside.evaluate(id => window.__snapshot.world.entities.find(one => one.id === id), manId) };
@@ -171,12 +171,12 @@ try {
   }
   ok(`fire and smoke on screen at all ${fighting.length} sampled moments of the assault (${[...new Set(fighting.map(one => one.phase))].join(', ')}; shots ${fighting[0].view.shotsTotal} -> ${fighting.at(-1).view.shotsTotal}; smoke in view ${Math.min(...fighting.map(one => one.view.smokeInView))}-${Math.max(...fighting.map(one => one.view.smokeInView))})`);
   // The columns in files, the garrison along its walls.
-  const early = fighting.find(one => one.view.partStyles?.['mexican:duque'] === 'column' && one.view.partStyles?.['texian:north'] === 'wall');
+  const early = fighting.find(one => one.view.groupStyles?.duque === 'column' && one.view.groupStyles?.north === 'wall');
   assert.ok(early, 'the columns and the walls were never drawn as columns and walls');
-  const regular = early.view.partRegularity;
+  const regular = early.view.groupRegularity;
   // A number, and small: a part laid out as nothing measurable (a column given no place to stand) is not in order either.
-  assert.ok(Number.isFinite(regular['mexican:duque']) && regular['mexican:duque'] < 0.2 && Number.isFinite(regular['texian:north']) && regular['texian:north'] < 0.2, `the column or the wall is not in order: ${JSON.stringify(regular)}`);
-  ok(`the columns come in files and the garrison stands along its walls: Duque's column ${regular['mexican:duque']?.toFixed(3)}, the north wall ${regular['texian:north']?.toFixed(3)} (nearest-neighbour spread)`);
+  assert.ok(Number.isFinite(regular.duque) && regular.duque < 0.2 && Number.isFinite(regular.north) && regular.north < 0.2, `the column or the wall is not in order: ${JSON.stringify(regular)}`);
+  ok(`the columns come in files and the garrison stands along its walls: Duque's column ${regular.duque?.toFixed(3)}, the north wall ${regular.north?.toFixed(3)} (nearest-neighbour spread)`);
   const said = await inside.evaluate(() => window.__battleView?.linesShown || []);
   assert.ok(said.includes('al-viva') && said.includes('al-travis'), `the shout and Travis's words were not drawn: ${said}`);
   assert.ok(said.some(id => id.startsWith('rp-')) && said.some(id => id.startsWith('nw-') || id.startsWith('fb-')), `the orders and shouts of the fight were not drawn: ${said}`);
@@ -209,7 +209,7 @@ try {
     assert.equal(world.battle, null, 'the family with nobody there was sent the Alamo');
     assert.ok(!world.battleAlert && !world.battleAccount, 'the family with nobody there was sent a card');
     assert.ok(!raw.includes(manId), 'the family with nobody there was sent the man\'s id');
-    const part = /"memberFalls"|"guns"|"people"|"inside"|"debrief"|"alerted"|"fallen"/.exec(raw);
+    const part = /"memberFates"|"memberUnits"|"guns"|"people"|"fates"|"debrief"|"alerted"|"fallen"/.exec(raw);
     assert.ok(!part, `the family with nobody there was sent part of the battle: ${part?.[0]}`);
     assert.equal(await faraway.evaluate(() => window.__battleView), null, 'the page of the family with nobody there drew a battle');
   }

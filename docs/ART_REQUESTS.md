@@ -57,6 +57,13 @@ does not have:
 | **A dragoon firing from the saddle** keeps his mounted pose (`dragoon-idle-e`/`-w`) while the flash and the smoke are drawn at his hands | `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 2 | `dragoon-fire` (aim and fire from the saddle, both facings) |
 | **The wounded carried**: a man hit is drawn as the library's seated wounded soldier (`regular-injured`/`volunteer-injured`) helped back by two walking figures; a dead man as `*-reclining` with two walking beside him; a dragoon hit in the saddle is drawn dismounted | `drawFallen` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 3 | `bearers-carry` (two men carrying a third on a blanket, both facings) and `dragoon-wounded-led` |
 | **The Gonzales cannon crew** still uses the carriage-gun crew cycles (`volunteer-gun-ram`, `-shot-carry`, `-fire`); the delivered `cannon-cartwheels` and recoil poses now draw the gun itself | `drawCannon` in `public/battle-view.js` (`stand-in:` for crew only) | Request 2026-09-25 — battles, item 4 | Three settlers serving the gun with correct cart-wheel positions |
+| **Béxar's houses fought from** (2026-09-25): a division inside a stone house is the town's own house as drawn, with the flashes and the smoke of its loopholes at its wall; only one man in four is drawn, in the doorway or the yard | `draw` in `public/battle-view.js`, `cover: 'loophole'` (`stand-in:`) | Request 2026-09-25 — the storming of Béxar, item 1 | `house-loopholed` (a flat-roofed stone house with a parapet and loopholes) and `volunteer-loophole-fire` |
+| **The street barricade and the sandbags** at Béxar are the library's `palisade` and `sacks`, set in front of the men behind them | `draw` in `public/battle-view.js`, `cover: 'barricade'`/`'sandbags'` (`stand-in:`) | Request 2026-09-25 — the storming of Béxar, items 2 and 4 | `barricade-street` (ditch, bank, post palisade, a gun embrasure) and `sandbag-breastwork` |
+| **Karnes's crowbar** is the gun crew's ramming stroke (`volunteer-gun-ram`) at the door with the library's `tools` beside him; the broken door is `wall-breach` | `drawBreaches` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the storming of Béxar, item 3 | `volunteer-crowbar` (a man forcing a door or wall with a bar, both facings) |
+| **Digging the trench across the street at night** is the settlers' `rust-work`/`teal-work` | `draw` in `public/battle-view.js`, `action: 'work'` (`stand-in:`) | Request 2026-09-25 — the storming of Béxar, item 4 | `volunteer-dig` |
+| **The white flag of truce** is a regular's idle pose beside a pole with a white cloth drawn on the canvas; the bugle is a caption in a bubble | `drawWhiteFlag` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the storming of Béxar, item 5 | `regular-white-flag` (bearer, still and walking) and `regular-bugler` |
+| **The townspeople let out of a broken house** walk away as the library's `rust-woman`, `indigo`, `elder` and `smallchild` | `draw` in `public/battle-view.js`, `civilians` (a library figure, not a stand-in figure: no marker) | Request 2026-09-25 — the storming of Béxar, item 6 | Béxar townspeople of 1835 in their own dress, walking |
+| **Night at Béxar** (the entry before daylight, the Priest's House by moonlight) is not drawn: the day's own light stands | `public/app.js` (no layer) | Request 2026-09-25 — the storming of Béxar, item 7 | a darkening, moonlit layer that does not snap when the pace changes |
 | **Scaling ladders and a man climbing a wall** (the Alamo, 2026-09-25): two rails and rungs drawn on the canvas at the head of each column, carried level; at the north wall leaning up against it with the marching regular (`regular-march-n`) moved up each | `drawLadders` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the Alamo, item 1 | `ladder-carried` (four men, both facings), `ladder-set` against a wall, `regular-climb` (four frames up a ladder) |
 | **The Alamo's guns served**: the 18-pounder, the north battery, the church's guns and the Mexican batteries are all the library's field gun (`cannon-iron-*`/`cannon-bronze-*` and recoil) with the carriage-gun crews (`volunteer-gun-*`, `regular-gun-*`); canister is puffs thrown in a cone | `drawGun` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the Alamo, item 2 | `cannon-18pdr` on its garrison carriage at an embrasure (both facings, recoil), a siege-battery gun behind earth, and `canister-burst` |
 | **The garrison on the walls** stand at the wall's line in the volunteer firing cycle; nobody is drawn on a parapet or roof, above the wall | `layoutSide` and `draw` in `public/battle-view.js` | Request 2026-09-25 — the Alamo, item 3 | Volunteers firing over a parapet (upper body over a wall top), both facings and north/south |
@@ -111,14 +118,42 @@ into the existing pipeline, and how it will be checked. When a request is delive
 
 ---
 
-## Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night
+## Request 2026-09-25 — the storming of Béxar
 
+**Why.** The owner, 2026-09-25: *"go ahead, build it for every conflict. ... it's okay to make battles last longer to show the full
+experience as long as it appears correct to the player."* The storming of Béxar (December 5–9, 1835) is now staged on the engine
+(`sim/battles/bexar-storming.mjs`, research in docs/battle-research/staging.md §3.9, `HIST-TEX-490` to `-496`). It is street
+fighting from inside stone houses, and the library has none of the pieces that make that readable.
+
+**What**, in the frontier-v1 style and scale (people as the `volunteer`/`regular` sheets; props as `stone-tile-house` and
+`palisade`), each a transparent sheet anchored at the feet or the base:
+
+1. **A flat-roofed stone house with a parapet about four feet high and loopholes in its walls** ("a pigeon nursery", Lopez),
+   one storey, as a prop; and **a man firing through a loophole** - the barrel at the wall, the man half hidden - two to four
+   frames, east (mirrored west), `volunteer` and `regular`. Replaces the loophole flashes drawn at the town's own houses.
+2. **A street barricade**: a ditch, an earth bank and a post palisade across a street's mouth, with an embrasure for a gun (Field;
+   Dance; the 2007 archaeology under Main Plaza). Replaces `palisade` in front of the plaza's defenders.
+3. **A crowbar at a door or wall**, and the hole it leaves: a man forcing the bar, four frames, east, `volunteer` (Karnes,
+   Johnson's report). Replaces the ramming stroke.
+4. **Digging and filling sandbags at night**: a man with a spade in a trench across a street; a low breastwork of filled sacks.
+   Replaces `rust-work`/`teal-work` and `sacks`.
+5. **A white flag of truce and a bugler**: a Mexican regular carrying a white flag on a pole, still and walking; a bugler sounding.
+   Replaces the canvas flag. (The red or black flag over the Mexican battery is told in words until this lands too.)
+6. **Townspeople of Béxar in 1835** - women, children, an old man - walking out of a house, unhurt. Replaces the settlers' sheets.
+7. **Night and moonlight**: a layer that darkens the ground and leaves flashes and smoke bright, for the entry before daylight and
+   the Priest's House under the moon; it must not snap when the pace changes (`docs/MILITARY_EXPERIENCE.md`).
+
+**How it plugs in.** Poses by name in `public/battle-view.js`: the loophole pose in the `cover === 'loophole'` branch of `draw`,
+the barricade and sacks in the `cover` figures, the crowbar in `drawBreaches`, the flag and bugler in `drawWhiteFlag`, the
+townspeople in `TOWNSFOLK`. Delete each `stand-in:` and its row above.
+
+**Check.** `npm run test:battle-bexar` still passes and its screenshots in `test-results/battle-bexar-*.png` read as men fighting
+from inside houses, a barricade across a street, a man at a door with a bar, and a white flag on the plaza.
+## Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night
 **Why.** The owner, 2026-09-25 (docs/BATTLES.md §2b): the Alamo is the longest - the thirteen days of the siege lived and the
 assault the longest held fight - and a student may watch their own man fall on the wall. It is built on the engine
 (`sim/battles/alamo.mjs`, docs/BATTLES.md §7) with stand-ins for all of this (*Stand-ins in use*, the rows naming this request).
-
 **What**, in the frontier-v1 style, at the figures' scale:
-
 1. **Scaling ladders**: `ladder-carried` (a ladder carried level by four regulars, east and west, walking) and `ladder-set` (standing
    against a wall about ten feet high), and `regular-climb`, four frames of a man going up one (`HIST-TEX-500`, `-501`).
 2. **The guns served**: `cannon-18pdr`, the Alamo's big iron gun on a garrison carriage at an embrasure, both facings, with recoil;
@@ -133,11 +168,9 @@ assault the longest held fight - and a student may watch their own man fall on t
 7. **Lancers**: `lancer-march`, `lancer-idle`, lance up, both facings (`HIST-TEX-436`); never a strike.
 8. **Travis**: an officer's figure in the volunteer firing cycle, for the north battery (`HIST-TEX-502`).
 9. **Smoke at a distance**: `smoke-column-far`, a tall column from far off, for the huts on February 25 and the pyres on March 6.
-
 **How it plugs in.** `drawLadders`, `drawGun`, `drawPeople`, `drawPlume` and `drawFlag` in `public/battle-view.js` draw the
 stand-ins by these names' places; each is marked `stand-in:`. A delivered sheet registers in the atlas and the renderer draws it
 instead; the night grade replaces the wash drawn by `battle.light`.
-
 **Check.** `npm run test:battle-alamo` at 1366x768 and 1024x768: the ladders read as ladders against the north wall at the
 compound's zoom, the 18-pounder is visibly the biggest gun, the men on the walls stand behind them, and the dark lifts through the
 assault. No blood, no wound shown, no body closer than the compound's framing (VISION.md §16).

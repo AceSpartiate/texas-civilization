@@ -1305,12 +1305,12 @@ const clampTo = (value, limits) => Math.max(limits.min, Math.min(limits.max, val
  * above than below, because the top of the page carries the banner and the caption and the figures stand up from their feet.
  */
 const fieldFrame = points => points.frame ? points : points.flatMap(point => [{ x: point.x - 0.13, y: point.y - 0.24 }, { x: point.x + 0.13, y: point.y + 0.1 }]);
-// Each side where it stands, and the gun (public/battle-view.js draws them there) - or the ground the phase itself frames
-// (`battle.frame`, sim/battle-stage.mjs: the Alamo's compound and what is round it), taken as it is, with no room added.
+// Where the engagement names the ground it is fought over (Béxar: the houses north of the plaza and the Alamo's guns at the
+// east edge), that ground; otherwise each side where it stands, and the gun. A frame the engagement marks tight (`frameTight`,
+// the Alamo's compound, whose frames already hold the room round it) is taken as it is, with no room added.
 const battlePoints = world => {
-  const frame = world.battle?.frame;
-  if (frame) return Object.assign([{ x: frame.x0, y: frame.y0 }, { x: frame.x1, y: frame.y1 }], { frame: true });
-  return [...(world.battle?.sides || world.battle?.formations || []), ...(world.battle?.cannon ? [world.battle.cannon] : [])].map(point => ({ x: point.x, y: point.y }));
+  const points = (world.battle?.frame?.length ? world.battle.frame : [...(world.battle?.sides || world.battle?.formations || []), ...(world.battle?.cannon ? [world.battle.cannon] : [])]).map(point => ({ x: point.x, y: point.y }));
+  return world.battle?.frame?.length && world.battle.frameTight ? Object.assign(points, { frame: true }) : points;
 };
 function framingFor(world) {
   // The country outside the box (docs/MAP_ACCURACY.md §11) is drawn where it is, but it never frames a view: framing the

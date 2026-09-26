@@ -139,9 +139,9 @@ test('the siege is lived: the guns every day and the answer, the north battery a
     const battle = view(world, man.householdId).battle;
     if (battle?.id === 'alamo') {
       const day = seen[battle.phase] ||= { north: null, lines: null, shots: new Set(), falls: 0, light: battle.light || 0 };
-      const gun = battle.guns?.find(one => one.id === 'battery-north');
+      const gun = battle.guns?.find(one => one.id.startsWith('battery-north'));
       if (gun) day.north = feet(gun, onMap(world, { x: 122, y: 13 }));
-      const lines = battle.sides.find(side => side.group === 'lines-north');
+      const lines = battle.groups?.find(group => group.id === 'lines-north');
       if (lines) day.lines = feet(lines, onMap(world, { x: 122, y: 13 }));
       for (const one of battle.guns || []) for (const shot of one.shots) { assert.ok(shot <= world.minute, `a shot from ${shot} was sent at ${world.minute}`); day.shots.add(`${one.id}:${shot}`); }
       day.falls = Math.max(day.falls, battle.fallen.length);
@@ -226,7 +226,7 @@ test('the relief rides from Gonzales to wait short of the lines, rides in with t
   assert.ok(order?.can, 'the relief was not offered');
   assert.match(order.estimate, /To Gonzales .*(in time|too late).* February 27/, `the order did not say how long, and whether in time: ${order.estimate}`);
   applyAction(world, man.householdId, { action: 'chore', entityId: man.id, chore: 'join-relief', mode: 'foot' });
-  // Played from here, so the ride in is watched as a student's would be (sim/battles/alamo.mjs `alamoInvolved`).
+  // Played from here, so the ride in is watched as a student's would be (sim/battle-stage.mjs `watchedByAFamily`).
   world.households[man.householdId].played = true;
   until(world, () => man.service?.kind === 'relief');
   untilMoment(world, 'relief-leaves');
@@ -305,17 +305,20 @@ test('the student may watch their own man fall; the family\'s journal and its pe
   let sentBefore = false;
   untilStaying(world, () => {
     const page = view(world, man.householdId);
-    const falls = page.battle?.memberFalls || {};
-    if (falls[man.id] !== undefined) assert.ok(falls[man.id] <= world.minute, 'the fall was sent before it happened');
+    const falls = page.battle?.memberFates || {};
+    if (falls[man.id] !== undefined) assert.ok(falls[man.id].minute <= world.minute, 'the fall was sent before it happened');
     if (!Number.isFinite(man.service.fellAt)) { assert.equal(falls[man.id], undefined); assert.ok(!page.entities.find(e => e.id === man.id).service.seenFall); }
-    else sentBefore ||= falls[man.id] === man.service.fellAt;
+    else sentBefore ||= falls[man.id]?.minute === man.service.fellAt;
     return world.minute >= phaseFrom(world, 'after');
   });
   assert.ok(sentBefore, 'the family watching was never shown their man fall');
   const page = view(world, man.householdId), own = page.entities.find(e => e.id === man.id);
   assert.equal(own.service.seenFall, true, 'the page was not told he is not to be drawn standing');
   assert.notEqual(own.health.condition, 'dead', 'the family\'s record made the death true before the word');
-  assert.doesNotMatch(JSON.stringify(page), /"fate"|"fellAt"/, 'the fate rode the wire');
+  // What rides the wire is the fall the student watched (`memberFates`, once its minute came) and that he is not to be drawn
+  // standing again (`seenFall`); never the family's record of a fate (`service.fate`) or when it was set.
+  assert.equal(own.service.fate, undefined, 'the fate rode the wire in the family\'s record');
+  assert.doesNotMatch(JSON.stringify(page.entities), /"fate"|"fellAt"/, 'the fate rode the wire in the family\'s record');
   // Nothing in the journal between the assault and the word says what became of him.
   const between = world.events.filter(event => event.householdId === man.householdId).slice(eventsBefore);
   assert.ok(!between.some(event => /killed|fell|dead|was stormed/i.test(event.text)), `the journal knew before the word: ${between.map(event => event.text).join(' | ')}`);
@@ -342,13 +345,14 @@ test('only the Host and a family with somebody there are sent the Alamo: nobody 
     assert.equal(outsider.battle, null, `${other.householdId} with nobody there was sent the Alamo at ${world.minute}`);
     assert.ok(!outsider.battleAlert && !outsider.battleAccount, 'a family with nobody there was sent a card');
     assert.ok(!raw.includes(man.id), 'the family with nobody there was sent the man\'s id');
-    assert.doesNotMatch(raw, /"memberFalls"|"guns"|"inside"|"debrief"|"alerted"|The garrison/);
+    assert.doesNotMatch(raw, /"memberFates"|"memberUnits"|"guns"|"fates"|"debrief"|"alerted"|The garrison/);
     if (theirs.battle) {
       phases.add(theirs.battle.phase);
       const text = JSON.stringify(theirs.battle);
       for (const line of theirs.battle.lines) assert.ok(line.minute <= world.minute);
       for (const phase of ALAMO.phases.filter(one => one.id !== theirs.battle.phase && one.caption !== theirs.battle.caption)) assert.ok(!text.includes(phase.caption), `the caption of ${phase.id} was sent during ${theirs.battle.phase}`);
-      assert.doesNotMatch(text, /"phases"|"inside"|"fate"|"outcome"/);
+      assert.doesNotMatch(text, /"phases"|"participants"|"outcome"/);
+      for (const [id, fate] of Object.entries(theirs.battle.memberFates || {})) assert.ok(fate.minute <= world.minute && id === man.id, 'a fate to come, or another family\'s, rode the wire');
     }
     if (theirs.battleAlert) sawAlert.add(theirs.battleAlert.id.split(':')[2]);
     if (host(world).battle?.id === 'alamo') sawHost = true;

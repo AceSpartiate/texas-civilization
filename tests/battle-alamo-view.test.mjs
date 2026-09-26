@@ -44,7 +44,7 @@ function run(view, art, from, { seconds, perTick = 2, tickMs = 1000, options = {
 
 test('the garrison stands along its walls, evenly, each wall facing out over itself, and a family\'s man takes one place on it', () => {
   const battle = alamo(at('day-24', 100));
-  const north = battle.sides.find(side => side.group === 'north'), west = battle.sides.find(side => side.group === 'west');
+  const north = battle.groups.find(group => group.id === 'north'), west = battle.groups.find(group => group.id === 'west');
   assert.ok(north && west, 'the walls are not drawn as parts of the garrison');
   assert.ok(north.facing.y < -0.9 && west.facing.x < -0.9, 'a wall does not face out over itself');
   const slots = layoutSide(north);
@@ -53,20 +53,20 @@ test('the garrison stands along its walls, evenly, each wall facing out over its
   assert.ok(Math.abs(spanned - north.spread.width) < 1e-9, `the north wall's men do not stand along its length: ${spanned}`);
   assert.ok(regularity(slots.map(slot => ({ x: slot.across, y: slot.along }))) < 0.1, 'the men on the wall do not stand evenly');
   // The Mexican lines outside are loose parties, not a wall.
-  assert.ok(battle.sides.filter(side => side.side === 'mexican').every(side => side.style !== 'wall'));
+  assert.ok(battle.groups.filter(group => group.side === 'mexican').every(group => group.style !== 'wall'));
 });
 
 test('the guns fire each dated shot once, the defenders\' canister throws a cone of smoke, and the batteries bombard all day', () => {
   const art = fakeArt(), view = createBattleView(art);
   const { last } = run(view, art, at('repulse'), { seconds: 12, perTick: 2 });
-  assert.ok(last.gunShots['north-gun'] >= 3, `the north battery fired ${last.gunShots['north-gun']} canister`);
-  assert.ok(last.gunShots.eighteen >= 1, 'the 18-pounder did not fire');
+  assert.ok(last.gunShotsBy['north-gun'] >= 3, `the north battery fired ${last.gunShotsBy['north-gun']} canister`);
+  assert.ok(last.gunShotsBy.eighteen >= 1, 'the 18-pounder did not fire');
   assert.ok(last.smoke >= 30, `the canister left only ${last.smoke} puffs`);
   assert.ok(art.drawn.some(one => one.clip === 'volunteer-gun-ram' || one.clip === 'volunteer-gun-fire'), 'no crew served the defenders\' guns');
   // A day of the siege: the Mexican batteries at work, and their crews are regulars.
   const artDay = fakeArt(), day = createBattleView(artDay);
   const siege = run(day, artDay, at('day-26'), { seconds: 20, perTick: 240, tickMs: 9500 }).last;
-  assert.ok(Object.keys(siege.gunShots).some(id => id.startsWith('battery-')), `no battery fired on a siege day: ${JSON.stringify(siege.gunShots)}`);
+  assert.ok(Object.keys(siege.gunShotsBy).some(id => id.startsWith('battery-')), `no battery fired on a siege day: ${JSON.stringify(siege.gunShotsBy)}`);
   assert.ok(artDay.drawn.some(one => one.clip === 'regular-gun-ram' || one.clip === 'regular-gun-fire'), 'the batteries have no Mexican crews');
 });
 
@@ -74,7 +74,9 @@ test('a family\'s man at his post fires until the moment he falls, then goes dow
   const art = fakeArt(), view = createBattleView(art);
   const man = { id: 'p-1', kind: 'person' };
   const fell = at('north-wall', 4);
-  const options = { members: [man.id], memberFalls: { [man.id]: fell }, memberFacing: { [man.id]: { x: 0, y: -1 } } };
+  // The engine's one path for a person's fate at its moment (`fates`, as the Alamo's director stages them), and the wall he
+  // stands on (`units`), whose fire he fires with.
+  const options = { members: [man.id], fates: { [man.id]: { fate: 'killed', minute: fell } }, units: { [man.id]: 'north' } };
   const poses = [];
   for (let t = 0; t < 26000; t += 1000 / 30) {
     const minute = at('repulse') + Math.floor(t / 1000) * 2;
@@ -85,10 +87,10 @@ test('a family\'s man at his post fires until the moment he falls, then goes dow
   const before = poses.filter(one => one.minute < fell), after = poses.filter(one => one.minute > fell + 2);
   assert.ok(before.some(one => one.pose.clip === 'volunteer-fire-reload'), 'he did not fire before he fell');
   assert.ok(before.every(one => !/idle/.test(one.pose.clip || '')), 'he stood idle at his post while the wall was attacked');
-  assert.ok(before.every(one => !one.pose.rotate && one.pose.sprite !== 'volunteer-reclining'), 'he was drawn falling before his moment');
-  assert.ok(poses.some(one => one.pose.rotate), 'he was not seen going down');
+  assert.ok(before.every(one => !one.pose.fallen), 'he was drawn falling before his moment');
+  assert.ok(poses.some(one => one.pose.sprite === 'volunteer-injured'), 'he was not seen going down');
   assert.ok(after.length && after.every(one => one.pose.sprite === 'volunteer-reclining' && !one.pose.clip), 'he did not lie still after he fell');
-  assert.ok(view.evidence.memberFalls.includes(man.id));
+  assert.ok(view.evidence.memberFalls.some(one => one.id === man.id && one.fate === 'killed'));
 });
 
 test('Travis is drawn at the north battery, says only his documented words there, and falls among the first; Joe hides, then comes out', () => {
