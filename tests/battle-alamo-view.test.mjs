@@ -120,6 +120,14 @@ test('the columns carry ladders, climb the north wall on them, and the assault i
   assert.ok(alamo(at('advance')).light > alamo(at('end', 25)).light, 'the dawn did not come up through the assault');
 });
 
+test('the red flag of no quarter flies over Béxar as a plain red field, never as the Come and Take It flag', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const { ctx } = run(view, art, at('red-flag', 30), { seconds: 1, perTick: 20 });
+  assert.ok(ctx.calls.some(call => call[0] === 'fillStyle' && call[1] === '#a3241c'), 'the red flag was not drawn red');
+  assert.ok(!art.drawn.some(one => one.clip === 'flag-come-and-take-it-wind'), 'the Alamo was drawn with the Gonzales flag');
+  assert.equal(alamo(at('red-flag', 30)).flag.kind, 'red');
+});
+
 test('the storming\'s card goes up over the quiet reminder that somebody is inside, and not over a question', () => {
   const world = {
     role: 'student', householdId: 'hh-1', request: null, encounter: null,

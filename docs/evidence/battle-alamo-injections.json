@@ -195,6 +195,16 @@
       "failed": [
         "the storming's card goes up over the quiet reminder that somebody is inside, and not over a question"
       ]
+    },
+    {
+      "name": "the Come and Take It cloth over Béxar",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-alamo-view.test.mjs",
+      "expect": "the red flag of no quarter flies over Béxar as a plain red field, never as the Come and Take It flag",
+      "caught": true,
+      "failed": [
+        "the red flag of no quarter flies over Béxar as a plain red field, never as the Come and Take It flag"
+      ]
     }
   ],
   "browser": [
