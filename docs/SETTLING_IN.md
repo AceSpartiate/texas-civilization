@@ -408,8 +408,9 @@ choice made inside a visible risk. The hidden stats stay hidden; the house's own
   a rule, tested the way glory's blindness is: the same class with different appearances plays out the same.
   VISION.md §15 and HISTORY.md's representation rules apply: DeWitt's colony and its neighbours were not a
   single people, and nothing about a person may be inferred from how they look.
-- **Art:** the procedural layers in `public/avatar-art.js` now keep family portraits and map figures
-  aligned. Painted layered people sheets remain a request for the full cast and pose set in `docs/ART_REQUESTS.md`.
+- **Art:** the chooser, portraits and world now use the existing illustrated character atlases. `public/person-palette.js`
+  changes pigments while preserving their outlines, painted texture and motion frames. New layered sheets remain a request
+  for head styles and poses the current cast cannot exactly depict (`docs/ART_REQUESTS.md`).
 
 ### 7.1 As built (2026-09-16)
 
@@ -421,7 +422,7 @@ choice made inside a visible risk. The hidden stats stay hidden; the house's own
 - **Shown** in the family book under *How we look*: a parent's words and four menus that save as they change, with no button; a child's words and *Takes after their parents*. Served in `familyProjection` as `appearance`, `looks`, and for a parent `choices` and `chosen`.
 - **Inert.** Nothing in the simulation reads it. The test plays the same class with every parent at the lightest choices and again at the darkest, strips the appearance, and compares the two worlds byte for byte; an injected rule that made helping cheaper for one skin tone was caught by it.
 
-`stand-in:` the procedural avatar in `public/avatar-art.js` now draws each family's chosen or inherited skin, hair, clothing and headwear in the chooser, panel portrait, walking figure, work pose, and composed wagon/horse seat. It uses the same layers in all three views; the authored cast sheets remain for people without family appearance. Map projections carry a packed numeric `a` code, decoded by the client, so the larger cast does not bloat every tick; saved appearances and the family book remain readable words. A future painted layered sheet can replace the procedural drawing without changing the saved words or simulation. `ceiling:` one draw per child is all the inheritance there is, and grey hair is treated as age rather than colour.
+`stand-in:` `public/avatar-art.js` selects an authored cast silhouette and `public/person-palette.js` recolours its painted pixels for the saved skin, hair and clothes. The chooser, family portrait and live map all use the same atlas; the live map keeps the existing directional, work and care clips. Head styles select the closest existing silhouette: male hat/beard/bare head and female bonnet/pinned/uncovered hair. Moustache, straw hat, braid, loose hair and headscarf still need dedicated aligned painted layers to match their precise names. Existing outfits may also retain a neutral apron or shirt. Map projections carry a packed numeric `a` code, decoded by the client; saved appearances and the family book remain readable words. Future layers can replace the palette pass without changing saved choices or simulation rules. `ceiling:` one draw per child is all the inheritance there is, and grey hair is treated as age rather than colour.
 
 ---
 

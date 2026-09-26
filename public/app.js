@@ -25,7 +25,7 @@ import { CABIN_PEOPLE, PERSON_MILES, houseOnGround, spacingRefusal, standingAt }
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
 import { bindLooks, renderLooks } from '/appearance.js';
-import { drawAvatar, drawAvatarPortrait } from '/avatar-art.js';
+import { avatarVariant, drawAvatar, drawAvatarPortrait } from '/avatar-art.js';
 import { decodeAppearance } from '/look-vocabulary.js';
 import { bindCreation, creationStep, renderCreation, showTitle } from '/creation.js';
 import { aroundHole, groundInputs, applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale, away, wadesOf } from '/map-base.js';
@@ -264,13 +264,13 @@ function miniPerson(ctx, x, y, size, entity) {
   // A child is drawn smaller than a grown person, in their own figure or a grown one (public/motion.js `entityClip`).
   if (!entity.side) size *= figureScale(entity);
   if (entity.appearance) {
-    drawAvatar(ctx, x, y, size, entity.appearance, entity.sex, {
-      walking: !reducedMotion.matches && Boolean(entity.travel && !entity.travel.halted || entity.stepping),
-      phase: reducedMotion.matches ? 0 : performance.now() / 165,
-      flip: Boolean(entity.flip),
-      working: Boolean(entity.chore && !entity.travel),
-    });
-    return;
+    const binding = entityClip(entity, entity.observed);
+    const cast = avatarVariant(entity.appearance, entity.sex);
+    const clip = binding.id.replace(/^(rust-woman|blue-girl|indigo|ochre|elder|rust|teal|blue)-/, `${cast}-`);
+    if (animated(ctx, clip, x, y, size, entity.id, {
+      paused: binding.frozen, flip: binding.upright ? false : entity.flip,
+      gait: entity.gait, appearance: entity.appearance,
+    })) return;
   }
   const binding = entity.side ? { id: `${entity.side === 'mexican' ? 'regular' : 'volunteer'}-idle-e` } : entityClip(entity, entity.observed);
   // A north or south cycle is drawn facing that way already; mirroring it would turn a

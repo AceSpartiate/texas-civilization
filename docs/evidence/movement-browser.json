@@ -14,42 +14,142 @@
     "quietClose": [
       {
         "tick": 1,
-        "spanMs": 787,
-        "screenPx": 5.5,
-        "firstQuarterShare": 0.23,
-        "largestStepPx": 0.7,
+        "spanMs": 944,
+        "screenPx": 6.5,
+        "firstQuarterShare": 0.19,
+        "largestStepPx": 0.6,
         "jumpRatio": 1.1,
         "stillFromShare": 1,
         "bodiesPerSecond": 0.99,
-        "clip": null,
+        "clip": "rust-walk",
         "revisions": 1
       },
       {
         "tick": 2,
-        "spanMs": 2002,
+        "spanMs": 1993,
         "screenPx": 14.1,
         "firstQuarterShare": 0.23,
         "largestStepPx": 0.7,
         "jumpRatio": 1.1,
         "stillFromShare": 1,
-        "bodiesPerSecond": 1,
-        "clip": null,
+        "bodiesPerSecond": 1.01,
+        "clip": "rust-walk",
         "revisions": 1
       },
       {
         "tick": 3,
-        "spanMs": 2012,
+        "spanMs": 2014,
         "screenPx": 14.1,
-        "firstQuarterShare": 0.23,
-        "largestStepPx": 0.7,
-        "jumpRatio": 1.1,
+        "firstQuarterShare": 0.22,
+        "largestStepPx": 0.6,
+        "jumpRatio": 1,
         "stillFromShare": 1,
         "bodiesPerSecond": 1,
-        "clip": null,
+        "clip": "rust-walk",
         "revisions": 1
       },
       {
         "tick": 4,
+        "spanMs": 2009,
+        "screenPx": 14.1,
+        "firstQuarterShare": 0.22,
+        "largestStepPx": 0.6,
+        "jumpRatio": 1,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 1,
+        "clip": "rust-walk",
+        "revisions": 1
+      },
+      {
+        "tick": 5,
+        "spanMs": 1991,
+        "screenPx": 14.1,
+        "firstQuarterShare": 0.22,
+        "largestStepPx": 0.6,
+        "jumpRatio": 1,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 1.01,
+        "clip": "rust-walk",
+        "revisions": 1
+      }
+    ],
+    "busyClose": [
+      {
+        "tick": 1,
+        "spanMs": 802,
+        "screenPx": 5.5,
+        "firstQuarterShare": 0.23,
+        "largestStepPx": 0.6,
+        "jumpRatio": 1,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 0.97,
+        "clip": "rust-walk",
+        "revisions": 1
+      },
+      {
+        "tick": 2,
+        "spanMs": 2011,
+        "screenPx": 14.1,
+        "firstQuarterShare": 0.24,
+        "largestStepPx": 0.7,
+        "jumpRatio": 1.2,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 1,
+        "clip": "rust-walk",
+        "revisions": 2
+      },
+      {
+        "tick": 3,
+        "spanMs": 1994,
+        "screenPx": 14.1,
+        "firstQuarterShare": 0.24,
+        "largestStepPx": 0.7,
+        "jumpRatio": 1.2,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 1.01,
+        "clip": "rust-walk",
+        "revisions": 2
+      },
+      {
+        "tick": 4,
+        "spanMs": 2019,
+        "screenPx": 14.1,
+        "firstQuarterShare": 0.24,
+        "largestStepPx": 0.7,
+        "jumpRatio": 1.2,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 0.99,
+        "clip": "rust-walk",
+        "revisions": 2
+      },
+      {
+        "tick": 5,
+        "spanMs": 2000,
+        "screenPx": 14.1,
+        "firstQuarterShare": 0.24,
+        "largestStepPx": 0.7,
+        "jumpRatio": 1.1,
+        "stillFromShare": 0.99,
+        "bodiesPerSecond": 1,
+        "clip": "rust-walk",
+        "revisions": 2
+      }
+    ],
+    "busyWide": [
+      {
+        "tick": 1,
+        "spanMs": 1268,
+        "screenPx": 8.8,
+        "firstQuarterShare": 0.21,
+        "largestStepPx": 0.7,
+        "jumpRatio": 1.1,
+        "stillFromShare": 0.99,
+        "bodiesPerSecond": 0.99,
+        "clip": "rust-walk",
+        "revisions": 2
+      },
+      {
+        "tick": 2,
         "spanMs": 2008,
         "screenPx": 14.1,
         "firstQuarterShare": 0.22,
@@ -57,116 +157,16 @@
         "jumpRatio": 1.1,
         "stillFromShare": 1,
         "bodiesPerSecond": 1,
-        "clip": null,
-        "revisions": 1
-      },
-      {
-        "tick": 5,
-        "spanMs": 2002,
-        "screenPx": 14.1,
-        "firstQuarterShare": 0.22,
-        "largestStepPx": 0.7,
-        "jumpRatio": 1.1,
-        "stillFromShare": 1,
-        "bodiesPerSecond": 1,
-        "clip": null,
-        "revisions": 1
-      }
-    ],
-    "busyClose": [
-      {
-        "tick": 1,
-        "spanMs": 905,
-        "screenPx": 6.2,
-        "firstQuarterShare": 0.2,
-        "largestStepPx": 0.6,
-        "jumpRatio": 1.1,
-        "stillFromShare": 1,
-        "bodiesPerSecond": 0.98,
-        "clip": null,
-        "revisions": 2
-      },
-      {
-        "tick": 2,
-        "spanMs": 1990,
-        "screenPx": 14,
-        "firstQuarterShare": 0.23,
-        "largestStepPx": 0.7,
-        "jumpRatio": 1.1,
-        "stillFromShare": 1,
-        "bodiesPerSecond": 1.01,
-        "clip": null,
-        "revisions": 2
-      },
-      {
-        "tick": 3,
-        "spanMs": 2021,
-        "screenPx": 14.1,
-        "firstQuarterShare": 0.22,
-        "largestStepPx": 0.6,
-        "jumpRatio": 1.1,
-        "stillFromShare": 1,
-        "bodiesPerSecond": 0.99,
-        "clip": null,
-        "revisions": 2
-      },
-      {
-        "tick": 4,
-        "spanMs": 1999,
-        "screenPx": 14.1,
-        "firstQuarterShare": 0.23,
-        "largestStepPx": 0.7,
-        "jumpRatio": 1.1,
-        "stillFromShare": 1,
-        "bodiesPerSecond": 1,
-        "clip": null,
-        "revisions": 2
-      },
-      {
-        "tick": 5,
-        "spanMs": 2016,
-        "screenPx": 14.1,
-        "firstQuarterShare": 0.22,
-        "largestStepPx": 0.6,
-        "jumpRatio": 1.1,
-        "stillFromShare": 1,
-        "bodiesPerSecond": 1,
-        "clip": null,
-        "revisions": 1
-      }
-    ],
-    "busyWide": [
-      {
-        "tick": 1,
-        "spanMs": 1250,
-        "screenPx": 8.7,
-        "firstQuarterShare": 0.22,
-        "largestStepPx": 0.7,
-        "jumpRatio": 1.1,
-        "stillFromShare": 1,
-        "bodiesPerSecond": 0.99,
-        "clip": null,
-        "revisions": 2
-      },
-      {
-        "tick": 2,
-        "spanMs": 2007,
-        "screenPx": 14.1,
-        "firstQuarterShare": 0.23,
-        "largestStepPx": 0.7,
-        "jumpRatio": 1.1,
-        "stillFromShare": 1,
-        "bodiesPerSecond": 1,
-        "clip": null,
+        "clip": "rust-walk",
         "revisions": 2
       }
     ]
   },
   "pass": [
     "the page raised no errors",
-    "quietClose: every tick's walk is spread across the tick, not drawn in a burst (0.23, 0.23, 0.23, 0.22, 0.22 in the first quarter)",
-    "busyClose: every tick's walk is spread across the tick, not drawn in a burst (0.2, 0.23, 0.22, 0.23, 0.22 in the first quarter)",
-    "busyWide: every tick's walk is spread across the tick, not drawn in a burst (0.22, 0.23 in the first quarter)",
+    "quietClose: every tick's walk is spread across the tick, not drawn in a burst (0.19, 0.23, 0.22, 0.22, 0.22 in the first quarter)",
+    "busyClose: every tick's walk is spread across the tick, not drawn in a burst (0.23, 0.24, 0.24, 0.24, 0.24 in the first quarter)",
+    "busyWide: every tick's walk is spread across the tick, not drawn in a burst (0.21, 0.22 in the first quarter)",
     "the busy run really did receive a second snapshot inside a tick"
   ],
   "notMeasuredHere": [

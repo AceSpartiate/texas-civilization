@@ -69,6 +69,7 @@ const files = new Map([
   ['/appearance.js', ['../public/appearance.js', 'text/javascript']],
   ['/looks-art.js', ['../public/looks-art.js', 'text/javascript']],
   ['/avatar-art.js', ['../public/avatar-art.js', 'text/javascript']],
+  ['/person-palette.js', ['../public/person-palette.js', 'text/javascript']],
   ['/look-vocabulary.js', ['../sim/look-vocabulary.mjs', 'text/javascript']],
   ['/field-art.js', ['../public/field-art.js', 'text/javascript']],
   ['/field-surface.js', ['../public/field-surface.js', 'text/javascript']],

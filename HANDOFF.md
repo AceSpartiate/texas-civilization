@@ -4261,14 +4261,28 @@ not match exactly once - and the second is what found four of these five.
 
 **Parent appearance redesign, 2026-09-26.** The mother and father chooser is now a wider portrait studio with a live
 preview, clearer one-time-choice explanation, and more skin, hair, clothing and headwear options. The same
-`public/avatar-art.js` layers draw the chosen portrait, family-panel face and live animated map figure; children use
+`public/avatar-art.js` draws the chosen portrait, family-panel face and live animated map figure; children use
 their inherited colours. Visible other-family members and the Host receive only the public appearance fields in their
 map projections. To keep thirty-family classroom updates within their existing bounds, the live map sends a packed
 numeric `a` code; `decodeAppearance` expands it on receipt. `public/look-vocabulary.js` is the shared ordered
 source for the server and browser, and `public/looks-art.js` supplies its colours. The family rules and saved four-part appearance shape
 remain unchanged, so prior choices remain valid.
 The avatar composes into wagon and horse seats and uses a working pose in battle. The existing painted cast remains for
-people without a family appearance. Future painted replacement art should cover the full pose and option matrix; see
+people without a family appearance. The flat avatar implementation described above was replaced by the art-style correction below.
+Future painted replacement art should cover the full pose and option matrix; see
 `docs/ART_REQUESTS.md`. Tests: `node --test tests/appearance.test.mjs`, `npm run test:looks`, and
 `npm run test:creation`, `npm run test:creation-screen` (1366×768, 1024×768, 390×844),
 `npm run test:movement`, and `npm test` (1,338 passing).
+
+**Art-style correction, 2026-09-26.** The owner rejected the flat procedural figure because it did not match the game's
+illustrated cast. `public/avatar-art.js` now uses the registered cast sprites for the creation portrait and full-body
+preview; `public/app.js` uses those same cast clips for family members in the world, retaining directional walking,
+work, care, dialogue and riding composition. `public/person-palette.js` recolours the existing painted frames for
+skin, hair and clothes while preserving their ink and texture; `public/art.js` caches the results with a 320-frame bound.
+The server serves the new module at `/person-palette.js`. A new sheet triggers a repaint of the creation options and
+family portraits. Saved looks and compact network projection did not change. `npm run test:looks` passed nine browser
+checks; targeted appearance, motion and riding tests passed 19; `npm test` passed all 1,344 tests after the Node import
+path correction. Visual result: `docs/evidence/looks-popup.png` and `docs/evidence/looks-popup-mother.png`.
+**Remaining art:** exact moustache, straw hat, braid, loose hair and headscarf silhouettes, plus cleaner semantic paint
+masks and bespoke seated/combat layers. The current cast supplies the closest matching silhouette for those choices;
+see `docs/ART_REQUESTS.md`. Do not return to code-drawn flat figures for this feature.

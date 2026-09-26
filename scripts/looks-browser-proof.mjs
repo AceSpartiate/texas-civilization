@@ -122,6 +122,7 @@ try {
     assert.notEqual(afterFigure, beforeFigure, 'the map-figure preview did not follow the choice');
     assert.equal(await page.locator(`#looks-parts button[data-part="hair"][data-value="${hair}"]`).getAttribute('aria-pressed'), 'true');
     if (index === 0) await page.screenshot({ path: 'docs/evidence/looks-popup.png' });
+    if (index === 1) await page.screenshot({ path: 'docs/evidence/looks-popup-mother.png' });
     await page.locator('#looks-done').click();
     await page.waitForFunction(async ([id, value, headValue]) => {
       const person = (await (await fetch('/api/family')).json()).family.people.find(one => one.id === id);
