@@ -153,6 +153,15 @@ try {
   assert.ok(allSaid.includes('g-carga') && allSaid.some(id => ['g-here', 'g-trees', 'g-boys', 'g-fire'].includes(id)), `no words were drawn for one side or the other: ${JSON.stringify(allSaid)}`);
   assert.ok(allSaid.some(id => ['g-why', 'g-republican', 'g-instantly'].includes(id)), `the parley's documented words were not drawn: ${JSON.stringify(allSaid)}`);
   ok(`words drawn over the speakers: ${allSaid.join(', ')}`);
+  // The owner, 2026-09-25: "have the flag be drawn, and have the men say it as a taunt of sorts." The flag on the screen over
+  // the Texians at every sampled moment of the fighting, and the taunt drawn over a volunteer.
+  for (const one of firing) {
+    const flag = one.view.flag;
+    const [w, h] = one.size.split('x').map(Number);
+    assert.ok(flag && flag.x > 0 && flag.x < w && flag.y > 0 && flag.y < h && flag.w >= 6, `the flag is not on the screen at ${one.minute} in the ${one.phase}: ${JSON.stringify(flag)}`);
+  }
+  assert.ok(allSaid.some(id => id.startsWith('g-taunt')), `nobody shouted the flag's words at the dragoons: ${JSON.stringify(allSaid)}`);
+  ok(`the Come and Take It flag is on the screen at all ${firing.length} moments of the fighting, and the men shout its words`);
   const inForce = await fighter.evaluate(id => ({ members: window.__battleView?.members, clips: window.__battleView?.memberClips, drawn: window.__drawnAt?.[id], texian: window.__snapshot.world.battle?.sides.find(side => side.side === 'texian') }), personId);
   assert.ok(inForce.members?.includes(personId) && inForce.drawn, `the family's person was not drawn in the force: ${JSON.stringify(inForce)}`);
   assert.ok(inForce.clips.includes('volunteer-fire-reload'), `the family's person never fired: ${JSON.stringify(inForce.clips)}`);

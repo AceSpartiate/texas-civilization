@@ -1210,6 +1210,48 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/icons-children.png",
       "postProcessing": "None. Generated original copied unchanged; only read-only validation.",
       "review": "Accepted as six distinct, period-plausible child-action icons with true transparent gutters. The kindling carries no blade; play reads as recreation; the remaining ten cells are deliberately empty."
+    },
+    {
+      "sheet": "cannon-cartwheels",
+      "promptId": "frontier-v1/cannon-cartwheels",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: stylized-concept. Asset type: production 2D game sprite atlas, genuine transparent RGBA PNG. Create exactly FOUR isolated objects in a STRICT 2 columns by 2 rows grid on fully transparent background, generous clear gutters, nothing touches cell boundaries. Match the supplied game warm hand-painted 1830s frontier illustration style, dark brown ink outlines, subtle canvas texture, elevated three-quarter view, upper-left warm light. Depict the historically described Gonzales small BRASS six-pounder cannon lashed to a SIMPLE PAIR OF PLAIN CART WHEELS, no military trail carriage, no people, no ox, no scenery, no labels. Top-left: east-facing gun resting; top-right: same east-facing gun in small recoil; bottom-left: west-facing resting; bottom-right: west-facing recoil. Preserve identical cannon design and scale, grounded at wheel bottoms. Avoid detached components, smoke, muzzle flash, words, background color, checkerboard, frames, watermark.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/artillery-service.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-aaacf198-6af0-495f-88fa-e6fdc8f77ddf.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/cannon-cartwheels.png",
+      "postProcessing": "None. Generated PNG copied unchanged; measured atlas validation only.",
+      "review": "Four isolated east/west rest/recoil cart-wheel cannon frames; no crew or background."
+    },
+    {
+      "sheet": "cart-open",
+      "promptId": "frontier-v1/cart-open",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: stylized-concept. Asset type: production transparent sprite atlas for a 1830s Texas historical game. Make exactly FOUR isolated sprites in a strict 2-column by 2-row square grid, with large transparent gutters. Depict one consistent small poor-family uncovered two-wheeled wooden ox cart: simple plank bed with low side rails, solid wooden wheels, front yoke attachment, no ox, horse or people. Match the supplied warm hand-painted three-quarter frontier style, dark brown ink outlines, upper-left light, rustic wood and leather. Top row: cart facing east, two travel poses. Bottom-left: facing south; bottom-right: facing north. Keep the cart identity and scale. Genuine alpha transparency, no background, labels, checkerboard or watermark.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/wagon-rig.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b43bc0ce-2063-4389-ab77-7d191b785efc.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/cart-open.png",
+      "postProcessing": "None. Generated PNG copied unchanged; measured atlas validation only.",
+      "review": "Uncovered two-wheel cart visible from east, south and north; east variant wheel motion insufficient for a travel clip."
+    },
+    {
+      "sheet": "flag-come-and-take-it",
+      "promptId": "frontier-v1/flag-come-and-take-it",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: stylized-concept. Asset type: transparent 2D sprite atlas for a historically grounded 1835 Texas Revolution game. Four isolated frames in a strict 2x2 grid, matching the frontier hand-painted dark-outlined style. The same Come and Take It flag on a plain grounded wooden pole in every cell: white cloth, small black star above a black cannon, words exactly COME AND TAKE IT beneath. Reading order: hanging still, light breeze, farther unfurled, returning toward still. Pole and height identical, genuine transparency, no people, scenery, extra text, modern flag or watermark.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/artillery-service.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7631ed84-b8f8-4881-9a7d-67998758b25d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/flag-come-and-take-it.png",
+      "postProcessing": "None. Generated PNG copied unchanged; measured atlas validation only.",
+      "review": "All four white flags keep one black star over the cannon and legible COME AND TAKE IT text, with distinct cloth poses."
     }
   ]
 }

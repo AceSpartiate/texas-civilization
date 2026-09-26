@@ -1251,6 +1251,45 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/icons-children.png",
       "postProcessing": "None. Generated original copied unchanged; only read-only validation.",
       "review": "Accepted as six distinct, period-plausible child-action icons with true transparent gutters. The kindling carries no blade; play reads as recreation; the remaining ten cells are deliberately empty."
+    },
+    {
+      "sheet": "cannon-cartwheels",
+      "promptId": "frontier-v1/cannon-cartwheels",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/artillery-service.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-aaacf198-6af0-495f-88fa-e6fdc8f77ddf.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/cannon-cartwheels.png",
+      "postProcessing": "None. Generated PNG copied unchanged; measured atlas validation only.",
+      "review": "Four isolated east/west rest/recoil cart-wheel cannon frames; no crew or background."
+    },
+    {
+      "sheet": "cart-open",
+      "promptId": "frontier-v1/cart-open",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/wagon-rig.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b43bc0ce-2063-4389-ab77-7d191b785efc.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/cart-open.png",
+      "postProcessing": "None. Generated PNG copied unchanged; measured atlas validation only.",
+      "review": "Uncovered two-wheel cart visible from east, south and north; east variant wheel motion insufficient for a travel clip."
+    },
+    {
+      "sheet": "flag-come-and-take-it",
+      "promptId": "frontier-v1/flag-come-and-take-it",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/artillery-service.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7631ed84-b8f8-4881-9a7d-67998758b25d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/flag-come-and-take-it.png",
+      "postProcessing": "None. Generated PNG copied unchanged; measured atlas validation only.",
+      "review": "All four white flags keep one black star over the cannon and legible COME AND TAKE IT text, with distinct cloth poses."
     }
   ],
   "rejectedAttempts": [

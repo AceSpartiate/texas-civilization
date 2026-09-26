@@ -99,10 +99,10 @@ function fallbackPerson(ctx, x, y, size, tone) {
 /**
  * The flag as the record gives it (sim/town-scenes.mjs `FLAG`): a white field, a black cannon, a star over it and the words
  * under it.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - Gonzales before the fight, item 5. Drawn in canvas strokes until
- * the painted flag lands; `waving` shakes the fly end as cloth in a breeze.
+ * The completed flag uses delivered cloth frames. Canvas retains the unfinished/flat states and load fallback.
  */
 export function drawFlag(ctx, x, y, height, { time = 0, stage = 'done', pole = true, flat = false } = {}) {
+  if (stage === 'done' && pole && !flat && drawClip(ctx, 'flag-come-and-take-it-wind', x, y, height, { timeMs: time })) return;
   const w = height * .62, h = height * .38;
   ctx.save();
   if (pole && !flat) {
@@ -139,7 +139,7 @@ export function drawFlag(ctx, x, y, height, { time = 0, stage = 'done', pole = t
  * The scene's props: the gun in the ground and on its wheels, the boats drawn up behind the breastwork, the table the flag is
  * made on, the dragoons' tents across the river, a family's wagon.
  * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - Gonzales before the fight. The breastwork of logs is the library's
- * `earth-rampart`; the canoes are its `skiff`; the gun on its cart wheels is its bronze field gun; the gun in the ground is a
+ * `earth-rampart`; the canoes are its `skiff`; the gun on cart wheels is delivered; the gun in the ground is a
  * mound drawn in canvas over the same gun; the peach orchard's ploughed ground is canvas furrows; the flag is canvas.
  */
 function drawProp(ctx, prop, p, figure, time) {
@@ -159,7 +159,7 @@ function drawProp(ctx, prop, p, figure, time) {
       ctx.beginPath(); ctx.ellipse(p.x + figure * .62, p.y - figure * .02, figure * .24, figure * .1, 0, 0, Math.PI * 2); ctx.fill();
       ctx.restore(); return;
     }
-    case 'cannon': drawSprite(ctx, 'cannon-bronze-e', p.x, p.y, figure * .62, { flip }); return;
+    case 'cannon': drawSprite(ctx, `cannon-cartwheels-${flip ? 'w' : 'e'}`, p.x, p.y, figure * .75) || drawSprite(ctx, 'cannon-bronze-e', p.x, p.y, figure * .62, { flip }); return;
     case 'wheel': drawSprite(ctx, 'wagon-wheel', p.x, p.y, figure * .5); return;
     case 'skiff': drawSprite(ctx, 'skiff', p.x, p.y, figure * .42, { flip }); return;
     case 'flatboat': drawSprite(ctx, 'ferry-flatboat', p.x, p.y, figure * .6, { flip }); return;

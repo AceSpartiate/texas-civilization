@@ -76,22 +76,30 @@ test('each scene has one beat at a time, and nobody of the town is in two places
 });
 
 test('only the record puts words in a named mouth; everything else is reconstructed, and every claim is registered', () => {
-  const claims = new Set();
+  const claims = new Set(), taunted = new Set();
   for (const beat of TOWN_BEATS) {
     for (const [speaker, text, extra = {}] of lines(beat)) {
       assert.ok(known(speaker), `${beat.id}: "${text}" is said by ${speaker}, who is nobody in the town`);
       const kind = extra.kind || 'reconstructed';
-      assert.ok(['documented', 'reconstructed'].includes(kind), `${beat.id}: "${text}" is of no kind the page knows`);
+      assert.ok(['documented', 'reconstructed', 'tradition'].includes(kind), `${beat.id}: "${text}" is of no kind the page knows`);
       if (TOWN_CAST[speaker]?.name) assert.equal(kind, 'documented', `${beat.id}: ${TOWN_CAST[speaker].name} is given words the record does not give him: "${text}"`);
       if (kind === 'documented') assert.ok(extra.claimId, `${beat.id}: "${text}" is shown as on record with no claim`);
-      // HIST-TEX-469: "come and take it" was never said to the soldiers in anything of 1835. Only the flag's makers say
-      // it, as the words to go on the flag.
-      if (/come and take it/i.test(text)) assert.equal(beat.scene, 'flag', `${beat.id}: "${text}" puts the slogan in somebody's mouth outside the flag`);
+      // HIST-TEX-469: "come and take it" was never said to the soldiers in anything of 1835. The flag's makers say it as the
+      // words to go on the flag; elsewhere it is the men's taunt the owner asked for (2026-09-25), and then only as a later
+      // memory: `tradition`, unnamed, with a gloss that says who remembered it.
+      if (/come and take it/i.test(text) && beat.scene !== 'flag') {
+        assert.equal(kind, 'tradition', `${beat.id}: "${text}" is shown as ${kind}, not as the later memory it is`);
+        assert.equal(extra.claimId, 'HIST-TEX-469');
+        assert.match(extra.gloss || '', /remembered/, `${beat.id}: "${text}" does not say it was remembered later`);
+        taunted.add(beat.scene);
+      }
       if (extra.claimId) claims.add(extra.claimId);
     }
     for (const item of beat.card?.known || []) if (item.claimId) claims.add(item.claimId);
   }
   for (const id of claims) assert.ok(HISTORY.includes(`**${id}**`), `${id} is cited by the town and not registered in HISTORY.md`);
+  // The owner, 2026-09-25: "have the men say it as a taunt of sorts" - one of the eighteen calls it across the river.
+  assert.deepEqual([...taunted], ['crossing'], 'the men at the crossing never call the flag\'s words across the river');
   const documented = TOWN_BEATS.flatMap(beat => lines(beat).filter(([, , extra = {}]) => extra.kind === 'documented').map(([speaker, text]) => ({ speaker, text })));
   assert.deepEqual(documented.map(one => one.speaker), ['gz-clements'], 'the only words in the town on record are the regidor\'s letter');
   assert.equal(documented[0].text, 'I cannot now will not deliver to you the cannon');
