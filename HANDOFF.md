@@ -1,5 +1,60 @@
 # Claude handoff — Astra foundation
 
+## The launcher downloads only what changed — 2026-09-26 (not released)
+
+Owner: *"we should dedicate a sub agent to updating the launcher. currently the entirr game is downloaded again for every
+update. why not just download what's new?"* Design, hosting choice and the release procedure:
+[DEPLOYMENT: Only what changed](docs/DEPLOYMENT.md#only-what-changed--2026-09-26).
+
+- **Before:** the Update button downloaded the release's whole `TexasRevolutionSetup.exe` (247-259 MB), ran it with
+  `--extract` into `%TEMP%\TexasRevolutionUpdate`, checked the stamp and swapped every top-level entry through
+  `UpdateSwap` (launcher renamed to `.old`, the rest moved to `.update-backup` with a journal, rolled back on failure or at
+  the next launch). A release changes 5-35 files, 180 KB-5 MB, per the real releases of 2026-09-25.
+- **Now:** each release also carries its list of files (`TexasRevolution-manifest.json`: path, size, SHA-256, tag,
+  format, launcher id) and one set of changes from each of the last 20 releases with the same launcher
+  (`TexasRevolution-Changes-From-<tag>.patch`). The launcher copies every installed file that already hashes as listed into
+  staging, downloads the one set from its installed tag, hashes each file it takes out, and swaps the result in through
+  the same `UpdateSwap`. Anything that stops that - no list, no set from here, a changed launcher, a newer format, a hash
+  mismatch, a cut-off download - falls back to the whole setup program, with the reason in one line. The teacher reads
+  *"Only what changed is downloaded: about 45 KB"* and *"Downloading 3 KB of changes (3 files)…"*. Top-level files the
+  previous build listed and the new one does not are retired into the swap's backup (whole downloads too). The
+  launcher-older-than-its-game warning now compares launcher ids, since a small update keeps the launcher.
+- **Code:** `launcher/DeltaUpdate.cs` (new: list, refusals, staging, verification), `launcher/Updater.cs` (tries the
+  changes, falls back), `launcher/Updates.cs` (finds the list and the sets; `Parse` split out), `launcher/UpdateSwap.cs`
+  (`IsProtected`, `retire`), `launcher/Program.cs` (`--update [--release-api <url>] [--no-restart]`, `--check-updates`
+  prints the size), `launcher/LauncherForm.cs` (sizes in words, the id-based warning), the csproj (`LauncherId`),
+  `scripts/release-changes.ps1` (new) and `scripts/package.ps1` (the list, the sets, the printed `gh` command).
+- **Evidence (this computer only):** `scripts/verify-delta-update.ps1` - 10 PASS lines,
+  [evidence](docs/evidence/launcher-delta-update.json): two consecutive packages from `package.ps1`, served from
+  127.0.0.1 in the GitHub API's shape; the installed launcher downloaded **45,119 bytes instead of 259,169,530**, its
+  tree then byte for byte a fresh install of B, the save untouched, the dropped file gone; tampered set, cut-off set, no
+  set and no list each took the whole setup and ended byte for byte a fresh install; the whole download cut off left A
+  exactly as it was; the launcher of v2026.09.26.1 (the Desktop release) took B through its own path, the whole setup program, and ended byte for byte a fresh install of B. The small update took 6.1 s end to end here, most of it hashing and copying the installed 300 MB; the whole download 13-29 s over loopback. `tests/launcher`: 20 tests (`dotnet run --project tests/launcher`), 20 of 20
+  injections caught by the test written for them (`scripts/launcher-delta-injections.ps1`,
+  [evidence](docs/evidence/launcher-delta-injections.json)). `scripts/verify-update.ps1`: 6 of 6 PASS after the swap change (the existing proof of self-update and rollback). `npm test`:
+  1274 pass, 0 fail. `verify-launcher.ps1` not re-run: it proves `launch.ps1`/`stop.ps1`, which this does not touch. The E2E PASS lines were not themselves injection-tested; the unit injections cover the logic under them.
+- **Old launchers in the field:** every launcher from v2026.09.16 to v2026.09.26.1 ignores the two new asset kinds and
+  takes the next release by downloading the whole setup program, as now - that brings this launcher. The release after
+  that is the first that can arrive as changes. Pre-2026-09-16 launchers still take the update archive, unchanged.
+- **Limits (`ceiling:`):** no resume of an interrupted download; the unchanged files are copied twice on the local disk;
+  after a small update the installed launcher carried on a memory stick installs the older game it was built with (and
+  then offers the update); sets reach back 20 releases or one archive's worth of upload. A real GitHub release, a school
+  network and a filtering proxy are not proved.
+- **For the owner:** (1) packaging now runs `gh release list`/`gh release download` (read only) to fetch the last 20
+  releases' lists - about 15 s; `-BaseManifests <folder>` avoids it. (2) The first release built with this cannot carry
+  any set of changes (no earlier release has a list), so its update is the whole download for everybody; from the next
+  one on, launchers take changes. (3) Any change under `launcher/`, even a comment, changes the launcher id, and that
+  release goes out as the whole download for everybody - batching launcher changes keeps updates small.
+
+**Release command (new asset list)**, from the packaging destination:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\package.ps1 -Stamp <yyyy.mm.dd.n> -Tag v<yyyy.mm.dd.n> -Destination C:\Users\zachw\Desktop\TexasRelease
+$s = '<yyyy.mm.dd.n>'
+$assets = @('TexasRevolutionSetup.exe', "TexasRevolution-Gonzales-$s.zip", "TexasRevolution-Gonzales-$s-NeedsNode.zip") + @(Get-ChildItem "changes-$s" -File | ForEach-Object FullName)
+gh release create "v$s" @assets -R AceSpartiate/texas-civilization --target main --title "..." --notes-file notes.md --latest
+```
+
 ## San Jacinto on the battle engine, and the capture of Santa Anna — 2026-09-26 (merged with main at 84b9c24; not released)
 
 docs/BATTLES.md §5 step 3 for San Jacinto, from `docs/battle-research/staging.md` §8 with the owner's decisions (§2b.2: the
