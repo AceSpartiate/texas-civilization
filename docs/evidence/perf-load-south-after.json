@@ -1,0 +1,2734 @@
+{
+  "label": "south-after",
+  "seed": "perf-load-1",
+  "measuredAt": "2026-09-26T05:28:08.448Z",
+  "cpuThrottle": 6,
+  "viewport": "1366x768",
+  "note": "Same computer, headless Chrome, throttled through CDP. Not a Chromebook measurement.",
+  "profiles": {
+    "solo": {
+      "cold": {
+        "requests": 69,
+        "wireBytes": 22578759,
+        "decodedBytes": 27890003,
+        "notModified": 0,
+        "domContentLoadedMs": 413,
+        "mapDrawnMs": 1284,
+        "responsiveMs": 3068,
+        "lastAssetMs": 2156,
+        "longTasks": 7,
+        "longTaskMs": 1592,
+        "blockingMsBeforeMap": 539,
+        "longestTaskMs": 489,
+        "files": [
+          {
+            "url": "/assets/frontier-v1/atlases/biome-ground-bexar.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 2216472
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/nature.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1862672
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/buildings.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1820958
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/equipment.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1756675
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/transport.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1711788
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/trees-colonies-1.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1627466
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/people-wagon-drivers.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1460702
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/household.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1428870
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/animal-motion.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1387098
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/people-cast2-walk.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1288873
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/wagon-rig.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1285128
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/civilians.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1115590
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/people-cast2-idle.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1104425
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/effects.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1039166
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/ferry-flatboat.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 204190
+          },
+          {
+            "url": "/terrain/colonies-land.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 196412
+          },
+          {
+            "url": "/terrain/outside-land.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 180770
+          },
+          {
+            "url": "/terrain/colonies-province.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 172557
+          },
+          {
+            "url": "/api/map",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-store",
+            "wire": 158262
+          },
+          {
+            "url": "/app.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 137078
+          },
+          {
+            "url": "/terrain/outside-province.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 71925
+          },
+          {
+            "url": "/assets/frontier-v1/atlas.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "wire": 71024
+          },
+          {
+            "url": "/style.css",
+            "type": "Stylesheet",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 23724
+          },
+          {
+            "url": "/motion.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 20554
+          },
+          {
+            "url": "/family-panel.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 19035
+          },
+          {
+            "url": "/weather-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 18206
+          },
+          {
+            "url": "/battle-view.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 16633
+          },
+          {
+            "url": "/town-layouts.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 14735
+          },
+          {
+            "url": "/house-plot.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 13452
+          },
+          {
+            "url": "/",
+            "type": "Document",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 11206
+          },
+          {
+            "url": "/api/chores",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-store",
+            "wire": 9324
+          },
+          {
+            "url": "/assets/frontier-v1/animation.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "wire": 8006
+          },
+          {
+            "url": "/map-base.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 7966
+          },
+          {
+            "url": "/alamo-layout.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 7254
+          },
+          {
+            "url": "/art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 5927
+          },
+          {
+            "url": "/woods-view.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 5851
+          },
+          {
+            "url": "/bexar-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 5677
+          },
+          {
+            "url": "/going.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 4887
+          },
+          {
+            "url": "/errand.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 4863
+          },
+          {
+            "url": "/creation.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 4807
+          },
+          {
+            "url": "/landscape-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 4803
+          },
+          {
+            "url": "/sim/house-footprint.mjs",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 4545
+          },
+          {
+            "url": "/bexar-layout.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 4295
+          },
+          {
+            "url": "/lesson.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 4034
+          },
+          {
+            "url": "/land-levels.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 3992
+          },
+          {
+            "url": "/ground-classes.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 3954
+          },
+          {
+            "url": "/map-camera.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 3790
+          },
+          {
+            "url": "/field-surface.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 3316
+          },
+          {
+            "url": "/appearance.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 3305
+          },
+          {
+            "url": "/ending.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2999
+          },
+          {
+            "url": "/army-view.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2977
+          },
+          {
+            "url": "/intro-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2956
+          },
+          {
+            "url": "/interior.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2909
+          },
+          {
+            "url": "/api/state",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-store",
+            "wire": 2858
+          },
+          {
+            "url": "/looks-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2840
+          },
+          {
+            "url": "/town-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2655
+          },
+          {
+            "url": "/military-attention.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2495
+          },
+          {
+            "url": "/interior-data.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2464
+          },
+          {
+            "url": "/speech.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2291
+          },
+          {
+            "url": "/assets/claude-standins/atlas.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "wire": 2190
+          },
+          {
+            "url": "/curve.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2186
+          },
+          {
+            "url": "/gonzales-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 1991
+          },
+          {
+            "url": "/live-page.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 1774
+          },
+          {
+            "url": "/alamo-faces.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 1666
+          },
+          {
+            "url": "/smooth-worker.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 1361
+          },
+          {
+            "url": "/field-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "no-cache",
+            "wire": 1360
+          },
+          {
+            "url": "/api/woods",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "no-store",
+            "wire": 1128
+          },
+          {
+            "url": "/api/family",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-store",
+            "wire": 998
+          },
+          {
+            "url": "/favicon.ico",
+            "type": "Other",
+            "status": 404,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "no-store",
+            "wire": 419
+          }
+        ],
+        "trace": {
+          "RunTask (other threads)": {
+            "ms": 19007,
+            "count": 14752
+          },
+          "RunTask": {
+            "ms": 4221,
+            "count": 3399
+          },
+          "ParseHTML": {
+            "ms": 25,
+            "count": 5
+          },
+          "EventDispatch": {
+            "ms": 1,
+            "count": 28
+          },
+          "UpdateLayoutTree": {
+            "ms": 66,
+            "count": 25
+          },
+          "v8.parseOnBackground (other threads)": {
+            "ms": 20,
+            "count": 39
+          },
+          "ParseAuthorStyleSheet": {
+            "ms": 8,
+            "count": 1
+          },
+          "FireAnimationFrame": {
+            "ms": 414,
+            "count": 909
+          },
+          "FunctionCall": {
+            "ms": 1075,
+            "count": 934
+          },
+          "Layout": {
+            "ms": 414,
+            "count": 14
+          },
+          "Paint": {
+            "ms": 13,
+            "count": 17
+          },
+          "EvaluateScript": {
+            "ms": 39,
+            "count": 2
+          },
+          "v8.compileModule": {
+            "ms": 4,
+            "count": 39
+          },
+          "v8.evaluateModule": {
+            "ms": 105,
+            "count": 1
+          },
+          "MinorGC": {
+            "ms": 24,
+            "count": 11
+          },
+          "V8.GC_SCAVENGER": {
+            "ms": 18,
+            "count": 11
+          },
+          "TimerFire": {
+            "ms": 813,
+            "count": 7
+          },
+          "Decode Image (other threads)": {
+            "ms": 137,
+            "count": 15
+          },
+          "MajorGC": {
+            "ms": 20,
+            "count": 2
+          },
+          "v8.compileModule (other threads)": {
+            "ms": 1,
+            "count": 2
+          },
+          "v8.evaluateModule (other threads)": {
+            "ms": 0,
+            "count": 1
+          },
+          "FunctionCall (other threads)": {
+            "ms": 406,
+            "count": 3
+          },
+          "MinorGC (other threads)": {
+            "ms": 2,
+            "count": 11
+          },
+          "V8.GC_SCAVENGER (other threads)": {
+            "ms": 1,
+            "count": 11
+          }
+        }
+      },
+      "warm": {
+        "requests": 68,
+        "wireBytes": 193185,
+        "decodedBytes": 27889982,
+        "notModified": 0,
+        "domContentLoadedMs": 341,
+        "mapDrawnMs": 633,
+        "responsiveMs": 2156,
+        "lastAssetMs": 1315,
+        "longTasks": 7,
+        "longTaskMs": 891,
+        "blockingMsBeforeMap": 8,
+        "longestTaskMs": 326,
+        "files": [
+          {
+            "url": "/api/map",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-store",
+            "wire": 158262
+          },
+          {
+            "url": "/api/chores",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-store",
+            "wire": 9324
+          },
+          {
+            "url": "/api/state",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-store",
+            "wire": 2858
+          },
+          {
+            "url": "/api/woods",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "no-store",
+            "wire": 1128
+          },
+          {
+            "url": "/api/family",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-store",
+            "wire": 998
+          },
+          {
+            "url": "/assets/frontier-v1/atlas.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "wire": 452
+          },
+          {
+            "url": "/assets/frontier-v1/animation.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "wire": 452
+          },
+          {
+            "url": "/assets/claude-standins/atlas.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "wire": 452
+          },
+          {
+            "url": "/terrain/colonies-province.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 449
+          },
+          {
+            "url": "/terrain/colonies-land.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 449
+          },
+          {
+            "url": "/terrain/outside-province.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 449
+          },
+          {
+            "url": "/terrain/outside-land.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 449
+          },
+          {
+            "url": "/",
+            "type": "Document",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/style.css",
+            "type": "Stylesheet",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/app.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/army-view.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/live-page.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/motion.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/family-panel.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/lesson.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/errand.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/going.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/bexar-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/bexar-layout.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/field-surface.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/gonzales-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/town-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/interior.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/landscape-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/sim/house-footprint.mjs",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/house-plot.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/weather-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/ending.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/appearance.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/woods-view.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/creation.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/smooth-worker.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/town-layouts.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/land-levels.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/map-camera.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/military-attention.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/map-base.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/ground-classes.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/battle-view.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/alamo-faces.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/alamo-layout.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/interior-data.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/curve.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/looks-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/intro-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/speech.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/field-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "no-cache",
+            "wire": 423
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/nature.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/buildings.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/transport.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/civilians.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/biome-ground-bexar.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/trees-colonies-1.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/ferry-flatboat.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/effects.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/household.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/equipment.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/people-wagon-drivers.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/animal-motion.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/wagon-rig.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/people-cast2-idle.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/people-cast2-walk.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          }
+        ],
+        "trace": null
+      }
+    },
+    "classroom": {
+      "cold": {
+        "requests": 68,
+        "wireBytes": 22578334,
+        "decodedBytes": 27889982,
+        "notModified": 0,
+        "domContentLoadedMs": 876,
+        "mapDrawnMs": 1846,
+        "responsiveMs": 10217,
+        "lastAssetMs": 10054,
+        "longTasks": 15,
+        "longTaskMs": 2138,
+        "blockingMsBeforeMap": 558,
+        "longestTaskMs": 427,
+        "files": [
+          {
+            "url": "/assets/frontier-v1/atlases/biome-ground-bexar.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 2216472
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/nature.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1862672
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/buildings.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1820958
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/equipment.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1756675
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/transport.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1711788
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/trees-colonies-1.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1627466
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/people-wagon-drivers.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1460702
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/household.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1428870
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/animal-motion.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1387098
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/people-cast2-walk.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1288873
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/wagon-rig.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1285128
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/civilians.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1115590
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/people-cast2-idle.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1104425
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/effects.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 1039166
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/ferry-flatboat.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 204190
+          },
+          {
+            "url": "/terrain/colonies-land.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 196412
+          },
+          {
+            "url": "/terrain/outside-land.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 180770
+          },
+          {
+            "url": "/terrain/colonies-province.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 172557
+          },
+          {
+            "url": "/api/map",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-store",
+            "wire": 158260
+          },
+          {
+            "url": "/app.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 137078
+          },
+          {
+            "url": "/terrain/outside-province.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 71925
+          },
+          {
+            "url": "/assets/frontier-v1/atlas.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "wire": 71024
+          },
+          {
+            "url": "/style.css",
+            "type": "Stylesheet",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 23724
+          },
+          {
+            "url": "/motion.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 20554
+          },
+          {
+            "url": "/family-panel.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 19035
+          },
+          {
+            "url": "/weather-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 18206
+          },
+          {
+            "url": "/battle-view.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 16633
+          },
+          {
+            "url": "/town-layouts.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 14735
+          },
+          {
+            "url": "/house-plot.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 13452
+          },
+          {
+            "url": "/",
+            "type": "Document",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 11206
+          },
+          {
+            "url": "/api/chores",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-store",
+            "wire": 9323
+          },
+          {
+            "url": "/assets/frontier-v1/animation.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "wire": 8006
+          },
+          {
+            "url": "/map-base.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 7966
+          },
+          {
+            "url": "/alamo-layout.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 7254
+          },
+          {
+            "url": "/art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 5927
+          },
+          {
+            "url": "/woods-view.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 5851
+          },
+          {
+            "url": "/bexar-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 5677
+          },
+          {
+            "url": "/going.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 4887
+          },
+          {
+            "url": "/errand.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 4863
+          },
+          {
+            "url": "/creation.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 4807
+          },
+          {
+            "url": "/landscape-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 4803
+          },
+          {
+            "url": "/sim/house-footprint.mjs",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 4545
+          },
+          {
+            "url": "/bexar-layout.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 4295
+          },
+          {
+            "url": "/lesson.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 4034
+          },
+          {
+            "url": "/land-levels.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 3992
+          },
+          {
+            "url": "/ground-classes.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 3954
+          },
+          {
+            "url": "/map-camera.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 3790
+          },
+          {
+            "url": "/field-surface.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 3316
+          },
+          {
+            "url": "/appearance.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 3305
+          },
+          {
+            "url": "/ending.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2999
+          },
+          {
+            "url": "/army-view.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2977
+          },
+          {
+            "url": "/intro-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2956
+          },
+          {
+            "url": "/interior.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2909
+          },
+          {
+            "url": "/api/state",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-store",
+            "wire": 2855
+          },
+          {
+            "url": "/looks-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2840
+          },
+          {
+            "url": "/town-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2655
+          },
+          {
+            "url": "/military-attention.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2495
+          },
+          {
+            "url": "/interior-data.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2464
+          },
+          {
+            "url": "/speech.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2291
+          },
+          {
+            "url": "/assets/claude-standins/atlas.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "wire": 2190
+          },
+          {
+            "url": "/curve.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 2186
+          },
+          {
+            "url": "/gonzales-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 1991
+          },
+          {
+            "url": "/live-page.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 1774
+          },
+          {
+            "url": "/alamo-faces.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 1666
+          },
+          {
+            "url": "/smooth-worker.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 1361
+          },
+          {
+            "url": "/field-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "no-cache",
+            "wire": 1360
+          },
+          {
+            "url": "/api/woods",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "no-store",
+            "wire": 1128
+          },
+          {
+            "url": "/api/family",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-store",
+            "wire": 998
+          }
+        ],
+        "trace": {
+          "RunTask (other threads)": {
+            "ms": 18862,
+            "count": 16629
+          },
+          "RunTask": {
+            "ms": 5743,
+            "count": 26945
+          },
+          "ParseHTML": {
+            "ms": 17,
+            "count": 4
+          },
+          "EventDispatch": {
+            "ms": 1,
+            "count": 25
+          },
+          "FireAnimationFrame": {
+            "ms": 548,
+            "count": 906
+          },
+          "FunctionCall": {
+            "ms": 1674,
+            "count": 952
+          },
+          "UpdateLayoutTree": {
+            "ms": 81,
+            "count": 43
+          },
+          "EvaluateScript": {
+            "ms": 45,
+            "count": 2
+          },
+          "v8.parseOnBackground (other threads)": {
+            "ms": 143,
+            "count": 39
+          },
+          "ParseAuthorStyleSheet": {
+            "ms": 4,
+            "count": 1
+          },
+          "Layout": {
+            "ms": 417,
+            "count": 14
+          },
+          "Paint": {
+            "ms": 14,
+            "count": 16
+          },
+          "v8.compileModule": {
+            "ms": 5,
+            "count": 39
+          },
+          "TimerFire": {
+            "ms": 1339,
+            "count": 20
+          },
+          "v8.evaluateModule": {
+            "ms": 114,
+            "count": 1
+          },
+          "MinorGC": {
+            "ms": 43,
+            "count": 19
+          },
+          "V8.GC_SCAVENGER": {
+            "ms": 30,
+            "count": 19
+          },
+          "Decode Image (other threads)": {
+            "ms": 135,
+            "count": 15
+          },
+          "v8.compileModule (other threads)": {
+            "ms": 1,
+            "count": 2
+          },
+          "MajorGC": {
+            "ms": 33,
+            "count": 4
+          },
+          "v8.evaluateModule (other threads)": {
+            "ms": 0,
+            "count": 1
+          },
+          "FunctionCall (other threads)": {
+            "ms": 406,
+            "count": 3
+          },
+          "MinorGC (other threads)": {
+            "ms": 1,
+            "count": 11
+          },
+          "V8.GC_SCAVENGER (other threads)": {
+            "ms": 1,
+            "count": 11
+          }
+        }
+      },
+      "warm": {
+        "requests": 68,
+        "wireBytes": 193179,
+        "decodedBytes": 27889982,
+        "notModified": 0,
+        "domContentLoadedMs": 690,
+        "mapDrawnMs": 1064,
+        "responsiveMs": 2624,
+        "lastAssetMs": 1670,
+        "longTasks": 5,
+        "longTaskMs": 861,
+        "blockingMsBeforeMap": 0,
+        "longestTaskMs": 334,
+        "files": [
+          {
+            "url": "/api/map",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-store",
+            "wire": 158260
+          },
+          {
+            "url": "/api/chores",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-store",
+            "wire": 9323
+          },
+          {
+            "url": "/api/state",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-store",
+            "wire": 2855
+          },
+          {
+            "url": "/api/woods",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "no-store",
+            "wire": 1128
+          },
+          {
+            "url": "/api/family",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-store",
+            "wire": 998
+          },
+          {
+            "url": "/assets/frontier-v1/atlas.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "wire": 452
+          },
+          {
+            "url": "/assets/frontier-v1/animation.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "wire": 452
+          },
+          {
+            "url": "/assets/claude-standins/atlas.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "wire": 452
+          },
+          {
+            "url": "/terrain/outside-province.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 449
+          },
+          {
+            "url": "/terrain/outside-land.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 449
+          },
+          {
+            "url": "/terrain/colonies-province.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 449
+          },
+          {
+            "url": "/terrain/colonies-land.json",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 449
+          },
+          {
+            "url": "/",
+            "type": "Document",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/style.css",
+            "type": "Stylesheet",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/app.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/live-page.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/lesson.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/army-view.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/family-panel.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/motion.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/bexar-layout.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/errand.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/field-surface.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/going.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/bexar-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/interior.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/gonzales-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/town-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/landscape-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/weather-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/town-layouts.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/appearance.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/ending.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/creation.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/woods-view.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/sim/house-footprint.mjs",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/house-plot.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/map-camera.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/military-attention.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/smooth-worker.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/land-levels.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/map-base.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/ground-classes.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/alamo-faces.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/interior-data.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/curve.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/alamo-layout.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/looks-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/battle-view.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/intro-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/speech.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "gzip",
+            "cacheControl": "no-cache",
+            "wire": 426
+          },
+          {
+            "url": "/field-art.js",
+            "type": "Script",
+            "status": 200,
+            "fromCache": false,
+            "encoding": "",
+            "cacheControl": "no-cache",
+            "wire": 423
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/nature.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/buildings.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/transport.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/civilians.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/biome-ground-bexar.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/trees-colonies-1.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/ferry-flatboat.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/effects.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/household.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/equipment.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/people-wagon-drivers.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/animal-motion.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/wagon-rig.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/people-cast2-idle.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          },
+          {
+            "url": "/assets/frontier-v1/atlases/people-cast2-walk.png",
+            "type": "Fetch",
+            "status": 200,
+            "fromCache": true,
+            "encoding": "",
+            "cacheControl": "public, max-age=31536000, immutable",
+            "wire": 0
+          }
+        ],
+        "trace": null
+      }
+    }
+  },
+  "serverStartMs": 1245
+}

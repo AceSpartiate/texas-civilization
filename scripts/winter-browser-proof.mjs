@@ -17,6 +17,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { rollFamily, stepWorld } from '../sim/world.mjs';
 import { beginSecondPeriod } from '../sim/periods.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { sendTheWay } from './support/going.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -33,6 +34,10 @@ function inTheWinter(seed, playerCount) {
   beginSecondPeriod(world);
   world.status = 'running';
   for (let i = 0; i < 400 && !world.director.milestones['winter-news']; i++) stepWorld(world);
+  // Every family finished its guided start in the first period, as a real class's have by the winter (sim/lesson.mjs): a family
+  // whose house site the first period's automation never chose would otherwise be walked back to the wagon, every order but
+  // the lesson's shut (found 2026-09-25: the winter proof had failed on this since the guided start of 2026-09-21).
+  for (const household of Object.values(world.households)) household.lesson = { step: 'done', at: 0 };
   world.status = 'lobby';
   return world;
 }
@@ -76,6 +81,8 @@ try {
 
   // Enlisting, from the panel.
   await icon('enlist-regular').click();
+  // Every order that puts somebody on a road asks how they go first (public/going.js, 2026-09-24): the quickest way.
+  await sendTheWay(student);
   await student.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.service?.status === 'serving', person.id, { timeout: 120000 });
   assert.equal(app.state.world.entities[person.id].location.siteId, 'san-felipe');
   assert.equal(app.state.world.entities[person.id].service.acres, 800);

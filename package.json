@@ -76,6 +76,7 @@
     "test:battle-gonzales": "node scripts/battle-gonzales-browser-proof.mjs",
     "test:battle-bexar": "node scripts/battle-bexar-browser-proof.mjs",
     "test:battle-injections": "node scripts/battle-injections.mjs",
+    "test:battle-south": "node scripts/battle-south-browser-proof.mjs",
     "test:battle-concepcion": "node scripts/battle-1835-browser-proof.mjs concepcion",
     "test:battle-grass": "node scripts/battle-1835-browser-proof.mjs grass",
     "test:battle-1835-injections": "node scripts/battle-1835-injections.mjs"
