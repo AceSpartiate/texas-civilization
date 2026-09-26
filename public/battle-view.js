@@ -532,7 +532,7 @@ export function createBattleView(art) {
    */
   function drawNight(ctx, battle, camera, figurePx, now, bounds) {
     const width = bounds?.width ?? ctx.canvas?.width ?? 0, height = bounds?.height ?? ctx.canvas?.height ?? 0;
-    ctx.save(); ctx.fillStyle = battle.light === 'dawn' ? 'rgba(20,26,48,.3)' : 'rgba(8,12,30,.58)'; ctx.fillRect(0, 0, width, height); ctx.restore();
+    ctx.save(); ctx.fillStyle = battle.light === 'dawn' ? 'rgba(20,26,48,.3)' : 'rgba(8,12,30,.7)'; ctx.fillRect(0, 0, width, height); ctx.restore();
     let lit = 0;
     for (const item of battle.scenery || []) {
       if (!item.lit) continue;

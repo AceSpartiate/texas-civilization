@@ -3656,6 +3656,9 @@ function populateWork(world, chosen, running) {
       }
     }
     if (chosen.service.besieged || chosen.service.riding) return;
+    // In a fight in the south, or after it before the word (sim/winter.mjs `recallRefusal`): nobody can reach them, in the
+    // server's words, and no button that the server would refuse.
+    if (chosen.service.unreachable || chosen.held) { host.append(element('p', chosen.service.unreachable || chosen.held, 'work-note')); return; }
     const recall = element('button', 'Send for them to come home', 'work-stop');
     recall.dataset.action = 'winter-recall';
     recall.dataset.entityId = chosen.id;

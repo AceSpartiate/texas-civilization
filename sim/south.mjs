@@ -255,6 +255,8 @@ function keepFight(world, id, { beginTravel } = {}) {
       battle.participants[person.id] = { householdId: person.householdId, joined: world.minute };
       battle.fates[person.id] = { fate, part: staged.part, at: battle.start + staged.at };
       person.service.fight = id;
+      // Where the card says he is: in the town, or with the party at the creek.
+      person.service.siteId = id;
       person.chore = null; person.task = 'rest';
     }
   }
