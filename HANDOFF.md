@@ -46,12 +46,12 @@ Wave 2 of docs/BATTLES.md §5 for the Alamo, owner-directed 2026-09-25 (§2b.1 *
   `tests/battle-stage.test.mjs` (long steps). `npm test` after merging main (Béxar): **1255 pass, 0 fail**.
 - **Browser** (same computer): new `npm run test:battle-alamo` - **13 checks** at 1366x768 and 1024x768: the card and Watch on
   Feb 23; the guns on four siege days; the runner answered "stay" in the meeting; the alarm's card at the man's side; fire and
-  smoke at every one of 12 sampled moments of the assault; columns in files and walls in line (nearest-neighbour spread 0.000
-  and 0.027); the talk; the man firing from his post and seen to go down, journal and record silent; the Host live; the family
-  with nobody there sent nothing before and after a reload; the debrief; the word's account on March 13. Battle drawing **2.2 ms
-  at its worst 95th percentile**, map frame at most 8.5 ms. `docs/evidence/battle-alamo-browser.json`,
+  smoke at every one of 12 sampled moments of the assault; columns in files and walls in line (nearest-neighbour spread 0.002
+  and 0.016); the talk; the man firing from his post and seen to go down, journal and record silent; the Host live; the family
+  with nobody there sent nothing before and after a reload; the debrief; the word's account on March 13. Battle drawing **1.6 ms
+  at its worst 95th percentile**, the whole map frame 4-8 ms with one 22 ms spike in the last run. `docs/evidence/battle-alamo-browser.json`,
   `test-results/battle-alamo-*.png`. `test:alamo-siege` (8) passes with one change: the father is given the post by the gate and
-  stood at it, since posts replaced the plaza spot. Re-run on the final merge: PROOFS_LINE.
+  stood at it, since posts replaced the plaza spot. Re-run on the final merge with Béxar: `test:battle-bexar` (15), `test:battle-gonzales` (12), `test:alamo-siege` (8), `test:lesson`, `test:panels` - all pass.
 - **Injections** (`npm run test:battle-alamo-injections`, `docs/evidence/battle-alamo-injections.json`): **29 of 29 caught** by
   the check written for them - 20 unit injections (13 in `tests/battle-alamo.test.mjs`, 7 in `tests/battle-alamo-view.test.mjs`),
   each failing its named test and no other in its file, and 9 browser injections, each failing the proof with its own message
@@ -64,7 +64,7 @@ Wave 2 of docs/BATTLES.md §5 for the Alamo, owner-directed 2026-09-25 (§2b.1 *
   pixels, so walls of men are crowded lines; the noncombatants killed and the executions are told, not modelled or shown;
   Dickinson, Joe and Ben's journey to Gonzales is the word on the 13th, not travellers; the relief man without a horse rides one
   that is not an entity (`ceiling:`). The house-site card over the proof's pictures is the proof's in-process family.
-- **For the owner to confirm**: the siege's added 7.8 minutes for a class with somebody inside, and 6.6 for the assault for
+- **For the owner to confirm**: the siege's added 5.7 minutes for a class with somebody inside, and 6.6 for the assault for
   every class; posts weighted to the north and west (`FIC-GONZ-430`); a courier lent a garrison horse and a relief man lent a
   company horse; the relief waiting half a mile out on the Gonzales road; the student's debrief on the card only, never the
   journal; another family's fallen man simply not seen standing again.

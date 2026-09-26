@@ -77,16 +77,6 @@
       ]
     },
     {
-      "name": "a man still on the road is taken inside",
-      "file": "sim/alamo.mjs",
-      "test": "tests/battle-alamo.test.mjs",
-      "expect": "a relief man still on the road when the company goes in is left behind, told so, and turns home",
-      "caught": true,
-      "failed": [
-        "a relief man still on the road when the company goes in is left behind, told so, and turns home"
-      ]
-    },
-    {
       "name": "everybody falls when the north wall does",
       "file": "sim/alamo-battle.mjs",
       "test": "tests/battle-alamo.test.mjs",
@@ -187,6 +177,16 @@
       ]
     },
     {
+      "name": "the Come and Take It cloth over Béxar",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-alamo-view.test.mjs",
+      "expect": "the red flag of no quarter flies over Béxar as a plain red field, never as the Come and Take It flag",
+      "caught": true,
+      "failed": [
+        "the red flag of no quarter flies over Béxar as a plain red field, never as the Come and Take It flag"
+      ]
+    },
+    {
       "name": "the reminder that he is inside hides the storming's card",
       "file": "public/military-attention.js",
       "test": "tests/battle-alamo-view.test.mjs",
@@ -197,13 +197,13 @@
       ]
     },
     {
-      "name": "the Come and Take It cloth over Béxar",
-      "file": "public/battle-view.js",
-      "test": "tests/battle-alamo-view.test.mjs",
-      "expect": "the red flag of no quarter flies over Béxar as a plain red field, never as the Come and Take It flag",
+      "name": "a man left on the road is never told or turned home",
+      "file": "sim/alamo-battle.mjs",
+      "test": "tests/battle-alamo.test.mjs",
+      "expect": "a relief man still on the road when the company goes in is left behind, told so, and turns home",
       "caught": true,
       "failed": [
-        "the red flag of no quarter flies over Béxar as a plain red field, never as the Come and Take It flag"
+        "a relief man still on the road when the company goes in is left behind, told so, and turns home"
       ]
     }
   ],
@@ -221,8 +221,16 @@
       "file": "public/battle-view.js",
       "expect": "never fired from his post",
       "caught": true,
-      "failure": "the family's man never fired from his post: volunteer-march,volunteer-idle-e,volunteer-e,volunteer-reclining",
+      "failure": "the family's man never fired from his post: volunteer-idle-e,volunteer-idle-w,volunteer-injured,volunteer-reclining",
       "checksPassedFirst": 7
+    },
+    {
+      "name": "the columns come as a crowd, not in files",
+      "file": "public/battle-view.js",
+      "expect": "the column or the wall is not in order",
+      "caught": true,
+      "failure": "the column or the wall is not in order: {\"north\":0.015605900307490253,\"west\":0.0011507066746806935,\"southwest\":0.013406309651081773,\"south\":0.013914596746888047,\"palisade\":0.01639502185814113,\"church\":null,\"cos\":null,\"duque\":null,\"romero\":null,\"morales\":null,\"reserve\":null,\"lancers-east\":0.02609001178813441,\"lancers-south\":0.009703731044834548}",
+      "checksPassedFirst": 5
     },
     {
       "name": "his fall is never shown",
@@ -271,14 +279,6 @@
       "caught": true,
       "failure": "timed out waiting at 1836-03-14 undefined: () => /What you saw/.test(window.__snapshot.world.battleAccount?.title || '')",
       "checksPassedFirst": 11
-    },
-    {
-      "name": "the columns come as a crowd, not in files",
-      "file": "public/battle-view.js",
-      "expect": "the column or the wall is not in order",
-      "caught": true,
-      "failure": "the column or the wall is not in order: {\"texian:north\":0.027142162790071044,\"texian:west\":0.0012958882270739196,\"texian:southwest\":0.014003530067352242,\"texian:south\":0.009149679157783381,\"texian:palisade\":0.0038104330618673717,\"texian:church\":null,\"mexican:cos\":null,\"mexican:duque\":null,\"mexican:romero\":null,\"mexican:morales\":null,\"mexican:reserve\":null,\"mexican:lancers-east\":0.03111164326386655,\"mexican:lancers-south\":0.05116450846396075}",
-      "checksPassedFirst": 5
     }
   ],
   "cleanBrowserChecks": 13,

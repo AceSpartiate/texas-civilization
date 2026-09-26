@@ -33,8 +33,10 @@ const UNIT = [
   { name: 'the relief rides to Béxar\'s plaza, inside the Mexican lines', file: 'sim/alamo.mjs',
     from: '    if (wait) endShortOf(person.travel, wait);', to: '',
     test: DATA, expect: 'the relief rides from Gonzales to wait short of the lines, rides in with the company to the gate, and walks to a post: never set down' },
-  { name: 'a man still on the road is taken inside', file: 'sim/alamo.mjs',
-    from: '    if (person.travel || person.service.late) { person.service.late = true; continue; }', to: '    if (person.service.late) continue;',
+  // Two guards keep a man on the road out (the relief's ride marks him late, and reliefEnters does too); what only one thing
+  // does is tell him and turn him home.
+  { name: 'a man left on the road is never told or turned home', file: 'sim/alamo-battle.mjs',
+    from: '    if (!person.service.late || person.travel) continue;', to: '    continue;',
     test: DATA, expect: 'a relief man still on the road when the company goes in is left behind, told so, and turns home' },
   { name: 'everybody falls when the north wall does', file: 'sim/alamo-battle.mjs',
     from: '  const ids = FALL_PHASES[wallOf(person.service?.post)] || FALL_PHASES.north;', to: '  const ids = FALL_PHASES.north;',

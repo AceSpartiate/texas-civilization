@@ -6,12 +6,12 @@
   "checks": [
     "the fighter pressed \"Go upriver\" and the man in town pressed \"Stay in town\", each on the page",
     "the alert \"The fight is coming\" came at 5060 before contact, through the person, and Watch put the camera 0.00 miles from the field",
-    "fire and smoke on the screen at every one of 8 sampled moments of the fighting (shots 29 -> 165; smoke in view 17-102 puffs)",
+    "fire and smoke on the screen at every one of 8 sampled moments of the fighting (shots 28 -> 162; smoke in view 16-103 puffs)",
     "the Texians stand loose and the dragoons in ranks: nearest-neighbour spread 0.324 against 0.026",
     "words drawn over the speakers: g-dry, g-smith-1, g-smith-2, g-talk, g-close, g-quiet, g-quien, g-hold, g-caballo, g-see, g-far, g-here, g-carga, g-trees, g-taunt-1, g-fence, g-horses, g-smither, g-que, g-why, g-federal, g-constitution, g-republican, g-instantly, g-want, g-fire, g-boys, g-retirada, g-taunt-2",
     "the Come and Take It flag is on the screen at all 8 moments of the fighting, and the men shout its words",
     "the family's own person hh-1-thomas is drawn in the Texian force in its poses: volunteer-idle-w, volunteer-march, volunteer-load, volunteer-fire-reload",
-    "the battle draws in 1.7 ms at its slowest 95th percentile, of a map frame of 3.3 ms at most",
+    "the battle draws in 1.9 ms at its slowest 95th percentile, of a map frame of 3.3 ms at most",
     "the Host sees it live (fight), its camera battle on the field",
     "the family in town and the family at home were sent nothing of the fight - no battle, no alert, no name - before and after a reload",
     "the family in town heard it, in words: \"In Gonzales, Vicente hears a heavy gun fired somewhere far up the river, a dull report in the fog. Nobody in town can say what it means yet.\"",
@@ -28,16 +28,16 @@
           "mexican": 48
         },
         "regularity": {
-          "texian": 0.3243152164809309,
+          "texian": 0.3243152164809311,
           "mexican": 0.02600922121065843
         },
-        "shotsTotal": 29,
+        "shotsTotal": 28,
         "shotsBy": {
-          "mexican": 11,
-          "texian": 18
+          "mexican": 12,
+          "texian": 16
         },
-        "smoke": 29,
-        "smokeInView": 17,
+        "smoke": 28,
+        "smokeInView": 16,
         "bubbles": [
           "How far are they?"
         ],
@@ -51,12 +51,12 @@
         ],
         "frameMs": {
           "last": 0.7,
-          "median": 0.9,
-          "p95": 1.6
+          "median": 0.7,
+          "p95": 1.3
         },
         "cannonShots": 0
       },
-      "frame": 2.2000000178813934,
+      "frame": 1.5999999940395355,
       "size": "1366x768",
       "camera": "battle"
     },
@@ -71,14 +71,14 @@
         },
         "regularity": {
           "texian": 0.32431521648093103,
-          "mexican": 0.026009221210658934
+          "mexican": 0.026009221210658993
         },
-        "shotsTotal": 52,
+        "shotsTotal": 51,
         "shotsBy": {
           "mexican": 22,
-          "texian": 30
+          "texian": 29
         },
-        "smoke": 52,
+        "smoke": 51,
         "smokeInView": 38,
         "bubbles": [
           "Here they come!",
@@ -93,13 +93,13 @@
           "volunteer-load"
         ],
         "frameMs": {
-          "last": 1,
-          "median": 0.9,
-          "p95": 1.6
+          "last": 1.2,
+          "median": 0.7,
+          "p95": 1.5
         },
         "cannonShots": 0
       },
-      "frame": 2.699999988079071,
+      "frame": 2.9000000059604645,
       "size": "1366x768",
       "camera": "battle"
     },
@@ -113,18 +113,17 @@
           "mexican": 47
         },
         "regularity": {
-          "texian": 0.32431521648093153,
-          "mexican": 0.026146183519856033
+          "texian": 0.3243152164809315,
+          "mexican": 0.026146183519854958
         },
-        "shotsTotal": 78,
+        "shotsTotal": 75,
         "shotsBy": {
-          "mexican": 33,
-          "texian": 44
+          "mexican": 31,
+          "texian": 43
         },
-        "smoke": 81,
-        "smokeInView": 81,
+        "smoke": 78,
+        "smokeInView": 78,
         "bubbles": [
-          "Here they come!",
           "¡Sable en mano! ¡A la carga!",
           "Back to the trees!"
         ],
@@ -138,13 +137,13 @@
           "volunteer-fire-reload"
         ],
         "frameMs": {
-          "last": 1.6,
-          "median": 1,
-          "p95": 1.6
+          "last": 1.4,
+          "median": 0.7,
+          "p95": 1.5
         },
         "cannonShots": 1
       },
-      "frame": 3.300000011920929,
+      "frame": 2.899999976158142,
       "size": "1366x768",
       "camera": "battle"
     },
@@ -161,13 +160,13 @@
           "texian": 0.32431521648093015,
           "mexican": 0.026146183519855253
         },
-        "shotsTotal": 99,
+        "shotsTotal": 100,
         "shotsBy": {
-          "mexican": 38,
+          "mexican": 39,
           "texian": 59
         },
-        "smoke": 102,
-        "smokeInView": 102,
+        "smoke": 103,
+        "smokeInView": 103,
         "bubbles": [
           "Come and take it!"
         ],
@@ -181,13 +180,13 @@
           "volunteer-fire-reload"
         ],
         "frameMs": {
-          "last": 1.5,
-          "median": 1,
-          "p95": 1.6
+          "last": 1,
+          "median": 0.8,
+          "p95": 1.8
         },
         "cannonShots": 1
       },
-      "frame": 2.9000000059604645,
+      "frame": 1.899999976158142,
       "size": "1366x768",
       "camera": "battle"
     },
@@ -204,13 +203,13 @@
           "texian": 0.3243152164809309,
           "mexican": 0.026146183519854083
         },
-        "shotsTotal": 116,
+        "shotsTotal": 115,
         "shotsBy": {
           "mexican": 43,
-          "texian": 71
+          "texian": 70
         },
-        "smoke": 119,
-        "smokeInView": 102,
+        "smoke": 118,
+        "smokeInView": 103,
         "bubbles": [],
         "members": [
           "hh-1-thomas"
@@ -222,13 +221,13 @@
           "volunteer-fire-reload"
         ],
         "frameMs": {
-          "last": 0.6,
-          "median": 1,
-          "p95": 1.6
+          "last": 0.7,
+          "median": 0.8,
+          "p95": 1.9
         },
         "cannonShots": 1
       },
-      "frame": 1.800000011920929,
+      "frame": 1.5999999940395355,
       "size": "1366x768",
       "camera": "battle"
     },
@@ -242,16 +241,16 @@
           "mexican": 47
         },
         "regularity": {
-          "texian": 0.3243152164809302,
+          "texian": 0.3243152164809316,
           "mexican": 0.026146183519855027
         },
-        "shotsTotal": 116,
+        "shotsTotal": 115,
         "shotsBy": {
           "mexican": 43,
-          "texian": 71
+          "texian": 70
         },
-        "smoke": 119,
-        "smokeInView": 71,
+        "smoke": 118,
+        "smokeInView": 72,
         "bubbles": [
           "Pull that fence down."
         ],
@@ -265,13 +264,13 @@
           "volunteer-fire-reload"
         ],
         "frameMs": {
-          "last": 0.7,
-          "median": 0.9,
-          "p95": 1.6
+          "last": 0.8,
+          "median": 0.8,
+          "p95": 1.8
         },
         "cannonShots": 1
       },
-      "frame": 1.5999999940395355,
+      "frame": 1.800000011920929,
       "size": "1366x768",
       "camera": "battle"
     },
@@ -288,18 +287,17 @@
           "texian": 0.3243152164809309,
           "mexican": 0.02614618351985491
         },
-        "shotsTotal": 116,
+        "shotsTotal": 115,
         "shotsBy": {
           "mexican": 43,
-          "texian": 71
+          "texian": 70
         },
-        "smoke": 119,
-        "smokeInView": 71,
+        "smoke": 116,
+        "smokeInView": 70,
         "bubbles": [
           "Pull that fence down.",
           "Whose horses are these?",
-          "Don’t shoot, don’t shoot!",
-          "¿Qué dicen?"
+          "Don’t shoot, don’t shoot!"
         ],
         "members": [
           "hh-1-thomas"
@@ -311,13 +309,13 @@
           "volunteer-fire-reload"
         ],
         "frameMs": {
-          "last": 1,
+          "last": 2.1,
           "median": 0.9,
-          "p95": 1.6
+          "p95": 1.9
         },
         "cannonShots": 1
       },
-      "frame": 1.9000000059604645,
+      "frame": 3.300000011920929,
       "size": "1024x768",
       "camera": "battle"
     },
@@ -334,13 +332,13 @@
           "texian": 0.3243152164809309,
           "mexican": 0.02614618351985491
         },
-        "shotsTotal": 116,
+        "shotsTotal": 115,
         "shotsBy": {
           "mexican": 43,
-          "texian": 71
+          "texian": 70
         },
-        "smoke": 117,
-        "smokeInView": 69,
+        "smoke": 116,
+        "smokeInView": 70,
         "bubbles": [
           "Don’t shoot, don’t shoot!",
           "¿Qué dicen?",
@@ -359,12 +357,12 @@
         ],
         "frameMs": {
           "last": 0.9,
-          "median": 0.9,
-          "p95": 1.6
+          "median": 1,
+          "p95": 1.8
         },
         "cannonShots": 1
       },
-      "frame": 1.699999988079071,
+      "frame": 2.4000000059604645,
       "size": "1024x768",
       "camera": "battle"
     },
@@ -381,13 +379,13 @@
           "texian": 0.3243152164809309,
           "mexican": 0.02614618351985491
         },
-        "shotsTotal": 116,
+        "shotsTotal": 115,
         "shotsBy": {
           "mexican": 43,
-          "texian": 71
+          "texian": 70
         },
-        "smoke": 116,
-        "smokeInView": 68,
+        "smoke": 115,
+        "smokeInView": 69,
         "bubbles": [
           "Why are you attacking me?",
           "Because you are a Centralist, and we are Federalists.",
@@ -406,13 +404,13 @@
           "volunteer-fire-reload"
         ],
         "frameMs": {
-          "last": 0.9,
-          "median": 0.9,
-          "p95": 1.5
+          "last": 1.4,
+          "median": 1.1,
+          "p95": 1.9
         },
         "cannonShots": 1
       },
-      "frame": 1.9000000059604645,
+      "frame": 2.5,
       "size": "1024x768",
       "camera": "battle"
     },
@@ -426,16 +424,16 @@
           "mexican": 47
         },
         "regularity": {
-          "texian": 0.32431521648093165,
+          "texian": 0.32431521648093065,
           "mexican": 0.02614618351985587
         },
-        "shotsTotal": 133,
+        "shotsTotal": 129,
         "shotsBy": {
           "mexican": 43,
-          "texian": 87
+          "texian": 83
         },
-        "smoke": 133,
-        "smokeInView": 72,
+        "smoke": 131,
+        "smokeInView": 71,
         "bubbles": [
           "Join us and keep your rank, or fight instantly.",
           "What’s he want?",
@@ -451,13 +449,13 @@
           "volunteer-fire-reload"
         ],
         "frameMs": {
-          "last": 1.4,
-          "median": 0.9,
-          "p95": 1.6
+          "last": 0.8,
+          "median": 1.1,
+          "p95": 1.8
         },
         "cannonShots": 2
       },
-      "frame": 2.800000011920929,
+      "frame": 1.5999999940395355,
       "size": "1024x768",
       "camera": "battle"
     },
@@ -471,15 +469,15 @@
           "mexican": 47
         },
         "regularity": {
-          "texian": 0.324315216480932,
+          "texian": 0.32431521648093176,
           "mexican": 0.026146183519855665
         },
-        "shotsTotal": 143,
+        "shotsTotal": 141,
         "shotsBy": {
           "mexican": 43,
-          "texian": 97
+          "texian": 95
         },
-        "smoke": 140,
+        "smoke": 137,
         "smokeInView": 66,
         "bubbles": [
           "Fire!",
@@ -495,13 +493,13 @@
           "volunteer-fire-reload"
         ],
         "frameMs": {
-          "last": 1.7,
-          "median": 0.9,
-          "p95": 1.6
+          "last": 1,
+          "median": 1,
+          "p95": 1.8
         },
         "cannonShots": 2
       },
-      "frame": 3.199999988079071,
+      "frame": 1.699999988079071,
       "size": "1024x768",
       "camera": "battle"
     },
@@ -515,16 +513,16 @@
           "mexican": 47
         },
         "regularity": {
-          "texian": 0.3243152164809313,
-          "mexican": 0.026146183519855263
+          "texian": 0.32431521648093076,
+          "mexican": 0.026146183519854604
         },
-        "shotsTotal": 156,
+        "shotsTotal": 154,
         "shotsBy": {
           "mexican": 43,
-          "texian": 110
+          "texian": 108
         },
-        "smoke": 145,
-        "smokeInView": 70,
+        "smoke": 142,
+        "smokeInView": 68,
         "bubbles": [
           "Come on, boys!",
           "¡Media vuelta! ¡Retirada!"
@@ -539,13 +537,13 @@
           "volunteer-fire-reload"
         ],
         "frameMs": {
-          "last": 1.3,
+          "last": 0.9,
           "median": 1,
           "p95": 1.7
         },
         "cannonShots": 2
       },
-      "frame": 2.699999988079071,
+      "frame": 2.5999999940395355,
       "size": "1024x768",
       "camera": "battle"
     },
@@ -560,15 +558,15 @@
         },
         "regularity": {
           "texian": 0.3243152164809326,
-          "mexican": 0.026146183519856085
+          "mexican": 0.026146183519855686
         },
-        "shotsTotal": 165,
+        "shotsTotal": 162,
         "shotsBy": {
           "mexican": 43,
-          "texian": 118
+          "texian": 115
         },
-        "smoke": 149,
-        "smokeInView": 88,
+        "smoke": 144,
+        "smokeInView": 80,
         "bubbles": [
           "¡Media vuelta! ¡Retirada!",
           "Come and take it!"
@@ -583,13 +581,13 @@
           "volunteer-fire-reload"
         ],
         "frameMs": {
-          "last": 1,
+          "last": 0.7,
           "median": 1,
           "p95": 1.7
         },
         "cannonShots": 3
       },
-      "frame": 2,
+      "frame": 1.5999999940395355,
       "size": "1024x768",
       "camera": "battle"
     }
@@ -608,21 +606,21 @@
     "scale": 1895
   },
   "frameMs": {
-    "battleP95Max": 1.7,
+    "battleP95Max": 1.9,
     "mapDrawMs": [
-      2.2000000178813934,
-      2.699999988079071,
-      3.300000011920929,
-      2.9000000059604645,
-      1.800000011920929,
       1.5999999940395355,
-      1.9000000059604645,
+      2.9000000059604645,
+      2.899999976158142,
+      1.899999976158142,
+      1.5999999940395355,
+      1.800000011920929,
+      3.300000011920929,
+      2.4000000059604645,
+      2.5,
+      1.5999999940395355,
       1.699999988079071,
-      1.9000000059604645,
-      2.800000011920929,
-      3.199999988079071,
-      2.699999988079071,
-      2
+      2.5999999940395355,
+      1.5999999940395355
     ]
   },
   "account": "What Gregorio saw at Williams’s place"
