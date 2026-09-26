@@ -12,10 +12,14 @@ import { SETTLEMENT_DAYS, advanceArmiesPassing, orderOut, turnHome } from './scr
 import { HOUSTON_WORD, catchUpCamp, fightColeto, followCamp, goliadMassacre, takeInEnlisted, tellGoliad, tellSanJacinto } from './houston.mjs';
 import { closeCampQuestion, openCampQuestion } from './camp.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
-import { advanceArmy, closeDetachment, closeQuestion, countermandStorm, dieOfWounds, disbandArmy, fightConcepcion, fightGrass, fightStorming, formArmy, goForClothing, marchOut, moveCamp, openDetachment, openQuestion, questionOpen, recordPresent, returnFromClothing, tellGrassFight, tellStorming } from './army.mjs';
+import { advanceArmy, closeQuestion, countermandStorm, dieOfWounds, disbandArmy, fightConcepcion, fightGrass, fightStorming, formArmy, goForClothing, marchOut, moveCamp, openDetachment, openQuestion, questionOpen, recordPresent, returnFromClothing, tellGrassFight, tellStorming } from './army.mjs';
 import { GONZALES, gonzalesGround } from './battles/gonzales.mjs';
 import { SAN_JACINTO_BATTLE } from './battles/san-jacinto.mjs';
 import { advanceSanJacinto, sanJacintoField, sanJacintoProjection, strikeSanJacinto, tellSanJacintoAccounts } from './san-jacinto.mjs';
+import { CONCEPCION } from './battles/concepcion.mjs';
+import { GRASS_FIGHT as GRASS_ENGAGEMENT } from './battles/grass-fight.mjs';
+import { advanceConcepcion, advanceGrassFight, battleField, campaignBattleProjection, concepcionArmyProgress, grassAccounts } from './concepcion-grass.mjs';
+import { armyArrivalWords } from './army.mjs';
 import { BEXAR_STORMING } from './battles/bexar-storming.mjs';
 import { advanceBexarFight, bexarProjection } from './bexar-fight.mjs';
 import { armBattle, battleState, looseSlot, phaseOffset, placeFrom, projectBattle, sidePlace } from './battle-stage.mjs';
@@ -65,6 +69,10 @@ const gonzalesAt = phase => GONZALES_START + phaseOffset(GONZALES, phase);
 // volley), Santa Anna brought in at noon on the 22nd - which stand where they always stood (tests/battle-san-jacinto.test.mjs).
 const SAN_JACINTO_START = 294480;
 const jacintoAt = phase => SAN_JACINTO_START + phaseOffset(SAN_JACINTO_BATTLE, phase);
+// Concepción and the Grass Fight on the engine (sim/battles/concepcion.mjs, sim/battles/grass-fight.mjs; staging.md §1, §2):
+// the division leaves Espada at two on October 27 (`detachment-out`), and `concepcion` is when the fog lifts, about eight on the
+// 28th; Deaf Smith rides in at ten on November 26 (`grass-alarm`) and `grass-fight` is Bowie's charge at eleven.
+const CONCEPCION_START = 41160, GRASS_START = 84120;
 // The storming of Béxar on the engine (sim/battles/bexar-storming.mjs) starts at Milam's call, six in the evening of December 4,
 // and its own phases date the director's moments of it: the roll at two on the 5th, when the call shuts; Neill's gun at five
 // (`assault`); Milam's death at half past three on the 7th; the companies from the camp at six on the 8th; Cos's army marching
@@ -93,7 +101,7 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   // leaves the Cibolo on the 19th (it camped on the Salado "early" on the 20th); Bowie and Fannin go ahead on the 22nd,
   // when a family is asked whether its volunteer goes with them; the army moves to Espada on the 26th; the fight is at
   // about eight on the 28th; the class stops on November 2, the day both councils of war voted not to storm the town.
-  'leave-cibolo': 28800, detachment: 33600, 'to-espada': 39360, concepcion: 42240, siege: 49680,
+  'leave-cibolo': 28800, detachment: 33600, 'to-espada': 39360, 'detachment-out': CONCEPCION_START, concepcion: CONCEPCION_START + phaseOffset(CONCEPCION, 'fog-lifts'), siege: 49680,
   // The siege and the Grass Fight (docs/COLONIES.md §6k; `HIST-TEX-026` to `-035`, dated from Austin's order book and
   // letters). Nov 2 is 48960. The army goes above the town after the vote; men leave for winter clothing (reported the
   // 4th); headquarters goes back to Concepción about the 9th; the army is united at the mill on the 15th; Austin orders the
@@ -102,7 +110,7 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   // the first word reaches San Felipe December 1 as a rumour, and the fuller account follows; the class stops on the
   // evening of December 4, when Milam calls for volunteers to go into the town.
   clothing: 52560, 'to-concepcion': 59760, united: 68400, 'storm-order': 77040, countermand: 77760, pledge: 81360,
-  'austin-leaves': 82440, 'grass-alarm': 84120, 'grass-fight': 84420, 'grass-rumour': 91440, 'grass-news': 94320, milam: BEXAR_START,
+  'austin-leaves': 82440, 'grass-alarm': GRASS_START, 'grass-fight': GRASS_START + phaseOffset(GRASS_ENGAGEMENT, 'bowie'), 'grass-rumour': 91440, 'grass-news': 94320, milam: BEXAR_START,
   // The storming of Béxar (docs/COLONIES.md §6l; `HIST-TEX-036` to `-045`). Dec 4 is 95040. The army is ordered into winter
   // quarters in the morning of the 4th and Milam calls for volunteers that afternoon; the divisions go in about five on the
   // 5th; Milam is killed about half past three on the 7th; men are sent in from the camp on the 8th and Ugartechea reaches
@@ -1034,15 +1042,26 @@ function advanceGathering(world, movement) {
     });
     openDetachment(world, eventId);
   });
+  // The division's question stays open until it leaves Espada on the 27th (`detachment-out`, sim/concepcion-grass.mjs), so a
+  // man who comes up to the army at Espada is asked too (staging.md §1.6 fix 2). A class saved before the engine closed it here.
   once(world, 'to-espada', () => {
-    closeDetachment(world);
     record(world, 'milestone', {
       visibility: 'public', importance: 2, classification: 'DOCUMENTED', claimId: 'HIST-TEX-019',
       text: 'The army has left the Salado and gone south down the river to Mission Espada.',
     });
   });
+  // The main body comes up from Espada when the firing is heard (sim/concepcion-grass.mjs), before the ranks are stood.
+  concepcionArmyProgress(world, momentOf);
   advanceArmy(world, { hold, beginTravel: movement?.beginTravel });
+  // Concepción on the engine: the division's march, the morning in the bend, the fates, the alerts and the account.
+  advanceConcepcion(world, movement, { momentOf, sendWord });
   once(world, 'concepcion', () => {
+    // On the engine the word is sent when the Mexicans have gone, and each fate falls in the fighting; the Host's camera
+    // goes to the field as the fog lifts (docs/BATTLES.md §2.1).
+    if (world.battles?.concepcion) {
+      spotlight(world, { key: 'concepcion', text: 'Mission Concepción, as the fog lifts on October 28: Bowie and Fannin’s men under the riverbank, and Mexican infantry, cavalry and a cannon on the plain.', ...battleField(world, 'concepcion'), claimId: 'HIST-TEX-480' });
+      return;
+    }
     // Told to the whole country on the day, like Goliad. ceiling: word of it rode to San Felipe in three days and arrived
     // wrong about who was hurt (`HIST-TEX-024`); carrying battle news by rider is the next thing this wants.
     const eventId = record(world, 'milestone', {
@@ -1107,8 +1126,14 @@ function advanceSiege(world, movement) {
     sendWord(world, 'silver-train', { truth: 'A Mexican pack train was coming in to Béxar from the west, carrying grass cut for the garrison\'s horses.', text, status: 'rumor', claimId: 'HIST-TEX-031', source: 'Talk from the camp' });
     openQuestion(world, 'grass', said('HIST-TEX-031', text), { beginTravel });
   });
-  if (due('grass-fight', world.army?.questions?.grass?.openedMinute)) {
-    // Nothing public on the day: the first word of it is a rider's, five days later (`HIST-TEX-034`).
+  // The Grass Fight on the engine (sim/concepcion-grass.mjs): a yes rides or marches out at the alarm, the question shuts when
+  // they go, the fight is between about eleven and half past twelve, and each fate falls in it (staging.md §2). Nothing public
+  // on the day: the first word of it is a rider's, five days later (`HIST-TEX-034`).
+  advanceGrassFight(world, movement, { momentOf });
+  if (world.battles?.['grass-fight']) {
+    once(world, 'grass-fight', () => spotlight(world, { key: 'grass-fight', text: 'The Grass Fight, about a mile west of Béxar: Bowie’s horsemen charge a Mexican pack train, and its guard takes to a dry creek bed.', ...battleField(world, 'grass-fight'), claimId: 'HIST-TEX-483' }));
+  } else if (due('grass-fight', world.army?.questions?.grass?.openedMinute)) {
+    // A class that reached the alarm before the engine keeps the fight it had.
     once(world, 'grass-fight', () => { fightGrass(world, null, { beginTravel }); spotlight(world, { key: 'grass-fight', text: 'The Grass Fight. Riders go out after a Mexican pack train and find it carries grass for the horses, not silver.', siteId: 'bexar', claimId: 'HIST-TEX-032' }); });
   }
   const GRASS_FIGHT = 'Fuller word of the fight near Béxar on November 26: Bowie\'s horsemen and Jack\'s infantry caught a Mexican pack train west of the town, near the Alazán, and drove back into Béxar the troops sent out to meet them. The packs held grass cut for the horses, not silver. No man of ours was killed, and a few were slightly hurt. How many Mexican soldiers fell, the reports do not agree: three, fifteen, about fifty, or sixty.';
@@ -1125,6 +1150,8 @@ function advanceSiege(world, movement) {
     // The silver was a rumour, and now the country knows it.
     sendWord(world, 'silver-train', { truth: GRASS_FIGHT, text: 'The pack train carried grass for the horses in Béxar, not silver.', status: 'contradicted', claimId: 'HIST-TEX-031' });
     tellGrassFight(world, eventId);
+    // And to each family who had somebody there, the account in plain words through that person (staging.md §2.8).
+    grassAccounts(world, eventId);
   });
   advanceStorming(world, movement, { due, said });
   if (!world.director.complete) world.director.phase = questionOpen(world) ? 'news' : 'campaign';
@@ -1468,8 +1495,14 @@ export function directorProjection(world, householdId, role, { seen = [] } = {})
   }
   // The card through the family's person (docs/BATTLES.md §2.7, §2.8): the alert before the fighting with a Watch, and the
   // account afterwards. Only ever this family's own.
-  const battleAlert = role === 'student' && householdId ? alertFor(world, householdId, state, Boolean(battle)) : null;
-  const battleAccount = role === 'student' && householdId ? accountFor(world, householdId) : null;
+  let battleAlert = role === 'student' && householdId ? alertFor(world, householdId, state, Boolean(battle)) : null;
+  let battleAccount = role === 'student' && householdId ? accountFor(world, householdId) : null;
+  // Concepción and the Grass Fight (sim/concepcion-grass.mjs), on the same rules, when no other fight is being sent.
+  if (world.battles?.concepcion || world.battles?.['grass-fight']) {
+    const later = campaignBattleProjection(world, householdId, role);
+    if (!battle && later.battle) { battle = later.battle; if (later.host) host = later.host; }
+    battleAlert ||= later.battleAlert; battleAccount ||= later.battleAccount;
+  }
   // The storming of Béxar (sim/bexar-fight.mjs): its own viewers, the alert before each episode and the account after, while
   // it is fought. Only ever one fight at a time: December is not October.
   const bexar = bexarProjection(world, householdId, role, { seen });
@@ -1506,7 +1539,10 @@ export function directorProjection(world, householdId, role, { seen = [] } = {})
     // who carried the food. `options` stays as the principal's, or the march's person's.
     const household = world.households[householdId];
     const people = shown.kind === 'march' ? [march.actorId] : household.members.filter(id => canAnswerCalls(world.entities[id]));
-    shown.answerers = Object.fromEntries(people.map(id => [id, shown.kind === 'call' ? callOptions(world, householdId, call, world.entities[id]) : requestOptions(world, householdId, shown, shown.kind, world.entities[id])]));
+    // A settlement's call answered after the army has marched says, honestly, when the man would catch it up (sim/army.mjs
+    // `armyArrivalWords`, staging.md §1.6 fix 5): the offer stands either way.
+    const honest = (options, entity) => options.map(option => option.id === 'turn-out' ? { ...option, note: `${option.note}${armyArrivalWords(world, entity, call.gather, momentOf(world, 'detachment-out'))}` } : option);
+    shown.answerers = Object.fromEntries(people.map(id => [id, shown.kind === 'call' ? honest(callOptions(world, householdId, call, world.entities[id]), world.entities[id]) : requestOptions(world, householdId, shown, shown.kind, world.entities[id])]));
     shown.options = shown.answerers[shown.actorId || household.principalId] || Object.values(shown.answerers)[0] || [];
   }
   // San Jacinto (sim/san-jacinto.mjs): the same four things, for the spring's battle, from its own director.

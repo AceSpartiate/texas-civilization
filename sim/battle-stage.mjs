@@ -23,6 +23,8 @@ import { SAN_JACINTO_BATTLE } from './battles/san-jacinto.mjs';
 import { ALAMO } from './battles/alamo.mjs';
 import { SAN_PATRICIO } from './battles/san-patricio.mjs';
 import { AGUA_DULCE } from './battles/agua-dulce.mjs';
+import { CONCEPCION } from './battles/concepcion.mjs';
+import { GRASS_FIGHT } from './battles/grass-fight.mjs';
 
 /** How a side stands and moves (docs/BATTLES.md §2.4). The renderer lays figures out by these and nothing else. */
 export const STYLES = Object.freeze(['ranks', 'loose', 'wall', 'bank', 'street', 'column', 'mounted', 'rout', 'camp']);
@@ -53,7 +55,7 @@ export const LINE_KINDS = Object.freeze(['documented', 'reconstructed', 'traditi
 export const SIDES = Object.freeze(['texian', 'mexican']);
 
 /** Every engagement on the engine. Add one here and in sim/battles/ (docs/BATTLES.md §6). */
-export const ENGAGEMENTS = Object.freeze({ [GONZALES.id]: GONZALES, [BEXAR_STORMING.id]: BEXAR_STORMING, [SAN_PATRICIO.id]: SAN_PATRICIO, [AGUA_DULCE.id]: AGUA_DULCE, [ALAMO.id]: ALAMO, [SAN_JACINTO_BATTLE.id]: SAN_JACINTO_BATTLE });
+export const ENGAGEMENTS = Object.freeze({ [GONZALES.id]: GONZALES, [CONCEPCION.id]: CONCEPCION, [GRASS_FIGHT.id]: GRASS_FIGHT, [BEXAR_STORMING.id]: BEXAR_STORMING, [SAN_PATRICIO.id]: SAN_PATRICIO, [AGUA_DULCE.id]: AGUA_DULCE, [ALAMO.id]: ALAMO, [SAN_JACINTO_BATTLE.id]: SAN_JACINTO_BATTLE });
 
 /**
  * The rules an engagement's data is held to, checked when this module loads so a malformed battle never reaches a class.
@@ -466,7 +468,7 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
     const at = phase[side], info = def.sides[side], place = side === 'texian' ? texian : mexican;
     return {
       side, name: info.name, count: at.count ?? info.count, drawn: info.drawn, style: at.style, fire: state.over ? 'none' : at.fire || 'none',
-      action: state.over ? 'gone' : at.action || 'stand', moving: !state.over && sideMoving(phase, side, into), x: place.x, y: place.y, facing: at.face === 'away' ? { x: -toward[side].x, y: -toward[side].y } : toward[side],
+      action: state.over ? 'gone' : at.action || 'stand', moving: !state.over && sideMoving(phase, side, into), x: place.x, y: place.y, facing: at.face === 'away' ? { x: -toward[side].x, y: -toward[side].y } : at.face && ground[at.face] ? facingOf(place, ground[at.face]) : toward[side],
       spread: at.spread || info.spread, ...(at.mounted !== undefined ? { mounted: at.mounted } : info.mounted !== undefined ? { mounted: info.mounted } : {}),
       ...(at.dismounted && { dismounted: at.dismounted }), ...(info.figure && { figure: info.figure }), ...(at.cover && { cover: at.cover }),
       // A side forming in haste stands in uneven ranks; a share of a broken side has its hands up (drawn, not counted).
@@ -501,7 +503,7 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
         fire: state.over ? 'none' : group.fire || 'none', action: state.over ? 'gone' : group.action || 'stand',
         moving: !state.over && specMoving(group, into), x: place.x, y: place.y, facing: group.away ? { x: -facing.x, y: -facing.y } : facing,
         spread: group.spread || null, ...(group.cover && { cover: group.cover }), ...(group.civilians && { civilians: true }), ...(group.mounted && { mounted: true }),
-        // Scaling ladders carried or set against a wall, and a figure of its own (the Alamo's mounted relief).
+        // Scaling ladders carried or set against a wall, and a figure of its own (the Alamo's mounted relief, Concepción's riders).
         ...(group.ladders && { ladders: group.ladders }), ...(group.climbing && { climbing: true }), ...(group.figure && { figure: group.figure }),
       };
     });
@@ -544,6 +546,8 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
   const light = Array.isArray(phase.light) ? phase.light[0] + (phase.light[1] - phase.light[0]) * Math.max(0, Math.min(1, into / phase.minutes)) : phase.light || 0;
   if (light > 0) view.light = +light.toFixed(3);
   if (def.smokeScale) view.smokeScale = def.smokeScale;
+  // Fog over the field, thinning or thickening across the phase (`fog: [from, to]`, 0 clear to 1 thick): Concepción's morning.
+  if (phase.fog && !state.over) view.fog = Math.round(1000 * (phase.fog[0] + (phase.fog[1] - phase.fog[0]) * Math.max(0, Math.min(1, into / phase.minutes)))) / 1000;
   // Which unit each of the members stands in, so the page poses them with that unit's fire, and a member's own fate once -
   // and only once - its minute has come (docs/BATTLES.md §2.6). Nothing staged for later is sent.
   if (units) {
@@ -588,4 +592,12 @@ export function heldByBattle(world, entity) {
     return state.def.held?.(entity.name) || `${entity.name} is with the men in the fight, and comes back with them when it is over.`;
   }
   return null;
+}
+
+/**
+ * Whether this person is with a force - recorded in any engagement's `participants` and not yet released - whatever phase it
+ * is in: the army's ranks leave them where the fight put them until the director sends them back (sim/army.mjs).
+ */
+export function withAForce(world, entityId) {
+  return Object.values(world.battles || {}).some(battle => battle.participants?.[entityId] && !battle.participants[entityId].released);
 }

@@ -289,7 +289,7 @@ Its record is `docs/evidence/battle-injections.json`.
   drawn on foot. A detachment drawn apart from its side is the way out.
 - ceiling: figures stand on open ground whatever is under them; the volley's rhythm is each page's own.
 - A family's person is drawn in the militia's firing poses (stand-in, `docs/ART_REQUESTS.md` request 2026-09-25).
-- The staged fate of a family's person inside a deadly battle is not built (none is at stake at Gonzales). Built for Béxar: §7.2; the Alamo uses the same path: §8.
+- The staged fate of a family's person inside a deadly battle is not built (none is at stake at Gonzales). Built for Béxar: §7.2; the Alamo (§9) and Concepción and the Grass Fight (§10) use the same path.
 - The town before the fight (alarm, flag, muster) is a separate build (`sim/town-scenes.mjs`).
 
 ## 6.13 The engine's additions for the south (2026-09-25, wave 2: San Patricio and Agua Dulce)
@@ -578,3 +578,67 @@ him); `npm run test:battle-alamo` (`docs/evidence/battle-alamo-browser.json`); `
   request 2026-09-25 — the Alamo.
 - Not built: the noncombatants killed in the storming (`HIST-TEX-433`, the existing `ceiling:`); the executions shown (told only);
   Dickinson, Joe and Ben as travellers to Gonzales (the word at Gonzales on the 13th stands for them); Bowie drawn.
+
+## 10. Concepción and the Grass Fight on the engine (2026-09-25, wave 2; not released)
+
+Staged from `docs/battle-research/staging.md` §1 and §2, every question at its recommended answer (C1 (a), Grass G1 (a)).
+Claims `HIST-TEX-480`–`-484`, `FIC-GONZ-420`–`-424`.
+
+### 10.1 Where it is
+
+| Piece | File | What it does |
+| --- | --- | --- |
+| Concepción | `sim/battles/concepcion.mjs` | Eleven phases from the division leaving Espada at 14:00 Oct 27 (the director's new `detachment-out`) to the burial at 14:00 Oct 28; the fog lifts at 8:00 (the director's `concepcion`). Fannin's company the main body under the bank; Bowie's companies, Coleman's men crossing the open, the cavalry and the main army as groups; the gun taken and turned. |
+| The Grass Fight | `sim/battles/grass-fight.mjs` | Eight phases from Deaf Smith at 10:00 Nov 26 (`grass-alarm`) to the men back at the mill at 13:35; Bowie's charge at 11:00 (`grass-fight`). Bowie's horsemen the main body; Jack's infantry, the ditch, the sortie with its gun, Swisher's men and the pack train as groups. |
+| The director's part | `sim/concepcion-grass.mjs` | The departures, the families' people stood in their part of the force, each fate at its moment, the alerts, the main army coming up, the rejoining, the accounts, and `campaignBattleProjection` (called from `directorProjection`). |
+| The army | `sim/army.mjs` | `concepcionFate` / `grassFate` (the old rolls, per person), `resolveConcepcionFighter`, `resolveGrassFighter`, `rejoinRanks`, `followTheArmy`, `armyArrivalWords`; the ranks leave anybody `withAForce`. |
+
+### 10.2 On the one engine (Béxar's pieces used; what these two add, additive)
+
+Concepción and the Grass Fight use the pieces the storming of Béxar built (§7.2) and nothing parallel to them: `groups`
+(Bowie's companies, Coleman's men, the cavalry and the main army; Jack's infantry, the ditch, the sortie, Swisher's men and
+the pack train), falls and lines by `unit`, `guns` standing where the record puts them (Concepción's brass gun at eighty
+yards, and the same gun turned by its takers; the sortie's gun), and **one per-person fate path**: the fate is decided from
+the army's existing roll when the man joins the force and staged with `stageFate`, applied when `fatesDue` says its minute
+has come, and sent to a page by `projectBattle`'s `fates` only from that minute; `units` names the body each man stands in.
+What they add:
+
+- **`fog: [from, to]`** in a phase. The south's `scenery(ground)` (§6.13) is used, and draws besides a ribbon of water, a clip and a
+  sprite at its own size (the river and the creek, the pecans and mesquite, the cut bank and the mission the map lacks).
+- A side may face a named point (`face: '<point>'`, as a group does).
+- **`withAForce`**: anybody in any engagement's `participants` not yet released; the army's ranks leave them to the fight.
+- The renderer: a `packhorse` figure; a `bank` figure loading drawn a third of a figure lower than one firing; the south's
+  `fallenSpots` for every body, not only parts, and kept after a body has left the field; a man who runs drawn going the other
+  way; the fog veil. `window.__battleView` adds `regularityBy`, `fog`, `scenery`.
+- `public/app.js`: a side or group that has gone is not framed.
+
+### 10.3 Arrival, participation, aftermath
+
+- **Concepción**: the question stays open until the division leaves Espada; the division's people leave the ranks and walk
+  with it; they are under the bank before the alarm and in the line while it fires; nobody in it can be ordered away until it
+  rejoins the army at Concepción at 10:00 (the main army comes up from 8:00). Late volunteers follow the army from the
+  rendezvous or Victoria; the turn-out card says when they would catch it, and whether too late. The account comes through the
+  person when the division rejoins; the main army's families are told their man came up after it.
+- **The Grass Fight**: a yes goes to Bowie (horse with him) or Jack (on foot) and out with them; the question shuts at the
+  ride-out; the men come back to camp; one who runs is on the road home at once. The account comes when the fuller word
+  rides home (December 3), as the owner's §7b rule has it.
+- **Fates** (`FIC-GONZ-422`): at Concepción a hit falls at a gun discharge while crossing the open; at the Grass Fight at
+  Bowie's first exchange (a rider) or the ditch's first volley (Jack's).
+- **Viewers** (`FIC-GONZ-424`): the Host; a family in the force; a family in the army nearby from when the firing is heard.
+
+### 10.4 Pace
+
+Fighting (first contact to the last contact phase): Concepción 27 ticks, the Grass Fight 22 ticks - **4:16 and 3:29 at
+Study**. Whole engagements: Concepción 48 ticks (was about 2), the Grass Fight 49 (was about 6 to 18): together about
+**+12 to +14 real minutes** on a class at Study.
+
+### 10.5 Limits of wave 2
+
+- ceiling: the bend and the creek beds are placed by their distance from Béxar and the mission, not on the map's own water.
+- ceiling: the second, heavier gun at Concepción and the padre's carts are told in the caption, not drawn.
+- ceiling: a follower is aimed at where the army stands when he sets out.
+- ceiling: a family's man killed at Concepción lies where he fell; he is not drawn carried under the bank as Andrews was (a
+  carrying pose is the way out).
+- Bowie's riders are drawn on foot riding out, their horses brought along behind (stand-ins listed in docs/ART_REQUESTS.md).
+- A fate's health shows on the family's panel the moment it falls, before the Grass Fight's word rides home (the old roll
+  did the same at the fight).

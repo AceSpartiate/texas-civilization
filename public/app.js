@@ -1311,10 +1311,16 @@ const clampTo = (value, limits) => Math.max(limits.min, Math.min(limits.max, val
  */
 const fieldFrame = points => points.frame ? points : points.flatMap(point => [{ x: point.x - 0.13, y: point.y - 0.24 }, { x: point.x + 0.13, y: point.y + 0.1 }]);
 // Where the engagement names the ground it is fought over (Béxar: the houses north of the plaza and the Alamo's guns at the
-// east edge), that ground; otherwise each side where it stands, and the gun. A frame the engagement marks tight (`frameTight`,
-// the Alamo's compound, whose frames already hold the room round it) is taken as it is, with no room added.
+// east edge), that ground; otherwise each side and group where it stands, and the gun - but not a body that has left the field
+// (`action: 'gone'`: the Mexicans gone toward Béxar at Concepción). A frame the engagement marks tight (`frameTight`, the Alamo's
+// compound, whose frames already hold the room round it) is taken as it is, with no room added.
+// A group more than a mile from the sides (San Jacinto's Deaf Smith riding for Vince's bridge) has left the field and is not
+// framed either: the camera stays on the fight.
+const nearTheSides = (sides, body) => !sides.length || Math.hypot(body.x - sides.reduce((s, one) => s + one.x, 0) / sides.length, body.y - sides.reduce((s, one) => s + one.y, 0) / sides.length) < 1;
 const battlePoints = world => {
-  const points = (world.battle?.frame?.length ? world.battle.frame : [...(world.battle?.sides || world.battle?.formations || []), ...(world.battle?.cannon ? [world.battle.cannon] : [])]).map(point => ({ x: point.x, y: point.y }));
+  const sides = world.battle?.sides || world.battle?.formations || [];
+  const bodies = [...sides, ...(world.battle?.groups || []).filter(group => nearTheSides(sides, group))].filter(body => body.action !== 'gone');
+  const points = (world.battle?.frame?.length ? world.battle.frame : [...bodies, ...(world.battle?.cannon ? [world.battle.cannon] : [])]).map(point => ({ x: point.x, y: point.y }));
   return world.battle?.frame?.length && world.battle.frameTight ? Object.assign(points, { frame: true }) : points;
 };
 function framingFor(world) {

@@ -1,0 +1,327 @@
+{
+  "record": "battle-1835-injections",
+  "date": "2026-09-26",
+  "gates": {
+    "unit": "node --test tests/battle-concepcion.test.mjs tests/battle-grass.test.mjs tests/battle-view-groups.test.mjs, the named test and no other",
+    "browser": "scripts/battle-1835-browser-proof.mjs concepcion | grass"
+  },
+  "unit": [
+    {
+      "name": "the director's moment of Concepción left at an hour the fight does not keep",
+      "file": "sim/directors.mjs",
+      "test": "tests/battle-concepcion.test.mjs",
+      "expect": "Concepción is on the engine and on the director's clock: the division leaves Espada at two on the 27th, the fog lifts at eight, and nothing moves the day",
+      "caught": true,
+      "failed": [
+        "Concepción is on the engine and on the director's clock: the division leaves Espada at two on the 27th, the fog lifts at eight, and nothing moves the day"
+      ]
+    },
+    {
+      "name": "a group of a side drawn with any sample, unchecked",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-concepcion.test.mjs",
+      "expect": "Concepción is on the engine and on the director's clock: the division leaves Espada at two on the 27th, the fog lifts at eight, and nothing moves the day",
+      "caught": true,
+      "failed": [
+        "Concepción is on the engine and on the director's clock: the division leaves Espada at two on the 27th, the fog lifts at eight, and nothing moves the day"
+      ]
+    },
+    {
+      "name": "the division's question shut when the army moves to Espada, as it was",
+      "file": "sim/directors.mjs",
+      "test": "tests/battle-concepcion.test.mjs",
+      "expect": "the division leaves Espada with every family's person who went, and each is under the bank, in the line, before the horsemen come out of the fog",
+      "caught": true,
+      "failed": [
+        "the division leaves Espada with every family's person who went, and each is under the bank, in the line, before the horsemen come out of the fog"
+      ]
+    },
+    {
+      "name": "a man in the division can be sent for before it rejoins the army",
+      "file": "sim/world.mjs",
+      "test": "tests/battle-concepcion.test.mjs",
+      "expect": "nobody in the division can be sent anywhere else until it rejoins the army, and a Host's time jump stops at the fight",
+      "caught": true,
+      "failed": [
+        "nobody in the division can be sent anywhere else until it rejoins the army, and a Host's time jump stops at the fight"
+      ]
+    },
+    {
+      "name": "a hit falls when the charges begin, not at a discharge of the gun",
+      "file": "sim/concepcion-grass.mjs",
+      "test": "tests/battle-concepcion.test.mjs",
+      "expect": "a family's person's fate falls at a discharge of the gun, visible to those watching and never before: crossing the open, down where he fell, or hurt and helped back under the bank",
+      "caught": true,
+      "failed": [
+        "a family's person's fate falls at a discharge of the gun, visible to those watching and never before: crossing the open, down where he fell, or hurt and helped back under the bank"
+      ]
+    },
+    {
+      "name": "the main army's families sent the fight before any firing can be heard",
+      "file": "sim/concepcion-grass.mjs",
+      "test": "tests/battle-concepcion.test.mjs",
+      "expect": "the Host, the families with somebody there, and the main army's from when the firing is heard are sent the fight; a family with nobody there gets nothing",
+      "caught": true,
+      "failed": [
+        "the Host, the families with somebody there, and the main army's from when the firing is heard are sent the fight; a family with nobody there gets nothing"
+      ]
+    },
+    {
+      "name": "the account does not say why it ended so",
+      "file": "sim/concepcion-grass.mjs",
+      "test": "tests/battle-concepcion.test.mjs",
+      "expect": "afterwards the division rejoins the army at Concepción, each family is told through its own person what happened, and the country hears of it",
+      "caught": true,
+      "failed": [
+        "afterwards the division rejoins the army at Concepción, each family is told through its own person what happened, and the country hears of it"
+      ]
+    },
+    {
+      "name": "the charges played at twenty minutes a tick, over in seconds",
+      "file": "sim/battles/concepcion.mjs",
+      "test": "tests/battle-concepcion.test.mjs",
+      "expect": "the fighting plays three to six real minutes at the Study pace, held to each phase's step, landing on every phase's start, and the night in camp is not watched",
+      "caught": true,
+      "failed": [
+        "the fighting plays three to six real minutes at the Study pace, held to each phase's step, landing on every phase's start, and the night in camp is not watched"
+      ]
+    },
+    {
+      "name": "a class that fought Concepción before the engine is made to fight it again",
+      "file": "sim/concepcion-grass.mjs",
+      "test": "tests/battle-concepcion.test.mjs",
+      "expect": "a class saved in the fight reopens in it with the same fates, and a class that fought Concepción before the engine keeps what it had",
+      "caught": true,
+      "failed": [
+        "a class saved in the fight reopens in it with the same fates, and a class that fought Concepción before the engine keeps what it had"
+      ]
+    },
+    {
+      "name": "a volunteer who turns out after the army has marched waits at the rendezvous for ever",
+      "file": "sim/army.mjs",
+      "test": "tests/battle-concepcion.test.mjs",
+      "expect": "a volunteer who turns out after the army has marched follows it and falls in, the coast's volunteers march on from Victoria, and the card says when he would catch it",
+      "caught": true,
+      "failed": [
+        "a volunteer who turns out after the army has marched follows it and falls in, the coast's volunteers march on from Victoria, and the card says when he would catch it"
+      ]
+    },
+    {
+      "name": "the director's Grass Fight left at four in the afternoon, as it was",
+      "file": "sim/directors.mjs",
+      "test": "tests/battle-grass.test.mjs",
+      "expect": "the Grass Fight is on the engine: the alarm at ten, Bowie's charge at eleven, the ditch, the sortie and the grass by half past twelve",
+      "caught": true,
+      "failed": [
+        "the Grass Fight is on the engine: the alarm at ten, Bowie's charge at eleven, the ditch, the sortie and the grass by half past twelve"
+      ]
+    },
+    {
+      "name": "the Grass Fight's question left open an hour after the men have ridden out",
+      "file": "sim/concepcion-grass.mjs",
+      "test": "tests/battle-grass.test.mjs",
+      "expect": "a yes is a departure: a rider goes with Bowie's horsemen and a man on foot with Jack's infantry, and the question shuts when they ride out",
+      "caught": true,
+      "failed": [
+        "a yes is a departure: a rider goes with Bowie's horsemen and a man on foot with Jack's infantry, and the question shuts when they ride out"
+      ]
+    },
+    {
+      "name": "every fate at the Grass Fight falls as Bowie charges",
+      "file": "sim/concepcion-grass.mjs",
+      "test": "tests/battle-grass.test.mjs",
+      "expect": "a fate falls at its moment and never before: a man with Jack hurt at the ditch's first volley, a rider who runs at Bowie's first exchange, on the road home",
+      "caught": true,
+      "failed": [
+        "a fate falls at its moment and never before: a man with Jack hurt at the ditch's first volley, a rider who runs at Bowie's first exchange, on the road home"
+      ]
+    },
+    {
+      "name": "the Host's camera never sent to the field",
+      "file": "sim/concepcion-grass.mjs",
+      "test": "tests/battle-grass.test.mjs",
+      "expect": "the Host and the family with somebody out watch it; the camp's families from when the firing starts; a family with nobody there gets nothing",
+      "caught": true,
+      "failed": [
+        "the Host and the family with somebody out watch it; the camp's families from when the firing starts; a family with nobody there gets nothing"
+      ]
+    },
+    {
+      "name": "Bowie's charge played at twenty minutes a tick",
+      "file": "sim/battles/grass-fight.mjs",
+      "test": "tests/battle-grass.test.mjs",
+      "expect": "the fighting plays three to six real minutes at Study, held to each phase's step and landing on every phase's start",
+      "caught": true,
+      "failed": [
+        "the fighting plays three to six real minutes at Study, held to each phase's step and landing on every phase's start"
+      ]
+    },
+    {
+      "name": "no account when the word of the Grass Fight rides home",
+      "file": "sim/directors.mjs",
+      "test": "tests/battle-grass.test.mjs",
+      "expect": "back in camp the army keeps the record, and when the fuller word rides home each family is told in plain words through its person",
+      "caught": true,
+      "failed": [
+        "back in camp the army keeps the record, and when the fuller word rides home each family is told in plain words through its person"
+      ]
+    },
+    {
+      "name": "a group's men counted with their side, not apart",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view-groups.test.mjs",
+      "expect": "a group of a side is drawn apart from it, keyed by its own name: its own count, its own place, and its words from among its own men",
+      "caught": true,
+      "failed": [
+        "a group of a side is drawn apart from it, keyed by its own name: its own count, its own place, and its words from among its own men"
+      ]
+    },
+    {
+      "name": "men under a bank drawn loading at the lip, never dropping below it",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view-groups.test.mjs",
+      "expect": "men under a bank drop below the lip to load and climb to fire; fog lies over the field at the phase's density and is gone when it lifts",
+      "caught": true,
+      "failed": [
+        "men under a bank drop below the lip to load and climb to fire; fog lies over the field at the phase's density and is gone when it lifts"
+      ]
+    },
+    {
+      "name": "the fallen carried along with their side as it moves",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view-groups.test.mjs",
+      "expect": "a man who fell lies where he fell while his side moves off, and one who fell in a group that has left the field is still there",
+      "caught": true,
+      "failed": [
+        "a man who fell lies where he fell while his side moves off, and one who fell in a group that has left the field is still there"
+      ]
+    },
+    {
+      "name": "a family's person hit goes on firing",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view-groups.test.mjs",
+      "expect": "a family's person is drawn at their own fate: hit, then lying still, or sitting hurt and helped back, or running from the field",
+      "caught": true,
+      "failed": [
+        "a family's person is drawn at their own fate: hit, then lying still, or sitting hurt and helped back, or running from the field"
+      ]
+    },
+    {
+      "name": "every gun served by volunteers, whoever's it is",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view-groups.test.mjs",
+      "expect": "the pack train is drawn as horses under packs, a Mexican gun is served by regulars where it stands, and the ground the map lacks is drawn",
+      "caught": true,
+      "failed": [
+        "the pack train is drawn as horses under packs, a Mexican gun is served by regulars where it stands, and the ground the map lacks is drawn"
+      ]
+    },
+    {
+      "name": "Bowie's companies given ground too small for them",
+      "file": "sim/battles/concepcion.mjs",
+      "test": "tests/battle-view-groups.test.mjs",
+      "expect": "every body of men at Concepción and the Grass Fight is laid out whole: no sample is drawn short because its ground is too small for it",
+      "caught": true,
+      "failed": [
+        "every body of men at Concepción and the Grass Fight is laid out whole: no sample is drawn short because its ground is too small for it"
+      ]
+    }
+  ],
+  "browser": [
+    {
+      "name": "no fog on the morning at Concepción",
+      "fight": "concepcion",
+      "file": "public/battle-view.js",
+      "expect": "no fog over the field",
+      "caught": true,
+      "failure": "no fog over the field in the ringed phase: 0",
+      "checksPassedFirst": 4
+    },
+    {
+      "name": "the Mexican infantry drawn loose, like the volunteers",
+      "fight": "concepcion",
+      "file": "sim/battles/concepcion.mjs",
+      "expect": "not looser than the Mexican ranks",
+      "caught": true,
+      "failure": "the Texians under the bank are not looser than the Mexican ranks: {\"texian\":0.16721011257669186,\"mexican\":0.15572485840104303,\"bowie\":0.3059170412966305,\"coleman\":0.04356437096880873,\"cavalry\":0.02441406243296715}",
+      "checksPassedFirst": 4
+    },
+    {
+      "name": "nobody in the division is ever hit where the seed hits them",
+      "fight": "concepcion",
+      "file": "sim/concepcion-grass.mjs",
+      "expect": "was not drawn killed at the staged moment",
+      "caught": true,
+      "failure": "the family's person was not drawn killed at the staged moment",
+      "checksPassedFirst": 6
+    },
+    {
+      "name": "a family's person hit drawn going on firing",
+      "fight": "concepcion",
+      "file": "public/battle-view.js",
+      "expect": "the fate was not drawn in its pose",
+      "caught": true,
+      "failure": "the fate was not drawn in its pose: {\"fates\":[{\"id\":\"hh-1-thomas\",\"fate\":\"killed\"}],\"clips\":[\"volunteer-march\",\"volunteer-idle-e\",\"volunteer-fire-reload\",\"volunteer-load\"],\"phase\":\"retreat\",\"minute\":43365,\"health\":\"dead\"}",
+      "checksPassedFirst": 6
+    },
+    {
+      "name": "the family with its man at Espada never hears the firing",
+      "fight": "concepcion",
+      "file": "sim/concepcion-grass.mjs",
+      "expect": "the family nearby was not sent the firing",
+      "caught": true,
+      "failure": "the family nearby was not sent the firing it could hear: {\"alert\":\"Firing up the river\"}",
+      "checksPassedFirst": 8
+    },
+    {
+      "name": "no account afterwards",
+      "fight": "concepcion",
+      "file": "sim/concepcion-grass.mjs",
+      "expect": "the account never came",
+      "caught": true,
+      "failure": "the account never came",
+      "checksPassedFirst": 10
+    },
+    {
+      "name": "no alert through the person",
+      "fight": "grass",
+      "file": "sim/concepcion-grass.mjs",
+      "expect": "no alert with Watch came",
+      "caught": true,
+      "failure": "no alert with Watch came through the person before the fighting",
+      "checksPassedFirst": 2
+    },
+    {
+      "name": "Jack's infantry drawn scattered on its way out, not in double file",
+      "fight": "grass",
+      "file": "sim/battles/grass-fight.mjs",
+      "expect": "not in double file",
+      "caught": true,
+      "failure": "Jack's infantry is not in double file on its way out: {\"texian\":0.2161842637995271,\"mexican\":0.13358808775530803,\"jack\":0.17544659931578924,\"train\":0.0012342287185905148}",
+      "checksPassedFirst": 4
+    },
+    {
+      "name": "the Host's camera kept off the field",
+      "fight": "grass",
+      "file": "sim/concepcion-grass.mjs",
+      "expect": "the Host's camera was not sent to the field",
+      "caught": true,
+      "failure": "the Host's camera was not sent to the field while it was fought: {\"battle\":\"grass-fight\",\"phase\":\"ambush\",\"focus\":\"regional\",\"camera\":\"region\",\"drawn\":{\"texian\":23,\"mexican\":11},\"smoke\":57,\"seen\":[\"grass-fight:85260\"]}",
+      "checksPassedFirst": 7
+    },
+    {
+      "name": "a family with nobody there sent the fight",
+      "fight": "grass",
+      "file": "sim/concepcion-grass.mjs",
+      "expect": "the family nearby was not sent the firing it could hear",
+      "caught": true,
+      "failure": "the family nearby was not sent the firing it could hear: {\"battle\":\"follow\",\"members\":[\"hh-1-thomas\",\"hh-2-thomas\"],\"alert\":\"Firing to the west\"}",
+      "checksPassedFirst": 8
+    }
+  ],
+  "cleanBrowserChecks": {
+    "concepcion": 13,
+    "grass": 13
+  },
+  "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
+}
