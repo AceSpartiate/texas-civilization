@@ -735,7 +735,8 @@ function leaveArmy(world, person, { beginTravel, text, keepPromise = false }) {
   const causeId = text ? record(world, 'army', { actorId: person.id, householdId: person.householdId, importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-040', text }) : null;
   // On the horse they came with, as a volunteer sent for does (`callHome`); on foot if that way home is shut.
   const home = world.households[person.householdId].homeSiteId, mode = modeWith(world, person);
-  if (beginTravel) { try { beginTravel(world, person, home, causeId, 'home', mode); } catch (error) { if (mode === 'foot') throw error; beginTravel(world, person, home, causeId, 'home'); } }
+  // Somebody already on a road of their own (a man let go from the town who set out himself) keeps it.
+  if (beginTravel && !person.travel) { try { beginTravel(world, person, home, causeId, 'home', mode); } catch (error) { if (mode === 'foot') throw error; beginTravel(world, person, home, causeId, 'home'); } }
 }
 
 /**

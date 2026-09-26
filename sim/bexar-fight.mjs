@@ -95,6 +95,8 @@ function goIn(world, battle, state, person, via) {
   const entry = battle.participants[person.id] = { householdId: person.householdId, joined: world.minute, via, division, placed: true };
   if (person.travel?.purpose === 'march') person.travel = null;
   person.location = { x: person.location.x, y: person.location.y, siteId: 'bexar' };
+  // Where the family sent them, and staying there (sim/neighbours.mjs leaves a person on 'help' where they are).
+  person.task = 'help';
   const { fate, grade } = stormingFate(world, person.id);
   if (fate !== 'unhurt') {
     const moment = fateMoment(world, person.id, state, { via });
