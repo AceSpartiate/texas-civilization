@@ -164,7 +164,8 @@ export const SAN_PATRICIO = Object.freeze({
       caption: 'The last of the houses gives up. Within a quarter of an hour of the first shot it is over. Those who got out the back are away in the dark on the road to Goliad.',
       texian: texians({ at: 'prisoners', pose: 'surrender' }, { at: 'prisoners', pose: 'surrender' }, handsUp('house-b', 'prisoners', 3), handsUp('house-c', 'prisoners', 3),
         { keys: [[0, 'escape'], [5, 'gone']], style: 'rout', pose: 'stand', action: 'withdraw', face: 'away' }),
-      mexican: mexicans({ at: 'mx-square', action: 'stand' }, { at: 'mx-a', action: 'stand' }, { at: 'mx-b', action: 'stand' }, { at: 'mx-c', action: 'stand' }),
+      // Firing on at the last house until it gives up, and after the men going out the back (RECONSTRUCTED, `FIC-GONZ-435`).
+      mexican: mexicans({ at: 'mx-square', action: 'stand' }, { at: 'mx-a', action: 'stand' }, { at: 'mx-b', action: 'stand', fire: 'scattered' }, { at: 'mx-c', action: 'stand', fire: 'scattered' }),
       falls: [{ side: TEX, part: 'house-c', count: 1, at: 1, claimId: 'HIST-TEX-510' }, { side: TEX, part: 'square', count: 1, at: 2, claimId: 'HIST-TEX-510' }],
       lines: [
         say('sp-arriba', 1, MEX, 'soldier', 'reconstructed', '¡Manos arriba!', { gloss: 'Hands up!' }),
