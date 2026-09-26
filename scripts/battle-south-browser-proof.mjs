@@ -42,11 +42,17 @@ function inTheWinter(seed, playerCount) {
   beginSecondPeriod(world);
   world.status = 'running';
   for (let i = 0; i < 400 && !world.director.milestones['winter-news']; i++) stepWorld(world);
+  // Every family finished its guided start in the first period, as a real class's have by the winter (sim/lesson.mjs): a family
+  // whose house site the first period's automation never chose would otherwise be walked back to the wagon, every order but
+  // the lesson's shut (found 2026-09-25: the winter proof had failed on this since the guided start of 2026-09-21).
+  for (const household of Object.values(world.households)) household.lesson = { step: 'done', at: 0 };
   world.status = 'lobby';
   return world;
 }
 
-const app = createClassroom({ seed: SEED, playerCount: 5, tickMs: 250, worldFactory: inTheWinter });
+// Three seconds a tick until the men have joined (the winter's calendar is twelve hours a tick, so a fast clock would carry the
+// class to March before a student could press anything); then the Host's own Quick, a second a tick, for the fighting.
+const app = createClassroom({ seed: SEED, playerCount: 5, tickMs: 3000, worldFactory: inTheWinter });
 const server = () => app.state.world;
 assert.equal(server().period, 2, 'the class did not reach the winter');
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
@@ -97,7 +103,11 @@ try {
     const father = server().households[householdId].members.map(id => server().entities[id]).find(one => one.kin?.role === 'father');
     fathers[householdId] = father.id;
     const icon = page.locator(`.panel-icon[data-entity-id="${father.id}"][data-key="join-matamoros"]`);
-    await icon.waitFor({ state: 'visible', timeout: 60000 });
+    const shown = await icon.waitFor({ state: 'visible', timeout: 60000 }).then(() => true, () => false);
+    if (!shown) {
+      const found = await page.evaluate(id => ({ icons: [...document.querySelectorAll(`.panel-icon[data-entity-id="${id}"]`)].map(b => `${b.dataset.key}${b.offsetParent ? '' : '(hidden)'}`), rows: [...document.querySelectorAll('.panel-icon')].slice(0, 12).map(b => `${b.dataset.entityId}:${b.dataset.key}`), status: window.__snapshot?.world.status, minute: window.__snapshot?.world.minute, work: Object.keys(window.__snapshot?.world.work || {}), mine: (window.__snapshot?.world.work?.[id] || []).filter(w => /join|enlist/.test(w.id)).map(w => `${w.id}:${w.can}:${w.why}`), person: window.__snapshot?.world.entities.find(e => e.id === id) }), father.id);
+      throw new Error(`no "Go south" on ${father.id}'s row: ${JSON.stringify(found)}`);
+    }
     await icon.click();
     await sendTheWay(page);
     await waitServer(() => server().entities[father.id].travel?.to === 'san-patricio' || server().entities[father.id].chore?.id === 'join-matamoros', `${householdId}'s father to set out`, 30000);
@@ -105,14 +115,14 @@ try {
   ok(`two families pressed "Go south to join the Matamoros men" on the panel: ${Object.values(fathers).join(', ')}`);
   await waitServer(() => Object.values(fathers).every(id => server().entities[id].service?.kind === 'matamoros' && server().entities[id].location.siteId === 'san-patricio'), 'both men to reach San Patricio');
   const joinedAt = Object.fromEntries(Object.values(fathers).map(id => [id, server().minute]));
+  // The rest of February and the fighting watched a second a tick (the Host's own Quick), so a page can be sampled through it.
+  await host.getByRole('button', { name: 'Quick', exact: true }).click();
   ok(`both men are at San Patricio and have joined the volunteers there, by ${new Date(Date.UTC(1835, 8, 28, 6) + server().minute * 60000).toISOString().slice(0, 10)}`);
   await waitServer(() => server().director.milestones['grant-rides'], 'Grant to ride south');
   const party = id => server().entities[id].service.party;
   assert.equal(party(fathers['hh-1']), 'san-patricio', 'the seed no longer puts hh-1\'s man with Johnson');
   assert.equal(party(fathers['hh-2']), 'agua-dulce', 'the seed no longer puts hh-2\'s man with Grant');
   ok(`at Grant's ride the men were split as the record's shares have it: ${fathers['hh-1']} with Johnson, ${fathers['hh-2']} with Grant`);
-  // The fighting watched a second a tick (the Host's own Quick), so a page can be sampled through it.
-  await host.getByRole('button', { name: 'Quick', exact: true }).click();
 
   // ------------------------------------------------------------------ San Patricio: the alert, Watch, the night fight
   const spMan = fathers['hh-1'];
