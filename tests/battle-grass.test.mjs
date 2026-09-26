@@ -120,6 +120,8 @@ test('a fate falls at its moment and never before: a man with Jack hurt at the d
 test('the Host and the family with somebody out watch it; the camp\'s families from when the firing starts; a family with nobody there gets nothing', () => {
   const { world, sent } = alarmClass();
   const [out, camp] = sent;
+  // The family with a man out is played, as a joined family is: its lead-up and aftermath are held for it (docs/BATTLES.md §2b.11).
+  world.households[out.householdId].played = true;
   applyAction(world, out.householdId, { action: 'army-answer', entityId: out.personId, question: 'grass', answer: 'yes' });
   applyAction(world, camp.householdId, { action: 'army-answer', entityId: camp.personId, question: 'grass', answer: 'no' });
   const nobody = nobodyThere(world);

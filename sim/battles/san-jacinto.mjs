@@ -139,7 +139,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
     {
       // Noon to one, April 20. Santa Anna's army comes up the road and makes its camp on the plain (`HIST-TEX-523`). The hour
       // is this game's (`FIC-GONZ-441`): the record has it there on the 20th.
-      id: 'arrive', minutes: 60, step: 20, title: 'Santa Anna’s army comes up', claimId: 'HIST-TEX-523',
+      id: 'arrive', minutes: 60, step: 20, quiet: true, title: 'Santa Anna’s army comes up', claimId: 'HIST-TEX-523',
       caption: 'April 20. Santa Anna’s army comes up and makes its camp on the open plain toward the San Jacinto River, under a mile from Houston’s camp in the timber along Buffalo Bayou.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'column', from: 'mexApproach', to: 'mexicanCamp', action: 'advance', fire: 'none', count: 700 },
@@ -158,7 +158,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // 16:00-17:00. "That afternoon Sidney Sherman with a small detachment of cavalry engaged the enemy infantry, almost
       // bringing on a general action" (TSHA, `HIST-TEX-523`); one Texian wounded (`HIST-TEX-083`; the count is disputed,
       // `HIST-TEX-527`). The hour is the game's.
-      id: 'skirmish', minutes: 60, step: 10, title: 'The skirmish of April 20', claimId: 'HIST-TEX-523',
+      id: 'skirmish', minutes: 60, step: 10, quiet: true, title: 'The skirmish of April 20', claimId: 'HIST-TEX-523',
       caption: 'In the afternoon Colonel Sherman takes a small party of horsemen out onto the prairie and skirmishes with the Mexican infantry. It almost brings on a general battle, and does not.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'ranks', keys: [[0, 'mexicanCamp'], [15, 'breastwork'], [50, 'breastwork'], [60, 'mexicanCamp']], action: 'hold', fire: 'volley', count: 700 },
@@ -187,7 +187,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // about 540 troops"; "Houston ordered Erastus (Deaf) Smith to destroy the bridge" (TSHA, `HIST-TEX-523`; the bridge,
       // `HIST-TEX-153`). Cos's men "had marched steadily for more than 24 hours with no rest and no food" and were let sleep
       // (`HIST-TEX-524`).
-      id: 'morning', minutes: 120, step: 20, title: 'Cos comes in, and the bridge', claimId: 'HIST-TEX-523',
+      id: 'morning', minutes: 120, step: 20, quiet: true, title: 'Cos comes in, and the bridge', claimId: 'HIST-TEX-523',
       guns: { 'mexican-gun': [] },
       caption: 'April 21. About nine, General Cos comes in with about 540 more men, who have marched all night; they lie down to sleep. Houston sends Deaf Smith and a few men to destroy Vince’s bridge, eight miles off on the road the reinforcements came by.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
@@ -348,7 +348,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
     },
     {
       // 18:28-19:28. Dusk: the prisoners gathered, the camp taken. 630 killed and 730 taken (`HIST-TEX-067`).
-      id: 'prisoners', minutes: 60, step: 20, title: 'Dusk: the prisoners', claimId: 'HIST-TEX-067',
+      id: 'prisoners', minutes: 60, step: 20, quiet: true, title: 'Dusk: the prisoners', claimId: 'HIST-TEX-067',
       guns: { 'twin-sister-1': [], 'twin-sister-2': [] },
       caption: 'Dusk. The firing stops. The prisoners are gathered in the taken camp under guard: some 730 were taken, and about 630 Mexican soldiers were killed. Nine Texians were killed or mortally wounded and about thirty wounded; the wounded are carried back to the camp.',
       texian: { style: 'loose', at: 'mexicanCamp', action: 'hold', fire: 'none', spread: { width: 0.4, depth: 0.2 } },
@@ -367,7 +367,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // search party did not recognize him until he was addressed as 'el presidente' by other Mexican prisoners" (TSHA,
       // `HIST-TEX-523`); "He was brought before Houston, who had been shot in the ankle and badly wounded" (Wikipedia,
       // `HIST-TEX-526`). The hour is the game's. Neither man is given a word: no source read gives them one.
-      id: 'taken', minutes: 60, step: 20, title: 'Santa Anna is brought in', claimId: 'HIST-TEX-526',
+      id: 'taken', minutes: 60, step: 20, quiet: true, title: 'Santa Anna is brought in', claimId: 'HIST-TEX-526',
       caption: 'April 22. A search party brings in a man it found hiding in the grass, dirty and wet, dressed as a common soldier. As he is brought past the prisoners they call him "el presidente": he is Santa Anna. He is brought before Houston, who lies wounded.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'loose', at: 'prisonerGround', action: 'hold', fire: 'none', surrendering: 1, spread: { width: 0.22, depth: 0.14 }, count: 730 },

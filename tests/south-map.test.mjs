@@ -59,7 +59,7 @@ test('the land the simulation reads runs on below the box to 27.6°N, on the box
 test('San Patricio, the Agua Dulce ground and the end of the road south are places at the record\'s points', () => {
   const RECORD = [
     ['san-patricio', 'village', 'HIST-TEX-159', -97.776421, 27.9771416],
-    ['agua-dulce', 'ground', 'HIST-TEX-512', -97.81, 27.639],
+    ['agua-dulce', 'ground', 'HIST-TEX-512', -97.81428, 27.7886],
     ['matamoros-road', 'ground', 'FIC-GONZ-436', -97.81, 27.62],
   ];
   for (const [id, kind, claimId, lon, lat] of RECORD) {
@@ -70,8 +70,7 @@ test('San Patricio, the Agua Dulce ground and the end of the road south are plac
     assert.ok(!place.outside, `${id} is still outside`);
     assert.ok(distance(place, at(lon, lat)) < 0.05, `${id} is not at its point`);
   }
-  // San Patricio by the Nueces. (The Agua Dulce ground is where the Handbook's distance puts it, not on the creek the NHD draws:
-  // the test below.)
+  // San Patricio by the Nueces. (The Agua Dulce ground at the road's crossing of the creek the NHD draws: the test below.)
   const nueces = terrain.courses.filter(course => course.name === 'Nueces River').map(course => course.points);
   assert.ok(Math.min(...nueces.map(points => toLine(map.places['san-patricio'], points))) < 2, 'San Patricio is not by the Nueces');
   // No town in the south: nothing is kept or sold there, and the word stops at no express stop there.
@@ -83,7 +82,7 @@ test('the Nueces is crossed only at San Patricio, and the roads from Refugio and
   const crossing = map.places['san-patricio-crossing'];
   assert.equal(crossing.kind, 'ford'); assert.equal(crossing.water, 'Nueces River'); assert.ok(!crossing.outside);
   assert.ok(map.crossings['san-patricio:Nueces River'], 'no window in the Nueces at San Patricio');
-  for (const [from, to, low, high] of [['refugio', 'san-patricio', 30, 45], ['san-patricio', 'goliad', 45, 62], ['san-patricio', 'agua-dulce', 25.5, 26.5], ['agua-dulce', 'matamoros-road', 1, 2]]) {
+  for (const [from, to, low, high] of [['refugio', 'san-patricio', 30, 45], ['san-patricio', 'goliad', 45, 62], ['san-patricio', 'agua-dulce', 15, 16.5], ['agua-dulce', 'matamoros-road', 11, 12.5]]) {
     const one = road(from, to);
     assert.ok(one, `no road ${from} to ${to}`);
     assert.equal(one.kind, 'road', `${from} to ${to} is not walked`);
@@ -159,41 +158,55 @@ test('a class saved before the south opens with it at the save\'s door: added, n
   assert.deepEqual(again.map, opened.map);
 });
 
-// Owner, 2026-09-26, by multiple choice (docs/BATTLES.md §2b): Agua Dulce is where the Handbook of Texas puts it, "twenty-six miles
-// below San Patricio", and not at Wikipedia's point near Banquete, ten miles out (`HIST-TEX-512`).
-test('the Agua Dulce ground is the Handbook\'s twenty-six miles below San Patricio on the road south, not the point near Banquete', () => {
+// Owner, 2026-09-26 ("At the creek crossing, 16 mi"; docs/BATTLES.md §2b.12): Agua Dulce is fought where the road south from San
+// Patricio crosses the creek the map's NHD calls Agua Dulce - not at the Handbook of Texas's "twenty-six miles below San Patricio"
+// (where it stood for a day) nor at Wikipedia's point near Banquete, ten miles out (`HIST-TEX-512` names all three).
+const HANDBOOK = [-97.81, 27.639], BANQUETE = [-97.84972, 27.8475];
+test('the Agua Dulce ground is where the road south crosses Agua Dulce Creek, about sixteen miles below San Patricio', () => {
   const ground = map.places['agua-dulce'], sp = map.places['san-patricio'];
   const walked = road('san-patricio', 'agua-dulce');
-  assert.ok(Math.abs(walked.miles - 26) <= 0.5, `the road from San Patricio to the Agua Dulce ground is ${walked.miles} miles, not twenty-six`);
-  assert.ok(ground.y > sp.y + 20, 'the Agua Dulce ground is not below (south of) San Patricio');
-  assert.ok(distance(ground, at(-97.84972, 27.8475)) > 10, 'the Agua Dulce ground is still at the point near Banquete');
+  assert.ok(walked.miles >= 15 && walked.miles <= 16.5, `the road from San Patricio to the Agua Dulce ground is ${walked.miles} miles, not about sixteen`);
+  assert.ok(ground.y > sp.y + 10, 'the Agua Dulce ground is not below (south of) San Patricio');
+  // At the crossing: the road's ford on the creek is a quarter mile north of the ground, and the creek itself as near.
+  const ford = map.places['ford-agua-dulce-creek'];
+  assert.ok(ford && ford.water === 'Agua Dulce Creek' && toLine(ford, walked.points) < 0.1, 'the road to the ground does not ford Agua Dulce Creek');
+  assert.ok(distance(ford, ground) <= 0.35, `the ground is ${distance(ford, ground).toFixed(2)} miles from the road's crossing of the creek`);
+  const creek = terrain.courses.filter(course => course.name === 'Agua Dulce Creek').map(course => course.points);
+  assert.ok(Math.min(...creek.map(points => toLine(ground, points))) <= 0.35, 'the ground is not by Agua Dulce Creek');
+  // Neither of the other two placements.
+  assert.ok(distance(ground, at(...HANDBOOK)) > 8, 'the Agua Dulce ground is still at the Handbook\'s twenty-six miles');
+  assert.ok(distance(ground, at(...BANQUETE)) > 3, 'the Agua Dulce ground is still at the point near Banquete');
   // On the road south, short of its end: Grant's men drive the horses north to it from where they wait.
-  assert.ok(road('agua-dulce', 'matamoros-road').miles < 2, 'the ground is not near the end of the road where Grant\'s men wait');
+  const onward = road('agua-dulce', 'matamoros-road').miles;
+  assert.ok(onward > 11 && onward < 12.5, `the ground is ${onward} road miles from the end of the road where Grant's men wait`);
   // A class walks there on the roads.
-  const world = createGonzalesWorld('south-handbook', 5, { map: 'colonies' });
+  const world = createGonzalesWorld('south-crossing', 5, { map: 'colonies' });
   const path = findWay(world, 'san-patricio', 'agua-dulce', 'foot');
-  assert.ok(path && Math.abs(path.distance - 26) <= 0.6, `a class walks ${path?.distance} miles from San Patricio to the Agua Dulce ground`);
+  assert.ok(path && path.distance >= 15 && path.distance <= 16.6, `a class walks ${path?.distance} miles from San Patricio to the Agua Dulce ground`);
 });
 
-test('a class saved with the south before the owner moved Agua Dulce has it moved at the save\'s door, unless its drive north has begun', () => {
+test('a class saved with the south at either earlier Agua Dulce ground has it moved at the save\'s door, unless its drive north has begun', () => {
   const fresh = createGonzalesWorld('south-moved', 5, { map: 'colonies' });
-  // The shape of a class saved on 2026-09-26 before the move: the ground near Banquete and the two roads through it.
-  const stale = structuredClone(fresh);
-  const old = at(-97.84972, 27.8475);
-  stale.map.sites['agua-dulce'] = { ...stale.map.sites['agua-dulce'], x: +old.x.toFixed(2), y: +old.y.toFixed(2) };
-  stale.map.routes['route-san-patricio-agua-dulce'].points = [stale.map.sites['san-patricio'], stale.map.sites['agua-dulce']].map(p => ({ x: p.x, y: p.y }));
-  stale.map.routes['route-agua-dulce-matamoros-road'].points = [stale.map.sites['agua-dulce'], stale.map.sites['matamoros-road']].map(p => ({ x: p.x, y: p.y }));
-  const later = structuredClone(stale);
-  assert.ok(southWalkable(stale));
-  assert.equal(openSouth(stale), true, 'the door did not move the Agua Dulce ground');
-  assert.deepEqual(stale.map.sites['agua-dulce'], fresh.map.sites['agua-dulce'], 'the ground is not the built map\'s');
-  for (const id of ['route-san-patricio-agua-dulce', 'route-agua-dulce-matamoros-road']) assert.deepEqual(stale.map.routes[id], fresh.map.routes[id], `${id} is not the built map's`);
-  for (const [id, site] of Object.entries(fresh.map.sites)) if (site.kind !== 'ford') assert.deepEqual(stale.map.sites[id], site, `${id} moved`);
-  validateWorld(stale);
-  assert.equal(openSouth(stale), false, 'the door moved it twice');
-  // A class that has begun the drive keeps the ground its fight was fought on.
-  later.minute = 10 ** 7;
-  assert.equal(openSouth(later), false, 'a class past the drive north had its ground moved');
+  // The shape of a class saved before the move: the ground near Banquete (2026-09-25) or at the Handbook's twenty-six miles
+  // (2026-09-26), and the two roads through it.
+  for (const [label, point] of [['near Banquete', BANQUETE], ['at twenty-six miles', HANDBOOK]]) {
+    const stale = structuredClone(fresh);
+    const old = at(...point);
+    stale.map.sites['agua-dulce'] = { ...stale.map.sites['agua-dulce'], x: +old.x.toFixed(2), y: +old.y.toFixed(2) };
+    stale.map.routes['route-san-patricio-agua-dulce'].points = [stale.map.sites['san-patricio'], stale.map.sites['agua-dulce']].map(p => ({ x: p.x, y: p.y }));
+    stale.map.routes['route-agua-dulce-matamoros-road'].points = [stale.map.sites['agua-dulce'], stale.map.sites['matamoros-road']].map(p => ({ x: p.x, y: p.y }));
+    const later = structuredClone(stale);
+    assert.ok(southWalkable(stale));
+    assert.equal(openSouth(stale), true, `the door did not move the Agua Dulce ground ${label}`);
+    assert.deepEqual(stale.map.sites['agua-dulce'], fresh.map.sites['agua-dulce'], `the ground ${label} is not the built map's`);
+    for (const id of ['route-san-patricio-agua-dulce', 'route-agua-dulce-matamoros-road']) assert.deepEqual(stale.map.routes[id], fresh.map.routes[id], `${id} is not the built map's`);
+    for (const [id, site] of Object.entries(fresh.map.sites)) if (site.kind !== 'ford') assert.deepEqual(stale.map.sites[id], site, `${id} moved`);
+    validateWorld(stale);
+    assert.equal(openSouth(stale), false, 'the door moved it twice');
+    // A class that has begun the drive keeps the ground its fight was fought on.
+    later.minute = 10 ** 7;
+    assert.equal(openSouth(later), false, `a class past the drive north had its ground ${label} moved`);
+  }
 });
 
 test('the strip\'s own files are the ones the build wrote: its grid on the box\'s lattice and its sources named', () => {

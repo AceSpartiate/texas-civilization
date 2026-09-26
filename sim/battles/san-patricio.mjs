@@ -111,7 +111,7 @@ export const SAN_PATRICIO = Object.freeze({
     {
       // 01:00 - 03:00. The column comes up in the cold rain; the town sleeps. Watched at twenty minutes a tick so the class
       // can see it come, and so the clock lands on three exactly.
-      id: 'night', minutes: 120, title: 'Before three in the morning', step: 20, claimId: 'HIST-TEX-510',
+      id: 'night', minutes: 120, title: 'Before three in the morning', step: 20, quiet: true, claimId: 'HIST-TEX-510',
       caption: 'A bitterly cold, wet night at San Patricio on the Nueces. Johnson’s men are asleep - eight on the square by the fire, the rest in three houses. Urrea’s column, about four hundred men on a forced march, comes up in the dark. Local men who side with the government have shown the soldiers which houses to surround, and left lanterns burning in their own windows.',
       texian: texians(asleep('square'), inside('house-a'), inside('house-b'), inside('house-c'), inside('house-c')),
       mexican: mexicans(
@@ -183,7 +183,7 @@ export const SAN_PATRICIO = Object.freeze({
     },
     {
       // 03:35 - 04:15. The prisoners under guard on the square; the dead where they fell. Not held.
-      id: 'after', minutes: 40, title: 'Prisoners on the square', step: 20, claimId: 'HIST-TEX-510',
+      id: 'after', minutes: 40, title: 'Prisoners on the square', step: 20, quiet: true, claimId: 'HIST-TEX-510',
       caption: 'The prisoners are kept under guard on the square. They will be marched south toward Matamoros. (One account says none of them lived three days; the Handbook of Texas says they were taken to Matamoros.)',
       texian: texians({ at: 'prisoners', pose: 'surrender' }, { at: 'prisoners', pose: 'surrender' }, { at: 'prisoners', pose: 'surrender' }, { at: 'prisoners', pose: 'surrender' }, { at: 'gone', action: 'gone' }),
       mexican: mexicans({ at: 'prisoners', action: 'stand' }, { at: 'mx-a', action: 'stand' }, { at: 'mx-b', action: 'stand' }, { at: 'mx-c', action: 'stand' }),

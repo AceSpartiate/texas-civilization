@@ -13,7 +13,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
-import { ENGAGEMENTS, battleState, checkEngagement, projectBattle, schedule } from '../sim/battle-stage.mjs';
+import { ENGAGEMENTS, battleState, checkEngagement, familyThere, projectBattle, schedule } from '../sim/battle-stage.mjs';
+import { CALENDAR_STEPS } from '../public/motion.js';
 import { BEXAR_OFFSETS, BEXAR_STORMING, MILL_OFFSET } from '../sim/battles/bexar-storming.mjs';
 import { FATE_DAYS, fateMoment } from '../sim/bexar-fight.mjs';
 import { SIEGE_CAMPS, stormingFate } from '../sim/army.mjs';
@@ -58,10 +59,11 @@ function run(label, { roles = ['fighter', 'reserve', 'reinforce', 'home'], fate 
   for (let i = 0; i < 4000 && world.minute < end && world.status === 'running'; i++) {
     answerAsPlayed(world, people);
     const before = { minute: world.minute, phase: phaseOf(world), live: Boolean(battleState(world, ID)?.live), step: calendarMinutes(world), where: {} };
+    before.there = before.live && familyThere(world, battleState(world, ID));
     for (const [role, list] of Object.entries(people)) before.where[role] = { ...world.entities[list[0].person.id].location };
     stepWorld(world);
     const live = Boolean(battleState(world, ID)?.live);
-    const sample = { from: before.minute, minute: world.minute, step: world.minute - before.minute, phase: live ? phaseOf(world) : null, phaseBefore: before.live ? before.phase : null, where: {}, travel: {}, views: {} };
+    const sample = { from: before.minute, minute: world.minute, step: world.minute - before.minute, phase: live ? phaseOf(world) : null, phaseBefore: before.live ? before.phase : null, thereBefore: before.there, where: {}, travel: {}, views: {} };
     for (const [role, list] of Object.entries(people)) {
       const person = world.entities[list[0].person.id];
       sample.where[role] = { ...person.location }; sample.travel[role] = Boolean(person.travel);
@@ -167,7 +169,10 @@ test('the storming stands on the director\'s clock, and its four held episodes p
   // Every held tick is the phase's own step, or the room left before the next phase: never more.
   for (const sample of samples) {
     const phase = BEXAR_STORMING.phases.find(one => one.id === sample.phaseBefore);
-    if (phase?.step) assert.ok(sample.step <= phase.step, `a ${sample.step}-minute tick in ${phase.id}, held at ${phase.step}`);
+    // A quiet phase (Milam's call, the roll, going out, Cos marching out) is held only while a played family has somebody there
+    // (docs/BATTLES.md §2b.11); otherwise at the class's pace, in ticks the page draws as walks, never past the phase's end.
+    if (phase?.step && (!phase.quiet || sample.thereBefore)) assert.ok(sample.step <= phase.step, `a ${sample.step}-minute tick in ${phase.id}, held at ${phase.step}`);
+    else if (phase?.quiet) assert.ok(CALENDAR_STEPS.includes(sample.step), `an odd ${sample.step}-minute tick in ${phase.id}`);
   }
 });
 

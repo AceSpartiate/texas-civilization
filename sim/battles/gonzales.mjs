@@ -93,7 +93,7 @@ export const GONZALES = Object.freeze({
     {
       // 22:00 Oct 1 - 01:00. The men over the river at Mrs. DeWitt's, the council of war and the Reverend Smith's words in a
       // hollow square (`HIST-TEX-470`). Watched at the farming clock's own step, so it costs a class no time it did not spend.
-      id: 'rendezvous', minutes: 180, title: 'Over the river, at Mrs. DeWitt’s', step: 20, claimId: 'HIST-TEX-470',
+      id: 'rendezvous', minutes: 180, title: 'Over the river, at Mrs. DeWitt’s', step: 20, quiet: true, claimId: 'HIST-TEX-470',
       caption: 'Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them.',
       texian: { style: 'loose', at: 'rendezvous', action: 'stand', fire: 'none', spread: { width: 0.22, depth: 0.14 } },
       mexican: { style: 'mounted', at: 'camp', action: 'stand', fire: 'none' },
@@ -106,7 +106,7 @@ export const GONZALES = Object.freeze({
     },
     {
       // 01:00 - 03:00. Up the river in the fog, in silence: horsemen ahead of the gun, two open files, a rear guard.
-      id: 'approach', minutes: 120, title: 'The march up the river', step: 10, claimId: 'HIST-TEX-470',
+      id: 'approach', minutes: 120, title: 'The march up the river', step: 10, quiet: true, claimId: 'HIST-TEX-470',
       caption: 'The Texians march up the west bank in the dark, in silence, with the cannon. A fog has come down on the river.',
       texian: { style: 'column', from: 'rendezvous', to: 'timber', action: 'advance', fire: 'none' },
       mexican: { style: 'mounted', at: 'camp', action: 'stand', fire: 'none' },
@@ -130,7 +130,7 @@ export const GONZALES = Object.freeze({
     },
     {
       // 03:20 - 05:40. The Texians wait in the edge of the timber; the dragoons wait on the rise, unseen.
-      id: 'wait', minutes: 140, title: 'Waiting for daylight', step: 20, claimId: 'HIST-TEX-473',
+      id: 'wait', minutes: 140, title: 'Waiting for daylight', step: 20, quiet: true, claimId: 'HIST-TEX-473',
       caption: 'The Texians wait in the edge of the timber for daylight. The dragoons wait mounted on the rise. Neither side can see the other in the fog.',
       texian: { style: 'loose', at: 'timber', action: 'hold', fire: 'none' },
       mexican: { style: 'mounted', at: 'rise', action: 'stand', fire: 'none' },
@@ -164,7 +164,7 @@ export const GONZALES = Object.freeze({
     {
       // 06:40 - 08:00. The fire dies down; the Texians take the house, the cornfield, some horses and baggage, and pull down
       // the fence in front of the gun (`HIST-TEX-473`).
-      id: 'lull', minutes: 80, title: 'The lull', step: 20, claimId: 'HIST-TEX-473',
+      id: 'lull', minutes: 80, title: 'The lull', step: 20, quiet: true, claimId: 'HIST-TEX-473',
       caption: 'The firing dies away. The Texians take Williams’s houses and cornfield, with some horses and baggage, and pull down the fence in front of the cannon. The dragoons wait mounted on the rise.',
       texian: { style: 'loose', keys: [[0, 'timber'], [40, 'cornfield']], action: 'advance', fire: 'none' },
       mexican: { style: 'mounted', at: 'rise', action: 'stand', fire: 'none' },
@@ -211,7 +211,7 @@ export const GONZALES = Object.freeze({
     },
     {
       // 09:00 - 09:40. Out of sight on the Béxar road, unpursued (`HIST-TEX-478`).
-      id: 'withdrawal', minutes: 40, title: 'The dragoons ride away', step: 20, claimId: 'HIST-GONZ-004',
+      id: 'withdrawal', minutes: 40, title: 'The dragoons ride away', step: 20, quiet: true, claimId: 'HIST-GONZ-004',
       caption: 'The dragoons ride off up the road toward Béxar until they are out of sight. They were under orders not to force a fight, and they did not. Nobody goes after them.',
       texian: { style: 'loose', at: 'closed', action: 'hold', fire: 'none' },
       mexican: { style: 'column', from: 'wheel', to: 'gone', action: 'withdraw', face: 'away', fire: 'none' },
@@ -219,7 +219,7 @@ export const GONZALES = Object.freeze({
     },
     {
       // 09:40 - 11:00. The baggage, a few escopetas, blankets and swords gathered up (`HIST-TEX-478`).
-      id: 'field', minutes: 80, title: 'The field is theirs', step: 20, claimId: 'HIST-TEX-478',
+      id: 'field', minutes: 80, title: 'The field is theirs', step: 20, quiet: true, claimId: 'HIST-TEX-478',
       caption: 'The Texians gather up what the dragoons left: some baggage, a few escopetas, blankets and swords. The cannon is still theirs.',
       texian: { style: 'loose', at: 'closed', action: 'hold', fire: 'none' },
       mexican: { style: 'column', at: 'gone', action: 'gone', fire: 'none' },

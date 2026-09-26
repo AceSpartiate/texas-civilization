@@ -11,6 +11,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
+const QUIET = 'tests/battle-quiet.test.mjs';
 const UNIT = [
   { name: 'the call shuts by a third of the walk, too late for a man answering at the last minute', file: 'sim/directors.mjs',
     from: "  const walk = minutesToJoin(world, ground.timber, 'foot') ?? 0;", to: "  const walk = (minutesToJoin(world, ground.timber, 'foot') ?? 0) / 3;",
@@ -71,6 +72,26 @@ const UNIT = [
   { name: 'the alert is put up over the family\'s open call', file: 'public/military-attention.js',
     from: '  if (alert && !deciding && own.some(person => person.id === alert.entityId)) {', to: '  if (alert && own.some(person => person.id === alert.entityId)) {',
     test: 'tests/battle-view.test.mjs', expect: 'the card: Watch through the family\'s own person before the fighting, never over an open decision, and the account after' },
+  // Keep fighting, speed lead-ups (owner, 2026-09-26; docs/BATTLES.md §2b.11). `expect` may name more than one test when one
+  // mistake is rightly seen by each of them; then exactly those fail.
+  { name: 'a quiet phase marked on the fighting is accepted', file: 'sim/battle-stage.mjs',
+    from: "    if (phase.quiet !== undefined && (phase.quiet !== true || phase.step === undefined || phase.contact)) fail(`phase ${phase.id} is quiet only with a step, and never while it is fought`);", to: '',
+    test: QUIET, expect: 'a quiet phase is marked in the data only with a step and never on the fighting, and the fighting of every engagement is held' },
+  { name: 'every lead-up held for every class, as before 2026-09-26', file: 'sim/battle-stage.mjs',
+    from: '    if (step && state.phase.quiet && !familyThere(world, state)) {', to: '    if (false) {',
+    test: QUIET, expect: ['a lead-up goes at the ordinary pace with no played family there, and is held at its step while one has somebody there', 'on a real class the lead-up at Gonzales is held for the family whose man went up the river, and goes faster with nobody there'] },
+  { name: 'a played family\'s man in the force is not counted there', file: 'sim/battle-stage.mjs',
+    from: '  if (watchedByAFamily(world, state.battle)) return true;\n', to: '',
+    test: QUIET, expect: 'a lead-up goes at the ordinary pace with no played family there, and is held at its step while one has somebody there' },
+  { name: 'a played family\'s man standing with the force before it records him is not there', file: 'sim/battle-stage.mjs',
+    from: '  return people.some(person => places.some(place => Math.hypot(place.x - person.location.x, place.y - person.location.y) <= THERE_MILES));', to: '  return false;',
+    test: QUIET, expect: 'a played family\'s man standing with the force before it has recorded him is there, and one half a mile off and more is not' },
+  { name: 'a quiet phase with nobody there taken in one odd-sized tick the page snaps', file: 'sim/battle-stage.mjs',
+    from: '      const minutes = QUIET_STEPS.find(one => one <= room) ?? 1;', to: '      const minutes = Math.max(1, room);',
+    test: QUIET, expect: ['a lead-up goes at the ordinary pace with no played family there, and is held at its step while one has somebody there', 'the fighting is held at its step whoever is there, and a quiet phase before it lands the clock on its first minute'] },
+  { name: 'the fighting goes at the class\'s pace with nobody there', file: 'sim/battle-stage.mjs',
+    from: '    if (step && state.phase.quiet && !familyThere(world, state)) {', to: '    if (step && (state.phase.quiet || state.phase.contact) && !familyThere(world, state)) {',
+    test: QUIET, expect: ['the fighting is held at its step whoever is there, and a quiet phase before it lands the clock on its first minute', 'on a real class the lead-up at Gonzales is held for the family whose man went up the river, and goes faster with nobody there'] },
 ];
 
 const BROWSER = [
@@ -134,7 +155,8 @@ if (which === 'all' || which === 'unit') {
   for (const file of files) { const clean = runUnit(file); if (!clean.passed) throw new Error(`${file} fails before any injection: ${clean.failed.join('; ')}`); }
   for (const injection of UNIT) {
     const seen = inject(injection, () => runUnit(injection.test));
-    const caught = !seen.passed && seen.failed.length === 1 && seen.failed[0] === injection.expect;
+    const expected = [].concat(injection.expect);
+    const caught = !seen.passed && seen.failed.length === expected.length && expected.every(name => seen.failed.includes(name));
     record.unit.push({ name: injection.name, file: injection.file, test: injection.test, expect: injection.expect, caught, failed: seen.failed });
     console.log(`${caught ? 'caught' : seen.passed ? 'MISSED' : 'CAUGHT BY ANOTHER OR MORE THAN ONE'}: ${injection.name} -> ${seen.failed.join(' | ') || 'every test passed'}`);
   }
