@@ -277,43 +277,23 @@
       ]
     },
     {
-      "name": "only the first gun is drawn",
+      "name": "a group is counted into its side",
       "file": "public/battle-view.js",
       "test": "tests/battle-view-san-jacinto.test.mjs",
-      "expect": "each gun fires on its own dated shots, stays at its station once pinned, and its crew is its own side's",
+      "expect": "a group of horse is drawn apart from its side, as riders, with its own fall; the breastwork, the fires and the marsh stand on the ground",
       "caught": true,
       "failed": [
-        "each gun fires on its own dated shots, stays at its station once pinned, and its crew is its own side's"
-      ]
-    },
-    {
-      "name": "a party is counted into its side",
-      "file": "public/battle-view.js",
-      "test": "tests/battle-view-san-jacinto.test.mjs",
-      "expect": "a party of horse is drawn apart from its side, as riders, with its own fall; the breastwork, the fires and the marsh stand on the ground",
-      "caught": true,
-      "failed": [
-        "a party of horse is drawn apart from its side, as riders, with its own fall; the breastwork, the fires and the marsh stand on the ground"
+        "a group of horse is drawn apart from its side, as riders, with its own fall; the breastwork, the fires and the marsh stand on the ground"
       ]
     },
     {
       "name": "nothing stands on the ground",
       "file": "public/battle-view.js",
       "test": "tests/battle-view-san-jacinto.test.mjs",
-      "expect": "a party of horse is drawn apart from its side, as riders, with its own fall; the breastwork, the fires and the marsh stand on the ground",
+      "expect": "a group of horse is drawn apart from its side, as riders, with its own fall; the breastwork, the fires and the marsh stand on the ground",
       "caught": true,
       "failed": [
-        "a party of horse is drawn apart from its side, as riders, with its own fall; the breastwork, the fires and the marsh stand on the ground"
-      ]
-    },
-    {
-      "name": "a family's man killed goes on firing",
-      "file": "public/battle-view.js",
-      "test": "tests/battle-view-san-jacinto.test.mjs",
-      "expect": "a family's own man down is drawn so from the minute the server says: lying still if killed, sitting hurt if wounded, and firing no more",
-      "caught": true,
-      "failed": [
-        "a family's own man down is drawn so from the minute the server says: lying still if killed, sitting hurt if wounded, and firing no more"
+        "a group of horse is drawn apart from its side, as riders, with its own fall; the breastwork, the fires and the marsh stand on the ground"
       ]
     }
   ],
@@ -339,7 +319,7 @@
       "file": "public/battle-view.js",
       "expect": "the Texian line is not the formed side",
       "caught": true,
-      "failure": "the Texian line is not the formed side: {\"texian\":0.5250051650470918,\"mexican\":0.2858795036397412}",
+      "failure": "the Texian line is not the formed side: {\"texian\":0.5250051650470925,\"mexican\":0.2858795036397412}",
       "checksPassedFirst": 4
     },
     {
