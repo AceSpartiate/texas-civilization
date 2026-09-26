@@ -147,12 +147,8 @@ const NOT_DRAWN = Object.freeze({
   'steamboat-moored-3': 'the crossing is projected in the middle of the water, not at a bank with the plank out',
   'steamboat-steam-1': 'nothing projects her steaming light', 'steamboat-steam-2': 'nothing projects her steaming light',
   'steamboat-steam-3': 'nothing projects her steaming light', 'steamboat-steam-4': 'nothing projects her steaming light',
-  // The hunt projects a quarry standing, and alert while the family is asked about the shot. Nothing says it broke and
-  // ran: there is no missed-shot state, which is the same reason the turkey's bound frames are up there.
-  'mustang-gallop-1': 'no fleeing or missed-shot state is projected', 'mustang-gallop-2': 'no fleeing or missed-shot state is projected',
-  'mustang-gallop-3': 'no fleeing or missed-shot state is projected', 'mustang-gallop-4': 'no fleeing or missed-shot state is projected',
-  'mustang-gallop-5': 'no fleeing or missed-shot state is projected', 'mustang-gallop-6': 'no fleeing or missed-shot state is projected',
-  'mustang-gallop-7': 'no fleeing or missed-shot state is projected', 'mustang-gallop-8': 'no fleeing or missed-shot state is projected',
+  // The mustang's gallop was here until 2026-09-25 ("no fleeing or missed-shot state is projected"): Grant's herd at Agua Dulce
+  // is driven north and scattered by the charge in it (public/battle-view.js `drawHerd`).
   // The pieces exist; the courses do not. Where each ditch ran is a researched line and a claim ID, not a sprite
   // (docs/ART_REQUESTS.md, request 2026-09-19 - Bexar's fields and acequias).
   'acequia-straight': 'no acequia courses are laid yet', 'acequia-bend': 'no acequia courses are laid yet',

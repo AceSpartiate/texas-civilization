@@ -344,7 +344,7 @@ export const COLETO = Object.freeze({
       // 07:00-09:00. A white flag; the terms (DISPUTED: `HIST-TEX-515`); the arms laid down.
       id: 'surrender', minutes: 120, step: 20, title: 'The surrender', claimId: 'HIST-TEX-515',
       caption: 'A white flag goes up. Fannin’s officers write terms asking that the wounded be cared for and the men held as prisoners of war. Urrea cannot promise that Santa Anna will keep them. The Texians lay down their arms.',
-      texian: { ...SQUARE, action: 'surrender', fire: 'none' },
+      texian: { ...SQUARE, pose: 'surrender', fire: 'none' },
       ...ringed({ fire: 'none', count: 1400, drawn: 20 }), guns: guns({}, { battery: true }),
       flags: [{ kind: 'white', side: TEX, at: 'flag', from: 0, claimId: 'HIST-TEX-515' }],
       lines: [

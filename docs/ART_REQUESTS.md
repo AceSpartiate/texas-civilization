@@ -64,11 +64,15 @@ does not have:
 | **The white flag of truce** is a regular's idle pose beside a pole with a white cloth drawn on the canvas; the bugle is a caption in a bubble | `drawWhiteFlag` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the storming of Béxar, item 5 | `regular-white-flag` (bearer, still and walking) and `regular-bugler` |
 | **The townspeople let out of a broken house** walk away as the library's `rust-woman`, `indigo`, `elder` and `smallchild` | `draw` in `public/battle-view.js`, `civilians` (a library figure, not a stand-in figure: no marker) | Request 2026-09-25 — the storming of Béxar, item 6 | Béxar townspeople of 1835 in their own dress, walking |
 | **Night at Béxar** (the entry before daylight, the Priest's House by moonlight) is not drawn: the day's own light stands | `public/app.js` (no layer) | Request 2026-09-25 — the storming of Béxar, item 7 | a darkening, moonlit layer that does not snap when the pace changes |
+| **San Patricio by night** (2026-09-25): the dark of a night fight is a wash drawn over the whole view, and a lantern in a window or the fire on the square a warm glow drawn on the canvas; the colony's houses are the library's `house-jacal`, `cabin-small` and `jacal-poor` | `drawNight`, `glow`, `drawScenery` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the south's fights, items 1 and 2 | A night light layer (moon and dark), a lit-window overlay for `adobe-flat`/`house-jacal`, and a campfire burning at night |
+| **Grant's men on horseback** are drawn as the mounted courier's riding clip, `mounted-courier-e`; a family's man with them the same | the rider branch of `draw` and `memberPose` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the south's fights, item 3 | `volunteer-ride-e`/`-s`/`-n` (a volunteer with a rifle across the saddle) and a mounted firing frame |
+| **Grant's herd of several hundred horses** is the library's `mustang-gallop` and `mustang-graze`, up to twenty-four of them repeated in a loose drove | `drawHerd` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the south's fights, item 4 | `herd-drove` (a dense moving herd as one sprite, and a scattering herd) |
+| **The groves at Agua Dulce** are a few of the library's `live-oak-large` and `mesquite-large` set close | `drawScenery` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the south's fights, item 5 | A mott of live oak as one sprite, with room for mounted men to stand hidden in its shade |
+
 | **The marksmen in the grass at Coleto** are drawn in the loose order's standing and kneeling poses, firing | the `ringed` grass parts in `sim/battles/coleto.mjs`, drawn by `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 1 | `regular-prone-fire` (lying in the grass, aim and fire, both facings) |
 | **The Goliad prisoners** are drawn in the militia's walk and stand, which carry muskets; the prisoners had none | `columns` in `sim/battles/goliad-massacre.mjs` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 2 | `prisoner-walk` and `prisoner-stand`, unarmed, hands free |
 | **Francita Alavez** is drawn as the first cast's woman (`rust-woman-walk`, `rust-woman-idle-e`/`-w`), named on the map | the `alavez` part in `sim/battles/goliad-massacre.mjs` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 3 | `alavez-walk` and `alavez-idle`: a Mexican officer's wife of 1836 |
 | **The carts inside Coleto's square** are the library's `ox-cart`, its ox painted in | `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 4 | `cart-baggage` (no ox) and `cart-tipped` (on its side, a breastwork) |
-| **The white flag at Coleto** is drawn on the canvas: a plain white cloth on a pole | `drawFlag` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 5 | `flag-white` on a pole, still and in a light wind |
 ## Claude-drawn stand-ins (replace with Astra's)
 
 Owner's instruction, 2026-09-16: complete the outstanding requests with Claude-drawn art, marked so Astra can replace any of
@@ -1336,3 +1340,17 @@ unfinished cloth work at the town table still uses canvas because it depicts ano
 3. **The wounded carried.** `bearers-carry-1`..`-4` (two men carrying a third on a blanket, walking east) and `dragoon-wounded-led-1`..`-2` (a man slumped in the saddle, another leading the horse). Plugs into `drawFallen`. No blood, no gore (`VISION.md` §16).
 4. **The Gonzales cannon on its wheels.** `cannon-cartwheels-e` and a recoil frame: a small brass six-pounder lashed on a pair of plain cart wheels, no trail carriage (`HIST-TEX-475`), and a crew of three in settlers' clothes (`settler-gun-ram`, `-carry`, `-fire`). Plugs into `drawCannon` when `metal` is `bronze` and the engagement asks for `cartwheels`.
 5. **The Come and Take It flag.** `flag-come-and-take-it` still, and a two-frame `-wind` loop: a white field, the cannon in black, a single star over it, the words under it (`HIST-TEX-475`), on a plain pole about twice a man's height. Plugs into `drawFlag`; also wanted by the town before the fight (`sim/town-scenes.mjs`).
+
+
+## Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek
+
+**Status: open; stand-ins in use since 2026-09-25 (see *Stand-ins in use*).** San Patricio and Agua Dulce Creek are drawn on the battle engine where they were fought (`docs/BATTLES.md` §6.14, `sim/battles/san-patricio.mjs`, `sim/battles/agua-dulce.mjs`). The staging sheet (`docs/battle-research/staging.md` §4.9) names what the library lacks. The delivery contract is the same as every existing people and building sheet.
+
+1. **Night.** A night light layer the renderer can lay over a fight (moonless, cold rain: `HIST-TEX-510`), under which lit windows and a fire read. Plugs into `drawNight`.
+2. **Lit windows and a campfire at night.** An overlay frame for `adobe-flat` and `house-jacal` with lamplight in a window, and `campfire` at night. Plugs into `drawScenery`.
+3. **A volunteer on horseback.** `volunteer-ride-e`/`-s`/`-n`, four frames each, at the `dragoon-e` height, and a frame firing from the saddle. Plugs into the rider branch of `draw` and `memberPose`.
+4. **A driven herd.** `herd-drove` (several hundred horses moving as one mass, four frames) and `herd-scatter`. Plugs into `drawHerd`.
+5. **A live-oak mott.** One sprite of a grove of live oaks with shade under it. Plugs into `drawScenery` for a `grove`.
+6. **A lancer charging.** `lancer-charge` (a dragoon at the gallop, lance held level, never shown striking; `VISION.md` §16). Wanted by Agua Dulce and the Alamo's cavalry; until it lands the dragoons ride in `dragoon-march`.
+
+The lasso that took Reuben Brown (`HIST-TEX-511`) is told in the caption and the account and not drawn.

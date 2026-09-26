@@ -19,20 +19,26 @@
 // are real entities at their own positions, in the force (`members`), and the renderer draws them doing what it does.
 import { GONZALES } from './battles/gonzales.mjs';
 import { BEXAR_STORMING } from './battles/bexar-storming.mjs';
+import { SAN_PATRICIO } from './battles/san-patricio.mjs';
+import { AGUA_DULCE } from './battles/agua-dulce.mjs';
 import { COLETO } from './battles/coleto.mjs';
 import { GOLIAD_MASSACRE } from './battles/goliad-massacre.mjs';
 
 /** How a side stands and moves (docs/BATTLES.md §2.4). The renderer lays figures out by these and nothing else. */
 // `square` (2026-09-25, Coleto; docs/battle-research/staging.md §9): four faces of three ranks facing outward, carts inside.
-export const STYLES = Object.freeze(['ranks', 'loose', 'wall', 'bank', 'street', 'column', 'mounted', 'rout', 'square']);
-/** How much light a phase is fought in (2026-09-25): the renderer darkens the field for night and dusk, greys it for fog. */
-export const LIGHTS = Object.freeze(['day', 'dusk', 'night', 'dawn', 'fog']);
+export const STYLES = Object.freeze(['ranks', 'loose', 'wall', 'bank', 'street', 'column', 'mounted', 'rout', 'camp', 'square']);
 /**
  * The calendar steps a phase may be held at: those dividing twenty minutes, and the other clocks' whole hour and four hours,
  * which public/motion.js `CALENDAR_STEPS` draws as an ordinary tick (Coleto's march out and its night, 2026-09-25: held for every
  * class alike, unlike a `background` pace, so a fight's ticks fall on the same minutes whoever is in it).
  */
 const HELD_STEP = step => step > 0 && (20 % step === 0 || [60, 240].includes(step));
+/**
+ * What the men of a part of a side are doing when it is not the side's own style (docs/BATTLES.md §6.13, 2026-09-25): asleep
+ * (lying), shut in a house and firing only from it (`hidden`: the flash and the smoke at the house, nobody drawn - where Béxar's
+ * `cover: 'loophole'` draws one man in four), hands up (`surrender`), or on their feet as the style has them (`stand`).
+ */
+export const POSES = Object.freeze(['stand', 'asleep', 'hidden', 'surrender']);
 /**
  * What a group stands behind (docs/battle-research/staging.md §9, added for Béxar 2026-09-25). `loophole`: inside a stone
  * house, firing through holes cut in the wall - only the flash and the smoke are seen. `roof`: on a flat roof behind its
@@ -51,7 +57,7 @@ export const LINE_KINDS = Object.freeze(['documented', 'reconstructed', 'traditi
 export const SIDES = Object.freeze(['texian', 'mexican']);
 
 /** Every engagement on the engine. Add one here and in sim/battles/ (docs/BATTLES.md §6). */
-export const ENGAGEMENTS = Object.freeze({ [GONZALES.id]: GONZALES, [BEXAR_STORMING.id]: BEXAR_STORMING, [COLETO.id]: COLETO, [GOLIAD_MASSACRE.id]: GOLIAD_MASSACRE });
+export const ENGAGEMENTS = Object.freeze({ [GONZALES.id]: GONZALES, [BEXAR_STORMING.id]: BEXAR_STORMING, [SAN_PATRICIO.id]: SAN_PATRICIO, [AGUA_DULCE.id]: AGUA_DULCE, [COLETO.id]: COLETO, [GOLIAD_MASSACRE.id]: GOLIAD_MASSACRE });
 
 /**
  * The rules an engagement's data is held to, checked when this module loads so a malformed battle never reaches a class.
@@ -71,7 +77,6 @@ export function checkEngagement(def) {
     seen.add(phase.id);
     if (!(phase.minutes > 0) || !Number.isInteger(phase.minutes)) fail(`phase ${phase.id} needs whole minutes`);
     if (phase.step !== undefined && (!HELD_STEP(phase.step) || phase.minutes % phase.step !== 0)) fail(`phase ${phase.id}'s step must divide both its length and twenty minutes (or be a whole hour or four)`);
-    if (phase.light !== undefined && !LIGHTS.includes(phase.light)) fail(`phase ${phase.id}'s light is not one of ${LIGHTS.join(', ')}`);
     // A background pace (Béxar's four days between its held episodes): calendar minutes a tick at most while a played
     // family has somebody in the force, a whole number of twenty-minute ticks, and never alongside a step.
     if (phase.background !== undefined && (phase.step !== undefined || !(phase.background > 0) || phase.background % 20 !== 0)) fail(`phase ${phase.id}'s background pace must be whole twenties of minutes, and not with a step`);
@@ -79,10 +84,27 @@ export function checkEngagement(def) {
       const at = phase[side];
       if (!at || !STYLES.includes(at.style) || !FIRE.includes(at.fire || 'none')) fail(`phase ${phase.id} side ${side} needs a style and a fire`);
       if (at.cover !== undefined && !COVERS.includes(at.cover)) fail(`phase ${phase.id} side ${side} stands behind nothing the renderer knows`);
+      if (at.pose !== undefined && !POSES.includes(at.pose)) fail(`phase ${phase.id} side ${side} has an unknown pose`);
       if (at.drawn !== undefined && !(at.drawn > 0 && at.drawn <= 60)) fail(`phase ${phase.id} side ${side} draws more than sixty`);
     }
     // Groups drawn apart from their side: a division in its own house, men on a roof, a file along a wall, the townspeople.
     const units = new Set(SIDES), civilians = new Set();
+    // A side drawn in parts (§6.13): the side's own figures divided among places, each part named once, a whole number of
+    // them, its own style, fire and pose if it has them. The parts together never draw more than the side has. A part is a
+    // unit a line, a fall or a family's man may name, as a group is.
+    for (const side of SIDES) {
+      const at = phase[side];
+      if (!at.parts) continue;
+      let drawn = 0;
+      for (const part of at.parts) {
+        if (!part.id || units.has(part.id) || !(Number.isInteger(part.drawn) && part.drawn > 0)) fail(`a part of ${side} in ${phase.id} is malformed`);
+        if ((part.style && !STYLES.includes(part.style)) || (part.fire && !FIRE.includes(part.fire)) || (part.pose && !POSES.includes(part.pose))) fail(`part ${part.id} in ${phase.id} has an unknown style, fire or pose`);
+        if (!part.at && !part.from && !part.keys) fail(`part ${part.id} in ${phase.id} stands nowhere`);
+        if (part.fire === undefined && at.fire === undefined) fail(`part ${part.id} in ${phase.id} has no fire`);
+        units.add(part.id); drawn += part.drawn;
+      }
+      if (drawn > def.sides[side].drawn) fail(`the parts of ${side} in ${phase.id} draw more than the side's ${def.sides[side].drawn}`);
+    }
     let figures = SIDES.reduce((sum, side) => sum + (phase[side].drawn ?? def.sides[side].drawn), 0);
     for (const group of phase.groups || []) {
       if (!group?.id || units.has(group.id) || !SIDES.includes(group.side) || !STYLES.includes(group.style) || !FIRE.includes(group.fire || 'none') || !(group.drawn > 0) || group.drawn > 40) fail(`group ${group?.id} in ${phase.id} is malformed`);
@@ -241,11 +263,16 @@ export function sidePlace(ground, phase, side, into) {
 /** Where a unit - a side's own body, or a group drawn apart from it (`phase.groups`) - stands at this moment of its phase. */
 export function unitPlace(ground, phase, unitId, into) {
   if (SIDES.includes(unitId)) return sidePlace(ground, phase, unitId, into);
-  const group = (phase.groups || []).find(one => one.id === unitId);
+  const group = (phase.groups || []).find(one => one.id === unitId) || SIDES.map(side => phase[side].parts?.find(part => part.id === unitId)).find(Boolean);
   return group ? placeOf(ground, group, phase.minutes, into) : null;
 }
 /** The one rule for a place from `at`, `from`/`to` or `keys`, shared by sides and groups. */
-function placeOf(ground, at, minutes, into) {
+export function placeOf(ground, at, minutes, into) {
+  // A side placed only by its parts (§6.13) stands where its parts stand on average.
+  if (!at.at && !at.from && !at.keys && at.parts?.length) {
+    const places = at.parts.map(part => placeOf(ground, part, minutes, into));
+    return { x: places.reduce((sum, q) => sum + q.x, 0) / places.length, y: places.reduce((sum, q) => sum + q.y, 0) / places.length };
+  }
   const point = name => { if (!ground[name]) throw new Error(`Ground has no point ${name}`); return ground[name]; };
   // Keyframes, `[[minute, point], ...]`: a charge out and back, a fall back to the trees, held between the keys.
   if (at.keys) {
@@ -265,6 +292,7 @@ export function sideMoving(phase, side, into) {
   return specMoving(phase[side], into);
 }
 function specMoving(at, into) {
+  if (!at.at && !at.from && !at.keys && at.parts?.length) return at.parts.some(part => specMoving(part, into));
   if (at.keys) {
     for (let i = 1; i < at.keys.length; i++) if (into >= at.keys[i - 1][0] && into < at.keys[i][0] && at.keys[i - 1][1] !== at.keys[i][1]) return true;
     return false;
@@ -366,6 +394,15 @@ function breachesBy(state, minute, ground) {
   return out;
 }
 
+/** One part of a side as a page is sent it (§6.13): where it is, how it stands and fires, and what its men are doing. */
+function partView(ground, phase, into, part, side, facing, over) {
+  const place = placeOf(ground, part, phase.minutes, into);
+  return {
+    id: part.id, drawn: part.drawn, x: place.x, y: place.y, style: part.style || side.style, fire: over ? 'none' : part.fire || side.fire || 'none',
+    action: over ? 'gone' : part.action || side.action || 'stand', moving: !over && specMoving(part, into), pose: part.pose || 'stand',
+    facing: part.face === 'away' ? { x: -facing.x, y: -facing.y } : facing, ...(part.spread && { spread: part.spread }),
+  };
+}
 /**
  * What a page that may watch the fight is sent (docs/BATTLES.md §2.1, §3): the phase it is in and nothing of any phase to come,
  * each side as a count, a style, a place and what it is doing, the lines said so far, the cannon's shots so far, the fallen so
@@ -393,6 +430,8 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
       action: state.over ? 'gone' : at.action || 'stand', moving: !state.over && sideMoving(phase, side, into), x: place.x, y: place.y, facing,
       spread: at.spread || info.spread, ...(at.mounted !== undefined ? { mounted: at.mounted } : info.mounted !== undefined ? { mounted: info.mounted } : {}),
       ...(at.dismounted && { dismounted: at.dismounted }), ...(info.figure && { figure: info.figure }), ...(at.cover && { cover: at.cover }),
+      ...(at.parts && { parts: at.parts.map(part => partView(ground, phase, into, part, at, toward[side], state.over)) }),
+      ...(at.pose && { pose: at.pose }),
     };
   });
   const view = {
@@ -404,6 +443,10 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
     fallen: fallenBy(state, world.minute, ground),
     members: [...members],
     ...(def.noFalling && { noFalling: def.noFalling }),
+    // §6.13: the light the fight is fought in, the houses, fire and groves it is fought among, and the herd.
+    ...(phase.light || def.light ? { light: phase.light || def.light } : {}),
+    ...(def.scenery && { scenery: def.scenery(ground).map(item => ({ ...item, lit: Array.isArray(item.lit) ? item.lit.includes(phase.id) : Boolean(item.lit) })) }),
+    ...(phase.herd && !state.over && { herd: { ...placeOf(ground, phase.herd, phase.minutes, into), count: phase.herd.count, moving: specMoving(phase.herd, into), ...(phase.herd.scatter && { scatter: true }) } }),
   };
   // Groups drawn apart from their side (Béxar's divisions in their houses, men on the roofs, a file under the loopholes, the
   // townspeople let out through a breach): each where it stands now, facing what it faces, doing what it does.
@@ -437,8 +480,6 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
   });
   if (flags.length && !state.over) view.flags = flags;
   // The ground a page frames the fight on, where the engagement names it (the town and the Alamo's guns at its edge).
-  // The light the phase is fought in (Coleto's dusk and night, the fog of its morning; Palm Sunday's evening).
-  if (phase.light && phase.light !== 'day') view.light = phase.light;
   const frame = (phase.frame || def.frame || []).map(name => ground[name]).filter(Boolean);
   if (frame.length) view.frame = frame.map(point => ({ x: point.x, y: point.y }));
   // Which unit each of the members stands in, so the page poses them with that unit's fire, and a member's own fate once -

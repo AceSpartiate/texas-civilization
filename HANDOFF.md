@@ -44,6 +44,68 @@ The later engagements of docs/BATTLES.md §5 step 3, for Fannin's command: docs/
 
 ## Battles on one engine, and the fight at Gonzales rebuilt on it — 2026-09-25, night (after a9dbc36; not released)
 ## The storming of Béxar on the battle engine — 2026-09-25 (not released)
+## The south to the Nueces, and San Patricio and Agua Dulce on the battle engine — 2026-09-26 (merged with main after 1c77c91; released in v2026.09.26.1)
+
+Owner's direction of 2026-09-25 (docs/BATTLES.md §2, §2b.4: "the map extends south to the Nueces") and staging.md §4 with S1 (a)
+and S2 (a). Built on branch `worktree-agent-a2540001666444729`; merged to main as `e63694f` and released in v2026.09.26.1.
+
+**What was built.**
+- **The map south to the Nueces** (docs/MAP_ACCURACY.md §13): `scripts/build-south.mjs` builds a strip 27.6-28°N on the box's own
+  lattice from the USGS 3DEP, NHD and LANDFIRE data on disk (`C:\Users\zachw\TexasData\raw`); `sim/terrain-data.mjs` and
+  `sim/woods.mjs` lay it under the box's grid; `boxTerrain()` keeps the box's own builds byte for byte. The box's eight files are
+  unchanged. `colonies-map.json.gz` rebuilt: San Patricio a village, `agua-dulce`, `matamoros-road`; the Nueces a barrier crossed at
+  San Patricio; walked roads Refugio → San Patricio (39.4 mi), San Patricio → Goliad (56.0), → Agua Dulce (12.1) → the road's end
+  (16.7), six new creek fords. Every other place and road byte for byte. Old saves gain the south at the save's door
+  (`openSouth` in `server/storage.mjs`); **no `saveVersion` bump** (places added, nothing moved).
+- **San Patricio (Feb 27, 3 a.m.) and Agua Dulce (Mar 2, now 10:30, was 6:00)** on the engine: `sim/battles/san-patricio.mjs`,
+  `sim/battles/agua-dulce.mjs`, `sim/south.mjs`. Night with lit windows, the square and three houses (a house firing from inside,
+  one giving up, Johnson out the back), prisoners gathered; the drive north with the herd, dragoons out of two groves, the rout,
+  six prisoners. Reconstructed talk only, Spanish glossed; nobody named speaks. Disputes (date, counts, the prisoners' fate, the
+  distance) said in captions and the account.
+- **Arrival and participation**: the join goes to San Patricio (Refugio on a map without the south) and is refused in words once a
+  man could not arrive before the raid; men at Refugio walk on; Grant rides south Feb 20 with his share of the men; each man is
+  put in his part of the force before the first shot, walked to his place, and his fate - `fightSouth`'s own roll, unchanged -
+  lands at its staged moment (Béxar's `stageFate`/`fates`, reconciled at the merge). **The recall** is refused once his fight is
+  armed and after it, in words that tell nothing ("No word has come from San Patricio."); the card shows no recall button.
+- **Viewers, alerts, aftermath**: the Host live with the spotlight on the field; a family only while its man is in the force; the
+  alert at his side with Watch; escaped ride for Goliad, prisoners held then walked south out of the walked country, the dead lie
+  where they fell; the plain-words account through somebody at home when the word comes (Mar 3, Mar 7), on the card and in the
+  journal.
+- **Engine additions (generic, additive)**, docs/BATTLES.md §6.13: style `camp`; a side in `parts` (bodies keyed like Béxar's
+  groups); `POSES` (`asleep`, `hidden`, `surrender`); `fall.unit` on a part with the fallen lying where they fell; `light`;
+  `scenery`; `herd`; Texian riders; step 1 (`CALENDAR_STEPS` now 1, 2, 5, 10, 20, 60, 120, 240, 720).
+- **Claims**: `HIST-TEX-510`-`-514`, `FIC-GONZ-435`-`-436`; `HIST-TEX-059`, `-159` notes. Art: `docs/ART_REQUESTS.md` request
+  2026-09-25 "the south's fights" and four stand-in rows.
+- **Found and fixed in passing**: `npm run test:winter` had failed since 2026-09-21/24 (a winter fixture's families were walked back
+  into the guided start, and the going chooser was not answered); both mended in the proof's fixture.
+
+**Numbers (same computer).** Server: land loaded 225 → about 300 ms, a class of 15 dealt about 455 → 590 ms, RSS 459 → 487 MB
+(`docs/evidence/south-startup-{before,after}.json`). Page: `/api/map` 556,661 → 567,449 bytes (129,162 → 131,249 gzipped; 152 →
+155 KB on the wire); cold load 22,044 → 22,050 KB on the wire; map first drawn solo cold 1,473 → 1,284 ms, classroom cold 1,541 →
+1,846 ms, within this machine's run-to-run spread (`docs/evidence/perf-load-south-{before,after}.json`). The strip's files
+(274 KB and 164 KB) are the server's only. Pacing at Study: San Patricio's fighting 25 ticks (about 4 min), Agua Dulce's about 3.5.
+
+**Evidence.** `npm test` 1,256 of 1,256 after the merge; `tests/south-map.test.mjs`, `tests/battle-south.test.mjs`,
+`tests/battle-view-south.test.mjs`; `npm run test:battle-south` 15 checks at 1366x768 and 1024x768
+(`docs/evidence/battle-south-browser.json`, screenshots `docs/evidence/battle-south/`); `node scripts/battle-south-injections.mjs`
+23 of 23 caught by their own check (`docs/evidence/battle-south-injections.json`; run before the merge, strings updated to the
+merged code). Also passing after the merge: `test:battle-gonzales` (12), `test:battle-bexar` (15), `test:alamo-siege` (8),
+`test:lesson` (33), `test:panels` (14), `test:map-accuracy`, `test:crossings`, `test:winter` (6) and `scripts/map-outside-browser-proof.mjs`.
+`test:navigation` times out in `openGame` - it does the same on the base commit e440bbe, so it is not this build's; not investigated.
+
+**Regenerating on a merge.** `node scripts/build-colonies-map.mjs` after merging any change to its script (another place such as
+Coleto's `coleto`), then the new hash in `tests/map-outside.test.mjs`; the strip only with `node scripts/build-south.mjs
+C:\Users\zachw\TexasData\raw`. docs/MAP_ACCURACY.md §13.2.
+
+**Not done / limits.** The horse guard at the ranch four miles out is told, not drawn; the drive north is a straight line; the
+prisoners' guard is not drawn; the night, riders, herd and groves are stand-ins; `landAt` and `ecoregionAt` still end at the box
+(nothing in the simulation reads them there). The account comes with the word, not when the fight ends.
+
+**Decisions for the owner.** (1) Agua Dulce's place: Wikipedia's point near Banquete (ten miles from San Patricio) is used; TSHA says
+twenty-six miles below - move it if the owner prefers the distance. (2) Grant's ride on February 20 is invented; nothing read dates
+it. (3) A captured man is walked to the end of the walked road and stays there as a prisoner; the owner may want him drawn nowhere.
+
+## The storming of Béxar on the battle engine — 2026-09-25 (released in v2026.09.26.1)
 
 Built on the engine of `docs/BATTLES.md` §6 as the owner decided (§2b.3: four held episodes, the town fighting at a slower pace
 between them, a man's fate on a day weighted by the real daily losses), from `docs/battle-research/staging.md` §3. Described
@@ -1150,6 +1212,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   lesson 33 checks, panels 10 checks at 2 sizes, farm, travel-drawn and relay pass. Four other proofs failed here, and
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
+
+## Released as v2026.09.26.1 — 2026-09-26
+
+**[v2026.09.26.1](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.26.1)**, from `e63694f`: the storming of Béxar on the battle engine (four held episodes, the town fighting between them, staged per-person fates on days weighted by Johnson's losses, the account at the capitulation), and the map south to the Nueces with San Patricio and Agua Dulce fought where they happened. Verify tree: 1256 tests; battle-gonzales 12, battle-bexar 15, battle-south 15, alamo-siege 8, gonzales-town 10. Open owner decisions are in the two sections above. Known: `test:navigation` times out opening the game (also on the base commit); `test:slice` stale.
 
 ## Released as v2026.09.25.7 — 2026-09-25
 

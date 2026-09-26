@@ -120,7 +120,11 @@ test('the guns at the corners and the battery fire, each shot once, served by me
   const ctx = fakeContext();
   run(createBattleView(fakeArt()), () => night, { seconds: 8, ctx });
   const fills = ctx.calls.filter(call => call[0] === 'fillStyle').map(call => call[1]);
-  assert.ok(fills.some(fill => /rgba\(10,16,40/.test(fill)), 'the night was not drawn');
+  assert.ok(fills.some(fill => /rgba\(8,12,30/.test(fill)), 'the night was not drawn');
+  // And dusk, a lighter wash of its own.
+  const dusk = projected(COLETO, 'dusk', 20), dim = fakeContext();
+  run(createBattleView(fakeArt()), () => dusk, { seconds: 1, ctx: dim });
+  assert.ok(dim.calls.some(call => call[0] === 'fillStyle' && /rgba\(48,30,60/.test(call[1])), 'the dusk was not drawn');
   assert.equal(projected(COLETO, 'assault-1', 10).light, undefined, 'the afternoon was drawn dark');
 });
 

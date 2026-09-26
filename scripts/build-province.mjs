@@ -18,7 +18,7 @@
 // is exactly the line the colonies map draws near the settlements.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { gunzipSync, gzipSync } from 'node:zlib';
-import { realTerrain } from '../sim/terrain-data.mjs';
+import { boxTerrain as realTerrain } from '../sim/terrain-data.mjs';
 import { coloniesMap } from '../sim/colonies-map.mjs';
 import { sampleReliefGrid } from '../sim/terrain.mjs';
 import { contours, joinReaches, lineLength, ringArea, simplifyLine, simplifyRing } from './terrain/lines.mjs';

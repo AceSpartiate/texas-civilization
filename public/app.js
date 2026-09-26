@@ -795,9 +795,18 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
   // (sim/battle-stage.mjs `lyingOnField`, `FIC-GONZ-439`): no blood, no gore.
   const pose = entity.kind === 'person' ? battleView.memberPose(entity, animationTime) || (entity.fallen ? { sprite: 'volunteer-reclining', flip: false } : null) : null;
   if (pose) {
-    const done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, size, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, size, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
+    // A rider is drawn a horse's height (docs/BATTLES.md §6.13: Grant's men at Agua Dulce).
+    const drawnSize = size * (pose.scale || 1);
+    const done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, drawnSize, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, drawnSize, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
     if (!done) miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed });
     if (marks.ground) battleView.memberDrawn(entity.id, marks.ground, size);
+    ctx.globalAlpha = alphaWas;
+    return;
+  }
+  // A family's own man who fell in a fight the family watched lies where he fell (docs/BATTLES.md §2b.1, §6.14): the server
+  // sends `down` to his own family only, and the family's reports still wait for the word.
+  if (entity.kind === 'person' && entity.service?.down && !entity.travel) {
+    if (!drawSprite(ctx, 'volunteer-reclining', x, y, size)) miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed });
     ctx.globalAlpha = alphaWas;
     return;
   }
@@ -3712,8 +3721,9 @@ function populateWork(world, chosen, running) {
       }
     }
     if (chosen.service.besieged || chosen.service.riding) return;
-    // In a fight (sim/battle-stage.mjs `heldByBattle`): nobody can be sent for, and the card says so instead of offering it.
-    if (chosen.held) { host.append(element('p', chosen.held, 'work-note')); return; }
+    // In a fight (sim/battle-stage.mjs `heldByBattle`), or in the south after it before the word (sim/winter.mjs
+    // `recallRefusal`): nobody can reach them, in the server's words, and no button that the server would refuse.
+    if (chosen.service.unreachable || chosen.held) { host.append(element('p', chosen.service.unreachable || chosen.held, 'work-note')); return; }
     const recall = element('button', 'Send for them to come home', 'work-stop');
     recall.dataset.action = 'winter-recall';
     recall.dataset.entityId = chosen.id;

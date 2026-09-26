@@ -11,7 +11,9 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { gunzipSync } from 'node:zlib';
-import { milesFrom, realTerrain } from '../sim/terrain-data.mjs';
+// The box alone: this file is about the box and the country drawn round it. Since 2026-09-25 the simulation's own land runs on
+// below the box to the Nueces (sim/terrain-data.mjs `realTerrain`, docs/MAP_ACCURACY.md §13), which is tests/south-map.test.mjs's.
+import { milesFrom, boxTerrain as realTerrain } from '../sim/terrain-data.mjs';
 import { coloniesProvince, mapBounds, mapForPage, outsideBands, provinceBands } from '../sim/province.mjs';
 import { LAND, landBitsOf, landData } from '../sim/land.mjs';
 import { patchAt, standAt } from '../sim/woods.mjs';
@@ -79,10 +81,14 @@ const BOX_FILES = {
   // the crossing windows and all 561 watercourses (checked by decoding both). Was bb08abb6...ce9e33b.
   // Built again after the two were merged, 2026-09-19: the places past the box and the audit's two rules of placement
   // together. Was cf35e37f... on the one branch and 67a873b7... on the other.
-  // Rebuilt again 2026-09-25 for Coleto (HIST-TEX-516): the `coleto` field at the Fannin Battleground marker, and the road from
-  // Goliad to Victoria laid in two legs through it (27.47 miles before, 10.08 + 17.39 after). Every other place, road, crossing
-  // and watercourse is byte for byte what it was (checked by decoding both). Was 9a60fdb6...96e04a01.
-  'colonies-map.json.gz': 'f63ecca530ceed77348902de253358c00f981e52e8aa4a52c1adc4eb45ce2368',
+  // Rebuilt again 2026-09-25 for the south to the Nueces (docs/MAP_ACCURACY.md §13): San Patricio a village the roads go to, the
+  // Agua Dulce ground and the end of the walked road south, the Nueces a barrier crossed at San Patricio, the roads from
+  // Refugio and Goliad to San Patricio and on south by Agua Dulce, and the fords on the creeks they cross. Every other place
+  // and road is byte for byte what it was (checked by decoding both). Was 9a60fdb6...96e04a01.
+  // Rebuilt again 2026-09-25 for Coleto (HIST-TEX-516), on top of the south: the `coleto` field at the Fannin Battleground
+  // marker, and the road from Goliad to Victoria laid in two legs through it (27.47 miles before, 10.08 + 17.39 after). Every
+  // other place, road, crossing and watercourse is byte for byte the south's (checked by decoding both). Was 2e476e8b...c037c439.
+  'colonies-map.json.gz': '24c768f4eddffda44d3d8217b8aa61780d3da13b10f7670729d4a77d83a73b19',
   'colonies-province.json.gz': '8ef9b839a6f03b82a1ef81e832eb3d483cd7761e8f4eef32eea33b3508883dc7',
   'colonies-water.json.gz': '22900ae34954db4225fba11e1e977beab6161e4d53d84b5ebc923089e3162c44',
   // The biomes of 1836 (2026-09-19). The grid a class of the week before was made on is kept as it was, beside it, and read

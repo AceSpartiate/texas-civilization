@@ -34,6 +34,7 @@
 // drawn; and a class on the real land saved before the woods grid keeps the old rule (timber by the rivers and creeks).
 import { readFileSync } from 'node:fs';
 import { gunzipSync } from 'node:zlib';
+import { southStrip } from './terrain-data.mjs';
 
 const ROOT = new URL('../public/terrain/', import.meta.url);
 /** What a world's map records when its woods are the biomes of 1836 (docs/BIOMES.md). Every class made since 2026-09-19. */
@@ -374,11 +375,23 @@ function loadGrid(rule = 'biomes') {
   const [headerFile, cellsFile] = GRID_FILES[key];
   const header = JSON.parse(gunzipSync(readFileSync(new URL(headerFile, ROOT))).toString('utf8'));
   const cells = gunzipSync(readFileSync(new URL(cellsFile, ROOT)));
-  const { minX, minY, columns, rows, cell } = header.grid;
+  const { minX, minY, columns, cell } = header.grid;
+  let { rows } = header.grid, all = cells;
   if (cells.length !== columns * rows) throw new Error('The woods grid is not the size its header says');
+  // The strip south to the Nueces (docs/MAP_ACCURACY.md §13, scripts/build-south.mjs), laid under the box's grid as the
+  // heights are (sim/terrain-data.mjs): its stands filed from LANDFIRE by the box's own rules, in this grid's byte order. Only
+  // the biomes' grid: a class made on the 2016 grid (2026-09-15 to -19) sees the woods end at the box, as it always did.
+  const strip = key === 'biomes' ? southStrip() : null;
+  if (strip?.header.woods) {
+    const south = Buffer.from(strip.header.woods.cells, 'base64'), row0 = strip.header.grid.row0;
+    all = Buffer.alloc(columns * (row0 + strip.header.grid.rows));
+    cells.copy(all, 0, 0, row0 * columns);
+    south.copy(all, row0 * columns);
+    rows = row0 + strip.header.grid.rows;
+  }
   const eco = header.ecoregions;
   // The byte order is the header's own list of stands: the two grids number their stands differently.
-  grids[key] = { minX, minY, columns, rows, cell, cells, order: header.stands.map(stand => stand.id), eco: { ...eco, cells: Buffer.from(eco.grid, 'base64') } };
+  grids[key] = { minX, minY, columns, rows, cell, cells: all, order: header.stands.map(stand => stand.id), eco: { ...eco, cells: Buffer.from(eco.grid, 'base64') } };
   return grids[key];
 }
 

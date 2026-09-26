@@ -139,7 +139,7 @@ Every other question in `docs/battle-research/staging.md` takes its recommended 
    docs/GONZALES_ART.md. It draws Castañeda's camp on the far bank from noon on September 29 to his move upriver on the
    morning of October 1 (`camp-mound`, `camp-leaves`); the fight's engine takes the field from there, and if it draws that
    camp itself the town's two beats come out in one place.
-3. The later engagements on the engine, each with its aftermath. **The storming of Béxar: built 2026-09-25, not released: §7.**
+3. The later engagements on the engine, each with its aftermath. **The storming of Béxar: built 2026-09-25, not released: §7.** **San Patricio and Agua Dulce: built 2026-09-25, not released: §6.13-6.15.**
 4. Released to live after each wave.
 
 ## 6. The engine as built (2026-09-25, wave 1: Gonzales)
@@ -292,6 +292,71 @@ Its record is `docs/evidence/battle-injections.json`.
 - The staged fate of a family's person inside a deadly battle is not built (none is at stake at Gonzales). Built for Béxar: §7.2.
 - The town before the fight (alarm, flag, muster) is a separate build (`sim/town-scenes.mjs`).
 
+## 6.13 The engine's additions for the south (2026-09-25, wave 2: San Patricio and Agua Dulce)
+
+Generic and additive; nothing Gonzales uses changed its meaning. Claims: `FIC-GONZ-435`, `FIC-GONZ-436`.
+
+| Addition | Where | What it does |
+| --- | --- | --- |
+| Style `camp` | `STYLES` | Men unformed: drawn lying (`*-reclining`). The staging sheet's §9 proposal. |
+| A side in **parts** | `phase[side].parts: [{ id, drawn, at \| from/to \| keys, style?, fire?, action?, pose?, spread?, face? }]`; `partView`; `placeOf` | A side drawn in groups at their own places - Johnson's men on the square and in three houses, the dragoons in two groves. Each part keeps the same figures in every phase (a scattered layout per part, whatever its style), and the parts together never draw more than the side's sample (`checkEngagement`). A side with parts and no place of its own stands where its parts stand. The way out of Gonzales's detachment `ceiling:`. |
+| **Poses** | `POSES`: `stand`, `asleep`, `hidden`, `surrender` | `hidden` is men shut in a house: nobody drawn, their shots a flash and a puff at its door and windows. `surrender` is hands up (`*-surrender`). |
+| A fall in a part | `falls: [{ …, unit }]` (a part is a unit, as Béxar's groups are) | The part's own men go down; a fallen man **lies where he fell** while his part is marched off (`fallenSpots`). |
+| Light | `phase.light` / `def.light`: `'night'`, `'dawn'` | A dark wash over the view; lit scenery and flashes glow through it (`drawNight`, `glow`). |
+| Scenery | `def.scenery(ground) → [{ id, kind: 'house' \| 'campfire' \| 'grove', sprite?, x, y, lit: bool \| [phaseIds], trees?, spread? }]` | Houses, a fire, groves, drawn behind the fighting. |
+| A herd | `phase.herd: { at \| keys, count, scatter? }` | A drove of horses moving with the drive and scattering in a charge (`drawHerd`). |
+| Riders on the Texian side | `sides.texian.mounted` | Drawn riding (`mounted-courier-e`, a stand-in); a family's man with them too. |
+| A person's part and fate | Béxar's staged fates (§7.2): `stageFate(world, id, person, { fate, unit, minute })` and `projectBattle`'s `units` and `fates` | The page is told which part each of its own people is in (`memberUnits`) and each one's fate **only from its minute** (`memberFates`); `memberPose` draws him asleep, in the house, firing, hands up (`captured`), or hit and lying still. Reconciled onto Béxar's mechanism at the merge of 2026-09-26: one staged-fate mechanism. In the renderer a side's parts are bodies keyed as groups are (`bodiesOf`). |
+| Step 1 | `BATTLE_STEPS`, `public/motion.js` `CALENDAR_STEPS` | A minute a tick for San Patricio's quarter hour and Agua Dulce's charge. |
+
+## 6.14 San Patricio and Agua Dulce Creek (built 2026-09-25, not released)
+
+Staged from `docs/battle-research/staging.md` §4 with the owner's S1 (the map to the Nueces) and S2 (Matamoros kept, the dispute
+recorded). Claims `HIST-TEX-510`–`-514`, `FIC-GONZ-435`–`-436`. The map is `docs/MAP_ACCURACY.md` §13.
+
+| Piece | File |
+| --- | --- |
+| The engagements | `sim/battles/san-patricio.mjs` (night 01:00 → the square 03:00 → the houses → the last house → prisoners gathered 03:35 → 04:15), `sim/battles/agua-dulce.mjs` (the drive north 05:30 → the last hour 09:30 → the charge **10:30** → six prisoners 10:50 → 11:50) |
+| The director's part | `sim/south.mjs`, called from `advanceAlamo` in `sim/directors.mjs` and from `directorProjection` (one line each) |
+| The map at the save's door | `openSouth`, called from `server/storage.mjs` `readSave` |
+| The join and the recall | `sim/winter.mjs` (`SERVICE.matamoros` at San Patricio, `southClosing`, `recallRefusal`) and the chore's `travel: 'south'` in `sim/chores.mjs` |
+
+- **Arrival.** A man sent south joins at San Patricio (at Refugio on a map without the south). A man still at Refugio walks on
+  (`walkOnSouth`). The join is refused, in words, once the family's quickest way would not reach San Patricio half a day before
+  the raid. About six in the morning of February 20 Grant rides south with the men put in his party at the record's shares
+  (`grantRides`, `JOHNSON_SHARE`) to the end of the walked road, and at 5:30 on March 2 they drive the herd north to the creek.
+- **In the force.** Every man of the party at its muster when the fight is armed is put in it before the first shot, in a part:
+  the square, a house, the back door; the lead, the middle or the drag of the drive. He is walked to his place at a runner's pace.
+- **Fates at staged moments.** His fate is `fightSouth`'s own roll (`southFate`: `SOUTH_RATES`, frailty-weighted), so no class's
+  outcome moved; the engine only chooses the moment and the part (`STAGED`, seeded). At that minute `service.fate` is set and the
+  glory awarded; the page of his family draws it from then; `health` changes only with the word (`tellSouth`, unchanged). A killed
+  man lies where he fell on his family's map (`service.down`).
+- **Nobody can be sent for** once his fight is armed: "... is with Johnson's men at San Patricio, and nobody can reach them now";
+  once it has begun or he has been resolved: "No word has come from San Patricio. Nobody can reach him now." - which says nothing
+  of his fate. The card offers no recall button (`service.unreachable`).
+- **Viewers.** The Host every fight live, `focus: 'battle'` from the first shot, the spotlight on the field; a family only while
+  one of its people is in the force; nobody else anything.
+- **The alert** at the first shot, at the man's side: "Soldiers in the square! They're at the doors!"; "Horsemen in the trees
+  ahead!" (staging §4.7). With Watch.
+- **Afterwards.** The escaped ride for Fannin at Goliad at once; the dead lie where they fell; the prisoners are held where they
+  were taken until Agua Dulce is fought, then walked out of the walked country toward Matamoros (to `matamoros-road`). When the
+  word comes (March 3, March 7) each family that had a man there is told, through somebody at home, *What happened*, *What yours
+  did*, *Why it ended so*, and where the accounts disagree; the card stays a day and the journal keeps it.
+- **Pace.** San Patricio's fighting (03:00-03:35) is 25 ticks, about 4 minutes at Study; Agua Dulce's charge and the minutes after
+  it about 3 1/2; both nights before are watched at twenty minutes a tick.
+
+Evidence: `tests/battle-south.test.mjs` (10), `tests/battle-view-south.test.mjs` (5), `tests/south-map.test.mjs` (6),
+`npm run test:battle-south` (15 checks, `docs/evidence/battle-south-browser.json`, screenshots in `docs/evidence/battle-south/`),
+`scripts/battle-south-injections.mjs` (`docs/evidence/battle-south-injections.json`).
+
+### 6.15 Limits of wave 2
+
+- ceiling: the horse guard at the ranch four miles out is told, never drawn; no family's man is put in it.
+- ceiling: the houses, the lit windows, the groves and the herd stand where this build set them (`FIC-GONZ-435`).
+- ceiling: the drive north is drawn in a straight line from the end of the walked road to the creek, within a mile of the road.
+- ceiling: the prisoners' guard is not drawn marching with them; a prisoner column on the engine is the way out.
+- The night, the riders, the herd and the groves are stand-ins (`docs/ART_REQUESTS.md`, request 2026-09-25 "the south's fights").
+
 ## 7. The storming of Béxar on the engine (2026-09-25, wave 2; not released)
 
 Built from `docs/battle-research/staging.md` §3 as the owner decided in §2b.3. Claims `HIST-TEX-490`–`-496` and
@@ -364,18 +429,21 @@ run) and §2b.2 (the massacre drawn as the battles are, no gore). Claims `HIST-T
 | Recall | `sim/winter.mjs` `FANNIN_MARCHES` | 09:00 on the director's clock (it was 06:00 read off the raw minute: shut at noon on the 18th). |
 | The map | `scripts/build-colonies-map.mjs` | A `coleto` field at the marker; the Goliad–Victoria road laid in two legs through it (only that road changed; checked by decoding). A class saved before keeps its map and the ground falls back to the marker's offset from Goliad. |
 
-### 8.2 What the engine gained (generic, additive)
+### 8.2 What the engine gained (generic, additive), and what it took from §6.13 and §7
+
+Coleto and Palm Sunday use §7's `groups`, `guns`, `flags` and staged fates (`stageFate`, `fatesDue`, `memberFates`) and
+§6.13's `light` (the night wash) and side `pose: 'surrender'`; neither keeps a mechanism of its own for those. Added:
 
 - **`square`** style: four faces of three ranks facing out, carts inside, fire by faces in turn and each face by its ranks; a
   member in it faces out of his own face; a hurt man is drawn brought in among the carts.
-- **`phase.light`** (`dusk`, `night`, `dawn`, `fog`): the field darkened under the flashes. `ceiling:` only while a fight is shown.
+- **`dusk` and `fog`** as lights: a lighter wash than §6.13's night. `ceiling:` only while a fight is shown.
 - **Per-phase `count`, `drawn`, `name`** on a side; `uncounted` sides (no number sent or labelled); `face` naming a ground point;
-  `action: 'surrender'` (hands raised); `commands[side].volley` (a side's own volley words); `named` groups labelled.
+  `commands[side].volley` (a side's own volley words); `named` groups labelled.
 - **Held steps of 60 and 240** as well as divisors of twenty: a march or a night held alike for every class (a `background`
   pace holds only while a played family is in the force, and the ticks after would fall on other minutes).
 - **`lyingOnField`**: a staged fate with `lies: true` puts `fallen: true` on the man's own family's entity until the word, so
-  he is drawn lying where he fell; `hollowness` in the page's evidence; a man who falls lies where he fell while his company
-  moves on; facing two places on one spot is east, not nowhere.
+  he is drawn lying where he fell; `hollowness` in the page's evidence; §6.13's rule that a fallen man lies where he fell now holds
+  for every body of men, not only parts; facing two places on one spot is east, not nowhere.
 
 ### 8.3 Pace (Study, 9.5 s a tick)
 

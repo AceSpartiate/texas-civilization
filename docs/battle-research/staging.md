@@ -953,6 +953,9 @@ Matamoros"); escaped → `kind 'fannin'` at Goliad. **Choices:** none; an escape
 | **FIC-GONZ-435** | **FICTIONAL FOR GAMEPLAY** | **San Patricio and Agua Dulce as staged** (`docs/battle-research/staging.md` §4). Invented here: San Patricio and the Agua Dulce ground as walkable places with a road from Refugio (if the owner chooses it); the date Grant's party rode south (about February 20); the join closing when a man could no longer reach San Patricio before the raid; a recall refused once his party's fight has happened, without revealing his fate; the phase lengths; how many of Urrea's men came into the town; the drawn dragoons at Agua Dulce; and every reconstructed line in §4.4. | |
 ```
 
+**Built 2026-09-25** on the engine with S1 (a) and S2 (a): docs/BATTLES.md §6.13-6.15, docs/MAP_ACCURACY.md §13; the rows of
+§4.10 are `HIST-TEX-510`, `-511`, `FIC-GONZ-435`, with `HIST-TEX-512`-`-514` and `FIC-GONZ-436` added.
+
 ### 4.11 Questions for the owner
 
 **S1. San Patricio is off the walkable map.**

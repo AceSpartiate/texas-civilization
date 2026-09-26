@@ -10,7 +10,8 @@
 //   end if they are alive and still serving (owner). A regular who is sent for has deserted: the glory is taken back
 //   twice over and they can never enlist again. An auxiliary can be sent for, and forfeits the land;
 // - **ride to Béxar and join the garrison** under Neill, Bowie and then Travis (`HIST-TEX-049`, `-051`);
-// - **go south to join the Matamoros men** (`HIST-TEX-049`), gathered at Refugio in the game;
+// - **go south to join the Matamoros men** (`HIST-TEX-049`), at San Patricio on the Nueces since 2026-09-25 (sim/south.mjs;
+//   at Refugio on a class whose map has no south);
 // - **vote on February 1** in the family's own settlement town, if a man of twenty-one or more (`HIST-TEX-052`).
 //
 // Each is a chore in `sim/chores.mjs` (the `winter` flag): it walks or rides there and the step below does the rest, so
@@ -24,6 +25,8 @@ import { record } from './events.mjs';
 import { awardGlory } from './glory.mjs';
 import { canAnswerCalls, canFight, cannotFightWhy, cannotAnswerWhy } from './family.mjs';
 import { campClock, houstonCamp, houstonOpen } from './houston.mjs';
+import { southClosing, southSite } from './south.mjs';
+import { battleState } from './battle-stage.mjs';
 
 /** Where each kind of service is joined, and what it promises. */
 export const SERVICE = Object.freeze({
@@ -32,8 +35,9 @@ export const SERVICE = Object.freeze({
   'auxiliary-year': { siteId: 'san-felipe', acres: 320, bound: false, name: 'the auxiliary volunteers, for a year', claimId: 'HIST-TEX-048', event: 'enlistment' },
   // ceiling: Neill's garrison was in the town and the Alamo; the game has one place for Béxar.
   garrison: { siteId: 'bexar', acres: 0, bound: false, name: 'the garrison at Béxar', claimId: 'HIST-TEX-051', event: 'garrison' },
-  // ceiling: Johnson and Grant were at San Patricio, which is not on the map; Refugio is where Houston met their men.
-  matamoros: { siteId: 'refugio', acres: 0, bound: false, name: 'the Matamoros expedition', claimId: 'HIST-TEX-049', event: 'matamoros' },
+  // At San Patricio since 2026-09-25, where Johnson and Grant took the men (`HIST-TEX-513`, docs/MAP_ACCURACY.md §13); a class
+  // whose map has no south joins at Refugio, where Houston met them (sim/south.mjs `southSite`).
+  matamoros: { siteId: 'san-patricio', acres: 0, bound: false, name: 'the Matamoros expedition', claimId: 'HIST-TEX-049', event: 'matamoros' },
   // The Alamo (sim/alamo.mjs): the men waiting at Gonzales to ride in with Kimbell and Martin, and those who got away from the
   // southern fights to Fannin at Goliad.
   relief: { siteId: 'gonzales', acres: 0, bound: false, name: 'the men going in from Gonzales', claimId: 'HIST-TEX-057', event: 'alamo' },
@@ -103,6 +107,8 @@ export function winterRefusal(world, household, entity, choreId) {
   // owner, 2026-09-16: women did not go to battle, and it is not offered them).
   if (!canFight(entity)) return cannotFightWhy(entity);
   if (['regular', 'auxiliary'].includes(kind) && entity.deserted) return `${entity.name} deserted the army and cannot enlist again.`;
+  // Honest about the road (docs/BATTLES.md §2.6): a man who could not reach Johnson's men before the raid is not sent.
+  if (kind === 'matamoros') return southClosing(world, household, entity);
   return null;
 }
 
@@ -116,13 +122,13 @@ export function joinService(world, household, entity, kind) {
     return record(world, 'consequence', { actorId: entity.id, householdId: household.id, importance: 2, text: kind === 'garrison' ? `${entity.name} reached Béxar too late: the Mexican army is in the town and the Alamo is shut.` : kind === 'relief' ? `${entity.name} reached Gonzales after the men for the Alamo had ridden.` : `${entity.name} found the volunteers gone from ${place(world, terms.siteId)}.` });
   }
   // Houston's army is wherever its camp is now; somebody who reaches an empty camp follows it (sim/houston.mjs `followCamp`).
-  const siteId = kind === 'houston' ? houstonCamp(world) : terms.siteId;
+  const siteId = kind === 'houston' ? houstonCamp(world) : kind === 'matamoros' ? southSite(world) : terms.siteId;
   entity.service = { kind, status: 'serving', since: world.minute, siteId, ...(terms.acres && { acres: terms.acres }) };
   const eventId = record(world, 'army', {
     actorId: entity.id, householdId: household.id, importance: 3, classification: 'DOCUMENTED', claimId: terms.claimId,
     text: terms.acres
       ? `${entity.name} put their name to the roll of ${terms.name} at ${place(world, terms.siteId)}, on the promise of ${terms.acres} acres of land.`
-      : `${entity.name} has joined ${terms.name} at ${place(world, terms.siteId)}.`,
+      : `${entity.name} has joined ${terms.name} at ${place(world, siteId)}.`,
   });
   // Glory now for enlisting (owner); the garrison and the expedition earn theirs from what they are there for, later.
   if (terms.acres) awardGlory(world, { event: 'enlistment', claimId: terms.claimId, personId: entity.id, householdId: household.id, role: 'enlisted', fromSiteId: terms.siteId, causes: [eventId] });
@@ -155,6 +161,16 @@ export function recallRefusal(entity, world = null) {
   // With Fannin from the morning of March 19 (sim/fannin.mjs): on the prairie, then a prisoner; nobody can be sent after them.
   if (entity?.service?.kind === 'fannin' && ['serving', 'prisoner'].includes(entity.service.status) && Number.isFinite(world?.minute) && world.minute >= FANNIN_MARCHES + campClock(world)) return `${entity.name} has marched out of Goliad with Fannin, and nobody can be sent after them.`;
   if (!serving(entity)) return `${entity.name} is not away with anybody to be sent for.`;
+  // In a southern fight, or once it has been fought: nobody can reach them, and the refusal says nothing of what became of them
+  // - the family learns that only with the word (staging.md §4.6 case d; a recall used to reach a man already dead or taken).
+  if (entity.service.kind === 'matamoros' && (entity.service.fight || entity.service.fate)) {
+    const where = entity.service.party === 'agua-dulce' ? "Grant's party south of the Nueces" : 'San Patricio';
+    const fight = world && entity.service.fight ? battleState(world, entity.service.fight) : null;
+    const begun = fight && !fight.before && world.minute >= fight.phases.find(phase => phase.contact).from;
+    return entity.service.fate || begun
+      ? `No word has come from ${where}. Nobody can reach ${entity.name} now.`
+      : `${entity.name} is with ${entity.service.party === 'agua-dulce' ? "Grant's party" : "Johnson's men at San Patricio"}, and nobody can reach them now.`;
+  }
   if (entity.service.besieged) return `${entity.name} is shut in the Alamo, and nobody can be sent for through the Mexican lines.`;
   if (entity.service.riding) return `${entity.name} has ridden for the Alamo with the Gonzales men.`;
   if (GONE.includes(entity.health?.condition)) return `${entity.name} cannot come home.`;
