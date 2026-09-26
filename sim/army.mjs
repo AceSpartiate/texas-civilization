@@ -12,10 +12,11 @@
 // step 6, researched before it is built.
 import { record } from './events.mjs';
 import { findWay } from './ways.mjs';
-import { WALK_SPEED, moveOnGround } from './travel.mjs';
+import { MODES, WALK_SPEED, moveOnGround } from './travel.mjs';
 import { awardGlory } from './glory.mjs';
-import { calendarMinutes } from './clock.mjs';
+import { calendarMinutes, dateOf } from './clock.mjs';
 import { modeWith } from './keeping.mjs';
+import { withAForce } from './battle-stage.mjs';
 
 /** Where the volunteers were made into an army, and where they went. */
 export const RENDEZVOUS = 'gonzales';
@@ -89,10 +90,13 @@ function fallIn(world, causeId, { beginTravel } = {}) {
   const army = world.army;
   for (const household of Object.values(world.households)) {
     for (const person of volunteersOf(world, household.id)) {
-      if (army.members.includes(person.id) || person.travel) continue;
+      // Somebody following the army's road (`followTheArmy`) falls in the moment they come up with it, on the road.
+      const following = person.travel?.purpose === 'follow';
+      if (army.members.includes(person.id) || (person.travel && !following)) continue;
       if (['dead', 'captured'].includes(person.health.condition)) continue;
       const near = Math.hypot(person.location.x - army.x, person.location.y - army.y) <= FALL_IN_MILES;
-      if (!near && person.location.siteId !== army.siteId) continue;
+      if (!near && (following || person.location.siteId !== army.siteId)) continue;
+      if (following) { person.travel = null; person.location = { ...person.location, siteId: army.siteId || OBJECTIVE }; }
       army.members.push(person.id);
       if (army.phase === 'marching') marchingTravel(world, person);
       askDetachment(world, person);
@@ -125,6 +129,115 @@ function marchingTravel(world, person) {
   person.location = { ...person.location, siteId: null };
 }
 
+/**
+ * Somebody back in the ranks from a detachment (Concepción, the Grass Fight): on the army's own halted journey again, where
+ * the ranks stand, as a man who fell in is. A person who is not in the army, or not able to march, is left as they are.
+ */
+export function rejoinRanks(world, person) {
+  const army = world.army;
+  if (!army || !person || !army.members.includes(person.id) || ['dead', 'captured'].includes(person.health?.condition)) return;
+  if (army.phase === 'marching') marchingTravel(world, person);
+  else { person.travel = null; person.location = { ...person.location, siteId: army.siteId || OBJECTIVE }; }
+  standInTheRanks(world);
+}
+
+/**
+ * The places a volunteer who promised to serve goes after the army from once it has marched: the rendezvous, and Victoria,
+ * where the coast's volunteers gathered (sim/calls.mjs) - as Alley's company went on from Goliad to the Salado by October 23
+ * (docs/battle-research/concepcion.md §3.2).
+ */
+export const FOLLOW_FROM = Object.freeze([RENDEZVOUS, 'victoria']);
+/**
+ * A volunteer standing at the rendezvous or at Victoria after the army has marched starts after it (owner's recommended answer
+ * C1 (a), docs/battle-research/staging.md §1.6; `FIC-GONZ-423`). The order book of October 26 sent reinforcements after the army
+ * along a trail blazed to Espada; this sends them the quickest way toward Béxar, turned off toward wherever the army stands
+ * now, and `fallIn` takes them in the moment they come within a mile and a half of it. Somebody who reaches where it was and
+ * finds it gone on sets out again from there. On the horse they came with, or on foot.
+ * ceiling: aimed at where the army is when they set out, not where it will be; a marching army is caught by the next leg.
+ */
+export function followTheArmy(world, { beginTravel }) {
+  const army = world.army;
+  if (!army?.road || army.phase !== 'marching') return;
+  army.followers ??= {};
+  for (const household of Object.values(world.households)) {
+    for (const person of volunteersOf(world, household.id)) {
+      if (army.members.includes(person.id) || person.travel || !person.location.siteId) continue;
+      if (['dead', 'captured', 'wounded'].includes(person.health?.condition) || withAForce(world, person.id)) continue;
+      const at = person.location.siteId;
+      const again = army.followers[person.id] && at === OBJECTIVE;
+      if (!FOLLOW_FROM.includes(at) && !again) continue;
+      if (Math.hypot(person.location.x - army.x, person.location.y - army.y) <= FALL_IN_MILES) continue;
+      const causeId = record(world, 'army', {
+        actorId: person.id, householdId: household.id, importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-423',
+        text: again ? `${person.name} found the army gone on, and set out after it again.` : `${person.name} set out after the army, which has marched on toward ${world.map.sites[OBJECTIVE].name}.`,
+      });
+      const target = { x: army.x, y: army.y };
+      if (!beginFollow(world, person, target, causeId, beginTravel)) continue;
+      army.followers[person.id] = { minute: world.minute, from: at };
+    }
+  }
+}
+/** A journey toward the army: the road toward Béxar, cut where it comes nearest the army and ended beside it. */
+function beginFollow(world, person, target, causeId, beginTravel) {
+  const mode = modeWith(world, person);
+  const here = { x: person.location.x, y: person.location.y };
+  if (person.location.siteId === OBJECTIVE) {
+    // Already at the town's own place (where a last leg ended): straight across to the army.
+    const distance = Math.hypot(target.x - here.x, target.y - here.y);
+    if (distance < 1e-6) return false;
+    person.travel = { from: OBJECTIVE, to: OBJECTIVE, points: [here, target], progress: 0, distance, speed: (MODES[mode] || MODES.foot).speed, mode, purpose: 'follow', causeId, settle: { ...target, task: 'rest' } };
+    person.location = { ...here, siteId: null }; person.task = 'travel';
+    return true;
+  }
+  for (const how of [mode, 'foot']) {
+    try { beginTravel(world, person, OBJECTIVE, causeId, 'follow', how); break; } catch { if (how === 'foot') return false; }
+  }
+  const travel = person.travel;
+  if (!travel) return false;
+  // Cut where the road comes nearest the army, and across to it.
+  let best = Infinity, cut = null;
+  for (let i = 1; i < travel.points.length; i++) {
+    const a = travel.points[i - 1], b = travel.points[i], dx = b.x - a.x, dy = b.y - a.y, length = Math.hypot(dx, dy);
+    const t = length ? Math.max(0, Math.min(1, ((target.x - a.x) * dx + (target.y - a.y) * dy) / (length * length))) : 0;
+    const q = { x: a.x + dx * t, y: a.y + dy * t }, off = Math.hypot(q.x - target.x, q.y - target.y);
+    if (off < best - 1e-9) { best = off; cut = { segment: i - 1, q }; }
+  }
+  const points = [...travel.points.slice(0, cut.segment + 1), cut.q, target];
+  let distance = 0, along = 0;
+  for (let i = 1; i < points.length; i++) { const d = Math.hypot(points[i].x - points[i - 1].x, points[i].y - points[i - 1].y); distance += d; if (i <= cut.segment + 1) along += d; }
+  travel.points = points; travel.distance = distance;
+  if (travel.pace) { travel.pace = travel.pace.filter(([segment]) => segment < cut.segment + 1); if (!travel.pace.length) delete travel.pace; }
+  if (travel.fords) { travel.fords = travel.fords.filter(ford => ford.at <= along); if (!travel.fords.length) delete travel.fords; }
+  travel.settle = { x: target.x, y: target.y, task: 'rest' };
+  // A horse ridden after the army goes the same way and stops where its rider stops.
+  for (const beast of Object.values(world.entities)) {
+    if (beast.borrowedBy !== person.id || beast.travel?.to !== OBJECTIVE || beast.travel === travel) continue;
+    beast.travel.points = points; beast.travel.distance = distance; delete beast.travel.pace; delete beast.travel.fords;
+    beast.travel.progress = Math.min(beast.travel.progress, distance); beast.travel.settle = { ...travel.settle, task: 'rest' };
+  }
+  return true;
+}
+/**
+ * What a turn-out card says once the army has marched (staging.md §1.6 fix 5, `FIC-GONZ-423`): where the army is, when a man
+ * riding or walking from here would catch it, and - if that is after the division leaves Espada (`deadline`) - that he will
+ * not be in time for anything the army does before the end of the month. The offer stays valid either way.
+ * ceiling: straight-line miles with a quarter added for the road, at a campaign day's riding (35) or walking (21); the real
+ * road's own distance, from sim/ways.mjs, is the way out.
+ */
+export function armyArrivalWords(world, entity, gatherId, deadline = null) {
+  const army = world.army, gather = world.map.sites[gatherId];
+  if (!army || army.phase !== 'marching' || !gather || !entity?.location) return '';
+  const miles = 1.25 * (Math.hypot(gather.x - entity.location.x, gather.y - entity.location.y) + Math.hypot(army.x - gather.x, army.y - gather.y));
+  const day = minutes => { const date = dateOf(world, minutes); return `the ${ordinal(date.getUTCDate())} of ${MONTHS[date.getUTCMonth()]}`; };
+  const riding = world.minute + Math.ceil(miles / 35 * 1440), walking = world.minute + Math.ceil(miles / 21 * 1440);
+  const where = army.camp ? `camped at ${army.camp}` : `on the road to ${world.map.sites[OBJECTIVE].name}`;
+  const late = Number.isFinite(deadline) && world.minute < deadline + 4 * 1440 && riding > deadline
+    ? ` That is too late for anything the army does before the end of the month.` : '';
+  return ` The army has already marched and is ${where}. Riding, ${entity.name} would catch it about ${day(riding)}; on foot, about ${day(walking)}.${late}`;
+}
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const ordinal = n => `${n}${n % 10 === 1 && n !== 11 ? 'st' : n % 10 === 2 && n !== 12 ? 'nd' : n % 10 === 3 && n !== 13 ? 'rd' : 'th'}`;
+
 /** Where a person standing with the army is drawn: in its ranks, four abreast, behind its point. */
 function standInTheRanks(world) {
   const army = world.army;
@@ -137,6 +250,9 @@ function standInTheRanks(world) {
     // Only a journey of the army's own: somebody sent for is on a road of their own and is out of
     // the ranks already, and nobody is dragged out of a journey they were given by anything else.
     if (!person || (person.travel && person.travel.purpose !== 'march')) return;
+    // Nor anybody out with a detachment in a fight (sim/battle-stage.mjs `withAForce`): the director that owns the fight
+    // stands them in it, and puts them back in the ranks (`rejoinRanks`) when it is over.
+    if (withAForce(world, id)) return;
     if (person.travel) person.travel.progress = army.progress;
     const row = Math.floor(slot / 4), column = (slot % 4) - 1.5;
     person.location = {
@@ -206,6 +322,9 @@ export function advanceArmy(world, { hold = null, beginTravel } = {}) {
     // somebody in it stays on the army's journey. The dead and the sent-for are the ones who leave it.
   }
   army.camp = army.phase === 'marching' ? campOf(army, hold) : null;
+  // Somebody who reached the rendezvous after the army marched, or the coast's gathering at Victoria, goes after it along its
+  // road and falls in when they come up with it (docs/battle-research/staging.md §1.6, C1 (a); `FIC-GONZ-423`).
+  if (beginTravel && army.phase === 'marching') followTheArmy(world, { beginTravel });
   // Somebody who reached the rendezvous late, or caught the column up, falls in where they are.
   fallIn(world, army.causeId, { beginTravel });
   standInTheRanks(world);
@@ -503,51 +622,70 @@ export function fightConcepcion(world, causeId) {
   const asks = army.detachment?.asks || {};
   const fought = army.members.filter(id => asks[id] === 'go');
   const present = army.members.filter(id => asks[id] !== 'go');
-  if (!world.participation) world.participation = {};
-  const taking = world.participation.concepcion ??= {};
   const bexar = world.map.sites[OBJECTIVE];
   const killed = [], wounded = [];
   for (const { person, fate } of rollFates(world, fought, { event: 'concepcion', death: CONCEPCION_DEATH_RISK, wound: CONCEPCION_WOUND_RISK })) {
-    const dies = fate === 'killed', hurt = fate === 'wounded';
-    taking[person.id] = { householdId: person.householdId, role: 'fought', minute: world.minute };
-    const woman = person.sex === 'female';
-    const base = awardGlory(world, { event: 'concepcion', claimId: 'HIST-TEX-020', personId: person.id, householdId: person.householdId, role: 'fought', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [], ...(woman && dies && { adjust: points => -2 * points, note: 'In 1835, sending a woman to fight was held against a family. (This is the game’s own reading of the period, not a documented judgement.)' }) });
-    void base;
-    if (dies) {
-      killed.push(person.id);
-      army.members = army.members.filter(member => member !== person.id);
-      person.health = { condition: 'dead' };
-      person.travel = null;
-      person.task = 'rest';
-      person.location = { x: bexar.x + MISSIONS.concepcion.dx, y: bexar.y + MISSIONS.concepcion.dy, siteId: OBJECTIVE };
-      const promise = person.commitments?.find(p => p.id === 'volunteer' && p.status === 'active');
-      if (promise) promise.status = 'ended';
-      record(world, 'consequence', {
-        actorId: person.id, householdId: person.householdId, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-039', causes: causeId ? [causeId] : [],
-        text: `${person.name} was killed in the fight at Mission Concepción on the morning of October 28, and was buried there under the pecans by the river.`,
-      });
-    } else if (hurt) {
-      wounded.push(person.id);
-      person.health = { condition: 'minor-injury', recoversAt: world.minute + MEND_MINUTES };
-      record(world, 'consequence', {
-        actorId: person.id, householdId: person.householdId, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-039', causes: causeId ? [causeId] : [],
-        text: `${person.name} was hurt in the fight at Mission Concepción, and will be days mending.`,
-      });
-    } else {
-      record(world, 'consequence', {
-        actorId: person.id, householdId: person.householdId, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-039', causes: causeId ? [causeId] : [],
-        text: `${person.name} fought with Bowie and Fannin's men at Mission Concepción and came through unhurt.`,
-      });
-    }
+    resolveConcepcionFighter(world, person, fate, { causeId, at: { x: bexar.x + MISSIONS.concepcion.dx, y: bexar.y + MISSIONS.concepcion.dy } });
+    tellConcepcionFighter(world, person, fate, causeId);
+    if (fate === 'killed') killed.push(person.id);
+    else if (fate === 'wounded') wounded.push(person.id);
   }
-  for (const id of present) {
-    const person = world.entities[id];
-    if (!person?.householdId || taking[id]) continue;
-    taking[id] = { householdId: person.householdId, role: 'present', minute: world.minute };
-    awardGlory(world, { event: 'concepcion', claimId: 'HIST-TEX-021', personId: id, householdId: person.householdId, role: 'present', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [] });
-    record(world, 'army', { actorId: id, householdId: person.householdId, importance: 2, classification: 'DOCUMENTED', claimId: 'HIST-TEX-021', text: `${person.name} was with the main army at Espada, and came up an hour after the fight was over.` });
-  }
+  for (const id of present) concepcionPresent(world, id, causeId);
   return { fought, present, killed, wounded };
+}
+
+/**
+ * One fighter's fate at Concepción: the seeded roll `fightConcepcion` makes for everybody at once, made for one person, so the
+ * engine can resolve it at the moment it falls inside the fighting (docs/BATTLES.md §2.6, `FIC-GONZ-422`). Reloading a class
+ * never re-rolls it: the same seed, person and battle give the same fate.
+ */
+export const concepcionFate = (world, id) => rollFates(world, [id], { event: 'concepcion', death: CONCEPCION_DEATH_RISK, wound: CONCEPCION_WOUND_RISK })[0].fate;
+
+/**
+ * What a fighter's fate does to them, at the moment it falls: the part their family took (`fought`, glory, sealed), and a
+ * wound or a death. The killed are out of the ranks and lie where they fell (`at`, or where they stand). Nothing is told to
+ * the family here; `tellConcepcionFighter` writes what they are told, when the word comes.
+ */
+export function resolveConcepcionFighter(world, person, fate, { causeId = null, at = null } = {}) {
+  const army = world.army;
+  if (!world.participation) world.participation = {};
+  const taking = world.participation.concepcion ??= {};
+  if (taking[person.id]?.role === 'fought') return;
+  const dies = fate === 'killed', hurt = fate === 'wounded';
+  taking[person.id] = { householdId: person.householdId, role: 'fought', minute: world.minute };
+  const woman = person.sex === 'female';
+  awardGlory(world, { event: 'concepcion', claimId: 'HIST-TEX-020', personId: person.id, householdId: person.householdId, role: 'fought', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [], ...(woman && dies && { adjust: points => -2 * points, note: 'In 1835, sending a woman to fight was held against a family. (This is the game’s own reading of the period, not a documented judgement.)' }) });
+  if (dies) {
+    if (army) army.members = army.members.filter(member => member !== person.id);
+    person.health = { condition: 'dead' };
+    person.travel = null;
+    person.task = 'rest';
+    const where = at || person.location;
+    person.location = { x: where.x, y: where.y, siteId: OBJECTIVE };
+    const promise = person.commitments?.find(p => p.id === 'volunteer' && p.status === 'active');
+    if (promise) promise.status = 'ended';
+  } else if (hurt) {
+    person.health = { condition: 'minor-injury', recoversAt: world.minute + MEND_MINUTES };
+  }
+}
+
+/** The line a family's journal keeps of what happened to its fighter at Concepción. */
+export function tellConcepcionFighter(world, person, fate, causeId = null) {
+  const text = fate === 'killed' ? `${person.name} was killed in the fight at Mission Concepción on the morning of October 28, and was buried there under the pecans by the river.`
+    : fate === 'wounded' ? `${person.name} was hurt in the fight at Mission Concepción, and will be days mending.`
+      : `${person.name} fought with Bowie and Fannin's men at Mission Concepción and came through unhurt.`;
+  return record(world, 'consequence', { actorId: person.id, householdId: person.householdId, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-039', causes: causeId ? [causeId] : [], text });
+}
+
+/** Somebody with the main army at Espada, who came up after it was over (`HIST-TEX-021`): present, and told so. */
+export function concepcionPresent(world, id, causeId = null) {
+  const person = world.entities[id];
+  if (!world.participation) world.participation = {};
+  const taking = world.participation.concepcion ??= {};
+  if (!person?.householdId || taking[id]) return;
+  taking[id] = { householdId: person.householdId, role: 'present', minute: world.minute };
+  awardGlory(world, { event: 'concepcion', claimId: 'HIST-TEX-021', personId: id, householdId: person.householdId, role: 'present', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [] });
+  record(world, 'army', { actorId: id, householdId: person.householdId, importance: 2, classification: 'DOCUMENTED', claimId: 'HIST-TEX-021', text: `${person.name} was with the main army at Espada, and came up an hour after the fight was over.` });
 }
 
 // ------------------------------------------------------------------------------------ build step 6: the siege and the Grass Fight
@@ -609,9 +747,12 @@ export const ARMY_QUESTIONS = {
     said: { yes: name => `${name} pledged to stay before Béxar.`, no: name => `${name} did not pledge, and started home.` },
   },
   // November 26: Bowie's horsemen and Jack's infantry "from different companies", about a third of the camp.
+  // Since 2026-09-25 a yes is a departure: the man goes out with Bowie's horsemen if his horse is with him, or with Jack's
+  // infantry, when they ride out (sim/concepcion-grass.mjs, docs/battle-research/staging.md §2.6). A man away from the camp's
+  // ranks - out with another party - is not asked.
   grass: {
-    claimId: 'HIST-TEX-032', unplayed: 0.33,
-    ask: name => `Deaf Smith has ridden in: a Mexican pack train is coming in from the west, and the camp says it carries the silver to pay the garrison. Bowie and Jack are taking men out after it. Does ${name} go?`,
+    claimId: 'HIST-TEX-032', unplayed: 0.33, who: (world, person) => person.travel?.purpose === 'march' && !withAForce(world, person.id),
+    ask: name => `Deaf Smith has ridden in: there's a Mexican pack train coming in from the west with cavalry, and the camp says it carries the silver to pay the soldiers. Bowie is taking the horsemen and Jack the men on foot. Does ${name} go?`,
     yes: name => `${name} goes out after the train`, no: name => `${name} stays in camp`,
     said: { yes: name => `${name} went out after the pack train.`, no: name => `${name} stayed in camp.` },
   },
@@ -796,32 +937,55 @@ export function fightGrass(world, causeId, { beginTravel } = {}) {
   const outcomes = [], ran = [], wounded = [];
   for (const id of fought) {
     const person = world.entities[id];
-    const runs = unit(`${world.seed}:${id}:grass-run`) < GRASS_RUN_RISK;
-    const hurt = !runs && unit(`${world.seed}:${id}:grass`) < GRASS_WOUND_RISK * frailty(person);
-    taking[id] = { householdId: person.householdId, role: runs ? 'ran' : 'fought', minute: world.minute };
-    awardGlory(world, {
-      event: 'grass-fight', claimId: 'HIST-TEX-031', personId: id, householdId: person.householdId, role: 'fought', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [],
-      ...(runs && { adjust: points => -points, note: 'They ran from the field and went home, and it was held against the family. (This is the game’s own reading; the record punishes nobody for going home.)' }),
-    });
-    if (runs) {
-      ran.push(id);
-      leaveArmy(world, person, { beginTravel, text: null });
-      outcomes.push({ id, fate: 'ran' });
-    } else if (hurt) {
-      wounded.push(id);
-      person.health = { condition: 'minor-injury', recoversAt: world.minute + MEND_MINUTES };
-      outcomes.push({ id, fate: 'wounded' });
-    } else outcomes.push({ id, fate: 'unhurt' });
+    const fate = grassFate(world, person);
+    resolveGrassFighter(world, person, fate, { beginTravel, causeId, outcomes });
+    if (fate === 'ran') ran.push(id);
+    else if (fate === 'wounded') wounded.push(id);
   }
-  for (const id of present) {
-    const person = world.entities[id];
-    if (!person?.householdId || taking[id]) continue;
-    taking[id] = { householdId: person.householdId, role: 'present', minute: world.minute };
-    awardGlory(world, { event: 'grass-fight', claimId: 'HIST-TEX-032', personId: id, householdId: person.householdId, role: 'present', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [] });
-    outcomes.push({ id, fate: 'present' });
-  }
+  for (const id of present) grassPresent(world, id, { causeId, outcomes });
+  void taking;
   army.grass = { outcomes, told: false, minute: world.minute };
   return { fought, present, ran, wounded };
+}
+
+/**
+ * One fighter's fate at the Grass Fight, from the seeded rolls `fightGrass` makes (owner's bounds, §7b): 'ran', 'wounded' or
+ * 'unhurt'. The same seed and person always give the same fate, so the engine can resolve it at its moment inside the
+ * fighting (docs/BATTLES.md §2.6, `FIC-GONZ-422`) and a reloaded class never re-rolls it.
+ */
+export function grassFate(world, person) {
+  const runs = unit(`${world.seed}:${person.id}:grass-run`) < GRASS_RUN_RISK;
+  const hurt = !runs && unit(`${world.seed}:${person.id}:grass`) < GRASS_WOUND_RISK * frailty(person);
+  return runs ? 'ran' : hurt ? 'wounded' : 'unhurt';
+}
+/**
+ * What a fighter's fate does at the moment it falls: the part taken, and its glory (a man who ran has it turned the other way,
+ * owner §7b), a slight wound, or the run itself - out of the ranks and on the road home. Recorded in `outcomes` (the army's
+ * `grass` record, told when the word rides home) once each.
+ */
+export function resolveGrassFighter(world, person, fate, { beginTravel, causeId = null, outcomes = null } = {}) {
+  world.participation ??= {};
+  const taking = world.participation['grass-fight'] ??= {};
+  if (taking[person.id] && taking[person.id].role !== 'present') return;
+  const runs = fate === 'ran';
+  taking[person.id] = { householdId: person.householdId, role: runs ? 'ran' : 'fought', minute: world.minute };
+  awardGlory(world, {
+    event: 'grass-fight', claimId: 'HIST-TEX-031', personId: person.id, householdId: person.householdId, role: 'fought', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [],
+    ...(runs && { adjust: points => -points, note: 'They ran from the field and went home, and it was held against the family. (This is the game’s own reading; the record punishes nobody for going home.)' }),
+  });
+  if (runs) leaveArmy(world, person, { beginTravel, text: null });
+  else if (fate === 'wounded') person.health = { condition: 'minor-injury', recoversAt: world.minute + MEND_MINUTES };
+  outcomes?.push({ id: person.id, fate });
+}
+/** Somebody who stayed in the camp at the mill while the others went out: present. */
+export function grassPresent(world, id, { causeId = null, outcomes = null } = {}) {
+  const person = world.entities[id];
+  world.participation ??= {};
+  const taking = world.participation['grass-fight'] ??= {};
+  if (!person?.householdId || taking[id]) return;
+  taking[id] = { householdId: person.householdId, role: 'present', minute: world.minute };
+  awardGlory(world, { event: 'grass-fight', claimId: 'HIST-TEX-032', personId: id, householdId: person.householdId, role: 'present', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [] });
+  outcomes?.push({ id, fate: 'present' });
 }
 
 /** Word of the Grass Fight reaches a family: what happened to their own person, days after it happened (owner, §7b). */

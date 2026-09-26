@@ -56,7 +56,9 @@ const campaign = () => shared ??= (() => {
   seen.again = (() => { try { applyAction(world, household.id, { action: 'detachment-stay', entityId: person.id }); return null; } catch (error) { return error.message; } })();
   untilMinute(world, momentOf(world, 'concepcion') - 1440);
   seen.espada = { camp: world.army.camp };
-  untilMinute(world, momentOf(world, 'concepcion') + 1);
+  // Since 2026-09-25 the main body comes up from Espada when the firing is heard at eight, and is at Concepción by ten
+  // (sim/concepcion-grass.mjs `concepcionArmyProgress`, `HIST-TEX-481`).
+  untilMinute(world, momentOf(world, 'concepcion') + 120);
   seen.concepcion = { camp: world.army.camp, y: world.army.y };
   until(world, () => world.director.complete);
   validateWorld(world);
@@ -113,7 +115,10 @@ test('an unanswered family\'s volunteer stays with the main army, and a voluntee
   const { world, household, person } = withVolunteer('concepcion-unanswered');
   untilMinute(world, momentOf(world, 'detachment') + 1);
   assert.equal(world.army.detachment.asks[person.id], 'open');
+  // The question stays open until the division leaves Espada on the 27th (since 2026-09-25, staging.md §1.6 fix 2).
   untilMinute(world, momentOf(world, 'to-espada') + 1);
+  assert.equal(world.army.detachment.asks[person.id], 'open', 'the question shut when the army moved to Espada');
+  untilMinute(world, momentOf(world, 'detachment-out'));
   // Nobody answering in time is answered as auto answers (sim/auto.mjs), at the detachment's share, and the story says so.
   const decided = world.army.detachment.asks[person.id];
   assert.ok(['go', 'stay'].includes(decided), `the unanswered volunteer was left ${decided}`);

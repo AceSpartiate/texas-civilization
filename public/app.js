@@ -1273,7 +1273,8 @@ const clampTo = (value, limits) => Math.max(limits.min, Math.min(limits.max, val
  */
 const fieldFrame = points => points.flatMap(point => [{ x: point.x - 0.13, y: point.y - 0.24 }, { x: point.x + 0.13, y: point.y + 0.1 }]);
 // Each side where it stands, and the gun (public/battle-view.js draws them there).
-const battlePoints = world => [...(world.battle?.sides || world.battle?.formations || []), ...(world.battle?.cannon ? [world.battle.cannon] : [])].map(point => ({ x: point.x, y: point.y }));
+// A side or group that has left the field (`action: 'gone'`) is not framed: the Mexicans gone toward Béxar at Concepción.
+const battlePoints = world => [...(world.battle?.sides?.filter(side => side.action !== 'gone') || world.battle?.formations || []), ...(world.battle?.cannon ? [world.battle.cannon] : [])].map(point => ({ x: point.x, y: point.y }));
 function framingFor(world) {
   // The country outside the box (docs/MAP_ACCURACY.md §11) is drawn where it is, but it never frames a view: framing the
   // region on Matamoros, 250 miles south of the colonies, would shrink the settlements to nothing. The map still zooms out
