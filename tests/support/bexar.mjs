@@ -42,7 +42,13 @@ export function bexarClass(seed, roles = ['fighter', 'reserve', 'reinforce', 'ho
     const person = grownMan(world, household);
     people[role] ??= [];
     people[role].push({ household, person });
-    if (role === 'home') { world.army.members = world.army.members.filter(id => world.entities[id].householdId !== household.id); return; }
+    // Nobody in the army: out of its ranks, and nobody of theirs still promised to it, or they would go after it (sim/army.mjs
+    // `followTheArmy`, since 2026-09-25).
+    if (role === 'home') {
+      world.army.members = world.army.members.filter(id => world.entities[id].householdId !== household.id);
+      for (const id of household.members) for (const promise of world.entities[id]?.commitments || []) if (promise.id === 'volunteer' && promise.status === 'active') promise.status = 'ended';
+      return;
+    }
     person.commitments = [...(person.commitments || []).filter(p => p.id !== 'volunteer'), { id: 'volunteer', type: 'service', status: 'active' }];
     person.travel = null; person.location = { ...world.map.sites.gonzales, siteId: 'gonzales' };
     if (!world.army.members.includes(person.id)) world.army.members.push(person.id);

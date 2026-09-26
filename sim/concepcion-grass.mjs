@@ -153,6 +153,9 @@ export function advanceConcepcion(world, movement, { momentOf, sendWord }) {
   battle.fates ||= {}; battle.done ||= {};
   const state = battleState(world, 'concepcion');
   if (!state || state.before) return;
+  // A class whose clock was carried past the whole fight without a tick inside it keeps it as never fought here.
+  if (state.over && !battle.done.out) { battle.done.out = battle.done.word = battle.done.present = world.minute; battle.done.skipped = true; return; }
+  if (battle.done.skipped) return;
   const phaseId = state.phase.id, army = world.army;
   const ground = CONCEPCION.ground(world);
 
@@ -307,6 +310,9 @@ export function advanceGrassFight(world, movement, { momentOf }) {
   battle.fates ||= {}; battle.done ||= {}; battle.outcomes ||= [];
   const state = battleState(world, 'grass-fight');
   if (!state || state.before) return;
+  // A class whose clock was carried past the whole fight without a tick inside it (a test set to a later day) keeps it as never
+  // fought here: nobody is told of a fight nobody was sent to.
+  if (state.over && !battle.done.closed) { battle.done.closed = battle.done.settled = battle.done.accounts = world.minute; return; }
   const phaseId = state.phase.id, army = world.army;
   const beginTravel = movement?.beginTravel;
   const rideOut = phaseOf(state, 'ride-out').from;
@@ -471,7 +477,7 @@ export function campaignBattleProjection(world, householdId, role) {
       }
       // The card stays a day, and at least long enough to read: a day of the campaign calendar is only two ticks.
       const told = battle.told?.[householdId];
-      const showing = told && (world.minute - told.minute <= 1440 || world.tick - (told.tick ?? -Infinity) <= ACCOUNT_TICKS);
+      const showing = told && (world.minute - told.minute <= 1440 || world.tick - (told.tick ?? -Infinity) <= ACCOUNT_TICKS && world.minute - told.minute <= 3 * 1440);
       if (showing && world.entities[told.entityId] && !out.battleAccount) {
         out.battleAccount = { id: `account:${id}:${householdId}`, entityId: told.entityId, title: told.title, text: told.text };
       }
