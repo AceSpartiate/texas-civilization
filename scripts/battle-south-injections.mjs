@@ -105,6 +105,8 @@ function runBrowser() {
 }
 
 const which = process.argv[2] || 'all';
+// `--only <name>` runs that one injection (and the gate clean before and after) and keeps every other result as recorded.
+const only = process.argv.includes('--only') ? process.argv[process.argv.indexOf('--only') + 1] : null;
 const record = { unit: [], browser: [] };
 const evidencePath = 'docs/evidence/battle-south-injections.json';
 let previous = {};
@@ -113,7 +115,7 @@ try { previous = JSON.parse(readFileSync(evidencePath, 'utf8')); } catch { /* th
 if (which === 'all' || which === 'unit') {
   const files = [...new Set(UNIT.map(one => one.test))];
   for (const file of files) { const clean = runUnit(file); if (!clean.passed) throw new Error(`${file} fails before any injection: ${clean.failed.join('; ')}`); }
-  for (const injection of UNIT) {
+  for (const injection of UNIT.filter(one => !only || one.name === only)) {
     const seen = inject(injection, () => runUnit(injection.test));
     const caught = !seen.passed && seen.failed.length === 1 && seen.failed[0] === injection.expect;
     record.unit.push({ name: injection.name, file: injection.file, test: injection.test, expect: injection.expect, caught, failed: seen.failed });
@@ -125,7 +127,7 @@ if (which === 'all' || which === 'browser') {
   const clean = runBrowser();
   if (!clean.passed) throw new Error(`The browser gate fails before any injection: ${clean.failure}`);
   record.cleanBrowserChecks = clean.checks;
-  for (const injection of BROWSER) {
+  for (const injection of BROWSER.filter(one => !only || one.name === only)) {
     const seen = inject(injection, runBrowser);
     const caught = !seen.passed && Boolean(seen.failure?.includes(injection.expect));
     record.browser.push({ name: injection.name, file: injection.file, expect: injection.expect, caught, failure: seen.failure, checksPassedFirst: seen.checks });
@@ -135,11 +137,13 @@ if (which === 'all' || which === 'browser') {
   if (!after.passed) throw new Error(`The browser gate fails after every file was put back: ${after.failure}`);
 }
 mkdirSync('docs/evidence', { recursive: true });
+/** This run's results in the order the list has them, over what was recorded before for the injections not run now. */
+const keep = (now, before = []) => now.length ? (only ? before.map(one => now.find(run => run.name === one.name) || one) : now) : before;
 const merged = {
   record: 'battle-south-injections', date: new Date().toISOString().slice(0, 10),
   gates: { unit: `node --test ${[SOUTH, MAP, VIEW].join(', ')}: the named test and no other`, browser: 'scripts/battle-south-browser-proof.mjs' },
-  unit: record.unit.length ? record.unit : previous.unit || [],
-  browser: record.browser.length ? record.browser : previous.browser || [],
+  unit: keep(record.unit, previous.unit),
+  browser: keep(record.browser, previous.browser),
   cleanBrowserChecks: record.cleanBrowserChecks ?? previous.cleanBrowserChecks ?? null,
   environment: 'Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768.',
 };

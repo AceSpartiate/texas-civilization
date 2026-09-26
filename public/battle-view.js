@@ -410,7 +410,8 @@ export function createBattleView(art) {
       const wait = WAIT_MIN_MS + hash(`${seed}:hw`) * WAIT_SPAN_MS, cycle = FIRE_CLIP_MS + wait, shifted = time + hash(`${seed}:hp`) * 20000;
       const t = shifted % cycle, shotKey = `${seed}:h${Math.floor(shifted / cycle)}`;
       if (t >= wait + AIM_MS && t < wait + AIM_MS + 400 && !view.shotsSeen.has(shotKey)) {
-        view.shotsSeen.add(shotKey); shots++; view.shotsBy.texian = (view.shotsBy.texian || 0) + 1;
+        // Counted apart too (`houses`), so a proof can tell the houses' own fire from the men in the open.
+        view.shotsSeen.add(shotKey); shots++; view.shotsBy.texian = (view.shotsBy.texian || 0) + 1; view.shotsBy.houses = (view.shotsBy.houses || 0) + 1;
         puff(ground.x + (right ? 1 : -1) * 0.004, ground.y - 0.008, now, { wind }); flash(ground.x, ground.y - 0.004, right, now, 0.8);
       }
     }

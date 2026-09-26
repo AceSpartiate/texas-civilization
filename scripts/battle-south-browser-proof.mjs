@@ -159,8 +159,9 @@ try {
   for (const one of sp.filter(s => s.view)) assert.equal(one.view.night, true, `San Patricio was drawn by day at ${one.minute}`);
   for (let i = 1; i < fighting.length; i++) assert.ok(fighting[i].view.shotsTotal > fighting[i - 1].view.shotsTotal, `no shot between two moments of San Patricio (${fighting[i - 1].minute} -> ${fighting[i].minute})`);
   assert.ok(fighting.every(one => one.view.smokeInView >= 3), `no smoke on screen at some moment: ${fighting.map(one => one.view.smokeInView).join(',')}`);
-  assert.ok(fighting.some(one => (one.view.shotsBy.texian || 0) > 0), 'the Texians never fired back from the houses');
-  ok(`at San Patricio it is night at every sampled moment, with fire and smoke on the screen at each of ${fighting.length} moments of the fighting (shots ${fighting[0].view.shotsTotal} -> ${fighting.at(-1).view.shotsTotal}, Texian ${fighting.at(-1).view.shotsBy.texian || 0})`);
+  // The house that fought back: shots from inside it, nobody of it drawn (`shotsBy.houses`), not only the men on the square.
+  assert.ok(fighting.some(one => (one.view.shotsBy.houses || 0) > 0), 'the Texians never fired back from the houses');
+  ok(`at San Patricio it is night at every sampled moment, with fire and smoke on the screen at each of ${fighting.length} moments of the fighting (shots ${fighting[0].view.shotsTotal} -> ${fighting.at(-1).view.shotsTotal}, Texian ${fighting.at(-1).view.shotsBy.texian || 0}, from the houses ${fighting.at(-1).view.shotsBy.houses || 0})`);
   const spSaid = await johnson.evaluate(() => window.__battleView?.linesShown || []);
   assert.ok(spSaid.some(id => ['sp-quien', 'sp-rindanse', 'sp-fuego', 'sp-arriba'].includes(id)) && spSaid.some(id => ['sp-square', 'sp-back', 'sp-done'].includes(id)), `no words drawn for one side or the other: ${spSaid.join(', ')}`);
   ok(`words drawn over the speakers at San Patricio: ${spSaid.join(', ')}`);

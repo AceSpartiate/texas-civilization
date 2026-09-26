@@ -157,7 +157,72 @@
       ]
     }
   ],
-  "browser": [],
-  "cleanBrowserChecks": null,
+  "browser": [
+    {
+      "name": "the houses never fire back",
+      "file": "public/battle-view.js",
+      "expect": "the Texians never fired back from the houses",
+      "caught": false,
+      "failure": null,
+      "checksPassedFirst": 15
+    },
+    {
+      "name": "San Patricio drawn by day",
+      "file": "public/battle-view.js",
+      "expect": "was drawn by day",
+      "caught": true,
+      "failure": "San Patricio was drawn by day at 218703",
+      "checksPassedFirst": 5
+    },
+    {
+      "name": "the man's fate on his page before it happens",
+      "file": "sim/battle-stage.mjs",
+      "expect": "his fate was drawn at",
+      "caught": true,
+      "failure": "his fate was drawn at 218703, before its moment 218711",
+      "checksPassedFirst": 7
+    },
+    {
+      "name": "the family with nobody there is sent the fight",
+      "file": "sim/south.mjs",
+      "expect": "the family with nobody there was sent the battle",
+      "caught": true,
+      "failure": "the family with nobody there was sent the battle (San Patricio)",
+      "checksPassedFirst": 8
+    },
+    {
+      "name": "no alert through the man",
+      "file": "sim/south.mjs",
+      "expect": "no alert with Watch came through the man",
+      "caught": true,
+      "failure": "no alert with Watch came through the man",
+      "checksPassedFirst": 4
+    },
+    {
+      "name": "the Host is not sent the south's fights",
+      "file": "sim/directors.mjs",
+      "expect": "the Host was not sent San Patricio live",
+      "caught": true,
+      "failure": "the Host was not sent San Patricio live",
+      "checksPassedFirst": 10
+    },
+    {
+      "name": "no herd",
+      "file": "public/battle-view.js",
+      "expect": "the herd, the riders or the groves are missing",
+      "caught": true,
+      "failure": "the herd, the riders or the groves are missing: [[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":26},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":23},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":23},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":19},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":15},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":15},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":12},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":12},2]]",
+      "checksPassedFirst": 9
+    },
+    {
+      "name": "no account when the word comes",
+      "file": "sim/south.mjs",
+      "expect": "no account of San Patricio came",
+      "caught": true,
+      "failure": "no account of San Patricio came",
+      "checksPassedFirst": 12
+    }
+  ],
+  "cleanBrowserChecks": 15,
   "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
 }
