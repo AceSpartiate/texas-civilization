@@ -1,0 +1,83 @@
+﻿{
+    "recordedAt":  "2026-09-26T11:17:18.2980386Z",
+    "machine":  "development computer (same-computer simulation)",
+    "script":  "scripts/verify-delta-update.ps1",
+    "results":  [
+                    "PASS: an installed launcher updated A to B by downloading 45119 bytes (the list and the set of changes) instead of the 259169530-byte setup program - 5744x less.",
+                    "PASS: the updated tree is byte for byte a fresh install of B (295 files besides the launcher, which the small update keeps: B\u0027s launcher sources are A\u0027s).",
+                    "PASS: data\\classroom.json is byte for byte untouched, and sim\\dropped-in-b.txt (in A, not in B) is gone.",
+                    "PASS: the updated copy reports release v-e2e.2, and the next check finds it up to date and downloads nothing.",
+                    "PASS: a set of changes whose server/main.mjs does not hash as listed (same length, three letters changed) -\u003e the whole setup program, launcher included; the tree is byte for byte a fresh install of B and the save is untouched (259214651 bytes).",
+                    "PASS: a set of changes whose connection drops half way -\u003e the whole setup program, launcher included; the tree is byte for byte a fresh install of B and the save is untouched (259213379 bytes).",
+                    "PASS: a release with no set of changes from the installed one (too far behind) -\u003e the whole setup program, launcher included; the tree is byte for byte a fresh install of B and the save is untouched (259169530 bytes).",
+                    "PASS: a release with no list of files (every release before this change) -\u003e the whole setup program, launcher included; the tree is byte for byte a fresh install of B and the save is untouched (259169530 bytes).",
+                    "PASS: with no set of changes and the whole download cut off half way, the update fails with \"previous version kept\" and A is byte for byte as it was, save included.",
+                    "PASS: a launcher from before this change (v2026.09.26.1) takes B through its own path, the whole setup program, and ends byte for byte a fresh install of B, launcher included; its save untouched."
+                ],
+    "numbers":  {
+                    "setupBytes":  259169530,
+                    "updateArchiveBytes":  171582017,
+                    "manifestBytes":  42579,
+                    "patchBytes":  2540,
+                    "listedFiles":  294,
+                    "patchFiles":  [
+                                       "public/delta-proof.txt",
+                                       "release.txt",
+                                       "server/main.mjs"
+                                   ],
+                    "changes":  {
+                                    "downloadedBytes":  45119,
+                                    "seconds":  6.1,
+                                    "requests":  [
+                                                     "TexasRevolution-manifest.json 42579",
+                                                     "TexasRevolution-Changes-From-v-e2e.1.patch 2540"
+                                                 ],
+                                    "output":  "Checking what has changed…\r\n  Checking the files already on this computer…\r\n  Downloading 3 KB of changes (3 files)…\r\n  Putting the new version together…\r\n  Ready to install. Downloaded 45 KB instead of the whole game.\r\nstaged release=v-e2e.2 mode=changes downloaded=45119 files=3\r\n  Installing…\r\n  Installed.\r\ninstalled release=v-e2e.2"
+                                },
+                    "tampered":  {
+                                     "downloadedBytes":  259214651,
+                                     "seconds":  14,
+                                     "requests":  [
+                                                      "TexasRevolution-manifest.json 42579",
+                                                      "TexasRevolution-Changes-From-v-e2e.1.patch 2542",
+                                                      "TexasRevolutionSetup.exe 259169530"
+                                                  ],
+                                     "because":  "server/main.mjs did not match the list of files after downloading"
+                                 },
+                    "cut-off":  {
+                                    "downloadedBytes":  259213379,
+                                    "seconds":  13.7,
+                                    "requests":  [
+                                                     "TexasRevolution-manifest.json 42579",
+                                                     "TexasRevolution-Changes-From-v-e2e.1.patch 1270 (cut off)",
+                                                     "TexasRevolutionSetup.exe 259169530"
+                                                 ],
+                                    "because":  "downloading the changes failed (The response ended prematurely, with at least 1270 additional bytes expected.)"
+                                },
+                    "no-set":  {
+                                   "downloadedBytes":  259169530,
+                                   "seconds":  13.3,
+                                   "requests":  [
+                                                    "TexasRevolutionSetup.exe 259169530"
+                                                ],
+                                   "because":  "that release has no set of changes from v-e2e.1"
+                               },
+                    "no-list":  {
+                                    "downloadedBytes":  259169530,
+                                    "seconds":  29.2,
+                                    "requests":  [
+                                                     "TexasRevolutionSetup.exe 259169530"
+                                                 ],
+                                    "because":  "that release has no list of its files"
+                                },
+                    "all-cut":  {
+                                    "downloadedBytes":  129584765,
+                                    "output":  "Downloading the whole game (247 MB), because that release has no set of changes from v-e2e.1.\r\n  Downloading the whole game… 0 of 247 MB\r\nupdate failed, previous version kept: The response ended prematurely, with at least 129584765 additional bytes expected."
+                                },
+                    "oldLauncher":  {
+                                        "from":  "v2026.09.26.1",
+                                        "setup":  "C:\\Users\\zachw\\Desktop\\TexasRelease\\TexasRevolutionSetup.exe"
+                                    }
+                },
+    "note":  "Two packages built by scripts/package.ps1 from this working copy (A with one extra file, B with one small change to server/main.mjs and one new file), served from 127.0.0.1 by scripts/support/release-server.mjs in the shape of the GitHub release API. Nothing was published or fetched from GitHub. Proves the small update, its fallbacks and the swap on this computer; not a real release, a school network or a filtering proxy."
+}
