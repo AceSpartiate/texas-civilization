@@ -77,6 +77,16 @@
       ]
     },
     {
+      "name": "a man left on the road is never told or turned home",
+      "file": "sim/alamo-battle.mjs",
+      "test": "tests/battle-alamo.test.mjs",
+      "expect": "a relief man still on the road when the company goes in is left behind, told so, and turns home",
+      "caught": true,
+      "failed": [
+        "a relief man still on the road when the company goes in is left behind, told so, and turns home"
+      ]
+    },
+    {
       "name": "everybody falls when the north wall does",
       "file": "sim/alamo-battle.mjs",
       "test": "tests/battle-alamo.test.mjs",
@@ -147,6 +157,16 @@
       ]
     },
     {
+      "name": "a fallen man goes on firing",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-alamo-view.test.mjs",
+      "expect": "a family's man at his post fires until the moment he falls, then goes down and lies still, and never fires again",
+      "caught": true,
+      "failed": [
+        "a family's man at his post fires until the moment he falls, then goes down and lies still, and never fires again"
+      ]
+    },
+    {
       "name": "Travis and Joe are not drawn",
       "file": "public/battle-view.js",
       "test": "tests/battle-alamo-view.test.mjs",
@@ -185,26 +205,6 @@
       "failed": [
         "the storming's card goes up over the quiet reminder that somebody is inside, and not over a question"
       ]
-    },
-    {
-      "name": "a man left on the road is never told or turned home",
-      "file": "sim/alamo-battle.mjs",
-      "test": "tests/battle-alamo.test.mjs",
-      "expect": "a relief man still on the road when the company goes in is left behind, told so, and turns home",
-      "caught": true,
-      "failed": [
-        "a relief man still on the road when the company goes in is left behind, told so, and turns home"
-      ]
-    },
-    {
-      "name": "a fallen man goes on firing",
-      "file": "public/battle-view.js",
-      "test": "tests/battle-alamo-view.test.mjs",
-      "expect": "a family's man at his post fires until the moment he falls, then goes down and lies still, and never fires again",
-      "caught": true,
-      "failed": [
-        "a family's man at his post fires until the moment he falls, then goes down and lies still, and never fires again"
-      ]
     }
   ],
   "browser": [
@@ -213,8 +213,16 @@
       "file": "public/battle-view.js",
       "expect": "the Mexican guns did not fire",
       "caught": true,
-      "failure": "the Mexican guns did not fire between day-24 and day-27",
+      "failure": "the Mexican guns did not fire between day-24 and night-26",
       "checksPassedFirst": 2
+    },
+    {
+      "name": "the family's man stands idle at his post",
+      "file": "public/battle-view.js",
+      "expect": "never fired from his post",
+      "caught": true,
+      "failure": "the family's man never fired from his post: volunteer-idle-e,volunteer-idle-w,volunteer-injured,volunteer-reclining",
+      "checksPassedFirst": 7
     },
     {
       "name": "the columns come as a crowd, not in files",
@@ -253,7 +261,7 @@
       "file": "sim/alamo-battle.mjs",
       "expect": "the Host was not sent the Alamo live",
       "caught": true,
-      "failure": "the Host was not sent the Alamo live: {\"focus\":\"regional\",\"camera\":\"region\",\"seen\":[\"alamo-siege:213630\",\"alamo-huts:216240\",\"alamo-relief:223020\",\"alamo-fall:230370\"]}",
+      "failure": "the Host was not sent the Alamo live: {\"focus\":\"regional\",\"camera\":\"region\",\"seen\":[\"alamo-siege:213630\",\"alamo-huts:216240\",\"san-patricio:218700\",\"alamo-relief:223020\",\"agua-dulce:224910\",\"alamo-fall:230370\"]}",
       "checksPassedFirst": 9
     },
     {
@@ -271,14 +279,6 @@
       "caught": true,
       "failure": "timed out waiting at 1836-03-14 undefined: () => /What you saw/.test(window.__snapshot.world.battleAccount?.title || '')",
       "checksPassedFirst": 11
-    },
-    {
-      "name": "the family's man stands idle at his post",
-      "file": "public/battle-view.js",
-      "expect": "never fired from his post",
-      "caught": true,
-      "failure": "the family's man never fired from his post: volunteer-idle-e,volunteer-idle-w,volunteer-injured,volunteer-reclining",
-      "checksPassedFirst": 7
     }
   ],
   "cleanBrowserChecks": 13,

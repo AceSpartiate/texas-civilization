@@ -155,6 +155,54 @@
       "failed": [
         "a family's man is drawn in his part - asleep, in the house, giving up - and once his fate has come, in it"
       ]
+    },
+    {
+      "name": "Agua Dulce kept at the point near Banquete, ten miles out",
+      "file": "scripts/build-colonies-map.mjs",
+      "test": "tests/south-map.test.mjs",
+      "expect": [
+        "San Patricio, the Agua Dulce ground and the end of the road south are places at the record's points",
+        "the Nueces is crossed only at San Patricio, and the roads from Refugio and Goliad reach San Patricio and go on by Agua Dulce",
+        "the Agua Dulce ground is the Handbook's twenty-six miles below San Patricio on the road south, not the point near Banquete",
+        "a class saved with the south before the owner moved Agua Dulce has it moved at the save's door, unless its drive north has begun"
+      ],
+      "caught": true,
+      "failed": [
+        "San Patricio, the Agua Dulce ground and the end of the road south are places at the record's points",
+        "the Nueces is crossed only at San Patricio, and the roads from Refugio and Goliad reach San Patricio and go on by Agua Dulce",
+        "the Agua Dulce ground is the Handbook's twenty-six miles below San Patricio on the road south, not the point near Banquete",
+        "a class saved with the south before the owner moved Agua Dulce has it moved at the save's door, unless its drive north has begun"
+      ]
+    },
+    {
+      "name": "a class saved with the old ground keeps it at the door",
+      "file": "sim/south.mjs",
+      "test": "tests/south-map.test.mjs",
+      "expect": "a class saved with the south before the owner moved Agua Dulce has it moved at the save's door, unless its drive north has begun",
+      "caught": true,
+      "failed": [
+        "a class saved with the south before the owner moved Agua Dulce has it moved at the save's door, unless its drive north has begun"
+      ]
+    },
+    {
+      "name": "the prisoners are left standing at the end of the road south",
+      "file": "sim/south.mjs",
+      "test": "tests/battle-south.test.mjs",
+      "expect": "the prisoners are seen marched away down the road south, then are gone from the map: not left standing at its end, and seen by nobody there",
+      "caught": true,
+      "failed": [
+        "the prisoners are seen marched away down the road south, then are gone from the map: not left standing at its end, and seen by nobody there"
+      ]
+    },
+    {
+      "name": "another family standing at the road's end still sees the prisoners there",
+      "file": "sim/town.mjs",
+      "test": "tests/battle-south.test.mjs",
+      "expect": "the prisoners are seen marched away down the road south, then are gone from the map: not left standing at its end, and seen by nobody there",
+      "caught": true,
+      "failed": [
+        "the prisoners are seen marched away down the road south, then are gone from the map: not left standing at its end, and seen by nobody there"
+      ]
     }
   ],
   "browser": [
@@ -211,8 +259,16 @@
       "file": "public/battle-view.js",
       "expect": "the herd, the riders or the groves are missing",
       "caught": true,
-      "failure": "the herd, the riders or the groves are missing: [[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":26},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":23},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":23},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":19},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":15},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":15},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":12},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":12},2]]",
+      "failure": "the herd, the riders or the groves are missing: [[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":26},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":16},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":17},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":13},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":9},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":9},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":6},2],[0,{\"asleep\":0,\"hidden\":0,\"surrender\":0,\"rider\":6},2]]",
       "checksPassedFirst": 9
+    },
+    {
+      "name": "the page still draws a prisoner at the end of the road south",
+      "file": "public/app.js",
+      "expect": "was still drawn at the end of the road south",
+      "caught": true,
+      "failure": "the prisoner hh-2-parent-1 was still drawn at the end of the road south",
+      "checksPassedFirst": 12
     },
     {
       "name": "no account when the word comes",
@@ -220,9 +276,9 @@
       "expect": "no account of San Patricio came",
       "caught": true,
       "failure": "no account of San Patricio came",
-      "checksPassedFirst": 12
+      "checksPassedFirst": 13
     }
   ],
-  "cleanBrowserChecks": 15,
+  "cleanBrowserChecks": 16,
   "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
 }

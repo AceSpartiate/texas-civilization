@@ -221,7 +221,7 @@
       "file": "public/battle-view.js",
       "expect": "do not stand in a hollow square",
       "caught": true,
-      "failure": "the Texians do not stand in a hollow square, more even than the marksmen in the grass: {\"hollow\":{\"texian\":0.3454679733589069,\"mexican\":0.01648941063881138},\"regularity\":{\"texian\":0.71037831347533,\"mexican\":0.19167977217363089}}",
+      "failure": "the Texians do not stand in a hollow square, more even than the marksmen in the grass: {\"hollow\":{\"texian\":0.3454679733589069,\"mexican\":0.08391328310649664},\"regularity\":{\"texian\":0.71037831347533,\"mexican\":0.41975689050883846}}",
       "checksPassedFirst": 10
     },
     {

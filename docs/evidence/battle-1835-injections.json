@@ -243,7 +243,7 @@
       "file": "sim/battles/concepcion.mjs",
       "expect": "not looser than the Mexican ranks",
       "caught": true,
-      "failure": "the Texians under the bank are not looser than the Mexican ranks: {\"texian\":0.16721011257669186,\"mexican\":0.15572485840104303,\"bowie\":0.3059170412966305,\"coleman\":0.04356437096880873,\"cavalry\":0.02441406243296715}",
+      "failure": "the Texians under the bank are not looser than the Mexican ranks: {\"texian\":0.32348095858353404,\"mexican\":0.2262833571295613,\"bowie\":0.3059170412966305,\"coleman\":0.04356437096880873,\"cavalry\":0.02441406243296715}",
       "checksPassedFirst": 4
     },
     {
@@ -297,7 +297,7 @@
       "file": "sim/battles/grass-fight.mjs",
       "expect": "not in double file",
       "caught": true,
-      "failure": "Jack's infantry is not in double file on its way out: {\"texian\":0.2161842637995271,\"mexican\":0.13358808775530803,\"jack\":0.17544659931578924,\"train\":0.0012342287185905148}",
+      "failure": "Jack's infantry is not in double file on its way out: {\"texian\":0.22509905126410285,\"mexican\":0.26105330116807884,\"jack\":0.18833424144047567,\"train\":0.0012342287185905148}",
       "checksPassedFirst": 4
     },
     {
@@ -306,7 +306,7 @@
       "file": "sim/concepcion-grass.mjs",
       "expect": "the Host's camera was not sent to the field",
       "caught": true,
-      "failure": "the Host's camera was not sent to the field while it was fought: {\"battle\":\"grass-fight\",\"phase\":\"ambush\",\"focus\":\"regional\",\"camera\":\"region\",\"drawn\":{\"texian\":23,\"mexican\":11},\"smoke\":57,\"seen\":[\"grass-fight:85260\"]}",
+      "failure": "the Host's camera was not sent to the field while it was fought: {\"battle\":\"grass-fight\",\"phase\":\"ambush\",\"focus\":\"regional\",\"camera\":\"region\",\"drawn\":{\"texian\":24,\"mexican\":12},\"smoke\":56,\"seen\":[\"grass-fight:85260\"]}",
       "checksPassedFirst": 7
     },
     {

@@ -1,5 +1,109 @@
 # Claude handoff — Astra foundation
 
+## The battles integrated: the Alamo, Concepción and the Grass Fight, Coleto and Palm Sunday merged onto one engine; two owner decisions — 2026-09-26 (branch worktree-agent-ab376097031389c0e, from main d9daea3; not released)
+
+Merged into one tree, in this order, each followed by a green `npm test`, and main merged again at the end (9669d14, no conflicts): `worktree-agent-a202a97daf53da315` (the Alamo's siege
+and assault), `worktree-agent-adfe769d1fe9ef0ce` (Concepción and the Grass Fight), `worktree-agent-ab3929988a2ad1e82` (Coleto and
+the Goliad massacre). Every engagement and every generic engine addition of every branch is kept. docs/BATTLES.md **§12** is the
+merged engine; the three builds are **§9** (the Alamo), **§10** (Concepción, the Grass Fight) and **§11** (Coleto, Palm Sunday) -
+each branch had called itself §8, which San Jacinto holds on main, so they were renumbered and their references followed.
+Claim IDs did not collide (checked: no duplicate row in HISTORY.md).
+
+**The merge resolutions that mattered.**
+- `sim/battle-stage.mjs`: `ENGAGEMENTS` holds all ten. `projectBattle`: San Jacinto's per-phase `count`, `ragged`,
+  `surrendering` with Coleto's per-phase `name`/`drawn`/`uncounted` and the side facing a named point (Concepción and Coleto
+  both); the Alamo's `ladders`/`climbing`/`figure` with Coleto's `named` groups; Concepción's `fog` beside the Alamo's `people`,
+  `plumes`, `smokeScale`. **Light**: a named light (`'night'`, `'dawn'`, `'dusk'`, `'fog'`) is sent as the word, the Alamo's
+  numeric or eased light as a number - before this an eased light that began at 0 was sent as a raw array. `battleStep` is the
+  Alamo's (next held phase, `landOnEnd`, background first phase) over San Jacinto's `startsAt`. One `stageFate`/`fatesDue` path.
+- `public/battle-view.js`: **the fallen** - San Jacinto's `pinnedAt` for a body's fallen and surrendering, Concepción's
+  `fallenSpots`/`fallenSide` for every body so its dead stay when it leaves the field, and in `fallenBySide` each fall takes men
+  still up (San Jacinto) chosen once and kept on the fall (Concepción). A new test (`tests/battle-view-groups.test.mjs`, "falls in
+  one body add up…") holds the union and fails on either half's regression (three injections, each seen failing). Layouts: the
+  Alamo's `wall` of a given length and Coleto's `square`; a member stands in only for the nearest man on a wall; a square's man
+  faces out of his own face. Washes: the Alamo's numeric dark and Coleto's dusk/fog. Volley words from `commands.bySide` (San
+  Jacinto) or `commands[side]` (Coleto). Evidence carries every branch's fields (`light` is a number or a word).
+- `sim/directors.mjs` `directorProjection`: Gonzales → Concepción/Grass (only if nothing else) → Béxar → the south → Fannin's
+  (Coleto, Palm Sunday) → the Alamo (only if nothing else; the south's fights inside its siege win) → San Jacinto; alerts and
+  accounts from whichever has one. Timeline constants of all three kept.
+- `public/app.js` `battlePoints`: the engagement's frame (tight for the Alamo), else sides, groups and guns, not a body gone
+  (unless nothing else is left, Coleto), and not a party more than a mile off the sides (new: San Jacinto's Deaf Smith riding
+  for Vince's bridge would otherwise have widened the frame once Concepción's rule framed groups).
+- `sim/town.mjs` `observedBy`: San Jacinto's "not the men out on the field", the Alamo's "not a man who fell there", and (Job 2)
+  "not a prisoner out of sight". `sim/chores.mjs`: San Jacinto's `withTheFlight` and the Alamo's `alsoFrom`. `sim/world.mjs`:
+  both `seenFall` and `fallen`.
+- The map: rebuilt after Coleto (byte for byte the Coleto branch's; decoded against main, only `coleto` and the Goliad–Victoria
+  road in two legs), then rebuilt again for the owner's Agua Dulce decision (below). `tests/map-outside.test.mjs` hash updated.
+
+**Owner decisions of 2026-09-26 (by multiple choice), built** (docs/BATTLES.md §2b.7–§2b.10):
+- **Agua Dulce Creek twenty-six miles below San Patricio, per the Handbook of Texas** - taken as the walked road's own distance,
+  the ground at -97.81, 27.639: 26.0 road miles from San Patricio (was 12.1), 1.3 short of the road's end (was 16.7). Decoded:
+  only the ground, four fords of that road, the two roads through it and the creeks drawn round it changed. Grant's party now
+  sets out north at 8:30 (was 5:30); the charge stays 10:30; the staged moments follow; Grant's ride south is unchanged. A class
+  saved with the old ground has it moved at the save's door until the drive begins (`sim/south.mjs` `moveAguaDulce`; no
+  `saveVersion` bump). The account, `HIST-TEX-510`/`-512`, `FIC-GONZ-435`/`-436`, docs/BATTLES.md §6.14–6.15 and
+  docs/MAP_ACCURACY.md §13.6 say the Handbook's placement was chosen and name Wikipedia's near Banquete. The creek the map's NHD
+  calls Agua Dulce is crossed by the road about sixteen miles out, not at the ground - said, and flagged below.
+- **The prisoners of San Patricio and Agua Dulce walked south out of sight**: marched down the road south, then at its end gone
+  from the map (`service.offMap`: not drawn, not seen by another family there, the camera let go); their fate waits for the
+  word and its dispute.
+- Recorded, no change: Béxar's between-episode pace holds only while a played family has a man in the town; a family whose man
+  is killed at Béxar learns it from the victory news on December 15.
+- New tests, each seen failing on the old behaviour: `tests/south-map.test.mjs` "the Handbook's twenty-six miles" (fails at 12.13
+  miles) and "moved at the save's door" (fails with the old `openSouth`); `tests/battle-south.test.mjs` "the prisoners are seen
+  marched away … gone from the map" (fails without `offMap`, and again with `observedBy` unfiltered); the south proof's
+  sixteenth check (the prisoner drawn marching, then not drawn).
+
+**One rule for the fallen** (found by the harnesses after the merge): San Jacinto's pin and Concepción's/Coleto's kept spot
+both held a body's dead where they fell, so removing either was hidden by the other and three harnesses missed their
+injection. The dead are now held by `fallenSpots` alone for every body; the pin keeps only men giving up
+(`public/battle-view.js` `pinnedAt`).
+
+**Fixed from the builders' reports.** `scripts/battle-south-injections.mjs` parses again (a raw line break in a string). Ten
+patterns no longer matched the merged code and were re-aimed (a dry run now finds all 223 edits exactly once): Gonzales 3 (`noFalling`,
+`let battleAlert`/`battleAccount`), Béxar 2 (a hit man drawn by fate since the south), the south 1 (the fallen spot for every body),
+Coleto 2, San Jacinto 3.
+
+**Evidence** (same computer only; not physical LAN or district acceptance):
+- `npm test`: **1,336 of 1,336** on the final tree (after merging main at 9669d14); green after each of the three merges
+  (1,294, 1,315, 1,333) and after the owner's decisions (1,336).
+- Browser proofs, all green on the final tree (1366x768/1024x768 where the proof has both): `test:battle-gonzales` 12,
+  `test:gonzales-town` 10, `test:battle-bexar` 15, `test:battle-south` **16** (a sixteenth: the prisoner drawn marching away,
+  then off the map), `test:battle-alamo` 13, `test:alamo-siege` 8, `test:battle-concepcion` 13, `test:battle-grass` 13,
+  `test:battle-coleto` 17, `test:battle-san-jacinto` 15, `test:lesson` 33, `test:panels` 14 (on a second run: the first,
+  one of five proofs at once, timed out at the join form), `test:scrape` 5, `test:winter` 6.
+- The known failures, compared with main at the branch point (d9daea3), run the same way: `test:slice` and `test:navigation`
+  fail as on main (the same timeout); `test:camp` now gets past the join from the panel (the proof presses Send on the going
+  popup) and fails where main fails (the camp's row lacks `camp-scout`); `test:road` **fails one check earlier** than main:
+  the family reached San Felipe before the wagon bogged (the bog is rolled once a day against the weather where the family
+  is, which the proof's own comment says moves with timing; main fails at the next check, a timeout on the second parent's
+  panel). Not diagnosed further.
+- Injection harnesses, every injection caught by the check written for it and only it: **222 of 222** (152 unit, 70
+  browser) - Gonzales 29, Béxar 21, the south 28, the Alamo 29, Concepción and the Grass Fight 32, Coleto 27, San Jacinto 35,
+  Gonzales's town 21 (`docs/evidence/*-injections.json`). Each harness was run in its own copy of the tree, four at a time;
+  Béxar's again alone after one browser injection timed out at the join form under load. The first run after the merges
+  missed eleven: the fallen rule (above), and the re-aims listed in the commits of 2026-09-26 (Béxar's man killed now drawn
+  lying still; the south's killed man; Agua Dulce's two moments together; the Banquete point's four map tests; Gonzales's fight
+  three times faster; the bank's loaders compared man by man - the mean hid the missing drop; Bowie's small ground with the
+  engine's fitting taken too, `also` in the 1835 harness; Coleto's old save past its start).
+
+**What the battles cost a class** (`node scripts/battle-class-time.mjs`, `docs/evidence/battle-class-time.json`): a whole class of
+5 and of 15 families nobody plays runs headless from the arrival through all three periods **to the ending** in **1,370 ticks,
+about 3 h 37 min at Study** (13 s and 40 s of computer time). The fights hold 570 ticks and add **532 ticks, about 84 minutes at
+Study**: Gonzales 6.9, Concepción 7.3, the Grass Fight 7.7, Béxar 14.3, the Alamo 7.9, San Patricio and Agua Dulce inside its siege
+5.2 and 6.0, Coleto 12.3, Palm Sunday 6.3, San Jacinto 10.3 minutes. Main before this merge: 1,117 ticks (2 h 57 min), so these
+three branches add about 40 minutes; Agua Dulce's shorter drive took back nine ticks. A played family's man in Béxar's town or the
+Alamo's garrison adds the background pace on top (about 7.4 and 5.5 minutes, BATTLES §7.3, §9.3).
+
+**For the owner to decide.**
+- A whole class is now about 3 h 37 min at Study, of which the battles are about 84 minutes (38%). Say if some fights should be
+  shortened (the watched drives and nights, Béxar's episodes, Coleto's thirteen minutes) or if Brisk should be the class pace.
+- Agua Dulce at the Handbook's distance stands a mile and a third from the end of the walked road and not on the creek the map
+  draws (the road crosses that about sixteen miles out). Say if the ground should instead be where the road fords the creek
+  (about 16 miles), or if the walked country should run further south so the drive north can be longer.
+- A prisoner out of sight still has his last place on the server (`ceiling:`); a march on to Matamoros beyond the walked country
+  is the way out if one is ever wanted.
+
 ## The launcher downloads only what changed — 2026-09-26 (released in v2026.09.26.2)
 
 Owner: *"we should dedicate a sub agent to updating the launcher. currently the entirr game is downloaded again for every

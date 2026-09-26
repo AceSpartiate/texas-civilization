@@ -420,8 +420,8 @@ recorded). Claims `HIST-TEX-510`–`-514`, `FIC-GONZ-435`–`-436`. The map is `
   it about 3 1/2; San Patricio's night before is watched at twenty minutes a tick, and so is Agua Dulce's hour-long drive (four
   hours until §2b.7, nine ticks fewer now).
 
-Evidence: `tests/battle-south.test.mjs` (10), `tests/battle-view-south.test.mjs` (5), `tests/south-map.test.mjs` (6),
-`npm run test:battle-south` (15 checks, `docs/evidence/battle-south-browser.json`, screenshots in `docs/evidence/battle-south/`),
+Evidence: `tests/battle-south.test.mjs` (11), `tests/battle-view-south.test.mjs` (5), `tests/south-map.test.mjs` (8),
+`npm run test:battle-south` (16 checks, `docs/evidence/battle-south-browser.json`, screenshots in `docs/evidence/battle-south/`),
 `scripts/battle-south-injections.mjs` (`docs/evidence/battle-south-injections.json`).
 
 ### 6.15 Limits of wave 2
@@ -784,10 +784,11 @@ The Alamo (§9), Concepción and the Grass Fight (§10) and Coleto and Palm Sund
 - **Light** is a word or a number. A named light (`'night'`, `'dawn'` - §6.13's dark with lit windows; `'dusk'`, `'fog'` - §11's
   lighter wash) is sent as the word; the Alamo's light (0 to 1, or eased `[from, to]` across a phase) is sent as a number, never
   an array. The page's evidence reports either.
-- **The fallen.** A body's fallen and surrendering are pinned where they went down (§8, `pinnedAt`); every fallen man's spot and
-  side is kept for when his body has left the field (§10, `fallenSpots`, `fallenSide`); each fall takes men still up, chosen
-  once and kept on the fall (`fallenBySide`), so many falls add up and a body gone from the field still has its dead.
-  `tests/battle-view-groups.test.mjs` holds the union; either half's regression fails it.
+- **The fallen.** One rule for every body: a fallen man's spot and side are kept where he went down (`fallenSpots`,
+  `fallenSide`), so he lies there while his side runs on (§8) and after his body has left the field (§10); the pin (`pinnedAt`)
+  keeps only men giving up where they gave up. (Merged, the two branches' rules both held the dead and each hid the other's
+  regression from the harnesses.) Each fall takes men still up, chosen once and kept on the fall (`fallenBySide`), so many
+  falls add up and a body gone from the field still has its dead. `tests/battle-view-groups.test.mjs` holds it.
 - **Framing** (`battlePoints` in `public/app.js`): an engagement's own frame (tight where it says so, the Alamo); else its sides,
   its groups (not a body gone from the field, unless nothing else is left; not a party more than a mile off, San Jacinto's
   Deaf Smith riding for Vince's bridge) and its guns.

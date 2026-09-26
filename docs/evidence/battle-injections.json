@@ -87,7 +87,7 @@
       ]
     },
     {
-      "name": "the fight run at the farming clock's twenty minutes, as it was, over in two real minutes",
+      "name": "the fight run three times faster than its steps, over in about two real minutes",
       "file": "sim/battle-stage.mjs",
       "test": "tests/battle-stage.test.mjs",
       "expect": "the fighting plays three to six real minutes at the Study pace on both maps, and the clock never runs faster for it",
@@ -236,7 +236,7 @@
       "expect": "never fired",
       "caught": true,
       "failure": "the family's person never fired: [\"volunteer-idle-w\",\"volunteer-march\"]",
-      "checksPassedFirst": 5
+      "checksPassedFirst": 6
     },
     {
       "name": "the Host is not sent the fight",
@@ -244,7 +244,7 @@
       "expect": "the Host was not sent the fight live",
       "caught": true,
       "failure": "the Host was not sent the fight live: {\"focus\":\"battle\",\"camera\":\"region\",\"seen\":[\"gonzales-dawn:5740\",\"gonzales:5920\"]}",
-      "checksPassedFirst": 7
+      "checksPassedFirst": 8
     },
     {
       "name": "the town seven miles off is sent the fight",
@@ -252,7 +252,7 @@
       "expect": "the family in town was sent the battle",
       "caught": true,
       "failure": "the family in town was sent the battle",
-      "checksPassedFirst": 8
+      "checksPassedFirst": 9
     },
     {
       "name": "no alert",
@@ -267,7 +267,7 @@
       "file": "public/app.js",
       "expect": "Watch did not frame the field",
       "caught": true,
-      "failure": "Watch did not frame the field: the camera is 1.92 miles from it",
+      "failure": "Watch did not frame the field: the camera is 2.17 miles from it",
       "checksPassedFirst": 1
     },
     {
@@ -276,9 +276,9 @@
       "expect": "the account never appeared",
       "caught": true,
       "failure": "the account never appeared after the men left the field",
-      "checksPassedFirst": 10
+      "checksPassedFirst": 11
     }
   ],
-  "cleanBrowserChecks": 11,
+  "cleanBrowserChecks": 12,
   "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
 }

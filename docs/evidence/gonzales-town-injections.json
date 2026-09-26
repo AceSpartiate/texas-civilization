@@ -141,7 +141,7 @@
       "file": "public/app.js",
       "expect": "no resident of the town was drawn walking",
       "caught": true,
-      "failure": "no resident of the town was drawn walking between two places: {\"ochre-walk\":60,\"indigo-walk-n\":44,\"girl-walk\":12,\"boy-walk-n\":6,\"indigo-walk\":30,\"boy-walk\":25,\"elder-walk\":16,\"elder-ride-e\":80,\"volunteer-march\":914,\"ochre-ride-e\":40,\"blue-ride-e\":39,\"teal-walk\":50,\"blue-walk\":33,\"ochre-walk-n\":5,\"elder-walk-n\":5,\"blue-walk-n\":5,\"blue-girl-walk-n\":29,\"dragoon-march\":44,\"dragoon-march-n\":6,\"mounted-courier-e\":16,\"ochre-walk-s\":6,\"blue-girl-walk-s\":54,\"girl-walk-n\":2,\"teal-walk-n\":1,\"volunteer-march-n\":24}"
+      "failure": "no resident of the town was drawn walking between two places: {\"ochre-walk\":58,\"indigo-walk-n\":43,\"girl-walk\":13,\"boy-walk-n\":6,\"indigo-walk\":27,\"boy-walk\":24,\"elder-walk\":16,\"elder-ride-e\":78,\"volunteer-march\":918,\"ochre-ride-e\":40,\"blue-ride-e\":40,\"teal-walk\":47,\"elder-walk-s\":1,\"blue-walk\":32,\"ochre-walk-n\":5,\"elder-walk-n\":5,\"blue-walk-n\":5,\"blue-girl-walk-n\":30,\"dragoon-march\":40,\"dragoon-march-n\":4,\"mounted-courier-e\":16,\"ochre-walk-s\":6,\"blue-girl-walk-s\":55,\"teal-walk-n\":2,\"girl-walk-n\":1,\"volunteer-march-n\":24}"
     },
     {
       "gate": "browser",
@@ -149,7 +149,7 @@
       "file": "public/town-scenes.js",
       "expect": "sliding, not walking",
       "caught": true,
-      "failure": "a resident was drawn crossing the town at 7.832 of their heights a second: sliding, not walking"
+      "failure": "a resident was drawn crossing the town at 6.539 of their heights a second: sliding, not walking"
     },
     {
       "gate": "browser",
