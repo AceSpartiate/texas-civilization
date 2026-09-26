@@ -1,5 +1,55 @@
 # Claude handoff — Astra foundation
 
+## Concepción and the Grass Fight on the engine — 2026-09-25, night (wave 2 of docs/BATTLES.md §5; not released)
+
+Owner-directed 2026-09-25 (*"build it for every conflict ... if they sent a character, it needs to happen in such a way that
+their character arrives in time to participate and does participate ... players should walk away understanding what
+happened"*). Staged from `docs/battle-research/staging.md` §1–§2 with every question at its recommended answer (C1 (a),
+Grass G1 (a)). docs/BATTLES.md §7 is the build; claims `HIST-TEX-480`–`-484`, `FIC-GONZ-420`–`-424`.
+
+- **Concepción** (`sim/battles/concepcion.mjs`): the division leaves Espada at 14:00 Oct 27 (new director moment
+  `detachment-out`), walks two hours to a bend a quarter mile north-west of the mission, camps under the bank (unwatched
+  night), fog at 5:40, horsemen out of the fog at 6:50, an hour ringed, the fog lifts at 8:00 (`concepcion`), three charges
+  behind the brass gun with canister (five discharges, fifteen Mexican figures falling, Andrews falling crossing the open),
+  the retreat sounded and the gun taken and turned, water for the wounded, the main army up at 9:30, the burial. Texians under
+  the bank in two companies (climb-fire-drop), the Mexican infantry in ranks firing volleys on the regulation's words
+  (reconstructed, `HIST-TEX-482`), cavalry in the fog, no Texian flag or drum.
+- **The Grass Fight** (`sim/battles/grass-fight.mjs`): Deaf Smith at 10:00 Nov 26, "Ugartechea!" (documented), the ride-out at
+  10:30 (Jack's men in double file over a cold creek), Bowie's charge at 11:00 (`grass-fight`, was 15:00) and the guard in its
+  creek bed, the ditch's volleys into Jack's column and the charge, the sortie's ranks and its gun's three rounds, the town's
+  guns, "Grass! All this for grass.", back to the mill by 13:35.
+- **Arrival and participation**: Concepción's question stays open until the division goes (was: shut at `to-espada`); the
+  division's people leave the ranks and walk with it, are under the bank before the alarm and in the line while it fires, and
+  are held until they rejoin the army at Concepción. Latecomers at Gonzales and the coast's volunteers at Victoria follow the
+  army and fall in (`followTheArmy`); a turn-out card after the army has marched says when a man would catch it and whether
+  too late (`armyArrivalWords`). At the Grass Fight a yes is a departure - with Bowie if his horse is with him, with Jack on
+  foot - and the question shuts at the ride-out (the six-hour rule is gone for it).
+- **Staged fates** (`FIC-GONZ-422`): the existing rolls, per person and seeded; at Concepción a hit man crosses the open with
+  Coleman's men and falls at a gun discharge; at the Grass Fight a man with Jack is hurt or runs at the ditch's first volley,
+  a rider at Bowie's first exchange. Drawn going down, lying still, carried back under cover, or running; never sent before
+  it falls.
+- **Viewers, alert, account** (`FIC-GONZ-424`): the Host live with the camera and spotlight on the field; a family in the
+  force; a family in the army nearby from when the firing is heard; nobody else. Alerts through the person with Watch. The
+  account in plain words through the person: Concepción when the division rejoins (the day's word), the Grass Fight when the
+  fuller word rides home Dec 3.
+- **Engine, additive** (`sim/battle-stage.mjs`, `public/battle-view.js`, one line of `public/app.js`): `groups`, a phase's
+  `gun`, `fog`, `scenery`, the landing on the next watched phase from an unwatched one, `fates`/`memberGroups` in
+  `projectBattle`, `withAForce`; the renderer keyed by group, the bank drop, fallen pinned where they fell, the member's fate
+  pose and carriers, the fog veil, scenery, a packhorse, the gun's crew by side, a fixed gun. Gonzales unchanged (its proof
+  re-run: 11 checks).
+- **Pace**: fighting 4:16 (Concepción) and 3:29 (the Grass Fight) at Study; whole engagements 48 and 49 ticks, about
+  **+12 to +14 real minutes on a class at Study**.
+- **Tests**: new `tests/battle-concepcion.test.mjs` (9), `tests/battle-grass.test.mjs` (6), `tests/battle-view-groups.test.mjs`
+  (6); `tests/concepcion.test.mjs` updated (the army comes up by ten; the question open until the division goes; a decided
+  "go" is with the division). NPM_TEST_LINE
+- **Injections**: INJECTION_LINE
+- **Browser**: BROWSER_LINE
+- **Not done / limits**: the map has no San Antonio River or Alazán at Béxar - the bend and creek beds are placed by offset
+  and drawn as scenery (`ceiling:`); the second gun and the padre's carts are told, not drawn; Bowie's riders are drawn on foot;
+  a follower aims at where the army stood; eight art requests (docs/ART_REQUESTS.md "Concepción and the Grass Fight").
+- **For the owner to confirm**: the class-time cost; the main army's families shown the fight from when the firing is heard;
+  the Grass Fight's account held to Dec 3 (the word's own day) though the family watched it; a hit man's panel showing the
+  wound before the word; the Concepción fates always falling among Coleman's men crossing the open.
 ## Gonzales before the fight: the town doing things, talking, and a card to click — 2026-09-25 (released in v2026.09.25.6)
 
 Owner, verbatim: *"when i try to watch a battle, or actions that led to a battle, i see npc's just standing around. example:

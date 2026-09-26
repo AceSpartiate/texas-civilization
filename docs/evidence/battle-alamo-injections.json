@@ -215,14 +215,6 @@
       "checksPassedFirst": 7
     },
     {
-      "name": "the columns come as a crowd, not in files",
-      "file": "public/battle-view.js",
-      "expect": "the column or the wall is not in order",
-      "caught": false,
-      "failure": "Trinidad was never seen to fall",
-      "checksPassedFirst": 7
-    },
-    {
       "name": "his fall is never shown",
       "file": "sim/alamo-battle.mjs",
       "expect": "was never seen to fall",
@@ -269,6 +261,14 @@
       "caught": true,
       "failure": "timed out waiting at 1836-03-14 undefined: () => /What you saw/.test(window.__snapshot.world.battleAccount?.title || '')",
       "checksPassedFirst": 11
+    },
+    {
+      "name": "the columns come as a crowd, not in files",
+      "file": "public/battle-view.js",
+      "expect": "the column or the wall is not in order",
+      "caught": true,
+      "failure": "the column or the wall is not in order: {\"texian:north\":0.027142162790071044,\"texian:west\":0.0012958882270739196,\"texian:southwest\":0.014003530067352242,\"texian:south\":0.009149679157783381,\"texian:palisade\":0.0038104330618673717,\"texian:church\":null,\"mexican:cos\":null,\"mexican:duque\":null,\"mexican:romero\":null,\"mexican:morales\":null,\"mexican:reserve\":null,\"mexican:lancers-east\":0.03111164326386655,\"mexican:lancers-south\":0.05116450846396075}",
+      "checksPassedFirst": 5
     }
   ],
   "cleanBrowserChecks": 13,
