@@ -1,0 +1,165 @@
+{
+  "record": "battle-south-injections",
+  "date": "2026-09-26",
+  "gates": {
+    "unit": "node --test tests/battle-south.test.mjs, tests/south-map.test.mjs, tests/battle-view-south.test.mjs: the named test and no other",
+    "browser": "scripts/battle-south-browser-proof.mjs"
+  },
+  "unit": [
+    {
+      "name": "a recall reaches a man already in the fight, or dead or taken before the word",
+      "file": "sim/winter.mjs",
+      "test": "tests/battle-south.test.mjs",
+      "expect": "nobody can be sent for once the fight begins, and the refusal says nothing of what became of them",
+      "caught": true,
+      "failed": [
+        "nobody can be sent for once the fight begins, and the refusal says nothing of what became of them"
+      ]
+    },
+    {
+      "name": "a man's fate lands the moment the fight is armed, not at its staged moment",
+      "file": "sim/south.mjs",
+      "test": "tests/battle-south.test.mjs",
+      "expect": "each man's fate is the roll it always was, lands at its own moment inside the fight, and is on no screen and in no report before",
+      "caught": false,
+      "failed": [
+        "each man's fate is the roll it always was, lands at its own moment inside the fight, and is on no screen and in no report before",
+        "nobody can be sent for once the fight begins, and the refusal says nothing of what became of them"
+      ]
+    },
+    {
+      "name": "a man's fate is sent to his family's page before it happens",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-south.test.mjs",
+      "expect": "each man's fate is the roll it always was, lands at its own moment inside the fight, and is on no screen and in no report before",
+      "caught": true,
+      "failed": [
+        "each man's fate is the roll it always was, lands at its own moment inside the fight, and is on no screen and in no report before"
+      ]
+    },
+    {
+      "name": "Agua Dulce kept at six in the morning",
+      "file": "sim/directors.mjs",
+      "test": "tests/battle-south.test.mjs",
+      "expect": "San Patricio is fought at three in the morning of February 27, Agua Dulce at half past ten on March 2, and the day never moves",
+      "caught": false,
+      "failed": [
+        "San Patricio is fought at three in the morning of February 27, Agua Dulce at half past ten on March 2, and the day never moves",
+        "a man sent south is at San Patricio, and in the force before the first shot, or rides with Grant and drives the horses north",
+        "each man's fate is the roll it always was, lands at its own moment inside the fight, and is on no screen and in no report before"
+      ]
+    },
+    {
+      "name": "the men are put in the force only after the first shot",
+      "file": "sim/south.mjs",
+      "test": "tests/battle-south.test.mjs",
+      "expect": "a man sent south is at San Patricio, and in the force before the first shot, or rides with Grant and drives the horses north",
+      "caught": false,
+      "failed": [
+        "a man sent south is at San Patricio, and in the force before the first shot, or rides with Grant and drives the horses north",
+        "nobody can be sent for once the fight begins, and the refusal says nothing of what became of them"
+      ]
+    },
+    {
+      "name": "every family is sent the fight, whether it has a man there or not",
+      "file": "sim/south.mjs",
+      "test": "tests/battle-south.test.mjs",
+      "expect": "the Host sees each fight live and is framed on it; a family with a man there sees it and is alerted; a family with nobody there is sent nothing",
+      "caught": true,
+      "failed": [
+        "the Host sees each fight live and is framed on it; a family with a man there sees it and is alerted; a family with nobody there is sent nothing"
+      ]
+    },
+    {
+      "name": "the account does not say why it ended as it did",
+      "file": "sim/south.mjs",
+      "test": "tests/battle-south.test.mjs",
+      "expect": "afterwards the escaped ride for Goliad and the prisoners are marched south; at the word each family is told in plain words, and nobody else",
+      "caught": true,
+      "failed": [
+        "afterwards the escaped ride for Goliad and the prisoners are marched south; at the word each family is told in plain words, and nobody else"
+      ]
+    },
+    {
+      "name": "a man is sent south who could never reach San Patricio before the raid",
+      "file": "sim/winter.mjs",
+      "test": "tests/battle-south.test.mjs",
+      "expect": "the join is refused, in words, once a man could not reach San Patricio before the raid, and offered before",
+      "caught": true,
+      "failed": [
+        "the join is refused, in words, once a man could not reach San Patricio before the raid, and offered before"
+      ]
+    },
+    {
+      "name": "the woods end at the box, so San Patricio stands on no ground",
+      "file": "sim/woods.mjs",
+      "test": "tests/south-map.test.mjs",
+      "expect": "the land the simulation reads runs on below the box to 27.6°N, on the box's own lattice, and the box is untouched",
+      "caught": true,
+      "failed": [
+        "the land the simulation reads runs on below the box to 27.6°N, on the box's own lattice, and the box is untouched"
+      ]
+    },
+    {
+      "name": "a class saved before the south is never given it",
+      "file": "server/storage.mjs",
+      "test": "tests/south-map.test.mjs",
+      "expect": "a class saved before the south opens with it at the save's door: added, nothing it had moved, and no save version",
+      "caught": true,
+      "failed": [
+        "a class saved before the south opens with it at the save's door: added, nothing it had moved, and no save version"
+      ]
+    },
+    {
+      "name": "an old save keeps the outside road to San Patricio beside the walked one",
+      "file": "sim/south.mjs",
+      "test": "tests/south-map.test.mjs",
+      "expect": "a class saved before the south opens with it at the save's door: added, nothing it had moved, and no save version",
+      "caught": true,
+      "failed": [
+        "a class saved before the south opens with it at the save's door: added, nothing it had moved, and no save version"
+      ]
+    },
+    {
+      "name": "a night fight drawn by day",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view-south.test.mjs",
+      "expect": "a night fight is dark but for the lit windows, the fire and the flashes",
+      "caught": true,
+      "failed": [
+        "a night fight is dark but for the lit windows, the fire and the flashes"
+      ]
+    },
+    {
+      "name": "the men shut in a house are drawn standing in the open",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view-south.test.mjs",
+      "expect": "a side in parts is drawn part by part: men asleep lying down, men in a house unseen but firing from it, men giving up with their hands up",
+      "caught": true,
+      "failed": [
+        "a side in parts is drawn part by part: men asleep lying down, men in a house unseen but firing from it, men giving up with their hands up"
+      ]
+    },
+    {
+      "name": "the fallen are carried along with their part",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view-south.test.mjs",
+      "expect": "a man who falls lies where he fell while the rest of his part is marched off",
+      "caught": true,
+      "failed": [
+        "a man who falls lies where he fell while the rest of his part is marched off"
+      ]
+    },
+    {
+      "name": "a family's man killed is still drawn at his work",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-view-south.test.mjs",
+      "expect": "a family's man is drawn in his part - asleep, in the house, giving up - and once his fate has come, in it",
+      "caught": false,
+      "failed": []
+    }
+  ],
+  "browser": [],
+  "cleanBrowserChecks": null,
+  "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
+}

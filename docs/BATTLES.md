@@ -127,7 +127,7 @@ Every other question in `docs/battle-research/staging.md` takes its recommended 
 1. The engine and renderer, rebuilt first on Gonzales's fight (with the arrival guarantee for the upriver march). **Built 2026-09-25, not released: §6.**
 2. In parallel: Gonzales's town before the fight (alarm, the flag, the muster at the ford, the cannon), and a staging
    sheet per later engagement from the research already in `docs/battle-research/`.
-3. The later engagements on the engine, each with its aftermath.
+3. The later engagements on the engine, each with its aftermath. **San Patricio and Agua Dulce built 2026-09-25, not released: §6.13-6.15.**
 4. Released to live after each wave.
 
 ## 6. The engine as built (2026-09-25, wave 1: Gonzales)
@@ -279,3 +279,68 @@ Its record is `docs/evidence/battle-injections.json`.
 - A family's person is drawn in the militia's firing poses (stand-in, `docs/ART_REQUESTS.md` request 2026-09-25).
 - The staged fate of a family's person inside a deadly battle is not built (none is at stake at Gonzales).
 - The town before the fight (alarm, flag, muster) is a separate build (`sim/town-scenes.mjs`).
+
+## 6.13 The engine's additions for the south (2026-09-25, wave 2: San Patricio and Agua Dulce)
+
+Generic and additive; nothing Gonzales uses changed its meaning. Claims: `FIC-GONZ-435`, `FIC-GONZ-436`.
+
+| Addition | Where | What it does |
+| --- | --- | --- |
+| Style `camp` | `STYLES` | Men unformed: drawn lying (`*-reclining`). The staging sheet's §9 proposal. |
+| A side in **parts** | `phase[side].parts: [{ id, drawn, at \| from/to \| keys, style?, fire?, action?, pose?, spread?, face? }]`; `partView`; `placeOf` | A side drawn in groups at their own places - Johnson's men on the square and in three houses, the dragoons in two groves. Each part keeps the same figures in every phase (a scattered layout per part, whatever its style), and the parts together never draw more than the side's sample (`checkEngagement`). A side with parts and no place of its own stands where its parts stand. The way out of Gonzales's detachment `ceiling:`. |
+| **Poses** | `POSES`: `stand`, `asleep`, `hidden`, `surrender` | `hidden` is men shut in a house: nobody drawn, their shots a flash and a puff at its door and windows. `surrender` is hands up (`*-surrender`). |
+| A fall in a part | `falls: [{ …, part }]` | The part's own men go down; a fallen man **lies where he fell** while his part is marched off (`fallenSpots`). |
+| Light | `phase.light` / `def.light`: `'night'`, `'dawn'` | A dark wash over the view; lit scenery and flashes glow through it (`drawNight`, `glow`). |
+| Scenery | `def.scenery(ground) → [{ id, kind: 'house' \| 'campfire' \| 'grove', sprite?, x, y, lit: bool \| [phaseIds], trees?, spread? }]` | Houses, a fire, groves, drawn behind the fighting. |
+| A herd | `phase.herd: { at \| keys, count, scatter? }` | A drove of horses moving with the drive and scattering in a charge (`drawHerd`). |
+| Riders on the Texian side | `sides.texian.mounted` | Drawn riding (`mounted-courier-e`, a stand-in); a family's man with them too. |
+| A person's part and fate | `projectBattle(world, id, { members, memberParts, memberFates })` | The page is told which part each of its own people is in, and each one's fate **only from the minute it happens** (`at <= world.minute`); `memberPose` draws him asleep, in the house, firing, hands up, or hit and lying still. |
+| Step 1 | `BATTLE_STEPS`, `public/motion.js` `CALENDAR_STEPS` | A minute a tick for San Patricio's quarter hour and Agua Dulce's charge. |
+
+## 6.14 San Patricio and Agua Dulce Creek (built 2026-09-25, not released)
+
+Staged from `docs/battle-research/staging.md` §4 with the owner's S1 (the map to the Nueces) and S2 (Matamoros kept, the dispute
+recorded). Claims `HIST-TEX-510`–`-514`, `FIC-GONZ-435`–`-436`. The map is `docs/MAP_ACCURACY.md` §13.
+
+| Piece | File |
+| --- | --- |
+| The engagements | `sim/battles/san-patricio.mjs` (night 01:00 → the square 03:00 → the houses → the last house → prisoners gathered 03:35 → 04:15), `sim/battles/agua-dulce.mjs` (the drive north 05:30 → the last hour 09:30 → the charge **10:30** → six prisoners 10:50 → 11:50) |
+| The director's part | `sim/south.mjs`, called from `advanceAlamo` in `sim/directors.mjs` and from `directorProjection` (one line each) |
+| The map at the save's door | `openSouth`, called from `server/storage.mjs` `readSave` |
+| The join and the recall | `sim/winter.mjs` (`SERVICE.matamoros` at San Patricio, `southClosing`, `recallRefusal`) and the chore's `travel: 'south'` in `sim/chores.mjs` |
+
+- **Arrival.** A man sent south joins at San Patricio (at Refugio on a map without the south). A man still at Refugio walks on
+  (`walkOnSouth`). The join is refused, in words, once the family's quickest way would not reach San Patricio half a day before
+  the raid. About six in the morning of February 20 Grant rides south with the men put in his party at the record's shares
+  (`grantRides`, `JOHNSON_SHARE`) to the end of the walked road, and at 5:30 on March 2 they drive the herd north to the creek.
+- **In the force.** Every man of the party at its muster when the fight is armed is put in it before the first shot, in a part:
+  the square, a house, the back door; the lead, the middle or the drag of the drive. He is walked to his place at a runner's pace.
+- **Fates at staged moments.** His fate is `fightSouth`'s own roll (`southFate`: `SOUTH_RATES`, frailty-weighted), so no class's
+  outcome moved; the engine only chooses the moment and the part (`STAGED`, seeded). At that minute `service.fate` is set and the
+  glory awarded; the page of his family draws it from then; `health` changes only with the word (`tellSouth`, unchanged). A killed
+  man lies where he fell on his family's map (`service.down`).
+- **Nobody can be sent for** once his fight is armed: "... is with Johnson's men at San Patricio, and nobody can reach them now";
+  once it has begun or he has been resolved: "No word has come from San Patricio. Nobody can reach him now." - which says nothing
+  of his fate. The card offers no recall button (`service.unreachable`).
+- **Viewers.** The Host every fight live, `focus: 'battle'` from the first shot, the spotlight on the field; a family only while
+  one of its people is in the force; nobody else anything.
+- **The alert** at the first shot, at the man's side: "Soldiers in the square! They're at the doors!"; "Horsemen in the trees
+  ahead!" (staging §4.7). With Watch.
+- **Afterwards.** The escaped ride for Fannin at Goliad at once; the dead lie where they fell; the prisoners are held where they
+  were taken until Agua Dulce is fought, then walked out of the walked country toward Matamoros (to `matamoros-road`). When the
+  word comes (March 3, March 7) each family that had a man there is told, through somebody at home, *What happened*, *What yours
+  did*, *Why it ended so*, and where the accounts disagree; the card stays a day and the journal keeps it.
+- **Pace.** San Patricio's fighting (03:00-03:35) is 25 ticks, about 4 minutes at Study; Agua Dulce's charge and the minutes after
+  it about 3 1/2; both nights before are watched at twenty minutes a tick.
+
+Evidence: `tests/battle-south.test.mjs` (10), `tests/battle-view-south.test.mjs` (5), `tests/south-map.test.mjs` (6),
+`npm run test:battle-south` (15 checks, `docs/evidence/battle-south-browser.json`, screenshots in `docs/evidence/battle-south/`),
+`scripts/battle-south-injections.mjs` (`docs/evidence/battle-south-injections.json`).
+
+### 6.15 Limits of wave 2
+
+- ceiling: the horse guard at the ranch four miles out is told, never drawn; no family's man is put in it.
+- ceiling: the houses, the lit windows, the groves and the herd stand where this build set them (`FIC-GONZ-435`).
+- ceiling: the drive north is drawn in a straight line from the end of the walked road to the creek, within a mile of the road.
+- ceiling: the prisoners' guard is not drawn marching with them; a prisoner column on the engine is the way out.
+- The night, the riders, the herd and the groves are stand-ins (`docs/ART_REQUESTS.md`, request 2026-09-25 "the south's fights").

@@ -110,10 +110,11 @@ test('the groves hide the dragoons, and a herd is driven and scattered; Grant\'s
 test('a family\'s man is drawn in his part - asleep, in the house, giving up - and once his fate has come, in it', () => {
   const view = createBattleView(fakeArt());
   const texParts = [part('square', 8, 0, { pose: 'asleep', style: 'camp' }), part('house-b', 9, 0.03, { pose: 'hidden', fire: 'scattered' })];
-  const draw = (minute, fates = {}, now = minute * 1000) => view.draw(fakeContext(), night(minute, texParts, { members: ['a', 'b'], memberParts: { a: 'square', b: 'house-b' }, memberFates: fates }), { camera, time: now, now, tickMs: 1000, bounds: { width: 1366, height: 768 } });
+  // `a` in the house that fires, `b` asleep on the square: what each is drawn doing is his part's, until his fate comes.
+  const draw = (minute, fates = {}, now = minute * 1000) => view.draw(fakeContext(), night(minute, texParts, { members: ['a', 'b'], memberParts: { a: 'house-b', b: 'square' }, memberFates: fates }), { camera, time: now, now, tickMs: 1000, bounds: { width: 1366, height: 768 } });
   draw(1);
-  assert.equal(view.memberPose({ id: 'a' }, 1000).sprite, 'volunteer-reclining', 'a man asleep on the square is not drawn asleep');
-  const inHouse = view.memberPose({ id: 'b' }, 1000);
+  assert.equal(view.memberPose({ id: 'b' }, 1000).sprite, 'volunteer-reclining', 'a man asleep on the square is not drawn asleep');
+  const inHouse = view.memberPose({ id: 'a' }, 1000);
   assert.ok(inHouse.clip === 'volunteer-fire-reload' || /^volunteer-(e|w|load)$/.test(inHouse.sprite), 'a man in the house that fires is not firing');
   // His fate, once the server sends it: hit, then lying still; the other taken, hands up.
   draw(3, { a: { fate: 'killed', minute: 3 }, b: { fate: 'captured', minute: 3 } }, 3000);

@@ -124,10 +124,12 @@ test('a man sent south is at San Patricio, and in the force before the first sho
     assert.ok(Math.hypot(man.location.x - world.map.sites['san-patricio'].x, man.location.y - world.map.sites['san-patricio'].y) < 0.3, `${man.name} is not in the town`);
   }
   const grant = sent.filter(man => man.service.party === 'agua-dulce' || man.service.escapedFrom === 'agua-dulce');
-  untilMoment(world, 'agua-dulce');
+  // The charge by the fight's own clock, not the director's moment (tests the fight's hour separately).
+  until(world, () => world.battles?.['agua-dulce'] && battleState(world, 'agua-dulce')?.fighting);
+  const charge = battleState(world, 'agua-dulce').contact;
   for (const man of grant) {
     const entry = world.battles['agua-dulce'].participants[man.id];
-    assert.ok(entry && entry.joined < momentOf(world, 'agua-dulce'), `${man.name} was not with Grant's party before the charge`);
+    assert.ok(entry && entry.joined < charge, `${man.name} was not with Grant's party before the charge`);
     const ground = world.map.sites['agua-dulce'];
     assert.ok(Math.hypot(man.location.x - ground.x, man.location.y - ground.y) < 1, `${man.name} was not at the creek when the dragoons came`);
   }
@@ -154,7 +156,7 @@ test('each man\'s fate is the roll it always was, lands at its own moment inside
   const seen = {};
   const ids = men;
   // Tick by tick through both fights, checking every tick.
-  for (let t = 0; t < 6000 && again.minute < momentOf(again, 'agua-dulce') + 60; t++) {
+  for (let t = 0; t < 6000 && !(again.battles?.['agua-dulce'] && battleState(again, 'agua-dulce')?.over); t++) {
     stepWorld(again);
     for (const id of ids) {
       const person = again.entities[id], fight = person.service?.fight || person.service?.escapedFrom;
@@ -202,11 +204,10 @@ test('nobody can be sent for once the fight begins, and the refusal says nothing
   const { world, men } = southClass();
   const person = world.entities[men[0]];
   assert.equal(recallRefusal(person, world), null, 'a man at San Patricio in January could not be sent for');
-  untilMoment(world, 'san-patricio-night');
-  stepWorld(world);
+  untilMoment(world, 'san-patricio');
   const inFight = men.map(id => world.entities[id]).filter(one => one.service?.fight === 'san-patricio');
   assert.ok(inFight.length);
-  for (const one of inFight) assert.match(recallRefusal(one, world), /nobody can reach/);
+  for (const one of inFight) assert.match(recallRefusal(one, world), /nobody can reach/i);
   until(world, () => world.minute >= momentOf(world, 'san-patricio') + 20);
   for (const one of inFight.filter(man => man.service.kind === 'matamoros')) {
     const why = recallRefusal(one, world);
