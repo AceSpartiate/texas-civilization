@@ -77,6 +77,9 @@ test('both are checked when they load and dated where the record puts them: Cole
   assert.equal(hour(on('muster')), '3/27 6:00');
   assert.equal(hour(on('volleys')), '3/27 7:00');
   assert.equal(TIMELINE['goliad-massacre'], on('volleys'));
+  // Both end on the spring's four-hour clock (from dawn on March 14), so every tick after them falls where it always did and
+  // the army's dated marches in April land on their days (found by tests/camp.test.mjs, 2026-09-25).
+  for (const end of [coleto.at(-1).to, palm.at(-1).to]) assert.equal((end - TIMELINE['scrape-opens']) % 240, 0, `${hour(end)} is off the four-hour clock`);
   // Here the Texians are in the square, and at night the Mexicans are loose in the grass (staging.md §6.3).
   for (const id of ['square', 'assault-1', 'assault-2', 'assault-3', 'night', 'guns']) assert.equal(COLETO.phases.find(phase => phase.id === id).texian.style, 'square', id);
   assert.ok(['dusk', 'night', 'small-hours'].every(id => COLETO.phases.find(phase => phase.id === id).mexican.parts.filter(part => !part.mounted).every(part => part.style === 'loose')));

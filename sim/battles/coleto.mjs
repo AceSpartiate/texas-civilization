@@ -345,8 +345,10 @@ export const COLETO = Object.freeze({
       ],
     },
     {
-      // 09:00-13:00. The unwounded marched back to Goliad under guard (`HIST-TEX-521`).
-      id: 'march-back', minutes: 240, step: 60, title: 'Back to Goliad, prisoners', claimId: 'HIST-TEX-521',
+      // 09:00-14:00. The unwounded marched back to Goliad under guard (`HIST-TEX-521`). It ends at two, on the spring's four-hour
+      // clock (the period's ticks fall at 2, 6, 10...), so the ticks after the fight fall where they always did: a fight that
+      // ended off it moved every later tick of the class, and the army's dated marches in April with them (tests/camp.test.mjs).
+      id: 'march-back', minutes: 300, step: 60, title: 'Back to Goliad, prisoners', claimId: 'HIST-TEX-521',
       caption: 'The prisoners are marched back to Goliad under guard and shut in the presidio. The wounded are brought in after them.',
       texian: { style: 'column', from: 'square', to: 'gate', action: 'advance', fire: 'none', face: 'goliad', drawn: 52 },
       mexican: { style: 'column', action: 'follow', fire: 'none', count: 1400, drawn: 24, parts: [

@@ -79,7 +79,10 @@ const BOX_FILES = {
   // the crossing windows and all 561 watercourses (checked by decoding both). Was bb08abb6...ce9e33b.
   // Built again after the two were merged, 2026-09-19: the places past the box and the audit's two rules of placement
   // together. Was cf35e37f... on the one branch and 67a873b7... on the other.
-  'colonies-map.json.gz': '9a60fdb6d18b70343c4957e6fed853477d17845b9a07c44f9fa40c8996e04a01',
+  // Rebuilt again 2026-09-25 for Coleto (HIST-TEX-516): the `coleto` field at the Fannin Battleground marker, and the road from
+  // Goliad to Victoria laid in two legs through it (27.47 miles before, 10.08 + 17.39 after). Every other place, road, crossing
+  // and watercourse is byte for byte what it was (checked by decoding both). Was 9a60fdb6...96e04a01.
+  'colonies-map.json.gz': 'f63ecca530ceed77348902de253358c00f981e52e8aa4a52c1adc4eb45ce2368',
   'colonies-province.json.gz': '8ef9b839a6f03b82a1ef81e832eb3d483cd7761e8f4eef32eea33b3508883dc7',
   'colonies-water.json.gz': '22900ae34954db4225fba11e1e977beab6161e4d53d84b5ebc923089e3162c44',
   // The biomes of 1836 (2026-09-19). The grid a class of the week before was made on is kept as it was, beside it, and read

@@ -12,6 +12,10 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { calendarMinutes } from '../sim/clock.mjs';
+// A battle being watched holds everybody's clock to its own step (sim/military-pacing.mjs, docs/BATTLES.md §2.2): since
+// 2026-09-25 Coleto is fought on March 19-20, when this class's families are on the road, so what the road holds is read
+// through it.
+import { battleMinutes } from '../sim/military-pacing.mjs';
 import { CHORES } from '../sim/chores.mjs';
 import { WAGON_SPEED, WALK_SPEED } from '../sim/travel.mjs';
 import { share } from '../sim/scrape.mjs';
@@ -78,17 +82,17 @@ test('rain bogs the wagon: the family is halted and asked, the calendar holds wh
   assert.ok(shown.ask.options.every(option => option.note && typeof option.can === 'boolean'), 'an answer without its price');
   assert.equal(shown.weather, 'rain');
   assert.deepEqual(needsOf(view(world, household.id), person.id).map(need => need.kind), ['road'], 'the main person carries no "!" for the road');
-  assert.equal(calendarMinutes(world), 20, 'the calendar did not hold for a played family deciding');
+  assert.equal(calendarMinutes(world), battleMinutes(world, 20), 'the calendar did not hold for a played family deciding');
   assert.equal(waitingOn(world, household), 1);
   assert.throws(() => applyAction(world, household.id, { action: 'road-answer', entityId: person.id, option: 'fly' }), /not one of the answers/);
   const before = Object.fromEntries(people(world, household).map(one => [one.id, one.exertion || 0]));
   applyAction(world, household.id, { action: 'road-answer', entityId: person.id, option: 'dig' });
   assert.ok(household.flight.bog.freeing, 'digging was not begun');
   assert.equal(household.flight.ask, undefined);
-  assert.equal(calendarMinutes(world), 240, 'the calendar still held once the family had answered');
+  assert.equal(calendarMinutes(world), battleMinutes(world, 240), 'the calendar still held once the family had answered');
   assert.throws(() => applyAction(world, household.id, { action: 'road-answer', entityId: person.id, option: 'dig' }), /Nobody is waiting/);
   const held = person.travel.progress;
-  until(world, () => !household.flight.bog, 6);
+  until(world, () => !household.flight.bog, 200);
   assert.equal(household.flight.bog, undefined, 'the wagon was never dug out');
   assert.equal(person.travel.progress, held, 'the family moved while it dug');
   assert.ok(Number.isFinite(household.flight.oxSpentUntil), 'the ox was not spent');
@@ -114,7 +118,7 @@ test('a bogged family can wait for a dry day, or leave the wagon and go on on fo
   applyAction(world, household.id, { action: 'road-answer', entityId: main(world, household).id, option: 'wait' });
   assert.equal(household.flight.bog.waiting, true);
   assert.equal(view(world, household.id).flight.bogged.waiting, true);
-  until(world, () => !household.flight.bog, 40);
+  until(world, () => !household.flight.bog, 200);
   assert.equal(household.flight.bog, undefined, 'the ground never dried');
   assert.ok(dayOf(world.minute) > bogDay && !['rain', 'storm'].includes(weatherOf(world, household)), 'the wagon came free on a rain day, or the same day');
   assert.equal(household.flight.oxSpentUntil, undefined, 'waiting spent the ox');
@@ -204,7 +208,7 @@ test('the pursuit: a family camped at San Felipe is warned as Santa Anna’s col
   assert.deepEqual(shown.ask.options.map(option => option.id), ['press-on', 'stay', 'abandon']);
   assert.match(shown.ask.options[0].label, /Lynchburg/);
   assert.deepEqual(needsOf(shown ? view(world, household.id) : null, person.id).map(need => need.kind), ['road']);
-  assert.equal(calendarMinutes(world), 20, 'the calendar did not hold for the warning');
+  assert.equal(calendarMinutes(world), battleMinutes(world, 20), 'the calendar did not hold for the warning');
   assert.ok(world.events.some(event => event.householdId === household.id && /Word along the road: Santa Anna/.test(event.text)), 'the warning is not in the family\'s record');
   assert.equal(whereWords(world, person, household), 'at San Felipe de Austin, fled from home');
   applyAction(world, household.id, { action: 'road-answer', entityId: person.id, option: 'press-on' });
@@ -212,7 +216,7 @@ test('the pursuit: a family camped at San Felipe is warned as Santa Anna’s col
   assert.equal(household.flight.refuge, 'lynchburg');
   assert.equal(household.flight.mode, 'wagon');
   assert.ok(travellers(world, household).length >= 2, 'the family did not set out together');
-  assert.equal(calendarMinutes(world), 240);
+  assert.equal(calendarMinutes(world), battleMinutes(world, 240));
   until(world, () => household.flight.status === 'refuged', 300);
   assert.equal(household.flight.refuge, 'lynchburg', 'the family never reached Lynchburg');
   assert.equal(household.flight.overtaken, undefined, 'a family that pressed on was overtaken');
@@ -303,7 +307,7 @@ test('families nobody plays dig out, hunt from the camp when short, and press on
   const answer = world.events.find(event => event.householdId === household.id && event.decision === 'road-bog-dig');
   assert.ok(answer, 'the director did not dig its wagon out');
   assert.match(answer.text, /^The family will/, `the bog was answered by silence, not the director: ${answer.text}`);
-  assert.equal(calendarMinutes(world), 240, 'a family nobody plays held the calendar');
+  assert.equal(calendarMinutes(world), battleMinutes(world, 240), 'a family nobody plays held the calendar');
   // Short of food with a shot in the house, one grown hand hunts from the camp.
   until(world, () => household.flight.crossing, 200);
   // A shot in the house as well as the hunger: the condition under test is both, and on the longer road of the weather of
@@ -330,7 +334,7 @@ test('families nobody plays dig out, hunt from the camp when short, and press on
   absent.households['hh-1'].absent = true;
   until(absent, () => theirs.flight.bog, 200);
   assert.ok(theirs.flight.bog);
-  assert.equal(calendarMinutes(absent), 240, 'an absent family held the calendar');
+  assert.equal(calendarMinutes(absent), battleMinutes(absent, 240), 'an absent family held the calendar');
   stepWorld(absent);
   assert.equal(theirs.flight.ask, undefined, 'an absent family was not answered at once');
   assert.match(absent.events.find(event => event.householdId === theirs.id && event.decision === 'road-bog-dig')?.text || '', /deciding for itself/);

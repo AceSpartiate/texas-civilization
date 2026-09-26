@@ -208,8 +208,9 @@ export const GOLIAD_MASSACRE = Object.freeze({
       falls: [{ side: TEX, part: 'wounded', count: 60, at: 6, claimId: 'HIST-TEX-517' }],
     },
     {
-      // 08:00-09:00. What was done with the dead is told, not drawn (`HIST-TEX-517`).
-      id: 'after', minutes: 60, step: 20, title: 'Afterward', claimId: 'HIST-TEX-517',
+      // 08:00-10:00. What was done with the dead is told, not drawn (`HIST-TEX-517`). It ends at ten, on the spring's four-hour
+      // clock, as Coleto does (sim/battles/coleto.mjs `march-back`).
+      id: 'after', minutes: 120, step: 20, title: 'Afterward', claimId: 'HIST-TEX-517',
       caption: 'About 340 men were killed at Goliad that morning. Their bodies were burned and left in the open until June 3, when General Rusk’s men gathered the remains and buried them with military honors. The killing turned grief into anger: at San Jacinto the Texians would shout “Remember Goliad!”',
       texian: columns(id => ({ at: `halt-${id}` }), { runners: { at: 'river-victoria', action: 'gone' } }),
       mexican: guards(() => ({ at: 'gate' }), { action: 'gone' }),
