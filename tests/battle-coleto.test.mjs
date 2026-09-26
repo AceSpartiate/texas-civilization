@@ -191,6 +191,7 @@ test('a man with his own horse may ride with Horton\'s scouts, is cut off in the
   const account = view(world, rider.householdId).battleAccount;
   assert.ok(account && /Horton/.test(account.text) && /What happened:/.test(account.text), 'his family was not told through him what he saw');
   until(world, () => world.director.milestones['massacre-word'], 3000);
+  assert.ok(!world.battles['goliad-massacre'].participants[rider.id], 'Horton\'s man was among the prisoners');
   assert.notEqual(rider.health.condition, 'dead', 'Horton\'s man was killed at Goliad');
 });
 
@@ -199,8 +200,11 @@ test('Palm Sunday: each prisoner meets the record\'s share at its own moment; a 
   until(world, () => phaseOf(world, 'goliad-massacre') === 'eve', 4000);
   const entries = world.battles['goliad-massacre'].participants;
   assert.ok(!entries[killed.id], 'a man killed at Coleto was among the prisoners');
-  assert.ok(!entries[rider.id], 'Horton\'s man was among the prisoners');
   for (const man of men.filter(one => entries[one.id])) assert.equal(entries[man.id].fate, massacreFate(world, man));
+  // G2 by the rule itself: every man whose roll is an escape, if he is still wounded, is killed with the wounded instead.
+  const runners = Array.from({ length: 400 }, (_, i) => ({ id: `g2-${i}`, health: { condition: 'wounded' } })).filter(one => massacreFate(world, { ...one, health: { condition: 'well' } }) === 'escaped');
+  assert.ok(runners.length > 10, 'no roll of four hundred is an escape');
+  for (const one of runners) assert.equal(massacreFate(world, one), 'executed', 'a man still wounded ran');
   // G2: the wounded man is with the wounded, and is killed inside or spared - never runs.
   assert.equal(wounded.health.condition, 'wounded');
   assert.ok(['executed', 'spared'].includes(entries[wounded.id].fate), `a wounded man's fate was ${entries[wounded.id].fate}`);
