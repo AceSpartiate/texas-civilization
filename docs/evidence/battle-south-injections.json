@@ -21,10 +21,9 @@
       "file": "sim/south.mjs",
       "test": "tests/battle-south.test.mjs",
       "expect": "each man's fate is the roll it always was, lands at its own moment inside the fight, and is on no screen and in no report before",
-      "caught": false,
+      "caught": true,
       "failed": [
-        "each man's fate is the roll it always was, lands at its own moment inside the fight, and is on no screen and in no report before",
-        "nobody can be sent for once the fight begins, and the refusal says nothing of what became of them"
+        "each man's fate is the roll it always was, lands at its own moment inside the fight, and is on no screen and in no report before"
       ]
     },
     {
@@ -42,11 +41,9 @@
       "file": "sim/directors.mjs",
       "test": "tests/battle-south.test.mjs",
       "expect": "San Patricio is fought at three in the morning of February 27, Agua Dulce at half past ten on March 2, and the day never moves",
-      "caught": false,
+      "caught": true,
       "failed": [
-        "San Patricio is fought at three in the morning of February 27, Agua Dulce at half past ten on March 2, and the day never moves",
-        "a man sent south is at San Patricio, and in the force before the first shot, or rides with Grant and drives the horses north",
-        "each man's fate is the roll it always was, lands at its own moment inside the fight, and is on no screen and in no report before"
+        "San Patricio is fought at three in the morning of February 27, Agua Dulce at half past ten on March 2, and the day never moves"
       ]
     },
     {
@@ -54,10 +51,9 @@
       "file": "sim/south.mjs",
       "test": "tests/battle-south.test.mjs",
       "expect": "a man sent south is at San Patricio, and in the force before the first shot, or rides with Grant and drives the horses north",
-      "caught": false,
+      "caught": true,
       "failed": [
-        "a man sent south is at San Patricio, and in the force before the first shot, or rides with Grant and drives the horses north",
-        "nobody can be sent for once the fight begins, and the refusal says nothing of what became of them"
+        "a man sent south is at San Patricio, and in the force before the first shot, or rides with Grant and drives the horses north"
       ]
     },
     {
@@ -155,8 +151,10 @@
       "file": "public/battle-view.js",
       "test": "tests/battle-view-south.test.mjs",
       "expect": "a family's man is drawn in his part - asleep, in the house, giving up - and once his fate has come, in it",
-      "caught": false,
-      "failed": []
+      "caught": true,
+      "failed": [
+        "a family's man is drawn in his part - asleep, in the house, giving up - and once his fate has come, in it"
+      ]
     }
   ],
   "browser": [],
