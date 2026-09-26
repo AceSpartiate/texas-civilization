@@ -449,6 +449,9 @@ function grownClip(entity, observed) {
     // animal in it is an ox - so the absent field reads correctly as one.
     const beast = entity.species === 'horse' ? 'horse' : 'ox';
     const heading = travelHeading(entity);
+    if (beast === 'ox' && entity.travel?.mode === 'foot') return {
+      id: `ox-packed-walk-${heading || 'e'}`, upright: Boolean(heading),
+    };
     return entity.travel
       ? { id: heading ? `${beast}-walk-${heading}` : `${beast}-walk`, upright: Boolean(heading) }
       : { id: beast === 'horse' ? 'horse-chestnut-idle' : 'ox-brown-idle' };

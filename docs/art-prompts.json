@@ -1252,6 +1252,48 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/flag-come-and-take-it.png",
       "postProcessing": "None. Generated PNG copied unchanged; measured atlas validation only.",
       "review": "All four white flags keep one black star over the cannon and legible COME AND TAKE IT text, with distinct cloth poses."
+    },
+    {
+      "sheet": "ox-packed",
+      "promptId": "frontier-v1/ox-packed",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: historical-scene. Asset type: production 2D animated sprite atlas, genuine transparent PNG. Image is the exact brown ox identity and style reference. Exactly sixteen isolated full-body images of the same ox in a 4x4 grid. Pack saddle, rolled blankets, seed sacks, one hoe and one axe tied to both sides; no wagon, yoke or rider. Row 1 east walking four distinct footfalls; row 2 south walking four footfalls; row 3 north walking four footfalls; row 4 stationary east, south, north, and east head lowered. Preserve brown hide, curved cream horns, packs, proportions, warm hand-painted dark outlines and hoof anchors. Generous transparent gutters; no background, grid or labels.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/animal-motion.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-09fcd876-0f1e-490e-b9d8-65a2e96a82b9.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/ox-packed.png",
+      "postProcessing": "None. Generated PNG copied unchanged; atlas validation measures alpha.",
+      "review": "Brown ox keeps one pack kit in cardinal four-footfall walks and three idle directions, with separate lowered-head rest."
+    },
+    {
+      "sheet": "carreta-solid-wheels",
+      "promptId": "frontier-v1/carreta-solid-wheels",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: historical-scene. Asset type: production 2D animated vehicle sprite atlas for a 1835 Texas Revolution game. Exactly sixteen isolated frames of one hand-built carreta in a 4x4 transparent grid. Rough unhewn poles, rawhide lashings, two great SOLID wooden disc wheels made from thick planks; no spokes or iron tires, ox, rider or cover. Row 1: east travel with wheel peg/plank seam at four rotational positions; row 2 south travel four frames; row 3 north travel four frames; row 4 stationary empty east/south/north and loaded east. Preserve scale, design, dark-brown outline, warm hand-painted frontier style and grounded wheel anchors. Genuine RGBA, clear gutters, no scenery, labels or watermark.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/cart-open.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-563fc48f-797f-4b63-af12-90cb0063d93c.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/carreta-solid-wheels.png",
+      "postProcessing": "None. Generated PNG copied unchanged; measured alpha validation only.",
+      "review": "Solid plank wheels, ox-free vehicle, distinct east wheel-rotation seam and peg; cardinal travel and parked/load states."
+    },
+    {
+      "sheet": "icons-gather-stock-carreta",
+      "promptId": "frontier-v1/icons-gather-stock-carreta",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: stylized-concept. Asset type: transparent game action-icon atlas matching the existing illustrated family panel. Eight isolated icons in strict four columns by two rows, clear gutters and no labels. Row 1: squirrel on branch for small game; handline fishing pole and fish above water; oyster shells and basket; bee tree with honeycomb. Row 2: longhorn cow and knife with wrapped food, non-graphic; hog and knife with wrapped food, non-graphic; rider hat above prairie grass and cattle for stock search; hand-built solid-wheel carreta with axe for making it. Warm muted frontier paint, dark ink outlines, equal visual weight, no modern objects, text or background.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/icons-family-actions-2.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f3960902-e871-4990-b347-a068f14448aa.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/icons-gather-stock-carreta.png",
+      "postProcessing": "None. Generated PNG copied unchanged; alpha atlas measured during build.",
+      "review": "Eight distinct readable icon subjects; carcasses represented by wrapped food without gore; carreta has solid wheels."
     }
   ]
 }

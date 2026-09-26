@@ -111,18 +111,14 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   // Fetching logs from the timber (sim/chores.mjs, docs/BIOME_GAMEPLAY.md §3.2): no frame yet. stand-in: docs/ART_REQUESTS.md,
   // request 2026-09-19 - the logs fetched from the timber; a glyph drawn by `drawGlyph` until `icon-fetch-logs` is registered.
   ['fetch-logs', { glyph: 'fetch-logs' }],
-  // The carreta made at home (sim/carreta.mjs, owner 2026-09-25): no frame yet. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 -
-  // the carreta; a glyph drawn by `drawGlyph` (two solid wheels under a plank bed) until `icon-make-carreta` is registered.
-  ['make-carreta', { glyph: 'carreta' }],
+  ['make-carreta', { sprite: 'icon-make-carreta' }],
   // The old walk to the shops, for a class saved in the middle of it: the same picture as going to town to trade.
   ['visit-shop-street', { sprite: 'icon-visit-shop' }],
-  // What a family ate between deer (sim/gathering.mjs, docs/BIOMES.md §17.3): no frames yet. stand-in: docs/ART_REQUESTS.md,
-  // request 2026-09-20 - the gathering icons; each is a glyph drawn by `drawGlyph` until `icon-<key>` is registered.
-  ['take-small-game', { glyph: 'small-game' }], ['fish-the-water', { glyph: 'fish' }], ['fish-road', { glyph: 'fish' }],
-  ['gather-oysters', { glyph: 'oysters' }], ['cut-bee-tree', { glyph: 'bee-tree' }],
-  // The family's own stock (sim/stock.mjs, docs/STOCK.md): no frames yet. stand-in: docs/ART_REQUESTS.md, request
-  // 2026-09-20 - the stock icons; glyphs drawn by `drawGlyph` until `icon-<key>` is registered.
-  ['butcher-beef', { glyph: 'beef' }], ['butcher-hog', { glyph: 'hog' }], ['look-to-stock', { glyph: 'range' }],
+  ['take-small-game', { sprite: 'icon-take-small-game' }], ['fish-the-water', { sprite: 'icon-fish-the-water' }],
+  ['fish-road', { sprite: 'icon-fish-the-water' }], ['gather-oysters', { sprite: 'icon-gather-oysters' }],
+  ['cut-bee-tree', { sprite: 'icon-cut-bee-tree' }],
+  ['butcher-beef', { sprite: 'icon-butcher-beef' }], ['butcher-hog', { sprite: 'icon-butcher-hog' }],
+  ['look-to-stock', { sprite: 'icon-look-to-stock' }],
   // What the family's children do (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21).
   ['child-play', { sprite: 'icon-child-play' }], ['child-kindling', { sprite: 'icon-child-kindling' }],
   ['child-birds', { sprite: 'icon-child-birds' }], ['child-eggs', { sprite: 'icon-child-eggs' }],

@@ -308,6 +308,7 @@ function miniPerson(ctx, x, y, size, entity) {
 function miniAnimal(ctx, x, y, size, entity = {}, flip = false) {
   const beast = entity.species === 'horse' ? 'horse' : 'ox';
   const heading = entity.travel ? travelHeading(entity) : null;
+  if (beast === 'ox' && entity.travel?.mode === 'foot' && animated(ctx, `ox-packed-walk-${heading || 'e'}`, x, y, size, entity.id, { flip: heading ? false : flip, gait: entity.gait })) return;
   if (entity.travel && animated(ctx, heading ? `${beast}-walk-${heading}` : `${beast}-walk`, x, y, size, entity.id, { flip: heading ? false : flip, gait: entity.gait })) return;
   if (!entity.travel && animated(ctx, beast === 'horse' ? 'horse-chestnut-idle' : 'ox-brown-idle', x, y, size, entity.id, { flip })) return;
   if (drawSprite(ctx, beast === 'horse' ? 'horse-chestnut' : 'ox-brown', x, y, size, { flip })) return;
@@ -369,9 +370,14 @@ function miniQuarry(ctx, x, y, size, { kind = 'deer', flip = false, alert = fals
   deerFallback(ctx, x, y, size, flip);
 }
 function miniWagon(ctx, x, y, size, entity = {}, flip = false) {
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - the carreta. A carreta made at home (sim/carreta.mjs) is drawn with the
-  // wagon's art, a fifth smaller, until `carreta-travel` and `carreta-idle` land; the library's `ox-cart` has its ox painted in.
-  if (entity.carreta) size *= 0.8;
+  // The ox is a separate entity: neither the carreta nor the poor family's cart has one painted into the vehicle.
+  if (entity.carreta || entity.cart) size *= 0.8;
+  const heading = entity.travel ? travelHeading(entity) : null;
+  if (entity.carreta && (!entity.condition || entity.condition === 'sound')) {
+    if (entity.travel && animated(ctx, `carreta-travel-${heading || 'e'}`, x, y, size, entity.id, { flip: heading ? false : flip, gait: entity.gait })) return;
+    if (drawSprite(ctx, entity.laden ? 'carreta-loaded-e' : `carreta-idle-${heading || 'e'}`, x, y, size, { flip: heading ? false : flip })) return;
+  }
+  if (entity.cart && (!entity.condition || entity.condition === 'sound') && drawSprite(ctx, `cart-open-${heading || 'e'}`, x, y, size, { flip: heading ? false : flip })) return;
   const rolling = entity.travel ? (entity.laden ? 'wagon-loaded-travel' : 'wagon-travel') : 'wagon-idle';
   if (entity.condition === 'sound' && animated(ctx, rolling, x, y, size, entity.id, { flip: !flip, gait: entity.gait })) return;
   // A wagon that has come to harm shows it. Nothing here invents that state: it is drawn
@@ -664,8 +670,7 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   const vertical = behind.x === 0;
   // Somebody the family put on the horse for its journey together (sim/company.mjs, owner 2026-09-25) rides behind the last of its
   // vehicles - or behind the ox under its packs on a family with none - so horse, ox and cart are not drawn one on another.
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - the carreta (item 3). The ox of a family on foot walks under its packs and
-  // is drawn as the plain ox (`ox-walk`), a length behind, until `ox-packed-walk` lands.
+  // The ox of a family on foot carries its own visible packs a length behind the walkers.
   const saddled = entity.kind === 'person' && entity.travel?.saddle && !entity.travel.carried;
   const rigs = saddled ? wagonTeams(entity.householdId, marks.entities || []).length : 0;
   const offset = saddled ? { x: behind.x * (rigs ? 82 * rigs : 64), y: behind.y * (rigs ? 60 * rigs : 56) + 4 }
