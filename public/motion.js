@@ -501,8 +501,13 @@ function along(points, distance) {
  * the single number 20, so on the real land every tick of the news phase (an hour a tick) was
  * taken for a jump and a traveller was drawn teleporting three miles every tick.
  * tests/movement.test.mjs holds it equal to the clock's own table.
+ *
+ * And the steps a battle is watched at (sim/battle-stage.mjs `BATTLE_STEPS`, docs/BATTLES.md §2.2): a tick of two, five or
+ * ten minutes during the fighting is an ordinary tick, and a person walking through it is drawn walking, not snapped.
  */
-export const CALENDAR_STEPS = Object.freeze([20, 60, 240, 720]);
+export const CALENDAR_STEPS = Object.freeze([2, 5, 10, 20, 60, 240, 720]);
+/** A tick of the farming clock, which a stored `speed` is measured in (sim/travel.mjs `FARMING_TICK_MINUTES`). */
+const FARMING_STEP = 20;
 export const sameJourney = (a, b) => Boolean(a && b && a.from === b.from && a.to === b.to);
 /**
  * How far along a journey somebody is drawn, as a fraction `f` of the way through the tick.
@@ -673,7 +678,7 @@ export function travelMilesATick(travel, minutesATick = 0) {
   if (!travel) return 0;
   if (Number.isFinite(travel.step)) return Math.max(0, travel.step);
   if (!Number.isFinite(travel.speed)) return 0;
-  return Math.max(0, travel.speed) * (minutesATick > 0 ? minutesATick / CALENDAR_STEPS[0] : 1);
+  return Math.max(0, travel.speed) * (minutesATick > 0 ? minutesATick / FARMING_STEP : 1);
 }
 /**
  * How fast somebody is drawn crossing the screen, in their own drawn heights a real second: the miles a tick carries them,

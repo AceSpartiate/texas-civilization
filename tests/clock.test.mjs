@@ -16,6 +16,7 @@ import { CALENDAR_SCALE, TICK_MINUTES, calendarMinutes } from '../sim/clock.mjs'
 import { PATIENCE_MINUTES, seenComing } from '../sim/encounters.mjs';
 import { RIDER_SPEED } from '../sim/travel.mjs';
 import { advanceRoutine } from '../sim/routines.mjs';
+import { battleState } from '../sim/battle-stage.mjs';
 
 const colonies = (seed, players = 15, options = {}) => {
   const world = createGonzalesWorld(seed, players, { map: 'colonies', ...options });
@@ -149,7 +150,11 @@ test('the calendar holds through the night the force crossed, so the upriver que
   // Eight hours of 1835 at the farming scale. At an hour a tick it would be eight ticks, which is
   // less than it takes to notice a prompt and read it (`PATIENCE_MINUTES` in sim/encounters.mjs).
   assert.ok(ticks >= 20, `the upriver question was open for ${ticks} ticks`);
-  assert.equal(calendarMinutes(world), CALENDAR_SCALE.news, 'the calendar did not pick up again at the approach');
+  // From first light the fight itself is watched (docs/BATTLES.md §2.2, sim/battle-stage.mjs `battleStep`): the clock is held
+  // to the fight's own step, never faster than the news, and picks the news up again once the men leave the field.
+  assert.ok(calendarMinutes(world) < CALENDAR_SCALE.news, 'the fight at first light was run at the news pace');
+  until(world, () => battleState(world, 'gonzales')?.phase?.id === 'home');
+  assert.equal(calendarMinutes(world), CALENDAR_SCALE.news, 'the calendar did not pick up again after the fight');
 });
 
 test('a family eats and spoils by the calendar, so a day is a day however many ticks it took', () => {

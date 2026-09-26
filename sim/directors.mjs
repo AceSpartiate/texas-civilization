@@ -11,8 +11,12 @@ import { ALAMO_WORD, COURIER_DAYS, askCouriers, beginSiege, warnGarrison, fightS
 import { SETTLEMENT_DAYS, advanceArmiesPassing, orderOut, turnHome } from './scrape.mjs';
 import { HOUSTON_WORD, catchUpCamp, fightColeto, fightSanJacinto, followCamp, goliadMassacre, takeInEnlisted, tellGoliad, tellSanJacinto } from './houston.mjs';
 import { closeCampQuestion, openCampQuestion } from './camp.mjs';
-import { dateOf } from './clock.mjs';
+import { calendarMinutes, dateOf } from './clock.mjs';
 import { advanceArmy, closeDetachment, closeQuestion, countermandStorm, dieOfWounds, disbandArmy, fightConcepcion, fightGrass, fightStorming, formArmy, goForClothing, marchOut, moveCamp, openDetachment, openQuestion, questionOpen, recordPresent, returnFromClothing, tellGrassFight, tellStorming } from './army.mjs';
+import { GONZALES, gonzalesGround } from './battles/gonzales.mjs';
+import { armBattle, battleState, looseSlot, phaseOffset, placeFrom, projectBattle, sidePlace } from './battle-stage.mjs';
+import { findWay } from './ways.mjs';
+import { MODES } from './travel.mjs';
 
 /**
  * What the gathering, the organisation of the army and the march for Béxar rest on.
@@ -37,12 +41,21 @@ const distant = household => Boolean(household.settlementId && household.settlem
 export const EXPRESS_GRACE_MINUTES = 4320;
 
 // Date is anchored; these within-day times, pacing, and formation positions are schematic.
-// `crossing` is the night of October 1, when the force went over to the west bank and
-// started upriver (HIST-GONZ-003). It is when a household that carried food to town is
-// asked whether its person goes on with them. 4200 minutes from midnight on the 29th is
-// late on the 1st; `approach` at 4680 is dawn on the 2nd, and the call shuts then.
+// `crossing` is the night of October 1, when the force was over on the west bank at Mrs.
+// DeWitt's (HIST-GONZ-003, `HIST-TEX-470`: the men crossed from about seven, and formed there
+// until they marched about a quarter to one). The fight on the engine (sim/battles/gonzales.mjs)
+// starts there, and its own phases date the rest: `approach` is the dawn skirmish at twenty to
+// six on the 2nd, `exchange` the cannon and the advance after the parley at twenty to nine,
+// `withdrawal` nine, and `resolved` twenty to ten, when the dragoons are gone
+// (docs/battle-research/gonzales.md §13, `FIC-GONZ-415`).
+//
+// `upriver-call` is six in the evening of the 1st, when the men gathering at the ferry to cross
+// ask who goes with them: the upriver call opens then, and each family's closes when a walk from
+// Gonzales could no longer reach the line before the dawn skirmish (`FIC-GONZ-446`).
+const GONZALES_START = 4200;
+const gonzalesAt = phase => GONZALES_START + phaseOffset(GONZALES, phase);
 const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
-  notice: 600, publicNotice: 1440, gathering: 3000, crossing: 4200, approach: 4680, exchange: 4760, withdrawal: 4840, resolved: 4920, publicOutcome: 5400, finish: 5680,
+  notice: 600, publicNotice: 1440, gathering: 3000, 'upriver-call': 3960, crossing: GONZALES_START, approach: gonzalesAt('dawn-skirmish'), exchange: gonzalesAt('fight'), withdrawal: gonzalesAt('withdrawal'), resolved: gonzalesAt('field'), publicOutcome: 5400, finish: 5680,
   // After the fight: the gathering and the march, build step 5 (docs/COLONIES.md §5.5). Only a
   // class on the real land of the colonies reaches these; the invented country stops at `finish`,
   // exactly as every class saved before this does. Days from midnight on the 29th: the 3rd is
@@ -167,26 +180,21 @@ const captions = {
 // saved by a build that hardcoded them - or by any later map - re-anchors on load
 // instead of drawing the battle wherever the old coordinate space happened to put it.
 // No save version moves, because nothing here is remembered, only recomputed.
+//
+// Since 2026-09-25 the ground is the engagement's own (sim/battles/gonzales.mjs `gonzalesGround`,
+// docs/battle-research/gonzales.md): the timber the Texians waited in, the rise the dragoons took, the
+// cornfield, the road to Béxar. The four old names stay for anything that still reads them.
 export function battleGround(world) {
-  const camp = world.map.sites['williams-camp'], ford = world.map.sites.ford;
-  const dx = ford.x - camp.x, dy = ford.y - camp.y, span = Math.hypot(dx, dy) || 1;
-  const toward = { x: dx / span, y: dy / span };
-  const at = (from, unit, miles) => ({ x: from.x + unit.x * miles, y: from.y + unit.y * miles });
-  return {
-    mexican: { x: camp.x, y: camp.y },
-    // Formed up downriver of the camp, between it and the crossing they came over.
-    texianStart: at(camp, toward, 1.15),
-    texianClosed: at(camp, toward, 0.34),
-    // Away from the ford is upriver and inland - the road back to Béxar.
-    mexicanGone: at(camp, toward, -2.4),
-  };
+  const ground = gonzalesGround(world);
+  return { ...ground, mexican: ground.camp, texianStart: ground.timber, texianClosed: ground.closed, mexicanGone: ground.gone };
 }
 export function initializeDirectors(world) {
   const ground = battleGround(world);
   world.director = { arrival: true, milestones: {}, dispatches: {}, complete: false, phase: 'home', battle: { phase: 'waiting', formations: [
-    { id: 'formation-texian', side: 'texian', x: ground.texianStart.x, y: ground.texianStart.y, count: 12 },
-    { id: 'formation-mexican', side: 'mexican', x: ground.mexican.x, y: ground.mexican.y, count: 12 },
+    { id: 'formation-texian', side: 'texian', x: ground.texianStart.x, y: ground.texianStart.y, count: GONZALES.sides.texian.drawn },
+    { id: 'formation-mexican', side: 'mexican', x: ground.mexican.x, y: ground.mexican.y, count: GONZALES.sides.mexican.drawn },
   ] }, frames: [] };
+  world.battles = {};
   world.requests = {};
   world.marches = {};
   world.rumors = {};
@@ -304,7 +312,16 @@ function offerRumor(world, household, report) {
 // different acts, and the game asks separately about the second.
 function offerMarch(world) {
   if (!world.marches) world.marches = {};
-  if (world.minute < momentOf(world, 'crossing') || world.minute >= momentOf(world, 'approach')) return;
+  // Open from the evening the men gathered at the ferry, or from the crossing for a class saved before that moment existed.
+  const opens = world.director.milestones['upriver-call'] ? momentOf(world, 'upriver-call') : momentOf(world, 'crossing');
+  // A call nobody answered in time shuts when the walk could no longer make it, not at dawn: silence is an answer too.
+  for (const [householdId, march] of Object.entries(world.marches)) {
+    if (march.status !== 'open' || !Number.isFinite(march.closes) || world.minute <= march.closes) continue;
+    march.status = 'expired';
+    const waiting = world.entities[march.actorId];
+    record(world, 'consequence', { householdId, actorId: march.actorId, importance: 2, causes: [march.id], claimId: 'FIC-GONZ-446', text: `Nobody answered, and the men went up the river without ${waiting?.name || 'them'}.` });
+  }
+  if (world.minute < opens || world.minute >= momentOf(world, 'approach')) return;
   for (const household of Object.values(world.households)) {
     const request = world.requests[household.id];
     if (!request || request.status !== 'accepted' || world.marches[household.id]) continue;
@@ -315,24 +332,122 @@ function offerMarch(world) {
     if (entity.location.siteId !== 'gonzales') continue;
     if (['dead', 'captured'].includes(entity.health.condition)) continue;
     // Asked because the family was told, and told the way it was told. Somebody standing in
-    // Gonzales when the force went over hears it going; somebody who reaches town after it
-    // has gone is told by the people still there, and the offer says how long ago. It used
-    // to open on the clock with "are crossing the river tonight" for anybody in town until
-    // dawn, which was false for everybody who arrived after the crossing.
-    const told = world.knowledge.households[household.id][CROSSING];
+    // Gonzales when the men gathered at the ferry hears them asking; somebody who reaches town
+    // after they have gone over is told by the people still there, and the offer says how long
+    // ago. It used to open on the clock with "are crossing the river tonight" for anybody in
+    // town until dawn, which was false for everybody who arrived after the crossing.
+    const crossed = world.knowledge.households[household.id][CROSSING], called = world.knowledge.households[household.id][UPRIVER_CALL];
+    const told = crossed || called;
     if (!told) continue;
-    const late = told.receivedMinute - told.observedMinute;
-    const text = late < 60
-      ? `The men who took the cannon are crossing the river tonight and going upriver after the Mexican camp. They ask whether ${entity.name} will come as far as the camp with the supplies.`
-      : `The men who took the cannon crossed the river ${hoursAgo(late)} ago and went upriver after the Mexican camp. People still in town ask whether ${entity.name} will follow them as far as the camp with the supplies.`;
+    // The arrival guarantee (owner, 2026-09-25: "if they sent a character, it needs to happen in such a way that their
+    // character arrives in time to participate"; `FIC-GONZ-446`). The call is only put while a walk from Gonzales still
+    // reaches the men in the timber before first light, and it shuts for this family the moment it would not. Somebody who
+    // reaches town too late is told so, in town, and never asked - the date of the fight does not move for anybody.
+    const closes = marchCloses(world);
+    if (world.minute > closes) {
+      if (!world.marches[household.id]) {
+        const text = `The men who took the cannon have gone too far up the river to be caught before first light. ${entity.name} stays in Gonzales.`;
+        world.marches[household.id] = { id: record(world, 'consequence', { householdId: household.id, actorId: entity.id, text, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-446', causes: [request.choiceId, told.eventId], importance: 2 }), text, status: 'missed', actorId: entity.id, offeredMinute: world.minute };
+      }
+      continue;
+    }
+    const late = crossed ? crossed.receivedMinute - crossed.observedMinute : 0;
+    const text = !crossed
+      ? `The men who took the cannon are going over the river tonight and up it after the Mexican camp. They ask whether ${entity.name} will go with them.`
+      : late < 60
+        ? `The men who took the cannon are over the river tonight and going upriver after the Mexican camp. They ask whether ${entity.name} will go with them.`
+        : `The men who took the cannon crossed the river ${hoursAgo(late)} ago and are going upriver after the Mexican camp. People still in town ask whether ${entity.name} will follow them and catch them up before first light.`;
     const id = record(world, 'pressure', { householdId: household.id, actorId: entity.id, text, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-011', causes: [request.choiceId, told.eventId], importance: 2 });
     // The cost is settled here, once, and carried on the offer. It is NOT recomputed when
     // the march is paid out, because the nine miles up the river are themselves enough to
     // tire somebody: read it again at the end and a family shown "will come back tired"
     // would be handed a hurt man instead. A control that states a price must charge it.
     const promised = marchCost(entity.health.condition);
-    world.marches[household.id] = { id, text, status: 'open', actorId: entity.id, offeredMinute: world.minute, promised, risk: marchRisk(entity.name, entity.health.condition) };
+    world.marches[household.id] = { id, text, status: 'open', actorId: entity.id, offeredMinute: world.minute, closes, promised, risk: marchRisk(entity.name, entity.health.condition) };
   }
+}
+
+/**
+ * The words the men asked with, known in Gonzales from six on the evening of the 1st (`HIST-TEX-470`: the crossing began
+ * about seven). Learned only by being in the town, as the crossing is.
+ */
+export const UPRIVER_CALL = 'upriver-call';
+/** How much sooner than first light somebody sent up the river must be with the men: a margin for a slow road. */
+const JOIN_MARGIN_MINUTES = 40;
+/** A walk's minutes over hard ground come out a little longer than its pace says; this is the allowance. */
+const ROAD_SLACK = 1.15;
+/**
+ * The minutes of 1835 it takes somebody going this way to get from Gonzales to `target` along the road the journey will
+ * actually take (sim/ways.mjs `findWay`), with the road's own hard going (`pace`) counted: what the arrival guarantee is
+ * measured in. Null where there is no road.
+ */
+export function minutesToJoin(world, target, modeId = 'foot') {
+  const path = findWay(world, 'gonzales', CAMP_SITE, modeId);
+  const mode = MODES[modeId] || MODES.foot;
+  if (!path) return null;
+  const cut = cutAt(path.points, target);
+  const slow = new Map(path.pace || []);
+  let miles = 0;
+  for (let i = 1; i < cut.points.length; i++) miles += Math.hypot(cut.points[i].x - cut.points[i - 1].x, cut.points[i].y - cut.points[i - 1].y) * (i - 1 < cut.segment ? slow.get(i - 1) || 1 : 1);
+  return Math.ceil(miles / mode.speed * 20 * ROAD_SLACK);
+}
+/** The last minute the upriver call may be answered and a walker still reach the men in the timber before first light. */
+export function marchCloses(world) {
+  const ground = gonzalesGround(world);
+  const walk = minutesToJoin(world, ground.timber, 'foot') ?? 0;
+  return momentOf(world, 'approach') - walk - JOIN_MARGIN_MINUTES;
+}
+/**
+ * The road cut where it comes nearest `target`, and a last short step across to it: where the men are, rather than the
+ * Mexican camp's own point at the end of the road (a family's person used to walk into the camp and then be moved back).
+ */
+function cutAt(points, target) {
+  let best = Infinity, cut = null;
+  for (let i = 1; i < points.length; i++) {
+    const a = points[i - 1], b = points[i], dx = b.x - a.x, dy = b.y - a.y, length = Math.hypot(dx, dy);
+    const t = length ? Math.max(0, Math.min(1, ((target.x - a.x) * dx + (target.y - a.y) * dy) / (length * length))) : 0;
+    const q = { x: a.x + dx * t, y: a.y + dy * t }, off = Math.hypot(q.x - target.x, q.y - target.y);
+    if (off < best - 1e-9) { best = off; cut = { segment: i - 1, q }; }
+  }
+  const kept = points.slice(0, cut.segment + 1);
+  return { points: [...kept, cut.q, { x: target.x, y: target.y }], segment: cut.segment + 1 };
+}
+/** End a journey with the men: the road cut short at `target`, the traveller set down there, and over the ford as they went. */
+function endWithTheForce(travel, target) {
+  const cut = cutAt(travel.points, target);
+  const points = cut.points;
+  let distance = 0, along = 0;
+  for (let i = 1; i < points.length; i++) { const d = Math.hypot(points[i].x - points[i - 1].x, points[i].y - points[i - 1].y); distance += d; if (i <= cut.segment) along += d; }
+  travel.points = points; travel.distance = distance;
+  if (travel.pace) { travel.pace = travel.pace.filter(([segment]) => segment < cut.segment); if (!travel.pace.length) delete travel.pace; }
+  if (travel.fords) { travel.fords = travel.fords.filter(ford => ford.at <= along); if (!travel.fords.length) delete travel.fords; }
+  travel.settle = { x: target.x, y: target.y, task: 'help' };
+  travel.withForce = true;
+}
+/**
+ * A road begun from the place's own point, started instead from where the person stands in the line: nobody is drawn
+ * jumping to the camp's point to set off home (sim/world.mjs `beginTravel` does the same past a quarter of a mile).
+ */
+function startFrom(travel, here) {
+  const first = travel.points[0], gap = Math.hypot(first.x - here.x, first.y - here.y);
+  if (gap < 1e-6) return;
+  travel.points = [{ x: here.x, y: here.y }, ...travel.points];
+  travel.distance += gap;
+  if (travel.pace) travel.pace = travel.pace.map(([segment, factor]) => [segment + 1, factor]);
+  if (travel.fords) travel.fords = travel.fords.map(ford => ({ ...ford, at: ford.at + gap }));
+}
+/**
+ * Where somebody answering the call now joins the men: at Mrs. DeWitt's if a walk gets them there before the column moves
+ * off, otherwise straight up to the timber the men wait in. Null when neither is reached before first light.
+ */
+function joinPlan(world, entity, modeId) {
+  const ground = gonzalesGround(world), marchesOff = momentOf(world, 'crossing') + phaseOffset(GONZALES, 'approach');
+  const toRendezvous = minutesToJoin(world, ground.rendezvous, modeId), toTimber = minutesToJoin(world, ground.timber, modeId);
+  const upriver = { x: -ground.toward.x, y: -ground.toward.y };
+  const slot = target => placeFrom(target, upriver, looseSlot(entity.id, 0, { width: 0.2, depth: 0.12 }));
+  if (toRendezvous !== null && world.minute + toRendezvous + JOIN_MARGIN_MINUTES <= marchesOff) return { target: slot(ground.rendezvous), where: 'rendezvous', eta: world.minute + toRendezvous };
+  if (toTimber !== null && world.minute + toTimber + JOIN_MARGIN_MINUTES <= momentOf(world, 'approach')) return { target: slot(ground.timber), where: 'timber', eta: world.minute + toTimber };
+  return null;
 }
 /**
  * Whether this family can answer a call this way, and if not, why - in the words the
@@ -431,15 +546,21 @@ export function handleMarch(world, householdId, entity, action, { beginTravel, t
   // Refused before a single thing moves. This function records the choice and then sends
   // somebody walking, so a journey that turns out to be impossible after the decision is
   // written down would leave a household that had agreed to go and nobody on the road.
+  // Where they will join the men, and whether they can in time at all (`FIC-GONZ-446`). A call answered too late for the
+  // way chosen is refused before anything is written down, with the reason; the call itself shuts for good at `closes`.
+  let plan = null;
   if (action === 'go-upriver') {
     const why = travelRefusal?.(world, entity, CAMP_SITE, mode);
     if (why) throw new Error(why);
+    if (Number.isFinite(march.closes) && world.minute > march.closes) throw new Error('The men have gone too far up the river to be caught before first light.');
+    plan = joinPlan(world, entity, mode || 'foot');
+    if (!plan) throw new Error(`Going that way, ${entity.name} could not reach the men before first light.`);
   }
   march.status = action === 'go-upriver' ? 'accepted' : 'refused';
   march.choiceId = record(world, 'choice', {
     actorId: entity.id, householdId, decision: action, causes: [march.id], importance: 2,
     text: action === 'go-upriver'
-      ? `${entity.name} will go upriver with them to the camp.`
+      ? `${entity.name} will go up the river with the men.`
       : `${entity.name} will stay in Gonzales with what is left of the supplies.`,
   });
   if (action === 'go-upriver') {
@@ -454,8 +575,14 @@ export function handleMarch(world, householdId, entity, action, { beginTravel, t
       });
     }
     // A real journey over the ford and up the west bank. `findPath` routes it; nobody is
-    // ever placed at the camp without having walked there.
+    // ever placed at the camp without having walked there. It ends with the men - at Mrs.
+    // DeWitt's while they are formed there, in the timber once they have gone up - never on
+    // the Mexican camp's own point, and it goes over the ford as they did.
     beginTravel(world, entity, CAMP_SITE, march.choiceId, 'help', mode);
+    endWithTheForce(entity.travel, plan.target);
+    march.carried = carried; march.mode = entity.travel.mode; march.joins = plan.where; march.due = plan.eta;
+    // A horse ridden up the river goes the same road, and stops where its rider stops.
+    for (const beast of Object.values(world.entities)) if (beast.borrowedBy === entity.id && beast.travel?.to === CAMP_SITE) { endWithTheForce(beast.travel, plan.target); beast.travel.settle.task = 'rest'; }
     // He takes the family's rifle upriver, for as long as he is away (owner, 2026-09-24; sim/keeping.mjs).
     goToWar(world, household, entity, 'gone upriver with the men at Gonzales');
   } else {
@@ -545,11 +672,12 @@ function settleHelp(world) {
     // upriver and stood at the camp, and one who set out upriver and was still on the
     // road when it happened. They must not collapse into the same sentence.
     const wentOn = march?.status === 'accepted';
-    // ceiling: at this map scale the walk from Gonzales to the camp is short enough that
-    // everybody who answers is there in time, so `stillWalking` never occurs in ordinary
-    // play and no test can make it fail. It is kept because it is the honest outcome the
-    // moment the map grows, travel slows, or the crossing window tightens - any of which
-    // would otherwise start telling people they saw something they missed.
+    // Since 2026-09-25 `stillWalking` cannot happen: the call is only put, and only answered,
+    // while the walk reaches the men before first light (`marchCloses`, `joinPlan`,
+    // `FIC-GONZ-446`), the road ends with them, the ford is crossed with them, and nobody
+    // with them can be sent anywhere else until the fight is over (sim/battle-stage.mjs
+    // `heldByBattle`). tests/battle-arrival.test.mjs holds every path. It is kept as the honest
+    // sentence should any of those ever stop holding.
     const reachedCamp = wentOn && Number.isFinite(march.witnessed);
     const stillWalking = wentOn && !reachedCamp;
 
@@ -575,11 +703,15 @@ function settleHelp(world) {
     // Who took part in what happened, and how. Never projected - it is the record glory will
     // be counted from (docs/MONEY_AND_GLORY.md §4), and it is written here, once, from what
     // the world actually did: carrying food that reached town is `supplied`, standing at
-    // the camp while it happened is `present`. Nobody from a household fought at Gonzales:
-    // the call was to come with the supplies (FIC-GONZ-011), so there is no `fought` here.
+    // the camp while it happened is `present`, and since 2026-09-25 standing in the line
+    // while it fired is `fought` (owner: "if they sent a character ... their character
+    // arrives in time to participate and does participate"; the engine's record of who was
+    // in the force while it fired, sim/battle-stage.mjs `participants`).
     if (!world.participation) world.participation = {};
     if (!world.participation.gonzales) world.participation.gonzales = {};
-    world.participation.gonzales[entity.id] = { householdId, role: reachedCamp ? 'present' : 'supplied', minute: reachedCamp ? march.witnessed : arrival.minute };
+    const inLine = world.battles?.gonzales?.participants?.[entity.id];
+    const role = reachedCamp ? (Number.isFinite(inLine?.fought) ? 'fought' : 'present') : 'supplied';
+    world.participation.gonzales[entity.id] = { householdId, role, minute: role === 'fought' ? inLine.fought : reachedCamp ? march.witnessed : arrival.minute };
     // And what that part is worth, sealed until the end of the game (sim/glory.mjs). Written
     // here, from the record just made, and read by nothing in this file or any other director.
     awardGlory(world, { event: 'gonzales', claimId: 'HIST-GONZ-004', personId: entity.id, householdId, role: world.participation.gonzales[entity.id].role, fromSiteId: 'gonzales', causes: [arrival.id, ...(march?.choiceId ? [march.choiceId] : [])] });
@@ -590,11 +722,14 @@ function settleHelp(world) {
       : after === 'minor-injury' ? `${entity.name} is hurt, and will be days mending.`
       : `${entity.name} is tired.`;
     const where = reachedCamp
-      ? `${entity.name} stood at the camp on Williams's land when it happened, and saw it.`
+      ? (role === 'fought' ? `${entity.name} stood at the camp on Williams's land when it happened, in the line with the men, and saw it.` : `${entity.name} stood at the camp on Williams's land when it happened, and saw it.`)
       : stillWalking
         ? `${entity.name} set out upriver but was not there when it happened, and saw none of it.`
         : `${entity.name}'s food reached Gonzales.`;
-    request.consequenceId = record(world, 'consequence', { householdId, actorId: entity.id, importance: 3, causes: [arrival.id, outcome.eventId, ...(march?.choiceId ? [march.choiceId] : [])], text: `${where} The neighbor remembers the assistance. ${state} Current location and any return journey remain unchanged.` });
+    // Somebody with the men comes back to Gonzales with them once the field is cleared (`HIST-TEX-478`); everybody else is
+    // where they were.
+    const after2 = reachedCamp ? `${entity.name} comes back to Gonzales with the men and the cannon.` : 'Current location and any return journey remain unchanged.';
+    request.consequenceId = record(world, 'consequence', { householdId, actorId: entity.id, importance: 3, causes: [arrival.id, outcome.eventId, ...(march?.choiceId ? [march.choiceId] : [])], text: `${where} The neighbor remembers the assistance. ${state} ${after2}` });
     remember(world, household, entity, request.consequenceId, reachedCamp
       ? `${entity.name} went upriver to the camp and was there for it; the family remembers what it cost.`
       : stillWalking
@@ -606,20 +741,24 @@ function setBattlePhase(world, phase) {
   world.director.battle.phase = phase;
   world.director.lastBattleEventId = record(world, 'battle-phase', { text: captions[phase], phase, siteId: 'gonzales', classification: phase === 'gathering' ? 'FICTIONAL FOR GAMEPLAY' : 'DOCUMENTED', claimId: phase === 'gathering' ? 'FIC-GONZ-006' : phase === 'approach' || phase === 'exchange' ? 'HIST-GONZ-003' : 'HIST-GONZ-004', causes: [world.director.lastBattleEventId || world.truth['cannon-request'].eventId] });
 }
+/**
+ * The old two formations, kept for every save and reader that has them (`director.battle`, `director.frames`): now read off
+ * the engine's own places for the phase the fight is in, so they are where the fighting is drawn (sim/battle-stage.mjs).
+ * Re-anchored every tick, so a save written against a different map opens with them where the fighting is.
+ */
 function moveFormations(world) {
   const battle = world.director.battle;
   const [texian, mexican] = battle.formations;
   const ground = battleGround(world);
-  const between = (from, to, part) => ({ x: from.x + (to.x - from.x) * part, y: from.y + (to.y - from.y) * part });
   const place = (formation, point) => { formation.x = point.x; formation.y = point.y; };
-  // Re-anchored on every phase, including the two that do not move anybody. A save
-  // written against a different map opens with its formations back where the fighting
-  // is rather than wherever its old coordinates pointed.
   place(texian, ground.texianStart); place(mexican, ground.mexican);
-  if (battle.phase === 'approach') place(texian, between(ground.texianStart, ground.texianClosed, Math.min(1, (world.minute - momentOf(world, 'approach')) / 80)));
-  if (battle.phase === 'exchange') place(texian, ground.texianClosed);
-  if (battle.phase === 'withdrawal') { place(texian, ground.texianClosed); place(mexican, between(ground.mexican, ground.mexicanGone, Math.min(1, (world.minute - momentOf(world, 'withdrawal')) / 80))); }
-  if (battle.phase === 'resolved') { place(texian, ground.texianClosed); place(mexican, ground.mexicanGone); }
+  const state = battleState(world, 'gonzales');
+  if (state && !state.before) {
+    // The march home is the men leaving the field: the old formations stay on the ground the fight was fought over.
+    const phase = state.phase.id === 'home' ? state.phases.find(one => one.id === 'field') : state.phase;
+    const into = state.phase.id === 'home' ? phase.minutes : state.into;
+    place(texian, sidePlace(ground, phase, 'texian', into)); place(mexican, sidePlace(ground, phase, 'mexican', into));
+  }
   if (['approach', 'exchange', 'withdrawal', 'resolved'].includes(battle.phase)) {
     const last = world.director.frames.at(-1);
     if (!last || last.phase !== battle.phase) world.director.frames.push(structuredClone({ ...battle, minute: world.minute, caption: captions[battle.phase] }));
@@ -648,20 +787,157 @@ export function formationMembers(world) {
     .filter(person => person && !person.travel && person.location.siteId === CAMP_SITE && !['dead', 'captured'].includes(person.health.condition))
     .sort((a, b) => (a.id < b.id ? -1 : 1));
 }
+/**
+ * Each of the families' people with the men walks to their own place in the force and keeps it as the force moves: a
+ * scattered place in the loose line, in the file on the march (sim/battle-stage.mjs `looseSlot`). They walk there at a
+ * walker's pace - a mile in twenty minutes of the calendar - rather than being set down on it, so nobody is drawn jumping.
+ * Outside the fight (a class saved before the engine, or before it starts) they stand where the old rule stood them.
+ */
 function standWithTheForce(world) {
-  if (world.director.battle.phase === 'waiting') return;
+  if (world.director.battle.phase === 'waiting' && !world.battles?.gonzales) return;
+  const state = battleState(world, 'gonzales');
+  const members = formationMembers(world);
+  if (!state || state.before || state.over || state.phase.id === 'home') {
+    if (!state || state.before) placeByOldRule(world, members);
+    return;
+  }
+  const ground = gonzalesGround(world), phase = state.phase;
+  const centre = sidePlace(ground, phase, 'texian', state.into), enemy = sidePlace(ground, phase, 'mexican', state.into);
+  const dx = enemy.x - centre.x, dy = enemy.y - centre.y, span = Math.hypot(dx, dy);
+  const facing = span > 1e-6 ? { x: dx / span, y: dy / span } : { x: -ground.toward.x, y: -ground.toward.y };
+  const spread = phase.texian.style === 'column' ? { width: 0.05, depth: 0.28 } : phase.texian.spread || GONZALES.sides.texian.spread;
+  const reach = Math.max(0.05, calendarMinutes(world) / 20);
+  const inLine = world.battles.gonzales.participants;
+  members.forEach((person, index) => {
+    const target = placeFrom(centre, facing, looseSlot(person.id, index, spread));
+    const gap = Math.hypot(target.x - person.location.x, target.y - person.location.y);
+    const part = gap <= reach ? 1 : reach / gap;
+    person.location = { x: person.location.x + (target.x - person.location.x) * part, y: person.location.y + (target.y - person.location.y) * part, siteId: CAMP_SITE };
+    // Who was with the men, from when, and from when they were in the line while it fired: what the account and the
+    // participation record are written from. Never projected to anybody.
+    const entry = inLine[person.id] ||= { householdId: person.householdId, joined: world.minute };
+    if ((phase.texian.fire || 'none') !== 'none' && !Number.isFinite(entry.fought)) entry.fought = world.minute;
+  });
+}
+function placeByOldRule(world, members) {
   const [texian] = world.director.battle.formations;
   const ground = battleGround(world);
   const dx = ground.texianStart.x - ground.mexican.x, dy = ground.texianStart.y - ground.mexican.y, span = Math.hypot(dx, dy) || 1;
   const back = { x: dx / span, y: dy / span }, side = { x: -back.y, y: back.x };
-  formationMembers(world).forEach((person, slot) => {
+  members.forEach((person, slot) => {
     const row = Math.floor(slot / 4), column = (slot % 4) - 1.5;
-    person.location = {
-      x: texian.x + back.x * (0.06 + row * 0.035) + side.x * column * 0.035,
-      y: texian.y + back.y * (0.06 + row * 0.035) + side.y * column * 0.035,
-      siteId: CAMP_SITE,
-    };
+    person.location = { x: texian.x + back.x * (0.06 + row * 0.035) + side.x * column * 0.035, y: texian.y + back.y * (0.06 + row * 0.035) + side.y * column * 0.035, siteId: CAMP_SITE };
   });
+}
+
+/** Everybody of this family standing with the men. */
+const ownAtField = (world, householdId) => formationMembers(world).filter(person => person.householdId === householdId);
+/** Whether this household has somebody going up the river with the men, or with them already. */
+function goingOrThere(world, householdId) {
+  const march = world.marches?.[householdId];
+  if (march?.status !== 'accepted') return null;
+  const person = world.entities[march.actorId];
+  if (!person || ['dead', 'captured'].includes(person.health.condition)) return null;
+  if (person.location.siteId === CAMP_SITE || person.travel?.to === CAMP_SITE) return person;
+  return null;
+}
+/** The middle of the field, where the Host's camera and a student's Watch go: between the timber and the rise. */
+export function fieldCentre(world) {
+  const ground = gonzalesGround(world);
+  return { x: (ground.timber.x + ground.rise.x) / 2, y: (ground.timber.y + ground.rise.y) / 2 };
+}
+
+/**
+ * The fight on the engine, every tick of the Gonzales slice: the record kept, the families told, the Host's camera sent.
+ * Everything it writes is dated by the engagement's own clock (sim/battles/gonzales.mjs), so nothing here moves a date.
+ */
+function advanceGonzalesFight(world, movement) {
+  armBattle(world, 'gonzales', momentOf(world, GONZALES.startKey));
+  const state = battleState(world, 'gonzales');
+  if (!state) return;
+  const battle = state.battle;
+  const phaseId = state.phase?.id;
+  // The alert, through the person, before the fighting (docs/BATTLES.md §2.7): once, to a family with somebody going up
+  // the river or already with the men, in words that say where the men are now.
+  if (!state.over && phaseId !== 'home' && world.minute < momentOf(world, 'approach')) {
+    for (const household of Object.values(world.households)) {
+      const person = goingOrThere(world, household.id);
+      if (!person || battle.alerted[household.id]) continue;
+      const text = !phaseId || phaseId === 'rendezvous'
+        ? `At ${person.name}'s side: the men are going up the river tonight after the Mexican camp on Williams's land, and ${person.name} is going with them. They mean to be there before first light.`
+        : `At ${person.name}'s side: the Mexican dragoons are on Williams's land ahead, and the men are going up to them in the dark. At first light they will go in.`;
+      battle.alerted[household.id] = { eventId: record(world, 'notice', { householdId: household.id, actorId: person.id, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-448', text }), minute: world.minute, entityId: person.id, text };
+    }
+  }
+  // The cannon heard in Gonzales, seven miles down the river (`FIC-GONZ-417`): a family with somebody in the town and
+  // nobody at the field hears the gun as a distant report, once at dawn and once after the parley. Never the rifles.
+  const step = calendarMinutes(world), from = world.minute - step;
+  for (const phase of state.phases) {
+    const shot = (phase.cannon || []).map(at => phase.from + at).find(minute => minute > from && minute <= world.minute);
+    if (shot === undefined) continue;
+    for (const household of Object.values(world.households)) {
+      const inTown = household.members.map(id => world.entities[id]).find(one => one?.kind === 'person' && !one.travel && one.location.siteId === 'gonzales' && !['dead', 'captured'].includes(one.health.condition));
+      if (!inTown || ownAtField(world, household.id).length) continue;
+      const heard = battle.heard[household.id] ||= {};
+      if (heard[phase.id]) continue;
+      heard[phase.id] = record(world, 'consequence', {
+        householdId: household.id, actorId: inTown.id, importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-417',
+        text: phase.id === 'fight'
+          ? `In Gonzales, ${inTown.name} hears the gun again, far up the river: a dull report, and after a while another.`
+          : `In Gonzales, ${inTown.name} hears a heavy gun fired somewhere far up the river, a dull report in the fog. Nobody in town can say what it means yet.`,
+      });
+    }
+  }
+  // The Host's camera goes to the field for the fighting (docs/BATTLES.md §2.1): at first light, and again for the cannon
+  // and the advance after the parley.
+  const field = fieldCentre(world);
+  if (phaseId === 'dawn-skirmish' && !battle.spotlit?.dawn) {
+    spotlight(world, { key: 'gonzales-dawn', text: 'Gonzales, first light on October 2: the Texian volunteers go out of the timber on Williams’s land against Castañeda’s dragoons.', ...field, claimId: 'HIST-TEX-473' });
+    battle.spotlit = { ...(battle.spotlit || {}), dawn: world.minute };
+  }
+  // The march home (`HIST-TEX-478`): whoever was with the men walks back to Gonzales with them, and the family is told,
+  // through that person, what happened, what they did and why it ended as it did (docs/BATTLES.md §2.8).
+  if (phaseId === 'home' || state.over) {
+    for (const person of formationMembers(world)) {
+      const entry = battle.participants[person.id];
+      if (!entry || entry.released) continue;
+      entry.released = world.minute;
+      const march = world.marches[person.householdId];
+      const text = gonzalesAccount(world, person, entry, march);
+      const eventId = record(world, 'consequence', { householdId: person.householdId, actorId: person.id, importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-GONZ-004', causes: [march?.choiceId, world.truth['gonzales-outcome']?.eventId].filter(Boolean), text });
+      remember(world, world.households[person.householdId], person, eventId, `${person.name} was in the line at Williams's place when the dragoons rode away, and came home with the cannon.`);
+      battle.told[person.householdId] = { eventId, minute: world.minute, entityId: person.id, text };
+      if (movement?.beginTravel) {
+        try {
+          const here = { x: person.location.x, y: person.location.y };
+          movement.beginTravel(world, person, 'gonzales', eventId, 'visit', march?.mode || 'foot');
+          if (person.travel) { startFrom(person.travel, here); person.location = { ...here, siteId: null }; person.travel.withForce = true; }
+          for (const beast of Object.values(world.entities)) if (beast.borrowedBy === person.id && beast.travel) beast.travel.withForce = true;
+        } catch { /* a person who cannot travel stays at the field, and says so in the account */ }
+      }
+    }
+  }
+}
+
+/**
+ * What a family is told of the fight through its own person, in plain words: what happened, what they did, and why it
+ * ended as it did (docs/BATTLES.md §2.8; owner: "players should walk away understanding what happened"). Only what the
+ * record gives (`HIST-TEX-470`-`-478`); the Mexican loss is said as the reports have it, disputed.
+ */
+export function gonzalesAccount(world, person, entry, march) {
+  const name = person.name;
+  const joined = entry.joined < momentOf(world, 'crossing') + phaseOffset(GONZALES, 'approach') ? 'marched up the river with the men in the dark' : 'caught the men up in the timber before first light';
+  const fired = Number.isFinite(entry.fought) ? ', was in the line when they went out firing at first light, and loaded and fired with them' : ', and was with them through the morning';
+  const powder = march?.carried ? ` ${name} had taken ${march.carried} powder from the house for it.` : '';
+  const next = world.map.source
+    ? `${name} is going back to Gonzales with the men and the cannon. Volunteers are coming in from the settlements, and whether ${name} stays for the gathering or comes home is the family's to say when the town asks.`
+    : `${name} is going back to Gonzales with the men and the cannon, and can come home from there.`;
+  return [
+    `What happened: the Texians crossed the river in the night and went up it in the fog to Castañeda's camp on Williams's land. About three in the morning the Mexican outpost fired, and the dragoons mounted and took a rise. At first light the men went out of the timber firing; forty dragoons charged them, they fell back into the trees and fired the cannon, and the dragoons went back up the rise. When the fog lifted, the two commanders met between the lines. Castañeda said he was a republican and had orders to obey; Colonel Moore told him to join them or fight. Then the cannon was fired again, the men went forward at the double, and the dragoons wheeled and rode away toward Béxar.`,
+    `What ${name} did: ${name} ${joined}${fired}. ${name} was not hit.${powder}`,
+    `Why it ended so: Castañeda had orders to bring the cannon back without starting a war, and he was outnumbered. When the Texians would not give it up and came on, he withdrew rather than fight for it. No Texian was killed. Castañeda reported one of his soldiers hit by a carbine ball; others said one or two of the dragoons were killed. The reports do not agree.`,
+    next,
+  ].join('\n\n');
 }
 /**
  * Word from the army, told to every family and to the public reports on the same day.
@@ -1034,10 +1310,13 @@ export function advanceDirectors(world, movement) {
     if (world.truth[topicId] && world.minute >= expressLeaves(world, topicId, ARRIVAL_MINUTES)) startExpress(world, topicId, movement);
   }
   once(world, 'publicNotice', () => learn(world, 'public', 'cannon-request', { source: 'Public report (reconstructed timing)' }));
+  // The men gathering at the ferry at dusk on the 1st, asking who goes with them (`HIST-TEX-470`; the call is `FIC-GONZ-011`).
+  once(world, 'upriver-call', () => establishTruth(world, { id: UPRIVER_CALL, text: 'The men at Gonzales are gathering at the ferry to cross the Guadalupe tonight, with the cannon, and go up the river after the Mexican camp.', siteId: 'gonzales', classification: 'DOCUMENTED', claimId: 'HIST-TEX-470' }));
   once(world, 'crossing', () => establishTruth(world, { id: CROSSING, text: 'The Texian force crossed the Guadalupe in the night and went upriver after the Mexican camp.', siteId: 'gonzales', classification: 'DOCUMENTED', claimId: 'HIST-GONZ-003' }));
-  if (world.truth[CROSSING] && world.minute < momentOf(world, 'approach')) {
+  for (const topic of [UPRIVER_CALL, CROSSING]) {
+    if (!world.truth[topic] || world.minute >= momentOf(world, 'approach')) continue;
     for (const household of Object.values(world.households)) {
-      if (witnessing(world, household.id)) learn(world, household.id, CROSSING, { source: 'Told in Gonzales' });
+      if (witnessing(world, household.id)) learn(world, household.id, topic, { source: 'Told in Gonzales' });
     }
   }
   offerRequests(world); offerMarch(world);
@@ -1083,7 +1362,8 @@ export function advanceDirectors(world, movement) {
     }
     setBattlePhase(world, 'approach');
   });
-  once(world, 'exchange', () => { setBattlePhase(world, 'exchange'); spotlight(world, { key: 'gonzales', text: 'The Texians at Gonzales fire the cannon, and the Mexican dragoons fall back. The war has begun.', siteId: 'gonzales', claimId: 'HIST-GONZ-008' }); });
+  // The Host's camera on the field itself, not the town seven miles off (docs/BATTLES.md §2.1).
+  once(world, 'exchange', () => { setBattlePhase(world, 'exchange'); spotlight(world, { key: 'gonzales', text: 'On Williams’s land above Gonzales, the Texians fire the cannon and advance, and the Mexican dragoons wheel and ride away toward Béxar. The war has begun.', ...fieldCentre(world), claimId: 'HIST-GONZ-004' }); });
   // Whether somebody was actually standing there when it happened is decided here, while
   // it is happening - not afterwards from where they finally ended up. Answering the call
   // late and arriving after the shooting is a different story from being there for it.
@@ -1102,6 +1382,9 @@ export function advanceDirectors(world, movement) {
     }
   });
   settleHelp(world); settleCalls(world); moveFormations(world); standWithTheForce(world);
+  // The fight on the engine (sim/battle-stage.mjs, sim/battles/gonzales.mjs): the alert, the gun heard in town, the Host's
+  // camera, and the walk home with the account.
+  advanceGonzalesFight(world, movement);
   once(world, 'publicOutcome', () => learn(world, 'public', 'gonzales-outcome', { source: 'Public report (reconstructed timing)' }));
   // Build step 5: on the real land the class does not stop when the fight is over. The volunteers
   // keep coming in, the army is made and it marches, and that is what ends it instead.
@@ -1117,17 +1400,31 @@ export function advanceDirectors(world, movement) {
 }
 export function directorProjection(world, householdId, role) {
   if (!world.director) return {};
-  const publicOutcome = world.knowledge.public['gonzales-outcome'];
   let battle = null;
   let host = { focus: 'regional', caption: 'The Host shows public reports; households may know different things.' };
-  if (role === 'host' && publicOutcome) {
-    const index = Math.min(world.director.frames.length - 1, Math.floor((world.minute - publicOutcome.receivedMinute) / 60));
-    const frame = world.director.frames[Math.max(0, index)];
-    if (frame) battle = { ...frame, reconstruction: true };
-    host = { focus: 'reconstruction', caption: 'Delayed reconstruction: news of Gonzales has now become public. This shows the earlier clash.' };
-  } else if (role === 'student' && householdId && witnessing(world, householdId) && world.director.battle.phase !== 'waiting') {
-    battle = { ...world.director.battle, caption: captions[world.director.battle.phase], reconstruction: false };
+  // Who watches the fight live (docs/BATTLES.md §2.1, `FIC-GONZ-447`): the Host always, framed on the field; a family only
+  // while one of its own people is with the men there. Being in Gonzales seven miles off shows nothing - the gun may be
+  // heard (`FIC-GONZ-417`), and that is a line in the journal, not the fight. Nobody else is sent any of it: not the
+  // phase, not a count, not whose people are there. A family's own people are named in `members` for that family alone.
+  const state = world.battles?.gonzales ? battleState(world, 'gonzales') : null;
+  if (state?.live) {
+    const legacyPhase = world.director.battle.phase;
+    if (role === 'host') {
+      battle = { ...projectBattle(world, 'gonzales', { members: formationMembers(world).map(person => person.id), legacyPhase }), reconstruction: false };
+      // The Host's camera follows the fighting itself, from first light until the dragoons are gone; before and after it
+      // the fight is still drawn where it is, and the teacher's frame is their own.
+      const fightingNow = world.minute >= momentOf(world, 'approach') && world.minute < momentOf(world, 'resolved');
+      host = { focus: fightingNow ? 'battle' : 'regional', caption: 'The fight at Gonzales, live. Families with somebody there see it too; the rest have not heard yet.', ...fieldCentre(world) };
+    } else if (role === 'student' && householdId) {
+      // Everybody of the families in the force, since standing there this family already sees them (sim/world.mjs
+      // `observedBy`): drawn doing what the force does, rather than idling among men who are firing.
+      if (ownAtField(world, householdId).length) battle = { ...projectBattle(world, 'gonzales', { members: formationMembers(world).map(person => person.id), legacyPhase }), reconstruction: false };
+    }
   }
+  // The card through the family's person (docs/BATTLES.md §2.7, §2.8): the alert before the fighting with a Watch, and the
+  // account afterwards. Only ever this family's own.
+  const battleAlert = role === 'student' && householdId ? alertFor(world, householdId, state, Boolean(battle)) : null;
+  const battleAccount = role === 'student' && householdId ? accountFor(world, householdId) : null;
   // The upriver call takes the panel while it is open, because it is the one in front
   // of the family right now. The food call stays in the event log either way.
   const march = householdId && world.marches?.[householdId];
@@ -1154,5 +1451,21 @@ export function directorProjection(world, householdId, role) {
     shown.answerers = Object.fromEntries(people.map(id => [id, shown.kind === 'call' ? callOptions(world, householdId, call, world.entities[id]) : requestOptions(world, householdId, shown, shown.kind, world.entities[id])]));
     shown.options = shown.answerers[shown.actorId || household.principalId] || Object.values(shown.answerers)[0] || [];
   }
-  return structuredClone({ request: shown, battle, host: role === 'host' ? host : null, slice: { title: 'Gonzales', complete: world.director.complete }, historicalDate: dateOf(world, world.minute).toISOString().slice(0, 10) });
+  return structuredClone({ request: shown, battle, ...(battleAlert && { battleAlert }), ...(battleAccount && { battleAccount }), host: role === 'host' ? host : null, slice: { title: 'Gonzales', complete: world.director.complete }, historicalDate: dateOf(world, world.minute).toISOString().slice(0, 10) });
+}
+/** The alert card, while the fight is coming or being fought and this family's person is going or there. */
+function alertFor(world, householdId, state, watching) {
+  const alerted = world.battles?.gonzales?.alerted?.[householdId];
+  if (!alerted || !state || state.over || ['field', 'home'].includes(state.phase?.id)) return null;
+  const person = world.entities[alerted.entityId];
+  if (!person || ['dead', 'captured'].includes(person.health.condition)) return null;
+  return { id: `battle:gonzales:${householdId}`, entityId: person.id, title: state.live && world.minute >= momentOf(world, 'approach') ? 'The fight at Williams’s place' : 'The fight is coming', text: alerted.text, field: fieldCentre(world), watching };
+}
+/** The account card, for a day after the men leave the field. */
+function accountFor(world, householdId) {
+  const told = world.battles?.gonzales?.told?.[householdId];
+  if (!told || world.minute - told.minute > 1440) return null;
+  const person = world.entities[told.entityId];
+  if (!person) return null;
+  return { id: `account:gonzales:${householdId}`, entityId: person.id, title: `What ${person.name} saw at Williams’s place`, text: told.text };
 }

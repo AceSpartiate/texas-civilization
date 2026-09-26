@@ -53,6 +53,11 @@ does not have:
 
 
 | A tree or a tuft in a norther is the library's own upright sprite sheared about its foot, so it leans; nothing streams, and smoke is not drawn at all | `windLean` in `public/weather-art.js`, applied by `postOak` and `drawGroundDetail` in `public/app.js` and by `lean` in `public/art.js` | Request 2026-09-20 — the country in a norther | `oak-broad-wind`, `oak-spreading-wind`, `pecan-wind`, `grass-tuft-wind`, `smoke-streaming` |
+| **A family's own person in a fight** is drawn in the volunteer militia's firing cycle (`volunteer-fire-reload`, `volunteer-load`, `volunteer-e`/`-w`, `volunteer-march`), not in their own cast figure | `memberPose` in `public/battle-view.js`, drawn by `drawFigure` in `public/app.js` (`stand-in:`) | Request 2026-09-25 — battles, item 1 | Each cast's own aim, fire, load and ramrod frames |
+| **A dragoon firing from the saddle** keeps his mounted pose (`dragoon-idle-e`/`-w`) while the flash and the smoke are drawn at his hands | `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 2 | `dragoon-fire` (aim and fire from the saddle, both facings) |
+| **The wounded carried**: a man hit is drawn as the library's seated wounded soldier (`regular-injured`/`volunteer-injured`) helped back by two walking figures; a dead man as `*-reclining` with two walking beside him; a dragoon hit in the saddle is drawn dismounted | `drawFallen` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 3 | `bearers-carry` (two men carrying a third on a blanket, both facings) and `dragoon-wounded-led` |
+| **The Gonzales cannon** is the library's field gun (`cannon-bronze-e`/`-w` and its recoil) served by the carriage-gun crew cycles (`volunteer-gun-ram`, `-shot-carry`, `-fire`) | `drawCannon` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 4 | `cannon-cartwheels` (a small brass six-pounder on a pair of cart wheels, `HIST-TEX-475`) and its settler crew |
+| **The Come and Take It flag** is drawn on the canvas: a white field, a black gun, a star over it and the words (not shown at Gonzales on the field: `FIC-GONZ-419`) | `drawFlag` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 5 | `flag-come-and-take-it` on a pole, still and in a light wind |
 
 ## Claude-drawn stand-ins (replace with Astra's)
 
@@ -1239,3 +1244,13 @@ it sits inside a row, not on the map.
 
 **Fallback:** if a damaged or unusual package cannot load the embedded PNG, `DrawBin` falls back to its former pen drawing.
 A picture of the earlier menu is `evidence/solo-dialog.png`.
+
+## Request 2026-09-25 — battles: the pieces the engine stands in for
+
+**Status: open; stand-ins in use since 2026-09-25 (see *Stand-ins in use*).** The owner, watching every conflict: *"i see npc's just standing around ... there's no smoke from the gunfire."* The battle renderer (`public/battle-view.js`, `docs/BATTLES.md` §6) draws every fight from the library's military sheets; five things it needs are not in them. Each is drawn now from the nearest art and marked `stand-in:` in the code. The delivery contract is the same as every existing people sheet: transparent PNG, the figure standing on its ground anchor, the same logical height as the `volunteer-*` and `regular-*` frames, east-facing frames mirrored for west unless a west frame is supplied.
+
+1. **A family's own people firing.** Every cast figure (`rust`, `teal`, `elder`, `blue`, `rust-woman`, `indigo`, `ochre`, `blue-girl`, and the second cast) in four frames: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`. Plugs into `memberPose`: the clip `<cast>-fire-reload` is chosen when it exists. Checked by `npm run test:battle-gonzales` (the member's clips) with the cast's own name.
+2. **A dragoon firing from the saddle.** `dragoon-fire-1`/`-2` (carbine at the shoulder, then the discharge) east-facing, at the `dragoon-e` height. Plugs into the dragoon branch of `draw`; the flash is drawn at the muzzle the frame's own anchor gives.
+3. **The wounded carried.** `bearers-carry-1`..`-4` (two men carrying a third on a blanket, walking east) and `dragoon-wounded-led-1`..`-2` (a man slumped in the saddle, another leading the horse). Plugs into `drawFallen`. No blood, no gore (`VISION.md` §16).
+4. **The Gonzales cannon on its wheels.** `cannon-cartwheels-e` and a recoil frame: a small brass six-pounder lashed on a pair of plain cart wheels, no trail carriage (`HIST-TEX-475`), and a crew of three in settlers' clothes (`settler-gun-ram`, `-carry`, `-fire`). Plugs into `drawCannon` when `metal` is `bronze` and the engagement asks for `cartwheels`.
+5. **The Come and Take It flag.** `flag-come-and-take-it` still, and a two-frame `-wind` loop: a white field, the cannon in black, a single star over it, the words under it (`HIST-TEX-475`), on a plain pole about twice a man's height. Plugs into `drawFlag`; also wanted by the town before the fight (`sim/town-scenes.mjs`).

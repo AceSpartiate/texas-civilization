@@ -54,6 +54,8 @@ test("the town keeps the director's clock: nothing before the soldiers come, no 
   assert.ok(TOWN_BEATS.find(beat => beat.id === 'crossing-over').from <= moment('crossing'));
   // Word of how it ended reaches the town when the director says the town has it, and the men after that.
   assert.equal(TOWN_BEATS.find(beat => beat.id === 'street-word').from, moment('resolved'));
+  // The town hears the gun when the fight fires it at first light (the fight's `FIC-GONZ-417`), not before.
+  assert.equal(TOWN_BEATS.find(beat => beat.id === 'street-gun').from, moment('approach'));
   for (const beat of TOWN_BEATS.filter(one => one.id === 'street-return' || one.id === 'street-word')) {
     assert.ok(beat.from >= moment('resolved'), `${beat.id} tells the outcome before the director has decided it`);
   }

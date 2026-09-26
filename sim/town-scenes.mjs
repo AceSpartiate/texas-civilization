@@ -199,6 +199,13 @@ const STREET_WAITING = [
   [['town-crandall', 'All that fog on the river this morning. You could not see the far bank.', said('HIST-TEX-465')], ['gz-townswoman-1', 'Nor could they, I hope.']],
   [['gz-townsman-2', 'Their horses are here; most of them went on foot.', said('HIST-TEX-465')], ['gz-girl', 'Will they come back today?']],
 ];
+// The gun heard from up the river: the fight's own fiction (`FIC-GONZ-417`, sim/directors.mjs), written in the family's
+// journal as a dull report at first light and again after the parley. The town says only that it heard it.
+const STREET_GUN = [
+  [['gz-townswoman-1', 'Listen - a gun, far up the river.', said('FIC-GONZ-417')], ['gz-townswoman-2', 'Ours or theirs?']],
+  [['gz-townsman-2', 'Nobody can say from here. Wait.', said('FIC-GONZ-417')], ['gz-girl', 'Is that them?']],
+  [['town-crandall', 'All we can do is wait for somebody to ride down.'], ['gz-townswoman-1', 'Then we wait.']],
+];
 const STREET_WORD_CAME = [
   [['gz-townswoman-2', 'Word has come down the river - the soldiers have gone off toward Béxar.', said('HIST-GONZ-004')], ['gz-townswoman-1', 'And ours?']],
   [['gz-townsman-1', 'Coming home, they say. With the gun.', said('HIST-GONZ-004')], ['gz-townswoman-1', 'Thank God.']],
@@ -543,11 +550,17 @@ export const TOWN_BEATS = Object.freeze([
     people: [at('gz-townswoman-1', 'street', -0.02, 0.01, 'speak', 'river'), at('gz-townswoman-2', 'street', -0.006, 0.014, 'idle', 'river'), at('gz-girl', 'street', -0.028, 0.022, 'idle', 'river'),
       at('gz-townsman-2', 'street', 0.008, 0.004, 'listen', 's'), at('gz-townswoman-3', 'street', 0.018, 0.016, 'idle', 'river')],
     residents: [at('town-crandall', 'street', 0.004, 0.024, 'speak', 'w')] },
-  { id: 'street-waiting', scene: 'street', from: on(3, 6), to: on(3, 10), card: CARD_STREET_WAIT, talk: STREET_WAITING,
+  // The morning of October 2 keeps the fight's clock (sim/battles/gonzales.mjs through sim/directors.mjs `TIMELINE`): the
+  // first shots at twenty to six, the cannon again at twenty to nine, and the outcome the director has at twenty to ten.
+  { id: 'street-waiting', scene: 'street', from: on(3, 4, 40), to: on(3, 5, 40), card: CARD_STREET_WAIT, talk: STREET_WAITING,
     people: [at('gz-townswoman-1', 'street', -0.012, 0, 'speak', 'e'), at('gz-townswoman-2', 'street', 0.006, 0.004, 'listen', 's'), at('gz-girl', 'street', -0.024, 0.016, 'idle', 's'), at('gz-townsman-2', 'street', 0.02, 0.012, 'speak', 'w')],
     props: [{ kind: 'horse', place: 'muster', dx: 0.0, dy: 0.0 }, { kind: 'horse', place: 'muster', dx: 0.02, dy: 0.008, face: 'w' }],
     residents: [at('town-crandall', 'street', 0.004, 0.02, 'listen', 's')] },
-  { id: 'street-word', scene: 'street', from: on(3, 10), to: on(3, 14), card: CARD_STREET_WAIT, talk: STREET_WORD_CAME,
+  { id: 'street-gun', scene: 'street', from: on(3, 5, 40), to: on(3, 9, 40), card: CARD_STREET_WAIT, talk: STREET_GUN,
+    people: [at('gz-townswoman-1', 'street', -0.012, 0, P.point, 'river'), at('gz-townswoman-2', 'street', 0.006, 0.004, 'listen', 's'), at('gz-girl', 'street', -0.024, 0.016, 'idle', 'river'), at('gz-townsman-2', 'street', 0.02, 0.012, 'speak', 'w')],
+    props: [{ kind: 'horse', place: 'muster', dx: 0.0, dy: 0.0 }, { kind: 'horse', place: 'muster', dx: 0.02, dy: 0.008, face: 'w' }],
+    residents: [at('town-crandall', 'street', 0.004, 0.02, 'speak', 'e')] },
+  { id: 'street-word', scene: 'street', from: on(3, 9, 40), to: on(3, 14), card: CARD_STREET_WAIT, talk: STREET_WORD_CAME,
     people: [at('gz-townswoman-2', 'street', -0.012, 0, 'speak', 'e'), at('gz-townswoman-1', 'street', 0.006, 0.004, 'listen', 's'), at('gz-townsman-1', 'street', 0.02, 0.012, 'speak', 'w'), at('gz-girl', 'street', -0.024, 0.016, 'idle', 's')],
     residents: [at('town-crandall', 'street', 0.004, 0.02, 'listen', 's')] },
   { id: 'street-return', scene: 'street', from: on(3, 14), to: on(3, 20), card: CARD_STREET_BACK, talk: STREET_RETURN,
@@ -577,10 +590,9 @@ export const TOWN_BEATS = Object.freeze([
   { id: 'crossing-gone', scene: 'crossing', from: on(2, 10), to: on(2, 19), card: CARD_CROSSING, talk: CROSSING_GONE, seenFrom: ['gonzales', 'ford'],
     people: eighteenAt('crossing', [P.point, 'speak', 'speak', 'listen', 'idle', 'idle']), props: [...CROSSING_PROPS(), { kind: 'flatboat', place: 'crossing', dx: 0.03, dy: 0.018 }] },
   // ceiling: the men go over from seven to half past eight, as Macomb and Mason have it (`HIST-TEX-465`), while the director's
-  // own crossing moment - when a family in the town is told of it and asked whether its person follows - is ten o'clock
-  // (sim/directors.mjs `FROM_MIDNIGHT_SEPT_29.crossing`, "schematic"). Both are true that night: the force waited at Mrs.
-  // DeWitt's house across the river until about one. Moving the director's moment to the research's hour is the way to make
-  // the two one.
+  // own crossing moment, when the fight's engine takes them up, is ten o'clock (sim/directors.mjs `crossing`, the fight's
+  // `GONZALES_START`); the upriver call opens at six (`upriver-call`). Both are true that night: the force waited at Mrs.
+  // DeWitt's house across the river until about one. The fight's research also puts the crossing at about seven.
   { id: 'crossing-over', scene: 'crossing', from: on(2, 19), to: on(2, 22), card: CARD_CROSSING_OVER, talk: CROSSING_OVER, seenFrom: ['gonzales', 'ford'],
     people: [at('gz-eighteen-1', 'crossing', 0.02, 0.004, 'speak', 'river'),
       ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => ({ ...going(`gz-volunteer-${n}`, 'muster', 'crossing', [on(2, 19), on(2, 20, 30)], { face: 'river', stays: true }), ...(n === 1 && { carries: 'flag' }) })),

@@ -112,7 +112,10 @@ test('the spotlight: set by the major events at their place, shown to the Host u
   untilMoment(world, 'exchange');
   const spot = host(world).live.spotlight;
   assert.ok(spot, 'the fight at Gonzales lit no spotlight');
-  assert.equal(spot.key, 'gonzales'); assert.equal(spot.siteId, 'gonzales');
+  // On the field itself, not the town seven miles down the river (docs/BATTLES.md §2.1): the Host's camera goes where it is fought.
+  assert.equal(spot.key, 'gonzales');
+  const field = world.map.sites['williams-camp'];
+  assert.ok(Math.hypot(spot.x - field.x, spot.y - field.y) < 1.5, `the spotlight was ${Math.hypot(spot.x - field.x, spot.y - field.y).toFixed(1)} miles from Williams's land`);
   assert.match(spot.text, /cannon/);
   assert.ok(Number.isFinite(spot.x) && Number.isFinite(spot.y));
   assert.equal('spotlight' in student(world, 'hh-1'), false);

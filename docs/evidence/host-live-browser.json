@@ -1,20 +1,20 @@
 {
   "record": "host-live-browser",
-  "date": "2026-09-18",
+  "date": "2026-09-26",
   "verdict": "PASS",
-  "browser": "152.0.7977.83",
+  "browser": "153.0.8010.53",
   "task": "docs/HOST_PAGE.md: the class panel in words with presence and what waits; an absent family playing itself and back; the Rumor Mill; the spotlight taking the camera to the fight at Gonzales; the student sent none of it.",
   "environment": "Same computer: a local classroom server at 100 ms a tick with a 2500 ms absence grace (the build ships 120 s), five families, and headless Chrome. Not a physical LAN, a classroom, a real phone or a weak computer.",
   "checks": [
-    "the class panel lists all five families in words: the student's family here, the four joined with no page open gone; Asa on the road home",
+    "the class panel lists all five families in words: the student's family here, the four joined with no page open gone; Asa at home: working",
     "the student's page has no class panel and is sent no live page",
-    "the student's page closed: after 2573 ms the row says the family is playing itself, and the world has it absent",
+    "the student's page closed: after 2711 ms the row says the family is playing itself, and the world has it absent",
     "the absent family goes on by itself: somebody of it is at work or on a road with nobody at the screen",
     "the page opened again: the row says here the next tick, the family is the student's again, and the record says so",
-    "the fight at Gonzales lit the spotlight: the camera went to Gonzales and the banner reads \"October 2: The Texians at Gonzales fire the cannon, and the Mexican dra…\"",
+    "the fight at Gonzales lit the spotlight: the camera went to the field and the banner reads \"October 2: On Williams’s land above Gonzales, the Texians fire the cann…\"",
     "Whole class brings the camera back to the class",
-    "the Rumor Mill tells 1 piece(s) as a story: \"In September, a Mexican detachment came to the Guadalupe opposite Gonzales for the town's …\" - The latest, September 29 (confirmed): A Mexican detachment has reached…",
-    "as word spread the story grew to 2 pieces",
+    "the Rumor Mill tells 2 piece(s) as a story: \"In September, a Mexican detachment came to the Guadalupe opposite Gonzales for the town's …\" - The latest, October 2 (confirmed): Mexican detachment withdraws; Texia…",
+    "as word spread the story grew to 3 pieces",
     "at 400 px the Host page does not scroll sideways",
     "no page errors on either page"
   ],
@@ -24,21 +24,27 @@
         "id": "hh-1",
         "presence": "here",
         "people": [
-          "Asa on the road home",
-          "Temperance on the road home",
-          "Basilio on the road home",
-          "Rufino on the road home"
+          "Asa at home: working",
+          "Temperance at home: working",
+          "Basilio at home",
+          "Rufino at home",
+          "Silvano at home",
+          "Pablo at home",
+          "Marcela at home",
+          "Jonas at home",
+          "Minerva at home",
+          "Levi at home"
         ]
       },
       {
         "id": "hh-2",
         "presence": "gone",
         "people": [
-          "Almira on the road home",
-          "Jonas on the road home",
-          "Soledad on the road home",
-          "Docia on the road home",
-          "Delia on the road home"
+          "Amos at home: working",
+          "Almira at home: working",
+          "Jonas at home",
+          "Soledad at home",
+          "Docia at home"
         ]
       },
       {
@@ -53,56 +59,88 @@
           "Mateo on the road home",
           "Winnie on the road home",
           "Jasper on the road home",
-          "Emeterio on the road home"
+          "Emeterio on the road home",
+          "Prudence on the road home",
+          "Loreta on the road home",
+          "Effie on the road home",
+          "Obed on the road home",
+          "Zadok on the road home",
+          "Ruperto on the road home",
+          "Benita on the road home",
+          "Chana on the road home",
+          "Ramona on the road home",
+          "Paulita on the road home"
         ]
       },
       {
         "id": "hh-4",
         "presence": "gone",
         "people": [
-          "Caleb on the road home",
-          "Manuela on the road home",
-          "Loreta on the road home",
-          "Obed on the road home",
-          "Effie on the road home",
-          "Benita on the road home",
-          "Zadok on the road home"
+          "Caleb at home: working",
+          "Manuela at home: working",
+          "Loreta at home: working",
+          "Obed at home: working",
+          "Effie at home: working",
+          "Benita at home",
+          "Zadok at home",
+          "Chana at home",
+          "Ruperto at home",
+          "Ramona at home",
+          "Enos at home",
+          "Marcos at home",
+          "Paulita at home",
+          "Eli at home",
+          "Rosa at home",
+          "Simeon at home",
+          "Teodoro at home"
         ]
       },
       {
         "id": "hh-5",
         "presence": "gone",
         "people": [
-          "Ignacio on the road home",
-          "Rhoda on the road home",
-          "Marcos on the road home",
-          "Ramona on the road home"
+          "Ignacio at home: working",
+          "Rhoda at home: working",
+          "Marcos at home",
+          "Ramona at home",
+          "Paulita at home",
+          "Eli at home",
+          "Simeon at home",
+          "Rosa at home",
+          "Teodoro at home"
         ]
       }
     ],
-    "absentAfterMs": 2573,
+    "absentAfterMs": 2711,
     "spotlight": {
       "date": "October 2",
-      "text": "The Texians at Gonzales fire the cannon, and the Mexican dragoons fall back. The war has begun.",
+      "text": "On Williams’s land above Gonzales, the Texians fire the cannon and advance, and the Mexican dragoons wheel and ride away toward Béxar. The war has begun.",
       "camera": {
-        "kind": "region",
-        "scale": 2131.5789473684213,
+        "kind": "battle",
+        "scale": 1247.672774678905,
         "named": true,
-        "cx": 1.11,
-        "cy": -0.74,
-        "following": false
+        "cx": 0.806574142255494,
+        "cy": 1.7899695174198649,
+        "following": true,
+        "figure": 23.705782718899194,
+        "house": {
+          "size": 78.22908297236734,
+          "one": false
+        }
       }
     },
     "mill": {
       "paragraphs": [
-        "In September, a Mexican detachment came to the Guadalupe opposite Gonzales for the town's cannon, and the settlers would not give it up (heard by 4 of 5 families)."
+        "In September, a Mexican detachment came to the Guadalupe opposite Gonzales for the town's cannon, and the settlers would not give it up (heard by 4 of 5 families).",
+        "In October, the Mexican detachment withdrew, and the Texians kept the cannon (heard by 1 of 5 families)."
       ],
-      "latest": "The latest, September 29 (confirmed): A Mexican detachment has reached the Guadalupe opposite Gonzales to reclaim the cannon.",
+      "latest": "The latest, October 2 (confirmed): Mexican detachment withdraws; Texians retain the cannon.",
       "topics": [
-        "cannon-request"
+        "cannon-request",
+        "gonzales-outcome"
       ]
     },
-    "millLater": 2
+    "millLater": 3
   },
   "screenshots": [
     "docs/evidence/host-live-class-panel.png",
