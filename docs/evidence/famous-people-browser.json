@@ -4,1537 +4,9754 @@
   "browser": "153.0.8010.53",
   "environment": "Same computer: local classroom servers and headless Chrome at 1366x768 and 1024x768, served at 500 ms (the Alamo) and 450 ms (San Jacinto) a tick. Two real classes on the colonies map with rolled families played in process: one to the edge of the Alamo siege with hh-1's father set in the garrison (in process), one to noon on April 19, 1836. Not physical LAN or district acceptance.",
   "checks": [
+    "the Alamo class through the join flow: Alvin of hh-1 in the garrison at Béxar (set in process), hh-2 far off",
+    "on the map before the siege (1836-02-23): Travis, Bowie, Crockett at Béxar, sent to the family with a man there (3 drawn on its screen) and the Host, and to nobody far off",
+    "the line in the sand spoken by Travis as tradition, from his own figure, glossed \"told later: Louis Rose’s story as W. P. Zuber printed it (18…\"",
+    "at the alarm Travis, Bowie, Crockett and Joe are drawn with their names; Travis's documented words come out of his own figure",
+    "Travis falls in the repulse at the north battery, not before, and lies there",
+    "Bowie lies ill on his cot in his room on the south side, and lies still on it when that barrack is carried",
+    "Crockett fights through the assault; after it he is taken, tagged \"One account (de la Peña) · disputed\", brought before Santa Anna with Castrillón there, and killed; the caption gives both accounts and the dispute",
+    "Joe fires from the house, comes out when the officers call (\"Yes, here is one.\"), is hurt and spared, and is brought to Santa Anna in Béxar",
+    "the student watched the assault with the camera on the compound (93 of 96 samples)",
+    "the assault with its famous people draws in 3.3 ms at its slowest 95th percentile (1366x768 and 1024x768)",
+    "the family far off was sent no battle and no famous person",
     "the Twin Sisters named and firing before the camp on April 20 (Neill hurt at them) and within two hundred yards on the 21st under Hockley: {\"twins-20-1\":{\"name\":\"Twin Sisters\",\"shots\":2,\"onScreen\":true},\"twins-20-2\":{\"shots\":2,\"onScreen\":true},\"mexican-gun\":{\"shots\":4,\"onScreen\":true},\"twin-sister-1\":{\"name\":\"Twin Sisters\",\"shots\":3,\"onScreen\":true},\"twin-sister-2\":{\"shots\":3,\"onScreen\":true}}",
     "Houston named with his army and riding with the line; \"Stop that firing, stop that firing… I say, stop the firing.\" out of him, as tradition",
     "Emily West and Santa Anna at the picnic under the dashed \"later story\" label; her words drawn with their stage direction: (sarcastically) Another plate, General? A great general must keep up his strength. / (dryly) Such a quiet afternoon for a war, General. / (with a forced smile) Stay a while, General. Your whole camp is resting. / (sarcastically) Of course, General. Whatever you say, General. / (quietly) Those are cannon, General.",
     "Castrillón falls walking away in the charge; at the capture Santa Anna's \"Napoleon of the West\" and Houston's answer are spoken as tradition, from their own figures",
-    "San Jacinto with its famous people draws in 27.9 ms at its slowest 95th percentile",
+    "San Jacinto with its famous people draws in 29.9 ms at its slowest 95th percentile",
     "a family far off was sent nothing of San Jacinto"
   ],
-  "alamo": {},
+  "alamo": {
+    "mapBefore": {
+      "student": [
+        {
+          "id": "travis",
+          "name": "Travis",
+          "side": "texian",
+          "art": "travis",
+          "x": -61.66693968851954,
+          "y": 4.568479569855731,
+          "doing": "command",
+          "moving": false,
+          "right": true,
+          "claimId": "HIST-TEX-540",
+          "place": "Béxar"
+        },
+        {
+          "id": "bowie",
+          "name": "Bowie",
+          "side": "texian",
+          "art": "bowie",
+          "x": -61.60464290429556,
+          "y": 4.636252311481465,
+          "doing": "command",
+          "moving": false,
+          "right": true,
+          "claimId": "HIST-TEX-542",
+          "place": "Béxar"
+        },
+        {
+          "id": "crockett",
+          "name": "Crockett",
+          "side": "texian",
+          "art": "crockett",
+          "x": -61.67167950222754,
+          "y": 4.571226407986454,
+          "doing": "stand",
+          "moving": false,
+          "right": true,
+          "claimId": "HIST-TEX-544",
+          "place": "Béxar"
+        }
+      ],
+      "drawn": [
+        {
+          "id": "travis",
+          "name": "Travis",
+          "x": 181,
+          "y": 205,
+          "how": "mini"
+        },
+        {
+          "id": "bowie",
+          "name": "Bowie",
+          "x": 181,
+          "y": 205,
+          "how": "mini"
+        },
+        {
+          "id": "crockett",
+          "name": "Crockett",
+          "x": 181,
+          "y": 205,
+          "how": "mini"
+        }
+      ],
+      "hostDrawn": [
+        {
+          "id": "travis",
+          "name": "Travis",
+          "x": 391,
+          "y": 426,
+          "how": "mini"
+        },
+        {
+          "id": "bowie",
+          "name": "Bowie",
+          "x": 392,
+          "y": 426,
+          "how": "mini"
+        },
+        {
+          "id": "crockett",
+          "name": "Crockett",
+          "x": 391,
+          "y": 426,
+          "how": "mini"
+        },
+        {
+          "id": "emily-west",
+          "name": "Emily West",
+          "x": 1074,
+          "y": 369,
+          "how": "mini"
+        }
+      ],
+      "far": []
+    },
+    "samples": [
+      [
+        4580790,
+        "red-flag",
+        213690,
+        "red-flag",
+        "battle"
+      ],
+      [
+        4581274,
+        "red-flag",
+        213690,
+        null,
+        "battle"
+      ],
+      [
+        4581443,
+        "red-flag",
+        213750,
+        null,
+        "battle"
+      ],
+      [
+        4581725,
+        "red-flag",
+        213810,
+        "red-flag",
+        "battle"
+      ],
+      [
+        4582414,
+        "night-23",
+        213870,
+        null,
+        "home"
+      ],
+      [
+        4582853,
+        "day-24",
+        214560,
+        null,
+        "home"
+      ],
+      [
+        4583269,
+        "day-24",
+        214560,
+        "day-24",
+        "home"
+      ],
+      [
+        4583438,
+        "day-24",
+        214580,
+        null,
+        "home"
+      ],
+      [
+        4584325,
+        "day-24",
+        214660,
+        null,
+        "home"
+      ],
+      [
+        4584504,
+        "day-24",
+        214660,
+        "day-24",
+        "home"
+      ],
+      [
+        4584715,
+        "day-24",
+        214720,
+        null,
+        "home"
+      ],
+      [
+        4584873,
+        "day-24",
+        214720,
+        null,
+        "home"
+      ],
+      [
+        4585076,
+        "day-24",
+        214720,
+        "day-24",
+        "home"
+      ],
+      [
+        4585247,
+        "day-24",
+        214780,
+        null,
+        "home"
+      ],
+      [
+        4585412,
+        "day-24",
+        214780,
+        null,
+        "home"
+      ],
+      [
+        4585585,
+        "day-24",
+        214780,
+        "day-24",
+        "home"
+      ],
+      [
+        4585836,
+        "day-24",
+        214840,
+        null,
+        "home"
+      ],
+      [
+        4586001,
+        "day-24",
+        214840,
+        null,
+        "home"
+      ],
+      [
+        4586267,
+        "day-24",
+        214900,
+        "day-24",
+        "home"
+      ],
+      [
+        4586435,
+        "day-24",
+        214900,
+        null,
+        "home"
+      ],
+      [
+        4586721,
+        "day-24",
+        214960,
+        null,
+        "home"
+      ],
+      [
+        4586894,
+        "day-24",
+        214960,
+        "day-24",
+        "home"
+      ],
+      [
+        4587075,
+        "day-24",
+        214960,
+        null,
+        "home"
+      ],
+      [
+        4587236,
+        "day-24",
+        215020,
+        null,
+        "home"
+      ],
+      [
+        4587425,
+        "day-24",
+        215020,
+        "day-24",
+        "home"
+      ],
+      [
+        4587692,
+        "day-24",
+        215080,
+        null,
+        "home"
+      ],
+      [
+        4587869,
+        "day-24",
+        215080,
+        null,
+        "home"
+      ],
+      [
+        4588049,
+        "day-24",
+        215080,
+        "day-24",
+        "home"
+      ],
+      [
+        4588250,
+        "day-24",
+        215140,
+        null,
+        "home"
+      ],
+      [
+        4588409,
+        "day-24",
+        215140,
+        null,
+        "home"
+      ],
+      [
+        4588578,
+        "day-24",
+        215140,
+        "day-24",
+        "home"
+      ],
+      [
+        4588773,
+        "day-24",
+        215160,
+        null,
+        "home"
+      ],
+      [
+        4588947,
+        "day-24",
+        215160,
+        null,
+        "home"
+      ],
+      [
+        4589242,
+        "day-24",
+        215160,
+        "night-24",
+        "home"
+      ],
+      [
+        4589409,
+        "night-24",
+        215280,
+        null,
+        "home"
+      ],
+      [
+        4589583,
+        "night-24",
+        215280,
+        null,
+        "home"
+      ],
+      [
+        4589809,
+        "day-25-morning",
+        216000,
+        "day-25-morning",
+        "home"
+      ],
+      [
+        4589971,
+        "day-25-morning",
+        216000,
+        null,
+        "home"
+      ],
+      [
+        4590245,
+        "day-25-morning",
+        216020,
+        null,
+        "home"
+      ],
+      [
+        4590424,
+        "day-25-morning",
+        216020,
+        "day-25-morning",
+        "home"
+      ],
+      [
+        4591115,
+        "day-25-morning",
+        216040,
+        null,
+        "home"
+      ],
+      [
+        4591280,
+        "day-25-morning",
+        216100,
+        null,
+        "home"
+      ],
+      [
+        4591456,
+        "day-25-morning",
+        216100,
+        "day-25-morning",
+        "home"
+      ],
+      [
+        4591614,
+        "day-25-morning",
+        216100,
+        null,
+        "home"
+      ],
+      [
+        4591807,
+        "day-25-morning",
+        216160,
+        null,
+        "home"
+      ],
+      [
+        4591974,
+        "day-25-morning",
+        216160,
+        "day-25-morning",
+        "home"
+      ],
+      [
+        4592145,
+        "day-25-morning",
+        216160,
+        null,
+        "home"
+      ],
+      [
+        4592312,
+        "day-25-morning",
+        216220,
+        null,
+        "home"
+      ],
+      [
+        4592493,
+        "day-25-morning",
+        216220,
+        "day-25-morning",
+        "home"
+      ],
+      [
+        4592659,
+        "day-25-morning",
+        216220,
+        null,
+        "home"
+      ],
+      [
+        4592845,
+        "huts",
+        216240,
+        null,
+        "home"
+      ],
+      [
+        4593023,
+        "huts",
+        216240,
+        "huts",
+        "home"
+      ],
+      [
+        4593338,
+        "huts",
+        216260,
+        null,
+        "home"
+      ],
+      [
+        4593500,
+        "huts",
+        216260,
+        null,
+        "home"
+      ],
+      [
+        4593681,
+        "huts",
+        216260,
+        "huts",
+        "home"
+      ],
+      [
+        4593904,
+        "huts",
+        216280,
+        null,
+        "home"
+      ],
+      [
+        4594078,
+        "huts",
+        216280,
+        null,
+        "home"
+      ],
+      [
+        4594294,
+        "huts",
+        216280,
+        "huts",
+        "home"
+      ],
+      [
+        4594480,
+        "huts",
+        216300,
+        null,
+        "home"
+      ],
+      [
+        4594646,
+        "huts",
+        216300,
+        null,
+        "home"
+      ],
+      [
+        4594834,
+        "huts",
+        216320,
+        "huts",
+        "home"
+      ],
+      [
+        4595001,
+        "huts",
+        216320,
+        null,
+        "home"
+      ],
+      [
+        4595176,
+        "huts",
+        216320,
+        null,
+        "home"
+      ],
+      [
+        4595335,
+        "huts",
+        216340,
+        "huts",
+        "home"
+      ],
+      [
+        4595534,
+        "huts",
+        216340,
+        null,
+        "home"
+      ],
+      [
+        4595776,
+        "huts",
+        216340,
+        null,
+        "home"
+      ],
+      [
+        4595970,
+        "day-25-afternoon",
+        216360,
+        "day-25-afternoon",
+        "home"
+      ],
+      [
+        4596129,
+        "day-25-afternoon",
+        216360,
+        null,
+        "home"
+      ],
+      [
+        4596341,
+        "day-25-afternoon",
+        216420,
+        null,
+        "home"
+      ],
+      [
+        4596513,
+        "day-25-afternoon",
+        216420,
+        "day-25-afternoon",
+        "home"
+      ],
+      [
+        4596684,
+        "day-25-afternoon",
+        216420,
+        null,
+        "home"
+      ],
+      [
+        4596847,
+        "day-25-afternoon",
+        216480,
+        null,
+        "home"
+      ],
+      [
+        4597072,
+        "day-25-afternoon",
+        216480,
+        "day-25-afternoon",
+        "home"
+      ],
+      [
+        4597334,
+        "day-25-afternoon",
+        216540,
+        null,
+        "home"
+      ],
+      [
+        4597512,
+        "day-25-afternoon",
+        216540,
+        null,
+        "home"
+      ],
+      [
+        4597698,
+        "day-25-afternoon",
+        216540,
+        "day-25-afternoon",
+        "home"
+      ],
+      [
+        4597866,
+        "day-25-afternoon",
+        216600,
+        null,
+        "home"
+      ],
+      [
+        4598032,
+        "day-25-afternoon",
+        216600,
+        null,
+        "home"
+      ],
+      [
+        4598216,
+        "day-25-afternoon",
+        216600,
+        "day-25-afternoon",
+        "home"
+      ],
+      [
+        4598375,
+        "day-25-afternoon",
+        216660,
+        null,
+        "home"
+      ],
+      [
+        4598553,
+        "day-25-afternoon",
+        216660,
+        null,
+        "home"
+      ],
+      [
+        4598788,
+        "day-25-afternoon",
+        216660,
+        "day-25-afternoon",
+        "home"
+      ],
+      [
+        4598949,
+        "night-25",
+        216720,
+        null,
+        "home"
+      ],
+      [
+        4599106,
+        "night-25",
+        216720,
+        null,
+        "home"
+      ],
+      [
+        4599378,
+        "night-25",
+        216780,
+        "night-25",
+        "home"
+      ],
+      [
+        4599543,
+        "night-25",
+        216780,
+        null,
+        "home"
+      ],
+      [
+        4599706,
+        "night-25",
+        216780,
+        null,
+        "home"
+      ],
+      [
+        4599889,
+        "night-25",
+        216840,
+        "night-25",
+        "home"
+      ],
+      [
+        4600069,
+        "night-25",
+        216840,
+        null,
+        "home"
+      ],
+      [
+        4600237,
+        "night-25",
+        216840,
+        null,
+        "home"
+      ],
+      [
+        4600400,
+        "day-26",
+        217440,
+        "day-26",
+        "home"
+      ],
+      [
+        4600560,
+        "day-26",
+        217440,
+        null,
+        "home"
+      ],
+      [
+        4600747,
+        "day-26",
+        217440,
+        null,
+        "home"
+      ],
+      [
+        4600914,
+        "day-26",
+        217680,
+        "day-26",
+        "home"
+      ],
+      [
+        4601077,
+        "day-26",
+        217680,
+        null,
+        "home"
+      ],
+      [
+        4601259,
+        "day-26",
+        217680,
+        null,
+        "home"
+      ],
+      [
+        4601677,
+        "day-26",
+        217800,
+        "day-26",
+        "home"
+      ],
+      [
+        4602114,
+        "day-26",
+        217800,
+        null,
+        "home"
+      ],
+      [
+        4602276,
+        "day-26",
+        218040,
+        null,
+        "home"
+      ],
+      [
+        4602767,
+        "night-26",
+        218160,
+        "night-26",
+        "home"
+      ],
+      [
+        4603265,
+        "night-26",
+        218580,
+        null,
+        "home"
+      ],
+      [
+        4603740,
+        "night-26",
+        218600,
+        null,
+        "home"
+      ],
+      [
+        4604215,
+        "night-26",
+        218620,
+        "night",
+        "home"
+      ],
+      [
+        4604722,
+        "night-26",
+        218640,
+        null,
+        "home"
+      ],
+      [
+        4605242,
+        "night-26",
+        218660,
+        null,
+        "home"
+      ],
+      [
+        4605775,
+        "night-26",
+        218680,
+        "night",
+        "home"
+      ],
+      [
+        4606276,
+        "night-26",
+        218700,
+        null,
+        "home"
+      ],
+      [
+        4606784,
+        "night-26",
+        218701,
+        null,
+        "home"
+      ],
+      [
+        4607291,
+        "night-26",
+        218702,
+        "surprise",
+        "home"
+      ],
+      [
+        4607788,
+        "night-26",
+        218703,
+        null,
+        "home"
+      ],
+      [
+        4608252,
+        "night-26",
+        218704,
+        null,
+        "home"
+      ],
+      [
+        4608429,
+        "night-26",
+        218704,
+        "surprise",
+        "home"
+      ],
+      [
+        4608728,
+        "night-26",
+        218705,
+        null,
+        "home"
+      ],
+      [
+        4608888,
+        "night-26",
+        218705,
+        null,
+        "home"
+      ],
+      [
+        4609371,
+        "night-26",
+        218706,
+        "houses",
+        "home"
+      ],
+      [
+        4609857,
+        "night-26",
+        218707,
+        null,
+        "home"
+      ],
+      [
+        4610357,
+        "night-26",
+        218708,
+        null,
+        "home"
+      ],
+      [
+        4610873,
+        "night-26",
+        218709,
+        "houses",
+        "home"
+      ],
+      [
+        4611343,
+        "night-26",
+        218710,
+        null,
+        "home"
+      ],
+      [
+        4611829,
+        "night-26",
+        218711,
+        null,
+        "home"
+      ],
+      [
+        4611999,
+        "night-26",
+        218711,
+        "yield",
+        "home"
+      ],
+      [
+        4612402,
+        "night-26",
+        218712,
+        null,
+        "home"
+      ],
+      [
+        4612931,
+        "night-26",
+        218713,
+        null,
+        "home"
+      ],
+      [
+        4613453,
+        "night-26",
+        218714,
+        "yield",
+        "home"
+      ],
+      [
+        4613843,
+        "night-26",
+        218715,
+        null,
+        "home"
+      ],
+      [
+        4614003,
+        "night-26",
+        218715,
+        null,
+        "home"
+      ],
+      [
+        4614346,
+        "night-26",
+        218717,
+        "gathered",
+        "home"
+      ],
+      [
+        4614513,
+        "night-26",
+        218717,
+        null,
+        "home"
+      ],
+      [
+        4614873,
+        "night-26",
+        218719,
+        null,
+        "home"
+      ],
+      [
+        4615034,
+        "night-26",
+        218719,
+        "gathered",
+        "home"
+      ],
+      [
+        4615380,
+        "night-26",
+        218721,
+        null,
+        "home"
+      ],
+      [
+        4615552,
+        "night-26",
+        218721,
+        null,
+        "home"
+      ],
+      [
+        4615887,
+        "night-26",
+        218723,
+        "gathered",
+        "home"
+      ],
+      [
+        4616056,
+        "night-26",
+        218723,
+        null,
+        "home"
+      ],
+      [
+        4616348,
+        "night-26",
+        218725,
+        null,
+        "home"
+      ],
+      [
+        4616520,
+        "night-26",
+        218725,
+        "gathered",
+        "home"
+      ],
+      [
+        4616995,
+        "night-26",
+        218727,
+        null,
+        "home"
+      ],
+      [
+        4617414,
+        "night-26",
+        218729,
+        null,
+        "home"
+      ],
+      [
+        4618000,
+        "night-26",
+        218729,
+        "gathered",
+        "home"
+      ],
+      [
+        4618477,
+        "night-26",
+        218733,
+        null,
+        "home"
+      ],
+      [
+        4618950,
+        "night-26",
+        218735,
+        null,
+        "home"
+      ],
+      [
+        4619116,
+        "night-26",
+        218735,
+        "after",
+        "home"
+      ],
+      [
+        4619442,
+        "night-26",
+        218755,
+        null,
+        "home"
+      ],
+      [
+        4619613,
+        "night-26",
+        218755,
+        null,
+        "home"
+      ],
+      [
+        4619958,
+        "night-26",
+        218775,
+        "night-26",
+        "home"
+      ],
+      [
+        4620128,
+        "night-26",
+        218775,
+        null,
+        "home"
+      ],
+      [
+        4620401,
+        "day-27",
+        218880,
+        null,
+        "home"
+      ],
+      [
+        4620570,
+        "day-27",
+        218880,
+        "day-27",
+        "home"
+      ],
+      [
+        4620963,
+        "day-27",
+        219120,
+        null,
+        "home"
+      ],
+      [
+        4621130,
+        "day-27",
+        219120,
+        null,
+        "home"
+      ],
+      [
+        4621305,
+        "day-27",
+        219360,
+        "day-27",
+        "home"
+      ],
+      [
+        4621475,
+        "day-27",
+        219360,
+        null,
+        "home"
+      ],
+      [
+        4621703,
+        "night-27",
+        219600,
+        null,
+        "home"
+      ],
+      [
+        4621869,
+        "night-27",
+        219600,
+        "night-27",
+        "home"
+      ],
+      [
+        4622035,
+        "night-27",
+        219600,
+        null,
+        "home"
+      ],
+      [
+        4622201,
+        "night-27",
+        219600,
+        null,
+        "home"
+      ],
+      [
+        4622370,
+        "day-28",
+        220320,
+        "day-28",
+        "home"
+      ],
+      [
+        4622533,
+        "day-28",
+        220320,
+        null,
+        "home"
+      ],
+      [
+        4622763,
+        "day-28",
+        220560,
+        null,
+        "home"
+      ],
+      [
+        4622933,
+        "day-28",
+        220560,
+        "day-28",
+        "home"
+      ],
+      [
+        4623129,
+        "day-28",
+        220560,
+        null,
+        "home"
+      ],
+      [
+        4623306,
+        "day-28",
+        220800,
+        null,
+        "home"
+      ],
+      [
+        4623494,
+        "day-28",
+        220800,
+        "day-28",
+        "home"
+      ],
+      [
+        4623663,
+        "day-28",
+        220800,
+        null,
+        "home"
+      ],
+      [
+        4623840,
+        "night-28",
+        221040,
+        null,
+        "home"
+      ],
+      [
+        4624021,
+        "night-28",
+        221040,
+        "night-28",
+        "home"
+      ],
+      [
+        4624263,
+        "day-29",
+        221760,
+        null,
+        "home"
+      ],
+      [
+        4624433,
+        "day-29",
+        221760,
+        null,
+        "home"
+      ],
+      [
+        4624630,
+        "day-29",
+        221760,
+        "day-29",
+        "home"
+      ],
+      [
+        4624794,
+        "day-29",
+        221880,
+        null,
+        "home"
+      ],
+      [
+        4624953,
+        "day-29",
+        221880,
+        null,
+        "home"
+      ],
+      [
+        4625133,
+        "day-29",
+        221880,
+        "day-29",
+        "home"
+      ],
+      [
+        4625301,
+        "day-29",
+        222120,
+        null,
+        "home"
+      ],
+      [
+        4625473,
+        "day-29",
+        222120,
+        null,
+        "home"
+      ],
+      [
+        4625656,
+        "day-29",
+        222120,
+        "day-29",
+        "home"
+      ],
+      [
+        4625815,
+        "day-29",
+        222360,
+        null,
+        "home"
+      ],
+      [
+        4625979,
+        "day-29",
+        222360,
+        null,
+        "home"
+      ],
+      [
+        4626153,
+        "day-29",
+        222360,
+        "day-29",
+        "home"
+      ],
+      [
+        4626316,
+        "night-29",
+        222480,
+        null,
+        "home"
+      ],
+      [
+        4626475,
+        "night-29",
+        222480,
+        null,
+        "home"
+      ],
+      [
+        4626654,
+        "night-29",
+        222480,
+        "night-29",
+        "home"
+      ],
+      [
+        4626810,
+        "relief",
+        223020,
+        null,
+        "home"
+      ],
+      [
+        4626980,
+        "relief",
+        223020,
+        null,
+        "home"
+      ],
+      [
+        4627166,
+        "relief",
+        223020,
+        "relief",
+        "home"
+      ],
+      [
+        4627328,
+        "relief",
+        223040,
+        null,
+        "home"
+      ],
+      [
+        4627501,
+        "relief",
+        223040,
+        null,
+        "home"
+      ],
+      [
+        4627683,
+        "relief",
+        223040,
+        "relief",
+        "home"
+      ],
+      [
+        4627842,
+        "relief",
+        223060,
+        null,
+        "home"
+      ],
+      [
+        4628020,
+        "relief",
+        223060,
+        null,
+        "home"
+      ],
+      [
+        4628192,
+        "relief",
+        223060,
+        "relief",
+        "home"
+      ],
+      [
+        4628365,
+        "relief",
+        223080,
+        null,
+        "home"
+      ],
+      [
+        4628534,
+        "relief",
+        223080,
+        null,
+        "home"
+      ],
+      [
+        4628785,
+        "relief",
+        223100,
+        "relief",
+        "home"
+      ],
+      [
+        4628955,
+        "relief",
+        223100,
+        null,
+        "home"
+      ],
+      [
+        4629120,
+        "relief",
+        223100,
+        null,
+        "home"
+      ],
+      [
+        4629285,
+        "relief",
+        223120,
+        "relief",
+        "home"
+      ],
+      [
+        4629461,
+        "relief",
+        223120,
+        null,
+        "home"
+      ],
+      [
+        4629630,
+        "relief",
+        223120,
+        null,
+        "home"
+      ],
+      [
+        4629804,
+        "night-relief",
+        223140,
+        "night-relief",
+        "home"
+      ],
+      [
+        4629973,
+        "night-relief",
+        223140,
+        null,
+        "home"
+      ],
+      [
+        4630145,
+        "night-relief",
+        223140,
+        null,
+        "home"
+      ],
+      [
+        4630312,
+        "day-1",
+        223200,
+        "day-1",
+        "home"
+      ],
+      [
+        4630476,
+        "day-1",
+        223200,
+        null,
+        "home"
+      ],
+      [
+        4630635,
+        "day-1",
+        223200,
+        null,
+        "home"
+      ],
+      [
+        4630800,
+        "day-1",
+        223440,
+        "day-1",
+        "home"
+      ],
+      [
+        4630964,
+        "day-1",
+        223440,
+        null,
+        "home"
+      ],
+      [
+        4631135,
+        "day-1",
+        223440,
+        null,
+        "home"
+      ],
+      [
+        4631301,
+        "day-1",
+        223680,
+        "day-1",
+        "home"
+      ],
+      [
+        4631478,
+        "day-1",
+        223680,
+        null,
+        "home"
+      ],
+      [
+        4631648,
+        "day-1",
+        223680,
+        null,
+        "home"
+      ],
+      [
+        4631812,
+        "night-1",
+        223920,
+        "night-1",
+        "home"
+      ],
+      [
+        4631980,
+        "night-1",
+        223920,
+        null,
+        "home"
+      ],
+      [
+        4632149,
+        "night-1",
+        223920,
+        null,
+        "home"
+      ],
+      [
+        4632326,
+        "day-2",
+        224640,
+        "day-2",
+        "home"
+      ],
+      [
+        4632495,
+        "day-2",
+        224640,
+        null,
+        "home"
+      ],
+      [
+        4632651,
+        "day-2",
+        224640,
+        null,
+        "home"
+      ],
+      [
+        4632847,
+        "day-2",
+        224790,
+        "drive",
+        "home"
+      ],
+      [
+        4633010,
+        "day-2",
+        224790,
+        null,
+        "home"
+      ],
+      [
+        4633168,
+        "day-2",
+        224790,
+        null,
+        "home"
+      ],
+      [
+        4633327,
+        "day-2",
+        224810,
+        "drive",
+        "home"
+      ],
+      [
+        4633505,
+        "day-2",
+        224810,
+        null,
+        "home"
+      ],
+      [
+        4633669,
+        "day-2",
+        224810,
+        null,
+        "home"
+      ],
+      [
+        4633830,
+        "day-2",
+        224830,
+        "drive",
+        "home"
+      ],
+      [
+        4633998,
+        "day-2",
+        224830,
+        null,
+        "home"
+      ],
+      [
+        4634169,
+        "day-2",
+        224830,
+        null,
+        "home"
+      ],
+      [
+        4634342,
+        "day-2",
+        224850,
+        "herd",
+        "home"
+      ],
+      [
+        4634511,
+        "day-2",
+        224850,
+        null,
+        "home"
+      ],
+      [
+        4634667,
+        "day-2",
+        224850,
+        null,
+        "home"
+      ],
+      [
+        4634834,
+        "day-2",
+        224855,
+        "herd",
+        "home"
+      ],
+      [
+        4635004,
+        "day-2",
+        224855,
+        null,
+        "home"
+      ],
+      [
+        4635173,
+        "day-2",
+        224855,
+        null,
+        "home"
+      ],
+      [
+        4635335,
+        "day-2",
+        224860,
+        "herd",
+        "home"
+      ],
+      [
+        4635509,
+        "day-2",
+        224860,
+        null,
+        "home"
+      ],
+      [
+        4635682,
+        "day-2",
+        224860,
+        null,
+        "home"
+      ],
+      [
+        4635858,
+        "day-2",
+        224865,
+        "herd",
+        "home"
+      ],
+      [
+        4636035,
+        "day-2",
+        224865,
+        null,
+        "home"
+      ],
+      [
+        4636215,
+        "day-2",
+        224865,
+        null,
+        "home"
+      ],
+      [
+        4636389,
+        "day-2",
+        224870,
+        "herd",
+        "home"
+      ],
+      [
+        4636561,
+        "day-2",
+        224870,
+        null,
+        "home"
+      ],
+      [
+        4636732,
+        "day-2",
+        224870,
+        null,
+        "home"
+      ],
+      [
+        4636912,
+        "day-2",
+        224875,
+        "herd",
+        "home"
+      ],
+      [
+        4637076,
+        "day-2",
+        224875,
+        null,
+        "home"
+      ],
+      [
+        4637234,
+        "day-2",
+        224875,
+        null,
+        "home"
+      ],
+      [
+        4637396,
+        "day-2",
+        224880,
+        "herd",
+        "home"
+      ],
+      [
+        4637579,
+        "day-2",
+        224880,
+        null,
+        "home"
+      ],
+      [
+        4637742,
+        "day-2",
+        224880,
+        null,
+        "home"
+      ],
+      [
+        4637915,
+        "day-2",
+        224885,
+        "herd",
+        "home"
+      ],
+      [
+        4638083,
+        "day-2",
+        224885,
+        null,
+        "home"
+      ],
+      [
+        4638262,
+        "day-2",
+        224885,
+        null,
+        "home"
+      ],
+      [
+        4638429,
+        "day-2",
+        224890,
+        "herd",
+        "home"
+      ],
+      [
+        4638600,
+        "day-2",
+        224890,
+        null,
+        "home"
+      ],
+      [
+        4638768,
+        "day-2",
+        224890,
+        null,
+        "home"
+      ],
+      [
+        4638932,
+        "day-2",
+        224895,
+        "herd",
+        "home"
+      ],
+      [
+        4639095,
+        "day-2",
+        224895,
+        null,
+        "home"
+      ],
+      [
+        4639262,
+        "day-2",
+        224895,
+        null,
+        "home"
+      ],
+      [
+        4639426,
+        "day-2",
+        224900,
+        "herd",
+        "home"
+      ],
+      [
+        4639602,
+        "day-2",
+        224900,
+        null,
+        "home"
+      ],
+      [
+        4639769,
+        "day-2",
+        224900,
+        null,
+        "home"
+      ],
+      [
+        4639929,
+        "day-2",
+        224905,
+        "herd",
+        "home"
+      ],
+      [
+        4640098,
+        "day-2",
+        224905,
+        null,
+        "home"
+      ],
+      [
+        4640267,
+        "day-2",
+        224905,
+        null,
+        "home"
+      ],
+      [
+        4640440,
+        "day-2",
+        224910,
+        "ambush",
+        "home"
+      ],
+      [
+        4640602,
+        "day-2",
+        224910,
+        null,
+        "home"
+      ],
+      [
+        4640762,
+        "day-2",
+        224910,
+        null,
+        "home"
+      ],
+      [
+        4640937,
+        "day-2",
+        224911,
+        "ambush",
+        "home"
+      ],
+      [
+        4641108,
+        "day-2",
+        224911,
+        null,
+        "home"
+      ],
+      [
+        4641275,
+        "day-2",
+        224911,
+        null,
+        "home"
+      ],
+      [
+        4641436,
+        "day-2",
+        224912,
+        "ambush",
+        "home"
+      ],
+      [
+        4641604,
+        "day-2",
+        224912,
+        null,
+        "home"
+      ],
+      [
+        4641764,
+        "day-2",
+        224912,
+        null,
+        "home"
+      ],
+      [
+        4641945,
+        "day-2",
+        224913,
+        "ambush",
+        "home"
+      ],
+      [
+        4642121,
+        "day-2",
+        224913,
+        null,
+        "home"
+      ],
+      [
+        4642293,
+        "day-2",
+        224913,
+        null,
+        "home"
+      ],
+      [
+        4642456,
+        "day-2",
+        224914,
+        "ambush",
+        "home"
+      ],
+      [
+        4642628,
+        "day-2",
+        224914,
+        null,
+        "home"
+      ],
+      [
+        4642783,
+        "day-2",
+        224914,
+        null,
+        "home"
+      ],
+      [
+        4642949,
+        "day-2",
+        224915,
+        "ambush",
+        "home"
+      ],
+      [
+        4643114,
+        "day-2",
+        224915,
+        null,
+        "home"
+      ],
+      [
+        4643276,
+        "day-2",
+        224915,
+        null,
+        "home"
+      ],
+      [
+        4643440,
+        "day-2",
+        224916,
+        "ambush",
+        "home"
+      ],
+      [
+        4643601,
+        "day-2",
+        224916,
+        null,
+        "home"
+      ],
+      [
+        4643756,
+        "day-2",
+        224916,
+        null,
+        "home"
+      ],
+      [
+        4643935,
+        "day-2",
+        224917,
+        "ambush",
+        "home"
+      ],
+      [
+        4644100,
+        "day-2",
+        224917,
+        null,
+        "home"
+      ],
+      [
+        4644281,
+        "day-2",
+        224917,
+        null,
+        "home"
+      ],
+      [
+        4644440,
+        "day-2",
+        224918,
+        "ambush",
+        "home"
+      ],
+      [
+        4644597,
+        "day-2",
+        224918,
+        null,
+        "home"
+      ],
+      [
+        4644753,
+        "day-2",
+        224918,
+        null,
+        "home"
+      ],
+      [
+        4644966,
+        "day-2",
+        224919,
+        "ambush",
+        "home"
+      ],
+      [
+        4645131,
+        "day-2",
+        224919,
+        null,
+        "home"
+      ],
+      [
+        4645311,
+        "day-2",
+        224919,
+        null,
+        "home"
+      ],
+      [
+        4645478,
+        "day-2",
+        224920,
+        "ambush",
+        "home"
+      ],
+      [
+        4645651,
+        "day-2",
+        224920,
+        null,
+        "home"
+      ],
+      [
+        4645820,
+        "day-2",
+        224920,
+        null,
+        "home"
+      ],
+      [
+        4645981,
+        "day-2",
+        224921,
+        "ambush",
+        "home"
+      ],
+      [
+        4646154,
+        "day-2",
+        224921,
+        null,
+        "home"
+      ],
+      [
+        4646325,
+        "day-2",
+        224921,
+        null,
+        "home"
+      ],
+      [
+        4646491,
+        "day-2",
+        224922,
+        "ambush",
+        "home"
+      ],
+      [
+        4646651,
+        "day-2",
+        224922,
+        null,
+        "home"
+      ],
+      [
+        4646808,
+        "day-2",
+        224922,
+        null,
+        "home"
+      ],
+      [
+        4646986,
+        "day-2",
+        224923,
+        "ambush",
+        "home"
+      ],
+      [
+        4647152,
+        "day-2",
+        224923,
+        null,
+        "home"
+      ],
+      [
+        4647310,
+        "day-2",
+        224923,
+        null,
+        "home"
+      ],
+      [
+        4647491,
+        "day-2",
+        224924,
+        "ambush",
+        "home"
+      ],
+      [
+        4647663,
+        "day-2",
+        224924,
+        null,
+        "home"
+      ],
+      [
+        4647826,
+        "day-2",
+        224924,
+        null,
+        "home"
+      ],
+      [
+        4648014,
+        "day-2",
+        224925,
+        "ambush",
+        "home"
+      ],
+      [
+        4648171,
+        "day-2",
+        224925,
+        null,
+        "home"
+      ],
+      [
+        4648330,
+        "day-2",
+        224925,
+        null,
+        "home"
+      ],
+      [
+        4648500,
+        "day-2",
+        224926,
+        "ambush",
+        "home"
+      ],
+      [
+        4648664,
+        "day-2",
+        224926,
+        null,
+        "home"
+      ],
+      [
+        4648830,
+        "day-2",
+        224926,
+        null,
+        "home"
+      ],
+      [
+        4649004,
+        "day-2",
+        224927,
+        "ambush",
+        "home"
+      ],
+      [
+        4649163,
+        "day-2",
+        224927,
+        null,
+        "home"
+      ],
+      [
+        4649331,
+        "day-2",
+        224927,
+        null,
+        "home"
+      ],
+      [
+        4649527,
+        "day-2",
+        224928,
+        "ambush",
+        "home"
+      ],
+      [
+        4649704,
+        "day-2",
+        224928,
+        null,
+        "home"
+      ],
+      [
+        4649860,
+        "day-2",
+        224928,
+        null,
+        "home"
+      ],
+      [
+        4650034,
+        "day-2",
+        224929,
+        "ambush",
+        "home"
+      ],
+      [
+        4650197,
+        "day-2",
+        224929,
+        null,
+        "home"
+      ],
+      [
+        4650374,
+        "day-2",
+        224929,
+        null,
+        "home"
+      ],
+      [
+        4650533,
+        "day-2",
+        224930,
+        "after",
+        "home"
+      ],
+      [
+        4650694,
+        "day-2",
+        224930,
+        null,
+        "home"
+      ],
+      [
+        4650862,
+        "day-2",
+        224930,
+        null,
+        "home"
+      ],
+      [
+        4651048,
+        "day-2",
+        224950,
+        "after",
+        "home"
+      ],
+      [
+        4651212,
+        "day-2",
+        224950,
+        null,
+        "home"
+      ],
+      [
+        4651379,
+        "day-2",
+        224950,
+        null,
+        "home"
+      ],
+      [
+        4651537,
+        "day-2",
+        224970,
+        "after",
+        "home"
+      ],
+      [
+        4651720,
+        "day-2",
+        224970,
+        null,
+        "home"
+      ],
+      [
+        4651892,
+        "day-2",
+        224970,
+        null,
+        "home"
+      ],
+      [
+        4652078,
+        "day-2",
+        224990,
+        "day-2",
+        "home"
+      ],
+      [
+        4652236,
+        "day-2",
+        224990,
+        null,
+        "home"
+      ],
+      [
+        4652398,
+        "day-2",
+        224990,
+        null,
+        "home"
+      ],
+      [
+        4652570,
+        "day-2",
+        225230,
+        "day-2",
+        "home"
+      ],
+      [
+        4652747,
+        "day-2",
+        225230,
+        null,
+        "home"
+      ],
+      [
+        4652905,
+        "day-2",
+        225230,
+        null,
+        "home"
+      ],
+      [
+        4653082,
+        "night-2",
+        225360,
+        "night-2",
+        "home"
+      ],
+      [
+        4653250,
+        "night-2",
+        225360,
+        null,
+        "home"
+      ],
+      [
+        4653406,
+        "night-2",
+        225360,
+        null,
+        "home"
+      ],
+      [
+        4653616,
+        "day-3",
+        226080,
+        "day-3",
+        "home"
+      ],
+      [
+        4653785,
+        "day-3",
+        226080,
+        null,
+        "home"
+      ],
+      [
+        4653951,
+        "day-3",
+        226080,
+        null,
+        "home"
+      ],
+      [
+        4654111,
+        "day-3",
+        226100,
+        "day-3",
+        "home"
+      ],
+      [
+        4654282,
+        "day-3",
+        226100,
+        null,
+        "home"
+      ],
+      [
+        4654811,
+        "day-3",
+        226120,
+        null,
+        "home"
+      ],
+      [
+        4654985,
+        "day-3",
+        226120,
+        "day-3",
+        "home"
+      ],
+      [
+        4655154,
+        "day-3",
+        226180,
+        null,
+        "home"
+      ],
+      [
+        4655310,
+        "day-3",
+        226180,
+        null,
+        "home"
+      ],
+      [
+        4655475,
+        "day-3",
+        226180,
+        "day-3",
+        "home"
+      ],
+      [
+        4655640,
+        "day-3",
+        226240,
+        null,
+        "home"
+      ],
+      [
+        4655798,
+        "day-3",
+        226240,
+        null,
+        "home"
+      ],
+      [
+        4655959,
+        "day-3",
+        226240,
+        "day-3",
+        "home"
+      ],
+      [
+        4656127,
+        "day-3",
+        226300,
+        null,
+        "home"
+      ],
+      [
+        4656296,
+        "day-3",
+        226300,
+        null,
+        "home"
+      ],
+      [
+        4656456,
+        "day-3",
+        226300,
+        "day-3",
+        "home"
+      ],
+      [
+        4656611,
+        "day-3",
+        226360,
+        null,
+        "home"
+      ],
+      [
+        4656783,
+        "day-3",
+        226360,
+        null,
+        "home"
+      ],
+      [
+        4656950,
+        "day-3",
+        226360,
+        "day-3",
+        "home"
+      ],
+      [
+        4657116,
+        "day-3",
+        226420,
+        null,
+        "home"
+      ],
+      [
+        4657292,
+        "day-3",
+        226420,
+        null,
+        "home"
+      ],
+      [
+        4657459,
+        "day-3",
+        226420,
+        "day-3",
+        "home"
+      ],
+      [
+        4657615,
+        "day-3",
+        226440,
+        null,
+        "home"
+      ],
+      [
+        4657789,
+        "day-3",
+        226440,
+        null,
+        "home"
+      ],
+      [
+        4657956,
+        "day-3",
+        226440,
+        "day-3",
+        "home"
+      ],
+      [
+        4658121,
+        "day-3",
+        226500,
+        null,
+        "home"
+      ],
+      [
+        4658289,
+        "day-3",
+        226500,
+        null,
+        "home"
+      ],
+      [
+        4658454,
+        "day-3",
+        226500,
+        "day-3",
+        "home"
+      ],
+      [
+        4658637,
+        "day-3",
+        226560,
+        null,
+        "home"
+      ],
+      [
+        4658805,
+        "day-3",
+        226560,
+        null,
+        "home"
+      ],
+      [
+        4658968,
+        "day-3",
+        226560,
+        "day-3",
+        "home"
+      ],
+      [
+        4659129,
+        "day-3",
+        226620,
+        null,
+        "home"
+      ],
+      [
+        4659296,
+        "day-3",
+        226620,
+        null,
+        "home"
+      ],
+      [
+        4659456,
+        "day-3",
+        226620,
+        "day-3",
+        "home"
+      ],
+      [
+        4659640,
+        "day-3",
+        226680,
+        null,
+        "home"
+      ],
+      [
+        4659797,
+        "day-3",
+        226680,
+        null,
+        "home"
+      ],
+      [
+        4659957,
+        "day-3",
+        226680,
+        "day-3",
+        "home"
+      ],
+      [
+        4660151,
+        "day-3",
+        226740,
+        null,
+        "home"
+      ],
+      [
+        4660323,
+        "day-3",
+        226740,
+        null,
+        "home"
+      ],
+      [
+        4660500,
+        "day-3",
+        226740,
+        "day-3",
+        "home"
+      ],
+      [
+        4660659,
+        "the-line",
+        226800,
+        null,
+        "home"
+      ],
+      [
+        4660825,
+        "the-line",
+        226800,
+        null,
+        "home"
+      ],
+      [
+        4660995,
+        "the-line",
+        226800,
+        "the-line",
+        "home"
+      ],
+      [
+        4661149,
+        "the-line",
+        226820,
+        null,
+        "home"
+      ],
+      [
+        4661316,
+        "the-line",
+        226820,
+        null,
+        "home"
+      ],
+      [
+        4661497,
+        "the-line",
+        226820,
+        "the-line",
+        "home"
+      ],
+      [
+        4661828,
+        "the-line",
+        226840,
+        null,
+        "home"
+      ],
+      [
+        4661987,
+        "the-line",
+        226840,
+        null,
+        "home"
+      ],
+      [
+        4662177,
+        "night-3",
+        226860,
+        "night-3",
+        "home"
+      ],
+      [
+        4662339,
+        "night-3",
+        226860,
+        null,
+        "home"
+      ],
+      [
+        4662509,
+        "night-3",
+        226860,
+        null,
+        "home"
+      ],
+      [
+        4662670,
+        "night-3",
+        226920,
+        "night-3",
+        "home"
+      ],
+      [
+        4662830,
+        "night-3",
+        226920,
+        null,
+        "home"
+      ],
+      [
+        4662990,
+        "night-3",
+        226920,
+        null,
+        "home"
+      ],
+      [
+        4663247,
+        "day-4",
+        227520,
+        "day-4",
+        "home"
+      ],
+      [
+        4663411,
+        "day-4",
+        227520,
+        null,
+        "home"
+      ],
+      [
+        4663567,
+        "day-4",
+        227520,
+        null,
+        "home"
+      ],
+      [
+        4663746,
+        "day-4",
+        227760,
+        "day-4",
+        "home"
+      ],
+      [
+        4663909,
+        "day-4",
+        227760,
+        null,
+        "home"
+      ],
+      [
+        4664064,
+        "day-4",
+        227760,
+        null,
+        "home"
+      ],
+      [
+        4664225,
+        "day-4",
+        227880,
+        "day-4",
+        "home"
+      ],
+      [
+        4664398,
+        "day-4",
+        227880,
+        null,
+        "home"
+      ],
+      [
+        4664564,
+        "day-4",
+        227880,
+        null,
+        "home"
+      ],
+      [
+        4664729,
+        "day-4",
+        228120,
+        "day-4",
+        "home"
+      ],
+      [
+        4664900,
+        "day-4",
+        228120,
+        null,
+        "home"
+      ],
+      [
+        4665075,
+        "day-4",
+        228120,
+        null,
+        "home"
+      ],
+      [
+        4665238,
+        "night-4",
+        228240,
+        "night-4",
+        "home"
+      ],
+      [
+        4665391,
+        "night-4",
+        228240,
+        null,
+        "home"
+      ],
+      [
+        4665556,
+        "night-4",
+        228240,
+        null,
+        "home"
+      ],
+      [
+        4665755,
+        "day-5",
+        228960,
+        "day-5",
+        "home"
+      ],
+      [
+        4665910,
+        "day-5",
+        228960,
+        null,
+        "home"
+      ],
+      [
+        4666069,
+        "day-5",
+        228960,
+        null,
+        "home"
+      ],
+      [
+        4666226,
+        "day-5",
+        229200,
+        "day-5",
+        "home"
+      ],
+      [
+        4666386,
+        "day-5",
+        229200,
+        null,
+        "home"
+      ],
+      [
+        4666542,
+        "day-5",
+        229200,
+        null,
+        "home"
+      ],
+      [
+        4666723,
+        "day-5",
+        229320,
+        "day-5",
+        "home"
+      ],
+      [
+        4666899,
+        "day-5",
+        229320,
+        null,
+        "home"
+      ],
+      [
+        4667076,
+        "day-5",
+        229320,
+        null,
+        "home"
+      ],
+      [
+        4667236,
+        "day-5",
+        229340,
+        "day-5",
+        "home"
+      ],
+      [
+        4667402,
+        "day-5",
+        229340,
+        null,
+        "home"
+      ],
+      [
+        4667558,
+        "day-5",
+        229340,
+        null,
+        "home"
+      ],
+      [
+        4668168,
+        "day-5",
+        229360,
+        "day-5",
+        "home"
+      ],
+      [
+        4668325,
+        "day-5",
+        229420,
+        null,
+        "home"
+      ],
+      [
+        4668480,
+        "day-5",
+        229420,
+        null,
+        "home"
+      ],
+      [
+        4668642,
+        "day-5",
+        229420,
+        "day-5",
+        "home"
+      ],
+      [
+        4668813,
+        "day-5",
+        229480,
+        null,
+        "home"
+      ],
+      [
+        4668982,
+        "day-5",
+        229480,
+        null,
+        "home"
+      ],
+      [
+        4669141,
+        "day-5",
+        229480,
+        "day-5",
+        "home"
+      ],
+      [
+        4669295,
+        "day-5",
+        229540,
+        null,
+        "home"
+      ],
+      [
+        4669457,
+        "day-5",
+        229540,
+        null,
+        "home"
+      ],
+      [
+        4669630,
+        "day-5",
+        229540,
+        "day-5",
+        "home"
+      ],
+      [
+        4669797,
+        "day-5",
+        229600,
+        null,
+        "home"
+      ],
+      [
+        4669955,
+        "day-5",
+        229600,
+        null,
+        "home"
+      ],
+      [
+        4670117,
+        "day-5",
+        229600,
+        "day-5",
+        "home"
+      ],
+      [
+        4670281,
+        "day-5",
+        229660,
+        null,
+        "home"
+      ],
+      [
+        4670436,
+        "day-5",
+        229660,
+        null,
+        "home"
+      ],
+      [
+        4670606,
+        "day-5",
+        229660,
+        "day-5",
+        "home"
+      ],
+      [
+        4670765,
+        "last-evening",
+        229680,
+        null,
+        "home"
+      ],
+      [
+        4670926,
+        "last-evening",
+        229680,
+        null,
+        "home"
+      ],
+      [
+        4671103,
+        "last-evening",
+        229680,
+        "last-evening",
+        "home"
+      ],
+      [
+        4671262,
+        "last-evening",
+        229740,
+        null,
+        "home"
+      ],
+      [
+        4671426,
+        "last-evening",
+        229740,
+        null,
+        "home"
+      ],
+      [
+        4671585,
+        "last-evening",
+        229740,
+        "last-evening",
+        "home"
+      ],
+      [
+        4671767,
+        "last-evening",
+        229800,
+        null,
+        "home"
+      ],
+      [
+        4671923,
+        "last-evening",
+        229800,
+        null,
+        "home"
+      ],
+      [
+        4672085,
+        "last-evening",
+        229800,
+        "last-evening",
+        "home"
+      ],
+      [
+        4672278,
+        "last-evening",
+        229860,
+        null,
+        "home"
+      ],
+      [
+        4672437,
+        "last-evening",
+        229860,
+        null,
+        "home"
+      ],
+      [
+        4672598,
+        "last-evening",
+        229860,
+        "last-evening",
+        "home"
+      ],
+      [
+        4672804,
+        "quiet",
+        229920,
+        null,
+        "home"
+      ],
+      [
+        4672970,
+        "quiet",
+        229920,
+        null,
+        "home"
+      ],
+      [
+        4673135,
+        "quiet",
+        229920,
+        "quiet",
+        "home"
+      ],
+      [
+        4673293,
+        "quiet",
+        229980,
+        null,
+        "home"
+      ],
+      [
+        4673470,
+        "quiet",
+        229980,
+        null,
+        "home"
+      ],
+      [
+        4673632,
+        "quiet",
+        229980,
+        "quiet",
+        "home"
+      ],
+      [
+        4673815,
+        "quiet",
+        230040,
+        null,
+        "home"
+      ],
+      [
+        4673972,
+        "quiet",
+        230040,
+        null,
+        "home"
+      ],
+      [
+        4674135,
+        "quiet",
+        230040,
+        "quiet",
+        "home"
+      ],
+      [
+        4674308,
+        "quiet",
+        230100,
+        null,
+        "home"
+      ],
+      [
+        4674472,
+        "quiet",
+        230100,
+        null,
+        "home"
+      ],
+      [
+        4674631,
+        "quiet",
+        230100,
+        "quiet",
+        "home"
+      ],
+      [
+        4674831,
+        "quiet",
+        230160,
+        null,
+        "home"
+      ],
+      [
+        4674985,
+        "quiet",
+        230160,
+        null,
+        "home"
+      ],
+      [
+        4675144,
+        "quiet",
+        230160,
+        "quiet",
+        "home"
+      ],
+      [
+        4675341,
+        "advance",
+        230340,
+        null,
+        "home"
+      ],
+      [
+        4675504,
+        "advance",
+        230340,
+        null,
+        "home"
+      ],
+      [
+        4675662,
+        "advance",
+        230340,
+        "advance",
+        "home"
+      ],
+      [
+        4675834,
+        "advance",
+        230345,
+        null,
+        "home"
+      ],
+      [
+        4676001,
+        "advance",
+        230345,
+        null,
+        "home"
+      ],
+      [
+        4676160,
+        "advance",
+        230345,
+        "advance",
+        "home"
+      ],
+      [
+        4676352,
+        "advance",
+        230350,
+        null,
+        "home"
+      ],
+      [
+        4676518,
+        "advance",
+        230350,
+        null,
+        "home"
+      ],
+      [
+        4676676,
+        "advance",
+        230350,
+        "advance",
+        "home"
+      ],
+      [
+        4676862,
+        "advance",
+        230355,
+        null,
+        "home"
+      ],
+      [
+        4677015,
+        "advance",
+        230355,
+        null,
+        "home"
+      ],
+      [
+        4677174,
+        "advance",
+        230355,
+        "advance",
+        "home"
+      ],
+      [
+        4677365,
+        "advance",
+        230360,
+        null,
+        "home"
+      ],
+      [
+        4677540,
+        "advance",
+        230360,
+        null,
+        "home"
+      ],
+      [
+        4677704,
+        "advance",
+        230360,
+        "advance",
+        "home"
+      ],
+      [
+        4677877,
+        "advance",
+        230365,
+        null,
+        "home"
+      ],
+      [
+        4678031,
+        "advance",
+        230365,
+        null,
+        "home"
+      ],
+      [
+        4678194,
+        "advance",
+        230365,
+        "advance",
+        "home"
+      ],
+      [
+        4678392,
+        "alarm",
+        230370,
+        null,
+        "home"
+      ],
+      [
+        4678548,
+        "alarm",
+        230370,
+        null,
+        "home"
+      ],
+      [
+        4678708,
+        "alarm",
+        230370,
+        "alarm",
+        "home"
+      ],
+      [
+        4678967,
+        "alarm",
+        230372,
+        null,
+        "battle"
+      ],
+      [
+        4679131,
+        "alarm",
+        230372,
+        null,
+        "battle"
+      ],
+      [
+        4679303,
+        "alarm",
+        230372,
+        "alarm",
+        "battle"
+      ],
+      [
+        4679473,
+        "alarm",
+        230374,
+        null,
+        "battle"
+      ],
+      [
+        4679718,
+        "alarm",
+        230374,
+        null,
+        "battle"
+      ],
+      [
+        4679906,
+        "repulse",
+        230376,
+        "repulse",
+        "battle"
+      ],
+      [
+        4680208,
+        "repulse",
+        230376,
+        null,
+        "battle"
+      ],
+      [
+        4680386,
+        "repulse",
+        230378,
+        null,
+        "battle"
+      ],
+      [
+        4680658,
+        "repulse",
+        230378,
+        "repulse",
+        "battle"
+      ],
+      [
+        4680823,
+        "repulse",
+        230378,
+        null,
+        "battle"
+      ],
+      [
+        4680980,
+        "repulse",
+        230380,
+        null,
+        "battle"
+      ],
+      [
+        4681139,
+        "repulse",
+        230380,
+        "repulse",
+        "battle"
+      ],
+      [
+        4681432,
+        "repulse",
+        230382,
+        null,
+        "battle"
+      ],
+      [
+        4681593,
+        "repulse",
+        230382,
+        null,
+        "battle"
+      ],
+      [
+        4681755,
+        "repulse",
+        230382,
+        "repulse",
+        "battle"
+      ],
+      [
+        4681921,
+        "repulse",
+        230384,
+        null,
+        "battle"
+      ],
+      [
+        4682171,
+        "repulse",
+        230384,
+        null,
+        "battle"
+      ],
+      [
+        4682335,
+        "repulse",
+        230384,
+        "repulse",
+        "battle"
+      ],
+      [
+        4682503,
+        "repulse",
+        230386,
+        null,
+        "battle"
+      ],
+      [
+        4682662,
+        "repulse",
+        230386,
+        null,
+        "battle"
+      ],
+      [
+        4682971,
+        "repulse",
+        230388,
+        "repulse",
+        "battle"
+      ],
+      [
+        4683134,
+        "repulse",
+        230388,
+        null,
+        "battle"
+      ],
+      [
+        4683290,
+        "repulse",
+        230388,
+        null,
+        "battle"
+      ],
+      [
+        4683452,
+        "repulse",
+        230390,
+        "repulse",
+        "battle"
+      ],
+      [
+        4683731,
+        "repulse",
+        230390,
+        null,
+        "battle"
+      ],
+      [
+        4683928,
+        "north-wall",
+        230392,
+        null,
+        "battle"
+      ],
+      [
+        4684103,
+        "north-wall",
+        230392,
+        "north-wall",
+        "battle"
+      ],
+      [
+        4684265,
+        "north-wall",
+        230392,
+        null,
+        "battle"
+      ],
+      [
+        4684520,
+        "north-wall",
+        230394,
+        null,
+        "battle"
+      ],
+      [
+        4684690,
+        "north-wall",
+        230394,
+        "north-wall",
+        "battle"
+      ],
+      [
+        4684856,
+        "north-wall",
+        230394,
+        null,
+        "battle"
+      ],
+      [
+        4685014,
+        "north-wall",
+        230396,
+        null,
+        "battle"
+      ],
+      [
+        4685272,
+        "north-wall",
+        230396,
+        "north-wall",
+        "battle"
+      ],
+      [
+        4685436,
+        "north-wall",
+        230398,
+        null,
+        "battle"
+      ],
+      [
+        4685593,
+        "north-wall",
+        230398,
+        null,
+        "battle"
+      ],
+      [
+        4685775,
+        "north-wall",
+        230398,
+        "north-wall",
+        "battle"
+      ],
+      [
+        4686139,
+        "north-wall",
+        230400,
+        null,
+        "battle"
+      ],
+      [
+        4686309,
+        "north-wall",
+        230400,
+        null,
+        "battle"
+      ],
+      [
+        4686467,
+        "north-wall",
+        230402,
+        "north-wall",
+        "battle"
+      ],
+      [
+        4686627,
+        "north-wall",
+        230402,
+        null,
+        "battle"
+      ],
+      [
+        4686887,
+        "north-wall",
+        230402,
+        null,
+        "battle"
+      ],
+      [
+        4687045,
+        "fallback",
+        230404,
+        "fallback",
+        "battle"
+      ],
+      [
+        4687213,
+        "fallback",
+        230404,
+        null,
+        "battle"
+      ],
+      [
+        4687368,
+        "fallback",
+        230404,
+        null,
+        "battle"
+      ],
+      [
+        4687617,
+        "fallback",
+        230406,
+        "fallback",
+        "battle"
+      ],
+      [
+        4687778,
+        "fallback",
+        230406,
+        null,
+        "battle"
+      ],
+      [
+        4687966,
+        "fallback",
+        230408,
+        null,
+        "battle"
+      ],
+      [
+        4688124,
+        "fallback",
+        230408,
+        "fallback",
+        "battle"
+      ],
+      [
+        4688380,
+        "fallback",
+        230408,
+        null,
+        "battle"
+      ],
+      [
+        4688549,
+        "fallback",
+        230410,
+        null,
+        "battle"
+      ],
+      [
+        4688720,
+        "fallback",
+        230410,
+        "fallback",
+        "battle"
+      ],
+      [
+        4688889,
+        "fallback",
+        230410,
+        null,
+        "battle"
+      ],
+      [
+        4689128,
+        "fallback",
+        230412,
+        null,
+        "battle"
+      ],
+      [
+        4689298,
+        "fallback",
+        230412,
+        "fallback",
+        "battle"
+      ],
+      [
+        4689486,
+        "fallback",
+        230414,
+        null,
+        "battle"
+      ],
+      [
+        4689640,
+        "fallback",
+        230414,
+        null,
+        "battle"
+      ],
+      [
+        4689874,
+        "fallback",
+        230414,
+        "fallback",
+        "battle"
+      ],
+      [
+        4690030,
+        "rooms",
+        230416,
+        null,
+        "battle"
+      ],
+      [
+        4690188,
+        "rooms",
+        230416,
+        null,
+        "battle"
+      ],
+      [
+        4690368,
+        "rooms",
+        230416,
+        "rooms",
+        "battle"
+      ],
+      [
+        4690619,
+        "rooms",
+        230418,
+        null,
+        "battle"
+      ],
+      [
+        4690783,
+        "rooms",
+        230418,
+        null,
+        "battle"
+      ],
+      [
+        4690940,
+        "rooms",
+        230418,
+        "rooms",
+        "battle"
+      ],
+      [
+        4691109,
+        "rooms",
+        230420,
+        null,
+        "battle"
+      ],
+      [
+        4691350,
+        "rooms",
+        230420,
+        null,
+        "battle"
+      ],
+      [
+        4691511,
+        "rooms",
+        230422,
+        "rooms",
+        "battle"
+      ],
+      [
+        4691670,
+        "rooms",
+        230422,
+        null,
+        "battle"
+      ],
+      [
+        4691827,
+        "rooms",
+        230422,
+        null,
+        "battle"
+      ],
+      [
+        4692127,
+        "rooms",
+        230424,
+        "rooms",
+        "battle"
+      ],
+      [
+        4692293,
+        "rooms",
+        230424,
+        null,
+        "battle"
+      ],
+      [
+        4692450,
+        "rooms",
+        230424,
+        null,
+        "battle"
+      ],
+      [
+        4692616,
+        "rooms",
+        230426,
+        "rooms",
+        "battle"
+      ],
+      [
+        4692868,
+        "rooms",
+        230426,
+        null,
+        "battle"
+      ],
+      [
+        4693045,
+        "rooms",
+        230428,
+        null,
+        "battle"
+      ],
+      [
+        4693202,
+        "rooms",
+        230428,
+        "rooms",
+        "battle"
+      ],
+      [
+        4693356,
+        "rooms",
+        230428,
+        null,
+        "battle"
+      ],
+      [
+        4693552,
+        "end",
+        230430,
+        null,
+        "battle"
+      ],
+      [
+        4693719,
+        "end",
+        230430,
+        "end",
+        "battle"
+      ],
+      [
+        4693884,
+        "end",
+        230430,
+        null,
+        "battle"
+      ],
+      [
+        4694052,
+        "end",
+        230435,
+        null,
+        "battle"
+      ],
+      [
+        4694218,
+        "end",
+        230435,
+        "end",
+        "battle"
+      ],
+      [
+        4694385,
+        "end",
+        230435,
+        null,
+        "battle"
+      ],
+      [
+        4694565,
+        "end",
+        230440,
+        null,
+        "battle"
+      ],
+      [
+        4694995,
+        "end",
+        230440,
+        "end",
+        "battle"
+      ],
+      [
+        4695164,
+        "end",
+        230445,
+        null,
+        "battle"
+      ],
+      [
+        4695333,
+        "end",
+        230445,
+        null,
+        "battle"
+      ],
+      [
+        4695492,
+        "end",
+        230445,
+        "end",
+        "battle"
+      ],
+      [
+        4695662,
+        "end",
+        230450,
+        null,
+        "battle"
+      ],
+      [
+        4695820,
+        "end",
+        230450,
+        null,
+        "battle"
+      ],
+      [
+        4695992,
+        "end",
+        230450,
+        "end",
+        "battle"
+      ],
+      [
+        4696146,
+        "end",
+        230455,
+        null,
+        "battle"
+      ],
+      [
+        4696305,
+        "end",
+        230455,
+        null,
+        "battle"
+      ],
+      [
+        4696464,
+        "end",
+        230455,
+        "end",
+        "battle"
+      ],
+      [
+        4696627,
+        "after",
+        230460,
+        null,
+        "battle"
+      ]
+    ],
+    "shotLine": true,
+    "shotRepulse": true,
+    "shotEnd": true,
+    "seen": {
+      "red-flag": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-24": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-25-morning": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "huts": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-25-afternoon": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-26": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-27": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-28": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-29": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "relief": {
+        "kimbell": {
+          "name": "Kimbell",
+          "poses": [
+            "walk",
+            "ride"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "martin": {
+          "name": "Martin",
+          "poses": [
+            "walk",
+            "ride"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-1": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-2": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-3": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "walk",
+            "ride"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "the-line": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-4": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-5": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "quiet": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "seated"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "seated"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "walk",
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "cos": {
+          "name": "Cos",
+          "poses": [
+            "walk",
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "advance": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "seated"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "seated"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "seated"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": false,
+          "tag": null,
+          "labelled": true
+        },
+        "cos": {
+          "name": "Cos",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "alarm": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "walk",
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "walk",
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "cos": {
+          "name": "Cos",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "repulse": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "fire",
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "fire",
+            "walk",
+            "fire-hidden"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "stand",
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "cos": {
+          "name": "Cos",
+          "poses": [
+            "walk",
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "castrillon": {
+          "name": "Castrillón",
+          "poses": [
+            "stand",
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "north-wall": {
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "fire-hidden"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "castrillon": {
+          "name": "Castrillón",
+          "poses": [
+            "stand",
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "fallback": {
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick",
+            "still-bed"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "fire",
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "fire-hidden"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "rooms": {
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "fire-hidden"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": "Place: a story told of him",
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "still-bed"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "end": {
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "hide",
+            "emerge",
+            "wounded"
+          ],
+          "fell": false,
+          "hurt": true,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "barragan": {
+          "name": "Barragán",
+          "poses": [
+            "command",
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "stand",
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "walk",
+            "captive",
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": "One account (de la Peña) · disputed",
+          "labelled": true
+        },
+        "castrillon": {
+          "name": "Castrillón",
+          "poses": [
+            "walk",
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "walk",
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "still-bed"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": "Place: a story told of him",
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "after": {
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      }
+    },
+    "seenHost": {
+      "red-flag": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-24": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-25-morning": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "huts": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-25-afternoon": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-26": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "night": {
+        "johnson": {
+          "name": "Johnson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "surprise": {
+        "johnson": {
+          "name": "Johnson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "urrea": {
+          "name": "Urrea",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "houses": {
+        "johnson": {
+          "name": "Johnson",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "urrea": {
+          "name": "Urrea",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "yield": {
+        "urrea": {
+          "name": "Urrea",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "gathered": {
+        "urrea": {
+          "name": "Urrea",
+          "poses": [
+            "walk",
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "after": {
+        "urrea": {
+          "name": "Urrea",
+          "poses": [
+            "command",
+            "walk",
+            "ride"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-27": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-28": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-29": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "relief": {
+        "kimbell": {
+          "name": "Kimbell",
+          "poses": [
+            "walk",
+            "ride"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "martin": {
+          "name": "Martin",
+          "poses": [
+            "walk",
+            "ride"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-1": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-2": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "drive": {
+        "grant": {
+          "name": "Grant",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": false,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "herd": {
+        "grant": {
+          "name": "Grant",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": false,
+          "tag": null,
+          "labelled": true
+        },
+        "urrea": {
+          "name": "Urrea",
+          "poses": [
+            "ride"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": false,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "ambush": {
+        "grant": {
+          "name": "Grant",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "urrea": {
+          "name": "Urrea",
+          "poses": [
+            "walk",
+            "ride"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-3": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "walk",
+            "ride"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "the-line": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-4": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "day-5": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "write"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "quiet": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "seated"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "seated"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "walk",
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "cos": {
+          "name": "Cos",
+          "poses": [
+            "walk",
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "advance": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "seated"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "seated"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "seated"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "cos": {
+          "name": "Cos",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "alarm": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "cos": {
+          "name": "Cos",
+          "poses": [
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "repulse": {
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "fire",
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "fire",
+            "walk",
+            "fire-hidden"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "stand",
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "cos": {
+          "name": "Cos",
+          "poses": [
+            "walk",
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "castrillon": {
+          "name": "Castrillón",
+          "poses": [
+            "stand",
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "north-wall": {
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "fire-hidden"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "castrillon": {
+          "name": "Castrillón",
+          "poses": [
+            "stand",
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "fallback": {
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "sick",
+            "still-bed"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "fire",
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "fire-hidden"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "rooms": {
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "fire-hidden"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "sick"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": "Place: a story told of him",
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "fire"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "still-bed"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      },
+      "end": {
+        "joe": {
+          "name": "Joe",
+          "poses": [
+            "hide",
+            "emerge",
+            "wounded"
+          ],
+          "fell": false,
+          "hurt": true,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "barragan": {
+          "name": "Barragán",
+          "poses": [
+            "command",
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "susanna-dickinson": {
+          "name": "Mrs. Dickinson",
+          "poses": [
+            "stand",
+            "walk"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "crockett": {
+          "name": "Crockett",
+          "poses": [
+            "walk",
+            "captive",
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": "One account (de la Peña) · disputed",
+          "labelled": true
+        },
+        "castrillon": {
+          "name": "Castrillón",
+          "poses": [
+            "walk",
+            "stand"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "santa-anna": {
+          "name": "Santa Anna",
+          "poses": [
+            "walk",
+            "command"
+          ],
+          "fell": false,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "travis": {
+          "name": "Travis",
+          "poses": [
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bowie": {
+          "name": "Bowie",
+          "poses": [
+            "still-bed"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "bonham": {
+          "name": "Bonham",
+          "poses": [
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": "Place: a story told of him",
+          "labelled": true
+        },
+        "almeron-dickinson": {
+          "name": "Dickinson",
+          "poses": [
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        },
+        "esparza": {
+          "name": "Esparza",
+          "poses": [
+            "still"
+          ],
+          "fell": true,
+          "hurt": false,
+          "onScreen": true,
+          "tag": null,
+          "labelled": true
+        }
+      }
+    },
+    "lines": [
+      {
+        "id": "line-sand",
+        "text": "I now want every man who is determined to stay here and die with me to come across this line.",
+        "gloss": "told later: Louis Rose’s story as W. P. Zuber printed it (1873, reprinted later); historians doubt it",
+        "kind": "tradition",
+        "side": "texian",
+        "claimId": "HIST-TEX-567",
+        "person": "travis",
+        "name": "Travis",
+        "at": {
+          "x": 662,
+          "y": 361
+        },
+        "named": true
+      },
+      {
+        "id": "al-travis",
+        "text": "Come on boys, the Mexicans are upon us, and we’ll give them Hell.",
+        "gloss": "Joe’s account, as W. F. Gray wrote it down on March 20, 1836",
+        "kind": "documented",
+        "side": "texian",
+        "claimId": "HIST-TEX-502",
+        "person": "travis",
+        "name": "Travis",
+        "at": {
+          "x": 657,
+          "y": 304
+        },
+        "named": true
+      },
+      {
+        "id": "e-joe",
+        "text": "Yes, here is one.",
+        "gloss": "Joe’s account, as W. F. Gray wrote it down",
+        "kind": "documented",
+        "side": "texian",
+        "claimId": "HIST-TEX-502",
+        "person": "joe",
+        "name": "Joe",
+        "at": {
+          "x": 616,
+          "y": 254
+        },
+        "named": true
+      }
+    ],
+    "frameMs": {
+      "p95Max": 3.3,
+      "medians": [
+        1.7,
+        1.7,
+        1.7,
+        1.7,
+        1.8,
+        1.8,
+        1.8,
+        1.8,
+        1.8,
+        1.8,
+        1.8,
+        1.8,
+        1.8,
+        1.8,
+        1.8,
+        1.8,
+        1.8,
+        1.8,
+        1.8,
+        1.8,
+        1.8,
+        1.8,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    }
+  },
   "sanJacinto": {
     "samples": [
       [
-        4472852,
+        4720234,
         "1836-04-20",
         295560,
         "arrive",
         "battle"
       ],
       [
-        4473009,
+        4720387,
         "1836-04-20",
         295560,
         "arrive",
         "battle"
       ],
       [
-        4473166,
+        4720543,
+        "1836-04-20",
+        295560,
+        "arrive",
+        "battle"
+      ],
+      [
+        4720698,
         "1836-04-20",
         295580,
         "arrive",
         "battle"
       ],
       [
-        4473325,
+        4720854,
         "1836-04-20",
         295580,
         "arrive",
         "battle"
       ],
       [
-        4473479,
+        4721009,
         "1836-04-20",
         295580,
         "arrive",
         "battle"
       ],
       [
-        4473634,
+        4721165,
         "1836-04-20",
         295600,
         "arrive",
         "battle"
       ],
       [
-        4473794,
+        4721327,
         "1836-04-20",
         295600,
         "arrive",
         "battle"
       ],
       [
-        4473950,
+        4721480,
         "1836-04-20",
         295600,
         "arrive",
         "battle"
       ],
       [
-        4474108,
+        4721639,
         "1836-04-20",
         295620,
         "camped",
         "region"
       ],
       [
-        4474263,
+        4721813,
         "1836-04-20",
         295620,
         "camped",
         "region"
       ],
       [
-        4474418,
+        4721966,
         "1836-04-20",
         295620,
         "camped",
         "region"
       ],
       [
-        4474574,
+        4722123,
         "1836-04-20",
         295800,
         "skirmish",
         "battle"
       ],
       [
-        4474729,
+        4722286,
         "1836-04-20",
         295800,
         "skirmish",
         "battle"
       ],
       [
-        4474923,
+        4722475,
         "1836-04-20",
         295810,
         "skirmish",
         "battle"
       ],
       [
-        4475090,
+        4722629,
         "1836-04-20",
         295810,
         "skirmish",
         "battle"
       ],
       [
-        4475245,
+        4722790,
         "1836-04-20",
         295810,
         "skirmish",
         "battle"
       ],
       [
-        4475403,
+        4722944,
         "1836-04-20",
         295820,
         "skirmish",
         "battle"
       ],
       [
-        4475564,
+        4723099,
         "1836-04-20",
         295820,
         "skirmish",
         "battle"
       ],
       [
-        4475718,
+        4723256,
         "1836-04-20",
         295820,
         "skirmish",
         "battle"
       ],
       [
-        4475874,
+        4723413,
         "1836-04-20",
         295830,
         "skirmish",
         "battle"
       ],
       [
-        4476030,
+        4723569,
         "1836-04-20",
         295830,
         "skirmish",
         "battle"
       ],
       [
-        4476187,
+        4723725,
         "1836-04-20",
         295830,
         "skirmish",
         "battle"
       ],
       [
-        4476344,
+        4723883,
         "1836-04-20",
         295840,
         "skirmish",
         "battle"
       ],
       [
-        4476501,
+        4724038,
         "1836-04-20",
         295840,
         "skirmish",
         "battle"
       ],
       [
-        4476655,
+        4724192,
         "1836-04-20",
         295840,
         "skirmish",
         "battle"
       ],
       [
-        4476872,
+        4724351,
         "1836-04-20",
         295850,
         "skirmish",
         "battle"
       ],
       [
-        4477028,
+        4724505,
         "1836-04-20",
         295850,
         "skirmish",
         "battle"
       ],
       [
-        4477200,
+        4724662,
+        "1836-04-20",
+        295850,
+        "skirmish",
+        "battle"
+      ],
+      [
+        4724819,
         "1836-04-20",
         295860,
         "night",
         "region"
       ],
       [
-        4477359,
+        4724974,
         "1836-04-20",
         295860,
         "night",
         "region"
       ],
       [
-        4477511,
+        4725129,
         "1836-04-20",
         295860,
         "night",
         "region"
       ],
       [
-        4477667,
+        4725283,
         "1836-04-20",
         296100,
         "night",
         "region"
       ],
       [
-        4477823,
+        4725441,
         "1836-04-20",
         296100,
         "night",
         "region"
       ],
       [
-        4477980,
+        4725598,
         "1836-04-20",
         296100,
         "night",
         "region"
       ],
       [
-        4478138,
+        4725754,
         "1836-04-21",
         296340,
         "night",
         "region"
       ],
       [
-        4478295,
+        4725910,
         "1836-04-21",
         296340,
         "night",
         "region"
       ],
       [
-        4478449,
-        "1836-04-21",
-        296340,
-        "night",
-        "region"
-      ],
-      [
-        4478606,
+        4726095,
         "1836-04-21",
         296580,
         "night",
         "region"
       ],
       [
-        4478763,
+        4726255,
         "1836-04-21",
         296580,
         "night",
         "region"
       ],
       [
-        4478920,
+        4726410,
         "1836-04-21",
         296580,
         "night",
         "region"
       ],
       [
-        4479084,
+        4726566,
         "1836-04-21",
         296820,
         "morning",
         "battle"
       ],
       [
-        4479249,
+        4726723,
         "1836-04-21",
         296820,
         "morning",
         "battle"
       ],
       [
-        4479405,
+        4726880,
         "1836-04-21",
         296820,
         "morning",
         "battle"
       ],
       [
-        4479561,
+        4727037,
         "1836-04-21",
         296840,
         "morning",
         "battle"
       ],
       [
-        4479714,
+        4727193,
         "1836-04-21",
         296840,
         "morning",
         "battle"
       ],
       [
-        4479904,
+        4727350,
+        "1836-04-21",
+        296840,
+        "morning",
+        "battle"
+      ],
+      [
+        4727509,
         "1836-04-21",
         296860,
         "morning",
         "battle"
       ],
       [
-        4480061,
+        4727671,
         "1836-04-21",
         296860,
         "morning",
         "battle"
       ],
       [
-        4480221,
+        4727823,
         "1836-04-21",
         296860,
         "morning",
         "battle"
       ],
       [
-        4480374,
+        4727980,
         "1836-04-21",
         296880,
         "morning",
         "battle"
       ],
       [
-        4480533,
+        4728136,
         "1836-04-21",
         296880,
         "morning",
         "battle"
       ],
       [
-        4480689,
+        4728295,
         "1836-04-21",
         296880,
         "morning",
         "battle"
       ],
       [
-        4480846,
+        4728452,
         "1836-04-21",
         296900,
         "morning",
         "battle"
       ],
       [
-        4481004,
+        4728608,
         "1836-04-21",
         296900,
         "morning",
         "battle"
       ],
       [
-        4481161,
+        4728764,
         "1836-04-21",
         296900,
         "morning",
         "battle"
       ],
       [
-        4481313,
+        4728921,
         "1836-04-21",
         296920,
         "morning",
         "battle"
       ],
       [
-        4481474,
+        4729077,
         "1836-04-21",
         296920,
         "morning",
         "battle"
       ],
       [
-        4481631,
+        4729233,
         "1836-04-21",
         296920,
         "morning",
         "battle"
       ],
       [
-        4481790,
+        4729388,
         "1836-04-21",
         296940,
         "waiting",
         "region"
       ],
       [
-        4481948,
+        4729545,
         "1836-04-21",
         296940,
         "waiting",
         "region"
       ],
       [
-        4482107,
-        "1836-04-21",
-        296940,
-        "waiting",
-        "region"
-      ],
-      [
-        4482263,
+        4729759,
         "1836-04-21",
         297180,
         "waiting",
         "region"
       ],
       [
-        4482418,
+        4729924,
         "1836-04-21",
         297180,
         "waiting",
         "region"
       ],
       [
-        4482574,
+        4730091,
         "1836-04-21",
         297180,
         "waiting",
         "region"
       ],
       [
-        4482734,
+        4730245,
         "1836-04-21",
         297210,
         "parade",
         "battle"
       ],
       [
-        4482890,
+        4730400,
         "1836-04-21",
         297210,
         "parade",
         "battle"
       ],
       [
-        4483048,
+        4730557,
         "1836-04-21",
         297210,
         "parade",
         "battle"
       ],
       [
-        4483204,
+        4730715,
         "1836-04-21",
         297215,
         "parade",
         "battle"
       ],
       [
-        4483360,
+        4730872,
         "1836-04-21",
         297215,
         "parade",
         "battle"
       ],
       [
-        4483561,
+        4731030,
+        "1836-04-21",
+        297215,
+        "parade",
+        "battle"
+      ],
+      [
+        4731185,
         "1836-04-21",
         297220,
         "parade",
         "battle"
       ],
       [
-        4483720,
+        4731340,
         "1836-04-21",
         297220,
         "parade",
         "battle"
       ],
       [
-        4483880,
+        4731497,
         "1836-04-21",
         297220,
         "parade",
         "battle"
       ],
       [
-        4484039,
+        4731653,
         "1836-04-21",
         297225,
         "parade",
         "battle"
       ],
       [
-        4484194,
+        4731811,
         "1836-04-21",
         297225,
         "parade",
         "battle"
       ],
       [
-        4484352,
-        "1836-04-21",
-        297225,
-        "parade",
-        "battle"
-      ],
-      [
-        4484509,
+        4731995,
         "1836-04-21",
         297230,
         "parade",
         "battle"
       ],
       [
-        4484663,
+        4732154,
         "1836-04-21",
         297230,
         "parade",
         "battle"
       ],
       [
-        4484821,
+        4732310,
         "1836-04-21",
         297230,
         "parade",
         "battle"
       ],
       [
-        4484978,
+        4732466,
         "1836-04-21",
         297235,
         "parade",
         "battle"
       ],
       [
-        4485136,
+        4732625,
         "1836-04-21",
         297235,
         "parade",
         "battle"
       ],
       [
-        4485291,
+        4732780,
         "1836-04-21",
         297235,
         "parade",
         "battle"
       ],
       [
-        4485447,
+        4732936,
         "1836-04-21",
         297240,
         "advance",
         "battle"
       ],
       [
-        4485696,
+        4733188,
         "1836-04-21",
         297240,
         "advance",
         "battle"
       ],
       [
-        4485854,
+        4733361,
         "1836-04-21",
         297242,
         "advance",
         "battle"
       ],
       [
-        4486010,
+        4733518,
         "1836-04-21",
         297242,
         "advance",
         "battle"
       ],
       [
-        4486166,
+        4733674,
         "1836-04-21",
         297242,
         "advance",
         "battle"
       ],
       [
-        4486324,
+        4733832,
         "1836-04-21",
         297244,
         "advance",
         "battle"
       ],
       [
-        4486481,
+        4733989,
         "1836-04-21",
         297244,
         "advance",
         "battle"
       ],
       [
-        4486638,
+        4734147,
         "1836-04-21",
         297244,
         "advance",
         "battle"
       ],
       [
-        4486797,
+        4734305,
         "1836-04-21",
         297246,
         "advance",
         "battle"
       ],
       [
-        4486954,
+        4734462,
         "1836-04-21",
         297246,
         "advance",
         "battle"
       ],
       [
-        4487112,
+        4734620,
         "1836-04-21",
         297246,
         "advance",
         "battle"
       ],
       [
-        4487267,
+        4734773,
         "1836-04-21",
         297248,
         "advance",
         "battle"
       ],
       [
-        4487423,
+        4734937,
         "1836-04-21",
         297248,
         "advance",
         "battle"
       ],
       [
-        4487581,
+        4735092,
         "1836-04-21",
         297248,
         "advance",
         "battle"
       ],
       [
-        4487743,
+        4735252,
         "1836-04-21",
         297250,
         "advance",
         "battle"
       ],
       [
-        4487909,
+        4735411,
         "1836-04-21",
         297250,
         "advance",
         "battle"
       ],
       [
-        4488097,
+        4735563,
+        "1836-04-21",
+        297250,
+        "advance",
+        "battle"
+      ],
+      [
+        4735724,
         "1836-04-21",
         297252,
         "advance",
         "battle"
       ],
       [
-        4488257,
+        4735890,
         "1836-04-21",
         297252,
         "advance",
         "battle"
       ],
       [
-        4488413,
+        4736045,
         "1836-04-21",
         297252,
         "advance",
         "battle"
       ],
       [
-        4488569,
+        4736205,
         "1836-04-21",
         297254,
         "advance",
         "battle"
       ],
       [
-        4488724,
+        4736362,
         "1836-04-21",
         297254,
         "advance",
         "battle"
       ],
       [
-        4488880,
-        "1836-04-21",
-        297254,
-        "advance",
-        "battle"
-      ],
-      [
-        4489036,
+        4736567,
         "1836-04-21",
         297256,
         "advance",
         "battle"
       ],
       [
-        4489191,
+        4736724,
         "1836-04-21",
         297256,
         "advance",
         "battle"
       ],
       [
-        4489349,
+        4736883,
         "1836-04-21",
         297256,
         "advance",
         "battle"
       ],
       [
-        4489504,
+        4737039,
         "1836-04-21",
         297258,
         "advance",
         "battle"
       ],
       [
-        4489660,
+        4737195,
         "1836-04-21",
         297258,
         "advance",
         "battle"
       ],
       [
-        4489815,
+        4737350,
         "1836-04-21",
         297258,
         "advance",
         "battle"
       ],
       [
-        4489972,
+        4737506,
         "1836-04-21",
         297260,
         "advance",
         "battle"
       ],
       [
-        4490128,
+        4737662,
         "1836-04-21",
         297260,
         "advance",
         "battle"
       ],
       [
-        4490284,
+        4737819,
         "1836-04-21",
         297260,
         "advance",
         "battle"
       ],
       [
-        4490438,
+        4737974,
         "1836-04-21",
         297262,
         "advance",
         "battle"
       ],
       [
-        4490594,
+        4738132,
         "1836-04-21",
         297262,
         "advance",
         "battle"
       ],
       [
-        4490751,
+        4738289,
         "1836-04-21",
         297262,
         "advance",
         "battle"
       ],
       [
-        4490908,
+        4738444,
         "1836-04-21",
         297264,
         "guns",
         "battle"
       ],
       [
-        4491064,
+        4738602,
         "1836-04-21",
         297264,
         "guns",
         "battle"
       ],
       [
-        4491221,
+        4738761,
         "1836-04-21",
         297264,
         "guns",
         "battle"
       ],
       [
-        4491379,
+        4738919,
         "1836-04-21",
         297266,
         "guns",
         "battle"
       ],
       [
-        4491538,
+        4739073,
         "1836-04-21",
         297266,
         "guns",
         "battle"
       ],
       [
-        4491952,
+        4739228,
+        "1836-04-21",
+        297266,
+        "guns",
+        "battle"
+      ],
+      [
+        4739383,
         "1836-04-21",
         297268,
         "guns",
         "battle"
       ],
       [
-        4492113,
+        4739541,
         "1836-04-21",
         297268,
         "guns",
         "battle"
       ],
       [
-        4492270,
+        4739726,
         "1836-04-21",
         297270,
         "volley",
         "battle"
       ],
       [
-        4492426,
+        4739885,
         "1836-04-21",
         297270,
         "volley",
         "battle"
       ],
       [
-        4492583,
+        4740040,
         "1836-04-21",
         297270,
         "volley",
         "battle"
       ],
       [
-        4492740,
+        4740194,
         "1836-04-21",
         297271,
         "volley",
         "battle"
       ],
       [
-        4492898,
+        4740352,
         "1836-04-21",
         297271,
         "volley",
         "battle"
       ],
       [
-        4493095,
+        4740507,
+        "1836-04-21",
+        297271,
+        "volley",
+        "battle"
+      ],
+      [
+        4740663,
         "1836-04-21",
         297272,
         "charge",
         "battle"
       ],
       [
-        4493317,
+        4740894,
         "1836-04-21",
         297272,
         "charge",
         "battle"
       ],
       [
-        4493477,
+        4741070,
         "1836-04-21",
         297272,
         "charge",
         "battle"
       ],
       [
-        4493633,
+        4741235,
         "1836-04-21",
         297273,
         "charge",
         "battle"
       ],
       [
-        4493794,
+        4741390,
         "1836-04-21",
         297273,
         "charge",
         "battle"
       ],
       [
-        4493946,
-        "1836-04-21",
-        297273,
-        "charge",
-        "battle"
-      ],
-      [
-        4494103,
+        4741542,
         "1836-04-21",
         297274,
         "charge",
         "battle"
       ],
       [
-        4494261,
+        4741706,
         "1836-04-21",
         297274,
         "charge",
         "battle"
       ],
       [
-        4494468,
+        4741863,
+        "1836-04-21",
+        297274,
+        "charge",
+        "battle"
+      ],
+      [
+        4742017,
         "1836-04-21",
         297275,
         "charge",
         "battle"
       ],
       [
-        4494635,
+        4742172,
         "1836-04-21",
         297275,
         "charge",
         "battle"
       ],
       [
-        4494790,
+        4742328,
         "1836-04-21",
         297275,
         "charge",
         "battle"
       ],
       [
-        4494945,
+        4742485,
         "1836-04-21",
         297276,
         "charge",
         "battle"
       ],
       [
-        4495101,
+        4742643,
         "1836-04-21",
         297276,
         "charge",
         "battle"
       ],
       [
-        4495257,
+        4742802,
         "1836-04-21",
         297276,
         "charge",
         "battle"
       ],
       [
-        4495412,
+        4742957,
         "1836-04-21",
         297277,
         "charge",
         "battle"
       ],
       [
-        4495570,
+        4743115,
         "1836-04-21",
         297277,
         "charge",
         "battle"
       ],
       [
-        4495725,
+        4743271,
         "1836-04-21",
         297277,
         "charge",
         "battle"
       ],
       [
-        4495882,
+        4743424,
         "1836-04-21",
         297278,
         "rout",
         "battle"
       ],
       [
-        4496038,
+        4743587,
         "1836-04-21",
         297278,
         "rout",
         "battle"
       ],
       [
-        4496196,
+        4743743,
         "1836-04-21",
         297278,
         "rout",
         "battle"
       ],
       [
-        4496352,
+        4743901,
         "1836-04-21",
         297279,
         "rout",
         "battle"
       ],
       [
-        4496508,
+        4744057,
         "1836-04-21",
         297279,
         "rout",
         "battle"
       ],
       [
-        4496666,
+        4744214,
         "1836-04-21",
         297279,
         "rout",
         "battle"
       ],
       [
-        4496822,
+        4744373,
         "1836-04-21",
         297280,
         "rout",
         "battle"
       ],
       [
-        4496981,
+        4744529,
         "1836-04-21",
         297280,
         "rout",
         "battle"
       ],
       [
-        4497133,
+        4744687,
         "1836-04-21",
         297280,
         "rout",
         "battle"
       ],
       [
-        4497292,
+        4744845,
         "1836-04-21",
         297281,
         "rout",
         "battle"
       ],
       [
-        4497444,
+        4745001,
         "1836-04-21",
         297281,
         "rout",
         "battle"
       ],
       [
-        4497631,
+        4745186,
         "1836-04-21",
         297282,
         "rout",
         "battle"
       ],
       [
-        4497785,
+        4745347,
         "1836-04-21",
         297282,
         "rout",
         "battle"
       ],
       [
-        4497943,
+        4745504,
         "1836-04-21",
         297282,
         "rout",
         "battle"
       ],
       [
-        4498100,
+        4745657,
         "1836-04-21",
         297283,
         "rout",
         "battle"
       ],
       [
-        4498254,
+        4745814,
         "1836-04-21",
         297283,
         "rout",
         "battle"
       ],
       [
-        4498409,
+        4745967,
         "1836-04-21",
         297283,
         "rout",
         "battle"
       ],
       [
-        4498562,
+        4746121,
         "1836-04-21",
         297284,
         "rout",
         "battle"
       ],
       [
-        4498725,
+        4746280,
         "1836-04-21",
         297284,
         "rout",
         "battle"
       ],
       [
-        4498878,
+        4746436,
         "1836-04-21",
         297284,
         "rout",
         "battle"
       ],
       [
-        4499034,
+        4746595,
         "1836-04-21",
         297285,
         "rout",
         "battle"
       ],
       [
-        4499192,
+        4746752,
         "1836-04-21",
         297285,
         "rout",
         "battle"
       ],
       [
-        4499349,
+        4746913,
         "1836-04-21",
         297285,
         "rout",
         "battle"
       ],
       [
-        4499506,
+        4747081,
         "1836-04-21",
         297286,
         "rout",
         "battle"
       ],
       [
-        4499664,
+        4747237,
         "1836-04-21",
         297286,
         "rout",
         "battle"
       ],
       [
-        4499819,
+        4747394,
         "1836-04-21",
         297286,
         "rout",
         "battle"
       ],
       [
-        4499974,
+        4747552,
         "1836-04-21",
         297287,
         "rout",
         "battle"
       ],
       [
-        4500130,
+        4747709,
         "1836-04-21",
         297287,
         "rout",
         "battle"
       ],
       [
-        4500287,
+        4747866,
         "1836-04-21",
         297287,
         "rout",
         "battle"
       ],
       [
-        4500444,
+        4748021,
         "1836-04-21",
         297288,
         "killing",
         "battle"
       ],
       [
-        4500598,
+        4748176,
         "1836-04-21",
         297288,
         "killing",
         "battle"
       ],
       [
-        4500755,
+        4748333,
         "1836-04-21",
         297288,
         "killing",
         "battle"
       ],
       [
-        4500910,
+        4748492,
         "1836-04-21",
         297308,
         "killing",
         "battle"
       ],
       [
-        4501066,
+        4748651,
         "1836-04-21",
         297308,
         "killing",
         "battle"
       ],
       [
-        4501266,
+        4748851,
         "1836-04-21",
         297328,
         "killing",
         "battle"
       ],
       [
-        4501427,
+        4749013,
         "1836-04-21",
         297328,
         "killing",
         "battle"
       ],
       [
-        4501584,
+        4749168,
         "1836-04-21",
         297328,
         "killing",
         "battle"
       ],
       [
-        4501738,
+        4749325,
         "1836-04-21",
         297348,
         "killing",
         "battle"
       ],
       [
-        4501893,
+        4749480,
         "1836-04-21",
         297348,
         "killing",
         "battle"
       ],
       [
-        4502049,
+        4749635,
         "1836-04-21",
         297348,
         "killing",
         "battle"
       ],
       [
-        4502205,
+        4749792,
         "1836-04-21",
         297368,
         "killing",
         "battle"
       ],
       [
-        4502360,
+        4749950,
         "1836-04-21",
         297368,
         "killing",
         "battle"
       ],
       [
-        4502518,
+        4750106,
         "1836-04-21",
         297368,
         "killing",
         "battle"
       ],
       [
-        4502674,
+        4750261,
         "1836-04-21",
         297388,
         "prisoners",
         "battle"
       ],
       [
-        4502832,
+        4750417,
         "1836-04-21",
         297388,
         "prisoners",
         "battle"
       ],
       [
-        4502988,
+        4750577,
         "1836-04-21",
         297388,
         "prisoners",
         "battle"
       ],
       [
-        4503146,
+        4750736,
         "1836-04-21",
         297408,
         "prisoners",
         "battle"
       ],
       [
-        4503299,
+        4750889,
         "1836-04-21",
         297408,
         "prisoners",
         "battle"
       ],
       [
-        4503458,
+        4751045,
         "1836-04-21",
         297408,
         "prisoners",
         "battle"
       ],
       [
-        4503614,
+        4751204,
         "1836-04-21",
         297428,
         "prisoners",
         "battle"
       ],
       [
-        4503770,
+        4751358,
         "1836-04-21",
         297428,
         "prisoners",
         "battle"
       ],
       [
-        4503926,
+        4751515,
         "1836-04-21",
         297428,
         "prisoners",
         "battle"
       ],
       [
-        4504083,
+        4751672,
         "1836-04-21",
         297448,
         "search",
         "region"
       ],
       [
-        4504239,
+        4751830,
         "1836-04-21",
         297448,
         "search",
         "region"
       ],
       [
-        4504418,
+        4752013,
         "1836-04-21",
         297688,
         "search",
         "region"
       ],
       [
-        4504582,
+        4752173,
         "1836-04-21",
         297688,
         "search",
         "region"
       ],
       [
-        4504737,
+        4752331,
         "1836-04-21",
         297688,
         "search",
         "region"
       ],
       [
-        4504894,
+        4752485,
         "1836-04-22",
         297928,
         "search",
         "region"
       ],
       [
-        4505051,
+        4752643,
         "1836-04-22",
         297928,
         "search",
         "region"
       ],
       [
-        4505208,
+        4752798,
         "1836-04-22",
         297928,
         "search",
         "region"
       ],
       [
-        4505364,
+        4752956,
         "1836-04-22",
         298168,
         "search",
         "region"
       ],
       [
-        4505523,
+        4753113,
         "1836-04-22",
         298168,
         "search",
         "region"
       ],
       [
-        4505675,
+        4753267,
         "1836-04-22",
         298168,
         "search",
         "region"
       ],
       [
-        4505831,
+        4753425,
         "1836-04-22",
         298408,
         "search",
         "region"
       ],
       [
-        4505986,
+        4753582,
         "1836-04-22",
         298408,
         "search",
         "region"
       ],
       [
-        4506144,
+        4753740,
         "1836-04-22",
         298408,
         "search",
         "region"
       ],
       [
-        4506300,
+        4753900,
         "1836-04-22",
         298440,
         "taken",
         "battle"
       ],
       [
-        4506453,
+        4754057,
         "1836-04-22",
         298440,
         "taken",
         "battle"
       ],
       [
-        4506610,
+        4754212,
         "1836-04-22",
         298440,
         "taken",
         "battle"
       ],
       [
-        4506767,
+        4754368,
         "1836-04-22",
         298460,
         "taken",
         "battle"
       ],
       [
-        4506923,
+        4754525,
         "1836-04-22",
         298460,
         "taken",
         "battle"
       ],
       [
-        4507079,
+        4754684,
         "1836-04-22",
         298460,
         "taken",
         "battle"
       ],
       [
-        4507234,
+        4754839,
         "1836-04-22",
         298480,
         "taken",
         "battle"
       ],
       [
-        4507392,
+        4754996,
         "1836-04-22",
         298480,
         "taken",
         "battle"
       ],
       [
-        4507550,
+        4755155,
         "1836-04-22",
         298480,
         "taken",
         "battle"
       ],
       [
-        4507708,
+        4755311,
         "1836-04-22",
         298500,
         "held",
@@ -2535,7 +10752,7 @@
         "name": "Emily West",
         "at": {
           "x": 987,
-          "y": 531
+          "y": 525
         },
         "named": true,
         "manner": "sarcastically"
@@ -2689,29 +10906,34 @@
       }
     ],
     "frameMs": {
-      "p95Max": 27.9,
+      "p95Max": 29.9,
       "byPhase": {
-        "arrive": 27.9,
-        "camped": 7.7,
-        "skirmish": 7.7,
-        "night": 5.1,
+        "arrive": 29.9,
+        "camped": 15.7,
+        "skirmish": 15.7,
+        "night": 6.8,
         "morning": 5.1,
-        "waiting": 4.6,
-        "parade": 4.6,
-        "advance": 4.3,
-        "guns": 4.2,
-        "volley": 2.7,
-        "charge": 2.1,
-        "rout": 2.1,
-        "killing": 1.9,
+        "waiting": 4.7,
+        "parade": 4.7,
+        "advance": 4.7,
+        "guns": 4.7,
+        "volley": 4.1,
+        "charge": 2.4,
+        "rout": 2.4,
+        "killing": 2.3,
         "prisoners": 1.7,
-        "search": 1.6,
-        "taken": 1.6,
-        "held": 1.6
+        "search": 1.8,
+        "taken": 1.8,
+        "held": 1.8
       }
     }
   },
   "screens": [
+    "test-results/famous-map-bexar.png",
+    "test-results/famous-alamo-line.png",
+    "test-results/famous-alamo-repulse-1366.png",
+    "test-results/famous-alamo-crockett-1024.png",
+    "test-results/famous-alamo-crockett-host.png",
     "test-results/famous-sj-picnic-1366.png",
     "test-results/famous-sj-charge-1024.png",
     "test-results/famous-sj-taken.png"
