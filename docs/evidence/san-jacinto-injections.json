@@ -319,7 +319,7 @@
       "file": "public/battle-view.js",
       "expect": "the Texian line is not the formed side",
       "caught": true,
-      "failure": "the Texian line is not the formed side: {\"texian\":0.525005165047092,\"mexican\":0.3689299943694827}",
+      "failure": "the Texian line is not the formed side: {\"texian\":0.5250051650470986,\"mexican\":0.3689299943694827}",
       "checksPassedFirst": 4
     },
     {
@@ -328,7 +328,7 @@
       "expect": "no smoke on screen",
       "caught": true,
       "failure": "no smoke on screen at 297266 in the guns: 0",
-      "checksPassedFirst": 5
+      "checksPassedFirst": 6
     },
     {
       "name": "nobody says anything",
@@ -336,7 +336,7 @@
       "expect": "\"Remember the Alamo!\" was not drawn",
       "caught": true,
       "failure": "\"Remember the Alamo!\" was not drawn:",
-      "checksPassedFirst": 7
+      "checksPassedFirst": 8
     },
     {
       "name": "nobody falls in at the parade",
@@ -352,7 +352,7 @@
       "expect": "the Host was not sent the fight live",
       "caught": true,
       "failure": "the Host was not sent the fight live: {\"focus\":\"battle\",\"camera\":\"region\",\"seen\":[\"sj-arrive:295560\",\"sj-skirmish:295800\",\"sj-bridge:296880\",\"sj-parade:297210\",\"san-jacinto:297270\"]}",
-      "checksPassedFirst": 10
+      "checksPassedFirst": 11
     },
     {
       "name": "the family with nobody there is sent the fight",
@@ -360,7 +360,7 @@
       "expect": "with nobody in the army was sent the battle",
       "caught": true,
       "failure": "the family at Lynchburg with nobody in the army was sent the battle",
-      "checksPassedFirst": 11
+      "checksPassedFirst": 12
     },
     {
       "name": "no account afterwards",
@@ -368,9 +368,9 @@
       "expect": "the account never appeared",
       "caught": true,
       "failure": "the account never appeared",
-      "checksPassedFirst": 14
+      "checksPassedFirst": 15
     }
   ],
-  "cleanBrowserChecks": 15,
+  "cleanBrowserChecks": 16,
   "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
 }

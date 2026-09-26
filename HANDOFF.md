@@ -2,7 +2,7 @@
 
 ## The battles integrated: the Alamo, Concepción and the Grass Fight, Coleto and Palm Sunday merged onto one engine; two owner decisions — 2026-09-26 (branch worktree-agent-ab376097031389c0e, from main d9daea3; not released)
 
-Merged into one tree, in this order, each followed by a green `npm test`, and main merged again at the end (9669d14, no conflicts): `worktree-agent-a202a97daf53da315` (the Alamo's siege
+Merged into one tree, in this order, each followed by a green `npm test`, and main merged twice more at the end (9669d14, no conflicts; c6d5dc4, the Yellow Rose vignette kept beside Concepción's fog and the Alamo's named people): `worktree-agent-a202a97daf53da315` (the Alamo's siege
 and assault), `worktree-agent-adfe769d1fe9ef0ce` (Concepción and the Grass Fight), `worktree-agent-ab3929988a2ad1e82` (Coleto and
 the Goliad massacre). Every engagement and every generic engine addition of every branch is kept. docs/BATTLES.md **§12** is the
 merged engine; the three builds are **§9** (the Alamo), **§10** (Concepción, the Grass Fight) and **§11** (Coleto, Palm Sunday) -
@@ -65,12 +65,12 @@ patterns no longer matched the merged code and were re-aimed (a dry run now find
 Coleto 2, San Jacinto 3.
 
 **Evidence** (same computer only; not physical LAN or district acceptance):
-- `npm test`: **1,336 of 1,336** on the final tree (after merging main at 9669d14); green after each of the three merges
-  (1,294, 1,315, 1,333) and after the owner's decisions (1,336).
+- `npm test`: **1,338 of 1,338** on the final tree (after merging main at c6d5dc4); green after each of the three merges
+  (1,294, 1,315, 1,333), after the owner's decisions (1,336) and after the first merge of main (1,336).
 - Browser proofs, all green on the final tree (1366x768/1024x768 where the proof has both): `test:battle-gonzales` 12,
   `test:gonzales-town` 10, `test:battle-bexar` 15, `test:battle-south` **16** (a sixteenth: the prisoner drawn marching away,
   then off the map), `test:battle-alamo` 13, `test:alamo-siege` 8, `test:battle-concepcion` 13, `test:battle-grass` 13,
-  `test:battle-coleto` 17, `test:battle-san-jacinto` 15, `test:lesson` 33, `test:panels` 14 (on a second run: the first,
+  `test:battle-coleto` 17, `test:battle-san-jacinto` 16 (re-run after the last merge of main, which added its sixteenth), `test:lesson` 33, `test:panels` 14 (on a second run: the first,
   one of five proofs at once, timed out at the join form), `test:scrape` 5, `test:winter` 6.
 - The known failures, compared with main at the branch point (d9daea3), run the same way: `test:slice` and `test:navigation`
   fail as on main (the same timeout); `test:camp` now gets past the join from the panel (the proof presses Send on the going
@@ -80,7 +80,8 @@ Coleto 2, San Jacinto 3.
   panel). Not diagnosed further.
 - Injection harnesses, every injection caught by the check written for it and only it: **222 of 222** (152 unit, 70
   browser) - Gonzales 29, Béxar 21, the south 28, the Alamo 29, Concepción and the Grass Fight 32, Coleto 27, San Jacinto 35,
-  Gonzales's town 21 (`docs/evidence/*-injections.json`). Each harness was run in its own copy of the tree, four at a time;
+  Gonzales's town 21 (`docs/evidence/*-injections.json`); San Jacinto's and Gonzales's re-run after the last merge of main
+  touched the renderer and San Jacinto's data: 35 of 35 and 29 of 29. Each harness was run in its own copy of the tree, four at a time;
   Béxar's again alone after one browser injection timed out at the join form under load. The first run after the merges
   missed eleven: the fallen rule (above), and the re-aims listed in the commits of 2026-09-26 (Béxar's man killed now drawn
   lying still; the south's killed man; Agua Dulce's two moments together; the Banquete point's four map tests; Gonzales's fight
