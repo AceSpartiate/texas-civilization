@@ -36,7 +36,9 @@ async function run({ label, interrupt, zoom = 0 }) {
     const world = keepFoundingFamilies(createSettledWorld(seed, count));
     return world;
   };
-  const app = createClassroom({ seed: `movement-${label}`, playerCount: 5, tickMs: TICK_MS, worldFactory });
+  // The three camera runs must walk the same route. Different seeds can put the
+  // homestead so close to Gonzales that the wide run ends before two whole ticks.
+  const app = createClassroom({ seed: 'movement-quiet', playerCount: 5, tickMs: TICK_MS, worldFactory });
   const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
   const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
   const errors = [];
@@ -141,7 +143,7 @@ function analyse(samples) {
 const runs = {
   quietClose: await run({ label: 'quiet', interrupt: false, zoom: 8 }),
   busyClose: await run({ label: 'busy', interrupt: true, zoom: 8 }),
-  busyWide: await run({ label: 'wide', interrupt: true, zoom: 0 }),
+  busyWide: await run({ label: 'wide', interrupt: true, zoom: 2 }),
 };
 const result = Object.fromEntries(Object.entries(runs).map(([name, r]) => [name, analyse(r.samples)]));
 console.log(JSON.stringify(result));

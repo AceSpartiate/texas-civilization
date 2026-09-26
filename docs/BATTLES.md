@@ -160,7 +160,9 @@ Then, by multiple choice:
    was a captive and flirting can read as her choosing her captor): on the afternoon of April 21, a picnic laid out in
    Santa Anna's tent area, and she flirts with him — kept light and non-physical: talk, laughter, a meal served — so he is
    there when the attack comes. Captioned as a story told later, with the dashed `tradition` edge; the caption also says
-   she had been taken by his army at New Washington five days before.
+   she had been taken by his army at New Washington five days before. Her flirting lines carry a stage direction in the
+   bubble — *sarcastically*, or the like (owner: "maybe in the chat bubbles where emily is flirting with santa anna it says
+   *sarcasticly* or something like that?") — so a class reads that she is playing a part with her captor, not sincere.
 
    **Her words, with a stage direction** (owner, 2026-09-26: "maybe in the chat bubbles where emily is flirting with santa anna it
    says *sarcasticly* or something like that?"). She says five short lines at the picnic, each drawn with a stage direction in

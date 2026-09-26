@@ -6,9 +6,9 @@
 // for each parent whose looks have not been chosen. Done sends all four parts together; the server refuses anything not on
 // offer and anything already chosen (sim/appearance.mjs).
 //
-// stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - looks portraits (public/looks-art.js).
+// The choice preview uses the same appearance-driven layers as the live map figure and family portrait.
 
-import { drawLooks } from '/looks-art.js';
+import { drawAvatarFigure, drawAvatarPortrait } from '/avatar-art.js';
 
 const PARTS = Object.freeze([
   ['skin', 'Skin'],
@@ -16,7 +16,7 @@ const PARTS = Object.freeze([
   ['clothing', 'Clothes'],
   ['head', null],
 ]);
-const HEAD_WORDS = Object.freeze({ hat: 'Hat', beard: 'Beard', bonnet: 'Bonnet', 'pinned hair': 'Hair pinned up' });
+const HEAD_WORDS = Object.freeze({ hat: 'Felt hat', beard: 'Beard', bonnet: 'Bonnet', 'pinned hair': 'Hair pinned up', bareheaded: 'Bareheaded', 'hat and beard': 'Hat & beard', moustache: 'Moustache', 'straw hat': 'Straw hat', braid: 'Braid', 'loose hair': 'Loose hair', headscarf: 'Headscarf' });
 const capital = word => word[0].toUpperCase() + word.slice(1);
 
 let actions = null;
@@ -53,11 +53,12 @@ function draw(person, { index = 0, of = 1 } = {}) {
     const last = index + 1 >= of;
     step.textContent = `Step 4 of 4. ${of > 1 ? `Parent ${index + 1} of ${of}. ` : ''}Done ${last ? 'finishes your family' : 'brings up the next parent'}.`;
   }
-  drawLooks(document.querySelector('#looks-preview'), picked, person.sex);
+  drawAvatarPortrait(document.querySelector('#looks-preview'), picked, person.sex);
+  drawAvatarFigure(document.querySelector('#looks-figure'), picked, person.sex);
   const rows = document.querySelector('#looks-parts');
   rows.replaceChildren(...PARTS.map(([part, label]) => {
     const row = make('fieldset', null, 'looks-part');
-    row.append(make('legend', label || (person.sex === 'female' ? 'Bonnet or hair' : 'Hat or beard')));
+    row.append(make('legend', label || 'Hair & headwear'));
     const options = make('div', null, 'looks-options');
     for (const value of person.choices[part] || []) {
       const option = make('button', null, 'looks-option');
@@ -69,7 +70,7 @@ function draw(person, { index = 0, of = 1 } = {}) {
       option.setAttribute('aria-label', `${label || 'Head'}: ${words}`);
       const canvas = make('canvas');
       canvas.width = canvas.height = 64;
-      drawLooks(canvas, { ...picked, [part]: value }, person.sex);
+      drawAvatarPortrait(canvas, { ...picked, [part]: value }, person.sex);
       option.append(canvas, make('span', words));
       options.append(option);
     }

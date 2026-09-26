@@ -15,6 +15,7 @@
 // are deliberately NOT used here. A named historical person requires their own checked
 // claim, and putting one behind a trade counter would invent a life for them.
 import { record } from './events.mjs';
+import { appearanceCode, appearanceOf } from './appearance.mjs';
 import { advanceShopkeepers, createShopkeepers, keeperSex, KEEPERS } from './shops.mjs';
 import { householdName, sexOf, bandOf } from './family.mjs';
 import { facingOf, ridersInSight } from './encounters.mjs';
@@ -116,9 +117,10 @@ export function townsfolkSex(id) {
  * somebody met in `observedBy` below, everybody on the Host's map in sim/overview.mjs), and public/motion.js `figureOf` draws
  * from it. Nothing hidden rides with it: the hidden stats (`traits`, docs/FAMILY_CREATION.md §4) are never read here.
  */
-export function seenAs(entity) {
+export function seenAs(entity, world = null) {
   const sex = sexOf(entity) || (entity?.resident ? townsfolkSex(entity.id) : null), band = bandOf(entity);
-  return { ...(sex && { sex }), ...(band && { band }) };
+  const appearance = world && appearanceOf(world, entity);
+  return { ...(sex && { sex }), ...(band && { band }), ...(appearance && { a: appearanceCode(appearance, sex) }) };
 }
 
 /** Put the residents in the town. Called once, when the world is built. */
@@ -270,7 +272,7 @@ export function observedBy(world, householdId) {
     .map(entity => ({
       id: entity.id, name: entity.name, kind: 'person', ...(entity.about && { about: entity.about }),
       // What a glance tells you: a man or a woman, and roughly how old. Never the exact age.
-      ...seenAs(entity),
+      ...seenAs(entity, world),
       // Whose family they belong to is visible - that is the point of meeting them - but
       // nothing about that family's private state travels with it.
       householdId: entity.householdId, resident: entity.resident || null,

@@ -70,7 +70,7 @@ function overviewEntity(world, entity) {
     ...(entity.householdId && { householdId: entity.householdId }),
     ...(entity.principal && { principal: true }),
     // A man or a woman and roughly how old, as a glance would tell (sim/town.mjs `seenAs`): the founding four's from their role.
-    ...(entity.kind === 'person' && seenAs(entity)),
+    ...(entity.kind === 'person' && seenAs(entity, world)),
     ...(entity.species && { species: entity.species }), ...(entity.laden && { laden: true }), ...(entity.cart && { cart: true }), ...(entity.carreta && { carreta: true }),
     ...(entity.resident && { resident: entity.resident }), ...(entity.about && { about: entity.about }),
     // A rider is a rider; what they carry stays on the server, exactly as a student is shown one (sim/town.mjs `observedBy`).
