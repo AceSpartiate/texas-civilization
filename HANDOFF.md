@@ -43,7 +43,7 @@ Wave 2 of docs/BATTLES.md §5 for the Alamo, owner-directed 2026-09-25 (§2b.1 *
   `sim/world.mjs` projects `seenFall`; `sim/chores.mjs` `alsoFrom`/`estimate`; `public/family-panel.js` shows the estimate.
 - **Tests.** New `tests/battle-alamo.test.mjs` (13) and `tests/battle-alamo-view.test.mjs` (7); updated where the rules moved:
   `tests/alamo.test.mjs`, `tests/alamo-runner.test.mjs` (fates fall by seven; the man walks in before the runner comes),
-  `tests/battle-stage.test.mjs` (long steps). `npm test` after merging main (Béxar): **1255 pass, 0 fail**.
+  `tests/battle-stage.test.mjs` (long steps). `npm test` after merging main (Béxar, then the south at e63694f): **1276 pass, 0 fail**.
 - **Browser** (same computer): new `npm run test:battle-alamo` - **13 checks** at 1366x768 and 1024x768: the card and Watch on
   Feb 23; the guns on four siege days; the runner answered "stay" in the meeting; the alarm's card at the man's side; fire and
   smoke at every one of 12 sampled moments of the assault; columns in files and walls in line (nearest-neighbour spread 0.002
@@ -51,7 +51,7 @@ Wave 2 of docs/BATTLES.md §5 for the Alamo, owner-directed 2026-09-25 (§2b.1 *
   with nobody there sent nothing before and after a reload; the debrief; the word's account on March 13. Battle drawing **1.6 ms
   at its worst 95th percentile**, the whole map frame 4-8 ms with one 22 ms spike in the last run. `docs/evidence/battle-alamo-browser.json`,
   `test-results/battle-alamo-*.png`. `test:alamo-siege` (8) passes with one change: the father is given the post by the gate and
-  stood at it, since posts replaced the plaza spot. Re-run on the final merge with Béxar: `test:battle-bexar` (15), `test:battle-gonzales` (12), `test:alamo-siege` (8), `test:lesson`, `test:panels` - all pass.
+  stood at it, since posts replaced the plaza spot. Re-run on the final merge (Béxar and the south): `test:battle-alamo` (13), `test:battle-south`, `test:battle-bexar` (15), `test:battle-gonzales` (12), `test:alamo-siege` (8), `test:lesson`, `test:panels` - all pass. The south's merge moved two things: its fight is shown to the Host ahead of the Alamo's siege background, and the watcher's debrief stays on the card three days (it expired before the siege days the south adds were over).
 - **Injections** (`npm run test:battle-alamo-injections`, `docs/evidence/battle-alamo-injections.json`): **29 of 29 caught** by
   the check written for them - 20 unit injections (13 in `tests/battle-alamo.test.mjs`, 7 in `tests/battle-alamo-view.test.mjs`),
   each failing its named test and no other in its file, and 9 browser injections, each failing the proof with its own message
