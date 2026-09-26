@@ -82,8 +82,9 @@ const UNIT = [
     from: '      if (pin && (pin.down || (!down && pin.layout === layout))) return pin;', to: '      if (false) return pin;', test: V, expect: TESTS.rout },
   { name: 'a later fall lands on a man already down', file: 'public/battle-view.js',
     from: '      const order = [...seen].filter(slot => !map.has(slot.index)).sort(', to: '      const order = [...seen].sort(', test: V, expect: TESTS.rout },
-  { name: 'a group is counted into its side', file: 'public/battle-view.js',
-    from: '        if (side.key === side.side || side.part) drawn[side.side].push(point);', to: '        drawn[side.side].push(point);', test: V, expect: TESTS.party },
+  { name: 'a group of horse is counted into its side', file: 'public/battle-view.js',
+    from: '            }\n          }\n          drawnBy[side.key].push(point); if (side.key === side.side || side.part) drawn[side.side].push(point);',
+    to: '            }\n          }\n          drawnBy[side.key].push(point); drawn[side.side].push(point);', test: V, expect: TESTS.party },
   { name: 'nothing stands on the ground', file: 'public/battle-view.js',
     from: '    const worksDrawn = drawWorks(ctx, battle, camera, figurePx, time, bounds);', to: '    const worksDrawn = 0;', test: V, expect: TESTS.party },
 ];
