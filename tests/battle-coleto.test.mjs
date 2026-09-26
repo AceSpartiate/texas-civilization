@@ -335,7 +335,8 @@ test('a class saved in the middle of Coleto reopens in the middle of it, and one
 });
 
 test('the clock is held for Coleto: the fighting about ten real minutes at the Study pace, the whole of it under fifteen, never faster than it was going', () => {
-  const { world } = fanninClass();
+  // As a watching student's family sees it: the lulls and the night are quiet phases, held while a played family is there.
+  const { world } = fanninClass({ played: true });
   until(world, () => phaseOf(world, 'coleto') === 'march-out');
   let ticks = 0, fighting = 0;
   const faster = [];

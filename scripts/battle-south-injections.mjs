@@ -82,7 +82,8 @@ const UNIT = [
     test: SOUTH, expect: 'afterwards the escaped ride for Goliad and the prisoners are marched south; at the word each family is told in plain words, and nobody else' },
   { name: 'a man\'s fate at Agua Dulce staged from the drive\'s start, so a longer drive puts it before the charge', file: 'sim/south.mjs',
     from: '      stageFate(world, id, person.id, { fate, unit: staged.part, minute: contactFrom + staged.at });', to: '      stageFate(world, id, person.id, { fate, unit: staged.part, minute: battle.start + staged.at });',
-    test: SOUTH, expect: 'each man\'s fate is the roll it always was, lands at its own moment inside the fight, and is on no screen and in no report before' },
+    // Seen by the check that stands a man in the force before the first shot and walks his fate to its part and minute.
+    test: SOUTH, expect: 'a man sent south is at San Patricio, and in the force before the first shot, or rides with Grant and drives the horses north' },
   { name: 'the prisoners are left standing at the end of the road south', file: 'sim/south.mjs',
     from: '        person.service.offMap = world.minute;\n', to: '',
     test: SOUTH, expect: 'the prisoners are seen marched away down the road south, then are gone from the map: not left standing at its end, and seen by nobody there' },

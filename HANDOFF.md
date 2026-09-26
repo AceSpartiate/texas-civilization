@@ -1,5 +1,47 @@
 # Claude handoff — Astra foundation
 
+## Keep fighting, speed lead-ups; Agua Dulce at the creek crossing — 2026-09-26 (branch worktree-agent-af5486f1ef3c3dd15, from main 9e7aa74, main merged at 9dfdcc9; not released)
+
+Two owner decisions of 2026-09-26, recorded in docs/BATTLES.md **§2b.11** and **§2b.12** with the owner's words; the engine's side
+is **§13**.
+
+**"Keep fighting, speed lead-ups."** A phase may be marked `quiet: true` (a lead-up, an aftermath, a lull between a day's assaults,
+a night between two days' fighting). `battleStep` (`sim/battle-stage.mjs:312`) holds a quiet phase at its step only while
+`familyThere` (`:247`) - a played, present family has a living person in the force (`watchedByAFamily`, unchanged) or standing
+within half a mile of a side, part or group of the phase. Otherwise the phase goes at the class's pace in ticks the page already
+draws as ordinary ones (`QUIET_STEPS`, `:181` - exactly `CALENDAR_STEPS`), landing on its end, so every phase still begins on a tick
+and the fighting is met on its first minute. The fighting is held for every class. Béxar's and the Alamo's `background` paces are
+unchanged (confirmed: family-gated since §2b.3/§9.3). The classification of all ten engagements is the table in §13.2. Nothing
+stored; no `saveVersion` bump.
+
+**Class time** (`node scripts/battle-class-time.mjs`, now two runs a class; `docs/evidence/battle-class-time.json`; 5 and 15
+families alike): (a) nobody's family at any fight **1,370 → 1,250 ticks, 3 h 37 min → 3 h 18 min at Study (−19.0 min)**; fights
+84.2 → 65.2 min. (b) a played family's man in every fight 1,440 → 1,445 ticks (3 h 48 min → 3 h 49 min; +5 ticks is Agua Dulce's
+longer drive). **The 25–35 minute target is not reached** by any classification that keeps the fighting whole: making the parley,
+San Patricio's gathered, San Jacinto's parade and Palm Sunday's muster quiet too measured −22.6 min; adding San Jacinto's advance and
+Palm Sunday's march out −24.7. The rest is fighting and the ticks that land a fight on its phases. For the owner: which of those
+borderline phases (if any) to speed.
+
+**"At the creek crossing, 16 mi."** `agua-dulce` at -97.81428, 27.7886, a quarter mile south of the road's ford on Agua Dulce Creek:
+15.6 road miles from San Patricio, 11.7 on to the road's end. Map rebuilt; decoded: only the place, the two roads through it and the
+creeks drawn round it changed (every ford the same); new hash in `tests/map-outside.test.mjs`. Grant's drive sets out at 6:50 (160
+minutes at the herd's pace; it was 8:30 at twenty-six miles), the charge stays at 10:30; the south's fates are staged in minutes from
+the first shot (`STAGED`, `sim/south.mjs`) so a retimed drive never moves one. The charge's caption, the account and `HIST-TEX-512`
+say this telling places it at the creek crossing, the Handbook gives twenty-six miles, and another placement is near Banquete. A class
+saved with the ground near Banquete or at twenty-six miles is moved at the door until the drive begins (`moveAguaDulce`, unchanged;
+its test now covers both). docs/MAP_ACCURACY.md §13.7.
+
+**Evidence (same computer).** `npm test` 1343 of 1343 on the merged tree. New `tests/battle-quiet.test.mjs` (5), each seen failing on the old behaviour
+by its injections in `scripts/battle-injections.mjs` (six added; the harness now takes a list when one mistake is rightly seen by
+two tests); `tests/south-map.test.mjs` failed against the old map (the ground, the roads, the crossing, the door at twenty-six
+miles). Tests updated for the pacing, and how: Coleto's march and viewer tests and San Jacinto's pacing and Santa Anna tests play the
+man's family (`played`), as a joined family is; Béxar's and Concepción's pacing checks hold a quiet phase to its step only when a
+family is there and otherwise require ordinary ticks; San Patricio's `gathered` stays held (quiet, its fight fell under §2.2's three
+minutes). Injection harnesses, unit injections re-run on the merged tree, every one caught by its own check: `battle-injections` 25 of 25 (six new; its 10 browser ones kept from before), `battle-south-injections` 31 of 31 (the ground re-aimed at both earlier places, the account, the fates from the first shot added), `battle-bexar-injections` 21 of 21, `battle-coleto-injections` 27 of 27 (the night injection re-aimed at the `quiet` line; its clock test plays the family), `san-jacinto-injections` 35 of 35 (the unheld-landing injection no longer also fails the Santa Anna test, which plays its family), `battle-1835-injections` 32 of 32 (the Grass viewer test plays the family with a man out), `battle-alamo-injections` 29 of 29. Browser injections were not re-run. Browser proofs on the merged tree, two at a time, all passing: `test:battle-gonzales` 12, `-concepcion` 13, `-grass` 13, `-bexar` 15, `-south` 16, `-alamo` 13, `-coleto` 17, `-san-jacinto` 16, `test:alamo-siege` 8, `test:gonzales-town` 10, `test:lesson` 33, `test:panels` 14 checks. On a first run before the merge, `-south` (the San Patricio lines check read after the fight) and `-gonzales` (a 60-second wait for the townsman's call) each failed once while another proof ran beside it, and passed on the re-run and on the merged tree; no proof needed changing for the new pacing (the south's lines message now prints the phases it sampled).
+
+**Merge note for the famous-people builder:** my edits to `sim/battles/*.mjs` are `quiet: true` on phase lines and, in
+`agua-dulce.mjs`, the drive's length and keys, two comments and one sentence appended to the charge's caption.
+
 ## Family roll screen — visual pass 2026-09-26
 
 The dice step now has a painted frontier backdrop and a wide two-die parchment layout. `public/index.html` gives family size and starting means separate labelled cards; `public/style.css` styles their dice, result and primary action. `renderFamilyRoll` in `public/app.js` sets `#creation[data-roll-visible]`, keeping the same backdrop after the server answers and until *Meet your family* is pressed. Roll rules, result wording and later wizard steps are unchanged. Asset source and full built-in ImageGen prompt: [CREATION_ROLL_ART.md](docs/CREATION_ROLL_ART.md). Browser proof at desktop and narrow sizes passed. The older canvas painting still backs the title and other steps; it is not replaced by this roll-only asset.

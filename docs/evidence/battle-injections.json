@@ -195,6 +195,78 @@
       "failed": [
         "the card: Watch through the family's own person before the fighting, never over an open decision, and the account after"
       ]
+    },
+    {
+      "name": "a quiet phase marked on the fighting is accepted",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-quiet.test.mjs",
+      "expect": "a quiet phase is marked in the data only with a step and never on the fighting, and the fighting of every engagement is held",
+      "caught": true,
+      "failed": [
+        "a quiet phase is marked in the data only with a step and never on the fighting, and the fighting of every engagement is held"
+      ]
+    },
+    {
+      "name": "every lead-up held for every class, as before 2026-09-26",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-quiet.test.mjs",
+      "expect": [
+        "a lead-up goes at the ordinary pace with no played family there, and is held at its step while one has somebody there",
+        "on a real class the lead-up at Gonzales is held for the family whose man went up the river, and goes faster with nobody there"
+      ],
+      "caught": true,
+      "failed": [
+        "a lead-up goes at the ordinary pace with no played family there, and is held at its step while one has somebody there",
+        "on a real class the lead-up at Gonzales is held for the family whose man went up the river, and goes faster with nobody there"
+      ]
+    },
+    {
+      "name": "a played family's man in the force is not counted there",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-quiet.test.mjs",
+      "expect": "a lead-up goes at the ordinary pace with no played family there, and is held at its step while one has somebody there",
+      "caught": true,
+      "failed": [
+        "a lead-up goes at the ordinary pace with no played family there, and is held at its step while one has somebody there"
+      ]
+    },
+    {
+      "name": "a played family's man standing with the force before it records him is not there",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-quiet.test.mjs",
+      "expect": "a played family's man standing with the force before it has recorded him is there, and one half a mile off and more is not",
+      "caught": true,
+      "failed": [
+        "a played family's man standing with the force before it has recorded him is there, and one half a mile off and more is not"
+      ]
+    },
+    {
+      "name": "a quiet phase with nobody there taken in one odd-sized tick the page snaps",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-quiet.test.mjs",
+      "expect": [
+        "a lead-up goes at the ordinary pace with no played family there, and is held at its step while one has somebody there",
+        "the fighting is held at its step whoever is there, and a quiet phase before it lands the clock on its first minute"
+      ],
+      "caught": true,
+      "failed": [
+        "a lead-up goes at the ordinary pace with no played family there, and is held at its step while one has somebody there",
+        "the fighting is held at its step whoever is there, and a quiet phase before it lands the clock on its first minute"
+      ]
+    },
+    {
+      "name": "the fighting goes at the class's pace with nobody there",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-quiet.test.mjs",
+      "expect": [
+        "the fighting is held at its step whoever is there, and a quiet phase before it lands the clock on its first minute",
+        "on a real class the lead-up at Gonzales is held for the family whose man went up the river, and goes faster with nobody there"
+      ],
+      "caught": true,
+      "failed": [
+        "the fighting is held at its step whoever is there, and a quiet phase before it lands the clock on its first minute",
+        "on a real class the lead-up at Gonzales is held for the family whose man went up the river, and goes faster with nobody there"
+      ]
     }
   ],
   "browser": [

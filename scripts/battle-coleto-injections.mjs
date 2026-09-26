@@ -45,7 +45,7 @@ const UNIT = [
     from: "  if (!world.map?.sites?.goliad || !Number.isFinite(start)) return;\n  const battle = armBattle(world, 'coleto', start);", to: "  if (!world.map?.sites?.goliad || !Number.isFinite(start) || (!world.battles?.coleto && world.minute > start)) return;\n  const battle = armBattle(world, 'coleto', start);",
     test: COLETO, expect: 'a class saved in the middle of Coleto reopens in the middle of it, and one saved before the engine gains it from the clock, with no save version moved' },
   { name: 'the night at Coleto watched twenty minutes a tick: the fight runs past the lesson', file: 'sim/battles/coleto.mjs',
-    from: "      id: 'night', minutes: 480, step: 240, light: 'night',", to: "      id: 'night', minutes: 480, step: 20, light: 'night',",
+    from: "      id: 'night', minutes: 480, step: 240, quiet: true, light: 'night',", to: "      id: 'night', minutes: 480, step: 20, quiet: true, light: 'night',",
     test: COLETO, expect: 'the clock is held for Coleto: the fighting about ten real minutes at the Study pace, the whole of it under fifteen, never faster than it was going' },
   { name: 'the square\'s men face in', file: 'public/battle-view.js',
     from: '      out.push({ along: out1.along ? out1.along * reach : t, across: out1.across ? out1.across * reach : t,', to: '      out.push({ along: out1.along ? -out1.along * reach : t, across: out1.across ? -out1.across * reach : t,',
