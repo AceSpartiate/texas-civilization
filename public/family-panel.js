@@ -216,7 +216,7 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
   // Somebody with the army, the garrison or the expedition (sim/winter.mjs) has one order and no other: sending for them -
   // except a man with Houston's army, whose row has the camp's work first (sim/camp.mjs), as the server offers it.
   if (entity.service?.status === 'serving') {
-    const shut = entity.service.besieged ? `${entity.name || 'They'} is shut in the Alamo.` : entity.service.riding ? `${entity.name || 'They'} has ridden for the Alamo.` : '';
+    const shut = entity.service.besieged ? `${entity.name || 'They'} is shut in the Alamo.` : entity.service.riding ? `${entity.name || 'They'} has ridden for the Alamo.` : entity.service.unreachable || '';
     const camp = offered.filter(entry => CAMP_CHORES.includes(entry.id)).map(entry => {
       const spec = catalogue.get?.(entry.id) || {};
       return { key: entry.id, kind: 'chore', name: spec.name || entry.id, summary: PANEL_SUMMARIES[entry.id] || firstSentence(spec.describe),

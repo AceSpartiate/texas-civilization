@@ -1,4 +1,4 @@
-// Where each of a family's people stands inside the Alamo, and how they get there on their own legs (docs/BATTLES.md §7;
+// Where each of a family's people stands inside the Alamo, and how they get there on their own legs (docs/BATTLES.md §8;
 // docs/battle-research/staging.md §5.1, §5.6 "Posts on the walls"; `FIC-GONZ-430`).
 //
 // Until 2026-09-25 everybody shut in stood at a hashed spot on the main plaza (the old `postOf`), set down there in one

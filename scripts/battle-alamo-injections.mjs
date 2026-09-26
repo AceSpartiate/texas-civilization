@@ -19,7 +19,7 @@ const UNIT = [
     from: 'P(60, 15.6, [[108, 516], [108, 30], [60, 30]])', to: 'P(60, 15.6, [[108, 516]])',
     test: DATA, expect: 'every post and every way in and out is walked over the plan a foot at a time without going through a wall' },
   { name: 'the garrison set down in the fort, as before 2026-09-25', file: 'sim/alamo.mjs',
-    from: "    // docs/BATTLES.md §7): the garrison went into the Alamo that afternoon (`HIST-TEX-054`).\n    takePost(world, person);", to: "    // docs/BATTLES.md §7): the garrison went into the Alamo that afternoon (`HIST-TEX-054`).\n    person.location = onMap(world, { x: 110, y: 280 });",
+    from: "    // docs/BATTLES.md §8): the garrison went into the Alamo that afternoon (`HIST-TEX-054`).\n    takePost(world, person);", to: "    // docs/BATTLES.md §8): the garrison went into the Alamo that afternoon (`HIST-TEX-054`).\n    person.location = onMap(world, { x: 110, y: 280 });",
     test: DATA, expect: 'the garrison walks in from the town through the south gate to posts on the walls, a leg at a time, and nobody is set down' },
   { name: 'the north battery never comes closer', file: 'sim/battles/alamo.mjs',
     from: "    [north]: { from: 50, to: 660, every: 38 },", to: "    'battery-north-far': { from: 50, to: 660, every: 38 },",

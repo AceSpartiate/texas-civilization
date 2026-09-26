@@ -1,4 +1,4 @@
-// The Alamo, watched in a real class (docs/BATTLES.md §7; owner, 2026-09-25: "I'm assuming that the alamo is the longest since
+// The Alamo, watched in a real class (docs/BATTLES.md §8; owner, 2026-09-25: "I'm assuming that the alamo is the longest since
 // it's a long siege?", and "a student may watch their own man fall ... the rest of the family's story learns only when the word
 // reaches them").
 //

@@ -4,6 +4,7 @@ import { widenPassages } from '../sim/houseplot.mjs';
 import { deriveUses } from '../sim/chores.mjs';
 import { dirname, basename, join, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
+import { openSouth } from '../sim/south.mjs';
 
 // A save has one server owner for its entire lifetime, independently of HTTP port.
 // Refuse ambiguous/stale ownership rather than race another process to reclaim it.
@@ -74,6 +75,11 @@ export function readSave(path) {
     if (entity?.chore?.id === 'visit-shop' && entity.chore.errand === undefined) entity.chore.id = 'visit-shop-street';
   }
   if (save.world?.households && save.world.entities) deriveUses(save.world);
+  // A class on the real land saved before the map went south to the Nueces (2026-09-25, docs/MAP_ACCURACY.md §13) gains San
+  // Patricio, the Agua Dulce ground and the roads to them from the built map - added, nothing it had moved - so its Matamoros men
+  // are where the record puts them and fight where the fights were (sim/south.mjs `openSouth`). No version moved: the places
+  // are added, every existing place, road and home is what it was, and a class that already has them is untouched.
+  if (save.world) openSouth(save.world);
   return save;
 }
 // Keep the previous class before a deliberate reset. This is an explicit teacher

@@ -1,4 +1,4 @@
-// The Alamo on the battle engine, the director's part (docs/BATTLES.md §7; the engagement is sim/battles/alamo.mjs).
+// The Alamo on the battle engine, the director's part (docs/BATTLES.md §8; the engagement is sim/battles/alamo.mjs).
 //
 // What the clock cannot give back is kept in `world.battles.alamo` (sim/battle-stage.mjs `armBattle`) and on each person's
 // `service`: their post on the walls, the walk they are on, and - once the assault reaches their post - when they fell. The

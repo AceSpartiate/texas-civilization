@@ -92,7 +92,7 @@ export function beginSiege(world, causeId) {
     }
     person.service.besieged = true;
     // Across the river and in through the south gate to their post on the walls, on their own legs (sim/alamo-posts.mjs,
-    // docs/BATTLES.md §7): the garrison went into the Alamo that afternoon (`HIST-TEX-054`).
+    // docs/BATTLES.md §8): the garrison went into the Alamo that afternoon (`HIST-TEX-054`).
     takePost(world, person);
     tell(world, person, `The Mexican army has come into Béxar under a red flag. ${person.name} is shut in the Alamo with the garrison.`, { claimId: 'HIST-TEX-054' });
   }
@@ -364,14 +364,17 @@ export const FALL_ACCOUNT = [
 
 /** February 27: nobody new goes south; those there are split between Johnson's party and Grant's. */
 export function splitSouth(world) {
-  for (const person of inService(world, 'matamoros')) person.service.party = share(world, person.id, 'party') < JOHNSON_SHARE ? 'san-patricio' : 'agua-dulce';
+  // A man already put in a party - Grant's ride south about February 20, on a map with the south (sim/south.mjs `grantRides`) -
+  // keeps it; the shares are the same, so the split is what it always was.
+  for (const person of inService(world, 'matamoros')) if (!person.service.party) person.service.party = share(world, person.id, 'party') < JOHNSON_SHARE ? 'san-patricio' : 'agua-dulce';
 }
 
 /** One southern fight: each of its party rolled for killed, captured or escaped. The escaped go to Fannin at Goliad at once. */
 export function fightSouth(world, fight, { beginTravel }) {
   const rates = SOUTH_RATES[fight];
   for (const person of inService(world, 'matamoros')) {
-    if (person.service.party !== fight || person.service.fate) continue;
+    // A man in the fight on the engine (sim/south.mjs) has his fate from it, at its own moment, by this same roll.
+    if (person.service.party !== fight || person.service.fate || person.service.fight) continue;
     const dies = 1 - (1 - rates.killed) ** frailty(person);
     const roll = share(world, person.id, fight);
     const fate = roll < dies ? 'killed' : roll < dies + rates.captured ? 'captured' : 'escaped';

@@ -22,6 +22,7 @@ import { heavyWorkPace, tooYoung, tooYoungWhy } from './family.mjs';
 import { castVote, joinService, servingWhy, winterOffered, winterRefusal } from './winter.mjs';
 import { reliefEstimate } from './alamo.mjs';
 import { houstonCamp } from './houston.mjs';
+import { southSite } from './south.mjs';
 import { record } from './events.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
 import { awayProjection, milesATick, tooFastToFollow } from './sight.mjs';
@@ -683,9 +684,10 @@ export const CHORES = {
   'join-matamoros': {
     war: 'gone south to the Matamoros men',
     name: 'Go south to join the Matamoros men', skill: 'hands', where: 'home', winter: true,
-    describe: 'Go south to Refugio and join the volunteers gathering to carry the war to Matamoros. They stay until sent for.',
+    describe: "Go south to San Patricio on the Nueces and join Johnson's and Grant's volunteers, who mean to carry the war to Matamoros. They stay until sent for.",
     steps: [
-      { travel: 'refugio', doing: 'on the road south to Refugio' },
+      // `south`: San Patricio, or Refugio on a class whose map has no south (sim/south.mjs `southSite`, 2026-09-25).
+      { travel: 'south', doing: 'on the road south to join the volunteers' },
       { work: 1, doing: 'finding the volunteers' },
       { winter: 'matamoros' },
       { when: ['shut-out'], travel: 'home', doing: 'turning back for home' },
@@ -1407,7 +1409,7 @@ function journeyTarget(world, household, travel) {
   if (travel === 'logwood') return logwoodGround(world, household, false);
   if (travel === 'water') return fishingSite(world, household, false);
   if (travel === 'shore') return shoreSite(world, household, false);
-  const id = travel === 'town' ? townOf(household) : travel === 'houston-camp' ? houstonCamp(world) : travel === 'home' ? household.homeSiteId : travel;
+  const id = travel === 'town' ? townOf(household) : travel === 'houston-camp' ? houstonCamp(world) : travel === 'south' ? southSite(world) : travel === 'home' ? household.homeSiteId : travel;
   return world.map.sites[id] || null;
 }
 /**
@@ -1930,7 +1932,9 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
         : step.travel === 'shore' ? shoreSite(world, household)?.id
         : step.travel === 'town' ? state.town || townOf(household)
         // Houston's camp is wherever it is when they set out (sim/houston.mjs).
-        : step.travel === 'houston-camp' ? houstonCamp(world) : step.travel;
+        : step.travel === 'houston-camp' ? houstonCamp(world)
+        // The Matamoros men, wherever this class's map has them (sim/south.mjs).
+        : step.travel === 'south' ? southSite(world) : step.travel;
       // Already standing there: nothing to walk, so fall through to the next step.
       if (!destination || entity.location.siteId === destination) continue;
       // How they meant to go may not be theirs any more: a chore that began with the horse can

@@ -1,6 +1,6 @@
 {
   "record": "The winter's choices, in a browser: docs/COLONIES.md §7e, build step 8(b)",
-  "date": "2026-09-17",
+  "date": "2026-09-26",
   "verdict": "PASS",
   "note": "Same computer only. A real class on the colonies map with rolled families, played in process through the first period, continued into the winter and run to the morning its news comes; then served live: a student enlisted a parent from the family panel, read the card and sent for them twice. No LAN or district claim.",
   "checks": [
@@ -13,16 +13,6 @@
   ],
   "observed": {
     "icons": [
-      "survey-plot",
-      "plant-field",
-      "harvest-field",
-      "fence-plot",
-      "build-house",
-      "hunt-timber",
-      "practise-shooting",
-      "fetch-powder",
-      "fetch-seed",
-      "sell-food",
       "enlist-regular",
       "enlist-auxiliary",
       "join-garrison",
@@ -32,8 +22,10 @@
       "buy-furniture",
       "fell-trees",
       "hunt-land",
+      "take-small-game",
+      "fish-the-water",
+      "cut-bee-tree",
       "travel-gonzales",
-      "travel-home",
       "visit",
       "work",
       "rest"

@@ -179,6 +179,9 @@ test('on March 6 every man inside dies and every woman is spared, and no family 
 
 test('the Matamoros men are split between San Patricio and Agua Dulce and rolled for killed, captured and escaped, told when the word comes', () => {
   const world = winter();
+  // A class whose map has no south (saved before 2026-09-25 and never opened through the save's door): the men stay at Refugio
+  // and the fights are rolled where they stand, as they always were. The south on the engine is tests/battle-south.test.mjs's.
+  world.map.sites['san-patricio'].outside = true;
   const south = grown(world).slice(0, 14);
   for (const person of south) serve(world, person, 'matamoros', 'refugio');
   untilMoment(world, 'agua-dulce');

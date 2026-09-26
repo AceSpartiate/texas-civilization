@@ -15,7 +15,7 @@
 import { record } from './events.mjs';
 import { establishTruth } from './knowledge.mjs';
 import { alamoRole } from './alamo.mjs';
-// Where the compound lies on the map, and each person's post on its walls: sim/alamo-posts.mjs (docs/BATTLES.md §7).
+// Where the compound lies on the map, and each person's post on its walls: sim/alamo-posts.mjs (docs/BATTLES.md §8).
 import { ALAMO_ORIGIN, onMap, postFor, spotOf, walkToPost } from './alamo-posts.mjs';
 export { ALAMO_ORIGIN, onMap };
 

@@ -63,9 +63,12 @@ const lerp = (a, b, t) => a + (b - a) * t;
  * where it matters (Concepción's riverbank).
  */
 export function layoutSide(side) {
-  const n = Math.max(0, Math.min(60, side.drawn | 0)), style = side.style, seed = `${side.side}:${style}:${n}`;
+  // A part of a side (§6.13) that is not formed is laid out once, scattered, whatever its style this phase: asleep, running or
+  // giving up, the same men stand in the same places.
+  const style = side.part && !FORMED.includes(side.style) ? 'loose' : side.style === 'camp' ? 'loose' : side.style;
+  const n = Math.max(0, Math.min(60, side.drawn | 0)), seed = side.part ? `${side.key}:${n}` : `${side.side}:${style}:${n}`;
   const out = [];
-  // A wall of a given length (the Alamo's garrison along its walls, docs/BATTLES.md §7): its men spread evenly along it.
+  // A wall of a given length (the Alamo's garrison along its walls, docs/BATTLES.md §8): its men spread evenly along it.
   if (style === 'wall' && side.spread?.width) {
     for (let i = 0; i < n; i++) out.push({ along: (hash(`${seed}:${side.key || ''}:${i}:j`) - 0.5) * 0.002, across: n > 1 ? (i / (n - 1) - 0.5) * side.spread.width : 0, rank: 0, index: i, wait: WAIT_MIN_MS + hash(`${seed}:${i}:w`) * WAIT_SPAN_MS, phase: hash(`${seed}:${i}:p`) });
     return out;
@@ -87,9 +90,11 @@ export function layoutSide(side) {
   // Loose, bank, street and rout: scattered through an area with a minimum gap, no two figures on one spot, no rows.
   const spec = LAYOUT[style] || LAYOUT.loose;
   const width = side.spread?.width ?? spec.width, depth = side.spread?.depth ?? spec.depth;
-  // A small party in a small place (the Alamo's plaza after the wall fell) stands closer than a field's volunteers do: the gap
-  // shrinks with the ground each man has, so the whole count is drawn. A field-sized force keeps the style's own gap.
-  const gap = side.spread ? Math.min(spec.gap, 0.6 * Math.sqrt(width * depth / Math.max(1, n))) : spec.gap;
+  // A part huddled in a small place - eight men round a fire, a house's men at its door - keeps its men apart by what the
+  // place allows, so every one of them is drawn; so does a small party given its own ground (the Alamo's plaza after the wall
+  // fell). Everything else keeps the style's own gap, as it always has.
+  const gap = side.part ? Math.min(spec.gap, 0.6 * Math.sqrt(width * depth * 0.6 / Math.max(1, n)))
+    : side.spread ? Math.min(spec.gap, 0.6 * Math.sqrt(width * depth / Math.max(1, n))) : spec.gap;
   for (let i = 0, tries = 0; out.length < n && tries < n * 40; tries++) {
     const a = hash(`${seed}:${tries}:a`), b = hash(`${seed}:${tries}:b`);
     // Thicker toward the middle and the front, thinner at the ends: men bunch behind the best cover, not in a grid.
@@ -100,13 +105,24 @@ export function layoutSide(side) {
   return out;
 }
 /** One layout per side, style, count and ground: a force gathered close at night is not laid out as the line at dawn. */
-const layoutKey = side => `${side.key && side.key !== side.side ? `${side.key}:` : ''}${side.side}:${side.style}:${side.drawn}:${side.spread?.width ?? ''}:${side.spread?.depth ?? ''}`;
+const layoutKey = side => side.part
+  ? `${side.key}:${FORMED.includes(side.style) ? side.style : 'scatter'}:${side.drawn}:${side.spread?.width ?? ''}:${side.spread?.depth ?? ''}`
+  : `${side.key && side.key !== side.side ? `${side.key}:` : ''}${side.side}:${side.style}:${side.drawn}:${side.spread?.width ?? ''}:${side.spread?.depth ?? ''}`;
+/** The styles laid out in files and ranks; every other is scattered. */
+const FORMED = Object.freeze(['ranks', 'mounted', 'column', 'wall']);
 /**
  * Every body the page draws: each side, and each group drawn apart from its side (sim/battle-stage.mjs `phase.groups`: Béxar's
  * divisions in their houses, men on a roof, a file under the loopholes, the townspeople let out of a breached house). A
  * side's key is its side; a group's is `g:` and its id.
  */
-const bodiesOf = battle => [...battle.sides.map(side => ({ ...side, key: side.side })), ...(battle.groups || []).map(group => ({ ...group, key: `g:${group.id}` }))];
+const bodiesOf = battle => [
+  // A side drawn in parts (§6.13: Johnson's men on the square and in three houses, the dragoons in two groves) is drawn as its
+  // parts, each a body keyed as a group is, so a member's unit, a fall's unit and the layout all find it the same way.
+  ...battle.sides.flatMap(side => side.parts?.length
+    ? side.parts.map(part => ({ ...part, side: side.side, name: side.name, mounted: side.mounted, dismounted: side.dismounted, part: true, key: `g:${part.id}` }))
+    : [{ ...side, key: side.side }]),
+  ...(battle.groups || []).map(group => ({ ...group, key: `g:${group.id}` })),
+];
 /** Who the townspeople are drawn as, in turn: the library's own women, children and old men (never soldiers). */
 const TOWNSFOLK = ['rust-woman', 'smallchild', 'elder', 'indigo'];
 /** A figure's place on the ground from its slot: the side's centre, turned to face the way the side faces. */
@@ -137,17 +153,22 @@ export function createBattleView(art) {
     // Presentation evidence across frames, read by scripts/battle-gonzales-browser-proof.mjs and by nothing in the page.
     shotsTotal: 0, shotsBy: {}, linesShown: new Set(), memberClips: new Set(),
     loopholeShots: 0, gunShotsTotal: 0, gunShotsBy: {}, peopleFellAt: new Map(), peopleSpots: {}, peopleShown: new Set(), civiliansSeen: 0, breachesSeen: new Set(), namedFalls: new Set(), unitsSeen: new Set(),
+    // §6.13: where each fallen figure went down (he lies there while his part moves on), and the herd.
+    fallenSpots: new Map(), herd: null,
   };
+  // A Texian on horseback (Grant's party, `mounted` on the side) is drawn riding. stand-in: docs/ART_REQUESTS.md, request
+  // 2026-09-25 "the south's fights" item 3 - the mounted courier's riding clip, until a volunteer on horseback exists.
+  // A company given the figure `rider` (the Alamo's Gonzales men riding in) is drawn the same.
   const figureOf = (side, slot) => side.figure === 'rider' ? 'rider' : side.side === 'mexican'
     ? (side.style === 'mounted' && !(slot.rank < (side.dismounted || 0)) ? 'dragoon' : 'regular')
-    : 'volunteer';
+    : side.mounted && side.pose !== 'surrender' && side.style !== 'camp' ? 'rider' : 'volunteer';
 
   /** A new tick of the battle: remember where each side was drawn, so it walks from there to the new place. */
   function accept(battle, now, tickMs) {
     const key = `${battle.id}`;
     if (view.key !== key) {
       view.key = key; view.sides.clear(); view.smoke = []; view.flashes = []; view.shotsSeen.clear(); view.linesSeen.clear(); view.fallenAt.clear(); view.cannonFiredAt = [];
-      view.gunFiredAt.clear(); view.breachAt.clear(); view.memberFallAt.clear(); view.peopleFellAt.clear();
+      view.gunFiredAt.clear(); view.breachAt.clear(); view.memberFallAt.clear(); view.peopleFellAt.clear(); view.fallenSpots.clear(); view.herd = null;
       view.minute = null;
     }
     if (battle.minute === view.minute) return;
@@ -158,6 +179,16 @@ export function createBattleView(art) {
       const drawnAt = was ? placeAt(was, now) : { x: side.x, y: side.y };
       view.sides.set(side.key, { ...side, from: drawnAt, to: { x: side.x, y: side.y }, at: now, duration: previousMinute === null ? 0 : view.tickMs });
     }
+    // A side drawn in parts is still a side: its own place kept too, for its facing, its officer's words and the gun.
+    for (const side of battle.sides.filter(one => one.parts?.length)) {
+      const was = view.sides.get(side.side);
+      const drawnAt = was ? placeAt(was, now) : { x: side.x, y: side.y };
+      view.sides.set(side.side, { ...side, key: side.side, from: drawnAt, to: { x: side.x, y: side.y }, at: now, duration: previousMinute === null ? 0 : view.tickMs });
+    }
+    if (battle.herd) {
+      const herdAt = view.herd ? placeAt(view.herd, now) : { x: battle.herd.x, y: battle.herd.y };
+      view.herd = { ...battle.herd, from: herdAt, to: { x: battle.herd.x, y: battle.herd.y }, at: now, duration: previousMinute === null ? 0 : view.tickMs };
+    } else view.herd = null;
     // Words and shots dated inside the tick that just ended are given the real moment of the tick they fell in, so a line
     // said at the fourth minute of a five-minute tick is drawn four fifths of the way through it.
     const span = previousMinute === null ? 0 : Math.max(1, battle.minute - previousMinute);
@@ -238,10 +269,16 @@ export function createBattleView(art) {
     // A family's own person hit at the moment the server staged (docs/BATTLES.md §2.6): down and lying still if killed, sitting
     // hurt and carried off if wounded, a slight wound up again after a while. No blood, no gore (VISION.md §16).
     const fell = view.memberFallAt.get(member.id), since = fell ? time + view.skew - fell.at : -1;
-    if (fell && since >= 0) {
+    // Taken (San Patricio, Agua Dulce): hands up from that moment. Got away: as the men round him are.
+    if (fell && since >= 0 && fell.fate === 'captured') return { clip: 'volunteer-surrender', timeMs: time };
+    if (fell && since >= 0 && fell.fate !== 'escaped') {
       if (fell.fate === 'killed') return { sprite: since < 700 ? 'volunteer-injured' : 'volunteer-reclining', flip: !right, still: true, fallen: true };
       if (fell.grade !== 'slight' || since < 20000) return { sprite: 'volunteer-injured', flip: !right, still: true, fallen: true };
     }
+    // His part's own pose (§6.13): asleep by the fire, hands up, or riding with Grant's party.
+    if (member.pose === 'asleep') return { sprite: 'volunteer-reclining', still: true };
+    if (member.pose === 'surrender') return { clip: 'volunteer-surrender', timeMs: time };
+    if (member.mounted) return { clip: 'mounted-courier-e', flip: !right, timeMs: time, scale: 1.35 };
     if (!member.firing) return { clip: member.moving ? 'volunteer-march' : right ? 'volunteer-idle-e' : 'volunteer-idle-w', flip: member.moving ? !right : false, timeMs: time };
     const cycle = FIRE_CLIP_MS + member.wait, t = (time + member.offset) % cycle;
     if (t < member.wait) return { sprite: member.kneel ? 'volunteer-load' : right ? 'volunteer-e' : 'volunteer-w', flip: member.kneel ? !right : false, still: true };
@@ -277,9 +314,10 @@ export function createBattleView(art) {
       // The unit the member stands in (Béxar's division, the Greys' file), or the Texian side: posed by its fire.
       const unit = battle.memberUnits?.[id], body = unit ? bodyOf(unit) : null;
       const force = body || texianSide;
+      const pose = force?.pose && force.pose !== 'stand' ? force.pose : force?.style === 'camp' ? 'asleep' : 'stand';
       view.members.set(id, {
-        id, unit: body?.key || null,
-        firing: ['scattered', 'volley', 'picket'].includes(force?.fire) && force.action !== 'gone',
+        id, unit: body?.key || null, pose, mounted: Boolean(texianSide?.mounted) && pose !== 'surrender' && pose !== 'asleep',
+        firing: ['scattered', 'volley', 'picket'].includes(force?.fire) && force.action !== 'gone' && !['asleep', 'surrender'].includes(pose),
         moving: body ? Boolean(body.moving) : ['advance', 'withdraw', 'follow'].includes(texianSide?.action),
         wait: WAIT_MIN_MS + hash(`${id}:w`) * WAIT_SPAN_MS, offset: hash(`${id}:o`) * 20000, kneel: hash(`${id}:k`) < 0.3,
       });
@@ -307,6 +345,10 @@ export function createBattleView(art) {
 
     const figures = [];
     let civilians = 0;
+    // The houses, the fire and the groves the fight is among, behind everybody, and the herd (§6.13).
+    const sceneryDrawn = drawScenery(ctx, battle, camera, figurePx, time);
+    const herdDrawn = drawHerd(ctx, camera, figurePx, time, now);
+    const poses = { asleep: 0, hidden: 0, surrender: 0, rider: 0 };
     const offScreen = point => bounds && (point.x < -90 || point.y < -90 || point.x > bounds.width + 90 || point.y > bounds.height + 140);
     for (const side of bodies) {
       const shown = view.sides.get(side.key);
@@ -331,8 +373,13 @@ export function createBattleView(art) {
         const front = camera.toScreen({ x: centre.x + facing.x * 0.012, y: centre.y + facing.y * 0.012 });
         if (!offScreen(front)) figures.push({ y: front.y + 1, kind: 'cover', point: front, sprite: side.cover === 'barricade' ? 'palisade' : 'sacks', size: figurePx * (side.cover === 'barricade' ? 2.2 : 1.5), flip: !right });
       }
+      const pose = side.pose && side.pose !== 'stand' ? side.pose : side.style === 'camp' ? 'asleep' : 'stand';
       for (const slot of slots) {
-        const ground = onGround(centre, facing, slot);
+        const seedKey = `${side.key}:${slot.index}`;
+        const at = onGround(centre, facing, slot), down = fallen.get(slot.index);
+        // A man who fell lies where he fell, whatever his part does after (§6.13).
+        if (down && side.part && !view.fallenSpots.has(seedKey)) view.fallenSpots.set(seedKey, at);
+        const ground = down && side.part ? view.fallenSpots.get(seedKey) : at;
         // A family's person stands in for the sampled man nearest them: on a wall of a given length (the Alamo's), where men
         // stand a few yards apart, only the one they are standing in is given up.
         if (memberPoints.some(m => Math.hypot(m.x - ground.x, m.y - ground.y) < (side.style === 'wall' && side.spread?.width ? 0.004 : 0.014))) continue;
@@ -341,9 +388,8 @@ export function createBattleView(art) {
         if (offScreen(point)) continue;
         // On a flat roof behind its parapet: drawn standing up on the house, not in the street below it.
         if (side.cover === 'roof') point.y -= figurePx * 0.5;
-        const size = kind === 'dragoon' ? figurePx * 1.35 : figurePx;
-        const seed = `${side.key}:${slot.index}`;
-        const down = fallen.get(slot.index);
+        const size = kind === 'dragoon' || kind === 'rider' ? figurePx * 1.35 : figurePx;
+        const seed = seedKey;
         let clip = null, sprite = null, timeMs = time, flip = !right, still = false;
         if (down) {
           // A wounded man went with his side when it left the field.
@@ -354,6 +400,49 @@ export function createBattleView(art) {
         }
         if (side.action === 'gone') continue;
         const moving = Boolean(side.moving);
+        // Shut in a house (§6.13): nobody drawn; each man's shot a flash and a puff at the door or a window, on his own reload,
+        // counted apart (`houses`) so a proof can tell the house's own fire from the men in the open.
+        if (pose === 'hidden') {
+          poses.hidden++;
+          if (still || side.fire === 'none') continue;
+          const wait = WAIT_MIN_MS + hash(`${seed}:hw`) * WAIT_SPAN_MS, round = FIRE_CLIP_MS + wait, shifted = time + hash(`${seed}:hp`) * 20000;
+          const inRound = shifted % round, houseKey = `${seed}:h${Math.floor(shifted / round)}`;
+          if (inRound >= wait + AIM_MS && inRound < wait + AIM_MS + 400 && !view.shotsSeen.has(houseKey)) {
+            view.shotsSeen.add(houseKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1; view.shotsBy.houses = (view.shotsBy.houses || 0) + 1;
+            const door = { x: centre.x + facing.x * 0.012 + (slot.across || 0) * 0.35, y: centre.y + facing.y * 0.012 + (slot.along || 0) * 0.2 };
+            puff(door.x + (right ? 1 : -1) * 0.004, door.y - 0.008, now, { wind }); flash(door.x, door.y - 0.004, right, now, 0.8);
+          }
+          continue;
+        }
+        if (pose === 'asleep') {
+          // Asleep on the ground by the fire, rolled in a blanket.
+          poses.asleep++;
+          figures.push({ y: point.y, kind, side: side.side, point, size: figurePx, clip: null, sprite: 'volunteer-reclining', timeMs, flip: slot.index % 2 === 0, still: true, seed });
+          drawnBy[side.key].push(point); drawn[side.side].push(point);
+          continue;
+        }
+        if (pose === 'surrender') {
+          poses.surrender++;
+          figures.push({ y: point.y, kind, side: side.side, point, size: figurePx, clip: `${side.side === 'mexican' ? 'regular' : 'volunteer'}-surrender`, sprite: null, timeMs: time + slot.index * 137, flip: false, still: false, seed });
+          drawnBy[side.key].push(point); drawn[side.side].push(point);
+          continue;
+        }
+        if (kind === 'rider') {
+          // A man on horseback: riding, and his shot from where his hands are, as a dragoon's is.
+          poses.rider++;
+          figures.push({ y: point.y, kind, side: side.side, point, size, clip: 'mounted-courier-e', sprite: null, timeMs: time, flip: !right, still: false, seed });
+          if (!still && (side.fire === 'scattered' || (side.fire === 'picket' && slot.index % 4 === 0))) {
+            const wait = 7000 + hash(`${seed}:rw`) * 12000, shifted = time + hash(`${seed}:rp`) * 25000, t = shifted % wait;
+            const shotKey = `${seed}:r${Math.floor(shifted / wait)}`;
+            if (t < 400 && !view.shotsSeen.has(shotKey)) {
+              view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
+              const muzzle = { x: ground.x + (right ? 1 : -1) * 0.014, y: ground.y - 0.012 };
+              puff(muzzle.x, muzzle.y, now, { wind }); flash(muzzle.x, muzzle.y, right, now, 1);
+            }
+          }
+          drawnBy[side.key].push(point); drawn[side.side].push(point);
+          continue;
+        }
         // The people of the town, let out of a house the men broke into: women, children and old men walking away unhurt. They
         // never fire and are never drawn falling (sim/battle-stage.mjs `checkEngagement`; `HIST-TEX-043`).
         if (side.civilians) {
@@ -376,13 +465,6 @@ export function createBattleView(art) {
             const hole = { x: ground.x + facing.x * 0.01, y: ground.y + facing.y * 0.01 - 0.006 };
             puff(hole.x, hole.y, now, { wind }); flash(hole.x, hole.y, right, now, 0.8);
           }
-          continue;
-        }
-        if (kind === 'rider') {
-          // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 6 - a company of mounted Texians (the Gonzales
-          // men riding in) is drawn as the library's mounted courier, until a mounted volunteer set exists.
-          figures.push({ y: point.y, kind, side: side.side, point, size: figurePx * 1.35, clip: 'mounted-courier-e', timeMs: time, flip: !right, seed });
-          drawnBy[side.key].push(point);
           continue;
         }
         if (kind === 'dragoon') {
@@ -434,7 +516,7 @@ export function createBattleView(art) {
         } else if (moving) { clip = `${kind}-march`; flip = !right; }
         else { sprite = `${kind}-${right ? 'e' : 'w'}`; still = true; flip = false; }
         figures.push({ y: point.y, kind, side: side.side, point, size, clip, sprite, timeMs, flip, still, seed });
-        if (side.key === side.side) drawn[side.side].push(point);
+        if (side.key === side.side || side.part) drawn[side.side].push(point);
         drawnBy[side.key].push(point);
       }
     }
@@ -470,16 +552,19 @@ export function createBattleView(art) {
     // Named people where the record puts them (the Alamo's Travis and Joe), and smoke going up far off.
     const peopleShown = drawPeople(ctx, battle, camera, figurePx, time, now);
     for (const plume of battle.plumes || []) drawPlume(ctx, plume, camera, figurePx, time, reducedMotion);
-    // Night, and the dawn coming up through it (`battle.light`), over the ground and the men but under the flashes and the
-    // words, so a shot in the dark is a flash in the dark. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item
-    // 4 - a darkening wash until night art exists.
-    if (battle.light > 0) {
+    // Night (§6.13): the field dark but for lit windows, the fire and the flashes, which are drawn over it.
+    const night = battle.light === 'night' || battle.light === 'dawn' ? drawNight(ctx, battle, camera, figurePx, now, bounds) : null;
+    // A darkness given as a number (the Alamo's nights, and the dawn coming up through the assault, 0 to 1), over the ground and
+    // the men but under the flashes and the words. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 4 - a
+    // darkening wash until night art exists.
+    if (typeof battle.light === 'number' && battle.light > 0) {
       ctx.save(); ctx.fillStyle = `rgba(14,20,44,${(0.62 * battle.light).toFixed(3)})`; ctx.fillRect(0, 0, ctx.canvas?.width || bounds?.width || 0, ctx.canvas?.height || bounds?.height || 0); ctx.restore();
     }
     // Flashes: a tenth of a second each, over the figures.
     view.flashes = view.flashes.filter(f => now - f.born < 130);
     for (const f of view.flashes) {
       const p = camera.toScreen(f), s = figurePx * 0.34 * f.size;
+      if (night) glow(ctx, p.x, p.y - figurePx * 0.55, figurePx * 1.6, 'rgba(255,200,120,.45)');
       if (!art.drawSprite(ctx, f.right ? 'muzzle-flash-e' : 'muzzle-flash-w', p.x, p.y - figurePx * 0.55, s)) {
         ctx.fillStyle = 'rgba(255,214,120,.9)'; ctx.beginPath(); ctx.arc(p.x, p.y - figurePx * 0.55, s * 0.35, 0, Math.PI * 2); ctx.fill();
       }
@@ -507,9 +592,13 @@ export function createBattleView(art) {
       unitsSeen: [...view.unitsSeen].map(key => key.slice(2)), loopholeShots: view.loopholeShots, gunShots: view.gunShotsTotal, guns: gunsShown,
       breaches: breachesShown, breachesOpened: view.breachesSeen.size, civilians, civiliansSeen: view.civiliansSeen, namedFalls: [...view.namedFalls], whiteFlag: (battle.flags || []).length ? view.whiteFlag || null : null,
       memberFalls: [...view.memberFallAt.entries()].filter(([, fall]) => fall.at <= now).map(([id, fall]) => ({ id, fate: fall.fate })),
-      // The Alamo (docs/BATTLES.md §7): each gun's shots, the named people, the dark, the plumes, and each group's own order
+      // §6.13: the parts each side is drawn in, what their men were doing, the houses and groves, the herd, the night.
+      parts: Object.fromEntries(battle.sides.map(side => [side.side, (side.parts || []).length])), poses, scenery: sceneryDrawn, herd: herdDrawn,
+      night: Boolean(night), lit: night?.lit || 0,
+      memberFates: Object.fromEntries([...view.memberFallAt.entries()].filter(([id, fall]) => fall.at <= now && view.members.has(id)).map(([id, fall]) => [id, fall.fate])),
+      // The Alamo (docs/BATTLES.md §8): each gun's shots, the named people, the dark, the plumes, and each group's own order
       // (a column's files against a wall's line against a crowd: nearest-neighbour spread over the mean).
-      gunShotsBy: { ...view.gunShotsBy }, people: peopleShown, light: battle.light || 0, plumes: (battle.plumes || []).length,
+      gunShotsBy: { ...view.gunShotsBy }, people: peopleShown, light: typeof battle.light === 'number' ? battle.light : 0, plumes: (battle.plumes || []).length,
       groupStyles: Object.fromEntries((battle.groups || []).map(group => [group.id, group.style])),
       groupRegularity: Object.fromEntries(Object.entries(drawnBy).filter(([key]) => key.startsWith('g:')).map(([key, points]) => [key.slice(2), regularity(points)])),
       frameMs: { last: +ms.toFixed(2), median: +sorted[Math.floor(sorted.length / 2)].toFixed(2), p95: +sorted[Math.floor(sorted.length * 0.95)].toFixed(2) },
@@ -532,10 +621,74 @@ export function createBattleView(art) {
       // In a loophole group only the men who can be seen can be seen to fall.
       const seen = side.cover === 'loophole' ? slots.filter(slot => slot.index % 4 === 0) : slots;
       const order = [...seen].sort((a, b) => hash(`${fall.minute}:${a.index}`) - hash(`${fall.minute}:${b.index}`));
-      for (const slot of order.slice(0, fall.count)) if (!map.has(slot.index)) map.set(slot.index, { at: fall.at, carried: fall.carried || battle.over, wounded: fall.wounded });
+      // A part's fallen take the next men of it who are still up, and lie where they fell (§6.13); nobody is carried off it.
+      const up = side.part ? order.filter(slot => !map.has(slot.index)) : order;
+      for (const slot of up.slice(0, fall.count)) if (!map.has(slot.index)) map.set(slot.index, { at: fall.at, carried: fall.carried || (battle.over && !side.part), wounded: fall.wounded });
       bySide.set(side.key, map);
     }
     return bySide;
+  }
+  /** The houses, the fire and the groves, where the engagement's data puts them (§6.13). */
+  function drawScenery(ctx, battle, camera, figurePx, time) {
+    let count = 0;
+    for (const item of battle.scenery || []) {
+      const p = camera.toScreen(item);
+      // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the south's fights" items 2 and 5 - the library's jacal and cabin for
+      // San Patricio's houses and its live oaks and mesquite for the groves at Agua Dulce.
+      if (item.kind === 'grove') {
+        for (let i = 0; i < (item.trees || 5); i++) {
+          const a = hash(`${item.id}:${i}:a`) * Math.PI * 2, r = Math.sqrt(hash(`${item.id}:${i}:r`)) * (item.spread || 0.08);
+          const q = camera.toScreen({ x: item.x + Math.cos(a) * r, y: item.y + Math.sin(a) * r * 0.7 });
+          if (!art.drawSprite(ctx, i % 3 === 2 ? 'mesquite-large' : 'live-oak-large', q.x, q.y, figurePx * 3.2)) { ctx.fillStyle = '#5d7148'; ctx.beginPath(); ctx.arc(q.x, q.y - figurePx, figurePx * 1.1, 0, Math.PI * 2); ctx.fill(); }
+        }
+      } else if (item.kind === 'campfire') {
+        if (!art.animated(ctx, 'campfire', p.x, p.y, figurePx * 0.9, item.id, { timeMs: time })) art.drawSprite(ctx, 'campfire', p.x, p.y, figurePx * 0.9);
+      } else if (!art.drawSprite(ctx, item.sprite || 'cabin-small', p.x, p.y, figurePx * 2.4)) {
+        ctx.fillStyle = '#8a7658'; ctx.fillRect(p.x - figurePx, p.y - figurePx * 1.2, figurePx * 2, figurePx * 1.2);
+      }
+      count++;
+    }
+    return count;
+  }
+  /**
+   * Several hundred horses as a loose drove a couple of dozen strong, moving with the drive and scattering in a charge.
+   * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the south's fights" item 4 - the library's mustang, repeated.
+   */
+  function drawHerd(ctx, camera, figurePx, time, now) {
+    const herd = view.herd;
+    if (!herd) return 0;
+    const at = placeAt(herd, now), right = herd.to.x >= herd.from.x;
+    const n = Math.min(24, Math.max(6, Math.round((herd.count || 60) / 12)));
+    const width = herd.scatter ? 0.7 : 0.26, depth = herd.scatter ? 0.5 : 0.16;
+    for (let i = 0; i < n; i++) {
+      const q = camera.toScreen({ x: at.x + (hash(`herd:${i}:x`) - 0.5) * width, y: at.y + (hash(`herd:${i}:y`) - 0.5) * depth });
+      if (!art.animated(ctx, herd.moving || herd.scatter ? 'mustang-gallop' : 'mustang-graze', q.x, q.y, figurePx * 1.15, `herd:${i}`, { timeMs: time + i * 211, flip: !right })) {
+        ctx.fillStyle = '#7a5b3c'; ctx.fillRect(q.x - figurePx * 0.4, q.y - figurePx * 0.5, figurePx * 0.8, figurePx * 0.35);
+      }
+    }
+    return n;
+  }
+  /** A warm light on the ground: a lantern, the fire, a musket's flash in the dark. */
+  function glow(ctx, x, y, r, colour) {
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, colour); g.addColorStop(1, 'rgba(255,190,110,0)');
+    ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+  }
+  /**
+   * The dark of a night fight over the whole view, with the lit windows and the fire through it. stand-in: docs/ART_REQUESTS.md,
+   * request 2026-09-25 "the south's fights" item 1 - a wash and a drawn glow, until a night layer exists.
+   */
+  function drawNight(ctx, battle, camera, figurePx, now, bounds) {
+    const width = bounds?.width ?? ctx.canvas?.width ?? 0, height = bounds?.height ?? ctx.canvas?.height ?? 0;
+    ctx.save(); ctx.fillStyle = battle.light === 'dawn' ? 'rgba(20,26,48,.3)' : 'rgba(8,12,30,.7)'; ctx.fillRect(0, 0, width, height); ctx.restore();
+    let lit = 0;
+    for (const item of battle.scenery || []) {
+      if (!item.lit) continue;
+      const p = camera.toScreen(item);
+      glow(ctx, p.x, p.y - figurePx * (item.kind === 'campfire' ? 0.2 : 0.6), figurePx * (item.kind === 'campfire' ? 2.6 : 1.8), 'rgba(255,184,96,.55)');
+      lit++;
+    }
+    return { lit };
   }
   function drawFallen(ctx, f, now) {
     const since = now - f.down.at, kind = f.side === 'mexican' ? 'regular' : 'volunteer';

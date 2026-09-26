@@ -1,4 +1,4 @@
-// The Alamo on the battle engine (docs/BATTLES.md §7; docs/battle-research/staging.md §5): the thirteen days as a living
+// The Alamo on the battle engine (docs/BATTLES.md §8; docs/battle-research/staging.md §5): the thirteen days as a living
 // siege and the dawn assault, the posts on the walls, the couriers and the relief riding and never set down, each fate at its
 // moment, the family at home learning nothing before the word, and who is sent what. Every test here is proved by an
 // injection that fails it and no other in this file (scripts/battle-injections.mjs).
@@ -184,7 +184,7 @@ test('the clock lives the siege a quarter-day a tick only for a class with someb
   };
   const watched = count(true), unwatched = count(false);
   const minutes = ticks => +(ticks * PACES.study / 60000).toFixed(1);
-  // Recorded for the report (docs/BATTLES.md §7.3): what the living siege adds to a class with somebody inside.
+  // Recorded for the report (docs/BATTLES.md §8.3): what the living siege adds to a class with somebody inside.
   console.log(`siege ticks watched ${watched.siege} (${minutes(watched.siege)} min) against ${unwatched.siege} (${minutes(unwatched.siege)} min); assault ${watched.fight} and ${unwatched.fight}`);
   assert.ok(watched.siege >= unwatched.siege + 20, `the siege was not lived more slowly with somebody inside: ${watched.siege} against ${unwatched.siege}`);
   assert.ok(minutes(watched.siege - unwatched.siege) <= 8, `the living siege costs ${minutes(watched.siege - unwatched.siege)} real minutes, more than eight`);

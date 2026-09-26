@@ -1,5 +1,5 @@
 // The Alamo: the thirteen days of the siege as a living siege, and the dawn assault of March 6, 1836, on the engine
-// (sim/battle-stage.mjs, docs/BATTLES.md §7). Staged from docs/battle-research/staging.md §5 and docs/battle-research/alamo.md;
+// (sim/battle-stage.mjs, docs/BATTLES.md §8). Staged from docs/battle-research/staging.md §5 and docs/battle-research/alamo.md;
 // the claims are `HIST-TEX-500` to `-506` and `FIC-GONZ-430` to `-434` in HISTORY.md, beside the siege's own `HIST-TEX-054` to
 // `-058` and `-430` to `-439`.
 //
