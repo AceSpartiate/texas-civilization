@@ -10,7 +10,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectFamily, stepWorld, projectWorld, validateWorld } from '../sim/world.mjs';
 import { learn } from '../sim/knowledge.mjs';
 import { CLOTHING, HAIR, HEAD, SKIN, appearanceCode, appearanceOf } from '../sim/appearance.mjs';
-import { decodeAppearance } from '../public/look-vocabulary.js';
+import { decodeAppearance } from '../sim/look-vocabulary.mjs';
 
 test('every offered appearance survives the compact map channel exactly', () => {
   for (const sex of ['male', 'female']) for (const skin of SKIN) for (const hair of HAIR)

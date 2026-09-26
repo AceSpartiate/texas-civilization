@@ -24,8 +24,8 @@
 
 import { rollRefusal } from './family.mjs';
 /** SKIN is ordered lightest to darkest, so "between the parents" means something. */
-import { SKIN, HAIR, CLOTHING, HEAD } from '../public/look-vocabulary.js';
-export { SKIN, HAIR, CLOTHING, HEAD, appearanceCode } from '../public/look-vocabulary.js';
+import { SKIN, HAIR, CLOTHING, HEAD } from './look-vocabulary.mjs';
+export { SKIN, HAIR, CLOTHING, HEAD, appearanceCode } from './look-vocabulary.mjs';
 
 const PARENT_ROLES = ['father', 'mother'];
 export const isParent = entity => PARENT_ROLES.includes(entity?.kin?.role);
