@@ -20,6 +20,7 @@
 // hunted species is ever named.
 import { heavyWorkPace, tooYoung, tooYoungWhy } from './family.mjs';
 import { castVote, joinService, servingWhy, winterOffered, winterRefusal } from './winter.mjs';
+import { reliefEstimate } from './alamo.mjs';
 import { houstonCamp, joinEstimateWords } from './houston.mjs';
 import { southSite } from './south.mjs';
 import { record } from './events.mjs';
@@ -669,7 +670,9 @@ export const CHORES = {
   // The relief (sim/alamo.mjs, docs/COLONIES.md §7f): to Gonzales, to ride in with Kimbell and Martin on February 27.
   'join-relief': {
     war: 'gone to ride for the Alamo',
-    name: 'Ride to Gonzales to go in to the Alamo', skill: 'hands', where: 'home', winter: true,
+    name: 'Ride to Gonzales to go in to the Alamo', skill: 'hands', where: 'home', winter: true, alsoFrom: ['gonzales'],
+    // How long the road to Gonzales is, and whether it is in time, said before anybody goes (sim/alamo.mjs `reliefEstimate`).
+    estimate: (world, household, entity) => reliefEstimate(world, household, entity),
     describe: 'Travis has written that he is besieged. Men are gathering at Gonzales to ride through the Mexican lines into the Alamo; whoever is there by the afternoon of February 27 goes with them.',
     steps: [
       { travel: 'gonzales', doing: 'on the road to Gonzales' },
@@ -1320,7 +1323,9 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (chore.winter) { const why = winterRefusal(world, household, entity, choreId); if (why) return { can: false, why }; }
   // A chore registered from its own module carries its own refusal (`registerChores`).
   if (chore.refusal) { const why = chore.refusal(world, household, entity); if (why) return { can: false, why }; }
-  if (chore.where === 'home' && entity.location.siteId !== household.homeSiteId && !withTheFlight) return { can: false, why: `${entity.name} is not at home.` };
+  // `alsoFrom`: a work that may be begun where it goes, too - a courier out of the Alamo standing in Gonzales may go back in
+  // with the relief from there (docs/battle-research/staging.md §5.6 (d)).
+  if (chore.where === 'home' && entity.location.siteId !== household.homeSiteId && !withTheFlight && !chore.alsoFrom?.includes(entity.location.siteId)) return { can: false, why: `${entity.name} is not at home.` };
   if (chore.helps) { const why = helpRefusal(world, entity); if (why) return { can: false, why }; }
   // On the real land the house, the field and the well wait for the family to say where the house stands (sim/homesite.mjs).
   if ((chore.onSite || chore.house || chore.field || chore.plotWork) && choosing(household)) return { can: false, why: 'Choose where the house will stand first.' };
@@ -1740,8 +1745,10 @@ export function choresFor(world, household, entity, logsOut = null) {
       : null;
     // `level` used to ride here for every chore for every person and was read by nothing
     // at all - thirty-six copies a tick of a number with no reader.
+    // An honest estimate of getting there in time, where a work has one (the relief for the Alamo): words, from the server.
+    const estimate = chore.estimate && can ? chore.estimate(world, household, entity) : null;
     return can
-      ? { id, can: true, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }) }
+      ? { id, can: true, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }), ...(estimate && { estimate }) }
       : { id, can: false, why, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }) };
   });
   // A hunt on the family's land refused for the same reason as the hunt in the timber says so once: the page reads it there.

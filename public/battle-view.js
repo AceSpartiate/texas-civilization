@@ -70,6 +70,11 @@ export function layoutSide(side) {
   const style = side.part && !FORMED.includes(side.style) ? 'loose' : side.style === 'camp' ? 'loose' : side.style;
   const n = Math.max(0, Math.min(60, side.drawn | 0)), seed = side.part ? `${side.key}:${n}` : `${side.side}:${style}:${n}`;
   const out = [];
+  // A wall of a given length (the Alamo's garrison along its walls, docs/BATTLES.md §9): its men spread evenly along it.
+  if (style === 'wall' && side.spread?.width) {
+    for (let i = 0; i < n; i++) out.push({ along: (hash(`${seed}:${side.key || ''}:${i}:j`) - 0.5) * 0.002, across: n > 1 ? (i / (n - 1) - 0.5) * side.spread.width : 0, rank: 0, index: i, wait: WAIT_MIN_MS + hash(`${seed}:${i}:w`) * WAIT_SPAN_MS, phase: hash(`${seed}:${i}:p`) });
+    return out;
+  }
   if (['ranks', 'mounted', 'column', 'wall'].includes(style)) {
     const spec = LAYOUT[style];
     const ranks = style === 'column' ? Math.ceil(n / 4) : style === 'wall' ? 1 : n > 30 ? 3 : 2;
@@ -89,8 +94,10 @@ export function layoutSide(side) {
   const spec = LAYOUT[style] || LAYOUT.loose;
   const width = side.spread?.width ?? spec.width, depth = side.spread?.depth ?? spec.depth;
   // A part huddled in a small place - eight men round a fire, a house's men at its door - keeps its men apart by what the
-  // place allows, so every one of them is drawn. Everything else keeps the style's own gap, as it always has.
-  const gap = side.part ? Math.min(spec.gap, 0.6 * Math.sqrt(width * depth * 0.6 / Math.max(1, n))) : spec.gap;
+  // place allows, so every one of them is drawn; so does a small party given its own ground (the Alamo's plaza after the wall
+  // fell). Everything else keeps the style's own gap, as it always has.
+  const gap = side.part ? Math.min(spec.gap, 0.6 * Math.sqrt(width * depth * 0.6 / Math.max(1, n)))
+    : side.spread ? Math.min(spec.gap, 0.6 * Math.sqrt(width * depth / Math.max(1, n))) : spec.gap;
   for (let i = 0, tries = 0; out.length < n && tries < n * 40; tries++) {
     const a = hash(`${seed}:${tries}:a`), b = hash(`${seed}:${tries}:b`);
     // Thicker toward the middle and the front, thinner at the ends: men bunch behind the best cover, not in a grid.
@@ -152,7 +159,7 @@ export function createBattleView(art) {
     pins: new Map(),
     // Presentation evidence across frames, read by scripts/battle-gonzales-browser-proof.mjs and by nothing in the page.
     shotsTotal: 0, shotsBy: {}, linesShown: new Set(), memberClips: new Set(),
-    loopholeShots: 0, gunShotsTotal: 0, civiliansSeen: 0, breachesSeen: new Set(), namedFalls: new Set(), unitsSeen: new Set(),
+    loopholeShots: 0, gunShotsTotal: 0, gunShotsBy: {}, peopleFellAt: new Map(), peopleSpots: {}, peopleShown: new Set(), civiliansSeen: 0, breachesSeen: new Set(), namedFalls: new Set(), unitsSeen: new Set(),
     // §6.13: where each fallen figure went down (he lies there while his part moves on), and the herd.
     fallenSpots: new Map(), herd: null,
   };
@@ -160,7 +167,8 @@ export function createBattleView(art) {
   // Smith's party) is the library's mounted courier, the only Texian-dressed rider it has, until a mounted volunteer exists.
   // A Texian on horseback (Grant's party, `mounted` on the side) is drawn riding. stand-in: docs/ART_REQUESTS.md, request
   // 2026-09-25 "the south's fights" item 3 - the mounted courier's riding clip, until a volunteer on horseback exists.
-  const figureOf = (side, slot) => side.side === 'mexican'
+  // A company given the figure `rider` (the Alamo's Gonzales men riding in) is drawn the same.
+  const figureOf = (side, slot) => side.figure === 'rider' ? 'rider' : side.side === 'mexican'
     ? (side.style === 'mounted' && !(slot.rank < (side.dismounted || 0)) ? 'dragoon' : 'regular')
     : side.mounted && side.pose !== 'surrender' && side.style !== 'camp' ? 'rider' : 'volunteer';
 
@@ -169,7 +177,7 @@ export function createBattleView(art) {
     const key = `${battle.id}`;
     if (view.key !== key) {
       view.key = key; view.sides.clear(); view.smoke = []; view.flashes = []; view.shotsSeen.clear(); view.linesSeen.clear(); view.fallenAt.clear(); view.cannonFiredAt = [];
-      view.gunFiredAt.clear(); view.breachAt.clear(); view.memberFallAt.clear(); view.fallenSpots.clear(); view.herd = null; view.pins.clear();
+      view.gunFiredAt.clear(); view.breachAt.clear(); view.memberFallAt.clear(); view.peopleFellAt.clear(); view.fallenSpots.clear(); view.herd = null; view.pins.clear();
       view.minute = null;
     }
     if (battle.minute === view.minute) return;
@@ -224,6 +232,7 @@ export function createBattleView(art) {
       const id = `${breach.x.toFixed(5)}:${breach.y.toFixed(5)}:${breach.at}`;
       if (!view.breachAt.has(id)) view.breachAt.set(id, { ...breach, openAt: previousMinute === null && breach.open ? now - 60000 : when(breach.at) });
     }
+    for (const person of battle.people || []) if (Number.isFinite(person.fell) && !view.peopleFellAt.has(person.id)) view.peopleFellAt.set(person.id, previousMinute === null ? now - 60000 : when(person.fell));
     for (const [id, fate] of Object.entries(battle.memberFates || {})) {
       if (!view.memberFallAt.has(id)) view.memberFallAt.set(id, { ...fate, at: previousMinute === null ? now - 60000 : when(fate.minute) });
     }
@@ -243,7 +252,7 @@ export function createBattleView(art) {
       // ground's y is), and a little rise of the hot smoke up the page. A still fog morning barely moves it; a norther
       // carries it off the field.
       vx: w.x * 2.2e-6 + (Math.random() - 0.5) * 2e-7, vy: w.y * 2.2e-6 - 1.2e-7 - Math.random() * 1e-7,
-      size0: big ? 1.6 : 0.6, size1: big ? 7 : 3.1 + Math.random() * 1.4, alpha: big ? 0.85 : 0.62,
+      size0: big ? 1.6 : 0.6, size1: big ? 7 : 3.1 + Math.random() * 1.4, alpha: big ? 0.85 : 0.62, scale: view.smokeScale ?? 1,
       seed: Math.random(),
     });
     if (view.smoke.length > SMOKE_CAP) view.smoke.splice(0, view.smoke.length - SMOKE_CAP);
@@ -312,6 +321,9 @@ export function createBattleView(art) {
     const still = reducedMotion || paused;
     if (!battle) { view.key = null; view.members.clear(); view.evidence = null; return null; }
     accept(battle, now, tickMs);
+    // How big smoke is drawn against a figure (`battle.smokeScale`): a fight in a small place, seen close, keeps its smoke to
+    // the size of the ground it is on rather than to the figures, which are drawn larger than life (PERSON_MILES).
+    view.smokeScale = battle.smokeScale ?? 1;
     // The page's animation clock and the frame's own clock differ; a member's fall is kept in the frame's.
     view.skew = now - time;
     const figurePx = Math.max(7, Math.min(60, camera.figure * 0.95));
@@ -366,6 +378,7 @@ export function createBattleView(art) {
     const offScreen = point => bounds && (point.x < -90 || point.y < -90 || point.x > bounds.width + 90 || point.y > bounds.height + 140);
     for (const side of bodies) {
       const shown = view.sides.get(side.key);
+      if (side.ladders && side.action !== 'gone' && shown) drawLadders(ctx, side, placeAt(shown, now), side.facing, camera, figurePx, time);
       const centre = placeAt(shown, now);
       const key = layoutKey(side);
       if (!view.layouts.has(key)) view.layouts.set(key, layoutSide(side));
@@ -397,7 +410,9 @@ export function createBattleView(art) {
         // ...and a man who fell lies where he fell, whatever his part does after (§6.13).
         if (down && side.part && !view.fallenSpots.has(seedKey)) view.fallenSpots.set(seedKey, at);
         const ground = down && side.part ? view.fallenSpots.get(seedKey) : at;
-        if (!down && memberPoints.some(m => Math.hypot(m.x - ground.x, m.y - ground.y) < 0.014)) continue;
+        // A family's person stands in for the sampled man nearest them: on a wall of a given length (the Alamo's), where men
+        // stand a few yards apart, only the one they are standing in is given up.
+        if (!down && memberPoints.some(m => Math.hypot(m.x - ground.x, m.y - ground.y) < (side.style === 'wall' && side.spread?.width ? 0.004 : 0.014))) continue;
         const kind = figureOf(side, slot);
         const point = camera.toScreen(ground);
         if (offScreen(point)) continue;
@@ -486,6 +501,8 @@ export function createBattleView(art) {
           // Surrendering, hands raised (`*-surrender`): drawn, never counted (docs/battle-research/staging.md §8.5).
           clip = `${kind === 'volunteer' ? 'volunteer' : 'regular'}-surrender`; flip = !right; surrendering++;
         } else if (kind === 'dragoon' || kind === 'rider') {
+          // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 7 - lancers (Ramírez y Sesma's, outside the
+          // Alamo's walls) are drawn as the library's dragoons, without lances, until a lancer set exists.
           clip = kind === 'rider' ? (moving ? 'mounted-courier-e' : 'mounted-courier-listen') : moving ? 'dragoon-march' : right ? 'dragoon-idle-e' : 'dragoon-idle-w';
           flip = kind === 'rider' ? !right : moving ? !right : false;
           // A dragoon firing his carbine from the saddle: the flash and the smoke from where his hands are, on his own long
@@ -569,8 +586,17 @@ export function createBattleView(art) {
     // Walls and doors broken with a crowbar: a man at the bar until it gives, then the hole.
     const breachesShown = drawBreaches(ctx, camera, figurePx, time, now, still, battle);
     for (const flag of battle.flags || []) drawWhiteFlag(ctx, flag, camera, figurePx, time, wind);
+    // Named people where the record puts them (the Alamo's Travis and Joe), and smoke going up far off.
+    const peopleShown = drawPeople(ctx, battle, camera, figurePx, time, now);
+    for (const plume of battle.plumes || []) drawPlume(ctx, plume, camera, figurePx, time, reducedMotion);
     // Night (§6.13): the field dark but for lit windows, the fire and the flashes, which are drawn over it.
     const night = battle.light === 'night' || battle.light === 'dawn' ? drawNight(ctx, battle, camera, figurePx, now, bounds) : null;
+    // A darkness given as a number (the Alamo's nights, and the dawn coming up through the assault, 0 to 1), over the ground and
+    // the men but under the flashes and the words. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 4 - a
+    // darkening wash until night art exists.
+    if (typeof battle.light === 'number' && battle.light > 0) {
+      ctx.save(); ctx.fillStyle = `rgba(14,20,44,${(0.62 * battle.light).toFixed(3)})`; ctx.fillRect(0, 0, ctx.canvas?.width || bounds?.width || 0, ctx.canvas?.height || bounds?.height || 0); ctx.restore();
+    }
     // Flashes: a tenth of a second each, over the figures.
     view.flashes = view.flashes.filter(f => now - f.born < 130);
     for (const f of view.flashes) {
@@ -610,6 +636,11 @@ export function createBattleView(art) {
       parts: Object.fromEntries(battle.sides.map(side => [side.side, (side.parts || []).length])), poses, scenery: sceneryDrawn, herd: herdDrawn,
       night: Boolean(night), lit: night?.lit || 0,
       memberFates: Object.fromEntries([...view.memberFallAt.entries()].filter(([id, fall]) => fall.at <= now && view.members.has(id)).map(([id, fall]) => [id, fall.fate])),
+      // The Alamo (docs/BATTLES.md §9): each gun's shots, the named people, the dark, the plumes, and each group's own order
+      // (a column's files against a wall's line against a crowd: nearest-neighbour spread over the mean).
+      gunShotsBy: { ...view.gunShotsBy }, people: peopleShown, light: typeof battle.light === 'number' ? battle.light : 0, plumes: (battle.plumes || []).length,
+      groupStyles: Object.fromEntries((battle.groups || []).map(group => [group.id, group.style])),
+      groupRegularity: Object.fromEntries(Object.entries(drawnBy).filter(([key]) => key.startsWith('g:')).map(([key, points]) => [key.slice(2), regularity(points)])),
       frameMs: { last: +ms.toFixed(2), median: +sorted[Math.floor(sorted.length / 2)].toFixed(2), p95: +sorted[Math.floor(sorted.length * 0.95)].toFixed(2) },
     };
     view.memberSpots.clear();
@@ -833,9 +864,14 @@ export function createBattleView(art) {
       view.shotsSeen.add(`gunshot:${gun.id}:${t}`);
       if (reducedMotion) continue;
       view.shotsTotal++; view.gunShotsTotal++;
-      const muzzle = { x: gun.x + (right ? 1 : -1) * 0.02, y: gun.y - 0.004 };
+      const reach = 0.02 * (view.smokeScale ?? 1), fx = gun.facing?.x ?? (right ? 1 : -1), fy = gun.facing?.y ?? 0;
+      const muzzle = { x: gun.x + fx * reach, y: gun.y + fy * reach - 0.004 * (view.smokeScale ?? 1) };
       flash(muzzle.x, muzzle.y, right, now, 2.4);
-      for (let i = 0; i < 4; i++) puff(muzzle.x + (right ? 1 : -1) * i * 0.008, muzzle.y + (Math.random() - 0.5) * 0.01, now, { big: true, wind });
+      for (let i = 0; i < 4; i++) puff(muzzle.x + fx * i * reach * 0.4, muzzle.y + fy * i * reach * 0.4 + (Math.random() - 0.5) * reach * 0.5, now, { big: true, wind });
+      // Canister (the Alamo's guns at the assault): a spray of balls, seen as a cone of smoke and dust thrown out in front.
+      // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 2 - puffs in a cone until `canister-burst` exists.
+      if (gun.canister) for (let i = 0; i < 5; i++) { const spread = (i - 2) * 0.12, d = reach * (1 + i * 0.3); puff(muzzle.x + (fx - fy * spread) * d, muzzle.y + (fy + fx * spread) * d, now, { wind }); }
+      view.gunShotsBy[gun.id] = (view.gunShotsBy[gun.id] || 0) + 1;
     }
     if (bounds && (p.x < -90 || p.y < -90 || p.x > bounds.width + 90 || p.y > bounds.height + 140)) return { id: gun.id, shots: fired.length, onScreen: false };
     const metal = gun.metal === 'bronze' ? 'bronze' : 'iron', name = `cannon-${metal}-${right ? 'e' : 'w'}`;
@@ -897,11 +933,80 @@ export function createBattleView(art) {
    * The flag, where the record puts it (sim/battles/<id>.mjs `flag`).
    * The completed flag uses the delivered cloth cycle. Canvas is a fallback if art fails to load.
    */
+  /**
+   * The named people the record puts there (`battle.people`): drawn where it puts them, named, and speaking only what a
+   * source gives them. Travis at the north battery, firing, and falling where Joe said he fell; Joe hidden in a house and
+   * coming out when the officers call - his own account, never a mechanic (docs/MILITARY_EXPERIENCE.md "Survivors and Joe").
+   * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 8 - Travis is drawn as the volunteer figure.
+   */
+  function drawPeople(ctx, battle, camera, figurePx, time, now) {
+    view.peopleSpots = {};
+    const shown = [];
+    for (const person of battle.people || []) {
+      const p = camera.toScreen(person), fellAt = view.peopleFellAt.get(person.id);
+      let ok = 0;
+      if (Number.isFinite(fellAt) && fellAt <= now) ok = art.drawSprite(ctx, now - fellAt < 700 ? 'volunteer-injured' : 'volunteer-reclining', p.x, p.y, figurePx);
+      else if (person.pose === 'hide') ok = art.animated(ctx, 'joe-hide', p.x, p.y, figurePx, `person:${person.id}`, { timeMs: time });
+      else if (person.pose === 'emerge') ok = art.animated(ctx, 'joe-emerge', p.x, p.y, figurePx, `person:${person.id}`, { timeMs: time });
+      else if (person.pose === 'fire') ok = art.animated(ctx, 'volunteer-fire-reload', p.x, p.y, figurePx, `person:${person.id}`, { timeMs: time % FIRE_CLIP_MS });
+      else ok = art.animated(ctx, 'volunteer-idle-e', p.x, p.y, figurePx, `person:${person.id}`, { timeMs: time });
+      if (!ok) art.miniPerson(ctx, p.x, p.y, figurePx, { side: person.side });
+      view.peopleSpots[person.name] = { x: p.x, y: p.y - figurePx };
+      view.peopleShown.add(person.id);
+      if (figurePx >= 14) {
+        ctx.font = `${Math.round(Math.max(11, Math.min(15, figurePx * 0.3)))}px system-ui`; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+        ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(252,249,238,.92)'; ctx.strokeText(person.name, p.x, p.y + 14); ctx.fillStyle = '#26382e'; ctx.fillText(person.name, p.x, p.y + 14);
+      }
+      shown.push({ id: person.id, name: person.name, fell: Number.isFinite(fellAt) && fellAt <= now });
+    }
+    return shown;
+  }
+
+  /**
+   * Smoke going up from a place a long way off - huts burning, the pyres - and never what is burning (VISION.md §16).
+   * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 9 - the library's rising smoke, drawn large.
+   */
+  function drawPlume(ctx, plume, camera, figurePx, time, reducedMotion) {
+    const p = camera.toScreen(plume), size = figurePx * 3.2;
+    if (art.animated(ctx, 'smoke-rise', p.x, p.y, size, `plume:${plume.x}`, { timeMs: time, paused: reducedMotion })) return;
+    const g = ctx.createLinearGradient(p.x, p.y, p.x, p.y - size * 1.6);
+    g.addColorStop(0, 'rgba(90,86,80,.55)'); g.addColorStop(1, 'rgba(160,156,150,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(p.x, p.y - size * 0.8, size * 0.28, size * 0.8, 0, 0, Math.PI * 2); ctx.fill();
+  }
+
+  /**
+   * Scaling ladders: carried at the head of a column, and against the wall where it climbs, with a man going up each.
+   * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 1 - two rails and rungs drawn on the canvas, and the
+   * marching regular moved up them, until the art exists.
+   */
+  function drawLadders(ctx, side, centre, facing, camera, figurePx, time) {
+    const n = Math.max(1, Math.min(8, side.ladders | 0));
+    ctx.save();
+    ctx.strokeStyle = '#6b4f2e'; ctx.lineWidth = Math.max(1, figurePx * 0.05);
+    for (let i = 0; i < n; i++) {
+      const across = (n > 1 ? i / (n - 1) - 0.5 : 0) * (side.spread?.width || 0.02) * 0.8;
+      const base = camera.toScreen({ x: centre.x + facing.x * 0.004 - facing.y * across, y: centre.y + facing.y * 0.004 + facing.x * across });
+      const tall = figurePx * 1.4;
+      // Carried: level at shoulder height. Climbing: standing up against the wall ahead, leaning toward it.
+      const top = side.climbing ? { x: base.x + facing.x * figurePx * 0.35, y: base.y - tall } : { x: base.x + facing.x * tall * 0.9, y: base.y - figurePx * 0.6 + facing.y * tall * 0.2 };
+      const bottom = side.climbing ? base : { x: base.x, y: base.y - figurePx * 0.6 };
+      const nx = -(top.y - bottom.y), ny = top.x - bottom.x, len = Math.hypot(nx, ny) || 1, w = figurePx * 0.08;
+      for (const s of [-1, 1]) { ctx.beginPath(); ctx.moveTo(bottom.x + nx / len * w * s, bottom.y + ny / len * w * s); ctx.lineTo(top.x + nx / len * w * s, top.y + ny / len * w * s); ctx.stroke(); }
+      for (let r = 1; r < 6; r++) { const t = r / 6, x = bottom.x + (top.x - bottom.x) * t, y = bottom.y + (top.y - bottom.y) * t; ctx.beginPath(); ctx.moveTo(x - nx / len * w, y - ny / len * w); ctx.lineTo(x + nx / len * w, y + ny / len * w); ctx.stroke(); }
+      if (side.climbing) {
+        const up = ((time + i * 900) % 3200) / 3200;
+        art.animated(ctx, 'regular-march-n', bottom.x + (top.x - bottom.x) * up, bottom.y + (top.y - bottom.y) * up, figurePx, `climb:${i}`, { timeMs: time });
+      }
+    }
+    ctx.restore();
+  }
+
   function drawFlag(ctx, flag, camera, figurePx, time, wind) {
-    const texian = view.sides.get(flag.side), side = texian ? placeAt(texian, performance.now()) : null;
+    const texian = flag.fixed ? null : view.sides.get(flag.side), side = texian ? placeAt(texian, performance.now()) : null;
     const base = side ? { x: flag.x + (side.x - texian.to.x), y: flag.y + (side.y - texian.to.y) } : flag;
     const p = camera.toScreen(base), pole = figurePx * 1.9, w = figurePx * 1.15, h = figurePx * 0.72;
-    if (art.animated(ctx, 'flag-come-and-take-it-wind', p.x, p.y, pole, 'gonzales-flag', { timeMs: time })) {
+    // The delivered cloth is the Come and Take It flag: only that flag is drawn with it, never the Alamo's red one.
+    if (flag.kind !== 'red' && art.animated(ctx, 'flag-come-and-take-it-wind', p.x, p.y, pole, 'gonzales-flag', { timeMs: time })) {
       return { x: Math.round(p.x), y: Math.round(p.y - pole), w: Math.round(w), h: Math.round(h), words: figurePx >= 22 };
     }
     const wave = Math.sin(time / 420) * 0.08 + (wind?.x || 0) * 0.3;
@@ -910,6 +1015,14 @@ export function createBattleView(art) {
     ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x, p.y - pole); ctx.stroke();
     ctx.translate(p.x, p.y - pole);
     ctx.transform(1, wave * 0.5, 0, 1, 0, 0);
+    // The red flag of no quarter on San Fernando's tower (`HIST-TEX-054`): a plain red field. stand-in: docs/ART_REQUESTS.md,
+    // request 2026-09-25 "the Alamo", item 5 - drawn on the canvas on a pole, without the tower.
+    if (flag.kind === 'red') {
+      ctx.fillStyle = '#a3241c'; ctx.strokeStyle = '#5e140f'; ctx.lineWidth = 1;
+      ctx.fillRect(0, 0, w, h); ctx.strokeRect(0, 0, w, h);
+      ctx.restore();
+      return { x: Math.round(p.x), y: Math.round(p.y - pole), w: Math.round(w), h: Math.round(h), words: false };
+    }
     ctx.fillStyle = '#f3efe4'; ctx.strokeStyle = '#6d6250'; ctx.lineWidth = 1;
     ctx.fillRect(0, 0, w, h); ctx.strokeRect(0, 0, w, h);
     ctx.fillStyle = '#1f1d1a';
@@ -961,7 +1074,7 @@ export function createBattleView(art) {
       const age = now - s.born, t = age / s.life;
       const at = camera.toScreen({ x: s.x + s.vx * age, y: s.y + s.vy * age });
       if (bounds && at.x >= 0 && at.y >= 0 && at.x <= bounds.width && at.y <= bounds.height) inView++;
-      const size = figurePx * lerp(s.size0, s.size1, Math.sqrt(t));
+      const size = figurePx * lerp(s.size0, s.size1, Math.sqrt(t)) * (s.scale ?? 1);
       const alpha = s.alpha * (t < 0.04 ? t / 0.04 : Math.pow(1 - t, 1.3));
       const sprite = t < 0.08 ? 'smoke-growing' : s.seed < 0.5 ? 'smoke-dispersing' : 'smoke-dense';
       if (!art.drawSprite(ctx, sprite, at.x, at.y - figurePx * 0.4, size, { alpha: sprite === 'smoke-dense' ? alpha * 0.7 : alpha, flip: s.seed > 0.7 })) {
@@ -981,6 +1094,7 @@ export function createBattleView(art) {
     const boxes = [];
     const scale = Math.max(0.85, Math.min(1.15, figurePx / 30));
     const speakerAt = line => {
+      if (line.name && view.peopleSpots?.[line.name]) return view.peopleSpots[line.name];
       if (line.name && view.parleySpots?.[line.side]) return view.parleySpots[line.side];
       // A line said in a group (a company at a door, the men on a roof): over one of its men, or over the group's house if
       // every man in it is inside the walls.
@@ -990,12 +1104,14 @@ export function createBattleView(art) {
         if (points?.length) { const pick = points[Math.floor(hash(line.id) * points.length)]; return { x: pick.x, y: pick.y - figurePx * 1.02 }; }
         if (body) { const c = camera.toScreen(placeAt(body, now)); return { x: c.x, y: c.y - figurePx * 1.2 }; }
       }
-      const points = drawn[line.side];
+      // A side drawn only in its groups (the Alamo's columns, its walls): over any man of that side's groups.
+      const points = drawn[line.side]?.length ? drawn[line.side]
+        : (battle.groups || []).filter(group => group.side === line.side).flatMap(group => drawnBy[`g:${group.id}`] || []);
       if (!points?.length) return null;
       if (line.role === 'officer' || line.role === 'commander') {
         // The officer rides or stands at the front of the middle of his men.
         const side = view.sides.get(line.side);
-        if (side) { const c = camera.toScreen(placeAt(side, now)); return { x: c.x, y: c.y - figurePx * (line.side === 'mexican' ? 1.4 : 1.05) }; }
+        if (side && side.action !== 'gone') { const c = camera.toScreen(placeAt(side, now)); return { x: c.x, y: c.y - figurePx * (line.side === 'mexican' ? 1.4 : 1.05) }; }
       }
       const pick = points[Math.floor(hash(line.id) * points.length)];
       return { x: pick.x, y: pick.y - figurePx * 1.02 };
@@ -1043,5 +1159,7 @@ export function createBattleView(art) {
     }
   }
 
-  return { draw, memberPose, memberDrawn, get evidence() { return view.evidence; }, get smoke() { return view.smoke.length; } };
+  /** Whether this person is drawn in the fight now (a family's person who fell is drawn only while it is). */
+  const isMember = id => view.members.has(id);
+  return { draw, memberPose, memberDrawn, isMember, get evidence() { return view.evidence; }, get smoke() { return view.smoke.length; } };
 }

@@ -19,6 +19,7 @@ import { advanceSanJacinto, sanJacintoField, sanJacintoProjection, strikeSanJaci
 import { BEXAR_STORMING } from './battles/bexar-storming.mjs';
 import { advanceBexarFight, bexarProjection } from './bexar-fight.mjs';
 import { armBattle, battleState, looseSlot, phaseOffset, placeFrom, projectBattle, sidePlace } from './battle-stage.mjs';
+import { advanceAlamoBattle, alamoProjection } from './alamo-battle.mjs';
 import { findWay } from './ways.mjs';
 import { advanceSouth, grantRides, southProjection, tellSouthAccount } from './south.mjs';
 import { MODES } from './travel.mjs';
@@ -1238,12 +1239,16 @@ function advanceAlamo(world, said, { beginTravel } = {}) {
   once(world, 'agua-dulce', () => fightSouth(world, 'agua-dulce', alamo));
   once(world, 'san-patricio-news', () => { word(world, 'san-patricio', Object.values(world.households), { truth: ALAMO_WORD.sanPatricio, status: 'rumor', claimId: 'HIST-TEX-059', source: 'A rumour from the south' }); tellSouth(world, 'san-patricio'); tellSouthAccount(world, 'san-patricio'); });
   once(world, 'declaration-news', () => word(world, 'declaration', Object.values(world.households), { truth: ALAMO_WORD.declaration, claimId: 'HIST-TEX-061', source: 'Word from Washington' }));
-  once(world, 'alamo-assault', () => { stormAlamo(world, record(world, 'milestone', { visibility: 'sealed', importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-058', text: 'The Alamo was stormed at dawn.' })); spotlight(world, { key: 'alamo-fall', text: 'The Alamo falls. The garrison is overwhelmed; some people inside survive. Distant families have not yet received the news.', siteId: 'bexar', claimId: 'HIST-TEX-058' }); });
+  // The storming is fought on the engine now (sim/alamo-battle.mjs, docs/BATTLES.md §9): each fate at its own moment inside
+  // it, and the Host's camera on the compound at the alarm. Only the record of the morning is kept here.
+  once(world, 'alamo-assault', () => record(world, 'milestone', { visibility: 'sealed', importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-058', text: 'The Alamo was stormed at dawn.' }));
   once(world, 'agua-dulce-news', () => { word(world, 'agua-dulce', Object.values(world.households), { truth: ALAMO_WORD.aguaDulce, status: 'rumor', claimId: 'HIST-TEX-059', source: 'A rumour from the south' }); tellSouth(world, 'agua-dulce'); tellSouthAccount(world, 'agua-dulce'); });
   once(world, 'survivors-leave', () => survivorsLeave(world, alamo));
   once(world, 'fall-rumour', () => word(world, 'alamo-fall', gonzalesFamilies(world), { truth: ALAMO_WORD.fall, text: ALAMO_WORD.fallRumour, status: 'rumor', claimId: 'HIST-TEX-060', source: 'Two riders from Béxar, at Gonzales' }));
   once(world, 'fall-confirmed', () => { word(world, 'alamo-fall', gonzalesFamilies(world), { truth: ALAMO_WORD.fall, claimId: 'HIST-TEX-060', source: 'Mrs. Dickinson, come in to Gonzales' }); tellFall(world, gonzalesFamilies(world)); });
   once(world, 'fall-colonies', () => { word(world, 'alamo-fall', otherFamilies(world), { truth: ALAMO_WORD.fall, status: 'unconfirmed', claimId: 'HIST-TEX-060', source: 'A rider from Gonzales' }); tellFall(world, otherFamilies(world)); });
+  // The siege and the assault on the engine, every tick: posts, the relief riding in, the fates, the cards, the Host.
+  advanceAlamoBattle(world, { momentOf, beginTravel: alamo.beginTravel });
   once(world, 'alamo-end', () => {
     world.director.complete = true; world.director.phase = 'preserved'; world.status = 'ended';
     record(world, 'slice-preserved', {
@@ -1473,7 +1478,11 @@ export function directorProjection(world, householdId, role, { seen = [] } = {})
   const south = southProjection(world, householdId, role);
   if (south?.battle && !battle) battle = south.battle;
   if (south?.host && role === 'host') host = south.host;
-  const shownAlert = bexar?.battleAlert || battleAlert || south?.alert || null, shownAccount = bexar?.battleAccount || battleAccount || south?.account || null;
+  // The Alamo (sim/alamo-battle.mjs): the Host always while it is fought, a family while one of its own is there. Its siege
+  // runs for weeks round the south's two fights; while one of those is being fought, that fight is what is shown.
+  const alamo = alamoProjection(world, householdId, role);
+  if (alamo?.battle && !battle) { battle = alamo.battle; if (role === 'host' && alamo.host) host = alamo.host; }
+  const shownAlert = alamo?.battleAlert || bexar?.battleAlert || battleAlert || south?.alert || null, shownAccount = alamo?.battleAccount || bexar?.battleAccount || battleAccount || south?.account || null;
   // The upriver call takes the panel while it is open, because it is the one in front
   // of the family right now. The food call stays in the event log either way.
   const march = householdId && world.marches?.[householdId];

@@ -20,6 +20,7 @@
 import { GONZALES } from './battles/gonzales.mjs';
 import { BEXAR_STORMING } from './battles/bexar-storming.mjs';
 import { SAN_JACINTO_BATTLE } from './battles/san-jacinto.mjs';
+import { ALAMO } from './battles/alamo.mjs';
 import { SAN_PATRICIO } from './battles/san-patricio.mjs';
 import { AGUA_DULCE } from './battles/agua-dulce.mjs';
 
@@ -52,7 +53,7 @@ export const LINE_KINDS = Object.freeze(['documented', 'reconstructed', 'traditi
 export const SIDES = Object.freeze(['texian', 'mexican']);
 
 /** Every engagement on the engine. Add one here and in sim/battles/ (docs/BATTLES.md §6). */
-export const ENGAGEMENTS = Object.freeze({ [GONZALES.id]: GONZALES, [BEXAR_STORMING.id]: BEXAR_STORMING, [SAN_PATRICIO.id]: SAN_PATRICIO, [AGUA_DULCE.id]: AGUA_DULCE, [SAN_JACINTO_BATTLE.id]: SAN_JACINTO_BATTLE });
+export const ENGAGEMENTS = Object.freeze({ [GONZALES.id]: GONZALES, [BEXAR_STORMING.id]: BEXAR_STORMING, [SAN_PATRICIO.id]: SAN_PATRICIO, [AGUA_DULCE.id]: AGUA_DULCE, [ALAMO.id]: ALAMO, [SAN_JACINTO_BATTLE.id]: SAN_JACINTO_BATTLE });
 
 /**
  * The rules an engagement's data is held to, checked when this module loads so a malformed battle never reaches a class.
@@ -129,6 +130,11 @@ export function checkEngagement(def) {
     }
     for (const breach of phase.breaches || []) if (!breach.point || !SIDES.includes(breach.side) || !(breach.at >= 0 && breach.at <= phase.minutes)) fail(`a breach in ${phase.id} is malformed`);
     for (const flag of phase.flags || []) if (!FLAG_KINDS.includes(flag.kind) || !SIDES.includes(flag.side) || !flag.claimId || !(flag.from >= 0 && flag.from <= phase.minutes)) fail(`a flag in ${phase.id} is malformed`);
+    // Named people where the record puts them (the Alamo's Travis and Joe): a claim for each, and a fall inside the phase.
+    for (const person of phase.people || []) {
+      if (!person.id || !person.name || !SIDES.includes(person.side) || !person.at || !person.claimId) fail(`a named person in ${phase.id} needs an id, a name, a side, a place and the claim that puts them there`);
+      if (person.falls !== undefined && !(person.falls >= 0 && person.falls <= phase.minutes)) fail(`${person.name} falls outside ${phase.id}`);
+    }
   }
   const phaseIds = new Set(def.phases.map(phase => phase.id));
   for (const work of def.works || []) {
@@ -256,9 +262,12 @@ export function battleStep(world) {
     if (!step) {
       // Between held episodes (Béxar): the fight goes on at its background pace while a played family has somebody in it,
       // and in any case a tick lands on the start of the next watched phase rather than running past it.
-      const next = state.phases[state.phase.index + 1];
+      // The next phase that is held at all, however many unheld ones lie between (the Alamo's evening and night of March 5).
+      const next = state.phases.slice(state.phase.index + 1).find(one => one.step || one.background) || null;
       const background = state.phase.background && watchedByAFamily(world, state.battle) ? state.phase.background : null;
-      const cap = background ?? (next && (next.step || next.background) ? room : null);
+      // An engagement that says so (`landOnEnd`, the Alamo) is also left on its last minute, so a long fight does not leave
+      // the class's calendar off its own grid (a period's last dated moment met a tick late).
+      const cap = background ?? (next ? next.from - world.minute : state.def.landOnEnd ? room : null);
       if (cap === null) continue;
       const minutes = Math.max(1, Math.min(cap, room));
       if (best === null || minutes < best) best = minutes;
@@ -270,7 +279,9 @@ export function battleStep(world) {
   // Also land exactly on a watched battle's first minute, so a fight never begins in the middle of a long tick.
   for (const [id, battle] of Object.entries(world.battles || {})) {
     const def = ENGAGEMENTS[id];
-    if (!def || !Number.isFinite(battle.start) || world.minute >= battle.start || !def.phases[0].step) continue;
+    // A first phase held only at a background pace (the Alamo's afternoon of February 23) is landed on too while a played
+    // family is already in the force it will be.
+    if (!def || !Number.isFinite(battle.start) || world.minute >= battle.start || !(def.phases[0].step || (def.phases[0].background && watchedByAFamily(world, battle)))) continue;
     const room = battle.start - world.minute;
     if (best === null || room < best) best = room;
   }
@@ -490,6 +501,8 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
         fire: state.over ? 'none' : group.fire || 'none', action: state.over ? 'gone' : group.action || 'stand',
         moving: !state.over && specMoving(group, into), x: place.x, y: place.y, facing: group.away ? { x: -facing.x, y: -facing.y } : facing,
         spread: group.spread || null, ...(group.cover && { cover: group.cover }), ...(group.civilians && { civilians: true }), ...(group.mounted && { mounted: true }),
+        // Scaling ladders carried or set against a wall, and a figure of its own (the Alamo's mounted relief).
+        ...(group.ladders && { ladders: group.ladders }), ...(group.climbing && { climbing: true }), ...(group.figure && { figure: group.figure }),
       };
     });
   }
@@ -498,7 +511,7 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
   if (guns.length) {
     view.guns = guns.map(gun => {
       const at = ground[gun.at], target = ground[gun.face] || (gun.side === 'texian' ? mexican : texian);
-      return { id: gun.id, side: gun.side, x: at.x, y: at.y, facing: facingOf(at, target), metal: gun.metal || 'iron', crew: gun.crew ?? 3, shots: state.over ? [] : gunShots(state, gun.id, world.minute), claimId: gun.claimId };
+      return { id: gun.id, side: gun.side, x: at.x, y: at.y, facing: facingOf(at, target), metal: gun.metal || 'iron', crew: gun.crew ?? 3, shots: state.over ? [] : gunShots(state, gun.id, world.minute), claimId: gun.claimId, ...(gun.canister && { canister: true }), ...(gun.name && { name: gun.name }) };
     });
   }
   // What stands on the ground (San Jacinto's breastwork, the camps' fires, the marsh), laid across the line between the camps.
@@ -518,6 +531,19 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
   // The ground a page frames the fight on, where the engagement names it (the town and the Alamo's guns at its edge).
   const frame = (phase.frame || def.frame || []).map(name => ground[name]).filter(Boolean);
   if (frame.length) view.frame = frame.map(point => ({ x: point.x, y: point.y }));
+  if (frame.length && def.frameTight) view.frameTight = true;
+  // Named people where the record puts them (Travis at the north battery), and whether they have fallen by now.
+  const people = (phase.people || []).map(person => ({ id: person.id, name: person.name, side: person.side, ...ground[person.at], pose: person.pose || 'stand',
+    ...(person.falls !== undefined && into >= person.falls && { fell: phase.from + person.falls }), claimId: person.claimId }));
+  if (people.length && !state.over) view.people = people;
+  // Smoke going up far off - huts burning, the pyres - never what is burning (VISION.md §16).
+  const plumes = (phase.plumes || []).filter(plume => into >= (plume.from || 0) && ground[plume.at]).map(plume => ({ x: ground[plume.at].x, y: ground[plume.at].y }));
+  if (plumes.length && !state.over) view.plumes = plumes;
+  // How dark it is, 0 day to 1 night, or eased across the phase (`light: [from, to]`); and an engagement's smoke against its
+  // figures (`smokeScale`: a small place seen close).
+  const light = Array.isArray(phase.light) ? phase.light[0] + (phase.light[1] - phase.light[0]) * Math.max(0, Math.min(1, into / phase.minutes)) : phase.light || 0;
+  if (light > 0) view.light = +light.toFixed(3);
+  if (def.smokeScale) view.smokeScale = def.smokeScale;
   // Which unit each of the members stands in, so the page poses them with that unit's fire, and a member's own fate once -
   // and only once - its minute has come (docs/BATTLES.md §2.6). Nothing staged for later is sent.
   if (units) {
@@ -534,7 +560,9 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
   }
   if (def.flag && phase.flag !== false) {
     const side = def.flag.side, centre = side === 'texian' ? texian : mexican;
-    view.flag = { side, kind: def.flag.kind, ...placeFrom(centre, toward[side], def.flag.offset), claimId: def.flag.claimId, words: def.flag.words };
+    // A flag on a fixed place (the Alamo's red flag on San Fernando's tower) is drawn there; one carried with a side goes with it.
+    const at = def.flag.at ? ground[def.flag.at] : placeFrom(centre, toward[side], def.flag.offset);
+    view.flag = { side, kind: def.flag.kind, x: at.x, y: at.y, ...(def.flag.at && { fixed: true }), claimId: def.flag.claimId, words: def.flag.words };
   }
   if (phase.parley && !state.over) {
     const between = phase.parley.at ? ground[phase.parley.at] : lerp(texian, mexican, phase.parley.part ?? 0.5);
@@ -555,6 +583,8 @@ export function heldByBattle(world, entity) {
     if (!battle.participants?.[entity.id] || battle.participants[entity.id].released) continue;
     const state = battleState(world, id);
     if (!state || state.over) continue;
+    // An engagement whose force is held by its own rules (the Alamo: shut in, and still able to answer Travis's runner).
+    if (state.def.holdsParticipants === false) continue;
     return state.def.held?.(entity.name) || `${entity.name} is with the men in the fight, and comes back with them when it is over.`;
   }
   return null;

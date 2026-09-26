@@ -36,7 +36,7 @@ export function militaryNotices(world) {
         : world.army.ours.find(one => one.id === person.id)?.questions?.find(question => question.answer === 'open')?.key || 'detachment';
       notices.push({ id: `orders:${person.id}:${key}`, entityId: person.id, kind: 'orders', title: 'Your family member is being asked',
         text: `At ${at}: a decision is waiting in camp. Go to them to hear the request and choose their answer.${person.pressing ? ' Nobody can wait much longer; if no answer comes, it will be decided for them.' : ''}`, action: `Go to ${person.given || person.name}` });
-    } else if (service?.besieged && service.status === 'serving') {
+    } else if (service?.besieged && service.status === 'serving' && !service.seenFall) {
       notices.push({ id: `siege:${person.id}`, entityId: person.id, kind: 'siege', title: 'Inside the Alamo',
         text: `At ${at}: the garrison is surrounded. You can look in on them. Watch for requests for couriers; offering to ride is a chance to leave, not a promise of being chosen.`, action: `Go to ${person.given || person.name}` });
     }
@@ -44,7 +44,8 @@ export function militaryNotices(world) {
   // A fight a family's own person is going to or is in (docs/BATTLES.md §2.7): through that person, before contact, with
   // Watch, which frames the camera on the field. Never put up over a decision that is open - the family's call, a rider
   // standing with one of them, any question above - so it never stacks on something waiting for an answer.
-  const deciding = notices.length || world.request?.status === 'open' || meeting?.status === 'open';
+  // The quiet reminder that somebody is inside the Alamo is not a decision: the storming's card goes up over it.
+  const deciding = notices.some(notice => notice.kind !== 'siege') || world.request?.status === 'open' || meeting?.status === 'open';
   const alert = world.battleAlert;
   if (alert && !deciding && own.some(person => person.id === alert.entityId)) {
     notices.push({ id: alert.id, entityId: alert.entityId, kind: 'battle', title: alert.title, text: alert.text, action: 'Watch', field: alert.field });

@@ -47,8 +47,12 @@ function besieged(seed, playerCount) {
   const site = world.map.sites.bexar;
   Object.assign(father, { travel: null, chore: null, task: 'rest', location: { x: site.x, y: site.y, siteId: 'bexar' }, service: { kind: 'garrison', status: 'serving', since: world.minute, siteId: 'bexar' } });
   for (let i = 0; i < 2000 && !world.director.milestones['alamo-siege']; i++) stepWorld(world);
-  // The far end of the compound's plaza, so the runner's walk from Travis's door is seen for several ticks.
-  father.location = onMap(world, { x: 180, y: 420 });
+  // The far end of the compound's plaza, so the runner's walk from Travis's door is seen for several ticks. Since 2026-09-25
+  // everybody inside has a post on the walls and walks to it (sim/alamo-posts.mjs, docs/BATTLES.md §7): he is given the post
+  // at the low barrack's east end, by the gate, and stood there, rather than a spot on the plaza he would walk away from.
+  father.service.post = { id: 'south', spot: 4 };
+  delete father.service.walk;
+  father.location = onMap(world, { x: 160, y: 512 });
   world.status = 'lobby';
   return world;
 }

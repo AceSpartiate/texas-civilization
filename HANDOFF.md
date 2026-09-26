@@ -60,6 +60,75 @@ other blocks).
   allows - say if San Jacinto should wait for the word instead; (3) the Texian loss is drawn as one down and two hurt of sixty
   and the account says TSHA's nine and thirty - say if Houston's two and twenty-three should be said as the dispute.
 
+## The Alamo on the engine: the living siege and the dawn assault — 2026-09-26 (after e63694f, the south; not released)
+
+Wave 2 of docs/BATTLES.md §5 for the Alamo, owner-directed 2026-09-25 (§2b.1 *a student may watch their own man fall*; §2b.5
+*"I'm assuming that the alamo is the longest since it's a long siege?"*). docs/BATTLES.md **§9** is the build and its limits. It is built on the engine as Béxar left it (§7), with **one path for a person's fate at its moment** (`stageFate`/`fatesDue`/`memberFates`): merging Béxar, the Alamo's own staged-fate mechanism, its parts-of-a-side and its long steps were replaced by Béxar's groups, fixed guns and background pace.
+
+- **The engagement** (`sim/battles/alamo.mjs`, 38 phases): the army's coming at 2:30 on Feb 23, the red flag and the
+  18-pounder's answer, a held day and a free night for each day of the guns (batteries from 350 yards, a new one at 300 on the
+  25th, three sides from the 26th, the north battery brought within musket shot on March 3, the lines far then near), the fight
+  at the huts on the 25th, the Gonzales men riding in before dawn on March 1 (one hurt by the walls' own fire), Bonham on the 3rd,
+  the guns stopping at ten on the 5th, the columns forming in the dark; then the assault - advance, alarm ("¡Viva Santa Anna!",
+  Travis's words from Joe's account), canister and the columns reeling and merging at the north wall, the climb on ladders, the
+  fall back to the long barrack and the church with the runners and the lancers, the rooms (Joe hiding and firing), sunrise
+  (Joe's own "Yes, here is one."), and the pyres after. Claims `HIST-TEX-500`–`-506`, `FIC-GONZ-430`–`-434`.
+- **Posts on the walls** (`sim/alamo-posts.mjs`): the hashed plaza spot is gone. A fighter's post by a seeded share weighted to
+  the north and west; a woman or child in the church, the sacristy from the alarm. The garrison walks in from the town through
+  the south gate; the routes come from the plan's own path-finder and a test walks each over `isWalkable` a foot at a time.
+- **No teleport** (staging.md §5.6 (a)–(e)): couriers ride out through the gate on the Gonzales road at a rider's pace and can
+  reach Gonzales before the relief (and be sent back in with it from there); the relief rides at the company's pace to wait
+  half a mile short of the lines and rides in with its company to the gate; late men are told and turned home; the order to go
+  says how long the road to Gonzales is and whether it is in time. `docs/ALAMO_FATES.md` relief and courier rows amended.
+- **Fates at their moments** (`sim/alamo-battle.mjs` `fallMinute`, `stageFates`, through the engine's `stageFate`/`fatesDue`): the fate rule is unchanged; a fighter falls
+  when the storming reaches his post (the north wall in the repulse or at the wall, the west and south when the walls are
+  carried, the long barrack and the church in the rooms); a woman or child is spared when the firing stops and walked to
+  Músquiz's house. The student watching sees their own man firing at his post and going down there, and he is never drawn
+  standing again; the journal, his record and the family learn nothing until the word; the student who watched gets the card
+  *What you saw from the walls*; the word brings the account in plain words (`FALL_ACCOUNT`, the degüello and the line in the
+  sand named as doubted stories).
+- **Viewers and cards**: the Host live, camera on the compound, spotlight at the army's coming, the huts, the relief and the
+  storming; a family only while one of its own is inside or with the relief near the walls; cards at the person's side with
+  Watch at the army's coming, the relief and the alarm (none before it). The quiet "inside the Alamo" reminder no longer holds
+  the card back. Another family's fallen man is simply not seen standing again.
+- **Pace** (`FIC-GONZ-431`): siege days at four hours a tick as Béxar's background pace, only while a played family has
+  somebody there. Measured: **145 ticks against 110 from Feb 23 to the assault (the south's fights in both): +35 ticks, 5.5 real minutes at Study** for a class
+  with somebody inside. The assault is held for everybody: **42 ticks, 6.6 real minutes at Study** (Gonzales 36).
+- **Engine, generic and additive, on Béxar's** (docs/BATTLES.md §9.2): on a group `ladders`, `climbing`, `figure: 'rider'`; on a
+  gun `canister`, `name`; on a phase `people`, `light`, `plumes`; on an engagement `smokeScale`, `frameTight`,
+  `holdsParticipants: false`, `landOnEnd`, `flag.at`/`kind: 'red'` (kept off the delivered Come and Take It cloth); `battleStep`
+  lands on the next held phase however many unheld ones lie between, and on a first phase held only at a background pace; a wall
+  of a given length and a small party's gap in `layoutSide`; `isMember`. Gonzales and Béxar project and draw as before (their
+  tests and proofs re-run). `directorProjection` gained four lines; `sim/town.mjs` `observedBy` drops another family's fallen man;
+  `sim/world.mjs` projects `seenFall`; `sim/chores.mjs` `alsoFrom`/`estimate`; `public/family-panel.js` shows the estimate.
+- **Tests.** New `tests/battle-alamo.test.mjs` (13) and `tests/battle-alamo-view.test.mjs` (7); updated where the rules moved:
+  `tests/alamo.test.mjs`, `tests/alamo-runner.test.mjs` (fates fall by seven; the man walks in before the runner comes),
+  `tests/battle-stage.test.mjs` (long steps). `npm test` after merging main (Béxar, then the south at e63694f): **1276 pass, 0 fail**.
+- **Browser** (same computer): new `npm run test:battle-alamo` - **13 checks** at 1366x768 and 1024x768: the card and Watch on
+  Feb 23; the guns on four siege days; the runner answered "stay" in the meeting; the alarm's card at the man's side; fire and
+  smoke at every one of 12 sampled moments of the assault; columns in files and walls in line (nearest-neighbour spread 0.002
+  and 0.016); the talk; the man firing from his post and seen to go down, journal and record silent; the Host live; the family
+  with nobody there sent nothing before and after a reload; the debrief; the word's account on March 13. Battle drawing **1.6 ms
+  at its worst 95th percentile**, the whole map frame 4-8 ms with one 22 ms spike in the last run. `docs/evidence/battle-alamo-browser.json`,
+  `test-results/battle-alamo-*.png`. `test:alamo-siege` (8) passes with one change: the father is given the post by the gate and
+  stood at it, since posts replaced the plaza spot. Re-run on the final merge (Béxar and the south): `test:battle-alamo` (13), `test:battle-south`, `test:battle-bexar` (15), `test:battle-gonzales` (12), `test:alamo-siege` (8), `test:lesson`, `test:panels` - all pass. The south's merge moved two things: its fight is shown to the Host ahead of the Alamo's siege background, and the watcher's debrief stays on the card three days (it expired before the siege days the south adds were over).
+- **Injections** (`npm run test:battle-alamo-injections`, `docs/evidence/battle-alamo-injections.json`): **29 of 29 caught** by
+  the check written for them - 20 unit injections (13 in `tests/battle-alamo.test.mjs`, 7 in `tests/battle-alamo-view.test.mjs`),
+  each failing its named test and no other in its file, and 9 browser injections, each failing the proof with its own message
+  (among them the journal told at the moment he falls: *"the journal knew"*); clean runs before and after, every file restored
+  byte for byte. A first run had the columns-as-a-crowd injection pass the column check on a `null` spread; the check now wants a
+  number, and the rerun caught it.
+- **Art**: nine stand-ins (`stand-in:` in code, rows in docs/ART_REQUESTS.md, *Request 2026-09-25 — the Alamo*): ladders, the
+  guns served and canister, men on walls, night, the red flag, mounted volunteers, lancers, Travis, far smoke.
+- **Not done / limits**: the garrison drawn about one to five (`ceiling:`); the map's closest zoom holds the compound at about 150
+  pixels, so walls of men are crowded lines; the noncombatants killed and the executions are told, not modelled or shown;
+  Dickinson, Joe and Ben's journey to Gonzales is the word on the 13th, not travellers; the relief man without a horse rides one
+  that is not an entity (`ceiling:`). The house-site card over the proof's pictures is the proof's in-process family.
+- **For the owner to confirm**: the siege's added 5.5 minutes for a class with somebody inside, and 6.6 for the assault for
+  every class; posts weighted to the north and west (`FIC-GONZ-430`); a courier lent a garrison horse and a relief man lent a
+  company horse; the relief waiting half a mile out on the Gonzales road; the student's debrief on the card only, never the
+  journal; another family's fallen man simply not seen standing again.
+
 ## The south to the Nueces, and San Patricio and Agua Dulce on the battle engine — 2026-09-26 (merged with main after 1c77c91; released in v2026.09.26.1)
 
 Owner's direction of 2026-09-25 (docs/BATTLES.md §2, §2b.4: "the map extends south to the Nueces") and staging.md §4 with S1 (a)

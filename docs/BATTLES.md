@@ -240,7 +240,7 @@ paraphrase"). Lines are sent as the clock reaches them, and drawn at the real mo
 `falls` are drawn at their minute: a man going down and lying still (`*-reclining`) and, with `carried`, borne off by two
 comrades; with `wounded`, sitting hurt and helped back from the line. No blood, no gore (`VISION.md` §16). A side in
 `noFalling` never falls. A family's person's fate, in a battle where people died, is to be resolved at a staged moment
-inside the fighting (§2.6) - not built yet, since nobody's fate is at stake at Gonzales.
+inside the fighting (§2.6) - built for the Alamo (§7.2), where it is.
 
 ### 6.7 Viewers, pacing, arrival
 
@@ -289,7 +289,7 @@ Its record is `docs/evidence/battle-injections.json`.
   drawn on foot. A detachment drawn apart from its side is the way out.
 - ceiling: figures stand on open ground whatever is under them; the volley's rhythm is each page's own.
 - A family's person is drawn in the militia's firing poses (stand-in, `docs/ART_REQUESTS.md` request 2026-09-25).
-- The staged fate of a family's person inside a deadly battle is not built (none is at stake at Gonzales). Built for Béxar: §7.2.
+- The staged fate of a family's person inside a deadly battle is not built (none is at stake at Gonzales). Built for Béxar: §7.2; the Alamo uses the same path: §8.
 - The town before the fight (alarm, flag, muster) is a separate build (`sim/town-scenes.mjs`).
 
 ## 6.13 The engine's additions for the south (2026-09-25, wave 2: San Patricio and Agua Dulce)
@@ -494,3 +494,87 @@ Noon April 20 to the word: 18–19 ticks before, 83 after (measured on `houston-
 - ceiling: a man sick or hurt at an older camp when the army marches is left there, not carried to Harrisburg.
 - Stand-ins: the Twin Sisters, the camp at rest, the breastwork, the Texian horsemen, the marsh (`docs/ART_REQUESTS.md`,
   request 2026-09-25 "San Jacinto").
+
+## 9. The Alamo on the engine (2026-09-25, not released)
+
+The siege and the assault, staged from `docs/battle-research/staging.md` §5 with the owner's §2b.1 and §2b.5 and the recommended
+answers to A1 and A2. Claims `HIST-TEX-500`–`-506` and `FIC-GONZ-430`–`-434` (the siege's own stay in `-054`–`-058`, `-430`–`-439`,
+`FIC-GONZ-380`–`-386`). Built on the engine as Béxar left it (§7): its groups, fixed guns, frames, background pace and **its one
+path for a person's fate at its moment** (`stageFate`, `fatesDue`, `projectBattle`'s `fates` and `units`) - the Alamo keeps no
+second one.
+
+### 9.1 Where it is
+
+| Piece | File | What it does |
+| --- | --- | --- |
+| The engagement | `sim/battles/alamo.mjs` | 38 phases from the army's coming at 2:30 on February 23 to the evening of March 6: the arrival, the red flag and the 18-pounder's answer, a day and a night for each day of the guns, the huts on the 25th, the relief before dawn on March 1, Bonham and the north battery on the 3rd, the guns stopping at ten on the 5th, the columns forming in the dark, then `advance`, `alarm`, `repulse`, `north-wall`, `fallback`, `rooms`, `end`, `after`. Written side by side and handed to the engine as groups (`toEngine`). Ground in the compound's plan feet (`ALAMO_FEET`). Imports nothing. |
+| Posts and walking | `sim/alamo-posts.mjs` | Each fighter's post on a wall by a seeded share (`choosePost`, `POST_WEIGHTS`), a woman's or child's in the church; the routes from the south gate to every spot, found by the plan's own path-finder and held to it by a test; the walk (`advanceWalks`), one straight line a tick; `leaveBy` and `endShortOf` for the couriers' and the relief's roads. Replaced the hashed plaza spot (`postOf`, `takePost` in `sim/alamo-runner.mjs` use it). |
+| The director's part | `sim/alamo-battle.mjs` | Every tick of the second period: arms the engagement and enlists the garrison and the relief as its `participants`, walks the garrison, rides the relief in with its company (`followTheRelief`, `leftBehind`), stages each fighter's fate through `stageFate` at the minute the storming reaches his post (`fallMinute`) and applies it through `fatesDue`, the cards (`sendCards`), the Host's spotlight (`lightTheHost`), and what each page is sent (`alamoProjection`, `watchersOf`). Three lines in `advanceAlamo` and `directorProjection`. |
+| The rules it keeps | `sim/alamo.mjs` | Couriers ride out through the gate (`rideOut`); the relief rides to wait short of the lines and goes in with its company (`reliefRides`, `reliefEnters`); the honest estimate on the order (`reliefEstimate`); `stormAlamo` only the backstop; `tellFall` brings the account in plain words (`FALL_ACCOUNT`) and tells a courier's family too. |
+
+### 9.2 What the engine gained (generic, additive, on §7's)
+
+- On a group: `ladders`, `climbing` (drawn ladders carried, and set against a wall with a man going up), `figure: 'rider'`.
+- On a gun: `canister` (a cone of smoke and dust thrown out in front), `name`.
+- On a phase: `people` (a named person where the record puts them, with a claim, falling at a minute if they did; a named line
+  is drawn over them), `light` (0 day to 1 night, or `[from, to]`), `plumes` (smoke going up far off).
+- On an engagement: `smokeScale` (its smoke against its figures: a small place seen close), `frameTight` (its frames already
+  hold the room round them), `holdsParticipants: false` (its force is held by its own rules, so the Alamo's garrison can still
+  answer Travis's runner), `landOnEnd` (a tick lands on its last minute, so the class leaves on its calendar's grid), and
+  `flag.at` with `kind: 'red'` (a flag on a fixed place, never drawn with the Come and Take It cloth).
+- `battleStep` lands on an engagement's first minute when its first phase is held only at a background pace and a played family
+  is already in the force. `layoutSide`: a wall of a given length (`spread.width`) is laid evenly along it, and a small party's gap
+  shrinks with its ground. The page never draws a family's fallen man standing again, never keeps the camera on him
+  (`isMember`, `seenFall`), and the storming's card goes up over the quiet "inside the Alamo" reminder (never over a question).
+
+Gonzales and Béxar project and draw as before.
+
+### 9.3 The living siege, and what it costs
+
+A day of the siege (6:00–18:00) is held at four hours a tick and a night goes at the class's pace, the army's coming, the huts and
+the relief closer - all as Béxar's `background` pace, so **only while a played, present family has somebody in the garrison,
+inside, or riding with the relief** (`watchedByAFamily`, `FIC-GONZ-431`). The assault is held for everybody (`step`), the longest
+held fight. Measured by `tests/battle-alamo.test.mjs` (a man on auto so the courier days' own pace is not counted): **145 ticks from February 23 to the assault with somebody inside against 110 with nobody (the south's two fights, held for everybody, fall inside the siege and are in both): 35 more, 5.5 real minutes at Study** (2.3 at Brisk, 0.6 at Quick); the assault **42 ticks, 6.6 real minutes at Study** for every class, against Gonzales's 36.
+
+### 9.4 Arrival and participation (staging.md §5.6 (a)–(h))
+
+(a) The relief is never set down: it rides at a horse's pace (a man with no horse is lent one, `ceiling:`) to a place on the
+Gonzales road half a mile short of the lines, waits, rides with its company to the gate between three and four on March 1 and walks
+to posts. (b) A man sent who is not in Gonzales at two is told the company rode without him; one still on the road at four is told
+he was left behind and turns home. (c) The order says, before anybody goes, how long the road to Gonzales is on foot and on the
+horse and whether that is in time. (d) Couriers ride out through the gate onto the Gonzales road, and one in Gonzales before the
+relief rides may be sent back in with it from there (`alsoFrom`). (e) A relief man may still be chosen a courier on March 3 or 5
+(Smith's precedent) - `docs/ALAMO_FATES.md` is amended. (f) Families nobody plays answer the runner at once, as before. (g) Posts on
+the walls. (h) Nobody reaches Béxar after February 23 by any other road, as before.
+
+### 9.5 What is shown and to whom
+
+The Host always, live, its camera on the compound while a held phase runs, its spotlight at the army's coming, the huts, the relief
+and the storming. A family while one of its own is inside or with the relief near the walls. Nobody else. Cards at the person's
+side, with Watch, at the army's coming, the relief and the storming - none before the alarm. The student whose man is inside sees
+him at his post, firing with his wall, and going down when the storming reaches it (§2b.1); the journal and the family's record
+learn nothing until the word (March 11 rumour, 13th confirmed at Gonzales, that evening elsewhere); the student who watched is
+given what they saw on the card; the word brings the account in plain words (what happened, where he was, why it ended so, the
+doubted stories named as doubted). Talk: "¡Viva Santa Anna!" (documented grade, no name), Travis's words from Joe's account at the
+north battery, Joe's own "Yes, here is one." - every other line reconstructed, no named person. The degüello and the line in the
+sand are never staged.
+
+### 9.6 Evidence
+
+`tests/battle-alamo.test.mjs` (13), `tests/battle-alamo-view.test.mjs` (7), the Alamo tests updated where the rules moved
+(`tests/alamo.test.mjs`, `tests/alamo-runner.test.mjs`: fates now fall by seven, and the man walks in before the runner walks to
+him); `npm run test:battle-alamo` (`docs/evidence/battle-alamo-browser.json`); `npm run test:battle-alamo-injections`
+(`docs/evidence/battle-alamo-injections.json`). Same computer only.
+
+### 9.7 Limits
+
+- ceiling: the garrison drawn about one to five, the columns one to thirty; the family's own are always drawn one to one.
+- ceiling: routes found once from the plan and kept as numbers; the church and the palisade are reached round the palisade's end,
+  where the plan leaves an opening.
+- ceiling: a relief man without a horse keeps the company's pace on one it lends him, which is not an entity.
+- The map's closest zoom holds the compound at about 120–160 pixels across; figures are symbols larger than life, so a wall of men is
+  a crowded line. A closer camera for the compound is the way out.
+- Night is a wash (stand-in); ladders are strokes (stand-in); the lancers carry no lances (stand-in). `docs/ART_REQUESTS.md`,
+  request 2026-09-25 — the Alamo.
+- Not built: the noncombatants killed in the storming (`HIST-TEX-433`, the existing `ceiling:`); the executions shown (told only);
+  Dickinson, Joe and Ben as travellers to Gonzales (the word at Gonzales on the 13th stands for them); Bowie drawn.

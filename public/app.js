@@ -641,6 +641,9 @@ function townGround(world, entity, camera, now, frozen) {
   return { at: one.at, stepping: one.moving ? one.dir : null, pose: posed };
 }
 function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
+  // One of the family who fell at the Alamo, which the student watched (docs/BATTLES.md §2b.1): drawn lying where he fell
+  // while the fight is drawn, and not after it - he is not seen standing at his post again. The family is told nothing.
+  if (entity.service?.seenFall && !battleView.isMember(entity.id)) return;
   // The horse is under its rider, and the ox and wagon under their driver, drawn with them (public/motion.js `seatOf`).
   if (!marks.observed && carriedWithRider(entity, marks.entities || [])) return;
   const seat = marks.observed ? null : seatOf(entity, marks.entities || []);
@@ -1306,11 +1309,14 @@ const clampTo = (value, limits) => Math.max(limits.min, Math.min(limits.max, val
  * The ground a fight is framed on: each side and the gun with room round them for their ranks and their smoke, and more
  * above than below, because the top of the page carries the banner and the caption and the figures stand up from their feet.
  */
-const fieldFrame = points => points.flatMap(point => [{ x: point.x - 0.13, y: point.y - 0.24 }, { x: point.x + 0.13, y: point.y + 0.1 }]);
-// Each side where it stands, and the gun (public/battle-view.js draws them there).
+const fieldFrame = points => points.frame ? points : points.flatMap(point => [{ x: point.x - 0.13, y: point.y - 0.24 }, { x: point.x + 0.13, y: point.y + 0.1 }]);
 // Where the engagement names the ground it is fought over (Béxar: the houses north of the plaza and the Alamo's guns at the
-// east edge), that ground; otherwise each side where it stands, and the gun.
-const battlePoints = world => (world.battle?.frame?.length ? world.battle.frame : [...(world.battle?.sides || world.battle?.formations || []), ...(world.battle?.cannon ? [world.battle.cannon] : [])]).map(point => ({ x: point.x, y: point.y }));
+// east edge), that ground; otherwise each side where it stands, and the gun. A frame the engagement marks tight (`frameTight`,
+// the Alamo's compound, whose frames already hold the room round it) is taken as it is, with no room added.
+const battlePoints = world => {
+  const points = (world.battle?.frame?.length ? world.battle.frame : [...(world.battle?.sides || world.battle?.formations || []), ...(world.battle?.cannon ? [world.battle.cannon] : [])]).map(point => ({ x: point.x, y: point.y }));
+  return world.battle?.frame?.length && world.battle.frameTight ? Object.assign(points, { frame: true }) : points;
+};
 function framingFor(world) {
   // The country outside the box (docs/MAP_ACCURACY.md §11) is drawn where it is, but it never frames a view: framing the
   // region on Matamoros, 250 miles south of the colonies, would shrink the settlements to nothing. The map still zooms out
@@ -1376,6 +1382,8 @@ function cameraFor(world, canvas, now = performance.now()) {
   // than holding on a person who is not on the map. Without the `location` test `raw` below was null and the frame threw,
   // once a student pressed the portrait of somebody the class's clock had carried out of sight (found 2026-09-21 by
   // scripts/travel-sight-proof.mjs).
+  // Never kept on somebody who has fallen (docs/BATTLES.md §2b.1: the camera stays on the wall, not on him).
+  if (watchedId && entitiesOf(world).some(entity => entity.id === watchedId && entity.service?.seenFall)) watchedId = null;
   const watched = watchedId ? entitiesOf(world).find(entity => entity.id === watchedId && entity.location) : null;
   const at = watched?.location
     ? motionProjection.position(watched, now, reducedMotion.matches || world.status !== 'running')
