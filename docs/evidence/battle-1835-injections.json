@@ -243,7 +243,7 @@
       "file": "sim/battles/concepcion.mjs",
       "expect": "not looser than the Mexican ranks",
       "caught": true,
-      "failure": "the Texians under the bank are not looser than the Mexican ranks: {\"texian\":0.16721011257669186,\"mexican\":0.15572485840104341,\"bowie\":0.3059170412966305,\"coleman\":0.04356437096880873,\"cavalry\":0.02441406243296715}",
+      "failure": "the Texians under the bank are not looser than the Mexican ranks: {\"texian\":0.16721011257669186,\"mexican\":0.15572485840104303,\"bowie\":0.3059170412966305,\"coleman\":0.04356437096880873,\"cavalry\":0.02441406243296715}",
       "checksPassedFirst": 4
     },
     {
@@ -261,7 +261,7 @@
       "file": "public/battle-view.js",
       "expect": "the fate was not drawn in its pose",
       "caught": true,
-      "failure": "the fate was not drawn in its pose: {\"fates\":[{\"id\":\"hh-1-thomas\",\"fate\":\"killed\"}],\"clips\":[\"volunteer-march\",\"volunteer-idle-e\",\"volunteer-fire-reload\",\"volunteer-load\"],\"phase\":\"aftermath\",\"minute\":43370,\"health\":\"dead\"}",
+      "failure": "the fate was not drawn in its pose: {\"fates\":[{\"id\":\"hh-1-thomas\",\"fate\":\"killed\"}],\"clips\":[\"volunteer-march\",\"volunteer-idle-e\",\"volunteer-fire-reload\",\"volunteer-load\"],\"phase\":\"retreat\",\"minute\":43365,\"health\":\"dead\"}",
       "checksPassedFirst": 6
     },
     {
@@ -306,7 +306,7 @@
       "file": "sim/concepcion-grass.mjs",
       "expect": "the Host's camera was not sent to the field",
       "caught": true,
-      "failure": "the Host's camera was not sent to the field while it was fought: {\"battle\":\"grass-fight\",\"phase\":\"ambush\",\"focus\":\"regional\",\"camera\":\"region\",\"drawn\":{\"texian\":23,\"mexican\":11},\"smoke\":56,\"seen\":[\"grass-fight:85260\"]}",
+      "failure": "the Host's camera was not sent to the field while it was fought: {\"battle\":\"grass-fight\",\"phase\":\"ambush\",\"focus\":\"regional\",\"camera\":\"region\",\"drawn\":{\"texian\":23,\"mexican\":11},\"smoke\":57,\"seen\":[\"grass-fight:85260\"]}",
       "checksPassedFirst": 7
     },
     {

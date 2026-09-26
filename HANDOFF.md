@@ -6,8 +6,8 @@ Wave 2 of docs/BATTLES.md §5, owner-directed 2026-09-25 (*"build it for every c
 to happen in such a way that their character arrives in time to participate and does participate ... players should walk
 away understanding what happened"*). Staged from `docs/battle-research/staging.md` §1–§2 with every question at its
 recommended answer (C1 (a), Grass G1 (a)). docs/BATTLES.md §8 is the build; claims `HIST-TEX-480`–`-484`,
-`FIC-GONZ-420`–`-424`. Built on the one engine as the storming of Béxar left it (merged from main 1c77c91): its groups, guns
-and the one per-person fate path (`stageFate`/`fatesDue`), with no second mechanism.
+`FIC-GONZ-420`–`-424`. Built on the one engine as the storming of Béxar and the south left it (merged from main 84b9c24): its groups, guns
+the one per-person fate path (`stageFate`/`fatesDue`), the one pinning of the fallen (`fallenSpots`) and the one `scenery`, with no second mechanism.
 
 - **Concepción** (`sim/battles/concepcion.mjs`): the division leaves Espada at 14:00 Oct 27 (new director moment
   `detachment-out`), walks two hours to a bend a quarter mile north-west of the mission, camps under the bank (the night not
@@ -43,7 +43,7 @@ and the one per-person fate path (`stageFate`/`fatesDue`), with no second mechan
   ticks, about **+12 to +14 real minutes on a class at Study** (the old moments took about 2 and 6-18 ticks).
 - **Tests**: new `tests/battle-concepcion.test.mjs` (9), `tests/battle-grass.test.mjs` (6), `tests/battle-view-groups.test.mjs`
   (6); `tests/concepcion.test.mjs` updated (the army comes up by ten; the question open until the division goes). `npm test`:
-  **1256 pass, 0 fail** after merging main.
+  **1277 pass, 0 fail** after merging main (the storming of Béxar and the south to the Nueces).
 - **Injections** (`npm run test:battle-1835-injections`, `docs/evidence/battle-1835-injections.json`): **32 of 32 caught** by the check written for them - 22 unit injections, each failing its named test and no other in its file, and 10 browser injections, each failing the proof with its own message (no fog; the Mexican infantry drawn loose; nobody hit where the seed hits them; a hit man drawn firing on; the family at Espada never hearing it; no account; no alert; Jack's men scattered on the way out; the Host kept off the field; a family with nobody there sent the fight); clean runs before and after, every file restored byte for byte.
 - **Browser** (same computer, headless Chrome, 1366x768 and 1024x768): `npm run test:battle-concepcion` (13 checks) and
   `npm run test:battle-grass` (13 checks), `docs/evidence/battle-1835-browser.json`, screenshots `test-results/battle-*-*.png`:
@@ -51,7 +51,7 @@ and the one per-person fate path (`stageFate`/`fatesDue`), with no second mechan
   on screen; fire and smoke at every sampled moment; fog while ringed; loose under the bank (0.167) against ranks (0.051); the
   guard scattered (0.134) and Jack's double file (0.026); 35 and 19 lines drawn; a family's man killed at Concepción and one
   hurt at the ditch, drawn so; the Host on the field; the nearby family sent what it hears; a family with nobody there sent
-  nothing before and after a reload; the account. Re-run after the merge: test:battle-gonzales (12), test:battle-bexar (15),
+  nothing before and after a reload; the account. Re-run after the merges: test:battle-gonzales (12), test:battle-bexar (15), test:battle-south (15),
   test:alamo-siege (8), test:lesson (33), test:panels (14).
 - **Not done / limits**: the map has no San Antonio River or Alazán at Béxar, so the bend and creek beds are placed by offset
   and drawn as scenery (`ceiling:`); the second gun and the padre's carts are told, not drawn; a killed man lies where he fell
