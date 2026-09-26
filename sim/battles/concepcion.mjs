@@ -243,6 +243,8 @@ export const CONCEPCION = Object.freeze({
         // Richard Andrews, crossing the open with Coleman's men (`HIST-TEX-481`); never named on the field.
         { side: TEX, group: 'coleman', count: 1, at: 11, claimId: 'HIST-TEX-481', carried: true },
       ],
+      // stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 5 - the bugle calls are captioned over the
+      // infantry's officer until a bugler figure exists.
       lines: [
         say('c-bugle-1', 1, MEX, 'bugler', 'documented', '[The bugle sounds the charge]', { claimId: 'HIST-TEX-480', gloss: '“a charge is sounded” (Bowie and Fannin’s report)' }),
         say('c-bayoneta', 2, MEX, 'officer', 'reconstructed', '¡Armen la bayoneta!', { gloss: 'Fix bayonets!' }),

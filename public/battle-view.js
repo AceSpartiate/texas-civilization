@@ -209,6 +209,8 @@ export function createBattleView(art) {
     const right = (side?.facing?.x ?? 1) >= 0;
     // Hit: sitting hurt, or going down and lying still (no blood, no gore, VISION.md §16); or running from the field, away
     // from the enemy. A family's own person, at the moment the server dated it.
+    // stand-in: docs/ART_REQUESTS.md, 2026-09-25 "battles" items 1 and 3 - the militia's own injured and reclining frames, until
+    // each cast has its own.
     if (member.fate) {
       const since = (view.now ?? performance.now()) - (view.memberFateAt.get(member.id) ?? -Infinity);
       if (member.fate === 'ran') return { clip: 'volunteer-march', flip: right, timeMs: time };
