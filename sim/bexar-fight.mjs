@@ -316,7 +316,8 @@ export function bexarProjection(world, householdId, role, { seen = [] } = {}) {
     return alive(person) || (entry.fell >= phase.from);
   }).map(([id]) => id);
   const units = Object.fromEntries(inForce.map(id => [id, unitFor(battle.participants[id], phase)]));
-  const fates = Object.fromEntries(Object.entries(battle.fates || {}).filter(([, fate]) => fate.applied));
+  // Every staged fate: the engine sends a member's only once its minute has come (projectBattle), and nothing before.
+  const fates = battle.fates || {};
   const project = members => ({ ...projectBattle(world, BEXAR_ID, { members, units, fates }), reconstruction: false });
   if (role === 'host') {
     const held = Boolean(phase.step && phase.contact);

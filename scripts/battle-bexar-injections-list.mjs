@@ -2,8 +2,8 @@
 // of the code replaced with the mistake; the check written for it, and only it, must fail.
 const T = 'tests/battle-bexar.test.mjs', V = 'tests/battle-bexar-view.test.mjs';
 export const UNIT = [
-  { name: 'the men are set down in the town rather than walking there', file: 'sim/bexar-fight.mjs',
-    from: '    const part = gap <= step ? 1 : step / gap;', to: '    const part = 1;',
+  { name: 'the men dawdle into the town and are still near the mill when the fighting starts', file: 'sim/bexar-fight.mjs',
+    from: '    walk(person, placeFrom(centre, { x: dx / span, y: dy / span }, looseSlot(id, index, spread)));', to: '    walk(person, placeFrom(centre, { x: dx / span, y: dy / span }, looseSlot(id, index, spread)), 0.02);',
     test: T, expect: 'a yes to Milam walks out of the mill at three and into the town before contact, stands in a division and fights, and cannot be sent away' },
   { name: 'the white flag waits on the reinforcement again', file: 'sim/directors.mjs',
     from: "  once(world, 'white-flag', () => fightStorming(", to: "  if (world.director.milestones.ugartechea) once(world, 'white-flag', () => fightStorming(",
