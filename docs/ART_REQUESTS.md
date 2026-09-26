@@ -44,6 +44,7 @@ does not have:
 | Béxar's fields are the `fields` wash with stubble and fallow scattered on it; **the acequias are still not drawn** and no brush fence stands. The art for them landed 2026-09-21 (`acequia-straight`, `-bend`, `-crossing`, `fence-brush`, all registered and unused) and what is missing is now the LAYOUT: where each ditch ran, which is a researched course and a claim ID, not a sprite | `fields` in `public/ground-classes.js`; the envelope in `scripts/terrain/biomes.mjs` `BEXAR_FIELDS`; nothing yet in `public/bexar-layout.js` | Request 2026-09-19 — Béxar's fields and acequias | The acequia courses themselves, laid by `public/bexar-layout.js` from the delivered pieces |
 | **Words only for everything but the deer, the turkey and the mustang.** Since 2026-09-19 (docs/BIOME_GAMEPLAY.md §3.1) a hunt on a class of the biomes brings the quarry its place holds - turkey, bear, buffalo, antelope, mustang, javelina, ducks and geese, a wild cow, or a deer - and says so before it goes ("Waiting here, a turkey: four food."), at the shot ("downwind of a bear") and in the record ("brought down a buffalo"). The deer (2026-09-15), the turkey and the mustang (both 2026-09-21) are drawn where the server put them; every other quarry is given no place to be drawn at (`chore.quarry` stays unset), because a deer drawn where the words say a bear would be a wrong picture | `DRAWN_GAME`, `quarryAt` and `GAME` in `sim/hunting.mjs`; the drawing is decided where `quarryPoint` is called in `sim/chores.mjs`, and `miniQuarry` in `public/app.js` picks the sheet by `quarry.kind` | Request 2026-09-19 — the game of 1836 | `wildlife-bear`, `-javelina`, `-pronghorn`, `-bison`, `-geese`, `-cattle`; each one lands, its id joins `DRAWN_GAME` and nothing else has to change |
 | The panel icon for fetching logs from the timber is a canvas glyph: three logs laid across a wagon bed on two wheels, in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-19 — the logs fetched from the timber | `icon-fetch-logs` |
+| **Gonzales before the fight** (2026-09-25): the flag is canvas strokes (white field, black cannon, star, words); the breastwork of logs is `earth-rampart`; the canoes are `skiff`; the gun in the peach orchard is `cannon-bronze-e` under a canvas mound and its ploughed ground canvas furrows; the gun on its cart wheels is the bronze field gun; painting the flag and fitting the gun are the `repair` pose, digging is `work`, looking hard across the river is `search`, carrying cloth and bundles is `carry`; the regidor reading the letter is `speak` with no letter in hand | `STAND_INS` in `sim/town-scenes.mjs`; `drawFlag`, `drawProp`, `sceneClip` in `public/town-scenes.js` | Request 2026-09-25 — Gonzales before the fight | The request's items 1–7; each lands in `drawProp` or as a pose `STAND_INS` names |
 | In a **hard** norther the broad oak, the spreading oak, the pecan and the grass tuft now take Astra's painted gale poses, and a camp fire's smoke streams (delivered 2026-09-21). Everything else still standing in that wind — pine, cedar, mesquite, live oak, elm, scrub, reeds, prickly pear, and every sized tree of `trees-colonies-1` and `-2` — is the library's own upright sprite sheared about its foot | `GALE_POSES` and `windLean` in `public/weather-art.js`, applied by `postOak`, `plain` and `drawGroundDetail` in `public/app.js` | Request 2026-09-20 — the country in a norther | A gale silhouette for each remaining tree kind and ground mark, at the same one strength as the five delivered |
 
 | A house placed at a quarter or half turn is drawn from the one front view the house-modules sheet has: each piece stands upright in its turned cells, and at 90 and 270 degrees every piece is that picture mirrored (the gable brought round to the other face, the ridge on the other diagonal). The gable facing the viewer always shows the door, in the picture and mirrored. The porch, shed room and passage are their one picture whichever way they run. Since 2026-09-24 a house's pictures are chosen for its chimneys, one picture for the whole house (`housePicture`; that morning each pen alone, `mirrorPens`): a cabin whose chimney gable is to the screen's side stands it against the doorless back gable of the unmirrored pen (to the right) or the mirrored pen (to the left), so the cabin at 180 degrees is mirrored; a dog-run or saddlebag keeps the house's mirroring, both pens the same way round along one ridge (`alongRidge`). A chimney on the gable the picture draws with its door stands in front of the door, and covers it whole, so the gable reads as the chimney's end: the cabins at 90 degrees, and at every turn the dog-run's near chimney (the near end of its ridge) and the saddlebag's double chimney (the far pen's door gable) | `drawHousePlot` (`rotation`, `turned`) in `public/house-plot.js`, called by `drawPlacedHouse` in `public/app.js` | Request 2026-09-23 — the house from its other sides | The pen's back gable (no door in the gable toward the viewer) for full walls, low walls and sill - or a pen with its door on its long side - and each piece's end-on view: passage, porch and shed room running into the screen. With them every pen takes the house's mirroring again and no chimney stands before a door at any turn |
@@ -109,6 +110,41 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-25 — Gonzales before the fight
+
+**Why.** The owner, 2026-09-25: *"when i try to watch a battle, or actions that led to a battle, i see npc's just standing around.
+example: there's no one worried at gonzales that the mexicans are coming. there's no group of women making the come and take it
+flag."* The town now has dated scenes from September 29 to October 2, 1835 (`sim/town-scenes.mjs`, docs/GONZALES_ART.md, research
+in docs/battle-research/gonzales-town.md, `HIST-TEX-460` to `-469`), and several things they show have no art.
+
+**What**, in the frontier-v1 style and scale (people as the `teal`/`indigo`/`elder`/`ochre` sheets; props as `cannon-bronze-e` and
+`home-table`), each a transparent sheet with the usual anchor at the feet or the base:
+
+1. **Painting and hemming a flag at a table** — a woman standing (and one seated) at a table, brush or needle in hand, two frames,
+   east (mirrored for west), for `teal`, `indigo` and `blue-girl`. Replaces `repair` in `STAND_INS.paint`.
+2. **Digging with a spade** — a man thrusting and lifting a spade, four frames, east, for `elder`, `ochre` and `blue`. Replaces
+   `work` (the hoe) in `STAND_INS.dig`.
+3. **At the forge and anvil** — a smith hammering on an anvil with a small forge beside him, and a man cutting chain with a cold
+   chisel, two to four frames, east; the forge and anvil also as a prop. Replaces `repair` in `STAND_INS.forge`.
+4. **Pointing across the river** — a man and a woman standing, one arm out, the other shading the eyes, two frames, east and
+   south. Replaces `search` in `STAND_INS.point`.
+5. **The flag** — "a breadth of white cotton cloth about six feet long" with a black cannon painted on it, a lone star above and
+   "COME AND TAKE IT" beneath (Smithwick; the star is disputed, so also one without it), on a pole: still, and a four-frame wave;
+   and flat on a table half-painted and finished. Replaces `drawFlag`'s strokes.
+6. **The gun on two cart wheels** — a small bronze six-pounder lashed on the axle of a pair of heavy cotton-wagon wheels, no proper
+   carriage, east and west; and the same gun half out of a hole in ploughed ground. Replaces the field-carriage `cannon-bronze-e`
+   and the canvas mound.
+7. **A log breastwork at a ferry landing, and dugout canoes drawn up** — a low wall of laid logs with men able to stand behind it,
+   and two or three canoes on the bank. Replace `earth-rampart` and `skiff`.
+
+**How it plugs in.** Poses: register the clips as `<figure>-paint`, `-dig`, `-forge`, `-point` and change the four entries of
+`STAND_INS` in `sim/town-scenes.mjs`; nothing else moves (the page asks for `${figure}-${pose}`). Props: the new frame names go
+into `drawProp` in `public/town-scenes.js` (`flag`, `flag-work`, `cannon`, `cannon-buried`, `breastwork`, `skiff`).
+
+**Check.** At the Gonzales framing and one wheel-click closer: the women read as making something at the table, the men in the
+orchard as digging, the flag as the flag, the gun as a small gun on cart wheels and not an artillery piece; `npm run test:gonzales-town`
+still passes and its close pictures are looked at.
 
 ## Request 2026-09-25 — the carreta
 
