@@ -1,0 +1,211 @@
+{
+  "record": "battle-class-time",
+  "date": "2026-09-26",
+  "pace": {
+    "study": 9500
+  },
+  "classes": [
+    {
+      "families": 5,
+      "ticks": 1370,
+      "studyMinutes": 216.9,
+      "periods": [
+        {
+          "period": 1,
+          "ticks": 618,
+          "complete": true
+        },
+        {
+          "period": 2,
+          "ticks": 316,
+          "complete": true
+        },
+        {
+          "period": 3,
+          "ticks": 436,
+          "complete": true
+        }
+      ],
+      "reachedEnding": true,
+      "endingFamilies": 5,
+      "fights": {
+        "gonzales": {
+          "heldTicks": 56,
+          "calendarMinutes": 460,
+          "addedTicks": 43.7,
+          "addedStudyMinutes": 6.9
+        },
+        "concepcion": {
+          "heldTicks": 47,
+          "calendarMinutes": 840,
+          "addedTicks": 45.8,
+          "addedStudyMinutes": 7.3
+        },
+        "grass-fight": {
+          "heldTicks": 49,
+          "calendarMinutes": 215,
+          "addedTicks": 48.7,
+          "addedStudyMinutes": 7.7
+        },
+        "bexar-storming": {
+          "heldTicks": 96,
+          "calendarMinutes": 4165,
+          "addedTicks": 90.2,
+          "addedStudyMinutes": 14.3
+        },
+        "alamo": {
+          "heldTicks": 56,
+          "calendarMinutes": 4285,
+          "addedTicks": 50,
+          "addedStudyMinutes": 7.9
+        },
+        "alamo+san-patricio": {
+          "heldTicks": 33,
+          "calendarMinutes": 195,
+          "addedTicks": 32.7,
+          "addedStudyMinutes": 5.2
+        },
+        "agua-dulce+alamo": {
+          "heldTicks": 38,
+          "calendarMinutes": 200,
+          "addedTicks": 37.7,
+          "addedStudyMinutes": 6
+        },
+        "coleto": {
+          "heldTicks": 84,
+          "calendarMinutes": 1440,
+          "addedTicks": 78,
+          "addedStudyMinutes": 12.3
+        },
+        "goliad-massacre": {
+          "heldTicks": 42,
+          "calendarMinutes": 480,
+          "addedTicks": 40,
+          "addedStudyMinutes": 6.3
+        },
+        "san-jacinto": {
+          "heldTicks": 69,
+          "calendarMinutes": 900,
+          "addedTicks": 65.3,
+          "addedStudyMinutes": 10.3
+        }
+      },
+      "addedTicks": 532.1,
+      "addedStudyMinutes": 84.2,
+      "engagementsArmed": [
+        "gonzales",
+        "concepcion",
+        "grass-fight",
+        "bexar-storming",
+        "san-patricio",
+        "agua-dulce",
+        "alamo",
+        "san-jacinto",
+        "coleto",
+        "goliad-massacre"
+      ],
+      "secondsToRun": 13
+    },
+    {
+      "families": 15,
+      "ticks": 1370,
+      "studyMinutes": 216.9,
+      "periods": [
+        {
+          "period": 1,
+          "ticks": 618,
+          "complete": true
+        },
+        {
+          "period": 2,
+          "ticks": 316,
+          "complete": true
+        },
+        {
+          "period": 3,
+          "ticks": 436,
+          "complete": true
+        }
+      ],
+      "reachedEnding": true,
+      "endingFamilies": 15,
+      "fights": {
+        "gonzales": {
+          "heldTicks": 56,
+          "calendarMinutes": 460,
+          "addedTicks": 43.7,
+          "addedStudyMinutes": 6.9
+        },
+        "concepcion": {
+          "heldTicks": 47,
+          "calendarMinutes": 840,
+          "addedTicks": 45.8,
+          "addedStudyMinutes": 7.3
+        },
+        "grass-fight": {
+          "heldTicks": 49,
+          "calendarMinutes": 215,
+          "addedTicks": 48.7,
+          "addedStudyMinutes": 7.7
+        },
+        "bexar-storming": {
+          "heldTicks": 96,
+          "calendarMinutes": 4165,
+          "addedTicks": 90.2,
+          "addedStudyMinutes": 14.3
+        },
+        "alamo": {
+          "heldTicks": 56,
+          "calendarMinutes": 4285,
+          "addedTicks": 50,
+          "addedStudyMinutes": 7.9
+        },
+        "alamo+san-patricio": {
+          "heldTicks": 33,
+          "calendarMinutes": 195,
+          "addedTicks": 32.7,
+          "addedStudyMinutes": 5.2
+        },
+        "agua-dulce+alamo": {
+          "heldTicks": 38,
+          "calendarMinutes": 200,
+          "addedTicks": 37.7,
+          "addedStudyMinutes": 6
+        },
+        "coleto": {
+          "heldTicks": 84,
+          "calendarMinutes": 1440,
+          "addedTicks": 78,
+          "addedStudyMinutes": 12.3
+        },
+        "goliad-massacre": {
+          "heldTicks": 42,
+          "calendarMinutes": 480,
+          "addedTicks": 40,
+          "addedStudyMinutes": 6.3
+        },
+        "san-jacinto": {
+          "heldTicks": 69,
+          "calendarMinutes": 900,
+          "addedTicks": 65.3,
+          "addedStudyMinutes": 10.3
+        }
+      },
+      "addedTicks": 532.1,
+      "addedStudyMinutes": 84.2,
+      "engagementsArmed": [
+        "gonzales",
+        "concepcion",
+        "grass-fight",
+        "bexar-storming",
+        "san-patricio",
+        "agua-dulce",
+        "alamo",
+        "san-jacinto",
+        "coleto",
+        "goliad-massacre"
+      ],
+      "secondsToRun": 40
+    }
+  ]
+}

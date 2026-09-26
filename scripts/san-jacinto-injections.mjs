@@ -79,7 +79,8 @@ const UNIT = [
   { name: 'the Texian officers give the Mexican words', file: 'public/battle-view.js',
     from: '      const words = battle.commands?.bySide?.[side.side]?.volley || battle.commands?.[side.side]?.volley || battle.commands?.volley;', to: '      const words = battle.commands?.[side.side]?.volley || battle.commands?.volley;', test: V, expect: TESTS.words },
   { name: 'the dead slide along with their side', file: 'public/battle-view.js',
-    from: '      if (pin && (pin.down || (!down && pin.layout === layout))) return pin;', to: '      if (false) return pin;', test: V, expect: TESTS.rout },
+    // Since the merge of 2026-09-26 the fallen of every body are held by one rule, `fallenSpots` (the pin keeps men giving up).
+    from: '        if (down && !view.fallenSpots.has(seedKey)) view.fallenSpots.set(seedKey, at);', to: '        if (down) view.fallenSpots.set(seedKey, at);', test: V, expect: TESTS.rout },
   { name: 'a later fall lands on a man already down', file: 'public/battle-view.js',
     from: '      const order = [...seen].filter(slot => !map.has(slot.index)).sort(', to: '      const order = [...seen].sort(', test: V, expect: TESTS.rout },
   { name: 'a group of horse is counted into its side', file: 'public/battle-view.js',

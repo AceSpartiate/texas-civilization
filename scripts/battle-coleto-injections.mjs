@@ -42,7 +42,7 @@ const UNIT = [
     from: "action: alerted.stage === 'march' || id === 'goliad-massacre' ? WATCHED[id] : 'Watch' };", to: "action: 'Watch' };",
     test: COLETO, expect: 'the alerts come through the man: Follow on the march, Watch when the column is caught and when the guns open, Follow at the muster; never to a family with nobody there' },
   { name: 'a class saved before the engine is never given Coleto', file: 'sim/fannin.mjs',
-    from: "  if (!world.map?.sites?.goliad || !Number.isFinite(start)) return;\n  const battle = armBattle(world, 'coleto', start);", to: "  if (!world.map?.sites?.goliad || !Number.isFinite(start) || !world.battles) return;\n  const battle = armBattle(world, 'coleto', start);",
+    from: "  if (!world.map?.sites?.goliad || !Number.isFinite(start)) return;\n  const battle = armBattle(world, 'coleto', start);", to: "  if (!world.map?.sites?.goliad || !Number.isFinite(start) || (!world.battles?.coleto && world.minute > start)) return;\n  const battle = armBattle(world, 'coleto', start);",
     test: COLETO, expect: 'a class saved in the middle of Coleto reopens in the middle of it, and one saved before the engine gains it from the clock, with no save version moved' },
   { name: 'the night at Coleto watched twenty minutes a tick: the fight runs past the lesson', file: 'sim/battles/coleto.mjs',
     from: "      id: 'night', minutes: 480, step: 240, light: 'night',", to: "      id: 'night', minutes: 480, step: 20, light: 'night',",

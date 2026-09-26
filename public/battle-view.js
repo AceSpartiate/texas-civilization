@@ -325,18 +325,20 @@ export function createBattleView(art) {
     return { clip: 'volunteer-fire-reload', flip: !right, timeMs: t - member.wait };
   }
   /**
-   * Where a man of a body stands: where the layout puts him, or - once he has fallen or put his hands up - where he was then,
-   * pinned to the ground (San Jacinto: the dead do not slide along with a side that runs on past them). A surrendering man is
-   * held only while his body keeps its layout; a fallen man for good.
+   * Where a man of a body stands: where the layout puts him, or - once he has put his hands up - where he was then, pinned to
+   * the ground while his body keeps its layout (San Jacinto: men giving up stand where they gave up while their side runs on).
+   * A man who falls after giving up falls there. The fallen themselves are held where they fell by `fallenSpots`, one rule for
+   * every body since the merge of 2026-09-26 (two rules for the same thing hid each other's regressions).
    */
-  function pinnedAt(key, place, down, hands, layout) {
+  function pinnedAt(key, place, hands, layout, down) {
     const pin = view.pins.get(key);
-    if (down || hands) {
-      if (pin && (pin.down || (!down && pin.layout === layout))) return pin;
-      view.pins.set(key, { x: place.x, y: place.y, layout, down: Boolean(down) });
+    if (hands) {
+      if (pin && pin.layout === layout) return pin;
+      view.pins.set(key, { x: place.x, y: place.y, layout });
       return place;
     }
-    if (pin && !pin.down) view.pins.delete(key);
+    if (pin && down) return pin;
+    if (pin) view.pins.delete(key);
     return place;
   }
   /** Where app.js drew a member this frame, on the ground: the next shot's smoke comes from there. */
@@ -453,10 +455,10 @@ export function createBattleView(art) {
         const down = fallen.get(slot.index);
         // Hands up: a share of a broken side stands where it gave up (`surrendering`), and stays there while the side runs on.
         const hands = !down && side.surrendering > 0 && hash(`${side.key}:${slot.index}:s`) < side.surrendering;
-        // Any body's fallen and surrendering stay where they went down or gave up while it runs on (San Jacinto, §8)...
-        const at = pinnedAt(seedKey, onGround(centre, facing, slot), !side.part && down, !side.part && hands, key);
+        // A body's surrendering stay where they gave up while it runs on (San Jacinto, §8)...
+        const at = pinnedAt(seedKey, onGround(centre, facing, slot), !side.part && hands, key, down);
         // ...and a man who fell lies where he fell, whatever his side or part does after, and after it has left the field
-        // (§6.13, Concepción's Coleman's men crossed over): the spot is kept, and whose he was, for when his body is gone.
+        // (§6.13, §8, Concepción's Coleman's men crossed over): the spot is kept, and whose he was, for when his body is gone.
         if (down && !view.fallenSpots.has(seedKey)) view.fallenSpots.set(seedKey, at);
         const ground = down ? view.fallenSpots.get(seedKey) : at;
         if (down) view.fallenSide.set(side.key, side.side);

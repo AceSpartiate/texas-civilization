@@ -23,7 +23,8 @@ const UNIT = [
     from: 'members.filter(one => fates[one] && fates[one].minute <= world.minute)', to: 'members.filter(one => fates[one])',
     test: SOUTH, expect: 'each man\'s fate is the roll it always was, lands at its own moment inside the fight, and is on no screen and in no report before' },
   { name: 'Agua Dulce kept at six in the morning', file: 'sim/directors.mjs',
-    from: "'agua-dulce': 223830,", to: "'agua-dulce': 223560,",
+    // Both moments moved together, as the fight was dated before 2026-09-25 (the drive two hours before the charge since 2026-09-26).
+    from: "'agua-dulce-drive': 223710,\n  'agua-dulce': 223830,", to: "'agua-dulce-drive': 223440,\n  'agua-dulce': 223560,",
     test: SOUTH, expect: 'San Patricio is fought at three in the morning of February 27, Agua Dulce at half past ten on March 2, and the day never moves' },
   { name: 'the men are put in the force only after the first shot', file: 'sim/south.mjs',
     from: '  if (!state.over && world.minute < contactFrom) {', to: '  if (!state.over && world.minute >= contactFrom) {',
@@ -56,13 +57,20 @@ const UNIT = [
     from: '        const ground = down ? view.fallenSpots.get(seedKey) : at;', to: '        const ground = down && !side.part ? view.fallenSpots.get(seedKey) : at;',
     test: VIEW, expect: 'a man who falls lies where he fell while the rest of his part is marched off' },
   { name: 'a family\'s man killed is still drawn at his work', file: 'public/battle-view.js',
-    from: "      if (fell.fate === 'killed') return", to: "      if (false) return",
+    from: "    if (fell && since >= 0 && fell.fate !== 'escaped') {", to: "    if (fell && since >= 0 && fell.fate !== 'escaped' && fell.fate !== 'killed') {",
     test: VIEW, expect: 'a family\'s man is drawn in his part - asleep, in the house, giving up - and once his fate has come, in it' },
   // The owner's decisions of 2026-09-26 (docs/BATTLES.md §2b.7, §2b.8).
   { name: 'Agua Dulce kept at the point near Banquete, ten miles out', file: 'scripts/build-colonies-map.mjs',
     from: "['agua-dulce', 'Agua Dulce Creek', 'ground', -97.81, 27.639,", to: "['agua-dulce', 'Agua Dulce Creek', 'ground', -97.84972, 27.8475,",
     rebuild: true,
-    test: MAP, expect: 'the Agua Dulce ground is the Handbook\'s twenty-six miles below San Patricio on the road south, not the point near Banquete' },
+    // The ground's point is held by the record's points, the roads' lengths, the Handbook's distance and the door that moves an
+    // older class's ground to it: all four are the check written for it.
+    test: MAP, expect: [
+      'San Patricio, the Agua Dulce ground and the end of the road south are places at the record\'s points',
+      'the Nueces is crossed only at San Patricio, and the roads from Refugio and Goliad reach San Patricio and go on by Agua Dulce',
+      'the Agua Dulce ground is the Handbook\'s twenty-six miles below San Patricio on the road south, not the point near Banquete',
+      'a class saved with the south before the owner moved Agua Dulce has it moved at the save\'s door, unless its drive north has begun',
+    ] },
   { name: 'a class saved with the old ground keeps it at the door', file: 'sim/south.mjs',
     from: '  if (southWalkable(world)) return moveAguaDulce(world);', to: '  if (southWalkable(world)) return false;',
     test: MAP, expect: 'a class saved with the south before the owner moved Agua Dulce has it moved at the save\'s door, unless its drive north has begun' },
@@ -139,7 +147,9 @@ if (which === 'all' || which === 'unit') {
   for (const file of files) { const clean = runUnit(file); if (!clean.passed) throw new Error(`${file} fails before any injection: ${clean.failed.join('; ')}`); }
   for (const injection of UNIT.filter(one => !only || one.name === only)) {
     const seen = inject(injection, () => runUnit(injection.test));
-    const caught = !seen.passed && seen.failed.length === 1 && seen.failed[0] === injection.expect;
+    // `expect` is the one test written for it, or the list of them where several hold the same thing; exactly those fail.
+    const want = [].concat(injection.expect);
+    const caught = !seen.passed && seen.failed.length === want.length && want.every(name => seen.failed.includes(name));
     record.unit.push({ name: injection.name, file: injection.file, test: injection.test, expect: injection.expect, caught, failed: seen.failed });
     console.log(`${caught ? 'caught' : seen.passed ? 'MISSED' : 'CAUGHT BY ANOTHER OR MORE THAN ONE'}: ${injection.name} -> ${seen.failed.join(' | ') || 'every test passed'}`);
   }

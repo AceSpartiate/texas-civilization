@@ -58,8 +58,12 @@ test('men under a bank drop below the lip to load and climb to fire; fog lies ov
   run(view, minute => battle(minute, { fog: 0.8, groups: [] }), 12);
   const loading = art.drawn.filter(one => one.sprite === 'volunteer-load'), firing = art.drawn.filter(one => one.clip === 'volunteer-fire-reload');
   assert.ok(loading.length && firing.length, 'nobody under the bank was drawn loading and firing');
-  const meanY = list => list.reduce((s, one) => s + one.y, 0) / list.length;
-  assert.ok(meanY(loading) - meanY(firing) > 5, `the loading men are not drawn below the firing men: ${meanY(loading).toFixed(1)} against ${meanY(firing).toFixed(1)}`);
+  // Man by man (the same man is at the same x loading and firing): lower when he loads than when he fires. Compared on the
+  // whole body's means this was hidden once the merge of 2026-09-26 moved where men stand, because who is loading at a moment
+  // is not spread evenly over the ground.
+  const firingAt = new Map(firing.map(one => [one.x.toFixed(2), one.y]));
+  const drops = loading.filter(one => firingAt.has(one.x.toFixed(2))).map(one => one.y - firingAt.get(one.x.toFixed(2)));
+  assert.ok(drops.length >= 5 && drops.every(drop => drop > 5), `the loading men are not drawn below where they fire: ${[...new Set(drops.map(d => d.toFixed(1)))].slice(0, 8).join(', ')} (${drops.length} compared)`);
   assert.equal(frame(createBattleView(fakeArt()), battle(0, { fog: 0.8 }), 0).fog, 0.8);
   assert.equal(frame(createBattleView(fakeArt()), battle(0), 0).fog, 0, 'fog drawn on a clear morning');
 });

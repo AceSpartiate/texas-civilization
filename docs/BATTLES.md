@@ -719,3 +719,39 @@ the army's April marches land as they did (`tests/battle-coleto.test.mjs`).
 - ceiling: one fight projected at a time (Béxar's, then Fannin's; they never overlap).
 - stand-ins: the marksmen prone, unarmed prisoners, Alavez's figure, the carts (`docs/ART_REQUESTS.md`, request 2026-09-25
   "Coleto and Goliad"); the white flag is §7's.
+
+## 12. Every engagement on one engine (2026-09-26, the integration; not released)
+
+The Alamo (§9), Concepción and the Grass Fight (§10) and Coleto and Palm Sunday (§11) were built on branches beside San Jacinto
+(§8) and merged into one tree, in that order. Ten engagements, one engine, one renderer:
+
+- **One staged-fate path.** Every director stages a person's fate with `stageFate` and applies it when `fatesDue` says so; the
+  page is told it only from its minute (`projectBattle`'s `fates`). No engagement keeps a second mechanism.
+- **One projection path, one fight at a time.** `directorProjection` asks, in order: Gonzales; Concepción and the Grass Fight
+  (only when nothing else is sent); Béxar; the south (before the Alamo, so San Patricio and Agua Dulce are what is shown while
+  they are fought inside the siege); Fannin's fights (Coleto, Palm Sunday); the Alamo (only when nothing else is sent); San
+  Jacinto. Alerts and accounts are taken from whichever has one.
+- **Light** is a word or a number. A named light (`'night'`, `'dawn'` - §6.13's dark with lit windows; `'dusk'`, `'fog'` - §11's
+  lighter wash) is sent as the word; the Alamo's light (0 to 1, or eased `[from, to]` across a phase) is sent as a number, never
+  an array. The page's evidence reports either.
+- **The fallen.** A body's fallen and surrendering are pinned where they went down (§8, `pinnedAt`); every fallen man's spot and
+  side is kept for when his body has left the field (§10, `fallenSpots`, `fallenSide`); each fall takes men still up, chosen
+  once and kept on the fall (`fallenBySide`), so many falls add up and a body gone from the field still has its dead.
+  `tests/battle-view-groups.test.mjs` holds the union; either half's regression fails it.
+- **Framing** (`battlePoints` in `public/app.js`): an engagement's own frame (tight where it says so, the Alamo); else its sides,
+  its groups (not a body gone from the field, unless nothing else is left; not a party more than a mile off, San Jacinto's
+  Deaf Smith riding for Vince's bridge) and its guns.
+- **Layouts:** the Alamo's `wall` of a given length and Coleto's `square` both; a member stands in for the nearest sampled man
+  (on a wall only the one he stands in); a square's man faces out of his own face. Volley words come from `commands.bySide`
+  (San Jacinto) or `commands[side]` (Coleto) or `commands.volley`.
+- **The clock** (`battleStep`): lands on the next held phase however many unheld ones lie between (§9), on an engagement's last
+  minute where it says `landOnEnd`, on a first phase held only at a background pace while a played family is in the force, and
+  holds a fight not yet recorded that its director says has started (`startsAt`, §8). Held steps of 60 and 240 (§11).
+
+**What the battles cost a class** (`scripts/battle-class-time.mjs`, `docs/evidence/battle-class-time.json`): a whole class of 5 or of
+15 families nobody plays runs from the arrival through all three periods to the ending in 1,370 ticks - about 3 hours 37
+minutes at Study (9.5 s a tick). The ticks the fights hold add 532 of them, **about 84 real minutes at Study**: Gonzales 6.9,
+Concepción 7.3, the Grass Fight 7.7, Béxar 14.3, the Alamo 7.9 (and the south's two fights inside its siege 5.2 and 6.0),
+Coleto 12.3, Palm Sunday 6.3, San Jacinto 10.3. Main before this merge ran 1,117 ticks (2 h 57 min), so the three merged
+branches add about 40 minutes. A played family's man in Béxar's town or the Alamo's garrison adds its `background` pace on top
+(§7.3: about 7.4 minutes; §9.3: about 5.5).

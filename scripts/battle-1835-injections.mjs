@@ -82,7 +82,11 @@ const UNIT = [
   { name: 'every gun served by volunteers, whoever\'s it is', file: 'public/battle-view.js',
     from: "    const who = gun.side === 'mexican' ? 'regular' : 'volunteer', back = right ? -1 : 1;", to: "    const who = 'volunteer', back = right ? -1 : 1;", test: V, expect: T.vGun },
   { name: 'Bowie\'s companies given ground too small for them', file: 'sim/battles/concepcion.mjs',
-    from: "count: 41, drawn: 20, style, spread: { width: 0.2, depth: 0.06 }", to: "count: 41, drawn: 20, style, spread: { width: 0.05, depth: 0.02 }", test: V, expect: T.vFits },
+    from: "count: 41, drawn: 20, style, spread: { width: 0.2, depth: 0.06 }", to: "count: 41, drawn: 20, style, spread: { width: 0.05, depth: 0.02 }",
+    // Since the Alamo's merge a small party's gap shrinks to its ground, which lays even this ground out whole; that fitting is
+    // taken away with it, or the regression cannot happen.
+    also: [{ file: 'public/battle-view.js', from: '    : side.spread ? Math.min(spec.gap, 0.6 * Math.sqrt(width * depth / Math.max(1, n))) : spec.gap;', to: '    : spec.gap;' }],
+    test: V, expect: T.vFits },
 ];
 
 const BROWSER = [
@@ -110,13 +114,21 @@ const BROWSER = [
 
 const CR = String.fromCharCode(13), LF = String.fromCharCode(10);
 function inject(injection, check) {
-  const original = readFileSync(injection.file, 'utf8');
-  const ends = text => (original.includes(CR + LF) ? text.split(LF).join(CR + LF) : text);
-  const from = ends(injection.from), to = ends(injection.to);
-  const count = original.split(from).length - 1;
-  if (count !== 1) throw new Error(`${injection.name}: the text to replace is in ${injection.file} ${count} times`);
-  writeFileSync(injection.file, original.replace(from, () => to));
-  try { return check(); } finally { writeFileSync(injection.file, original); }
+  // `also`: a second exact replacement made with the first, for a regression that needs two changes to happen (since the merge
+  // of 2026-09-26 a body given too small a ground is still laid out whole unless the engine's own fitting is gone too).
+  const edits = [injection, ...(injection.also || [])];
+  const originals = edits.map(edit => readFileSync(edit.file, 'utf8'));
+  let text = null;
+  edits.forEach((edit, i) => {
+    const original = edit.file === injection.file && i > 0 ? text : originals[i];
+    const ends = value => (original.includes(CR + LF) ? value.split(LF).join(CR + LF) : value);
+    const from = ends(edit.from), to = ends(edit.to);
+    const count = original.split(from).length - 1;
+    if (count !== 1) throw new Error(`${injection.name}: the text to replace is in ${edit.file} ${count} times`);
+    text = original.replace(from, () => to);
+    writeFileSync(edit.file, text);
+  });
+  try { return check(); } finally { edits.forEach((edit, i) => writeFileSync(edit.file, originals[i])); }
 }
 function runUnit(file) {
   const result = spawnSync(process.execPath, ['--test', file], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, timeout: 30 * 60 * 1000 });

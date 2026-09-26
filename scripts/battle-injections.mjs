@@ -36,8 +36,10 @@ const UNIT = [
   { name: 'an old save is never given the fight', file: 'sim/directors.mjs',
     from: "  armBattle(world, 'gonzales', momentOf(world, GONZALES.startKey));", to: "  if (world.battles) armBattle(world, 'gonzales', momentOf(world, GONZALES.startKey));",
     test: 'tests/battle-stage.test.mjs', expect: 'a class saved in the middle of the fight reopens in the middle of it, and an old save with no record of it gains one from the clock' },
-  { name: 'the fight run at the farming clock\'s twenty minutes, as it was, over in two real minutes', file: 'sim/battle-stage.mjs',
-    from: '    const step = state.phase.step;', to: '    const step = state.phase.step && 20;',
+  // Re-aimed 2026-09-26: at twenty minutes a tick the dawn skirmish's taunt is also carried past between two ticks, so the flag
+  // test failed with it; three times the phases' steps runs the fight in about two real minutes and lands on every phase.
+  { name: 'the fight run three times faster than its steps, over in about two real minutes', file: 'sim/battle-stage.mjs',
+    from: '    const step = state.phase.step;', to: '    const step = state.phase.step && state.phase.step * 3;',
     test: 'tests/battle-stage.test.mjs', expect: 'the fighting plays three to six real minutes at the Study pace on both maps, and the clock never runs faster for it' },
   { name: 'a phase\'s later lines are sent before they are said', file: 'sim/battle-stage.mjs',
     from: '      if (at <= minute) said.push({ ...line, minute: at, phase: phase.id });', to: '      said.push({ ...line, minute: at, phase: phase.id });',

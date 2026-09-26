@@ -44,8 +44,10 @@ export const UNIT = [
   { name: 'no white flag', file: 'public/battle-view.js',
     from: '    for (const flag of battle.flags || []) drawWhiteFlag(ctx, flag, camera, figurePx, time, wind);', to: '',
     test: V, expect: 'dawn on the 9th: the guns stop, the bugle is heard, and a white flag comes to the plaza' },
-  { name: 'a family\'s man drawn down before his moment', file: 'public/battle-view.js',
-    from: "    if (fell && since >= 0 && fell.fate !== 'escaped') {", to: "    if (fell && fell.fate !== 'escaped') {",
+  // Re-aimed 2026-09-26: a family's man can no longer be drawn down before his moment by the page alone - the server sends his
+  // fate only from its minute and the page waits for it (`since`) - so this test holds the other half: once killed, lying still.
+  { name: 'a family\'s man killed is drawn hurt, never lying still', file: 'public/battle-view.js',
+    from: "      if (fell.fate === 'killed') return { sprite: since < 700 ? 'volunteer-injured' : 'volunteer-reclining'", to: "      if (fell.fate === 'killed') return { sprite: 'volunteer-injured'",
     test: V, expect: 'a family\'s man stands in his unit and fires with it, and falls at the moment the server staged, not before' },
 ];
 export const BROWSER = [
