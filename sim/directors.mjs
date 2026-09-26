@@ -16,6 +16,7 @@ import { advanceArmy, closeDetachment, closeQuestion, countermandStorm, dieOfWou
 import { GONZALES, gonzalesGround } from './battles/gonzales.mjs';
 import { armBattle, battleState, looseSlot, phaseOffset, placeFrom, projectBattle, sidePlace } from './battle-stage.mjs';
 import { findWay } from './ways.mjs';
+import { advanceSouth, grantRides, southProjection, tellSouthAccount } from './south.mjs';
 import { MODES } from './travel.mjs';
 
 /**
@@ -109,13 +110,19 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   // so March 1 is 221760). The Mexican army at Béxar about half past two on the 23rd; Travis's letter at Gonzales the 25th and in
   // the other settlements the 26th; the days riders went out (asked from six in the morning, gone in the evening) the 24th, 25th,
   // March 3 and 5; San Patricio at three on the 27th and the Gonzales men away at two that afternoon; word Fannin turned back the
-  // 29th; the relief inside before dawn March 1; Agua Dulce the morning of March 2 (its hour is not in the record); word of San
+  // 29th; the relief inside before dawn March 1; Agua Dulce the morning of March 2 (half past ten since 2026-09-25, below); word of San
   // Patricio the 3rd and of the declaration the 4th; the storming about five on the 6th; the spared let go the 8th; word of Agua
   // Dulce the 7th; the rumour of the fall at Gonzales the evening of the 11th, confirmed the morning of the 13th and carried on that
   // evening; Gonzales burned and the period over that night.
   'alamo-siege': 212550, 'courier-1-opens': 213480, 'courier-1': 214080, 'courier-2-opens': 214920, 'travis-gonzales': 215280, 'courier-2': 215760,
   'travis-colonies': 216720, 'san-patricio': 217620, 'relief-leaves': 218280, 'fannin-back': 220800, 'relief-enters': 222000,
-  'agua-dulce': 223560, 'courier-3-opens': 225000, 'san-patricio-news': 225360, 'courier-3': 225840, 'declaration-news': 226800,
+  // Since 2026-09-25 the southern fights are on the battle engine (sim/south.mjs, docs/BATTLES.md §6.14): Grant rides south of
+  // the Nueces for horses about six in the morning of February 20 (`FIC-GONZ-436`; 169920 + 26 × 1440 + 360); San Patricio's
+  // night begins at one on the 27th, two hours before `san-patricio`; Grant's party sets out north with the herd at half past
+  // five on March 2 (221760 + 1440 + 330), and **Agua Dulce is fought at half past ten** (+ 630), where it was six until
+  // then - "between 10 and 11 am" (Wikipedia; `HIST-TEX-511`, staging.md §4.2).
+  'grant-rides': 207720, 'san-patricio-night': 217500, 'agua-dulce-drive': 223530,
+  'agua-dulce': 223830, 'courier-3-opens': 225000, 'san-patricio-news': 225360, 'courier-3': 225840, 'declaration-news': 226800,
   'courier-4-opens': 228240, 'courier-4': 229080, 'alamo-assault': 229260, 'agua-dulce-news': 231120, 'survivors-leave': 232200,
   'fall-rumour': 237240, 'fall-confirmed': 239520, 'fall-colonies': 240240, 'alamo-end': 240420,
   // The third period (docs/COLONIES.md §7g, sim/scrape.mjs and sim/houston.mjs; `HIST-TEX-062` to `-067`). Dawn on March 14
@@ -1197,15 +1204,19 @@ function advanceAlamo(world, said, { beginTravel } = {}) {
   });
   once(world, 'travis-gonzales', () => word(world, 'alamo-siege', gonzalesFamilies(world), { truth: ALAMO_WORD.siege, claimId: 'HIST-TEX-055', source: 'Travis\'s letter, brought to Gonzales by Albert Martin' }));
   once(world, 'travis-colonies', () => word(world, 'alamo-siege', otherFamilies(world), { truth: ALAMO_WORD.siege, claimId: 'HIST-TEX-055', source: 'Travis\'s letter, carried on from Gonzales' }));
+  // The south (sim/south.mjs): the men walk on to San Patricio, Grant rides for horses, and each fight is fought on the engine
+  // by whoever of the families is there. `fightSouth` still settles anybody the engine did not (a class whose map has no south).
+  advanceSouth(world, alamo);
+  once(world, 'grant-rides', () => grantRides(world, alamo));
   once(world, 'san-patricio', () => { splitSouth(world); fightSouth(world, 'san-patricio', alamo); });
   once(world, 'relief-leaves', () => reliefRides(world, alamo));
   once(world, 'fannin-back', () => word(world, 'fannin-back', Object.values(world.households), { truth: ALAMO_WORD.fannin, claimId: 'HIST-TEX-056', source: 'Word from Goliad' }));
   once(world, 'relief-enters', () => reliefEnters(world));
   once(world, 'agua-dulce', () => fightSouth(world, 'agua-dulce', alamo));
-  once(world, 'san-patricio-news', () => { word(world, 'san-patricio', Object.values(world.households), { truth: ALAMO_WORD.sanPatricio, status: 'rumor', claimId: 'HIST-TEX-059', source: 'A rumour from the south' }); tellSouth(world, 'san-patricio'); });
+  once(world, 'san-patricio-news', () => { word(world, 'san-patricio', Object.values(world.households), { truth: ALAMO_WORD.sanPatricio, status: 'rumor', claimId: 'HIST-TEX-059', source: 'A rumour from the south' }); tellSouth(world, 'san-patricio'); tellSouthAccount(world, 'san-patricio'); });
   once(world, 'declaration-news', () => word(world, 'declaration', Object.values(world.households), { truth: ALAMO_WORD.declaration, claimId: 'HIST-TEX-061', source: 'Word from Washington' }));
   once(world, 'alamo-assault', () => { stormAlamo(world, record(world, 'milestone', { visibility: 'sealed', importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-058', text: 'The Alamo was stormed at dawn.' })); spotlight(world, { key: 'alamo-fall', text: 'The Alamo falls. The garrison is overwhelmed; some people inside survive. Distant families have not yet received the news.', siteId: 'bexar', claimId: 'HIST-TEX-058' }); });
-  once(world, 'agua-dulce-news', () => { word(world, 'agua-dulce', Object.values(world.households), { truth: ALAMO_WORD.aguaDulce, status: 'rumor', claimId: 'HIST-TEX-059', source: 'A rumour from the south' }); tellSouth(world, 'agua-dulce'); });
+  once(world, 'agua-dulce-news', () => { word(world, 'agua-dulce', Object.values(world.households), { truth: ALAMO_WORD.aguaDulce, status: 'rumor', claimId: 'HIST-TEX-059', source: 'A rumour from the south' }); tellSouth(world, 'agua-dulce'); tellSouthAccount(world, 'agua-dulce'); });
   once(world, 'survivors-leave', () => survivorsLeave(world, alamo));
   once(world, 'fall-rumour', () => word(world, 'alamo-fall', gonzalesFamilies(world), { truth: ALAMO_WORD.fall, text: ALAMO_WORD.fallRumour, status: 'rumor', claimId: 'HIST-TEX-060', source: 'Two riders from Béxar, at Gonzales' }));
   once(world, 'fall-confirmed', () => { word(world, 'alamo-fall', gonzalesFamilies(world), { truth: ALAMO_WORD.fall, claimId: 'HIST-TEX-060', source: 'Mrs. Dickinson, come in to Gonzales' }); tellFall(world, gonzalesFamilies(world)); });
@@ -1276,7 +1287,7 @@ function advanceScrape(world, { beginTravel } = {}) {
 
 /** The winter's first news (sim/winter.mjs): what a man could sign up for, the garrison and the expedition, and the government. */
 const WINTER_TERMS = 'General Houston calls for volunteers. A man who enlists in the regular army for two years or the war is promised $24 and 800 acres of land; an auxiliary volunteer, 640 acres for the war or 320 for a year. Men enlist at San Felipe.';
-const WINTER_BEXAR = 'Colonel Neill holds Béxar with fewer than a hundred men, without money, horses or clothing, since Johnson and Grant took most of the men and supplies south for an attack on Matamoros. Bowie has come to Béxar with thirty men, and the Matamoros volunteers are gathering south, about Refugio.';
+const WINTER_BEXAR = 'Colonel Neill holds Béxar with fewer than a hundred men, without money, horses or clothing, since Johnson and Grant took most of the men and supplies south for an attack on Matamoros. Bowie has come to Béxar with thirty men. General Houston met the Matamoros volunteers at Refugio and talked most of them out of it; Johnson and Grant have gone on with the rest to San Patricio, on the Nueces.';
 const WINTER_COUNCIL = 'The government at San Felipe has fallen out with itself: the council has put out Governor Smith over the Matamoros business, and Smith will not go.';
 
 /** The fuller word of the storming, as the government heard it on December 15 (`HIST-TEX-038` to `-044`), in the owner's wording (§7c). */
@@ -1423,8 +1434,12 @@ export function directorProjection(world, householdId, role) {
   }
   // The card through the family's person (docs/BATTLES.md §2.7, §2.8): the alert before the fighting with a Watch, and the
   // account afterwards. Only ever this family's own.
-  const battleAlert = role === 'student' && householdId ? alertFor(world, householdId, state, Boolean(battle)) : null;
-  const battleAccount = role === 'student' && householdId ? accountFor(world, householdId) : null;
+  // The south's fights (sim/south.mjs): the same contract, for San Patricio and Agua Dulce Creek.
+  const south = southProjection(world, householdId, role);
+  if (south?.battle && !battle) battle = south.battle;
+  if (south?.host && role === 'host') host = south.host;
+  const battleAlert = (role === 'student' && householdId ? alertFor(world, householdId, state, Boolean(battle)) : null) || south?.alert || null;
+  const battleAccount = (role === 'student' && householdId ? accountFor(world, householdId) : null) || south?.account || null;
   // The upriver call takes the panel while it is open, because it is the one in front
   // of the family right now. The food call stays in the event log either way.
   const march = householdId && world.marches?.[householdId];

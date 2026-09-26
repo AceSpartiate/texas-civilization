@@ -18,9 +18,17 @@
 // Nothing in a formation is a person (`FIC-GONZ-006`): a side is a count and a style, drawn as a sample. A family's own people
 // are real entities at their own positions, in the force (`members`), and the renderer draws them doing what it does.
 import { GONZALES } from './battles/gonzales.mjs';
+import { SAN_PATRICIO } from './battles/san-patricio.mjs';
+import { AGUA_DULCE } from './battles/agua-dulce.mjs';
 
 /** How a side stands and moves (docs/BATTLES.md §2.4). The renderer lays figures out by these and nothing else. */
-export const STYLES = Object.freeze(['ranks', 'loose', 'wall', 'bank', 'street', 'column', 'mounted', 'rout']);
+export const STYLES = Object.freeze(['ranks', 'loose', 'wall', 'bank', 'street', 'column', 'mounted', 'rout', 'camp']);
+/**
+ * What the men of a part of a side are doing when it is not the side's own style (docs/BATTLES.md §6.13, 2026-09-25): asleep
+ * (lying), shut in a house and firing only from it (`hidden`: the flash and the smoke at the house, nobody drawn), hands up
+ * (`surrender`), or on their feet as the style has them (`stand`).
+ */
+export const POSES = Object.freeze(['stand', 'asleep', 'hidden', 'surrender']);
 /**
  * How a side fires in a phase. `volley`: by rank on an officer's word. `scattered`: every man on his own load, at his own
  * pace. `picket`: a few shots from the front, nobody else firing. `none`: nobody fires.
@@ -31,7 +39,7 @@ export const LINE_KINDS = Object.freeze(['documented', 'reconstructed', 'traditi
 export const SIDES = Object.freeze(['texian', 'mexican']);
 
 /** Every engagement on the engine. Add one here and in sim/battles/ (docs/BATTLES.md §6). */
-export const ENGAGEMENTS = Object.freeze({ [GONZALES.id]: GONZALES });
+export const ENGAGEMENTS = Object.freeze({ [GONZALES.id]: GONZALES, [SAN_PATRICIO.id]: SAN_PATRICIO, [AGUA_DULCE.id]: AGUA_DULCE });
 
 /**
  * The rules an engagement's data is held to, checked when this module loads so a malformed battle never reaches a class.
@@ -54,6 +62,21 @@ export function checkEngagement(def) {
     for (const side of SIDES) {
       const at = phase[side];
       if (!at || !STYLES.includes(at.style) || !FIRE.includes(at.fire || 'none')) fail(`phase ${phase.id} side ${side} needs a style and a fire`);
+      if (at.pose && !POSES.includes(at.pose)) fail(`phase ${phase.id} side ${side} has an unknown pose`);
+      // A side in parts (§6.13): every part named once, a whole number of the side's drawn figures, its own style and fire if
+      // it has them, and a pose the renderer knows. The parts together never draw more figures than the side has.
+      if (at.parts) {
+        const ids = new Set();
+        let drawn = 0;
+        for (const part of at.parts) {
+          if (!part.id || ids.has(part.id) || !(Number.isInteger(part.drawn) && part.drawn > 0)) fail(`a part of ${side} in ${phase.id} is malformed`);
+          if ((part.style && !STYLES.includes(part.style)) || (part.fire && !FIRE.includes(part.fire)) || (part.pose && !POSES.includes(part.pose))) fail(`part ${part.id} in ${phase.id} has an unknown style, fire or pose`);
+          if (!part.at && !part.from && !part.keys) fail(`part ${part.id} in ${phase.id} stands nowhere`);
+          if (part.fire === undefined && at.fire === undefined) fail(`part ${part.id} in ${phase.id} has no fire`);
+          ids.add(part.id); drawn += part.drawn;
+        }
+        if (drawn > def.sides[side].drawn) fail(`the parts of ${side} in ${phase.id} draw more than the side's ${def.sides[side].drawn}`);
+      }
     }
     for (const line of phase.lines || []) {
       if (!line.id || !line.text || !LINE_KINDS.includes(line.kind) || !SIDES.includes(line.side) || !(line.at >= 0 && line.at <= phase.minutes)) fail(`line ${line.id} in ${phase.id} is malformed`);
@@ -63,6 +86,7 @@ export function checkEngagement(def) {
     for (const fall of phase.falls || []) {
       if (!SIDES.includes(fall.side) || !(fall.count > 0) || !fall.claimId || !(fall.at >= 0 && fall.at <= phase.minutes)) fail(`a fall in ${phase.id} is malformed`);
       if (def.noFalling?.includes(fall.side)) fail(`${fall.side} may not be drawn falling at ${def.id}`);
+      if (fall.part && !phase[fall.side].parts?.some(part => part.id === fall.part)) fail(`a fall in ${phase.id} names no part of ${fall.side}`);
     }
     for (const shot of phase.cannon || []) if (!(shot >= 0 && shot <= phase.minutes)) fail(`a cannon shot in ${phase.id} is outside it`);
   }
@@ -149,7 +173,15 @@ const lerp = (a, b, part) => ({ x: a.x + (b.x - a.x) * part, y: a.y + (b.y - a.y
 const ease = part => part < 0 ? 0 : part > 1 ? 1 : part * part * (3 - 2 * part);
 /** Where a side stands at this moment: eased from its phase's `from` point to its `to`, both named points of the ground. */
 export function sidePlace(ground, phase, side, into) {
-  const at = phase[side];
+  return placeOf(ground, phase[side], phase.minutes, into);
+}
+/** Where anything placed as a side is placed - a side, a part of one (§6.13), the herd - at this moment of its phase. */
+export function placeOf(ground, at, minutes, into) {
+  // A side placed only by its parts (§6.13) stands where its parts stand on average.
+  if (!at.at && !at.from && !at.keys && at.parts?.length) {
+    const places = at.parts.map(part => placeOf(ground, part, minutes, into));
+    return { x: places.reduce((sum, p) => sum + p.x, 0) / places.length, y: places.reduce((sum, p) => sum + p.y, 0) / places.length };
+  }
   const point = name => { if (!ground[name]) throw new Error(`Ground has no point ${name}`); return ground[name]; };
   // Keyframes, `[[minute, point], ...]`: a charge out and back, a fall back to the trees, held between the keys.
   if (at.keys) {
@@ -162,11 +194,14 @@ export function sidePlace(ground, phase, side, into) {
     return point(keys.at(-1)[1]);
   }
   const from = point(at.from || at.at), to = point(at.to || at.from || at.at);
-  return lerp(from, to, ease(into / phase.minutes));
+  return lerp(from, to, ease(into / minutes));
 }
 /** Whether a side is on the move at this moment of its phase, which is what the page draws as marching. */
 export function sideMoving(phase, side, into) {
-  const at = phase[side];
+  return moving(phase[side], into);
+}
+function moving(at, into) {
+  if (!at.at && !at.from && !at.keys && at.parts?.length) return at.parts.some(part => moving(part, into));
   if (at.keys) {
     for (let i = 1; i < at.keys.length; i++) if (into >= at.keys[i - 1][0] && into < at.keys[i][0] && at.keys[i - 1][1] !== at.keys[i][1]) return true;
     return false;
@@ -223,11 +258,20 @@ function fallenBy(state, minute) {
   const fallen = [];
   for (const phase of state.phases) {
     if (phase.from > minute) break;
-    for (const fall of phase.falls || []) if (phase.from + fall.at <= minute) fallen.push({ side: fall.side, count: fall.count, minute: phase.from + fall.at, carried: Boolean(fall.carried), wounded: Boolean(fall.wounded), claimId: fall.claimId });
+    for (const fall of phase.falls || []) if (phase.from + fall.at <= minute) fallen.push({ side: fall.side, count: fall.count, minute: phase.from + fall.at, carried: Boolean(fall.carried), wounded: Boolean(fall.wounded), claimId: fall.claimId, ...(fall.part && { part: fall.part }) });
   }
   return fallen;
 }
 
+/** One part of a side as a page is sent it: where it is, how it stands and fires, and what its men are doing. */
+function partView(ground, phase, into, part, side, facing, over) {
+  const place = placeOf(ground, part, phase.minutes, into);
+  return {
+    id: part.id, drawn: part.drawn, x: place.x, y: place.y, style: part.style || side.style, fire: over ? 'none' : part.fire || side.fire || 'none',
+    action: over ? 'gone' : part.action || side.action || 'stand', moving: !over && moving(part, into), pose: part.pose || 'stand',
+    facing: part.face === 'away' ? { x: -facing.x, y: -facing.y } : facing, ...(part.spread && { spread: part.spread }),
+  };
+}
 /**
  * What a page that may watch the fight is sent (docs/BATTLES.md §2.1, §3): the phase it is in and nothing of any phase to come,
  * each side as a count, a style, a place and what it is doing, the lines said so far, the cannon's shots so far, the fallen so
@@ -236,7 +280,7 @@ function fallenBy(state, minute) {
  * `members` is the list of entity ids this viewer's page draws doing the force's work: the viewer's own family for a
  * student, everybody's for the Host (who is already sent every person, sim/overview.mjs).
  */
-export function projectBattle(world, id, { members = [], legacyPhase = null } = {}) {
+export function projectBattle(world, id, { members = [], legacyPhase = null, memberParts = null, memberFates = null } = {}) {
   const state = battleState(world, id);
   if (!state || state.before) return null;
   const { def, phase } = state;
@@ -251,6 +295,8 @@ export function projectBattle(world, id, { members = [], legacyPhase = null } = 
       action: state.over ? 'gone' : at.action || 'stand', moving: !state.over && sideMoving(phase, side, into), x: place.x, y: place.y, facing: at.face === 'away' ? { x: -toward[side].x, y: -toward[side].y } : toward[side],
       spread: at.spread || info.spread, ...(at.mounted !== undefined ? { mounted: at.mounted } : info.mounted !== undefined ? { mounted: info.mounted } : {}),
       ...(at.dismounted && { dismounted: at.dismounted }), ...(info.figure && { figure: info.figure }),
+      ...(at.parts && { parts: at.parts.map(part => partView(ground, phase, into, part, at, toward[side], state.over)) }),
+      ...(at.pose && { pose: at.pose }),
     };
   });
   const view = {
@@ -262,6 +308,13 @@ export function projectBattle(world, id, { members = [], legacyPhase = null } = 
     fallen: fallenBy(state, world.minute),
     members: [...members],
     ...(def.noFalling && { noFalling: def.noFalling }),
+    // §6.13: the light the fight is fought in, the houses and groves it is fought among, the herd, and where and how each of
+    // this page's own people is in it. A person's fate is sent only once it has happened (`at` at or before this minute).
+    ...(phase.light || def.light ? { light: phase.light || def.light } : {}),
+    ...(def.scenery && { scenery: def.scenery(ground).map(item => ({ ...item, lit: Array.isArray(item.lit) ? item.lit.includes(phase.id) : Boolean(item.lit) })) }),
+    ...(phase.herd && !state.over && { herd: { ...placeOf(ground, phase.herd, phase.minutes, into), count: phase.herd.count, moving: moving(phase.herd, into), ...(phase.herd.scatter && { scatter: true }) } }),
+    ...(memberParts && { memberParts: Object.fromEntries(members.filter(id => memberParts[id]).map(id => [id, memberParts[id]])) }),
+    ...(memberFates && { memberFates: Object.fromEntries(members.filter(id => memberFates[id] && memberFates[id].at <= world.minute).map(id => [id, { fate: memberFates[id].fate, minute: memberFates[id].at }])) }),
   };
   if (def.cannon) {
     const side = def.cannon.side, centre = side === 'texian' ? texian : mexican;

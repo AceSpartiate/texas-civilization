@@ -73,6 +73,7 @@
     "study:creation": "node scripts/creation-overlap-study.mjs",
     "test:panels": "node scripts/panels-browser-proof.mjs",
     "test:battle-gonzales": "node scripts/battle-gonzales-browser-proof.mjs",
-    "test:battle-injections": "node scripts/battle-injections.mjs"
+    "test:battle-injections": "node scripts/battle-injections.mjs",
+    "test:battle-south": "node scripts/battle-south-browser-proof.mjs"
   }
 }

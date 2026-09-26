@@ -11,7 +11,7 @@ export function coloniesMap() {
 }
 
 /** The rivers a road may cross only at a crossing (the build script's barriers). */
-export const BARRIER_RIVERS = Object.freeze(['Guadalupe River', 'Colorado River', 'Brazos River', 'Trinity River', 'San Antonio River']);
+export const BARRIER_RIVERS = Object.freeze(['Guadalupe River', 'Colorado River', 'Brazos River', 'Trinity River', 'San Antonio River', 'Nueces River']);
 
 /**
  * How a road gets over water (docs/MAP_ACCURACY.md §10, 2026-09-19): a place of one of these kinds is a crossing. `crossing` is

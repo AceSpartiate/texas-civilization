@@ -89,13 +89,13 @@ test('the country outside the box is drawn and never walked: its places, its cro
     .map(river => { const flat = river.levels[0]; const points = []; for (let i = 0; i < flat.length; i += 2) points.push({ x: flat[i] / 100, y: flat[i + 1] / 100 }); return points; });
   const RECORD = [
     ['matamoros', 'distant', 'HIST-TEX-158', -97.50417, 25.87972],
-    ['san-patricio', 'distant', 'HIST-TEX-159', -97.776421, 27.9771416],
+    // San Patricio and its crossing of the Nueces were here until 2026-09-25, when the map was carried south to the Nueces and
+    // they became places a road goes to (docs/MAP_ACCURACY.md §13; tests/south-map.test.mjs).
     ['laredo', 'distant', 'HIST-TEX-160', -99.49028, 27.52361],
     ['presidio-rio-grande', 'distant', 'HIST-TEX-161', -100.37694, 28.30833],
     // The crossings stand on the river the country outside draws, which is why they are not at the record's point to the yard.
     ['paso-de-francia', 'ford', 'HIST-TEX-161', -100.30721, 28.24683],
     ['matamoros-crossing', 'ferry', 'FIC-GONZ-091', -97.50417, 25.87972],
-    ['san-patricio-crossing', 'ford', 'HIST-TEX-159', -97.776421, 27.9771416],
     ['gaines-ferry', 'ferry', 'HIST-TEX-163', -93.7537667, 31.4621167],
   ];
   for (const [id, kind, claimId, lon, lat] of RECORD) {
@@ -109,7 +109,8 @@ test('the country outside the box is drawn and never walked: its places, its cro
   }
   // Every crossing outside is on the river it names, as that country draws it, and on a road that goes over it.
   const roadsOutside = map.roads.filter(road => road.kind === 'outside');
-  assert.ok(roadsOutside.length >= 5, `${roadsOutside.length} roads outside the box`);
+  // Four since 2026-09-25: the road from Goliad to San Patricio is walked (docs/MAP_ACCURACY.md §13).
+  assert.ok(roadsOutside.length >= 4, `${roadsOutside.length} roads outside the box`);
   for (const place of Object.values(map.places).filter(one => one.outside && one.water)) {
     assert.ok(riverLines(place.water).some(points => toLine(place, points) <= 0.2), `${place.id} is not on the ${place.water} the country outside draws`);
     assert.ok(roadsOutside.some(road => toLine(place, road.points) <= 0.05), `${place.id} is on no road outside the box`);
@@ -325,6 +326,7 @@ test('a crossing has its water drawn under it on the map a class is served, so n
   const world = settle(createGonzalesWorld('crossings-dry', 5, { map: 'colonies' }));
   const creeks = world.map.terrain.filter(feature => feature.kind === 'creek');
   const province = decodeProvince(JSON.parse(gunzipSync(readFileSync(new URL('../public/terrain/colonies-province.json.gz', import.meta.url))).toString('utf8')));
+  const outsideRivers = decodeProvince(JSON.parse(gunzipSync(readFileSync(new URL('../public/terrain/outside-province.json.gz', import.meta.url))).toString('utf8'))).rivers;
   let onCreeks = 0, onRivers = 0;
   for (const site of Object.values(world.map.sites).filter(site => ['ford', 'ferry', 'bridge'].includes(site.kind))) {
     if (!site.water) continue; // Lynch's ferry spans open water the map draws as the sea, measured bank to bank by `span`
@@ -335,7 +337,10 @@ test('a crossing has its water drawn under it on the map a class is served, so n
     const point = drawnAt(site);
     const lines = site.waterKind === 'creek'
       ? creeks.filter(feature => feature.name === site.water).map(feature => feature.points)
-      : province.rivers.filter(river => river.name === site.water).map(river => river.levels[0]).filter(Boolean);
+      : province.rivers.filter(river => river.name === site.water).map(river => river.levels[0]).filter(Boolean)
+        // South of the box (docs/MAP_ACCURACY.md §13) the page draws a river from the outside country's levels: the Nueces at San
+        // Patricio is there, where the box's province never went.
+        .concat(site.y > province.bounds.maxY ? outsideRivers.filter(river => river.name === site.water).map(river => river.levels[0]).filter(Boolean) : []);
     assert.ok(lines.length, `${site.id}: a class is sent no ${site.water} at all`);
     const off = Math.min(...lines.map(points => toLine(point, points)));
     assert.ok(off <= 0.25, `${site.id} is ${off.toFixed(2)} miles from the ${site.water} a class is sent: it is drawn on dry ground`);

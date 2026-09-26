@@ -25,7 +25,7 @@ import { openClasses } from './terrain/geotiff.mjs';
 import { joinReaches } from './terrain/lines.mjs';
 import { readDbf, readShapes } from './terrain/shapefile.mjs';
 import { BEXAR_FIELDS, BY_MODEL, CANEBRAKES, CANE_TAKES, STAND_IDS, TOWN_RING_MILES, modelOf, nuecesSide, standOfSetting } from './terrain/biomes.mjs';
-import { realTerrain } from '../sim/terrain-data.mjs';
+import { boxTerrain as realTerrain } from '../sim/terrain-data.mjs';
 import { coloniesMap } from '../sim/colonies-map.mjs';
 
 const [bpsPath, bpsTablePath, ecoDir] = process.argv.slice(2);

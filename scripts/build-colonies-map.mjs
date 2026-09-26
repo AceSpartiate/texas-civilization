@@ -89,11 +89,24 @@ const PLACES = [
   ['mccarleys', "McCarley's", 'farmstead', -95.80741, 30.06940, 'HIST-TEX-088', false], // 1993 marker "Samuel McCarley Homesite", UTM 15 229366 E 3329799 N
   ['roberts', "Roberts'", 'farmstead', -95.76074, 30.07926, 'HIST-TEX-088', false], // 1993 marker "Abraham Roberts Homesite", UTM 15 233893 E 3330783 N
   ['burnetts', "Burnett's", 'farmstead', -95.64829, 29.95433, 'HIST-TEX-088', false], // 1993 marker "Matthew Burnett Homesite", UTM 15 244416 E 3316675 N
+  // The country south to the Nueces (owner, 2026-09-25, docs/BATTLES.md §2b.4; docs/MAP_ACCURACY.md §13), walked since then:
+  // the land under it is the strip scripts/build-south.mjs laid below the box. San Patricio de Hibernia, the Irish colony on
+  // the Nueces where Johnson's men were surprised on February 27, 1836, at the point the map has drawn since 2026-09-19
+  // (HIST-TEX-159) - a village, not a town: nothing is kept or sold there in the game.
+  ['san-patricio', 'San Patricio', 'village', -97.776421, 27.9771416, 'HIST-TEX-159', false],
+  // Where Grant's party was caught on March 2, 1836: Wikipedia's point for the battle, on Agua Dulce Creek near Banquete
+  // (HIST-TEX-512). TSHA says "twenty-six miles below San Patricio"; this point is ten miles off it - the distance is disputed.
+  ['agua-dulce', 'Agua Dulce Creek', 'ground', -97.84972, 27.8475, 'HIST-TEX-512', false],
+  // Where the walked country ends on the road south to Matamoros, 27.62°N, on the line from Agua Dulce to Matamoros: where
+  // Grant's party ranges for horses before March 2, and where the San Patricio prisoners pass out of it (FIC-GONZ-436).
+  ['matamoros-road', 'The road south to Matamoros', 'ground', -97.81, 27.62, 'FIC-GONZ-436', false],
 ];
 
 // The rivers a road may cross only at a crossing, and the places where each may be crossed.
-const BARRIERS = ['Guadalupe River', 'Colorado River', 'Brazos River', 'Trinity River', 'San Antonio River'];
+// The Nueces since 2026-09-25 (docs/MAP_ACCURACY.md §13): crossed at San Patricio (HIST-TEX-159) and nowhere else a road goes.
+const BARRIERS = ['Guadalupe River', 'Colorado River', 'Brazos River', 'Trinity River', 'San Antonio River', 'Nueces River'];
 const CROSSINGS = {
+  'Nueces River': ['san-patricio'],
   'Guadalupe River': ['ford', 'victoria'],
   'Colorado River': ['la-grange-crossing', 'columbus-crossing', 'lower-colorado-crossing', 'mina', 'matagorda'],
   // Groce's ferry, from the camp to Bernardo: the river nearest the ferry's marker on the east bank (HIST-TEX-088).
@@ -169,6 +182,14 @@ const ROADS = [
   ['mccarleys', 'roberts', 'The road to Harrisburg'],
   ['roberts', 'burnetts', 'The road to Harrisburg'],
   ['burnetts', 'harrisburg', 'The road to Harrisburg'],
+  // The south, walked since 2026-09-25 (docs/MAP_ACCURACY.md §13). Johnson's and Grant's men went on from Refugio to San
+  // Patricio after January 21, 1836 (HIST-TEX-513); the road from Goliad to San Patricio was the Camino Real's (HIST-TEX-159),
+  // and the road on south went by Agua Dulce Creek toward Matamoros. Every course is the least effort over the ground
+  // (FIC-GONZ-027); the Goliad road keeps the id it had when it was an outside road, so an old save's is replaced by it.
+  ['refugio', 'san-patricio', 'The road from Refugio to San Patricio'],
+  ['san-patricio', 'goliad', 'The road from Goliad to San Patricio'],
+  ['san-patricio', 'agua-dulce', 'The road to Matamoros'],
+  ['agua-dulce', 'matamoros-road', 'The road to Matamoros'],
 ];
 
 // ---- Grid helpers ---------------------------------------------------------------------------
@@ -531,7 +552,9 @@ const RIVERS = new Set([...BARRIERS, ...SLOW_WATER.filter(name => /River|Bayou/.
 // The creeks are drawn round the starts, and round the houses of the army's march east and the towns at its end, where the
 // record names the creeks the road crossed - Spring Creek at McCarley's, Cypress Creek at Burnett's (HIST-TEX-088), Vince's
 // Bayou below Harrisburg - so their crossings can be drawn (2026-09-19).
-const starts = Object.values(places).filter(p => p.start || ['donohos', 'mccarleys', 'roberts', 'burnetts', 'harrisburg', 'lynchburg'].includes(p.id));
+// And round San Patricio and the Agua Dulce ground (2026-09-25), so the creeks the road south goes over - Agua Dulce Creek,
+// by which Grant's party was caught - are drawn and forded.
+const starts = Object.values(places).filter(p => p.start || ['donohos', 'mccarleys', 'roberts', 'burnetts', 'harrisburg', 'lynchburg', 'san-patricio', 'agua-dulce'].includes(p.id));
 const drawn = [];
 for (const course of joinReaches(terrain.courses)) {
   if (!course.name) continue;
@@ -594,6 +617,9 @@ const WINDOW_CROSSINGS = {
   'brazoria:Brazos River': ['brighams-ferry', "Brigham's ferry", 'ferry', 'HIST-TEX-144'],
   // Groce's ferry at Bernardo, the Coushatta crossing (HIST-TEX-088).
   'bernardo:Brazos River': ['groces-ferry', "Groce's ferry", 'ferry', 'HIST-TEX-088'],
+  // The Nueces at San Patricio, where the Camino Real and the road to Matamoros crossed (HIST-TEX-159): the id the outside
+  // country's crossing had, now a crossing a road goes over (2026-09-25).
+  'san-patricio:Nueces River': ['san-patricio-crossing', 'The crossing at San Patricio', 'ford', 'HIST-TEX-159'],
   // The Victoria road's crossing at La Bahía, "the lower ford" (HIST-TEX-148).
   'goliad:San Antonio River': ['lower-ford', 'The lower ford', 'ford', 'HIST-TEX-148'],
   // Horses and wagons crossed at a ford below the town; people on foot had a footbridge (HIST-TEX-149).
@@ -929,7 +955,7 @@ for (const [id, [kind]] of Object.entries(PLACE_CROSSINGS)) if (places[id].kind 
 // graph, so nothing about a family's journeys, the word's relays or the flight east changes. Nobody walks to Matamoros.
 const OUTSIDE_PLACES = [
   ['matamoros', 'Matamoros', 'distant', -97.50417, 25.87972, 'HIST-TEX-158'],
-  ['san-patricio', 'San Patricio', 'distant', -97.776421, 27.9771416, 'HIST-TEX-159'],
+  // San Patricio was one of these until 2026-09-25; it is a place the roads go to now (PLACES, docs/MAP_ACCURACY.md §13).
   ['laredo', 'Laredo', 'distant', -99.49028, 27.52361, 'HIST-TEX-160'],
   ['presidio-rio-grande', 'The Presidio del Río Grande', 'distant', -100.37694, 28.30833, 'HIST-TEX-161'],
 ];
@@ -942,17 +968,19 @@ const OUTSIDE_CROSSINGS = [
   ['matamoros-crossing', 'The ferry at Matamoros', 'ferry', 'Rio Grande', -97.50417, 25.87972, 'FIC-GONZ-091'],
   // ceiling: Laredo's own crossing of the Rio Grande is not drawn. The town stands on the north bank and the roads the map
   // has end there; nothing on the Mexican side of it is drawn for a road to go to.
-  // The Nueces at San Patricio, where the Camino Real and the Atascosito road crossed (HIST-TEX-159).
-  ['san-patricio-crossing', 'The crossing at San Patricio', 'ford', 'Nueces River', -97.776421, 27.9771416, 'HIST-TEX-159'],
+  // The Nueces at San Patricio was one of these until 2026-09-25: a barrier's window now (WINDOW_CROSSINGS), crossed by the
+  // road south that the families walk.
   // Gaines's ferry on the Sabine, the Old San Antonio Road's crossing and the way in from the United States: the marker at
   // the crossing, 31°27.727' N, 93°45.226' W (HIST-TEX-163).
   ['gaines-ferry', "Gaines's ferry", 'ferry', 'Sabine River', -93.7537667, 31.4621167, 'HIST-TEX-163'],
 ];
 /** [from, to, name, the crossings it goes over, in order from `from`]. */
 const OUTSIDE_ROADS = [
-  ['matamoros', 'san-patricio', 'The road up from Matamoros', ['matamoros-crossing', 'san-patricio-crossing']],
-  ['san-patricio', 'goliad', 'The Camino Real from Goliad to Laredo', []],
-  ['san-patricio', 'laredo', 'The Camino Real from Goliad to Laredo', []],
+  // Since 2026-09-25 the road up from Matamoros is drawn to where the walked road south ends, and the road from Goliad to San
+  // Patricio is walked (ROADS).
+  ['matamoros', 'matamoros-road', 'The road up from Matamoros', ['matamoros-crossing']],
+  // Over the Nueces at San Patricio's own crossing since the Nueces became a barrier the roads cross only there (2026-09-25).
+  ['san-patricio', 'laredo', 'The Camino Real from Goliad to Laredo', ['san-patricio-crossing']],
   ['presidio-rio-grande', 'bexar', 'The Camino Real from the Presidio del Río Grande', ['paso-de-francia']],
   ['nacogdoches', 'gaines-ferry', 'The Old San Antonio Road to the Sabine', []],
 ];

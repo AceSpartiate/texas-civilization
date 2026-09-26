@@ -28,7 +28,7 @@
 // Like the woods, this is LANDFIRE's model of the vegetation before settlement and today's ground, not a survey of 1835.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { gunzipSync, gzipSync } from 'node:zlib';
-import { realTerrain } from '../sim/terrain-data.mjs';
+import { boxTerrain as realTerrain } from '../sim/terrain-data.mjs';
 import { contours, lineLength, simplifyLine } from './terrain/lines.mjs';
 import { LAND, LAND_BITS, RELIEF, LAND_BANDS } from '../sim/land.mjs';
 import { COVER_OF_STAND, MARSH_PRAIRIES } from './terrain/biomes.mjs';
