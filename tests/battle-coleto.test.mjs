@@ -82,7 +82,7 @@ test('both are checked when they load and dated where the record puts them: Cole
   for (const end of [coleto.at(-1).to, palm.at(-1).to]) assert.equal((end - TIMELINE['scrape-opens']) % 240, 0, `${hour(end)} is off the four-hour clock`);
   // Here the Texians are in the square, and at night the Mexicans are loose in the grass (staging.md §6.3).
   for (const id of ['square', 'assault-1', 'assault-2', 'assault-3', 'night', 'guns']) assert.equal(COLETO.phases.find(phase => phase.id === id).texian.style, 'square', id);
-  assert.ok(['dusk', 'night', 'small-hours'].every(id => COLETO.phases.find(phase => phase.id === id).mexican.parts.filter(part => !part.mounted).every(part => part.style === 'loose')));
+  assert.ok(['dusk', 'night', 'small-hours'].every(id => { const phase = COLETO.phases.find(one => one.id === id); return phase.mexican.style === 'loose' && phase.groups.filter(group => group.side === 'mexican' && !group.mounted).every(group => group.style === 'loose'); }));
   // Three assaults, contact each (owner's K3).
   assert.deepEqual(COLETO.phases.filter(phase => /^assault-/.test(phase.id)).map(phase => phase.contact), [true, true, true]);
   // Nothing is said at the killing on Palm Sunday, and no volley there has its words (`FIC-GONZ-438`).
@@ -141,18 +141,20 @@ test('each man\'s fate falls at its moment inside the fighting, from the roll th
   until(world, () => phaseOf(world, 'coleto') === 'caught');
   const entries = world.battles.coleto.participants;
   for (const man of men.filter(one => one !== rider)) assert.equal(entries[man.id].fate, coletoFate(world, man), `${man.name}'s fate is not the roll`);
-  const moment = entries[killed.id].at, hurt = entries[wounded.id].at;
+  // Staged with the engine's own fates (sim/battle-stage.mjs `stageFate`), as the storming of Béxar's are.
+  const moment = world.battles.coleto.fates[killed.id], hurt = world.battles.coleto.fates[wounded.id];
+  assert.equal(moment.fate, 'killed'); assert.equal(hurt.fate, 'wounded');
   assert.match(moment.phase, /^assault-[123]$/, `a death fell outside the assaults: ${moment.phase}`);
   assert.match(hurt.phase, /^(assault-[123]|small-hours)$/);
   // Nothing before its moment, on the man or on the wire.
   until(world, () => world.minute >= moment.minute - 5, 200);
   assert.equal(killed.service.coleto, undefined, 'the fate was set before it fell');
-  assert.ok(!view(world, killed.householdId).battle?.down?.[killed.id], 'his fall was sent before it happened');
+  assert.ok(!view(world, killed.householdId).battle?.memberFates?.[killed.id], 'his fall was sent before it happened');
   until(world, () => world.minute >= moment.minute, 20);
   assert.equal(killed.service.coleto, 'killed');
   assert.equal(killed.health.condition, 'well', 'a death was on the family\'s screen before the word');
   const watching = view(world, killed.householdId);
-  assert.equal(watching.battle.down[killed.id].kind, 'killed', 'his own family, watching, did not see him fall');
+  assert.equal(watching.battle.memberFates[killed.id].fate, 'killed', 'his own family, watching, did not see him fall');
   const at = { ...killed.location };
   until(world, () => world.minute >= hurt.minute, 400);
   assert.equal(wounded.health.condition, 'wounded', 'a wound did not show');
@@ -208,15 +210,15 @@ test('Palm Sunday: each prisoner meets the record\'s share at its own moment; a 
   // G2: the wounded man is with the wounded, and is killed inside or spared - never runs.
   assert.equal(wounded.health.condition, 'wounded');
   assert.ok(['executed', 'spared'].includes(entries[wounded.id].fate), `a wounded man's fate was ${entries[wounded.id].fate}`);
-  if (entries[wounded.id].fate === 'executed') assert.equal(entries[wounded.id].part, 'wounded');
+  if (entries[wounded.id].fate === 'executed') assert.equal(entries[wounded.id].unit, 'wounded');
   // Kept back at the muster.
   until(world, () => phaseOf(world, 'goliad-massacre') === 'marched', 200);
-  assert.equal(spared.service.fate, 'spared'); assert.equal(entries[spared.id].part, 'kept');
+  assert.equal(spared.service.fate, 'spared'); assert.equal(entries[spared.id].unit, 'kept');
   assert.equal(executed.service.fate, undefined, 'a fate fell before its moment');
   // Shot at one of the volleys, lying where he fell; nothing on his family's screen but what they watched.
   until(world, () => phaseOf(world, 'goliad-massacre') === 'escapes', 200);
   assert.equal(executed.service.fate, 'executed');
-  assert.equal(entries[executed.id].down.kind, 'killed');
+  assert.equal(world.battles['goliad-massacre'].fates[executed.id].fate, 'killed');
   assert.equal(executed.health.condition, 'well', 'a death was on the screen before the word');
   // The man who ran: away into the timber, and on his way home at once, telling it himself.
   until(world, () => phaseOf(world, 'goliad-massacre') === 'inside', 50);
@@ -273,8 +275,8 @@ test('who is sent what: the Host always, framed on the field while it is fought;
       const own = view(world, killed.householdId);
       if (live.def.id === 'coleto' && !world.battles.coleto.participants[killed.id]?.released) {
         assert.ok(own.battle?.members.includes(killed.id), `his family was not sent the fight he is in at ${world.minute}`);
-        for (const [id, down] of Object.entries(own.battle.down || {})) assert.ok(down.minute <= world.minute, `a fall of ${id} was sent before it happened`);
-        assert.doesNotMatch(JSON.stringify(own.battle), /"fate"|"at":\{/, 'a fate still to fall rode the wire');
+        for (const [id, fell] of Object.entries(own.battle.memberFates || {})) assert.ok(fell.minute <= world.minute, `a fall of ${id} was sent before it happened`);
+        assert.doesNotMatch(JSON.stringify({ ...own.battle, memberFates: null }), /"fate"|"fates"|"lies"/, 'a fate still to fall rode the wire');
       }
     }
     return world.director.milestones['massacre-word'];

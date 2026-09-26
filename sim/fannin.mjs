@@ -24,7 +24,7 @@ import { WOUND_GRADES, rollFates } from './army.mjs';
 import { share } from './shares.mjs';
 import { calendarMinutes } from './clock.mjs';
 import { modeWith } from './keeping.mjs';
-import { armBattle, battleState, partPlace, placeFrom, projectBattle, sidePlace } from './battle-stage.mjs';
+import { armBattle, battleState, fatesDue, placeFrom, projectBattle, sidePlace, stageFate, unitPlace } from './battle-stage.mjs';
 import { COLETO, coletoSlot } from './battles/coleto.mjs';
 import { GOLIAD_MASSACRE, massacrePlace } from './battles/goliad-massacre.mjs';
 import { COLETO as COLETO_RATES, MASSACRE } from './houston.mjs';
@@ -93,7 +93,9 @@ export function advanceColeto(world, { start, beginTravel }) {
       const entry = battle.participants[person.id] = { householdId: person.householdId, joined: world.minute, fate: horton ? 'unhurt' : fate, ...(horton && { horton: true }) };
       // A man still hurt from the south rides in a cart with the column's baggage (staging.md §6.6).
       if (person.health?.condition === 'wounded') entry.cart = true;
-      if (!horton && fate !== 'unhurt') entry.at = coletoMoment(world, state, person.id, fate);
+      // His fate at a staged moment, the engine's (`stageFate`): seen by his own family, watching, when it comes; a man killed
+      // lies where he fell on his family's map until the word (`lies`, sim/battle-stage.mjs `lyingOnField`).
+      if (!horton && fate !== 'unhurt') { const at = coletoMoment(world, state, person.id, fate); stageFate(world, 'coleto', person.id, { fate, minute: at.minute, phase: at.phase, ...(fate === 'wounded' && { grade: 'severe' }), ...(fate === 'killed' && { lies: true }) }); }
       // Whatever road he was on, the column takes him now: he walks to it from where he stands.
       person.travel = null; person.chore = null;
       if (!person.location.siteId) person.location = { ...person.location, siteId: 'goliad' };
@@ -110,9 +112,10 @@ export function advanceColeto(world, { start, beginTravel }) {
     }
   }
   // Each man's fate at its moment: down in the square (killed, drawn lying where he fell) or hit (wounded, drawn among the carts).
-  for (const { person, entry } of members) {
-    if (!entry.at || entry.down || world.minute < entry.at.minute) continue;
-    entry.down = { kind: entry.fate === 'killed' ? 'killed' : 'wounded', minute: entry.at.minute, phase: entry.at.phase };
+  for (const due of fatesDue(world, 'coleto')) {
+    const person = world.entities[due.personId], entry = battle.participants[due.personId];
+    battle.fates[due.personId].applied = world.minute;
+    if (!person || !entry) continue;
     person.service = { ...person.service, coleto: entry.fate };
     if (entry.fate === 'wounded') person.health = { condition: WOUND_GRADES.severe.condition, grade: 'severe', recoversAt: world.minute + WOUND_GRADES.severe.minutes };
   }
@@ -137,7 +140,7 @@ export function advanceColeto(world, { start, beginTravel }) {
     for (const { person, entry } of members) {
       if (entry.horton || entry.surrendered) continue;
       entry.surrendered = world.minute;
-      if (!entry.down) person.service = { ...person.service, coleto: entry.fate === 'wounded' || entry.fate === 'killed' ? entry.fate : 'unhurt' };
+      if (!battle.fates?.[person.id]?.applied) person.service = { ...person.service, coleto: entry.fate === 'wounded' || entry.fate === 'killed' ? entry.fate : 'unhurt' };
       person.service = { ...person.service, status: 'prisoner', prisonerSince: world.minute };
     }
   }
@@ -145,7 +148,7 @@ export function advanceColeto(world, { start, beginTravel }) {
   for (const { person, entry } of members) {
     if (entry.horton && entry.released) continue;
     // A man killed lies where he fell (`lyingOnField`); he does not march back.
-    if (entry.down?.kind === 'killed') continue;
+    if (fellAt(battle, person.id, 'killed', world.minute)) continue;
     if (state.over) {
       // Shut in the presidio at Goliad, a prisoner, and let go from the battle's hold.
       const goliad = world.map.sites.goliad;
@@ -173,15 +176,15 @@ function placeInColeto(world, state, ground, person, entry) {
   const phase = state.phase, into = Math.min(state.into, phase.minutes);
   const index = Object.keys(state.battle.participants).sort().indexOf(person.id);
   const slot = coletoSlot(person.id, index, { horton: entry.horton, phase: phase.id });
-  if (slot.part !== undefined && slot.part !== null) {
-    const centre = partPlace(ground, phase, 'texian', slot.part, into);
+  if (!slot.face && !slot.column) {
+    const centre = unitPlace(ground, phase, slot.unit, into);
     const facing = unit(centre, ground.square);
     return placeFrom(centre, Math.hypot(ground.square.x - centre.x, ground.square.y - centre.y) > 0.05 ? facing : ground.toward, slot);
   }
   const centre = sidePlace(ground, phase, 'texian', into);
   if (phase.id === 'march-back') return placeFrom(centre, unit(centre, ground.goliad), slot);
   // In the square: his face, his front rank; hit, he is among the carts in the middle.
-  if (entry.down?.kind === 'wounded') return placeFrom(centre, unit(centre, ground.timber), { along: (share(world, person.id, 'cart-a') - 0.5) * 0.04, across: (share(world, person.id, 'cart-b') - 0.5) * 0.04 });
+  if (fellAt(state.battle, person.id, 'wounded', world.minute)) return placeFrom(centre, unit(centre, ground.timber), { along: (share(world, person.id, 'cart-a') - 0.5) * 0.04, across: (share(world, person.id, 'cart-b') - 0.5) * 0.04 });
   return placeFrom(centre, unit(centre, ground.timber), slot);
 }
 
@@ -191,7 +194,7 @@ function coletoWatchers(world, state, battle, ground) {
   const stage = state.over ? null : ['march-out', 'road'].includes(phaseId) ? 'march' : ['caught', 'square', 'assault-1', 'lull-1', 'assault-2', 'lull-2', 'assault-3', 'dusk', 'night', 'small-hours', 'before-dawn'].includes(phaseId) ? 'caught' : phaseId === 'guns' ? 'guns' : null;
   if (stage) {
     for (const household of Object.values(world.households)) {
-      const person = coletoMembers(world).find(one => one.householdId === household.id && !battle.participants[one.id].horton && battle.participants[one.id].down?.kind !== 'killed')
+      const person = coletoMembers(world).find(one => one.householdId === household.id && !battle.participants[one.id].horton && !fellAt(battle, one.id, 'killed', world.minute))
         || coletoMembers(world).find(one => one.householdId === household.id && battle.participants[one.id].horton);
       if (!person || battle.alerted[household.id]?.stage === stage) continue;
       if (stage !== 'march' && battle.participants[person.id].horton) continue;
@@ -255,22 +258,24 @@ export function advanceMassacre(world, { start, beginTravel }) {
       const wounded = person.health?.condition === 'wounded';
       const fate = massacreFate(world, person);
       const place = massacrePlace(fate, { wounded, road: share(world, person.id, 'goliad-road') });
-      const entry = battle.participants[person.id] = { householdId: person.householdId, joined: world.minute, fate, part: place.part, ...(place.runs && { runs: true }), ...(wounded && { wounded: true }) };
+      const entry = battle.participants[person.id] = { householdId: person.householdId, joined: world.minute, fate, unit: place.unit, ...(place.runs && { runs: true }), ...(wounded && { wounded: true }) };
       // The moment: kept back at the muster; shot at one of the three volleys; killed inside; away into the timber.
       const volleys = phaseOf(state, 'volleys'), inside = phaseOf(state, 'inside'), muster = phaseOf(state, 'muster'), escapes = phaseOf(state, 'escapes');
       entry.at = fate === 'spared' ? muster.from
         : fate === 'escaped' ? escapes.to
         : wounded ? inside.from + 6
         : volleys.from + [1, 3, 7][Math.min(2, Math.floor(share(world, person.id, 'goliad-volley') * 3))];
+      // A man killed is staged with the engine's fates, drawn falling where he stands and lying there after.
+      if (fate === 'executed') stageFate(world, 'goliad-massacre', person.id, { fate: 'killed', minute: entry.at, lies: true });
       person.travel = null; person.chore = null;
     }
   }
+  for (const due of fatesDue(world, 'goliad-massacre')) battle.fates[due.personId].applied = world.minute;
   const members = Object.entries(battle.participants).map(([id, entry]) => ({ person: world.entities[id], entry })).filter(one => one.person && !one.entry.released);
   for (const { person, entry } of members) {
     if (entry.done || world.minute < entry.at) continue;
     entry.done = world.minute;
     person.service = { ...person.service, fate: entry.fate, ...(entry.wounded && entry.fate === 'executed' && { woundedAtGoliad: true }) };
-    if (entry.fate === 'executed') entry.down = { kind: 'killed', minute: entry.at };
     awardGlory(world, { event: 'goliad', claimId: 'HIST-TEX-064', personId: person.id, householdId: person.householdId, role: 'present', fromSiteId: 'goliad' });
     // The man who got away tells his own story, and starts home at once (staging.md §7.6, fix 4): it reaches his family when he does.
     if (entry.fate === 'escaped') {
@@ -286,22 +291,29 @@ export function advanceMassacre(world, { start, beginTravel }) {
   }
   // Where each of them stands this tick.
   for (const { person, entry } of members) {
-    if (entry.released || entry.down) continue;
+    if (entry.released || fellAt(battle, person.id, 'killed', world.minute)) continue;
     walkToward(world, person, placeInMassacre(world, state, ground, person, entry), 'goliad');
   }
   massacreWatchers(world, state, battle);
 }
 
+/** Which body of the prisoners a man is in this phase: the one he was placed in, the runners when he runs, the side in the parade. */
+function massacreUnit(phase, entry, into) {
+  const groups = (phase.groups || []).map(group => group.id);
+  if (entry.runs && ((phase.id === 'volleys' && into >= 4) || phase.id === 'escapes')) return 'runners';
+  return entry.unit === 'texian' || groups.includes(entry.unit) ? entry.unit : 'texian';
+}
+/** Whether his staged fate of this kind has come by this minute (sim/battle-stage.mjs `stageFate`). */
+const fellAt = (battle, id, kind, minute) => { const fate = battle?.fates?.[id]; return Boolean(fate && fate.fate === kind && fate.minute <= minute); };
 function placeInMassacre(world, state, ground, person, entry) {
   const phase = state.phase, into = Math.min(state.into, phase.minutes);
   const a = share(world, person.id, 'massacre-a'), b = share(world, person.id, 'massacre-b');
-  const parts = phase.texian.parts?.map(part => part.id) || [];
-  const running = entry.runs && ((phase.id === 'volleys' && into >= 4) || phase.id === 'escapes');
-  const partId = running ? 'runners' : parts.includes(entry.part) ? entry.part : null;
-  const centre = partId ? partPlace(ground, phase, 'texian', partId, into) : sidePlace(ground, phase, 'texian', into);
+  const unitId = massacreUnit(phase, entry, into);
+  const centre = unitPlace(ground, phase, unitId, into) || sidePlace(ground, phase, 'texian', into);
   // In a column: in its files, somewhere along it; loose (the parade ground, the chapel, the rooms): anywhere in it.
-  const column = partId && ['bexar', 'victoria', 'patricio'].includes(partId) && !running;
-  const facing = column ? unit(ground.presidio, ground[`halt-${partId}`]) : { x: 1, y: 0 };
+  const road = { texian: 'victoria', bexar: 'bexar', patricio: 'patricio' }[unitId];
+  const column = road && (phase.groups || []).some(group => group.id === 'bexar');
+  const facing = column ? unit(ground.presidio, ground[`halt-${road}`]) : { x: 1, y: 0 };
   return placeFrom(centre, facing, column ? { along: -0.02 - 0.16 * a, across: (b - 0.5) * 0.05 } : { along: (a - 0.5) * 0.08, across: (b - 0.5) * 0.08 });
 }
 
@@ -324,18 +336,39 @@ function massacreWatchers(world, state, battle) {
 // ------------------------------------------------------------------------------------------------ what a page is sent
 
 const WATCHED = { coleto: 'Follow', 'goliad-massacre': 'Follow' };
+/** Which body each member stands in this minute (`memberUnits`): Horton's horsemen, a column, the kept, the runners; else the side. */
+function unitsOf(world, id, state) {
+  const battle = world.battles[id], units = {};
+  for (const [personId, entry] of Object.entries(battle.participants)) {
+    units[personId] = id === 'coleto'
+      ? (entry.horton && ['march-out', 'road', 'caught'].includes(state.phase.id) ? 'horton' : 'texian')
+      : massacreUnit(state.phase, entry, Math.min(state.into, state.phase.minutes));
+  }
+  return units;
+}
+/**
+ * Coleto and Palm Sunday for one page (sim/directors.mjs `directorProjection`): the fight, the Host's frame, the alert and the
+ * account, each only where `fanninView`, `fanninAlert` and `fanninAccount` allow.
+ */
+export function fanninProjection(world, householdId, role, { seen = [] } = {}) {
+  const view = fanninView(world, householdId, role, { seen });
+  const battleAlert = role === 'student' && householdId ? fanninAlert(world, householdId, Boolean(view?.battle)) : null;
+  const battleAccount = role === 'student' && householdId ? fanninAccount(world, householdId) : null;
+  if (!view && !battleAlert && !battleAccount) return null;
+  return { battle: view?.battle || null, host: view?.host || null, battleAlert, battleAccount };
+}
 /**
  * The fight for this viewer (docs/BATTLES.md §2.1, `FIC-GONZ-447`), or null: the Host always while it runs, framed on the field
  * while it is fought; a family only while one of its own people is in it, with the families' men it stands beside named for
  * the drawing - and for the massacre, also while one of its people stands in Goliad, where it is seen and heard. Nobody else.
  */
-export function fanninView(world, householdId, role) {
+export function fanninView(world, householdId, role, { seen = [] } = {}) {
   for (const id of ['coleto', 'goliad-massacre']) {
     const state = world.battles?.[id] ? battleState(world, id) : null;
     if (!state?.live) continue;
     const all = id === 'coleto' ? coletoMembers(world) : massacreMembers(world);
     if (role === 'host') {
-      const battle = { ...projectBattle(world, id, { members: all.map(person => person.id) }), reconstruction: false };
+      const battle = { ...projectBattle(world, id, { members: all.map(person => person.id), units: unitsOf(world, id, state), fates: world.battles[id].fates }), reconstruction: false };
       return { battle, host: { focus: state.fighting ? 'battle' : 'regional', caption: `${ENGAGEMENT_NAMES[id]}, live. Families with somebody there see it too; the rest have not heard yet.`, ...fieldOf(world, id) } };
     }
     if (role !== 'student' || !householdId) continue;
@@ -344,9 +377,9 @@ export function fanninView(world, householdId, role) {
     const inTown = id === 'goliad-massacre' && own.some(person => person.location.siteId === 'goliad' && !GONE.includes(person.health?.condition));
     if (!inIt && !inTown) continue;
     // Only the families' men this family stands beside, and so already sees (sim/town.mjs `observedBy`).
-    const places = new Set(own.map(person => person.location.siteId));
-    const members = all.filter(person => person.householdId === householdId || places.has(person.location?.siteId)).map(person => person.id);
-    return { battle: { ...projectBattle(world, id, { members }), reconstruction: false } };
+    const places = new Set(own.map(person => person.location.siteId)), sees = new Set(seen.map(one => one.id || one));
+    const members = all.filter(person => person.householdId === householdId || places.has(person.location?.siteId) || sees.has(person.id)).map(person => person.id);
+    return { battle: { ...projectBattle(world, id, { members, units: unitsOf(world, id, state), fates: world.battles[id].fates }), reconstruction: false } };
   }
   return null;
 }

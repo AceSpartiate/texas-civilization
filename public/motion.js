@@ -431,6 +431,19 @@ function grownClip(entity, observed) {
   // Not frozen: the listening frame is one pose and the renderer's own breathing is what keeps it alive, which is what
   // the delivery note asked for. `upright`, because a back view is never mirrored.
   if (!observed && entity.facing) return { id: `${variant}-listen-${entity.facing === 'n' ? 'n' : 's'}`, upright: true };
+  // Walking across Gonzales from one place in it to another (public/town-scenes.js `TownWalker`): the page, not the server,
+  // knows the figure is between the two, because it is the page that walks them there instead of sliding them.
+  if (entity.kind === 'person' && entity.stepping) {
+    return entity.stepping === 'n' || entity.stepping === 's' ? { id: `${variant}-walk-${entity.stepping}`, upright: true } : { id: `${variant}-walk` };
+  }
+  // Doing something in one of the town's scenes before the fight (sim/town-scenes.mjs): the pose the server names, which is
+  // a delivered one. Listening and the idle poses are turned by their own sheets; everything else is east, mirrored for west.
+  if (entity.kind === 'person' && entity.scenePose?.pose) {
+    const { pose, face = 's' } = entity.scenePose;
+    if (pose === 'idle') return { id: `${variant}-idle-${face}`, upright: true };
+    if (pose === 'listen') return { id: `${variant}-listen-${face === 'n' ? 'n' : 's'}`, upright: true };
+    return { id: `${variant}-${pose}` };
+  }
   if (entity.kind === 'animal') {
     // A class saved before there were horses has no `species` on anything, and every
     // animal in it is an ox - so the absent field reads correctly as one.
@@ -490,9 +503,10 @@ function along(points, distance) {
  * tests/movement.test.mjs holds it equal to the clock's own table.
  *
  * And the steps a battle is watched at (sim/battle-stage.mjs `BATTLE_STEPS`, docs/BATTLES.md §2.2): a tick of two, five or
- * ten minutes during the fighting is an ordinary tick, and a person walking through it is drawn walking, not snapped.
+ * ten minutes during the fighting is an ordinary tick, and a person walking through it is drawn walking, not snapped. So is a
+ * tick of a fight's background pace (sim/battle-stage.mjs BATTLE_PACES): Béxar's two hours a tick between its episodes.
  */
-export const CALENDAR_STEPS = Object.freeze([2, 5, 10, 20, 60, 240, 720]);
+export const CALENDAR_STEPS = Object.freeze([2, 5, 10, 20, 60, 120, 240, 720]);
 /** A tick of the farming clock, which a stored `speed` is measured in (sim/travel.mjs `FARMING_TICK_MINUTES`). */
 const FARMING_STEP = 20;
 export const sameJourney = (a, b) => Boolean(a && b && a.from === b.from && a.to === b.to);

@@ -151,7 +151,7 @@ try {
   // ------------------------------------------------------------------ the assaults, sampled at several moments
   const sample = async (page, label) => {
     const one = await page.evaluate(() => ({ phase: window.__snapshot.world.battle?.phase, minute: window.__snapshot.world.minute, caption: window.__battleCaption?.text, view: window.__battleView, frame: window.__animation?.drawMs, camera: window.__camera?.kind, size: `${innerWidth}x${innerHeight}` }));
-    evidence.samples.push({ label, phase: one.phase, minute: one.minute, camera: one.camera, size: one.size, view: one.view && { figures: one.view.figures, regularity: one.view.regularity, shotsBy: one.view.shotsBy, smokeInView: one.view.smokeInView, bubbles: one.view.bubbles.map(b => b.text), members: one.view.members, memberClips: one.view.memberClips, fallen: one.view.fallen, down: one.view.down, light: one.view.light, guns: one.view.guns, cannonShots: one.view.cannonShots, frameMs: one.view.frameMs } });
+    evidence.samples.push({ label, phase: one.phase, minute: one.minute, camera: one.camera, size: one.size, view: one.view && { figures: one.view.figures, regularity: one.view.regularity, shotsBy: one.view.shotsBy, smokeInView: one.view.smokeInView, bubbles: one.view.bubbles.map(b => b.text), members: one.view.members, memberClips: one.view.memberClips, fallen: one.view.fallen, memberFalls: one.view.memberFalls, light: one.view.light, hollow: one.view.hollow, guns: one.view.guns?.length, gunShots: one.view.gunShots, groups: one.view.groups, frameMs: one.view.frameMs } });
     return one;
   };
   const moments = [];
@@ -184,9 +184,9 @@ try {
   ok(`the battle draws in ${Math.max(...frames).toFixed(1)} ms at its slowest 95th percentile, of a map frame of ${Math.max(...evidence.frameMs.mapDrawMs).toFixed(1)} ms at most`);
 
   // ------------------------------------------------------------------ the second family sees its man hit, at 1024
-  await hurt.waitForFunction(id => window.__snapshot?.world.battle?.down?.[id]?.kind === 'wounded', manB, { timeout: 240000 });
+  await hurt.waitForFunction(id => window.__snapshot?.world.battle?.memberFates?.[id]?.fate === 'wounded', manB, { timeout: 240000 });
   await hurt.waitForTimeout(800);
-  const hit = await hurt.evaluate(id => ({ down: window.__battleView?.down?.[id], clips: window.__battleView?.memberClips, phase: window.__snapshot.world.battle.phase, health: window.__snapshot.world.entities.find(one => one.id === id)?.health?.condition }), manB);
+  const hit = await hurt.evaluate(id => ({ down: window.__battleView?.memberFalls?.find(one => one.id === id)?.fate, clips: window.__battleView?.memberClips, phase: window.__snapshot.world.battle.phase, health: window.__snapshot.world.entities.find(one => one.id === id)?.health?.condition }), manB);
   assert.equal(hit.down, 'wounded'); assert.ok(hit.clips.includes('volunteer-injured'), `the hurt man was not drawn sitting hurt: ${JSON.stringify(hit)}`);
   await shot(hurt, 'hurt-1024');
   ok(`at 1024x768 the second family sees its man hit in the ${hit.phase} and drawn sitting hurt, no blood (${hit.health} on its screen)`);
@@ -206,7 +206,7 @@ try {
     assert.equal(seen.battle, null, `the family with nobody there was sent the battle (${label})`);
     assert.ok(!seen.battleAlert && !seen.battleAccount, `the family with nobody there was sent a card (${label})`);
     assert.ok(![manA, manB].some(id => raw.includes(id)), `the family with nobody there was sent a name (${label})`);
-    const part = /"legacyPhase"|"participants"|"alerted"|"fallen"|"down"/.exec(raw);
+    const part = /"legacyPhase"|"participants"|"alerted"|"fallen"|"memberFates"|"fates"/.exec(raw);
     assert.ok(!part, `the family with nobody there was sent part of the battle: ${part?.[0]} (${label})`);
     assert.equal(await stayer.evaluate(() => window.__battleView), null, `the family with nobody there drew a battle (${label})`);
   };
@@ -220,9 +220,10 @@ try {
   await phaseOn(fighter, 'dusk');
   await fighter.waitForTimeout(1500);
   const dusk = await sample(fighter, '1366 dusk');
-  assert.ok(dusk.view.regularity.mexican > 2 * dusk.view.regularity.texian, `the square is not more even than the marksmen in the grass: ${JSON.stringify(dusk.view.regularity)}`);
+  // A hollow square: every man stands well out from its middle, and more evenly than the marksmen lying loose in the grass.
+  assert.ok(dusk.view.hollow.texian > 0.5 && dusk.view.regularity.mexican > 2 * dusk.view.regularity.texian, `the Texians do not stand in a hollow square, more even than the marksmen in the grass: ${JSON.stringify({ hollow: dusk.view.hollow, regularity: dusk.view.regularity })}`);
   assert.equal(dusk.view.light, 'dusk');
-  ok(`at dusk the Texians stand in their square and the Mexicans lie loose in the grass: nearest-neighbour spread ${dusk.view.regularity.texian.toFixed(3)} against ${dusk.view.regularity.mexican.toFixed(3)}, the light ${dusk.view.light}`);
+  ok(`at dusk the Texians stand in their hollow square (nobody nearer its middle than ${dusk.view.hollow.texian.toFixed(2)} of the mean) and the Mexicans lie loose in the grass: nearest-neighbour spread ${dusk.view.regularity.texian.toFixed(3)} against ${dusk.view.regularity.mexican.toFixed(3)}, the light ${dusk.view.light}`);
   await shot(fighter, 'dusk');
 
   // ------------------------------------------------------------------ the guns at dawn, and the white flag
@@ -231,11 +232,12 @@ try {
   await phaseOn(fighter, 'guns');
   await fighter.waitForTimeout(2500);
   const guns = await sample(fighter, '1366 guns');
-  assert.ok(guns.view.guns >= 5 && guns.view.cannonShots >= 1, `the Mexican battery did not fire: ${JSON.stringify({ guns: guns.view.guns, shots: guns.view.cannonShots })}`);
-  ok(`at a quarter past six the Mexican guns open (${guns.view.cannonShots} shots seen), and the card said so`);
+  assert.ok(guns.view.guns.length >= 5 && guns.view.gunShots >= 1, `the Mexican battery did not fire: ${JSON.stringify({ guns: guns.view.guns.length, shots: guns.view.gunShots })}`);
+  ok(`at a quarter past six the Mexican guns open (${guns.view.gunShots} shots seen), and the card said so`);
   await phaseOn(fighter, 'surrender');
   await fighter.waitForTimeout(1200);
-  const flag = await fighter.evaluate(() => ({ flag: window.__snapshot.world.battle.flag, caption: window.__battleCaption?.text }));
+  const flag = await fighter.evaluate(() => ({ flag: window.__snapshot.world.battle.flags?.[0], drawn: window.__battleView?.whiteFlag, caption: window.__battleCaption?.text }));
+  assert.ok(flag.drawn, 'the white flag was not drawn');
   assert.equal(flag.flag?.kind, 'white'); assert.match(flag.caption, /white flag/);
   await shot(fighter, 'surrender');
   ok(`the surrender: a white flag at a corner of the square, and the caption "${flag.caption.slice(0, 80)}..."`);
@@ -254,7 +256,7 @@ try {
   assert.ok((killing.at(-1).view.shotsBy.mexican || 0) > 0, 'the guards were not drawn firing');
   assert.ok(!killing.some(one => one.view.bubbles.some(text => /Preparen|Apunten|Fuego/.test(text))), 'an order was drawn at the killing');
   assert.match(killing.at(-1).caption || '', /open fire on the prisoners/);
-  await fighter.waitForFunction(id => window.__battleView?.down?.[id] === 'killed', manA, { timeout: 60000 });
+  await fighter.waitForFunction(id => window.__battleView?.memberFalls?.some(one => one.id === id && one.fate === 'killed'), manA, { timeout: 60000 });
   ok(`on Palm Sunday the guards fire and the prisoners fall and lie still (${killing.at(-1).view.fallen} figures down), nothing is said, the family's man is drawn where he fell, and the caption says it plainly`);
   await nothing('Palm Sunday');
   ok('the family with nobody there was sent nothing of Palm Sunday');

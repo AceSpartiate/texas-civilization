@@ -1,6 +1,6 @@
 {
   "record": "family-panel-browser",
-  "date": "2026-09-25",
+  "date": "2026-09-26",
   "browser": "153.0.8010.53",
   "task": "docs/FAMILY_PANEL.md: the owner’s family panel (2026-09-15) - rows father, mother, children oldest first; portraits; icons with a one-sentence popup that glow while the server says the person is doing that; portrait to camera; names that save themselves.",
   "environment": "Same computer: a local classroom server and headless Chrome. Not a physical LAN, a classroom or a real phone.",

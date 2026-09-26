@@ -27,13 +27,16 @@ const LAYOUT = Object.freeze({
   wall: { across: 0.018, rank: 0.02 },
   loose: { width: 0.44, depth: 0.22, gap: 0.02 },
   bank: { width: 0.5, depth: 0.08, gap: 0.018 },
-  street: { width: 0.3, depth: 0.3, gap: 0.02 },
+  // Men inside a house or its yard stand close: a few yards apart, not the open field's twenty.
+  street: { width: 0.3, depth: 0.3, gap: 0.007 },
   rout: { width: 0.6, depth: 0.5, gap: 0.03 },
 });
-/** The hollow square (sim/battles/coleto.mjs `coletoSlot` stands a family's man in its front rank at `outer`). */
-// Its innermost rank stands further out than the faces run, so no two faces' men meet at a corner.
+/**
+ * The hollow square (Coleto, 2026-09-25; sim/battles/coleto.mjs `coletoSlot` stands a family's man in its front rank at
+ * `outer`). Its innermost rank stands further out than its faces run, so no two faces' men meet at a corner.
+ */
 const SQUARE = Object.freeze({ outer: 0.09, rank: 0.018, across: 0.021 });
-/** How dark a phase's light lays over the field, drawn under the flashes so a shot in the dark is seen as it was. */
+/** How dark a phase's light lays over the field (2026-09-25), drawn under the flashes so a shot in the dark is seen as it was. */
 const LIGHT = Object.freeze({ night: 'rgba(10,16,40,.46)', dusk: 'rgba(48,30,60,.24)', dawn: 'rgba(96,110,130,.16)', fog: 'rgba(222,226,228,.22)' });
 /** One load of a musket in the library's cycle: aim 700, fire 120, load 750, ramrod 900 (public/assets/frontier-v1/animation.json). */
 const FIRE_CLIP_MS = 2470, AIM_MS = 700;
@@ -67,7 +70,7 @@ const lerp = (a, b, t) => a + (b - a) * t;
  * where it matters (Concepción's riverbank).
  */
 export function layoutSide(side) {
-  const n = Math.max(0, Math.min(60, side.drawn | 0)), style = side.style, seed = `${side.key || side.side}:${style}:${n}`;
+  const n = Math.max(0, Math.min(60, side.drawn | 0)), style = side.style, seed = `${side.side}:${style}:${n}`;
   const out = [];
   // A hollow square (Coleto, 2026-09-25): four faces of three ranks, each facing outward, the front rank outermost. `out` is the
   // way the man faces in the side's frame, so each face fires outward on its own.
@@ -108,19 +111,27 @@ export function layoutSide(side) {
   return out;
 }
 /** One layout per side, style, count and ground: a force gathered close at night is not laid out as the line at dawn. */
-const layoutKey = side => `${side.key || side.side}:${side.style}:${side.drawn}:${side.spread?.width ?? ''}:${side.spread?.depth ?? ''}`;
+const layoutKey = side => `${side.key && side.key !== side.side ? `${side.key}:` : ''}${side.side}:${side.style}:${side.drawn}:${side.spread?.width ?? ''}:${side.spread?.depth ?? ''}`;
 /**
- * What is drawn as one body of men: each side, or each of its parts when the server sent it in parts (sim/battle-stage.mjs,
- * 2026-09-25) - a detachment with its own place, style and fire. A unit keeps its side's name, count and colours.
+ * Every body the page draws: each side, and each group drawn apart from its side (sim/battle-stage.mjs `phase.groups`: Béxar's
+ * divisions in their houses, men on a roof, a file under the loopholes, the townspeople let out of a breached house). A
+ * side's key is its side; a group's is `g:` and its id.
  */
-export const unitsOf = battle => battle.sides.flatMap(side => side.parts
-  ? side.parts.map(part => ({ ...side, ...part, parts: undefined, side: side.side, name: part.name || side.name, key: `${side.side}:${part.id}`, part: part.id }))
-  : [{ ...side, key: side.side }]);
+const bodiesOf = battle => [...battle.sides.map(side => ({ ...side, key: side.side })), ...(battle.groups || []).map(group => ({ ...group, key: `g:${group.id}` }))];
+/** Who the townspeople are drawn as, in turn: the library's own women, children and old men (never soldiers). */
+const TOWNSFOLK = ['rust-woman', 'smallchild', 'elder', 'indigo'];
 /** A figure's place on the ground from its slot: the side's centre, turned to face the way the side faces. */
 const onGround = (centre, facing, slot) => ({
   x: centre.x + facing.x * slot.along - facing.y * slot.across,
   y: centre.y + facing.y * slot.along + facing.x * slot.across,
 });
+/** How hollow a set of points stands: the nearest to their middle over the mean distance from it (0 solid, 1 a ring). */
+export function hollowness(points) {
+  if (points.length < 4) return null;
+  const c = points.reduce((s, p) => ({ x: s.x + p.x / points.length, y: s.y + p.y / points.length }), { x: 0, y: 0 });
+  const d = points.map(p => Math.hypot(p.x - c.x, p.y - c.y)), mean = d.reduce((s, v) => s + v, 0) / d.length;
+  return mean ? Math.min(...d) / mean : null;
+}
 /** How regular a set of screen points is: the spread of each one's distance to its nearest neighbour over the mean. */
 export function regularity(points) {
   if (points.length < 3) return null;
@@ -139,32 +150,33 @@ export function createBattleView(art) {
     key: null, minute: null, tickAt: 0, tickMs: 1000, sides: new Map(), layouts: new Map(),
     smoke: [], flashes: [], shotsSeen: new Set(), linesSeen: new Map(), commandsAt: 0, fallenAt: new Map(),
     members: new Map(), memberSpots: new Map(), bubbles: [], cannonFiredAt: [], frameMs: [], evidence: null,
-    // Each gun's shots when there are several (`cannons`), and where each fallen man was when he fell, so he lies there still
-    // when the rest of his company falls back (2026-09-25).
-    gunsFiredAt: new Map(), lying: new Map(), down: {}, figureKinds: new Set(),
+    // Each gun's shots as the page first saw them, a breach's moment of opening, a member's fall: all in the page's time.
+    gunFiredAt: new Map(), breachAt: new Map(), memberFallAt: new Map(), skew: 0,
+    // Where each fallen man was when he fell, so he lies there still when the rest of his company moves on (2026-09-25).
+    lying: new Map(),
     // Presentation evidence across frames, read by scripts/battle-gonzales-browser-proof.mjs and by nothing in the page.
     shotsTotal: 0, shotsBy: {}, linesShown: new Set(), memberClips: new Set(),
+    loopholeShots: 0, gunShotsTotal: 0, civiliansSeen: 0, breachesSeen: new Set(), namedFalls: new Set(), unitsSeen: new Set(),
   };
-  const figureOf = (side, slot) => side.figure || (side.side === 'mexican'
+  const figureOf = (side, slot) => side.side === 'mexican'
     ? (side.style === 'mounted' && !(slot.rank < (side.dismounted || 0)) ? 'dragoon' : 'regular')
-    : 'volunteer');
+    : 'volunteer';
 
   /** A new tick of the battle: remember where each side was drawn, so it walks from there to the new place. */
   function accept(battle, now, tickMs) {
     const key = `${battle.id}`;
     if (view.key !== key) {
       view.key = key; view.sides.clear(); view.smoke = []; view.flashes = []; view.shotsSeen.clear(); view.linesSeen.clear(); view.fallenAt.clear(); view.cannonFiredAt = [];
-      view.gunsFiredAt.clear(); view.lying.clear();
+      view.gunFiredAt.clear(); view.breachAt.clear(); view.memberFallAt.clear(); view.lying.clear();
       view.minute = null;
     }
     if (battle.minute === view.minute) return;
     const previousMinute = view.minute;
     view.tickMs = Math.max(200, tickMs || 1000);
-    // Each side as a whole (where its officer speaks from) and each of its units, walked from where it was drawn.
-    for (const side of [...battle.sides.map(one => ({ ...one, key: one.side })), ...unitsOf(battle).filter(unit => unit.part)]) {
+    for (const side of bodiesOf(battle)) {
       const was = view.sides.get(side.key);
       const drawnAt = was ? placeAt(was, now) : { x: side.x, y: side.y };
-      view.sides.set(side.key, { ...side, from: drawnAt, to: { x: side.x, y: side.y }, at: now, duration: previousMinute === null || !was ? 0 : view.tickMs });
+      view.sides.set(side.key, { ...side, from: drawnAt, to: { x: side.x, y: side.y }, at: now, duration: previousMinute === null ? 0 : view.tickMs });
     }
     // Words and shots dated inside the tick that just ended are given the real moment of the tick they fell in, so a line
     // said at the fourth minute of a five-minute tick is drawn four fifths of the way through it.
@@ -181,19 +193,27 @@ export function createBattleView(art) {
       view.shotsSeen.add(shot);
       if (previousMinute !== null || shot === battle.minute) view.cannonFiredAt.push(when(shot));
     }
-    for (const gun of battle.cannons || []) {
-      const times = view.gunsFiredAt.get(gun.id) || [];
+    for (const fall of battle.fallen || []) {
+      const id = `${fall.unit || fall.side}:${fall.minute}`;
+      if (!view.fallenAt.has(id)) view.fallenAt.set(id, { ...fall, at: previousMinute === null ? now - 60000 : when(fall.minute) });
+    }
+    // Each gun's shots, and each breach and each member's fall, at the real moment of the tick they were dated in.
+    for (const gun of battle.guns || []) {
+      const fired = view.gunFiredAt.get(gun.id) || [];
       for (const shot of gun.shots || []) {
         const seen = `gun:${gun.id}:${shot}`;
         if (view.shotsSeen.has(seen)) continue;
         view.shotsSeen.add(seen);
-        if (previousMinute !== null || shot === battle.minute) times.push(when(shot));
+        if (previousMinute !== null || shot === battle.minute) fired.push(when(shot));
       }
-      view.gunsFiredAt.set(gun.id, times);
+      view.gunFiredAt.set(gun.id, fired.slice(-10));
     }
-    for (const fall of battle.fallen || []) {
-      const id = `${fall.side}:${fall.part || ''}:${fall.minute}`;
-      if (!view.fallenAt.has(id)) view.fallenAt.set(id, { ...fall, at: previousMinute === null ? now - 60000 : when(fall.minute) });
+    for (const breach of battle.breaches || []) {
+      const id = `${breach.x.toFixed(5)}:${breach.y.toFixed(5)}:${breach.at}`;
+      if (!view.breachAt.has(id)) view.breachAt.set(id, { ...breach, openAt: previousMinute === null && breach.open ? now - 60000 : when(breach.at) });
+    }
+    for (const [id, fate] of Object.entries(battle.memberFates || {})) {
+      if (!view.memberFallAt.has(id)) view.memberFallAt.set(id, { ...fate, at: previousMinute === null ? now - 60000 : when(fate.minute) });
     }
     view.minute = battle.minute;
   }
@@ -227,17 +247,23 @@ export function createBattleView(art) {
   function memberPose(entity, time) {
     const member = view.members.get(entity.id);
     if (!member) return null;
-    const pose = poseOf(member, time, view.down[entity.id]);
+    const pose = poseOf(member, time);
     view.memberClips.add(pose.clip || pose.sprite);
     return pose;
   }
-  function poseOf(member, time, down = null) {
-    // Hit in the fight (docs/BATTLES.md §2.6): lying still where he fell, or sitting hurt. No blood, no gore (VISION.md §16).
-    if (down) return { sprite: down.kind === 'killed' ? 'volunteer-reclining' : 'volunteer-injured', flip: false, still: true };
-    const side = view.sides.get('texian');
-    if (side?.action === 'surrender') return { clip: 'volunteer-surrender', flip: false, timeMs: time };
-    // In a square each man faces out of his own face of it (`member.right`); elsewhere the way his side faces.
+  function poseOf(member, time) {
+    const side = view.sides.get(member.unit || 'texian') || view.sides.get('texian');
+    // In a square each man faces out of his own face of it (`member.right`); elsewhere the way his body of men faces.
     const right = member.right ?? ((side?.facing?.x ?? 1) >= 0);
+    // A family's own person hit at the moment the server staged (docs/BATTLES.md §2.6): down and lying still if killed, sitting
+    // hurt and carried off if wounded, a slight wound up again after a while. No blood, no gore (VISION.md §16).
+    const fell = view.memberFallAt.get(member.id), since = fell ? time + view.skew - fell.at : -1;
+    if (fell && since >= 0) {
+      if (fell.fate === 'killed') return { sprite: since < 700 ? 'volunteer-injured' : 'volunteer-reclining', flip: !right, still: true, fallen: true };
+      if (fell.grade !== 'slight' || since < 20000) return { sprite: 'volunteer-injured', flip: !right, still: true, fallen: true };
+    }
+    // A surrender (Coleto, `HIST-TEX-515`): hands raised, the arms laid down.
+    if (side?.action === 'surrender') return { clip: 'volunteer-surrender', flip: false, timeMs: time };
     if (!member.firing) return { clip: member.moving ? 'volunteer-march' : right ? 'volunteer-idle-e' : 'volunteer-idle-w', flip: member.moving ? !right : false, timeMs: time };
     const cycle = FIRE_CLIP_MS + member.wait, t = (time + member.offset) % cycle;
     if (t < member.wait) return { sprite: member.kneel ? 'volunteer-load' : right ? 'volunteer-e' : 'volunteer-w', flip: member.kneel ? !right : false, still: true };
@@ -256,35 +282,44 @@ export function createBattleView(art) {
     const still = reducedMotion || paused;
     if (!battle) { view.key = null; view.members.clear(); view.evidence = null; return null; }
     accept(battle, now, tickMs);
+    // The page's animation clock and the frame's own clock differ; a member's fall is kept in the frame's.
+    view.skew = now - time;
     const figurePx = Math.max(7, Math.min(60, camera.figure * 0.95));
-    const drawn = { texian: [], mexican: [] };
+    const drawn = { texian: [], mexican: [] }, drawnBy = {};
     let flashes = 0, shots = 0;
-    const units = unitsOf(battle);
-    const fallenSlots = fallenBySide(battle, now, units);
+    const fallenSlots = fallenBySide(battle, now);
+    const bodies = bodiesOf(battle), bodyOf = unit => bodies.find(body => body.key === (unit === 'texian' || unit === 'mexican' ? unit : `g:${unit}`));
     // Members first, so the sampled figures give them room: nothing sampled is drawn on a family's person.
     view.members.clear();
-    view.down = battle.down || {};
     const texianSide = battle.sides.find(side => side.side === 'texian');
-    const texianCentre = view.sides.get('texian') ? placeAt(view.sides.get('texian'), now) : texianSide;
     for (const id of battle.members || []) {
-      const spot = view.memberSpots.get(id);
+      // The unit the member stands in (Béxar's division, the Greys' file), or the Texian side: posed by its fire.
+      const unit = battle.memberUnits?.[id], body = unit ? bodyOf(unit) : null;
+      const force = body || texianSide;
       view.members.set(id, {
-        firing: ['scattered', 'volley', 'picket'].includes(texianSide?.fire) && texianSide.action !== 'gone' && texianSide.action !== 'surrender' && !view.down[id],
-        moving: ['advance', 'withdraw', 'follow'].includes(texianSide?.action),
+        id, unit: body?.key || null,
+        firing: ['scattered', 'volley', 'picket'].includes(force?.fire) && force.action !== 'gone' && force.action !== 'surrender',
+        moving: body ? Boolean(body.moving) : ['advance', 'withdraw', 'follow'].includes(texianSide?.action),
         wait: WAIT_MIN_MS + hash(`${id}:w`) * WAIT_SPAN_MS, offset: hash(`${id}:o`) * 20000, kneel: hash(`${id}:k`) < 0.3,
-        // In a square, out of his own face: east of its middle faces east.
-        ...(texianSide?.style === 'square' && spot && { right: spot.x >= texianCentre.x }),
+        // In a square, out of his own face: east of its middle faces east (where app.js drew him last frame).
+        ...(force?.style === 'square' && view.memberSpots.get(id) && view.sides.get(body?.key || 'texian') && { right: view.memberSpots.get(id).x >= placeAt(view.sides.get(body?.key || 'texian'), now).x }),
       });
     }
-    // Members fire on their own cycle; their shot is spawned from where app.js drew them.
+    // Members fire on their own cycle; their shot is spawned from where app.js drew them. A member who has fallen does not.
     for (const [id, member] of view.members) {
       const spot = view.memberSpots.get(id);
+      const fell = view.memberFallAt.get(id);
+      if (fell && now >= fell.at && (fell.fate === 'killed' || fell.grade !== 'slight' || now - fell.at < 20000)) {
+        // Two comrades carry a wounded man back, as the record's fallen are carried (stand-in, as `drawFallen`'s).
+        if (spot && fell.fate === 'wounded' && !still) { const p = camera.toScreen(spot); for (const off of [-0.5, 0.5]) art.animated(ctx, 'volunteer-march', p.x + off * figurePx, p.y + 2, figurePx, `${id}:carry:${off}`, { timeMs: time }); }
+        continue;
+      }
       if (!spot || !member.firing || still) continue;
       const cycle = FIRE_CLIP_MS + member.wait, t = (time + member.offset) % cycle, shotAt = member.wait + AIM_MS;
       const key = `${id}:${Math.floor((time + member.offset) / cycle)}`;
       if (t >= shotAt && t < shotAt + 400 && !view.shotsSeen.has(key)) {
         view.shotsSeen.add(key);
-        const right = member.right ?? ((texianSide.facing?.x ?? 1) >= 0);
+        const right = member.right ?? (((member.unit ? view.sides.get(member.unit) : texianSide)?.facing?.x ?? 1) >= 0);
         puff(spot.x + (right ? 1 : -1) * 0.012, spot.y - 0.006, now, { wind });
         flash(spot.x + (right ? 1 : -1) * 0.012, spot.y, right, now, 1); shots++;
       }
@@ -292,8 +327,9 @@ export function createBattleView(art) {
     const memberPoints = [...view.memberSpots.entries()].filter(([id]) => view.members.has(id)).map(([, spot]) => spot);
 
     const figures = [];
-    const drawnBy = new Map();
-    for (const side of units) {
+    let civilians = 0;
+    const offScreen = point => bounds && (point.x < -90 || point.y < -90 || point.x > bounds.width + 90 || point.y > bounds.height + 140);
+    for (const side of bodies) {
       const shown = view.sides.get(side.key);
       const centre = placeAt(shown, now);
       const key = layoutKey(side);
@@ -301,38 +337,46 @@ export function createBattleView(art) {
       const slots = view.layouts.get(key);
       const facing = side.facing, sideRight = facing.x >= 0;
       const volley = side.fire === 'volley';
+      drawnBy[side.key] = [];
+      if (side.key !== side.side) view.unitsSeen.add(side.key);
       // The rank whose turn it is, and where in the officer's cycle the rank stands.
-      const cycleAt = (time + hash(`${battle.id}:${side.key}`) * VOLLEY_MS) % VOLLEY_MS, cycleNo = Math.floor((time + hash(`${battle.id}:${side.key}`) * VOLLEY_MS) / VOLLEY_MS);
+      const cycleAt = (time + hash(`${battle.id}:${side.side}`) * VOLLEY_MS) % VOLLEY_MS, cycleNo = Math.floor((time + hash(`${battle.id}:${side.side}`) * VOLLEY_MS) / VOLLEY_MS);
       const ranks = Math.max(1, ...slots.map(slot => slot.rank + 1));
       const firingRank = cycleNo % Math.min(ranks, side.dismounted ? Math.max(1, side.dismounted) : ranks);
       // A square fires by faces in turn, a quarter of the cycle apart, each face by its ranks: a rolling fire all round it, not
       // one rank of the whole square at a time.
       const faceCycle = slot => {
-        const shifted = time + hash(`${battle.id}:${side.key}`) * VOLLEY_MS + slot.face * VOLLEY_MS / 4, no = Math.floor(shifted / VOLLEY_MS);
+        const shifted = time + hash(`${battle.id}:${side.side}`) * VOLLEY_MS + slot.face * VOLLEY_MS / 4, no = Math.floor(shifted / VOLLEY_MS);
         return { at: shifted % VOLLEY_MS, no, rank: no % ranks };
       };
-      const fallen = fallenSlots.get(side.key) || new Map();
-      const unitDrawn = [];
-      drawnBy.set(side.key, unitDrawn);
       // The carts inside a square (`HIST-TEX-515`), drawn among the men: the baggage and, at night, the barricade.
       // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "Coleto and Goliad", item 4 - the library's `ox-cart`, its ox painted
       // in, until a cart without its ox, standing and tipped as a breastwork, is drawn.
       if (side.style === 'square' && side.action !== 'gone') {
         for (const [along, across, flipCart] of [[0.012, -0.018, false], [-0.02, 0.014, true], [0.024, 0.026, false]]) {
           const cart = camera.toScreen(onGround(centre, facing, { along, across }));
-          figures.push({ y: cart.y, kind: 'cart', point: cart, size: figurePx * 1.25, sprite: 'ox-cart', flip: flipCart, still: true, seed: `cart:${along}` });
+          if (!offScreen(cart)) figures.push({ y: cart.y, kind: 'cover', point: cart, sprite: 'ox-cart', size: figurePx * 1.25, flip: flipCart });
         }
       }
+      const fallen = fallenSlots.get(side.key) || new Map();
+      // Behind a street's palisade or a breastwork of sandbags: the cover drawn in front of the men.
+      // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a street barricade" and "a sandbag breastwork" - the library's
+      // palisade and sacks, until the ditch-bank-and-palisade with a gun embrasure is drawn.
+      if (['barricade', 'sandbags'].includes(side.cover) && side.action !== 'gone') {
+        const front = camera.toScreen({ x: centre.x + facing.x * 0.012, y: centre.y + facing.y * 0.012 });
+        if (!offScreen(front)) figures.push({ y: front.y + 1, kind: 'cover', point: front, sprite: side.cover === 'barricade' ? 'palisade' : 'sacks', size: figurePx * (side.cover === 'barricade' ? 2.2 : 1.5), flip: !sideRight });
+      }
       for (const slot of slots) {
-        const lyingKey = `${side.key}:${slot.index}`;
-        const down = fallen.get(slot.index);
+        const lyingKey = `${side.key}:${slot.index}`, down = fallen.get(slot.index);
         // A man who fell lies where he fell, whatever his company does after (2026-09-25).
         const ground = down && view.lying.has(lyingKey) ? view.lying.get(lyingKey) : onGround(centre, facing, slot);
         if (down && !view.lying.has(lyingKey)) view.lying.set(lyingKey, ground);
         if (!down && memberPoints.some(m => Math.hypot(m.x - ground.x, m.y - ground.y) < 0.014)) continue;
         const kind = figureOf(side, slot);
-        view.figureKinds.add(kind);
         const point = camera.toScreen(ground);
+        if (offScreen(point)) continue;
+        // On a flat roof behind its parapet: drawn standing up on the house, not in the street below it.
+        if (side.cover === 'roof') point.y -= figurePx * 0.5;
         const size = kind === 'dragoon' ? figurePx * 1.35 : figurePx;
         const seed = `${side.key}:${slot.index}`;
         // Which way this man faces: out of his face of a square, or the way his side faces.
@@ -348,10 +392,38 @@ export function createBattleView(art) {
         }
         if (side.action === 'gone') continue;
         const moving = Boolean(side.moving);
-        if (side.action === 'surrender' && kind !== 'dragoon') { clip = `${kind}-surrender`; flip = false; }
-        // A figure of her own (Francita Alavez, `HIST-TEX-518`): her own walk and stand, never a soldier's poses.
-        else if (side.figure) { clip = moving ? `${kind}-walk` : `${kind}-idle-${right ? 'e' : 'w'}`; flip = moving ? !right : false; }
-        else if (kind === 'dragoon') {
+        // A surrender (Coleto, `HIST-TEX-515`): hands raised, the arms laid down.
+        if (side.action === 'surrender' && kind !== 'dragoon') {
+          figures.push({ y: point.y, kind, side: side.side, point, size, clip: `${kind}-surrender`, timeMs: time, flip: false, seed });
+          if (side.key === side.side) drawn[side.side].push(point);
+          drawnBy[side.key].push(point);
+          continue;
+        }
+        // The people of the town, let out of a house the men broke into: women, children and old men walking away unhurt. They
+        // never fire and are never drawn falling (sim/battle-stage.mjs `checkEngagement`; `HIST-TEX-043`).
+        if (side.civilians) {
+          const who = TOWNSFOLK[slot.index % TOWNSFOLK.length];
+          figures.push({ y: point.y, kind: 'townsfolk', side: side.side, point, size: figurePx * (who === 'smallchild' ? 0.62 : 0.95), clip: moving ? `${who}-walk` : `${who}-idle-s`, timeMs: time, flip: !right, seed });
+          drawnBy[side.key].push(point); civilians++;
+          continue;
+        }
+        // Inside a stone house, firing through the holes cut in its wall ("a pigeon nursery", Lopez): only a man or two is seen
+        // in the doorway or the yard; the rest are a flash and a puff at the wall, each on his own reload.
+        // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a flat-roofed stone house with loopholes" - the town's houses as
+        // drawn, with the flashes and the smoke at their walls.
+        if (side.cover === 'loophole' && slot.index % 4 !== 0) {
+          if (still || side.fire === 'none') continue;
+          const pause = WAIT_MIN_MS + hash(`${seed}:lw`) * WAIT_SPAN_MS * 1.4, round = FIRE_CLIP_MS + pause;
+          const shifted = time + hash(`${seed}:lp`) * 24000, inRound = shifted % round;
+          const loopKey = `${seed}:l${Math.floor(shifted / round)}`;
+          if (inRound >= pause + AIM_MS && inRound < pause + AIM_MS + 400 && !view.shotsSeen.has(loopKey)) {
+            view.shotsSeen.add(loopKey); shots++; view.loopholeShots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
+            const hole = { x: ground.x + facing.x * 0.01, y: ground.y + facing.y * 0.01 - 0.006 };
+            puff(hole.x, hole.y, now, { wind }); flash(hole.x, hole.y, right, now, 0.8);
+          }
+          continue;
+        }
+        if (kind === 'dragoon') {
           clip = moving ? 'dragoon-march' : right ? 'dragoon-idle-e' : 'dragoon-idle-w';
           flip = moving ? !right : false;
           // A dragoon firing his carbine from the saddle: the flash and the smoke from where his hands are, on his own long
@@ -391,33 +463,49 @@ export function createBattleView(art) {
               puff(muzzle.x, muzzle.y, now, { wind }); flash(muzzle.x, muzzle.y, right, now, 1);
             }
           }
+        } else if (side.action === 'work') {
+          // Digging a trench or filling sandbags at night. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a trench across a
+          // street" - the library's settler at work (the volunteers were settlers in their own clothes), until a soldier digging.
+          clip = side.side === 'mexican' ? 'regular-idle-s' : slot.index % 2 ? 'rust-work' : 'teal-work'; flip = !right;
         } else if (moving) { clip = `${kind}-march`; flip = !right; }
         else { sprite = `${kind}-${right ? 'e' : 'w'}`; still = true; flip = false; }
         figures.push({ y: point.y, kind, side: side.side, point, size, clip, sprite, timeMs, flip, still, seed });
-        drawn[side.side].push(point);
-        unitDrawn.push(point);
+        if (side.key === side.side) drawn[side.side].push(point);
+        drawnBy[side.key].push(point);
       }
     }
-    view.drawnBy = drawnBy;
+    // A fall the record puts at a place, on a named man (Milam in the Veramendi yard, `HIST-TEX-039`): drawn there, falling
+    // and lying still, his name under him, and carried off after. Never a family's person: those are `memberFates`.
+    for (const fall of view.fallenAt.values()) {
+      if (!Number.isFinite(fall.x) || fall.at > now || !(battle.fallen || []).some(one => one.minute === fall.minute && one.x === fall.x)) continue;
+      const point = camera.toScreen(fall);
+      if (offScreen(point)) continue;
+      figures.push({ y: point.y, kind: 'fallen', side: fall.side, point, size: figurePx, down: { at: fall.at, carried: fall.carried || battle.over, wounded: fall.wounded }, slot: { index: `named:${fall.minute}` }, ground: fall, facingRight: true, name: fall.name });
+      if (fall.name) view.namedFalls.add(fall.name);
+    }
     // Back to front, so a man nearer the camera stands in front of the one behind him.
     figures.sort((a, b) => a.y - b.y);
     for (const f of figures) {
       if (f.kind === 'fallen') { drawFallen(ctx, f, now); continue; }
+      if (f.kind === 'cover') { art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip }); continue; }
       let ok = 0;
       if (f.clip) ok = art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.timeMs, flip: f.flip, paused: reducedMotion });
       else if (f.sprite) ok = art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip });
-      if (!ok && f.kind !== 'cart') art.miniPerson(ctx, f.point.x, f.point.y, f.size, { side: f.side, flip: f.flip });
+      if (!ok) art.miniPerson(ctx, f.point.x, f.point.y, f.size, { side: f.side, flip: f.flip });
     }
     // The cannon and the men serving it.
     let cannonShown = null;
     if (battle.cannon) cannonShown = drawCannon(ctx, battle, camera, figurePx, time, now, wind, still);
-    // Several guns, each where the record stands it (Coleto's corners, the Mexican battery).
-    const gunsShown = (battle.cannons || []).map(gun => drawGun(ctx, gun, camera, figurePx, time, now, wind, still));
-    if (battle.flag) drawFlag(ctx, battle.flag, camera, figurePx, time, wind);
+    const flagShown = battle.flag ? drawFlag(ctx, battle.flag, camera, figurePx, time, wind) : null;
     if (battle.parley) drawParley(ctx, battle, camera, figurePx, time);
-    // The light of the hour, laid over the field and under the flashes: a shot in the dark is a flash in the dark.
-    // ceiling: the dark is drawn only while a fight is shown; the country itself has no night yet, and a page watching a fight at
-    // night sees the whole map darkened with it.
+    // Guns standing on the ground (Béxar's: the plaza's, the Alamo's, Neill's), each firing the shots the server dated.
+    const gunsShown = (battle.guns || []).map(gun => drawGun(ctx, gun, camera, figurePx, time, now, wind, still, bounds)).filter(Boolean);
+    // Walls and doors broken with a crowbar: a man at the bar until it gives, then the hole.
+    const breachesShown = drawBreaches(ctx, camera, figurePx, time, now, still, battle);
+    for (const flag of battle.flags || []) drawWhiteFlag(ctx, flag, camera, figurePx, time, wind);
+    // The light of the hour (`phase.light`, 2026-09-25), laid over the field and under the flashes: a shot in the dark is a flash
+    // in the dark. ceiling: the dark is drawn only while a fight is shown; the country itself has no night yet, and a page watching
+    // a fight at night sees the whole map darkened with it.
     if (battle.light && LIGHT[battle.light] && bounds) { ctx.save(); ctx.fillStyle = LIGHT[battle.light]; ctx.fillRect(0, 0, bounds.width, bounds.height); ctx.restore(); }
     // Flashes: a tenth of a second each, over the figures.
     view.flashes = view.flashes.filter(f => now - f.born < 130);
@@ -429,10 +517,11 @@ export function createBattleView(art) {
       flashes++;
     }
     const smokeDrawn = drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds);
-    const bubbles = drawLines(ctx, battle, camera, figurePx, now, time, bounds, drawn);
+    const bubbles = drawLines(ctx, battle, camera, figurePx, now, time, bounds, drawn, drawnBy);
+    view.civiliansSeen = Math.max(view.civiliansSeen, civilians);
     view.shotsTotal += shots;
     for (const bubble of bubbles) view.linesShown.add(bubble.id);
-    if (named) labelSides(ctx, battle, camera, figurePx, drawn);
+    if (named) labelSides(ctx, battle, camera, figurePx, drawn, drawnBy);
     const ms = performance.now() - started;
     view.frameMs.push(ms); if (view.frameMs.length > 240) view.frameMs.shift();
     const sorted = [...view.frameMs].sort((a, b) => a - b);
@@ -442,10 +531,17 @@ export function createBattleView(art) {
       flashes, shots, shotsTotal: view.shotsTotal, shotsBy: { ...view.shotsBy }, smoke: smokeDrawn.alive, smokeInView: smokeDrawn.inView, smokeCentre: smokeDrawn.centre, bubbles, linesShown: [...view.linesShown],
       members: [...view.members.keys()], memberClips: [...view.memberClips],
       memberPoses: [...view.members.keys()].map(id => ({ id, drawn: view.memberSpots.has(id) })),
-      cannon: cannonShown, cannonShots: view.cannonFiredAt.length + [...view.gunsFiredAt.values()].reduce((sum, times) => sum + times.filter(t => t <= now).length, 0),
-      guns: gunsShown.length, light: battle.light || 'day', units: units.length, figureKinds: [...view.figureKinds],
-      down: Object.fromEntries(Object.entries(view.down).map(([id, one]) => [id, one.kind])),
-      fallen: [...fallenSlots.values()].reduce((s, m) => s + m.size, 0),
+      cannon: cannonShown, flag: flagShown, cannonShots: view.cannonFiredAt.length, fallen: [...fallenSlots.values()].reduce((s, m) => s + m.size, 0),
+      // Béxar's street fighting (docs/battle-research/staging.md §3): each group drawn, the shots through loopholes, the guns'
+      // shots, the breaches open, the townspeople seen, the named falls, and each member's fall once it came.
+      groups: Object.fromEntries(Object.entries(drawnBy).filter(([key]) => key.startsWith('g:')).map(([key, points]) => [key.slice(2), points.length])),
+      unitsSeen: [...view.unitsSeen].map(key => key.slice(2)), loopholeShots: view.loopholeShots, gunShots: view.gunShotsTotal, guns: gunsShown,
+      breaches: breachesShown, breachesOpened: view.breachesSeen.size, civilians, civiliansSeen: view.civiliansSeen, namedFalls: [...view.namedFalls], whiteFlag: (battle.flags || []).length ? view.whiteFlag || null : null,
+      light: battle.light || 'day',
+      // How hollow each side stands: the nearest man to its middle over the mean distance of all of them (a square's is about
+      // three quarters; men scattered over the ground, a tenth or so).
+      hollow: Object.fromEntries(Object.entries(drawn).map(([name, points]) => [name, hollowness(points)])),
+      memberFalls: [...view.memberFallAt.entries()].filter(([, fall]) => fall.at <= now).map(([id, fall]) => ({ id, fate: fall.fate })),
       frameMs: { last: +ms.toFixed(2), median: +sorted[Math.floor(sorted.length / 2)].toFixed(2), p95: +sorted[Math.floor(sorted.length * 0.95)].toFixed(2) },
     };
     view.memberSpots.clear();
@@ -453,44 +549,38 @@ export function createBattleView(art) {
   }
 
   /** Which sampled figures are down, by side: the fall's count taken from the middle of the front, stable for the fight. */
-  function fallenBySide(battle, now, units = unitsOf(battle)) {
-    // Keyed by unit: a side's own key, or `side:part` for a side sent in parts. A fall in a part falls in that part; a fall of
-    // a side in parts that names none falls anywhere in it.
-    const byUnit = new Map();
+  function fallenBySide(battle, now) {
+    const bySide = new Map();
+    const bodies = bodiesOf(battle);
     for (const fall of view.fallenAt.values()) {
-      if (fall.at > now) continue;
-      if (battle.noFalling?.includes(fall.side)) continue;
-      const candidates = units.filter(unit => unit.side === fall.side && (!fall.part || unit.part === fall.part));
-      if (!candidates.length) continue;
-      const pool = candidates.flatMap(unit => (view.layouts.get(layoutKey(unit)) || layoutSide(unit)).map(slot => ({ unit: unit.key, slot })));
-      const order = pool.sort((a, b) => hash(`${fall.minute}:${a.unit}:${a.slot.index}`) - hash(`${fall.minute}:${b.unit}:${b.slot.index}`));
-      let left = fall.count;
-      for (const { unit, slot } of order) {
-        if (left <= 0) break;
-        const map = byUnit.get(unit) || new Map();
-        if (map.has(slot.index)) continue;
-        map.set(slot.index, { at: fall.at, carried: fall.carried || battle.over, wounded: fall.wounded });
-        byUnit.set(unit, map);
-        left--;
-      }
+      // A fall at a named place is drawn there, on its own; one the server no longer sends has been carried off the ground.
+      if (fall.at > now || Number.isFinite(fall.x) || (battle.fallen && !battle.fallen.some(one => one.minute === fall.minute && one.side === fall.side))) continue;
+      const side = bodies.find(one => one.key === (fall.unit ? `g:${fall.unit}` : fall.side));
+      if (!side || battle.noFalling?.includes(fall.side)) continue;
+      const slots = view.layouts.get(layoutKey(side)) || layoutSide(side);
+      const map = bySide.get(side.key) || new Map();
+      // In a loophole group only the men who can be seen can be seen to fall.
+      const seen = side.cover === 'loophole' ? slots.filter(slot => slot.index % 4 === 0) : slots;
+      const order = [...seen].sort((a, b) => hash(`${fall.minute}:${a.index}`) - hash(`${fall.minute}:${b.index}`));
+      for (const slot of order.slice(0, fall.count)) if (!map.has(slot.index)) map.set(slot.index, { at: fall.at, carried: fall.carried || battle.over, wounded: fall.wounded });
+      bySide.set(side.key, map);
     }
-    return byUnit;
+    return bySide;
   }
   function drawFallen(ctx, f, now) {
     const since = now - f.down.at, kind = f.side === 'mexican' ? 'regular' : 'volunteer';
     const x = f.point.x, y = f.point.y;
+    if (f.down.wounded && f.inward) {
+      // In a square he is brought in toward the carts in the middle, and sits there: nobody could carry him anywhere else.
+      const part = Math.min(1, since / 25000) * 0.6, ix = x + (f.inward.x - x) * part, iy = y + (f.inward.y - y) * part;
+      if (!art.drawSprite(ctx, `${kind}-injured`, ix, iy, f.size)) art.miniPerson(ctx, ix, iy, f.size, { side: f.side });
+      return;
+    }
     if (f.down.wounded) {
       // Hit, and helped back from the line, sitting up: a wound, not a death (the record's own word where it is disputed).
       // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the wounded carried" - a dragoon hit in the saddle is drawn as the
       // library's seated wounded soldier helped back by two comrades on foot, until a mounted wounded pose exists.
       // Away from the enemy: the side faces right when the enemy is to its right, so the rear is to its left.
-      // In a square he is brought in toward the carts in the middle, and sits there: nobody could carry him anywhere else.
-      if (f.inward) {
-        const part = Math.min(1, since / 25000) * 0.6;
-        const ix = x + (f.inward.x - x) * part, iy = y + (f.inward.y - y) * part;
-        if (!art.drawSprite(ctx, `${kind}-injured`, ix, iy, f.size)) art.miniPerson(ctx, ix, iy, f.size, { side: f.side });
-        return;
-      }
       const back = -Math.min(1, since / 25000) * f.size * 2.4 * (f.facingRight ? 1 : -1);
       if (!art.drawSprite(ctx, `${kind}-injured`, x + back, y, f.size)) art.miniPerson(ctx, x + back, y, f.size, { side: f.side });
       for (const off of [-0.45, 0.45]) art.animated(ctx, `${kind}-march`, x + back + off * f.size, y + 2, f.size, `${f.slot.index}:${off}`, { flip: f.facingRight });
@@ -510,6 +600,11 @@ export function createBattleView(art) {
     const dx = carry * f.size * 3 * (f.side === 'mexican' ? 1 : -1);
     if (!art.drawSprite(ctx, `${kind}-reclining`, x + dx, y, f.size)) { ctx.fillStyle = '#6b6153'; ctx.fillRect(x + dx - f.size * 0.4, y - f.size * 0.12, f.size * 0.8, f.size * 0.12); }
     if (f.down.carried) for (const off of [-0.45, 0.45]) art.animated(ctx, `${kind}-march`, x + dx + off * f.size, y + 2, f.size, `${f.slot.index}:${off}`, { flip: f.side !== 'mexican' });
+    // A man the record names where he fell (Milam), and only him: the sampled figures are nobody.
+    if (f.name && f.size >= 14) {
+      ctx.font = `${Math.round(Math.max(11, Math.min(15, f.size * 0.3)))}px system-ui`; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+      ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(252,249,238,.92)'; ctx.strokeText(f.name, x + dx, y + 14); ctx.fillStyle = '#26382e'; ctx.fillText(f.name, x + dx, y + 14);
+    }
   }
 
   function drawCannon(ctx, battle, camera, figurePx, time, now, wind, reducedMotion) {
@@ -522,13 +617,14 @@ export function createBattleView(art) {
     const last = view.cannonFiredAt.filter(t => t <= now).at(-1);
     const since = last === undefined ? Infinity : now - last;
     const metal = gun.metal === 'bronze' ? 'bronze' : 'iron';
-    const name = `cannon-${metal}-${right ? 'e' : 'w'}`;
+    const cartwheels = gun.claimId === 'HIST-TEX-475' && metal === 'bronze';
+    const name = cartwheels ? `cannon-cartwheels-${right ? 'e' : 'w'}` : `cannon-${metal}-${right ? 'e' : 'w'}`;
     const firing = since < 900;
-    if (firing) art.animated(ctx, `${name}-recoil`, p.x, p.y, size, 0, { timeMs: since });
+    if (firing) art.animated(ctx, cartwheels ? `cannon-cartwheels-${right ? 'e' : 'w'}-recoil` : `${name}-recoil`, p.x, p.y, size, 0, { timeMs: since });
     else art.drawSprite(ctx, name, p.x, p.y, size) || (ctx.fillStyle = '#3b3a36', ctx.fillRect(p.x - size * 0.4, p.y - size * 0.3, size * 0.8, size * 0.22));
     // The crew: one ramming between shots, one bringing the charge, one at the touch-hole who pulls and covers his ears.
-    // stand-in: the library's gun-crew cycles are drawn for a carriage gun's crew; the Gonzales gun's own crew and mount are
-    // not drawn (docs/ART_REQUESTS.md, request 2026-09-25 "the Gonzales cannon on its wheels").
+    // stand-in: the library's gun-crew cycles still depict a carriage gun's crew; the dedicated Gonzales crew remains
+    // requested in docs/ART_REQUESTS.md. The cart-wheel gun itself is delivered and drawn above.
     const back = right ? -1 : 1;
     const crew = [
       { clip: firing ? 'volunteer-gun-fire' : 'volunteer-gun-ram', dx: back * 0.75, t: firing ? since : time },
@@ -550,47 +646,90 @@ export function createBattleView(art) {
   }
 
   /**
-   * One of several guns (`cannons`, 2026-09-25): standing at its own point of the ground, facing the other side, served by a
-   * crew of its own side - volunteers at Coleto's corners, regulars at the Mexican battery - each shot a flash and a bank of
-   * smoke, once.
+   * A gun standing where the record puts it (sim/battles/<id>.mjs `guns`): its crew, each of its dated shots once - the
+   * flash, the recoil and a bank of smoke - and nothing else moving it. A Mexican gun is served by regulars.
    */
-  function drawGun(ctx, gun, camera, figurePx, time, now, wind, reducedMotion) {
-    const right = (gun.facing?.x ?? 1) >= 0, crewKind = gun.side === 'mexican' ? 'regular' : 'volunteer';
-    const p = camera.toScreen(gun), size = figurePx * 1.2;
-    const times = view.gunsFiredAt.get(gun.id) || [];
-    const last = times.filter(t => t <= now).at(-1);
-    const since = last === undefined ? Infinity : now - last;
-    const name = `cannon-${gun.metal === 'bronze' ? 'bronze' : 'iron'}-${right ? 'e' : 'w'}`;
-    const firing = since < 900;
-    if (firing) art.animated(ctx, `${name}-recoil`, p.x, p.y, size, gun.id, { timeMs: since });
-    else art.drawSprite(ctx, name, p.x, p.y, size) || (ctx.fillStyle = '#3b3a36', ctx.fillRect(p.x - size * 0.4, p.y - size * 0.3, size * 0.8, size * 0.22));
-    const back = right ? -1 : 1;
-    const crew = [
-      { clip: firing ? `${crewKind}-gun-fire` : `${crewKind}-gun-ram`, dx: back * 0.7, t: firing ? since : time },
-      { clip: `${crewKind}-gun-shot-carry`, dx: back * 1.25, t: time },
-      { clip: firing ? `${crewKind}-gun-fire` : `${crewKind}-idle-${right ? 'e' : 'w'}`, dx: back * 0.2, dy: 0.35, t: firing ? since : time },
-    ].slice(0, gun.crew ?? 3);
-    for (const man of crew) art.animated(ctx, man.clip, p.x + man.dx * figurePx, p.y + (man.dy || 0) * figurePx, figurePx, `crew:${gun.id}:${man.dx}`, { timeMs: man.t, flip: !right, paused: reducedMotion });
-    for (const t of times.filter(one => one <= now && !view.shotsSeen.has(`gunshot:${gun.id}:${one}`))) {
+  function drawGun(ctx, gun, camera, figurePx, time, now, wind, reducedMotion, bounds) {
+    const p = camera.toScreen(gun), size = figurePx * 1.4;
+    const right = (gun.facing?.x ?? 1) >= 0;
+    const fired = (view.gunFiredAt.get(gun.id) || []).filter(t => t <= now);
+    const last = fired.at(-1), since = last === undefined ? Infinity : now - last;
+    const pending = fired.filter(t => !view.shotsSeen.has(`gunshot:${gun.id}:${t}`));
+    for (const t of pending) {
       view.shotsSeen.add(`gunshot:${gun.id}:${t}`);
       if (reducedMotion) continue;
-      view.shotsTotal++; view.shotsBy[gun.side] = (view.shotsBy[gun.side] || 0) + 1;
+      view.shotsTotal++; view.gunShotsTotal++;
       const muzzle = { x: gun.x + (right ? 1 : -1) * 0.02, y: gun.y - 0.004 };
       flash(muzzle.x, muzzle.y, right, now, 2.4);
       for (let i = 0; i < 4; i++) puff(muzzle.x + (right ? 1 : -1) * i * 0.008, muzzle.y + (Math.random() - 0.5) * 0.01, now, { big: true, wind });
     }
-    return { id: gun.id, x: Math.round(p.x), y: Math.round(p.y), firing };
+    if (bounds && (p.x < -90 || p.y < -90 || p.x > bounds.width + 90 || p.y > bounds.height + 140)) return { id: gun.id, shots: fired.length, onScreen: false };
+    const metal = gun.metal === 'bronze' ? 'bronze' : 'iron', name = `cannon-${metal}-${right ? 'e' : 'w'}`;
+    const firing = since < 900;
+    if (firing) art.animated(ctx, `${name}-recoil`, p.x, p.y, size, 0, { timeMs: since });
+    else art.drawSprite(ctx, name, p.x, p.y, size) || (ctx.fillStyle = '#3b3a36', ctx.fillRect(p.x - size * 0.4, p.y - size * 0.3, size * 0.8, size * 0.22));
+    const who = gun.side === 'mexican' ? 'regular' : 'volunteer', back = right ? -1 : 1;
+    const crew = [
+      { clip: firing ? `${who}-gun-fire` : `${who}-gun-ram`, dx: back * 0.75, t: firing ? since : time },
+      { clip: `${who}-gun-shot-carry`, dx: back * 1.35, t: time },
+      { clip: firing ? `${who}-gun-fire` : `${who}-idle-e`, dx: back * 0.2, dy: 0.35, t: firing ? since : time },
+    ].slice(0, gun.crew ?? 3);
+    for (const man of crew) art.animated(ctx, man.clip, p.x + man.dx * figurePx, p.y + (man.dy || 0) * figurePx, figurePx, `crew:${gun.id}:${man.dx}`, { timeMs: man.t, flip: !right, paused: reducedMotion });
+    return { id: gun.id, x: Math.round(p.x), y: Math.round(p.y), firing, shots: fired.length, onScreen: true };
+  }
+
+  /**
+   * A wall or a door broken in (Karnes's crowbar, `HIST-TEX-038`): a man at it with the bar until the minute it gives, then the
+   * hole. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a crowbar at a door" - the gun crew's ramming stroke for the bar,
+   * the library's tools beside him, and its `wall-breach` for the hole.
+   */
+  function drawBreaches(ctx, camera, figurePx, time, now, reducedMotion, battle) {
+    let shown = 0;
+    for (const [id, breach] of view.breachAt) {
+      if (!(battle.breaches || []).some(one => `${one.x.toFixed(5)}:${one.y.toFixed(5)}:${one.at}` === id)) continue;
+      const p = camera.toScreen(breach);
+      if (now >= breach.openAt) {
+        if (!art.drawSprite(ctx, 'wall-breach', p.x, p.y, figurePx * 1.3)) { ctx.fillStyle = '#2d2620'; ctx.fillRect(p.x - figurePx * 0.25, p.y - figurePx * 0.6, figurePx * 0.5, figurePx * 0.6); }
+        view.breachesSeen.add(id); shown++;
+      } else {
+        const who = breach.side === 'mexican' ? 'regular' : 'volunteer';
+        art.drawSprite(ctx, 'tools', p.x + figurePx * 0.5, p.y, figurePx * 0.6);
+        art.animated(ctx, `${who}-gun-ram`, p.x - figurePx * 0.35, p.y, figurePx, `bar:${id}`, { timeMs: time, paused: reducedMotion });
+      }
+    }
+    return shown;
+  }
+
+  /**
+   * A white flag of truce where the record puts it (`HIST-TEX-491`: Sánchez Navarro used a white flag "because the Texians did
+   * not understand the bugle"), carried by a soldier. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a white flag, a
+   * bugler and the parleying officers" - a regular standing with a pole and a white cloth drawn on the canvas.
+   */
+  function drawWhiteFlag(ctx, flag, camera, figurePx, time, wind) {
+    const p = camera.toScreen(flag), pole = figurePx * 1.8, w = figurePx * 0.9, h = figurePx * 0.6;
+    if (!art.animated(ctx, 'regular-idle-s', p.x - figurePx * 0.25, p.y, figurePx, 'flag-bearer', { timeMs: time })) art.miniPerson(ctx, p.x - figurePx * 0.25, p.y, figurePx, { side: flag.side });
+    const wave = Math.sin(time / 380) * 0.1 + (wind?.x || 0) * 0.3;
+    ctx.save();
+    ctx.strokeStyle = '#4a3a26'; ctx.lineWidth = Math.max(1.2, figurePx * 0.05);
+    ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x, p.y - pole); ctx.stroke();
+    ctx.translate(p.x, p.y - pole); ctx.transform(1, wave * 0.5, 0, 1, 0, 0);
+    ctx.fillStyle = '#fbfaf5'; ctx.strokeStyle = '#8b8575'; ctx.lineWidth = 1;
+    ctx.fillRect(0, 0, w, h); ctx.strokeRect(0, 0, w, h);
+    ctx.restore();
+    view.whiteFlag = { x: Math.round(p.x), y: Math.round(p.y) };
   }
 
   /**
    * The flag, where the record puts it (sim/battles/<id>.mjs `flag`).
-   * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Come and Take It flag" - drawn on the canvas, a white field with a
-   * black cannon, a star over it and the words under it, until Astra's flag lands.
+   * The completed flag uses the delivered cloth cycle. Canvas is a fallback if art fails to load.
    */
   function drawFlag(ctx, flag, camera, figurePx, time, wind) {
     const texian = view.sides.get(flag.side), side = texian ? placeAt(texian, performance.now()) : null;
     const base = side ? { x: flag.x + (side.x - texian.to.x), y: flag.y + (side.y - texian.to.y) } : flag;
     const p = camera.toScreen(base), pole = figurePx * 1.9, w = figurePx * 1.15, h = figurePx * 0.72;
+    if (art.animated(ctx, 'flag-come-and-take-it-wind', p.x, p.y, pole, 'gonzales-flag', { timeMs: time })) {
+      return { x: Math.round(p.x), y: Math.round(p.y - pole), w: Math.round(w), h: Math.round(h), words: figurePx >= 22 };
+    }
     const wave = Math.sin(time / 420) * 0.08 + (wind?.x || 0) * 0.3;
     ctx.save();
     ctx.strokeStyle = '#4a3a26'; ctx.lineWidth = Math.max(1.2, figurePx * 0.05);
@@ -599,9 +738,6 @@ export function createBattleView(art) {
     ctx.transform(1, wave * 0.5, 0, 1, 0, 0);
     ctx.fillStyle = '#f3efe4'; ctx.strokeStyle = '#6d6250'; ctx.lineWidth = 1;
     ctx.fillRect(0, 0, w, h); ctx.strokeRect(0, 0, w, h);
-    // A white flag (the surrender at Coleto, `HIST-TEX-515`) is a plain white cloth on a pole and nothing more.
-    // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "Coleto and Goliad", item 5 - drawn on the canvas until a white-flag sheet lands.
-    if (flag.kind === 'white') { ctx.restore(); return; }
     ctx.fillStyle = '#1f1d1a';
     // The star over the gun.
     ctx.beginPath();
@@ -615,6 +751,8 @@ export function createBattleView(art) {
       ctx.fillText(flag.words || 'COME AND TAKE IT', w * 0.5, h * 0.82, w * 0.92);
     }
     ctx.restore();
+    // Where it was drawn, for the proof that it is on the screen and not only in the data.
+    return { x: Math.round(p.x), y: Math.round(p.y - pole), w: Math.round(w), h: Math.round(h), words: figurePx >= 22 };
   }
 
   function drawParley(ctx, battle, camera, figurePx, time) {
@@ -662,20 +800,25 @@ export function createBattleView(art) {
   }
 
   /** Every line said this tick or lately, over whoever said it; the Mexican officer's words as each volley comes. */
-  function drawLines(ctx, battle, camera, figurePx, now, time, bounds, drawn) {
+  function drawLines(ctx, battle, camera, figurePx, now, time, bounds, drawn, drawnBy = {}) {
     const shown = [];
     const boxes = [];
     const scale = Math.max(0.85, Math.min(1.15, figurePx / 30));
     const speakerAt = line => {
       if (line.name && view.parleySpots?.[line.side]) return view.parleySpots[line.side];
+      // A line said in a group (a company at a door, the men on a roof): over one of its men, or over the group's house if
+      // every man in it is inside the walls.
+      if (line.unit) {
+        const unitKey = ['texian', 'mexican'].includes(line.unit) ? line.unit : `g:${line.unit}`;
+        const points = drawnBy[unitKey], body = view.sides.get(unitKey);
+        if (points?.length) { const pick = points[Math.floor(hash(line.id) * points.length)]; return { x: pick.x, y: pick.y - figurePx * 1.02 }; }
+        if (body) { const c = camera.toScreen(placeAt(body, now)); return { x: c.x, y: c.y - figurePx * 1.2 }; }
+      }
       const points = drawn[line.side];
       if (!points?.length) return null;
       if (line.role === 'officer' || line.role === 'commander') {
-        // The officer rides or stands at the front of the middle of his men: of the unit that is firing, or of the biggest one
-        // of a side in parts (a side round a square has its own middle on the square).
-        const units = [...(view.drawnBy || new Map()).entries()].filter(([key, points]) => key.startsWith(`${line.side}:`) && points.length);
-        const unitKey = line.unit || (units.length ? units.sort((a, b) => b[1].length - a[1].length)[0][0] : null);
-        const side = view.sides.get(unitKey || line.side);
+        // The officer rides or stands at the front of the middle of his men.
+        const side = view.sides.get(line.side);
         if (side) { const c = camera.toScreen(placeAt(side, now)); return { x: c.x, y: c.y - figurePx * (line.side === 'mexican' ? 1.4 : 1.05) }; }
       }
       const pick = points[Math.floor(hash(line.id) * points.length)];
@@ -698,25 +841,21 @@ export function createBattleView(art) {
       const alpha = speechAlpha(now - at, hold);
       if (alpha > 0) put(line, speakerAt(line), alpha);
     }
-    // The officer's words, each volley, from the record's reconstructed drill (never a named man's): a side's own words where
-    // the engagement gives them (the Texian square at Coleto, `commands.texian`), else the engagement's. Once a side, over the
-    // first of its units firing volleys; none where an engagement gives none (Palm Sunday, `FIC-GONZ-438`).
-    const spoken = new Set();
-    for (const unit of unitsOf(battle)) {
-      const words = battle.commands?.[unit.side]?.volley || battle.commands?.volley;
-      if (unit.fire !== 'volley' || !words || spoken.has(unit.side) || unit.action === 'gone') continue;
-      spoken.add(unit.side);
-      const cycleAt = (time + hash(`${battle.id}:${unit.key}`) * VOLLEY_MS) % VOLLEY_MS;
+    // The officer's words, each volley, from the record's reconstructed drill (never a named man's).
+    for (const side of battle.sides) {
+      const words = battle.commands?.[side.side]?.volley || battle.commands?.volley;
+      if (side.fire !== 'volley' || !words) continue;
+      const cycleAt = (time + hash(`${battle.id}:${side.side}`) * VOLLEY_MS) % VOLLEY_MS;
       words.forEach((word, i) => {
         const since = cycleAt - VOLLEY_WORDS_AT[i];
         if (since < 0 || since > 1300) return;
-        put({ ...word, id: `command:${unit.side}:${i}`, side: unit.side, role: 'officer', kind: word.kind || 'reconstructed' }, speakerAt({ side: unit.side, unit: unit.part ? unit.key : null, role: 'officer', id: 'officer' }), speechAlpha(since, 900));
+        put({ ...word, id: side.side === 'mexican' ? `command:${i}` : `command:${side.side}:${i}`, side: side.side, role: 'officer', kind: word.kind || 'reconstructed' }, speakerAt({ side: side.side, role: 'officer', id: 'officer' }), speechAlpha(since, 900));
       });
     }
     return shown;
   }
 
-  function labelSides(ctx, battle, camera, figurePx, drawn) {
+  function labelSides(ctx, battle, camera, figurePx, drawn, drawnBy = {}) {
     ctx.font = '13px system-ui'; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
     const label = (text, points) => {
       const x = points.reduce((s, p) => s + p.x, 0) / points.length, y = Math.max(...points.map(p => p.y)) + 16;
@@ -727,10 +866,10 @@ export function createBattleView(art) {
       if (!points.length) continue;
       label(`${side.name}${side.count ? ` · about ${side.count}` : ''}`, points);
     }
-    // A part the record names (Francita Alavez at Goliad) is named where she is.
-    for (const unit of unitsOf(battle)) {
-      const points = view.drawnBy?.get(unit.key);
-      if (unit.part && unit.name && unit.name !== battle.sides.find(side => side.side === unit.side)?.name && points?.length) label(unit.name, points);
+    // A group of people the record names (`named`: Francita Alavez at Goliad) is named where she is.
+    for (const group of battle.groups || []) {
+      const points = drawnBy[`g:${group.id}`];
+      if (group.named && group.name && points?.length) label(group.name, points);
     }
   }
 

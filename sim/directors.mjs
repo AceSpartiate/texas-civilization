@@ -14,10 +14,12 @@ import { closeCampQuestion, openCampQuestion } from './camp.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
 import { advanceArmy, closeDetachment, closeQuestion, countermandStorm, dieOfWounds, disbandArmy, fightConcepcion, fightGrass, fightStorming, formArmy, goForClothing, marchOut, moveCamp, openDetachment, openQuestion, questionOpen, recordPresent, returnFromClothing, tellGrassFight, tellStorming } from './army.mjs';
 import { GONZALES, gonzalesGround } from './battles/gonzales.mjs';
+import { BEXAR_STORMING } from './battles/bexar-storming.mjs';
+import { advanceBexarFight, bexarProjection } from './bexar-fight.mjs';
 import { COLETO } from './battles/coleto.mjs';
 import { GOLIAD_MASSACRE } from './battles/goliad-massacre.mjs';
+import { advanceColeto, advanceMassacre, fanninProjection, tellFannin } from './fannin.mjs';
 import { armBattle, battleState, looseSlot, phaseOffset, placeFrom, projectBattle, sidePlace } from './battle-stage.mjs';
-import { advanceColeto, advanceMassacre, fanninAccount, fanninAlert, fanninView, tellFannin } from './fannin.mjs';
 import { findWay } from './ways.mjs';
 import { MODES } from './travel.mjs';
 
@@ -68,6 +70,12 @@ const FANNIN_MARCHES = 221760 + 18 * 1440 + 540;
 const coletoAt = phase => FANNIN_MARCHES + phaseOffset(COLETO, phase);
 const GOLIAD_EVE = 221760 + 25 * 1440 + 18 * 60;
 const massacreAt = phase => GOLIAD_EVE + phaseOffset(GOLIAD_MASSACRE, phase);
+// The storming of Béxar on the engine (sim/battles/bexar-storming.mjs) starts at Milam's call, six in the evening of December 4,
+// and its own phases date the director's moments of it: the roll at two on the 5th, when the call shuts; Neill's gun at five
+// (`assault`); Milam's death at half past three on the 7th; the companies from the camp at six on the 8th; Cos's army marching
+// out at nine on the 14th (docs/battle-research/staging.md §3.2, `FIC-GONZ-425`).
+const BEXAR_START = 96120;
+const bexarAt = phase => BEXAR_START + phaseOffset(BEXAR_STORMING, phase);
 const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   notice: 600, publicNotice: 1440, gathering: 3000, 'upriver-call': 3960, crossing: GONZALES_START, approach: gonzalesAt('dawn-skirmish'), exchange: gonzalesAt('fight'), withdrawal: gonzalesAt('withdrawal'), resolved: gonzalesAt('field'), publicOutcome: 5400, finish: 5680,
   // After the fight: the gathering and the march, build step 5 (docs/COLONIES.md §5.5). Only a
@@ -99,7 +107,7 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   // the first word reaches San Felipe December 1 as a rumour, and the fuller account follows; the class stops on the
   // evening of December 4, when Milam calls for volunteers to go into the town.
   clothing: 52560, 'to-concepcion': 59760, united: 68400, 'storm-order': 77040, countermand: 77760, pledge: 81360,
-  'austin-leaves': 82440, 'grass-alarm': 84120, 'grass-fight': 84420, 'grass-rumour': 91440, 'grass-news': 94320, milam: 96120,
+  'austin-leaves': 82440, 'grass-alarm': 84120, 'grass-fight': 84420, 'grass-rumour': 91440, 'grass-news': 94320, milam: BEXAR_START,
   // The storming of Béxar (docs/COLONIES.md §6l; `HIST-TEX-036` to `-045`). Dec 4 is 95040. The army is ordered into winter
   // quarters in the morning of the 4th and Milam calls for volunteers that afternoon; the divisions go in about five on the
   // 5th; Milam is killed about half past three on the 7th; men are sent in from the camp on the 8th and Ugartechea reaches
@@ -107,8 +115,9 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   // seven on the 9th; terms about two on the 10th; the capitulation dated the 11th; a dangerous wound may kill by the 12th;
   // Cos marches out on the 14th and the colonists start home; word of the victory reaches the government on the 15th, and
   // the class stops that evening.
-  'winter-quarters': 95400, assault: 96780, 'milam-killed': 100290, reinforce: 101160, ugartechea: 101880, 'bexar-express': 102120,
-  'white-flag': 102660, terms: 103800, capitulation: 105840, 'wound-deaths': 107280, 'cos-marches': 109980, 'bexar-victory': 111600, 'bexar-end': 112320,
+  // The roll at two on the 5th, when Milam's call shuts, is the storming's own (2026-09-25).
+  'winter-quarters': 95400, 'bexar-roll': bexarAt('roll'), assault: bexarAt('feint'), 'milam-killed': bexarAt('milam'), reinforce: bexarAt('row'), ugartechea: 101880, 'bexar-express': 102120,
+  'white-flag': 102660, terms: 103800, capitulation: 105840, 'wound-deaths': 107280, 'cos-marches': bexarAt('marching-out'), 'bexar-victory': 111600, 'bexar-end': 112320,
   // The second class period (docs/COLONIES.md §7e, sim/periods.mjs), the winter of 1835-36. January 25, 1836 is day 118 from
   // midnight on September 29, 1835 (169920). It opens at dawn with the quiet farming scale; the winter's news begins at dawn
   // on the 26th on the campaign calendar; the period stops at dawn on February 23, the day Santa Anna reached Béxar
@@ -1135,10 +1144,12 @@ function advanceStorming(world, movement, { due, said }) {
       openQuestion(world, 'milam', eventId, { beginTravel });
     });
   }
+  // Milam's call shuts at the roll, two in the morning, so a yes is a man at the mill when the divisions walk out at three
+  // (docs/battle-research/staging.md §3.6 fix 2, `FIC-GONZ-428`); it used to stay open until five, when they were in the streets.
+  if (due('bexar-roll', world.army?.questions?.milam?.openedMinute)) once(world, 'bexar-roll', () => closeQuestion(world, 'milam', { beginTravel }));
   if (due('assault', world.army?.questions?.milam?.openedMinute)) {
     once(world, 'assault', () => {
       closeQuestion(world, 'milam');
-      spotlight(world, { key: 'bexar-storming', text: 'Before dawn, Milam and Johnson lead two divisions into San Antonio de Béxar. The fighting goes house by house.', siteId: 'bexar', claimId: 'HIST-TEX-037' });
       said('HIST-TEX-037', 'Before dawn Neill\'s gun fired on the Alamo, and two divisions under Milam and Johnson went into San Antonio and took the de la Garza and Veramendi houses on Soledad Street. Burleson holds the camp.');
     });
   }
@@ -1149,7 +1160,12 @@ function advanceStorming(world, movement, { due, said }) {
   }
   // The express of December 6 reached San Felipe late on the 8th, and it was wrong: the attack "on the 6th", the town taken.
   once(world, 'bexar-express', () => sendWord(world, 'bexar-storming', { truth: BEXAR_VICTORY, text: 'An express from the army says the volunteers went into Béxar about daylight on the 6th and have possessed themselves of the town, silencing the big guns, with two killed and a few wounded. Ugartechea is expected with six hundred men.', status: 'rumor', claimId: 'HIST-TEX-044', source: 'An express from the army' }));
-  if (world.director.milestones.ugartechea) once(world, 'white-flag', () => fightStorming(world, said('HIST-TEX-040', 'At dawn a white flag came out to the Main Plaza. Cos has drawn his men into the Alamo, and some of his cavalry have ridden away.')));
+  // The flag comes whether or not the camp's companies were ever asked for (staging.md §3.6 fix 4): it used to wait on the
+  // `ugartechea` moment, whose own close waited on the reinforce question having opened.
+  once(world, 'white-flag', () => fightStorming(world, said('HIST-TEX-040', 'At dawn a white flag came out to the Main Plaza. Cos has drawn his men into the Alamo, and some of his cavalry have ridden away.')));
+  // The storming on the engine (sim/bexar-fight.mjs): the men walking into the town, their fates at their moments, the
+  // alerts, the Host's spotlight and the account at the capitulation.
+  advanceBexarFight(world, momentOf(world, BEXAR_STORMING.startKey), { moments: { capitulation: momentOf(world, 'capitulation') }, remember });
   once(world, 'terms', () => said('HIST-TEX-041', 'In the small hours the commissioners agreed the terms of Cos\'s surrender.'));
   once(world, 'capitulation', () => said('HIST-TEX-041', 'The capitulation is signed. Cos and his officers are to go into the interior on their word not to oppose the Constitution of 1824; his men keep their muskets and ten rounds; the convicts are to be taken beyond the Rio Grande; any soldier may stay; the people of Béxar and their property are protected.'));
   once(world, 'wound-deaths', () => dieOfWounds(world));
@@ -1418,7 +1434,7 @@ export function advanceDirectors(world, movement) {
     record(world, 'slice-preserved', { visibility: 'public', text: 'The Gonzales prototype stops here. Families, absences, property, and memories are saved for the next arc. The Revolution continues beyond this slice.' });
   });
 }
-export function directorProjection(world, householdId, role) {
+export function directorProjection(world, householdId, role, { seen = [] } = {}) {
   if (!world.director) return {};
   let battle = null;
   let host = { focus: 'regional', caption: 'The Host shows public reports; households may know different things.' };
@@ -1441,13 +1457,18 @@ export function directorProjection(world, householdId, role) {
       if (ownAtField(world, householdId).length) battle = { ...projectBattle(world, 'gonzales', { members: formationMembers(world).map(person => person.id), legacyPhase }), reconstruction: false };
     }
   }
-  // Coleto and Palm Sunday (sim/fannin.mjs), by the same rules: the Host always, a family only while one of its own is there.
-  const fannin = !battle ? fanninView(world, householdId, role) : null;
-  if (fannin) { battle = fannin.battle; if (fannin.host) host = fannin.host; }
   // The card through the family's person (docs/BATTLES.md §2.7, §2.8): the alert before the fighting with a Watch, and the
   // account afterwards. Only ever this family's own.
-  const battleAlert = role === 'student' && householdId ? alertFor(world, householdId, state, Boolean(battle)) || fanninAlert(world, householdId, Boolean(battle)) : null;
-  const battleAccount = role === 'student' && householdId ? accountFor(world, householdId) || fanninAccount(world, householdId) : null;
+  const battleAlert = role === 'student' && householdId ? alertFor(world, householdId, state, Boolean(battle)) : null;
+  const battleAccount = role === 'student' && householdId ? accountFor(world, householdId) : null;
+  // The storming of Béxar (sim/bexar-fight.mjs): its own viewers, the alert before each episode and the account after, while
+  // it is fought. Only ever one fight at a time: December is not October.
+  const bexar = bexarProjection(world, householdId, role, { seen });
+  if (bexar) { battle = bexar.battle; if (bexar.host) host = bexar.host; }
+  // Coleto and Palm Sunday (sim/fannin.mjs), by the same rules; March is not December, so only one is ever fought at a time.
+  const fannin = fanninProjection(world, householdId, role, { seen });
+  if (fannin?.battle) { battle = fannin.battle; if (fannin.host) host = fannin.host; }
+  const shownAlert = bexar?.battleAlert || fannin?.battleAlert || battleAlert, shownAccount = bexar?.battleAccount || fannin?.battleAccount || battleAccount;
   // The upriver call takes the panel while it is open, because it is the one in front
   // of the family right now. The food call stays in the event log either way.
   const march = householdId && world.marches?.[householdId];
@@ -1474,7 +1495,7 @@ export function directorProjection(world, householdId, role) {
     shown.answerers = Object.fromEntries(people.map(id => [id, shown.kind === 'call' ? callOptions(world, householdId, call, world.entities[id]) : requestOptions(world, householdId, shown, shown.kind, world.entities[id])]));
     shown.options = shown.answerers[shown.actorId || household.principalId] || Object.values(shown.answerers)[0] || [];
   }
-  return structuredClone({ request: shown, battle, ...(battleAlert && { battleAlert }), ...(battleAccount && { battleAccount }), host: role === 'host' ? host : null, slice: { title: 'Gonzales', complete: world.director.complete }, historicalDate: dateOf(world, world.minute).toISOString().slice(0, 10) });
+  return structuredClone({ request: shown, battle, ...(shownAlert && { battleAlert: shownAlert }), ...(shownAccount && { battleAccount: shownAccount }), host: role === 'host' ? host : null, slice: { title: 'Gonzales', complete: world.director.complete }, historicalDate: dateOf(world, world.minute).toISOString().slice(0, 10) });
 }
 /** The alert card, while the fight is coming or being fought and this family's person is going or there. */
 function alertFor(world, householdId, state, watching) {

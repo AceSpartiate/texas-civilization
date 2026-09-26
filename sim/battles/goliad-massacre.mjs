@@ -76,40 +76,38 @@ export function massacreGround(world) {
 
 const TEX = 'texian', MEX = 'mexican';
 const say = (id, at, side, role, kind, text, extra = {}) => ({ id, at, side, role, kind, text, ...extra });
-const ROADS = ['bexar', 'victoria', 'patricio'];
+/** The two roads whose columns are drawn apart from the side (sim/battle-stage.mjs `phase.groups`); the Victoria road's column is the side's own body. */
+const OTHER_ROADS = ['bexar', 'patricio'];
 /** The prisoners in the parade ground, before the columns are formed. */
-const INSIDE = { style: 'loose', at: 'parade', action: 'stand', fire: 'none', spread: { width: 0.16, depth: 0.1 } };
+const INSIDE = { style: 'loose', at: 'parade', action: 'stand', fire: 'none', spread: { width: 0.16, depth: 0.1 }, drawn: 56 };
+const GATE = { style: 'ranks', at: 'gate', action: 'stand', fire: 'none', drawn: 12 };
 /**
- * The prisoners in three columns, those kept back in the chapel and the wounded in their rooms, by where each column stands in
- * the phase; and, once the firing starts, the few who ran. The kept, the wounded and the runners are the same share of the
- * sample in every phase, so the three columns are laid out alike from the muster to the end.
+ * The prisoners in three columns - the Victoria road's is the side's own body, the Béxar and San Patricio roads' drawn apart -
+ * those kept back in the chapel and the wounded in their rooms, and, once the firing starts, the few who ran. Sixty in all,
+ * alike from the muster to the end.
  * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "Coleto and Goliad", item 2 - the prisoners, who had no arms, are drawn
  * in the militia's walk and stand, which carry muskets, until an unarmed prisoner's walk and stand are drawn.
  */
-const columns = (place, { action = 'stand', runners = null } = {}) => {
-  const rest = (1 - 0.06 - 0.07 - 0.06) / 3;
-  return {
-    style: 'column', action, fire: 'none',
-    parts: [
-      ...ROADS.map(id => ({ id, style: 'column', ...place(id), share: rest, face: `far-${id}` })),
-      { id: 'kept', style: 'loose', at: 'chapel', action: 'stand', share: 0.06, spread: { width: 0.05, depth: 0.03 } },
-      { id: 'wounded', style: 'loose', at: 'wounded', action: 'stand', share: 0.07, spread: { width: 0.06, depth: 0.03 } },
-      { id: 'runners', style: 'rout', ...(runners || { at: 'out-victoria', action: 'gone' }), share: 0.06, spread: { width: 0.1, depth: 0.06 } },
-    ],
-  };
-};
+const columns = (place, { action = 'stand', runners = null } = {}) => ({
+  texian: { style: 'column', ...place('victoria'), action, fire: 'none', face: 'far-victoria', drawn: 16 },
+  groups: [
+    ...OTHER_ROADS.map(id => ({ id, side: TEX, style: 'column', ...place(id), action, drawn: 16, face: `far-${id}` })),
+    { id: 'kept', side: TEX, name: 'Kept back: the doctors and workmen', named: true, style: 'loose', at: 'chapel', action: 'stand', drawn: 4, spread: { width: 0.05, depth: 0.03 } },
+    { id: 'wounded', side: TEX, style: 'loose', at: 'wounded', action: 'stand', drawn: 4, spread: { width: 0.06, depth: 0.03 } },
+    { id: 'runners', side: TEX, style: 'rout', ...(runners || { at: 'out-victoria', action: 'gone' }), drawn: 4, spread: { width: 0.1, depth: 0.06 } },
+  ],
+});
 /** The guard: a file beside each column, facing along the road on the march and turned on the column at the halt. */
-const guards = (place, { fire = 'none', action = 'stand', face = 'far', riders = null } = {}) => {
-  const rest = (1 - 0.04 - 0.06) / 3;
-  return {
-    style: 'column', action, fire,
-    parts: [
-      ...ROADS.map(id => ({ id, style: fire === 'none' ? 'column' : 'ranks', ...place(id), share: rest, face: `${face}-${id}` })),
-      { id: 'gate', style: 'ranks', at: 'gate', action: action === 'gone' ? 'gone' : 'stand', fire: 'none', share: 0.04 },
-      { id: 'riders', style: 'mounted', mounted: true, fire: 'none', ...(riders || { at: 'gate', action: 'gone' }), share: 0.06 },
-    ],
-  };
-};
+const guards = (place, { fire = 'none', action = 'stand', face = 'far', riders = null } = {}) => ({
+  mexican: { style: fire === 'none' ? 'column' : 'ranks', ...place('victoria'), action, fire, face: `${face}-victoria`, drawn: 10 },
+  groups: [
+    ...OTHER_ROADS.map(id => ({ id: `guard-${id}`, side: MEX, style: fire === 'none' ? 'column' : 'ranks', ...place(id), action, fire, drawn: 10, face: `${face}-${id}` })),
+    { id: 'gate', side: MEX, style: 'ranks', at: 'gate', action: action === 'gone' ? 'gone' : 'stand', drawn: 3 },
+    { id: 'riders', side: MEX, style: 'mounted', mounted: true, ...(riders || { at: 'gate', action: 'gone' }), drawn: 4, face: 'chase-victoria' },
+  ],
+});
+/** One phase's prisoners and guard together. */
+const both = (prisoners, guard) => ({ texian: prisoners.texian, mexican: guard.mexican, groups: [...prisoners.groups, ...guard.groups] });
 
 export const GOLIAD_MASSACRE = Object.freeze({
   id: 'goliad-massacre',
@@ -120,10 +118,10 @@ export const GOLIAD_MASSACRE = Object.freeze({
   outcome: 'About 342 prisoners shot on the three roads and Fannin and about forty wounded killed in the presidio; 28 escape; about 20 are spared.',
   held: name => `${name} is a prisoner in the presidio at Goliad.`,
   sides: {
-    // About 430 prisoners (`HIST-TEX-064`), drawn as a sample of sixty.
-    texian: { name: 'The prisoners', count: 430, drawn: 60, claimId: 'HIST-TEX-064', spread: { width: 0.16, depth: 0.1 } },
+    // About 430 prisoners (`HIST-TEX-064`), drawn as a sample of sixty in all.
+    texian: { name: 'The prisoners', count: 430, drawn: 16, claimId: 'HIST-TEX-064', spread: { width: 0.16, depth: 0.1 } },
     // The guard: the record gives no count, and none is shown (`uncounted`).
-    mexican: { name: 'The guard', count: 1, uncounted: true, drawn: 40, claimId: 'HIST-TEX-517' },
+    mexican: { name: 'The guard', count: 1, uncounted: true, drawn: 10, claimId: 'HIST-TEX-517' },
   },
   flag: null,
   // Nothing is said at the killing (`FIC-GONZ-438`): no volley here has its words.
@@ -133,16 +131,15 @@ export const GOLIAD_MASSACRE = Object.freeze({
       // 18:00-19:00, March 26. The song over the walls; Francita Alavez brings some of the men out and hides them.
       id: 'eve', minutes: 60, step: 20, light: 'dusk', title: 'The evening before', claimId: 'HIST-TEX-517',
       caption: 'Evening, March 26, at the presidio of Goliad. Colonel Portilla, commanding here, has received Santa Anna’s order about the prisoners. The prisoners have been told they will be sent to New Orleans. Francita Alavez, the wife of a Mexican officer, goes into the fort, brings some of the men out, and hides them.',
-      texian: { style: 'loose', action: 'stand', fire: 'none', parts: [
-        { id: 'prisoners', style: 'loose', at: 'parade', share: 0.95, spread: { width: 0.16, depth: 0.1 } },
-        { id: 'hidden', style: 'loose', keys: [[0, 'side-door'], [15, 'side-door'], [45, 'house']], share: 0.05, spread: { width: 0.04, depth: 0.02 } },
-      ] },
-      mexican: { style: 'ranks', action: 'stand', fire: 'none', parts: [
-        { id: 'gate', style: 'ranks', at: 'gate', share: 0.97 },
-        // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "Coleto and Goliad", item 3 - Francita Alavez is drawn as the
-        // first cast's woman (`rust-woman-walk`, `-idle`), until a figure of a Mexican officer's wife of 1836 is drawn.
-        { id: 'alavez', style: 'loose', keys: [[0, 'side-door'], [15, 'side-door'], [45, 'house']], share: 0.03, figure: 'rust-woman', name: 'Francita Alavez', spread: { width: 0.02, depth: 0.02 } },
-      ] },
+      texian: { ...INSIDE, drawn: 53 },
+      mexican: { ...GATE },
+      groups: [
+        { id: 'hidden', side: TEX, style: 'loose', keys: [[0, 'side-door'], [15, 'side-door'], [45, 'house']], drawn: 3, spread: { width: 0.04, depth: 0.02 } },
+        // She is drawn as a townswoman (the renderer's `civilians`), named, and given no words: none of hers are recorded.
+        // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "Coleto and Goliad", item 3 - Francita Alavez is drawn as the first
+        // cast's woman (`rust-woman-walk`, `-idle-s`), until a figure of a Mexican officer's wife of 1836 is drawn.
+        { id: 'alavez', side: MEX, name: 'Francita Alavez', named: true, civilians: true, style: 'loose', keys: [[0, 'side-door'], [15, 'side-door'], [45, 'house']], drawn: 1, spread: { width: 0.02, depth: 0.02 } },
+      ],
       lines: [
         say('m-song', 20, TEX, 'prisoners', 'documented', '(singing “Home, Sweet Home”)', { claimId: 'HIST-TEX-517', gloss: 'The prisoners are singing “Home, Sweet Home.”' }),
         say('m-orleans', 40, TEX, 'prisoner', 'reconstructed', 'New Orleans, and then home.'),
@@ -151,19 +148,18 @@ export const GOLIAD_MASSACRE = Object.freeze({
     {
       id: 'night', minutes: 480, step: 240, light: 'night', title: 'The night before Palm Sunday', claimId: 'HIST-TEX-517',
       caption: 'The night before Palm Sunday. The prisoners are shut in the presidio.',
-      texian: { ...INSIDE }, mexican: { style: 'ranks', at: 'gate', action: 'stand', fire: 'none' },
+      texian: { ...INSIDE }, mexican: { ...GATE },
     },
     {
       id: 'before-dawn', minutes: 180, step: 60, light: 'dawn', title: 'Before sunrise', claimId: 'HIST-TEX-517',
       caption: 'Before sunrise the guard is turned out.',
-      texian: { ...INSIDE }, mexican: { style: 'ranks', at: 'gate', action: 'stand', fire: 'none' },
+      texian: { ...INSIDE }, mexican: { ...GATE },
     },
     {
       // 06:00-06:30. The muster: three groups formed; the doctors and the men to be spared kept back (`HIST-TEX-517`, `-518`).
       id: 'muster', minutes: 30, step: 5, title: 'The muster, Palm Sunday', claimId: 'HIST-TEX-517',
       caption: 'Sunrise, Palm Sunday, March 27. The prisoners who can walk are formed into three groups in the parade ground. They are told different things: that they will gather wood, drive cattle, or march to the ships at Copano. The doctors and some men with useful trades are kept back.',
-      texian: columns(id => ({ at: `out-${id}` })),
-      mexican: guards(id => ({ at: `guard-out-${id}` })),
+      ...both(columns(id => ({ at: `out-${id}` })), guards(id => ({ at: `guard-out-${id}` }))),
       lines: [
         say('m-copano', 8, TEX, 'prisoner', 'reconstructed', 'They say we’re going to Copano for the ships.'),
         say('m-wood', 16, TEX, 'prisoner', 'reconstructed', 'Wood-cutting, they told us.'),
@@ -173,8 +169,7 @@ export const GOLIAD_MASSACRE = Object.freeze({
       // 06:30-07:00. Out of the gate on three roads, under guard.
       id: 'marched', minutes: 30, step: 5, title: 'Marched out on three roads', claimId: 'HIST-TEX-517',
       caption: 'The three groups are marched out of the presidio under guard, each on a different road: the road to Béxar, the road to Victoria, and the road to San Patricio.',
-      texian: columns(id => ({ from: `out-${id}`, to: `halt-${id}` }), { action: 'advance' }),
-      mexican: guards(id => ({ from: `guard-out-${id}`, to: `guard-${id}` }), { action: 'follow' }),
+      ...both(columns(id => ({ from: `out-${id}`, to: `halt-${id}` }), { action: 'advance' }), guards(id => ({ from: `guard-out-${id}`, to: `guard-${id}` }), { action: 'follow' })),
       lines: [say('m-where', 20, TEX, 'prisoner', 'reconstructed', 'This isn’t the way to Copano.')],
     },
     {
@@ -182,13 +177,13 @@ export const GOLIAD_MASSACRE = Object.freeze({
       // contact: what a family's man with the prisoners is there for (docs/BATTLES.md §2.6). Nothing is said.
       id: 'volleys', minutes: 20, step: 2, contact: true, title: 'The killing on the roads', claimId: 'HIST-TEX-517',
       caption: 'Half a mile or more from the presidio, each group is halted, and the guards open fire on the prisoners at close range. Most of the men are killed. A few break away and run for the trees along the river.',
-      texian: columns(id => ({ at: `halt-${id}` }), { action: 'stand', runners: { keys: [[0, 'halt-victoria'], [4, 'halt-victoria'], [20, 'chase-victoria']] } }),
-      mexican: guards(id => ({ at: `guard-${id}` }), { fire: 'volley', face: 'halt', riders: { keys: [[0, 'gate'], [8, 'gate'], [20, 'halt-victoria']] } }),
+      ...both(columns(id => ({ at: `halt-${id}` }), { runners: { keys: [[0, 'halt-victoria'], [4, 'halt-victoria'], [20, 'chase-victoria']] } }),
+        guards(id => ({ at: `guard-${id}` }), { fire: 'volley', face: 'halt', riders: { keys: [[0, 'gate'], [8, 'gate'], [20, 'halt-victoria']] } })),
       falls: [
-        ...ROADS.flatMap(id => [
-          { side: TEX, part: id, count: 9, at: 1, claimId: 'HIST-TEX-517' },
-          { side: TEX, part: id, count: 5, at: 3, claimId: 'HIST-TEX-517' },
-          { side: TEX, part: id, count: 3, at: 7, claimId: 'HIST-TEX-517' },
+        ...[null, ...OTHER_ROADS].flatMap(unit => [
+          { side: TEX, ...(unit && { unit }), count: 8, at: 1, claimId: 'HIST-TEX-517' },
+          { side: TEX, ...(unit && { unit }), count: 5, at: 3, claimId: 'HIST-TEX-517' },
+          { side: TEX, ...(unit && { unit }), count: 3, at: 7, claimId: 'HIST-TEX-517' },
         ]),
       ],
     },
@@ -196,43 +191,36 @@ export const GOLIAD_MASSACRE = Object.freeze({
       // 07:20-07:40. Twenty-eight get away; riders go after them a little way and turn back (`HIST-TEX-518`).
       id: 'escapes', minutes: 20, step: 5, title: 'Into the river timber', claimId: 'HIST-TEX-518',
       caption: 'Some of the men who ran reach the trees along the San Antonio River. Riders go after them, and turn back. Twenty-eight men escape that morning, some by lying still among the dead until they could run.',
-      texian: columns(id => ({ at: `halt-${id}` }), { runners: { from: 'chase-victoria', to: 'river-victoria' } }),
-      mexican: guards(id => ({ at: `guard-${id}` }), { face: 'halt', riders: { keys: [[0, 'halt-victoria'], [8, 'chase-victoria'], [20, 'gate']] } }),
+      ...both(columns(id => ({ at: `halt-${id}` }), { runners: { from: 'chase-victoria', to: 'river-victoria' } }),
+        guards(id => ({ at: `guard-${id}` }), { face: 'halt', riders: { keys: [[0, 'halt-victoria'], [8, 'chase-victoria'], [20, 'gate']] } })),
     },
     {
       // 07:40-08:00. Inside the presidio Fannin and the wounded are killed under Capt. Carolino Huerta (`HIST-TEX-517`).
       id: 'inside', minutes: 20, step: 5, title: 'Inside the presidio', claimId: 'HIST-TEX-517',
       caption: 'Inside the presidio, the wounded who could not march are killed, under the orders of Captain Carolino Huerta. Colonel Fannin, wounded at Coleto, is shot in the courtyard. The doctors and the men kept back are spared.',
-      texian: columns(id => ({ at: `halt-${id}` }), { runners: { at: 'river-victoria', action: 'gone' } }),
-      mexican: guards(id => ({ at: `guard-${id}` }), { face: 'halt' }),
-      falls: [{ side: TEX, part: 'wounded', count: 60, at: 6, claimId: 'HIST-TEX-517' }],
+      ...both(columns(id => ({ at: `halt-${id}` }), { runners: { at: 'river-victoria', action: 'gone' } }), guards(id => ({ at: `guard-${id}` }), { face: 'halt' })),
+      falls: [{ side: TEX, unit: 'wounded', count: 4, at: 6, claimId: 'HIST-TEX-517' }],
     },
     {
       // 08:00-10:00. What was done with the dead is told, not drawn (`HIST-TEX-517`). It ends at ten, on the spring's four-hour
       // clock, as Coleto does (sim/battles/coleto.mjs `march-back`).
       id: 'after', minutes: 120, step: 20, title: 'Afterward', claimId: 'HIST-TEX-517',
       caption: 'About 340 men were killed at Goliad that morning. Their bodies were burned and left in the open until June 3, when General Rusk’s men gathered the remains and buried them with military honors. The killing turned grief into anger: at San Jacinto the Texians would shout “Remember Goliad!”',
-      texian: columns(id => ({ at: `halt-${id}` }), { runners: { at: 'river-victoria', action: 'gone' } }),
-      mexican: guards(() => ({ at: 'gate' }), { action: 'gone' }),
+      ...both(columns(id => ({ at: `halt-${id}` }), { runners: { at: 'river-victoria', action: 'gone' } }), guards(() => ({ at: 'gate' }), { action: 'gone' })),
     },
   ],
   ground: massacreGround,
 });
 
 /**
- * The shares a family's man with the prisoners meets on Palm Sunday, from the record (`HIST-TEX-064`, `-518`): of about 430,
- * some 342 shot on the roads and about 40 wounded killed inside (89 in 100), 28 escaped (6.5 in 100, kept at 7 as the game
- * always has), about 20 spared (the rest, 4 in 100). One place for the numbers (staging.md §7.6).
- */
-export const MASSACRE_SHARES = Object.freeze({ executed: 0.89, escaped: 0.07 });
-/**
- * Where a family's man stands and what he meets, from the one seeded roll (sim/houston.mjs `goliadMassacre` keeps it):
- * `fate` executed, escaped or spared; a man still wounded from Coleto cannot run (owner's G2, `FIC-GONZ-438`): he is killed
- * inside with the wounded, or spared at the spared share. Which road he is marched on is his own seeded share.
+ * Where a family's man stands and what he meets, from the one seeded roll (sim/houston.mjs `MASSACRE`, sim/fannin.mjs
+ * `massacreFate`): kept back with the doctors if spared; with the wounded if still wounded (owner's G2, `FIC-GONZ-438`: he
+ * cannot run); in the Victoria road's column if he is to run for the river timber from its halt; else in the column of the
+ * road his own seeded share gives. Returns the body he stands in (`texian`, the Victoria column, or a group's id).
  */
 export function massacrePlace(fate, { wounded, road }) {
-  if (fate === 'spared') return { part: 'kept' };
-  if (wounded) return { part: 'wounded' };
-  if (fate === 'escaped') return { part: 'victoria', runs: true };
-  return { part: ROADS[Math.min(2, Math.floor(road * 3))] };
+  if (fate === 'spared') return { unit: 'kept' };
+  if (wounded) return { unit: 'wounded' };
+  if (fate === 'escaped') return { unit: 'texian', runs: true };
+  return { unit: ['bexar', 'texian', 'patricio'][Math.min(2, Math.floor(road * 3))] };
 }

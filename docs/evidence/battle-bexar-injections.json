@@ -1,0 +1,212 @@
+{
+  "record": "battle-bexar-injections",
+  "date": "2026-09-26",
+  "gates": {
+    "unit": "node --test tests/battle-bexar.test.mjs and tests/battle-bexar-view.test.mjs, the named test and no other",
+    "browser": "scripts/battle-bexar-browser-proof.mjs"
+  },
+  "unit": [
+    {
+      "name": "the men dawdle into the town and are still near the mill when the fighting starts",
+      "file": "sim/bexar-fight.mjs",
+      "test": "tests/battle-bexar.test.mjs",
+      "expect": "a yes to Milam walks out of the mill at three and into the town before contact, stands in a division and fights, and cannot be sent away",
+      "caught": true,
+      "failed": [
+        "a yes to Milam walks out of the mill at three and into the town before contact, stands in a division and fights, and cannot be sent away"
+      ]
+    },
+    {
+      "name": "the white flag waits on the reinforcement again",
+      "file": "sim/directors.mjs",
+      "test": "tests/battle-bexar.test.mjs",
+      "expect": "the white flag comes whether or not the camp's companies were ever asked for",
+      "caught": true,
+      "failed": [
+        "the white flag comes whether or not the camp's companies were ever asked for"
+      ]
+    },
+    {
+      "name": "a hit falls on any day alike, not on Johnson's daily losses",
+      "file": "sim/bexar-fight.mjs",
+      "test": "tests/battle-bexar.test.mjs",
+      "expect": "a family's man who is hit is hit on a day weighted by Johnson's losses, at a moment inside the fighting, in a phase that fits",
+      "caught": true,
+      "failed": [
+        "a family's man who is hit is hit on a day weighted by Johnson's losses, at a moment inside the fighting, in a phase that fits"
+      ]
+    },
+    {
+      "name": "a man's fall is sent before it happens",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-bexar.test.mjs",
+      "expect": "killed: he falls at his staged moment where he stands, his family watching sees it then and not before, and is told only when the word comes",
+      "caught": true,
+      "failed": [
+        "killed: he falls at his staged moment where he stands, his family watching sees it then and not before, and is told only when the word comes"
+      ]
+    },
+    {
+      "name": "the town holds the class between episodes whoever is in it",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-bexar.test.mjs",
+      "expect": "between the episodes the town fights on at two hours a tick while a played family has somebody in it, and not otherwise; never faster",
+      "caught": true,
+      "failed": [
+        "between the episodes the town fights on at two hours a tick while a played family has somebody in it, and not otherwise; never faster"
+      ]
+    },
+    {
+      "name": "the family at home is sent the storming",
+      "file": "sim/bexar-fight.mjs",
+      "test": "tests/battle-bexar.test.mjs",
+      "expect": "the Host watches it live and is spotlit on the town for each episode; the family in it and the family at the mill watch; the family at home is sent nothing",
+      "caught": true,
+      "failed": [
+        "the Host watches it live and is spotlit on the town for each episode; the family in it and the family at the mill watch; the family at home is sent nothing"
+      ]
+    },
+    {
+      "name": "the alert comes only once the men are in the streets",
+      "file": "sim/bexar-fight.mjs",
+      "test": "tests/battle-bexar.test.mjs",
+      "expect": "the alert comes through the person before each episode, with Watch on the town; the reserve is told what it hears; nobody else is alerted",
+      "caught": true,
+      "failed": [
+        "the alert comes through the person before each episode, with Watch on the town; the reserve is told what it hears; nobody else is alerted"
+      ]
+    },
+    {
+      "name": "the account does not say why it ended as it did",
+      "file": "sim/bexar-fight.mjs",
+      "test": "tests/battle-bexar.test.mjs",
+      "expect": "afterwards each family with somebody there is told through that person what happened, what they did and why; the men go home, the wounded stay",
+      "caught": true,
+      "failed": [
+        "afterwards each family with somebody there is told through that person what happened, what they did and why; the men go home, the wounded stay"
+      ]
+    },
+    {
+      "name": "a gun's later shots are sent before they are fired",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-bexar.test.mjs",
+      "expect": "a page is sent nothing of the storming that has not happened yet",
+      "caught": true,
+      "failed": [
+        "a page is sent nothing of the storming that has not happened yet"
+      ]
+    },
+    {
+      "name": "the mill left a mile out",
+      "file": "sim/battles/bexar-storming.mjs",
+      "test": "tests/battle-bexar.test.mjs",
+      "expect": "the storming is staged on the town the map draws: its houses are the assembly's, the mill half a mile north, the Alamo at the east edge",
+      "caught": true,
+      "failed": [
+        "the storming is staged on the town the map draws: its houses are the assembly's, the mill half a mile north, the Alamo at the east edge"
+      ]
+    },
+    {
+      "name": "the men inside the houses drawn standing in the street",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-bexar-view.test.mjs",
+      "expect": "in the houses most men are out of sight: the fire is flashes and smoke at the walls, the roofs are manned, and the guns fire their dated shots once each",
+      "caught": true,
+      "failed": [
+        "in the houses most men are out of sight: the fire is flashes and smoke at the walls, the roofs are manned, and the guns fire their dated shots once each"
+      ]
+    },
+    {
+      "name": "the family let out of the house is never drawn",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-bexar-view.test.mjs",
+      "expect": "Karnes's door: a man at the bar until it gives, then the hole; the family inside walks out unhurt and never fires",
+      "caught": true,
+      "failed": [
+        "Karnes's door: a man at the bar until it gives, then the hole; the family inside walks out unhurt and never fires"
+      ]
+    },
+    {
+      "name": "Milam is not drawn where he fell",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-bexar-view.test.mjs",
+      "expect": "Milam falls in the Veramendi yard at half past three, named, and nobody gives him words",
+      "caught": true,
+      "failed": [
+        "Milam falls in the Veramendi yard at half past three, named, and nobody gives him words"
+      ]
+    },
+    {
+      "name": "no white flag",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-bexar-view.test.mjs",
+      "expect": "dawn on the 9th: the guns stop, the bugle is heard, and a white flag comes to the plaza",
+      "caught": true,
+      "failed": [
+        "dawn on the 9th: the guns stop, the bugle is heard, and a white flag comes to the plaza"
+      ]
+    },
+    {
+      "name": "a family's man drawn down before his moment",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-bexar-view.test.mjs",
+      "expect": "a family's man stands in his unit and fires with it, and falls at the moment the server staged, not before",
+      "caught": true,
+      "failed": [
+        "a family's man stands in his unit and fires with it, and falls at the moment the server staged, not before"
+      ]
+    }
+  ],
+  "browser": [
+    {
+      "name": "the storming drawn as two lines: no group apart from its side",
+      "file": "sim/battle-stage.mjs",
+      "expect": "the fight is drawn as two lines",
+      "caught": true,
+      "failure": "the fight is drawn as two lines, not groups in their houses: {}",
+      "checksPassedFirst": 2
+    },
+    {
+      "name": "the men who said yes stay at the mill",
+      "file": "sim/bexar-fight.mjs",
+      "expect": "the alert came only once the fighting had begun",
+      "caught": true,
+      "failure": "the alert came only once the fighting had begun",
+      "checksPassedFirst": 1
+    },
+    {
+      "name": "the family with nobody there is sent the storming",
+      "file": "sim/bexar-fight.mjs",
+      "expect": "the family with nobody there was sent the battle",
+      "caught": true,
+      "failure": "the family with nobody there was sent the battle (first)",
+      "checksPassedFirst": 5
+    },
+    {
+      "name": "his own wound is never drawn",
+      "file": "public/battle-view.js",
+      "expect": "he was not drawn hurt",
+      "caught": true,
+      "failure": "he was not drawn hurt: volunteer-march,volunteer-load,volunteer-fire-reload",
+      "checksPassedFirst": 7
+    },
+    {
+      "name": "Milam's fall is not drawn",
+      "file": "public/battle-view.js",
+      "expect": "Milam was not seen to fall",
+      "caught": true,
+      "failure": "Milam was not seen to fall in the yard",
+      "checksPassedFirst": 8
+    },
+    {
+      "name": "the Host's camera is not sent to the town",
+      "file": "sim/bexar-fight.mjs",
+      "expect": "the Host's camera was not on the town",
+      "caught": true,
+      "failure": "the Host's camera was not on the town in the karnes: {\"phase\":\"karnes\",\"focus\":\"regional\",\"camera\":\"region\",\"seen\":[\"bexar-entry:97860\",\"bexar-karnes:101160\"]}",
+      "checksPassedFirst": 6
+    }
+  ],
+  "cleanBrowserChecks": 15,
+  "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
+}

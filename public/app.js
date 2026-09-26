@@ -12,6 +12,7 @@ import {alamoOnMap,bexarToSite} from '/bexar-layout.js';
 import {plotArt} from '/field-art.js';
 import { drawFieldSurface } from '/field-surface.js';
 import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
+import { TOWN_WALK, TownWalker, drawTownSpeech, renderSceneCard, townSceneAt, townSceneDrawables } from '/town-scenes.js';
 import { drawTownGround, townDrawables } from '/town-art.js';
 import { renderInterior, clearInteriorChoice } from '/interior.js';
 import { TOWN_LAYOUTS, townPoint } from '/town-layouts.js';
@@ -42,6 +43,10 @@ window.__viewEntities = [];
 window.__viewFormations = [];
 window.__camera = null;
 const motionProjection = new ProjectionMotion();
+// Gonzales before the fight (public/town-scenes.js): everybody whose place in the town changes is walked there, the scenes'
+// people and each town person's head as drawn this frame (for the words over them), and the scene whose card is open.
+const townWalker = new TownWalker(), townHeads = new Map(), townSceneSpots = new Map();
+let townSceneOpen = null, townSceneShown = '';
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 // The one battle renderer (public/battle-view.js, docs/BATTLES.md §3): drawn with the page's own art, and asked by
 // `drawFigure` which pose a family's own person in the force is in. Declared up here, above the page's first `connect`, so a
@@ -618,6 +623,23 @@ function drawnHeightOf(entity, size, seat) {
   if (entity.kind === 'wagon' || seat === 'wagon') return size * SIZE.wagon;
   return size * (mounted(entity) ? MOUNTED_HEIGHT : 1);
 }
+/**
+ * Where somebody standing in Gonzales is drawn, and whether they are walking: walked from where they were drawn to where the
+ * server has them at a person's pace (public/town-scenes.js `TownWalker`), never slid there in a tick. The separation
+ * `stableOffset` gives everybody is folded into the place walked to, in miles so a zoom walks nobody - except for somebody the
+ * town's scenes have put somewhere (sim/town-scenes.mjs), who stands exactly where the scene has them. Null for anybody not
+ * standing in the town.
+ */
+function townGround(world, entity, camera, now, frozen) {
+  if (entity.travel || entity.kind !== 'person' || entity.location?.siteId !== 'gonzales' || !Number.isFinite(entity.location.x)) return null;
+  const posed = world.townScenes?.poses?.[entity.id] || null;
+  const offset = posed ? { x: 0, y: 0 } : stableOffset(entity.id), miles = PERSON_MILES / 26;
+  const target = { x: entity.location.x + offset.x * miles, y: entity.location.y + offset.y * miles * .8 };
+  const one = townWalker.step(entity.id, target, now, frozen ? 1e3 : TOWN_WALK * camera.figure / Math.max(1, camera.scale));
+  // Presentation evidence for the proofs, as `__drawnAt` is, read by nothing in the application.
+  window.__townWalkers?.push({ id: entity.id, stepping: one.moving ? one.dir : null, pose: posed?.pose || null, x: one.at.x, y: one.at.y });
+  return { at: one.at, stepping: one.moving ? one.dir : null, pose: posed };
+}
 function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // The horse is under its rider, and the ox and wagon under their driver, drawn with them (public/motion.js `seatOf`).
   if (!marks.observed && carriedWithRider(entity, marks.entities || [])) return;
@@ -652,7 +674,8 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
       : train > 0 ? { x: behind.x * 82 * train, y: behind.y * 60 * train + 3 * train }
       : walker >= 0 ? (vertical ? { x: 30 + (walker % 2) * 12, y: behind.y * (8 + 20 * walker) } : { x: behind.x * (-10 + 17 * walker), y: 14 + (walker % 2) * 5 })
       : { x: 0, y: 0 })
-    : stableOffset(entity.id);
+    // Somebody standing in Gonzales has been walked to their spot, the separation included (`townGround`).
+    : marks.placed ? { x: 0, y: 0 } : stableOffset(entity.id);
   const x = point.x + offset.x * spread, y = point.y + offset.y * spread * .8;
   // Everything is drawn standing on (x, y), so `size` is a height and the click target
   // is the body above that point, not a circle centred on the feet.
@@ -663,6 +686,7 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   const figure = marks.sight ? marks.sight.alpha : 1;
   if (figure > 0) {
     drawnAt.set(entity.id, { x, y: y - height * .45, size: height });
+    if (marks.placed) townHeads.set(entity.id, { x, y: y - height, size: height });
     drawFigure(ctx, entity, x, y, size, height, seat, figure, marks);
   }
   // Something is being asked of this person. The mark is the invitation; clicking is the
@@ -780,11 +804,13 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
   // The sheets all face right, so anyone walking west is mirrored. A rider who has
   // reined in is turned toward the person they are speaking to instead, which the server
   // works out from where the two of them actually are.
-  const flip = entity.facing ? entity.facing === 'w' : travelDirection(entity) === 'w';
+  // Somebody walking across Gonzales faces the way they are walking, and somebody in one of its scenes the way the scene has
+  // them turned (public/town-scenes.js).
+  const flip = entity.facing ? entity.facing === 'w' : entity.stepping ? entity.stepping === 'w' : entity.scenePose ? entity.scenePose.face === 'w' : travelDirection(entity) === 'w';
   // Somebody on the road steps at the rate the ground drawn under them goes past (public/motion.js `gaitStep`),
   // measured in their own drawn height: a child's shorter stride, a horse's longer one.
   const onFoot = entity.kind === 'person' && !mounted(entity);
-  const gait = entity.travel && !entity.travel.halted && !entity.facing && marks.ground && marks.scale > 0
+  const gait = (entity.travel && !entity.travel.halted && !entity.facing || entity.stepping) && marks.ground && marks.scale > 0
     ? { id: entity.id, at: marks.ground, bodyMiles: height * (onFoot ? figureScale(entity) : 1) / marks.scale, stride: onFoot ? STRIDE.foot : STRIDE.hoof }
     : null;
   if (seat) drawSeated(ctx, x, y, size, entity, seat, marks.entities || [], flip, gait);
@@ -1275,13 +1301,15 @@ const clampTo = (value, limits) => Math.max(limits.min, Math.min(limits.max, val
  */
 const fieldFrame = points => points.flatMap(point => [{ x: point.x - 0.13, y: point.y - 0.24 }, { x: point.x + 0.13, y: point.y + 0.1 }]);
 // Each side where it stands, and the gun (public/battle-view.js draws them there).
-// Everything drawn of the fight: each side, or each of its parts (a side in parts is framed by where its parts stand, not by
-// their middle: Palm Sunday's three roads, the ring round Coleto's square), and the guns. A body of men gone from the field is
-// not framed, unless nothing else is left to frame.
+// Where the engagement names the ground it is fought over (Béxar: the houses north of the plaza and the Alamo's guns at the
+// east edge), that ground; otherwise every body of men drawn - each side and each group drawn apart from it (Palm Sunday's
+// three roads, the Mexicans round Coleto's square) - and the guns. A body gone from the field is not framed, unless nothing
+// else is left to frame.
 const battlePoints = world => {
-  const units = (world.battle?.sides || []).flatMap(side => side.parts || [side]);
-  const here = units.filter(unit => unit.action !== 'gone');
-  return [...(here.length ? here : units.length ? units : world.battle?.formations || []), ...(world.battle?.cannon ? [world.battle.cannon] : []), ...(world.battle?.cannons || [])].map(point => ({ x: point.x, y: point.y }));
+  const fight = world.battle;
+  if (fight?.frame?.length) return fight.frame.map(point => ({ x: point.x, y: point.y }));
+  const bodies = [...(fight?.sides || []), ...(fight?.groups || [])], here = bodies.filter(body => body.action !== 'gone');
+  return [...(here.length ? here : bodies.length ? bodies : fight?.formations || []), ...(fight?.cannon ? [fight.cannon] : []), ...(fight?.guns || [])].map(point => ({ x: point.x, y: point.y }));
 };
 function framingFor(world) {
   // The country outside the box (docs/MAP_ACCURACY.md §11) is drawn where it is, but it never frames a view: framing the
@@ -1517,6 +1545,10 @@ function installMapNavigation() {
   };
   const tapAt = point => {
     if (housePlacement) { const view = currentView(); if (view) { housePlacement.point = worldAt(view, point, size()); housePlacement.locked = true; requestMapDraw(); } return; }
+    // One of Gonzales's scenes before the fight under the tap: its card (public/town-scenes.js). Before the family's own
+    // land is looked over, because the town is never anybody's land and a tap on it is never a house site.
+    const townScene = window.__snapshot && townSceneAt(window.__snapshot.world.townScenes, townSceneSpots, point, window.__camera?.figure || 18, townHeads);
+    if (townScene && !entityAt(point)) { townSceneOpen = townScene; townSceneShown = ''; renderTownScene(window.__snapshot.world); return; }
     if (siteLooking() || surveyLooking()) {
       // Looking over the family's own land for a house site or ten acres to survey: a tap is a place, not a person.
       const view = currentView();
@@ -2713,6 +2745,8 @@ export function drawWorld(world) {
   // separately would put every person on top of every roof in the county.
   const labels = [];
   const standing = [];
+  // Heads in Gonzales this frame, for the words said over them (public/town-scenes.js); filled as the figures are laid out.
+  townHeads.clear(); townSceneSpots.clear(); window.__townCast = []; window.__townWalkers = [];
   // Presentation evidence for proofs, on the same contract as `__plotsDrawn`: each family's land the Host's map drew, as drawn.
   const hostLandsDrawn = {};
   window.__hostLandsDrawn = hostLandsDrawn;
@@ -2758,6 +2792,12 @@ export function drawWorld(world) {
       if(site.id==='gonzales'&&camera.scale>=200){
         const project=p=>camera.toScreen({x:site.x+p.x,y:site.y+p.y});if(ground)drawGonzalesGround(ground,project,camera.scale);standing.push(...gonzalesDrawables(ctx,project,camera.scale,Object.fromEntries((world.map?.shops?.gonzales||[]).filter(shop=>shop.building).map(shop=>[shop.building,shop.label]))));
         window.__shopsDrawn={gonzales:(world.map?.shops?.gonzales||[]).length};
+        // Gonzales before the fight: the town's people at what the days had them doing (sim/town-scenes.mjs), sent only to a
+        // page with somebody standing here, and to the Host.
+        const cast=[];standing.push(...townSceneDrawables(ctx,world.townScenes,{toScreen:p=>camera.toScreen(p),figure:camera.figure,scale:camera.scale,now:frameNow,clock:animationTime,walker:townWalker,reducedMotion:reducedMotion.matches,frozen:world.status!=='running',drawn:townHeads,evidence:cast}));
+        window.__townCast=cast;
+        for(const scene of world.townScenes?.scenes||[])townSceneSpots.set(scene.id,camera.toScreen(scene));
+        window.__townSceneSpots=Object.fromEntries(townSceneSpots);
       }else if(TOWN_LAYOUTS[site.id]&&camera.scale>=200){
         // A town of the colonies from its research sketch (sim/town-layouts.mjs, docs/TOWNS.md §5b), its keepers' buildings named.
         const layout=TOWN_LAYOUTS[site.id],project=p=>camera.toScreen({x:site.x+p.x,y:site.y+p.y});
@@ -2903,7 +2943,8 @@ export function drawWorld(world) {
     // journey is being crossed out of sight (`sightOf`). Worked out before the point, because it is the point.
     const sight = sightOf(entity, drawnHeightOf(entity, camera.figure, seatOf(entity, entities)), travelMarks);
     if (sight && sight.alpha < 1) roads.push({ entity, seen: sight });
-    const ground = sight?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
+    const inTown = townGround(world, entity, camera, frameNow, frozen);
+    const ground = sight?.at || inTown?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
     // The place the figure was really put, beside the place the schedule asked for. Presentation evidence, read by
     // proofs and by nothing in the application: "the schedule says the right thing" and "the page drew the right thing"
     // are two questions, and a proof reading only the first passes a page that draws the figure somewhere else.
@@ -2932,10 +2973,10 @@ export function drawWorld(world) {
       }) });
       window.__quarryDrawn = { id: entity.id, kind, x: spot.x, y: spot.y };
     }
-    standing.push({ y: point.y, draw: () => drawEntity(ctx, entity, point, roomForNames, camera.figure, {
+    standing.push({ y: point.y, draw: () => drawEntity(ctx, inTown ? { ...entity, stepping: inTown.stepping, scenePose: inTown.pose } : entity, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark, entities,
       labels, heading: destination ? destination.x - entity.location.x : 0, ground, scale: camera.scale,
-      now: frameNow, frozen, running, tickMs, sight,
+      now: frameNow, frozen, running, tickMs, sight, placed: Boolean(inTown),
     }) });
   }
   const margin = camera.figure * 4, shownObserved = [];
@@ -2945,7 +2986,8 @@ export function drawWorld(world) {
     // an observed person is scheduled with no land under them (`sightOf` passes none).
     const sight = sightOf(entity, drawnHeightOf(entity, camera.figure, host ? seatOf(entity, []) : null), { ...travelMarks, observed: !host });
     if (sight && sight.alpha < 1) roads.push({ entity, seen: sight });
-    const ground = sight?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
+    const inTown = townGround(world, entity, camera, frameNow, frozen);
+    const ground = sight?.at || inTown?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
     if (sight) sight.painted = ground;
     // The Host's whole class: only who is on screen is drawn, and each as they truly are - at their own work, the principal
     // in their own coat, the deer they are hunting beside them - because the teacher is not somebody glimpsing a stranger.
@@ -2955,9 +2997,9 @@ export function drawWorld(world) {
       const spot = camera.toScreen(entity.chore.quarry);
       standing.push({ y: spot.y, draw: () => miniQuarry(ctx, spot.x, spot.y, camera.figure * (QUARRY_SIZE[kind] || QUARRY_SIZE.deer), { kind, flip: spot.x < point.x, seed: entity.id }) });
     }
-    standing.push({ y: point.y, draw: () => drawEntity(ctx, { ...entity, health: { condition: entity.condition } }, point, roomForNames, camera.figure, {
+    standing.push({ y: point.y, draw: () => drawEntity(ctx, { ...entity, health: { condition: entity.condition }, ...(inTown && { stepping: inTown.stepping, scenePose: inTown.pose }) }, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark: null, labels, observed: !host, ground, scale: camera.scale,
-      now: frameNow, frozen, running, tickMs, sight,
+      now: frameNow, frozen, running, tickMs, sight, placed: Boolean(inTown),
     }) });
     shownObserved.push(entity.id);
   }
@@ -3005,6 +3047,14 @@ export function drawWorld(world) {
   applyDrawState(main, mapBase.state);
   standing.sort((a, b) => a.y - b.y);
   for (const item of standing) item.draw();
+  // What is being said in Gonzales, over whoever is saying it (public/speech.js), above every figure and building.
+  if (world.townScenes && camera.scale >= 200) {
+    const said = [];
+    // Over the head as walked into the town, or else as the figure was drawn at all (`drawnAt` keeps its middle).
+    const headOf = id => townHeads.get(id) || (drawnAt.has(id) ? { x: drawnAt.get(id).x, y: drawnAt.get(id).y - drawnAt.get(id).size * .55 } : null);
+    drawTownSpeech(ctx, world.townScenes, headOf, { now: frameNow, tickMs: window.__snapshot?.tickMs ?? 9500, bounds: { width: canvas.width, height: canvas.height }, evidence: said });
+    window.__townSaid = said;
+  } else window.__townSaid = [];
   drawTravelRoads(ctx, roads, camera, canvas);
   const placeFont = `${Math.round(Math.max(11, Math.min(16, camera.scale * 1.1)))}px system-ui`;
   window.__labelsDrawn = layOutCaptions(ctx, labels, placeFont);
@@ -5693,6 +5743,34 @@ function renderJoinLinks(snapshot) {
     const a = element('a', entry.url); a.href = entry.url; p.append(a); return p;
   }));
 }
+/**
+ * The card of the Gonzales scene the student clicked (public/town-scenes.js `renderSceneCard`), kept open while the scene is
+ * there and redrawn only when what it says changes, so a button under a finger is not replaced every tick. It closes by
+ * itself when the scene ends or this page can no longer see it.
+ */
+function renderTownScene(world) {
+  const root = $('#town-scene');
+  if (!root) return;
+  const scenes = world?.townScenes;
+  if (!townSceneOpen || !scenes?.cards?.[townSceneOpen]) {
+    if (townSceneOpen && !scenes?.cards?.[townSceneOpen]) townSceneOpen = null;
+    root.hidden = true; townSceneShown = '';
+    return;
+  }
+  const beat = scenes.scenes.find(scene => scene.id === townSceneOpen)?.beat;
+  const key = JSON.stringify([beat, scenes.help?.[townSceneOpen] || null]);
+  if (key === townSceneShown && !root.hidden) return;
+  townSceneShown = key;
+  const date = world.historicalDate ? new Date(`${world.historicalDate}T12:00:00Z`).toLocaleDateString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' }) : '';
+  renderSceneCard(root, scenes, townSceneOpen, {
+    date,
+    onClose: () => { townSceneOpen = null; townSceneShown = ''; },
+    onHelp: async (entityId, scene) => {
+      try { await api('/api/command', { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action: 'town-help', entityId, scene }); }
+      catch (error) { say(error.message); }
+    },
+  });
+}
 function render(snapshot) {
   if (motionProjection.session !== snapshot.sessionId) { animationTime = 0; }
   // The kept ground is not thrown away here: it is drawn again when what it is drawn from changed (`groundInputs`), which a
@@ -5767,6 +5845,7 @@ function render(snapshot) {
   // A snapshot that lands while a hand is on the map is drawn when the hand stops (`handOnMap`), not in the middle of the
   // gesture: a whole draw there is the stall a student feels as the map sticking under their finger.
   if (creating) { /* the curtain is up: nothing of the world is drawn */ } else if (performance.now() < handOnMapUntil) requestMapDraw(); else drawWorld(world);
+  renderTownScene(world);
   renderInteriorPanel(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderLesson(world); renderMilitaryNotice(world); renderTutorial(world);
   renderPanelBackdrop();
 }
