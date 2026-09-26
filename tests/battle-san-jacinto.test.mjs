@@ -76,6 +76,23 @@ test('the fighting plays three to six real minutes at the Study pace, the clock 
   assert.ok(last > 0);
 });
 
+test('the Emily West picnic is a dated, explicitly traditional scene visible only to battle witnesses', () => {
+  const { world, men } = withTheArmy(1, 'waiting');
+  assert.equal(view(world, undefined, 'host').battle.legendScene, undefined, 'the afternoon scene began before its stated hour');
+  until(world, () => world.minute >= at(world, 'waiting') + 120);
+  const host = view(world, undefined, 'host');
+  const witness = view(world, men[0].householdId);
+  assert.equal(host.battle.phase, 'waiting');
+  assert.equal(host.battle.legendScene?.id, 'emily-west-picnic');
+  assert.equal(host.battle.legendScene?.kind, 'tradition');
+  assert.equal(host.battle.legendScene?.claimId, 'HIST-TEX-560');
+  assert.equal(witness.battle?.legendScene?.id, 'emily-west-picnic');
+  assert.match(host.battle.caption, /later story|tradition/i);
+  assert.ok(!DEF.phases.find(phase => phase.id === 'morning').legendScene, 'the picnic appeared before the afternoon');
+  assert.ok(!DEF.phases.find(phase => phase.id === 'rout').legendScene, 'the picnic outlived the attack');
+  assert.equal(DEF.phases.find(phase => phase.id === 'guns').legendScene?.moment, 'alarm');
+});
+
 test('the formed Texian line against the camp at rest; the line comes apart at the breastwork and both sides are a rout; the documented cries, the tune as tradition, nobody named given words', () => {
   const phase = id => DEF.phases.find(one => one.id === id);
   for (const id of ['parade', 'advance', 'guns', 'volley']) assert.equal(phase(id).texian.style, 'ranks', `${id}: the Texians are not the formed side`);

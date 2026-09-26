@@ -53,6 +53,8 @@ export function sanJacintoGround(world) {
     // The breastwork of packs and baggage at the front of the Mexican camp, and the camp behind it.
     breastwork,
     mexicanCamp: from(breastwork, 0.08),
+    // A tent area behind the breastwork for the owner's explicitly traditional Emily West vignette; its exact place is invented.
+    picnicTent: from(breastwork, 0.06, -0.04),
     // Over the breastwork: where the Texian line was when the Mexican line broke.
     overWork: from(breastwork, 0.07),
     // The marsh behind the camp and Peggy's Lake beyond it, south and east (`HIST-TEX-524`).
@@ -204,7 +206,8 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // "siesta" is TSHA's word and the popular one, and is said as that (`HIST-TEX-523`, `-524`).
       id: 'waiting', minutes: 270, title: 'The quiet afternoon', claimId: 'HIST-TEX-524',
       guns: { 'mexican-gun': [] },
-      caption: 'The afternoon is quiet in the Mexican camp. Cos’s men are asleep; others rest, eat and see to the horses. (The Handbook of Texas calls it the afternoon siesta.) In the Texian camp the men wait for Houston to decide.',
+      caption: 'The afternoon is quiet in the Mexican camp. Cos’s men are asleep; others rest, eat and see to the horses. The Handbook of Texas calls it the afternoon siesta. A later, disputed story places Emily West and Santa Anna at a picnic near his tent; in that telling, their conversation helps keep him there as the attack approaches. Emily had been taken by his army at New Washington. This scene is tradition, not an established cause of the victory. In the Texian camp the men wait for Houston to decide.',
+      legendScene: { id: 'emily-west-picnic', kind: 'tradition', at: 'picnicTent', fromMinute: 120, moment: 'converse', claimId: 'HIST-TEX-560' },
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', pose: 'rest', count: 1200 },
       lines: [say('sj-wait', 90, TEX, 'volunteer', 'reconstructed', 'Waiting again.')],
@@ -213,6 +216,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // 15:30-16:00. "At half-past three o'clock in the evening, I ordered the officers of the Texan army to parade their
       // respective commands" (Houston's report, `HIST-TEX-522`).
       id: 'parade', minutes: 30, step: 5, title: 'Half past three: the army parades', claimId: 'HIST-TEX-522',
+      legendScene: { id: 'emily-west-picnic', kind: 'tradition', at: 'picnicTent', moment: 'converse', claimId: 'HIST-TEX-560' },
       guns: { 'mexican-gun': [] },
       caption: 'At half past three Houston orders the army to parade. The companies form in the edge of the timber in one long line: Sherman’s regiment on the left, Burleson’s in the centre, the two cannon, the regulars, and Lamar’s sixty-one horsemen on the far right.',
       texian: { style: 'ranks', keys: [[0, 'texianCamp'], [20, 'line']], action: 'advance', fire: 'none' },
@@ -230,6 +234,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // 16:00-16:24. The line walks out across the prairie, "screened by trees and the rising ground" (TSHA, `HIST-TEX-523`).
       // The tune is a tradition told two ways, named in the caption with both and played by nobody (owner's J3, `HIST-TEX-525`).
       id: 'advance', minutes: 24, step: 2, title: 'The advance across the prairie', claimId: 'HIST-TEX-522',
+      legendScene: { id: 'emily-west-picnic', kind: 'tradition', at: 'picnicTent', moment: 'converse', claimId: 'HIST-TEX-560' },
       guns: { 'mexican-gun': [] },
       caption: 'The line walks out across the open prairie, the rise screening it from the Mexican camp, the two cannon wheeled along with it. A tune is played as it goes, by tradition "Will You Come to the Bower?" - by a fifer and a drummer, the story goes, or by two fiddlers named Davis; the two traditions disagree.',
       texian: { style: 'ranks', from: 'line', to: 'close', action: 'advance', fire: 'none' },
@@ -247,6 +252,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // 16:24-16:30. The Twin Sisters "took station within two hundred yards of the enemy's breastwork" (Houston, `HIST-TEX-522`)
       // and open. contact: the fighting a family's person must be in the line for (docs/BATTLES.md §2.6).
       id: 'guns', minutes: 6, step: 2, contact: true, title: 'The Twin Sisters open', claimId: 'HIST-TEX-522',
+      legendScene: { id: 'emily-west-picnic', kind: 'tradition', at: 'picnicTent', moment: 'alarm', claimId: 'HIST-TEX-560' },
       caption: 'The two six-pounders, the Twin Sisters, take their station within two hundred yards of the breastwork and open on it. In the Mexican camp men run for their arms.',
       texian: { style: 'ranks', at: 'close', action: 'hold', fire: 'none' },
       // Some Mexican units form in haste behind the breastwork: ranks, ragged, firing as they can (staging §8.3).

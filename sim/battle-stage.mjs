@@ -147,6 +147,7 @@ export function checkEngagement(def) {
       if (!person.id || !person.name || !SIDES.includes(person.side) || !person.at || !person.claimId) fail(`a named person in ${phase.id} needs an id, a name, a side, a place and the claim that puts them there`);
       if (person.falls !== undefined && !(person.falls >= 0 && person.falls <= phase.minutes)) fail(`${person.name} falls outside ${phase.id}`);
     }
+    if (phase.legendScene && (phase.legendScene.kind !== 'tradition' || !phase.legendScene.id || !phase.legendScene.at || !phase.legendScene.claimId || !['converse', 'alarm'].includes(phase.legendScene.moment) || (phase.legendScene.fromMinute !== undefined && (!(phase.legendScene.fromMinute >= 0) || phase.legendScene.fromMinute >= phase.minutes)))) fail(`legend scene in ${phase.id} must be a dated and sourced tradition`);
   }
   const phaseIds = new Set(def.phases.map(phase => phase.id));
   for (const work of def.works || []) {
@@ -507,6 +508,9 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
     ...(typeof (phase.light ?? def.light) === 'string' ? { light: phase.light ?? def.light } : {}),
     ...(def.scenery && { scenery: def.scenery(ground).map(item => ({ ...item, lit: Array.isArray(item.lit) ? item.lit.includes(phase.id) : Boolean(item.lit) })) }),
     ...(phase.herd && !state.over && { herd: { ...placeOf(ground, phase.herd, phase.minutes, into), count: phase.herd.count, moving: specMoving(phase.herd, into), ...(phase.herd.scatter && { scatter: true }) } }),
+    ...(phase.legendScene && !state.over && into >= (phase.legendScene.fromMinute || 0) && ground[phase.legendScene.at]
+      ? { legendScene: { id: phase.legendScene.id, kind: 'tradition', claimId: phase.legendScene.claimId,
+          moment: phase.legendScene.moment, x: ground[phase.legendScene.at].x, y: ground[phase.legendScene.at].y } } : {}),
   };
   // Groups drawn apart from their side (Béxar's divisions in their houses, men on the roofs, a file under the loopholes, the
   // townspeople let out through a breach): each where it stands now, facing what it faces, doing what it does.

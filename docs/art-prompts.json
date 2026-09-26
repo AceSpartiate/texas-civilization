@@ -1294,6 +1294,206 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/icons-gather-stock-carreta.png",
       "postProcessing": "None. Generated PNG copied unchanged; alpha atlas measured during build.",
       "review": "Eight distinct readable icon subjects; carcasses represented by wrapped food without gore; carreta has solid wheels."
+    },
+    {
+      "sheet": "famous-crockett",
+      "promptId": "frontier-v1/famous-crockett",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: historical-scene. Production square 4x4 transparent PNG sprite atlas using C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-vertical.png as style/camera/scale reference only. David Crockett, original historically plausible interpretation: mature white frontiersman, tan hunting frock, felt brimmed hat rather than raccoon-tail myth cap, long flintlock. Same person in 4x4 transparent miniature atlas: four east walking footfalls; two south and two north walks; idle, listening, speaking, command; aim, recoil without smoke, reload, seated rest. Muted hand-painted storybook style, ink-brown outlines, generous alpha gutters, no gore or dying pose.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-vertical.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bf0af831-8877-4d58-8bfc-ded922963da9.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-crockett.png",
+      "postProcessing": "None. Generated PNG copied unchanged; alpha and all reading-order cells validated by atlas build.",
+      "review": "Consistent hunting-frock identity; rifle remains inside every cell. Capture and disputed fate staging require separate art."
+    },
+    {
+      "sheet": "famous-travis",
+      "promptId": "frontier-v1/famous-travis",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: historical-scene. Production square 4x4 transparent PNG sprite atlas using C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-vertical.png as style/camera/scale reference only. William Barret Travis, original historically plausible interpretation: young white officer in weathered navy frock coat, modest buttons, dark hat, cream shirt. Same person in 4x4 transparent miniature atlas: four east walking footfalls with dispatch; two south and two north walks; idle, speaking, command, writing at compact field desk; ready, aim, recoil without smoke, wounded kneel without blood. Muted hand-painted storybook style, ink-brown outlines, generous alpha gutters.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-vertical.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c8733eb5-c119-4f7f-b25d-3030b0814a4d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-travis.png",
+      "postProcessing": "None. Generated PNG copied unchanged; alpha and all reading-order cells validated by atlas build.",
+      "review": "Dispatch and command poses are distinct; wound is non-graphic and not a claim about precise appearance."
+    },
+    {
+      "sheet": "famous-bowie",
+      "promptId": "frontier-v1/famous-bowie",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: historical-scene. Production square 4x4 transparent PNG sprite atlas using C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-vertical.png as style/camera/scale reference only. James Bowie, original historically plausible interpretation: middle-aged white frontiersman with beard, olive hunting coat, plain hat, sheathed knife. Same person in 4x4 transparent miniature atlas: four east walking footfalls; two south and two north walks; idle, speaking, command, unwell leaning; seated on low cot, lying ill under blanket, lying still, supported rising. No knife fight or invented final death. Muted hand-painted storybook style, ink-brown outlines, generous alpha gutters.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-vertical.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-49a228a7-b7a5-4226-bc96-886a7caca360.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-bowie.png",
+      "postProcessing": "None. Generated PNG copied unchanged; alpha and all reading-order cells validated by atlas build.",
+      "review": "Cot and blanket fit their cells; still-bed is deliberately ambiguous about Bowies disputed final moments."
+    },
+    {
+      "sheet": "famous-emily-west",
+      "promptId": "frontier-v1/famous-emily-west",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "prompt": "Edit the yellow-dress Emily D. West 4x4 atlas, preserving all sixteen poses, face, skin tone, yellow period dress, props, proportions, camera angles and transparent gutters. Remove the cream headwrap entirely in every cell, revealing elegant uncovered dark natural hair in a period-appropriate braided updo with soft temple curls. Keep her poised and beautiful without sexualization or caricature. No added people, scenery, labels or matte. The yellow dress and uncovered hairstyle are owner-chosen, legend-inspired visual interpretation, not a documented clothing claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-31ac96f1-5f91-4292-a151-016a3afc93d7.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-46901953-f2bf-41fc-af06-6c21de236068.png",
+      "sourceLineage": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-8a4f3a59-90ba-44bd-b0da-d9686dae6aab.png",
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-31ac96f1-5f91-4292-a151-016a3afc93d7.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-emily-west.png",
+      "postProcessing": "None. Generated PNG copied unchanged; alpha and all reading-order cells validated by atlas build.",
+      "review": "Uncovered braided updo and yellow dress are consistent across all sixteen views; identity and work/conversation poses remain recognizable."
+    },
+    {
+      "sheet": "famous-santa-anna",
+      "promptId": "frontier-v1/famous-santa-anna",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: historical-scene. Production square 4x4 transparent PNG sprite atlas using C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-vertical.png as style/camera/scale reference only. Antonio López de Santa Anna, respectful historically plausible original interpretation: adult Mexican man in restrained navy 1830s general uniform, cream trousers, cap. Same face in 4x4 transparent miniature atlas: four east walking footfalls; two south and two north walks; uniformed idle, speaking, command, studying a map; then four capture-day poses in plain brown private soldier coat: walk, unarmed stand, exhausted sit, seated speaking. Muted hand-painted storybook style, ink-brown outlines, generous alpha gutters; no stereotype or gore.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-vertical.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2e202281-0450-461a-a00e-19d660ef8152.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-santa-anna.png",
+      "postProcessing": "None. Generated PNG copied unchanged; alpha and all reading-order cells validated by atlas build.",
+      "review": "General uniform and plain-clothes capture are visually distinct while retaining one face."
+    },
+    {
+      "sheet": "famous-houston",
+      "promptId": "frontier-v1/famous-houston",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: historical-scene. Production square 4x4 transparent PNG sprite atlas using C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-vertical.png as style/camera/scale reference only. Sam Houston, historically plausible original interpretation: tall adult white man with dark hair and beard, brown officer coat, green waistcoat, cream trousers, brimmed hat. Same person in 4x4 transparent miniature atlas: four east walking footfalls; two south and two north walks; idle, speaking, command, studying map; then seated with bandaged ankle, speaking while injured, lying at rest, standing with cane. Muted hand-painted storybook style, ink-brown outlines, generous alpha gutters; no blood.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-vertical.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-58f9935f-d6db-4db8-81ee-66759ee647e5.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-houston.png",
+      "postProcessing": "None. Generated PNG copied unchanged; alpha and all reading-order cells validated by atlas build.",
+      "review": "Camp command and bandaged-ankle aftermath poses retain the same face and outfit."
+    },
+    {
+      "sheet": "famous-emily-west-picnic",
+      "promptId": "frontier-v1/famous-emily-west-picnic",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "2x2 transparent companion atlas of Emily D. West, matching famous-emily-west: same uncovered braided updo, yellow 1830s dress and face. Seated at the right of a small camp picnic table, facing left: listen, speak, light laugh, look toward distant guns. Same table, chair, covered dish and cups in all frames. Later disputed legend; no sexualization or other people.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-emily-west.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7e9d6a3d-012a-41bf-b4bd-d3fa453c3c48.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-emily-west-picnic.png",
+      "postProcessing": "None. Copied unchanged; alpha and cells measured by atlas builder.",
+      "review": "Four distinct, identity-preserving seated poses; table remains at a stable relative position."
+    },
+    {
+      "sheet": "famous-santa-anna-picnic",
+      "promptId": "frontier-v1/famous-santa-anna-picnic",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "2x2 transparent companion atlas of Santa Anna, matching famous-santa-anna: same face and 1830s general uniform. Seated facing right in camp chair with cup: listen, speak with restrained laugh, notice distant noise, rise toward distant cannon fire. No table, other person, gore or backdrop. Later disputed legend; artist interpretation.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-santa-anna.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7b935d15-9325-4bc7-b0fa-d78cd52cf6ff.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-santa-anna-picnic.png",
+      "postProcessing": "None. Copied unchanged; alpha and cells measured by atlas builder.",
+      "review": "Three seated/reaction stages and a rise, same uniform and face; cup stays inside each cell."
+    },
+    {
+      "sheet": "famous-picnic-props",
+      "promptId": "frontier-v1/famous-picnic-props",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "2x2 genuinely transparent period camp picnic props in warm outlined storybook style: canvas command tent with open flap; striped wool blanket; modest open wicker provisions basket with covered bread, fruit and crockery; clay jug, tin cups and covered plate. Four independent ground-anchored sprites, no people, text, grid, modern goods or opulent banquet.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/transport.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-8caead6b-1688-4028-b3b9-48fcdc864b42.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-picnic-props.png",
+      "postProcessing": "None. Copied unchanged; alpha and cells measured by atlas builder.",
+      "review": "Tent, blanket, basket and jug/cups are clean, separate props for the optional legend scene."
+    },
+    {
+      "sheet": "famous-seguin",
+      "promptId": "frontier-v1/famous-seguin",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Production transparent 4x4 historical game atlas of Juan Nepomuceno Seguín, respectful original Tejano interpretation in dark indigo jacket, cream shirt, tan trousers and plain hat. Match reference hand-painted miniature style. Row 1 four east walks; row 2 two south and two north walks; row 3 idle, listen, speak, command; row 4 mounted courier east and south, standing with dispatch, walking with dispatch. One consistent person and generous alpha gutters; no gore, text, scenery or portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-emily-west.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a4e4e860-3665-4af9-aa48-acbf7b0e737a.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-seguin.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Consistent face and outfit, directional walking and two horse views; mounted views are key poses, not yet a complete horse gait cycle."
+    },
+    {
+      "sheet": "famous-susanna-dickinson",
+      "promptId": "frontier-v1/famous-susanna-dickinson",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Production transparent 4x4 atlas of Susanna Dickinson, original interpretation in faded rust-brown 1830s dress, cream apron and bonnet. Match reference miniature style. Row 1 four east walks; row 2 two south and two north walks; row 3 idle, listen, speak firmly, bandaging; row 4 shelter low with her toddler Angelina, hold Angelina, walk carrying her and a folded blanket, seated exhausted with Angelina asleep. Same mother and toddler in all paired poses; wide alpha gutters, no gore, extra people, scenery, text or portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-emily-west.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-923f9031-9d63-457f-bcc8-ed4aaecec146.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-susanna-dickinson.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Mother remains identifiable in every view; four composite mother-and-child poses support shelter, evacuation and survivor scenes."
+    },
+    {
+      "sheet": "famous-angelina-dickinson",
+      "promptId": "frontier-v1/famous-angelina-dickinson",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 2x2 atlas of Angelina Dickinson, a toddler around fifteen months old in March 1836. Match Susanna Dickinson atlas: same chestnut-haired child, cream smock and rust blanket. Four distinct separate poses: sitting awake, reaching to mother, careful eastward toddler step, sleeping in blanket. Warm outlined historical storybook style; no mother or other person, backdrop, text, battle or gore.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-923f9031-9d63-457f-bcc8-ed4aaecec146.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f738cd45-d3c5-4a79-a868-f7251a1b6f41.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-angelina-dickinson.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Toddler scale and identity match the composite mother-and-child poses. No full toddler walk cycle is claimed."
+    },
+    {
+      "sheet": "famous-milam",
+      "promptId": "frontier-v1/famous-milam",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 historical game atlas of Benjamin Rush Milam, original interpretation as mature weathered frontiersman in brown coat and felt hat, matching the hand-painted reference. Four east walks; two south and two north walks; idle, speaking, rallying, pointing into town; crouch behind masonry cover, step forward with rifle, non-graphic falling, lying still. Consistent identity, individual transparent cells with wide gutters; no gore, text or scenery.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-crockett.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-30c2166f-4eb8-4055-a928-47890d9c2981.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-milam.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Rallying and urban-battle key poses support the staged Béxar sequence; fall and still are non-graphic. The existing battle date and sourced words remain authoritative."
+    },
+    {
+      "sheet": "famous-fannin",
+      "promptId": "frontier-v1/famous-fannin",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 historical game atlas of James Walker Fannin Jr., original interpretation in dark green-blue 1830s field coat, cream shirt, tan trousers and plain hat, matching the hand-painted reference. Four east walks; two south and two north walks; idle, map, command, speaking; cover by wagon wheel, seated with bandaged leg, standing surrender with visible hands, seated prisoner. Consistent face and clothes, wide alpha gutters; no guards, depicted execution, gore, text or scenery.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-travis.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c92dc470-d5bf-4945-a593-b0a61ded0cdd.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-fannin.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Map, wound, surrender and captivity poses support Coleto and Goliad scenes without depicting an execution or deciding when a family learns the outcome."
     }
   ]
 }
