@@ -399,8 +399,8 @@ choice made inside a visible risk. The hidden stats stay hidden; the house's own
 
 ## 7. What the parents look like, and the children after them
 
-- **After the roll, the student chooses each parent's appearance**: skin tone from a range, hair colour,
-  and a clothing colour; a hat or beard for a man, a bonnet or pinned hair for a woman.
+- **After the roll, the student chooses each parent's appearance**: skin tone, hair colour,
+  clothing colour and headwear or hair style from the choices in `sim/appearance.mjs`.
 - **Children are generated from the parents**, deterministically from the seed: skin tone within the range
   between the parents (or the lone parent's), hair colour from one parent, clothing from the family's
   colours. A student may not set a child's appearance directly — the owner's direction.
@@ -408,23 +408,20 @@ choice made inside a visible risk. The hidden stats stay hidden; the house's own
   a rule, tested the way glory's blindness is: the same class with different appearances plays out the same.
   VISION.md §15 and HISTORY.md's representation rules apply: DeWitt's colony and its neighbours were not a
   single people, and nothing about a person may be inferred from how they look.
-- **Art:** the current figures are baked colour PNGs, so appearance needs **layered people sheets** — body
-  and skin, hair, beard or bonnet, clothing as separate aligned layers, or palette-swappable regions — for
-  the whole cast including the requested children. That is a new request to Astra.
-- **Stand-in:** the choices are stored and shown in the family book as words ("dark hair, rust shirt"), and
-  the figure is still chosen by sex and age; marked `stand-in:` and listed in `docs/ART_REQUESTS.md`.
+- **Art:** the procedural layers in `public/avatar-art.js` now keep family portraits and map figures
+  aligned. Painted layered people sheets remain a request for the full cast and pose set in `docs/ART_REQUESTS.md`.
 
 ### 7.1 As built (2026-09-16)
 
 `sim/appearance.mjs`, `public/appearance.js`; claim `FIC-GONZ-036`. Tests `tests/appearance.test.mjs` (four, fourteen injected regressions each caught); browser proof `npm run test:looks` ([record](evidence/looks-browser.json)).
 
-- **The choices** are words: skin fair, light, olive, tan, brown, dark brown, deep brown (ordered, so *between the parents* has a meaning); hair black, dark brown, brown, auburn, red, fair, grey; clothes rust, indigo, ochre, teal, butternut, grey, cream; a hat or a beard for a man, a bonnet or pinned hair for a woman. Every choice is offered to every family, whatever its names.
+- **The choices** are the ordered `SKIN`, `HAIR`, `CLOTHING` and `HEAD` lists in `public/look-vocabulary.js`, re-exported by `sim/appearance.mjs`. The skin order gives *between the parents* a meaning. Every choice is offered to every family, whatever its names.
 - **Chosen** with the action `set-appearance` (`entityId` and any of `skin`, `hair`, `clothing`, `head`), part by part, in the lobby or while the class runs. Refused before the roll (the people are about to be replaced), for a child (*takes after their parents*), for anybody not of this family, and for anything not on offer. It writes no event: how somebody looks is not something that happened, and so choosing never blocks the roll.
 - **Stored** as `entity.appearance` on a parent only once chosen. An unchosen part is dealt from the seed and the person's id; grey hair is only dealt to a parent of forty or more. A child is derived every time from the parents as they now are: a skin tone within the parents' range (the lone parent's own), hair from one parent (the other's if one is grey, dark brown if both are), clothes in one parent's colour. `validateWorld` refuses a stored choice that is not on offer, or one on a child. No save version moved; a class saved before this has looks for everybody.
 - **Shown** in the family book under *How we look*: a parent's words and four menus that save as they change, with no button; a child's words and *Takes after their parents*. Served in `familyProjection` as `appearance`, `looks`, and for a parent `choices` and `chosen`.
 - **Inert.** Nothing in the simulation reads it. The test plays the same class with every parent at the lightest choices and again at the darkest, strips the appearance, and compares the two worlds byte for byte; an injected rule that made helping cheaper for one skin tone was caught by it.
 
-`stand-in:` the figure on the map is still chosen by sex and age; the looks show only in words. The layered people sheets that replace it are written out in `docs/ART_REQUESTS.md`. `ceiling:` one draw per child is all the inheritance there is, and grey hair is treated as age rather than colour.
+`stand-in:` the procedural avatar in `public/avatar-art.js` now draws each family's chosen or inherited skin, hair, clothing and headwear in the chooser, panel portrait, walking figure, work pose, and composed wagon/horse seat. It uses the same layers in all three views; the authored cast sheets remain for people without family appearance. Map projections carry a packed numeric `a` code, decoded by the client, so the larger cast does not bloat every tick; saved appearances and the family book remain readable words. A future painted layered sheet can replace the procedural drawing without changing the saved words or simulation. `ceiling:` one draw per child is all the inheritance there is, and grey hair is treated as age rather than colour.
 
 ---
 

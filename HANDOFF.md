@@ -4213,3 +4213,17 @@ The pattern is worth naming, because it will happen again: **an injection harnes
 runs when somebody runs it, it reports a number either way, and a pattern that has drifted from the code it points at
 fails *open*. Two defences are now in every harness here - the `ends` helper for CRLF, and a throw when a pattern does
 not match exactly once - and the second is what found four of these five.
+
+**Parent appearance redesign, 2026-09-26.** The mother and father chooser is now a wider portrait studio with a live
+preview, clearer one-time-choice explanation, and more skin, hair, clothing and headwear options. The same
+`public/avatar-art.js` layers draw the chosen portrait, family-panel face and live animated map figure; children use
+their inherited colours. Visible other-family members and the Host receive only the public appearance fields in their
+map projections. To keep thirty-family classroom updates within their existing bounds, the live map sends a packed
+numeric `a` code; `decodeAppearance` expands it on receipt. `public/look-vocabulary.js` is the shared ordered
+source for the server and browser, and `public/looks-art.js` supplies its colours. The family rules and saved four-part appearance shape
+remain unchanged, so prior choices remain valid.
+The avatar composes into wagon and horse seats and uses a working pose in battle. The existing painted cast remains for
+people without a family appearance. Future painted replacement art should cover the full pose and option matrix; see
+`docs/ART_REQUESTS.md`. Tests: `node --test tests/appearance.test.mjs`, `npm run test:looks`, and
+`npm run test:creation`, `npm run test:creation-screen` (1366×768, 1024×768, 390×844),
+`npm run test:movement`, and `npm test` (1,338 passing).

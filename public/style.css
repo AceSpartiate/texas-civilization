@@ -926,6 +926,34 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
    separation is the scrolling list's own bottom padding as well as this margin, so a row scrolled to the fold keeps
    its distance too. */
 #looks-done{flex:none;margin-top:14px;width:100%;min-height:44px}
+/* A portrait studio: the chosen parent stays visible while the four groups scroll. */
+#looks{width:min(790px,calc(100% - 24px));background:linear-gradient(135deg,#fff8e8 0%,#eee0bc 100%);border:2px solid #8e704b;box-shadow:0 12px 48px #1d1b16a8;padding:18px 22px 20px}
+#looks h2{font-family:Georgia,serif;font-size:clamp(23px,2.6vw,30px);margin:2px 0 5px}
+#looks-step{border-bottom:1px solid #cbb78c;padding-bottom:8px}
+#looks-top{align-items:stretch;gap:18px;margin-bottom:8px}
+#looks-preview{width:160px;height:160px;border:3px solid #6e563b;border-radius:3px;box-shadow:0 3px 0 #bba678;image-rendering:auto}
+#looks-figure{width:112px;height:160px;border:3px solid #6e563b;border-radius:3px;box-shadow:0 3px 0 #bba678;flex:none}
+.looks-intro{display:flex;flex-direction:column;justify-content:center;gap:8px;max-width:27rem}
+.looks-intro strong{font-family:Georgia,serif;font-size:18px;color:#493824;line-height:1.2}
+#looks-note{font-size:13.5px;line-height:1.5}
+#looks-parts{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;align-content:start;padding-right:4px}
+.looks-part{margin:6px 0 2px;border-top:1px solid #d5c39e;padding-top:7px}
+.looks-part legend{font-family:Georgia,serif;font-size:16px;color:#4b3925;padding-right:7px}
+.looks-options{gap:9px}
+.looks-option{width:72px;padding:3px 3px 5px;min-height:82px;background:#fff9e9;border:2px solid #c4ae84;box-shadow:0 2px 0 #c4ae84;font-size:11px;cursor:pointer}
+.looks-option canvas{width:54px;height:54px}
+#looks .looks-option[aria-pressed=true]{background:#e6efd9;border-color:#4b704b;box-shadow:0 0 0 2px #80a372}
+#looks-done{background:#4d6046;color:#fff7df;border-color:#36503a;font-weight:700;font-size:16px}
+@media(max-width:660px){
+  #looks{padding:12px 13px;max-height:calc(100% - 16px)}
+  #looks-preview{width:92px;height:92px}
+  #looks-figure{display:none}
+  .looks-intro{gap:2px}
+  .looks-intro strong{font-size:14px}
+  #looks-note{font-size:11.5px}
+  #looks-parts{grid-template-columns:1fr;gap:2px}
+  .looks-option{width:67px}
+}
 #family-kin .kin-row{padding:4px 0;border-bottom:1px solid #ddcda3;list-style:none}
 
 /* The curtain over the whole page while a family is made (public/creation.js): the scene, the game's name, and whichever step

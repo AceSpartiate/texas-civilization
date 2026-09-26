@@ -38,7 +38,7 @@ does not have:
 | Whole jacal stage sprites; `lean-to` shed frame; the double chimney drawn with the single stick-and-mud chimney's picture (`house-chimney-stick`; until 2026-09-24 a flat rectangle, whose width let the far pen's door show either side of it at 90 and 270 degrees). Since 2026-09-24 the saddlebag's two pens stand one behind the other along their ridge at every turn, and it stands at the middle between the far pen's front gable and the near pen's back gable, `DOUBLE_RISE` (2.7) high so that it hides the far pen's door whole, its foot behind the near pen's roof (until then, at 0 and 180 degrees behind both pens' back gables, and at 90 and 270 brought `DOUBLE_TOWARD` toward the near pen); no separate interior floor/loft display | `drawHousePlot` and `standChimneys` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney (two-sided, its foot marked), and separately registered floor and loft overlays |
 | Generic `chapel` and `adobe-flat` silhouettes represent San Fernando and the Governor's Palace | `public/bexar-layout.js` | Request 2026-09-14 — Béxar civic architecture | Researched 1836 civic façades in the existing illustrated style |
 | A child in an unavailable action pose is a grown figure drawn smaller (90% at 10–17, 70% at 5–9, 55% at 2–4, 45% an infant). Idle, cardinal walking, rest and injured-rest use delivered `girl`, `boy`, `smallchild` and `infant` art | `CHILD_POSES` and `entityClip` in `public/motion.js` | Request 2026-09-12, priority 1 — children | Any later child-specific action poses. **Keep the scaling**: the delivered sheets fill their cells and need it |
-| A person's appearance - a parent's chosen, a child's taken after the parents - is shown only in words in the family book ("olive skin, black hair, rust clothes, a beard"); the figure on the map is still chosen by sex and age | `public/appearance.js`, `sim/appearance.mjs` | Request below — layered people art | Layered or palette-swappable sheets for the whole cast |
+| A family's appearance is now shown in the chooser, panel portrait and animated map figure by one procedural layered renderer; painted cast sheets still cover people without family appearance | `public/avatar-art.js`, `public/appearance.js`, `sim/appearance.mjs` | Request below — painted layered people art | Painted layered or palette-swappable sheets for the whole cast, with the same appearance vocabulary and pose coverage |
 | A saddlebag house's interior is drawn on the dog-run's picture (`interior-dog-run`, drawn wide), with its own ten spots measured there — by each hearth at the outer ends where that picture draws them, each back wall, window, pen and door — and nothing set in the passage the picture shows | `INTERIORS.saddlebag` in `sim/interior-data.mjs`, drawn by `public/interior.js` | Request 2026-09-12 (second) — interiors and furnishings: a saddlebag interior | `interior-saddlebag`; re-measure the spots on it, the hearths at the central chimney |
 | Thirteen tree kinds use delivered species art: pine, longleaf, cedar, mesquite, live oak, elm, post oak, blackjack, pecan, hackberry, sweetgum, bald cypress and sabal palm. Magnolia and beech have medium and large frames. Shortleaf shares loblolly art; the other oaks (water, bur, white, Texas) take the post oak's, and hickory, walnut and ash the pecan's | `KINDS` picture and optional per-size `pictures` in `sim/woods.mjs`, drawn by `drawGroundDetail` in `public/app.js` | Delivered through `biome-trees-fields.png`, 2026-09-22 | Shortleaf and species-specific later breadth |
 | **A child** riding the family horse is their own figure's idle pose (`seatedClip`), facing the way they go, cut off below the waist and drawn over the back of the family's walking horse (`horse-walk`, `-n`, `-s`); the horse is not drawn again. Everybody grown or adolescent came off this row on 2026-09-21: all eight identities are Astra's own painted horse-and-rider now (`RIDING_FIGURES`), drawn as one frame at the rider's height with no horse under it | `seatOf`, `seatedClip`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js` | Request 2026-09-14 — family members on horseback | `girl`, `boy`, `smallchild` and `infant` mounted on the family's chestnut, east/south/north as the eight have |
@@ -135,7 +135,7 @@ can never be mistaken for hers:
 | Request 2026-09-15 — face portraits for the family panel | `claude-portraits.png`: `portrait-rust`, `portrait-teal`, `portrait-elder`, `portrait-blue`, `portrait-rust-woman`, `portrait-indigo`, `portrait-ochre`, `portrait-blue-girl`, `portrait-girl`, `portrait-boy`, `portrait-smallchild`, `portrait-infant` | `drawPortrait` in `public/family-panel.js` (draws `portrait-<figure>` for the figure `figureOf` (public/motion.js) chooses; without one it still crops the idle clip, the older stand-in) | Twelve head-and-shoulders portraits at 192 by 192 matching the sheet figures exactly; Claude's are one parameterised drawing dressed after each figure and are the first to replace |
 | Request 2026-09-17 — the armies on the map (owner: "there was no army. they were just off in the middle of no where") | Not a sheet: the tents, the fire and the flag are drawn in canvas by public/army-view.js; the men are the militia and regular figures the battles already use | public/app.js draws each army the server sends (sim/armies.mjs): a camp with its men close up, a flag far off | A camp: three or four wedge tents, a cook fire with a pot, stacked arms and a colour on a pole, at 192 by 192, in the map art's own light; then drawArmy lays her sprites down instead of its strokes |
 | Request 2026-09-17 — the title screen (owner, 2026-09-17: "a professional game introduction experience") | Not a sheet: drawn in canvas by `drawIntroScene` in `public/intro-art.js` (a Texas evening looking east: sky, hills, timber, a river, a cabin with its chimney, the wagon and ox, a rail fence, the family in the grass) | `public/creation.js`: the scene behind the title "Family: Texas 1835/36" and every step of making a family | One painting of that view, 1600 by 900 or larger, that can be cropped to any screen shape, with the lower third quiet enough for the cards to read over it; `drawIntroScene` is then one `drawImage` |
-| Request 2026-09-12 (second) — layered people: the How We Look pop-up (owner, 2026-09-17) | Not a sheet: drawn in canvas strokes by `drawLooks` in `public/looks-art.js` (a head and shoulders with the skin, hair, clothes and hat, beard, bonnet or pinned hair chosen; colours in `SKIN_COLOURS`, `HAIR_COLOURS`, `CLOTHING_COLOURS`) | `public/appearance.js`: the preview (`#looks-preview`, 160 by 160) and one 64 by 64 picture on every choice | Layered head-and-shoulders parts at 192 by 192 (a base head per sex, skin, hair and clothing tinted or one frame per colour, and the four head pieces) so the pop-up draws her layers; when they land, `drawLooks` is replaced and the colour tables go |
+| Request 2026-09-12 (second) — layered people: the How We Look pop-up (owner, 2026-09-17) | Procedural, appearance-driven figure in `public/avatar-art.js`; palette in `public/looks-art.js` | `public/appearance.js`: full preview, each option, live family portrait and walking figure now agree | Painted layers must cover every choice in `sim/appearance.mjs` and idle, walk, work, combat and seated poses; retain the shared appearance object so old saves and the preview stay in sync |
 | Request 2026-09-12 (second) — interiors and furnishings: the wagon's tools | `claude-home-tools.png`: `home-hoe`, `home-felling-axe`, `home-broadaxe`, `home-froe`, `home-auger` | `INTERIOR_ART` `tool:*` in `sim/interior-data.mjs`, drawn by `public/interior.js` (the long-handled tools still drawn larger) | The five tools in the `home-furnishings` style and scale, standing or leaning as in a cabin |
 
 **Not attempted, still on the nearest library art** (each needs animation sheets or whole buildings in Astra's painted
@@ -1051,21 +1051,23 @@ legs astride and no hands on the reins.
 into this request when that chapter's build reaches them, in the contract format of the request below.
 
 - **Layered people.** Students now choose what parents look like (skin tone, hair colour, clothing colour,
-  hat, beard, bonnet or pinned hair), and children take after their parents. Baked-colour figures cannot
-  show that. Needed: the cast — adults, adolescents and the requested children — drawn as aligned layers
+  and headwear or hair style), and children take after their parents. The procedural avatar in
+  `public/avatar-art.js` displays those choices consistently today. Needed: a painted replacement for
+  the cast — adults, adolescents and children — drawn as aligned layers
   (body and skin, hair, facial hair or head covering, clothing), or with clean flat colour regions a
   renderer can swap, across idle, walk, vertical and task sheets.
 
-  **Written out 2026-09-16 for step 8, which is built and drawing the stand-in** (`sim/appearance.mjs`, `public/appearance.js`).
+  **Updated 2026-09-26 for the live appearance-driven renderer** (`public/look-vocabulary.js`,
+  `sim/appearance.mjs`, `public/appearance.js`, `public/avatar-art.js`).
   What a student can now choose, and so what the art must be able to show:
 
   | Part | Choices (the server's words, `SKIN`, `HAIR`, `CLOTHING`, `HEAD` in `sim/appearance.mjs`) |
   | --- | --- |
-  | Skin | fair, light, olive, tan, brown, dark brown, deep brown |
-  | Hair | black, dark brown, brown, auburn, red, fair, grey |
-  | Clothes | rust, indigo, ochre, teal, butternut, grey, cream |
-  | A man | a hat, or a beard (bareheaded) |
-  | A woman | a bonnet, or hair pinned up |
+  | Skin | fair, light, warm light, olive, tan, copper, brown, dark brown, deep brown |
+  | Hair | black, dark brown, brown, chestnut, auburn, red, sandy, fair, grey |
+  | Clothes | rust, indigo, ochre, teal, butternut, grey, cream, forest, clay, plum, navy |
+  | A man | felt hat, beard, bareheaded, hat and beard, moustache, straw hat |
+  | A woman | bonnet, pinned hair, braid, loose hair, headscarf, straw hat |
 
   Children take a skin, hair and clothes colour after their parents and wear nothing on their heads.
 
@@ -1075,9 +1077,9 @@ into this request when that chapter's build reaches them, in the contract format
     `<sheet>--<layer>.png`, every layer registered pixel for pixel with the others:
     `--line` (contours, and all shading as greyscale darkening, no hue), `--skin`, `--hair`, `--clothes` (each a
     greyscale value mask of only that region, light where lit, which the renderer tints), and the head items
-    `--hat`, `--beard`, `--bonnet`, `--pinned` (each fully coloured and drawn over the hair where it covers it).
-    Transparent RGBA; no painted checkerboard, text, borders or shadows. A woman's row carries `--bonnet` and
-    `--pinned`, a man's `--hat` and `--beard`, a child's none.
+    `--hat`, `--beard`, `--moustache`, `--straw-hat`, `--bonnet`, `--pinned`,
+    `--braid`, `--loose`, and `--headscarf`. Hat and beard are composable together.
+    Transparent RGBA; no painted checkerboard, text, borders or shadows. A child has no head option.
   - **One figure per sex and age band, not one per identity:** a man, a woman, an adolescent girl, an adolescent
     boy, and the girl, boy and small child already drawn. The identities in the second-cast request become
     unnecessary once layers exist; identity comes from the chosen colours.
@@ -1086,9 +1088,11 @@ into this request when that chapter's build reaches them, in the contract format
   - **Tints are the renderer's**, from the words above; the art carries no colour in `--skin`, `--hair` or
     `--clothes`. Draw the masks so that a mid-grey tint reads as a believable mid tone and the lightest and darkest
     choices both keep their shading.
+  - **Pose coverage:** idle, directional walking, ordinary work, battle action, seated horse and wagon,
+    and reclining/fallen; every option must remain recognizable at map scale and in the family portrait.
   - **What Claude wires on delivery:** a tinting pass in `public/art.js` that composites line over tinted masks per
-    person, cached per appearance so a class of thirty is not recoloured every frame; `castVariant` in
-    `public/motion.js` chooses the figure by sex and age band only; the words in the family book stay.
+    person, cached per appearance so a class of thirty is not recoloured every frame. Replace the procedural
+    layers in `public/avatar-art.js` without altering `entity.appearance`, its projection, or saved choices.
 - **Houses — exteriors, written out 2026-09-13 for step 4, which is built and drawing stand-ins.** Needed for
   the map, at homestead scale, in the frontier-v1 style and the same projection and footprint as `cabin-small`
   (the renderer draws them at the size it draws a cabin now, anchored at the base centre):
