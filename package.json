@@ -71,6 +71,7 @@
     "measure:screen": "node scripts/screen-measure.mjs",
     "test:creation-screen": "node scripts/creation-screen-proof.mjs",
     "study:creation": "node scripts/creation-overlap-study.mjs",
-    "test:panels": "node scripts/panels-browser-proof.mjs"
+    "test:panels": "node scripts/panels-browser-proof.mjs",
+    "test:gonzales-town": "node scripts/gonzales-town-browser-proof.mjs"
   }
 }

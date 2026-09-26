@@ -30,6 +30,7 @@ import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
 import { childAction, childrenInvalid } from './children.mjs';
 import { hostLiveProjection } from './host.mjs';
 import { advanceTown, createTownspeople, observedBy, seenAs } from './town.mjs';
+import { helpTownScene, townScenesFor } from './town-scenes.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, listeningOf, riderName, spotName } from './encounters.mjs';
@@ -870,6 +871,8 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   if (input.action === 'set-auto') { setAuto(world, household, entity, input.auto); return; }
   // Somebody who has joined the army, the garrison or the expedition is in one place until the family sends for them (sim/winter.mjs).
   if (entity.service?.status === 'serving' && !SERVING_ACTIONS.includes(input.action)) throw new Error(servingWhy(world, entity));
+  // Lending a hand in Gonzales before the fight, with the flag or with the cannon (sim/town-scenes.mjs, `FIC-GONZ-412`).
+  if (input.action === 'town-help') { helpTownScene(world, household, entity, String(input.scene || '')); return; }
   if (input.action === 'winter-recall') { recallFromService(world, household, entity, { beginTravel, modeWith }); return; }
   // The army's questions to a man with Houston (sim/camp.mjs): leaving after the word of Goliad, the fork of the road.
   if (input.action === 'houston-answer') { answerCampQuestion(world, household, entity, String(input.question || ''), String(input.answer || ''), { beginTravel, modeWith }); return; }
@@ -1190,6 +1193,10 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     weather: weatherOn(world),
     ...(lesson && { lesson }),
     ...(lessonResume && { lessonResume }),
+    // Gonzales in the days before the fight (sim/town-scenes.mjs): what the town is doing and saying now, sent only while
+    // one of this family is standing where it can be seen, and to the Host. Absent otherwise, which is also a class saved
+    // before it existed.
+    ...townScenesView(world, householdId, role),
     // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
     ...(world.army && householdId ? { army: armyProjection(world, householdId) } : {}),
     // The armies standing in the country, as far as this page may know of them (sim/armies.mjs): the page draws their camps
@@ -1213,6 +1220,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   // not one byte of the text (docs/PERFORMANCE_SERVER.md; tests/save-text.test.mjs).
   return copy ? structuredClone(view) : view;
 }
+const townScenesView = (world, householdId, role) => { const townScenes = townScenesFor(world, householdId, role); return townScenes ? { townScenes } : {}; };
 export function validateWorld(world) {
   if (world.schemaVersion !== 3 || !Number.isInteger(world.tick) || world.tick < 0 || !Number.isFinite(world.minute) || world.minute < 0 || !['lobby', 'running', 'paused', 'ended'].includes(world.status)) throw new Error('Invalid world');
   // Absent on every class saved before a second period existed, which were all in the first (sim/periods.mjs).

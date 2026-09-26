@@ -1,0 +1,240 @@
+{
+  "record": "gonzales-town-browser",
+  "date": "2026-09-26",
+  "browser": "153.0.8010.53",
+  "tickMs": 1400,
+  "task": "docs/BATTLES.md §5 step 2: Gonzales before the fight, September 29 - October 2, 1835, watched by a student whose family has a person in the town, with a family on its land and the Host beside it.",
+  "environment": "Same computer: a local classroom server and headless Chrome at 1366x768 and 1024x768. Not a physical LAN, a Chromebook or a classroom.",
+  "checks": [
+    "the student in Gonzales was sent the town's days as they came: 35 beats, from the alarm to the return",
+    "at 481 sampled moments the town's people were doing different things, never all idle (speak, listen, search, idle, carry, walking, ride, work, repair, graze)",
+    "the women were making the flag on September 30 and October 1 (69 samples)",
+    "speech was drawn over the speakers: 640 reconstructed lines, and the one line on record, Clements's refusal, drawn as documented",
+    "people who changed place walked there (ochre-walk, indigo-walk-n, girl-walk, boy-walk-n, indigo-walk, boy-walk, elder-walk, elder-ride-e, volunteer-march, ochre-ride-e, blue-ride-e, teal-walk, blue-walk, ochre-walk-n, elder-walk-n, blue-walk-n, blue-girl-walk-n, dragoon-march, dragoon-march-n, mounted-courier-e, ochre-walk-s, blue-girl-walk-s, girl-walk-n, teal-walk-n, indigo-walk-s, volunteer-march-s); residents walked, at most 1.153 heights a second",
+    "clicking the flag opened its card, told by a person, labelled disputed and tradition, on the screen at 1366 and 1024 and clear of the family (400x507)",
+    "Ezra lent a hand with the cannon from its card, and was drawn at it (repair)",
+    "a family out on its land (hh-2) was sent nothing of the town's scenes",
+    "the Host's page drew the town's scenes too (street-return; 10 people)",
+    "no page error on either page"
+  ],
+  "beats": {
+    "street-alarm": 24,
+    "crossing-hold": 3,
+    "camp-mound": 159,
+    "orchard-hidden": 88,
+    "leaving-load": 7,
+    "crossing-swimmer": 11,
+    "leaving-go": 11,
+    "crossing-night": 69,
+    "street-evening": 16,
+    "muster-night": 64,
+    "street-second-day": 17,
+    "crossing-watch": 17,
+    "orchard-dig": 11,
+    "muster-day": 155,
+    "hiding": 10,
+    "shop-mount": 144,
+    "muster-rider-1": 1,
+    "crossing-reading": 1,
+    "flag-cloth": 69,
+    "street-refused": 1,
+    "crossing-after": 58,
+    "street-gone-up": 84,
+    "crossing-gone": 115,
+    "camp-leaves": 10,
+    "flag-painted": 74,
+    "muster-rider-2": 30,
+    "cannon-to-muster": 31,
+    "flag-carried": 31,
+    "muster-decided": 31,
+    "street-see-them-go": 54,
+    "crossing-over": 38,
+    "muster-march": 7,
+    "street-waiting": 59,
+    "street-word": 58,
+    "street-return": 36
+  },
+  "said": {
+    "reconstructed:gz-townswoman-2": 30,
+    "reconstructed:gz-eighteen-2": 23,
+    "reconstructed:gz-townsman-2": 64,
+    "reconstructed:gz-townswoman-1": 47,
+    "reconstructed:gz-eighteen-3": 89,
+    "reconstructed:gz-family-girl": 2,
+    "reconstructed:town-crandall": 41,
+    "reconstructed:gz-eighteen-1": 100,
+    "reconstructed:gz-girl": 24,
+    "reconstructed:gz-volunteer-1": 27,
+    "reconstructed:gz-volunteer-2": 21,
+    "reconstructed:gz-townsman-1": 88,
+    "reconstructed:town-ibarra": 5,
+    "reconstructed:gz-smith-1": 16,
+    "reconstructed:gz-boy": 5,
+    "reconstructed:gz-smith-3": 33,
+    "documented:gz-clements": 1,
+    "reconstructed:gz-smith-2": 13,
+    "reconstructed:gz-townswoman-3": 3,
+    "reconstructed:gz-townswoman-5": 2,
+    "reconstructed:gz-townswoman-4": 5,
+    "reconstructed:gz-girl-2": 1,
+    "reconstructed:gz-volunteer-3": 1
+  },
+  "walking": {
+    "resident:town-crandall": 328,
+    "ochre-walk": 58,
+    "indigo-walk-n": 31,
+    "girl-walk": 12,
+    "boy-walk-n": 6,
+    "indigo-walk": 26,
+    "boy-walk": 24,
+    "resident:town-ibarra": 36,
+    "resident:town-carpenter": 34,
+    "elder-walk": 15,
+    "elder-ride-e": 78,
+    "volunteer-march": 932,
+    "ochre-ride-e": 39,
+    "resident:town-pike": 34,
+    "blue-ride-e": 40,
+    "teal-walk": 47,
+    "blue-walk": 32,
+    "ochre-walk-n": 2,
+    "elder-walk-n": 2,
+    "blue-walk-n": 2,
+    "blue-girl-walk-n": 18,
+    "dragoon-march": 40,
+    "dragoon-march-n": 4,
+    "mounted-courier-e": 15,
+    "ochre-walk-s": 5,
+    "blue-girl-walk-s": 53,
+    "girl-walk-n": 2,
+    "teal-walk-n": 1,
+    "indigo-walk-s": 1,
+    "volunteer-march-s": 3
+  },
+  "fastestResident": 1.153,
+  "samples": 481,
+  "cards": {
+    "flag": {
+      "opened": true,
+      "scene": "flag",
+      "title": "The flag",
+      "teller": "One of the women at the table tells you:",
+      "text": "GONZALES, September 30\nThe flag\n×\n\nOne of the women at the table tells you:\n\nThe men want a flag to go behind. It is a breadth of white cotton about six feet long, with the cannon painted on it in black and the words under it: \"Come and take it.\" Some want a star over the gun.\n\nThe women of the town have given the cloth.\n\nSTRONGLY SUPPORTED White cotton, a black cannon and the words \"Come and take it\" - as two men who saw it remembered it about 1900. HIST-TEX-468\nDISPUTED When it was made. The Handbook of Texas says a few days before the fight; Noah Smithwick, who saw it, remembered it made for Austin's army later in October. No letter of 1835 mentions a flag. HIST-TEX-468\nDISPUTED Who made it. \"History is silent on the subject\" (Smithwick). Later accounts name Sarah Seely DeWitt and her daughter Eveline, or Eveline DeWitt with Cynthia Burns, or with Caroline Zumwalt, or a committee of five officers with cloth from the women of the town. HIST-TEX-468\nTRADITION That it was cut from the silk wedding dress of Naomi DeWitt, who married that August. The Handbook calls the story apocryphal. HIST-TEX-468\nDISPUTED The star over the gun: some who remembered it drew one, some did not. HIST-TEX-468\n\nThe people drawn here are a picture of the town, not a count of it; what they say is written for the game from what the record says happened. Anything said in a solid box is on record; a dashed box is reconstructed. The women are not named because nobody knows who they were. The game shows the flag made here on these two days because the Handbook puts it at the fight (FIC-GONZ-411).\n\nThe women at the table would take a hand with the cloth.\n\nEzra: Help with the flag\nThe women of the town are making the flag; Ezra could help the men at the blacksmith's instead.",
+      "labels": [
+        "STRONGLY SUPPORTED",
+        "DISPUTED",
+        "DISPUTED",
+        "TRADITION",
+        "DISPUTED"
+      ],
+      "box": {
+        "x": 952,
+        "y": 72,
+        "w": 400,
+        "h": 507
+      },
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "overFamily": false
+    },
+    "flag1024": {
+      "opened": true,
+      "scene": "flag",
+      "title": "The flag",
+      "teller": "One of the women at the table tells you:",
+      "text": "GONZALES, September 30\nThe flag\n×\n\nOne of the women at the table tells you:\n\nThe men want a flag to go behind. It is a breadth of white cotton about six feet long, with the cannon painted on it in black and the words under it: \"Come and take it.\" Some want a star over the gun.\n\nThe women of the town have given the cloth.\n\nSTRONGLY SUPPORTED White cotton, a black cannon and the words \"Come and take it\" - as two men who saw it remembered it about 1900. HIST-TEX-468\nDISPUTED When it was made. The Handbook of Texas says a few days before the fight; Noah Smithwick, who saw it, remembered it made for Austin's army later in October. No letter of 1835 mentions a flag. HIST-TEX-468\nDISPUTED Who made it. \"History is silent on the subject\" (Smithwick). Later accounts name Sarah Seely DeWitt and her daughter Eveline, or Eveline DeWitt with Cynthia Burns, or with Caroline Zumwalt, or a committee of five officers with cloth from the women of the town. HIST-TEX-468\nTRADITION That it was cut from the silk wedding dress of Naomi DeWitt, who married that August. The Handbook calls the story apocryphal. HIST-TEX-468\nDISPUTED The star over the gun: some who remembered it drew one, some did not. HIST-TEX-468\n\nThe people drawn here are a picture of the town, not a count of it; what they say is written for the game from what the record says happened. Anything said in a solid box is on record; a dashed box is reconstructed. The women are not named because nobody knows who they were. The game shows the flag made here on these two days because the Handbook puts it at the fight (FIC-GONZ-411).\n\nThe women at the table would take a hand with the cloth.\n\nEzra: Help with the flag\nThe women of the town are making the flag; Ezra could help the men at the blacksmith's instead.",
+      "labels": [
+        "STRONGLY SUPPORTED",
+        "DISPUTED",
+        "DISPUTED",
+        "TRADITION",
+        "DISPUTED"
+      ],
+      "box": {
+        "x": 610,
+        "y": 72,
+        "w": 400,
+        "h": 507
+      },
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "overFamily": false
+    },
+    "street": {
+      "opened": true,
+      "scene": "street",
+      "title": "The men come back",
+      "teller": "Ruth Crandall, who lives on the commons, tells you:",
+      "text": "GONZALES, October 2\nThe men come back\n×\n\nRuth Crandall, who lives on the commons, tells you:\n\nThey came back this afternoon with the cannon and the soldiers' baggage. The soldiers fired and were fired on, and then went off toward Béxar without the gun.\n\nNot one of ours was lost. People are saying the war has begun.\n\nDOCUMENTED The Mexican detachment withdrew toward Béxar without the cannon. HIST-GONZ-004\nSTRONGLY SUPPORTED The force was back in Gonzales about two in the afternoon of October 2, with the Mexican baggage, \"without losing a man\". HIST-TEX-465\nDOCUMENTED \"The rubicon is crossed\" - William Fisher, writing from Gonzales to Austin on October 3. HIST-TEX-465\n\nThe people drawn here are a picture of the town, not a count of it; what they say is written for the game from what the record says happened. Anything said in a solid box is on record; a dashed box is reconstructed. Ruth Crandall is invented (FIC-GONZ-009).",
+      "labels": [
+        "DOCUMENTED",
+        "STRONGLY SUPPORTED",
+        "DOCUMENTED"
+      ],
+      "box": {
+        "x": 952,
+        "y": 72,
+        "w": 400,
+        "h": 448
+      },
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "overFamily": false
+    }
+  },
+  "help": {
+    "scene": "cannon",
+    "card": "At Sowell's blacksmith shop",
+    "drawn": {
+      "id": "hh-1-thomas",
+      "stepping": "w",
+      "pose": "repair",
+      "x": 1.0654072160617842,
+      "y": -0.767898822090983
+    }
+  },
+  "away": {
+    "householdId": "hh-2",
+    "townScenes": false,
+    "bytes": 15651
+  },
+  "host": {
+    "beats": [
+      "street-return"
+    ],
+    "cast": 10
+  },
+  "screenshots": [
+    "test-results/gonzales-town-alarm.png",
+    "test-results/gonzales-town-alarm-close.png",
+    "test-results/gonzales-town-camp.png",
+    "test-results/gonzales-town-camp-close.png",
+    "test-results/gonzales-town-muster.png",
+    "test-results/gonzales-town-muster-close.png",
+    "test-results/gonzales-town-shop.png",
+    "test-results/gonzales-town-shop-close.png",
+    "test-results/gonzales-town-help-cannon.png",
+    "test-results/gonzales-town-flag.png",
+    "test-results/gonzales-town-flag-close.png",
+    "test-results/gonzales-town-reading.png",
+    "test-results/gonzales-town-reading-close.png",
+    "test-results/gonzales-town-flag-card-1366.png",
+    "test-results/gonzales-town-flag-card-1024.png",
+    "test-results/gonzales-town-over.png",
+    "test-results/gonzales-town-over-close.png",
+    "test-results/gonzales-town-return.png",
+    "test-results/gonzales-town-return-close.png",
+    "test-results/gonzales-town-host.png"
+  ],
+  "notProved": [
+    "One seed, one family, one person in the town. A family that arrives in the middle of a scene, or leaves in the middle of one, is held by tests/town-scenes.test.mjs, not walked here.",
+    "The words are sampled a quarter-second apart at a pace faster than Study; whether a class at Study pace has time to read each line is judged from the slot the page gives a line (2.2 to 4.6 seconds), not measured with readers.",
+    "No physical LAN, no Chromebook, no touch screen, no screen reader."
+  ]
+}

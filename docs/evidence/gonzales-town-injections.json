@@ -1,0 +1,220 @@
+{
+  "record": "gonzales-town-injections",
+  "date": "2026-09-26",
+  "gates": {
+    "unit": "tests/town-scenes.test.mjs",
+    "browser": "scripts/gonzales-town-browser-proof.mjs"
+  },
+  "clean": {
+    "unit": 9,
+    "browser": 10
+  },
+  "after": {
+    "unit": 9,
+    "browser": 10
+  },
+  "injections": [
+    {
+      "gate": "unit",
+      "name": "the town counts its days from a different morning than the director",
+      "file": "sim/town-scenes.mjs",
+      "expect": "the town keeps the director's clock",
+      "caught": true,
+      "failure": "the town keeps the director's clock: nothing before the soldiers come, no word of the fight before the director has it",
+      "failingTests": [
+        "the town keeps the director's clock: nothing before the soldiers come, no word of the fight before the director has it"
+      ]
+    },
+    {
+      "gate": "unit",
+      "name": "a woman of the street is also at the flag table at the same hour",
+      "file": "sim/town-scenes.mjs",
+      "expect": "nobody of the town is in two places at once",
+      "caught": true,
+      "failure": "each scene has one beat at a time, and nobody of the town is in two places at once",
+      "failingTests": [
+        "each scene has one beat at a time, and nobody of the town is in two places at once"
+      ]
+    },
+    {
+      "gate": "unit",
+      "name": "Clements's letter drawn as reconstructed, so a named man is given words the page cannot tell from invention",
+      "file": "sim/town-scenes.mjs",
+      "expect": "only the record puts words in a named mouth",
+      "caught": true,
+      "failure": "only the record puts words in a named mouth; everything else is reconstructed, and every claim is registered",
+      "failingTests": [
+        "only the record puts words in a named mouth; everything else is reconstructed, and every claim is registered"
+      ]
+    },
+    {
+      "gate": "unit",
+      "name": "a flag-maker given a name from the tradition",
+      "file": "sim/town-scenes.mjs",
+      "expect": "only the record puts words in a named mouth",
+      "caught": true,
+      "failure": "only the record puts words in a named mouth; everything else is reconstructed, and every claim is registered",
+      "failingTests": [
+        "only the record puts words in a named mouth; everything else is reconstructed, and every claim is registered"
+      ]
+    },
+    {
+      "gate": "unit",
+      "name": "every family is sent the town, wherever its people are",
+      "file": "sim/town-scenes.mjs",
+      "expect": "a family sees the town only while one of its own is standing there",
+      "caught": true,
+      "failure": "a family sees the town only while one of its own is standing there; the Host sees it all; nothing later is on the wire",
+      "failingTests": [
+        "a family sees the town only while one of its own is standing there; the Host sees it all; nothing later is on the wire"
+      ]
+    },
+    {
+      "gate": "unit",
+      "name": "words put over whoever the line names, whether or not they are there",
+      "file": "sim/town-scenes.mjs",
+      "expect": "every word is put over somebody who is there to say it",
+      "caught": true,
+      "failure": "every word is put over somebody who is there to say it, every hour of the four days",
+      "failingTests": [
+        "every word is put over somebody who is there to say it, every hour of the four days"
+      ]
+    },
+    {
+      "gate": "unit",
+      "name": "the men go over the river without the flag",
+      "file": "sim/town-scenes.mjs",
+      "expect": "the women make the flag on September 30 and October 1",
+      "caught": true,
+      "failure": "the women make the flag on September 30 and October 1, and the men cross with it that night",
+      "failingTests": [
+        "the women make the flag on September 30 and October 1, and the men cross with it that night"
+      ]
+    },
+    {
+      "gate": "unit",
+      "name": "Ruth Crandall kept on her round while the town gathers in the street",
+      "file": "sim/town.mjs",
+      "expect": "the town's invented people go where the town is gathering",
+      "caught": true,
+      "failure": "the town's invented people go where the town is gathering, and back to their round after",
+      "failingTests": [
+        "the town's invented people go where the town is gathering, and back to their round after"
+      ]
+    },
+    {
+      "gate": "unit",
+      "name": "anybody may help at the blacksmith's, a woman included",
+      "file": "sim/town-scenes.mjs",
+      "expect": "a family's own person may lend a hand",
+      "caught": true,
+      "failure": "a family's own person may lend a hand where the record has people doing that work, and the family remembers it",
+      "failingTests": [
+        "a family's own person may lend a hand where the record has people doing that work, and the family remembers it"
+      ]
+    },
+    {
+      "gate": "unit",
+      "name": "a helper sent home is still helping on the road",
+      "file": "sim/town-scenes.mjs",
+      "expect": "a family's own person may lend a hand",
+      "caught": true,
+      "failure": "a family's own person may lend a hand where the record has people doing that work, and the family remembers it",
+      "failingTests": [
+        "a family's own person may lend a hand where the record has people doing that work, and the family remembers it"
+      ]
+    },
+    {
+      "gate": "unit",
+      "name": "the Gonzales scenes played again in the winter",
+      "file": "sim/town-scenes.mjs",
+      "expect": "a class saved before the town had scenes",
+      "caught": true,
+      "failure": "a class saved before the town had scenes, or at any moment in them, opens where the town was; no save version moved",
+      "failingTests": [
+        "a class saved before the town had scenes, or at any moment in them, opens where the town was; no save version moved"
+      ]
+    },
+    {
+      "gate": "browser",
+      "name": "nobody in the town is walked: the residents slide between their places in a tick, as before",
+      "file": "public/app.js",
+      "expect": "no resident of the town was drawn walking",
+      "caught": true,
+      "failure": "no resident of the town was drawn walking between two places: {\"ochre-walk\":55,\"indigo-walk-n\":43,\"girl-walk\":12,\"boy-walk-n\":5,\"indigo-walk\":29,\"boy-walk\":27,\"elder-walk\":17,\"elder-ride-e\":80,\"volunteer-march\":1072,\"ochre-ride-e\":39,\"blue-ride-e\":40,\"teal-walk\":50,\"blue-walk\":33,\"ochre-walk-n\":4,\"elder-walk-n\":4,\"blue-walk-n\":4,\"blue-girl-walk-n\":30,\"dragoon-march\":46,\"dragoon-march-n\":5,\"mounted-courier-e\":16,\"ochre-walk-s\":5,\"blue-girl-walk-s\":55,\"girl-walk-n\":2,\"volunteer-march-s\":3}"
+    },
+    {
+      "gate": "browser",
+      "name": "walked, but six heights a second: running, not walking",
+      "file": "public/town-scenes.js",
+      "expect": "sliding, not walking",
+      "caught": false,
+      "failure": "the page never saw the refusal read across the river"
+    },
+    {
+      "gate": "browser",
+      "name": "everybody set down at once where the server puts them: the scenes' people never walk",
+      "file": "public/town-scenes.js",
+      "expect": "nobody in the scenes was drawn walking",
+      "caught": true,
+      "failure": "nobody in the scenes was drawn walking: {}"
+    },
+    {
+      "gate": "browser",
+      "name": "the words are never drawn",
+      "file": "public/app.js",
+      "expect": "reconstructed lines were drawn over anybody",
+      "caught": true,
+      "failure": "only 0 reconstructed lines were drawn over anybody"
+    },
+    {
+      "gate": "browser",
+      "name": "everybody drawn standing, whatever the server has them doing",
+      "file": "public/town-scenes.js",
+      "expect": "every one of the town's people drawn was standing idle",
+      "caught": true,
+      "failure": "at these moments every one of the town's people drawn was standing idle"
+    },
+    {
+      "gate": "browser",
+      "name": "a click on a scene opens nothing",
+      "file": "public/app.js",
+      "expect": "did not open its card",
+      "caught": true,
+      "failure": "clicking the cannon did not open its card"
+    },
+    {
+      "gate": "browser",
+      "name": "the help button carries `data-action`, so the page also sends it as a bare order without the scene (the fault first found)",
+      "file": "public/town-scenes.js",
+      "expect": "the server refused an order the page sent",
+      "caught": true,
+      "failure": "the server refused an order the page sent"
+    },
+    {
+      "gate": "browser",
+      "name": "the flag made from the morning of the thirtieth",
+      "file": "sim/town-scenes.mjs",
+      "expect": "the flag was being made outside its days",
+      "caught": true,
+      "failure": "the flag was being made outside its days"
+    },
+    {
+      "gate": "browser",
+      "name": "every family is sent the town, the one on its land included",
+      "file": "sim/town-scenes.mjs",
+      "expect": "a family out on its land was sent the town's scenes",
+      "caught": false,
+      "failure": "the page was never sent the town's \"crossing-hold\" (saw street-alarm, crossing-swimmer, camp-mound, orchard-hidden, leaving-load, street-evening, crossing-night, muster-night, street-second-day, crossing-watch, orchard-dig, muster-day, hiding, shop-mount, muster-rider-1, crossing-reading, flag-cloth, street-refused, crossing-after, street-gone-up, crossing-gone, camp-leaves, flag-painted, muster-rider-2, cannon-to-muster, flag-carried, muster-decided, street-see-them-go, crossing-over, muster-march, street-waiting, street-word, street-return)"
+    },
+    {
+      "gate": "browser",
+      "name": "the Host is sent none of it",
+      "file": "sim/town-scenes.mjs",
+      "expect": "the Host's page drew none of the town",
+      "caught": true,
+      "failure": "the Host's page drew none of the town: {\"beats\":[],\"cast\":0}"
+    }
+  ],
+  "environment": "Same computer: node --test for the unit gate; a local classroom server and headless Chrome at 1366x768 and 1024x768 for the browser gate."
+}

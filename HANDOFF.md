@@ -1,5 +1,69 @@
 # Claude handoff — Astra foundation
 
+## Gonzales before the fight: the town doing things, talking, and a card to click — 2026-09-25 (not released)
+
+Owner, verbatim: *"when i try to watch a battle, or actions that led to a battle, i see npc's just standing around. example:
+there's no one worried at gonzales that the mexicans are coming. there's no group of women making the come and take it flag"*
+and *"shouldn't there be talking, orders given, taunting etc? … build it reasonably, and interactively for the player. players
+should walk away understanding what happened."* docs/BATTLES.md §5 step 2, the town's half (another builder has the fight).
+
+- **Research first**: docs/battle-research/gonzales-town.md (every source opened 2026-09-25; primary letters of Sept 25 – Oct 3,
+  Castañeda's reports in translation, Mason 1874, Bennet 1899, Smithwick, Taylor, the Handbook entries). Registered as
+  **`HIST-TEX-460` to `-469`** (the eighteen; the boats and breastwork, amending `HIST-TEX-141` - the ferry was hidden, not gone;
+  the stall and Clements's refusal; the first demand and the soldiers held; couriers and the men who came in; the organising,
+  the crossing at the ferry and the return about 2 p.m. Oct 2; the cannon buried, dug up, put on cart wheels, loaded with cut
+  chain; families leaving or hiding; the flag, DISPUTED; "come and take it" as spoken, DISPUTED) and **`FIC-GONZ-410` to `-413`**
+  (the scenes; the flag made on Sept 30 – Oct 1 by unnamed women; lending a hand; walking in town).
+- **Built**: `sim/town-scenes.mjs` - 35 dated beats in 8 scenes (the street, the crossing, the far bank, the cannon, the flag,
+  the commons, a rider out, families leaving), 54 cast figures with stable ids that are a picture of the town and not a count,
+  recomputed from the clock (nothing stored but a family's help, so **no saveVersion**). `townScenesFor` sends a family only the
+  beats seen from where its people stand (Gonzales; the crossing and far bank also from the ford), the Host all; only the
+  moment's people, props, this tick's words and cards - never the schedule. `public/town-scenes.js` draws them (props, the flag in
+  canvas, `TownWalker`), the words through `public/speech.js`, and the card. Hooks: `sim/town.mjs` (Ruth Crandall walks to the
+  street, `advanceTownScenes`), `sim/world.mjs` (the projection key and the `town-help` order), `public/app.js` (the drawables in
+  the Gonzales branch, `townGround` so **everybody in the town walks, residents included - they used to slide**, the words after
+  the figures, the tap, the card), `public/motion.js` (`stepping` and `scenePose` in `grownClip`), `server/app.mjs` (serves
+  `/town-scenes.js` and **`/speech.js`, which was committed but never served** - `tests/asset-http.test.mjs` caught it).
+- **Talk**: every line `reconstructed` (dashed bubble) and said by an unnamed townsperson, a volunteer or an invented resident
+  (Ruth Crandall, Marta Ibarra, a woman bringing food), each resting on a cited claim; the one documented line is Clements's
+  *"I cannot now will not deliver to you the cannon"*, read across the river at four on Sept 30 (solid bubble, `HIST-TEX-462`).
+  "Come and take it" is never said to the soldiers; the women at the table say it as the words to paint.
+- **Interactive**: clicking a scene opens its card - told by a person there, plain words, then what is known labelled
+  DOCUMENTED / STRONGLY SUPPORTED / DISPUTED / TRADITION with claim ids, then what is invented. At the flag and the cannon a family's
+  person in town may **lend a hand** (a woman or girl of ten with the flag, a man or youth of age with the gun): they walk there,
+  are drawn at the work, and the family keeps one line in its story (`FIC-GONZ-412`). No cost, no glory, no effect on history.
+- **Evidence.** `tests/town-scenes.test.mjs` (9). `npm test`: **1193 pass**, 0 fail. **Unit injections: 11 of 11 caught, each by its
+  own test alone** (`docs/evidence/gonzales-town-injections.json`). **`npm run test:gonzales-town`** (new; a real class through
+  the join flow, the student's man walked into Gonzales on the 29th, 1366x768 and 1024x768): 10 checks - 35 beats sent as they
+  came; at 527 sampled moments people doing different things, never all idle; the flag on its days; 688 reconstructed lines and
+  Clements's drawn as documented; people and residents walking (fastest resident 1.16 heights a second); the flag card opened,
+  labelled, on screen and clear of the family at both sizes; the student's man lending a hand from the cannon's card; a family on
+  its land sent nothing; the Host's page drawing it. **Browser injections: INJ_BROWSER.** Re-run, PASS: lesson, panels,
+  family-panel, gonzales-art. Pictures: `test-results/gonzales-town-*.png` (the close ones are the ones to look at).
+- **Owner, please confirm** (each is one place to change):
+  1. **The flag's makers are shown as unnamed women**, on Sept 30 – Oct 1, carried over the river with the men and back. The research
+     leaned to showing the flag only from the October muster (Smithwick, who saw it, remembered it made for Austin's army); you asked
+     for the women making it before the fight, so it is built that way and the card says the day is disputed. The card names the
+     traditions (Sarah Seely DeWitt and Eveline; Eveline DeWitt with Cynthia Burns, or with Caroline Zumwalt; a committee of five
+     officers) and calls the wedding-dress story apocryphal, as the Handbook does. Alternatives: name the DeWitt women on the figures
+     as a labelled tradition, or keep the flag to the muster.
+  2. **The star is drawn** on the flag and marked disputed on the card.
+  3. **"Come and take it" is never spoken to the soldiers** (research question 3, its leaning); Mason's 1874 memory is on the card only.
+  4. **Who may help**: women and girls with the flag, men and youths with the gun, anybody of the family in town (not only the main
+     person), and it changes nothing but the family's story. Research question 5 offered staying, loading the wagon or hiding
+     instead; a player family's home is its land, so those are shown, not offered.
+  5. **The eighteen are named on the crossing's card, not on figures** (question 6); **the wheels are "a cotton wagon's"** (question 7).
+  6. **Castañeda's camp on the far bank is drawn by the town** until he moves upriver on Oct 1; if the fight's engine draws it, one of
+     the two should go (docs/BATTLES.md §5).
+  7. **The men cross at 7–8 p.m.** as the research has it; the director's own crossing moment (the upriver call) stays at 10 p.m.,
+     "schematic" - both true, the force waited at Mrs. DeWitt's until about one (`ceiling:` at `crossing-over`).
+- **Found, not fixed**: `canFight` (sim/family.mjs) reads `entity.sex`, and a founding mother of an unrolled family has none, so she
+  passes it (`sexOf` says female). The town's help uses `sexOf`; a background task was offered for the rule itself.
+- **Not done**: no named figure but Clements; the scenes' people are not entities (nobody meets one of the eighteen - `ceiling:`);
+  the family panel does not light an icon for somebody helping (`ceiling:`); the art request (spade, forge, painting at a table,
+  pointing, the flag, the gun on cart wheels, a log breastwork and canoes) is in docs/ART_REQUESTS.md with its stand-ins; phones
+  not checked; not on a physical LAN or a Chromebook.
+
 ## Two owner decisions, and the column above the bar — 2026-09-25, late (after 817c104; not yet committed or released)
 
 - **Decided (owner): the ending counts coin held**, not coin gained - starting rich is an advantage, as it was historically.
