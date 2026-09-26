@@ -27,14 +27,13 @@
       ]
     },
     {
-      "name": "the garrison set down at its posts",
-      "file": "sim/alamo-posts.mjs",
+      "name": "the garrison set down in the fort, as before 2026-09-25",
+      "file": "sim/alamo.mjs",
       "test": "tests/battle-alamo.test.mjs",
       "expect": "the garrison walks in from the town through the south gate to posts on the walls, a leg at a time, and nobody is set down",
-      "caught": false,
+      "caught": true,
       "failed": [
-        "the garrison walks in from the town through the south gate to posts on the walls, a leg at a time, and nobody is set down",
-        "the relief rides from Gonzales to wait short of the lines, rides in with the company to the gate, and walks to a post: never set down"
+        "the garrison walks in from the town through the south gate to posts on the walls, a leg at a time, and nobody is set down"
       ]
     },
     {
@@ -198,7 +197,80 @@
       ]
     }
   ],
-  "browser": [],
-  "cleanBrowserChecks": null,
+  "browser": [
+    {
+      "name": "the guns never fire",
+      "file": "public/battle-view.js",
+      "expect": "the Mexican guns did not fire",
+      "caught": true,
+      "failure": "the Mexican guns did not fire between day-24 and day-27",
+      "checksPassedFirst": 2
+    },
+    {
+      "name": "the family's man stands idle at his post",
+      "file": "public/battle-view.js",
+      "expect": "never fired from his post",
+      "caught": true,
+      "failure": "the family's man never fired from his post: volunteer-march,volunteer-idle-e,volunteer-e,volunteer-reclining",
+      "checksPassedFirst": 7
+    },
+    {
+      "name": "the columns come as a crowd, not in files",
+      "file": "public/battle-view.js",
+      "expect": "the column or the wall is not in order",
+      "caught": false,
+      "failure": "Trinidad was never seen to fall",
+      "checksPassedFirst": 7
+    },
+    {
+      "name": "his fall is never shown",
+      "file": "sim/alamo-battle.mjs",
+      "expect": "was never seen to fall",
+      "caught": true,
+      "failure": "Trinidad was never seen to fall",
+      "checksPassedFirst": 7
+    },
+    {
+      "name": "the journal is told at the moment he falls",
+      "file": "sim/alamo-battle.mjs",
+      "expect": "the journal knew",
+      "caught": true,
+      "failure": "the journal knew: Trinidad Garrison was killed on the wall.",
+      "checksPassedFirst": 7
+    },
+    {
+      "name": "the family with nobody there is sent the Alamo",
+      "file": "sim/alamo-battle.mjs",
+      "expect": "the family with nobody there was sent the Alamo",
+      "caught": true,
+      "failure": "the family with nobody there was sent the Alamo",
+      "checksPassedFirst": 10
+    },
+    {
+      "name": "the Host is not sent the Alamo",
+      "file": "sim/alamo-battle.mjs",
+      "expect": "the Host was not sent the Alamo live",
+      "caught": true,
+      "failure": "the Host was not sent the Alamo live: {\"focus\":\"regional\",\"camera\":\"region\",\"seen\":[\"alamo-siege:213630\",\"alamo-huts:216240\",\"alamo-relief:223020\",\"alamo-fall:230370\"]}",
+      "checksPassedFirst": 9
+    },
+    {
+      "name": "no card at the storming",
+      "file": "sim/alamo-battle.mjs",
+      "expect": "timed out waiting",
+      "caught": true,
+      "failure": "timed out waiting at 1836-03-14 undefined: () => window.__snapshot.world.battleAlert?.id?.includes(':assault:')",
+      "checksPassedFirst": 3
+    },
+    {
+      "name": "nothing to the student who watched",
+      "file": "sim/alamo-battle.mjs",
+      "expect": "What you saw",
+      "caught": true,
+      "failure": "timed out waiting at 1836-03-14 undefined: () => /What you saw/.test(window.__snapshot.world.battleAccount?.title || '')",
+      "checksPassedFirst": 11
+    }
+  ],
+  "cleanBrowserChecks": 13,
   "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
 }

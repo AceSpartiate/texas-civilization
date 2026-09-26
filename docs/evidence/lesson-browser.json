@@ -33,7 +33,7 @@
     "at 1366x768 the X is 36x36px, inside the strip, on no word, reachable, and named \"Stop the guided start\"",
     "the X asks once, in the strip: \"Stop the guided start? You won’t be walked through the rest. For five minutes, a “Resume tutorial” button can bring it back.\" - and \"Keep going\" sends nothing",
     "\"Yes, stop it\" sends stop-lesson once; the strip goes, the snapshot carries no lesson, nothing on the bar is shut, and the old walk-through is not offered instead",
-    "stopping the lesson reveals 11 additional actions",
+    "stopping the lesson reveals 10 additional actions",
     "at 1366x768 \"Resume tutorial\" is 119x36px at 1235,10, on the screen, reachable, and on nothing else",
     "at 1024x768 \"Resume tutorial\" is 119x36px at 893,10, on the screen, reachable, and on nothing else",
     "after a reload the strip stays gone and the server sends no lesson",
@@ -110,9 +110,9 @@
       "opened": {
         "card": {
           "left": 755,
-          "top": 312,
+          "top": 271,
           "right": 1015,
-          "bottom": 524
+          "bottom": 483
         },
         "strip": {
           "left": 810,
@@ -165,14 +165,14 @@
           "x": 468,
           "y": 10,
           "width": 544,
-          "height": 193.109375,
+          "height": 212.703125,
           "top": 10,
           "right": 1012,
-          "bottom": 203.109375,
+          "bottom": 222.703125,
           "left": 468
         },
         "overlapWidth": -152,
-        "overlapHeight": 191
+        "overlapHeight": 211
       }
     ],
     "names": [
@@ -193,7 +193,7 @@
       "x": 8,
       "y": 8,
       "width": 374,
-      "height": 218.375
+      "height": 188.375
     },
     "stopButton": {
       "phone": {
@@ -226,7 +226,6 @@
       "asks": "Stop the guided start? You won’t be walked through the rest. For five minutes, a “Resume tutorial” button can bring it back.",
       "availableAfter": [
         "survey-plot",
-        "plant-field",
         "fence-plot",
         "hunt-timber",
         "visit-shop",
@@ -243,8 +242,8 @@
       ]
     },
     "resume": {
-      "until": 1790397439569,
-      "msWhenStopped": 299877,
+      "until": 1790398496536,
+      "msWhenStopped": 299651,
       "chromebook": {
         "size": [
           119,

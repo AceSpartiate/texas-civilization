@@ -174,7 +174,8 @@ try {
   const early = fighting.find(one => one.view.partStyles?.['mexican:duque'] === 'column' && one.view.partStyles?.['texian:north'] === 'wall');
   assert.ok(early, 'the columns and the walls were never drawn as columns and walls');
   const regular = early.view.partRegularity;
-  assert.ok(regular['mexican:duque'] < 0.2 && regular['texian:north'] < 0.2, `the column or the wall is not in order: ${JSON.stringify(regular)}`);
+  // A number, and small: a part laid out as nothing measurable (a column given no place to stand) is not in order either.
+  assert.ok(Number.isFinite(regular['mexican:duque']) && regular['mexican:duque'] < 0.2 && Number.isFinite(regular['texian:north']) && regular['texian:north'] < 0.2, `the column or the wall is not in order: ${JSON.stringify(regular)}`);
   ok(`the columns come in files and the garrison stands along its walls: Duque's column ${regular['mexican:duque']?.toFixed(3)}, the north wall ${regular['texian:north']?.toFixed(3)} (nearest-neighbour spread)`);
   const said = await inside.evaluate(() => window.__battleView?.linesShown || []);
   assert.ok(said.includes('al-viva') && said.includes('al-travis'), `the shout and Travis's words were not drawn: ${said}`);

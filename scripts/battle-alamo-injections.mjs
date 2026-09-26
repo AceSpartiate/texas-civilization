@@ -118,6 +118,9 @@ function runBrowser() {
 }
 
 const which = process.argv[2] || 'all';
+// A fourth word runs only the injections whose name has it in, and keeps every other result from the last record.
+const only = process.argv[3] || null;
+const chosen = list => list.filter(one => !only || one.name.includes(only));
 const record = { unit: [], browser: [] };
 const evidencePath = 'docs/evidence/battle-alamo-injections.json';
 let previous = {};
@@ -126,7 +129,7 @@ try { previous = JSON.parse(readFileSync(evidencePath, 'utf8')); } catch { /* th
 if (which === 'all' || which === 'unit') {
   const files = [...new Set(UNIT.map(one => one.test))];
   for (const file of files) { const clean = runUnit(file); if (!clean.passed) throw new Error(`${file} fails before any injection: ${clean.failed.join('; ')}`); }
-  for (const injection of UNIT) {
+  for (const injection of chosen(UNIT)) {
     const seen = inject(injection, () => runUnit(injection.test));
     const caught = !seen.passed && seen.failed.length === 1 && seen.failed[0] === injection.expect;
     record.unit.push({ name: injection.name, file: injection.file, test: injection.test, expect: injection.expect, caught, failed: seen.failed });
@@ -138,7 +141,7 @@ if (which === 'all' || which === 'browser') {
   const clean = runBrowser();
   if (!clean.passed) throw new Error(`The browser gate fails before any injection: ${clean.failure}`);
   record.cleanBrowserChecks = clean.checks;
-  for (const injection of BROWSER) {
+  for (const injection of chosen(BROWSER)) {
     const seen = inject(injection, runBrowser);
     const caught = !seen.passed && Boolean(seen.failure?.includes(injection.expect));
     record.browser.push({ name: injection.name, file: injection.file, expect: injection.expect, caught, failure: seen.failure, checksPassedFirst: seen.checks });
@@ -148,11 +151,13 @@ if (which === 'all' || which === 'browser') {
   if (!after.passed) throw new Error(`The browser gate fails after every file was put back: ${after.failure}`);
 }
 mkdirSync('docs/evidence', { recursive: true });
+// This run's results in place of the last record's of the same name; the rest of the last record kept.
+const keep = (was = [], now) => [...was.filter(one => !now.some(run => run.name === one.name)), ...now].filter(one => [...UNIT, ...BROWSER].some(defined => defined.name === one.name));
 const merged = {
   record: 'battle-alamo-injections', date: new Date().toISOString().slice(0, 10),
   gates: { unit: `node --test ${DATA} and ${VIEW}, the named test and no other`, browser: 'scripts/battle-alamo-browser-proof.mjs' },
-  unit: record.unit.length ? record.unit : previous.unit || [],
-  browser: record.browser.length ? record.browser : previous.browser || [],
+  unit: keep(previous.unit, record.unit),
+  browser: keep(previous.browser, record.browser),
   cleanBrowserChecks: record.cleanBrowserChecks ?? previous.cleanBrowserChecks ?? null,
   environment: 'Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768.',
 };
