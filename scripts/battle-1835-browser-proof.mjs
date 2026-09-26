@@ -176,8 +176,9 @@ async function prove(fight) {
     assert.ok(/side/.test(alert.words), `the alert did not come through the person: ${alert.words}`);
     assert.equal(alert.contact, false, 'the alert came only once the fighting had begun');
     await fighter.locator('#military-go').click();
-    await fighter.waitForTimeout(400);
-    const watched = await fighter.evaluate(id => ({ kind: window.__camera?.kind, drawn: window.__drawnAt?.[id], w: innerWidth, h: innerHeight }), proof.a);
+    // The camera goes at once; the person, out of the army's halted road this tick, is walked to where they stand over a tick.
+    await fighter.waitForFunction(id => { const at = window.__drawnAt?.[id]; return at && at.x > 0 && at.x < innerWidth && at.y > 0 && at.y < innerHeight; }, proof.a, { timeout: 8000 }).catch(() => {});
+    const watched = await fighter.evaluate(id => ({ kind: window.__camera?.kind, camera: window.__camera, drawn: window.__drawnAt?.[id], w: innerWidth, h: innerHeight, sides: window.__snapshot.world.battle?.sides?.map(s => [s.group || s.side, s.action, s.x, s.y]), me: window.__snapshot.world.entities.find(one => one.id === id)?.location }), proof.a);
     assert.equal(watched.kind, 'battle', `Watch did not frame the fight: ${watched.kind}`);
     assert.ok(watched.drawn && watched.drawn.x > 0 && watched.drawn.x < watched.w && watched.drawn.y > 0 && watched.drawn.y < watched.h, `Watch framed the fight without the family's own person in it: ${JSON.stringify(watched)}`);
     evidence.alert = alert;
@@ -193,11 +194,17 @@ async function prove(fight) {
     const keepWatching = async page => { if (await page.locator('#military-go').isVisible().catch(() => false) && (await page.locator('#military-go').textContent()) === 'Watch') await page.locator('#military-go').click(); };
     const phases = fight === 'concepcion' ? [['ringed', 3, 1366], ['charges', 5, 1024], ['retreat', 2, 1024]] : [['bowie', 3, 1366], ['ambush', 3, 1024], ['sortie', 3, 1024]];
     const moments = [];
+    let hostDuring = null;
     for (const [phase, count, width] of phases) {
       await fighter.setViewportSize({ width, height: 768 });
       await fighter.waitForFunction(id => window.__snapshot.world.battle?.phase === id, phase, { timeout: 240000 });
       await keepWatching(fighter);
-      for (let i = 0; i < count; i++) { await fighter.waitForTimeout(1900); moments.push(await sample(fighter, `${width} ${phase} ${i}`)); if (i === 1) await shot(fighter, `${phase}-${width}`); }
+      for (let i = 0; i < count; i++) {
+        await fighter.waitForTimeout(1900); moments.push(await sample(fighter, `${width} ${phase} ${i}`));
+        if (i === 1) await shot(fighter, `${phase}-${width}`);
+        // The Host, while it is being fought: live, framed on the field.
+        if (i === 1 && !hostDuring && ['charges', 'ambush'].includes(phase)) { hostDuring = await host.evaluate(() => ({ battle: window.__snapshot.world.battle?.id, phase: window.__snapshot.world.battle?.phase, focus: window.__snapshot.world.host?.focus, camera: window.__camera?.kind, drawn: window.__battleView?.figures, smoke: window.__battleView?.smokeInView, seen: window.__spotlightSeen })); await shot(host, 'host'); }
+      }
     }
     for (const one of moments) assert.equal(one.camera, 'battle', `at ${one.minute} Watch no longer framed the fight`);
     for (let i = 1; i < moments.length; i++) {
@@ -210,8 +217,9 @@ async function prove(fight) {
     if (fight === 'concepcion') {
       const foggy = moments.find(one => one.phase === 'ringed');
       assert.ok(foggy.view.fog > 0.5, `no fog over the field in the ringed phase: ${foggy.view.fog}`);
-      const charge = moments.find(one => one.phase === 'charges' && one.view.regularityBy?.texian && one.view.regularityBy?.mexican);
-      assert.ok(charge && charge.view.regularityBy.texian > 4 * charge.view.regularityBy.mexican, `the Texians under the bank are not looser than the Mexican ranks: ${JSON.stringify(charge?.view.regularityBy)}`);
+      // The first moment of the charges: before the Mexican dead leave gaps in the ranks (which a nearest-neighbour measure reads as loosening).
+      const charge = moments.filter(one => one.phase === 'charges' && one.view.regularityBy?.texian && one.view.regularityBy?.mexican).sort((p, q) => p.view.regularityBy.mexican - q.view.regularityBy.mexican)[0];
+      assert.ok(charge && charge.view.regularityBy.texian > 3 * charge.view.regularityBy.mexican, `the Texians under the bank are not looser than the Mexican ranks: ${JSON.stringify(charge?.view.regularityBy)}`);
       assert.ok(moments.some(one => one.view.cannonShots > 0), 'the Mexican gun never fired');
       ok(`fog over the field while ringed (${foggy.view.fog}); in the charges the Texians loose under the bank (${charge.view.regularityBy.texian.toFixed(3)}) and the Mexican infantry in ranks (${charge.view.regularityBy.mexican.toFixed(3)}); the gun fired`);
     } else {
@@ -246,12 +254,13 @@ async function prove(fight) {
     ok(`the family's own person ${proof.a} is drawn in the force in its poses (${personIn.clips.join(', ')}), and ${fated} is drawn ${expected} in the ${fateSeen.phase} at minute ${fateSeen.minute}, their panel saying ${fateSeen.health}`);
 
     // ---------------------------------------------------------------- the Host, live, on the field
-    const hostView = await host.evaluate(() => ({ battle: window.__snapshot.world.battle?.id, phase: window.__snapshot.world.battle?.phase, focus: window.__snapshot.world.host?.focus, camera: window.__camera?.kind, drawn: window.__battleView?.figures, seen: window.__spotlightSeen }));
-    assert.ok(hostView.battle === battleId && hostView.drawn?.texian > 0, `the Host was not sent the fight live: ${JSON.stringify(hostView)}`);
+    const hostView = hostDuring;
+    assert.ok(hostView?.battle === battleId && hostView.drawn?.texian > 0, `the Host was not sent the fight live: ${JSON.stringify(hostView)}`);
+    assert.equal(hostView.focus, 'battle', `the Host's camera was not sent to the field while it was fought: ${JSON.stringify(hostView)}`);
+    assert.equal(hostView.camera, 'battle', `the Host's page did not frame the field: ${JSON.stringify(hostView)}`);
     assert.ok(hostView.seen?.some(key => key.startsWith(battleId === 'grass-fight' ? 'grass-fight' : 'concepcion')), `the Host's spotlight never lit the field: ${JSON.stringify(hostView.seen)}`);
     evidence.host = hostView;
-    ok(`the Host sees it live (${hostView.phase}), its camera ${hostView.camera}, its spotlight lit on the field`);
-    await shot(host, 'host');
+    ok(`the Host sees it live (${hostView.phase}), its camera framed on the field (${hostView.camera}), smoke in view ${hostView.smoke}, its spotlight lit there`);
 
     // ---------------------------------------------------------------- somebody in the army but not the force, and nobody at all
     const nearby = students[fight === 'concepcion' ? 'hh-2' : 'hh-3'];

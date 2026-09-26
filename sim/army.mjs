@@ -752,7 +752,7 @@ export const ARMY_QUESTIONS = {
   // ranks - out with another party - is not asked.
   grass: {
     claimId: 'HIST-TEX-032', unplayed: 0.33, who: (world, person) => person.travel?.purpose === 'march' && !withAForce(world, person.id),
-    ask: name => `Deaf Smith has ridden in: there's a Mexican pack train coming in from the west with cavalry, and the camp says it carries the silver to pay the soldiers. Bowie is taking the horsemen and Jack the men on foot. Does ${name} go?`,
+    ask: name => `Deaf Smith has ridden in: there's a Mexican pack train coming in from the west with cavalry, and the camp says it carries the silver to pay the garrison. Bowie is taking the horsemen and Jack the men on foot. Does ${name} go?`,
     yes: name => `${name} goes out after the train`, no: name => `${name} stays in camp`,
     said: { yes: name => `${name} went out after the pack train.`, no: name => `${name} stayed in camp.` },
   },

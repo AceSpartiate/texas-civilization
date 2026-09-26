@@ -123,7 +123,8 @@ test('an unanswered family\'s volunteer stays with the main army, and a voluntee
   const decided = world.army.detachment.asks[person.id];
   assert.ok(['go', 'stay'].includes(decided), `the unanswered volunteer was left ${decided}`);
   assert.ok(storyOf(world, household.id).some(text => new RegExp(`Nobody answered for .* in time, and it was decided for them\\. .* ${decided === 'go' ? 'went ahead' : 'stayed with the main army'}`).test(text)), 'the story does not say the choice was made for them');
-  assert.throws(() => applyAction(world, household.id, { action: 'detachment-go', entityId: person.id }), /Nobody is being asked/);
+  // Refused either way: the question is shut, or (decided go) he is already marching with the division.
+  assert.throws(() => applyAction(world, household.id, { action: 'detachment-go', entityId: person.id }), /Nobody is being asked|Bowie and Fannin's division/);
 
   const again = withVolunteer('concepcion-sent-for');
   untilMinute(again.world, momentOf(again.world, 'detachment') + 1);

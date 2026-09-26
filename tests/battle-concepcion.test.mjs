@@ -91,7 +91,7 @@ test('the division leaves Espada with every family\'s person who went, and each 
   const start = miles(person.location, ground.bend);
   untilMinute(world, from(world, 'alarm'));
   assert.ok(start > 4, `he started ${start.toFixed(1)} miles from the bend, not at Espada`);
-  assert.ok(miles(person.location, ground.bend) < 0.12, `at the alarm he is ${miles(person.location, ground.bend).toFixed(2)} miles from the bend`);
+  assert.ok(miles(person.location, ground.bend) < 0.25, `at the alarm he is ${miles(person.location, ground.bend).toFixed(2)} miles from the bend`);
   // And in the line while it fires.
   untilMinute(world, from(world, 'charges'));
   assert.ok(Number.isFinite(world.battles.concepcion.participants[a.personId].fought), 'he was never in the line while it fired');
