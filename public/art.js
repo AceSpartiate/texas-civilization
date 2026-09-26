@@ -2,6 +2,7 @@
 // own the clock and the ground position. No function reads or changes simulation state.
 // A missing atlas always returns 0, preserving the caller's procedural fallback.
 const BASE = '/assets/frontier-v1/';
+import { recolourPersonFrame } from './person-palette.js';
 // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)". A second, separate library of frames
 // Claude drew for requests Astra has not delivered (scripts/build-claude-standins.mjs). Its sheets carry absolute image
 // paths and every entry `madeBy: "claude"`; a frame of the same name in Astra's atlas always wins, so her delivery
@@ -119,7 +120,27 @@ export async function loadArt({ all = false, sheets = [] } = {}) {
  * which is what a tree in a wind does and what a rotation would not do. It is the norther's (public/weather-art.js
  * `windLean`), and it is undone exactly: the inverse shear composes back to the identity in whole numbers. Nothing calls
  * it for a person; a figure leaning in the wind would be animation, not weather. */
-export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, anchor, lean = 0 } = {}) {
+const personPaletteCache = new Map();
+const PERSON_PALETTE_LIMIT = 320;
+function appearanceFrame(image, frame, name, appearance) {
+  const key = `${name}:${appearance.skin}|${appearance.hair}|${appearance.clothing}`;
+  if (personPaletteCache.has(key)) {
+    const cached = personPaletteCache.get(key);
+    personPaletteCache.delete(key); personPaletteCache.set(key, cached);
+    return cached;
+  }
+  const canvas = document.createElement('canvas');
+  canvas.width = frame.w; canvas.height = frame.h;
+  const paint = canvas.getContext('2d', { willReadFrequently: true });
+  paint.drawImage(image, frame.x, frame.y, frame.w, frame.h, 0, 0, frame.w, frame.h);
+  const pixels = paint.getImageData(0, 0, frame.w, frame.h);
+  recolourPersonFrame(pixels, name, appearance);
+  paint.putImageData(pixels, 0, 0);
+  personPaletteCache.set(key, canvas);
+  if (personPaletteCache.size > PERSON_PALETTE_LIMIT) personPaletteCache.delete(personPaletteCache.keys().next().value);
+  return canvas;
+}
+export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, anchor, lean = 0, appearance = null } = {}) {
   const frame = art.frames[name];
   const image = frame && art.images[frame.sheet];
   if (!image || !(height > 0)) {
@@ -135,7 +156,10 @@ export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, a
   ctx.translate(x, y);
   if (lean) ctx.transform(1, 0, lean, 1, 0, 0);
   if (flip) ctx.scale(-1, 1);
-  ctx.drawImage(image, frame.x, frame.y, frame.w, frame.h, -width * (anchor?.[0] ?? frame.anchorX), -drawnHeight * (anchor?.[1] ?? frame.anchorY), width, drawnHeight);
+  if (appearance && typeof document !== 'undefined') {
+    const coloured = appearanceFrame(image, frame, name, appearance);
+    ctx.drawImage(coloured, -width * (anchor?.[0] ?? frame.anchorX), -drawnHeight * (anchor?.[1] ?? frame.anchorY), width, drawnHeight);
+  } else ctx.drawImage(image, frame.x, frame.y, frame.w, frame.h, -width * (anchor?.[0] ?? frame.anchorX), -drawnHeight * (anchor?.[1] ?? frame.anchorY), width, drawnHeight);
   if (flip) ctx.scale(-1, 1);
   if (lean) ctx.transform(1, 0, -lean, 1, 0, 0);
   ctx.translate(-x, -y);
@@ -243,7 +267,7 @@ function hashKey(key) {
  * Looping clips can be de-synchronised by seed. One-shots always begin at their start.
  */
 export function drawClip(ctx, name, x, y, height, {
-  timeMs = 0, seed = 0, paused = false, reducedMotion = false, flip = false, alpha = 1, lean = 0,
+  timeMs = 0, seed = 0, paused = false, reducedMotion = false, flip = false, alpha = 1, lean = 0, appearance = null,
 } = {}) {
   const clip = art.clips[name];
   const duration = clipDuration(clip);
@@ -260,7 +284,7 @@ export function drawClip(ctx, name, x, y, height, {
   if (flip) ctx.scale(-1, 1);
   ctx.rotate(motion.rotation);
   ctx.scale(motion.scaleX, motion.scaleY);
-  const width = drawSprite(ctx, sample.sprite, 0, (clip.bodyOffsetY || 0) * height, height, { alpha: alpha * motion.alpha });
+  const width = drawSprite(ctx, sample.sprite, 0, (clip.bodyOffsetY || 0) * height, height, { alpha: alpha * motion.alpha, appearance });
   // Rigs keep body/cargo separate from wheels. Parts use explicit local pivots;
   // rotating a complete wagon image would turn the occupants upside down.
   for (const part of clip.parts || []) {

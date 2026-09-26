@@ -1,5 +1,5 @@
 // Palette for the appearance-driven parent and child avatars in public/avatar-art.js.
-// Keep every key offered by public/look-vocabulary.js covered here.
+// Keep every key offered by sim/look-vocabulary.mjs (served to the page as /look-vocabulary.js) covered here.
 export const SKIN_COLOURS = Object.freeze({ fair: '#f1d3bc', light: '#e3b995', 'warm light': '#dca77e', olive: '#c69a6c', tan: '#b3805a', copper: '#a96e4a', brown: '#8a5a3b', 'dark brown': '#684029', 'deep brown': '#4a2d1e' });
 export const HAIR_COLOURS = Object.freeze({ black: '#1f1a17', 'dark brown': '#3b2618', brown: '#6b4428', chestnut: '#79431f', auburn: '#853a1d', red: '#b04a2a', sandy: '#b99b62', fair: '#d6b574', grey: '#9d9a95' });
 export const CLOTHING_COLOURS = Object.freeze({ rust: '#9a4a2a', indigo: '#35406d', ochre: '#b8892f', teal: '#2f6b6a', butternut: '#a88a55', grey: '#7a7670', cream: '#e3d8bb', forest: '#526747', clay: '#a2634f', plum: '#714f62', navy: '#384e63' });

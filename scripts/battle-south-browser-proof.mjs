@@ -163,7 +163,7 @@ try {
   assert.ok(fighting.some(one => (one.view.shotsBy.houses || 0) > 0), 'the Texians never fired back from the houses');
   ok(`at San Patricio it is night at every sampled moment, with fire and smoke on the screen at each of ${fighting.length} moments of the fighting (shots ${fighting[0].view.shotsTotal} -> ${fighting.at(-1).view.shotsTotal}, Texian ${fighting.at(-1).view.shotsBy.texian || 0}, from the houses ${fighting.at(-1).view.shotsBy.houses || 0})`);
   const spSaid = await johnson.evaluate(() => window.__battleView?.linesShown || []);
-  assert.ok(spSaid.some(id => ['sp-quien', 'sp-rindanse', 'sp-fuego', 'sp-arriba'].includes(id)) && spSaid.some(id => ['sp-square', 'sp-back', 'sp-done'].includes(id)), `no words drawn for one side or the other: ${spSaid.join(', ')}`);
+  assert.ok(spSaid.some(id => ['sp-quien', 'sp-rindanse', 'sp-fuego', 'sp-arriba'].includes(id)) && spSaid.some(id => ['sp-square', 'sp-back', 'sp-done'].includes(id)), `no words drawn for one side or the other: ${spSaid.join(', ')} (sampled ${sp.map(one => `${one.phase}@${one.minute}`).join(' ')})`);
   ok(`words drawn over the speakers at San Patricio: ${spSaid.join(', ')}`);
   const spFate = server().battles['san-patricio'].fates[spMan];
   const spDrawn = await johnson.evaluate(id => ({ members: window.__battleView?.members || [], clips: window.__battleView?.memberClips || [], fates: window.__battleView?.memberFates || {}, drawn: window.__drawnAt?.[id] }), spMan);

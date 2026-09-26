@@ -6,9 +6,10 @@
 // for each parent whose looks have not been chosen. Done sends all four parts together; the server refuses anything not on
 // offer and anything already chosen (sim/appearance.mjs).
 //
-// The choice preview uses the same appearance-driven layers as the live map figure and family portrait.
+// The choice preview uses the same painted cast frames as the live map and family portrait.
 
 import { drawAvatarFigure, drawAvatarPortrait } from '/avatar-art.js';
+import { loadArt, onArtReady } from '/art.js';
 
 const PARTS = Object.freeze([
   ['skin', 'Skin'],
@@ -102,6 +103,14 @@ export function renderLooks(family, { blocked = false } = {}) {
  */
 export function bindLooks({ command, refresh, family }) {
   actions = { command, refresh, family };
+  // The second cast sheet is lazy. Repaint the visible choices when it arrives.
+  onArtReady(() => {
+    if (!showing || document.querySelector('#looks')?.hidden) return;
+    const book = actions.family();
+    const person = waiting(book).find(one => one.id === showing);
+    if (person) draw(person, placeOf(book, person.id));
+  });
+  loadArt({ sheets: ['people-cast2-idle'] });
   document.querySelector('#looks-parts')?.addEventListener('click', event => {
     const option = event.target.closest('button[data-part]');
     if (!option || !picked) return;

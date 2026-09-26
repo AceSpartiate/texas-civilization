@@ -73,7 +73,7 @@ const UNIT = [
     from: '  const fight = liveBattles(world).find(state => state.phase.step || state.phases.some(one => one.step && one.from > world.minute && one.from <= world.minute + requestedMinutes));',
     to: '  const fight = liveBattles(world).find(state => state.phase.step);', test: T, expect: TESTS.saves },
   { name: 'a quiet phase\'s long tick carries the class past the parade', file: 'sim/battle-stage.mjs',
-    from: '      const cap = background ?? (next ? next.from - world.minute : state.def.landOnEnd ? room : null);', to: '      const cap = background ?? null;', test: T, expect: [TESTS.pace, TESTS.place, TESTS.line, TESTS.fate, TESTS.capture, TESTS.after, TESTS.saves] },
+    from: '      const cap = background ?? (next ? next.from - world.minute : state.def.landOnEnd ? room : null);', to: '      const cap = background ?? null;', test: T, expect: [TESTS.pace, TESTS.place, TESTS.line, TESTS.fate, TESTS.after, TESTS.saves] },
   { name: 'a camp at rest is drawn standing in rows', file: 'public/battle-view.js',
     from: "        else if (side.style === 'camp') {", to: '        else if (false) {', test: V, expect: TESTS.camp },
   { name: 'the Texian officers give the Mexican words', file: 'public/battle-view.js',

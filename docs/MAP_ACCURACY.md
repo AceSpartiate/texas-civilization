@@ -1219,4 +1219,16 @@ the ground and the creeks drawn round it changed (Chiltipin, San Diego, El Caro 
 San Fernando and Tranquitas creeks drawn) - every other place, road and watercourse is byte for byte. The road still fords the
 creek the NHD calls Agua Dulce, about sixteen miles out; the ground is not on it (`HIST-TEX-512` says so). A class saved with the
 ground near Banquete is given the new one at the save's door until Grant's drive begins (`sim/south.mjs` `moveAguaDulce`).
+**Superseded the same day by §13.7.**
+
+### 13.7 Agua Dulce at the creek crossing (2026-09-26)
+
+Owner, by multiple choice (docs/BATTLES.md §2b.12): "At the creek crossing, 16 mi". One line of `scripts/build-colonies-map.mjs`:
+the ground at -97.81428, 27.7886, a quarter mile south of the road's ford on Agua Dulce Creek (`ford-agua-dulce-creek`, found by
+projecting the ford onto the road as built at twenty-six miles: 15.36 road miles from San Patricio). Built: the road from San
+Patricio is 15.6 miles (it was 26.0) and on to the road's end 11.7 (1.3). Decoded against the map before: only the place
+`agua-dulce`, the two roads through it and the creeks drawn round it changed (Chiltipin, San Diego, El Caro and Oso creeks drawn;
+Tranquitas Creek no longer) - every ford, crossing, other place, road and watercourse is byte for byte. The new hash is in
+`tests/map-outside.test.mjs`. A class saved with the ground near Banquete or at twenty-six miles is given the new one at the save's
+door until Grant's drive begins (`moveAguaDulce`, which moves any ground that is not the built map's; its test covers both).
 

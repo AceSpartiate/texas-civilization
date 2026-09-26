@@ -1,6 +1,6 @@
 // The famous people, watched in a real class (owner, 2026-09-26: "they should be labelled, saying and doing the things that
 // they likely would have, dying the way they should (Travis, Bowie, Crocett come to mind as an example)"; docs/BATTLES.md §2c,
-// §13; sim/people.mjs).
+// §14; sim/people.mjs).
 //
 // Two classes, each through the real join flow and the Host's Start:
 //   1. The Alamo. A class at the edge of the siege (scripts/support/alamo-class.mjs), one family's father in the garrison. On

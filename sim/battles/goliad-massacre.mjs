@@ -129,7 +129,7 @@ export const GOLIAD_MASSACRE = Object.freeze({
   phases: [
     {
       // 18:00-19:00, March 26. The song over the walls; Francita Alavez brings some of the men out and hides them.
-      id: 'eve', minutes: 60, step: 20, light: 'dusk', title: 'The evening before', claimId: 'HIST-TEX-517',
+      id: 'eve', minutes: 60, step: 20, quiet: true, light: 'dusk', title: 'The evening before', claimId: 'HIST-TEX-517',
       // Fannin, wounded at Coleto, among the prisoners in the presidio (`HIST-TEX-562`). He is never drawn at his death: from
       // the `inside` phase he is not on the field, and the caption tells it (sim/people.mjs `told`; `FIC-GONZ-454`).
       people: [{ id: 'fannin', with: 'texian', offset: { along: -0.01, across: 0.01 }, pose: 'wounded' }],
@@ -149,13 +149,13 @@ export const GOLIAD_MASSACRE = Object.freeze({
       ],
     },
     {
-      id: 'night', minutes: 480, step: 240, light: 'night', title: 'The night before Palm Sunday', claimId: 'HIST-TEX-517',
+      id: 'night', minutes: 480, step: 240, quiet: true, light: 'night', title: 'The night before Palm Sunday', claimId: 'HIST-TEX-517',
       people: [{ id: 'fannin', with: 'texian', offset: { along: -0.01, across: 0.01 }, pose: 'wounded' }],
       caption: 'The night before Palm Sunday. The prisoners are shut in the presidio.',
       texian: { ...INSIDE }, mexican: { ...GATE },
     },
     {
-      id: 'before-dawn', minutes: 180, step: 60, light: 'dawn', title: 'Before sunrise', claimId: 'HIST-TEX-517',
+      id: 'before-dawn', minutes: 180, step: 60, quiet: true, light: 'dawn', title: 'Before sunrise', claimId: 'HIST-TEX-517',
       people: [{ id: 'fannin', with: 'texian', offset: { along: -0.01, across: 0.01 }, pose: 'wounded' }],
       caption: 'Before sunrise the guard is turned out.',
       texian: { ...INSIDE }, mexican: { ...GATE },
@@ -213,7 +213,7 @@ export const GOLIAD_MASSACRE = Object.freeze({
     {
       // 08:00-10:00. What was done with the dead is told, not drawn (`HIST-TEX-517`). It ends at ten, on the spring's four-hour
       // clock, as Coleto does (sim/battles/coleto.mjs `march-back`).
-      id: 'after', minutes: 120, step: 20, title: 'Afterward', claimId: 'HIST-TEX-517',
+      id: 'after', minutes: 120, step: 20, quiet: true, title: 'Afterward', claimId: 'HIST-TEX-517',
       caption: 'About 340 men were killed at Goliad that morning. Their bodies were burned and left in the open until June 3, when General Rusk’s men gathered the remains and buried them with military honors. The killing turned grief into anger: at San Jacinto the Texians would shout “Remember Goliad!”',
       ...both(columns(id => ({ at: `halt-${id}` }), { runners: { at: 'river-victoria', action: 'gone' } }), guards(() => ({ at: 'gate' }), { action: 'gone' })),
     },

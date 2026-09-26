@@ -99,12 +99,13 @@ const PLACES = [
   // the Nueces where Johnson's men were surprised on February 27, 1836, at the point the map has drawn since 2026-09-19
   // (HIST-TEX-159) - a village, not a town: nothing is kept or sold there in the game.
   ['san-patricio', 'San Patricio', 'village', -97.776421, 27.9771416, 'HIST-TEX-159', false],
-  // Where Grant's party was caught on March 2, 1836: "twenty-six miles below San Patricio" (TSHA, Handbook of Texas;
-  // HIST-TEX-512), the owner's choice of 2026-09-26 by multiple choice over Wikipedia's point near Banquete (-97.84972,
-  // 27.8475, about ten miles out). Taken as the walked road's own distance: the point on the road south where the least-effort
-  // road from San Patricio measures 26.0 miles (checked by tests/south-map.test.mjs). The creek the map's NHD calls Agua Dulce
-  // is crossed by that road about sixteen miles out (`ford-agua-dulce-creek`), not here - the dispute is in the claim.
-  ['agua-dulce', 'Agua Dulce Creek', 'ground', -97.81, 27.639, 'HIST-TEX-512', false],
+  // Where Grant's party was caught on March 2, 1836: where the road south from San Patricio crosses the creek the map's NHD
+  // calls Agua Dulce, about sixteen road miles out - the owner's choice of 2026-09-26 ("At the creek crossing, 16 mi"), by
+  // multiple choice after the ground had stood first at Wikipedia's point near Banquete (-97.84972, 27.8475, about ten miles
+  // out) and then at the Handbook of Texas's "twenty-six miles below San Patricio" (-97.81, 27.639). The ground is a quarter
+  // mile south of the crossing (`ford-agua-dulce-creek`), on the bank Grant's men came up to from the south with the herd.
+  // The record gives both distances and neither is this one: HIST-TEX-512 says so.
+  ['agua-dulce', 'Agua Dulce Creek', 'ground', -97.81428, 27.7886, 'HIST-TEX-512', false],
   // Where the walked country ends on the road south to Matamoros, 27.62°N, on the line from Agua Dulce to Matamoros: where
   // Grant's party ranges for horses before March 2, and where the San Patricio prisoners pass out of it (FIC-GONZ-436).
   ['matamoros-road', 'The road south to Matamoros', 'ground', -97.81, 27.62, 'FIC-GONZ-436', false],

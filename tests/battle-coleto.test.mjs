@@ -35,7 +35,9 @@ const horton = (world, man) => share(world, man.id, 'horton') < HORTON_SHARE;
  * Palm Sunday, one who could ride with Horton. Each of them with Fannin; the one who could ride with Horton has his family's
  * horse. Returns the men and who is who.
  */
-function fanninClass({ men: count = 12 } = {}) {
+// `played`: the men's families are played and present, so the column's march, the lulls, the night and the march back are held
+// for them as for a watching student (docs/BATTLES.md §2b.11); a family nobody plays has them pass at the class's own pace.
+function fanninClass({ men: count = 12, played = false } = {}) {
   const world = spring();
   reseed(world, (men, w) => {
     const some = men.slice(0, count);
@@ -48,6 +50,7 @@ function fanninClass({ men: count = 12 } = {}) {
   const men = grownMen(world).slice(0, count);
   const rider = men.find(one => horton(world, one));
   for (const man of men) withFannin(world, man, { horse: man === rider });
+  if (played) for (const man of men) { world.households[man.householdId].played = true; delete world.households[man.householdId].absent; }
   const find = test => men.find(one => one !== rider && test(one));
   return {
     world, men, rider,
@@ -96,7 +99,7 @@ test('both are checked when they load and dated where the record puts them: Cole
 });
 
 test('Fannin\'s men march out of Goliad with the column at nine, walk with it to Coleto and stand in the square when it forms; nobody new joins him', () => {
-  const { world, men, rider } = fanninClass();
+  const { world, men, rider } = fanninClass({ played: true });
   const man = men.find(one => one !== rider);
   const goliad = world.map.sites.goliad, coleto = world.map.sites.coleto;
   assert.ok(coleto, 'Coleto is not a place on the map');
@@ -249,7 +252,7 @@ test('afterwards every other family with a man there is told through whoever hea
 });
 
 test('who is sent what: the Host always, framed on the field while it is fought; a family only while its man is there; nobody else, not a fate before it falls', () => {
-  const { world, men: all, killed, rider } = fanninClass();
+  const { world, men: all, killed, rider } = fanninClass({ played: true });
   // One family's men are sent home before the march: that family has nobody there, and is never shown any of it.
   const without = Object.keys(world.households).find(id => id !== killed.householdId && id !== rider.householdId);
   for (const man of all.filter(one => one.householdId === without)) {
@@ -332,7 +335,8 @@ test('a class saved in the middle of Coleto reopens in the middle of it, and one
 });
 
 test('the clock is held for Coleto: the fighting about ten real minutes at the Study pace, the whole of it under fifteen, never faster than it was going', () => {
-  const { world } = fanninClass();
+  // As a watching student's family sees it: the lulls and the night are quiet phases, held while a played family is there.
+  const { world } = fanninClass({ played: true });
   until(world, () => phaseOf(world, 'coleto') === 'march-out');
   let ticks = 0, fighting = 0;
   const faster = [];

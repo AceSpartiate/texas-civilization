@@ -1,6 +1,6 @@
 // The famous people drawn by the one renderer (public/battle-view.js, public/speech.js) from the engine's own projection, on a
 // canvas that records what is drawn: each named under their figure, their words out of their own figure headed with their name,
-// Crockett's "one account" tag, Emily West's stage direction, the Twin Sisters' name (docs/BATTLES.md §2c, §13).
+// Crockett's "one account" tag, Emily West's stage direction, the Twin Sisters' name (docs/BATTLES.md §2c, §14).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createBattleView } from '../public/battle-view.js';

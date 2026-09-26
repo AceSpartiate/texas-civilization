@@ -174,7 +174,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
     {
       // Noon to one, April 20. Santa Anna's army comes up the road and makes its camp on the plain (`HIST-TEX-523`). The hour
       // is this game's (`FIC-GONZ-441`): the record has it there on the 20th.
-      id: 'arrive', minutes: 60, step: 20, title: 'Santa Anna’s army comes up', claimId: 'HIST-TEX-523',
+      id: 'arrive', minutes: 60, step: 20, quiet: true, title: 'Santa Anna’s army comes up', claimId: 'HIST-TEX-523',
       caption: 'April 20. Santa Anna’s army comes up and makes its camp on the open plain toward the San Jacinto River, under a mile from Houston’s camp in the timber along Buffalo Bayou.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'column', from: 'mexApproach', to: 'mexicanCamp', action: 'advance', fire: 'none', count: 700 },
@@ -217,7 +217,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // Texan was wounded" (TSHA, `HIST-TEX-523`, `-565`; Houston: "two men severely wounded"), and Lamar, a private, rode in to
       // bring out Rusk and Walter Lane. The hour of each is the game's. (Until 2026-09-26 one Texian was hurt here: `HIST-TEX-083`
       // counted the skirmish alone; the audit's error 5, reconciled in `HIST-TEX-565`.)
-      id: 'skirmish', minutes: 60, step: 10, title: 'The skirmish of April 20', claimId: 'HIST-TEX-565',
+      id: 'skirmish', minutes: 60, step: 10, quiet: true, title: 'The skirmish of April 20', claimId: 'HIST-TEX-565',
       caption: 'In the afternoon the Mexican twelve-pounder opens on the Texian camp and its infantry comes up toward the woods. The Twin Sisters answer with grape and canister and drive them back; Colonel Neill, commanding the guns, is wounded in the hip. Then Colonel Sherman takes a party of horsemen out onto the prairie and skirmishes with the Mexican infantry and cavalry. Olwyns Trask is mortally wounded and another man hurt; Mirabeau Lamar, a private, rides in and brings out Rusk and Walter Lane when they are cut off. It almost brings on a general battle, and does not.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'ranks', keys: [[0, 'mexicanCamp'], [15, 'breastwork'], [50, 'breastwork'], [60, 'mexicanCamp']], action: 'hold', fire: 'volley', count: 700 },
@@ -261,7 +261,8 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // about 540 troops"; "Houston ordered Erastus (Deaf) Smith to destroy the bridge" (TSHA, `HIST-TEX-523`; the bridge,
       // `HIST-TEX-153`). Cos's men "had marched steadily for more than 24 hours with no rest and no food" and were let sleep
       // (`HIST-TEX-524`).
-      id: 'morning', minutes: 120, step: 20, title: 'Cos comes in, and the bridge', claimId: 'HIST-TEX-523',
+      id: 'morning', minutes: 120, step: 20, quiet: true, title: 'Cos comes in, and the bridge', claimId: 'HIST-TEX-523',
+      guns: { 'mexican-gun': [] },
       caption: 'April 21. About nine, General Cos comes in with about 540 more men, who have marched all night; they lie down to sleep. Houston sends Deaf Smith and a few men to destroy Vince’s bridge, eight miles off on the road the reinforcements came by.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', pose: 'rest', count: 1200 },
@@ -470,7 +471,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
     },
     {
       // 18:28-19:28. Dusk: the prisoners gathered, the camp taken. 630 killed and 730 taken (`HIST-TEX-067`).
-      id: 'prisoners', minutes: 60, step: 20, title: 'Dusk: the prisoners', claimId: 'HIST-TEX-067',
+      id: 'prisoners', minutes: 60, step: 20, quiet: true, title: 'Dusk: the prisoners', claimId: 'HIST-TEX-067',
       guns: { 'twin-sister-1': [], 'twin-sister-2': [] },
       caption: 'Dusk. The firing stops. Colonel Almonte, Santa Anna’s aide, surrenders the men still with him to Burleson. The prisoners are gathered in the taken camp under guard: some 730 were taken, and about 630 Mexican soldiers were killed. Nine Texians were killed or mortally wounded and about thirty wounded; the wounded are carried back to the camp.',
       texian: { style: 'loose', at: 'mexicanCamp', action: 'hold', fire: 'none', spread: { width: 0.4, depth: 0.2 } },
@@ -498,7 +499,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // `HIST-TEX-526`). The hour is the game's. What the two said is a later telling: "Those who were present at the interview
       // relate the following as the substance of the conversation", W. C. Crane printed in 1884 - Santa Anna's "Napoleon of the
       // West" and Houston's answer - spoken here as tradition (owner, docs/BATTLES.md §2c.4; `HIST-TEX-559`). Almonte interprets.
-      id: 'taken', minutes: 60, step: 20, title: 'Santa Anna is brought in', claimId: 'HIST-TEX-526',
+      id: 'taken', minutes: 60, step: 20, quiet: true, title: 'Santa Anna is brought in', claimId: 'HIST-TEX-526',
       caption: 'April 22. A search party brings in a man it found hiding in the grass, dirty and wet, dressed as a common soldier. As he is brought past the prisoners they call him "el presidente": he is Santa Anna. He is brought before Houston, who lies wounded, and Colonel Almonte interprets. What they said was written down long afterward, from those who were there: a story told later, not the record.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'loose', at: 'prisonerGround', action: 'hold', fire: 'none', surrendering: 1, spread: { width: 0.22, depth: 0.14 }, count: 730 },

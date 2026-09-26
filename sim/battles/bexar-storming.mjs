@@ -163,7 +163,7 @@ export const BEXAR_STORMING = Object.freeze({
     {
       // Dec 4, 18:00-20:00. The army ordered into winter quarters that morning; a deserter says the town is weak; Milam calls
       // for men, and they "fall into ranks to see if we are strong enough" (Maverick). The one time the Texians stand in rows.
-      id: 'call', minutes: 120, step: 20, title: 'Milam’s call', claimId: 'HIST-TEX-036', frame: AT_THE_MILL,
+      id: 'call', minutes: 120, step: 20, quiet: true, title: 'Milam’s call', claimId: 'HIST-TEX-036', frame: AT_THE_MILL,
       // Milam calls for men and the call comes out of him (tradition, `HIST-TEX-492`); Burleson with the camp.
       people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }],
       caption: 'December 4, evening, at the old mill above Béxar. Half the army is packing up for home. A Mexican officer has come over and says the town is weak, and Ben Milam is calling for men to go in with him. Men step forward into ranks to see if they are enough.',
@@ -190,7 +190,7 @@ export const BEXAR_STORMING = Object.freeze({
     },
     {
       // Dec 5, 02:00-03:00. The roll: 230 signed, 210 answered (Ehrenberg).
-      id: 'roll', minutes: 60, step: 20, title: 'The roll at two in the morning', claimId: 'HIST-TEX-036', frame: AT_THE_MILL,
+      id: 'roll', minutes: 60, step: 20, quiet: true, title: 'The roll at two in the morning', claimId: 'HIST-TEX-036', frame: AT_THE_MILL,
       people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }],
       caption: 'Two in the morning. The roll is called. Some who put their names down do not answer; about two hundred and ten do.',
       texian: { style: 'column', at: 'mill', action: 'stand', fire: 'none' },
@@ -204,7 +204,7 @@ export const BEXAR_STORMING = Object.freeze({
     {
       // Dec 5, 03:00-05:00. "At three O'clock we hurried noiselessly" (Ehrenberg): out of the mill, over the cornfield in the
       // dark, and down to the brush fence; Neill with a gun and Roberts's company across the river for the Alamo.
-      id: 'out', minutes: 120, step: 20, title: 'Out of the mill in the dark', claimId: 'HIST-TEX-494', frame: AT_THE_MILL,
+      id: 'out', minutes: 120, step: 20, quiet: true, title: 'Out of the mill in the dark', claimId: 'HIST-TEX-494', frame: AT_THE_MILL,
       // Neill takes his gun across the river toward the Alamo (`HIST-TEX-494`).
       people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'neill', with: 'neill', offset: { along: 0.01, across: 0 } }],
       caption: 'Three in the morning, cold, with a norther blowing. The two divisions leave the mill in silence and cross the cornfield toward the town. Colonel Neill takes a cannon across the river toward the Alamo.',
@@ -569,7 +569,7 @@ export const BEXAR_STORMING = Object.freeze({
     {
       // Dec 14, 09:00-11:00. "General Cos left this morning for the mission of San José, and, to-morrow, commences his march
       // to the Rio Grande" (Burleson): the paroled army marching out with its muskets, how many DISPUTED (`HIST-TEX-496`).
-      id: 'marching-out', minutes: 120, step: 20, title: 'Cos marches out', claimId: 'HIST-TEX-496',
+      id: 'marching-out', minutes: 120, step: 20, quiet: true, title: 'Cos marches out', claimId: 'HIST-TEX-496',
       // Cos at the head of his army, marching out on parole (`HIST-TEX-496`, `-557`).
       people: [{ id: 'cos', with: 'cos-army', offset: { along: 0.012, across: 0 }, pose: 'ride' }],
       caption: 'December 14. General Cos’s army marches out of Béxar for Mission San José and the Rio Grande, the men carrying their muskets. The reports disagree about how many went: from about five hundred to about eleven hundred.',

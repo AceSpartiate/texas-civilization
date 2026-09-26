@@ -4,7 +4,7 @@
 should be labelled, saying and doing the things that they likely would have, dying the way they should (Travis, Bowie,
 Crocett come to mind as an example)."*
 
-**Built 2026-09-26 (not released): `docs/BATTLES.md` §2c and §13, `sim/people.mjs`.** The owner's decisions replaced the card
+**Built 2026-09-26 (not released): `docs/BATTLES.md` §2c and §14, `sim/people.mjs`.** The owner's decisions replaced the card
 (§3.5, P2) with names only, staged Crockett as de la Peña tells it (P1) and had the legends spoken as tradition (P8); the claim
 rows below were registered in `HISTORY.md` with the Castrillón row as `HIST-TEX-561` (the Yellow Rose took `-560`) and the
 Twin Sisters as `-558`/`-570`. What follows is the research as it was written.
