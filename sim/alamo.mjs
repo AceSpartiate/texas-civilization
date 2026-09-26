@@ -357,7 +357,7 @@ export function tellFall(world, households) {
  * with every family's word of the fall; the doubted stories are named as doubted (owner questions A1 and A2, as recommended).
  */
 export const FALL_ACCOUNT = [
-  'What happened: before dawn on March 6 about fifteen hundred Mexican soldiers in four columns, carrying ladders, came at the Alamo from every side. The defenders\' cannon drove them back at first, but they came on again, crowded against the north wall and climbed over it. The defenders fell back into the long barrack and the church and fought room by room, and those who ran out over the walls were caught by cavalry waiting outside. In about an hour it was over. Every man who fought was killed - the few taken alive were shot on Santa Anna\'s orders - and several hundred Mexican soldiers were killed or wounded. The women and children, and Joe, whom Travis held as a slave, were spared. The dead defenders were burned.',
+  'What happened: before dawn on March 6 about fifteen hundred Mexican soldiers in four columns, carrying ladders, came at the Alamo from every side. The defenders\' cannon drove them back at first, but they came on again, crowded against the north wall and climbed over it. The defenders fell back into the long barrack and the church and fought room by room, and those who ran out over the walls were caught by cavalry waiting outside. In about an hour it was over. Nearly every defender was killed, and a few found alive afterward were killed on Santa Anna\'s orders; several hundred Mexican soldiers were killed or wounded. Travis was shot at the north battery among the first, as Joe told it. Bowie, sick in bed, was killed in his room on the south side; how, is told differently. How David Crockett died is disputed: Joe and Mrs. Dickinson said he died fighting, and a Mexican officer, José Enrique de la Peña, wrote that he was one of the men taken alive and killed - an account some historians doubt. Joe, whom Travis held as a slave and who had fought beside him, lived, and was spared with the women and children. The dead defenders were burned.',
   'Why it ended so: fewer than two hundred men held walls built for many more, against nearly two thousand, and no help came but the thirty-two from Gonzales. Once the north wall was climbed there was nowhere left to fight from but the rooms.',
   'Stories told many years later - that Travis drew a line in the sand, that the bugles played the degüello, the call of no quarter - are doubted by historians.',
 ].join('\n\n');
@@ -449,7 +449,8 @@ export const ALAMO_WORD = Object.freeze({
   declaration: 'The convention at Washington has declared Texas independent, on March 2, and named Sam Houston commander of all its forces.',
   sanPatricio: 'It is said Urrea\'s cavalry fell on Johnson\'s men at San Patricio before dawn, killing some and taking the rest prisoner.',
   aguaDulce: 'It is said Grant and his party were cut to pieces by Mexican cavalry at Agua Dulce Creek.',
-  fallRumour: 'Two Mexican riders from Béxar say the Alamo has fallen and every man in it is dead. General Houston thinks they are spies.',
-  fall: 'The Alamo has fallen. It was stormed at dawn on March 6, and every man in it was killed; Mrs. Dickinson, her child and Travis\'s servant Joe were spared and have come in to Gonzales.',
+  // Never "every man was killed" without Joe, who fought and lived (docs/BATTLES.md §2c.3; the audit's error 1, 2026-09-26).
+  fallRumour: 'Two riders from Béxar say the Alamo has fallen. General Houston thinks they are spies.',
+  fall: 'The Alamo has fallen. It was stormed at dawn on March 6, and nearly every defender was killed, Travis, Bowie and Crockett among them. Joe, a man Travis held as a slave, who fought beside him, was spared with Mrs. Dickinson and her child, and they have come in to Gonzales.',
 });
 export { gonzalesFamilies, otherFamilies, word };

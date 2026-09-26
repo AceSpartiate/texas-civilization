@@ -66,7 +66,7 @@ test('both fights are data the engine checks: nobody named speaks, no row is dra
   // The engine refuses what the record does not allow: a named man given a reconstructed line; parts drawing more men than
   // the side has; a fall in a part that is not there.
   const bad = change => { const def = copy(SAN_PATRICIO); def.ground = SAN_PATRICIO.ground; def.scenery = SAN_PATRICIO.scenery; change(def); return () => checkEngagement(def); };
-  assert.throws(bad(def => { def.phases[1].lines[1].name = 'Johnson'; }), /named person/);
+  assert.throws(bad(def => { def.phases[1].lines[1].person = 'johnson'; }), /named person/);
   assert.throws(bad(def => { def.phases[1].texian.parts[0].drawn = 30; }), /draw more/);
   assert.throws(bad(def => { def.phases[1].falls[0].unit = 'the-church'; }), /not there/);
 });

@@ -23,13 +23,13 @@ test('an engagement is checked when it loads: documented words carry a claim, a 
   const bad = change => { const def = copy(GONZALES); def.ground = GONZALES.ground; change(def); return () => checkEngagement(def); };
   const parley = def => def.phases.find(phase => phase.id === 'parley');
   assert.throws(bad(def => { delete parley(def).lines.find(line => line.kind === 'documented').claimId; }), /carries no claim/);
-  assert.throws(bad(def => { const line = parley(def).lines.find(one => one.kind === 'reconstructed'); line.name = 'Castañeda'; }), /named person/);
+  assert.throws(bad(def => { const line = parley(def).lines.find(one => one.kind === 'reconstructed'); line.person = 'castaneda'; }), /named person/);
   assert.throws(bad(def => { def.phases[0].step = 7; }), /step must divide/);
   assert.throws(bad(def => { def.phases.find(phase => phase.id === 'dawn-skirmish').falls.push({ side: 'texian', count: 1, at: 5, claimId: 'HIST-TEX-477' }); }), /may not be drawn falling/);
   assert.throws(bad(def => { def.sides.texian.drawn = 200; }), /at most 60/);
   // Every named speaker at Gonzales speaks only documented words, each with its claim.
   for (const line of GONZALES.phases.flatMap(phase => phase.lines || [])) {
-    if (line.name) { assert.equal(line.kind, 'documented', `${line.name} speaks a ${line.kind} line`); assert.match(line.claimId, /^HIST-/); }
+    if (line.person) { assert.equal(line.kind, 'documented', `${line.person} speaks a ${line.kind} line`); assert.match(line.claimId, /^HIST-/); }
     assert.doesNotMatch(line.text, /give 'em hell/i, 'a disputed slogan is spoken');
     // The owner chose to have the men shout it (2026-09-25), and it is a later memory, not the 1835 record (`HIST-TEX-469`):
     // only ever `tradition`, in nobody's named mouth, with a gloss that says so.

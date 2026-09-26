@@ -107,7 +107,8 @@ test('the formed Texian line against the camp at rest; the line comes apart at t
   assert.ok(goliad.length && goliad.every(line => line.kind === 'documented' && line.claimId === 'HIST-TEX-523'));
   assert.ok(alamo.some(line => line.phase === 'charge'));
   assert.equal(lines.find(line => line.text === 'Me no Alamo!')?.kind, 'tradition');
-  assert.ok(lines.every(line => !line.name), 'a named person was given a line');
+  // A named person speaks only documented or tradition words, named by the roster (docs/BATTLES.md §2c.4, `FIC-GONZ-457`).
+  assert.ok(lines.every(line => !line.name && (!line.person || ['documented', 'tradition'].includes(line.kind))), 'a named person was given a reconstructed line');
   assert.ok(lines.filter(line => line.side === 'mexican' && /[¡¿]/.test(line.text)).every(line => line.gloss), 'Spanish without its English');
   // The tune (owner's J3): named in the caption as tradition, both versions, no sound.
   assert.match(phase('advance').caption, /Will You Come to the Bower/);
@@ -115,8 +116,9 @@ test('the formed Texian line against the camp at rest; the line comes apart at t
   // "Siesta" is the Handbook's word, said as that and not as the game's own.
   assert.match(phase('waiting').caption, /Handbook of Texas calls it the afternoon siesta/);
   assert.ok(!DEF.phases.filter(one => one.id !== 'waiting').some(one => /siesta/i.test(one.caption)));
-  // Houston and Santa Anna are named only in the scene of the capture, and say nothing.
-  assert.deepEqual(phase('taken').parley.people.map(person => person.name), ['Houston', 'Santa Anna']);
+  // Houston and Santa Anna meet in the scene of the capture; what they said there is Crane's later telling, spoken as tradition.
+  assert.deepEqual(phase('taken').parley.people.map(person => person.id), ['houston', 'santa-anna']);
+  assert.ok(phase('taken').lines.filter(line => line.person).every(line => line.kind === 'tradition'));
   assert.equal(phase('taken').parley.people[0].pose, 'injured');
   // The drawn falls are the record's shares: about 630 of about 1,200 Mexicans killed, and of 910 Texians nine and thirty.
   const falls = side => DEF.phases.flatMap(one => one.falls || []).filter(fall => fall.side === side && !fall.unit);
@@ -337,7 +339,7 @@ test('a man killed goes down at his own minute in the charge: his family\'s page
   validateWorld(world);
 });
 
-test('Santa Anna is brought before the wounded Houston on the 22nd: the prisoners\' documented cry, both named, neither given words; his column is not drawn beside the battle', () => {
+test('Santa Anna is brought before the wounded Houston on the 22nd: the prisoners\' documented cry, both named, their words only the later telling; his column is not drawn beside the battle', () => {
   const { world } = withTheArmy(1, 'arrive');
   stepWorld(world);
   assert.ok(!armiesNow(world).some(army => army.id === 'santa-anna'), 'Santa Anna’s column was drawn beside the battle');
@@ -348,7 +350,11 @@ test('Santa Anna is brought before the wounded Houston on the 22nd: the prisoner
   assert.deepEqual(host.battle.parley.people.map(person => person.name), ['Houston', 'Santa Anna']);
   const cry = host.battle.lines.find(line => line.text === '¡El Presidente!');
   assert.ok(cry && cry.kind === 'documented' && cry.claimId === 'HIST-TEX-523' && !cry.name);
-  assert.ok(!host.battle.lines.some(line => line.name), 'a named man was given words');
+  assert.ok(!host.battle.lines.some(line => line.name), 'a named man spoke before the later telling has him speak');
+  // Then the exchange Crane printed in 1884, as tradition, out of the two figures (owner, docs/BATTLES.md §2c.4).
+  until(world, () => world.minute >= at(world, 'taken') + 45);
+  const later = view(world, undefined, 'host').battle.lines.filter(line => line.name);
+  assert.deepEqual(later.map(line => [line.name, line.kind]), [['Santa Anna', 'tradition'], ['Houston', 'tradition']]);
   assert.ok(world.spotlight.key === 'santa-anna-taken' || world.events.some(event => event.type === 'spotlight' && /Santa Anna is found/.test(event.text)));
 });
 

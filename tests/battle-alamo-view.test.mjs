@@ -96,7 +96,8 @@ test('a family\'s man at his post fires until the moment he falls, then goes dow
 test('Travis is drawn at the north battery, says only his documented words there, and falls among the first; Joe hides, then comes out', () => {
   const art = fakeArt(), view = createBattleView(art);
   const { last } = run(view, art, at('alarm'), { seconds: 5, perTick: 1 });
-  assert.deepEqual(last.people.map(one => one.name), ['Travis']);
+  // Travis running to the north battery; since 2026-09-26 the rest of the famous garrison at their posts too (sim/people.mjs).
+  for (const name of ['Travis', 'Joe', 'Crockett', 'Bowie']) assert.ok(last.people.some(one => one.name === name), `${name} is not drawn at the alarm`);
   assert.ok(last.linesShown.includes('al-travis'), 'Travis\'s words were not drawn over him');
   const fall = run(view, art, at('repulse'), { seconds: 6, perTick: 2, t0: 6000 }).last;
   assert.ok(fall.people.find(one => one.name === 'Travis')?.fell, 'Travis did not fall in the repulse');

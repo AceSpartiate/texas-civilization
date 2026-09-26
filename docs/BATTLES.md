@@ -162,6 +162,14 @@ Then, by multiple choice:
    there when the attack comes. Captioned as a story told later, with the dashed `tradition` edge; the caption also says
    she had been taken by his army at New Washington five days before.
 
+   **Her words, with a stage direction** (owner, 2026-09-26: "maybe in the chat bubbles where emily is flirting with santa anna it
+   says *sarcasticly* or something like that?"). She says five short lines at the picnic, each drawn with a stage direction in
+   italics ahead of the words - *sarcastically*, *dryly*, *with a forced smile*, *quietly* - so a class reads that she is playing
+   a part with her captor, not sincere. They are the game's words in a named mouth: the one exception, by the owner's choice, to
+   the rule that a named person speaks only what a source gives them. Each is `tradition` (dashed), glossed as a story told
+   later and that his army had taken her at New Washington five days before; light, never physical, never sexualized; Santa Anna
+   is given no words (`FIC-GONZ-458`; `manner` on a line, §6.5; `tests/famous-people.test.mjs`).
+
    **Implemented art and staging, 2026-09-26:** Emily has a yellow-dress, uncovered-hair directional sheet and a four-pose seated picnic conversation; Santa Anna has paired conversation and alarm poses, and the camp has separate tent and meal props (`scripts/art-deliveries/famous-people.mjs`, `famous-picnic.mjs`). `legendScene` begins at 13:00 on April 21 near the Mexican camp and ends after the first guns. Its battle caption and dashed on-map label say this is a later story. The real outcome does not depend on the scene, and no invented words are attributed to either named person (`HIST-TEX-560`, `FIC-GONZ-560`).
 
 Every other question in `docs/battle-research/famous-people.md` takes its recommended answer (about fifteen people carried
@@ -304,7 +312,12 @@ rider's hands (a stand-in until a mounted firing pose exists). Every shot is a f
 ### 6.5 Talk
 
 `kind` is `documented` (a claim ID, solid edge), `reconstructed` (dashed) or `tradition` (dashed, for disputed words
-shown as disputed). A named person (`name`) may speak only a `documented` line; `checkEngagement` refuses anything else.
+shown as disputed). A named person speaks only a `documented` or a `tradition` line, never a `reconstructed` one, and is
+named by the roster (`person: '<id>'`, sim/people.mjs), never by text; the person must be drawn in that phase at that minute
+(its `people`, its parley or its legend), so the words come out of their own figure; `checkEngagement` refuses anything else
+(corrected 2026-09-26: this said "only a `documented` line" while the code allowed tradition, the audit's error 4; the owner's
+§2c.4 settled it as tradition allowed). `manner` is an optional stage direction drawn in italics ahead of any line's words
+(§2c.6, `FIC-GONZ-458`).
 `gloss` is the English under a Spanish order, or a note of where a documented line comes from ("Macomb's account, in
 paraphrase"). Lines are sent as the clock reaches them, and drawn at the real moment of the tick they are dated in.
 
@@ -518,8 +531,8 @@ Vince's bridge, the Host's spotlight on the bridge) · `waiting` (270: "siesta" 
 contact) · `volley` 16:30 (2, step 1) · `charge` 16:32 (6, step 1: "Remember the Alamo!" / "Remember Goliad!", documented) ·
 `rout` 16:38 (10, step 1: both sides `rout`, a share with hands up, "Me no Alamo!" as tradition) · `killing` 16:48 (100, step
 20: figures fall in the marsh and lie still, §2b.2) · `prisoners` dusk (60, step 20) · `search` (992) · `taken` 12:00 Apr 22
-(60, step 20: Santa Anna before the wounded Houston, the prisoners' documented "¡El Presidente!", neither named man given
-words) · `held` (1380, to the word). From the volley to the killing is Houston's eighteen minutes.
+(60, step 20: Santa Anna before the wounded Houston, the prisoners' documented "¡El Presidente!"; since 2026-09-26 the two
+speak Crane's "Napoleon of the West" exchange as tradition, §13) · `held` (1380, to the word). From the volley to the killing is Houston's eighteen minutes.
 
 ### 8.3 What the engine gained (generic, additive)
 
@@ -636,8 +649,8 @@ him at his post, firing with his wall, and going down when the storming reaches 
 learn nothing until the word (March 11 rumour, 13th confirmed at Gonzales, that evening elsewhere); the student who watched is
 given what they saw on the card; the word brings the account in plain words (what happened, where he was, why it ended so, the
 doubted stories named as doubted). Talk: "¡Viva Santa Anna!" (documented grade, no name), Travis's words from Joe's account at the
-north battery, Joe's own "Yes, here is one." - every other line reconstructed, no named person. The degüello and the line in the
-sand are never staged.
+north battery, Joe's own "Yes, here is one." - every other line reconstructed, no named person. The degüello is never staged;
+since 2026-09-26 the line in the sand is spoken by Travis as tradition on the evening of March 3 (owner, §2c.4; §13).
 
 ### 9.6 Evidence
 
@@ -656,8 +669,8 @@ him); `npm run test:battle-alamo` (`docs/evidence/battle-alamo-browser.json`); `
   a crowded line. A closer camera for the compound is the way out.
 - Night is a wash (stand-in); ladders are strokes (stand-in); the lancers carry no lances (stand-in). `docs/ART_REQUESTS.md`,
   request 2026-09-25 — the Alamo.
-- Not built: the noncombatants killed in the storming (`HIST-TEX-433`, the existing `ceiling:`); the executions shown (told only);
-  Dickinson, Joe and Ben as travellers to Gonzales (the word at Gonzales on the 13th stands for them); Bowie drawn.
+- Not built: the noncombatants killed in the storming (`HIST-TEX-433`, the existing `ceiling:`); the executions other than
+  Crockett's handful shown (told only). Built 2026-09-26 (§13): Dickinson, Joe and Ben as travellers to Gonzales; Bowie drawn.
 
 ## 10. Concepción and the Grass Fight on the engine (2026-09-25, wave 2; not released)
 

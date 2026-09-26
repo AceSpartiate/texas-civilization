@@ -705,7 +705,7 @@ export const ALAMO = Object.freeze({
         { id: 'barragan', keys: [[0, 'plaza'], [9, 'plaza'], [12, 'joe-door']], pose: 'command', face: 'joe-door' },
         { id: 'susanna-dickinson', keys: [[0, 'sacristy'], [4, 'sacristy'], [10, 'church-front']], pose: 'stand' },
         { id: 'crockett', with: 'taken', offset: { along: 0.002, across: 0.001 }, pose: 'captive', tag: 'One account (de la Peña) · disputed' },
-        { id: 'castrillon', with: 'taken', offset: { along: -0.004, across: 0.004 }, face: 'santa-anna-plaza', during: [0, 18] },
+        { id: 'castrillon', with: 'taken', offset: { along: -0.004, across: 0.004 }, face: 'santa-anna-plaza' },
         { id: 'santa-anna', keys: [[0, 'duque-reel'], [6, 'north-in'], [12, 'santa-anna-plaza']], pose: 'command', face: 'before-church' },
       ],
       falls: [{ side: TEX, group: 'taken', count: 5, at: 20, claimId: 'HIST-TEX-545' }],

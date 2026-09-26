@@ -58,6 +58,8 @@ const files = new Map([
   ['/land-worker.js', ['../public/land-worker.js', 'text/javascript']],
   ['/smooth-worker.js', ['../public/smooth-worker.js', 'text/javascript']],
   ['/army-view.js', ['../public/army-view.js', 'text/javascript']],
+  // The famous people on the map between their battles, named (docs/BATTLES.md §2c, sim/famous.mjs).
+  ['/famous-view.js', ['../public/famous-view.js', 'text/javascript']],
   // The one battle renderer and the one speech bubble (docs/BATTLES.md §3): every fight drawn, every line said over its speaker.
   ['/battle-view.js', ['../public/battle-view.js', 'text/javascript']],
   ['/speech.js', ['../public/speech.js', 'text/javascript']],

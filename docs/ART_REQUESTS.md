@@ -88,7 +88,6 @@ does not have:
 | **The red flag on San Fernando's tower**: a plain red field on a pole drawn on the canvas at the town's point, without the tower | `drawFlag` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the Alamo, item 5 | `flag-red` on the church tower of San Fernando, still and in wind |
 | **Mounted volunteers** (the Gonzales men riding in): the library's mounted courier (`mounted-courier-e`) | `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the Alamo, item 6 | `volunteer-mounted` walk and trot, east/north/south |
 | **Lancers** riding at men who run: `dragoon-march-*` (no lance); the striking is never drawn | `draw` in `public/battle-view.js` | Request 2026-09-25 — the Alamo, item 7 | `lancer-march` and `lancer-idle` with the lance up, both facings |
-| **Travis** is the volunteer figure, named; **Joe** uses his own delivered sheet (`joe-hide`, `joe-emerge`) | `drawPeople` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the Alamo, item 8 | A Travis figure (officer's coat, the volunteer firing cycle) |
 | **Smoke going up from burning huts and the pyres, far off**: the library's `smoke-rise`, drawn large | `drawPlume` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the Alamo, item 9 | `smoke-column-far`, a tall column seen from a distance (no fire, no bodies) |
 | **San Patricio by night** (2026-09-25): the dark of a night fight is a wash drawn over the whole view, and a lantern in a window or the fire on the square a warm glow drawn on the canvas; the colony's houses are the library's `house-jacal`, `cabin-small` and `jacal-poor` | `drawNight`, `glow`, `drawScenery` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the south's fights, items 1 and 2 | A night light layer (moon and dark), a lit-window overlay for `adobe-flat`/`house-jacal`, and a campfire burning at night |
 | **Grant's men on horseback** are drawn as the mounted courier's riding clip, `mounted-courier-e`; a family's man with them the same | the rider branch of `draw` and `memberPose` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the south's fights, item 3 | `volunteer-ride-e`/`-s`/`-n` (a volunteer with a rifle across the saddle) and a mounted firing frame |
@@ -105,6 +104,9 @@ does not have:
 | **The dry creek bed and the ditch in the mesquite** are `earth-rampart` laid low among `mesquite-large-wind`; the creek Jack forded is a drawn ribbon of water | `grassScenery` in `sim/battles/grass-fight.mjs` (`stand-in:`) | Request 2026-09-25 — Concepción and the Grass Fight, item 7 | `creek-bed-dry` ground piece, `creek-ford` |
 | **A family's person hit in a fight** is drawn as `volunteer-injured` for a second and then `volunteer-reclining` (killed), or `volunteer-injured` (wounded), carried by two `volunteer-march` figures once the fight has passed; one who runs is `volunteer-march` facing away | `poseOf` and the carriers in `draw`, `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, items 1 and 3 | each cast's own `-injured` and `-reclining`, and `bearers-carry` |
 
+| **Famous people without a sheet of their own** (Austin, Burleson, Moore, Bonham, Almeron Dickinson, Esparza, Kimbell, Martin, J. W. Smith, Johnson, Karnes, Deaf Smith, Neill, Grant, Horton, Rusk, Sherman, Lamar, Hockley, McCulloch, W. P. Smith, Smither, Cos, Castañeda, Urrea, Castrillón, Almonte, Condelle, Sánchez Navarro, Barragán, Ben) are drawn as the volunteer (`volunteer-idle-*`, `-march`, `-fire-reload`) or the regular, riding as the mounted courier or the dragoon, named under the figure | `drawPerson` in `public/battle-view.js`, `drawFamous` in `public/famous-view.js` (`stand-in:`) | Request 2026-09-26 — the famous people, items 1-3, 8 | Each person's own sheet, added to `PERSON_ART` |
+| **Poses the famous sheets lack**: Crockett taken is `volunteer-surrender`; the fallen without a still pose (Travis, Crockett, Bonham, Almeron Dickinson, Esparza, Castrillón) are `volunteer-injured` then `volunteer-reclining` (`regular-*` for Castrillón); Joe firing from the house is `joe-hide` with a flash at the door, and hurt is `joe-rest`; Houston and Santa Anna on horseback are the mounted courier and the dragoon | `drawPerson` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-26 — the famous people, items 4-7 | `crockett-captive`, `*-still`, `joe-fire`, `joe-hurt`, mounted Houston and Santa Anna |
+| **The Twin Sisters on the campaign map** are the library's `cannon-iron-e` twice, named | `drawFamous` in `public/famous-view.js` (`stand-in:`) | Request 2026-09-26 — the famous people, item 9 | `twin-sisters-limbered` |
 | **The marksmen in the grass at Coleto** are drawn in the loose order's standing and kneeling poses, firing | the `ringed` grass parts in `sim/battles/coleto.mjs`, drawn by `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 1 | `regular-prone-fire` (lying in the grass, aim and fire, both facings) |
 | **The Goliad prisoners** are drawn in the militia's walk and stand, which carry muskets; the prisoners had none | `columns` in `sim/battles/goliad-massacre.mjs` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 2 | `prisoner-walk` and `prisoner-stand`, unarmed, hands free |
 | **Francita Alavez** is drawn as the first cast's woman (`rust-woman-walk`, `rust-woman-idle-e`/`-w`), named on the map | the `alavez` part in `sim/battles/goliad-massacre.mjs` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 3 | `alavez-walk` and `alavez-idle`: a Mexican officer's wife of 1836 |
@@ -152,6 +154,38 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-26 — the famous people: the roster's remaining figures and poses
+
+**Status: open; stand-ins in use since 2026-09-26 (see *Stand-ins in use*).** The famous people are now drawn and named on every
+field and on the campaign map (`sim/people.mjs`, `public/battle-view.js` `PERSON_ART` and `drawPerson`, `public/famous-view.js`;
+`docs/BATTLES.md` §13). Every one with a sheet of their own is drawn from it; the rest, and the poses the delivered sheets do not
+have, stand in. Delivery contract as the delivered famous sheets (`scripts/art-deliveries/famous-people.mjs`): a transparent 4×4
+atlas per person, four east, two south and two north walking frames, then eight poses; the logical height of `volunteer-*`; east
+mirrored for west; no gore; no likeness claimed.
+
+1. **Texian officers without a sheet** - Austin, Burleson, Moore, Almeron Dickinson, Bonham, J. W. Smith, Kimbell, Martin, Johnson,
+   Neill, Hockley, McCulloch, Sherman, Rusk, Lamar, Horton, W. P. Smith, Smither, Deaf Smith, Grant - each: walk, idle, command,
+   fire, and a still (lying) pose; `bonham`, `almeron-dickinson` and a gun crew's `serve-gun` for the Alamo's church guns.
+2. **A Tejano defender** - Gregorio Esparza: walk, idle, serving a gun, still.
+3. **Mexican officers** - Cos, Castañeda, Urrea, Castrillón (with `on-crate`: standing on an ammunition box, arm raised; `walk-away`;
+   still), Almonte (with `surrender`, hands open, and `interpret`, standing beside a seated man), Condelle, Sánchez Navarro, Barragán.
+4. **Crockett taken** - `crockett-captive`: standing unarmed among the taken, hands open; and `crockett-still`, lying still, no
+   wound drawn. His delivered sheet carries his rifle in every cell (docs/BATTLES.md §2c.1).
+5. **The famous fallen** - `travis-still` (lying on the gun carriage's ramp), and a still pose for each officer above.
+6. **Joe** - `joe-fire` (firing from a doorway: only the head, shoulders and the barrel in the door) and `joe-hurt` (standing
+   wounded, a hand to his side), for his own account (`HIST-TEX-549`).
+7. **Mounted Houston and Santa Anna** - walk and idle on horseback (Houston's Saracen; he was shot from under him in the charge).
+8. **Ben** - a man of about thirty in a cook's clothes, walk and idle, for the walk to Gonzales with Mrs. Dickinson and Joe.
+9. **The Twin Sisters on the road** - `twin-sisters-limbered`: the pair of small iron guns on their carriages as seen with an army's
+   camp on the map (on the field `cannon-sixpounder-*` from request 2026-09-25 "San Jacinto" item 1 serves).
+
+**How it plugs in.** Each person's art key is `art` in `sim/people.mjs`; a new sheet is added to `PERSON_ART` in
+`public/battle-view.js` with its poses by name, and the stand-in for that person goes. Every `stand-in:` comment in `drawPerson` and
+`public/famous-view.js` names this request.
+
+**Check.** At the Alamo's church guns and at the head of San Jacinto's line each named figure reads as a different man; Crockett
+taken reads as a man with empty hands; the fallen read as lying still, not hurt; nobody's face is claimed as a likeness.
 
 ## Request 2026-09-25 — the storming of Béxar
 

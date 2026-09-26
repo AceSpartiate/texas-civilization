@@ -244,8 +244,8 @@ test('afterwards every other family with a man there is told through whoever hea
   }
   assert.match(view(world, killed.householdId).battleAccount.text, /was killed in the fight on the prairie at Coleto/);
   assert.match(view(world, spared.householdId).battleAccount.text, /spared/);
-  // Fannin's last requests are told as what was said afterward, never as fact (`HIST-TEX-519`).
-  assert.match(view(world, executed.householdId).battleAccount.text, /It was said afterward that Fannin/);
+  // Fannin's last requests are told as what was said afterward, by the man who said it, never as fact (`HIST-TEX-519`, `-562`).
+  assert.match(view(world, executed.householdId).battleAccount.text, /Joseph Spohn[^.]*said afterward that Fannin/);
 });
 
 test('who is sent what: the Host always, framed on the field while it is fought; a family only while its man is there; nobody else, not a fate before it falls', () => {

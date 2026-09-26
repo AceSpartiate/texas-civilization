@@ -1,6 +1,7 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
 import { drawArmy } from '/army-view.js';
+import { drawFamous } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, gaitMilesASecond, landRuns, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
 import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, standing, travellingLine, RENAME_PAUSE_MS } from '/family-panel.js';
@@ -3128,6 +3129,13 @@ export function drawWorld(world) {
       if (!animated(ctx, boat, bank.x, bank.y, camera.figure * SIZE.steamboat, army.id)) boat = null;
     }
     return { id: army.id, side: army.side, ours: army.ours, strength: army.strength, how, boat, x: Math.round(at.x), y: Math.round(at.y) };
+  });
+  // The famous people on the map between their battles, with their names, where the server says this page could see them
+  // (sim/famous.mjs, public/famous-view.js; docs/BATTLES.md §2c).
+  window.__famousDrawn = drawFamous(ctx, world.famous, camera, {
+    animated: (clip, x, y, size, key, options) => animated(ctx, clip, x, y, size, key, options),
+    drawSprite: (sprite, x, y, size, options) => drawSprite(ctx, sprite, x, y, size, options), miniPerson: (c, x, y, size, entity) => miniPerson(c, x, y, size, entity),
+    time: animationTime, bounds: { width: canvas.width, height: canvas.height },
   });
   // The fight, if this page may watch one (public/battle-view.js; sim/battle-stage.mjs `projectBattle`): both sides as they
   // fought, the fire, the smoke on the day's wind, the words, the cannon. It replaced `drawFormations` on 2026-09-25.

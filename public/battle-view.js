@@ -68,7 +68,7 @@ const clamp01 = value => Math.max(0, Math.min(1, value));
  * `walk` is the east-walking clip, mirrored for the west. A pose missing here is drawn from the library's volunteer or
  * regular (public/battle-view.js `drawPerson`; stand-ins listed in docs/ART_REQUESTS.md, request 2026-09-26).
  */
-const PERSON_ART = Object.freeze({
+export const PERSON_ART = Object.freeze({
   travis: { stand: 'travis-idle', command: 'travis-command', write: 'travis-write', point: 'travis-command', fire: ['travis-aim', 'travis-fire', 'travis-ready'], wounded: 'travis-wounded-kneel', walk: 'travis-walk-e' },
   bowie: { stand: 'bowie-idle', command: 'bowie-command', sick: 'bowie-sick-bed', 'still-bed': 'bowie-still-bed', seated: 'bowie-sick-seated', walk: 'bowie-walk-e' },
   crockett: { stand: 'crockett-idle', command: 'crockett-command', fire: ['crockett-aim', 'crockett-fire', 'crockett-reload'], seated: 'crockett-rest-seated', walk: 'crockett-walk-e' },
@@ -1091,7 +1091,7 @@ export function createBattleView(art) {
    * The named people the record puts there (`battle.people`): drawn where it puts them, named, and speaking only what a
    * source gives them. Travis at the north battery, firing, and falling where Joe said he fell; Joe hidden in a house and
    * coming out when the officers call - his own account, never a mechanic (docs/MILITARY_EXPERIENCE.md "Survivors and Joe").
-   * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 8 - Travis is drawn as the volunteer figure.
+   * Travis is drawn from his own sheet since 2026-09-26 (the Alamo request's item 8 delivered); see `drawPerson` for the rest.
    */
   function drawPeople(ctx, battle, camera, figurePx, time, now, bounds) {
     view.peopleSpots = {};

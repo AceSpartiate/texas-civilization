@@ -37,7 +37,7 @@ export const STORY_LINES = Object.freeze({
   'san-patricio': { told: 'Urrea\'s cavalry fell on Johnson\'s men at San Patricio before dawn' },
   declaration: { told: 'the convention at Washington declared Texas independent and named Sam Houston commander of its forces' },
   'agua-dulce': { told: 'Grant and his party were cut to pieces by Mexican cavalry at Agua Dulce Creek' },
-  'alamo-fall': { first: 'two Mexican riders said the Alamo had fallen, though General Houston thought them spies', told: 'the Alamo fell at dawn on March 6 and every man in it was killed; Mrs. Dickinson, her child and Travis\'s servant Joe came in to Gonzales' },
+  'alamo-fall': { first: 'two Mexican riders said the Alamo had fallen, though General Houston thought them spies', told: 'the Alamo fell at dawn on March 6 and nearly every defender was killed; Joe, a man Travis held as a slave, who fought beside him, came in to Gonzales with Mrs. Dickinson and her child' },
   'houston-colorado': { told: 'General Houston fell back over the Colorado and camped near Beeson\'s crossing' },
   'goliad-defeat': { told: 'Fannin was caught on the open prairie near Goliad and surrendered his whole command to Urrea' },
   'houston-san-felipe': { told: 'the army fell back to the Brazos, and San Felipe was burned' },

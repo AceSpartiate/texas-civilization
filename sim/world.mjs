@@ -1,6 +1,7 @@
 // Pure deterministic simulation; credentials and renderer state never belong here.
 import { buildColoniesRegion } from './colonies-region.mjs';
 import { armiesSeen } from './armies.mjs';
+import { famousSeen } from './famous.mjs';
 import { mapForPage } from './province.mjs';
 import { advanceNeighbours } from './neighbours.mjs';
 import { record } from './events.mjs';
@@ -1213,6 +1214,9 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // The armies standing in the country, as far as this page may know of them (sim/armies.mjs): the page draws their camps
     // and the Mexican columns, so a man who joins an army is not alone in the middle of nowhere (owner, 2026-09-17).
     ...(armies.length && { armies }),
+    // The famous people on the map between their battles, where this page could see them (sim/famous.mjs, docs/BATTLES.md
+    // §2c): drawn with their names. Absent when there is nobody to see, which is also a class saved before they were followed.
+    ...(() => { const famous = famousSeen(world, householdId, role); return famous.length ? { famous } : {}; })(),
     // The family's flight east, once it has been told to go (sim/scrape.mjs).
     ...(household?.flight ? { flight: flightProjection(world, household) } : {}),
     // Every family's land as it truly stands, and where the army is, for the Host's map only (sim/overview.mjs).

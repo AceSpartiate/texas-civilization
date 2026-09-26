@@ -92,9 +92,11 @@ export const PEOPLE = Object.freeze({
     // was attacked and saved by a captain, was brought before Santa Anna and was sent east with Mrs. Dickinson (`HIST-TEX-502`,
     // `-434`, `-549`). He lived: no text may say every man was killed without him (docs/BATTLES.md §2c.3).
     fate: { kind: 'wounded', battle: 'alamo', phase: 'end', at: 11, claimId: 'HIST-TEX-549' },
+    // Held in Béxar several days; "on the way" Mrs. Dickinson and Ben "met Joe" (the Handbook's Dickinson): he sets out after
+    // them and has caught them up by Gonzales.
     map: [
-      { from: on(1836, 3, 6, 18), until: 'survivors-leave', site: 'bexar', doing: 'stand', claimId: 'HIST-TEX-549' },
-      { from: 'survivors-leave', until: 'fall-confirmed', road: ['bexar', 'gonzales'], doing: 'walk', claimId: 'HIST-TEX-549' },
+      { from: on(1836, 3, 6, 18), until: { key: 'survivors-leave', plus: 480 }, site: 'bexar', doing: 'stand', claimId: 'HIST-TEX-549' },
+      { from: { key: 'survivors-leave', plus: 480 }, until: 'fall-confirmed', road: ['bexar', 'gonzales'], doing: 'walk', claimId: 'HIST-TEX-549' },
       { from: 'fall-confirmed', until: 'alamo-end', site: 'gonzales', doing: 'stand', claimId: 'HIST-TEX-549' },
     ],
   }),
@@ -134,7 +136,12 @@ export const PEOPLE = Object.freeze({
   }),
   burleson: person('burleson', 'Burleson', TX, 'officer', 1, 'HIST-TEX-554', {
     fullName: 'Edward Burleson',
-    map: [{ from: 'austin-leaves', until: 'bexar-end', with: 'army:force', doing: 'command', claimId: 'HIST-TEX-554' }],
+    // With the army from Austin's leaving, except while the Grass Fight (its 215 minutes from Deaf Smith's ride in) and the
+    // storming of Béxar draw him on their own fields.
+    map: [
+      { from: 'austin-leaves', until: 'grass-alarm', with: 'army:force', doing: 'command', claimId: 'HIST-TEX-554' },
+      { from: { key: 'grass-alarm', plus: 215 }, until: 'milam', with: 'army:force', doing: 'command', claimId: 'HIST-TEX-554' },
+    ],
   }),
   fannin: person('fannin', 'Fannin', TX, 'fannin', 1, 'HIST-TEX-562', {
     fullName: 'James Walker Fannin Jr.',
@@ -183,7 +190,7 @@ export const PEOPLE = Object.freeze({
     // staged as the owner chose and labelled tradition (`HIST-TEX-560`, `FIC-GONZ-560`, `FIC-GONZ-458`).
     side: 'civilian',
     map: [
-      { from: on(1836, 3, 14, 6), until: on(1836, 4, 16, 12), point: { lon: -94.9953, lat: 29.6780, near: 'lynchburg' }, place: 'New Washington', doing: 'stand', claimId: 'HIST-TEX-569' },
+      { from: on(1835, 12, 31, 12), until: on(1836, 4, 16, 12), point: { lon: -94.9953, lat: 29.6780, near: 'lynchburg' }, place: 'New Washington', doing: 'stand', claimId: 'HIST-TEX-569' },
       { from: on(1836, 4, 16, 12), until: 'san-jacinto-field', with: 'column:santa-anna', doing: 'walk', claimId: 'HIST-TEX-569' },
     ],
   }),

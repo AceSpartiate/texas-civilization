@@ -87,14 +87,14 @@ test('the storming is checked data: named men speak only what a record gives the
   checkEngagement(BEXAR_STORMING);
   const lines = BEXAR_STORMING.phases.flatMap(phase => phase.lines || []);
   for (const line of lines) {
-    if (line.name) assert.ok(['documented', 'tradition'].includes(line.kind) && /^HIST-/.test(line.claimId), `${line.name} speaks a ${line.kind} line`);
+    if (line.person) assert.ok(['documented', 'tradition'].includes(line.kind) && /^HIST-/.test(line.claimId), `${line.person} speaks a ${line.kind} line`);
     assert.doesNotMatch(line.text, /powder is as cheap|line (in|on) the (ground|sand)|who will cross/i, 'a line the research says not to use is spoken');
   }
   // Owner question B2 (a): Milam says his call, drawn as tradition, with the claim row explaining how we know it.
-  const milam = lines.find(line => line.name === 'Milam');
+  const milam = lines.find(line => line.person === 'milam');
   assert.equal(milam.kind, 'tradition'); assert.equal(milam.claimId, 'HIST-TEX-492'); assert.match(milam.gloss, /later/);
   // Condelle's refusal is reported speech, documented, in his own Spanish with the English under it.
-  const condelle = lines.find(line => line.name === 'Condelle');
+  const condelle = lines.find(line => line.person === 'condelle');
   assert.equal(condelle.kind, 'documented'); assert.equal(condelle.claimId, 'HIST-TEX-491'); assert.ok(condelle.gloss);
   // Milam says nothing where he falls: the yard falls quiet (staging.md §3.4).
   assert.deepEqual(BEXAR_STORMING.phases.find(phase => phase.id === 'milam').lines || [], []);
@@ -102,12 +102,12 @@ test('the storming is checked data: named men speak only what a record gives the
   // background pace with a step, each refused when the engagement loads.
   const bad = change => { const def = copy(BEXAR_STORMING); def.ground = BEXAR_STORMING.ground; change(def); return () => checkEngagement(def); };
   const phase = (def, id) => def.phases.find(one => one.id === id);
-  assert.throws(bad(def => { phase(def, 'karnes').lines[0].name = 'Karnes'; }), /named person/);
+  assert.throws(bad(def => { phase(def, 'karnes').lines[0].person = 'karnes'; }), /named person/);
   assert.throws(bad(def => { phase(def, 'karnes').groups.find(group => group.civilians).fire = 'scattered'; }), /townspeople/);
   assert.throws(bad(def => { phase(def, 'karnes').falls.push({ side: 'texian', count: 1, at: 20, claimId: 'HIST-TEX-043', unit: 'townsfolk' }); }), /never drawn hurt/);
   assert.throws(bad(def => { phase(def, 'entry').groups.push({ id: 'crowd', side: 'texian', drawn: 40, style: 'loose', at: 'garza' }); }), /figures/);
   assert.throws(bad(def => { phase(def, 'pinned-6').step = 20; }), /background/);
-  assert.throws(bad(def => { phase(def, 'milam').lines = [{ id: 'x', at: 1, side: 'texian', role: 'commander', kind: 'tradition', text: 'x', name: 'Milam' }]; }), /tradition line/);
+  assert.throws(bad(def => { phase(def, 'milam').lines = [{ id: 'x', at: 1, side: 'texian', role: 'commander', kind: 'tradition', text: 'x', person: 'johnson' }]; }), /tradition line/);
 });
 
 test('the storming is staged on the town the map draws: its houses are the assembly\'s, the mill half a mile north, the Alamo at the east edge', () => {

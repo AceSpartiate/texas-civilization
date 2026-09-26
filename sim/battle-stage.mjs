@@ -559,6 +559,22 @@ function peopleNow(state, phase, into, ground) {
   return out;
 }
 
+/**
+ * The famous people drawn on a battlefield at this minute, whatever page is looking: each live engagement's people now, the
+ * living and the fallen. The campaign map leaves these to the battle (sim/famous.mjs), so nobody is drawn twice.
+ */
+export function peopleOnFields(world) {
+  const on = new Set();
+  for (const state of liveBattles(world)) {
+    const ground = state.def.ground(world);
+    if (!ground) continue;
+    for (const one of peopleNow(state, state.phase, Math.min(state.into, state.phase.minutes), ground)) on.add(one.id);
+    for (const one of state.phase.parley?.people || []) on.add(one.id);
+    for (const one of state.phase.legendScene?.people || []) on.add(one);
+  }
+  return on;
+}
+
 /** One part of a side as a page is sent it (§6.13): where it is, how it stands and fires, and what its men are doing. */
 function partView(ground, phase, into, part, side, facing, over) {
   const place = placeOf(ground, part, phase.minutes, into);
