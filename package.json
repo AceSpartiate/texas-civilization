@@ -77,6 +77,7 @@
     "test:battle-bexar": "node scripts/battle-bexar-browser-proof.mjs",
     "test:battle-injections": "node scripts/battle-injections.mjs",
     "test:battle-san-jacinto": "node scripts/battle-san-jacinto-browser-proof.mjs",
-    "test:san-jacinto-injections": "node scripts/san-jacinto-injections.mjs"
+    "test:san-jacinto-injections": "node scripts/san-jacinto-injections.mjs",
+    "test:battle-south": "node scripts/battle-south-browser-proof.mjs"
   }
 }

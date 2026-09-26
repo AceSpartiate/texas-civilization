@@ -27,7 +27,7 @@ const camera = { toScreen: p => ({ x: 683 + p.x * 1800, y: 384 + p.y * 1800 }), 
 const side = (name, style, fire, x, extra = {}) => ({ side: name, name, count: 100, drawn: 60, style, fire, action: 'stand', moving: false, x, y: 0, facing: { x: name === 'texian' ? 1 : -1, y: 0 }, ...extra });
 const battle = (minute, over = {}) => ({
   id: 'san-jacinto', phase: 'x', minute, caption: 'x', live: true, over: false, lines: [], fallen: [], members: [], formations: [],
-  sides: [side('texian', 'ranks', 'none', -0.3), side('mexican', 'camp', 'none', 0.3)], ...over,
+  sides: [side('texian', 'ranks', 'none', -0.3), side('mexican', 'camp', 'none', 0.3, { pose: 'rest' })], ...over,
 });
 function run(view, make, { seconds, from = 0, tickMs = 1000, art = null } = {}) {
   let last = null;
@@ -35,7 +35,7 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null } = {}) 
   return last;
 }
 
-test('a camp at rest is scattered and unformed, some standing and some sitting, and fires nothing; the formed line against it stands in even ranks', () => {
+test('a camp at rest (pose `rest`) is scattered and unformed, some standing and some sitting, and fires nothing; the formed line against it stands in even ranks', () => {
   const art = fakeArt(), view = createBattleView(art);
   const shown = run(view, minute => battle(minute), { seconds: 3 });
   assert.equal(shown.shotsTotal, 0, 'a camp at rest fired');

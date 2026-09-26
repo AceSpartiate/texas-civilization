@@ -33,7 +33,7 @@ import { readDbf, readShapes } from './terrain/shapefile.mjs';
 import { contours, joinReaches, lineLength, ringArea, simplifyLine, simplifyRing } from './terrain/lines.mjs';
 import { BEACH_VIEW_MILES, COASTAL_MARSH_ECOREGIONS, COVER_OF_STAND, ESCARPMENT_MILES, MARSH_PRAIRIES, METRES_PER_MILE, bandShade, facesGulf, openWater, pickVote, reliefKind, slopeAt, windowRange } from './terrain/land-rules.mjs';
 import { MEXICO, PALM_DELTA, STAND_IDS, THORNSCRUB, modelOf, nuecesSide, standOfSetting } from './terrain/biomes.mjs';
-import { realTerrain } from '../sim/terrain-data.mjs';
+import { boxTerrain as realTerrain } from '../sim/terrain-data.mjs';
 import { LAND, LAND_BANDS, LAND_BITS, RELIEF, landBitsOf, landData } from '../sim/land.mjs';
 import { provinceBands } from '../sim/province.mjs';
 

@@ -1141,3 +1141,68 @@ arrival, the own-land case, the too-short case, `landRuns`, and that nothing of 
 frame read off, the drawn speed never past the gait, the figure invisible through the middle, no marker drawn at any frame,
 and the drawn arrival on the server's own minute. It is also held to being painted where the schedule walked it and not where the server has it. **Every test was made to fail first, 23 of 23 caught:**
 [docs/evidence/travel-drawn-injections.json](evidence/travel-drawn-injections.json).
+
+## 13. South to the Nueces: San Patricio and Agua Dulce Creek walked (2026-09-25)
+
+Owner, 2026-09-25, by multiple choice (docs/BATTLES.md §2b.4): **the map extends south to the Nueces**, so a man who went south
+is really at San Patricio and the fights at San Patricio and Agua Dulce are drawn where they happened.
+
+### 13.1 A strip under the box, not a new box
+
+The page already drew this country (§8, the outside layer: relief, land classes, woods tiles, the Nueces). What the simulation
+lacked was land to read there - heights for the roads' routing, water, woods - and places and roads to walk. So:
+
+- **`scripts/build-south.mjs <raw-dir>`** builds a strip on the box's own lattice, 27.6-28°N over the box's longitudes (rows 2206
+  to 2425: the box's last two rows past 28°N were empty), from the raw data of §2 kept at `C:\Users\zachw\TexasData\raw`:
+  heights from 3DEP 1 arc-second (tiles n28w097-n28w099) by `build-terrain`'s rule (each cell the mean of its samples);
+  NHD flowlines lying wholly south of 28°N (a flowline reaching 28°N is in the box's own courses already), filtered and
+  simplified as `build-terrain` does (2,845 lines, 65 names, Agua Dulce, Banquete and Chiltipin creeks and the Nueces among
+  them); and the woods' stand of every cell copied from `outside-woods.bin.gz`, which `build-outside` filed from LANDFIRE by the
+  box's own rules for exactly these cells. Writes `public/terrain/south-elevation.bin.gz` (274 KB) and
+  `south-water.json.gz` (164 KB). Deterministic.
+- **`sim/terrain-data.mjs` `realTerrain()`** lays the strip under the box's grid row for row (heights and courses);
+  **`sim/woods.mjs`** does the same for the biomes grid. `boxTerrain()` is the box alone, and `build-land`, `build-province`,
+  `build-outside` and `build-woods` read it, so they still give the box's files back byte for byte. **The box's eight files are
+  unchanged**; only `colonies-map.json.gz` was rebuilt. The page's files are unchanged: nothing of the strip is sent to it.
+- **`scripts/build-colonies-map.mjs`**: San Patricio a `village` at its point (`HIST-TEX-159`), `agua-dulce` a `ground` at
+  Wikipedia's point on Agua Dulce Creek (`HIST-TEX-512`), `matamoros-road` where the walked road south ends at 27.62°N
+  (`FIC-GONZ-436`); the **Nueces a barrier**, crossed only at San Patricio (`san-patricio-crossing`, the id the outside ford had);
+  roads Refugio → San Patricio (39.4 mi), San Patricio → Goliad (56.0 mi, the id of the outside road it replaces), San Patricio →
+  Agua Dulce (12.1 mi) → the road's end (16.7 mi), each the least effort over the ground (`FIC-GONZ-027`); the creeks round San
+  Patricio and the Agua Dulce ground drawn, so the roads' fords on Papalote, Javelin, Sandy Hollow, Banquete, Agua Dulce and Pintas
+  creeks are places. The outside road up from Matamoros now ends at `matamoros-road`; the Camino Real to Laredo goes over the
+  Nueces at San Patricio's crossing. **Every other place and road is byte for byte what it was** (checked by decoding both).
+- **Old saves** gain the south at the save's door (`sim/south.mjs` `openSouth`, from `server/storage.mjs` `readSave`): the south's
+  places, roads and the creeks round their fords, from the built map; San Patricio and its crossing replaced; the two outside roads
+  drawn to San Patricio removed; nothing else touched. **No `saveVersion` bump**: an old class's map was not wrong, it lacked
+  places; added, it opens the class as it was plus the south. A class on the invented Gonzales country is untouched.
+
+### 13.2 Regenerating (for a merge)
+
+`public/terrain/colonies-map.json.gz` is generated. After merging a branch that also changed `scripts/build-colonies-map.mjs`
+(another place, a road), merge the script, then run **`node scripts/build-colonies-map.mjs`** (4 s; reads `realTerrain()`, so the
+strip must be on disk) and put the new hash in `tests/map-outside.test.mjs` `BOX_FILES['colonies-map.json.gz']`. The strip's two
+files regenerate only with `node scripts/build-south.mjs C:\Users\zachw\TexasData\raw` (about a minute) and need no merge unless
+its script changes. Nothing else regenerates.
+
+### 13.3 Sizes and speed (same computer)
+
+`scripts/south-startup-measure.mjs` (`docs/evidence/south-startup-{before,after}.json`) and `scripts/perf-load-measure.mjs`
+(`docs/evidence/perf-load-south-{before,after}.json`); the numbers are in HANDOFF.md's entry for this build.
+
+### 13.4 Checks
+
+`tests/south-map.test.mjs` (6): the strip on the box's lattice with the box's own cells unchanged; San Patricio, Agua Dulce and the
+road's end at their points with heights and woods; the Nueces crossed only at San Patricio and the roads' lengths; walked and
+ridden from Refugio, Goliad and Gonzales, the word carried, never to Matamoros or Laredo; an old save opened at the door with
+nothing it had moved; the strip's files as built. `tests/crossings.test.mjs` (the Nueces crossing on the outside country's river
+the page draws), `tests/map-outside.test.mjs` (the box's hashes; the new map's). Injections: `scripts/battle-south-injections.mjs`.
+
+### 13.5 Ceilings
+
+- `ceiling:` the strip is the box's longitudes, 27.6-28°N; the simulation's land still stops at 27.6°N, and Matamoros, Laredo
+  and the presidio are drawn and never walked (§11.3).
+- `ceiling:` the land classes and relief of the strip are the outside layer's (drawn by the page); `landAt` on the server, which
+  nothing in the simulation reads, still ends at the box.
+- `ceiling:` the ecoregion grid (`ecoregionAt`) ends at the box; nothing south of it asks.
+- `ceiling:` a class made on the 2016 woods grid (2026-09-15 to -19) sees no woods in the strip.

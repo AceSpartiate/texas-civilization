@@ -139,7 +139,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // is this game's (`FIC-GONZ-441`): the record has it there on the 20th.
       id: 'arrive', minutes: 60, step: 20, title: 'Santa Anna’s army comes up', claimId: 'HIST-TEX-523',
       caption: 'April 20. Santa Anna’s army comes up and makes its camp on the open plain toward the San Jacinto River, under a mile from Houston’s camp in the timber along Buffalo Bayou.',
-      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', spread: { width: 0.4, depth: 0.22 } },
+      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'column', from: 'mexApproach', to: 'mexicanCamp', action: 'advance', fire: 'none', count: 700 },
       lines: [
         say('sj-there', 20, TEX, 'volunteer', 'reconstructed', 'There they are.'),
@@ -149,8 +149,8 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
     {
       id: 'camped', minutes: 180, title: 'The two camps', claimId: 'HIST-TEX-523',
       caption: 'The two armies are camped in sight of each other across the prairie. Neither moves.',
-      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', spread: { width: 0.4, depth: 0.22 } },
-      mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', count: 700 },
+      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
+      mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', pose: 'rest', count: 700 },
     },
     {
       // 16:00-17:00. "That afternoon Sidney Sherman with a small detachment of cavalry engaged the enemy infantry, almost
@@ -158,7 +158,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // `HIST-TEX-527`). The hour is the game's.
       id: 'skirmish', minutes: 60, step: 10, title: 'The skirmish of April 20', claimId: 'HIST-TEX-523',
       caption: 'In the afternoon Colonel Sherman takes a small party of horsemen out onto the prairie and skirmishes with the Mexican infantry. It almost brings on a general battle, and does not.',
-      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', spread: { width: 0.4, depth: 0.22 } },
+      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'ranks', keys: [[0, 'mexicanCamp'], [15, 'breastwork'], [50, 'breastwork'], [60, 'mexicanCamp']], action: 'hold', fire: 'volley', count: 700 },
       groups: [
         { id: 'sherman', side: TEX, name: 'Sherman’s horsemen', drawn: 6, style: 'mounted', mounted: true, keys: [[0, 'texianCamp'], [14, 'skirmish'], [46, 'skirmish'], [60, 'texianCamp']], action: 'advance', fire: 'scattered', claimId: 'HIST-TEX-523' },
@@ -177,8 +177,8 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       id: 'night', minutes: 960, title: 'The night of April 20', claimId: 'HIST-TEX-524',
       guns: { 'mexican-gun': [] },
       caption: 'Night. In the Mexican camp the soldiers work through the dark throwing up a breastwork of packs, saddles and baggage across the front of the camp.',
-      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', spread: { width: 0.4, depth: 0.22 } },
-      mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', count: 700 },
+      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
+      mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', pose: 'rest', count: 700 },
     },
     {
       // 09:00-11:00, April 21. "About nine o'clock they learned that Martín Perfecto de Cos had crossed Vince's bridge with
@@ -188,8 +188,8 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       id: 'morning', minutes: 120, step: 20, title: 'Cos comes in, and the bridge', claimId: 'HIST-TEX-523',
       guns: { 'mexican-gun': [] },
       caption: 'April 21. About nine, General Cos comes in with about 540 more men, who have marched all night; they lie down to sleep. Houston sends Deaf Smith and a few men to destroy Vince’s bridge, eight miles off on the road the reinforcements came by.',
-      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', spread: { width: 0.4, depth: 0.22 } },
-      mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', count: 1200 },
+      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
+      mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', pose: 'rest', count: 1200 },
       groups: [
         { id: 'cos', side: MEX, name: 'Cos’s men', count: 540, drawn: 16, style: 'column', keys: [[0, 'cosRoad'], [60, 'mexicanCamp']], face: 'breastwork', action: 'advance', fire: 'none', claimId: 'HIST-TEX-523' },
         { id: 'deaf-smith', side: TEX, name: 'Deaf Smith’s party', drawn: 3, style: 'mounted', mounted: true, keys: [[60, 'texianCamp'], [120, 'bridgeRoad']], face: 'bridgeRoad', action: 'advance', fire: 'none', claimId: 'HIST-TEX-153' },
@@ -205,8 +205,8 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       id: 'waiting', minutes: 270, title: 'The quiet afternoon', claimId: 'HIST-TEX-524',
       guns: { 'mexican-gun': [] },
       caption: 'The afternoon is quiet in the Mexican camp. Cos’s men are asleep; others rest, eat and see to the horses. (The Handbook of Texas calls it the afternoon siesta.) In the Texian camp the men wait for Houston to decide.',
-      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', spread: { width: 0.4, depth: 0.22 } },
-      mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', count: 1200 },
+      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
+      mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', pose: 'rest', count: 1200 },
       lines: [say('sj-wait', 90, TEX, 'volunteer', 'reconstructed', 'Waiting again.')],
     },
     {
@@ -216,7 +216,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       guns: { 'mexican-gun': [] },
       caption: 'At half past three Houston orders the army to parade. The companies form in the edge of the timber in one long line: Sherman’s regiment on the left, Burleson’s in the centre, the two cannon, the regulars, and Lamar’s sixty-one horsemen on the far right.',
       texian: { style: 'ranks', keys: [[0, 'texianCamp'], [20, 'line']], action: 'advance', fire: 'none' },
-      mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none' },
+      mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', pose: 'rest' },
       groups: [
         { id: 'lamar', side: TEX, name: 'Lamar’s horsemen', count: 61, drawn: 6, style: 'mounted', mounted: true, keys: [[0, 'texianCamp'], [20, 'cavalryLine']], action: 'advance', fire: 'none', claimId: 'HIST-TEX-522' },
       ],
@@ -233,7 +233,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       guns: { 'mexican-gun': [] },
       caption: 'The line walks out across the open prairie, the rise screening it from the Mexican camp, the two cannon wheeled along with it. A tune is played as it goes, by tradition "Will You Come to the Bower?" - by a fifer and a drummer, the story goes, or by two fiddlers named Davis; the two traditions disagree.',
       texian: { style: 'ranks', from: 'line', to: 'close', action: 'advance', fire: 'none' },
-      mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none' },
+      mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', pose: 'rest' },
       groups: [
         { id: 'lamar', side: TEX, name: 'Lamar’s horsemen', count: 61, drawn: 6, style: 'mounted', mounted: true, from: 'cavalryLine', to: 'cavalryClose', action: 'advance', fire: 'none', claimId: 'HIST-TEX-522' },
       ],
@@ -353,7 +353,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // 19:28 April 21 - noon April 22. The night, and the search next morning.
       id: 'search', minutes: 992, title: 'The camp taken', claimId: 'HIST-TEX-523',
       caption: 'The night after the battle. The prisoners are under guard in the taken camp. In the morning parties ride out over the prairie looking for the men who got away, and for Santa Anna.',
-      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', spread: { width: 0.4, depth: 0.22 } },
+      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'loose', at: 'prisonerGround', action: 'hold', fire: 'none', surrendering: 1, spread: { width: 0.22, depth: 0.14 }, count: 730 },
     },
     {
@@ -363,7 +363,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // `HIST-TEX-526`). The hour is the game's. Neither man is given a word: no source read gives them one.
       id: 'taken', minutes: 60, step: 20, title: 'Santa Anna is brought in', claimId: 'HIST-TEX-526',
       caption: 'April 22. A search party brings in a man it found hiding in the grass, dirty and wet, dressed as a common soldier. As he is brought past the prisoners they call him "el presidente": he is Santa Anna. He is brought before Houston, who lies wounded.',
-      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', spread: { width: 0.4, depth: 0.22 } },
+      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'loose', at: 'prisonerGround', action: 'hold', fire: 'none', surrendering: 1, spread: { width: 0.22, depth: 0.14 }, count: 730 },
       parley: { at: 'texianCamp', people: [{ side: TEX, name: 'Houston', pose: 'injured' }, { side: MEX, name: 'Santa Anna' }] },
       lines: [
@@ -377,7 +377,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // (Wikipedia, `HIST-TEX-526`). The engagement ends when the word of the victory goes out (`victory-word`).
       id: 'held', minutes: 1380, title: 'Santa Anna a prisoner', claimId: 'HIST-TEX-526',
       caption: 'Santa Anna is a prisoner in Houston’s camp. He writes to General Filisola, now the senior Mexican officer in Texas, ordering the Mexican troops to fall back to Béxar.',
-      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', spread: { width: 0.4, depth: 0.22 } },
+      texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'loose', at: 'prisonerGround', action: 'hold', fire: 'none', surrendering: 1, spread: { width: 0.22, depth: 0.14 }, count: 730 },
     },
   ],

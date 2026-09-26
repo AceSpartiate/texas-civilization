@@ -131,24 +131,41 @@ export function joinMouths(courses, within = JOIN_MILES) {
   return joined;
 }
 
+/** A built place as a class's map carries it (also how sim/south.mjs brings the south into a class saved before it). */
+export function siteOfPlace(place) {
+  return { id: place.id, name: place.name, kind: place.kind, x: place.x, y: place.y, claimId: place.claimId, ...(place.start && { start: true }), ...(place.settlementId && { settlementId: place.settlementId }),
+    // A crossing (docs/MAP_ACCURACY.md §10): the water it is over (null for open water), which way it lies across it, whether
+    // the word and the fleeing families stop there (`stage`), and where its road meets the water when it stands off it (`over`).
+    ...(place.water !== undefined && { water: place.water, waterKind: place.waterKind, across: place.across, ...(place.span && { span: place.span }), ...(place.oblique && { oblique: place.oblique }) }),
+    ...(place.stage && { stage: true }), ...(place.over && { over: { x: place.over.x, y: place.over.y } }),
+    // A place of the country outside the box, drawn and never walked to (sim/colonies-map.mjs `walked`).
+    ...(place.outside && { outside: true }) };
+}
+/** A built road as a class's map carries it. */
+export function routeOfRoad(road) {
+  const id = `route-${road.from}-${road.to}`;
+  return { id, from: road.from, to: road.to, kind: road.kind, name: road.name, points: road.points.map(p => ({ x: p.x, y: p.y })) };
+}
+/**
+ * A drawn creek's runs inside some boxes, as a class's map keeps them (`cut` naming the ends that carry on past a box). The
+ * same rule as the creeks kept round a ford below; no random number is drawn.
+ */
+export function creekRuns(course, inKept) {
+  const runs = [[]], cuts = [new Set()];
+  course.points.forEach((p, i) => {
+    if (inKept(p)) { if (!runs.at(-1).length && i > 0) cuts.at(-1).add('start'); runs.at(-1).push(p); }
+    else if (runs.at(-1).length) { cuts.at(-1).add('end'); runs.push([]); cuts.push(new Set()); }
+  });
+  return runs.map((points, i) => ({ points, cut: cuts[i] })).filter(run => run.points.length >= 2);
+}
+
 export function buildColoniesRegion(random, playerCount) {
   const built = coloniesMap();
   const land = realTerrain();
   const sites = {}, routes = {}, terrain = [];
 
-  for (const place of Object.values(built.places)) {
-    sites[place.id] = { id: place.id, name: place.name, kind: place.kind, x: place.x, y: place.y, claimId: place.claimId, ...(place.start && { start: true }), ...(place.settlementId && { settlementId: place.settlementId }),
-      // A crossing (docs/MAP_ACCURACY.md §10): the water it is over (null for open water), which way it lies across it, whether
-      // the word and the fleeing families stop there (`stage`), and where its road meets the water when it stands off it (`over`).
-      ...(place.water !== undefined && { water: place.water, waterKind: place.waterKind, across: place.across, ...(place.span && { span: place.span }), ...(place.oblique && { oblique: place.oblique }) }),
-      ...(place.stage && { stage: true }), ...(place.over && { over: { x: place.over.x, y: place.over.y } }),
-      // A place of the country outside the box, drawn and never walked to (sim/colonies-map.mjs `walked`).
-      ...(place.outside && { outside: true }) };
-  }
-  for (const road of built.roads) {
-    const id = `route-${road.from}-${road.to}`;
-    routes[id] = { id, from: road.from, to: road.to, kind: road.kind, name: road.name, points: road.points.map(p => ({ x: p.x, y: p.y })) };
-  }
+  for (const place of Object.values(built.places)) sites[place.id] = siteOfPlace(place);
+  for (const road of built.roads) { const route = routeOfRoad(road); routes[route.id] = route; }
 
   // Who goes where: the counts, then which family, shuffled by the seed.
   const counts = dealCounts(playerCount);
