@@ -360,19 +360,23 @@ Claims `HIST-TEX-480`–`-484`, `FIC-GONZ-420`–`-424`.
 | The director's part | `sim/concepcion-grass.mjs` | The departures, the families' people stood in their part of the force, each fate at its moment, the alerts, the main army coming up, the rejoining, the accounts, and `campaignBattleProjection` (called from `directorProjection`). |
 | The army | `sim/army.mjs` | `concepcionFate` / `grassFate` (the old rolls, per person), `resolveConcepcionFighter`, `resolveGrassFighter`, `rejoinRanks`, `followTheArmy`, `armyArrivalWords`; the ranks leave anybody `withAForce`. |
 
-### 8.2 What the engine gained (additive; Gonzales is drawn exactly as before)
+### 8.2 On the one engine (Béxar's pieces used; what these two add, additive)
 
-- **`groups`** in a phase: a body of a side drawn apart (its own key, count, sample, style, fire, place by `at`/`from`/`to`/`keys`,
-  `faceTo` a point). Projected as extra entries in `sides` carrying `group`; a fall or a line may name a `group`.
-- **`gun`** in a phase: `false` (not on the field), or `{ side, group, at }` (with a group, or standing where it was taken).
-- **`fog: [from, to]`** in a phase, and **`scenery(ground)`** on an engagement (sprites, clips and a water ribbon the map lacks).
-- **`battleStep`** lands an unwatched phase (a night in camp) exactly on the next watched phase's start.
-- **`projectBattle(…, { fates, memberGroups })`**: a family's person's fate is sent only once it has fallen; which body they stand in.
-- **`withAForce`**: anybody in any engagement's `participants` not yet released.
-- The renderer: bodies keyed by `group || side`; a `bank` figure loading drawn a third of a figure lower; the fallen pinned
-  where they fell; the member's own fate pose and carriers; the fog veil; the scenery; a `packhorse` figure; the gun's crew by
-  side; a fixed gun. `window.__battleView` adds `groups`, `regularityBy`, `fog`, `scenery`, `memberFates`.
-- `public/app.js`: a side that has gone is not framed.
+Concepción and the Grass Fight use the pieces the storming of Béxar built (§7.2) and nothing parallel to them: `groups`
+(Bowie's companies, Coleman's men, the cavalry and the main army; Jack's infantry, the ditch, the sortie, Swisher's men and
+the pack train), falls and lines by `unit`, `guns` standing where the record puts them (Concepción's brass gun at eighty
+yards, and the same gun turned by its takers; the sortie's gun), and **one per-person fate path**: the fate is decided from
+the army's existing roll when the man joins the force and staged with `stageFate`, applied when `fatesDue` says its minute
+has come, and sent to a page by `projectBattle`'s `fates` only from that minute; `units` names the body each man stands in.
+What they add:
+
+- **`fog: [from, to]`** in a phase and **`scenery(ground)`** on an engagement (sprites, clips and a water ribbon the map lacks).
+- A side may face a named point (`face: '<point>'`, as a group does).
+- **`withAForce`**: anybody in any engagement's `participants` not yet released; the army's ranks leave them to the fight.
+- The renderer: a `packhorse` figure; a `bank` figure loading drawn a third of a figure lower than one firing; the fallen kept
+  where they fell while their body moves on or leaves the field; a man who runs drawn going the other way; the fog veil; the
+  scenery. `window.__battleView` adds `regularityBy`, `fog`, `scenery`.
+- `public/app.js`: a side or group that has gone is not framed.
 
 ### 8.3 Arrival, participation, aftermath
 
@@ -399,6 +403,8 @@ Study**. Whole engagements: Concepción 48 ticks (was about 2), the Grass Fight 
 - ceiling: the bend and the creek beds are placed by their distance from Béxar and the mission, not on the map's own water.
 - ceiling: the second, heavier gun at Concepción and the padre's carts are told in the caption, not drawn.
 - ceiling: a follower is aimed at where the army stands when he sets out.
+- ceiling: a family's man killed at Concepción lies where he fell; he is not drawn carried under the bank as Andrews was (a
+  carrying pose is the way out).
 - Bowie's riders are drawn on foot riding out, their horses brought along behind (stand-ins listed in docs/ART_REQUESTS.md).
 - A fate's health shows on the family's panel the moment it falls, before the Grass Fight's word rides home (the old roll
   did the same at the fight).
