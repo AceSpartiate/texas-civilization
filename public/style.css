@@ -489,19 +489,36 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .name-row button:hover:enabled{background:#ddd4b6}
 #family-name-form{margin-bottom:10px}
 
-#family-roll{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:9;width:min(20rem,calc(100% - 24px));background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:14px 16px;color:#3b3427;text-align:center}
-#family-roll h2{font-size:20px;margin:2px 0 0;color:#4b3e28}
-#family-roll p{margin:7px 0 0;font-size:14px;line-height:1.5}
-.family-die{width:92px;height:102px;margin:10px auto 0;display:grid;place-items:center;font:700 32px/1 Georgia,'Times New Roman',serif;color:#fff7e3;background:radial-gradient(circle at 50% 58%,#8a6a3d 0 34%,#6b4f2a 35%);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
-.family-die.rolling{animation:family-die-tumble .18s linear infinite}
-@keyframes family-die-tumble{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-#roll-family{margin-top:10px}
-/* The family's die and, in a class made since 2026-09-25, the means die beside it (sim/means.mjs), thrown by one press. */
-.family-dice{display:flex;justify-content:center;gap:18px}
-.family-dice .family-die[hidden]{display:none}
-.means-die{background:radial-gradient(circle at 50% 58%,#5d6b44 0 34%,#465433 35%)}
-#means-result{font-size:13px;line-height:1.45;text-align:left;background:#fffaf0a8;border:1px solid #c9b58b;border-radius:6px;padding:6px 8px}
+#family-roll{position:absolute;left:50%;top:53%;transform:translate(-50%,-50%);z-index:9;width:min(740px,calc(100% - 40px));max-height:calc(100dvh - 150px);overflow-y:auto;box-sizing:border-box;color:#302a21;background:linear-gradient(135deg,#fff9ea 0%,#efe1c3 100%);border:2px solid #cfb783;border-radius:16px;outline:1px solid #544429;outline-offset:-8px;box-shadow:0 10px 0 #261f1580,0 25px 70px #1e1b13a8;padding:26px 32px 24px;text-align:left}
+.roll-heading{text-align:center;max-width:35rem;margin:0 auto 17px}
+.roll-heading .eyebrow{display:block;color:#8b6635;font:700 11px/1.2 system-ui,sans-serif;letter-spacing:.23em}
+#family-roll h2{font-size:clamp(27px,3.6vw,36px);line-height:1.12;margin:7px 0 10px;color:#3c3425}
+#family-roll p{margin:0;font-size:14px;line-height:1.5}
+#family-roll-text{color:#5a4b37}
+/* Each die has a separate, readable job. The old single-die classes still use the left card alone. */
+.family-dice{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:0 auto;max-width:640px}
+.roll-die-card{min-width:0;min-height:184px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:7px;padding:14px 13px 12px;box-sizing:border-box;border:1px solid #bc9f70;border-radius:10px;background:#f8eed8de;box-shadow:inset 0 2px 4px #fff9e7,0 3px 0 #80643c24;text-align:center}
+.roll-die-card[hidden],.family-dice .family-die[hidden]{display:none}
+#family-roll[data-means=false] .family-dice{grid-template-columns:minmax(0,310px);justify-content:center}
+.roll-die-label{color:#705333;font:700 11px/1.2 system-ui,sans-serif;letter-spacing:.15em}
+.roll-die-caption{color:#655744;font:12px/1.35 system-ui,sans-serif}
+.family-die{width:78px;height:86px;flex:none;display:grid;place-items:center;font:700 31px/1 Georgia,'Times New Roman',serif;color:#fff9e9;text-shadow:0 1px 2px #2e2116;background:radial-gradient(circle at 48% 40%,#a67c43 0 26%,#79542c 55%,#4c351f 100%);clip-path:polygon(50% 0,91% 15%,100% 50%,80% 87%,50% 100%,20% 87%,0 50%,9% 15%);filter:drop-shadow(0 7px 5px #3e312954)}
+.means-die{background:radial-gradient(circle at 48% 40%,#849368 0 26%,#586b43 55%,#34452f 100%)}
+.family-die.rolling{animation:family-die-tumble .25s ease-in-out infinite alternate}
+@keyframes family-die-tumble{from{transform:rotate(-13deg) scale(.94)}to{transform:rotate(13deg) scale(1.05)}}
+#family-roll #means-roll-text{color:#655744;font:12px/1.35 system-ui,sans-serif;max-width:230px}
+.roll-outcome{max-width:640px;margin:11px auto 0;text-align:center}
+#family-roll-result:empty{display:none}
+#family-roll-result{font-size:14px;font-weight:700;color:#534026}
+#means-result{font-size:13px;line-height:1.45;text-align:left;background:#fffaf0;border:1px solid #c9b58b;border-left:4px solid #708251;border-radius:6px;padding:8px 11px;margin-top:8px!important}
 #means-result[hidden]{display:none}
+.roll-footer{max-width:640px;margin:15px auto 0;display:flex;align-items:center;justify-content:space-between;gap:18px;border-top:1px solid #c5ab7e;padding-top:15px}
+.roll-footer-note{font:italic 14px Georgia,'Times New Roman',serif;color:#725e3d}
+#roll-family{min-width:208px;min-height:48px;margin:0;background:#405b3b;border:1px solid #263d29;border-radius:7px;color:#fff9e9;font:700 15px/1.2 system-ui,sans-serif;box-shadow:0 3px 0 #263d29;cursor:pointer}
+#roll-family:hover:enabled{background:#52734a;transform:translateY(-1px)}
+#roll-family:active:enabled{transform:translateY(2px);box-shadow:0 1px 0 #263d29}
+#roll-family:focus-visible{outline:3px solid #e2a84f;outline-offset:3px}
+@media(max-width:700px){#family-roll{top:53%;width:calc(100% - 22px);max-height:calc(100dvh - 104px);padding:18px 17px 16px}#family-roll h2{font-size:27px}.roll-heading{margin-bottom:12px}#family-roll p{font-size:12.5px}.family-dice{gap:9px}.roll-die-card{min-height:180px;padding:11px 7px}.roll-die-label{font-size:9px;letter-spacing:.1em}.family-die{width:65px;height:72px;font-size:26px}#family-roll #means-roll-text{font-size:10.5px;line-height:1.25}.roll-footer{gap:8px;margin-top:11px;padding-top:11px}.roll-footer-note{font-size:11px}#roll-family{min-width:150px;font-size:13px}}
 
 /* Packing the wagon: the same paper as the roll and the walk-through, on the left above the
    walk-through's corner, and scrolling inside itself so it never pushes the map away. */
@@ -915,9 +932,15 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
    is being answered on top of it. The map is not drawn behind it at all. */
 #creation{position:fixed;inset:0;z-index:40;background:#1d2218;overflow:hidden}
 #creation-scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#creation[data-roll-visible=true]{background:#30291d url('assets/creation-roll-landscape.png') center center/cover no-repeat}
+#creation[data-roll-visible=true]::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#171d17a6 0%,#1d231e52 40%,#1d231e52 60%,#171d17a6 100%),linear-gradient(180deg,#12191472,#12191400 40%,#171b14a3 100%)}
+#creation[data-roll-visible=true] #creation-scene{visibility:hidden}
 #creation-banner{position:absolute;left:0;right:0;top:6vh;text-align:center;color:#f7ecd2;text-shadow:0 2px 14px #10140e}
 #creation-name{font-size:clamp(28px,5.2vw,54px);margin:0;letter-spacing:.01em;font-weight:700}
 #creation-tagline{margin:8px 0 0;font-size:clamp(13px,1.6vw,17px);color:#e4d6b4;letter-spacing:.04em}
+#creation[data-roll-visible=true] #creation-banner{z-index:1;top:17px;left:28px;right:auto;text-align:left}
+#creation[data-roll-visible=true] #creation-name{font-size:clamp(23px,2.5vw,32px);letter-spacing:.025em}
+#creation[data-roll-visible=true] #creation-tagline{display:none}
 /* On the title screen the name stands in the middle of the scene; once a step is being answered it sits up out of the way. */
 #creation[data-step=join] #creation-banner,#creation[data-step=begin] #creation-banner{top:14vh}
 #creation-begin{position:fixed;left:50%;top:auto;bottom:12vh;transform:translateX(-50%);z-index:41;width:min(30rem,calc(100% - 32px));background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:10px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:16px 20px 18px;color:#3b3221}

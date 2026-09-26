@@ -1,6 +1,10 @@
 # Claude handoff — Astra foundation
 
-## The battles integrated: the Alamo, Concepción and the Grass Fight, Coleto and Palm Sunday merged onto one engine; two owner decisions — 2026-09-26 (branch worktree-agent-ab376097031389c0e, from main d9daea3; not released)
+## Family roll screen — visual pass 2026-09-26
+
+The dice step now has a painted frontier backdrop and a wide two-die parchment layout. `public/index.html` gives family size and starting means separate labelled cards; `public/style.css` styles their dice, result and primary action. `renderFamilyRoll` in `public/app.js` sets `#creation[data-roll-visible]`, keeping the same backdrop after the server answers and until *Meet your family* is pressed. Roll rules, result wording and later wizard steps are unchanged. Asset source and full built-in ImageGen prompt: [CREATION_ROLL_ART.md](docs/CREATION_ROLL_ART.md). Browser proof at desktop and narrow sizes passed. The older canvas painting still backs the title and other steps; it is not replaced by this roll-only asset.
+
+## The battles integrated: the Alamo, Concepción and the Grass Fight, Coleto and Palm Sunday merged onto one engine; two owner decisions — 2026-09-26 (branch worktree-agent-ab376097031389c0e, from main d9daea3; released in v2026.09.26.3)
 
 Merged into one tree, in this order, each followed by a green `npm test`, and main merged twice more at the end (9669d14, no conflicts; c6d5dc4, the Yellow Rose vignette kept beside Concepción's fog and the Alamo's named people): `worktree-agent-a202a97daf53da315` (the Alamo's siege
 and assault), `worktree-agent-adfe769d1fe9ef0ce` (Concepción and the Grass Fight), `worktree-agent-ab3929988a2ad1e82` (Coleto and
@@ -230,7 +234,7 @@ other blocks).
   allows - say if San Jacinto should wait for the word instead; (3) the Texian loss is drawn as one down and two hurt of sixty
   and the account says TSHA's nine and thirty - say if Houston's two and twenty-three should be said as the dispute.
 
-## The Alamo on the engine: the living siege and the dawn assault — 2026-09-26 (after e63694f, the south; not released)
+## The Alamo on the engine: the living siege and the dawn assault — 2026-09-26 (after e63694f, the south; released in v2026.09.26.3)
 
 Wave 2 of docs/BATTLES.md §5 for the Alamo, owner-directed 2026-09-25 (§2b.1 *a student may watch their own man fall*; §2b.5
 *"I'm assuming that the alamo is the longest since it's a long siege?"*). docs/BATTLES.md **§9** is the build and its limits. It is built on the engine as Béxar left it (§7), with **one path for a person's fate at its moment** (`stageFate`/`fatesDue`/`memberFates`): merging Béxar, the Alamo's own staged-fate mechanism, its parts-of-a-side and its long steps were replaced by Béxar's groups, fixed guns and background pace.
@@ -299,7 +303,7 @@ Wave 2 of docs/BATTLES.md §5 for the Alamo, owner-directed 2026-09-25 (§2b.1 *
   company horse; the relief waiting half a mile out on the Gonzales road; the student's debrief on the card only, never the
   journal; another family's fallen man simply not seen standing again.
 
-## Concepción and the Grass Fight on the battle engine — 2026-09-26 (not released)
+## Concepción and the Grass Fight on the battle engine — 2026-09-26 (released in v2026.09.26.3)
 
 Wave 2 of docs/BATTLES.md §5, owner-directed 2026-09-25 (*"build it for every conflict ... if they sent a character, it needs
 to happen in such a way that their character arrives in time to participate and does participate ... players should walk
@@ -360,7 +364,7 @@ the one per-person fate path (`stageFate`/`fatesDue`), the one pinning of the fa
   firing is heard; the Grass Fight's account held to Dec 3 though the family watched it; a hit man's panel showing the wound
   before the word; Concepción's hits always among the men crossing the open.
 
-## Coleto and the Goliad massacre on the battle engine — 2026-09-25, night (after e440bbe; not released)
+## Coleto and the Goliad massacre on the battle engine — 2026-09-25, night (after e440bbe; released in v2026.09.26.3)
 
 The later engagements of docs/BATTLES.md §5 step 3, for Fannin's command: docs/BATTLES.md §11 is what was built and where.
 
@@ -1570,6 +1574,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   lesson 33 checks, panels 10 checks at 2 sizes, farm, travel-drawn and relay pass. Four other proofs failed here, and
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
+
+## Released as v2026.09.26.3 — 2026-09-26
+
+**[v2026.09.26.3](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.26.3)**, from `826d68a`: all ten engagements on the battle engine — the Alamo siege and assault, Concepción and the Grass Fight, Coleto and the Goliad massacre merged (integration branch 9e7aa74), Agua Dulce at the Handbook's 26 miles and the south's prisoners walked out of sight. The first release to carry a set of changes: 48 files, 18.9 MB from v2026.09.26.2 against a 270 MB setup. Verify tree: 1338 tests; battle-gonzales 12, gonzales-town 10, concepcion 13, grass 13, bexar 15, south 16, alamo 13, alamo-siege 8, coleto 17, san-jacinto 16. A whole class at Study: 1,370 ticks ≈ 3 h 37 min, battles ≈ 84 min (owner chose to speed the lead-ups; building). Known: test:slice, test:navigation, test:camp, test:road fail (pre-existing; road one check earlier).
 
 ## Released as v2026.09.26.2 — 2026-09-26
 

@@ -4828,6 +4828,8 @@ function stopTumble() { clearInterval(tumble); tumble = null; $('#family-die')?.
  */
 function renderMeansDie(family) {
   const shown = Boolean(family?.meansDie || family?.means);
+  $('#family-roll').dataset.means = String(shown);
+  $('#means-roll-card').hidden = !shown;
   $('#means-die').hidden = !shown;
   $('#means-roll-text').hidden = !shown;
   const means = rollState === 'rolled' ? family.means : null;
@@ -4841,17 +4843,20 @@ function renderMeansDie(family) {
 function renderFamilyRoll(world) {
   const panel = $('#family-roll');
   if (!panel) return;
+  const setRollScene = visible => { const curtain = $('#creation'); if (curtain) curtain.dataset.rollVisible = String(visible); };
   const family = familyCache;
-  if (world.role === 'host' || !world.householdId || !family) { panel.hidden = true; return; }
+  if (world.role === 'host' || !world.householdId || !family) { panel.hidden = true; setRollScene(false); return; }
   if (rollState === 'rolling' && family.roll && Date.now() - rollStarted >= 900) {
     stopTumble();
     rollState = 'rolled';
   }
-  if ((rollState === 'idle' && !family.canRoll) || rollState === 'done') { panel.hidden = true; return; }
+  if ((rollState === 'idle' && !family.canRoll) || rollState === 'done') { panel.hidden = true; setRollScene(false); return; }
   // Not before the title screen has been answered (public/creation.js); once the die is in the air it stays until the family
   // has been met, which is what carries the page from the roll to the last name.
-  if (rollState === 'idle' && creationStep(world, family) !== 'roll') { panel.hidden = true; return; }
+  if (rollState === 'idle' && creationStep(world, family) !== 'roll') { panel.hidden = true; setRollScene(false); return; }
   panel.hidden = false;
+  setRollScene(true);
+  panel.dataset.rollState = rollState;
   const die = $('#family-die'), button = $('#roll-family');
   renderMeansDie(family);
   if (rollState === 'rolled') {
