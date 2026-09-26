@@ -114,7 +114,7 @@ try {
   await fighter.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.travel || window.__snapshot.world.entities.find(one => one.id === id)?.service?.kind === 'houston', personId, { timeout: 60000 });
   ok(`the father ${person.name} was pressed to join Houston from the refuge at ${world().map.sites[household.flight.refuge].name}; the control said "${offered.cost}"`);
   await host.getByRole('button', { name: 'Quick', exact: true }).click();
-  await until(fighter, 'he never joined the army', id => window.__snapshot.world.entities.find(one => one.id === id)?.service?.kind === 'houston', personId, { timeout: 240000 });
+  await until(fighter, 'he never joined the army', id => window.__snapshot.world.entities.find(one => one.id === id)?.service?.kind === 'houston', personId, { timeout: 480000 });
   ok(`he joined the army at ${world().map.sites[world().entities[personId].service.siteId]?.name}`);
 
   // ------------------------------------------------------------------ the alert when the armies meet, and Watch

@@ -106,7 +106,7 @@ const BROWSER = [
   { name: 'nobody says anything', file: 'public/battle-view.js',
     from: '    const put = (line, at, alpha) => {', to: '    const put = () => {}, unused = (line, at, alpha) => {', expect: '"Remember the Alamo!" was not drawn' },
   { name: 'nobody falls in at the parade', file: 'sim/san-jacinto.mjs',
-    from: "  if (at >= index('parade') && at < index('guns')) {", to: '  if (false) {', expect: 'he was not in the line at the parade' },
+    from: "  if (at >= index('parade') && at < index('guns')) {", to: '  if (false) {', expect: 'no alert came through the man at the parade' }, // the parade's card goes only to a man in the line, so it is the first check to see nobody fell in
   { name: 'the Host is not sent the fight', file: 'sim/san-jacinto.mjs',
     from: '    out.battle = { ...projectBattle(world, ID, { members, memberStates: memberStates(world, null) }), reconstruction: false };', to: '    out.battle = null;', expect: 'the Host was not sent the fight live' },
   { name: 'the family with nobody there is sent the fight', file: 'sim/san-jacinto.mjs',
@@ -141,6 +141,9 @@ function runBrowser() {
 }
 
 const which = process.argv[2] || 'all';
+// A third argument runs only the injections whose name contains it, and keeps every other result from the last record.
+const only = process.argv[3] || null;
+const chosen = list => list.filter(one => !only || one.name.includes(only));
 const record = { unit: [], browser: [] };
 const evidencePath = 'docs/evidence/san-jacinto-injections.json';
 let previous = {};
@@ -149,7 +152,7 @@ try { previous = JSON.parse(readFileSync(evidencePath, 'utf8')); } catch { /* th
 if (which === 'all' || which === 'unit') {
   const files = [...new Set(UNIT.map(one => one.test))];
   for (const file of files) { const clean = runUnit(file); if (!clean.passed) throw new Error(`${file} fails before any injection: ${clean.failed.join('; ')}`); }
-  for (const injection of UNIT) {
+  for (const injection of chosen(UNIT)) {
     const seen = inject(injection, () => runUnit(injection.test));
     // The named test and no other; or, where one regression breaks a rule several checks hold (who is sent the fight), exactly
     // the set named - never a test outside it.
@@ -164,7 +167,7 @@ if (which === 'all' || which === 'browser') {
   const clean = runBrowser();
   if (!clean.passed) throw new Error(`The browser gate fails before any injection: ${clean.failure}`);
   record.cleanBrowserChecks = clean.checks;
-  for (const injection of BROWSER) {
+  for (const injection of chosen(BROWSER)) {
     const seen = inject(injection, runBrowser);
     const caught = !seen.passed && Boolean(seen.failure?.includes(injection.expect));
     record.browser.push({ name: injection.name, file: injection.file, expect: injection.expect, caught, failure: seen.failure, checksPassedFirst: seen.checks });
@@ -173,12 +176,13 @@ if (which === 'all' || which === 'browser') {
   const after = runBrowser();
   if (!after.passed) throw new Error(`The browser gate fails after every file was put back: ${after.failure}`);
 }
+function mergeByName(old = [], fresh = []) { return old.map(one => fresh.find(f => f.name === one.name) || one).concat(fresh.filter(f => !old.some(one => one.name === f.name))); }
 mkdirSync('docs/evidence', { recursive: true });
 const merged = {
   record: 'san-jacinto-injections', date: new Date().toISOString().slice(0, 10),
   gates: { unit: `node --test ${T} ${V}, the named test and no other`, browser: 'scripts/battle-san-jacinto-browser-proof.mjs' },
-  unit: record.unit.length ? record.unit : previous.unit || [],
-  browser: record.browser.length ? record.browser : previous.browser || [],
+  unit: only ? mergeByName(previous.unit, record.unit) : record.unit.length ? record.unit : previous.unit || [],
+  browser: only ? mergeByName(previous.browser, record.browser) : record.browser.length ? record.browser : previous.browser || [],
   cleanBrowserChecks: record.cleanBrowserChecks ?? previous.cleanBrowserChecks ?? null,
   environment: 'Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768.',
 };
