@@ -1,5 +1,84 @@
 # Claude handoff — Astra foundation
 
+## The famous people: one roster, drawn and named on every field and on the map, dying as the record has them — 2026-09-26 (worktree branch from main 9e7aa74, main merged at e396a13; not released)
+
+The owner: *"famous npc's: have we taken the time to ensure they do what they're supposed to? they should be labelled, saying
+and doing the things that they likely would have, dying the way they should (Travis, Bowie, Crocett come to mind as an
+example)"*, then the six decisions of docs/BATTLES.md §2c and, during the build, Emily West's lines carrying a stage direction
+("*sarcasticly*"). docs/BATTLES.md **§13** is the build; `docs/battle-research/famous-people.md` the audit it follows.
+
+**What there is now.** `sim/people.mjs`: about fifty people and the Twin Sisters, each with a stable id, the name drawn under
+them, a claim, a fate at an engagement's phase and minute, and a dated campaign-map itinerary - read from the clock, never
+stored, not entities; no `saveVersion` move. Each engagement's phases say where each person stands and what they do
+(`people`), and every named line names its speaker by roster id; the engine refuses a named line from anybody not drawn in
+that phase, reconstructed words in a named mouth, a fate at a minute its person is not drawn, and a man killed after he was
+taken (Grant, Fannin) drawn at or after it. Every famous person is drawn as themselves where their sheet exists, as a
+stand-in where not, **with their name under them**, their words out of their own figure with the name heading the bubble;
+the Twin Sisters are named under the gun. `sim/famous.mjs` puts them on the campaign map between battles, seen by a family only
+within three miles of one of its own people (the Host sees all).
+
+**The owner's decisions as built.** Crockett fights through the assault and, in `end`, is among the handful taken, brought
+before Santa Anna with Castrillón there, tagged "One account (de la Peña) · disputed", and killed at the twentieth minute
+(no gore); the caption names Joe's and Susanna Dickinson's account and the dispute over the narrative (printed 1955). Names,
+no cards. Joe from his own testimony: with Travis to the north battery, back to the house after Travis fell and firing from it,
+out when the officers call ("Yes, here is one."), hurt and saved by Barragán, brought to Santa Anna in Béxar, and on the road to
+Gonzales with Mrs. Dickinson and Ben; the fall's account, the word and the Rumor Mill no longer say every man was killed. The
+legends spoken as tradition: the line in the sand (March 3, its own phase `the-line`), Houston's "stop that firing" (Labadie's
+words; "Hold your fire! God damn you" was not found in any source), "the Napoleon of the West" and Houston's answer (Crane,
+1884). The Twin Sisters with Houston's army from April 11, named and firing before the camp on April 20 under Neill (hit at the
+thirteenth minute) and at their station on the 21st under Hockley and McCulloch, their stories in captions as told later. Emily
+West at New Washington, taken April 16, working in the Mexican camp, and at the picnic with five lines each `tradition` with a
+stage direction in italics (`manner`), Santa Anna given none.
+
+**The audit's errors fixed.** Joe erased (three texts); Bonham's caption (he brought Williamson's letter promising help);
+Bowie's death moved to his south-side room; §6.5 and the code agree (documented or tradition, never reconstructed); April 20
+reconciled (Neill at the guns, two of Sherman's horsemen hurt, `HIST-TEX-565` qualifying `-083`); Grant killed after he gave
+himself up; Fannin's last requests named as Spohn's; words that came out of the wrong figure (Smither's out of Moore, Milam's,
+W. P. Smith's and Condelle's out of anonymous men).
+
+**Claims.** `HIST-TEX-540`–`-559`, `-561`–`-565`, `-567`–`-570` and `FIC-GONZ-450`–`-459` (HISTORY.md). `-560` was already the
+Yellow Rose's, so the audit's Castrillón row is `-561`; `-566` (Ruiz) is left free.
+
+**Evidence** (same computer only; not physical LAN or district acceptance).
+- `npm test`: 1,355 tests, 1,354 pass. The one failure is **main's**, not this branch's: `tests/movement.test.mjs` "the
+  simulation covers exactly the ground it did…" fails because `sim/appearance.mjs` now imports `../public/look-vocabulary.js`
+  (main e396a13, "Redesign parent appearance"); it fails on main the same way.
+- New: `tests/famous-people.test.mjs` (14) and `tests/famous-people-view.test.mjs` (2); updated where the rules moved:
+  `battle-stage`, `battle-south`, `battle-bexar`, `battle-alamo`, `battle-alamo-view`, `battle-coleto`, `battle-san-jacinto`,
+  `asset-http` (the page's new module is served).
+- `npm run test:famous-people`: 17 checks at 1366x768 and 1024x768 (`docs/evidence/famous-people-browser.json`, screenshots
+  `test-results/famous-*.png`). The assault draws in 3.3 ms at its slowest 95th percentile; San Jacinto 29.9 ms, which is the
+  first frames that decode the new famous sheets (1.6-4.6 ms by phase after, `sanJacinto.frameMs.byPhase`).
+- `npm run test:famous-people-injections`: **18 of 18 caught** alone by the check written for each (15 unit, 3 browser;
+  `docs/evidence/famous-people-injections.json`).
+- Re-run on this tree, all pass: `test:battle-alamo` 13, `-gonzales` 12, `-bexar` 15, `-south` 16, `-san-jacinto` 16,
+  `-concepcion` 13, `-grass` 13, `-coleto` 17, `test:alamo-siege` 8, `test:gonzales-town` 10, `test:lesson` 33, `test:panels` 14.
+- The battle harnesses touched, unit gates re-run on this tree: `battle-injections` 29 of 29, `battle-alamo-injections` 29 of 29, `san-jacinto-injections` 35 of 35 (two `expect`s followed the renamed capture test), `battle-bexar-injections` 21 of 21, `battle-south-injections` 28 of 28, `battle-1835-injections` 32 of 32, `battle-coleto-injections` 27 of 27. Their browser gates were not re-run; the proofs they drive all pass (above). Two patterns re-aimed at the new code (`scripts/battle-injections.mjs`: the named
+  man's reconstructed words, the later lines sent early; `scripts/battle-alamo-injections.mjs`: Travis and Joe not drawn).
+  Found in passing and **not** this branch's: `scripts/art-wiring-injections.mjs` has three patterns and
+  `scripts/mounted-wiring-injections.mjs` one that are no longer in their files (hunting, `listeningOf`, `seatLayout`).
+
+**For the owner.**
+1. The line in the sand is staged on **March 3**, the date the story itself gives (Rose left that night), not the eve of the
+   assault; historians doubt both. Say if you want it moved to March 5.
+2. "Hold your fire! God damn you, hold your fire!" was **not found in any source**. Houston speaks Dr. Nicholas Labadie's
+   remembered "Stop that firing, stop that firing… I say, stop the firing" (the oath left out, marked with an ellipsis), on the
+   20th when the men fired off their damp guns, glossed as often retold as "Hold your fire!". Keep, reword, or drop?
+3. Emily West's five lines are the game's own words (your addition); read them in `sim/battles/san-jacinto.mjs` `picnic` calls:
+   "Another plate, General? A great general must keep up his strength." / "Such a quiet afternoon for a war, General." / "Stay
+   a while, General. Your whole camp is resting." / "Of course, General. Whatever you say, General." / "Those are cannon,
+   General." The Handbook says she could not have known Houston's plans; none of her lines claims she did.
+4. The sources disagree in three places the game had to choose: the Twin Sisters reached the army at Bernardo (their entry;
+   the battle's entry says Groce's) - the game's camp that day is Groce's; Ben is Almonte's servant (the Dickinson entry) or
+   Santa Anna's cook (the Joe entry) - he is labelled "Ben" and the roster records both; Crockett's handful is "five or six" (the Handbook) or "some seven"
+   (de la Peña) - five are drawn with him.
+5. Crockett's scene is drawn in front of the church; de la Peña gives no place.
+
+**Not done.** Tapping (by your decision, none). Seguín's company at Béxar in December; the Esparza family in the sacristy;
+Ugartechea; Ruiz and the bodies; Santa Anna on the map in Béxar from March 6 until his column appears; Emily West after San
+Jacinto; mounted art for Houston and Santa Anna and the thirty-odd people without sheets (stand-ins, `docs/ART_REQUESTS.md`
+request 2026-09-26); a road leg drawn along the map's road rather than straight. Not released, not pushed.
+
 ## Family roll screen — visual pass 2026-09-26
 
 The dice step now has a painted frontier backdrop and a wide two-die parchment layout. `public/index.html` gives family size and starting means separate labelled cards; `public/style.css` styles their dice, result and primary action. `renderFamilyRoll` in `public/app.js` sets `#creation[data-roll-visible]`, keeping the same backdrop after the server answers and until *Meet your family* is pressed. Roll rules, result wording and later wizard steps are unchanged. Asset source and full built-in ImageGen prompt: [CREATION_ROLL_ART.md](docs/CREATION_ROLL_ART.md). Browser proof at desktop and narrow sizes passed. The older canvas painting still backs the title and other steps; it is not replaced by this roll-only asset.

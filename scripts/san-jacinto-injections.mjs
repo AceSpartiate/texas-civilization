@@ -22,7 +22,7 @@ const TESTS = {
   refuge: 'a family refuged at Lynchburg: a man with the army camped there is not with his family, is not taken when the column comes, and does not eat its food',
   line: 'from the parade the men of the families are in the line, held there, in the ranks and firing with it; the alert comes through each before contact, and nobody else is told',
   fate: 'a man killed goes down at his own minute in the charge: his family\'s page and the Host\'s draw it then, nobody else\'s, and his panel and journal wait for the word',
-  capture: 'Santa Anna is brought before the wounded Houston on the 22nd: the prisoners\' documented cry, both named, neither given words; his column is not drawn beside the battle',
+  capture: 'Santa Anna is brought before the wounded Houston on the 22nd: the prisoners\' documented cry, both named, their words only the later telling; his column is not drawn beside the battle',
   after: 'afterwards: the account through the man in plain words, the families at their refuges turn for home, the men go home, and the class ends on the road home with the war won',
   saves: 'a class saved in the middle of San Jacinto reopens in the middle of it; one saved before the engine gains it from the clock; no save version moves; a Host\'s jump crosses the quiet night but not the fight',
   pace: 'the fighting plays three to six real minutes at the Study pace, the clock lands on every watched phase and never runs faster for it',
