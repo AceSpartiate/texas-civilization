@@ -63,7 +63,7 @@ const UNIT = [
     from: "const who = gun.side === 'mexican' ? 'regular' : 'volunteer'", to: "const who = 'volunteer'",
     test: VIEW, expect: 'the guns at the corners and the battery fire, each shot once, served by men of their own side; the night darkens the field under the flashes' },
   { name: 'an order given at the killing on Palm Sunday', file: 'public/battle-view.js',
-    from: '      const words = battle.commands?.[side.side]?.volley || battle.commands?.volley;', to: "      const words = battle.commands?.[side.side]?.volley || battle.commands?.volley || [{ text: '¡Fuego!', gloss: 'Fire!' }];",
+    from: '      const words = battle.commands?.bySide?.[side.side]?.volley || battle.commands?.[side.side]?.volley || battle.commands?.volley;', to: "      const words = battle.commands?.bySide?.[side.side]?.volley || battle.commands?.[side.side]?.volley || battle.commands?.volley || [{ text: '¡Fuego!', gloss: 'Fire!' }];",
     test: VIEW, expect: 'the surrender is drawn with hands raised and a white flag at a corner; Palm Sunday\'s named woman is drawn as a townswoman and named, and its guard counts nobody' },
   { name: 'Francita Alavez drawn as a soldier', file: 'public/battle-view.js',
     from: '        if (side.civilians) {', to: '        if (false) {',
@@ -86,7 +86,7 @@ const BROWSER = [
   { name: 'the family with nobody there is sent the fight', file: 'sim/fannin.mjs',
     from: '    if (!inIt && !inTown) continue;', to: '', expect: 'the family with nobody there was sent the battle' },
   { name: 'nobody falls', file: 'public/battle-view.js',
-    from: '      if (!side || battle.noFalling?.includes(fall.side)) continue;', to: '      continue;', expect: 'the prisoners were not drawn falling' },
+    from: '      if (battle.noFalling?.includes(fall.side)) continue;', to: '      continue;', expect: 'the prisoners were not drawn falling' },
   { name: 'no account at the word', file: 'sim/directors.mjs',
     from: 'tellGoliad(world, go); tellFannin(world); });', to: 'tellGoliad(world, go); });', expect: 'no account came through the family at the word' },
 ];

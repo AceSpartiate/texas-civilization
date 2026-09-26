@@ -53,18 +53,31 @@ const UNIT = [
     from: "        if (pose === 'hidden') {", to: '        if (false) {',
     test: VIEW, expect: 'a side in parts is drawn part by part: men asleep lying down, men in a house unseen but firing from it, men giving up with their hands up' },
   { name: 'the fallen are carried along with their part', file: 'public/battle-view.js',
-    from: '        const ground = down && side.part ? view.fallenSpots.get(seedKey) : at;', to: '        const ground = at;',
+    from: '        const ground = down ? view.fallenSpots.get(seedKey) : at;', to: '        const ground = down && !side.part ? view.fallenSpots.get(seedKey) : at;',
     test: VIEW, expect: 'a man who falls lies where he fell while the rest of his part is marched off' },
   { name: 'a family\'s man killed is still drawn at his work', file: 'public/battle-view.js',
     from: "      if (fell.fate === 'killed') return", to: "      if (false) return",
     test: VIEW, expect: 'a family\'s man is drawn in his part - asleep, in the house, giving up - and once his fate has come, in it' },
+  // The owner's decisions of 2026-09-26 (docs/BATTLES.md §2b.7, §2b.8).
+  { name: 'Agua Dulce kept at the point near Banquete, ten miles out', file: 'scripts/build-colonies-map.mjs',
+    from: "['agua-dulce', 'Agua Dulce Creek', 'ground', -97.81, 27.639,", to: "['agua-dulce', 'Agua Dulce Creek', 'ground', -97.84972, 27.8475,",
+    rebuild: true,
+    test: MAP, expect: 'the Agua Dulce ground is the Handbook\'s twenty-six miles below San Patricio on the road south, not the point near Banquete' },
+  { name: 'a class saved with the old ground keeps it at the door', file: 'sim/south.mjs',
+    from: '  if (southWalkable(world)) return moveAguaDulce(world);', to: '  if (southWalkable(world)) return false;',
+    test: MAP, expect: 'a class saved with the south before the owner moved Agua Dulce has it moved at the save\'s door, unless its drive north has begun' },
+  { name: 'the prisoners are left standing at the end of the road south', file: 'sim/south.mjs',
+    from: '        person.service.offMap = world.minute;\n', to: '',
+    test: SOUTH, expect: 'the prisoners are seen marched away down the road south, then are gone from the map: not left standing at its end, and seen by nobody there' },
+  { name: 'another family standing at the road\'s end still sees the prisoners there', file: 'sim/town.mjs',
+    from: '    .filter(entity => !Number.isFinite(entity.service?.offMap));', to: '    ;',
+    test: SOUTH, expect: 'the prisoners are seen marched away down the road south, then are gone from the map: not left standing at its end, and seen by nobody there' },
 ];
 
 const BROWSER = [
   { name: 'the houses never fire back', file: 'public/battle-view.js',
-    from: "          if (still || side.fire === 'none') continue;
-          const wait = WAIT_MIN_MS + hash(`${seed}:hw`)", to: "          continue;
-          const wait = WAIT_MIN_MS + hash(`${seed}:hw`)", expect: 'the Texians never fired back from the houses' },
+    from: "          if (still || side.fire === 'none') continue;\n          const wait = WAIT_MIN_MS + hash(`${seed}:hw`)",
+    to: "          continue;\n          const wait = WAIT_MIN_MS + hash(`${seed}:hw`)", expect: 'the Texians never fired back from the houses' },
   { name: 'San Patricio drawn by day', file: 'public/battle-view.js',
     from: "    const night = battle.light === 'night' || battle.light === 'dawn' ? drawNight(ctx, battle, camera, figurePx, now, bounds) : null;", to: '    const night = null;', expect: 'was drawn by day' },
   { name: 'the man\'s fate on his page before it happens', file: 'sim/battle-stage.mjs',
@@ -77,6 +90,8 @@ const BROWSER = [
     from: '  if (south?.battle && !battle) battle = south.battle;', to: "  if (south?.battle && !battle && role !== 'host') battle = south.battle;", expect: 'the Host was not sent San Patricio live' },
   { name: 'no herd', file: 'public/battle-view.js',
     from: '    const herdDrawn = drawHerd(ctx, camera, figurePx, time, now);', to: '    const herdDrawn = 0;', expect: 'the herd, the riders or the groves are missing' },
+  { name: 'the page still draws a prisoner at the end of the road south', file: 'public/app.js',
+    from: '  if (entity.service?.offMap) return;', to: '', expect: 'was still drawn at the end of the road south' },
   { name: 'no account when the word comes', file: 'sim/south.mjs',
     from: '    if (battle.told[householdId]) continue;', to: '    continue;', expect: 'no account of San Patricio came' },
 ];
@@ -89,7 +104,12 @@ function inject(injection, check) {
   const count = original.split(from).length - 1;
   if (count !== 1) throw new Error(`${injection.name}: the text to replace is in ${injection.file} ${count} times`);
   writeFileSync(injection.file, original.replace(from, () => to));
-  try { return check(); } finally { writeFileSync(injection.file, original); }
+  // An injection into the map's build (`rebuild`) is built into the map the class reads, and the map is put back byte for byte.
+  const MAP_FILE = 'public/terrain/colonies-map.json.gz', built = injection.rebuild ? readFileSync(MAP_FILE) : null;
+  try {
+    if (built) spawnSync(process.execPath, ['scripts/build-colonies-map.mjs'], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+    return check();
+  } finally { writeFileSync(injection.file, original); if (built) writeFileSync(MAP_FILE, built); }
 }
 function runUnit(file) {
   const result = spawnSync(process.execPath, ['--test', file], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, timeout: 20 * 60 * 1000 });

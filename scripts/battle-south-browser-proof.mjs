@@ -236,6 +236,19 @@ try {
   await nothing('after a reload');
   ok('the family that sent nobody was sent nothing of either fight - no battle, no alert, no name - before and after a reload');
 
+  // ------------------------------------------------------------------ the prisoners walked south out of sight (owner, 2026-09-26)
+  const prisoner = Object.entries(fathers).find(([hh, id]) => server().battles?.[server().entities[id].service?.fight]?.fates?.[id]?.fate === 'captured');
+  if (prisoner) {
+    const [hh, id] = prisoner, page = hh === 'hh-1' ? johnson : grant;
+    await waitServer(() => server().entities[id].travel?.to === 'matamoros-road' || Number.isFinite(server().entities[id].service?.offMap), `${id} to be marched south`);
+    const marching = await page.waitForFunction(who => window.__snapshot.world.entities.find(one => one.id === who)?.travel && window.__drawnAt?.[who], id, { timeout: 60000 }).then(() => true, () => false);
+    await waitServer(() => Number.isFinite(server().entities[id].service?.offMap), `${id} to pass out of sight at the end of the road south`);
+    const gone = await page.waitForFunction(who => window.__snapshot.world.entities.find(one => one.id === who)?.service?.offMap === true && !window.__drawnAt?.[who], id, { timeout: 60000 }).then(() => true, () => false);
+    assert.ok(gone, `the prisoner ${id} was still drawn at the end of the road south`);
+    evidence.prisoner = { id, seenMarching: marching, offMapAt: server().entities[id].service.offMap };
+    ok(`the prisoner ${id} was ${marching ? 'drawn marched away down the road south, then ' : ''}gone from the map at its end, not left standing there`);
+  }
+
   // ------------------------------------------------------------------ the word, and the account in plain words
   for (const [page, id, place] of [[johnson, 'san-patricio', 'San Patricio'], [grant, 'agua-dulce', 'Agua Dulce Creek']]) {
     const told = await page.waitForFunction(title => !document.querySelector('#military-notice').hidden && document.querySelector('#military-title').textContent.includes(title), `What happened at ${place}`, { timeout: 240000 }).then(() => true, () => false);

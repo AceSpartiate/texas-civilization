@@ -45,7 +45,7 @@ export const UNIT = [
     from: '    for (const flag of battle.flags || []) drawWhiteFlag(ctx, flag, camera, figurePx, time, wind);', to: '',
     test: V, expect: 'dawn on the 9th: the guns stop, the bugle is heard, and a white flag comes to the plaza' },
   { name: 'a family\'s man drawn down before his moment', file: 'public/battle-view.js',
-    from: '    if (fell && since >= 0) {', to: '    if (fell || view.members.size) {',
+    from: "    if (fell && since >= 0 && fell.fate !== 'escaped') {", to: "    if (fell && fell.fate !== 'escaped') {",
     test: V, expect: 'a family\'s man stands in his unit and fires with it, and falls at the moment the server staged, not before' },
 ];
 export const BROWSER = [
@@ -56,7 +56,7 @@ export const BROWSER = [
   { name: 'the family with nobody there is sent the storming', file: 'sim/bexar-fight.mjs',
     from: '  if (!watching) return { battle: null,', to: '  if (false) return { battle: null,', expect: 'the family with nobody there was sent the battle' },
   { name: 'his own wound is never drawn', file: 'public/battle-view.js',
-    from: '    if (fell && since >= 0) {', to: '    if (false) {', expect: 'he was not drawn hurt' },
+    from: "    if (fell && since >= 0 && fell.fate !== 'escaped') {", to: '    if (false) {', expect: 'he was not drawn hurt' },
   { name: 'Milam\'s fall is not drawn', file: 'public/battle-view.js',
     from: '      if (fall.name) view.namedFalls.add(fall.name);', to: '', expect: 'Milam was not seen to fall' },
   { name: 'the Host\'s camera is not sent to the town', file: 'sim/bexar-fight.mjs',

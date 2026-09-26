@@ -64,7 +64,7 @@ const UNIT = [
     from: "      if (side.fire !== 'volley' || !words) continue;", to: '      continue;',
     test: 'tests/battle-view.test.mjs', expect: 'the officer gives the words of each volley, and every line is drawn over whoever said it at the moment the tick dated it' },
   { name: 'a side the record forbids is drawn falling', file: 'public/battle-view.js',
-    from: '      if (!side || battle.noFalling?.includes(fall.side)) continue;', to: '      if (!side) continue;',
+    from: '      if (battle.noFalling?.includes(fall.side)) continue;', to: '',
     test: 'tests/battle-view.test.mjs', expect: 'a fall is drawn where the record puts one, carried off after; a side that may not fall never does; a family\'s man fires with the force' },
   { name: 'the alert is put up over the family\'s open call', file: 'public/military-attention.js',
     from: '  if (alert && !deciding && own.some(person => person.id === alert.entityId)) {', to: '  if (alert && own.some(person => person.id === alert.entityId)) {',
@@ -87,11 +87,11 @@ const BROWSER = [
   { name: 'the town seven miles off is sent the fight', file: 'sim/directors.mjs',
     from: '      if (ownAtField(world, householdId).length) battle =', to: '      if (true) battle =', expect: 'the family in town was sent the battle' },
   { name: 'no alert', file: 'sim/directors.mjs',
-    from: "  const battleAlert = role === 'student' && householdId ? alertFor(world, householdId, state, Boolean(battle)) : null;", to: '  const battleAlert = null;', expect: 'no alert with Watch came' },
+    from: "  let battleAlert = role === 'student' && householdId ? alertFor(world, householdId, state, Boolean(battle)) : null;", to: '  let battleAlert = null;', expect: 'no alert with Watch came' },
   { name: 'Watch does nothing', file: 'public/app.js',
     from: "  if (notice.kind === 'battle') { watchField(world, notice.field); return; }", to: "  if (notice.kind === 'battle') { return; }", expect: 'Watch did not frame the field' },
   { name: 'no account afterwards', file: 'sim/directors.mjs',
-    from: "  const battleAccount = role === 'student' && householdId ? accountFor(world, householdId) : null;", to: '  const battleAccount = null;', expect: 'the account never appeared' },
+    from: "  let battleAccount = role === 'student' && householdId ? accountFor(world, householdId) : null;", to: '  let battleAccount = null;', expect: 'the account never appeared' },
 ];
 
 const CR = String.fromCharCode(13), LF = String.fromCharCode(10);
