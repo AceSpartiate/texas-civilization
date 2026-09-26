@@ -17,7 +17,7 @@
 // is exactly what a faster calendar should compress.
 
 /** One tick of a person's own time, the same in every phase. Effort is paid in these. */
-import { militaryMinutes } from './military-pacing.mjs';
+import { battleMinutes, militaryMinutes } from './military-pacing.mjs';
 export const TICK_MINUTES = 20;
 
 // Movement, encounters and the director must use the SAME calendar interval during
@@ -68,7 +68,9 @@ export const dateOf = (world, minute) => new Date((world.director?.arrival ? Dat
  */
 export function calendarMinutes(world) {
   if (runningSteps.has(world)) return runningSteps.get(world);
-  if (!world?.map?.source) return TICK_MINUTES;
+  // The invented country keeps its one twenty-minute clock, except that a battle being fought is watched at its own step
+  // there too (sim/military-pacing.mjs `battleMinutes`, docs/BATTLES.md §2.2).
+  if (!world?.map?.source) return battleMinutes(world, TICK_MINUTES);
   const proposed = deciding(world) ? TICK_MINUTES : CALENDAR_SCALE[world.director?.phase] || TICK_MINUTES;
   return militaryMinutes(world, proposed);
 }
@@ -100,7 +102,8 @@ export function calendarMinutes(world) {
  * in front of anybody right now - rather than a list kept in the clock.
  */
 function deciding(world) {
-  if (world.director?.milestones?.crossing && !world.director?.milestones?.approach) return true;
+  // From dusk on the 1st, when the men at the ferry ask who goes up the river with them (sim/directors.mjs `upriver-call`).
+  if ((world.director?.milestones?.['upriver-call'] || world.director?.milestones?.crossing) && !world.director?.milestones?.approach) return true;
   // Only a conversation somebody is actually reading. A family nobody plays answers a rider in
   // the same tick he speaks (sim/neighbours.mjs), and holding the whole class's calendar for one
   // of those put eighty-five minutes on a fifty-minute lesson when it was measured.

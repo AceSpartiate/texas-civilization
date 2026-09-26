@@ -6,8 +6,20 @@
 // counted while the Host has paused) and its documented fallback decides it, or until the director's dated deadline if
 // that comes first. Undo when the selective quiet-time scheduler (step 5 of that document) computes the next protected
 // boundary across households.
+import { battleStep } from './battle-stage.mjs';
 export const MILITARY_TRAVEL_MINUTES = 120;
 export const MILITARY_DECISION_MINUTES = 20;
+
+/**
+ * While a battle's watched phases run, the whole class's clock is held to the phase's step (docs/BATTLES.md §2.2,
+ * `FIC-GONZ-445`): the fighting plays for three to six real minutes at the Study pace, proportionally less at Brisk and
+ * Quick, and every family shares the one clock. Only ever the smaller of the two, so a battle never runs the clock faster
+ * than it was going. Nothing stored: `battleStep` reads the engagement's own schedule off the minute.
+ */
+export function battleMinutes(world, proposed) {
+  const step = battleStep(world);
+  return step === null ? proposed : Math.min(proposed, step);
+}
 
 export function attendedMilitary(world) {
   return Object.values(world.entities || {}).filter(person => {
@@ -39,6 +51,7 @@ export function militaryJourney(world, person) {
 }
 
 export function militaryMinutes(world, proposed) {
+  proposed = battleMinutes(world, proposed);
   const people = attendedMilitary(world);
   if (!people.length) return proposed;
   let minutes = militaryDecision(world) ? Math.min(proposed, MILITARY_DECISION_MINUTES) : proposed;

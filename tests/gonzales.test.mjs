@@ -67,9 +67,14 @@ test('Gate D: requests require household knowledge; historical truth and battle 
   assert.equal(projectWorld(world, unaware, 'student').request, null);
   applyAction(world, 'hh-1', { action: 'help', entityId: 'hh-1-thomas' });
   advance(world, TIMELINE.exchange);
-  assert.equal(projectWorld(world, 'hh-1', 'student').battle.phase, 'exchange');
+  // Carrying food to Gonzales puts hh-1 in the town, seven miles below the fight: it does not see it (docs/BATTLES.md §2.1).
+  assert.equal(projectWorld(world, 'hh-1', 'student').battle, null);
   assert.equal(projectWorld(world, 'hh-2', 'student').battle, null);
-  assert.equal(projectWorld(world, undefined, 'host').battle, null);
+  // The Host watches it live, framed on the field, and it is the thing itself, not a replay.
+  const watching = projectWorld(world, undefined, 'host');
+  assert.equal(watching.battle.phase, 'fight');
+  assert.equal(watching.battle.reconstruction, false);
+  assert.equal(watching.host.focus, 'battle');
   assert.equal(projectWorld(world, 'hh-1', 'student').historicalDate, '1835-10-02');
   advance(world, TIMELINE.resolved);
   // The Host's Rumor Mill tells what any family has heard (owner, 2026-09-18, sim/rumour-story.mjs): the families at the
@@ -78,10 +83,11 @@ test('Gate D: requests require household knowledge; historical truth and battle 
   assert.ok(!JSON.stringify({ ...early, live: liveRest }).includes('gonzales-outcome'), 'the fight\'s outcome reached the Host outside the mill');
   if (story.topics.includes('gonzales-outcome')) assert.match(story.paragraphs.join(' '), /the Texians kept the cannon \(heard by [1-4] of 5 families\)/, 'the mill told the outcome as more than the families at the fight had heard it');
   advance(world, TIMELINE.publicOutcome);
+  // The Host saw it live; once the men are home it is over, and nothing replays it (the old delayed reconstruction went
+  // with the live battle, 2026-09-25).
   const host = projectWorld(world, undefined, 'host');
-  assert.equal(host.battle.reconstruction, true);
-  assert.equal(host.host.focus, 'reconstruction');
-  assert.equal(host.battle.phase, 'approach', 'public reconstruction uses saved earlier frame, not live omniscience');
+  assert.equal(host.battle, null);
+  assert.equal(host.host.focus, 'regional');
 });
 test('Gate D: deterministic bot inputs, frozen pause, and timeline barriers preserve live important scenes', () => {
   assert.deepEqual(runScenario({ seed: 'repeat', strategy: 'mixed' }), runScenario({ seed: 'repeat', strategy: 'mixed' }));

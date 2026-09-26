@@ -13,7 +13,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, stepWorld, validateWorld } from '../sim/world.mjs';
-import { CAMP_SITE, CROSSING, TIMELINE } from '../sim/directors.mjs';
+import { CAMP_SITE, CROSSING, TIMELINE, UPRIVER_CALL } from '../sim/directors.mjs';
 import { CONVERSATIONS, carriedInPerson } from '../sim/encounters.mjs';
 import { learn } from '../sim/knowledge.mjs';
 
@@ -35,33 +35,48 @@ const inTown = (world, entity) => {
 };
 
 test('the upriver call is asked because the family was told of the crossing, and it says when', () => {
-  // In town when the force goes over: told on the spot, and asked in the present tense.
+  // In town at dusk when the men gather at the ferry (sim/directors.mjs `upriver-call`, `HIST-TEX-470`): told on the spot,
+  // and asked in the future tense, before the crossing.
   const early = agreed('crossing-early');
   inTown(early.world, early.entity);
-  while (early.world.minute < TIMELINE.crossing) stepWorld(early.world);
-  const heard = early.world.knowledge.households['hh-1'][CROSSING];
-  assert.ok(heard, 'standing in Gonzales at the crossing, the family was not told of it');
-  assert.equal(heard.source, 'Told in Gonzales');
-  assert.equal(heard.receivedMinute, early.world.truth[CROSSING].minute);
-  assert.match(early.world.marches['hh-1'].text, /are crossing the river tonight/);
-  assert.ok(early.world.events.find(e => e.id === early.world.marches['hh-1'].id).causes.includes(heard.eventId), 'the call does not point at what the family was told');
+  while (!early.world.marches['hh-1'] && early.world.minute < TIMELINE.crossing) stepWorld(early.world);
+  const called = early.world.knowledge.households['hh-1'][UPRIVER_CALL];
+  assert.ok(called, 'standing in Gonzales at dusk, the family was not told the men were going');
+  assert.equal(called.source, 'Told in Gonzales');
+  assert.equal(called.receivedMinute, early.world.truth[UPRIVER_CALL].minute);
+  assert.ok(early.world.minute < TIMELINE.crossing, 'the call waited for the crossing itself');
+  assert.match(early.world.marches['hh-1'].text, /are going over the river tonight/);
+  assert.ok(early.world.events.find(e => e.id === early.world.marches['hh-1'].id).causes.includes(called.eventId), 'the call does not point at what the family was told');
 
-  // Kept at home until five hours after, then in town: told by whoever is left, and asked to follow.
+  // Kept at home until two hours after the crossing, then in town: told by whoever is left, and asked to follow - while a
+  // walk still reaches the men before first light (`FIC-GONZ-446`).
   const late = agreed('crossing-late');
   late.entity.travel = null;
   late.entity.location = { ...late.world.map.sites[late.world.households['hh-1'].homeSiteId], siteId: late.world.households['hh-1'].homeSiteId };
-  while (late.world.minute < TIMELINE.crossing + 300) stepWorld(late.world);
+  while (late.world.minute < TIMELINE.crossing + 120) stepWorld(late.world);
   assert.equal(late.world.marches['hh-1'], undefined, 'a family nobody told was asked anyway');
   inTown(late.world, late.entity);
   stepWorld(late.world);
   const march = late.world.marches['hh-1'];
-  assert.ok(march, 'reaching town while the force was still upriver, the family was never asked');
-  assert.doesNotMatch(march.text, /are crossing the river tonight/, 'somebody arriving hours later was told it was happening now');
+  assert.ok(march, 'reaching town while the men could still be caught, the family was never asked');
+  assert.doesNotMatch(march.text, /going over the river tonight/, 'somebody arriving hours later was told it was happening now');
   assert.match(march.text, /crossed the river \d+ hours ago/);
   assert.match(march.text, /follow them/);
+  const heard = late.world.knowledge.households['hh-1'][CROSSING];
+  assert.ok(late.world.events.find(e => e.id === march.id).causes.includes(heard.eventId), 'the late call does not point at the crossing it was told of');
   validateWorld(late.world);
-});
 
+  // Reaching town too late for any walk to catch them: told so, and never asked.
+  const tooLate = agreed('crossing-too-late');
+  tooLate.entity.travel = null;
+  tooLate.entity.location = { ...tooLate.world.map.sites[tooLate.world.households['hh-1'].homeSiteId], siteId: tooLate.world.households['hh-1'].homeSiteId };
+  while (tooLate.world.minute < TIMELINE.crossing + 300) stepWorld(tooLate.world);
+  inTown(tooLate.world, tooLate.entity);
+  stepWorld(tooLate.world);
+  assert.equal(tooLate.world.marches['hh-1']?.status, 'missed', 'somebody who could not have caught the men was asked to go');
+  assert.match(tooLate.world.marches['hh-1'].text, /too far up the river to be caught before first light/);
+  validateWorld(tooLate.world);
+});
 /** A class nobody plays, run to the end of the slice. */
 function wholeSlice(seed, players = 15) {
   const world = createGonzalesWorld(seed, players);

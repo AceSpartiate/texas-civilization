@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-25",
+  "date": "2026-09-26",
   "command": "npm run test:host-view",
   "scope": "Same computer only: headless Chrome 1440x950, a server on 127.0.0.1. Not a physical LAN, a phone or a classroom.",
   "class": {
@@ -10,11 +10,11 @@
   },
   "pass": [
     "the student's page, 158.5 miles away, has none of hh-9's people and no overview",
-    "the Host zoomed to Thomas's family's farm (house, round-log) and drew 1 of its people, 2 plot(s) and its line",
+    "the Host zoomed to Thomas's family's farm (house, round-log) and drew 2 of its people, 2 plot(s) and its line",
     "the Host zooms in as far as a student does (4737 pixels a mile)",
     "the Host looks at Antonia: \"of Thomas's family · felling timber on the clearing · at home · well\", with no order offered",
     "the Host went to San Felipe de Austin: 11 shops and 12 people drawn, keepers among them",
-    "Whole class: The whole class: 115 people, 153 figures in view, 12 people on the road.",
+    "Whole class: The whole class: 112 people, 150 figures in view, 14 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
     "at 400 pixels wide the list of places is on screen and the page does not scroll sideways",
     "no page error on either page"
   ],
@@ -28,7 +28,7 @@
         "hh-9-elena"
       ]
     },
-    "studentOthers": 14,
+    "studentOthers": 1,
     "farm": {
       "camera": {
         "kind": "region",
@@ -53,7 +53,8 @@
         "logs": 5
       },
       "drawnPeople": [
-        "hh-9-elena"
+        "hh-9-elena",
+        "hh-9-mateo"
       ],
       "houseDrawn": {
         "householdId": "hh-9",
@@ -63,8 +64,8 @@
       },
       "plotsDrawn": 2,
       "holdings": 1,
-      "snapshotBytes": 58632,
-      "description": "The whole class: 115 people, 3 figures in view, 16 people on the road."
+      "snapshotBytes": 58404,
+      "description": "The whole class: 112 people, 4 figures in view, 14 people on the road."
     },
     "closestScale": {
       "host": 4736.842105263158,
@@ -195,7 +196,7 @@
         }
       },
       "follow": "Whole class",
-      "description": "The whole class: 115 people, 153 figures in view, 12 people on the road.",
+      "description": "The whole class: 112 people, 150 figures in view, 14 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
       "land": true
     },
     "phone": {

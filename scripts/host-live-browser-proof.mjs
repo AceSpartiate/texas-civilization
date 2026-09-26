@@ -98,12 +98,15 @@ try {
   // ------------------------------------------------------------------------------------------- the spotlight
   await host.waitForFunction(() => (window.__spotlightSeen || []).some(key => key.startsWith('gonzales:')), null, { timeout: 120000, polling: 200 });
   const lit = await host.evaluate(() => ({ hidden: document.querySelector('#host-spotlight').hidden, date: document.querySelector('#host-spotlight-date').textContent, text: document.querySelector('#host-spotlight-text').textContent, camera: window.__camera, seen: window.__spotlightSeen }));
-  const gonzales = world().map.sites.gonzales;
+  // Since 2026-09-25 the spotlight frames the field itself, Williams's land seven miles up the river, not the town
+  // (docs/BATTLES.md §2.1): the camera follows the fight there.
+  const field = world().map.sites['williams-camp'];
   assert.equal(lit.hidden, false, 'no banner');
   assert.match(lit.text, /cannon/);
-  assert.ok(Math.hypot(lit.camera.cx - gonzales.x, lit.camera.cy - gonzales.y) < 2, `the camera is at (${lit.camera.cx}, ${lit.camera.cy}), not Gonzales (${gonzales.x}, ${gonzales.y})`);
+  assert.ok(Math.hypot(lit.camera.cx - field.x, lit.camera.cy - field.y) < 1.5, `the camera is at (${lit.camera.cx}, ${lit.camera.cy}), not the field on Williams's land (${field.x}, ${field.y})`);
+  assert.equal(lit.camera.kind, 'battle', 'the camera is not framing the fight');
   measured.spotlight = { date: lit.date, text: lit.text, camera: lit.camera };
-  ok(`the fight at Gonzales lit the spotlight: the camera went to Gonzales and the banner reads "${lit.date}: ${lit.text.slice(0, 60)}…"`);
+  ok(`the fight at Gonzales lit the spotlight: the camera went to the field and the banner reads "${lit.date}: ${lit.text.slice(0, 60)}…"`);
   await shot(host, 'spotlight');
   await host.locator('#host-spotlight-back').click();
   await host.waitForTimeout(300);

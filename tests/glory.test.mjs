@@ -51,8 +51,9 @@ test('taking part earns glory - more for standing there than for carrying food, 
   const milesOf = id => findPath(world.map, 'gonzales', world.households[id].homeSiteId).distance;
   const principal = id => world.households[id].principalId;
   const upriver = world.glory['hh-1'].awards[`gonzales:${principal('hh-1')}`];
-  assert.equal(upriver.role, 'present');
-  assert.equal(upriver.points, GLORY_WEIGHT.present * distanceMultiplier(milesOf('hh-1')));
+  // In the line when it fired (docs/BATTLES.md §2.6, 2026-09-25): the man who went up the river fought.
+  assert.equal(upriver.role, 'fought');
+  assert.equal(upriver.points, GLORY_WEIGHT.fought * distanceMultiplier(milesOf('hh-1')));
   const inTown = world.glory['hh-2'].awards[`gonzales:${principal('hh-2')}`];
   assert.equal(inTown.role, 'supplied');
   assert.equal(inTown.points, GLORY_WEIGHT.supplied * distanceMultiplier(milesOf('hh-2')));

@@ -104,8 +104,158 @@ the choices this build makes, each recorded so it can be reversed in one place.
 
 ## 5. Build order
 
-1. The engine and renderer, rebuilt first on Gonzales's fight (with the arrival guarantee for the upriver march).
+1. The engine and renderer, rebuilt first on Gonzales's fight (with the arrival guarantee for the upriver march). **Built 2026-09-25, not released: §6.**
 2. In parallel: Gonzales's town before the fight (alarm, the flag, the muster at the ford, the cannon), and a staging
    sheet per later engagement from the research already in `docs/battle-research/`.
 3. The later engagements on the engine, each with its aftermath.
 4. Released to live after each wave.
+
+## 6. The engine as built (2026-09-25, wave 1: Gonzales)
+
+Built as §3 described and rebuilt Gonzales's fight on it completely; the later engagements are copies of what follows.
+Claims: `HIST-TEX-470`–`-479` (the fight, from docs/battle-research/gonzales.md), `FIC-GONZ-415`–`-419` (its staging) and
+`FIC-GONZ-445`–`-449` (the engine's rules). The build order of §5 step 1 is done; not released.
+
+### 6.1 Where it is
+
+| Piece | File | What it does |
+| --- | --- | --- |
+| The engine | `sim/battle-stage.mjs` | Checks an engagement's data when it loads (`checkEngagement`), dates its phases (`schedule`, `phaseOffset`), reads where it stands off the clock (`battleState`), holds the clock for it (`battleStep`), and builds what a page may see (`projectBattle`). Keeps who of the families was in the force (`armBattle`, `world.battles[id]`) and holds them there (`heldByBattle`). |
+| An engagement | `sim/battles/gonzales.mjs` | Data only, and its ground (`gonzalesGround`) read off the map. Imports nothing from the director, so the clock can read it without a cycle. |
+| The director's part | `sim/directors.mjs` | Dates the old moments from the engagement (`approach`, `exchange`, `withdrawal`, `resolved`), opens and shuts the call to join (`upriver-call`, `marchCloses`, `joinPlan`), walks people to the men and places them in the line (`endWithTheForce`, `standWithTheForce`), sends the alert, the gun heard in town, the Host's spotlight and the account (`advanceGonzalesFight`, `gonzalesAccount`), and decides who is sent the fight (`directorProjection`). |
+| Pacing | `sim/military-pacing.mjs` `battleMinutes`, called from `militaryMinutes` and from `calendarMinutes` on the invented map | The clock held to the phase's step. |
+| The renderer | `public/battle-view.js` | Replaced `drawFormations`. Lays sides out by style, runs every figure's own cycle, the volleys' words, flashes, smoke on the wind, the gun, falls, the parley, speech, and poses a family's person (`memberPose`) for `drawFigure`. |
+| Talk | `public/speech.js` | One bubble for every scene that talks. |
+| The card | `public/military-attention.js` | `battle` (Watch) and `account` notices; `watchField` and `fieldWatch` in `public/app.js` frame the fight. |
+
+### 6.2 Adding an engagement
+
+1. Research it into `docs/battle-research/<id>.md` with a staging sheet (phases with clock times, each side's style,
+   counts, fire, lines split documented/reconstructed, casualty moments, aftermath) and claim rows in its reserved block
+   (§4).
+2. Write `sim/battles/<id>.mjs` exporting one frozen object shaped as §6.3, and add it to `ENGAGEMENTS` in
+   `sim/battle-stage.mjs`. It is checked when the module loads; a malformed one stops the server rather than a class.
+3. In the director that owns the date, call `armBattle(world, id, momentOf(world, def.startKey))` every tick, date any old
+   milestones from `phaseOffset`, and send the projection: `projectBattle(world, id, { members })` to the Host always and
+   to a household only while one of its people is with the force (copy `directorProjection`'s Gonzales branch).
+4. Put the families' people in the force: at the site, placed by `looseSlot`/`placeFrom` round the side's
+   `sidePlace` as `standWithTheForce` does, recorded in `world.battles[id].participants` (`joined`, `fought`). Anybody
+   recorded is held (`heldByBattle`) until `released`.
+5. Write the aftermath: who goes where, the account through the person, and `participation` for glory (copy
+   `advanceGonzalesFight`'s `home` branch and `gonzalesAccount`).
+6. Copy the tests of §6.10 and the browser proof; inject each regression (§6.11).
+
+### 6.3 The data
+
+```js
+{
+  id, name, startKey,            // a key of the director's TIMELINE; phase 0 starts there
+  claimId, outcome,              // the fixed macro-outcome, never dependent on who came
+  held: name => '…',             // why somebody in the force can be given no other order
+  sides: {
+    texian:  { name, count, drawn /* ≤ 60 */, claimId, spread: { width, depth } /* miles */, mounted? },
+    mexican: { … },
+  },
+  noFalling: ['texian'],         // sides the record forbids drawing down (checked against every fall)
+  cannon: { side, offset: { along, across }, metal: 'iron' | 'bronze', crew, claimId } | null,
+  flag:   { side, kind, offset, words, claimId } | null,
+  commands: { volley: [{ text, gloss, kind, claimId? }, …] },   // the officer's words each volley
+  phases: [{
+    id, title, caption, claimId,
+    minutes,                     // game minutes, whole
+    step?,                       // calendar minutes a tick while it runs; divides `minutes` and 20; absent: not watched
+    contact?,                    // true for the fighting a family's person must be in the line for
+    texian:  { style, fire, action, at | from/to | keys: [[minute, point], …], face?: 'away', spread? },
+    mexican: { … },
+    cannon: [minuteIntoPhase, …],            // each shot, dated
+    falls: [{ side, count, at, claimId, wounded?, carried? }],
+    parley: { part, people: [{ side, name, mounted? }] },
+    lines: [{ id, at, side, role, kind, text, gloss?, name?, claimId? }],
+  }, …],
+  ground: world => ({ pointName: { x, y }, …, toward }),    // every point a phase names
+}
+```
+
+`action` is `stand`, `hold`, `advance`, `withdraw` or `gone`. A side on the move between keys is drawn marching
+(`sideMoving`); `face: 'away'` turns it its back to the enemy.
+
+### 6.4 Styles and fire
+
+| Style | Laid out as | Used for |
+| --- | --- | --- |
+| `ranks` | two or three even ranks, 0.021 mi apart | drilled infantry |
+| `mounted` | the same with horsemen, 0.03 mi apart, rank gap 0.048 | dragoons, lancers |
+| `column` | files of four along the line of march | a column marching or withdrawing |
+| `wall` | one rank, close | defenders along a wall |
+| `loose` | scattered over `spread`, a 0.02 mi minimum gap, thicker at the front, a third kneeling | volunteers |
+| `bank` | loose but shallow and wide, most kneeling | men under a riverbank |
+| `street` | loose in a square | house-to-house fighting |
+| `rout` | loose, wide and deep | a line that has broken |
+
+Fire: `volley` (a rank fires together on the officer's three words, ranks in turn), `scattered` (every man on his own
+3.5–12.5 s wait between loads), `picket` (a few at the front), `none`. A mounted side firing is drawn as the shot at the
+rider's hands (a stand-in until a mounted firing pose exists). Every shot is a flash and a puff.
+
+### 6.5 Talk
+
+`kind` is `documented` (a claim ID, solid edge), `reconstructed` (dashed) or `tradition` (dashed, for disputed words
+shown as disputed). A named person (`name`) may speak only a `documented` line; `checkEngagement` refuses anything else.
+`gloss` is the English under a Spanish order, or a note of where a documented line comes from ("Macomb's account, in
+paraphrase"). Lines are sent as the clock reaches them, and drawn at the real moment of the tick they are dated in.
+
+### 6.6 Casualty moments
+
+`falls` are drawn at their minute: a man going down and lying still (`*-reclining`) and, with `carried`, borne off by two
+comrades; with `wounded`, sitting hurt and helped back from the line. No blood, no gore (`VISION.md` §16). A side in
+`noFalling` never falls. A family's person's fate, in a battle where people died, is to be resolved at a staged moment
+inside the fighting (§2.6) - not built yet, since nobody's fate is at stake at Gonzales.
+
+### 6.7 Viewers, pacing, arrival
+
+- **Viewers** (`FIC-GONZ-447`): the Host, live, focus `battle` while it is fought, spotlight on the field; a household
+  while one of its people is at the site (with `members` naming the families' people in the force it is standing beside);
+  nobody else, and a reconnect the same. The town seven miles off is told the gun in words (`FIC-GONZ-417`).
+- **Pacing** (`FIC-GONZ-445`): only ever slower; lands on every phase's start; a Host's jump refuses while it is fought.
+  At Gonzales the fighting (first light to the field cleared) is 36 ticks: 5:42 at Study, 2:24 at Brisk, 0:36 at Quick.
+  Every step a battle uses is in `public/motion.js` `CALENDAR_STEPS`, so a tick of it is drawn as a walk, not a jump.
+- **Arrival** (`FIC-GONZ-446`): the call is put only while a walk reaches the line before the first `contact` phase with
+  forty minutes to spare, and is answered only then; the road ends with the men; the ford is crossed with them; nobody in
+  the force is sent anywhere else by hand or by auto until `released`.
+
+### 6.8 Aftermath
+
+Gonzales: at the `home` phase every family's person with the men walks back to Gonzales with them (`withForce`, from
+where they stood), and the family is given the account through that person - *What happened*, *What X did*, *Why it
+ended so*, and what comes next (the gathering on the real map) - on the card for a day and in the journal. Participation
+is `fought` for anybody in the line while it fired. Each later engagement writes its own: who comes home, who cannot.
+
+### 6.9 Presentation evidence
+
+`window.__battleView` (read by proofs only): figures drawn per side, their `regularity` (spread of nearest-neighbour
+distance over the mean: about 0.32 loose, 0.026 in ranks), `shotsTotal`, `smoke`, `smokeInView`, `bubbles`,
+`linesShown`, `members`, `memberClips`, `cannonShots`, `fallen`, `frameMs` (median and 95th percentile of the battle's own
+drawing). `window.__battleCaption`, `window.__watchedField`, and `window.__camera.kind === 'battle'` while Watch holds.
+
+### 6.10 The tests to copy
+
+`tests/battle-stage.test.mjs` (the data rules, the clock, save and old save, the pace, nothing from the future),
+`tests/battle-arrival.test.mjs` (every path to arriving late, on both maps, on foot and horse, flood, hold, auto, jump),
+`tests/battle-viewers.test.mjs` (who is sent what, the alert, the gun heard, the account), `tests/battle-view.test.mjs`
+(the renderer on a recording canvas: layouts, cycles, smoke on the wind, volleys' words, falls, the card), and
+`scripts/battle-gonzales-browser-proof.mjs` (`npm run test:battle-gonzales`, a real class through the join flow at
+1366x768 and 1024x768).
+
+### 6.11 Proving the checks
+
+`scripts/battle-injections.mjs` injects each regression one at a time - exact-once, CRLF-safe, restored byte for byte -
+and requires the check written for it, and only it, to fail: the unit tests by name, the browser proof by its message.
+Its record is `docs/evidence/battle-injections.json`.
+
+### 6.12 Limits of wave 1
+
+- ceiling: the dawn charge moves the whole Mexican sample, where forty of a hundred charged; the fifty Texian horsemen are
+  drawn on foot. A detachment drawn apart from its side is the way out.
+- ceiling: figures stand on open ground whatever is under them; the volley's rhythm is each page's own.
+- A family's person is drawn in the militia's firing poses (stand-in, `docs/ART_REQUESTS.md` request 2026-09-25).
+- The staged fate of a family's person inside a deadly battle is not built (none is at stake at Gonzales).
+- The town before the fight (alarm, flag, muster) is a separate build (`sim/town-scenes.mjs`).

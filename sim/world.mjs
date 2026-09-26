@@ -9,6 +9,7 @@ import { advanceRoutine } from './routines.mjs';
 import { calendarMinutes, dateOf, withCalendarStep } from './clock.mjs';
 import { awayProjection, milesATick, roadTicksFor, tooFastToFollow } from './sight.mjs';
 import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection, CAMP_SITE } from './directors.mjs';
+import { heldByBattle } from './battle-stage.mjs';
 import { abandonChore, advanceChores, answerChore, askProjection, beginChore, choreAvailability, choreJourney, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
 import { GAME } from './hunting.mjs';
 import { axeHome, beastFor, bringAlong, hasWords, holderOf, homeAgain, intoTheRoad, keepWithRiders, leaveBehind, modeWith, NOUN, ROLES as BEASTS, userOf, usesInvalid } from './keeping.mjs';
@@ -449,6 +450,9 @@ function wadeAt(world, entity, ford) {
   // a river stays up for days after the rain that raised it, which is what Gray's fine warm days above a swollen Brazos are.
   const water = waterAt(world, site || entity.location, day);
   if (water < WATER_HIGH) return;
+  // Going over with a force that crossed that night (sim/directors.mjs, `HIST-GONZ-003`): the men got over, and so does
+  // whoever went with them. The wade itself is in the road's pace already.
+  if (travel.withForce) return;
   // The river is over the crossing: nobody is fording it today. Waited out on the bank, a day at a time.
   if (water >= WATER_SHUT && ford.waterKind !== 'creek') {
     travel.waitUntil = Math.max(travel.waitUntil || 0, (day + 1) * 1440);
@@ -870,6 +874,10 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   if (input.action === 'set-auto') { setAuto(world, household, entity, input.auto); return; }
   // Somebody who has joined the army, the garrison or the expedition is in one place until the family sends for them (sim/winter.mjs).
   if (entity.service?.status === 'serving' && !SERVING_ACTIONS.includes(input.action)) throw new Error(servingWhy(world, entity));
+  // Somebody who went to a fight is in it until it is over, and comes back with the men (sim/battle-stage.mjs `heldByBattle`,
+  // docs/BATTLES.md §2.6): no order sends them home from the line before the shooting starts.
+  const held = heldByBattle(world, entity);
+  if (held && input.action !== 'rename') throw new Error(held);
   if (input.action === 'winter-recall') { recallFromService(world, household, entity, { beginTravel, modeWith }); return; }
   // The army's questions to a man with Houston (sim/camp.mjs): leaving after the word of Goliad, the fork of the road.
   if (input.action === 'houston-answer') { answerCampQuestion(world, household, entity, String(input.question || ''), String(input.answer || ''), { beginTravel, modeWith }); return; }
@@ -1141,7 +1149,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   visibleEvents.reverse();
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.kind === 'person' && seenAs(e)), ...(Number.isFinite(e.age) && { age: e.age }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, chore: choreShown(world, household, e), condition: e.condition, species: e.species, laden: e.laden, ...(e.cart && { cart: true }), ...(e.carreta && { carreta: true }), borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(['coming', 'open'].includes(e.service.courier) && { courier: e.service.courier }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true, autoTask: autoShown(world, world.households[e.householdId], e) }), ...(e.kind === 'person' && decisionPressing(world, e.id) && { pressing: true }),
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.kind === 'person' && seenAs(e)), ...(Number.isFinite(e.age) && { age: e.age }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, chore: choreShown(world, household, e), condition: e.condition, species: e.species, laden: e.laden, ...(e.cart && { cart: true }), ...(e.carreta && { carreta: true }), borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(['coming', 'open'].includes(e.service.courier) && { courier: e.service.courier }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.kind === 'person' && heldByBattle(world, e) && { held: heldByBattle(world, e) }), ...(e.auto && { auto: true, autoTask: autoShown(world, world.households[e.householdId], e) }), ...(e.kind === 'person' && decisionPressing(world, e.id) && { pressing: true }),
     // Which way somebody a rider has reined in for is turned, and whether they are the one talking (sim/encounters.mjs
     // `listeningOf`): the other half of the rider's own `facing`/`speaking`, so the page can draw the delivered speaking
     // and listening poses. Absent for everybody not in an open meeting, which is the correct empty value and why no save

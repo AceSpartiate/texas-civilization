@@ -954,6 +954,8 @@ body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[dat
 #military-title{display:block;font-family:Georgia,serif;font-size:18px}
 #military-words{margin:6px 0 10px}
 #military-go{background:#704020;color:#fff9e9}
+/* A fight's account comes in paragraphs - what happened, what they did, why it ended so (docs/BATTLES.md §2.8). */
+#military-words{white-space:pre-line}
 #military-next{background:transparent;color:#604727;border:1px solid #bca77d}
 @media(max-width:760px){#military-notice{right:8px;width:auto;left:8px;box-sizing:border-box}}
 /* The card yields to a dialog the student has open: it points at a question, it never sits on one. A rider already

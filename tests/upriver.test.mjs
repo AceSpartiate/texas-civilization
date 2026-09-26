@@ -101,12 +101,13 @@ test('going upriver is a journey over the ford, never a placement at the camp', 
   for (const step of seen) assert.equal(step.siteId, null, 'somebody travelling was still registered as standing at a site');
   assert.ok(seen.at(-1).progress > seen[0].progress, 'the journey never advanced');
   assert.ok(seen[0].distance > 2, `the camp was ${seen[0].distance.toFixed(1)} miles from Gonzales; that is not a journey over the ford`);
-  assert.equal(principal(world, 'hh-1').location.siteId, CAMP_SITE, 'the person never arrived at the camp');
+  // They got there, and came home again with the men afterwards (`HIST-TEX-478`).
+  assert.ok(world.events.some(e => e.type === 'arrival' && e.actorId === principal(world, 'hh-1').id && e.destination === CAMP_SITE), 'the person never arrived at the camp');
 });
 
 test('a family standing at the camp is sent the battle while it is happening', () => {
   let duringFight = null;
-  play('upriver-witness', {
+  const { world } = play('upriver-witness', {
     households: ['hh-1'],
     onTick: w => {
       if (w.director.battle.phase === 'exchange' && !duringFight) {
@@ -117,8 +118,11 @@ test('a family standing at the camp is sent the battle while it is happening', (
   assert.ok(duringFight, 'the exchange never happened');
   assert.equal(duringFight.at, CAMP_SITE, 'the person was not at the camp during the exchange');
   assert.ok(duringFight.battle, 'a family standing at the camp was sent no battle to draw');
-  assert.equal(duringFight.battle.phase, 'exchange');
+  // The engine's own phase (sim/battles/gonzales.mjs), and the old name beside it.
+  assert.equal(duringFight.battle.phase, 'fight');
+  assert.equal(duringFight.battle.legacyPhase, 'exchange');
   assert.equal(duringFight.battle.reconstruction, false, 'somebody present was shown a reconstruction rather than the thing itself');
+  assert.deepEqual(duringFight.battle.members, [world.households['hh-1'].principalId], 'the family\'s own person was not named as in the force');
 });
 
 test('what the control says it will cost is what actually happens', () => {
@@ -212,8 +216,8 @@ test('being there is recorded while it is happening, with the minute it happened
   const consequence = world.events.find(e => e.id === world.requests['hh-1'].consequenceId);
   assert.match(consequence.text, /stood at the camp/);
   assert.ok(consequence.causes.includes(march.choiceId), 'the consequence does not name the choice that caused it');
-  const memory = world.events.find(e => e.id === world.households['hh-1'].memories.at(-1));
-  assert.match(memory.text, /upriver to the camp and was there for it/);
+  const memories = world.households['hh-1'].memories.map(id => world.events.find(e => e.id === id).text);
+  assert.ok(memories.some(text => /upriver to the camp and was there for it/.test(text)), memories.join(' | '));
 });
 
 test('a class saved before the march existed still runs and is simply never asked', () => {

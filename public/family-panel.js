@@ -210,6 +210,9 @@ const whyOf = (entry, offered) => (entry.id === 'hunt-land' && !entry.can && !en
 export function panelActions({ entity, offered = [], catalogue = new Map(), main = false, homeId = null, homesteads = [], atHome = false,
   settable = true, carry = null } = {}) {
   if (!entity || ['dead', 'captured'].includes(entity.health?.condition)) return [];
+  // Somebody with the men in a fight (sim/battle-stage.mjs `heldByBattle`) is given no order until it is over and they come
+  // back with the men; the server refuses any, and the reason is theirs (`held`).
+  if (entity.held) return [];
   // Somebody with the army, the garrison or the expedition (sim/winter.mjs) has one order and no other: sending for them -
   // except a man with Houston's army, whose row has the camp's work first (sim/camp.mjs), as the server offers it.
   if (entity.service?.status === 'serving') {
