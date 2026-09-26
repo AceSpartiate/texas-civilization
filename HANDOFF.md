@@ -1,6 +1,6 @@
 # Claude handoff — Astra foundation
 
-## Gonzales before the fight: the town doing things, talking, and a card to click — 2026-09-25 (not released)
+## Gonzales before the fight: the town doing things, talking, and a card to click — 2026-09-25 (released in v2026.09.25.6)
 
 Owner, verbatim: *"when i try to watch a battle, or actions that led to a battle, i see npc's just standing around. example:
 there's no one worried at gonzales that the mexicans are coming. there's no group of women making the come and take it flag"*
@@ -69,7 +69,7 @@ should walk away understanding what happened."* docs/BATTLES.md §5 step 2, the 
   pointing, the flag, the gun on cart wheels, a log breastwork and canoes) is in docs/ART_REQUESTS.md with its stand-ins; phones
   not checked; not on a physical LAN or a Chromebook.
 
-## Battles on one engine, and the fight at Gonzales rebuilt on it — 2026-09-25, night (after a9dbc36; not released)
+## Battles on one engine, and the fight at Gonzales rebuilt on it — 2026-09-25, night (after a9dbc36; released in v2026.09.25.6)
 
 Wave 1 of docs/BATTLES.md §5, owner-directed 2026-09-25 (*"when i try to watch a battle ... i see npc's just standing around
 ... there's no smoke from the gunfire"*; *"build it for every conflict"*). docs/BATTLES.md §6 is the engine as built and how
@@ -1062,6 +1062,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   lesson 33 checks, panels 10 checks at 2 sizes, farm, travel-drawn and relay pass. Four other proofs failed here, and
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
+
+## Released as v2026.09.25.6 — 2026-09-25
+
+**[v2026.09.25.6](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.25.6)**, from `ad39ee2`: battles on one engine (`sim/battle-stage.mjs`, `public/battle-view.js`) with the Battle of Gonzales rebuilt on it (ranks against loose volunteers, looping fire and drifting smoke, the parley, arrival in time, Watch alert, Host live on the field, the account afterwards), and Gonzales before the fight (`sim/town-scenes.mjs`: 36 dated scenes, the flag, the cannon, the eighteen, clickable cards, walking residents). Verify tree: 1212 tests; battle-gonzales 11, gonzales-town 10, alamo-siege 8. Known: `test:slice` is stale (predates family creation and the Host-live rule) and fails; the later battles are wave 2, building.
 
 ## Released as v2026.09.25.5 — 2026-09-25
 
