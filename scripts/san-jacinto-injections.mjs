@@ -79,7 +79,7 @@ const UNIT = [
   { name: 'the Texian officers give the Mexican words', file: 'public/battle-view.js',
     from: '      const words = battle.commands?.bySide?.[side.side]?.volley || battle.commands?.volley;', to: '      const words = battle.commands?.volley;', test: V, expect: TESTS.words },
   { name: 'the dead slide along with their side', file: 'public/battle-view.js',
-    from: '          if (pin && (pin.down || (!down && pin.layout === key))) ground = pin;', to: '          if (false) ground = pin;', test: V, expect: TESTS.rout },
+    from: '      if (pin && (pin.down || (!down && pin.layout === layout))) return pin;', to: '      if (false) return pin;', test: V, expect: TESTS.rout },
   { name: 'a later fall lands on a man already down', file: 'public/battle-view.js',
     from: '      const order = [...seen].filter(slot => !map.has(slot.index)).sort(', to: '      const order = [...seen].sort(', test: V, expect: TESTS.rout },
   { name: 'a group is counted into its side', file: 'public/battle-view.js',

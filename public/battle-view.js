@@ -284,6 +284,21 @@ export function createBattleView(art) {
     if (t < member.wait) return { sprite: member.kneel ? 'volunteer-load' : right ? 'volunteer-e' : 'volunteer-w', flip: member.kneel ? !right : false, still: true };
     return { clip: 'volunteer-fire-reload', flip: !right, timeMs: t - member.wait };
   }
+  /**
+   * Where a man of a body stands: where the layout puts him, or - once he has fallen or put his hands up - where he was then,
+   * pinned to the ground (San Jacinto: the dead do not slide along with a side that runs on past them). A surrendering man is
+   * held only while his body keeps its layout; a fallen man for good.
+   */
+  function pinnedAt(key, place, down, hands, layout) {
+    const pin = view.pins.get(key);
+    if (down || hands) {
+      if (pin && (pin.down || (!down && pin.layout === layout))) return pin;
+      view.pins.set(key, { x: place.x, y: place.y, layout, down: Boolean(down) });
+      return place;
+    }
+    if (pin && !pin.down) view.pins.delete(key);
+    return place;
+  }
   /** Where app.js drew a member this frame, on the ground: the next shot's smoke comes from there. */
   function memberDrawn(id, ground, sizePx) { view.memberSpots.set(id, { ...ground, sizePx }); }
 
@@ -377,14 +392,11 @@ export function createBattleView(art) {
         const down = fallen.get(slot.index);
         // Hands up: a share of a broken side stands where it gave up (`surrendering`), and stays there while the side runs on.
         const hands = !down && side.surrendering > 0 && hash(`${side.key}:${slot.index}:s`) < side.surrendering;
-        const pin = view.pins.get(seedKey);
-        let ground = onGround(centre, facing, slot);
-        // A man who fell lies where he fell, whatever his part does after (§6.13); and so in any body (San Jacinto, §8).
-        if (down && side.part) { if (!view.fallenSpots.has(seedKey)) view.fallenSpots.set(seedKey, ground); ground = view.fallenSpots.get(seedKey); }
-        else if (down || hands) {
-          if (pin && (pin.down || (!down && pin.layout === key))) ground = pin;
-          else view.pins.set(seedKey, { x: ground.x, y: ground.y, layout: key, down: Boolean(down) });
-        } else if (pin && !pin.down) view.pins.delete(seedKey);
+        // Any body's fallen and surrendering stay where they went down or gave up while it runs on (San Jacinto, §8)...
+        const at = pinnedAt(seedKey, onGround(centre, facing, slot), !side.part && down, !side.part && hands, key);
+        // ...and a man who fell lies where he fell, whatever his part does after (§6.13).
+        if (down && side.part && !view.fallenSpots.has(seedKey)) view.fallenSpots.set(seedKey, at);
+        const ground = down && side.part ? view.fallenSpots.get(seedKey) : at;
         if (!down && memberPoints.some(m => Math.hypot(m.x - ground.x, m.y - ground.y) < 0.014)) continue;
         const kind = figureOf(side, slot);
         const point = camera.toScreen(ground);
