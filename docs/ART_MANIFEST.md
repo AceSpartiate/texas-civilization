@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1331 usable sprites, 98 PNG atlases, 480 clips** (254 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1399 usable sprites, 103 PNG atlases, 493 clips** (267 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -38,6 +38,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icons-family-actions-2 | 13 | 1254 × 1254 | 1706833 |
 | icons-family-service | 16 | 1254 × 1254 | 1734840 |
 | icons-family-subsistence | 8 | 1774 × 887 | 2248974 |
+| famous-seguin | 16 | 1254 × 1254 | 1147292 |
+| famous-susanna-dickinson | 16 | 1254 × 1254 | 1461496 |
+| famous-angelina-dickinson | 4 | 1254 × 1254 | 1286027 |
+| famous-milam | 16 | 1254 × 1254 | 1519856 |
+| famous-fannin | 16 | 1254 × 1254 | 1306380 |
 | famous-crockett | 16 | 1254 × 1254 | 1237962 |
 | famous-travis | 16 | 1254 × 1254 | 1163935 |
 | famous-bowie | 16 | 1254 × 1254 | 1280882 |
@@ -459,6 +464,74 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icon-butcher-beef | icons-family-subsistence | State artwork; no motion required |
 | icon-butcher-hog | icons-family-subsistence | State artwork; no motion required |
 | icon-look-to-stock | icons-family-subsistence | State artwork; no motion required |
+| seguin-walk-e-1 | famous-seguin | seguin-walk-e |
+| seguin-walk-e-2 | famous-seguin | seguin-walk-e |
+| seguin-walk-e-3 | famous-seguin | seguin-walk-e |
+| seguin-walk-e-4 | famous-seguin | seguin-walk-e |
+| seguin-walk-s-1 | famous-seguin | seguin-walk-s |
+| seguin-walk-s-2 | famous-seguin | seguin-walk-s |
+| seguin-walk-n-1 | famous-seguin | seguin-walk-n |
+| seguin-walk-n-2 | famous-seguin | seguin-walk-n |
+| seguin-idle | famous-seguin | State artwork; no motion required |
+| seguin-listen | famous-seguin | State artwork; no motion required |
+| seguin-speak | famous-seguin | State artwork; no motion required |
+| seguin-command | famous-seguin | State artwork; no motion required |
+| seguin-mounted-e | famous-seguin | State artwork; no motion required |
+| seguin-mounted-s | famous-seguin | State artwork; no motion required |
+| seguin-dispatch-held | famous-seguin | State artwork; no motion required |
+| seguin-dispatch-walk | famous-seguin | State artwork; no motion required |
+| susanna-dickinson-walk-e-1 | famous-susanna-dickinson | susanna-dickinson-walk-e |
+| susanna-dickinson-walk-e-2 | famous-susanna-dickinson | susanna-dickinson-walk-e |
+| susanna-dickinson-walk-e-3 | famous-susanna-dickinson | susanna-dickinson-walk-e |
+| susanna-dickinson-walk-e-4 | famous-susanna-dickinson | susanna-dickinson-walk-e |
+| susanna-dickinson-walk-s-1 | famous-susanna-dickinson | susanna-dickinson-walk-s |
+| susanna-dickinson-walk-s-2 | famous-susanna-dickinson | susanna-dickinson-walk-s |
+| susanna-dickinson-walk-n-1 | famous-susanna-dickinson | susanna-dickinson-walk-n |
+| susanna-dickinson-walk-n-2 | famous-susanna-dickinson | susanna-dickinson-walk-n |
+| susanna-dickinson-idle | famous-susanna-dickinson | State artwork; no motion required |
+| susanna-dickinson-listen | famous-susanna-dickinson | State artwork; no motion required |
+| susanna-dickinson-speak | famous-susanna-dickinson | State artwork; no motion required |
+| susanna-dickinson-nurse | famous-susanna-dickinson | State artwork; no motion required |
+| susanna-dickinson-shelter-with-angelina | famous-susanna-dickinson | State artwork; no motion required |
+| susanna-dickinson-hold-angelina | famous-susanna-dickinson | State artwork; no motion required |
+| susanna-dickinson-carry-angelina | famous-susanna-dickinson | State artwork; no motion required |
+| susanna-dickinson-rest-with-angelina | famous-susanna-dickinson | State artwork; no motion required |
+| angelina-dickinson-sit | famous-angelina-dickinson | angelina-dickinson-reach |
+| angelina-dickinson-reach | famous-angelina-dickinson | angelina-dickinson-reach |
+| angelina-dickinson-step | famous-angelina-dickinson | State artwork; no motion required |
+| angelina-dickinson-sleep | famous-angelina-dickinson | State artwork; no motion required |
+| milam-walk-e-1 | famous-milam | milam-walk-e |
+| milam-walk-e-2 | famous-milam | milam-walk-e |
+| milam-walk-e-3 | famous-milam | milam-walk-e |
+| milam-walk-e-4 | famous-milam | milam-walk-e |
+| milam-walk-s-1 | famous-milam | milam-walk-s |
+| milam-walk-s-2 | famous-milam | milam-walk-s |
+| milam-walk-n-1 | famous-milam | milam-walk-n |
+| milam-walk-n-2 | famous-milam | milam-walk-n |
+| milam-idle | famous-milam | State artwork; no motion required |
+| milam-speak | famous-milam | State artwork; no motion required |
+| milam-rally | famous-milam | State artwork; no motion required |
+| milam-point | famous-milam | State artwork; no motion required |
+| milam-cover | famous-milam | State artwork; no motion required |
+| milam-advance | famous-milam | State artwork; no motion required |
+| milam-fall | famous-milam | State artwork; no motion required |
+| milam-still | famous-milam | State artwork; no motion required |
+| fannin-walk-e-1 | famous-fannin | fannin-walk-e |
+| fannin-walk-e-2 | famous-fannin | fannin-walk-e |
+| fannin-walk-e-3 | famous-fannin | fannin-walk-e |
+| fannin-walk-e-4 | famous-fannin | fannin-walk-e |
+| fannin-walk-s-1 | famous-fannin | fannin-walk-s |
+| fannin-walk-s-2 | famous-fannin | fannin-walk-s |
+| fannin-walk-n-1 | famous-fannin | fannin-walk-n |
+| fannin-walk-n-2 | famous-fannin | fannin-walk-n |
+| fannin-idle | famous-fannin | State artwork; no motion required |
+| fannin-map | famous-fannin | State artwork; no motion required |
+| fannin-command | famous-fannin | State artwork; no motion required |
+| fannin-speak | famous-fannin | State artwork; no motion required |
+| fannin-cover | famous-fannin | State artwork; no motion required |
+| fannin-injured-seated | famous-fannin | State artwork; no motion required |
+| fannin-surrender | famous-fannin | State artwork; no motion required |
+| fannin-prisoner-seated | famous-fannin | State artwork; no motion required |
 | crockett-walk-e-1 | famous-crockett | crockett-walk-e |
 | crockett-walk-e-2 | famous-crockett | crockett-walk-e |
 | crockett-walk-e-3 | famous-crockett | crockett-walk-e |
@@ -1597,6 +1670,19 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | infant-idle-w | breathe | 1 | 3000 | yes | west |
 | infant-idle-e | breathe | 1 | 3000 | yes | east |
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
+| seguin-walk-e | Pose cycle | 4 | 760 | yes | east |
+| seguin-walk-s | Pose cycle | 2 | 580 | yes | south |
+| seguin-walk-n | Pose cycle | 2 | 580 | yes | north |
+| susanna-dickinson-walk-e | Pose cycle | 4 | 760 | yes | east |
+| susanna-dickinson-walk-s | Pose cycle | 2 | 580 | yes | south |
+| susanna-dickinson-walk-n | Pose cycle | 2 | 580 | yes | north |
+| angelina-dickinson-reach | Pose cycle | 2 | 1800 | yes | front / east |
+| milam-walk-e | Pose cycle | 4 | 760 | yes | east |
+| milam-walk-s | Pose cycle | 2 | 580 | yes | south |
+| milam-walk-n | Pose cycle | 2 | 580 | yes | north |
+| fannin-walk-e | Pose cycle | 4 | 760 | yes | east |
+| fannin-walk-s | Pose cycle | 2 | 580 | yes | south |
+| fannin-walk-n | Pose cycle | 2 | 580 | yes | north |
 | crockett-walk-e | Pose cycle | 4 | 760 | yes | east |
 | crockett-walk-s | Pose cycle | 2 | 580 | yes | south |
 | crockett-walk-n | Pose cycle | 2 | 580 | yes | north |

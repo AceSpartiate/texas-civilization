@@ -2192,6 +2192,246 @@
       "motion": "none",
       "direction": "stationary"
     },
+    "seguin-walk-e": {
+      "frames": [
+        {
+          "sprite": "seguin-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "seguin-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "seguin-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "seguin-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "seguin-walk-s": {
+      "frames": [
+        {
+          "sprite": "seguin-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "seguin-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "seguin-walk-n": {
+      "frames": [
+        {
+          "sprite": "seguin-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "seguin-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "susanna-dickinson-walk-e": {
+      "frames": [
+        {
+          "sprite": "susanna-dickinson-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "susanna-dickinson-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "susanna-dickinson-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "susanna-dickinson-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "susanna-dickinson-walk-s": {
+      "frames": [
+        {
+          "sprite": "susanna-dickinson-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "susanna-dickinson-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "susanna-dickinson-walk-n": {
+      "frames": [
+        {
+          "sprite": "susanna-dickinson-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "susanna-dickinson-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "angelina-dickinson-reach": {
+      "frames": [
+        {
+          "sprite": "angelina-dickinson-sit",
+          "duration": 1000
+        },
+        {
+          "sprite": "angelina-dickinson-reach",
+          "duration": 800
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "front / east"
+    },
+    "milam-walk-e": {
+      "frames": [
+        {
+          "sprite": "milam-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "milam-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "milam-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "milam-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "milam-walk-s": {
+      "frames": [
+        {
+          "sprite": "milam-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "milam-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "milam-walk-n": {
+      "frames": [
+        {
+          "sprite": "milam-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "milam-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "fannin-walk-e": {
+      "frames": [
+        {
+          "sprite": "fannin-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "fannin-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "fannin-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "fannin-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "fannin-walk-s": {
+      "frames": [
+        {
+          "sprite": "fannin-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "fannin-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "fannin-walk-n": {
+      "frames": [
+        {
+          "sprite": "fannin-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "fannin-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "crockett-walk-e": {
       "frames": [
         {

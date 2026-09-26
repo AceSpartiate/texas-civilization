@@ -2865,6 +2865,560 @@
         ]
       }
     },
+    "famous-seguin": {
+      "image": "atlases/famous-seguin.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1147292,
+      "sha256": "606a30a4c60ed2161d4ba4b43e17fd53a9a8cf645c1e8894de70cffda795f539",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.717638,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              5,
+              308
+            ],
+            "columns": [
+              [
+                98,
+                298
+              ],
+              [
+                408,
+                607
+              ],
+              [
+                706,
+                912
+              ],
+              [
+                1018,
+                1229
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              318,
+              628
+            ],
+            "columns": [
+              [
+                116,
+                251
+              ],
+              [
+                424,
+                558
+              ],
+              [
+                727,
+                867
+              ],
+              [
+                1025,
+                1166
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              624,
+              934
+            ],
+            "columns": [
+              [
+                129,
+                243
+              ],
+              [
+                428,
+                562
+              ],
+              [
+                735,
+                895
+              ],
+              [
+                1029,
+                1240
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              932,
+              1251
+            ],
+            "columns": [
+              [
+                11,
+                352
+              ],
+              [
+                427,
+                566
+              ],
+              [
+                752,
+                860
+              ],
+              [
+                1018,
+                1215
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-susanna-dickinson": {
+      "image": "atlases/famous-susanna-dickinson.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1461496,
+      "sha256": "454ccaf00dfe60e68aa51901be5da93c886c2563b58159b47d64b1b7eedf663e",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.642881,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              6,
+              308
+            ],
+            "columns": [
+              [
+                102,
+                315
+              ],
+              [
+                414,
+                629
+              ],
+              [
+                724,
+                930
+              ],
+              [
+                1030,
+                1241
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              314,
+              631
+            ],
+            "columns": [
+              [
+                94,
+                263
+              ],
+              [
+                406,
+                578
+              ],
+              [
+                709,
+                886
+              ],
+              [
+                1016,
+                1196
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              632,
+              940
+            ],
+            "columns": [
+              [
+                94,
+                257
+              ],
+              [
+                399,
+                567
+              ],
+              [
+                702,
+                898
+              ],
+              [
+                994,
+                1205
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              939,
+              1247
+            ],
+            "columns": [
+              [
+                64,
+                280
+              ],
+              [
+                403,
+                572
+              ],
+              [
+                704,
+                913
+              ],
+              [
+                988,
+                1234
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-angelina-dickinson": {
+      "image": "atlases/famous-angelina-dickinson.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1286027,
+      "sha256": "f2d2e64ba45919525f9fd626130db7a6c7adae72eb813a80dca5ba9f3b680fbe",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.670019,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              55,
+              633
+            ],
+            "columns": [
+              [
+                75,
+                544
+              ],
+              [
+                745,
+                1162
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              666,
+              1199
+            ],
+            "columns": [
+              [
+                139,
+                495
+              ],
+              [
+                650,
+                1232
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-milam": {
+      "image": "atlases/famous-milam.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1519856,
+      "sha256": "44ddd8edfe98e91c576f54a42240b5ad5a5940db7882178e555db8a77bbf4127",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.641687,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              10,
+              320
+            ],
+            "columns": [
+              [
+                69,
+                270
+              ],
+              [
+                377,
+                583
+              ],
+              [
+                685,
+                891
+              ],
+              [
+                1014,
+                1215
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              329,
+              639
+            ],
+            "columns": [
+              [
+                65,
+                237
+              ],
+              [
+                377,
+                552
+              ],
+              [
+                710,
+                872
+              ],
+              [
+                1015,
+                1185
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              642,
+              954
+            ],
+            "columns": [
+              [
+                79,
+                235
+              ],
+              [
+                380,
+                591
+              ],
+              [
+                684,
+                880
+              ],
+              [
+                999,
+                1232
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              956,
+              1235
+            ],
+            "columns": [
+              [
+                27,
+                315
+              ],
+              [
+                360,
+                593
+              ],
+              [
+                668,
+                916
+              ],
+              [
+                938,
+                1251
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-fannin": {
+      "image": "atlases/famous-fannin.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1306380,
+      "sha256": "fe859416337e81238d550680ffd98e6ec0f645665ff976f18ba1ee1561f1f039",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.656891,
+        "cornerAlpha": [
+          1,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              6,
+              320
+            ],
+            "columns": [
+              [
+                69,
+                267
+              ],
+              [
+                383,
+                580
+              ],
+              [
+                693,
+                892
+              ],
+              [
+                1011,
+                1210
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              320,
+              640
+            ],
+            "columns": [
+              [
+                81,
+                248
+              ],
+              [
+                397,
+                563
+              ],
+              [
+                707,
+                863
+              ],
+              [
+                1030,
+                1193
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              642,
+              956
+            ],
+            "columns": [
+              [
+                89,
+                236
+              ],
+              [
+                402,
+                580
+              ],
+              [
+                696,
+                930
+              ],
+              [
+                1029,
+                1230
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              951,
+              1242
+            ],
+            "columns": [
+              [
+                37,
+                351
+              ],
+              [
+                378,
+                629
+              ],
+              [
+                692,
+                878
+              ],
+              [
+                1017,
+                1229
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-crockett": {
       "image": "atlases/famous-crockett.png",
       "width": 1254,
@@ -19331,6 +19885,1706 @@
           396
         ],
         "visiblePixels": 115054,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-walk-e-1": {
+      "sheet": "famous-seguin",
+      "x": 98,
+      "y": 5,
+      "w": 200,
+      "h": 302,
+      "anchorX": 0.52,
+      "anchorY": 0.9272,
+      "logicalHeight": 308,
+      "label": "seguin walk e 1",
+      "kind": "famous-seguin",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          100,
+          7,
+          196,
+          298
+        ],
+        "visiblePixels": 23193,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-walk-e-2": {
+      "sheet": "famous-seguin",
+      "x": 408,
+      "y": 7,
+      "w": 199,
+      "h": 300,
+      "anchorX": 0.5126,
+      "anchorY": 0.93,
+      "logicalHeight": 308,
+      "label": "seguin walk e 2",
+      "kind": "famous-seguin",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          410,
+          9,
+          195,
+          296
+        ],
+        "visiblePixels": 22609,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-walk-e-3": {
+      "sheet": "famous-seguin",
+      "x": 706,
+      "y": 7,
+      "w": 206,
+      "h": 301,
+      "anchorX": 0.5194,
+      "anchorY": 0.9269,
+      "logicalHeight": 308,
+      "label": "seguin walk e 3",
+      "kind": "famous-seguin",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          708,
+          9,
+          202,
+          297
+        ],
+        "visiblePixels": 23125,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-walk-e-4": {
+      "sheet": "famous-seguin",
+      "x": 1018,
+      "y": 7,
+      "w": 211,
+      "h": 300,
+      "anchorX": 0.5261,
+      "anchorY": 0.93,
+      "logicalHeight": 308,
+      "label": "seguin walk e 4",
+      "kind": "famous-seguin",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1020,
+          9,
+          207,
+          296
+        ],
+        "visiblePixels": 23175,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-walk-s-1": {
+      "sheet": "famous-seguin",
+      "x": 116,
+      "y": 318,
+      "w": 135,
+      "h": 305,
+      "anchorX": 0.4778,
+      "anchorY": 0.9574,
+      "logicalHeight": 308,
+      "label": "seguin walk s 1",
+      "kind": "famous-seguin",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          118,
+          320,
+          131,
+          301
+        ],
+        "visiblePixels": 21931,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-walk-s-2": {
+      "sheet": "famous-seguin",
+      "x": 424,
+      "y": 320,
+      "w": 134,
+      "h": 303,
+      "anchorX": 0.4776,
+      "anchorY": 0.9604,
+      "logicalHeight": 308,
+      "label": "seguin walk s 2",
+      "kind": "famous-seguin",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          426,
+          322,
+          130,
+          299
+        ],
+        "visiblePixels": 21105,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-walk-n-1": {
+      "sheet": "famous-seguin",
+      "x": 727,
+      "y": 321,
+      "w": 140,
+      "h": 307,
+      "anchorX": 0.4286,
+      "anchorY": 0.9511,
+      "logicalHeight": 308,
+      "label": "seguin walk n 1",
+      "kind": "famous-seguin",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          729,
+          323,
+          136,
+          303
+        ],
+        "visiblePixels": 22643,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-walk-n-2": {
+      "sheet": "famous-seguin",
+      "x": 1025,
+      "y": 319,
+      "w": 141,
+      "h": 308,
+      "anchorX": 0.5461,
+      "anchorY": 0.9578,
+      "logicalHeight": 308,
+      "label": "seguin walk n 2",
+      "kind": "famous-seguin",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1027,
+          321,
+          137,
+          304
+        ],
+        "visiblePixels": 22985,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-idle": {
+      "sheet": "famous-seguin",
+      "x": 129,
+      "y": 624,
+      "w": 114,
+      "h": 308,
+      "anchorX": 0.5351,
+      "anchorY": 0.9448,
+      "logicalHeight": 308,
+      "label": "seguin idle",
+      "kind": "famous-seguin",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          131,
+          626,
+          110,
+          305
+        ],
+        "visiblePixels": 22144,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-listen": {
+      "sheet": "famous-seguin",
+      "x": 428,
+      "y": 626,
+      "w": 134,
+      "h": 306,
+      "anchorX": 0.4813,
+      "anchorY": 0.9477,
+      "logicalHeight": 308,
+      "label": "seguin listen",
+      "kind": "famous-seguin",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          430,
+          628,
+          130,
+          303
+        ],
+        "visiblePixels": 24355,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-speak": {
+      "sheet": "famous-seguin",
+      "x": 735,
+      "y": 629,
+      "w": 160,
+      "h": 305,
+      "anchorX": 0.4219,
+      "anchorY": 0.9475,
+      "logicalHeight": 308,
+      "label": "seguin speak",
+      "kind": "famous-seguin",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          737,
+          631,
+          156,
+          301
+        ],
+        "visiblePixels": 22927,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-command": {
+      "sheet": "famous-seguin",
+      "x": 1029,
+      "y": 629,
+      "w": 211,
+      "h": 304,
+      "anchorX": 0.3602,
+      "anchorY": 0.9441,
+      "logicalHeight": 308,
+      "label": "seguin command",
+      "kind": "famous-seguin",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1031,
+          631,
+          207,
+          300
+        ],
+        "visiblePixels": 25931,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-mounted-e": {
+      "sheet": "famous-seguin",
+      "x": 11,
+      "y": 932,
+      "w": 341,
+      "h": 311,
+      "anchorX": 0.478,
+      "anchorY": 0.955,
+      "logicalHeight": 308,
+      "label": "seguin mounted e",
+      "kind": "famous-seguin",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          13,
+          933,
+          337,
+          308
+        ],
+        "visiblePixels": 45482,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-mounted-s": {
+      "sheet": "famous-seguin",
+      "x": 427,
+      "y": 932,
+      "w": 139,
+      "h": 319,
+      "anchorX": 0.4928,
+      "anchorY": 0.9279,
+      "logicalHeight": 308,
+      "label": "seguin mounted s",
+      "kind": "famous-seguin",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          429,
+          933,
+          135,
+          316
+        ],
+        "visiblePixels": 24074,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-dispatch-held": {
+      "sheet": "famous-seguin",
+      "x": 752,
+      "y": 940,
+      "w": 108,
+      "h": 304,
+      "anchorX": 0.5463,
+      "anchorY": 0.9474,
+      "logicalHeight": 308,
+      "label": "seguin dispatch held",
+      "kind": "famous-seguin",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          754,
+          942,
+          104,
+          300
+        ],
+        "visiblePixels": 20254,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-dispatch-walk": {
+      "sheet": "famous-seguin",
+      "x": 1018,
+      "y": 944,
+      "w": 197,
+      "h": 297,
+      "anchorX": 0.5,
+      "anchorY": 0.9293,
+      "logicalHeight": 308,
+      "label": "seguin dispatch walk",
+      "kind": "famous-seguin",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1020,
+          946,
+          193,
+          293
+        ],
+        "visiblePixels": 21881,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-dickinson-walk-e-1": {
+      "sheet": "famous-susanna-dickinson",
+      "x": 102,
+      "y": 6,
+      "w": 213,
+      "h": 300,
+      "anchorX": 0.5188,
+      "anchorY": 0.93,
+      "logicalHeight": 315,
+      "label": "susanna dickinson walk e 1",
+      "kind": "famous-susanna-dickinson",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          104,
+          8,
+          209,
+          296
+        ],
+        "visiblePixels": 32174,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-dickinson-walk-e-2": {
+      "sheet": "famous-susanna-dickinson",
+      "x": 414,
+      "y": 6,
+      "w": 215,
+      "h": 301,
+      "anchorX": 0.5395,
+      "anchorY": 0.9269,
+      "logicalHeight": 315,
+      "label": "susanna dickinson walk e 2",
+      "kind": "famous-susanna-dickinson",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          416,
+          8,
+          211,
+          297
+        ],
+        "visiblePixels": 32639,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-dickinson-walk-e-3": {
+      "sheet": "famous-susanna-dickinson",
+      "x": 724,
+      "y": 6,
+      "w": 206,
+      "h": 302,
+      "anchorX": 0.5194,
+      "anchorY": 0.9272,
+      "logicalHeight": 315,
+      "label": "susanna dickinson walk e 3",
+      "kind": "famous-susanna-dickinson",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          726,
+          8,
+          202,
+          298
+        ],
+        "visiblePixels": 31357,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-dickinson-walk-e-4": {
+      "sheet": "famous-susanna-dickinson",
+      "x": 1030,
+      "y": 6,
+      "w": 211,
+      "h": 301,
+      "anchorX": 0.5308,
+      "anchorY": 0.9269,
+      "logicalHeight": 315,
+      "label": "susanna dickinson walk e 4",
+      "kind": "famous-susanna-dickinson",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1032,
+          8,
+          207,
+          297
+        ],
+        "visiblePixels": 31669,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-dickinson-walk-s-1": {
+      "sheet": "famous-susanna-dickinson",
+      "x": 94,
+      "y": 314,
+      "w": 169,
+      "h": 315,
+      "anchorX": 0.4941,
+      "anchorY": 0.9524,
+      "logicalHeight": 315,
+      "label": "susanna dickinson walk s 1",
+      "kind": "famous-susanna-dickinson",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          96,
+          316,
+          165,
+          311
+        ],
+        "visiblePixels": 31253,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-dickinson-walk-s-2": {
+      "sheet": "famous-susanna-dickinson",
+      "x": 406,
+      "y": 317,
+      "w": 172,
+      "h": 311,
+      "anchorX": 0.4797,
+      "anchorY": 0.9582,
+      "logicalHeight": 315,
+      "label": "susanna dickinson walk s 2",
+      "kind": "famous-susanna-dickinson",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          408,
+          319,
+          168,
+          307
+        ],
+        "visiblePixels": 31258,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-dickinson-walk-n-1": {
+      "sheet": "famous-susanna-dickinson",
+      "x": 709,
+      "y": 316,
+      "w": 177,
+      "h": 313,
+      "anchorX": 0.4802,
+      "anchorY": 0.9297,
+      "logicalHeight": 315,
+      "label": "susanna dickinson walk n 1",
+      "kind": "famous-susanna-dickinson",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          711,
+          318,
+          173,
+          309
+        ],
+        "visiblePixels": 32764,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-dickinson-walk-n-2": {
+      "sheet": "famous-susanna-dickinson",
+      "x": 1016,
+      "y": 318,
+      "w": 180,
+      "h": 313,
+      "anchorX": 0.4722,
+      "anchorY": 0.9297,
+      "logicalHeight": 315,
+      "label": "susanna dickinson walk n 2",
+      "kind": "famous-susanna-dickinson",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1018,
+          320,
+          176,
+          309
+        ],
+        "visiblePixels": 33049,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-dickinson-idle": {
+      "sheet": "famous-susanna-dickinson",
+      "x": 94,
+      "y": 632,
+      "w": 163,
+      "h": 307,
+      "anchorX": 0.5675,
+      "anchorY": 0.9381,
+      "logicalHeight": 315,
+      "label": "susanna dickinson idle",
+      "kind": "famous-susanna-dickinson",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          96,
+          634,
+          159,
+          303
+        ],
+        "visiblePixels": 27972,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-dickinson-listen": {
+      "sheet": "famous-susanna-dickinson",
+      "x": 399,
+      "y": 632,
+      "w": 168,
+      "h": 307,
+      "anchorX": 0.5625,
+      "anchorY": 0.9381,
+      "logicalHeight": 315,
+      "label": "susanna dickinson listen",
+      "kind": "famous-susanna-dickinson",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          401,
+          634,
+          164,
+          303
+        ],
+        "visiblePixels": 29531,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-dickinson-speak": {
+      "sheet": "famous-susanna-dickinson",
+      "x": 702,
+      "y": 633,
+      "w": 196,
+      "h": 306,
+      "anchorX": 0.4898,
+      "anchorY": 0.9379,
+      "logicalHeight": 315,
+      "label": "susanna dickinson speak",
+      "kind": "famous-susanna-dickinson",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          704,
+          635,
+          192,
+          302
+        ],
+        "visiblePixels": 31270,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-dickinson-nurse": {
+      "sheet": "famous-susanna-dickinson",
+      "x": 994,
+      "y": 686,
+      "w": 211,
+      "h": 254,
+      "anchorX": 0.4692,
+      "anchorY": 0.9291,
+      "logicalHeight": 315,
+      "label": "susanna dickinson nurse",
+      "kind": "famous-susanna-dickinson",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          996,
+          688,
+          207,
+          250
+        ],
+        "visiblePixels": 31324,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-dickinson-shelter-with-angelina": {
+      "sheet": "famous-susanna-dickinson",
+      "x": 64,
+      "y": 993,
+      "w": 216,
+      "h": 246,
+      "anchorX": 0.4838,
+      "anchorY": 0.9268,
+      "logicalHeight": 315,
+      "label": "susanna dickinson shelter with angelina",
+      "kind": "famous-susanna-dickinson",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          66,
+          995,
+          212,
+          242
+        ],
+        "visiblePixels": 32299,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-dickinson-hold-angelina": {
+      "sheet": "famous-susanna-dickinson",
+      "x": 403,
+      "y": 939,
+      "w": 169,
+      "h": 308,
+      "anchorX": 0.6095,
+      "anchorY": 0.9286,
+      "logicalHeight": 315,
+      "label": "susanna dickinson hold angelina",
+      "kind": "famous-susanna-dickinson",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          405,
+          941,
+          165,
+          304
+        ],
+        "visiblePixels": 33159,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-dickinson-carry-angelina": {
+      "sheet": "famous-susanna-dickinson",
+      "x": 704,
+      "y": 941,
+      "w": 209,
+      "h": 303,
+      "anchorX": 0.5,
+      "anchorY": 0.9274,
+      "logicalHeight": 315,
+      "label": "susanna dickinson carry angelina",
+      "kind": "famous-susanna-dickinson",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          706,
+          943,
+          205,
+          299
+        ],
+        "visiblePixels": 34767,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-dickinson-rest-with-angelina": {
+      "sheet": "famous-susanna-dickinson",
+      "x": 988,
+      "y": 1025,
+      "w": 246,
+      "h": 220,
+      "anchorX": 0.4837,
+      "anchorY": 0.9273,
+      "logicalHeight": 315,
+      "label": "susanna dickinson rest with angelina",
+      "kind": "famous-susanna-dickinson",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          990,
+          1027,
+          242,
+          216
+        ],
+        "visiblePixels": 31847,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "angelina-dickinson-sit": {
+      "sheet": "famous-angelina-dickinson",
+      "x": 75,
+      "y": 95,
+      "w": 469,
+      "h": 509,
+      "anchorX": 0.4584,
+      "anchorY": 0.9293,
+      "logicalHeight": 578,
+      "label": "angelina dickinson sit",
+      "kind": "famous-angelina-dickinson",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          77,
+          97,
+          465,
+          505
+        ],
+        "visiblePixels": 134878,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "angelina-dickinson-reach": {
+      "sheet": "famous-angelina-dickinson",
+      "x": 745,
+      "y": 55,
+      "w": 417,
+      "h": 578,
+      "anchorX": 0.4065,
+      "anchorY": 0.936,
+      "logicalHeight": 578,
+      "label": "angelina dickinson reach",
+      "kind": "famous-angelina-dickinson",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          747,
+          57,
+          413,
+          574
+        ],
+        "visiblePixels": 126444,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "angelina-dickinson-step": {
+      "sheet": "famous-angelina-dickinson",
+      "x": 139,
+      "y": 666,
+      "w": 356,
+      "h": 533,
+      "anchorX": 0.4607,
+      "anchorY": 0.9287,
+      "logicalHeight": 578,
+      "label": "angelina dickinson step",
+      "kind": "famous-angelina-dickinson",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          141,
+          668,
+          352,
+          529
+        ],
+        "visiblePixels": 97487,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "angelina-dickinson-sleep": {
+      "sheet": "famous-angelina-dickinson",
+      "x": 650,
+      "y": 850,
+      "w": 582,
+      "h": 331,
+      "anchorX": 0.5215,
+      "anchorY": 0.9275,
+      "logicalHeight": 578,
+      "label": "angelina dickinson sleep",
+      "kind": "famous-angelina-dickinson",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          652,
+          852,
+          578,
+          327
+        ],
+        "visiblePixels": 132757,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-walk-e-1": {
+      "sheet": "famous-milam",
+      "x": 69,
+      "y": 11,
+      "w": 201,
+      "h": 309,
+      "anchorX": 0.495,
+      "anchorY": 0.9288,
+      "logicalHeight": 311,
+      "label": "milam walk e 1",
+      "kind": "famous-milam",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          71,
+          13,
+          197,
+          305
+        ],
+        "visiblePixels": 28366,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-walk-e-2": {
+      "sheet": "famous-milam",
+      "x": 377,
+      "y": 10,
+      "w": 206,
+      "h": 310,
+      "anchorX": 0.4879,
+      "anchorY": 0.929,
+      "logicalHeight": 311,
+      "label": "milam walk e 2",
+      "kind": "famous-milam",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          379,
+          12,
+          202,
+          306
+        ],
+        "visiblePixels": 28537,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-walk-e-3": {
+      "sheet": "famous-milam",
+      "x": 685,
+      "y": 10,
+      "w": 206,
+      "h": 308,
+      "anchorX": 0.5316,
+      "anchorY": 0.9286,
+      "logicalHeight": 311,
+      "label": "milam walk e 3",
+      "kind": "famous-milam",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          687,
+          12,
+          202,
+          304
+        ],
+        "visiblePixels": 28590,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-walk-e-4": {
+      "sheet": "famous-milam",
+      "x": 1014,
+      "y": 10,
+      "w": 201,
+      "h": 310,
+      "anchorX": 0.505,
+      "anchorY": 0.929,
+      "logicalHeight": 311,
+      "label": "milam walk e 4",
+      "kind": "famous-milam",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1016,
+          12,
+          197,
+          306
+        ],
+        "visiblePixels": 28497,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-walk-s-1": {
+      "sheet": "famous-milam",
+      "x": 65,
+      "y": 329,
+      "w": 172,
+      "h": 308,
+      "anchorX": 0.5174,
+      "anchorY": 0.9416,
+      "logicalHeight": 311,
+      "label": "milam walk s 1",
+      "kind": "famous-milam",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          67,
+          331,
+          168,
+          304
+        ],
+        "visiblePixels": 29919,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-walk-s-2": {
+      "sheet": "famous-milam",
+      "x": 377,
+      "y": 330,
+      "w": 175,
+      "h": 309,
+      "anchorX": 0.4829,
+      "anchorY": 0.9288,
+      "logicalHeight": 311,
+      "label": "milam walk s 2",
+      "kind": "famous-milam",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          379,
+          332,
+          171,
+          305
+        ],
+        "visiblePixels": 30182,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-walk-n-1": {
+      "sheet": "famous-milam",
+      "x": 710,
+      "y": 332,
+      "w": 162,
+      "h": 307,
+      "anchorX": 0.463,
+      "anchorY": 0.9283,
+      "logicalHeight": 311,
+      "label": "milam walk n 1",
+      "kind": "famous-milam",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          712,
+          334,
+          158,
+          303
+        ],
+        "visiblePixels": 29582,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-walk-n-2": {
+      "sheet": "famous-milam",
+      "x": 1015,
+      "y": 330,
+      "w": 170,
+      "h": 309,
+      "anchorX": 0.4353,
+      "anchorY": 0.9612,
+      "logicalHeight": 311,
+      "label": "milam walk n 2",
+      "kind": "famous-milam",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1017,
+          332,
+          166,
+          305
+        ],
+        "visiblePixels": 30035,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-idle": {
+      "sheet": "famous-milam",
+      "x": 79,
+      "y": 643,
+      "w": 156,
+      "h": 311,
+      "anchorX": 0.5577,
+      "anchorY": 0.955,
+      "logicalHeight": 311,
+      "label": "milam idle",
+      "kind": "famous-milam",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          81,
+          645,
+          152,
+          307
+        ],
+        "visiblePixels": 29584,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-speak": {
+      "sheet": "famous-milam",
+      "x": 380,
+      "y": 642,
+      "w": 211,
+      "h": 311,
+      "anchorX": 0.4621,
+      "anchorY": 0.9486,
+      "logicalHeight": 311,
+      "label": "milam speak",
+      "kind": "famous-milam",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          382,
+          644,
+          207,
+          307
+        ],
+        "visiblePixels": 31278,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-rally": {
+      "sheet": "famous-milam",
+      "x": 684,
+      "y": 645,
+      "w": 196,
+      "h": 308,
+      "anchorX": 0.4872,
+      "anchorY": 0.9513,
+      "logicalHeight": 311,
+      "label": "milam rally",
+      "kind": "famous-milam",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          686,
+          647,
+          192,
+          304
+        ],
+        "visiblePixels": 32391,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-point": {
+      "sheet": "famous-milam",
+      "x": 999,
+      "y": 643,
+      "w": 233,
+      "h": 310,
+      "anchorX": 0.4034,
+      "anchorY": 0.9613,
+      "logicalHeight": 311,
+      "label": "milam point",
+      "kind": "famous-milam",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1001,
+          645,
+          229,
+          306
+        ],
+        "visiblePixels": 32280,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-cover": {
+      "sheet": "famous-milam",
+      "x": 27,
+      "y": 986,
+      "w": 288,
+      "h": 227,
+      "anchorX": 0.441,
+      "anchorY": 0.9295,
+      "logicalHeight": 311,
+      "label": "milam cover",
+      "kind": "famous-milam",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          29,
+          988,
+          284,
+          223
+        ],
+        "visiblePixels": 43321,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-advance": {
+      "sheet": "famous-milam",
+      "x": 360,
+      "y": 956,
+      "w": 233,
+      "h": 270,
+      "anchorX": 0.4313,
+      "anchorY": 0.9296,
+      "logicalHeight": 311,
+      "label": "milam advance",
+      "kind": "famous-milam",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          362,
+          958,
+          229,
+          266
+        ],
+        "visiblePixels": 26977,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-fall": {
+      "sheet": "famous-milam",
+      "x": 668,
+      "y": 977,
+      "w": 248,
+      "h": 258,
+      "anchorX": 0.7702,
+      "anchorY": 0.9264,
+      "logicalHeight": 311,
+      "label": "milam fall",
+      "kind": "famous-milam",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          670,
+          979,
+          244,
+          254
+        ],
+        "visiblePixels": 30704,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-still": {
+      "sheet": "famous-milam",
+      "x": 938,
+      "y": 1085,
+      "w": 313,
+      "h": 138,
+      "anchorX": 0.4393,
+      "anchorY": 0.9275,
+      "logicalHeight": 311,
+      "label": "milam still",
+      "kind": "famous-milam",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          940,
+          1087,
+          309,
+          134
+        ],
+        "visiblePixels": 24837,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-walk-e-1": {
+      "sheet": "famous-fannin",
+      "x": 69,
+      "y": 7,
+      "w": 198,
+      "h": 313,
+      "anchorX": 0.5,
+      "anchorY": 0.9297,
+      "logicalHeight": 320,
+      "label": "fannin walk e 1",
+      "kind": "famous-fannin",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          71,
+          9,
+          194,
+          309
+        ],
+        "visiblePixels": 29040,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-walk-e-2": {
+      "sheet": "famous-fannin",
+      "x": 383,
+      "y": 7,
+      "w": 197,
+      "h": 313,
+      "anchorX": 0.4873,
+      "anchorY": 0.9297,
+      "logicalHeight": 320,
+      "label": "fannin walk e 2",
+      "kind": "famous-fannin",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          385,
+          9,
+          193,
+          309
+        ],
+        "visiblePixels": 28458,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-walk-e-3": {
+      "sheet": "famous-fannin",
+      "x": 693,
+      "y": 6,
+      "w": 199,
+      "h": 314,
+      "anchorX": 0.4925,
+      "anchorY": 0.9299,
+      "logicalHeight": 320,
+      "label": "fannin walk e 3",
+      "kind": "famous-fannin",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          695,
+          8,
+          195,
+          310
+        ],
+        "visiblePixels": 28173,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-walk-e-4": {
+      "sheet": "famous-fannin",
+      "x": 1011,
+      "y": 7,
+      "w": 199,
+      "h": 313,
+      "anchorX": 0.4874,
+      "anchorY": 0.9297,
+      "logicalHeight": 320,
+      "label": "fannin walk e 4",
+      "kind": "famous-fannin",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1013,
+          9,
+          195,
+          309
+        ],
+        "visiblePixels": 27667,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-walk-s-1": {
+      "sheet": "famous-fannin",
+      "x": 81,
+      "y": 320,
+      "w": 167,
+      "h": 320,
+      "anchorX": 0.4461,
+      "anchorY": 0.9281,
+      "logicalHeight": 320,
+      "label": "fannin walk s 1",
+      "kind": "famous-fannin",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          322,
+          163,
+          316
+        ],
+        "visiblePixels": 29591,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-walk-s-2": {
+      "sheet": "famous-fannin",
+      "x": 397,
+      "y": 321,
+      "w": 166,
+      "h": 319,
+      "anchorX": 0.5482,
+      "anchorY": 0.9561,
+      "logicalHeight": 320,
+      "label": "fannin walk s 2",
+      "kind": "famous-fannin",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          399,
+          323,
+          162,
+          315
+        ],
+        "visiblePixels": 29048,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-walk-n-1": {
+      "sheet": "famous-fannin",
+      "x": 707,
+      "y": 321,
+      "w": 156,
+      "h": 319,
+      "anchorX": 0.5353,
+      "anchorY": 0.9279,
+      "logicalHeight": 320,
+      "label": "fannin walk n 1",
+      "kind": "famous-fannin",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          709,
+          323,
+          152,
+          315
+        ],
+        "visiblePixels": 28866,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-walk-n-2": {
+      "sheet": "famous-fannin",
+      "x": 1030,
+      "y": 320,
+      "w": 163,
+      "h": 320,
+      "anchorX": 0.5123,
+      "anchorY": 0.9281,
+      "logicalHeight": 320,
+      "label": "fannin walk n 2",
+      "kind": "famous-fannin",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1032,
+          322,
+          159,
+          316
+        ],
+        "visiblePixels": 29203,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-idle": {
+      "sheet": "famous-fannin",
+      "x": 89,
+      "y": 643,
+      "w": 147,
+      "h": 313,
+      "anchorX": 0.5306,
+      "anchorY": 0.9521,
+      "logicalHeight": 320,
+      "label": "fannin idle",
+      "kind": "famous-fannin",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          91,
+          645,
+          143,
+          309
+        ],
+        "visiblePixels": 27660,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-map": {
+      "sheet": "famous-fannin",
+      "x": 402,
+      "y": 646,
+      "w": 178,
+      "h": 309,
+      "anchorX": 0.4326,
+      "anchorY": 0.9644,
+      "logicalHeight": 320,
+      "label": "fannin map",
+      "kind": "famous-fannin",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          404,
+          648,
+          174,
+          305
+        ],
+        "visiblePixels": 30231,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-command": {
+      "sheet": "famous-fannin",
+      "x": 696,
+      "y": 642,
+      "w": 234,
+      "h": 309,
+      "anchorX": 0.4145,
+      "anchorY": 0.9515,
+      "logicalHeight": 320,
+      "label": "fannin command",
+      "kind": "famous-fannin",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          698,
+          644,
+          230,
+          306
+        ],
+        "visiblePixels": 30795,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-speak": {
+      "sheet": "famous-fannin",
+      "x": 1029,
+      "y": 642,
+      "w": 201,
+      "h": 311,
+      "anchorX": 0.4328,
+      "anchorY": 0.9614,
+      "logicalHeight": 320,
+      "label": "fannin speak",
+      "kind": "famous-fannin",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1031,
+          644,
+          197,
+          307
+        ],
+        "visiblePixels": 30257,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-cover": {
+      "sheet": "famous-fannin",
+      "x": 37,
+      "y": 992,
+      "w": 314,
+      "h": 244,
+      "anchorX": 0.3997,
+      "anchorY": 0.9262,
+      "logicalHeight": 320,
+      "label": "fannin cover",
+      "kind": "famous-fannin",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          39,
+          994,
+          310,
+          240
+        ],
+        "visiblePixels": 45912,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-injured-seated": {
+      "sheet": "famous-fannin",
+      "x": 378,
+      "y": 1016,
+      "w": 251,
+      "h": 224,
+      "anchorX": 0.492,
+      "anchorY": 0.9286,
+      "logicalHeight": 320,
+      "label": "fannin injured seated",
+      "kind": "famous-fannin",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          380,
+          1018,
+          247,
+          220
+        ],
+        "visiblePixels": 26638,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-surrender": {
+      "sheet": "famous-fannin",
+      "x": 692,
+      "y": 951,
+      "w": 186,
+      "h": 291,
+      "anchorX": 0.5027,
+      "anchorY": 0.9553,
+      "logicalHeight": 320,
+      "label": "fannin surrender",
+      "kind": "famous-fannin",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          694,
+          953,
+          182,
+          287
+        ],
+        "visiblePixels": 28339,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-prisoner-seated": {
+      "sheet": "famous-fannin",
+      "x": 1017,
+      "y": 1025,
+      "w": 212,
+      "h": 214,
+      "anchorX": 0.4481,
+      "anchorY": 0.9299,
+      "logicalHeight": 320,
+      "label": "fannin prisoner seated",
+      "kind": "famous-fannin",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1019,
+          1027,
+          208,
+          210
+        ],
+        "visiblePixels": 23878,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
