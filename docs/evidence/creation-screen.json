@@ -1,6 +1,6 @@
 {
   "record": "The family-creation wizard as a thing on a screen (2026-09-21)",
-  "date": "2026-09-21",
+  "date": "2026-09-26",
   "verdict": "PASS",
   "seed": "wizard-17",
   "finger": 44,
@@ -27,9 +27,9 @@
     "no page errors"
   ],
   "observed": {
-    "family-1366": 10,
-    "family-1024": 10,
-    "family-390": 10
+    "family-1366": 20,
+    "family-1024": 20,
+    "family-390": 20
   },
   "steps": [
     {
@@ -70,23 +70,23 @@
         "height": 768
       },
       "card": {
-        "x": 523,
-        "y": 210,
-        "w": 320,
-        "h": 348
+        "x": 313,
+        "y": 173,
+        "w": 740,
+        "h": 468
       },
       "controls": 1,
-      "scrolls": 0,
+      "scrolls": 1,
       "endOfStep": {
         "control": "#roll-family",
         "label": "Roll the die",
         "box": {
-          "x": 630,
-          "y": 499,
-          "w": 106,
-          "h": 44
+          "x": 795,
+          "y": 567,
+          "w": 208,
+          "h": 48
         },
-        "below": -15,
+        "below": -26,
         "inView": true
       },
       "tightestGap": null,
@@ -101,23 +101,23 @@
         "height": 768
       },
       "card": {
-        "x": 523,
-        "y": 199,
-        "w": 320,
-        "h": 369
+        "x": 313,
+        "y": 123,
+        "w": 740,
+        "h": 568
       },
       "controls": 1,
-      "scrolls": 0,
+      "scrolls": 1,
       "endOfStep": {
         "control": "#roll-family",
         "label": "Meet your family",
         "box": {
-          "x": 610,
-          "y": 510,
-          "w": 145,
-          "h": 44
+          "x": 795,
+          "y": 617,
+          "w": 208,
+          "h": 48
         },
-        "below": -15,
+        "below": -26,
         "inView": true
       },
       "tightestGap": null,
@@ -133,9 +133,9 @@
       },
       "card": {
         "x": 473,
-        "y": 202,
+        "y": 193,
         "w": 420,
-        "h": 363
+        "h": 382
       },
       "controls": 2,
       "scrolls": 0,
@@ -144,7 +144,7 @@
         "label": "Name the family",
         "box": {
           "x": 492,
-          "y": 503,
+          "y": 512,
           "w": 382,
           "h": 44
         },
@@ -152,7 +152,7 @@
         "inView": true
       },
       "tightestGap": {
-        "gap": 140.9,
+        "gap": 159.8,
         "between": [
           "#surname-input",
           "#surname-save"
@@ -164,13 +164,13 @@
         "boxes": [
           {
             "x": 492,
-            "y": 318,
+            "y": 308,
             "w": 382,
             "h": 44
           },
           {
             "x": 492,
-            "y": 503,
+            "y": 512,
             "w": 382,
             "h": 44
           }
@@ -196,8 +196,8 @@
         "w": 480,
         "h": 614
       },
-      "controls": 11,
-      "scrolls": 129,
+      "controls": 21,
+      "scrolls": 679,
       "endOfStep": {
         "control": "#names-done",
         "label": "Continue",
@@ -458,23 +458,23 @@
         "height": 768
       },
       "card": {
-        "x": 352,
-        "y": 210,
-        "w": 320,
-        "h": 348
+        "x": 142,
+        "y": 173,
+        "w": 740,
+        "h": 468
       },
       "controls": 1,
-      "scrolls": 0,
+      "scrolls": 1,
       "endOfStep": {
         "control": "#roll-family",
         "label": "Roll the die",
         "box": {
-          "x": 459,
-          "y": 499,
-          "w": 106,
-          "h": 44
+          "x": 624,
+          "y": 567,
+          "w": 208,
+          "h": 48
         },
-        "below": -15,
+        "below": -26,
         "inView": true
       },
       "tightestGap": null,
@@ -489,23 +489,23 @@
         "height": 768
       },
       "card": {
-        "x": 352,
-        "y": 199,
-        "w": 320,
-        "h": 369
+        "x": 142,
+        "y": 123,
+        "w": 740,
+        "h": 568
       },
       "controls": 1,
-      "scrolls": 0,
+      "scrolls": 1,
       "endOfStep": {
         "control": "#roll-family",
         "label": "Meet your family",
         "box": {
-          "x": 439,
-          "y": 510,
-          "w": 145,
-          "h": 44
+          "x": 624,
+          "y": 617,
+          "w": 208,
+          "h": 48
         },
-        "below": -15,
+        "below": -26,
         "inView": true
       },
       "tightestGap": null,
@@ -521,9 +521,9 @@
       },
       "card": {
         "x": 302,
-        "y": 202,
+        "y": 193,
         "w": 420,
-        "h": 363
+        "h": 382
       },
       "controls": 2,
       "scrolls": 0,
@@ -532,7 +532,7 @@
         "label": "Name the family",
         "box": {
           "x": 321,
-          "y": 503,
+          "y": 512,
           "w": 382,
           "h": 44
         },
@@ -540,7 +540,7 @@
         "inView": true
       },
       "tightestGap": {
-        "gap": 140.9,
+        "gap": 159.8,
         "between": [
           "#surname-input",
           "#surname-save"
@@ -552,13 +552,13 @@
         "boxes": [
           {
             "x": 321,
-            "y": 318,
+            "y": 308,
             "w": 382,
             "h": 44
           },
           {
             "x": 321,
-            "y": 503,
+            "y": 512,
             "w": 382,
             "h": 44
           }
@@ -584,8 +584,8 @@
         "w": 480,
         "h": 614
       },
-      "controls": 11,
-      "scrolls": 129,
+      "controls": 21,
+      "scrolls": 679,
       "endOfStep": {
         "control": "#names-done",
         "label": "Continue",
@@ -816,9 +816,9 @@
       },
       "card": {
         "x": 10,
-        "y": 435,
+        "y": 413,
         "w": 370,
-        "h": 358
+        "h": 380
       },
       "controls": 1,
       "scrolls": 0,
@@ -846,23 +846,23 @@
         "height": 844
       },
       "card": {
-        "x": 35,
-        "y": 248,
-        "w": 320,
-        "h": 348
+        "x": 11,
+        "y": 235,
+        "w": 368,
+        "h": 424
       },
       "controls": 1,
-      "scrolls": 0,
+      "scrolls": 1,
       "endOfStep": {
         "control": "#roll-family",
         "label": "Roll the die",
         "box": {
-          "x": 142,
-          "y": 537,
-          "w": 106,
-          "h": 44
+          "x": 210,
+          "y": 593,
+          "w": 150,
+          "h": 48
         },
-        "below": -15,
+        "below": -18,
         "inView": true
       },
       "tightestGap": null,
@@ -877,23 +877,23 @@
         "height": 844
       },
       "card": {
-        "x": 35,
-        "y": 237,
-        "w": 320,
-        "h": 369
+        "x": 11,
+        "y": 179,
+        "w": 368,
+        "h": 536
       },
       "controls": 1,
-      "scrolls": 0,
+      "scrolls": 1,
       "endOfStep": {
         "control": "#roll-family",
         "label": "Meet your family",
         "box": {
-          "x": 122,
-          "y": 548,
-          "w": 145,
-          "h": 44
+          "x": 210,
+          "y": 649,
+          "w": 150,
+          "h": 48
         },
-        "below": -15,
+        "below": -18,
         "inView": true
       },
       "tightestGap": null,
@@ -909,9 +909,9 @@
       },
       "card": {
         "x": 16,
-        "y": 240,
+        "y": 231,
         "w": 358,
-        "h": 363
+        "h": 382
       },
       "controls": 2,
       "scrolls": 0,
@@ -920,7 +920,7 @@
         "label": "Name the family",
         "box": {
           "x": 35,
-          "y": 541,
+          "y": 550,
           "w": 320,
           "h": 44
         },
@@ -928,7 +928,7 @@
         "inView": true
       },
       "tightestGap": {
-        "gap": 140.9,
+        "gap": 159.8,
         "between": [
           "#surname-input",
           "#surname-save"
@@ -940,13 +940,13 @@
         "boxes": [
           {
             "x": 35,
-            "y": 356,
+            "y": 346,
             "w": 320,
             "h": 44
           },
           {
             "x": 35,
-            "y": 541,
+            "y": 550,
             "w": 320,
             "h": 44
           }
@@ -972,8 +972,8 @@
         "w": 358,
         "h": 675
       },
-      "controls": 11,
-      "scrolls": 295,
+      "controls": 21,
+      "scrolls": 1054,
       "endOfStep": {
         "control": "#names-done",
         "label": "Continue",

@@ -257,25 +257,39 @@
     <!-- "STEP 1 OF 4", not "BEFORE THE CLASS BEGINS": the die is rolled in Play Solo too, where there is no class
          (2026-09-21). What the number means stays unwritten; that it is thrown once does not. -->
     <section id="family-roll" hidden role="dialog" aria-modal="true" aria-labelledby="family-roll-title">
-      <span class="eyebrow">STEP 1 OF 4</span>
-      <h2 id="family-roll-title">Roll for your family</h2>
-      <p id="family-roll-text">The die decides how many are in your family and who they are. It is thrown once. There is no
-        second roll, so the family it gives you is the family you play.</p>
+      <div class="roll-heading">
+        <span class="eyebrow">STEP 1 OF 4 · THE BEGINNING</span>
+        <h2 id="family-roll-title">Roll for your family</h2>
+        <p id="family-roll-text">The die decides how many are in your family and who they are. It is thrown once. There is no
+          second roll, so the family it gives you is the family you play.</p>
+      </div>
       <!-- The second die, thrown by the same press in a class made since 2026-09-25 (sim/means.mjs): what the family has to
            start with. Shown only when the server says the class rolls it (`family.meansDie`). The bands are the server's
            words after the throw; what number gives which is not written here. Since the owner's second amendment of
            2026-09-25 the die gives coin too, and may give no vehicle (sim/means.mjs).
            ceiling: a class that rolled on the first table that afternoon reads "a few reales" here and gets none; its lobby is
            long over, and the server's own words after the throw say what it has. -->
-      <p id="means-roll-text" hidden>A second die, thrown with it, decides what the family has to start with: a cart,
-        wagons or nothing to haul with, the oxen, and a few reales.</p>
       <div class="family-dice">
-        <div id="family-die" class="family-die" aria-hidden="true">20</div>
-        <div id="means-die" class="family-die means-die" aria-hidden="true" hidden>20</div>
+        <div class="roll-die-card">
+          <span class="roll-die-label">01 · YOUR FAMILY</span>
+          <div id="family-die" class="family-die" aria-hidden="true">20</div>
+          <span class="roll-die-caption">The people who travel with you</span>
+        </div>
+        <div id="means-roll-card" class="roll-die-card roll-means-card" hidden>
+          <span class="roll-die-label">02 · WHAT YOU BRING</span>
+          <div id="means-die" class="family-die means-die" aria-hidden="true" hidden>20</div>
+          <p id="means-roll-text" hidden>A second die, thrown with it, decides what the family has to start with: a cart,
+            wagons or nothing to haul with, the oxen, and a few reales.</p>
+        </div>
       </div>
-      <p id="family-roll-result" role="status"></p>
-      <p id="means-result" hidden><strong id="means-name"></strong> <span id="means-words"></span> <span id="means-seats"></span></p>
-      <button type="button" id="roll-family">Roll the die</button>
+      <div class="roll-outcome">
+        <p id="family-roll-result" role="status"></p>
+        <p id="means-result" hidden><strong id="means-name"></strong> <span id="means-words"></span> <span id="means-seats"></span></p>
+      </div>
+      <div class="roll-footer">
+        <span class="roll-footer-note">One throw. A whole life ahead.</span>
+        <button type="button" id="roll-family">Roll the die</button>
+      </div>
     </section>
 
     <!-- Packing the wagon (docs/SETTLING_IN.md step 3). What is on the list, what each thing

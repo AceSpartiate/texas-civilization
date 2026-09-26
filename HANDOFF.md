@@ -1,5 +1,9 @@
 # Claude handoff — Astra foundation
 
+## Family roll screen — visual pass 2026-09-26
+
+The dice step now has a painted frontier backdrop and a wide two-die parchment layout. `public/index.html` gives family size and starting means separate labelled cards; `public/style.css` styles their dice, result and primary action. `renderFamilyRoll` in `public/app.js` sets `#creation[data-roll-visible]`, keeping the same backdrop after the server answers and until *Meet your family* is pressed. Roll rules, result wording and later wizard steps are unchanged. Asset source and full built-in ImageGen prompt: [CREATION_ROLL_ART.md](docs/CREATION_ROLL_ART.md). Browser proof at desktop and narrow sizes passed. The older canvas painting still backs the title and other steps; it is not replaced by this roll-only asset.
+
 ## The battles integrated: the Alamo, Concepción and the Grass Fight, Coleto and Palm Sunday merged onto one engine; two owner decisions — 2026-09-26 (branch worktree-agent-ab376097031389c0e, from main d9daea3; not released)
 
 Merged into one tree, in this order, each followed by a green `npm test`, and main merged twice more at the end (9669d14, no conflicts; c6d5dc4, the Yellow Rose vignette kept beside Concepción's fog and the Alamo's named people): `worktree-agent-a202a97daf53da315` (the Alamo's siege
