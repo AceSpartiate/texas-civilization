@@ -18,6 +18,12 @@ namespace TexasRevolution.Launcher;
 /// remembers. A marker file says a swap is under way; a launch that finds it (the power went
 /// in the middle) rolls back before doing anything else.</para>
 ///
+/// <para>From 2026-09-26 a top-level file or folder the previous build's own list shipped and
+/// the new build does not (<see cref="DeltaUpdate.Retired"/>) is moved into the backup too,
+/// journalled as retired, so the installation ends as a fresh install of the new build would and
+/// a rollback puts it back. The staged build this swaps in is the same whether it was unpacked
+/// from the whole setup program or assembled from only the changes.</para>
+///
 /// <para><c>data</c> is never in a build and never touched. The emblem written beside the
 /// executable at install is not in a build either, so it stays; the next launch rewrites it
 /// from the new executable, which keeps the setup emblem and the installed emblem apart.</para>
@@ -31,9 +37,22 @@ public static class UpdateSwap
     private const string Marker = "swap-in-progress.txt";
     private const string Journal = "journal.txt";
 
+    /// <summary>The emblem written beside the installed executable (<c>Branding.EmblemFileName</c>).</summary>
+    public const string EmblemName = "TexasRevolution.ico";
+
+    /// <summary>
+    /// Top-level names no build carries and no update may replace or remove: the class data, the
+    /// launcher and its leftovers, the emblem, and this swap's own backup.
+    /// </summary>
+    public static bool IsProtected(string name) =>
+        new[] { "data", ExeName, OldExeName, FailedExeName, BackupFolder, EmblemName }.Contains(name, StringComparer.OrdinalIgnoreCase);
+
     /// <summary>Replace the installation at <paramref name="target"/> with <paramref name="payload"/>.</summary>
+    /// <param name="retire">Top-level files or folders the previous build shipped and this one does
+    /// not (<see cref="DeltaUpdate.Retired"/>). They are moved into the backup like everything
+    /// replaced, so a failure puts them back and a finished swap deletes them with the backup.</param>
     /// <exception cref="Exception">Anything that stopped the swap, after it has been rolled back.</exception>
-    public static void Apply(string payload, string target)
+    public static void Apply(string payload, string target, IEnumerable<string>? retire = null)
     {
         var backup = Path.Combine(target, BackupFolder);
         // An earlier swap that was interrupted is undone first; a finished one is only tidied.
@@ -65,11 +84,19 @@ public static class UpdateSwap
                 Note("exe-new");
                 File.Copy(newExe, exe);
             }
+            // What the new build no longer ships, before what it does, so every failure after this
+            // point is a failure its rollback has to put back.
+            foreach (var name in retire ?? Enumerable.Empty<string>())
+            {
+                var destination = Path.Combine(target, name);
+                if (IsProtected(name) || name.IndexOfAny(new[] { '/', '\\', ':' }) >= 0 || name is "." or ".." or Marker or Journal
+                    || Exists(Path.Combine(payload, name)) || !Exists(destination)) continue;
+                Retry(() => Move(destination, Path.Combine(backup, name)));
+                Note("retired:" + name);
+            }
             var entries = Directory.EnumerateFileSystemEntries(payload)
                 .Select(Path.GetFileName).OfType<string>()
-                .Where(name => !name.Equals(ExeName, StringComparison.OrdinalIgnoreCase)
-                               && !name.Equals("data", StringComparison.OrdinalIgnoreCase)
-                               && !name.Equals(BackupFolder, StringComparison.OrdinalIgnoreCase))
+                .Where(name => !IsProtected(name))
                 .OrderBy(name => name, StringComparer.OrdinalIgnoreCase);
             foreach (var name in entries)
             {

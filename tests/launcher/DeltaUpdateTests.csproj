@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Tests of the launcher's small update (launcher/DeltaUpdate.cs) and the swap it goes through
+    (launcher/UpdateSwap.cs), compiled from the launcher's own source files so what is tested is
+    what ships. A plain console program rather than a test framework: nothing to restore from
+    NuGet, and `dotnet run` prints a PASS or FAIL line per test and exits non-zero on any failure.
+
+      dotnet run (project tests/launcher)
+
+    scripts/launcher-delta-injections.ps1 breaks the launcher's code one way at a time and checks
+    that the test written for that break, and only it, fails.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>TexasRevolution.Launcher.Tests</RootNamespace>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\launcher\DeltaUpdate.cs" Link="launcher\DeltaUpdate.cs" />
+    <Compile Include="..\..\launcher\UpdateSwap.cs" Link="launcher\UpdateSwap.cs" />
+    <Compile Include="..\..\launcher\Updates.cs" Link="launcher\Updates.cs" />
+    <Compile Include="..\..\launcher\AppPaths.cs" Link="launcher\AppPaths.cs" />
+  </ItemGroup>
+
+</Project>

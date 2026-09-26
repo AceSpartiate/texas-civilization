@@ -1,0 +1,191 @@
+﻿{
+    "recordedAt":  "2026-09-26T11:21:05.2853953Z",
+    "machine":  "development computer",
+    "script":  "scripts/launcher-delta-injections.ps1",
+    "tests":  "tests/launcher (dotnet run)",
+    "baselinePassed":  20,
+    "caught":  20,
+    "injections":  [
+                       {
+                           "injection":  "damaged installed file treated as unchanged",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "diff-needed+stage-identical",
+                           "failed":  [
+                                          "diff-needed",
+                                          "stage-identical"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "unchanged files copied with their bytes altered",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "stage-identical",
+                           "failed":  [
+                                          "stage-identical"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a changed file is not checked against its hash",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "hash-tampered",
+                           "failed":  [
+                                          "hash-tampered"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a file missing from the set of changes is skipped",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "patch-missing-file",
+                           "failed":  [
+                                          "patch-missing-file"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a damaged archive escapes as a crash",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "patch-damaged",
+                           "failed":  [
+                                          "patch-damaged"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a stray staged file is not noticed",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "verify-extra",
+                           "failed":  [
+                                          "verify-extra"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a release without a list is tried anyway",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "fallback-no-manifest",
+                           "failed":  [
+                                          "fallback-no-manifest"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a release without a set from here is tried anyway",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "fallback-no-patch",
+                           "failed":  [
+                                          "fallback-no-patch"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a launcher with no id tries anyway",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "fallback-no-launcher-id",
+                           "failed":  [
+                                          "fallback-no-launcher-id"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a list in a newer format is read as this one",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "fallback-format",
+                           "failed":  [
+                                          "fallback-format"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a different launcher is ignored",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "fallback-launcher",
+                           "failed":  [
+                                          "fallback-launcher"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a list for another release is accepted",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "fallback-release",
+                           "failed":  [
+                                          "fallback-release"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "the same launcher is refused (nothing ever takes the changes)",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "accept",
+                           "failed":  [
+                                          "accept"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "the list may name the class data",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "unsafe-paths",
+                           "failed":  [
+                                          "unsafe-paths"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "top-level files v2 dropped are kept",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "swap-saves-retired",
+                           "failed":  [
+                                          "swap-saves-retired"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a retired file is deleted rather than kept for rollback",
+                           "file":  "launcher\\UpdateSwap.cs",
+                           "expected":  "swap-rollback",
+                           "failed":  [
+                                          "swap-rollback"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a launch ignores an interrupted swap",
+                           "file":  "launcher\\UpdateSwap.cs",
+                           "expected":  "interrupted-swap",
+                           "failed":  [
+                                          "interrupted-swap"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a set of changes named .zip, which old launchers take for the game",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "assets",
+                           "failed":  [
+                                          "assets"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "the check promises the whole size when only the changes come",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "estimate",
+                           "failed":  [
+                                          "estimate"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "sizes under a megabyte said in megabytes",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "plain-sizes",
+                           "failed":  [
+                                          "plain-sizes"
+                                      ],
+                           "caught":  true
+                       }
+                   ]
+}
