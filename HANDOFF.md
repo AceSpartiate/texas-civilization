@@ -1,5 +1,64 @@
 # Claude handoff — Astra foundation
 
+## San Jacinto on the battle engine, and the capture of Santa Anna — 2026-09-26 (merged with main at 1c77c91; not released)
+
+docs/BATTLES.md §5 step 3 for San Jacinto, from `docs/battle-research/staging.md` §8 with the owner's decisions (§2b.2: the
+killing after the rout drawn as the battles are; J1, J3, J4 their recommended answers). docs/BATTLES.md **§8** is what was
+built. Claims `HIST-TEX-522`–`-527`, `FIC-GONZ-441`–`-444` (the staging sheet's proposed `-517`–`-519`/`-438` belong to
+other blocks).
+
+- **The engagement** (`sim/battles/san-jacinto.mjs`): seventeen phases, noon April 20 → the word at noon April 23. Santa
+  Anna's army comes up and camps; Sherman's skirmish (a group of horse, one hurt); the breastwork in the night; Cos in about
+  nine on the 21st and Deaf Smith's party riding for Vince's bridge (Host spotlight on the bridge); the quiet afternoon
+  ("siesta" said as the Handbook's word); the parade at 15:30; the **formed Texian line** (`ranks`) walking against the
+  **camp at rest** (`camp`), Lamar's horse on the right, the tune captioned as tradition with both versions and no sound (J3);
+  the Twin Sisters on their ground 200 yards from the breastwork; the volley at 16:30 (the old `san-jacinto` moment, unmoved);
+  the charge with the documented "Remember the Alamo!" / "Remember Goliad!"; both sides a rout, men with hands up, "Me no
+  Alamo!" as tradition; the killing at the marsh and Peggy's Lake, figures falling and lying still, no gore; the prisoners
+  at dusk; Santa Anna brought before the wounded Houston at noon on the 22nd (the old `santa-anna-taken`, unmoved), the
+  prisoners' documented "¡El Presidente!", neither named man given words.
+- **Arrival and participation** (staging.md §8.6 a–h): presence by place (`inTheLine` in `sim/houston.mjs`) replaces "every
+  serving man fights"; the march from Harrisburg takes every well man to Lynchburg by noon on the 20th and leaves the sick
+  and hurt with the baggage (J1, `present`); `joinService` keeps the camp a joiner reached so `catchUpCamp` takes him on, and
+  a man too late is told the real place, not "Gonzales"; `join-houston` may be started from the refuge or the family's road
+  (J4) and its control says when he would be with the army; a serving man is never counted with his refugee family
+  (`withFamily`, the Scrape's food and sickness, `turnHome`), so he is not captured with it at Lynchburg. From the parade
+  every man in camp is in the line, held, in the ranks (an undrilled man lags his rank), and drawn firing.
+- **Staged fates** on the engine's `stageFate` (from the Béxar merge): the same seeded roll at the volley; a man killed or
+  hurt goes down at his own minute of the charge, sent as `memberFates` to his own family and the Host only; panel and
+  journal wait for the word.
+- **Alerts** through the man, with Watch, both before contact: when the armies meet, and at the parade ("Parade under arms.
+  We're going at them this afternoon."). The Host: live, camera `battle` in watched phases, spotlights on the field. A family
+  camped at Lynchburg with nobody in it hears the guns in words and is sent neither the field nor the men on it.
+- **Aftermath**: at the word each family with a man with the army gets the plain-words account (what happened / what your
+  family's own did / why it ended so) through him or, if he fell, the family's next person; the men are released home, the
+  refugees turn home, the class's last words say how the war ended. The ending's rules are unchanged.
+- **Engine changes** (generic, additive, reconciled onto Béxar's): San Jacinto's detachments are the engine's `groups`, its
+  guns `def.guns`/`phase.guns`, its fates `stageFate`. Added on top: style `camp`; `works` (breastwork with its opening,
+  fires, marsh, water); per-phase side `count`, `ragged`, `surrendering`; `parley.at`, `pose: 'injured'`;
+  `commands.bySide`; `rankSlot`; `startsAt` (the clock holds for a fight an old save has no record of yet);
+  `resolveTimeJump` crosses an engagement's unwatched hours but not a watched phase; `CALENDAR_STEPS` gains 1; the renderer
+  pins the fallen and surrendering where they fell, never lands a later fall on a man already down, draws a Texian horseman
+  riding, and draws `works`. `sim/town.mjs` `observedBy` no longer shows a man held in a fight to a family at the same place.
+- **Class time at Study**: noon April 20 to the word went from 18–19 ticks to 83 (measured on `houston-class`, with and
+  without a played family): **about +10 real minutes at Study** (+4:20 Brisk, +1:05 Quick). Of the 65 held ticks, the
+  fighting (guns → killing) is 26, 4:07; the build-up (arrival, skirmish, Cos and the bridge) 15, 2:22; the parade and
+  advance 18, 2:51; the prisoners and the capture 6, 0:57.
+- **Evidence**: `npm test` 1253 pass after merging main; `tests/battle-san-jacinto.test.mjs` (14) and
+  `tests/battle-view-san-jacinto.test.mjs` (4); `npm run test:battle-san-jacinto` 15 checks (a real spring class; the father pressed to join from the refuge on the panel; the battle draws in 2.5 ms at its slowest 95th percentile); `npm run test:san-jacinto-injections` 35 of 35 caught by the check written for them (26 unit, 9 browser; one browser injection re-run alone after a Playwright timeout), `docs/evidence/san-jacinto-injections.json`; Also green after the merge: `test:battle-gonzales` (12), `test:battle-bexar` (15), `test:alamo-siege` (8), `test:lesson` (33), `test:panels` (14), `test:scrape` (5). Same computer only; not LAN or district
+  acceptance.
+- **Found, not mine**: `npm run test:camp` and `npm run test:road` fail on this branch and identically on e440bbe before any
+  of this (camp: the father never joins after his icon is pressed, line 90; road: it waits for a `.panel-focus` for a
+  second parent that is not drawn). Their evidence files are from 2026-09-18 and -21.
+- **Not done / limits**: docs/BATTLES.md §8.7 (field points read from words, not surveyed; the regiments walk as one block
+  and the Twin Sisters are drawn only once on their station; a man still on the road at the word stands released where he
+  arrives; a man sick at an older camp is not carried to Harrisburg). Art requested (`docs/ART_REQUESTS.md`, "San Jacinto"):
+  the Twin Sisters, a camp at rest and its breastwork, a Texian horseman, the marsh.
+- **For the owner**: (1) the three days cost about ten minutes of Study time - trim the build-up (arrival, skirmish, Cos) to
+  its words if that is too much; (2) a man hit is drawn falling to his own family before the word, as the Alamo decision
+  allows - say if San Jacinto should wait for the word instead; (3) the Texian loss is drawn as one down and two hurt of sixty
+  and the account says TSHA's nine and thirty - say if Houston's two and twenty-three should be said as the dispute.
+
 ## The storming of Béxar on the battle engine — 2026-09-25 (not released)
 
 Built on the engine of `docs/BATTLES.md` §6 as the owner decided (§2b.3: four held episodes, the town fighting at a slower pace
