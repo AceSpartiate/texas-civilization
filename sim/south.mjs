@@ -27,7 +27,7 @@ import { awardGlory } from './glory.mjs';
 import { frailty } from './army.mjs';
 import { spotlight } from './host.mjs';
 import { calendarMinutes } from './clock.mjs';
-import { armBattle, battleState, looseSlot, placeFrom, placeOf, projectBattle } from './battle-stage.mjs';
+import { armBattle, battleState, looseSlot, placeFrom, placeOf, projectBattle, stageFate } from './battle-stage.mjs';
 import { SAN_PATRICIO } from './battles/san-patricio.mjs';
 import { AGUA_DULCE } from './battles/agua-dulce.mjs';
 import { JOHNSON_SHARE, SOUTH_RATES, share } from './alamo.mjs';
@@ -253,7 +253,8 @@ function keepFight(world, id, { beginTravel } = {}) {
       const options = STAGED[id][fate];
       const staged = options[Math.floor(share(world, person.id, `${id}:moment`) * options.length)];
       battle.participants[person.id] = { householdId: person.householdId, joined: world.minute };
-      battle.fates[person.id] = { fate, part: staged.part, at: battle.start + staged.at };
+      // The engine's staged fate (sim/battle-stage.mjs `stageFate`, shared with Béxar): the roll, its unit, its minute.
+      stageFate(world, id, person.id, { fate, unit: staged.part, minute: battle.start + staged.at });
       person.service.fight = id;
       // Where the card says he is: in the town, or with the party at the creek.
       person.service.siteId = id;
@@ -269,9 +270,9 @@ function keepFight(world, id, { beginTravel } = {}) {
     members.forEach((person, index) => {
       const entry = battle.participants[person.id], fate = battle.fates[person.id];
       if (entry.released) return;
-      const fallen = fate.fate === 'killed' && world.minute >= fate.at;
+      const fallen = fate.fate === 'killed' && world.minute >= fate.minute;
       if (!fallen) {
-        const spec = phase.texian.parts?.find(part => part.id === fate.part) || phase.texian;
+        const spec = phase.texian.parts?.find(part => part.id === fate.unit) || phase.texian;
         const centre = placeOf(ground, spec, phase.minutes, Math.min(state.into, phase.minutes));
         const enemy = placeOf(ground, phase.mexican, phase.minutes, Math.min(state.into, phase.minutes));
         const dx = enemy.x - centre.x, dy = enemy.y - centre.y, span = Math.hypot(dx, dy);
@@ -286,9 +287,10 @@ function keepFight(world, id, { beginTravel } = {}) {
       }
       if (phase.contact && !Number.isFinite(entry.fought)) entry.fought = world.minute;
       // The moment his fate lands: what the world knows from now, and nobody's screen until the word (`tellSouth`).
-      if (world.minute >= fate.at && !person.service.fate) {
+      if (world.minute >= fate.minute && !fate.applied) {
+        fate.applied = true;
         person.service.fate = fate.fate;
-        if (fate.fate === 'killed') person.service.down = fate.at;
+        if (fate.fate === 'killed') person.service.down = fate.minute;
         const eventId = tell(world, person, `${person.name} was with ${id === 'san-patricio' ? 'Johnson\'s men at San Patricio' : 'Grant\'s party at Agua Dulce Creek'} when Urrea's cavalry came.`, { claimId: 'HIST-TEX-059', importance: 1, classification: 'DOCUMENTED' });
         awardGlory(world, { event: id, claimId: 'HIST-TEX-059', personId: person.id, householdId: person.householdId, role: 'fought', fromSiteId: MUSTER[id], causes: [eventId] });
       }
@@ -354,7 +356,7 @@ export function southProjection(world, householdId, role) {
     const account = role === 'student' && householdId ? southAccountCard(world, id, householdId) : null;
     if (!state?.live) { if (account) return { account }; continue; }
     const members = Object.keys(battle.participants).filter(pid => world.entities[pid]);
-    const view = () => ({ ...projectBattle(world, id, { members, memberParts: Object.fromEntries(members.map(pid => [pid, battle.fates[pid]?.part])), memberFates: battle.fates }), reconstruction: false });
+    const view = () => ({ ...projectBattle(world, id, { members, units: Object.fromEntries(members.map(pid => [pid, battle.fates[pid]?.unit])), fates: battle.fates }), reconstruction: false });
     if (role === 'host') {
       const field = fieldOf(SOUTH_FIGHTS[id].ground(world), id);
       const fighting = world.minute >= state.contact;
@@ -406,7 +408,7 @@ export function southAccount(world, id, men) {
   const did = ({ person, fate }) => {
     const name = person.name;
     if (id === 'san-patricio') {
-      const where = { square: 'asleep by the fire on the square with Captain Pearson\'s men', 'house-a': 'asleep in one of the houses', 'house-b': 'asleep in the house whose men fired back', 'house-c': 'asleep in Colonel Johnson\'s house', 'back-door': 'asleep in Colonel Johnson\'s house' }[fate.part] || 'asleep in the town';
+      const where = { square: 'asleep by the fire on the square with Captain Pearson\'s men', 'house-a': 'asleep in one of the houses', 'house-b': 'asleep in the house whose men fired back', 'house-c': 'asleep in Colonel Johnson\'s house', 'back-door': 'asleep in Colonel Johnson\'s house' }[fate.unit] || 'asleep in the town';
       const end = fate.fate === 'killed' ? `${name} was killed there.` : fate.fate === 'captured' ? `${name} was taken prisoner with the others and marched south toward Matamoros.` : `${name} got out the back with Johnson and a few others and away in the dark, and has gone to Colonel Fannin at Goliad.`;
       return `${name} was ${where} when the soldiers came. ${end}`;
     }

@@ -87,6 +87,13 @@ the choices this build makes, each recorded so it can be reversed in one place.
    defenders' answer, the Mexican batteries and lines creeping closer, couriers going out, the Gonzales relief riding in
    on March 1 — and the assault itself is the longest held single fight.
 
+6. **The Come and Take It flag is drawn on the field, and the men shout its words** (owner, 2026-09-25, after v2026.09.25.6
+   shipped without either: "have the flag be drawn, and have the men say it as a taunt of sorts"). The flag stands over
+   the gun with the Texians from the rendezvous to the march home. Unnamed volunteers shout "Come and take it!" at the
+   dragoons after the dawn skirmish and as they wheel away, and one of the eighteen calls it across the river after the
+   refusal on September 30. Every shout is `tradition`, glossed as remembered later, never in a named mouth — no 1835
+   document has anybody say it (`HIST-TEX-469`, `FIC-GONZ-419`).
+
 Every other question in `docs/battle-research/staging.md` takes its recommended answer.
 
 ## 3. The shared contract (what every engagement is built on)
@@ -127,7 +134,12 @@ Every other question in `docs/battle-research/staging.md` takes its recommended 
 1. The engine and renderer, rebuilt first on Gonzales's fight (with the arrival guarantee for the upriver march). **Built 2026-09-25, not released: §6.**
 2. In parallel: Gonzales's town before the fight (alarm, the flag, the muster at the ford, the cannon), and a staging
    sheet per later engagement from the research already in `docs/battle-research/`.
-3. The later engagements on the engine, each with its aftermath. **San Patricio and Agua Dulce built 2026-09-25, not released: §6.13-6.15.**
+   **Gonzales's town: built 2026-09-25, not released** - `sim/town-scenes.mjs` and `public/town-scenes.js`, researched in
+   `docs/battle-research/gonzales-town.md` (`HIST-TEX-460` to `-469`, `FIC-GONZ-410` to `-413`), described in
+   docs/GONZALES_ART.md. It draws Castañeda's camp on the far bank from noon on September 29 to his move upriver on the
+   morning of October 1 (`camp-mound`, `camp-leaves`); the fight's engine takes the field from there, and if it draws that
+   camp itself the town's two beats come out in one place.
+3. The later engagements on the engine, each with its aftermath. **The storming of Béxar: built 2026-09-25, not released: §7.** **San Patricio and Agua Dulce: built 2026-09-25, not released: §6.13-6.15.**
 4. Released to live after each wave.
 
 ## 6. The engine as built (2026-09-25, wave 1: Gonzales)
@@ -277,7 +289,7 @@ Its record is `docs/evidence/battle-injections.json`.
   drawn on foot. A detachment drawn apart from its side is the way out.
 - ceiling: figures stand on open ground whatever is under them; the volley's rhythm is each page's own.
 - A family's person is drawn in the militia's firing poses (stand-in, `docs/ART_REQUESTS.md` request 2026-09-25).
-- The staged fate of a family's person inside a deadly battle is not built (none is at stake at Gonzales).
+- The staged fate of a family's person inside a deadly battle is not built (none is at stake at Gonzales). Built for Béxar: §7.2.
 - The town before the fight (alarm, flag, muster) is a separate build (`sim/town-scenes.mjs`).
 
 ## 6.13 The engine's additions for the south (2026-09-25, wave 2: San Patricio and Agua Dulce)
@@ -289,12 +301,12 @@ Generic and additive; nothing Gonzales uses changed its meaning. Claims: `FIC-GO
 | Style `camp` | `STYLES` | Men unformed: drawn lying (`*-reclining`). The staging sheet's §9 proposal. |
 | A side in **parts** | `phase[side].parts: [{ id, drawn, at \| from/to \| keys, style?, fire?, action?, pose?, spread?, face? }]`; `partView`; `placeOf` | A side drawn in groups at their own places - Johnson's men on the square and in three houses, the dragoons in two groves. Each part keeps the same figures in every phase (a scattered layout per part, whatever its style), and the parts together never draw more than the side's sample (`checkEngagement`). A side with parts and no place of its own stands where its parts stand. The way out of Gonzales's detachment `ceiling:`. |
 | **Poses** | `POSES`: `stand`, `asleep`, `hidden`, `surrender` | `hidden` is men shut in a house: nobody drawn, their shots a flash and a puff at its door and windows. `surrender` is hands up (`*-surrender`). |
-| A fall in a part | `falls: [{ …, part }]` | The part's own men go down; a fallen man **lies where he fell** while his part is marched off (`fallenSpots`). |
+| A fall in a part | `falls: [{ …, unit }]` (a part is a unit, as Béxar's groups are) | The part's own men go down; a fallen man **lies where he fell** while his part is marched off (`fallenSpots`). |
 | Light | `phase.light` / `def.light`: `'night'`, `'dawn'` | A dark wash over the view; lit scenery and flashes glow through it (`drawNight`, `glow`). |
 | Scenery | `def.scenery(ground) → [{ id, kind: 'house' \| 'campfire' \| 'grove', sprite?, x, y, lit: bool \| [phaseIds], trees?, spread? }]` | Houses, a fire, groves, drawn behind the fighting. |
 | A herd | `phase.herd: { at \| keys, count, scatter? }` | A drove of horses moving with the drive and scattering in a charge (`drawHerd`). |
 | Riders on the Texian side | `sides.texian.mounted` | Drawn riding (`mounted-courier-e`, a stand-in); a family's man with them too. |
-| A person's part and fate | `projectBattle(world, id, { members, memberParts, memberFates })` | The page is told which part each of its own people is in, and each one's fate **only from the minute it happens** (`at <= world.minute`); `memberPose` draws him asleep, in the house, firing, hands up, or hit and lying still. |
+| A person's part and fate | Béxar's staged fates (§7.2): `stageFate(world, id, person, { fate, unit, minute })` and `projectBattle`'s `units` and `fates` | The page is told which part each of its own people is in (`memberUnits`) and each one's fate **only from its minute** (`memberFates`); `memberPose` draws him asleep, in the house, firing, hands up (`captured`), or hit and lying still. Reconciled onto Béxar's mechanism at the merge of 2026-09-26: one staged-fate mechanism. In the renderer a side's parts are bodies keyed as groups are (`bodiesOf`). |
 | Step 1 | `BATTLE_STEPS`, `public/motion.js` `CALENDAR_STEPS` | A minute a tick for San Patricio's quarter hour and Agua Dulce's charge. |
 
 ## 6.14 San Patricio and Agua Dulce Creek (built 2026-09-25, not released)
@@ -344,3 +356,57 @@ Evidence: `tests/battle-south.test.mjs` (10), `tests/battle-view-south.test.mjs`
 - ceiling: the drive north is drawn in a straight line from the end of the walked road to the creek, within a mile of the road.
 - ceiling: the prisoners' guard is not drawn marching with them; a prisoner column on the engine is the way out.
 - The night, the riders, the herd and the groves are stand-ins (`docs/ART_REQUESTS.md`, request 2026-09-25 "the south's fights").
+
+## 7. The storming of Béxar on the engine (2026-09-25, wave 2; not released)
+
+Built from `docs/battle-research/staging.md` §3 as the owner decided in §2b.3. Claims `HIST-TEX-490`–`-496` and
+`FIC-GONZ-425`–`-429`.
+
+### 7.1 Where it is
+
+| Piece | File | What it does |
+| --- | --- | --- |
+| The engagement | `sim/battles/bexar-storming.mjs` | Twenty-two phases from Milam's call (18:00 Dec 4) to Cos's army out of the town (11:00 Dec 14); the ground (`BEXAR_OFFSETS`, staged on the illustrated town's houses) and the mill (`MILL_OFFSET`, 0.45 mile north, read by `sim/army.mjs` `SIEGE_CAMPS.mill`). |
+| The director's part | `sim/bexar-fight.mjs` | The walk in from the mill at three (`goIn`), each man in his unit (`placeInTheTown`, `unitFor`), his fate at its moment (`FATE_DAYS`, `fateMoment`), the alerts (`EPISODES`), the Host's spotlight (`SPOTS`), who is sent what (`bexarProjection`) and the account (`bexarAccount`). Called from `advanceStorming` in `sim/directors.mjs`, which dates `bexar-roll`, `assault`, `milam-killed`, `reinforce` and `cos-marches` from the phases, shuts Milam's call at the roll and no longer makes the white flag wait on `ugartechea`. |
+| The storming's fates | `sim/army.mjs` `stormingFate`, `resolveStormer` | The one roll `fightStorming` always made, read when a man goes in and applied at his moment; `fightStorming` resolves whoever is left at the flag. |
+| Tests | `tests/battle-bexar.test.mjs`, `tests/battle-bexar-view.test.mjs`, `tests/support/bexar.mjs` | A class at the eve of December 4 in seconds; the rules, the clock, arrival, fates, viewers, the account, saves. |
+| Proof | `scripts/battle-bexar-browser-proof.mjs` (`npm run test:battle-bexar`) | A real class through the page, 1366x768 and 1024x768; `docs/evidence/battle-bexar-browser.json`. |
+| Injections | `scripts/battle-bexar-injections.mjs`, `-list.mjs` | `docs/evidence/battle-bexar-injections.json`. |
+
+### 7.2 What the engine gained (generic, additive; every field optional)
+
+- `phase.groups`: bodies drawn apart from their side (`{ id, side, name, count, drawn ≤ 40, style, at | from/to | keys, fire,
+  action, cover?, face?, away?, civilians?, mounted? }`), projected as `view.groups`; a phase may draw at most 170 figures.
+  `civilians` never fire and are never drawn falling. A line or a fall may name its `unit`.
+- `cover` on a side or group: `loophole` (inside a house: only one man in four is drawn, the rest are flashes and smoke at the
+  wall), `roof` (stood up on the house), `barricade`, `sandbags` (the cover drawn in front).
+- `def.guns` and `phase.guns`: guns standing on named ground, each shot dated (`[minutes]`) or at an interval through a
+  background phase (`{ every, from?, to? }`), projected with their shots so far and fired once each by the page.
+- `phase.breaches`: a door or wall worked at from `from` and broken at `at`; `phase.flags` (`kind: 'white'`); `fall.point` and
+  `fall.name` for a fall the record puts on a named man at a place (Milam); `def.fallsLinger` (days-long fights carry their
+  fallen off); `phase.frame`/`def.frame` (the ground a page is framed on; `battlePoints` in `public/app.js` reads it).
+- `phase.background`: calendar minutes a tick at most (whole twenties) while a played family has somebody in the force
+  (`watchedByAFamily`); with nobody, and between any two phases, `battleStep` still lands a tick on the next watched phase.
+  `BATTLE_PACES` joins `BATTLE_STEPS` in `public/motion.js` `CALENDAR_STEPS` (120 added).
+- **Staged fates** (§6.6's gap): `stageFate`, `fatesDue` and `world.battles[id].fates`; `projectBattle`'s `units` and `fates`
+  options send `memberUnits` and, only once each minute has come, `memberFates`; `memberPose` draws the member hurt or lying
+  still at that moment. Built for Béxar; a Concepción builder adding the same should reconcile on merge.
+- `directorProjection` takes `{ seen }` (who this page already sees; `sim/world.mjs` passes its `others`).
+
+### 7.3 Numbers
+
+Held episodes, at Study (9.5 s a tick): the entry 27 ticks (4.3 min, with the roll), Karnes, the yard and Milam 19 (3.0 min), the Priest's
+House 16 (2.5 min), the flag 12 (1.9 min) - about 12 real minutes, measured by `tests/battle-bexar.test.mjs`. Between them,
+with a played family's man in the town, about 47 background ticks (7.4 min); Milam's call and Cos's march out add about 12
+(1.9 min). Before this the storming cost about nine campaign ticks. The page draws the storming in at most 6.4 ms at its
+slowest 95th percentile in headless Chrome (median 2.1 ms).
+
+### 7.4 Limits
+
+- ceiling: one fight projected at a time (`directorProjection` takes Béxar's while it is fought); December is not October.
+- ceiling: night is not drawn; the entry and the Priest's House are fought in the day's own light (art request).
+- ceiling: a class saved at the mill before 2026-09-25 keeps its camp a mile out; its men walk the extra half mile.
+- ceiling: the reserve's man at the mill watches the storming as the town does; he is never sent in unless he says yes to the
+  companies of the 8th.
+- The card line for a man still lying wounded at Béxar on February 23 (`HIST-TEX-493`) is not built.
+- The illustrated town is not a survey: the houses are staged on its nearest houses and never labelled.

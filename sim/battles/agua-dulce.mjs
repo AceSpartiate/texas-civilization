@@ -122,10 +122,10 @@ export const AGUA_DULCE = Object.freeze({
         { action: 'advance', fire: 'scattered' }),
       herd: { keys: [[0, 'herd-ahead'], [6, 'herd-scatter']], count: 300, scatter: true },
       falls: [
-        { side: TEX, part: 'middle', count: 3, at: 3, claimId: 'HIST-TEX-511' },
-        { side: TEX, part: 'middle', count: 4, at: 7, claimId: 'HIST-TEX-511' },
-        { side: TEX, part: 'middle', count: 4, at: 11, claimId: 'HIST-TEX-511' },
-        { side: TEX, part: 'middle', count: 3, at: 16, claimId: 'HIST-TEX-511' },
+        { side: TEX, unit: 'middle', count: 3, at: 3, claimId: 'HIST-TEX-511' },
+        { side: TEX, unit: 'middle', count: 4, at: 7, claimId: 'HIST-TEX-511' },
+        { side: TEX, unit: 'middle', count: 4, at: 11, claimId: 'HIST-TEX-511' },
+        { side: TEX, unit: 'middle', count: 3, at: 16, claimId: 'HIST-TEX-511' },
       ],
       lines: [
         say('ad-trees', 0, TEX, 'rider', 'reconstructed', 'Horsemen in the trees!'),

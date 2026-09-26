@@ -170,11 +170,11 @@ try {
   assert.ok(spDrawn.members.includes(spMan), `${spMan} was not drawn in the force: ${JSON.stringify(spDrawn)}`);
   // His fate is drawn only from its moment: every sample before it has none, every sample from it has his.
   for (const one of sp.filter(s => s.view)) {
-    if (one.minute < spFate.at) assert.equal(one.view.memberFates?.[spMan], undefined, `his fate was drawn at ${one.minute}, before its moment ${spFate.at}`);
+    if (one.minute < spFate.minute) assert.equal(one.view.memberFates?.[spMan], undefined, `his fate was drawn at ${one.minute}, before its moment ${spFate.minute}`);
   }
-  const lateSp = sp.filter(s => s.view && s.minute >= spFate.at + 1);
-  assert.ok(lateSp.length >= 1 && lateSp.every(s => s.view.memberFates?.[spMan] === spFate.fate), `his fate (${spFate.fate} at ${spFate.at}) was not drawn: ${JSON.stringify(lateSp.map(s => [s.minute, s.view.memberFates]))}`);
-  ok(`${spMan} was drawn in the force (${spDrawn.clips.join(', ')}), and his fate - ${spFate.fate} - was drawn from its moment at minute ${spFate.at} and not before`);
+  const lateSp = sp.filter(s => s.view && s.minute >= spFate.minute + 1);
+  assert.ok(lateSp.length >= 1 && lateSp.every(s => s.view.memberFates?.[spMan] === spFate.fate), `his fate (${spFate.fate} at ${spFate.minute}) was not drawn: ${JSON.stringify(lateSp.map(s => [s.minute, s.view.memberFates]))}`);
+  ok(`${spMan} was drawn in the force (${spDrawn.clips.join(', ')}), and his fate - ${spFate.fate} - was drawn from its moment at minute ${spFate.minute} and not before`);
   const hostSp = await host.evaluate(() => ({ battle: window.__snapshot.world.battle?.id, seen: window.__spotlightSeen }));
   evidence.hostSanPatricio = hostSp;
 
@@ -185,7 +185,7 @@ try {
     assert.equal(world.battle, null, `the family with nobody there was sent the battle (${label})`);
     assert.ok(!world.battleAlert && !world.battleAccount, `the family with nobody there was sent an alert or an account (${label})`);
     for (const id of Object.values(fathers)) assert.ok(!raw.includes(id), `the family with nobody there was sent ${id} (${label})`);
-    assert.ok(!/"memberFates"|"memberParts"|"participants"|"fates"/.exec(raw), `the family with nobody there was sent part of the fight (${label})`);
+    assert.ok(!/"memberFates"|"memberUnits"|"participants"|"fates"/.exec(raw), `the family with nobody there was sent part of the fight (${label})`);
     assert.equal(await stayer.evaluate(() => window.__battleView), null, `its page drew a battle (${label})`);
   };
   await nothing('San Patricio');
@@ -220,8 +220,8 @@ try {
   const adSaid = await grant.evaluate(() => window.__battleView?.linesShown || []);
   assert.ok(adSaid.includes('ad-carga') || adSaid.includes('ad-rindanse'), `the dragoons' words were not drawn: ${adSaid.join(', ')}`);
   const adFate = server().battles['agua-dulce'].fates[adMan];
-  for (const one of ad.filter(s => s.view)) if (one.minute < adFate.at) assert.equal(one.view.memberFates?.[adMan], undefined, 'his fate was drawn before its moment');
-  const lateAd = ad.filter(s => s.view && s.minute >= adFate.at + 1);
+  for (const one of ad.filter(s => s.view)) if (one.minute < adFate.minute) assert.equal(one.view.memberFates?.[adMan], undefined, 'his fate was drawn before its moment');
+  const lateAd = ad.filter(s => s.view && s.minute >= adFate.minute + 1);
   assert.ok(lateAd.length >= 1 && lateAd.every(s => s.view.memberFates?.[adMan] === adFate.fate), `his fate (${adFate.fate}) was not drawn from its moment`);
   ok(`at Agua Dulce, by day at 1024x768: the herd (${Math.max(...charge.map(one => one.view.herd))} horses), Grant's men riding, the two groves, fire and smoke at ${charge.length} moments; words ${adSaid.join(', ')}; ${adMan}'s fate - ${adFate.fate} - drawn from its moment`);
   const hostView = await host.evaluate(() => ({ battle: window.__snapshot.world.battle?.id, focus: window.__snapshot.world.host?.focus, seen: window.__spotlightSeen, drawn: window.__battleView?.figures }));

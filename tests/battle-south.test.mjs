@@ -67,7 +67,7 @@ test('both fights are data the engine checks: nobody named speaks, no row is dra
   const bad = change => { const def = copy(SAN_PATRICIO); def.ground = SAN_PATRICIO.ground; def.scenery = SAN_PATRICIO.scenery; change(def); return () => checkEngagement(def); };
   assert.throws(bad(def => { def.phases[1].lines[1].name = 'Johnson'; }), /named person/);
   assert.throws(bad(def => { def.phases[1].texian.parts[0].drawn = 30; }), /draw more/);
-  assert.throws(bad(def => { def.phases[1].falls[0].part = 'the-church'; }), /names no part/);
+  assert.throws(bad(def => { def.phases[1].falls[0].unit = 'the-church'; }), /not there/);
 });
 
 test('San Patricio is fought at three in the morning of February 27, Agua Dulce at half past ten on March 2, and the day never moves', () => {
@@ -162,7 +162,7 @@ test('each man\'s fate is the roll it always was, lands at its own moment inside
       const person = again.entities[id], fight = person.service?.fight || person.service?.escapedFrom;
       const fate = fight && again.battles[fight]?.fates?.[id];
       if (!fate) continue;
-      if (again.minute < fate.at) assert.equal(person.service.fate, undefined, `${person.name}'s fate landed before its moment`);
+      if (again.minute < fate.minute) assert.equal(person.service.fate, undefined, `${person.name}'s fate landed before its moment`);
       else if (!seen[id]) {
         seen[id] = true;
         // The same roll sim/alamo.mjs `fightSouth` makes: frailty-weighted death, the record's shares.
@@ -179,7 +179,7 @@ test('each man\'s fate is the roll it always was, lands at its own moment inside
         const view = student(again, person.householdId).battle;
         if (view?.id === fight) {
           const sent = view.memberFates?.[id];
-          if (again.minute < fate.at) assert.equal(sent, undefined, `${person.name}'s fate went on the wire before it happened`);
+          if (again.minute < fate.minute) assert.equal(sent, undefined, `${person.name}'s fate went on the wire before it happened`);
           else assert.equal(sent?.fate, fate.fate);
         }
       }

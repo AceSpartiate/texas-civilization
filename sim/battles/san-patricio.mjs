@@ -134,7 +134,7 @@ export const SAN_PATRICIO = Object.freeze({
         { keys: [[0, 'mx-edge-a'], [2, 'mx-a']] },
         { keys: [[0, 'mx-edge-b'], [2, 'mx-b']], fire: 'scattered' },
         { keys: [[0, 'mx-edge-c'], [3, 'mx-c']], fire: 'picket' }),
-      falls: [{ side: TEX, part: 'square', count: 3, at: 2, claimId: 'HIST-TEX-510' }],
+      falls: [{ side: TEX, unit: 'square', count: 3, at: 2, claimId: 'HIST-TEX-510' }],
       lines: [
         say('sp-quien', 0, MEX, 'sentry', 'reconstructed', '¿Quién vive?', { gloss: 'Who goes there?' }),
         say('sp-square', 1, TEX, 'volunteer', 'reconstructed', 'They’re in the square!'),
@@ -150,8 +150,8 @@ export const SAN_PATRICIO = Object.freeze({
         { keys: [[0, 'house-c'], [1, 'back-door'], [5, 'escape']], style: 'rout', pose: 'stand', action: 'withdraw', face: 'away' }),
       mexican: mexicans({ at: 'mx-square', fire: 'none', action: 'stand' }, { at: 'mx-a', action: 'stand' }, { at: 'mx-b', fire: 'scattered', action: 'stand' }, { at: 'mx-c', fire: 'picket', action: 'stand' }),
       falls: [
-        { side: MEX, part: 'at-b', count: 1, at: 2, claimId: 'HIST-TEX-510' },
-        { side: TEX, part: 'house-b', count: 3, at: 4, claimId: 'HIST-TEX-510' },
+        { side: MEX, unit: 'at-b', count: 1, at: 2, claimId: 'HIST-TEX-510' },
+        { side: TEX, unit: 'house-b', count: 3, at: 4, claimId: 'HIST-TEX-510' },
       ],
       lines: [
         say('sp-back', 1, TEX, 'volunteer', 'reconstructed', 'Out the back!'),
@@ -166,7 +166,7 @@ export const SAN_PATRICIO = Object.freeze({
         { keys: [[0, 'escape'], [5, 'gone']], style: 'rout', pose: 'stand', action: 'withdraw', face: 'away' }),
       // Firing on at the last house until it gives up, and after the men going out the back (RECONSTRUCTED, `FIC-GONZ-435`).
       mexican: mexicans({ at: 'mx-square', action: 'stand' }, { at: 'mx-a', action: 'stand' }, { at: 'mx-b', action: 'stand', fire: 'scattered' }, { at: 'mx-c', action: 'stand', fire: 'scattered' }),
-      falls: [{ side: TEX, part: 'house-c', count: 1, at: 1, claimId: 'HIST-TEX-510' }, { side: TEX, part: 'square', count: 1, at: 2, claimId: 'HIST-TEX-510' }],
+      falls: [{ side: TEX, unit: 'house-c', count: 1, at: 1, claimId: 'HIST-TEX-510' }, { side: TEX, unit: 'square', count: 1, at: 2, claimId: 'HIST-TEX-510' }],
       lines: [
         say('sp-arriba', 1, MEX, 'soldier', 'reconstructed', '¡Manos arriba!', { gloss: 'Hands up!' }),
         say('sp-done', 4, TEX, 'volunteer', 'reconstructed', 'It’s no use, boys.'),

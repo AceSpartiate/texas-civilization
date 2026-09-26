@@ -444,6 +444,122 @@
         ]
       }
     },
+    "cannon-cartwheels": {
+      "image": "atlases/cannon-cartwheels.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1420895,
+      "sha256": "f1706c8a6ac3e2c48aef771aaf2242d24e68c5f5d73980a8098bf319b2d4e244",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.642924,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              151,
+              562
+            ],
+            "columns": [
+              [
+                62,
+                594
+              ],
+              [
+                693,
+                1204
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              748,
+              1157
+            ],
+            "columns": [
+              [
+                65,
+                592
+              ],
+              [
+                690,
+                1200
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "cart-open": {
+      "image": "atlases/cart-open.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1049202,
+      "sha256": "8270ce890c9a8d73405513baf00b1c12e7b1fe20c722d767317cee048d11642f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.710749,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              270,
+              578
+            ],
+            "columns": [
+              [
+                27,
+                625
+              ],
+              [
+                653,
+                1252
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              721,
+              1131
+            ],
+            "columns": [
+              [
+                81,
+                548
+              ],
+              [
+                712,
+                1173
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "people-cast2-carry": {
       "image": "atlases/people-cast2-carry.png",
       "width": 1254,
@@ -2619,6 +2735,64 @@
               [
                 1344,
                 1759
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "flag-come-and-take-it": {
+      "image": "atlases/flag-come-and-take-it.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1140674,
+      "sha256": "af9c704a96258e216c1ca20ca2449549b600e43d702ecbd09e6c7a6cf442e7e8",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.680198,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              37,
+              607
+            ],
+            "columns": [
+              [
+                142,
+                545
+              ],
+              [
+                751,
+                1196
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              635,
+              1207
+            ],
+            "columns": [
+              [
+                140,
+                632
+              ],
+              [
+                751,
+                1183
               ]
             ]
           }
@@ -10741,6 +10915,198 @@
         "retainedFraction": 1
       }
     },
+    "cannon-cartwheels-e": {
+      "sheet": "cannon-cartwheels",
+      "x": 62,
+      "y": 151,
+      "w": 532,
+      "h": 410,
+      "anchorX": 0.2434,
+      "anchorY": 0.9293,
+      "label": "cannon cartwheels e",
+      "kind": "cannon-cartwheels",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          64,
+          153,
+          528,
+          406
+        ],
+        "visiblePixels": 136750,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cannon-cartwheels-recoil-e": {
+      "sheet": "cannon-cartwheels",
+      "x": 693,
+      "y": 173,
+      "w": 511,
+      "h": 389,
+      "anchorX": 0.2534,
+      "anchorY": 0.928,
+      "label": "cannon cartwheels recoil e",
+      "kind": "cannon-cartwheels",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          695,
+          175,
+          507,
+          385
+        ],
+        "visiblePixels": 130457,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cannon-cartwheels-w": {
+      "sheet": "cannon-cartwheels",
+      "x": 65,
+      "y": 748,
+      "w": 527,
+      "h": 404,
+      "anchorX": 0.7609,
+      "anchorY": 0.9282,
+      "label": "cannon cartwheels w",
+      "kind": "cannon-cartwheels",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          67,
+          750,
+          523,
+          400
+        ],
+        "visiblePixels": 132307,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cannon-cartwheels-recoil-w": {
+      "sheet": "cannon-cartwheels",
+      "x": 690,
+      "y": 766,
+      "w": 510,
+      "h": 391,
+      "anchorX": 0.7539,
+      "anchorY": 0.9284,
+      "label": "cannon cartwheels recoil w",
+      "kind": "cannon-cartwheels",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          692,
+          768,
+          506,
+          387
+        ],
+        "visiblePixels": 127273,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cart-open-e": {
+      "sheet": "cart-open",
+      "x": 27,
+      "y": 270,
+      "w": 598,
+      "h": 307,
+      "anchorX": 0.2483,
+      "anchorY": 0.9283,
+      "label": "cart open e",
+      "kind": "cart-open",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          29,
+          272,
+          594,
+          303
+        ],
+        "visiblePixels": 105277,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cart-open-e-variant": {
+      "sheet": "cart-open",
+      "x": 653,
+      "y": 271,
+      "w": 599,
+      "h": 307,
+      "anchorX": 0.2487,
+      "anchorY": 0.9283,
+      "label": "cart open e variant",
+      "kind": "cart-open",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          655,
+          273,
+          595,
+          303
+        ],
+        "visiblePixels": 105264,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cart-open-s": {
+      "sheet": "cart-open",
+      "x": 81,
+      "y": 747,
+      "w": 467,
+      "h": 384,
+      "anchorX": 0.5011,
+      "anchorY": 0.9297,
+      "label": "cart open s",
+      "kind": "cart-open",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          749,
+          463,
+          380
+        ],
+        "visiblePixels": 105336,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cart-open-n": {
+      "sheet": "cart-open",
+      "x": 712,
+      "y": 721,
+      "w": 461,
+      "h": 357,
+      "anchorX": 0.4978,
+      "anchorY": 0.93,
+      "label": "cart open n",
+      "kind": "cart-open",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          714,
+          723,
+          457,
+          353
+        ],
+        "visiblePixels": 95540,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
     "rust-woman-carry-1": {
       "sheet": "people-cast2-carry",
       "x": 136,
@@ -17341,6 +17707,102 @@
           396
         ],
         "visiblePixels": 115054,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "flag-come-and-take-it": {
+      "sheet": "flag-come-and-take-it",
+      "x": 142,
+      "y": 37,
+      "w": 403,
+      "h": 570,
+      "anchorX": 0.062,
+      "anchorY": 0.9737,
+      "label": "flag come and take it",
+      "kind": "flag-come-and-take-it",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          144,
+          39,
+          399,
+          566
+        ],
+        "visiblePixels": 113835,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "flag-come-and-take-it-wind-1": {
+      "sheet": "flag-come-and-take-it",
+      "x": 751,
+      "y": 37,
+      "w": 445,
+      "h": 570,
+      "anchorX": 0.0551,
+      "anchorY": 0.9316,
+      "label": "flag come and take it wind 1",
+      "kind": "flag-come-and-take-it",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          753,
+          39,
+          441,
+          566
+        ],
+        "visiblePixels": 114358,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "flag-come-and-take-it-wind-2": {
+      "sheet": "flag-come-and-take-it",
+      "x": 140,
+      "y": 635,
+      "w": 492,
+      "h": 572,
+      "anchorX": 0.0498,
+      "anchorY": 0.9423,
+      "label": "flag come and take it wind 2",
+      "kind": "flag-come-and-take-it",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          142,
+          637,
+          488,
+          568
+        ],
+        "visiblePixels": 120705,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "flag-come-and-take-it-wind-3": {
+      "sheet": "flag-come-and-take-it",
+      "x": 751,
+      "y": 635,
+      "w": 432,
+      "h": 572,
+      "anchorX": 0.0556,
+      "anchorY": 0.9685,
+      "label": "flag come and take it wind 3",
+      "kind": "flag-come-and-take-it",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          753,
+          637,
+          428,
+          568
+        ],
+        "visiblePixels": 117504,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

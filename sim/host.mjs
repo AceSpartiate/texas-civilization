@@ -64,6 +64,9 @@ export function whereWords(world, person, household) {
     if (service.kind === 'fannin') return `${sick}with Fannin at ${placeName(world, service.siteId)}`;
     return `${sick}with ${SERVICE[service.kind]?.name || 'the army'} at ${placeName(world, service.siteId)}`;
   }
+  // A man a fight has placed (the storming, sim/bexar-fight.mjs) is in the town, not at the camp the army's ranks stand at.
+  const placed = !person.travel && Object.values(world.battles || {}).map(battle => battle.participants?.[person.id]).find(entry => entry?.placed);
+  if (placed && world.army?.members?.includes(person.id)) return placed.released ? `${sick}with the army in Béxar` : `${sick}in the fighting in San Antonio`;
   if (world.army?.members?.includes(person.id)) return `${sick}with the army${world.army.camp ? ` at ${world.army.camp}` : ''}`;
   if (person.travel) {
     const purpose = person.travel.purpose;

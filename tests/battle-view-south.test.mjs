@@ -75,7 +75,7 @@ test('a night fight is dark but for the lit windows, the fire and the flashes', 
 test('a man who falls lies where he fell while the rest of his part is marched off', () => {
   const art = fakeArt(), view = createBattleView(art);
   const make = minute => night(minute, [part('square', 8, minute < 5 ? 0 : 0.1, { moving: minute >= 5, pose: minute >= 5 ? 'surrender' : 'stand' })], {
-    fallen: minute >= 2 ? [{ side: 'texian', part: 'square', count: 3, minute: 2, claimId: 'HIST-TEX-510' }] : [],
+    fallen: minute >= 2 ? [{ side: 'texian', unit: 'square', count: 3, minute: 2, claimId: 'HIST-TEX-510' }] : [],
   });
   run(view, make, { seconds: 4, art });
   const lying = () => art.drawn.filter(one => one.sprite === 'volunteer-reclining').map(one => Math.round(one.x));
@@ -111,7 +111,7 @@ test('a family\'s man is drawn in his part - asleep, in the house, giving up - a
   const view = createBattleView(fakeArt());
   const texParts = [part('square', 8, 0, { pose: 'asleep', style: 'camp' }), part('house-b', 9, 0.03, { pose: 'hidden', fire: 'scattered' })];
   // `a` in the house that fires, `b` asleep on the square: what each is drawn doing is his part's, until his fate comes.
-  const draw = (minute, fates = {}, now = minute * 1000) => view.draw(fakeContext(), night(minute, texParts, { members: ['a', 'b'], memberParts: { a: 'house-b', b: 'square' }, memberFates: fates }), { camera, time: now, now, tickMs: 1000, bounds: { width: 1366, height: 768 } });
+  const draw = (minute, fates = {}, now = minute * 1000) => view.draw(fakeContext(), night(minute, texParts, { members: ['a', 'b'], memberUnits: { a: 'house-b', b: 'square' }, memberFates: fates }), { camera, time: now, now, tickMs: 1000, bounds: { width: 1366, height: 768 } });
   draw(1);
   assert.equal(view.memberPose({ id: 'b' }, 1000).sprite, 'volunteer-reclining', 'a man asleep on the square is not drawn asleep');
   const inHouse = view.memberPose({ id: 'a' }, 1000);
@@ -120,7 +120,8 @@ test('a family\'s man is drawn in his part - asleep, in the house, giving up - a
   draw(3, { a: { fate: 'killed', minute: 3 }, b: { fate: 'captured', minute: 3 } }, 3000);
   draw(4, { a: { fate: 'killed', minute: 3 }, b: { fate: 'captured', minute: 3 } }, 4500);
   const killed = view.memberPose({ id: 'a' }, 4500);
-  assert.ok(killed.sprite === 'volunteer-reclining' || killed.clip === 'volunteer-injured-rest');
+  // Hit, then lying still (the engine's own member fall, shared with Béxar: `volunteer-injured` for a moment, then `-reclining`).
+  assert.ok(['volunteer-reclining', 'volunteer-injured'].includes(killed.sprite), `a man killed is drawn ${JSON.stringify(killed)}`);
   assert.equal(view.memberPose({ id: 'b' }, 4500).clip, 'volunteer-surrender');
   assert.deepEqual(view.evidence.memberFates, { a: 'killed', b: 'captured' });
 });

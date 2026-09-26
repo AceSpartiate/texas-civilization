@@ -29,7 +29,15 @@ test('an engagement is checked when it loads: documented words carry a claim, a 
   // Every named speaker at Gonzales speaks only documented words, each with its claim.
   for (const line of GONZALES.phases.flatMap(phase => phase.lines || [])) {
     if (line.name) { assert.equal(line.kind, 'documented', `${line.name} speaks a ${line.kind} line`); assert.match(line.claimId, /^HIST-/); }
-    assert.doesNotMatch(line.text, /come and take it|give 'em hell/i, 'a disputed slogan is spoken');
+    assert.doesNotMatch(line.text, /give 'em hell/i, 'a disputed slogan is spoken');
+    // The owner chose to have the men shout it (2026-09-25), and it is a later memory, not the 1835 record (`HIST-TEX-469`):
+    // only ever `tradition`, in nobody's named mouth, with a gloss that says so.
+    if (/take it/i.test(line.text)) {
+      assert.equal(line.kind, 'tradition', `"${line.text}" is shown as ${line.kind}`);
+      assert.equal(line.name, undefined, `"${line.text}" is put in ${line.name}'s mouth`);
+      assert.equal(line.claimId, 'HIST-TEX-469');
+      assert.match(line.gloss || '', /later/, `"${line.text}" does not say it was remembered later`);
+    }
   }
   // No Texian is ever put down at Gonzales (`FIC-GONZ-005`, `HIST-TEX-477`).
   assert.deepEqual(GONZALES.noFalling, ['texian']);
@@ -97,6 +105,28 @@ test('the fighting plays three to six real minutes at the Study pace on both map
     // Every step it takes is one the page draws as a walk, not a jump.
     assert.ok(BATTLE_STEPS.every(step => 20 % step === 0));
   }
+});
+
+test('the flag is over the gun on the field and the men shout its words at the dragoons (owner, 2026-09-25)', () => {
+  const world = gonzalesClass('battle-flag', { fighters: ['hh-1'] });
+  stepUntil(world, () => world.minute >= TIMELINE.crossing);
+  const flags = new Set(), taunts = new Set();
+  while (world.minute < TIMELINE.resolved) {
+    stepWorld(world);
+    const view = projectBattle(world, 'gonzales', { members: [] });
+    if (!view) continue;
+    if (view.flag) {
+      assert.equal(view.flag.side, 'texian');
+      assert.equal(view.flag.words, 'COME AND TAKE IT');
+      assert.ok(Number.isFinite(view.flag.x) && Number.isFinite(view.flag.y), 'the flag has no place on the field');
+      flags.add(view.phase);
+    }
+    for (const line of view.lines) if (/take it/i.test(line.text)) taunts.add(`${view.phase}:${line.side}:${line.kind}`);
+  }
+  // Carried with the men from the rendezvous, and up at the skirmish and the advance.
+  for (const phase of ['rendezvous', 'dawn-skirmish', 'fight']) assert.ok(flags.has(phase), `no flag in ${phase}: ${[...flags].join(' ')}`);
+  // Shouted at the dawn skirmish and again as the dragoons wheel away - always a Texian, always shown as tradition.
+  assert.ok(taunts.has('dawn-skirmish:texian:tradition') && taunts.has('fight:texian:tradition'), [...taunts].join(' '));
 });
 
 test('a page is sent nothing that has not happened yet: no later line, shot, fall or phase', () => {
