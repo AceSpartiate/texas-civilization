@@ -1,9 +1,9 @@
 # Claude handoff — Astra foundation
 
-## The south to the Nueces, and San Patricio and Agua Dulce on the battle engine — 2026-09-26 (merged with main after 1c77c91; not released)
+## The south to the Nueces, and San Patricio and Agua Dulce on the battle engine — 2026-09-26 (merged with main after 1c77c91; released in v2026.09.26.1)
 
 Owner's direction of 2026-09-25 (docs/BATTLES.md §2, §2b.4: "the map extends south to the Nueces") and staging.md §4 with S1 (a)
-and S2 (a). Built on branch `worktree-agent-a2540001666444729`; **not pushed, not merged to main, not released.**
+and S2 (a). Built on branch `worktree-agent-a2540001666444729`; merged to main as `e63694f` and released in v2026.09.26.1.
 
 **What was built.**
 - **The map south to the Nueces** (docs/MAP_ACCURACY.md §13): `scripts/build-south.mjs` builds a strip 27.6-28°N on the box's own
@@ -61,7 +61,7 @@ prisoners' guard is not drawn; the night, riders, herd and groves are stand-ins;
 twenty-six miles below - move it if the owner prefers the distance. (2) Grant's ride on February 20 is invented; nothing read dates
 it. (3) A captured man is walked to the end of the walked road and stays there as a prisoner; the owner may want him drawn nowhere.
 
-## The storming of Béxar on the battle engine — 2026-09-25 (not released)
+## The storming of Béxar on the battle engine — 2026-09-25 (released in v2026.09.26.1)
 
 Built on the engine of `docs/BATTLES.md` §6 as the owner decided (§2b.3: four held episodes, the town fighting at a slower pace
 between them, a man's fate on a day weighted by the real daily losses), from `docs/battle-research/staging.md` §3. Described
@@ -1168,6 +1168,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   lesson 33 checks, panels 10 checks at 2 sizes, farm, travel-drawn and relay pass. Four other proofs failed here, and
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
+
+## Released as v2026.09.26.1 — 2026-09-26
+
+**[v2026.09.26.1](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.26.1)**, from `e63694f`: the storming of Béxar on the battle engine (four held episodes, the town fighting between them, staged per-person fates on days weighted by Johnson's losses, the account at the capitulation), and the map south to the Nueces with San Patricio and Agua Dulce fought where they happened. Verify tree: 1256 tests; battle-gonzales 12, battle-bexar 15, battle-south 15, alamo-siege 8, gonzales-town 10. Open owner decisions are in the two sections above. Known: `test:navigation` times out opening the game (also on the base commit); `test:slice` stale.
 
 ## Released as v2026.09.25.7 — 2026-09-25
 
