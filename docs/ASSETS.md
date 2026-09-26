@@ -6,6 +6,16 @@ Start with the complete [ART_MANIFEST.md](ART_MANIFEST.md) or machine-readable [
 
 ## What is delivered
 
+The September 25 art batch adds `cannon-cartwheels.png` (four east/west rest and recoil
+frames, with two authored recoil clips), `flag-come-and-take-it.png` (still plus three
+light-wind poses and a loop), and `cart-open.png` (east, south and north open cart views
+without an ox). All have measured alpha bounds, provenance and sprite IDs
+in the generated manifest. The cart's second east view does not yet show enough wheel
+rotation for a credible travel loop; its moving and loaded states remain requested in
+`ART_REQUESTS.md`. The Gonzales battle and town now select the delivered gun and
+completed flag; family travel still needs to select the cart before its stand-in can
+be removed.
+
 | Family | Coverage and current use |
 | --- | --- |
 | Civilians | Four palettes with cardinal walking; work, carry, sow, repair, search, trade, care, rest and injury poses. The live farm binds its projected chores, including hunting/search and town trade. Current rest tasks use seated/rest art. Care is library-only until a treatment action exists. |

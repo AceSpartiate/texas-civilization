@@ -18,13 +18,23 @@
 // Nothing in a formation is a person (`FIC-GONZ-006`): a side is a count and a style, drawn as a sample. A family's own people
 // are real entities at their own positions, in the force (`members`), and the renderer draws them doing what it does.
 import { GONZALES } from './battles/gonzales.mjs';
+import { BEXAR_STORMING } from './battles/bexar-storming.mjs';
 import { SAN_JACINTO_BATTLE } from './battles/san-jacinto.mjs';
 
 /** How a side stands and moves (docs/BATTLES.md §2.4). The renderer lays figures out by these and nothing else. */
-// `camp` (docs/battle-research/staging.md §9): a force at rest and not formed - sitting, standing about, at its fires.
+// `camp` (docs/battle-research/staging.md §9, added for San Jacinto): a force at rest and not formed - sitting, standing
+// about, at its fires.
 export const STYLES = Object.freeze(['ranks', 'loose', 'wall', 'bank', 'street', 'column', 'mounted', 'rout', 'camp']);
-/** What stands on a battle's ground (`works`): drawn under the figures, from the phase it is built in until the one it is gone. */
+/** What stands on a battle's ground (`works`, San Jacinto): drawn under the figures, from the phase it is built in until the one it is gone. */
 export const WORK_KINDS = Object.freeze(['breastwork', 'fires', 'marsh', 'water']);
+/**
+ * What a group stands behind (docs/battle-research/staging.md §9, added for Béxar 2026-09-25). `loophole`: inside a stone
+ * house, firing through holes cut in the wall - only the flash and the smoke are seen. `roof`: on a flat roof behind its
+ * parapet. `barricade`: behind a street's palisade. `sandbags`: behind a breastwork of filled sacks.
+ */
+export const COVERS = Object.freeze(['loophole', 'roof', 'barricade', 'sandbags']);
+/** The flags a phase may show where the record puts them: a white flag of truce. (The red or black flag is told in words.) */
+export const FLAG_KINDS = Object.freeze(['white']);
 /**
  * How a side fires in a phase. `volley`: by rank on an officer's word. `scattered`: every man on his own load, at his own
  * pace. `picket`: a few shots from the front, nobody else firing. `none`: nobody fires.
@@ -35,13 +45,7 @@ export const LINE_KINDS = Object.freeze(['documented', 'reconstructed', 'traditi
 export const SIDES = Object.freeze(['texian', 'mexican']);
 
 /** Every engagement on the engine. Add one here and in sim/battles/ (docs/BATTLES.md §6). */
-export const ENGAGEMENTS = Object.freeze({ [GONZALES.id]: GONZALES, [SAN_JACINTO_BATTLE.id]: SAN_JACINTO_BATTLE });
-/**
- * The guns of an engagement: `guns`, each with its own id, place and shots (`phase.shots[id]`), or the one `cannon` Gonzales
- * has, whose shots are `phase.cannon`.
- */
-export const gunsOf = def => def.guns || (def.cannon ? [{ id: 'cannon', ...def.cannon }] : []);
-const shotsOf = (def, phase, gunId) => phase.shots?.[gunId] || (!def.guns && gunId === 'cannon' ? phase.cannon : null) || [];
+export const ENGAGEMENTS = Object.freeze({ [GONZALES.id]: GONZALES, [BEXAR_STORMING.id]: BEXAR_STORMING, [SAN_JACINTO_BATTLE.id]: SAN_JACINTO_BATTLE });
 
 /**
  * The rules an engagement's data is held to, checked when this module loads so a malformed battle never reaches a class.
@@ -61,36 +65,48 @@ export function checkEngagement(def) {
     seen.add(phase.id);
     if (!(phase.minutes > 0) || !Number.isInteger(phase.minutes)) fail(`phase ${phase.id} needs whole minutes`);
     if (phase.step !== undefined && (!(phase.step > 0) || phase.minutes % phase.step !== 0 || 20 % phase.step !== 0)) fail(`phase ${phase.id}'s step must divide both its length and twenty minutes`);
+    // A background pace (Béxar's four days between its held episodes): calendar minutes a tick at most while a played
+    // family has somebody in the force, a whole number of twenty-minute ticks, and never alongside a step.
+    if (phase.background !== undefined && (phase.step !== undefined || !(phase.background > 0) || phase.background % 20 !== 0)) fail(`phase ${phase.id}'s background pace must be whole twenties of minutes, and not with a step`);
     for (const side of SIDES) {
       const at = phase[side];
       if (!at || !STYLES.includes(at.style) || !FIRE.includes(at.fire || 'none')) fail(`phase ${phase.id} side ${side} needs a style and a fire`);
+      if (at.cover !== undefined && !COVERS.includes(at.cover)) fail(`phase ${phase.id} side ${side} stands behind nothing the renderer knows`);
     }
+    // Groups drawn apart from their side: a division in its own house, men on a roof, a file along a wall, the townspeople.
+    const units = new Set(SIDES), civilians = new Set();
+    let figures = SIDES.reduce((sum, side) => sum + def.sides[side].drawn, 0);
+    for (const group of phase.groups || []) {
+      if (!group?.id || units.has(group.id) || !SIDES.includes(group.side) || !STYLES.includes(group.style) || !FIRE.includes(group.fire || 'none') || !(group.drawn > 0) || group.drawn > 40) fail(`group ${group?.id} in ${phase.id} is malformed`);
+      if (group.cover !== undefined && !COVERS.includes(group.cover)) fail(`group ${group.id} in ${phase.id} stands behind nothing the renderer knows`);
+      if (group.civilians && (group.fire || 'none') !== 'none') fail(`the townspeople in ${phase.id} are given a fire`);
+      if (group.civilians) civilians.add(group.id);
+      units.add(group.id); figures += group.drawn;
+    }
+    if (figures > 170) fail(`phase ${phase.id} draws ${figures} figures; a Chromebook's frame holds about 170`);
     for (const line of phase.lines || []) {
       if (!line.id || !line.text || !LINE_KINDS.includes(line.kind) || !SIDES.includes(line.side) || !(line.at >= 0 && line.at <= phase.minutes)) fail(`line ${line.id} in ${phase.id} is malformed`);
       if (line.kind === 'documented' && !line.claimId) fail(`documented line ${line.id} carries no claim`);
       if (line.name && line.kind === 'reconstructed') fail(`reconstructed line ${line.id} is put in a named person's mouth`);
+      if (line.kind === 'tradition' && !line.claimId) fail(`tradition line ${line.id} carries no claim saying why it is doubted`);
+      if (line.unit !== undefined && (!units.has(line.unit) || civilians.has(line.unit))) fail(`line ${line.id} in ${phase.id} is said by nobody there`);
     }
     for (const fall of phase.falls || []) {
       if (!SIDES.includes(fall.side) || !(fall.count > 0) || !fall.claimId || !(fall.at >= 0 && fall.at <= phase.minutes)) fail(`a fall in ${phase.id} is malformed`);
       if (def.noFalling?.includes(fall.side)) fail(`${fall.side} may not be drawn falling at ${def.id}`);
-      if (fall.party && !(phase.parties || []).some(party => party.id === fall.party && party.side === fall.side)) fail(`a fall in ${phase.id} is from a party that is not there`);
+      if (fall.unit !== undefined && !units.has(fall.unit)) fail(`a fall in ${phase.id} is in a group that is not there`);
+      if (civilians.has(fall.unit)) fail(`the townspeople are never drawn hurt (${phase.id})`);
     }
     for (const shot of phase.cannon || []) if (!(shot >= 0 && shot <= phase.minutes)) fail(`a cannon shot in ${phase.id} is outside it`);
-    // A party: a few men drawn apart from their side (a detachment of horse, a column coming in), with their own place.
-    for (const party of phase.parties || []) {
-      if (!party.id || !SIDES.includes(party.side) || !STYLES.includes(party.style) || !FIRE.includes(party.fire || 'none') || !(party.drawn > 0) || party.drawn > 20 || !(party.at || party.from || party.keys)) fail(`party ${party.id} in ${phase.id} is malformed`);
+    for (const [gunId, fire] of Object.entries(phase.guns || {})) {
+      if (!def.guns?.some(gun => gun.id === gunId)) fail(`phase ${phase.id} fires a gun ${gunId} the engagement has not got`);
+      if (Array.isArray(fire)) { for (const at of fire) if (!(at >= 0 && at <= phase.minutes)) fail(`a shot of ${gunId} in ${phase.id} is outside it`); }
+      else if (!(fire?.every > 0)) fail(`gun ${gunId} in ${phase.id} needs its shots dated or an interval`);
     }
-    for (const [gunId, shots] of Object.entries(phase.shots || {})) {
-      if (!gunsOf(def).some(gun => gun.id === gunId)) fail(`${phase.id} fires a gun ${gunId} the engagement does not have`);
-      for (const shot of shots) if (!(shot >= 0 && shot <= phase.minutes)) fail(`a shot of ${gunId} in ${phase.id} is outside it`);
-    }
+    for (const breach of phase.breaches || []) if (!breach.point || !SIDES.includes(breach.side) || !(breach.at >= 0 && breach.at <= phase.minutes)) fail(`a breach in ${phase.id} is malformed`);
+    for (const flag of phase.flags || []) if (!FLAG_KINDS.includes(flag.kind) || !SIDES.includes(flag.side) || !flag.claimId || !(flag.from >= 0 && flag.from <= phase.minutes)) fail(`a flag in ${phase.id} is malformed`);
   }
   const phaseIds = new Set(def.phases.map(phase => phase.id));
-  for (const gun of gunsOf(def)) {
-    if (!gun.id || !SIDES.includes(gun.side)) fail(`gun ${gun.id} needs an id and a side`);
-    for (const key of ['from', 'until']) if (gun[key] && !phaseIds.has(gun[key])) fail(`gun ${gun.id}'s ${key} is not a phase`);
-    if (gun.pin && !phaseIds.has(gun.pin.phase)) fail(`gun ${gun.id} is pinned at a phase that is not there`);
-  }
   for (const work of def.works || []) {
     if (!work.id || !WORK_KINDS.includes(work.kind) || !work.at || !(work.width > 0) || !work.claimId) fail(`work ${work.id} is malformed`);
     for (const key of ['from', 'until']) if (work[key] && !phaseIds.has(work[key])) fail(`work ${work.id}'s ${key} is not a phase`);
@@ -110,6 +126,8 @@ for (const def of Object.values(ENGAGEMENTS)) checkEngagement(def);
  * (public/motion.js `CALENDAR_STEPS`; tests/movement.test.mjs holds the two equal).
  */
 export const BATTLE_STEPS = Object.freeze([...new Set(Object.values(ENGAGEMENTS).flatMap(def => def.phases.map(phase => phase.step).filter(Boolean)))].sort((a, b) => a - b));
+/** And every background pace (a fight going on between its held episodes), which is an ordinary tick too. */
+export const BATTLE_PACES = Object.freeze([...new Set(Object.values(ENGAGEMENTS).flatMap(def => def.phases.map(phase => phase.background).filter(Boolean)))].sort((a, b) => a - b));
 
 /** Each phase with the minute of this class's clock it runs from and to. */
 export function schedule(def, start) {
@@ -137,11 +155,36 @@ export function armBattle(world, id, start) {
   return battle;
 }
 
+/**
+ * A family's person's fate in a deadly fight, staged at a moment inside it (docs/BATTLES.md §2.6; staging.md §9 "Fates at
+ * staged moments"): decided when they join the force - from the roll the battle already makes, so the odds never move - and
+ * kept in `world.battles[id].fates` with the minute it falls due. Never projected before that minute. The director applies
+ * it when the clock reaches it (`fatesDue`) and marks it `applied`.
+ */
+export function stageFate(world, id, personId, fate) {
+  const battle = world.battles?.[id];
+  if (!battle) return null;
+  battle.fates ||= {};
+  return battle.fates[personId] ||= { ...fate };
+}
+/** The staged fates whose minute has come and which have not been applied yet. */
+export const fatesDue = (world, id, minute = world.minute) => Object.entries(world.battles?.[id]?.fates || {})
+  .filter(([, fate]) => !fate.applied && fate.minute <= minute).map(([personId, fate]) => ({ personId, ...fate }));
+/**
+ * Whether a family somebody plays has one of its own people in this force: what a background pace waits on, since a fight
+ * nobody's person is in need not hold the class between its episodes (docs/battle-research/staging.md §3.2).
+ */
+export function watchedByAFamily(world, battle) {
+  return Object.entries(battle?.participants || {}).some(([id, entry]) => {
+    if (entry.released) return false;
+    const person = world.entities?.[id], household = world.households?.[person?.householdId];
+    return Boolean(person && household?.played && !household.absent && !['dead', 'captured'].includes(person.health?.condition));
+  });
+}
+
 /** Where an engagement stands at this minute of the class's clock: its phase, how far into it, and whether it is live. */
 export function battleState(world, id, minute = world.minute) {
-  return stateOf(ENGAGEMENTS[id], world.battles?.[id], minute);
-}
-function stateOf(def, battle, minute) {
+  const def = ENGAGEMENTS[id], battle = world.battles?.[id];
   if (!def || !battle || !Number.isFinite(battle.start)) return null;
   const phases = schedule(def, battle.start);
   const end = phases.at(-1).to;
@@ -153,21 +196,23 @@ function stateOf(def, battle, minute) {
 }
 const lastFighting = phases => [...phases].reverse().find(one => one.contact) || phases.at(-1);
 /**
- * Where an engagement starts on a class's clock, said by the director that owns it (`startsAt`), for the clock's sake only:
- * a class saved before the engine knew a fight has no record of it until its director's next tick arms it, and that first
- * tick must already be held to the fight's step, or a save opened in the middle of the charge ran on half a day at once.
- * Nothing is written: the record is still made by `armBattle`.
+ * Where an engagement starts on a class's clock, said by the director that owns it (`startsAt`, San Jacinto), for the clock's
+ * sake only: a class saved before the engine knew a fight has no record of it until its director's next tick arms it, and
+ * that first tick must already be held to the fight's step, or a save opened in the middle of the charge ran on half a day at
+ * once. Nothing is written: the record is still made by `armBattle`.
  */
 const starts = new Map();
 export function startsAt(id, resolve) { starts.set(id, resolve); }
-function battlesOf(world) {
-  const battles = { ...(world.battles || {}) };
+function clockStates(world) {
+  const states = liveBattles(world);
   for (const [id, resolve] of starts) {
-    if (battles[id]) continue;
+    if (world.battles?.[id]) continue;
     const start = resolve(world);
-    if (Number.isFinite(start)) battles[id] = { id, start };
+    if (!Number.isFinite(start)) continue;
+    const state = battleState({ ...world, battles: { [id]: { id, start } } }, id);
+    if (state?.live) states.push(state);
   }
-  return battles;
+  return states;
 }
 /** Every engagement being fought at this minute. */
 export const liveBattles = world => Object.keys(world.battles || {}).map(id => battleState(world, id)).filter(state => state?.live);
@@ -181,23 +226,25 @@ export const liveBattles = world => Object.keys(world.battles || {}).map(id => b
  */
 export function battleStep(world) {
   let best = null;
-  const battles = battlesOf(world);
-  const live = Object.entries(battles).map(([id, battle]) => stateOf(ENGAGEMENTS[id], battle, world.minute)).filter(state => state?.live);
-  for (const state of live) {
+  for (const state of clockStates(world)) {
     const step = state.phase.step;
-    // A phase nobody watches runs at the class's own pace, but lands exactly on the next watched one: a long tick of the
-    // campaign calendar never carries a class past the start of a fight (San Jacinto's quiet afternoon, then the parade).
+    const room = state.phase.to - world.minute;
     if (!step) {
-      const next = state.phases.find(one => one.index > state.phase.index && one.step);
-      if (next && (best === null || next.from - world.minute < best)) best = Math.max(1, next.from - world.minute);
+      // Between held episodes (Béxar): the fight goes on at its background pace while a played family has somebody in it,
+      // and in any case a tick lands on the start of the next watched phase rather than running past it.
+      const next = state.phases[state.phase.index + 1];
+      const background = state.phase.background && watchedByAFamily(world, state.battle) ? state.phase.background : null;
+      const cap = background ?? (next && (next.step || next.background) ? room : null);
+      if (cap === null) continue;
+      const minutes = Math.max(1, Math.min(cap, room));
+      if (best === null || minutes < best) best = minutes;
       continue;
     }
-    const room = state.phase.to - world.minute;
     const minutes = Math.max(1, Math.min(step, room));
     if (best === null || minutes < best) best = minutes;
   }
   // Also land exactly on a watched battle's first minute, so a fight never begins in the middle of a long tick.
-  for (const [id, battle] of Object.entries(battles)) {
+  for (const [id, battle] of Object.entries(world.battles || {})) {
     const def = ENGAGEMENTS[id];
     if (!def || !Number.isFinite(battle.start) || world.minute >= battle.start || !def.phases[0].step) continue;
     const room = battle.start - world.minute;
@@ -212,8 +259,14 @@ const ease = part => part < 0 ? 0 : part > 1 ? 1 : part * part * (3 - 2 * part);
 export function sidePlace(ground, phase, side, into) {
   return placeOf(ground, phase[side], phase.minutes, into);
 }
-/** Where a side or a party stands at this moment of a phase `minutes` long: at a point, eased from one to another, or by keys. */
-export function placeOf(ground, at, minutes, into) {
+/** Where a unit - a side's own body, or a group drawn apart from it (`phase.groups`) - stands at this moment of its phase. */
+export function unitPlace(ground, phase, unitId, into) {
+  if (SIDES.includes(unitId)) return sidePlace(ground, phase, unitId, into);
+  const group = (phase.groups || []).find(one => one.id === unitId);
+  return group ? placeOf(ground, group, phase.minutes, into) : null;
+}
+/** The one rule for a place from `at`, `from`/`to` or `keys`, shared by sides and groups. */
+function placeOf(ground, at, minutes, into) {
   const point = name => { if (!ground[name]) throw new Error(`Ground has no point ${name}`); return ground[name]; };
   // Keyframes, `[[minute, point], ...]`: a charge out and back, a fall back to the trees, held between the keys.
   if (at.keys) {
@@ -230,9 +283,9 @@ export function placeOf(ground, at, minutes, into) {
 }
 /** Whether a side is on the move at this moment of its phase, which is what the page draws as marching. */
 export function sideMoving(phase, side, into) {
-  return movingAt(phase[side], into);
+  return specMoving(phase[side], into);
 }
-function movingAt(at, into) {
+function specMoving(at, into) {
   if (at.keys) {
     for (let i = 1; i < at.keys.length; i++) if (into >= at.keys[i - 1][0] && into < at.keys[i][0] && at.keys[i - 1][1] !== at.keys[i][1]) return true;
     return false;
@@ -295,23 +348,52 @@ function cannonFired(state, minute) {
   }
   return shots.slice(-6);
 }
-/** Each shot one gun has fired by this minute (the page fires each once, when it sees it): the last six. */
-function gunFired(state, minute, gunId) {
+/**
+ * Who has fallen by this minute: each fall's count, side and the minute it happened, never a family's person's name. A fall
+ * the record puts at a place (`point`) and on a named man (Milam in the Veramendi yard, `HIST-TEX-039`) carries both; a fall
+ * in a group names the group. An engagement fought over days lets the fallen be carried off the field after `fallsLinger`.
+ */
+function fallenBy(state, minute, ground) {
+  const fallen = [], linger = state.def.fallsLinger ?? Infinity;
+  for (const phase of state.phases) {
+    if (phase.from > minute) break;
+    for (const fall of phase.falls || []) {
+      const at = phase.from + fall.at;
+      if (at > minute || minute - at > linger) continue;
+      const place = fall.point && ground[fall.point];
+      fallen.push({ side: fall.side, count: fall.count, minute: at, carried: Boolean(fall.carried), wounded: Boolean(fall.wounded), claimId: fall.claimId, ...(fall.unit && { unit: fall.unit }), ...(place && { x: place.x, y: place.y }), ...(fall.name && { name: fall.name }) });
+    }
+  }
+  return fallen;
+}
+/**
+ * Each gun's shots by this minute (the page fires each once, when it sees it): dated one by one in a held phase, or at an
+ * interval through a phase fought in the background (`{ every }`, from the phase's start). The last eight.
+ */
+function gunShots(state, gunId, minute) {
   const shots = [];
   for (const phase of state.phases) {
     if (phase.from > minute) break;
-    for (const at of shotsOf(state.def, phase, gunId)) if (phase.from + at <= minute) shots.push(phase.from + at);
+    const fire = phase.guns?.[gunId];
+    if (!fire) continue;
+    if (Array.isArray(fire)) { for (const at of fire) if (phase.from + at <= minute) shots.push(phase.from + at); continue; }
+    const last = Math.min(minute, phase.to - 1);
+    for (let at = phase.from + (fire.from ?? fire.every); at <= last && at < phase.from + (fire.to ?? phase.minutes); at += fire.every) if (at > minute - 480) shots.push(at);
   }
-  return shots.slice(-6);
+  return shots.slice(-8);
 }
-/** Who has fallen by this minute: each fall's count, side and the minute it happened, never anybody's name. */
-function fallenBy(state, minute) {
-  const fallen = [];
+/** Walls and doors broken so far: where, by whom, and from when the bar was at it. Nothing before the work began. */
+function breachesBy(state, minute, ground) {
+  const out = [];
   for (const phase of state.phases) {
     if (phase.from > minute) break;
-    for (const fall of phase.falls || []) if (phase.from + fall.at <= minute) fallen.push({ side: fall.side, count: fall.count, minute: phase.from + fall.at, carried: Boolean(fall.carried), wounded: Boolean(fall.wounded), claimId: fall.claimId, ...(fall.party && { party: fall.party }) });
+    for (const breach of phase.breaches || []) {
+      const at = phase.from + breach.at, from = phase.from + (breach.from ?? Math.max(0, breach.at - 3));
+      if (from > minute || !ground[breach.point]) continue;
+      out.push({ x: ground[breach.point].x, y: ground[breach.point].y, side: breach.side, from, at, open: at <= minute, ...(breach.claimId && { claimId: breach.claimId }) });
+    }
   }
-  return fallen;
+  return out;
 }
 
 /**
@@ -322,7 +404,7 @@ function fallenBy(state, minute) {
  * `members` is the list of entity ids this viewer's page draws doing the force's work: the viewer's own family for a
  * student, everybody's for the Host (who is already sent every person, sim/overview.mjs).
  */
-export function projectBattle(world, id, { members = [], memberStates = null, legacyPhase = null } = {}) {
+export function projectBattle(world, id, { members = [], legacyPhase = null, units = null, fates = null } = {}) {
   const state = battleState(world, id);
   if (!state || state.before) return null;
   const { def, phase } = state;
@@ -336,21 +418,9 @@ export function projectBattle(world, id, { members = [], memberStates = null, le
       side, name: info.name, count: at.count ?? info.count, drawn: info.drawn, style: at.style, fire: state.over ? 'none' : at.fire || 'none',
       action: state.over ? 'gone' : at.action || 'stand', moving: !state.over && sideMoving(phase, side, into), x: place.x, y: place.y, facing: at.face === 'away' ? { x: -toward[side].x, y: -toward[side].y } : toward[side],
       spread: at.spread || info.spread, ...(at.mounted !== undefined ? { mounted: at.mounted } : info.mounted !== undefined ? { mounted: info.mounted } : {}),
-      ...(at.dismounted && { dismounted: at.dismounted }), ...(info.figure && { figure: info.figure }),
+      ...(at.dismounted && { dismounted: at.dismounted }), ...(info.figure && { figure: info.figure }), ...(at.cover && { cover: at.cover }),
       // A side forming in haste stands in uneven ranks; a share of a broken side has its hands up (drawn, not counted).
       ...(at.ragged && { ragged: true }), ...(at.surrendering && !state.over && { surrendering: at.surrendering }),
-    };
-  });
-  // Parties: a few men of a side drawn apart from it, with their own place, style and fire (docs/BATTLES.md §6.12's way out).
-  // One on the move faces the way it goes; one standing faces the other side.
-  const parties = state.over ? [] : (phase.parties || []).map(party => {
-    const place = placeOf(ground, party, phase.minutes, into), ahead = placeOf(ground, party, phase.minutes, Math.min(phase.minutes, into + 1));
-    const moving = movingAt(party, into) && Math.hypot(ahead.x - place.x, ahead.y - place.y) > 1e-6;
-    const enemy = party.side === 'texian' ? mexican : texian;
-    const facing = moving ? facingOf(place, ahead) : party.face === 'away' ? facingOf(enemy, place) : facingOf(place, enemy);
-    return {
-      id: party.id, side: party.side, name: party.name, count: party.count ?? null, drawn: party.drawn, style: party.style, fire: party.fire || 'none',
-      action: party.action || 'stand', moving, x: place.x, y: place.y, facing, ...(party.spread && { spread: party.spread }), ...(party.mounted && { mounted: true }), claimId: party.claimId || null,
     };
   });
   const view = {
@@ -359,30 +429,59 @@ export function projectBattle(world, id, { members = [], memberStates = null, le
     step: phase.step || null, sides,
     lines: state.over ? [] : linesSaid(state, world.minute),
     commands: def.commands || null,
-    fallen: fallenBy(state, world.minute),
+    fallen: fallenBy(state, world.minute, ground),
     members: [...members],
     ...(def.noFalling && { noFalling: def.noFalling }),
-    ...(parties.length && { parties }),
   };
-  // How each of this page's own people in the force is, once the moment it happened has come (docs/BATTLES.md §2.6): the
-  // director says whose and when; nothing is sent before its minute, and nobody else's.
-  if (memberStates) {
-    const states = Object.fromEntries(Object.entries(memberStates).filter(([person, one]) => members.includes(person) && Number.isFinite(one?.at) && one.at <= world.minute));
-    if (Object.keys(states).length) view.memberStates = states;
-  }
-  // The guns: each with its side until it takes its station, and there after (`pin`).
-  if (def.guns) {
-    const pinned = gun => Boolean(gun.pin) && phase.index >= def.phases.findIndex(one => one.id === gun.pin.phase);
-    view.guns = gunsOf(def).filter(gun => standsIn(def, gun, phase)).map(gun => {
-      const centre = gun.side === 'texian' ? texian : mexican;
-      const at = pinned(gun) ? placeFrom(ground[gun.pin.point], toward[gun.side], { along: 0, across: gun.pin.across || 0 }) : placeFrom(centre, toward[gun.side], gun.offset);
-      return { id: gun.id, side: gun.side, ...at, pinned: pinned(gun), shots: gunFired(state, world.minute, gun.id), crew: gun.crew || 3, metal: gun.metal || 'iron', claimId: gun.claimId };
+  // Groups drawn apart from their side (Béxar's divisions in their houses, men on the roofs, a file under the loopholes, the
+  // townspeople let out through a breach): each where it stands now, facing what it faces, doing what it does.
+  if (phase.groups?.length) {
+    view.groups = phase.groups.map(group => {
+      const place = placeOf(ground, group, phase.minutes, into);
+      const enemy = group.face ? ground[group.face] : group.side === 'texian' ? mexican : texian;
+      const facing = facingOf(place, enemy);
+      return {
+        id: group.id, side: group.side, name: group.name || null, count: group.count || null, drawn: group.drawn, style: group.style,
+        fire: state.over ? 'none' : group.fire || 'none', action: state.over ? 'gone' : group.action || 'stand',
+        moving: !state.over && specMoving(group, into), x: place.x, y: place.y, facing: group.away ? { x: -facing.x, y: -facing.y } : facing,
+        spread: group.spread || null, ...(group.cover && { cover: group.cover }), ...(group.civilians && { civilians: true }), ...(group.mounted && { mounted: true }),
+      };
     });
   }
-  // What stands on the ground, laid across the line from one camp to the other.
+  // The guns standing on the ground in this phase, each with its shots so far (`def.guns`, `phase.guns`).
+  const guns = (def.guns || []).filter(gun => phase.guns && gun.id in phase.guns && ground[gun.at]);
+  if (guns.length) {
+    view.guns = guns.map(gun => {
+      const at = ground[gun.at], target = ground[gun.face] || (gun.side === 'texian' ? mexican : texian);
+      return { id: gun.id, side: gun.side, x: at.x, y: at.y, facing: facingOf(at, target), metal: gun.metal || 'iron', crew: gun.crew ?? 3, shots: state.over ? [] : gunShots(state, gun.id, world.minute), claimId: gun.claimId };
+    });
+  }
+  // What stands on the ground (San Jacinto's breastwork, the camps' fires, the marsh), laid across the line between the camps.
   if (def.works) {
     const across = ground.toward ? { x: -ground.toward.y, y: ground.toward.x } : { x: -toward.texian.y, y: toward.texian.x };
-    view.works = def.works.filter(work => standsIn(def, work, phase)).map(work => ({ id: work.id, kind: work.kind, x: ground[work.at].x, y: ground[work.at].y, width: work.width, across, claimId: work.claimId }));
+    const works = def.works.filter(work => standsIn(def, work, phase) && ground[work.at]).map(work => ({ id: work.id, kind: work.kind, x: ground[work.at].x, y: ground[work.at].y, width: work.width, across, claimId: work.claimId }));
+    if (works.length) view.works = works;
+  }
+  const breaches = breachesBy(state, world.minute, ground);
+  if (breaches.length) view.breaches = breaches;
+  // A flag where the record puts one, from the minute it came out (the white flag at Béxar, `HIST-TEX-491`).
+  const flags = (phase.flags || []).filter(flag => flag.from <= into).map(flag => {
+    const place = placeOf(ground, flag, phase.minutes, into);
+    return { side: flag.side, kind: flag.kind, x: place.x, y: place.y, claimId: flag.claimId };
+  });
+  if (flags.length && !state.over) view.flags = flags;
+  // The ground a page frames the fight on, where the engagement names it (the town and the Alamo's guns at its edge).
+  const frame = (phase.frame || def.frame || []).map(name => ground[name]).filter(Boolean);
+  if (frame.length) view.frame = frame.map(point => ({ x: point.x, y: point.y }));
+  // Which unit each of the members stands in, so the page poses them with that unit's fire, and a member's own fate once -
+  // and only once - its minute has come (docs/BATTLES.md §2.6). Nothing staged for later is sent.
+  if (units) {
+    const shown = Object.fromEntries(members.filter(one => units[one]).map(one => [one, units[one]]));
+    if (Object.keys(shown).length) view.memberUnits = shown;
+  }
+  if (fates) {
+    const fell = Object.fromEntries(members.filter(one => fates[one] && fates[one].minute <= world.minute).map(one => [one, { fate: fates[one].fate, minute: fates[one].minute, ...(fates[one].grade && { grade: fates[one].grade }) }]));
+    if (Object.keys(fell).length) view.memberFates = fell;
   }
   if (def.cannon) {
     const side = def.cannon.side, centre = side === 'texian' ? texian : mexican;

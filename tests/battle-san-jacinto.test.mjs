@@ -1,4 +1,4 @@
-// San Jacinto on the battle engine (docs/BATTLES.md §7, docs/battle-research/staging.md §8; owner 2026-09-25).
+// San Jacinto on the battle engine (docs/BATTLES.md §8, docs/battle-research/staging.md §8; owner 2026-09-25).
 //
 // The staging and its timing; every way a man used to be late, miss it or "fight" without being there, each fixed
 // (staging.md §8.6 a-h); the line, the fates at their moments, the alert, who is sent what, the capture of Santa Anna,
@@ -102,7 +102,7 @@ test('the formed Texian line against the camp at rest; the line comes apart at t
   assert.deepEqual(phase('taken').parley.people.map(person => person.name), ['Houston', 'Santa Anna']);
   assert.equal(phase('taken').parley.people[0].pose, 'injured');
   // The drawn falls are the record's shares: about 630 of about 1,200 Mexicans killed, and of 910 Texians nine and thirty.
-  const falls = side => DEF.phases.flatMap(one => one.falls || []).filter(fall => fall.side === side && !fall.party);
+  const falls = side => DEF.phases.flatMap(one => one.falls || []).filter(fall => fall.side === side && !fall.unit);
   const mexican = falls('mexican').reduce((sum, fall) => sum + fall.count, 0) / DEF.sides.mexican.drawn;
   assert.ok(Math.abs(mexican - 630 / 1200) < 0.06, `${(mexican * 100).toFixed(0)} in 100 of the drawn Mexicans fall`);
   assert.ok(falls('texian').reduce((sum, fall) => sum + fall.count, 0) <= 3);
@@ -280,7 +280,7 @@ test('from the parade the men of the families are in the line, held there, in th
   const other = view(world, lonely.id);
   assert.equal(other.battle, null); assert.ok(!other.battleAlert && !other.battleAccount);
   assert.ok(!JSON.stringify(other).includes(first.id), 'another family was sent the fighter\'s id');
-  assert.ok(!/"participants"|"memberStates"|"alerted"|"fallen"/.test(JSON.stringify(other)));
+  assert.ok(!/"participants"|"memberFates"|"fates"|"alerted"|"fallen"/.test(JSON.stringify(other)));
   // The Host: live, the camera on the field while a watched phase runs.
   const host = view(world, undefined, 'host');
   assert.equal(host.battle?.id, ID); assert.equal(host.host.focus, 'battle');
@@ -298,12 +298,12 @@ test('a man killed goes down at his own minute in the charge: his family\'s page
   assert.equal(man.service.fate, 'killed');
   assert.ok(entry.fallsAt > at(world, 'charge') && entry.fallsAt < at(world, 'rout'), `he falls at ${entry.fallsAt}, not in the charge`);
   // Before his minute: nothing of it anywhere.
-  assert.equal(view(world, man.householdId).battle.memberStates, undefined, 'his fall was sent before it happened');
+  assert.equal(view(world, man.householdId).battle.memberFates, undefined, 'his fall was sent before it happened');
   until(world, () => world.minute >= entry.fallsAt);
   const own = view(world, man.householdId);
-  assert.deepEqual(own.battle.memberStates?.[man.id], { down: 'killed', at: entry.fallsAt });
-  assert.equal(view(world, undefined, 'host').battle.memberStates?.[man.id]?.down, 'killed');
-  if (other.householdId !== man.householdId) assert.equal(view(world, other.householdId).battle.memberStates?.[man.id], undefined, 'another family was sent his fall');
+  assert.deepEqual(own.battle.memberFates?.[man.id], { fate: 'killed', minute: entry.fallsAt });
+  assert.equal(view(world, undefined, 'host').battle.memberFates?.[man.id]?.fate, 'killed');
+  if (other.householdId !== man.householdId) assert.equal(view(world, other.householdId).battle.memberFates?.[man.id], undefined, 'another family was sent his fall');
   // The panel and the journal do not know yet.
   assert.equal(man.health.condition, 'well');
   assert.ok(!own.events.some(event => /killed/.test(event.text || '')), 'the family\'s journal knew before the word');

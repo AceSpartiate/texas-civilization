@@ -21,7 +21,7 @@
 //     word reaches the family, in the journal and on the card for a day.
 import { record } from './events.mjs';
 import { spotlight } from './host.mjs';
-import { armBattle, battleState, looseSlot, phaseOffset, placeFrom, projectBattle, rankSlot, sidePlace, startsAt } from './battle-stage.mjs';
+import { armBattle, battleState, looseSlot, phaseOffset, placeFrom, projectBattle, rankSlot, sidePlace, stageFate, startsAt } from './battle-stage.mjs';
 import { SAN_JACINTO_BATTLE as DEF, sanJacintoGround } from './battles/san-jacinto.mjs';
 import { calendarMinutes } from './clock.mjs';
 import { drilledSteady, fightSanJacinto, inTheLine } from './houston.mjs';
@@ -126,17 +126,22 @@ export function strikeSanJacinto(world, causeId) {
     const entry = battle.participants[id], fate = world.entities[id].service.fate;
     entry.fate = fate;
     // In the few minutes at the breastwork, when the Mexican gun and the hasty volleys fired (staging.md §8.5).
-    if (fate === 'killed' || fate === 'wounded') entry.fallsAt = charge + 1 + Math.floor(share(world, id, 'san-jacinto-falls') * 4);
+    if (fate !== 'killed' && fate !== 'wounded') continue;
+    entry.fallsAt = charge + 1 + Math.floor(share(world, id, 'san-jacinto-falls') * 4);
+    // Staged on the engine (sim/battle-stage.mjs `stageFate`): projected to the page only from its minute. San Jacinto's wounds
+    // are slight (`tellSanJacinto`), so a man hit sits hurt a while and is up again.
+    stageFate(world, ID, id, { fate, minute: entry.fallsAt, ...(fate === 'wounded' && { grade: 'slight' }) });
   }
 }
 
 /** Who of the families is down, and from when: sent to the Host and to each man's own family, never to anybody else. */
-function memberStates(world, householdId) {
+function fatesFor(world, householdId) {
   const participants = world.battles?.[ID]?.participants || {};
   const states = {};
   for (const [id, entry] of Object.entries(participants)) {
     if (!entry.fallsAt || (householdId && entry.householdId !== householdId)) continue;
-    states[id] = { down: entry.fate === 'killed' ? 'killed' : 'wounded', at: entry.fallsAt };
+    const staged = world.battles[ID].fates?.[id];
+    if (staged) states[id] = staged;
   }
   return states;
 }
@@ -194,10 +199,10 @@ export function sanJacintoProjection(world, householdId, role) {
   const members = sanJacintoMembers(world).map(person => person.id);
   const out = {};
   if (role === 'host') {
-    out.battle = { ...projectBattle(world, ID, { members, memberStates: memberStates(world, null) }), reconstruction: false };
+    out.battle = { ...projectBattle(world, ID, { members, fates: fatesFor(world, null) }), reconstruction: false };
     out.host = { focus: state.phase.step ? 'battle' : 'regional', caption: 'San Jacinto, live. Families with somebody in Houston’s army see it too; the rest have not heard yet.', ...sanJacintoField(world) };
   } else if (role === 'student' && householdId && ownThere(world, householdId).length) {
-    out.battle = { ...projectBattle(world, ID, { members, memberStates: memberStates(world, householdId) }), reconstruction: false };
+    out.battle = { ...projectBattle(world, ID, { members, fates: fatesFor(world, householdId) }), reconstruction: false };
   }
   if (role === 'student' && householdId) {
     const alert = alertFor(world, householdId, state, Boolean(out.battle));

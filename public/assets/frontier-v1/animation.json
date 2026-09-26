@@ -294,6 +294,48 @@
       "motion": "sway",
       "direction": "not applicable"
     },
+    "cannon-cartwheels-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-cartwheels-e",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-cartwheels-recoil-e",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-cartwheels-e",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "recoilSign": 1
+    },
+    "cannon-cartwheels-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-cartwheels-w",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-cartwheels-recoil-w",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-cartwheels-w",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "recoilSign": -1
+    },
     "rust-woman-carry": {
       "frames": [
         {
@@ -2077,6 +2119,30 @@
       "authored": true,
       "motion": "none",
       "direction": "stationary"
+    },
+    "flag-come-and-take-it-wind": {
+      "frames": [
+        {
+          "sprite": "flag-come-and-take-it",
+          "duration": 850
+        },
+        {
+          "sprite": "flag-come-and-take-it-wind-1",
+          "duration": 600
+        },
+        {
+          "sprite": "flag-come-and-take-it-wind-2",
+          "duration": 650
+        },
+        {
+          "sprite": "flag-come-and-take-it-wind-3",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
     },
     "rust-ride-e": {
       "frames": [

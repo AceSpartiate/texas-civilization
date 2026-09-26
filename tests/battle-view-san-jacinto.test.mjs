@@ -1,7 +1,8 @@
-// The renderer's pieces San Jacinto brought to the engine (public/battle-view.js; docs/BATTLES.md §7), on a canvas that
+// The renderer's pieces San Jacinto brought to the engine (public/battle-view.js; docs/BATTLES.md §8), on a canvas that
 // records what is drawn: a camp at rest, a formed line firing on its own officers' English words, the rout with men giving
-// themselves up where they stand, the dead lying where they fell while their side runs on, two guns and a third each firing
-// on its own, a party of horse drawn apart from its side, the breastwork and the marsh, and a family's own man down.
+// themselves up where they stand, the dead lying where they fell while their side runs on, a group of horse drawn apart from
+// its side as riders, and the breastwork and the marsh. (Guns on their ground and a family's man falling at his minute are the
+// engine's own since the storming of Béxar, and tested there: tests/battle-bexar-view.test.mjs.)
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createBattleView, layoutSide, regularity } from '../public/battle-view.js';
@@ -85,34 +86,19 @@ test('in the rout a share of the broken side gives itself up where it stands, an
   assert.equal(view3.evidence.fallenBy.mexican, 50, 'a later fall landed on a man already down');
 });
 
-test('each gun fires on its own dated shots, stays at its station once pinned, and its crew is its own side\'s', () => {
-  const art = fakeArt(), view = createBattleView(art);
-  const guns = minute => [
-    { id: 'twin-1', side: 'texian', x: -0.1, y: 0.02, pinned: true, shots: minute >= 2 ? [2] : [], crew: 3, metal: 'iron' },
-    { id: 'twin-2', side: 'texian', x: -0.1, y: 0.05, pinned: true, shots: minute >= 3 ? [3] : [], crew: 3, metal: 'iron' },
-    { id: 'mex', side: 'mexican', x: 0.3, y: 0, pinned: true, shots: minute >= 4 ? [4] : [], crew: 3, metal: 'bronze' },
-  ];
-  run(view, minute => battle(minute, { guns: guns(minute), sides: [side('texian', 'ranks', 'none', -0.3 + minute * 0.01, { moving: true, action: 'advance' }), side('mexican', 'ranks', 'none', 0.3)] }), { seconds: 7 });
-  assert.equal(view.evidence.cannonShots, 3, 'the three guns did not each fire their shot');
-  assert.ok(art.drawn.some(one => one.clip === 'cannon-bronze-w-recoil') && art.drawn.some(one => one.clip === 'cannon-iron-e-recoil'));
-  assert.ok(art.drawn.some(one => /^regular-gun-/.test(one.clip || '')), 'the Mexican gun is served by volunteers');
-  const irons = art.drawn.filter(one => one.sprite === 'cannon-iron-e').map(one => Math.round(one.x));
-  assert.ok(new Set(irons).size <= 2, 'a pinned gun moved with the line');
-});
-
-test('a party of horse is drawn apart from its side, as riders, with its own fall; the breastwork, the fires and the marsh stand on the ground', () => {
+test('a group of horse is drawn apart from its side, as riders, with its own fall; the breastwork, the fires and the marsh stand on the ground', () => {
   const art = fakeArt(), view = createBattleView(art);
   const works = [
     { id: 'breastwork', kind: 'breastwork', x: 0.2, y: 0, width: 0.3, across: { x: 0, y: 1 } },
     { id: 'fires', kind: 'fires', x: 0.3, y: 0, width: 0.2, across: { x: 0, y: 1 } },
     { id: 'marsh', kind: 'marsh', x: 0.1, y: 0.1, width: 0.3, across: { x: 0, y: 1 } },
   ];
-  const parties = [{ id: 'sherman', side: 'texian', name: 'Sherman’s horsemen', drawn: 6, style: 'mounted', mounted: true, fire: 'scattered', action: 'advance', moving: false, x: 0, y: -0.1, facing: { x: 1, y: 0 } }];
-  run(view, minute => battle(minute, { works, parties, fallen: [{ side: 'texian', party: 'sherman', count: 1, minute: 1, wounded: true, claimId: 'X' }] }), { seconds: 12 });
+  const groups = [{ id: 'sherman', side: 'texian', name: 'Sherman’s horsemen', drawn: 6, style: 'mounted', mounted: true, fire: 'scattered', action: 'advance', moving: false, x: 0, y: -0.1, facing: { x: 1, y: 0 } }];
+  run(view, minute => battle(minute, { works, groups, fallen: [{ side: 'texian', unit: 'sherman', count: 1, minute: 1, wounded: true, claimId: 'X' }] }), { seconds: 12 });
   const e = view.evidence;
-  assert.deepEqual(e.parties, ['sherman']);
-  assert.equal(e.figures.texian, 60, 'the party was counted in the side');
-  assert.equal(e.fallenBy.sherman, 1);
+  assert.deepEqual(Object.keys(e.groups), ['sherman']);
+  assert.equal(e.figures.texian, 60, 'the group was counted in the side');
+  assert.equal(e.fallenBy['g:sherman'], 1);
   assert.equal(e.fallenBy.texian, undefined);
   assert.ok(art.drawn.some(one => /^mounted-courier/.test(one.clip || '')), 'the Texian horsemen are not drawn riding');
   assert.ok(e.shotsBy.texian > 0, 'the horsemen did not fire');
@@ -122,16 +108,4 @@ test('a party of horse is drawn apart from its side, as riders, with its own fal
   // The opening in the middle of the breastwork where the gun stood (`HIST-TEX-522`).
   const pieces = art.drawn.filter(one => ['crate', 'sacks', 'barrel', 'packed-belongings'].includes(one.sprite)).map(one => one.y);
   assert.ok(!pieces.some(y => Math.abs(y - 384) < 0.015 * 1800), 'the breastwork has no opening for the gun');
-});
-
-test('a family\'s own man down is drawn so from the minute the server says: lying still if killed, sitting hurt if wounded, and firing no more', () => {
-  const view = createBattleView(fakeArt());
-  const frame = (states, t) => view.draw(fakeContext(), battle(1, { members: ['p1', 'p2', 'p3'], memberStates: states, sides: [side('texian', 'loose', 'scattered', -0.3, { spread: { width: 0.4, depth: 0.2 } }), side('mexican', 'ranks', 'none', 0.3)] }), { camera, time: t, now: t, tickMs: 1000, bounds: { width: 1366, height: 768 } });
-  frame({}, 0);
-  assert.equal(view.memberPose({ id: 'p1' }, 5000).clip === 'volunteer-fire-reload' || view.memberPose({ id: 'p1' }, 5000).still, true);
-  frame({ p1: { down: 'killed', at: 1 }, p2: { down: 'wounded', at: 1 } }, 100);
-  assert.deepEqual(view.memberPose({ id: 'p1' }, 5000), { sprite: 'volunteer-reclining', flip: false, still: true });
-  assert.equal(view.memberPose({ id: 'p2' }, 5000).clip, 'volunteer-injured-rest');
-  assert.notEqual(view.memberPose({ id: 'p3' }, 5000).sprite, 'volunteer-reclining');
-  assert.deepEqual(view.evidence.memberDown.map(one => one.down).sort(), ['killed', 'wounded']);
 });

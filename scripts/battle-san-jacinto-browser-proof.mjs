@@ -1,4 +1,4 @@
-// San Jacinto, watched in a real class (docs/BATTLES.md §7; owner, 2026-09-25: "players that have a character there should
+// San Jacinto, watched in a real class (docs/BATTLES.md §8; owner, 2026-09-25: "players that have a character there should
 // get an alert to watch. if they sent a character, it needs to happen in such a way that their character arrives in time to
 // participate and does participate ... players should walk away understanding what happened").
 //
@@ -145,7 +145,7 @@ try {
 
   const sample = async (page, label) => {
     const one = await page.evaluate(() => ({ phase: window.__snapshot.world.battle?.phase, minute: window.__snapshot.world.minute, view: window.__battleView, frame: window.__animation?.drawMs, camera: window.__camera?.kind, size: `${innerWidth}x${innerHeight}` }));
-    evidence.samples.push({ label, phase: one.phase, minute: one.minute, camera: one.camera, size: one.size, view: one.view && { figures: one.view.figures, regularity: one.view.regularity, styles: one.view.styles, shotsTotal: one.view.shotsTotal, shotsBy: one.view.shotsBy, smokeInView: one.view.smokeInView, bubbles: one.view.bubbles.map(b => b.text), fallen: one.view.fallen, surrendering: one.view.surrendering, members: one.view.members, memberClips: one.view.memberClips, cannonShots: one.view.cannonShots, works: one.view.works, frameMs: one.view.frameMs } });
+    evidence.samples.push({ label, phase: one.phase, minute: one.minute, camera: one.camera, size: one.size, view: one.view && { figures: one.view.figures, regularity: one.view.regularity, styles: one.view.styles, shotsTotal: one.view.shotsTotal, shotsBy: one.view.shotsBy, smokeInView: one.view.smokeInView, bubbles: one.view.bubbles.map(b => b.text), fallen: one.view.fallen, surrendering: one.view.surrendering, members: one.view.members, memberClips: one.view.memberClips, gunShots: one.view.gunShots, works: one.view.works, frameMs: one.view.frameMs } });
     return one;
   };
   // The advance: the formed line against the camp at rest.
@@ -172,8 +172,8 @@ try {
   assert.ok(firing.length >= 8, `only ${firing.length} moments of the fighting were sampled`);
   for (const one of firing) assert.ok(one.view.smokeInView >= 3, `no smoke on screen at ${one.minute} in the ${one.phase}: ${one.view.smokeInView}`);
   assert.ok(firing.at(-1).view.shotsTotal > firing[0].view.shotsTotal + 20, 'the fighting fired too little');
-  assert.ok(firing.some(one => one.view.cannonShots >= 2), 'the Twin Sisters never fired');
-  ok(`fire and smoke on the screen at every one of ${firing.length} sampled moments (shots ${firing[0].view.shotsTotal} -> ${firing.at(-1).view.shotsTotal}; smoke in view ${Math.min(...firing.map(one => one.view.smokeInView))}-${Math.max(...firing.map(one => one.view.smokeInView))}; the guns fired ${Math.max(...firing.map(one => one.view.cannonShots))} times)`);
+  assert.ok(firing.some(one => one.view.gunShots >= 2), 'the Twin Sisters never fired');
+  ok(`fire and smoke on the screen at every one of ${firing.length} sampled moments (shots ${firing[0].view.shotsTotal} -> ${firing.at(-1).view.shotsTotal}; smoke in view ${Math.min(...firing.map(one => one.view.smokeInView))}-${Math.max(...firing.map(one => one.view.smokeInView))}; the guns fired ${Math.max(...firing.map(one => one.view.gunShots))} times)`);
   const rout = moments.find(one => one.phase === 'rout');
   assert.equal(rout.view.styles.texian, 'rout'); assert.equal(rout.view.styles.mexican, 'rout');
   const late = moments.filter(one => ['rout', 'killing'].includes(one.phase));
@@ -210,7 +210,7 @@ try {
     assert.equal(state.battle, null, `${name} was sent the battle`);
     assert.ok(!state.battleAlert && !state.battleAccount, `${name} was sent an alert or an account`);
     assert.ok(!raw.includes(personId), `${name} was sent the fighter's id`);
-    const part = /"participants"|"memberStates"|"alerted"|"fallen"|"parties"|"guns"/.exec(raw);
+    const part = /"participants"|"memberFates"|"fates"|"alerted"|"fallen"|"groups"|"guns"/.exec(raw);
     assert.ok(!part, `${name} was sent part of the battle: ${part?.[0]}`);
     assert.equal(await page.evaluate(() => window.__battleView), null, `${name}'s page drew a battle`);
   }

@@ -32,6 +32,15 @@ const battle = (minute, over = {}) => ({
   id: 'test', phase: 'fight', minute, caption: 'x', live: true, over: false, sides: [side('texian', 'loose', 'scattered', -0.1, { spread: { width: 0.4, depth: 0.2 } }), side('mexican', 'ranks', 'volley', 0.12)],
   lines: [], fallen: [], members: [], commands: { volley: [{ text: '¡Preparen!', gloss: 'Make ready!' }, { text: '¡Apunten!', gloss: 'Take aim!' }, { text: '¡Fuego!', gloss: 'Fire!' }] }, formations: [], ...over,
 });
+
+test('the Gonzales gun and completed flag select their delivered animated art', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const cannon = { side: 'texian', x: -0.08, y: 0, shots: [0], crew: 3, metal: 'bronze', claimId: 'HIST-TEX-475' };
+  const flag = { side: 'texian', x: -0.12, y: 0, words: 'COME AND TAKE IT' };
+  view.draw(fakeContext(), battle(0, { cannon, flag }), { camera, time: 0, now: 0, tickMs: 1000, bounds: { width: 1366, height: 768 } });
+  assert.ok(art.drawn.some(one => one.clip === 'cannon-cartwheels-e-recoil'), 'Gonzales shot used the old carriage gun');
+  assert.ok(art.drawn.some(one => one.clip === 'flag-come-and-take-it-wind'), 'the completed flag stayed canvas art');
+});
 /** Run the renderer for `seconds` of frames at 60 a second, a new tick every `tickMs`. */
 function run(view, make, { seconds, from = 0, tickMs = 1000, wind = { x: 0, y: 0 } }) {
   let last = null;

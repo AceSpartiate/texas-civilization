@@ -47,6 +47,9 @@ export function sanJacintoGround(world) {
     // Where the line halted to let the guns go into action: two hundred yards is 0.114 of a mile (`HIST-TEX-522`).
     close: from(breastwork, -0.16),
     gunStation: from(breastwork, -0.114),
+    // The two guns side by side on Burleson's right, a few yards apart; the Mexican gun in the breastwork's opening.
+    twinSister1: from(breastwork, -0.114, 0.03),
+    twinSister2: from(breastwork, -0.114, 0.06),
     // The breastwork of packs and baggage at the front of the Mexican camp, and the camp behind it.
     breastwork,
     mexicanCamp: from(breastwork, 0.08),
@@ -97,13 +100,15 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
     mexican: { name: 'Santa Anna’s army', count: 1200, drawn: 60, claimId: 'HIST-TEX-067', spread: { width: 0.5, depth: 0.3 } },
   },
   // The two six-pounders, the Twin Sisters, on Burleson's right (`HIST-TEX-522`), and the Mexican gun in the opening of the
-  // breastwork. Each moves with its side until it takes its station, and stays there (`pin`).
+  // breastwork, each on its own ground (`guns`, dated by `phase.guns`). ceiling: the Twin Sisters are drawn from the moment they
+  // take their station within two hundred yards; wheeled forward with the line in the advance they are not drawn - a gun that
+  // moves with its side is the way out.
   // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "San Jacinto", item 1 - the Twin Sisters are the library's iron field
   // gun served by the carriage-gun crew; how they were brought forward (by hand or by horse) is not verified and not drawn.
   guns: [
-    { id: 'twin-sister-1', side: TEX, offset: { along: 0.02, across: 0.05 }, metal: 'iron', crew: 3, from: 'parade', pin: { phase: 'guns', point: 'gunStation', across: 0.03 }, claimId: 'HIST-TEX-522' },
-    { id: 'twin-sister-2', side: TEX, offset: { along: 0.02, across: 0.08 }, metal: 'iron', crew: 3, from: 'parade', pin: { phase: 'guns', point: 'gunStation', across: 0.06 }, claimId: 'HIST-TEX-522' },
-    { id: 'mexican-gun', side: MEX, offset: { along: 0.03, across: 0 }, metal: 'bronze', crew: 3, from: 'night', pin: { phase: 'night', point: 'breastwork', across: 0 }, until: 'rout', claimId: 'HIST-TEX-522' },
+    { id: 'twin-sister-1', side: TEX, at: 'twinSister1', face: 'breastwork', metal: 'iron', crew: 3, claimId: 'HIST-TEX-522' },
+    { id: 'twin-sister-2', side: TEX, at: 'twinSister2', face: 'breastwork', metal: 'iron', crew: 3, claimId: 'HIST-TEX-522' },
+    { id: 'mexican-gun', side: MEX, at: 'breastwork', face: 'close', metal: 'bronze', crew: 3, claimId: 'HIST-TEX-522' },
   ],
   // What stands on the ground: the breastwork from the night of the 20th (`HIST-TEX-522`, `-524`), the fires of both camps,
   // and the marsh and the lake behind the Mexican camp.
@@ -155,10 +160,10 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       caption: 'In the afternoon Colonel Sherman takes a small party of horsemen out onto the prairie and skirmishes with the Mexican infantry. It almost brings on a general battle, and does not.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'ranks', keys: [[0, 'mexicanCamp'], [15, 'breastwork'], [50, 'breastwork'], [60, 'mexicanCamp']], action: 'hold', fire: 'volley', count: 700 },
-      parties: [
+      groups: [
         { id: 'sherman', side: TEX, name: 'Sherman’s horsemen', drawn: 6, style: 'mounted', mounted: true, keys: [[0, 'texianCamp'], [14, 'skirmish'], [46, 'skirmish'], [60, 'texianCamp']], action: 'advance', fire: 'scattered', claimId: 'HIST-TEX-523' },
       ],
-      falls: [{ side: TEX, party: 'sherman', count: 1, at: 30, claimId: 'HIST-TEX-083', wounded: true, carried: true }],
+      falls: [{ side: TEX, unit: 'sherman', count: 1, at: 30, claimId: 'HIST-TEX-083', wounded: true, carried: true }],
       lines: [
         say('sj-out', 8, TEX, 'volunteer', 'reconstructed', 'Sherman’s taking the horse out!'),
         say('sj-taunt', 22, TEX, 'rider', 'reconstructed', 'Come out and fight!'),
@@ -170,6 +175,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // 17:00-09:00. "Throughout the night, Mexican troops worked to fortify their camp, creating breastworks out of
       // everything they could find, including saddles and brush" (Wikipedia, `HIST-TEX-524`).
       id: 'night', minutes: 960, title: 'The night of April 20', claimId: 'HIST-TEX-524',
+      guns: { 'mexican-gun': [] },
       caption: 'Night. In the Mexican camp the soldiers work through the dark throwing up a breastwork of packs, saddles and baggage across the front of the camp.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', count: 700 },
@@ -180,12 +186,13 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // `HIST-TEX-153`). Cos's men "had marched steadily for more than 24 hours with no rest and no food" and were let sleep
       // (`HIST-TEX-524`).
       id: 'morning', minutes: 120, step: 20, title: 'Cos comes in, and the bridge', claimId: 'HIST-TEX-523',
+      guns: { 'mexican-gun': [] },
       caption: 'April 21. About nine, General Cos comes in with about 540 more men, who have marched all night; they lie down to sleep. Houston sends Deaf Smith and a few men to destroy Vince’s bridge, eight miles off on the road the reinforcements came by.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', count: 1200 },
-      parties: [
-        { id: 'cos', side: MEX, name: 'Cos’s men', count: 540, drawn: 16, style: 'column', keys: [[0, 'cosRoad'], [60, 'mexicanCamp']], action: 'advance', fire: 'none', claimId: 'HIST-TEX-523' },
-        { id: 'deaf-smith', side: TEX, name: 'Deaf Smith’s party', drawn: 3, style: 'mounted', mounted: true, keys: [[60, 'texianCamp'], [120, 'bridgeRoad']], action: 'advance', fire: 'none', claimId: 'HIST-TEX-153' },
+      groups: [
+        { id: 'cos', side: MEX, name: 'Cos’s men', count: 540, drawn: 16, style: 'column', keys: [[0, 'cosRoad'], [60, 'mexicanCamp']], face: 'breastwork', action: 'advance', fire: 'none', claimId: 'HIST-TEX-523' },
+        { id: 'deaf-smith', side: TEX, name: 'Deaf Smith’s party', drawn: 3, style: 'mounted', mounted: true, keys: [[60, 'texianCamp'], [120, 'bridgeRoad']], face: 'bridgeRoad', action: 'advance', fire: 'none', claimId: 'HIST-TEX-153' },
       ],
       lines: [
         say('sj-more', 20, TEX, 'volunteer', 'reconstructed', 'More of them coming in.'),
@@ -196,6 +203,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // 11:00-15:30. "All was quiet on the Mexican side during the afternoon siesta" (TSHA): the resting camp is well supported;
       // "siesta" is TSHA's word and the popular one, and is said as that (`HIST-TEX-523`, `-524`).
       id: 'waiting', minutes: 270, title: 'The quiet afternoon', claimId: 'HIST-TEX-524',
+      guns: { 'mexican-gun': [] },
       caption: 'The afternoon is quiet in the Mexican camp. Cos’s men are asleep; others rest, eat and see to the horses. (The Handbook of Texas calls it the afternoon siesta.) In the Texian camp the men wait for Houston to decide.',
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none', count: 1200 },
@@ -205,10 +213,11 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // 15:30-16:00. "At half-past three o'clock in the evening, I ordered the officers of the Texan army to parade their
       // respective commands" (Houston's report, `HIST-TEX-522`).
       id: 'parade', minutes: 30, step: 5, title: 'Half past three: the army parades', claimId: 'HIST-TEX-522',
+      guns: { 'mexican-gun': [] },
       caption: 'At half past three Houston orders the army to parade. The companies form in the edge of the timber in one long line: Sherman’s regiment on the left, Burleson’s in the centre, the two cannon, the regulars, and Lamar’s sixty-one horsemen on the far right.',
       texian: { style: 'ranks', keys: [[0, 'texianCamp'], [20, 'line']], action: 'advance', fire: 'none' },
       mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none' },
-      parties: [
+      groups: [
         { id: 'lamar', side: TEX, name: 'Lamar’s horsemen', count: 61, drawn: 6, style: 'mounted', mounted: true, keys: [[0, 'texianCamp'], [20, 'cavalryLine']], action: 'advance', fire: 'none', claimId: 'HIST-TEX-522' },
       ],
       lines: [
@@ -221,10 +230,11 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // 16:00-16:24. The line walks out across the prairie, "screened by trees and the rising ground" (TSHA, `HIST-TEX-523`).
       // The tune is a tradition told two ways, named in the caption with both and played by nobody (owner's J3, `HIST-TEX-525`).
       id: 'advance', minutes: 24, step: 2, title: 'The advance across the prairie', claimId: 'HIST-TEX-522',
+      guns: { 'mexican-gun': [] },
       caption: 'The line walks out across the open prairie, the rise screening it from the Mexican camp, the two cannon wheeled along with it. A tune is played as it goes, by tradition "Will You Come to the Bower?" - by a fifer and a drummer, the story goes, or by two fiddlers named Davis; the two traditions disagree.',
       texian: { style: 'ranks', from: 'line', to: 'close', action: 'advance', fire: 'none' },
       mexican: { style: 'camp', at: 'mexicanCamp', action: 'stand', fire: 'none' },
-      parties: [
+      groups: [
         { id: 'lamar', side: TEX, name: 'Lamar’s horsemen', count: 61, drawn: 6, style: 'mounted', mounted: true, from: 'cavalryLine', to: 'cavalryClose', action: 'advance', fire: 'none', claimId: 'HIST-TEX-522' },
       ],
       lines: [
@@ -241,10 +251,10 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       texian: { style: 'ranks', at: 'close', action: 'hold', fire: 'none' },
       // Some Mexican units form in haste behind the breastwork: ranks, ragged, firing as they can (staging §8.3).
       mexican: { style: 'ranks', at: 'mexicanCamp', action: 'hold', fire: 'scattered', ragged: true },
-      parties: [
+      groups: [
         { id: 'lamar', side: TEX, name: 'Lamar’s horsemen', count: 61, drawn: 6, style: 'mounted', mounted: true, at: 'cavalryClose', action: 'hold', fire: 'none', claimId: 'HIST-TEX-522' },
       ],
-      shots: { 'twin-sister-1': [0, 3], 'twin-sister-2': [1, 4], 'mexican-gun': [5] },
+      guns: { 'twin-sister-1': [0, 3], 'twin-sister-2': [1, 4], 'mexican-gun': [5] },
       lines: [
         say('sj-formar', 1, MEX, 'officer', 'reconstructed', '¡A formar! ¡A formar!', { gloss: 'Form up! Form up!' }),
         say('sj-armas', 3, MEX, 'soldier', 'reconstructed', '¡Mi fusil! ¿Dónde está mi fusil?', { gloss: 'My musket! Where is my musket?' }),
@@ -256,10 +266,10 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       caption: 'Half past four. The Texian line fires into the breastwork.',
       texian: { style: 'ranks', at: 'close', action: 'hold', fire: 'volley' },
       mexican: { style: 'ranks', at: 'mexicanCamp', action: 'hold', fire: 'scattered', ragged: true },
-      parties: [
+      groups: [
         { id: 'lamar', side: TEX, name: 'Lamar’s horsemen', count: 61, drawn: 6, style: 'mounted', mounted: true, at: 'cavalryClose', action: 'hold', fire: 'scattered', claimId: 'HIST-TEX-522' },
       ],
-      shots: { 'twin-sister-1': [1], 'twin-sister-2': [1] },
+      guns: { 'twin-sister-1': [1], 'twin-sister-2': [1], 'mexican-gun': [] },
       falls: [{ side: MEX, count: 3, at: 1, claimId: 'HIST-TEX-067' }],
     },
     {
@@ -270,10 +280,10 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       caption: 'The line runs at the breastwork shouting "Remember the Alamo! Remember Goliad!" and goes over it. The Mexican gun fires once. The line comes apart as the men go in, each on his own.',
       texian: { style: 'loose', keys: [[0, 'close'], [3, 'breastwork'], [6, 'overWork']], action: 'advance', fire: 'scattered', spread: { width: 0.5, depth: 0.16 } },
       mexican: { style: 'ranks', at: 'mexicanCamp', action: 'hold', fire: 'scattered', ragged: true },
-      parties: [
+      groups: [
         { id: 'lamar', side: TEX, name: 'Lamar’s horsemen', count: 61, drawn: 6, style: 'mounted', mounted: true, from: 'cavalryClose', to: 'cavalryChase', action: 'advance', fire: 'scattered', claimId: 'HIST-TEX-522' },
       ],
-      shots: { 'mexican-gun': [1] },
+      guns: { 'twin-sister-1': [], 'twin-sister-2': [], 'mexican-gun': [1] },
       falls: [
         { side: MEX, count: 4, at: 2, claimId: 'HIST-TEX-067' },
         { side: TEX, count: 1, at: 2, claimId: 'HIST-TEX-527', carried: true },
@@ -291,10 +301,11 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // 16:38-16:48. "The conflict lasted about eighteen minutes from the time of close action until we were in possession of
       // the enemy's encampment" (Houston, `HIST-TEX-522`). The Mexican army breaks for the marsh; many try to surrender.
       id: 'rout', minutes: 10, step: 1, contact: true, title: 'The Mexican line breaks', claimId: 'HIST-TEX-522',
+      guns: { 'twin-sister-1': [], 'twin-sister-2': [] },
       caption: 'The Mexican line breaks. The soldiers run east and south toward the marsh and Peggy’s Lake, many trying to surrender. The Texian line is no longer a line: it is a crowd of men chasing them, and the officers cannot hold it. Eighteen minutes after the fighting began, the camp is taken.',
       texian: { style: 'rout', keys: [[0, 'overWork'], [10, 'marshEdge']], action: 'advance', fire: 'scattered', spread: { width: 0.55, depth: 0.3 } },
       mexican: { style: 'rout', keys: [[0, 'mexicanCamp'], [10, 'marsh']], action: 'withdraw', face: 'away', fire: 'none', surrendering: 0.2 },
-      parties: [
+      groups: [
         { id: 'lamar', side: TEX, name: 'Lamar’s horsemen', count: 61, drawn: 6, style: 'mounted', mounted: true, from: 'cavalryChase', to: 'marshEdge', action: 'advance', fire: 'scattered', claimId: 'HIST-TEX-522' },
       ],
       falls: [
@@ -304,7 +315,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       ],
       lines: [
         say('sj-rindo', 2, MEX, 'soldier', 'reconstructed', '¡Me rindo! ¡Me rindo!', { gloss: 'I surrender!' }),
-        say('sj-me-no-alamo', 4, MEX, 'soldier', 'tradition', 'Me no Alamo!', { gloss: 'as Texian memoirs remember Mexican soldiers crying it (tradition)' }),
+        say('sj-me-no-alamo', 4, MEX, 'soldier', 'tradition', 'Me no Alamo!', { claimId: 'HIST-TEX-524', gloss: 'as Texian memoirs remember Mexican soldiers crying it (tradition)' }),
         ...cry('sj-alamo-again', 6, 'Remember the Alamo!', 'HIST-TEX-522', 'the war-cry, in Houston’s report'),
       ],
     },
@@ -313,6 +324,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       // §2b.2): figures fall and lie still, no gore. Texian riflemen on the banks "shot at anything that moved"; Houston and
       // Rusk could not stop it (`HIST-TEX-524`; how long it went on is disputed there).
       id: 'killing', minutes: 100, step: 20, title: 'The killing at the marsh', claimId: 'HIST-TEX-524',
+      guns: { 'twin-sister-1': [], 'twin-sister-2': [] },
       caption: 'The killing goes on after the fighting is over. Mexican soldiers who ran into the marsh and toward Peggy’s Lake are shot there by Texians on the banks, many of them trying to surrender. Houston, his ankle shattered by a musket ball, and Rusk try to stop it and cannot.',
       texian: { style: 'loose', at: 'marshEdge', action: 'hold', fire: 'scattered', spread: { width: 0.5, depth: 0.12 } },
       mexican: { style: 'rout', keys: [[0, 'marsh'], [100, 'lake']], action: 'withdraw', face: 'away', fire: 'none', surrendering: 0.35 },
@@ -331,6 +343,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
     {
       // 18:28-19:28. Dusk: the prisoners gathered, the camp taken. 630 killed and 730 taken (`HIST-TEX-067`).
       id: 'prisoners', minutes: 60, step: 20, title: 'Dusk: the prisoners', claimId: 'HIST-TEX-067',
+      guns: { 'twin-sister-1': [], 'twin-sister-2': [] },
       caption: 'Dusk. The firing stops. The prisoners are gathered in the taken camp under guard: some 730 were taken, and about 630 Mexican soldiers were killed. Nine Texians were killed or mortally wounded and about thirty wounded; the wounded are carried back to the camp.',
       texian: { style: 'loose', at: 'mexicanCamp', action: 'hold', fire: 'none', spread: { width: 0.4, depth: 0.2 } },
       mexican: { style: 'loose', at: 'prisonerGround', action: 'hold', fire: 'none', surrendering: 1, spread: { width: 0.22, depth: 0.14 }, count: 730 },

@@ -44,7 +44,7 @@ does not have:
 | Béxar's fields are the `fields` wash with stubble and fallow scattered on it; **the acequias are still not drawn** and no brush fence stands. The art for them landed 2026-09-21 (`acequia-straight`, `-bend`, `-crossing`, `fence-brush`, all registered and unused) and what is missing is now the LAYOUT: where each ditch ran, which is a researched course and a claim ID, not a sprite | `fields` in `public/ground-classes.js`; the envelope in `scripts/terrain/biomes.mjs` `BEXAR_FIELDS`; nothing yet in `public/bexar-layout.js` | Request 2026-09-19 — Béxar's fields and acequias | The acequia courses themselves, laid by `public/bexar-layout.js` from the delivered pieces |
 | **Words only for everything but the deer, the turkey and the mustang.** Since 2026-09-19 (docs/BIOME_GAMEPLAY.md §3.1) a hunt on a class of the biomes brings the quarry its place holds - turkey, bear, buffalo, antelope, mustang, javelina, ducks and geese, a wild cow, or a deer - and says so before it goes ("Waiting here, a turkey: four food."), at the shot ("downwind of a bear") and in the record ("brought down a buffalo"). The deer (2026-09-15), the turkey and the mustang (both 2026-09-21) are drawn where the server put them; every other quarry is given no place to be drawn at (`chore.quarry` stays unset), because a deer drawn where the words say a bear would be a wrong picture | `DRAWN_GAME`, `quarryAt` and `GAME` in `sim/hunting.mjs`; the drawing is decided where `quarryPoint` is called in `sim/chores.mjs`, and `miniQuarry` in `public/app.js` picks the sheet by `quarry.kind` | Request 2026-09-19 — the game of 1836 | `wildlife-bear`, `-javelina`, `-pronghorn`, `-bison`, `-geese`, `-cattle`; each one lands, its id joins `DRAWN_GAME` and nothing else has to change |
 | The panel icon for fetching logs from the timber is a canvas glyph: three logs laid across a wagon bed on two wheels, in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-19 — the logs fetched from the timber | `icon-fetch-logs` |
-| **Gonzales before the fight** (2026-09-25): the flag is canvas strokes (white field, black cannon, star, words); the breastwork of logs is `earth-rampart`; the canoes are `skiff`; the gun in the peach orchard is `cannon-bronze-e` under a canvas mound and its ploughed ground canvas furrows; the gun on its cart wheels is the bronze field gun; painting the flag and fitting the gun are the `repair` pose, digging is `work`, looking hard across the river is `search`, carrying cloth and bundles is `carry`; the regidor reading the letter is `speak` with no letter in hand | `STAND_INS` in `sim/town-scenes.mjs`; `drawFlag`, `drawProp`, `sceneClip` in `public/town-scenes.js` | Request 2026-09-25 — Gonzales before the fight | The request's items 1–7; each lands in `drawProp` or as a pose `STAND_INS` names |
+| **Gonzales before the fight** (2026-09-25): the completed flag now uses `flag-come-and-take-it-wind`, and the gun on cart wheels uses `cannon-cartwheels`; the breastwork of logs is still `earth-rampart`, canoes are `skiff`, the gun in the peach orchard is `cannon-bronze-e` under a canvas mound and ploughed ground uses canvas furrows; painting the flag and fitting the gun are the `repair` pose, digging is `work`, looking across the river is `search`, carrying cloth and bundles is `carry`, and the regidor reading the letter is `speak` without a letter in hand | `STAND_INS` in `sim/town-scenes.mjs`; `drawFlag`, `drawProp`, `sceneClip` in `public/town-scenes.js` | Request 2026-09-25 — Gonzales before the fight | Remaining props and action poses in items 1–7; the gun and completed flag have landed |
 | In a **hard** norther the broad oak, the spreading oak, the pecan and the grass tuft now take Astra's painted gale poses, and a camp fire's smoke streams (delivered 2026-09-21). Everything else still standing in that wind — pine, cedar, mesquite, live oak, elm, scrub, reeds, prickly pear, and every sized tree of `trees-colonies-1` and `-2` — is the library's own upright sprite sheared about its foot | `GALE_POSES` and `windLean` in `public/weather-art.js`, applied by `postOak`, `plain` and `drawGroundDetail` in `public/app.js` | Request 2026-09-20 — the country in a norther | A gale silhouette for each remaining tree kind and ground mark, at the same one strength as the five delivered |
 
 | A house placed at a quarter or half turn is drawn from the one front view the house-modules sheet has: each piece stands upright in its turned cells, and at 90 and 270 degrees every piece is that picture mirrored (the gable brought round to the other face, the ridge on the other diagonal). The gable facing the viewer always shows the door, in the picture and mirrored. The porch, shed room and passage are their one picture whichever way they run. Since 2026-09-24 a house's pictures are chosen for its chimneys, one picture for the whole house (`housePicture`; that morning each pen alone, `mirrorPens`): a cabin whose chimney gable is to the screen's side stands it against the doorless back gable of the unmirrored pen (to the right) or the mirrored pen (to the left), so the cabin at 180 degrees is mirrored; a dog-run or saddlebag keeps the house's mirroring, both pens the same way round along one ridge (`alongRidge`). A chimney on the gable the picture draws with its door stands in front of the door, and covers it whole, so the gable reads as the chimney's end: the cabins at 90 degrees, and at every turn the dog-run's near chimney (the near end of its ridge) and the saddlebag's double chimney (the far pen's door gable) | `drawHousePlot` (`rotation`, `turned`) in `public/house-plot.js`, called by `drawPlacedHouse` in `public/app.js` | Request 2026-09-23 — the house from its other sides | The pen's back gable (no door in the gable toward the viewer) for full walls, low walls and sill - or a pen with its door on its long side - and each piece's end-on view: passage, porch and shed room running into the screen. With them every pen takes the house's mirroring again and no chimney stands before a door at any turn |
@@ -56,6 +56,14 @@ does not have:
 | **A family's own person in a fight** is drawn in the volunteer militia's firing cycle (`volunteer-fire-reload`, `volunteer-load`, `volunteer-e`/`-w`, `volunteer-march`), not in their own cast figure | `memberPose` in `public/battle-view.js`, drawn by `drawFigure` in `public/app.js` (`stand-in:`) | Request 2026-09-25 — battles, item 1 | Each cast's own aim, fire, load and ramrod frames |
 | **A dragoon firing from the saddle** keeps his mounted pose (`dragoon-idle-e`/`-w`) while the flash and the smoke are drawn at his hands | `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 2 | `dragoon-fire` (aim and fire from the saddle, both facings) |
 | **The wounded carried**: a man hit is drawn as the library's seated wounded soldier (`regular-injured`/`volunteer-injured`) helped back by two walking figures; a dead man as `*-reclining` with two walking beside him; a dragoon hit in the saddle is drawn dismounted | `drawFallen` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 3 | `bearers-carry` (two men carrying a third on a blanket, both facings) and `dragoon-wounded-led` |
+| **The Gonzales cannon crew** still uses the carriage-gun crew cycles (`volunteer-gun-ram`, `-shot-carry`, `-fire`); the delivered `cannon-cartwheels` and recoil poses now draw the gun itself | `drawCannon` in `public/battle-view.js` (`stand-in:` for crew only) | Request 2026-09-25 — battles, item 4 | Three settlers serving the gun with correct cart-wheel positions |
+| **Béxar's houses fought from** (2026-09-25): a division inside a stone house is the town's own house as drawn, with the flashes and the smoke of its loopholes at its wall; only one man in four is drawn, in the doorway or the yard | `draw` in `public/battle-view.js`, `cover: 'loophole'` (`stand-in:`) | Request 2026-09-25 — the storming of Béxar, item 1 | `house-loopholed` (a flat-roofed stone house with a parapet and loopholes) and `volunteer-loophole-fire` |
+| **The street barricade and the sandbags** at Béxar are the library's `palisade` and `sacks`, set in front of the men behind them | `draw` in `public/battle-view.js`, `cover: 'barricade'`/`'sandbags'` (`stand-in:`) | Request 2026-09-25 — the storming of Béxar, items 2 and 4 | `barricade-street` (ditch, bank, post palisade, a gun embrasure) and `sandbag-breastwork` |
+| **Karnes's crowbar** is the gun crew's ramming stroke (`volunteer-gun-ram`) at the door with the library's `tools` beside him; the broken door is `wall-breach` | `drawBreaches` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the storming of Béxar, item 3 | `volunteer-crowbar` (a man forcing a door or wall with a bar, both facings) |
+| **Digging the trench across the street at night** is the settlers' `rust-work`/`teal-work` | `draw` in `public/battle-view.js`, `action: 'work'` (`stand-in:`) | Request 2026-09-25 — the storming of Béxar, item 4 | `volunteer-dig` |
+| **The white flag of truce** is a regular's idle pose beside a pole with a white cloth drawn on the canvas; the bugle is a caption in a bubble | `drawWhiteFlag` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the storming of Béxar, item 5 | `regular-white-flag` (bearer, still and walking) and `regular-bugler` |
+| **The townspeople let out of a broken house** walk away as the library's `rust-woman`, `indigo`, `elder` and `smallchild` | `draw` in `public/battle-view.js`, `civilians` (a library figure, not a stand-in figure: no marker) | Request 2026-09-25 — the storming of Béxar, item 6 | Béxar townspeople of 1835 in their own dress, walking |
+| **Night at Béxar** (the entry before daylight, the Priest's House by moonlight) is not drawn: the day's own light stands | `public/app.js` (no layer) | Request 2026-09-25 — the storming of Béxar, item 7 | a darkening, moonlit layer that does not snap when the pace changes |
 | **The Gonzales cannon** is the library's field gun (`cannon-bronze-e`/`-w` and its recoil) served by the carriage-gun crew cycles (`volunteer-gun-ram`, `-shot-carry`, `-fire`) | `drawCannon` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 4 | `cannon-cartwheels` (a small brass six-pounder on a pair of cart wheels, `HIST-TEX-475`) and its settler crew |
 | **The Come and Take It flag** is drawn on the canvas: a white field, a black gun, a star over it and the words (not shown at Gonzales on the field: `FIC-GONZ-419`) | `drawFlag` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 5 | `flag-come-and-take-it` on a pole, still and in a light wind |
 | **The Twin Sisters** at San Jacinto are the library's iron field gun (`cannon-iron-e`/`-w` and its recoil), two of them, each served by the carriage-gun crew cycles; the Mexican gun in the breastwork is the bronze gun served by `regular-gun-*` | `drawCannon` in `public/battle-view.js` (`stand-in:` on `guns` in `sim/battles/san-jacinto.mjs`) | Request 2026-09-25 — San Jacinto, item 1 | `cannon-sixpounder-e` (a light iron six-pounder on its field carriage) and a crew in volunteers' clothes |
@@ -108,9 +116,41 @@ into the existing pipeline, and how it will be checked. When a request is delive
 
 ---
 
+## Request 2026-09-25 — the storming of Béxar
+
+**Why.** The owner, 2026-09-25: *"go ahead, build it for every conflict. ... it's okay to make battles last longer to show the full
+experience as long as it appears correct to the player."* The storming of Béxar (December 5–9, 1835) is now staged on the engine
+(`sim/battles/bexar-storming.mjs`, research in docs/battle-research/staging.md §3.9, `HIST-TEX-490` to `-496`). It is street
+fighting from inside stone houses, and the library has none of the pieces that make that readable.
+
+**What**, in the frontier-v1 style and scale (people as the `volunteer`/`regular` sheets; props as `stone-tile-house` and
+`palisade`), each a transparent sheet anchored at the feet or the base:
+
+1. **A flat-roofed stone house with a parapet about four feet high and loopholes in its walls** ("a pigeon nursery", Lopez),
+   one storey, as a prop; and **a man firing through a loophole** - the barrel at the wall, the man half hidden - two to four
+   frames, east (mirrored west), `volunteer` and `regular`. Replaces the loophole flashes drawn at the town's own houses.
+2. **A street barricade**: a ditch, an earth bank and a post palisade across a street's mouth, with an embrasure for a gun (Field;
+   Dance; the 2007 archaeology under Main Plaza). Replaces `palisade` in front of the plaza's defenders.
+3. **A crowbar at a door or wall**, and the hole it leaves: a man forcing the bar, four frames, east, `volunteer` (Karnes,
+   Johnson's report). Replaces the ramming stroke.
+4. **Digging and filling sandbags at night**: a man with a spade in a trench across a street; a low breastwork of filled sacks.
+   Replaces `rust-work`/`teal-work` and `sacks`.
+5. **A white flag of truce and a bugler**: a Mexican regular carrying a white flag on a pole, still and walking; a bugler sounding.
+   Replaces the canvas flag. (The red or black flag over the Mexican battery is told in words until this lands too.)
+6. **Townspeople of Béxar in 1835** - women, children, an old man - walking out of a house, unhurt. Replaces the settlers' sheets.
+7. **Night and moonlight**: a layer that darkens the ground and leaves flashes and smoke bright, for the entry before daylight and
+   the Priest's House under the moon; it must not snap when the pace changes (`docs/MILITARY_EXPERIENCE.md`).
+
+**How it plugs in.** Poses by name in `public/battle-view.js`: the loophole pose in the `cover === 'loophole'` branch of `draw`,
+the barricade and sacks in the `cover` figures, the crowbar in `drawBreaches`, the flag and bugler in `drawWhiteFlag`, the
+townspeople in `TOWNSFOLK`. Delete each `stand-in:` and its row above.
+
+**Check.** `npm run test:battle-bexar` still passes and its screenshots in `test-results/battle-bexar-*.png` read as men fighting
+from inside houses, a barricade across a street, a man at a door with a bar, and a white flag on the plaza.
+
 ## Request 2026-09-25 — San Jacinto
 
-**Status: open; stand-ins in use since 2026-09-25 (see *Stand-ins in use*).** San Jacinto on the battle engine (`sim/battles/san-jacinto.mjs`, `docs/BATTLES.md` §7) draws the formed Texian line walking against a camp at rest, the two six-pounders, the breastwork, the rout into the marsh and Peggy's Lake, and Santa Anna brought before the wounded Houston. Four things are stood in for. Delivery contract as the people sheets: transparent PNG, the figure standing on its ground anchor, the logical height of `volunteer-*` and `regular-*`, east-facing frames mirrored for west.
+**Status: open; stand-ins in use since 2026-09-25 (see *Stand-ins in use*).** San Jacinto on the battle engine (`sim/battles/san-jacinto.mjs`, `docs/BATTLES.md` §8) draws the formed Texian line walking against a camp at rest, the two six-pounders, the breastwork, the rout into the marsh and Peggy's Lake, and Santa Anna brought before the wounded Houston. Four things are stood in for. Delivery contract as the people sheets: transparent PNG, the figure standing on its ground anchor, the logical height of `volunteer-*` and `regular-*`, east-facing frames mirrored for west.
 
 1. **The Twin Sisters.** `cannon-sixpounder-e` and a two-frame recoil: a light iron six-pounder on a field carriage with its trail (`HIST-TEX-522`: "two six-pounders"), smaller than `cannon-iron-e`; its crew in volunteers' clothes (`volunteer-gun-*` serve until then). How the guns were brought forward on the field is **not verified**: draw the gun alone, no team.
 2. **A camp at rest, and its breastwork.** `regular-rest-sit` (sitting on the ground, musket across the knees), `regular-sleep` (lying on a blanket, plainly asleep - never to be mistaken for `regular-reclining`, which is a man killed), `volunteer-rest-sit`, and `musket-stack` (three muskets stacked). And `breastwork-packs`: a low wall of packs, saddles, boxes and brush about five feet high, in three or four segments that can be laid end to end with a gap between two for a gun (Houston: "constructed of packs and baggage, leaving an opening in the centre").
@@ -180,6 +220,14 @@ of the wagon at 0.8; `PANEL_ICONS` in `public/family-panel.js` names `icon-make-
 the smaller; the wheels turn as it goes.
 
 ## Request 2026-09-25 — riders, walkers and the cart
+
+**Art delivery, 2026-09-25:** `cart-open.png` is now in the library as four isolated views:
+`cart-open-e`, `cart-open-e-variant`, `cart-open-s`, and `cart-open-n`. It is an uncovered
+two-wheel cart without its ox, and its measured frames are in `atlas.json`. The two east
+views have almost identical wheel spokes, so they are **not** registered as a travel
+animation. The wheel-turning frames, loaded state, seated passengers, and carried-infant
+walk remain open. Claude can use the three direction views as static cart art while
+the moving rig is completed; do not remove the cart stand-in row yet.
 
 **Why.** The owner, 2026-09-25: *"introduce rolling for starting wealth. tie it into the extra wagons ... if a family doesn't have
 enough wagons, older family members walk."* A family's means now give it a cart, one wagon, two or three (sim/means.mjs), and on its
@@ -1263,6 +1311,19 @@ it sits inside a row, not on the map.
 A picture of the earlier menu is `evidence/solo-dialog.png`.
 
 ## Request 2026-09-25 — battles: the pieces the engine stands in for
+
+**Art delivery, 2026-09-25:** `cannon-cartwheels.png` now provides east and west rest
+and recoil frames of the small brass gun on plain cart wheels. The two authored recoil
+clips are `cannon-cartwheels-e-recoil` and `cannon-cartwheels-w-recoil`. The atlas has
+measured all four frames with no cell overlap. The battle and town renderers now select
+this art for the Gonzales cannon; the matching three-person settler crew and other
+battle pieces below remain open. The cannon stand-in row now covers only that crew.
+
+`flag-come-and-take-it.png` also now provides a still flag and three distinct cloth
+poses, with a registered `flag-come-and-take-it-wind` loop. All four have readable
+`COME AND TAKE IT` lettering under the cannon and star. The battle and town renderers
+now choose these frames at the event's own moment. The flag stand-in row is removed;
+unfinished cloth work at the town table still uses canvas because it depicts another state.
 
 **Status: open; stand-ins in use since 2026-09-25 (see *Stand-ins in use*).** The owner, watching every conflict: *"i see npc's just standing around ... there's no smoke from the gunfire."* The battle renderer (`public/battle-view.js`, `docs/BATTLES.md` §6) draws every fight from the library's military sheets; five things it needs are not in them. Each is drawn now from the nearest art and marked `stand-in:` in the code. The delivery contract is the same as every existing people sheet: transparent PNG, the figure standing on its ground anchor, the same logical height as the `volunteer-*` and `regular-*` frames, east-facing frames mirrored for west unless a west frame is supplied.
 
