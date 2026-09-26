@@ -141,15 +141,15 @@
       "file": "public/app.js",
       "expect": "no resident of the town was drawn walking",
       "caught": true,
-      "failure": "no resident of the town was drawn walking between two places: {\"ochre-walk\":55,\"indigo-walk-n\":43,\"girl-walk\":12,\"boy-walk-n\":5,\"indigo-walk\":29,\"boy-walk\":27,\"elder-walk\":17,\"elder-ride-e\":80,\"volunteer-march\":1072,\"ochre-ride-e\":39,\"blue-ride-e\":40,\"teal-walk\":50,\"blue-walk\":33,\"ochre-walk-n\":4,\"elder-walk-n\":4,\"blue-walk-n\":4,\"blue-girl-walk-n\":30,\"dragoon-march\":46,\"dragoon-march-n\":5,\"mounted-courier-e\":16,\"ochre-walk-s\":5,\"blue-girl-walk-s\":55,\"girl-walk-n\":2,\"volunteer-march-s\":3}"
+      "failure": "no resident of the town was drawn walking between two places: {\"ochre-walk\":60,\"indigo-walk-n\":44,\"girl-walk\":12,\"boy-walk-n\":6,\"indigo-walk\":30,\"boy-walk\":25,\"elder-walk\":16,\"elder-ride-e\":80,\"volunteer-march\":914,\"ochre-ride-e\":40,\"blue-ride-e\":39,\"teal-walk\":50,\"blue-walk\":33,\"ochre-walk-n\":5,\"elder-walk-n\":5,\"blue-walk-n\":5,\"blue-girl-walk-n\":29,\"dragoon-march\":44,\"dragoon-march-n\":6,\"mounted-courier-e\":16,\"ochre-walk-s\":6,\"blue-girl-walk-s\":54,\"girl-walk-n\":2,\"teal-walk-n\":1,\"volunteer-march-n\":24}"
     },
     {
       "gate": "browser",
       "name": "walked, but six heights a second: running, not walking",
       "file": "public/town-scenes.js",
       "expect": "sliding, not walking",
-      "caught": false,
-      "failure": "the page never saw the refusal read across the river"
+      "caught": true,
+      "failure": "a resident was drawn crossing the town at 7.832 of their heights a second: sliding, not walking"
     },
     {
       "gate": "browser",
@@ -204,8 +204,8 @@
       "name": "every family is sent the town, the one on its land included",
       "file": "sim/town-scenes.mjs",
       "expect": "a family out on its land was sent the town's scenes",
-      "caught": false,
-      "failure": "the page was never sent the town's \"crossing-hold\" (saw street-alarm, crossing-swimmer, camp-mound, orchard-hidden, leaving-load, street-evening, crossing-night, muster-night, street-second-day, crossing-watch, orchard-dig, muster-day, hiding, shop-mount, muster-rider-1, crossing-reading, flag-cloth, street-refused, crossing-after, street-gone-up, crossing-gone, camp-leaves, flag-painted, muster-rider-2, cannon-to-muster, flag-carried, muster-decided, street-see-them-go, crossing-over, muster-march, street-waiting, street-word, street-return)"
+      "caught": true,
+      "failure": "a family out on its land was sent the town's scenes"
     },
     {
       "gate": "browser",

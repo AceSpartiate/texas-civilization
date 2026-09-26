@@ -14,7 +14,7 @@ should walk away understanding what happened."* docs/BATTLES.md §5 step 2, the 
   the crossing at the ferry and the return about 2 p.m. Oct 2; the cannon buried, dug up, put on cart wheels, loaded with cut
   chain; families leaving or hiding; the flag, DISPUTED; "come and take it" as spoken, DISPUTED) and **`FIC-GONZ-410` to `-413`**
   (the scenes; the flag made on Sept 30 – Oct 1 by unnamed women; lending a hand; walking in town).
-- **Built**: `sim/town-scenes.mjs` - 35 dated beats in 8 scenes (the street, the crossing, the far bank, the cannon, the flag,
+- **Built**: `sim/town-scenes.mjs` - 36 dated beats in 8 scenes (the street, the crossing, the far bank, the cannon, the flag,
   the commons, a rider out, families leaving), 54 cast figures with stable ids that are a picture of the town and not a count,
   recomputed from the clock (nothing stored but a family's help, so **no saveVersion**). `townScenesFor` sends a family only the
   beats seen from where its people stand (Gonzales; the crossing and far bank also from the ford), the Host all; only the
@@ -32,14 +32,19 @@ should walk away understanding what happened."* docs/BATTLES.md §5 step 2, the 
   DOCUMENTED / STRONGLY SUPPORTED / DISPUTED / TRADITION with claim ids, then what is invented. At the flag and the cannon a family's
   person in town may **lend a hand** (a woman or girl of ten with the flag, a man or youth of age with the gun): they walk there,
   are drawn at the work, and the family keeps one line in its story (`FIC-GONZ-412`). No cost, no glory, no effect on history.
-- **Evidence.** `tests/town-scenes.test.mjs` (9). `npm test`: **1193 pass**, 0 fail. **Unit injections: 11 of 11 caught, each by its
-  own test alone** (`docs/evidence/gonzales-town-injections.json`). **`npm run test:gonzales-town`** (new; a real class through
+- **Evidence.** `tests/town-scenes.test.mjs` (9). `npm test` after merging main (e440bbe): **1212 pass**, 0 fail. **Injections: 21 of 21 caught, each by the check written for it, alone** - 11 unit (each by its
+  own test). **`npm run test:gonzales-town`** (new; a real class through
   the join flow, the student's man walked into Gonzales on the 29th, 1366x768 and 1024x768): 10 checks - 35 beats sent as they
-  came; at 527 sampled moments people doing different things, never all idle; the flag on its days; 688 reconstructed lines and
-  Clements's drawn as documented; people and residents walking (fastest resident 1.16 heights a second); the flag card opened,
+  came; at 601 sampled moments people doing different things, never all idle; the flag on its days; 2383 reconstructed lines and
+  Clements's drawn as documented; people and residents walking (fastest resident 1.16 heights a second; 7.8 with the pace injected); the flag card opened,
   labelled, on screen and clear of the family at both sizes; the student's man lending a hand from the cannon's card; a family on
-  its land sent nothing; the Host's page drawing it. **Browser injections: INJ_BROWSER.** Re-run, PASS: lesson, panels,
-  family-panel, gonzales-art. Pictures: `test-results/gonzales-town-*.png` (the close ones are the ones to look at).
+  its land sent nothing; the Host's page drawing it. 10 browser injections, `docs/evidence/gonzales-town-injections.json`. Re-run after the merge, PASS: lesson (33), panels (14),
+  family-panel (17), gonzales-art, battle-gonzales (11). Pictures: `test-results/gonzales-town-*.png` (the close ones are the ones to look at).
+- **Merged with the fight (main e440bbe)**: the town's claims moved to `HIST-TEX-460`–`-469` and `FIC-GONZ-410`–`-413` (the fight has
+  `-470`–`-479`, `-415`–`-419`). October 2 in the town keeps the fight's new clock: waiting until first light (05:40), then
+  `street-gun` - the town hears the gun up the river (the fight's `FIC-GONZ-417`, which writes the same in the family's journal)
+  and waits - until the outcome at 09:40, the men back about 14:00. The flag in town is the only flag: the fight does not draw
+  one on the field (`FIC-GONZ-419`).
 - **Owner, please confirm** (each is one place to change):
   1. **The flag's makers are shown as unnamed women**, on Sept 30 – Oct 1, carried over the river with the men and back. The research
      leaned to showing the flag only from the October muster (Smithwick, who saw it, remembered it made for Austin's army); you asked
