@@ -160,40 +160,40 @@
       "name": "the night is drawn as day",
       "file": "public/battle-view.js",
       "test": "tests/battle-coleto-view.test.mjs",
-      "expect": "several guns fire, each shot once, served by men of their own side; the night darkens the field under the flashes",
+      "expect": "the guns at the corners and the battery fire, each shot once, served by men of their own side; the night darkens the field under the flashes",
       "caught": true,
       "failed": [
-        "several guns fire, each shot once, served by men of their own side; the night darkens the field under the flashes"
+        "the guns at the corners and the battery fire, each shot once, served by men of their own side; the night darkens the field under the flashes"
       ]
     },
     {
       "name": "a Mexican gun served by Texian volunteers",
       "file": "public/battle-view.js",
       "test": "tests/battle-coleto-view.test.mjs",
-      "expect": "several guns fire, each shot once, served by men of their own side; the night darkens the field under the flashes",
+      "expect": "the guns at the corners and the battery fire, each shot once, served by men of their own side; the night darkens the field under the flashes",
       "caught": true,
       "failed": [
-        "several guns fire, each shot once, served by men of their own side; the night darkens the field under the flashes"
+        "the guns at the corners and the battery fire, each shot once, served by men of their own side; the night darkens the field under the flashes"
       ]
     },
     {
       "name": "an order given at the killing on Palm Sunday",
       "file": "public/battle-view.js",
       "test": "tests/battle-coleto-view.test.mjs",
-      "expect": "the surrender is drawn with hands raised and a white flag at a corner; Palm Sunday's named woman is drawn in her own figure and named, and its guard counts nobody",
+      "expect": "the surrender is drawn with hands raised and a white flag at a corner; Palm Sunday's named woman is drawn as a townswoman and named, and its guard counts nobody",
       "caught": true,
       "failed": [
-        "the surrender is drawn with hands raised and a white flag at a corner; Palm Sunday's named woman is drawn in her own figure and named, and its guard counts nobody"
+        "the surrender is drawn with hands raised and a white flag at a corner; Palm Sunday's named woman is drawn as a townswoman and named, and its guard counts nobody"
       ]
     },
     {
       "name": "Francita Alavez drawn as a soldier",
       "file": "public/battle-view.js",
       "test": "tests/battle-coleto-view.test.mjs",
-      "expect": "the surrender is drawn with hands raised and a white flag at a corner; Palm Sunday's named woman is drawn in her own figure and named, and its guard counts nobody",
+      "expect": "the surrender is drawn with hands raised and a white flag at a corner; Palm Sunday's named woman is drawn as a townswoman and named, and its guard counts nobody",
       "caught": true,
       "failed": [
-        "the surrender is drawn with hands raised and a white flag at a corner; Palm Sunday's named woman is drawn in her own figure and named, and its guard counts nobody"
+        "the surrender is drawn with hands raised and a white flag at a corner; Palm Sunday's named woman is drawn as a townswoman and named, and its guard counts nobody"
       ]
     },
     {
@@ -217,12 +217,12 @@
       "checksPassedFirst": 3
     },
     {
-      "name": "the square drawn loose, like the marksmen",
+      "name": "the square drawn solid, men all through its middle",
       "file": "public/battle-view.js",
-      "expect": "the square is not more even than the marksmen",
-      "caught": false,
-      "failure": null,
-      "checksPassedFirst": 17
+      "expect": "do not stand in a hollow square",
+      "caught": true,
+      "failure": "the Texians do not stand in a hollow square, more even than the marksmen in the grass: {\"hollow\":{\"texian\":0.3454679733589069,\"mexican\":0.01648941063881138},\"regularity\":{\"texian\":0.71037831347533,\"mexican\":0.19167977217363089}}",
+      "checksPassedFirst": 10
     },
     {
       "name": "the family's man stays at Goliad",

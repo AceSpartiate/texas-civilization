@@ -33,8 +33,10 @@ The later engagements of docs/BATTLES.md §5 step 3, for Fannin's command: docs/
   clock (ending off it moved every later tick and broke the army's April dates - `tests/camp.test.mjs` found it).
   `tests/road.test.mjs` now reads the road's calendar through `battleMinutes`, since Coleto holds everybody's clock.
 - **Evidence:** `tests/battle-coleto.test.mjs` (11), `tests/battle-coleto-view.test.mjs` (6); `npm run test:battle-coleto`
-  (17 checks, 1366x768 and 1024x768, same computer) -> `docs/evidence/battle-coleto-browser.json` and
-  `battle-coleto-*.png`; `node scripts/battle-coleto-injections.mjs` -> `docs/evidence/battle-coleto-injections.json`.
+  (17 checks, 1366x768 and 1024x768, same computer; re-run after merging main) -> `docs/evidence/battle-coleto-browser.json` and
+  `battle-coleto-*.png`; `node scripts/battle-coleto-injections.mjs`: **27 of 27** (20 unit, 7 browser) caught by the check written
+  for them -> `docs/evidence/battle-coleto-injections.json`. `npm test` 1,252 of 1,252 after the merge; `test:battle-gonzales`,
+  `test:battle-bexar`, `test:alamo-siege`, `test:lesson`, `test:panels` pass.
 - **Claims:** `HIST-TEX-515`–`-521`, `FIC-GONZ-437`–`-440` (staging's proposed numbers renumbered into this block).
   **Art:** request 2026-09-25 "Coleto and Goliad", four stand-ins (the white flag is Béxar's).
 - **Not done:** Ward's and Miller's men are not families' people; the spared are not walked south; Horton's riders drawn on
