@@ -1,6 +1,6 @@
 # Claude handoff — Astra foundation
 
-## The Alamo on the engine: the living siege and the dawn assault — 2026-09-26 (after 1c77c91, the storming of Béxar; not released)
+## The Alamo on the engine: the living siege and the dawn assault — 2026-09-26 (after e63694f, the south; not released)
 
 Wave 2 of docs/BATTLES.md §5 for the Alamo, owner-directed 2026-09-25 (§2b.1 *a student may watch their own man fall*; §2b.5
 *"I'm assuming that the alamo is the longest since it's a long siege?"*). docs/BATTLES.md **§8** is the build and its limits. It is built on the engine as Béxar left it (§7), with **one path for a person's fate at its moment** (`stageFate`/`fatesDue`/`memberFates`): merging Béxar, the Alamo's own staged-fate mechanism, its parts-of-a-side and its long steps were replaced by Béxar's groups, fixed guns and background pace.
@@ -32,7 +32,7 @@ Wave 2 of docs/BATTLES.md §5 for the Alamo, owner-directed 2026-09-25 (§2b.1 *
   Watch at the army's coming, the relief and the alarm (none before it). The quiet "inside the Alamo" reminder no longer holds
   the card back. Another family's fallen man is simply not seen standing again.
 - **Pace** (`FIC-GONZ-431`): siege days at four hours a tick as Béxar's background pace, only while a played family has
-  somebody there. Measured: **64 ticks against 28 from Feb 23 to the assault: +36 ticks, 5.7 real minutes at Study** for a class
+  somebody there. Measured: **145 ticks against 110 from Feb 23 to the assault (the south's fights in both): +35 ticks, 5.5 real minutes at Study** for a class
   with somebody inside. The assault is held for everybody: **42 ticks, 6.6 real minutes at Study** (Gonzales 36).
 - **Engine, generic and additive, on Béxar's** (docs/BATTLES.md §8.2): on a group `ladders`, `climbing`, `figure: 'rider'`; on a
   gun `canister`, `name`; on a phase `people`, `light`, `plumes`; on an engagement `smokeScale`, `frameTight`,
@@ -64,7 +64,7 @@ Wave 2 of docs/BATTLES.md §5 for the Alamo, owner-directed 2026-09-25 (§2b.1 *
   pixels, so walls of men are crowded lines; the noncombatants killed and the executions are told, not modelled or shown;
   Dickinson, Joe and Ben's journey to Gonzales is the word on the 13th, not travellers; the relief man without a horse rides one
   that is not an entity (`ceiling:`). The house-site card over the proof's pictures is the proof's in-process family.
-- **For the owner to confirm**: the siege's added 5.7 minutes for a class with somebody inside, and 6.6 for the assault for
+- **For the owner to confirm**: the siege's added 5.5 minutes for a class with somebody inside, and 6.6 for the assault for
   every class; posts weighted to the north and west (`FIC-GONZ-430`); a courier lent a garrison horse and a relief man lent a
   company horse; the relief waiting half a mile out on the Gonzales road; the student's debrief on the card only, never the
   journal; another family's fallen man simply not seen standing again.

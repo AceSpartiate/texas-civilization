@@ -1461,15 +1461,14 @@ export function directorProjection(world, householdId, role, { seen = [] } = {})
   // it is fought. Only ever one fight at a time: December is not October.
   const bexar = bexarProjection(world, householdId, role, { seen });
   if (bexar) { battle = bexar.battle; if (bexar.host) host = bexar.host; }
-  // The Alamo (sim/alamo-battle.mjs): the Host always while it is fought, a family while one of its own is there. March is
-  // not December either.
-  const alamo = alamoProjection(world, householdId, role);
-  if (alamo?.battle) battle = alamo.battle;
-  if (role === 'host' && alamo?.host) host = alamo.host;
   // The south's fights (sim/south.mjs): the same contract, for San Patricio and Agua Dulce Creek (February 27, March 2).
   const south = southProjection(world, householdId, role);
   if (south?.battle && !battle) battle = south.battle;
   if (south?.host && role === 'host') host = south.host;
+  // The Alamo (sim/alamo-battle.mjs): the Host always while it is fought, a family while one of its own is there. Its siege
+  // runs for weeks round the south's two fights; while one of those is being fought, that fight is what is shown.
+  const alamo = alamoProjection(world, householdId, role);
+  if (alamo?.battle && !battle) { battle = alamo.battle; if (role === 'host' && alamo.host) host = alamo.host; }
   const shownAlert = alamo?.battleAlert || bexar?.battleAlert || battleAlert || south?.alert || null, shownAccount = alamo?.battleAccount || bexar?.battleAccount || battleAccount || south?.account || null;
   // The upriver call takes the panel while it is open, because it is the one in front
   // of the family right now. The food call stays in the event log either way.

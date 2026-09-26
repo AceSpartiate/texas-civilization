@@ -305,7 +305,8 @@ function cardsFor(world, householdId, state, watching) {
     out.battleAlert = { id: `battle:alamo:${alerted.key}:${householdId}`, entityId: person.id, title: titles[alerted.key], text: alerted.text, field: onMap(world, { x: 180, y: 280 }), watching };
   }
   const debrief = state.battle.debrief?.[householdId];
-  if (debrief && world.minute - debrief.minute <= 1440 && world.entities[debrief.entityId]) {
+  // Three days on the card (to March 9): at the campaign's half-day ticks a single day went by in two, before a student could read it.
+  if (debrief && world.minute - debrief.minute <= 4320 && world.entities[debrief.entityId]) {
     out.battleAccount = { id: `debrief:alamo:${householdId}`, entityId: debrief.entityId, title: 'What you saw from the walls', text: debrief.text };
   }
   // The word, when it comes (sim/alamo.mjs `tellFall`): the family's account, for a day, on the card as in the journal.
