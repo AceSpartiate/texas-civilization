@@ -81,9 +81,8 @@
       "file": "sim/battles/concepcion.mjs",
       "test": "tests/battle-concepcion.test.mjs",
       "expect": "the fighting plays three to six real minutes at the Study pace, held to each phase's step, landing on every phase's start, and the night in camp is not watched",
-      "caught": false,
+      "caught": true,
       "failed": [
-        "the Host, the families with somebody there, and the main army's from when the firing is heard are sent the fight; a family with nobody there gets nothing",
         "the fighting plays three to six real minutes at the Study pace, held to each phase's step, landing on every phase's start, and the night in camp is not watched"
       ]
     },
@@ -152,9 +151,8 @@
       "file": "sim/battles/grass-fight.mjs",
       "test": "tests/battle-grass.test.mjs",
       "expect": "the fighting plays three to six real minutes at Study, held to each phase's step and landing on every phase's start",
-      "caught": false,
+      "caught": true,
       "failed": [
-        "the Host and the family with somebody out watch it; the camp's families from when the firing starts; a family with nobody there gets nothing",
         "the fighting plays three to six real minutes at Study, held to each phase's step and landing on every phase's start"
       ]
     },
