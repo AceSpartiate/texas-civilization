@@ -248,7 +248,7 @@ function tellAccount(world, battle, person, text, title, claimId) {
   const eventId = record(world, 'consequence', { householdId: person.householdId, actorId: person.id, importance: 3, classification: 'DOCUMENTED', claimId, causes: battle.wordId ? [battle.wordId] : [], text });
   const household = world.households[person.householdId];
   household?.memories?.push(record(world, 'memory', { actorId: person.id, householdId: person.householdId, text: title, causes: [eventId], importance: 3 }));
-  battle.told[person.householdId] = { eventId, minute: world.minute, entityId: person.id, text, title };
+  battle.told[person.householdId] = { eventId, minute: world.minute, tick: world.tick, entityId: person.id, text, title };
 }
 
 /**
@@ -455,8 +455,10 @@ export function campaignBattleProjection(world, householdId, role) {
       if (alerted && person && !GONE.includes(person.health?.condition) && !done && !out.battleAlert) {
         out.battleAlert = { id: `battle:${id}:${householdId}:${alerted.stage}`, entityId: person.id, title: alerted.title, text: alerted.text, field: battleField(world, id), watching: Boolean(out.battle) };
       }
+      // The card stays a day, and at least long enough to read: a day of the campaign calendar is only two ticks.
       const told = battle.told?.[householdId];
-      if (told && world.minute - told.minute <= 1440 && world.entities[told.entityId] && !out.battleAccount) {
+      const showing = told && (world.minute - told.minute <= 1440 || world.tick - (told.tick ?? -Infinity) <= ACCOUNT_TICKS);
+      if (showing && world.entities[told.entityId] && !out.battleAccount) {
         out.battleAccount = { id: `account:${id}:${householdId}`, entityId: told.entityId, title: told.title, text: told.text };
       }
     }
@@ -464,3 +466,5 @@ export function campaignBattleProjection(world, householdId, role) {
   return out;
 }
 const ENGAGEMENT_NAMES = { concepcion: 'The fight at Concepción', 'grass-fight': 'The Grass Fight' };
+/** How many ticks, at least, the account's card stays up: about four minutes at the Study pace (`FIC-GONZ-424`). */
+const ACCOUNT_TICKS = 24;
