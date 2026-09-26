@@ -164,15 +164,14 @@ Then, by multiple choice:
    bubble — *sarcastically*, or the like (owner: "maybe in the chat bubbles where emily is flirting with santa anna it says
    *sarcasticly* or something like that?") — so a class reads that she is playing a part with her captor, not sincere.
 
-   **Her words, with a stage direction** (owner, 2026-09-26: "maybe in the chat bubbles where emily is flirting with santa anna it
-   says *sarcasticly* or something like that?"). She says five short lines at the picnic, each drawn with a stage direction in
+   **Her words, as built (2026-09-26, §13).** She says five short lines at the picnic, each drawn with a stage direction in
    italics ahead of the words - *sarcastically*, *dryly*, *with a forced smile*, *quietly* - so a class reads that she is playing
    a part with her captor, not sincere. They are the game's words in a named mouth: the one exception, by the owner's choice, to
    the rule that a named person speaks only what a source gives them. Each is `tradition` (dashed), glossed as a story told
    later and that his army had taken her at New Washington five days before; light, never physical, never sexualized; Santa Anna
    is given no words (`FIC-GONZ-458`; `manner` on a line, §6.5; `tests/famous-people.test.mjs`).
 
-   **Implemented art and staging, 2026-09-26:** Emily has a yellow-dress, uncovered-hair directional sheet and a four-pose seated picnic conversation; Santa Anna has paired conversation and alarm poses, and the camp has separate tent and meal props (`scripts/art-deliveries/famous-people.mjs`, `famous-picnic.mjs`). `legendScene` begins at 13:00 on April 21 near the Mexican camp and ends after the first guns. Its battle caption and dashed on-map label say this is a later story. The real outcome does not depend on the scene, and no invented words are attributed to either named person (`HIST-TEX-560`, `FIC-GONZ-560`).
+   **Implemented art and staging, 2026-09-26:** Emily has a yellow-dress, uncovered-hair directional sheet and a four-pose seated picnic conversation; Santa Anna has paired conversation and alarm poses, and the camp has separate tent and meal props (`scripts/art-deliveries/famous-people.mjs`, `famous-picnic.mjs`). `legendScene` begins at 13:00 on April 21 near the Mexican camp and ends after the first guns. Its battle caption and dashed on-map label say this is a later story. The real outcome does not depend on the scene. Santa Anna is given no words there; Emily West's are the game's, as tradition with their stage directions, by the owner's addition above (`HIST-TEX-560`, `FIC-GONZ-560`, `FIC-GONZ-458`).
 
 Every other question in `docs/battle-research/famous-people.md` takes its recommended answer (about fifteen people carried
 across events on a dated itinerary; named deaths drawn without gore; killings after surrender other than Crockett's told,
