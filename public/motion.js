@@ -503,9 +503,10 @@ function along(points, distance) {
  * tests/movement.test.mjs holds it equal to the clock's own table.
  *
  * And the steps a battle is watched at (sim/battle-stage.mjs `BATTLE_STEPS`, docs/BATTLES.md §2.2): a tick of two, five or
- * ten minutes during the fighting is an ordinary tick, and a person walking through it is drawn walking, not snapped.
+ * ten minutes during the fighting is an ordinary tick, and a person walking through it is drawn walking, not snapped. So is a
+ * tick of a fight's background pace (sim/battle-stage.mjs BATTLE_PACES): Béxar's two hours a tick between its episodes.
  */
-export const CALENDAR_STEPS = Object.freeze([2, 5, 10, 20, 60, 240, 720]);
+export const CALENDAR_STEPS = Object.freeze([2, 5, 10, 20, 60, 120, 240, 720]);
 /** A tick of the farming clock, which a stored `speed` is measured in (sim/travel.mjs `FARMING_TICK_MINUTES`). */
 const FARMING_STEP = 20;
 export const sameJourney = (a, b) => Boolean(a && b && a.from === b.from && a.to === b.to);

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1171 usable sprites, 83 PNG atlases, 447 clips** (224 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1183 usable sprites, 86 PNG atlases, 450 clips** (227 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -16,6 +16,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | artillery-service | 16 | 1254 × 1254 | 1171440 |
 | biome-ground-bexar | 16 | 1254 × 1254 | 2215982 |
 | biome-trees-fields | 16 | 1254 × 1254 | 1966285 |
+| cannon-cartwheels | 4 | 1254 × 1254 | 1420895 |
+| cart-open | 4 | 1254 × 1254 | 1049202 |
 | people-cast2-carry | 12 | 1254 × 1254 | 1294419 |
 | people-cast2-dialogue | 16 | 1254 × 1254 | 867662 |
 | people-cast2-care | 16 | 1254 × 1254 | 1382974 |
@@ -35,6 +37,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icons-family-actions-2 | 13 | 1254 × 1254 | 1706833 |
 | icons-family-service | 16 | 1254 × 1254 | 1734840 |
 | icons-family-subsistence | 8 | 1774 × 887 | 2248974 |
+| flag-come-and-take-it | 4 | 1254 × 1254 | 1140674 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | people-mounted-cast1-e | 16 | 1254 × 1254 | 1086305 |
 | people-mounted-cast1-s | 16 | 1254 × 1254 | 1213409 |
@@ -153,6 +156,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | field-irrigated-young | biome-trees-fields | State artwork; no motion required |
 | field-irrigated-mature | biome-trees-fields | State artwork; no motion required |
 | field-fallow | biome-trees-fields | State artwork; no motion required |
+| cannon-cartwheels-e | cannon-cartwheels | cannon-cartwheels-e-recoil |
+| cannon-cartwheels-recoil-e | cannon-cartwheels | cannon-cartwheels-e-recoil |
+| cannon-cartwheels-w | cannon-cartwheels | cannon-cartwheels-w-recoil |
+| cannon-cartwheels-recoil-w | cannon-cartwheels | cannon-cartwheels-w-recoil |
+| cart-open-e | cart-open | State artwork; no motion required |
+| cart-open-e-variant | cart-open | State artwork; no motion required |
+| cart-open-s | cart-open | State artwork; no motion required |
+| cart-open-n | cart-open | State artwork; no motion required |
 | rust-woman-carry-1 | people-cast2-carry | rust-woman-carry |
 | rust-woman-carry-2 | people-cast2-carry | rust-woman-carry |
 | rust-woman-carry-3 | people-cast2-carry | rust-woman-carry |
@@ -420,6 +431,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icon-butcher-beef | icons-family-subsistence | State artwork; no motion required |
 | icon-butcher-hog | icons-family-subsistence | State artwork; no motion required |
 | icon-look-to-stock | icons-family-subsistence | State artwork; no motion required |
+| flag-come-and-take-it | flag-come-and-take-it | flag-come-and-take-it-wind |
+| flag-come-and-take-it-wind-1 | flag-come-and-take-it | flag-come-and-take-it-wind |
+| flag-come-and-take-it-wind-2 | flag-come-and-take-it | flag-come-and-take-it-wind |
+| flag-come-and-take-it-wind-3 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | house-round-sill | house-modules | State artwork; no motion required |
 | house-round-low-walls | house-modules | State artwork; no motion required |
 | house-round-full-walls | house-modules | State artwork; no motion required |
@@ -1297,6 +1312,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | magnolia-large-wind | sway | 1 | 3800 | yes | not applicable |
 | beech-log-wind | sway | 1 | 3800 | yes | not applicable |
 | beech-large-wind | sway | 1 | 3800 | yes | not applicable |
+| cannon-cartwheels-e-recoil | Pose cycle | 3 | 760 | one-shot | east |
+| cannon-cartwheels-w-recoil | Pose cycle | 3 | 760 | one-shot | west |
 | rust-woman-carry | Pose cycle | 4 | 760 | yes | east; west by mirroring |
 | indigo-carry | Pose cycle | 4 | 760 | yes | east; west by mirroring |
 | ochre-carry | Pose cycle | 4 | 760 | yes | east; west by mirroring |
@@ -1417,6 +1434,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | infant-idle-w | breathe | 1 | 3000 | yes | west |
 | infant-idle-e | breathe | 1 | 3000 | yes | east |
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
+| flag-come-and-take-it-wind | Pose cycle | 4 | 2700 | yes | not applicable |
 | rust-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | teal-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | elder-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |

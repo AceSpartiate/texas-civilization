@@ -1,5 +1,50 @@
 # Claude handoff — Astra foundation
 
+## The storming of Béxar on the battle engine — 2026-09-25 (not released)
+
+Built on the engine of `docs/BATTLES.md` §6 as the owner decided (§2b.3: four held episodes, the town fighting at a slower pace
+between them, a man's fate on a day weighted by the real daily losses), from `docs/battle-research/staging.md` §3. Described
+in `docs/BATTLES.md` §7. Claims `HIST-TEX-490`–`-496`, `FIC-GONZ-425`–`-429`.
+
+**What a class sees now.** On the evening of December 4 Milam's call is drawn at the mill (his words as tradition, dashed), and
+the men step into ranks. Milam's call shuts at the two o'clock roll; at three every man who said yes walks out of the mill with
+Milam's or Johnson's division, across the cornfield to the brush fence; at five Neill's gun fires on the Alamo, a sentinel
+challenges and falls, and the columns go down two streets into two stone houses. From then it is street fighting: most of each
+division inside its house, seen as flashes and smoke at the walls; men on the Veramendi roof driven down; the plaza's defenders
+behind a palisade firing volleys on the officer's words; musketeers on the roofs round the plaza; the Alamo's guns from the east.
+Between the episodes the town fights on at two hours a tick while a played family has a man in it (trenches dug at night,
+McDonald's men and the family let out of the house they broke into, the Navarro house, Zambrano Row, the companies from the camp
+walking in on the 8th, Ugartechea's column into the Alamo). Held: Karnes at the door with a crowbar and York's company in after
+him; Milam shot in the Veramendi yard, drawn falling and named, no words; the Greys under the loopholes into the Priest's House
+and the cannonade after; the guns stopping, a bugle, the white flag on the plaza, J. W. Smith and Sánchez Navarro meeting; on
+the 14th Cos's paroled army marching out. A family's man who is hit falls at his staged moment where he stands, is carried to
+the hospital house if wounded, and is told of in the journal only with the word of the victory. At the capitulation each family
+with a man in the town or at the mill is given the account through him; the army breaks up on the 14th as before.
+
+**Files.** `sim/battles/bexar-storming.mjs` (the data), `sim/bexar-fight.mjs` (arrival, units, fates, alerts, spotlight,
+projection, account), `sim/army.mjs` (`stormingFate`, `resolveStormer`; `SIEGE_CAMPS.mill` 0.45 mile; disband keeps a man's own
+road), `sim/directors.mjs` (`advanceStorming`: `bexar-roll`, dates from the phases, the flag unconditional), `sim/battle-stage.mjs`
+and `public/battle-view.js` (generic additions, §7.2), `public/motion.js` (120 in `CALENDAR_STEPS`), `public/app.js`
+(`battlePoints` reads `battle.frame`), `sim/world.mjs` (passes `seen` to `directorProjection`), `sim/host.mjs` (where a man in the
+town is, in words).
+
+**Evidence (same computer; no LAN or district claim).** `npm test`: 1235 of 1235 pass after merging main (fef65d3 and fd1e40b). `npm run test:battle-bexar`: 15 checks pass,
+`docs/evidence/battle-bexar-browser.json` (1366x768 and 1024x768; frame time 2.2-6.4 ms at the slowest 95th percentile across runs). `node scripts/battle-bexar-injections.mjs`:
+21 of 21 caught by the check written for them (15 unit, 6 browser), `docs/evidence/battle-bexar-injections.json`. Re-run after merging main: `test:battle-gonzales` 12 checks, `test:alamo-siege` 8, `test:lesson` and `test:panels` pass.
+
+**Class time at Study.** Four held episodes about 74 ticks, 11.7 real minutes; the background about 47 ticks, 7.4 minutes (only
+while a played family has a man in the town); the call and the march out about 12 ticks, 1.9 minutes. Before, the storming took
+about nine campaign ticks.
+
+**Not done.** Night and moonlight are not drawn (art request). The card line for a man still wounded at Béxar on February 23
+(`HIST-TEX-493`). The reserve's six-pounder against the sortie is drawn but the sortie's fifty are a small group. One fight is
+projected at a time. The old `npm run test:storming` proof was not re-run.
+
+**For the owner.** (1) The background pace holds a class for about seven and a half real minutes more when a played family has a
+man in the town, and not otherwise - is that the right condition, or should the Host's live view alone hold it? (2) The account
+comes at the capitulation (December 11) through the family's own man, and not through a man who was killed: his family learns
+it with the word on the 15th. (3) The mill moved from a mile to 0.45 of a mile north for the whole siege from November 15.
+
 ## Gonzales before the fight: the town doing things, talking, and a card to click — 2026-09-25 (released in v2026.09.25.6)
 
 Owner, verbatim: *"when i try to watch a battle, or actions that led to a battle, i see npc's just standing around. example:
@@ -1062,6 +1107,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   lesson 33 checks, panels 10 checks at 2 sizes, farm, travel-drawn and relay pass. Four other proofs failed here, and
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
+
+## Released as v2026.09.25.7 — 2026-09-25
+
+**[v2026.09.25.7](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.25.7)**, from `a9b7a09`: the Come and Take It flag over the gun on the field at Gonzales, and "Come and take it!" shouted by unnamed volunteers at the dawn skirmish and the dragoons' withdrawal and called across the river by one of the eighteen on September 30 — all `tradition`, glossed as remembered later (owner: "have the flag be drawn, and have the men say it as a taunt of sorts"; `FIC-GONZ-419`, `HIST-TEX-469`, docs/BATTLES.md §2b.6). Verify tree: 1213 tests; battle-gonzales 12, gonzales-town 10. Six injections caught.
 
 ## Released as v2026.09.25.6 — 2026-09-25
 

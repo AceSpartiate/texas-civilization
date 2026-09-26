@@ -98,9 +98,9 @@ const TEX = 'texian', MEX = 'mexican';
 /** One line. `name` only ever on a documented line (sim/battle-stage.mjs `checkEngagement`). */
 const say = (id, at, side, role, kind, text, extra = {}) => ({ id, at, side, role, kind, text, ...extra });
 /** Bowie's companies on the north arm of the bend, in every phase they are there. */
-const bowie = (style, at, extra = {}) => ({ key: 'bowie', side: TEX, name: 'Bowie with Coleman’s, Goheen’s and Bennet’s', count: 41, drawn: 20, style, spread: { width: 0.2, depth: 0.06 }, ...at, ...extra });
+const bowie = (style, at, extra = {}) => ({ id: 'bowie', side: TEX, name: 'Bowie with Coleman’s, Goheen’s and Bennet’s', count: 41, drawn: 20, style, spread: { width: 0.2, depth: 0.06 }, ...at, ...extra });
 /** Ugartechea's cavalry, a sample of fifty. */
-const cavalry = (style, at, extra = {}) => ({ key: 'cavalry', side: MEX, name: 'Mexican cavalry', count: 200, drawn: 40, style, mounted: true, ...at, ...extra });
+const cavalry = (style, at, extra = {}) => ({ id: 'cavalry', side: MEX, name: 'Mexican cavalry', count: 200, drawn: 40, style, mounted: true, ...at, ...extra });
 
 export const CONCEPCION = Object.freeze({
   id: 'concepcion',
@@ -120,7 +120,11 @@ export const CONCEPCION = Object.freeze({
   noFalling: [],
   // The brass gun in front of the infantry, served by six (`HIST-TEX-480`). ceiling: the second, heavier gun that fired three
   // times at long range near the close is told in the caption and not drawn; a second gun on the engine is the way out.
-  cannon: { side: MEX, offset: { along: 0.028, across: 0.004 }, metal: 'bronze', crew: 6, claimId: 'HIST-TEX-480' },
+  cannon: null,
+  guns: [
+    { id: 'brass', side: MEX, at: 'gunSpot', face: 'fannin', metal: 'bronze', crew: 3, claimId: 'HIST-TEX-480' },
+    { id: 'brass-turned', side: TEX, at: 'gunSpot', face: 'ford', metal: 'bronze', crew: 3, claimId: 'HIST-TEX-480' },
+  ],
   // No flag and no drum on the Texian side ("we fought at Conception without a flag", Creed Taylor, `HIST-TEX-480`).
   flag: null,
   // The regulation's three words of a volley (`HIST-TEX-482`): documented in the Spanish regulation of 1808, reconstructed
@@ -137,10 +141,9 @@ export const CONCEPCION = Object.freeze({
       // Oct 27, 14:00 - 16:00. Up the river from Espada, past San Juan and San José (`HIST-TEX-019`; the hour `FIC-GONZ-420`).
       id: 'march', minutes: 120, title: 'Up the river from Espada', step: 20, claimId: 'HIST-TEX-019',
       caption: 'Bowie and Fannin take about ninety men up the San Antonio River from Mission Espada, past San Juan and San José, to find a camp nearer Béxar. The rest of the army stays at Espada.',
-      texian: { style: 'column', from: 'espada', to: 'fannin', action: 'advance', fire: 'none', faceTo: 'bend' },
+      texian: { style: 'column', from: 'espada', to: 'fannin', action: 'advance', fire: 'none', face: 'bend' },
       mexican: { style: 'ranks', at: 'line', action: 'gone', fire: 'none' },
-      groups: [bowie('column', { from: 'espadaTail', to: 'bowie', action: 'advance', faceTo: 'bend' })],
-      gun: false,
+      groups: [bowie('column', { from: 'espadaTail', to: 'bowie', action: 'advance', face: 'bend' })],
       lines: [
         say('c-close', 10, TEX, 'volunteer', 'reconstructed', 'Close up, and keep to the river.'),
         say('c-sanjose', 60, TEX, 'volunteer', 'reconstructed', 'That’s San José over there.'),
@@ -155,7 +158,6 @@ export const CONCEPCION = Object.freeze({
       texian: { style: 'bank', at: 'fannin', action: 'hold', fire: 'none' },
       mexican: { style: 'ranks', at: 'line', action: 'gone', fire: 'none' },
       groups: [bowie('bank', { at: 'bowie', action: 'hold' })],
-      gun: false,
       lines: [
         say('c-guns', 110, TEX, 'volunteer', 'reconstructed', 'Guns from the town.'),
         say('c-arms', 160, TEX, 'volunteer', 'reconstructed', 'Sleep with your rifle tonight.'),
@@ -168,7 +170,6 @@ export const CONCEPCION = Object.freeze({
       texian: { style: 'bank', at: 'fannin', action: 'hold', fire: 'none' },
       mexican: { style: 'ranks', at: 'line', action: 'gone', fire: 'none' },
       groups: [bowie('bank', { at: 'bowie', action: 'hold' })],
-      gun: false,
       lines: [
         say('c-fog', 20, TEX, 'volunteer', 'reconstructed', 'Can’t see across the river for the fog.'),
         say('c-scout', 50, TEX, 'volunteer', 'reconstructed', 'Saddle up for the scout.'),
@@ -182,10 +183,9 @@ export const CONCEPCION = Object.freeze({
       texian: { style: 'bank', at: 'fannin', action: 'hold', fire: 'none' },
       mexican: { style: 'ranks', at: 'line', action: 'gone', fire: 'none' },
       groups: [bowie('bank', { at: 'bowie', action: 'hold' }), cavalry('mounted', { from: 'fogEdge', to: 'ring', action: 'advance', fire: 'picket' })],
-      gun: false,
       lines: [
         say('c-karnes', 1, TEX, 'picket', 'reconstructed', 'Horsemen in the fog! They’ve fired on Karnes!'),
-        say('c-alli', 2, MEX, 'dragoon', 'reconstructed', '¡Allí están! ¡Fuego!', { group: 'cavalry', gloss: 'There they are! Fire!' }),
+        say('c-alli', 2, MEX, 'dragoon', 'reconstructed', '¡Allí están! ¡Fuego!', { unit: 'cavalry', gloss: 'There they are! Fire!' }),
         say('c-tobank', 4, TEX, 'volunteer', 'reconstructed', 'Get your rifles! Down under the bank!'),
       ],
     },
@@ -198,7 +198,6 @@ export const CONCEPCION = Object.freeze({
       texian: { style: 'bank', at: 'fannin', action: 'hold', fire: 'scattered' },
       mexican: { style: 'column', at: 'line', action: 'gone', fire: 'none' },
       groups: [bowie('bank', { at: 'bowie', action: 'hold', fire: 'scattered' }), cavalry('mounted', { at: 'ring', action: 'stand', fire: 'scattered' })],
-      gun: false,
       lines: [
         say('c-under', 5, TEX, 'volunteer', 'reconstructed', 'Keep under the bank!'),
         say('c-steps', 15, TEX, 'volunteer', 'reconstructed', 'Cut steps — here, with your knife.'),
@@ -232,16 +231,16 @@ export const CONCEPCION = Object.freeze({
       mexican: { style: 'ranks', keys: [[0, 'line'], [3, 'charge'], [5, 'line'], [8, 'charge'], [10, 'line'], [13, 'charge'], [16, 'line']], action: 'advance', fire: 'volley' },
       groups: [
         bowie('bank', { at: 'bowie', action: 'hold', fire: 'scattered' }, { count: 31, drawn: 15 }),
-        { key: 'coleman', side: TEX, name: 'Coleman’s men', count: 10, drawn: 5, style: 'loose', spread: { width: 0.09, depth: 0.05 }, keys: [[0, 'bowie'], [4, 'bowie'], [10, 'open'], [16, 'fanninRear']], action: 'advance', fire: 'scattered' },
+        { id: 'coleman', side: TEX, name: 'Coleman’s men', count: 10, drawn: 5, style: 'loose', spread: { width: 0.09, depth: 0.05 }, keys: [[0, 'bowie'], [4, 'bowie'], [10, 'open'], [16, 'fanninRear']], action: 'advance', fire: 'scattered' },
         cavalry('mounted', { at: 'flank', action: 'stand', fire: 'picket' }),
       ],
-      cannon: [2, 5, 8, 11, 14],
+      guns: { brass: [2, 5, 8, 11, 14] },
       falls: [
         { side: MEX, count: 3, at: 3, claimId: 'HIST-TEX-480' }, { side: MEX, count: 3, at: 6, claimId: 'HIST-TEX-480' },
         { side: MEX, count: 3, at: 9, claimId: 'HIST-TEX-480' }, { side: MEX, count: 3, at: 12, claimId: 'HIST-TEX-480' },
         { side: MEX, count: 3, at: 15, claimId: 'HIST-TEX-480' },
         // Richard Andrews, crossing the open with Coleman's men (`HIST-TEX-481`); never named on the field.
-        { side: TEX, group: 'coleman', count: 1, at: 11, claimId: 'HIST-TEX-481', carried: true },
+        { side: TEX, unit: 'coleman', count: 1, at: 11, claimId: 'HIST-TEX-481', carried: true },
       ],
       // stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 5 - the bugle calls are captioned over the
       // infantry's officer until a bugler figure exists.
@@ -266,9 +265,8 @@ export const CONCEPCION = Object.freeze({
       caption: 'The bugle sounds the retreat. The Texians climb the bank, take the cannon and turn it on the retreating soldiers. The Mexican infantry wades back across the river toward Béxar; the cavalry rides off.',
       texian: { style: 'loose', keys: [[0, 'fannin'], [6, 'upTheBank']], action: 'advance', fire: 'scattered', spread: { width: 0.24, depth: 0.12 } },
       mexican: { style: 'rout', keys: [[0, 'line'], [12, 'ford'], [20, 'away']], action: 'withdraw', face: 'away', fire: 'none', spread: { width: 0.36, depth: 0.26 } },
-      groups: [bowie('loose', { keys: [[0, 'bowie'], [8, 'open']], action: 'advance', fire: 'scattered' }), cavalry('mounted', { from: 'flank', to: 'away', action: 'withdraw', face: 'away', fire: 'none' })],
-      gun: { side: TEX, at: 'gunSpot' },
-      cannon: [7, 12],
+      groups: [bowie('loose', { keys: [[0, 'bowie'], [8, 'open']], action: 'advance', fire: 'scattered' }), cavalry('mounted', { from: 'flank', to: 'away', action: 'withdraw', away: true, fire: 'none' })],
+      guns: { 'brass-turned': [7, 12] },
       lines: [
         say('c-bugle-4', 1, MEX, 'bugler', 'documented', '[The bugle sounds the retreat]', { claimId: 'HIST-TEX-480', gloss: '“Retreat is sounded” (the report)' }),
         say('c-take', 3, TEX, 'volunteer', 'reconstructed', 'The gun! Take the gun!'),
@@ -283,8 +281,8 @@ export const CONCEPCION = Object.freeze({
       caption: 'It is quiet. Some of the Texians carry water to the Mexican wounded left on the field. The rest of the army is hurrying up the river road from Espada.',
       texian: { style: 'loose', at: 'upTheBank', action: 'hold', fire: 'none', spread: { width: 0.24, depth: 0.12 } },
       mexican: { style: 'rout', at: 'away', action: 'gone', fire: 'none' },
-      groups: [bowie('loose', { at: 'open', action: 'hold' }), { key: 'army', side: TEX, name: 'The main army', count: 300, drawn: 30, style: 'column', from: 'armyRoad', to: 'mission', action: 'advance', fire: 'none', faceTo: 'bend' }],
-      gun: { side: TEX, at: 'gunSpot' },
+      groups: [bowie('loose', { at: 'open', action: 'hold' }), { id: 'army', side: TEX, name: 'The main army', count: 300, drawn: 30, style: 'column', from: 'armyRoad', to: 'mission', action: 'advance', fire: 'none', face: 'bend' }],
+      guns: { 'brass-turned': [] },
       lines: [
         say('c-water', 8, TEX, 'volunteer', 'reconstructed', 'Give him water.'),
         say('c-carry', 22, TEX, 'volunteer', 'reconstructed', 'Carry him down under the bank, gently.'),
@@ -297,11 +295,11 @@ export const CONCEPCION = Object.freeze({
       caption: 'The main army arrives from Espada, too late for the fight. A priest comes out from Béxar with carts and, after speaking with Austin, takes the Mexican dead and wounded back into the town.',
       texian: { style: 'loose', at: 'upTheBank', action: 'hold', fire: 'none', spread: { width: 0.24, depth: 0.12 } },
       mexican: { style: 'rout', at: 'away', action: 'gone', fire: 'none' },
-      groups: [bowie('loose', { at: 'open', action: 'hold' }), { key: 'army', side: TEX, name: 'The main army', count: 300, drawn: 30, style: 'loose', from: 'mission', to: 'armyCamp', action: 'advance', fire: 'none', faceTo: 'bend', spread: { width: 0.34, depth: 0.16 } }],
-      gun: { side: TEX, at: 'gunSpot' },
+      groups: [bowie('loose', { at: 'open', action: 'hold' }), { id: 'army', side: TEX, name: 'The main army', count: 300, drawn: 30, style: 'loose', from: 'mission', to: 'armyCamp', action: 'advance', fire: 'none', face: 'bend', spread: { width: 0.34, depth: 0.16 } }],
+      guns: { 'brass-turned': [] },
       lines: [
         say('c-army', 6, TEX, 'volunteer', 'reconstructed', 'Here’s the rest of the army.'),
-        say('c-missed', 16, TEX, 'volunteer', 'reconstructed', 'All over? We came as fast as we could.', { group: 'army' }),
+        say('c-missed', 16, TEX, 'volunteer', 'reconstructed', 'All over? We came as fast as we could.', { unit: 'army' }),
       ],
     },
     {
@@ -311,7 +309,7 @@ export const CONCEPCION = Object.freeze({
       caption: 'The army camps at Concepción. Richard Andrews, shot crossing the open ground, lives several hours - long enough to know the fight was won - and is buried under a pecan tree by the river.',
       texian: { style: 'loose', at: 'upTheBank', action: 'hold', fire: 'none', spread: { width: 0.24, depth: 0.12 } },
       mexican: { style: 'rout', at: 'away', action: 'gone', fire: 'none' },
-      gun: { side: TEX, at: 'gunSpot' },
+      guns: { 'brass-turned': [] },
     },
   ],
   ground: concepcionGround,

@@ -17,6 +17,7 @@ import { awardGlory } from './glory.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
 import { modeWith } from './keeping.mjs';
 import { withAForce } from './battle-stage.mjs';
+import { MILL_OFFSET } from './battles/bexar-storming.mjs';
 
 /** Where the volunteers were made into an army, and where they went. */
 export const RENDEZVOUS = 'gonzales';
@@ -252,7 +253,8 @@ function standInTheRanks(world) {
     if (!person || (person.travel && person.travel.purpose !== 'march')) return;
     // Nor anybody out with a detachment in a fight (sim/battle-stage.mjs `withAForce`): the director that owns the fight
     // stands them in it, and puts them back in the ranks (`rejoinRanks`) when it is over.
-    if (withAForce(world, id)) return;
+    // (Béxar's: a man a fight has placed in the town, sim/bexar-fight.mjs, is in the town and not at the mill.)
+    if (withAForce(world, id) || Object.values(world.battles || {}).some(battle => battle.participants?.[id]?.placed)) return;
     if (person.travel) person.travel.progress = army.progress;
     const row = Math.floor(slot / 4), column = (slot % 4) - 1.5;
     person.location = {
@@ -699,13 +701,18 @@ export function concepcionPresent(world, id, causeId = null) {
 
 /**
  * The siege camps, in miles east and south of Béxar's plaza. The mill is "about one-half mile north of the main plaza"
- * (TSHA) to "1½ miles above" (Austin); the sources disagree and no coordinate fixes it, so a mile north is this game's
- * estimate (`FIC-GONZ-040`). The camp above the town, October 31 to November 8, was the same ground.
+ * (TSHA) to "1½ miles above" (Austin); the sources disagree and no coordinate fixes it. A mile north was this game's
+ * estimate (`FIC-GONZ-040`) until the storming was staged (2026-09-25): for December the record is narrower - "within
+ * one-half a mile" (Field), "six hundred yards above the town" (W. T. Austin) - and the mill is now about 0.45 of a mile
+ * north (`FIC-GONZ-428`, docs/battle-research/staging.md §3.1), the point the storming is drawn from
+ * (sim/battles/bexar-storming.mjs `MILL_OFFSET`). The camp above the town, October 31 to November 8, keeps its mile.
+ * ceiling: a class saved at the mill before 2026-09-25 keeps the camp where its road ended, a mile out; its men walk the
+ * extra half mile into the town on the morning of December 5, still well before contact.
  */
 export const SIEGE_CAMPS = Object.freeze({
   above: { name: 'the camp above Béxar', dx: 0, dy: -1 },
   concepcion: { name: MISSIONS.concepcion.name, dx: MISSIONS.concepcion.dx, dy: MISSIONS.concepcion.dy },
-  mill: { name: 'the old mill above Béxar', dx: 0, dy: -1 },
+  mill: { name: 'the old mill above Béxar', dx: MILL_OFFSET.dx, dy: MILL_OFFSET.dy },
 });
 
 /** The army moves to a siege camp: a short road of its own from where it stands, kept like the campaign road. */
@@ -868,7 +875,8 @@ function leaveArmy(world, person, { beginTravel, text, keepPromise = false }) {
   const causeId = text ? record(world, 'army', { actorId: person.id, householdId: person.householdId, importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-040', text }) : null;
   // On the horse they came with, as a volunteer sent for does (`callHome`); on foot if that way home is shut.
   const home = world.households[person.householdId].homeSiteId, mode = modeWith(world, person);
-  if (beginTravel) { try { beginTravel(world, person, home, causeId, 'home', mode); } catch (error) { if (mode === 'foot') throw error; beginTravel(world, person, home, causeId, 'home'); } }
+  // Somebody already on a road of their own (a man let go from the town who set out himself) keeps it.
+  if (beginTravel && !person.travel) { try { beginTravel(world, person, home, causeId, 'home', mode); } catch (error) { if (mode === 'foot') throw error; beginTravel(world, person, home, causeId, 'home'); } }
 }
 
 /**
@@ -1077,49 +1085,82 @@ export function fightStorming(world, causeId) {
   const army = world.army;
   if (!army) return { fought: [], present: [], killed: [], wounded: [] };
   closeQuestion(world, 'reinforce');
-  const fought = army.members.filter(id => stormedIn(world, id));
-  const present = army.members.filter(id => !stormedIn(world, id));
-  world.participation ??= {};
-  const taking = world.participation['bexar-storming'] ??= {};
-  const bexar = world.map.sites[OBJECTIVE];
-  const killed = [], wounded = [], outcomes = [], later = [];
-  for (const { id, person, fate } of rollFates(world, fought, { event: 'storming', death: STORMING_DEATH_RISK, wound: STORMING_WOUND_RISK })) {
-    const dies = fate === 'killed', hurt = fate === 'wounded';
-    taking[id] = { householdId: person.householdId, role: 'fought', minute: world.minute };
-    const woman = person.sex === 'female';
-    awardGlory(world, { event: 'bexar-storming', claimId: 'HIST-TEX-038', personId: id, householdId: person.householdId, role: 'fought', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [], ...(woman && dies && { adjust: points => -2 * points, note: 'In 1835, sending a woman to fight was held against a family. (This is the game’s own reading of the period, not a documented judgement.)' }) });
-    if (dies) {
-      killed.push(id);
-      layDead(world, person, { x: bexar.x, y: bexar.y });
-      outcomes.push({ id, fate: 'killed' });
-    } else if (hurt) {
-      const g = unit(`${world.seed}:${id}:grade`);
-      const grade = g < WOUND_GRADES.slight.share ? 'slight' : g < WOUND_GRADES.slight.share + WOUND_GRADES.severe.share ? 'severe' : 'dangerous';
-      const spec = WOUND_GRADES[grade];
-      wounded.push(id);
-      person.health = { condition: spec.condition, grade, recoversAt: world.minute + spec.minutes };
-      if (spec.mark && unit(`${world.seed}:${id}:mark`) < spec.mark) person.marks = [...(person.marks || []), MARKS[Math.floor(unit(`${world.seed}:${id}:which-mark`) * MARKS.length)]];
-      if (spec.laterDeath && unit(`${world.seed}:${id}:later`) < spec.laterDeath) later.push(id);
-      // A wound worse than slight keeps somebody in Béxar under the surgeon (`HIST-TEX-042`): out of the ranks and lying in the town.
-      if (grade !== 'slight') {
-        army.members = army.members.filter(member => member !== id);
-        person.travel = null; person.task = 'rest';
-        person.location = { x: bexar.x, y: bexar.y, siteId: OBJECTIVE };
-        const promise = person.commitments?.find(p => p.id === 'volunteer' && p.status === 'active');
-        if (promise) promise.status = 'ended';
-      }
-      outcomes.push({ id, fate: 'wounded', grade });
-    } else outcomes.push({ id, fate: 'unhurt' });
-  }
-  for (const id of present) {
+  // Those whose fate was already staged inside the fighting (sim/bexar-fight.mjs) are resolved; the rest now.
+  const storming = stormingRecord(world);
+  const resolved = new Set(storming.outcomes.map(outcome => outcome.id));
+  for (const id of army.members.filter(member => stormedIn(world, member) && !resolved.has(member))) resolveStormer(world, id, causeId);
+  const taking = world.participation['bexar-storming'];
+  for (const id of army.members.filter(member => !stormedIn(world, member))) {
     const person = world.entities[id];
     if (!person?.householdId || taking[id]) continue;
     taking[id] = { householdId: person.householdId, role: 'present', minute: world.minute };
     awardGlory(world, { event: 'bexar-storming', claimId: 'HIST-TEX-037', personId: id, householdId: person.householdId, role: 'present', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [] });
-    outcomes.push({ id, fate: 'present' });
+    storming.outcomes.push({ id, fate: 'present' });
   }
-  army.storming = { outcomes, later, killed: [...killed], told: false, minute: world.minute };
-  return { fought, present, killed, wounded };
+  storming.minute = world.minute;
+  const of = fate => storming.outcomes.filter(outcome => outcome.fate === fate).map(outcome => outcome.id);
+  return { fought: storming.outcomes.filter(outcome => outcome.fate !== 'present').map(outcome => outcome.id), present: of('present'), killed: of('killed'), wounded: of('wounded') };
+}
+/** The storming's record, made once: who came through how, whose wound kills later, and whether the family has been told. */
+function stormingRecord(world) {
+  world.participation ??= {};
+  world.participation['bexar-storming'] ??= {};
+  return world.army.storming ??= { outcomes: [], later: [], killed: [], told: false, minute: world.minute };
+}
+/**
+ * What the storming does to one person who went in: the roll `fightStorming` has always made - seeded by the class and the
+ * person, the same whenever it is read - and, for a wound, its grade. sim/bexar-fight.mjs reads it when they go in, so their
+ * fate can land at a moment inside the fighting (`HIST-TEX-490`, `FIC-GONZ-427`); the odds never move.
+ */
+export function stormingFate(world, id) {
+  const [{ fate }] = rollFates(world, [id], { event: 'storming', death: STORMING_DEATH_RISK, wound: STORMING_WOUND_RISK });
+  if (fate !== 'wounded') return { fate };
+  const g = unit(`${world.seed}:${id}:grade`);
+  return { fate, grade: g < WOUND_GRADES.slight.share ? 'slight' : g < WOUND_GRADES.slight.share + WOUND_GRADES.severe.share ? 'severe' : 'dangerous' };
+}
+/**
+ * One person who went in, resolved: their part recorded as `fought`, the glory, and their fate - killed and laid where they
+ * fell, wounded by grade (worse than slight keeps them lying in Béxar under the surgeon, `HIST-TEX-042`), or unhurt. `at` is
+ * where they are when it happens; by default Béxar's own point, as it was when everything was resolved at the white flag.
+ * `when` and `where` say which day and at what, for the family's account. Once only.
+ */
+export function resolveStormer(world, id, causeId, { at = null, when = null, where = null } = {}) {
+  const army = world.army, person = world.entities[id];
+  if (!army || !person) return null;
+  const storming = stormingRecord(world);
+  const done = storming.outcomes.find(outcome => outcome.id === id);
+  if (done) return done;
+  const taking = world.participation['bexar-storming'];
+  const bexar = world.map.sites[OBJECTIVE];
+  const spot = at || { x: bexar.x, y: bexar.y };
+  const { fate, grade } = stormingFate(world, id);
+  const dies = fate === 'killed';
+  taking[id] = { householdId: person.householdId, role: 'fought', minute: world.minute };
+  const woman = person.sex === 'female';
+  awardGlory(world, { event: 'bexar-storming', claimId: 'HIST-TEX-038', personId: id, householdId: person.householdId, role: 'fought', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [], ...(woman && dies && { adjust: points => -2 * points, note: 'In 1835, sending a woman to fight was held against a family. (This is the game’s own reading of the period, not a documented judgement.)' }) });
+  const told = { ...(when !== null && { day: when }), ...(where && { where }) };
+  let outcome;
+  if (dies) {
+    layDead(world, person, spot);
+    storming.killed.push(id);
+    outcome = { id, fate: 'killed', ...told };
+  } else if (fate === 'wounded') {
+    const spec = WOUND_GRADES[grade];
+    person.health = { condition: spec.condition, grade, recoversAt: world.minute + spec.minutes };
+    if (spec.mark && unit(`${world.seed}:${id}:mark`) < spec.mark) person.marks = [...(person.marks || []), MARKS[Math.floor(unit(`${world.seed}:${id}:which-mark`) * MARKS.length)]];
+    if (spec.laterDeath && unit(`${world.seed}:${id}:later`) < spec.laterDeath) storming.later.push(id);
+    // A wound worse than slight keeps somebody in Béxar under the surgeon (`HIST-TEX-042`): out of the ranks and lying in the town.
+    if (grade !== 'slight') {
+      army.members = army.members.filter(member => member !== id);
+      person.travel = null; person.task = 'rest';
+      person.location = { x: spot.x, y: spot.y, siteId: OBJECTIVE };
+      const promise = person.commitments?.find(p => p.id === 'volunteer' && p.status === 'active');
+      if (promise) promise.status = 'ended';
+    }
+    outcome = { id, fate: 'wounded', grade, ...told };
+  } else outcome = { id, fate: 'unhurt' };
+  storming.outcomes.push(outcome);
+  return outcome;
 }
 
 /** A person killed: out of the ranks, laid where they fell, their promise ended. */
@@ -1155,7 +1196,7 @@ export function dieOfWounds(world) {
     layDead(world, person, person.location);
     storming.killed.push(id);
     const outcome = storming.outcomes.find(o => o.id === id);
-    if (outcome) { outcome.fate = 'died-of-wounds'; outcome.day = world.minute; }
+    if (outcome) outcome.fate = 'died-of-wounds';
     died.push(id);
   }
   storming.later = [];
@@ -1179,15 +1220,18 @@ export function tellStorming(world, causeId) {
   if (!storming || storming.told) return;
   storming.told = true;
   const marksOf = person => person.marks?.length ? ` They have ${person.marks.join(' and ')}.` : '';
+  // The day and the place it happened, where the storming staged it (sim/bexar-fight.mjs): "on December 7, in a yard".
+  // A class saved before this kept a minute in `day` for a later death, which says nothing to a family: only words are told.
+  const when = outcome => [typeof outcome.day === 'string' ? ` on ${outcome.day}` : '', outcome.where ? `, ${outcome.where}` : ''].join('');
   for (const outcome of storming.outcomes) {
     const person = world.entities[outcome.id];
     if (!person?.householdId) continue;
     const text = {
-      killed: () => `${person.name} was killed in the storming of Béxar, and was buried there.`,
-      'died-of-wounds': () => `${person.name} was badly wounded in the storming of Béxar, and died of the wound there some days after.`,
+      killed: () => `${person.name} was killed in the storming of Béxar${when(outcome)}, and was buried there.`,
+      'died-of-wounds': () => `${person.name} was badly wounded in the storming of Béxar${when(outcome)}, and died of the wound there some days after.`,
       wounded: () => outcome.grade === 'slight'
-        ? `${person.name} was slightly hurt in the storming of Béxar, and was soon on their feet.`
-        : `${person.name} was ${outcome.grade === 'dangerous' ? 'dangerously' : 'severely'} wounded in the storming of Béxar, and is lying in the town under the surgeon's care.${marksOf(person)}`,
+        ? `${person.name} was slightly hurt in the storming of Béxar${when(outcome)}, and was soon on their feet.`
+        : `${person.name} was ${outcome.grade === 'dangerous' ? 'dangerously' : 'severely'} wounded in the storming of Béxar${when(outcome)}, and is lying in the town under the surgeon's care.${marksOf(person)}`,
       unhurt: () => `${person.name} went into San Antonio and fought through the four days of the storming of Béxar, and came through unhurt.`,
       present: () => `${person.name} held the camp at the old mill while the others fought in the town.`,
     }[outcome.fate]();

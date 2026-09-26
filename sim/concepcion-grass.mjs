@@ -17,7 +17,7 @@
 import { record } from './events.mjs';
 import { spotlight } from './host.mjs';
 import { calendarMinutes } from './clock.mjs';
-import { armBattle, battleState, looseSlot, placeFrom, projectBattle } from './battle-stage.mjs';
+import { armBattle, battleState, fatesDue, looseSlot, placeFrom, projectBattle, stageFate } from './battle-stage.mjs';
 import { CONCEPCION } from './battles/concepcion.mjs';
 import { GRASS_FIGHT } from './battles/grass-fight.mjs';
 import {
@@ -43,22 +43,27 @@ const foughtBeforeTheEngine = (world, id, milestone) => !world.battles?.[id] && 
 function standInTheForce(world, id, battle, { groupOf, carryTo = null, horses = null, riding = () => false }) {
   const view = projectBattle(world, id, {});
   if (!view) return;
-  const sideOf = key => view.sides.find(side => (side.group || side.side) === key);
+  const bodies = [...view.sides.map(side => ({ ...side, key: side.side })), ...(view.groups || []).map(group => ({ ...group, key: group.id }))];
+  const sideOf = key => bodies.find(body => body.key === key);
   const byGroup = {};
   const reach = Math.max(0.05, calendarMinutes(world) / 20);
   const ids = Object.keys(battle.participants).sort();
   for (const personId of ids) {
     const entry = battle.participants[personId], person = world.entities[personId];
     if (!person || entry.released) continue;
-    const fate = battle.fates[personId];
+    // A fate staged for later is nobody's business yet (sim/battle-stage.mjs `stageFate`): only one that has fallen moves them.
+    const fate = battle.fates?.[personId]?.applied ? battle.fates[personId] : null;
     const key = groupOf(personId, entry, view);
     const side = sideOf(key) || sideOf('texian');
     // Which part of the force they stand in now, so the drawing fires and moves them with it (`memberGroups`).
-    entry.at = side.group || side.side;
+    entry.at = side.key;
     const index = (byGroup[key] = (byGroup[key] ?? -1) + 1);
     let target;
-    if (fate && ['killed', 'wounded'].includes(fate.fate)) {
-      // Down where they were hit until the fight has passed them; then carried, or helped, back under cover.
+    // A man killed lies where he fell (the renderer draws him lying still). ceiling: he is not carried back under the bank as
+    // Andrews was; a carrying pose (docs/ART_REQUESTS.md, "the wounded carried") is the way to draw it.
+    if (fate?.fate === 'killed') continue;
+    if (fate?.fate === 'wounded') {
+      // Down where he was hit until the fight has passed him; then helped back under cover (the renderer draws the helpers).
       if (!carryTo || !carryTo(view)) continue;
       target = placeFrom(carryTo(view), { x: 1, y: 0 }, looseSlot(personId, index, { width: 0.06, depth: 0.02 }));
       fate.carried = true;
@@ -160,19 +165,27 @@ export function advanceConcepcion(world, movement, { momentOf, sendWord }) {
       if (answer !== 'go' || !person || !army.members.includes(personId) || GONE.includes(person.health?.condition)) continue;
       if (person.travel && person.travel.purpose !== 'march') continue;
       joinTheForce(world, battle, person, concepcionGroup(world, personId));
+      // The fate, decided now from the roll the fight has always made and staged at its moment (docs/BATTLES.md §2.6).
+      const fate = concepcionFate(world, personId);
+      if (fate !== 'unhurt') stageFate(world, 'concepcion', personId, { fate, minute: concepcionMoment(world, state, personId, fate) });
       record(world, 'army', { actorId: personId, householdId: person.householdId, importance: 2, classification: 'DOCUMENTED', claimId: 'HIST-TEX-019', text: `${person.name} marched up the river from Espada with Bowie and Fannin's division.` });
     }
   }
 
-  // Each family's person's fate at its moment, and the unhurt counted as having fought once the charges are over.
-  for (const [personId, entry] of Object.entries(battle.participants)) {
-    const person = world.entities[personId];
-    if (!person || battle.fates[personId] || entry.released) continue;
-    const fate = concepcionFate(world, personId);
-    const minute = concepcionMoment(world, state, personId, fate);
-    if (world.minute < minute) continue;
-    resolveConcepcionFighter(world, person, fate, { causeId: battle.alerted[person.householdId]?.eventId || null });
-    battle.fates[personId] = { fate, minute };
+  // Each family's person's staged fate as its moment comes (sim/battle-stage.mjs `fatesDue`), and the unhurt counted as
+  // having fought once the charges are over.
+  for (const due of fatesDue(world, 'concepcion')) {
+    const person = world.entities[due.personId];
+    battle.fates[due.personId].applied = world.minute;
+    if (person && !battle.participants[due.personId]?.released) resolveConcepcionFighter(world, person, due.fate, { causeId: battle.alerted[person.householdId]?.eventId || null });
+  }
+  if (world.minute >= phaseOf(state, 'retreat').from) {
+    for (const [personId, entry] of Object.entries(battle.participants)) {
+      const person = world.entities[personId];
+      if (!person || battle.fates?.[personId] || entry.resolved || entry.released) continue;
+      entry.resolved = world.minute;
+      resolveConcepcionFighter(world, person, 'unhurt', { causeId: battle.alerted[person.householdId]?.eventId || null });
+    }
   }
 
   // The families' people in the force: on their arm of the bend; Bowie's men who cross with Coleman's in the charges.
@@ -181,8 +194,8 @@ export function advanceConcepcion(world, movement, { momentOf, sendWord }) {
       if (entry.group !== 'bowie') return 'texian';
       // In the charges the men Bowie moves across the open to Fannin's side: every one whose roll has him hit, and some who
       // come through, decided by who he is (`HIST-TEX-481`, `FIC-GONZ-422`).
-      const crosses = view.sides.some(side => side.group === 'coleman') && (concepcionFate(world, personId) !== 'unhurt' || hashOf(`${world.seed}:${personId}:cross`) < 0.5);
-      return crosses ? 'coleman' : view.sides.some(side => side.group === 'bowie') ? 'bowie' : 'texian';
+      const crosses = (view.groups || []).some(group => group.id === 'coleman') && (concepcionFate(world, personId) !== 'unhurt' || hashOf(`${world.seed}:${personId}:cross`) < 0.5);
+      return crosses ? 'coleman' : (view.groups || []).some(group => group.id === 'bowie') ? 'bowie' : 'texian';
     },
     // Carried under the bank once the gun is taken.
     carryTo: view => ['retreat', 'aftermath', 'main-army', 'burial'].includes(view.phase) ? ground.fannin : null,
@@ -232,7 +245,7 @@ export function advanceConcepcion(world, movement, { momentOf, sendWord }) {
     for (const [personId, entry] of Object.entries(battle.participants)) {
       if (entry.released) continue;
       const person = world.entities[personId];
-      const fate = battle.fates[personId]?.fate || 'unhurt';
+      const fate = battle.fates?.[personId]?.applied ? battle.fates[personId].fate : 'unhurt';
       if (person) tellConcepcionFighter(world, person, fate, battle.wordId || null);
       release(world, battle, personId);
       if (person && !told.has(entry.householdId)) { told.add(entry.householdId); tellAccount(world, battle, person, concepcionAccount(world, person, entry, fate), `What ${person.name} saw at Concepción`, 'HIST-TEX-481'); }
@@ -308,19 +321,19 @@ export function advanceGrassFight(world, movement, { momentOf }) {
       if (person.travel && person.travel.purpose !== 'march') continue;
       const party = grassParty(world, person);
       joinTheForce(world, battle, person, party);
+      const fate = grassFate(world, person);
+      if (fate !== 'unhurt') stageFate(world, 'grass-fight', personId, { fate, minute: grassMoment(state, battle.participants[personId], fate) });
       record(world, 'army', { actorId: personId, householdId: person.householdId, importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-421', text: party === 'texian' ? `${person.name} ran for a horse and rode out with Bowie's horsemen after the pack train.` : `${person.name} fell in with Jack's men on foot and went out after the pack train.` });
     }
   }
-  // Each fate at its moment. A man who runs is off the field and on the road home at once.
-  for (const [personId, entry] of Object.entries(battle.participants)) {
-    const person = world.entities[personId];
-    if (!person || battle.fates[personId] || entry.released) continue;
-    const fate = grassFate(world, person);
-    const minute = grassMoment(state, entry, fate);
-    if (world.minute < minute) continue;
-    battle.fates[personId] = { fate, minute };
-    resolveGrassFighter(world, person, fate, { beginTravel, outcomes: battle.outcomes });
-    if (fate === 'ran') entry.released = world.minute;
+  // Each staged fate as its moment comes (sim/battle-stage.mjs `fatesDue`). A man who runs is off the field and on the road
+  // home at once.
+  for (const due of fatesDue(world, 'grass-fight')) {
+    const person = world.entities[due.personId], entry = battle.participants[due.personId];
+    battle.fates[due.personId].applied = world.minute;
+    if (!person || !entry || entry.released) continue;
+    resolveGrassFighter(world, person, due.fate, { beginTravel, outcomes: battle.outcomes });
+    if (due.fate === 'ran') entry.released = world.minute;
   }
   standInTheForce(world, 'grass-fight', battle, {
     groupOf: (personId, entry) => entry.group,
@@ -349,7 +362,7 @@ export function advanceGrassFight(world, movement, { momentOf }) {
   if (state.over && !battle.done.settled) {
     battle.done.settled = world.minute;
     for (const [personId, entry] of Object.entries(battle.participants)) {
-      if (!battle.fates[personId]) { const person = world.entities[personId]; if (person) { battle.fates[personId] = { fate: 'unhurt', minute: world.minute }; resolveGrassFighter(world, person, 'unhurt', { beginTravel, outcomes: battle.outcomes }); } }
+      if (!battle.fates?.[personId]?.applied && !entry.resolved) { const person = world.entities[personId]; if (person) { entry.resolved = world.minute; resolveGrassFighter(world, person, 'unhurt', { beginTravel, outcomes: battle.outcomes }); } }
       if (!entry.released) release(world, battle, personId);
     }
     for (const personId of [...army.members]) if (!battle.participants[personId]) grassPresent(world, personId, { outcomes: battle.outcomes });
@@ -374,7 +387,7 @@ export function grassAccounts(world, causeId) {
     // A family's own person out with the men is told before one who stayed in the camp.
     const out = Object.entries(battle.participants).find(([personId, entry]) => entry.householdId === person.householdId && world.entities[personId]);
     const who = out ? world.entities[out[0]] : person;
-    const whoFate = out ? battle.fates[out[0]]?.fate || 'unhurt' : fate;
+    const whoFate = out ? (battle.fates?.[out[0]]?.applied ? battle.fates[out[0]].fate : 'unhurt') : fate;
     told.add(person.householdId);
     tellAccount(world, battle, who, grassAccount(world, who, out?.[1] || null, whoFate), `Word of the fight west of Béxar`, 'HIST-TEX-031');
   }
@@ -404,12 +417,13 @@ export function grassAccount(world, person, entry, fate) {
 function inTheForce(world, battle) {
   return Object.keys(battle.participants).filter(personId => {
     const entry = battle.participants[personId];
-    return world.entities[personId] && (!entry.released || (battle.fates[personId] && ['ran'].includes(battle.fates[personId].fate) && world.entities[personId].travel));
+    return world.entities[personId] && (!entry.released || (battle.fates?.[personId]?.fate === 'ran' && world.entities[personId].travel));
   }).sort();
 }
-const fatesOf = battle => Object.entries(battle.fates || {}).map(([id, fate]) => ({ id, fate: fate.fate, minute: fate.minute, carried: fate.carried }))
-  .filter(fate => fate.fate !== 'unhurt');
-const groupsOf = battle => Object.fromEntries(Object.entries(battle.participants).map(([id, entry]) => [id, entry.at || entry.group]).filter(([, key]) => key && key !== 'texian'));
+/** The staged fates, as `projectBattle` takes them: it sends each only once its minute has come. */
+const fatesOf = battle => battle.fates || {};
+/** Which unit each of the families' people stands in now (`memberUnits`): Bowie's companies, Coleman's men, Jack's. */
+const unitsOf = battle => Object.fromEntries(Object.entries(battle.participants).map(([id, entry]) => [id, entry.at || entry.group]).filter(([, key]) => key && key !== 'texian'));
 /** From when a family with somebody in the army but not in the force hears the fight and is sent it (docs/BATTLES.md §2.1). */
 const HEARD_FROM = { concepcion: 'fog-lifts', 'grass-fight': 'bowie' };
 /** The phases the Host's camera is sent to the field for. */
@@ -437,7 +451,7 @@ export function campaignBattleProjection(world, householdId, role) {
     const forced = inTheForce(world, battle);
     const heard = state?.live && world.minute >= phaseOf(state, HEARD_FROM[id]).from;
     if (state?.live && !out.battle) {
-      const options = { fates: fatesOf(battle), memberGroups: groupsOf(battle) };
+      const options = { fates: fatesOf(battle), units: unitsOf(battle) };
       if (role === 'host') {
         out.battle = { ...projectBattle(world, id, { members: forced, ...options }), reconstruction: false };
         out.host = { focus: FIELD[id].includes(state.phase.id) ? 'battle' : 'regional', caption: `${ENGAGEMENT_NAMES[id]}, live. Families with somebody there see it too; the rest have not heard yet.`, ...battleField(world, id) };
