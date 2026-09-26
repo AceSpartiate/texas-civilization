@@ -157,7 +157,7 @@
       ]
     },
     {
-      "name": "the night is drawn as day",
+      "name": "dusk drawn as day",
       "file": "public/battle-view.js",
       "test": "tests/battle-coleto-view.test.mjs",
       "expect": "the guns at the corners and the battery fire, each shot once, served by men of their own side; the night darkens the field under the flashes",
