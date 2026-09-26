@@ -162,9 +162,9 @@
       "name": "the houses never fire back",
       "file": "public/battle-view.js",
       "expect": "the Texians never fired back from the houses",
-      "caught": false,
-      "failure": null,
-      "checksPassedFirst": 15
+      "caught": true,
+      "failure": "the Texians never fired back from the houses",
+      "checksPassedFirst": 5
     },
     {
       "name": "San Patricio drawn by day",
