@@ -1,6 +1,6 @@
 # Claude handoff — Astra foundation
 
-## The launcher downloads only what changed — 2026-09-26 (not released)
+## The launcher downloads only what changed — 2026-09-26 (released in v2026.09.26.2)
 
 Owner: *"we should dedicate a sub agent to updating the launcher. currently the entirr game is downloaded again for every
 update. why not just download what's new?"* Design, hosting choice and the release procedure:
@@ -1283,6 +1283,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   lesson 33 checks, panels 10 checks at 2 sizes, farm, travel-drawn and relay pass. Four other proofs failed here, and
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
+
+## Released as v2026.09.26.2 — 2026-09-26
+
+**[v2026.09.26.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.26.2)**, from `b027ce3`: differential updates in the launcher (`launcher/DeltaUpdate.cs`; a per-release file list `TexasRevolution-manifest.json` and sets of changes from earlier releases, whole setup kept as the fallback). This release carries the list but no set of changes (no earlier release had a list), so everyone takes the whole download once; the next release is the first that can arrive as changes. Also on main at this commit: San Jacinto on the battle engine. Verify tree: 1274 tests; launcher tests 20/20. Publishing now includes every file in `changes-<stamp>` (docs/DEPLOYMENT.md).
 
 ## Released as v2026.09.26.1 — 2026-09-26
 
