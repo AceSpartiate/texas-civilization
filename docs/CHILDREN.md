@@ -169,8 +169,18 @@ once and never hold each other up. No popups: it happens in the world, in bubble
 won't obey an order to leave the baby and travel without the baby." The least annoying reading is chosen: **the order is obeyed, and
 she takes the baby with her on her hip**, said in the record - never a refusal, never a popup. With another woman of age at home she
 leaves it with her ("Mary left Ana with Sarah."). The rule is carried on to the last grown person at home of all, so a lone father
-sent to town does not leave a baby in the yard. A carried baby goes by her road at her pace, drawn at her side, and is set down to
-nap when she is home. `ceiling:` she goes no slower for it (§9).
+sent to town does not leave a baby in the yard. A carried baby goes by her road, drawn at her side, and is set down to nap when she
+is home.
+
+**On foot she goes a quarter slower** (owner, 2026-09-27, decision 1 of §9 by multiple choice: "(B) goes a quarter slower on foot";
+`FIC-GONZ-630`). Whoever walks with a baby on the hip goes at `HIP_PACE`, three quarters of a walker's pace, to town and home again
+(`hipPace`, from `beginTravel`), and the row says why: *"On foot with Ana on her hip: walking a quarter slower for it."* The owner's
+clarification, verbatim: *"if a mother and a child are riding on something, they would go the logical speed of that method of
+transportation. horse, wagon, wouldn't be slowed down by a baby."* So on the horse, with the wagon, the cart or the carreta the pace
+is that way of going's own, and the row says *"Ana rides with her, on the horse: no slower for it."* Somebody already slower - leading
+an ox home - is slowed no further. As the carrying itself is (above), it is carried on to a lone father. `ceiling:` the family walking
+together on the road east (sim/company.mjs) keeps its pace with a baby in its mother's arms: beside a wagon she keeps up with the ox
+whatever she carries, and a family with no vehicle already goes at its slowest walker; the way out is `HIP_PACE` in `companyPace`.
 
 **On the road east** the family carries its babies already (sim/company.mjs: in the mother's arms, or the wagon with her): nothing
 stops, and a baby that cries is sung to as they go - a line of the day at most. At the camp at the refuge a baby crawls and cries as
@@ -261,7 +271,7 @@ printed edition (the 2000 transcription was used); Adele Looscan's articles; a R
 
 ## 9. Ceilings, and what the owner may want to decide
 
-- `ceiling:` **a woman carrying a baby goes no slower** on her errand. The owner may want her slower (see below).
+- ~~`ceiling:` a woman carrying a baby goes no slower on her errand.~~ **Decided 2026-09-27: a quarter slower on foot only** (§6).
 - `ceiling:` **a baby whose carrier is killed or taken on an errand** is set down where they were and stays there; nobody in the
   record read has it, and bringing it home wants a journey nobody is making.
 - `ceiling:` **obedience governs children of two to nine only.** Ten to fifteen have the family's own work, and a fourteen-year-old

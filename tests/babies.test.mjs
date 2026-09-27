@@ -9,7 +9,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
-import { COMFORT_CAP_TICKS, COMFORT_TICKS, CRAWL_REACH, NAP_TICKS, whoComes } from '../sim/babies.mjs';
+import { COMFORT_CAP_TICKS, COMFORT_TICKS, CRAWL_REACH, HIP_PACE, NAP_TICKS, whoComes } from '../sim/babies.mjs';
+import { WALK_SPEED } from '../sim/travel.mjs';
 import { IDLE_TICKS } from '../sim/childhood.mjs';
 import { settle, taught } from './support/settled.mjs';
 
@@ -178,6 +179,46 @@ test('the rule: the only woman of age at home takes the baby with her rather tha
   applyAction(again.world, again.household.id, { action: 'travel', entityId: again.mother.id, destination: 'gonzales' });
   assert.equal(again.baby.carriedBy, undefined, 'the mother took the baby with another woman of age at home');
   assert.ok(again.world.events.some(event => new RegExp(`left ${again.baby.name} with ${daughter.name}`).test(event.text)));
+});
+
+test('the rule: with the baby on her hip she walks a quarter slower on foot, there and back, and her row says why; on the horse or with the wagon the baby changes nothing', () => {
+  // On foot (owner, 2026-09-27: "goes a quarter slower on foot").
+  const { world, household, baby, mother, grown } = family('babies-hip');
+  for (const one of grown) one.sex = 'male';
+  household.mainId = mother.id;
+  applyAction(world, household.id, { action: 'travel', entityId: mother.id, destination: 'gonzales', mode: 'foot' });
+  assert.equal(baby.carriedBy, mother.id);
+  assert.equal(mother.travel.speed, WALK_SPEED * HIP_PACE, `she walks at ${mother.travel.speed} a tick with the baby on her hip`);
+  assert.match(row(world, household, mother.id).life, new RegExp(`^On foot with ${baby.given || baby.name} on her hip: walking a quarter slower`), 'her row does not say why she is slower');
+  // Walked there at that pace: the baby comes home on the same hip, and slower home too.
+  for (let t = 0; t < 400 && mother.travel; t++) stepWorld(world);
+  assert.equal(mother.location.siteId, 'gonzales');
+  applyAction(world, household.id, { action: 'travel', entityId: mother.id, destination: household.homeSiteId, mode: 'foot' });
+  assert.equal(mother.travel.speed, WALK_SPEED * HIP_PACE, 'she walks home at her own pace with the baby still on her hip');
+  // Without the baby - another woman of age at home to leave it with - her pace is her own.
+  const alone = family('babies-hip');
+  alone.grown[0].sex = 'female';
+  alone.household.mainId = alone.mother.id;
+  applyAction(alone.world, alone.household.id, { action: 'travel', entityId: alone.mother.id, destination: 'gonzales', mode: 'foot' });
+  assert.equal(alone.baby.carriedBy, undefined);
+  assert.equal(alone.mother.travel.speed, WALK_SPEED, 'a woman with no baby on her hip was slowed');
+  // Riding, and with the wagon: "they would go the logical speed of that method of transportation".
+  // Her pace each way is compared with the same journey made with no baby to take (a daughter of age left at home with it).
+  for (const mode of ['horse', 'wagon']) {
+    const riding = family('babies-hip'), without = family('babies-hip');
+    for (const one of riding.grown) one.sex = 'male';
+    without.grown[0].sex = 'female';
+    for (const { household, mother, world } of [riding, without]) {
+      household.mainId = mother.id;
+      applyAction(world, household.id, { action: 'travel', entityId: mother.id, destination: 'gonzales', mode });
+    }
+    assert.equal(riding.baby.carriedBy, riding.mother.id, `the baby was not taken ${mode}`);
+    assert.equal(without.baby.carriedBy, undefined);
+    assert.equal(riding.mother.travel.mode, mode);
+    assert.equal(riding.mother.travel.speed, without.mother.travel.speed, `with the ${mode} the baby changed her pace: ${riding.mother.travel.speed} against ${without.mother.travel.speed}`);
+    assert.notEqual(riding.mother.travel.hip, true, `the ${mode} journey is marked slowed by the baby`);
+    assert.match(row(riding.world, riding.household, riding.mother.id).life || '', /no slower for it/, `her row with the ${mode} does not say the baby changes nothing`);
+  }
 });
 
 test('the rule: the baby and a child who has come to talk never hold each other up', () => {

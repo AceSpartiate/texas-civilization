@@ -27,6 +27,12 @@
 // says that. The owner's rule is hers; the game carries it on to the last grown person of all, so a lone father sent to town does
 // not leave a baby in the yard either. A carried baby goes where she goes and is set down when she is home.
 //
+// **On foot she goes a quarter slower** (`hipPace`, owner 2026-09-27, by multiple choice: "goes a quarter slower on foot"): a
+// woman walking with a baby on her hip walks at `HIP_PACE` of her pace, and her row says why. The owner's clarification: "if a
+// mother and a child are riding on something, they would go the logical speed of that method of transportation. horse, wagon,
+// wouldn't be slowed down by a baby." So on the horse, with the wagon, the cart or the carreta the pace is that way of going's
+// own and the baby changes nothing (`FIC-GONZ-630`). As the carrying itself is, it is carried on to a lone father.
+//
 // **On the road east** the family carries its babies already (sim/company.mjs `seatPlan`): nothing stops, and a baby that cries
 // is sung to in the wagon or in her arms as they go. At the camp at the refuge a baby crawls and cries as at home. Where the class's
 // calendar runs faster than an hour a tick (sim/clock.mjs), a tick is too long a stretch to stop anybody for: the baby still naps
@@ -42,6 +48,7 @@ import { calendarMinutes } from './clock.mjs';
 import { stirredShare } from './shares.mjs';
 import { awake, endTalk, firstToday } from './childhood.mjs';
 import { CHORES } from './chores.mjs';
+import { MODES } from './travel.mjs';
 
 const GONE = Object.freeze(['dead', 'captured']);
 const DAY = 1440;
@@ -123,6 +130,31 @@ export function takeBabyAlong(world, entity) {
     ride(baby, entity);
   }
   tell(world, household, entity, `${entity.name} took ${names} with ${womanOfAge(entity) ? 'her' : 'them'} on ${womanOfAge(entity) ? 'her' : 'their'} hip: there is nobody ${womanOfAge(entity) ? 'else of age' : 'grown'} at home to leave ${babies.length > 1 ? 'them' : pronoun(babies[0])} with.`, 'FIC-GONZ-484', 2, false);
+}
+
+/**
+ * What a baby on the hip leaves of a walker's pace (owner, 2026-09-27: "goes a quarter slower on foot"; `FIC-GONZ-630`). Only on
+ * foot: riding or in a wagon, cart or carreta the pace is the way of going's own (the owner: "horse, wagon, wouldn't be slowed
+ * down by a baby").
+ */
+export const HIP_PACE = 0.75;
+/** The babies somebody is carrying on a journey of their own (`takeBabyAlong`). */
+export const babiesCarriedBy = (world, entity) => (world.households[entity?.householdId]?.members || []).map(id => world.entities[id]).filter(baby => baby?.carriedBy === entity.id);
+/**
+ * Called when a journey begins (sim/world.mjs `beginTravel`), after `takeBabyAlong` and before any beast is put on the road with
+ * them: whoever walks with a baby on the hip goes at `HIP_PACE` of a walker's pace - there and back, since a baby taken to town
+ * comes home on the same hip - and the journey is marked `hip`, which their row reads. On the horse or with the wagon nothing
+ * changes. Somebody already slower than that - leading an ox home - is slowed no further: the ox is the pace.
+ */
+// ceiling: only a journey of her own. The family walking together on the road east (sim/company.mjs `companyPace`) keeps its pace
+// with a baby in its mother's arms: beside a wagon she keeps up with the ox anyway, and a family with no vehicle already goes at its
+// slowest walker. `HIP_PACE` in `companyPace` for a carrier afoot is the way out if the owner wants the Scrape slower for it.
+export function hipPace(world, entity) {
+  const travel = entity?.travel;
+  if (!travel || travel.mode !== 'foot' || !babiesCarriedBy(world, entity).length) return;
+  const slowed = MODES.foot.speed * HIP_PACE;
+  if (travel.speed > slowed) travel.speed = slowed;
+  travel.hip = true;
 }
 
 /** Every tick, after everybody has moved: a carried baby is where its carrier is, and set down when they are home. */
@@ -327,6 +359,15 @@ export function babyLines(world, household) {
 export function babyLine(world, household, entity) {
   const nameOf = id => world.entities[id]?.given || world.entities[id]?.name || 'somebody';
   if (entity.aside?.kind === 'baby') return `Seeing to ${entity.aside.babyIds.map(nameOf).join(' and ')}: holding and singing, then back to ${workOf(entity)}.`;
+  // Carrying a baby on a journey (`takeBabyAlong`): why she walks slower on foot, and that riding she does not (`hipPace`).
+  const carrying = isBaby(entity) || !entity.travel ? [] : babiesCarriedBy(world, entity);
+  if (carrying.length) {
+    const names = carrying.map(baby => nameOf(baby.id)).join(' and ');
+    const their = sexOf(entity) === 'female' ? 'her' : sexOf(entity) === 'male' ? 'his' : 'their';
+    if (entity.travel.hip) return `On foot with ${names} on ${their} hip: walking a quarter slower for it.`;
+    if (entity.travel.mode === 'foot') return `On foot with ${names} on ${their} hip.`;
+    return `${names} ${carrying.length > 1 ? 'ride' : 'rides'} with ${their === 'their' ? 'them' : their === 'her' ? 'her' : 'him'}, ${entity.travel.mode === 'horse' ? 'on the horse' : 'in the wagon'}: no slower for it.`;
+  }
   if (!isBaby(entity) || GONE.includes(entity.health?.condition)) return null;
   // A family nobody plays keeps its babies still (`advanceBabies`), and a line saying one crawls would be untrue.
   if (!household?.played || household.absent) return null;

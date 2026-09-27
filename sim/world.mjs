@@ -37,7 +37,7 @@ import { childAction, childrenInvalid } from './children.mjs';
 // A child's day when nobody is telling them what to do, and the family's babies (owner, 2026-09-26; docs/CHILDREN.md): the idle
 // child who goes to a parent, a child's own automation and obedience, and a baby that crawls, cries and is held.
 import { advanceChildhood, childAutoShown, childLine, childhoodInvalid, isSmallChild, released, setChildAuto, talkLines } from './childhood.mjs';
-import { advanceBabies, babiesInvalid, babyLine, babyLines, carryBabies, isBaby, takeBabyAlong } from './babies.mjs';
+import { advanceBabies, babiesInvalid, babyLine, babyLines, carryBabies, hipPace, isBaby, takeBabyAlong } from './babies.mjs';
 import { asideWhy } from './aside.mjs';
 import { hostLiveProjection } from './host.mjs';
 import { advanceTown, createTownspeople, observedBy, seenAs } from './town.mjs';
@@ -425,10 +425,11 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
   const taking = riding ? [] : mode.needs.map(role => beastFor(world, entity, role));
   if (!riding) { leaveBehind(world, entity, taking); intoTheRoad(entity, BEASTS); }
   entity.location = { ...points[0], siteId: null }; entity.task = 'travel';
-  if (!riding) harness(world, entity, mode, path, departure, taking);
   // Whoever leaves is let go of the family's little ones: a child talking with them, a baby they held; and the last woman of
-  // age at home does not leave a baby behind - she takes it with her (sim/babies.mjs, owner 2026-09-26).
-  if (entity.kind === 'person' && world.households[entity.householdId]) takeBabyAlong(world, entity);
+  // age at home does not leave a baby behind - she takes it with her (sim/babies.mjs, owner 2026-09-26). On foot with a baby
+  // on her hip she goes a quarter slower (owner 2026-09-27, `hipPace`) - before anything she leads is put on the road at her pace.
+  if (entity.kind === 'person' && world.households[entity.householdId]) { takeBabyAlong(world, entity); hipPace(world, entity); }
+  if (!riding) harness(world, entity, mode, path, departure, taking);
 }
 /** How far along a line a point stands, in miles: the nearest place on it, measured from the start. */
 function alongAt(points, point) {
