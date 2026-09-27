@@ -1046,8 +1046,7 @@ export function createBattleView(art) {
       const muzzle = { x: gun.x + fx * reach, y: gun.y + fy * reach - 0.004 * (view.smokeScale ?? 1) };
       flash(muzzle.x, muzzle.y, right, now, 2.4);
       for (let i = 0; i < 4; i++) puff(muzzle.x + fx * i * reach * 0.4, muzzle.y + fy * i * reach * 0.4 + (Math.random() - 0.5) * reach * 0.5, now, { big: true, wind });
-      // Canister (the Alamo's guns at the assault): a spray of balls, seen as a cone of smoke and dust thrown out in front.
-      // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 2 - puffs in a cone until `canister-burst` exists.
+      // A few live puffs keep the shot legible while the authored canister cloud loads.
       if (gun.canister) for (let i = 0; i < 5; i++) { const spread = (i - 2) * 0.12, d = reach * (1 + i * 0.3); puff(muzzle.x + (fx - fy * spread) * d, muzzle.y + (fy + fx * spread) * d, now, { wind }); }
       view.gunShotsBy[gun.id] = (view.gunShotsBy[gun.id] || 0) + 1;
     }
@@ -1060,6 +1059,12 @@ export function createBattleView(art) {
     const firing = since < 900;
     if (firing) art.animated(ctx, `${name}-recoil`, p.x, p.y, size, 0, { timeMs: since }) || art.animated(ctx, `cannon-${metal}-${right ? 'e' : 'w'}-recoil`, p.x, p.y, size, 0, { timeMs: since });
     else art.drawSprite(ctx, name, p.x, p.y, size) || art.drawSprite(ctx, `cannon-${metal}-${right ? 'e' : 'w'}`, p.x, p.y, size) || (ctx.fillStyle = '#3b3a36', ctx.fillRect(p.x - size * 0.4, p.y - size * 0.3, size * 0.8, size * 0.22));
+    if (gun.canister && since >= 0 && since < 820 && !reducedMotion) {
+      const reach = 0.02 * (view.smokeScale ?? 1), fx = gun.facing?.x ?? (right ? 1 : -1), fy = gun.facing?.y ?? 0;
+      const muzzle = camera.toScreen({ x: gun.x + fx * reach, y: gun.y + fy * reach - 0.004 * (view.smokeScale ?? 1) });
+      art.animated(ctx, 'canister-burst', muzzle.x + (right ? 1 : -1) * figurePx * 0.7, muzzle.y, figurePx * 2.2,
+        `canister:${gun.id}:${last}`, { timeMs: since, flip: !right });
+    }
     const who = gun.side === 'mexican' ? 'regular' : 'volunteer', back = right ? -1 : 1;
     const service = twin ? 'twin-crew' : who;
     const crew = [

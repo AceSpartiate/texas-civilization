@@ -558,6 +558,30 @@
       "motion": "sway",
       "direction": "not applicable"
     },
+    "canister-burst": {
+      "frames": [
+        {
+          "sprite": "canister-burst-1",
+          "duration": 110
+        },
+        {
+          "sprite": "canister-burst-2",
+          "duration": 170
+        },
+        {
+          "sprite": "canister-burst-3",
+          "duration": 230
+        },
+        {
+          "sprite": "canister-burst-4",
+          "duration": 310
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "cannon-cartwheels-e-recoil": {
       "frames": [
         {

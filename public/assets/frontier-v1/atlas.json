@@ -1119,6 +1119,64 @@
         ]
       }
     },
+    "canister-burst": {
+      "image": "atlases/canister-burst.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 822977,
+      "sha256": "49ca399652d7d5d639de157da8dd566703ee1ff737802e966a83f57f6714f01c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.756907,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              202,
+              496
+            ],
+            "columns": [
+              [
+                99,
+                439
+              ],
+              [
+                695,
+                1227
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              754,
+              1098
+            ],
+            "columns": [
+              [
+                81,
+                659
+              ],
+              [
+                717,
+                1216
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "cannon-cartwheels": {
       "image": "atlases/cannon-cartwheels.png",
       "width": 1254,
@@ -16782,6 +16840,102 @@
           187
         ],
         "visiblePixels": 41889,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "canister-burst-1": {
+      "sheet": "canister-burst",
+      "x": 99,
+      "y": 255,
+      "w": 340,
+      "h": 196,
+      "anchorX": 0.4,
+      "anchorY": 0.9286,
+      "label": "canister burst 1",
+      "kind": "canister-burst",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          101,
+          257,
+          336,
+          192
+        ],
+        "visiblePixels": 38077,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "canister-burst-2": {
+      "sheet": "canister-burst",
+      "x": 695,
+      "y": 202,
+      "w": 532,
+      "h": 294,
+      "anchorX": 0.4878,
+      "anchorY": 0.9286,
+      "label": "canister burst 2",
+      "kind": "canister-burst",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          697,
+          204,
+          528,
+          290
+        ],
+        "visiblePixels": 88818,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "canister-burst-3": {
+      "sheet": "canister-burst",
+      "x": 81,
+      "y": 754,
+      "w": 578,
+      "h": 344,
+      "anchorX": 0.5692,
+      "anchorY": 0.9273,
+      "label": "canister burst 3",
+      "kind": "canister-burst",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          756,
+          574,
+          340
+        ],
+        "visiblePixels": 115813,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "canister-burst-4": {
+      "sheet": "canister-burst",
+      "x": 717,
+      "y": 831,
+      "w": 499,
+      "h": 263,
+      "anchorX": 0.6764,
+      "anchorY": 0.943,
+      "label": "canister burst 4",
+      "kind": "canister-burst",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          719,
+          833,
+          495,
+          259
+        ],
+        "visiblePixels": 58719,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

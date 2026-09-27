@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1618 usable sprites, 155 PNG atlases, 543 clips** (315 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1622 usable sprites, 156 PNG atlases, 544 clips** (316 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -28,6 +28,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-bugler | 4 | 1262 × 1246 | 691857 |
 | biome-ground-bexar | 16 | 1254 × 1254 | 2215982 |
 | biome-trees-fields | 16 | 1254 × 1254 | 1966285 |
+| canister-burst | 4 | 1254 × 1254 | 822977 |
 | cannon-cartwheels | 4 | 1254 × 1254 | 1420895 |
 | cannon-sixpounder | 4 | 1254 × 1254 | 1284112 |
 | carreta-solid-wheels | 16 | 1254 × 1254 | 1525356 |
@@ -270,6 +271,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | field-irrigated-young | biome-trees-fields | State artwork; no motion required |
 | field-irrigated-mature | biome-trees-fields | State artwork; no motion required |
 | field-fallow | biome-trees-fields | State artwork; no motion required |
+| canister-burst-1 | canister-burst | canister-burst |
+| canister-burst-2 | canister-burst | canister-burst |
+| canister-burst-3 | canister-burst | canister-burst |
+| canister-burst-4 | canister-burst | canister-burst |
 | cannon-cartwheels-e | cannon-cartwheels | cannon-cartwheels-e-recoil |
 | cannon-cartwheels-recoil-e | cannon-cartwheels | cannon-cartwheels-e-recoil |
 | cannon-cartwheels-w | cannon-cartwheels | cannon-cartwheels-w-recoil |
@@ -1829,6 +1834,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | magnolia-large-wind | sway | 1 | 3800 | yes | not applicable |
 | beech-log-wind | sway | 1 | 3800 | yes | not applicable |
 | beech-large-wind | sway | 1 | 3800 | yes | not applicable |
+| canister-burst | Pose cycle | 4 | 820 | one-shot | east; mirror for west |
 | cannon-cartwheels-e-recoil | Pose cycle | 3 | 760 | one-shot | east |
 | cannon-cartwheels-w-recoil | Pose cycle | 3 | 760 | one-shot | west |
 | cannon-sixpounder-e-recoil | Pose cycle | 3 | 760 | one-shot | east |
