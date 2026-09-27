@@ -185,7 +185,8 @@ const INJECTIONS = [
   },
   {
     name: 'the ferry goes back to the round-log raft, and the plank flatboat is drawn by nothing',
-    file: 'public/landscape-art.js', tests: LIBRARY,
+    // tests/ferry-art.test.mjs since 2026-09-26: the library test stopped seeing this once the town scenes named the flatboat too.
+    file: 'public/landscape-art.js', tests: [...LIBRARY, 'tests/ferry-art.test.mjs'],
     from: "  if(!drawSprite(ctx,'ferry-flatboat',bx,by+height*.35,height))drawSprite(ctx,'ferry-raft',bx,by+height*.35,height);",
     to: "  drawSprite(ctx,'ferry-raft',bx,by+height*.35,height);",
   },

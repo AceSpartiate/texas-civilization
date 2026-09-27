@@ -23,7 +23,11 @@ export async function asMain(page, id, { timeout = 15000 } = {}) {
         if (node.hidden || style.display === 'none' || style.visibility === 'hidden') hidden.push(`${node.tagName.toLowerCase()}${node.id ? `#${node.id}` : ''}.${[...node.classList].join('.')}${node.hidden ? '[hidden]' : ''} display:${style.display}`);
       }
       const box = star?.getBoundingClientRect();
+      const shown = selector => Boolean(document.querySelector(selector) && !document.querySelector(selector).hidden);
       return { star: Boolean(star), box: box && { x: Math.round(box.x), y: Math.round(box.y), w: Math.round(box.width), h: Math.round(box.height) }, hidden,
+        folded: document.querySelector('#family-panel')?.dataset.collapsed || null, placing: document.body.dataset.placing || null,
+        open: ['#site-choose', '#survey-choose', '#selection', '#going', '#errand', '#encounter', '#wagon'].filter(shown),
+        land: window.__snapshot?.world.land && { choosingSite: window.__snapshot.world.land.choosingSite || null, surveying: window.__snapshot.world.land.survey || null },
         person: window.__snapshot?.world.entities.find(entity => entity.id === one) && (e => ({ age: e.age, health: e.health, travel: Boolean(e.travel), chore: e.chore?.id || null }))(window.__snapshot.world.entities.find(entity => entity.id === one)) };
     }, id);
     throw new Error(`${id} could not be made the main person: ${JSON.stringify(why)} (${error.message.split('\n')[0]})`);

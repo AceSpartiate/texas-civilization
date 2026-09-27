@@ -20,6 +20,7 @@ import { meetFamily } from './support/meet-family.mjs';
 // docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
 // person, so this proof chooses them first, as a student does.
 import { asMain } from './support/main-person.mjs';
+import { sendTheWay } from './support/going.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -70,6 +71,9 @@ try {
   ok(`a poor shot can be taught: "${mark}"`);
   app.setPace(PACES.brisk);
   await mateo('hunt-timber').click();
+  // The hunt in the timber is a journey, and since 2026-09-24 a journey asks how they go before anybody leaves (public/going.js).
+  // On foot, the walk this proof watches (its poses on the road are the walk cycle's). Unanswered, nobody went (2026-09-26).
+  await sendTheWay(page, { way: 'foot' });
   // And then stop watching him. Choosing somebody in the journal locks the camera to them,
   // which pins the figure at the centre of the screen where it cannot appear to move at
   // all - the same trap the pace measurement fell into. The ordinary family frame is both

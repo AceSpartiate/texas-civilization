@@ -14,6 +14,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { rollFamily, stepWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { armiesNow } from '../sim/armies.mjs';
+import { COLUMN_SIGHT_MILES } from '../sim/advance.mjs';
 import { houstonCamp } from '../sim/houston.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 
@@ -117,8 +118,20 @@ try {
   await page.screenshot({ path: 'docs/evidence/armies-country.png' });
   shots.push('docs/evidence/armies-country.png');
   ok(`with the country in view the armies the family knows of are markers (${wide.map(army => army.id).join(', ')})`);
-  // A Mexican column twenty-five miles off is not on this family's map at all, which is the rule (sim/armies.mjs).
-  assert.deepEqual(wide.filter(army => army.side === 'mexican'), [], 'a column the family could not know of was drawn for them');
+  // A Mexican column is on this family's map only while one of its own people is within COLUMN_SIGHT_MILES of it or of its
+  // foragers (sim/armies.mjs `armiesSeen`, docs/SCRAPE.md §4, 2026-09-26). This asserted that no column was drawn at all,
+  // which held while the only column was twenty-five miles off; since the Mexican advance (sim/advance.mjs) Sesma's column is
+  // on its dated road, and on this seed's day it stands within sight of the family's man at the camp. So the rule is checked
+  // both ways against the server's own world: every column drawn is within sight of somebody of the family, and every
+  // column not within sight is not drawn.
+  const eyes = Object.values(world().entities).filter(one => one.householdId === 'hh-1' && one.location && !['dead', 'captured'].includes(one.health?.condition)).map(one => one.location);
+  const inSight = army => [army, ...(army.foragers || [])].some(one => eyes.some(point => Math.hypot(point.x - one.x, point.y - one.y) <= COLUMN_SIGHT_MILES));
+  const columns = armiesNow(world()).filter(army => army.side === 'mexican');
+  observed.columns = columns.map(army => ({ id: army.id, seen: inSight(army), drawn: wide.some(one => one.id === army.id), nearestMiles: Math.round(Math.min(...eyes.map(point => Math.hypot(point.x - army.x, point.y - army.y))) * 10) / 10 }));
+  // A column within a mile of the edge of sight may have crossed it in the tick between the page's drawing and this reading.
+  for (const column of observed.columns.filter(one => Math.abs(one.nearestMiles - COLUMN_SIGHT_MILES) > 1)) assert.equal(column.drawn, column.seen, `a column was ${column.drawn ? 'drawn though nobody of the family is within sight of it' : 'within sight and not drawn'}: ${JSON.stringify(column)}`);
+  assert.ok(wide.filter(army => army.side === 'mexican').every(army => columns.some(column => column.id === army.id)), 'a column the server does not have was drawn');
+  ok(`a Mexican column is drawn only within ${COLUMN_SIGHT_MILES} miles of the family's own people: ${observed.columns.map(column => `${column.id} ${column.nearestMiles} mi, ${column.drawn ? 'drawn' : 'not drawn'}`).join('; ') || 'none on the map'}`);
 
   // A family far from any army is shown none of them, and its page carries nothing about them.
   const far = Object.values(world().households).find(household => household.id !== 'hh-1'

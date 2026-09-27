@@ -111,7 +111,9 @@ try {
   // server's suggestion is taken, as a student most often does. Unanswered, nothing was sent (found 2026-09-26).
   await sendTheWay(page);
   await page.waitForFunction(before => (window.__snapshot?.world.army?.ours?.length ?? 0) < before,
-    await page.evaluate(() => window.__snapshot.world.army.ours.length));
+    await page.evaluate(() => window.__snapshot.world.army.ours.length)).catch(async error => {
+    throw new Error(`he never left the ranks: ${JSON.stringify(await page.evaluate(() => ({ error: document.querySelector('#error')?.textContent, going: window.__goingPending || null, goingShown: !document.querySelector('#going')?.hidden, card: document.querySelector('#selection-army')?.innerText, status: window.__snapshot.world.status, ours: window.__snapshot.world.army?.ours })))} (${error.message.split('\n')[0]})`);
+  });
   observed.after = await page.locator('#army-where').textContent();
   const strengthAfter = await page.evaluate(() => window.__snapshot.world.army.strength);
   assert.equal(strengthAfter, strengthBefore - 1, 'the army did not lose the man who was sent for');
