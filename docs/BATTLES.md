@@ -994,7 +994,7 @@ the fall (Joe eight hours behind: "on the way, the pair met Joe"); Santa Anna wi
   falls in; a class with a family inside is held at the siege's background pace, so the line in the sand is seen there.
 - Kimbell's death is told, not drawn: the record does not say where in the fort he fell.
 - Stand-ins: every famous person without a sheet, and the poses the sheets lack (`docs/ART_REQUESTS.md`, request 2026-09-26).
-- Not built: Seguín's company at Béxar in December; Ugartechea; Ruiz and the bodies (`HIST-TEX-566` is left free); the noncombatants
+- Not built: Seguín's company at Béxar in December; Ugartechea; Ruiz and the bodies (`HIST-TEX-566` registered 2026-09-27 for the pyres Astra staged; Ruiz himself is not drawn); the noncombatants
   killed in the storming. (The Esparza family: built 2026-09-26, §14.6.)
 
 ### 14.6 The Esparza family (owner, 2026-09-26: "yes, add enrique and his family"; not released)
