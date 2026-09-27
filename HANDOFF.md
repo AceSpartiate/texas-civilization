@@ -36,8 +36,8 @@ Names step down up to ten places where many stand together (was six). Stand-ins:
 small child and settler (`docs/ART_REQUESTS.md`, request 2026-09-26 "the Esparza family").
 
 **Evidence** (same computer only; not physical LAN or district acceptance).
-- `npm test`: **1,380 of 1,380** after merging local `main` (4b151ba: the Alamo gunners', Esparza's, Travis's and Joe's art) and
-  `origin/main` (75eb715). New: `tests/famous-people.test.mjs` 4 (the itinerary against the Alamo's clock, all spared, the burial with the
+- `npm test`: **1,385 of 1,385** after merging local `main` (c31d6e7: the Alamo gunners', Esparza's, Travis's, Joe's and the mounted generals' art) and
+  `origin/main` (9b5a60d: the advance's places). New: `tests/famous-people.test.mjs` 4 (the itinerary against the Alamo's clock, all spared, the burial with the
   tick that lands on it and the engine's refusal, the words as tradition) and the sight test extended;
   `tests/famous-people-view.test.mjs` 1 and the naming test extended; `tests/battle-alamo.test.mjs` names the two new lines.
   **`tests/camp.test.mjs`'s drilling test** also looks at free men away from home now: the extra tick at noon on March 6 moves
@@ -46,7 +46,7 @@ small child and settler (`docs/ART_REQUESTS.md`, request 2026-09-26 "the Esparza
 - `npm run test:famous-people`: **21 checks** at 1366x768 and 1024x768, among them the Esparzas named in the church through the
   assault, never hurt, Ana's words as tradition, the burial drawn as `rust-walk+shroud` on the screen, the family on the Host's
   map after the fall (`docs/evidence/famous-people-browser.json`; `test-results/famous-alamo-burial-*.png`). The assault draws in
-  3.8 ms at its slowest 95th percentile, San Jacinto 21.5 ms, on the final tree (one run failed the 50 ms gate at 72.2 ms
+  3.1 ms at its slowest 95th percentile, San Jacinto 31.1 ms, on the final tree (one run failed the 50 ms gate at 72.2 ms
   on a loaded machine and passed re-run).
 - After merging main 4b151ba (Travis and Joe story art): `tests/battle-alamo-view.test.mjs` accepts `joe-fire-door`, the doorway
   clip main now draws for Joe firing from the house (main's own commit fails that test on its own).
@@ -80,6 +80,7 @@ small child and settler (`docs/ART_REQUESTS.md`, request 2026-09-26 "the Esparza
 
 **Not done.** The boy killed beside Enrique (`HIST-TEX-433`; the existing ceiling: noncombatants killed in the storming are not
 drawn). The family before February 23 on the map. Their own art. Not released, not pushed, not merged to main.
+
 ## The Mexican advance's places: Thompson's, the Old Fort, Stafford's, New Washington and Mrs. Powell's on the map — 2026-09-26 (worktree branch `advance-places` from main 9d702eb, main merged at 75eb715 - docs only; not released)
 
 The owner answered docs/SCRAPE.md §10 by multiple choice on 2026-09-26: (a) leaving - **"Nobody"**, (b) the foragers -

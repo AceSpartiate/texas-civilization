@@ -6,13 +6,13 @@
   "checks": [
     "a class on the colonies map through the join flow; Trinidad of hh-1 in the garrison at Béxar (set in process), hh-2 with nobody there",
     "on 1836-02-23 the card \"The Mexican army has come\" came through Trinidad (arrival), and Watch framed the compound",
-    "the guns on 1836-02-24, 1836-02-27, 1836-03-01, 1836-03-03: Mexican batteries {\"eighteen\":33,\"battery-north-far\":64,\"battery-west\":93,\"north-gun\":20,\"battery-south\":74,\"battery-north-mid\":42,\"battery-north-close\":2}; smoke 82/170/170/170; the runner answered \"stay\" 2 times in the meeting",
+    "the guns on 1836-02-24, 1836-02-27, 1836-03-01, 1836-03-03: Mexican batteries {\"eighteen\":33,\"battery-north-far\":64,\"battery-west\":92,\"north-gun\":20,\"battery-south\":74,\"battery-north-mid\":42,\"battery-north-close\":2}; smoke 44/170/170/170; the runner answered \"stay\" 2 times in the meeting",
     "at the alarm on 1836-03-06 the card came at Trinidad's side: \"At Trinidad Garrison's side, on the guns at the back of the church: “They're coming - they…\", and Watch was pressed",
-    "fire and smoke on screen at all 12 sampled moments of the assault (repulse, north-wall, fallback, rooms; shots 556 -> 622; smoke in view 142-170)",
+    "fire and smoke on screen at all 12 sampled moments of the assault (alarm, repulse, north-wall, fallback, rooms; shots 552 -> 622; smoke in view 142-170)",
     "the columns come in files and the garrison stands along its walls: Duque's column 0.002, the north wall 0.016 (nearest-neighbour spread)",
-    "words drawn over the speakers: a-coming, a-corn, a-marchen, a-shut, r-flag, r-means, r-answer, d24-down, d24-fuego, d24-help, d25-close, h-huts, h-fire, h-atras, h-back, d26-cold, d26-wood, d27-closer, d27-fannin, d28-dirt, d29-north, rl-quien, rl-gonzales, rl-open, m1-help, m2-powder, m3-help, m3-close, line-sand, m4-wall, m5-quiet, v-silencio, al-viva, al-ana, al-travis, al-walls, rp-canister, rp-escalas, rp-again, rp-adelante, nw-arriba, nw-over, nw-back, fb-doors, fb-hold, rm-bayoneta, rm-church, e-enrique, e-negros",
+    "words drawn over the speakers: a-coming, a-corn, a-marchen, a-shut, r-flag, r-means, r-answer, d24-down, d24-fuego, d24-help, d25-close, h-huts, h-fire, h-atras, h-back, d26-cold, d26-wood, d27-closer, d27-fannin, d28-dirt, d29-north, rl-quien, rl-gonzales, rl-open, m1-help, m2-powder, m3-help, m3-close, line-sand, m4-wall, m5-quiet, v-silencio, al-viva, al-ana, al-travis, al-walls, rp-canister, rp-escalas, rp-again, rp-adelante, nw-arriba, nw-over, nw-back, fb-doors, fb-hold, rm-bayoneta, rm-church",
     "Trinidad was drawn at his post and seen to go down in the rooms, the camera on the fight; the family's journal and record of him say nothing (well)",
-    "the battle draws in 5.1 ms at its slowest 95th percentile, of a map frame of 56.9 ms at most",
+    "the battle draws in 2.9 ms at its slowest 95th percentile, of a map frame of 7.8 ms at most",
     "the Host sees it live (end), its camera battle on the compound, its spotlight lit",
     "the family with nobody there was sent nothing of the Alamo - no battle, no card, no name - before and after a reload",
     "afterwards the card \"What you saw from the walls\" says what the student saw and that nobody at home knows; the journal says nothing of it",
@@ -24,16 +24,15 @@
       "phase": "day-24",
       "date": "1836-02-24",
       "gunShots": {
-        "eighteen": 3,
-        "battery-north-far": 7,
-        "battery-west": 6,
-        "north-gun": 1
+        "eighteen": 2,
+        "battery-north-far": 4,
+        "battery-west": 3
       },
       "shotsBy": {
         "mexican": 5,
-        "texian": 4
+        "texian": 3
       },
-      "smoke": 82,
+      "smoke": 44,
       "groups": {
         "north": 9,
         "west": 7,
@@ -60,7 +59,7 @@
       },
       "shotsBy": {
         "mexican": 12,
-        "texian": 17
+        "texian": 16
       },
       "smoke": 170,
       "groups": {
@@ -90,7 +89,7 @@
       },
       "shotsBy": {
         "mexican": 16,
-        "texian": 18
+        "texian": 17
       },
       "smoke": 170,
       "groups": {
@@ -114,7 +113,7 @@
       "gunShots": {
         "eighteen": 33,
         "battery-north-far": 64,
-        "battery-west": 93,
+        "battery-west": 92,
         "north-gun": 20,
         "battery-south": 74,
         "battery-north-mid": 42,
@@ -122,7 +121,7 @@
       },
       "shotsBy": {
         "mexican": 24,
-        "texian": 29
+        "texian": 28
       },
       "smoke": 170,
       "groups": {
@@ -142,8 +141,8 @@
   "assault": [
     {
       "label": "0",
-      "phase": "repulse",
-      "minute": 230376,
+      "phase": "alarm",
+      "minute": 230374,
       "camera": "battle",
       "size": "1366x768",
       "figures": {
@@ -187,286 +186,25 @@
         "south": 0.013914596746888047,
         "palisade": 0.01639502185814113,
         "church": null,
-        "cos": 0.0019119079340522112,
-        "duque": 0.0019659408491271074,
-        "romero": 0.0019119079340507278,
-        "morales": 0.08758563348609207,
+        "cos": 0.001911907934093967,
+        "duque": 0.0019659408491703215,
+        "romero": 0.0019119079340466183,
+        "morales": 0.08758563348607896,
         "reserve": 0.0005802005768091928,
         "lancers-east": 0.02609001178813441,
         "lancers-south": 0.009703731044834548
       },
-      "shotsTotal": 556,
+      "shotsTotal": 552,
       "shotsBy": {
         "mexican": 33,
-        "texian": 41
+        "texian": 37
       },
       "smokeInView": 142,
       "bubbles": [
         "¡Silencio!",
         "¡Viva Santa Anna!",
         "Gregorio, the soldiers have jumped the wall. The fight’s begun.",
-        "Come on boys, the Mexicans are upon us, and we’ll give them Hell.",
-        "To the walls! They’re at the walls!"
-      ],
-      "memberFalls": [],
-      "people": [
-        {
-          "id": "travis",
-          "name": "Travis",
-          "fell": false,
-          "hurt": false,
-          "pose": "fire",
-          "drawnAs": "travis-aim",
-          "x": 671,
-          "y": 358,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "joe",
-          "name": "Joe",
-          "fell": false,
-          "hurt": false,
-          "pose": "fire",
-          "drawnAs": "volunteer-fire-reload",
-          "x": 667,
-          "y": 360,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "crockett",
-          "name": "Crockett",
-          "fell": false,
-          "hurt": false,
-          "pose": "fire",
-          "drawnAs": "crockett-reload",
-          "x": 713,
-          "y": 513,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "bowie",
-          "name": "Bowie",
-          "fell": false,
-          "hurt": false,
-          "pose": "sick",
-          "drawnAs": "bowie-sick-bed",
-          "x": 679,
-          "y": 532,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "susanna-dickinson",
-          "name": "Mrs. Dickinson",
-          "fell": false,
-          "hurt": false,
-          "pose": "sick",
-          "drawnAs": "susanna-dickinson-shelter-with-angelina",
-          "x": 744,
-          "y": 476,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "ana-esparza",
-          "name": "Ana Esparza",
-          "fell": false,
-          "hurt": false,
-          "pose": "seated",
-          "drawnAs": "indigo-rest",
-          "x": 741,
-          "y": 475,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "maria-de-jesus",
-          "name": "María de Jesús",
-          "fell": false,
-          "hurt": false,
-          "pose": "seated",
-          "drawnAs": "girl-rest",
-          "x": 739,
-          "y": 477,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "enrique-esparza",
-          "name": "Enrique",
-          "fell": false,
-          "hurt": false,
-          "pose": "seated",
-          "drawnAs": "boy-rest",
-          "x": 742,
-          "y": 477,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "manuel-esparza",
-          "name": "Manuel",
-          "fell": false,
-          "hurt": false,
-          "pose": "seated",
-          "drawnAs": "smallchild-rest",
-          "x": 740,
-          "y": 474,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "francisco-child",
-          "name": "Francisco",
-          "fell": false,
-          "hurt": false,
-          "pose": "seated",
-          "drawnAs": "smallchild-rest",
-          "x": 742,
-          "y": 474,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "almeron-dickinson",
-          "name": "Dickinson",
-          "fell": false,
-          "hurt": false,
-          "pose": "fire",
-          "drawnAs": "almeron-dickinson-ram",
-          "x": 766,
-          "y": 488,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "bonham",
-          "name": "Bonham",
-          "fell": false,
-          "hurt": false,
-          "pose": "fire",
-          "drawnAs": "bonham-reload",
-          "x": 764,
-          "y": 481,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "esparza",
-          "name": "Esparza",
-          "fell": false,
-          "hurt": false,
-          "pose": "fire",
-          "drawnAs": "esparza-aim",
-          "x": 761,
-          "y": 486,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "santa-anna",
-          "name": "Santa Anna",
-          "fell": false,
-          "hurt": false,
-          "pose": "stand",
-          "drawnAs": "santa-anna-idle",
-          "x": 662,
-          "y": 36,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "cos",
-          "name": "Cos",
-          "fell": false,
-          "hurt": false,
-          "pose": "walk",
-          "drawnAs": "regular-march",
-          "x": 595,
-          "y": 337,
-          "labelled": true,
-          "onScreen": true
-        }
-      ],
-      "light": 0.74,
-      "frameMs": {
-        "last": 1.8,
-        "median": 1.6,
-        "p95": 2.6
-      },
-      "mapDrawMs": 6.5
-    },
-    {
-      "label": "1",
-      "phase": "repulse",
-      "minute": 230380,
-      "camera": "battle",
-      "size": "1366x768",
-      "figures": {
-        "texian": 0,
-        "mexican": 0
-      },
-      "groups": {
-        "north": 9,
-        "west": 7,
-        "southwest": 3,
-        "south": 5,
-        "palisade": 4,
-        "church": 1,
-        "cos": 12,
-        "duque": 11,
-        "romero": 12,
-        "morales": 5,
-        "reserve": 8,
-        "lancers-east": 6,
-        "lancers-south": 3
-      },
-      "groupStyles": {
-        "north": "wall",
-        "west": "wall",
-        "southwest": "wall",
-        "south": "wall",
-        "palisade": "wall",
-        "church": "wall",
-        "cos": "column",
-        "duque": "column",
-        "romero": "column",
-        "morales": "column",
-        "reserve": "column",
-        "lancers-east": "mounted",
-        "lancers-south": "mounted"
-      },
-      "groupRegularity": {
-        "north": 0.015605900307490253,
-        "west": 0.0011507066746806935,
-        "southwest": 0.013406309651081773,
-        "south": 0.013914596746888047,
-        "palisade": 0.01639502185814113,
-        "church": null,
-        "cos": 0.0019119079340597076,
-        "duque": 0.05842995711769272,
-        "romero": 0.0019119079340284317,
-        "morales": 0.08758563348612988,
-        "reserve": 0.0005802005768091928,
-        "lancers-east": 0.02609001178813441,
-        "lancers-south": 0.009703731044834548
-      },
-      "shotsTotal": 564,
-      "shotsBy": {
-        "mexican": 35,
-        "texian": 42
-      },
-      "smokeInView": 150,
-      "bubbles": [
-        "¡Silencio!",
-        "¡Viva Santa Anna!",
-        "Gregorio, the soldiers have jumped the wall. The fight’s begun.",
-        "Come on boys, the Mexicans are upon us, and we’ll give them Hell.",
-        "To the walls! They’re at the walls!",
-        "Canister! Load canister!"
+        "Come on boys, the Mexicans are upon us, and we’ll give them Hell."
       ],
       "memberFalls": [],
       "people": [
@@ -643,38 +381,26 @@
           "name": "Cos",
           "fell": false,
           "hurt": false,
-          "pose": "stand",
-          "drawnAs": "regular-idle-e",
-          "x": 562,
-          "y": 301,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "castrillon",
-          "name": "Castrillón",
-          "fell": false,
-          "hurt": false,
-          "pose": "stand",
-          "drawnAs": "regular-idle-w",
-          "x": 666,
-          "y": 274,
+          "pose": "walk",
+          "drawnAs": "regular-march",
+          "x": 580,
+          "y": 321,
           "labelled": true,
           "onScreen": true
         }
       ],
-      "light": 0.74,
+      "light": 0.82,
       "frameMs": {
-        "last": 1.4,
-        "median": 1.7,
-        "p95": 2.6
+        "last": 1.3,
+        "median": 1,
+        "p95": 1.9
       },
-      "mapDrawMs": 7.400000035762787
+      "mapDrawMs": 4.699999988079071
     },
     {
-      "label": "2",
+      "label": "1",
       "phase": "repulse",
-      "minute": 230386,
+      "minute": 230380,
       "camera": "battle",
       "size": "1366x768",
       "figures": {
@@ -688,9 +414,9 @@
         "south": 5,
         "palisade": 4,
         "church": 1,
-        "cos": 9,
+        "cos": 12,
         "duque": 11,
-        "romero": 10,
+        "romero": 12,
         "morales": 5,
         "reserve": 8,
         "lancers-east": 6,
@@ -718,39 +444,37 @@
         "south": 0.013914596746888047,
         "palisade": 0.01639502185814113,
         "church": null,
-        "cos": 0.002072666053858203,
-        "duque": 0.058429957117588055,
-        "romero": 0.06766057395639093,
-        "morales": 0.08758563348613493,
+        "cos": 0.001911907934059584,
+        "duque": 0.05842995711769257,
+        "romero": 0.0019119079340287487,
+        "morales": 0.08758563348612988,
         "reserve": 0.0005802005768091928,
         "lancers-east": 0.02609001178813441,
         "lancers-south": 0.009703731044834548
       },
-      "shotsTotal": 570,
+      "shotsTotal": 560,
       "shotsBy": {
-        "mexican": 36,
-        "texian": 44
+        "mexican": 35,
+        "texian": 39
       },
-      "smokeInView": 158,
+      "smokeInView": 150,
       "bubbles": [
         "¡Silencio!",
         "¡Viva Santa Anna!",
         "Gregorio, the soldiers have jumped the wall. The fight’s begun.",
         "Come on boys, the Mexicans are upon us, and we’ll give them Hell.",
         "To the walls! They’re at the walls!",
-        "Canister! Load canister!",
-        "¡Escalas al frente!",
-        "They’re coming again!"
+        "Canister! Load canister!"
       ],
       "memberFalls": [],
       "people": [
         {
           "id": "travis",
           "name": "Travis",
-          "fell": true,
+          "fell": false,
           "hurt": false,
-          "pose": "still",
-          "drawnAs": "travis-still-ramp",
+          "pose": "fire",
+          "drawnAs": "travis-ready",
           "x": 671,
           "y": 358,
           "labelled": true,
@@ -761,10 +485,10 @@
           "name": "Joe",
           "fell": false,
           "hurt": false,
-          "pose": "fire-hidden",
-          "drawnAs": "joe-hide",
-          "x": 640,
-          "y": 372,
+          "pose": "fire",
+          "drawnAs": "volunteer-fire-reload",
+          "x": 667,
+          "y": 360,
           "labelled": true,
           "onScreen": true
         },
@@ -882,7 +606,280 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "bonham-aim",
+          "drawnAs": "bonham-fire",
+          "x": 764,
+          "y": 481,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "esparza",
+          "name": "Esparza",
+          "fell": false,
+          "hurt": false,
+          "pose": "fire",
+          "drawnAs": "esparza-aim",
+          "x": 761,
+          "y": 486,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "santa-anna",
+          "name": "Santa Anna",
+          "fell": false,
+          "hurt": false,
+          "pose": "stand",
+          "drawnAs": "santa-anna-idle",
+          "x": 662,
+          "y": 36,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "cos",
+          "name": "Cos",
+          "fell": false,
+          "hurt": false,
+          "pose": "stand",
+          "drawnAs": "regular-idle-e",
+          "x": 562,
+          "y": 301,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "castrillon",
+          "name": "Castrillón",
+          "fell": false,
+          "hurt": false,
+          "pose": "stand",
+          "drawnAs": "regular-idle-w",
+          "x": 666,
+          "y": 274,
+          "labelled": true,
+          "onScreen": true
+        }
+      ],
+      "light": 0.74,
+      "frameMs": {
+        "last": 1.4,
+        "median": 1,
+        "p95": 1.9
+      },
+      "mapDrawMs": 4.699999988079071
+    },
+    {
+      "label": "2",
+      "phase": "repulse",
+      "minute": 230384,
+      "camera": "battle",
+      "size": "1366x768",
+      "figures": {
+        "texian": 0,
+        "mexican": 0
+      },
+      "groups": {
+        "north": 9,
+        "west": 7,
+        "southwest": 3,
+        "south": 5,
+        "palisade": 4,
+        "church": 1,
+        "cos": 9,
+        "duque": 11,
+        "romero": 10,
+        "morales": 5,
+        "reserve": 8,
+        "lancers-east": 6,
+        "lancers-south": 3
+      },
+      "groupStyles": {
+        "north": "wall",
+        "west": "wall",
+        "southwest": "wall",
+        "south": "wall",
+        "palisade": "wall",
+        "church": "wall",
+        "cos": "column",
+        "duque": "column",
+        "romero": "column",
+        "morales": "column",
+        "reserve": "column",
+        "lancers-east": "mounted",
+        "lancers-south": "mounted"
+      },
+      "groupRegularity": {
+        "north": 0.015605900307490253,
+        "west": 0.0011507066746806935,
+        "southwest": 0.013406309651081773,
+        "south": 0.013914596746888047,
+        "palisade": 0.01639502185814113,
+        "church": null,
+        "cos": 0.002072666053828678,
+        "duque": 0.05842995711767191,
+        "romero": 0.06766057395638175,
+        "morales": 0.08758563348610927,
+        "reserve": 0.0005802005768091928,
+        "lancers-east": 0.02609001178813441,
+        "lancers-south": 0.009703731044834548
+      },
+      "shotsTotal": 567,
+      "shotsBy": {
+        "mexican": 36,
+        "texian": 42
+      },
+      "smokeInView": 154,
+      "bubbles": [
+        "¡Silencio!",
+        "¡Viva Santa Anna!",
+        "Gregorio, the soldiers have jumped the wall. The fight’s begun.",
+        "Come on boys, the Mexicans are upon us, and we’ll give them Hell.",
+        "To the walls! They’re at the walls!",
+        "Canister! Load canister!",
+        "¡Escalas al frente!"
+      ],
+      "memberFalls": [],
+      "people": [
+        {
+          "id": "travis",
+          "name": "Travis",
+          "fell": true,
+          "hurt": false,
+          "pose": "still",
+          "drawnAs": "travis-still-ramp",
+          "x": 671,
+          "y": 358,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "joe",
+          "name": "Joe",
+          "fell": false,
+          "hurt": false,
+          "pose": "walk",
+          "drawnAs": "joe-walk",
+          "x": 644,
+          "y": 370,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "crockett",
+          "name": "Crockett",
+          "fell": false,
+          "hurt": false,
+          "pose": "fire",
+          "drawnAs": "crockett-aim",
+          "x": 713,
+          "y": 513,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "bowie",
+          "name": "Bowie",
+          "fell": false,
+          "hurt": false,
+          "pose": "sick",
+          "drawnAs": "bowie-sick-bed",
+          "x": 679,
+          "y": 532,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "susanna-dickinson",
+          "name": "Mrs. Dickinson",
+          "fell": false,
+          "hurt": false,
+          "pose": "sick",
+          "drawnAs": "susanna-dickinson-shelter-with-angelina",
+          "x": 744,
+          "y": 476,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "ana-esparza",
+          "name": "Ana Esparza",
+          "fell": false,
+          "hurt": false,
+          "pose": "seated",
+          "drawnAs": "indigo-rest",
+          "x": 741,
+          "y": 475,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "maria-de-jesus",
+          "name": "María de Jesús",
+          "fell": false,
+          "hurt": false,
+          "pose": "seated",
+          "drawnAs": "girl-rest",
+          "x": 739,
+          "y": 477,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "enrique-esparza",
+          "name": "Enrique",
+          "fell": false,
+          "hurt": false,
+          "pose": "seated",
+          "drawnAs": "boy-rest",
+          "x": 742,
+          "y": 477,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "manuel-esparza",
+          "name": "Manuel",
+          "fell": false,
+          "hurt": false,
+          "pose": "seated",
+          "drawnAs": "smallchild-rest",
+          "x": 740,
+          "y": 474,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "francisco-child",
+          "name": "Francisco",
+          "fell": false,
+          "hurt": false,
+          "pose": "seated",
+          "drawnAs": "smallchild-rest",
+          "x": 742,
+          "y": 474,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "almeron-dickinson",
+          "name": "Dickinson",
+          "fell": false,
+          "hurt": false,
+          "pose": "fire",
+          "drawnAs": "almeron-dickinson-ram",
+          "x": 766,
+          "y": 488,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "bonham",
+          "name": "Bonham",
+          "fell": false,
+          "hurt": false,
+          "pose": "fire",
+          "drawnAs": "bonham-reload",
           "x": 764,
           "y": 481,
           "labelled": true,
@@ -919,8 +916,8 @@
           "hurt": false,
           "pose": "walk",
           "drawnAs": "regular-march",
-          "x": 587,
-          "y": 316,
+          "x": 565,
+          "y": 303,
           "labelled": true,
           "onScreen": true
         },
@@ -932,23 +929,23 @@
           "pose": "walk",
           "drawnAs": "regular-march",
           "x": 666,
-          "y": 313,
+          "y": 287,
           "labelled": true,
           "onScreen": true
         }
       ],
       "light": 0.74,
       "frameMs": {
-        "last": 2.8,
-        "median": 1.7,
-        "p95": 2.8
+        "last": 1.2,
+        "median": 1,
+        "p95": 2
       },
-      "mapDrawMs": 7.599999964237213
+      "mapDrawMs": 5.300000011920929
     },
     {
       "label": "3",
       "phase": "repulse",
-      "minute": 230390,
+      "minute": 230388,
       "camera": "battle",
       "size": "1366x768",
       "figures": {
@@ -965,7 +962,7 @@
         "cos": 9,
         "duque": 9,
         "romero": 10,
-        "morales": 4,
+        "morales": 5,
         "reserve": 8,
         "lancers-east": 6,
         "lancers-south": 3
@@ -992,18 +989,18 @@
         "south": 0.013914596746888047,
         "palisade": 0.01639502185814113,
         "church": null,
-        "cos": 0.002072666053904716,
-        "duque": 0.05282543116476255,
-        "romero": 0.06766057395637262,
-        "morales": 0.3142494011159103,
-        "reserve": 0.0005802005768316529,
+        "cos": 0.0020726660538376257,
+        "duque": 0.05282543116475885,
+        "romero": 0.06766057395639022,
+        "morales": 0.08758563348616084,
+        "reserve": 0.0005802005768091928,
         "lancers-east": 0.02609001178813441,
         "lancers-south": 0.009703731044834548
       },
-      "shotsTotal": 577,
+      "shotsTotal": 575,
       "shotsBy": {
         "mexican": 37,
-        "texian": 47
+        "texian": 45
       },
       "smokeInView": 162,
       "bubbles": [
@@ -1183,7 +1180,7 @@
           "pose": "walk",
           "drawnAs": "santa-anna-walk-e",
           "x": 662,
-          "y": 155,
+          "y": 36,
           "labelled": true,
           "onScreen": true
         },
@@ -1194,8 +1191,8 @@
           "hurt": false,
           "pose": "walk",
           "drawnAs": "regular-march",
-          "x": 643,
-          "y": 350,
+          "x": 617,
+          "y": 334,
           "labelled": true,
           "onScreen": true
         },
@@ -1204,10 +1201,10 @@
           "name": "Castrillón",
           "fell": false,
           "hurt": false,
-          "pose": "stand",
-          "drawnAs": "regular-idle-w",
+          "pose": "walk",
+          "drawnAs": "regular-march",
           "x": 665,
-          "y": 352,
+          "y": 340,
           "labelled": true,
           "onScreen": true
         }
@@ -1215,15 +1212,15 @@
       "light": 0.74,
       "frameMs": {
         "last": 1.4,
-        "median": 1.6,
-        "p95": 2.8
+        "median": 1,
+        "p95": 2
       },
-      "mapDrawMs": 5.900000035762787
+      "mapDrawMs": 7.199999988079071
     },
     {
       "label": "4",
       "phase": "north-wall",
-      "minute": 230396,
+      "minute": 230394,
       "camera": "battle",
       "size": "1366x768",
       "figures": {
@@ -1237,7 +1234,7 @@
         "south": 5,
         "palisade": 4,
         "church": 1,
-        "mass": 26,
+        "mass": 30,
         "morales": 4,
         "reserve": 8,
         "lancers-east": 6,
@@ -1263,18 +1260,18 @@
         "south": 0.013914596746898185,
         "palisade": 0.01639502185814073,
         "church": null,
-        "mass": 0.35882201987911166,
-        "morales": 0.3142494011161167,
+        "mass": 0.3423922254839421,
+        "morales": 0.3142494011160914,
         "reserve": 0.0005802005768082389,
         "lancers-east": 0.026090011788134006,
         "lancers-south": 0.00970373104483547
       },
-      "shotsTotal": 586,
+      "shotsTotal": 585,
       "shotsBy": {
-        "mexican": 40,
-        "texian": 50
+        "mexican": 44,
+        "texian": 47
       },
-      "smokeInView": 170,
+      "smokeInView": 166,
       "bubbles": [
         "¡Viva Santa Anna!",
         "Gregorio, the soldiers have jumped the wall. The fight’s begun.",
@@ -1283,8 +1280,7 @@
         "Canister! Load canister!",
         "¡Escalas al frente!",
         "They’re coming again!",
-        "¡Adelante!",
-        "¡Arriba!"
+        "¡Adelante!"
       ],
       "memberFalls": [],
       "people": [
@@ -1306,7 +1302,7 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "crockett-aim",
+          "drawnAs": "crockett-reload",
           "x": 699,
           "y": 492,
           "labelled": true,
@@ -1414,7 +1410,7 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "bonham-reload",
+          "drawnAs": "bonham-aim",
           "x": 750,
           "y": 461,
           "labelled": true,
@@ -1471,16 +1467,16 @@
       ],
       "light": 0.62,
       "frameMs": {
-        "last": 2.6,
-        "median": 1.6,
-        "p95": 2.9
+        "last": 1.3,
+        "median": 1,
+        "p95": 2.1
       },
-      "mapDrawMs": 8.800000011920929
+      "mapDrawMs": 5.699999988079071
     },
     {
       "label": "5",
       "phase": "north-wall",
-      "minute": 230400,
+      "minute": 230398,
       "camera": "battle",
       "size": "1366x768",
       "figures": {
@@ -1520,19 +1516,20 @@
         "south": 0.013914596746898185,
         "palisade": 0.01639502185814073,
         "church": null,
-        "mass": 0.3588220198792327,
-        "morales": 0.31424940111601235,
+        "mass": 0.35882201987911166,
+        "morales": 0.3142494011158667,
         "reserve": 0.0005802005768082389,
         "lancers-east": 0.026090011788134006,
         "lancers-south": 0.00970373104483547
       },
-      "shotsTotal": 593,
+      "shotsTotal": 590,
       "shotsBy": {
-        "mexican": 45,
-        "texian": 51
+        "mexican": 47,
+        "texian": 47
       },
       "smokeInView": 170,
       "bubbles": [
+        "¡Viva Santa Anna!",
         "Gregorio, the soldiers have jumped the wall. The fight’s begun.",
         "Come on boys, the Mexicans are upon us, and we’ll give them Hell.",
         "To the walls! They’re at the walls!",
@@ -1682,7 +1679,7 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "esparza-aim",
+          "drawnAs": "esparza-fire",
           "x": 747,
           "y": 465,
           "labelled": true,
@@ -1705,10 +1702,10 @@
           "name": "Castrillón",
           "fell": false,
           "hurt": false,
-          "pose": "walk",
-          "drawnAs": "regular-march",
+          "pose": "stand",
+          "drawnAs": "regular-idle-w",
           "x": 648,
-          "y": 339,
+          "y": 335,
           "labelled": true,
           "onScreen": true
         },
@@ -1727,11 +1724,11 @@
       ],
       "light": 0.62,
       "frameMs": {
-        "last": 1.6,
-        "median": 1.6,
-        "p95": 2.9
+        "last": 1.4,
+        "median": 1.1,
+        "p95": 2.2
       },
-      "mapDrawMs": 7.599999964237213
+      "mapDrawMs": 7.099999964237213
     },
     {
       "label": "6",
@@ -1773,14 +1770,16 @@
         "lancers-east": 0.026090011788134006,
         "lancers-south": 0.00970373104483547
       },
-      "shotsTotal": 598,
+      "shotsTotal": 596,
       "shotsBy": {
-        "mexican": 49,
-        "texian": 52
+        "mexican": 51,
+        "texian": 48
       },
       "smokeInView": 170,
       "bubbles": [
+        "Gregorio, the soldiers have jumped the wall. The fight’s begun.",
         "Come on boys, the Mexicans are upon us, and we’ll give them Hell.",
+        "To the walls! They’re at the walls!",
         "Canister! Load canister!",
         "¡Escalas al frente!",
         "They’re coming again!",
@@ -1809,241 +1808,7 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "crockett-reload",
-          "x": 699,
-          "y": 492,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "joe",
-          "name": "Joe",
-          "fell": false,
-          "hurt": false,
-          "pose": "fire-hidden",
-          "drawnAs": "joe-fire-door",
-          "x": 626,
-          "y": 352,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "susanna-dickinson",
-          "name": "Mrs. Dickinson",
-          "fell": false,
-          "hurt": false,
-          "pose": "sick",
-          "drawnAs": "susanna-dickinson-shelter-with-angelina",
-          "x": 730,
-          "y": 455,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "ana-esparza",
-          "name": "Ana Esparza",
-          "fell": false,
-          "hurt": false,
-          "pose": "seated",
-          "drawnAs": "indigo-rest",
-          "x": 727,
-          "y": 454,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "maria-de-jesus",
-          "name": "María de Jesús",
-          "fell": false,
-          "hurt": false,
-          "pose": "seated",
-          "drawnAs": "girl-rest",
-          "x": 725,
-          "y": 456,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "enrique-esparza",
-          "name": "Enrique",
-          "fell": false,
-          "hurt": false,
-          "pose": "seated",
-          "drawnAs": "boy-rest",
-          "x": 729,
-          "y": 456,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "manuel-esparza",
-          "name": "Manuel",
-          "fell": false,
-          "hurt": false,
-          "pose": "seated",
-          "drawnAs": "smallchild-rest",
-          "x": 726,
-          "y": 453,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "francisco-child",
-          "name": "Francisco",
-          "fell": false,
-          "hurt": false,
-          "pose": "seated",
-          "drawnAs": "smallchild-rest",
-          "x": 728,
-          "y": 453,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "almeron-dickinson",
-          "name": "Dickinson",
-          "fell": false,
-          "hurt": false,
-          "pose": "fire",
-          "drawnAs": "almeron-dickinson-ram",
-          "x": 753,
-          "y": 467,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "bonham",
-          "name": "Bonham",
-          "fell": false,
-          "hurt": false,
-          "pose": "fire",
-          "drawnAs": "bonham-aim",
-          "x": 750,
-          "y": 461,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "esparza",
-          "name": "Esparza",
-          "fell": false,
-          "hurt": false,
-          "pose": "fire",
-          "drawnAs": "esparza-aim",
-          "x": 747,
-          "y": 465,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "santa-anna",
-          "name": "Santa Anna",
-          "fell": false,
-          "hurt": false,
-          "pose": "stand",
-          "drawnAs": "santa-anna-idle",
-          "x": 660,
-          "y": 236,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "travis",
-          "name": "Travis",
-          "fell": true,
-          "hurt": false,
-          "pose": "still",
-          "drawnAs": "travis-still-ramp",
-          "x": 657,
-          "y": 337,
-          "labelled": true,
-          "onScreen": true
-        }
-      ],
-      "light": 0.5,
-      "frameMs": {
-        "last": 2.2,
-        "median": 1.6,
-        "p95": 3
-      },
-      "mapDrawMs": 6.400000035762787
-    },
-    {
-      "label": "7",
-      "phase": "fallback",
-      "minute": 230410,
-      "camera": "battle",
-      "size": "1366x768",
-      "figures": {
-        "texian": 0,
-        "mexican": 0
-      },
-      "groups": {
-        "barrack": 9,
-        "church": 3,
-        "runners": 5,
-        "plaza": 23,
-        "morales": 4,
-        "low-barrack": 4,
-        "lancers-east": 6,
-        "lancers-south": 3
-      },
-      "groupStyles": {
-        "barrack": "street",
-        "church": "street",
-        "runners": "rout",
-        "plaza": "loose",
-        "morales": "loose",
-        "low-barrack": "loose",
-        "lancers-east": "mounted",
-        "lancers-south": "mounted"
-      },
-      "groupRegularity": {
-        "barrack": 0.15391530544217488,
-        "church": 0.29440698148531586,
-        "runners": 0.2259632328256275,
-        "plaza": 0.31857551721586713,
-        "morales": 0.15279424298911273,
-        "low-barrack": 0.1220704008578184,
-        "lancers-east": 0.026090011788098413,
-        "lancers-south": 0.00970373104483547
-      },
-      "shotsTotal": 602,
-      "shotsBy": {
-        "mexican": 51,
-        "texian": 53
-      },
-      "smokeInView": 170,
-      "bubbles": [
-        "¡Escalas al frente!",
-        "They’re coming again!",
-        "¡Adelante!",
-        "¡Arriba!",
-        "They’re over the north wall!",
-        "Fall back to the barracks!",
-        "¡El cañón a las puertas!"
-      ],
-      "memberFalls": [],
-      "people": [
-        {
-          "id": "bowie",
-          "name": "Bowie",
-          "fell": false,
-          "hurt": false,
-          "pose": "sick",
-          "drawnAs": "bowie-sick-bed",
-          "x": 665,
-          "y": 512,
-          "labelled": true,
-          "onScreen": true
-        },
-        {
-          "id": "crockett",
-          "name": "Crockett",
-          "fell": false,
-          "hurt": false,
-          "pose": "walk",
-          "drawnAs": "crockett-walk-e",
+          "drawnAs": "crockett-aim",
           "x": 699,
           "y": 492,
           "labelled": true,
@@ -2196,16 +1961,16 @@
       ],
       "light": 0.5,
       "frameMs": {
-        "last": 1.4,
-        "median": 1.6,
-        "p95": 3
+        "last": 1.6,
+        "median": 1.1,
+        "p95": 2.4
       },
-      "mapDrawMs": 8
+      "mapDrawMs": 7.799999952316284
     },
     {
-      "label": "8",
+      "label": "7",
       "phase": "fallback",
-      "minute": 230414,
+      "minute": 230408,
       "camera": "battle",
       "size": "1366x768",
       "figures": {
@@ -2213,10 +1978,10 @@
         "mexican": 0
       },
       "groups": {
-        "barrack": 7,
+        "barrack": 9,
         "church": 3,
-        "runners": 5,
-        "plaza": 23,
+        "runners": 4,
+        "plaza": 26,
         "morales": 4,
         "low-barrack": 4,
         "lancers-east": 6,
@@ -2233,38 +1998,38 @@
         "lancers-south": "mounted"
       },
       "groupRegularity": {
-        "barrack": 0.12931028462867086,
+        "barrack": 0.15391530544217488,
         "church": 0.29440698148531586,
-        "runners": 0.22596323282557582,
-        "plaza": 0.3185755172158675,
+        "runners": 0.5019471790031174,
+        "plaza": 0.25608346858229747,
         "morales": 0.15279424298911273,
-        "low-barrack": 0.12207040085783698,
-        "lancers-east": 0.026090011788126727,
+        "low-barrack": 0.12207040085977285,
+        "lancers-east": 0.02609001178814398,
         "lancers-south": 0.00970373104483547
       },
-      "shotsTotal": 607,
+      "shotsTotal": 600,
       "shotsBy": {
-        "mexican": 53,
-        "texian": 54
+        "mexican": 54,
+        "texian": 49
       },
       "smokeInView": 170,
       "bubbles": [
+        "¡Escalas al frente!",
+        "They’re coming again!",
         "¡Adelante!",
         "¡Arriba!",
         "They’re over the north wall!",
-        "Fall back to the barracks!",
-        "¡El cañón a las puertas!",
-        "Hold the door!"
+        "Fall back to the barracks!"
       ],
       "memberFalls": [],
       "people": [
         {
           "id": "bowie",
           "name": "Bowie",
-          "fell": true,
+          "fell": false,
           "hurt": false,
-          "pose": "still-bed",
-          "drawnAs": "bowie-still-bed",
+          "pose": "sick",
+          "drawnAs": "bowie-sick-bed",
           "x": 665,
           "y": 512,
           "labelled": true,
@@ -2275,10 +2040,10 @@
           "name": "Crockett",
           "fell": false,
           "hurt": false,
-          "pose": "walk",
-          "drawnAs": "crockett-walk-e",
-          "x": 707,
-          "y": 471,
+          "pose": "fire",
+          "drawnAs": "crockett-aim",
+          "x": 699,
+          "y": 492,
           "labelled": true,
           "onScreen": true
         },
@@ -2429,11 +2194,245 @@
       ],
       "light": 0.5,
       "frameMs": {
-        "last": 1.7,
-        "median": 1.6,
-        "p95": 3
+        "last": 1.8,
+        "median": 1.1,
+        "p95": 2.5
       },
-      "mapDrawMs": 5.100000023841858
+      "mapDrawMs": 5.400000035762787
+    },
+    {
+      "label": "8",
+      "phase": "fallback",
+      "minute": 230412,
+      "camera": "battle",
+      "size": "1366x768",
+      "figures": {
+        "texian": 0,
+        "mexican": 0
+      },
+      "groups": {
+        "barrack": 7,
+        "church": 3,
+        "runners": 5,
+        "plaza": 23,
+        "morales": 4,
+        "low-barrack": 4,
+        "lancers-east": 6,
+        "lancers-south": 3
+      },
+      "groupStyles": {
+        "barrack": "street",
+        "church": "street",
+        "runners": "rout",
+        "plaza": "loose",
+        "morales": "loose",
+        "low-barrack": "loose",
+        "lancers-east": "mounted",
+        "lancers-south": "mounted"
+      },
+      "groupRegularity": {
+        "barrack": 0.12931028462867086,
+        "church": 0.29440698148531586,
+        "runners": 0.22596323282562766,
+        "plaza": 0.3185755172158675,
+        "morales": 0.15279424298911273,
+        "low-barrack": 0.12207040085783698,
+        "lancers-east": 0.026090011788118938,
+        "lancers-south": 0.00970373104483547
+      },
+      "shotsTotal": 605,
+      "shotsBy": {
+        "mexican": 55,
+        "texian": 51
+      },
+      "smokeInView": 170,
+      "bubbles": [
+        "They’re coming again!",
+        "¡Adelante!",
+        "¡Arriba!",
+        "They’re over the north wall!",
+        "Fall back to the barracks!",
+        "¡El cañón a las puertas!",
+        "Hold the door!"
+      ],
+      "memberFalls": [],
+      "people": [
+        {
+          "id": "bowie",
+          "name": "Bowie",
+          "fell": false,
+          "hurt": false,
+          "pose": "sick",
+          "drawnAs": "bowie-sick-bed",
+          "x": 665,
+          "y": 512,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "crockett",
+          "name": "Crockett",
+          "fell": false,
+          "hurt": false,
+          "pose": "walk",
+          "drawnAs": "crockett-walk-e",
+          "x": 702,
+          "y": 484,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "joe",
+          "name": "Joe",
+          "fell": false,
+          "hurt": false,
+          "pose": "fire-hidden",
+          "drawnAs": "joe-fire-door",
+          "x": 626,
+          "y": 352,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "susanna-dickinson",
+          "name": "Mrs. Dickinson",
+          "fell": false,
+          "hurt": false,
+          "pose": "sick",
+          "drawnAs": "susanna-dickinson-shelter-with-angelina",
+          "x": 730,
+          "y": 455,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "ana-esparza",
+          "name": "Ana Esparza",
+          "fell": false,
+          "hurt": false,
+          "pose": "seated",
+          "drawnAs": "indigo-rest",
+          "x": 727,
+          "y": 454,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "maria-de-jesus",
+          "name": "María de Jesús",
+          "fell": false,
+          "hurt": false,
+          "pose": "seated",
+          "drawnAs": "girl-rest",
+          "x": 725,
+          "y": 456,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "enrique-esparza",
+          "name": "Enrique",
+          "fell": false,
+          "hurt": false,
+          "pose": "seated",
+          "drawnAs": "boy-rest",
+          "x": 729,
+          "y": 456,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "manuel-esparza",
+          "name": "Manuel",
+          "fell": false,
+          "hurt": false,
+          "pose": "seated",
+          "drawnAs": "smallchild-rest",
+          "x": 726,
+          "y": 453,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "francisco-child",
+          "name": "Francisco",
+          "fell": false,
+          "hurt": false,
+          "pose": "seated",
+          "drawnAs": "smallchild-rest",
+          "x": 728,
+          "y": 453,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "almeron-dickinson",
+          "name": "Dickinson",
+          "fell": false,
+          "hurt": false,
+          "pose": "fire",
+          "drawnAs": "almeron-dickinson-ram",
+          "x": 753,
+          "y": 467,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "bonham",
+          "name": "Bonham",
+          "fell": false,
+          "hurt": false,
+          "pose": "fire",
+          "drawnAs": "bonham-reload",
+          "x": 750,
+          "y": 461,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "esparza",
+          "name": "Esparza",
+          "fell": false,
+          "hurt": false,
+          "pose": "fire",
+          "drawnAs": "esparza-aim",
+          "x": 747,
+          "y": 465,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "santa-anna",
+          "name": "Santa Anna",
+          "fell": false,
+          "hurt": false,
+          "pose": "stand",
+          "drawnAs": "santa-anna-idle",
+          "x": 660,
+          "y": 236,
+          "labelled": true,
+          "onScreen": true
+        },
+        {
+          "id": "travis",
+          "name": "Travis",
+          "fell": true,
+          "hurt": false,
+          "pose": "still",
+          "drawnAs": "travis-still-ramp",
+          "x": 657,
+          "y": 337,
+          "labelled": true,
+          "onScreen": true
+        }
+      ],
+      "light": 0.5,
+      "frameMs": {
+        "last": 1.1,
+        "median": 1.2,
+        "p95": 2.6
+      },
+      "mapDrawMs": 5.199999988079071
     },
     {
       "label": "9",
@@ -2468,14 +2467,14 @@
         "church": 0.29440698148530964,
         "plaza": 0.22615070830319103,
         "doors": 0.05425217603748485,
-        "church-door": 0.21172573059417862,
+        "church-door": 0.21172573059417846,
         "lancers-east": 0.026090011788117862,
         "lancers-south": 0.02609001178803837
       },
-      "shotsTotal": 610,
+      "shotsTotal": 609,
       "shotsBy": {
-        "mexican": 54,
-        "texian": 55
+        "mexican": 56,
+        "texian": 52
       },
       "smokeInView": 170,
       "bubbles": [
@@ -2505,7 +2504,7 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "crockett-aim",
+          "drawnAs": "crockett-reload",
           "x": 699,
           "y": 432,
           "labelled": true,
@@ -2601,7 +2600,7 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "bonham-reload",
+          "drawnAs": "bonham-aim",
           "x": 740,
           "y": 423,
           "labelled": true,
@@ -2659,11 +2658,11 @@
       ],
       "light": 0.32,
       "frameMs": {
-        "last": 3.2,
-        "median": 1.6,
-        "p95": 3.1
+        "last": 1.2,
+        "median": 1.2,
+        "p95": 2.6
       },
-      "mapDrawMs": 11.600000023841858
+      "mapDrawMs": 5.400000035762787
     },
     {
       "label": "10",
@@ -2679,7 +2678,7 @@
         "barrack": 2,
         "church": 3,
         "plaza": 17,
-        "doors": 6,
+        "doors": 8,
         "church-door": 6,
         "lancers-east": 6,
         "lancers-south": 6
@@ -2697,15 +2696,15 @@
         "barrack": null,
         "church": 0.29440698148530964,
         "plaza": 0.22615070830319103,
-        "doors": 0.24284771850530737,
+        "doors": 0.05425217603748485,
         "church-door": 0.21172573059493693,
         "lancers-east": 0.026090011788117862,
         "lancers-south": 0.02609001178803837
       },
-      "shotsTotal": 616,
+      "shotsTotal": 615,
       "shotsBy": {
-        "mexican": 56,
-        "texian": 56
+        "mexican": 58,
+        "texian": 53
       },
       "smokeInView": 170,
       "bubbles": [
@@ -2890,16 +2889,16 @@
       ],
       "light": 0.32,
       "frameMs": {
-        "last": 4,
-        "median": 1.6,
-        "p95": 3.5
+        "last": 1.2,
+        "median": 1.2,
+        "p95": 2.6
       },
-      "mapDrawMs": 14.800000011920929
+      "mapDrawMs": 4.899999976158142
     },
     {
       "label": "11",
       "phase": "rooms",
-      "minute": 230428,
+      "minute": 230426,
       "camera": "battle",
       "size": "1024x768",
       "figures": {
@@ -2935,8 +2934,8 @@
       },
       "shotsTotal": 622,
       "shotsBy": {
-        "mexican": 58,
-        "texian": 57
+        "mexican": 62,
+        "texian": 54
       },
       "smokeInView": 170,
       "bubbles": [
@@ -2972,7 +2971,7 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "crockett-reload",
+          "drawnAs": "crockett-aim",
           "x": 524,
           "y": 420,
           "labelled": true,
@@ -3068,7 +3067,7 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "bonham-aim",
+          "drawnAs": "bonham-fire",
           "x": 554,
           "y": 413,
           "labelled": true,
@@ -3081,7 +3080,7 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "esparza-fire",
+          "drawnAs": "esparza-aim",
           "x": 552,
           "y": 417,
           "labelled": true,
@@ -3126,16 +3125,16 @@
       ],
       "light": 0.32,
       "frameMs": {
-        "last": 3.8,
-        "median": 1.7,
-        "p95": 4
+        "last": 1.9,
+        "median": 1.3,
+        "p95": 2.6
       },
-      "mapDrawMs": 13
+      "mapDrawMs": 5.699999988079071
     },
     {
       "label": "12",
       "phase": "end",
-      "minute": 230440,
+      "minute": 230435,
       "camera": "battle",
       "size": "1024x768",
       "figures": {
@@ -3157,25 +3156,23 @@
         "at-joe": "loose"
       },
       "groupRegularity": {
-        "taken": 0.03481522834933079,
+        "taken": 0.034815228349649945,
         "plaza": 0.2084796210449462,
         "church-door": 0.21172573059487648,
         "officers": 0.12207040085807633,
         "at-joe": null
       },
-      "shotsTotal": 624,
+      "shotsTotal": 623,
       "shotsBy": {
-        "mexican": 60,
-        "texian": 57
+        "mexican": 62,
+        "texian": 54
       },
       "smokeInView": 170,
       "bubbles": [
         "¡El cañón a las puertas!",
         "Hold the door!",
         "¡A la bayoneta!",
-        "¡A la iglesia!",
-        "It was a miracle, but none of us children were touched.",
-        "Are there any Black men here?"
+        "¡A la iglesia!"
       ],
       "memberFalls": [
         {
@@ -3189,8 +3186,8 @@
           "name": "Joe",
           "fell": false,
           "hurt": false,
-          "pose": "emerge",
-          "drawnAs": "joe-emerge",
+          "pose": "hide",
+          "drawnAs": "joe-hide",
           "x": 462,
           "y": 331,
           "labelled": true,
@@ -3201,10 +3198,10 @@
           "name": "Barragán",
           "fell": false,
           "hurt": false,
-          "pose": "walk",
-          "drawnAs": "regular-march",
-          "x": 478,
-          "y": 372,
+          "pose": "command",
+          "drawnAs": "regular-idle-w",
+          "x": 484,
+          "y": 387,
           "labelled": true,
           "onScreen": true
         },
@@ -3213,10 +3210,10 @@
           "name": "Mrs. Dickinson",
           "fell": false,
           "hurt": false,
-          "pose": "stand",
-          "drawnAs": "susanna-dickinson-hold-angelina",
-          "x": 533,
-          "y": 416,
+          "pose": "walk",
+          "drawnAs": "susanna-dickinson-walk-e",
+          "x": 539,
+          "y": 409,
           "labelled": true,
           "onScreen": true
         },
@@ -3227,8 +3224,8 @@
           "hurt": false,
           "pose": "walk",
           "drawnAs": "indigo-walk",
-          "x": 532,
-          "y": 414,
+          "x": 537,
+          "y": 408,
           "labelled": true,
           "onScreen": true
         },
@@ -3239,8 +3236,8 @@
           "hurt": false,
           "pose": "walk",
           "drawnAs": "girl-walk",
-          "x": 531,
-          "y": 415,
+          "x": 536,
+          "y": 410,
           "labelled": true,
           "onScreen": true
         },
@@ -3251,8 +3248,8 @@
           "hurt": false,
           "pose": "walk",
           "drawnAs": "boy-walk",
-          "x": 533,
-          "y": 415,
+          "x": 538,
+          "y": 410,
           "labelled": true,
           "onScreen": true
         },
@@ -3263,8 +3260,8 @@
           "hurt": false,
           "pose": "walk",
           "drawnAs": "smallchild-walk",
-          "x": 531,
-          "y": 413,
+          "x": 537,
+          "y": 407,
           "labelled": true,
           "onScreen": true
         },
@@ -3275,8 +3272,8 @@
           "hurt": false,
           "pose": "walk",
           "drawnAs": "smallchild-walk",
-          "x": 533,
-          "y": 413,
+          "x": 538,
+          "y": 408,
           "labelled": true,
           "onScreen": true
         },
@@ -3285,9 +3282,9 @@
           "name": "Crockett",
           "fell": false,
           "hurt": false,
-          "pose": "captive",
-          "drawnAs": "crockett-captive",
-          "x": 521,
+          "pose": "walk",
+          "drawnAs": "crockett-walk-e",
+          "x": 524,
           "y": 416,
           "labelled": true,
           "onScreen": true,
@@ -3298,10 +3295,10 @@
           "name": "Castrillón",
           "fell": false,
           "hurt": false,
-          "pose": "stand",
-          "drawnAs": "regular-idle-w",
-          "x": 530,
-          "y": 416,
+          "pose": "walk",
+          "drawnAs": "regular-march",
+          "x": 532,
+          "y": 414,
           "labelled": true,
           "onScreen": true
         },
@@ -3312,8 +3309,8 @@
           "hurt": false,
           "pose": "walk",
           "drawnAs": "santa-anna-walk-e",
-          "x": 508,
-          "y": 394,
+          "x": 487,
+          "y": 326,
           "labelled": true,
           "onScreen": true
         },
@@ -3379,13 +3376,13 @@
           "onScreen": true
         }
       ],
-      "light": 0.133,
+      "light": 0.167,
       "frameMs": {
-        "last": 12.9,
-        "median": 1.7,
-        "p95": 5.1
+        "last": 1.3,
+        "median": 1.3,
+        "p95": 2.9
       },
-      "mapDrawMs": 56.89999997615814
+      "mapDrawMs": 6.200000047683716
     }
   ],
   "screens": [
@@ -3399,36 +3396,36 @@
   ],
   "runners": 4,
   "frameMs": {
-    "battleP95Max": 5.1,
+    "battleP95Max": 2.9,
     "battleMedian": [
-      1.6,
-      1.7,
-      1.7,
-      1.6,
-      1.6,
-      1.6,
-      1.6,
-      1.6,
-      1.6,
-      1.6,
-      1.6,
-      1.7,
-      1.7
+      1,
+      1,
+      1,
+      1,
+      1,
+      1.1,
+      1.1,
+      1.1,
+      1.2,
+      1.2,
+      1.2,
+      1.3,
+      1.3
     ],
     "mapDrawMs": [
-      6.5,
-      7.400000035762787,
-      7.599999964237213,
-      5.900000035762787,
-      8.800000011920929,
-      7.599999964237213,
-      6.400000035762787,
-      8,
-      5.100000023841858,
-      11.600000023841858,
-      14.800000011920929,
-      13,
-      56.89999997615814
+      4.699999988079071,
+      4.699999988079071,
+      5.300000011920929,
+      7.199999988079071,
+      5.699999988079071,
+      7.099999964237213,
+      7.799999952316284,
+      5.400000035762787,
+      5.199999988079071,
+      5.400000035762787,
+      4.899999976158142,
+      5.699999988079071,
+      6.200000047683716
     ]
   },
   "verdict": "PASS"
