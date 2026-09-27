@@ -3944,6 +3944,122 @@
         ]
       }
     },
+    "famous-houston-mounted": {
+      "image": "atlases/famous-houston-mounted.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1158924,
+      "sha256": "3a6aed7f9581829cbd1a81a50d16be18beef9d97234c6f926a16bb8d501b7813",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.697602,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              34,
+              583
+            ],
+            "columns": [
+              [
+                30,
+                631
+              ],
+              [
+                658,
+                1244
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              650,
+              1209
+            ],
+            "columns": [
+              [
+                89,
+                633
+              ],
+              [
+                859,
+                1080
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-santa-anna-mounted": {
+      "image": "atlases/famous-santa-anna-mounted.png",
+      "width": 1226,
+      "height": 1283,
+      "bytes": 1192703,
+      "sha256": "c0717acd4d844fb3784e05fb1d3acb1ac5bc51e9b110a1f69a1301606d6e34e6",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.676004,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              11,
+              595
+            ],
+            "columns": [
+              [
+                25,
+                592
+              ],
+              [
+                642,
+                1214
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              627,
+              1244
+            ],
+            "columns": [
+              [
+                71,
+                618
+              ],
+              [
+                788,
+                1032
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-crockett": {
       "image": "atlases/famous-crockett.png",
       "width": 1254,
@@ -24350,6 +24466,206 @@
           82
         ],
         "visiblePixels": 15044,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-mounted-walk-e-1": {
+      "sheet": "famous-houston-mounted",
+      "x": 30,
+      "y": 34,
+      "w": 601,
+      "h": 549,
+      "anchorX": 0.5092,
+      "anchorY": 0.9636,
+      "logicalHeight": 556,
+      "label": "houston mounted walk e 1",
+      "kind": "famous-houston-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          32,
+          36,
+          597,
+          545
+        ],
+        "visiblePixels": 126300,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-mounted-walk-e-2": {
+      "sheet": "famous-houston-mounted",
+      "x": 658,
+      "y": 35,
+      "w": 586,
+      "h": 545,
+      "anchorX": 0.4181,
+      "anchorY": 0.978,
+      "logicalHeight": 556,
+      "label": "houston mounted walk e 2",
+      "kind": "famous-houston-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          660,
+          37,
+          582,
+          541
+        ],
+        "visiblePixels": 120609,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-mounted-idle-e": {
+      "sheet": "famous-houston-mounted",
+      "x": 89,
+      "y": 650,
+      "w": 544,
+      "h": 553,
+      "anchorX": 0.4219,
+      "anchorY": 0.9693,
+      "logicalHeight": 556,
+      "label": "houston mounted idle e",
+      "kind": "famous-houston-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          91,
+          652,
+          540,
+          549
+        ],
+        "visiblePixels": 122268,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-mounted-walk-s": {
+      "sheet": "famous-houston-mounted",
+      "x": 859,
+      "y": 653,
+      "w": 221,
+      "h": 556,
+      "anchorX": 0.5,
+      "anchorY": 0.9299,
+      "logicalHeight": 556,
+      "label": "houston mounted walk s",
+      "kind": "famous-houston-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          861,
+          655,
+          217,
+          552
+        ],
+        "visiblePixels": 66390,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-mounted-walk-e-1": {
+      "sheet": "famous-santa-anna-mounted",
+      "x": 25,
+      "y": 11,
+      "w": 567,
+      "h": 581,
+      "anchorX": 0.4991,
+      "anchorY": 0.9294,
+      "logicalHeight": 617,
+      "label": "santa anna mounted walk e 1",
+      "kind": "famous-santa-anna-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          27,
+          13,
+          563,
+          577
+        ],
+        "visiblePixels": 129771,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-mounted-walk-e-2": {
+      "sheet": "famous-santa-anna-mounted",
+      "x": 642,
+      "y": 13,
+      "w": 572,
+      "h": 582,
+      "anchorX": 0.5271,
+      "anchorY": 0.9381,
+      "logicalHeight": 617,
+      "label": "santa anna mounted walk e 2",
+      "kind": "famous-santa-anna-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          644,
+          15,
+          568,
+          578
+        ],
+        "visiblePixels": 131094,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-mounted-idle-e": {
+      "sheet": "famous-santa-anna-mounted",
+      "x": 71,
+      "y": 642,
+      "w": 547,
+      "h": 601,
+      "anchorX": 0.3985,
+      "anchorY": 0.9617,
+      "logicalHeight": 617,
+      "label": "santa anna mounted idle e",
+      "kind": "famous-santa-anna-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          73,
+          644,
+          543,
+          597
+        ],
+        "visiblePixels": 135896,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-mounted-walk-s": {
+      "sheet": "famous-santa-anna-mounted",
+      "x": 788,
+      "y": 627,
+      "w": 244,
+      "h": 617,
+      "anchorX": 0.4713,
+      "anchorY": 0.9757,
+      "logicalHeight": 617,
+      "label": "santa anna mounted walk s",
+      "kind": "famous-santa-anna-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          790,
+          629,
+          240,
+          613
+        ],
+        "visiblePixels": 74754,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
