@@ -16,7 +16,6 @@ import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { meetFamily } from './support/meet-family.mjs';
-import { sendTheWay } from './support/going.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld } from '../sim/world.mjs';
 
@@ -106,12 +105,12 @@ try {
   ok(`sending for somebody is asked twice: "${observed.confirm}"`);
 
   const strengthBefore = await page.evaluate(() => window.__snapshot.world.army.strength);
+  // Counted before the press. This counted after it, which held only while nothing reached the page before the next tick (four
+  // seconds here); the page is sent the order's own snapshot at once, so the count read after the press was the smaller one and the
+  // wait for it to fall below itself never ended (2026-09-26).
+  const oursBefore = await page.evaluate(() => window.__snapshot.world.army.ours.length);
   await button.click();
-  // Bringing him home puts him on a road, and since 2026-09-24 every such order asks how they go first (public/going.js): the
-  // server's suggestion is taken, as a student most often does. Unanswered, nothing was sent (found 2026-09-26).
-  await sendTheWay(page);
-  await page.waitForFunction(before => (window.__snapshot?.world.army?.ours?.length ?? 0) < before,
-    await page.evaluate(() => window.__snapshot.world.army.ours.length)).catch(async error => {
+  await page.waitForFunction(before => (window.__snapshot?.world.army?.ours?.length ?? 0) < before, oursBefore).catch(async error => {
     throw new Error(`he never left the ranks: ${JSON.stringify(await page.evaluate(() => ({ error: document.querySelector('#error')?.textContent, going: window.__goingPending || null, goingShown: !document.querySelector('#going')?.hidden, card: document.querySelector('#selection-army')?.innerText, status: window.__snapshot.world.status, ours: window.__snapshot.world.army?.ours })))} (${error.message.split('\n')[0]})`);
   });
   observed.after = await page.locator('#army-where').textContent();

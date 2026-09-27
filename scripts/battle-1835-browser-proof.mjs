@@ -197,12 +197,21 @@ async function prove(fight) {
     const phases = fight === 'concepcion' ? [['ringed', 3, 1366], ['charges', 5, 1024], ['retreat', 2, 1024]] : [['bowie', 3, 1366], ['ambush', 3, 1024], ['sortie', 3, 1024]];
     const moments = [];
     let hostDuring = null;
+    // **Sampled by the class's clock, not the wall's** (2026-09-26): a moment every second tick of the phase, from its first,
+    // and on to the next phase the moment it begins. The moments were 1.9 real seconds apart, so a phase of four or five ticks
+    // (the retreat, the ditch, the sortie) could pass while the one before it was still being sampled, and the wait for it ran
+    // out its four minutes on a phase already gone - with a second proof running beside it, now and then (seen on Concepción).
     for (const [phase, count, width] of phases) {
       await fighter.setViewportSize({ width, height: 768 });
       await fighter.waitForFunction(id => window.__snapshot.world.battle?.phase === id, phase, { timeout: 240000 });
       await keepWatching(fighter);
+      let at = await fighter.evaluate(() => window.__snapshot.world.tick);
       for (let i = 0; i < count; i++) {
-        await fighter.waitForTimeout(1900); moments.push(await sample(fighter, `${width} ${phase} ${i}`));
+        at += i === 0 ? 1 : 2;
+        await fighter.waitForFunction(([t, id]) => window.__snapshot.world.tick >= t || window.__snapshot.world.battle?.phase !== id, [at, phase], { timeout: 60000 });
+        const one = await sample(fighter, `${width} ${phase} ${i}`);
+        if (one.phase !== phase) break;
+        moments.push(one);
         if (i === 1) await shot(fighter, `${phase}-${width}`);
         // The Host, while it is being fought: live, framed on the field.
         if (i === 1 && !hostDuring && ['charges', 'ambush'].includes(phase)) { hostDuring = await host.evaluate(() => ({ battle: window.__snapshot.world.battle?.id, phase: window.__snapshot.world.battle?.phase, focus: window.__snapshot.world.host?.focus, camera: window.__camera?.kind, drawn: window.__battleView?.figures, smoke: window.__battleView?.smokeInView, seen: window.__spotlightSeen })); await shot(host, 'host'); }

@@ -16,6 +16,7 @@ import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { rollFamily, stepWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
+import { chooseSite } from '../sim/homesite.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 // docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is drawn only while they are the family's main person, so
 // a proof that presses somebody's icon chooses them first, as a student does. Ten proofs were given this on 2026-09-21;
@@ -40,6 +41,12 @@ function inTheSpring(seed, playerCount) {
   beginThirdPeriod(world);
   const household = world.households['hh-1'];
   assert.equal(household.settlementId, 'gonzales', 'the seed no longer deals the first family to Gonzales');
+  // The house site chosen where the family's mark already stands, as the family would have in the first period. Since the
+  // arrival on the real land (sim/settling.mjs) a family that never chose is asked the moment its student joins; played in
+  // process with nobody choosing for it, this family was still choosing in April, and the chooser folded the family column
+  // to faces over the rest of this run - its second parent's star could not be pressed (2026-09-26). At the mark itself, so
+  // the house, and the road east from it, are where they were.
+  if (household.choosingSite) { const home = world.map.sites[household.homeSiteId]; chooseSite(world, household, { x: home.x, y: home.y }); }
   household.improvements = { ...(household.improvements || {}), cabin: 'sound' };
   household.resources = { ...household.resources, food: 60, seed: 4, cotton: 2, powder: 4, money: 2 };
   world.status = 'lobby';
@@ -82,6 +89,12 @@ try {
 
   // ---------------------------------------------------------------------------------------------- told to leave: go
   await student.waitForFunction(() => window.__snapshot?.world.flight?.status === 'ordered', null, { timeout: 60000 });
+  // **The flight leaves on the tick it was ordered** (2026-09-26). Which day the wagon bogs is rolled against the weather where
+  // the family is each day, so it moved with how many ticks the form took to fill - and on some runs the family reached San
+  // Felipe before the rain (the failure recorded since the Alamo merge). The class is held to a tick every ten seconds while
+  // the student fills the form and presses Confirm, as a slow reader would have it, and set back once they have gone.
+  app.setPace(10000);
+  observed.ordered = { tick: await student.evaluate(() => window.__snapshot.world.tick), paced: world().tick };
   const main = household().mainId || household().principalId;
   await student.locator(`[data-attention="${main}"]`).waitFor({ state: 'visible', timeout: 30000 });
   await student.locator(`[data-attention="${main}"]`).click({ force: true });
@@ -93,6 +106,9 @@ try {
   await student.locator('#selection-flight [data-action="flee"]').click();
   await student.locator('#selection-flight [data-action="flee"]', { hasText: 'Confirm' }).click();
   await student.waitForFunction(() => window.__snapshot?.world.flight?.status === 'fled', null, { timeout: 15000 });
+  observed.ordered.fledAt = world().tick;
+  app.setPace(1500);
+  assert.equal(observed.ordered.fledAt, observed.ordered.tick, `the family did not leave on the tick it was told to go: ${JSON.stringify(observed.ordered)}`);
   assert.equal(household().flight.mode, 'wagon');
   ok('told to leave, the family loaded the wagon and set out for San Felipe');
 

@@ -28,8 +28,11 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const pass = [];
 const ok = label => { pass.push(label); console.log('PASS', label); };
 
-// The hunter is the founding four's son, drawn as the adolescent boy he is (public/motion.js `figureOf`, sim/town.mjs `seenAs`).
-const HUNTER_FIGURE = figureOf({ id: 'hh-1-mateo', kind: 'person', sex: 'male', band: 'youth' });
+// The hunter is the founding four's son. Since the parent appearance redesign (e396a13, 2026-09-26) a family's own people are
+// drawn in the cast figure their family's looks choose (public/avatar-art.js `avatarVariant`), and a painted cast figure by
+// age and sex (public/motion.js `figureOf`) only without looks; this asked for the adolescent boy's `blue` until 2026-09-26
+// and failed on the first pose. Which it is, is read off the page once the family is met: the figure the page draws him in.
+let HUNTER_FIGURE = figureOf({ id: 'hh-1-mateo', kind: 'person', sex: 'male', band: 'youth' });
 const app = createClassroom({ seed: 'hunt-proof', playerCount: 5, tickMs: 400, worldFactory: (seed, count) => keepFoundingFamilies(createSettledWorld(seed, count)) });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
@@ -70,6 +73,11 @@ try {
   assert.match(mark, /2 powder/, `the mark does not state its price: "${mark}"`);
   ok(`a poor shot can be taught: "${mark}"`);
   app.setPace(PACES.brisk);
+  HUNTER_FIGURE = await page.evaluate(async fallback => {
+    const { avatarVariant } = await import('/avatar-art.js');
+    const him = window.__snapshot.world.entities.find(one => one.id === 'hh-1-mateo');
+    return him?.appearance ? avatarVariant(him.appearance, him.sex) : fallback;
+  }, HUNTER_FIGURE);
   await mateo('hunt-timber').click();
   // The hunt in the timber is a journey, and since 2026-09-24 a journey asks how they go before anybody leaves (public/going.js).
   // On foot, the walk this proof watches (its poses on the road are the walk cycle's). Unanswered, nobody went (2026-09-26).
