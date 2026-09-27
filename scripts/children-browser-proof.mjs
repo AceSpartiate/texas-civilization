@@ -181,6 +181,11 @@ try {
   assert.equal(after.task, was.task, 'the carer did not go back to what she was doing');
   assert.equal(after.chore?.id || null, was.chore, 'the carer did not go back to the same work');
   assert.equal(await lifeOf(page, baby.id), 'Napping.');
+  // Roomy, the baby's row has its sentence and not the short word the tight column shows instead (owner, 2026-09-27: "Show a
+  // short word"; the tight column is scripts/family-twenty-browser-proof.mjs's, a family of twenty).
+  const roomy = await page.evaluate(id => { const word = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-life-word`), line = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-life-line`); return { tight: document.querySelector('#family-panel').dataset.tight === 'true', word: word?.textContent ?? null, wordShown: Boolean(word) && word.getClientRects().length > 0, lineShown: Boolean(line) && line.getClientRects().length > 0 }; }, baby.id);
+  observed.roomyWord = roomy;
+  assert.deepEqual(roomy, { tight: false, word: 'napping', wordShown: false, lineShown: true }, 'in a roomy column the baby’s row shows the short word, or not its sentence');
   ok(`the baby crawled (${crawl.places} places in three seconds), cried and was picked up by ${carer.name.split(' ')[0]}, ${carer.age}, who said "${held.said.join('" / "')}" and was drawn ${held.clip}; the baby was put down to nap and she went back to where she stood, at "${was.task}"`);
 
   // 4b. On foot with the baby on her hip (owner, 2026-09-27: "goes a quarter slower on foot"; docs/CHILDREN.md §6). The mother is

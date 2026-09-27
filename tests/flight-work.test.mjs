@@ -11,9 +11,12 @@ import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { CHORES } from '../sim/chores.mjs';
 import { CARRIED_ROOM, FLIGHT_SPACE, flightRoom } from '../sim/scrape.mjs';
 import { WARNING_MILES, carriedRoom } from '../sim/road.mjs';
-import { BUNDLE_ROOM, FERRY_HELP_HOURS, FLIGHT_WORKS, FORD_MILES, HIDE_ROOM, LOOKOUT_MILES, MILK_A_DAY, SHARED_FOOD, SICK_FIRST_SHARE, SINGING_SHARE, digUpCache, fireKept, lookoutMiles, milkCow } from '../sim/flight-work.mjs';
+import { BUNDLE_ROOM, COW_PACE, FERRY_HELP_HOURS, FLIGHT_WORKS, FORD_MILES, HIDE_ROOM, LOOKOUT_MILES, MILK_A_DAY, SHARED_FOOD, SICK_FIRST_SHARE, SINGING_SHARE, digUpCache, fireKept, lookoutMiles, milkCow } from '../sim/flight-work.mjs';
 import { herdOf } from '../sim/stock.mjs';
-import { overtake } from '../sim/road.mjs';
+import { abandonWagon, moveOn, overtake } from '../sim/road.mjs';
+import { turnHome } from '../sim/scrape.mjs';
+import { LEAD_PACE } from '../sim/beasts.mjs';
+import { WAGON_SPEED } from '../sim/travel.mjs';
 import { canAnswerCalls } from '../sim/family.mjs';
 
 const SEED = 'road-1638';
@@ -339,4 +342,86 @@ test('the rule: the milk cow is taken if the Mexican army comes up with the fami
   assert.ok(herdOf(household).cattle >= cattle + 1, `the cow did not go back into the herd: ${herdOf(household).cattle} cattle, ${cattle} before`);
   assert.ok(world.events.some(event => event.householdId === household.id && /The milk cow came home with the family/.test(event.text)), 'the cow’s coming home was not told');
   validateWorld(world);
+});
+
+// The milk cow's pace (owner, 2026-09-27, by multiple choice: "Slow a family on foot"; FIC-GONZ-631 amended): on foot the family
+// goes at hers, which is the pace the game gives cattle driven on the road (sim/beasts.mjs LEAD_PACE, the ox's); with a wagon it is
+// not slowed by her. The driver's row and the flight card say why.
+test('the rule: a family on foot goes at the milk cow’s pace, and one with a wagon is not slowed by her', () => {
+  assert.equal(COW_PACE, LEAD_PACE.cattle, 'the cow does not go at the pace the game gives cattle on the road');
+  assert.equal(COW_PACE, WAGON_SPEED, 'a cow driven on foot does not go at the ox’s pace');
+  const onRoad = (world, household) => people(world, household).filter(one => one.travel?.purpose === 'flee' || one.travel?.purpose === 'return');
+  const leave = ({ cow = true, foot = true, ages = [10] } = {}) => {
+    const world = spring();
+    const household = ordered(world);
+    const [kid] = children(world, household, ...ages);
+    household.herd = { cattle: 6, hogs: 0 };
+    if (foot) onFoot(world, household);
+    if (cow) { applyAction(world, household.id, { action: 'chore', entityId: kid.id, chore: 'flee-cow' }); runChore(world, kid); }
+    flee(world, household, { food: 4 });
+    return { world, household, kid };
+  };
+  const lifeOf = (world, household, person) => view(world, household.id).entities.find(one => one.id === person.id).life;
+  // On foot without her the family walks at a walker's pace; with her, at hers - every one of it - and says why.
+  const alone = leave({ cow: false });
+  assert.equal(alone.household.flight.mode, 'foot');
+  assert.ok(onRoad(alone.world, alone.household).every(one => one.travel.speed > COW_PACE), 'a family on foot with no cow went at a cow’s pace');
+  const walking = leave();
+  assert.equal(walking.household.flight.mode, 'foot');
+  const going = onRoad(walking.world, walking.household);
+  assert.ok(going.length > 1);
+  for (const one of going) {
+    assert.equal(one.travel.speed, COW_PACE, `${one.name} on foot with the milk cow went at ${one.travel.speed} a tick, not hers`);
+    assert.equal(one.travel.cow, true);
+  }
+  assert.equal(view(walking.world, walking.household.id).flight.cowPace, true, 'the flight card is not told the cow is why the family is slower');
+  assert.equal(lifeOf(walking.world, walking.household, walking.kid), 'Driving the milk cow along behind the family: on foot, they all go at her slower pace.');
+  validateWorld(walking.world);
+  // The road home on foot: at her pace again.
+  const { world, household } = walking;
+  household.flight.status = 'refuged';
+  const refuge = world.map.sites[household.flight.refuge];
+  for (const id of [...household.members, ...household.property]) {
+    const one = world.entities[id];
+    if (!one?.travel) continue;
+    one.travel = null; one.task = 'rest'; one.location = { x: refuge.x, y: refuge.y, siteId: refuge.id };
+  }
+  assert.equal(view(world, household.id).flight.cowPace, undefined, 'camped, the family is still said to be held to the cow');
+  // On to a further refuge, on foot with her: at her pace.
+  const camped = () => { household.flight.status = 'refuged'; for (const one of onRoad(world, household)) { const at = world.map.sites[household.flight.refuge]; one.travel = null; one.task = 'rest'; one.location = { x: at.x, y: at.y, siteId: at.id }; } };
+  assert.equal(moveOn(world, household, 'lynchburg'), true, 'the family could not go on to Lynchburg');
+  assert.ok(onRoad(world, household).every(one => one.travel.speed === COW_PACE && one.travel.cow), `on to a further refuge with the cow the family went at ${onRoad(world, household).map(one => one.travel.speed)}`);
+  camped();
+  turnHome(world, null);
+  assert.equal(household.flight.status, 'returning');
+  const home = onRoad(world, household);
+  assert.ok(home.length > 1 && home.every(one => one.travel.speed === COW_PACE && one.travel.cow), `home on foot with the cow the family went at ${home.map(one => one.travel.speed)}`);
+  validateWorld(world);
+  // With the wagon she slows nobody: the family goes at the ox's pace, as with no cow, and nobody is said to be held to her.
+  const wagon = leave({ foot: false });
+  assert.equal(wagon.household.flight.mode, 'wagon');
+  for (const one of onRoad(wagon.world, wagon.household)) {
+    assert.equal(one.travel.speed, WAGON_SPEED, `${one.name} with the wagon and the cow went at ${one.travel.speed}`);
+    assert.equal(one.travel.cow, undefined, `${one.name} with the wagon is said to be held to the cow`);
+  }
+  assert.equal(view(wagon.world, wagon.household.id).flight.cowPace, undefined, 'a family with a wagon is told the cow slows it');
+  assert.equal(lifeOf(wagon.world, wagon.household, wagon.kid), 'Driving the milk cow along behind the family.');
+  // The wagon left in the mud: on foot now, at her pace.
+  abandonWagon(wagon.world, wagon.household);
+  assert.ok(onRoad(wagon.world, wagon.household).every(one => one.travel.speed === COW_PACE && one.travel.cow), 'on foot after leaving the wagon, the family did not go at the cow’s pace');
+  // Overtaken, the cow is taken, and nobody is held to her.
+  overtake(wagon.world, wagon.household, { id: 'test-column', name: 'A Mexican column', toward: 'san-felipe' });
+  assert.ok(onRoad(wagon.world, wagon.household).every(one => one.travel.cow === undefined && one.travel.speed > COW_PACE), 'the cow taken, the family is still held to her pace');
+  assert.equal(view(wagon.world, wagon.household.id).flight.cowPace, undefined);
+  validateWorld(wagon.world);
+  // A small child walking holds the family slower than the cow, who slows it no further; kept walking by the hand, the family goes
+  // at hers and no faster (sim/flight-work.mjs `road-little-ones`).
+  const small = leave({ ages: [10, 4] });
+  const pace = () => onRoad(small.world, small.household).map(one => one.travel.speed);
+  assert.ok(pace().every(speed => speed < COW_PACE), `with a child of four walking the family went at ${pace()}`);
+  assert.equal(view(small.world, small.household.id).flight.cowPace, undefined, 'the cow is said to slow a family already slower than she is');
+  applyAction(small.world, small.household.id, { action: 'chore', entityId: small.kid.id, chore: 'road-little-ones' });
+  stepWorld(small.world);
+  assert.ok(pace().every(speed => speed === COW_PACE), `the little ones kept walking, the family went at ${pace()}, not the cow’s pace`);
+  validateWorld(small.world);
 });

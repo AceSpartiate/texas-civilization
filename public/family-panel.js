@@ -882,6 +882,12 @@ const LITTLE_GLYPHS = Object.freeze({
  * somebody, talking, dawdling, or that their automation has just gone off; a baby says it is crawling, crying, held or asleep.
  */
 export const lifeLine = entity => (entity?.life ? String(entity.life) : '');
+/**
+ * A baby's one short word for what it is doing - "crawling", "crying", "held", "napping", "asleep", "carried" - in the server's own
+ * word (sim/babies.mjs `babyWord`), or ''. Shown beside its name when the column is too tight for its sentence, which it replaces
+ * there (owner, 2026-09-27, by multiple choice: "Show a short word"; docs/CHILDREN.md §9).
+ */
+export const lifeWord = entity => (entity?.lifeWord ? String(entity.lifeWord) : '');
 
 /**
  * Draw one of the panel's marks into its canvas: `mark-need`, `mark-need-rider`, `mark-main`, `mark-idle`, `mark-auto-off`

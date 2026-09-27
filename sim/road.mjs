@@ -40,7 +40,7 @@ import { spotlight } from './host.mjs';
 import { awardGlory } from './glory.mjs';
 import { COLUMNS, ORDER_GRACE_MINUTES, ROAD_DETOUR, clockOf, columnLeg as advanceLeg, headAt } from './advance.mjs';
 // The children's bundles and the lookout on the road behind (sim/flight-work.mjs, docs/CHILDREN.md §7).
-import { bundleRoom, lookoutMiles, lookoutOf, loseCow } from './flight-work.mjs';
+import { bundleRoom, cowPace, lookoutMiles, lookoutOf, loseCow } from './flight-work.mjs';
 
 const DAY = 1440;
 const round = value => Math.round(value * 100) / 100;
@@ -325,6 +325,8 @@ export function moveOn(world, household, refuge) {
   // The refuge left is a crossing town; it is not waited at again on the way out of it.
   Object.assign(flight, { status: 'fled', refuge, mode, crossed: [at], leftMinute: world.minute });
   delete flight.arrivedMinute; delete flight.danger; delete flight.oxSpentUntil;
+  // On foot with the milk cow, at her pace (sim/flight-work.mjs `cowPace`).
+  cowPace(world, household);
   return true;
 }
 
@@ -352,6 +354,8 @@ export function abandonWagon(world, household) {
   for (const one of goers) if (one.travel) { one.travel.mode = 'foot'; one.travel.speed = WALK_SPEED; delete one.travel.halted; }
   for (const beast of with_) if ((beast.kind === 'horse' || beast.species === 'horse') && beast.travel) { beast.travel.speed = WALK_SPEED; delete beast.travel.halted; }
   flight.mode = 'foot';
+  // On foot now: with the milk cow along, at her pace (sim/flight-work.mjs `cowPace`).
+  cowPace(world, household);
   delete flight.bog; delete flight.oxSpentUntil;
   if (flight.crossing) { flight.crossed = [...(flight.crossed || []), flight.crossing.siteId]; delete flight.crossing; }
   tell(world, household, `The family left the wagon and the ox where they stood and went on on foot, carrying ${Object.entries(kept).filter(([, amount]) => amount > 0).map(([good, amount]) => `${amount} ${good}`).join(', ') || 'nothing'}${lost.length ? `; ${lost.join(', ')} had to be left with the wagon` : ''}.`, { importance: 3, claimId: 'HIST-TEX-069' });
@@ -400,6 +404,8 @@ export function overtake(world, household, near) {
   }
   if (flight.crossing) { flight.crossed = [...(flight.crossed || []), flight.crossing.siteId]; delete flight.crossing; }
   if (flight.status === 'fled') flight.mode = 'foot';
+  // The cow taken, nobody is held to her pace any longer.
+  cowPace(world, household);
   const where = flight.status === 'refuged' ? `at ${world.map.sites[flight.refuge].name}` : 'on the road';
   const text = `${near.name} came up with the family ${where}. The soldiers took ${animals.length ? animals.join(', ') : 'what animals there were'}${taken.length ? ` and everything in the wagon: ${taken.join(', ')}` : ''}. ${prisoners.length ? `${prisoners.map(one => one.name).join(' and ')} ${prisoners.length > 1 ? 'were' : 'was'} taken prisoner and marched off with the column${with_.length > prisoners.length ? '; the rest were let go' : ''}.` : 'Nobody was taken.'}${flight.status === 'fled' && with_.length > prisoners.length ? ' The family went on on foot with nothing.' : ''}`;
   const eventId = record(world, 'consequence', { householdId: household.id, importance: 3, claimId: 'HIST-TEX-073', classification: 'FICTIONAL FOR GAMEPLAY', text });

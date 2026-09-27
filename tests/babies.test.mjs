@@ -256,3 +256,43 @@ test('the rule: nobody is stopped by a baby on a calendar too fast to stop for, 
   assert.ok(!Object.values(unplayed.world.entities).some(entity => entity.aside), 'a family nobody plays was stopped by its baby');
   assert.equal(unplayed.baby.baby, undefined, 'a baby of a family nobody plays was moved');
 });
+
+// A baby's short word (owner, 2026-09-27, by multiple choice: "Show a short word"; docs/CHILDREN.md §9): when the family column is
+// too tight for the baby's sentence the row shows one word for what it is doing instead of nothing. The word is the server's, sent
+// beside the sentence and read in the same order, so the two never disagree; nobody else's row carries one.
+test('the rule: a baby’s row carries one short word for what it is doing, the same as its sentence says', () => {
+  const { world, household, baby, mother } = family('babies-word');
+  const seen = () => { const one = row(world, household, baby.id); return [one.life, one.lifeWord]; };
+  const cases = [
+    ['awake', /^Crawling about the yard\.$/, 'crawling'],
+    ['cry', /^Crying for somebody\.$/, 'crying'],
+    ['nap', /^Napping\.$/, 'napping'],
+    ['night', /^Asleep for the night\.$/, 'asleep'],
+  ];
+  for (const [state, sentence, word] of cases) {
+    baby.baby = { state, spot: { x: baby.location.x, y: baby.location.y } };
+    const [life, lifeWord] = seen();
+    assert.match(life, sentence);
+    assert.equal(lifeWord, word, `a baby whose row says "${life}" is given the word "${lifeWord}", not "${word}"`);
+  }
+  // Held: a woman of age comes to it.
+  near(mother, baby, 0.01);
+  cry(world, baby);
+  step(world);
+  assert.equal(baby.baby.state, 'held');
+  assert.match(seen()[0], /^Held by/);
+  assert.equal(seen()[1], 'held');
+  // Carried on her hip.
+  baby.carriedBy = mother.id;
+  assert.match(seen()[0], /^Carried by/);
+  assert.equal(seen()[1], 'carried');
+  delete baby.carriedBy;
+  // A sick baby: the sentence says so, the word is still what it is doing.
+  baby.baby = { state: 'nap', spot: { x: baby.location.x, y: baby.location.y } };
+  baby.health = { condition: 'sick', recoversAt: world.minute + 1440 };
+  assert.deepEqual(seen(), ['Sick. Napping.', 'napping']);
+  // Only a baby's row has a word; and a baby of a family nobody plays has neither sentence nor word.
+  assert.ok(view(world, household).entities.filter(one => one.id !== baby.id).every(one => one.lifeWord === undefined), 'somebody who is not a baby was given a baby’s word');
+  household.played = false;
+  assert.deepEqual(seen(), [undefined, undefined]);
+});

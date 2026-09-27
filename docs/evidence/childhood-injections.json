@@ -504,9 +504,10 @@
       "file": "sim/flight-work.mjs",
       "test": "tests/flight-work.test.mjs",
       "caught": true,
-      "alone": true,
+      "alone": false,
       "failed": [
-        "the rule: on the road a lookout sees the army further off, singing wears the walkers less, and the little ones kept walking let the family go faster"
+        "the rule: on the road a lookout sees the army further off, singing wears the walkers less, and the little ones kept walking let the family go faster",
+        "the rule: a family on foot goes at the milk cow’s pace, and one with a wagon is not slowed by her"
       ]
     },
     {
@@ -634,9 +635,10 @@
       "file": "sim/world.mjs",
       "test": "tests/flight-work.test.mjs",
       "caught": true,
-      "alone": true,
+      "alone": false,
       "failed": [
-        "the rule: one milk cow on the run - only a family with cattle, driven by a child, taken out of the herd left on the range"
+        "the rule: one milk cow on the run - only a family with cattle, driven by a child, taken out of the herd left on the range",
+        "the rule: a family on foot goes at the milk cow’s pace, and one with a wagon is not slowed by her"
       ]
     },
     {
@@ -674,9 +676,10 @@
       "file": "sim/road.mjs",
       "test": "tests/flight-work.test.mjs",
       "caught": true,
-      "alone": true,
+      "alone": false,
       "failed": [
-        "the rule: the milk cow is taken if the Mexican army comes up with the family, and home again she goes back into the herd"
+        "the rule: the milk cow is taken if the Mexican army comes up with the family, and home again she goes back into the herd",
+        "the rule: a family on foot goes at the milk cow’s pace, and one with a wagon is not slowed by her"
       ]
     },
     {
@@ -687,6 +690,166 @@
       "alone": true,
       "failed": [
         "the rule: the milk cow is taken if the Mexican army comes up with the family, and home again she goes back into the herd"
+      ]
+    },
+    {
+      "name": "cow pace: a family on foot is not slowed by her",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a family on foot goes at the milk cow’s pace, and one with a wagon is not slowed by her"
+      ]
+    },
+    {
+      "name": "cow pace: she is not the pace of cattle on the road",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a family on foot goes at the milk cow’s pace, and one with a wagon is not slowed by her"
+      ]
+    },
+    {
+      "name": "cow pace: a family with no cow goes at a cow’s pace",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a family on foot goes at the milk cow’s pace, and one with a wagon is not slowed by her"
+      ]
+    },
+    {
+      "name": "cow pace: a family with a wagon is told she slows it",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a family on foot goes at the milk cow’s pace, and one with a wagon is not slowed by her"
+      ]
+    },
+    {
+      "name": "cow pace: the family leaves at a walker’s pace with her",
+      "file": "sim/scrape.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a family on foot goes at the milk cow’s pace, and one with a wagon is not slowed by her"
+      ]
+    },
+    {
+      "name": "cow pace: the driver’s row does not say why the family is slower",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a family on foot goes at the milk cow’s pace, and one with a wagon is not slowed by her"
+      ]
+    },
+    {
+      "name": "cow pace: the flight card is not told why the family is slower",
+      "file": "sim/scrape.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a family on foot goes at the milk cow’s pace, and one with a wagon is not slowed by her"
+      ]
+    },
+    {
+      "name": "cow pace: the wagon left, the family on foot goes at a walker’s pace",
+      "file": "sim/road.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a family on foot goes at the milk cow’s pace, and one with a wagon is not slowed by her"
+      ]
+    },
+    {
+      "name": "cow pace: on to a further refuge at a walker’s pace",
+      "file": "sim/road.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a family on foot goes at the milk cow’s pace, and one with a wagon is not slowed by her"
+      ]
+    },
+    {
+      "name": "cow pace: taken by the army, the family is still held to her",
+      "file": "sim/road.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a family on foot goes at the milk cow’s pace, and one with a wagon is not slowed by her"
+      ]
+    },
+    {
+      "name": "cow pace: home on foot at a walker’s pace with her",
+      "file": "sim/scrape.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a family on foot goes at the milk cow’s pace, and one with a wagon is not slowed by her"
+      ]
+    },
+    {
+      "name": "cow pace: the little ones kept walking go faster than she does",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a family on foot goes at the milk cow’s pace, and one with a wagon is not slowed by her"
+      ]
+    },
+    {
+      "name": "word: a baby’s row is sent no short word",
+      "file": "sim/world.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a baby’s row carries one short word for what it is doing, the same as its sentence says"
+      ]
+    },
+    {
+      "name": "word: a crying baby is given the word for crawling",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a baby’s row carries one short word for what it is doing, the same as its sentence says"
+      ]
+    },
+    {
+      "name": "word: a carried baby is given the word for what it was doing",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a baby’s row carries one short word for what it is doing, the same as its sentence says"
+      ]
+    },
+    {
+      "name": "word: a grown-up is given a baby’s word",
+      "file": "sim/world.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a baby’s row carries one short word for what it is doing, the same as its sentence says"
       ]
     },
     {

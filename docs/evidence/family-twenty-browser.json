@@ -9,8 +9,11 @@
     "at 1366 by 768 twenty rows scroll inside a 304 px panel that ends at 575 px, and the map is on top at 82% of the screen",
     "the youngest child, last of twenty, scrolls into view inside the panel and nothing covers them",
     "with the class running at 1366 by 768, the panel ends at 470 px above the ability bar at 478 px, and the youngest child's portrait can be pressed",
+    "at 1366 by 768, the column tight, 1 baby’s row shows one short word beside the name (\"crawling\") and the sentence as its title",
     "with the class running at 1440 by 950, the panel ends at 652 px above the ability bar at 660 px, and the youngest child's portrait can be pressed",
+    "at 1440 by 950, the column tight, 1 baby’s row shows one short word beside the name (\"crawling\") and the sentence as its title",
     "with the class running at 1024 by 768, the panel ends at 470 px above the ability bar at 478 px, and the youngest child's portrait can be pressed",
+    "at 1024 by 768, the column tight, 1 baby’s row shows one short word beside the name (\"crawling\") and the sentence as its title",
     "on a 400 by 800 phone all six hold: 20 rows; the panel ends at 645 of 800 px; the page itself does not scroll; the panel is on top at 20% of the screen (asked: under 30%); the map is on top at 48% below the guided start (asked: over 40%); the last child can be brought into view ({\"inside\":true,\"onTop\":true,\"scrollTop\":703,\"id\":\"hh-1-child-18\"})",
     "no page error in either"
   ],
@@ -56,6 +59,22 @@
       "lastOnTop": true,
       "covering": "CANVAS."
     },
+    "baby-words-1366x768": {
+      "tight": true,
+      "babies": [
+        {
+          "id": "hh-1-child-18",
+          "focused": false,
+          "word": "crawling",
+          "wordShown": true,
+          "lineShown": false,
+          "sentence": "Crawling about the yard.",
+          "title": "Crawling about the yard.",
+          "onNameLine": true,
+          "insideRow": true
+        }
+      ]
+    },
     "bar-1440x950": {
       "panelBottom": 652,
       "barTop": 660,
@@ -64,6 +83,22 @@
       "lastOnTop": true,
       "covering": "CANVAS."
     },
+    "baby-words-1440x950": {
+      "tight": true,
+      "babies": [
+        {
+          "id": "hh-1-child-18",
+          "focused": false,
+          "word": "crawling",
+          "wordShown": true,
+          "lineShown": false,
+          "sentence": "Crawling about the yard.",
+          "title": "Crawling about the yard.",
+          "onNameLine": true,
+          "insideRow": true
+        }
+      ]
+    },
     "bar-1024x768": {
       "panelBottom": 470,
       "barTop": 478,
@@ -71,6 +106,22 @@
       "overlapsBar": false,
       "lastOnTop": true,
       "covering": "CANVAS."
+    },
+    "baby-words-1024x768": {
+      "tight": true,
+      "babies": [
+        {
+          "id": "hh-1-child-18",
+          "focused": false,
+          "word": "crawling",
+          "wordShown": true,
+          "lineShown": false,
+          "sentence": "Crawling about the yard.",
+          "title": "Crawling about the yard.",
+          "onNameLine": true,
+          "insideRow": true
+        }
+      ]
     },
     "phone": {
       "rows": 20,

@@ -382,6 +382,19 @@ export function babyLine(world, household, entity) {
   return `${sick}Crawling about the ${household?.flight?.status === 'refuged' ? 'camp' : 'yard'}.`;
 }
 
+/**
+ * What a baby is doing in one short word, for its row when the family column is too tight for the sentence (owner, 2026-09-27, by
+ * multiple choice: "Show a short word"; docs/CHILDREN.md §9): "crawling", "crying", "held", "napping", "asleep" or "carried". Read in
+ * the order `babyLine` reads, so the word and the sentence never disagree; null wherever `babyLine` has nothing for a baby.
+ */
+export function babyWord(world, household, entity) {
+  if (!isBaby(entity) || GONE.includes(entity.health?.condition)) return null;
+  if (!household?.played || household.absent) return null;
+  if (entity.carriedBy || entity.travel?.carried) return 'carried';
+  return BABY_WORDS[entity.baby?.state] || BABY_WORDS.awake;
+}
+const BABY_WORDS = Object.freeze({ awake: 'crawling', cry: 'crying', held: 'held', nap: 'napping', night: 'asleep' });
+
 /** A saved baby's state that cannot be, or null. */
 export function babiesInvalid(world) {
   const STATES = ['awake', 'cry', 'held', 'nap', 'night', 'carried'];

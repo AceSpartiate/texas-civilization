@@ -34,7 +34,7 @@ import { COLUMNS, advanceModelled, burnMinute, farmFate } from './advance.mjs';
 import { learnOwnBurning, recordFarmBurned } from './advance-word.mjs';
 // What the family does on the road besides run (sim/flight-work.mjs, docs/CHILDREN.md §7): what it hid, the children's bundles, the
 // fire at the camp, and a sick child let over first at the ferry.
-import { bundleRoom, cowHome, crossingHoursFor, digUpCache, fireKept, hideAtLeaving, milkCow, takeCow } from './flight-work.mjs';
+import { bundleRoom, cowHome, cowPace, crossingHoursFor, digUpCache, fireKept, heldToCow, hideAtLeaving, milkCow, takeCow } from './flight-work.mjs';
 
 const GONE = ['dead', 'captured'];
 const DAY = 1440;
@@ -322,6 +322,8 @@ export function flee(world, household, { take = {}, refuge }) {
   // in the timber. It is the largest single thing a family loses by going, and it is written down rather than quietly
   // becoming nothing. One milk cow may go first, driven by a child who has her on a rope (sim/flight-work.mjs, owner 2026-09-27).
   takeCow(world, household, goers);
+  // With her along and no wagon, the family goes at her pace (owner, 2026-09-27: "Slow a family on foot").
+  cowPace(world, household);
   leaveStock(world, household);
   household.resources = { ...household.resources, ...Object.fromEntries(Object.entries(take).map(([good, amount]) => [good, amount])), money: kept.money ?? 0 };
   return departure;
@@ -516,6 +518,8 @@ export function turnHome(world, causeId) {
       entity.location = { ...path.points[0], siteId: null };
       if (entity.kind === 'person') entity.task = 'travel';
     }
+    // Home on foot with the milk cow, at her pace (sim/flight-work.mjs `cowPace`).
+    cowPace(world, household);
     flight.status = 'returning';
   }
 }
@@ -553,7 +557,9 @@ export function flightProjection(world, household) {
   const home = world.map.sites[household.homeSiteId];
   const shown = { status: flight.status, ...(flight.refuge && { refuge: flight.refuge, refugeName: world.map.sites[flight.refuge]?.name }), ...(flight.crossing && { waitingAt: world.map.sites[flight.crossing.siteId]?.name }), ...(flight.mode && { mode: flight.mode }),
     // Who has the milk cow (sim/flight-work.mjs): the page draws her beside them.
-    ...(flight.cow && { cow: { by: flight.cow.by } }) };
+    ...(flight.cow && { cow: { by: flight.cow.by } }),
+    // On foot the family goes at her pace (owner, 2026-09-27), and the card says why it is slower.
+    ...(heldToCow(world, household) && { cowPace: true }) };
   // On the road: the weather, the bog, the camp, the danger and the open question (sim/road.mjs).
   if (!['ordered', 'stayed'].includes(flight.status)) return { ...shown, ...roadProjection(world, household) };
   const { room, mode, wagons, cart, carreta } = flightRoom(world, household);

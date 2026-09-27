@@ -26,6 +26,11 @@
 // back into the herd. **No source read has a child driving a milk cow on the Runaway Scrape**; it is RECONSTRUCTED (docs/CHILDREN.md
 // §8): the record has boys driving range cattle by another road (`HIST-TEX-641`).
 //
+// **A family on foot goes at her pace** (owner, 2026-09-27, by multiple choice: "Slow a family on foot"; `FIC-GONZ-631` amended):
+// with the milk cow along and no wagon, cart or carreta, nobody of the family goes faster than `COW_PACE` - the pace the game already
+// gives cattle driven on the road, the ox's (sim/beasts.mjs `LEAD_PACE`) - and the driver's row and the flight card say why
+// (`cowPace`). A family with a vehicle goes at the ox's pace already, and she does not slow it.
+//
 // And one rule that is nobody's work: at a flooded crossing **a family with a sick child is let over first** (`SICK_FIRST_SHARE`),
 // as the ferryman at the Trinity did (`HIST-TEX-639`). The nursing of the sick, the hunt from the camp, the line in the river and
 // the trade at the crossing were already the road's (sim/road.mjs), and what the wagon holds and who goes to the army are the
@@ -42,6 +47,7 @@ import { record } from './events.mjs';
 import { canAnswerCalls, obedienceOf, sexOf, tooYoung } from './family.mjs';
 import { beginsJob, wanderChance } from './obedience.mjs';
 import { addToHerd, herdOf } from './stock.mjs';
+import { LEAD_PACE } from './beasts.mjs';
 import { stirredShare } from './shares.mjs';
 import { walkingPace } from './company.mjs';
 import { WAGON_SPEED, WALK_SPEED } from './travel.mjs';
@@ -83,6 +89,14 @@ export const COW_FROM_AGE = 7, COW_TO_AGE = 15;
  * found again by dark; the day's milk is what is lost (`FIC-GONZ-631`).
  */
 export const cowStrayChance = roll => wanderChance(roll) * 5;
+/**
+ * How fast the milk cow goes on the road, and so a family on foot with her, in miles a farming tick (owner, 2026-09-27: "Slow a
+ * family on foot"; `FIC-GONZ-631` amended). Not a number of its own: what the game already gives cattle driven on the road,
+ * sim/beasts.mjs `LEAD_PACE.cattle` (`FIC-GONZ-389`), which is the ox team's `WAGON_SPEED` - "the slow pace of the oxen", about two
+ * miles an hour, twelve to eighteen miles a day (`HIST-TEX-093`). A cow driven on foot goes about as an ox does: 0.65 a tick, 1.95
+ * miles an hour, 13.65 miles in the road's seven-hour day, against a walker's three miles an hour and twenty-one miles.
+ */
+export const COW_PACE = LEAD_PACE.cattle;
 
 const people = (world, household) => household.members.map(id => world.entities[id]).filter(one => one && !GONE.includes(one.health?.condition));
 /** Whether this person is with the family on the road east, or camped with it at the refuge. */
@@ -219,6 +233,27 @@ export function cowHome(world, household) {
   tell(world, household, driver, `The milk cow came home with the family${driver && !GONE.includes(driver.health?.condition) ? `, driven by ${driver.name} all the way` : ''}, and went back to the herd.`, 'FIC-GONZ-631');
 }
 
+/**
+ * The family on foot keeps to the milk cow's pace (owner, 2026-09-27: "Slow a family on foot"): every one of it on the road with
+ * her - east, on to a further refuge, or home - goes no faster than `COW_PACE`, and the journey is marked `cow`, which the driver's
+ * row (`cowLine`) and the flight card (sim/scrape.mjs `flightProjection`) read. With a wagon, cart or carreta the family goes at the
+ * ox's pace already and she changes nothing; a family already slower - a small child walking - is slowed no further. Called
+ * wherever the family's pace on the road is set: leaving (sim/scrape.mjs `flee`), the little ones kept walking or let go
+ * (`setPace`), the wagon left in the mud, a further refuge and being overtaken (sim/road.mjs), and the road home (`turnHome`).
+ */
+export function cowPace(world, household) {
+  if (!household?.flight) return;
+  const goers = [...household.members, ...(household.property || [])].map(id => world.entities[id]).filter(one => ['flee', 'return'].includes(one?.travel?.purpose));
+  const walkers = goers.filter(one => one.kind === 'person');
+  const onFoot = walkers.length > 0 && walkers.every(one => one.travel.mode !== 'wagon');
+  for (const one of goers) {
+    delete one.travel.cow;
+    if (household.flight.cow && onFoot && one.travel.speed > COW_PACE) { one.travel.speed = COW_PACE; one.travel.cow = true; }
+  }
+}
+/** Whether the milk cow is what holds this family to its pace on the road now (`cowPace`). */
+export const heldToCow = (world, household) => Boolean(household?.flight?.cow) && household.members.some(id => world.entities[id]?.travel?.cow === true);
+
 /** What the row of whoever has the cow says, in the server's words, or null. */
 export function cowLine(world, household, entity) {
   const flight = household?.flight, cow = flight?.cow;
@@ -226,6 +261,8 @@ export function cowLine(world, household, entity) {
   if (toldToGo(household)) return 'Has the milk cow on a rope, ready to go.';
   if (cow.strayDay === dayOf(world)) return 'Went after the milk cow, who got away into the brush.';
   if (flight.status === 'refuged') return 'Minding the milk cow at the camp.';
+  // On foot the family goes at her pace (`cowPace`), and the row says why it is slower.
+  if (entity.travel?.cow) return 'Driving the milk cow along behind the family: on foot, they all go at her slower pace.';
   return 'Driving the milk cow along behind the family.';
 }
 
@@ -253,6 +290,8 @@ function setPace(world, household, hurried) {
     const one = world.entities[id];
     if (one?.travel?.purpose === 'flee') one.travel.speed = speed;
   }
+  // With the milk cow along on foot, no faster than her (owner, 2026-09-27).
+  cowPace(world, household);
 }
 
 /** Every tick: the little ones kept walking, or let go back to their own pace when nobody is at it any longer. */
@@ -448,5 +487,7 @@ export function flightWorkInvalid(world) {
     if (cow !== undefined && (!cow || !world.entities[cow.by] || ['since', 'milkDay', 'strayDay'].some(key => cow[key] !== undefined && !Number.isFinite(cow[key])) || (cow.told !== undefined && cow.told !== true))) return 'Invalid milk cow';
     if (flight.cowTaken !== undefined && flight.cowTaken !== true) return 'Invalid milk cow taken';
   }
+  // A journey held to the cow's pace (`cowPace`): absent on every journey before it, which is a family not held to her.
+  for (const entity of Object.values(world.entities)) if (entity.travel?.cow !== undefined && entity.travel.cow !== true) return 'Invalid milk cow pace';
   return null;
 }

@@ -1,5 +1,47 @@
 # Claude handoff — Astra foundation
 
+## The milk cow's pace and a baby's short word — two owner decisions of 2026-09-27 (worktree branch; not released)
+
+Built on `worktree-agent-a5841143559ab4e24` from main `bd460c4`, fast-forwarded to `origin/main` `c4c2461` before finishing. Not
+pushed, not merged to main, not released. Both decisions are the owner's, by multiple choice, 2026-09-27 (docs/CHILDREN.md §9,
+decisions 6 and 7).
+
+**1. "Slow a family on foot"** (`FIC-GONZ-631` amended; docs/STOCK.md §8, docs/CHILDREN.md §7). With the milk cow along and no
+wagon, cart or carreta, nobody of the family goes faster than `COW_PACE` (`cowPace`, sim/flight-work.mjs) - leaving (sim/scrape.mjs
+`flee`), the little ones kept walking or let go (`setPace`), the wagon left in the mud, on to a further refuge (sim/road.mjs
+`abandonWagon`, `moveOn`) and home (`turnHome`); overtaken, the cow is taken and nobody is held to her. **Her pace is the game's
+existing pace for cattle driven on the road**: sim/beasts.mjs `LEAD_PACE.cattle` (`FIC-GONZ-389`) = sim/travel.mjs `WAGON_SPEED`,
+the ox team's (`HIST-TEX-093`, "the slow pace of the oxen"): **0.65 miles a tick, 1.95 mph, 13.65 miles in the road's seven-hour
+day**, against a walker's 3 mph and 21 miles. A family with a vehicle already goes at the ox's pace and is not slowed; a family
+already slower (a child of five or under walking, 0.5) is slowed no further. Why is said: the driver's row *"Driving the milk cow
+along behind the family: on foot, they all go at her slower pace."* and the flight card *"On foot with the milk cow, the family goes
+no faster than she walks, about two miles an hour."* (`flight.cowPace`, from `heldToCow`). New field `travel.cow` (true or absent,
+validated in `flightWorkInvalid`): **no save version moved**.
+
+**2. "Show a short word"** (docs/CHILDREN.md §9, docs/FAMILY_PANEL.md). When the column is tight, each baby's row that is not the
+main person's shows one word beside its name - "crawling", "crying", "held", "napping", "asleep", "carried" - instead of nothing,
+with its sentence as the word's title. The word is the server's (`babyWord`, sim/babies.mjs, read in `babyLine`'s order; sent as
+`lifeWord` in the family's own projection), drawn by `.panel-life-word` inside the row's tools on the name's line, so the row is no
+taller. Roomy, every row has the sentence and no word.
+
+**Also recorded, no change**: the hip slowdown applies to anyone carrying a baby on foot, the father too (as built); obedience is not
+applied to ten to fifteen (decision 2, (A)). Still open in docs/CHILDREN.md §9: the idle child in the guided start, how often a baby
+cries.
+
+**Evidence** (same computer, headless Chrome; no LAN, district, Chromebook or real-phone claim):
+- `npm test`: **1429 passed, 0 failed** (1427 before; two new: `tests/flight-work.test.mjs` "a family on foot goes at the milk
+  cow's pace, and one with a wagon is not slowed by her", `tests/babies.test.mjs` "a baby's row carries one short word").
+- `node scripts/childhood-injections.mjs`: **88 of 88 caught, 80 alone** ([record](docs/evidence/childhood-injections.json)). The 16
+  new rows (`cow pace:` 12, `word:` 4) are each caught alone - among them the old behaviour itself (no cap at all; no word sent).
+  Of the eight not alone, five were so before; three older ones (the little ones kept walking go no faster; the cow's row; the army
+  leaves the cow) now also fail the new cow-pace test, which walks through the same rules.
+- Browser: `test:family-twenty` **12** (new: the short word at 1366×768, 1440×950 and 1024×768 in the tight column, beside the name,
+  inside the row, sentence off the row and as the title; the phone's six gate checks at 400×800 hold: panel on top 20%, map 48%,
+  panel ends 645 of 800, youngest reachable). Three browser injections, each run once and put back byte for byte, each failed the
+  new check at 1366×768: the CSS that shows the word removed (the old behaviour); the server not sending `lifeWord`; the baby's
+  sentence left on the tight row. `test:children` **14** (the roomy row: sentence shown, word hidden), `test:family-panel` 17,
+  `test:panels` 14, `test:panel-silence` pass, `test:scrape` 5.
+
 ## Four owner decisions of 2026-09-27: the baby on the hip, one milk cow, Béxar's signs, phones a gate for the panel (worktree branch; released in v2026.09.27.1)
 
 Built on `worktree-agent-a9edddbea550152b5` from main `d710d28`, merged with `origin/main` before finishing. Not pushed, not

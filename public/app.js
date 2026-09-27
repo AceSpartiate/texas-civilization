@@ -4,7 +4,7 @@ import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, gaitMilesASecond, landRuns, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
-import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, lifeLine, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, standing, travellingLine, awayLine, RENAME_PAUSE_MS } from '/family-panel.js';
+import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, standing, travellingLine, awayLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { mountErrand } from '/errand.js';
 import { asksTheWay, mountGoing } from '/going.js';
@@ -3640,6 +3640,8 @@ function renderFlight(world, chosen, running) {
       flight.weather === 'rain' && ['fled', 'refuged'].includes(flight.status) ? 'It is raining.' : '',
       flight.bogged ? (flight.bogged.freeing ? 'The wagon is being dug out of the mud.' : flight.bogged.waiting ? 'The wagon is fast in the mud; the family waits for the ground to dry.' : 'The wagon is fast in the mud.') : '',
       flight.oxSpent ? 'The ox is spent and goes at half pace.' : '',
+      // On foot with the milk cow the family goes at her pace (sim/flight-work.mjs `cowPace`, owner 2026-09-27), and says why.
+      flight.cowPace ? 'On foot with the milk cow, the family goes no faster than she walks, about two miles an hour.' : '',
       flight.camp ? `The family has halted: ${flight.camp.toLowerCase()}.` : '',
       // Said once: while the warning is the open question, its own words carry the miles.
       flight.danger && flight.ask?.id !== 'danger' ? `${flight.danger.name} is about ${flight.danger.miles} miles off, making for ${flight.danger.towardName}.` : '',
@@ -3961,6 +3963,11 @@ function renderFamilyPanel(world) {
     if (row.life.textContent !== life) row.life.textContent = life;
     if (row.life.hidden !== !life) row.life.hidden = !life;
     setData(row.life, 'kind', entity.aside ? 'stopped' : entity.baby ? 'baby' : entity.talk ? 'talk' : 'child');
+    // A baby's short word, which stands in for its sentence when the column is tight (docs/CHILDREN.md §9); the sentence on hover.
+    const shortWord = lifeWord(entity);
+    if (row.word.textContent !== shortWord) row.word.textContent = shortWord;
+    if (row.word.hidden !== !shortWord) row.word.hidden = !shortWord;
+    if (row.word.title !== life) row.word.title = life;
     setData(row.autoSays, 'waiting', String(Boolean(onAuto && entity.autoTask?.waiting)));
     // The rooms of the house are set out from the main person's row: one place for the family's own detailed work.
     const houseShown = focused && house;
@@ -4024,7 +4031,7 @@ function renderFamilyPanel(world) {
     const idle = isIdle(entity, icons, { withArmy: army.has(id) });
     setData(row.item, 'idle', String(idle));
     if (row.idle.hidden !== !idle) row.idle.hidden = !idle;
-    seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), idle, focused, auto: onAuto, autoSays: autoSays || null, autoWaiting: Boolean(onAuto && entity.autoTask?.waiting), reason: reason || null, why: silence || null, travelling: travelling || null, life: life || null, switchShown: !noSwitch, bar });
+    seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), idle, focused, auto: onAuto, autoSays: autoSays || null, autoWaiting: Boolean(onAuto && entity.autoTask?.waiting), reason: reason || null, why: silence || null, travelling: travelling || null, life: life || null, word: shortWord || null, switchShown: !noSwitch, bar });
     const visibleIcons = icons.filter(icon => icon.active || (icon.can && (!shutting || allowsIcon(lesson, icon))));
     // Somebody with the men in a fight says why nothing can be asked of them (sim/battle-stage.mjs `heldByBattle`).
     // A baby's bar says what the baby is doing (docs/CHILDREN.md §6): it is given no work, and "too young" is not news.
@@ -4412,7 +4419,11 @@ function panelRow(id) {
   auto.type = 'button';
   auto.dataset.auto = id;
   auto.setAttribute('aria-pressed', 'false');
-  tools.append(idle, house, auto, focus);
+  // A baby's one short word (owner, 2026-09-27: "Show a short word"): beside the name, so a column too tight for the baby's
+  // sentence still says what it is doing without a line more. Shown only then (public/style.css).
+  const word = element('span', '', 'panel-life-word');
+  word.hidden = true;
+  tools.append(word, idle, house, auto, focus);
   // The ability bar (owner, 2026-09-21): the icons are a child of the row, not of the row's body, so the names can be
   // folded away without folding away the work, and so a row whose person is not the main one can hide them on their own.
   // Where they are *drawn* is the stylesheet's: the main person's group is taken to the bottom middle of the screen.
@@ -4434,7 +4445,7 @@ function panelRow(id) {
   life.hidden = true;
   body.append(label, input, tools, note, why, autoSays, life);
   item.append(portrait, attention, body, icons);
-  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, autoSays, life, note, why, face: null, iconsKey: null };
+  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, autoSays, life, word, note, why, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
 }

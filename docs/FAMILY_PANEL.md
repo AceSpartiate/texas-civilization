@@ -1323,6 +1323,12 @@ untouched - there the column runs across the top and the property is removed.
   do. Give Tom something to do and Mary goes back to planting."*; a child says they are going to find somebody or talking,
   dawdling, or that their automation has just gone off; a baby says it is crawling, crying, held or asleep. A stopped row shows
   the line once and not the refusal under it as well; a baby's row shows it instead of "too young to be sent".
+  **A tight column** (§17's `data-tight`) folds a baby's sentence away first; since 2026-09-27 (owner, by multiple choice: "Show a
+  short word"; docs/CHILDREN.md §9 decision 7) the row says **one short word** in its place, beside the baby's name on the name's
+  own line - "crawling", "crying", "held", "napping", "asleep", "carried" - so the row is no taller for it, with the sentence as the
+  word's title. The word is the server's (`lifeWord`, sim/babies.mjs `babyWord`); the main person's row, and every row when the
+  column is roomy, has the sentence and no word. Held at 1366x768, 1440x950 and 1024x768 for a family of twenty by
+  `npm run test:family-twenty`; the roomy row by `npm run test:children`.
 - **An Auto switch on a child of two or more** (an infant has none). It lasts a time scaled by the child's hidden obedience and
   goes off by itself, which the row says for six ticks; how long it has left is never shown.
 - **Icons**: seven kinds of play, the hens and the Scrape's nine works, stroked glyphs until their art lands

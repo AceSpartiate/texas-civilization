@@ -4,7 +4,9 @@
 // What only a browser can show is that a student can still use the page with all of them on it: the names card holds
 // twenty boxes and its Continue can be reached, the family panel down the left scrolls to its last child instead of running
 // off the screen, and the map beside it is still the map - at a Chromebook's 1366 by 768, 1440 by 950 and 1024 by 768. A
-// phone's 400 by 800 is a gate again since 2026-09-27 (owner; docs/GATES.md): six checks, see the phone section below.
+// phone's 400 by 800 is a gate again since 2026-09-27 (owner; docs/GATES.md): six checks, see the phone section below. And with
+// the column too tight for full rows, each baby's row shows one short word beside its name instead of nothing (owner,
+// 2026-09-27: "Show a short word"; docs/CHILDREN.md §9), at 1366 by 768, 1440 by 950 and 1024 by 768.
 //
 // Run: npm run test:family-twenty   (PLAYWRIGHT_MODULE and BROWSER_EXECUTABLE as for every browser proof)
 // Writes docs/evidence/family-twenty-browser.json. Same computer only: no classroom Wi-Fi, no Chromebook, no real phone.
@@ -164,6 +166,25 @@ try {
       return { panelBottom: Math.round(box.bottom), barTop: Math.round(bar.top), barLeft: Math.round(bar.left), overlapsBar, lastOnTop: Boolean(top && last.contains(top)), covering: top ? `${top.tagName}.${top.className}` : 'nothing' };
     });
   };
+  /**
+   * A baby's short word (owner, 2026-09-27, by multiple choice: "Show a short word"; docs/CHILDREN.md §9): with the column too
+   * tight for full rows, each baby's row that is not the main person's shows one word for what it is doing - beside its name, on
+   * the name's own line, inside its row - where until then it showed nothing; its sentence is off the row and is the word's title.
+   */
+  const babyWords = () => page.evaluate(() => {
+    const panel = document.querySelector('#family-panel');
+    const shown = node => Boolean(node) && node.getClientRects().length > 0 && node.getBoundingClientRect().width > 0;
+    const people = window.__snapshot.world.entities;
+    const babies = [...document.querySelectorAll('#family-rows .panel-row')].filter(row => (people.find(one => one.id === row.dataset.entityId)?.age ?? 9) < 2);
+    return { tight: panel.dataset.tight === 'true', babies: babies.map(row => {
+      const word = row.querySelector('.panel-life-word'), line = row.querySelector('.panel-life-line'), name = row.querySelector('.panel-name'), body = row.querySelector('.panel-body');
+      const wordBox = word?.getBoundingClientRect(), nameBox = name.getBoundingClientRect(), bodyBox = body.getBoundingClientRect();
+      const middle = wordBox ? (wordBox.top + wordBox.bottom) / 2 : null;
+      return { id: row.dataset.entityId, focused: row.dataset.focused === 'true', word: word?.textContent || null, wordShown: shown(word), lineShown: shown(line), sentence: line?.textContent || null, title: word?.title || null,
+        onNameLine: middle !== null && middle >= nameBox.top - 1 && middle <= nameBox.bottom + 1, insideRow: Boolean(wordBox) && wordBox.left >= bodyBox.left - 1 && wordBox.right <= bodyBox.right + 1 };
+    }) };
+  });
+  const WORDS = ['crawling', 'crying', 'held', 'napping', 'asleep', 'carried'];
   for (const size of [{ width: 1366, height: 768 }, { width: 1440, height: 950 }, { width: 1024, height: 768 }]) {
     const clear = await barClear(size);
     measured[`bar-${size.width}x${size.height}`] = clear;
@@ -171,6 +192,18 @@ try {
     assert.ok(!clear.overlapsBar, `at ${size.width} by ${size.height} the panel runs down under the ability bar: ${JSON.stringify(clear)}`);
     assert.ok(clear.lastOnTop, `at ${size.width} by ${size.height} the youngest child's portrait is covered by ${clear.covering}`);
     ok(`with the class running at ${size.width} by ${size.height}, the panel ends at ${clear.panelBottom} px above the ability bar at ${clear.barTop} px, and the youngest child's portrait can be pressed`);
+    const words = await babyWords();
+    measured[`baby-words-${size.width}x${size.height}`] = words;
+    const others = words.babies.filter(one => !one.focused);
+    assert.ok(words.tight, `at ${size.width} by ${size.height} twenty rows are not tight, so the short word was never asked for`);
+    assert.ok(others.length >= 1, `at ${size.width} by ${size.height} the family of twenty has no baby's row to read: ${JSON.stringify(words)}`);
+    for (const one of others) {
+      assert.ok(one.wordShown && WORDS.includes(one.word), `at ${size.width} by ${size.height} a baby's row in the tight column shows no short word: ${JSON.stringify(one)}`);
+      assert.ok(!one.lineShown, `at ${size.width} by ${size.height} a baby's sentence is on its row in the tight column as well as its word: ${JSON.stringify(one)}`);
+      assert.ok(one.onNameLine && one.insideRow, `at ${size.width} by ${size.height} a baby's word is not beside its name inside its row: ${JSON.stringify(one)}`);
+      assert.equal(one.title, one.sentence, `at ${size.width} by ${size.height} a baby's word does not carry its sentence`);
+    }
+    ok(`at ${size.width} by ${size.height}, the column tight, ${others.length} ${others.length === 1 ? 'baby’s row shows' : 'babies’ rows show'} one short word beside the name (${others.map(one => `"${one.word}"`).join(', ')}) and the sentence as its title`);
   }
 
   // ------------------------------------------------------------------------------------------------ a phone's width

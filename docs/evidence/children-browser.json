@@ -5,7 +5,7 @@
   "note": "Same computer only, headless Chrome at 1366x768 and 1024x768. Two real classes through the join flow: the invented country (seed children-proof-96) for the home, and the real land played in process into the spring (seed scrape-proof-1) for the Scrape. No LAN or district claim.",
   "checks": [
     "Cayetano, with nothing to do, walked to Paz and both are heard (\"Where does the wind come from?\" / \"Go and play, and keep where I can see you.\"); the row says \"Stopped to talk with Cayetano, who has nothing to do. Give Cayetano something to do and Paz goes back to the work about the place.\"",
-    "given tag, the parent went back to work at once; the icon glows and the child is drawn in 12 places in four seconds, as smallchild-walk, smallchild-rest, smallchild-idle-s",
+    "given tag, the parent went back to work at once; the icon glows and the child is drawn in 11 places in four seconds, as smallchild-walk, smallchild-rest, smallchild-idle-s",
     "with a corn-husk doll the child is drawn sitting (smallchild-rest)",
     "the child's automation turned itself off, and the row says \"Auto went off: Cayetano has been good as long as a child can be.\"",
     "the baby crawled (14 places in three seconds), cried and was picked up by Paz, 36, who said \"Ya, ya. Ya pasó.\" and was drawn indigo-carry; the baby was put down to nap and she went back to where she stood, at \"work\"",
@@ -69,7 +69,7 @@
       "child-hens"
     ],
     "play": {
-      "places": 12,
+      "places": 11,
       "clips": [
         "smallchild-walk",
         "smallchild-rest",
@@ -98,6 +98,12 @@
       "babyLife": "Held by Paz, who is singing to her.",
       "carerLife": "Seeing to Docia: holding and singing, then back to the work about the place."
     },
+    "roomyWord": {
+      "tight": false,
+      "word": "napping",
+      "wordShown": false,
+      "lineShown": true
+    },
     "hip": {
       "speed": 0.75,
       "mode": "foot",
@@ -115,17 +121,17 @@
       "row": "Driving the milk cow along behind the family.",
       "drawn": {
         "by": "hh-1-child-4",
-        "x": 696,
-        "y": 460,
+        "x": 613,
+        "y": 1119,
         "clip": "cattle-longhorn-red-idle",
         "child": {
-          "x": 740,
-          "y": 457
+          "x": 658,
+          "y": 1116
         }
       },
       "child": {
-        "x": 740.1153846153846,
-        "y": 434.83269230769235,
+        "x": 657.6964125333157,
+        "y": 1094.1844689642455,
         "size": 49.50000000000001
       },
       "herdLeft": {

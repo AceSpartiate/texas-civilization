@@ -167,9 +167,24 @@ This amends §3's road east and §5's *no milk*, and `FIC-GONZ-184`: the herd is
 - **Home again** she goes back into the herd, before what is found of the rest is counted.
 
 **The record**: none. No source read has a child driving a milk cow on the Runaway Scrape; boys drove range cattle by another road
-(`HIST-TEX-641`). It is RECONSTRUCTED, and every number is the game's. `ceiling:` she goes at the family's pace, whatever it is; a
-cow is not the ox's two miles an hour for nothing, and a family on foot would in truth be held to her pace.
+(`HIST-TEX-641`). It is RECONSTRUCTED, and every number is the game's.
 
-Evidence: `tests/flight-work.test.mjs` (three tests: only a family with cattle and only a child, out of the herd; milk a day and the
-roll; taken if overtaken and home to the herd), each regression seen failing alone
-([childhood-injections.json](evidence/childhood-injections.json), the `cow:` rows).
+**Her pace** (owner, 2026-09-27, by multiple choice: **"Slow a family on foot"**; docs/CHILDREN.md §9 decision 6; `FIC-GONZ-631`
+amended). This replaces the `ceiling:` that stood here ("she goes at the family's pace, whatever it is").
+
+- **A family on foot goes at her pace**: with the cow along and no wagon, cart or carreta, nobody of the family goes faster than
+  `COW_PACE` (sim/flight-work.mjs `cowPace`) - east, on to a further refuge, on foot after leaving the wagon, and home again.
+- **Her pace is the game's pace for cattle driven on the road**, not a new number: sim/beasts.mjs `LEAD_PACE.cattle` (`FIC-GONZ-389`,
+  cattle and hogs driven home at the ox's pace), which is sim/travel.mjs `WAGON_SPEED`, the ox team's "slow pace of the oxen", about
+  two miles an hour (`HIST-TEX-093`). A cow driven on foot goes about as an ox does: **0.65 miles a tick, 1.95 miles an hour, 13.65
+  miles in the road's seven-hour day**, against a walker's three miles an hour and twenty-one miles.
+- **A family with a wagon, cart or carreta is not slowed by her**: it goes at the ox's pace already.
+- A family already slower than she is - a child of five or under walking - is slowed no further; kept walking by the hand
+  (`road-little-ones`), it goes at her pace and no faster. Taken by the army, she holds nobody back.
+- **Why they are slower is said**: the driver's row, *"Driving the milk cow along behind the family: on foot, they all go at her
+  slower pace."*, and the family's flight card, *"On foot with the milk cow, the family goes no faster than she walks, about two miles
+  an hour."* The journey is marked `travel.cow`, absent on every journey before it: **no save version moved**.
+
+Evidence: `tests/flight-work.test.mjs` (four tests: only a family with cattle and only a child, out of the herd; milk a day and the
+roll; taken if overtaken and home to the herd; on foot at her pace and with a wagon not slowed), each regression seen failing alone
+([childhood-injections.json](evidence/childhood-injections.json), the `cow:` and `cow pace:` rows).

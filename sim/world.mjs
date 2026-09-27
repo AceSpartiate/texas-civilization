@@ -37,7 +37,7 @@ import { childAction, childrenInvalid } from './children.mjs';
 // A child's day when nobody is telling them what to do, and the family's babies (owner, 2026-09-26; docs/CHILDREN.md): the idle
 // child who goes to a parent, a child's own automation and obedience, and a baby that crawls, cries and is held.
 import { advanceChildhood, childAutoShown, childLine, childhoodInvalid, isSmallChild, released, setChildAuto, talkLines } from './childhood.mjs';
-import { advanceBabies, babiesInvalid, babyLine, babyLines, carryBabies, hipPace, isBaby, takeBabyAlong } from './babies.mjs';
+import { advanceBabies, babiesInvalid, babyLine, babyLines, babyWord, carryBabies, hipPace, isBaby, takeBabyAlong } from './babies.mjs';
 import { asideWhy } from './aside.mjs';
 import { hostLiveProjection } from './host.mjs';
 import { advanceTown, createTownspeople, observedBy, seenAs } from './town.mjs';
@@ -1290,8 +1290,11 @@ const ASIDE_REFUSED = new Set(['chore', 'travel', 'work', 'survey-plot', 'fell-t
 function littleOnes(world, household, e) {
   // The child with the milk cow on the Scrape says so on their row (sim/flight-work.mjs `cowLine`, owner 2026-09-27).
   const life = babyLine(world, household, e) || cowLine(world, household, e) || childLine(world, e);
+  // A baby's one short word, for its row when the column is too tight for the sentence (owner, 2026-09-27: "Show a short word").
+  const lifeWord = life && babyWord(world, household, e);
   return {
     ...(life && { life }),
+    ...(lifeWord && { lifeWord }),
     ...(e.talk && { talk: { with: e.talk.withId, phase: e.talk.phase } }),
     ...(e.aside && { aside: { kind: e.aside.kind } }),
     ...(isBaby(e) && { baby: { state: e.carriedBy ? 'carried' : e.baby?.state || 'awake' } }),
