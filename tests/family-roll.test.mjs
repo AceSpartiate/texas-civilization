@@ -208,6 +208,9 @@ test('a family of twenty fits the tick: what it is sent grows by the person, and
   // more, and the whole tick had already grown past the 23,459 above). The whole bound moves to 26,600, about a twentieth over;
   // the per-person bound is unchanged and counts the people alone - the tick less its wagons and animals, which grow by the wagon -
   // at 1,056 a person, so it still catches the kin carried twice.
+  // Since 2026-09-26 a child of two to nine has the kinds of play and the hens on their row as well (sim/children.mjs, owner:
+  // "different types of play"): up to seven more entries of `world.work` for each of them, measured on these seeds at 1,134 a
+  // person. The per-person bound moves to 1,140, which the kin carried twice (about sixty bytes a person more) still breaks.
   const sent = roll => {
     const world = lobby(seedRolling(roll, 'tick'), 5);
     rollFamily(world, world.households['hh-1']);
@@ -220,7 +223,7 @@ test('a family of twenty fits the tick: what it is sent grows by the person, and
   };
   const four = sent(4), twenty = sent(20);
   assert.ok(twenty.all < 26600, `a family of twenty is sent ${twenty.all} bytes a tick`);
-  assert.ok((twenty.people - four.people) / 16 < 1060,`each person past four costs ${Math.round((twenty.people - four.people) / 16)} bytes a tick`);
+  assert.ok((twenty.people - four.people) / 16 < 1140,`each person past four costs ${Math.round((twenty.people - four.people) / 16)} bytes a tick`);
 });
 
 test('the hidden stats differ on average between men and women, and people overlap', () => {

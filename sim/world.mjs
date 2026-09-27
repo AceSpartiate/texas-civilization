@@ -22,15 +22,23 @@ import { advanceRunners, runnerInvalid } from './alamo-runner.mjs';
 import { decisionClockInvalid, decisionPressing, spendDecisionBudget } from './decision-budget.mjs';
 import { advanceFlight, flee, flightProjection, householdAsKnown, scrapeInvalid, share, stayHome } from './scrape.mjs';
 import { answerRoad, registerRoadChores } from './road.mjs';
+// What the family does on the Runaway Scrape besides run, children and grown-ups (sim/flight-work.mjs, docs/CHILDREN.md §7).
+import { advanceFlightWork, flightWorkInvalid, registerFlightWork, walkingShare } from './flight-work.mjs';
 import { WATER_HIGH, WATER_SHUT, waterAt, weatherAt, weatherOn } from './weather.mjs';
 // The road's chores join the one table here, once every module above is made (sim/road.mjs says why not at its own load).
 registerRoadChores();
+registerFlightWork();
 import { advanceLesson, advanceLessons, lessonHostWords, lessonInvalid, lessonProjection, lessonRefusal, lessonResumeOffer, resumeLesson, stopLesson } from './lesson.mjs';
 import { REPEATED, advanceAuto, autoShown, noteOrder, setAuto, waitForTask, waitingWork } from './auto.mjs';
 import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
 // The children's own works (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21). Imported here as well
 // as for its gates, because importing it is what registers them into the chore table.
 import { childAction, childrenInvalid } from './children.mjs';
+// A child's day when nobody is telling them what to do, and the family's babies (owner, 2026-09-26; docs/CHILDREN.md): the idle
+// child who goes to a parent, a child's own automation and obedience, and a baby that crawls, cries and is held.
+import { advanceChildhood, childAutoShown, childLine, childhoodInvalid, isSmallChild, setChildAuto, talkLines } from './childhood.mjs';
+import { advanceBabies, babiesInvalid, babyLine, babyLines, carryBabies, isBaby, takeBabyAlong } from './babies.mjs';
+import { asideWhy } from './aside.mjs';
 import { hostLiveProjection } from './host.mjs';
 import { advanceTown, createTownspeople, observedBy, seenAs } from './town.mjs';
 import { helpTownScene, townScenesFor } from './town-scenes.mjs';
@@ -418,6 +426,9 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
   if (!riding) { leaveBehind(world, entity, taking); intoTheRoad(entity, BEASTS); }
   entity.location = { ...points[0], siteId: null }; entity.task = 'travel';
   if (!riding) harness(world, entity, mode, path, departure, taking);
+  // Whoever leaves is let go of the family's little ones: a child talking with them, a baby they held; and the last woman of
+  // age at home does not leave a baby behind - she takes it with her (sim/babies.mjs, owner 2026-09-26).
+  if (entity.kind === 'person' && world.households[entity.householdId]) takeBabyAlong(world, entity);
 }
 /** How far along a line a point stands, in miles: the nearest place on it, measured from the start. */
 function alongAt(points, point) {
@@ -569,7 +580,8 @@ export function progressTravel(world, entity, units = 1) {
     // pays nothing. Riders and drivers pay the wagon's share, as the whole family on the road in always did; somebody the family
     // put on the horse (`saddle`, owner 2026-09-25: "the horse should carry a rider") pays a rider's.
     const how = travel.saddle ? MODES.horse : travel.afoot ? MODES.foot : modeOf(travel);
-    const cost = travel.carried ? 0 : (travel.progress - wasAt) * how.exertion * gearExertionShare(world, entity, how.id);
+    // And less on the road east while somebody of the family sings them along (sim/flight-work.mjs `road-sing`).
+    const cost = travel.carried ? 0 : (travel.progress - wasAt) * how.exertion * gearExertionShare(world, entity, how.id) * walkingShare(world, entity);
     entity.exertion = Math.min(EXERTION_CAP, Math.round(((entity.exertion || 0) + cost) * 10000) / 10000);
   }
   // The fords come down to this tick's stretch of road: each is waded as it is reached (`wadeAt`).
@@ -632,6 +644,8 @@ export function stepWorld(world, { realMs = 0, decisionBudgetMs } = {}) {
   // stepped in process carries none.
   spendDecisionBudget(world, realMs, { budgetMs: decisionBudgetMs, beginTravel });
   for (const entity of Object.values(world.entities)) progressTravel(world, entity);
+  // A baby carried on an errand is where its carrier is, and is set down when they are home (sim/babies.mjs).
+  carryBabies(world);
   // Travis's runner crosses the Alamo's plaza (sim/alamo-runner.mjs): before the director, so one sent this tick is seen at
   // the colonel's door before he takes a step, and no question opens and closes in the same update.
   advanceRunners(world);
@@ -652,6 +666,12 @@ export function stepWorld(world, { realMs = 0, decisionBudgetMs } = {}) {
   // Chores run after travel resolves, so a person who arrived this tick picks up the
   // next step of their work in the same tick rather than idling for one.
   advanceChores(world, { beginTravel, modeAvailability });
+  // The family's children (sim/childhood.mjs): play drawn about the yard, a job wandered from, a child's own automation, and a
+  // child with nothing to do gone to a parent. Then the babies (sim/babies.mjs), and the little ones kept walking on the road
+  // east (sim/flight-work.mjs). Before auto, so a grown-up called aside this tick is not given work by it.
+  advanceChildhood(world, { beginTravel, modeAvailability });
+  advanceBabies(world);
+  advanceFlightWork(world);
   // People on auto take up their last order again, and a family whose main person is on auto goes when told (sim/auto.mjs).
   advanceAuto(world, { beginTravel, modeAvailability });
   advanceTown(world);
@@ -869,13 +889,19 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // children's own works and call them off again (`childAction`, sim/children.mjs), which are the only work in the game
   // that never leaves the family's own land and never touches an axe or a gun.
   if (tooYoung(entity) && !['rename', 'rest', 'ask-rider', 'leave-rider'].includes(input.action) && !childAction(input)) throw new Error(tooYoungWhy(entity));
+  // Somebody the family's little ones have called aside - talking with a child who has nothing to do, holding a crying baby -
+  // is not given new work or sent anywhere until the child has something to do or the baby is down (sim/aside.mjs, owner
+  // 2026-09-26: "this conversation stops the parent from doing their task until the kid is given a new task"). The family's
+  // answers to the calls, the army and the road are not refused: they are the game's questions, and a journey lets them go.
+  if (entity.aside && ASIDE_REFUSED.has(input.action)) throw new Error(asideWhy(entity, id => world.entities[id]?.name || 'a child'));
   const mode = input.mode || orderMode(world, household, entity, input);
   // The student's main person (sim/family.mjs `mainPersonId`, docs/FAMILY_PANEL.md §11.3): one at a time, anybody of the
   // family who can act and is old enough to be sent - refused above, in the words every order gets. Choosing another recalls
   // nobody: whoever was main stays in the army or on their road; only who may be given the next order moves.
   if (input.action === 'set-main') { household.mainId = entity.id; return; }
   // The person's auto switch (sim/auto.mjs, docs/FAMILY_PANEL.md §11.7): theirs whether at home or in the ranks.
-  if (input.action === 'set-auto') { setAuto(world, household, entity, input.auto); return; }
+  // A child's own automation, which does not go on for ever (sim/childhood.mjs, owner 2026-09-26).
+  if (input.action === 'set-auto') { if (tooYoung(entity)) setChildAuto(world, household, entity, input.auto); else setAuto(world, household, entity, input.auto); return; }
   // Somebody who has joined the army, the garrison or the expedition is in one place until the family sends for them (sim/winter.mjs).
   if (entity.service?.status === 'serving' && !SERVING_ACTIONS.includes(input.action)) throw new Error(servingWhy(world, entity));
   // A prisoner of the Mexican army (Fannin's men after Coleto, sim/fannin.mjs) can be given no order at all: he is not the
@@ -1165,6 +1191,10 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // and listening poses. Absent for everybody not in an open meeting, which is the correct empty value and why no save
     // version moved. It carries no word of what is being said.
     ...(e.kind === 'person' ? listeningOf(world, e) || {} : {}),
+    // The family's little ones and what they are doing to it (sim/childhood.mjs, sim/babies.mjs): the line the row says, and what
+    // the map draws - a child talking and with whom, a grown-up called aside, a baby's state and who carries it. Never a child's
+    // obedience and never how long their automation has left.
+    ...(e.kind === 'person' && household ? littleOnes(world, household, e) : {}),
   }));
   // What each person could be asked to do, with the reason for anything refused, is
   // computed on the server. The client must never decide for itself what is possible:
@@ -1215,6 +1245,8 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // one of this family is standing where it can be seen, and to the Host. Absent otherwise, which is also a class saved
     // before it existed.
     ...townScenesView(world, householdId, role),
+    // What the family's own children and babies are saying, over them, for its own page only (sim/childhood.mjs, sim/babies.mjs).
+    ...(() => { if (!household || role === 'host') return {}; const lines = [...talkLines(world, household), ...babyLines(world, household)]; return lines.length ? { familyTalk: { lines } } : {}; })(),
     // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
     ...(world.army && householdId ? { army: armyProjection(world, householdId) } : {}),
     // The armies standing in the country, as far as this page may know of them (sim/armies.mjs): the page draws their camps
@@ -1245,6 +1277,21 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   return copy ? structuredClone(view) : view;
 }
 const townScenesView = (world, householdId, role) => { const townScenes = townScenesFor(world, householdId, role); return townScenes ? { townScenes } : {}; };
+/** The orders refused to somebody called aside by the family's little ones: their own work and their own journeys. */
+const ASIDE_REFUSED = new Set(['chore', 'travel', 'work', 'survey-plot', 'fell-trees', 'hunt-land', 'clear-plot', 'fence-plot', 'town-help']);
+/** One person's share of the family's little ones, for the family's own projection (sim/childhood.mjs, sim/babies.mjs). */
+function littleOnes(world, household, e) {
+  const life = babyLine(world, household, e) || childLine(world, e);
+  return {
+    ...(life && { life }),
+    ...(e.talk && { talk: { with: e.talk.withId, phase: e.talk.phase } }),
+    ...(e.aside && { aside: { kind: e.aside.kind } }),
+    ...(isBaby(e) && { baby: { state: e.carriedBy ? 'carried' : e.baby?.state || 'awake' } }),
+    ...(e.carriedBy && { carriedBy: e.carriedBy }),
+    // A child on their own automation is shown what they are at, and never how long it has left (that is their roll).
+    ...(e.auto && isSmallChild(e) && { autoTask: childAutoShown(e) }),
+  };
+}
 export function validateWorld(world) {
   if (world.schemaVersion !== 3 || !Number.isInteger(world.tick) || world.tick < 0 || !Number.isFinite(world.minute) || world.minute < 0 || !['lobby', 'running', 'paused', 'ended'].includes(world.status)) throw new Error('Invalid world');
   // Absent on every class saved before a second period existed, which were all in the first (sim/periods.mjs).
@@ -1425,7 +1472,7 @@ export function validateWorld(world) {
   if (badCamp) throw new Error(badCamp);
   const badRunner = runnerInvalid(world) || decisionClockInvalid(world);
   if (badRunner) throw new Error(badRunner);
-  const badChildren = childrenInvalid(world);
+  const badChildren = childrenInvalid(world) || childhoodInvalid(world) || babiesInvalid(world) || flightWorkInvalid(world);
   if (badChildren) throw new Error(badChildren);
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');

@@ -34,6 +34,10 @@ does not have:
 | ~~A trash can drawn in code with a pen~~ | `DrawBin` in `launcher/SoloGameDialog.cs` | Delivered 2026-09-22 in `launcher/art/icon-delete-save.png` | Illustrated frontier pail is embedded and tinted; line drawing is packaging fallback only |
 | ~~Gathering glyphs drawn in code~~ | `PANEL_ICONS` in `public/family-panel.js` | Existing `icons-family-subsistence.png` art wired 2026-09-26 | Four production sprites selected directly; `fish-road` reuses the water-fishing icon |
 | ~~Stock glyphs drawn in code~~ | `PANEL_ICONS` in `public/family-panel.js` | Existing `icons-family-subsistence.png` art wired 2026-09-26 | Three production sprites selected directly |
+| Children at play are drawn in the poses their sheets already hold: running play (a stick horse, tag, hide-and-seek going and coming, a hoop) the child's walk; a doll and lying in the grass the sitting rest; a toy cart, marbles and the hens the side-on rest; hiding the back-turned idle. A child talking with a parent is the standing idle, and the parent the cast listening pose | `littleClip` in `public/motion.js` | Request 2026-09-26 — children at play, babies, and the Scrape's own work, items 1 and 4 | `-play-*`, `-scatter`, `-speak`, `-tug` for each child's sheet |
+| A crawling baby is the infant's standing pose (`infant-idle-e`) moved over the ground a few yards a tick; a crying baby the infant's front-facing idle with a "(crying)" bubble; a napping one `infant-rest` | `littleClip` in `public/motion.js` | Same request, item 2 | `infant-crawl`, `infant-cry`, `infant-sleep` |
+| A woman (or anybody) holding a baby is the cast figure's harvest carrying pose (`-carry`) with the infant drawn at her side; a baby carried on an errand is the infant figure drawn at the carrier's hip, a little up and to the right | `littleClip` in `public/motion.js`; `carriedAt` in `drawWorld`, `public/app.js` | Same request, item 3 | `-hold-baby`, `-carry-baby-walk` |
+| Seventeen icons - seven kinds of play, the hens and the Scrape's nine works - are stroked glyphs drawn in code | `PANEL_ICONS` and `LITTLE_GLYPHS` in `public/family-panel.js` | Same request, item 5 | `icon-<key>` for each |
 | A column's foraging parties are three `dragoon-march` riders each; a column on the march is `regular-march` men in files of three with a `dragoon-march` at the head | the parties in `drawWorld` in `public/app.js`; `drawArmy` (`moving`) in `public/army-view.js` | Request 2026-09-26 — the Mexican advance, items 1 and 3 | `forager-ride-*` / `forager-drive-*`, `regular-march-column` |
 | The smoke of a burning town or farm is the library's `smoke-rise` (chimney smoke) drawn three to four figures tall, with a painted grey plume if that clip has not loaded | `window.__firesDrawn` in `drawWorld`, `public/app.js` | Request 2026-09-26 — the Mexican advance, item 2 | `farm-smoke-rise`, `town-smoke-rise` |
 | Whole jacal stage sprites; `lean-to` shed frame; the double chimney drawn with the single stick-and-mud chimney's picture (`house-chimney-stick`; until 2026-09-24 a flat rectangle, whose width let the far pen's door show either side of it at 90 and 270 degrees). Since 2026-09-24 the saddlebag's two pens stand one behind the other along their ridge at every turn, and it stands at the middle between the far pen's front gable and the near pen's back gable, `DOUBLE_RISE` (2.7) high so that it hides the far pen's door whole, its foot behind the near pen's roof (until then, at 0 and 180 degrees behind both pens' back gables, and at 90 and 270 brought `DOUBLE_TOWARD` toward the near pen); no separate interior floor/loft display | `drawHousePlot` and `standChimneys` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney (two-sided, its foot marked), and separately registered floor and loft overlays |
@@ -152,6 +156,42 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work
+
+**Status: open; stand-ins in use since 2026-09-26 (see *Stand-ins in use*).** Owner, 2026-09-26: children too small for the farm
+must be *seen* doing things - kinds of play, a child with nothing to do going to a parent and talking, babies that crawl, cry and
+are held and sung to - and a family on the Runaway Scrape has work of its own ([CHILDREN.md](CHILDREN.md), `sim/children.mjs`,
+`sim/childhood.mjs`, `sim/babies.mjs`, `sim/flight-work.mjs`). Delivery contract as the children's sheets of 2026-09-14
+(`girl`, `boy`, `smallchild`, `infant`): transparent PNG on the ground anchor, the same logical heights, east mirrored for west;
+icons as the children's icons of 2026-09-21 (128 by 128, single silhouette, thin dark outline, reading at 34-38 CSS px).
+
+1. **Children at play** (priority 1) - for each of `girl`, `boy`, `smallchild`: `-play-gallop` (a stick horse between the knees,
+   4 frames, east), `-play-run` (running, arms out, 4 frames, east, and `-n`/`-s`), `-play-hide` (crouched behind nothing, peeking,
+   1 frame), `-play-kneel` (kneeling, hands at the ground, 2 frames: marbles, the toy cart), `-play-sit-doll` (sitting with a doll in
+   the lap, 1 frame), `-play-hoop` (running with a stick at a hoop, 4 frames, the hoop in the frame), `-scatter` (throwing corn from a
+   hand, 2 frames, hens optional). Plugs into `littleClip` in `public/motion.js`, which picks the pose from what the server says the
+   child is doing; `CHILD_POSES` names what each sheet holds.
+2. **A baby** (priority 1) - `infant-crawl` (4 frames, east, and `-w`), `infant-cry` (sitting up, mouth open, fists, 2 frames),
+   `infant-sleep` (curled on a blanket, 1 frame).
+3. **Holding a baby** (priority 1) - for each cast woman (`rust-woman`, `teal`, `indigo`, `blue-girl`) and, less often seen, each cast
+   man: `-hold-baby` (a baby held to the shoulder, swaying, 2 frames, south-facing) and `-carry-baby-walk` (a baby on the hip,
+   walking, 4 frames east and `-n`/`-s`). Plugs into `littleClip` (`aside.kind === 'baby'`) and the carried-baby drawing in
+   `drawWorld` (`carriedAt`), which then no longer draws the infant beside her.
+4. **Talking** (priority 2) - `girl-speak`, `boy-speak`, `smallchild-speak` (2 frames, east) and `-tug` (a child tugging at a grown
+   person's sleeve, 2 frames, east). Plugs into `littleClip` (`talk.phase === 'talking'`).
+5. **Icons** (priority 2), `icon-<key>`: `child-stick-horse`, `child-doll`, `child-tag`, `child-hide`, `child-cart` (a toy ox cart
+   with two round biscuit wheels), `child-hoop`, `child-marbles`, `child-hens`; and the Scrape's `flee-hide` (a chest going into
+   a hole in a river bottom), `flee-bundle` (a shawl tied up as a bundle), `road-lookout` (a child looking back down a road),
+   `road-sing` (two notes over a walking figure), `road-little-ones` (a bigger child leading a small one by the hand), `camp-fire`
+   (a fire of crossed sticks in the rain), `ferry-help` (hands on a ferry's rope), `share-food` (a loaf held out from one hand to
+   another), `ford-carry` (a grown figure wading with a child on the back). **The children's rule of 2026-09-21 holds**: a figure in
+   a child's icon reads as a child, and nothing holds an edge or a gun. Plugs into `PANEL_ICONS` in `public/family-panel.js`, whose
+   entries become `{ sprite: 'icon-<key>' }`.
+
+**Check.** At the family's own land zoomed to the yard (a figure about 40 px), a child at tag reads as running, at marbles as
+kneeling, hiding as hiding; a baby crawling is not taken for a baby standing; a woman holding a baby is not taken for a woman
+carrying the harvest; and each icon is told from the others at 38 px without its popup.
 
 ## Request 2026-09-26 — the Mexican advance
 

@@ -444,6 +444,13 @@ function grownClip(entity, observed) {
     if (pose === 'listen') return { id: `${variant}-listen-${face === 'n' ? 'n' : 's'}`, upright: true };
     return { id: `${variant}-${pose}` };
   }
+  // The family's little ones and what they do to it (docs/CHILDREN.md): a baby crawling, crying, held or asleep, a grown-up holding
+  // one or stopped to listen to a child, a child gone to find them, and a child at play drawn at the play. Only the family's own:
+  // a neighbour's are drawn by their broad task, which says none of this.
+  if (!observed && entity.kind === 'person') {
+    const little = littleClip(entity, variant);
+    if (little) return little;
+  }
   if (entity.kind === 'animal') {
     // A class saved before there were horses has no `species` on anything, and every
     // animal in it is an ox - so the absent field reads correctly as one.
@@ -486,6 +493,32 @@ function grownClip(entity, observed) {
   if (/trading for/.test(doing)) return { id: `${variant}-trade` };
   if (entity.task === 'rest') return { id: `${variant}-rest`, upright: true };
   return { id: `${variant}-idle-s` };
+}
+/**
+ * The poses of the family's little ones, from what the server says they are doing (docs/CHILDREN.md, sim/childhood.mjs,
+ * sim/babies.mjs), or null. Every pose named here is one the children's sheets and the cast figures already hold; the children's
+ * figure is taken wherever it has the pose (`entityClip`).
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-26 - children at play, a baby crawling, and a woman holding a baby. Until they
+ * land: running play is the child's walk, a doll or the grass the child's sitting rest, a toy cart, marbles and the hens the
+ * side-on rest, hiding the back-turned idle; a crawling baby is the infant's standing pose moved over the ground; a woman holding
+ * a baby is the harvest's carrying pose with the infant beside her.
+ */
+export function littleClip(entity, variant) {
+  const baby = entity.baby?.state;
+  if (baby) {
+    if (baby === 'nap' || baby === 'night') return { id: `${variant}-rest`, upright: true };
+    if (baby === 'cry') return { id: `${variant}-idle-s`, upright: true };
+    return { id: `${variant}-idle-e` };
+  }
+  if (entity.aside?.kind === 'baby') return { id: `${variant}-carry` };
+  if (entity.aside?.kind === 'talk') return { id: `${variant}-listen-s`, upright: true };
+  if (entity.talk) return entity.talk.phase === 'going' ? { id: `${variant}-walk` } : { id: `${variant}-idle-s`, upright: true };
+  const doing = entity.chore?.doing || '';
+  if (/galloping|running at tag|running off to hide|coming out to be found|rolling a hoop/.test(doing)) return { id: `${variant}-walk` };
+  if (/hiding behind the house/.test(doing)) return { id: `${variant}-idle-n`, upright: true };
+  if (/playing house|lying on their back/.test(doing)) return { id: `${variant}-rest`, upright: true };
+  if (/marbles|toy cart|fort of sticks|edge of the water|scattering corn/.test(doing)) return { id: `${variant}-rest-e` };
+  return null;
 }
 /** The point `miles` along a road, for a caller drawing somebody somewhere other than where `position` puts them. */
 export const alongRoute = (points, miles) => along(points, miles);

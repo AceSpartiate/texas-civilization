@@ -203,6 +203,24 @@ export function compositionFor(roll, table = FAMILY_TABLE) {
 }
 
 /**
+ * A child's obedience: a hidden twenty-sided die rolled for each son and daughter the moment they are made (owner, 2026-09-26:
+ * "wh3n kids are created there should be a hidden d20 roll for each one. the higher the roll, the more obedient, and vice
+ * versa"). docs/CHILDREN.md §4, `FIC-GONZ-478`.
+ *
+ * Rolled as the family's own dice are - hashed from the class's seed and the child's id on a question of its own - so a saved
+ * class reloads to the same children and nothing a student can see predicts it. Stored with the other hidden stats in
+ * `traits` and, like them, **never on any wire**: not the family's page, not a neighbour's, not the Host's. What it does is
+ * sim/childhood.mjs's, and every one of those effects is something the child is seen doing, with a line saying so.
+ *
+ * A child made before the die existed has none in their save; `obedienceOf` rolls theirs from the same seed and id when it is
+ * asked, and never writes it back, so no save version moved.
+ */
+export const OBEDIENCE_DIE = 20;
+export const obedienceRoll = (seed, id) => 1 + (hashOf(`${seed}:${id}:obedience`) % OBEDIENCE_DIE);
+/** A child's obedience: their own roll, or for somebody rolled before there was one, the roll their seed and id give. */
+export const obedienceOf = (world, entity) => entity?.traits?.obedience ?? obedienceRoll(world?.seed, entity?.id);
+
+/**
  * The hidden stats. Means differ by sex and every person is dealt their own, with a spread
  * wide enough that the ranges overlap - the owner's decision, and closer to the frontier
  * record than a fixed bonus would be. None of these numbers is a claim about men and women;
@@ -213,7 +231,7 @@ export const TRAIT_MEANS = Object.freeze({
   female: Object.freeze({ strength: 5, health: 9, housework: 7 }),
 });
 export const TRAIT_SPREAD = Object.freeze({ strength: 1.8, health: 2.5, housework: 1.8 });
-export const TRAIT_RANGE = Object.freeze({ strength: [1, 10], health: [2, 18], housework: [1, 10] });
+export const TRAIT_RANGE = Object.freeze({ strength: [1, 10], health: [2, 18], housework: [1, 10], obedience: [1, OBEDIENCE_DIE] });
 /** Strength and health reach adult values at sixteen; keeping a house comes later. */
 export const ADULT_AT = 16;
 const clamp = (value, [low, high]) => Math.max(low, Math.min(high, value));
@@ -387,7 +405,8 @@ export function rolledPeople(seed, householdId, index, roll, table = FAMILY_TABL
     // A second son is not dealt the first son's name: each child takes the next card, a twin as much as any other, so no two
     // of one family share a first name (twenty cards a pool, and eighteen children at most).
     const name = deal(index * 4 + sons[role]++, role);
-    people.push({ id, role, sex, age, born, name, traits: dealTraits(seed, id, sex, age) });
+    // Every son and daughter is dealt their obedience with the rest of their hidden stats, twins as much as any (`OBEDIENCE_DIE`).
+    people.push({ id, role, sex, age, born, name, traits: { ...dealTraits(seed, id, sex, age), obedience: obedienceRoll(seed, id) } });
   });
   const parentIds = people.filter(person => person.role === 'father' || person.role === 'mother').map(person => person.id);
   const childIds = people.filter(person => person.role === 'son' || person.role === 'daughter').map(person => person.id);

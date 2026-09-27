@@ -4,7 +4,7 @@ import { drawArmy } from '/army-view.js';
 import { drawFamous } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, gaitMilesASecond, landRuns, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
-import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, standing, travellingLine, RENAME_PAUSE_MS } from '/family-panel.js';
+import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, lifeLine, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, standing, travellingLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { mountErrand } from '/errand.js';
 import { asksTheWay, mountGoing } from '/going.js';
@@ -269,12 +269,16 @@ function miniPerson(ctx, x, y, size, entity) {
     const binding = entityClip(entity, entity.observed);
     const cast = avatarVariant(entity.appearance, entity.sex);
     const clip = binding.id.replace(/^(rust-woman|blue-girl|indigo|ochre|elder|rust|teal|blue)-/, `${cast}-`);
+    // The pose each of the family was last drawn in, by id: presentation evidence for the proofs (npm run test:children), read by
+    // nothing in the application.
+    if (entity.id) (window.__clipsDrawn ??= {})[entity.id] = clip;
     if (animated(ctx, clip, x, y, size, entity.id, {
       paused: binding.frozen, flip: binding.upright ? false : entity.flip,
       gait: entity.gait, appearance: entity.appearance,
     })) return;
   }
   const binding = entity.side ? { id: `${entity.side === 'mexican' ? 'regular' : 'volunteer'}-idle-e` } : entityClip(entity, entity.observed);
+  if (entity.id && !entity.side) (window.__clipsDrawn ??= {})[entity.id] = binding.id;
   // A north or south cycle is drawn facing that way already; mirroring it would turn a
   // person walking away into a person walking away backwards.
   if (animated(ctx, binding.id, x, y, size, entity.id || entity.side, { paused: binding.frozen, flip: binding.upright ? false : entity.flip, gait: entity.gait })) return;
@@ -2992,13 +2996,20 @@ export function drawWorld(world) {
     ? at => at.x >= bounds.minX && at.x <= bounds.maxX && at.y >= bounds.minY && at.y <= bounds.maxY
     : null;
   const travelMarks = { frozen, running, tickMs, scale: camera.scale, now: frameNow };
-  for (const entity of entities) {
+  // A baby carried on an errand (sim/babies.mjs `takeBabyAlong`) is drawn on its carrier's hip, wherever the carrier is drawn:
+  // so the carriers first, and where each was put kept for the babies they carry.
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 - a woman with a baby on her hip; until then the infant figure beside her.
+  const carriedAt = new Map();
+  for (const entity of [...entities].sort((a, b) => Boolean(a.carriedBy) - Boolean(b.carriedBy))) {
+    const carrier = entity.carriedBy ? carriedAt.get(entity.carriedBy) : null;
     // Where along the road this traveller is *drawn*, which is not where the server has them while the middle of a long
     // journey is being crossed out of sight (`sightOf`). Worked out before the point, because it is the point.
-    const sight = sightOf(entity, drawnHeightOf(entity, camera.figure, seatOf(entity, entities)), travelMarks);
-    if (sight && sight.alpha < 1) roads.push({ entity, seen: sight });
-    const inTown = townGround(world, entity, camera, frameNow, frozen);
-    const ground = sight?.at || inTown?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
+    const sight = carrier ? carrier.sight : sightOf(entity, drawnHeightOf(entity, camera.figure, seatOf(entity, entities)), travelMarks);
+    if (sight && sight.alpha < 1 && !carrier) roads.push({ entity, seen: sight });
+    const inTown = carrier ? null : townGround(world, entity, camera, frameNow, frozen);
+    const ground = carrier ? carrier.ground : sight?.at || inTown?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
+    carriedAt.set(entity.id, { ground, sight });
+    if (carrier) { point.x += camera.figure * .22; point.y -= camera.figure * .3; }
     // The place the figure was really put, beside the place the schedule asked for. Presentation evidence, read by
     // proofs and by nothing in the application: "the schedule says the right thing" and "the page drew the right thing"
     // are two questions, and a proof reading only the first passes a page that draws the figure somewhere else.
@@ -3109,6 +3120,15 @@ export function drawWorld(world) {
     drawTownSpeech(ctx, world.townScenes, headOf, { now: frameNow, tickMs: window.__snapshot?.tickMs ?? 9500, bounds: { width: canvas.width, height: canvas.height }, evidence: said });
     window.__townSaid = said;
   } else window.__townSaid = [];
+  // What the family's own children and babies are saying, over them (sim/childhood.mjs `talkLines`, sim/babies.mjs `babyLines`):
+  // a child with nothing to do and the parent they have stopped, a baby crying and the one who holds it humming. The same
+  // bubbles as the town's (public/speech.js), dashed, because every word of it is reconstructed.
+  if (world.familyTalk?.lines?.length && camera.figure > 14) {
+    const said = [];
+    const headOf = id => (drawnAt.has(id) ? { x: drawnAt.get(id).x, y: drawnAt.get(id).y - drawnAt.get(id).size * .55 } : null);
+    drawTownSpeech(ctx, world.familyTalk, headOf, { now: frameNow, tickMs: window.__snapshot?.tickMs ?? 9500, bounds: { width: canvas.width, height: canvas.height }, evidence: said });
+    window.__familySaid = said;
+  } else window.__familySaid = [];
   drawTravelRoads(ctx, roads, camera, canvas);
   const placeFont = `${Math.round(Math.max(11, Math.min(16, camera.scale * 1.1)))}px system-ui`;
   window.__labelsDrawn = layOutCaptions(ctx, labels, placeFont);
@@ -3840,6 +3860,13 @@ function renderFamilyPanel(world) {
   // The main person: the server's `mainId` (the principal until one is chosen), checked against the rows (docs/FAMILY_PANEL.md §11.3).
   focusedId = focusFor(household.mainId, { order, principalId: household.principalId, entities: people });
   if (!panelExpanded || !byId.has(panelExpanded)) panelExpanded = focusedId || order[0] || null;
+  // Whose icons are the bar at the bottom (owner, 2026-09-21: "When I switch characters, the action bar at the bottom should
+  // switch to that person's bar"). The main person's, as always - and a child's when the student has chosen that child's portrait
+  // (docs/CHILDREN.md §2, 2026-09-26). A child under ten cannot be the main person (the server refuses `set-main`), so until this
+  // no page could show a child's own works at all: the row's icons are only ever drawn as the bar. The main person stays main
+  // for journeys and the house; the child's bar goes back to theirs the moment their portrait or star is chosen.
+  const viewed = byId.get(panelExpanded);
+  const barId = viewed && Number.isFinite(viewed.age) && viewed.age < 10 && !['dead', 'captured'].includes(viewed.health?.condition) ? panelExpanded : focusedId;
   const land = world.land;
   const house = Boolean(land?.interior?.kind);
   const army = new Set((world.army?.ours || []).map(one => one.id));
@@ -3855,11 +3882,13 @@ function renderFamilyPanel(world) {
     const principal = id === household.principalId && entity.principal;
     const age = !Number.isFinite(person?.age ?? entity.age) ? '' : (person?.age ?? entity.age) === 0 ? ', under a year' : `, ${person?.age ?? entity.age}`;
     const role = person?.role || (principal ? 'principal' : 'of this family');
-    const focused = id === focusedId;
+    const focused = id === focusedId, bar = id === barId;
     setData(row.item, 'role', person?.role || '');
     setData(row.item, 'principal', String(principal));
     setData(row.item, 'expanded', String(id === panelExpanded));
-    setData(row.item, 'focused', String(focused));
+    // `focused` is the bar's row, which every rule of the bar reads; `main` the main person's gold edge and star.
+    setData(row.item, 'focused', String(bar));
+    setData(row.item, 'main', String(focused));
     // Somebody is waiting on this person - a rider, the army, a call, work that has stopped to ask, an offer - and the "!"
     // takes the student to them and to the thing waiting (docs/FAMILY_PANEL.md §11). Read from the projection every tick, so
     // it goes the tick the answer is given.
@@ -3891,6 +3920,13 @@ function renderFamilyPanel(world) {
     const autoSays = autoLine(entity);
     if (row.autoSays.textContent !== autoSays) row.autoSays.textContent = autoSays;
     if (row.autoSays.hidden !== !autoSays) row.autoSays.hidden = !autoSays;
+    // What the family's little ones are doing to this person, or this little one is doing (docs/CHILDREN.md): the server's own
+    // sentence on a line of its own - a parent stopped to talk with a child who has nothing to do, a child gone to find them, a
+    // child's automation just gone off, a baby crawling, crying, held or asleep. On every row, the main person's too.
+    const life = lifeLine(entity);
+    if (row.life.textContent !== life) row.life.textContent = life;
+    if (row.life.hidden !== !life) row.life.hidden = !life;
+    setData(row.life, 'kind', entity.aside ? 'stopped' : entity.baby ? 'baby' : entity.talk ? 'talk' : 'child');
     setData(row.autoSays, 'waiting', String(Boolean(onAuto && entity.autoTask?.waiting)));
     // The rooms of the house are set out from the main person's row: one place for the family's own detailed work.
     const houseShown = focused && house;
@@ -3922,7 +3958,7 @@ function renderFamilyPanel(world) {
     // The guided start shuts everything the step does not allow, and rings the one it asks for (public/lesson.js). It is
     // read here rather than decided here: `allow` is the server's list and the server refuses anything else in words.
     const shutting = lessonLocks(lesson);
-    const pointed = focused ? pointedKey(lesson, icons) : null;
+    const pointed = bar ? pointedKey(lesson, icons) : null;
     const lessonFor = key => (shutting ? { shut: !allowsIcon(lesson, icons.find(one => one.key === key)), note: lessonNote, pointed: key === pointed } : null);
     // Why this person can do nothing at all, in the server's own words (docs/FAMILY_PANEL.md §14, owner 2026-09-21).
     // `offered` and `entity` are read for the row `panelActions` empties outright - somebody dead or captured - which has
@@ -3935,7 +3971,8 @@ function renderFamilyPanel(world) {
     // The main person's icon group *is* the bar at the bottom of the screen, and it shows the line there. Everybody else's
     // group is not drawn at all (public/style.css), so their line goes on the row, which is where a student looks for them.
     // This is the way out the stylesheet's ceiling named, asked for by a class on 2026-09-21.
-    const silence = focused ? '' : travelling || reason || '';
+    // A baby's row says what the baby is doing on its own line (`life`), not that it is too young to be sent (docs/CHILDREN.md §6).
+    const silence = bar ? '' : travelling || (entity.baby ? '' : reason) || '';
     if (row.why.textContent !== silence) row.why.textContent = silence;
     if (row.why.hidden !== !silence) row.why.hidden = !silence;
     // No switch on a child too young to be sent, who has nothing for auto to repeat or answer. Only that case: somebody on
@@ -3943,16 +3980,19 @@ function renderFamilyPanel(world) {
     // A child under ten with works of their own has no "too young" reason on the row (sim/children.mjs), and still showed the
     // switch - which the server refuses them (`tooYoung`, sim/world.mjs) - until 2026-09-25: the age is the server's, and the
     // same line of ten `canLead` reads above.
-    const noSwitch = Boolean((reason && /too young/.test(reason)) || entity.age < 10);
+    // Since 2026-09-26 a child of two or more has automation of their own (sim/childhood.mjs, owner: "yes, kids should be able to
+    // be automated. no, it shouldn't go forever"); an infant has nothing it could choose, and has no switch.
+    const noSwitch = Boolean((reason && /too young/.test(reason) && !(entity.age >= 2)) || entity.age < 2);
     if (row.auto.hidden !== noSwitch) row.auto.hidden = noSwitch;
     // Idle: nothing to do and something could be given them. Everybody else on the panel is visibly at something (a glow).
     const idle = isIdle(entity, icons, { withArmy: army.has(id) });
     setData(row.item, 'idle', String(idle));
     if (row.idle.hidden !== !idle) row.idle.hidden = !idle;
-    seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), idle, focused, auto: onAuto, autoSays: autoSays || null, autoWaiting: Boolean(onAuto && entity.autoTask?.waiting), reason: reason || null, why: silence || null, travelling: travelling || null });
+    seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), idle, focused, auto: onAuto, autoSays: autoSays || null, autoWaiting: Boolean(onAuto && entity.autoTask?.waiting), reason: reason || null, why: silence || null, travelling: travelling || null, life: life || null, switchShown: !noSwitch, bar });
     const visibleIcons = icons.filter(icon => icon.active || (icon.can && (!shutting || allowsIcon(lesson, icon))));
     // Somebody with the men in a fight says why nothing can be asked of them (sim/battle-stage.mjs `heldByBattle`).
-    const visibleReason = visibleIcons.length ? null : travelling || entity.held || reason || 'No actions available right now.';
+    // A baby's bar says what the baby is doing (docs/CHILDREN.md §6): it is given no work, and "too young" is not news.
+    const visibleReason = visibleIcons.length ? null : travelling || entity.held || (entity.baby && life) || reason || 'No actions available right now.';
     const key = JSON.stringify([visibleReason, travelling, visibleIcons, shutting ? [lesson.step, lesson.allow, pointed] : null]);
     if (row.iconsKey !== key) {
       row.iconsKey = key;
@@ -4029,7 +4069,7 @@ function fitColumn() {
   const room = columnRoom({ height: stage.bottom, column: { left: box.left, right: box.right }, bar, others: tools ? [tools] : [] });
   const roomText = `${room}px`;
   if (document.body.style.getPropertyValue('--column-room') !== roomText) document.body.style.setProperty('--column-room', roomText);
-  const lines = [...panel.querySelectorAll('.panel-auto-line')].filter(line => !line.hidden).map(line => line.textContent);
+  const lines = [...panel.querySelectorAll('.panel-auto-line, .panel-life-line')].filter(line => !line.hidden).map(line => line.textContent);
   const key = JSON.stringify([room, Math.round(stage.height), panelRows.size, lines, panel.dataset.collapsed || '', focusedId]);
   if (key !== columnKey) {
     columnKey = key;
@@ -4339,9 +4379,12 @@ function panelRow(id) {
   // sentence on a line of its own, on every row - the main person's too, since it says what the bar at the bottom cannot.
   const autoSays = element('span', '', 'panel-auto-line');
   autoSays.hidden = true;
-  body.append(label, input, tools, note, why, autoSays);
+  // What the family's little ones are doing to or with this person (docs/CHILDREN.md, owner 2026-09-26): the server's sentence.
+  const life = element('span', '', 'panel-life-line');
+  life.hidden = true;
+  body.append(label, input, tools, note, why, autoSays, life);
   item.append(portrait, attention, body, icons);
-  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, autoSays, note, why, face: null, iconsKey: null };
+  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, autoSays, life, note, why, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
 }

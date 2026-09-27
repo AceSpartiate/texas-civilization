@@ -41,11 +41,22 @@
 // `run` of the last step - the same three hooks sim/camp.mjs and sim/road.mjs use. Nothing is stored that an old save lacks
 // a correct empty value for: `household.eggsDay` is absent until a family's children have gathered eggs, and absent reads as
 // "not today". **No save version moves.**
-import { registerChores } from './chores.mjs';
+//
+// **Amended by the owner, 2026-09-26** (docs/CHILDREN.md): "children that are too small don't do anything on the farm. we
+// n3ed to make them do stuff. actions specifically for them . different types of play". Until then a child at play stood where
+// they were, drawn standing, and play was a line in the record. Now **play has kinds**, each a work of its own with its own
+// icon, and each drawn as the thing it is - a stick horse galloped up and down the yard, tag run about it, a hoop rolled down
+// the lane and back, hide-and-seek behind the house, a corn-husk doll, a toy cart on biscuit wheels, marbles in the dirt (`PLAY_KINDS`,
+// `playStep`, `HIST-TEX-610` to `-614`, `FIC-GONZ-475`). Play from two is still the bottom of the ladder, and one small job
+// joins the jobs for the youngest: scattering corn for the hens, from three. What a child does when nobody has given them
+// anything, what obedience does, and a child's automation are sim/childhood.mjs.
+import { CHORES, registerChores } from './chores.mjs';
 import { record } from './events.mjs';
 import { SENT_FROM_AGE } from './family.mjs';
 import { BABY_UNDER } from './furniture.mjs';
-import { share } from './shares.mjs';
+import { share, stirredShare } from './shares.mjs';
+// Whether a child starts a job at once (sim/obedience.mjs, docs/CHILDREN.md §4): rolled as the job is given.
+import { beginsJob } from './obedience.mjs';
 
 const DAY = 1440;
 
@@ -69,14 +80,33 @@ const DAY = 1440;
  */
 export const CHILD_WORK_FROM = Object.freeze({
   'child-play': 2,
+  // The kinds of play (owner, 2026-09-26; `FIC-GONZ-475`, docs/CHILDREN.md §2). A stick horse and a doll want nothing but a
+  // child who can walk; tag wants one who can run after another; hide-and-seek one who can keep still and quiet; a toy cart, a
+  // hoop and a game of marbles want hands that do what they are told (`HIST-TEX-610` to `-613`).
+  'child-stick-horse': 2,
+  'child-doll': 2,
+  'child-tag': 3,
+  'child-hide': 4,
+  'child-cart': 4,
+  'child-hoop': 5,
+  'child-marbles': 5,
+  // The one job for the smallest: a handful of corn for the hens, which a three-year-old can throw (`HIST-TEX-614`).
+  'child-hens': 3,
   'child-kindling': 5,
   'child-birds': 5,
   'child-eggs': 5,
   'child-water': 7,
   'child-mind': 7,
 });
-/** The children's works, in the order a row shows them: what is theirs first, then the jobs from youngest up. */
-export const CHILD_WORKS = Object.freeze(['child-play', 'child-kindling', 'child-birds', 'child-eggs', 'child-water', 'child-mind']);
+/**
+ * The age each work is left behind at, where that is before ten (`FIC-GONZ-475`): the stick horse and the hens are the smallest
+ * children's, and an eight-year-old has the eggs and the pail instead. Absent means ten, `SENT_FROM_AGE`. It is also what keeps
+ * an older child's row from being fourteen pictures long.
+ */
+export const CHILD_WORK_UNTIL = Object.freeze({ 'child-stick-horse': 7, 'child-hens': 7 });
+/** The children's works, in the order a row shows them: play first, then the jobs from youngest up. */
+export const CHILD_WORKS = Object.freeze(['child-play', 'child-stick-horse', 'child-doll', 'child-tag', 'child-hide', 'child-cart', 'child-hoop', 'child-marbles',
+  'child-hens', 'child-kindling', 'child-birds', 'child-eggs', 'child-water', 'child-mind']);
 /** Whether this is one of the children's works. Read by sim/chores.mjs and sim/world.mjs, which gate on it. */
 export const isChildWork = id => Object.hasOwn(CHILD_WORK_FROM, id);
 
@@ -92,7 +122,7 @@ export function childWorks(entity) {
   if (!entity || entity.kind !== 'person') return [];
   const age = entity.age;
   if (!Number.isFinite(age) || age >= SENT_FROM_AGE) return [];
-  return CHILD_WORKS.filter(id => age >= CHILD_WORK_FROM[id]);
+  return CHILD_WORKS.filter(id => age >= CHILD_WORK_FROM[id] && age < (CHILD_WORK_UNTIL[id] ?? SENT_FROM_AGE));
 }
 /** Whether this person is old enough, and young enough, for this one work. */
 export const oldEnoughFor = (entity, choreId) => childWorks(entity).includes(choreId);
@@ -151,6 +181,7 @@ export function childRefusal(world, household, entity, choreId) {
   if (!Number.isFinite(age)) return `The game does not know how old ${entity.name} is.`;
   if (age >= SENT_FROM_AGE) return `${entity.name} is ${age} now, and has the family's own work to do.`;
   if (age < CHILD_WORK_FROM[choreId]) return `${entity.name} is only ${age}, and too small for that.`;
+  if (age >= (CHILD_WORK_UNTIL[choreId] ?? SENT_FROM_AGE)) return `${entity.name} is ${age} now, and past that.`;
   if (household.arriving) return 'The family is still coming in off the road.';
   if (choreId === 'child-mind' && !littleOnesAtHome(world, household, entity)) return `There is nobody smaller than ${entity.name} at home to mind.`;
   if (choreId === 'child-birds' && !standing(household)) return 'There is nothing standing in the field for the birds to get at.';
@@ -179,10 +210,18 @@ const tell = (world, entity, text, claimId, extra = {}) => record(world, 'memory
   actorId: entity.id, householdId: entity.householdId, importance: 1, classification: 'FICTIONAL FOR GAMEPLAY', claimId, text, ...extra,
 });
 
+/** Which of `PLAYS` a child choosing their own play takes up this hour: a hashed share of the class, the child and the hour. */
+const playLine = (world, entity) => Math.floor(share(world, entity.id, `play:${Math.floor(world.minute / 60)}`) * PLAYS.length) % PLAYS.length;
+
 const RUNS = {
-  play(world, household, entity) {
-    const line = PLAYS[Math.floor(share(world, entity.id, `play:${Math.floor(world.minute / 60)}`) * PLAYS.length) % PLAYS.length];
+  play(world, household, entity, state) {
+    // The line chosen when they went off to play, which is what they were drawn at (`playOf`); a class saved in the middle of an
+    // hour of play before there were kinds has none, and is told the hour's line as it always was.
+    const line = PLAYS[Number.isInteger(state?.line) ? state.line : playLine(world, entity)];
     tell(world, entity, line(entity.name), 'FIC-GONZ-300');
+  },
+  hens(world, household, entity) {
+    tell(world, entity, `${entity.name} scattered a handful of corn for the hens and had them all round their feet.`, 'FIC-GONZ-475');
   },
   kindling(world, household, entity) {
     tell(world, entity, `${entity.name} brought in an armful of chips and bark for the fire.`, 'FIC-GONZ-305');
@@ -217,18 +256,120 @@ const RUNS = {
 export const someoneMinding = (world, household) => household.members.some(id => world.entities[id]?.chore?.id === 'child-mind');
 
 /** How long each work takes, in ticks of twenty minutes (`TICK_MINUTES`), before the pace a skill of one sets. `FIC-GONZ-302`. */
-export const CHILD_WORK_TICKS = Object.freeze({ 'child-play': 3, 'child-kindling': 3, 'child-birds': 6, 'child-eggs': 1, 'child-water': 3, 'child-mind': 6 });
+export const CHILD_WORK_TICKS = Object.freeze({ 'child-play': 3, 'child-hens': 1, 'child-kindling': 3, 'child-birds': 6, 'child-eggs': 1, 'child-water': 3, 'child-mind': 6 });
+
+/**
+ * The kinds of play, each drawn as what it is (owner, 2026-09-26: "different types of play"). `move` is how the child goes
+ * about the yard while at it (`playStep`); `doing` is what the row and the map say, and the page chooses the pose from it
+ * (public/motion.js `grownClip`); `line` is what the family's record says of the hour. Every one is a thing frontier children
+ * are recorded doing (`HIST-TEX-610` to `-613`); which ages have which is the game's own (`FIC-GONZ-475`).
+ */
+export const PLAY_KINDS = Object.freeze({
+  'child-stick-horse': { name: 'Ride a stick horse', move: 'gallop', away: 'on a stick horse', doing: 'galloping a stick horse up and down the yard',
+    describe: 'An hour up and down the yard on a stick horse with a string for a bridle.',
+    line: name => `${name} galloped a stick horse up and down the yard until one of them gave out.` },
+  'child-doll': { name: 'Play with a corn-husk doll', move: 'sit', away: 'to play with a corn-husk doll', doing: 'playing house with a corn-husk doll',
+    describe: 'An hour by the house with a doll made of corn husks, keeping house the way the grown people do.',
+    line: name => `${name} sat by the house all the hour with a corn-husk doll, keeping house for it.` },
+  // Smithwick's, from Martin Varner's boy: an axle through two of his mother's biscuits, hard enough to be wheels (`HIST-TEX-611`).
+  'child-cart': { name: 'Make a toy cart', move: 'kneel', away: 'to make a toy cart', doing: 'making a toy cart with biscuit wheels',
+    describe: 'An hour on their knees making a toy ox cart, with a stick for an axle and two of the hardest biscuits in the house for wheels.',
+    line: name => `${name} made a toy cart with two hard biscuits for wheels and drove it all round the yard.` },
+  'child-tag': { name: 'Play tag', move: 'run', away: 'to play tag', doing: 'running at tag about the yard',
+    describe: 'An hour running at tag about the yard, with the other children if there are any and the dog if there are not.',
+    line: name => `${name} ran at tag about the yard until there was no breath left to run with.` },
+  'child-hide': { name: 'Play hide-and-seek', move: 'hide', away: 'to hide behind the house', doing: 'running off to hide',
+    describe: 'An hour of hiding behind the house and the woodpile, and being found.',
+    line: name => `${name} hid behind the house so well that nobody found them, and came out in the end to say so.` },
+  'child-hoop': { name: 'Roll a hoop', move: 'line', away: 'down the lane after a hoop', doing: 'rolling a hoop down the lane with a stick',
+    describe: 'An hour driving an old barrel hoop down the lane with a stick, and running after it back.',
+    line: name => `${name} drove a barrel hoop down the lane and back with a stick, and lost it in the brush only once.` },
+  'child-marbles': { name: 'Marbles and knucklebones', move: 'kneel', away: 'to play marbles in the dirt', doing: 'at marbles and knucklebones in the dirt',
+    describe: 'An hour on their knees in the dirt with clay marbles and a set of knucklebones.',
+    line: name => `${name} knelt in the dirt at marbles and knucklebones, and won every game against themself.` },
+});
+/**
+ * What a child choosing for themself is drawn at, one to each of `PLAYS` in order: down at the water, the stick horse, off in the
+ * brush (hiding), a fort of sticks (on their knees at it), Indians and rangers (running), and lying in the grass.
+ */
+const PLAYED_AS = Object.freeze([
+  { move: 'squat', doing: 'playing at the edge of the water' }, PLAY_KINDS['child-stick-horse'], PLAY_KINDS['child-hide'],
+  { move: 'kneel', doing: 'building a fort of sticks and bark behind the house' }, PLAY_KINDS['child-tag'],
+  { move: 'sit', doing: 'lying on their back in the grass' },
+]);
+/** The kind of play this chore is, or null for anything that is not play. */
+export const playOf = state => PLAY_KINDS[state?.id] || (state?.id === 'child-play' && Number.isInteger(state.line) ? PLAYED_AS[state.line] : null);
+export const isPlay = id => id === 'child-play' || Object.hasOwn(PLAY_KINDS, id);
+
+/** How far a child at play goes from where they began, in miles: about twenty-five yards, never off the yard. */
+export const PLAY_REACH = 0.014;
+const r4 = value => Math.round(value * 10000) / 10000;
+
+/**
+ * One tick of play, drawn (owner, 2026-09-26: the children must be *seen* at it). Called every tick for every child at play at
+ * home (sim/childhood.mjs), after the chores: the child is moved about the yard by the kind of play - galloped out and back,
+ * run from place to place, rolled down the lane after the hoop, off behind the house and out again - or settled in one place to
+ * sit, squat or kneel, and `doing` says which part of it they are at. The page walks them from one place to the next over the
+ * tick (public/motion.js `ProjectionMotion`), so a child at tag is seen running and a child with a doll is seen sitting.
+ * Deterministic: where they go is a stirred share of the class, the child and the tick.
+ */
+export function playStep(world, household, entity) {
+  const state = entity.chore, kind = playOf(state);
+  if (!kind || state.ask || entity.travel || entity.location?.siteId !== household.homeSiteId) return;
+  const home = world.map.sites[household.homeSiteId];
+  // Tag and hiding are played where the others are: one spot of the yard for the whole family. The rest begin where they stand.
+  state.from ??= ['run', 'hide'].includes(kind.move) ? { x: r4(home.x - .012), y: r4(home.y + .026) } : { x: entity.location.x, y: entity.location.y };
+  const n = state.moves = (state.moves || 0) + 1;
+  const turn = stirredShare(world, entity.id, `play-way:${state.began ?? 0}`) * Math.PI * 2;
+  const ux = Math.cos(turn), uy = Math.sin(turn);
+  let dx = 0, dy = 0, doing = kind.doing, moves = true;
+  if (kind.move === 'gallop') { const side = n % 2 ? 1 : -1; dx = ux * PLAY_REACH * side; dy = uy * PLAY_REACH * side; }
+  else if (kind.move === 'run') {
+    const a = stirredShare(world, entity.id, `tag:${world.tick}`) * Math.PI * 2, far = PLAY_REACH * (0.4 + 0.6 * stirredShare(world, entity.id, `tag-far:${world.tick}`));
+    dx = Math.cos(a) * far; dy = Math.sin(a) * far;
+  } else if (kind.move === 'line') { const out = n % 2 ? 1.6 : 0.2; dx = ux * PLAY_REACH * out; dy = uy * PLAY_REACH * out; }
+  else if (kind.move === 'hide') {
+    if (n <= 2) { dx = -uy * PLAY_REACH * 1.3; dy = ux * PLAY_REACH * 1.3; doing = n === 1 ? 'running off to hide' : 'hiding behind the house, very still'; }
+    else doing = 'coming out to be found';
+  } else { moves = n === 1; dx = ux * 0.004; dy = uy * 0.004; }
+  if (moves) entity.location = { x: r4(state.from.x + dx), y: r4(state.from.y + dy), siteId: household.homeSiteId };
+  state.doing = doing;
+}
 
 const work = (id, name, describe, doing, run) => ({
   id, name, skill: 'hands', where: 'home', child: true, describe,
   offered: (world, household, entity) => childOffered(world, household, entity, id),
   refusal: (world, household, entity) => childRefusal(world, household, entity, id),
+  // A job, not play: the child may dawdle before starting it (sim/obedience.mjs). Play is never disobeyed.
+  begin: (world, household, entity) => beginsJob(world, household, entity, doing),
   steps: [{ work: CHILD_WORK_TICKS[id], doing }, { run }],
 });
+/** A kind of play as a work of its own: offered by the ladder, drawn by `playStep`, told by its own line. */
+const playWork = (id, kind) => ({
+  id, name: kind.name, skill: 'hands', where: 'home', child: true, play: true,
+  describe: `${kind.describe} It makes nothing and costs nothing, and it is what a child of this age would be doing with the hour.`,
+  offered: (world, household, entity) => childOffered(world, household, entity, id),
+  refusal: (world, household, entity) => childRefusal(world, household, entity, id),
+  begin: (world, household, entity) => { entity.chore.began = world.tick; entity.chore.doing = kind.doing; },
+  steps: [{ work: CHILD_WORK_TICKS['child-play'] }, { run: (world, household, entity) => tell(world, entity, kind.line(entity.name), 'FIC-GONZ-475') }],
+});
 registerChores(Object.fromEntries([
-  work('child-play', 'Play',
-    `An hour that is theirs: the creek, a stick horse, the other children. It makes nothing, costs nothing and is not a job. A child of this age has no work on this place, and this is what they would be doing with the hour instead.`,
-    'playing about the place', RUNS.play),
+  {
+    ...work('child-play', 'Play as they please',
+      `An hour that is theirs, at whatever they choose: the creek, a stick horse, hiding in the brush, the other children. It makes nothing, costs nothing and is not a job. The kinds of play beside it are the same hour, chosen for them.`,
+      'playing about the place', RUNS.play),
+    play: true,
+    // What they choose is chosen as they go, and is what they are drawn at (`playOf`, `playStep`) and what the record says.
+    begin: (world, household, entity) => {
+      const line = playLine(world, entity);
+      Object.assign(entity.chore, { began: world.tick, line, doing: PLAYED_AS[line].doing });
+    },
+    steps: [{ work: CHILD_WORK_TICKS['child-play'] }, { run: RUNS.play }],
+  },
+  ...Object.entries(PLAY_KINDS).map(([id, kind]) => playWork(id, kind)),
+  work('child-hens', 'Scatter corn for the hens',
+    `A few minutes in the yard throwing a handful of cracked corn for the hens. The corn is a handful and the game does not count it; it puts nothing in the family's store. It is the one job a child of three can do.`,
+    'scattering corn for the hens', RUNS.hens),
   work('child-kindling', 'Gather kindling',
     `An hour round the yard and the wood pile with a basket: bark, chips and dead sticks for the fire. No axe — nothing here is cut, only picked up. It puts nothing in the family's store.`,
     'gathering kindling and chips', RUNS.kindling),
@@ -252,7 +393,11 @@ registerChores(Object.fromEntries([
  * a child who cannot stop what they were set to would be the only person in the family who could not.
  */
 export const childAction = input => input?.action === 'stop-chore'
-  || (input?.action === 'chore' && isChildWork(String(input.chore || '')));
+  // Their own automation, which does not go on for ever (sim/childhood.mjs, owner 2026-09-26: "yes, kids should be able to be
+  // automated. no, it shouldn't go forever"). Refused there for an infant, who has nothing it could choose.
+  || input?.action === 'set-auto'
+  // Any work marked a child's: their own at home, and the flight's own for a child (sim/flight-work.mjs).
+  || (input?.action === 'chore' && (isChildWork(String(input.chore || '')) || Boolean(CHORES[String(input.chore || '')]?.child)));
 
 /** A saved family's children's state that cannot be, or null. */
 export function childrenInvalid(world) {

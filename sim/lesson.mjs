@@ -71,6 +71,9 @@ export const ALWAYS = Object.freeze([
   // that refused a five-year-old's hour of play because the house was not raised yet would be refusing the one thing that
   // family member is for. Written out rather than built from the module, which would make this file import it.
   'chore:child-play', 'chore:child-kindling', 'chore:child-birds', 'chore:child-eggs', 'chore:child-water', 'chore:child-mind',
+  // And the kinds of play and the hens (owner, 2026-09-26; sim/children.mjs `PLAY_KINDS`, docs/CHILDREN.md): the same rule.
+  'chore:child-stick-horse', 'chore:child-doll', 'chore:child-tag', 'chore:child-hide', 'chore:child-cart', 'chore:child-hoop',
+  'chore:child-marbles', 'chore:child-hens',
   'rename', 'set-main', 'set-auto', 'set-appearance', 'place-item', 'work', 'rest', 'travel',
   'stop-chore', 'answer-chore', 'ask-rider', 'leave-rider',
   'roll-family', 'load-wagon', 'bring-stock',
@@ -334,6 +337,13 @@ function stepOf(world, household) {
   // edited by hand. It opens the gate rather than throwing, because a lesson is not worth stopping a class for.
   return step === 'done' || indexOf(step) >= 0 ? step : null;
 }
+
+/**
+ * Whether this family is in the middle of its guided beginning: on a step, not finished and not stopped. Read by
+ * sim/childhood.mjs, which holds a child with nothing to do back from going to a parent until the lesson is over (docs/CHILDREN.md
+ * §3): a student being walked through one farm task at a time is not also to be stopped by a child at the father's elbow.
+ */
+export const inLesson = (world, household) => { const step = stepOf(world, household); return Boolean(step && step !== 'done'); };
 
 /**
  * The lesson as the family's own page sees it. Null for the Host, for a family nobody plays, for the

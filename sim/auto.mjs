@@ -39,6 +39,7 @@ import { autoFlee } from './scrape.mjs';
 import { answerRoad, roadAutoAnswer } from './road.mjs';
 import { allWorn } from './tools.mjs';
 import { heldByBattle } from './battle-stage.mjs';
+import { calledAside } from './aside.mjs';
 
 /**
  * The work a person on auto takes up again, over and over (owner, 2026-09-16 for the hunts; 2026-09-25 for the rest): work at
@@ -169,6 +170,8 @@ export function advanceAuto(world, { beginTravel, modeAvailability }) {
       // With the men in a fight (sim/battle-stage.mjs `heldByBattle`): auto takes up nothing until they are back with them. No work
       // is offered off the family's land today, so this is a guard for the day some is, not a rule any test can yet catch.
       if (heldByBattle(world, person)) continue;
+      // Called aside by the family's little ones (sim/aside.mjs): nothing is taken up until they are back, and then it is.
+      if (calledAside(person)) continue;
       // A man on auto with Houston's army takes up the camp's work as his neighbours do (sim/camp.mjs `campChoice`): the
       // director's day, read from the same offered list a student sees. A refusal is simply a day with nothing to do.
       if (person.service?.kind === 'houston' && person.service.status === 'serving' && !person.chore && !person.travel) {
