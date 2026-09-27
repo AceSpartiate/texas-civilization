@@ -7,6 +7,14 @@
 // against `window.__animationClips`, which a clip only enters when `drawClip` actually returned a width - so a sheet that
 // failed to load cannot pass this.
 //
+// **Since the parent appearance redesign of 2026-09-26 (e396a13) a family's own people are drawn as their family's looks**
+// (`public/avatar-art.js`), and that figure "composes into wagon and horse seats" (HANDOFF); Astra's painted cast - the whole
+// painted horse-and-rider and the seated drivers - is for people without a family's looks. Every person of a family has
+// looks (a parent's chosen or seeded, a child's from the parents: sim/appearance.mjs `appearanceOf`), so the rider and the
+// driver below are the family's own figure sat on the seat, cut at the hip, over the family's own horse or wagon. Until
+// 2026-09-26 this proof still asked for the painted frames and failed from that commit on. What it holds is unchanged in
+// substance: they sit on the mount, the mount is not drawn again beside them, the horse and ox walk and the wagon rolls.
+//
 // Owner's playtest, 2026-09-16: "characters don't actually sit on the horse when using it ... Same thing for the Ox and
 // Wagon." The rules are pure functions in public/motion.js (`seatOf`, `carriedWithRider`, `seatLayout`) and are tested in
 // tests/riding.test.mjs; what only a browser can answer is whether the page draws them - the person's own figure over the
@@ -17,7 +25,7 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
-import { createSettledWorld, keepFoundingFamilies } from '../tests/support/settled.mjs';
+import { createSettledWorld, keepFoundingFamilies, modestMeans } from '../tests/support/settled.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
@@ -27,7 +35,8 @@ const pass = [];
 const ok = (label, condition = true) => { assert.ok(condition, label); pass.push(label); console.log('PASS', label); };
 
 // Slow ticks, so a journey is still on the road while it is looked at.
-const app = createClassroom({ seed: 'riding-proof', playerCount: 5, tickMs: 4000, worldFactory: (seed, count) => keepFoundingFamilies(createSettledWorld(seed, count)) });
+// Of modest means - one covered wagon and one ox (`modestMeans`): the means die of 2026-09-25 may deal this seed a cart.
+const app = createClassroom({ seed: 'riding-proof', playerCount: 5, tickMs: 4000, worldFactory: (seed, count) => modestMeans(keepFoundingFamilies(createSettledWorld(seed, count))) });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [];
@@ -107,17 +116,15 @@ try {
   await onScreen('hh-1-thomas', 'horse');
   await page.waitForTimeout(900);
   const horse = await page.evaluate(() => ({ seated: window.__seatedDrawn['hh-1-thomas'], drawn: Object.keys(window.__drawnAt), clips: [...window.__animationClips],
+    looks: window.__snapshot.world.entities.find(e => e.id === 'hh-1-thomas')?.appearance || null,
     // The fault cannot show in a hidden canvas: the map's own box, so a drawn height is a height on a screen somebody has.
     canvas: [document.querySelector('#world-map').getBoundingClientRect().width, document.querySelector('#world-map').getBoundingClientRect().height] }));
-  const riderPart = horse.seated.parts.find(part => part.part === 'rider');
-  // `hh-1-thomas` is this family's principal, so he is always the rust figure: the clip is named, not guessed.
-  const ridden = `rust-ride-${['n', 's'].includes(horse.seated.direction) ? horse.seated.direction : 'e'}`;
-  ok(`the person sent on the horse is drawn as one painted horse-and-rider (${horse.seated.art})`, horse.seated.art === ridden && riderPart?.whole === true);
-  ok('and not as a figure cropped at the hip laid over a separate horse', horse.seated.parts.length === 1 && riderPart.shown === undefined);
-  ok(`the frame really painted this tick, at ${riderPart.height}px on the canvas`, horse.clips.includes(ridden) && riderPart.height > 8 && horse.canvas.some(size => size > 0));
+  const riderPart = horse.seated.parts.find(part => part.part === 'rider'), mount = horse.seated.parts.find(part => part.part === 'horse');
+  ok(`the person sent on the horse has the family's looks, so is drawn as them and not as the painted cast (${JSON.stringify(horse.looks)})`, Boolean(horse.looks) && horse.seated.art === null);
+  ok('sat in the saddle: their own figure cut at the hip, over the family\'s horse', Boolean(riderPart && mount) && riderPart.shown > 0 && riderPart.shown < 1 && riderPart.y < mount.y);
+  ok(`drawn this tick on the canvas, the rider ${riderPart.height}px and the horse ${mount.height}px tall`, riderPart.height > 8 && mount.height > riderPart.height && horse.canvas.some(size => size > 0));
   ok('the horse is not drawn a second time walking beside them', !horse.drawn.includes('hh-1-horse'));
-  ok(`and no separate horse cycle is drawn under him at all: ${horse.clips.filter(clip => /^horse-|^rust-idle|^mounted-courier/.test(clip)).join(', ') || 'none'}`,
-    !horse.clips.some(clip => /^horse-walk|^horse-chestnut|^mounted-courier|^rust-idle/.test(clip)));
+  ok(`and the horse under them walks: ${horse.clips.filter(clip => /^horse-/.test(clip)).join(', ') || 'none'}`, horse.clips.some(clip => /^horse-.*walk/.test(clip)));
   mkdirSync('docs/evidence', { recursive: true });
   await closeUp('hh-1-thomas', 'docs/evidence/riding-horse.png');
 
@@ -142,11 +149,10 @@ try {
     canvas: [document.querySelector('#world-map').getBoundingClientRect().width, document.querySelector('#world-map').getBoundingClientRect().height] }));
   const driver = wagon.seated.parts.find(part => part.part === 'rider'), box = wagon.seated.parts.find(part => part.part === 'wagon'), ox = wagon.seated.parts.find(part => part.part === 'ox');
   ok('the person driving the ox and wagon is drawn on the wagon, with the ox in front', Boolean(driver && box && ox));
-  // `hh-1-mateo`, the founding four's son, is drawn as the adolescent boy `blue` (public/motion.js `figureOf`), one of the four
-  // Astra painted driving.
-  const driven = `blue-wagon-driver-${wagon.seated.direction}`;
-  ok(`drawn as Astra's whole seated driver with his reins and goad (${wagon.seated.art})`, wagon.seated.art === driven && driver.seated === true && driver.shown === undefined);
-  ok(`the frame really painted this tick, at ${driver.height}px on the canvas`, wagon.clips.includes(driven) && driver.height > 8 && wagon.canvas.some(size => size > 0));
+  // `hh-1-mateo`, the founding four's son, has his looks from his parents (sim/appearance.mjs), so he too is his family's figure
+  // on the seat rather than Astra's painted driver.
+  ok(`drawn as his family's own figure on the seat, cut at the hip (${wagon.seated.art})`, wagon.seated.art === null && driver.shown > 0 && driver.shown < 1);
+  ok(`drawn this tick, at ${driver.height}px on the canvas`, driver.height > 8 && wagon.canvas.some(size => size > 0));
   ok(`sitting up on the wagon's seat, not walking on the road (feet ${box.y - driver.y}px above the wagon's wheels)`, driver.y < box.y - driver.height * 0.15);
   ok('the ox and the wagon are not drawn again by themselves', !wagon.drawn.includes('hh-1-animal') && !wagon.drawn.includes('hh-1-wagon'));
   ok(`with the ox walking and the wagon rolling: ${wagon.clips.filter(clip => /^ox-walk|^wagon-/.test(clip)).join(', ')}`,
@@ -168,7 +174,7 @@ try {
     notProved: [
       'Same computer only: one browser and the server on one machine. Nothing here is LAN or district evidence.',
       'That the delivered art reads well at every zoom and in every direction; the screenshots are one zoom, the direction the road happened to run, and one of the three painted headings.',
-      'The second cast driving and a child on the horse, which are still the composite stand-in because those layers are not delivered: no run here put either on a mount.',
+      'Astra\'s painted horse-and-rider and seated drivers, which since 2026-09-26 are drawn only for people without a family\'s looks: no run here put such a person on a mount (tests/riding.test.mjs holds the choice of frame).',
       'That two students, on two devices, racing for the one horse are both answered correctly at the same instant: the server refuses the second order (tests/keeping.test.mjs), but no two-device race was run.',
     ],
   }, null, 2) + '\n');

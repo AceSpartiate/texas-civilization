@@ -181,7 +181,12 @@ async function openOneGame({ browser, app, rate, hasTouch, errors }) {
   await cdp.send('Emulation.setCPUThrottlingRate', { rate });
   const began = Date.now();
   await page.goto(app.url + game.path);
-  await page.waitForFunction(() => window.__snapshot?.world?.status === 'running' && window.__camera, null, { timeout: 180000 });
+  // A Play Solo game opens in its lobby since the owner's decision of 2026-09-21 (server/app.mjs `newSoloGame`): the wagon
+  // is packed and "Done packing" is the Start. Until 2026-09-26 this waited for `running` here, before anything had been
+  // pressed, and timed out every run from that day; the game now runs once the family is made and the wagon put away below.
+  // Nothing of the world is drawn behind the family-making curtain (public/app.js), so the page is loaded when it has its
+  // first snapshot and either shows the curtain or has drawn the map.
+  await page.waitForFunction(() => window.__snapshot?.world?.status && (window.__camera || document.querySelector('#creation')?.hidden === false), null, { timeout: 180000 });
   const loadMs = Date.now() - began;
   // Making the family and walking it to its house are the setting, not what is measured: done at the computer's own speed and
   // throttled again before the first view is drawn for the gestures. Done throttled, the making of the family ran past its
@@ -194,7 +199,10 @@ async function openOneGame({ browser, app, rate, hasTouch, errors }) {
   // Made, not skipped: rolled and named, the curtain down.
   const family = await page.evaluate(async () => ({ family: (await (await fetch('/api/family')).json()).family, curtain: document.querySelector('#creation')?.hidden === false }));
   if (!family.family?.roll || !family.family.surname || family.curtain) throw new Error(`the family was not made before the gestures: ${JSON.stringify({ roll: family.family?.roll ?? null, surname: family.family?.surname ?? null, curtain: family.curtain })}`);
+  // "Done packing" (`#wagon-done`, among the overlays) is Play Solo's Start.
+  await page.locator('#wagon-done').waitFor({ state: 'visible', timeout: 30000 }).catch(() => {});
   await clearOverlays(page);
+  await page.waitForFunction(() => window.__snapshot?.world?.status === 'running' && window.__camera, null, { timeout: 60000 });
   // Past the arrival and the house site, chosen as a neighbour chooses it (sim/neighbours.mjs `pickSite`) and sent through the
   // student's own API: while a family is choosing its site a tap on the map is a place, not a person.
   for (const deadline = Date.now() + 180000; Date.now() < deadline; await sleep(500)) {

@@ -135,7 +135,7 @@ try {
 
   // ------------------------------------------------------ the work stops and asks the family
   const atAsk = await follow(true);
-  assert.ok(atAsk.asking, 'the hunt ran to the end without ever asking the family anything');
+  assert.ok(atAsk.asking, `the hunt ran to the end without ever asking the family anything: ${JSON.stringify({ stages: atAsk.stages, hunter: await page.evaluate(() => { const e = window.__snapshot.world.entities.find(one => one.id === 'hh-1-mateo'); return { chore: e?.chore, travel: e?.travel && { to: e.travel.to, mode: e.travel.mode }, location: e?.location, auto: e?.auto, events: window.__snapshot.world.events.filter(event => event.actorId === 'hh-1-mateo').slice(-6).map(event => event.text) }; }) })}`);
   const question = (await page.locator('#selection-work .ask-text').textContent()).trim();
   const options = await page.locator('#selection-work button[data-action=answer-chore]').evaluateAll(buttons =>
     buttons.map(button => ({ option: button.dataset.option, label: button.querySelector('.work-name')?.textContent, note: button.querySelector('.work-note')?.textContent })));

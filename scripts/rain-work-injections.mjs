@@ -116,8 +116,9 @@ const INJECTIONS = [
   {
     name: 'the passage roof is untagged, so a dog-run is roofed over in the rain between two pens that were not',
     file: PLOT,
-    from: "    stages: [{ id: 'roof', doing: 'roofing over the passage', work: 4, logs: { wall: 4 }, wet: 'roof' }],",
-    to: "    stages: [{ id: 'roof', doing: 'roofing over the passage', work: 4, logs: { wall: 4 } }],",
+    // Re-aimed 2026-09-26: the passage's work and logs are counted by its cells now (`PASSAGE_CELLS`), and this stopped matching.
+    from: "    stages: [{ id: 'roof', doing: 'roofing over the passage', work: 4 * PASSAGE_CELLS, logs: { wall: 4 * PASSAGE_CELLS }, wet: 'roof' }],",
+    to: "    stages: [{ id: 'roof', doing: 'roofing over the passage', work: 4 * PASSAGE_CELLS, logs: { wall: 4 * PASSAGE_CELLS } }],",
   },
   {
     name: 'a tag is misspelt, which holds nothing and says nothing: the silent failure this tagging invites',

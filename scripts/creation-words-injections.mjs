@@ -64,8 +64,10 @@ const INJECTIONS = [
   {
     name: 'the die panel goes back to saying nothing about the roll being taken once',
     file: HTML,
-    from: '      <p id="family-roll-text">The die decides how many are in your family and who they are. It is thrown once. There is no\n        second roll, so the family it gives you is the family you play.</p>',
-    to: '      <p id="family-roll-text">Roll the die to find out who your family is.</p>',
+    // Re-aimed 2026-09-26, with the two after it: the die-roll introduction and the parents' looks were redesigned (a5277c8,
+    // e396a13) - the die panel is indented a level deeper and titled, the looks note reworded - and none of the three matched.
+    from: '        <p id="family-roll-text">The die decides how many are in your family and who they are. It is thrown once. There is no\n          second roll, so the family it gives you is the family you play.</p>',
+    to: '        <p id="family-roll-text">Roll the die to find out who your family is.</p>',
   },
   {
     name: 'the die panel gives away the mapping the owner keeps hidden',
@@ -82,8 +84,8 @@ const INJECTIONS = [
   {
     name: 'the looks pop-up stops saying the looks are chosen once and the children are not asked for',
     file: HTML,
-    from: 'Nothing about a person depends on how they look - it changes nothing in the game. Chosen once, and kept. The children are not asked for: they take after their parents.',
-    to: 'Choose how they look. Nothing about a person depends on it.',
+    from: 'Chosen once, their look stays with them. Children are not asked for; they take after their parents. Appearance changes nothing in the game.',
+    to: 'Appearance changes nothing in the game.',
   },
   {
     name: 'the names card stops saying every box is already filled in',
@@ -94,8 +96,8 @@ const INJECTIONS = [
   {
     name: 'the die panel loses its step number',
     file: HTML,
-    from: '      <span class="eyebrow">STEP 1 OF 4</span>',
-    to: '      <span class="eyebrow">BEFORE THE CLASS BEGINS</span>',
+    from: '        <span class="eyebrow">STEP 1 OF 4 · THE BEGINNING</span>',
+    to: '        <span class="eyebrow">BEFORE THE CLASS BEGINS · THE BEGINNING</span>',
   },
   {
     name: 'the looks pop-up loses its step line, so a second parent is an unannounced second screen',

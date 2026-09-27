@@ -5,6 +5,7 @@ import { createClassroom } from '../server/app.mjs';
 // docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
 // person, so this proof chooses them first, as a student does.
 import { asMain } from './support/main-person.mjs';
+import { meetFamily } from './support/meet-family.mjs';
 import { createWorld } from '../sim/world.mjs';
 import { keepFoundingFamilies } from '../tests/support/settled.mjs';
 const require = createRequire(import.meta.url);
@@ -35,6 +36,9 @@ try {
   await page.locator('[name=code]').fill(app.state.sessionCode);
   await page.getByRole('button', { name: 'Join', exact: true }).click();
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
+  // The family-making curtain (owner, 2026-09-17) stands over the page until the student has met their family; this proof
+  // predated it, and its first press landed on the curtain until 2026-09-26.
+  await meetFamily(page);
   for (let i = 2; i <= 5; i++) await post('/api/join', { name: `Reader ${i}`, code: app.state.sessionCode });
   await command('start');
   await page.waitForFunction(() => window.__snapshot?.world.status === 'running' && window.__animation?.timeMs > 500);

@@ -40,8 +40,33 @@ const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [];
 const evidence = { siege: [], assault: [], screens: [] };
+// **Every snapshot a page is sent is kept, and the proof waits on what was sent, not on what happens to be on the page when
+// it looks** (2026-09-26). At 300 ms a tick a siege day is three ticks (0.9 s), the card of February 23 six (1.8 s) and the
+// card afterwards six: the proof used to poll the page's current snapshot every quarter second and, with a second proof
+// running beside it, now and then looked past a whole window and waited out its four minutes on a day already gone (the
+// intermittent "timed out waiting ... ':siege:'" of v2026.09.26.6). Recorded as the page receives them, nothing is missed.
+// A card that must still be up to be pressed (Watch) is pressed with the class paused by the Host the moment it is seen.
+const RECORD = () => {
+  let latest;
+  const seen = window.__seen = { phases: [], alerts: {}, accounts: {} };
+  Object.defineProperty(window, '__snapshot', {
+    configurable: true, get() { return latest; },
+    set(value) {
+      latest = value;
+      const world = value?.world;
+      if (!world) return;
+      const phase = world.battle?.phase;
+      if (phase && seen.phases.at(-1) !== phase) seen.phases.push(phase);
+      const stamp = { minute: world.minute, date: world.historicalDate, phase: phase || null, journal: (world.events || []).map(event => ({ actorId: event.actorId, text: event.text })) };
+      if (world.battleAlert && !seen.alerts[world.battleAlert.id]) seen.alerts[world.battleAlert.id] = { ...structuredClone(world.battleAlert), ...stamp };
+      if (world.battleAccount && !seen.accounts[world.battleAccount.id]) seen.accounts[world.battleAccount.id] = { ...structuredClone(world.battleAccount), ...stamp };
+    },
+  });
+};
 async function pageFor(viewport) {
-  const page = await (await browser.newContext({ viewport })).newPage();
+  const context = await browser.newContext({ viewport });
+  await context.addInitScript(RECORD);
+  const page = await context.newPage();
   page.setDefaultTimeout(30000);
   page.on('pageerror', error => errors.push(error.message));
   return page;
@@ -96,8 +121,17 @@ try {
   ok(`a class on the colonies map through the join flow; ${man.name} of hh-1 in the garrison at Béxar (set in process), hh-2 with nobody there`);
 
   // ---------------------------------------------------------------- February 23: the card, and Watch
-  await waitFor(inside, () => window.__snapshot.world.battleAlert?.id?.includes(':siege:'));
-  const first = await inside.evaluate(() => ({ alert: window.__snapshot.world.battleAlert, phase: window.__snapshot.world.battle?.phase, date: window.__snapshot.world.historicalDate }));
+  // The card is up six ticks. The Host pauses the class the moment the page has been sent it, so it is pressed while it is
+  // there, however busy this computer is; the class runs on again once it has been.
+  const pause = async () => { await host.getByRole('button', { name: 'Pause', exact: true }).click(); await host.waitForFunction(() => window.__snapshot.world.status === 'paused'); };
+  const resume = async () => { await host.getByRole('button', { name: 'Resume', exact: true }).click(); await host.waitForFunction(() => window.__snapshot.world.status === 'running'); };
+  const cardSent = key => inside.waitForFunction(key => Object.keys(window.__seen.alerts).some(id => id.includes(`:${key}:`)), key, { timeout: 300000, polling: 50 });
+  // And at the Host's Quick pace (a second a tick) until it has been, so the six ticks are six seconds to pause in.
+  app.setPace(1000);
+  await cardSent('siege');
+  await pause();
+  const first = await inside.evaluate(() => ({ alert: window.__snapshot.world.battleAlert, sent: Object.values(window.__seen.alerts).find(one => one.id.includes(':siege:')), phase: window.__snapshot.world.battle?.phase, date: window.__snapshot.world.historicalDate }));
+  assert.ok(first.alert?.id === first.sent.id, `the card of the siege was gone before the Host could pause (${first.sent.date} ${first.sent.phase} -> ${first.date} ${first.phase})`);
   assert.match(first.alert.text, /side/, 'the card did not come through the person');
   await inside.waitForFunction(() => !document.querySelector('#military-notice').hidden && document.querySelector('#military-go')?.textContent === 'Watch', null, { timeout: 20000 });
   await inside.locator('#military-go').click();
@@ -109,6 +143,8 @@ try {
   await shot(inside, 'arrival');
   const walked = await inside.evaluate(id => window.__drawnAt?.[id], manId);
   assert.ok(walked, 'the family\'s man was not drawn going into the Alamo');
+  app.setPace(300);
+  await resume();
 
   // ---------------------------------------------------------------- the siege: several days of the guns
   const siegeSample = async label => {
@@ -118,7 +154,7 @@ try {
   };
   const days = [];
   for (const phase of ['day-24', 'day-26', 'day-29', 'day-3']) {
-    await waitFor(inside, id => window.__snapshot.world.battle?.phase === id, phase);
+    await waitFor(inside, id => window.__seen.phases.includes(id), phase);
     await inside.waitForTimeout(2200);
     days.push(await siegeSample(phase));
     if (phase === 'day-26') await shot(inside, 'siege-day');
@@ -133,11 +169,15 @@ try {
   ok(`the guns on ${days.map(day => day.date).join(', ')}: Mexican batteries ${JSON.stringify(days.at(-1).view.gunShotsBy)}; smoke ${days.map(day => day.view.smoke).join('/')}; the runner answered "stay" ${evidence.runners || 0} times in the meeting`);
 
   // ---------------------------------------------------------------- March 6
-  await waitFor(inside, () => window.__snapshot.world.battleAlert?.id?.includes(':assault:'), undefined, 300000);
-  const alarm = await inside.evaluate(() => ({ alert: window.__snapshot.world.battleAlert, phase: window.__snapshot.world.battle?.phase, date: window.__snapshot.world.historicalDate, journal: window.__snapshot.world.events.map(event => event.text) }));
+  // Answering the runner while waiting for the alarm, as before; then paused the moment the card is sent, as on February 23.
+  await waitFor(inside, () => Object.keys(window.__seen.alerts).some(id => id.includes(':assault:')), undefined, 300000);
+  await pause();
+  const alarm = await inside.evaluate(() => ({ alert: window.__snapshot.world.battleAlert, sent: Object.values(window.__seen.alerts).find(one => one.id.includes(':assault:')), phase: window.__snapshot.world.battle?.phase, date: window.__snapshot.world.historicalDate, journal: window.__snapshot.world.events.map(event => event.text) }));
+  assert.ok(alarm.alert?.id === alarm.sent.id, `the card of the assault was gone before the Host could pause (${alarm.sent.phase} -> ${alarm.phase})`);
   assert.match(alarm.alert.text, new RegExp(`side`), 'the alarm did not come through the man');
   await inside.waitForFunction(() => !document.querySelector('#military-notice').hidden && document.querySelector('#military-go')?.textContent === 'Watch', null, { timeout: 20000 });
   await inside.locator('#military-go').click();
+  await resume();
   ok(`at the ${alarm.phase} on ${alarm.date} the card came at ${man.name}'s side: "${alarm.alert.text.slice(0, 90)}…", and Watch was pressed`);
   const sample = async (label) => {
     const one = await inside.evaluate(() => ({ phase: window.__snapshot.world.battle?.phase, minute: window.__snapshot.world.minute, view: window.__battleView, camera: window.__camera?.kind, frame: window.__animation?.drawMs, size: `${innerWidth}x${innerHeight}` }));
@@ -216,8 +256,9 @@ try {
   ok('the family with nobody there was sent nothing of the Alamo - no battle, no card, no name - before and after a reload');
 
   // ---------------------------------------------------------------- afterwards: what they saw, and the word
-  await waitFor(inside, () => /What you saw/.test(window.__snapshot.world.battleAccount?.title || ''));
-  const debrief = await inside.evaluate(id => ({ card: window.__snapshot.world.battleAccount, journal: window.__snapshot.world.events.filter(event => event.actorId === id).map(event => event.text) }), manId);
+  // The card and the journal as they were the moment the card was sent (it is up three days, six ticks at this pace).
+  await waitFor(inside, () => Object.values(window.__seen.accounts).some(card => /What you saw/.test(card.title || '')));
+  const debrief = await inside.evaluate(id => { const card = Object.values(window.__seen.accounts).find(one => /What you saw/.test(one.title || '')); return { card, journal: card.journal.filter(event => event.actorId === id).map(event => event.text) }; }, manId);
   assert.match(debrief.card.text, /Nobody at home knows/);
   assert.ok(!debrief.journal.some(text => /killed|was stormed/.test(text)), 'the journal knew before the word');
   await inside.waitForFunction(() => !document.querySelector('#military-notice').hidden && /What you saw/.test(document.querySelector('#military-title').textContent), null, { timeout: 30000 }).catch(() => {});

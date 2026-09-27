@@ -66,8 +66,9 @@ const INJECTIONS = [
   {
     name: 'the painted rig is drawn at a person\'s height, so the horse under the rider is a toy again',
     file: 'public/app.js', tests: RIDE,
-    from: "  for (const part of seatLayout(seat, direction, SIZE, figureScale(entity), ready ? (seat === 'horse' ? MOUNTED_HEIGHT : 1) : 0)) {",
-    to: '  for (const part of seatLayout(seat, direction, SIZE, figureScale(entity), ready ? 1 : 0)) {',
+    // Re-aimed 2026-09-26: the layout is kept in a const before its loop now, and this stopped matching.
+    from: "  const layout = seatLayout(seat, direction, SIZE, figureScale(entity), ready ? (seat === 'horse' ? MOUNTED_HEIGHT : 1) : 0);",
+    to: '  const layout = seatLayout(seat, direction, SIZE, figureScale(entity), ready ? 1 : 0);',
   },
 
   // ---- the seated wagon drivers (people-wagon-drivers) --------------------------------------------------------------

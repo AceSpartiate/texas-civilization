@@ -59,9 +59,12 @@ for (const injection of INJECTIONS) {
   for (const { file } of injection.edits) if (!originals.has(file)) originals.set(file, readFileSync(file, 'utf8'));
   const changed = new Map(originals);
   for (const { file, from, to } of injection.edits) {
-    const text = changed.get(file);
-    if (!text.includes(from)) throw new Error(`${injection.name}: the text to replace is not in ${file}`);
-    changed.set(file, text.replace(from, () => to));
+    // The working copy may be CRLF: the patterns are matched in its own line endings, and each must be there exactly once.
+    // (2026-09-26: until then a pattern spanning lines never matched a CRLF file, and this harness stopped at its first.)
+    const text = changed.get(file), crlf = text.includes('\r\n');
+    const wanted = crlf ? from.replace(/\n/g, '\r\n') : from, put = crlf ? to.replace(/\n/g, '\r\n') : to;
+    if (text.split(wanted).length !== 2) throw new Error(`${injection.name}: the text to replace is not in ${file} exactly once`);
+    changed.set(file, text.replace(wanted, () => put));
   }
   let failed;
   try { for (const [file, text] of changed) writeFileSync(file, text); failed = failing(); } finally { for (const [file, text] of originals) writeFileSync(file, text); }

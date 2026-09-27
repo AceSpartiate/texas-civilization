@@ -97,9 +97,19 @@ try {
   // His row: the camp's work, then sending for him, and nothing else.
   await icon('camp-drill').waitFor({ state: 'visible', timeout: 30000 });
   observed.icons = await student.locator(`.panel-icon[data-entity-id="${person.id}"]`).evaluateAll(buttons => buttons.map(button => ({ key: button.dataset.key, refused: button.getAttribute('aria-disabled') === 'true' })));
-  assert.deepEqual(observed.icons.map(one => one.key), ['camp-drill', 'camp-forage', 'camp-guard', 'camp-scout', 'winter-recall'], JSON.stringify(observed.icons));
-  assert.ok(observed.icons.slice(0, 3).every(one => !one.refused), 'the camp\'s work is refused');
-  ok(`his row has the camp's work and sending for him: ${observed.icons.map(one => one.key).join(', ')}`);
+  // The server offers him the camp's four works and nothing else; the bar draws only what he can do now (owner's action-bar
+  // rule of 2026-09-22, 8e6ecd5: refused icons are not drawn), so the scouts - which want a horse at the camp - are on his
+  // bar only when he has one, and otherwise refused in words by the server. This checked a refused scout icon until
+  // 2026-09-26 and had failed since that rule.
+  observed.offered = await student.evaluate(id => window.__snapshot?.world.work?.[id] || [], person.id);
+  assert.deepEqual(observed.offered.map(entry => entry.id), ['camp-drill', 'camp-forage', 'camp-guard', 'camp-scout'], `the server offers him more or less than the camp's work: ${JSON.stringify(observed.offered)}`);
+  const scout = observed.offered.find(entry => entry.id === 'camp-scout');
+  if (!scout.can) assert.match(scout.why || '', /no horse at the camp/, 'the scouts are refused without saying why');
+  const drawable = [...observed.offered.filter(entry => entry.can).map(entry => entry.id), 'winter-recall'];
+  assert.deepEqual(observed.icons.map(one => one.key), drawable, JSON.stringify(observed.icons));
+  assert.ok(['camp-drill', 'camp-forage', 'camp-guard'].every(key => drawable.includes(key)), 'the camp\'s work is refused');
+  assert.ok(observed.icons.every(one => !one.refused), 'a refused icon is drawn');
+  ok(`his row has the camp's work and sending for him: ${observed.icons.map(one => one.key).join(', ')}${scout.can ? '' : ` (the scouts refused: "${scout.why}")`}`);
 
   // Drill: the icon glows while the server says he is drilling, and the card counts his days.
   await icon('camp-drill').click();

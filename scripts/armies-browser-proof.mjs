@@ -72,6 +72,11 @@ try {
   await page.goto(url + game.path);
   await page.waitForFunction(() => window.__snapshot?.world?.householdId === 'hh-1', null, { timeout: 60000 });
   await meetFamily(page);
+  // A Play Solo game opens in its lobby since 2026-09-21 (server/app.mjs `newSoloGame`), with the wagon panel up and dimming
+  // the family behind it; "Done packing" is its Start. Until 2026-09-26 this pressed a portrait under the dim and timed out.
+  await page.locator('#wagon-done').waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
+  if (await page.locator('#wagon-done').isVisible()) await page.locator('#wagon-done').click();
+  await page.waitForFunction(() => window.__snapshot?.world?.status === 'running', null, { timeout: 30000 });
   await page.waitForTimeout(1200);
 
   // The armies the page was told about, and what it drew.

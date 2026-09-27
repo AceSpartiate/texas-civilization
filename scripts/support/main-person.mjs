@@ -13,6 +13,20 @@
 export async function asMain(page, id, { timeout = 15000 } = {}) {
   const already = await page.evaluate(one => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId === one, id);
   if (already) return;
-  await page.locator(`.panel-focus[data-focus="${id}"]`).click();
+  await page.locator(`.panel-focus[data-focus="${id}"]`).click({ timeout }).catch(async error => {
+    // Said with where the star is and what hides it, so a failure here reads as the page's state and not a bare timeout.
+    const why = await page.evaluate(one => {
+      const star = document.querySelector(`.panel-focus[data-focus="${one}"]`);
+      const hidden = [];
+      for (let node = star; node && node !== document.body; node = node.parentElement) {
+        const style = getComputedStyle(node);
+        if (node.hidden || style.display === 'none' || style.visibility === 'hidden') hidden.push(`${node.tagName.toLowerCase()}${node.id ? `#${node.id}` : ''}.${[...node.classList].join('.')}${node.hidden ? '[hidden]' : ''} display:${style.display}`);
+      }
+      const box = star?.getBoundingClientRect();
+      return { star: Boolean(star), box: box && { x: Math.round(box.x), y: Math.round(box.y), w: Math.round(box.width), h: Math.round(box.height) }, hidden,
+        person: window.__snapshot?.world.entities.find(entity => entity.id === one) && (e => ({ age: e.age, health: e.health, travel: Boolean(e.travel), chore: e.chore?.id || null }))(window.__snapshot.world.entities.find(entity => entity.id === one)) };
+    }, id);
+    throw new Error(`${id} could not be made the main person: ${JSON.stringify(why)} (${error.message.split('\n')[0]})`);
+  });
   await page.waitForFunction(one => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId === one, id, { timeout });
 }

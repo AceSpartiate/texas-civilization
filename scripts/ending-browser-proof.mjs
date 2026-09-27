@@ -17,6 +17,7 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
+import { meetFamily } from './support/meet-family.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld } from '../sim/world.mjs';
 import { momentOf } from '../sim/directors.mjs';
@@ -67,6 +68,9 @@ try {
   await student.locator('[name=code]').fill(app.state.sessionCode);
   await student.getByRole('button', { name: 'Join', exact: true }).click();
   await student.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
+  // The family-making curtain (owner, 2026-09-17) stands over the page until the student has met their family; this proof
+  // predated it, and its first press landed on the curtain until 2026-09-26.
+  await meetFamily(student);
   for (let i = 2; i <= 5; i++) await post('/api/join', { name: `Reader ${i}`, code: app.state.sessionCode });
 
   const host = await (await browser.newContext({ viewport: { width: 1440, height: 950 } })).newPage();

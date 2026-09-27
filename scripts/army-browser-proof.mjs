@@ -15,6 +15,8 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
+import { meetFamily } from './support/meet-family.mjs';
+import { sendTheWay } from './support/going.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld } from '../sim/world.mjs';
 
@@ -68,6 +70,9 @@ try {
   await page.locator('[name=code]').fill(app.state.sessionCode);
   await page.getByRole('button', { name: 'Join', exact: true }).click();
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
+  // The family-making curtain (owner, 2026-09-17) stands over the page until the student has met their family; this proof
+  // predated it, and its first press landed on the curtain until 2026-09-26.
+  await meetFamily(page);
   for (let i = 2; i <= 5; i++) await post('/api/join', { name: `Reader ${i}`, code: app.state.sessionCode });
   await post('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);
   await page.waitForFunction(() => window.__snapshot?.world.status === 'running');
@@ -102,6 +107,9 @@ try {
 
   const strengthBefore = await page.evaluate(() => window.__snapshot.world.army.strength);
   await button.click();
+  // Bringing him home puts him on a road, and since 2026-09-24 every such order asks how they go first (public/going.js): the
+  // server's suggestion is taken, as a student most often does. Unanswered, nothing was sent (found 2026-09-26).
+  await sendTheWay(page);
   await page.waitForFunction(before => (window.__snapshot?.world.army?.ours?.length ?? 0) < before,
     await page.evaluate(() => window.__snapshot.world.army.ours.length));
   observed.after = await page.locator('#army-where').textContent();

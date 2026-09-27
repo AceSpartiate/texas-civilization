@@ -60,6 +60,18 @@ function assertUninformed(payload, audience) {
   assert.ok(!text.includes(TRUTH), `${audience} received objective truth early`);
   assert.ok(!text.includes(RUMOR), `${audience} received another family's rumor`);
 }
+// The Host is not a family. Since the owner's Rumor Mill (docs/HOST_PAGE.md §2.2, amended 2026-09-18) the Host reads
+// **what any family has heard, as those families heard it** - the rumour as a rumour, "heard by 1 of 5 families" - in one
+// running story, and nothing else: the truth itself is never on the Host's wire, and no word reaches the Host before a
+// family has it. Until 2026-09-26 this proof held the Host to a family's fog and failed on the story's topic.
+// `deliveredAt` is the minute the courier's word reached its family, or null while it has not.
+function assertHostHeardOnly(payload, audience, deliveredAt) {
+  const { story, ...rest } = payload.world.live || {};
+  assertUninformed({ ...payload, world: { ...payload.world, live: rest } }, `${audience} (outside the Rumor Mill)`);
+  const told = JSON.stringify(story || null);
+  if (told.includes(RUMOR)) assert.match(told, /heard by 1 of 5 families/, `${audience}: the rumour is told as if everybody heard it`);
+  if (told.includes(TRUTH)) assert.ok(deliveredAt !== null && payload.world.minute >= deliveredAt, `${audience}: the Rumor Mill told the courier's word before its family had it`);
+}
 try {
   const port = await app.listen();
   const url = `http://${address}:${port}`;
@@ -89,7 +101,9 @@ try {
   assert.match(await first.locator('#reports').textContent(), /A traveler thinks.*rumor/is);
   assert.equal(await first.locator(`#reports [data-topic-id="${TOPIC}"][data-status="rumor"]`).count(), 1);
   for (const [index, client] of clients.entries()) if (index > 0) assertUninformed(await snapshot(client.page), `Household ${index + 1}`);
-  assertUninformed(await snapshot(host), 'Host');
+  const hostBefore = await snapshot(host);
+  assertHostHeardOnly(hostBefore, 'Host', null);
+  assert.ok(JSON.stringify(hostBefore.world.live?.story || null).includes(RUMOR), 'the Rumor Mill does not tell what a family has heard');
   assert.equal(await second.locator('#reports li').count(), 0);
   assert.equal(await host.locator('#reports li').count(), 0);
   mkdirSync('test-results', { recursive: true });
@@ -128,7 +142,7 @@ try {
   assert.ok(delivered.observationAgeMinutes > delivered.ageMinutes, 'Old news must retain observation age after delivery');
   assert.equal(reportFor(firstAfter).status, 'rumor', 'Delivery to another household cannot upgrade a private rumor');
   assert.equal(reportFor(firstAfter).ageMinutes, firstAfter.world.minute);
-  assertUninformed(hostAfter, 'Host after private delivery');
+  assertHostHeardOnly(hostAfter, 'Host after private delivery', delivered.receivedMinute);
   const courierEnd = app.state.world.entities[courierId];
   assert.equal(courierEnd.location.siteId, 'home-2');
   assert.equal(courierEnd.travel, null);
@@ -140,7 +154,7 @@ try {
 
   // Inspect captured response projections, including every SSE tick, for accidental leaks.
   const hostWire = await host.evaluate(() => window.__wireSnapshots);
-  for (const payload of hostWire) assertUninformed(payload, 'Host wire history');
+  for (const payload of hostWire) assertHostHeardOnly(payload, 'Host wire history', delivered.receivedMinute);
   const recipientWire = await second.evaluate(() => window.__wireSnapshots);
   const beforeDelivery = recipientWire.filter(payload => !payload.world.reports.some(report => report.topicId === TOPIC));
   assert.ok(beforeDelivery.length >= 3);
@@ -160,7 +174,7 @@ try {
   assert.equal(reportFor(await snapshot(first)).status, 'rumor');
   assert.deepEqual(reportFor(await snapshot(second)), delivered);
   assert.equal((await snapshot(second)).world.minute, savedMinute);
-  assertUninformed(await snapshot(host), 'Restored Host');
+  assertHostHeardOnly(await snapshot(host), 'Restored Host', delivered.receivedMinute);
   assert.equal(app.state.world.entities[courierId].location.siteId, 'home-2');
   assert.equal(app.state.world.truth[TOPIC].text, TRUTH);
   assert.deepEqual(errors, []);
@@ -170,7 +184,7 @@ try {
     rumorIsolation: 'PASS', preDeliveryWireIsolation: 'PASS', privateCourierDelivery: 'PASS', physicalCourierMovement: 'PASS',
     courierId, courierArrivalSite: courierEnd.location.siteId, deliveryMinute: delivered.receivedMinute,
     rumorAgeMinutes: reportFor(firstAfter).ageMinutes, receivedAgeMinutes: delivered.ageMinutes, observationAgeMinutes: delivered.observationAgeMinutes,
-    hostPublicIsolation: 'PASS', clientMutationIsolation: 'PASS', knowledgeAging: 'PASS', serverRestartAndIdentity: 'PASS', liveBrowserShutdown: 'PASS',
+    hostHearsOnlyWhatFamiliesHeard: 'PASS', clientMutationIsolation: 'PASS', knowledgeAging: 'PASS', serverRestartAndIdentity: 'PASS', liveBrowserShutdown: 'PASS',
     hostSnapshotsChecked: hostWire.length, recipientPreDeliverySnapshotsChecked: beforeDelivery.length, browserErrors: errors,
     screenshots: ['test-results/information-rumor.png', 'test-results/information-uninformed.png', 'test-results/information-delivered.png', 'test-results/information-host-public.png'],
   };
