@@ -34,6 +34,15 @@
       ]
     },
     {
+      "name": "every family hears the bell on the day",
+      "file": "sim/surprise.mjs",
+      "expect": "on February 23 a family with somebody in or near Béxar hears the bell through them; everybody else only when a rider comes",
+      "caught": true,
+      "failed": [
+        "on February 23 a family with somebody in or near Béxar hears the bell through them; everybody else only when a rider comes"
+      ]
+    },
+    {
       "name": "no card for a family near Béxar",
       "file": "sim/alamo-battle.mjs",
       "expect": "on February 23 a family with somebody in or near Béxar hears the bell through them; everybody else only when a rider comes",
@@ -85,15 +94,6 @@
       "caught": true,
       "failed": [
         "the Yucatán dead are Urrea's, in the norther of February 25: the rows corrected and no game text puts them in the snow"
-      ]
-    },
-    {
-      "name": "every family hears the bell on the day",
-      "file": "sim/surprise.mjs",
-      "expect": "on February 23 a family with somebody in or near Béxar hears the bell through them; everybody else only when a rider comes",
-      "caught": true,
-      "failed": [
-        "on February 23 a family with somebody in or near Béxar hears the bell through them; everybody else only when a rider comes"
       ]
     }
   ],

@@ -1,6 +1,6 @@
 # Claude handoff — Astra foundation
 
-## The surprise at Béxar: no word of a march, the bell on February 23, the snow at the ending — 2026-09-26 (worktree branch from main 75eb715, main merged at MERGEBASE; not released)
+## The surprise at Béxar: no word of a march, the bell on February 23, the snow at the ending — 2026-09-26 (worktree branch from main 75eb715, main merged at c31d6e7 and origin/main at 9b5a60d; not released)
 
 The owner, 2026-09-26: *"i thought that part of the reason the texians were so unprepared was they knew about the snows and
 presumed that Santa Anna wouldn't march until after they broke. if that's true, then news appropriate to that, but not that
@@ -51,15 +51,15 @@ Hardin, Lord, Jenkins, Chariton (lending-only).
 `FIC-GONZ-383` amended. `HIST-TEX-605`–`-609` were left free for the Esparza work.
 
 **Evidence** (same computer only; not physical LAN or district acceptance).
-- `npm test`: **NPMTEST**. New: `tests/surprise.test.mjs` (4). `tests/alamo-runner.test.mjs`'s way-out test now waits for `herrera`.
-- `npm run test:surprise-injections` (`scripts/surprise-injections.mjs`): **INJECTIONS** (`docs/evidence/surprise-injections.json`).
+- `npm test`: **1,384 of 1,384** after merging main. New: `tests/surprise.test.mjs` (4). `tests/alamo-runner.test.mjs`'s way-out test now waits for `herrera`.
+- `npm run test:surprise-injections` (`scripts/surprise-injections.mjs`): **14 of 14 caught** alone by the check written for each - 10 unit on `tests/surprise.test.mjs`, 4 browser on `test:bexar-alarm` (`docs/evidence/surprise-injections.json`).
 - `npm run test:bexar-alarm` (new): **8 checks**, hh-1 of Gonzales (the father in the garrison) at 1366x768 and hh-2 of Columbia at
   1024x768 (`docs/evidence/bexar-alarm-browser.json`, `test-results/bexar-alarm-*.png`): Herrera heard by hh-1 alone, disbelieved;
   before the bell neither family knew or was told of a march; the card through the father with Watch, the caption and "The enemy
   are in view!" on the screen, and the family's report from its own man; the Host's banner; hh-2 sent nothing on the 23rd; hh-2
   told on the 26th by "Riders from Gonzales". Run at 800 ms a tick: on a loaded computer the bell's four ticks went by at 300.
-- `npm run test:surprise-reveal` (new): REVEALPROOF.
-- Re-run on this tree: RERUNS.
+- `npm run test:surprise-reveal` (new): **4 checks** (`docs/evidence/surprise-reveal-browser.json`, `test-results/surprise-reveal-*.png`): a class played in process to the evening of March 13, the Host starts it, and when the second period stops the Host's closing view (1366x768) and both families' (1366x768, 1024x768) carry the reveal - the grass, Herrera, the bell, the snow of February 13 in Coahuila, sixteen inches, Guerrero, Urrea, February 25 - in the panel, nothing sideways; nothing of it on the wire while the class ran.
+- Re-run on this tree: `test:battle-alamo` **13 checks** (its first card is now the bell's; one earlier run timed out on the debrief card while the computer ran other agents' proofs, and passed alone), `test:alamo-siege` **8 checks**. **Merging main** brought its art commit 4b151ba, which draws Joe firing from his doorway from its own sheet: `tests/battle-alamo-view.test.mjs` now takes `joe-fire-door` or the hiding clip.
 
 **Not done.** The bell is told, not drawn: the sentry is a standing volunteer at the church (stand-in; `docs/ART_REQUESTS.md`,
 request 2026-09-26 "the bell at Béxar"). "Near Béxar" is three miles flat. The other settlements still hear at one moment, not
