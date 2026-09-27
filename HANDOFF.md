@@ -1,6 +1,6 @@
 # Claude handoff — Astra foundation
 
-## Enrique Esparza and his family at the Alamo, and Gregorio's burial — 2026-09-26 (worktree branch from main 9af00d4, local main fe8e904 and origin/main 75eb715 merged; not released)
+## Enrique Esparza and his family at the Alamo, and Gregorio's burial — 2026-09-26 (worktree branch from main 9af00d4, local main 4b151ba and origin/main 75eb715 merged; not released)
 
 The owner asked *"is enrique esparza included in our famous person's list?"* - he was not (only his father Gregorio was drawn,
 at the church guns) - and answered *"yes, add enrique and his family"*. docs/BATTLES.md **§14.6** is the build;

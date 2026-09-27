@@ -103,7 +103,9 @@ test('Travis is drawn at the north battery, says only his documented words there
   assert.ok(fall.people.find(one => one.name === 'Travis')?.fell, 'Travis did not fall in the repulse');
   const artRooms = fakeArt(), rooms = createBattleView(artRooms);
   run(rooms, artRooms, at('rooms'), { seconds: 2, perTick: 2 });
-  assert.ok(artRooms.drawn.some(one => one.clip === 'joe-hide'), 'Joe was not drawn hiding');
+  // Firing from the house he took cover in: `joe-fire-door` since the doorway art landed on main (4b151ba, 2026-09-26), whose own
+  // run of the named-person tests did not include this file; `joe-hide` before it.
+  assert.ok(artRooms.drawn.some(one => ['joe-fire-door', 'joe-hide'].includes(one.clip)), 'Joe was not drawn hiding');
   const artEnd = fakeArt(), end = createBattleView(artEnd);
   const said = run(end, artEnd, at('end', 5), { seconds: 12, perTick: 1 }).last;
   assert.ok(artEnd.drawn.some(one => one.clip === 'joe-emerge'), 'Joe was not drawn coming out');
