@@ -3,7 +3,8 @@
   "date": "2026-09-27",
   "gates": {
     "unit": "node --test tests/mexican-advance.test.mjs (and tests/scrape.test.mjs for the scrape's own rules), the named test and no other in its file",
-    "browser": "scripts/mexican-advance-browser-proof.mjs"
+    "browser": "scripts/mexican-advance-browser-proof.mjs",
+    "map": "node scripts/advance-places-map-injections.mjs: the map rebuilt with each mistake, node --test tests/advance-places.test.mjs, the named test and no other"
   },
   "unit": [
     {
@@ -254,5 +255,37 @@
     }
   ],
   "cleanBrowserChecks": 10,
-  "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
+  "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768.",
+  "map": [
+    {
+      "name": "the road from San Felipe laid by the easiest ground, over the Brazos and down its left bank",
+      "file": "scripts/build-colonies-map.mjs",
+      "test": "tests/advance-places.test.mjs",
+      "expect": "the five are places of the map at their markers, with the roads the columns went by and Thompson's ferry over the Brazos",
+      "caught": true,
+      "failed": [
+        "the five are places of the map at their markers, with the roads the columns went by and Thompson's ferry over the Brazos"
+      ]
+    },
+    {
+      "name": "Stafford's at the research's estimate, not its marker",
+      "file": "scripts/build-colonies-map.mjs",
+      "test": "tests/advance-places.test.mjs",
+      "expect": "the five are places of the map at their markers, with the roads the columns went by and Thompson's ferry over the Brazos",
+      "caught": true,
+      "failed": [
+        "the five are places of the map at their markers, with the roads the columns went by and Thompson's ferry over the Brazos"
+      ]
+    },
+    {
+      "name": "no road to the Old Fort",
+      "file": "scripts/build-colonies-map.mjs",
+      "test": "tests/advance-places.test.mjs",
+      "expect": "the five are places of the map at their markers, with the roads the columns went by and Thompson's ferry over the Brazos",
+      "caught": true,
+      "failed": [
+        "the five are places of the map at their markers, with the roads the columns went by and Thompson's ferry over the Brazos"
+      ]
+    }
+  ]
 }

@@ -169,6 +169,11 @@ no gore, nothing burning drawn close up (`VISION.md` §16).
    the `fires` of the projection, drawn in `drawWorld`.
 3. **A column on the march** - `regular-march-column` (east, 4 frames): six to eight infantry in files of three with a mounted
    officer at the head and a cart behind, for the column drawn between its camps (`drawArmy` in `public/army-view.js`, `moving`).
+4. **The advance's places** (added 2026-09-26, docs/MAP_ACCURACY.md §14), each a map cutout as `public/place-art.js` gives the
+   places past the box: `plantation-sugar` (Stafford's: a planter's house, a sugar mill and a gin), `blockhouse-village` (the Old
+   Fort: a log blockhouse and a few cabins), `townsite-bay` (New Washington: warehouses on a bluff over the bay) and
+   `tavern-house` (Mrs. Powell's: a dog-run house with a stage stop's sheds). Thompson's is a landing and its ferry is drawn as
+   every ferry is. Until they come the four are named on the map and nothing more, as the army's houses of the march east are.
 
 **Check.** At the Host's map scale a column reads as men on the march and a camp as a camp; a family's own smoke reads as a farm
 burning twenty miles off, never as a campfire.

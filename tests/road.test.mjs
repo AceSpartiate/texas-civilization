@@ -246,10 +246,13 @@ test('the columns march along the map’s roads between their dated places and a
     const there = columnHead(world, column(id), path[i].minute + clock);
     assert.ok(Math.hypot(there.x - world.map.sites[to].x, there.y - world.map.sites[to].y) < 0.01, `${id} did not reach ${to} on its date`);
   }
-  // Santa Anna down the Brazos: along the road from San Felipe to where it leaves it, then across to Thompson's ferry.
-  const santa = column('santa-anna'), brazos = santa.path.findIndex(stop => stop.point && stop.via === 'columbia');
-  const early = columnHead(world, santa, santa.path[brazos - 1].minute + 60 + clock);
-  assert.ok(offRoad(early, findPath(world.map, 'san-felipe', 'columbia').points) < 0.01, 'Santa Anna did not leave San Felipe by the road');
+  // Santa Anna down the Brazos: by the road down the right bank to Thompson's, a place of the map since 2026-09-26
+  // (docs/SCRAPE.md §10 (c)), at the middle of the march and at Thompson's on the morning of April 12.
+  const santa = column('santa-anna'), brazos = santa.path.findIndex(stop => stop.siteId === 'thompsons');
+  const early = columnHead(world, santa, Math.round((santa.path[brazos - 1].minute + santa.path[brazos].minute) / 2) + clock);
+  assert.ok(offRoad(early, findPath(world.map, 'san-felipe', 'thompsons').points) < 0.01, 'Santa Anna did not go down the Brazos by the road');
+  const ferry = columnHead(world, santa, santa.path[brazos].minute + clock);
+  assert.ok(Math.hypot(ferry.x - world.map.sites.thompsons.x, ferry.y - world.map.sites.thompsons.y) < 0.01, "Santa Anna was not at Thompson's on the record's date");
   // Gonzales to the Colorado opposite Beeson's: by the road between them (HIST-TEX-087, on the map since 2026-09-17), not round
   // by San Felipe; Sesma's camp is off the road, on the west bank, and is reached across the last stretch.
   const sesma = column('sesma'), colorado = sesma.path.findIndex(stop => stop.point && stop.via === 'columbus-crossing');

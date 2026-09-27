@@ -122,7 +122,7 @@ test('Columbus and Harrisburg stand at their water; Lynchburg at Lynch\'s ferry,
   assert.ok(terrain.heightAt(lynchburg.x, lynchburg.y) >= 0.3, 'Lynchburg stands on dry ground');
 });
 
-test('Groce\'s ferry crosses the Brazos from the camp to Bernardo, and it is the only way over the Brazos the map has added', () => {
+test('Groce\'s ferry crosses the Brazos from the camp to Bernardo, and the only ways over the Brazos the map has added are the record\'s', () => {
   const ferry = map.roads.find(road => road.from === 'groces' && road.to === 'bernardo');
   assert.ok(ferry, 'there is no road from Groce\'s to Bernardo');
   // The camp was "a half mile from the ferry" (TSHA, Groce's Ferry): the way over is short, not round by another crossing.
@@ -135,7 +135,8 @@ test('Groce\'s ferry crosses the Brazos from the camp to Bernardo, and it is the
   const opened = map.crossings['bernardo:Brazos River'];
   assert.ok(opened && distanceTo(opened, [ferry.points]) < 0.6, 'the ferry does not go over at the crossing opened for it');
   assert.deepEqual(Object.keys(map.crossings).filter(key => key.endsWith(':Brazos River')).sort(),
-    ['bernardo', 'brazoria', 'columbia', 'san-felipe', 'washington'].map(id => `${id}:Brazos River`), 'a way over the Brazos was opened that the record does not give');
+    // Thompson's ferry since 2026-09-26, which Santa Anna's column took on April 12, 1836 (HIST-TEX-586, docs/MAP_ACCURACY.md §14).
+    ['bernardo', 'brazoria', 'columbia', 'san-felipe', 'thompsons', 'washington'].map(id => `${id}:Brazos River`), 'a way over the Brazos was opened that the record does not give');
 });
 
 test('from Groce\'s the road to Harrisburg goes over the ferry by Bernardo, not back through San Felipe (HIST-TEX-088)', () => {
