@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1538 usable sprites, 141 PNG atlases, 519 clips** (293 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1554 usable sprites, 142 PNG atlases, 522 clips** (296 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -47,6 +47,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-seguin | 16 | 1254 × 1254 | 1147292 |
 | famous-susanna-dickinson | 16 | 1254 × 1254 | 1461496 |
 | famous-angelina-dickinson | 4 | 1254 × 1254 | 1286027 |
+| famous-alavez | 16 | 1254 × 1254 | 1276763 |
 | famous-ben | 16 | 1312 × 1199 | 1136424 |
 | twin-sisters-limbered | 4 | 1254 × 1254 | 1010968 |
 | famous-milam | 16 | 1254 × 1254 | 1519856 |
@@ -583,6 +584,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | angelina-dickinson-reach | famous-angelina-dickinson | angelina-dickinson-reach |
 | angelina-dickinson-step | famous-angelina-dickinson | State artwork; no motion required |
 | angelina-dickinson-sleep | famous-angelina-dickinson | State artwork; no motion required |
+| alavez-walk-e-1 | famous-alavez | alavez-walk-e |
+| alavez-walk-e-2 | famous-alavez | alavez-walk-e |
+| alavez-walk-e-3 | famous-alavez | alavez-walk-e |
+| alavez-walk-e-4 | famous-alavez | alavez-walk-e |
+| alavez-walk-s-1 | famous-alavez | alavez-walk-s |
+| alavez-walk-s-2 | famous-alavez | alavez-walk-s |
+| alavez-walk-n-1 | famous-alavez | alavez-walk-n |
+| alavez-walk-n-2 | famous-alavez | alavez-walk-n |
+| alavez-idle-e | famous-alavez | State artwork; no motion required |
+| alavez-idle-s | famous-alavez | State artwork; no motion required |
+| alavez-speak | famous-alavez | State artwork; no motion required |
+| alavez-listen | famous-alavez | State artwork; no motion required |
+| alavez-reach-door | famous-alavez | State artwork; no motion required |
+| alavez-beckon | famous-alavez | State artwork; no motion required |
+| alavez-guide | famous-alavez | State artwork; no motion required |
+| alavez-rest | famous-alavez | State artwork; no motion required |
 | ben-walk-e-1 | famous-ben | ben-walk-e |
 | ben-walk-e-2 | famous-ben | ben-walk-e |
 | ben-walk-e-3 | famous-ben | ben-walk-e |
@@ -1864,6 +1881,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | susanna-dickinson-walk-s | Pose cycle | 2 | 580 | yes | south |
 | susanna-dickinson-walk-n | Pose cycle | 2 | 580 | yes | north |
 | angelina-dickinson-reach | Pose cycle | 2 | 1800 | yes | front / east |
+| alavez-walk-e | Pose cycle | 4 | 760 | yes | east |
+| alavez-walk-s | Pose cycle | 2 | 580 | yes | south |
+| alavez-walk-n | Pose cycle | 2 | 580 | yes | north |
 | twin-sisters-limbered | Pose cycle | 2 | 600 | yes | east; mirror for west |
 | ben-walk-e | Pose cycle | 4 | 760 | yes | east |
 | ben-walk-s | Pose cycle | 2 | 580 | yes | south |

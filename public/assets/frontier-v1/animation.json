@@ -2510,6 +2510,62 @@
       "motion": "none",
       "direction": "front / east"
     },
+    "alavez-walk-e": {
+      "frames": [
+        {
+          "sprite": "alavez-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "alavez-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "alavez-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "alavez-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "alavez-walk-s": {
+      "frames": [
+        {
+          "sprite": "alavez-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "alavez-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "alavez-walk-n": {
+      "frames": [
+        {
+          "sprite": "alavez-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "alavez-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "twin-sisters-limbered": {
       "frames": [
         {

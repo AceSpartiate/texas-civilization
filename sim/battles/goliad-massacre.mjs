@@ -138,10 +138,8 @@ export const GOLIAD_MASSACRE = Object.freeze({
       mexican: { ...GATE },
       groups: [
         { id: 'hidden', side: TEX, style: 'loose', keys: [[0, 'side-door'], [15, 'side-door'], [45, 'house']], drawn: 3, spread: { width: 0.04, depth: 0.02 } },
-        // She is drawn as a townswoman (the renderer's `civilians`), named, and given no words: none of hers are recorded.
-        // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "Coleto and Goliad", item 3 - Francita Alavez is drawn as the first
-        // cast's woman (`rust-woman-walk`, `-idle-s`), until a figure of a Mexican officer's wife of 1836 is drawn.
-        { id: 'alavez', side: MEX, name: 'Francita Alavez', named: true, civilians: true, style: 'loose', keys: [[0, 'side-door'], [15, 'side-door'], [45, 'house']], drawn: 1, spread: { width: 0.02, depth: 0.02 } },
+        // Her unique art carries this quiet rescue gesture; no words of hers are recorded.
+        { id: 'alavez', side: MEX, name: 'Francita Alavez', named: true, civilians: true, figure: 'alavez', style: 'loose', keys: [[0, 'side-door'], [15, 'side-door'], [45, 'house']], drawn: 1, spread: { width: 0.02, depth: 0.02 } },
       ],
       lines: [
         say('m-song', 20, TEX, 'prisoners', 'documented', '(singing “Home, Sweet Home”)', { claimId: 'HIST-TEX-517', gloss: 'The prisoners are singing “Home, Sweet Home.”' }),

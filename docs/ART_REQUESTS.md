@@ -105,7 +105,7 @@ does not have:
 | **The Twin Sisters on the campaign map** use the paired rolling/halt sheet `twin-sisters-limbered`, now repainted red and blue to match the special field variant; the two iron guns remain a fallback if the sheet cannot load | `drawFamous` in `public/famous-view.js` | Request 2026-09-26 — the famous people, item 9; owner 2026-09-27 color direction | Delivered; unpainted field six-pounder is also delivered for reuse |
 | **The marksmen in the grass at Coleto** are drawn in the loose order's standing and kneeling poses, firing | the `ringed` grass parts in `sim/battles/coleto.mjs`, drawn by `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 1 | `regular-prone-fire` (lying in the grass, aim and fire, both facings) |
 | **The Goliad prisoners** are drawn in the militia's walk and stand, which carry muskets; the prisoners had none | `columns` in `sim/battles/goliad-massacre.mjs` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 2 | `prisoner-walk` and `prisoner-stand`, unarmed, hands free |
-| **Francita Alavez** is drawn as the first cast's woman (`rust-woman-walk`, `rust-woman-idle-e`/`-w`), named on the map | the `alavez` part in `sim/battles/goliad-massacre.mjs` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 3 | `alavez-walk` and `alavez-idle`: a Mexican officer's wife of 1836 |
+| ~~Francita Alavez as the first cast's woman~~ | The `alavez` part in `sim/battles/goliad-massacre.mjs` now selects `famous-alavez` through its `figure` key | Request 2026-09-25 — Coleto and Goliad, item 3 | Delivered: directional walks, idle and rescue gestures; appearance is an interpretation |
 | **The carts inside Coleto's square** are the library's `ox-cart`, its ox painted in | `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 4 | `cart-baggage` (no ox) and `cart-tipped` (on its side, a breastwork) |
 ## Claude-drawn stand-ins (replace with Astra's)
 
@@ -1415,8 +1415,7 @@ No blood, no wound shown, no body detail (`VISION.md` §16).
    Mexican cazador in the tall grass at night. Plugs into the loose parts of Coleto's `dusk`, `night` and `small-hours`.
 2. **An unarmed prisoner** - `prisoner-walk-1`..`-4` (east), `prisoner-stand-e`: a volunteer in the San Antonio Greys' or a
    frontier coat, hands free, no musket, no belts. Plugs into the three columns of Palm Sunday (`figure` on a part).
-3. **Francita Alavez** - `alavez-walk-1`..`-4`, `alavez-idle-e`: a Mexican officer's wife of 1836 in a rebozo and long skirt.
-   Plugs into the `alavez` part (`figure: 'alavez'`).
+3. **Francita Alavez** - delivered in `famous-alavez`: east/south/north walks, idle, speaking/listening, reach, beckon, guide and rest poses. The original costume design uses a rebozo and long skirt; it does not claim a documented likeness. The `alavez` part uses `figure: 'alavez'`.
 4. **The baggage carts** - `cart-baggage` (a two-wheeled cart with its load, no ox) and `cart-tipped` (on its side, a
    breastwork). Plugs into the square's carts in `draw` (`public/battle-view.js`).
 5. **A white flag** - the storming of Béxar's own request 2026-09-25 "a white flag, a bugler and the parleying officers" covers Coleto's too (`drawWhiteFlag`, `phase.flags`).

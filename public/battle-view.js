@@ -563,6 +563,11 @@ export function createBattleView(art) {
           drawnBy[side.key].push(point);
           continue;
         }
+        if (side.figure === 'alavez') {
+          figures.push({ y: point.y, kind: 'townsfolk', side: side.side, point, size: figurePx * 0.95, clip: moving ? 'alavez-walk-e' : null, sprite: moving ? null : 'alavez-idle-e', timeMs: time, flip: !right, seed });
+          drawnBy[side.key].push(point); civilians++;
+          continue;
+        }
         if (side.civilians) {
           const who = TOWNSFOLK[slot.index % TOWNSFOLK.length];
           figures.push({ y: point.y, kind: 'townsfolk', side: side.side, point, size: figurePx * (who === 'smallchild' ? 0.62 : 0.95), clip: moving ? `${who}-walk` : `${who}-idle-s`, timeMs: time, flip: !right, seed });

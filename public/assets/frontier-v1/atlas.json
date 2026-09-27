@@ -3630,6 +3630,130 @@
         ]
       }
     },
+    "famous-alavez": {
+      "image": "atlases/famous-alavez.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1276763,
+      "sha256": "7dc78bb6694565be0569720a8be37befba1c71efcc71e885939985018f8a8f12",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.646012,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              7,
+              306
+            ],
+            "columns": [
+              [
+                93,
+                300
+              ],
+              [
+                391,
+                594
+              ],
+              [
+                703,
+                895
+              ],
+              [
+                994,
+                1196
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              317,
+              624
+            ],
+            "columns": [
+              [
+                109,
+                261
+              ],
+              [
+                409,
+                573
+              ],
+              [
+                717,
+                880
+              ],
+              [
+                1013,
+                1176
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              627,
+              938
+            ],
+            "columns": [
+              [
+                102,
+                255
+              ],
+              [
+                403,
+                566
+              ],
+              [
+                706,
+                895
+              ],
+              [
+                1020,
+                1183
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              937,
+              1238
+            ],
+            "columns": [
+              [
+                69,
+                299
+              ],
+              [
+                370,
+                612
+              ],
+              [
+                693,
+                939
+              ],
+              [
+                1008,
+                1205
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-ben": {
       "image": "atlases/famous-ben.png",
       "width": 1312,
@@ -23950,6 +24074,406 @@
           327
         ],
         "visiblePixels": 132757,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-walk-e-1": {
+      "sheet": "famous-alavez",
+      "x": 93,
+      "y": 7,
+      "w": 207,
+      "h": 299,
+      "anchorX": 0.5435,
+      "anchorY": 0.9298,
+      "logicalHeight": 308,
+      "label": "alavez walk e 1",
+      "kind": "famous-alavez",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          95,
+          9,
+          203,
+          295
+        ],
+        "visiblePixels": 32325,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-walk-e-2": {
+      "sheet": "famous-alavez",
+      "x": 391,
+      "y": 7,
+      "w": 203,
+      "h": 299,
+      "anchorX": 0.5493,
+      "anchorY": 0.9298,
+      "logicalHeight": 308,
+      "label": "alavez walk e 2",
+      "kind": "famous-alavez",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          393,
+          9,
+          199,
+          295
+        ],
+        "visiblePixels": 30807,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-walk-e-3": {
+      "sheet": "famous-alavez",
+      "x": 703,
+      "y": 7,
+      "w": 192,
+      "h": 299,
+      "anchorX": 0.5391,
+      "anchorY": 0.9298,
+      "logicalHeight": 308,
+      "label": "alavez walk e 3",
+      "kind": "famous-alavez",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          705,
+          9,
+          188,
+          295
+        ],
+        "visiblePixels": 29723,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-walk-e-4": {
+      "sheet": "famous-alavez",
+      "x": 994,
+      "y": 7,
+      "w": 202,
+      "h": 299,
+      "anchorX": 0.5347,
+      "anchorY": 0.9298,
+      "logicalHeight": 308,
+      "label": "alavez walk e 4",
+      "kind": "famous-alavez",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          996,
+          9,
+          198,
+          295
+        ],
+        "visiblePixels": 31354,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-walk-s-1": {
+      "sheet": "famous-alavez",
+      "x": 109,
+      "y": 317,
+      "w": 152,
+      "h": 307,
+      "anchorX": 0.4868,
+      "anchorY": 0.9511,
+      "logicalHeight": 308,
+      "label": "alavez walk s 1",
+      "kind": "famous-alavez",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          111,
+          319,
+          148,
+          303
+        ],
+        "visiblePixels": 30698,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-walk-s-2": {
+      "sheet": "famous-alavez",
+      "x": 409,
+      "y": 317,
+      "w": 164,
+      "h": 307,
+      "anchorX": 0.439,
+      "anchorY": 0.9511,
+      "logicalHeight": 308,
+      "label": "alavez walk s 2",
+      "kind": "famous-alavez",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          411,
+          319,
+          160,
+          303
+        ],
+        "visiblePixels": 31577,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-walk-n-1": {
+      "sheet": "famous-alavez",
+      "x": 717,
+      "y": 317,
+      "w": 163,
+      "h": 307,
+      "anchorX": 0.4847,
+      "anchorY": 0.9283,
+      "logicalHeight": 308,
+      "label": "alavez walk n 1",
+      "kind": "famous-alavez",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          719,
+          319,
+          159,
+          303
+        ],
+        "visiblePixels": 30294,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-walk-n-2": {
+      "sheet": "famous-alavez",
+      "x": 1013,
+      "y": 318,
+      "w": 163,
+      "h": 306,
+      "anchorX": 0.4785,
+      "anchorY": 0.9281,
+      "logicalHeight": 308,
+      "label": "alavez walk n 2",
+      "kind": "famous-alavez",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1015,
+          320,
+          159,
+          302
+        ],
+        "visiblePixels": 30806,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-idle-e": {
+      "sheet": "famous-alavez",
+      "x": 102,
+      "y": 627,
+      "w": 153,
+      "h": 308,
+      "anchorX": 0.585,
+      "anchorY": 0.9286,
+      "logicalHeight": 308,
+      "label": "alavez idle e",
+      "kind": "famous-alavez",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          104,
+          629,
+          149,
+          304
+        ],
+        "visiblePixels": 29230,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-idle-s": {
+      "sheet": "famous-alavez",
+      "x": 403,
+      "y": 630,
+      "w": 163,
+      "h": 304,
+      "anchorX": 0.5184,
+      "anchorY": 0.9474,
+      "logicalHeight": 308,
+      "label": "alavez idle s",
+      "kind": "famous-alavez",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          405,
+          632,
+          159,
+          300
+        ],
+        "visiblePixels": 31086,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-speak": {
+      "sheet": "famous-alavez",
+      "x": 706,
+      "y": 631,
+      "w": 189,
+      "h": 307,
+      "anchorX": 0.5106,
+      "anchorY": 0.9283,
+      "logicalHeight": 308,
+      "label": "alavez speak",
+      "kind": "famous-alavez",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          708,
+          633,
+          185,
+          303
+        ],
+        "visiblePixels": 33098,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-listen": {
+      "sheet": "famous-alavez",
+      "x": 1020,
+      "y": 633,
+      "w": 163,
+      "h": 303,
+      "anchorX": 0.4847,
+      "anchorY": 0.9274,
+      "logicalHeight": 308,
+      "label": "alavez listen",
+      "kind": "famous-alavez",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1022,
+          635,
+          159,
+          299
+        ],
+        "visiblePixels": 31193,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-reach-door": {
+      "sheet": "famous-alavez",
+      "x": 69,
+      "y": 937,
+      "w": 230,
+      "h": 298,
+      "anchorX": 0.4935,
+      "anchorY": 0.9295,
+      "logicalHeight": 308,
+      "label": "alavez reach door",
+      "kind": "famous-alavez",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          71,
+          939,
+          226,
+          294
+        ],
+        "visiblePixels": 35438,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-beckon": {
+      "sheet": "famous-alavez",
+      "x": 370,
+      "y": 941,
+      "w": 242,
+      "h": 295,
+      "anchorX": 0.4421,
+      "anchorY": 0.9288,
+      "logicalHeight": 308,
+      "label": "alavez beckon",
+      "kind": "famous-alavez",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          372,
+          943,
+          238,
+          291
+        ],
+        "visiblePixels": 34568,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-guide": {
+      "sheet": "famous-alavez",
+      "x": 693,
+      "y": 946,
+      "w": 246,
+      "h": 292,
+      "anchorX": 0.3882,
+      "anchorY": 0.9281,
+      "logicalHeight": 308,
+      "label": "alavez guide",
+      "kind": "famous-alavez",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          695,
+          948,
+          242,
+          288
+        ],
+        "visiblePixels": 34463,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-rest": {
+      "sheet": "famous-alavez",
+      "x": 1008,
+      "y": 983,
+      "w": 197,
+      "h": 253,
+      "anchorX": 0.4442,
+      "anchorY": 0.9289,
+      "logicalHeight": 308,
+      "label": "alavez rest",
+      "kind": "famous-alavez",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1010,
+          985,
+          193,
+          249
+        ],
+        "visiblePixels": 31013,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
