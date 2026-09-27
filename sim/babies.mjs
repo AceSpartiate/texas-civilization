@@ -256,12 +256,12 @@ function crySaid(world, household, baby) {
   const text = baby.travel?.purpose === 'flee' || baby.travel?.purpose === 'return'
     ? (sick ? `${baby.name} is sick and cried most of the day; ${who} held ${pronoun(baby)} the whole way.` : `${baby.name} cried on the road, and ${who} sang to ${pronoun(baby)} as they went.`)
     : baby.carriedBy ? `${baby.name} fussed on ${who}'s hip, and ${who} hummed to ${pronoun(baby)} as ${by && womanOfAge(by) ? 'she' : 'they'} went.`
-    : `${baby.name} cried half the night, and ${who} walked ${pronoun(baby)} up and down until ${pronoun(baby) === 'them' ? 'they' : pronoun(baby) === 'her' ? 'she' : 'he'} slept.`;
+    : `${baby.name} cried a good while, and ${who} walked ${pronoun(baby)} up and down until ${pronoun(baby) === 'them' ? 'they' : pronoun(baby) === 'her' ? 'she' : 'he'} slept.`;
   tell(world, household, baby, text, 'FIC-GONZ-485');
 }
 
 /**
- * Every tick, after the children: every baby of every family crawls, naps and sleeps; in a family somebody plays, a baby cries
+ * Every tick, after the children: in a family somebody plays, every baby crawls, naps and sleeps, and cries
  * and is held, and whoever held it goes back to what they were at. A family nobody plays is not stopped by its babies: the
  * director runs its day, and a pause nobody can see is a cost nobody chose.
  */

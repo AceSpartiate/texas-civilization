@@ -213,7 +213,8 @@ Neither exists, and neither blocks the panel (`CLAUDE.md`, missing art). Both ar
   the screen if they are the main person, and on their own row if they are not (**§14**, owner 2026-09-21).
   beside a person is kept clear of it when there is room. Somebody whose every icon is refused for one reason — somebody
   still on the road in, or an **infant under two** — shows that reason once instead of a row of dimmed pictures
-  (`rowReason`). **Since 2026-09-21 a child of two to nine has a row of icons of their own** and is not collapsed: the
+  (`rowReason`). (**Since 2026-09-26 an infant's row says what the baby is doing instead** - crawling, crying, held, asleep -
+  the owner having superseded "an infant has nothing": [CHILDREN.md](CHILDREN.md) §6, §18 below.) **Since 2026-09-21 a child of two to nine has a row of icons of their own** and is not collapsed: the
   children's six works (`sim/children.mjs`, [FAMILY_CREATION.md](FAMILY_CREATION.md) §3's amendment), and nothing else —
   a child's row never carries an adult's work, refused or otherwise.
   `ceiling:` the panel covers the left of the map on a wide screen, and a family of ten fills its height; a collapse control
@@ -1305,6 +1306,31 @@ lines (207px) - the rest is a scroll. Names beside *Idle* and *Auto* on a 10-to-
 this width (pre-existing since the switch took its word, §16; the name box scrolls, and the portrait's tooltip names them). The
 meeting over the column (§12.12) is unchanged and still the owner's. No Chromebook, no touch screen; phones (unsupported) are
 untouched - there the column runs across the top and the property is removed.
+
+## 18. A child's own bar, the little ones' lines, and a child's Auto — owner 2026-09-26, built the same day
+
+[CHILDREN.md](CHILDREN.md) is the design; what it changes on the panel:
+
+- **A child's bar is shown when the child's portrait is chosen.** A child under ten cannot be the main person (the server refuses
+  `set-main`), and the bar at the bottom was only ever the main person's row, so **no page could show a child's own works at all**
+  - the children's works of 2026-09-21 were reachable only by a proof that sent the command itself. Now choosing a child's
+  portrait makes that child's row the bar (`barId` in `renderFamilyPanel`, `data-focused` on their row), and the main person stays
+  main (`data-main`, the gold edge and the star, their journeys and the house) - the owner's rule of 2026-09-21: "When I switch
+  characters, the action bar at the bottom should switch to that person's bar." Choosing the main person's portrait or star
+  brings their bar back.
+- **A line on every row for the family's little ones** (`.panel-life-line`, the server's `life`): a parent stopped by a child with
+  nothing to do says so **in amber**, naming the child and what to do about it - *"Stopped to talk with Tom, who has nothing to
+  do. Give Tom something to do and Mary goes back to planting."*; a child says they are going to find somebody or talking,
+  dawdling, or that their automation has just gone off; a baby says it is crawling, crying, held or asleep. A stopped row shows
+  the line once and not the refusal under it as well; a baby's row shows it instead of "too young to be sent".
+- **An Auto switch on a child of two or more** (an infant has none). It lasts a time scaled by the child's hidden obedience and
+  goes off by itself, which the row says for six ticks; how long it has left is never shown.
+- **Icons**: seven kinds of play, the hens and the Scrape's nine works, stroked glyphs until their art lands
+  (docs/ART_REQUESTS.md, request 2026-09-26).
+- The family's talk is drawn in bubbles over the child and the grown-up at once, for the tick it is said (`familyTalk`), dashed
+  because every word is reconstructed; a baby's cry and the lullaby hummed to it likewise.
+
+Proved in a browser by `npm run test:children` at 1366x768 and 1024x768 (docs/evidence/children-browser.json).
 
 ## Usability amendment — 2026-09-21
 

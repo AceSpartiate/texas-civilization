@@ -68,6 +68,7 @@ test('the rule: a child with nothing to do goes to the nearest parent, whose wor
   assert.ok(lines.every(line => line.kind === 'reconstructed'), 'a line of the talk is dressed as documented');
   // He is not given new work or sent anywhere meanwhile, and is told why.
   assert.throws(() => applyAction(world, household.id, { action: 'chore', entityId: father.id, chore: 'hunt-timber' }), /talk with/);
+  assert.throws(() => applyAction(world, household.id, { action: 'travel', entityId: father.id, destination: 'gonzales' }), /talk with/, 'the father was sent off with a child at his elbow');
   // Given something to do, the child goes to it; he goes back to exactly where his work was, and it goes on.
   applyAction(world, household.id, { action: 'chore', entityId: kid.id, chore: 'child-tag' });
   step(world, 1);
@@ -77,6 +78,32 @@ test('the rule: a child with nothing to do goes to the nearest parent, whose wor
   step(world, 1);
   assert.notDeepEqual(father.chore, before, 'the father’s work did not go on once the child was busy');
   validateWorld(world);
+});
+
+test('the rule: a child at play is seen at it - moved about the yard by the kind of play, or settled in one place - and never off the land', () => {
+  const { world, household, kid } = family('childhood-play', 6);
+  const home = world.map.sites[household.homeSiteId];
+  const watch = (chore, ticks) => {
+    applyAction(world, household.id, { action: 'chore', entityId: kid.id, chore });
+    const places = new Set(), doing = new Set();
+    for (let t = 0; t < ticks && kid.chore?.id === chore; t++) {
+      stepWorld(world);
+      if (kid.chore?.id !== chore) break;
+      places.add(`${kid.location.x},${kid.location.y}`); doing.add(kid.chore.doing);
+      assert.equal(kid.location.siteId, household.homeSiteId, `${chore} took the child off the land`);
+      assert.ok(Math.hypot(kid.location.x - home.x, kid.location.y - home.y) < 0.08, `${chore} took the child out of the yard`);
+    }
+    for (let t = 0; t < 12 && kid.chore; t++) stepWorld(world);
+    return { places: places.size, doing: [...doing] };
+  };
+  const tag = watch('child-tag', 4);
+  assert.ok(tag.places >= 3, `a child at tag was in ${tag.places} places in four ticks`);
+  assert.match(tag.doing[0], /running at tag/);
+  const hide = watch('child-hide', 4);
+  assert.ok(hide.doing.some(words => /hiding behind the house/.test(words)) && hide.doing.some(words => /running off to hide/.test(words)), `hide-and-seek was not played: ${hide.doing}`);
+  const doll = watch('child-doll', 4);
+  assert.equal(doll.places, 1, 'a child with a doll ran about');
+  assert.match(doll.doing[0], /playing house/);
 });
 
 test('the rule: with no parent at home a child goes to the nearest of age, and with nobody at home plays by themself', () => {

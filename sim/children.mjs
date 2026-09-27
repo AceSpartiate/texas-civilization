@@ -256,7 +256,7 @@ const RUNS = {
 export const someoneMinding = (world, household) => household.members.some(id => world.entities[id]?.chore?.id === 'child-mind');
 
 /** How long each work takes, in ticks of twenty minutes (`TICK_MINUTES`), before the pace a skill of one sets. `FIC-GONZ-302`. */
-export const CHILD_WORK_TICKS = Object.freeze({ 'child-play': 3, 'child-hens': 1, 'child-kindling': 3, 'child-birds': 6, 'child-eggs': 1, 'child-water': 3, 'child-mind': 6 });
+export const CHILD_WORK_TICKS = Object.freeze({ 'child-play': 6, 'child-hens': 1, 'child-kindling': 3, 'child-birds': 6, 'child-eggs': 1, 'child-water': 3, 'child-mind': 6 });
 
 /**
  * The kinds of play, each drawn as what it is (owner, 2026-09-26: "different types of play"). `move` is how the child goes
@@ -266,26 +266,26 @@ export const CHILD_WORK_TICKS = Object.freeze({ 'child-play': 3, 'child-hens': 1
  */
 export const PLAY_KINDS = Object.freeze({
   'child-stick-horse': { name: 'Ride a stick horse', move: 'gallop', away: 'on a stick horse', doing: 'galloping a stick horse up and down the yard',
-    describe: 'An hour up and down the yard on a stick horse with a string for a bridle.',
+    describe: 'A couple of hours up and down the yard on a stick horse with a string for a bridle.',
     line: name => `${name} galloped a stick horse up and down the yard until one of them gave out.` },
   'child-doll': { name: 'Play with a corn-husk doll', move: 'sit', away: 'to play with a corn-husk doll', doing: 'playing house with a corn-husk doll',
-    describe: 'An hour by the house with a doll made of corn husks, keeping house the way the grown people do.',
+    describe: 'A couple of hours by the house with a doll made of corn husks, keeping house the way the grown people do.',
     line: name => `${name} sat by the house all the hour with a corn-husk doll, keeping house for it.` },
   // Smithwick's, from Martin Varner's boy: an axle through two of his mother's biscuits, hard enough to be wheels (`HIST-TEX-611`).
   'child-cart': { name: 'Make a toy cart', move: 'kneel', away: 'to make a toy cart', doing: 'making a toy cart with biscuit wheels',
-    describe: 'An hour on their knees making a toy ox cart, with a stick for an axle and two of the hardest biscuits in the house for wheels.',
+    describe: 'A couple of hours on their knees making a toy ox cart, with a stick for an axle and two of the hardest biscuits in the house for wheels.',
     line: name => `${name} made a toy cart with two hard biscuits for wheels and drove it all round the yard.` },
   'child-tag': { name: 'Play tag', move: 'run', away: 'to play tag', doing: 'running at tag about the yard',
-    describe: 'An hour running at tag about the yard, with the other children if there are any and the dog if there are not.',
+    describe: 'A couple of hours running at tag about the yard, with the other children if there are any and the dog if there are not.',
     line: name => `${name} ran at tag about the yard until there was no breath left to run with.` },
   'child-hide': { name: 'Play hide-and-seek', move: 'hide', away: 'to hide behind the house', doing: 'running off to hide',
-    describe: 'An hour of hiding behind the house and the woodpile, and being found.',
+    describe: 'A couple of hours of hiding behind the house and the woodpile, and being found.',
     line: name => `${name} hid behind the house so well that nobody found them, and came out in the end to say so.` },
   'child-hoop': { name: 'Roll a hoop', move: 'line', away: 'down the lane after a hoop', doing: 'rolling a hoop down the lane with a stick',
-    describe: 'An hour driving an old barrel hoop down the lane with a stick, and running after it back.',
+    describe: 'A couple of hours driving an old barrel hoop down the lane with a stick, and running after it back.',
     line: name => `${name} drove a barrel hoop down the lane and back with a stick, and lost it in the brush only once.` },
   'child-marbles': { name: 'Marbles and knucklebones', move: 'kneel', away: 'to play marbles in the dirt', doing: 'at marbles and knucklebones in the dirt',
-    describe: 'An hour on their knees in the dirt with clay marbles and a set of knucklebones.',
+    describe: 'A couple of hours on their knees in the dirt with clay marbles and a set of knucklebones.',
     line: name => `${name} knelt in the dirt at marbles and knucklebones, and won every game against themself.` },
 });
 /**
@@ -356,7 +356,7 @@ const playWork = (id, kind) => ({
 registerChores(Object.fromEntries([
   {
     ...work('child-play', 'Play as they please',
-      `An hour that is theirs, at whatever they choose: the creek, a stick horse, hiding in the brush, the other children. It makes nothing, costs nothing and is not a job. The kinds of play beside it are the same hour, chosen for them.`,
+      `A couple of hours that are theirs, at whatever they choose: the creek, a stick horse, hiding in the brush, the other children. It makes nothing, costs nothing and is not a job. The kinds of play beside it are the same, chosen for them.`,
       'playing about the place', RUNS.play),
     play: true,
     // What they choose is chosen as they go, and is what they are drawn at (`playOf`, `playStep`) and what the record says.

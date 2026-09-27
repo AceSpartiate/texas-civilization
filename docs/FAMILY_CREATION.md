@@ -468,7 +468,10 @@ the axe or the rifle.**
 | **7** | **Carry water** (`child-water`) | An hour with a pail between the water and the house. | Nothing. |
 | **7** | **Mind the younger ones** (`child-mind`) | Two hours with the little ones. Offered only where somebody smaller is at home. | **Lifts the baby off the parents** while it lasts — `BABY_BURDEN`, the relief a cradle gives. |
 
-- **An infant under two has nothing, and that is the decision, not an oversight.** Their row keeps the adult works, every
+- ~~**An infant under two has nothing, and that is the decision, not an oversight.**~~ **Superseded by the owner on
+  2026-09-26** ("babies can crawl around and cry for attention too"; [CHILDREN.md](CHILDREN.md) §6): an infant is still given
+  no work, but crawls, cries, is held and sung to, and naps, and its row says which. What follows is kept as it was written.
+  Their row keeps the adult works, every
   one refused for the same reason, which is what `rowReason` collapses into one line. **The wording of that line is a
   separate hand's** (2026-09-21) and is deliberately not touched here; what this amendment guarantees is that the row a
   line is needed for still *has* one reason to say, and that every other age has icons instead.
@@ -533,6 +536,22 @@ so a work that told the family nothing still looked told; and the replay check c
 ([ART_REQUESTS.md](ART_REQUESTS.md), request 2026-09-21) and nothing about the panel's layout changed, but *that a real
 child's row renders its six icons on a 1366×768 Chromebook has not been seen*. Same computer only in any case; no LAN and
 no district claim.
+
+---
+
+## Amendment, 2026-09-26 — kinds of play, obedience, a child's own automation, and babies
+
+Owner-decided 2026-09-26 and built the same day; the whole of it is [CHILDREN.md](CHILDREN.md). What it changes here:
+
+- **§3's ladder has more rungs.** Seven kinds of play beside `child-play` (a stick horse and a doll from two, tag from three,
+  hide-and-seek and a toy cart from four, a hoop and marbles from five), and scattering corn for the hens from three; the stick
+  horse and the hens are left behind at seven. Every play is drawn as what it is.
+- **§4 has a fourth hidden stat, `obedience`: a d20 rolled for every son and daughter** when the family is rolled, hashed from the
+  seed and the child's id, never on any wire. It decides how often a child of two to nine dawdles before a job, wanders off from
+  one to play, and switches their own automation off. A child rolled before it has the roll their seed and id make, never
+  written back; **no save version moved.**
+- **A child of two or more may be put on their own automation**, which lasts a time scaled by obedience and goes off by itself.
+- **The 2026-09-21 rule that an infant under two has nothing is superseded** (above): babies crawl, cry and are held.
 
 ---
 

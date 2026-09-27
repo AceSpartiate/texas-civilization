@@ -149,7 +149,9 @@ test('the rule: on the road a lookout sees the army further off, singing wears t
   };
   const plain = worn(false), sung = worn(true);
   assert.ok(plain > 0, 'the walker was not worn by the road at all');
-  assert.ok(Math.abs(sung - plain * SINGING_SHARE) < 1e-3, `singing did not wear the walkers at ${SINGING_SHARE}: ${sung} against ${plain}`);
+  // Three quarters, the documented share (docs/CHILDREN.md §7), written out: a share quietly set to one would match itself.
+  assert.equal(SINGING_SHARE, 0.75);
+  assert.ok(Math.abs(sung - plain * 0.75) < 1e-3, `singing did not wear the walkers at three quarters: ${sung} against ${plain}`);
 });
 
 test('the rule: camped at a crossing a fire keeps the cold off, a hand at the ferry brings the turn sooner once, food can be shared, and on foot the little ones can be carried over', () => {
