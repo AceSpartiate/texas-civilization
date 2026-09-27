@@ -1116,7 +1116,8 @@ export function createBattleView(art) {
       shown.push({ id: person.id, name: person.name, fell, hurt, pose: fell ? person.still || 'still' : hurt ? 'wounded' : person.moving ? 'walk' : person.pose, drawnAs: how, ...(person.bears && { bears: person.bears }), x: Math.round(p.x), y: Math.round(p.y), labelled: false, onScreen: !bounds || (p.x >= 0 && p.y >= 0 && p.x <= bounds.width && p.y <= bounds.height) });
     }
     // Every famous person's name under them (owner, docs/BATTLES.md §2c.2: "names on the map, no cards"), stepped down out of
-    // each other's way where several stand together (the church guns at the Alamo), and a dashed tag under a name where the
+    // each other's way where several stand together (the church guns at the Alamo; the sacristy, where Mrs. Dickinson and the
+    // five Esparzas make six names at one spot, so up to ten steps), and a dashed tag under a name where the
     // record is one account among others (Crockett: "One account (de la Peña) · disputed").
     const boxes = [];
     const font = Math.round(Math.max(11, Math.min(15, figurePx * 0.3)));
@@ -1125,7 +1126,7 @@ export function createBattleView(art) {
     for (const { person, x, y } of labels) {
       const text = person.name, w = ctx.measureText(text).width + 6;
       let top = y + 3;
-      for (let i = 0; i < 6 && boxes.some(b => x - w / 2 < b.x + b.w && b.x < x + w / 2 && top < b.y + b.h && b.y < top + font + 3); i++) top += font + 3;
+      for (let i = 0; i < 10 && boxes.some(b => x - w / 2 < b.x + b.w && b.x < x + w / 2 && top < b.y + b.h && b.y < top + font + 3); i++) top += font + 3;
       boxes.push({ x: x - w / 2, y: top, w, h: font + 3 });
       const said = shown.find(one => one.id === person.id);
       ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(252,249,238,.92)'; ctx.strokeText(text, x, top + font); ctx.fillStyle = '#26382e'; ctx.fillText(text, x, top + font); said.labelled = true;

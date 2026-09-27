@@ -750,26 +750,41 @@ export const ALAMO = Object.freeze({
       ],
     },
     {
-      // Mar 6, 07:00-18:00. The pyres, told and seen from a distance; the spared taken to Músquiz's house, and Joe into Béxar,
+      // Mar 6, 07:00-12:00. The pyres, told and seen from a distance; the spared taken to Músquiz's house, and Joe into Béxar,
       // "detained several days; was shown a grand review of the army", and questioned by Santa Anna (`HIST-TEX-549`). Not held.
-      id: 'after', minutes: 660, title: 'March 6: afterwards', claimId: 'HIST-TEX-501', light: 0, frame: ['frame-after-a', 'frame-after-b'],
-      caption: 'The dead defenders are stacked and burned on pyres outside the walls. The Mexican dead are buried. Mrs. Dickinson and her baby Angelina, Ana Esparza and her children and the other women and children are taken into Béxar under guard, to Ramón Músquiz’s house, and at two o’clock are brought before Santa Anna one by one; each woman is given a blanket and two dollars. Joe is taken into the town too; Santa Anna questions him about Texas and its army, and he is shown a grand review of the Mexican army. One defender is not burned: Gregorio Esparza’s brother Francisco, who had served in the town’s presidial company, gets leave to take his body - from General Cos, as Francisco swore in 1859, or from Santa Anna, as Enrique remembered - and with their two brothers carries it, wrapped, to the Campo Santo west of San Pedro Creek and buries it there, the only defender given a Christian burial.',
+      id: 'after', minutes: 300, title: 'March 6: afterwards', claimId: 'HIST-TEX-501', light: 0, frame: ['frame-after-a', 'frame-after-b'],
+      caption: 'The dead defenders are stacked on pyres outside the walls, to be burned. The Mexican dead are buried. Mrs. Dickinson and her baby Angelina, Ana Esparza and her children and the other women and children are taken into Béxar under guard, to Ramón Músquiz’s house, and given coffee and food. Joe is taken into the town too; Santa Anna questions him about Texas and its army, and he is shown a grand review of the Mexican army.',
       texian: { style: 'street', at: 'church-front', fire: 'none', groups: [] },
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [{ id: 'guard', name: 'A guard on the Alamo', style: 'loose', drawn: 10, at: 'plaza', face: 'church-front', fire: 'none', spread: { width: 0.03, depth: 0.03 } }] },
       people: [
         { id: 'santa-anna', keys: [[0, 'santa-anna-plaza'], [90, 'musquiz']], pose: 'command', face: 'musquiz-door' },
         { id: 'susanna-dickinson', keys: [[0, 'church-front'], [120, 'musquiz-door']], pose: 'stand' },
-        { id: 'joe', keys: [[0, 'joe-door'], [150, 'musquiz-door'], [660, 'musquiz-door']], pose: 'stand', face: 'musquiz' },
-        // The Esparzas to Músquiz's house with Mrs. Dickinson, and before Santa Anna there at two (`HIST-TEX-609`).
+        { id: 'joe', keys: [[0, 'joe-door'], [150, 'musquiz-door']], pose: 'stand', face: 'musquiz' },
+        // The Esparzas to Músquiz's house with Mrs. Dickinson (`HIST-TEX-609`).
         ...family({ keys: [[0, 'church-front'], [130, 'musquiz-door']], face: 'musquiz' }),
-        // Francisco Esparza comes for his brother's body, carries it away wrapped with one of their brothers, and buries it in the
-        // Campo Santo (`HIST-TEX-608`; the afternoon is the game's, `FIC-GONZ-471`). No wound and no body is drawn: a long pale
-        // bundle between two men (public/battle-view.js `drawBearers`).
-        { id: 'francisco-esparza', keys: [[150, 'town-edge'], [210, 'church-front'], [240, 'guns-esparza']], during: [150, 240], face: 'guns-esparza' },
-        { id: 'francisco-esparza', keys: [[240, 'guns-esparza'], [262, 'church-front'], [330, 'town-edge'], [410, 'campo-santo']], bears: 'esparza', pose: 'carry', during: [240, 410], face: 'campo-santo' },
-        { id: 'francisco-esparza', at: 'campo-santo', pose: 'stand', during: [410, 540], face: 'campo-santo' },
       ],
       plumes: [{ at: 'pyres', from: 60 }],
+    },
+    {
+      // Mar 6, 12:00-18:00. Gregorio Esparza's burial (`HIST-TEX-608`; the day and the hour are the game's, `FIC-GONZ-471`): his
+      // brother Francisco carries the body out of the church, wrapped, with one of their brothers, to the Campo Santo, and stands
+      // at the grave. No wound and no body is drawn: a long pale bundle between two men (public/battle-view.js `drawBearers`).
+      // The women before Santa Anna at two (`HIST-TEX-432`, `-609`). Its own phase, not held, because a tick of the Alamo lands
+      // on the end of the phase it is in (`landOnEnd`, sim/battle-stage.mjs `battleStep`): as one phase to six the afternoon was
+      // seen only at seven in the morning, and now a class also sees noon, with the burial on its way.
+      id: 'burial', minutes: 360, title: 'March 6: the one burial', claimId: 'HIST-TEX-608', light: 0, frame: ['frame-after-a', 'frame-after-b'],
+      caption: 'At two o’clock the women are brought before Santa Anna one by one; each is given a blanket and two dollars. One defender is not burned: Gregorio Esparza’s brother Francisco, who had served in the town’s presidial company, has leave to take his body - from General Cos, as Francisco swore in 1859, or from Santa Anna, as Enrique remembered - and with their two brothers carries it, wrapped, to the Campo Santo west of San Pedro Creek and buries it there, the only defender given a Christian burial. That evening the pyres are lit.',
+      texian: { style: 'street', at: 'church-front', fire: 'none', groups: [] },
+      mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [{ id: 'guard', name: 'A guard on the Alamo', style: 'loose', drawn: 10, at: 'plaza', face: 'church-front', fire: 'none', spread: { width: 0.03, depth: 0.03 } }] },
+      people: [
+        { id: 'santa-anna', at: 'musquiz', pose: 'command', face: 'musquiz-door' },
+        { id: 'susanna-dickinson', at: 'musquiz-door', pose: 'stand' },
+        { id: 'joe', at: 'musquiz-door', pose: 'stand', face: 'musquiz' },
+        ...family({ at: 'musquiz-door', face: 'musquiz' }),
+        { id: 'francisco-esparza', keys: [[0, 'church-front'], [70, 'town-edge'], [150, 'campo-santo']], bears: 'esparza', pose: 'carry', during: [0, 150], face: 'campo-santo' },
+        { id: 'francisco-esparza', at: 'campo-santo', pose: 'stand', during: [150, 300], face: 'campo-santo' },
+      ],
+      plumes: [{ at: 'pyres', from: 0 }],
     },
   ]),
   ground: alamoGround,

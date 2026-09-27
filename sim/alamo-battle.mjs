@@ -92,7 +92,7 @@ export function advanceAlamoBattle(world, { momentOf, beginTravel } = {}) {
   sendCards(world, state);
   lightTheHost(world, state);
   // March 6, the firing over: the spared go into the town to Músquiz's house (`HIST-TEX-432`).
-  if (phaseId === 'after' || state.over) {
+  if (phaseId === 'after' || phaseId === 'burial' || state.over) {
     for (const person of insideNow(world)) {
       if (person.service.fate !== 'spared' || person.service.ledOut) continue;
       person.service.ledOut = world.minute;
@@ -224,7 +224,7 @@ function sendCards(world, state) {
   }
   // Afterwards: what the student watched, for the one who watched it - the card, and never the journal (the word is still
   // days off, sim/alamo.mjs `tellFall`).
-  if ((phaseId === 'end' || phaseId === 'after') && !state.over) {
+  if (['end', 'after', 'burial'].includes(phaseId) && !state.over) {
     for (const [personId, entry] of Object.entries(battle.participants || {})) {
       if (!world.entities[personId]?.service?.besieged) continue;
       const person = world.entities[personId];

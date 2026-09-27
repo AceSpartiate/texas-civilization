@@ -7,7 +7,7 @@
 // named and fire where the record puts them; a family sees a famous person only under the sight rules; nothing is stored.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ENGAGEMENTS, checkEngagement, projectBattle, phaseOffset, schedule, peopleOnFields } from '../sim/battle-stage.mjs';
+import { ENGAGEMENTS, checkEngagement, projectBattle, phaseOffset, schedule, peopleOnFields, battleStep } from '../sim/battle-stage.mjs';
 import { PEOPLE, on } from '../sim/people.mjs';
 import { TIMELINE } from '../sim/directors.mjs';
 import { ALAMO } from '../sim/battles/alamo.mjs';
@@ -362,11 +362,14 @@ test('every one of the Esparza family is spared: brought out after the fighting,
   const out = fieldAt('alamo', 'end', 14);
   for (const id of ESPARZAS) assert.ok(within(personIn(out.view, id), at(ALAMO, 'church-front', out.world), 20), `${id} is not brought out of the church`);
   assert.ok(Number.isFinite(personIn(out.view, 'esparza')?.fell), 'Gregorio does not lie at the church guns after the fighting');
-  const musquiz = fieldAt('alamo', 'after', 420);
+  assert.ok(within(personIn(fieldAt('alamo', 'after', 150).view, 'ana-esparza'), at(ALAMO, 'musquiz-door', out.world), 20), 'the family is not taken to Músquiz\'s house in the morning');
+  // Before Santa Anna at two (`HIST-TEX-609`), still there.
+  assert.equal(alamoClock('burial', 120), calendar(on(1836, 3, 6, 14)));
+  const musquiz = fieldAt('alamo', 'burial', 120);
   for (const id of ESPARZAS) assert.ok(within(personIn(musquiz.view, id), at(ALAMO, 'musquiz-door', musquiz.world), 20), `${id} is not at Músquiz's house at two`);
   assert.ok(personIn(musquiz.view, 'santa-anna'), 'Santa Anna is not there');
   assert.match(ALAMO.phases.find(p => p.id === 'after').caption, /Ana Esparza and her children/);
-  assert.match(ALAMO.phases.find(p => p.id === 'after').caption, /blanket and two dollars/);
+  assert.match(ALAMO.phases.find(p => p.id === 'burial').caption, /blanket and two dollars/);
   // On the map at Béxar from the evening of March 6, as Mrs. Dickinson is, and nowhere before.
   const world = createGonzalesWorld('esparza-map', 5, { map: 'colonies' });
   world.minute = whenOf(world, on(1836, 3, 8, 12));
@@ -382,26 +385,31 @@ test('every one of the Esparza family is spared: brought out after the fighting,
 
 test('Francisco Esparza carries his brother Gregorio\'s body, wrapped, to the Campo Santo on the afternoon of March 6 - and nobody is carried who did not fall here first', () => {
   assert.equal(PEOPLE['francisco-esparza'].claimId, 'HIST-TEX-608');
-  // Not in any phase before the afternoon, nor before the minute he comes.
-  for (const phase of ALAMO.phases.filter(p => p.id !== 'after')) assert.ok(!(phase.people || []).some(one => one.id === 'francisco-esparza'), `Francisco Esparza is drawn in ${phase.id}`);
-  assert.ok(!personIn(fieldAt('alamo', 'after', 140).view, 'francisco-esparza'), 'Francisco Esparza comes before the pyres are built');
-  const coming = fieldAt('alamo', 'after', 200).view;
-  assert.ok(personIn(coming, 'francisco-esparza') && !personIn(coming, 'francisco-esparza').bears, 'Francisco Esparza carries a body before he reaches it');
-  // Carrying from eleven in the morning: the body is his brother's, and nothing of it but the bundle is sent.
-  assert.equal(alamoClock('after', 240), calendar(on(1836, 3, 6, 11)), 'the body is not taken up at eleven on March 6');
-  const carrying = fieldAt('alamo', 'after', 300);
+  // Only in the burial, the afternoon's own phase, and in no phase before it.
+  for (const phase of ALAMO.phases.filter(p => p.id !== 'burial')) assert.ok(!(phase.people || []).some(one => one.id === 'francisco-esparza'), `Francisco Esparza is drawn in ${phase.id}`);
+  assert.ok(!personIn(fieldAt('alamo', 'after', 299).view, 'francisco-esparza'), 'Francisco Esparza is drawn before noon');
+  // Carrying out of the church at noon: the body is his brother's, and nothing of it but the bundle is sent.
+  assert.equal(alamoClock('burial', 0), calendar(on(1836, 3, 6, 12)), 'the body is not carried out at noon on March 6');
+  const out = fieldAt('alamo', 'burial', 0);
+  assert.ok(near(personIn(out.view, 'francisco-esparza'), at(ALAMO, 'church-front', out.world)), 'the body is not carried out of the church');
+  const carrying = fieldAt('alamo', 'burial', 40);
   const francisco = personIn(carrying.view, 'francisco-esparza');
   assert.equal(francisco?.bears, 'esparza', 'Francisco Esparza is not carrying Gregorio');
+  assert.equal(personIn(out.view, 'francisco-esparza')?.bears, 'esparza', 'the burial is not seen on the tick that lands on it');
+  assert.ok(francisco.moving, 'the burial party is not walking');
   assert.ok(!personIn(carrying.view, 'esparza'), 'Gregorio\'s body is drawn as well as carried');
-  // At the Campo Santo, west of the town, from about half past two.
-  const buried = fieldAt('alamo', 'after', 450);
+  // At the Campo Santo, west of the town, from half past two.
+  const buried = fieldAt('alamo', 'burial', 200);
   assert.ok(near(personIn(buried.view, 'francisco-esparza'), at(ALAMO, 'campo-santo', buried.world)), 'Francisco Esparza is not at the Campo Santo');
   assert.ok(!personIn(buried.view, 'francisco-esparza').bears);
   assert.ok(at(ALAMO, 'campo-santo', buried.world).x < at(ALAMO, 'town', buried.world).x, 'the Campo Santo is not west of the town');
-  for (const words of [/only defender given a Christian burial/, /General Cos/, /Santa Anna, as Enrique remembered/, /two brothers/]) assert.match(ALAMO.phases.find(p => p.id === 'after').caption, words);
+  for (const words of [/only defender given a Christian burial/, /General Cos/, /Santa Anna, as Enrique remembered/, /two brothers/]) assert.match(ALAMO.phases.find(p => p.id === 'burial').caption, words);
+  // A class's tick lands on the burial's first minute, so it is seen whatever the class's pace (sim/battle-stage.mjs battleStep).
+  const world = { minute: TIMELINE[ALAMO.startKey] + phaseOffset(ALAMO, 'after'), map: { sites: SITES }, battles: { alamo: { id: 'alamo', start: TIMELINE[ALAMO.startKey], participants: {}, alerted: {}, told: {}, heard: {} } } };
+  assert.equal(battleStep(world), phaseOffset(ALAMO, 'burial') - phaseOffset(ALAMO, 'after'), 'the class runs past the burial');
   // The engine refuses a body carried that is not a body: the living (Joe), or a man before his fall (Gregorio in the rooms).
   const bad = change => { const def = copy(ALAMO); def.ground = ALAMO.ground; change(def); return () => checkEngagement(def); };
-  assert.throws(bad(def => { def.phases.find(p => p.id === 'after').people.find(one => one.bears).bears = 'joe'; }), /did not fall/);
+  assert.throws(bad(def => { def.phases.find(p => p.id === 'burial').people.find(one => one.bears).bears = 'joe'; }), /did not fall/);
   assert.throws(bad(def => { def.phases.find(p => p.id === 'rooms').people.push({ id: 'francisco-esparza', at: 'plaza', bears: 'esparza' }); }), /did not fall/);
 });
 

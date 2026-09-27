@@ -61,7 +61,7 @@ test('at the Alamo the Esparza family is named in the church, Ana\'s words come 
   const drawn = id => alarm.last.people.find(one => one.id === id)?.drawnAs;
   assert.equal(drawn('ana-esparza'), 'indigo-rest'); assert.equal(drawn('enrique-esparza'), 'boy-rest'); assert.equal(drawn('manuel-esparza'), 'smallchild-rest');
   assert.ok(alarm.texts.has('Ana Esparza:'), 'Ana\'s bubble does not say who is speaking');
-  const carried = run('alamo', 'after', 300, cameraOn('alamo', 'town-edge', 1600), { seconds: 2 });
+  const carried = run('alamo', 'burial', 0, cameraOn('alamo', 'church-front', 1600), { seconds: 2 });
   const francisco = carried.last.people.find(one => one.id === 'francisco-esparza');
   assert.equal(francisco?.bears, 'esparza'); assert.match(francisco.drawnAs || '', /\+shroud$/, 'the body is not drawn as a wrapped bundle between two bearers');
   assert.ok(carried.texts.has('Francisco Esparza'));

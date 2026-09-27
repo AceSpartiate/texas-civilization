@@ -134,7 +134,11 @@ test('drilling counts at San Jacinto: a drilled man\'s weight in the battle\'s r
   const fateOf = (one, weightOf) => rollFates(world, [one.id], { event: 'san-jacinto', ...SAN_JACINTO, ...(weightOf ? { weightOf } : {}) })[0].fate;
   const worse = ['unhurt', 'wounded', 'killed'];
   let father = null;
-  for (const one of grownMen(world)) {
+  // Since 2026-09-26 the Alamo's afternoon is two phases (the Esparza burial, docs/BATTLES.md §14.6), one more tick in every
+  // class, and in this seed no man at home is in the band: a free man away from home (in town, say) is looked at after them,
+  // since `serve` puts the man it takes at the camp whatever he was doing.
+  const away = Object.values(world.entities).filter(one => one.householdId && one.kind === 'person' && !['dead', 'captured'].includes(one.health.condition) && one.sex === 'male' && (one.age ?? 0) >= 16 && !one.service && !one.travel && !grownMen(world).includes(one));
+  for (const one of [...grownMen(world), ...away]) {
     const dealt = { ...one.traits };
     for (let strength = 1; strength <= 10 && !father; strength++) {
       for (let health = 2; health <= 18 && !father; health++) {

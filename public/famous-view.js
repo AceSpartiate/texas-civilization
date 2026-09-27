@@ -37,7 +37,7 @@ export function drawFamous(ctx, list, camera, { animated, drawSprite, miniPerson
     ctx.font = `${font}px system-ui`; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
     const w = ctx.measureText(one.name).width + 6;
     let top = p.y + 3;
-    for (let i = 0; i < 6 && boxes.some(b => p.x - w / 2 < b.x + b.w && b.x < p.x + w / 2 && top < b.y + b.h && b.y < top + font + 3); i++) top += font + 3;
+    for (let i = 0; i < 10 && boxes.some(b => p.x - w / 2 < b.x + b.w && b.x < p.x + w / 2 && top < b.y + b.h && b.y < top + font + 3); i++) top += font + 3;
     boxes.push({ x: p.x - w / 2, y: top, w, h: font + 3 });
     ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(252,249,238,.92)'; ctx.strokeText(one.name, p.x, top + font);
     ctx.fillStyle = '#26382e'; ctx.fillText(one.name, p.x, top + font);
