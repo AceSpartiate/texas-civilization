@@ -174,6 +174,15 @@ try {
         // The sentence the server itself put on this person's work, which is what every line must be.
         sent: [...new Set((world.work?.[id] || []).filter(entry => !entry.can).map(entry => entry.why).filter(Boolean))],
         tooYoung: (world.work?.[id] || []).some(entry => /is too young to be sent/.test(entry.why || '')),
+        // A baby (docs/CHILDREN.md §3, §6, 2026-09-26): its row says what it is doing - crawling, crying, held, asleep - on its own
+        // line, in the server's words (`entity.life`), and not that it is too young to be sent.
+        baby: Boolean(world.entities.find(one => one.id === id)?.baby),
+        life: (one => (one && !one.hidden ? one.textContent : null))(row.querySelector('.panel-life-line')),
+        lifeShown: (b => Boolean(b && b.width > 0 && b.height > 0))(row.querySelector('.panel-life-line')?.getBoundingClientRect()),
+        lifeSent: world.entities.find(one => one.id === id)?.life || null,
+        // A column too short for its rows folds the babies' lines first, on every row but the main person's (public/style.css,
+        // `data-tight`; docs/CHILDREN.md): folded is that rule, not a line gone missing, and is told apart here.
+        folded: document.querySelector('#family-panel')?.dataset.tight === 'true' && row.dataset.focused !== 'true',
       };
     });
   });
@@ -189,6 +198,16 @@ try {
   // loop assert one by one.
   check(young.length >= 1, `this class deals ${young.length} of the family refused everything, so the fault being measured is really on the screen`);
   for (const row of young) {
+    // A baby's row speaks on its own line instead (docs/CHILDREN.md §6): the life line in the server's sentence, and the reason
+    // line silent. The children's work (2026-09-26) made it so after this proof was written; brought up to it on the
+    // integration branch (2026-09-27).
+    if (row.baby) {
+      check(!row.groupDrawn, `${row.name}: the icon group is not drawn on the baby's row`);
+      check((row.lifeShown || row.folded) && Boolean(row.life) && row.life === row.lifeSent, `${row.name}: the baby's row says what it is doing, in the server's words - "${row.life}" (drawn: ${row.lifeShown}; folded by a tight column: ${row.folded}; sent: "${row.lifeSent}")`);
+      measured.babyLine = { name: row.name, life: row.life, drawn: row.lifeShown, folded: row.folded };
+      check(row.line === null, `${row.name}: and does not also say it is too young to be sent`);
+      continue;
+    }
     // The fault could appear: this row's icon group is not drawn at all, so without a line it is a face and a name.
     check(!row.groupDrawn, `${row.name}: the icon group is not drawn on their row, which is the empty bar being measured`);
     check(row.lineShown, `${row.name}: the reason is really drawn on their row`);
@@ -239,7 +258,7 @@ try {
   check(shutMain.open === 0 && shutMain.greyed === 0 && shutMain.icons === shutMain.active, `the step shuts the whole bar: ${shutMain.icons} icons drawn, ${shutMain.active} of them what they are doing now, ${shutMain.open} open`);
   check(shutMain.icons === 0 || shutMain.barLine === null, 'a bar the guided start has shut still shows what they are doing, not one line');
   check(shutMain.line === null, "the main person's row says nothing while a step is shutting their bar");
-  check(shut.filter(row => row.tooYoung).every(row => row.lineShown && row.line === row.sent[0]),
+  check(shut.filter(row => row.tooYoung).every(row => (row.baby ? (row.lifeShown || row.folded) && row.life === row.lifeSent : row.lineShown && row.line === row.sent[0])),
     'and in the same tick a child the server really refused still shows their own line');
   measured.lessonShut = { icons: shutMain.icons, open: shutMain.open, barLine: shutMain.barLine, line: shutMain.line };
   await holdLesson(page, 'none');
@@ -269,7 +288,7 @@ try {
   check(away.line === null, 'and it is not said twice: their own row stays quiet while the bar carries it');
   check(away.barBox.bottom <= SCREEN.height && away.barBox.right <= SCREEN.width && away.barBox.left >= 0, 'the bar’s line is on the screen');
   check(Math.abs((away.barBox.left + away.barBox.right) / 2 - SCREEN.width / 2) <= 2, 'the bar’s line is bottom middle, where the bar is');
-  check(rows.filter(row => row.tooYoung).every(row => row.lineShown), 'the children’s lines are untouched by any of it');
+  check(rows.filter(row => row.tooYoung).every(row => (row.baby ? row.lifeShown || row.folded : row.lineShown)), 'the children’s lines are untouched by any of it');
 
   await page.screenshot({ path: 'test-results/panel-silence.png' });
   check(errors.length === 0, `the page threw nothing: ${errors.join(' | ') || 'none'}`);

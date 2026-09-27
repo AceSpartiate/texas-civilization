@@ -83,40 +83,40 @@
       {
         "name": "Prudence Proofwright",
         "focused": false,
-        "icons": 5,
-        "open": 5,
+        "icons": 11,
+        "open": 11,
         "line": null,
         "barLine": null
       },
       {
         "name": "Basilio Proofwright",
         "focused": false,
-        "icons": 5,
-        "open": 5,
+        "icons": 11,
+        "open": 11,
         "line": null,
         "barLine": null
       },
       {
         "name": "Effie Proofwright",
         "focused": false,
-        "icons": 3,
-        "open": 3,
+        "icons": 11,
+        "open": 11,
         "line": null,
         "barLine": null
       },
       {
         "name": "Pablo Proofwright",
         "focused": false,
-        "icons": 1,
-        "open": 1,
+        "icons": 7,
+        "open": 7,
         "line": null,
         "barLine": null
       },
       {
         "name": "Jonas Proofwright",
         "focused": false,
-        "icons": 1,
-        "open": 1,
+        "icons": 3,
+        "open": 3,
         "line": null,
         "barLine": null
       },
@@ -125,29 +125,15 @@
         "focused": false,
         "icons": 0,
         "open": 0,
-        "line": "Paulita Proofwright is too young to be sent.",
-        "barLine": "Paulita Proofwright is too young to be sent."
+        "line": null,
+        "barLine": "Crawling about the yard."
       }
     ],
-    "youngLine": {
+    "babyLine": {
       "name": "Paulita Proofwright",
-      "unscrolled": {
-        "left": 65,
-        "top": 1027,
-        "right": 305,
-        "bottom": 1042
-      },
-      "line": {
-        "left": 65,
-        "top": 491,
-        "right": 305,
-        "bottom": 506
-      },
-      "column": {
-        "top": 207,
-        "bottom": 510
-      },
-      "scrolled": 536
+      "life": "Crawling about the yard.",
+      "drawn": false,
+      "folded": true
     },
     "captured": {
       "name": "Patience Proofwright",
