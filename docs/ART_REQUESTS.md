@@ -177,6 +177,8 @@ grown people and of the library's `girl`/`boy`/`smallchild` for the children; ea
    a body wrapped completely in a blanket or shroud on a litter - no face, no wound, no blood (`VISION.md` §16) - readable at 40 px
    and at 160 px. Replaces `drawBearers`' canvas bundle.
 5. **Francisco Esparza** - Gregorio's brother, a man of about thirty in town clothes: walk, idle, `kneel-at-grave`.
+6. **Gregorio asleep beside his family** - `esparza-seated` (sitting against a wall, musket beside him), for the night of March 5; his
+   delivered sheet (`famous-esparza`) has no seated pose, so he is the volunteer's `volunteer-injured-rest` there until it lands.
 
 **How it plugs in.** `art` in `sim/people.mjs` (`woman`, `girl`, `boy`, `small-child`, `townsman` today) becomes each person's own key,
 added to `PERSON_ART` in `public/battle-view.js` with its poses by name; the burial party replaces the bundle and the second bearer in
