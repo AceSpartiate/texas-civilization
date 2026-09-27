@@ -78,6 +78,8 @@ export const PERSON_ART = Object.freeze({
   'angelina-dickinson': { stand: 'angelina-dickinson-sit', seated: 'angelina-dickinson-sleep' },
   milam: { stand: 'milam-idle', command: 'milam-rally', point: 'milam-point', fire: ['milam-cover', 'milam-advance', 'milam-cover'], still: 'milam-still', walk: 'milam-walk-e' },
   fannin: { stand: 'fannin-idle', command: 'fannin-command', wounded: 'fannin-injured-seated', surrender: 'fannin-surrender', prisoner: 'fannin-prisoner-seated', walk: 'fannin-walk-e' },
+  bonham: { stand: 'bonham-idle', command: 'bonham-point', point: 'bonham-point', gun: 'bonham-serve-gun', fire: ['bonham-aim', 'bonham-fire', 'bonham-reload'], still: 'bonham-still', walk: 'bonham-walk-e' },
+  'almeron-dickinson': { stand: 'almeron-dickinson-idle', command: 'almeron-dickinson-command', gun: 'almeron-dickinson-serve-gun', carry: 'almeron-dickinson-shot-carry', fire: ['almeron-dickinson-ram', 'almeron-dickinson-fire', 'almeron-dickinson-ram'], still: 'almeron-dickinson-still', walk: 'almeron-dickinson-walk-e' },
   houston: { stand: 'houston-idle', command: 'houston-command', wounded: 'houston-injured-seated', walk: 'houston-walk-e' },
   'santa-anna': { stand: 'santa-anna-idle', command: 'santa-anna-command', prisoner: 'santa-anna-disguised-seated', walk: 'santa-anna-walk-e' },
   'emily-west': { stand: 'emily-west-idle', carry: 'emily-west-carry-bundle', seated: 'emily-west-sit-converse', walk: 'emily-west-walk-e' },

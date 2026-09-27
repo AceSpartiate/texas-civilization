@@ -2192,6 +2192,118 @@
       "motion": "none",
       "direction": "stationary"
     },
+    "bonham-walk-e": {
+      "frames": [
+        {
+          "sprite": "bonham-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "bonham-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "bonham-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "bonham-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "bonham-walk-s": {
+      "frames": [
+        {
+          "sprite": "bonham-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "bonham-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "bonham-walk-n": {
+      "frames": [
+        {
+          "sprite": "bonham-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "bonham-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "almeron-dickinson-walk-e": {
+      "frames": [
+        {
+          "sprite": "almeron-dickinson-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "almeron-dickinson-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "almeron-dickinson-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "almeron-dickinson-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "almeron-dickinson-walk-s": {
+      "frames": [
+        {
+          "sprite": "almeron-dickinson-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "almeron-dickinson-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "almeron-dickinson-walk-n": {
+      "frames": [
+        {
+          "sprite": "almeron-dickinson-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "almeron-dickinson-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "seguin-walk-e": {
       "frames": [
         {

@@ -1801,6 +1801,40 @@
           "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f0c7bcc2-ad31-4735-be06-85c2f38483ec.png"
         }
       ]
+    },
+    {
+      "sheet": "famous-bonham",
+      "promptId": "frontier-v1/famous-bonham",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-travis.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ed069f82-1ee9-4cd2-baab-60065a680a94.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-bonham.png",
+      "postProcessing": "None. Copied unchanged; the atlas builder measures alpha components and reading-order cells.",
+      "review": "Bonham reads separately from Travis and has a gun-service key pose and non-graphic still pose."
+    },
+    {
+      "sheet": "famous-almeron-dickinson",
+      "promptId": "frontier-v1/famous-almeron-dickinson",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-travis.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7cf32b24-6c7a-46a3-b2f7-99611bfa1501.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-almeron-dickinson.png",
+      "postProcessing": "None. Copied unchanged; the atlas builder measures alpha components and reading-order cells.",
+      "review": "The artilleryman reads differently from Bonham and has shot-handling, ram, gun-service and still key poses.",
+      "edits": [
+        {
+          "prompt": "Precise spacing correction for the exact 4x4 atlas: uniformly scale down each cell character and its gun, ramrod, cannonball and flash to 78%, recenter within its own 313-pixel cell, retain identity, poses, transparency and at least 15 pixels of clearance; especially prevent the bottom-row muzzle flash from overlapping the next cell.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-86851308-1173-4d39-847b-16d333287048.png",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7cf32b24-6c7a-46a3-b2f7-99611bfa1501.png",
+          "result": "Accepted only after the atlas overlap audit; first output failed on the fire frame."
+        }
+      ]
     }
   ],
   "rejectedAttempts": [

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1425 usable sprites, 124 PNG atlases, 496 clips** (270 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1457 usable sprites, 126 PNG atlases, 502 clips** (276 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -38,6 +38,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icons-family-actions-2 | 13 | 1254 × 1254 | 1706833 |
 | icons-family-service | 16 | 1254 × 1254 | 1734840 |
 | icons-family-subsistence | 8 | 1774 × 887 | 2248974 |
+| famous-bonham | 16 | 1254 × 1254 | 1241019 |
+| famous-almeron-dickinson | 16 | 1254 × 1254 | 905031 |
 | famous-seguin | 16 | 1254 × 1254 | 1147292 |
 | famous-susanna-dickinson | 16 | 1254 × 1254 | 1461496 |
 | famous-angelina-dickinson | 4 | 1254 × 1254 | 1286027 |
@@ -485,6 +487,38 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icon-butcher-beef | icons-family-subsistence | State artwork; no motion required |
 | icon-butcher-hog | icons-family-subsistence | State artwork; no motion required |
 | icon-look-to-stock | icons-family-subsistence | State artwork; no motion required |
+| bonham-walk-e-1 | famous-bonham | bonham-walk-e |
+| bonham-walk-e-2 | famous-bonham | bonham-walk-e |
+| bonham-walk-e-3 | famous-bonham | bonham-walk-e |
+| bonham-walk-e-4 | famous-bonham | bonham-walk-e |
+| bonham-walk-s-1 | famous-bonham | bonham-walk-s |
+| bonham-walk-s-2 | famous-bonham | bonham-walk-s |
+| bonham-walk-n-1 | famous-bonham | bonham-walk-n |
+| bonham-walk-n-2 | famous-bonham | bonham-walk-n |
+| bonham-idle | famous-bonham | State artwork; no motion required |
+| bonham-speak | famous-bonham | State artwork; no motion required |
+| bonham-point | famous-bonham | State artwork; no motion required |
+| bonham-serve-gun | famous-bonham | State artwork; no motion required |
+| bonham-aim | famous-bonham | State artwork; no motion required |
+| bonham-fire | famous-bonham | State artwork; no motion required |
+| bonham-reload | famous-bonham | State artwork; no motion required |
+| bonham-still | famous-bonham | State artwork; no motion required |
+| almeron-dickinson-walk-e-1 | famous-almeron-dickinson | almeron-dickinson-walk-e |
+| almeron-dickinson-walk-e-2 | famous-almeron-dickinson | almeron-dickinson-walk-e |
+| almeron-dickinson-walk-e-3 | famous-almeron-dickinson | almeron-dickinson-walk-e |
+| almeron-dickinson-walk-e-4 | famous-almeron-dickinson | almeron-dickinson-walk-e |
+| almeron-dickinson-walk-s-1 | famous-almeron-dickinson | almeron-dickinson-walk-s |
+| almeron-dickinson-walk-s-2 | famous-almeron-dickinson | almeron-dickinson-walk-s |
+| almeron-dickinson-walk-n-1 | famous-almeron-dickinson | almeron-dickinson-walk-n |
+| almeron-dickinson-walk-n-2 | famous-almeron-dickinson | almeron-dickinson-walk-n |
+| almeron-dickinson-idle | famous-almeron-dickinson | State artwork; no motion required |
+| almeron-dickinson-speak | famous-almeron-dickinson | State artwork; no motion required |
+| almeron-dickinson-command | famous-almeron-dickinson | State artwork; no motion required |
+| almeron-dickinson-serve-gun | famous-almeron-dickinson | State artwork; no motion required |
+| almeron-dickinson-shot-carry | famous-almeron-dickinson | State artwork; no motion required |
+| almeron-dickinson-ram | famous-almeron-dickinson | State artwork; no motion required |
+| almeron-dickinson-fire | famous-almeron-dickinson | State artwork; no motion required |
+| almeron-dickinson-still | famous-almeron-dickinson | State artwork; no motion required |
 | seguin-walk-e-1 | famous-seguin | seguin-walk-e |
 | seguin-walk-e-2 | famous-seguin | seguin-walk-e |
 | seguin-walk-e-3 | famous-seguin | seguin-walk-e |
@@ -1717,6 +1751,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | infant-idle-w | breathe | 1 | 3000 | yes | west |
 | infant-idle-e | breathe | 1 | 3000 | yes | east |
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
+| bonham-walk-e | Pose cycle | 4 | 760 | yes | east |
+| bonham-walk-s | Pose cycle | 2 | 580 | yes | south |
+| bonham-walk-n | Pose cycle | 2 | 580 | yes | north |
+| almeron-dickinson-walk-e | Pose cycle | 4 | 760 | yes | east |
+| almeron-dickinson-walk-s | Pose cycle | 2 | 580 | yes | south |
+| almeron-dickinson-walk-n | Pose cycle | 2 | 580 | yes | north |
 | seguin-walk-e | Pose cycle | 4 | 760 | yes | east |
 | seguin-walk-s | Pose cycle | 2 | 580 | yes | south |
 | seguin-walk-n | Pose cycle | 2 | 580 | yes | north |
