@@ -1736,6 +1736,45 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-dugout-canoe.png",
       "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
       "review": "Hollow-log construction distinguishes it from the prior plank skiff; two scene instances remain separately placed."
+    },
+    {
+      "sheet": "gonzales-ploughed-earth",
+      "promptId": "frontier-v1/gonzales-ploughed-earth",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/biome-ground-bexar.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1ac0e611-1044-4b93-83ee-8c21ff1c7fda.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-ploughed-earth.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Ragged alpha-edged earth and visible furrows replace seven canvas lines in the dated orchard."
+    },
+    {
+      "sheet": "gonzales-flag-work-cloth",
+      "promptId": "frontier-v1/gonzales-flag-work-cloth",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/flag-come-and-take-it.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-8a9564a5-d35d-4fb8-9d1c-1d8a183217b0.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-flag-work-cloth.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Blank hand-sewn cloth is a separate early flag-making state."
+    },
+    {
+      "sheet": "gonzales-flag-work-painted",
+      "promptId": "frontier-v1/gonzales-flag-work-painted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-8a9564a5-d35d-4fb8-9d1c-1d8a183217b0.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-fd78acbd-dbae-49e3-a758-da04a8aa9afd.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-flag-work-painted.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Completed cloth state has the existing game flag composition; prompt preserves the blank cloth outline."
     }
   ],
   "rejectedAttempts": [

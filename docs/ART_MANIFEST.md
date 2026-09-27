@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1416 usable sprites, 120 PNG atlases, 493 clips** (267 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1419 usable sprites, 123 PNG atlases, 493 clips** (267 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -56,6 +56,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
 | gonzales-log-breastwork | 1 | 1774 × 887 | 1221292 |
 | gonzales-dugout-canoe | 1 | 1536 × 1024 | 2208839 |
+| gonzales-ploughed-earth | 1 | 2172 × 724 | 1766959 |
+| gonzales-flag-work-cloth | 1 | 1774 × 887 | 1835338 |
+| gonzales-flag-work-painted | 1 | 1774 × 887 | 1777190 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
 | people-mounted-cast1-e | 16 | 1254 × 1254 | 1086305 |
@@ -664,6 +667,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-cannon-buried | gonzales-cannon-buried | State artwork; no motion required |
 | gonzales-log-breastwork | gonzales-log-breastwork | State artwork; no motion required |
 | gonzales-dugout-canoe | gonzales-dugout-canoe | State artwork; no motion required |
+| gonzales-ploughed-earth | gonzales-ploughed-earth | State artwork; no motion required |
+| gonzales-flag-work-cloth | gonzales-flag-work-cloth | State artwork; no motion required |
+| gonzales-flag-work-painted | gonzales-flag-work-painted | State artwork; no motion required |
 | house-round-sill | house-modules | State artwork; no motion required |
 | house-round-low-walls | house-modules | State artwork; no motion required |
 | house-round-full-walls | house-modules | State artwork; no motion required |

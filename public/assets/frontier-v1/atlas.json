@@ -4506,6 +4506,117 @@
         ]
       }
     },
+    "gonzales-ploughed-earth": {
+      "image": "atlases/gonzales-ploughed-earth.png",
+      "width": 2172,
+      "height": 724,
+      "bytes": 1766959,
+      "sha256": "68184367b6ce3fb7e29517fd92763bb1be49ec3d098d83f4468181878777ff3f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.515173,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              133,
+              664
+            ],
+            "columns": [
+              [
+                60,
+                2122
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "gonzales-flag-work-cloth": {
+      "image": "atlases/gonzales-flag-work-cloth.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1835338,
+      "sha256": "c30b3649fcc30ecb96c3bfd3269d2b9a3474b01de327e5e3a55a42aec32cd39c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.483284,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              160,
+              739
+            ],
+            "columns": [
+              [
+                20,
+                1755
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "gonzales-flag-work-painted": {
+      "image": "atlases/gonzales-flag-work-painted.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1777190,
+      "sha256": "a5eafc434162f0d30ccdde7750d6aaae68bc5faf3a61b7ca27a79b70a86ccaba",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.483526,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              159,
+              740
+            ],
+            "columns": [
+              [
+                20,
+                1755
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "house-modules": {
       "image": "atlases/house-modules.png",
       "width": 1448,
@@ -25078,6 +25189,78 @@
           843
         ],
         "visiblePixels": 598977,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "gonzales-ploughed-earth": {
+      "sheet": "gonzales-ploughed-earth",
+      "x": 60,
+      "y": 133,
+      "w": 2062,
+      "h": 531,
+      "anchorX": 0.6814,
+      "anchorY": 0.9284,
+      "label": "gonzales ploughed earth",
+      "kind": "gonzales-ploughed-earth",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          62,
+          135,
+          2058,
+          527
+        ],
+        "visiblePixels": 730525,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "gonzales-flag-work-cloth": {
+      "sheet": "gonzales-flag-work-cloth",
+      "x": 20,
+      "y": 160,
+      "w": 1735,
+      "h": 579,
+      "anchorX": 0.4994,
+      "anchorY": 0.9292,
+      "label": "gonzales flag work cloth",
+      "kind": "gonzales-flag-work-cloth",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          22,
+          162,
+          1731,
+          575
+        ],
+        "visiblePixels": 799487,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "gonzales-flag-work-painted": {
+      "sheet": "gonzales-flag-work-painted",
+      "x": 20,
+      "y": 159,
+      "w": 1735,
+      "h": 581,
+      "anchorX": 0.4997,
+      "anchorY": 0.9294,
+      "label": "gonzales flag work painted",
+      "kind": "gonzales-flag-work-painted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          22,
+          161,
+          1731,
+          577
+        ],
+        "visiblePixels": 803035,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
