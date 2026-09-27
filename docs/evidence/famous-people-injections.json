@@ -1,6 +1,6 @@
 {
   "record": "famous-people-injections",
-  "date": "2026-09-26",
+  "date": "2026-09-27",
   "gates": {
     "unit": "node --test tests/famous-people.test.mjs and tests/famous-people-view.test.mjs, the named test and no other in its file",
     "browser": "scripts/famous-people-browser-proof.mjs"
@@ -154,6 +154,66 @@
       "caught": true,
       "failed": [
         "at San Jacinto the Twin Sisters are named under the gun, Emily West's words carry their stage direction, and the Napoleon of the West comes out of Santa Anna"
+      ]
+    },
+    {
+      "name": "the Esparzas go in by the gate, not the church window",
+      "file": "sim/battles/alamo.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "the Esparza family goes in with Gregorio through the church window on the evening of February 23, shelters in the sacristy through the siege and the assault, and Gregorio goes from beside them to his gun at the alarm",
+      "caught": true,
+      "failed": [
+        "the Esparza family goes in with Gregorio through the church window on the evening of February 23, shelters in the sacristy through the siege and the assault, and Gregorio goes from beside them to his gun at the alarm"
+      ]
+    },
+    {
+      "name": "Ana Esparza killed after she is brought out of the church",
+      "file": "sim/people.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "every one of the Esparza family is spared: brought out after the fighting, taken to Músquiz's house, and at Béxar afterwards",
+      "caught": true,
+      "failed": [
+        "every one of the Esparza family is spared: brought out after the fighting, taken to Músquiz's house, and at Béxar afterwards"
+      ]
+    },
+    {
+      "name": "Francisco Esparza walks to the Campo Santo carrying nothing",
+      "file": "sim/battles/alamo.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "Francisco Esparza carries his brother Gregorio's body, wrapped, to the Campo Santo on the afternoon of March 6 - and nobody is carried who did not fall here first",
+      "caught": true,
+      "failed": [
+        "Francisco Esparza carries his brother Gregorio's body, wrapped, to the Campo Santo on the afternoon of March 6 - and nobody is carried who did not fall here first"
+      ]
+    },
+    {
+      "name": "Ana Esparza's remembered words shown as the record",
+      "file": "sim/battles/alamo.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "Ana's and Enrique's words are his own printed words of 1902, spoken as tradition out of their own figures; no reconstructed line speaks for the family",
+      "caught": true,
+      "failed": [
+        "Ana's and Enrique's words are his own printed words of 1902, spoken as tradition out of their own figures; no reconstructed line speaks for the family"
+      ]
+    },
+    {
+      "name": "the Esparzas after the fall sent to every family, wherever its people are",
+      "file": "sim/famous.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "a family sees the Esparzas only where its own people could: on the field while it watches the Alamo, on the map only near Béxar, the Host always",
+      "caught": true,
+      "failed": [
+        "a family sees the Esparzas only where its own people could: on the field while it watches the Alamo, on the map only near Béxar, the Host always"
+      ]
+    },
+    {
+      "name": "the engine lets a living man be carried away as a body",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "Francisco Esparza carries his brother Gregorio's body, wrapped, to the Campo Santo on the afternoon of March 6 - and nobody is carried who did not fall here first",
+      "caught": true,
+      "failed": [
+        "Francisco Esparza carries his brother Gregorio's body, wrapped, to the Campo Santo on the afternoon of March 6 - and nobody is carried who did not fall here first"
       ]
     }
   ],

@@ -6,7 +6,9 @@
 // injections run scripts/famous-people-browser-proof.mjs and require its failure to be the message written for that check.
 // Each gate is run clean first and again at the end.
 //
-// Run: node scripts/famous-people-injections.mjs [unit|browser]  -> writes docs/evidence/famous-people-injections.json
+// Run: node scripts/famous-people-injections.mjs [unit|browser|all] [name pattern]  -> writes docs/evidence/famous-people-injections.json
+// With a pattern only the injections whose names match run (the gates still run clean first), and their records replace the
+// earlier records of the same name; the rest of the file is kept.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
@@ -48,6 +50,25 @@ const UNIT = [
   { name: 'a family sees a famous person a hundred times further off than its people could', file: 'sim/famous.mjs',
     from: 'eyes.some(at => Math.hypot(at.x - one.x, at.y - one.y) <= FAMOUS_SIGHT_MILES)', to: 'eyes.some(at => Math.hypot(at.x - one.x, at.y - one.y) <= FAMOUS_SIGHT_MILES * 100)',
     expect: 'a family sees a famous person on the map only where its own people could, and nobody is drawn on the map and a field at once' },
+  // The Esparza family (owner, 2026-09-26: "yes, add enrique and his family"; docs/BATTLES.md §14.6).
+  { name: 'the Esparzas go in by the gate, not the church window', file: 'sim/battles/alamo.mjs',
+    from: "[150, 'church-window'], [158, 'church-window'],", to: "[150, 'gate-in'], [158, 'gate-in'],",
+    expect: 'the Esparza family goes in with Gregorio through the church window on the evening of February 23, shelters in the sacristy through the siege and the assault, and Gregorio goes from beside them to his gun at the alarm' },
+  { name: 'Ana Esparza killed after she is brought out of the church', file: 'sim/people.mjs',
+    from: "fullName: 'Ana Salazar de Esparza, Gregorio’s wife',", to: "fullName: 'Ana Salazar de Esparza, Gregorio’s wife', fate: { kind: 'killed', battle: 'alamo', phase: 'end', at: 20, claimId: 'HIST-TEX-433' },",
+    expect: 'every one of the Esparza family is spared: brought out after the fighting, taken to Músquiz\'s house, and at Béxar afterwards' },
+  { name: 'Francisco Esparza walks to the Campo Santo carrying nothing', file: 'sim/battles/alamo.mjs',
+    from: "bears: 'esparza', pose: 'carry',", to: "pose: 'carry',",
+    expect: 'Francisco Esparza carries his brother Gregorio\'s body, wrapped, to the Campo Santo on the afternoon of March 6 - and nobody is carried who did not fall here first' },
+  { name: 'the engine lets a living man be carried away as a body', file: 'sim/battle-stage.mjs',
+    from: "!['killed', 'executed'].includes(fate.kind) || fate.told || !(fellIn >= 0 && fellIn < def.phases.indexOf(phase))) fail(", to: "false) fail(",
+    expect: 'Francisco Esparza carries his brother Gregorio\'s body, wrapped, to the Campo Santo on the afternoon of March 6 - and nobody is carried who did not fall here first' },
+  { name: 'Ana Esparza\'s remembered words shown as the record', file: 'sim/battles/alamo.mjs',
+    from: "say('al-ana', 1, TEX, 'person', 'tradition',", to: "say('al-ana', 1, TEX, 'person', 'documented',",
+    expect: 'Ana\'s and Enrique\'s words are his own printed words of 1902, spoken as tradition out of their own figures; no reconstructed line speaks for the family' },
+  { name: 'the Esparzas after the fall sent to every family, wherever its people are', file: 'sim/famous.mjs',
+    from: 'eyes.some(at => Math.hypot(at.x - one.x, at.y - one.y) <= FAMOUS_SIGHT_MILES));', to: 'eyes.some(at => Math.hypot(at.x - one.x, at.y - one.y) <= FAMOUS_SIGHT_MILES) || one.claimId === \'HIST-TEX-609\');',
+    expect: 'a family sees the Esparzas only where its own people could: on the field while it watches the Alamo, on the map only near Béxar, the Host always' },
   { name: 'the famous dead sent lying on the field in the phases before they fall', file: 'sim/battle-stage.mjs',
     from: '    if (!fellIn || fellIn.index >= phase.index || phase.index >= until', to: '    if (!fellIn || fellIn.index === phase.index || phase.index >= until',
     expect: 'a fate is never sent before its minute, and nothing of a later phase is sent' },
@@ -58,6 +79,9 @@ const UNIT = [
   { name: 'a stage direction left out of the bubble', file: 'public/speech.js',
     from: "  const manner = line.manner ? `(${line.manner})` : '';", to: "  const manner = '';",
     test: V, expect: 'at San Jacinto the Twin Sisters are named under the gun, Emily West\'s words carry their stage direction, and the Napoleon of the West comes out of Santa Anna' },
+  { name: 'the burial party drawn as a man walking alone, without the wrapped bundle', file: 'public/battle-view.js',
+    from: '    if (person.bears) return drawBearers(ctx, person, p, size, time, flip, key);\n', to: '',
+    test: V, expect: 'at the Alamo the Esparza family is named in the church, Ana\'s words come out of her under her name, and Gregorio\'s body is carried as a wrapped bundle, never as a body' },
 ]);
 const BROWSER = [
   { name: 'the famous drawn without their names', file: 'public/battle-view.js',
@@ -69,6 +93,12 @@ const BROWSER = [
   { name: 'the stage direction dropped from the bubble', file: 'public/speech.js',
     from: "  const manner = line.manner ? `(${line.manner})` : '';", to: "  const manner = '';",
     expect: 'her words lost their stage direction or their tradition label' },
+  { name: 'the Esparza family drawn in the church without their names', file: 'public/battle-view.js',
+    from: "      const text = person.name, w = ctx.measureText(text).width + 6;", to: "      if (/esparza|maria-de-jesus|francisco-child/.test(person.id)) continue;\n      const text = person.name, w = ctx.measureText(text).width + 6;",
+    expect: 'was not drawn with a name in the church during the assault' },
+  { name: 'Gregorio Esparza\'s body carried as a man walking alone, no bundle', file: 'public/battle-view.js',
+    from: '    if (person.bears) return drawBearers(ctx, person, p, size, time, flip, key);\n', to: '',
+    expect: 'the body was not drawn as a wrapped bundle' },
 ];
 
 const CR = '\r', LF = '\n';
@@ -97,13 +127,18 @@ function runBrowser() {
 }
 
 const which = process.argv[2] || 'all';
+const only = process.argv[3] ? new RegExp(process.argv[3], 'i') : null;
+const chosen = list => (only ? list.filter(one => only.test(one.name)) : list);
+/** This run's records over the earlier ones: all of them for a full run; by name, in the earlier order, for a chosen few. */
+const merge = (earlier = [], now) => !now.length ? earlier : !only ? now
+  : [...earlier.map(one => now.find(fresh => fresh.name === one.name) || one), ...now.filter(fresh => !earlier.some(one => one.name === fresh.name))];
 const record = { unit: [], browser: [] };
 const evidencePath = 'docs/evidence/famous-people-injections.json';
 let previous = {};
 try { previous = JSON.parse(readFileSync(evidencePath, 'utf8')); } catch { /* the first run */ }
 if (which === 'all' || which === 'unit') {
   for (const file of [T, V]) { const clean = runUnit(file); if (!clean.passed) throw new Error(`${file} fails before any injection: ${clean.failed.join('; ')}`); }
-  for (const injection of UNIT) {
+  for (const injection of chosen(UNIT)) {
     const seen = inject(injection, () => runUnit(injection.test));
     const caught = !seen.passed && seen.failed.length === 1 && seen.failed[0] === injection.expect;
     record.unit.push({ name: injection.name, file: injection.file, test: injection.test, expect: injection.expect, caught, failed: seen.failed });
@@ -115,7 +150,7 @@ if (which === 'all' || which === 'browser') {
   const clean = runBrowser();
   if (!clean.passed) throw new Error(`The browser gate fails before any injection: ${clean.failure}`);
   record.cleanBrowserChecks = clean.checks;
-  for (const injection of BROWSER) {
+  for (const injection of chosen(BROWSER)) {
     const seen = inject(injection, runBrowser);
     const caught = !seen.passed && Boolean(seen.failure?.includes(injection.expect));
     record.browser.push({ name: injection.name, file: injection.file, expect: injection.expect, caught, failure: seen.failure, checksPassedFirst: seen.checks });
@@ -126,8 +161,8 @@ mkdirSync('docs/evidence', { recursive: true });
 const merged = {
   record: 'famous-people-injections', date: new Date().toISOString().slice(0, 10),
   gates: { unit: `node --test ${T} and ${V}, the named test and no other in its file`, browser: 'scripts/famous-people-browser-proof.mjs' },
-  unit: record.unit.length ? record.unit : previous.unit || [],
-  browser: record.browser.length ? record.browser : previous.browser || [],
+  unit: merge(previous.unit, record.unit),
+  browser: merge(previous.browser, record.browser),
   cleanBrowserChecks: record.cleanBrowserChecks ?? previous.cleanBrowserChecks ?? null,
   environment: 'Same computer: node --test, and local classroom servers with headless Chrome at 1366x768 and 1024x768.',
 };

@@ -9,7 +9,10 @@
 //      line in the sand spoken by Travis as tradition; Travis, Bowie, Crockett and Joe drawn with their names at their places;
 //      Travis falling at the north battery at his moment; Bowie lying still on his cot in his room; Crockett taken and brought
 //      before Santa Anna after the fighting, tagged as one account, with both accounts in the caption, then killed; Joe firing
-//      from the house, coming out, hurt and spared, and brought to Santa Anna. Frame time measured.
+//      from the house, coming out, hurt and spared, and brought to Santa Anna. The Esparza family (owner, 2026-09-26: "yes, add
+//      enrique and his family"): Ana and her four children named in the church through the assault, Ana's words out of her as
+//      tradition, all spared and brought out; Gregorio's brother Francisco carrying his body, a wrapped bundle, to the Campo
+//      Santo in the afternoon. Frame time measured.
 //   2. San Jacinto. A spring class from noon on April 19, watched by the Host: the Twin Sisters named and firing on the 20th
 //      and the 21st, Neill hurt at them; Houston named with the line; Emily West and Santa Anna at the picnic with the dashed
 //      "later story" label and her words with their stage direction; Castrillón falling; the Napoleon of the West spoken as
@@ -104,11 +107,12 @@ const read = page => page.evaluate(() => {
 /** Everything seen of each famous person across the samples: phase -> id -> the states drawn. */
 function note(seen, one) {
   for (const person of one.view?.people || []) {
-    const at = (seen[one.phase] ||= {}), was = (at[person.id] ||= { name: person.name, poses: new Set(), fell: false, hurt: false, onScreen: false, tag: null });
+    const at = (seen[one.phase] ||= {}), was = (at[person.id] ||= { name: person.name, poses: new Set(), drawnAs: new Set(), fell: false, hurt: false, onScreen: false, tag: null });
     was.poses.add(person.pose); if (person.labelled) was.labelled = true; if (person.fell) was.fell = true; if (person.hurt) was.hurt = true; if (person.onScreen) was.onScreen = true; if (person.tag) was.tag = person.tag;
+    if (person.drawnAs) was.drawnAs.add(person.drawnAs); if (person.bears) was.bears = person.bears;
   }
 }
-const plain = seen => Object.fromEntries(Object.entries(seen).map(([phase, people]) => [phase, Object.fromEntries(Object.entries(people).map(([id, one]) => [id, { ...one, poses: [...one.poses] }]))]));
+const plain = seen => Object.fromEntries(Object.entries(seen).map(([phase, people]) => [phase, Object.fromEntries(Object.entries(people).map(([id, one]) => [id, { ...one, poses: [...one.poses], drawnAs: [...one.drawnAs] }]))]));
 
 try {
   mkdirSync('test-results', { recursive: true });
@@ -137,13 +141,14 @@ try {
 
   // The siege and the assault on the student's page, Watch pressed, and the Host's.
   const seen = {}, seenHost = {}, lines = new Map(), captions = {};
-  let frames = [], resized = false, tick = 0;
+  let frames = [], resized = false, tick = 0, sawAfter = false;
+  const esparzas = ['ana-esparza', 'maria-de-jesus', 'enrique-esparza', 'manuel-esparza', 'francisco-child'];
   const until = Date.now() + 15 * 60 * 1000;
   for (;;) {
     if (Date.now() > until) throw new assert.AssertionError({ message: 'the Alamo did not reach the afternoon of March 6' });
     // The runner and the Watch card are answered every few samples, so the samples come quickly through the assault.
     if (tick % 4 === 0) { await answerRunner(inside); await watch(inside); }
-    const one = await read(inside), h = (tick++ % 3 === 0) ? await read(host) : {};
+    const one = await read(inside), h = (tick++ % 3 === 0 || ['after', 'burial'].includes(one.phase)) ? await read(host) : {};
     note(seen, one); note(seenHost, h); (evidence.alamo.samples ||= []).push([Date.now() % 1e7, one.phase, one.minute, h.phase || null, one.camera]);
     for (const bubble of [...(one.view?.bubbles || []), ...(h.view?.bubbles || [])]) if (bubble.person) lines.set(bubble.id, bubble);
     if (one.phase && one.caption) captions[one.phase] = one.caption;
@@ -152,7 +157,11 @@ try {
     if (one.phase === 'fallback' && !resized) { resized = true; await inside.setViewportSize({ width: 1024, height: 768 }); }
     if (one.phase === 'end' && seen.end?.crockett?.poses.has('captive') && !evidence.alamo.shotEnd) { evidence.alamo.shotEnd = true; await shot(inside, 'alamo-crockett-1024'); await shot(host, 'alamo-crockett-host'); }
     if (one.phase === 'the-line' && lines.has('line-sand') && !evidence.alamo.shotLine) { evidence.alamo.shotLine = true; await shot(inside, 'alamo-line'); }
-    if (one.phase === 'after' && seen.after?.joe) break;
+    if (one.phase === 'burial' && !evidence.alamo.shotBurial && [seen, seenHost].some(s => s.burial?.['francisco-esparza']?.bears)) { evidence.alamo.shotBurial = true; await shot(inside, 'alamo-burial-1024'); await host.locator('[data-view="bexar"]').click({ timeout: 2000 }).catch(() => {}); await host.waitForTimeout(400); await shot(host, 'alamo-burial-host'); }
+    if (['after', 'burial'].includes(one.phase)) sawAfter = true;
+    // On through the afternoon's two phases - the spared taken into the town, then the burial at noon - or out of them.
+    if (one.phase === 'burial' && seen.after?.joe && [seen, seenHost].some(s => s.burial?.['francisco-esparza']?.bears)) break;
+    if (sawAfter && !['after', 'burial'].includes(one.phase)) break;
     await inside.waitForTimeout(150);
   }
   evidence.alamo.seen = plain(seen); evidence.alamo.seenHost = plain(seenHost); evidence.alamo.lines = [...lines.values()];
@@ -191,6 +200,24 @@ try {
   assert.ok(Object.values(seen).every(phase => !phase.joe?.fell), 'Joe was drawn fallen');
   assert.ok(inPhase('after', 'joe') && inPhase('after', 'santa-anna'), 'Joe was not brought to Santa Anna');
   ok('Joe fires from the house, comes out when the officers call ("Yes, here is one."), is hurt and spared, and is brought to Santa Anna in Béxar');
+  // The Esparza family: named in the church through the assault, Ana's words out of her as tradition, all spared and brought
+  // out, and Gregorio's body carried by his brother to the Campo Santo as a wrapped bundle, never drawn as a body.
+  for (const id of esparzas) {
+    assert.ok(['alarm', 'repulse', 'north-wall', 'fallback', 'rooms'].some(phase => inPhase(phase, id)?.labelled && inPhase(phase, id)?.onScreen), `${id} was not drawn with a name in the church during the assault`);
+    assert.ok(Object.values(seen).concat(Object.values(seenHost)).every(phase => !phase[id]?.fell && !phase[id]?.hurt), `${id} was drawn hurt or fallen`);
+    assert.ok(inPhase('end', id) || inPhase('after', id) || inPhase('burial', id), `${id} was not seen spared after the fighting`);
+  }
+  const ana = lines.get('al-ana');
+  assert.ok(ana && ana.name === 'Ana Esparza' && ana.kind === 'tradition' && /told later/.test(ana.gloss), 'Ana Esparza’s words were not drawn from her as tradition');
+  ok(`the Esparza family named in the church through the assault (${esparzas.map(id => inPhase('rooms', id)?.name).join(', ')}), never hurt, seen after it; "${ana.text}" out of Ana Esparza as tradition, glossed "${ana.gloss.slice(0, 50)}…"`);
+  const burial = [seen, seenHost].map(s => s.burial?.['francisco-esparza']).find(one => one?.bears);
+  assert.ok(burial, 'Gregorio Esparza’s body was not carried away by his brother');
+  assert.equal(burial.bears, 'esparza');
+  assert.ok([...burial.drawnAs].some(how => /\+shroud$/.test(how)), `the body was not drawn as a wrapped bundle: ${[...burial.drawnAs]}`);
+  assert.ok(burial.labelled && burial.onScreen, 'Francisco Esparza was not named on the screen');
+  assert.ok([seen, seenHost].every(s => !s.after?.esparza && !s.burial?.esparza), 'Gregorio was drawn as a body in the afternoon');
+  assert.match(captions.burial || '', /only defender given a Christian burial/);
+  ok(`the burial: Francisco Esparza named, carrying his brother's body drawn as ${[...burial.drawnAs].join(', ')}, to the Campo Santo; the caption names the one Christian burial`);
   const framed = evidence.alamo.samples.filter(one => ['alarm', 'repulse', 'north-wall', 'fallback', 'rooms', 'end'].includes(one[1]));
   assert.ok(framed.length && framed.filter(one => one[4] === 'battle').length >= framed.length / 2, `Watch did not keep the student's camera on the assault: ${framed.map(one => one[4]).join(',')}`);
   ok(`the student watched the assault with the camera on the compound (${framed.filter(one => one[4] === 'battle').length} of ${framed.length} samples)`);

@@ -627,7 +627,7 @@ second one.
 
 | Piece | File | What it does |
 | --- | --- | --- |
-| The engagement | `sim/battles/alamo.mjs` | 38 phases from the army's coming at 2:30 on February 23 to the evening of March 6: the arrival, the red flag and the 18-pounder's answer, a day and a night for each day of the guns, the huts on the 25th, the relief before dawn on March 1, Bonham and the north battery on the 3rd, the guns stopping at ten on the 5th, the columns forming in the dark, then `advance`, `alarm`, `repulse`, `north-wall`, `fallback`, `rooms`, `end`, `after`. Written side by side and handed to the engine as groups (`toEngine`). Ground in the compound's plan feet (`ALAMO_FEET`). Imports nothing. |
+| The engagement | `sim/battles/alamo.mjs` | 40 phases (39 until the afternoon was split for the burial on 2026-09-26, §14.6) from the army's coming at 2:30 on February 23 to the evening of March 6: the arrival, the red flag and the 18-pounder's answer, a day and a night for each day of the guns, the huts on the 25th, the relief before dawn on March 1, Bonham and the north battery on the 3rd, the guns stopping at ten on the 5th, the columns forming in the dark, then `advance`, `alarm`, `repulse`, `north-wall`, `fallback`, `rooms`, `end`, `after`, `burial`. Written side by side and handed to the engine as groups (`toEngine`). Ground in the compound's plan feet (`ALAMO_FEET`). Imports nothing. |
 | Posts and walking | `sim/alamo-posts.mjs` | Each fighter's post on a wall by a seeded share (`choosePost`, `POST_WEIGHTS`), a woman's or child's in the church; the routes from the south gate to every spot, found by the plan's own path-finder and held to it by a test; the walk (`advanceWalks`), one straight line a tick; `leaveBy` and `endShortOf` for the couriers' and the relief's roads. Replaced the hashed plaza spot (`postOf`, `takePost` in `sim/alamo-runner.mjs` use it). |
 | The director's part | `sim/alamo-battle.mjs` | Every tick of the second period: arms the engagement and enlists the garrison and the relief as its `participants`, walks the garrison, rides the relief in with its company (`followTheRelief`, `leftBehind`), stages each fighter's fate through `stageFate` at the minute the storming reaches his post (`fallMinute`) and applies it through `fatesDue`, the cards (`sendCards`), the Host's spotlight (`lightTheHost`), and what each page is sent (`alamoProjection`, `watchersOf`). Three lines in `advanceAlamo` and `directorProjection`. |
 | The rules it keeps | `sim/alamo.mjs` | Couriers ride out through the gate (`rideOut`); the relief rides to wait short of the lines and goes in with its company (`reliefRides`, `reliefEnters`); the honest estimate on the order (`reliefEstimate`); `stormAlamo` only the backstop; `tellFall` brings the account in plain words (`FALL_ACCOUNT`) and tells a courier's family too. |
@@ -947,7 +947,7 @@ The sources were re-read on 2026-09-26 for this build; where the Handbook's entr
   lancers after him - never drawn dying (`told`); the caption says he gave himself up and was killed then.
 - **The Alamo**: Travis, Bowie and Crockett going in; Travis at the 18-pounder for its answer and writing in his quarters; Bowie
   on his cot in the low barrack's east room from February 24; Crockett at the palisade; Almeron Dickinson, Esparza and (from
-  March 3) Bonham at the church guns; Mrs. Dickinson with Angelina in the sacristy; Martin riding out on the 24th, Seguín on the
+  March 3) Bonham at the church guns; Mrs. Dickinson with Angelina in the sacristy, and the Esparza family beside her (§14.6); Martin riding out on the 24th, Seguín on the
   night of the 25th, Kimbell and Martin at the head of the relief, Bonham riding in with Williamson's letter, J. W. Smith riding
   out on March 3; **the line in the sand** on the evening of March 3 in a phase of its own (`the-line`, 60 minutes, background
   20: the story's own date); Santa Anna with the reserve, Cos at the head of his column, Castrillón at the head of Duque's. The
@@ -994,5 +994,48 @@ the fall (Joe eight hours behind: "on the way, the pair met Joe"); Santa Anna wi
   falls in; a class with a family inside is held at the siege's background pace, so the line in the sand is seen there.
 - Kimbell's death is told, not drawn: the record does not say where in the fort he fell.
 - Stand-ins: every famous person without a sheet, and the poses the sheets lack (`docs/ART_REQUESTS.md`, request 2026-09-26).
-- Not built: Seguín's company at Béxar in December; the Esparza family in the sacristy; Ugartechea; Ruiz and the bodies (`HIST-TEX-566`
-  is left free); the noncombatants killed in the storming.
+- Not built: Seguín's company at Béxar in December; Ugartechea; Ruiz and the bodies (`HIST-TEX-566` is left free); the noncombatants
+  killed in the storming. (The Esparza family: built 2026-09-26, §14.6.)
+
+### 14.6 The Esparza family (owner, 2026-09-26: "yes, add enrique and his family"; not released)
+
+Asked whether Enrique Esparza was among the famous people (he was not: only his father Gregorio was drawn, at the church guns), the
+owner answered "yes, add enrique and his family". Researched in `docs/battle-research/famous-people.md` (the Esparza family, sources
+S15 and S44-S49, checked 2026-09-26); claims `HIST-TEX-605`-`-609` and `FIC-GONZ-470`-`-473`.
+
+- **Who** (`sim/people.mjs`): Ana Esparza (`ana-esparza`), María de Jesús (`maria-de-jesus`, about ten, Ana's daughter by her first
+  husband), Enrique (`enrique-esparza`, about eight), Manuel (`manuel-esparza`, five), Francisco (`francisco-child`, two or three),
+  and Gregorio's brother Francisco Esparza (`francisco-esparza`). Side `civilian`; no fate for any of them - all lived
+  (`HIST-TEX-432`). Their map leg: at Béxar from 18:00 on March 6 to May 17 (ceiling: the record says "several months" at a
+  cousin's on North Flores Street, `FIC-GONZ-472`).
+- **Going in** (`red-flag`, minutes 100-180): Gregorio and the five walk from the town's edge round the south of the compound to a
+  window in the church's south wall at six in the evening and into the sacristy (`GOING_IN`, `church-south`, `church-window`). The
+  window is Enrique's 1907 memory (TRADITION); the caption says it was remembered many years later.
+- **The siege and the assault**: in the sacristy beside Mrs. Dickinson, seated, each a step apart (`ESPARZAS`, `THE_SACRISTY`, the
+  engine's new `aside` on a phase person), in every phase that draws her. Gregorio at the church guns by day as before, beside them on
+  the night of March 5 (`quiet`, `advance`), and walking from them to his gun in the alarm's first two minutes. Ana says "Gregorio,
+  the soldiers have jumped the wall. The fight's begun." at its first minute; Enrique, when the firing stops (`end`, minute 2), "It
+  was a miracle, but none of us children were touched." Both are his printed words of November 22, 1902, `tradition`, glossed
+  "told later" with the year; he put his mother's words at two in the morning, which no account of the assault supports
+  (`FIC-GONZ-473`).
+- **Spared**: brought out with Mrs. Dickinson in `end` (Gregorio lying at the church guns), to Músquiz's house in `after` by 09:10,
+  there at two (in `burial`) when the women went before Santa Anna and each was given a blanket and two dollars (the caption).
+- **The burial** (a phase of its own, `burial`, 12:00-18:00; `after` is now 07:00-12:00): at noon Francisco Esparza carries the body
+  out of the church with one of his brothers, to the Campo Santo (`campo-santo`, west of the town) by half past two, and stands
+  there until five. Its own phase because a tick of the Alamo lands on the end of the phase it is in (`landOnEnd`): as one phase the
+  afternoon was seen only at seven in the morning, and nothing drawn after that minute was ever seen in a class. Now every class
+  meets noon too - **one more tick for every class**, about 9.5 seconds at Study. The engine's new `bears` on a phase person names the
+  body carried, and `checkEngagement` refuses a body that did not fall in that fight in an earlier phase. The page draws two bearers
+  and a long pale bundle tied at three places (`drawBearers`) - no body, no face, no wound. The caption: leave from Cos (his
+  deposition, 1859) or Santa Anna (Enrique, 1902), the two brothers, the only defender given a Christian burial. The day and hour are
+  not in the record: the afternoon is the game's (`FIC-GONZ-471`). The afternoon's frame was widened west to hold the Campo Santo
+  (`frame-after-a`). `sim/alamo-battle.mjs` treats `burial` as after the fighting, as it does `after`.
+- **Stand-ins**: the library's `indigo` woman, `girl`, `boy` (fair-haired) and `smallchild`, and the settler `rust` for the bearers
+  (`PERSON_ART` `woman`, `girl`, `boy`, `small-child`, `townsman`; `docs/ART_REQUESTS.md`, request 2026-09-26 "the Esparza family").
+- **Evidence**: `tests/famous-people.test.mjs` (5 new: the itinerary against the Alamo's clock; all spared; the burial and the
+  engine's refusal; the words as tradition and no reconstructed line for them; knowledge), `tests/famous-people-view.test.mjs` (1
+  new), `tests/battle-alamo.test.mjs` (the named lines); `npm run test:famous-people` (the family named in the church during the
+  assault, spared, Ana's words, the burial's bundle; 1366x768 and 1024x768); `scripts/famous-people-injections.mjs` (six unit and
+  two browser injections, each caught by the check written for it alone). Same computer only.
+- ceiling: the family is drawn in the sacristy with Mrs. Dickinson because the record says only "the room where we were" in the
+  church; the boy killed beside Enrique (`HIST-TEX-433`) is still not drawn.

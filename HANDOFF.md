@@ -1,5 +1,57 @@
 # Claude handoff — Astra foundation
 
+## Enrique Esparza and his family at the Alamo, and Gregorio's burial — 2026-09-26 (worktree branch from main 9af00d4; not released)
+
+The owner asked *"is enrique esparza included in our famous person's list?"* - he was not (only his father Gregorio was drawn,
+at the church guns) - and answered *"yes, add enrique and his family"*. docs/BATTLES.md **§14.6** is the build;
+`docs/battle-research/famous-people.md` (the Esparza family, sources S44-S49, checked 2026-09-26) the research; claims
+`HIST-TEX-605`-`-609`, `FIC-GONZ-470`-`-473`.
+
+**What the record says (evidence strength).** Ana Salazar de Esparza and four children - María de Jesús Castro Esparza (b. 1826,
+Ana's daughter by her first husband), Enrique (probably b. September 1828), Manuel (b. 1830), Francisco (b. 1833) - in the Alamo
+and all spared (STRONGLY SUPPORTED; the Handbook and Groneman's noncombatants entry; the count of children varies in Enrique's
+accounts). In on February 23 toward evening on John W. Smith's word (STRONGLY SUPPORTED); **through a small window of the church**
+(TRADITION: Enrique's 1907 account as the Handbook gives it; his 1902 account says only that they crossed the ditch). His mother's
+**"Gregorio, the soldiers have jumped the wall. The fight's begun."** is his printed memory of November 22, 1902 (TRADITION; he put
+it at two in the morning; the paper is the *Express* by the Handbook and PBS, the *Light* by the Sons of DeWitt transcription - the
+date agrees). Músquiz's house, Santa Anna, "$2 and a blanket" (DOCUMENTED, `HIST-TEX-432`). **Francisco Esparza**, Gregorio's
+brother, got leave to take the body and with his two brothers buried it in the Campo Santo west of San Pedro Creek, the only
+defender given a Christian burial (STRONGLY SUPPORTED: his own deposition of 1859 and the Handbook). **Who gave leave is
+DISPUTED** (Cos by his deposition; Santa Anna by Enrique in 1902), and so is **his service in 1836** (the presidial company until
+Cos gave up Béxar, not mobilised again, by Emmerich reading the deposition; "a soldier in Santa Anna's army" by Wikipedia citing
+Groneman). The day is not given. Enrique farmed in Atascosa County and San Antonio and died December 20, 1917 (DOCUMENTED).
+
+**What there is now.** Five people in `sim/people.mjs` (`ana-esparza`, `maria-de-jesus`, `enrique-esparza`, `manuel-esparza`,
+`francisco-child`) and Gregorio's brother (`francisco-esparza`), side `civilian`, no fate. On the Alamo's field: walking in with
+Gregorio at six on February 23 to a window in the church's south wall and into the sacristy; seated there beside Mrs. Dickinson in
+every phase that draws her; Gregorio with them on the night of March 5 and walking to his gun at the alarm, where Ana's line comes
+out of her (tradition, "told later ... 1902"); brought out in `end`, where Enrique says "It was a miracle, but none of us children
+were touched." (tradition, his 1902 words); to Músquiz's house in `after`. **The afternoon is now two phases**, `after`
+(07:00-12:00) and `burial` (12:00-18:00): a tick of the Alamo lands on the end of the phase it is in, so as one phase nothing after
+seven in the morning was ever seen in a class; now noon is met too (one more tick for every class, about 9.5 s at Study), and at
+noon Francisco Esparza carries the body out of the church with a brother, a long pale bundle between them (no body, no face, no
+wound), to the Campo Santo. The engine's `bears` names the body and refuses one that did not fall in that fight before; `aside`
+steps a family apart at one point. On the map the five are at Béxar from 18:00 March 6 to May 17 (ceiling: "several months").
+Names step down up to ten places where many stand together (was six). Stand-ins: the library's woman, girl, boy (fair-haired),
+small child and settler (`docs/ART_REQUESTS.md`, request 2026-09-26 "the Esparza family").
+
+**Evidence** (same computer only; not physical LAN or district acceptance).
+- EVIDENCE_PLACEHOLDER
+
+**For the owner.**
+1. Enrique put his mother's words **at two in the morning**; every account of the assault has it begin about five. The game keeps
+   his words and says them at the alarm, with the gloss saying he put it at two. Keep?
+2. The family is drawn in the **sacristy** with Mrs. Dickinson; Enrique says only "the room where we were" in the church.
+3. The burial is staged **at noon on March 6**; the record says only "after the siege". Say if it should be the next day.
+4. The caption says Francisco "had served in the town's presidial company" and gives both accounts of the leave, rather than
+   calling him a soldier of Santa Anna's army (the brief's wording), because the best reading of his own deposition says he was
+   not mobilised after December 1835.
+5. Enrique is "about eight" as the game's existing texts have him; the Handbook's likely birth date makes him seven.
+6. The library's only boy is fair-haired; Enrique stands in with it until the requested Tejano boy is drawn.
+
+**Not done.** The boy killed beside Enrique (`HIST-TEX-433`; the existing ceiling: noncombatants killed in the storming are not
+drawn). The family before February 23 on the map. Their own art. Not released, not pushed, not merged to main.
+
 ## The Mexican advance: the record's columns on the map, the burn zone, and half the class's land dealt inside it — 2026-09-26 (worktree branch from main fe4e882, main merged at 0307b54; released in v2026.09.26.6)
 
 The owner, 2026-09-25: *"we need to fully model the Mexican army as it pushes towards the Texian army during the runaway
