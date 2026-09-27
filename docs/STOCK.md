@@ -55,7 +55,7 @@ somebody's unbranded stock out of twenty-five thousand head running loose.
 | **Riding the range** | *Ride the range after the stock*: a day's work. The stock is counted, the calves marked, and nothing strays for thirty days. | `look-to-stock`, `lookedToStock` |
 | **Killing a beef** | *Kill a beef*: a day, **40 food**, of which the family keeps **15**. The rest goes to the nearest families within `BEEF_MILES`, at most four of them, and **both records say so**. With nobody near, it is lost. One cow fewer. | `butcher-beef`, `divideBeef` |
 | **Killing a hog** | *Kill a hog*: half a day, **12 food, all of it kept**, because it is salted down. One hog fewer. | `butcher-hog`, `killHog` |
-| **The road east** | Fleeing **leaves the whole herd on the range** — nobody drives cattle ahead of an army — and writes down what was left. | `leaveStock`, called from `sim/scrape.mjs` |
+| **The road east** | Fleeing **leaves the whole herd on the range** — nobody drives cattle ahead of an army — and writes down what was left. **Amended 2026-09-27 (§8):** but one milk cow, driven by a child. | `leaveStock`, called from `sim/scrape.mjs`; `takeCow`, sim/flight-work.mjs |
 | **Coming home** | Half the cattle and a quarter of the hogs are found again; the rest are gone, **and the hogs that are left have gone wild in the timber**. | `FOUND_AGAIN`, `findStockAgain` |
 | **Families nobody plays** | The director deals stock to **three families in four** (`STOCK_SHARE`), by the class's own hash, taking a barrel of meal out of the wagon to make room where the load is full. It kills only when the house is down to a day or two of food, never below a breeding herd of `KEEP_CATTLE` 4 and `KEEP_HOGS` 6, and rides the range before the month is out. | `sim/neighbours.mjs` `dealStock` |
 
@@ -106,7 +106,8 @@ that fled ended with nothing**, and that is the loudest thing this module does: 
   reach the farm, inside the burn zone, they drive off what they find, and a quarter of the cattle is found again on coming
   home, not half (`FOUND_AFTER_FORAGERS`); the hogs keep their quarter. Outside the zone the herd is simply left, as before.
 - `ceiling:` **no milk, no butter, no hides off a family's own beef, no oxen bred from its own cattle.** Each is real and
-  each is another kind of work.
+  each is another kind of work. **Amended 2026-09-27 (§8):** one milk cow driven along on the Runaway Scrape gives a little
+  milk; at home a herd still gives none.
 
 ## 6. What the record gave and what the game invented
 
@@ -142,3 +143,33 @@ letter all give) and **a hog for 4 reales or 14 food** (no hog price was found; 
   (TOWNS.md §4e).
 - Horses and oxen bought are not stock in this sense: they are animals of their own on the map, led home on a halter, and are
   taken by the Mexican army with the wagon when a family is overtaken (sim/road.mjs), not left on the range.
+
+## 8. One milk cow on the run (owner, 2026-09-27)
+
+Put to the owner in [CHILDREN.md](CHILDREN.md) §9, by multiple choice: *"A milk cow driven along on the Scrape (docs/STOCK.md keeps
+the herd on the range and has no milk): (A) not built, as now; (B) one cow driven by a child, a little milk a day, lost if
+overtaken - an amendment to STOCK.md."* The owner's choice: **"Yes, one cow"** (B). `FIC-GONZ-631`, FICTIONAL FOR GAMEPLAY.
+
+This amends §3's road east and §5's *no milk*, and `FIC-GONZ-184`: the herd is still left on the range, **all but one cow**.
+
+- **Only a family that had cattle.** Told to leave, a family with cattle in its herd (the lobby's or bought) is offered, on a child
+  of seven to fifteen, *Drive the milk cow along* (`flee-cow`, sim/flight-work.mjs); a family with none is not offered it, and is
+  refused it in words if it asks.
+- **Driven by a child.** It is a child's job, so the child may dawdle over catching her up (docs/CHILDREN.md §4). When the family
+  leaves with that child, one cow comes out of the herd and goes; the herd left on the range (`herdLeft`) is one cow fewer. The
+  child's row says *"Driving the milk cow along behind the family."*, and the page draws her a step behind them.
+- **A little milk a day**: `MILK_A_DAY`, 0.2 food, about half a grown person's day, on the road, at the refuge and on the way home.
+- **The child's obedience applies**: on a day a child of a low roll lets her stray (`cowStrayChance`: three days in ten at a 1, one
+  in a hundred at a 20) the day goes in finding her and there is no milk - *"The milk cow got away from Tom into the brush, and it
+  was dark before he found her."* **She is never lost by straying.** If the child is gone, the eldest child with the family takes the
+  rope, or a grown one.
+- **Lost if overtaken**: the Mexican army takes her with the wagon and the animals (`overtake`, sim/road.mjs).
+- **Home again** she goes back into the herd, before what is found of the rest is counted.
+
+**The record**: none. No source read has a child driving a milk cow on the Runaway Scrape; boys drove range cattle by another road
+(`HIST-TEX-641`). It is RECONSTRUCTED, and every number is the game's. `ceiling:` she goes at the family's pace, whatever it is; a
+cow is not the ox's two miles an hour for nothing, and a family on foot would in truth be held to her pace.
+
+Evidence: `tests/flight-work.test.mjs` (three tests: only a family with cattle and only a child, out of the herd; milk a day and the
+roll; taken if overtaken and home to the herd), each regression seen failing alone
+([childhood-injections.json](evidence/childhood-injections.json), the `cow:` rows).

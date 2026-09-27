@@ -23,7 +23,7 @@ import { decisionClockInvalid, decisionPressing, spendDecisionBudget } from './d
 import { advanceFlight, flee, flightProjection, householdAsKnown, scrapeInvalid, share, stayHome } from './scrape.mjs';
 import { answerRoad, registerRoadChores } from './road.mjs';
 // What the family does on the Runaway Scrape besides run, children and grown-ups (sim/flight-work.mjs, docs/CHILDREN.md §7).
-import { advanceFlightWork, flightWorkInvalid, registerFlightWork, walkingShare } from './flight-work.mjs';
+import { advanceFlightWork, cowLine, flightWorkInvalid, registerFlightWork, walkingShare } from './flight-work.mjs';
 import { WATER_HIGH, WATER_SHUT, waterAt, weatherAt, weatherOn } from './weather.mjs';
 // The road's chores join the one table here, once every module above is made (sim/road.mjs says why not at its own load).
 registerRoadChores();
@@ -1288,7 +1288,8 @@ const townScenesView = (world, householdId, role) => { const townScenes = townSc
 const ASIDE_REFUSED = new Set(['chore', 'travel', 'work', 'survey-plot', 'fell-trees', 'hunt-land', 'clear-plot', 'fence-plot', 'town-help']);
 /** One person's share of the family's little ones, for the family's own projection (sim/childhood.mjs, sim/babies.mjs). */
 function littleOnes(world, household, e) {
-  const life = babyLine(world, household, e) || childLine(world, e);
+  // The child with the milk cow on the Scrape says so on their row (sim/flight-work.mjs `cowLine`, owner 2026-09-27).
+  const life = babyLine(world, household, e) || cowLine(world, household, e) || childLine(world, e);
   return {
     ...(life && { life }),
     ...(e.talk && { talk: { with: e.talk.withId, phase: e.talk.phase } }),

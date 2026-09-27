@@ -260,7 +260,7 @@ export function leaveStock(world, household) {
   household.herd = { cattle: 0, hogs: 0 };
   record(world, 'stock', {
     householdId: household.id, importance: 2, claimId: 'FIC-GONZ-184',
-    text: `The stock stayed where it was: ${herdWords({ herd })} left on the range. Nobody drives cattle ahead of an army.`,
+    text: `The stock stayed where it was: ${herdWords({ herd })} left on the range. Nobody drives a herd ahead of an army.`,
   });
 }
 

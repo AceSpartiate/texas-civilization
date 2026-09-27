@@ -79,6 +79,7 @@ export const PANEL_SUMMARIES = Object.freeze({
   // The flight's own work (sim/flight-work.mjs, owner 2026-09-26: new tasks for a family on the Runaway Scrape).
   'flee-hide': 'Hide the powder, seed and cotton the wagon cannot take in the river bottom, to find again when the family is home.',
   'flee-bundle': 'Tie up a bundle for them to carry, so the family can take more with it on foot.',
+  'flee-cow': 'Put a rope on one milk cow for them to drive behind the family: a little milk every day on the road.',
   'road-lookout': 'Set them to watch the road behind, so word of riders reaches the family sooner.',
   'road-sing': 'Have them sing on the road, so the walkers are worn less by it.',
   'road-little-ones': 'Have them keep the little ones walking by the hand, so the family goes at the pace of its older walkers.',
@@ -142,7 +143,7 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 - children's play and the Scrape's work. Stroked glyphs until Astra's
   // `icon-<key>` frames are registered, which replace them with no change here.
   ...['child-stick-horse', 'child-doll', 'child-tag', 'child-hide', 'child-cart', 'child-hoop', 'child-marbles', 'child-hens',
-    'flee-hide', 'flee-bundle', 'road-lookout', 'road-sing', 'road-little-ones', 'camp-fire', 'ferry-help', 'share-food', 'ford-carry',
+    'flee-hide', 'flee-bundle', 'flee-cow', 'road-lookout', 'road-sing', 'road-little-ones', 'camp-fire', 'ferry-help', 'share-food', 'ford-carry',
   ].map(key => [key, { glyph: key }]),
 ]));
 /** The camp's work, the chores a man serving with Houston's army is offered (sim/camp.mjs); the only work a serving row shows. */
@@ -857,6 +858,8 @@ const LITTLE_GLYPHS = Object.freeze({
   'flee-hide': ctx => { line(ctx, [4, 30], [44, 30]); ctx.fillRect(10, 30, 20, 12); line(ctx, [38, 6], [38, 30]); ctx.fillRect(34, 26, 8, 8); },
   // A bundle knotted on a stick.
   'flee-bundle': ctx => { line(ctx, [6, 42], [40, 10]); ctx.beginPath(); ctx.ellipse(30, 24, 11, 9, 0, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#e9dcb8'; dot(ctx, 34, 17, 2.5); },
+  // A cow, and the rope from her horns to a hand.
+  'flee-cow': ctx => { ctx.beginPath(); ctx.ellipse(28, 28, 13, 8, 0, 0, Math.PI * 2); ctx.fill(); ctx.fillRect(18, 34, 3, 10); ctx.fillRect(34, 34, 3, 10); dot(ctx, 14, 22, 5); line(ctx, [11, 16], [8, 12]); line(ctx, [17, 16], [20, 12]); ctx.lineWidth = 2; line(ctx, [12, 25], [4, 38]); },
   // An eye, and the road going away behind it.
   'road-lookout': ctx => { line(ctx, [4, 44], [20, 30]); line(ctx, [44, 44], [28, 30]); ctx.beginPath(); ctx.ellipse(24, 14, 14, 7, 0, 0, Math.PI * 2); ctx.stroke(); dot(ctx, 24, 14, 4); },
   // Two notes.

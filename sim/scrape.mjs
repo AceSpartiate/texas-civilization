@@ -34,7 +34,7 @@ import { COLUMNS, advanceModelled, burnMinute, farmFate } from './advance.mjs';
 import { learnOwnBurning, recordFarmBurned } from './advance-word.mjs';
 // What the family does on the road besides run (sim/flight-work.mjs, docs/CHILDREN.md §7): what it hid, the children's bundles, the
 // fire at the camp, and a sick child let over first at the ferry.
-import { bundleRoom, crossingHoursFor, digUpCache, fireKept, hideAtLeaving } from './flight-work.mjs';
+import { bundleRoom, cowHome, crossingHoursFor, digUpCache, fireKept, hideAtLeaving, milkCow, takeCow } from './flight-work.mjs';
 
 const GONE = ['dead', 'captured'];
 const DAY = 1440;
@@ -320,7 +320,8 @@ export function flee(world, household, { take = {}, refuge }) {
   } else burnFarm(world, household, { watching: true });
   // The herd stays where it is (sim/stock.mjs, `FIC-GONZ-184`): nobody drives cattle ahead of an army, and the hogs are
   // in the timber. It is the largest single thing a family loses by going, and it is written down rather than quietly
-  // becoming nothing.
+  // becoming nothing. One milk cow may go first, driven by a child who has her on a rope (sim/flight-work.mjs, owner 2026-09-27).
+  takeCow(world, household, goers);
   leaveStock(world, household);
   household.resources = { ...household.resources, ...Object.fromEntries(Object.entries(take).map(([good, amount]) => [good, amount])), money: kept.money ?? 0 };
   return departure;
@@ -384,6 +385,8 @@ export function advanceFlight(world, minutes) {
     // army's rations and is sick or well with it (`FIC-GONZ-442`).
     const alive = people(world, household).filter(person => !GONE.includes(person.health?.condition) && person.service?.status !== 'serving' && (person.travel?.purpose === 'flee' || person.travel?.purpose === 'return' || person.location?.siteId === flight.refuge));
     if (flight.status !== 'returning' && household.resources) household.resources.food = Math.max(0, Math.round((household.resources.food - eatenADay(world, alive) * days) * 10000) / 10000);
+    // The milk cow's day of milk, once a day, if a child drove her along (sim/flight-work.mjs `milkCow`).
+    milkCow(world, household);
     const hungry = (household.resources?.food ?? 0) <= 0;
     // Sickness, and the rare death, rolled by the day.
     const day = Math.floor(world.minute / DAY);
@@ -433,6 +436,8 @@ export function advanceFlight(world, minutes) {
       }
       // What they hid in the river bottom before they went is dug up and carried in (sim/flight-work.mjs `flee-hide`).
       digUpCache(world, household);
+      // The milk cow a child drove all the way goes back into the herd (sim/flight-work.mjs).
+      cowHome(world, household);
       // And whatever is still on the range of the herd they could not drive (sim/stock.mjs `findStockAgain`): half the
       // cattle, a quarter of the hogs, and the rest gone wild in the timber; less of the cattle where foragers drove them off.
       findStockAgain(world, household);
@@ -546,7 +551,9 @@ export function flightProjection(world, household) {
   const flight = household?.flight;
   if (!flight) return null;
   const home = world.map.sites[household.homeSiteId];
-  const shown = { status: flight.status, ...(flight.refuge && { refuge: flight.refuge, refugeName: world.map.sites[flight.refuge]?.name }), ...(flight.crossing && { waitingAt: world.map.sites[flight.crossing.siteId]?.name }), ...(flight.mode && { mode: flight.mode }) };
+  const shown = { status: flight.status, ...(flight.refuge && { refuge: flight.refuge, refugeName: world.map.sites[flight.refuge]?.name }), ...(flight.crossing && { waitingAt: world.map.sites[flight.crossing.siteId]?.name }), ...(flight.mode && { mode: flight.mode }),
+    // Who has the milk cow (sim/flight-work.mjs): the page draws her beside them.
+    ...(flight.cow && { cow: { by: flight.cow.by } }) };
   // On the road: the weather, the bog, the camp, the danger and the open question (sim/road.mjs).
   if (!['ordered', 'stayed'].includes(flight.status)) return { ...shown, ...roadProjection(world, household) };
   const { room, mode, wagons, cart, carreta } = flightRoom(world, household);

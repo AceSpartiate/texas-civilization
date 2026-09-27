@@ -12,6 +12,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
 const CHILDHOOD = 'sim/childhood.mjs', BABIES = 'sim/babies.mjs', FLIGHT = 'sim/flight-work.mjs', OBEDIENCE = 'sim/obedience.mjs', FAMILY = 'sim/family.mjs';
+const SCRAPE = 'sim/scrape.mjs', ROAD = 'sim/road.mjs';
 const WORLD = 'sim/world.mjs', CHORES = 'sim/chores.mjs', CHILDREN = 'sim/children.mjs', LESSON = 'sim/lesson.mjs', PANEL = 'public/family-panel.js';
 const T = {
   childhood: 'tests/childhood.test.mjs', babies: 'tests/babies.test.mjs', flight: 'tests/flight-work.test.mjs', children: 'tests/children.test.mjs', panel: 'tests/family-panel.test.mjs',
@@ -82,6 +83,17 @@ const INJECTIONS = [
   { name: 'carried over, the family still waits for the boat', file: FLIGHT, from: '      delete flight.crossing;', to: '', test: T.flight, expect: /carry its little ones over/ },
   { name: 'a sick child is not let over first', file: FLIGHT, from: '  return sickChild(world, household) ? hours * SICK_FIRST_SHARE : hours;', to: '  return hours;', test: T.flight, expect: /carry its little ones over/ },
   { name: 'a child’s flight work is never dawdled over', file: FLIGHT, from: 'if (chore.job && tooYoung(entity)) beginsJob(', to: 'if (false) beginsJob(', test: T.flight, expect: /a job, and a child’s obedience/ },
+  // The milk cow (owner 2026-09-27, FIC-GONZ-631).
+  { name: 'cow: a family with no cattle is offered a milk cow', file: FLIGHT, from: '    shown: (world, household) => hasCow(household) || Boolean(household.flight?.cow),\n', to: '', test: T.flight, expect: /one milk cow on the run/ },
+  { name: 'cow: a grown man drives the cow', file: FLIGHT, from: "fromAge: COW_FROM_AGE, toAge: COW_TO_AGE, job: true,", to: "fromAge: COW_FROM_AGE, job: true,", test: T.flight, expect: /one milk cow on the run/ },
+  { name: 'cow: the cow is not taken out of the herd left on the range', file: FLIGHT, from: "  addToHerd(household, 'cattle', -1);\n  flight.cow = { by: driver.id, since: world.minute };", to: '  flight.cow = { by: driver.id, since: world.minute };', test: T.flight, expect: /one milk cow on the run/ },
+  { name: 'cow: the cow stays at home with the herd', file: SCRAPE, from: '  takeCow(world, household, goers);\n', to: '', test: T.flight, expect: /one milk cow on the run/ },
+  { name: 'cow: the child’s row does not say they drive her', file: WORLD, from: '|| cowLine(world, household, e) ||', to: '||', test: T.flight, expect: /one milk cow on the run/ },
+  { name: 'cow: she gives no milk', file: FLIGHT, from: '  household.resources.food = Math.round(((household.resources.food ?? 0) + MILK_A_DAY) * 10000) / 10000;', to: '', test: T.flight, expect: /gives a little milk a day/ },
+  { name: 'cow: obedience does not govern her', file: FLIGHT, from: 'export const cowStrayChance = roll => wanderChance(roll) * 5;', to: 'export const cowStrayChance = roll => 0.05;', test: T.flight, expect: /gives a little milk a day/ },
+  { name: 'cow: a child of a low roll loses her for good', file: FLIGHT, from: '    cow.strayDay = day;\n', to: '    cow.strayDay = day; if (obedienceOf(world, driver) < 5) delete flight.cow;\n', test: T.flight, expect: /gives a little milk a day/ },
+  { name: 'cow: the army leaves the family its cow', file: ROAD, from: "  if (loseCow(household)) animals.push('the milk cow');\n", to: '', test: T.flight, expect: /taken if the Mexican army/ },
+  { name: 'cow: she never comes home', file: SCRAPE, from: '      cowHome(world, household);\n', to: '', test: T.flight, expect: /taken if the Mexican army/ },
   // The ladder, the lesson and the icons (FIC-GONZ-475).
   { name: 'the stick horse is kept past seven', file: CHILDREN, from: "Object.freeze({ 'child-stick-horse': 7, 'child-hens': 7 });", to: "Object.freeze({ 'child-hens': 7 });", test: T.children, expect: /the age ladder decides/ },
   { name: 'tag is offered at two', file: CHILDREN, from: "  'child-tag': 3,", to: "  'child-tag': 2,", test: T.children, expect: /the age ladder decides/ },

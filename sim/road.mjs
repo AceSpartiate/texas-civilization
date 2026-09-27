@@ -40,7 +40,7 @@ import { spotlight } from './host.mjs';
 import { awardGlory } from './glory.mjs';
 import { COLUMNS, ORDER_GRACE_MINUTES, ROAD_DETOUR, clockOf, columnLeg as advanceLeg, headAt } from './advance.mjs';
 // The children's bundles and the lookout on the road behind (sim/flight-work.mjs, docs/CHILDREN.md §7).
-import { bundleRoom, lookoutMiles, lookoutOf } from './flight-work.mjs';
+import { bundleRoom, lookoutMiles, lookoutOf, loseCow } from './flight-work.mjs';
 
 const DAY = 1440;
 const round = value => Math.round(value * 100) / 100;
@@ -383,6 +383,8 @@ export function overtake(world, household, near) {
   const counted = new Map();
   for (const beast of had) { const word = beast.kind === 'wagon' ? 'wagon' : beast.species || beast.kind; counted.set(word, (counted.get(word) || 0) + 1); }
   const animals = [...counted].map(([word, n]) => n === 1 ? `the ${word}` : `${n === 2 ? 'two' : n === 3 ? 'three' : n} ${word === 'ox' ? 'oxen' : `${word}s`}`);
+  // The milk cow a child drove along is taken with the rest (sim/flight-work.mjs, owner 2026-09-27: "lost if overtaken").
+  if (loseCow(household)) animals.push('the milk cow');
   for (const beast of had) {
     beast.travel = null; beast.condition = 'taken'; beast.laden = false; beast.borrowedBy = null;
     beast.location = { x: site.x, y: site.y, siteId };

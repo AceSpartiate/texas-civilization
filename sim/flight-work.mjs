@@ -17,6 +17,14 @@
 // | `ferry-help` Help load at the ferry | 10 and over | waiting at a crossing | The family's turn comes `FERRY_HELP_HOURS` sooner, once a crossing. |
 // | `share-food` Share food with a family camped here | 10 and over | at a crossing or the refuge | A food goes from this family's store to the hungriest family camped at the same place. |
 // | `ford-carry` Carry the little ones over | 16 and over | on foot at a crossing, the water below its banks | The family wades over now rather than waiting its turn, and everybody with it is worn by it. |
+// | `flee-cow` Drive the milk cow along | 7 to 15 | told to leave, the family has cattle | One cow comes out of the herd left on the range and goes with the family, driven by the child: `MILK_A_DAY` food a day, a day's milk lost when a child of a low roll lets her stray, and taken if the Mexican army comes up with the family. |
+//
+// **The milk cow** (owner, 2026-09-27, by multiple choice: "Yes, one cow"; `FIC-GONZ-631`) amends docs/STOCK.md, which left the
+// whole herd on the range: one milk cow may go, driven by a child, only from a family that had cattle. The child's obedience
+// governs her (`cowStrayChance`): a child of a low roll lets her wander off into the brush now and then and the day's milk is
+// lost finding her - never the cow herself, who is lost only to the Mexican army (sim/road.mjs `overtake`). Home again she goes
+// back into the herd. **No source read has a child driving a milk cow on the Runaway Scrape**; it is RECONSTRUCTED (docs/CHILDREN.md
+// §8): the record has boys driving range cattle by another road (`HIST-TEX-641`).
 //
 // And one rule that is nobody's work: at a flooded crossing **a family with a sick child is let over first** (`SICK_FIRST_SHARE`),
 // as the ferryman at the Trinity did (`HIST-TEX-639`). The nursing of the sick, the hunt from the camp, the line in the river and
@@ -31,8 +39,10 @@
 // `household.flight` here is absent until it happens, so **no save version moved**.
 import { registerChores } from './chores.mjs';
 import { record } from './events.mjs';
-import { canAnswerCalls, tooYoung } from './family.mjs';
-import { beginsJob } from './obedience.mjs';
+import { canAnswerCalls, obedienceOf, sexOf, tooYoung } from './family.mjs';
+import { beginsJob, wanderChance } from './obedience.mjs';
+import { addToHerd, herdOf } from './stock.mjs';
+import { stirredShare } from './shares.mjs';
 import { walkingPace } from './company.mjs';
 import { WAGON_SPEED, WALK_SPEED } from './travel.mjs';
 import { WATER_SHUT, waterAt } from './weather.mjs';
@@ -59,6 +69,20 @@ export const SICK_FIRST_SHARE = 0.5;
 export const SHARED_FOOD = 1;
 /** Wading over with the little ones on their backs wears everybody who goes this much, in miles of road (sim/routines.mjs). */
 export const FORD_MILES = 6;
+/**
+ * What the milk cow gives on the road, in food a day (`FIC-GONZ-631`): a little - a cow driven all day on the spring grass by the
+ * road gives less than one kept at home - about half a grown person's day (sim/family.mjs `ADULT_RATION`, 0.35), enough for the
+ * little ones' breakfast.
+ */
+export const MILK_A_DAY = 0.2;
+/** The youngest and oldest who may drive the cow: a child, old enough to keep her on a rope all day (`FIC-GONZ-631`). */
+export const COW_FROM_AGE = 7, COW_TO_AGE = 15;
+/**
+ * How likely the cow is to get away from her child in a day, by the child's obedience roll: the chance a child wanders off from a
+ * job in a tick (sim/obedience.mjs), five times over - three days in ten at a roll of 1, one in a hundred at a 20. She is always
+ * found again by dark; the day's milk is what is lost (`FIC-GONZ-631`).
+ */
+export const cowStrayChance = roll => wanderChance(roll) * 5;
 
 const people = (world, household) => household.members.map(id => world.entities[id]).filter(one => one && !GONE.includes(one.health?.condition));
 /** Whether this person is with the family on the road east, or camped with it at the refuge. */
@@ -123,6 +147,88 @@ export function crossingHoursFor(world, household, hours) {
 const sickChild = (world, household) => people(world, household).some(person => withTheFamily(household, person) && person.health?.condition === 'sick' && ageOf(person) < 10);
 export { sickChild };
 
+// ------------------------------------------------------------------------------------------------ the milk cow
+
+/** Whether the family has a cow to take: cattle in its herd (sim/stock.mjs), the lobby's or bought. */
+const hasCow = household => herdOf(household).cattle > 0;
+/** A son or daughter under sixteen: whose obedience governs the cow (sim/family.mjs rolls it for every son and daughter). */
+const childOf = entity => ['son', 'daughter'].includes(entity?.kin?.role) && ageOf(entity) <= COW_TO_AGE;
+/** Whether this person is going on with the family and the cow: on the road east, at the refuge, or on the road home. */
+const withTheCow = (household, entity) => Boolean(entity) && !GONE.includes(entity.health?.condition)
+  && (withTheFamily(household, entity) || (household.flight?.status === 'returning' && entity.travel?.purpose === 'return'));
+
+/**
+ * The family leaves (sim/scrape.mjs `flee`), before the herd is left on the range: a child with the milk cow on a rope who goes
+ * with the family takes her, and one cow comes out of the herd. A cow caught up for a child who is not going stays with the herd.
+ */
+export function takeCow(world, household, goers) {
+  const flight = household.flight, cow = flight?.cow;
+  if (!cow) return;
+  const driver = world.entities[cow.by];
+  if (!driver || !goers.includes(driver) || !hasCow(household)) { delete flight.cow; return; }
+  addToHerd(household, 'cattle', -1);
+  flight.cow = { by: driver.id, since: world.minute };
+  tell(world, household, driver, `${driver.name} drives the milk cow along behind the family on a rope. The rest of the stock stays on the range.`, 'FIC-GONZ-631');
+}
+
+/**
+ * Once a day while the family has her - on the road, at the refuge and on the road home (sim/scrape.mjs `advanceFlight`): the day's
+ * milk, `MILK_A_DAY` food, unless the child let her get away into the brush (`cowStrayChance`, by their obedience), when the day
+ * goes in finding her and there is none. She is always found. If the child who drives her is gone - dead, taken, away - the eldest
+ * child of age for it who is with the family takes the rope, or else the family drives her itself and she strays no more.
+ */
+export function milkCow(world, household) {
+  const flight = household.flight, cow = flight?.cow;
+  if (!cow || !['fled', 'refuged', 'returning'].includes(flight.status)) return;
+  const day = dayOf(world);
+  if (cow.milkDay === day) return;
+  cow.milkDay = day;
+  let driver = world.entities[cow.by];
+  if (!withTheCow(household, driver)) {
+    const next = people(world, household).filter(person => withTheCow(household, person) && childOf(person) && ageOf(person) >= COW_FROM_AGE).sort((a, b) => ageOf(b) - ageOf(a) || a.id.localeCompare(b.id))[0]
+      || people(world, household).find(person => withTheCow(household, person) && canAnswerCalls(person));
+    if (!next) return;
+    cow.by = next.id; driver = next;
+    tell(world, household, next, `${next.name} has the milk cow's rope now.`, 'FIC-GONZ-631', 1);
+  }
+  if (childOf(driver) && stirredShare(world, driver.id, `cow-stray:${day}`) < cowStrayChance(obedienceOf(world, driver))) {
+    cow.strayDay = day;
+    const they = sexOf(driver) === 'female' ? 'she' : sexOf(driver) === 'male' ? 'he' : 'they';
+    tell(world, household, driver, `The milk cow got away from ${driver.name} into the brush, and it was dark before ${they} found her. There is no milk today.`, 'FIC-GONZ-631', 2);
+    return;
+  }
+  household.resources.food = Math.round(((household.resources.food ?? 0) + MILK_A_DAY) * 10000) / 10000;
+  if (!cow.told) { cow.told = true; tell(world, household, driver, `The milk cow gave a little milk tonight, ${MILK_A_DAY} food, and will give as much every day she is with the family.`, 'FIC-GONZ-631', 1); }
+}
+
+/** The Mexican army comes up with the family (sim/road.mjs `overtake`): the cow is taken with everything else. Whether there was one. */
+export function loseCow(household) {
+  if (!household.flight?.cow) return false;
+  delete household.flight.cow;
+  household.flight.cowTaken = true;
+  return true;
+}
+
+/** Home again (sim/scrape.mjs `advanceFlight`): the cow goes back into the herd, and is said. */
+export function cowHome(world, household) {
+  const cow = household.flight?.cow;
+  if (!cow) return;
+  delete household.flight.cow;
+  addToHerd(household, 'cattle', 1);
+  const driver = world.entities[cow.by];
+  tell(world, household, driver, `The milk cow came home with the family${driver && !GONE.includes(driver.health?.condition) ? `, driven by ${driver.name} all the way` : ''}, and went back to the herd.`, 'FIC-GONZ-631');
+}
+
+/** What the row of whoever has the cow says, in the server's words, or null. */
+export function cowLine(world, household, entity) {
+  const flight = household?.flight, cow = flight?.cow;
+  if (!cow || cow.by !== entity.id || GONE.includes(entity.health?.condition)) return null;
+  if (toldToGo(household)) return 'Has the milk cow on a rope, ready to go.';
+  if (cow.strayDay === dayOf(world)) return 'Went after the milk cow, who got away into the brush.';
+  if (flight.status === 'refuged') return 'Minding the milk cow at the camp.';
+  return 'Driving the milk cow along behind the family.';
+}
+
 // ------------------------------------------------------------------------------------------------ the pace of the little ones
 
 /** Whether any of the family is keeping the little ones walking. */
@@ -168,7 +274,7 @@ function refusalFor(world, household, entity, chore) {
   const flight = household.flight;
   const age = ageOf(entity);
   if (age < chore.fromAge) return `${entity.name} is only ${age}, and too small for that.`;
-  if (chore.toAge !== undefined && age > chore.toAge) return `${entity.name} is grown, and carries a full pack already.`;
+  if (chore.toAge !== undefined && age > chore.toAge) return chore.tooOld ? chore.tooOld(entity) : `${entity.name} is grown, and carries a full pack already.`;
   if (chore.grown && !canAnswerCalls(entity)) return `${entity.name} is too young to lead the family over.`;
   if (chore.before) {
     if (!toldToGo(household)) return flight ? 'The family has already gone.' : 'Nobody has told the family to leave.';
@@ -182,7 +288,7 @@ function refusalFor(world, household, entity, chore) {
 const offeredFor = chore => (world, household, entity) => {
   const age = ageOf(entity);
   if (age < chore.fromAge || (chore.toAge !== undefined && age > chore.toAge)) return false;
-  if (chore.before) return toldToGo(household) && entity.location?.siteId === household.homeSiteId && !entity.travel;
+  if (chore.before) return toldToGo(household) && entity.location?.siteId === household.homeSiteId && !entity.travel && (chore.shown ? chore.shown(world, household, entity) : true);
   return withTheFamily(household, entity) && (chore.shown ? chore.shown(world, household, entity) : true);
 };
 
@@ -203,6 +309,19 @@ const FLIGHT_WORK = {
     steps: [{ work: 1, doing: 'tying up a bundle in a shawl' }, { run: (world, household, entity) => {
       household.flight.bundles = [...new Set([...(household.flight.bundles || []), entity.id])];
       tell(world, household, entity, `${entity.name} has a bundle tied up to carry, and will carry it all the way.`, 'FIC-GONZ-487', 1);
+    } }],
+  },
+  'flee-cow': {
+    name: 'Drive the milk cow along', skill: 'hands', where: 'home', child: true, fromAge: COW_FROM_AGE, toAge: COW_TO_AGE, job: true,
+    describe: `One milk cow out of the herd, on a rope, driven behind the family by a child. She gives a little milk every day, ${MILK_A_DAY} food, and is taken with everything else if the Mexican army comes up with the family. The rest of the stock stays on the range.`,
+    tooOld: entity => `${entity.name} is grown; the cow is a child's to drive.`,
+    // Only a family that had cattle (owner, 2026-09-27): a family with none is not offered it at all.
+    shown: (world, household) => hasCow(household) || Boolean(household.flight?.cow),
+    before: (world, household) => (household.flight?.cow ? `${world.entities[household.flight.cow.by]?.name || 'Somebody'} has the milk cow on a rope already.` : !hasCow(household) ? 'The family has no cattle to take a cow from.' : null),
+    steps: [{ work: 1, doing: 'catching up the milk cow and putting a rope on her' }, { run: (world, household, entity) => {
+      if (!hasCow(household) || household.flight?.cow) return;
+      household.flight.cow = { by: entity.id };
+      tell(world, household, entity, `${entity.name} has caught up the milk cow and put a rope on her, to drive her along behind the family.`, 'FIC-GONZ-631', 1);
     } }],
   },
   'road-lookout': {
@@ -324,6 +443,10 @@ export function flightWorkInvalid(world) {
     if (flight.bundles !== undefined && (!Array.isArray(flight.bundles) || flight.bundles.some(id => !world.entities[id]))) return 'Invalid bundles';
     if (flight.fireDay !== undefined && !Number.isInteger(flight.fireDay)) return 'Invalid fire';
     if (flight.hurried !== undefined && flight.hurried !== true) return 'Invalid pace';
+    // The milk cow (owner, 2026-09-27): absent on every class saved before it, which is a family with no cow along.
+    const cow = flight.cow;
+    if (cow !== undefined && (!cow || !world.entities[cow.by] || ['since', 'milkDay', 'strayDay'].some(key => cow[key] !== undefined && !Number.isFinite(cow[key])) || (cow.told !== undefined && cow.told !== true))) return 'Invalid milk cow';
+    if (flight.cowTaken !== undefined && flight.cowTaken !== true) return 'Invalid milk cow taken';
   }
   return null;
 }

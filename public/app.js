@@ -3010,6 +3010,7 @@ export function drawWorld(world) {
     const inTown = carrier ? null : townGround(world, entity, camera, frameNow, frozen);
     const ground = carrier ? carrier.ground : sight?.at || inTown?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
     carriedAt.set(entity.id, { ground, sight });
+  window.__cowDrawn = null;
     if (carrier) { point.x += camera.figure * .22; point.y -= camera.figure * .3; }
     // The place the figure was really put, beside the place the schedule asked for. Presentation evidence, read by
     // proofs and by nothing in the application: "the schedule says the right thing" and "the page drew the right thing"
@@ -3053,6 +3054,22 @@ export function drawWorld(world) {
     const sight = sightOf(entity, drawnHeightOf(entity, camera.figure, host ? seatOf(entity, []) : null), { ...travelMarks, observed: !host });
     if (sight && sight.alpha < 1) roads.push({ entity, seen: sight });
     const inTown = townGround(world, entity, camera, frameNow, frozen);
+    // The milk cow a child drives along behind the family on the Scrape (sim/flight-work.mjs, owner 2026-09-27), a step behind
+    // them on the road and grazing beside them at the camp. stand-in: docs/ART_REQUESTS.md, request 2026-09-27 - the milk cow on the run, and Béxar before the bell:
+    // a range longhorn's standing and grazing frames moved over the ground with the child, until a milk cow on a rope is drawn.
+    if (world.flight?.cow?.by === entity.id && !carrier) {
+      const west = destination ? destination.x < entity.location.x : false;
+      const clip = entity.travel ? 'cattle-longhorn-red-idle' : 'cattle-longhorn-red-graze';
+      // Sorted just in front of the child, and drawn from where the child was actually drawn this frame (`drawnAt`: beside a
+      // wagon a walker is drawn off the road's point), a body's length behind them.
+      standing.push({ y: point.y + camera.figure * .12, draw: () => {
+        const child = drawnAt.get(entity.id);
+        const feet = child ? { x: child.x, y: child.y + child.size * .45 } : point, size = child?.size || camera.figure;
+        const cow = { x: feet.x + size * (west ? .9 : -.9), y: feet.y + size * .06 };
+        animated(ctx, clip, cow.x, cow.y, size * 1.2, `milk-cow:${entity.id}`, { flip: west });
+        window.__cowDrawn = { by: entity.id, x: Math.round(cow.x), y: Math.round(cow.y), clip, child: child ? { x: Math.round(feet.x), y: Math.round(feet.y) } : null };
+      } });
+    }
     const ground = sight?.at || inTown?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
     if (sight) sight.painted = ground;
     // The Host's whole class: only who is on screen is drawn, and each as they truly are - at their own work, the principal

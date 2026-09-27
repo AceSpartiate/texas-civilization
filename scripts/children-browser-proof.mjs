@@ -22,6 +22,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { rollFamily, stepWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { asMain } from './support/main-person.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -182,6 +183,28 @@ try {
   assert.equal(await lifeOf(page, baby.id), 'Napping.');
   ok(`the baby crawled (${crawl.places} places in three seconds), cried and was picked up by ${carer.name.split(' ')[0]}, ${carer.age}, who said "${held.said.join('" / "')}" and was drawn ${held.clip}; the baby was put down to nap and she went back to where she stood, at "${was.task}"`);
 
+  // 4b. On foot with the baby on her hip (owner, 2026-09-27: "goes a quarter slower on foot"; docs/CHILDREN.md §6). The mother is
+  // the only woman of age at home, so sent to town she takes the baby; she is made the main person, sent to Gonzales from her own
+  // bar, and the chooser is answered "on foot" as a student would.
+  const mother = family.find(one => one.age >= 16 && one.sex === 'female');
+  assert.ok(mother, 'the seed\'s family has no mother');
+  await asMain(page, mother.id);
+  await page.locator(`.panel-row[data-entity-id="${mother.id}"] .panel-icon[data-key="travel-gonzales"]`).click();
+  await page.locator('#going').waitFor({ state: 'visible' });
+  await page.locator('#going [data-way="foot"]').click();
+  await page.waitForFunction(() => document.querySelector('#going [data-way="foot"]')?.getAttribute('aria-pressed') === 'true');
+  await page.locator('#going-send').click();
+  await page.locator('#going').waitFor({ state: 'hidden', timeout: 10000 });
+  await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.travel?.mode === 'foot', mother.id, { timeout: 15000 });
+  const going = app.state.world.entities[mother.id];
+  assert.equal(app.state.world.entities[baby.id].carriedBy, mother.id, 'the only woman of age went to town without the baby');
+  assert.equal(going.travel.speed, 0.75, `on foot with the baby on her hip she walks at ${going.travel.speed} a tick, not three quarters`);
+  await page.waitForFunction(id => /walking a quarter slower/.test(document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-life-line`)?.textContent || ''), mother.id, { timeout: 15000 });
+  observed.hip = { speed: going.travel.speed, mode: going.travel.mode, motherLife: await lifeOf(page, mother.id), babyLife: await lifeOf(page, baby.id) };
+  assert.match(observed.hip.babyLife || '', /^Carried by /);
+  await shot(page, 'baby-hip-1366');
+  ok(`on foot with the baby on her hip ${mother.name.split(' ')[0]} walks at three quarters of her pace (${going.travel.speed} a tick): her row says "${observed.hip.motherLife}", the baby's "${observed.hip.babyLife}"`);
+
   // 5. At 1024x768: the child's bar, the lines, and no page scrolling sideways.
   await page.setViewportSize({ width: 1024, height: 768 });
   await page.waitForTimeout(700);
@@ -212,6 +235,8 @@ try {
     const household = world.households['hh-1'];
     household.improvements = { ...(household.improvements || {}), cabin: 'sound' };
     household.resources = { ...household.resources, food: 60, seed: 4, cotton: 6, powder: 3 };
+    // Cattle on the range, so the family has a milk cow to take (owner, 2026-09-27; docs/STOCK.md §8), set in process.
+    household.herd = { cattle: 6, hogs: 12 };
     world.status = 'lobby';
     return world;
   }
@@ -237,6 +262,15 @@ try {
   await road.locator('.panel-row[data-focused=true] .panel-icon[data-key="flee-bundle"]').click();
   await road.waitForFunction(id => ['flee-bundle'].includes(window.__snapshot.world.entities.find(one => one.id === id)?.chore?.id), boy.id, { timeout: 15000 });
   ok(`told to leave, hiding what the wagon cannot carry is on the main person's bar and glows when pressed; the child's bar has a bundle to make up (${boyBar.keys.filter(one => /^(flee|road|camp|child)-/.test(one.key)).map(one => one.key).join(', ')})`);
+  // One milk cow (owner, 2026-09-27: "Yes, one cow"): the same child, the bundle tied, puts a rope on her.
+  await road.waitForFunction(id => !window.__snapshot.world.entities.find(one => one.id === id)?.chore, boy.id, { timeout: 90000 });
+  assert.ok((await barOf(road)).keys.some(one => one.key === 'flee-cow' && one.can), `the milk cow is not on the child's bar: ${JSON.stringify((await barOf(road)).keys.map(one => one.key))}`);
+  await road.locator('.panel-row[data-focused=true] .panel-icon[data-key="flee-cow"]').click();
+  await road.waitForFunction(() => document.querySelector('.panel-row[data-focused=true] .panel-icon[data-key="flee-cow"]')?.dataset.active === 'true' || false, null, { timeout: 15000 }).catch(() => null);
+  await road.waitForFunction(() => Boolean(window.__snapshot.world.flight?.cow), null, { timeout: 90000 });
+  assert.equal(roadApp.state.world.households['hh-1'].flight.cow.by, boy.id, 'the milk cow is not the child\'s');
+  observed.cowBefore = await lifeOf(road, boy.id);
+  ok(`${boy.name.split(' ')[0]} has the milk cow on a rope before the family goes: "${observed.cowBefore}"`);
   // Leave, from the "!" and the card, as the Scrape proof does.
   const mainId = roadApp.state.world.households['hh-1'].mainId || roadApp.state.world.households['hh-1'].principalId;
   await road.locator(`[data-attention="${mainId}"]`).click({ force: true });
@@ -251,6 +285,17 @@ try {
   assert.ok(flight.cache && Object.values(flight.cache).some(amount => amount > 0), `nothing was hidden when the family left: ${JSON.stringify(flight)}`);
   observed.cache = flight.cache;
   ok(`the family left, and what it hid is in the river bottom, not in the house for the fire: ${JSON.stringify(flight.cache)}`);
+  // The milk cow goes with them, out of the herd left on the range, driven by the child and drawn a step behind them.
+  assert.equal(flight.cow?.by, boy.id, 'the milk cow did not go with the family');
+  assert.equal(roadApp.state.world.households['hh-1'].herdLeft?.cattle, 5, `the herd left on the range is not one cow fewer: ${JSON.stringify(roadApp.state.world.households['hh-1'].herdLeft)}`);
+  await road.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-life-line`)?.textContent === 'Driving the milk cow along behind the family.', boy.id, { timeout: 30000 });
+  await road.waitForFunction(id => window.__cowDrawn?.by === id, boy.id, { timeout: 30000 });
+  // The child chosen, as a student looks at them; the picture and where the page drew the cow are taken together.
+  await choose(road, boy.id);
+  await road.waitForTimeout(800);
+  await shot(road, 'scrape-cow-1366');
+  observed.cow = { row: await lifeOf(road, boy.id), drawn: await road.evaluate(() => window.__cowDrawn), child: await road.evaluate(id => window.__drawnAt?.[id] || null, boy.id), herdLeft: roadApp.state.world.households['hh-1'].herdLeft };
+  ok(`on the road ${boy.name.split(' ')[0]}'s row says "${observed.cow.row}", the cow is drawn beside them (${observed.cow.drawn.clip}), and the herd left on the range is ${observed.cow.herdLeft.cattle} cattle`);
   // On the road: the child watches the road behind.
   await choose(road, boy.id);
   await road.waitForFunction(() => [...document.querySelectorAll('.panel-row[data-focused=true] .panel-icon')].some(icon => icon.dataset.key === 'road-lookout'), null, { timeout: 30000 });

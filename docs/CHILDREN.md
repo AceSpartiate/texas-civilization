@@ -208,6 +208,7 @@ flight's own rules are (sim/scrape.mjs, sim/road.mjs):
 | **Help load at the ferry** | 10+ | waiting at a crossing | The family's turn six hours sooner, once a crossing. | RECONSTRUCTED; five thousand waited at Lynch's ferry (`HIST-TEX-068`) |
 | **Share food with a family camped here** | 10+ | at a crossing or the refuge | A food to the hungriest family camped at the same place, told in both families' records. | DOCUMENTED kindness: Liberty's people, a stranger at the Trinity (`HIST-TEX-642`) |
 | **Carry the little ones over** | 16+ | on foot at a crossing below its banks | The family wades over now instead of waiting its turn; everybody with it worn six miles' worth. | RECONSTRUCTED; the documented crossing is the raft and the riders (`HIST-TEX-642`) |
+| **Drive the milk cow along** (2026-09-27) | 7-15 | told to leave, the family has cattle | One cow out of the herd goes with the family: 0.2 food of milk a day; a day's milk lost when the child lets her stray; taken if overtaken; home to the herd. | RECONSTRUCTED - no child driving a milk cow in any source read (`FIC-GONZ-631`) |
 
 And one rule that is nobody's work: **a family with a sick child is let over a flooded crossing first**, at half the wait, as the
 ferryman at the Trinity did (`HIST-TEX-639`, DOCUMENTED; the half is the game's).
@@ -217,9 +218,16 @@ measles and whooping cough of the record), the hunt from the camp, the line in t
 the wagon** is the family's choice as it was; **the father's choice between the family and the army** is the existing one and who may
 be sent to fight did not change. A child's flight work is a job, and a child's obedience governs it (§4).
 
-**Not built, on purpose: driving the milk cow along.** docs/STOCK.md (owner-decided 2026-09-20) leaves the whole herd on the range
-in the Scrape - "nobody drives cattle ahead of an army" - and names *no milk* as a ceiling. A cow driven along would amend both; it is
-put to the owner below. The record has boys driving range cattle by another road (`HIST-TEX-641`) and nothing of a milk cow.
+**Driving the milk cow along** (owner, 2026-09-27, decision 4 of §9: **"Yes, one cow"**; `FIC-GONZ-631`; docs/STOCK.md §8, which it
+amends). A family told to leave that has cattle may set a child of seven to fifteen to *Drive the milk cow along* (`flee-cow`): one cow
+comes out of the herd left on the range and goes with the family, driven by the child - a child's job, so the child may dawdle - and
+gives `MILK_A_DAY`, 0.2 food, a day on the road, at the refuge and on the way home. **The child's obedience applies**: on a day a child
+of a low roll lets her stray (`cowStrayChance`, three days in ten at a 1, one in a hundred at a 20) there is no milk, and she is found by
+dark - never lost by straying. She is **taken if the Mexican army overtakes the family**, and home again she goes back into the herd.
+A family with no cattle is not offered her. The child's row says *"Driving the milk cow along behind the family."*, and the page draws
+her a step behind them (`stand-in:` a range longhorn's standing and grazing frames; docs/ART_REQUESTS.md, request 2026-09-27).
+**The research found no source for a child driving a milk cow** on the Runaway Scrape: the record has boys driving range cattle by
+another road (`HIST-TEX-641`) and nothing of a milk cow, so the whole of it is RECONSTRUCTED.
 
 ---
 
@@ -284,14 +292,17 @@ printed edition (the 2000 transcription was used); Adele Looscan's articles; a R
 
 **Decisions for the owner**, multiple choice:
 
+**Decided 2026-09-27**: 1 as (B), with the owner's clarification that riding or in a vehicle the pace is that way of going's own
+(§6); 4 as (B), "Yes, one cow" (§7, docs/STOCK.md §8). 2, 3 and 5 are still open.
+
 1. **A woman carrying a baby on an errand:** (A) goes at her own pace, as built; (B) goes a quarter slower on foot; (C) the order is
-   refused in words and she must be sent with the baby by a second press.
+   refused in words and she must be sent with the baby by a second press. **Decided: (B).**
 2. **Obedience for children of ten to fifteen:** (A) not applied, as built; (B) dawdling only; (C) dawdling and wandering, as for the
    younger ones.
 3. **The idle child during the guided start:** (A) held back until the lesson is over, as built; (B) comes to the parent as at any other
    time.
 4. **A milk cow driven along on the Scrape** (docs/STOCK.md keeps the herd on the range and has no milk): (A) not built, as now;
-   (B) one cow driven by a child, a little milk a day, lost if overtaken - an amendment to STOCK.md.
+   (B) one cow driven by a child, a little milk a day, lost if overtaken - an amendment to STOCK.md. **Decided: (B), "Yes, one cow".**
 5. **How often a baby cries at home:** (A) about one cry a morning, as built; (B) half that; (C) twice that.
 
 ---

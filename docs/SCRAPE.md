@@ -101,6 +101,11 @@ half (`FOUND_AFTER_FORAGERS`); and whoever of the family is at home is taken pri
 always took them (`CAPTURED_AT_HOME`). **A farm outside the zone is never reached**: the family comes home to the house standing
 and what it left in it.
 
+**One milk cow goes with the family** (owner, 2026-09-27, "Yes, one cow"; [STOCK.md](STOCK.md) §8, [CHILDREN.md](CHILDREN.md) §7):
+a family with cattle may leave with one cow driven by a child, out of the herd left on the range. She gives a little milk a day on
+the road and at the refuge, and is **taken with the wagon and the animals when a column overtakes the family** (`overtake`,
+`loseCow`); home again she goes back into the herd before what is found of the rest is counted.
+
 **Leaving no longer burns the farm.** Until today the Texas army burned every family's house as it left (the owner's
 2026-09-16 image, *"Families watch as they leave the Texas Army burns their farm and house"*, `FIC-GONZ-046`). The record's
 Texian burnings are the towns', and the owner's new rule is that the zone's farms burn; so on the real land the farm is left

@@ -11,7 +11,9 @@ import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { CHORES } from '../sim/chores.mjs';
 import { CARRIED_ROOM, FLIGHT_SPACE, flightRoom } from '../sim/scrape.mjs';
 import { WARNING_MILES, carriedRoom } from '../sim/road.mjs';
-import { BUNDLE_ROOM, FERRY_HELP_HOURS, FLIGHT_WORKS, FORD_MILES, HIDE_ROOM, LOOKOUT_MILES, SHARED_FOOD, SICK_FIRST_SHARE, SINGING_SHARE, digUpCache, fireKept, lookoutMiles } from '../sim/flight-work.mjs';
+import { BUNDLE_ROOM, FERRY_HELP_HOURS, FLIGHT_WORKS, FORD_MILES, HIDE_ROOM, LOOKOUT_MILES, MILK_A_DAY, SHARED_FOOD, SICK_FIRST_SHARE, SINGING_SHARE, digUpCache, fireKept, lookoutMiles, milkCow } from '../sim/flight-work.mjs';
+import { herdOf } from '../sim/stock.mjs';
+import { overtake } from '../sim/road.mjs';
 import { canAnswerCalls } from '../sim/family.mjs';
 
 const SEED = 'road-1638';
@@ -240,4 +242,101 @@ test('the rule: a child’s flight work is a job, and a child’s obedience gove
     return slow;
   };
   assert.ok(tries(1) > tries(20), 'a child of roll 1 dawdled over the bundle no more than one of roll 20');
+});
+
+// The milk cow (owner, 2026-09-27, by multiple choice: "Yes, one cow"; FIC-GONZ-631). Amends docs/STOCK.md, which leaves the whole
+// herd on the range: one cow may go, driven by a child, from a family that had cattle; a little milk a day; lost if overtaken.
+test('the rule: one milk cow on the run - only a family with cattle, driven by a child, taken out of the herd left on the range', () => {
+  const world = spring();
+  const household = ordered(world);
+  const [kid, small] = children(world, household, 9, 4);
+  const father = main(world, household);
+  household.herd = { cattle: 6, hogs: 12 };
+  assert.equal(offered(world, household, kid, 'flee-cow')?.can, true, 'a child of nine with cattle at home cannot take the milk cow');
+  assert.equal(offered(world, household, father, 'flee-cow'), undefined, 'a grown man was offered the child’s cow');
+  assert.equal(offered(world, household, small, 'flee-cow'), undefined, 'a child of four was offered the cow');
+  // A family with no cattle is not offered it at all, and refused it in words.
+  const none = spring();
+  const bare = ordered(none);
+  const [theirKid] = children(none, bare, 9);
+  bare.herd = { cattle: 0, hogs: 12 };
+  assert.equal(offered(none, bare, theirKid, 'flee-cow'), undefined, 'a family with no cattle was offered a milk cow');
+  assert.throws(() => applyAction(none, bare.id, { action: 'chore', entityId: theirKid.id, chore: 'flee-cow' }), /no cattle/);
+  // The child catches her up; the family leaves; she comes out of the herd and the rest is left on the range.
+  applyAction(world, household.id, { action: 'chore', entityId: kid.id, chore: 'flee-cow' });
+  runChore(world, kid);
+  assert.equal(household.flight.cow?.by, kid.id, 'the child never put a rope on the cow');
+  assert.match(offered(world, household, kid, 'flee-cow')?.why || '', /has the milk cow on a rope already/);
+  flee(world, household, { food: 10 });
+  assert.equal(household.flight.cow?.by, kid.id, 'the cow did not go with the family');
+  assert.deepEqual(household.herdLeft, { cattle: 5, hogs: 12 }, 'the cow was left on the range with the herd, or more went');
+  assert.ok(world.events.some(event => event.householdId === household.id && event.text.startsWith(`${kid.name} drives the milk cow along`)), 'the family was not told the cow is going');
+  assert.equal(view(world, household.id).flight.cow?.by, kid.id, 'the page is not told who drives her');
+  assert.equal(view(world, household.id).entities.find(one => one.id === kid.id).life, 'Driving the milk cow along behind the family.');
+  validateWorld(world);
+});
+
+test('the rule: the milk cow gives a little milk a day, a child of a low roll lets her stray and loses the day’s milk, and she is never lost by herself', () => {
+  const days = roll => {
+    const world = spring();
+    const household = ordered(world);
+    const [kid] = children(world, household, 9);
+    kid.traits = { ...kid.traits, obedience: roll };
+    household.herd = { cattle: 6, hogs: 0 };
+    applyAction(world, household.id, { action: 'chore', entityId: kid.id, chore: 'flee-cow' });
+    runChore(world, kid);
+    flee(world, household, { food: 10 });
+    let milked = 0, strayed = 0;
+    for (let d = 0; d < 60; d++) {
+      world.minute += DAY;
+      const food = household.resources.food;
+      milkCow(world, household);
+      const got = Math.round((household.resources.food - food) * 10000) / 10000;
+      if (got === MILK_A_DAY) milked++; else if (household.flight.cow?.strayDay === Math.floor(world.minute / DAY)) strayed++;
+      assert.ok(household.flight.cow, `the cow was lost on day ${d} with nobody overtaking the family`);
+    }
+    validateWorld(world);
+    return { milked, strayed, world, kid };
+  };
+  const good = days(20), bad = days(1);
+  assert.equal(good.milked + good.strayed, 60, 'a day went by with neither milk nor a stray');
+  assert.equal(bad.milked + bad.strayed, 60);
+  assert.ok(good.milked >= 55, `a child of roll 20 kept the cow in milk only ${good.milked} days of 60`);
+  assert.ok(bad.strayed > good.strayed + 5, `a child of roll 1 let her stray ${bad.strayed} days and one of roll 20 ${good.strayed}`);
+  assert.ok(bad.world.events.some(event => event.text.startsWith(`The milk cow got away from ${bad.kid.name} into the brush`)), 'a stray was not told');
+});
+
+test('the rule: the milk cow is taken if the Mexican army comes up with the family, and home again she goes back into the herd', () => {
+  const setOut = () => {
+    const world = spring();
+    const household = ordered(world);
+    const [kid] = children(world, household, 10);
+    household.herd = { cattle: 6, hogs: 12 };
+    applyAction(world, household.id, { action: 'chore', entityId: kid.id, chore: 'flee-cow' });
+    runChore(world, kid);
+    flee(world, household, { food: 10 });
+    assert.equal(household.flight.cow?.by, kid.id);
+    return { world, household };
+  };
+  const caught = setOut();
+  overtake(caught.world, caught.household, { id: 'test-column', name: 'A Mexican column', toward: 'san-felipe' });
+  assert.equal(caught.household.flight.cow, undefined, 'the army left the family its cow');
+  assert.ok(caught.world.events.some(event => event.householdId === caught.household.id && /came up with the family.*the milk cow/.test(event.text)), 'the family was not told the cow was taken');
+  validateWorld(caught.world);
+  // Home: everybody off the road at home, the family returning, and the next tick brings them in.
+  const { world, household } = setOut();
+  const cattle = herdOf(household).cattle;
+  household.flight.status = 'returning';
+  for (const id of [...household.members, ...household.property]) {
+    const one = world.entities[id];
+    if (!one?.travel) continue;
+    one.travel = null; one.task = 'rest';
+    one.location = { x: world.map.sites[household.homeSiteId].x, y: world.map.sites[household.homeSiteId].y, siteId: household.homeSiteId };
+  }
+  stepWorld(world);
+  assert.equal(household.flight.status, 'home');
+  assert.equal(household.flight.cow, undefined);
+  assert.ok(herdOf(household).cattle >= cattle + 1, `the cow did not go back into the herd: ${herdOf(household).cattle} cattle, ${cattle} before`);
+  assert.ok(world.events.some(event => event.householdId === household.id && /The milk cow came home with the family/.test(event.text)), 'the cow’s coming home was not told');
+  validateWorld(world);
 });
