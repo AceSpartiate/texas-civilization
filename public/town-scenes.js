@@ -76,6 +76,8 @@ export function sceneClip(person, { moving = false, dir = 's' } = {}) {
   const child = !GROWN.has(figure);
   if (pose === 'idle' || (child && !CHILD_POSES.has(pose))) return { id: `${figure}-idle-${face}`, flip: false };
   if (pose === 'listen') return { id: `${figure}-listen-${face === 'n' ? 'n' : 's'}`, flip: false };
+  // A player's helper may be any adult figure. Keep the older working pose until that figure gets its own sewing frames.
+  if (pose === 'paint' && !['teal', 'indigo', 'blue-girl'].includes(figure)) return { id: `${figure}-repair`, flip: face === 'w' };
   // Every other delivered pose is drawn facing east and mirrored for west.
   return { id: `${figure}-${pose}`, flip: face === 'w' };
 }

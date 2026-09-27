@@ -2852,6 +2852,54 @@
       "motion": "none",
       "direction": "not applicable"
     },
+    "teal-paint": {
+      "frames": [
+        {
+          "sprite": "teal-paint-1",
+          "duration": 760
+        },
+        {
+          "sprite": "teal-paint-2",
+          "duration": 760
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-paint": {
+      "frames": [
+        {
+          "sprite": "indigo-paint-1",
+          "duration": 760
+        },
+        {
+          "sprite": "indigo-paint-2",
+          "duration": 760
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-paint": {
+      "frames": [
+        {
+          "sprite": "blue-girl-paint-1",
+          "duration": 760
+        },
+        {
+          "sprite": "blue-girl-paint-2",
+          "duration": 760
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "rust-ride-e": {
       "frames": [
         {

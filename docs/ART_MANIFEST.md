@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1419 usable sprites, 123 PNG atlases, 493 clips** (267 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1425 usable sprites, 124 PNG atlases, 496 clips** (270 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -59,6 +59,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-ploughed-earth | 1 | 2172 × 724 | 1766959 |
 | gonzales-flag-work-cloth | 1 | 1774 × 887 | 1835338 |
 | gonzales-flag-work-painted | 1 | 1774 × 887 | 1777190 |
+| people-gonzales-paint | 6 | 1024 × 1536 | 1715507 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
 | people-mounted-cast1-e | 16 | 1254 × 1254 | 1086305 |
@@ -670,6 +671,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-ploughed-earth | gonzales-ploughed-earth | State artwork; no motion required |
 | gonzales-flag-work-cloth | gonzales-flag-work-cloth | State artwork; no motion required |
 | gonzales-flag-work-painted | gonzales-flag-work-painted | State artwork; no motion required |
+| teal-paint-1 | people-gonzales-paint | teal-paint |
+| teal-paint-2 | people-gonzales-paint | teal-paint |
+| indigo-paint-1 | people-gonzales-paint | indigo-paint |
+| indigo-paint-2 | people-gonzales-paint | indigo-paint |
+| blue-girl-paint-1 | people-gonzales-paint | blue-girl-paint |
+| blue-girl-paint-2 | people-gonzales-paint | blue-girl-paint |
 | house-round-sill | house-modules | State artwork; no motion required |
 | house-round-low-walls | house-modules | State artwork; no motion required |
 | house-round-full-walls | house-modules | State artwork; no motion required |
@@ -1745,6 +1752,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | santa-anna-picnic-converse | Pose cycle | 3 | 3450 | yes | east-facing at a camp chair |
 | santa-anna-picnic-alarm | Pose cycle | 2 | 1750 | one-shot | east-facing; turns toward the battle |
 | flag-come-and-take-it-wind | Pose cycle | 4 | 2700 | yes | not applicable |
+| teal-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
+| indigo-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
+| blue-girl-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | rust-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | teal-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | elder-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |

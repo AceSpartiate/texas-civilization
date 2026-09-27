@@ -4617,6 +4617,81 @@
         ]
       }
     },
+    "people-gonzales-paint": {
+      "image": "atlases/people-gonzales-paint.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1715507,
+      "sha256": "a04786a1cf6775e7629c71a5546326a2287ee529653e0157d13224292d2bca2d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.730457,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              75,
+              482
+            ],
+            "columns": [
+              [
+                139,
+                390
+              ],
+              [
+                609,
+                862
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              566,
+              991
+            ],
+            "columns": [
+              [
+                138,
+                406
+              ],
+              [
+                605,
+                871
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              1073,
+              1453
+            ],
+            "columns": [
+              [
+                146,
+                397
+              ],
+              [
+                614,
+                874
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "house-modules": {
       "image": "atlases/house-modules.png",
       "width": 1448,
@@ -25261,6 +25336,156 @@
           577
         ],
         "visiblePixels": 803035,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-paint-1": {
+      "sheet": "people-gonzales-paint",
+      "x": 139,
+      "y": 75,
+      "w": 251,
+      "h": 407,
+      "anchorX": 0.504,
+      "anchorY": 0.9459,
+      "logicalHeight": 407,
+      "label": "teal paint 1",
+      "kind": "people-gonzales-paint",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          141,
+          77,
+          247,
+          403
+        ],
+        "visiblePixels": 64437,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-paint-2": {
+      "sheet": "people-gonzales-paint",
+      "x": 609,
+      "y": 83,
+      "w": 253,
+      "h": 399,
+      "anchorX": 0.4921,
+      "anchorY": 0.9474,
+      "logicalHeight": 407,
+      "label": "teal paint 2",
+      "kind": "people-gonzales-paint",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          611,
+          85,
+          249,
+          395
+        ],
+        "visiblePixels": 63841,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-paint-1": {
+      "sheet": "people-gonzales-paint",
+      "x": 138,
+      "y": 566,
+      "w": 268,
+      "h": 424,
+      "anchorX": 0.4851,
+      "anchorY": 0.9505,
+      "logicalHeight": 424,
+      "label": "indigo paint 1",
+      "kind": "people-gonzales-paint",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          140,
+          568,
+          264,
+          420
+        ],
+        "visiblePixels": 71349,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-paint-2": {
+      "sheet": "people-gonzales-paint",
+      "x": 605,
+      "y": 577,
+      "w": 266,
+      "h": 414,
+      "anchorX": 0.4887,
+      "anchorY": 0.9444,
+      "logicalHeight": 424,
+      "label": "indigo paint 2",
+      "kind": "people-gonzales-paint",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          607,
+          579,
+          262,
+          410
+        ],
+        "visiblePixels": 69267,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-paint-1": {
+      "sheet": "people-gonzales-paint",
+      "x": 146,
+      "y": 1073,
+      "w": 251,
+      "h": 379,
+      "anchorX": 0.4781,
+      "anchorY": 0.9472,
+      "logicalHeight": 379,
+      "label": "blue girl paint 1",
+      "kind": "people-gonzales-paint",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          148,
+          1075,
+          247,
+          375
+        ],
+        "visiblePixels": 60748,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-paint-2": {
+      "sheet": "people-gonzales-paint",
+      "x": 614,
+      "y": 1080,
+      "w": 260,
+      "h": 373,
+      "anchorX": 0.4673,
+      "anchorY": 0.9357,
+      "logicalHeight": 379,
+      "label": "blue girl paint 2",
+      "kind": "people-gonzales-paint",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          616,
+          1082,
+          256,
+          369
+        ],
+        "visiblePixels": 60037,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
