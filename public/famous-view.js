@@ -4,7 +4,7 @@
 //
 // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the famous people" - the same stand-ins as the battlefield
 // (public/battle-view.js `drawPerson`): a volunteer or a regular where a person has no sheet, and the library's iron field gun
-// twice for the Twin Sisters. stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the Esparza family" - Ana Esparza and her
+// twice for the Twin Sisters when their paired road sheet is unavailable. stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the Esparza family" - Ana Esparza and her
 // children at Béxar after the fall are the library's woman, girl, boy and small child (`PERSON_ART` in public/battle-view.js).
 // `animated` and `drawSprite` are the page's own, called with the canvas first (public/app.js passes them as it passes them to
 // the battle view). Until 2026-09-27 app.js handed this wrappers that took the clip first, so on the map every famous person
@@ -20,7 +20,8 @@ export function famousArt(one) {
   const own = PERSON_ART[one?.art] || null, kind = one?.side === 'mexican' ? 'regular' : 'volunteer';
   const sprites = new Set(), clips = new Set();
   const add = name => { if (typeof name !== 'string') return; if (name.startsWith('clip:')) clips.add(name.slice(5)); else sprites.add(name); };
-  if (one?.thing) sprites.add('cannon-iron-e');
+  // The Twin Sisters' own paired road sheet (Astra, 2026-09-27), with the library's iron gun as its fallback.
+  if (one?.thing) { clips.add('twin-sisters-limbered'); sprites.add('twin-sisters-halt'); sprites.add('cannon-iron-e'); }
   else if (one?.doing === 'ride') { add(own?.rideIdle); add(own?.ride); clips.add(kind === 'regular' ? 'dragoon-march' : 'mounted-courier-e'); }
   else {
     // A walk is drawn as a clip (`animated`), whatever its name looks like.
@@ -43,8 +44,10 @@ export function drawFamous(ctx, list, camera, { animated, drawSprite, miniPerson
     const flip = !one.right;
     let how = null;
     if (one.thing) {
-      // The Twin Sisters: two guns side by side.
-      for (const dx of [-0.45, 0.45]) if (drawSprite(ctx, 'cannon-iron-e', p.x + dx * size, p.y, size * 1.2)) how = 'cannon-iron-e';
+      // Both Twin Sisters travel together as one named map entity.
+      if (one.moving) how = animated(ctx, 'twin-sisters-limbered', p.x, p.y, size * 2, `famous:${one.id}`, { timeMs: time, flip }) ? 'twin-sisters-limbered' : null;
+      else how = drawSprite(ctx, 'twin-sisters-halt', p.x, p.y, size * 2, { flip }) ? 'twin-sisters-halt' : null;
+      if (!how) for (const dx of [-0.45, 0.45]) if (drawSprite(ctx, 'cannon-iron-e', p.x + dx * size, p.y, size * 1.2)) how = 'cannon-iron-e';
     } else if (one.doing === 'ride') {
       const riding = own?.ride?.startsWith('clip:') ? own.ride.slice(5) : null;
       if (!one.moving && own?.rideIdle) how = drawSprite(ctx, own.rideIdle, p.x, p.y, size * 1.3, { flip }) ? own.rideIdle : null;

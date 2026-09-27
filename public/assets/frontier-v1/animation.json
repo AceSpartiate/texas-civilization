@@ -372,6 +372,48 @@
       "direction": "west",
       "recoilSign": -1
     },
+    "cannon-sixpounder-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-sixpounder-e",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-sixpounder-recoil-e",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-sixpounder-e",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "recoilSign": 1
+    },
+    "cannon-sixpounder-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-sixpounder-w",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-sixpounder-recoil-w",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-sixpounder-w",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "recoilSign": -1
+    },
     "carreta-travel-e": {
       "frames": [
         {
@@ -2468,6 +2510,134 @@
       "motion": "none",
       "direction": "front / east"
     },
+    "alavez-walk-e": {
+      "frames": [
+        {
+          "sprite": "alavez-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "alavez-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "alavez-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "alavez-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "alavez-walk-s": {
+      "frames": [
+        {
+          "sprite": "alavez-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "alavez-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "alavez-walk-n": {
+      "frames": [
+        {
+          "sprite": "alavez-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "alavez-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "twin-sisters-limbered": {
+      "frames": [
+        {
+          "sprite": "twin-sisters-roll-1",
+          "duration": 300
+        },
+        {
+          "sprite": "twin-sisters-roll-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "ben-walk-e": {
+      "frames": [
+        {
+          "sprite": "ben-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "ben-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "ben-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "ben-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "ben-walk-s": {
+      "frames": [
+        {
+          "sprite": "ben-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "ben-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "ben-walk-n": {
+      "frames": [
+        {
+          "sprite": "ben-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "ben-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "milam-walk-e": {
       "frames": [
         {
@@ -3103,6 +3273,62 @@
       "authored": true,
       "motion": "none",
       "direction": "not applicable"
+    },
+    "prisoner-walk-e": {
+      "frames": [
+        {
+          "sprite": "prisoner-walk-e-1",
+          "duration": 210
+        },
+        {
+          "sprite": "prisoner-walk-e-2",
+          "duration": 210
+        },
+        {
+          "sprite": "prisoner-walk-e-3",
+          "duration": 210
+        },
+        {
+          "sprite": "prisoner-walk-e-4",
+          "duration": 210
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "prisoner-walk-s": {
+      "frames": [
+        {
+          "sprite": "prisoner-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "prisoner-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "prisoner-walk-n": {
+      "frames": [
+        {
+          "sprite": "prisoner-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "prisoner-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
     },
     "teal-paint": {
       "frames": [
@@ -4476,6 +4702,30 @@
       "motion": "drift",
       "direction": "east; west by mirroring"
     },
+    "seguin-ashes-collect": {
+      "frames": [
+        {
+          "sprite": "seguin-ashes-stand",
+          "duration": 900
+        },
+        {
+          "sprite": "seguin-ashes-kneel",
+          "duration": 850
+        },
+        {
+          "sprite": "seguin-ashes-gather",
+          "duration": 1100
+        },
+        {
+          "sprite": "seguin-ashes-rise",
+          "duration": 1000
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "cattle-longhorn-red-idle": {
       "frames": [
         {
@@ -5039,6 +5289,46 @@
       "authored": false,
       "motion": "sway",
       "direction": "not applicable"
+    },
+    "twin-sister-painted-e-recoil": {
+      "frames": [
+        {
+          "sprite": "twin-sister-painted-e",
+          "duration": 110
+        },
+        {
+          "sprite": "twin-sister-painted-recoil-e",
+          "duration": 180
+        },
+        {
+          "sprite": "twin-sister-painted-e",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "twin-sister-painted-w-recoil": {
+      "frames": [
+        {
+          "sprite": "twin-sister-painted-w",
+          "duration": 110
+        },
+        {
+          "sprite": "twin-sister-painted-recoil-w",
+          "duration": 180
+        },
+        {
+          "sprite": "twin-sister-painted-w",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "west"
     },
     "rust-wagon-driver-s": {
       "frames": [

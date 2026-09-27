@@ -1951,6 +1951,144 @@
           "result": "Rejected: three piles grouped side by side implied an unsupported clustered location."
         }
       ]
+    },
+    {
+      "sheet": "famous-seguin-ashes",
+      "promptId": "frontier-v1/famous-seguin-ashes",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 2x2 atlas of Juan Nepomuceno Seguín in the established game identity: medium-brown skin, plain brown hat, dark indigo jacket, cream shirt, tan trousers, dark boots. Four east-facing story poses: stand looking down; kneel and reach; gather a small amount of ash into a folded cloth; rise holding closed cloth. Warm painted frontier miniature style, brown ink outlines, non-graphic, no background or extra people.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-seguin.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-06d68b8f-07b9-4f3b-b17f-d5480d54d5c1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-seguin-ashes.png",
+      "postProcessing": "None. Generated PNG copied unchanged.",
+      "review": "Original Seguín visual interpretation; a quiet, solitary gathering is dramatized and never claimed as a documented secret act."
+    },
+    {
+      "sheet": "alamo-ash-sites-1837",
+      "promptId": "frontier-v1/alamo-ash-sites-1837",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 2x2 atlas of ash-site remnants one year after the Alamo: two distinct small shallow gray ash and charred timber patches, one larger irregular remnant with several low ash heaps, and one close patch with a scooped indentation. Sparse regrowing grass, warm painted game style, no people, bones, skulls, fire, smoke or background.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-340f6115-6483-4dc0-b3b6-d6fe898c51e9.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-ash-sites-1837.png",
+      "postProcessing": "None. Generated PNG copied unchanged.",
+      "review": "Three distinguishable sites plus a gathered state, supporting the three later ash deposits without asserting exact coordinates."
+    },
+    {
+      "sheet": "seguin-funeral-props",
+      "promptId": "frontier-v1/seguin-funeral-props",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 2x2 historical game prop atlas: plain black-covered 1830s wooden coffin closed; same open with gray ash and blank lid; same closed with early Texas flag, rifle and sheathed sword displayed for the public funeral; a cutaway of that small wooden coffin in a shallow stone church-floor recess by a simple altar rail. Warm inked game style, no modern marble, no bones, no writing.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0f052e04-bbc4-40cf-a094-215e564d8f1d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/seguin-funeral-props.png",
+      "postProcessing": "None. Accepted imagegen spacing edit copied unchanged.",
+      "review": "1837 coffin and funeral props are visually distinct from the later marble memorial. Church-floor burial is a later-attributed account.",
+      "edits": [
+        {
+          "prompt": "Shrink each of the four existing cell contents to about 84%, preserve all details, center within its own 768x512 cell, leave at least 24 transparent pixels on all sides and prevent a rifle muzzle, coffin handle, lid, rail or slab from crossing any boundary.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a530f20e-8a10-4673-9ded-175ebcfe29f9.png",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0f052e04-bbc4-40cf-a094-215e564d8f1d.png",
+          "result": "Accepted after the original 119-cell-overlap-pixel audit failure."
+        }
+      ]
+    },
+    {
+      "sheet": "san-fernando-1936",
+      "promptId": "frontier-v1/san-fernando-1936",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 2x2 game cutscene prop atlas for a disputed 1936 church discovery: intact old limestone floor near altar rail; same floor with lifted slabs; decayed small wooden box and gray ash in an open floor recess without identifiable bones; later white marble memorial sarcophagus. Warm painted style, blank surfaces, no people, text or background. Never imply marble is the 1837 container.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-fb76b785-573a-42b6-a0b3-81203c6def46.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/san-fernando-1936.png",
+      "postProcessing": "None. Generated PNG copied unchanged.",
+      "review": "Separate 1936 discovery and later memorial visuals. Attribution of the found remains to the Alamo defenders is disputed."
+    },
+    {
+      "sheet": "famous-ben",
+      "promptId": "frontier-v1/famous-ben",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Original transparent 4x4 historical game atlas of Ben, an approximately thirty-year-old cook, cream rolled shirt, brown waistcoat, gray apron, tan trousers. Four east walking frames, two south and two north, then idle/speak/look back, then carrying and setting down a cooking pot, offering water, and resting. Consistent identity, transparent gutters, no text.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4b627ba5-2c5d-4e1c-b0ca-a78dde98cd26.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-ben.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Original depiction for the walk to Gonzales. Outfit and appearance are interpretation, not a portrait claim."
+    },
+    {
+      "sheet": "twin-sisters-limbered",
+      "promptId": "frontier-v1/twin-sisters-limbered",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "prompt": "Repaint the existing transparent 2x2 paired Twin Sisters road atlas. Preserve both guns and all four compositions, but give both guns matching red carriage cheeks, blue wheel rims and hubs, and restrained red-blue trail bands. Leave iron barrels dark and most wood brown. No people, horses, flags, text, scenery or background.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3fc5f880-37f7-4b29-ab6c-aed234767f4f.png",
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e1ffe4d6-6fd8-4052-ad7b-f6a17c7e22c7.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4bf342f0-e1ef-40bb-83db-658901765c47.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/twin-sisters-limbered.png",
+      "postProcessing": "None. Edited PNG copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "The paired map asset matches the red-blue field variant; color is artistic identification, not a documented paint scheme or hauling method."
+    },
+    {
+      "sheet": "cannon-sixpounder",
+      "promptId": "frontier-v1/cannon-sixpounder",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Original transparent 2x2 historical game atlas of one modest light iron six-pounder on a wooden two-wheel field carriage with a rear trail, warm hand-painted miniature style. Top-left east rest, top-right east subtle recoil, bottom-left west rest, bottom-right west subtle recoil. Consistent design and scale, generous transparent gutters; no people, horse, limber, cannonball, smoke, muzzle flash, text, border or background.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/cannon-cartwheels.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-d788edd3-2984-498a-b554-9c059c5f885f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/cannon-sixpounder.png",
+      "postProcessing": "None. Generated PNG copied unchanged; measured atlas validation only.",
+      "review": "Four discrete rest/recoil views for a single field gun. Use twice for the Twin Sisters; no crew or hauling rig is implied."
+    },
+    {
+      "sheet": "twin-sisters-painted",
+      "promptId": "frontier-v1/twin-sisters-painted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "prompt": "Edit the four-frame transparent unpainted iron six-pounder atlas without changing gun silhouette, placement or pose. Paint selected carriage cheeks red and wheel rims/hubs deep blue, with restrained red and blue bands on the rear trail. Keep dark iron barrels and mostly warm wood; same scheme all four frames; no people, horses, flags, stars, text or background.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/cannon-sixpounder.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e1ffe4d6-6fd8-4052-ad7b-f6a17c7e22c7.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/twin-sisters-painted.png",
+      "postProcessing": "None. Edited PNG copied unchanged; measured atlas validation only.",
+      "review": "Dedicated painted variant for the two Twin Sisters in battle. Color is an artistic identifier, not a historical claim."
+    },
+    {
+      "sheet": "famous-alavez",
+      "promptId": "frontier-v1/famous-alavez",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Original transparent 4x4 historical game atlas of one adult Mexican woman representing Francita Alavez, dark braid, deep plum long skirt, cream blouse, dark teal rebozo. Four east walks, two south, two north; idle east/south, speak, listen; reach toward a side door, beckon, guide, sit at rest. Sixteen distinct full-body poses with consistent identity and broad alpha gutters. No guards, soldiers, additional figures, weapon, text, scenery or likeness claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-emily-west.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-d01a51f7-694a-4dc6-97c2-4783b548a60c.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-alavez.png",
+      "postProcessing": "None. Generated PNG copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct, noncombatant animated identity and story gestures for the existing Goliad scene. Costume and face are artistic interpretations."
+    },
+    {
+      "sheet": "goliad-prisoner",
+      "promptId": "frontier-v1/goliad-prisoner",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "prompt": "Original 4x4 transparent historical game atlas of one consistent unarmed surrendered Texian prisoner in worn tan frontier coat, faded blue shirt, brown trousers and dark hat. Four east walks, two south, two north; calm east/south idle, worried listen and look back; run, duck, wounded sit and non-graphic still. No musket, pistol, ammunition belt or weapon in any frame. Correct row 3 first two cells to calm arms-at-sides idle poses. Preserve broad alpha gutters, same figure, no extra people, text, blood or scenery.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military-actions.png",
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-85f1cbc9-f530-4566-bae4-ecf25dd7fa97.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2f106514-edab-478d-9473-fbebedb3a14d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/goliad-prisoner.png",
+      "postProcessing": "No raster post-processing. Initial generated atlas had raised hands in two requested idle cells; built-in imagegen edit corrected those cells, then the accepted PNG was copied unchanged.",
+      "review": "Hands free and no weapons in every accepted frame; down poses are non-graphic. This generic figure is not a named prisoner."
     }
   ]
 }

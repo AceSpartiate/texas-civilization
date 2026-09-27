@@ -66,7 +66,7 @@ const UNIT = [
     from: '      const words = battle.commands?.bySide?.[side.side]?.volley || battle.commands?.[side.side]?.volley || battle.commands?.volley;', to: "      const words = battle.commands?.bySide?.[side.side]?.volley || battle.commands?.[side.side]?.volley || battle.commands?.volley || [{ text: '¡Fuego!', gloss: 'Fire!' }];",
     test: VIEW, expect: 'the surrender is drawn with hands raised and a white flag at a corner; Palm Sunday\'s named woman is drawn as a townswoman and named, and its guard counts nobody' },
   { name: 'Francita Alavez drawn as a soldier', file: 'public/battle-view.js',
-    from: '        if (side.civilians) {', to: '        if (false) {',
+    from: "        if (side.figure === 'alavez') {", to: '        if (false) {',
     test: VIEW, expect: 'the surrender is drawn with hands raised and a white flag at a corner; Palm Sunday\'s named woman is drawn as a townswoman and named, and its guard counts nobody' },
   { name: 'Follow put on the card as Watch', file: 'public/military-attention.js',
     from: "action: alert.action || 'Watch', field: alert.field });", to: "action: 'Watch', field: alert.field });",

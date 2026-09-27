@@ -76,6 +76,7 @@ export const PERSON_ART = Object.freeze({
   seguin: { stand: 'seguin-idle', command: 'seguin-command', ride: 'seguin-mounted-e', walk: 'seguin-walk-e' },
   'susanna-dickinson': { stand: 'susanna-dickinson-hold-angelina', carry: 'susanna-dickinson-carry-angelina', sick: 'susanna-dickinson-shelter-with-angelina', seated: 'susanna-dickinson-rest-with-angelina', walk: 'susanna-dickinson-walk-e' },
   'angelina-dickinson': { stand: 'angelina-dickinson-sit', seated: 'angelina-dickinson-sleep' },
+  ben: { stand: 'ben-idle', seated: 'ben-rest', carry: 'ben-pot-carry', speak: 'ben-speak', walk: 'ben-walk-e' },
   milam: { stand: 'milam-idle', command: 'milam-rally', point: 'milam-point', fire: ['milam-cover', 'milam-advance', 'milam-cover'], still: 'milam-still', walk: 'milam-walk-e' },
   fannin: { stand: 'fannin-idle', command: 'fannin-command', wounded: 'fannin-injured-seated', surrender: 'fannin-surrender', prisoner: 'fannin-prisoner-seated', walk: 'fannin-walk-e' },
   bonham: { stand: 'bonham-idle', command: 'bonham-point', point: 'bonham-point', gun: 'bonham-serve-gun', fire: ['bonham-aim', 'bonham-fire', 'bonham-reload'], still: 'bonham-still', walk: 'bonham-walk-e' },
@@ -571,6 +572,19 @@ export function createBattleView(art) {
           drawnBy[side.key].push(point);
           continue;
         }
+        if (side.figure === 'prisoner') {
+          const vertical = Math.abs(facing.y) > Math.abs(facing.x) * 1.2;
+          const dir = vertical ? (facing.y >= 0 ? 's' : 'n') : 'e';
+          figures.push({ y: point.y, kind: 'prisoner', side: side.side, point, size: figurePx, clip: moving ? `prisoner-walk-${dir}` : null,
+            sprite: moving ? null : dir === 'n' ? 'prisoner-walk-n-1' : `prisoner-idle-${dir}`, timeMs: time, flip: dir === 'e' && !right, seed });
+          drawnBy[side.key].push(point); if (side.key === side.side || side.part) drawn[side.side].push(point);
+          continue;
+        }
+        if (side.figure === 'alavez') {
+          figures.push({ y: point.y, kind: 'townsfolk', side: side.side, point, size: figurePx * 0.95, clip: moving ? 'alavez-walk-e' : null, sprite: moving ? null : 'alavez-idle-e', timeMs: time, flip: !right, seed });
+          drawnBy[side.key].push(point); civilians++;
+          continue;
+        }
         if (side.civilians) {
           const who = TOWNSFOLK[slot.index % TOWNSFOLK.length];
           figures.push({ y: point.y, kind: 'townsfolk', side: side.side, point, size: figurePx * (who === 'smallchild' ? 0.62 : 0.95), clip: moving ? `${who}-walk` : `${who}-idle-s`, timeMs: time, flip: !right, seed });
@@ -884,6 +898,11 @@ export function createBattleView(art) {
   function drawFallen(ctx, f, now) {
     const since = now - f.down.at, kind = f.side === 'mexican' ? 'regular' : 'volunteer';
     const x = f.point.x, y = f.point.y;
+    if (view.key === 'goliad-massacre' && f.side === 'texian') {
+      const pose = f.down.wounded || since < 600 ? 'prisoner-injured' : 'prisoner-still';
+      if (!art.drawSprite(ctx, pose, x, y, f.size)) art.miniPerson(ctx, x, y, f.size, { side: f.side });
+      return;
+    }
     if (f.down.wounded && f.inward) {
       // In a square he is brought in toward the carts in the middle, and sits there: nobody could carry him anywhere else.
       const part = Math.min(1, since / 25000) * 0.6, ix = x + (f.inward.x - x) * part, iy = y + (f.inward.y - y) * part;
@@ -1031,10 +1050,12 @@ export function createBattleView(art) {
       view.gunShotsBy[gun.id] = (view.gunShotsBy[gun.id] || 0) + 1;
     }
     if (bounds && (p.x < -90 || p.y < -90 || p.x > bounds.width + 90 || p.y > bounds.height + 140)) return { id: gun.id, shots: fired.length, onScreen: false };
-    const metal = gun.metal === 'bronze' ? 'bronze' : 'iron', name = `cannon-${metal}-${right ? 'e' : 'w'}`;
+    const metal = gun.metal === 'bronze' ? 'bronze' : 'iron';
+    const twin = gun.id === 'twin-sister-1' || gun.id === 'twin-sister-2';
+    const name = twin ? `twin-sister-painted-${right ? 'e' : 'w'}` : `cannon-${metal}-${right ? 'e' : 'w'}`;
     const firing = since < 900;
-    if (firing) art.animated(ctx, `${name}-recoil`, p.x, p.y, size, 0, { timeMs: since });
-    else art.drawSprite(ctx, name, p.x, p.y, size) || (ctx.fillStyle = '#3b3a36', ctx.fillRect(p.x - size * 0.4, p.y - size * 0.3, size * 0.8, size * 0.22));
+    if (firing) art.animated(ctx, `${name}-recoil`, p.x, p.y, size, 0, { timeMs: since }) || art.animated(ctx, `cannon-${metal}-${right ? 'e' : 'w'}-recoil`, p.x, p.y, size, 0, { timeMs: since });
+    else art.drawSprite(ctx, name, p.x, p.y, size) || art.drawSprite(ctx, `cannon-${metal}-${right ? 'e' : 'w'}`, p.x, p.y, size) || (ctx.fillStyle = '#3b3a36', ctx.fillRect(p.x - size * 0.4, p.y - size * 0.3, size * 0.8, size * 0.22));
     const who = gun.side === 'mexican' ? 'regular' : 'volunteer', back = right ? -1 : 1;
     const crew = [
       { clip: firing ? `${who}-gun-fire` : `${who}-gun-ram`, dx: back * 0.75, t: firing ? since : time },

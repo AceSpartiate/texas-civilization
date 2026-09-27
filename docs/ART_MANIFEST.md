@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1494 usable sprites, 133 PNG atlases, 510 clips** (284 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1570 usable sprites, 143 PNG atlases, 525 clips** (299 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -20,6 +20,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | biome-ground-bexar | 16 | 1254 × 1254 | 2215982 |
 | biome-trees-fields | 16 | 1254 × 1254 | 1966285 |
 | cannon-cartwheels | 4 | 1254 × 1254 | 1420895 |
+| cannon-sixpounder | 4 | 1254 × 1254 | 1284112 |
 | carreta-solid-wheels | 16 | 1254 × 1254 | 1525356 |
 | cart-open | 4 | 1254 × 1254 | 1049202 |
 | people-cast2-carry | 12 | 1254 × 1254 | 1294419 |
@@ -46,6 +47,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-seguin | 16 | 1254 × 1254 | 1147292 |
 | famous-susanna-dickinson | 16 | 1254 × 1254 | 1461496 |
 | famous-angelina-dickinson | 4 | 1254 × 1254 | 1286027 |
+| famous-alavez | 16 | 1254 × 1254 | 1276763 |
+| famous-ben | 16 | 1312 × 1199 | 1136424 |
+| twin-sisters-limbered | 4 | 1254 × 1254 | 1010968 |
 | famous-milam | 16 | 1254 × 1254 | 1519856 |
 | famous-fannin | 16 | 1254 × 1254 | 1306380 |
 | famous-crockett-fate | 4 | 1254 × 1254 | 948322 |
@@ -62,6 +66,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-santa-anna-picnic | 4 | 1254 × 1254 | 1236551 |
 | famous-picnic-props | 4 | 1254 × 1254 | 1557526 |
 | flag-come-and-take-it | 4 | 1254 × 1254 | 1140674 |
+| goliad-prisoner | 16 | 1254 × 1254 | 1028392 |
 | gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
 | gonzales-log-breastwork | 1 | 1774 × 887 | 1221292 |
 | gonzales-dugout-canoe | 1 | 1536 × 1024 | 2208839 |
@@ -90,6 +95,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-dialogue | 16 | 1254 × 1254 | 1237850 |
 | ferry-flatboat | 3 | 1254 × 1254 | 203701 |
 | steamboat-moored | 4 | 1254 × 1254 | 799173 |
+| famous-seguin-ashes | 4 | 1230 × 1278 | 646296 |
+| alamo-ash-sites-1837 | 4 | 1536 × 1024 | 2505356 |
+| seguin-funeral-props | 4 | 1536 × 1024 | 2000785 |
+| san-fernando-1936 | 4 | 1536 × 1024 | 2837215 |
 | houses-settling | 16 | 1254 × 1254 | 1507240 |
 | animal-stock | 16 | 1254 × 1254 | 946031 |
 | home-furnishings | 16 | 1254 × 1254 | 1795581 |
@@ -108,6 +117,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | travel-markers | 16 | 1254 × 1254 | 1343435 |
 | trees-colonies-1 | 16 | 1254 × 1254 | 1626976 |
 | trees-colonies-2 | 16 | 1254 × 1254 | 1902468 |
+| twin-sisters-painted | 4 | 1254 × 1254 | 1249122 |
 | people-wagon-drivers | 16 | 1254 × 1254 | 1460212 |
 | weather-norther | 5 | 1536 × 1024 | 1669037 |
 | wildlife-bear-javelina | 16 | 1254 × 1254 | 1249275 |
@@ -216,6 +226,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | cannon-cartwheels-recoil-e | cannon-cartwheels | cannon-cartwheels-e-recoil |
 | cannon-cartwheels-w | cannon-cartwheels | cannon-cartwheels-w-recoil |
 | cannon-cartwheels-recoil-w | cannon-cartwheels | cannon-cartwheels-w-recoil |
+| cannon-sixpounder-e | cannon-sixpounder | cannon-sixpounder-e-recoil |
+| cannon-sixpounder-recoil-e | cannon-sixpounder | cannon-sixpounder-e-recoil |
+| cannon-sixpounder-w | cannon-sixpounder | cannon-sixpounder-w-recoil |
+| cannon-sixpounder-recoil-w | cannon-sixpounder | cannon-sixpounder-w-recoil |
 | carreta-travel-e-1 | carreta-solid-wheels | carreta-travel-e |
 | carreta-travel-e-2 | carreta-solid-wheels | carreta-travel-e |
 | carreta-travel-e-3 | carreta-solid-wheels | carreta-travel-e |
@@ -571,6 +585,42 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | angelina-dickinson-reach | famous-angelina-dickinson | angelina-dickinson-reach |
 | angelina-dickinson-step | famous-angelina-dickinson | State artwork; no motion required |
 | angelina-dickinson-sleep | famous-angelina-dickinson | State artwork; no motion required |
+| alavez-walk-e-1 | famous-alavez | alavez-walk-e |
+| alavez-walk-e-2 | famous-alavez | alavez-walk-e |
+| alavez-walk-e-3 | famous-alavez | alavez-walk-e |
+| alavez-walk-e-4 | famous-alavez | alavez-walk-e |
+| alavez-walk-s-1 | famous-alavez | alavez-walk-s |
+| alavez-walk-s-2 | famous-alavez | alavez-walk-s |
+| alavez-walk-n-1 | famous-alavez | alavez-walk-n |
+| alavez-walk-n-2 | famous-alavez | alavez-walk-n |
+| alavez-idle-e | famous-alavez | State artwork; no motion required |
+| alavez-idle-s | famous-alavez | State artwork; no motion required |
+| alavez-speak | famous-alavez | State artwork; no motion required |
+| alavez-listen | famous-alavez | State artwork; no motion required |
+| alavez-reach-door | famous-alavez | State artwork; no motion required |
+| alavez-beckon | famous-alavez | State artwork; no motion required |
+| alavez-guide | famous-alavez | State artwork; no motion required |
+| alavez-rest | famous-alavez | State artwork; no motion required |
+| ben-walk-e-1 | famous-ben | ben-walk-e |
+| ben-walk-e-2 | famous-ben | ben-walk-e |
+| ben-walk-e-3 | famous-ben | ben-walk-e |
+| ben-walk-e-4 | famous-ben | ben-walk-e |
+| ben-walk-s-1 | famous-ben | ben-walk-s |
+| ben-walk-s-2 | famous-ben | ben-walk-s |
+| ben-walk-n-1 | famous-ben | ben-walk-n |
+| ben-walk-n-2 | famous-ben | ben-walk-n |
+| ben-idle | famous-ben | State artwork; no motion required |
+| ben-idle-s | famous-ben | State artwork; no motion required |
+| ben-speak | famous-ben | State artwork; no motion required |
+| ben-look-back | famous-ben | State artwork; no motion required |
+| ben-pot-carry | famous-ben | State artwork; no motion required |
+| ben-pot-set-down | famous-ben | State artwork; no motion required |
+| ben-offer-water | famous-ben | State artwork; no motion required |
+| ben-rest | famous-ben | State artwork; no motion required |
+| twin-sisters-roll-1 | twin-sisters-limbered | twin-sisters-limbered |
+| twin-sisters-roll-2 | twin-sisters-limbered | twin-sisters-limbered |
+| twin-sisters-halt | twin-sisters-limbered | State artwork; no motion required |
+| twin-sisters-turn | twin-sisters-limbered | State artwork; no motion required |
 | milam-walk-e-1 | famous-milam | milam-walk-e |
 | milam-walk-e-2 | famous-milam | milam-walk-e |
 | milam-walk-e-3 | famous-milam | milam-walk-e |
@@ -743,6 +793,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | flag-come-and-take-it-wind-1 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-2 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-3 | flag-come-and-take-it | flag-come-and-take-it-wind |
+| prisoner-walk-e-1 | goliad-prisoner | prisoner-walk-e |
+| prisoner-walk-e-2 | goliad-prisoner | prisoner-walk-e |
+| prisoner-walk-e-3 | goliad-prisoner | prisoner-walk-e |
+| prisoner-walk-e-4 | goliad-prisoner | prisoner-walk-e |
+| prisoner-walk-s-1 | goliad-prisoner | prisoner-walk-s |
+| prisoner-walk-s-2 | goliad-prisoner | prisoner-walk-s |
+| prisoner-walk-n-1 | goliad-prisoner | prisoner-walk-n |
+| prisoner-walk-n-2 | goliad-prisoner | prisoner-walk-n |
+| prisoner-idle-e | goliad-prisoner | State artwork; no motion required |
+| prisoner-idle-s | goliad-prisoner | State artwork; no motion required |
+| prisoner-listen | goliad-prisoner | State artwork; no motion required |
+| prisoner-look-back | goliad-prisoner | State artwork; no motion required |
+| prisoner-run-e | goliad-prisoner | State artwork; no motion required |
+| prisoner-duck | goliad-prisoner | State artwork; no motion required |
+| prisoner-injured | goliad-prisoner | State artwork; no motion required |
+| prisoner-still | goliad-prisoner | State artwork; no motion required |
 | gonzales-cannon-buried | gonzales-cannon-buried | State artwork; no motion required |
 | gonzales-log-breastwork | gonzales-log-breastwork | State artwork; no motion required |
 | gonzales-dugout-canoe | gonzales-dugout-canoe | State artwork; no motion required |
@@ -974,6 +1040,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-moored-2 | steamboat-moored | steamboat-moored |
 | steamboat-moored-3 | steamboat-moored | steamboat-gangplank |
 | steamboat-moored-4 | steamboat-moored | steamboat-cotton-moored |
+| seguin-ashes-stand | famous-seguin-ashes | seguin-ashes-collect |
+| seguin-ashes-kneel | famous-seguin-ashes | seguin-ashes-collect |
+| seguin-ashes-gather | famous-seguin-ashes | seguin-ashes-collect |
+| seguin-ashes-rise | famous-seguin-ashes | seguin-ashes-collect |
+| ash-site-small-a | alamo-ash-sites-1837 | State artwork; no motion required |
+| ash-site-small-b | alamo-ash-sites-1837 | State artwork; no motion required |
+| ash-site-large | alamo-ash-sites-1837 | State artwork; no motion required |
+| ash-site-scooped | alamo-ash-sites-1837 | State artwork; no motion required |
+| funeral-coffin-closed | seguin-funeral-props | State artwork; no motion required |
+| funeral-coffin-open | seguin-funeral-props | State artwork; no motion required |
+| funeral-coffin-honors | seguin-funeral-props | State artwork; no motion required |
+| funeral-coffin-church-floor | seguin-funeral-props | State artwork; no motion required |
+| san-fernando-floor-intact | san-fernando-1936 | State artwork; no motion required |
+| san-fernando-floor-open | san-fernando-1936 | State artwork; no motion required |
+| san-fernando-box-found | san-fernando-1936 | State artwork; no motion required |
+| san-fernando-marble-memorial | san-fernando-1936 | State artwork; no motion required |
 | house-round-log-site | houses-settling | State artwork; no motion required |
 | house-round-log-walls | houses-settling | State artwork; no motion required |
 | house-round-log-roofing | houses-settling | State artwork; no motion required |
@@ -1100,6 +1182,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | sweetgum-log | trees-colonies-2 | sweetgum-log-wind |
 | sweetgum-large | trees-colonies-2 | sweetgum-large-wind |
 | log-fallen-hardwood | trees-colonies-2 | State artwork; no motion required |
+| twin-sister-painted-e | twin-sisters-painted | twin-sister-painted-e-recoil |
+| twin-sister-painted-recoil-e | twin-sisters-painted | twin-sister-painted-e-recoil |
+| twin-sister-painted-w | twin-sisters-painted | twin-sister-painted-w-recoil |
+| twin-sister-painted-recoil-w | twin-sisters-painted | twin-sister-painted-w-recoil |
 | rust-wagon-driver-s | people-wagon-drivers | rust-wagon-driver-s |
 | rust-wagon-driver-e | people-wagon-drivers | rust-wagon-driver-e |
 | rust-wagon-driver-w | people-wagon-drivers | rust-wagon-driver-w |
@@ -1674,6 +1760,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | beech-large-wind | sway | 1 | 3800 | yes | not applicable |
 | cannon-cartwheels-e-recoil | Pose cycle | 3 | 760 | one-shot | east |
 | cannon-cartwheels-w-recoil | Pose cycle | 3 | 760 | one-shot | west |
+| cannon-sixpounder-e-recoil | Pose cycle | 3 | 760 | one-shot | east |
+| cannon-sixpounder-w-recoil | Pose cycle | 3 | 760 | one-shot | west |
 | carreta-travel-e | Pose cycle | 4 | 980 | yes | east; west by mirroring |
 | carreta-travel-s | Pose cycle | 4 | 980 | yes | south |
 | carreta-travel-n | Pose cycle | 4 | 980 | yes | north |
@@ -1810,6 +1898,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | susanna-dickinson-walk-s | Pose cycle | 2 | 580 | yes | south |
 | susanna-dickinson-walk-n | Pose cycle | 2 | 580 | yes | north |
 | angelina-dickinson-reach | Pose cycle | 2 | 1800 | yes | front / east |
+| alavez-walk-e | Pose cycle | 4 | 760 | yes | east |
+| alavez-walk-s | Pose cycle | 2 | 580 | yes | south |
+| alavez-walk-n | Pose cycle | 2 | 580 | yes | north |
+| twin-sisters-limbered | Pose cycle | 2 | 600 | yes | east; mirror for west |
+| ben-walk-e | Pose cycle | 4 | 760 | yes | east |
+| ben-walk-s | Pose cycle | 2 | 580 | yes | south |
+| ben-walk-n | Pose cycle | 2 | 580 | yes | north |
 | milam-walk-e | Pose cycle | 4 | 760 | yes | east |
 | milam-walk-s | Pose cycle | 2 | 580 | yes | south |
 | milam-walk-n | Pose cycle | 2 | 580 | yes | north |
@@ -1844,6 +1939,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | santa-anna-picnic-converse | Pose cycle | 3 | 3450 | yes | east-facing at a camp chair |
 | santa-anna-picnic-alarm | Pose cycle | 2 | 1750 | one-shot | east-facing; turns toward the battle |
 | flag-come-and-take-it-wind | Pose cycle | 4 | 2700 | yes | not applicable |
+| prisoner-walk-e | Pose cycle | 4 | 840 | yes | east |
+| prisoner-walk-s | Pose cycle | 2 | 600 | yes | south |
+| prisoner-walk-n | Pose cycle | 2 | 600 | yes | north |
 | teal-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | indigo-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | blue-girl-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
@@ -1913,6 +2011,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-moored | Pose cycle | 2 | 2200 | yes | east; west by mirroring |
 | steamboat-gangplank | Still state | 1 | 1600 | yes | east; west by mirroring |
 | steamboat-cotton-moored | drift | 1 | 1600 | yes | east; west by mirroring |
+| seguin-ashes-collect | Pose cycle | 4 | 3850 | one-shot | east; mirror for west |
 | cattle-longhorn-red-idle | breathe | 1 | 2200 | yes | east; west by mirroring |
 | cattle-longhorn-red-graze | Pose cycle | 6 | 5100 | yes | east; west by mirroring |
 | cattle-longhorn-pied-idle | breathe | 1 | 2200 | yes | east; west by mirroring |
@@ -1953,6 +2052,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | sweetgum-pole-wind | sway | 1 | 3800 | yes | not applicable |
 | sweetgum-log-wind | sway | 1 | 3800 | yes | not applicable |
 | sweetgum-large-wind | sway | 1 | 3800 | yes | not applicable |
+| twin-sister-painted-e-recoil | Pose cycle | 3 | 760 | one-shot | east |
+| twin-sister-painted-w-recoil | Pose cycle | 3 | 760 | one-shot | west |
 | rust-wagon-driver-s | breathe | 1 | 2200 | yes | south |
 | rust-wagon-driver-e | breathe | 1 | 2200 | yes | east |
 | rust-wagon-driver-w | breathe | 1 | 2200 | yes | west |

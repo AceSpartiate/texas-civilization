@@ -1,0 +1,65 @@
+{
+  "id": "seguin-ashes-1837",
+  "version": 1,
+  "historicalWindow": "1837-02-25",
+  "trigger": "Future postwar story only; do not insert into the 1836 battle clock",
+  "beats": [
+    {
+      "id": "three-sites",
+      "seconds": [0, 4],
+      "claim": "documented",
+      "caption": "A year after the battle, ashes remained at three places near the Alamo.",
+      "sprites": ["ash-site-small-a", "ash-site-small-b", "ash-site-large"],
+      "camera": "Pan between three separated reconstructed sites; exact coordinates are unknown."
+    },
+    {
+      "id": "quiet-gathering",
+      "seconds": [4, 8],
+      "claim": "dramatized",
+      "caption": "Seguín gathers ashes. This quiet, solitary moment is a dramatization of the documented collection.",
+      "clip": "seguin-ashes-collect",
+      "sprites": ["ash-site-small-a", "ash-site-scooped"],
+      "camera": "Move close enough to read his hands; return to a wider view before the next beat."
+    },
+    {
+      "id": "coffin-at-church",
+      "seconds": [8, 13],
+      "claim": "documented",
+      "caption": "Ashes from the two smaller heaps were placed in a black-covered coffin and brought to the parish church.",
+      "sprites": ["funeral-coffin-open", "funeral-coffin-honors"],
+      "camera": "Hold on the coffin; show flag, rifle and sword as separate readable details."
+    },
+    {
+      "id": "public-honors",
+      "seconds": [13, 19],
+      "claim": "documented",
+      "caption": "Seguín and his command led a public procession and paid military honors at the ash sites.",
+      "sprites": ["funeral-coffin-closed", "ash-site-large"],
+      "camera": "Wide procession composed from the existing soldier march clips; no combat fire or triumphant music."
+    },
+    {
+      "id": "later-church-account",
+      "seconds": [19, 23],
+      "claim": "later-account",
+      "caption": "Seguín later said he had placed remains in a grave inside San Fernando near the altar. His earlier account describes an outdoor interment.",
+      "sprites": ["funeral-coffin-church-floor"],
+      "camera": "An attributed memory vignette; visually distinguish it from the documented procession."
+    },
+    {
+      "id": "discovery-1936",
+      "seconds": [23, 28],
+      "claim": "disputed",
+      "caption": "In 1936 a box of remains was found near the altar. Whether these were the Alamo defenders' remains remains disputed.",
+      "sprites": ["san-fernando-floor-intact", "san-fernando-floor-open", "san-fernando-box-found"],
+      "camera": "Dissolve between intact and opened floor; do not identify the contents visually."
+    },
+    {
+      "id": "later-memorial",
+      "seconds": [28, 31],
+      "claim": "documented",
+      "caption": "The white marble memorial was made later; it was not Seguín's 1837 coffin.",
+      "sprites": ["san-fernando-marble-memorial"],
+      "camera": "End on a still shot and a source-accessible history note."
+    }
+  ]
+}
