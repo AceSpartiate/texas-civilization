@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1586 usable sprites, 147 PNG atlases, 529 clips** (303 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1594 usable sprites, 149 PNG atlases, 535 clips** (307 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -121,6 +121,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | travel-markers | 16 | 1254 × 1254 | 1343435 |
 | trees-colonies-1 | 16 | 1254 × 1254 | 1626976 |
 | trees-colonies-2 | 16 | 1254 × 1254 | 1902468 |
+| twin-sisters-crew | 4 | 1254 × 1254 | 792510 |
+| regular-drummer | 4 | 1262 × 1246 | 833370 |
 | twin-sisters-painted | 4 | 1254 × 1254 | 1249122 |
 | people-wagon-drivers | 16 | 1254 × 1254 | 1460212 |
 | weather-norther | 5 | 1536 × 1024 | 1669037 |
@@ -1202,6 +1204,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | sweetgum-log | trees-colonies-2 | sweetgum-log-wind |
 | sweetgum-large | trees-colonies-2 | sweetgum-large-wind |
 | log-fallen-hardwood | trees-colonies-2 | State artwork; no motion required |
+| twin-crew-rammer-carry | twin-sisters-crew | twin-crew-gun-ram, twin-crew-gun-ready, twin-crew-gun-fire |
+| twin-crew-ram | twin-sisters-crew | twin-crew-gun-ram |
+| twin-crew-shot-carry | twin-sisters-crew | twin-crew-gun-shot-carry |
+| twin-crew-fire | twin-sisters-crew | twin-crew-gun-fire |
+| regular-drummer-idle | regular-drummer | regular-drummer-start |
+| regular-drummer-raise | regular-drummer | regular-drummer-start |
+| regular-drummer-beat-1 | regular-drummer | regular-drummer-start, regular-drummer-beat |
+| regular-drummer-beat-2 | regular-drummer | regular-drummer-beat |
 | twin-sister-painted-e | twin-sisters-painted | twin-sister-painted-e-recoil |
 | twin-sister-painted-recoil-e | twin-sisters-painted | twin-sister-painted-e-recoil |
 | twin-sister-painted-w | twin-sisters-painted | twin-sister-painted-w-recoil |
@@ -2076,6 +2086,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | sweetgum-pole-wind | sway | 1 | 3800 | yes | not applicable |
 | sweetgum-log-wind | sway | 1 | 3800 | yes | not applicable |
 | sweetgum-large-wind | sway | 1 | 3800 | yes | not applicable |
+| twin-crew-gun-ram | Pose cycle | 3 | 1030 | one-shot | east; mirror for west |
+| twin-crew-gun-shot-carry | Still state | 1 | 360 | one-shot | east; mirror for west |
+| twin-crew-gun-ready | Still state | 1 | 360 | one-shot | east; mirror for west |
+| twin-crew-gun-fire | Pose cycle | 3 | 860 | one-shot | east; mirror for west |
+| regular-drummer-start | Pose cycle | 3 | 750 | one-shot | east; mirror for west |
+| regular-drummer-beat | Pose cycle | 2 | 480 | yes | east; mirror for west |
 | twin-sister-painted-e-recoil | Pose cycle | 3 | 760 | one-shot | east |
 | twin-sister-painted-w-recoil | Pose cycle | 3 | 760 | one-shot | west |
 | rust-wagon-driver-s | breathe | 1 | 2200 | yes | south |

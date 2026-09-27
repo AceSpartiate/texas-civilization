@@ -9573,6 +9573,122 @@
         ]
       }
     },
+    "twin-sisters-crew": {
+      "image": "atlases/twin-sisters-crew.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 792510,
+      "sha256": "caae482e0bfefda4adf0c56694c6426904fcb3b2d8c60ea2d7f02ec871965bf7",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.789623,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              36,
+              617
+            ],
+            "columns": [
+              [
+                118,
+                457
+              ],
+              [
+                625,
+                1244
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              691,
+              1205
+            ],
+            "columns": [
+              [
+                104,
+                475
+              ],
+              [
+                629,
+                1128
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "regular-drummer": {
+      "image": "atlases/regular-drummer.png",
+      "width": 1262,
+      "height": 1246,
+      "bytes": 833370,
+      "sha256": "76b9f240414a8eb96836eaba60463d81ba67529b3852d92695e37e31c2753865",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.786085,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              40,
+              599
+            ],
+            "columns": [
+              [
+                216,
+                456
+              ],
+              [
+                818,
+                1088
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              655,
+              1209
+            ],
+            "columns": [
+              [
+                212,
+                464
+              ],
+              [
+                826,
+                1083
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "twin-sisters-painted": {
       "image": "atlases/twin-sisters-painted.png",
       "width": 1254,
@@ -39560,6 +39676,198 @@
           87
         ],
         "visiblePixels": 17052,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "twin-crew-rammer-carry": {
+      "sheet": "twin-sisters-crew",
+      "x": 118,
+      "y": 36,
+      "w": 339,
+      "h": 581,
+      "anchorX": 0.4941,
+      "anchorY": 0.9432,
+      "label": "twin crew rammer carry",
+      "kind": "twin-sisters-crew",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          120,
+          38,
+          335,
+          577
+        ],
+        "visiblePixels": 76524,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "twin-crew-ram": {
+      "sheet": "twin-sisters-crew",
+      "x": 625,
+      "y": 189,
+      "w": 619,
+      "h": 428,
+      "anchorX": 0.2763,
+      "anchorY": 0.9299,
+      "label": "twin crew ram",
+      "kind": "twin-sisters-crew",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          627,
+          191,
+          615,
+          424
+        ],
+        "visiblePixels": 75440,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "twin-crew-shot-carry": {
+      "sheet": "twin-sisters-crew",
+      "x": 104,
+      "y": 691,
+      "w": 371,
+      "h": 514,
+      "anchorX": 0.5054,
+      "anchorY": 0.93,
+      "label": "twin crew shot carry",
+      "kind": "twin-sisters-crew",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          106,
+          693,
+          367,
+          510
+        ],
+        "visiblePixels": 73548,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "twin-crew-fire": {
+      "sheet": "twin-sisters-crew",
+      "x": 629,
+      "y": 729,
+      "w": 499,
+      "h": 473,
+      "anchorX": 0.6363,
+      "anchorY": 0.9302,
+      "label": "twin crew fire",
+      "kind": "twin-sisters-crew",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          631,
+          731,
+          495,
+          469
+        ],
+        "visiblePixels": 80920,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-drummer-idle": {
+      "sheet": "regular-drummer",
+      "x": 216,
+      "y": 40,
+      "w": 240,
+      "h": 559,
+      "anchorX": 0.4583,
+      "anchorY": 0.9463,
+      "label": "regular drummer idle",
+      "kind": "regular-drummer",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          218,
+          42,
+          236,
+          555
+        ],
+        "visiblePixels": 74171,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-drummer-raise": {
+      "sheet": "regular-drummer",
+      "x": 818,
+      "y": 42,
+      "w": 270,
+      "h": 556,
+      "anchorX": 0.4889,
+      "anchorY": 0.9442,
+      "label": "regular drummer raise",
+      "kind": "regular-drummer",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          820,
+          44,
+          266,
+          552
+        ],
+        "visiblePixels": 78196,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-drummer-beat-1": {
+      "sheet": "regular-drummer",
+      "x": 212,
+      "y": 655,
+      "w": 252,
+      "h": 554,
+      "anchorX": 0.4583,
+      "anchorY": 0.9314,
+      "label": "regular drummer beat 1",
+      "kind": "regular-drummer",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          214,
+          657,
+          248,
+          550
+        ],
+        "visiblePixels": 77000,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-drummer-beat-2": {
+      "sheet": "regular-drummer",
+      "x": 826,
+      "y": 655,
+      "w": 257,
+      "h": 553,
+      "anchorX": 0.4825,
+      "anchorY": 0.9403,
+      "label": "regular drummer beat 2",
+      "kind": "regular-drummer",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          828,
+          657,
+          253,
+          549
+        ],
+        "visiblePixels": 78041,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

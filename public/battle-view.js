@@ -1057,10 +1057,11 @@ export function createBattleView(art) {
     if (firing) art.animated(ctx, `${name}-recoil`, p.x, p.y, size, 0, { timeMs: since }) || art.animated(ctx, `cannon-${metal}-${right ? 'e' : 'w'}-recoil`, p.x, p.y, size, 0, { timeMs: since });
     else art.drawSprite(ctx, name, p.x, p.y, size) || art.drawSprite(ctx, `cannon-${metal}-${right ? 'e' : 'w'}`, p.x, p.y, size) || (ctx.fillStyle = '#3b3a36', ctx.fillRect(p.x - size * 0.4, p.y - size * 0.3, size * 0.8, size * 0.22));
     const who = gun.side === 'mexican' ? 'regular' : 'volunteer', back = right ? -1 : 1;
+    const service = twin ? 'twin-crew' : who;
     const crew = [
-      { clip: firing ? `${who}-gun-fire` : `${who}-gun-ram`, dx: back * 0.75, t: firing ? since : time },
-      { clip: `${who}-gun-shot-carry`, dx: back * 1.35, t: time },
-      { clip: firing ? `${who}-gun-fire` : `${who}-idle-e`, dx: back * 0.2, dy: 0.35, t: firing ? since : time },
+      { clip: firing ? `${service}-gun-fire` : `${service}-gun-ram`, dx: back * 0.75, t: firing ? since : time },
+      { clip: `${service}-gun-shot-carry`, dx: back * 1.35, t: time },
+      { clip: firing ? `${service}-gun-fire` : twin ? 'twin-crew-gun-ready' : `${who}-idle-e`, dx: back * 0.2, dy: 0.35, t: firing ? since : time },
     ].slice(0, gun.crew ?? 3);
     for (const man of crew) art.animated(ctx, man.clip, p.x + man.dx * figurePx, p.y + (man.dy || 0) * figurePx, figurePx, `crew:${gun.id}:${man.dx}`, { timeMs: man.t, flip: !right, paused: reducedMotion });
     // A famous gun is named on the field as a famous person is (owner, 2026-09-26: "Treat the Twin Sisters in a similar

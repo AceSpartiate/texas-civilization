@@ -2145,6 +2145,34 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/regular-bugler.png",
       "postProcessing": "None. Copied unchanged; measured atlas validation only.",
       "review": "The visible bugler sounds existing documented calls; no new audible signal or historical claim is added."
+    },
+    {
+      "sheet": "twin-sisters-crew",
+      "promptId": "frontier-v1/twin-sisters-crew",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 2x2 atlas of the same 1836 Texian artillery volunteer in brown hat, blue-gray shirt and tan vest: upright rammer carry, pushing a rammer toward an unseen gun, carrying one round shot, pulling a short firing lanyard and covering one ear. Four isolated full-body poses, broad alpha gutters, same ground anchor and identity, no gun or scenery.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/artillery-service.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3133ff80-b994-4155-889a-45830819a996.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/twin-sisters-crew.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "Dedicated service figure for the two named Twin Sisters; no claim about their transport team or crew identity."
+    },
+    {
+      "sheet": "regular-drummer",
+      "promptId": "frontier-v1/regular-drummer",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 2x2 atlas of the same 1835 Mexican regular drummer in dark coat, red facings, white straps, pale trousers and shako: at ease, sticks raised, two alternating drum beats. Four isolated full-body poses, broad alpha gutters, same ground anchor and identity, no background.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/regular-bugler.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1686c9c7-e840-4cc8-8f3a-275e60cf5131.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/regular-drummer.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "Animation-ready drummer; no undocumented drum cue added to the battle timeline."
     }
   ]
 }

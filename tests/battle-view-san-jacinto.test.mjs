@@ -35,6 +35,20 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null } = {}) 
   return last;
 }
 
+test('only the named Twin Sisters use their dedicated service crew', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const guns = [
+    { id: 'twin-sister-1', side: 'texian', x: -0.05, y: 0, facing: { x: 1, y: 0 }, crew: 3, shots: [] },
+    { id: 'mexican-gun', side: 'mexican', x: 0.05, y: 0, facing: { x: -1, y: 0 }, crew: 3, shots: [] },
+  ];
+  run(view, minute => battle(minute, { guns }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'twin-crew-gun-ram'));
+  assert.ok(art.drawn.some(one => one.clip === 'twin-crew-gun-shot-carry'));
+  assert.ok(art.drawn.some(one => one.clip === 'twin-crew-gun-ready'));
+  assert.ok(art.drawn.some(one => one.clip === 'regular-gun-ram'));
+  assert.ok(!art.drawn.some(one => one.clip === 'volunteer-gun-ram'), 'a generic crew still serves a Twin Sister');
+});
+
 test('a camp at rest (pose `rest`) is scattered and unformed, some standing and some sitting, and fires nothing; the formed line against it stands in even ranks', () => {
   const art = fakeArt(), view = createBattleView(art);
   const shown = run(view, minute => battle(minute), { seconds: 3 });
