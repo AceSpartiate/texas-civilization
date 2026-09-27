@@ -136,6 +136,8 @@ try {
   const hostMap = await read(host);
   assert.ok(['travis', 'bowie', 'crockett'].every(id => hostMap.sent.some(one => one.id === id)), 'the Host was not sent the famous at Béxar');
   evidence.alamo.mapBefore = { student: before.sent, drawn: before.famous, hostDrawn: hostMap.famous, far: far.sent };
+  // Drawn as themselves, not as the map's mini figure (until 2026-09-26 public/app.js handed drawFamous the wrong arguments).
+  assert.ok([...before.famous, ...hostMap.famous].every(one => one.how && one.how !== 'mini'), `a famous person on the map was drawn as the mini figure: ${JSON.stringify(before.famous.map(one => one.how))}`);
   ok(`on the map before the siege (${before.date}): ${before.sent.map(one => one.name).join(', ')} at Béxar, sent to the family with a man there (${before.famous.length} drawn on its screen) and the Host, and to nobody far off`);
   await shot(inside, 'map-bexar');
 
@@ -218,6 +220,15 @@ try {
   assert.ok([seen, seenHost].every(s => !s.after?.esparza && !s.burial?.esparza), 'Gregorio was drawn as a body in the afternoon');
   assert.match(captions.burial || '', /only defender given a Christian burial/);
   ok(`the burial: Francisco Esparza named, carrying his brother's body drawn as ${[...burial.drawnAs].join(', ')}, to the Campo Santo; the caption names the one Christian burial`);
+  // The family at Béxar on the Host's map from the evening of March 6 (`HIST-TEX-609`), drawn as the stand-ins, named.
+  await host.waitForFunction(() => (window.__famousDrawn || []).some(one => one.id === 'ana-esparza'), null, { timeout: 90000 });
+  const mapAfter = await read(host);
+  evidence.alamo.mapAfter = { date: mapAfter.date, drawn: mapAfter.famous.filter(one => esparzas.includes(one.id)) };
+  for (const id of esparzas) {
+    const one = mapAfter.famous.find(person => person.id === id);
+    assert.ok(one && one.how && one.how !== 'mini', `${id} was not drawn at Béxar on the Host's map after the fall: ${JSON.stringify(one)}`);
+  }
+  ok(`after the fall (${mapAfter.date}) the Host's map draws the family at Béxar: ${evidence.alamo.mapAfter.drawn.map(one => `${one.name} (${one.how})`).join(', ')}`);
   const framed = evidence.alamo.samples.filter(one => ['alarm', 'repulse', 'north-wall', 'fallback', 'rooms', 'end'].includes(one[1]));
   assert.ok(framed.length && framed.filter(one => one[4] === 'battle').length >= framed.length / 2, `Watch did not keep the student's camera on the assault: ${framed.map(one => one[4]).join(',')}`);
   ok(`the student watched the assault with the camera on the compound (${framed.filter(one => one[4] === 'battle').length} of ${framed.length} samples)`);
