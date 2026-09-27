@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 132,
-    "sprites": 1490,
-    "clips": 509,
-    "poseCycles": 283,
+    "sheets": 133,
+    "sprites": 1494,
+    "clips": 510,
+    "poseCycles": 284,
     "rigs": 4
   },
   "entrypoints": {
@@ -82,6 +82,64 @@
               [
                 41,
                 460
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "alamo-funeral-pyre": {
+      "image": "atlases/alamo-funeral-pyre.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1841976,
+      "sha256": "edc2b217c07a089ed33500505e2dfb6cbb886ba6e73663cf92c11a73f49202fa",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.507912,
+        "cornerAlpha": [
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              67,
+              541
+            ],
+            "columns": [
+              [
+                26,
+                606
+              ],
+              [
+                648,
+                1227
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              618,
+              1163
+            ],
+            "columns": [
+              [
+                26,
+                606
+              ],
+              [
+                652,
+                1229
               ]
             ]
           }
@@ -13078,6 +13136,152 @@
         "alamo"
       ],
       "promptId": "frontier-v1/alamo-face-strips"
+    },
+    "alamo-pyre-unlit": {
+      "sheet": "alamo-funeral-pyre",
+      "x": 26,
+      "y": 211,
+      "w": 580,
+      "h": 325,
+      "anchorX": 0.4767,
+      "anchorY": 0.9292,
+      "logicalHeight": 325,
+      "label": "alamo pyre unlit",
+      "kind": "alamo-funeral-pyre",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          28,
+          213,
+          576,
+          321
+        ],
+        "visiblePixels": 127129,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-funeral-pyre.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [
+        "alamo"
+      ],
+      "promptId": "frontier-v1/alamo-funeral-pyre"
+    },
+    "alamo-pyre-fire-1": {
+      "sheet": "alamo-funeral-pyre",
+      "x": 648,
+      "y": 67,
+      "w": 579,
+      "h": 474,
+      "anchorX": 0.5449,
+      "anchorY": 0.9283,
+      "logicalHeight": 325,
+      "label": "alamo pyre fire 1",
+      "kind": "alamo-funeral-pyre",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          650,
+          69,
+          575,
+          470
+        ],
+        "visiblePixels": 164706,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-funeral-pyre.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "alamo-pyre-burning"
+      ],
+      "locationKits": [
+        "alamo"
+      ],
+      "promptId": "frontier-v1/alamo-funeral-pyre"
+    },
+    "alamo-pyre-fire-2": {
+      "sheet": "alamo-funeral-pyre",
+      "x": 26,
+      "y": 618,
+      "w": 580,
+      "h": 545,
+      "anchorX": 0.5336,
+      "anchorY": 0.9284,
+      "logicalHeight": 325,
+      "label": "alamo pyre fire 2",
+      "kind": "alamo-funeral-pyre",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          28,
+          620,
+          576,
+          541
+        ],
+        "visiblePixels": 175507,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-funeral-pyre.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "alamo-pyre-burning"
+      ],
+      "locationKits": [
+        "alamo"
+      ],
+      "promptId": "frontier-v1/alamo-funeral-pyre"
+    },
+    "alamo-pyre-fire-3": {
+      "sheet": "alamo-funeral-pyre",
+      "x": 652,
+      "y": 657,
+      "w": 577,
+      "h": 506,
+      "anchorX": 0.5347,
+      "anchorY": 0.9289,
+      "logicalHeight": 325,
+      "label": "alamo pyre fire 3",
+      "kind": "alamo-funeral-pyre",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          654,
+          659,
+          573,
+          502
+        ],
+        "visiblePixels": 173427,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-funeral-pyre.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "alamo-pyre-burning"
+      ],
+      "locationKits": [
+        "alamo"
+      ],
+      "promptId": "frontier-v1/alamo-funeral-pyre"
     },
     "joe-door-aim": {
       "sheet": "joe-story-actions",
@@ -63917,6 +64121,26 @@
     }
   },
   "clips": {
+    "alamo-pyre-burning": {
+      "frames": [
+        {
+          "sprite": "alamo-pyre-fire-1",
+          "duration": 360
+        },
+        {
+          "sprite": "alamo-pyre-fire-2",
+          "duration": 360
+        },
+        {
+          "sprite": "alamo-pyre-fire-3",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "elevation; orient with structure geometry"
+    },
     "joe-fire-door": {
       "frames": [
         {
@@ -72461,6 +72685,10 @@
         "alamo-face-gate",
         "alamo-face-convento",
         "alamo-face-church-south",
+        "alamo-pyre-unlit",
+        "alamo-pyre-fire-1",
+        "alamo-pyre-fire-2",
+        "alamo-pyre-fire-3",
         "joe-door-aim",
         "joe-door-fire",
         "joe-hurt-e",
@@ -77876,7 +78104,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 132,
+    "sourceCount": 133,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

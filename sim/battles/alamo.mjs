@@ -61,8 +61,9 @@ export const ALAMO_FEET = Object.freeze({
   'morales-formup': [150, 1160], 'morales-near': [100, 860], 'morales-close': [50, 650], 'sw-foot': [10, 575],
   reserve: [122, -960], 'cavalry-east': [1500, 360], 'cavalry-south': [520, 1500], 'cavalry-camp': [900, -900],
   'north-foot': [122, -45], 'north-foot-w': [55, -40], 'north-foot-e': [195, -35], 'east-prairie': [1350, 430], 'mexican-camp': [-900, -300],
-  // The pyres, outside the walls to the south-east (`HIST-TEX-501`: the dead stacked and burned).
-  pyres: [700, 1100],
+  // Three separated reconstruction sites, not proven coordinates. Seguín later found ashes in three places;
+  // Ruiz described alternating layers of wood and bodies and lighting the pyres around 5 p.m. (HIST-TEX-566).
+  'pyre-east': [820, 350], 'pyre-southeast': [680, 1050], 'pyre-south': [-500, 1200],
   // Where the famous people stand (docs/BATTLES.md §2c; `FIC-GONZ-452`: the area is the record's, the spot this game's).
   // Joe beside Travis on the north battery, and the house he took cover in (the plan's reconstructed west-range room).
   'joe-battery': [104, 30], 'joe-door': [26, 66],
@@ -715,7 +716,7 @@ export const ALAMO = Object.freeze({
       ],
     },
     {
-      // Mar 6, 07:00-18:00. The pyres, told and seen from a distance; the spared taken to Músquiz's house, and Joe into Béxar,
+      // Mar 6, 07:00-18:00. Three separated reconstructed pyre sites; built from about 3 p.m., lit about 5 p.m. by Ruiz's account.
       // "detained several days; was shown a grand review of the army", and questioned by Santa Anna (`HIST-TEX-549`). Not held.
       id: 'after', minutes: 660, title: 'March 6: afterwards', claimId: 'HIST-TEX-501', light: 0, frame: ['frame-after-a', 'frame-after-b'],
       caption: 'The dead defenders are stacked and burned on pyres outside the walls. The Mexican dead are buried. Mrs. Dickinson and her baby Angelina and the other women and children are taken into Béxar, to Ramón Músquiz’s house, to be questioned by Santa Anna. Joe is taken into the town too; Santa Anna questions him about Texas and its army, and he is shown a grand review of the Mexican army.',
@@ -726,7 +727,7 @@ export const ALAMO = Object.freeze({
         { id: 'susanna-dickinson', keys: [[0, 'church-front'], [120, 'musquiz-door']], pose: 'stand' },
         { id: 'joe', keys: [[0, 'joe-door'], [150, 'musquiz-door'], [660, 'musquiz-door']], pose: 'stand', face: 'musquiz' },
       ],
-      plumes: [{ at: 'pyres', from: 60 }],
+      plumes: ['pyre-east', 'pyre-southeast', 'pyre-south'].map(at => ({ at, from: 480, ignite: 600, kind: 'alamo-pyre' })),
     },
   ]),
   ground: alamoGround,
