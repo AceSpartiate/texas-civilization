@@ -1,6 +1,6 @@
 {
   "record": "wagons-injections",
-  "date": "2026-09-25",
+  "date": "2026-09-27",
   "files": [
     "tests/wagons.test.mjs",
     "tests/beasts.test.mjs",
@@ -17,7 +17,7 @@
     "tests/travel-modes.test.mjs"
   ],
   "caught": 24,
-  "onlyThat": 18,
+  "onlyThat": 17,
   "of": 24,
   "results": [
     {
@@ -81,8 +81,13 @@
       "edits": [
         {
           "file": "sim/wagon.mjs",
-          "from": "ITEMS.get(entry.id)?.kind === 'stores' ? Math.min(entry.amount * wagons, mostFor(household, ITEMS.get(entry.id))) : entry.amount",
-          "to": "entry.amount"
+          "from": "  if (!household.load) return null;\n  const wagons = wagonCount(household);\n  const amounts = Object.fromEntries(household.load.map(entry => [entry.id, ITEMS.get(entry.id)?.kind === 'stores' ? Math.min(entry.amount * wagons, mostFor(household, ITEMS.get(entry.id))) : entry.amount]));",
+          "to": "  if (!household.load) return null;\n  const wagons = wagonCount(household);\n  const amounts = Object.fromEntries(household.load.map(entry => [entry.id, entry.amount]));"
+        },
+        {
+          "file": "sim/wagon.mjs",
+          "from": "  const before = loadStores(household.load);\n  const wagons = wagonCount(household);\n  const amounts = Object.fromEntries(household.load.map(entry => [entry.id, ITEMS.get(entry.id)?.kind === 'stores' ? Math.min(entry.amount * wagons, mostFor(household, ITEMS.get(entry.id))) : entry.amount]));",
+          "to": "  const before = loadStores(household.load);\n  const wagons = wagonCount(household);\n  const amounts = Object.fromEntries(household.load.map(entry => [entry.id, entry.amount]));"
         }
       ],
       "caught": true,
@@ -97,19 +102,13 @@
       "edits": [
         {
           "file": "sim/wagon.mjs",
-          "from": "export const wagonRoom = household => WAGON_SPACE * wagonCount(household);",
-          "to": "export const wagonRoom = household => WAGON_SPACE;"
+          "from": "export const wagonRoom = household => afoot(household) ? PACK_SPACE : WAGON_SPACE * wagonCount(household) - (carted(household) ? WAGON_SPACE - CART_SPACE : 0);",
+          "to": "export const wagonRoom = household => afoot(household) ? PACK_SPACE : WAGON_SPACE - (carted(household) ? WAGON_SPACE - CART_SPACE : 0);"
         }
       ],
       "caught": true,
       "onlyThat": false,
       "failed": [
-        "the roll is the family: one parent on 1 to 3, both from 4, and every number over that another child",
-        "a class rolled on an earlier table keeps its own: the 2026-09-14 faces, and six sides",
-        "a 20 is two parents and eighteen children with their own names and ages, and it survives a save",
-        "a family of twenty fits the tick: what it is sent grows by the person, and nothing is sent twenty times over",
-        "the hidden stats reach no payload: not the family’s own, not a neighbour’s, not the Host’s",
-        "the wagon is packed in the lobby only, and packing it does not stop the roll",
         "every family is fitted out with a wagon for every eight people and an ox to draw each, on every roll and across seeds",
         "every wagon comes in with its own driver and ox, drawn in line, and the family is in when the last wheel is",
         "two wagons are two loads out at once, each behind its own ox, and a third is told both are out",
@@ -129,8 +128,11 @@
         }
       ],
       "caught": true,
-      "onlyThat": true,
+      "onlyThat": false,
       "failed": [
+        "a family of twenty fits the tick: what it is sent grows by the person, and nothing is sent twenty times over",
+        "the hidden stats reach no payload: not the family’s own, not a neighbour’s, not the Host’s",
+        "the wagon is packed in the lobby only, and packing it does not stop the roll",
         "a class made before wagons went by size keeps one wagon a family, rolled or running, and opens as it was"
       ]
     },
@@ -333,8 +335,8 @@
       "edits": [
         {
           "file": "sim/scrape.mjs",
-          "from": "  if (drawn) return { room: FLIGHT_ROOM * drawn, mode: 'wagon', ...(drawn > 1 && { wagons: drawn }) };",
-          "to": "  if (drawn) return { room: FLIGHT_ROOM, mode: 'wagon' };"
+          "from": "  const loaded = beastsOf(world, household, 'wagon').filter(standing).slice(0, drawn);",
+          "to": "  const loaded = beastsOf(world, household, 'wagon').filter(standing).slice(0, Math.min(drawn, 1));"
         }
       ],
       "caught": true,

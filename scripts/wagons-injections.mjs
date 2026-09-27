@@ -24,8 +24,12 @@ const INJECTIONS = [
   { name: 'nobody fitted out at the roll', expect: T.fitted, edits: [one('sim/world.mjs', 'if (world.wagonsBySize && fitOut(world, household) > 1) loadForWagons(world, household);', '')] },
   { name: 'a wagon for every ten, not every eight', expect: T.fitted, edits: [one('sim/beasts.mjs', 'export const WAGON_PEOPLE = 8;', 'export const WAGON_PEOPLE = 10;')] },
   { name: 'a second wagon and no ox to draw it', expect: T.fitted, edits: [one('sim/beasts.mjs', "  for (const role of ['wagon', 'ox']) {\n    while (beastsOf(world, household, role).length < want) {", "  for (const role of ['wagon']) {\n    while (beastsOf(world, household, role).length < want) {")] },
-  { name: 'the stores not packed into the second wagon', expect: T.fitted, edits: [one('sim/wagon.mjs', "ITEMS.get(entry.id)?.kind === 'stores' ? Math.min(entry.amount * wagons, mostFor(household, ITEMS.get(entry.id))) : entry.amount", 'entry.amount')] },
-  { name: "the wagons' room one wagon's", expect: T.fitted, edits: [one('sim/wagon.mjs', 'export const wagonRoom = household => WAGON_SPACE * wagonCount(household);', 'export const wagonRoom = household => WAGON_SPACE;')] },
+  // Re-aimed 2026-09-26 with the flight's below: the means die (2026-09-25) packs the stores in two places, the fitting out and
+  // the load made to fit the family's room, and gave the room its cart and its packs on foot; none of the three matched.
+  { name: 'the stores not packed into the second wagon', expect: T.fitted, edits: [
+    one('sim/wagon.mjs', "  if (!household.load) return null;\n  const wagons = wagonCount(household);\n  const amounts = Object.fromEntries(household.load.map(entry => [entry.id, ITEMS.get(entry.id)?.kind === 'stores' ? Math.min(entry.amount * wagons, mostFor(household, ITEMS.get(entry.id))) : entry.amount]));", "  if (!household.load) return null;\n  const wagons = wagonCount(household);\n  const amounts = Object.fromEntries(household.load.map(entry => [entry.id, entry.amount]));"),
+    one('sim/wagon.mjs', "  const before = loadStores(household.load);\n  const wagons = wagonCount(household);\n  const amounts = Object.fromEntries(household.load.map(entry => [entry.id, ITEMS.get(entry.id)?.kind === 'stores' ? Math.min(entry.amount * wagons, mostFor(household, ITEMS.get(entry.id))) : entry.amount]));", "  const before = loadStores(household.load);\n  const wagons = wagonCount(household);\n  const amounts = Object.fromEntries(household.load.map(entry => [entry.id, entry.amount]));")] },
+  { name: "the wagons' room one wagon's", expect: T.fitted, edits: [one('sim/wagon.mjs', 'export const wagonRoom = household => afoot(household) ? PACK_SPACE : WAGON_SPACE * wagonCount(household) - (carted(household) ? WAGON_SPACE - CART_SPACE : 0);', 'export const wagonRoom = household => afoot(household) ? PACK_SPACE : WAGON_SPACE - (carted(household) ? WAGON_SPACE - CART_SPACE : 0);')] },
   { name: 'a class made before fitted out too', expect: T.old, edits: [one('sim/world.mjs', 'if (world.wagonsBySize && fitOut(world, household) > 1)', 'if (fitOut(world, household) > 1)')] },
   { name: 'every wagon is the one wagon', expect: T.two, edits: [one('sim/keeping.mjs', 'const copies = beasts ? Math.max(1, beasts.length)', "const copies = beasts ? (item === 'wagon' ? 1 : Math.max(1, beasts.length))")] },
   { name: 'the principal drawn driving every wagon in', expect: T.in, edits: [one('public/motion.js', '    team.driverId = order.find(entity => !taken.has(entity.id))?.id || null;', '    team.driverId = order[0]?.id || null;')] },
@@ -39,7 +43,7 @@ const INJECTIONS = [
   { name: 'the buyer does not drive the new wagon home', expect: T.bought, edits: [one('sim/shops.mjs', "  if (entity.chore) entity.chore.mode = 'wagon';", '')] },
   { name: 'the horse ridden in is left in town', expect: T.bought, edits: [one('sim/shops.mjs', '  if (horse) leads.push(horse.id);', '')] },
   { name: 'the new ox led home, not yoked', expect: T.bought, edits: [one('sim/shops.mjs', '  const leads = (entity.leads || []).filter(id => id !== ox?.id);', '  const leads = [...(entity.leads || [])];')] },
-  { name: 'the flight loads one wagon', expect: T.flight, edits: [one('sim/scrape.mjs', "  if (drawn) return { room: FLIGHT_ROOM * drawn, mode: 'wagon', ...(drawn > 1 && { wagons: drawn }) };", "  if (drawn) return { room: FLIGHT_ROOM, mode: 'wagon' };")] },
+  { name: 'the flight loads one wagon', expect: T.flight, edits: [one('sim/scrape.mjs', "  const loaded = beastsOf(world, household, 'wagon').filter(standing).slice(0, drawn);", "  const loaded = beastsOf(world, household, 'wagon').filter(standing).slice(0, Math.min(drawn, 1));")] },
   { name: "another family's wagons in a student's projection", expect: T.fog, edits: [one('sim/world.mjs', 'const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId)', "const entities = Object.values(world.entities).filter(e => (e.householdId === householdId || (e.kind === 'wagon' && e.householdId)) && householdId)")] },
   { name: 'always ask: the server never says there is one way', expect: T.oneway, edits: [one('sim/world.mjs', '...(!shut && open.length === 1 && { oneWay: open[0].id })', '...{}')] },
   { name: 'always ask: the page never skips the chooser', expect: T.oneway, edits: [one('public/going.js', '  return way ? way.id : null;\n}', '  return null;\n}')] },
@@ -59,9 +63,12 @@ for (const injection of INJECTIONS) {
   for (const { file } of injection.edits) if (!originals.has(file)) originals.set(file, readFileSync(file, 'utf8'));
   const changed = new Map(originals);
   for (const { file, from, to } of injection.edits) {
-    const text = changed.get(file);
-    if (!text.includes(from)) throw new Error(`${injection.name}: the text to replace is not in ${file}`);
-    changed.set(file, text.replace(from, () => to));
+    // The working copy may be CRLF: the patterns are matched in its own line endings, and each must be there exactly once.
+    // (2026-09-26: until then a pattern spanning lines never matched a CRLF file, and this harness stopped at its first.)
+    const text = changed.get(file), crlf = text.includes('\r\n');
+    const wanted = crlf ? from.replace(/\n/g, '\r\n') : from, put = crlf ? to.replace(/\n/g, '\r\n') : to;
+    if (text.split(wanted).length !== 2) throw new Error(`${injection.name}: the text to replace is not in ${file} exactly once`);
+    changed.set(file, text.replace(wanted, () => put));
   }
   let failed;
   try { for (const [file, text] of changed) writeFileSync(file, text); failed = failing(); } finally { for (const [file, text] of originals) writeFileSync(file, text); }

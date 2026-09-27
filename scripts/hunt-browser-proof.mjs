@@ -20,6 +20,7 @@ import { meetFamily } from './support/meet-family.mjs';
 // docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
 // person, so this proof chooses them first, as a student does.
 import { asMain } from './support/main-person.mjs';
+import { sendTheWay } from './support/going.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -27,8 +28,11 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const pass = [];
 const ok = label => { pass.push(label); console.log('PASS', label); };
 
-// The hunter is the founding four's son, drawn as the adolescent boy he is (public/motion.js `figureOf`, sim/town.mjs `seenAs`).
-const HUNTER_FIGURE = figureOf({ id: 'hh-1-mateo', kind: 'person', sex: 'male', band: 'youth' });
+// The hunter is the founding four's son. Since the parent appearance redesign (e396a13, 2026-09-26) a family's own people are
+// drawn in the cast figure their family's looks choose (public/avatar-art.js `avatarVariant`), and a painted cast figure by
+// age and sex (public/motion.js `figureOf`) only without looks; this asked for the adolescent boy's `blue` until 2026-09-26
+// and failed on the first pose. Which it is, is read off the page once the family is met: the figure the page draws him in.
+let HUNTER_FIGURE = figureOf({ id: 'hh-1-mateo', kind: 'person', sex: 'male', band: 'youth' });
 const app = createClassroom({ seed: 'hunt-proof', playerCount: 5, tickMs: 400, worldFactory: (seed, count) => keepFoundingFamilies(createSettledWorld(seed, count)) });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
@@ -69,7 +73,15 @@ try {
   assert.match(mark, /2 powder/, `the mark does not state its price: "${mark}"`);
   ok(`a poor shot can be taught: "${mark}"`);
   app.setPace(PACES.brisk);
+  HUNTER_FIGURE = await page.evaluate(async fallback => {
+    const { avatarVariant } = await import('/avatar-art.js');
+    const him = window.__snapshot.world.entities.find(one => one.id === 'hh-1-mateo');
+    return him?.appearance ? avatarVariant(him.appearance, him.sex) : fallback;
+  }, HUNTER_FIGURE);
   await mateo('hunt-timber').click();
+  // The hunt in the timber is a journey, and since 2026-09-24 a journey asks how they go before anybody leaves (public/going.js).
+  // On foot, the walk this proof watches (its poses on the road are the walk cycle's). Unanswered, nobody went (2026-09-26).
+  await sendTheWay(page, { way: 'foot' });
   // And then stop watching him. Choosing somebody in the journal locks the camera to them,
   // which pins the figure at the centre of the screen where it cannot appear to move at
   // all - the same trap the pace measurement fell into. The ordinary family frame is both
@@ -135,7 +147,7 @@ try {
 
   // ------------------------------------------------------ the work stops and asks the family
   const atAsk = await follow(true);
-  assert.ok(atAsk.asking, 'the hunt ran to the end without ever asking the family anything');
+  assert.ok(atAsk.asking, `the hunt ran to the end without ever asking the family anything: ${JSON.stringify({ stages: atAsk.stages, hunter: await page.evaluate(() => { const e = window.__snapshot.world.entities.find(one => one.id === 'hh-1-mateo'); return { chore: e?.chore, travel: e?.travel && { to: e.travel.to, mode: e.travel.mode }, location: e?.location, auto: e?.auto, events: window.__snapshot.world.events.filter(event => event.actorId === 'hh-1-mateo').slice(-6).map(event => event.text) }; }) })}`);
   const question = (await page.locator('#selection-work .ask-text').textContent()).trim();
   const options = await page.locator('#selection-work button[data-action=answer-chore]').evaluateAll(buttons =>
     buttons.map(button => ({ option: button.dataset.option, label: button.querySelector('.work-name')?.textContent, note: button.querySelector('.work-note')?.textContent })));

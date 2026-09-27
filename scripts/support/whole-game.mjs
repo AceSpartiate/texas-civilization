@@ -10,6 +10,8 @@ import { projectWorld } from '../../sim/world.mjs';
 // person, so this proof chooses them first, as a student does.
 import { asMain } from './main-person.mjs';
 import { pickSite } from '../../sim/neighbours.mjs';
+import { tooYoung } from '../../sim/family.mjs';
+import { sendTheWay } from './going.mjs';
 
 /**
  * Wait for a condition while the class runs, failing if the world stops advancing for `stallMs` while it says it is running.
@@ -59,18 +61,42 @@ export async function playWholeGame(ctx) {
   // --------------------------------------------------------------------------------- everybody on auto, and set to work
   await student.locator('#family-panel').waitFor({ state: 'visible' });
   await student.waitForFunction(() => window.__familyPanel?.length >= 1, null, { timeout: 15000 });
-  const switches = await student.locator('.panel-row .panel-auto:visible').count();
-  for (let i = 0; i < switches; i++) await student.locator('.panel-row .panel-auto:visible').nth(i).click();
-  await student.waitForFunction(() => window.__familyPanel.every(row => row.auto || document.querySelector(`.panel-row[data-entity-id="${row.id}"] .panel-auto`)?.hidden), null, { timeout: 15000 });
+  // Person by person, each switch pressed once and waited on until the server has them on auto. This pressed the n-th
+  // visible switch n times over a list that redraws as each one takes, so a switch could be pressed twice (on, then off) or
+  // not at all, and the wait below ran out (seen 2026-09-26).
+  // Read by the same rule the check below reads (the switch not hidden), not by what Playwright calls visible - a row scrolled
+  // down the column was passed over and left off - and gone over again until nobody who has a switch is left off.
+  const leftOff = () => student.evaluate(() => window.__familyPanel.filter(row => !row.auto && !document.querySelector(`.panel-row[data-entity-id="${row.id}"] .panel-auto`)?.hidden).map(row => row.id));
+  for (let pass = 0; pass < 3; pass++) {
+    const todo = await leftOff();
+    if (!todo.length) break;
+    for (const row of todo) {
+      const toggle = student.locator(`.panel-row[data-entity-id="${row}"] .panel-auto`);
+      await toggle.scrollIntoViewIfNeeded().catch(() => {});
+      await toggle.click();
+      await student.waitForFunction(id => window.__familyPanel.find(one => one.id === id)?.auto, row, { timeout: 15000 }).catch(() => {});
+    }
+  }
+  await student.waitForFunction(() => window.__familyPanel.every(row => row.auto || document.querySelector(`.panel-row[data-entity-id="${row.id}"] .panel-auto`)?.hidden), null, { timeout: 15000 })
+    .catch(async error => { throw new Error(`not everybody with a switch is on auto: ${JSON.stringify(await leftOff())}; the page says "${await student.evaluate(() => document.querySelector('#error')?.textContent || '')}" (${error.message.split('\n')[0]})`); });
   measured.onAuto = await student.evaluate(() => window.__familyPanel.filter(row => row.auto).map(row => row.name));
   ok(`${measured.onAuto.length} of the family set to auto from the panel: ${measured.onAuto.join(', ')}`);
   // One order each where one is open, so the chores run while the news comes: the first icon the server allows.
   const given = [];
+  // Each person chosen first, as a student does, and their order read off their own bar once they are the main person: the bar
+  // draws only what the server and the step allow for the person it belongs to (docs/FAMILY_PANEL.md §12; 8e6ecd5), which is
+  // not what a row that is not the main person's holds. Until 2026-09-26 this read the key first, off rows that are never drawn,
+  // and chose a child under ten - who can be given the children's works but never be made the main person - and waited out
+  // the star, or pressed a key the bar then did not draw.
   for (const id of household().members) {
+    const person = world().entities[id];
+    if (person?.kind !== 'person' || tooYoung(person) || ['dead', 'captured'].includes(person.health?.condition)) continue;
+    await asMain(student, id);
     const key = await student.evaluate(id => [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon:not([aria-disabled="true"])[data-action="chore"]`)].map(b => b.dataset.key).find(k => !['hunt-land', 'fell-trees', 'survey-plot'].includes(k)) || null, id);
     if (!key) continue;
-    await asMain(student, id);
     await student.locator(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`).click();
+    // A work that is a journey asks how they go first (owner, 2026-09-24): the server's suggestion, as a student most often takes.
+    await sendTheWay(student);
     const took = await student.waitForFunction(({ id, key }) => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`)?.dataset.active === 'true' || (document.querySelector('#error')?.textContent || '').trim() || null, { id, key }, { timeout: 8000 }).then(h => h.jsonValue()).catch(() => 'no answer');
     given.push({ id, key, took });
   }
@@ -99,6 +125,8 @@ export async function playWholeGame(ctx) {
     if (await input.count()) {
       await input.check();
       await student.locator('#call-menu-confirm').click();
+      // Whoever the call sends goes on a road, and since 2026-09-24 that asks how they go first (public/going.js).
+      await sendTheWay(student);
       await student.waitForFunction(() => document.querySelector('#call-menu').hidden, null, { timeout: 15000 });
       sent = household().members.map(id => world().entities[id]).find(one => one.task === 'help' || one.travel?.purpose === 'help' || one.commitments?.some(c => c.id === 'volunteer' && c.status === 'active'));
     }
@@ -131,6 +159,7 @@ export async function playWholeGame(ctx) {
   if (winterOrder) {
     await asMain(student, winterOrder.id);
     await student.locator(`.panel-row[data-entity-id="${winterOrder.id}"] .panel-icon[data-key="${winterOrder.key}"]`).click();
+    await sendTheWay(student);
     await student.waitForFunction(({ id, key }) => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`)?.dataset.active === 'true', winterOrder, { timeout: 10000 });
     measured.winter = { ...winterOrder, name: world().entities[winterOrder.id].name };
     ok(`${measured.winter.name} was sent to ${winterOrder.key.replace('-', ' ')} from the panel`);

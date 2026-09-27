@@ -164,7 +164,8 @@ try {
   assert.equal(forged.body.error, refused.why);
   // A smaller load goes on the horse.
   await setCount(page, 'store:cotton', 5);
-  await page.waitForFunction(() => /Rides the horse/.test(document.querySelector('#errand-how').textContent), null, { timeout: 15000 });
+  await page.waitForFunction(() => /Rides the horse/.test(document.querySelector('#errand-how').textContent), null, { timeout: 15000 })
+    .catch(async error => { throw new Error(`five bales never went on the horse: ${JSON.stringify(await popup(page))} (${error.message.split('\n')[0]})`); });
   observed.smaller = (await popup(page)).how;
   ok(`a second person is refused the wagon with who has it and what to do: "${refused.why}"; five bales go instead: "${observed.smaller}"`);
 
@@ -255,7 +256,9 @@ try {
   await page.waitForFunction(() => !document.querySelector('#errand-send').disabled && /Rides the horse/.test(document.querySelector('#errand-how').textContent), null, { timeout: 15000 });
   observed.toolsStock = await page.evaluate(() => document.querySelector('#errand-stock').textContent);
   assert.match(observed.toolsStock, /Tools: a rifle · a hoe · a felling axe/);
-  await page.locator('#errand [data-line="gunsmith:buy-rifle"]').scrollIntoViewIfNeeded();
+  // Scrolled in the page itself, in one step: the list is redrawn on every quote from the server, and a locator's scroll could
+  // land on a line the redraw had just replaced ("Element is not attached to the DOM", 2026-09-26).
+  await page.evaluate(() => document.querySelector('#errand [data-line="gunsmith:buy-rifle"]')?.scrollIntoView({ block: 'nearest' }));
   await page.screenshot({ path: join(SHOTS, 'errand-tools-1366.png') });
   await page.locator('#errand-send').click();
   await page.locator('#errand').waitFor({ state: 'hidden', timeout: 10000 });

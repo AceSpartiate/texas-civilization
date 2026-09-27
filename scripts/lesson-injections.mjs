@@ -105,16 +105,18 @@ const INJECTIONS = [
   },
   {
     name: 'the crop counts as sold before a real of coin has come into the house',
-    from: 'const sold = household => (household.resources?.money ?? 0) > 0 || household.lesson?.sold === true;',
-    to: 'const sold = household => (household.resources?.money ?? 0) >= 0 || household.lesson?.sold === true;',
+    // Re-aimed 2026-09-26, with the next: since the owner's second amendment of 2026-09-25 a family starts with coin, and
+    // the rule counts coin over what was in the house when the step began (sim/lesson.mjs `startCoin`); neither matched.
+    from: '  || (household.resources?.money ?? 0) > (startCoin(household) ? (household.lesson?.had?.money ?? Infinity) : 0);',
+    to: '  || (household.resources?.money ?? 0) >= (startCoin(household) ? (household.lesson?.had?.money ?? Infinity) : 0);',
   },
   {
     // This half was added on 2026-09-21 because the store's purse holds two reales and pays the rest in food: a sale
     // that brought back no coin left the class standing at the counter for good. It had no injection of its own, and
     // the one above had gone stale against it - this whole harness had been unable to run since.
     name: 'only coin finishes the sale again, so a crop the store paid for in food strands the class at the counter',
-    from: 'const sold = household => (household.resources?.money ?? 0) > 0 || household.lesson?.sold === true;',
-    to: 'const sold = household => (household.resources?.money ?? 0) > 0;',
+    from: 'const sold = household => household.lesson?.sold === true\n  || (household.resources?.money',
+    to: 'const sold = household => false\n  || (household.resources?.money',
   },
   {
     name: 'a hunt counts the moment somebody sets out, whether or not they ever come home',
@@ -214,7 +216,7 @@ const INJECTIONS = [
   // one thing nobody could be set to.
   {
     name: 'the house step asks the family to keep at a house before one has been chosen, which nobody on the bar can be set to',
-    from: "    says: (world, household) => (houseOf(household)\n      ? 'Keep the family at the house until it stands. Set more than one of them to it and it goes faster; until there is a roof they camp by the wagon.'\n      : 'Choose a house first: the \"Choose a house\" button is on the left, above your family. Then set somebody to build it, and more than one of them makes it go faster.'),",
+    from: "    says: (world, household) => (houseOf(household)\n      ? `Keep the family at the house until it stands. Set more than one of them to it and it goes faster; until there is a roof they camp ${walked(household) ? 'by their packs' : 'by the wagon'}.`\n      : 'Choose a house first: the \"Choose a house\" button is on the left, above your family. Then set somebody to build it, and more than one of them makes it go faster.'),",
     to: "    says: () => 'Keep the family at the house until it stands. Set more than one of them to it and it goes faster; until there is a roof they camp by the wagon.',",
   },
   {

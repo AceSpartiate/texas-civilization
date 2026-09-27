@@ -1,11 +1,11 @@
 {
   "record": "family-browser",
-  "date": "2026-09-22",
+  "date": "2026-09-27",
   "browser": "153.0.8010.53",
   "task": "HANDOFF next task 2: let a student name their own family, and make family relationships exist and be visible.",
   "started": "The first person to play this asked who the mother and the father were, and the game had no answer.",
   "checks": [
-    "the die is rolled in the page, and the family is the server's: \"You rolled an 18.\", 18 people, every one a Hollis",
+    "the die is rolled in the page, and the family is the server's: \"You rolled an 18 for your family and a 12 for what it has.\", 18 people, every one a Hollis",
     "the book says who everybody is, and edits nothing: Alvin Hollis (father), Refugia Hollis (mother), Marcos Hollis (son), Levi Hollis (son), Delia Hollis (daughter), Jasper Hollis (son), Rufino Hollis (son), Petra Hollis (daughter), Basilio Hollis (son), Andrés Hollis (son), Simeon Hollis (son), Marcela Hollis (daughter), Adela Hollis (daughter), Prudence Hollis (daughter), Chana Hollis (daughter), Teodoro Hollis (son), Obed Hollis (son), Emeterio Hollis (son)",
     "and in sentences — \"Married to Refugia Hollis. Father to Marcos Hollis, Levi Hollis, Delia Hollis, Jasper Hollis, Rufino Hollis, Petra Hollis, Basilio Hollis, Andrés Hollis, Simeon Hollis, Marcela Hollis, Adela Hollis, Prudence Hollis, Chana Hollis, Teodoro Hollis, Obed Hollis and Emeterio Hollis.\"",
     "renaming on the panel changes the first name and keeps the last: Delia Hollis is Winnie Hollis now",
@@ -14,7 +14,7 @@
     "what a student types is cleaned before anybody else reads it: \"<b>Bad</b> 1234 😀\" became \"bBadb\"",
     "and a name with no letters in it is refused, in words",
     "and the last name, once given, is kept: a second one is refused in words",
-    "and it is fetched once: 8 ticks passed and nothing asked again (a tick is 26704 bytes without the map)",
+    "and it is fetched once: 8 ticks passed and nothing asked again (a tick is 28218 bytes without the map)",
     "no page errors anywhere in the run"
   ],
   "measured": {
@@ -128,7 +128,7 @@
         "of": "Son of Alvin Hollis and Refugia Hollis."
       }
     ],
-    "tickBytes": 26704,
+    "tickBytes": 28218,
     "familyFetchesDuringPlay": 0,
     "ticksWatched": 8
   },

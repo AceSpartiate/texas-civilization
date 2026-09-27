@@ -326,6 +326,14 @@ export function rowReason(icons, { offered = [], entity = null } = {}) {
  */
 export const TRAVELLING_WORD = 'Travelling';
 export const travellingLine = entity => (entity?.travel && !entity.travel.away ? TRAVELLING_WORD : null);
+/**
+ * The server's fuller sentence for somebody carried out of sight (`travel.away`, sim/sight.mjs), or null: read off the work
+ * it refused them, word for word, exactly as `rowReason` reads a refusal. It goes where `travellingLine`'s word goes - beside
+ * the icons in the bar for the main person, on the row for everybody else - because since the bar draws only what can be
+ * pressed (8e6ecd5, 2026-09-22) a row with an icon still glowing had no refused icon left to carry it, and the family lost
+ * the one thing it has of them (docs/FAMILY_PANEL.md §14.3; found by `npm run test:travel-sight`, 2026-09-26).
+ */
+export const awayLine = (entity, icons = []) => (entity?.travel?.away ? rowReason(icons.filter(icon => icon.kind === 'chore' && !icon.active)) : null);
 
 /**
  * The name to send for what somebody typed, or null when there is nothing to save: blank, or what the world already holds.

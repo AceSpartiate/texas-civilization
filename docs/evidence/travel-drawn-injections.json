@@ -1,6 +1,6 @@
 {
   "record": "travel-drawn-injections",
-  "date": "2026-09-22",
+  "date": "2026-09-27",
   "files": [
     "tests/travel-drawn.test.mjs",
     "tests/family-panel.test.mjs"
@@ -139,14 +139,14 @@
       "name": "nothing is ever faded away on the page: the figure is drawn whole through the middle of the road",
       "file": "public/app.js",
       "failed": [
-        "the middle is crossed wholly out of sight: 5901 painted frames with nothing of them drawn"
+        "the middle is crossed wholly out of sight: 2314 painted frames with nothing of them drawn"
       ]
     },
     {
       "name": "the road is not drawn, so a traveller away in the middle leaves the map saying nothing at all",
       "file": "public/app.js",
       "failed": [
-        "and only the road is drawn while they are gone (0 of 4038 frames)"
+        "and only the road is drawn while they are gone (0 of 3770 frames)"
       ]
     },
     {
@@ -160,14 +160,14 @@
       "name": "the figure is drawn where the server has them rather than where the schedule walks them",
       "file": "public/app.js",
       "failed": [
-        "and the figure is painted where the schedule walked it, never where the server has them: 653 frames, the farthest 22078 px off"
+        "and the figure is painted where the schedule walked it, never where the server has them: 1475 frames, the farthest 102007 px off"
       ]
     },
     {
       "name": "the row says nothing while somebody is on a journey",
       "file": "public/family-panel.js",
       "failed": [
-        "their row says Travelling the whole way: [\"Anselmo Proofwright is on the road.\"]"
+        "their row says Travelling the whole way: [\"\"]"
       ]
     },
     {

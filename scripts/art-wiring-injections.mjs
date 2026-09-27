@@ -20,14 +20,15 @@ const INJECTIONS = [
   {
     name: 'a quarry with no art of its own is given a place anyway, so a bear is drawn as whatever loads',
     file: 'sim/hunting.mjs', tests: HUNT,
-    from: "export const DRAWN_GAME = Object.freeze(['deer', 'turkey']);",
-    to: "export const DRAWN_GAME = Object.freeze(['deer', 'turkey', 'bear']);",
+    // Re-aimed 2026-09-26: the mustang joined the drawn list on 2026-09-21 and this and the next stopped matching.
+    from: "export const DRAWN_GAME = Object.freeze(['deer', 'turkey', 'mustang']);",
+    to: "export const DRAWN_GAME = Object.freeze(['deer', 'turkey', 'mustang', 'bear']);",
   },
   {
     name: 'the turkey is delivered and still not drawn, as it was the day the sheet landed',
     file: 'sim/hunting.mjs', tests: HUNT,
-    from: "export const DRAWN_GAME = Object.freeze(['deer', 'turkey']);",
-    to: "export const DRAWN_GAME = Object.freeze(['deer']);",
+    from: "export const DRAWN_GAME = Object.freeze(['deer', 'turkey', 'mustang']);",
+    to: "export const DRAWN_GAME = Object.freeze(['deer', 'mustang']);",
   },
   {
     name: 'every quarry is drawn as a deer, whatever the words say it is',
@@ -114,8 +115,9 @@ const INJECTIONS = [
   {
     name: 'nothing of the meeting reaches the family\'s own page, as it did not before',
     file: 'sim/world.mjs', tests: TALK,
-    from: "    ...(e.kind === 'person' ? listeningOf(world, e) || {} : {}) }));",
-    to: '    ...{} }));',
+    // Re-aimed 2026-09-26: the projection's closing brackets moved to a line of their own under a comment.
+    from: "    ...(e.kind === 'person' ? listeningOf(world, e) || {} : {}),",
+    to: '    ...{},',
   },
 
   // ---- the trees and the towns (trees-colonies-2, town-buildings-researched, biome-ground-bexar) --------------------
@@ -183,7 +185,8 @@ const INJECTIONS = [
   },
   {
     name: 'the ferry goes back to the round-log raft, and the plank flatboat is drawn by nothing',
-    file: 'public/landscape-art.js', tests: LIBRARY,
+    // tests/ferry-art.test.mjs since 2026-09-26: the library test stopped seeing this once the town scenes named the flatboat too.
+    file: 'public/landscape-art.js', tests: [...LIBRARY, 'tests/ferry-art.test.mjs'],
     from: "  if(!drawSprite(ctx,'ferry-flatboat',bx,by+height*.35,height))drawSprite(ctx,'ferry-raft',bx,by+height*.35,height);",
     to: "  drawSprite(ctx,'ferry-raft',bx,by+height*.35,height);",
   },

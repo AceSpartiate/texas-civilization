@@ -16,7 +16,7 @@ const INJECTIONS = [
   { name: 'the control does not say what would come', file: 'sim/hunting.mjs', from: "const comes = place.comes ? `Waiting here, ${quarryYieldWords(place.comes)}.` : '';", to: "const comes = '';" },
   { name: 'every kill is a deer\'s meat', file: 'sim/chores.mjs', from: 'const kill = killYield(quarry,', to: 'const kill = killYield(\'deer\',' },
   { name: 'every kill brings a hide', file: 'sim/chores.mjs', from: 'if (kill.hide) household.resources.hides = (household.resources.hides ?? 0) + kill.hide;', to: 'household.resources.hides = (household.resources.hides ?? 0) + 1;' },
-  { name: 'a deer drawn for any quarry', file: 'sim/chores.mjs', from: "if (step.quarry && (!state.ground?.quarry || state.ground.quarry === 'deer'))", to: 'if (step.quarry)' },
+  { name: 'a deer drawn for any quarry', file: 'sim/chores.mjs', from: 'if (step.quarry && gameDrawn(state.ground?.quarry))', to: 'if (step.quarry)' }, // re-aimed 2026-09-26: the gate is the drawn list (sim/hunting.mjs `DRAWN_GAME`) since the turkey's art
   { name: 'ducks and geese wait as long as the ground', file: 'sim/hunting.mjs', from: 'Math.max(game, GAME[quarryId]?.flocks || 0)', to: 'game' },
   // Rewritten 2026-09-20 with the quarry's country: `inRange` became `rangeShare`, so these five injections had gone
   // stale and would have stopped the harness. Each replaces the same regression against the same line as it now stands.

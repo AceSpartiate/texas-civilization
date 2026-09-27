@@ -4,7 +4,7 @@ import { drawArmy } from '/army-view.js';
 import { drawFamous } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, gaitMilesASecond, landRuns, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
-import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, standing, travellingLine, RENAME_PAUSE_MS } from '/family-panel.js';
+import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, standing, travellingLine, awayLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { mountErrand } from '/errand.js';
 import { asksTheWay, mountGoing } from '/going.js';
@@ -3930,8 +3930,9 @@ function renderFamilyPanel(world) {
     const reason = rowReason(icons, { offered, entity });
     // On a journey the row says Travelling (owner, 2026-09-22: "their icon should say 'Travelling' next to it"). It goes
     // where a reason goes, by §14.1's rule, and it outranks the server's "... is on the road." because it is the same fact
-    // in the owner's own word. Somebody carried away out of sight keeps the server's fuller sentence (`travellingLine`).
-    const travelling = travellingLine(entity);
+    // in the owner's own word. Somebody carried away out of sight keeps the server's fuller sentence (`awayLine`), in the same place
+    // and beside any icon still drawn: once refused icons were no longer drawn (8e6ecd5) nothing else carried it (2026-09-26).
+    const travelling = travellingLine(entity) || awayLine(entity, icons);
     // The main person's icon group *is* the bar at the bottom of the screen, and it shows the line there. Everybody else's
     // group is not drawn at all (public/style.css), so their line goes on the row, which is where a student looks for them.
     // This is the way out the stylesheet's ceiling named, asked for by a class on 2026-09-21.

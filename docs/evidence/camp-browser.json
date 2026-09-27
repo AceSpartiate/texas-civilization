@@ -1,11 +1,11 @@
 {
   "record": "Houston's camp, in a browser: docs/HOUSTON_CAMP.md",
-  "date": "2026-09-18",
+  "date": "2026-09-27",
   "verdict": "PASS",
   "note": "Same computer only. A real class on the colonies map with rolled families, played in process through two periods and into the spring to the army's camp on the Colorado; then served live: a student sent the father to join Houston from the family panel, set him drilling from his row, read his card, answered the army's question from the \"!\" when the word of Goliad came, and the Host read what he was at. No LAN or district claim.",
   "checks": [
     "Trinidad Proofwright was sent from the panel and joined Houston's army at Beeson's crossing",
-    "his row has the camp's work and sending for him: camp-drill, camp-forage, camp-guard, camp-scout, winter-recall",
+    "his row has the camp's work and sending for him: camp-drill, camp-forage, camp-guard, winter-recall (the scouts refused: \"The scouts ride, and Trinidad Proofwright has no horse at the camp.\")",
     "pressing \"Drill with the company\" set him drilling, and the icon glows",
     "his card counts the drill: \"Trinidad Proofwright is with General Houston's army at Beeson's crossing, drilled 1 day. Send for them to come home They start home at once.\"",
     "the \"!\" opened his card at the army's question: \"Trinidad Proofwright is with General Houston's army at Beeson's crossing, drilled 1 day. Word has come that Fannin's whole command is taken on the prairie. Many of the men are leaving the army to see \"",
@@ -18,7 +18,7 @@
     "joined": {
       "name": "Trinidad Proofwright",
       "at": "columbus-crossing",
-      "minute": 248880
+      "minute": 253920
     },
     "icons": [
       {
@@ -34,12 +34,27 @@
         "refused": false
       },
       {
-        "key": "camp-scout",
-        "refused": true
-      },
-      {
         "key": "winter-recall",
         "refused": false
+      }
+    ],
+    "offered": [
+      {
+        "id": "camp-drill",
+        "can": true
+      },
+      {
+        "id": "camp-forage",
+        "can": true
+      },
+      {
+        "id": "camp-guard",
+        "can": true
+      },
+      {
+        "id": "camp-scout",
+        "can": false,
+        "why": "The scouts ride, and Trinidad Proofwright has no horse at the camp."
       }
     ],
     "card": "Trinidad Proofwright is with General Houston's army at Beeson's crossing, drilled 1 day. Send for them to come home They start home at once.",

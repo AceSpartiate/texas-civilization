@@ -1,6 +1,6 @@
 {
   "record": "The errand to town, in a browser: docs/TOWNS.md §4b",
-  "date": "2026-09-25",
+  "date": "2026-09-27",
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768 and 1024x768. A student opened the popup from the family panel, put fourteen bales and a purchase of seed on the list, read the server's sentence that the wagon goes, sent it with Enter, was refused the wagon for a second person in the holder's name, closed the popup with Escape, and saw the coin and seed come home. No LAN or district claim.",
   "checks": [
@@ -15,7 +15,7 @@
     "a second rifle is bought at the gunsmith (\"Buy a rifle: 8 reales or 16 food\", the stock line \"The family has 27.5 food · 4 seed · 6 powder · 163 reales. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.\"), and Alvin and Keziah are both out hunting at once",
     "a second horse is bought at the stock pens (Buy a horse: 25 reales, Buy an ox: 15 reales, Buy a cow and calf: 10 reales, Buy a hog: 4 reales or 14 food): \"Rides the horse: 0 of 7 loads. Leads the new horse home on a halter.\"; Dandy the gelding is seen led home beside Alvin, who rides Bess, and stands drawn in the yard beside her",
     "two riders at once: Alvin and Keziah each ride to Gonzales on a horse of their own, both drawn in the saddle",
-    "the wheelwright's wagon (Buy a new wagon: 100 reales) is refused alone (\"A new wagon has to be drawn home, and an ox draws it. Put an ox from the stock pens on the list too.\"), sent with an ox from the pens: \"Goes on foot: 0 of 5 loads. Alvin and Keziah have both horses. Drives the new wagon home behind the new ox, at an ox's pace.\"; Soledad drives it home behind Buck the ox (drawn wagon) and it stands in the yard 699 px from the family wagon",
+    "the wheelwright's wagon (Buy a new wagon: 100 reales) is refused alone (\"A new wagon has to be drawn home, and an ox draws it. Put an ox from the stock pens on the list too.\"), sent with an ox from the pens: \"Goes on foot: 0 of 5 loads. Alvin and Keziah have both horses. Drives the new wagon home behind the new ox, at an ox's pace.\"; Soledad drives it home behind Buck the ox (drawn wagon) and it stands in the yard 700 px from the family wagon",
     "no page errors"
   ],
   "observed": {
@@ -95,7 +95,7 @@
     ],
     "chosen": "Goes on foot: 3 of 5 loads, as you chose. The horse would be quicker.",
     "home": {
-      "food": 27.5906,
+      "food": 27.6211,
       "seed": 4,
       "powder": 6,
       "money": 163,
@@ -246,8 +246,8 @@
     },
     "wagonsInYard": {
       "first": {
-        "x": 208.82691259493706,
-        "y": -160.22440813258646,
+        "x": 208.4234772552522,
+        "y": -160.9152911517976,
         "size": 76.72500000000001
       },
       "second": {

@@ -15,6 +15,7 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
+import { meetFamily } from './support/meet-family.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld } from '../sim/world.mjs';
 
@@ -68,6 +69,9 @@ try {
   await page.locator('[name=code]').fill(app.state.sessionCode);
   await page.getByRole('button', { name: 'Join', exact: true }).click();
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
+  // The family-making curtain (owner, 2026-09-17) stands over the page until the student has met their family; this proof
+  // predated it, and its first press landed on the curtain until 2026-09-26.
+  await meetFamily(page);
   for (let i = 2; i <= 5; i++) await post('/api/join', { name: `Reader ${i}`, code: app.state.sessionCode });
   await post('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);
   await page.waitForFunction(() => window.__snapshot?.world.status === 'running');
@@ -101,9 +105,14 @@ try {
   ok(`sending for somebody is asked twice: "${observed.confirm}"`);
 
   const strengthBefore = await page.evaluate(() => window.__snapshot.world.army.strength);
+  // Counted before the press. This counted after it, which held only while nothing reached the page before the next tick (four
+  // seconds here); the page is sent the order's own snapshot at once, so the count read after the press was the smaller one and the
+  // wait for it to fall below itself never ended (2026-09-26).
+  const oursBefore = await page.evaluate(() => window.__snapshot.world.army.ours.length);
   await button.click();
-  await page.waitForFunction(before => (window.__snapshot?.world.army?.ours?.length ?? 0) < before,
-    await page.evaluate(() => window.__snapshot.world.army.ours.length));
+  await page.waitForFunction(before => (window.__snapshot?.world.army?.ours?.length ?? 0) < before, oursBefore).catch(async error => {
+    throw new Error(`he never left the ranks: ${JSON.stringify(await page.evaluate(() => ({ error: document.querySelector('#error')?.textContent, going: window.__goingPending || null, goingShown: !document.querySelector('#going')?.hidden, card: document.querySelector('#selection-army')?.innerText, status: window.__snapshot.world.status, ours: window.__snapshot.world.army?.ours })))} (${error.message.split('\n')[0]})`);
+  });
   observed.after = await page.locator('#army-where').textContent();
   const strengthAfter = await page.evaluate(() => window.__snapshot.world.army.strength);
   assert.equal(strengthAfter, strengthBefore - 1, 'the army did not lose the man who was sent for');

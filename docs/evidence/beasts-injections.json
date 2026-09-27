@@ -1,6 +1,6 @@
 {
   "record": "beasts-injections",
-  "date": "2026-09-25",
+  "date": "2026-09-27",
   "files": [
     "tests/beasts.test.mjs",
     "tests/rebuy.test.mjs",
@@ -65,7 +65,8 @@
       "onlyThat": false,
       "failed": [
         "a horse bought walks home on a halter beside the rider on the horse she came on, and is its own animal with its own name",
-        "two horses are two riders, and a third is told both are out"
+        "two horses are two riders, and a third is told both are out",
+        "the ford turns the wagon back, and lets the rider through"
       ]
     },
     {
@@ -364,6 +365,7 @@
       "caught": true,
       "onlyThat": false,
       "failed": [
+        "with no rifle left and somebody free, one person goes to the gunsmith on the errand a student sends, and the rifle comes home",
         "it pays in food only above the floor it keeps, else in coin, and never on credit",
         "nobody is sent while the family still owns a rifle, one at the war included, nor while nobody is free, nor twice"
       ]

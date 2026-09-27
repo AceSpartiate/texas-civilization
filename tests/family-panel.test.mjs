@@ -16,7 +16,7 @@ import { applyAction, projectFamily, projectWorld, rollFamily, stepWorld } from 
 import { CHORES, choreCatalogue } from '../sim/chores.mjs';
 import {
   DRILLED_ROW, ORDER_NAMES, PANEL_ICONS, PANEL_SUMMARIES, TRAVELLING_WORD, activeKey, isIdle, nameToSave, panelActions,
-  panelOrder, rowReason, standing, travellingLine,
+  panelOrder, rowReason, standing, travellingLine, awayLine,
 } from '../public/family-panel.js';
 import { DRILL_TO_STEADY } from '../sim/houston.mjs';
 import { PRACTICE_COST } from '../sim/chores.mjs';
@@ -202,6 +202,23 @@ test('a person on a journey says Travelling, and a person carried out of sight k
   // server's own words - where they went, how far off, and when they should be there.
   assert.equal(travellingLine({ id: 'p', travel: { to: 'gonzales', away: true, miles: 188 } }), null);
   for (const standingStill of [{ id: 'p' }, { id: 'p', travel: null }, null, undefined]) assert.equal(travellingLine(standingStill), null);
+});
+
+test('somebody carried out of sight keeps the server\'s fuller sentence on the panel, even with an icon still drawn beside it', () => {
+  // docs/FAMILY_PANEL.md §14.3 and §14.7: the away row keeps "where they went, how far off, and when they should be there".
+  // Since the action bar draws only what can be pressed (8e6ecd5), a row whose person is away with an icon still glowing had
+  // nothing left to carry that sentence: every refused icon, which carried it, is no longer drawn (found by
+  // `npm run test:travel-sight`, 2026-09-26). `awayLine` reads it off the work the server refused them, word for word.
+  const said = 'Amos is away on the road to Gonzales, about 95 miles off, and should be there about October 8.';
+  const away = { id: 'p', travel: { to: 'gonzales', away: true, miles: 95 } };
+  const icons = panelActions({ entity: away, offered: [{ id: 'plant-field', can: false, why: said }, { id: 'hunt-timber', can: false, why: said }], catalogue, main: true, homeId: 'home-1', settable: true });
+  assert.equal(awayLine(away, icons), said);
+  // Only for somebody carried away: a walker in sight says Travelling, and somebody standing still says nothing here.
+  assert.equal(awayLine({ id: 'p', travel: { to: 'gonzales', progress: 2 } }, icons), null);
+  assert.equal(awayLine({ id: 'p' }, icons), null);
+  // And never a sentence the server did not send: two different refusals are not one line.
+  const mixed = panelActions({ entity: away, offered: [{ id: 'plant-field', can: false, why: said }, { id: 'hunt-timber', can: false, why: 'Something else.' }], catalogue });
+  assert.equal(awayLine(away, mixed), null);
 });
 
 test('a row of one refusal says it once; a busy row keeps its glowing icon and its way to call off the work', () => {

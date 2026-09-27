@@ -1,6 +1,6 @@
 {
   "record": "rain-work-injections",
-  "date": "2026-09-21",
+  "date": "2026-09-27",
   "files": [
     "tests/rain-work.test.mjs"
   ],

@@ -1,6 +1,6 @@
 {
   "record": "lesson-injections",
-  "date": "2026-09-22",
+  "date": "2026-09-27",
   "files": [
     "tests/lesson.test.mjs"
   ],
@@ -81,7 +81,9 @@
     {
       "name": "a family whose student has gone is gated, so the director cannot move it at all",
       "file": "sim/lesson.mjs",
-      "failed": []
+      "failed": [
+        "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back"
+      ]
     },
     {
       "name": "a family on the road east is still being taught to dig a well on the land it left",

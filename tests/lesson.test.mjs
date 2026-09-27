@@ -354,6 +354,12 @@ test('a family whose student has gone is run by the director and is never gated,
   // And the lesson keeps pace with what the director actually did rather than freezing: somebody was put to work, which
   // is what that step asks for, so the student comes back to the step the family has genuinely reached.
   assert.equal(household.lesson.step, 'house');
+  // And an order this step shuts for a student at the screen is not shut for the director (2026-09-26: the step the hunt was
+  // sent at allows a hunt anyway, so until then nothing here could tell a gated absent family from an ungated one, and
+  // scripts/lesson-injections.mjs's gate put back on it was missed). Whatever else the survey says of a spot, never "Not yet".
+  let gated = null;
+  try { send(world, 'hh-1', { action: 'survey-plot', entityId: hands(world, household)[0].id, x: 0, y: 0 }); } catch (error) { gated = error.message; }
+  assert.doesNotMatch(gated || '', /Not yet/, 'the director was held at the guided start for a family whose student has gone');
   delete household.absent;
   assert.equal(lessonOf(world, 'hh-1').step, 'house');
   assert.throws(() => send(world, 'hh-1', { action: 'survey-plot', entityId: hands(world, household)[0].id, x: 0, y: 0 }), /Not yet/, 'and the gate is shut again behind them');

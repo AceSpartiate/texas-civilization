@@ -29,8 +29,9 @@ const INJECTIONS = [
   {
     file: 'public/app.js',
     name: 'the line is drawn on every row, so the main person is told the same thing twice - on their row and in their bar',
-    from: '    const silence = focused ? \'\' : reason || \'\';',
-    to: '    const silence = reason || \'\';',
+    // Re-aimed 2026-09-26: the line gained the travelling word on 2026-09-22 (§14.7) and this pattern stopped matching.
+    from: '    const silence = focused ? \'\' : travelling || reason || \'\';',
+    to: '    const silence = travelling || reason || \'\';',
   },
   {
     file: 'public/app.js',
@@ -164,6 +165,10 @@ try {
         groupDrawn: Boolean(groupBox && groupBox.width > 0),
         icons: group ? group.querySelectorAll('.panel-icon').length : 0,
         open: group ? [...group.querySelectorAll('.panel-icon')].filter(one => one.getAttribute('aria-disabled') !== 'true').length : 0,
+        // Glowing: what the server says they are doing now, which a bar keeps when nothing else is open (8e6ecd5).
+        active: group ? group.querySelectorAll('.panel-icon[data-active=true]').length : 0,
+        // Drawn and refused: the row of greyed icons the owner's action-bar rule of 2026-09-22 took off the bar.
+        greyed: group ? [...group.querySelectorAll('.panel-icon')].filter(one => one.getAttribute('aria-disabled') === 'true' && one.dataset.active !== 'true').length : 0,
         barLine: reason ? reason.textContent : null,
         barBox: reason ? (b => ({ left: Math.round(b.left), top: Math.round(b.top), right: Math.round(b.right), bottom: Math.round(b.bottom) }))(reason.getBoundingClientRect()) : null,
         // The sentence the server itself put on this person's work, which is what every line must be.
@@ -189,7 +194,18 @@ try {
     check(row.lineShown, `${row.name}: the reason is really drawn on their row`);
     check(row.sent.length === 1 && row.line === row.sent[0], `${row.name}: the line is the server's own sentence, word for word - "${row.line}"`);
     check(row.line === `${row.name} is too young to be sent.`, `${row.name}: the line names them and says why - "${row.line}"`);
-    check(row.lineBox.right <= SCREEN.width && row.lineBox.bottom <= SCREEN.height && row.lineBox.left >= 0, `${row.name}: the line is on the screen`);
+    // The column is its own scroll region since 2026-09-25 (docs/FAMILY_PANEL.md §17, `fitColumn`): a row below its fold is
+    // on the screen once the column is scrolled to it, as a student scrolls it. Measured there, and inside the column's own
+    // visible box, so a line the column clips is still a line nobody can read. Until 2026-09-26 this measured the row where
+    // the unscrolled column had left it, and failed at 1366x768 on the youngest child from the day the column began to scroll.
+    const seen = await page.evaluate(id => {
+      const panel = document.querySelector('#family-panel'), row = document.querySelector(`.panel-row[data-entity-id="${id}"]`);
+      row.scrollIntoView({ block: 'nearest' });
+      const box = row.querySelector('.panel-why').getBoundingClientRect(), column = panel.getBoundingClientRect();
+      return { line: { left: Math.round(box.left), top: Math.round(box.top), right: Math.round(box.right), bottom: Math.round(box.bottom) }, column: { top: Math.round(column.top), bottom: Math.round(column.bottom) }, scrolled: panel.scrollTop };
+    }, row.id);
+    measured.youngLine = { name: row.name, unscrolled: row.lineBox, ...seen };
+    check(seen.line.right <= SCREEN.width && seen.line.bottom <= SCREEN.height && seen.line.left >= 0 && seen.line.top >= seen.column.top - 1 && seen.line.bottom <= seen.column.bottom + 1, `${row.name}: the line is on the screen, inside the family column (${JSON.stringify(seen)})`);
   }
 
   // -------------------------------------------------------------------- everybody who can do something says nothing
@@ -216,8 +232,12 @@ try {
   await holdLesson(page, stubStep(1));
   const shut = await rowsOf();
   const shutMain = shut.find(row => row.focused);
-  check(shutMain.icons > 4 && shutMain.open === 0, `the step shuts the whole bar: ${shutMain.icons} icons, ${shutMain.open} open`);
-  check(shutMain.barLine === null, 'a bar the guided start has shut still shows its icons, not one line');
+  // Since the owner's action-bar rule of 2026-09-22 (8e6ecd5: the bar draws only what the server and the step allow, and
+  // what is being done now stays, glowing) a shut bar is no longer a row of dimmed icons; this asked for more than four
+  // until 2026-09-26. What it holds now: nothing on the bar can be pressed, nothing refused is drawn, and while the person
+  // is at something the bar still shows it rather than a line saying they can do nothing.
+  check(shutMain.open === 0 && shutMain.greyed === 0 && shutMain.icons === shutMain.active, `the step shuts the whole bar: ${shutMain.icons} icons drawn, ${shutMain.active} of them what they are doing now, ${shutMain.open} open`);
+  check(shutMain.icons === 0 || shutMain.barLine === null, 'a bar the guided start has shut still shows what they are doing, not one line');
   check(shutMain.line === null, "the main person's row says nothing while a step is shutting their bar");
   check(shut.filter(row => row.tooYoung).every(row => row.lineShown && row.line === row.sent[0]),
     'and in the same tick a child the server really refused still shows their own line');
@@ -241,7 +261,10 @@ try {
   const away = rows.find(row => row.id === mainId);
   measured.away = { name: away.name, barLine: away.barLine, barBox: away.barBox, line: away.line, icons: away.icons };
   check(away.focused, 'the person sent away is still the main person, so this is their bar');
-  check(away.icons === 0 && away.barLine !== null, 'their bar is one line where a row of greyed icons used to be');
+  // §14.7: the word stands beside the icons when there are any (somebody on a journey can still be called off), and no
+  // greyed icon is drawn (8e6ecd5). This asked for no icons at all until 2026-09-26.
+  measured.away.open = away.open; measured.away.greyed = away.greyed;
+  check(away.barLine !== null && away.greyed === 0, `their bar has the line and no greyed icon, where a row of them used to be: ${away.icons} drawn, ${away.open} open`);
   check(away.barLine === 'Travelling', `the bar's line is the word for somebody on a journey - "${away.barLine}"`);
   check(away.line === null, 'and it is not said twice: their own row stays quiet while the bar carries it');
   check(away.barBox.bottom <= SCREEN.height && away.barBox.right <= SCREEN.width && away.barBox.left >= 0, 'the bar’s line is on the screen');

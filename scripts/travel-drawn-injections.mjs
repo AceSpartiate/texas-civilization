@@ -129,8 +129,9 @@ const BROWSER = [
   {
     file: 'public/app.js',
     name: 'the road is not drawn, so a traveller away in the middle leaves the map saying nothing at all',
-    from: '    if (sight && sight.alpha < 1) roads.push({ entity, seen: sight });\n    const ground = sight?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);\n    // The place the figure was really put',
-    to: '    const ground = sight?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);\n    // The place the figure was really put',
+    // Re-aimed 2026-09-26, with the next but one: the town's own walkers (`townGround`) came between the road and the point.
+    from: '    if (sight && sight.alpha < 1) roads.push({ entity, seen: sight });\n    const inTown = townGround(world, entity, camera, frameNow, frozen);\n    const ground = sight?.at || inTown?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);\n    // The place the figure was really put',
+    to: '    const inTown = townGround(world, entity, camera, frameNow, frozen);\n    const ground = sight?.at || inTown?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);\n    // The place the figure was really put',
   },
   {
     file: 'public/motion.js',
@@ -141,8 +142,8 @@ const BROWSER = [
   {
     file: 'public/app.js',
     name: 'the figure is drawn where the server has them rather than where the schedule walks them',
-    from: '    const ground = sight?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);\n    // The place the figure was really put',
-    to: '    const ground = motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);\n    // The place the figure was really put',
+    from: '    const ground = sight?.at || inTown?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);\n    // The place the figure was really put',
+    to: '    const ground = inTown?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);\n    // The place the figure was really put',
   },
   {
     file: 'public/family-panel.js',

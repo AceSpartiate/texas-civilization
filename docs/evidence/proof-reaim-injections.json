@@ -1,0 +1,16 @@
+{
+  "record": "proof-reaim-injections",
+  "date": "2026-09-26",
+  "note": "Each browser check re-aimed on 2026-09-26 (HANDOFF, 'The failing and flaky browser proofs brought back') run once against the regression it guards, in a scratch copy of the tree, one at a time, the file put back byte for byte. Same computer only.",
+  "injections": [
+    { "proof": "test:camp", "file": "public/app.js", "injected": "the bar draws refused icons again (8e6ecd5 undone)", "caught": true, "by": "the drawn icons equal the server's open camp work and sending for him (camp-scout, refused, drawn)" },
+    { "proof": "test:family", "file": "public/app.js", "injected": "the die line says the family die's number for the means die", "caught": true, "by": "the page says a different means roll from the server's" },
+    { "proof": "test:riding", "file": "public/app.js", "injected": "a family person with looks drawn as the painted cast again", "caught": true, "by": "the person sent on the horse has the family's looks, so is drawn as them" },
+    { "proof": "test:armies", "file": "sim/armies.mjs", "injected": "every Mexican column drawn for every family", "caught": true, "by": "a column was drawn though nobody of the family is within sight of it (urrea, 83.7 miles)" },
+    { "proof": "test:information", "file": "sim/world.mjs", "injected": "the Host sent a family's reports outside the Rumor Mill", "caught": true, "by": "Host (outside the Rumor Mill) received a secret topic identifier" },
+    { "proof": "test:slice", "file": "sim/directors.mjs", "injected": "the Host sent no battle (the old delayed rule)", "caught": true, "by": "the Host was not sent the fight live (first run missed: the pause check read the Host's phase and failed first; it reads the watching family's page since)" },
+    { "proof": "test:travel-sight", "file": "public/app.js", "injected": "the away sentence not drawn beside a glowing icon (awayLine undone)", "caught": true, "by": "their row on the family panel says the same" },
+    { "proof": "test:panel-silence --inject", "file": "public/app.js, public/style.css", "injected": "its own three, the first re-aimed at the line as it reads since the travelling word", "caught": "3 of 3" },
+    { "proof": "scripts/travel-drawn-injections.mjs PROOF_BROWSER=1", "file": "public/app.js, public/motion.js, public/family-panel.js", "injected": "its six browser injections, two re-aimed past the town walkers (townGround)", "caught": "6 of 6 (23 of 23 with the unit ones)" }
+  ]
+}

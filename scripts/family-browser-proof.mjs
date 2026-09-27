@@ -58,12 +58,17 @@ try {
   await page.locator('#roll-family').click();
   await page.waitForFunction(() => document.querySelector('#roll-family')?.textContent === 'Meet your family', null, { timeout: 15000 });
   const rolled = await page.locator('#family-roll-result').textContent();
-  assert.match(rolled, /^You rolled an? (\d|1\d|20)\.$/);
+  // Since 2026-09-25 the same press throws the second die, for the family's means (sim/means.mjs), and the line says both
+  // (public/app.js); until 2026-09-26 this asked for the one-die line alone. Both numbers are checked against the server's below.
+  const thrown = rolled.match(/^You rolled an? (\d+)(?: for your family and an? (\d+) for what it has)?\.$/);
+  assert.ok(thrown && Number(thrown[1]) >= 1 && Number(thrown[1]) <= 20, `the die's line is not a roll of the twenty-sided die: "${rolled}"`);
   await page.locator('#roll-family').click();
   // The last name, asked for at once, and carried by everybody (owner, 2026-09-17).
   assert.equal(await meetFamily(page, 'Hollis'), 'Hollis', 'the last name was not asked for after the roll');
   const family = await page.evaluate(async () => (await (await fetch('/api/family')).json()).family);
   assert.ok(family.people.every(person => person.name === `${person.given} Hollis`), 'somebody does not carry the last name');
+  assert.equal(Number(thrown[1]), family.roll, 'the page says a different family roll from the server\'s');
+  assert.equal(thrown[2] === undefined ? null : Number(thrown[2]), family.means?.roll ?? null, 'the page says a different means roll from the server\'s');
   ok(`the die is rolled in the page, and the family is the server's: "${rolled}", ${family.people.length} people, every one a Hollis`);
 
   // ------------------------------------------------------- the book answers the question

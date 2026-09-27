@@ -13,7 +13,7 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
-import { createSettledWorld, keepFoundingFamilies } from '../tests/support/settled.mjs';
+import { createSettledWorld, keepFoundingFamilies, modestMeans } from '../tests/support/settled.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { asMain } from './support/main-person.mjs';
 // A settled class: these families are at home under a roof, as every class began before arrivals
@@ -25,7 +25,10 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const pass = [];
 const ok = (label, condition = true) => { assert.ok(condition, label); pass.push(label); console.log('PASS', label); };
 
-const app = createClassroom({ seed: 'travel-proof', playerCount: 5, tickMs: 250, worldFactory: (seed, count) => keepFoundingFamilies(createSettledWorld(seed, count)) });
+// Of modest means - one covered wagon and one ox (`modestMeans`), which is what this proof is about. Since the means die of
+// 2026-09-25 this seed deals the first family the poor band's open cart, which has no rolling cycle yet (docs/ART_REQUESTS.md,
+// 2026-09-25 - the cart), and the check of the wagon's cycle below failed on it until 2026-09-26.
+const app = createClassroom({ seed: 'travel-proof', playerCount: 5, tickMs: 250, worldFactory: (seed, count) => modestMeans(keepFoundingFamilies(createSettledWorld(seed, count))) });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [];

@@ -123,15 +123,31 @@ try {
     evidence.samples.push({ label, ...one, view: one.view && { figures: one.view.figures, regularity: one.view.regularity, shotsTotal: one.view.shotsTotal, shotsBy: one.view.shotsBy, smoke: one.view.smoke, smokeInView: one.view.smokeInView, bubbles: one.view.bubbles.map(b => b.text), members: one.view.members, memberClips: one.view.memberClips, frameMs: one.view.frameMs, cannonShots: one.view.cannonShots } });
     return one;
   };
+  // **Sampled by the class's clock, not the wall's** (2026-09-26). The moments were taken 2.6 and 2.2 real seconds apart,
+  // so how many fell inside the twelve ticks of the skirmish and the ten of the fight - and whether the wait for the fight
+  // began before it had passed - depended on how fast this computer was going; a cold first run, the browser still loading
+  // the art, took fewer and failed (v2026.09.26.4). Now a moment is taken every second tick while the phase runs, whatever
+  // the wall clock does: six in the skirmish, three in the parley, four in the fight.
   const moments = [];
-  for (let i = 0; i < 6; i++) { await fighter.waitForTimeout(2600); moments.push(await sample(fighter, `1366 skirmish ${i}`)); if (i === 2) await shot(fighter, 'skirmish'); }
+  const tickNow = page => page.evaluate(() => window.__snapshot.world.tick);
+  async function momentsOf(page, phase, label, count, shotAt = -1, shotName = null) {
+    await page.waitForFunction(id => window.__snapshot.world.battle?.phase === id, phase, { timeout: 120000 });
+    let at = await tickNow(page);
+    for (let i = 0; i < count; i++) {
+      at += i === 0 ? 1 : 2;
+      await page.waitForFunction(t => window.__snapshot.world.tick >= t, at, { timeout: 60000 });
+      const one = await sample(page, `${label} ${i}`);
+      if (one.phase !== phase) break;
+      moments.push(one);
+      if (i === shotAt) await shot(page, shotName);
+    }
+  }
+  await momentsOf(fighter, 'dawn-skirmish', '1366 skirmish', 6, 2, 'skirmish');
   // And at the narrower desktop, through the parley and the cannon and the advance.
   await fighter.setViewportSize({ width: 1024, height: 768 });
-  await fighter.waitForFunction(() => window.__snapshot.world.battle?.phase === 'parley', null, { timeout: 120000 });
-  for (let i = 0; i < 3; i++) { await fighter.waitForTimeout(2600); moments.push(await sample(fighter, `1024 parley ${i}`)); }
+  await momentsOf(fighter, 'parley', '1024 parley', 3);
   await shot(fighter, 'parley-1024');
-  await fighter.waitForFunction(() => window.__snapshot.world.battle?.phase === 'fight', null, { timeout: 120000 });
-  for (let i = 0; i < 4; i++) { await fighter.waitForTimeout(2200); moments.push(await sample(fighter, `1024 fight ${i}`)); if (i === 1) await shot(fighter, 'fight-1024'); }
+  await momentsOf(fighter, 'fight', '1024 fight', 4, 1, 'fight-1024');
   const firing = moments.filter(one => ['dawn-skirmish', 'fight'].includes(one.phase));
   assert.ok(firing.length >= 6, `only ${firing.length} moments of the fighting were sampled`);
   // The Texian volunteers themselves go on firing: every pair of moments of the same phase has shots of theirs between them
