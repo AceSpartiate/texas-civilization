@@ -72,6 +72,101 @@
         ]
       }
     },
+    "joe-story-actions": {
+      "image": "atlases/joe-story-actions.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 787824,
+      "sha256": "9316fbaeb5df17dffa331f5143f4855423795f3acd113683e03752e2df9ba51f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.788795,
+        "cornerAlpha": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              88,
+              551
+            ],
+            "columns": [
+              [
+                117,
+                595
+              ],
+              [
+                744,
+                1241
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              679,
+              1206
+            ],
+            "columns": [
+              [
+                164,
+                438
+              ],
+              [
+                826,
+                1063
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-travis-still": {
+      "image": "atlases/famous-travis-still.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1367838,
+      "sha256": "58b62daa2437f7a7d071faad6cb3390f2e1214225849ddd7edc80271abc38428",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.789531,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              106,
+              927
+            ],
+            "columns": [
+              [
+                292,
+                1203
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "artillery-service": {
       "image": "atlases/artillery-service.png",
       "width": 1254,
@@ -12798,6 +12893,131 @@
           112
         ],
         "visiblePixels": 39078,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "joe-door-aim": {
+      "sheet": "joe-story-actions",
+      "x": 117,
+      "y": 88,
+      "w": 478,
+      "h": 463,
+      "anchorX": 0.2019,
+      "anchorY": 0.9287,
+      "logicalHeight": 526,
+      "label": "joe door aim",
+      "kind": "joe-story-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          119,
+          90,
+          474,
+          459
+        ],
+        "visiblePixels": 84738,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "joe-door-fire": {
+      "sheet": "joe-story-actions",
+      "x": 744,
+      "y": 89,
+      "w": 497,
+      "h": 462,
+      "anchorX": 0.1962,
+      "anchorY": 0.9286,
+      "logicalHeight": 526,
+      "label": "joe door fire",
+      "kind": "joe-story-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          746,
+          91,
+          493,
+          458
+        ],
+        "visiblePixels": 85479,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "joe-hurt-e": {
+      "sheet": "joe-story-actions",
+      "x": 164,
+      "y": 679,
+      "w": 274,
+      "h": 526,
+      "anchorX": 0.1697,
+      "anchorY": 0.9411,
+      "logicalHeight": 526,
+      "label": "joe hurt e",
+      "kind": "joe-story-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          166,
+          681,
+          270,
+          522
+        ],
+        "visiblePixels": 68844,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "joe-hurt-s": {
+      "sheet": "joe-story-actions",
+      "x": 826,
+      "y": 704,
+      "w": 237,
+      "h": 502,
+      "anchorX": 0.2511,
+      "anchorY": 0.9482,
+      "logicalHeight": 526,
+      "label": "joe hurt s",
+      "kind": "joe-story-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          828,
+          706,
+          233,
+          498
+        ],
+        "visiblePixels": 64448,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-still-ramp": {
+      "sheet": "famous-travis-still",
+      "x": 292,
+      "y": 106,
+      "w": 911,
+      "h": 821,
+      "anchorX": 0.7124,
+      "anchorY": 0.9294,
+      "logicalHeight": 821,
+      "label": "travis still ramp",
+      "kind": "famous-travis-still",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          294,
+          108,
+          907,
+          817
+        ],
+        "visiblePixels": 324881,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

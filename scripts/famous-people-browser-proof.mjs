@@ -171,6 +171,7 @@ try {
   assert.ok(!inPhase('alarm', 'travis')?.fell, 'Travis fell before the repulse');
   assert.ok(inPhase('repulse', 'travis')?.fell, 'Travis was not seen to fall in the repulse');
   assert.ok(inPhase('north-wall', 'travis')?.fell, 'Travis does not lie where he fell');
+  assert.ok(inPhase('repulse', 'travis')?.drawnAs.has('travis-still-ramp') || inPhase('north-wall', 'travis')?.drawnAs.has('travis-still-ramp'), 'Travis dedicated still pose was not drawn');
   ok('Travis falls in the repulse at the north battery, not before, and lies there');
   // Bowie on his cot, then still on it when the low barrack is carried.
   assert.ok(inPhase('alarm', 'bowie')?.poses.has('sick'), 'Bowie was not on his cot at the alarm');
@@ -193,7 +194,9 @@ try {
   ok(`Crockett fights through the assault; after it he is taken, tagged "${inPhase('end', 'crockett').tag}", brought before Santa Anna with Castrillón there, and killed; the caption gives both accounts and the dispute`);
   // Joe: firing from the house, coming out, hurt, never down, and brought to Santa Anna in Béxar.
   assert.ok(inPhase('repulse', 'joe')?.poses.has('fire-hidden') || inPhase('rooms', 'joe')?.poses.has('fire-hidden'), 'Joe was not drawn firing from the house');
+  assert.ok(inPhase('repulse', 'joe')?.drawnAs.has('joe-fire-door') || inPhase('rooms', 'joe')?.drawnAs.has('joe-fire-door'), 'Joe doorway firing art was not drawn');
   assert.ok(inPhase('end', 'joe')?.poses.has('emerge') && inPhase('end', 'joe').hurt, 'Joe was not drawn coming out and hurt');
+  assert.ok(inPhase('end', 'joe')?.drawnAs.has('joe-hurt-e'), 'Joe wounded pose was not drawn');
   assert.ok(lines.get('e-joe')?.name === 'Joe', 'Joe\'s own words were not drawn from him');
   assert.ok(Object.values(seen).every(phase => !phase.joe?.fell), 'Joe was drawn fallen');
   assert.ok(inPhase('after', 'joe') && inPhase('after', 'santa-anna'), 'Joe was not brought to Santa Anna');
