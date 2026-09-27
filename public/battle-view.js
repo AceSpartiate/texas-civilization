@@ -69,15 +69,18 @@ const clamp01 = value => Math.max(0, Math.min(1, value));
  * regular (public/battle-view.js `drawPerson`; stand-ins listed in docs/ART_REQUESTS.md, request 2026-09-26).
  */
 export const PERSON_ART = Object.freeze({
-  travis: { stand: 'travis-idle', command: 'travis-command', write: 'travis-write', point: 'travis-command', fire: ['travis-aim', 'travis-fire', 'travis-ready'], wounded: 'travis-wounded-kneel', walk: 'travis-walk-e' },
+  travis: { stand: 'travis-idle', command: 'travis-command', write: 'travis-write', point: 'travis-command', fire: ['travis-aim', 'travis-fire', 'travis-ready'], wounded: 'travis-wounded-kneel', still: 'travis-still-ramp', walk: 'travis-walk-e' },
   bowie: { stand: 'bowie-idle', command: 'bowie-command', sick: 'bowie-sick-bed', 'still-bed': 'bowie-still-bed', seated: 'bowie-sick-seated', walk: 'bowie-walk-e' },
-  crockett: { stand: 'crockett-idle', command: 'crockett-command', fire: ['crockett-aim', 'crockett-fire', 'crockett-reload'], seated: 'crockett-rest-seated', walk: 'crockett-walk-e' },
-  joe: { stand: 'clip:joe-idle', hide: 'clip:joe-hide', emerge: 'clip:joe-emerge', seated: 'clip:joe-rest', wounded: 'clip:joe-rest', walk: 'joe-walk' },
+  crockett: { stand: 'crockett-idle', command: 'crockett-command', fire: ['crockett-aim', 'crockett-fire', 'crockett-reload'], seated: 'crockett-rest-seated', captive: 'clip:crockett-captive', still: 'crockett-still-side', walk: 'crockett-walk-e' },
+  joe: { stand: 'clip:joe-idle', hide: 'clip:joe-hide', fireHidden: 'joe-fire-door', emerge: 'clip:joe-emerge', seated: 'clip:joe-rest', wounded: 'joe-hurt-e', walk: 'joe-walk' },
   seguin: { stand: 'seguin-idle', command: 'seguin-command', ride: 'seguin-mounted-e', walk: 'seguin-walk-e' },
   'susanna-dickinson': { stand: 'susanna-dickinson-hold-angelina', carry: 'susanna-dickinson-carry-angelina', sick: 'susanna-dickinson-shelter-with-angelina', seated: 'susanna-dickinson-rest-with-angelina', walk: 'susanna-dickinson-walk-e' },
   'angelina-dickinson': { stand: 'angelina-dickinson-sit', seated: 'angelina-dickinson-sleep' },
   milam: { stand: 'milam-idle', command: 'milam-rally', point: 'milam-point', fire: ['milam-cover', 'milam-advance', 'milam-cover'], still: 'milam-still', walk: 'milam-walk-e' },
   fannin: { stand: 'fannin-idle', command: 'fannin-command', wounded: 'fannin-injured-seated', surrender: 'fannin-surrender', prisoner: 'fannin-prisoner-seated', walk: 'fannin-walk-e' },
+  bonham: { stand: 'bonham-idle', command: 'bonham-point', point: 'bonham-point', gun: 'bonham-serve-gun', fire: ['bonham-aim', 'bonham-fire', 'bonham-reload'], still: 'bonham-still', walk: 'bonham-walk-e' },
+  'almeron-dickinson': { stand: 'almeron-dickinson-idle', command: 'almeron-dickinson-command', gun: 'almeron-dickinson-serve-gun', carry: 'almeron-dickinson-shot-carry', fire: ['almeron-dickinson-ram', 'almeron-dickinson-fire', 'almeron-dickinson-ram'], still: 'almeron-dickinson-still', walk: 'almeron-dickinson-walk-e' },
+  esparza: { stand: 'esparza-idle', command: 'esparza-point', point: 'esparza-point', gun: 'esparza-serve-gun', carry: 'esparza-shot-carry', fire: ['esparza-aim', 'esparza-fire', 'esparza-aim'], still: 'esparza-still', walk: 'esparza-walk-e' },
   houston: { stand: 'houston-idle', command: 'houston-command', wounded: 'houston-injured-seated', walk: 'houston-walk-e' },
   'santa-anna': { stand: 'santa-anna-idle', command: 'santa-anna-command', prisoner: 'santa-anna-disguised-seated', walk: 'santa-anna-walk-e' },
   'emily-west': { stand: 'emily-west-idle', carry: 'emily-west-carry-bundle', seated: 'emily-west-sit-converse', walk: 'emily-west-walk-e' },
@@ -1155,8 +1158,9 @@ export function createBattleView(art) {
     // The fallen: a moment hurt, then lying still, no blood (`VISION.md` §16). A man killed on his cot simply lies still.
     if (fell) {
       if (person.still && own?.[person.still]) return sprite(own[person.still]);
+      if (own?.still) return sprite(own.still);
       if (fellAgo < 700 && !person.still) return sprite(`${kind}-injured`);
-      return (own?.still && sprite(own.still)) || sprite(`${kind}-reclining`);
+      return sprite(`${kind}-reclining`);
     }
     const pose = hurt ? 'wounded' : person.moving && person.pose !== 'ride' ? 'walk' : person.pose || 'stand';
     const named = own?.[pose];
@@ -1181,7 +1185,8 @@ export function createBattleView(art) {
         flash(person.x, person.y, person.right, now, 0.8);
         puff(person.x + (person.right ? 0.002 : -0.002), person.y, now, { wind: null });
       }
-      return clip(own?.hide ? own.hide.slice(5) : `${kind}-idle-e`);
+      const firing = own?.fireHidden || 'joe-hide';
+      return art.animated(ctx, firing, p.x, p.y, size, 0, { timeMs: t, flip }) ? firing : clip(own?.hide ? own.hide.slice(5) : `${kind}-idle-e`);
     }
     if (named) return typeof named === 'string' && named.startsWith('clip:') ? clip(named.slice(5)) : sprite(named);
     // Stand-ins for poses without art of their own.

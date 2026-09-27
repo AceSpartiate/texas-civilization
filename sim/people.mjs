@@ -62,16 +62,16 @@ export const PEOPLE = Object.freeze({
     fate: { kind: 'killed', battle: 'alamo', phase: 'end', at: 20, claimId: 'HIST-TEX-545', account: 'de la Peña', disputed: true, liesUntil: 'after' },
     map: [{ from: on(1836, 2, 8, 14), until: 'alamo-siege', site: 'bexar', doing: 'stand', claimId: 'HIST-TEX-544' }],
   }),
-  bonham: person('bonham', 'Bonham', TX, 'officer', 2, 'HIST-TEX-546', {
+  bonham: person('bonham', 'Bonham', TX, 'bonham', 2, 'HIST-TEX-546', {
     fullName: 'James Butler Bonham',
     // "Believed to have died manning one of the cannons in the interior of the Alamo chapel" - a tradition for the place.
     fate: { kind: 'killed', battle: 'alamo', phase: 'rooms', at: 12, claimId: 'HIST-TEX-546', liesUntil: 'after' },
   }),
-  'almeron-dickinson': person('almeron-dickinson', 'Dickinson', TX, 'officer', 1, 'HIST-TEX-547', {
+  'almeron-dickinson': person('almeron-dickinson', 'Dickinson', TX, 'almeron-dickinson', 1, 'HIST-TEX-547', {
     fullName: 'Almeron Dickinson',
     fate: { kind: 'killed', battle: 'alamo', phase: 'rooms', at: 12, claimId: 'HIST-TEX-547', liesUntil: 'after' },
   }),
-  esparza: person('esparza', 'Esparza', TX, 'officer', 2, 'HIST-TEX-550', {
+  esparza: person('esparza', 'Esparza', TX, 'esparza', 2, 'HIST-TEX-550', {
     fullName: 'José María (Gregorio) Esparza',
     fate: { kind: 'killed', battle: 'alamo', phase: 'rooms', at: 12, claimId: 'HIST-TEX-550', liesUntil: 'after' },
   }),

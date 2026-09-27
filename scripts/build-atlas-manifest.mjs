@@ -298,7 +298,7 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
   for (let p = 3; p < image.data.length; p += 4) if (image.data[p] === 0) transparentPixels++;
   if (transparentPixels / (image.width * image.height) < 0.25) throw new Error(`${sheet}: less than 25% clear alpha; inspect for a baked background`);
   const { found, labels } = regions(image), grouped = new Map();
-  const columns = names.length === 1 ? 1 : names.length === 4 ? 2 : 4, rows = names.length / columns;
+  const columns = names.length === 1 ? 1 : (names.length === 4 || names.length === 6) ? 2 : 4, rows = names.length / columns;
   const cellWidth = image.width / columns, cellHeight = image.height / rows;
   for (const region of found) {
     const col = Math.min(columns - 1, Math.floor((region.minX + region.maxX) / 2 / cellWidth));
@@ -357,7 +357,7 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
       ...(sheet === 'house-modules' && GROUNDED.test(names[index]) ? groundOf(image, frame) : {}),
       ...(/^(people-|animal-|military-|courier-)/.test(sheet) ? { logicalHeight: Math.max(...placed.filter(p => p.row === frame.row).map(p => p.maxY - p.minY + 1)) } : {}),
       ...(sheet==='wagon-rig' && names[index]!=='wagon-wheel' ? {logicalHeight:placed[0].maxY-placed[0].minY+1} : {}),
-      ...(sheet==='joe-poses' ? {logicalHeight:Math.max(...placed.map(p=>p.maxY-p.minY+1))} : {}),
+        ...(sheet==='joe-poses' || sheet==='joe-story-actions' ? {logicalHeight:Math.max(...placed.map(p=>p.maxY-p.minY+1))} : {}),
       // Named people keep one standing scale even when a later cell contains a table, cot or reclining pose.
       ...(sheet.startsWith('famous-') && sheet !== 'famous-picnic-props' ? {logicalHeight:Math.max(...placed.filter(p=>p.row<3).map(p=>p.maxY-p.minY+1))} : {}),
       ...(sheet==='houses-settling' ? {logicalHeight:Math.max(...placed.filter(p=>p.row===frame.row).map(p=>p.maxY-p.minY+1))} : {}),

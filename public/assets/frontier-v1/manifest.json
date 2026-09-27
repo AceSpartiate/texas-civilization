@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 120,
-    "sprites": 1416,
-    "clips": 493,
-    "poseCycles": 267,
+    "sheets": 130,
+    "sprites": 1482,
+    "clips": 507,
+    "poseCycles": 281,
     "rigs": 4
   },
   "entrypoints": {
@@ -82,6 +82,101 @@
               [
                 41,
                 460
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "joe-story-actions": {
+      "image": "atlases/joe-story-actions.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 787824,
+      "sha256": "9316fbaeb5df17dffa331f5143f4855423795f3acd113683e03752e2df9ba51f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.788795,
+        "cornerAlpha": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              88,
+              551
+            ],
+            "columns": [
+              [
+                117,
+                595
+              ],
+              [
+                744,
+                1241
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              679,
+              1206
+            ],
+            "columns": [
+              [
+                164,
+                438
+              ],
+              [
+                826,
+                1063
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-travis-still": {
+      "image": "atlases/famous-travis-still.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1367838,
+      "sha256": "58b62daa2437f7a7d071faad6cb3390f2e1214225849ddd7edc80271abc38428",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.789531,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              106,
+              927
+            ],
+            "columns": [
+              [
+                292,
+                1203
               ]
             ]
           }
@@ -2881,6 +2976,254 @@
         ]
       }
     },
+    "famous-bonham": {
+      "image": "atlases/famous-bonham.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1241019,
+      "sha256": "f5e908c5643bd788c03e9f46474b6c14004384d8c1480f2ad0d384f9e3bc500c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.682718,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              6,
+              321
+            ],
+            "columns": [
+              [
+                81,
+                277
+              ],
+              [
+                388,
+                598
+              ],
+              [
+                697,
+                904
+              ],
+              [
+                1014,
+                1219
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              325,
+              637
+            ],
+            "columns": [
+              [
+                86,
+                239
+              ],
+              [
+                403,
+                561
+              ],
+              [
+                719,
+                873
+              ],
+              [
+                1030,
+                1187
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              635,
+              941
+            ],
+            "columns": [
+              [
+                88,
+                274
+              ],
+              [
+                391,
+                595
+              ],
+              [
+                704,
+                931
+              ],
+              [
+                986,
+                1254
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              948,
+              1236
+            ],
+            "columns": [
+              [
+                51,
+                316
+              ],
+              [
+                355,
+                669
+              ],
+              [
+                697,
+                912
+              ],
+              [
+                920,
+                1242
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-almeron-dickinson": {
+      "image": "atlases/famous-almeron-dickinson.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 905031,
+      "sha256": "88f02b333dbafa4bec240e86e5bd71f7cf35d175ebe84c7bd1edfd300696e58a",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.771927,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              65,
+              314
+            ],
+            "columns": [
+              [
+                75,
+                241
+              ],
+              [
+                392,
+                554
+              ],
+              [
+                704,
+                868
+              ],
+              [
+                1005,
+                1174
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              371,
+              631
+            ],
+            "columns": [
+              [
+                91,
+                235
+              ],
+              [
+                402,
+                545
+              ],
+              [
+                712,
+                855
+              ],
+              [
+                1020,
+                1168
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              677,
+              922
+            ],
+            "columns": [
+              [
+                94,
+                225
+              ],
+              [
+                400,
+                584
+              ],
+              [
+                706,
+                913
+              ],
+              [
+                977,
+                1235
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              978,
+              1203
+            ],
+            "columns": [
+              [
+                85,
+                238
+              ],
+              [
+                349,
+                614
+              ],
+              [
+                679,
+                958
+              ],
+              [
+                958,
+                1225
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-seguin": {
       "image": "atlases/famous-seguin.png",
       "width": 1254,
@@ -3429,6 +3772,188 @@
               [
                 1017,
                 1229
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-crockett-fate": {
+      "image": "atlases/famous-crockett-fate.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 948322,
+      "sha256": "65efc43dab1bc7d8b1d26838bbf09aa44a6acae13200e2edb36d0efb05576875",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.75082,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              50,
+              655
+            ],
+            "columns": [
+              [
+                181,
+                469
+              ],
+              [
+                790,
+                1101
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              853,
+              1120
+            ],
+            "columns": [
+              [
+                7,
+                598
+              ],
+              [
+                700,
+                1232
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-esparza": {
+      "image": "atlases/famous-esparza.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 869799,
+      "sha256": "48138daf62c31c14cc0e3ac34a5a49b50acb093f75cd184ce4cbb11bc068fea1",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.782293,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              81,
+              309
+            ],
+            "columns": [
+              [
+                80,
+                246
+              ],
+              [
+                389,
+                557
+              ],
+              [
+                698,
+                869
+              ],
+              [
+                1014,
+                1184
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              379,
+              626
+            ],
+            "columns": [
+              [
+                99,
+                236
+              ],
+              [
+                415,
+                556
+              ],
+              [
+                714,
+                854
+              ],
+              [
+                1025,
+                1162
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              690,
+              917
+            ],
+            "columns": [
+              [
+                93,
+                256
+              ],
+              [
+                398,
+                581
+              ],
+              [
+                700,
+                894
+              ],
+              [
+                990,
+                1208
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              988,
+              1202
+            ],
+            "columns": [
+              [
+                78,
+                238
+              ],
+              [
+                371,
+                596
+              ],
+              [
+                675,
+                916
+              ],
+              [
+                952,
+                1202
               ]
             ]
           }
@@ -4516,6 +5041,192 @@
               [
                 27,
                 1504
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "gonzales-ploughed-earth": {
+      "image": "atlases/gonzales-ploughed-earth.png",
+      "width": 2172,
+      "height": 724,
+      "bytes": 1766959,
+      "sha256": "68184367b6ce3fb7e29517fd92763bb1be49ec3d098d83f4468181878777ff3f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.515173,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              133,
+              664
+            ],
+            "columns": [
+              [
+                60,
+                2122
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "gonzales-flag-work-cloth": {
+      "image": "atlases/gonzales-flag-work-cloth.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1835338,
+      "sha256": "c30b3649fcc30ecb96c3bfd3269d2b9a3474b01de327e5e3a55a42aec32cd39c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.483284,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              160,
+              739
+            ],
+            "columns": [
+              [
+                20,
+                1755
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "gonzales-flag-work-painted": {
+      "image": "atlases/gonzales-flag-work-painted.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1777190,
+      "sha256": "a5eafc434162f0d30ccdde7750d6aaae68bc5faf3a61b7ca27a79b70a86ccaba",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.483526,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              159,
+              740
+            ],
+            "columns": [
+              [
+                20,
+                1755
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-gonzales-paint": {
+      "image": "atlases/people-gonzales-paint.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1715507,
+      "sha256": "a04786a1cf6775e7629c71a5546326a2287ee529653e0157d13224292d2bca2d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.730457,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              75,
+              482
+            ],
+            "columns": [
+              [
+                139,
+                390
+              ],
+              [
+                609,
+                862
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              566,
+              991
+            ],
+            "columns": [
+              [
+                138,
+                406
+              ],
+              [
+                605,
+                871
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              1073,
+              1453
+            ],
+            "columns": [
+              [
+                146,
+                397
+              ],
+              [
+                614,
+                874
               ]
             ]
           }
@@ -12251,6 +12962,183 @@
         "alamo"
       ],
       "promptId": "frontier-v1/alamo-face-strips"
+    },
+    "joe-door-aim": {
+      "sheet": "joe-story-actions",
+      "x": 117,
+      "y": 88,
+      "w": 478,
+      "h": 463,
+      "anchorX": 0.2019,
+      "anchorY": 0.9287,
+      "logicalHeight": 526,
+      "label": "joe door aim",
+      "kind": "joe-story-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          119,
+          90,
+          474,
+          459
+        ],
+        "visiblePixels": 84738,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/joe-story-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "joe-fire-door"
+      ],
+      "locationKits": [
+        "alamo"
+      ],
+      "promptId": "frontier-v1/joe-story-actions"
+    },
+    "joe-door-fire": {
+      "sheet": "joe-story-actions",
+      "x": 744,
+      "y": 89,
+      "w": 497,
+      "h": 462,
+      "anchorX": 0.1962,
+      "anchorY": 0.9286,
+      "logicalHeight": 526,
+      "label": "joe door fire",
+      "kind": "joe-story-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          746,
+          91,
+          493,
+          458
+        ],
+        "visiblePixels": 85479,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/joe-story-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "joe-fire-door"
+      ],
+      "locationKits": [
+        "alamo"
+      ],
+      "promptId": "frontier-v1/joe-story-actions"
+    },
+    "joe-hurt-e": {
+      "sheet": "joe-story-actions",
+      "x": 164,
+      "y": 679,
+      "w": 274,
+      "h": 526,
+      "anchorX": 0.1697,
+      "anchorY": 0.9411,
+      "logicalHeight": 526,
+      "label": "joe hurt e",
+      "kind": "joe-story-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          166,
+          681,
+          270,
+          522
+        ],
+        "visiblePixels": 68844,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/joe-story-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [
+        "alamo"
+      ],
+      "promptId": "frontier-v1/joe-story-actions"
+    },
+    "joe-hurt-s": {
+      "sheet": "joe-story-actions",
+      "x": 826,
+      "y": 704,
+      "w": 237,
+      "h": 502,
+      "anchorX": 0.2511,
+      "anchorY": 0.9482,
+      "logicalHeight": 526,
+      "label": "joe hurt s",
+      "kind": "joe-story-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          828,
+          706,
+          233,
+          498
+        ],
+        "visiblePixels": 64448,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/joe-story-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [
+        "alamo"
+      ],
+      "promptId": "frontier-v1/joe-story-actions"
+    },
+    "travis-still-ramp": {
+      "sheet": "famous-travis-still",
+      "x": 292,
+      "y": 106,
+      "w": 911,
+      "h": 821,
+      "anchorX": 0.7124,
+      "anchorY": 0.9294,
+      "logicalHeight": 821,
+      "label": "travis still ramp",
+      "kind": "famous-travis-still",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          294,
+          108,
+          907,
+          817
+        ],
+        "visiblePixels": 324881,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-travis-still.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-travis-still"
     },
     "volunteer-rammer-carry-1": {
       "sheet": "artillery-service",
@@ -23788,6 +24676,1094 @@
       "locationKits": [],
       "promptId": "frontier-v1/icons-family-subsistence"
     },
+    "bonham-walk-e-1": {
+      "sheet": "famous-bonham",
+      "x": 81,
+      "y": 6,
+      "w": 196,
+      "h": 315,
+      "anchorX": 0.4898,
+      "anchorY": 0.927,
+      "logicalHeight": 315,
+      "label": "bonham walk e 1",
+      "kind": "famous-bonham",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          8,
+          192,
+          311
+        ],
+        "visiblePixels": 26982,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bonham.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bonham-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bonham"
+    },
+    "bonham-walk-e-2": {
+      "sheet": "famous-bonham",
+      "x": 388,
+      "y": 6,
+      "w": 210,
+      "h": 315,
+      "anchorX": 0.4905,
+      "anchorY": 0.927,
+      "logicalHeight": 315,
+      "label": "bonham walk e 2",
+      "kind": "famous-bonham",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          390,
+          8,
+          206,
+          311
+        ],
+        "visiblePixels": 27623,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bonham.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bonham-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bonham"
+    },
+    "bonham-walk-e-3": {
+      "sheet": "famous-bonham",
+      "x": 697,
+      "y": 7,
+      "w": 207,
+      "h": 313,
+      "anchorX": 0.5121,
+      "anchorY": 0.9297,
+      "logicalHeight": 315,
+      "label": "bonham walk e 3",
+      "kind": "famous-bonham",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          699,
+          9,
+          203,
+          309
+        ],
+        "visiblePixels": 27808,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bonham.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bonham-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bonham"
+    },
+    "bonham-walk-e-4": {
+      "sheet": "famous-bonham",
+      "x": 1014,
+      "y": 9,
+      "w": 205,
+      "h": 311,
+      "anchorX": 0.5024,
+      "anchorY": 0.9293,
+      "logicalHeight": 315,
+      "label": "bonham walk e 4",
+      "kind": "famous-bonham",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1016,
+          11,
+          201,
+          307
+        ],
+        "visiblePixels": 27143,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bonham.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bonham-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bonham"
+    },
+    "bonham-walk-s-1": {
+      "sheet": "famous-bonham",
+      "x": 86,
+      "y": 326,
+      "w": 153,
+      "h": 309,
+      "anchorX": 0.4444,
+      "anchorY": 0.9579,
+      "logicalHeight": 315,
+      "label": "bonham walk s 1",
+      "kind": "famous-bonham",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          88,
+          328,
+          149,
+          306
+        ],
+        "visiblePixels": 27699,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bonham.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bonham-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bonham"
+    },
+    "bonham-walk-s-2": {
+      "sheet": "famous-bonham",
+      "x": 403,
+      "y": 326,
+      "w": 158,
+      "h": 311,
+      "anchorX": 0.5222,
+      "anchorY": 0.9486,
+      "logicalHeight": 315,
+      "label": "bonham walk s 2",
+      "kind": "famous-bonham",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          405,
+          328,
+          154,
+          307
+        ],
+        "visiblePixels": 28078,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bonham.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bonham-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bonham"
+    },
+    "bonham-walk-n-1": {
+      "sheet": "famous-bonham",
+      "x": 719,
+      "y": 325,
+      "w": 154,
+      "h": 312,
+      "anchorX": 0.5617,
+      "anchorY": 0.9519,
+      "logicalHeight": 315,
+      "label": "bonham walk n 1",
+      "kind": "famous-bonham",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          721,
+          327,
+          150,
+          308
+        ],
+        "visiblePixels": 27729,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bonham.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bonham-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bonham"
+    },
+    "bonham-walk-n-2": {
+      "sheet": "famous-bonham",
+      "x": 1030,
+      "y": 325,
+      "w": 157,
+      "h": 311,
+      "anchorX": 0.5541,
+      "anchorY": 0.9357,
+      "logicalHeight": 315,
+      "label": "bonham walk n 2",
+      "kind": "famous-bonham",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1032,
+          327,
+          153,
+          307
+        ],
+        "visiblePixels": 27132,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bonham.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bonham-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bonham"
+    },
+    "bonham-idle": {
+      "sheet": "famous-bonham",
+      "x": 88,
+      "y": 635,
+      "w": 186,
+      "h": 306,
+      "anchorX": 0.4328,
+      "anchorY": 0.9379,
+      "logicalHeight": 315,
+      "label": "bonham idle",
+      "kind": "famous-bonham",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          90,
+          637,
+          182,
+          302
+        ],
+        "visiblePixels": 27261,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bonham.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bonham"
+    },
+    "bonham-speak": {
+      "sheet": "famous-bonham",
+      "x": 391,
+      "y": 638,
+      "w": 204,
+      "h": 302,
+      "anchorX": 0.3995,
+      "anchorY": 0.947,
+      "logicalHeight": 315,
+      "label": "bonham speak",
+      "kind": "famous-bonham",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          393,
+          640,
+          200,
+          298
+        ],
+        "visiblePixels": 29591,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bonham.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bonham"
+    },
+    "bonham-point": {
+      "sheet": "famous-bonham",
+      "x": 704,
+      "y": 638,
+      "w": 227,
+      "h": 302,
+      "anchorX": 0.359,
+      "anchorY": 0.9305,
+      "logicalHeight": 315,
+      "label": "bonham point",
+      "kind": "famous-bonham",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          706,
+          640,
+          223,
+          298
+        ],
+        "visiblePixels": 29627,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bonham.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bonham"
+    },
+    "bonham-serve-gun": {
+      "sheet": "famous-bonham",
+      "x": 986,
+      "y": 656,
+      "w": 268,
+      "h": 285,
+      "anchorX": 0.3787,
+      "anchorY": 0.9298,
+      "logicalHeight": 315,
+      "label": "bonham serve gun",
+      "kind": "famous-bonham",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          988,
+          658,
+          265,
+          281
+        ],
+        "visiblePixels": 28137,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bonham.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bonham"
+    },
+    "bonham-aim": {
+      "sheet": "famous-bonham",
+      "x": 51,
+      "y": 952,
+      "w": 265,
+      "h": 284,
+      "anchorX": 0.3434,
+      "anchorY": 0.9401,
+      "logicalHeight": 315,
+      "label": "bonham aim",
+      "kind": "famous-bonham",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          53,
+          954,
+          261,
+          280
+        ],
+        "visiblePixels": 28122,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bonham.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bonham"
+    },
+    "bonham-fire": {
+      "sheet": "famous-bonham",
+      "x": 355,
+      "y": 953,
+      "w": 314,
+      "h": 283,
+      "anchorX": 0.2898,
+      "anchorY": 0.9399,
+      "logicalHeight": 315,
+      "label": "bonham fire",
+      "kind": "famous-bonham",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          357,
+          955,
+          310,
+          279
+        ],
+        "visiblePixels": 29582,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bonham.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bonham"
+    },
+    "bonham-reload": {
+      "sheet": "famous-bonham",
+      "x": 697,
+      "y": 948,
+      "w": 215,
+      "h": 288,
+      "anchorX": 0.414,
+      "anchorY": 0.9444,
+      "logicalHeight": 315,
+      "label": "bonham reload",
+      "kind": "famous-bonham",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          699,
+          950,
+          211,
+          284
+        ],
+        "visiblePixels": 27341,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bonham.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bonham"
+    },
+    "bonham-still": {
+      "sheet": "famous-bonham",
+      "x": 920,
+      "y": 1108,
+      "w": 322,
+      "h": 115,
+      "anchorX": 0.5062,
+      "anchorY": 0.9217,
+      "logicalHeight": 315,
+      "label": "bonham still",
+      "kind": "famous-bonham",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          922,
+          1110,
+          318,
+          111
+        ],
+        "visiblePixels": 22712,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bonham.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bonham"
+    },
+    "almeron-dickinson-walk-e-1": {
+      "sheet": "famous-almeron-dickinson",
+      "x": 75,
+      "y": 65,
+      "w": 166,
+      "h": 248,
+      "anchorX": 0.506,
+      "anchorY": 0.9274,
+      "logicalHeight": 259,
+      "label": "almeron dickinson walk e 1",
+      "kind": "famous-almeron-dickinson",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          77,
+          67,
+          162,
+          244
+        ],
+        "visiblePixels": 18047,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almeron-dickinson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "almeron-dickinson-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almeron-dickinson"
+    },
+    "almeron-dickinson-walk-e-2": {
+      "sheet": "famous-almeron-dickinson",
+      "x": 392,
+      "y": 65,
+      "w": 162,
+      "h": 248,
+      "anchorX": 0.5031,
+      "anchorY": 0.9274,
+      "logicalHeight": 259,
+      "label": "almeron dickinson walk e 2",
+      "kind": "famous-almeron-dickinson",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          394,
+          67,
+          158,
+          244
+        ],
+        "visiblePixels": 17566,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almeron-dickinson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "almeron-dickinson-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almeron-dickinson"
+    },
+    "almeron-dickinson-walk-e-3": {
+      "sheet": "famous-almeron-dickinson",
+      "x": 704,
+      "y": 65,
+      "w": 164,
+      "h": 248,
+      "anchorX": 0.497,
+      "anchorY": 0.9274,
+      "logicalHeight": 259,
+      "label": "almeron dickinson walk e 3",
+      "kind": "famous-almeron-dickinson",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          706,
+          67,
+          160,
+          244
+        ],
+        "visiblePixels": 17287,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almeron-dickinson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "almeron-dickinson-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almeron-dickinson"
+    },
+    "almeron-dickinson-walk-e-4": {
+      "sheet": "famous-almeron-dickinson",
+      "x": 1005,
+      "y": 66,
+      "w": 169,
+      "h": 248,
+      "anchorX": 0.497,
+      "anchorY": 0.9274,
+      "logicalHeight": 259,
+      "label": "almeron dickinson walk e 4",
+      "kind": "famous-almeron-dickinson",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1007,
+          68,
+          165,
+          244
+        ],
+        "visiblePixels": 17720,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almeron-dickinson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "almeron-dickinson-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almeron-dickinson"
+    },
+    "almeron-dickinson-walk-s-1": {
+      "sheet": "famous-almeron-dickinson",
+      "x": 91,
+      "y": 372,
+      "w": 144,
+      "h": 258,
+      "anchorX": 0.5208,
+      "anchorY": 0.938,
+      "logicalHeight": 259,
+      "label": "almeron dickinson walk s 1",
+      "kind": "famous-almeron-dickinson",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          93,
+          374,
+          140,
+          254
+        ],
+        "visiblePixels": 20373,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almeron-dickinson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "almeron-dickinson-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almeron-dickinson"
+    },
+    "almeron-dickinson-walk-s-2": {
+      "sheet": "famous-almeron-dickinson",
+      "x": 402,
+      "y": 374,
+      "w": 143,
+      "h": 257,
+      "anchorX": 0.5664,
+      "anchorY": 0.9377,
+      "logicalHeight": 259,
+      "label": "almeron dickinson walk s 2",
+      "kind": "famous-almeron-dickinson",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          404,
+          376,
+          139,
+          253
+        ],
+        "visiblePixels": 19943,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almeron-dickinson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "almeron-dickinson-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almeron-dickinson"
+    },
+    "almeron-dickinson-walk-n-1": {
+      "sheet": "famous-almeron-dickinson",
+      "x": 712,
+      "y": 376,
+      "w": 143,
+      "h": 255,
+      "anchorX": 0.5455,
+      "anchorY": 0.9451,
+      "logicalHeight": 259,
+      "label": "almeron dickinson walk n 1",
+      "kind": "famous-almeron-dickinson",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          714,
+          378,
+          139,
+          251
+        ],
+        "visiblePixels": 19607,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almeron-dickinson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "almeron-dickinson-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almeron-dickinson"
+    },
+    "almeron-dickinson-walk-n-2": {
+      "sheet": "famous-almeron-dickinson",
+      "x": 1020,
+      "y": 371,
+      "w": 148,
+      "h": 259,
+      "anchorX": 0.5473,
+      "anchorY": 0.9459,
+      "logicalHeight": 259,
+      "label": "almeron dickinson walk n 2",
+      "kind": "famous-almeron-dickinson",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1022,
+          373,
+          144,
+          255
+        ],
+        "visiblePixels": 20070,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almeron-dickinson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "almeron-dickinson-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almeron-dickinson"
+    },
+    "almeron-dickinson-idle": {
+      "sheet": "famous-almeron-dickinson",
+      "x": 94,
+      "y": 677,
+      "w": 131,
+      "h": 244,
+      "anchorX": 0.5267,
+      "anchorY": 0.9344,
+      "logicalHeight": 259,
+      "label": "almeron dickinson idle",
+      "kind": "famous-almeron-dickinson",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          96,
+          679,
+          127,
+          240
+        ],
+        "visiblePixels": 18780,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almeron-dickinson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almeron-dickinson"
+    },
+    "almeron-dickinson-speak": {
+      "sheet": "famous-almeron-dickinson",
+      "x": 400,
+      "y": 679,
+      "w": 184,
+      "h": 243,
+      "anchorX": 0.3967,
+      "anchorY": 0.9465,
+      "logicalHeight": 259,
+      "label": "almeron dickinson speak",
+      "kind": "famous-almeron-dickinson",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          402,
+          681,
+          180,
+          239
+        ],
+        "visiblePixels": 20732,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almeron-dickinson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almeron-dickinson"
+    },
+    "almeron-dickinson-command": {
+      "sheet": "famous-almeron-dickinson",
+      "x": 706,
+      "y": 680,
+      "w": 207,
+      "h": 241,
+      "anchorX": 0.372,
+      "anchorY": 0.9295,
+      "logicalHeight": 259,
+      "label": "almeron dickinson command",
+      "kind": "famous-almeron-dickinson",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          708,
+          682,
+          203,
+          237
+        ],
+        "visiblePixels": 20668,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almeron-dickinson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almeron-dickinson"
+    },
+    "almeron-dickinson-serve-gun": {
+      "sheet": "famous-almeron-dickinson",
+      "x": 977,
+      "y": 695,
+      "w": 258,
+      "h": 222,
+      "anchorX": 0.3411,
+      "anchorY": 0.9279,
+      "logicalHeight": 259,
+      "label": "almeron dickinson serve gun",
+      "kind": "famous-almeron-dickinson",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          979,
+          697,
+          254,
+          218
+        ],
+        "visiblePixels": 18802,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almeron-dickinson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almeron-dickinson"
+    },
+    "almeron-dickinson-shot-carry": {
+      "sheet": "famous-almeron-dickinson",
+      "x": 85,
+      "y": 978,
+      "w": 153,
+      "h": 224,
+      "anchorX": 0.4967,
+      "anchorY": 0.9286,
+      "logicalHeight": 259,
+      "label": "almeron dickinson shot carry",
+      "kind": "famous-almeron-dickinson",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          87,
+          980,
+          149,
+          220
+        ],
+        "visiblePixels": 17045,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almeron-dickinson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almeron-dickinson"
+    },
+    "almeron-dickinson-ram": {
+      "sheet": "famous-almeron-dickinson",
+      "x": 349,
+      "y": 992,
+      "w": 265,
+      "h": 211,
+      "anchorX": 0.3321,
+      "anchorY": 0.9289,
+      "logicalHeight": 259,
+      "label": "almeron dickinson ram",
+      "kind": "famous-almeron-dickinson",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          351,
+          994,
+          261,
+          207
+        ],
+        "visiblePixels": 18876,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almeron-dickinson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almeron-dickinson"
+    },
+    "almeron-dickinson-fire": {
+      "sheet": "famous-almeron-dickinson",
+      "x": 679,
+      "y": 986,
+      "w": 279,
+      "h": 216,
+      "anchorX": 0.2903,
+      "anchorY": 0.9259,
+      "logicalHeight": 259,
+      "label": "almeron dickinson fire",
+      "kind": "famous-almeron-dickinson",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          681,
+          988,
+          277,
+          212
+        ],
+        "visiblePixels": 19772,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almeron-dickinson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almeron-dickinson"
+    },
+    "almeron-dickinson-still": {
+      "sheet": "famous-almeron-dickinson",
+      "x": 958,
+      "y": 1103,
+      "w": 267,
+      "h": 90,
+      "anchorX": 0.2135,
+      "anchorY": 0.9222,
+      "logicalHeight": 259,
+      "label": "almeron dickinson still",
+      "kind": "famous-almeron-dickinson",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          958,
+          1105,
+          265,
+          86
+        ],
+        "visiblePixels": 15064,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almeron-dickinson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almeron-dickinson"
+    },
     "seguin-walk-e-1": {
       "sheet": "famous-seguin",
       "x": 98,
@@ -26099,6 +28075,686 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/famous-fannin"
+    },
+    "crockett-captive-1": {
+      "sheet": "famous-crockett-fate",
+      "x": 181,
+      "y": 50,
+      "w": 288,
+      "h": 603,
+      "anchorX": 0.4983,
+      "anchorY": 0.937,
+      "logicalHeight": 605,
+      "label": "crockett captive 1",
+      "kind": "famous-crockett-fate",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          183,
+          52,
+          284,
+          599
+        ],
+        "visiblePixels": 96082,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-crockett-fate.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "crockett-captive"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-crockett-fate"
+    },
+    "crockett-captive-2": {
+      "sheet": "famous-crockett-fate",
+      "x": 790,
+      "y": 50,
+      "w": 311,
+      "h": 605,
+      "anchorX": 0.5322,
+      "anchorY": 0.9322,
+      "logicalHeight": 605,
+      "label": "crockett captive 2",
+      "kind": "famous-crockett-fate",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          792,
+          52,
+          307,
+          601
+        ],
+        "visiblePixels": 100921,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-crockett-fate.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "crockett-captive"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-crockett-fate"
+    },
+    "crockett-still-side": {
+      "sheet": "famous-crockett-fate",
+      "x": 7,
+      "y": 853,
+      "w": 591,
+      "h": 240,
+      "anchorX": 0.1328,
+      "anchorY": 0.9292,
+      "logicalHeight": 605,
+      "label": "crockett still side",
+      "kind": "famous-crockett-fate",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          9,
+          855,
+          587,
+          236
+        ],
+        "visiblePixels": 86519,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-crockett-fate.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-crockett-fate"
+    },
+    "crockett-still-turn": {
+      "sheet": "famous-crockett-fate",
+      "x": 700,
+      "y": 875,
+      "w": 532,
+      "h": 245,
+      "anchorX": 0.5883,
+      "anchorY": 0.9265,
+      "logicalHeight": 605,
+      "label": "crockett still turn",
+      "kind": "famous-crockett-fate",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          702,
+          877,
+          528,
+          241
+        ],
+        "visiblePixels": 80539,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-crockett-fate.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-crockett-fate"
+    },
+    "esparza-walk-e-1": {
+      "sheet": "famous-esparza",
+      "x": 80,
+      "y": 81,
+      "w": 166,
+      "h": 228,
+      "anchorX": 0.491,
+      "anchorY": 0.9298,
+      "logicalHeight": 247,
+      "label": "esparza walk e 1",
+      "kind": "famous-esparza",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          82,
+          83,
+          162,
+          224
+        ],
+        "visiblePixels": 17442,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "esparza-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-walk-e-2": {
+      "sheet": "famous-esparza",
+      "x": 389,
+      "y": 81,
+      "w": 168,
+      "h": 228,
+      "anchorX": 0.494,
+      "anchorY": 0.9298,
+      "logicalHeight": 247,
+      "label": "esparza walk e 2",
+      "kind": "famous-esparza",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          391,
+          83,
+          164,
+          224
+        ],
+        "visiblePixels": 17552,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "esparza-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-walk-e-3": {
+      "sheet": "famous-esparza",
+      "x": 698,
+      "y": 81,
+      "w": 171,
+      "h": 228,
+      "anchorX": 0.5,
+      "anchorY": 0.9298,
+      "logicalHeight": 247,
+      "label": "esparza walk e 3",
+      "kind": "famous-esparza",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          700,
+          83,
+          167,
+          224
+        ],
+        "visiblePixels": 17365,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "esparza-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-walk-e-4": {
+      "sheet": "famous-esparza",
+      "x": 1014,
+      "y": 81,
+      "w": 170,
+      "h": 228,
+      "anchorX": 0.4912,
+      "anchorY": 0.9298,
+      "logicalHeight": 247,
+      "label": "esparza walk e 4",
+      "kind": "famous-esparza",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1016,
+          83,
+          166,
+          224
+        ],
+        "visiblePixels": 17390,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "esparza-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-walk-s-1": {
+      "sheet": "famous-esparza",
+      "x": 99,
+      "y": 379,
+      "w": 137,
+      "h": 247,
+      "anchorX": 0.4453,
+      "anchorY": 0.9312,
+      "logicalHeight": 247,
+      "label": "esparza walk s 1",
+      "kind": "famous-esparza",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          101,
+          381,
+          133,
+          243
+        ],
+        "visiblePixels": 19459,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "esparza-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-walk-s-2": {
+      "sheet": "famous-esparza",
+      "x": 415,
+      "y": 379,
+      "w": 141,
+      "h": 247,
+      "anchorX": 0.5177,
+      "anchorY": 0.9312,
+      "logicalHeight": 247,
+      "label": "esparza walk s 2",
+      "kind": "famous-esparza",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          417,
+          381,
+          137,
+          243
+        ],
+        "visiblePixels": 19432,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "esparza-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-walk-n-1": {
+      "sheet": "famous-esparza",
+      "x": 714,
+      "y": 380,
+      "w": 140,
+      "h": 246,
+      "anchorX": 0.55,
+      "anchorY": 0.935,
+      "logicalHeight": 247,
+      "label": "esparza walk n 1",
+      "kind": "famous-esparza",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          716,
+          382,
+          136,
+          242
+        ],
+        "visiblePixels": 19286,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "esparza-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-walk-n-2": {
+      "sheet": "famous-esparza",
+      "x": 1025,
+      "y": 380,
+      "w": 137,
+      "h": 246,
+      "anchorX": 0.5584,
+      "anchorY": 0.9431,
+      "logicalHeight": 247,
+      "label": "esparza walk n 2",
+      "kind": "famous-esparza",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1027,
+          382,
+          133,
+          242
+        ],
+        "visiblePixels": 19120,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "esparza-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-idle": {
+      "sheet": "famous-esparza",
+      "x": 93,
+      "y": 690,
+      "w": 163,
+      "h": 226,
+      "anchorX": 0.408,
+      "anchorY": 0.9292,
+      "logicalHeight": 247,
+      "label": "esparza idle",
+      "kind": "famous-esparza",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          95,
+          692,
+          159,
+          222
+        ],
+        "visiblePixels": 18354,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-speak": {
+      "sheet": "famous-esparza",
+      "x": 398,
+      "y": 690,
+      "w": 183,
+      "h": 226,
+      "anchorX": 0.377,
+      "anchorY": 0.9292,
+      "logicalHeight": 247,
+      "label": "esparza speak",
+      "kind": "famous-esparza",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          400,
+          692,
+          179,
+          222
+        ],
+        "visiblePixels": 20958,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-point": {
+      "sheet": "famous-esparza",
+      "x": 700,
+      "y": 690,
+      "w": 194,
+      "h": 227,
+      "anchorX": 0.3505,
+      "anchorY": 0.9295,
+      "logicalHeight": 247,
+      "label": "esparza point",
+      "kind": "famous-esparza",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          702,
+          692,
+          190,
+          223
+        ],
+        "visiblePixels": 20637,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-serve-gun": {
+      "sheet": "famous-esparza",
+      "x": 990,
+      "y": 703,
+      "w": 218,
+      "h": 210,
+      "anchorX": 0.3784,
+      "anchorY": 0.9286,
+      "logicalHeight": 247,
+      "label": "esparza serve gun",
+      "kind": "famous-esparza",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          992,
+          705,
+          214,
+          206
+        ],
+        "visiblePixels": 18051,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-shot-carry": {
+      "sheet": "famous-esparza",
+      "x": 78,
+      "y": 988,
+      "w": 160,
+      "h": 214,
+      "anchorX": 0.4938,
+      "anchorY": 0.9346,
+      "logicalHeight": 247,
+      "label": "esparza shot carry",
+      "kind": "famous-esparza",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          80,
+          990,
+          156,
+          210
+        ],
+        "visiblePixels": 16513,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-aim": {
+      "sheet": "famous-esparza",
+      "x": 371,
+      "y": 994,
+      "w": 225,
+      "h": 208,
+      "anchorX": 0.3511,
+      "anchorY": 0.9279,
+      "logicalHeight": 247,
+      "label": "esparza aim",
+      "kind": "famous-esparza",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          373,
+          996,
+          221,
+          204
+        ],
+        "visiblePixels": 18382,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-fire": {
+      "sheet": "famous-esparza",
+      "x": 675,
+      "y": 997,
+      "w": 241,
+      "h": 201,
+      "anchorX": 0.3195,
+      "anchorY": 0.9303,
+      "logicalHeight": 247,
+      "label": "esparza fire",
+      "kind": "famous-esparza",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          677,
+          999,
+          237,
+          197
+        ],
+        "visiblePixels": 18590,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-still": {
+      "sheet": "famous-esparza",
+      "x": 952,
+      "y": 1110,
+      "w": 250,
+      "h": 86,
+      "anchorX": 0.5,
+      "anchorY": 0.9186,
+      "logicalHeight": 247,
+      "label": "esparza still",
+      "kind": "famous-esparza",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          954,
+          1112,
+          246,
+          82
+        ],
+        "visiblePixels": 15044,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
     },
     "crockett-walk-e-1": {
       "sheet": "famous-crockett",
@@ -30001,6 +32657,312 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/gonzales-dugout-canoe"
+    },
+    "gonzales-ploughed-earth": {
+      "sheet": "gonzales-ploughed-earth",
+      "x": 60,
+      "y": 133,
+      "w": 2062,
+      "h": 531,
+      "anchorX": 0.6814,
+      "anchorY": 0.9284,
+      "label": "gonzales ploughed earth",
+      "kind": "gonzales-ploughed-earth",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          62,
+          135,
+          2058,
+          527
+        ],
+        "visiblePixels": 730525,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-ploughed-earth.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-ploughed-earth"
+    },
+    "gonzales-flag-work-cloth": {
+      "sheet": "gonzales-flag-work-cloth",
+      "x": 20,
+      "y": 160,
+      "w": 1735,
+      "h": 579,
+      "anchorX": 0.4994,
+      "anchorY": 0.9292,
+      "label": "gonzales flag work cloth",
+      "kind": "gonzales-flag-work-cloth",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          22,
+          162,
+          1731,
+          575
+        ],
+        "visiblePixels": 799487,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-flag-work-cloth.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-flag-work-cloth"
+    },
+    "gonzales-flag-work-painted": {
+      "sheet": "gonzales-flag-work-painted",
+      "x": 20,
+      "y": 159,
+      "w": 1735,
+      "h": 581,
+      "anchorX": 0.4997,
+      "anchorY": 0.9294,
+      "label": "gonzales flag work painted",
+      "kind": "gonzales-flag-work-painted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          22,
+          161,
+          1731,
+          577
+        ],
+        "visiblePixels": 803035,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-flag-work-painted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-flag-work-painted"
+    },
+    "teal-paint-1": {
+      "sheet": "people-gonzales-paint",
+      "x": 139,
+      "y": 75,
+      "w": 251,
+      "h": 407,
+      "anchorX": 0.504,
+      "anchorY": 0.9459,
+      "logicalHeight": 407,
+      "label": "teal paint 1",
+      "kind": "people-gonzales-paint",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          141,
+          77,
+          247,
+          403
+        ],
+        "visiblePixels": 64437,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-paint"
+    },
+    "teal-paint-2": {
+      "sheet": "people-gonzales-paint",
+      "x": 609,
+      "y": 83,
+      "w": 253,
+      "h": 399,
+      "anchorX": 0.4921,
+      "anchorY": 0.9474,
+      "logicalHeight": 407,
+      "label": "teal paint 2",
+      "kind": "people-gonzales-paint",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          611,
+          85,
+          249,
+          395
+        ],
+        "visiblePixels": 63841,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-paint"
+    },
+    "indigo-paint-1": {
+      "sheet": "people-gonzales-paint",
+      "x": 138,
+      "y": 566,
+      "w": 268,
+      "h": 424,
+      "anchorX": 0.4851,
+      "anchorY": 0.9505,
+      "logicalHeight": 424,
+      "label": "indigo paint 1",
+      "kind": "people-gonzales-paint",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          140,
+          568,
+          264,
+          420
+        ],
+        "visiblePixels": 71349,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-paint"
+    },
+    "indigo-paint-2": {
+      "sheet": "people-gonzales-paint",
+      "x": 605,
+      "y": 577,
+      "w": 266,
+      "h": 414,
+      "anchorX": 0.4887,
+      "anchorY": 0.9444,
+      "logicalHeight": 424,
+      "label": "indigo paint 2",
+      "kind": "people-gonzales-paint",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          607,
+          579,
+          262,
+          410
+        ],
+        "visiblePixels": 69267,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-paint"
+    },
+    "blue-girl-paint-1": {
+      "sheet": "people-gonzales-paint",
+      "x": 146,
+      "y": 1073,
+      "w": 251,
+      "h": 379,
+      "anchorX": 0.4781,
+      "anchorY": 0.9472,
+      "logicalHeight": 379,
+      "label": "blue girl paint 1",
+      "kind": "people-gonzales-paint",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          148,
+          1075,
+          247,
+          375
+        ],
+        "visiblePixels": 60748,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-paint"
+    },
+    "blue-girl-paint-2": {
+      "sheet": "people-gonzales-paint",
+      "x": 614,
+      "y": 1080,
+      "w": 260,
+      "h": 373,
+      "anchorX": 0.4673,
+      "anchorY": 0.9357,
+      "logicalHeight": 379,
+      "label": "blue girl paint 2",
+      "kind": "people-gonzales-paint",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          616,
+          1082,
+          256,
+          369
+        ],
+        "visiblePixels": 60037,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-paint"
     },
     "house-round-sill": {
       "sheet": "house-modules",
@@ -60567,6 +63529,22 @@
     }
   },
   "clips": {
+    "joe-fire-door": {
+      "frames": [
+        {
+          "sprite": "joe-door-fire",
+          "duration": 140
+        },
+        {
+          "sprite": "joe-door-aim",
+          "duration": 5060
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "volunteer-gun-ram": {
       "frames": [
         {
@@ -62757,6 +65735,118 @@
       "motion": "none",
       "direction": "stationary"
     },
+    "bonham-walk-e": {
+      "frames": [
+        {
+          "sprite": "bonham-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "bonham-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "bonham-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "bonham-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "bonham-walk-s": {
+      "frames": [
+        {
+          "sprite": "bonham-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "bonham-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "bonham-walk-n": {
+      "frames": [
+        {
+          "sprite": "bonham-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "bonham-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "almeron-dickinson-walk-e": {
+      "frames": [
+        {
+          "sprite": "almeron-dickinson-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "almeron-dickinson-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "almeron-dickinson-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "almeron-dickinson-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "almeron-dickinson-walk-s": {
+      "frames": [
+        {
+          "sprite": "almeron-dickinson-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "almeron-dickinson-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "almeron-dickinson-walk-n": {
+      "frames": [
+        {
+          "sprite": "almeron-dickinson-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "almeron-dickinson-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "seguin-walk-e": {
       "frames": [
         {
@@ -62989,6 +66079,78 @@
         },
         {
           "sprite": "fannin-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "crockett-captive": {
+      "frames": [
+        {
+          "sprite": "crockett-captive-1",
+          "duration": 1800
+        },
+        {
+          "sprite": "crockett-captive-2",
+          "duration": 1300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "esparza-walk-e": {
+      "frames": [
+        {
+          "sprite": "esparza-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "esparza-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "esparza-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "esparza-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "esparza-walk-s": {
+      "frames": [
+        {
+          "sprite": "esparza-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "esparza-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "esparza-walk-n": {
+      "frames": [
+        {
+          "sprite": "esparza-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "esparza-walk-n-2",
           "duration": 290
         }
       ],
@@ -63416,6 +66578,54 @@
       "authored": true,
       "motion": "none",
       "direction": "not applicable"
+    },
+    "teal-paint": {
+      "frames": [
+        {
+          "sprite": "teal-paint-1",
+          "duration": 760
+        },
+        {
+          "sprite": "teal-paint-2",
+          "duration": 760
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-paint": {
+      "frames": [
+        {
+          "sprite": "indigo-paint-1",
+          "duration": 760
+        },
+        {
+          "sprite": "indigo-paint-2",
+          "duration": 760
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-paint": {
+      "frames": [
+        {
+          "sprite": "blue-girl-paint-1",
+          "duration": 760
+        },
+        {
+          "sprite": "blue-girl-paint-2",
+          "duration": 760
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
     },
     "rust-ride-e": {
       "frames": [
@@ -68831,6 +72041,10 @@
         "alamo-face-gate",
         "alamo-face-convento",
         "alamo-face-church-south",
+        "joe-door-aim",
+        "joe-door-fire",
+        "joe-hurt-e",
+        "joe-hurt-s",
         "alamo-church-front-1836",
         "alamo-church-front-inside",
         "alamo-church-front-cracked",
@@ -74242,7 +77456,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 120,
+    "sourceCount": 130,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"
