@@ -226,7 +226,8 @@ export const PEOPLE = Object.freeze({
     // staged as the owner chose and labelled tradition (`HIST-TEX-560`, `FIC-GONZ-560`, `FIC-GONZ-458`).
     side: 'civilian',
     map: [
-      { from: on(1835, 12, 31, 12), until: on(1836, 4, 16, 12), point: { lon: -94.9953, lat: 29.6780, near: 'lynchburg' }, place: 'New Washington', doing: 'stand', claimId: 'HIST-TEX-569' },
+      // At New Washington itself, the map's place since 2026-09-26 (docs/SCRAPE.md §10 (c)); until then a point near Lynchburg.
+      { from: on(1835, 12, 31, 12), until: on(1836, 4, 16, 12), site: 'new-washington', place: 'New Washington', doing: 'stand', claimId: 'HIST-TEX-569' },
       { from: on(1836, 4, 16, 12), until: 'san-jacinto-field', with: 'column:santa-anna', doing: 'walk', claimId: 'HIST-TEX-569' },
     ],
   }),

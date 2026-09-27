@@ -5,6 +5,7 @@ import { deriveUses } from '../sim/chores.mjs';
 import { dirname, basename, join, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { openSouth } from '../sim/south.mjs';
+import { openAdvancePlaces } from '../sim/advance-places.mjs';
 
 // A save has one server owner for its entire lifetime, independently of HTTP port.
 // Refuse ambiguous/stale ownership rather than race another process to reclaim it.
@@ -81,6 +82,10 @@ export function readSave(path) {
   // are added, every existing place, road and home is what it was, and a class that already has them is untouched but for the
   // Agua Dulce ground, moved to the Handbook's twenty-six miles (owner, 2026-09-26) while Grant's drive has not begun.
   if (save.world) openSouth(save.world);
+  // And, saved before 2026-09-26, the Mexican advance's places - Thompson's and its ferry, the Old Fort, Stafford's, New
+  // Washington, Mrs. Powell's - and the roads the columns went by (sim/advance-places.mjs `openAdvancePlaces`, docs/SCRAPE.md
+  // §10 (c)). No version moved: added, nothing it had moved.
+  if (save.world) openAdvancePlaces(save.world);
   return save;
 }
 // Keep the previous class before a deliberate reset. This is an explicit teacher
