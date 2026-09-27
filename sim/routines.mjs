@@ -7,6 +7,7 @@ import { advanceStock } from './stock.mjs';
 import { SICK_DAYS, SICK_PER_DAY, coldSky, sicknessWeight } from './scrape.mjs';
 import { share } from './shares.mjs';
 import { campRestShare } from './shops.mjs';
+import { calledAside } from './aside.mjs';
 
 // Fatigue, and the only thing that mends it.
 //
@@ -50,7 +51,8 @@ export function advanceRoutine(world, minutes) {
     const present = household.members.map(id => world.entities[id]).filter(e => e.location.siteId === household.homeSiteId && e.health.condition !== 'dead');
     // Someone on a chore is paid by the chore's own yield. Counting them here as well
     // would pay a family twice for the same afternoon's work.
-    const workers = present.filter(e => e.task === 'work' && !e.chore && e.health.condition === 'well').length;
+    // Nor somebody the little ones have called aside (sim/aside.mjs): talking with an idle child is not working about the place.
+    const workers = present.filter(e => e.task === 'work' && !e.chore && e.health.condition === 'well' && !calledAside(e)).length;
     // The best housekeeper at home makes what the family eats go further (FIC-GONZ-021).
     // Furniture under a roof does its small part (sim/furniture.mjs): a table stretches the food, shelves keep it.
     const furnished = furnitureShares(household, shelterOf(world, household).kind === 'house');

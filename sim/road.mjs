@@ -39,6 +39,8 @@ import { CARRIED_ROOM, FLIGHT_SPACE, REFUGES, share } from './scrape.mjs';
 import { spotlight } from './host.mjs';
 import { awardGlory } from './glory.mjs';
 import { COLUMNS, ORDER_GRACE_MINUTES, ROAD_DETOUR, clockOf, columnLeg as advanceLeg, headAt } from './advance.mjs';
+// The children's bundles and the lookout on the road behind (sim/flight-work.mjs, docs/CHILDREN.md §7).
+import { bundleRoom, lookoutMiles, lookoutOf } from './flight-work.mjs';
 
 const DAY = 1440;
 const round = value => Math.round(value * 100) / 100;
@@ -214,7 +216,9 @@ export const ROAD_ASKS = {
 
 /** How much the grown people with the family can carry on foot, in the wagon's units of room. */
 export function carriedRoom(world, household) {
-  return round(withFamily(world, household).people.filter(canAnswerCalls).length * CARRIED_ROOM);
+  const with_ = withFamily(world, household).people;
+  // And the bundles the children made up before they left (sim/flight-work.mjs `flee-bundle`).
+  return round(with_.filter(canAnswerCalls).length * CARRIED_ROOM + bundleRoom(household, with_));
 }
 /** The nearest refuge east of where the family camps, or null. */
 export function nextRefuge(world, household) {
@@ -450,15 +454,18 @@ export function advanceRoad(world, household) {
   // marching beside it is a few yards nearer this tick (since 2026-09-26 columns march together: Santa Anna's with Sesma's
   // division, the army at Old Fort). Being overtaken is by whichever column is on top of the family.
   const kept = nearest && flight.danger && flight.danger.id !== nearest.id ? pursuit(world, point, flight.danger.id) : null;
-  const near = kept && kept.miles <= WARNING_MILES ? kept : nearest;
-  if (near && near.miles <= WARNING_MILES && !(flight.overtakenBy || []).includes(near.id)) {
+  // Somebody of the family watching the road behind sees the riders further off (sim/flight-work.mjs `road-lookout`).
+  const warnAt = lookoutMiles(world, household, WARNING_MILES);
+  const near = kept && kept.miles <= warnAt ? kept : nearest;
+  if (near && near.miles <= warnAt && !(flight.overtakenBy || []).includes(near.id)) {
     if (!flight.danger || flight.danger.id !== near.id) {
       flight.danger = { id: near.id, name: near.name, miles: near.miles, towardName: near.towardName, minute: world.minute };
-      record(world, 'consequence', { householdId: household.id, importance: 3, claimId: 'FIC-GONZ-051', text: `Word along the road: ${near.name} is about ${Math.round(near.miles)} miles off and coming this way, making for ${near.towardName}. A family that sits still may be caught.` });
+      const watcher = near.miles > WARNING_MILES ? lookoutOf(world, household) : null;
+      record(world, 'consequence', { householdId: household.id, importance: 3, claimId: watcher ? 'FIC-GONZ-487' : 'FIC-GONZ-051', text: `${watcher ? `${watcher.name}, watching the road behind, saw the dust first. ` : ''}Word along the road: ${near.name} is about ${Math.round(near.miles)} miles off and coming this way, making for ${near.towardName}. A family that sits still may be caught.` });
     } else Object.assign(flight.danger, { miles: near.miles, towardName: near.towardName });
     // Put to the family once for each column, after any bog it is in has been answered.
     if (!flight.danger.asked && !flight.ask) { flight.danger.asked = true; openAsk(world, household, 'danger', `${near.name} is close behind.`); }
-  } else if (flight.danger && (!near || near.miles > WARNING_MILES || (flight.overtakenBy || []).includes(near.id))) {
+  } else if (flight.danger && (!near || near.miles > warnAt || (flight.overtakenBy || []).includes(near.id))) {
     delete flight.danger;
     if (flight.ask?.id === 'danger') delete flight.ask;
   }

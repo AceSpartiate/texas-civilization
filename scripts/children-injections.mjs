@@ -24,19 +24,23 @@ const INJECTIONS = [
     file: CHILDREN, from: "  'child-water': 7,\n  'child-mind': 7,", to: "  'child-water': 5,\n  'child-mind': 5,",
   },
   {
+    // Since 2026-09-26 the band is closed twice - here, and by each work's own last age (`CHILD_WORK_UNTIL`, ten by default) -
+    // so the regression takes both out together.
     name: 'the band never closes, so a father of forty has a Play button',
-    file: CHILDREN, from: '  if (!Number.isFinite(age) || age >= SENT_FROM_AGE) return [];', to: '  if (!Number.isFinite(age)) return [];',
+    file: CHILDREN, from: '  if (!Number.isFinite(age) || age >= SENT_FROM_AGE) return [];\n  return CHILD_WORKS.filter(id => age >= CHILD_WORK_FROM[id] && age < (CHILD_WORK_UNTIL[id] ?? SENT_FROM_AGE));',
+    to: '  if (!Number.isFinite(age)) return [];\n  return CHILD_WORKS.filter(id => age >= CHILD_WORK_FROM[id]);',
   },
   {
     // The founding four's children have no `age` at all. Standing in for one here is the whole of the children's band,
     // which is what an `?? ` default would do if it were written to make the works reachable rather than to exclude them.
     name: 'a person the game knows no age for is given the whole of a child’s bar',
-    file: CHILDREN, from: '  if (!Number.isFinite(age) || age >= SENT_FROM_AGE) return [];\n  return CHILD_WORKS.filter(id => age >= CHILD_WORK_FROM[id]);',
+    file: CHILDREN, from: '  if (!Number.isFinite(age) || age >= SENT_FROM_AGE) return [];\n  return CHILD_WORKS.filter(id => age >= CHILD_WORK_FROM[id] && age < (CHILD_WORK_UNTIL[id] ?? SENT_FROM_AGE));',
     to: '  if (Number.isFinite(age) && age >= SENT_FROM_AGE) return [];\n  return CHILD_WORKS.filter(id => (age ?? 8) >= CHILD_WORK_FROM[id]);',
   },
   {
     name: 'the band ends at ten inclusive, so a ten-year-old keeps the children’s works',
-    file: CHILDREN, from: '  if (!Number.isFinite(age) || age >= SENT_FROM_AGE) return [];', to: '  if (!Number.isFinite(age) || age > SENT_FROM_AGE) return [];',
+    file: CHILDREN, from: '  if (!Number.isFinite(age) || age >= SENT_FROM_AGE) return [];\n  return CHILD_WORKS.filter(id => age >= CHILD_WORK_FROM[id] && age < (CHILD_WORK_UNTIL[id] ?? SENT_FROM_AGE));',
+    to: '  if (!Number.isFinite(age) || age > SENT_FROM_AGE) return [];\n  return CHILD_WORKS.filter(id => age >= CHILD_WORK_FROM[id] && age <= (CHILD_WORK_UNTIL[id] ?? SENT_FROM_AGE));',
   },
   // 2. The bar, and what is on it.
   {
@@ -110,13 +114,14 @@ const INJECTIONS = [
   },
   {
     name: 'the hour a child spends at play leaves nothing in the family’s record at all',
-    file: CHILDREN, from: "    const line = PLAYS[Math.floor(share(world, entity.id, `play:${Math.floor(world.minute / 60)}`) * PLAYS.length) % PLAYS.length];\n    tell(world, entity, line(entity.name), 'FIC-GONZ-300');",
+    file: CHILDREN, from: "    const line = PLAYS[Number.isInteger(state?.line) ? state.line : playLine(world, entity)];\n    tell(world, entity, line(entity.name), 'FIC-GONZ-300');",
     to: '    return;',
   },
   {
     name: 'the hour is drawn from a stream, so a class does not replay and a reload tells a different story',
-    file: CHILDREN, from: 'const line = PLAYS[Math.floor(share(world, entity.id, `play:${Math.floor(world.minute / 60)}`) * PLAYS.length) % PLAYS.length];',
-    to: 'const line = PLAYS[Math.floor(Math.random() * PLAYS.length) % PLAYS.length];',
+    // Since 2026-09-26 the line is chosen as the child goes off to play, which is what they are drawn at (`playLine`).
+    file: CHILDREN, from: 'const playLine = (world, entity) => Math.floor(share(world, entity.id, `play:${Math.floor(world.minute / 60)}`) * PLAYS.length) % PLAYS.length;',
+    to: 'const playLine = (world, entity) => Math.floor(Math.random() * PLAYS.length) % PLAYS.length;',
   },
   // 6. The lesson, and a save that cannot be.
   {

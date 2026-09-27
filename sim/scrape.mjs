@@ -32,6 +32,9 @@ import { isStage } from './colonies-map.mjs';
 // The Mexican columns and the burn zone (sim/advance.mjs), and what the family learns of its farm (sim/advance-word.mjs).
 import { COLUMNS, advanceModelled, burnMinute, farmFate } from './advance.mjs';
 import { learnOwnBurning, recordFarmBurned } from './advance-word.mjs';
+// What the family does on the road besides run (sim/flight-work.mjs, docs/CHILDREN.md §7): what it hid, the children's bundles, the
+// fire at the camp, and a sick child let over first at the ferry.
+import { bundleRoom, crossingHoursFor, digUpCache, fireKept, hideAtLeaving } from './flight-work.mjs';
 
 const GONE = ['dead', 'captured'];
 const DAY = 1440;
@@ -137,7 +140,8 @@ export function flightRoom(world, household) {
   const roomOf = wagon => (wagon.cart ? CART_SPACE : wagon.carreta ? CARRETA_SPACE : WAGON_SPACE);
   const room = Math.round(loaded.reduce((sum, wagon) => sum + FLIGHT_ROOM * roomOf(wagon) / WAGON_SPACE, 0) * 100) / 100;
   if (drawn) return { room, mode: 'wagon', ...(drawn > 1 && { wagons: drawn }), ...(loaded[0].cart && { cart: true }), ...(drawn === 1 && loaded[0].carreta && { carreta: true }) };
-  return { room: Math.round(atHome(world, household).filter(canAnswerCalls).length * CARRIED_ROOM * 100) / 100, mode: 'foot' };
+  // On foot: what the grown people carry, and the bundles the children made up (sim/flight-work.mjs `flee-bundle`).
+  return { room: Math.round((atHome(world, household).filter(canAnswerCalls).length * CARRIED_ROOM + bundleRoom(household, atHome(world, household))) * 100) / 100, mode: 'foot' };
 }
 
 const spaceOf = take => Object.entries(take).reduce((sum, [good, amount]) => sum + (FLIGHT_SPACE[good] ?? 0) * amount, 0);
@@ -306,9 +310,11 @@ export function flee(world, household, { take = {}, refuge }) {
   // On the real land the farm is left standing, with whatever did not fit in the house: burned by a column's foragers if
   // they come this way (`burnByForagers`), found again on the family's return if they never do (sim/advance.mjs, owner
   // 2026-09-26). On the invented Gonzales country, which has no columns, the Texas army burns it as they go (owner, 2026-09-16).
+  // What the family hid in the river bottom before it went (sim/flight-work.mjs `flee-hide`) comes out of what is left in the house
+  // first, on either country: no fire and no forager finds it, and it is dug up when the family is home.
+  const left = hideAtLeaving(household, Object.fromEntries(Object.keys(FLIGHT_SPACE).map(good => [good, Math.max(0, Math.floor((kept[good] ?? 0) - (take[good] ?? 0)))]).filter(([, amount]) => amount > 0)), FLIGHT_SPACE);
   if (advanceModelled(world)) {
     if (!household.flight.burned) {
-      const left = Object.fromEntries(Object.keys(FLIGHT_SPACE).map(good => [good, Math.max(0, Math.floor((kept[good] ?? 0) - (take[good] ?? 0)))]).filter(([, amount]) => amount > 0));
       if (Object.keys(left).length) household.flight.left = { ...(household.flight.left || {}), ...left };
     }
   } else burnFarm(world, household, { watching: true });
@@ -358,8 +364,10 @@ export function advanceFlight(world, minutes) {
       } else {
         const next = crossingsAlong(world, leader.travel).find(one => !(flight.crossed || []).includes(one.id) && leader.travel.progress >= one.at - 0.05);
         if (next) {
-          flight.crossing = { siteId: next.id, until: world.minute + CROSSING_HOURS * 60 };
-          tell(world, household, `The river is up at ${world.map.sites[next.id].name}, and families are waiting their turn to get over. The family waits with them.`, { importance: 2 });
+          // A family with a sick child is let over first, as the ferryman at the Trinity did (sim/flight-work.mjs, `HIST-TEX-639`).
+          const hours = crossingHoursFor(world, household, CROSSING_HOURS);
+          flight.crossing = { siteId: next.id, until: world.minute + hours * 60 };
+          tell(world, household, `The river is up at ${world.map.sites[next.id].name}, and families are waiting their turn to get over. The family waits with them.${hours < CROSSING_HOURS ? ' The ferryman is letting families with sick children over first, and the family’s turn will come sooner.' : ''}`, { importance: 2, ...(hours < CROSSING_HOURS && { claimId: 'HIST-TEX-639' }) });
         }
       }
     }
@@ -384,7 +392,8 @@ export function advanceFlight(world, minutes) {
       // A norther over the road: the cold of "disease, cold, rain and hunger" (`COLD_WEIGHT`, `FIC-GONZ-135`). Read
       // where the family actually is, which on a flight across four hundred miles is not where it set out from.
       const where = alive[0]?.location || world.map.sites[household.homeSiteId];
-      const cold = coldSky(world, where, day);
+      // A fire kept at the camp tonight or last night (sim/flight-work.mjs `camp-fire`): the norther finds nobody out in the cold.
+      const cold = coldSky(world, where, day) && !fireKept(household, day);
       if (cold && !flight.coldDay) { flight.coldDay = day; tell(world, household, 'A norther came down on the road, and the family has no roof to get under.', { importance: 2, claimId: 'FIC-GONZ-135' }); }
       // Somebody nursing the sick today (sim/road.mjs `tend-sick`, `FIC-GONZ-052`): nobody in their care dies; the mending comes when the day's nursing is done.
       const tended = alive.some(person => person.chore?.id === 'tend-sick');
@@ -422,6 +431,8 @@ export function advanceFlight(world, minutes) {
         delete flight.left;
         tell(world, household, `The family is home. The Mexican army never came this way: the house stands and the field is as they left it${found.length ? `, and what they left in the house is still there: ${found.map(([good, amount]) => `${amount} ${good}`).join(', ')}` : ''}.`, { claimId: 'FIC-GONZ-465' });
       }
+      // What they hid in the river bottom before they went is dug up and carried in (sim/flight-work.mjs `flee-hide`).
+      digUpCache(world, household);
       // And whatever is still on the range of the herd they could not drive (sim/stock.mjs `findStockAgain`): half the
       // cattle, a quarter of the hogs, and the rest gone wild in the timber; less of the cattle where foragers drove them off.
       findStockAgain(world, household);

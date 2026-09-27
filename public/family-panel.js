@@ -66,7 +66,26 @@ export const PANEL_SUMMARIES = Object.freeze({
   'camp-guard': 'Stand a night on the camp guard.',
   'camp-scout': 'Ride out with the scouts for a day to find the enemy, which wants a horse and can bring them back hurt.',
   // What a family's children can be set to (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21).
-  'child-play': 'Let them have the hour to themselves, which makes nothing and is the point of it.',
+  'child-play': 'Let them have the hour to themselves at whatever play they choose, which makes nothing and is the point of it.',
+  // The kinds of play and the hens (sim/children.mjs `PLAY_KINDS`, owner 2026-09-26: "different types of play").
+  'child-stick-horse': 'Let them gallop a stick horse up and down the yard for the hour.',
+  'child-doll': 'Let them sit by the house with a corn-husk doll and keep house for it.',
+  'child-tag': 'Let them run at tag about the yard with the other children.',
+  'child-hide': 'Let them play hide-and-seek behind the house and the woodpile.',
+  'child-cart': 'Let them make a toy ox cart with a stick axle and two hard biscuits for wheels.',
+  'child-hoop': 'Let them drive an old barrel hoop down the lane with a stick and back.',
+  'child-marbles': 'Let them kneel in the dirt at marbles and knucklebones.',
+  'child-hens': 'Send them out to scatter a handful of corn for the hens.',
+  // The flight's own work (sim/flight-work.mjs, owner 2026-09-26: new tasks for a family on the Runaway Scrape).
+  'flee-hide': 'Hide the powder, seed and cotton the wagon cannot take in the river bottom, to find again when the family is home.',
+  'flee-bundle': 'Tie up a bundle for them to carry, so the family can take more with it on foot.',
+  'road-lookout': 'Set them to watch the road behind, so word of riders reaches the family sooner.',
+  'road-sing': 'Have them sing on the road, so the walkers are worn less by it.',
+  'road-little-ones': 'Have them keep the little ones walking by the hand, so the family goes at the pace of its older walkers.',
+  'camp-fire': 'Have them fetch wood and water and keep a fire going at the camp, so no norther finds the family out in the cold.',
+  'ferry-help': 'Send them to help the ferryman load, so the family’s turn at the crossing comes sooner.',
+  'share-food': 'Carry a food from the family’s store to the hungriest family camped at the same place.',
+  'ford-carry': 'Wade the family over now with the little ones carried, rather than wait for the boat.',
   'child-kindling': 'Send them round the yard for bark, chips and dead sticks for the fire, with no axe.',
   'child-birds': 'Set them at the edge of the field to drive the blackbirds off the standing crop.',
   'child-eggs': 'Send them round the hens’ nests, which brings a little food into the house once a day.',
@@ -120,6 +139,11 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   ['child-play', { sprite: 'icon-child-play' }], ['child-kindling', { sprite: 'icon-child-kindling' }],
   ['child-birds', { sprite: 'icon-child-birds' }], ['child-eggs', { sprite: 'icon-child-eggs' }],
   ['child-water', { sprite: 'icon-child-water' }], ['child-mind', { sprite: 'icon-child-mind' }],
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 - children's play and the Scrape's work. Stroked glyphs until Astra's
+  // `icon-<key>` frames are registered, which replace them with no change here.
+  ...['child-stick-horse', 'child-doll', 'child-tag', 'child-hide', 'child-cart', 'child-hoop', 'child-marbles', 'child-hens',
+    'flee-hide', 'flee-bundle', 'road-lookout', 'road-sing', 'road-little-ones', 'camp-fire', 'ferry-help', 'share-food', 'ford-carry',
+  ].map(key => [key, { glyph: key }]),
 ]));
 /** The camp's work, the chores a man serving with Houston's army is offered (sim/camp.mjs); the only work a serving row shows. */
 export const CAMP_CHORES = Object.freeze(['camp-drill', 'camp-forage', 'camp-guard', 'camp-scout']);
@@ -800,11 +824,61 @@ function drawGlyph(ctx, glyph, size) {
     ctx.beginPath(); ctx.ellipse(33, 32, 6, 8, 0, 0, Math.PI * 2); ctx.fill();
     ctx.strokeStyle = '#6a5136'; ctx.lineWidth = 3; ctx.lineCap = 'round';
     ctx.beginPath(); ctx.moveTo(22, 26); ctx.lineTo(31, 30); ctx.stroke();
+  } else if (LITTLE_GLYPHS[glyph]) {
+    // The children's play and the Scrape's work (stand-in: docs/ART_REQUESTS.md, request 2026-09-26).
+    LITTLE_GLYPHS[glyph](ctx);
   } else {
     ctx.beginPath(); ctx.arc(24, 24, 6, 0, Math.PI * 2); ctx.fill();
   }
   ctx.restore();
 }
+
+/** Strokes on a 48-unit square, for the icons that have no frame yet. Each says its one thing in two or three marks. */
+const line = (ctx, ...points) => { ctx.beginPath(); ctx.moveTo(...points[0]); for (const point of points.slice(1)) ctx.lineTo(...point); ctx.stroke(); };
+const dot = (ctx, x, y, r, fill = true) => { ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); if (fill) ctx.fill(); else ctx.stroke(); };
+const LITTLE_GLYPHS = Object.freeze({
+  // A stick with a horse's head on it, and a string for a bridle.
+  'child-stick-horse': ctx => { line(ctx, [12, 44], [30, 14]); ctx.beginPath(); ctx.ellipse(34, 11, 7, 4.5, -0.5, 0, Math.PI * 2); ctx.fill(); line(ctx, [30, 7], [29, 3]); line(ctx, [32, 16], [22, 26]); },
+  // A doll in a husk skirt.
+  'child-doll': ctx => { dot(ctx, 24, 11, 5); ctx.beginPath(); ctx.moveTo(24, 16); ctx.lineTo(36, 42); ctx.lineTo(12, 42); ctx.closePath(); ctx.fill(); line(ctx, [16, 22], [32, 22]); },
+  // One running after another.
+  'child-tag': ctx => { dot(ctx, 14, 12, 4); line(ctx, [14, 16], [12, 30], [8, 42]); line(ctx, [12, 30], [18, 42]); line(ctx, [13, 20], [22, 22]); dot(ctx, 34, 14, 4); line(ctx, [34, 18], [36, 32], [32, 42]); line(ctx, [36, 32], [42, 40]); line(ctx, [40, 20], [44, 16]); },
+  // A wall, and a head just showing over it.
+  'child-hide': ctx => { ctx.fillRect(8, 24, 32, 18); dot(ctx, 30, 20, 5); ctx.fillStyle = '#e9dcb8'; dot(ctx, 28, 19, 1.2); dot(ctx, 32, 19, 1.2); },
+  // A box on an axle and two round biscuit wheels.
+  'child-cart': ctx => { ctx.fillRect(10, 16, 28, 12); line(ctx, [8, 34], [40, 34]); ctx.fillStyle = '#c9a227'; dot(ctx, 14, 34, 6); dot(ctx, 34, 34, 6); },
+  // A hoop, and the stick that drives it.
+  'child-hoop': ctx => { ctx.lineWidth = 3.5; dot(ctx, 22, 26, 14, false); ctx.lineWidth = 3; line(ctx, [44, 6], [30, 22]); },
+  // A ring drawn in the dirt with marbles in it, and a knucklebone.
+  'child-marbles': ctx => { ctx.lineWidth = 2; dot(ctx, 22, 26, 15, false); dot(ctx, 16, 22, 3.5); dot(ctx, 26, 30, 3.5); dot(ctx, 22, 18, 3); ctx.fillRect(34, 36, 10, 5); },
+  // A hen, and the corn thrown for her.
+  'child-hens': ctx => { ctx.beginPath(); ctx.ellipse(22, 28, 12, 9, 0, 0, Math.PI * 2); ctx.fill(); dot(ctx, 32, 17, 5); ctx.fillStyle = '#c2582c'; ctx.beginPath(); ctx.moveTo(37, 17); ctx.lineTo(42, 18); ctx.lineTo(37, 20); ctx.fill(); ctx.fillStyle = '#c9a227'; for (const [x, y] of [[10, 42], [16, 44], [26, 43], [34, 42], [40, 44]]) dot(ctx, x, y, 1.8); },
+  // A chest going into the ground, and a spade.
+  'flee-hide': ctx => { line(ctx, [4, 30], [44, 30]); ctx.fillRect(10, 30, 20, 12); line(ctx, [38, 6], [38, 30]); ctx.fillRect(34, 26, 8, 8); },
+  // A bundle knotted on a stick.
+  'flee-bundle': ctx => { line(ctx, [6, 42], [40, 10]); ctx.beginPath(); ctx.ellipse(30, 24, 11, 9, 0, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#e9dcb8'; dot(ctx, 34, 17, 2.5); },
+  // An eye, and the road going away behind it.
+  'road-lookout': ctx => { line(ctx, [4, 44], [20, 30]); line(ctx, [44, 44], [28, 30]); ctx.beginPath(); ctx.ellipse(24, 14, 14, 7, 0, 0, Math.PI * 2); ctx.stroke(); dot(ctx, 24, 14, 4); },
+  // Two notes.
+  'road-sing': ctx => { dot(ctx, 14, 36, 5); dot(ctx, 34, 32, 5); line(ctx, [18, 36], [18, 10], [38, 6], [38, 32]); line(ctx, [18, 16], [38, 12]); },
+  // A bigger walker leading a small one by the hand.
+  'road-little-ones': ctx => { dot(ctx, 16, 10, 5); line(ctx, [16, 15], [16, 32], [11, 44]); line(ctx, [16, 32], [21, 44]); line(ctx, [16, 20], [30, 26]); dot(ctx, 33, 22, 3.5); line(ctx, [33, 26], [33, 36], [30, 44]); line(ctx, [33, 36], [36, 44]); },
+  // A fire on two crossed logs.
+  'camp-fire': ctx => { line(ctx, [8, 44], [40, 36]); line(ctx, [8, 36], [40, 44]); ctx.fillStyle = '#c2582c'; ctx.beginPath(); ctx.moveTo(14, 38); ctx.quadraticCurveTo(24, 6, 34, 38); ctx.closePath(); ctx.fill(); },
+  // A flat ferry on the water, and its rope across.
+  'ferry-help': ctx => { line(ctx, [2, 14], [46, 14]); ctx.beginPath(); ctx.moveTo(8, 26); ctx.lineTo(40, 26); ctx.lineTo(36, 34); ctx.lineTo(12, 34); ctx.closePath(); ctx.fill(); line(ctx, [24, 14], [24, 26]); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(4, 42); ctx.quadraticCurveTo(12, 38, 20, 42); ctx.quadraticCurveTo(28, 46, 36, 42); ctx.quadraticCurveTo(40, 40, 44, 42); ctx.stroke(); },
+  // A loaf passed from one hand to another.
+  'share-food': ctx => { ctx.beginPath(); ctx.ellipse(24, 20, 10, 6, 0, 0, Math.PI * 2); ctx.fill(); line(ctx, [4, 34], [16, 30], [22, 32]); line(ctx, [44, 34], [32, 30], [26, 32]); },
+  // Water, and a grown one wading with a small one on their back.
+  'ford-carry': ctx => { dot(ctx, 22, 8, 4.5); line(ctx, [22, 13], [22, 30]); dot(ctx, 30, 12, 3.5); line(ctx, [22, 18], [30, 16]); ctx.lineWidth = 2; for (const y of [32, 40]) { ctx.beginPath(); ctx.moveTo(4, y); ctx.quadraticCurveTo(14, y - 4, 24, y); ctx.quadraticCurveTo(34, y + 4, 44, y); ctx.stroke(); } },
+});
+
+/**
+ * The line a person's row says about the family's little ones (docs/CHILDREN.md), in the server's own words, or ''. A grown-up
+ * stopped to talk with a child who has nothing to do says why and what to do about it; a child says they are going to find
+ * somebody, talking, dawdling, or that their automation has just gone off; a baby says it is crawling, crying, held or asleep.
+ */
+export const lifeLine = entity => (entity?.life ? String(entity.life) : '');
 
 /**
  * Draw one of the panel's marks into its canvas: `mark-need`, `mark-need-rider`, `mark-main`, `mark-idle`, `mark-auto-off`

@@ -1,6 +1,6 @@
 {
   "record": "children-injections",
-  "date": "2026-09-21",
+  "date": "2026-09-27",
   "note": "What a family’s children can be set to (2026-09-21). Every injection is a rule of sim/children.mjs, or of the four gates it is wired through, taken back out.",
   "files": [
     "tests/children.test.mjs"
@@ -114,12 +114,10 @@
       "name": "a child’s work takes them off the family’s own land, which is the half of the 2026-09-12 rule that stands",
       "file": "sim/children.mjs",
       "failed": [
-        "the rule: setting a child to their own work stops nobody else in the family doing theirs",
         "the rule: no work of a child’s leaves the family’s own land, and none of them touches an axe or a gun",
         "the rule: the eggs are the one thing a child adds to the family’s store, once a day, and an older child finds more",
         "the rule: a child minding the younger ones lifts the baby off the parents, exactly as a cradle does",
-        "the rule: the four works that say they add nothing to the family’s store add nothing, and play writes the child’s hour into the record",
-        "the rule: the lesson never refuses a child their own work, and a saved class with one holds together"
+        "the rule: the four works that say they add nothing to the family’s store add nothing, and play writes the child’s hour into the record"
       ]
     },
     {

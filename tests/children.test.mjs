@@ -64,7 +64,14 @@ function adds(seed, choreId, age) {
   // works as though they had cost the family its supper. A child founded under ten starts at rest and cannot be set to
   // work, so in a real class this line is what is true already (`FIC-GONZ-313`, measured 2026-09-21).
   idle.kid.task = 'rest';
-  for (let t = 0; t < ticks; t++) stepWorld(idle.world);
+  // **Kept at play, not left idle** (2026-09-26): a child left with nothing to do now goes to a parent and stops their work
+  // (sim/childhood.mjs, docs/CHILDREN.md §3), so an idle control costs its family a parent's afternoon and every work measured
+  // against it would look like it had earned that back. The control child plays with a doll the whole time instead - play is
+  // one of the works that adds nothing, and `child-play` and `child-tag` are measured against it below like the rest.
+  for (let t = 0; t < ticks; t++) {
+    if (!idle.kid.chore) applyAction(idle.world, idle.household.id, { action: 'chore', entityId: idle.kid.id, chore: 'child-doll' });
+    stepWorld(idle.world);
+  }
   const delta = {};
   for (const key of new Set([...Object.keys(doing.household.resources), ...Object.keys(idle.household.resources)])) {
     const moved = Math.round(((doing.household.resources[key] ?? 0) - (idle.household.resources[key] ?? 0)) * 10000) / 10000;
@@ -74,17 +81,22 @@ function adds(seed, choreId, age) {
 }
 
 test('the rule: the age ladder decides which of the children’s works a person has, and nobody else has any', () => {
-  // Nothing at all under two, play from two, the three that want only hands and eyes from five, the pail and the baby from
-  // seven, and the whole band closed at ten, where the family's own work begins (`SENT_FROM_AGE`).
+  // Nothing at all under two; play from two - their own choice, a stick horse or a doll; tag and the hens from three; hiding and
+  // a toy cart from four; a hoop, marbles and the three that want only hands and eyes from five; the pail and the baby from
+  // seven, when the stick horse and the hens are left to the little ones; and the whole band closed at ten, where the family's
+  // own work begins (`SENT_FROM_AGE`). The owner's amendment of 2026-09-26 (docs/CHILDREN.md §2).
   const at = age => childWorks({ kind: 'person', age });
   assert.deepEqual(at(0), []);
   assert.deepEqual(at(1), []);
-  assert.deepEqual(at(2), ['child-play']);
-  assert.deepEqual(at(4), ['child-play']);
-  assert.deepEqual(at(5), ['child-play', 'child-kindling', 'child-birds', 'child-eggs']);
-  assert.deepEqual(at(6), ['child-play', 'child-kindling', 'child-birds', 'child-eggs']);
-  assert.deepEqual(at(7), [...CHILD_WORKS]);
-  assert.deepEqual(at(9), [...CHILD_WORKS]);
+  assert.deepEqual(at(2), ['child-play', 'child-stick-horse', 'child-doll']);
+  assert.deepEqual(at(3), ['child-play', 'child-stick-horse', 'child-doll', 'child-tag', 'child-hens']);
+  assert.deepEqual(at(4), ['child-play', 'child-stick-horse', 'child-doll', 'child-tag', 'child-hide', 'child-cart', 'child-hens']);
+  const five = ['child-play', 'child-stick-horse', 'child-doll', 'child-tag', 'child-hide', 'child-cart', 'child-hoop', 'child-marbles', 'child-hens', 'child-kindling', 'child-birds', 'child-eggs'];
+  assert.deepEqual(at(5), five);
+  assert.deepEqual(at(6), five);
+  const seven = CHILD_WORKS.filter(id => !['child-stick-horse', 'child-hens'].includes(id));
+  assert.deepEqual(at(7), seven);
+  assert.deepEqual(at(9), seven);
   assert.deepEqual(at(SENT_FROM_AGE), [], 'a person of ten still has the children’s works');
   assert.deepEqual(at(17), []);
   assert.deepEqual(at(40), []);
@@ -92,9 +104,9 @@ test('the rule: the age ladder decides which of the children’s works a person 
   // over them, so no class saved before ages existed gains or loses a thing.
   assert.deepEqual(childWorks({ kind: 'person' }), []);
   assert.deepEqual(childWorks({ kind: 'animal', age: 5 }), []);
-  // The ladder has exactly two thresholds above play, and every work is on it.
+  // Every work is on the ladder, and its rungs are two, three, four, five and seven.
   assert.deepEqual(Object.keys(CHILD_WORK_FROM).sort(), [...CHILD_WORKS].sort());
-  assert.deepEqual([...new Set(Object.values(CHILD_WORK_FROM))].sort((a, b) => a - b), [2, 5, 7]);
+  assert.deepEqual([...new Set(Object.values(CHILD_WORK_FROM))].sort((a, b) => a - b), [2, 3, 4, 5, 7]);
 });
 
 test('the rule: a child of eight has a bar of their own and no adult work on it; an infant has none and keeps the one reason that says why', () => {
@@ -107,8 +119,9 @@ test('the rule: a child of eight has a bar of their own and no adult work on it;
   assert.ok(can(kidList).includes('child-play'), 'play was refused an eight-year-old at home');
   assert.ok(can(kidList).includes('child-eggs'));
   assert.ok(can(kidList).includes('child-mind'), 'minding was not offered with a baby in the house');
-  // The infant's row is unchanged from before this existed: adult works, every one refused for the same reason, which is
-  // what `rowReason` collapses into the one line a separate hand is wording (public/family-panel.js).
+  // The infant's work is unchanged from before this existed: adult works, every one refused for the same reason. Since the
+  // owner's amendment of 2026-09-26 an infant crawls, cries and naps (sim/babies.mjs), and its row says that instead (`life`);
+  // it is still given no work, and these refusals are still what a page without the line would fall back on.
   const babyList = of(world, household, baby);
   assert.ok(babyList.length > 5, 'an infant’s row went empty, and an empty row has no reason to show');
   assert.ok(babyList.every(entry => !entry.can), 'an infant could be set to work');
@@ -160,7 +173,7 @@ test('the rule: no work of a child’s leaves the family’s own land, and none 
   const { world, household } = family('children-land', { children: 2 });
   const [kid] = aged(world, household, 9, 1);
   household.field = { ...household.field, state: 'planted', changedTick: world.tick };
-  for (const id of CHILD_WORKS) {
+  for (const id of childWorks(kid)) {
     const entry = of(world, household, kid).find(candidate => candidate.id === id);
     assert.ok(entry, `${id} is not offered to a nine-year-old at home`);
     assert.ok(!entry.cost, `${id} costs ${entry.cost}: a child’s work spends nothing of the family’s`);
@@ -201,8 +214,8 @@ test('the rule: a child minding the younger ones lifts the baby off the parents,
 });
 
 test('the rule: the four works that say they add nothing to the family’s store add nothing, and play writes the child’s hour into the record', () => {
-  for (const id of ['child-play', 'child-kindling', 'child-birds', 'child-water']) {
-    const { delta, world, kid } = adds('children-nothing', id, 9);
+  for (const id of ['child-play', 'child-tag', 'child-kindling', 'child-birds', 'child-water', 'child-hens']) {
+    const { delta, world, kid } = adds('children-nothing', id, id === 'child-hens' ? 5 : 9);
     assert.deepEqual(delta, {}, `${id} put something in the family’s store`);
     // A memory of their own, and not the bare "finished:" line every chore writes (`finishChore`, which records a
     // `consequence`). Without that distinction a work that told the family nothing at all would still look told.

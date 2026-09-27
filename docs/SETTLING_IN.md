@@ -395,7 +395,7 @@ choice made inside a visible risk. The hidden stats stay hidden; the house's own
 - **One of each**, stored as `household.furniture`; absent is none, so nothing changes for an old class and no save version moved. The work is not offered while the family is still on the road in, or once it has every piece. The family book lists what it has.
 - **The cradle's other half is new**: before this nothing slowed a parent with a baby. It slows only heavy work at home, and says so on the work.
 
-`ceiling:` the small tree for a piece is not taken from the woods grid on the real land. `ceiling:` nobody but a cradle minds the baby — an older child or the other parent idle at home does not yet count. The furniture art (`home-furnishings`) is delivered and waits for the interior view (step 7).
+`ceiling:` the small tree for a piece is not taken from the woods grid on the real land. `ceiling:` nobody but a cradle minds the baby — an older child or the other parent idle at home does not yet count. (Since 2026-09-21 a child set to mind the little ones does; since 2026-09-26 a baby crawls, cries and is held by the nearest woman of age, who then goes back to her work, and the last woman of age at home takes it with her rather than leave it - docs/CHILDREN.md §6.) The furniture art (`home-furnishings`) is delivered and waits for the interior view (step 7).
 
 ## 7. What the parents look like, and the children after them
 

@@ -19,6 +19,8 @@
 // documented local game. So a household grows corn or cotton and nothing else, and no
 // hunted species is ever named.
 import { heavyWorkPace, tooYoung, tooYoungWhy } from './family.mjs';
+// A grown-up the family's little ones have called aside (docs/CHILDREN.md): their work waits, untouched, until they are back.
+import { asideWhy, calledAside } from './aside.mjs';
 import { castVote, joinService, servingWhy, winterOffered, winterRefusal } from './winter.mjs';
 import { reliefEstimate } from './alamo.mjs';
 import { houstonCamp, joinEstimateWords } from './houston.mjs';
@@ -1301,6 +1303,9 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   // A child under ten is refused every work but the children's own (`chore.child`, sim/children.mjs), which carry their own
   // age ladder in their own `refusal` (owner, 2026-09-21; docs/FAMILY_CREATION.md §3's amendment).
   if (tooYoung(entity) && !chore.child) return { can: false, why: tooYoungWhy(entity) };
+  // Talking with a child who has nothing to do, or holding a crying baby (sim/aside.mjs): the work they have waits, and no new
+  // work is taken up until the child has something to do or the baby is down.
+  if (calledAside(entity)) return { can: false, why: asideWhy(entity, id => world.entities[id]?.given || world.entities[id]?.name || 'a child') };
   if (entity.chore) return { can: false, why: `${entity.name} is already ${entity.chore.doing}.` };
   // The road's own chores (sim/road.mjs) are for somebody travelling east with the family, or camped with it at the refuge.
   // Somebody the class's clock is carrying faster than a student can follow is not on the map at all (sim/sight.mjs,
@@ -1884,8 +1889,14 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
   const skill = entity.skills?.[chore.skill] ?? 1;
   // A travel step owns the person until the road is behind them. A road chore (sim/road.mjs) runs where the family has
   // halted on its way east: the road is still theirs, but the ground has stopped going past.
-  if (entity.travel && !(chore.road && entity.travel.halted)) return;
+  // A road chore that goes on while the family moves (`moving`: watching the road behind, singing the little ones along;
+  // sim/flight-work.mjs) runs on the road itself.
+  if (entity.travel && !(chore.road && (entity.travel.halted || chore.moving))) return;
+  // Called aside by the family's little ones (sim/aside.mjs): the work stands exactly where it is, step, wait and all.
+  if (calledAside(entity)) return;
   const state = entity.chore;
+  // A child who has not started yet (sim/obedience.mjs `beginsJob`): the job waits the ticks they dawdle, then goes on.
+  if (state.dawdle > 0) { state.dawdle--; if (!state.dawdle) delete state.dawdle; return; }
   // Somebody working beside them finished the house: nobody goes on thatching a roof that is on.
   if (chore.house && houseBuilt(household)) return finishChore(world, household, entity, chore);
   // A neighbour stops when the walls are up, or when they are no longer standing on that land.

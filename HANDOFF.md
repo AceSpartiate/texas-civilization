@@ -278,6 +278,66 @@ biome-game (one), travel-drawn (two browser), creation-words (three), lesson (th
 now caught by tests/lesson.test.mjs), rain-work (one), wagons (three, and the harness made CRLF-aware, as beasts), and
 panel-silence's own `--inject` (one).
 
+## Children, babies and the Runaway Scrape's own work — 2026-09-26 (worktree branch from main 9af00d4, main merged at c31d6e7; not released)
+
+The owner, 2026-09-26: *"children that are too small don't do anything on the farm. we n3ed to make them do stuff. actions
+specifically for them . different types of play, and if they're idle they should find the nearest 0arent and engage them in an
+automated conversation. this conversation stops the parent from doing their task until the kid is given a new task. yes, kids
+should be able to be automated. no, it shouldn't go forever. kids disobey sometimes. sometimes they should randomly turn off their
+automation feature. wh3n kids are created there should be a hidden d20 roll for each one. [...] when it's the runaway scrape, if a
+family has to run, the kids and family members as a whole should have new tasks and abilities specifically geared for that. be
+creative."* And the same day, babies that crawl and cry and are held by the nearest woman of age, and "of age means old enough to
+do work on the farm". **docs/CHILDREN.md is the design, the research and the decisions**; HISTORY.md `HIST-TEX-630` to `-645`,
+`FIC-GONZ-475` to `-489`.
+
+**What there is now.**
+- `sim/children.mjs`: **seven kinds of play**, each a work with its own icon and **drawn as what it is** (`PLAY_KINDS`, `playStep`:
+  a stick horse galloped out and back, tag run about the yard, hide-and-seek behind the house, a hoop down the lane, a doll, a toy
+  cart on biscuit wheels, marbles), `child-play` drawn as the play its line tells of, and **scattering corn for the hens** from
+  three. Play lasts two hours (six ticks). The ladder: play from two, tag and the hens from three, hiding and the cart from four,
+  a hoop, marbles and the old three jobs from five, water and minding from seven; the stick horse and the hens left at seven.
+- `sim/childhood.mjs`: **the idle child** (two to nine, at home, nothing to do for two ticks, in the waking day, not in the guided
+  start, only in a played family) **walks to the nearest parent** - with no parent at home the nearest of the family of ten or
+  more, with nobody the child plays alone - and they **talk in bubbles** (reconstructed lines, `CHILD_SAYS`, `GROWN_SAYS`); from the
+  tick the child arrives **the parent's work stands exactly where it is** (`sim/aside.mjs`, read by `advanceChore`, `advanceAuto`
+  and `advanceRoutine`) and their row says why in amber, until **the child is given something to do**. A **child's own automation**
+  (the Auto switch on a child of two or more) finds them jobs and play for `childAutoTicks` of their roll (18 to 56 ticks) and goes
+  off by itself with a notice.
+- `sim/obedience.mjs` and `sim/family.mjs` `obedienceRoll`: **a hidden d20 for every son and daughter** at the roll, never on any
+  wire, derived for old saves and never written back (no save version moved). It decides how often a child **dawdles** before a job
+  (30 in 100 at a 1, 2 at a 20), **wanders off** from one to play (6 in 100 a tick, 1 in 500), and **switches their automation
+  off** (5 in 100 a tick, 1 in 500) - each seen, with a line.
+- `sim/babies.mjs`: a baby in a played family **crawls** about where it was set down, **cries** (about once a morning), is **picked
+  up by the nearest woman of age** (else a child minding, a woman holding a twin, the nearest of age, or it settles), **hushed and
+  hummed to** (the lullaby named, never sung), **put down to nap**, and she goes **back to exactly her work, place, task and
+  automation**. A well baby takes at most four ticks of anybody's day; a child talking with her is let go; nothing stops on a
+  calendar faster than an hour a tick or in a family nobody plays. **The last woman of age at home takes the baby with her on her
+  hip** rather than leave it (`takeBabyAlong` from `beginTravel`), or leaves it with another woman of age and says so.
+- `sim/flight-work.mjs`: **the Scrape's own work** - hide what the wagon cannot carry (kept from the fire, dug up at home), a
+  child's bundle (more carried on foot), a lookout on the road behind (word at 30 miles, not 20), singing the walkers along (worn
+  three quarters), keeping the little ones walking (the family at its older walkers' pace), a fire at the camp (no cold weight), a
+  hand at the ferry (the turn six hours sooner), food shared with a family camped there, the little ones carried over a crossing on
+  foot; and **a family with a sick child let over a flooded crossing first** (`HIST-TEX-639`). A child's are jobs, which obedience
+  governs.
+- The page: **a child's portrait now brings up the child's own bar** (until today no page could show a child's works at all -
+  the bar was only the main person's row); `.panel-life-line` on every row; the family's bubbles; poses from what the server says
+  (`littleClip`); seventeen glyph icons. Stand-ins and the art request: docs/ART_REQUESTS.md, 2026-09-26.
+
+**Evidence.** `npm test`: 1,397 of 1,398 pass (1,375 before); the one failure, "Travis ... Joe hides, then comes out" (tests/battle-alamo-view.test.mjs, "Joe was not drawn hiding"), fails identically on main c31d6e7 by itself and is the Alamo art builder's, not this work. New: `tests/childhood.test.mjs` (9), `tests/babies.test.mjs` (7),
+`tests/flight-work.test.mjs` (7); `tests/children.test.mjs` moved to the new ladder (its idle control is now a child at play,
+since an idle child stops a parent). `npm run test:children-injections`: 58 of 58 caught, 55 of them alone
+([record](docs/evidence/childhood-injections.json)); `node scripts/children-injections.mjs` (2026-09-21's, moved onto the new ladder): 24 of 24.
+`npm run test:children` at 1366x768 and 1024x768: 11 checks ([record](docs/evidence/children-browser.json)). Also passed after the merge:
+`test:family-panel`, `test:lesson`, `test:panels` (14 checks), `test:scrape` (5), `test:mexican-advance` (10; it first failed - a family of children at home pushed "the house stands" out of the page's 24-event window, which is why the little ones' comings and goings are now told once a day and kept out of that window), `test:auto` (14; its rule "no switch under ten" moved to "none under two").
+
+**Not done / not proved.** Same computer only; no Chromebook, LAN or district claim. Art: every new pose and icon is a stand-in.
+Obedience governs children under ten only. The idle child is held back during the guided start and on a calendar faster than an hour a tick. No night crying. A woman carrying a
+baby goes no slower. The milk cow on the Scrape is not built (docs/STOCK.md keeps the herd on the range). Measured on these seeds
+only: how often a parent is stopped in a real class of forty minutes has not been played by a class.
+
+**Decisions for the owner** (docs/CHILDREN.md §9): a woman carrying a baby slower or not; obedience for ten to fifteen; the idle
+child during the guided start; a milk cow driven on the Scrape; how often a baby cries.
+
 ## The Mexican advance: the record's columns on the map, the burn zone, and half the class's land dealt inside it — 2026-09-26 (worktree branch from main fe4e882, main merged at 0307b54; released in v2026.09.26.6)
 
 The owner, 2026-09-25: *"we need to fully model the Mexican army as it pushes towards the Texian army during the runaway

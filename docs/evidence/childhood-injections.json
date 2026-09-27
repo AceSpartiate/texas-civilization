@@ -1,0 +1,591 @@
+{
+  "record": "childhood-injections",
+  "date": "2026-09-27",
+  "note": "Children at play, the idle child and the parent, a child’s automation and obedience, babies, and the Runaway Scrape’s own work (docs/CHILDREN.md, 2026-09-26). Each injection is run against the one test file that guards it; \"alone\" means the test named for the rule was the only one in that file to fail.",
+  "injections": [
+    {
+      "name": "the idle child never goes to anybody",
+      "file": "sim/childhood.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "the rule: a child with nothing to do goes to the nearest parent, whose work stands still until the child is given something to do",
+        "the rule: the family’s record hears of a child’s talk once a day, however often it happens - the rows and the bubbles say it every time",
+        "the rule: with no parent at home a child goes to the nearest of age, and with nobody at home plays by themself"
+      ]
+    },
+    {
+      "name": "the parent’s work goes on while the child talks",
+      "file": "sim/chores.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a child with nothing to do goes to the nearest parent, whose work stands still until the child is given something to do"
+      ]
+    },
+    {
+      "name": "the child goes to the furthest parent, not the nearest",
+      "file": "sim/childhood.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "the rule: a child with nothing to do goes to the nearest parent, whose work stands still until the child is given something to do",
+        "the rule: the family’s record hears of a child’s talk once a day, however often it happens - the rows and the bubbles say it every time"
+      ]
+    },
+    {
+      "name": "the parent is never let go when the talk ends",
+      "file": "sim/childhood.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a child with nothing to do goes to the nearest parent, whose work stands still until the child is given something to do"
+      ]
+    },
+    {
+      "name": "a stopped parent can be given new work",
+      "file": "sim/world.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a child with nothing to do goes to the nearest parent, whose work stands still until the child is given something to do"
+      ]
+    },
+    {
+      "name": "a one-tick job for the child leaves the parent standing",
+      "file": "sim/world.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the family’s record hears of a child’s talk once a day, however often it happens - the rows and the bubbles say it every time"
+      ]
+    },
+    {
+      "name": "the little ones’ comings and goings crowd the page’s news",
+      "file": "sim/world.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the family’s record hears of a child’s talk once a day, however often it happens - the rows and the bubbles say it every time"
+      ]
+    },
+    {
+      "name": "the journal is told every time a child goes to a parent",
+      "file": "sim/childhood.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the family’s record hears of a child’s talk once a day, however often it happens - the rows and the bubbles say it every time"
+      ]
+    },
+    {
+      "name": "a child alone at home stands with nothing",
+      "file": "sim/childhood.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: with no parent at home a child goes to the nearest of age, and with nobody at home plays by themself"
+      ]
+    },
+    {
+      "name": "a child stops a parent in the guided start",
+      "file": "sim/childhood.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: nobody is stopped by a child in the guided start, at night, on a calendar too fast to stop for, or in a family nobody plays"
+      ]
+    },
+    {
+      "name": "a child goes looking for a parent in the dark",
+      "file": "sim/childhood.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: nobody is stopped by a child in the guided start, at night, on a calendar too fast to stop for, or in a family nobody plays"
+      ]
+    },
+    {
+      "name": "a child stops a parent for four hours a tick",
+      "file": "sim/childhood.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: nobody is stopped by a child in the guided start, at night, on a calendar too fast to stop for, or in a family nobody plays"
+      ]
+    },
+    {
+      "name": "a child stops a parent in a family nobody plays",
+      "file": "sim/childhood.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: nobody is stopped by a child in the guided start, at night, on a calendar too fast to stop for, or in a family nobody plays"
+      ]
+    },
+    {
+      "name": "a child at play is never moved about the yard",
+      "file": "sim/childhood.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a child at play is seen at it - moved about the yard by the kind of play, or settled in one place - and never off the land"
+      ]
+    },
+    {
+      "name": "a child’s automation goes on for ever",
+      "file": "sim/childhood.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a child’s own automation finds them things to do, lasts a time scaled by their obedience, and goes off by itself with a notice"
+      ]
+    },
+    {
+      "name": "a child’s automation goes off without a notice on the row",
+      "file": "sim/childhood.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a child’s own automation finds them things to do, lasts a time scaled by their obedience, and goes off by itself with a notice"
+      ]
+    },
+    {
+      "name": "every child is trusted with automation for as long",
+      "file": "sim/childhood.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a child’s own automation finds them things to do, lasts a time scaled by their obedience, and goes off by itself with a notice"
+      ]
+    },
+    {
+      "name": "a better child wanders off more",
+      "file": "sim/obedience.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: obedience decides how often a child dawdles, wanders off and switches their automation off - a lower roll always more, measured over many ticks"
+      ]
+    },
+    {
+      "name": "a better child tires of automation more",
+      "file": "sim/obedience.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: obedience decides how often a child dawdles, wanders off and switches their automation off - a lower roll always more, measured over many ticks"
+      ]
+    },
+    {
+      "name": "a better child dawdles more",
+      "file": "sim/obedience.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: obedience decides how often a child dawdles, wanders off and switches their automation off - a lower roll always more, measured over many ticks"
+      ]
+    },
+    {
+      "name": "children are made with no roll",
+      "file": "sim/family.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: obedience is rolled for each child when the family is made, the same every time, and never reaches any page"
+      ]
+    },
+    {
+      "name": "a child’s roll is sent to the family’s page",
+      "file": "sim/world.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: obedience is rolled for each child when the family is made, the same every time, and never reaches any page"
+      ]
+    },
+    {
+      "name": "how long a child’s automation lasts is sent to the page",
+      "file": "sim/world.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: obedience is rolled for each child when the family is made, the same every time, and never reaches any page"
+      ]
+    },
+    {
+      "name": "an old child’s roll is written back into the save",
+      "file": "sim/family.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a child saved before there was a roll is given one from the class and their id, and the save opens unchanged"
+      ]
+    },
+    {
+      "name": "an old child is given a roll that is not their seed and id",
+      "file": "sim/family.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a child saved before there was a roll is given one from the class and their id, and the save opens unchanged"
+      ]
+    },
+    {
+      "name": "a baby never crawls",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a baby crawls about where it was set down, naps, sleeps at night, and its row says which"
+      ]
+    },
+    {
+      "name": "the nearest of anybody comes, not the nearest woman of age",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "the rule: a crying baby is held by the nearest woman of age, who sings to it, puts it down to nap and goes back to exactly her task and state",
+        "the rule: a well baby takes no more than the cap of one person’s day; past it the next comes, and with nobody near it settles"
+      ]
+    },
+    {
+      "name": "she is not put back where she stood",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a crying baby is held by the nearest woman of age, who sings to it, puts it down to nap and goes back to exactly her task and state"
+      ]
+    },
+    {
+      "name": "her work goes on while she holds the baby",
+      "file": "sim/chores.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a crying baby is held by the nearest woman of age, who sings to it, puts it down to nap and goes back to exactly her task and state"
+      ]
+    },
+    {
+      "name": "no cap on a day’s holding",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a well baby takes no more than the cap of one person’s day; past it the next comes, and with nobody near it settles"
+      ]
+    },
+    {
+      "name": "a sick baby is held to the cap",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a well baby takes no more than the cap of one person’s day; past it the next comes, and with nobody near it settles"
+      ]
+    },
+    {
+      "name": "a child minding the baby does not answer it",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: who comes - a child minding the little ones stops nobody, a woman holding one baby takes the twin too, and with no woman of age the father comes"
+      ]
+    },
+    {
+      "name": "a second woman is stopped for a twin",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: who comes - a child minding the little ones stops nobody, a woman holding one baby takes the twin too, and with no woman of age the father comes"
+      ]
+    },
+    {
+      "name": "the only woman of age leaves the baby behind",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the only woman of age at home takes the baby with her rather than leave it, and with another she leaves it with her"
+      ]
+    },
+    {
+      "name": "she takes the baby with another woman of age at home",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the only woman of age at home takes the baby with her rather than leave it, and with another she leaves it with her"
+      ]
+    },
+    {
+      "name": "a carried baby is never set down at home",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the only woman of age at home takes the baby with her rather than leave it, and with another she leaves it with her"
+      ]
+    },
+    {
+      "name": "a child talking holds her as well as the baby",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the baby and a child who has come to talk never hold each other up"
+      ]
+    },
+    {
+      "name": "a four-hour tick is stopped for a baby",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: nobody is stopped by a baby on a calendar too fast to stop for, or in a family nobody plays"
+      ]
+    },
+    {
+      "name": "a family nobody plays is stopped by its babies",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: nobody is stopped by a baby on a calendar too fast to stop for, or in a family nobody plays"
+      ]
+    },
+    {
+      "name": "the flight’s work is offered on the farm before anybody is told to leave",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the flight’s work is offered only while the family is told to leave, on the road or camped - never on the farm before"
+      ]
+    },
+    {
+      "name": "hiding hides nothing",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: what is hidden before the family leaves is kept from the fire and dug up at home, and nothing else is"
+      ]
+    },
+    {
+      "name": "what was hidden is never dug up",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: what is hidden before the family leaves is kept from the fire and dug up at home, and nothing else is"
+      ]
+    },
+    {
+      "name": "a child’s bundle carries nothing",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: each child’s bundle carries more of the family’s goods on foot, leaving and on the road"
+      ]
+    },
+    {
+      "name": "a lookout sees no further",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: on the road a lookout sees the army further off, singing wears the walkers less, and the little ones kept walking let the family go faster"
+      ]
+    },
+    {
+      "name": "singing wears the walkers as much",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: on the road a lookout sees the army further off, singing wears the walkers less, and the little ones kept walking let the family go faster"
+      ]
+    },
+    {
+      "name": "the little ones kept walking go no faster",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: on the road a lookout sees the army further off, singing wears the walkers less, and the little ones kept walking let the family go faster"
+      ]
+    },
+    {
+      "name": "the faster pace is kept when nobody keeps the little ones walking",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: on the road a lookout sees the army further off, singing wears the walkers less, and the little ones kept walking let the family go faster"
+      ]
+    },
+    {
+      "name": "a fire kept lasts only the day",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: camped at a crossing a fire keeps the cold off, a hand at the ferry brings the turn sooner once, food can be shared, and on foot the little ones can be carried over"
+      ]
+    },
+    {
+      "name": "the ferry can be helped at twice",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: camped at a crossing a fire keeps the cold off, a hand at the ferry brings the turn sooner once, food can be shared, and on foot the little ones can be carried over"
+      ]
+    },
+    {
+      "name": "help at the ferry brings the turn no sooner",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: camped at a crossing a fire keeps the cold off, a hand at the ferry brings the turn sooner once, food can be shared, and on foot the little ones can be carried over"
+      ]
+    },
+    {
+      "name": "food shared reaches nobody",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: camped at a crossing a fire keeps the cold off, a hand at the ferry brings the turn sooner once, food can be shared, and on foot the little ones can be carried over"
+      ]
+    },
+    {
+      "name": "carried over, the family still waits for the boat",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a family on foot can carry its little ones over a crossing below its banks rather than wait, and is worn by it; a sick child is let over first"
+      ]
+    },
+    {
+      "name": "a sick child is not let over first",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a family on foot can carry its little ones over a crossing below its banks rather than wait, and is worn by it; a sick child is let over first"
+      ]
+    },
+    {
+      "name": "a child’s flight work is never dawdled over",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a child’s flight work is a job, and a child’s obedience governs it as at home"
+      ]
+    },
+    {
+      "name": "the stick horse is kept past seven",
+      "file": "sim/children.mjs",
+      "test": "tests/children.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the age ladder decides which of the children’s works a person has, and nobody else has any"
+      ]
+    },
+    {
+      "name": "tag is offered at two",
+      "file": "sim/children.mjs",
+      "test": "tests/children.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the age ladder decides which of the children’s works a person has, and nobody else has any"
+      ]
+    },
+    {
+      "name": "the lesson refuses a child marbles",
+      "file": "sim/lesson.mjs",
+      "test": "tests/children.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the lesson never refuses a child their own work, and a saved class with one holds together"
+      ]
+    },
+    {
+      "name": "a flight work has no icon",
+      "file": "public/family-panel.js",
+      "test": "tests/family-panel.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "every chore and every order has an icon from the library and exactly one sentence"
+      ]
+    }
+  ]
+}

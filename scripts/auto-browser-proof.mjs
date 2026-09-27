@@ -55,7 +55,7 @@ const hunts = id => world().events.filter(event => event.actorId === id && /fini
 const switchLooks = page => page.evaluate(() => [...document.querySelectorAll('.panel-row')].map(row => {
   const button = row.querySelector('.panel-auto'), box = button.getBoundingClientRect(), style = getComputedStyle(button);
   return {
-    id: row.dataset.entityId, hidden: button.hidden, young: (window.__snapshot?.world.entities.find(one => one.id === row.dataset.entityId)?.age ?? 99) < 10, text: button.querySelector('.panel-auto-word')?.textContent, pressed: button.getAttribute('aria-pressed'),
+    id: row.dataset.entityId, hidden: button.hidden, young: (window.__snapshot?.world.entities.find(one => one.id === row.dataset.entityId)?.age ?? 99) < 2, text: button.querySelector('.panel-auto-word')?.textContent, pressed: button.getAttribute('aria-pressed'),
     visible: !button.hidden && box.width > 30 && box.height >= 24 && box.left >= 0 && box.right <= innerWidth && box.top >= 0 && box.bottom <= innerHeight,
     glowing: /rgb\(1(11|26|43), (191|217|224), (74|87|102)/.test(style.boxShadow), shadow: style.boxShadow, background: style.backgroundColor, color: style.color,
     line: row.querySelector('.panel-auto-line')?.hidden === false ? row.querySelector('.panel-auto-line').textContent : null,
