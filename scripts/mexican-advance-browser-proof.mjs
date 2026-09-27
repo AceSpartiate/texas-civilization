@@ -171,6 +171,9 @@ try {
   held();
   await serverUntil('the foragers never reached the first family\'s farm', () => Number.isFinite(inside().flight?.burned), 900000);
   const burnedAt = inside().flight.burned, home = world().map.sites[inside().homeSiteId];
+  // What the Host is sent, read at once: the smoke stands six hours, and waiting below for the family's page to catch up can
+  // let the class run past it (seen once in three runs on 2026-09-26 as "the Host was not shown the farm's smoke").
+  const hostSent = firesSeen(live, undefined, 'host').some(fire => fire.id === `farm:${inside().id}`);
   await until(burned, 'the family\'s page never caught up with the burning', minute => window.__snapshot.world.minute >= minute, burnedAt, { timeout: 60000 });
   const before = await burned.evaluate(() => ({ cabin: window.__snapshot.world.land.cabin, flight: window.__snapshot.world.household.flight, fires: (window.__snapshot.world.fires || []).map(fire => fire.id), events: window.__snapshot.world.events.map(event => event.text), reports: window.__snapshot.world.reports.map(report => report.topicId) }));
   if (!inside().flight.burnKnown) {
@@ -181,7 +184,7 @@ try {
     assert.ok(!before.reports.includes(`farm-burned:${inside().id}`));
   }
   // The Host is sent the smoke while it stands (six hours: a tick or two at this pace), and its page draws what it is sent.
-  assert.ok(firesSeen(live, undefined, 'host').some(fire => fire.id === `farm:${inside().id}`), 'the Host was not shown the farm\'s smoke');
+  assert.ok(hostSent, 'the Host was not shown the farm\'s smoke');
   const hostFire = await host.waitForFunction(id => (window.__firesDrawn || []).some(fire => fire.id === `farm:${id}`), inside().id, { timeout: 20000 }).then(() => 'drawn on its map', () => 'sent, and gone before its page drew it');
   const others = await standing.evaluate(id => (window.__snapshot.world.fires || []).some(fire => fire.id === `farm:${id}`), inside().id);
   assert.equal(others, false, 'the second family, far off, was sent the first family\'s smoke');

@@ -73,8 +73,8 @@ const UNIT = [
   { name: 'a column never watched', file: 'sim/military-pacing.mjs',
     from: '  if (proposed > MILITARY_TRAVEL_MINUTES && columnWatched(world)) proposed = MILITARY_TRAVEL_MINUTES;', to: '', test: T, expect: NAMES.watch },
   // The advance's places (2026-09-26, docs/MAP_ACCURACY.md §14); the map's own are scripts/advance-places-map-injections.mjs.
-  { name: 'the advance\'s places drawn and never walked', file: 'sim/colonies-map.mjs',
-    from: "export const walked = route => route?.kind !== 'outside';", to: "export const walked = route => route?.kind !== 'outside' && ![route?.from, route?.to].some(id => ['thompsons', 'old-fort', 'staffords', 'new-washington', 'powells'].includes(id));", test: P, expect: NAMES.go },
+  { name: 'the advance\'s places drawn and never walked by a family', file: 'sim/ways.mjs',
+    from: '    if (!walked(route)) continue;', to: "    if (!walked(route) || [route.from, route.to].some(id => ['thompsons', 'old-fort', 'staffords', 'new-washington', 'powells'].includes(id))) continue;", test: P, expect: [NAMES.go, NAMES.door] },
   { name: 'Santa Anna across country from Thompson\'s to Stafford\'s, not over the ferry', file: 'sim/advance.mjs',
     from: "      at('staffords', on(1836, 4, 15, 6), { claimId: 'HIST-TEX-587' }),", to: "      { point: { x: 114, y: -8 }, name: 'Stafford’s plantation', minute: on(1836, 4, 15, 6), claimId: 'HIST-TEX-587' },", test: P, expect: NAMES.through },
   { name: 'Mrs. Powell\'s burned at the research\'s estimate, not the place', file: 'sim/advance.mjs',
@@ -138,7 +138,10 @@ if (which === 'all' || which === 'unit') {
   for (const file of [T, S, P]) { const clean = runUnit(file); if (!clean.passed) throw new Error(`${file} fails before any injection: ${clean.failed.join('; ')}`); }
   for (const injection of UNIT) {
     const seen = inject(injection, () => runUnit(injection.test));
-    const caught = !seen.passed && seen.failed.length === 1 && seen.failed[0] === injection.expect;
+    // The named test and no other; or, where one regression breaks a rule two checks hold (a place nobody can walk to is one an
+    // old save cannot walk to either), exactly the set named - as scripts/san-jacinto-injections.mjs does.
+    const expected = [injection.expect].flat();
+    const caught = !seen.passed && seen.failed.length === expected.length && expected.every(name => seen.failed.includes(name));
     record.unit.push({ name: injection.name, file: injection.file, test: injection.test, expect: injection.expect, caught, failed: seen.failed });
     console.log(`${caught ? 'caught' : seen.passed ? 'MISSED' : 'CAUGHT BY ANOTHER OR MORE THAN ONE'}: ${injection.name} -> ${seen.failed.join(' | ') || 'every test passed'}`);
   }
