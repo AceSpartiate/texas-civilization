@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1610 usable sprites, 153 PNG atlases, 539 clips** (311 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1618 usable sprites, 155 PNG atlases, 543 clips** (315 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -14,6 +14,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | --- | ---: | --- | ---: |
 | alamo-face-strips | 5 | 1659 × 948 | 928904 |
 | alamo-funeral-pyre | 4 | 1254 × 1254 | 1841976 |
+| cannon-18pdr | 4 | 1254 × 1254 | 1234709 |
+| cannon-siege-battery | 4 | 1254 × 1254 | 1750288 |
 | joe-story-actions | 4 | 1254 × 1254 | 787824 |
 | famous-travis-still | 1 | 1536 × 1024 | 1367838 |
 | flag-red-siege | 4 | 1254 × 1254 | 1003596 |
@@ -179,6 +181,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | alamo-pyre-fire-1 | alamo-funeral-pyre | alamo-pyre-burning |
 | alamo-pyre-fire-2 | alamo-funeral-pyre | alamo-pyre-burning |
 | alamo-pyre-fire-3 | alamo-funeral-pyre | alamo-pyre-burning |
+| cannon-18pdr-e | cannon-18pdr | cannon-18pdr-e-recoil |
+| cannon-18pdr-recoil-e | cannon-18pdr | cannon-18pdr-e-recoil |
+| cannon-18pdr-w | cannon-18pdr | cannon-18pdr-w-recoil |
+| cannon-18pdr-recoil-w | cannon-18pdr | cannon-18pdr-w-recoil |
+| cannon-siege-battery-e | cannon-siege-battery | cannon-siege-battery-e-recoil |
+| cannon-siege-battery-recoil-e | cannon-siege-battery | cannon-siege-battery-e-recoil |
+| cannon-siege-battery-w | cannon-siege-battery | cannon-siege-battery-w-recoil |
+| cannon-siege-battery-recoil-w | cannon-siege-battery | cannon-siege-battery-w-recoil |
 | joe-door-aim | joe-story-actions | joe-fire-door |
 | joe-door-fire | joe-story-actions | joe-fire-door |
 | joe-hurt-e | joe-story-actions | State artwork; no motion required |
@@ -1786,6 +1796,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | Clip | Method | Frames | Duration (ms) | Loop | Direction |
 | --- | --- | ---: | ---: | --- | --- |
 | alamo-pyre-burning | Pose cycle | 3 | 1080 | yes | elevation; orient with structure geometry |
+| cannon-18pdr-e-recoil | Pose cycle | 3 | 770 | one-shot | east |
+| cannon-18pdr-w-recoil | Pose cycle | 3 | 770 | one-shot | west |
+| cannon-siege-battery-e-recoil | Pose cycle | 3 | 770 | one-shot | east |
+| cannon-siege-battery-w-recoil | Pose cycle | 3 | 770 | one-shot | west |
 | joe-fire-door | Pose cycle | 2 | 5200 | yes | east; mirror for west |
 | flag-red-wind | Pose cycle | 4 | 1590 | yes | not applicable |
 | smoke-column-far-rise | Pose cycle | 4 | 1760 | yes | not applicable |

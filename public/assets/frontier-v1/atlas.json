@@ -130,6 +130,122 @@
         ]
       }
     },
+    "cannon-18pdr": {
+      "image": "atlases/cannon-18pdr.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1234709,
+      "sha256": "2a4984cf47bdf54c670d97bc25c2247050111a4b12a898d57ea2db693729cc37",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.683998,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              194,
+              568
+            ],
+            "columns": [
+              [
+                29,
+                636
+              ],
+              [
+                669,
+                1232
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              732,
+              1110
+            ],
+            "columns": [
+              [
+                29,
+                625
+              ],
+              [
+                673,
+                1242
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "cannon-siege-battery": {
+      "image": "atlases/cannon-siege-battery.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1750288,
+      "sha256": "0a9fab55ee8e3d25e5e9d66d5e325775a33002281f05c19fc164624409109ef5",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.564968,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              196,
+              602
+            ],
+            "columns": [
+              [
+                14,
+                613
+              ],
+              [
+                641,
+                1239
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              765,
+              1180
+            ],
+            "columns": [
+              [
+                15,
+                615
+              ],
+              [
+                641,
+                1242
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "joe-story-actions": {
       "image": "atlases/joe-story-actions.png",
       "width": 1254,
@@ -14525,6 +14641,198 @@
           502
         ],
         "visiblePixels": 173427,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cannon-18pdr-e": {
+      "sheet": "cannon-18pdr",
+      "x": 29,
+      "y": 194,
+      "w": 607,
+      "h": 368,
+      "anchorX": 0.5881,
+      "anchorY": 0.9293,
+      "label": "cannon 18pdr e",
+      "kind": "cannon-18pdr",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          31,
+          196,
+          603,
+          364
+        ],
+        "visiblePixels": 119273,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cannon-18pdr-recoil-e": {
+      "sheet": "cannon-18pdr",
+      "x": 669,
+      "y": 198,
+      "w": 563,
+      "h": 370,
+      "anchorX": 0.6021,
+      "anchorY": 0.9297,
+      "label": "cannon 18pdr recoil e",
+      "kind": "cannon-18pdr",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          671,
+          200,
+          559,
+          366
+        ],
+        "visiblePixels": 119447,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cannon-18pdr-w": {
+      "sheet": "cannon-18pdr",
+      "x": 29,
+      "y": 732,
+      "w": 596,
+      "h": 367,
+      "anchorX": 0.4237,
+      "anchorY": 0.9292,
+      "label": "cannon 18pdr w",
+      "kind": "cannon-18pdr",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          31,
+          734,
+          592,
+          363
+        ],
+        "visiblePixels": 117066,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cannon-18pdr-recoil-w": {
+      "sheet": "cannon-18pdr",
+      "x": 673,
+      "y": 747,
+      "w": 569,
+      "h": 363,
+      "anchorX": 0.4446,
+      "anchorY": 0.9284,
+      "label": "cannon 18pdr recoil w",
+      "kind": "cannon-18pdr",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          675,
+          749,
+          565,
+          359
+        ],
+        "visiblePixels": 117621,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cannon-siege-battery-e": {
+      "sheet": "cannon-siege-battery",
+      "x": 14,
+      "y": 196,
+      "w": 599,
+      "h": 406,
+      "anchorX": 0.4624,
+      "anchorY": 0.9286,
+      "label": "cannon siege battery e",
+      "kind": "cannon-siege-battery",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          16,
+          198,
+          595,
+          402
+        ],
+        "visiblePixels": 162578,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cannon-siege-battery-recoil-e": {
+      "sheet": "cannon-siege-battery",
+      "x": 641,
+      "y": 196,
+      "w": 598,
+      "h": 406,
+      "anchorX": 0.4624,
+      "anchorY": 0.9286,
+      "label": "cannon siege battery recoil e",
+      "kind": "cannon-siege-battery",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          643,
+          198,
+          594,
+          402
+        ],
+        "visiblePixels": 161380,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cannon-siege-battery-w": {
+      "sheet": "cannon-siege-battery",
+      "x": 15,
+      "y": 765,
+      "w": 600,
+      "h": 415,
+      "anchorX": 0.5417,
+      "anchorY": 0.9277,
+      "label": "cannon siege battery w",
+      "kind": "cannon-siege-battery",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          17,
+          767,
+          596,
+          411
+        ],
+        "visiblePixels": 163331,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cannon-siege-battery-recoil-w": {
+      "sheet": "cannon-siege-battery",
+      "x": 641,
+      "y": 765,
+      "w": 601,
+      "h": 415,
+      "anchorX": 0.5416,
+      "anchorY": 0.9277,
+      "label": "cannon siege battery recoil w",
+      "kind": "cannon-siege-battery",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          643,
+          767,
+          597,
+          411
+        ],
+        "visiblePixels": 163432,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

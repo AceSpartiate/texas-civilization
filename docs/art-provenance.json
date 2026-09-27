@@ -2200,6 +2200,34 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/regular-ladder-climb.png",
       "postProcessing": "None. Copied unchanged; measured atlas validation only.",
       "review": "Two alternating limb positions repeated across four frames; world movement along the ladder comes from the renderer."
+    },
+    {
+      "sheet": "cannon-18pdr",
+      "promptId": "frontier-v1/cannon-18pdr",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/cannon-sixpounder.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/alamo-modules.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-98a15778-6b36-4b66-8c31-c4246a48dfbb.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/cannon-18pdr.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "Heavy garrison carriage, distinct from field six-pounder. This is an interpretive period silhouette, not an exact surviving gun portrait."
+    },
+    {
+      "sheet": "cannon-siege-battery",
+      "promptId": "frontier-v1/cannon-siege-battery",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/cannon-sixpounder.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/fortifications.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9ec3d3ba-438e-4875-8c2b-4a0b05250940.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/cannon-siege-battery.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "Alamo Mexican batteries only; no claim that each battery had identical guns or earthwork."
     }
   ],
   "rejectedAttempts": [

@@ -1031,7 +1031,9 @@ export function createBattleView(art) {
    * flash, the recoil and a bank of smoke - and nothing else moving it. A Mexican gun is served by regulars.
    */
   function drawGun(ctx, gun, camera, figurePx, time, now, wind, reducedMotion, bounds) {
-    const p = camera.toScreen(gun), size = figurePx * 1.4;
+    const heavy = gun.id === 'eighteen';
+    const siegeBattery = gun.side === 'mexican' && gun.metal === 'bronze' && /^battery-(north-(far|mid|close)|west|south)$/.test(gun.id);
+    const p = camera.toScreen(gun), size = figurePx * (heavy ? 2.2 : siegeBattery ? 1.9 : 1.4);
     const right = (gun.facing?.x ?? 1) >= 0;
     const fired = (view.gunFiredAt.get(gun.id) || []).filter(t => t <= now);
     const last = fired.at(-1), since = last === undefined ? Infinity : now - last;
@@ -1052,7 +1054,9 @@ export function createBattleView(art) {
     if (bounds && (p.x < -90 || p.y < -90 || p.x > bounds.width + 90 || p.y > bounds.height + 140)) return { id: gun.id, shots: fired.length, onScreen: false };
     const metal = gun.metal === 'bronze' ? 'bronze' : 'iron';
     const twin = gun.id === 'twin-sister-1' || gun.id === 'twin-sister-2';
-    const name = twin ? `twin-sister-painted-${right ? 'e' : 'w'}` : `cannon-${metal}-${right ? 'e' : 'w'}`;
+    const name = heavy ? `cannon-18pdr-${right ? 'e' : 'w'}`
+      : siegeBattery ? `cannon-siege-battery-${right ? 'e' : 'w'}`
+      : twin ? `twin-sister-painted-${right ? 'e' : 'w'}` : `cannon-${metal}-${right ? 'e' : 'w'}`;
     const firing = since < 900;
     if (firing) art.animated(ctx, `${name}-recoil`, p.x, p.y, size, 0, { timeMs: since }) || art.animated(ctx, `cannon-${metal}-${right ? 'e' : 'w'}-recoil`, p.x, p.y, size, 0, { timeMs: since });
     else art.drawSprite(ctx, name, p.x, p.y, size) || art.drawSprite(ctx, `cannon-${metal}-${right ? 'e' : 'w'}`, p.x, p.y, size) || (ctx.fillStyle = '#3b3a36', ctx.fillRect(p.x - size * 0.4, p.y - size * 0.3, size * 0.8, size * 0.22));

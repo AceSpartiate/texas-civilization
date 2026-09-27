@@ -22,6 +22,90 @@
       "motion": "none",
       "direction": "elevation; orient with structure geometry"
     },
+    "cannon-18pdr-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-18pdr-e",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-18pdr-recoil-e",
+          "duration": 210
+        },
+        {
+          "sprite": "cannon-18pdr-e",
+          "duration": 450
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "recoilSign": 1
+    },
+    "cannon-18pdr-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-18pdr-w",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-18pdr-recoil-w",
+          "duration": 210
+        },
+        {
+          "sprite": "cannon-18pdr-w",
+          "duration": 450
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "recoilSign": -1
+    },
+    "cannon-siege-battery-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-siege-battery-e",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-siege-battery-recoil-e",
+          "duration": 210
+        },
+        {
+          "sprite": "cannon-siege-battery-e",
+          "duration": 450
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "recoilSign": 1
+    },
+    "cannon-siege-battery-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-siege-battery-w",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-siege-battery-recoil-w",
+          "duration": 210
+        },
+        {
+          "sprite": "cannon-siege-battery-w",
+          "duration": 450
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "recoilSign": -1
+    },
     "joe-fire-door": {
       "frames": [
         {

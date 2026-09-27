@@ -62,11 +62,13 @@ test('the guns fire each dated shot once, the defenders\' canister throws a cone
   assert.ok(last.gunShotsBy['north-gun'] >= 3, `the north battery fired ${last.gunShotsBy['north-gun']} canister`);
   assert.ok(last.gunShotsBy.eighteen >= 1, 'the 18-pounder did not fire');
   assert.ok(last.smoke >= 30, `the canister left only ${last.smoke} puffs`);
+  assert.ok(art.drawn.some(one => one.clip === 'cannon-18pdr-e-recoil' || one.clip === 'cannon-18pdr-w-recoil'), 'the 18-pounder used a generic field gun');
   assert.ok(art.drawn.some(one => one.clip === 'volunteer-gun-ram' || one.clip === 'volunteer-gun-fire'), 'no crew served the defenders\' guns');
   // A day of the siege: the Mexican batteries at work, and their crews are regulars.
   const artDay = fakeArt(), day = createBattleView(artDay);
   const siege = run(day, artDay, at('day-26'), { seconds: 20, perTick: 240, tickMs: 9500 }).last;
   assert.ok(Object.keys(siege.gunShotsBy).some(id => id.startsWith('battery-')), `no battery fired on a siege day: ${JSON.stringify(siege.gunShotsBy)}`);
+  assert.ok(artDay.drawn.some(one => /^cannon-siege-battery-/.test(one.sprite || one.clip || '')), 'the Mexican battery used a generic field gun');
   assert.ok(artDay.drawn.some(one => one.clip === 'regular-gun-ram' || one.clip === 'regular-gun-fire'), 'the batteries have no Mexican crews');
 });
 
