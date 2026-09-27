@@ -4822,6 +4822,122 @@
         ]
       }
     },
+    "famous-castrillon": {
+      "image": "atlases/famous-castrillon.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 925993,
+      "sha256": "d674d1a9a95fa3e11f7eb12e61f8549d496a0b89ce254b400e643763f354c1b1",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.749955,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              34,
+              610
+            ],
+            "columns": [
+              [
+                202,
+                439
+              ],
+              [
+                734,
+                1071
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              640,
+              1223
+            ],
+            "columns": [
+              [
+                174,
+                522
+              ],
+              [
+                714,
+                1158
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-castrillon-fate": {
+      "image": "atlases/famous-castrillon-fate.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 975586,
+      "sha256": "877dadfb0d150f2b14d3a513a197c7924aa2b1accf363d46b6d5a6dadaa9a7f7",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.734152,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              25,
+              674
+            ],
+            "columns": [
+              [
+                192,
+                462
+              ],
+              [
+                713,
+                1161
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              782,
+              1218
+            ],
+            "columns": [
+              [
+                52,
+                493
+              ],
+              [
+                538,
+                1228
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-crockett-fate": {
       "image": "atlases/famous-crockett-fate.png",
       "width": 1254,
@@ -27704,6 +27820,206 @@
           210
         ],
         "visiblePixels": 23878,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castrillon-idle": {
+      "sheet": "famous-castrillon",
+      "x": 202,
+      "y": 34,
+      "w": 237,
+      "h": 576,
+      "anchorX": 0.5549,
+      "anchorY": 0.9549,
+      "logicalHeight": 583,
+      "label": "castrillon idle",
+      "kind": "famous-castrillon",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          204,
+          36,
+          233,
+          572
+        ],
+        "visiblePixels": 85639,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castrillon-walk-e-1": {
+      "sheet": "famous-castrillon",
+      "x": 734,
+      "y": 40,
+      "w": 337,
+      "h": 567,
+      "anchorX": 0.5,
+      "anchorY": 0.9295,
+      "logicalHeight": 583,
+      "label": "castrillon walk e 1",
+      "kind": "famous-castrillon",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          736,
+          42,
+          333,
+          563
+        ],
+        "visiblePixels": 88758,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castrillon-walk-e-2": {
+      "sheet": "famous-castrillon",
+      "x": 174,
+      "y": 650,
+      "w": 348,
+      "h": 567,
+      "anchorX": 0.4928,
+      "anchorY": 0.9295,
+      "logicalHeight": 583,
+      "label": "castrillon walk e 2",
+      "kind": "famous-castrillon",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          176,
+          652,
+          344,
+          563
+        ],
+        "visiblePixels": 89814,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castrillon-command": {
+      "sheet": "famous-castrillon",
+      "x": 714,
+      "y": 640,
+      "w": 444,
+      "h": 583,
+      "anchorX": 0.3896,
+      "anchorY": 0.9571,
+      "logicalHeight": 583,
+      "label": "castrillon command",
+      "kind": "famous-castrillon",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          716,
+          642,
+          440,
+          579
+        ],
+        "visiblePixels": 102302,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castrillon-turn-away": {
+      "sheet": "famous-castrillon-fate",
+      "x": 192,
+      "y": 25,
+      "w": 270,
+      "h": 642,
+      "anchorX": 0.4741,
+      "anchorY": 0.9299,
+      "logicalHeight": 642,
+      "label": "castrillon turn away",
+      "kind": "famous-castrillon-fate",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          194,
+          27,
+          266,
+          638
+        ],
+        "visiblePixels": 97992,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castrillon-stumble": {
+      "sheet": "famous-castrillon-fate",
+      "x": 713,
+      "y": 76,
+      "w": 448,
+      "h": 598,
+      "anchorX": 0.5748,
+      "anchorY": 0.9298,
+      "logicalHeight": 642,
+      "label": "castrillon stumble",
+      "kind": "famous-castrillon-fate",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          715,
+          78,
+          444,
+          594
+        ],
+        "visiblePixels": 115988,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castrillon-kneel": {
+      "sheet": "famous-castrillon-fate",
+      "x": 52,
+      "y": 782,
+      "w": 441,
+      "h": 436,
+      "anchorX": 0.3912,
+      "anchorY": 0.9381,
+      "logicalHeight": 642,
+      "label": "castrillon kneel",
+      "kind": "famous-castrillon-fate",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          54,
+          784,
+          437,
+          432
+        ],
+        "visiblePixels": 97996,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castrillon-still": {
+      "sheet": "famous-castrillon-fate",
+      "x": 538,
+      "y": 1006,
+      "w": 690,
+      "h": 185,
+      "anchorX": 0.0312,
+      "anchorY": 0.9297,
+      "logicalHeight": 642,
+      "label": "castrillon still",
+      "kind": "famous-castrillon-fate",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          540,
+          1008,
+          686,
+          181
+        ],
+        "visiblePixels": 77307,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

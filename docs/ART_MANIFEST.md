@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1622 usable sprites, 156 PNG atlases, 544 clips** (316 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1630 usable sprites, 158 PNG atlases, 546 clips** (318 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -63,6 +63,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | twin-sisters-limbered | 4 | 1254 × 1254 | 1010968 |
 | famous-milam | 16 | 1254 × 1254 | 1519856 |
 | famous-fannin | 16 | 1254 × 1254 | 1306380 |
+| famous-castrillon | 4 | 1254 × 1254 | 925993 |
+| famous-castrillon-fate | 4 | 1254 × 1254 | 975586 |
 | famous-crockett-fate | 4 | 1254 × 1254 | 948322 |
 | famous-esparza | 16 | 1254 × 1254 | 869799 |
 | famous-houston-mounted | 4 | 1254 × 1254 | 1158924 |
@@ -710,6 +712,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | fannin-injured-seated | famous-fannin | State artwork; no motion required |
 | fannin-surrender | famous-fannin | State artwork; no motion required |
 | fannin-prisoner-seated | famous-fannin | State artwork; no motion required |
+| castrillon-idle | famous-castrillon | State artwork; no motion required |
+| castrillon-walk-e-1 | famous-castrillon | castrillon-walk-e |
+| castrillon-walk-e-2 | famous-castrillon | castrillon-walk-e |
+| castrillon-command | famous-castrillon | State artwork; no motion required |
+| castrillon-turn-away | famous-castrillon-fate | castrillon-fall |
+| castrillon-stumble | famous-castrillon-fate | castrillon-fall |
+| castrillon-kneel | famous-castrillon-fate | castrillon-fall |
+| castrillon-still | famous-castrillon-fate | State artwork; no motion required |
 | crockett-captive-1 | famous-crockett-fate | crockett-captive |
 | crockett-captive-2 | famous-crockett-fate | crockett-captive |
 | crockett-still-side | famous-crockett-fate | State artwork; no motion required |
@@ -1989,6 +1999,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | fannin-walk-e | Pose cycle | 4 | 760 | yes | east |
 | fannin-walk-s | Pose cycle | 2 | 580 | yes | south |
 | fannin-walk-n | Pose cycle | 2 | 580 | yes | north |
+| castrillon-walk-e | Pose cycle | 2 | 540 | yes | east |
+| castrillon-fall | Pose cycle | 3 | 700 | one-shot | east; mirror for west |
 | crockett-captive | Pose cycle | 2 | 3100 | yes | east; mirror for west |
 | esparza-walk-e | Pose cycle | 4 | 760 | yes | east |
 | esparza-walk-s | Pose cycle | 2 | 580 | yes | south |

@@ -49,6 +49,21 @@ test('only the named Twin Sisters use their dedicated service crew', () => {
   assert.ok(!art.drawn.some(one => one.clip === 'volunteer-gun-ram'), 'a generic crew still serves a Twin Sister');
 });
 
+test('Castrillón keeps his own command, walk, fall and still art at San Jacinto', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const person = { id: 'castrillon', art: 'castrillon', name: 'Castrillón', side: 'mexican', x: 0, y: 0, right: true, pose: 'command' };
+  run(view, minute => battle(minute, { people: [person] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.sprite === 'castrillon-command'));
+  art.drawn.length = 0;
+  run(view, minute => battle(minute, { people: [{ ...person, moving: true }] }), { seconds: 1, from: 1000 });
+  assert.ok(art.drawn.some(one => one.clip === 'castrillon-walk-e'));
+  art.drawn.length = 0;
+  run(view, minute => battle(minute, { people: [{ ...person, fell: 2 }] }), { seconds: 2, from: 2000 });
+  assert.ok(art.drawn.some(one => one.clip === 'castrillon-fall'));
+  assert.ok(art.drawn.some(one => one.sprite === 'castrillon-still'));
+  assert.ok(!art.drawn.some(one => one.sprite === 'regular-reclining'));
+});
+
 test('a camp at rest (pose `rest`) is scattered and unformed, some standing and some sitting, and fires nothing; the formed line against it stands in even ranks', () => {
   const art = fakeArt(), view = createBattleView(art);
   const shown = run(view, minute => battle(minute), { seconds: 3 });

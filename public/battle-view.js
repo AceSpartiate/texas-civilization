@@ -85,6 +85,7 @@ export const PERSON_ART = Object.freeze({
   houston: { stand: 'houston-idle', command: 'houston-command', wounded: 'houston-injured-seated', ride: 'clip:houston-mounted-walk-e', rideIdle: 'houston-mounted-idle-e', walk: 'houston-walk-e' },
   'santa-anna': { stand: 'santa-anna-idle', command: 'santa-anna-command', prisoner: 'santa-anna-disguised-seated', ride: 'clip:santa-anna-mounted-walk-e', rideIdle: 'santa-anna-mounted-idle-e', walk: 'santa-anna-walk-e' },
   'emily-west': { stand: 'emily-west-idle', carry: 'emily-west-carry-bundle', seated: 'emily-west-sit-converse', walk: 'emily-west-walk-e' },
+  castrillon: { stand: 'castrillon-idle', command: 'castrillon-command', walk: 'castrillon-walk-e', fall: 'castrillon-fall', still: 'castrillon-still' },
 });
 const lerp = (a, b, t) => a + (b - a) * t;
 
@@ -1203,6 +1204,7 @@ export function createBattleView(art) {
     // The fallen: a moment hurt, then lying still, no blood (`VISION.md` §16). A man killed on his cot simply lies still.
     if (fell) {
       if (person.still && own?.[person.still]) return sprite(own[person.still]);
+      if (fellAgo < 700 && own?.fall) return clip(own.fall, fellAgo);
       if (own?.still) return sprite(own.still);
       if (fellAgo < 700 && !person.still) return sprite(`${kind}-injured`);
       return sprite(`${kind}-reclining`);

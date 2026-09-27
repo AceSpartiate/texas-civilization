@@ -2241,6 +2241,29 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/canister-burst.png",
       "postProcessing": "None. Copied unchanged; measured atlas validation only.",
       "review": "Selected the smoke-only generation after two flash-bearing drafts produced backward flash direction and saturated edge fringing. Existing muzzle flash remains in code; four-frame sheet carries the widening dust cone without graphic impacts."
+    },
+    {
+      "sheet": "famous-castrillon",
+      "promptId": "frontier-v1/famous-castrillon",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1a0905a8-6409-4713-a37e-c5bee353a226.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-castrillon.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct command silhouette and two authored walking steps; costume and face are interpretive."
+    },
+    {
+      "sheet": "famous-castrillon-fate",
+      "promptId": "frontier-v1/famous-castrillon-fate",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1a0905a8-6409-4713-a37e-c5bee353a226.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-6d8bd711-9708-4eb2-8b29-b571ecdb1cfe.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-castrillon-fate.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Non-graphic three-stage fall and separate still frame for the existing San Jacinto fate. The simulation owns timing and position."
     }
   ],
   "rejectedAttempts": [
