@@ -64,13 +64,21 @@ export async function playWholeGame(ctx) {
   // Person by person, each switch pressed once and waited on until the server has them on auto. This pressed the n-th
   // visible switch n times over a list that redraws as each one takes, so a switch could be pressed twice (on, then off) or
   // not at all, and the wait below ran out (seen 2026-09-26).
-  for (const row of await student.evaluate(() => window.__familyPanel.map(one => one.id))) {
-    const toggle = student.locator(`.panel-row[data-entity-id="${row}"] .panel-auto`);
-    if (!(await toggle.isVisible()) || (await student.evaluate(id => window.__familyPanel.find(one => one.id === id)?.auto, row))) continue;
-    await toggle.click();
-    await student.waitForFunction(id => window.__familyPanel.find(one => one.id === id)?.auto, row, { timeout: 15000 });
+  // Read by the same rule the check below reads (the switch not hidden), not by what Playwright calls visible - a row scrolled
+  // down the column was passed over and left off - and gone over again until nobody who has a switch is left off.
+  const leftOff = () => student.evaluate(() => window.__familyPanel.filter(row => !row.auto && !document.querySelector(`.panel-row[data-entity-id="${row.id}"] .panel-auto`)?.hidden).map(row => row.id));
+  for (let pass = 0; pass < 3; pass++) {
+    const todo = await leftOff();
+    if (!todo.length) break;
+    for (const row of todo) {
+      const toggle = student.locator(`.panel-row[data-entity-id="${row}"] .panel-auto`);
+      await toggle.scrollIntoViewIfNeeded().catch(() => {});
+      await toggle.click();
+      await student.waitForFunction(id => window.__familyPanel.find(one => one.id === id)?.auto, row, { timeout: 15000 }).catch(() => {});
+    }
   }
-  await student.waitForFunction(() => window.__familyPanel.every(row => row.auto || document.querySelector(`.panel-row[data-entity-id="${row.id}"] .panel-auto`)?.hidden), null, { timeout: 15000 });
+  await student.waitForFunction(() => window.__familyPanel.every(row => row.auto || document.querySelector(`.panel-row[data-entity-id="${row.id}"] .panel-auto`)?.hidden), null, { timeout: 15000 })
+    .catch(async error => { throw new Error(`not everybody with a switch is on auto: ${JSON.stringify(await leftOff())}; the page says "${await student.evaluate(() => document.querySelector('#error')?.textContent || '')}" (${error.message.split('\n')[0]})`); });
   measured.onAuto = await student.evaluate(() => window.__familyPanel.filter(row => row.auto).map(row => row.name));
   ok(`${measured.onAuto.length} of the family set to auto from the panel: ${measured.onAuto.join(', ')}`);
   // One order each where one is open, so the chores run while the news comes: the first icon the server allows.
