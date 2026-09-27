@@ -36,8 +36,8 @@ Names step down up to ten places where many stand together (was six). Stand-ins:
 small child and settler (`docs/ART_REQUESTS.md`, request 2026-09-26 "the Esparza family").
 
 **Evidence** (same computer only; not physical LAN or district acceptance).
-- `npm test`: **1,381 of 1,381** after merging local `main` (fe8e904, the Alamo gunners' and Esparza's art) and `origin/main`
-  (75eb715). New: `tests/famous-people.test.mjs` 4 (the itinerary against the Alamo's clock, all spared, the burial with the
+- `npm test`: **1,380 of 1,380** after merging local `main` (4b151ba: the Alamo gunners', Esparza's, Travis's and Joe's art) and
+  `origin/main` (75eb715). New: `tests/famous-people.test.mjs` 4 (the itinerary against the Alamo's clock, all spared, the burial with the
   tick that lands on it and the engine's refusal, the words as tradition) and the sight test extended;
   `tests/famous-people-view.test.mjs` 1 and the naming test extended; `tests/battle-alamo.test.mjs` names the two new lines.
   **`tests/camp.test.mjs`'s drilling test** also looks at free men away from home now: the extra tick at noon on March 6 moves
@@ -46,19 +46,25 @@ small child and settler (`docs/ART_REQUESTS.md`, request 2026-09-26 "the Esparza
 - `npm run test:famous-people`: **21 checks** at 1366x768 and 1024x768, among them the Esparzas named in the church through the
   assault, never hurt, Ana's words as tradition, the burial drawn as `rust-walk+shroud` on the screen, the family on the Host's
   map after the fall (`docs/evidence/famous-people-browser.json`; `test-results/famous-alamo-burial-*.png`). The assault draws in
-  3.2 ms at its slowest 95th percentile, San Jacinto 40.8 ms (main's new sheets decoding).
+  3.8 ms at its slowest 95th percentile, San Jacinto 21.5 ms, on the final tree (one run failed the 50 ms gate at 72.2 ms
+  on a loaded machine and passed re-run).
+- After merging main 4b151ba (Travis and Joe story art): `tests/battle-alamo-view.test.mjs` accepts `joe-fire-door`, the doorway
+  clip main now draws for Joe firing from the house (main's own commit fails that test on its own).
 - `scripts/famous-people-injections.mjs`: **seven new unit injections and two browser** (going in by the gate; Ana killed after
   she is brought out; the body not carried; the engine letting a living man be carried; Ana's words as the record; the
   Esparzas sent to every family; the burial drawn without the bundle; in the browser the family unnamed in the church and the
   body drawn as a man walking alone), each caught by the check written for it and no other: **27 of 27** in the file (22 unit, 5 browser). Two browser runs
   stopped on a Playwright timeout before their checks (once in an injected run, once in the clean gate) and passed when re-run.
   The runner now takes a name pattern (`node scripts/famous-people-injections.mjs browser Esparza`) and keeps the other records.
-- Re-run on this tree after the merge: `test:battle-alamo` 13 (timed out twice at the start - once on the siege alert, once on the
-  Watch card - and passed alone on the third), `test:alamo-siege` 8, `test:lesson` 33.
+- Re-run on the final tree: `test:battle-alamo` 13 (on the way it timed out twice at the start - once on the siege alert, once on
+  the Watch card - and once missed the family man's fall while run beside the siege proof; each time it passed alone),
+  `test:alamo-siege` 8, `test:lesson` 33.
 - **Found in passing, not fixed:** on the campaign map every famous person is drawn as the map's mini figure - `public/app.js`
   hands `drawFamous` wrappers that take the clip's name first while `public/famous-view.js` passes the canvas first, and the
-  proof's own evidence records `how: "mini"`. Correcting the wrapper draws them as their sheets but costs the first frames'
-  decode: San Jacinto measured 58.4 ms p95 against 31.8 without, over the proof's 50 ms gate. Reverted here; for the owner.
+  proof's own evidence records `how: "mini"`. Correcting the wrapper draws them as their sheets; with it San Jacinto measured
+  58.4 ms p95 against 31.8 without (the proof's gate is 50), so it was reverted - but the machine was loaded by other sessions
+  (CPU at 97%, 29 node and 90 Chrome processes), and the same unchanged code later measured 18.0, 40.8, 72.2 and 21.5 ms, so the
+  cost is not established. A one-line fix (`public/app.js`, the `drawFamous` call) for the owner to take with a quiet machine.
 
 **For the owner.**
 1. Enrique put his mother's words **at two in the morning**; every account of the assault has it begin about five. The game keeps
