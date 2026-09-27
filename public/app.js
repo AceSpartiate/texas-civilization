@@ -1,7 +1,7 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
-import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
+import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame, spriteReady } from '/art.js';
 import { drawArmy } from '/army-view.js';
-import { drawFamous } from '/famous-view.js';
+import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, gaitMilesASecond, landRuns, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
 import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, lifeLine, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, standing, travellingLine, awayLine, RENAME_PAUSE_MS } from '/family-panel.js';
@@ -3206,9 +3206,11 @@ export function drawWorld(world) {
   });
   // The famous people on the map between their battles, with their names, where the server says this page could see them
   // (sim/famous.mjs, public/famous-view.js; docs/BATTLES.md §2c).
+  // The page's own drawing functions, canvas first, exactly as `drawFamous` calls them and as the battle view is given them:
+  // until 2026-09-27 these were wrappers taking the clip first, and every famous person on the map fell through to a mini figure
+  // (tests/famous-map-art.test.mjs).
   window.__famousDrawn = drawFamous(ctx, world.famous, camera, {
-    animated: (clip, x, y, size, key, options) => animated(ctx, clip, x, y, size, key, options),
-    drawSprite: (sprite, x, y, size, options) => drawSprite(ctx, sprite, x, y, size, options), miniPerson: (c, x, y, size, entity) => miniPerson(c, x, y, size, entity),
+    animated: (...args) => animated(...args), drawSprite: (...args) => drawSprite(...args), miniPerson: (...args) => miniPerson(...args),
     time: animationTime, bounds: { width: canvas.width, height: canvas.height },
   });
   // The fight, if this page may watch one (public/battle-view.js; sim/battle-stage.mjs `projectBattle`): both sides as they
@@ -5926,7 +5928,10 @@ function render(snapshot) {
   // Everybody on the Host's map is somebody the teacher looks at and never orders: marked here rather than sent on every one.
   if (snapshot.world?.role === 'host') for (const entity of snapshot.world.others || []) entity.observed = true;
   ensureMap(snapshot); ensureHomes(snapshot); ensureChores(snapshot); ensureFamily(snapshot); ensureLandLevels(mapCache);
-  snapshot.world.map = mapCacheId === snapshot.mapId ? mapCache : (snapshot.world.map || EMPTY_MAP);
+  // The famous people this page was sent: their sheets asked for now, so the map's first frame with them is not the one that
+  // waits (public/famous-view.js `famousArt`). A sheet already here or on its way is not asked for twice (public/art.js).
+  for (const one of snapshot.world?.famous || []) { const { sprites, clips } = famousArt(one); sprites.forEach(spriteReady); clips.forEach(clipReady); }
+  snapshot.world.map =mapCacheId === snapshot.mapId ? mapCache : (snapshot.world.map || EMPTY_MAP);
   $('#save-fault').hidden = !snapshot.fault;
   $('#save-fault').textContent = snapshot.fault?.message || '';
   $('#lifecycle').hidden = !snapshot.lifecycle;

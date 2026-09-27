@@ -191,6 +191,18 @@ export function clipReady(name) {
   return false;
 }
 
+/**
+ * Whether this sprite can be drawn right now - and if its sheet has not arrived, asking for it, as clipReady does for a clip.
+ * For a page that knows before it draws what it will need (public/famous-view.js amousArt: a famous person sent onto the
+ * map), so the sheet is on its way before the first frame that wants it.
+ */
+export function spriteReady(name) {
+  const frame = art.frames[name];
+  if (!frame) return false;
+  if (art.images[frame.sheet]) return true;
+  requestSheet(frame.sheet);
+  return false;
+}
 function neutralMotion() { return { x: 0, y: 0, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1 }; }
 function clipDuration(clip) {
   if (!clip || !Array.isArray(clip.frames) || !clip.frames.length) return 0;

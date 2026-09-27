@@ -100,10 +100,35 @@ const read = page => page.evaluate(() => {
   return {
     phase: window.__snapshot?.world.battle?.phase || null, minute: window.__snapshot?.world.minute, date: window.__snapshot?.world.historicalDate,
     caption: document.querySelector('#battle-caption')?.textContent || '', famous: window.__famousDrawn || [],
-    sent: window.__snapshot?.world.famous || [], camera: window.__camera?.kind, size: `${innerWidth}x${innerHeight}`,
+    sent: window.__snapshot?.world.famous || [], camera: window.__camera?.kind, size: `${innerWidth}x${innerHeight}`, drawMs: window.__animation?.drawMs ?? null,
     view: view && { people: view.people, bubbles: view.bubbles, frameMs: view.frameMs, legendScene: view.legendScene, guns: view.guns },
   };
 });
+/**
+ * The whole map's draw time, frame by frame, for `ms` from now (public/app.js `window.__animation.drawMs`, a new record each
+ * frame the map is drawn), split by whether any famous person was drawn on it that frame, and how each was drawn. Started as
+ * soon as the famous people are sent, so the frames that would wait on their sheets are among those measured (owner,
+ * 2026-09-27: "Fix it and re-measure"). The frames without them are the siege starting and the camera going to the field.
+ */
+const mapFrames = (page, ms = 4000) => page.evaluate(async ms => {
+  const withFamous = [], without = [], how = {};
+  let last = window.__animation;
+  const end = performance.now() + ms;
+  while (performance.now() < end) {
+    await new Promise(resolve => requestAnimationFrame(resolve));
+    if (!window.__animation || window.__animation === last) continue;
+    last = window.__animation;
+    const famous = window.__famousDrawn || [];
+    (famous.length ? withFamous : without).push(last.drawMs);
+    for (const one of famous) (how[one.id] ||= new Set()).add(one.how);
+  }
+  const stat = seen => {
+    seen.sort((a, b) => a - b);
+    const at = q => (seen.length ? +seen[Math.min(seen.length - 1, Math.floor(q * seen.length))].toFixed(2) : null);
+    return { frames: seen.length, median: at(0.5), p95: at(0.95), max: seen.length ? +seen.at(-1).toFixed(2) : null };
+  };
+  return { withFamous: stat(withFamous), without: stat(without), famous: Object.entries(how).map(([id, drawn]) => [id, [...drawn].join('/')]) };
+}, ms);
 /** Everything seen of each famous person across the samples: phase -> id -> the states drawn. */
 function note(seen, one) {
   for (const person of one.view?.people || []) {
@@ -129,6 +154,9 @@ try {
 
   // On the map before the siege: Travis, Bowie and Crockett at Béxar, named, seen by the family with a man there only.
   await inside.waitForFunction(() => (window.__snapshot.world.famous || []).length >= 3, null, { timeout: 30000 });
+  // The campaign map's frames from the moment they are sent, on the student's page and the Host's at once, measured while the
+  // checks below read the same pages.
+  const sampling = Promise.all([mapFrames(inside), mapFrames(host)]);
   const before = await read(inside);
   const far = await read(faraway);
   assert.deepEqual(before.sent.map(one => one.id).sort(), ['bowie', 'crockett', 'travis'], `the family at Béxar was not sent Travis, Bowie and Crockett: ${before.sent.map(one => one.id)}`);
@@ -138,6 +166,15 @@ try {
   evidence.alamo.mapBefore = { student: before.sent, drawn: before.famous, hostDrawn: hostMap.famous, far: far.sent };
   ok(`on the map before the siege (${before.date}): ${before.sent.map(one => one.name).join(', ')} at Béxar, sent to the family with a man there (${before.famous.length} drawn on its screen) and the Host, and to nobody far off`);
   await shot(inside, 'map-bexar');
+  const [mapInside, mapHost] = await sampling;
+  evidence.alamo.mapFrameMs = { student: mapInside, host: mapHost };
+  for (const [who, frames] of [['student', mapInside], ['Host', mapHost]]) {
+    assert.ok(frames.withFamous.frames >= 2, `the ${who}'s map drew the famous people in only ${frames.withFamous.frames} frames`);
+    assert.ok(frames.withFamous.p95 < 50, `the ${who}'s map with the famous people draws too slowly: ${frames.withFamous.p95} ms at the 95th percentile`);
+    const drawnAs = frames.famous.filter(([id]) => ['travis', 'bowie', 'crockett'].includes(id));
+    assert.ok(drawnAs.length === 3 && drawnAs.every(([, how]) => !/mini/.test(how)), `the famous at Béxar on the ${who}'s map were drawn as ${JSON.stringify(drawnAs)}`);
+  }
+  ok(`the campaign map draws Travis, Bowie and Crockett from their own art from the first frame they are sent (${mapInside.famous.map(([id, how]) => `${id}: ${how}`).join(', ')}); the whole map with them in ${mapInside.withFamous.p95} ms at the 95th percentile on the student's page (${mapInside.withFamous.frames} frames) and ${mapHost.withFamous.p95} ms on the Host's (${mapHost.withFamous.frames} frames)`);
 
   // The siege and the assault on the student's page, Watch pressed, and the Host's.
   const seen = {}, seenHost = {}, lines = new Map(), captions = {};
@@ -228,12 +265,14 @@ try {
   assert.ok([seen, seenHost].every(s => !s.after?.esparza && !s.burial?.esparza), 'Gregorio was drawn as a body in the afternoon');
   assert.match(captions.burial || '', /only defender given a Christian burial/);
   ok(`the burial: Francisco Esparza named, carrying his brother's body drawn as ${[...burial.drawnAs].join(', ')}, to the Campo Santo; the caption names the one Christian burial`);
-  // The family at Béxar on the Host's map from the evening of March 6 (`HIST-TEX-609`), named there. (How the map draws a famous
-  // person is its own matter: every one is its mini figure today - public/app.js hands drawFamous the canvas as a clip's name.)
+  // The family at Béxar on the Host's map from the evening of March 6 (`HIST-TEX-609`), named there and drawn from their art
+  // (the library's woman, girl, boy and small child, stand-ins) and not as mini figures since 2026-09-27.
   await host.waitForFunction(() => (window.__famousDrawn || []).some(one => one.id === 'ana-esparza'), null, { timeout: 90000 });
   const mapAfter = await read(host);
   evidence.alamo.mapAfter = { date: mapAfter.date, drawn: mapAfter.famous.filter(one => esparzas.includes(one.id)) };
-  for (const id of esparzas) assert.ok(mapAfter.famous.some(one => one.id === id && one.how), `${id} was not drawn at Béxar on the Host's map after the fall`);
+  for (const id of esparzas) assert.ok(mapAfter.famous.some(one => one.id === id && one.how && one.how !== 'mini'), `${id} was not drawn from its art at Béxar on the Host's map after the fall: ${JSON.stringify(mapAfter.famous)}`);
+  evidence.alamo.mapAfterFrameMs = await mapFrames(host);
+  assert.ok(evidence.alamo.mapAfterFrameMs.withFamous.frames >= 2 && evidence.alamo.mapAfterFrameMs.withFamous.p95 < 50, `the Host's map with the family at Béxar draws too slowly: ${JSON.stringify(evidence.alamo.mapAfterFrameMs)}`);
   ok(`after the fall (${mapAfter.date}) the Host's map draws the family at Béxar, named: ${evidence.alamo.mapAfter.drawn.map(one => one.name).join(', ')}`);
   const framed = evidence.alamo.samples.filter(one => ['alarm', 'repulse', 'north-wall', 'fallback', 'rooms', 'end'].includes(one[1]));
   assert.ok(framed.length && framed.filter(one => one[4] === 'battle').length >= framed.length / 2, `Watch did not keep the student's camera on the assault: ${framed.map(one => one[4]).join(',')}`);
@@ -281,6 +320,7 @@ try {
   evidence.sanJacinto.soldierFamily = await soldier.evaluate(() => window.__snapshot?.world.householdId);
   const sjSeen = {}, sjLines = new Map(), guns = {}, legend = [], sjCaptions = {};
   let sjFrames = [], sjResized = false, sawTaken = false;
+  const sjPage = [];
   const sjUntil = Date.now() + 10 * 60 * 1000;
   for (;;) {
     if (Date.now() > sjUntil) throw new assert.AssertionError({ message: 'San Jacinto did not reach the capture' });
@@ -291,6 +331,7 @@ try {
     if (one.view?.legendScene) legend.push({ phase: one.phase, ...one.view.legendScene });
     if (one.phase && one.caption) sjCaptions[one.phase] = one.caption;
     if (one.view?.frameMs && one.phase) sjFrames.push({ phase: one.phase, size: one.size, ...one.view.frameMs });
+    if (Number.isFinite(one.drawMs)) sjPage.push(one.drawMs);
     if (one.phase === 'advance' && !evidence.sanJacinto.shotPicnic) { evidence.sanJacinto.shotPicnic = true; await shot(sjHost, 'sj-picnic-1366'); }
     if (one.phase === 'guns' && !sjResized) { sjResized = true; await sjHost.setViewportSize({ width: 1024, height: 768 }); }
     if (one.phase === 'charge' && !evidence.sanJacinto.shotCharge) { evidence.sanJacinto.shotCharge = true; await shot(sjHost, 'sj-charge-1024'); }
@@ -333,6 +374,10 @@ try {
   const sjF = sjFrames.map(one => one.p95).filter(Number.isFinite);
   evidence.sanJacinto.frameMs = { p95Max: Math.max(...sjF), byPhase: Object.fromEntries([...new Set(sjFrames.map(one => one.phase))].map(phase => [phase, Math.max(...sjFrames.filter(one => one.phase === phase).map(one => one.p95))])) };
   assert.ok(Math.max(...sjF) < 50, `San Jacinto draws too slowly: ${Math.max(...sjF)} ms`);
+  // The whole page's frame on the Host's screen through the battle, map and all, one sample a read (public/app.js
+  // `__animation.drawMs`): a record, not a gate - the battle view's own frame above is the gate.
+  sjPage.sort((a, b) => a - b);
+  evidence.sanJacinto.pageDrawMs = { samples: sjPage.length, median: sjPage[Math.floor(sjPage.length / 2)], p95: sjPage[Math.min(sjPage.length - 1, Math.floor(sjPage.length * 0.95))], max: sjPage.at(-1) };
   ok(`San Jacinto with its famous people draws in ${Math.max(...sjF).toFixed(1)} ms at its slowest 95th percentile`);
   const refugeeWorld = await refugee.evaluate(async () => JSON.parse(await (await fetch('/api/state')).text()).world);
   assert.equal(refugeeWorld.battle, null, 'a family far off was sent San Jacinto');

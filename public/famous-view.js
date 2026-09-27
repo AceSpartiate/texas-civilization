@@ -6,10 +6,30 @@
 // (public/battle-view.js `drawPerson`): a volunteer or a regular where a person has no sheet, and the library's iron field gun
 // twice for the Twin Sisters. stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the Esparza family" - Ana Esparza and her
 // children at Béxar after the fall are the library's woman, girl, boy and small child (`PERSON_ART` in public/battle-view.js).
-// Found 2026-09-26: public/app.js hands this `animated` and `drawSprite` wrappers that take the clip first, while this calls them
-// with the canvas first, so on the map every famous person is `miniPerson` today; correcting it costs the first frames' decode
-// of the famous sheets (HANDOFF.md, the Esparza section), which is left for the owner.
-import { PERSON_ART } from '/battle-view.js';
+// `animated` and `drawSprite` are the page's own, called with the canvas first (public/app.js passes them as it passes them to
+// the battle view). Until 2026-09-27 app.js handed this wrappers that took the clip first, so on the map every famous person
+// was `miniPerson` (owner, 2026-09-27: "Fix it and re-measure"; tests/famous-map-art.test.mjs fails on the swapped order).
+// Imported relatively so a test can load this file; in the page it is the same module as app.js's '/battle-view.js'.
+import { PERSON_ART } from './battle-view.js';
+
+/**
+ * The sprites and clips a famous person may be drawn with on the map, in the order `drawFamous` tries them: the page asks for
+ * their sheets when the person is sent (public/app.js), so the sheet is on its way before the first frame that draws them.
+ */
+export function famousArt(one) {
+  const own = PERSON_ART[one?.art] || null, kind = one?.side === 'mexican' ? 'regular' : 'volunteer';
+  const sprites = new Set(), clips = new Set();
+  const add = name => { if (typeof name !== 'string') return; if (name.startsWith('clip:')) clips.add(name.slice(5)); else sprites.add(name); };
+  if (one?.thing) sprites.add('cannon-iron-e');
+  else if (one?.doing === 'ride') { add(own?.rideIdle); add(own?.ride); clips.add(kind === 'regular' ? 'dragoon-march' : 'mounted-courier-e'); }
+  else {
+    // A walk is drawn as a clip (`animated`), whatever its name looks like.
+    if (own?.walk) clips.add(own.walk);
+    add(own?.[one?.doing]); add(own?.stand);
+    clips.add(`${kind}-march`); clips.add(`${kind}-idle-e`); clips.add(`${kind}-idle-w`);
+  }
+  return { sprites: [...sprites], clips: [...clips] };
+}
 
 /** Draws every famous person the page was sent; returns what was drawn, for the proofs (`window.__famousDrawn`). */
 export function drawFamous(ctx, list, camera, { animated, drawSprite, miniPerson, time, bounds }) {
