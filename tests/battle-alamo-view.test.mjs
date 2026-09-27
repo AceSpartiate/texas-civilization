@@ -103,7 +103,9 @@ test('Travis is drawn at the north battery, says only his documented words there
   assert.ok(fall.people.find(one => one.name === 'Travis')?.fell, 'Travis did not fall in the repulse');
   const artRooms = fakeArt(), rooms = createBattleView(artRooms);
   run(rooms, artRooms, at('rooms'), { seconds: 2, perTick: 2 });
-  assert.ok(artRooms.drawn.some(one => one.clip === 'joe-hide'), 'Joe was not drawn hiding');
+  // Hidden in a room, Joe fires from its doorway as his own account has it (`HIST-TEX-549`): Astra's `joe-fire-door`, delivered
+  // 2026-09-26 (4b151ba), drawn in the hiding clip's place. That commit left this asking for `joe-hide`, and main failed it.
+  assert.ok(artRooms.drawn.some(one => one.clip === 'joe-fire-door'), 'Joe was not drawn hidden in a doorway, firing');
   const artEnd = fakeArt(), end = createBattleView(artEnd);
   const said = run(end, artEnd, at('end', 5), { seconds: 12, perTick: 1 }).last;
   assert.ok(artEnd.drawn.some(one => one.clip === 'joe-emerge'), 'Joe was not drawn coming out');
