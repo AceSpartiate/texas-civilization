@@ -311,3 +311,131 @@ test('a fate is never sent before its minute, and nothing of a later phase is se
     for (const person of early.view.people || []) assert.ok(drawnNow.has(person.id) || Number.isFinite(person.fell), `${person.id} is sent from another phase`);
   }
 });
+
+// ---------------------------------------------------------------- the Esparza family (owner, 2026-09-26: "yes, add enrique and
+// his family"; docs/battle-research/famous-people.md, the Esparza family; `HIST-TEX-605` to `-609`, `FIC-GONZ-470` to `-473`)
+const ESPARZAS = ['ana-esparza', 'maria-de-jesus', 'enrique-esparza', 'manuel-esparza', 'francisco-child'];
+/** The Alamo's minute on the class's own timeline for a calendar moment (a class that arrived at dawn on September 28). */
+const alamoClock = (phase, into) => TIMELINE[ALAMO.startKey] + phaseOffset(ALAMO, phase) + into;
+const calendar = moment => whenOf({ director: { arrival: true } }, moment);
+const within = (a, b, feet) => Boolean(a && b) && Math.hypot(a.x - b.x, a.y - b.y) <= feet / 5280;
+
+test('the Esparza family goes in with Gregorio through the church window on the evening of February 23, shelters in the sacristy through the siege and the assault, and Gregorio goes from beside them to his gun at the alarm', () => {
+  // Not drawn before they come; walking in toward evening; at the window at six; in the sacristy by the end of the phase.
+  const early = fieldAt('alamo', 'red-flag', 60).view;
+  for (const id of [...ESPARZAS, 'esparza']) assert.ok(!personIn(early, id), `${id} is inside before the family came`);
+  const walking = fieldAt('alamo', 'red-flag', 120).view;
+  for (const id of [...ESPARZAS, 'esparza']) assert.equal(personIn(walking, id)?.pose, 'walk', `${id} is not walking in with the family`);
+  const window = fieldAt('alamo', 'red-flag', 154);
+  assert.equal(alamoClock('red-flag', 150), calendar(on(1836, 2, 23, 18)), 'the family is not at the window at six on February 23');
+  for (const id of ESPARZAS) assert.ok(within(personIn(window.view, id), at(ALAMO, 'church-window', window.world), 20), `${id} does not come in by the church window`);
+  // Through the days, the line in the sand, the night and every phase of the assault: in the sacristy, beside Mrs. Dickinson.
+  for (const [phase, into] of [['red-flag', 178], ['day-24', 300], ['day-25-afternoon', 60], ['the-line', 30], ['day-4', 200], ['quiet', 60], ['advance', 10], ['alarm', 3], ['repulse', 8], ['north-wall', 6], ['fallback', 6], ['rooms', 12]]) {
+    const { view, world } = fieldAt('alamo', phase, into);
+    for (const id of ESPARZAS) {
+      const one = personIn(view, id);
+      assert.ok(within(one, at(ALAMO, 'sacristy', world), 20), `${id} is not in the sacristy in ${phase}`);
+      assert.ok(!one.fell && !one.hurt, `${id} is hurt in ${phase}`);
+    }
+    if (phase !== 'red-flag') assert.ok(personIn(view, 'susanna-dickinson'), `Mrs. Dickinson is not with them in ${phase}`);
+  }
+  // Gregorio beside them on the night of March 5, getting up at the alarm and at his gun two minutes later.
+  const night = fieldAt('alamo', 'quiet', 200);
+  assert.ok(within(personIn(night.view, 'esparza'), at(ALAMO, 'sacristy', night.world), 20), 'Gregorio is not beside his family in the night');
+  const woke = fieldAt('alamo', 'alarm', 2);
+  assert.ok(near(personIn(woke.view, 'esparza'), at(ALAMO, 'guns-esparza', woke.world)), 'Gregorio is not at his gun after the alarm');
+  assert.ok(within(personIn(fieldAt('alamo', 'alarm', 0).view, 'esparza'), at(ALAMO, 'sacristy', woke.world), 20), 'Gregorio does not go to the gun from beside his family');
+  assert.ok(near(personIn(fieldAt('alamo', 'day-24', 300).view, 'esparza'), at(ALAMO, 'guns-esparza', woke.world)), 'Gregorio is not at the church guns through the siege');
+  assert.match(ALAMO.phases.find(p => p.id === 'red-flag').caption, /remembered many years later that they came in through a small window of the church/);
+});
+
+test('every one of the Esparza family is spared: brought out after the fighting, taken to Músquiz\'s house, and at Béxar afterwards', () => {
+  for (const id of ESPARZAS) {
+    assert.equal(PEOPLE[id].fate, undefined, `${id} is given a fate`);
+    assert.equal(PEOPLE[id].claimId, 'HIST-TEX-605');
+  }
+  // Never drawn fallen or hurt, in any phase of the Alamo, at any minute sampled.
+  for (const phase of ALAMO.phases) for (let into = 0; into <= phase.minutes; into += Math.max(1, Math.floor(phase.minutes / 10))) {
+    const { view } = fieldAt('alamo', phase.id, into);
+    for (const id of ESPARZAS) assert.ok(!personIn(view, id)?.fell && !personIn(view, id)?.hurt, `${id} is drawn down in ${phase.id} at ${into}`);
+  }
+  const out = fieldAt('alamo', 'end', 14);
+  for (const id of ESPARZAS) assert.ok(within(personIn(out.view, id), at(ALAMO, 'church-front', out.world), 20), `${id} is not brought out of the church`);
+  assert.ok(Number.isFinite(personIn(out.view, 'esparza')?.fell), 'Gregorio does not lie at the church guns after the fighting');
+  const musquiz = fieldAt('alamo', 'after', 420);
+  for (const id of ESPARZAS) assert.ok(within(personIn(musquiz.view, id), at(ALAMO, 'musquiz-door', musquiz.world), 20), `${id} is not at Músquiz's house at two`);
+  assert.ok(personIn(musquiz.view, 'santa-anna'), 'Santa Anna is not there');
+  assert.match(ALAMO.phases.find(p => p.id === 'after').caption, /Ana Esparza and her children/);
+  assert.match(ALAMO.phases.find(p => p.id === 'after').caption, /blanket and two dollars/);
+  // On the map at Béxar from the evening of March 6, as Mrs. Dickinson is, and nowhere before.
+  const world = createGonzalesWorld('esparza-map', 5, { map: 'colonies' });
+  world.minute = whenOf(world, on(1836, 3, 8, 12));
+  const bexar = world.map.sites.bexar, host = famousNow(world);
+  for (const id of ESPARZAS) {
+    const one = host.find(person => person.id === id);
+    assert.ok(one && Math.hypot(one.x - bexar.x, one.y - bexar.y) < 0.2, `${id} is not at Béxar after the fall`);
+    assert.equal(PEOPLE[id].map[0].from, on(1836, 3, 6, 18));
+  }
+  world.minute = whenOf(world, on(1836, 3, 6, 12));
+  assert.ok(!famousNow(world).some(one => ESPARZAS.includes(one.id)), 'the family is on the map before the fall');
+});
+
+test('Francisco Esparza carries his brother Gregorio\'s body, wrapped, to the Campo Santo on the afternoon of March 6 - and nobody is carried who did not fall here first', () => {
+  assert.equal(PEOPLE['francisco-esparza'].claimId, 'HIST-TEX-608');
+  // Not in any phase before the afternoon, nor before the minute he comes.
+  for (const phase of ALAMO.phases.filter(p => p.id !== 'after')) assert.ok(!(phase.people || []).some(one => one.id === 'francisco-esparza'), `Francisco Esparza is drawn in ${phase.id}`);
+  assert.ok(!personIn(fieldAt('alamo', 'after', 140).view, 'francisco-esparza'), 'Francisco Esparza comes before the pyres are built');
+  const coming = fieldAt('alamo', 'after', 200).view;
+  assert.ok(personIn(coming, 'francisco-esparza') && !personIn(coming, 'francisco-esparza').bears, 'Francisco Esparza carries a body before he reaches it');
+  // Carrying from eleven in the morning: the body is his brother's, and nothing of it but the bundle is sent.
+  assert.equal(alamoClock('after', 240), calendar(on(1836, 3, 6, 11)), 'the body is not taken up at eleven on March 6');
+  const carrying = fieldAt('alamo', 'after', 300);
+  const francisco = personIn(carrying.view, 'francisco-esparza');
+  assert.equal(francisco?.bears, 'esparza', 'Francisco Esparza is not carrying Gregorio');
+  assert.ok(!personIn(carrying.view, 'esparza'), 'Gregorio\'s body is drawn as well as carried');
+  // At the Campo Santo, west of the town, from about half past two.
+  const buried = fieldAt('alamo', 'after', 450);
+  assert.ok(near(personIn(buried.view, 'francisco-esparza'), at(ALAMO, 'campo-santo', buried.world)), 'Francisco Esparza is not at the Campo Santo');
+  assert.ok(!personIn(buried.view, 'francisco-esparza').bears);
+  assert.ok(at(ALAMO, 'campo-santo', buried.world).x < at(ALAMO, 'town', buried.world).x, 'the Campo Santo is not west of the town');
+  for (const words of [/only defender given a Christian burial/, /General Cos/, /Santa Anna, as Enrique remembered/, /two brothers/]) assert.match(ALAMO.phases.find(p => p.id === 'after').caption, words);
+  // The engine refuses a body carried that is not a body: the living (Joe), or a man before his fall (Gregorio in the rooms).
+  const bad = change => { const def = copy(ALAMO); def.ground = ALAMO.ground; change(def); return () => checkEngagement(def); };
+  assert.throws(bad(def => { def.phases.find(p => p.id === 'after').people.find(one => one.bears).bears = 'joe'; }), /did not fall/);
+  assert.throws(bad(def => { def.phases.find(p => p.id === 'rooms').people.push({ id: 'francisco-esparza', at: 'plaza', bears: 'esparza' }); }), /did not fall/);
+});
+
+test('Ana\'s and Enrique\'s words are his own printed words of 1902, spoken as tradition out of their own figures; no reconstructed line speaks for the family', () => {
+  const all = Object.values(ENGAGEMENTS).flatMap(def => def.phases.flatMap(p => (p.lines || []).map(line => ({ ...line, phase: p.id, battle: def.id }))));
+  const theirs = all.filter(line => [...ESPARZAS, 'esparza', 'francisco-esparza'].includes(line.person));
+  assert.deepEqual(theirs.map(line => line.id).sort(), ['al-ana', 'e-enrique']);
+  const ana = theirs.find(line => line.id === 'al-ana'), enrique = theirs.find(line => line.id === 'e-enrique');
+  assert.equal(ana.text, 'Gregorio, the soldiers have jumped the wall. The fight’s begun.');
+  assert.equal(enrique.text, 'It was a miracle, but none of us children were touched.');
+  for (const line of theirs) {
+    assert.equal(line.kind, 'tradition', `${line.id} is not tradition`);
+    assert.equal(line.claimId, 'HIST-TEX-607');
+    assert.match(line.gloss, /told later/); assert.match(line.gloss, /1902/); assert.match(line.gloss, /Enrique/);
+    const { view } = fieldAt(line.battle, line.phase, line.at);
+    assert.equal(view.lines.find(one => one.id === line.id)?.name, PEOPLE[line.person].name, `${line.id} is not sent under its speaker's name`);
+  }
+  assert.equal(ana.person, 'ana-esparza'); assert.equal(ana.phase, 'alarm');
+  assert.equal(enrique.person, 'enrique-esparza'); assert.equal(enrique.phase, 'end');
+  // No unnamed, reconstructed line speaks of them or for them.
+  for (const line of all.filter(one => one.kind === 'reconstructed')) assert.doesNotMatch(line.text, /Gregorio|Esparza|Enrique|\bAna\b/, `${line.id} puts words about the Esparzas in an unnamed mouth`);
+});
+
+test('a family sees the Esparzas only where its own people could: on the field while it watches the Alamo, on the map only near Béxar, the Host always', () => {
+  // On the map after the fall: nobody of the family near Béxar, none of them; a person in Béxar, all five; the Host, all five.
+  const world = createGonzalesWorld('esparza-seen', 5, { map: 'colonies' });
+  world.minute = whenOf(world, on(1836, 3, 9, 12));
+  const household = Object.values(world.households)[0];
+  assert.ok(!famousSeen(world, household.id, 'student').some(one => ESPARZAS.includes(one.id)), 'a family far from Béxar is sent the Esparzas');
+  assert.ok(ESPARZAS.every(id => famousSeen(world, null, 'host').some(one => one.id === id)), 'the Host is not sent the Esparzas');
+  const bexar = world.map.sites.bexar;
+  world.entities[household.members[0]].location = { x: bexar.x, y: bexar.y, siteId: 'bexar' };
+  const seen = famousSeen(world, household.id, 'student').map(one => one.id);
+  assert.ok(ESPARZAS.every(id => seen.includes(id)), 'a family with a person in Béxar does not see the Esparzas');
+  // During the siege the battle draws them and the map does not: nobody is drawn twice.
+  assert.ok(ESPARZAS.every(id => peopleOnFields(fieldAt('alamo', 'day-24', 300).world).has(id)), 'the Alamo does not draw the family');
+});

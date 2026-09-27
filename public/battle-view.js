@@ -81,6 +81,15 @@ export const PERSON_ART = Object.freeze({
   houston: { stand: 'houston-idle', command: 'houston-command', wounded: 'houston-injured-seated', walk: 'houston-walk-e' },
   'santa-anna': { stand: 'santa-anna-idle', command: 'santa-anna-command', prisoner: 'santa-anna-disguised-seated', walk: 'santa-anna-walk-e' },
   'emily-west': { stand: 'emily-west-idle', carry: 'emily-west-carry-bundle', seated: 'emily-west-sit-converse', walk: 'emily-west-walk-e' },
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the Esparza family" - Ana Esparza is the library's second-cast woman
+  // (`indigo`), María de Jesús its girl, Enrique its boy (fair-haired: the request asks for a Tejano boy of eight), Manuel and
+  // Francisco its small child, and Gregorio's brother Francisco the settler in the rust shirt (`rust`), who carries with a second
+  // of the same (`drawBearers`). The children are drawn at the roster's child size, as Angelina is.
+  woman: { stand: 'clip:indigo-idle-e', seated: 'clip:indigo-rest', sick: 'clip:indigo-rest', walk: 'indigo-walk' },
+  girl: { stand: 'clip:girl-idle-e', seated: 'clip:girl-rest', sick: 'clip:girl-rest', walk: 'girl-walk' },
+  boy: { stand: 'clip:boy-idle-e', seated: 'clip:boy-rest', sick: 'clip:boy-rest', walk: 'boy-walk' },
+  'small-child': { stand: 'clip:smallchild-idle-e', seated: 'clip:smallchild-rest', sick: 'clip:smallchild-rest', walk: 'smallchild-walk' },
+  townsman: { stand: 'clip:rust-idle-e', walk: 'rust-walk', carry: 'clip:rust-walk' },
 });
 const lerp = (a, b, t) => a + (b - a) * t;
 
@@ -1104,7 +1113,7 @@ export function createBattleView(art) {
       view.peopleSpots[person.id] = view.peopleSpots[person.name] = { x: p.x, y: p.y - figurePx * (person.pose === 'ride' && !fell ? 1.35 : 1) };
       view.peopleShown.add(person.id);
       labels.push({ person, x: p.x, y: p.y });
-      shown.push({ id: person.id, name: person.name, fell, hurt, pose: fell ? person.still || 'still' : hurt ? 'wounded' : person.moving ? 'walk' : person.pose, drawnAs: how, x: Math.round(p.x), y: Math.round(p.y), labelled: false, onScreen: !bounds || (p.x >= 0 && p.y >= 0 && p.x <= bounds.width && p.y <= bounds.height) });
+      shown.push({ id: person.id, name: person.name, fell, hurt, pose: fell ? person.still || 'still' : hurt ? 'wounded' : person.moving ? 'walk' : person.pose, drawnAs: how, ...(person.bears && { bears: person.bears }), x: Math.round(p.x), y: Math.round(p.y), labelled: false, onScreen: !bounds || (p.x >= 0 && p.y >= 0 && p.x <= bounds.width && p.y <= bounds.height) });
     }
     // Every famous person's name under them (owner, docs/BATTLES.md §2c.2: "names on the map, no cards"), stepped down out of
     // each other's way where several stand together (the church guns at the Alamo), and a dashed tag under a name where the
@@ -1158,6 +1167,7 @@ export function createBattleView(art) {
       if (fellAgo < 700 && !person.still) return sprite(`${kind}-injured`);
       return (own?.still && sprite(own.still)) || sprite(`${kind}-reclining`);
     }
+    if (person.bears) return drawBearers(ctx, person, p, size, time, flip, key);
     const pose = hurt ? 'wounded' : person.moving && person.pose !== 'ride' ? 'walk' : person.pose || 'stand';
     const named = own?.[pose];
     if (pose === 'walk') {
@@ -1190,6 +1200,28 @@ export function createBattleView(art) {
     if (pose === 'sick' || pose === 'seated') return clip(`${kind}-injured-rest`);
     if (pose === 'prisoner') return clip(`${kind}-surrender`);
     return clip(`${kind}-idle-${person.right ? 'e' : 'w'}`, time, { flip: false }) || null;
+  }
+
+  /**
+   * A body carried away for burial (Gregorio Esparza's, by his brother Francisco and one of their brothers, `HIST-TEX-608`): the
+   * named man in front, a second walking behind him, and between their hands a long pale bundle tied at three places - no body,
+   * no face, no wound (`VISION.md` §16). stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the Esparza family", item 4 - the
+   * bundle is drawn on the canvas and the bearers are the settler's walk until a burial party's own frames exist.
+   */
+  function drawBearers(ctx, person, p, size, time, flip, key) {
+    const walker = PERSON_ART[person.art]?.walk || 'volunteer-march';
+    const back = (person.right ? -1 : 1) * size * 1.2;
+    const behind = art.animated(ctx, walker, p.x + back, p.y, size, `${key}:bearer`, { timeMs: time + 260, flip });
+    const cx = p.x + back * 0.5, cy = p.y - size * 0.4, half = Math.abs(back) * 0.52, thick = size * 0.1;
+    ctx.save();
+    ctx.fillStyle = '#e8dfc8'; ctx.strokeStyle = '#6e6044'; ctx.lineWidth = Math.max(1, size * 0.03);
+    ctx.beginPath(); ctx.ellipse(cx, cy, half, thick, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.beginPath();
+    for (const at of [-0.55, 0, 0.55]) { ctx.moveTo(cx + at * half, cy - thick); ctx.lineTo(cx + at * half, cy + thick); }
+    ctx.stroke();
+    ctx.restore();
+    const front = art.animated(ctx, walker, p.x, p.y, size, key, { timeMs: time, flip });
+    return behind && front ? `${walker}+shroud` : null;
   }
 
   /**

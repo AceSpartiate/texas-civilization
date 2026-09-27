@@ -83,9 +83,10 @@ test('the Alamo is data the engine holds to its rules, dated on the director\'s 
   assert.ok(alamoTicks * PACES.study / 60000 >= 6, `the assault plays ${alamoTicks * PACES.study / 60000} real minutes at Study`);
   // A named person speaks only documented or tradition words: Travis's and Joe's at the assault are Joe's own account
   // (`HIST-TEX-502`), and Travis's line in the sand is the story told later, spoken as tradition (owner, docs/BATTLES.md §2c.4,
-  // which overturned A2's "never staged" on 2026-09-26; `HIST-TEX-567`).
+  // which overturned A2's "never staged" on 2026-09-26; `HIST-TEX-567`). Ana and Enrique Esparza's words are Enrique's printed
+  // memory of 1902, tradition (owner, 2026-09-26: "yes, add enrique and his family"; `HIST-TEX-607`).
   const named = ALAMO.phases.flatMap(phase => phase.lines || []).filter(line => line.person);
-  assert.deepEqual(named.map(line => [line.person, line.kind, line.claimId]), [['travis', 'tradition', 'HIST-TEX-567'], ['travis', 'documented', 'HIST-TEX-502'], ['joe', 'documented', 'HIST-TEX-502']]);
+  assert.deepEqual(named.map(line => [line.person, line.kind, line.claimId]), [['travis', 'tradition', 'HIST-TEX-567'], ['ana-esparza', 'tradition', 'HIST-TEX-607'], ['travis', 'documented', 'HIST-TEX-502'], ['joe', 'documented', 'HIST-TEX-502'], ['enrique-esparza', 'tradition', 'HIST-TEX-607']]);
   // The degüello is never staged (owner question A1).
   assert.doesNotMatch(JSON.stringify(ALAMO.phases), /deg[üu]ello/i);
 });

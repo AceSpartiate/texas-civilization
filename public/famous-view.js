@@ -4,7 +4,8 @@
 //
 // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the famous people" - the same stand-ins as the battlefield
 // (public/battle-view.js `drawPerson`): a volunteer or a regular where a person has no sheet, and the library's iron field gun
-// twice for the Twin Sisters.
+// twice for the Twin Sisters. stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the Esparza family" - Ana Esparza and her
+// children at Béxar after the fall are the library's woman, girl, boy and small child (`PERSON_ART` in public/battle-view.js).
 import { PERSON_ART } from '/battle-view.js';
 
 /** Draws every famous person the page was sent; returns what was drawn, for the proofs (`window.__famousDrawn`). */
@@ -21,11 +22,12 @@ export function drawFamous(ctx, list, camera, { animated, drawSprite, miniPerson
     if (one.thing) {
       // The Twin Sisters: two guns side by side.
       for (const dx of [-0.45, 0.45]) if (drawSprite(ctx, 'cannon-iron-e', p.x + dx * size, p.y, size * 1.2)) how = 'cannon-iron-e';
-    } else if (one.moving && own?.walk) how = animated(ctx, own.walk, p.x, p.y, size, `famous:${one.id}`, { timeMs: time, flip }) ? own.walk : null;
+    } else if (one.moving && own?.walk) how = animated(ctx, own.walk, p.x, p.y, one.child ? size * 0.6 : size, `famous:${one.id}`, { timeMs: time, flip }) ? own.walk : null;
     else if (one.doing === 'ride' && !own?.ride) how = animated(ctx, kind === 'regular' ? 'dragoon-march' : 'mounted-courier-e', p.x, p.y, size * 1.3, `famous:${one.id}`, { timeMs: time, flip }) ? 'ride' : null;
     else {
       const named = own?.[one.doing] || own?.stand;
-      if (typeof named === 'string' && named.startsWith('clip:')) how = animated(ctx, named.slice(5), p.x, p.y, size, `famous:${one.id}`, { timeMs: time, flip }) ? named : null;
+      // A child is drawn at a child's size, sheet or clip (the Esparza children, stand-ins; Angelina).
+      if (typeof named === 'string' && named.startsWith('clip:')) how = animated(ctx, named.slice(5), p.x, p.y, one.child ? size * 0.6 : size, `famous:${one.id}`, { timeMs: time, flip }) ? named : null;
       else if (typeof named === 'string') how = drawSprite(ctx, named, p.x, p.y, one.child ? size * 0.6 : size, { flip }) ? named : null;
       if (!how) how = animated(ctx, one.moving ? `${kind}-march` : `${kind}-idle-${one.right ? 'e' : 'w'}`, p.x, p.y, size, `famous:${one.id}`, { timeMs: time, flip: one.moving && flip }) ? `${kind}-stand-in` : null;
     }

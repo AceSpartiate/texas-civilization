@@ -31,7 +31,8 @@ export function on(year, month, day, hour = 12, minute = 0) {
 const TX = 'texian', MX = 'mexican';
 /**
  * `art`: the key of the person's own sheet (scripts/art-deliveries/famous-*.mjs) where one exists, or a stand-in figure
- * (`officer` / `frontiersman` / `general` / `woman` / `rider` / `gun`) drawn from the library (public/battle-view.js
+ * (`officer` / `frontiersman` / `general` / `woman` / `girl` / `boy` / `small-child` / `townsman` / `rider` / `gun`) drawn from
+ * the library (public/battle-view.js
  * `PERSON_ART`; docs/ART_REQUESTS.md, request 2026-09-26 "the famous people").
  * `tier`: 1 carried across events (a map itinerary and several engagements), 2 named inside one engagement or two
  * (docs/battle-research/famous-people.md §3.1).
@@ -74,6 +75,40 @@ export const PEOPLE = Object.freeze({
   esparza: person('esparza', 'Esparza', TX, 'officer', 2, 'HIST-TEX-550', {
     fullName: 'José María (Gregorio) Esparza',
     fate: { kind: 'killed', battle: 'alamo', phase: 'rooms', at: 12, claimId: 'HIST-TEX-550', liesUntil: 'after' },
+  }),
+  // His family (owner, 2026-09-26: "yes, add enrique and his family"; docs/battle-research/famous-people.md, the Esparza
+  // family; `HIST-TEX-605`): in with him through a window of the church on the evening of February 23, in the sacristy through
+  // the siege and the assault, spared, taken to Músquiz's house, and in Béxar after - at a cousin's on North Flores Street
+  // "several months" (`HIST-TEX-609`; ceiling: the map keeps them there to the window's end, `FIC-GONZ-472`). None has a fate:
+  // every one of them lived (`HIST-TEX-432`). Drawn as the library's woman, girl, boy and small child - stand-in: docs/
+  // ART_REQUESTS.md, request 2026-09-26 "the Esparza family".
+  'ana-esparza': person('ana-esparza', 'Ana Esparza', 'civilian', 'woman', 2, 'HIST-TEX-605', {
+    fullName: 'Ana Salazar de Esparza, Gregorio’s wife',
+    map: [{ from: on(1836, 3, 6, 18), until: on(1836, 5, 17, 12), site: 'bexar', doing: 'stand', claimId: 'HIST-TEX-609' }],
+  }),
+  'maria-de-jesus': person('maria-de-jesus', 'María de Jesús', 'civilian', 'girl', 2, 'HIST-TEX-605', {
+    fullName: 'María de Jesús Castro Esparza, about ten, Ana’s daughter by her first husband', child: true,
+    map: [{ from: on(1836, 3, 6, 18), until: on(1836, 5, 17, 12), site: 'bexar', doing: 'stand', claimId: 'HIST-TEX-609' }],
+  }),
+  'enrique-esparza': person('enrique-esparza', 'Enrique', 'civilian', 'boy', 2, 'HIST-TEX-605', {
+    // Born about 1828 ("probably born in September 1828, although he claimed to have been born in 1824"); his interviews of
+    // 1902, 1904 and 1907 are late testimony, and his words here are tradition (`HIST-TEX-607`). He died in 1917.
+    fullName: 'Enrique Esparza, about eight', child: true,
+    map: [{ from: on(1836, 3, 6, 18), until: on(1836, 5, 17, 12), site: 'bexar', doing: 'stand', claimId: 'HIST-TEX-609' }],
+  }),
+  'manuel-esparza': person('manuel-esparza', 'Manuel', 'civilian', 'small-child', 2, 'HIST-TEX-605', {
+    fullName: 'Manuel Esparza, five', child: true,
+    map: [{ from: on(1836, 3, 6, 18), until: on(1836, 5, 17, 12), site: 'bexar', doing: 'stand', claimId: 'HIST-TEX-609' }],
+  }),
+  'francisco-child': person('francisco-child', 'Francisco', 'civilian', 'small-child', 2, 'HIST-TEX-605', {
+    fullName: 'Francisco Esparza, two or three, the youngest (John W. Smith was his godfather)', child: true,
+    map: [{ from: on(1836, 3, 6, 18), until: on(1836, 5, 17, 12), site: 'bexar', doing: 'stand', claimId: 'HIST-TEX-609' }],
+  }),
+  // Gregorio's brother, who had served in the Béxar presidial company until Cos gave up the town, got leave to take the body
+  // and, with his two brothers, buried it in the Campo Santo: the one defender given a Christian burial (`HIST-TEX-608`). Who
+  // gave the leave (Cos or Santa Anna) and whether he was serving in 1836 are disputed; the caption says so.
+  'francisco-esparza': person('francisco-esparza', 'Francisco Esparza', 'civilian', 'townsman', 2, 'HIST-TEX-608', {
+    fullName: 'Francisco Esparza, Gregorio’s brother',
   }),
   'susanna-dickinson': person('susanna-dickinson', 'Mrs. Dickinson', TX, 'susanna-dickinson', 1, 'HIST-TEX-548', {
     fullName: 'Susanna Dickinson',

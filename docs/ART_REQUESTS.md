@@ -109,6 +109,8 @@ does not have:
 | **The Goliad prisoners** are drawn in the militia's walk and stand, which carry muskets; the prisoners had none | `columns` in `sim/battles/goliad-massacre.mjs` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 2 | `prisoner-walk` and `prisoner-stand`, unarmed, hands free |
 | **Francita Alavez** is drawn as the first cast's woman (`rust-woman-walk`, `rust-woman-idle-e`/`-w`), named on the map | the `alavez` part in `sim/battles/goliad-massacre.mjs` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 3 | `alavez-walk` and `alavez-idle`: a Mexican officer's wife of 1836 |
 | **The carts inside Coleto's square** are the library's `ox-cart`, its ox painted in | `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 4 | `cart-baggage` (no ox) and `cart-tipped` (on its side, a breastwork) |
+| **The Esparza family** (2026-09-26): Ana Esparza is the second cast's woman (`indigo-idle-e`, `indigo-walk`, `indigo-rest`), María de Jesús the library's girl, Enrique its boy (fair-haired - he was a Tejano boy of eight), Manuel and Francisco its small child, drawn at the roster's child size | `PERSON_ART` (`woman`, `girl`, `boy`, `small-child`) in `public/battle-view.js`; `drawFamous` in `public/famous-view.js` (`stand-in:`) | Request 2026-09-26 — the Esparza family, items 1-3 | `ana-esparza-*`, `maria-de-jesus-*`, `enrique-esparza-*`, `esparza-small-child-*` |
+| **Gregorio Esparza's body carried to the Campo Santo** by his brother Francisco and another brother: the settler in the rust shirt (`rust-walk`, `rust-idle-e`) twice, walking one behind the other, with a pale bundle tied at three places drawn on the canvas between their hands | `drawBearers` in `public/battle-view.js` (`stand-in:`); `townsman` in `PERSON_ART` | Request 2026-09-26 — the Esparza family, items 4-5 | `burial-party-walk-e` (4 frames) and `francisco-esparza-*` |
 ## Claude-drawn stand-ins (replace with Astra's)
 
 Owner's instruction, 2026-09-16: complete the outstanding requests with Claude-drawn art, marked so Astra can replace any of
@@ -152,6 +154,36 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-26 — the Esparza family
+
+**Status: open; stand-ins in use since 2026-09-26 (see *Stand-ins in use*).** The owner, 2026-09-26: *"yes, add enrique and his
+family"*. Gregorio Esparza's wife Ana and her four children are now named people at the Alamo (`sim/people.mjs`,
+`sim/battles/alamo.mjs`; `docs/BATTLES.md` §14.6): going in through a window of the church on the evening of February 23, sheltering
+in the sacristy beside Mrs. Dickinson through the siege and the assault, brought out and taken to Músquiz's house, and at Béxar after;
+and on the afternoon of March 6 Gregorio's brother Francisco and another brother carry his body, wrapped, to the Campo Santo
+(`HIST-TEX-605`-`-609`). Delivery contract as the delivered famous sheets (`scripts/art-deliveries/famous-people.mjs`): a transparent
+4×4 atlas per figure, four east, two south and two north walking frames, then the poses; the logical height of `volunteer-*` for
+grown people and of the library's `girl`/`boy`/`smallchild` for the children; east mirrored for west; no gore; no likeness claimed
+(none survives of any of them but Enrique's photographs as an old man).
+
+1. **Ana Salazar de Esparza** - a Tejana woman of about thirty, 1830s Béxar dress and rebozo: walk, idle, `shelter-with-children`
+   (seated on the floor, an arm round a small child), `carry-toddler` (walking with a child of two on her hip), `hold-blanket` (the
+   blanket Santa Anna's officers gave each woman).
+2. **María de Jesús, about ten** - a Tejana girl: walk, idle, seated huddled.
+3. **Enrique, a Tejano boy of about eight** - dark-haired, shirt and trousers: walk, idle, seated huddled, `look` (looking up, for
+   the moment he remembered). The library's `boy` is fair-haired and stands in until this lands.
+4. **A burial party** - `burial-party-walk-e` (4 frames): two Tejano men of Béxar walking one behind the other, carrying between them
+   a body wrapped completely in a blanket or shroud on a litter - no face, no wound, no blood (`VISION.md` §16) - readable at 40 px
+   and at 160 px. Replaces `drawBearers`' canvas bundle.
+5. **Francisco Esparza** - Gregorio's brother, a man of about thirty in town clothes: walk, idle, `kneel-at-grave`.
+
+**How it plugs in.** `art` in `sim/people.mjs` (`woman`, `girl`, `boy`, `small-child`, `townsman` today) becomes each person's own key,
+added to `PERSON_ART` in `public/battle-view.js` with its poses by name; the burial party replaces the bundle and the second bearer in
+`drawBearers`. Every `stand-in:` comment naming this request goes.
+
+**Check.** In the sacristy at the siege frame (about 0.5 px a foot) the woman and four children read as one family and as different
+people from Mrs. Dickinson and Angelina; the burial party reads at once as men carrying someone wrapped, never as a body.
 
 ## Request 2026-09-26 — the Mexican advance
 

@@ -75,13 +75,20 @@ export const ALAMO_FEET = Object.freeze({
   'guns-bonham': [384, 382], 'guns-dickinson': [392, 402], 'guns-esparza': [376, 396],
   // The sacristy, the survivors' refuge (`HIST-TEX-432`; "some accounts say in the powder magazine, others in the church").
   sacristy: [326, 366],
+  // The Esparzas' way in on February 23 (`HIST-TEX-606`, `FIC-GONZ-470`): round the south of the compound, outside the palisade,
+  // to a window in the church's south wall (its outer face at 418); and where Gregorio sleeps beside them on the night of March 5.
+  'church-south': [300, 600], 'church-window': [330, 424], 'sacristy-west': [312, 364],
+  // The Campo Santo west of San Pedro Creek, where Francisco Esparza buried his brother (`HIST-TEX-608`). ceiling: at the same
+  // compression as the rest of this town (San Fernando is about 1,600 feet of the plan from the church, about two thirds of its
+  // true distance), so about 1,100 feet west of it; a survey of the town is the way out.
+  'campo-santo': [-2650, 640],
   // In front of the church after the fighting, where the handful found alive were brought before Santa Anna (de la Peña, as the
   // owner chose, §2c.1; the narrative gives no place, and this spot is the game's).
   'before-church': [262, 404], 'santa-anna-plaza': [236, 392], 'officers-come': [206, 360],
   // Béxar, where the spared were taken to Músquiz's house and Santa Anna questioned Joe (`HIST-TEX-432`, `-549`).
   'musquiz-door': [-1400, 812],
-  // The camera's frame for the afternoon: the pyres and the town.
-  'frame-after-a': [-1650, -300], 'frame-after-b': [900, 1250],
+  // The camera's frame for the afternoon: the pyres, the town and the Campo Santo.
+  'frame-after-a': [-2800, -300], 'frame-after-b': [900, 1250],
   // What the camera takes in: the siege with its batteries; the assault with its columns; the north wall close; the plaza.
   'frame-siege-a': [-950, -1150], 'frame-siege-b': [1150, 1500],
   'frame-assault-a': [-700, -900], 'frame-assault-b': [1100, 1250],
@@ -137,7 +144,25 @@ const ESPARZA_GUNS = Object.freeze({ id: 'esparza', at: 'guns-esparza', face: 'e
 const BONHAM_GUNS = Object.freeze({ id: 'bonham', at: 'guns-bonham', face: 'east-out' });
 // Mrs. Dickinson with Angelina in the church (`HIST-TEX-432`, `-548`): Angelina is drawn in her mother's arms (her own sheet).
 const SUSANNA_SACRISTY = Object.freeze({ id: 'susanna-dickinson', at: 'sacristy', pose: 'sick' });
-const siegePeople = (...more) => [TRAVIS_WRITES, BOWIE_SICK, CROCKETT_POST, DICKINSON_GUNS, ESPARZA_GUNS, SUSANNA_SACRISTY, ...more];
+/**
+ * The Esparza family beside her (owner, 2026-09-26: "yes, add enrique and his family"; `HIST-TEX-605`, `FIC-GONZ-470`): Ana and
+ * her four children, each a step apart in the sacristy (feet east and south of its middle), from the evening they came in until
+ * they are brought out. The record puts them in "the room where we were" in the church (Enrique, 1902); the room is the game's.
+ */
+const FEET = 1 / 5280;
+const FAMILY_STEPS = Object.freeze({ 'ana-esparza': [-8, -2], 'maria-de-jesus': [-13, 3], 'enrique-esparza': [-4, 4], 'manuel-esparza': [-11, -6], 'francisco-child': [-5, -5] });
+const ESPARZA_FAMILY = Object.keys(FAMILY_STEPS);
+/** Each of the family, where `spec` puts them, a step apart. */
+const family = spec => ESPARZA_FAMILY.map(id => ({ id, ...spec, aside: FAMILY_STEPS[id].map(feet => feet * FEET) }));
+const ESPARZAS = Object.freeze(family({ at: 'sacristy', pose: 'seated' }));
+const THE_SACRISTY = Object.freeze([SUSANNA_SACRISTY, ...ESPARZAS]);
+// Gregorio asleep beside them on the night of March 5: "He got up and picked up his arms and went into the fight" (Enrique, 1902).
+const ESPARZA_ASLEEP = Object.freeze({ id: 'esparza', at: 'sacristy-west', pose: 'seated' });
+// Going in on the evening of February 23, round the south of the compound to a small window in the church (`HIST-TEX-606`: "an
+// hour before sundown", Enrique in 1902; "at twilight ... through a small window in the church", the Handbook from his 1907
+// account - the window is his late testimony). Six in the evening, between the two; the window's place is the game's.
+const GOING_IN = Object.freeze([[100, 'town-edge'], [132, 'church-south'], [150, 'church-window'], [158, 'church-window'], [170, 'sacristy']]);
+const siegePeople = (...more) => [TRAVIS_WRITES, BOWIE_SICK, CROCKETT_POST, DICKINSON_GUNS, ESPARZA_GUNS, ...THE_SACRISTY, ...more];
 /** A day of the siege begins at six in the morning, a night at six in the evening. */
 const DAY_LIGHT = 0, NIGHT_LIGHT = 0.72;
 
@@ -276,7 +301,7 @@ export const ALAMO = Object.freeze({
     {
       // 15:30-18:30. The red flag; a bugle for a parley; the 18-pounder's answer (`HIST-TEX-504`).
       id: 'red-flag', minutes: 180, background: 60, title: 'February 23: the red flag', claimId: 'HIST-TEX-504', frame: ['frame-siege-a', 'frame-siege-b'],
-      caption: 'A blood-red flag goes up on the tower of San Fernando: no quarter. A Mexican bugle sounds for a parley, and Travis answers with the 18-pounder. He wrote the next day: “I have answered the demand with a cannon shot, and our flag still waves proudly from the walls.”',
+      caption: 'A blood-red flag goes up on the tower of San Fernando: no quarter. A Mexican bugle sounds for a parley, and Travis answers with the 18-pounder. He wrote the next day: “I have answered the demand with a cannon shot, and our flag still waves proudly from the walls.” Toward evening Gregorio Esparza, who fought in Seguín’s company in December, brings his wife Ana and her four children in with him; his son Enrique, about eight, remembered many years later that they came in through a small window of the church.',
       texian: { style: 'wall', at: 'plaza', fire: 'none', groups: walls('none') },
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [{ id: 'town', name: 'Santa Anna’s army, in Béxar', style: 'ranks', at: 'town-edge', face: 'plaza', drawn: 24, fire: 'none' }] },
       guns: { eighteen: { shots: [40] } },
@@ -285,6 +310,9 @@ export const ALAMO = Object.freeze({
         { id: 'travis', at: 'sw-battery', pose: 'command', face: 'town' },
         { id: 'santa-anna', with: 'town', offset: { along: -0.02, across: 0 } },
         CROCKETT_POST,
+        // Gregorio Esparza and his family going in (`HIST-TEX-606`, `FIC-GONZ-470`): he walks with them to the sacristy.
+        { id: 'esparza', keys: [...GOING_IN.slice(0, -1), [170, 'sacristy-west']], during: [100, 180], face: 'church-window' },
+        ...family({ keys: GOING_IN, during: [100, 180], face: 'church-window' }),
       ],
       lines: [
         say('r-flag', 10, TEX, 'volunteer', 'reconstructed', 'Look at the church tower. A red flag.'),
@@ -419,7 +447,7 @@ export const ALAMO = Object.freeze({
       caption: 'A story told many years later says that this evening Travis gathered the garrison in the plaza, drew a line on the ground with his sword and asked every man who would stay and die with him to cross it; all did but one, Louis Rose, who went over the wall that night. Rose told it to the Zuber family, and W. P. Zuber printed it in 1873. Historians doubt it: no one who was there wrote it down at the time.',
       texian: { style: 'wall', at: 'plaza', fire: 'none', groups: [...walls('none', { thin: true }), { id: 'garrison', name: 'The garrison', style: 'loose', drawn: 16, at: 'plaza', face: 'north-in', fire: 'none', spread: { width: 0.025, depth: 0.018 } }] },
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: lines(true) },
-      people: [{ id: 'travis', at: 'north-in', pose: 'command', face: 'plaza' }, BOWIE_SICK, { id: 'crockett', with: 'garrison', offset: { along: 0.006, across: 0.008 } }, SUSANNA_SACRISTY],
+      people: [{ id: 'travis', at: 'north-in', pose: 'command', face: 'plaza' }, BOWIE_SICK, { id: 'crockett', with: 'garrison', offset: { along: 0.006, across: 0.008 } }, ...THE_SACRISTY],
       lines: [
         say('line-sand', 12, TEX, 'officer', 'tradition', 'I now want every man who is determined to stay here and die with me to come across this line.', { person: 'travis', claimId: 'HIST-TEX-567', gloss: 'told later: Louis Rose’s story as W. P. Zuber printed it (1873, reprinted later); historians doubt it' }),
       ],
@@ -464,7 +492,7 @@ export const ALAMO = Object.freeze({
       // Travis asleep in his quarters with Joe (Joe's account, `HIST-TEX-502`); Santa Anna with the reserve; Cos at the head of
       // the column he leads against the Alamo, on the parole he gave at Béxar (`HIST-TEX-500`, `-557`).
       people: [
-        { id: 'travis', at: 'travis-quarters', pose: 'seated' }, { id: 'joe', at: 'joe-door', pose: 'seated' }, BOWIE_SICK, SUSANNA_SACRISTY,
+        { id: 'travis', at: 'travis-quarters', pose: 'seated' }, { id: 'joe', at: 'joe-door', pose: 'seated' }, BOWIE_SICK, ...THE_SACRISTY, ESPARZA_ASLEEP,
         { id: 'santa-anna', with: 'reserve', offset: { along: 0.01, across: 0.006 } },
         { id: 'cos', with: 'cos', offset: { along: 0.012, across: 0 } },
       ],
@@ -484,7 +512,7 @@ export const ALAMO = Object.freeze({
         cavalry('lancers-east', 'cavalry-east'), cavalry('lancers-south', 'cavalry-south'),
       ] },
       people: [
-        { id: 'travis', at: 'travis-quarters', pose: 'seated' }, { id: 'joe', at: 'joe-door', pose: 'seated' }, BOWIE_SICK, SUSANNA_SACRISTY,
+        { id: 'travis', at: 'travis-quarters', pose: 'seated' }, { id: 'joe', at: 'joe-door', pose: 'seated' }, BOWIE_SICK, ...THE_SACRISTY, ESPARZA_ASLEEP,
         { id: 'crockett', at: 'crockett-post', pose: 'seated', face: 'south-out' },
         { id: 'santa-anna', with: 'reserve', offset: { along: 0.01, across: 0.006 } },
         { id: 'cos', with: 'cos', offset: { along: 0.012, across: 0 } },
@@ -513,13 +541,16 @@ export const ALAMO = Object.freeze({
         { id: 'travis', keys: [[0, 'travis-quarters'], [3, 'north-battery']], pose: 'fire', face: 'north-out' },
         { id: 'joe', keys: [[0, 'joe-door'], [3.5, 'joe-battery']], pose: 'fire', face: 'north-out' },
         { id: 'crockett', at: 'crockett-post', pose: 'fire', face: 'south-out' },
-        BOWIE_SICK, SUSANNA_SACRISTY,
-        { ...DICKINSON_GUNS, pose: 'fire' }, { ...BONHAM_GUNS, pose: 'fire' }, { ...ESPARZA_GUNS, pose: 'fire' },
+        BOWIE_SICK, ...THE_SACRISTY,
+        { ...DICKINSON_GUNS, pose: 'fire' }, { ...BONHAM_GUNS, pose: 'fire' }, { id: 'esparza', keys: [[0, 'sacristy-west'], [2, 'guns-esparza']], pose: 'fire', face: 'east-out' },
         { id: 'santa-anna', with: 'reserve', offset: { along: 0.01, across: 0.006 } },
         { id: 'cos', with: 'cos', offset: { along: 0.012, across: 0 } },
       ],
       lines: [
         say('al-viva', 0, MEX, 'soldier', 'documented', '¡Viva Santa Anna!', { claimId: 'HIST-TEX-501', gloss: 'shouted in the columns, which gave them away' }),
+        // Ana Esparza waking her husband, as their son Enrique remembered it in 1902 (`HIST-TEX-607`): his printed words, tradition;
+        // he put it at two in the morning, which no account of the assault supports, so it is said here (`FIC-GONZ-473`).
+        say('al-ana', 1, TEX, 'person', 'tradition', 'Gregorio, the soldiers have jumped the wall. The fight’s begun.', { person: 'ana-esparza', claimId: 'HIST-TEX-607', gloss: 'told later: remembered by her son Enrique, about eight that night, in 1902 (he put it at two in the morning)' }),
         say('al-travis', 2, TEX, 'officer', 'documented', 'Come on boys, the Mexicans are upon us, and we’ll give them Hell.', { person: 'travis', claimId: 'HIST-TEX-502', gloss: 'Joe’s account, as W. F. Gray wrote it down on March 20, 1836' }),
         say('al-walls', 4, TEX, 'volunteer', 'reconstructed', 'To the walls! They’re at the walls!'),
       ],
@@ -547,7 +578,7 @@ export const ALAMO = Object.freeze({
         { id: 'joe', keys: [[0, 'joe-battery'], [5, 'joe-battery'], [9, 'joe-door']], pose: 'fire', face: 'north-out', during: [0, 9] },
         { id: 'joe', at: 'joe-door', pose: 'fire-hidden', face: 'plaza', during: [9, 16] },
         { id: 'crockett', at: 'crockett-post', pose: 'fire', face: 'south-out' },
-        BOWIE_SICK, SUSANNA_SACRISTY,
+        BOWIE_SICK, ...THE_SACRISTY,
         { ...DICKINSON_GUNS, pose: 'fire' }, { ...BONHAM_GUNS, pose: 'fire' }, { ...ESPARZA_GUNS, pose: 'fire' },
         { id: 'santa-anna', with: 'reserve', offset: { along: 0.01, across: 0.006 } },
         { id: 'cos', with: 'cos', offset: { along: 0.012, across: 0 } },
@@ -590,7 +621,7 @@ export const ALAMO = Object.freeze({
       people: [
         { id: 'joe', at: 'joe-door', pose: 'fire-hidden', face: 'plaza' },
         { id: 'crockett', at: 'crockett-post', pose: 'fire', face: 'south-out' },
-        BOWIE_SICK, SUSANNA_SACRISTY,
+        BOWIE_SICK, ...THE_SACRISTY,
         { ...DICKINSON_GUNS, pose: 'fire' }, { ...BONHAM_GUNS, pose: 'fire' }, { ...ESPARZA_GUNS, pose: 'fire' },
         { id: 'santa-anna', with: 'reserve', offset: { along: 0.01, across: 0.006 } },
         { id: 'castrillon', with: 'mass', offset: { along: 0.012, across: 0.006 } },
@@ -635,7 +666,7 @@ export const ALAMO = Object.freeze({
         { id: 'bowie', at: 'bowie-room', pose: 'sick' },
         { id: 'crockett', keys: [[0, 'crockett-post'], [6, 'crockett-post'], [11, 'before-church']], pose: 'fire', face: 'plaza' },
         { id: 'joe', at: 'joe-door', pose: 'fire-hidden', face: 'plaza' },
-        SUSANNA_SACRISTY,
+        ...THE_SACRISTY,
         { ...DICKINSON_GUNS, pose: 'fire' }, { ...BONHAM_GUNS, pose: 'fire' }, { ...ESPARZA_GUNS, pose: 'fire' },
         { id: 'santa-anna', at: 'duque-reel', face: 'plaza' },
       ],
@@ -664,7 +695,7 @@ export const ALAMO = Object.freeze({
       people: [
         { id: 'joe', at: 'joe-door', pose: 'fire-hidden', face: 'plaza' },
         { id: 'crockett', with: 'church', offset: { along: 0.004, across: -0.006 }, pose: 'fire' },
-        SUSANNA_SACRISTY,
+        ...THE_SACRISTY,
         { ...DICKINSON_GUNS, pose: 'fire' }, { ...BONHAM_GUNS, pose: 'fire', tag: 'Place: a story told of him' }, { ...ESPARZA_GUNS, pose: 'fire' },
         { id: 'santa-anna', at: 'duque-reel', face: 'plaza' },
       ],
@@ -689,7 +720,7 @@ export const ALAMO = Object.freeze({
       // Labelled on the field as one account and disputed, and the other accounts named in the caption. The Handbook has the men
       // taken "at about six o'clock"; the minute of their deaths here is this game's. No other killing after surrender is drawn.
       id: 'end', minutes: 30, step: 5, title: 'Sunrise', claimId: 'HIST-TEX-501', light: [0.2, 0], frame: ['frame-plaza-a', 'frame-plaza-b'],
-      caption: 'About sunrise the firing stops: it has lasted less than an hour and a half. Nearly every defender is dead. The women and children are brought out of the church’s sacristy. Mexican officers call out for any Black men; Joe, who fought beside Travis, comes out, two soldiers attack him, and Captain Barragán saves him. ONE ACCOUNT, by the Mexican officer José Enrique de la Peña: some seven men were found alive, David Crockett among them; General Castrillón brought them before Santa Anna and asked for their lives, and Santa Anna ordered them killed, and officers fell on them with swords. OTHER ACCOUNTS say Crockett died fighting: Joe said he was found dead with a few friends and many Mexican soldiers around them, and Susanna Dickinson said he was one of the first to fall. De la Peña’s account was not printed until 1955, and historians have argued over whether it is genuine. How Crockett died is not known for certain.',
+      caption: 'About sunrise the firing stops: it has lasted less than an hour and a half. Nearly every defender is dead. The women and children are brought out of the church’s sacristy, Ana Esparza and her four children among them; Gregorio Esparza lies dead at the church guns. Mexican officers call out for any Black men; Joe, who fought beside Travis, comes out, two soldiers attack him, and Captain Barragán saves him. ONE ACCOUNT, by the Mexican officer José Enrique de la Peña: some seven men were found alive, David Crockett among them; General Castrillón brought them before Santa Anna and asked for their lives, and Santa Anna ordered them killed, and officers fell on them with swords. OTHER ACCOUNTS say Crockett died fighting: Joe said he was found dead with a few friends and many Mexican soldiers around them, and Susanna Dickinson said he was one of the first to fall. De la Peña’s account was not printed until 1955, and historians have argued over whether it is genuine. How Crockett died is not known for certain.',
       texian: { style: 'street', at: 'church-front', fire: 'none', groups: [
         { id: 'taken', name: 'The men found alive', style: 'loose', pose: 'surrender', drawn: 5, keys: [[0, 'church-front'], [8, 'before-church']], face: 'santa-anna-plaza', fire: 'none', spread: { width: 0.008, depth: 0.005 } },
       ] },
@@ -704,6 +735,8 @@ export const ALAMO = Object.freeze({
         { id: 'joe', at: 'joe-door', pose: 'emerge', face: 'plaza', during: [6, 30] },
         { id: 'barragan', keys: [[0, 'plaza'], [9, 'plaza'], [12, 'joe-door']], pose: 'command', face: 'joe-door' },
         { id: 'susanna-dickinson', keys: [[0, 'sacristy'], [4, 'sacristy'], [10, 'church-front']], pose: 'stand' },
+        // The Esparzas brought out with her, spared (`HIST-TEX-432`, `-605`).
+        ...family({ keys: [[0, 'sacristy'], [5, 'sacristy'], [12, 'church-front']], face: 'plaza' }),
         { id: 'crockett', with: 'taken', offset: { along: 0.002, across: 0.001 }, pose: 'captive', tag: 'One account (de la Peña) · disputed' },
         { id: 'castrillon', with: 'taken', offset: { along: -0.004, across: 0.004 }, face: 'santa-anna-plaza' },
         { id: 'santa-anna', keys: [[0, 'duque-reel'], [6, 'north-in'], [12, 'santa-anna-plaza']], pose: 'command', face: 'before-church' },
@@ -712,19 +745,29 @@ export const ALAMO = Object.freeze({
       lines: [
         say('e-negros', 6, MEX, 'officer', 'reconstructed', 'Are there any Black men here?', { gloss: 'the officers calling out after the fight, as Joe told it (Gray, March 20, 1836); the words in Spanish are not recorded' }),
         say('e-joe', 9, TEX, 'person', 'documented', 'Yes, here is one.', { person: 'joe', claimId: 'HIST-TEX-502', gloss: 'Joe’s account, as W. F. Gray wrote it down' }),
+        // Enrique Esparza's own printed words of 1902, remembering the room they were in (`HIST-TEX-607`, `FIC-GONZ-473`).
+        say('e-enrique', 2, TEX, 'person', 'tradition', 'It was a miracle, but none of us children were touched.', { person: 'enrique-esparza', claimId: 'HIST-TEX-607', gloss: 'told later: Enrique Esparza’s own words in 1902, remembering the church when he was about eight' }),
       ],
     },
     {
       // Mar 6, 07:00-18:00. The pyres, told and seen from a distance; the spared taken to Músquiz's house, and Joe into Béxar,
       // "detained several days; was shown a grand review of the army", and questioned by Santa Anna (`HIST-TEX-549`). Not held.
       id: 'after', minutes: 660, title: 'March 6: afterwards', claimId: 'HIST-TEX-501', light: 0, frame: ['frame-after-a', 'frame-after-b'],
-      caption: 'The dead defenders are stacked and burned on pyres outside the walls. The Mexican dead are buried. Mrs. Dickinson and her baby Angelina and the other women and children are taken into Béxar, to Ramón Músquiz’s house, to be questioned by Santa Anna. Joe is taken into the town too; Santa Anna questions him about Texas and its army, and he is shown a grand review of the Mexican army.',
+      caption: 'The dead defenders are stacked and burned on pyres outside the walls. The Mexican dead are buried. Mrs. Dickinson and her baby Angelina, Ana Esparza and her children and the other women and children are taken into Béxar under guard, to Ramón Músquiz’s house, and at two o’clock are brought before Santa Anna one by one; each woman is given a blanket and two dollars. Joe is taken into the town too; Santa Anna questions him about Texas and its army, and he is shown a grand review of the Mexican army. One defender is not burned: Gregorio Esparza’s brother Francisco, who had served in the town’s presidial company, gets leave to take his body - from General Cos, as Francisco swore in 1859, or from Santa Anna, as Enrique remembered - and with their two brothers carries it, wrapped, to the Campo Santo west of San Pedro Creek and buries it there, the only defender given a Christian burial.',
       texian: { style: 'street', at: 'church-front', fire: 'none', groups: [] },
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [{ id: 'guard', name: 'A guard on the Alamo', style: 'loose', drawn: 10, at: 'plaza', face: 'church-front', fire: 'none', spread: { width: 0.03, depth: 0.03 } }] },
       people: [
         { id: 'santa-anna', keys: [[0, 'santa-anna-plaza'], [90, 'musquiz']], pose: 'command', face: 'musquiz-door' },
         { id: 'susanna-dickinson', keys: [[0, 'church-front'], [120, 'musquiz-door']], pose: 'stand' },
         { id: 'joe', keys: [[0, 'joe-door'], [150, 'musquiz-door'], [660, 'musquiz-door']], pose: 'stand', face: 'musquiz' },
+        // The Esparzas to Músquiz's house with Mrs. Dickinson, and before Santa Anna there at two (`HIST-TEX-609`).
+        ...family({ keys: [[0, 'church-front'], [130, 'musquiz-door']], face: 'musquiz' }),
+        // Francisco Esparza comes for his brother's body, carries it away wrapped with one of their brothers, and buries it in the
+        // Campo Santo (`HIST-TEX-608`; the afternoon is the game's, `FIC-GONZ-471`). No wound and no body is drawn: a long pale
+        // bundle between two men (public/battle-view.js `drawBearers`).
+        { id: 'francisco-esparza', keys: [[150, 'town-edge'], [210, 'church-front'], [240, 'guns-esparza']], during: [150, 240], face: 'guns-esparza' },
+        { id: 'francisco-esparza', keys: [[240, 'guns-esparza'], [262, 'church-front'], [330, 'town-edge'], [410, 'campo-santo']], bears: 'esparza', pose: 'carry', during: [240, 410], face: 'campo-santo' },
+        { id: 'francisco-esparza', at: 'campo-santo', pose: 'stand', during: [410, 540], face: 'campo-santo' },
       ],
       plumes: [{ at: 'pyres', from: 60 }],
     },

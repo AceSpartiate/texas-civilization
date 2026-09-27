@@ -136,6 +136,13 @@ export function checkEngagement(def) {
       if (entry.pose !== undefined && !PERSON_POSES.includes(entry.pose)) fail(`${entry.id} in ${phase.id} has an unknown pose ${entry.pose}`);
       if (entry.during !== undefined && !(entry.during[0] >= 0 && entry.during[1] <= phase.minutes && entry.during[0] < entry.during[1])) fail(`${entry.id} in ${phase.id} is seen outside the phase`);
       if (entry.tag !== undefined && !(typeof entry.tag === 'string' && entry.tag.length <= 60)) fail(`${entry.id}'s tag in ${phase.id} is not a short label`);
+      if (entry.aside !== undefined && !(Array.isArray(entry.aside) && entry.aside.length === 2 && entry.aside.every(Number.isFinite))) fail(`${entry.id}'s step aside in ${phase.id} is not two numbers`);
+      // A body carried away (Gregorio Esparza's, by his brother, `HIST-TEX-608`) is one that fell in this fight in an earlier
+      // phase: nobody is carried off living, nor before their fall, nor anybody the record does not say was killed here.
+      if (entry.bears !== undefined) {
+        const fate = PEOPLE[entry.bears]?.fate, fellIn = fate && def.phases.findIndex(one => one.id === fate.phase);
+        if (!fate || fate.battle !== def.id || !['killed', 'executed'].includes(fate.kind) || fate.told || !(fellIn >= 0 && fellIn < def.phases.indexOf(phase))) fail(`${entry.id} in ${phase.id} carries ${entry.bears}, who did not fall in ${def.id} before it`);
+      }
     }
     for (const one of phase.parley?.people || []) if (!PEOPLE[one.id]) fail(`a parley in ${phase.id} names somebody not on the roster`);
     for (const id of phase.legendScene?.people || []) if (!PEOPLE[id]) fail(`the legend in ${phase.id} names somebody not on the roster`);
@@ -554,7 +561,9 @@ export function personPlace(ground, phase, entry, into) {
     const centre = unitPlace(ground, phase, entry.with, into);
     return entry.offset ? placeFrom(centre, unitFacing(ground, phase, entry.with, into), entry.offset) : centre;
   }
-  return placeOf(ground, entry, phase.minutes, into);
+  // `aside`: a small fixed step, in miles east and south, so a family standing at one point of the ground is not one figure.
+  const at = placeOf(ground, entry, phase.minutes, into);
+  return entry.aside ? { x: at.x + entry.aside[0], y: at.y + entry.aside[1] } : at;
 }
 /** Whether a unit of a phase is on the move at this minute (a person beside it walks with it). */
 function unitMoving(phase, unitId, into) {
@@ -585,7 +594,7 @@ function peopleNow(state, phase, into, ground) {
     out.push({
       id: who.id, name: who.name, side: who.side, art: who.art, x: place.x, y: place.y, pose: entry.pose || (moving ? 'walk' : 'stand'),
       moving, right: faces(entry, place), claimId: entry.claimId || who.claimId, ...(entry.tag && { tag: entry.tag }),
-      ...(who.thing && { thing: true }), ...(who.child && { child: true }),
+      ...(who.thing && { thing: true }), ...(who.child && { child: true }), ...(entry.bears && { bears: entry.bears }),
       ...(fate && ['killed', 'executed'].includes(fate.kind) && into >= fate.at && { fell: phase.from + fate.at, ...(fate.pose && { still: fate.pose }) }),
       ...(fate && fate.kind === 'wounded' && into >= fate.at && { hurt: phase.from + fate.at }),
     });
