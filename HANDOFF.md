@@ -1,5 +1,66 @@
 # Claude handoff — Astra foundation
 
+## Integration: the surprise at Béxar, the proofs brought back, the children, the pyres; famous people drawn on the map — 2026-09-27 (worktree branch `worktree-agent-a231238561f3f27b9` from main 6313c81; not released)
+
+Merged in order, every feature kept: `worktree-agent-a757a70ee43238054` (the surprise at Béxar), `worktree-agent-ae6b12e52c66777ca`
+(every browser proof brought back), `worktree-agent-a85dd510056930d51` (children, obedience, babies, the Scrape's work) and
+Astra's `e780c3e` (separated Alamo funeral pyres). Not pushed, not merged to main, not released.
+
+**Resolutions that mattered.**
+- **The Alamo's February 23** (`sim/battles/alamo.mjs`): the surprise's longer arrival (80 min, 14:30-15:50) and shorter red
+  flag (160, 15:50-18:30) kept; the Esparza family's going in (`GOING_IN`) moved twenty minutes earlier *into the red flag's
+  minutes* so they are still at the church window at six (`[80, 'town-edge'] ... [150, 'sacristy']`, `during: [80, 160]`).
+  `tests/famous-people.test.mjs`, `scripts/famous-people-injections.mjs` and `docs/BATTLES.md` follow.
+- **The pyres** (`e780c3e` put three reconstructed sites in a single 11-hour `after`): since the Esparza burial split March 6
+  at noon, the three sites are staged in `burial` - built at 15:00 (180 min in), lit at 17:00 (300) - and `after` (07:00-12:00)
+  has none; the old single `pyres` smoke is gone. `drawPlume` keeps `drawBearers` beside it; the huts' smoke is still the
+  stand-in. `tests/alamo-pyres.test.mjs` and `scripts/alamo-pyres-browser-proof.mjs` read `burial`; the test also holds the
+  morning clear (seen failing on an injected morning pyre). `npm run test:alamo-pyres` added.
+- **The family panel**: the proof-fixer's `awayLine` and the children's `lifeLine` both imported and both used.
+- **The advance proof** takes the proof-fixer's read of the Host's smoke on the tick the farm burns (held pace) over main's.
+- `tests/battle-alamo-view.test.mjs`: one version, accepting `joe-fire-door` or `joe-hide`.
+
+**Claim IDs renumbered.** The surprise and the children had both registered `HIST-TEX-610` onward. The surprise keeps
+`HIST-TEX-610`-`616` (and `FIC-GONZ-620`-`622`); the children's `HIST-TEX-610`-`625` are now **`HIST-TEX-630`-`645`** (610+k to
+630+k) in `HISTORY.md`, `docs/CHILDREN.md`, this file, `sim/babies.mjs`, `sim/children.mjs`, `sim/flight-work.mjs`,
+`sim/scrape.mjs` and `scripts/childhood-injections.mjs`. The children's `FIC-GONZ-475`-`489` were free and stay. Esparza's
+`HIST-TEX-605`-`609`/`FIC-GONZ-470`-`473` untouched. **`tests/history-registry.test.mjs`**: no ID registered twice in
+`HISTORY.md` (amendment rows like `FIC-GONZ-025 (Survey, ...)` are not registrations); seen failing on the old duplicate first.
+Cited but unregistered, all pre-existing: `HIST-TEX-350`, `FIC-GONZ-232`/`250`/`270` (blocks set aside, stated so) and
+`HIST-TEX-566` (left free in `docs/BATTLES.md`; `e780c3e`'s comment on the pyre sites cites it).
+
+**Famous people on the campaign map (owner, 2026-09-27: "Fix it and re-measure").** `public/app.js` handed `drawFamous`
+wrappers taking the clip first while `public/famous-view.js` calls them canvas first, so every famous person on the map was
+the mini figure. app.js now passes the page's own functions as it does to the battle view; `famousArt` (famous-view.js) names
+what a person may be drawn with and app.js asks for those sheets when a snapshot sends the person (`spriteReady`, new in
+`public/art.js`, as `clipReady`). `tests/famous-map-art.test.mjs` builds app.js's options out of its source and fails on the
+swapped order (seen failing). Measured on a quiet machine (CPU 3%), whole-map frame p95: with Travis, Bowie and Crockett at
+Béxar 2.0 ms on the student's page and 3.4 on the Host's (before the fix, as mini figures, 2.0 and 3.8), drawn from their own
+art from the first frame they are sent; the Host's map with the Esparzas after the fall 8.1 ms (slowest 15.8); San Jacinto's
+battle frame p95 17.1 ms (21.2 in the run before the fix); the assault 5.7. All inside the 50 ms gate, which
+`npm run test:famous-people` now holds on the map frames that draw famous people, with none a mini figure. The frames of the
+siege starting, with nobody famous on the map, reach 35-48 ms at p95 in the same sample, with or without the fix.
+
+**Evidence.** `npm test` 1,419 of 1,419. Every `test:*` browser proof run on the merged tree, two at a time (73 runs): all
+pass but three. `test:travel-drawn` is the known flake (its walk-in timing; this file records 4 of 7 before): 4 of 6 here.
+`test:panels` failed once in three (a rider's meeting left open over the call's menu), passed twice. `test:panel-silence`
+failed on the infant because the children's work gave a baby's row its own line (what it is doing, the server's words) in
+place of "too young to be sent"; the proof now holds that line (commit 8bcd651). The formerly flaky `battle-alamo`,
+`battle-gonzales`, `battle-concepcion`, `battle-grass` and `mexican-advance` passed twice each; `alamo-pyres`, `children`,
+`bexar-alarm`, `surprise-reveal`, `famous-people`, every `battle-*`, `slice`, `navigation`, `road`, `camp` pass. Injection
+harnesses: all 47 re-run - **1,044 of 1,045 caught**; the one is `cold`'s declared "may pass". Four were stale and missed on
+every run: `stock` (the test counted families; now it holds exactly the families the hash dealt none - 26 of 26),
+`creation-overlap` (re-aimed at the gap that wins since e396a13 - 7 of 7), and three whose rule or check is gone since the
+compact bar and the desktop-only panels proof - `panels-overlap` (phone placement top), `family-panel-phone` (phone icon
+width), `screen-overlap` (bar lifted in a lesson) - retired with the reason in each harness. Evidence regenerated.
+
+**For the owner.**
+- A baby's row in a tight column says nothing on the screen: the children's CSS folds a baby's line first when the rows do not
+  fit (`#family-panel[data-tight=true]`), and "too young to be sent" no longer shows for a baby. The proof accepts the fold.
+- Local `main` has five art commits past `e780c3e` (3b82f49 Seguín's ashes, 299e6fb/362f044 Ben and the Twin Sisters'
+  campaign art, 5fa99d3 Francita Alavez, 7f69b95 Goliad prisoners) not on origin/main and not merged here; the Twin Sisters'
+  campaign art touches what `drawFamous` draws.
+
 ## Enrique Esparza and his family at the Alamo, and Gregorio's burial — 2026-09-26 (worktree branch from main 9af00d4, local main c31d6e7 and origin/main 9b5a60d merged; not released)
 
 The owner asked *"is enrique esparza included in our famous person's list?"* - he was not (only his father Gregorio was drawn,
@@ -65,6 +126,8 @@ small child and settler (`docs/ART_REQUESTS.md`, request 2026-09-26 "the Esparza
   58.4 ms p95 against 31.8 without (the proof's gate is 50), so it was reverted - but the machine was loaded by other sessions
   (CPU at 97%, 29 node and 90 Chrome processes), and the same unchanged code later measured 18.0, 40.8, 72.2 and 21.5 ms, so the
   cost is not established. A one-line fix (`public/app.js`, the `drawFamous` call) for the owner to take with a quiet machine.
+  **Fixed 2026-09-27 by the integration branch** (owner: "Fix it and re-measure"), measured on a quiet machine: see the top
+  section of this file.
 
 **For the owner.**
 1. Enrique put his mother's words **at two in the morning**; every account of the assault has it begin about five. The game keeps
