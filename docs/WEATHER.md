@@ -1269,8 +1269,9 @@ day in them is a real day of a real class taken from `weatherOn`.
    Béxar through the coldest weeks did not write the word. The only snowfall of the period with more than one witness fell on
    the Mexican army **in Coahuila on 13-14 February**, reaching the vanguard lightly at La Espantosa, outside the map (§5.1,
    resolved 2026-09-26); the one other, at Arroyo Hondo on 1 March, rests on de la Peña alone. Building snow would put in the
-   colonies what the record puts beyond the Rio Grande. How (if at all) the Coahuila snow reaches a class is the owner's
-   choice: `docs/battle-research/snow-march-1836.md` §9.
+   colonies what the record puts beyond the Rio Grande. How the Coahuila snow reaches a class was the owner's choice
+   (2026-09-26): **only in the ending's reveal**, for the teacher and the class, never as weather and never as news during
+   play (`docs/battle-research/surprise-at-bexar.md`, `sim/surprise.mjs`).
 2. **A tornado.** §7. Inventing one would put the most memorable weather event of a class's year on no evidence at all.
 3. **A hurricane.** §6. The class window contains none. The temptation is Racer's Storm, and Racer's Storm is 1837.
 4. **Temperature as a number shown to a class.** Almonte's 39° and Maverick's 28° are worth quoting on their own days; a
@@ -1303,7 +1304,7 @@ All of them are **recorded, not built**. `HISTORY.md` carries the full text and 
 | `HIST-TEX-224` | Six dated fogs, five of them on mornings the game already stages |
 | `HIST-TEX-225` | The Guadalupe up at Gonzales on 29 September 1835, the day the class opens |
 | `HIST-TEX-226` | The one snowfall, where it fell being DISPUTED, and no snow in the colonies |
-| `HIST-TEX-600` to `-604` | **Proposed 2026-09-26, not registered** (`docs/battle-research/snow-march-1836.md` §10): the storm of 13-14 February located and measured; the columns and the cost; La Espantosa and the resolved dispute; the Yucatán dead were Urrea's norther; de la Peña's disputed snow of 1 March |
+| `HIST-TEX-600` to `-604` | **Registered 2026-09-26** with the owner's answers (the true story at the ending, the Yucatán correction now; `docs/battle-research/surprise-at-bexar.md`) from `docs/battle-research/snow-march-1836.md` §10: the storm of 13-14 February located and measured; the columns and the cost; La Espantosa and the resolved dispute; the Yucatán dead were Urrea's norther; de la Peña's disputed snow of 1 March |
 | `HIST-TEX-227` | Rain shutting a river's ford: the Medina, 21 February 1836 |
 | `HIST-TEX-228` | The Alamo siege day by day from Almonte's thermometer — cold and **clear** |
 | `HIST-TEX-229` | A norther is regional: Béxar, San Patricio and Washington-on-the-Brazos |

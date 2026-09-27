@@ -65,8 +65,8 @@ stay in view.
 When something happens that most of the class would miss, the Host's camera goes there, zoomed in as a family's land is
 framed, and a banner over the map says the day and what happened; *Whole class* brings the camera back, and anything the
 teacher does with the camera after wins. Lit (`spotlight` in `sim/host.mjs`, `world.spotlight`, kept `SPOTLIGHT_MINUTES` -
-half a day - or until the next): the fight at Gonzales, Concepción, the Grass Fight, the storming of Béxar, **the fall of
-the Alamo**, Coleto, **the Goliad massacre**, San Jacinto, Santa Anna taken, and for a played family **its house and field
+half a day - or until the next): the fight at Gonzales, Concepción, the Grass Fight, the storming of Béxar, **the bell at Béxar on
+February 23** (the army nobody expected, weeks early; `docs/battle-research/surprise-at-bexar.md`), **the fall of the Alamo**, Coleto, **the Goliad massacre**, San Jacinto, Santa Anna taken, and for a played family **its house and field
 burned** by the Texas army and **somebody of it taken prisoner at home** by the Mexican army. Each is written down as a
 public `spotlight` event with its claim. A student is never sent it.
 

@@ -42,6 +42,9 @@ export const ALAMO_FEET = Object.freeze({
   'plaza-gun': [150, 330], 'east-wall': [378, 300], 'gate-in': [101, 515], 'gate-out': [104, 560],
   // The town, the Mexican army's road in, and Músquiz's house on the plaza (`HIST-TEX-432`).
   town: [-1514, 846], 'west-road': [-4200, 900], 'town-edge': [-1050, 760], musquiz: [-1440, 830],
+  // February 23 (`HIST-TEX-613`): the army still out of sight up the west road, and where the townspeople who were left went,
+  // out of the town to the south-west (`FIC-GONZ-621`: which way they went is the game's).
+  'west-far': [-6400, 940], 'town-gone': [-2400, 1260],
   // The four quarters outside, which the walls face.
   'north-out': [122, -700], 'west-out': [-700, 260], 'south-out': [140, 1200], 'east-out': [1100, 330],
   // The batteries, and the north battery brought closer (350 yards is 1050 feet; "within musket shot", about 200 yards).
@@ -253,29 +256,47 @@ export const ALAMO = Object.freeze({
   phases: toEngine([
     // ---------------------------------------------------------------- February 23
     {
-      // 14:30-15:30. The bell, the army into the town from the west road, the garrison across the river into the Alamo.
-      id: 'arrival', minutes: 60, background: 20, title: 'February 23: the Mexican army comes', claimId: 'HIST-TEX-054', frame: ['frame-arrival-a', 'frame-arrival-b'],
-      caption: 'About half past two the bell of San Fernando rings: Mexican cavalry is in sight. Santa Anna’s army marches into Béxar, and the garrison - about a hundred and fifty men fit to fight and fourteen sick - goes across the river into the Alamo with cattle and corn, and a few families with it.',
-      texian: { style: 'loose', at: 'plaza', fire: 'none', groups: [{ id: 'garrison-in', name: 'The garrison, going in', style: 'column', drawn: 24, keys: [[0, 'town-edge'], [40, 'gate-out'], [60, 'plaza']], action: 'withdraw', fire: 'none', face: 'away' }] },
-      mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [{ id: 'army-in', name: 'Santa Anna’s army', style: 'column', drawn: 36, keys: [[0, 'west-road'], [60, 'town']], action: 'advance', fire: 'none', face: 'plaza' }] },
-      // Travis and Bowie at the head of the garrison going in, Crockett with them (`HIST-TEX-540`, `-542`, `-544`); Santa Anna
-      // riding in with his army (`HIST-TEX-054`).
+      // 14:30-15:50. The surprise (owner, 2026-09-26: "players should be shocked and scared when he's spotted";
+      // docs/battle-research/surprise-at-bexar.md, `HIST-TEX-613`): the sentry in the bell tower of San Fernando rings the bell;
+      // Sutherland and J. W. Smith ride out along the west road, see the cavalry and gallop back; the townspeople who had not
+      // already gone hurry out; the garrison runs across the river into the Alamo with cattle and corn and a few families; and
+      // the army marches into the town from the west road. Twenty minutes longer than it was, and the red flag twenty shorter,
+      // so every later phase keeps its minute on the director's calendar.
+      id: 'arrival', minutes: 80, background: 20, title: 'February 23: the bell', claimId: 'HIST-TEX-613', frame: ['frame-arrival-a', 'frame-arrival-b'],
+      caption: 'Early in the afternoon the bell of San Fernando rings. The sentry on the church has seen the Mexican army on the heights to the west - weeks before anybody at Béxar looked for it. Men in the street call it a false alarm, so Dr. Sutherland and John W. Smith ride out on the Laredo road, come on the Mexican cavalry, and gallop back; Sutherland’s horse falls with him in the mud. The townspeople who had not already gone hurry out of the town; the garrison - about a hundred and fifty men fit to fight and fourteen sick - runs across the river into the Alamo, driving in what cattle and corn it can find, and a few families go in with it: “we had not three bushels of corn”, Travis wrote. About three o’clock Santa Anna’s army marches into Béxar.',
+      texian: { style: 'loose', at: 'plaza', fire: 'none', groups: [
+        // The sentry in the tower (`HIST-TEX-613`): one man, at the church, the whole time the bell rings.
+        { id: 'sentry', name: 'The sentry on San Fernando', style: 'loose', drawn: 1, at: 'town', face: 'west-road', fire: 'none' },
+        // The garrison waits in the town until the scouts are back, then runs for the Alamo.
+        { id: 'garrison-in', name: 'The garrison, going in', style: 'column', drawn: 24, keys: [[0, 'town'], [26, 'town'], [34, 'town-edge'], [66, 'gate-out'], [80, 'plaza']], action: 'withdraw', fire: 'none', face: 'away' },
+        // Those of the town who had not already gone (`HIST-TEX-612`: the Tejano families had been leaving for days).
+        { id: 'townsfolk', name: 'People of the town, leaving', style: 'street', drawn: 6, keys: [[0, 'town'], [12, 'town'], [60, 'town-gone']], action: 'withdraw', fire: 'none', civilians: true, spread: { width: 0.03, depth: 0.02 } },
+      ] },
+      mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [{ id: 'army-in', name: 'Santa Anna’s army', style: 'column', drawn: 36, keys: [[0, 'west-far'], [14, 'west-road'], [34, 'west-road'], [80, 'town']], action: 'advance', fire: 'none', face: 'plaza' }] },
+      // The scouts out along the west road and back (`HIST-TEX-613`); Travis and Bowie at the head of the garrison going in,
+      // Crockett with them (`HIST-TEX-540`, `-542`, `-544`); Santa Anna riding in with his army (`HIST-TEX-054`).
       people: [
+        { id: 'sutherland', keys: [[2, 'town'], [14, 'west-road'], [16, 'west-road'], [26, 'town']], pose: 'ride', during: [2, 26] },
+        { id: 'jw-smith', keys: [[2, 'town'], [14, 'west-road'], [16, 'west-road'], [26, 'town']], pose: 'ride', during: [2, 26] },
         { id: 'travis', with: 'garrison-in', offset: { along: -0.012, across: 0.004 } },
         { id: 'bowie', with: 'garrison-in', offset: { along: -0.006, across: -0.006 } },
         { id: 'crockett', with: 'garrison-in', offset: { along: 0.004, across: 0.006 } },
         { id: 'santa-anna', with: 'army-in', pose: 'ride', offset: { along: 0.03, across: 0.01 } },
       ],
       lines: [
-        say('a-coming', 4, TEX, 'volunteer', 'reconstructed', 'They’re coming! Into the Alamo!'),
-        say('a-corn', 16, TEX, 'volunteer', 'reconstructed', 'Bring the corn! Drive the cattle in!'),
-        say('a-marchen', 30, MEX, 'officer', 'reconstructed', '¡Marchen!', { gloss: 'March!' }),
-        say('a-shut', 52, TEX, 'volunteer', 'reconstructed', 'Shut the gate.'),
+        // The sentry's cry and the street's answer are Sutherland's (`HIST-TEX-613`): "The enemy are in view"; "false alarm".
+        say('a-bell', 0, TEX, 'sentry', 'documented', 'The enemy are in view!', { unit: 'sentry', claimId: 'HIST-TEX-613' }),
+        say('a-where', 4, TEX, 'volunteer', 'documented', 'False alarm!', { unit: 'garrison-in', claimId: 'HIST-TEX-613' }),
+        say('a-look', 6, TEX, 'volunteer', 'reconstructed', 'Somebody ride out and look!', { unit: 'garrison-in' }),
+        say('a-coming', 26, TEX, 'volunteer', 'reconstructed', 'They’re coming! Into the Alamo!', { unit: 'garrison-in' }),
+        say('a-corn', 38, TEX, 'volunteer', 'reconstructed', 'Bring the corn! Drive the cattle in!', { unit: 'garrison-in' }),
+        say('a-marchen', 44, MEX, 'officer', 'reconstructed', '¡Marchen!', { gloss: 'March!' }),
+        say('a-shut', 72, TEX, 'volunteer', 'reconstructed', 'Shut the gate.'),
       ],
     },
     {
-      // 15:30-18:30. The red flag; a bugle for a parley; the 18-pounder's answer (`HIST-TEX-504`).
-      id: 'red-flag', minutes: 180, background: 60, title: 'February 23: the red flag', claimId: 'HIST-TEX-504', frame: ['frame-siege-a', 'frame-siege-b'],
+      // 15:50-18:30. The red flag; a bugle for a parley; the 18-pounder's answer (`HIST-TEX-504`).
+      id: 'red-flag', minutes: 160, background: 60, title: 'February 23: the red flag', claimId: 'HIST-TEX-504', frame: ['frame-siege-a', 'frame-siege-b'],
       caption: 'A blood-red flag goes up on the tower of San Fernando: no quarter. A Mexican bugle sounds for a parley, and Travis answers with the 18-pounder. He wrote the next day: “I have answered the demand with a cannon shot, and our flag still waves proudly from the walls.”',
       texian: { style: 'wall', at: 'plaza', fire: 'none', groups: walls('none') },
       mexican: { style: 'loose', at: 'plaza', fire: 'none', groups: [{ id: 'town', name: 'Santa Anna’s army, in Béxar', style: 'ranks', at: 'town-edge', face: 'plaza', drawn: 24, fire: 'none' }] },

@@ -50,6 +50,7 @@
     "test:family-commands": "node scripts/family-commands-browser-proof.mjs",
     "test:winter": "node scripts/winter-browser-proof.mjs",
     "test:alamo-siege": "node scripts/alamo-siege-browser-proof.mjs",
+    "test:bexar-alarm": "node scripts/bexar-alarm-browser-proof.mjs",
     "test:scrape": "node scripts/scrape-browser-proof.mjs",
     "test:camp": "node scripts/camp-browser-proof.mjs",
     "study:overlap": "node scripts/screen-overlap-study.mjs",

@@ -22,6 +22,7 @@ import { calendarMinutes } from './clock.mjs';
 import { ALAMO } from './battles/alamo.mjs';
 import { armBattle, battleState, fatesDue, projectBattle, stageFate, unitPlace, watchedByAFamily } from './battle-stage.mjs';
 import { alamoRole, share, stormAlamo } from './alamo.mjs';
+import { atOrNearBexar } from './surprise.mjs';
 import { OUT_OF_THE_CHURCH, POSTS, SACRISTY, TO_SACRISTY, advanceWalks, inFeet, onMap, postFor, postLabel, setWalk, spotOf, wallOf, walkToPost } from './alamo-posts.mjs';
 
 const GONE = ['dead', 'captured'];
@@ -51,6 +52,8 @@ export function fallMinute(world, person) {
   const step = phases[0].step || 2, from = phases[0].from + step, to = phases.at(-1).to - step;
   return from + step * Math.floor(share(world, person.id, 'alamo-fall') * ((to - from) / step + 1));
 }
+/** The afternoon of February 23: the bell and the army coming in, and the red flag after it. */
+const ARRIVING = Object.freeze(['arrival', 'red-flag']);
 const phaseStart = (state, id) => state.phases.find(phase => phase.id === id).from;
 
 /** Whether the siege and the assault are on this class's calendar at all: the real land's second period (sim/periods.mjs). */
@@ -187,11 +190,16 @@ function stageFates(world, state) {
   }
 }
 
-/** The households a live view of the Alamo is sent to: one of theirs inside, or with the Gonzales men near the walls. */
+/**
+ * The households a live view of the Alamo is sent to: one of theirs inside, or with the Gonzales men near the walls - and on the
+ * afternoon of February 23, one of theirs in or near Béxar when the bell rings, who sees the town empty and the army come
+ * (docs/battle-research/surprise-at-bexar.md; sim/surprise.mjs `atOrNearBexar`).
+ */
 export function watchersOf(world) {
   const near = person => { const feet = inFeet(world, person.location); return Math.hypot(feet.x - 200, feet.y - 300) < 4000; };
   const ids = new Set();
   for (const person of insideNow(world)) ids.add(person.householdId);
+  if (ARRIVING.includes(battleState(world, 'alamo')?.phase?.id)) for (const person of atOrNearBexar(world)) ids.add(person.householdId);
   for (const person of withTheRelief(world)) if (!person.travel && person.location?.siteId === 'bexar' && near(person)) ids.add(person.householdId);
   return ids;
 }
@@ -208,8 +216,11 @@ function sendCards(world, state) {
     if (was?.key === key) return;
     battle.alerted[householdId] = { key, minute: world.minute, entityId: person.id, text };
   };
-  if (['arrival', 'red-flag'].includes(phaseId)) {
-    for (const person of insideNow(world)) card(person.householdId, 'siege', person, `At ${person.name}'s side: the Mexican army is marching into Béxar and the garrison is going into the Alamo. ${person.name} is going in with them.`);
+  // February 23 (owner, 2026-09-26: "players should be shocked and scared when he's spotted"): the bell, at the person's side,
+  // for every family with somebody in or near Béxar - inside the walls by now, or near enough to hear it and see the town empty.
+  if (ARRIVING.includes(phaseId)) {
+    for (const person of insideNow(world)) card(person.householdId, 'siege', person, `At ${person.name}'s side: the bell of San Fernando is ringing. The sentry in the tower has seen the Mexican army on the heights to the west - the army nobody here looked for before March. The garrison is running for the Alamo, and ${person.name} with them.`);
+    for (const person of atOrNearBexar(world)) if (!battle.alerted[person.householdId]) card(person.householdId, 'siege', person, `At ${person.name}'s side, near Béxar: the bell of San Fernando is ringing and the town is emptying. The sentry in the tower has seen the Mexican army on the heights to the west - the army nobody looked for before March. The garrison is running for the Alamo.`);
   }
   if (phaseId === 'relief') {
     for (const person of withTheRelief(world)) if (!person.service.late) card(person.householdId, 'relief', person, `At ${person.name}'s side: the Gonzales men are going in through the Mexican lines tonight, in the dark, to the Alamo's gate. ${person.name} rides with them.`);
@@ -259,7 +270,7 @@ function lightTheHost(world, state) {
     battle.spotlit[key] = world.minute;
     spotlight(world, { key, text, x: at.x, y: at.y, claimId });
   };
-  if (phaseId === 'arrival') light('alamo-siege', 'Béxar, February 23: Santa Anna’s army marches into the town and the garrison goes into the Alamo. A red flag flies from San Fernando.', 'HIST-TEX-054');
+  if (phaseId === 'arrival') light('alamo-siege', 'Béxar, February 23, about half past two: the bell of San Fernando rings - Mexican cavalry in sight, weeks before anybody looked for them. The garrison runs for the Alamo and Santa Anna’s army marches into the town. The families in the colonies will not hear of it for days.', 'HIST-TEX-613');
   if (phaseId === 'huts') light('alamo-huts', 'The Alamo, February 25: Mexican soldiers in the huts by the walls are fired on and burned out.', 'HIST-TEX-505');
   if (phaseId === 'relief') light('alamo-relief', 'The Alamo, before dawn on March 1: thirty-two Gonzales men come through the Mexican lines and are let in.', 'HIST-TEX-057');
   if (phaseId === 'alarm') light('alamo-fall', 'The Alamo, before dawn on March 6: the Mexican columns storm the walls. Distant families have not yet received any news.', 'HIST-TEX-058');
@@ -297,11 +308,11 @@ function cardsFor(world, householdId, state, watching) {
   const out = {};
   const alerted = state.battle.alerted?.[householdId];
   const phaseId = state.phase?.id;
-  const relevant = alerted && ((alerted.key === 'siege' && ['arrival', 'red-flag'].includes(phaseId)) || (alerted.key === 'relief' && phaseId === 'relief')
+  const relevant = alerted && ((alerted.key === 'siege' && ARRIVING.includes(phaseId)) || (alerted.key === 'relief' && phaseId === 'relief')
     || (alerted.key === 'assault' && ['alarm', 'repulse', 'north-wall', 'fallback', 'rooms'].includes(phaseId)));
   const person = alerted && world.entities[alerted.entityId];
   if (relevant && person && alive(person)) {
-    const titles = { siege: 'The Mexican army has come', relief: 'Into the Alamo with the Gonzales men', assault: 'The walls are stormed' };
+    const titles = { siege: 'The bell at Béxar: the Mexican army is here', relief: 'Into the Alamo with the Gonzales men', assault: 'The walls are stormed' };
     out.battleAlert = { id: `battle:alamo:${alerted.key}:${householdId}`, entityId: person.id, title: titles[alerted.key], text: alerted.text, field: onMap(world, { x: 180, y: 280 }), watching };
   }
   const debrief = state.battle.debrief?.[householdId];

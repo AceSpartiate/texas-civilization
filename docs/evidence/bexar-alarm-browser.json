@@ -1,0 +1,24 @@
+{
+  "record": "bexar-alarm-browser",
+  "date": "2026-09-27",
+  "browser": "153.0.8010.53",
+  "environment": "Same computer: a local classroom server and headless Chrome at 1366x768 (hh-1) and 1024x768 (hh-2), 300 ms a tick. A real class on the colonies map with rolled families, played in process through the first period and into the winter; the father of hh-1 set in the garrison at Béxar in process; hh-2 kept at home. Not physical LAN or district acceptance.",
+  "checks": [
+    "a class on the colonies map through the join flow: Thomas of hh-1 (Gonzales) in the garrison at Béxar, set in process; hh-2 (columbia) kept at home",
+    "on 1836-02-20 hh-1 heard, through Thomas: \"At dark a Tejano rider, Blas Herrera, came in to Béxar saying there are Mexican soldiers on the Rio Grande. The officers…\"; hh-2 did not",
+    "before the bell (1836-02-23) neither family knew or was told that Santa Anna was marching; both had heard \"Word from Béxar: Colonel Travis does not look for the Mexican army before the middle of Ma…\"",
+    "on 1836-02-23 the card \"The Mexican army has come\" came through Thomas: \"At Thomas Garrison's side: the bell of San Fernando is ringing. The sentry in the tower has seen Mexican cavalry on the road from the west -…\" - on the screen at 1366x768",
+    "Watch framed Béxar in the \"arrival\" phase: \"Early in the afternoon the bell of San Fernando rings. The sentry on the church has seen the Mexican army on the heights…\", with \"The enemy are in view!\"; hh-1's reports have it from \"Thomas Garrison, at Béxar\"",
+    "the Host's banner: \"Béxar, February 23, about half past two: the bell of San Fernando rings - Mexican cavalry in sight, weeks before anybody looked for them. The garrison runs for the Alamo and Santa Anna’s army marches into the town. The families in the colonies will not hear of it for days.\"",
+    "on 1836-02-23 hh-2 in the colonies has no card, no battle, no report and nothing in its journal of it; nothing sideways at 1024x768",
+    "hh-2 heard only when the riders came, on 1836-02-26, from \"Riders from Gonzales\": \"Riders from Gonzales say Santa Anna's army is at Béxar. It came into the town on the afternoon of the 23rd, weeks before…\""
+  ],
+  "screens": [
+    "test-results/bexar-alarm-card-1366.png",
+    "test-results/bexar-alarm-bell-1366.png",
+    "test-results/bexar-alarm-host.png",
+    "test-results/bexar-alarm-colonies-1024.png",
+    "test-results/bexar-alarm-rider-1024.png"
+  ],
+  "verdict": "PASS"
+}

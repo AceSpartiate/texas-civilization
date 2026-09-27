@@ -4,6 +4,11 @@ Research for the build step after `docs/COLONIES.md` §6n. **Built the same day*
 `HIST-TEX-054` to `-061`, with `FIC-GONZ-045` for what the game invents. Read with [winter-1835-36.md](winter-1835-36.md), which
 this continues.
 
+**The days before the siege and the afternoon of February 23** - what the Texians expected, the warnings they did not act
+on, the bell, the scouts and the word going out - are researched in [surprise-at-bexar.md](surprise-at-bexar.md)
+(2026-09-26, `HIST-TEX-610` to `-616`), which also answers the owner's question whether the Texians waited on the snow (they
+did not: it was the grass).
+
 Researched 2026-09-16, **through a fetching tool that returns a summary of each page with quoted sentences**, as the winter's
 research was. Quote nothing below to a class until it is checked against the page. Where sources disagree, both are given.
 

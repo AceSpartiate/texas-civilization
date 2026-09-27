@@ -110,6 +110,9 @@ export const PEOPLE = Object.freeze({
   kimbell: person('kimbell', 'Kimbell', TX, 'rider', 2, 'HIST-TEX-057', { fullName: 'George C. Kimbell' }),
   martin: person('martin', 'Martin', TX, 'rider', 2, 'HIST-TEX-057', { fullName: 'Albert Martin' }),
   'jw-smith': person('jw-smith', 'J. W. Smith', TX, 'rider', 2, 'HIST-TEX-552', { fullName: 'John W. Smith' }),
+  // One of the two who rode out on the Laredo road when the bell rang on February 23, 1836, and whose horse fell with him in the mud
+  // (his own narrative, `HIST-TEX-613`); sent to Gonzales that afternoon to rally the settlers (`HIST-TEX-616`).
+  sutherland: person('sutherland', 'Sutherland', TX, 'rider', 2, 'HIST-TEX-613', { fullName: 'Dr. John Sutherland' }),
   castrillon: person('castrillon', 'Castrillón', MX, 'general', 2, 'HIST-TEX-561', {
     fullName: 'Manuel Fernández Castrillón',
     // At San Jacinto he stood on an ammunition crate trying to rally his men, then turned and walked away from the Texians and

@@ -127,8 +127,10 @@ the same line as everywhere else in the game — however he came to be inside, s
 
 **Survival opportunities, offered in words before they close** (`FIC-GONZ-382`, `-383`):
 
-1. **Before the siege**: the garrison can be sent for. When the rumour comes (about 18 February) every family with somebody in
-   the garrison is told they can still be sent for, and that once the Mexican army is in the town nobody can be. The card's
+1. **Before the siege**: the garrison can be sent for. ~~When the rumour comes (about 18 February)~~ When Blas Herrera's
+   warning comes to Béxar on the evening of 20 February, told as the officers took it - disbelieved (since 2026-09-26; there is
+   no rumour of a march, `FIC-GONZ-620`, `docs/battle-research/surprise-at-bexar.md`) - every family with somebody in the
+   garrison is told they can still be sent for, and that if a Mexican army ever did reach the town nobody could be. The card's
    recall button says the same.
 2. **During the siege**: on each of the four nights Travis sent riders out (24 and 25 February, 3 and 5 March), his runner
    walks to every played fighter inside and says so; the man can offer. About one offer in four is chosen that night

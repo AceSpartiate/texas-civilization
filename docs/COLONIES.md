@@ -821,8 +821,11 @@ Decided by the owner by multiple choice (§7e). Research [winter-1835-36.md](bat
 - **The winter's news** (`advanceWinter`): on January 26 the army gone home (`-047`), Houston's terms (`-048`), Béxar and the
   Matamoros men (`-049`), and the council's quarrel (`-050`) reach every family; from noon on January 31 to midnight on
   February 1 the polls are open on the hourly calendar (`-052`); Travis's and Crockett's arrivals at Béxar are heard about five
-  days after (`-051`); the rumour of Santa Anna over the Rio Grande about February 18 (`-053`). `ceiling:` news reaches every
-  family at once, not by riders over the roads as in 1835.
+  days after (`-051`); ~~the rumour of Santa Anna over the Rio Grande about February 18 (`-053`)~~ - **since 2026-09-26**
+  (owner: "news appropriate to that, but not that he's marching"; `docs/battle-research/surprise-at-bexar.md`) what Béxar
+  believed, no army before the grass, on the 17th (`-610`, `-611`), Blas Herrera's disbelieved warning on the 20th to a family
+  with somebody in Béxar only (`-614`), and the bell on the 23rd heard there on the day and elsewhere by rider (`-613`, `-616`).
+  `ceiling:` news reaches every family at once, not by riders over the roads as in 1835.
 - **Families nobody plays** (`sim/neighbours.mjs`, step 8c): a share hashed from the class and the person, never a random draw,
   so a class replays the same: 4 grown hands in 100 enlist as regulars and 6 as auxiliaries (1 in 10 in all), 1 in 10 goes to the
   garrison, 1 in 50 to Matamoros, and 9 men in 10 who may vote ride in to vote (`WINTER_SHARES`).

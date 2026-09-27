@@ -1,8 +1,9 @@
 // The siege and fall of the Alamo, with San Patricio and Agua Dulce: docs/COLONIES.md §7f and build step 9, decided by the
 // owner by multiple choice (2026-09-16). Researched in docs/battle-research/alamo.md (`HIST-TEX-054` to `-061`).
 //
-// - **Before it** (the rumour of about February 18): a family with somebody in the garrison is told, in words, that they can
-//   still be sent for and that nobody can be once the Mexican army is in the town (`warnGarrison`).
+// - **Before it** (Blas Herrera's warning, February 20, disbelieved; since 2026-09-26 in place of a rumour that Santa Anna was
+//   marching, which the owner ruled out): a family with somebody in the garrison is told, in words, that they can still be
+//   sent for and that nobody could be if an army ever reached the town (sim/surprise.mjs `tellHerrera`).
 // - **The siege** (February 23): whoever of a family is at Béxar is shut in the Alamo with the garrison, stands at their place
 //   inside the walls, and cannot be sent for. On each of the four days Travis sent riders out (owner, 2026-09-22: volunteers
 //   are reconsidered on later courier dates), Travis's runner walks to every played man inside who could carry a letter
@@ -95,18 +96,6 @@ export function beginSiege(world, causeId) {
     // docs/BATTLES.md §9): the garrison went into the Alamo that afternoon (`HIST-TEX-054`).
     takePost(world, person);
     tell(world, person, `The Mexican army has come into Béxar under a red flag. ${person.name} is shut in the Alamo with the garrison.`, { claimId: 'HIST-TEX-054' });
-  }
-}
-
-/**
- * The rumour that Santa Anna is marching on Béxar: a survival opportunity said in words before it closes (owner, 2026-09-22;
- * `FIC-GONZ-383`). Every family with somebody in the garrison is told that they can still be sent for, and that once the
- * Mexican army is in the town nobody will be. It promises nothing about what the army will do.
- */
-export function warnGarrison(world) {
-  for (const person of inService(world, 'garrison')) {
-    if (person.service.besieged) continue;
-    tell(world, person, `It is said Santa Anna is marching on Béxar. ${person.name} is with the garrison there and can still be sent for. If the Mexican army reaches the town, the garrison will be shut in, and nobody can be sent for then.`, { claimId: 'FIC-GONZ-383', type: 'pressure' });
   }
 }
 

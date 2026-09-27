@@ -127,7 +127,8 @@ woman or child, or a family on auto or whose student has gone (answered at once,
 
 **Fates by role and place** (`alamoRole`, `stormAlamo`, `tellFall`, `FIC-GONZ-381`, `-386`): see ALAMO_FATES.md §4. A
 fighter inside is killed; a chosen courier lives; every woman and child inside is spared. The chance to leave is said in words
-before it closes: at the rumour of Santa Anna's march (`warnGarrison`, `FIC-GONZ-383`) and on every courier night.
+before it closes: with Blas Herrera's disbelieved warning on 20 February (`tellHerrera` in `sim/surprise.mjs`, `FIC-GONZ-383`;
+until 2026-09-26 a rumour of Santa Anna's march, `warnGarrison`, which the owner ruled out) and on every courier night.
 
 Evidence (same computer, headless Chrome): `tests/alamo-runner.test.mjs` (13 tests) and `tests/decision-budget.test.mjs`
 (10), plus one new test each in `tests/military-pacing.test.mjs` and `tests/military-attention.test.mjs`; the injection
