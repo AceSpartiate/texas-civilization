@@ -1,9 +1,9 @@
 # Claude handoff — Astra foundation
 
-## Four owner decisions of 2026-09-27: the baby on the hip, one milk cow, Béxar's signs, phones a gate for the panel (worktree branch; not released)
+## Four owner decisions of 2026-09-27: the baby on the hip, one milk cow, Béxar's signs, phones a gate for the panel (worktree branch; released in v2026.09.27.1)
 
 Built on `worktree-agent-a9edddbea550152b5` from main `d710d28`, merged with `origin/main` before finishing. Not pushed, not
-merged to main, not released. Every decision is the owner's, by multiple choice, 2026-09-27.
+released in v2026.09.27.1. Every decision is the owner's, by multiple choice, 2026-09-27.
 
 **1. A woman carrying a baby walks a quarter slower - on foot only** (`FIC-GONZ-630`; docs/CHILDREN.md §6). `hipPace`
 (sim/babies.mjs), called from `beginTravel` after `takeBabyAlong` and before anything led is put on the road: whoever walks with a
@@ -57,11 +57,11 @@ a woman should be. (b) The cow goes at the family's pace; a real cow would hold 
 volunteers and dancers are the colonists' figures until Tejano art lands (docs/ART_REQUESTS.md, request 2026-09-27). (d) Still open
 from docs/CHILDREN.md §9: obedience for ten to fifteen, the idle child in the guided start, how often a baby cries.
 
-## Integration: the surprise at Béxar, the proofs brought back, the children, the pyres; famous people drawn on the map — 2026-09-27 (worktree branch `worktree-agent-a231238561f3f27b9` from main 6313c81; not released)
+## Integration: the surprise at Béxar, the proofs brought back, the children, the pyres; famous people drawn on the map — 2026-09-27 (worktree branch `worktree-agent-a231238561f3f27b9` from main 6313c81; released in v2026.09.27.1)
 
 Merged in order, every feature kept: `worktree-agent-a757a70ee43238054` (the surprise at Béxar), `worktree-agent-ae6b12e52c66777ca`
 (every browser proof brought back), `worktree-agent-a85dd510056930d51` (children, obedience, babies, the Scrape's work) and
-Astra's `e780c3e` (separated Alamo funeral pyres). Not pushed, not merged to main, not released.
+Astra's `e780c3e` (separated Alamo funeral pyres). released in v2026.09.27.1.
 
 **Resolutions that mattered.**
 - **The Alamo's February 23** (`sim/battles/alamo.mjs`): the surprise's longer arrival (80 min, 14:30-15:50) and shorter red
@@ -118,7 +118,7 @@ width), `screen-overlap` (bar lifted in a lesson) - retired with the reason in e
   campaign art, 5fa99d3 Francita Alavez, 7f69b95 Goliad prisoners) not on origin/main and not merged here; the Twin Sisters'
   campaign art touches what `drawFamous` draws.
 
-## Enrique Esparza and his family at the Alamo, and Gregorio's burial — 2026-09-26 (worktree branch from main 9af00d4, local main c31d6e7 and origin/main 9b5a60d merged; not released)
+## Enrique Esparza and his family at the Alamo, and Gregorio's burial — 2026-09-26 (worktree branch from main 9af00d4, local main c31d6e7 and origin/main 9b5a60d merged; released in v2026.09.27.1)
 
 The owner asked *"is enrique esparza included in our famous person's list?"* - he was not (only his father Gregorio was drawn,
 at the church guns) - and answered *"yes, add enrique and his family"*. docs/BATTLES.md **§14.6** is the build;
@@ -201,7 +201,7 @@ small child and settler (`docs/ART_REQUESTS.md`, request 2026-09-26 "the Esparza
 **Not done.** The boy killed beside Enrique (`HIST-TEX-433`; the existing ceiling: noncombatants killed in the storming are not
 drawn). The family before February 23 on the map. Their own art. Not released, not pushed, not merged to main.
 
-## The surprise at Béxar: no word of a march, the bell on February 23, the snow at the ending — 2026-09-26 (worktree branch from main 75eb715, main merged at c31d6e7 and origin/main at 9b5a60d; not released)
+## The surprise at Béxar: no word of a march, the bell on February 23, the snow at the ending — 2026-09-26 (worktree branch from main 75eb715, main merged at c31d6e7 and origin/main at 9b5a60d; released in v2026.09.27.1)
 
 The owner, 2026-09-26: *"i thought that part of the reason the texians were so unprepared was they knew about the snows and
 presumed that Santa Anna wouldn't march until after they broke. if that's true, then news appropriate to that, but not that
@@ -271,7 +271,7 @@ as asked - nobody hears it - and said at the ending. Tell them after all, as an 
 a family with somebody in Béxar see the town empty in the days before (Sutherland's carts, the Tejano volunteers resigning on the
 21st), or the fandango of the 22nd? (3) Keep Herrera's warning to families with somebody in Béxar only?
 
-## The Mexican advance's places: Thompson's, the Old Fort, Stafford's, New Washington and Mrs. Powell's on the map — 2026-09-26 (worktree branch `advance-places` from main 9d702eb, main merged at 75eb715 - docs only; not released)
+## The Mexican advance's places: Thompson's, the Old Fort, Stafford's, New Washington and Mrs. Powell's on the map — 2026-09-26 (worktree branch `advance-places` from main 9d702eb, main merged at 75eb715 - docs only; released in v2026.09.27.1)
 
 The owner answered docs/SCRAPE.md §10 by multiple choice on 2026-09-26: (a) leaving - **"Nobody"**, (b) the foragers -
 **"Burn it"**, (d) the reach - **"Five miles"**, all as built; (c) the off-map stops - **"Real places to go"**. The four are
@@ -320,7 +320,7 @@ item 4).
 **For the owner.** Nothing open from §10. Mrs. Powell's stands within a mile of the house (the marker has no coordinates);
 if a surveyed site turns up it is one line in `scripts/build-colonies-map.mjs` and a regenerate.
 
-## The failing and flaky browser proofs brought back — 2026-09-26/27 (branch worktree-agent-ae6b12e52c66777ca, from 9af00d4, main merged at c31d6e7; not released)
+## The failing and flaky browser proofs brought back — 2026-09-26/27 (branch worktree-agent-ae6b12e52c66777ca, from 9af00d4, main merged at c31d6e7; released in v2026.09.27.1)
 
 Owner, 2026-09-26: *"dedicate a sub agent to fixing the failing browser proofs"*. Every `test:*` browser proof was run (two at
 a time, same computer), each failure diagnosed, and each fixed where the fault was; nothing was made to pass by checking less.
@@ -399,7 +399,7 @@ biome-game (one), travel-drawn (two browser), creation-words (three), lesson (th
 now caught by tests/lesson.test.mjs), rain-work (one), wagons (three, and the harness made CRLF-aware, as beasts), and
 panel-silence's own `--inject` (one).
 
-## Children, babies and the Runaway Scrape's own work — 2026-09-26 (worktree branch from main 9af00d4, main merged at c31d6e7; not released)
+## Children, babies and the Runaway Scrape's own work — 2026-09-26 (worktree branch from main 9af00d4, main merged at c31d6e7; released in v2026.09.27.1)
 
 The owner, 2026-09-26: *"children that are too small don't do anything on the farm. we n3ed to make them do stuff. actions
 specifically for them . different types of play, and if they're idle they should find the nearest 0arent and engage them in an
