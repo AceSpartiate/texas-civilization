@@ -22,6 +22,9 @@ import { advanceRunners, runnerInvalid } from './alamo-runner.mjs';
 import { decisionClockInvalid, decisionPressing, spendDecisionBudget } from './decision-budget.mjs';
 import { advanceFlight, flee, flightProjection, householdAsKnown, scrapeInvalid, share, stayHome } from './scrape.mjs';
 import { answerRoad, registerRoadChores } from './road.mjs';
+// The family's own route on the Scrape, and the chases the Host watches (owner, 2026-09-27).
+import { setRoute } from './flight-route.mjs';
+import { chasesForHost } from './pursuit.mjs';
 // What the family does on the Runaway Scrape besides run, children and grown-ups (sim/flight-work.mjs, docs/CHILDREN.md §7).
 import { advanceFlightWork, cowLine, flightWorkInvalid, registerFlightWork, walkingShare } from './flight-work.mjs';
 import { WATER_HIGH, WATER_SHUT, waterAt, weatherAt, weatherOn } from './weather.mjs';
@@ -523,6 +526,8 @@ export function seenTravel(world, entity) {
   // Who drives, rides and walks on a family's journey together (sim/company.mjs): the family's own, so its page draws them there.
   return { location: entity.location, travel: { from: travel.from, to: travel.to, points: travel.points, progress: travel.progress, distance: travel.distance, speed: travel.speed, step, mode: travel.mode, ...seatOfTravel(travel) } };
 }
+/** A route as sent by a page: the stops as place ids and a way for each, nothing else read. */
+const routeInput = raw => ({ stops: Array.isArray(raw?.stops) ? raw.stops.map(String).slice(0, 12) : [], ways: Array.isArray(raw?.ways) ? raw.ways.map(String).slice(0, 12) : [] });
 export function progressTravel(world, entity, units = 1) {
   const travel = entity.travel; if (!travel) return;
   // A rider who has stopped to speak with somebody is still on a journey - `siteId` stays
@@ -920,7 +925,9 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // Asked inside the Alamo whether they will carry a letter out (sim/alamo.mjs).
   if (input.action === 'alamo-courier') { answerCourier(world, entity, input.answer); return; }
   // The family leaves for the east (sim/scrape.mjs): the household's own decision, given by its main person.
-  if (input.action === 'flee') { flee(world, household, { take: input.take || {}, refuge: input.refuge }); return; }
+  if (input.action === 'flee') { flee(world, household, { take: input.take || {}, refuge: input.refuge, ...(input.route && { route: routeInput(input.route) }) }); return; }
+  // Where the family goes on the road, and by which way (sim/flight-route.mjs): set, or changed, by its own main person.
+  if (input.action === 'flight-route') { setRoute(world, household, routeInput(input.route || input)); return; }
   // Or decides to stay and take what comes: its own answer, since silence now packs the wagon after a day (sim/auto.mjs).
   if (input.action === 'flight-stay') { stayHome(world, household); return; }
   // The road's questions (sim/road.mjs): the bogged wagon, the army close behind - the family's answer, given by anybody of it.
@@ -1271,6 +1278,9 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     ...(overview && { overview: { lands: overview.lands, ...(overview.army && { army: overview.army }) } }),
     // The Host's live page (sim/host.mjs): the class in words, the Rumor Mill and the spotlight. Never a student's.
     ...(role === 'host' && { live: hostLiveProjection(world, lessonHostWords) }),
+    // Every family's chase on the Scrape, for the Host's map (sim/pursuit.mjs): the family's own is on its flight. Absent when
+    // there is none, which is also every class saved before.
+    ...(() => { if (role !== 'host') return {}; const chases = chasesForHost(world); return chases.length ? { chases } : {}; })(),
     // The end of the game, and only once it has ended: each family's coin and glory revealed, and the
     // Host's closing view (sim/ending.mjs, docs/MONEY_AND_GLORY.md steps 4-5).
     ...endingProjection(world, householdId, role),

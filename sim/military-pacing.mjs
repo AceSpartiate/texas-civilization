@@ -8,6 +8,7 @@
 // boundary across households.
 import { battleStep } from './battle-stage.mjs';
 import { columnsNow, foragersOf } from './advance.mjs';
+
 export const MILITARY_TRAVEL_MINUTES = 120;
 export const MILITARY_DECISION_MINUTES = 20;
 
@@ -74,8 +75,25 @@ export function columnWatched(world) {
   });
 }
 
+/**
+ * A chase on the Scrape a student is watching holds the clock as a battle's watched phases do (sim/pursuit.mjs, `FIC-GONZ-666`):
+ * to the step the chase set itself (`chase.step`), for a played family at its screen. Read here without importing, as the
+ * flight is in sim/clock.mjs: sim/pursuit.mjs reaches the chores, and this module is loaded under them.
+ */
+export function chaseStep(world) {
+  let best = null;
+  for (const household of Object.values(world.households || {})) {
+    const step = household.flight?.chase?.step;
+    if (!step || !household.played || household.absent) continue;
+    if (best === null || step < best) best = step;
+  }
+  return best;
+}
+
 export function militaryMinutes(world, proposed) {
   proposed = battleMinutes(world, proposed);
+  const chase = chaseStep(world);
+  if (chase !== null) proposed = Math.min(proposed, chase);
   if (proposed > MILITARY_TRAVEL_MINUTES && columnWatched(world)) proposed = MILITARY_TRAVEL_MINUTES;
   const people = attendedMilitary(world);
   if (!people.length) return proposed;

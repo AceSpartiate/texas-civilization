@@ -115,8 +115,23 @@ const crossingMiles = (site, modeId) => (site.kind === 'ferry' ? ferryMiles(mode
  * `ferries: false` leaves the ferries' wait out: the flight of the Runaway Scrape, whose flooded crossings are waited at by
  * its own rule (sim/scrape.mjs `CROSSING_HOURS`).
  */
-export function findWay(world, fromSiteId, toSiteId, modeId = 'foot', { ferries: waitForFerries = true } = {}) {
-  const { sites, routes } = world.map;
+/**
+ * Options for the Runaway Scrape's own routes (sim/flight-route.mjs, owner 2026-09-27: "the player choosing destination
+ * spots. staying on a road is faster, but more visible"), each absent for every other caller, which then goes exactly as it
+ * always did:
+ * - `origin`: a point to start from instead of a place (a family changing its route mid-road), with `originEdges`, the
+ *   stretches of its own road on to places from there (`{ to, points, pace }`), as well as across country to any place near.
+ * - `roadCost`: road stretches cost this many times their going, so a family keeping off the roads takes a road only where
+ *   there is no way across (a big river's crossing).
+ * - `acrossAll` with `acrossReach`: across-country lines between every two of `acrossNodes` (place ids) within that reach,
+ *   not only out from the start and in to the end; `extraSites`, waypoints by id that are no place of the map, and
+ *   `extraEdges`, stretches of road between them (`{ from, to, points }`).
+ */
+const acrossMemo = new WeakMap();
+export function findWay(world, fromSiteId, toSiteId, modeId = 'foot', { ferries: waitForFerries = true, origin = null, originEdges = [], roadCost = 1, acrossAll = false, acrossReach = OVERLAND_REACH, acrossNodes = null, extraSites = null, extraEdges = [] } = {}) {
+  const { routes } = world.map;
+  // Points that are no place of the map but may be gone through (a way across country's waypoints), by id, as places are.
+  const sites = origin || extraSites ? { ...world.map.sites, ...(extraSites || {}), ...(origin && { [fromSiteId]: { id: fromSiteId, x: origin.x, y: origin.y } }) } : world.map.sites;
   const from = sites[fromSiteId], to = sites[toSiteId];
   if (!from || !to || fromSiteId === toSiteId) return null;
   const edges = new Map();
@@ -128,21 +143,32 @@ export function findWay(world, fromSiteId, toSiteId, modeId = 'foot', { ferries:
       const segments = legPace(route, forward, modeId);
       const cost = segments.reduce((sum, s) => sum + s.length * segmentPace(s.length, s.ground, modeId), 0)
         + (waitForFerries ? crossingsOn(world, route).reduce((wait, { site }) => wait + crossingMiles(site, modeId), 0) : 0);
-      add(forward ? route.from : route.to, { to: forward ? route.to : route.from, cost, route, forward });
+      add(forward ? route.from : route.to, { to: forward ? route.to : route.from, cost: cost * roadCost, route, forward });
     }
   }
+  // Along the family's own road from where it stands, to the places at either end of the stretch it is on.
+  // And any short stretch of road given (a big river's crossing, for a way across country), from one waypoint to another.
+  for (const edge of [...originEdges.map(one => ({ ...one, from: fromSiteId })), ...extraEdges]) if (sites[edge.from] && sites[edge.to] && edge.points?.length >= 2) add(edge.from, { to: edge.to, cost: polylineLength(edge.points) * roadCost, path: edge });
   // Across country: out from where they are to any place near enough, in to where they are going from any place near
   // enough, and straight there. Only what is within reach is costed, and each line once.
   const near = point => Object.values(sites).filter(site => distance(site, point) <= OVERLAND_REACH);
+  // Lines between two places are the same for every family on this map, and are kept (`acrossMemo`); a line from a point is not.
+  if (!acrossMemo.has(world.map)) acrossMemo.set(world.map, new Map());
+  const memo = acrossMemo.get(world.map);
   const across = new Map();
   const acrossEdge = (a, b) => {
-    const key = `${a.id}>${b.id}`;
-    if (!across.has(key)) across.set(key, overland(world, a, b, modeId));
-    const way = across.get(key);
+    const key = `${a.id}>${b.id}:${modeId}`;
+    const store = a.id === fromSiteId && origin ? across : memo;
+    if (!store.has(key)) store.set(key, overland(world, a, b, modeId));
+    const way = store.get(key);
     if (way) add(a.id, { to: b.id, cost: way.cost, overland: way });
   };
   for (const site of near(from)) if (site.id !== fromSiteId) acrossEdge(from, site);
   for (const site of near(to)) if (site.id !== toSiteId && site.id !== fromSiteId) acrossEdge(site, to);
+  if (acrossAll) {
+    const nodes = (acrossNodes || []).map(id => sites[id]).filter(Boolean);
+    for (const a of [from, ...nodes]) for (const b of [...nodes, to]) if (a.id !== b.id && b.id !== fromSiteId && a.id !== toSiteId && distance(a, b) <= acrossReach) acrossEdge(a, b);
+  }
 
   const best = new Map([[fromSiteId, { cost: 0, via: null }]]);
   const queue = [fromSiteId], done = new Set();
@@ -164,6 +190,8 @@ export function findWay(world, fromSiteId, toSiteId, modeId = 'foot', { ferries:
   const legs = [];
   for (let node = toSiteId; best.get(node).via; node = best.get(node).via.from) legs.unshift(best.get(node).via);
   const points = [{ x: from.x, y: from.y }], ground = [], pace = [], nodes = [{ id: fromSiteId, at: 0 }], routeIds = [];
+  // The stretches across country, as `[from, to]` in miles along the way: where a traveller is off the roads.
+  const offRoad = [];
   let at = 0;
   for (const { edge } of legs) {
     if (edge.overland) {
@@ -173,6 +201,20 @@ export function findWay(world, fromSiteId, toSiteId, modeId = 'foot', { ferries:
         if (edge.overland.factor !== 1) pace.push([points.length - 1, edge.overland.factor]);
         ground.push(edge.overland.ground);
         points.push({ x: end.x, y: end.y });
+        offRoad.push([Math.round(at * 1000) / 1000, Math.round((at + length) * 1000) / 1000]);
+        at += length;
+      }
+    } else if (edge.path) {
+      // The rest of the stretch the family is on, as it was going (its own pace kept, segment by segment).
+      const slow = new Map(edge.path.pace || []);
+      for (let index = 1; index < edge.path.points.length; index++) {
+        const a = edge.path.points[index - 1], b = edge.path.points[index], length = distance(a, b);
+        if (length === 0) continue;
+        const factor = slow.get(index - 1) || 1;
+        if (factor !== 1) pace.push([points.length - 1, factor]);
+        ground.push(null);
+        points.push({ x: b.x, y: b.y });
+        if (edge.path.across) offRoad.push([Math.round(at * 1000) / 1000, Math.round((at + length) * 1000) / 1000]);
         at += length;
       }
     } else {
@@ -198,7 +240,7 @@ export function findWay(world, fromSiteId, toSiteId, modeId = 'foot', { ferries:
   const ferried = [], waded = [];
   if (waitForFerries) {
     for (const { edge } of legs) {
-      if (edge.overland) continue;
+      if (edge.overland || edge.path) continue;
       for (const { site, at: over } of crossingsOn(world, edge.route)) {
         if (ferried.includes(site.id) || waded.includes(site.id)) continue;
         let segment = -1, best = Infinity;
@@ -216,5 +258,5 @@ export function findWay(world, fromSiteId, toSiteId, modeId = 'foot', { ferries:
     }
     pace.sort((a, b) => a[0] - b[0]);
   }
-  return { points, distance: polylineLength(points), routeIds, nodes, pace, overland: legs.some(leg => leg.edge.overland), ...(ground.some(Boolean) && { ground }), ...(ferried.length && { ferries: ferried }), ...(waded.length && { fords: waded }) };
+  return { points, distance: polylineLength(points), routeIds, nodes, pace, overland: legs.some(leg => leg.edge.overland), ...(ground.some(Boolean) && { ground }), ...(ferried.length && { ferries: ferried }), ...(waded.length && { fords: waded }), ...(offRoad.length && { offRoad }) };
 }

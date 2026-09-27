@@ -80,7 +80,7 @@ export const ALWAYS = Object.freeze([
   'offer', 'accept-offer', 'decline-offer', 'withdraw-offer', 'chore:help-raise',
   'help', 'stay', 'go-see', 'stay-home', 'go-upriver', 'stay-in-town', 'turn-out', 'stay-put',
   'send-for', 'detachment-go', 'detachment-stay', 'army-answer', 'houston-answer', 'alamo-courier',
-  'road-answer', 'flee', 'flight-stay', 'winter-recall',
+  'road-answer', 'flee', 'flight-stay', 'flight-route', 'winter-recall',
   // And the X on the strip (owner, 2026-09-22: "i should be able to X off the tutorial to stop it and just do what i
   // want"). A lesson that could refuse the order to stop itself would be the unavoidable thing the owner has taken back.
   'stop-lesson',

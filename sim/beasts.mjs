@@ -58,7 +58,7 @@ export function beastsOf(world, household, role) {
 /** Every animal and wagon the family owns. */
 export const allBeasts = (world, household) => (household?.property || []).map(id => world.entities[id]).filter(beast => roleOf(beast));
 /** The ones still the family's: not taken by the army, not left in a bog. */
-export const kept = beast => !['taken', 'lost'].includes(beast?.condition);
+export const kept = beast => !['taken', 'lost', 'dead'].includes(beast?.condition);
 
 /**
  * The names bought animals are given, in the order a family buys them (`FIC-GONZ-389`, invented): Bess the mare and Juniper the ox

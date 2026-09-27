@@ -41,6 +41,10 @@ import { awardGlory } from './glory.mjs';
 import { COLUMNS, ORDER_GRACE_MINUTES, ROAD_DETOUR, clockOf, columnLeg as advanceLeg, headAt } from './advance.mjs';
 // The children's bundles and the lookout on the road behind (sim/flight-work.mjs, docs/CHILDREN.md §7).
 import { bundleRoom, cowPace, lookoutMiles, lookoutOf, loseCow } from './flight-work.mjs';
+// The soldiers who can see a family, the order to halt and the chase (sim/pursuit.mjs, owner 2026-09-27), and the family's own
+// route (sim/flight-route.mjs): a cycle through these, safe because each side uses the other only inside functions.
+import { advancePursuit, altoOptions, altoText, answerAlto, chaseProjection, runRefusal, sightMiles } from './pursuit.mjs';
+import { flightPlaces, routeProjection } from './flight-route.mjs';
 
 const DAY = 1440;
 const round = value => Math.round(value * 100) / 100;
@@ -159,7 +163,7 @@ export function withFamily(world, household) {
   // refuges and Houston's camps, and a serving man at Lynchburg was taken prisoner with his refugee family by Santa Anna's
   // column the day before the battle (docs/battle-research/staging.md §8.6 e, `FIC-GONZ-442`).
   const there = one => one.service?.status !== 'serving' && (flight?.status === 'fled' ? one.travel?.purpose === 'flee' : flight?.status === 'refuged' ? (!one.travel && one.location?.siteId === flight.refuge) : false);
-  return { people: people(world, household).filter(there), beasts: beasts(world, household).filter(beast => there(beast) && !['taken', 'lost'].includes(beast.condition)) };
+  return { people: people(world, household).filter(there), beasts: beasts(world, household).filter(beast => there(beast) && !['taken', 'lost', 'dead'].includes(beast.condition)) };
 }
 /** Where the family stands: the leader's point on the road, or the refuge. */
 export function familyPoint(world, household) {
@@ -212,6 +216,17 @@ export const ROAD_ASKS = {
       'press-on': { test: (world, household) => household.flight.status !== 'refuged' || Boolean(nextRefuge(world, household)), why: 'There is no refuge further east on the map from here.' },
     },
   },
+  // Mexican troops close enough to call on the family to halt (sim/pursuit.mjs, owner 2026-09-27): halt and be taken, or run
+  // and be fired on. Silence halts, as the soldiers ordered (`ALTO_PATIENCE_TICKS`), and an automatic family halts at once.
+  alto: {
+    text: altoText,
+    fallback: ['halt'],
+    options: altoOptions,
+    requires: {
+      run: { test: (world, household) => !runRefusal(world, household), why: 'The family cannot run as it is.' },
+      'abandon-run': { test: (world, household) => !(household.flight.status === 'refuged' && !nextRefuge(world, household)), why: 'There is no refuge further east to run for.' },
+    },
+  },
 };
 
 /** How much the grown people with the family can carry on foot, in the wagon's units of room. */
@@ -236,7 +251,7 @@ export function roadAskAvailability(world, household, optionId) {
   const ask = household.flight?.ask;
   if (!ask) return { can: false, why: 'Nobody is waiting on an answer.' };
   const rule = ROAD_ASKS[ask.id]?.requires?.[optionId];
-  if (rule && !rule.test(world, household)) return { can: false, why: rule.why };
+  if (rule && !rule.test(world, household)) return { can: false, why: (ask.id === 'alto' && optionId === 'run' && runRefusal(world, household)) || rule.why };
   return { can: true, why: '' };
 }
 
@@ -290,7 +305,7 @@ export function answerRoad(world, household, option, how = 'answered') {
     if (option === 'press-on') pressOn(world, household);
     else if (option === 'abandon') abandonWagon(world, household);
     else if (option === 'stay') flight.danger.stayed = true;
-  }
+  } else if (ask.id === 'alto') answerAlto(world, household, option);
   return option;
 }
 
@@ -477,22 +492,18 @@ export function advanceRoad(world, household) {
     delete flight.danger;
     if (flight.ask?.id === 'danger') delete flight.ask;
   }
-  const held = Boolean(flight.bog) || camp;
-  const still = !moving || held || Boolean(flight.crossing);
-  // A family the army has already come up with and stripped where it sits is not taken again by the next column down the same
-  // road (since 2026-09-26 three pass San Felipe in ten days): only once it has set out again (`leftMinute`) can it be caught.
-  const strippedHere = flight.overtaken && !(flight.leftMinute > flight.overtaken.minute);
-  // Nor in the day its order gives it (`ORDER_GRACE_MINUTES`, `FIC-GONZ-465`): the record's Gonzales families left with
-  // Houston the night before Sesma came in (`HIST-TEX-580`), and a family told at dawn on the 14th is let get clear of the town.
-  const graced = Number.isFinite(flight.orderedMinute) && world.minute < flight.orderedMinute + ORDER_GRACE_MINUTES;
-  const caught = !strippedHere && !graced && [near, nearest].find(one => one && !(flight.overtakenBy || []).includes(one.id) && one.miles <= (still ? OVERTAKEN_MILES : CLOSE_MILES));
-  if (caught) overtake(world, household, caught);
+  // Coming up with the family (owner, 2026-09-27; sim/pursuit.mjs): no longer a circle round each column's head, but the
+  // soldiers who can see the family - a column on its road, or a patrol out ahead of one - coming after it, calling on it to
+  // halt, and taking it if it halts or they catch it. The rules kept from before are there: never twice by the same column,
+  // not again where it was stripped until it has set out (three columns pass San Felipe in ten days), and never in the day its
+  // order gives it (`ORDER_GRACE_MINUTES`, `FIC-GONZ-465`: the record's Gonzales families left the night before Sesma came in).
+  const chased = advancePursuit(world, household);
   // A question nobody answered in its time is decided as auto decides.
   if (flight.ask && world.tick - flight.ask.openedTick >= ROAD_PATIENCE_TICKS) {
     const option = roadAutoAnswer(world, household);
     if (option) answerRoad(world, household, option, 'silence'); else delete flight.ask;
   }
-  return Boolean(flight.bog) || camping(world, household);
+  return Boolean(flight.bog) || camping(world, household) || chased;
 }
 
 /** What the family sees of the road: the weather, the bog, the camp, the danger and the open question. Never a fate. */
@@ -508,6 +519,10 @@ export function roadProjection(world, household) {
     ...(flight.danger && { danger: { name: flight.danger.name, miles: Math.round(flight.danger.miles), towardName: flight.danger.towardName, ...(flight.danger.stayed && { stayed: true }) } }),
     ...(flight.overtaken && { overtaken: true }),
     ...(flight.ask && { ask: roadAskProjection(world, household) }),
+    // The soldiers after the family, as it sees them (sim/pursuit.mjs); where it is going and how, and how far off it can be seen.
+    ...(() => { const chase = chaseProjection(world, household); return chase ? { chase } : {}; })(),
+    ...(() => { const route = routeProjection(world, household); return route ? { route: { ...route, places: flightPlaces(world.map) } } : {}; })(),
+    ...(() => { const sight = flight.status === 'fled' || flight.status === 'refuged' ? sightMiles(world, household) : null; return sight ? { seen: sight } : {}; })(),
   };
 }
 

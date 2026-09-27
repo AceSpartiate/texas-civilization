@@ -75,6 +75,8 @@ export function whereWords(world, person, household) {
     if (purpose === 'flee') {
       // The road east (sim/road.mjs): held by the mud, the river or the camp, or overtaken.
       const flight = household.flight || {}, to = placeName(world, person.travel.to);
+      // Chased (sim/pursuit.mjs): seen and followed, called on to halt, running under fire.
+      if (flight.chase && !['caught', 'escaped'].includes(flight.chase.phase)) return `${sick}${flight.chase.answer === 'run' ? 'running from' : flight.chase.phase === 'hailed' ? 'ordered to halt by' : 'followed by'} ${flight.chase.kind === 'cavalry' ? 'Mexican horsemen' : 'Mexican soldiers'} on the road to ${to}`;
       if (flight.overtaken && world.minute - flight.overtaken.minute <= 1440) return `${sick}overtaken by the Mexican army on the road east to ${to}`;
       if (flight.bog) return `${sick}bogged in the mud on the road east to ${to}`;
       if (flight.crossing) return `${sick}waiting to get over at ${placeName(world, flight.crossing.siteId)}`;

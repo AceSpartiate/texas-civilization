@@ -35,6 +35,10 @@ import { learnOwnBurning, recordFarmBurned } from './advance-word.mjs';
 // What the family does on the road besides run (sim/flight-work.mjs, docs/CHILDREN.md §7): what it hid, the children's bundles, the
 // fire at the camp, and a sick child let over first at the ferry.
 import { bundleRoom, cowHome, cowPace, crossingHoursFor, digUpCache, fireKept, heldToCow, hideAtLeaving, milkCow, takeCow } from './flight-work.mjs';
+// The family's own route - where it makes for, by which stops, by the road or across country - and the soldiers who may see it
+// on the way (owner, 2026-09-27; sim/flight-route.mjs, sim/pursuit.mjs).
+import { flightPlaces, mountedPace, nextLeg, planRoute, routeInvalid, routeRefusal, thinLine } from './flight-route.mjs';
+import { pursuitInvalid } from './pursuit.mjs';
 
 const GONE = ['dead', 'captured'];
 const DAY = 1440;
@@ -147,12 +151,20 @@ export function flightRoom(world, household) {
 const spaceOf = take => Object.entries(take).reduce((sum, [good, amount]) => sum + (FLIGHT_SPACE[good] ?? 0) * amount, 0);
 
 /** Why this family cannot leave as asked, or null. */
-export function fleeRefusal(world, household, { take = {}, refuge } = {}) {
+export function fleeRefusal(world, household, { take = {}, refuge, route } = {}) {
   const flight = household.flight;
   if (!scrapeOn(world)) return 'Nobody has told the family to leave.';
   if (!flight || !['ordered', 'stayed'].includes(flight.status)) return flight ? 'The family has already left.' : 'Nobody has told the family to leave.';
-  if (!REFUGES.includes(refuge)) return 'Choose where the family will make for.';
-  if (world.map.sites[refuge].x <= world.map.sites[household.homeSiteId].x + 2) return `${world.map.sites[refuge].name} is not east of here.`;
+  // A route of its own (sim/flight-route.mjs, owner 2026-09-27): any place a family could make for, by the road or across
+  // country, with stops. Without one, a refuge east of here by the road, as it always was.
+  if (route !== undefined) {
+    const why = routeRefusal(world, household, route);
+    if (why) return why;
+    if (route.stops.includes(household.homeSiteId)) return 'That is where the family is.';
+  } else {
+    if (!REFUGES.includes(refuge)) return 'Choose where the family will make for.';
+    if (world.map.sites[refuge].x <= world.map.sites[household.homeSiteId].x + 2) return `${world.map.sites[refuge].name} is not east of here.`;
+  }
   for (const [good, amount] of Object.entries(take)) {
     if (!(good in FLIGHT_SPACE) || !Number.isInteger(amount) || amount < 0) return 'Say how much of each thing, in whole amounts.';
     if (amount > Math.floor(household.resources?.[good] ?? 0)) return `There is not that much ${good} in the house.`;
@@ -279,22 +291,28 @@ export function stayHome(world, household) {
     : 'The family will stay, and take what comes. The Texas army will burn what it finds standing, and whoever is at home when the Mexican army comes may be taken. The road east is still open.', { importance: 2 });
 }
 
-export function flee(world, household, { take = {}, refuge }) {
-  const why = fleeRefusal(world, household, { take, refuge });
+export function flee(world, household, { take = {}, refuge, route }) {
+  const why = fleeRefusal(world, household, { take, refuge, ...(route !== undefined && { route }) });
   if (why) throw new Error(why);
   const { mode, wagons } = flightRoom(world, household);
+  // The first leg of the family's own route, planned from home for the train it is leaving with (sim/flight-route.mjs).
+  const planned = route !== undefined ? planRoute(world, household, route, { mode, from: { siteId: household.homeSiteId } }) : null;
+  if (planned?.why) throw new Error(planned.why);
+  if (route !== undefined) refuge = route.stops[0];
   const kept = { ...household.resources };
   // What is taken rides; the rest is left in the house for the fire.
   for (const good of Object.keys(FLIGHT_SPACE)) household.resources[good] = 0;
   const goers = atHome(world, household).filter(person => person.health?.condition !== 'wounded');
   // The flight waits at the flooded crossings by its own rule (`crossingsAlong`), not the ferries' ordinary hour.
-  const path = findWay(world, household.homeSiteId, refuge, mode, { ferries: false });
+  const path = planned ? planned.legs[0] : findWay(world, household.homeSiteId, refuge, mode, { ferries: false });
   if (!path) throw new Error('No road east from here.');
   const { cart, carreta } = flightRoom(world, household);
-  const departure = tell(world, household, `The family loaded ${Object.entries(take).filter(([, amount]) => amount > 0).map(([good, amount]) => `${amount} ${good}`).join(', ') || 'what it could carry'} and set out east for ${world.map.sites[refuge].name}${mode === 'wagon' ? (wagons ? ` with the ${wagons} wagons and their oxen` : cart ? ' with the ox and cart' : carreta ? ' with the ox and carreta' : ' with the ox and wagon') : ' on foot'}.`);
+  const destination = route !== undefined ? route.stops.at(-1) : refuge;
+  const byWay = route !== undefined ? `${route.stops.length > 1 ? `, by way of ${route.stops.slice(0, -1).map(id => world.map.sites[id].name).join(' and ')}` : ''}${route.ways[0] === 'country' ? ', across country' : ''}` : '';
+  const departure = tell(world, household, `The family loaded ${Object.entries(take).filter(([, amount]) => amount > 0).map(([good, amount]) => `${amount} ${good}`).join(', ') || 'what it could carry'} and set out ${route !== undefined ? '' : 'east '}for ${world.map.sites[destination].name}${byWay}${mode === 'wagon' ? (wagons ? ` with the ${wagons} wagons and their oxen` : cart ? ' with the ox and cart' : carreta ? ' with the ox and carreta' : ' with the ox and wagon') : ' on foot'}.`);
   const speed = mode === 'wagon' ? WAGON_SPEED : WALK_SPEED;
   const travellers = [...goers, ...beasts(world, household).filter(beast => !beast.travel && beast.location.siteId === household.homeSiteId)];
-  const journey = () => ({ from: household.homeSiteId, to: refuge, points: path.points.map(point => ({ ...point })), progress: 0, distance: path.distance, speed, mode, purpose: 'flee', silent: true, causeId: departure, ...(path.pace?.length && { pace: path.pace }) });
+  const journey = () => ({ from: household.homeSiteId, to: refuge, points: path.points.map(point => ({ ...point })), progress: 0, distance: path.distance, speed, mode, purpose: 'flee', silent: true, causeId: departure, ...(path.pace?.length && { pace: path.pace }), ...(path.offRoad?.length && { offRoad: path.offRoad.map(run => [...run]) }) });
   // Who rides and who walks, and the pace of the slowest, in a class made since the means were rolled (sim/company.mjs): the
   // youngest and the sick in the wagons, the rest beside them, and a family on foot at the pace of its smallest walker.
   if (world.meansRoll) setOut(travellers, mode === 'wagon' ? drawnVehicles(travellers) : [], journey, riddenHorses(world, travellers));
@@ -306,7 +324,10 @@ export function flee(world, household, { take = {}, refuge }) {
     if (entity.kind === 'wagon') entity.laden = true;
     if (entity.kind !== 'person') entity.borrowedBy = goers[0]?.id || null;
   }
-  household.flight = { ...household.flight, status: 'fled', refuge, leftMinute: world.minute, mode, took: take, crossed: [] };
+  household.flight = { ...household.flight, status: 'fled', refuge: route !== undefined ? route.stops.at(-1) : refuge, leftMinute: world.minute, mode, took: take, crossed: [],
+    ...(route !== undefined && { route: { stops: [...route.stops], ways: [...route.ways], lines: planned.legs.slice(1).map(leg => thinLine(leg.points)) } }) };
+  // A family all on horseback goes at a horse's pace, and one that is not at its slowest (sim/flight-route.mjs `mountedPace`).
+  mountedPace(world, travellers);
   // On the real land the farm is left standing, with whatever did not fit in the house: burned by a column's foragers if
   // they come this way (`burnByForagers`), found again on the family's return if they never do (sim/advance.mjs, owner
   // 2026-09-26). On the invented Gonzales country, which has no columns, the Texas army burns it as they go (owner, 2026-09-16).
@@ -416,8 +437,11 @@ export function advanceFlight(world, minutes) {
         }
       }
     }
+    // Come to a stop on its route: on at once for the next (sim/flight-route.mjs); at the last, it camps there.
+    const onward = flight.status === 'fled' && !travellers.length && flight.route?.stops?.length > 1 && nextLeg(world, household);
     // Arrived at the refuge, or home again.
-    if (flight.status === 'fled' && !travellers.length) {
+    if (flight.status === 'fled' && !travellers.length && !onward) {
+      delete flight.route;
       flight.status = 'refuged'; flight.arrivedMinute = world.minute;
       tell(world, household, `The family has reached ${world.map.sites[flight.refuge].name}, and camps there with the other families from the west.`);
     }
@@ -568,6 +592,9 @@ export function flightProjection(world, household) {
     ...shown, room, mode, ...(wagons && { wagons }), ...(cart && { vehicle: 'cart' }), ...(carreta && { vehicle: 'carreta' }), space: FLIGHT_SPACE, ...(flight.stayedMinute !== undefined && { decidedToStay: true }),
     have: Object.fromEntries(Object.keys(FLIGHT_SPACE).map(good => [good, Math.floor(household.resources?.[good] ?? 0)])),
     refuges: REFUGES.filter(id => world.map.sites[id] && world.map.sites[id].x > home.x + 2).map(id => ({ id, name: world.map.sites[id].name, miles: Math.round(Math.hypot(world.map.sites[id].x - home.x, world.map.sites[id].y - home.y)) })),
+    // Every place the family may make for instead, with stops on the way (sim/flight-route.mjs): ids, whose names and points
+    // are on the page's own map.
+    places: flightPlaces(world.map).filter(id => id !== household.homeSiteId),
     // Burned as far as the family knows: a farm burned while nobody of it could see is not burned on its page yet (`unseen`).
     burned: Boolean(flight.burned && !flight.unseen),
   };
@@ -587,6 +614,9 @@ export function scrapeInvalid(world) {
   }
   const badRoad = roadInvalid(world);
   if (badRoad) return badRoad;
+  for (const household of Object.values(world.households)) { const bad = routeInvalid(world, household); if (bad) return bad; }
+  const badChase = pursuitInvalid(world);
+  if (badChase) return badChase;
   for (const entity of Object.values(world.entities)) {
     if (entity.health?.condition === 'sick' && !Number.isFinite(entity.health.recoversAt)) return 'A sickness with no mending';
   }
