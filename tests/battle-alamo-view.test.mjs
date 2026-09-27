@@ -114,10 +114,14 @@ test('Travis falls at the north battery; Joe fires from cover, hides when found,
 });
 
 test('the columns carry ladders, climb the north wall on them, and the assault is fought in the dark until the dawn comes up', () => {
+  const artAdvance = fakeArt(), advance = createBattleView(artAdvance);
+  run(advance, artAdvance, at('advance'), { seconds: 1, perTick: 2 });
+  assert.ok(artAdvance.drawn.some(one => one.clip === 'ladder-carried-e'), 'the columns did not carry the dedicated ladder art');
+  assert.ok(!artAdvance.drawn.some(one => one.clip === 'regular-climb'), 'a soldier climbed before reaching the wall');
   const art = fakeArt(), view = createBattleView(art);
   const { ctx } = run(view, art, at('north-wall'), { seconds: 4, perTick: 2 });
-  assert.ok(art.drawn.some(one => one.clip === 'regular-march-n'), 'nobody was drawn going up a ladder');
-  assert.ok(ctx.calls.filter(call => call[0] === 'lineTo').length >= 12, 'no ladders were drawn');
+  assert.ok(art.drawn.some(one => one.clip === 'regular-climb'), 'nobody was drawn climbing a ladder');
+  assert.ok(art.drawn.some(one => one.sprite === 'ladder-set-e' || one.sprite === 'ladder-set-w'), 'no ladder was set against the wall');
   const dark = ctx.calls.find(call => call[0] === 'fillStyle' && /rgba\(14,20,44/.test(call[1]));
   assert.ok(dark, 'the assault before dawn was drawn in daylight');
   const artDay = fakeArt(), day = createBattleView(artDay);

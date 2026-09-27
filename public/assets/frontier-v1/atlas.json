@@ -341,6 +341,122 @@
         ]
       }
     },
+    "alamo-scaling-ladders": {
+      "image": "atlases/alamo-scaling-ladders.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 995871,
+      "sha256": "d2f01e610613360c44644080ccc541b5055573e1e38787186e2eaaf7b3b81c68",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.772426,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              120,
+              468
+            ],
+            "columns": [
+              [
+                29,
+                633
+              ],
+              [
+                693,
+                1250
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              614,
+              1174
+            ],
+            "columns": [
+              [
+                122,
+                482
+              ],
+              [
+                769,
+                1128
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "regular-ladder-climb": {
+      "image": "atlases/regular-ladder-climb.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 636351,
+      "sha256": "76250e349410bdd45905f0a30d0944ad94124ae20ff0d697703cd574e8435463",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.83837,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              43,
+              609
+            ],
+            "columns": [
+              [
+                241,
+                452
+              ],
+              [
+                815,
+                1014
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              640,
+              1212
+            ],
+            "columns": [
+              [
+                240,
+                451
+              ],
+              [
+                816,
+                1021
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "artillery-service": {
       "image": "atlases/artillery-service.png",
       "width": 1254,
@@ -14726,6 +14842,198 @@
           461
         ],
         "visiblePixels": 39150,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ladder-carried-e-1": {
+      "sheet": "alamo-scaling-ladders",
+      "x": 29,
+      "y": 120,
+      "w": 604,
+      "h": 346,
+      "anchorX": 0.4536,
+      "anchorY": 0.9277,
+      "label": "ladder carried e 1",
+      "kind": "alamo-scaling-ladders",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          31,
+          122,
+          600,
+          342
+        ],
+        "visiblePixels": 108370,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ladder-carried-e-2": {
+      "sheet": "alamo-scaling-ladders",
+      "x": 693,
+      "y": 123,
+      "w": 557,
+      "h": 345,
+      "anchorX": 0.5189,
+      "anchorY": 0.9275,
+      "label": "ladder carried e 2",
+      "kind": "alamo-scaling-ladders",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          695,
+          125,
+          553,
+          341
+        ],
+        "visiblePixels": 105324,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ladder-set-e": {
+      "sheet": "alamo-scaling-ladders",
+      "x": 122,
+      "y": 614,
+      "w": 360,
+      "h": 559,
+      "anchorX": 0.2236,
+      "anchorY": 0.941,
+      "label": "ladder set e",
+      "kind": "alamo-scaling-ladders",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          124,
+          616,
+          356,
+          555
+        ],
+        "visiblePixels": 42027,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ladder-set-w": {
+      "sheet": "alamo-scaling-ladders",
+      "x": 769,
+      "y": 614,
+      "w": 359,
+      "h": 560,
+      "anchorX": 0.7744,
+      "anchorY": 0.9411,
+      "label": "ladder set w",
+      "kind": "alamo-scaling-ladders",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          771,
+          616,
+          355,
+          556
+        ],
+        "visiblePixels": 41953,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-climb-1": {
+      "sheet": "regular-ladder-climb",
+      "x": 241,
+      "y": 46,
+      "w": 211,
+      "h": 555,
+      "anchorX": 0.4976,
+      "anchorY": 0.9676,
+      "label": "regular climb 1",
+      "kind": "regular-ladder-climb",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          243,
+          48,
+          207,
+          551
+        ],
+        "visiblePixels": 57782,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-climb-2": {
+      "sheet": "regular-ladder-climb",
+      "x": 815,
+      "y": 43,
+      "w": 199,
+      "h": 566,
+      "anchorX": 0.5452,
+      "anchorY": 0.97,
+      "label": "regular climb 2",
+      "kind": "regular-ladder-climb",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          817,
+          45,
+          195,
+          562
+        ],
+        "visiblePixels": 56582,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-climb-3": {
+      "sheet": "regular-ladder-climb",
+      "x": 240,
+      "y": 640,
+      "w": 211,
+      "h": 572,
+      "anchorX": 0.5024,
+      "anchorY": 0.9615,
+      "label": "regular climb 3",
+      "kind": "regular-ladder-climb",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          242,
+          642,
+          207,
+          568
+        ],
+        "visiblePixels": 57314,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-climb-4": {
+      "sheet": "regular-ladder-climb",
+      "x": 816,
+      "y": 643,
+      "w": 205,
+      "h": 569,
+      "anchorX": 0.5073,
+      "anchorY": 0.9631,
+      "label": "regular climb 4",
+      "kind": "regular-ladder-climb",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          818,
+          645,
+          201,
+          565
+        ],
+        "visiblePixels": 57797,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

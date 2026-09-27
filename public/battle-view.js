@@ -1252,8 +1252,7 @@ export function createBattleView(art) {
 
   /**
    * Scaling ladders: carried at the head of a column, and against the wall where it climbs, with a man going up each.
-   * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 1 - two rails and rungs drawn on the canvas, and the
-   * marching regular moved up them, until the art exists.
+   * The authored carrier, set-ladder and climber sheets follow the existing assault positions and timing.
    */
   function drawLadders(ctx, side, centre, facing, camera, figurePx, time) {
     const n = Math.max(1, Math.min(8, side.ladders | 0));
@@ -1266,12 +1265,19 @@ export function createBattleView(art) {
       // Carried: level at shoulder height. Climbing: standing up against the wall ahead, leaning toward it.
       const top = side.climbing ? { x: base.x + facing.x * figurePx * 0.35, y: base.y - tall } : { x: base.x + facing.x * tall * 0.9, y: base.y - figurePx * 0.6 + facing.y * tall * 0.2 };
       const bottom = side.climbing ? base : { x: base.x, y: base.y - figurePx * 0.6 };
-      const nx = -(top.y - bottom.y), ny = top.x - bottom.x, len = Math.hypot(nx, ny) || 1, w = figurePx * 0.08;
-      for (const s of [-1, 1]) { ctx.beginPath(); ctx.moveTo(bottom.x + nx / len * w * s, bottom.y + ny / len * w * s); ctx.lineTo(top.x + nx / len * w * s, top.y + ny / len * w * s); ctx.stroke(); }
-      for (let r = 1; r < 6; r++) { const t = r / 6, x = bottom.x + (top.x - bottom.x) * t, y = bottom.y + (top.y - bottom.y) * t; ctx.beginPath(); ctx.moveTo(x - nx / len * w, y - ny / len * w); ctx.lineTo(x + nx / len * w, y + ny / len * w); ctx.stroke(); }
+      const painted = side.climbing
+        ? art.drawSprite(ctx, facing.x < 0 ? 'ladder-set-w' : 'ladder-set-e', base.x, base.y, tall)
+        : art.animated(ctx, 'ladder-carried-e', base.x, base.y, figurePx, `ladder:${side.id}:${i}`, { timeMs: time, flip: facing.x < 0 });
+      if (!painted) {
+        const nx = -(top.y - bottom.y), ny = top.x - bottom.x, len = Math.hypot(nx, ny) || 1, w = figurePx * 0.08;
+        for (const s of [-1, 1]) { ctx.beginPath(); ctx.moveTo(bottom.x + nx / len * w * s, bottom.y + ny / len * w * s); ctx.lineTo(top.x + nx / len * w * s, top.y + ny / len * w * s); ctx.stroke(); }
+        for (let r = 1; r < 6; r++) { const t = r / 6, x = bottom.x + (top.x - bottom.x) * t, y = bottom.y + (top.y - bottom.y) * t; ctx.beginPath(); ctx.moveTo(x - nx / len * w, y - ny / len * w); ctx.lineTo(x + nx / len * w, y + ny / len * w); ctx.stroke(); }
+      }
       if (side.climbing) {
         const up = ((time + i * 900) % 3200) / 3200;
-        art.animated(ctx, 'regular-march-n', bottom.x + (top.x - bottom.x) * up, bottom.y + (top.y - bottom.y) * up, figurePx, `climb:${i}`, { timeMs: time });
+        const x = bottom.x + (top.x - bottom.x) * up, y = bottom.y + (top.y - bottom.y) * up;
+        art.animated(ctx, 'regular-climb', x, y, figurePx * 0.8, `climb:${i}`, { timeMs: time })
+          || art.animated(ctx, 'regular-march-n', x, y, figurePx, `climb:${i}`, { timeMs: time });
       }
     }
     ctx.restore();

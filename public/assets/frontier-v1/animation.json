@@ -86,6 +86,46 @@
       "motion": "none",
       "direction": "not applicable"
     },
+    "ladder-carried-e": {
+      "frames": [
+        {
+          "sprite": "ladder-carried-e-1",
+          "duration": 330
+        },
+        {
+          "sprite": "ladder-carried-e-2",
+          "duration": 330
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "regular-climb": {
+      "frames": [
+        {
+          "sprite": "regular-climb-1",
+          "duration": 220
+        },
+        {
+          "sprite": "regular-climb-2",
+          "duration": 220
+        },
+        {
+          "sprite": "regular-climb-3",
+          "duration": 220
+        },
+        {
+          "sprite": "regular-climb-4",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north/up"
+    },
     "volunteer-gun-ram": {
       "frames": [
         {

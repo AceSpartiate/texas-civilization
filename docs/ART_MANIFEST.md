@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1602 usable sprites, 151 PNG atlases, 537 clips** (309 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1610 usable sprites, 153 PNG atlases, 539 clips** (311 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -18,6 +18,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-travis-still | 1 | 1536 × 1024 | 1367838 |
 | flag-red-siege | 4 | 1254 × 1254 | 1003596 |
 | smoke-column-far | 4 | 1254 × 1254 | 572269 |
+| alamo-scaling-ladders | 4 | 1254 × 1254 | 995871 |
+| regular-ladder-climb | 4 | 1254 × 1254 | 636351 |
 | artillery-service | 16 | 1254 × 1254 | 1171440 |
 | white-flag-regular | 4 | 1262 × 1246 | 786638 |
 | white-flag-volunteer | 4 | 1262 × 1246 | 816882 |
@@ -190,6 +192,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | smoke-column-far-2 | smoke-column-far | smoke-column-far-rise |
 | smoke-column-far-3 | smoke-column-far | smoke-column-far-rise |
 | smoke-column-far-4 | smoke-column-far | smoke-column-far-rise |
+| ladder-carried-e-1 | alamo-scaling-ladders | ladder-carried-e |
+| ladder-carried-e-2 | alamo-scaling-ladders | ladder-carried-e |
+| ladder-set-e | alamo-scaling-ladders | State artwork; no motion required |
+| ladder-set-w | alamo-scaling-ladders | State artwork; no motion required |
+| regular-climb-1 | regular-ladder-climb | regular-climb |
+| regular-climb-2 | regular-ladder-climb | regular-climb |
+| regular-climb-3 | regular-ladder-climb | regular-climb |
+| regular-climb-4 | regular-ladder-climb | regular-climb |
 | volunteer-rammer-carry-1 | artillery-service | volunteer-gun-ram |
 | volunteer-rammer-carry-2 | artillery-service | volunteer-gun-ram |
 | volunteer-ram-1 | artillery-service | volunteer-gun-ram |
@@ -1779,6 +1789,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | joe-fire-door | Pose cycle | 2 | 5200 | yes | east; mirror for west |
 | flag-red-wind | Pose cycle | 4 | 1590 | yes | not applicable |
 | smoke-column-far-rise | Pose cycle | 4 | 1760 | yes | not applicable |
+| ladder-carried-e | Pose cycle | 2 | 660 | yes | east; mirror for west |
+| regular-climb | Pose cycle | 4 | 880 | yes | north/up |
 | volunteer-gun-ram | Pose cycle | 4 | 1160 | one-shot | east; west by mirroring |
 | volunteer-gun-shot-carry | Pose cycle | 2 | 840 | yes | east; west by mirroring |
 | volunteer-gun-fire | Pose cycle | 2 | 1060 | one-shot | east; west by mirroring |
