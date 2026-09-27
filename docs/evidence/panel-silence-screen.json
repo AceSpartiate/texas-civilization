@@ -1,6 +1,6 @@
 {
   "record": "panel-silence-screen",
-  "date": "2026-09-22",
+  "date": "2026-09-27",
   "seed": "panel-silence",
   "screen": {
     "width": 1366,
@@ -11,7 +11,7 @@
       {
         "name": "Barnabas Proofwright",
         "focused": true,
-        "icons": 19,
+        "icons": 15,
         "open": 15,
         "line": null,
         "barLine": null
@@ -27,7 +27,7 @@
       {
         "name": "Simeon Proofwright",
         "focused": false,
-        "icons": 14,
+        "icons": 11,
         "open": 11,
         "line": null,
         "barLine": null
@@ -35,7 +35,7 @@
       {
         "name": "Petra Proofwright",
         "focused": false,
-        "icons": 14,
+        "icons": 12,
         "open": 12,
         "line": null,
         "barLine": null
@@ -43,7 +43,7 @@
       {
         "name": "Obed Proofwright",
         "focused": false,
-        "icons": 14,
+        "icons": 12,
         "open": 12,
         "line": null,
         "barLine": null
@@ -51,7 +51,7 @@
       {
         "name": "Delia Proofwright",
         "focused": false,
-        "icons": 14,
+        "icons": 12,
         "open": 12,
         "line": null,
         "barLine": null
@@ -59,7 +59,7 @@
       {
         "name": "Eli Proofwright",
         "focused": false,
-        "icons": 14,
+        "icons": 12,
         "open": 12,
         "line": null,
         "barLine": null
@@ -67,7 +67,7 @@
       {
         "name": "Silvano Proofwright",
         "focused": false,
-        "icons": 14,
+        "icons": 11,
         "open": 11,
         "line": null,
         "barLine": null
@@ -75,7 +75,7 @@
       {
         "name": "Benita Proofwright",
         "focused": false,
-        "icons": 14,
+        "icons": 11,
         "open": 11,
         "line": null,
         "barLine": null
@@ -129,6 +129,26 @@
         "barLine": "Paulita Proofwright is too young to be sent."
       }
     ],
+    "youngLine": {
+      "name": "Paulita Proofwright",
+      "unscrolled": {
+        "left": 65,
+        "top": 1027,
+        "right": 305,
+        "bottom": 1042
+      },
+      "line": {
+        "left": 65,
+        "top": 491,
+        "right": 305,
+        "bottom": 506
+      },
+      "column": {
+        "top": 207,
+        "bottom": 510
+      },
+      "scrolled": 536
+    },
     "captured": {
       "name": "Patience Proofwright",
       "icons": 0,
@@ -138,7 +158,7 @@
       ]
     },
     "lessonShut": {
-      "icons": 19,
+      "icons": 1,
       "open": 0,
       "barLine": null,
       "line": null
@@ -147,13 +167,15 @@
       "name": "Barnabas Proofwright",
       "barLine": "Travelling",
       "barBox": {
-        "left": 649,
-        "top": 667,
-        "right": 717,
-        "bottom": 696
+        "left": 656,
+        "top": 671,
+        "right": 710,
+        "bottom": 700
       },
       "line": null,
-      "icons": 0
+      "icons": 1,
+      "open": 0,
+      "greyed": 0
     }
   }
 }
