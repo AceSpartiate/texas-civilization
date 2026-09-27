@@ -335,15 +335,15 @@ const within = (a, b, feet) => Boolean(a && b) && Math.hypot(a.x - b.x, a.y - b.
 
 test('the Esparza family goes in with Gregorio through the church window on the evening of February 23, shelters in the sacristy through the siege and the assault, and Gregorio goes from beside them to his gun at the alarm', () => {
   // Not drawn before they come; walking in toward evening; at the window at six; in the sacristy by the end of the phase.
-  const early = fieldAt('alamo', 'red-flag', 60).view;
+  const early = fieldAt('alamo', 'red-flag', 40).view;
   for (const id of ESPARZAS) assert.ok(!personIn(early, id), `${id} is inside before the family came`);
-  const walking = fieldAt('alamo', 'red-flag', 120).view;
+  const walking = fieldAt('alamo', 'red-flag', 100).view;
   for (const id of [...ESPARZAS, 'esparza']) assert.equal(personIn(walking, id)?.pose, 'walk', `${id} is not walking in with the family`);
-  const window = fieldAt('alamo', 'red-flag', 154);
-  assert.equal(alamoClock('red-flag', 150), calendar(on(1836, 2, 23, 18)), 'the family is not at the window at six on February 23');
+  const window = fieldAt('alamo', 'red-flag', 134);
+  assert.equal(alamoClock('red-flag', 130), calendar(on(1836, 2, 23, 18)), 'the family is not at the window at six on February 23');
   for (const id of ESPARZAS) assert.ok(within(personIn(window.view, id), at(ALAMO, 'church-window', window.world), 20), `${id} does not come in by the church window`);
   // Through the days, the line in the sand, the night and every phase of the assault: in the sacristy, beside Mrs. Dickinson.
-  for (const [phase, into] of [['red-flag', 178], ['day-24', 300], ['day-25-afternoon', 60], ['the-line', 30], ['day-4', 200], ['quiet', 60], ['advance', 10], ['alarm', 3], ['repulse', 8], ['north-wall', 6], ['fallback', 6], ['rooms', 12]]) {
+  for (const [phase, into] of [['red-flag', 158], ['day-24', 300], ['day-25-afternoon', 60], ['the-line', 30], ['day-4', 200], ['quiet', 60], ['advance', 10], ['alarm', 3], ['repulse', 8], ['north-wall', 6], ['fallback', 6], ['rooms', 12]]) {
     const { view, world } = fieldAt('alamo', phase, into);
     for (const id of ESPARZAS) {
       const one = personIn(view, id);

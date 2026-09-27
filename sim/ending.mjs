@@ -22,6 +22,7 @@ import { householdName } from './family.mjs';
 import { dateOf } from './directors.mjs';
 import { canContinue, interimStandings, nextPeriodLabel } from './periods.mjs';
 import { landPromised } from './winter.mjs';
+import { surpriseReveal } from './surprise.mjs';
 
 /**
  * The coin the final number multiplies: what is in the house, and never less than one real.
@@ -154,6 +155,9 @@ export function familyEnding(world, householdId) {
     counted: countedCoin(money),
     sum: `${money < COIN_FLOOR ? `${reales(money)}, counted as ${reales(COIN_FLOOR)}` : reales(money)} × (1 + ${glory < 0 ? `${glory} glory, counted as 0` : `${glory} glory`})${land.reales ? ` + ${reales(land.reales)} of land (${land.acres} acres promised)` : ''} = ${final}`,
     story, coin, awards,
+    // The fog lifted on the other side too (owner, 2026-09-26, docs/battle-research/surprise-at-bexar.md): the snow march and
+    // why Béxar was caught unprepared, once the class has lived February 23. Absent before, and for a class that never reached it.
+    ...(surpriseReveal(world) && { reveal: surpriseReveal(world) }),
   };
 }
 
@@ -196,7 +200,8 @@ export function hostEnding(world) {
   const contenders = families.filter(family => !family.automatic);
   const best = contenders.length ? Math.max(...contenders.map(family => family.final)) : null;
   const winners = best === null ? [] : contenders.filter(family => family.final === best).map(family => family.householdId);
-  return { families, winners, best, discussion: DISCUSSION };
+  const reveal = surpriseReveal(world);
+  return { families, winners, best, discussion: DISCUSSION, ...(reveal && { reveal }) };
 }
 
 /**

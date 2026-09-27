@@ -31,7 +31,12 @@ export const STORY_LINES = Object.freeze({
   'winter-council': { told: 'the government at San Felipe fell out with itself, and the council put out Governor Smith' },
   'winter-travis': { told: 'William Barret Travis came to Béxar with about thirty horsemen' },
   'winter-crockett': { told: 'David Crockett of Tennessee reached Béxar with a few volunteers' },
+  // A class saved before 2026-09-26 may have heard this; no class hears it now (sim/surprise.mjs, `HIST-TEX-615`).
   'winter-santa-anna': { told: 'Santa Anna himself had crossed the Rio Grande with a great army and was marching on Béxar' },
+  // What Béxar believed, and the one warning, which only families with somebody there heard (sim/surprise.mjs).
+  'winter-grass': { told: 'nobody at Béxar looked for the Mexican army before the grass was up in March, and the garrison was small and short of everything' },
+  'herrera-report': { told: 'a Tejano rider, Blas Herrera, told the officers at Béxar that Mexican soldiers were on the Rio Grande, and they did not believe him' },
+  'bexar-arrival': { told: 'the bell of San Fernando rang at Béxar on the afternoon of February 23, Santa Anna\'s army marched into the town, and Travis\'s garrison went into the Alamo and sent for help' },
   'alamo-siege': { told: 'Travis wrote from the Alamo that Santa Anna had him under siege, and called on every man to come to his aid' },
   'fannin-back': { told: 'Fannin set out from Goliad to relieve the Alamo, and turned back' },
   'san-patricio': { told: 'Urrea\'s cavalry fell on Johnson\'s men at San Patricio before dawn' },

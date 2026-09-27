@@ -7,7 +7,8 @@ import { awardGlory } from './glory.mjs';
 import { canAnswerCalls, canFight, cannotAnswerWhy, cannotFightWhy, tooYoung, tooYoungWhy } from './family.mjs';
 import { distantHouseholds, expressLeaves, startExpress } from './expresses.mjs';
 import { callOptions, expireCalls, offerCalls, settleCalls } from './calls.mjs';
-import { ALAMO_WORD, COURIER_DAYS, askCouriers, beginSiege, warnGarrison, fightSouth, gonzalesFamilies, otherFamilies, reliefEnters, reliefRides, sendCouriers, splitSouth, stormAlamo, survivorsLeave, tellFall, tellSouth, word } from './alamo.mjs';
+import { ALAMO_WORD, COURIER_DAYS, askCouriers, beginSiege, fightSouth, gonzalesFamilies, otherFamilies, reliefEnters, reliefRides, sendCouriers, splitSouth, stormAlamo, survivorsLeave, tellFall, tellSouth, word } from './alamo.mjs';
+import { ARRIVAL_WORD, SPRING_WORD, arrivalWord, hearTheBell, tellHerrera } from './surprise.mjs';
 import { SETTLEMENT_DAYS, advanceArmiesPassing, orderOut, turnHome } from './scrape.mjs';
 import { advanceModelled } from './advance.mjs';
 import { advanceAdvanceWord } from './advance-word.mjs';
@@ -144,9 +145,17 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   // second period ends there, with the final reckoning.
   // The polls are open on February 1 (`HIST-TEX-052`): from noon on January 31, so a man can ride in, to midnight on the 2nd,
   // on the hourly calendar so the day lasts long enough to go. Travis's arrival (February 3) and Crockett's (the 8th) are
-  // heard about five days after; the rumour that Santa Anna is over the Rio Grande about the 18th (`HIST-TEX-053`).
+  // heard about five days after. Since 2026-09-26 (owner: "news appropriate to that, but not that he's marching";
+  // docs/battle-research/surprise-at-bexar.md) nobody hears that Santa Anna is marching: at dawn on the 17th every family hears
+  // what Béxar believed - no army before the grass (`spring-grass`, `HIST-TEX-610`, `-611`) - where it used to hear that Santa
+  // Anna had crossed the Rio Grande "through snow"; and at nine on the evening of the 20th (`herrera`, February 20 is 169920 +
+  // 26 × 1440; `HIST-TEX-614`), when the council met in Travis's room, a family with somebody in Béxar hears Blas Herrera's
+  // warning as the officers took it. The arrival is heard at Béxar on the 23rd; at Gonzales about four in the afternoon of the
+  // 24th, when Sutherland and Smither came in (`arrival-gonzales`, 211680 + 1440 + 960; `HIST-TEX-616`); in the other
+  // settlements with Travis's letter of the 24th (`travis-colonies`; San Felipe had the note of the 23rd the night of the 25th).
   'winter-opens': 170280, 'winter-news': 171720, 'election-opens': 179280, 'election-close': 181440,
-  'travis-news': 181440 + 5 * 1440 + 360, 'crockett-news': 181440 + 10 * 1440 + 360, 'santa-anna-rumour': 181440 + 15 * 1440 + 360,
+  'travis-news': 181440 + 5 * 1440 + 360, 'crockett-news': 181440 + 10 * 1440 + 360, 'spring-grass': 181440 + 15 * 1440 + 360,
+  herrera: 169920 + 26 * 1440 + 1260, 'arrival-gonzales': 211680 + 1440 + 960,
   // The Alamo (docs/COLONIES.md §7f, sim/alamo.mjs; `HIST-TEX-054` to `-060`). February 23, 1836 is 211680 (1836 is a leap year,
   // so March 1 is 221760). The Mexican army at Béxar about half past two on the 23rd; Travis's letter at Gonzales the 25th and in
   // the other settlements the 26th; the days riders went out (asked from six in the morning, gone in the evening) the 24th, 25th,
@@ -1258,7 +1267,11 @@ function advanceWinter(world, movement = {}) {
   });
   once(world, 'travis-news', () => sendWord(world, 'winter-travis', { truth: 'William Barret Travis has come to Béxar with about thirty horsemen, and Bowie means to hold the place.', claimId: 'HIST-TEX-051', source: 'Word from Béxar' }));
   once(world, 'crockett-news', () => sendWord(world, 'winter-crockett', { truth: 'David Crockett of Tennessee has reached Béxar with a few volunteers. Colonel Neill has gone home to his sick family, and Travis and Bowie command together.', claimId: 'HIST-TEX-051', source: 'Word from Béxar' }));
-  once(world, 'santa-anna-rumour', () => { sendWord(world, 'winter-santa-anna', { truth: 'It is said Santa Anna himself has crossed the Rio Grande with a great army, through snow, and is marching on Béxar.', status: 'rumor', claimId: 'HIST-TEX-053', source: 'A rumour from the west' }); warnGarrison(world); });
+  // What Béxar believed, to everybody (sim/surprise.mjs): not that Santa Anna is marching (owner, 2026-09-26).
+  once(world, 'spring-grass', () => sendWord(world, 'winter-grass', { truth: SPRING_WORD, claimId: 'HIST-TEX-611', source: 'Word from Béxar' }));
+  // Blas Herrera's warning, disbelieved, to a family with somebody in or near Béxar, and nobody else; with it the way out for a
+  // family with somebody in the garrison (`FIC-GONZ-383`).
+  once(world, 'herrera', () => tellHerrera(world));
   advanceAlamo(world, said, movement);
 }
 
@@ -1267,13 +1280,19 @@ function advanceWinter(world, movement = {}) {
  */
 function advanceAlamo(world, said, { beginTravel } = {}) {
   const alamo = { beginTravel: beginTravel || (() => {}) };
-  once(world, 'alamo-siege', () => beginSiege(world, said('HIST-TEX-054', 'The Mexican army has come into Béxar. The garrison has gone into the Alamo, and a red flag flies from the church of San Fernando.')));
+  // The bell (sim/surprise.mjs `hearTheBell`): heard on the day only by a family with somebody in or near Béxar - who is then
+  // shut in the Alamo with the garrison - and by everybody else when the riders bring it.
+  once(world, 'alamo-siege', () => { hearTheBell(world); beginSiege(world, said('HIST-TEX-054', 'The Mexican army has come into Béxar. The garrison has gone into the Alamo, and a red flag flies from the church of San Fernando.')); });
+  once(world, 'arrival-gonzales', () => arrivalWord(world, gonzalesFamilies(world), { source: 'Travis\'s note to Judge Ponton, brought in from Béxar', text: ARRIVAL_WORD.gonzales }));
   COURIER_DAYS.forEach(day => {
     once(world, `${day}-opens`, () => { if (askCouriers(world, day)) world.director.phase = 'news'; });
     once(world, day, () => { sendCouriers(world, day, alamo); world.director.phase = 'campaign'; });
   });
   once(world, 'travis-gonzales', () => word(world, 'alamo-siege', gonzalesFamilies(world), { truth: ALAMO_WORD.siege, claimId: 'HIST-TEX-055', source: 'Travis\'s letter, brought to Gonzales by Albert Martin' }));
-  once(world, 'travis-colonies', () => word(world, 'alamo-siege', otherFamilies(world), { truth: ALAMO_WORD.siege, claimId: 'HIST-TEX-055', source: 'Travis\'s letter, carried on from Gonzales' }));
+  once(world, 'travis-colonies', () => {
+    arrivalWord(world, otherFamilies(world), { source: 'Riders from Gonzales', text: ARRIVAL_WORD.colonies, public: true });
+    word(world, 'alamo-siege', otherFamilies(world), { truth: ALAMO_WORD.siege, claimId: 'HIST-TEX-055', source: 'Travis\'s letter, carried on from Gonzales' });
+  });
   // The south (sim/south.mjs): the men walk on to San Patricio, Grant rides for horses, and each fight is fought on the engine
   // by whoever of the families is there. `fightSouth` still settles anybody the engine did not (a class whose map has no south).
   advanceSouth(world, alamo);

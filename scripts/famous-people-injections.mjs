@@ -52,7 +52,7 @@ const UNIT = [
     expect: 'a family sees a famous person on the map only where its own people could, and nobody is drawn on the map and a field at once' },
   // The Esparza family (owner, 2026-09-26: "yes, add enrique and his family"; docs/BATTLES.md §14.6).
   { name: 'the Esparzas go in by the gate, not the church window', file: 'sim/battles/alamo.mjs',
-    from: "[150, 'church-window'], [158, 'church-window'],", to: "[150, 'gate-in'], [158, 'gate-in'],",
+    from: "[130, 'church-window'], [138, 'church-window'],", to: "[130, 'gate-in'], [138, 'gate-in'],",
     expect: 'the Esparza family goes in with Gregorio through the church window on the evening of February 23, shelters in the sacristy through the siege and the assault, and Gregorio goes from beside them to his gun at the alarm' },
   { name: 'Ana Esparza killed after she is brought out of the church', file: 'sim/people.mjs',
     from: "fullName: 'Ana Salazar de Esparza, Gregorio’s wife',", to: "fullName: 'Ana Salazar de Esparza, Gregorio’s wife', fate: { kind: 'killed', battle: 'alamo', phase: 'end', at: 20, claimId: 'HIST-TEX-433' },",

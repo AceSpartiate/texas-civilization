@@ -6,6 +6,16 @@
 `HIST-TEX-228`, `HIST-TEX-237`. Proposed rows are §10, numbered `HIST-TEX-600` to `-604` (checked free 2026-09-26 on
 `main`, `advance-places`, `weather-research`, `qwen/overnight` and every `.md` under the main checkout).
 
+## The owner's answers (2026-09-26), and what was built
+
+Asked by multiple choice after this research: the true story goes to the teacher **"At the ending"** (§9 question 3, B) - it
+is in the ending's reveal (`sim/surprise.mjs` `REVEAL`), never weather and never news during play; the Yucatán correction
+**"Fix now"** (question 5, B) - `HIST-TEX-053` and `-068` are corrected and `HIST-TEX-600` to `-604` registered. On the
+rumour (question 2) the owner went further: *"news appropriate to that, but not that he's marching"* - the rumour of about 18
+February is **removed**, not reworded, and no family hears of a march before the bell on February 23. The owner's premise, that
+the Texians knew of the snows and waited for them to break, was tested in
+[surprise-at-bexar.md](surprise-at-bexar.md) §1: **not found** - it was the spring grass. §7's items 1, 2 and 4 are done.
+
 ## What the owner asked
 
 > "i've seen paintings showing mexican troops marching through snow the winter of 35/36. is that accurate? do we have

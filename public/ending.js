@@ -17,6 +17,18 @@ const make = (tag, text, className) => {
 const reales = amount => `${amount} ${amount === 1 ? 'real' : 'reales'}`;
 const signed = amount => `${amount > 0 ? '+' : '−'}${reales(Math.abs(amount))}`;
 
+/**
+ * What nobody in Texas knew (sim/surprise.mjs, owner 2026-09-26: the true story of the snow march "At the ending"): the
+ * Mexican army's snow and why Béxar was caught unprepared, as the server wrote it, once the class has lived February 23.
+ */
+function revealView(reveal) {
+  const section = make('section', null, 'ending-reveal');
+  section.append(make('h3', reveal.title));
+  for (const paragraph of reveal.paragraphs) section.append(make('p', paragraph));
+  if (reveal.ask) section.append(make('p', reveal.ask, 'ending-ask'));
+  return section;
+}
+
 let shown = '';
 let closed = false;
 
@@ -50,6 +62,7 @@ function familyView(family) {
     glory.append(list);
   } else glory.append(make('p', 'Nobody in the family took part in the events of that October.'));
   parts.push(glory);
+  if (family.reveal) parts.push(revealView(family.reveal));
   return parts;
 }
 
@@ -95,6 +108,7 @@ function hostView(closing) {
   for (const question of closing.discussion) list.append(make('li', question));
   talk.append(list);
   parts.push(talk);
+  if (closing.reveal) parts.push(revealView(closing.reveal));
   return parts;
 }
 

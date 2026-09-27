@@ -255,11 +255,13 @@ test('at the assault a fighter inside is killed and a woman and a boy are spared
   validateWorld(world);
 });
 
-test('when Santa Anna is said to be marching, a family with somebody in the garrison is told they can still send for them', () => {
+// Since 2026-09-26 the way out rides with Blas Herrera's warning, which the officers did not believe, and not with a rumour
+// that Santa Anna is marching (owner: "not that he's marching"; sim/surprise.mjs `tellHerrera`).
+test('when Herrera\'s warning comes to Béxar, a family with somebody in the garrison is told they can still send for them', () => {
   const world = winter();
   const [inside, home] = menOfFamilies(world, 2);
   garrison(world, inside);
-  untilMoment(world, 'santa-anna-rumour');
+  untilMoment(world, 'herrera');
   assert.ok(world.events.some(event => event.actorId === inside.id && /can still be sent for/.test(event.text)), 'the family was not told the way out while it was open');
   assert.ok(!world.events.some(event => event.actorId === home.id && /can still be sent for/.test(event.text)), 'somebody not in the garrison was warned');
 });

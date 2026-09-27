@@ -1008,7 +1008,7 @@ S15 and S44-S49, checked 2026-09-26); claims `HIST-TEX-605`-`-609` and `FIC-GONZ
   and Gregorio's brother Francisco Esparza (`francisco-esparza`). Side `civilian`; no fate for any of them - all lived
   (`HIST-TEX-432`). Their map leg: at Béxar from 18:00 on March 6 to May 17 (ceiling: the record says "several months" at a
   cousin's on North Flores Street, `FIC-GONZ-472`).
-- **Going in** (`red-flag`, minutes 100-180): Gregorio and the five walk from the town's edge round the south of the compound to a
+- **Going in** (`red-flag`, minutes 80-160 since the bell's longer arrival; 100-180 before it): Gregorio and the five walk from the town's edge round the south of the compound to a
   window in the church's south wall at six in the evening and into the sacristy (`GOING_IN`, `church-south`, `church-window`). The
   window is Enrique's 1907 memory (TRADITION); the caption says it was remembered many years later.
 - **The siege and the assault**: in the sacristy beside Mrs. Dickinson, seated, each a step apart (`ESPARZAS`, `THE_SACRISTY`, the
