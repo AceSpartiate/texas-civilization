@@ -738,8 +738,8 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
   // from its minute; the fallen lie where they fell in the phases after, until they are carried out.
   const people = state.over ? [] : peopleNow(state, phase, into, ground);
   if (people.length) view.people = people;
-  // Smoke going up far off - huts burning, the pyres - never what is burning (VISION.md §16).
-  const plumes = (phase.plumes || []).filter(plume => into >= (plume.from || 0) && ground[plume.at]).map(plume => ({ x: ground[plume.at].x, y: ground[plume.at].y }));
+  // Grounded aftermath effects become visible only at their phase minute; pyres are assembled before ignition.
+  const plumes = (phase.plumes || []).filter(plume => into >= (plume.from || 0) && ground[plume.at]).map(plume => ({ x: ground[plume.at].x, y: ground[plume.at].y, ...(plume.kind ? { kind: plume.kind } : {}), ...(plume.ignite != null ? { lit: into >= plume.ignite } : {}) }));
   if (plumes.length && !state.over) view.plumes = plumes;
   // How dark it is, 0 day to 1 night, or eased across the phase (`light: [from, to]`); and an engagement's smoke against its
   // figures (`smokeScale`: a small place seen close).

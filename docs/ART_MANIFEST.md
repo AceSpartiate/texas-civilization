@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1490 usable sprites, 132 PNG atlases, 509 clips** (283 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1494 usable sprites, 133 PNG atlases, 510 clips** (284 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -13,6 +13,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | Atlas | Frames | Size | PNG bytes |
 | --- | ---: | --- | ---: |
 | alamo-face-strips | 5 | 1659 × 948 | 928904 |
+| alamo-funeral-pyre | 4 | 1254 × 1254 | 1841976 |
 | joe-story-actions | 4 | 1254 × 1254 | 787824 |
 | famous-travis-still | 1 | 1536 × 1024 | 1367838 |
 | artillery-service | 16 | 1254 × 1254 | 1171440 |
@@ -154,6 +155,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | alamo-face-gate | alamo-face-strips | State artwork; no motion required |
 | alamo-face-convento | alamo-face-strips | State artwork; no motion required |
 | alamo-face-church-south | alamo-face-strips | State artwork; no motion required |
+| alamo-pyre-unlit | alamo-funeral-pyre | State artwork; no motion required |
+| alamo-pyre-fire-1 | alamo-funeral-pyre | alamo-pyre-burning |
+| alamo-pyre-fire-2 | alamo-funeral-pyre | alamo-pyre-burning |
+| alamo-pyre-fire-3 | alamo-funeral-pyre | alamo-pyre-burning |
 | joe-door-aim | joe-story-actions | joe-fire-door |
 | joe-door-fire | joe-story-actions | joe-fire-door |
 | joe-hurt-e | joe-story-actions | State artwork; no motion required |
@@ -1644,6 +1649,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 | Clip | Method | Frames | Duration (ms) | Loop | Direction |
 | --- | --- | ---: | ---: | --- | --- |
+| alamo-pyre-burning | Pose cycle | 3 | 1080 | yes | elevation; orient with structure geometry |
 | joe-fire-door | Pose cycle | 2 | 5200 | yes | east; mirror for west |
 | volunteer-gun-ram | Pose cycle | 4 | 1160 | one-shot | east; west by mirroring |
 | volunteer-gun-shot-carry | Pose cycle | 2 | 840 | yes | east; west by mirroring |

@@ -2,6 +2,26 @@
   "version": "frontier-v1",
   "note": "Presentation only: elapsed display time selects these frames; animation never advances simulation state. Authored identifies sequences of distinct source poses, not transforms of one sprite.",
   "clips": {
+    "alamo-pyre-burning": {
+      "frames": [
+        {
+          "sprite": "alamo-pyre-fire-1",
+          "duration": 360
+        },
+        {
+          "sprite": "alamo-pyre-fire-2",
+          "duration": 360
+        },
+        {
+          "sprite": "alamo-pyre-fire-3",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "elevation; orient with structure geometry"
+    },
     "joe-fire-door": {
       "frames": [
         {

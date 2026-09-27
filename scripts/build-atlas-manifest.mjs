@@ -358,6 +358,7 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
       ...(/^(people-|animal-|military-|courier-)/.test(sheet) ? { logicalHeight: Math.max(...placed.filter(p => p.row === frame.row).map(p => p.maxY - p.minY + 1)) } : {}),
       ...(sheet==='wagon-rig' && names[index]!=='wagon-wheel' ? {logicalHeight:placed[0].maxY-placed[0].minY+1} : {}),
         ...(sheet==='joe-poses' || sheet==='joe-story-actions' ? {logicalHeight:Math.max(...placed.map(p=>p.maxY-p.minY+1))} : {}),
+        ...(sheet==='alamo-funeral-pyre' ? {logicalHeight:placed[0].maxY-placed[0].minY+1} : {}),
       // Named people keep one standing scale even when a later cell contains a table, cot or reclining pose.
       ...(sheet.startsWith('famous-') && sheet !== 'famous-picnic-props' ? {logicalHeight:Math.max(...placed.filter(p=>p.row<3).map(p=>p.maxY-p.minY+1))} : {}),
       ...(sheet==='houses-settling' ? {logicalHeight:Math.max(...placed.filter(p=>p.row===frame.row).map(p=>p.maxY-p.minY+1))} : {}),

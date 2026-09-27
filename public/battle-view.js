@@ -1232,11 +1232,19 @@ export function createBattleView(art) {
   }
 
   /**
-   * Smoke going up from a place a long way off - huts burning, the pyres - and never what is burning (VISION.md §16).
-   * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 9 - the library's rising smoke, drawn large.
+   * Smoke going up from a place a long way off - huts burning - and never what is burning (VISION.md §16). stand-in:
+   * docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 9 - the library's rising smoke, drawn large. The Alamo's
+   * pyres on the afternoon of March 6 are the delivered non-graphic lamo-funeral-pyre sheet at their three separate
+   * reconstructed sites (sim/battles/alamo.mjs urial), unlit from about three and burning from about five.
    */
   function drawPlume(ctx, plume, camera, figurePx, time, reducedMotion) {
     const p = camera.toScreen(plume), size = figurePx * 3.2;
+    if (plume.kind === 'alamo-pyre') {
+      const pyreSize = figurePx * 6.2;
+      if (!plume.lit) art.drawSprite(ctx, 'alamo-pyre-unlit', p.x, p.y, pyreSize);
+      else art.animated(ctx, 'alamo-pyre-burning', p.x, p.y, pyreSize, `pyre:${plume.x}:${plume.y}`, { timeMs: time, paused: reducedMotion });
+      return;
+    }
     if (art.animated(ctx, 'smoke-rise', p.x, p.y, size, `plume:${plume.x}`, { timeMs: time, paused: reducedMotion })) return;
     const g = ctx.createLinearGradient(p.x, p.y, p.x, p.y - size * 1.6);
     g.addColorStop(0, 'rgba(90,86,80,.55)'); g.addColorStop(1, 'rgba(160,156,150,0)');

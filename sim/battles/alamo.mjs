@@ -64,8 +64,9 @@ export const ALAMO_FEET = Object.freeze({
   'morales-formup': [150, 1160], 'morales-near': [100, 860], 'morales-close': [50, 650], 'sw-foot': [10, 575],
   reserve: [122, -960], 'cavalry-east': [1500, 360], 'cavalry-south': [520, 1500], 'cavalry-camp': [900, -900],
   'north-foot': [122, -45], 'north-foot-w': [55, -40], 'north-foot-e': [195, -35], 'east-prairie': [1350, 430], 'mexican-camp': [-900, -300],
-  // The pyres, outside the walls to the south-east (`HIST-TEX-501`: the dead stacked and burned).
-  pyres: [700, 1100],
+  // Three separated reconstruction sites, not proven coordinates. Seguín later found ashes in three places;
+  // Ruiz described alternating layers of wood and bodies and lighting the pyres around 5 p.m. (HIST-TEX-566).
+  'pyre-east': [820, 350], 'pyre-southeast': [680, 1050], 'pyre-south': [-500, 1200],
   // Where the famous people stand (docs/BATTLES.md §2c; `FIC-GONZ-452`: the area is the record's, the spot this game's).
   // Joe beside Travis on the north battery, and the house he took cover in (the plan's reconstructed west-range room).
   'joe-battery': [104, 30], 'joe-door': [26, 66],
@@ -774,7 +775,7 @@ export const ALAMO = Object.freeze({
       ],
     },
     {
-      // Mar 6, 07:00-12:00. The pyres, told and seen from a distance; the spared taken to Músquiz's house, and Joe into Béxar,
+      // Mar 6, 07:00-12:00. The dead stacked for the pyres, told; the spared taken to Músquiz's house, and Joe into Béxar,
       // "detained several days; was shown a grand review of the army", and questioned by Santa Anna (`HIST-TEX-549`). Not held.
       id: 'after', minutes: 300, title: 'March 6: afterwards', claimId: 'HIST-TEX-501', light: 0, frame: ['frame-after-a', 'frame-after-b'],
       caption: 'The dead defenders are stacked on pyres outside the walls, to be burned. The Mexican dead are buried. Mrs. Dickinson and her baby Angelina, Ana Esparza and her children and the other women and children are taken into Béxar under guard, to Ramón Músquiz’s house, and given coffee and food. Joe is taken into the town too; Santa Anna questions him about Texas and its army, and he is shown a grand review of the Mexican army.',
@@ -787,7 +788,7 @@ export const ALAMO = Object.freeze({
         // The Esparzas to Músquiz's house with Mrs. Dickinson (`HIST-TEX-609`).
         ...family({ keys: [[0, 'church-front'], [130, 'musquiz-door']], face: 'musquiz' }),
       ],
-      plumes: [{ at: 'pyres', from: 60 }],
+      // The pyres are built from about three in the afternoon, in the burial's phase below.
     },
     {
       // Mar 6, 12:00-18:00. Gregorio Esparza's burial (`HIST-TEX-608`; the day and the hour are the game's, `FIC-GONZ-471`): his
@@ -808,7 +809,9 @@ export const ALAMO = Object.freeze({
         { id: 'francisco-esparza', keys: [[0, 'church-front'], [70, 'town-edge'], [150, 'campo-santo']], bears: 'esparza', pose: 'carry', during: [0, 150], face: 'campo-santo' },
         { id: 'francisco-esparza', at: 'campo-santo', pose: 'stand', during: [150, 300], face: 'campo-santo' },
       ],
-      plumes: [{ at: 'pyres', from: 0 }],
+      // Three separated reconstructed pyre sites (e780c3e, owner 2026-09-27): built from about 3 p.m., lit about 5 p.m. by Ruiz's
+      // account (docs/battle-research/staging.md) - 180 and 300 minutes into this phase, which begins at noon.
+      plumes: ['pyre-east', 'pyre-southeast', 'pyre-south'].map(at => ({ at, from: 180, ignite: 300, kind: 'alamo-pyre' })),
     },
   ]),
   ground: alamoGround,
