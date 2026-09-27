@@ -11,7 +11,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
-const T = 'tests/mexican-advance.test.mjs', S = 'tests/scrape.test.mjs';
+const T = 'tests/mexican-advance.test.mjs', S = 'tests/scrape.test.mjs', P = 'tests/advance-places.test.mjs';
 const NAMES = {
   dated: 'each column is where the record puts it on the record\'s dates, and never where the record says no Mexican came',
   march: 'the columns march on the roads at an army\'s pace, and never jump',
@@ -24,6 +24,10 @@ const NAMES = {
   seen: 'a family sees a column only where its own people are; the Host sees every one, and where each party is riding',
   stock: 'the foragers drive off the stock left on the range: a quarter of the cattle is found again, not half',
   watch: 'a column on the march in front of a played family is watched at two hours a tick; one in camp, or far off, holds nothing',
+  go: 'a family can go to each of them, on foot and by wagon, over the ferries and fords',
+  through: 'the columns pass through them, and Stafford\'s, New Washington and Mrs. Powell\'s burn there on their dates',
+  door: 'an old save is given them at its door, nothing it had moved; and only once',
+  emily: 'Emily West is at New Washington itself until the army takes her',
   leaving: 'the family loads what fits and sets out together for the east, leaving the farm standing with what did not fit; the rivers hold it; it camps at the refuge and comes home with the victory',
   stays: 'a family that stays is burned out when a column\'s foragers reach the farm, and whoever is at home may be taken',
 };
@@ -33,7 +37,7 @@ const UNIT = [
   { name: 'Santa Anna\'s column marching on past San Jacinto', file: 'sim/advance.mjs',
     from: "      pt('sanJacinto', on(1836, 4, 20, 13), { claimId: 'HIST-TEX-588' }),\n    ],\n    until: on(1836, 4, 21, 16),", to: "      pt('sanJacinto', on(1836, 4, 20, 13), { claimId: 'HIST-TEX-588' }),\n    ],", test: T, expect: NAMES.dated },
   { name: 'Santa Anna at Thompson\'s four hours after leaving San Felipe', file: 'sim/advance.mjs',
-    from: "      pt('thompsons', on(1836, 4, 12, 8), { via: 'columbia', claimId: 'HIST-TEX-586' }),", to: "      pt('thompsons', on(1836, 4, 9, 12), { via: 'columbia', claimId: 'HIST-TEX-586' }),", test: T, expect: NAMES.march },
+    from: "      at('thompsons', on(1836, 4, 12, 8), { claimId: 'HIST-TEX-586' }),", to: "      at('thompsons', on(1836, 4, 9, 12), { claimId: 'HIST-TEX-586' }),", test: T, expect: NAMES.march },
   { name: 'every column across country, never on the roads', file: 'sim/advance.mjs',
     from: '  const roadTo = b.point ? b.via : b.siteId;', to: '  const roadTo = null;', test: T, expect: NAMES.march },
   { name: 'San Felipe burned by the Mexicans', file: 'sim/advance.mjs',
@@ -68,6 +72,19 @@ const UNIT = [
     from: '  const heads = columnsNow(world).filter(({ head }) => !head.retreat && head.moving);', to: '  const heads = columnsNow(world).filter(({ head }) => !head.retreat);', test: T, expect: NAMES.watch },
   { name: 'a column never watched', file: 'sim/military-pacing.mjs',
     from: '  if (proposed > MILITARY_TRAVEL_MINUTES && columnWatched(world)) proposed = MILITARY_TRAVEL_MINUTES;', to: '', test: T, expect: NAMES.watch },
+  // The advance's places (2026-09-26, docs/MAP_ACCURACY.md §14); the map's own are scripts/advance-places-map-injections.mjs.
+  { name: 'the advance\'s places drawn and never walked by a family', file: 'sim/ways.mjs',
+    from: '    if (!walked(route)) continue;', to: "    if (!walked(route) || [route.from, route.to].some(id => ['thompsons', 'old-fort', 'staffords', 'new-washington', 'powells'].includes(id))) continue;", test: P, expect: [NAMES.go, NAMES.door] },
+  { name: 'Santa Anna across country from Thompson\'s to Stafford\'s, not over the ferry', file: 'sim/advance.mjs',
+    from: "      at('staffords', on(1836, 4, 15, 6), { claimId: 'HIST-TEX-587' }),", to: "      { point: { x: 114, y: -8 }, name: 'Stafford’s plantation', minute: on(1836, 4, 15, 6), claimId: 'HIST-TEX-587' },", test: P, expect: NAMES.through },
+  { name: 'Mrs. Powell\'s burned at the research\'s estimate, not the place', file: 'sim/advance.mjs',
+    from: "  { id: 'powells', siteId: 'powells',", to: "  { id: 'powells', point: { x: 88, y: 5 },", test: P, expect: NAMES.through },
+  { name: 'an old save opened without the places', file: 'server/storage.mjs',
+    from: '  if (save.world) openAdvancePlaces(save.world);', to: '', test: P, expect: NAMES.door },
+  { name: 'the door gives the places and not the fords on their roads', file: 'sim/advance-places.mjs',
+    from: '    if (!roads.some(road => onRoad(road, place))) continue;', to: '    continue;', test: P, expect: NAMES.door },
+  { name: 'Emily West at the old point near Lynchburg', file: 'sim/people.mjs',
+    from: "site: 'new-washington', place: 'New Washington', doing: 'stand', claimId: 'HIST-TEX-569' },", to: "point: { lon: -94.9953, lat: 29.6780, near: 'lynchburg' }, place: 'New Washington', doing: 'stand', claimId: 'HIST-TEX-569' },", test: P, expect: NAMES.emily },
   { name: 'the Texas army burns the farm as the family leaves, as before', file: 'sim/scrape.mjs',
     from: '  } else burnFarm(world, household, { watching: true });', to: '  }\n  burnFarm(world, household, { watching: true });', test: S, expect: NAMES.leaving },
   { name: 'no day\'s grace: a family caught leaving through its own town', file: 'sim/advance.mjs',
@@ -118,14 +135,17 @@ const evidencePath = 'docs/evidence/mexican-advance-injections.json';
 let previous = {};
 try { previous = JSON.parse(readFileSync(evidencePath, 'utf8')); } catch { /* the first run */ }
 if (which === 'all' || which === 'unit') {
-  for (const file of [T, S]) { const clean = runUnit(file); if (!clean.passed) throw new Error(`${file} fails before any injection: ${clean.failed.join('; ')}`); }
+  for (const file of [T, S, P]) { const clean = runUnit(file); if (!clean.passed) throw new Error(`${file} fails before any injection: ${clean.failed.join('; ')}`); }
   for (const injection of UNIT) {
     const seen = inject(injection, () => runUnit(injection.test));
-    const caught = !seen.passed && seen.failed.length === 1 && seen.failed[0] === injection.expect;
+    // The named test and no other; or, where one regression breaks a rule two checks hold (a place nobody can walk to is one an
+    // old save cannot walk to either), exactly the set named - as scripts/san-jacinto-injections.mjs does.
+    const expected = [injection.expect].flat();
+    const caught = !seen.passed && seen.failed.length === expected.length && expected.every(name => seen.failed.includes(name));
     record.unit.push({ name: injection.name, file: injection.file, test: injection.test, expect: injection.expect, caught, failed: seen.failed });
     console.log(`${caught ? 'caught' : seen.passed ? 'MISSED' : 'CAUGHT BY ANOTHER OR MORE THAN ONE'}: ${injection.name} -> ${seen.failed.join(' | ') || 'every test passed'}`);
   }
-  for (const file of [T, S]) { const after = runUnit(file); if (!after.passed) throw new Error(`${file} fails after every file was put back: ${after.failed.join('; ')}`); }
+  for (const file of [T, S, P]) { const after = runUnit(file); if (!after.passed) throw new Error(`${file} fails after every file was put back: ${after.failed.join('; ')}`); }
 }
 if (which === 'all' || which === 'browser') {
   const clean = runBrowser();
@@ -141,12 +161,13 @@ if (which === 'all' || which === 'browser') {
 mkdirSync('docs/evidence', { recursive: true });
 const merged = {
   record: 'mexican-advance-injections', date: new Date().toISOString().slice(0, 10),
-  gates: { unit: `node --test ${T} (and ${S} for the scrape's own rules), the named test and no other in its file`, browser: 'scripts/mexican-advance-browser-proof.mjs' },
+  gates: { unit: `node --test ${T} (and ${S} for the scrape's own rules, ${P} for the advance's places), the named test and no other in its file`, browser: 'scripts/mexican-advance-browser-proof.mjs', ...(previous.gates?.map && { map: previous.gates.map }) },
   unit: record.unit.length ? record.unit : previous.unit || [],
+  ...(previous.map && { map: previous.map }),
   browser: record.browser.length ? record.browser : previous.browser || [],
   cleanBrowserChecks: record.cleanBrowserChecks ?? previous.cleanBrowserChecks ?? null,
   environment: 'Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768.',
 };
 writeFileSync(evidencePath, `${JSON.stringify(merged, null, 2)}\n`.replace(/\n/g, '\r\n'));
-const all = [...merged.unit, ...merged.browser];
+const all = [...merged.unit, ...merged.browser, ...(merged.map || [])];
 console.log(`\n${all.filter(one => one.caught).length} of ${all.length} caught by the check written for them. Wrote ${evidencePath}`);

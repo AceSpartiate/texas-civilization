@@ -2,8 +2,9 @@
   "record": "mexican-advance-injections",
   "date": "2026-09-27",
   "gates": {
-    "unit": "node --test tests/mexican-advance.test.mjs (and tests/scrape.test.mjs for the scrape's own rules), the named test and no other in its file",
-    "browser": "scripts/mexican-advance-browser-proof.mjs"
+    "unit": "node --test tests/mexican-advance.test.mjs (and tests/scrape.test.mjs for the scrape's own rules, tests/advance-places.test.mjs for the advance's places), the named test and no other in its file",
+    "browser": "scripts/mexican-advance-browser-proof.mjs",
+    "map": "node scripts/advance-places-map-injections.mjs: the map rebuilt with each mistake, node --test tests/advance-places.test.mjs, the named test and no other"
   },
   "unit": [
     {
@@ -197,6 +198,70 @@
       ]
     },
     {
+      "name": "the advance's places drawn and never walked by a family",
+      "file": "sim/ways.mjs",
+      "test": "tests/advance-places.test.mjs",
+      "expect": [
+        "a family can go to each of them, on foot and by wagon, over the ferries and fords",
+        "an old save is given them at its door, nothing it had moved; and only once"
+      ],
+      "caught": true,
+      "failed": [
+        "a family can go to each of them, on foot and by wagon, over the ferries and fords",
+        "an old save is given them at its door, nothing it had moved; and only once"
+      ]
+    },
+    {
+      "name": "Santa Anna across country from Thompson's to Stafford's, not over the ferry",
+      "file": "sim/advance.mjs",
+      "test": "tests/advance-places.test.mjs",
+      "expect": "the columns pass through them, and Stafford's, New Washington and Mrs. Powell's burn there on their dates",
+      "caught": true,
+      "failed": [
+        "the columns pass through them, and Stafford's, New Washington and Mrs. Powell's burn there on their dates"
+      ]
+    },
+    {
+      "name": "Mrs. Powell's burned at the research's estimate, not the place",
+      "file": "sim/advance.mjs",
+      "test": "tests/advance-places.test.mjs",
+      "expect": "the columns pass through them, and Stafford's, New Washington and Mrs. Powell's burn there on their dates",
+      "caught": true,
+      "failed": [
+        "the columns pass through them, and Stafford's, New Washington and Mrs. Powell's burn there on their dates"
+      ]
+    },
+    {
+      "name": "an old save opened without the places",
+      "file": "server/storage.mjs",
+      "test": "tests/advance-places.test.mjs",
+      "expect": "an old save is given them at its door, nothing it had moved; and only once",
+      "caught": true,
+      "failed": [
+        "an old save is given them at its door, nothing it had moved; and only once"
+      ]
+    },
+    {
+      "name": "the door gives the places and not the fords on their roads",
+      "file": "sim/advance-places.mjs",
+      "test": "tests/advance-places.test.mjs",
+      "expect": "an old save is given them at its door, nothing it had moved; and only once",
+      "caught": true,
+      "failed": [
+        "an old save is given them at its door, nothing it had moved; and only once"
+      ]
+    },
+    {
+      "name": "Emily West at the old point near Lynchburg",
+      "file": "sim/people.mjs",
+      "test": "tests/advance-places.test.mjs",
+      "expect": "Emily West is at New Washington itself until the army takes her",
+      "caught": true,
+      "failed": [
+        "Emily West is at New Washington itself until the army takes her"
+      ]
+    },
+    {
       "name": "the Texas army burns the farm as the family leaves, as before",
       "file": "sim/scrape.mjs",
       "test": "tests/scrape.test.mjs",
@@ -224,6 +289,38 @@
       "caught": true,
       "failed": [
         "a family that stays is burned out when a column's foragers reach the farm, and whoever is at home may be taken"
+      ]
+    }
+  ],
+  "map": [
+    {
+      "name": "the road from San Felipe laid by the easiest ground, over the Brazos and down its left bank",
+      "file": "scripts/build-colonies-map.mjs",
+      "test": "tests/advance-places.test.mjs",
+      "expect": "the five are places of the map at their markers, with the roads the columns went by and Thompson's ferry over the Brazos",
+      "caught": true,
+      "failed": [
+        "the five are places of the map at their markers, with the roads the columns went by and Thompson's ferry over the Brazos"
+      ]
+    },
+    {
+      "name": "Stafford's at the research's estimate, not its marker",
+      "file": "scripts/build-colonies-map.mjs",
+      "test": "tests/advance-places.test.mjs",
+      "expect": "the five are places of the map at their markers, with the roads the columns went by and Thompson's ferry over the Brazos",
+      "caught": true,
+      "failed": [
+        "the five are places of the map at their markers, with the roads the columns went by and Thompson's ferry over the Brazos"
+      ]
+    },
+    {
+      "name": "no road to the Old Fort",
+      "file": "scripts/build-colonies-map.mjs",
+      "test": "tests/advance-places.test.mjs",
+      "expect": "the five are places of the map at their markers, with the roads the columns went by and Thompson's ferry over the Brazos",
+      "caught": true,
+      "failed": [
+        "the five are places of the map at their markers, with the roads the columns went by and Thompson's ferry over the Brazos"
       ]
     }
   ],
