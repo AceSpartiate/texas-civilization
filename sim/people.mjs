@@ -71,7 +71,7 @@ export const PEOPLE = Object.freeze({
     fullName: 'Almeron Dickinson',
     fate: { kind: 'killed', battle: 'alamo', phase: 'rooms', at: 12, claimId: 'HIST-TEX-547', liesUntil: 'after' },
   }),
-  esparza: person('esparza', 'Esparza', TX, 'officer', 2, 'HIST-TEX-550', {
+  esparza: person('esparza', 'Esparza', TX, 'esparza', 2, 'HIST-TEX-550', {
     fullName: 'José María (Gregorio) Esparza',
     fate: { kind: 'killed', battle: 'alamo', phase: 'rooms', at: 12, claimId: 'HIST-TEX-550', liesUntil: 'after' },
   }),

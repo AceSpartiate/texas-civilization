@@ -1835,6 +1835,40 @@
           "result": "Accepted only after the atlas overlap audit; first output failed on the fire frame."
         }
       ]
+    },
+    {
+      "sheet": "famous-esparza",
+      "promptId": "frontier-v1/famous-esparza",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-bonham.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-almeron-dickinson.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5ee508f8-da42-4a45-98c7-6b73c54bc988.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-esparza.png",
+      "postProcessing": "None. Accepted imagegen spacing edit copied unchanged; atlas builder measures alpha and cell retention.",
+      "review": "Distinct Tejano defender with directional walk and serving-gun action; non-graphic still pose. No exact likeness or outfit claim.",
+      "edits": [
+        {
+          "prompt": "Precise layout edit of the attached exact 4x4 Gregorio Esparza game sprite atlas. Keep the canvas 1254x1254 and all sixteen existing poses and character identity. Uniformly shrink each entire cells figure, gun, ramrod, cannonball and muzzle flash to 78% of present size, and center each complete pose inside its OWN equal 313x313 cell. Require at least 20 fully transparent pixels on all four sides of every cell; the bottom-row musket flash and still body must fit entirely in their own cells and never overlap the next. Keep all brown skin tones, dark hair, moustache, olive coat, red neck cloth, tan trousers, expressions, directions and pose details exactly. Preserve genuine alpha transparency. No grid, background, added shadows, scenery, text or new figures. Only change scale and spacing.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-866c9fe5-fc87-442d-ada8-2ff709839721.png",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5ee508f8-da42-4a45-98c7-6b73c54bc988.png"
+        }
+      ]
+    },
+    {
+      "sheet": "famous-crockett-fate",
+      "promptId": "frontier-v1/famous-crockett-fate",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-crockett.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2c4497c7-2553-4ee3-8678-516cee259c2b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-crockett-fate.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; atlas build measures alpha and frame bounds.",
+      "review": "Two unarmed open-hand captive keys and two non-graphic still views; game labels the outcome as one disputed account."
     }
   ],
   "rejectedAttempts": [

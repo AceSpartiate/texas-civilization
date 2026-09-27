@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 126,
-    "sprites": 1457,
-    "clips": 502,
-    "poseCycles": 276,
+    "sheets": 128,
+    "sprites": 1477,
+    "clips": 506,
+    "poseCycles": 280,
     "rigs": 4
   },
   "entrypoints": {
@@ -3677,6 +3677,188 @@
               [
                 1017,
                 1229
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-crockett-fate": {
+      "image": "atlases/famous-crockett-fate.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 948322,
+      "sha256": "65efc43dab1bc7d8b1d26838bbf09aa44a6acae13200e2edb36d0efb05576875",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.75082,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              50,
+              655
+            ],
+            "columns": [
+              [
+                181,
+                469
+              ],
+              [
+                790,
+                1101
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              853,
+              1120
+            ],
+            "columns": [
+              [
+                7,
+                598
+              ],
+              [
+                700,
+                1232
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-esparza": {
+      "image": "atlases/famous-esparza.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 869799,
+      "sha256": "48138daf62c31c14cc0e3ac34a5a49b50acb093f75cd184ce4cbb11bc068fea1",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.782293,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              81,
+              309
+            ],
+            "columns": [
+              [
+                80,
+                246
+              ],
+              [
+                389,
+                557
+              ],
+              [
+                698,
+                869
+              ],
+              [
+                1014,
+                1184
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              379,
+              626
+            ],
+            "columns": [
+              [
+                99,
+                236
+              ],
+              [
+                415,
+                556
+              ],
+              [
+                714,
+                854
+              ],
+              [
+                1025,
+                1162
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              690,
+              917
+            ],
+            "columns": [
+              [
+                93,
+                256
+              ],
+              [
+                398,
+                581
+              ],
+              [
+                700,
+                894
+              ],
+              [
+                990,
+                1208
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              988,
+              1202
+            ],
+            "columns": [
+              [
+                78,
+                238
+              ],
+              [
+                371,
+                596
+              ],
+              [
+                675,
+                916
+              ],
+              [
+                952,
+                1202
               ]
             ]
           }
@@ -27621,6 +27803,686 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/famous-fannin"
+    },
+    "crockett-captive-1": {
+      "sheet": "famous-crockett-fate",
+      "x": 181,
+      "y": 50,
+      "w": 288,
+      "h": 603,
+      "anchorX": 0.4983,
+      "anchorY": 0.937,
+      "logicalHeight": 605,
+      "label": "crockett captive 1",
+      "kind": "famous-crockett-fate",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          183,
+          52,
+          284,
+          599
+        ],
+        "visiblePixels": 96082,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-crockett-fate.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "crockett-captive"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-crockett-fate"
+    },
+    "crockett-captive-2": {
+      "sheet": "famous-crockett-fate",
+      "x": 790,
+      "y": 50,
+      "w": 311,
+      "h": 605,
+      "anchorX": 0.5322,
+      "anchorY": 0.9322,
+      "logicalHeight": 605,
+      "label": "crockett captive 2",
+      "kind": "famous-crockett-fate",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          792,
+          52,
+          307,
+          601
+        ],
+        "visiblePixels": 100921,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-crockett-fate.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "crockett-captive"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-crockett-fate"
+    },
+    "crockett-still-side": {
+      "sheet": "famous-crockett-fate",
+      "x": 7,
+      "y": 853,
+      "w": 591,
+      "h": 240,
+      "anchorX": 0.1328,
+      "anchorY": 0.9292,
+      "logicalHeight": 605,
+      "label": "crockett still side",
+      "kind": "famous-crockett-fate",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          9,
+          855,
+          587,
+          236
+        ],
+        "visiblePixels": 86519,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-crockett-fate.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-crockett-fate"
+    },
+    "crockett-still-turn": {
+      "sheet": "famous-crockett-fate",
+      "x": 700,
+      "y": 875,
+      "w": 532,
+      "h": 245,
+      "anchorX": 0.5883,
+      "anchorY": 0.9265,
+      "logicalHeight": 605,
+      "label": "crockett still turn",
+      "kind": "famous-crockett-fate",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          702,
+          877,
+          528,
+          241
+        ],
+        "visiblePixels": 80539,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-crockett-fate.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-crockett-fate"
+    },
+    "esparza-walk-e-1": {
+      "sheet": "famous-esparza",
+      "x": 80,
+      "y": 81,
+      "w": 166,
+      "h": 228,
+      "anchorX": 0.491,
+      "anchorY": 0.9298,
+      "logicalHeight": 247,
+      "label": "esparza walk e 1",
+      "kind": "famous-esparza",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          82,
+          83,
+          162,
+          224
+        ],
+        "visiblePixels": 17442,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "esparza-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-walk-e-2": {
+      "sheet": "famous-esparza",
+      "x": 389,
+      "y": 81,
+      "w": 168,
+      "h": 228,
+      "anchorX": 0.494,
+      "anchorY": 0.9298,
+      "logicalHeight": 247,
+      "label": "esparza walk e 2",
+      "kind": "famous-esparza",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          391,
+          83,
+          164,
+          224
+        ],
+        "visiblePixels": 17552,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "esparza-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-walk-e-3": {
+      "sheet": "famous-esparza",
+      "x": 698,
+      "y": 81,
+      "w": 171,
+      "h": 228,
+      "anchorX": 0.5,
+      "anchorY": 0.9298,
+      "logicalHeight": 247,
+      "label": "esparza walk e 3",
+      "kind": "famous-esparza",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          700,
+          83,
+          167,
+          224
+        ],
+        "visiblePixels": 17365,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "esparza-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-walk-e-4": {
+      "sheet": "famous-esparza",
+      "x": 1014,
+      "y": 81,
+      "w": 170,
+      "h": 228,
+      "anchorX": 0.4912,
+      "anchorY": 0.9298,
+      "logicalHeight": 247,
+      "label": "esparza walk e 4",
+      "kind": "famous-esparza",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1016,
+          83,
+          166,
+          224
+        ],
+        "visiblePixels": 17390,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "esparza-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-walk-s-1": {
+      "sheet": "famous-esparza",
+      "x": 99,
+      "y": 379,
+      "w": 137,
+      "h": 247,
+      "anchorX": 0.4453,
+      "anchorY": 0.9312,
+      "logicalHeight": 247,
+      "label": "esparza walk s 1",
+      "kind": "famous-esparza",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          101,
+          381,
+          133,
+          243
+        ],
+        "visiblePixels": 19459,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "esparza-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-walk-s-2": {
+      "sheet": "famous-esparza",
+      "x": 415,
+      "y": 379,
+      "w": 141,
+      "h": 247,
+      "anchorX": 0.5177,
+      "anchorY": 0.9312,
+      "logicalHeight": 247,
+      "label": "esparza walk s 2",
+      "kind": "famous-esparza",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          417,
+          381,
+          137,
+          243
+        ],
+        "visiblePixels": 19432,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "esparza-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-walk-n-1": {
+      "sheet": "famous-esparza",
+      "x": 714,
+      "y": 380,
+      "w": 140,
+      "h": 246,
+      "anchorX": 0.55,
+      "anchorY": 0.935,
+      "logicalHeight": 247,
+      "label": "esparza walk n 1",
+      "kind": "famous-esparza",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          716,
+          382,
+          136,
+          242
+        ],
+        "visiblePixels": 19286,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "esparza-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-walk-n-2": {
+      "sheet": "famous-esparza",
+      "x": 1025,
+      "y": 380,
+      "w": 137,
+      "h": 246,
+      "anchorX": 0.5584,
+      "anchorY": 0.9431,
+      "logicalHeight": 247,
+      "label": "esparza walk n 2",
+      "kind": "famous-esparza",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1027,
+          382,
+          133,
+          242
+        ],
+        "visiblePixels": 19120,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "esparza-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-idle": {
+      "sheet": "famous-esparza",
+      "x": 93,
+      "y": 690,
+      "w": 163,
+      "h": 226,
+      "anchorX": 0.408,
+      "anchorY": 0.9292,
+      "logicalHeight": 247,
+      "label": "esparza idle",
+      "kind": "famous-esparza",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          95,
+          692,
+          159,
+          222
+        ],
+        "visiblePixels": 18354,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-speak": {
+      "sheet": "famous-esparza",
+      "x": 398,
+      "y": 690,
+      "w": 183,
+      "h": 226,
+      "anchorX": 0.377,
+      "anchorY": 0.9292,
+      "logicalHeight": 247,
+      "label": "esparza speak",
+      "kind": "famous-esparza",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          400,
+          692,
+          179,
+          222
+        ],
+        "visiblePixels": 20958,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-point": {
+      "sheet": "famous-esparza",
+      "x": 700,
+      "y": 690,
+      "w": 194,
+      "h": 227,
+      "anchorX": 0.3505,
+      "anchorY": 0.9295,
+      "logicalHeight": 247,
+      "label": "esparza point",
+      "kind": "famous-esparza",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          702,
+          692,
+          190,
+          223
+        ],
+        "visiblePixels": 20637,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-serve-gun": {
+      "sheet": "famous-esparza",
+      "x": 990,
+      "y": 703,
+      "w": 218,
+      "h": 210,
+      "anchorX": 0.3784,
+      "anchorY": 0.9286,
+      "logicalHeight": 247,
+      "label": "esparza serve gun",
+      "kind": "famous-esparza",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          992,
+          705,
+          214,
+          206
+        ],
+        "visiblePixels": 18051,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-shot-carry": {
+      "sheet": "famous-esparza",
+      "x": 78,
+      "y": 988,
+      "w": 160,
+      "h": 214,
+      "anchorX": 0.4938,
+      "anchorY": 0.9346,
+      "logicalHeight": 247,
+      "label": "esparza shot carry",
+      "kind": "famous-esparza",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          80,
+          990,
+          156,
+          210
+        ],
+        "visiblePixels": 16513,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-aim": {
+      "sheet": "famous-esparza",
+      "x": 371,
+      "y": 994,
+      "w": 225,
+      "h": 208,
+      "anchorX": 0.3511,
+      "anchorY": 0.9279,
+      "logicalHeight": 247,
+      "label": "esparza aim",
+      "kind": "famous-esparza",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          373,
+          996,
+          221,
+          204
+        ],
+        "visiblePixels": 18382,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-fire": {
+      "sheet": "famous-esparza",
+      "x": 675,
+      "y": 997,
+      "w": 241,
+      "h": 201,
+      "anchorX": 0.3195,
+      "anchorY": 0.9303,
+      "logicalHeight": 247,
+      "label": "esparza fire",
+      "kind": "famous-esparza",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          677,
+          999,
+          237,
+          197
+        ],
+        "visiblePixels": 18590,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
+    },
+    "esparza-still": {
+      "sheet": "famous-esparza",
+      "x": 952,
+      "y": 1110,
+      "w": 250,
+      "h": 86,
+      "anchorX": 0.5,
+      "anchorY": 0.9186,
+      "logicalHeight": 247,
+      "label": "esparza still",
+      "kind": "famous-esparza",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          954,
+          1112,
+          246,
+          82
+        ],
+        "visiblePixels": 15044,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-esparza.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-esparza"
     },
     "crockett-walk-e-1": {
       "sheet": "famous-crockett",
@@ -64937,6 +65799,78 @@
       "motion": "none",
       "direction": "north"
     },
+    "crockett-captive": {
+      "frames": [
+        {
+          "sprite": "crockett-captive-1",
+          "duration": 1800
+        },
+        {
+          "sprite": "crockett-captive-2",
+          "duration": 1300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "esparza-walk-e": {
+      "frames": [
+        {
+          "sprite": "esparza-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "esparza-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "esparza-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "esparza-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "esparza-walk-s": {
+      "frames": [
+        {
+          "sprite": "esparza-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "esparza-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "esparza-walk-n": {
+      "frames": [
+        {
+          "sprite": "esparza-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "esparza-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "crockett-walk-e": {
       "frames": [
         {
@@ -76230,7 +77164,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 126,
+    "sourceCount": 128,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

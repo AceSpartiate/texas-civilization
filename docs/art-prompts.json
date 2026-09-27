@@ -1837,6 +1837,42 @@
           "result": "Accepted only after the atlas overlap audit; first output failed on the fire frame."
         }
       ]
+    },
+    {
+      "sheet": "famous-esparza",
+      "promptId": "frontier-v1/famous-esparza",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + edit",
+      "prompt": "Create a production 4x4 game sprite atlas for José María (Gregorio) Esparza, the Tejano Alamo defender, as an ORIGINAL visual interpretation, not a claim of portrait likeness or documented clothing. Match the attached games warm hand-painted frontier style, dark brown ink contour, consistent elevated three-quarter perspective and small-sprite readability. He must look different from the attached Bonham and Dickinson atlases: middle-aged Mexican Tejano man, medium-brown skin, black wavy hair, short dark moustache, no hat, dusty olive-brown short jacket, white open-collar shirt, dark red neck cloth, tan trousers and worn boots. Exactly sixteen complete isolated figures on a genuine transparent RGBA background in strict 4 columns x 4 rows, with generous clear alpha gutters on ALL sides of EACH cell; no overlap, grid, scenery, words, shadows, blood or gore. Keep the same face, skin tone, costume and proportions throughout. Row 1: four consecutive EAST/screen-right walking frames with visible alternating leg positions. Row 2: two SOUTH/toward-viewer walking frames, then two NORTH/away-viewer walking frames. Row 3: east idle holding musket safely down, speaking, looking toward the battlements, serving an artillery gun with a ramrod but no cannon included. Row 4: east carrying a cannon shot, aiming musket, firing musket with small muzzle flash, lying still on side with eyes closed and no wound shown. Mirror east for west in game. One person and their carried tool only in each cell.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-bonham.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-almeron-dickinson.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5ee508f8-da42-4a45-98c7-6b73c54bc988.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-esparza.png",
+      "postProcessing": "None. Accepted imagegen spacing edit copied unchanged; atlas builder measures alpha and cell retention.",
+      "review": "Distinct Tejano defender with directional walk and serving-gun action; non-graphic still pose. No exact likeness or outfit claim.",
+      "edits": [
+        {
+          "prompt": "Precise layout edit of the attached exact 4x4 Gregorio Esparza game sprite atlas. Keep the canvas 1254x1254 and all sixteen existing poses and character identity. Uniformly shrink each entire cells figure, gun, ramrod, cannonball and muzzle flash to 78% of present size, and center each complete pose inside its OWN equal 313x313 cell. Require at least 20 fully transparent pixels on all four sides of every cell; the bottom-row musket flash and still body must fit entirely in their own cells and never overlap the next. Keep all brown skin tones, dark hair, moustache, olive coat, red neck cloth, tan trousers, expressions, directions and pose details exactly. Preserve genuine alpha transparency. No grid, background, added shadows, scenery, text or new figures. Only change scale and spacing.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-866c9fe5-fc87-442d-ada8-2ff709839721.png",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5ee508f8-da42-4a45-98c7-6b73c54bc988.png"
+        }
+      ]
+    },
+    {
+      "sheet": "famous-crockett-fate",
+      "promptId": "frontier-v1/famous-crockett-fate",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create a production 2x2 transparent RGBA game sprite atlas extending the attached David Crockett character in the EXACT same warm hand-painted ink-outlined 1836 Texas game style. Keep the same face, brown beard, tan broad-brim hat, fringed tan coat, brown trousers, boots, build and elevated three-quarter view; this is an original interpretation, not an exact historical portrait. Four isolated full-body poses, one centered inside each of four equal cells with generous fully transparent gutters and no clipping, overlap, labels, background, shadow, weapons, blood or gore. TOP LEFT: standing east/screen-right, unarmed captive with both hands visibly open at waist level, rifle and knife completely absent. TOP RIGHT: second small motion key pose for the same captive, unarmed, open hands slightly raised and shoulders turned a little toward the viewer. BOTTOM LEFT: lying still on his side, hat nearby but no weapon, eyes closed, calm non-graphic. BOTTOM RIGHT: lying still from a slightly different 3/4 angle, eyes closed, no injury marks. Keep the same character identity in every cell. The captive and still are an interpretation for a disputed historical account, not a claim about what certainly happened.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-crockett.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2c4497c7-2553-4ee3-8678-516cee259c2b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-crockett-fate.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; atlas build measures alpha and frame bounds.",
+      "review": "Two unarmed open-hand captive keys and two non-graphic still views; game labels the outcome as one disputed account."
     }
   ]
 }

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1457 usable sprites, 126 PNG atlases, 502 clips** (276 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1477 usable sprites, 128 PNG atlases, 506 clips** (280 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -45,6 +45,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-angelina-dickinson | 4 | 1254 × 1254 | 1286027 |
 | famous-milam | 16 | 1254 × 1254 | 1519856 |
 | famous-fannin | 16 | 1254 × 1254 | 1306380 |
+| famous-crockett-fate | 4 | 1254 × 1254 | 948322 |
+| famous-esparza | 16 | 1254 × 1254 | 869799 |
 | famous-crockett | 16 | 1254 × 1254 | 1237962 |
 | famous-travis | 16 | 1254 × 1254 | 1163935 |
 | famous-bowie | 16 | 1254 × 1254 | 1280882 |
@@ -587,6 +589,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | fannin-injured-seated | famous-fannin | State artwork; no motion required |
 | fannin-surrender | famous-fannin | State artwork; no motion required |
 | fannin-prisoner-seated | famous-fannin | State artwork; no motion required |
+| crockett-captive-1 | famous-crockett-fate | crockett-captive |
+| crockett-captive-2 | famous-crockett-fate | crockett-captive |
+| crockett-still-side | famous-crockett-fate | State artwork; no motion required |
+| crockett-still-turn | famous-crockett-fate | State artwork; no motion required |
+| esparza-walk-e-1 | famous-esparza | esparza-walk-e |
+| esparza-walk-e-2 | famous-esparza | esparza-walk-e |
+| esparza-walk-e-3 | famous-esparza | esparza-walk-e |
+| esparza-walk-e-4 | famous-esparza | esparza-walk-e |
+| esparza-walk-s-1 | famous-esparza | esparza-walk-s |
+| esparza-walk-s-2 | famous-esparza | esparza-walk-s |
+| esparza-walk-n-1 | famous-esparza | esparza-walk-n |
+| esparza-walk-n-2 | famous-esparza | esparza-walk-n |
+| esparza-idle | famous-esparza | State artwork; no motion required |
+| esparza-speak | famous-esparza | State artwork; no motion required |
+| esparza-point | famous-esparza | State artwork; no motion required |
+| esparza-serve-gun | famous-esparza | State artwork; no motion required |
+| esparza-shot-carry | famous-esparza | State artwork; no motion required |
+| esparza-aim | famous-esparza | State artwork; no motion required |
+| esparza-fire | famous-esparza | State artwork; no motion required |
+| esparza-still | famous-esparza | State artwork; no motion required |
 | crockett-walk-e-1 | famous-crockett | crockett-walk-e |
 | crockett-walk-e-2 | famous-crockett | crockett-walk-e |
 | crockett-walk-e-3 | famous-crockett | crockett-walk-e |
@@ -1770,6 +1792,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | fannin-walk-e | Pose cycle | 4 | 760 | yes | east |
 | fannin-walk-s | Pose cycle | 2 | 580 | yes | south |
 | fannin-walk-n | Pose cycle | 2 | 580 | yes | north |
+| crockett-captive | Pose cycle | 2 | 3100 | yes | east; mirror for west |
+| esparza-walk-e | Pose cycle | 4 | 760 | yes | east |
+| esparza-walk-s | Pose cycle | 2 | 580 | yes | south |
+| esparza-walk-n | Pose cycle | 2 | 580 | yes | north |
 | crockett-walk-e | Pose cycle | 4 | 760 | yes | east |
 | crockett-walk-s | Pose cycle | 2 | 580 | yes | south |
 | crockett-walk-n | Pose cycle | 2 | 580 | yes | north |
