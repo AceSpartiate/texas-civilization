@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1477 usable sprites, 128 PNG atlases, 506 clips** (280 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1482 usable sprites, 130 PNG atlases, 507 clips** (281 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -13,6 +13,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | Atlas | Frames | Size | PNG bytes |
 | --- | ---: | --- | ---: |
 | alamo-face-strips | 5 | 1659 × 948 | 928904 |
+| joe-story-actions | 4 | 1254 × 1254 | 787824 |
+| famous-travis-still | 1 | 1536 × 1024 | 1367838 |
 | artillery-service | 16 | 1254 × 1254 | 1171440 |
 | biome-ground-bexar | 16 | 1254 × 1254 | 2215982 |
 | biome-trees-fields | 16 | 1254 × 1254 | 1966285 |
@@ -150,6 +152,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | alamo-face-gate | alamo-face-strips | State artwork; no motion required |
 | alamo-face-convento | alamo-face-strips | State artwork; no motion required |
 | alamo-face-church-south | alamo-face-strips | State artwork; no motion required |
+| joe-door-aim | joe-story-actions | joe-fire-door |
+| joe-door-fire | joe-story-actions | joe-fire-door |
+| joe-hurt-e | joe-story-actions | State artwork; no motion required |
+| joe-hurt-s | joe-story-actions | State artwork; no motion required |
+| travis-still-ramp | famous-travis-still | State artwork; no motion required |
 | volunteer-rammer-carry-1 | artillery-service | volunteer-gun-ram |
 | volunteer-rammer-carry-2 | artillery-service | volunteer-gun-ram |
 | volunteer-ram-1 | artillery-service | volunteer-gun-ram |
@@ -1627,6 +1634,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 | Clip | Method | Frames | Duration (ms) | Loop | Direction |
 | --- | --- | ---: | ---: | --- | --- |
+| joe-fire-door | Pose cycle | 2 | 5200 | yes | east; mirror for west |
 | volunteer-gun-ram | Pose cycle | 4 | 1160 | one-shot | east; west by mirroring |
 | volunteer-gun-shot-carry | Pose cycle | 2 | 840 | yes | east; west by mirroring |
 | volunteer-gun-fire | Pose cycle | 2 | 1060 | one-shot | east; west by mirroring |

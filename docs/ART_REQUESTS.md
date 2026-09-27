@@ -103,7 +103,7 @@ does not have:
 | **A family's person hit in a fight** is drawn as `volunteer-injured` for a second and then `volunteer-reclining` (killed), or `volunteer-injured` (wounded), carried by two `volunteer-march` figures once the fight has passed; one who runs is `volunteer-march` facing away | `poseOf` and the carriers in `draw`, `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, items 1 and 3 | each cast's own `-injured` and `-reclining`, and `bearers-carry` |
 
 | **Famous people without a sheet of their own** (Austin, Burleson, Moore, Kimbell, Martin, J. W. Smith, Johnson, Karnes, Deaf Smith, Neill, Grant, Horton, Rusk, Sherman, Lamar, Hockley, McCulloch, W. P. Smith, Smither, Cos, Castañeda, Urrea, Castrillón, Almonte, Condelle, Sánchez Navarro, Barragán, Ben) are drawn as the volunteer (`volunteer-idle-*`, `-march`, `-fire-reload`) or the regular, riding as the mounted courier or the dragoon, named under the figure | `drawPerson` in `public/battle-view.js`, `drawFamous` in `public/famous-view.js` (`stand-in:`) | Request 2026-09-26 — the famous people, items 1-3, 8 | Each person's own sheet, added to `PERSON_ART` |
-| **Poses the famous sheets lack**: the fallen without a still pose (Travis, Castrillón) are `volunteer-injured` then `volunteer-reclining` (`regular-*` for Castrillón); Joe firing from the house is `joe-hide` with a flash at the door, and hurt is `joe-rest`; Houston and Santa Anna on horseback are the mounted courier and the dragoon | `drawPerson` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-26 — the famous people, items 5-7 | Remaining `*-still`, `joe-fire`, `joe-hurt`, mounted Houston and Santa Anna |
+| **Poses the famous sheets lack**: Castrillón still uses `regular-injured` then `regular-reclining`; Houston and Santa Anna on horseback use the mounted courier and the dragoon. Travis now has `travis-still-ramp`; Joe has `joe-fire-door` and `joe-hurt-e`. | `drawPerson` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-26 — the famous people, items 5-7 | Castrillón still and mounted Houston and Santa Anna |
 | **The Twin Sisters on the campaign map** are the library's `cannon-iron-e` twice, named | `drawFamous` in `public/famous-view.js` (`stand-in:`) | Request 2026-09-26 — the famous people, item 9 | `twin-sisters-limbered` |
 | **The marksmen in the grass at Coleto** are drawn in the loose order's standing and kneeling poses, firing | the `ringed` grass parts in `sim/battles/coleto.mjs`, drawn by `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 1 | `regular-prone-fire` (lying in the grass, aim and fire, both facings) |
 | **The Goliad prisoners** are drawn in the militia's walk and stand, which carry muskets; the prisoners had none | `columns` in `sim/battles/goliad-massacre.mjs` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 2 | `prisoner-walk` and `prisoner-stand`, unarmed, hands free |
@@ -209,7 +209,7 @@ burning twenty miles off, never as a campfire.
 
 ## Request 2026-09-26 — the famous people: the roster's remaining figures and poses
 
-**Status: partially delivered; remaining stand-ins listed above.** Bonham, Almeron Dickinson and Gregorio Esparza now have their own sheets and battle/map bindings; Crockett has unarmed captive and still art. The famous people are drawn and named on every
+**Status: partially delivered; remaining stand-ins listed above.** Bonham, Almeron Dickinson and Gregorio Esparza now have their own sheets and battle/map bindings; Crockett has unarmed captive and still art; Travis has a dedicated ramp still, and Joe has doorway firing and wounded poses. The famous people are drawn and named on every
 field and on the campaign map (`sim/people.mjs`, `public/battle-view.js` `PERSON_ART` and `drawPerson`, `public/famous-view.js`;
 `docs/BATTLES.md` §14). Every one with a sheet of their own is drawn from it; the rest, and the poses the delivered sheets do not
 have, stand in. Delivery contract as the delivered famous sheets (`scripts/art-deliveries/famous-people.mjs`): a transparent 4×4
@@ -223,9 +223,8 @@ mirrored for west; no gore; no likeness claimed.
 3. **Mexican officers** - Cos, Castañeda, Urrea, Castrillón (with `on-crate`: standing on an ammunition box, arm raised; `walk-away`;
    still), Almonte (with `surrender`, hands open, and `interpret`, standing beside a seated man), Condelle, Sánchez Navarro, Barragán.
 4. **Crockett taken** - delivered: `crockett-captive` is a two-frame unarmed open-hand clip, and `crockett-still-side` is a non-graphic still pose. The game continues to label the fate as one disputed account (docs/BATTLES.md §2c.1).
-5. **The famous fallen** - `travis-still` (lying on the gun carriage's ramp), and a still pose for each officer above.
-6. **Joe** - `joe-fire` (firing from a doorway: only the head, shoulders and the barrel in the door) and `joe-hurt` (standing
-   wounded, a hand to his side), for his own account (`HIST-TEX-549`).
+5. **The famous fallen** - delivered: `travis-still-ramp` (lying on the gun carriage's ramp). Still poses remain for officers above.
+6. **Joe** - delivered: `joe-fire-door` (firing from a doorway) and `joe-hurt-e` (hand to his side); an additional south-facing wounded frame is available as `joe-hurt-s`. These support his own account (`HIST-TEX-549`).
 7. **Mounted Houston and Santa Anna** - walk and idle on horseback (Houston's Saracen; he was shot from under him in the charge).
 8. **Ben** - a man of about thirty in a cook's clothes, walk and idle, for the walk to Gonzales with Mrs. Dickinson and Joe.
 9. **The Twin Sisters on the road** - `twin-sisters-limbered`: the pair of small iron guns on their carriages as seen with an army's

@@ -69,10 +69,10 @@ const clamp01 = value => Math.max(0, Math.min(1, value));
  * regular (public/battle-view.js `drawPerson`; stand-ins listed in docs/ART_REQUESTS.md, request 2026-09-26).
  */
 export const PERSON_ART = Object.freeze({
-  travis: { stand: 'travis-idle', command: 'travis-command', write: 'travis-write', point: 'travis-command', fire: ['travis-aim', 'travis-fire', 'travis-ready'], wounded: 'travis-wounded-kneel', walk: 'travis-walk-e' },
+  travis: { stand: 'travis-idle', command: 'travis-command', write: 'travis-write', point: 'travis-command', fire: ['travis-aim', 'travis-fire', 'travis-ready'], wounded: 'travis-wounded-kneel', still: 'travis-still-ramp', walk: 'travis-walk-e' },
   bowie: { stand: 'bowie-idle', command: 'bowie-command', sick: 'bowie-sick-bed', 'still-bed': 'bowie-still-bed', seated: 'bowie-sick-seated', walk: 'bowie-walk-e' },
   crockett: { stand: 'crockett-idle', command: 'crockett-command', fire: ['crockett-aim', 'crockett-fire', 'crockett-reload'], seated: 'crockett-rest-seated', captive: 'clip:crockett-captive', still: 'crockett-still-side', walk: 'crockett-walk-e' },
-  joe: { stand: 'clip:joe-idle', hide: 'clip:joe-hide', emerge: 'clip:joe-emerge', seated: 'clip:joe-rest', wounded: 'clip:joe-rest', walk: 'joe-walk' },
+  joe: { stand: 'clip:joe-idle', hide: 'clip:joe-hide', fireHidden: 'joe-fire-door', emerge: 'clip:joe-emerge', seated: 'clip:joe-rest', wounded: 'joe-hurt-e', walk: 'joe-walk' },
   seguin: { stand: 'seguin-idle', command: 'seguin-command', ride: 'seguin-mounted-e', walk: 'seguin-walk-e' },
   'susanna-dickinson': { stand: 'susanna-dickinson-hold-angelina', carry: 'susanna-dickinson-carry-angelina', sick: 'susanna-dickinson-shelter-with-angelina', seated: 'susanna-dickinson-rest-with-angelina', walk: 'susanna-dickinson-walk-e' },
   'angelina-dickinson': { stand: 'angelina-dickinson-sit', seated: 'angelina-dickinson-sleep' },
@@ -1196,7 +1196,8 @@ export function createBattleView(art) {
         flash(person.x, person.y, person.right, now, 0.8);
         puff(person.x + (person.right ? 0.002 : -0.002), person.y, now, { wind: null });
       }
-      return clip(own?.hide ? own.hide.slice(5) : `${kind}-idle-e`);
+      const firing = own?.fireHidden || 'joe-hide';
+      return art.animated(ctx, firing, p.x, p.y, size, 0, { timeMs: t, flip }) ? firing : clip(own?.hide ? own.hide.slice(5) : `${kind}-idle-e`);
     }
     if (named) return typeof named === 'string' && named.startsWith('clip:') ? clip(named.slice(5)) : sprite(named);
     // Stand-ins for poses without art of their own.
