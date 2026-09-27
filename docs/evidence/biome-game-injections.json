@@ -1,6 +1,6 @@
 {
  "record": "Regressions injected into the biome-game rules, one at a time: docs/BIOME_GAMEPLAY.md §6",
- "date": "2026-09-20",
+ "date": "2026-09-27",
  "files": [
   "tests/biome-game.test.mjs",
   "tests/biomes.test.mjs",
@@ -22,7 +22,8 @@
    "name": "the quarry ignores the cover it keeps to",
    "file": "sim/hunting.mjs",
    "failed": [
-    "the quarry a place holds is fixed by its ground and the season, and deer are everywhere game is"
+    "the quarry a place holds is fixed by its ground and the season, and deer are everywhere game is",
+    "a hunter walks out over the family land, works in close round the place, and waits longer on poor ground than on good"
    ]
   },
   {
@@ -36,21 +37,21 @@
    "name": "every kill is a deer's meat",
    "file": "sim/chores.mjs",
    "failed": [
-    "a hunt brings the quarry its place holds: what it gives comes home, only a deer is drawn, and the family is told"
+    "a hunt brings the quarry its place holds: what it gives comes home, the deer, the turkey and the mustang are drawn, and the family is told"
    ]
   },
   {
    "name": "every kill brings a hide",
    "file": "sim/chores.mjs",
    "failed": [
-    "a hunt brings the quarry its place holds: what it gives comes home, only a deer is drawn, and the family is told"
+    "a hunt brings the quarry its place holds: what it gives comes home, the deer, the turkey and the mustang are drawn, and the family is told"
    ]
   },
   {
    "name": "a deer drawn for any quarry",
    "file": "sim/chores.mjs",
    "failed": [
-    "a hunt brings the quarry its place holds: what it gives comes home, only a deer is drawn, and the family is told"
+    "a hunt brings the quarry its place holds: what it gives comes home, the deer, the turkey and the mustang are drawn, and the family is told"
    ]
   },
   {
@@ -71,14 +72,16 @@
    "name": "the stand's quarry not cut to the place it is asked about",
    "file": "sim/hunting.mjs",
    "failed": [
-    "the wild herds keep west of the Lavaca, and the ducks and geese to the water"
+    "the wild herds keep west of the Lavaca, and the ducks and geese to the water",
+    "a hunter walks out over the family land, works in close round the place, and waits longer on poor ground than on good"
    ]
   },
   {
    "name": "the wild herds and the buffalo roam every country",
    "file": "sim/hunting.mjs",
    "failed": [
-    "the wild herds keep west of the Lavaca, and the ducks and geese to the water"
+    "the wild herds keep west of the Lavaca, and the ducks and geese to the water",
+    "a hunter walks out over the family land, works in close round the place, and waits longer on poor ground than on good"
    ]
   },
   {
@@ -86,7 +89,8 @@
    "file": "sim/hunting.mjs",
    "failed": [
     "the wild herds keep west of the Lavaca, and the ducks and geese to the water",
-    "the antelope keeps to its own country, and that country is nowhere a family lives"
+    "the antelope keeps to its own country, and that country is nowhere a family lives",
+    "a hunter walks out over the family land, works in close round the place, and waits longer on poor ground than on good"
    ]
   },
   {

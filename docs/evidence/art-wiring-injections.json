@@ -1,6 +1,6 @@
 {
   "record": "art-wiring-injections",
-  "date": "2026-09-21",
+  "date": "2026-09-27",
   "delivery": "2026-09-21",
   "injections": [
     {
@@ -10,7 +10,7 @@
         "tests/biome-game.test.mjs"
       ],
       "failed": [
-        "a hunt brings the quarry its place holds: what it gives comes home, the deer and the turkey are drawn, and the family is told"
+        "a hunt brings the quarry its place holds: what it gives comes home, the deer, the turkey and the mustang are drawn, and the family is told"
       ]
     },
     {
@@ -20,7 +20,7 @@
         "tests/biome-game.test.mjs"
       ],
       "failed": [
-        "a hunt brings the quarry its place holds: what it gives comes home, the deer and the turkey are drawn, and the family is told"
+        "a hunt brings the quarry its place holds: what it gives comes home, the deer, the turkey and the mustang are drawn, and the family is told"
       ]
     },
     {
@@ -30,7 +30,7 @@
         "tests/biome-game.test.mjs"
       ],
       "failed": [
-        "a hunt brings the quarry its place holds: what it gives comes home, the deer and the turkey are drawn, and the family is told"
+        "a hunt brings the quarry its place holds: what it gives comes home, the deer, the turkey and the mustang are drawn, and the family is told"
       ]
     },
     {
@@ -40,7 +40,7 @@
         "tests/biome-game.test.mjs"
       ],
       "failed": [
-        "a hunt brings the quarry its place holds: what it gives comes home, the deer and the turkey are drawn, and the family is told"
+        "a hunt brings the quarry its place holds: what it gives comes home, the deer, the turkey and the mustang are drawn, and the family is told"
       ]
     },
     {
@@ -274,10 +274,11 @@
       "file": "public/landscape-art.js",
       "tests": [
         "tests/art-library.test.mjs",
-        "tests/woods-view.test.mjs"
+        "tests/woods-view.test.mjs",
+        "tests/ferry-art.test.mjs"
       ],
       "failed": [
-        "every frame of a delivered sheet is drawn somewhere, or is written down here as knowingly not drawn"
+        "the ferry at a crossing is the plank flatboat, and the log raft only if the flatboat cannot be drawn"
       ]
     }
   ]
