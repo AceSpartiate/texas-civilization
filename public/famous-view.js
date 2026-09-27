@@ -25,8 +25,12 @@ export function drawFamous(ctx, list, camera, { animated, drawSprite, miniPerson
     if (one.thing) {
       // The Twin Sisters: two guns side by side.
       for (const dx of [-0.45, 0.45]) if (drawSprite(ctx, 'cannon-iron-e', p.x + dx * size, p.y, size * 1.2)) how = 'cannon-iron-e';
+    } else if (one.doing === 'ride') {
+      const riding = own?.ride?.startsWith('clip:') ? own.ride.slice(5) : null;
+      if (!one.moving && own?.rideIdle) how = drawSprite(ctx, own.rideIdle, p.x, p.y, size * 1.3, { flip }) ? own.rideIdle : null;
+      if (!how && riding) how = animated(ctx, riding, p.x, p.y, size * 1.3, `famous:${one.id}`, { timeMs: time, flip }) ? riding : null;
+      if (!how) how = animated(ctx, kind === 'regular' ? 'dragoon-march' : 'mounted-courier-e', p.x, p.y, size * 1.3, `famous:${one.id}`, { timeMs: time, flip }) ? 'ride' : null;
     } else if (one.moving && own?.walk) how = animated(ctx, own.walk, p.x, p.y, one.child ? size * 0.6 : size, `famous:${one.id}`, { timeMs: time, flip }) ? own.walk : null;
-    else if (one.doing === 'ride' && !own?.ride) how = animated(ctx, kind === 'regular' ? 'dragoon-march' : 'mounted-courier-e', p.x, p.y, size * 1.3, `famous:${one.id}`, { timeMs: time, flip }) ? 'ride' : null;
     else {
       const named = own?.[one.doing] || own?.stand;
       // A child is drawn at a child's size, sheet or clip (the Esparza children, stand-ins; Angelina).

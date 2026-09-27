@@ -312,6 +312,7 @@ try {
   ok(`the Twin Sisters named and firing before the camp on April 20 (Neill hurt at them) and within two hundred yards on the 21st under Hockley: ${JSON.stringify(guns)}`);
   // Houston with the line, hurt in the charge.
   assert.ok(sjIn('advance', 'houston')?.onScreen, 'Houston was not drawn with the line');
+  assert.ok(['parade', 'guns', 'volley', 'killing'].some(phase => sjIn(phase, 'houston')?.drawnAs.has('houston-mounted-walk-e')), 'Houston did not render from his own mounted walking art');
   assert.ok(sjIn('charge', 'houston')?.hurt || sjIn('rout', 'houston'), 'Houston was not drawn in the charge');
   const stop = sjLines.get('sj-stop-firing');
   assert.ok(stop && stop.kind === 'tradition' && stop.name === 'Houston', 'Houston\'s "stop that firing" was not spoken as tradition');

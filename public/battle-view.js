@@ -81,8 +81,8 @@ export const PERSON_ART = Object.freeze({
   bonham: { stand: 'bonham-idle', command: 'bonham-point', point: 'bonham-point', gun: 'bonham-serve-gun', fire: ['bonham-aim', 'bonham-fire', 'bonham-reload'], still: 'bonham-still', walk: 'bonham-walk-e' },
   'almeron-dickinson': { stand: 'almeron-dickinson-idle', command: 'almeron-dickinson-command', gun: 'almeron-dickinson-serve-gun', carry: 'almeron-dickinson-shot-carry', fire: ['almeron-dickinson-ram', 'almeron-dickinson-fire', 'almeron-dickinson-ram'], still: 'almeron-dickinson-still', walk: 'almeron-dickinson-walk-e' },
   esparza: { stand: 'esparza-idle', command: 'esparza-point', point: 'esparza-point', gun: 'esparza-serve-gun', carry: 'esparza-shot-carry', fire: ['esparza-aim', 'esparza-fire', 'esparza-aim'], still: 'esparza-still', walk: 'esparza-walk-e' },
-  houston: { stand: 'houston-idle', command: 'houston-command', wounded: 'houston-injured-seated', walk: 'houston-walk-e' },
-  'santa-anna': { stand: 'santa-anna-idle', command: 'santa-anna-command', prisoner: 'santa-anna-disguised-seated', walk: 'santa-anna-walk-e' },
+  houston: { stand: 'houston-idle', command: 'houston-command', wounded: 'houston-injured-seated', ride: 'clip:houston-mounted-walk-e', rideIdle: 'houston-mounted-idle-e', walk: 'houston-walk-e' },
+  'santa-anna': { stand: 'santa-anna-idle', command: 'santa-anna-command', prisoner: 'santa-anna-disguised-seated', ride: 'clip:santa-anna-mounted-walk-e', rideIdle: 'santa-anna-mounted-idle-e', walk: 'santa-anna-walk-e' },
   'emily-west': { stand: 'emily-west-idle', carry: 'emily-west-carry-bundle', seated: 'emily-west-sit-converse', walk: 'emily-west-walk-e' },
   // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the Esparza family" - Ana Esparza is the library's second-cast woman
   // (`indigo`), María de Jesús its girl, Enrique its boy (fair-haired: the request asks for a Tejano boy of eight), Manuel and
@@ -1180,6 +1180,7 @@ export function createBattleView(art) {
       return clip(`${kind}-march`);
     }
     if (pose === 'ride') {
+      if (typeof named === 'string' && named.startsWith('clip:')) return clip(named.slice(5), time, { size: figurePx * 1.35 });
       if (named) return sprite(named);
       return clip(mexican ? 'dragoon-march' : 'mounted-courier-e', time, { size: figurePx * 1.35 });
     }

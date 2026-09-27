@@ -2632,6 +2632,38 @@
       "motion": "none",
       "direction": "north"
     },
+    "houston-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "houston-mounted-walk-e-1",
+          "duration": 320
+        },
+        {
+          "sprite": "houston-mounted-walk-e-2",
+          "duration": 320
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "santa-anna-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "santa-anna-mounted-walk-e-1",
+          "duration": 320
+        },
+        {
+          "sprite": "santa-anna-mounted-walk-e-2",
+          "duration": 320
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
     "crockett-walk-e": {
       "frames": [
         {

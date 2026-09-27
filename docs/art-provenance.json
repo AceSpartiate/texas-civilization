@@ -1895,6 +1895,33 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-travis-still.png",
       "postProcessing": "None. Original generated PNG copied unchanged.",
       "review": "Dedicated non-graphic Travis still pose at the north-battery ramp; no exact likeness or clothing claim."
+    },
+    {
+      "sheet": "famous-houston-mounted",
+      "promptId": "frontier-v1/famous-houston-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-houston.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-seguin.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-de8ee9ff-6352-4656-a589-c8e47ca8cb54.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-houston-mounted.png",
+      "postProcessing": "None. Generated PNG copied unchanged.",
+      "review": "Two distinct east gait frames, east idle and south walking; original likeness and horse interpretation."
+    },
+    {
+      "sheet": "famous-santa-anna-mounted",
+      "promptId": "frontier-v1/famous-santa-anna-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-santa-anna.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-58a6e130-5dae-4bec-8522-1982decaa105.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-santa-anna-mounted.png",
+      "postProcessing": "None. Generated PNG copied unchanged.",
+      "review": "Two distinct east gait frames, east idle and south walking; original likeness and horse interpretation."
     }
   ],
   "rejectedAttempts": [

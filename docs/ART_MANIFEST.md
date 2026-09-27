@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1482 usable sprites, 130 PNG atlases, 507 clips** (281 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1490 usable sprites, 132 PNG atlases, 509 clips** (283 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -49,6 +49,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-fannin | 16 | 1254 × 1254 | 1306380 |
 | famous-crockett-fate | 4 | 1254 × 1254 | 948322 |
 | famous-esparza | 16 | 1254 × 1254 | 869799 |
+| famous-houston-mounted | 4 | 1254 × 1254 | 1158924 |
+| famous-santa-anna-mounted | 4 | 1226 × 1283 | 1192703 |
 | famous-crockett | 16 | 1254 × 1254 | 1237962 |
 | famous-travis | 16 | 1254 × 1254 | 1163935 |
 | famous-bowie | 16 | 1254 × 1254 | 1280882 |
@@ -616,6 +618,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-aim | famous-esparza | State artwork; no motion required |
 | esparza-fire | famous-esparza | State artwork; no motion required |
 | esparza-still | famous-esparza | State artwork; no motion required |
+| houston-mounted-walk-e-1 | famous-houston-mounted | houston-mounted-walk-e |
+| houston-mounted-walk-e-2 | famous-houston-mounted | houston-mounted-walk-e |
+| houston-mounted-idle-e | famous-houston-mounted | State artwork; no motion required |
+| houston-mounted-walk-s | famous-houston-mounted | State artwork; no motion required |
+| santa-anna-mounted-walk-e-1 | famous-santa-anna-mounted | santa-anna-mounted-walk-e |
+| santa-anna-mounted-walk-e-2 | famous-santa-anna-mounted | santa-anna-mounted-walk-e |
+| santa-anna-mounted-idle-e | famous-santa-anna-mounted | State artwork; no motion required |
+| santa-anna-mounted-walk-s | famous-santa-anna-mounted | State artwork; no motion required |
 | crockett-walk-e-1 | famous-crockett | crockett-walk-e |
 | crockett-walk-e-2 | famous-crockett | crockett-walk-e |
 | crockett-walk-e-3 | famous-crockett | crockett-walk-e |
@@ -1804,6 +1814,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-walk-e | Pose cycle | 4 | 760 | yes | east |
 | esparza-walk-s | Pose cycle | 2 | 580 | yes | south |
 | esparza-walk-n | Pose cycle | 2 | 580 | yes | north |
+| houston-mounted-walk-e | Pose cycle | 2 | 640 | yes | east |
+| santa-anna-mounted-walk-e | Pose cycle | 2 | 640 | yes | east |
 | crockett-walk-e | Pose cycle | 4 | 760 | yes | east |
 | crockett-walk-s | Pose cycle | 2 | 580 | yes | south |
 | crockett-walk-n | Pose cycle | 2 | 580 | yes | north |
