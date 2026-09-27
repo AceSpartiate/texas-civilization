@@ -1,6 +1,6 @@
 # Claude handoff — Astra foundation
 
-## The Mexican advance's places: Thompson's, the Old Fort, Stafford's, New Washington and Mrs. Powell's on the map — 2026-09-26 (worktree branch `advance-places` from main 9d702eb; not released)
+## The Mexican advance's places: Thompson's, the Old Fort, Stafford's, New Washington and Mrs. Powell's on the map — 2026-09-26 (worktree branch `advance-places` from main 9d702eb, main merged at 75eb715 - docs only; not released)
 
 The owner answered docs/SCRAPE.md §10 by multiple choice on 2026-09-26: (a) leaving - **"Nobody"**, (b) the foragers -
 **"Burn it"**, (d) the reach - **"Five miles"**, all as built; (c) the off-map stops - **"Real places to go"**. The four are
