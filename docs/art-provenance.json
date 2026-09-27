@@ -2008,11 +2008,41 @@
       "sheet": "twin-sisters-limbered",
       "promptId": "frontier-v1/twin-sisters-limbered",
       "tool": "built-in image_gen.imagegen",
-      "mode": "generate",
-      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3fc5f880-37f7-4b29-ab6c-aed234767f4f.png",
+      "mode": "edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3fc5f880-37f7-4b29-ab6c-aed234767f4f.png",
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e1ffe4d6-6fd8-4052-ad7b-f6a17c7e22c7.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4bf342f0-e1ef-40bb-83db-658901765c47.png",
       "runtimeFile": "public/assets/frontier-v1/atlases/twin-sisters-limbered.png",
-      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
-      "review": "Paired map representation; does not assert a historically verified limber or hauling method."
+      "postProcessing": "None. Edited PNG copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "The paired map asset matches the red-blue field variant; color is artistic identification, not a documented paint scheme or hauling method."
+    },
+    {
+      "sheet": "cannon-sixpounder",
+      "promptId": "frontier-v1/cannon-sixpounder",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/cannon-cartwheels.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-d788edd3-2984-498a-b554-9c059c5f885f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/cannon-sixpounder.png",
+      "postProcessing": "None. Generated PNG copied unchanged; measured atlas validation only.",
+      "review": "Four discrete rest/recoil views for a single field gun. Use twice for the Twin Sisters; no crew or hauling rig is implied."
+    },
+    {
+      "sheet": "twin-sisters-painted",
+      "promptId": "frontier-v1/twin-sisters-painted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/cannon-sixpounder.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e1ffe4d6-6fd8-4052-ad7b-f6a17c7e22c7.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/twin-sisters-painted.png",
+      "postProcessing": "None. Edited PNG copied unchanged; measured atlas validation only.",
+      "review": "Dedicated painted variant for the two Twin Sisters in battle. Color is an artistic identifier, not a historical claim."
     }
   ],
   "rejectedAttempts": [

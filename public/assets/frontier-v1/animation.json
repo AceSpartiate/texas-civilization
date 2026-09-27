@@ -372,6 +372,48 @@
       "direction": "west",
       "recoilSign": -1
     },
+    "cannon-sixpounder-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-sixpounder-e",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-sixpounder-recoil-e",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-sixpounder-e",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "recoilSign": 1
+    },
+    "cannon-sixpounder-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-sixpounder-w",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-sixpounder-recoil-w",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-sixpounder-w",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "recoilSign": -1
+    },
     "carreta-travel-e": {
       "frames": [
         {
@@ -5135,6 +5177,46 @@
       "authored": false,
       "motion": "sway",
       "direction": "not applicable"
+    },
+    "twin-sister-painted-e-recoil": {
+      "frames": [
+        {
+          "sprite": "twin-sister-painted-e",
+          "duration": 110
+        },
+        {
+          "sprite": "twin-sister-painted-recoil-e",
+          "duration": 180
+        },
+        {
+          "sprite": "twin-sister-painted-e",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "twin-sister-painted-w-recoil": {
+      "frames": [
+        {
+          "sprite": "twin-sister-painted-w",
+          "duration": 110
+        },
+        {
+          "sprite": "twin-sister-painted-recoil-w",
+          "duration": 180
+        },
+        {
+          "sprite": "twin-sister-painted-w",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "west"
     },
     "rust-wagon-driver-s": {
       "frames": [

@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 139,
-    "sprites": 1530,
-    "clips": 515,
-    "poseCycles": 289,
+    "sheets": 141,
+    "sprites": 1538,
+    "clips": 519,
+    "poseCycles": 293,
     "rigs": 4
   },
   "entrypoints": {
@@ -665,6 +665,64 @@
               [
                 690,
                 1200
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "cannon-sixpounder": {
+      "image": "atlases/cannon-sixpounder.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1284112,
+      "sha256": "39a5772f0b3a3a7555c2b6cf6832e2bcedac18e7ff4c55caeef59571cce86ac6",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.672483,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              185,
+              564
+            ],
+            "columns": [
+              [
+                39,
+                593
+              ],
+              [
+                663,
+                1218
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              754,
+              1136
+            ],
+            "columns": [
+              [
+                58,
+                608
+              ],
+              [
+                682,
+                1230
               ]
             ]
           }
@@ -3716,11 +3774,11 @@
       "image": "atlases/twin-sisters-limbered.png",
       "width": 1254,
       "height": 1254,
-      "bytes": 999559,
-      "sha256": "7f82ae2272c38b9ac6c4e5739172d250b59db1f6075f95dea0642c0a757cbbde",
+      "bytes": 1010968,
+      "sha256": "9307b747c7ef3668c965aa81ebd712df3723bd3a0403721c79efd3833b05792b",
       "alpha": {
         "threshold": 24,
-        "transparentFraction": 0.753976,
+        "transparentFraction": 0.755432,
         "cornerAlpha": [
           0,
           0,
@@ -3736,34 +3794,34 @@
           {
             "row": 1,
             "yRange": [
-              221,
-              478
+              219,
+              480
             ],
             "columns": [
               [
-                16,
-                622
+                15,
+                623
               ],
               [
-                644,
-                1229
+                643,
+                1231
               ]
             ]
           },
           {
             "row": 2,
             "yRange": [
-              759,
-              1075
+              757,
+              1076
             ],
             "columns": [
               [
-                16,
-                616
+                15,
+                618
               ],
               [
-                683,
-                1230
+                682,
+                1232
               ]
             ]
           }
@@ -9045,6 +9103,64 @@
               [
                 969,
                 1224
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "twin-sisters-painted": {
+      "image": "atlases/twin-sisters-painted.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1249122,
+      "sha256": "eef02cf8fedf2dc2c17539bf7caa4adf86e566d1c2a0d4797aa1eea37d6b3381",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.669338,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              184,
+              566
+            ],
+            "columns": [
+              [
+                39,
+                594
+              ],
+              [
+                663,
+                1219
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              754,
+              1137
+            ],
+            "columns": [
+              [
+                58,
+                611
+              ],
+              [
+                681,
+                1232
               ]
             ]
           }
@@ -15607,6 +15723,142 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/cannon-cartwheels"
+    },
+    "cannon-sixpounder-e": {
+      "sheet": "cannon-sixpounder",
+      "x": 39,
+      "y": 185,
+      "w": 554,
+      "h": 376,
+      "anchorX": 0.3854,
+      "anchorY": 0.9282,
+      "label": "cannon sixpounder e",
+      "kind": "cannon-sixpounder",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          41,
+          187,
+          550,
+          372
+        ],
+        "visiblePixels": 120706,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cannon-sixpounder.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-sixpounder-e-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cannon-sixpounder"
+    },
+    "cannon-sixpounder-recoil-e": {
+      "sheet": "cannon-sixpounder",
+      "x": 663,
+      "y": 189,
+      "w": 555,
+      "h": 375,
+      "anchorX": 0.4045,
+      "anchorY": 0.928,
+      "label": "cannon sixpounder recoil e",
+      "kind": "cannon-sixpounder",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          665,
+          191,
+          551,
+          371
+        ],
+        "visiblePixels": 119804,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cannon-sixpounder.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-sixpounder-e-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cannon-sixpounder"
+    },
+    "cannon-sixpounder-w": {
+      "sheet": "cannon-sixpounder",
+      "x": 58,
+      "y": 754,
+      "w": 550,
+      "h": 378,
+      "anchorX": 0.61,
+      "anchorY": 0.9286,
+      "label": "cannon sixpounder w",
+      "kind": "cannon-sixpounder",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          60,
+          756,
+          546,
+          374
+        ],
+        "visiblePixels": 122960,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cannon-sixpounder.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-sixpounder-w-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cannon-sixpounder"
+    },
+    "cannon-sixpounder-recoil-w": {
+      "sheet": "cannon-sixpounder",
+      "x": 682,
+      "y": 759,
+      "w": 548,
+      "h": 377,
+      "anchorX": 0.6095,
+      "anchorY": 0.9284,
+      "label": "cannon sixpounder recoil w",
+      "kind": "cannon-sixpounder",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          684,
+          761,
+          544,
+          373
+        ],
+        "visiblePixels": 122056,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cannon-sixpounder.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-sixpounder-w-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cannon-sixpounder"
     },
     "carreta-travel-e-1": {
       "sheet": "carreta-solid-wheels",
@@ -28268,24 +28520,24 @@
     },
     "twin-sisters-roll-1": {
       "sheet": "twin-sisters-limbered",
-      "x": 16,
-      "y": 221,
-      "w": 606,
-      "h": 256,
-      "anchorX": 0.5281,
-      "anchorY": 0.9297,
+      "x": 15,
+      "y": 219,
+      "w": 608,
+      "h": 260,
+      "anchorX": 0.5296,
+      "anchorY": 0.9269,
       "label": "twin sisters roll 1",
       "kind": "twin-sisters-limbered",
       "row": 1,
       "column": 1,
       "audit": {
         "sourceBounds": [
-          18,
-          223,
-          602,
-          252
+          17,
+          221,
+          604,
+          256
         ],
-        "visiblePixels": 84530,
+        "visiblePixels": 90254,
         "trimmedPixels": 0,
         "retainedFraction": 1
       },
@@ -28302,24 +28554,24 @@
     },
     "twin-sisters-roll-2": {
       "sheet": "twin-sisters-limbered",
-      "x": 644,
-      "y": 223,
-      "w": 585,
-      "h": 255,
-      "anchorX": 0.5359,
-      "anchorY": 0.9294,
+      "x": 643,
+      "y": 220,
+      "w": 588,
+      "h": 260,
+      "anchorX": 0.5366,
+      "anchorY": 0.9269,
       "label": "twin sisters roll 2",
       "kind": "twin-sisters-limbered",
       "row": 1,
       "column": 2,
       "audit": {
         "sourceBounds": [
-          646,
-          225,
-          581,
-          251
+          645,
+          222,
+          584,
+          256
         ],
-        "visiblePixels": 83678,
+        "visiblePixels": 89222,
         "trimmedPixels": 0,
         "retainedFraction": 1
       },
@@ -28336,24 +28588,24 @@
     },
     "twin-sisters-halt": {
       "sheet": "twin-sisters-limbered",
-      "x": 16,
-      "y": 818,
-      "w": 600,
-      "h": 254,
-      "anchorX": 0.5333,
-      "anchorY": 0.9291,
+      "x": 15,
+      "y": 816,
+      "w": 603,
+      "h": 259,
+      "anchorX": 0.5323,
+      "anchorY": 0.9266,
       "label": "twin sisters halt",
       "kind": "twin-sisters-limbered",
       "row": 2,
       "column": 1,
       "audit": {
         "sourceBounds": [
-          18,
-          820,
-          596,
-          250
+          17,
+          818,
+          599,
+          255
         ],
-        "visiblePixels": 83741,
+        "visiblePixels": 89313,
         "trimmedPixels": 0,
         "retainedFraction": 1
       },
@@ -28368,24 +28620,24 @@
     },
     "twin-sisters-turn": {
       "sheet": "twin-sisters-limbered",
-      "x": 683,
-      "y": 759,
-      "w": 547,
-      "h": 316,
-      "anchorX": 0.6618,
-      "anchorY": 0.9272,
+      "x": 682,
+      "y": 757,
+      "w": 550,
+      "h": 319,
+      "anchorX": 0.66,
+      "anchorY": 0.9279,
       "label": "twin sisters turn",
       "kind": "twin-sisters-limbered",
       "row": 2,
       "column": 2,
       "audit": {
         "sourceBounds": [
-          685,
-          761,
-          543,
-          312
+          684,
+          759,
+          546,
+          315
         ],
-        "visiblePixels": 78923,
+        "visiblePixels": 82812,
         "trimmedPixels": 0,
         "retainedFraction": 1
       },
@@ -46915,6 +47167,142 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/trees-colonies-2"
+    },
+    "twin-sister-painted-e": {
+      "sheet": "twin-sisters-painted",
+      "x": 39,
+      "y": 184,
+      "w": 555,
+      "h": 380,
+      "anchorX": 0.3847,
+      "anchorY": 0.9289,
+      "label": "twin sister painted e",
+      "kind": "twin-sisters-painted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          41,
+          186,
+          551,
+          376
+        ],
+        "visiblePixels": 123034,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/twin-sisters-painted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "twin-sister-painted-e-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/twin-sisters-painted"
+    },
+    "twin-sister-painted-recoil-e": {
+      "sheet": "twin-sisters-painted",
+      "x": 663,
+      "y": 188,
+      "w": 556,
+      "h": 378,
+      "anchorX": 0.4047,
+      "anchorY": 0.9286,
+      "label": "twin sister painted recoil e",
+      "kind": "twin-sisters-painted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          665,
+          190,
+          552,
+          374
+        ],
+        "visiblePixels": 122112,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/twin-sisters-painted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "twin-sister-painted-e-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/twin-sisters-painted"
+    },
+    "twin-sister-painted-w": {
+      "sheet": "twin-sisters-painted",
+      "x": 58,
+      "y": 754,
+      "w": 553,
+      "h": 380,
+      "anchorX": 0.6076,
+      "anchorY": 0.9289,
+      "label": "twin sister painted w",
+      "kind": "twin-sisters-painted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          60,
+          756,
+          549,
+          376
+        ],
+        "visiblePixels": 125108,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/twin-sisters-painted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "twin-sister-painted-w-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/twin-sisters-painted"
+    },
+    "twin-sister-painted-recoil-w": {
+      "sheet": "twin-sisters-painted",
+      "x": 681,
+      "y": 758,
+      "w": 551,
+      "h": 379,
+      "anchorX": 0.6098,
+      "anchorY": 0.9288,
+      "label": "twin sister painted recoil w",
+      "kind": "twin-sisters-painted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          683,
+          760,
+          547,
+          375
+        ],
+        "visiblePixels": 124137,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/twin-sisters-painted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "twin-sister-painted-w-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/twin-sisters-painted"
     },
     "rust-wagon-driver-s": {
       "sheet": "people-wagon-drivers",
@@ -66105,6 +66493,48 @@
       "direction": "west",
       "recoilSign": -1
     },
+    "cannon-sixpounder-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-sixpounder-e",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-sixpounder-recoil-e",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-sixpounder-e",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "recoilSign": 1
+    },
+    "cannon-sixpounder-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-sixpounder-w",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-sixpounder-recoil-w",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-sixpounder-w",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "recoilSign": -1
+    },
     "carreta-travel-e": {
       "frames": [
         {
@@ -70868,6 +71298,46 @@
       "authored": false,
       "motion": "sway",
       "direction": "not applicable"
+    },
+    "twin-sister-painted-e-recoil": {
+      "frames": [
+        {
+          "sprite": "twin-sister-painted-e",
+          "duration": 110
+        },
+        {
+          "sprite": "twin-sister-painted-recoil-e",
+          "duration": 180
+        },
+        {
+          "sprite": "twin-sister-painted-e",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "twin-sister-painted-w-recoil": {
+      "frames": [
+        {
+          "sprite": "twin-sister-painted-w",
+          "duration": 110
+        },
+        {
+          "sprite": "twin-sister-painted-recoil-w",
+          "duration": 180
+        },
+        {
+          "sprite": "twin-sister-painted-w",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "west"
     },
     "rust-wagon-driver-s": {
       "frames": [
@@ -79814,7 +80284,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 139,
+    "sourceCount": 141,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

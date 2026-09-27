@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1530 usable sprites, 139 PNG atlases, 515 clips** (289 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1538 usable sprites, 141 PNG atlases, 519 clips** (293 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -20,6 +20,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | biome-ground-bexar | 16 | 1254 × 1254 | 2215982 |
 | biome-trees-fields | 16 | 1254 × 1254 | 1966285 |
 | cannon-cartwheels | 4 | 1254 × 1254 | 1420895 |
+| cannon-sixpounder | 4 | 1254 × 1254 | 1284112 |
 | carreta-solid-wheels | 16 | 1254 × 1254 | 1525356 |
 | cart-open | 4 | 1254 × 1254 | 1049202 |
 | people-cast2-carry | 12 | 1254 × 1254 | 1294419 |
@@ -47,7 +48,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-susanna-dickinson | 16 | 1254 × 1254 | 1461496 |
 | famous-angelina-dickinson | 4 | 1254 × 1254 | 1286027 |
 | famous-ben | 16 | 1312 × 1199 | 1136424 |
-| twin-sisters-limbered | 4 | 1254 × 1254 | 999559 |
+| twin-sisters-limbered | 4 | 1254 × 1254 | 1010968 |
 | famous-milam | 16 | 1254 × 1254 | 1519856 |
 | famous-fannin | 16 | 1254 × 1254 | 1306380 |
 | famous-crockett-fate | 4 | 1254 × 1254 | 948322 |
@@ -114,6 +115,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | travel-markers | 16 | 1254 × 1254 | 1343435 |
 | trees-colonies-1 | 16 | 1254 × 1254 | 1626976 |
 | trees-colonies-2 | 16 | 1254 × 1254 | 1902468 |
+| twin-sisters-painted | 4 | 1254 × 1254 | 1249122 |
 | people-wagon-drivers | 16 | 1254 × 1254 | 1460212 |
 | weather-norther | 5 | 1536 × 1024 | 1669037 |
 | wildlife-bear-javelina | 16 | 1254 × 1254 | 1249275 |
@@ -222,6 +224,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | cannon-cartwheels-recoil-e | cannon-cartwheels | cannon-cartwheels-e-recoil |
 | cannon-cartwheels-w | cannon-cartwheels | cannon-cartwheels-w-recoil |
 | cannon-cartwheels-recoil-w | cannon-cartwheels | cannon-cartwheels-w-recoil |
+| cannon-sixpounder-e | cannon-sixpounder | cannon-sixpounder-e-recoil |
+| cannon-sixpounder-recoil-e | cannon-sixpounder | cannon-sixpounder-e-recoil |
+| cannon-sixpounder-w | cannon-sixpounder | cannon-sixpounder-w-recoil |
+| cannon-sixpounder-recoil-w | cannon-sixpounder | cannon-sixpounder-w-recoil |
 | carreta-travel-e-1 | carreta-solid-wheels | carreta-travel-e |
 | carreta-travel-e-2 | carreta-solid-wheels | carreta-travel-e |
 | carreta-travel-e-3 | carreta-solid-wheels | carreta-travel-e |
@@ -1142,6 +1148,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | sweetgum-log | trees-colonies-2 | sweetgum-log-wind |
 | sweetgum-large | trees-colonies-2 | sweetgum-large-wind |
 | log-fallen-hardwood | trees-colonies-2 | State artwork; no motion required |
+| twin-sister-painted-e | twin-sisters-painted | twin-sister-painted-e-recoil |
+| twin-sister-painted-recoil-e | twin-sisters-painted | twin-sister-painted-e-recoil |
+| twin-sister-painted-w | twin-sisters-painted | twin-sister-painted-w-recoil |
+| twin-sister-painted-recoil-w | twin-sisters-painted | twin-sister-painted-w-recoil |
 | rust-wagon-driver-s | people-wagon-drivers | rust-wagon-driver-s |
 | rust-wagon-driver-e | people-wagon-drivers | rust-wagon-driver-e |
 | rust-wagon-driver-w | people-wagon-drivers | rust-wagon-driver-w |
@@ -1716,6 +1726,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | beech-large-wind | sway | 1 | 3800 | yes | not applicable |
 | cannon-cartwheels-e-recoil | Pose cycle | 3 | 760 | one-shot | east |
 | cannon-cartwheels-w-recoil | Pose cycle | 3 | 760 | one-shot | west |
+| cannon-sixpounder-e-recoil | Pose cycle | 3 | 760 | one-shot | east |
+| cannon-sixpounder-w-recoil | Pose cycle | 3 | 760 | one-shot | west |
 | carreta-travel-e | Pose cycle | 4 | 980 | yes | east; west by mirroring |
 | carreta-travel-s | Pose cycle | 4 | 980 | yes | south |
 | carreta-travel-n | Pose cycle | 4 | 980 | yes | north |
@@ -2000,6 +2012,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | sweetgum-pole-wind | sway | 1 | 3800 | yes | not applicable |
 | sweetgum-log-wind | sway | 1 | 3800 | yes | not applicable |
 | sweetgum-large-wind | sway | 1 | 3800 | yes | not applicable |
+| twin-sister-painted-e-recoil | Pose cycle | 3 | 760 | one-shot | east |
+| twin-sister-painted-w-recoil | Pose cycle | 3 | 760 | one-shot | west |
 | rust-wagon-driver-s | breathe | 1 | 2200 | yes | south |
 | rust-wagon-driver-e | breathe | 1 | 2200 | yes | east |
 | rust-wagon-driver-w | breathe | 1 | 2200 | yes | west |

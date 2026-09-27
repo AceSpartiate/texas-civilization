@@ -1023,10 +1023,12 @@ export function createBattleView(art) {
       view.gunShotsBy[gun.id] = (view.gunShotsBy[gun.id] || 0) + 1;
     }
     if (bounds && (p.x < -90 || p.y < -90 || p.x > bounds.width + 90 || p.y > bounds.height + 140)) return { id: gun.id, shots: fired.length, onScreen: false };
-    const metal = gun.metal === 'bronze' ? 'bronze' : 'iron', name = `cannon-${metal}-${right ? 'e' : 'w'}`;
+    const metal = gun.metal === 'bronze' ? 'bronze' : 'iron';
+    const twin = gun.id === 'twin-sister-1' || gun.id === 'twin-sister-2';
+    const name = twin ? `twin-sister-painted-${right ? 'e' : 'w'}` : `cannon-${metal}-${right ? 'e' : 'w'}`;
     const firing = since < 900;
-    if (firing) art.animated(ctx, `${name}-recoil`, p.x, p.y, size, 0, { timeMs: since });
-    else art.drawSprite(ctx, name, p.x, p.y, size) || (ctx.fillStyle = '#3b3a36', ctx.fillRect(p.x - size * 0.4, p.y - size * 0.3, size * 0.8, size * 0.22));
+    if (firing) art.animated(ctx, `${name}-recoil`, p.x, p.y, size, 0, { timeMs: since }) || art.animated(ctx, `cannon-${metal}-${right ? 'e' : 'w'}-recoil`, p.x, p.y, size, 0, { timeMs: since });
+    else art.drawSprite(ctx, name, p.x, p.y, size) || art.drawSprite(ctx, `cannon-${metal}-${right ? 'e' : 'w'}`, p.x, p.y, size) || (ctx.fillStyle = '#3b3a36', ctx.fillRect(p.x - size * 0.4, p.y - size * 0.3, size * 0.8, size * 0.22));
     const who = gun.side === 'mexican' ? 'regular' : 'volunteer', back = right ? -1 : 1;
     const crew = [
       { clip: firing ? `${who}-gun-fire` : `${who}-gun-ram`, dx: back * 0.75, t: firing ? since : time },
