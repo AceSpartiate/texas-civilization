@@ -61,8 +61,15 @@ export async function playWholeGame(ctx) {
   // --------------------------------------------------------------------------------- everybody on auto, and set to work
   await student.locator('#family-panel').waitFor({ state: 'visible' });
   await student.waitForFunction(() => window.__familyPanel?.length >= 1, null, { timeout: 15000 });
-  const switches = await student.locator('.panel-row .panel-auto:visible').count();
-  for (let i = 0; i < switches; i++) await student.locator('.panel-row .panel-auto:visible').nth(i).click();
+  // Person by person, each switch pressed once and waited on until the server has them on auto. This pressed the n-th
+  // visible switch n times over a list that redraws as each one takes, so a switch could be pressed twice (on, then off) or
+  // not at all, and the wait below ran out (seen 2026-09-26).
+  for (const row of await student.evaluate(() => window.__familyPanel.map(one => one.id))) {
+    const toggle = student.locator(`.panel-row[data-entity-id="${row}"] .panel-auto`);
+    if (!(await toggle.isVisible()) || (await student.evaluate(id => window.__familyPanel.find(one => one.id === id)?.auto, row))) continue;
+    await toggle.click();
+    await student.waitForFunction(id => window.__familyPanel.find(one => one.id === id)?.auto, row, { timeout: 15000 });
+  }
   await student.waitForFunction(() => window.__familyPanel.every(row => row.auto || document.querySelector(`.panel-row[data-entity-id="${row.id}"] .panel-auto`)?.hidden), null, { timeout: 15000 });
   measured.onAuto = await student.evaluate(() => window.__familyPanel.filter(row => row.auto).map(row => row.name));
   ok(`${measured.onAuto.length} of the family set to auto from the panel: ${measured.onAuto.join(', ')}`);
@@ -110,6 +117,8 @@ export async function playWholeGame(ctx) {
     if (await input.count()) {
       await input.check();
       await student.locator('#call-menu-confirm').click();
+      // Whoever the call sends goes on a road, and since 2026-09-24 that asks how they go first (public/going.js).
+      await sendTheWay(student);
       await student.waitForFunction(() => document.querySelector('#call-menu').hidden, null, { timeout: 15000 });
       sent = household().members.map(id => world().entities[id]).find(one => one.task === 'help' || one.travel?.purpose === 'help' || one.commitments?.some(c => c.id === 'volunteer' && c.status === 'active'));
     }
@@ -142,6 +151,7 @@ export async function playWholeGame(ctx) {
   if (winterOrder) {
     await asMain(student, winterOrder.id);
     await student.locator(`.panel-row[data-entity-id="${winterOrder.id}"] .panel-icon[data-key="${winterOrder.key}"]`).click();
+    await sendTheWay(student);
     await student.waitForFunction(({ id, key }) => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`)?.dataset.active === 'true', winterOrder, { timeout: 10000 });
     measured.winter = { ...winterOrder, name: world().entities[winterOrder.id].name };
     ok(`${measured.winter.name} was sent to ${winterOrder.key.replace('-', ' ')} from the panel`);
