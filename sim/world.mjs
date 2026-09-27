@@ -36,7 +36,7 @@ import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
 import { childAction, childrenInvalid } from './children.mjs';
 // A child's day when nobody is telling them what to do, and the family's babies (owner, 2026-09-26; docs/CHILDREN.md): the idle
 // child who goes to a parent, a child's own automation and obedience, and a baby that crawls, cries and is held.
-import { advanceChildhood, childAutoShown, childLine, childhoodInvalid, isSmallChild, setChildAuto, talkLines } from './childhood.mjs';
+import { advanceChildhood, childAutoShown, childLine, childhoodInvalid, isSmallChild, released, setChildAuto, talkLines } from './childhood.mjs';
 import { advanceBabies, babiesInvalid, babyLine, babyLines, carryBabies, isBaby, takeBabyAlong } from './babies.mjs';
 import { asideWhy } from './aside.mjs';
 import { hostLiveProjection } from './host.mjs';
@@ -936,6 +936,8 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
     try { beginChore(world, household, entity, input.chore, { beginTravel, modeAvailability }, mode, input.errand !== undefined ? { errand: input.errand, ...(input.mode && { errandMode: input.mode }), ...(input.town !== undefined && { errandTown: input.town }) } : {}); }
     catch (error) { if (waitForTask(world, household, entity, input.chore, mode, error)) return; throw error; }
     noteOrder(entity, input.chore, mode, {}, household);
+    // A child given something to do lets go of the grown-up they were talking with, there and then (sim/childhood.mjs).
+    released(world, entity);
     return;
   }
   // Survey, with the place the student chose on the family's own land (sim/survey.mjs). The server decides whether it can be.
@@ -1180,6 +1182,10 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // A sealed event - glory, today - belongs to the family's story and is revealed only at
     // the end of the game. It is dropped before the slice, so it cannot even displace a line.
     if (e.visibility === 'sealed') continue;
+    // The family's little ones' comings and goings (sim/childhood.mjs, sim/babies.mjs): kept in the family's story, but not sent in
+    // this window, where a child going to a parent all afternoon would push out the news a family must read. The rows and the
+    // bubbles say them as they happen.
+    if (e.ambient) continue;
     if ((householdId && e.householdId === householdId) || (role === 'host' && e.visibility === 'public')) visibleEvents.push(e);
   }
   visibleEvents.reverse();

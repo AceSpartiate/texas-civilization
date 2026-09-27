@@ -74,8 +74,10 @@ Requested in docs/ART_REQUESTS.md (2026-09-26); icons are stroked glyphs until t
 `sim/childhood.mjs` `advanceTalks`, every tick, for a family somebody plays:
 
 1. **Who.** A child of two to nine, alive and at home, with no work, not on their own automation, not carried.
-2. **When.** After `IDLE_TICKS` (two ticks - an hour of the farming day) with nothing to do. Not in the dark (six in the morning to
-   nine at night is the waking day, `WAKING_HOURS`), not while the family is being walked through its guided start (docs/LESSON.md -
+2. **When.** After `IDLE_TICKS` (two ticks - an hour of the farming day) with nothing to do. Not on a calendar faster than an hour
+   a tick (`TALK_SCALE`: on the real land's four- and twelve-hour ticks a child at the elbow would stop a parent for half a day at a
+   time), not in the dark (six in the morning to nine at night is the waking day, `WAKING_HOURS`), not while the family is being
+   walked through its guided start (docs/LESSON.md -
    a student taught one farm task at a time is not also to be stopped by a child at the father's elbow), not in a family nobody plays
    or whose student has gone (nobody could give that child anything, and the parent would stand for the rest of the class), and
    not on the road east, which has its own work for them (§7).
@@ -91,6 +93,12 @@ Requested in docs/ART_REQUESTS.md (2026-09-26); icons are stroked glyphs until t
 5. **How it ends.** Only when the child is given something to do - by the student, or by the child's own automation - and then the
    grown-up goes back to exactly what they were at the same tick. Or when something the world does takes one of them away: a journey,
    the army, a death, the family's flight, a baby who needs holding (§6). The child then waits again, and may come again.
+
+**The family's record** hears of it once a day for each child and each grown-up (`firstToday`), and those lines are kept out of the
+page's short window of the family's news (`ambient`): the rows and the bubbles say it every time it happens, and a journal of the
+same child going to the same parent all afternoon would push out what a family must read - found by the Mexican advance's proof,
+whose "the house stands" was pushed out of the window by a family of children at home. Dawdling, wandering off and a child's
+automation going off are not ambient: they are the plain lines obedience is made legible by.
 
 While a grown-up is stopped they are refused **new work and journeys of their own** in those words. The family's answers to the
 game's own questions - a call, the army, the road, the flight - are not refused: they are not the grown-up's task, and a journey
@@ -152,7 +160,8 @@ docs/FAMILY_PANEL.md, docs/SETTLING_IN.md). An infant is still given no work. In
 - **At night** a baby sleeps ("Asleep for the night.") and wakes nobody in the game's dark.
 
 **Not annoying, not a time sink.** A well baby takes at most `COMFORT_CAP_TICKS` - four ticks, two comfortings, forty minutes - of
-any one person's day; past it the next nearest comes, or it settles. A sick baby is not capped: it needs more holding. A child who
+any one person's day; past it the next nearest comes, or it settles. The record hears of a person's comforting once a day, out of the
+page's news window, as the talk is (§3). A sick baby is not capped: it needs more holding. A child who
 has come to talk with her is let go the moment she goes to the baby, and may come again when she is back: the two never hold her at
 once and never hold each other up. No popups: it happens in the world, in bubbles, and on the rows.
 

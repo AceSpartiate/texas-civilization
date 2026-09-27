@@ -11,6 +11,7 @@
       "alone": false,
       "failed": [
         "the rule: a child with nothing to do goes to the nearest parent, whose work stands still until the child is given something to do",
+        "the rule: the family’s record hears of a child’s talk once a day, however often it happens - the rows and the bubbles say it every time",
         "the rule: with no parent at home a child goes to the nearest of age, and with nobody at home plays by themself"
       ]
     },
@@ -29,9 +30,10 @@
       "file": "sim/childhood.mjs",
       "test": "tests/childhood.test.mjs",
       "caught": true,
-      "alone": true,
+      "alone": false,
       "failed": [
-        "the rule: a child with nothing to do goes to the nearest parent, whose work stands still until the child is given something to do"
+        "the rule: a child with nothing to do goes to the nearest parent, whose work stands still until the child is given something to do",
+        "the rule: the family’s record hears of a child’s talk once a day, however often it happens - the rows and the bubbles say it every time"
       ]
     },
     {
@@ -55,6 +57,36 @@
       ]
     },
     {
+      "name": "a one-tick job for the child leaves the parent standing",
+      "file": "sim/world.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the family’s record hears of a child’s talk once a day, however often it happens - the rows and the bubbles say it every time"
+      ]
+    },
+    {
+      "name": "the little ones’ comings and goings crowd the page’s news",
+      "file": "sim/world.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the family’s record hears of a child’s talk once a day, however often it happens - the rows and the bubbles say it every time"
+      ]
+    },
+    {
+      "name": "the journal is told every time a child goes to a parent",
+      "file": "sim/childhood.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the family’s record hears of a child’s talk once a day, however often it happens - the rows and the bubbles say it every time"
+      ]
+    },
+    {
       "name": "a child alone at home stands with nothing",
       "file": "sim/childhood.mjs",
       "test": "tests/childhood.test.mjs",
@@ -71,7 +103,7 @@
       "caught": true,
       "alone": true,
       "failed": [
-        "the rule: nobody is stopped by a child in the guided start, at night, or in a family nobody plays"
+        "the rule: nobody is stopped by a child in the guided start, at night, on a calendar too fast to stop for, or in a family nobody plays"
       ]
     },
     {
@@ -81,7 +113,17 @@
       "caught": true,
       "alone": true,
       "failed": [
-        "the rule: nobody is stopped by a child in the guided start, at night, or in a family nobody plays"
+        "the rule: nobody is stopped by a child in the guided start, at night, on a calendar too fast to stop for, or in a family nobody plays"
+      ]
+    },
+    {
+      "name": "a child stops a parent for four hours a tick",
+      "file": "sim/childhood.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: nobody is stopped by a child in the guided start, at night, on a calendar too fast to stop for, or in a family nobody plays"
       ]
     },
     {
@@ -91,7 +133,7 @@
       "caught": true,
       "alone": true,
       "failed": [
-        "the rule: nobody is stopped by a child in the guided start, at night, or in a family nobody plays"
+        "the rule: nobody is stopped by a child in the guided start, at night, on a calendar too fast to stop for, or in a family nobody plays"
       ]
     },
     {

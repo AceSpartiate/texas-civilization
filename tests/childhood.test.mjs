@@ -106,6 +106,24 @@ test('the rule: a child at play is seen at it - moved about the yard by the kind
   assert.match(doll.doing[0], /playing house/);
 });
 
+test('the rule: the family’s record hears of a child’s talk once a day, however often it happens - the rows and the bubbles say it every time', () => {
+  const { world, household, kid, others } = family('childhood-told');
+  for (const one of others) one.location = { ...world.map.sites.gonzales, siteId: 'gonzales' };
+  const seen = new Set();
+  for (let round = 0; round < 4; round++) {
+    for (let t = 0; t < IDLE_TICKS + 3 && kid.talk?.phase !== 'talking'; t++) stepWorld(world);
+    if (kid.talk?.phase === 'talking') seen.add(kid.talk.since);
+    applyAction(world, household.id, { action: 'chore', entityId: kid.id, chore: 'child-hens' });
+    for (let t = 0; t < 6 && kid.chore; t++) stepWorld(world);
+  }
+  assert.ok(seen.size >= 3, `the child came to talk only ${seen.size} times, so this proves nothing`);
+  const said = pattern => world.events.filter(event => event.householdId === household.id && pattern.test(event.text)).length;
+  assert.equal(said(/gone to find/), 1, 'the journal was told every time the child went to a parent');
+  assert.equal(said(/has stopped .* to talk with/), 1, 'the journal was told every time the parent was stopped');
+  // And not in the page's short window of the family's news, which a busy afternoon of children would push the news out of.
+  assert.ok(!view(world, household).events.some(event => /gone to find|to talk with/.test(event.text)), 'a child going to a parent took a place in the page’s news');
+});
+
 test('the rule: with no parent at home a child goes to the nearest of age, and with nobody at home plays by themself', () => {
   const { world, household, kid, father, mother, others } = family('childhood-nobody');
   father.location = { ...world.map.sites.gonzales, siteId: 'gonzales' };
@@ -125,7 +143,7 @@ test('the rule: with no parent at home a child goes to the nearest of age, and w
   assert.ok(world.events.some(event => event.actorId === kid.id && /went off to play by themself/.test(event.text)), 'the family was not told');
 });
 
-test('the rule: nobody is stopped by a child in the guided start, at night, or in a family nobody plays', () => {
+test('the rule: nobody is stopped by a child in the guided start, at night, on a calendar too fast to stop for, or in a family nobody plays', () => {
   const lesson = family('childhood-quiet');
   lesson.household.lesson = { step: 'survey' };
   step(lesson.world, IDLE_TICKS + 3);
@@ -138,6 +156,11 @@ test('the rule: nobody is stopped by a child in the guided start, at night, or i
   night.world.minute = 16 * 60; // ten at night, from a dawn start
   step(night.world, IDLE_TICKS + 3);
   assert.equal(night.kid.talk, undefined, 'a child went looking for a parent in the dark');
+  const fast = family('childhood-quiet');
+  fast.world.director.phase = 'gathering';
+  // Four hours a tick from dawn: the child would be on the way over at six in the evening, before the dark.
+  step(fast.world, IDLE_TICKS + 1);
+  assert.equal(fast.kid.talk, undefined, 'a child stopped a parent for four hours a tick');
 });
 
 test('the rule: a child’s own automation finds them things to do, lasts a time scaled by their obedience, and goes off by itself with a notice', () => {

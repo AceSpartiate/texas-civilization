@@ -1,6 +1,6 @@
 {
   "record": "lesson-browser",
-  "date": "2026-09-26",
+  "date": "2026-09-27",
   "browser": "153.0.8010.53",
   "screen": {
     "width": 1366,
@@ -243,8 +243,8 @@
       ]
     },
     "resume": {
-      "until": 1790467411494,
-      "msWhenStopped": 299808,
+      "until": 1790490527336,
+      "msWhenStopped": 299958,
       "chromebook": {
         "size": [
           119,

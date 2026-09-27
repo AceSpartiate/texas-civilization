@@ -1,6 +1,6 @@
 {
   "record": "panels-browser",
-  "date": "2026-09-26",
+  "date": "2026-09-27",
   "browser": "153.0.8010.53",
   "screens": [
     {
@@ -31,8 +31,8 @@
     "1024x768: both placement panels stand clear of the folded faces, and the names open again when the stake is put away",
     "1366x768, the guided start: a family of twenty, two on auto - the column ends at 470px above the bar's top at 478px (2 rows), 5 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 394px)",
     "1024x768, the guided start: a family of twenty, two on auto - the column ends at 470px above the bar's top at 478px (2 rows), 5 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 394px)",
-    "1366x768, the full bar: a family of twenty, two on auto - the column ends at 510px above the bar's top at 518px (2 rows), 6 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 354px)",
-    "1024x768, the full bar: a family of twenty, two on auto - the column ends at 510px above the bar's top at 518px (2 rows), 6 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 354px)"
+    "1366x768, the full bar: a family of twenty, two on auto - the column ends at 510px above the bar's top at 518px (2 rows), 6 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 424px)",
+    "1024x768, the full bar: a family of twenty, two on auto - the column ends at 510px above the bar's top at 518px (2 rows), 4 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 425px)"
   ],
   "measured": {
     "1366x768": [
@@ -915,7 +915,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 224,
+                "y": 223,
                 "w": 32,
                 "h": 32
               },
@@ -951,7 +951,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 277,
+                "y": 276,
                 "w": 32,
                 "h": 32
               },
@@ -1216,7 +1216,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 184,
+                "y": 182,
                 "w": 32,
                 "h": 32
               },
@@ -1252,7 +1252,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 237,
+                "y": 235,
                 "w": 32,
                 "h": 32
               },
@@ -1447,7 +1447,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 182,
+                "y": 185,
                 "w": 32,
                 "h": 32
               },
@@ -1519,7 +1519,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 235,
+                "y": 238,
                 "w": 32,
                 "h": 32
               },
@@ -1592,7 +1592,7 @@
               "control": "#reports",
               "label": "Read what Silas Roe said",
               "box": {
-                "x": 1836,
+                "x": 1843,
                 "y": 963,
                 "w": 139,
                 "h": 44
@@ -1763,7 +1763,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 184,
+                "y": 182,
                 "w": 32,
                 "h": 32
               },
@@ -1799,7 +1799,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 237,
+                "y": 235,
                 "w": 32,
                 "h": 32
               },
@@ -1819,7 +1819,7 @@
               "control": "#reports",
               "label": "Read what Silas Roe said",
               "box": {
-                "x": 1836,
+                "x": 1843,
                 "y": 963,
                 "w": 139,
                 "h": 44
@@ -1981,7 +1981,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 224,
+                "y": 223,
                 "w": 32,
                 "h": 32
               },
@@ -2017,7 +2017,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 277,
+                "y": 276,
                 "w": 32,
                 "h": 32
               },
@@ -2294,7 +2294,7 @@
           "room": "298px",
           "scrolls": true,
           "scrollTop": 0,
-          "scrollHeight": 1096,
+          "scrollHeight": 1085,
           "clientHeight": 263,
           "tight": true,
           "lesson": true,
@@ -2332,7 +2332,7 @@
           "inside": true,
           "onTop": true,
           "aboveBar": true,
-          "scrollTop": 833,
+          "scrollTop": 822,
           "by": null
         },
         "laterMain": {
@@ -2383,7 +2383,7 @@
           "room": "298px",
           "scrolls": true,
           "scrollTop": 0,
-          "scrollHeight": 1096,
+          "scrollHeight": 1085,
           "clientHeight": 263,
           "tight": true,
           "lesson": true,
@@ -2421,7 +2421,7 @@
           "inside": true,
           "onTop": true,
           "aboveBar": true,
-          "scrollTop": 833,
+          "scrollTop": 822,
           "by": null
         },
         "laterMain": {
@@ -2472,7 +2472,7 @@
           "room": "258px",
           "scrolls": true,
           "scrollTop": 0,
-          "scrollHeight": 1096,
+          "scrollHeight": 1085,
           "clientHeight": 303,
           "tight": true,
           "lesson": false,
@@ -2511,12 +2511,12 @@
           "inside": true,
           "onTop": true,
           "aboveBar": true,
-          "scrollTop": 793,
+          "scrollTop": 782,
           "by": null
         },
         "laterMain": {
           "id": "hh-1-child-10",
-          "scrollTop": 354,
+          "scrollTop": 424,
           "bar": {
             "left": 435,
             "right": 931,
@@ -2562,17 +2562,15 @@
           "room": "258px",
           "scrolls": true,
           "scrollTop": 0,
-          "scrollHeight": 1096,
+          "scrollHeight": 1318,
           "clientHeight": 303,
           "tight": true,
           "lesson": false,
           "faces": [
             "hh-1-parent-1 233-281",
-            "hh-1-parent-2 286-334",
-            "hh-1-child-1 339-387",
-            "hh-1-child-2 392-440",
-            "hh-1-child-3 445-493",
-            "hh-1-child-4 498-546"
+            "hh-1-parent-2 286-404",
+            "hh-1-child-1 409-457",
+            "hh-1-child-2 462-510"
           ],
           "switches": [
             {
@@ -2601,12 +2599,12 @@
           "inside": true,
           "onTop": true,
           "aboveBar": true,
-          "scrollTop": 793,
+          "scrollTop": 1015,
           "by": null
         },
         "laterMain": {
           "id": "hh-1-child-10",
-          "scrollTop": 354,
+          "scrollTop": 425,
           "bar": {
             "left": 264,
             "right": 760,

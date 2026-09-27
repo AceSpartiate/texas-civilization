@@ -19,7 +19,7 @@
 import { CHORES, beginChore, choresFor } from './chores.mjs';
 import { record } from './events.mjs';
 import { OBEDIENCE_DIE, SENT_FROM_AGE, listWords, obedienceOf, sexOf, tooYoung } from './family.mjs';
-import { dateOf } from './clock.mjs';
+import { calendarMinutes, dateOf } from './clock.mjs';
 import { BABY_UNDER } from './furniture.mjs';
 import { stirredShare } from './shares.mjs';
 import { PLAY_KINDS, childWorks, isPlay, playStep } from './children.mjs';
@@ -64,7 +64,8 @@ export function setChildAuto(world, household, entity, on) {
   if (wanted) {
     entity.auto = true;
     entity.childAuto = { until: world.tick + childAutoTicks(obedienceOf(world, entity)), picks: 0 };
-    // Given something to do, as the idle rule is written: a child who was talking goes off to it (`advanceTalks`).
+    // Given something to do, as the idle rule is written: a child who was talking goes off to it, and the grown-up back to theirs.
+    released(world, entity);
   } else { delete entity.auto; delete entity.childAuto; }
   record(world, 'choice', {
     actorId: entity.id, householdId: household.id, importance: 1, decision: wanted ? 'auto-on' : 'auto-off', claimId: 'FIC-GONZ-480',
@@ -137,6 +138,22 @@ function wanderFromJob(world, household, entity, travel) {
 
 /** An hour's grace: how many ticks a child stands with nothing to do before going to find somebody (`FIC-GONZ-476`). */
 export const IDLE_TICKS = 2;
+/**
+ * The slowest calendar a child stops a parent on: an hour a tick, as for a crying baby (sim/babies.mjs `COMFORT_SCALE`). On the
+ * real land's faster phases a tick is four or twelve hours of 1835, and a child at the elbow would stop a parent for half a day at a
+ * time - a time sink the owner ruled out - and fill the family's journal besides.
+ */
+export const TALK_SCALE = 60;
+/**
+ * Whether this is the first time today this person's `kind` of news goes into the family's record, and marks it so. What the
+ * little ones do is on the rows and over their heads every tick; the journal hears of each thing once a day (`told`).
+ */
+export function firstToday(world, entity, kind) {
+  const day = Math.floor(world.minute / 1440);
+  if (entity.told?.[kind] === day) return false;
+  entity.told = { ...(entity.told || {}), [kind]: day };
+  return true;
+}
 /** How far from the grown-up the child stands to talk: a few feet, on the side they came from. */
 const BESIDE = 0.004;
 
@@ -167,9 +184,20 @@ export function endTalk(world, child, words = null) {
     if (!grown.aside.childIds.length) delete grown.aside;
   }
   const household = world.households[child.householdId];
-  if (words && household) tell(world, household, child, words, { importance: 1 });
+  if (words && household) tell(world, household, child, words, { importance: 1, ambient: true });
 }
 
+/**
+ * The child has been given something to do: the talk ends there and then, and the grown-up goes back to exactly what they were at.
+ * Called the moment the order is given (sim/world.mjs, `setChildAuto`) as well as on the tick, because a job of one tick - the
+ * hens - can be begun and finished between two ticks, and a parent must not be left standing by a child who is already busy.
+ */
+export function released(world, child) {
+  if (!child?.talk) return;
+  const grown = world.entities[child.talk.withId];
+  endTalk(world, child, firstToday(world, child, 'free') ? `${child.name} has something to do now, and ${grown?.name || 'the family'} goes back to ${grown ? workOf(grown) : 'work'}.` : null);
+  delete child.idleSince;
+}
 /** The grown-up's work, in a few words, for a line: "planting", "the work about the place", "resting". */
 const workOf = grown => (grown.chore ? (CHORES[grown.chore.id]?.name || 'the work').toLowerCase() : grown.task === 'work' ? 'the work about the place' : 'resting');
 
@@ -193,15 +221,15 @@ const workOf = grown => (grown.chore ? (CHORES[grown.chore.id]?.name || 'the wor
 export function advanceTalks(world, household, travel) {
   const members = household.members.map(id => world.entities[id]).filter(Boolean);
   const going = {}, arrived = {};
-  const quiet = !household.played || household.absent || world.status !== 'running' || inLesson(world, household) || !awake(world)
+  const quiet = !household.played || household.absent || world.status !== 'running' || inLesson(world, household) || !awake(world) || calendarMinutes(world) > TALK_SCALE
     || (household.flight && !['ordered', 'stayed', 'home'].includes(household.flight.status)) || household.arriving;
   for (const child of members) {
     if (child.talk) {
       const grown = world.entities[child.talk.withId];
       // Given something to do: they go to it, and the grown-up goes back to theirs.
-      if (child.chore || child.auto) { endTalk(world, child, `${child.name} has something to do now, and ${grown?.name || 'the family'} goes back to ${grown ? workOf(grown) : 'work'}.`); delete child.idleSince; continue; }
+      if (child.chore || child.auto) { released(world, child); continue; }
       if (!idleChild(world, household, child) || !present(household, grown) || grown.aside?.kind === 'baby' || quiet) {
-        endTalk(world, child, grown && !present(household, grown) ? `${grown.name} had to go, and ${child.name} is left with nothing to do.` : null);
+        endTalk(world, child, grown && !present(household, grown) && firstToday(world, child, 'free') ? `${grown.name} had to go, and ${child.name} is left with nothing to do.` : null);
         child.idleSince = world.tick;
         continue;
       }
@@ -223,7 +251,7 @@ export function advanceTalks(world, household, travel) {
     if (!grown) {
       // Nobody at home old enough to go to: the child finds their own play, and says nothing of it to anybody.
       try { beginChore(world, household, child, 'child-play', travel); } catch { continue; }
-      tell(world, household, child, `With nobody at home to go to, ${child.name} went off to play by themself.`, { importance: 1 });
+      if (firstToday(world, child, 'alone')) tell(world, household, child, `With nobody at home to go to, ${child.name} went off to play by themself.`, { importance: 1, ambient: true });
       continue;
     }
     child.talk = { withId: grown.id, phase: 'going', since: world.tick };
@@ -231,14 +259,19 @@ export function advanceTalks(world, household, travel) {
     (going[grown.id] ??= { grown, children: [] }).children.push(child);
   }
   // Said once for everybody who went or arrived this tick, not once a child: four children at the mother's skirts are one line.
-  for (const { grown, children } of Object.values(going)) {
-    tell(world, household, children[0], `${listWords(children.map(one => one.name))} ${children.length > 1 ? 'have' : 'has'} nothing to do, and ${children.length > 1 ? 'have' : 'has'} gone to find ${grown.name}.`, { importance: 1 });
+  // And said in the family's record once a day for each child and each grown-up (`firstToday`): the row and the bubbles say it
+  // every time, and a journal of the same child going to the same parent all afternoon would push out what the family must read.
+  for (const { grown, children: all } of Object.values(going)) {
+    const children = all.filter(child => firstToday(world, child, 'talk'));
+    if (!children.length) continue;
+    tell(world, household, children[0], `${listWords(children.map(one => one.name))} ${children.length > 1 ? 'have' : 'has'} nothing to do, and ${children.length > 1 ? 'have' : 'has'} gone to find ${grown.name}.`, { importance: 1, ambient: true });
   }
   for (const { grown, first, children } of Object.values(arrived)) {
+    if (!firstToday(world, grown, 'stop')) continue;
     const names = listWords(children.map(one => one.name)), many = children.length > 1;
     tell(world, household, grown, first
       ? `${grown.name} has stopped ${workOf(grown)} to talk with ${names}, who ${many ? 'have' : 'has'} nothing to do. Give ${many ? 'them' : names} something to do and ${grown.name} goes back to it.`
-      : `${names} ${many ? 'have' : 'has'} come to talk with ${grown.name} as well.`, { claimId: 'FIC-GONZ-477' });
+      : `${names} ${many ? 'have' : 'has'} come to talk with ${grown.name} as well.`, { claimId: 'FIC-GONZ-477', ambient: true });
   }
 }
 
@@ -351,6 +384,7 @@ export function childhoodInvalid(world) {
     if (entity.talk !== undefined && (!entity.talk || !world.entities[entity.talk.withId] || !['going', 'talking'].includes(entity.talk.phase) || !Number.isInteger(entity.talk.since))) return 'Invalid talk';
     if (entity.childAuto !== undefined && (!entity.auto || !Number.isInteger(entity.childAuto?.until) || !Number.isInteger(entity.childAuto?.picks))) return 'Invalid child automation';
     if (entity.idleSince !== undefined && !Number.isInteger(entity.idleSince)) return 'Invalid idle time';
+    if (entity.told !== undefined && (!entity.told || typeof entity.told !== 'object' || Object.values(entity.told).some(day => !Number.isInteger(day)))) return 'Invalid record of what was told';
     if (entity.autoNotice !== undefined && (!Number.isInteger(entity.autoNotice?.tick) || !['time', 'child'].includes(entity.autoNotice.why))) return 'Invalid automation notice';
     if (entity.aside?.kind === 'talk' && (!Array.isArray(entity.aside.childIds) || entity.aside.childIds.some(id => world.entities[id]?.talk?.withId !== entity.id))) return 'Invalid talk aside';
   }

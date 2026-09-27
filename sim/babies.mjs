@@ -40,7 +40,7 @@ import { sexOf, tooYoung } from './family.mjs';
 import { BABY_UNDER } from './furniture.mjs';
 import { calendarMinutes } from './clock.mjs';
 import { stirredShare } from './shares.mjs';
-import { awake, endTalk } from './childhood.mjs';
+import { awake, endTalk, firstToday } from './childhood.mjs';
 import { CHORES } from './chores.mjs';
 
 const GONE = Object.freeze(['dead', 'captured']);
@@ -70,8 +70,8 @@ const pronoun = baby => (sexOf(baby) === 'female' ? 'her' : sexOf(baby) === 'mal
 /** Where the family lives now: its own land, or its camp at the refuge on the road east. */
 export const placeOf = household => (household.flight?.status === 'refuged' ? household.flight.refuge : household.homeSiteId);
 const at = (person, place) => person && !GONE.includes(person.health?.condition) && !person.travel && person.location?.siteId === place && person.service?.status !== 'serving';
-const tell = (world, household, entity, text, claimId = 'FIC-GONZ-483', importance = 1) => record(world, 'consequence', {
-  actorId: entity.id, householdId: household.id, importance, classification: 'FICTIONAL FOR GAMEPLAY', claimId, text,
+const tell = (world, household, entity, text, claimId = 'FIC-GONZ-483', importance = 1, ambient = true) => record(world, 'consequence', {
+  actorId: entity.id, householdId: household.id, importance, classification: 'FICTIONAL FOR GAMEPLAY', claimId, text, ...(ambient && { ambient: true }),
 });
 const workOf = person => (person.chore ? (CHORES[person.chore.id]?.name || 'the work').toLowerCase() : person.task === 'work' ? 'the work about the place' : 'resting');
 const dayOf = world => Math.floor(world.minute / DAY);
@@ -112,7 +112,7 @@ export function takeBabyAlong(world, entity) {
   const names = babies.map(baby => baby.name).join(' and ');
   if (woman) {
     // With another woman of age at home, the baby stays with her - said when it is the mother who goes.
-    if (babies.some(baby => (baby.kin?.parents || []).includes(entity.id))) tell(world, household, entity, `${entity.name} left ${names} with ${woman.name}.`, 'FIC-GONZ-484');
+    if (babies.some(baby => (baby.kin?.parents || []).includes(entity.id))) tell(world, household, entity, `${entity.name} left ${names} with ${woman.name}.`, 'FIC-GONZ-484', 2, false);
     return;
   }
   // The only woman of age there, or with none, the last grown person of the family there: the baby goes with them.
@@ -122,7 +122,7 @@ export function takeBabyAlong(world, entity) {
     baby.baby = { state: 'carried' };
     ride(baby, entity);
   }
-  tell(world, household, entity, `${entity.name} took ${names} with ${womanOfAge(entity) ? 'her' : 'them'} on ${womanOfAge(entity) ? 'her' : 'their'} hip: there is nobody ${womanOfAge(entity) ? 'else of age' : 'grown'} at home to leave ${babies.length > 1 ? 'them' : pronoun(babies[0])} with.`, 'FIC-GONZ-484', 2);
+  tell(world, household, entity, `${entity.name} took ${names} with ${womanOfAge(entity) ? 'her' : 'them'} on ${womanOfAge(entity) ? 'her' : 'their'} hip: there is nobody ${womanOfAge(entity) ? 'else of age' : 'grown'} at home to leave ${babies.length > 1 ? 'them' : pronoun(babies[0])} with.`, 'FIC-GONZ-484', 2, false);
 }
 
 /** Every tick, after everybody has moved: a carried baby is where its carrier is, and set down when they are home. */
@@ -211,12 +211,14 @@ function comfort(world, household, baby, place) {
     child.idleSince = world.tick;
   }
   const ticks = baby.health?.condition === 'sick' ? SICK_COMFORT_TICKS : COMFORT_TICKS;
-  carer.aside = { kind: 'baby', babyIds: [baby.id], until: world.tick + ticks, was: { x: carer.location.x, y: carer.location.y, siteId: carer.location.siteId, task: carer.task } };
+  // Said in the family's record the first time a day this person comes to a baby (`firstToday`); every time on the rows and in bubbles.
+  const told = firstToday(world, carer, 'baby');
+  carer.aside = { kind: 'baby', babyIds: [baby.id], until: world.tick + ticks, was: { x: carer.location.x, y: carer.location.y, siteId: carer.location.siteId, task: carer.task }, ...(told && { told: true }) };
   if (baby.health?.condition !== 'sick') carer.comforted = { day: dayOf(world), ticks: takenToday(world, carer) + ticks };
   carer.location = { x: r4(spot.x - 0.003), y: r4(spot.y), siteId: place };
   baby.baby = { state: 'held', by: carer.id, spot };
   hold(baby, carer);
-  tell(world, household, carer, carer.chore || carer.task === 'work'
+  if (told) tell(world, household, carer, carer.chore || carer.task === 'work'
     ? `${baby.name} cried, and ${carer.name} left ${workOf(carer)} to pick ${pronoun(baby)} up.`
     : `${baby.name} cried, and ${carer.name} got up to pick ${pronoun(baby)} up.`);
 }
@@ -241,7 +243,7 @@ function holding(world, household, person) {
   person.location = { x: was.x, y: was.y, siteId: was.siteId };
   if (was.task) person.task = was.task;
   const names = babies.map(baby => baby.name).join(' and ');
-  if (names) tell(world, household, person, `${person.name} sang ${names} to sleep and put ${babies.length > 1 ? 'them' : pronoun(babies[0])} down for a nap${person.chore || person.task === 'work' ? `, and went back to ${workOf(person)}` : ''}.`);
+  if (names && aside.told) tell(world, household, person, `${person.name} sang ${names} to sleep and put ${babies.length > 1 ? 'them' : pronoun(babies[0])} down for a nap${person.chore || person.task === 'work' ? `, and went back to ${workOf(person)}` : ''}.`);
 }
 
 /** A cry on the road, or on a calendar too fast to stop for: the day's line, answered as they go. */
