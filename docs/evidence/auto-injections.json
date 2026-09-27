@@ -1,6 +1,6 @@
 {
   "record": "auto-injections",
-  "date": "2026-09-25",
+  "date": "2026-09-27",
   "files": [
     "tests/auto-repeat.test.mjs",
     "tests/auto.test.mjs",

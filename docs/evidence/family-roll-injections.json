@@ -1,6 +1,6 @@
 {
   "record": "family-roll-injections",
-  "date": "2026-09-22",
+  "date": "2026-09-27",
   "note": "The roll is the family (owner, 2026-09-22), and what the family eats by age, its twins and the spacing of its births (owner, 2026-09-22). Every injection is a rule of the table, of reading an old class on its own table, of the birth dates of a family of up to eighteen children, of eating by age in quarters, or of twins, taken back out.",
   "files": [
     "tests/family-roll.test.mjs",

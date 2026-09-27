@@ -34,12 +34,13 @@ const INJECTIONS = [
     from: '  .panel-portrait{width:44px;height:44px}\n',
     to: '  .panel-portrait{width:44px;height:44px}\n  .panel-row:not([data-expanded=true]) .panel-portrait{margin-left:210px}\n',
   },
-  {
-    name: 'the work bar keeps desktop-sized icons on a phone and wraps to several lines up the map - the fault §12 fixed on 2026-09-21',
-    guards: 'mapShare',
-    from: '  .panel-icon{flex:none;width:38px;min-width:38px}\n',
-    to: '  .panel-icon{flex:none;width:64px;min-width:64px}\n  .panel-row[data-focused=true] .panel-icons{flex-wrap:wrap}\n',
-  },
+  // Retired 2026-09-27: "the work bar keeps desktop-sized icons on a phone and wraps to several lines up the map - the fault
+  // §12 fixed on 2026-09-21" (guards `mapShare`). Since the compact bar of 2026-09-22 the bar is a grid of at most two rows
+  // whose icons are `width:100%` of their cell (`.panel-icons .panel-icon`, public/style.css), so the phone block's
+  // `.panel-icon{width:38px}` this broke is no longer what is drawn, and it was missed on every run. Re-aimed once at the
+  // grid itself (the phone's bar one column wide) it was still missed: the bar this proof opens on a phone carries only
+  // what the server and the guided start allow, too few icons to climb the map. The fault has no way back through either
+  // rule; a phone state with a full bar is what would measure it again.
 ];
 
 /** The proof's own failure sentence: node prints the assertion message on the line after the banner. */

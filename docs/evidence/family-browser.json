@@ -14,7 +14,7 @@
     "what a student types is cleaned before anybody else reads it: \"<b>Bad</b> 1234 😀\" became \"bBadb\"",
     "and a name with no letters in it is refused, in words",
     "and the last name, once given, is kept: a second one is refused in words",
-    "and it is fetched once: 8 ticks passed and nothing asked again (a tick is 28218 bytes without the map)",
+    "and it is fetched once: 8 ticks passed and nothing asked again (a tick is 29522 bytes without the map)",
     "no page errors anywhere in the run"
   ],
   "measured": {
@@ -128,7 +128,7 @@
         "of": "Son of Alvin Hollis and Refugia Hollis."
       }
     ],
-    "tickBytes": 28218,
+    "tickBytes": 29522,
     "familyFetchesDuringPlay": 0,
     "ticksWatched": 8
   },

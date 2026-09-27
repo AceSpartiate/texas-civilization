@@ -1,11 +1,11 @@
 {
   "record": "wagons-browser",
-  "date": "2026-09-25",
+  "date": "2026-09-27",
   "browser": "153.0.8010.53",
   "ownerDirection": "\"families should arrive with an appropriate number of wagons. larger families get more than one wagon based on their population.\" (2026-09-25)",
   "checks": [
     "a family of twelve packs two wagons: \"2 wagons: 24 of 32 space filled, 8 left.\"",
-    "both wagons on the track in, each drawn with its own driver (rust-wagon-driver-w, teal-wagon-driver-w), 197 px apart",
+    "both wagons on the track in, each drawn with its own driver (composite, composite), 197 px apart",
     "in, both wagons stand in the yard 95 px apart",
     "no page errors"
   ],
@@ -14,7 +14,7 @@
     "onTheRoad": [
       {
         "id": "hh-1-parent-1",
-        "art": "rust-wagon-driver-w",
+        "art": null,
         "wagon": {
           "part": "wagon",
           "x": 1152,
@@ -30,7 +30,7 @@
       },
       {
         "id": "hh-1-parent-2",
-        "art": "teal-wagon-driver-w",
+        "art": null,
         "wagon": {
           "part": "wagon",
           "x": 1349,

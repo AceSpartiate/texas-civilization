@@ -1,6 +1,6 @@
 {
   "record": "family-commands-browser",
-  "date": "2026-09-25",
+  "date": "2026-09-27",
   "verdict": "PASS",
   "browser": "153.0.8010.53",
   "task": "docs/FAMILY_PANEL.md §11: orders from the panel in a press each, idle shown, an \"!\" for every person something waits on that takes the camera there and opens it, a main person held by the server (set-main) whose row alone has the journeys, and one menu for a call with a tick per person who may answer.",
@@ -15,11 +15,11 @@
     "letting the rider ride on clears the \"!\"",
     "a call to the family marks the 8 people the server lets answer it; pressing hh-1-child-6's \"!\" opened the one menu for it (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.\") with a row each, the keyboard on hh-1-parent-1's",
     "answering from the menu (nobody goes) clears the \"!\" from everybody who could have answered, and the menu goes",
-    "12 presses (0 refused in the server's words and another tried) set 12 of 20 people to work without finding anybody on the map; each icon glowed when the server took it, and the 2 still at it are not idle (1: work, 2: buy-furniture, 1: make-furniture, 2: make-furniture, 3: make-furniture, 4: make-furniture, 5: make-furniture, 6: make-furniture, 7: make-furniture, 8: make-furniture, 9: make-furniture, 10: make-furniture)",
-    "of the 8 not given work, 6 are shown idle (something is open to them) and 2 are not (too young to be sent)",
-    "hh-1-parent-2, at buy-furniture, has no refused order drawn; a stale \"plant-field\" put back on the bar and pressed is refused by the server, in its words: \"Rhoda Proofwright is already carrying it home from Gonzales.\", and the work goes on",
-    "hh-1-child-1 is left standing about (their work finished), and the row says \"Idle\" and marks the portrait",
-    "hh-1-parent-2's work stopped to ask (\"The carpenter has pieces made. Rhoda Proofwright can pay in coin or in food.\"): the \"!\" took the camera to them and opened the question on their card, the keyboard on \"Buy a bedstead for food\"",
+    "11 presses (0 refused in the server's words and another tried) set 11 of 20 people to work without finding anybody on the map; each icon glowed when the server took it, and the 2 still at it are not idle (1: work, 1: buy-furniture, 2: make-furniture, 3: make-furniture, 4: make-furniture, 5: make-furniture, 6: make-furniture, 7: make-furniture, 8: make-furniture, 9: make-furniture, 10: make-furniture)",
+    "of the 9 not given work, 6 are shown idle (something is open to them) and 3 are not (too young to be sent)",
+    "hh-1-child-1, at buy-furniture, has no refused order drawn; a stale \"plant-field\" put back on the bar and pressed is refused by the server, in its words: \"Jasper Proofwright is already carrying it home from Gonzales.\", and the work goes on",
+    "hh-1-child-2 is left standing about (their work finished), and the row says \"Idle\" and marks the portrait",
+    "hh-1-child-1's work stopped to ask (\"The carpenter has pieces made. Jasper Proofwright can pay in coin or in food.\"): the \"!\" took the camera to them and opened the question on their card, the keyboard on \"Buy a bedstead for coin\"",
     "answering it clears the \"!\"",
     "an offer from the next family marks hh-1-parent-1; the \"!\" took the camera to them and opened the offer (\"Trinidad of Trinidad's family offers 1 food for 1 seed.\"), the keyboard on Accept",
     "declining it clears the \"!\"",
@@ -27,7 +27,7 @@
     "hh-1-parent-2's row alone has House, which opens the rooms",
     "after a reload the same person is starred, and the card that opens with nobody chosen is theirs",
     "pressing the main person's star from Gonzales brings the camera back to them (0.000 mi); a double-click on a portrait chooses another",
-    "over 11 ticks the panel added 0 nodes and changed 340 attributes across 20 rows: kept, not rebuilt",
+    "over 11 ticks the panel added 0 nodes and changed 220 attributes across 20 rows: kept, not rebuilt",
     "at 400 px the page does not scroll sideways, the \"!\" is on screen and big enough to press, and pressing it opens the offer on the docked card",
     "the settlement's call marks 2 people (hh-1-thomas, hh-1-elena), and 2 of them may turn out",
     "at 400 px the call's menu opens from an \"!\" on screen with 2 rows and its confirm within reach, and closes",
@@ -62,7 +62,7 @@
       "text": "A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.",
       "kind": "supplies",
       "menu": {
-        "requestId": "ev-69",
+        "requestId": "ev-108",
         "several": false,
         "rows": [
           {
@@ -155,13 +155,8 @@
           "glowed": true
         },
         {
-          "id": "hh-1-parent-2",
-          "key": "buy-furniture",
-          "glowed": true
-        },
-        {
           "id": "hh-1-child-1",
-          "key": "make-furniture",
+          "key": "buy-furniture",
           "glowed": true
         },
         {
@@ -210,11 +205,11 @@
           "glowed": true
         }
       ],
-      "presses": 12,
+      "presses": 11,
       "refusals": [],
       "stillAtIt": [
         "hh-1-parent-1",
-        "hh-1-parent-2"
+        "hh-1-child-1"
       ],
       "rows": [
         {
@@ -229,17 +224,17 @@
         {
           "id": "hh-1-parent-2",
           "role": "mother",
-          "active": [
-            "buy-furniture"
-          ],
+          "active": [],
           "idle": false,
           "need": null
         },
         {
           "id": "hh-1-child-1",
           "role": "son",
-          "active": [],
-          "idle": true,
+          "active": [
+            "buy-furniture"
+          ],
+          "idle": false,
           "need": null
         },
         {
@@ -364,25 +359,25 @@
       ]
     },
     "refusal": {
-      "id": "hh-1-parent-2",
+      "id": "hh-1-child-1",
       "key": "plant-field",
-      "server": "Rhoda Proofwright is already carrying it home from Gonzales.",
+      "server": "Jasper Proofwright is already carrying it home from Gonzales.",
       "chore": "buy-furniture"
     },
     "idleHow": "their work finished",
     "idle": {
-      "calledOff": "hh-1-child-1",
+      "calledOff": "hh-1-child-2",
       "tag": true,
       "mark": "block"
     },
     "askerSentAgain": 1,
     "asking": {
-      "asker": "hh-1-parent-2",
+      "asker": "hh-1-child-1",
       "chore": "buy-furniture",
-      "card": "hh-1-parent-2",
-      "question": "The carpenter has pieces made. Rhoda Proofwright can pay in coin or in food.",
-      "focused": "Buy a bedstead for food",
-      "watching": "Watching Rhoda Proofwright"
+      "card": "hh-1-child-1",
+      "question": "The carpenter has pieces made. Jasper Proofwright can pay in coin or in food.",
+      "focused": "Buy a bedstead for coin",
+      "watching": "Watching Jasper Proofwright"
     },
     "offer": {
       "tradedWith": "hh-1-parent-1",
@@ -425,7 +420,7 @@
     "churn": {
       "ticks": 11,
       "nodesAdded": 0,
-      "attributeChanges": 340,
+      "attributeChanges": 220,
       "rows": 20
     },
     "phone": {
@@ -433,7 +428,7 @@
       "overflow": 0,
       "mark": {
         "x": 36,
-        "y": 87,
+        "y": 105,
         "width": 30
       },
       "markOnScreen": true,

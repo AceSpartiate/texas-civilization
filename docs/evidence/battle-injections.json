@@ -1,6 +1,6 @@
 {
   "record": "battle-injections",
-  "date": "2026-09-26",
+  "date": "2026-09-27",
   "gates": {
     "unit": "node --test tests/battle-*.test.mjs, the named test and no other",
     "browser": "scripts/battle-gonzales-browser-proof.mjs"
@@ -275,7 +275,7 @@
       "file": "public/battle-view.js",
       "expect": "no smoke on screen",
       "caught": true,
-      "failure": "no smoke on screen at 5750 in the dawn-skirmish: 0",
+      "failure": "no smoke on screen at 5745 in the dawn-skirmish: 0",
       "checksPassedFirst": 2
     },
     {

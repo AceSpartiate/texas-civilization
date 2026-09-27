@@ -1,6 +1,6 @@
 {
   "record": "panel-silence-injections",
-  "date": "2026-09-21",
+  "date": "2026-09-27",
   "files": [
     "tests/panel-silence.test.mjs",
     "tests/family-panel.test.mjs"
@@ -10,6 +10,7 @@
       "name": "a row with work still open is collapsed to one line, so somebody at work loses their glow and their call-off",
       "file": "public/family-panel.js",
       "failed": [
+        "a person on a journey says Travelling, and a person carried out of sight keeps the server's fuller sentence",
         "a row of one refusal says it once; a busy row keeps its glowing icon and its way to call off the work",
         "somebody at work is not somebody with nothing to do: the glow and the way to call it off stay"
       ]
@@ -32,6 +33,7 @@
       "name": "a row refused for two different reasons picks the first, so a student is told the wrong one and loses the other",
       "file": "public/family-panel.js",
       "failed": [
+        "somebody carried out of sight keeps the server's fuller sentence on the panel, even with an icon still drawn beside it",
         "a row refused for several different reasons keeps its icons, each with its own",
         "a class that is not running is not a fact about the person, and shows no line"
       ]
@@ -61,7 +63,7 @@
       "name": "the land hunt’s shared refusal is read as a blank, so a child under ten has two reasons and is given none",
       "file": "public/family-panel.js",
       "failed": [
-        "a child under ten shows the server’s own sentence, and it is the sentence the server sent",
+        "somebody the server refuses everything shows its own sentence, and it is the sentence the server sent",
         "somebody at work is not somebody with nothing to do: the glow and the way to call it off stay",
         "somebody dead or captured has no icons at all, and their row still says why",
         "somebody away on the road shows the road, in the server’s words",

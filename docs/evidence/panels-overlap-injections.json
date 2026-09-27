@@ -1,8 +1,8 @@
 {
   "record": "panels-overlap-injections",
-  "date": "2026-09-21",
+  "date": "2026-09-27",
   "proof": "scripts/panels-browser-proof.mjs",
-  "cleanChecks": 9,
+  "cleanChecks": 14,
   "injections": [
     {
       "name": "the call's menu goes back to guessing the strip's height, where it covered \"Show placement controls\" outright at 1024",
@@ -21,15 +21,6 @@
       "forItsOwnReason": true,
       "why": "1366x768: #encounter is drawn over the guided start by 133x53px, and the strip is the instruction",
       "checksPassedFirst": 2
-    },
-    {
-      "name": "the two placement panels go back to a fixed top on a phone, where the strip covered \"Not now\" outright",
-      "file": "public/style.css",
-      "expect": "its own controls #survey-cancel",
-      "caught": true,
-      "forItsOwnReason": true,
-      "why": "390x844: #survey-choose cannot be used - its own controls #survey-cancel under #lesson-action, #lesson-did have something drawn over them",
-      "checksPassedFirst": 7
     },
     {
       "name": "the panel that asks where the house stands is never unhidden - the empty panel this whole file exists to stop reading as clean",

@@ -1,15 +1,15 @@
 {
   "record": "panels-injections",
-  "date": "2026-09-22",
+  "date": "2026-09-27",
   "gate": "scripts/panels-browser-proof.mjs",
-  "cleanChecks": 15,
+  "cleanChecks": 14,
   "injections": [
     {
       "name": "the bar is drawn under the meeting, because nothing hides it",
       "file": "public/style.css",
       "expect": "the ability bar is drawn under the meeting",
       "caught": true,
-      "failure": "1366x768: the ability bar is drawn under the meeting, sharing 520x48px with it",
+      "failure": "1366x768: the ability bar is drawn under the meeting, sharing 124x175px with it",
       "checksPassedFirst": 3
     },
     {
@@ -17,7 +17,7 @@
       "file": "public/style.css",
       "expect": "the ability bar is drawn under the meeting",
       "caught": true,
-      "failure": "1366x768: the ability bar is drawn under the meeting, sharing 520x48px with it",
+      "failure": "1366x768: the ability bar is drawn under the meeting, sharing 124x175px with it",
       "checksPassedFirst": 3
     },
     {
@@ -32,9 +32,9 @@
       "name": "the column is never folded for a place, so the student keeps the names and the panel keeps its distance by luck",
       "file": "public/app.js",
       "expect": "the column did not fold",
-      "caught": true,
-      "failure": "1366x768: the column did not fold for the stake and open again after it: {\"foldedBefore\":false,\"foldedDuring\":false,\"panelShut\":true,\"foldedAfter\":false}",
-      "checksPassedFirst": 4
+      "caught": false,
+      "failure": "1366x768: #site-choose is drawn but carries no control a student could press, so it is not the panel this measures",
+      "checksPassedFirst": 0
     },
     {
       "name": "the column folds for a place and never opens again, which takes the names away for good",
@@ -48,9 +48,9 @@
       "name": "the column folds but the panel stays where it was, over the faces",
       "file": "public/style.css",
       "expect": "is drawn over the family's",
-      "caught": true,
-      "failure": "1366x768: #site-choose is drawn over the family's faces by 48x91px",
-      "checksPassedFirst": 4
+      "caught": false,
+      "failure": "1366x768: #encounter was never drawn, or is too small to be a panel: {\"x\":0,\"y\":0,\"w\":0,\"h\":0} - an empty panel covers nothing and would read as clean",
+      "checksPassedFirst": 0
     },
     {
       "name": "the panel is put beside the faces without asking where the guided start ends, which at 1024 is lower than the faces begin",

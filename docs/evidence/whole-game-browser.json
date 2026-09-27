@@ -9,32 +9,32 @@
     "the student joined as hh-1 in columbia and rolled a family of 8: Amos Proofwright (father, 31), Mahala Proofwright (mother, 34), Nieves Proofwright (daughter, 12), Jonas Proofwright (son, 10), Simeon Proofwright (son, 8), Lavinia Proofwright (daughter, 6), Docia Proofwright (daughter, 3), Teodoro Proofwright (son, 2)",
     "the Host started the class with five families joined",
     "the family arrived and the house site was chosen on its grant at (99.0104, 22.799599999999998)",
-    "4 of the family set to auto from the panel: Amos Proofwright, Mahala Proofwright, Nieves Proofwright, Jonas Proofwright",
+    "8 of the family set to auto from the panel: Amos Proofwright, Mahala Proofwright, Nieves Proofwright, Jonas Proofwright, Simeon Proofwright, Lavinia Proofwright, Docia Proofwright, Teodoro Proofwright",
     "4 orders given from the panel and taken",
     "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Amos Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (843 ticks, 92.1 s)",
+    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (843 ticks, 92.2 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
-    "the second period ended on its own at minute 241920 (299 ticks, 33 s)",
+    "the second period ended on its own at minute 241920 (300 ticks, 33 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (714 ticks, 79.3 s)",
+    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (735 ticks, 80.8 s)",
     "no page errors on either page across the whole game"
   ],
   "measured": {
     "periods": {
       "first": {
         "ticks": 843,
-        "seconds": 92.1,
+        "seconds": 92.2,
         "endedAtMinute": 114060
       },
       "second": {
-        "ticks": 299,
+        "ticks": 300,
         "seconds": 33,
         "endedAtMinute": 241920
       },
       "third": {
-        "ticks": 714,
-        "seconds": 79.3,
+        "ticks": 735,
+        "seconds": 80.8,
         "endedAtMinute": 302580
       }
     },
@@ -52,7 +52,11 @@
       "Amos Proofwright",
       "Mahala Proofwright",
       "Nieves Proofwright",
-      "Jonas Proofwright"
+      "Jonas Proofwright",
+      "Simeon Proofwright",
+      "Lavinia Proofwright",
+      "Docia Proofwright",
+      "Teodoro Proofwright"
     ],
     "orders": [
       {
@@ -86,12 +90,12 @@
       "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs w"
     },
     "ending": {
-      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 453. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final the Proofwright family 149 October 2 Amos Proofwright 3 reales 150 — 453 Asa's family 138 October 1 D",
-      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 3 reales GLORY 150 FINAL NUMBER 453 3 reales × (1 + 150 glory) = 453 Our story The family lived 149 road miles from Gonzales. Word that soldiers had come for the cannon reached them on October 2. They were told to leave in the spring. W",
+      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 483. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final the Proofwright family 164 October 2 Amos Proofwright 3 reales 160 — 483 Asa's family 138 October 1 n",
+      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 3 reales GLORY 160 FINAL NUMBER 483 3 reales × (1 + 160 glory) = 483 Our story The family lived 164 road miles from Gonzales. Word that soldiers had come for the cannon reached them on October 2. They were told to leave in the spring. W",
       "flight": "returning",
       "minute": 302580
     },
-    "totalSeconds": 204.39999999999998
+    "totalSeconds": 206
   },
   "screenshots": [
     "docs/evidence/whole-game-at-work.png",

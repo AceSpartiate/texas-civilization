@@ -14,13 +14,13 @@
   ],
   "observed": {
     "ordered": {
-      "tick": 860,
-      "paced": 860,
-      "fledAt": 860
+      "tick": 861,
+      "paced": 861,
+      "fledAt": 861
     },
     "bogAfter": {
       "seconds": 157,
-      "tick": 964
+      "tick": 965
     },
     "bogNeed": "road",
     "bogCard": "The family is on the road east for San Felipe de Austin. It is raining. The wagon is fast in the mud. The wagon is fast in the mud, and it is still raining. The ox cannot pull it out alone. Unload and dig it out 8 hours. Everybody grown is worn by it, and the ox is spent and goes at half pace for a day after. Wait for the ground to dry Nothing spent. The family sits where it is until a dry day, and the Mexican army does not wait. Leave the wagon and go on on foot The wagon and the ox stay in the mud. The family carries 2.5 room’s worth (food first) and the rest is lost; on foot it goes faster.",
@@ -62,7 +62,7 @@
       "on the road east to San Felipe de Austin"
     ],
     "pursuitReached": {
-      "tick": 1356,
+      "tick": 1357,
       "danger": {
         "id": "santa-anna",
         "name": "Santa Anna’s column",

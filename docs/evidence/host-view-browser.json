@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-26",
+  "date": "2026-09-27",
   "command": "npm run test:host-view",
   "scope": "Same computer only: headless Chrome 1440x950, a server on 127.0.0.1. Not a physical LAN, a phone or a classroom.",
   "class": {
@@ -9,23 +9,26 @@
     "joined": 1
   },
   "pass": [
-    "the student's page, 158.5 miles away, has none of hh-9's people and no overview",
-    "the Host zoomed to Thomas's family's farm (house, round-log) and drew 2 of its people, 2 plot(s) and its line",
+    "the student's page, 158.5 miles away, has none of hh-10's people and no overview",
+    "the Host zoomed to Trinidad's family's farm (house, round-log) and drew 4 of its people, 2 plot(s) and its line",
     "the Host zooms in as far as a student does (4737 pixels a mile)",
-    "the Host looks at Antonia: \"of Thomas's family · felling timber on the clearing · at home · well\", with no order offered",
+    "the Host looks at Rhoda: \"of Trinidad's family · felling timber on the clearing · at home · well\", with no order offered",
     "the Host went to San Felipe de Austin: 11 shops and 12 people drawn, keepers among them",
-    "Whole class: The whole class: 112 people, 150 figures in view, 14 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
+    "Whole class: The whole class: 112 people, 150 figures in view, 12 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
     "at 400 pixels wide the list of places is on screen and the page does not scroll sideways",
     "no page error on either page"
   ],
   "errors": [],
   "observed": {
     "farFamily": {
-      "householdId": "hh-9",
-      "homeSiteId": "home-9",
+      "householdId": "hh-10",
+      "homeSiteId": "home-10",
       "milesFromStudent": 158.5,
       "atHome": [
-        "hh-9-elena"
+        "hh-10-thomas",
+        "hh-10-elena",
+        "hh-10-rosa",
+        "hh-10-mateo"
       ]
     },
     "studentOthers": 1,
@@ -34,8 +37,8 @@
         "kind": "region",
         "scale": 2131.5789473684213,
         "named": true,
-        "cx": 156.539,
-        "cy": -40.609,
+        "cx": 156.59975,
+        "cy": -40.621,
         "following": false,
         "figure": 40.5,
         "house": {
@@ -44,7 +47,7 @@
         }
       },
       "land": {
-        "name": "Thomas's family",
+        "name": "Trinidad's family",
         "view": {
           "shelter": "house",
           "layout": "round-log"
@@ -53,36 +56,38 @@
         "logs": 5
       },
       "drawnPeople": [
-        "hh-9-elena",
-        "hh-9-mateo"
+        "hh-10-thomas",
+        "hh-10-elena",
+        "hh-10-rosa",
+        "hh-10-mateo"
       ],
       "houseDrawn": {
-        "householdId": "hh-9",
+        "householdId": "hh-10",
         "shelter": "house",
         "layout": "round-log",
         "pieces": 2
       },
       "plotsDrawn": 2,
       "holdings": 1,
-      "snapshotBytes": 58404,
-      "description": "The whole class: 112 people, 4 figures in view, 14 people on the road."
+      "snapshotBytes": 65126,
+      "description": "The whole class: 112 people, 7 figures in view, 10 people on the road."
     },
     "closestScale": {
       "host": 4736.842105263158,
       "student": 4736.842105263158
     },
-    "foldedPanels": false,
+    "foldedPanels": true,
     "clicked": {
-      "person": "hh-9-elena",
+      "person": "hh-10-elena",
       "at": {
-        "x": 762,
-        "y": 401
+        "x": 432,
+        "y": 558
       }
     },
     "card": {
-      "id": "hh-9-elena",
-      "name": "Antonia",
-      "state": "of Thomas's family · felling timber on the clearing · at home · well",
+      "id": "hh-10-elena",
+      "name": "Rhoda",
+      "state": "of Trinidad's family · felling timber on the clearing · at home · well",
       "subject": "The teacher watches; only the family gives orders.",
       "orders": []
     },
@@ -115,7 +120,7 @@
         "town-mill-san-felipe",
         "town-weaver-san-felipe",
         "town-stockman-san-felipe",
-        "courier-6"
+        "courier-7"
       ],
       "drawn": [
         {
@@ -174,8 +179,8 @@
           "keeper": true
         },
         {
-          "id": "courier-6",
-          "name": "Tobias Crow",
+          "id": "courier-7",
+          "name": "Ada Swinney",
           "keeper": false
         }
       ]
@@ -187,7 +192,7 @@
         "scale": 3.413940256045519,
         "named": true,
         "cx": 28.379999999999995,
-        "cy": -31.61500000000001,
+        "cy": -8.319999999999993,
         "following": true,
         "figure": 7,
         "house": {
@@ -196,7 +201,7 @@
         }
       },
       "follow": "Whole class",
-      "description": "The whole class: 112 people, 150 figures in view, 14 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
+      "description": "The whole class: 112 people, 150 figures in view, 12 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
       "land": true
     },
     "phone": {

@@ -1,6 +1,6 @@
 {
   "record": "afoot-injections",
-  "date": "2026-09-25",
+  "date": "2026-09-27",
   "files": [
     "tests/afoot.test.mjs",
     "tests/carreta.test.mjs",

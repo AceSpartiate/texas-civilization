@@ -120,7 +120,7 @@
         "foragers": []
       },
       {
-        "id": "auxiliary-war",
+        "id": "auxiliary",
         "side": "texian",
         "ours": 0,
         "strength": 1,

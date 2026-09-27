@@ -27,13 +27,11 @@ const INJECTIONS = [
     to: 'max-height:min(70vh,620px);overflow-y:auto',
     expect: '#encounter is drawn over the guided start',
   },
-  {
-    name: 'the two placement panels go back to a fixed top on a phone, where the strip covered "Not now" outright',
-    file: 'public/style.css',
-    from: '  body[data-lesson=true] #site-choose,body[data-lesson=true] #survey-choose{top:calc(14px + var(--lesson-room,90px))}',
-    to: '  body[data-lesson=true] #site-choose,body[data-lesson=true] #survey-choose{top:56px}',
-    expect: 'its own controls #survey-cancel',
-  },
+  // Retired 2026-09-27: "the two placement panels go back to a fixed top on a phone, where the strip covered 'Not now'
+  // outright". It is a phone-only rule (`@media (max-width:760px)`), and scripts/panels-browser-proof.mjs has measured only
+  // 1366x768 and 1024x768 since phones stopped being a supported size (HANDOFF.md, the siege proof's phone check), so no run
+  // of it can see this rule at all: it was missed on every run, which is a harness counting a check that no longer exists.
+  // The desktop half of the same fault is the injection above. Bring it back with a phone size in the proof.
   {
     name: 'the panel that asks where the house stands is never unhidden - the empty panel this whole file exists to stop reading as clean',
     file: 'public/app.js',

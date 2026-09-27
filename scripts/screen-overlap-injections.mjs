@@ -20,13 +20,11 @@ const INJECTIONS = [
     to: '#lesson{position:absolute;z-index:14;top:10px;left:50%;transform:translateX(-50%);width:min(34rem,calc(100% - 24px));',
     expect: 'drawn over the family',
   },
-  {
-    name: 'the bar stays where it is while a lesson names the icons, so the names land on the map\'s own buttons',
-    file: 'public/style.css',
-    from: '@media (min-width:761px){body[data-lesson=true] .panel-row[data-focused=true] .panel-icons{bottom:104px}}',
-    to: '',
-    expect: 'of room where',
-  },
+  // Retired 2026-09-27: "the bar stays where it is while a lesson names the icons, so the names land on the map's own
+  // buttons" (removing `body[data-lesson=true] ... .panel-icons{bottom:104px}`). Since the compact bar (b780534, 2026-09-22)
+  // a name is drawn inside its own button, not under the bar, and the lesson proof's room-under-the-bar check became "action
+  // names must fit inside their buttons and stay clear of navigation". Aimed at that check, the injection still passes: with
+  // the names inside the buttons there is nothing left under the bar to land on the map's buttons. Missed on every run.
   {
     name: 'a panel stands over the whole family with nothing behind it to show that it does',
     file: 'public/app.js',

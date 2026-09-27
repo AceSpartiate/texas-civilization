@@ -6,9 +6,9 @@
   "checks": [
     "while the class runs neither page has an ending or a glory",
     "the class ended on its own, with both pages watching",
-    "the family sees its own reckoning: 3 reales × (1 + 146 glory) = 441",
+    "the family sees its own reckoning: 3 reales × (1 + 159 glory) = 480",
     "the family can close it to look at the map, and open it again",
-    "the Host names the family that leads after Béxar: hh-1 at 441",
+    "the Host names the family that leads after Béxar: hh-1 at 480",
     "no word on either page names a virtue",
     "at phone width the page does not scroll sideways",
     "the Host continues the class into the winter: both pages open paused on \"1836-01-25 · paused\", the standings gone",
@@ -19,36 +19,36 @@
     "family": {
       "name": "Cipriano's family",
       "money": 3,
-      "glory": 146,
-      "final": 441,
-      "sum": "3 reales × (1 + 146 glory) = 441",
+      "glory": 159,
+      "final": 480,
+      "sum": "3 reales × (1 + 159 glory) = 480",
       "story": [
-        "The family lived 101 road miles from Gonzales.",
+        "The family lived 114 road miles from Gonzales.",
         "Word that soldiers had come for the cannon reached them on October 2."
       ],
       "awards": [
-        "Cipriano was there for the army made at Gonzales, 101 road miles from home.",
-        "Cipriano fought in the fight at Concepción, 170 road miles from home.",
-        "Cipriano said they would go in at the order to storm Béxar, 170 road miles from home.",
-        "Cipriano fought in the Grass Fight, 170 road miles from home.",
-        "Cipriano fought in the storming of Béxar, 170 road miles from home."
+        "Cipriano was there for the army made at Gonzales, 114 road miles from home.",
+        "Cipriano fought in the fight at Concepción, 183 road miles from home.",
+        "Cipriano said they would go in at the order to storm Béxar, 183 road miles from home.",
+        "Cipriano fought in the Grass Fight, 183 road miles from home.",
+        "Cipriano fought in the storming of Béxar, 183 road miles from home."
       ]
     },
-    "familyText": "THE STORY SO FAR\n×\nCipriano's family\n\nThis is where your family stands after the fall of Béxar. The war is not over: the next class goes on into 1836, and these numbers will change.\n\nCOIN IN THE HOUSE\n3 reales\nGLORY\n146\nFINAL NUMBER\n441\n\n3 reales × (1 + 146 glory) = 441\n\nOur story\n\nThe family lived 101 road miles from Gonzales.\n\nWord that soldiers had come for the cannon reached them on October 2.\n\nWhere the coin came from and went\nSeptember 28: The family came with 3 reales. (+3 reales)\nWhat earned glory\nOctober 11: Cipriano was there for the army made at Gonzales, 101 road miles from home. (14)\nOctober 28: Cipriano fought in the fight at Concepción, 170 road miles from home. (36)\nNovember 22: Cipriano said they would go in at the order to storm Béxar, 170 road miles from home. (24)\nNovember 26: Cipriano fought in the Grass Fight, 170 road miles from home. (36)\nDecember 9: Cipriano fought in the storming of Béxar, 170 road miles from home. (36)",
+    "familyText": "THE STORY SO FAR\n×\nCipriano's family\n\nThis is where your family stands after the fall of Béxar. The war is not over: the next class goes on into 1836, and these numbers will change.\n\nCOIN IN THE HOUSE\n3 reales\nGLORY\n159\nFINAL NUMBER\n480\n\n3 reales × (1 + 159 glory) = 480\n\nOur story\n\nThe family lived 114 road miles from Gonzales.\n\nWord that soldiers had come for the cannon reached them on October 2.\n\nWhere the coin came from and went\nSeptember 28: The family came with 3 reales. (+3 reales)\nWhat earned glory\nOctober 11: Cipriano was there for the army made at Gonzales, 114 road miles from home. (16)\nOctober 28: Cipriano fought in the fight at Concepción, 183 road miles from home. (39)\nNovember 22: Cipriano said they would go in at the order to storm Béxar, 183 road miles from home. (26)\nNovember 26: Cipriano fought in the Grass Fight, 183 road miles from home. (39)\nDecember 9: Cipriano fought in the storming of Béxar, 183 road miles from home. (39)",
     "host": {
       "winners": [
         "hh-1"
       ],
-      "best": 441,
+      "best": 480,
       "families": [
-        "Cipriano's family: 3 × (1 + 146) = 441",
+        "Cipriano's family: 3 × (1 + 159) = 480",
         "Elias's family: 5 × (1 + 0) = 5",
         "Asa's family: 5 × (1 + 0) = 5",
         "Barnabas's family: 3 × (1 + 0) = 3",
         "Ezra's family: 9 × (1 + 0) = 9"
       ]
     },
-    "hostText": "THE STORY SO FAR\n×\nHow the families stand after Béxar\n\nCipriano's family leads, with a final number of 441.\n\nThese are interim standings. The war goes on in the next class: press Continue to the winter of 1836 when the class meets again.\n\nFamily\tRoad miles from Gonzales\tHeard of the cannon\tWho went\tCoin\tGlory\tLand\tFinal\nCipriano's family\t101\tOctober 2\tCipriano\t3 reales\t146\t—\t441\nElias's family\t163\tOctober 2\tnobody\t5 reales\t0\t—\t5\nAsa's family\t133\tOctober 1\tnobody\t5 reales\t0\t—\t5\nBarnabas's family\t196\tOctober 2\tnobody\t3 reales\t0\t—\t3\nEzra's family\t7\tSeptember 29\tnobody\t9 reales\t0\t—\t9\n\nFinal number = coin × (1 + glory) + land. A family with no coin is counted as having 1 real. Land promised for enlisting counts a real for every 20 acres, if the person is alive and served it out or is serving still; being sent for home forfeits it.\n\nFor the class\nWhich families heard the news first, and did hearing first change what they did?\nHow did living far from Gonzales change what a family could do?\nWhat did a family give up at home when somebody went, and what did staying home cost?\nWhy do the families with the most coin and the families with the most glory not always match?",
+    "hostText": "THE STORY SO FAR\n×\nHow the families stand after Béxar\n\nCipriano's family leads, with a final number of 480.\n\nThese are interim standings. The war goes on in the next class: press Continue to the winter of 1836 when the class meets again.\n\nFamily\tRoad miles from Gonzales\tHeard of the cannon\tWho went\tCoin\tGlory\tLand\tFinal\nCipriano's family\t114\tOctober 2\tCipriano\t3 reales\t159\t—\t480\nElias's family\t163\tOctober 2\tnobody\t5 reales\t0\t—\t5\nAsa's family\t133\tOctober 1\tnobody\t5 reales\t0\t—\t5\nBarnabas's family\t196\tOctober 2\tnobody\t3 reales\t0\t—\t3\nEzra's family\t7\tSeptember 29\tnobody\t9 reales\t0\t—\t9\n\nFinal number = coin × (1 + glory) + land. A family with no coin is counted as having 1 real. Land promised for enlisting counts a real for every 20 acres, if the person is alive and served it out or is serving still; being sent for home forfeits it.\n\nFor the class\nWhich families heard the news first, and did hearing first change what they did?\nHow did living far from Gonzales change what a family could do?\nWhat did a family give up at home when somebody went, and what did staying home cost?\nWhy do the families with the most coin and the families with the most glory not always match?",
     "winter": {
       "householdId": "hh-1",
       "date": "1836-01-25 · paused"

@@ -9,11 +9,11 @@
   "slow": {
     "person": "hh-1-thomas",
     "seen": {
-      "minute": 260,
+      "minute": 280,
       "tickMs": 2500,
       "location": {
-        "x": 99.61560755914958,
-        "y": 19.114581574733105,
+        "x": 99.65775777832971,
+        "y": 19.03779377733623,
         "siteId": null
       },
       "away": false,
@@ -21,13 +21,13 @@
         "to": "gonzales",
         "miles": null,
         "back": null,
-        "progress": 0.9157509157509157,
+        "progress": 0.9960159362549801,
         "step": 1,
-        "points": 239
+        "points": 256
       },
       "drawn": {
-        "x": -114,
-        "y": 962
+        "x": -151,
+        "y": 1035
       },
       "card": "On the road to Gonzales · 1%",
       "row": "Travelling",
@@ -35,12 +35,12 @@
     },
     "teacher": {
       "location": {
-        "x": 99.6156,
-        "y": 19.1146,
+        "x": 99.6578,
+        "y": 19.0378,
         "siteId": null
       },
-      "road": 2,
-      "progress": 0.9158,
+      "road": 3,
+      "progress": 0.996,
       "drawn": true,
       "where": [
         "on the road to Gonzales",

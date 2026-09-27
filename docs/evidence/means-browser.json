@@ -1,6 +1,6 @@
 {
   "record": "means-browser",
-  "date": "2026-09-25",
+  "date": "2026-09-27",
   "browser": "153.0.8010.53",
   "ownerDirection": "\"introduce rolling for starting wealth. tie it into the extra wagons. part of wealth will be number of wagons. if a family doesn't have enough wagons, older family members walk. have this potentially affect travelling speed.\" (2026-09-25)",
   "checks": [
@@ -8,7 +8,7 @@
     "the pack screen packs the cart: \"The cart: 12 of 12 space filled, 0 left.\"; \"Besides the cart, the family carries 11 food on foot, in sacks and bundles.\" (15 food, 5.0 days)",
     "a poor family of twelve on the track in: the cart driven by its principal, 2 in it, Jasper Proofwright (7) on the horse, 8 walking beside it apart, at 0.65 a tick",
     "a well-to-do roll says \"Well-to-do. Three wagons, an ox to each, the family's horse, and 10 reales. There is room for all 8 to ride.\"",
-    "a well-to-do family of eight comes in with three wagons, each drawn driven (rust-wagon-driver-w, teal-wagon-driver-w, blue-wagon-driver-w), 4+1+0 riding, nobody walking",
+    "a well-to-do family of eight comes in with three wagons, each drawn driven (composite, composite, composite), 4+1+0 riding, nobody walking",
     "a hard-up roll says \"Hard up. No wagon or cart: an ox to carry the packs, the family's horse, and 3 reales. 1 rides the horse and 7 walk.\"",
     "the pack screen packs the ox: \"No wagon or cart. The ox's packs: 7 of 7 space filled, 0 left.\"; \"The family carries its food itself: 11 food on foot, in sacks and bundles.\" (5.2 days of food)",
     "a hard-up family of eight walks in: 7 walking apart, Andrés Proofwright (3) in the saddle, the ox drawn under its packs, no wagon",
@@ -135,7 +135,7 @@
     "richOnTheRoad": [
       {
         "id": "hh-1-parent-1",
-        "art": "rust-wagon-driver-w",
+        "art": null,
         "passengers": 4,
         "wagon": {
           "part": "wagon",
@@ -146,7 +146,7 @@
       },
       {
         "id": "hh-1-parent-2",
-        "art": "teal-wagon-driver-w",
+        "art": null,
         "passengers": 1,
         "wagon": {
           "part": "wagon",
@@ -157,7 +157,7 @@
       },
       {
         "id": "hh-1-child-1",
-        "art": "blue-wagon-driver-w",
+        "art": null,
         "passengers": 0,
         "wagon": {
           "part": "wagon",

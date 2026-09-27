@@ -30,7 +30,7 @@
         "bottom": 575
       },
       "scrolls": true,
-      "scrollHeight": 1278,
+      "scrollHeight": 1292,
       "clientHeight": 328,
       "mapShare": 0.8229166666666666,
       "stripBottom": 0,
@@ -44,7 +44,7 @@
     "desktopLast": {
       "inside": true,
       "onTop": true,
-      "scrollTop": 945,
+      "scrollTop": 959,
       "id": "hh-1-child-18"
     },
     "bar-1366x768": {

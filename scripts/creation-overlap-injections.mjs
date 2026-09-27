@@ -47,8 +47,10 @@ const INJECTIONS = [
   {
     name: 'the looks options go back to 6px apart, closer than a finger can tell two targets apart',
     file: 'public/style.css',
-    from: '.looks-options{display:flex;flex-wrap:wrap;gap:8px}',
-    to: '.looks-options{display:flex;flex-wrap:wrap;gap:6px}',
+    // Re-aimed 2026-09-27: the parents' looks redesign (e396a13) set `.looks-options{gap:9px}` further down, which wins; the
+    // first rule's gap is no longer the one drawn, and changing it changed nothing.
+    from: '.looks-options{gap:9px}',
+    to: '.looks-options{gap:6px}',
     expect: 'apart, closer than the',
   },
   {

@@ -23,6 +23,7 @@ import {
   STRAY_SHARE, advanceStock, findStockAgain, herdOf, herdWords, leaveStock,
 } from '../sim/stock.mjs';
 import { KEEP_CATTLE, KEEP_HOGS, STOCK_SHARE } from '../sim/neighbours.mjs';
+import { share } from '../sim/shares.mjs';
 import { holdingOf } from '../sim/grants.mjs';
 import { dateOf } from '../sim/clock.mjs';
 import { STOCK_SPACE, WAGON_SPACE, spaceOf } from '../sim/wagon.mjs';
@@ -265,6 +266,11 @@ test('a class replays its own herds, and a family nobody plays drives stock in a
   const all = Object.values(first.households).length;
   assert.ok(dealt > all * 0.4, `only ${dealt} of ${all} families drove stock in`);
   assert.ok(dealt < all, `every one of ${all} families drove stock in`);
+  // Exactly the families the hash says did not are the ones with none: a count alone passed with the hash ignored, because a
+  // family with no room in its wagon drives nothing in either (stock-injections, re-aimed 2026-09-27).
+  const refused = Object.values(first.households).filter(household => share(first, household.id, 'drove-stock-in') >= STOCK_SHARE);
+  assert.ok(refused.length > 0, 'no family of this class was dealt none, so the rule is not measured');
+  assert.deepEqual(refused.filter(household => household.stock === true).map(household => household.id), [], 'a family the hash dealt no stock drove stock in');
   assert.ok(STOCK_SHARE > 0.5 && STOCK_SHARE <= 1);
   // And it does not eat its own herd: a breeding herd is kept whatever the larder says.
   for (const household of Object.values(first.households)) {
