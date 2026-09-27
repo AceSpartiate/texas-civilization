@@ -85,16 +85,15 @@ const GATE = { style: 'ranks', at: 'gate', action: 'stand', fire: 'none', drawn:
  * The prisoners in three columns - the Victoria road's is the side's own body, the Béxar and San Patricio roads' drawn apart -
  * those kept back in the chapel and the wounded in their rooms, and, once the firing starts, the few who ran. Sixty in all,
  * alike from the muster to the end.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "Coleto and Goliad", item 2 - the prisoners, who had no arms, are drawn
- * in the militia's walk and stand, which carry muskets, until an unarmed prisoner's walk and stand are drawn.
+ * All prisoner groups use unarmed art, distinct from the Mexican guards' regular uniforms.
  */
 const columns = (place, { action = 'stand', runners = null } = {}) => ({
   texian: { style: 'column', ...place('victoria'), action, fire: 'none', face: 'far-victoria', drawn: 16 },
   groups: [
-    ...OTHER_ROADS.map(id => ({ id, side: TEX, style: 'column', ...place(id), action, drawn: 16, face: `far-${id}` })),
-    { id: 'kept', side: TEX, name: 'Kept back: the doctors and workmen', named: true, style: 'loose', at: 'chapel', action: 'stand', drawn: 4, spread: { width: 0.05, depth: 0.03 } },
-    { id: 'wounded', side: TEX, style: 'loose', at: 'wounded', action: 'stand', drawn: 4, spread: { width: 0.06, depth: 0.03 } },
-    { id: 'runners', side: TEX, style: 'rout', ...(runners || { at: 'out-victoria', action: 'gone' }), drawn: 4, spread: { width: 0.1, depth: 0.06 } },
+    ...OTHER_ROADS.map(id => ({ id, side: TEX, figure: 'prisoner', style: 'column', ...place(id), action, drawn: 16, face: `far-${id}` })),
+    { id: 'kept', side: TEX, figure: 'prisoner', name: 'Kept back: the doctors and workmen', named: true, style: 'loose', at: 'chapel', action: 'stand', drawn: 4, spread: { width: 0.05, depth: 0.03 } },
+    { id: 'wounded', side: TEX, figure: 'prisoner', style: 'loose', at: 'wounded', action: 'stand', drawn: 4, spread: { width: 0.06, depth: 0.03 } },
+    { id: 'runners', side: TEX, figure: 'prisoner', style: 'rout', ...(runners || { at: 'out-victoria', action: 'gone' }), drawn: 4, spread: { width: 0.1, depth: 0.06 } },
   ],
 });
 /** The guard: a file beside each column, facing along the road on the march and turned on the column at the halt. */
@@ -119,7 +118,7 @@ export const GOLIAD_MASSACRE = Object.freeze({
   held: name => `${name} is a prisoner in the presidio at Goliad.`,
   sides: {
     // About 430 prisoners (`HIST-TEX-064`), drawn as a sample of sixty in all.
-    texian: { name: 'The prisoners', count: 430, drawn: 16, claimId: 'HIST-TEX-064', spread: { width: 0.16, depth: 0.1 } },
+    texian: { name: 'The prisoners', count: 430, drawn: 16, figure: 'prisoner', claimId: 'HIST-TEX-064', spread: { width: 0.16, depth: 0.1 } },
     // The guard: the record gives no count, and none is shown (`uncounted`).
     mexican: { name: 'The guard', count: 1, uncounted: true, drawn: 10, claimId: 'HIST-TEX-517' },
   },
@@ -137,7 +136,7 @@ export const GOLIAD_MASSACRE = Object.freeze({
       texian: { ...INSIDE, drawn: 53 },
       mexican: { ...GATE },
       groups: [
-        { id: 'hidden', side: TEX, style: 'loose', keys: [[0, 'side-door'], [15, 'side-door'], [45, 'house']], drawn: 3, spread: { width: 0.04, depth: 0.02 } },
+        { id: 'hidden', side: TEX, figure: 'prisoner', style: 'loose', keys: [[0, 'side-door'], [15, 'side-door'], [45, 'house']], drawn: 3, spread: { width: 0.04, depth: 0.02 } },
         // Her unique art carries this quiet rescue gesture; no words of hers are recorded.
         { id: 'alavez', side: MEX, name: 'Francita Alavez', named: true, civilians: true, figure: 'alavez', style: 'loose', keys: [[0, 'side-door'], [15, 'side-door'], [45, 'house']], drawn: 1, spread: { width: 0.02, depth: 0.02 } },
       ],

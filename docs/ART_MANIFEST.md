@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1554 usable sprites, 142 PNG atlases, 522 clips** (296 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1570 usable sprites, 143 PNG atlases, 525 clips** (299 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -66,6 +66,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-santa-anna-picnic | 4 | 1254 × 1254 | 1236551 |
 | famous-picnic-props | 4 | 1254 × 1254 | 1557526 |
 | flag-come-and-take-it | 4 | 1254 × 1254 | 1140674 |
+| goliad-prisoner | 16 | 1254 × 1254 | 1028392 |
 | gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
 | gonzales-log-breastwork | 1 | 1774 × 887 | 1221292 |
 | gonzales-dugout-canoe | 1 | 1536 × 1024 | 2208839 |
@@ -792,6 +793,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | flag-come-and-take-it-wind-1 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-2 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-3 | flag-come-and-take-it | flag-come-and-take-it-wind |
+| prisoner-walk-e-1 | goliad-prisoner | prisoner-walk-e |
+| prisoner-walk-e-2 | goliad-prisoner | prisoner-walk-e |
+| prisoner-walk-e-3 | goliad-prisoner | prisoner-walk-e |
+| prisoner-walk-e-4 | goliad-prisoner | prisoner-walk-e |
+| prisoner-walk-s-1 | goliad-prisoner | prisoner-walk-s |
+| prisoner-walk-s-2 | goliad-prisoner | prisoner-walk-s |
+| prisoner-walk-n-1 | goliad-prisoner | prisoner-walk-n |
+| prisoner-walk-n-2 | goliad-prisoner | prisoner-walk-n |
+| prisoner-idle-e | goliad-prisoner | State artwork; no motion required |
+| prisoner-idle-s | goliad-prisoner | State artwork; no motion required |
+| prisoner-listen | goliad-prisoner | State artwork; no motion required |
+| prisoner-look-back | goliad-prisoner | State artwork; no motion required |
+| prisoner-run-e | goliad-prisoner | State artwork; no motion required |
+| prisoner-duck | goliad-prisoner | State artwork; no motion required |
+| prisoner-injured | goliad-prisoner | State artwork; no motion required |
+| prisoner-still | goliad-prisoner | State artwork; no motion required |
 | gonzales-cannon-buried | gonzales-cannon-buried | State artwork; no motion required |
 | gonzales-log-breastwork | gonzales-log-breastwork | State artwork; no motion required |
 | gonzales-dugout-canoe | gonzales-dugout-canoe | State artwork; no motion required |
@@ -1922,6 +1939,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | santa-anna-picnic-converse | Pose cycle | 3 | 3450 | yes | east-facing at a camp chair |
 | santa-anna-picnic-alarm | Pose cycle | 2 | 1750 | one-shot | east-facing; turns toward the battle |
 | flag-come-and-take-it-wind | Pose cycle | 4 | 2700 | yes | not applicable |
+| prisoner-walk-e | Pose cycle | 4 | 840 | yes | east |
+| prisoner-walk-s | Pose cycle | 2 | 600 | yes | south |
+| prisoner-walk-n | Pose cycle | 2 | 600 | yes | north |
 | teal-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | indigo-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | blue-girl-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |

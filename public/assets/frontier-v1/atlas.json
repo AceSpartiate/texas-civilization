@@ -5458,6 +5458,130 @@
         ]
       }
     },
+    "goliad-prisoner": {
+      "image": "atlases/goliad-prisoner.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1028392,
+      "sha256": "43ff7fa28ff76b6542bd7dd6dccb3cfedfa75704a3092e80297a3d1c0c0329e6",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.737147,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              34,
+              317
+            ],
+            "columns": [
+              [
+                79,
+                258
+              ],
+              [
+                385,
+                565
+              ],
+              [
+                691,
+                889
+              ],
+              [
+                1005,
+                1205
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              351,
+              635
+            ],
+            "columns": [
+              [
+                89,
+                230
+              ],
+              [
+                399,
+                541
+              ],
+              [
+                718,
+                855
+              ],
+              [
+                1026,
+                1161
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              657,
+              933
+            ],
+            "columns": [
+              [
+                115,
+                217
+              ],
+              [
+                400,
+                533
+              ],
+              [
+                714,
+                876
+              ],
+              [
+                1031,
+                1179
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              958,
+              1210
+            ],
+            "columns": [
+              [
+                52,
+                286
+              ],
+              [
+                385,
+                557
+              ],
+              [
+                668,
+                902
+              ],
+              [
+                952,
+                1234
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "gonzales-cannon-buried": {
       "image": "atlases/gonzales-cannon-buried.png",
       "width": 1536,
@@ -29262,6 +29386,390 @@
           568
         ],
         "visiblePixels": 117504,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prisoner-walk-e-1": {
+      "sheet": "goliad-prisoner",
+      "x": 79,
+      "y": 37,
+      "w": 179,
+      "h": 279,
+      "anchorX": 0.5112,
+      "anchorY": 0.9283,
+      "label": "prisoner walk e 1",
+      "kind": "goliad-prisoner",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          81,
+          39,
+          175,
+          275
+        ],
+        "visiblePixels": 23400,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prisoner-walk-e-2": {
+      "sheet": "goliad-prisoner",
+      "x": 385,
+      "y": 34,
+      "w": 180,
+      "h": 280,
+      "anchorX": 0.5139,
+      "anchorY": 0.9286,
+      "label": "prisoner walk e 2",
+      "kind": "goliad-prisoner",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          387,
+          36,
+          176,
+          276
+        ],
+        "visiblePixels": 22424,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prisoner-walk-e-3": {
+      "sheet": "goliad-prisoner",
+      "x": 691,
+      "y": 38,
+      "w": 198,
+      "h": 278,
+      "anchorX": 0.5025,
+      "anchorY": 0.9281,
+      "label": "prisoner walk e 3",
+      "kind": "goliad-prisoner",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          693,
+          40,
+          194,
+          274
+        ],
+        "visiblePixels": 22043,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prisoner-walk-e-4": {
+      "sheet": "goliad-prisoner",
+      "x": 1005,
+      "y": 39,
+      "w": 200,
+      "h": 278,
+      "anchorX": 0.5,
+      "anchorY": 0.9281,
+      "label": "prisoner walk e 4",
+      "kind": "goliad-prisoner",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1007,
+          41,
+          196,
+          274
+        ],
+        "visiblePixels": 21224,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prisoner-walk-s-1": {
+      "sheet": "goliad-prisoner",
+      "x": 89,
+      "y": 352,
+      "w": 141,
+      "h": 280,
+      "anchorX": 0.4716,
+      "anchorY": 0.9321,
+      "label": "prisoner walk s 1",
+      "kind": "goliad-prisoner",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          91,
+          354,
+          137,
+          276
+        ],
+        "visiblePixels": 21988,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prisoner-walk-s-2": {
+      "sheet": "goliad-prisoner",
+      "x": 399,
+      "y": 355,
+      "w": 142,
+      "h": 280,
+      "anchorX": 0.419,
+      "anchorY": 0.95,
+      "label": "prisoner walk s 2",
+      "kind": "goliad-prisoner",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          401,
+          357,
+          138,
+          276
+        ],
+        "visiblePixels": 22350,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prisoner-walk-n-1": {
+      "sheet": "goliad-prisoner",
+      "x": 718,
+      "y": 351,
+      "w": 137,
+      "h": 282,
+      "anchorX": 0.3978,
+      "anchorY": 0.9468,
+      "label": "prisoner walk n 1",
+      "kind": "goliad-prisoner",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          720,
+          353,
+          133,
+          278
+        ],
+        "visiblePixels": 22184,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prisoner-walk-n-2": {
+      "sheet": "goliad-prisoner",
+      "x": 1026,
+      "y": 356,
+      "w": 135,
+      "h": 273,
+      "anchorX": 0.537,
+      "anchorY": 0.9267,
+      "label": "prisoner walk n 2",
+      "kind": "goliad-prisoner",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1028,
+          358,
+          131,
+          269
+        ],
+        "visiblePixels": 21958,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prisoner-idle-e": {
+      "sheet": "goliad-prisoner",
+      "x": 115,
+      "y": 657,
+      "w": 102,
+      "h": 274,
+      "anchorX": 0.5294,
+      "anchorY": 0.927,
+      "label": "prisoner idle e",
+      "kind": "goliad-prisoner",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          117,
+          659,
+          98,
+          270
+        ],
+        "visiblePixels": 18134,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prisoner-idle-s": {
+      "sheet": "goliad-prisoner",
+      "x": 400,
+      "y": 658,
+      "w": 133,
+      "h": 272,
+      "anchorX": 0.5188,
+      "anchorY": 0.9596,
+      "label": "prisoner idle s",
+      "kind": "goliad-prisoner",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          402,
+          660,
+          129,
+          268
+        ],
+        "visiblePixels": 23565,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prisoner-listen": {
+      "sheet": "goliad-prisoner",
+      "x": 714,
+      "y": 665,
+      "w": 162,
+      "h": 268,
+      "anchorX": 0.4691,
+      "anchorY": 0.9291,
+      "label": "prisoner listen",
+      "kind": "goliad-prisoner",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          716,
+          667,
+          158,
+          264
+        ],
+        "visiblePixels": 24827,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prisoner-look-back": {
+      "sheet": "goliad-prisoner",
+      "x": 1031,
+      "y": 660,
+      "w": 148,
+      "h": 273,
+      "anchorX": 0.5507,
+      "anchorY": 0.9267,
+      "label": "prisoner look back",
+      "kind": "goliad-prisoner",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1033,
+          662,
+          144,
+          269
+        ],
+        "visiblePixels": 22242,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prisoner-run-e": {
+      "sheet": "goliad-prisoner",
+      "x": 52,
+      "y": 958,
+      "w": 234,
+      "h": 252,
+      "anchorX": 0.7671,
+      "anchorY": 0.9286,
+      "label": "prisoner run e",
+      "kind": "goliad-prisoner",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          54,
+          960,
+          230,
+          248
+        ],
+        "visiblePixels": 26365,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prisoner-duck": {
+      "sheet": "goliad-prisoner",
+      "x": 385,
+      "y": 1018,
+      "w": 172,
+      "h": 188,
+      "anchorX": 0.4419,
+      "anchorY": 0.9255,
+      "label": "prisoner duck",
+      "kind": "goliad-prisoner",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          387,
+          1020,
+          168,
+          184
+        ],
+        "visiblePixels": 20438,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prisoner-injured": {
+      "sheet": "goliad-prisoner",
+      "x": 668,
+      "y": 1031,
+      "w": 234,
+      "h": 179,
+      "anchorX": 0.6368,
+      "anchorY": 0.9274,
+      "label": "prisoner injured",
+      "kind": "goliad-prisoner",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          670,
+          1033,
+          230,
+          175
+        ],
+        "visiblePixels": 21937,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prisoner-still": {
+      "sheet": "goliad-prisoner",
+      "x": 952,
+      "y": 1108,
+      "w": 282,
+      "h": 95,
+      "anchorX": 0.4078,
+      "anchorY": 0.9263,
+      "label": "prisoner still",
+      "kind": "goliad-prisoner",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          954,
+          1110,
+          278,
+          91
+        ],
+        "visiblePixels": 17764,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

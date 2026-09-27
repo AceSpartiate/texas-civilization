@@ -2056,6 +2056,20 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-alavez.png",
       "postProcessing": "None. Generated PNG copied unchanged; atlas builder measures alpha components and reading-order cells.",
       "review": "Distinct, noncombatant animated identity and story gestures for the existing Goliad scene. Costume and face are artistic interpretations."
+    },
+    {
+      "sheet": "goliad-prisoner",
+      "promptId": "frontier-v1/goliad-prisoner",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military-actions.png",
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-85f1cbc9-f530-4566-bae4-ecf25dd7fa97.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2f106514-edab-478d-9473-fbebedb3a14d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/goliad-prisoner.png",
+      "postProcessing": "No raster post-processing. Initial generated atlas had raised hands in two requested idle cells; built-in imagegen edit corrected those cells, then the accepted PNG was copied unchanged.",
+      "review": "Hands free and no weapons in every accepted frame; down poses are non-graphic. This generic figure is not a named prisoner."
     }
   ],
   "rejectedAttempts": [

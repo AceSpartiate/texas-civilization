@@ -184,6 +184,11 @@ test('the surrender is drawn with hands raised and a white flag at a corner; Pal
   assert.ok(drawnEve.drawn.some(one => /^alavez-walk-/.test(one.clip || '') || /^alavez-idle-/.test(one.sprite || '')), 'Francita Alavez was not drawn with her own civilian art');
   assert.ok(ctx.calls.some(call => call[0] === 'fillText' && call[1] === 'Francita Alavez'), 'she was not named');
   assert.ok(!ctx.calls.some(call => call[0] === 'fillText' && /The guard · about/.test(call[1])), 'the guard was labelled with a count');
+  assert.ok(drawnEve.drawn.some(one => /^prisoner-idle-/.test(one.sprite || '')), 'the prisoners in the presidio still carry the militia musket');
+  const marchArt = fakeArt();
+  run(createBattleView(marchArt), minute => projected(GOLIAD_MASSACRE, 'marched', 10 + minute), { seconds: 2 });
+  assert.ok(marchArt.drawn.some(one => /^prisoner-walk-/.test(one.clip || '')), 'the marching prisoners do not use their unarmed walking cycle');
+  assert.ok(marchArt.drawn.some(one => /^regular-/.test(one.clip || one.sprite || '')), 'the Mexican guards lost their distinct uniform');
   // The volleys: the guards fire, the prisoners fall and lie still, and nothing is said.
   const volleys = projected(GOLIAD_MASSACRE, 'volleys', 10);
   assert.deepEqual(volleys.lines.filter(line => line.phase === 'volleys'), []);
@@ -195,6 +200,7 @@ test('the surrender is drawn with hands raised and a white flag at a corner; Pal
     for (const bubble of evidence.bubbles) said.add(bubble.text);
   }
   assert.ok(evidence.fallen >= 40, `the prisoners did not fall: ${evidence.fallen}`);
+  assert.ok(killing.drawn.some(one => one.sprite === 'prisoner-still'), 'the prisoners still turn into armed militia sprites when down');
   assert.ok(evidence.shotsBy.mexican > 0 && !evidence.shotsBy.texian, 'the wrong side fired');
   assert.ok(![...said].some(text => /Preparen|Apunten|Fuego/.test(text)), `an order was given at the killing: ${[...said]}`);
   assert.ok(!killing.drawn.some(one => /blood|gore|corpse/.test(one.sprite || one.clip || '')));

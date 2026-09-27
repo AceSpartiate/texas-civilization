@@ -563,6 +563,14 @@ export function createBattleView(art) {
           drawnBy[side.key].push(point);
           continue;
         }
+        if (side.figure === 'prisoner') {
+          const vertical = Math.abs(facing.y) > Math.abs(facing.x) * 1.2;
+          const dir = vertical ? (facing.y >= 0 ? 's' : 'n') : 'e';
+          figures.push({ y: point.y, kind: 'prisoner', side: side.side, point, size: figurePx, clip: moving ? `prisoner-walk-${dir}` : null,
+            sprite: moving ? null : dir === 'n' ? 'prisoner-walk-n-1' : `prisoner-idle-${dir}`, timeMs: time, flip: dir === 'e' && !right, seed });
+          drawnBy[side.key].push(point); if (side.key === side.side || side.part) drawn[side.side].push(point);
+          continue;
+        }
         if (side.figure === 'alavez') {
           figures.push({ y: point.y, kind: 'townsfolk', side: side.side, point, size: figurePx * 0.95, clip: moving ? 'alavez-walk-e' : null, sprite: moving ? null : 'alavez-idle-e', timeMs: time, flip: !right, seed });
           drawnBy[side.key].push(point); civilians++;
@@ -881,6 +889,11 @@ export function createBattleView(art) {
   function drawFallen(ctx, f, now) {
     const since = now - f.down.at, kind = f.side === 'mexican' ? 'regular' : 'volunteer';
     const x = f.point.x, y = f.point.y;
+    if (view.key === 'goliad-massacre' && f.side === 'texian') {
+      const pose = f.down.wounded || since < 600 ? 'prisoner-injured' : 'prisoner-still';
+      if (!art.drawSprite(ctx, pose, x, y, f.size)) art.miniPerson(ctx, x, y, f.size, { side: f.side });
+      return;
+    }
     if (f.down.wounded && f.inward) {
       // In a square he is brought in toward the carts in the middle, and sits there: nobody could carry him anywhere else.
       const part = Math.min(1, since / 25000) * 0.6, ix = x + (f.inward.x - x) * part, iy = y + (f.inward.y - y) * part;

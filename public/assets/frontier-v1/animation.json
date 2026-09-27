@@ -3274,6 +3274,62 @@
       "motion": "none",
       "direction": "not applicable"
     },
+    "prisoner-walk-e": {
+      "frames": [
+        {
+          "sprite": "prisoner-walk-e-1",
+          "duration": 210
+        },
+        {
+          "sprite": "prisoner-walk-e-2",
+          "duration": 210
+        },
+        {
+          "sprite": "prisoner-walk-e-3",
+          "duration": 210
+        },
+        {
+          "sprite": "prisoner-walk-e-4",
+          "duration": 210
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "prisoner-walk-s": {
+      "frames": [
+        {
+          "sprite": "prisoner-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "prisoner-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "prisoner-walk-n": {
+      "frames": [
+        {
+          "sprite": "prisoner-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "prisoner-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "teal-paint": {
       "frames": [
         {
