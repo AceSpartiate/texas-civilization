@@ -184,6 +184,7 @@ test('the surrender is drawn with hands raised and a white flag at a corner; Pal
   const art = fakeArt();
   run(createBattleView(art), () => surrender, { seconds: 2 });
   assert.ok(art.drawn.some(one => one.clip === 'volunteer-surrender'), 'nobody in the square put up his hands');
+  assert.ok(art.drawn.some(one => one.sprite === 'white-flag-volunteer-idle-e'), 'Coleto uses a Mexican regular for the Texian white flag');
   const eve = projected(GOLIAD_MASSACRE, 'eve', 20);
   const guard = eve.sides.find(side => side.side === 'mexican');
   assert.equal(guard.count, null, 'the guard was given a number the record does not');

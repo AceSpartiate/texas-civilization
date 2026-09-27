@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 144,
-    "sprites": 1574,
-    "clips": 526,
-    "poseCycles": 300,
+    "sheets": 147,
+    "sprites": 1586,
+    "clips": 529,
+    "poseCycles": 303,
     "rigs": 4
   },
   "entrypoints": {
@@ -359,6 +359,180 @@
               [
                 1039,
                 1201
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "white-flag-regular": {
+      "image": "atlases/white-flag-regular.png",
+      "width": 1262,
+      "height": 1246,
+      "bytes": 786638,
+      "sha256": "bc98650db69b732e212bb93e90aea1f8095fd6a916a3ee7336f0daf9e322236c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.791758,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              11,
+              617
+            ],
+            "columns": [
+              [
+                221,
+                570
+              ],
+              [
+                833,
+                1136
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              623,
+              1203
+            ],
+            "columns": [
+              [
+                199,
+                545
+              ],
+              [
+                814,
+                1191
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "white-flag-volunteer": {
+      "image": "atlases/white-flag-volunteer.png",
+      "width": 1262,
+      "height": 1246,
+      "bytes": 816882,
+      "sha256": "8aa1d723a5b4d07b881af17162313ef5a2dc9042c1b8c34ce0679d98d85d28ad",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.783843,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              9,
+              617
+            ],
+            "columns": [
+              [
+                215,
+                572
+              ],
+              [
+                815,
+                1138
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              625,
+              1206
+            ],
+            "columns": [
+              [
+                195,
+                558
+              ],
+              [
+                803,
+                1196
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "regular-bugler": {
+      "image": "atlases/regular-bugler.png",
+      "width": 1262,
+      "height": 1246,
+      "bytes": 691857,
+      "sha256": "4d2fc4a16b11a6970addccb12dc8f8f063b5970821d0061652b836f884d783f5",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.822777,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              45,
+              589
+            ],
+            "columns": [
+              [
+                222,
+                425
+              ],
+              [
+                846,
+                1090
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              659,
+              1206
+            ],
+            "columns": [
+              [
+                227,
+                487
+              ],
+              [
+                850,
+                1065
               ]
             ]
           }
@@ -14839,6 +15013,406 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/artillery-service"
+    },
+    "white-flag-regular-idle-e": {
+      "sheet": "white-flag-regular",
+      "x": 221,
+      "y": 11,
+      "w": 349,
+      "h": 606,
+      "anchorX": 0.2192,
+      "anchorY": 0.9587,
+      "label": "white flag regular idle e",
+      "kind": "white-flag-regular",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          223,
+          13,
+          345,
+          602
+        ],
+        "visiblePixels": 74281,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/white-flag-regular.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/white-flag-regular"
+    },
+    "white-flag-regular-idle-s": {
+      "sheet": "white-flag-regular",
+      "x": 833,
+      "y": 11,
+      "w": 303,
+      "h": 603,
+      "anchorX": 0.2409,
+      "anchorY": 0.9735,
+      "label": "white flag regular idle s",
+      "kind": "white-flag-regular",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          835,
+          13,
+          299,
+          599
+        ],
+        "visiblePixels": 72506,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/white-flag-regular.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/white-flag-regular"
+    },
+    "white-flag-regular-walk-e-1": {
+      "sheet": "white-flag-regular",
+      "x": 199,
+      "y": 623,
+      "w": 346,
+      "h": 574,
+      "anchorX": 0.3136,
+      "anchorY": 0.9355,
+      "label": "white flag regular walk e 1",
+      "kind": "white-flag-regular",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          201,
+          625,
+          342,
+          570
+        ],
+        "visiblePixels": 72944,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/white-flag-regular.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "white-flag-regular-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/white-flag-regular"
+    },
+    "white-flag-regular-walk-e-2": {
+      "sheet": "white-flag-regular",
+      "x": 814,
+      "y": 625,
+      "w": 377,
+      "h": 578,
+      "anchorX": 0.2851,
+      "anchorY": 0.9343,
+      "label": "white flag regular walk e 2",
+      "kind": "white-flag-regular",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          816,
+          627,
+          373,
+          574
+        ],
+        "visiblePixels": 74032,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/white-flag-regular.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "white-flag-regular-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/white-flag-regular"
+    },
+    "white-flag-volunteer-idle-e": {
+      "sheet": "white-flag-volunteer",
+      "x": 215,
+      "y": 9,
+      "w": 357,
+      "h": 608,
+      "anchorX": 0.2199,
+      "anchorY": 0.9408,
+      "label": "white flag volunteer idle e",
+      "kind": "white-flag-volunteer",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          217,
+          11,
+          353,
+          604
+        ],
+        "visiblePixels": 76908,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/white-flag-volunteer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/white-flag-volunteer"
+    },
+    "white-flag-volunteer-idle-s": {
+      "sheet": "white-flag-volunteer",
+      "x": 815,
+      "y": 9,
+      "w": 323,
+      "h": 607,
+      "anchorX": 0.2554,
+      "anchorY": 0.9769,
+      "label": "white flag volunteer idle s",
+      "kind": "white-flag-volunteer",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          817,
+          11,
+          319,
+          603
+        ],
+        "visiblePixels": 76104,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/white-flag-volunteer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/white-flag-volunteer"
+    },
+    "white-flag-volunteer-walk-e-1": {
+      "sheet": "white-flag-volunteer",
+      "x": 195,
+      "y": 626,
+      "w": 363,
+      "h": 574,
+      "anchorX": 0.314,
+      "anchorY": 0.9286,
+      "label": "white flag volunteer walk e 1",
+      "kind": "white-flag-volunteer",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          197,
+          628,
+          359,
+          570
+        ],
+        "visiblePixels": 75205,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/white-flag-volunteer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "white-flag-volunteer-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/white-flag-volunteer"
+    },
+    "white-flag-volunteer-walk-e-2": {
+      "sheet": "white-flag-volunteer",
+      "x": 803,
+      "y": 625,
+      "w": 393,
+      "h": 581,
+      "anchorX": 0.2952,
+      "anchorY": 0.9312,
+      "label": "white flag volunteer walk e 2",
+      "kind": "white-flag-volunteer",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          805,
+          627,
+          389,
+          577
+        ],
+        "visiblePixels": 76478,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/white-flag-volunteer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "white-flag-volunteer-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/white-flag-volunteer"
+    },
+    "regular-bugler-idle": {
+      "sheet": "regular-bugler",
+      "x": 222,
+      "y": 45,
+      "w": 203,
+      "h": 544,
+      "anchorX": 0.5271,
+      "anchorY": 0.9338,
+      "label": "regular bugler idle",
+      "kind": "regular-bugler",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          224,
+          47,
+          199,
+          540
+        ],
+        "visiblePixels": 62127,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-bugler.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-bugler-call"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-bugler"
+    },
+    "regular-bugler-raise": {
+      "sheet": "regular-bugler",
+      "x": 846,
+      "y": 46,
+      "w": 244,
+      "h": 543,
+      "anchorX": 0.4139,
+      "anchorY": 0.9337,
+      "label": "regular bugler raise",
+      "kind": "regular-bugler",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          848,
+          48,
+          240,
+          539
+        ],
+        "visiblePixels": 65414,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-bugler.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-bugler-call"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-bugler"
+    },
+    "regular-bugler-sound": {
+      "sheet": "regular-bugler",
+      "x": 227,
+      "y": 659,
+      "w": 260,
+      "h": 546,
+      "anchorX": 0.3827,
+      "anchorY": 0.9304,
+      "label": "regular bugler sound",
+      "kind": "regular-bugler",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          229,
+          661,
+          256,
+          542
+        ],
+        "visiblePixels": 66998,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-bugler.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-bugler-call"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-bugler"
+    },
+    "regular-bugler-lower": {
+      "sheet": "regular-bugler",
+      "x": 850,
+      "y": 662,
+      "w": 215,
+      "h": 544,
+      "anchorX": 0.4698,
+      "anchorY": 0.9375,
+      "label": "regular bugler lower",
+      "kind": "regular-bugler",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          852,
+          664,
+          211,
+          540
+        ],
+        "visiblePixels": 63566,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-bugler.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-bugler-call"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-bugler"
     },
     "palmetto": {
       "sheet": "biome-ground-bexar",
@@ -67785,6 +68359,62 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "regular-bugler-call": {
+      "frames": [
+        {
+          "sprite": "regular-bugler-idle",
+          "duration": 170
+        },
+        {
+          "sprite": "regular-bugler-raise",
+          "duration": 220
+        },
+        {
+          "sprite": "regular-bugler-sound",
+          "duration": 650
+        },
+        {
+          "sprite": "regular-bugler-lower",
+          "duration": 300
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "white-flag-regular-walk-e": {
+      "frames": [
+        {
+          "sprite": "white-flag-regular-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "white-flag-regular-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "white-flag-volunteer-walk-e": {
+      "frames": [
+        {
+          "sprite": "white-flag-volunteer-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "white-flag-volunteer-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
     "cane-wind": {
       "frames": [
         {
@@ -81934,7 +82564,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 144,
+    "sourceCount": 147,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

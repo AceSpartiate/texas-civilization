@@ -1099,11 +1099,16 @@ export function createBattleView(art) {
 
   /**
    * A white flag of truce where the record puts it (`HIST-TEX-491`: Sánchez Navarro used a white flag "because the Texians did
-   * not understand the bugle"), carried by a soldier. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a white flag, a
-   * bugler and the parleying officers" - a regular standing with a pole and a white cloth drawn on the canvas.
+   * not understand the bugle"), carried by a soldier of the correct side.
    */
   function drawWhiteFlag(ctx, flag, camera, figurePx, time, wind) {
     const p = camera.toScreen(flag), pole = figurePx * 1.8, w = figurePx * 0.9, h = figurePx * 0.6;
+    const bearer = flag.side === 'mexican' ? 'regular' : 'volunteer';
+    const own = `white-flag-${bearer}`;
+    const painted = flag.moving
+      ? art.animated(ctx, `${own}-walk-e`, p.x, p.y, pole, `white-flag:${flag.side}`, { timeMs: time })
+      : art.drawSprite(ctx, `${own}-idle-e`, p.x, p.y, pole);
+    if (painted) { view.whiteFlag = { x: Math.round(p.x), y: Math.round(p.y) }; return; }
     if (!art.animated(ctx, 'regular-idle-s', p.x - figurePx * 0.25, p.y, figurePx, 'flag-bearer', { timeMs: time })) art.miniPerson(ctx, p.x - figurePx * 0.25, p.y, figurePx, { side: flag.side });
     const wave = Math.sin(time / 380) * 0.1 + (wind?.x || 0) * 0.3;
     ctx.save();
@@ -1424,6 +1429,10 @@ export function createBattleView(art) {
       // (`FIC-GONZ-457`). The server never sends one whose speaker is not drawn in its phase (sim/battle-stage.mjs).
       if (line.person) return view.peopleSpots?.[line.person] || view.parleySpots?.[line.person] || view.legendSpots?.[line.person] || null;
       if (line.name && view.peopleSpots?.[line.name]) return view.peopleSpots[line.name];
+      if (line.role === 'bugler') {
+        const side = view.sides.get(line.side);
+        if (side && side.action !== 'gone') { const c = camera.toScreen(placeAt(side, now)); return { x: c.x + figurePx * 0.8, y: c.y - figurePx * 1.02 }; }
+      }
       // A line said in a group (a company at a door, the men on a roof): over one of its men, or over the group's house if
       // every man in it is inside the walls.
       if (line.unit) {
@@ -1459,7 +1468,11 @@ export function createBattleView(art) {
     for (const { at, line } of view.linesSeen.values()) {
       const hold = Math.max(3800, 70 * line.text.length);
       const alpha = speechAlpha(now - at, hold);
-      if (alpha > 0) put(line, speakerAt(line), alpha);
+      if (alpha > 0) {
+        const speaker = speakerAt(line);
+        if (line.role === 'bugler' && speaker) art.animated(ctx, 'regular-bugler-call', speaker.x, speaker.y + figurePx * 1.02, figurePx, `bugler:${line.id}`, { timeMs: now - at });
+        put(line, speaker, alpha);
+      }
     }
     // The officer's words, each volley, from the record's reconstructed drill (never a named man's).
     // A side's own words where the engagement gives them (the Texian square at Coleto, `commands.texian`); none where it gives none.

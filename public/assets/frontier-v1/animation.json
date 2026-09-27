@@ -150,6 +150,62 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "regular-bugler-call": {
+      "frames": [
+        {
+          "sprite": "regular-bugler-idle",
+          "duration": 170
+        },
+        {
+          "sprite": "regular-bugler-raise",
+          "duration": 220
+        },
+        {
+          "sprite": "regular-bugler-sound",
+          "duration": 650
+        },
+        {
+          "sprite": "regular-bugler-lower",
+          "duration": 300
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "white-flag-regular-walk-e": {
+      "frames": [
+        {
+          "sprite": "white-flag-regular-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "white-flag-regular-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "white-flag-volunteer-walk-e": {
+      "frames": [
+        {
+          "sprite": "white-flag-volunteer-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "white-flag-volunteer-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
     "cane-wind": {
       "frames": [
         {

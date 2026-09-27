@@ -2083,6 +2083,45 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/coleto-baggage-cart.png",
       "postProcessing": "None. Generated PNG copied unchanged; measured atlas validation only.",
       "review": "Distinct upright and tipped frames with a non-looping tip sequence; no ox painted into the cart."
+    },
+    {
+      "sheet": "white-flag-regular",
+      "promptId": "frontier-v1/white-flag-regular",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f6bdfb96-8664-405b-99a2-b9f61138aa7b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/white-flag-regular.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "A regular bears the Béxar truce flag; two distinct walk steps. Cloth remains plain white."
+    },
+    {
+      "sheet": "white-flag-volunteer",
+      "promptId": "frontier-v1/white-flag-volunteer",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f6bdfb96-8664-405b-99a2-b9f61138aa7b.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-35737e97-fa92-45b4-ba06-d19595b2bd5e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/white-flag-volunteer.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "Texian side-specific bearer for Coleto; do not put a Mexican uniform under its flag."
+    },
+    {
+      "sheet": "regular-bugler",
+      "promptId": "frontier-v1/regular-bugler",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f6bdfb96-8664-405b-99a2-b9f61138aa7b.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b9e0456d-d0d4-4e56-9723-b231e59175fd.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/regular-bugler.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "The visible bugler sounds existing documented calls; no new audible signal or historical claim is added."
     }
   ],
   "rejectedAttempts": [

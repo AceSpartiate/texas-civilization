@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1574 usable sprites, 144 PNG atlases, 526 clips** (300 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1586 usable sprites, 147 PNG atlases, 529 clips** (303 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -17,6 +17,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | joe-story-actions | 4 | 1254 × 1254 | 787824 |
 | famous-travis-still | 1 | 1536 × 1024 | 1367838 |
 | artillery-service | 16 | 1254 × 1254 | 1171440 |
+| white-flag-regular | 4 | 1262 × 1246 | 786638 |
+| white-flag-volunteer | 4 | 1262 × 1246 | 816882 |
+| regular-bugler | 4 | 1262 × 1246 | 691857 |
 | biome-ground-bexar | 16 | 1254 × 1254 | 2215982 |
 | biome-trees-fields | 16 | 1254 × 1254 | 1966285 |
 | cannon-cartwheels | 4 | 1254 × 1254 | 1420895 |
@@ -191,6 +194,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-roundshot-carry | artillery-service | regular-gun-shot-carry |
 | regular-lanyard-pull | artillery-service | regular-gun-fire |
 | regular-cover-ears | artillery-service | regular-gun-fire |
+| white-flag-regular-idle-e | white-flag-regular | State artwork; no motion required |
+| white-flag-regular-idle-s | white-flag-regular | State artwork; no motion required |
+| white-flag-regular-walk-e-1 | white-flag-regular | white-flag-regular-walk-e |
+| white-flag-regular-walk-e-2 | white-flag-regular | white-flag-regular-walk-e |
+| white-flag-volunteer-idle-e | white-flag-volunteer | State artwork; no motion required |
+| white-flag-volunteer-idle-s | white-flag-volunteer | State artwork; no motion required |
+| white-flag-volunteer-walk-e-1 | white-flag-volunteer | white-flag-volunteer-walk-e |
+| white-flag-volunteer-walk-e-2 | white-flag-volunteer | white-flag-volunteer-walk-e |
+| regular-bugler-idle | regular-bugler | regular-bugler-call |
+| regular-bugler-raise | regular-bugler | regular-bugler-call |
+| regular-bugler-sound | regular-bugler | regular-bugler-call |
+| regular-bugler-lower | regular-bugler | regular-bugler-call |
 | palmetto | biome-ground-bexar | State artwork; no motion required |
 | cypress-knees | biome-ground-bexar | State artwork; no motion required |
 | cane-1 | biome-ground-bexar | State artwork; no motion required |
@@ -1748,6 +1763,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-gun-ram | Pose cycle | 4 | 1160 | one-shot | east; west by mirroring |
 | regular-gun-shot-carry | Pose cycle | 2 | 840 | yes | east; west by mirroring |
 | regular-gun-fire | Pose cycle | 2 | 1060 | one-shot | east; west by mirroring |
+| regular-bugler-call | Pose cycle | 4 | 1340 | one-shot | east; mirror for west |
+| white-flag-regular-walk-e | Pose cycle | 2 | 560 | yes | east |
+| white-flag-volunteer-walk-e | Pose cycle | 2 | 560 | yes | east |
 | cane-wind | Still state | 1 | 900 | yes | not applicable |
 | grass-tall-wind | Still state | 1 | 900 | yes | not applicable |
 | pine-longleaf-pole-wind | sway | 1 | 3800 | yes | not applicable |

@@ -718,7 +718,7 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
   // A flag where the record puts one, from the minute it came out (the white flag at Béxar, `HIST-TEX-491`).
   const flags = (phase.flags || []).filter(flag => flag.from <= into).map(flag => {
     const place = placeOf(ground, flag, phase.minutes, into);
-    return { side: flag.side, kind: flag.kind, x: place.x, y: place.y, claimId: flag.claimId };
+    return { side: flag.side, kind: flag.kind, x: place.x, y: place.y, moving: specMoving(flag, into), claimId: flag.claimId };
   });
   if (flags.length && !state.over) view.flags = flags;
   // The ground a page frames the fight on, where the engagement names it (the town and the Alamo's guns at its edge).

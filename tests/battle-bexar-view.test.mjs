@@ -111,7 +111,7 @@ test('Milam falls in the Veramendi yard at half past three, named, and nobody gi
 });
 
 test('dawn on the 9th: the guns stop, the bugle is heard, and a white flag comes to the plaza', () => {
-  const view = createBattleView(fakeArt());
+  const art = fakeArt(), view = createBattleView(art);
   const said = new Set();
   let shown = null;
   for (let t = 0; t < 12000; t += 50) {
@@ -120,6 +120,8 @@ test('dawn on the 9th: the guns stop, the bugle is heard, and a white flag comes
     for (const bubble of shown.bubbles) said.add(bubble.text);
   }
   assert.ok(shown.whiteFlag, 'no white flag was drawn');
+  assert.ok(art.drawn.some(one => one.sprite === 'white-flag-regular-idle-e' || one.clip === 'white-flag-regular-walk-e'), 'the Mexican flag bearer does not use his own art');
+  assert.ok(art.drawn.some(one => one.clip === 'regular-bugler-call'), 'the documented bugle call has no visible bugler');
   assert.ok([...said].some(text => /bugle/.test(text)) && [...said].some(text => /white flag/i.test(text)), `the flag's words: ${[...said]}`);
   const after = at('flag', 30);
   assert.ok(after.guns.every(gun => gun.shots.every(shot => shot <= after.minute - 20)), 'a gun fired after the cannonade stopped');
