@@ -1732,6 +1732,204 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-dugout-canoe.png",
       "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
       "review": "Hollow-log construction distinguishes it from the prior plank skiff; two scene instances remain separately placed."
+    },
+    {
+      "sheet": "gonzales-ploughed-earth",
+      "promptId": "frontier-v1/gonzales-ploughed-earth",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create a single isolated 2D game prop sprite on a fully transparent RGBA background: an irregular small patch of freshly hand-ploughed south Texas orchard soil circa 1835, elevated three-quarter top-down game view, five to seven narrow dark-brown furrows with uneven clods, subtle olive grass around the ragged edges. Wide and low silhouette, approximate 3:1 aspect ratio. Match the attached game's hand-painted top-down frontier art: warm ochre and olive palette, dark hand-inked outlines, clear texture at small sprite size. No grid, square tile, text, people, trees, tools, shadows outside the prop, frame, or opaque background.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/biome-ground-bexar.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1ac0e611-1044-4b93-83ee-8c21ff1c7fda.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-ploughed-earth.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Ragged alpha-edged earth and visible furrows replace seven canvas lines in the dated orchard."
+    },
+    {
+      "sheet": "gonzales-flag-work-cloth",
+      "promptId": "frontier-v1/gonzales-flag-work-cloth",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "One isolated 2D game prop sprite on a fully transparent RGBA background: a rectangular piece of off-white hand-sewn cotton cloth laid flat across a table, viewed elevated three-quarter from above, circa Gonzales Texas 1835. Slight uneven hand-stitched hems, soft folds and age marks, absolutely blank with NO symbol, lettering, star, pole, person, table, or background. Wide low horizontal silhouette about 2:1. Match attached frontier game art: warm painterly texture, dark-brown ink outlines, readable at small size.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/flag-come-and-take-it.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-8a9564a5-d35d-4fb8-9d1c-1d8a183217b0.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-flag-work-cloth.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Blank hand-sewn cloth is a separate early flag-making state."
+    },
+    {
+      "sheet": "gonzales-flag-work-painted",
+      "promptId": "frontier-v1/gonzales-flag-work-painted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "prompt": "Edit the attached blank 1835 Gonzales cotton flag cloth sprite. Keep its EXACT irregular outline, folds, stitching, viewing angle, size and transparent background. Add a crisp black hand-painted five-point star above a simple side-profile cannon, and below them hand-painted uppercase text reading exactly 'COME AND TAKE IT'. The full design should be readable on cloth laid flat on a table; no flagpole, table, people, landscape, framing, extra text, or opaque background. Match warm painterly frontier game art. This is a one-frame production game sprite, not a mockup.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-8a9564a5-d35d-4fb8-9d1c-1d8a183217b0.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-fd78acbd-dbae-49e3-a758-da04a8aa9afd.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-flag-work-painted.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; alpha bounds measured by the atlas build.",
+      "review": "Completed cloth state has the existing game flag composition; prompt preserves the blank cloth outline."
+    },
+    {
+      "sheet": "people-gonzales-paint",
+      "promptId": "frontier-v1/people-gonzales-paint",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + edit",
+      "prompt": "Create a production 2D character-animation sprite atlas for the attached hand-painted 1835 Texas frontier game. True transparent RGBA PNG, exactly 3 rows x 2 columns, one full-body isolated person centered in each equal cell, generous transparent gutters between cells and around outer edge, no overlap, crop, text, grid, background, floor, shadow, table, flag, or extra people. Maintain the reference characters exact head-to-body scale, brown ink contour and soft warm painted shading. Every figure faces EAST/screen-right, feet on a consistent baseline per row. ROW 1: adult woman with dark hair in a bun, teal blouse, cream apron, tan long skirt, boots. ROW 2: adult woman with brown skin, dark hair in a bun, muted indigo blue long dress, cream neckerchief, boots. ROW 3: adolescent girl with long dark braid, muted blue dress and cream apron, boots. COLUMN 1: careful flag-making gesture, one hand holding a small sewing needle or fine brush over an unseen work surface at waist height, elbow slightly raised; COLUMN 2: a genuinely different next animation frame, the working hand extends forward and down while the other hand adjusts cloth edge, brush or needle still visible. Quiet focused expressions, historically plausible clothes. All six figures distinct and readable at small game sprite size, consistent identity within each row, NO HOES, weapons or baskets.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-work.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-work.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f0c7bcc2-ad31-4735-be06-85c2f38483ec.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-paint.png",
+      "postProcessing": "None. Accepted generated RGBA PNG copied unchanged; alpha gaps measured read-only.",
+      "review": "Six identity-consistent figures in a 3x2 atlas. Both frame positions show hand sewing with distinct raised and lowered arms; clear alpha gutters separate all six cells.",
+      "edits": [
+        {
+          "prompt": "Edit this exact six-frame 3-row by 2-column sewing animation atlas ONLY to remove its brown and blue glowing backgrounds. Make EVERY pixel outside each figure and the white cloth they hold fully transparent RGBA alpha=0, including all corners, gaps, around hair and hems. Preserve canvas dimensions, 3x2 cell structure, six figures, identities, costumes, faces, needles, cloth, poses, line art and cell placement exactly. Do not add shadows, checkerboard or a replacement color. Each figure and held cloth must have clean genuine alpha edges with clear empty gutters.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-45e1bdce-ae9a-49e4-ba90-a2e32555c10a.png",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-24e329ef-ddc5-456a-9647-b9af85f7e733.png"
+        },
+        {
+          "prompt": "Precise layout edit of this exact six-figure sewing sprite atlas. Canvas remains 1024 x 1536, 2 columns and 3 equal rows, each logical cell 512 x 512 pixels. WITHIN EACH CELL uniformly shrink its one complete existing character (including held cloth and needle) to 76% of its current size, then center that character in the SAME cell with its boots safely above that cells bottom. Require at least 35 fully transparent pixels of empty margin on ALL four sides of EVERY cell; no part of one figure may enter another cell. Preserve row identities, costumes, faces, expressions, cloth, hand poses, outlines and east-facing direction exactly. Keep genuine RGBA transparency alpha=0 outside figures. No glow, colored backdrop, checkerboard, shadows, grid, labels or extra items. Only alter scale and position inside cells.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-24e329ef-ddc5-456a-9647-b9af85f7e733.png",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f0c7bcc2-ad31-4735-be06-85c2f38483ec.png"
+        }
+      ]
+    },
+    {
+      "sheet": "famous-bonham",
+      "promptId": "frontier-v1/famous-bonham",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Production 4x4 transparent RGBA character sprite atlas for James Butler Bonham as an ORIGINAL interpretation, not a likeness, matching the hand-painted 1835 Texas game. Lean adult courier and defender, distinct from blue-coated Travis: charcoal-brown short frontier coat, muted rust waistcoat, cream shirt, tan trousers, dark riding boots and broad-brim brown hat. Same identity in all cells; isolated complete figures, wide transparent gutters, no scenery, grid, text or gore. Row 1 four east walk frames; row 2 two south then two north walk frames; row 3 east idle with musket down, speak, point, serve a cannon with ramrod; row 4 east aim, fire with tiny flash, reload, lie still with no wound drawn. East mirrors west.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-travis.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ed069f82-1ee9-4cd2-baab-60065a680a94.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-bonham.png",
+      "postProcessing": "None. Copied unchanged; the atlas builder measures alpha components and reading-order cells.",
+      "review": "Bonham reads separately from Travis and has a gun-service key pose and non-graphic still pose."
+    },
+    {
+      "sheet": "famous-almeron-dickinson",
+      "promptId": "frontier-v1/famous-almeron-dickinson",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + edit",
+      "prompt": "Production 4x4 transparent RGBA character sprite atlas for Almeron Dickinson as an ORIGINAL interpretation, not a likeness, matching the hand-painted 1835 Texas game. Compact mature artilleryman distinct from hatted Bonham: short brown hair, trimmed beard, NO HAT, indigo-blue wool waistcoat over rolled-sleeve cream shirt, tan trousers, work boots. Consistent identity and elevated three-quarter view; sixteen isolated figures, broad transparent gutters, no labels, grid, scenery, shadows or gore. Row 1 four east walk frames; row 2 two south then two north walk frames; row 3 east idle, speak, command, serve a cannon with a ramrod; row 4 east hold cannon shot, ram with both hands, fire musket with small flash, lie still without visible wound. East mirrors west.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-travis.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7cf32b24-6c7a-46a3-b2f7-99611bfa1501.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-almeron-dickinson.png",
+      "postProcessing": "None. Copied unchanged; the atlas builder measures alpha components and reading-order cells.",
+      "review": "The artilleryman reads differently from Bonham and has shot-handling, ram, gun-service and still key poses.",
+      "edits": [
+        {
+          "prompt": "Precise spacing correction for the exact 4x4 atlas: uniformly scale down each cell character and its gun, ramrod, cannonball and flash to 78%, recenter within its own 313-pixel cell, retain identity, poses, transparency and at least 15 pixels of clearance; especially prevent the bottom-row muzzle flash from overlapping the next cell.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-86851308-1173-4d39-847b-16d333287048.png",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7cf32b24-6c7a-46a3-b2f7-99611bfa1501.png",
+          "result": "Accepted only after the atlas overlap audit; first output failed on the fire frame."
+        }
+      ]
+    },
+    {
+      "sheet": "famous-esparza",
+      "promptId": "frontier-v1/famous-esparza",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + edit",
+      "prompt": "Create a production 4x4 game sprite atlas for José María (Gregorio) Esparza, the Tejano Alamo defender, as an ORIGINAL visual interpretation, not a claim of portrait likeness or documented clothing. Match the attached games warm hand-painted frontier style, dark brown ink contour, consistent elevated three-quarter perspective and small-sprite readability. He must look different from the attached Bonham and Dickinson atlases: middle-aged Mexican Tejano man, medium-brown skin, black wavy hair, short dark moustache, no hat, dusty olive-brown short jacket, white open-collar shirt, dark red neck cloth, tan trousers and worn boots. Exactly sixteen complete isolated figures on a genuine transparent RGBA background in strict 4 columns x 4 rows, with generous clear alpha gutters on ALL sides of EACH cell; no overlap, grid, scenery, words, shadows, blood or gore. Keep the same face, skin tone, costume and proportions throughout. Row 1: four consecutive EAST/screen-right walking frames with visible alternating leg positions. Row 2: two SOUTH/toward-viewer walking frames, then two NORTH/away-viewer walking frames. Row 3: east idle holding musket safely down, speaking, looking toward the battlements, serving an artillery gun with a ramrod but no cannon included. Row 4: east carrying a cannon shot, aiming musket, firing musket with small muzzle flash, lying still on side with eyes closed and no wound shown. Mirror east for west in game. One person and their carried tool only in each cell.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-bonham.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-almeron-dickinson.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5ee508f8-da42-4a45-98c7-6b73c54bc988.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-esparza.png",
+      "postProcessing": "None. Accepted imagegen spacing edit copied unchanged; atlas builder measures alpha and cell retention.",
+      "review": "Distinct Tejano defender with directional walk and serving-gun action; non-graphic still pose. No exact likeness or outfit claim.",
+      "edits": [
+        {
+          "prompt": "Precise layout edit of the attached exact 4x4 Gregorio Esparza game sprite atlas. Keep the canvas 1254x1254 and all sixteen existing poses and character identity. Uniformly shrink each entire cells figure, gun, ramrod, cannonball and muzzle flash to 78% of present size, and center each complete pose inside its OWN equal 313x313 cell. Require at least 20 fully transparent pixels on all four sides of every cell; the bottom-row musket flash and still body must fit entirely in their own cells and never overlap the next. Keep all brown skin tones, dark hair, moustache, olive coat, red neck cloth, tan trousers, expressions, directions and pose details exactly. Preserve genuine alpha transparency. No grid, background, added shadows, scenery, text or new figures. Only change scale and spacing.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-866c9fe5-fc87-442d-ada8-2ff709839721.png",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5ee508f8-da42-4a45-98c7-6b73c54bc988.png"
+        }
+      ]
+    },
+    {
+      "sheet": "famous-crockett-fate",
+      "promptId": "frontier-v1/famous-crockett-fate",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create a production 2x2 transparent RGBA game sprite atlas extending the attached David Crockett character in the EXACT same warm hand-painted ink-outlined 1836 Texas game style. Keep the same face, brown beard, tan broad-brim hat, fringed tan coat, brown trousers, boots, build and elevated three-quarter view; this is an original interpretation, not an exact historical portrait. Four isolated full-body poses, one centered inside each of four equal cells with generous fully transparent gutters and no clipping, overlap, labels, background, shadow, weapons, blood or gore. TOP LEFT: standing east/screen-right, unarmed captive with both hands visibly open at waist level, rifle and knife completely absent. TOP RIGHT: second small motion key pose for the same captive, unarmed, open hands slightly raised and shoulders turned a little toward the viewer. BOTTOM LEFT: lying still on his side, hat nearby but no weapon, eyes closed, calm non-graphic. BOTTOM RIGHT: lying still from a slightly different 3/4 angle, eyes closed, no injury marks. Keep the same character identity in every cell. The captive and still are an interpretation for a disputed historical account, not a claim about what certainly happened.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-crockett.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2c4497c7-2553-4ee3-8678-516cee259c2b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-crockett-fate.png",
+      "postProcessing": "None. Generated RGBA PNG copied unchanged; atlas build measures alpha and frame bounds.",
+      "review": "Two unarmed open-hand captive keys and two non-graphic still views; game labels the outcome as one disputed account."
+    },
+    {
+      "sheet": "joe-story-actions",
+      "promptId": "frontier-v1/joe-story-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Production 2x2 transparent RGBA game sprite atlas extending the established Joe sheet. Match the warm hand-painted frontier game style, elevated three-quarter view, brown ink contours, Black man with white rolled-sleeve shirt, charcoal vest, brown trousers. Four isolated cells: top left Joe partly visible in a doorway, only head, shoulders and musket barrel, aiming east; top right same with a tiny muzzle flash; bottom left full figure injured with one hand held to his side facing east; bottom right injured facing south. No blood, gore, words, grid or background; preserve clear alpha gutters and consistent identity.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/joe-poses.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3a87a3fd-6507-4afd-ac33-16ccf0aa93e4.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/joe-story-actions.png",
+      "postProcessing": "None. Original generated PNG copied unchanged.",
+      "review": "Joe fires from a doorway and later appears hurt; east can mirror west. The scene preserves his survival."
+    },
+    {
+      "sheet": "famous-travis-still",
+      "promptId": "frontier-v1/famous-travis-still",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "One transparent RGBA sprite matching the existing William Barret Travis game sheet: he lies still, fully clothed in his navy coat and hat, across a sloped wooden ramp beside a gun carriage at the north battery. Warm hand-painted frontier style, dark brown ink contours, elevated three-quarter view, small-scale readability. Non-graphic; no blood, text, grid, scene background or other figures. Leave clear transparent space around the complete silhouette.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-travis.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f0ad533e-ac74-4002-833b-b7ba0a95b469.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-travis-still.png",
+      "postProcessing": "None. Original generated PNG copied unchanged.",
+      "review": "Dedicated non-graphic Travis still pose at the north-battery ramp; no exact likeness or clothing claim."
+    },
+    {
+      "sheet": "famous-houston-mounted",
+      "promptId": "frontier-v1/famous-houston-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Original transparent RGBA 2x2 game sprite atlas of Sam Houston riding a sturdy chestnut horse (Saracen visual interpretation). Match existing famous-houston.png and famous-seguin.png warm painted style, brown ink outline, three-quarter view. Houston wears his established brown hat and long brown coat, green waistcoat, tan trousers and dark boots. Cells: two east walking gait frames, east idle, south walk. Same man and horse throughout, generous clear alpha cell gutters, no background, grid, words, weapons, gore or other figures.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-houston.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-seguin.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-de8ee9ff-6352-4656-a589-c8e47ca8cb54.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-houston-mounted.png",
+      "postProcessing": "None. Generated PNG copied unchanged.",
+      "review": "Two distinct east gait frames, east idle and south walking; original likeness and horse interpretation."
+    },
+    {
+      "sheet": "famous-santa-anna-mounted",
+      "promptId": "frontier-v1/famous-santa-anna-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Original transparent RGBA 2x2 game sprite atlas of Antonio López de Santa Anna riding a dark bay horse, distinct from Houston. Match existing famous-santa-anna.png warm painted game style, brown ink outline, three-quarter view. Preserve navy 1830s general jacket with gold epaulettes, red sash, dark blue peaked cap, cream trousers and black boots. Cells: two east walking gait frames, east idle, south walk. Same man and horse throughout, generous clear alpha cell gutters, no background, grid, words, weapons, gore or other figures.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-santa-anna.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-58a6e130-5dae-4bec-8522-1982decaa105.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-santa-anna-mounted.png",
+      "postProcessing": "None. Generated PNG copied unchanged.",
+      "review": "Two distinct east gait frames, east idle and south walking; original likeness and horse interpretation."
     }
   ]
 }

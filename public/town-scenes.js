@@ -76,6 +76,8 @@ export function sceneClip(person, { moving = false, dir = 's' } = {}) {
   const child = !GROWN.has(figure);
   if (pose === 'idle' || (child && !CHILD_POSES.has(pose))) return { id: `${figure}-idle-${face}`, flip: false };
   if (pose === 'listen') return { id: `${figure}-listen-${face === 'n' ? 'n' : 's'}`, flip: false };
+  // A player's helper may be any adult figure. Keep the older working pose until that figure gets its own sewing frames.
+  if (pose === 'paint' && !['teal', 'indigo', 'blue-girl'].includes(figure)) return { id: `${figure}-repair`, flip: face === 'w' };
   // Every other delivered pose is drawn facing east and mirrored for west.
   return { id: `${figure}-${pose}`, flip: face === 'w' };
 }
@@ -99,10 +101,11 @@ function fallbackPerson(ctx, x, y, size, tone) {
 /**
  * The flag as the record gives it (sim/town-scenes.mjs `FLAG`): a white field, a black cannon, a star over it and the words
  * under it.
- * The completed flag uses delivered cloth frames. Canvas retains the unfinished/flat states and load fallback.
+ * The raised flag and both table-top work states use delivered cloth art. Canvas is a load fallback.
  */
 export function drawFlag(ctx, x, y, height, { time = 0, stage = 'done', pole = true, flat = false } = {}) {
   if (stage === 'done' && pole && !flat && drawClip(ctx, 'flag-come-and-take-it-wind', x, y, height, { timeMs: time })) return;
+  if (flat && drawSprite(ctx, stage === 'done' ? 'gonzales-flag-work-painted' : 'gonzales-flag-work-cloth', x, y, height * .22, { anchor: [.5, 1] })) return;
   const w = height * .62, h = height * .38;
   ctx.save();
   if (pole && !flat) {
@@ -139,13 +142,13 @@ export function drawFlag(ctx, x, y, height, { time = 0, stage = 'done', pole = t
  * The scene's props: the gun in the ground and on its wheels, the boats drawn up behind the breastwork, the table the flag is
  * made on, the dragoons' tents across the river, a family's wagon.
  * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - Gonzales before the fight. The buried gun, log breastwork and
- * dugout canoe now have dedicated sprites; the peach orchard's ploughed ground is still canvas furrows and the flag work
- * still has its canvas-stage drawing.
+ * dugout canoe, ploughed ground and flag work now have dedicated sprites.
  */
 function drawProp(ctx, prop, p, figure, time) {
   const flip = prop.face === 'w';
   switch (prop.kind) {
     case 'ploughed': {
+      if (drawSprite(ctx, 'gonzales-ploughed-earth', p.x, p.y, figure * .48, { anchor: [.5, .93] })) return;
       ctx.save(); ctx.strokeStyle = 'rgba(96,72,44,.55)'; ctx.lineWidth = Math.max(1, figure * .05);
       for (let i = -3; i <= 3; i++) { ctx.beginPath(); ctx.moveTo(p.x - figure * .9, p.y + i * figure * .09); ctx.lineTo(p.x + figure * .9, p.y + i * figure * .09 - figure * .05); ctx.stroke(); }
       ctx.restore(); return;
