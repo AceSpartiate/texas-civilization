@@ -329,15 +329,15 @@ export function advanceChildhood(world, travel) {
  * never their obedience - only what they are doing.
  */
 export function childLine(world, entity) {
-  const nameOf = id => world.entities[id]?.name || 'somebody';
+  const nameOf = id => world.entities[id]?.given || world.entities[id]?.name || 'somebody';
   if (entity.aside?.kind === 'talk') {
     const many = entity.aside.childIds.length > 1;
     const names = listWords(entity.aside.childIds.map(nameOf));
-    return `Stopped to talk with ${names}, who ${many ? 'have' : 'has'} nothing to do. Give ${many ? 'them' : names} something to do and ${entity.name} goes back to ${workOf(entity)}.`;
+    return `Stopped to talk with ${names}, who ${many ? 'have' : 'has'} nothing to do. Give ${many ? 'them' : names} something to do and ${entity.given || entity.name} goes back to ${workOf(entity)}.`;
   }
   if (entity.talk) return entity.talk.phase === 'going' ? `Nothing to do: going to find ${nameOf(entity.talk.withId)}.` : `Nothing to do: talking with ${nameOf(entity.talk.withId)}, who has stopped work for it.`;
   if (entity.chore?.dawdle) return 'Dawdling instead of starting.';
-  if (entity.autoNotice) return entity.autoNotice.why === 'time' ? 'Auto went off: they have been good as long as a child can.' : 'Auto went off: they decided they had done enough.';
+  if (entity.autoNotice) return entity.autoNotice.why === 'time' ? `Auto went off: ${entity.given || entity.name} has been good as long as a child can be.` : `Auto went off: ${entity.given || entity.name} decided that was enough.`;
   return null;
 }
 

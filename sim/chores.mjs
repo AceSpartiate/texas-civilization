@@ -1305,7 +1305,7 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (tooYoung(entity) && !chore.child) return { can: false, why: tooYoungWhy(entity) };
   // Talking with a child who has nothing to do, or holding a crying baby (sim/aside.mjs): the work they have waits, and no new
   // work is taken up until the child has something to do or the baby is down.
-  if (calledAside(entity)) return { can: false, why: asideWhy(entity, id => world.entities[id]?.name || 'a child') };
+  if (calledAside(entity)) return { can: false, why: asideWhy(entity, id => world.entities[id]?.given || world.entities[id]?.name || 'a child') };
   if (entity.chore) return { can: false, why: `${entity.name} is already ${entity.chore.doing}.` };
   // The road's own chores (sim/road.mjs) are for somebody travelling east with the family, or camped with it at the refuge.
   // Somebody the class's clock is carrying faster than a student can follow is not on the map at all (sim/sight.mjs,

@@ -1,0 +1,120 @@
+{
+  "record": "Children, babies and the Runaway Scrape's own work, in a browser (docs/CHILDREN.md)",
+  "date": "2026-09-27",
+  "verdict": "PASS",
+  "note": "Same computer only, headless Chrome at 1366x768 and 1024x768. Two real classes through the join flow: the invented country (seed children-proof-96) for the home, and the real land played in process into the spring (seed scrape-proof-1) for the Scrape. No LAN or district claim.",
+  "checks": [
+    "Cayetano, with nothing to do, walked to Paz and both are heard (\"Why is the grass so tall here?\" / \"Stay away from that creek, you hear?\"); the row says \"Stopped to talk with Cayetano, who has nothing to do. Give Cayetano something to do and Paz goes back to the work about the place.\"",
+    "given tag, the parent went back to work at once; the icon glows and the child is drawn in 4 places in four seconds, as smallchild-rest, smallchild-idle-s, smallchild-walk",
+    "with a corn-husk doll the child is drawn sitting (smallchild-rest, smallchild-walk, smallchild-idle-s)",
+    "the child's automation turned itself off, and the row says \"Auto went off: Cayetano has been good as long as a child can be.\"",
+    "the baby crawled (15 places in three seconds), cried and was picked up by Paz, 36, who said \"There, there. I have you.\" and was drawn indigo-carry; the baby was put down to nap and she went back to where she stood, at \"work\"",
+    "at 1024x768 the child's own bar is on the screen and nothing scrolls sideways",
+    "told to leave, hiding what the wagon cannot carry is on the main person's bar and glows when pressed; the child's bar has a bundle to make up (child-play, child-doll, child-cart, child-tag, child-hide, child-hoop, child-marbles, child-kindling, child-eggs, child-water, child-mind, flee-bundle)",
+    "the family left, and what it hid is in the river bottom, not in the house for the fire: {\"powder\":3,\"seed\":4,\"cotton\":3}",
+    "on the road the child's bar has the road's own work (road-lookout, road-sing), and watching the road behind glows when pressed",
+    "at 1024x768 the road's bar is shown and nothing scrolls sideways",
+    "no page errors"
+  ],
+  "observed": {
+    "family": [
+      {
+        "id": "hh-1-parent-1",
+        "name": "Asa Proofwright",
+        "age": 33,
+        "sex": "male"
+      },
+      {
+        "id": "hh-1-parent-2",
+        "name": "Paz Proofwright",
+        "age": 36,
+        "sex": "female"
+      },
+      {
+        "id": "hh-1-child-1",
+        "name": "Cayetano Proofwright",
+        "age": 3,
+        "sex": "male"
+      },
+      {
+        "id": "hh-1-child-2",
+        "name": "Docia Proofwright",
+        "age": 0,
+        "sex": "female"
+      }
+    ],
+    "talk": [
+      {
+        "id": "hh-1-child-1:talk:14",
+        "speakerId": "hh-1-child-1",
+        "kind": "reconstructed",
+        "text": "Why is the grass so tall here?"
+      },
+      {
+        "id": "hh-1-child-1:reply:14",
+        "speakerId": "hh-1-parent-2",
+        "kind": "reconstructed",
+        "text": "Stay away from that creek, you hear?"
+      }
+    ],
+    "parentRow": "Stopped to talk with Cayetano, who has nothing to do. Give Cayetano something to do and Paz goes back to the work about the place.",
+    "childBar": [
+      "child-play",
+      "child-stick-horse",
+      "child-doll",
+      "child-tag",
+      "child-hens"
+    ],
+    "play": {
+      "places": 4,
+      "clips": [
+        "smallchild-rest",
+        "smallchild-idle-s",
+        "smallchild-walk"
+      ]
+    },
+    "autoOff": "Auto went off: Cayetano has been good as long as a child can be.",
+    "crawl": {
+      "places": 15,
+      "clips": [
+        "infant-idle-e"
+      ]
+    },
+    "cry": {
+      "babyLife": "Crying for somebody.",
+      "said": [
+        "(crying)"
+      ]
+    },
+    "held": {
+      "carer": "Paz Proofwright",
+      "said": [
+        "There, there. I have you."
+      ],
+      "clip": "indigo-carry",
+      "babyLife": "Held by Paz, who is singing to her.",
+      "carerLife": "Seeing to Docia: holding and singing, then back to the work about the place."
+    },
+    "hideGlows": true,
+    "cache": {
+      "powder": 3,
+      "seed": 4,
+      "cotton": 3
+    },
+    "roadBar": [
+      "road-lookout",
+      "road-sing"
+    ]
+  },
+  "screenshots": [
+    "docs/evidence/children-talk-1366.png",
+    "docs/evidence/children-play-1366.png",
+    "docs/evidence/children-auto-off-1366.png",
+    "docs/evidence/children-baby-held-1366.png",
+    "docs/evidence/children-bar-1024.png",
+    "docs/evidence/children-talk-1024.png",
+    "docs/evidence/children-scrape-hide-1366.png",
+    "docs/evidence/children-scrape-road-1366.png",
+    "docs/evidence/children-scrape-road-1024.png"
+  ]
+}

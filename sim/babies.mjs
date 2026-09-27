@@ -323,7 +323,7 @@ export function babyLines(world, household) {
 
 /** What a baby's row says, and a grown-up's while they hold one, in the server's words; or null. */
 export function babyLine(world, household, entity) {
-  const nameOf = id => world.entities[id]?.name || 'somebody';
+  const nameOf = id => world.entities[id]?.given || world.entities[id]?.name || 'somebody';
   if (entity.aside?.kind === 'baby') return `Seeing to ${entity.aside.babyIds.map(nameOf).join(' and ')}: holding and singing, then back to ${workOf(entity)}.`;
   if (!isBaby(entity) || GONE.includes(entity.health?.condition)) return null;
   // A family nobody plays keeps its babies still (`advanceBabies`), and a line saying one crawls would be untrue.

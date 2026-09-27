@@ -11,6 +11,9 @@
 //
 // This file imports nothing, on purpose: sim/chores.mjs and sim/routines.mjs read it, and both are below the modules that set it.
 
+/** What a row calls somebody: their first name, the family's last name being on every row already. */
+export const first = entity => entity?.given || entity?.name || 'Somebody';
+
 /** Whether this person's work is stopped because the family's little ones have called them aside. */
 export const calledAside = entity => Boolean(entity?.aside);
 
@@ -23,8 +26,8 @@ export function asideWhy(entity, nameOf = id => id) {
   if (!aside) return null;
   if (aside.kind === 'talk') {
     const child = nameOf(aside.childIds?.[0]);
-    return `${entity.name} has stopped to talk with ${child}, who has nothing to do. Give ${child} something to do and ${entity.name} goes back to work.`;
+    return `${first(entity)} has stopped to talk with ${child}, who has nothing to do. Give ${child} something to do and ${first(entity)} goes back to work.`;
   }
-  if (aside.kind === 'baby') return `${entity.name} is seeing to the baby, and will be back at it in a moment.`;
+  if (aside.kind === 'baby') return `${first(entity)} is seeing to the baby, and will be back at it in a moment.`;
   return null;
 }

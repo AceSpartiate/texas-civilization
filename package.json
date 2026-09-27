@@ -89,6 +89,8 @@
     "test:famous-people": "node scripts/famous-people-browser-proof.mjs",
     "test:famous-people-injections": "node scripts/famous-people-injections.mjs",
     "test:mexican-advance": "node scripts/mexican-advance-browser-proof.mjs",
-    "test:mexican-advance-injections": "node scripts/mexican-advance-injections.mjs"
+    "test:mexican-advance-injections": "node scripts/mexican-advance-injections.mjs",
+    "test:children": "node scripts/children-browser-proof.mjs",
+    "test:children-injections": "node scripts/childhood-injections.mjs"
   }
 }

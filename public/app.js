@@ -14,6 +14,7 @@ import {plotArt} from '/field-art.js';
 import { drawFieldSurface } from '/field-surface.js';
 import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
 import { TOWN_WALK, TownWalker, drawTownSpeech, renderSceneCard, townSceneAt, townSceneDrawables } from '/town-scenes.js';
+import { drawSpeech } from '/speech.js';
 import { drawTownGround, townDrawables } from '/town-art.js';
 import { placeSprite } from '/place-art.js';
 import { renderInterior, clearInteriorChoice } from '/interior.js';
@@ -3123,10 +3124,15 @@ export function drawWorld(world) {
   // What the family's own children and babies are saying, over them (sim/childhood.mjs `talkLines`, sim/babies.mjs `babyLines`):
   // a child with nothing to do and the parent they have stopped, a baby crying and the one who holds it humming. The same
   // bubbles as the town's (public/speech.js), dashed, because every word of it is reconstructed.
+  // Both halves of an exchange at once, over the two who say them, for the tick it is said: the child's line and the reply are
+  // over different heads, and a tick of the class is the nine seconds they are read in (not the town's staggered scene).
   if (world.familyTalk?.lines?.length && camera.figure > 14) {
     const said = [];
-    const headOf = id => (drawnAt.has(id) ? { x: drawnAt.get(id).x, y: drawnAt.get(id).y - drawnAt.get(id).size * .55 } : null);
-    drawTownSpeech(ctx, world.familyTalk, headOf, { now: frameNow, tickMs: window.__snapshot?.tickMs ?? 9500, bounds: { width: canvas.width, height: canvas.height }, evidence: said });
+    for (const line of world.familyTalk.lines) {
+      const head = drawnAt.get(line.speakerId);
+      if (!head) continue;
+      if (drawSpeech(ctx, line, head.x, head.y - head.size * .55, { bounds: { width: canvas.width, height: canvas.height } })) said.push({ id: line.id, speakerId: line.speakerId, kind: line.kind, text: line.text, ...(line.manner && { manner: line.manner }) });
+    }
     window.__familySaid = said;
   } else window.__familySaid = [];
   drawTravelRoads(ctx, roads, camera, canvas);
@@ -3971,8 +3977,9 @@ function renderFamilyPanel(world) {
     // The main person's icon group *is* the bar at the bottom of the screen, and it shows the line there. Everybody else's
     // group is not drawn at all (public/style.css), so their line goes on the row, which is where a student looks for them.
     // This is the way out the stylesheet's ceiling named, asked for by a class on 2026-09-21.
-    // A baby's row says what the baby is doing on its own line (`life`), not that it is too young to be sent (docs/CHILDREN.md §6).
-    const silence = bar ? '' : travelling || (entity.baby ? '' : reason) || '';
+    // A baby's row says what the baby is doing on its own line (`life`), not that it is too young to be sent, and a grown-up stopped
+    // by the little ones says why there once, not twice (docs/CHILDREN.md §3, §6).
+    const silence = bar ? '' : travelling || (entity.baby || entity.aside ? '' : reason) || '';
     if (row.why.textContent !== silence) row.why.textContent = silence;
     if (row.why.hidden !== !silence) row.why.hidden = !silence;
     // No switch on a child too young to be sent, who has nothing for auto to repeat or answer. Only that case: somebody on

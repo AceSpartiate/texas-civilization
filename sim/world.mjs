@@ -893,7 +893,7 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // is not given new work or sent anywhere until the child has something to do or the baby is down (sim/aside.mjs, owner
   // 2026-09-26: "this conversation stops the parent from doing their task until the kid is given a new task"). The family's
   // answers to the calls, the army and the road are not refused: they are the game's questions, and a journey lets them go.
-  if (entity.aside && ASIDE_REFUSED.has(input.action)) throw new Error(asideWhy(entity, id => world.entities[id]?.name || 'a child'));
+  if (entity.aside && ASIDE_REFUSED.has(input.action)) throw new Error(asideWhy(entity, id => world.entities[id]?.given || world.entities[id]?.name || 'a child'));
   const mode = input.mode || orderMode(world, household, entity, input);
   // The student's main person (sim/family.mjs `mainPersonId`, docs/FAMILY_PANEL.md §11.3): one at a time, anybody of the
   // family who can act and is old enough to be sent - refused above, in the words every order gets. Choosing another recalls
