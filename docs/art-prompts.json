@@ -2089,6 +2089,20 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/goliad-prisoner.png",
       "postProcessing": "No raster post-processing. Initial generated atlas had raised hands in two requested idle cells; built-in imagegen edit corrected those cells, then the accepted PNG was copied unchanged.",
       "review": "Hands free and no weapons in every accepted frame; down poses are non-graphic. This generic figure is not a named prisoner."
+    },
+    {
+      "sheet": "coleto-baggage-cart",
+      "promptId": "frontier-v1/coleto-baggage-cart",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Original transparent 2x2 game atlas of one small two-wheel 1830s wooden baggage cart without ox, loaded with tied cloth bundles and rolled blankets. Four states of the same cart in reading order: upright, beginning to tip by 30 degrees, tipping about 65 degrees, resting on its side as a low improvised breastwork. Same scale and cargo, wide alpha gutters, warm painted miniature style; no people, animals, weapons, text or scenery.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/cart-open.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4814d39b-de4d-46e9-8e32-4091221055a0.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/coleto-baggage-cart.png",
+      "postProcessing": "None. Generated PNG copied unchanged; measured atlas validation only.",
+      "review": "Distinct upright and tipped frames with a non-looping tip sequence; no ox painted into the cart."
     }
   ]
 }

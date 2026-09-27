@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1570 usable sprites, 143 PNG atlases, 525 clips** (299 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1574 usable sprites, 144 PNG atlases, 526 clips** (300 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -38,6 +38,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-children-walk | 12 | 1254 × 1254 | 1127437 |
 | people-children-care | 12 | 1254 × 1254 | 1425070 |
 | land-clearing | 16 | 1254 × 1254 | 904975 |
+| coleto-baggage-cart | 4 | 1254 × 1254 | 1333345 |
 | icons-family-actions-1 | 16 | 1254 × 1254 | 2324769 |
 | icons-family-actions-2 | 13 | 1254 × 1254 | 1706833 |
 | icons-family-service | 16 | 1254 × 1254 | 1734840 |
@@ -464,6 +465,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | clearing-brush-dry | land-clearing | State artwork; no motion required |
 | clearing-ash | land-clearing | State artwork; no motion required |
 | clearing-branches | land-clearing | State artwork; no motion required |
+| cart-baggage | coleto-baggage-cart | cart-baggage-tip |
+| cart-baggage-tilt-1 | coleto-baggage-cart | cart-baggage-tip |
+| cart-baggage-tilt-2 | coleto-baggage-cart | cart-baggage-tip |
+| cart-tipped | coleto-baggage-cart | cart-baggage-tip |
 | icon-survey-plot | icons-family-actions-1 | State artwork; no motion required |
 | icon-cut-lane | icons-family-actions-1 | State artwork; no motion required |
 | icon-dig-well | icons-family-actions-1 | State artwork; no motion required |
@@ -1885,6 +1890,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | infant-idle-w | breathe | 1 | 3000 | yes | west |
 | infant-idle-e | breathe | 1 | 3000 | yes | east |
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
+| cart-baggage-tip | Pose cycle | 4 | 2650 | one-shot | east; mirror for west |
 | bonham-walk-e | Pose cycle | 4 | 760 | yes | east |
 | bonham-walk-s | Pose cycle | 2 | 580 | yes | south |
 | bonham-walk-n | Pose cycle | 2 | 580 | yes | north |

@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 143,
-    "sprites": 1570,
-    "clips": 525,
-    "poseCycles": 299,
+    "sheets": 144,
+    "sprites": 1574,
+    "clips": 526,
+    "poseCycles": 300,
     "rigs": 4
   },
   "entrypoints": {
@@ -2652,6 +2652,64 @@
               [
                 1004,
                 1200
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "coleto-baggage-cart": {
+      "image": "atlases/coleto-baggage-cart.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1333345,
+      "sha256": "180f8afe566ff47247c172d94233078558e4742a4e51aa73689178dbaf095d0f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.686503,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              185,
+              592
+            ],
+            "columns": [
+              [
+                31,
+                627
+              ],
+              [
+                647,
+                1231
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              699,
+              1131
+            ],
+            "columns": [
+              [
+                52,
+                580
+              ],
+              [
+                652,
+                1231
               ]
             ]
           }
@@ -24213,6 +24271,142 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/land-clearing"
+    },
+    "cart-baggage": {
+      "sheet": "coleto-baggage-cart",
+      "x": 31,
+      "y": 190,
+      "w": 596,
+      "h": 382,
+      "anchorX": 0.5344,
+      "anchorY": 0.9293,
+      "label": "cart baggage",
+      "kind": "coleto-baggage-cart",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          33,
+          192,
+          592,
+          378
+        ],
+        "visiblePixels": 126852,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/coleto-baggage-cart.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-baggage-tip"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/coleto-baggage-cart"
+    },
+    "cart-baggage-tilt-1": {
+      "sheet": "coleto-baggage-cart",
+      "x": 647,
+      "y": 185,
+      "w": 584,
+      "h": 407,
+      "anchorX": 0.9384,
+      "anchorY": 0.9287,
+      "label": "cart baggage tilt 1",
+      "kind": "coleto-baggage-cart",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          649,
+          187,
+          580,
+          403
+        ],
+        "visiblePixels": 125539,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/coleto-baggage-cart.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-baggage-tip"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/coleto-baggage-cart"
+    },
+    "cart-baggage-tilt-2": {
+      "sheet": "coleto-baggage-cart",
+      "x": 52,
+      "y": 699,
+      "w": 528,
+      "h": 432,
+      "anchorX": 0.7595,
+      "anchorY": 0.9282,
+      "label": "cart baggage tilt 2",
+      "kind": "coleto-baggage-cart",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          54,
+          701,
+          524,
+          428
+        ],
+        "visiblePixels": 115096,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/coleto-baggage-cart.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-baggage-tip"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/coleto-baggage-cart"
+    },
+    "cart-tipped": {
+      "sheet": "coleto-baggage-cart",
+      "x": 652,
+      "y": 866,
+      "w": 579,
+      "h": 248,
+      "anchorX": 0.5,
+      "anchorY": 0.9274,
+      "label": "cart tipped",
+      "kind": "coleto-baggage-cart",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          654,
+          868,
+          575,
+          244
+        ],
+        "visiblePixels": 95888,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/coleto-baggage-cart.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-baggage-tip"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/coleto-baggage-cart"
     },
     "icon-survey-plot": {
       "sheet": "icons-family-actions-1",
@@ -69711,6 +69905,30 @@
       "motion": "none",
       "direction": "stationary"
     },
+    "cart-baggage-tip": {
+      "frames": [
+        {
+          "sprite": "cart-baggage",
+          "duration": 550
+        },
+        {
+          "sprite": "cart-baggage-tilt-1",
+          "duration": 450
+        },
+        {
+          "sprite": "cart-baggage-tilt-2",
+          "duration": 450
+        },
+        {
+          "sprite": "cart-tipped",
+          "duration": 1200
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "bonham-walk-e": {
       "frames": [
         {
@@ -81716,7 +81934,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 143,
+    "sourceCount": 144,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

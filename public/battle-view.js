@@ -216,6 +216,7 @@ export function createBattleView(art) {
     fallenSpots: new Map(), herd: null,
     // Joe's shots from the house he took cover in, each fired once (a flash and a puff at its door).
     hiddenShots: new Set(),
+    cartTipStartedAt: null,
   };
   // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "San Jacinto", item 3 - a Texian horseman (Sherman's, Lamar's, Deaf
   // Smith's party) is the library's mounted courier, the only Texian-dressed rider it has, until a mounted volunteer exists.
@@ -232,6 +233,7 @@ export function createBattleView(art) {
     if (view.key !== key) {
       view.key = key; view.sides.clear(); view.smoke = []; view.flashes = []; view.shotsSeen.clear(); view.linesSeen.clear(); view.fallenAt.clear(); view.cannonFiredAt = [];
       view.gunFiredAt.clear(); view.breachAt.clear(); view.memberFallAt.clear(); view.peopleFellAt.clear(); view.fallenSpots.clear(); view.fallenSide.clear(); view.herd = null; view.pins.clear();
+      view.cartTipStartedAt = null;
       view.minute = null;
     }
     if (battle.minute === view.minute) return;
@@ -380,6 +382,8 @@ export function createBattleView(art) {
     const still = reducedMotion || paused;
     if (!battle) { view.key = null; view.members.clear(); view.evidence = null; return null; }
     accept(battle, now, tickMs);
+    if (battle.id === 'coleto' && battle.phase === 'small-hours') view.cartTipStartedAt ??= now;
+    else view.cartTipStartedAt = null;
     // How big smoke is drawn against a figure (`battle.smokeScale`): a fight in a small place, seen close, keeps its smoke to
     // the size of the ground it is on rather than to the figures, which are drawn larger than life (PERSON_MILES).
     view.smokeScale = battle.smokeScale ?? 1;
@@ -458,13 +462,14 @@ export function createBattleView(art) {
         const shifted = time + hash(`${battle.id}:${side.side}`) * VOLLEY_MS + slot.face * VOLLEY_MS / 4, no = Math.floor(shifted / VOLLEY_MS);
         return { at: shifted % VOLLEY_MS, no, rank: no % ranks };
       };
-      // The carts inside a square (`HIST-TEX-515`), drawn among the men: the baggage and, at night, the barricade.
-      // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "Coleto and Goliad", item 4 - the library's `ox-cart`, its ox painted
-      // in, until a cart without its ox, standing and tipped as a breastwork, is drawn.
+      // The carts inside Coleto's square (`HIST-TEX-515`): tipped into the barricade during the small hours.
       if (side.style === 'square' && side.action !== 'gone') {
+        const tipping = battle.id === 'coleto' && battle.phase === 'small-hours';
+        const tipped = battle.id === 'coleto' && ['before-dawn', 'guns', 'surrender'].includes(battle.phase);
         for (const [along, across, flipCart] of [[0.012, -0.018, false], [-0.02, 0.014, true], [0.024, 0.026, false]]) {
           const cart = camera.toScreen(onGround(centre, facing, { along, across }));
-          if (!offScreen(cart)) figures.push({ y: cart.y, kind: 'cover', point: cart, sprite: 'ox-cart', size: figurePx * 1.25, flip: flipCart });
+          if (!offScreen(cart)) figures.push({ y: cart.y, kind: 'cover', point: cart, sprite: tipped ? 'cart-tipped' : 'cart-baggage',
+            clip: tipping ? 'cart-baggage-tip' : null, timeMs: tipping ? now - view.cartTipStartedAt : 0, size: figurePx * 1.25, flip: flipCart });
         }
       }
       const fallen = fallenSlots.get(side.key) || new Map();
@@ -691,7 +696,11 @@ export function createBattleView(art) {
         if (!art.drawSprite(ctx, 'packed-belongings', f.point.x, f.point.y - f.size * 0.42, f.size * 0.45)) { ctx.fillStyle = '#b9a46a'; ctx.fillRect(f.point.x - f.size * 0.2, f.point.y - f.size * 0.62, f.size * 0.4, f.size * 0.18); }
         continue;
       }
-      if (f.kind === 'cover') { art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip }); continue; }
+      if (f.kind === 'cover') {
+        if (!f.clip || !art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, `cover:${f.point.x}:${f.point.y}`, { timeMs: f.timeMs, flip: f.flip, paused: still }))
+          art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip });
+        continue;
+      }
       let ok = 0;
       if (f.clip) ok = art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.timeMs, flip: f.flip, paused: reducedMotion });
       else if (f.sprite) ok = art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip });

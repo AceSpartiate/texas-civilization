@@ -2270,6 +2270,30 @@
       "motion": "none",
       "direction": "stationary"
     },
+    "cart-baggage-tip": {
+      "frames": [
+        {
+          "sprite": "cart-baggage",
+          "duration": 550
+        },
+        {
+          "sprite": "cart-baggage-tilt-1",
+          "duration": 450
+        },
+        {
+          "sprite": "cart-baggage-tilt-2",
+          "duration": 450
+        },
+        {
+          "sprite": "cart-tipped",
+          "duration": 1200
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "bonham-walk-e": {
       "frames": [
         {

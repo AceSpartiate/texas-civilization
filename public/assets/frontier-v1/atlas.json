@@ -2642,6 +2642,64 @@
         ]
       }
     },
+    "coleto-baggage-cart": {
+      "image": "atlases/coleto-baggage-cart.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1333345,
+      "sha256": "180f8afe566ff47247c172d94233078558e4742a4e51aa73689178dbaf095d0f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.686503,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              185,
+              592
+            ],
+            "columns": [
+              [
+                31,
+                627
+              ],
+              [
+                647,
+                1231
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              699,
+              1131
+            ],
+            "columns": [
+              [
+                52,
+                580
+              ],
+              [
+                652,
+                1231
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "icons-family-actions-1": {
       "image": "atlases/icons-family-actions-1.png",
       "width": 1254,
@@ -21226,6 +21284,102 @@
           105
         ],
         "visiblePixels": 15337,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cart-baggage": {
+      "sheet": "coleto-baggage-cart",
+      "x": 31,
+      "y": 190,
+      "w": 596,
+      "h": 382,
+      "anchorX": 0.5344,
+      "anchorY": 0.9293,
+      "label": "cart baggage",
+      "kind": "coleto-baggage-cart",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          33,
+          192,
+          592,
+          378
+        ],
+        "visiblePixels": 126852,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cart-baggage-tilt-1": {
+      "sheet": "coleto-baggage-cart",
+      "x": 647,
+      "y": 185,
+      "w": 584,
+      "h": 407,
+      "anchorX": 0.9384,
+      "anchorY": 0.9287,
+      "label": "cart baggage tilt 1",
+      "kind": "coleto-baggage-cart",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          649,
+          187,
+          580,
+          403
+        ],
+        "visiblePixels": 125539,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cart-baggage-tilt-2": {
+      "sheet": "coleto-baggage-cart",
+      "x": 52,
+      "y": 699,
+      "w": 528,
+      "h": 432,
+      "anchorX": 0.7595,
+      "anchorY": 0.9282,
+      "label": "cart baggage tilt 2",
+      "kind": "coleto-baggage-cart",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          54,
+          701,
+          524,
+          428
+        ],
+        "visiblePixels": 115096,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cart-tipped": {
+      "sheet": "coleto-baggage-cart",
+      "x": 652,
+      "y": 866,
+      "w": 579,
+      "h": 248,
+      "anchorX": 0.5,
+      "anchorY": 0.9274,
+      "label": "cart tipped",
+      "kind": "coleto-baggage-cart",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          654,
+          868,
+          575,
+          244
+        ],
+        "visiblePixels": 95888,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

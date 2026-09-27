@@ -106,7 +106,7 @@ does not have:
 | **The marksmen in the grass at Coleto** are drawn in the loose order's standing and kneeling poses, firing | the `ringed` grass parts in `sim/battles/coleto.mjs`, drawn by `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 1 | `regular-prone-fire` (lying in the grass, aim and fire, both facings) |
 | ~~The Goliad prisoners drawn in the armed militia's walk and stand~~ | `goliad-prisoner` supplies unarmed walking, idle, hurried and non-graphic down poses for the yard, three columns and escape; `sim/battles/goliad-massacre.mjs` marks these groups `figure: 'prisoner'` | Request 2026-09-25 — Coleto and Goliad, item 2 | Delivered; a second visual identity would add variety to the sampled crowd |
 | ~~Francita Alavez as the first cast's woman~~ | The `alavez` part in `sim/battles/goliad-massacre.mjs` now selects `famous-alavez` through its `figure` key | Request 2026-09-25 — Coleto and Goliad, item 3 | Delivered: directional walks, idle and rescue gestures; appearance is an interpretation |
-| **The carts inside Coleto's square** are the library's `ox-cart`, its ox painted in | `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — Coleto and Goliad, item 4 | `cart-baggage` (no ox) and `cart-tipped` (on its side, a breastwork) |
+| ~~The carts inside Coleto's square drawn with painted-in oxen~~ | `draw` in `public/battle-view.js` uses `coleto-baggage-cart`: upright loaded carts, a non-looping tip sequence during the small hours, then tipped cover by dawn | Request 2026-09-25 — Coleto and Goliad, item 4 | Delivered: `cart-baggage`, `cart-tipped`, two intermediate tilt frames |
 ## Claude-drawn stand-ins (replace with Astra's)
 
 Owner's instruction, 2026-09-16: complete the outstanding requests with Claude-drawn art, marked so Astra can replace any of
@@ -1415,8 +1415,7 @@ No blood, no wound shown, no body detail (`VISION.md` §16).
    Mexican cazador in the tall grass at night. Plugs into the loose parts of Coleto's `dusk`, `night` and `small-hours`.
 2. **An unarmed prisoner** - delivered in `goliad-prisoner`: east/south/north walking, calm idle, worried look-back, running, ducking, injured sitting and non-graphic still poses. This figure wears a worn frontier coat and carries no weapon or ammunition belt. It plugs into the three columns, prison yard and kept-back groups with `figure: 'prisoner'`; Goliad's fallen sampled prisoners also keep this unarmed look. Future crowd variety can add more unarmed identities.
 3. **Francita Alavez** - delivered in `famous-alavez`: east/south/north walks, idle, speaking/listening, reach, beckon, guide and rest poses. The original costume design uses a rebozo and long skirt; it does not claim a documented likeness. The `alavez` part uses `figure: 'alavez'`.
-4. **The baggage carts** - `cart-baggage` (a two-wheeled cart with its load, no ox) and `cart-tipped` (on its side, a
-   breastwork). Plugs into the square's carts in `draw` (`public/battle-view.js`).
+4. **The baggage carts** - delivered in `coleto-baggage-cart`: a loaded two-wheeled cart without an ox, two tilt frames, and a tipped low breastwork state. `cart-baggage-tip` is a non-looping authored clip during the small hours; the tipped state persists into dawn and surrender. The square's carts now draw these states in `public/battle-view.js`.
 5. **A white flag** - the storming of Béxar's own request 2026-09-25 "a white flag, a bugler and the parleying officers" covers Coleto's too (`drawWhiteFlag`, `phase.flags`).
 
 ## Request 2026-09-25 — battles: the pieces the engine stands in for
