@@ -169,7 +169,17 @@ try {
 
   // ------------------------------------------------------------------ the farm burns while the family is away: nothing on its page
   held();
-  await serverUntil('the foragers never reached the first family\'s farm', () => Number.isFinite(inside().flight?.burned), 900000);
+  // **What the Host is sent is read on the tick the farm burns, and the class is then held to a tick every five seconds while
+  // the pages are read** (2026-09-26). The smoke stands six hours - a tick or two at this pace - and this read it after waiting
+  // for the family's page to catch up, by which time, now and then, it had blown away ("the Host was not shown the farm's
+  // smoke" in the sweep of 2026-09-26). The pace goes back once the burning has been read.
+  let hostFiresAtBurn = null;
+  await serverUntil('the foragers never reached the first family\'s farm', () => {
+    if (!Number.isFinite(inside().flight?.burned)) return false;
+    hostFiresAtBurn = firesSeen(live, undefined, 'host');
+    app.setPace(5000);
+    return true;
+  }, 900000);
   const burnedAt = inside().flight.burned, home = world().map.sites[inside().homeSiteId];
   await until(burned, 'the family\'s page never caught up with the burning', minute => window.__snapshot.world.minute >= minute, burnedAt, { timeout: 60000 });
   const before = await burned.evaluate(() => ({ cabin: window.__snapshot.world.land.cabin, flight: window.__snapshot.world.household.flight, fires: (window.__snapshot.world.fires || []).map(fire => fire.id), events: window.__snapshot.world.events.map(event => event.text), reports: window.__snapshot.world.reports.map(report => report.topicId) }));
@@ -181,10 +191,11 @@ try {
     assert.ok(!before.reports.includes(`farm-burned:${inside().id}`));
   }
   // The Host is sent the smoke while it stands (six hours: a tick or two at this pace), and its page draws what it is sent.
-  assert.ok(firesSeen(live, undefined, 'host').some(fire => fire.id === `farm:${inside().id}`), 'the Host was not shown the farm\'s smoke');
+  assert.ok(hostFiresAtBurn.some(fire => fire.id === `farm:${inside().id}`), 'the Host was not shown the farm\'s smoke');
   const hostFire = await host.waitForFunction(id => (window.__firesDrawn || []).some(fire => fire.id === `farm:${id}`), inside().id, { timeout: 20000 }).then(() => 'drawn on its map', () => 'sent, and gone before its page drew it');
   const others = await standing.evaluate(id => (window.__snapshot.world.fires || []).some(fire => fire.id === `farm:${id}`), inside().id);
   assert.equal(others, false, 'the second family, far off, was sent the first family\'s smoke');
+  app.setPace(250);
   evidence.burning = { burnedAt, by: inside().flight.burnedBy, before: { cabin: before.cabin, fires: before.fires } };
   ok(`the farm burned (${inside().flight.burnedBy.name}) while the family was away: its page still drew the house ${before.cabin}, with no smoke and no word; the Host was sent the smoke at once (${hostFire}); the other family saw nothing`);
 

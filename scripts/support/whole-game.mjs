@@ -10,6 +10,8 @@ import { projectWorld } from '../../sim/world.mjs';
 // person, so this proof chooses them first, as a student does.
 import { asMain } from './main-person.mjs';
 import { pickSite } from '../../sim/neighbours.mjs';
+import { tooYoung } from '../../sim/family.mjs';
+import { sendTheWay } from './going.mjs';
 
 /**
  * Wait for a condition while the class runs, failing if the world stops advancing for `stallMs` while it says it is running.
@@ -66,11 +68,20 @@ export async function playWholeGame(ctx) {
   ok(`${measured.onAuto.length} of the family set to auto from the panel: ${measured.onAuto.join(', ')}`);
   // One order each where one is open, so the chores run while the news comes: the first icon the server allows.
   const given = [];
+  // Each person chosen first, as a student does, and their order read off their own bar once they are the main person: the bar
+  // draws only what the server and the step allow for the person it belongs to (docs/FAMILY_PANEL.md §12; 8e6ecd5), which is
+  // not what a row that is not the main person's holds. Until 2026-09-26 this read the key first, off rows that are never drawn,
+  // and chose a child under ten - who can be given the children's works but never be made the main person - and waited out
+  // the star, or pressed a key the bar then did not draw.
   for (const id of household().members) {
+    const person = world().entities[id];
+    if (person?.kind !== 'person' || tooYoung(person) || ['dead', 'captured'].includes(person.health?.condition)) continue;
+    await asMain(student, id);
     const key = await student.evaluate(id => [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon:not([aria-disabled="true"])[data-action="chore"]`)].map(b => b.dataset.key).find(k => !['hunt-land', 'fell-trees', 'survey-plot'].includes(k)) || null, id);
     if (!key) continue;
-    await asMain(student, id);
     await student.locator(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`).click();
+    // A work that is a journey asks how they go first (owner, 2026-09-24): the server's suggestion, as a student most often takes.
+    await sendTheWay(student);
     const took = await student.waitForFunction(({ id, key }) => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`)?.dataset.active === 'true' || (document.querySelector('#error')?.textContent || '').trim() || null, { id, key }, { timeout: 8000 }).then(h => h.jsonValue()).catch(() => 'no answer');
     given.push({ id, key, took });
   }
