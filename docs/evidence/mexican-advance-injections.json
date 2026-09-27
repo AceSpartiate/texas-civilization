@@ -1,0 +1,219 @@
+{
+  "record": "mexican-advance-injections",
+  "date": "2026-09-26",
+  "gates": {
+    "unit": "node --test tests/mexican-advance.test.mjs (and tests/scrape.test.mjs for the scrape's own rules), the named test and no other in its file",
+    "browser": "scripts/mexican-advance-browser-proof.mjs"
+  },
+  "unit": [
+    {
+      "name": "Urrea at Matagorda on the game's old April 17, not the record's April 13",
+      "file": "sim/advance.mjs",
+      "test": "tests/mexican-advance.test.mjs",
+      "expect": "each column is where the record puts it on the record's dates, and never where the record says no Mexican came",
+      "caught": false,
+      "failed": [
+        "each column is where the record puts it on the record's dates, and never where the record says no Mexican came",
+        "the columns march on the roads at an army's pace, and never jump"
+      ]
+    },
+    {
+      "name": "Santa Anna's column marching on past San Jacinto",
+      "file": "sim/advance.mjs",
+      "test": "tests/mexican-advance.test.mjs",
+      "expect": "each column is where the record puts it on the record's dates, and never where the record says no Mexican came",
+      "caught": true,
+      "failed": [
+        "each column is where the record puts it on the record's dates, and never where the record says no Mexican came"
+      ]
+    },
+    {
+      "name": "Santa Anna at Thompson's four hours after leaving San Felipe",
+      "file": "sim/advance.mjs",
+      "test": "tests/mexican-advance.test.mjs",
+      "expect": "the columns march on the roads at an army's pace, and never jump",
+      "caught": true,
+      "failed": [
+        "the columns march on the roads at an army's pace, and never jump"
+      ]
+    },
+    {
+      "name": "every column across country, never on the roads",
+      "file": "sim/advance.mjs",
+      "test": "tests/mexican-advance.test.mjs",
+      "expect": "the columns march on the roads at an army's pace, and never jump",
+      "caught": false,
+      "failed": [
+        "each column is where the record puts it on the record's dates, and never where the record says no Mexican came",
+        "the columns march on the roads at an army's pace, and never jump",
+        "the towns burn on their dates by the record's hand, and no town the record does not name burns",
+        "exactly half of every class's land is inside the burn zone, family by family as students join, the odd one over inside",
+        "an old save keeps its land: nothing is dealt again, and its farms burn or stand by where they are",
+        "a family learns its farm burned only by its own people seeing it or by the word, and its page shows the farm as it left it until then",
+        "smoke seen from the family's own people tells them at once; nothing is learned by a family out of sight and word",
+        "the burned farm is burned when the family comes home; a farm outside the zone stands, with what was left in it",
+        "a family sees a column only where its own people are; the Host sees every one, and where each party is riding"
+      ]
+    },
+    {
+      "name": "San Felipe burned by the Mexicans",
+      "file": "sim/advance.mjs",
+      "test": "tests/mexican-advance.test.mjs",
+      "expect": "the towns burn on their dates by the record's hand, and no town the record does not name burns",
+      "caught": true,
+      "failed": [
+        "the towns burn on their dates by the record's hand, and no town the record does not name burns"
+      ]
+    },
+    {
+      "name": "Victoria burned, which no record says",
+      "file": "sim/advance.mjs",
+      "test": "tests/mexican-advance.test.mjs",
+      "expect": "the towns burn on their dates by the record's hand, and no town the record does not name burns",
+      "caught": true,
+      "failed": [
+        "the towns burn on their dates by the record's hand, and no town the record does not name burns"
+      ]
+    },
+    {
+      "name": "the first half of the class inside, not every other family",
+      "file": "sim/colonies-region.mjs",
+      "test": "tests/mexican-advance.test.mjs",
+      "expect": "exactly half of every class's land is inside the burn zone, family by family as students join, the odd one over inside",
+      "caught": true,
+      "failed": [
+        "exactly half of every class's land is inside the burn zone, family by family as students join, the odd one over inside"
+      ]
+    },
+    {
+      "name": "the odd family over dealt outside the zone",
+      "file": "sim/colonies-region.mjs",
+      "test": "tests/mexican-advance.test.mjs",
+      "expect": "exactly half of every class's land is inside the burn zone, family by family as students join, the odd one over inside",
+      "caught": true,
+      "failed": [
+        "exactly half of every class's land is inside the burn zone, family by family as students join, the odd one over inside"
+      ]
+    },
+    {
+      "name": "a farm's fate by the deal's rule rather than its own land",
+      "file": "sim/advance.mjs",
+      "test": "tests/mexican-advance.test.mjs",
+      "expect": "an old save keeps its land: nothing is dealt again, and its farms burn or stand by where they are",
+      "caught": true,
+      "failed": [
+        "an old save keeps its land: nothing is dealt again, and its farms burn or stand by where they are"
+      ]
+    },
+    {
+      "name": "the page shown the farm burned the moment it burns",
+      "file": "sim/scrape.mjs",
+      "test": "tests/mexican-advance.test.mjs",
+      "expect": "a family learns its farm burned only by its own people seeing it or by the word, and its page shows the farm as it left it until then",
+      "caught": true,
+      "failed": [
+        "a family learns its farm burned only by its own people seeing it or by the word, and its page shows the farm as it left it until then"
+      ]
+    },
+    {
+      "name": "the family told of the burning as it happens, wherever it is",
+      "file": "sim/scrape.mjs",
+      "test": "tests/mexican-advance.test.mjs",
+      "expect": "a family learns its farm burned only by its own people seeing it or by the word, and its page shows the farm as it left it until then",
+      "caught": true,
+      "failed": [
+        "a family learns its farm burned only by its own people seeing it or by the word, and its page shows the farm as it left it until then"
+      ]
+    },
+    {
+      "name": "the word ten times faster than people carry it",
+      "file": "sim/advance.mjs",
+      "test": "tests/mexican-advance.test.mjs",
+      "expect": "a family learns its farm burned only by its own people seeing it or by the word, and its page shows the farm as it left it until then",
+      "caught": false,
+      "failed": []
+    },
+    {
+      "name": "the smoke seen from any distance",
+      "file": "sim/advance-word.mjs",
+      "test": "tests/mexican-advance.test.mjs",
+      "expect": "smoke seen from the family's own people tells them at once; nothing is learned by a family out of sight and word",
+      "caught": false,
+      "failed": [
+        "a family learns its farm burned only by its own people seeing it or by the word, and its page shows the farm as it left it until then",
+        "smoke seen from the family's own people tells them at once; nothing is learned by a family out of sight and word"
+      ]
+    },
+    {
+      "name": "a burned family comes home to be told its house stands",
+      "file": "sim/scrape.mjs",
+      "test": "tests/mexican-advance.test.mjs",
+      "expect": "the burned farm is burned when the family comes home; a farm outside the zone stands, with what was left in it",
+      "caught": true,
+      "failed": [
+        "the burned farm is burned when the family comes home; a farm outside the zone stands, with what was left in it"
+      ]
+    },
+    {
+      "name": "a family shown a column from the land it has left",
+      "file": "sim/armies.mjs",
+      "test": "tests/mexican-advance.test.mjs",
+      "expect": "a family sees a column only where its own people are; the Host sees every one, and where each party is riding",
+      "caught": true,
+      "failed": [
+        "a family sees a column only where its own people are; the Host sees every one, and where each party is riding"
+      ]
+    },
+    {
+      "name": "the farm a party rides for sent to a student",
+      "file": "sim/armies.mjs",
+      "test": "tests/mexican-advance.test.mjs",
+      "expect": "a family sees a column only where its own people are; the Host sees every one, and where each party is riding",
+      "caught": false,
+      "failed": []
+    },
+    {
+      "name": "the foragers leave the cattle as the range does",
+      "file": "sim/stock.mjs",
+      "test": "tests/mexican-advance.test.mjs",
+      "expect": "the foragers drive off the stock left on the range: a quarter of the cattle is found again, not half",
+      "caught": true,
+      "failed": [
+        "the foragers drive off the stock left on the range: a quarter of the cattle is found again, not half"
+      ]
+    },
+    {
+      "name": "the Texas army burns the farm as the family leaves, as before",
+      "file": "sim/scrape.mjs",
+      "test": "tests/scrape.test.mjs",
+      "expect": "the family loads what fits and sets out together for the east, leaving the farm standing with what did not fit; the rivers hold it; it camps at the refuge and comes home with the victory",
+      "caught": true,
+      "failed": [
+        "the family loads what fits and sets out together for the east, leaving the farm standing with what did not fit; the rivers hold it; it camps at the refuge and comes home with the victory"
+      ]
+    },
+    {
+      "name": "no day's grace: a family caught leaving through its own town",
+      "file": "sim/advance.mjs",
+      "test": "tests/scrape.test.mjs",
+      "expect": "the family loads what fits and sets out together for the east, leaving the farm standing with what did not fit; the rivers hold it; it camps at the refuge and comes home with the victory",
+      "caught": true,
+      "failed": [
+        "the family loads what fits and sets out together for the east, leaving the farm standing with what did not fit; the rivers hold it; it camps at the refuge and comes home with the victory"
+      ]
+    },
+    {
+      "name": "the foragers come a day early",
+      "file": "sim/scrape.mjs",
+      "test": "tests/scrape.test.mjs",
+      "expect": "a family that stays is burned out when a column's foragers reach the farm, and whoever is at home may be taken",
+      "caught": true,
+      "failed": [
+        "a family that stays is burned out when a column's foragers reach the farm, and whoever is at home may be taken"
+      ]
+    }
+  ],
+  "browser": [],
+  "cleanBrowserChecks": null,
+  "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
+}

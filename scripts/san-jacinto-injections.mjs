@@ -62,7 +62,7 @@ const UNIT = [
   { name: 'the account comes through the dead man', file: 'sim/san-jacinto.mjs',
     from: '    const through = alive || hearer || men[0];', to: '    const through = men[0];', test: T, expect: TESTS.fate },
   { name: 'Santa Anna\'s column is drawn beside the battle', file: 'sim/armies.mjs',
-    from: "    if (column.id === 'santa-anna' && jacinto && !jacinto.before) continue;", to: '', test: T, expect: TESTS.capture },
+    from: "      if (fight && !fight.before && (column.battle === 'san-jacinto' || !fight.over)) continue;", to: '', test: T, expect: TESTS.capture },
   { name: 'the family at Lynchburg sees the men out on the field', file: 'sim/town.mjs',
     from: ' && places.has(entity.location?.siteId) && !inTheField(entity))', to: ' && places.has(entity.location?.siteId))', test: T, expect: TESTS.after },
   { name: 'no account', file: 'sim/directors.mjs',

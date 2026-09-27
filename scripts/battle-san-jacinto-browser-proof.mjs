@@ -3,9 +3,11 @@
 // participate and does participate ... players should walk away understanding what happened").
 //
 // A real spring class on the colonies map, played in process to noon on April 17 (the first period alone is some four
-// hundred ticks), then joined by two students and the Host. Seed `sj-proof-1` deals the first family camped at its refuge at
-// Liberty with its father at hand, and the second family's men dead at the Alamo, its women and children camped at
-// Lynchburg - a family with nobody in the army, a mile and a half from the field. It holds:
+// hundred ticks), then joined by two students and the Host. Seed `sj-proof-21` (since 2026-09-26, when the land came to be
+// dealt half inside the burn zone and `sj-proof-1`'s first family lost its father to the road) deals the first family camped
+// at its refuge at Lynchburg with a grown man at hand, and the second family gone to Nacogdoches with nobody in the army.
+// (Where the second family is camped at Lynchburg as well, it sees the first family's man set out from the camp they share,
+// and his id is rightly in what it is sent; the check below is of a family with nobody there.) It holds:
 //   - the first student sends the father to join Houston **from the refuge** (owner's J4) by pressing his icon on the family
 //     panel, and the control says when he would be with the army before he goes;
 //   - the alert comes through him when the armies meet and again at the parade, before contact, with Watch, and Watch frames
@@ -48,12 +50,15 @@ function beforeHarrisburg(seed, playerCount) {
   for (let i = 0; i < 9000 && !world.director.complete; i++) stepWorld(world);
   beginThirdPeriod(world); world.status = 'running';
   for (let i = 0; i < 2000 && world.minute < momentOf(world, 'houston-harrisburg'); i++) stepWorld(world);
+  // The first family's director had its men put a line in the river at the refuge (sim/road.mjs `fish-road`); the student who
+  // takes it over finds them idle, in process, so the father can be sent (said here, as alamo-class.mjs says its own setting).
+  for (const id of world.households['hh-1'].members) { const person = world.entities[id]; if (person.chore?.id === 'fish-road') { person.chore = null; person.task = 'rest'; } }
   world.status = 'lobby';
   return world;
 }
 
 const directory = mkdtempSync(join(tmpdir(), 'texas-sj-'));
-const app = createClassroom({ seed: 'sj-proof-1', playerCount: 5, tickMs: 300, savePath: join(directory, 'class.json'), worldFactory: beforeHarrisburg });
+const app = createClassroom({ seed: 'sj-proof-21', playerCount: 5, tickMs: 300, savePath: join(directory, 'class.json'), worldFactory: beforeHarrisburg });
 assert.equal(app.state.world.period, 3, 'the class did not reach the spring');
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
@@ -208,7 +213,7 @@ try {
   await shot(host, 'host');
 
   // ------------------------------------------------------------------ the family with nobody there is sent nothing
-  for (const [name, page] of [['the family at Lynchburg with nobody in the army', refugee]]) {
+  for (const [name, page] of [['the family with nobody in the army', refugee]]) {
     const raw = await page.evaluate(async () => (await fetch('/api/state')).text());
     const state = JSON.parse(raw).world;
     assert.equal(state.battle, null, `${name} was sent the battle`);
@@ -220,7 +225,7 @@ try {
   }
   await refugee.reload();
   await refugee.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-2');
-  assert.equal(await refugee.evaluate(() => window.__snapshot.world.battle), null, 'the family at Lynchburg was sent the battle when it reconnected');
+  assert.equal(await refugee.evaluate(() => window.__snapshot.world.battle), null, 'the family with nobody in the army was sent the battle when it reconnected');
   ok('the family with nobody there was sent nothing of the fight - no battle, no alert, no name - before and after a reload');
   const heard = await refugee.evaluate(() => window.__snapshot.world.events.filter(event => /At Lynchburg, .+ hears/.test(event.text)).map(event => event.text));
   if (heard.length) { evidence.heard = heard; ok(`the family camped at Lynchburg heard it, in words: "${heard[0]}"`); }

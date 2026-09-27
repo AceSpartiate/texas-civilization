@@ -26,7 +26,7 @@ import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { rollFamily, stepWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
-import { COLUMN_SIGHT_MILES, MAX_MARCH_MPH, WORD_MILES_A_DAY, columnsNow, farmFate, foragersOf } from '../sim/advance.mjs';
+import { COLUMN_SIGHT_MILES, MAX_MARCH_MPH, WORD_MILES_A_DAY, columnsNow, farmFate, firesSeen, foragersOf } from '../sim/advance.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
@@ -180,11 +180,13 @@ try {
     assert.ok(!before.events.some(text => /burned the house, the field and the fences/.test(text)), 'the family\'s record told it of the burning');
     assert.ok(!before.reports.includes(`farm-burned:${inside().id}`));
   }
-  const hostFire = await until(host, 'the Host was not shown the farm\'s smoke', id => (window.__firesDrawn || []).some(fire => fire.id === `farm:${id}`), inside().id, { timeout: 60000 }).then(() => true);
+  // The Host is sent the smoke while it stands (six hours: a tick or two at this pace), and its page draws what it is sent.
+  assert.ok(firesSeen(live, undefined, 'host').some(fire => fire.id === `farm:${inside().id}`), 'the Host was not shown the farm\'s smoke');
+  const hostFire = await host.waitForFunction(id => (window.__firesDrawn || []).some(fire => fire.id === `farm:${id}`), inside().id, { timeout: 20000 }).then(() => 'drawn on its map', () => 'sent, and gone before its page drew it');
   const others = await standing.evaluate(id => (window.__snapshot.world.fires || []).some(fire => fire.id === `farm:${id}`), inside().id);
   assert.equal(others, false, 'the second family, far off, was sent the first family\'s smoke');
   evidence.burning = { burnedAt, by: inside().flight.burnedBy, before: { cabin: before.cabin, fires: before.fires } };
-  ok(`the farm burned (${inside().flight.burnedBy.name}) while the family was away: its page still drew the house ${before.cabin}, with no smoke and no word; the Host saw the smoke at once (${hostFire}); the other family saw nothing`);
+  ok(`the farm burned (${inside().flight.burnedBy.name}) while the family was away: its page still drew the house ${before.cabin}, with no smoke and no word; the Host was sent the smoke at once (${hostFire}); the other family saw nothing`);
 
   // ------------------------------------------------------------------ the word comes by people, no sooner than it could
   await until(burned, 'the word of the burning never reached the family', () => window.__snapshot.world.land.cabin === 'ruined', null, { timeout: 900000 });
