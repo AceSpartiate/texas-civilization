@@ -5,6 +5,8 @@
 `docs/MAP_ACCURACY.md` §10.7 (the wade), `docs/ROAD_EAST.md`, and the claims it registers in `HISTORY.md`:
 `HIST-TEX-220` to `HIST-TEX-238` and `FIC-GONZ-130` to `FIC-GONZ-136`, and - for the drawing, built 2026-09-20 -
 `FIC-GONZ-190` and `FIC-GONZ-191`.
+**§5.1 (snow) was rewritten 2026-09-26** from three Mexican officers' accounts; see
+`docs/battle-research/snow-march-1836.md`.
 
 It is structured as `docs/BIOMES.md` is: what was asked, how to read the sources, the dated record, the record by kind of
 weather, the ordinary climate as a stated basis for inference, what the game has now, the proposed model, what not to build,
@@ -100,11 +102,12 @@ whether the day falls inside the game's window (29 September 1835 - about 25 Apr
 | **Dec 8, 1835** | Béxar | "**Cold and wet**, with but little firing." (Johnson) | cold rain | `docs/battle-research/bexar-storming.md` |
 | **Dec 10, 1835 (dawn)** | Béxar | "About Sun Rise Dec 10th their fireing sudently ceased **it was foggy**" | fog at dawn | `docs/battle-research/bexar-storming.md` |
 | **December 1835** | the lower Brazos | "Everything was at a standstill and times very gloomy. **The Brazos river was so low the steamboat couldn't go up.**" | **a low river — a dry autumn** | Dilue Rose Harris |
-| **Feb 13, 1836** | Santa Anna's army on the march — **where is disputed** (§5.1) | "by February 13, an estimated **15-16 inches (38-41 cm) of snow** had fallen"; hypothermia among recruits from the tropics | **snow, the only one in the record** | Wikipedia, *Battle of the Alamo*; already `HIST-TEX-053` (proposed) |
+| **Feb 13-14, 1836** | Santa Anna's army in **Coahuila**: the cavalry brigade on the road from Monclova to Las Adjuntas, Tolsa at Hermanas, Gaona on the Sabinas, snow at Monclova; the vanguard lightly at **La Espantosa**, north of the Rio Grande (Dimmit County today; Coahuila in 1836) — §5.1 | a norther with rain all day turned to snow about 7 p.m. and fell until 5 p.m. on the 14th; "**cerca de media vara**" (about 16 in, Filisola), **knee-deep** in the cavalry's camp (de la Peña), more than **a span** at Monclova (Sánchez Navarro); mules smothered under their loads, horses and 50+ yoke of oxen dead | **snow — the only snowfall of the period with more than one witness; not in the colonies or at Béxar** | Filisola, de la Peña, Sánchez Navarro, read 2026-09-26; `docs/battle-research/snow-march-1836.md`; proposed `HIST-TEX-600` to `-602` |
 | **Feb 21, 1836** | the Medina, 25 miles from Béxar | "The raid had to be called off when **sudden rains made the Medina unfordable**." | rain, river unfordable | Wikipedia, *Siege of the Alamo* |
 | **Feb 23-25, 1836** | Béxar | Almonte records no weather on the 23rd or 24th; before the 25th it had been "**shirt sleeve**" weather | mild | Almonte; the Alamo; Siege of Béxar Descendants |
 | **Feb 25, 1836 (9 p.m.)** | Béxar / the Alamo | "**A strong north wind commenced at nine at night.**" | a norther arrives, evening | Almonte |
 | **Feb 26, 1836** | Béxar / the Alamo | "The northern wind continued very strong; the thermometer **fell to 39**, and during the rest of the day remained at 60... The norther wind continues." | norther, 39 °F | Almonte |
+| **Feb 25-26, 1836** | Urrea's column, Santa Rosa to Santa Gertrudis, south of the Nueces | "At seven o'clock that night a cold and penetrating norther began to blow ... **Six soldiers of the battalion of Yucatan died from exposure to the cold.**" The 26th: "It began to rain at three in the morning and **it looked like snow**." | **norther and cold rain — not snow; the source of "Yucatán troops died of hypothermia"** | Urrea's *Diario*, Castañeda pp. 214-215, read 2026-09-26; proposed `HIST-TEX-603` |
 | **Feb 26-27, 1836 (night)** | San Patricio, 120 miles south-east | the night was "**very raw and excessively cold**," with **continuous rain**; Urrea attacked at 3 a.m. on the 27th under cover of it | **the same norther, raining on the coastal plain** | TSHA, *Goliad Campaign of 1836* |
 | **Feb 27, 1836** | Béxar | "The northern wind was **strong at day break**, and continued all the night. Thermometer at **39**." | norther | Almonte |
 | **Feb 28, 1836** | Béxar | "The weather **abated somewhat**. Thermometer at **40** at 7 A.M." | cold, easing | Almonte |
@@ -112,6 +115,7 @@ whether the day falls inside the game's window (29 September 1835 - about 25 Apr
 | **Mar 1, 1836** | Béxar | "The wind subsided, but the weather continued cold—thermometer at **36** in the morning—**day clear**"; "Night cold thermometer **34** Fahrenheit and 1 Reaumur." | cold, clear | Almonte |
 | **Feb 29 - Mar 1, 1836 (night)** | Washington-on-the-Brazos | "Yesterday was a warm day, and at bed time I found it necessary to throw off some clothes. In the night the wind sprung up suddenly from the north and **blew a gale, accompanied by lightning, thunder, rain and hail**, and it became very cold. In the morning the **thermometer was down to 33 degrees**, and everybody shivering and exclaiming against the cold. **This is the second regular norther that I have experienced.**" | **a norther with hail — the one dated severe storm of the period** | Gray's diary |
 | **Mar 1, 1836** | Washington-on-the-Brazos, 150 miles east of Béxar | "The convention met on March 1, 1836, in **near-freezing weather** in an unfinished building" | **the same cold, in the colonies** | TSHA, *Convention of 1836* |
+| **Mar 1, 1836 (night)** | Duque's column at the Tinaja de Arroyo Hondo, between the Frio and the Medina, about 50 miles west of Béxar | "**la nevada que fué muy fuerte**"; the next day's reports could not be written "because the ink had frozen"; a Toluca soldier dead of cold | **snow — DISPUTED, one witness**: Sánchez Navarro camped there the same night and does not mention it; Almonte at Béxar had a clear night at 34° | de la Peña, read 2026-09-26; §5.1; proposed `HIST-TEX-604` |
 | **Mar 2, 1836** | Béxar | "Commenced **clear and pleasant** thermometer **34**—no wind." | cold, clear, calm | Almonte |
 | **Mar 3, 1836** | Béxar | "Commenced **clear**, at **40** without wind." | clear | Almonte |
 | **Mar 4, 1836** | Béxar | "The day commenced **windy, but not cold**—thermometer **42**." | windy | Almonte |
@@ -356,28 +360,53 @@ nothing in it reaches zero. Whatever the game does with cold, it should not out-
 
 ## 5. Snow, sleet and ice
 
-### 5.1 The one snowfall, and the argument about where it fell
+### 5.1 The one snowfall, and where it fell — resolved 2026-09-26
 
-**Feb 13, 1836** is the only dated snow in the period. Wikipedia's *Battle of the Alamo*: "Temperatures in Texas reached
-record lows, and by February 13, an estimated **15-16 inches (38-41 cm) of snow** had fallen." The same passage has soldiers
-from the tropics dying of hypothermia on the march.
+**Rewritten 2026-09-26** after the owner asked whether paintings of Mexican troops marching in snow are accurate. The full
+evidence, the quotations, the paintings and the owner's options are in
+[`docs/battle-research/snow-march-1836.md`](battle-research/snow-march-1836.md). The earlier text of this section rested on
+three secondary pages that disagreed; this one rests on **three Mexican officers who were there**, read in full text on
+archive.org: **Filisola**, *Memorias* II (1849), cap. XXIV; **de la Peña**, *La rebelión de Texas* (1955), pp. 37–40; and
+**Sánchez Navarro**, *La guerra de Tejas*, his entry of 14 February.
 
-**Where it fell is DISPUTED, and the dispute matters to the game:**
+**What is DOCUMENTED.** After a winter Filisola calls "de los más benignos" until the 12th, a norther with rain blew all day
+on **13 February 1836**; at about seven that evening it turned to snow, and it snowed through the night and until about five
+on the afternoon of the **14th**. It lay "**cerca de media vara**" — nearly half a vara, **about 16 inches**, which is where
+the "15-16 inches" of Wikipedia, Lord and Hardin comes from — **knee-deep** in the cavalry's camp at dawn, and more than **a
+span (8 in)** at Monclova. **It fell on the army in Coahuila, south of the Rio Grande:** Andrade's cavalry brigade, with the
+army's treasury, caught in a mesquite thicket on the road from Monclova to Las Adjuntas; Tolsa's brigade buried in snow at the
+hacienda de Hermanas; Gaona's on the Sabinas at the haciendas de la Soledad and San Juan; the depots at Monclova. Pack mules
+were smothered under their loads, horses died, **more than fifty yoke of oxen** died in Gaona's brigade, muleteers ran off in
+the dark, and "all lost men" — **no witness gives a number of men dead.** **Santa Anna was not in it**: he was at Guerrero,
+south of the river, from the 12th to the 16th.
 
-- The Siege of Béxar Descendants: "February 13, 1836, the Mexican Army, **located south of the Rio Grande** and marching to
-  quell the Texan rebellion, recorded an atypical blizzard, but it **lasted only a day**."
-- The Alamo's own *Myths and Legends* page is blunter: the Mexican Army met a severe blizzard on the march, and **"The
-  snowstorm, however, did not extend into Texas."**
-- Wikipedia's wording ("Temperatures in Texas") implies otherwise, and dates the Rio Grande crossing to February 12.
+**What is STRONGLY SUPPORTED.** The storm also reached the vanguard, **Ramírez y Sesma's division, two days' march north of
+the Rio Grande at La Espantosa** — Espantosa Lake, now in **Dimmit County, Texas**, then in **Coahuila**, south of the Nueces
+— less severely because the country is lower (Filisola; de la Peña agrees on the place). Neither officer was with that
+column.
 
-**Do not assert either.** What is safe, and is the thing the game needs, is the negative:
+**So the old dispute resolves:** "south of the Rio Grande" (Siege of Béxar Descendants) is right for where the damage was
+done; "The snowstorm, however, did not extend into Texas" (the Alamo) is right in 1836's boundaries and probably wrong on
+today's map; and Wikipedia's "Temperatures in Texas reached record lows" has no support in anything read. Nor does "a hard
+winter": it was one storm in a mild one.
+
+**Not the snow:** the Yucatán soldiers "who died of hypothermia" (TSHA; `HIST-TEX-068`) were **Urrea's**, six of them, in the
+**norther of 25 February south of the Nueces**, in rain Urrea says "looked like snow" (§1 table; `HIST-TEX-229`).
+
+**DISPUTED — one witness:** de la Peña alone records a **heavy snowfall on the night of 1 March at Arroyo Hondo**, between the
+Frio and the Medina, about fifty miles west of Béxar, with ink frozen in the inkwells. Sánchez Navarro camped at the same place
+the same night and does not mention it, and Almonte at Béxar recorded a clear sky and 34 °F. **Record it; do not build it.**
+
+**The negative, unchanged, and now with the storm located:**
 
 > **No source read here records snow anywhere in the settled colonies, or at Béxar, at any time in 1835-36.**
 
-That negative is strong, not merely an absence: **Maverick had a thermometer at Béxar through the hardest cold of the
-autumn and recorded ice in the house without recording snow**, and **Almonte had a thermometer at Béxar through three
-northers and recorded a clear sky each morning.** Two instrument-keeping diarists at the coldest place in the game's map,
-through the coldest weeks of the game's window, and neither writes the word. See `HIST-TEX-226`.
+On the morning after the storm Gray wrote at Washington-on-the-Brazos: "A clear and cold morning." The negative is strong,
+not merely an absence: **Maverick had a thermometer at Béxar through the hardest cold of the autumn and recorded ice in the
+house without recording snow**, and **Almonte had a thermometer at Béxar through three northers and recorded a clear sky
+each morning.** Two instrument-keeping diarists at the coldest place in the game's map, through the coldest weeks of the
+game's window, and neither writes the word. See `HIST-TEX-226`, and the proposed `HIST-TEX-600` to `-604` in the research
+document, which would sharpen it.
 
 ### 5.2 Ice and sleet
 
@@ -1237,9 +1266,11 @@ day in them is a real day of a real class taken from `weatherOn`.
 ## 11. What I would not build, and why
 
 1. **Snow.** No source read records snow in the settled colonies or at Béxar in 1835-36, and two men with thermometers at
-   Béxar through the coldest weeks did not write the word. The only dated snow of the period fell on the Mexican army on
-   13 February, and *where* it fell is disputed between "south of the Rio Grande" and "in Texas". Building snow means
-   asserting the disputed side of a dispute the game does not need to enter.
+   Béxar through the coldest weeks did not write the word. The only snowfall of the period with more than one witness fell on
+   the Mexican army **in Coahuila on 13-14 February**, reaching the vanguard lightly at La Espantosa, outside the map (§5.1,
+   resolved 2026-09-26); the one other, at Arroyo Hondo on 1 March, rests on de la Peña alone. Building snow would put in the
+   colonies what the record puts beyond the Rio Grande. How (if at all) the Coahuila snow reaches a class is the owner's
+   choice: `docs/battle-research/snow-march-1836.md` §9.
 2. **A tornado.** §7. Inventing one would put the most memorable weather event of a class's year on no evidence at all.
 3. **A hurricane.** §6. The class window contains none. The temptation is Racer's Storm, and Racer's Storm is 1837.
 4. **Temperature as a number shown to a class.** Almonte's 39° and Maverick's 28° are worth quoting on their own days; a
@@ -1272,6 +1303,7 @@ All of them are **recorded, not built**. `HISTORY.md` carries the full text and 
 | `HIST-TEX-224` | Six dated fogs, five of them on mornings the game already stages |
 | `HIST-TEX-225` | The Guadalupe up at Gonzales on 29 September 1835, the day the class opens |
 | `HIST-TEX-226` | The one snowfall, where it fell being DISPUTED, and no snow in the colonies |
+| `HIST-TEX-600` to `-604` | **Proposed 2026-09-26, not registered** (`docs/battle-research/snow-march-1836.md` §10): the storm of 13-14 February located and measured; the columns and the cost; La Espantosa and the resolved dispute; the Yucatán dead were Urrea's norther; de la Peña's disputed snow of 1 March |
 | `HIST-TEX-227` | Rain shutting a river's ford: the Medina, 21 February 1836 |
 | `HIST-TEX-228` | The Alamo siege day by day from Almonte's thermometer — cold and **clear** |
 | `HIST-TEX-229` | A norther is regional: Béxar, San Patricio and Washington-on-the-Brazos |
@@ -1468,6 +1500,8 @@ Everything else was read at its source by this session, except where §13 says p
   and the warning that Lopez's "as warm as summer" is not usable for weather.
 - `docs/battle-research/concepcion.md` and `HIST-TEX-020` — Bowie's "heavy, dense fog", 28 October 1835.
 - `docs/battle-research/winter-1835-36.md` and `HIST-TEX-053` — the snow of 13 February 1836.
+- `docs/battle-research/snow-march-1836.md` (2026-09-26) — the same snow from Filisola, de la Peña and Sánchez Navarro, read
+  in full text; Urrea's norther of 25 February; de la Peña's snow of 1 March; the paintings.
 - `docs/battle-research/goliad-scrape-san-jacinto.md`, `HIST-TEX-063`, `HIST-TEX-068` to `-074`.
 
 **Secondary, read directly and cited as secondary:**

@@ -49,7 +49,7 @@ item 4).
 **For the owner.** Nothing open from §10. Mrs. Powell's stands within a mile of the house (the marker has no coordinates);
 if a surveyed site turns up it is one line in `scripts/build-colonies-map.mjs` and a regenerate.
 
-## The Mexican advance: the record's columns on the map, the burn zone, and half the class's land dealt inside it — 2026-09-26 (worktree branch from main fe4e882, main merged at 0307b54; not released)
+## The Mexican advance: the record's columns on the map, the burn zone, and half the class's land dealt inside it — 2026-09-26 (worktree branch from main fe4e882, main merged at 0307b54; released in v2026.09.26.6)
 
 The owner, 2026-09-25: *"we need to fully model the Mexican army as it pushes towards the Texian army during the runaway
 scrape. we'll need to ensure that 50% of player farms are in the zone that will see their farms burned."* On 2026-09-26, by
@@ -1825,6 +1825,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   lesson 33 checks, panels 10 checks at 2 sizes, farm, travel-drawn and relay pass. Four other proofs failed here, and
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
+
+## Released as v2026.09.26.6 — 2026-09-26
+
+**[v2026.09.26.6](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.26.6)**, from `9d702eb`: the Mexican advance (`sim/advance.mjs`, `sim/advance-word.mjs`; docs/SCRAPE.md, docs/battle-research/mexican-advance.md) — Sesma, Tolsa, Santa Anna, Cos, Gaona, Urrea and Filisola on their dated routes; towns burned on their dates by whoever burned them; half the played families dealt land in the burn zone (`FIC-GONZ-464`); leaving no longer burns a farm. Owner (§10): nobody burns a farm on leaving; foragers burn; five-mile reach; the route stops to become real places (building). Also on main: Astra's art for the places past the box, the shop buildings, and Gonzales's buried gun, breastwork and dugout. Sets of changes: 35 MB from .5 (art). Verify tree: 1375 tests; mexican-advance 10, scrape 5, san-jacinto 15 (its "heard the guns" browser check is conditional and did not run on the new seed; the unit test holds it), coleto 17, famous-people 17, gonzales 12, winter 6, lesson 33; battle-alamo timed out once in the sequence and passed 13/13 alone (intermittent).
 
 ## Released as v2026.09.26.5 — 2026-09-26
 
