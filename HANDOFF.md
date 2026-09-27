@@ -1,5 +1,75 @@
 # Claude handoff — Astra foundation
 
+## The surprise at Béxar: no word of a march, the bell on February 23, the snow at the ending — 2026-09-26 (worktree branch from main 75eb715, main merged at MERGEBASE; not released)
+
+The owner, 2026-09-26: *"i thought that part of the reason the texians were so unprepared was they knew about the snows and
+presumed that Santa Anna wouldn't march until after they broke. if that's true, then news appropriate to that, but not that
+he's marching. players should be shocked and scared when he's spotted, close to Bexar and texas is unprepared."* By multiple
+choice: the true story of the snow march to the teacher **"At the ending"**; the Yucatán correction **"Fix now"**. Research and
+decisions: [docs/battle-research/surprise-at-bexar.md](docs/battle-research/surprise-at-bexar.md).
+
+**The owner's premise, tested (§1 there).** **The snow: NOT FOUND, and the record leans against it.** No Texian source read
+(Gray's diary in full, Sutherland, Travis's letters of 23 February - 3 March, Houston's writings) mentions the Mexican army's snow
+or gives winter weather as a reason Santa Anna would wait; the storm stayed in Coahuila, and in the colonies it was "'shirt
+sleeve' weather" (the Alamo; Gray on the 25th: "It was summer heat"). **The grass: DOCUMENTED as the Texians' reckoning** (Houston,
+28 December 1835: "by the rise of grass, we will be on the march") **and STRONGLY SUPPORTED as Travis's belief** (the Handbook: he
+"did not believe that Santa Anna could reach Bexar until March 15"). Warnings did come and were not acted on: an express at San
+Felipe on 18 February that 1,000 men had passed the Rio Grande (Gray), Blas Herrera at Béxar on the 20th (a council in Travis's
+room that "adjourned without coming to any conclusion", Sutherland). *Not read*: the *Telegraph* of February 1836 (a bot check),
+Hardin, Lord, Jenkins, Chariton (lending-only).
+
+**What there is now.**
+- **Before the 23rd** (`sim/surprise.mjs`, `sim/directors.mjs`): at dawn on 17 February every family hears *"Colonel Travis does not
+  look for the Mexican army before the middle of March, when the grass is up..."*, and that the men holding Béxar are few, short of
+  everything, with two commanders who do not always agree (`spring-grass`, topic `winter-grass`) - **in place of** the rumour that
+  Santa Anna "himself has crossed the Rio Grande with a great army, through snow". At nine on the evening of the 20th a family with
+  somebody in or within three miles of Béxar, and nobody else, hears Herrera's warning as a disbelieved `rumor` that never reaches
+  the public or a tavern (`herrera`); with it the garrison's way out (`FIC-GONZ-383`), reworded to promise nothing. `warnGarrison`
+  ("It is said Santa Anna is marching on Béxar") is gone. **No family is told of the San Felipe express** (`FIC-GONZ-620`, the
+  owner's "not that he's marching"); the reveal says it came.
+- **February 23, drawn** (`sim/battles/alamo.mjs` `arrival`, 80 minutes from 14:30; `red-flag` now 160 so every later phase keeps its
+  minute): the sentry on San Fernando, "The enemy are in view!" and the street's "False alarm!" (documented lines, Sutherland);
+  Sutherland (added to the roster) and J. W. Smith riding out and back; the townspeople leaving; the garrison waiting in the town,
+  then running for the Alamo; the army out of sight up the west road, on the heights, then marching in. The caption has Travis's
+  "we had not three bushels of corn".
+- **Through a person, on the day**: every family with somebody in or near Béxar (`atOrNearBexar`, three miles) gets the card *"The
+  bell at Béxar: the Mexican army is here"* at that person's side with Watch (a family near the town is sent the view while the
+  army comes), and knows it (`hearTheBell`, topic `bexar-arrival`). **The Host**: the spotlight on the bell - *"...weeks before
+  anybody looked for them... The families in the colonies will not hear of it for days."*
+- **Everybody else by rider**: Gonzales at four on the 24th with Travis's note to Judge Ponton in his words (`arrival-gonzales`); the
+  other settlements and the public at noon on the 26th (`travis-colonies`, unchanged); Travis's letter of the 24th as before.
+- **At the ending** (`surpriseReveal`; `reveal` on the family's and the Host's closing views in `sim/ending.mjs`; `revealView` in
+  `public/ending.js`), once a class that lived February 23 has ended (the second period's close and the third's): what the
+  Texians believed, the warnings, the bell, the snow of February 13-14 in Coahuila from Filisola, de la Peña and Sánchez Navarro
+  (about sixteen inches, the mules, the fifty yoke of oxen, men lost uncounted), Santa Anna ahead of it at Guerrero, the vanguard not
+  stopped, the warm colonies, the six Yucatán soldiers of Urrea's norther of February 25, and a question for the class.
+- **Corrections**: `HIST-TEX-053` (the snow in Coahuila on the 13th-14th, Santa Anna not in it, the Yucatán dead not in it) and
+  `HIST-TEX-068` (TSHA's Yucatán sentence corrected to Urrea's six on February 25, south of the Nueces); `winter-1835-36.md`,
+  `WEATHER.md` §11, `snow-march-1836.md` (the owner's answers). No game string has the Yucatán dead and the snow in one sentence.
+
+**Claims.** `HIST-TEX-600`–`-604` registered from `snow-march-1836.md` §10; `HIST-TEX-610`–`-616` and `FIC-GONZ-620`–`-622` new;
+`FIC-GONZ-383` amended. `HIST-TEX-605`–`-609` were left free for the Esparza work.
+
+**Evidence** (same computer only; not physical LAN or district acceptance).
+- `npm test`: **NPMTEST**. New: `tests/surprise.test.mjs` (4). `tests/alamo-runner.test.mjs`'s way-out test now waits for `herrera`.
+- `npm run test:surprise-injections` (`scripts/surprise-injections.mjs`): **INJECTIONS** (`docs/evidence/surprise-injections.json`).
+- `npm run test:bexar-alarm` (new): **8 checks**, hh-1 of Gonzales (the father in the garrison) at 1366x768 and hh-2 of Columbia at
+  1024x768 (`docs/evidence/bexar-alarm-browser.json`, `test-results/bexar-alarm-*.png`): Herrera heard by hh-1 alone, disbelieved;
+  before the bell neither family knew or was told of a march; the card through the father with Watch, the caption and "The enemy
+  are in view!" on the screen, and the family's report from its own man; the Host's banner; hh-2 sent nothing on the 23rd; hh-2
+  told on the 26th by "Riders from Gonzales". Run at 800 ms a tick: on a loaded computer the bell's four ticks went by at 300.
+- `npm run test:surprise-reveal` (new): REVEALPROOF.
+- Re-run on this tree: RERUNS.
+
+**Not done.** The bell is told, not drawn: the sentry is a standing volunteer at the church (stand-in; `docs/ART_REQUESTS.md`,
+request 2026-09-26 "the bell at Béxar"). "Near Béxar" is three miles flat. The other settlements still hear at one moment, not
+settlement by settlement. The fandango and the Tejano families leaving are told only at the ending.
+
+**Decisions for the owner.** (1) The record has the colonies hearing on 18 February that 1,000 men had crossed the Rio Grande; built
+as asked - nobody hears it - and said at the ending. Tell them after all, as an unconfirmed rumour doubted like Herrera's? (2) Should
+a family with somebody in Béxar see the town empty in the days before (Sutherland's carts, the Tejano volunteers resigning on the
+21st), or the fandango of the 22nd? (3) Keep Herrera's warning to families with somebody in Béxar only?
+
 ## The Mexican advance: the record's columns on the map, the burn zone, and half the class's land dealt inside it — 2026-09-26 (worktree branch from main fe4e882, main merged at 0307b54; released in v2026.09.26.6)
 
 The owner, 2026-09-25: *"we need to fully model the Mexican army as it pushes towards the Texian army during the runaway

@@ -20,7 +20,7 @@ const OLD_RUMOUR = "  once(world, 'spring-grass', () => sendWord(world, 'winter-
 const EVERYBODY_ON_THE_DAY = "\n  for (const one of Object.keys(world.households)) learn(world, one, 'bexar-arrival', { status: 'confirmed', source: 'Word', text: 'The Mexican army is in Béxar.' });";
 const BELL_LEARNED = "    learn(world, person.householdId, 'bexar-arrival', { status: 'confirmed', source: `${person.name}, at Béxar`, text, causes: [truth.eventId] });\n  }\n}";
 const OLD_CARD = "`At ${person.name}'s side: the Mexican army is marching into Béxar and the garrison is going into the Alamo. ${person.name} is going in with them.`";
-const NEW_CARD = "`At ${person.name}'s side: the bell of San Fernando is ringing. The sentry in the tower has seen the Mexican army on the heights to the west - the army nobody here looked for before March. The garrison is running for the Alamo, and ${person.name} with them.`";
+const NEW_CARD = "`At ${person.name}'s side: the bell of San Fernando is ringing. The sentry on the church has seen the Mexican army on the heights to the west - the army nobody here looked for before March. The garrison is running for the Alamo, and ${person.name} with them.`";
 
 const UNIT = [
   { name: 'the old rumour that Santa Anna has crossed, back', file: 'sim/directors.mjs',
@@ -29,7 +29,8 @@ const UNIT = [
     from: "    learn(world, person.householdId, 'herrera-report', { status: 'rumor',", to: "    for (const one of Object.keys(world.households)) learn(world, one, 'herrera-report', { status: 'rumor', source: 'Word', text: HERRERA_WORD });\n    learn(world, person.householdId, 'herrera-report', { status: 'rumor',", expect: BEFORE },
   { name: 'Herrera\'s warning told as believed', file: 'sim/surprise.mjs',
     from: 'Most of them do not believe it - no army can come before the grass, they say - and they broke up without deciding anything.', to: 'They believe him, and send for help.', expect: BEFORE },
-  { name: 'every family hears the bell on the day', file: 'sim/surprise.mjs', from: BELL_LEARNED, to: `${BELL_LEARNED}${EVERYBODY_ON_THE_DAY}`, expect: BELL },
+  { name: 'every family hears the bell on the day', file: 'sim/surprise.mjs', from: BELL_LEARNED, to: `${BELL_LEARNED.slice(0, -2)}${EVERYBODY_ON_THE_DAY}
+}`, expect: BELL },
   { name: 'no card for a family near Béxar', file: 'sim/alamo-battle.mjs',
     from: '    for (const person of atOrNearBexar(world)) if (!battle.alerted[person.householdId]) card(', to: '    for (const person of []) if (!battle.alerted[person.householdId]) card(', expect: BELL },
   { name: 'Gonzales hears with the colonies', file: 'sim/directors.mjs',
@@ -47,7 +48,8 @@ const UNIT = [
 const BROWSER = [
   { name: 'the old rumour that Santa Anna has crossed, back', file: 'sim/directors.mjs',
     from: UNIT[0].from, to: OLD_RUMOUR, expect: 'knew before the bell' },
-  { name: 'every family hears the bell on the day', file: 'sim/surprise.mjs', from: BELL_LEARNED, to: `${BELL_LEARNED}${EVERYBODY_ON_THE_DAY}`, expect: 'the family in the colonies knew on the day' },
+  { name: 'every family hears the bell on the day', file: 'sim/surprise.mjs', from: BELL_LEARNED, to: `${BELL_LEARNED.slice(0, -2)}${EVERYBODY_ON_THE_DAY}
+}`, expect: 'the family in the colonies knew on the day' },
   { name: 'the card without the bell', file: 'sim/alamo-battle.mjs', from: NEW_CARD, to: OLD_CARD, expect: 'the card does not tell the bell' },
   { name: 'the arrival drawn without the bell', file: 'sim/battles/alamo.mjs',
     from: "      caption: 'Early in the afternoon the bell of San Fernando rings.", to: "      caption: 'Early in the afternoon the Mexican army comes.", expect: 'the caption does not tell the bell' },

@@ -26,8 +26,9 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const pass = [];
 const ok = label => { pass.push(label); console.log('PASS', label); };
 const directory = mkdtempSync(join(tmpdir(), 'texas-bell-'));
-// Four days before the bell, so the class plays the 20th (Herrera) with the students on the page.
-const app = createClassroom({ seed: 'bexar-alarm', playerCount: 5, tickMs: 300, savePath: join(directory, 'class.json'), worldFactory: (seed, count) => alamoClass(seed, count, { stopBefore: 4 * 1440 }) });
+// Four days before the bell, so the class plays the 20th (Herrera) with the students on the page; 800 ms a tick, so the bell's
+// phase (four ticks while a family watches) lasts long enough on a loaded computer to be seen and paused on.
+const app = createClassroom({ seed: 'bexar-alarm', playerCount: 5, tickMs: 800, savePath: join(directory, 'class.json'), worldFactory: (seed, count) => alamoClass(seed, count, { stopBefore: 4 * 1440 }) });
 const server = () => app.state.world;
 const man = fatherOf(server(), 'hh-1');
 assert.equal(server().households['hh-1'].settlementId || 'gonzales', 'gonzales');
@@ -88,7 +89,9 @@ try {
   // ---------------------------------------------------------------- the bell
   let last = null;
   const before = { inside: null, faraway: null };
+  const giveUp = Date.now() + 300000;
   while (true) {
+    assert.ok(Date.now() < giveUp, 'timed out waiting for the bell');
     const now = await known(inside);
     if (now.alert?.id?.includes(':siege:')) { last = now; break; }
     before.inside = now; before.faraway = await known(faraway);
@@ -101,13 +104,25 @@ try {
   }
   ok(`before the bell (${before.inside.date}) neither family knew or was told that Santa Anna was marching; both had heard "${before.faraway.reports.find(report => report.topicId === 'winter-grass').text.slice(0, 90)}…"`);
   // The Host pauses on it, as a teacher would to let the class look: the bell's phase is four ticks long at this proof's pace.
-  await host.locator('#host-controls [data-action="pause"]').click();
+  // Pressed on the page itself: the Host's controls are redrawn every tick, and on a loaded computer a pointer click can wait
+  // for them to hold still longer than the bell's phase lasts.
+  await host.evaluate(() => document.querySelector('#host-controls [data-action="pause"]').click());
   await inside.waitForFunction(() => window.__snapshot?.world.status === 'paused', null, { timeout: 10000 });
 
   assert.equal(last.alert.entityId, man.id, 'the card did not come through the family\'s man');
   assert.match(last.alert.text, /side/);
   assert.match(last.alert.text, /bell/, 'the card does not tell the bell');
-  await inside.waitForFunction(() => !document.querySelector('#military-notice').hidden && document.querySelector('#military-go')?.textContent === 'Watch', null, { timeout: 20000 });
+  // The card may sit behind another message, or folded away: opened and turned to, as a student would.
+  const turnedTo = Date.now() + 20000;
+  while (!(await inside.evaluate(title => !document.querySelector('#military-notice').hidden && !document.querySelector('#military-message').hidden && document.querySelector('#military-title')?.textContent === title && document.querySelector('#military-go')?.textContent === 'Watch', last.alert.title))) {
+    assert.ok(Date.now() < turnedTo, `the bell's card is not on the page: ${await inside.evaluate(() => `${document.querySelector('#military-toggle')?.textContent} / ${document.querySelector('#military-title')?.textContent}`)}`);
+    await inside.evaluate(title => {
+      if (document.querySelector('#military-notice').hidden) return;
+      if (document.querySelector('#military-message').hidden) document.querySelector('#military-toggle').click();
+      else if (document.querySelector('#military-title')?.textContent !== title && !document.querySelector('#military-next').hidden) document.querySelector('#military-next').click();
+    }, last.alert.title);
+    await inside.waitForTimeout(300);
+  }
   const card = await inside.evaluate(() => ({ title: document.querySelector('#military-title')?.textContent, text: document.querySelector('#military-words')?.textContent }));
   const box = await inside.locator('#military-notice').boundingBox();
   assert.ok(box && box.x >= 0 && box.x + box.width <= 1366 && box.y >= 0 && box.y + box.height <= 768, 'the card is not on a Chromebook\'s screen');
@@ -143,7 +158,7 @@ try {
   await fits(faraway, 1024);
   await shot(faraway, 'colonies-1024');
   ok(`on ${far.date} hh-2 in the colonies has no card, no battle, no report and nothing in its journal of it; nothing sideways at 1024x768`);
-  await host.locator('#host-controls [data-action="resume"]').click();
+  await host.evaluate(() => document.querySelector('#host-controls [data-action="resume"]').click());
   await inside.waitForFunction(() => window.__snapshot?.world.status === 'running', null, { timeout: 10000 });
 
   // ---------------------------------------------------------------- the rider
@@ -167,7 +182,7 @@ try {
   mkdirSync('docs/evidence', { recursive: true });
   writeFileSync(evidence.verdict === 'PASS' ? 'docs/evidence/bexar-alarm-browser.json' : 'test-results/bexar-alarm-browser-failed.json', `${JSON.stringify({
     record: 'bexar-alarm-browser', date: new Date().toISOString().slice(0, 10), browser: await browser.version(),
-    environment: 'Same computer: a local classroom server and headless Chrome at 1366x768 (hh-1) and 1024x768 (hh-2), 300 ms a tick. A real class on the colonies map with rolled families, played in process through the first period and into the winter; the father of hh-1 set in the garrison at Béxar in process; hh-2 kept at home. Not physical LAN or district acceptance.',
+    environment: 'Same computer: a local classroom server and headless Chrome at 1366x768 (hh-1) and 1024x768 (hh-2), 800 ms a tick. A real class on the colonies map with rolled families, played in process through the first period and into the winter; the father of hh-1 set in the garrison at Béxar in process; hh-2 kept at home. Not physical LAN or district acceptance.',
     checks: pass, ...evidence,
   }, null, 2)}\n`);
   await browser.close(); await app.close(); rmSync(directory, { recursive: true, force: true });

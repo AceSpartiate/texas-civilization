@@ -219,8 +219,8 @@ function sendCards(world, state) {
   // February 23 (owner, 2026-09-26: "players should be shocked and scared when he's spotted"): the bell, at the person's side,
   // for every family with somebody in or near Béxar - inside the walls by now, or near enough to hear it and see the town empty.
   if (ARRIVING.includes(phaseId)) {
-    for (const person of insideNow(world)) card(person.householdId, 'siege', person, `At ${person.name}'s side: the bell of San Fernando is ringing. The sentry in the tower has seen the Mexican army on the heights to the west - the army nobody here looked for before March. The garrison is running for the Alamo, and ${person.name} with them.`);
-    for (const person of atOrNearBexar(world)) if (!battle.alerted[person.householdId]) card(person.householdId, 'siege', person, `At ${person.name}'s side, near Béxar: the bell of San Fernando is ringing and the town is emptying. The sentry in the tower has seen the Mexican army on the heights to the west - the army nobody looked for before March. The garrison is running for the Alamo.`);
+    for (const person of insideNow(world)) card(person.householdId, 'siege', person, `At ${person.name}'s side: the bell of San Fernando is ringing. The sentry on the church has seen the Mexican army on the heights to the west - the army nobody here looked for before March. The garrison is running for the Alamo, and ${person.name} with them.`);
+    for (const person of atOrNearBexar(world)) if (!battle.alerted[person.householdId]) card(person.householdId, 'siege', person, `At ${person.name}'s side, near Béxar: the bell of San Fernando is ringing and the town is emptying. The sentry on the church has seen the Mexican army on the heights to the west - the army nobody looked for before March. The garrison is running for the Alamo.`);
   }
   if (phaseId === 'relief') {
     for (const person of withTheRelief(world)) if (!person.service.late) card(person.householdId, 'relief', person, `At ${person.name}'s side: the Gonzales men are going in through the Mexican lines tonight, in the dark, to the Alamo's gate. ${person.name} rides with them.`);

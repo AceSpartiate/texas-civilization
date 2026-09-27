@@ -34,6 +34,7 @@ does not have:
 | ~~A trash can drawn in code with a pen~~ | `DrawBin` in `launcher/SoloGameDialog.cs` | Delivered 2026-09-22 in `launcher/art/icon-delete-save.png` | Illustrated frontier pail is embedded and tinted; line drawing is packaging fallback only |
 | ~~Gathering glyphs drawn in code~~ | `PANEL_ICONS` in `public/family-panel.js` | Existing `icons-family-subsistence.png` art wired 2026-09-26 | Four production sprites selected directly; `fish-road` reuses the water-fishing icon |
 | ~~Stock glyphs drawn in code~~ | `PANEL_ICONS` in `public/family-panel.js` | Existing `icons-family-subsistence.png` art wired 2026-09-26 | Three production sprites selected directly |
+| The sentry on San Fernando's roof is one standing volunteer at the church (`town`); the townspeople leaving are the engine's civilian figures; Sutherland rides the roster's `rider` | the `sentry` and `townsfolk` groups of `arrival` in `sim/battles/alamo.mjs`; `sutherland` in `sim/people.mjs` | Request 2026-09-26 — the bell at Béxar | `sentry-bell-ring`, `townsfolk-leave`, a Sutherland sheet |
 | A column's foraging parties are three `dragoon-march` riders each; a column on the march is `regular-march` men in files of three with a `dragoon-march` at the head | the parties in `drawWorld` in `public/app.js`; `drawArmy` (`moving`) in `public/army-view.js` | Request 2026-09-26 — the Mexican advance, items 1 and 3 | `forager-ride-*` / `forager-drive-*`, `regular-march-column` |
 | The smoke of a burning town or farm is the library's `smoke-rise` (chimney smoke) drawn three to four figures tall, with a painted grey plume if that clip has not loaded | `window.__firesDrawn` in `drawWorld`, `public/app.js` | Request 2026-09-26 — the Mexican advance, item 2 | `farm-smoke-rise`, `town-smoke-rise` |
 | Whole jacal stage sprites; `lean-to` shed frame; the double chimney drawn with the single stick-and-mud chimney's picture (`house-chimney-stick`; until 2026-09-24 a flat rectangle, whose width let the far pen's door show either side of it at 90 and 270 degrees). Since 2026-09-24 the saddlebag's two pens stand one behind the other along their ridge at every turn, and it stands at the middle between the far pen's front gable and the near pen's back gable, `DOUBLE_RISE` (2.7) high so that it hides the far pen's door whole, its foot behind the near pen's roof (until then, at 0 and 180 degrees behind both pens' back gables, and at 90 and 270 brought `DOUBLE_TOWARD` toward the near pen); no separate interior floor/loft display | `drawHousePlot` and `standChimneys` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney (two-sided, its foot marked), and separately registered floor and loft overlays |
@@ -152,6 +153,22 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-26 — the bell at Béxar
+
+**Status: open; stand-in in use since 2026-09-26 (see *Stand-ins in use*).** The afternoon of February 23, 1836 is drawn on the
+battle engine (`sim/battles/alamo.mjs` `arrival`; `docs/battle-research/surprise-at-bexar.md`): the sentry on San Fernando rings
+the bell, two scouts ride out and back, the townspeople leave, the garrison runs into the Alamo. Delivery contract as the battle
+people sheets: transparent PNG on the ground anchor, the `volunteer-*` logical height, east mirrored for west.
+
+1. **The sentry ringing the bell** - `sentry-bell-ring-1`..`-4`: a man standing on a flat church roof beside a small bell arch,
+   pulling the rope, then pointing west; readable at 30-60 px. Plugs into the `sentry` group of `arrival`.
+2. **Townspeople leaving with a cart** - `townsfolk-leave-1`..`-4` (east): a Tejano family, a man leading a laden carreta and a
+   woman with a child walking beside it. Plugs into the `townsfolk` group (civilians) of `arrival`.
+3. **Dr. John Sutherland** mounted, for the ride out on the Laredo road (with the roster's other riders, request "the famous
+   people", item 1).
+
+**Check.** At the battle view's scale the bell reads as rung from the church, not as a man standing in the street.
 
 ## Request 2026-09-26 — the Mexican advance
 

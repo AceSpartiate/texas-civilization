@@ -154,8 +154,8 @@ enemy appeared in sight we had not three bushels of corn" — then "80 or 90 bus
   ("They're coming! Into the Alamo!", "Bring the corn! Drive the cattle in!"); the army from out of sight up the west road,
   showing on the heights, then marching in. The caption tells it, with "we had not three bushels of corn" (`FIC-GONZ-621`).
 - **Through a person, on the day**: every family with somebody in or within three miles of Béxar (`FIC-GONZ-622`) gets the card
-  at that person's side — *"At Tomás's side: the bell of San Fernando is ringing. The sentry in the tower has seen Mexican
-  cavalry on the road from the west - the army nobody here looked for before March. The garrison is running for the Alamo, and
+  at that person's side — *"At Tomás's side: the bell of San Fernando is ringing. The sentry on the church has seen the
+  Mexican army on the heights to the west - the army nobody here looked for before March. The garrison is running for the Alamo, and
   Tomás with them."* — with Watch; and learns it (`bexar-arrival`), in the family's journal in the words of §4.
 - **The Host**: the spotlight on the compound — *"Béxar, February 23, about half past two: the bell of San Fernando rings - Mexican
   cavalry in sight, weeks before anybody looked for them. The garrison runs for the Alamo and Santa Anna's army marches into the

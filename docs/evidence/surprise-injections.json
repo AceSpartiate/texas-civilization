@@ -1,0 +1,136 @@
+{
+  "record": "surprise-injections",
+  "date": "2026-09-27",
+  "gates": {
+    "unit": "node --test tests/surprise.test.mjs, the named test and no other",
+    "browser": "scripts/bexar-alarm-browser-proof.mjs, its failure the message written for it"
+  },
+  "unit": [
+    {
+      "name": "the old rumour that Santa Anna has crossed, back",
+      "file": "sim/directors.mjs",
+      "expect": "before February 23 nobody hears that Santa Anna is marching; Herrera's warning is heard only in Béxar, disbelieved",
+      "caught": true,
+      "failed": [
+        "before February 23 nobody hears that Santa Anna is marching; Herrera's warning is heard only in Béxar, disbelieved"
+      ]
+    },
+    {
+      "name": "Herrera's warning told to every family",
+      "file": "sim/surprise.mjs",
+      "expect": "before February 23 nobody hears that Santa Anna is marching; Herrera's warning is heard only in Béxar, disbelieved",
+      "caught": true,
+      "failed": [
+        "before February 23 nobody hears that Santa Anna is marching; Herrera's warning is heard only in Béxar, disbelieved"
+      ]
+    },
+    {
+      "name": "Herrera's warning told as believed",
+      "file": "sim/surprise.mjs",
+      "expect": "before February 23 nobody hears that Santa Anna is marching; Herrera's warning is heard only in Béxar, disbelieved",
+      "caught": true,
+      "failed": [
+        "before February 23 nobody hears that Santa Anna is marching; Herrera's warning is heard only in Béxar, disbelieved"
+      ]
+    },
+    {
+      "name": "no card for a family near Béxar",
+      "file": "sim/alamo-battle.mjs",
+      "expect": "on February 23 a family with somebody in or near Béxar hears the bell through them; everybody else only when a rider comes",
+      "caught": true,
+      "failed": [
+        "on February 23 a family with somebody in or near Béxar hears the bell through them; everybody else only when a rider comes"
+      ]
+    },
+    {
+      "name": "Gonzales hears with the colonies",
+      "file": "sim/directors.mjs",
+      "expect": "on February 23 a family with somebody in or near Béxar hears the bell through them; everybody else only when a rider comes",
+      "caught": true,
+      "failed": [
+        "on February 23 a family with somebody in or near Béxar hears the bell through them; everybody else only when a rider comes"
+      ]
+    },
+    {
+      "name": "the Host's camera not on the bell",
+      "file": "sim/alamo-battle.mjs",
+      "expect": "on February 23 a family with somebody in or near Béxar hears the bell through them; everybody else only when a rider comes",
+      "caught": true,
+      "failed": [
+        "on February 23 a family with somebody in or near Béxar hears the bell through them; everybody else only when a rider comes"
+      ]
+    },
+    {
+      "name": "the reveal without the snow",
+      "file": "sim/surprise.mjs",
+      "expect": "the ending reveals the snow march and why Béxar was caught unprepared, once the class has lived February 23",
+      "caught": true,
+      "failed": [
+        "the ending reveals the snow march and why Béxar was caught unprepared, once the class has lived February 23"
+      ]
+    },
+    {
+      "name": "a game string puts the Yucatán dead in the snow",
+      "file": "sim/surprise.mjs",
+      "expect": "the Yucatán dead are Urrea's, in the norther of February 25: the rows corrected and no game text puts them in the snow",
+      "caught": true,
+      "failed": [
+        "the Yucatán dead are Urrea's, in the norther of February 25: the rows corrected and no game text puts them in the snow"
+      ]
+    },
+    {
+      "name": "HIST-TEX-053 back to the snow by February 13",
+      "file": "HISTORY.md",
+      "expect": "the Yucatán dead are Urrea's, in the norther of February 25: the rows corrected and no game text puts them in the snow",
+      "caught": true,
+      "failed": [
+        "the Yucatán dead are Urrea's, in the norther of February 25: the rows corrected and no game text puts them in the snow"
+      ]
+    },
+    {
+      "name": "every family hears the bell on the day",
+      "file": "sim/surprise.mjs",
+      "expect": "on February 23 a family with somebody in or near Béxar hears the bell through them; everybody else only when a rider comes",
+      "caught": true,
+      "failed": [
+        "on February 23 a family with somebody in or near Béxar hears the bell through them; everybody else only when a rider comes"
+      ]
+    }
+  ],
+  "browser": [
+    {
+      "name": "the old rumour that Santa Anna has crossed, back",
+      "file": "sim/directors.mjs",
+      "expect": "knew before the bell",
+      "caught": true,
+      "failure": "inside knew before the bell: \"It is said Santa Anna himself has crossed the Rio Grande with a great army, through snow, and is marching on Béxar.\"",
+      "checksPassedFirst": 2
+    },
+    {
+      "name": "every family hears the bell on the day",
+      "file": "sim/surprise.mjs",
+      "expect": "the family in the colonies knew on the day",
+      "caught": true,
+      "failure": "the family in the colonies knew on the day",
+      "checksPassedFirst": 6
+    },
+    {
+      "name": "the card without the bell",
+      "file": "sim/alamo-battle.mjs",
+      "expect": "the card does not tell the bell",
+      "caught": true,
+      "failure": "the card does not tell the bell",
+      "checksPassedFirst": 3
+    },
+    {
+      "name": "the arrival drawn without the bell",
+      "file": "sim/battles/alamo.mjs",
+      "expect": "the caption does not tell the bell",
+      "caught": true,
+      "failure": "the caption does not tell the bell",
+      "checksPassedFirst": 4
+    }
+  ],
+  "cleanBrowserChecks": 8,
+  "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
+}

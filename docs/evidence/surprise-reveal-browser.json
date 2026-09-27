@@ -1,0 +1,18 @@
+{
+  "record": "surprise-reveal-browser",
+  "date": "2026-09-27",
+  "browser": "153.0.8010.53",
+  "environment": "Same computer: a local classroom server and headless Chrome at 1366x768 (Host, hh-1) and 1024x768 (hh-2), 300 ms a tick. A real class on the colonies map with rolled families, played in process through the first period and the second to the evening of March 13, 1836. Not physical LAN or district acceptance.",
+  "checks": [
+    "a class played in process to 1836-03-13, two students joined, the Host started it; no ending on the wire while it ran",
+    "the Host's closing view reveals it at 1366x768: \"What nobody in Texas knew: the snow, and the surprise at Béxar What the Texians believed. All that winter the Texians expected no Mexican army before the spring grass, because an army's horses, mules …\"",
+    "hh-1's ending reveals it too, in its panel at 1366x768, nothing sideways",
+    "hh-2's ending reveals it too, in its panel at 1024x768, nothing sideways"
+  ],
+  "screens": [
+    "test-results/surprise-reveal-host-1366.png",
+    "test-results/surprise-reveal-hh-1-1366.png",
+    "test-results/surprise-reveal-hh-2-1024.png"
+  ],
+  "verdict": "PASS"
+}

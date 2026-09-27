@@ -265,7 +265,9 @@ export const ALAMO = Object.freeze({
       id: 'arrival', minutes: 80, background: 20, title: 'February 23: the bell', claimId: 'HIST-TEX-613', frame: ['frame-arrival-a', 'frame-arrival-b'],
       caption: 'Early in the afternoon the bell of San Fernando rings. The sentry on the church has seen the Mexican army on the heights to the west - weeks before anybody at Béxar looked for it. Men in the street call it a false alarm, so Dr. Sutherland and John W. Smith ride out on the Laredo road, come on the Mexican cavalry, and gallop back; Sutherland’s horse falls with him in the mud. The townspeople who had not already gone hurry out of the town; the garrison - about a hundred and fifty men fit to fight and fourteen sick - runs across the river into the Alamo, driving in what cattle and corn it can find, and a few families go in with it: “we had not three bushels of corn”, Travis wrote. About three o’clock Santa Anna’s army marches into Béxar.',
       texian: { style: 'loose', at: 'plaza', fire: 'none', groups: [
-        // The sentry in the tower (`HIST-TEX-613`): one man, at the church, the whole time the bell rings.
+        // The sentry in the tower (`HIST-TEX-613`): one man, at the church, the whole time the bell rings. stand-in: a standing
+        // volunteer at the church's door for the sentry on its roof ringing the bell (docs/ART_REQUESTS.md, request 2026-09-26
+        // "the bell at Béxar"); the bell is told in the caption and his words.
         { id: 'sentry', name: 'The sentry on San Fernando', style: 'loose', drawn: 1, at: 'town', face: 'west-road', fire: 'none' },
         // The garrison waits in the town until the scouts are back, then runs for the Alamo.
         { id: 'garrison-in', name: 'The garrison, going in', style: 'column', drawn: 24, keys: [[0, 'town'], [26, 'town'], [34, 'town-edge'], [66, 'gate-out'], [80, 'plaza']], action: 'withdraw', fire: 'none', face: 'away' },
