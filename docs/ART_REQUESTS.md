@@ -1457,6 +1457,13 @@ unfinished cloth work at the town table still uses canvas because it depicts ano
 6. **A lancer charging.** `lancer-charge` (a dragoon at the gallop, lance held level, never shown striking; `VISION.md` §16). Wanted by Agua Dulce and the Alamo's cavalry; until it lands the dragoons ride in `dragoon-march`.
 
 The lasso that took Reuben Brown (`HIST-TEX-511`) is told in the caption and the account and not drawn.
+
+## Request 2026-09-27 — Seguín, the ashes, and the later church claim
+
+**Art and storyboard delivered; gameplay trigger remains future work.** `famous-seguin-ashes` gives Seguín a four-pose one-shot collection sequence. `alamo-ash-sites-1837` has two small distinct sites, one large site and a scooped close state. `seguin-funeral-props` provides the black 1837 wooden coffin closed, open, set for public honors, and in a church-floor recess. `san-fernando-1936` supplies the intact floor, renovation opening, discovered box and later marble memorial. All assets are transparent atlases with prompt/source provenance in `scripts/art-deliveries/seguin-ashes-cutscene.mjs`; `public/assets/frontier-v1/seguin-ashes-cutscene.json` names their seven intended beats and claim labels. See `docs/SEGUIN_ASHES_CUTSCENE.md` for historical boundaries and integration instructions.
+
+The public 1837 collection and funeral are documented; Seguín alone with a cloth is a dramatized close camera moment, **not a documented secret rescue**. Church-floor placement follows his later recollection and conflicts with an earlier outdoor-interment account. The 1936 discovery's identification with the defenders is disputed. The white marble memorial must never appear as his 1837 container. The current game does not yet reach February 1837: Claude needs to wire a postwar trigger, camera, skip/replay and source note without adding this event to the 1836 battle clock. Four browser storyboard stills in `docs/evidence/seguin-ashes-*.png` show the intended art compositions.
+
 ## Request 2026-09-25 — Concepción and the Grass Fight
 
 **Status: open; stand-ins in use since 2026-09-25 (see *Stand-ins in use*).** Concepción (October 28, 1835) and the Grass Fight (November 26) are drawn on the battle engine (`sim/battles/concepcion.mjs`, `sim/battles/grass-fight.mjs`; `docs/battle-research/staging.md` §1.9, §2.9). The contract is the people sheets' own: transparent PNG, figures on their ground anchor at the `volunteer-*`/`regular-*` height; ground pieces drawn from above at the map's scale.

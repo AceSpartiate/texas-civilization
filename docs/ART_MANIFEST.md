@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1494 usable sprites, 133 PNG atlases, 510 clips** (284 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1510 usable sprites, 137 PNG atlases, 511 clips** (285 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -90,6 +90,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-dialogue | 16 | 1254 × 1254 | 1237850 |
 | ferry-flatboat | 3 | 1254 × 1254 | 203701 |
 | steamboat-moored | 4 | 1254 × 1254 | 799173 |
+| famous-seguin-ashes | 4 | 1230 × 1278 | 646296 |
+| alamo-ash-sites-1837 | 4 | 1536 × 1024 | 2505356 |
+| seguin-funeral-props | 4 | 1536 × 1024 | 2000785 |
+| san-fernando-1936 | 4 | 1536 × 1024 | 2837215 |
 | houses-settling | 16 | 1254 × 1254 | 1507240 |
 | animal-stock | 16 | 1254 × 1254 | 946031 |
 | home-furnishings | 16 | 1254 × 1254 | 1795581 |
@@ -974,6 +978,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-moored-2 | steamboat-moored | steamboat-moored |
 | steamboat-moored-3 | steamboat-moored | steamboat-gangplank |
 | steamboat-moored-4 | steamboat-moored | steamboat-cotton-moored |
+| seguin-ashes-stand | famous-seguin-ashes | seguin-ashes-collect |
+| seguin-ashes-kneel | famous-seguin-ashes | seguin-ashes-collect |
+| seguin-ashes-gather | famous-seguin-ashes | seguin-ashes-collect |
+| seguin-ashes-rise | famous-seguin-ashes | seguin-ashes-collect |
+| ash-site-small-a | alamo-ash-sites-1837 | State artwork; no motion required |
+| ash-site-small-b | alamo-ash-sites-1837 | State artwork; no motion required |
+| ash-site-large | alamo-ash-sites-1837 | State artwork; no motion required |
+| ash-site-scooped | alamo-ash-sites-1837 | State artwork; no motion required |
+| funeral-coffin-closed | seguin-funeral-props | State artwork; no motion required |
+| funeral-coffin-open | seguin-funeral-props | State artwork; no motion required |
+| funeral-coffin-honors | seguin-funeral-props | State artwork; no motion required |
+| funeral-coffin-church-floor | seguin-funeral-props | State artwork; no motion required |
+| san-fernando-floor-intact | san-fernando-1936 | State artwork; no motion required |
+| san-fernando-floor-open | san-fernando-1936 | State artwork; no motion required |
+| san-fernando-box-found | san-fernando-1936 | State artwork; no motion required |
+| san-fernando-marble-memorial | san-fernando-1936 | State artwork; no motion required |
 | house-round-log-site | houses-settling | State artwork; no motion required |
 | house-round-log-walls | houses-settling | State artwork; no motion required |
 | house-round-log-roofing | houses-settling | State artwork; no motion required |
@@ -1913,6 +1933,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-moored | Pose cycle | 2 | 2200 | yes | east; west by mirroring |
 | steamboat-gangplank | Still state | 1 | 1600 | yes | east; west by mirroring |
 | steamboat-cotton-moored | drift | 1 | 1600 | yes | east; west by mirroring |
+| seguin-ashes-collect | Pose cycle | 4 | 3850 | one-shot | east; mirror for west |
 | cattle-longhorn-red-idle | breathe | 1 | 2200 | yes | east; west by mirroring |
 | cattle-longhorn-red-graze | Pose cycle | 6 | 5100 | yes | east; west by mirroring |
 | cattle-longhorn-pied-idle | breathe | 1 | 2200 | yes | east; west by mirroring |

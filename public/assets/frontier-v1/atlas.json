@@ -7325,6 +7325,238 @@
         ]
       }
     },
+    "famous-seguin-ashes": {
+      "image": "atlases/famous-seguin-ashes.png",
+      "width": 1230,
+      "height": 1278,
+      "bytes": 646296,
+      "sha256": "458bf0d4f0c2dee8aa3c34796df2e893186bc2923508ddb3e4e7b5d2f2a30d6f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.838198,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              70,
+              612
+            ],
+            "columns": [
+              [
+                219,
+                404
+              ],
+              [
+                739,
+                1128
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              674,
+              1220
+            ],
+            "columns": [
+              [
+                162,
+                508
+              ],
+              [
+                832,
+                1027
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "alamo-ash-sites-1837": {
+      "image": "atlases/alamo-ash-sites-1837.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2505356,
+      "sha256": "9ad6ea45f2fedae630e24d41a62eebcb5672a3c2e9a1aa6fac7a09aa4f1b301d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.60206,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          1
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              95,
+              409
+            ],
+            "columns": [
+              [
+                143,
+                638
+              ],
+              [
+                834,
+                1493
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              509,
+              970
+            ],
+            "columns": [
+              [
+                34,
+                966
+              ],
+              [
+                1001,
+                1493
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "seguin-funeral-props": {
+      "image": "atlases/seguin-funeral-props.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2000785,
+      "sha256": "3d4f89c164b7e432dc106f93817a8f5af73baf7ae1fa1741a48d30517a066e2d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.676979,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              56,
+              471
+            ],
+            "columns": [
+              [
+                137,
+                626
+              ],
+              [
+                928,
+                1416
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              540,
+              950
+            ],
+            "columns": [
+              [
+                123,
+                658
+              ],
+              [
+                860,
+                1444
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "san-fernando-1936": {
+      "image": "atlases/san-fernando-1936.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2837215,
+      "sha256": "9159b841fb2b4925df38f362ef5ee0854fcb50a09a21f9f8a8b8375a5517c845",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.380548,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              6,
+              526
+            ],
+            "columns": [
+              [
+                13,
+                714
+              ],
+              [
+                781,
+                1496
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              527,
+              1004
+            ],
+            "columns": [
+              [
+                11,
+                734
+              ],
+              [
+                758,
+                1523
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "houses-settling": {
       "image": "atlases/houses-settling.png",
       "width": 1254,
@@ -33346,6 +33578,394 @@
           323
         ],
         "visiblePixels": 70761,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-ashes-stand": {
+      "sheet": "famous-seguin-ashes",
+      "x": 219,
+      "y": 70,
+      "w": 185,
+      "h": 542,
+      "anchorX": 0.4811,
+      "anchorY": 0.9299,
+      "logicalHeight": 546,
+      "label": "seguin ashes stand",
+      "kind": "famous-seguin-ashes",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          221,
+          72,
+          181,
+          538
+        ],
+        "visiblePixels": 58483,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-ashes-kneel": {
+      "sheet": "famous-seguin-ashes",
+      "x": 739,
+      "y": 274,
+      "w": 389,
+      "h": 334,
+      "anchorX": 0.509,
+      "anchorY": 0.9581,
+      "logicalHeight": 546,
+      "label": "seguin ashes kneel",
+      "kind": "famous-seguin-ashes",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          741,
+          276,
+          385,
+          330
+        ],
+        "visiblePixels": 55519,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-ashes-gather": {
+      "sheet": "famous-seguin-ashes",
+      "x": 162,
+      "y": 863,
+      "w": 346,
+      "h": 340,
+      "anchorX": 0.4986,
+      "anchorY": 0.9324,
+      "logicalHeight": 546,
+      "label": "seguin ashes gather",
+      "kind": "famous-seguin-ashes",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          164,
+          865,
+          342,
+          336
+        ],
+        "visiblePixels": 60609,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-ashes-rise": {
+      "sheet": "famous-seguin-ashes",
+      "x": 832,
+      "y": 674,
+      "w": 195,
+      "h": 546,
+      "anchorX": 0.4974,
+      "anchorY": 0.9377,
+      "logicalHeight": 546,
+      "label": "seguin ashes rise",
+      "kind": "famous-seguin-ashes",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          834,
+          676,
+          191,
+          542
+        ],
+        "visiblePixels": 60359,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ash-site-small-a": {
+      "sheet": "alamo-ash-sites-1837",
+      "x": 143,
+      "y": 98,
+      "w": 495,
+      "h": 290,
+      "anchorX": 0.5909,
+      "anchorY": 0.9276,
+      "label": "ash site small a",
+      "kind": "alamo-ash-sites-1837",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          145,
+          100,
+          491,
+          286
+        ],
+        "visiblePixels": 87963,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ash-site-small-b": {
+      "sheet": "alamo-ash-sites-1837",
+      "x": 834,
+      "y": 95,
+      "w": 659,
+      "h": 314,
+      "anchorX": 0.5599,
+      "anchorY": 0.9299,
+      "label": "ash site small b",
+      "kind": "alamo-ash-sites-1837",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          836,
+          97,
+          655,
+          310
+        ],
+        "visiblePixels": 123655,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ash-site-large": {
+      "sheet": "alamo-ash-sites-1837",
+      "x": 34,
+      "y": 509,
+      "w": 932,
+      "h": 461,
+      "anchorX": 0.4898,
+      "anchorY": 0.9284,
+      "label": "ash site large",
+      "kind": "alamo-ash-sites-1837",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          36,
+          511,
+          928,
+          457
+        ],
+        "visiblePixels": 261154,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ash-site-scooped": {
+      "sheet": "alamo-ash-sites-1837",
+      "x": 1001,
+      "y": 640,
+      "w": 492,
+      "h": 291,
+      "anchorX": 0.5112,
+      "anchorY": 0.9278,
+      "label": "ash site scooped",
+      "kind": "alamo-ash-sites-1837",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          1003,
+          642,
+          488,
+          287
+        ],
+        "visiblePixels": 85160,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "funeral-coffin-closed": {
+      "sheet": "seguin-funeral-props",
+      "x": 137,
+      "y": 125,
+      "w": 489,
+      "h": 309,
+      "anchorX": 0.8006,
+      "anchorY": 0.9288,
+      "label": "funeral coffin closed",
+      "kind": "seguin-funeral-props",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          139,
+          127,
+          485,
+          305
+        ],
+        "visiblePixels": 88802,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "funeral-coffin-open": {
+      "sheet": "seguin-funeral-props",
+      "x": 928,
+      "y": 56,
+      "w": 488,
+      "h": 415,
+      "anchorX": 0.7182,
+      "anchorY": 0.9277,
+      "label": "funeral coffin open",
+      "kind": "seguin-funeral-props",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          930,
+          58,
+          484,
+          411
+        ],
+        "visiblePixels": 127119,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "funeral-coffin-honors": {
+      "sheet": "seguin-funeral-props",
+      "x": 123,
+      "y": 581,
+      "w": 535,
+      "h": 366,
+      "anchorX": 0.7729,
+      "anchorY": 0.929,
+      "label": "funeral coffin honors",
+      "kind": "seguin-funeral-props",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          125,
+          583,
+          531,
+          362
+        ],
+        "visiblePixels": 115729,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "funeral-coffin-church-floor": {
+      "sheet": "seguin-funeral-props",
+      "x": 860,
+      "y": 540,
+      "w": 584,
+      "h": 410,
+      "anchorX": 0.6104,
+      "anchorY": 0.9293,
+      "label": "funeral coffin church floor",
+      "kind": "seguin-funeral-props",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          862,
+          542,
+          580,
+          406
+        ],
+        "visiblePixels": 160208,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "san-fernando-floor-intact": {
+      "sheet": "san-fernando-1936",
+      "x": 13,
+      "y": 8,
+      "w": 701,
+      "h": 508,
+      "anchorX": 0.7247,
+      "anchorY": 0.9291,
+      "label": "san fernando floor intact",
+      "kind": "san-fernando-1936",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          15,
+          10,
+          697,
+          504
+        ],
+        "visiblePixels": 217616,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "san-fernando-floor-open": {
+      "sheet": "san-fernando-1936",
+      "x": 781,
+      "y": 6,
+      "w": 715,
+      "h": 520,
+      "anchorX": 0.6664,
+      "anchorY": 0.9288,
+      "label": "san fernando floor open",
+      "kind": "san-fernando-1936",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          783,
+          8,
+          711,
+          516
+        ],
+        "visiblePixels": 228638,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "san-fernando-box-found": {
+      "sheet": "san-fernando-1936",
+      "x": 11,
+      "y": 558,
+      "w": 723,
+      "h": 446,
+      "anchorX": 0.742,
+      "anchorY": 0.9283,
+      "label": "san fernando box found",
+      "kind": "san-fernando-1936",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          13,
+          560,
+          719,
+          442
+        ],
+        "visiblePixels": 239452,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "san-fernando-marble-memorial": {
+      "sheet": "san-fernando-1936",
+      "x": 758,
+      "y": 527,
+      "w": 765,
+      "h": 477,
+      "anchorX": 0.7412,
+      "anchorY": 0.9287,
+      "label": "san fernando marble memorial",
+      "kind": "san-fernando-1936",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          760,
+          529,
+          761,
+          473
+        ],
+        "visiblePixels": 238252,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

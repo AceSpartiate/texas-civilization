@@ -4476,6 +4476,30 @@
       "motion": "drift",
       "direction": "east; west by mirroring"
     },
+    "seguin-ashes-collect": {
+      "frames": [
+        {
+          "sprite": "seguin-ashes-stand",
+          "duration": 900
+        },
+        {
+          "sprite": "seguin-ashes-kneel",
+          "duration": 850
+        },
+        {
+          "sprite": "seguin-ashes-gather",
+          "duration": 1100
+        },
+        {
+          "sprite": "seguin-ashes-rise",
+          "duration": 1000
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "cattle-longhorn-red-idle": {
       "frames": [
         {
