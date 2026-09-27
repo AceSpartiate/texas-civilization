@@ -109,6 +109,31 @@ const PLACES = [
   // Where the walked country ends on the road south to Matamoros, 27.62°N, on the line from Agua Dulce to Matamoros: where
   // Grant's party ranges for horses before March 2, and where the San Patricio prisoners pass out of it (FIC-GONZ-436).
   ['matamoros-road', 'The road south to Matamoros', 'ground', -97.81, 27.62, 'FIC-GONZ-436', false],
+  // The Mexican advance's own places (owner, 2026-09-26, docs/SCRAPE.md §10 (c): "Real places to go"; docs/MAP_ACCURACY.md §14).
+  // Thompson's, the west-bank landing of Thompson's ferry "on the Brazos River between San Felipe and Fort Bend" (TSHA), where
+  // Santa Anna took the ferry by a ruse on April 12, 1836 and crossed by the 14th (HIST-TEX-586): the 1936 Centennial marker
+  // "Site of Thompson's Ferry", Yandell Dr., three miles north of Richmond (THC Atlas 5157009074, UTM 15 230240 E 3277721 N,
+  // converted). A marker, "near" the crossing; the river has moved since.
+  ['thompsons', "Thompson's", 'landing', -95.78529, 29.60016, 'HIST-TEX-586', false],
+  // Fort Bend, the Old Fort: the blockhouse of 1822 "in a large bend of the Brazos", on its west bank (TSHA; its 1936 marker),
+  // where Sesma's division camped from April 14 and Filisola's army lay when San Jacinto was fought (HIST-TEX-590): Wikipedia's
+  // point for the site, 29°34'38" N, 95°45'06" W. A settlement of a few cabins, not a colony town: nothing is kept or sold there.
+  ['old-fort', 'Old Fort', 'village', -95.7517, 29.5772, 'HIST-TEX-590', false],
+  // Stafford's Point, William Stafford's plantation, which Santa Anna's column burned on April 15, 1836 (HIST-TEX-587): the
+  // settlement's marker "Stafford's Point", 320 Dulles St., Stafford (THC marker 9068, 29.623819, -95.583099). The marker is
+  // the settlement's; where the house and the sugar mill stood on the grant is not given.
+  ['staffords', "Stafford's", 'farmstead', -95.583099, 29.623819, 'HIST-TEX-587', false],
+  // New Washington, James Morgan's townsite on the bluff at the mouth of Buffalo Bayou, burned by Santa Anna's men as they left it
+  // on April 20, 1836 (HIST-TEX-588, -595): the 1985 marker "New Washington" by City Hall, 1415 E. Main, Morgan's Point (THC
+  // Atlas 5201010741, UTM 15 305658 E 3284156 N, converted).
+  ['new-washington', 'New Washington', 'village', -95.00822, 29.67226, 'HIST-TEX-588', false],
+  // Mrs. Powell's, Elizabeth Powell's house and tavern on Turkey Creek near the San Bernard, where the Mexican army gathered on
+  // April 24-25, 1836 and its rear guard burned the house on the 26th (HIST-TEX-596): the 1936 Centennial marker "Site of the
+  // Home of Elizabeth Powell" stands "near the crossing of Turkey Creek", reached by Darst Road off US 59 a mile north-east of
+  // Kendleton (THC Atlas 5157009056, which gives no coordinates; the Sons of the Republic of Texas, 2010). Laid on Turkey Creek
+  // at the point of the NHD line nearest that description, about a mile and a quarter east-north-east of Kendleton: within a
+  // mile of the site, not at it (the archaeological site 41FB269 is not published).
+  ['powells', "Mrs. Powell's", 'farmstead', -95.9656, 29.4613, 'HIST-TEX-596', false],
 ];
 
 // The rivers a road may cross only at a crossing, and the places where each may be crossed.
@@ -119,7 +144,8 @@ const CROSSINGS = {
   'Guadalupe River': ['ford', 'victoria'],
   'Colorado River': ['la-grange-crossing', 'columbus-crossing', 'lower-colorado-crossing', 'mina', 'matagorda'],
   // Groce's ferry, from the camp to Bernardo: the river nearest the ferry's marker on the east bank (HIST-TEX-088).
-  'Brazos River': ['san-felipe', 'washington', 'columbia', 'brazoria', 'bernardo'],
+  // Thompson's ferry, between San Felipe and Fort Bend (HIST-TEX-586), since 2026-09-26.
+  'Brazos River': ['san-felipe', 'washington', 'columbia', 'brazoria', 'bernardo', 'thompsons'],
   // The Atascosito road crossed about three miles north of Liberty, not at the town (HIST-TEX-025); the Old San Antonio Road
   // crossed 120 miles above it at Robbins's ferry, which until 2026-09-19 the map had no window for, so the road to
   // Nacogdoches was dragged the length of the Trinity to cross at the Atascosito crossing (HIST-TEX-162).
@@ -202,6 +228,24 @@ const ROADS = [
   ['san-patricio', 'goliad', 'The road from Goliad to San Patricio'],
   ['san-patricio', 'agua-dulce', 'The road to Matamoros'],
   ['agua-dulce', 'matamoros-road', 'The road to Matamoros'],
+  // The Mexican advance's roads, as the columns went (2026-09-26, docs/SCRAPE.md §10 (c); docs/battle-research/mexican-advance.md
+  // §3). Santa Anna down the right bank of the Brazos from San Felipe to Thompson's, April 9-12 (HIST-TEX-586), and Sesma's
+  // division on to the Old Fort (HIST-TEX-590); over at Thompson's ferry and by Stafford's to Harrisburg, April 14-15
+  // (HIST-TEX-587), the way Cos came on the 18th-20th (HIST-TEX-589); from Harrisburg to New Washington, April 16-19
+  // (HIST-TEX-588); and from the Old Fort to Mrs. Powell's, whose house stood "on the trail from Brazoria and Columbia to San
+  // Felipe" (TSHA), and on to Columbia, the army's and Urrea's roads of April 20-25 (HIST-TEX-593, -596). Every course is the
+  // least effort over the ground (FIC-GONZ-027). ceiling: the road from New Washington to Lynch's ferry that Santa Anna took on
+  // April 20 is not laid (it would be the San Jacinto's open water's second road); the column goes there across country.
+  // Down the right bank, as Santa Anna went ("down the right bank", his report; HIST-TEX-586): the least-effort line alone
+  // crosses at San Felipe and comes down the left bank, so it is laid by a point on the right bank a mile off the river.
+  ['san-felipe', 'thompsons', 'The road down the Brazos', [{ name: 'the right bank of the Brazos', x: 94, y: -9 }]],
+  ['thompsons', 'old-fort', 'The road down the Brazos'],
+  // Over the river at the marker's crossing, not wherever the easiest ground first meets the braided channels below it.
+  ['thompsons', 'staffords', "The road to Harrisburg by Stafford's", [{ name: "Thompson's ferry", x: 101.45, y: -7.65 }]],
+  ['staffords', 'harrisburg', "The road to Harrisburg by Stafford's"],
+  ['harrisburg', 'new-washington', 'The road to New Washington'],
+  ['old-fort', 'powells', "The road to Mrs. Powell's"],
+  ['powells', 'columbia', "The road to Columbia by Mrs. Powell's"],
 ];
 
 // ---- Grid helpers ---------------------------------------------------------------------------
@@ -542,7 +586,7 @@ function layRoad(from, to, name, via = []) {
   return { id: `road-${from}-${to}`, from, to, name, kind: 'road', points, miles: round(miles), ...(via.length && { via: via.map(v => ({ name: v.name, x: round(v.x), y: round(v.y) })) }) };
 }
 const roads = [];
-for (const [from, to, name] of ROADS) roads.push(layRoad(from, to, name));
+for (const [from, to, name, via] of ROADS) roads.push(layRoad(from, to, name, via || []));
 // Gonzales's own short ways, as the invented map had them: the town down to the ford, and the bank to the camp.
 roads.push({ id: 'road-gonzales-ford', from: 'gonzales', to: 'ford', name: 'The crossing', kind: 'crossing', points: [places.gonzales, places.ford].map(p => ({ x: p.x, y: p.y })), miles: round(distance(places.gonzales, places.ford)) });
 const bank = simplify(route(places.ford, places['williams-camp']), 0.03).map(p => ({ x: round(p.x), y: round(p.y) }));
@@ -629,6 +673,8 @@ const WINDOW_CROSSINGS = {
   'brazoria:Brazos River': ['brighams-ferry', "Brigham's ferry", 'ferry', 'HIST-TEX-144'],
   // Groce's ferry at Bernardo, the Coushatta crossing (HIST-TEX-088).
   'bernardo:Brazos River': ['groces-ferry', "Groce's ferry", 'ferry', 'HIST-TEX-088'],
+  // Jesse Thompson's ferry, 1828-1834, which Santa Anna's column took on April 12, 1836 and crossed by the 14th (HIST-TEX-586).
+  'thompsons:Brazos River': ['thompsons-ferry', "Thompson's ferry", 'ferry', 'HIST-TEX-586'],
   // The Nueces at San Patricio, where the Camino Real and the road to Matamoros crossed (HIST-TEX-159): the id the outside
   // country's crossing had, now a crossing a road goes over (2026-09-25).
   'san-patricio:Nueces River': ['san-patricio-crossing', 'The crossing at San Patricio', 'ford', 'HIST-TEX-159'],

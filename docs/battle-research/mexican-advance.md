@@ -478,7 +478,9 @@ sources disagree. The proposal as the research wrote it:
 ## 11. Questions for the owner
 
 As built, question 1 is answered by the owner's own rule of 2026-09-26 for farms (the burn zone) and by the record for towns
-(only the documented ones burn); question 2 is kept as points on the paths. Both are put to the owner again in docs/SCRAPE.md §10.
+(only the documented ones burn); question 2 was kept as points on the paths. Both were put to the owner again in docs/SCRAPE.md §10 and answered on
+2026-09-26: the towns as built, and Thompson's, the Old Fort, Stafford's, New Washington and Mrs. Powell's made places of the map
+(docs/MAP_ACCURACY.md §14).
 
 1. The record shows **no burning at Victoria, Matagorda, Columbia, Brazoria or Velasco**, and **no Mexican at Washington or
    Velasco at all**. Keep the rule that the Texas army burns every settlement (`FIC-GONZ-046`), or burn only the documented

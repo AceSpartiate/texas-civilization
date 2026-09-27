@@ -1,6 +1,6 @@
 {
   "record": "san-jacinto-injections",
-  "date": "2026-09-26",
+  "date": "2026-09-27",
   "gates": {
     "unit": "node --test tests/battle-san-jacinto.test.mjs tests/battle-view-san-jacinto.test.mjs, the named test and no other",
     "browser": "scripts/battle-san-jacinto-browser-proof.mjs"
@@ -301,7 +301,7 @@
       "file": "sim/chores.mjs",
       "expect": "joining Houston from the refuge was refused",
       "caught": true,
-      "failure": "joining Houston from the refuge was refused: Bartolo Lineman is not at home.",
+      "failure": "joining Houston from the refuge was refused: Ignacio Lineman is not at home.",
       "checksPassedFirst": 0
     },
     {
@@ -317,7 +317,7 @@
       "file": "public/battle-view.js",
       "expect": "the Texian line is not the formed side",
       "caught": true,
-      "failure": "the Texian line is not the formed side: {\"texian\":0.5250051650470986,\"mexican\":0.3689299943694827}",
+      "failure": "the Texian line is not the formed side: {\"texian\":0.5250051650470916,\"mexican\":0.3689299943694827}",
       "checksPassedFirst": 4
     },
     {
@@ -349,7 +349,7 @@
       "file": "sim/san-jacinto.mjs",
       "expect": "the Host was not sent the fight live",
       "caught": true,
-      "failure": "the Host was not sent the fight live: {\"focus\":\"battle\",\"camera\":\"region\",\"seen\":[\"sj-arrive:295560\",\"sj-skirmish:295800\",\"sj-bridge:296880\",\"sj-parade:297210\",\"san-jacinto:297270\"]}",
+      "failure": "the Host was not sent the fight live: {\"focus\":\"battle\",\"camera\":\"region\",\"seen\":[\"burned:new-washington:295320\",\"sj-arrive:295560\",\"sj-skirmish:295800\",\"sj-bridge:296880\",\"sj-parade:297210\",\"san-jacinto:297270\"]}",
       "checksPassedFirst": 11
     },
     {
@@ -357,7 +357,7 @@
       "file": "sim/san-jacinto.mjs",
       "expect": "with nobody in the army was sent the battle",
       "caught": true,
-      "failure": "the family at Lynchburg with nobody in the army was sent the battle",
+      "failure": "the family with nobody in the army was sent the battle",
       "checksPassedFirst": 12
     },
     {
@@ -366,9 +366,9 @@
       "expect": "the account never appeared",
       "caught": true,
       "failure": "the account never appeared",
-      "checksPassedFirst": 15
+      "checksPassedFirst": 14
     }
   ],
-  "cleanBrowserChecks": 16,
+  "cleanBrowserChecks": 15,
   "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
 }

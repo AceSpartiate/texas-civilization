@@ -162,8 +162,9 @@ as if **every** family were played, present and not on auto: **35 ticks, 5.5 min
 - `ceiling:` a column's foragers burn every farm in the zone; the record's "stripped and looted" is not a separate outcome
   (decision (b)).
 - `ceiling:` one family near a column slows the class, as every held clock does.
-- `ceiling:` Stafford's, New Washington, Old Fort, Thompson's, Mrs. Powell's and the other off-map stops are points on the
-  columns' paths, not places families can go to (decision (c)).
+- `ceiling:` the other off-map stops (the San Marcos crossing, Industry, Cat Spring, Texana, Cayce's, the San Bernard houses,
+  Las Juntas, Cox's Point, the mud, the San Jacinto field) are points on the columns' paths, not places families can go to.
+  Stafford's, New Washington, the Old Fort, Thompson's and Mrs. Powell's became places on 2026-09-26 (decision (c), §10).
 
 ## 9. Evidence
 
@@ -176,7 +177,26 @@ where a family's people are; the watch; the stock), and `scrape`, `road`, `armie
 (`docs/evidence/mexican-advance-injections.json`), the class time in `docs/evidence/advance-class-time.json`. Numbers in
 `HANDOFF.md`.
 
-## 10. Decisions for the owner
+## 10. Decisions for the owner — answered 2026-09-26
+
+**The owner's answers, by multiple choice, 2026-09-26:** (a) **"Nobody"** (as built); (b) **"Burn it"** (as built); (c)
+**"Real places to go"** - built the same day, below; (d) **"Five miles"** (as built). Recorded in `HISTORY.md` on
+`FIC-GONZ-460`, `-465` and `-466`, and on `HIST-TEX-586` to `-588`, `-590` and `-596` for the places.
+
+**(c) as built** ([MAP_ACCURACY.md](MAP_ACCURACY.md) §14, `sim/advance-places.mjs`): **Thompson's** (the west-bank landing at the
+1936 marker) and **Thompson's ferry** over the Brazos, the **Old Fort** (Fort Bend), **Stafford's**, **New Washington** and
+**Mrs. Powell's** are places of the map at their markers, with seven roads as the columns went: down the right bank from San
+Felipe to Thompson's (32.7 miles) and on to the Old Fort (2.7); over Thompson's ferry to Stafford's (13.4) and on to Harrisburg
+(21.2); Harrisburg to New Washington (17.8); the Old Fort to Mrs. Powell's (16.2) and on to Columbia (29.9). A family can be
+sent to any of them, on foot or by wagon. The columns' paths go through them as places - Santa Anna over Thompson's ferry,
+Sesma's division and Gaona to the Old Fort, Cos by Stafford's, Urrea and the army at Mrs. Powell's - and Stafford's, New
+Washington and Mrs. Powell's burn there. Emily West stands at New Washington itself. A class saved before is given them at the
+save's door (`openAdvancePlaces`), nothing it had moved, no save version. `ceiling:` Santa Anna's march from New Washington to
+the field on April 20 is still across country (a road there would be the San Jacinto's open water's second road); the creeks
+round the five are drawn only where they were already (so the new roads ford only water the map already drew); Mrs. Powell's is
+within a mile of the house, not at it; the five have their names and no art of their own (a request in docs/ART_REQUESTS.md).
+
+The questions as they were put:
 
 (a) **Who burns a family's farm as it leaves?** 1. *As built:* nobody; it stands until the foragers come (inside the zone) or
 never (outside). 2. The Texas army burns it as the family leaves, inside the zone only (the 2026-09-16 image kept where the

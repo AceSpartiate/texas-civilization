@@ -46,17 +46,17 @@ const spring = () => structuredClone(shared ??= (() => {
 // The record's dates, written here from docs/battle-research/mexican-advance.md §3 and not read from the data they check.
 const RECORD = [
   ['sesma', 'bexar', on(1836, 3, 11, 8)], ['sesma', 'gonzales', on(1836, 3, 14, 8)], ['sesma', { x: 53, y: -17 }, on(1836, 3, 20, 12)],
-  ['sesma', 'lower-colorado-crossing', on(1836, 3, 28, 12)], ['sesma-brazos', 'san-felipe', on(1836, 4, 10, 12)], ['sesma-brazos', { x: 100, y: -8 }, on(1836, 4, 13, 12)], ['sesma-brazos', { x: 102, y: -6 }, on(1836, 4, 16, 12)],
+  ['sesma', 'lower-colorado-crossing', on(1836, 3, 28, 12)], ['sesma-brazos', 'san-felipe', on(1836, 4, 10, 12)], ['sesma-brazos', 'thompsons', on(1836, 4, 13, 12)], ['sesma-brazos', 'old-fort', on(1836, 4, 16, 12)],
   ['tolsa', { x: 45, y: -15 }, on(1836, 3, 24, 12)],
   ['santa-anna', 'bexar', on(1836, 3, 31, 8)], ['santa-anna', 'gonzales', on(1836, 4, 2, 12)], ['santa-anna', 'san-felipe', on(1836, 4, 7, 12)],
-  ['santa-anna', { x: 100, y: -8 }, on(1836, 4, 12, 8)], ['santa-anna', { x: 114, y: -8 }, on(1836, 4, 15, 7)], ['santa-anna', 'harrisburg', on(1836, 4, 16, 12)],
-  ['santa-anna', { x: 147, y: -12 }, on(1836, 4, 19, 12)], ['santa-anna', { x: 142, y: -17 }, on(1836, 4, 20, 15)],
-  ['cos', { x: 102, y: -6 }, on(1836, 4, 18, 12)], ['cos', 'harrisburg', on(1836, 4, 20, 8)],
-  ['gaona', 'bexar', on(1836, 3, 24, 8)], ['gaona', { x: 102, y: -6 }, on(1836, 4, 20, 11, 55)],
+  ['santa-anna', 'thompsons', on(1836, 4, 12, 8)], ['santa-anna', 'staffords', on(1836, 4, 15, 7)], ['santa-anna', 'harrisburg', on(1836, 4, 16, 12)],
+  ['santa-anna', 'new-washington', on(1836, 4, 19, 12)], ['santa-anna', { x: 142, y: -17 }, on(1836, 4, 20, 15)],
+  ['cos', 'old-fort', on(1836, 4, 18, 12)], ['cos', 'harrisburg', on(1836, 4, 20, 8)],
+  ['gaona', 'bexar', on(1836, 3, 24, 8)], ['gaona', 'old-fort', on(1836, 4, 20, 11, 55)],
   ['urrea', 'refugio', on(1836, 3, 14, 12)], ['urrea', 'victoria', on(1836, 3, 21, 7, 30)], ['urrea', { x: 53, y: 38 }, on(1836, 4, 2, 6)],
-  ['urrea', 'matagorda', on(1836, 4, 13, 10)], ['urrea', { x: 88, y: 5 }, on(1836, 4, 20, 18)], ['urrea', 'columbia', on(1836, 4, 21, 16)], ['urrea', 'brazoria', on(1836, 4, 22, 10)],
+  ['urrea', 'matagorda', on(1836, 4, 13, 10)], ['urrea', 'powells', on(1836, 4, 20, 18)], ['urrea', 'columbia', on(1836, 4, 21, 16)], ['urrea', 'brazoria', on(1836, 4, 22, 10)],
   ['filisola', 'gonzales', on(1836, 4, 5, 12)], ['filisola', 'lower-colorado-crossing', on(1836, 4, 12, 12)], ['filisola', 'san-felipe', on(1836, 4, 15, 12)],
-  ['filisola', { x: 102, y: -6 }, on(1836, 4, 20, 12)], ['filisola', { x: 88, y: 5 }, on(1836, 4, 25, 18)],
+  ['filisola', 'old-fort', on(1836, 4, 20, 12)], ['filisola', 'powells', on(1836, 4, 25, 18)],
 ];
 /** Where no Mexican force came (§7): Washington, Groce's and Bernardo, Velasco, Liberty, Anahuac, Nacogdoches. */
 const NEVER = ['washington', 'groces', 'bernardo', 'velasco', 'liberty', 'anahuac', 'nacogdoches'];

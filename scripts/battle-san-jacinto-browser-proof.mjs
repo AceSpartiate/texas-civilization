@@ -3,9 +3,10 @@
 // participate and does participate ... players should walk away understanding what happened").
 //
 // A real spring class on the colonies map, played in process to noon on April 17 (the first period alone is some four
-// hundred ticks), then joined by two students and the Host. Seed `sj-proof-21` (since 2026-09-26, when the land came to be
+// hundred ticks), then joined by two students and the Host. Seed `sj-proof-90` (since 2026-09-26, when the land came to be
 // dealt half inside the burn zone and `sj-proof-1`'s first family lost its father to the road) deals the first family camped
-// at its refuge at Lynchburg with a grown man at hand, and the second family gone to Nacogdoches with nobody in the army.
+// at its refuge at Lynchburg (its grown man brought there from the farm in process), and the second family gone to
+// Nacogdoches with nobody in the army.
 // (Where the second family is camped at Lynchburg as well, it sees the first family's man set out from the camp they share,
 // and his id is rightly in what it is sent; the check below is of a family with nobody there.) It holds:
 //   - the first student sends the father to join Houston **from the refuge** (owner's J4) by pressing his icon on the family
@@ -53,12 +54,18 @@ function beforeHarrisburg(seed, playerCount) {
   // The first family's director had its men put a line in the river at the refuge (sim/road.mjs `fish-road`); the student who
   // takes it over finds them idle, in process, so the father can be sent (said here, as alamo-class.mjs says its own setting).
   for (const id of world.households['hh-1'].members) { const person = world.entities[id]; if (person.chore?.id === 'fish-road') { person.chore = null; person.task = 'rest'; } }
+  // And its grown man, who stayed behind at the farm when the family went, is with it at the refuge (in process, said here): the
+  // proof is of joining Houston from the refuge, and since 2026-09-26 the advance's roads and dates leave few seeds whose first
+  // family has its man there on April 17 by itself.
+  const refuge = world.households['hh-1'].flight?.refuge, camp = refuge && world.map.sites[refuge];
+  const man = camp && world.households['hh-1'].members.map(id => world.entities[id]).find(one => one.kind === 'person' && one.sex === 'male' && (one.age ?? 0) >= 16 && !one.service && one.health.condition === 'well');
+  if (man && man.location?.siteId !== refuge) Object.assign(man, { travel: null, chore: null, task: 'rest', location: { x: camp.x, y: camp.y, siteId: refuge } });
   world.status = 'lobby';
   return world;
 }
 
 const directory = mkdtempSync(join(tmpdir(), 'texas-sj-'));
-const app = createClassroom({ seed: 'sj-proof-21', playerCount: 5, tickMs: 300, savePath: join(directory, 'class.json'), worldFactory: beforeHarrisburg });
+const app = createClassroom({ seed: 'sj-proof-90', playerCount: 5, tickMs: 300, savePath: join(directory, 'class.json'), worldFactory: beforeHarrisburg });
 assert.equal(app.state.world.period, 3, 'the class did not reach the spring');
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });

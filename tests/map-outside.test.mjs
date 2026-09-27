@@ -88,7 +88,7 @@ const BOX_FILES = {
   // Rebuilt again 2026-09-25 for Coleto (HIST-TEX-516), on top of the south: the `coleto` field at the Fannin Battleground
   // marker, and the road from Goliad to Victoria laid in two legs through it (27.47 miles before, 10.08 + 17.39 after). Every
   // other place, road, crossing and watercourse is byte for byte the south's (checked by decoding both). Was 2e476e8b...c037c439.
-  'colonies-map.json.gz': '474144347cd981bdd58792833c5ca9369c92f9478be4f514a8426bbfc2324809',
+  'colonies-map.json.gz': '5d8dbb7d7d3e3db42088c69622e75c3db2d02e4a2ae56247054158b24c255707',
   'colonies-province.json.gz': '8ef9b839a6f03b82a1ef81e832eb3d483cd7761e8f4eef32eea33b3508883dc7',
   'colonies-water.json.gz': '22900ae34954db4225fba11e1e977beab6161e4d53d84b5ebc923089e3162c44',
   // The biomes of 1836 (2026-09-19). The grid a class of the week before was made on is kept as it was, beside it, and read

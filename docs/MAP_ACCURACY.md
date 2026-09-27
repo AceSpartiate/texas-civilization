@@ -1232,3 +1232,48 @@ Tranquitas Creek no longer) - every ford, crossing, other place, road and waterc
 `tests/map-outside.test.mjs`. A class saved with the ground near Banquete or at twenty-six miles is given the new one at the save's
 door until Grant's drive begins (`moveAguaDulce`, which moves any ground that is not the built map's; its test covers both).
 
+
+## 14. The Mexican advance's places (2026-09-26)
+
+Owner, by multiple choice (docs/SCRAPE.md §10 (c)): **"Real places to go"**. The five stops of the Mexican columns that were
+points on their paths became places of the map, at the standard of the rest: each at the record's marker, with its roads laid
+over the real ground and a crossing wherever those roads meet drawn water.
+
+| Place | Kind | Where | Claim |
+| --- | --- | --- | --- |
+| Thompson's (`thompsons`) | landing | The 1936 marker "Site of Thompson's Ferry", Yandell Dr., three miles north of Richmond: THC Atlas 5157009074, UTM 15 230240 E 3277721 N (-95.78529, 29.60016), on the west bank | `HIST-TEX-586` |
+| Thompson's ferry (`thompsons-ferry`) | ferry | The Brazos's window at Thompson's (a barrier crossing like Groce's ferry at Bernardo), where the road to Stafford's goes over, 0.2 mile from the marker | `HIST-TEX-586` |
+| Old Fort (`old-fort`) | village | Fort Bend, the blockhouse of 1822 on the west bank, 29°34'38" N, 95°45'06" W | `HIST-TEX-590` |
+| Stafford's (`staffords`) | farmstead | The marker "Stafford's Point", 320 Dulles St., Stafford (THC 9068; 29.623819, -95.583099) - the settlement's marker | `HIST-TEX-587` |
+| New Washington (`new-washington`) | village | The 1985 marker by City Hall, Morgan's Point: THC Atlas 5201010741, UTM 15 305658 E 3284156 N (-95.00822, 29.67226) | `HIST-TEX-588` |
+| Mrs. Powell's (`powells`) | farmstead | On the NHD's Turkey Creek at the point nearest the 1936 marker's description ("near the crossing of Turkey Creek", by Darst Road off US 59 a mile north-east of Kendleton; THC Atlas 5157009056 has no coordinates): -95.9656, 29.4613. Within a mile of the house, not at it | `HIST-TEX-596` |
+
+**Roads** (courses `FIC-GONZ-027`): San Felipe → Thompson's, "The road down the Brazos", 32.7 miles, laid by a point on the right
+bank a mile off the river (the least-effort line alone crossed at San Felipe and came down the left bank; Santa Anna went "down
+the right bank"); Thompson's → Old Fort, 2.7; Thompson's → Stafford's over Thompson's ferry, laid through the window's point at
+the marker, 13.4; Stafford's → Harrisburg, 21.2; Harrisburg → New Washington, 17.8; Old Fort → Mrs. Powell's, 16.2; Mrs.
+Powell's → Columbia, 29.9. `scripts/build-colonies-map.mjs` takes a road's `via` points as a fourth element of `ROADS` now; no
+other road has one, so none moved.
+
+**Decoded against the map before** (scripts/build-colonies-map.mjs run, both files gunzipped and compared): only the five places,
+Thompson's ferry, the seven roads, the window's entry in `crossings`, and five fords on the new roads (Allens Creek, Sims Bayou,
+Vince Bayou, Little Vince Bayou, Mound Creek - each the game's, `FIC-GONZ-090`) were added. Every other place, road, crossing and
+watercourse is byte for byte; no id was renumbered. New hash in `tests/map-outside.test.mjs`. Regenerating after a merge is
+§13.2's.
+
+**Old saves** gain them at the save's door (`sim/advance-places.mjs` `openAdvancePlaces`, from `server/storage.mjs` `readSave`,
+after `openSouth`): the five places, the crossings on their roads, the seven roads and the creeks round those fords, from the
+built map. Added, never moved; no `saveVersion` bump.
+
+- `ceiling:` the creeks round the five are drawn only where the map already drew them (round the colony starts and the army's
+  houses), so the new roads ford only water the map already drew; drawing the creeks round them would put new fords on old
+  roads and renumber the fords after them.
+- `ceiling:` no road from New Washington to Lynch's ferry: the San Jacinto there is open water with one road over it, and Santa
+  Anna's column goes to the field across country, as before.
+- `ceiling:` the Vince Bayou ford on the road to New Washington is the game's, not Vince's bridge; which way the road from
+  Harrisburg to New Washington crossed the bayou was not found.
+- `ceiling:` no art of their own; they are drawn with their names as the army's houses are (docs/ART_REQUESTS.md, 2026-09-26
+  "the Mexican advance", item 4).
+
+Checks: `tests/advance-places.test.mjs` (5), `tests/map-outside.test.mjs` (the hash), `tests/mexican-advance.test.mjs` (the
+columns at the places on their dates). Injections: `scripts/mexican-advance-injections.mjs`.

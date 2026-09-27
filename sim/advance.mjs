@@ -76,17 +76,18 @@ export const FORAGING_ENDS = on(1836, 4, 21, 16, 30);
 const at = (siteId, minute, extra = {}) => ({ siteId, minute, ...extra });
 /** A place the map does not have, by its position (docs/battle-research/mexican-advance.md §2, from latitude and longitude). */
 const pt = (key, minute, extra = {}) => ({ point: POINTS[key].at, name: POINTS[key].name, minute, ...extra });
-/** Places off the map the columns stopped at (§2: x = (longitude + 97.45) × 60.1, y = (29.50 − latitude) × 69). */
+/**
+ * Places off the map the columns stopped at (§2: x = (longitude + 97.45) × 60.1, y = (29.50 − latitude) × 69). Thompson's,
+ * the Old Fort, Stafford's, New Washington and Mrs. Powell's were points here until the owner made them places a family can go
+ * (2026-09-26, docs/SCRAPE.md §10 (c)); they are the map's own now (scripts/build-colonies-map.mjs, docs/MAP_ACCURACY.md §14),
+ * and a class saved before is given them at the save's door (sim/advance-places.mjs `openAdvancePlaces`).
+ */
 export const POINTS = Object.freeze({
   sanMarcos: { at: { x: -28, y: -21 }, name: 'the San Marcos crossing' },
   navidad: { at: { x: 45, y: -15 }, name: 'the Navidad' },
   sesmaCamp: { at: { x: 53, y: -17 }, name: 'the west bank of the Colorado, opposite Beeson’s' },
   industry: { at: { x: 57, y: -32 }, name: 'Industry' },
   catSpring: { at: { x: 67, y: -24 }, name: 'Cat Spring' },
-  thompsons: { at: { x: 100, y: -8 }, name: 'Thompson’s ferry on the Brazos' },
-  oldFort: { at: { x: 102, y: -6 }, name: 'Old Fort on the Brazos' },
-  staffords: { at: { x: 114, y: -8 }, name: 'Stafford’s plantation' },
-  newWashington: { at: { x: 147, y: -12 }, name: 'New Washington' },
   sanJacinto: { at: { x: 142, y: -17 }, name: 'the prairie by Lynch’s ferry' },
   lasJuntas: { at: { x: 51, y: 54 }, name: 'Las Juntas' },
   arenoso: { at: { x: 37, y: 46 }, name: 'Arenoso Creek' },
@@ -95,7 +96,6 @@ export const POINTS = Object.freeze({
   tresPalacios: { at: { x: 72, y: 45 }, name: 'the Tres Palacios' },
   cayces: { at: { x: 87, y: 43 }, name: 'Cayce’s crossing of the Colorado' },
   sanBernard: { at: { x: 95, y: 20 }, name: 'the houses on the San Bernard' },
-  powells: { at: { x: 88, y: 5 }, name: 'Mrs. Powell’s' },
   mud: { at: { x: 75, y: 10 }, name: 'the mud between the San Bernard and the West Bernard' },
 });
 const ATASCOSITO = 'the Atascosito crossing of the Colorado';
@@ -151,15 +151,15 @@ export const COLUMNS = Object.freeze([
       at('san-felipe', on(1836, 4, 7, 5), { claimId: 'HIST-TEX-585', topic: 'mexicans-san-felipe', word: 'The Mexican army has come to San Felipe and found it in ashes. Captain Baker’s men hold the crossing of the Brazos against it.' }),
       // Down the right bank with the picked companies on the 9th; Sesma's division stays (`sesma-brazos`).
       at('san-felipe', on(1836, 4, 9, 8), { strength: 550, claimId: 'HIST-TEX-586' }),
-      pt('thompsons', on(1836, 4, 12, 8), { via: 'columbia', claimId: 'HIST-TEX-586' }),
-      pt('thompsons', on(1836, 4, 14, 15), { strength: 750, claimId: 'HIST-TEX-587' }),
-      pt('staffords', on(1836, 4, 15, 6), { claimId: 'HIST-TEX-587' }),
-      pt('staffords', on(1836, 4, 15, 8)),
+      at('thompsons', on(1836, 4, 12, 8), { claimId: 'HIST-TEX-586' }),
+      at('thompsons', on(1836, 4, 14, 15), { strength: 750, claimId: 'HIST-TEX-587' }),
+      at('staffords', on(1836, 4, 15, 6), { claimId: 'HIST-TEX-587' }),
+      at('staffords', on(1836, 4, 15, 8)),
       at('harrisburg', on(1836, 4, 15, 22), { claimId: 'HIST-TEX-587', topic: 'santa-anna-harrisburg', word: 'Santa Anna came into Harrisburg in the night with about seven hundred men. The government had gone at noon.' }),
       at('harrisburg', on(1836, 4, 18, 14)),
       // Arrived the 18th or the 19th (disputed): the 19th, early (`FIC-GONZ-469`, `HIST-TEX-588`).
-      pt('newWashington', on(1836, 4, 19, 6), { claimId: 'HIST-TEX-588', topic: 'santa-anna-new-washington', word: 'Santa Anna is at New Washington, on the bay. Morgan’s warehouses have been emptied.' }),
-      pt('newWashington', on(1836, 4, 20, 8)),
+      at('new-washington', on(1836, 4, 19, 6), { claimId: 'HIST-TEX-588', topic: 'santa-anna-new-washington', word: 'Santa Anna is at New Washington, on the bay. Morgan’s warehouses have been emptied.' }),
+      at('new-washington', on(1836, 4, 20, 8)),
       pt('sanJacinto', on(1836, 4, 20, 13), { claimId: 'HIST-TEX-588' }),
     ],
     until: on(1836, 4, 21, 16),
@@ -171,9 +171,9 @@ export const COLUMNS = Object.freeze([
     path: [
       at('san-felipe', on(1836, 4, 9, 8), { strength: 1000, claimId: 'HIST-TEX-586' }),
       at('san-felipe', on(1836, 4, 12, 8)),
-      pt('thompsons', on(1836, 4, 13, 12), { via: 'columbia', claimId: 'HIST-TEX-586' }),
-      pt('oldFort', on(1836, 4, 14, 12), { claimId: 'HIST-TEX-590' }),
-      pt('oldFort', on(1836, 4, 18, 6)),
+      at('thompsons', on(1836, 4, 13, 12), { claimId: 'HIST-TEX-586' }),
+      at('old-fort', on(1836, 4, 14, 12), { claimId: 'HIST-TEX-590' }),
+      at('old-fort', on(1836, 4, 18, 6)),
     ],
     until: on(1836, 4, 18, 6),
   },
@@ -181,8 +181,8 @@ export const COLUMNS = Object.freeze([
     // Cos with 500 from Old Fort on April 18, by Stafford's and Harrisburg, into the camp at 9 on the morning of the 21st.
     id: 'cos', name: 'Cos’s column', commander: 'cos', claimId: 'HIST-TEX-589', burns: true, battle: 'san-jacinto',
     path: [
-      pt('oldFort', on(1836, 4, 18, 12), { strength: 500, range: DETACHMENT_MILES, claimId: 'HIST-TEX-589' }),
-      pt('staffords', on(1836, 4, 19, 12), { range: DETACHMENT_MILES }),
+      at('old-fort', on(1836, 4, 18, 12), { strength: 500, range: DETACHMENT_MILES, claimId: 'HIST-TEX-589' }),
+      at('staffords', on(1836, 4, 19, 12), { range: DETACHMENT_MILES }),
       at('harrisburg', on(1836, 4, 20, 8), { range: DETACHMENT_MILES }),
       at('vinces-bridge', on(1836, 4, 21, 4), { range: DETACHMENT_MILES }),
       pt('sanJacinto', on(1836, 4, 21, 9), { claimId: 'HIST-TEX-589' }),
@@ -202,7 +202,7 @@ export const COLUMNS = Object.freeze([
       pt('catSpring', on(1836, 4, 15, 12), { claimId: 'HIST-TEX-584' }),
       at('san-felipe', on(1836, 4, 18, 12)),
       // At Old Fort he is taken into Filisola's camp.
-      pt('oldFort', on(1836, 4, 20, 12), { via: 'columbia', claimId: 'HIST-TEX-584' }),
+      at('old-fort', on(1836, 4, 20, 12), { claimId: 'HIST-TEX-584' }),
     ],
     until: on(1836, 4, 20, 12),
   },
@@ -230,15 +230,15 @@ export const COLUMNS = Object.freeze([
       pt('cayces', on(1836, 4, 15, 18)),
       pt('sanBernard', on(1836, 4, 18, 12), { claimId: 'HIST-TEX-593' }),
       pt('sanBernard', on(1836, 4, 19, 18)),
-      pt('powells', on(1836, 4, 20, 12), { claimId: 'HIST-TEX-593' }),
-      pt('powells', on(1836, 4, 21, 4)),
+      at('powells', on(1836, 4, 20, 12), { claimId: 'HIST-TEX-593' }),
+      at('powells', on(1836, 4, 21, 4)),
       at('columbia', on(1836, 4, 21, 16), { claimId: 'HIST-TEX-593', topic: 'urrea-columbia', word: 'Urrea has taken Columbia.' }),
       at('brazoria', on(1836, 4, 22, 10), { strength: 400, claimId: 'HIST-TEX-593', topic: 'urrea-brazoria', word: 'Urrea is at Brazoria. The families who stayed there were let be.' }),
       at('brazoria', on(1836, 4, 23, 11), { retreat: true }),
       at('columbia', on(1836, 4, 23, 17), { retreat: true }),
       // At Mrs. Powell's from midnight, where Filisola's army comes up in the afternoon of the 25th and takes him in.
-      pt('powells', on(1836, 4, 24, 23), { retreat: true }),
-      pt('powells', on(1836, 4, 25, 15), { retreat: true }),
+      at('powells', on(1836, 4, 24, 23), { retreat: true }),
+      at('powells', on(1836, 4, 25, 15), { retreat: true }),
     ],
     until: on(1836, 4, 25, 15),
   },
@@ -270,12 +270,12 @@ export const COLUMNS = Object.freeze([
       // At Old Fort by about the 18th (`HIST-TEX-590`; the day of arrival is not given) he takes in Sesma's division and, on
       // the 20th, Gaona's column; the record gives no count for the
       // camp between, and Cos goes on the 18th with 500.
-      pt('oldFort', on(1836, 4, 18, 6), { via: 'columbia', strength: null, claimId: 'HIST-TEX-590' }),
-      pt('oldFort', on(1836, 4, 18, 12)),
-      pt('oldFort', on(1836, 4, 24, 6), { retreat: true }),
-      pt('powells', on(1836, 4, 25, 15), { retreat: true, strength: 2563, claimId: 'HIST-TEX-596', topic: 'army-powells', word: 'The Mexican army is gathered at Mrs. Powell’s on the San Bernard, going back toward the Colorado.' }),
+      at('old-fort', on(1836, 4, 18, 6), { strength: null, claimId: 'HIST-TEX-590' }),
+      at('old-fort', on(1836, 4, 18, 12)),
+      at('old-fort', on(1836, 4, 24, 6), { retreat: true }),
+      at('powells', on(1836, 4, 25, 15), { retreat: true, strength: 2563, claimId: 'HIST-TEX-596', topic: 'army-powells', word: 'The Mexican army is gathered at Mrs. Powell’s on the San Bernard, going back toward the Colorado.' }),
       // The march back begins in the rain of the 26th (Urrea; Filisola says the 27th, `FIC-GONZ-469`).
-      pt('powells', on(1836, 4, 26, 11), { retreat: true }),
+      at('powells', on(1836, 4, 26, 11), { retreat: true }),
       pt('mud', on(1836, 4, 28, 12), { retreat: true, claimId: 'HIST-TEX-597' }),
       at('lower-colorado-crossing', on(1836, 4, 29, 18), { retreat: true, name: ATASCOSITO, claimId: 'HIST-TEX-597' }),
       at('lower-colorado-crossing', on(1836, 5, 8, 12), { retreat: true, name: ATASCOSITO }),
@@ -306,13 +306,13 @@ export const BURNINGS = Object.freeze([
     words: 'San Felipe is burned. Captain Moseley Baker’s men fired the town before crossing the Brazos. Baker says it was on orders; General Houston says he gave none.' },
   { id: 'bastrop', siteId: 'mina', name: 'Bastrop', minute: on(1836, 4, 10, 6), hand: 'mexican', label: 'STRONGLY SUPPORTED', claimId: 'HIST-TEX-598',
     words: 'Gaona’s column has plundered Bastrop and left it wrecked.' },
-  { id: 'staffords', point: POINTS.staffords.at, name: 'Stafford’s plantation', minute: on(1836, 4, 15, 12), hand: 'mexican', label: 'DOCUMENTED', claimId: 'HIST-TEX-595',
+  { id: 'staffords', siteId: 'staffords', name: 'Stafford’s plantation', minute: on(1836, 4, 15, 12), hand: 'mexican', label: 'DOCUMENTED', claimId: 'HIST-TEX-595',
     words: 'Santa Anna’s column burned Stafford’s plantation on the Brazos: the house, the sugar mill, the gin and the quarters.' },
   { id: 'harrisburg', siteId: 'harrisburg', name: 'Harrisburg', minute: on(1836, 4, 16, 12), hand: 'mexican', label: 'STRONGLY SUPPORTED', claimId: 'HIST-TEX-595',
     words: 'Harrisburg is burned, all but one house. Santa Anna’s army was there.' },
-  { id: 'new-washington', point: POINTS.newWashington.at, name: 'New Washington', minute: on(1836, 4, 20, 8), hand: 'mexican', label: 'DOCUMENTED', claimId: 'HIST-TEX-595',
+  { id: 'new-washington', siteId: 'new-washington', name: 'New Washington', minute: on(1836, 4, 20, 8), hand: 'mexican', label: 'DOCUMENTED', claimId: 'HIST-TEX-595',
     words: 'Santa Anna’s men burned New Washington and Morgan’s warehouses as they left it.' },
-  { id: 'powells', point: POINTS.powells.at, name: 'Mrs. Powell’s', minute: on(1836, 4, 26, 12), hand: 'mexican', label: 'DOCUMENTED', claimId: 'HIST-TEX-596',
+  { id: 'powells', siteId: 'powells', name: 'Mrs. Powell’s', minute: on(1836, 4, 26, 12), hand: 'mexican', label: 'DOCUMENTED', claimId: 'HIST-TEX-596',
     words: 'The Mexican army’s rear guard burned Mrs. Powell’s house on the San Bernard as the army went back.' },
 ]);
 
