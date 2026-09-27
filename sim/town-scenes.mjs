@@ -156,9 +156,9 @@ const said = (claimId, extra = {}) => ({ claimId, ...extra });
  * docs/ART_REQUESTS.md (request 2026-09-25, Gonzales before the fight).
  */
 export const STAND_INS = Object.freeze({
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - Gonzales before the fight. Each pose below is the nearest the library
-  // has for what the scene shows.
-  paint: 'repair', // hemming and painting the flag: hands working at something on the table
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - Gonzales before the fight. The remaining entries below name
+  // the nearest delivered pose; paint has its own authored two-frame clip.
+  paint: 'paint', // hand sewing the flag at the table
   dig: 'work', // a spade in the orchard: the hoe's swing
   forge: 'repair', // cutting chain and fitting the gun to its wheels
   point: 'search', // looking hard across the river
