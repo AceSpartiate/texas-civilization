@@ -1,5 +1,54 @@
 # Claude handoff — Astra foundation
 
+## The Mexican advance's places: Thompson's, the Old Fort, Stafford's, New Washington and Mrs. Powell's on the map — 2026-09-26 (worktree branch `advance-places` from main 9d702eb; not released)
+
+The owner answered docs/SCRAPE.md §10 by multiple choice on 2026-09-26: (a) leaving - **"Nobody"**, (b) the foragers -
+**"Burn it"**, (d) the reach - **"Five miles"**, all as built; (c) the off-map stops - **"Real places to go"**. The four are
+recorded in SCRAPE.md §10 and on `FIC-GONZ-460`, `-465`, `-466` and `HIST-TEX-586`–`-588`, `-590`, `-596` (HISTORY.md).
+
+**What there is now.**
+- **Five places of the map** at the record's markers (docs/MAP_ACCURACY.md §14 has the table and each source): Thompson's (the
+  west-bank landing at the 1936 marker north of Richmond) with **Thompson's ferry** over the Brazos, the **Old Fort** (Fort
+  Bend), **Stafford's**, **New Washington** (Morgan's Point) and **Mrs. Powell's** (on Turkey Creek within a mile of the house).
+- **Seven roads** as the columns went: San Felipe down the right bank to Thompson's (32.7 mi) and on to the Old Fort (2.7);
+  over Thompson's ferry to Stafford's (13.4) and on to Harrisburg (21.2); Harrisburg to New Washington (17.8); the Old Fort to
+  Mrs. Powell's (16.2) and on to Columbia (29.9). A family can be sent to any of the five, on foot or by wagon.
+- **The map regenerated** (§13.2) and decoded against the one before: only the five, the ferry, the seven roads, the ferry's
+  window and five game fords on the new roads added; every other place, road, crossing and watercourse byte for byte, no id
+  renumbered. New hash in `tests/map-outside.test.mjs`. `ROADS` in `scripts/build-colonies-map.mjs` takes `via` points now.
+- **The columns go through them as places** (`sim/advance.mjs`, 21 stops from points to sites): Santa Anna over Thompson's ferry
+  April 14-15, Stafford's, Harrisburg, New Washington; Sesma's division and Gaona to the Old Fort; Cos by Stafford's; Urrea and
+  the retreating army at Mrs. Powell's. **Stafford's, New Washington and Mrs. Powell's burn at those places** on their dates.
+- **Emily West** (`sim/people.mjs`) stands at New Washington itself until the army takes her.
+- **Old saves** are given the five, their roads, the fords on those roads and the creeks round them at the save's door
+  (`sim/advance-places.mjs` `openAdvancePlaces`, after `openSouth` in `server/storage.mjs`); nothing they had is moved; no
+  `saveVersion` bump.
+- **Seen on the way**: with Santa Anna now coming down a real road to New Washington on April 19-20, a family refuged at
+  Lynchburg often presses on to Liberty as he nears. The San Jacinto proof's seed moved (`sj-proof-90`) and it now brings the
+  first family's grown man from the farm to its refuge in process (said in its header): no seed in 25-90 had the family and its
+  man at Lynchburg together on April 17 by itself.
+
+**Evidence** (same computer only; not physical LAN or district acceptance).
+- `npm test`: **1,381 of 1,381**. New: `tests/advance-places.test.mjs` (5). Moved to the places: `mexican-advance` (the record's stops),
+  `geography-truth` (Thompson's the one new way over the Brazos), `road` (Santa Anna at Thompson's on its date).
+- Injections: **28 of 28** unit (six new on `tests/advance-places.test.mjs`) and **3 of 3** map injections
+  (`scripts/advance-places-map-injections.mjs`: the map rebuilt with each mistake - the road down the left bank, Stafford's at
+  the estimate, no road to the Old Fort), each caught alone by the check written for it (`docs/evidence/mexican-advance-injections.json`).
+- Browser proofs re-run on this tree: `test:mexican-advance` 10 (three runs), `test:scrape` 5, `test:battle-san-jacinto` 15,
+  `test:famous-people` 17. `scripts/san-jacinto-injections.mjs browser`: 8 of 8 caught on the new seed (35 of 35 with the unit record).
+- The advance proof read the Host's smoke after waiting up to a minute for the family's page, and the six hours of smoke could
+  pass first (failed once in three runs here): it is read at the burning moment now; its injection still caught.
+- The places injection that stops a family walking to them fails two checks, as it should (an old save cannot walk there either):
+  `scripts/mexican-advance-injections.mjs` takes an exact set of names for it, as `scripts/san-jacinto-injections.mjs` does.
+
+**Not done.** Physical LAN or district acceptance. No road from New Washington to Lynch's ferry (Santa Anna crosses to the field
+across country, as before). The creeks round the five are drawn only where the map already drew them. The Vince Bayou ford is
+the game's, not Vince's bridge. The five have their names and no art of their own (docs/ART_REQUESTS.md, "the Mexican advance",
+item 4).
+
+**For the owner.** Nothing open from §10. Mrs. Powell's stands within a mile of the house (the marker has no coordinates);
+if a surveyed site turns up it is one line in `scripts/build-colonies-map.mjs` and a regenerate.
+
 ## The Mexican advance: the record's columns on the map, the burn zone, and half the class's land dealt inside it — 2026-09-26 (worktree branch from main fe4e882, main merged at 0307b54; not released)
 
 The owner, 2026-09-25: *"we need to fully model the Mexican army as it pushes towards the Texian army during the runaway
@@ -66,14 +115,14 @@ Richmond.
 
 **Not done.** Physical LAN or district acceptance (same computer only). The word goes as the crow flies, not by the
 roads and ferries. Knowledge is the household's, not each person's. The off-map stops (Thompson's, Old Fort, Stafford's, New
-Washington, Powell's) are points, not places a family can go. The retreat past the class's end is drawn only if a class runs
+Washington, Powell's) were points - places since, in the section above. The retreat past the class's end is drawn only if a class runs
 on. No art yet for foraging parties, a burning farm or a column on the march (stand-ins; docs/ART_REQUESTS.md, request
 2026-09-26 "the Mexican advance"). Families nobody plays are overtaken on the road more often now that the columns come on their
 record dates (Sesma at Gonzales on March 14): seen in passing while choosing proof seeds, not studied. Not this branch's: four
 other harnesses carry patterns that no longer match their code (`art-wiring`, `biome-game`, `mounted-wiring`, `travel-drawn`).
 
 **Decisions for the owner** (docs/SCRAPE.md §10, multiple choice): (a) who burns a farm as the family leaves; (b) burn or strip
-the zone's farms; (c) the off-map stops as places; (d) the forager range.
+the zone's farms; (c) the off-map stops as places; (d) the forager range. Answered 2026-09-26 (the section above).
 
 
 ## The famous people: one roster, drawn and named on every field and on the map, dying as the record has them — 2026-09-26 (worktree branch from main 9e7aa74, main merged at db9d268; released in v2026.09.26.5)
