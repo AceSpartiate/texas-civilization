@@ -167,7 +167,14 @@ as if **every** family were played, present and not on auto: **35 ticks, 5.5 min
 
 ## 9. Evidence
 
-(Filled in at the end of the build; see `HANDOFF.md`.)
+Same computer only; no physical LAN or district claim. `tests/mexican-advance.test.mjs` (11: the columns on the record's dates
+and nowhere no Mexican came; on the roads at a column's pace, never a jump; the towns' burnings and hands; half the land inside
+for 5 to 30 families on three seeds each, the odd one inside; an old save's farms by their own land; the page shows the farm as
+left until the word; the smoke only near and while it stands, the word at forty miles a day; the return; the columns seen only
+where a family's people are; the watch; the stock), and `scrape`, `road`, `armies` rewritten for the rule.
+`npm run test:mexican-advance` (`docs/evidence/mexican-advance-browser.json`), `npm run test:mexican-advance-injections`
+(`docs/evidence/mexican-advance-injections.json`), the class time in `docs/evidence/advance-class-time.json`. Numbers in
+`HANDOFF.md`.
 
 ## 10. Decisions for the owner
 

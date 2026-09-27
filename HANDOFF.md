@@ -1,5 +1,81 @@
 # Claude handoff — Astra foundation
 
+## The Mexican advance: the record's columns on the map, the burn zone, and half the class's land dealt inside it — 2026-09-26 (worktree branch from main fe4e882, main merged at 0307b54; not released)
+
+The owner, 2026-09-25: *"we need to fully model the Mexican army as it pushes towards the Texian army during the runaway
+scrape. we'll need to ensure that 50% of player farms are in the zone that will see their farms burned."* On 2026-09-26, by
+multiple choice on how the half is guaranteed: **"Place land at the start"**. docs/SCRAPE.md is the design and the decisions;
+docs/battle-research/mexican-advance.md the research (read directly from the generals' own accounts in Castañeda's 1928
+translation, the TSHA Handbook, Kemp and Kilman, the Colorado County history, Dilue Rose Harris).
+
+**What there is now.**
+- `sim/advance.mjs`: the columns as the record has them - **Sesma** (Béxar Mar 11, Gonzales Mar 14, opposite Beeson's Mar 20-27,
+  the Atascosito crossing), **Tolsa** (joining him about Mar 25), **Santa Anna** (Béxar Mar 31, Gonzales Apr 2, the Colorado
+  Apr 5-6, San Felipe Apr 7-9, Thompson's ferry Apr 12-14, Stafford's Apr 15, Harrisburg Apr 15-18, New Washington Apr 19-20,
+  the field Apr 20), **Sesma's division again** (San Felipe to Old Fort), **Cos** (Old Fort Apr 18 to San Jacinto 9 a.m.
+  Apr 21), **Gaona** (Béxar Mar 24, Bastrop Apr 2-10, lost by Industry and Cat Spring, Old Fort Apr 20), **Urrea** (Refugio,
+  Goliad, Coleto, Victoria 7:30 a.m. Mar 21, Texana, Cayce's crossing, Matagorda 10 a.m. Apr 13, Powell's, Columbia Apr 21,
+  Brazoria Apr 22, recalled) with his detachments to Las Juntas and Cox's Point, and **Filisola** (the rear to Old Fort, then
+  the whole army's retreat from Mrs. Powell's by the sea of mud to Victoria and Goliad). Each with its commander, the record's
+  strength for each stretch, camps, crossings and foragers, marching the map's roads at a column's pace; columns that marched as
+  one are one column. Seen by a family only where its people are; the Host sees all. The generals are named on the map.
+- **What burns.** The towns on their dates by the record's hand (Texians: Gonzales, Refugio's houses, Goliad, Beeson's, San
+  Felipe; Mexicans: Bastrop, Stafford's, Harrisburg, New Washington, Mrs. Powell's); none of Victoria, Matagorda, Columbia,
+  Brazoria. **A farm inside the burn zone** burns when a column's foragers reach it - a day after its family's order at the
+  soonest - with what was left in it, the stock driven off (a quarter of the cattle found again) and whoever is at home taken at
+  one in two; **a farm outside it stands**, and the family comes home to it and what it left. **Leaving no longer burns the farm
+  on the real land** (decision (a) in SCRAPE.md §10).
+- **What a family learns**: by its own people (the smoke within ten miles, a column within twelve) or by the word at forty miles
+  a day; until then its page draws the farm as it left it (`flight.unseen`, `householdAsKnown`). The towns burned and where the
+  columns came are reports, and lines of the Rumor Mill.
+- **The land**: family 1 inside, family 2 outside, and on down the class, in join order: the played families are half and half,
+  an odd one over inside. Every land rule and the 1834 counts kept; dealt as before, then moved as little as it can from a stream
+  of its own (34 of 74 families on six seeds keep their land exactly; every crop, load and timber band is the seed's as before).
+  Old saves keep their land; no `saveVersion` move.
+- **Found and fixed on the way**: a family told to leave that never went (Liberty has no refuge east of some farms) would have
+  held the class's calendar all spring once the Texas army's burning no longer released it - it now stays after its two days;
+  a family could be caught by Sesma walking out through Gonzales in the first hour of the spring (the day's grace); two columns
+  marching together made the road's warning flip between them every tick (the warned column is kept); a family stripped at
+  San Felipe was taken again by each later column (not until it sets out again); a re-dealt house could fall on a road vertex
+  with no lane in (refused).
+
+**Claims.** `HIST-TEX-580`–`-599`, `FIC-GONZ-460`–`-469` (HISTORY.md). `HIST-TEX-586` corrects Thompson's ferry to above
+Richmond.
+
+**Evidence** (same computer only; not physical LAN or district acceptance).
+- `npm test`: **1,375 of 1,375** after merging main at 0307b54. New: `tests/mexican-advance.test.mjs` (11). Rewritten where the
+  rules moved: `scrape` (leaving no longer burns; the stayed family burned by the foragers), `road` (the columns' own dates),
+  `armies` (Sesma on the road at the spring's opening, with his strength). Seeds moved where a test needed a family the old deal
+  had and the new one moved: `biomes` (the family without timber is now looked for), `biome-game`, `felling`, `house-spacing`,
+  `hunt-land`.
+- `npm run test:mexican-advance`: **10 checks** at 1366x768 (Host, first student) and 1024x768 (second student)
+  (`docs/evidence/mexican-advance-browser.json`, screenshots `mexican-advance-host.png`, `-word.png`). The first family's farm
+  burned by Urrea's foragers on April 13 while it was at Nacogdoches; its page drew nothing of it until the word came 128 hours
+  later; the family came home to the ashes; the family outside the zone came home to its house and goods. The map draws in
+  5.8 ms median, 29.3 ms at the 95th percentile on the Host, 2.6 / 5.4 ms on a student's page at 1024x768.
+- `npm run test:mexican-advance-injections`: **25 of 25 caught** alone by the check written for each (22 unit - 20 on `tests/mexican-advance.test.mjs`, 2 on
+  `tests/scrape.test.mjs` - and 3 browser) (`docs/evidence/mexican-advance-injections.json`).
+- Existing proofs re-run on this tree, all pass: `test:scrape` 5, `test:battle-san-jacinto` 15 (seed now `sj-proof-21`, see its
+  header; its optional "heard at Lynchburg" check does not arise), `test:battle-alamo` 13, `test:battle-coleto` 17,
+  `test:famous-people` 17, `test:lesson` 33, `test:panels` 14, `test:winter` 6. `scripts/san-jacinto-injections.mjs`'s "column
+  drawn beside the battle" pattern re-aimed at the new rule and seen caught alone by its test.
+- **Class time at Study** (`scripts/battle-class-time.mjs 5 15`, `docs/evidence/advance-class-time.json`; the baseline is the same
+  script on fe4e882): unchanged - 198.1 minutes with nobody at the controls and 229.3 with a played family in every fight, before
+  and after; the columns hold only a played family at its screen. Their most, every family counted played and present:
+  **+5.5 minutes** (5 families) and **+12.0** (15).
+
+**Not done.** Physical LAN or district acceptance (same computer only). The word goes as the crow flies, not by the
+roads and ferries. Knowledge is the household's, not each person's. The off-map stops (Thompson's, Old Fort, Stafford's, New
+Washington, Powell's) are points, not places a family can go. The retreat past the class's end is drawn only if a class runs
+on. No art yet for foraging parties, a burning farm or a column on the march (stand-ins; docs/ART_REQUESTS.md, request
+2026-09-26 "the Mexican advance"). Families nobody plays are overtaken on the road more often now that the columns come on their
+record dates (Sesma at Gonzales on March 14): seen in passing while choosing proof seeds, not studied. Not this branch's: four
+other harnesses carry patterns that no longer match their code (`art-wiring`, `biome-game`, `mounted-wiring`, `travel-drawn`).
+
+**Decisions for the owner** (docs/SCRAPE.md §10, multiple choice): (a) who burns a farm as the family leaves; (b) burn or strip
+the zone's farms; (c) the off-map stops as places; (d) the forager range.
+
+
 ## The famous people: one roster, drawn and named on every field and on the map, dying as the record has them — 2026-09-26 (worktree branch from main 9e7aa74, main merged at db9d268; released in v2026.09.26.5)
 
 The owner: *"famous npc's: have we taken the time to ensure they do what they're supposed to? they should be labelled, saying
