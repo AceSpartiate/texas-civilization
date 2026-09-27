@@ -6,6 +6,9 @@
 // (public/battle-view.js `drawPerson`): a volunteer or a regular where a person has no sheet, and the library's iron field gun
 // twice for the Twin Sisters. stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the Esparza family" - Ana Esparza and her
 // children at Béxar after the fall are the library's woman, girl, boy and small child (`PERSON_ART` in public/battle-view.js).
+// Found 2026-09-26: public/app.js hands this `animated` and `drawSprite` wrappers that take the clip first, while this calls them
+// with the canvas first, so on the map every famous person is `miniPerson` today; correcting it costs the first frames' decode
+// of the famous sheets (HANDOFF.md, the Esparza section), which is left for the owner.
 import { PERSON_ART } from '/battle-view.js';
 
 /** Draws every famous person the page was sent; returns what was drawn, for the proofs (`window.__famousDrawn`). */
