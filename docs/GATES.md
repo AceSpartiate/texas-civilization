@@ -64,6 +64,29 @@ Work accepted after the four gates, recorded here in the order it was built. Non
 
 *"A backgrounded mobile tab drops the stream"* is now surfaced honestly as **away** rather than silently subtracted, but it has still not been tested across a full 45-minute lesson with screen locks.
 
+## The family panel on a phone: a gate again, 2026-09-27
+
+**The owner made the family of twenty's phone measurements a gate again (2026-09-27).** `npm run test:family-twenty` measures a
+family of twenty on a 400 by 800 phone (headless Chrome, `isMobile`), and since 2026-09-26 its six phone checks had been recorded
+and not asserted: since the compact two-row work bar of 2026-09-22 they failed every run - the panel on top at 35% of the screen
+against the 30% asked, the map on top at 26% of what the guided start leaves against the 40% asked, and the youngest of twenty
+under the bar. They are asserts again, with the thresholds they always had, and the phone layout was fixed to hold all six:
+
+- the work bar is **one row that scrolls sideways** on a phone, edge to edge (public/style.css), as it was before the compact bar;
+  the guided start's pointer already scrolls the pointed icon into the middle;
+- the column's height on a phone is **measured**: from where it starts down to the bar's own top (`--phone-column`, written by
+  `fitColumn` in public/app.js), in place of `100vh - 290px`.
+
+Measured on 2026-09-27: the panel on top at **20%**, the map at **48%** below the guided start, the panel ending at 645 of 800 px,
+and the youngest child brought into view uncovered - all six hold. Evidence:
+[family-twenty-browser.json](evidence/family-twenty-browser.json); each part of the fix undone in turn fails the gate
+([family-twenty-phone-injections.json](evidence/family-twenty-phone-injections.json), 3 of 3 caught). The desktop and Chromebook
+sizes (1366×768, 1440×950, 1024×768) are unchanged and still asserted in the same proof, and `test:panels`, `test:family-panel`,
+`test:panel-silence`, `test:lesson` and `test:children` were run against the change.
+
+**Boundary.** This is the family panel's gate only. Phones remain **not officially supported** everywhere else in the game; nothing
+here was run on a real phone, and a real phone's touch scrolling of the bar is **NOT YET TESTED**.
+
 ## Readiness boundary
 
 All four foundation gates have practical development evidence. This is **PROTOTYPE**, not CLASSROOM READY.

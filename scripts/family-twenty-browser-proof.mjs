@@ -4,7 +4,7 @@
 // What only a browser can show is that a student can still use the page with all of them on it: the names card holds
 // twenty boxes and its Continue can be reached, the family panel down the left scrolls to its last child instead of running
 // off the screen, and the map beside it is still the map - at a Chromebook's 1366 by 768, 1440 by 950 and 1024 by 768. A
-// phone's 400 by 800 is measured and recorded but is not a gate (phones are unsupported; see the phone section below).
+// phone's 400 by 800 is a gate again since 2026-09-27 (owner; docs/GATES.md): six checks, see the phone section below.
 //
 // Run: npm run test:family-twenty   (PLAYWRIGHT_MODULE and BROWSER_EXECUTABLE as for every browser proof)
 // Writes docs/evidence/family-twenty-browser.json. Same computer only: no classroom Wi-Fi, no Chromebook, no real phone.
@@ -190,11 +190,12 @@ try {
   const mobile = await layout(small);
   measured.phone = mobile;
   await small.screenshot({ path: 'test-results/family-twenty-phone.png' });
-  // **Recorded, not a gate** (2026-09-26). Phones are unsupported: the owner plays and prioritises desktop and the
-  // Chromebook (HANDOFF, 8e6ecd5: "phones are unsupported"), and since the compact action bar of 2026-09-22 this phone check
-  // failed every run (the panel on top at about 35% of a 400 px screen against the 30% it asked). It is still measured and
-  // written into the record every run, so a phone that gets worse is seen - but it no longer fails the proof. If the owner
-  // ever makes phones a supported screen again, these become asserts again: the thresholds are the ones below.
+  // **A gate again** (owner, 2026-09-27, docs/GATES.md). From 2026-09-26 to 2026-09-27 these six were recorded and not
+  // asserted, because phones are otherwise unsupported and since the compact action bar of 2026-09-22 they failed every run
+  // (the panel on top at 35% of a 400 px screen, the map at 26%, the youngest of twenty under the bar). The owner made them a
+  // gate for the family panel again and the phone's layout was fixed to hold them: the work bar one row that scrolls sideways,
+  // and the column as tall as the room down to the bar's own top (public/style.css, public/app.js `fitColumn`). The
+  // thresholds are the ones they always were. Phones stay "not officially supported" everywhere else; this is the panel's gate.
   const phoneLast = await lastRowReachable(small);
   measured.phoneLast = phoneLast;
   const phoneChecks = [
@@ -203,10 +204,12 @@ try {
     [mobile.pageScrolls === false, 'the page itself does not scroll'],
     [mobile.panelShare < 0.3, `the panel is on top at ${Math.round(mobile.panelShare * 100)}% of the screen (asked: under 30%)`],
     [mobile.mapShare > 0.4, `the map is on top at ${Math.round(mobile.mapShare * 100)}% below the guided start (asked: over 40%)`],
-    [phoneLast.inside && phoneLast.onTop, 'the last child can be brought into view'],
+    [phoneLast.inside && phoneLast.onTop, `the last child can be brought into view (${JSON.stringify(phoneLast)})`],
   ].map(([held, what]) => ({ held: Boolean(held), what }));
-  measured.phoneNotAGate = { gate: false, why: 'phones are unsupported (owner prioritises desktop and Chromebook); recorded so a regression is seen', checks: phoneChecks };
-  for (const one of phoneChecks) console.log(`${one.held ? 'NOTE (phone, not a gate) held' : 'NOTE (phone, not a gate) DOES NOT HOLD'}: ${one.what}`);
+  measured.phoneGate = { gate: true, since: '2026-09-27', checks: phoneChecks };
+  await small.screenshot({ path: 'test-results/family-twenty-phone-last.png' });
+  for (const one of phoneChecks) assert.ok(one.held, `on a 400 by 800 phone: ${one.what}`);
+  ok(`on a 400 by 800 phone all six hold: ${phoneChecks.map(one => one.what).join('; ')}`);
 
   assert.deepEqual(errors, [], `page errors: ${errors.join('; ')}`);
   ok('no page error in either');

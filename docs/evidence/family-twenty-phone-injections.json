@@ -1,0 +1,27 @@
+{
+  "record": "family-twenty-phone-injections",
+  "date": "2026-09-27",
+  "proof": "scripts/family-twenty-browser-proof.mjs",
+  "note": "The family of twenty on a 400 by 800 phone, a gate again since 2026-09-27 (owner; docs/GATES.md). Each injection undoes one part of the phone layout fix; `checksBeforeIt` is how many of the proof’s checks passed before the one that failed, which should be the seven desktop checks. Same computer only: headless Chrome, not a real phone.",
+  "clean": 9,
+  "injections": [
+    {
+      "name": "the phone keeps the desktop two-row work bar across the bottom",
+      "file": "public/style.css",
+      "checksBeforeIt": 7,
+      "failed": "on a 400 by 800 phone: the panel is on top at 35% of the screen (asked: under 30%)"
+    },
+    {
+      "name": "the phone column keeps the height written down for one screen, not the room down to the bar",
+      "file": "public/style.css",
+      "checksBeforeIt": 7,
+      "failed": "on a 400 by 800 phone: the last child can be brought into view ({\"inside\":true,\"onTop\":false,\"scrollTop\":571,\"id\":\"hh-1-child-18\"})"
+    },
+    {
+      "name": "the page never measures the phone column (fitColumn returns on a phone, as it did)",
+      "file": "public/app.js",
+      "checksBeforeIt": 7,
+      "failed": "on a 400 by 800 phone: the panel ends at 1352 of 800 px"
+    }
+  ]
+}

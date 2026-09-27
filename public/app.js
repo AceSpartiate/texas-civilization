@@ -4066,9 +4066,9 @@ addEventListener('resize', queueColumnFit);
 function fitColumn() {
   const panel = $('#family-panel'), column = $('#hud-left');
   const stage = column?.offsetParent?.getBoundingClientRect();
-  // A phone puts the family across the top (the stylesheet's `bottom:auto` there), and a page with no family has no column.
-  if (!panel || panel.hidden || !stage || matchMedia('(max-width:760px)').matches) {
-    document.body.style.removeProperty('--column-room'); columnKey = roomKey = null; return;
+  // A page with no family has no column.
+  if (!panel || panel.hidden || !stage) {
+    document.body.style.removeProperty('--column-room'); document.body.style.removeProperty('--phone-column'); columnKey = roomKey = null; return;
   }
   const barBox = $('.panel-row[data-focused=true] .panel-icons')?.getBoundingClientRect();
   let bar = barBox && barBox.width > 0 && barBox.height > 0 ? barBox : null;
@@ -4077,8 +4077,18 @@ function fitColumn() {
   const box = panel.getBoundingClientRect();
   const tools = $('#map-tools')?.getBoundingClientRect();
   const room = columnRoom({ height: stage.bottom, column: { left: box.left, right: box.right }, bar, others: tools ? [tools] : [] });
+/** The least a phone's column is given, in pixels: a portrait and a half, whatever the strip above it takes. */
+const PHONE_COLUMN_FLOOR = 76;
   const roomText = `${room}px`;
-  if (document.body.style.getPropertyValue('--column-room') !== roomText) document.body.style.setProperty('--column-room', roomText);
+  if (phone) {
+    document.body.style.removeProperty('--column-room');
+    // Never less than a row and a half of portraits, so a phone with a tall strip still shows whose row is open.
+    const tall = `${Math.max(PHONE_COLUMN_FLOOR, Math.floor(stage.bottom - room - box.top))}px`;
+    if (document.body.style.getPropertyValue('--phone-column') !== tall) document.body.style.setProperty('--phone-column', tall);
+  } else {
+    document.body.style.removeProperty('--phone-column');
+    if (document.body.style.getPropertyValue('--column-room') !== roomText) document.body.style.setProperty('--column-room', roomText);
+  }
   const lines = [...panel.querySelectorAll('.panel-auto-line, .panel-life-line')].filter(line => !line.hidden).map(line => line.textContent);
   const key = JSON.stringify([room, Math.round(stage.height), panelRows.size, lines, panel.dataset.collapsed || '', focusedId]);
   if (key !== columnKey) {
@@ -4090,6 +4100,10 @@ function fitColumn() {
   }
   // The room, not the sentences: a row's auto line changing as its person waits must not scroll the list under a student.
   const roomNow = `${room}:${Math.round(stage.height)}`;
+  // A phone puts the family below the status across the top (the stylesheet's `bottom:auto` there), so its column is not held
+  // up from the foot of the screen: it is given a height, from where it starts down to the same foot a column stops at
+  // anywhere else (owner, 2026-09-27: the family of twenty's phone checks are a gate again, docs/GATES.md).
+  const phone = matchMedia('(max-width:760px)').matches;
   if (roomNow !== roomKey) { roomKey = roomNow; scrolledFor = null; }
   const chosen = focusedId ? panelRows.get(focusedId)?.item : null;
   if (chosen && scrolledFor !== focusedId) {

@@ -1055,3 +1055,16 @@ body[data-meeting=true] .panel-row[data-focused=true] .panel-icons{display:none}
    measured corner (renderScreenMoments), so this holds at every size without a number written for each. */
 body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{left:var(--place-left,12px);top:var(--place-top,64px);right:auto;
   width:min(24rem,calc(100% - var(--place-left,12px) - 12px));max-height:calc(100% - var(--place-top,64px) - 12px);overflow-y:auto}
+/* A phone's family (owner, 2026-09-27: the family of twenty's phone checks are a gate again, docs/GATES.md). Two things were
+   wrong at 400 by 800 and each is measured by `npm run test:family-twenty`:
+   - The work bar was the desktop's two-row grid, about 200px tall across the whole width: a quarter of the screen by itself,
+     over the foot of the column, so the youngest of a large family could not be brought out from under it. On a phone it is
+     one row that scrolls sideways, as it was before the compact bar (the guided start's pointer scrolls the pointed icon into
+     the middle, public/app.js), across the screen from edge to edge.
+   - The column was given `100vh - 290px`, a height written down for one screen. It is now the room from where it starts to
+     the bar's own measured top (`--phone-column`, written by fitColumn in public/app.js), the way `--column-room` is elsewhere. */
+@media(max-width:760px){
+  #family-panel{max-height:var(--phone-column,calc(100vh - 290px - var(--lesson-room,0px)))}
+  .panel-row[data-focused=true] .panel-icons{left:8px;right:8px;transform:none;width:auto;max-width:none;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:60px;justify-content:safe center;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:thin}
+  .panel-icons .panel-icon{min-height:64px}
+}
