@@ -3179,11 +3179,10 @@ export function drawWorld(world) {
     return { id: fire.id, kind: fire.kind, x: Math.round(p.x), y: Math.round(p.y) };
   });
   // The famous people on the map between their battles, with their names, where the server says this page could see them
-  // (sim/famous.mjs, public/famous-view.js; docs/BATTLES.md §2c). drawFamous hands the canvas first, as the battle view does;
-  // until 2026-09-26 these took it as the clip's name, so every famous person on the map was the mini figure (the proof's `how`).
+  // (sim/famous.mjs, public/famous-view.js; docs/BATTLES.md §2c).
   window.__famousDrawn = drawFamous(ctx, world.famous, camera, {
-    animated: (c, clip, x, y, size, key, options) => animated(c, clip, x, y, size, key, options),
-    drawSprite: (c, sprite, x, y, size, options) => drawSprite(c, sprite, x, y, size, options), miniPerson: (c, x, y, size, entity) => miniPerson(c, x, y, size, entity),
+    animated: (clip, x, y, size, key, options) => animated(ctx, clip, x, y, size, key, options),
+    drawSprite: (sprite, x, y, size, options) => drawSprite(ctx, sprite, x, y, size, options), miniPerson: (c, x, y, size, entity) => miniPerson(c, x, y, size, entity),
     time: animationTime, bounds: { width: canvas.width, height: canvas.height },
   });
   // The fight, if this page may watch one (public/battle-view.js; sim/battle-stage.mjs `projectBattle`): both sides as they
