@@ -121,7 +121,9 @@ try {
   await host.getByRole('button', { name: 'Pause', exact: true }).click();
   await host.waitForFunction(() => window.__snapshot.world.status === 'paused');
   const paused = structuredClone(app.state.world);
-  const pausedPhase = await host.evaluate(() => window.__snapshot.world.battle?.phase);
+  // Read off the family's page that is watching it: whether the Host is sent the fight at all is checked on its own below.
+  await participant.waitForFunction(() => window.__snapshot.world.status === 'paused');
+  const pausedPhase = await participant.evaluate(() => window.__snapshot.world.battle?.phase);
   assert.ok(FIGHTING.includes(pausedPhase), `the Pause did not land in the fighting: ${pausedPhase}`);
   await new Promise(resolve => setTimeout(resolve, 1000));
   assert.deepEqual(app.state.world, paused, 'the world moved while the Host had it paused');
