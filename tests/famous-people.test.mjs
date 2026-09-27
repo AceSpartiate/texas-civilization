@@ -19,6 +19,8 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { projectWorld } from '../sim/world.mjs';
 
 const copy = value => JSON.parse(JSON.stringify(value));
+/** Ana Esparza and her four children (sim/people.mjs; `HIST-TEX-605`). */
+const ESPARZA_FAMILY = ['ana-esparza', 'maria-de-jesus', 'enrique-esparza', 'manuel-esparza', 'francisco-child'];
 /** A bare world holding one engagement from minute 0, on a map with the places the engagements stand at. */
 const SITES = { bexar: { x: -61.6, y: 4.6, name: 'Béxar' }, lynchburg: { x: 144.4, y: -19.1, name: 'Lynchburg' }, gonzales: { x: 1.1, y: -0.7, name: 'Gonzales' },
   ford: { x: 0.9, y: -0.5, name: 'the ford' }, 'williams-camp': { x: 0.8, y: 1.8, name: 'Williams' }, 'san-patricio': { x: -18.4, y: 104.3, name: 'San Patricio' },
@@ -290,6 +292,17 @@ test('a family sees a famous person on the map only where its own people could, 
   const field = fieldAt('alamo', 'alarm', 2);
   const onField = peopleOnFields(field.world);
   assert.ok(onField.has('travis') && onField.has('joe'));
+  // The Esparza family (owner, 2026-09-26): on the field while the Alamo draws them, and on the map at Béxar after the fall -
+  // seen there by a family only with somebody in Béxar, and by the Host always.
+  assert.ok(ESPARZA_FAMILY.every(id => peopleOnFields(fieldAt('alamo', 'day-24', 300).world).has(id)), 'the Alamo does not draw the family');
+  const after = createGonzalesWorld('esparza-seen', 5, { map: 'colonies' });
+  after.minute = whenOf(after, on(1836, 3, 9, 12));
+  const theirs = Object.values(after.households)[0];
+  assert.ok(!famousSeen(after, theirs.id, 'student').some(one => ESPARZA_FAMILY.includes(one.id)), 'a family far from Béxar is sent the Esparzas');
+  assert.ok(ESPARZA_FAMILY.every(id => famousSeen(after, null, 'host').some(one => one.id === id)), 'the Host is not sent the Esparzas');
+  after.entities[theirs.members[0]].location = { x: after.map.sites.bexar.x, y: after.map.sites.bexar.y, siteId: 'bexar' };
+  const seenThere = famousSeen(after, theirs.id, 'student').map(one => one.id);
+  assert.ok(ESPARZA_FAMILY.every(id => seenThere.includes(id)), 'a family with a person in Béxar does not see the Esparzas');
 });
 
 test('a fate is never sent before its minute, and nothing of a later phase is sent', () => {
@@ -314,7 +327,7 @@ test('a fate is never sent before its minute, and nothing of a later phase is se
 
 // ---------------------------------------------------------------- the Esparza family (owner, 2026-09-26: "yes, add enrique and
 // his family"; docs/battle-research/famous-people.md, the Esparza family; `HIST-TEX-605` to `-609`, `FIC-GONZ-470` to `-473`)
-const ESPARZAS = ['ana-esparza', 'maria-de-jesus', 'enrique-esparza', 'manuel-esparza', 'francisco-child'];
+const ESPARZAS = ESPARZA_FAMILY;
 /** The Alamo's minute on the class's own timeline for a calendar moment (a class that arrived at dawn on September 28). */
 const alamoClock = (phase, into) => TIMELINE[ALAMO.startKey] + phaseOffset(ALAMO, phase) + into;
 const calendar = moment => whenOf({ director: { arrival: true } }, moment);
@@ -323,7 +336,7 @@ const within = (a, b, feet) => Boolean(a && b) && Math.hypot(a.x - b.x, a.y - b.
 test('the Esparza family goes in with Gregorio through the church window on the evening of February 23, shelters in the sacristy through the siege and the assault, and Gregorio goes from beside them to his gun at the alarm', () => {
   // Not drawn before they come; walking in toward evening; at the window at six; in the sacristy by the end of the phase.
   const early = fieldAt('alamo', 'red-flag', 60).view;
-  for (const id of [...ESPARZAS, 'esparza']) assert.ok(!personIn(early, id), `${id} is inside before the family came`);
+  for (const id of ESPARZAS) assert.ok(!personIn(early, id), `${id} is inside before the family came`);
   const walking = fieldAt('alamo', 'red-flag', 120).view;
   for (const id of [...ESPARZAS, 'esparza']) assert.equal(personIn(walking, id)?.pose, 'walk', `${id} is not walking in with the family`);
   const window = fieldAt('alamo', 'red-flag', 154);
@@ -431,19 +444,4 @@ test('Ana\'s and Enrique\'s words are his own printed words of 1902, spoken as t
   assert.equal(enrique.person, 'enrique-esparza'); assert.equal(enrique.phase, 'end');
   // No unnamed, reconstructed line speaks of them or for them.
   for (const line of all.filter(one => one.kind === 'reconstructed')) assert.doesNotMatch(line.text, /Gregorio|Esparza|Enrique|\bAna\b/, `${line.id} puts words about the Esparzas in an unnamed mouth`);
-});
-
-test('a family sees the Esparzas only where its own people could: on the field while it watches the Alamo, on the map only near Béxar, the Host always', () => {
-  // On the map after the fall: nobody of the family near Béxar, none of them; a person in Béxar, all five; the Host, all five.
-  const world = createGonzalesWorld('esparza-seen', 5, { map: 'colonies' });
-  world.minute = whenOf(world, on(1836, 3, 9, 12));
-  const household = Object.values(world.households)[0];
-  assert.ok(!famousSeen(world, household.id, 'student').some(one => ESPARZAS.includes(one.id)), 'a family far from Béxar is sent the Esparzas');
-  assert.ok(ESPARZAS.every(id => famousSeen(world, null, 'host').some(one => one.id === id)), 'the Host is not sent the Esparzas');
-  const bexar = world.map.sites.bexar;
-  world.entities[household.members[0]].location = { x: bexar.x, y: bexar.y, siteId: 'bexar' };
-  const seen = famousSeen(world, household.id, 'student').map(one => one.id);
-  assert.ok(ESPARZAS.every(id => seen.includes(id)), 'a family with a person in Béxar does not see the Esparzas');
-  // During the siege the battle draws them and the map does not: nobody is drawn twice.
-  assert.ok(ESPARZAS.every(id => peopleOnFields(fieldAt('alamo', 'day-24', 300).world).has(id)), 'the Alamo does not draw the family');
 });

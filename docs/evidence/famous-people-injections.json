@@ -127,36 +127,6 @@
       ]
     },
     {
-      "name": "the famous dead sent lying on the field in the phases before they fall",
-      "file": "sim/battle-stage.mjs",
-      "test": "tests/famous-people.test.mjs",
-      "expect": "a fate is never sent before its minute, and nothing of a later phase is sent",
-      "caught": true,
-      "failed": [
-        "a fate is never sent before its minute, and nothing of a later phase is sent"
-      ]
-    },
-    {
-      "name": "the famous drawn with no name under them",
-      "file": "public/battle-view.js",
-      "test": "tests/famous-people-view.test.mjs",
-      "expect": "at the Alamo each famous person is named under their figure, Travis's words come out of him under his name, and Crockett taken carries the \"one account\" tag",
-      "caught": true,
-      "failed": [
-        "at the Alamo each famous person is named under their figure, Travis's words come out of him under his name, and Crockett taken carries the \"one account\" tag"
-      ]
-    },
-    {
-      "name": "a stage direction left out of the bubble",
-      "file": "public/speech.js",
-      "test": "tests/famous-people-view.test.mjs",
-      "expect": "at San Jacinto the Twin Sisters are named under the gun, Emily West's words carry their stage direction, and the Napoleon of the West comes out of Santa Anna",
-      "caught": true,
-      "failed": [
-        "at San Jacinto the Twin Sisters are named under the gun, Emily West's words carry their stage direction, and the Napoleon of the West comes out of Santa Anna"
-      ]
-    },
-    {
       "name": "the Esparzas go in by the gate, not the church window",
       "file": "sim/battles/alamo.mjs",
       "test": "tests/famous-people.test.mjs",
@@ -187,6 +157,16 @@
       ]
     },
     {
+      "name": "the engine lets a living man be carried away as a body",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/famous-people.test.mjs",
+      "expect": "Francisco Esparza carries his brother Gregorio's body, wrapped, to the Campo Santo on the afternoon of March 6 - and nobody is carried who did not fall here first",
+      "caught": true,
+      "failed": [
+        "Francisco Esparza carries his brother Gregorio's body, wrapped, to the Campo Santo on the afternoon of March 6 - and nobody is carried who did not fall here first"
+      ]
+    },
+    {
       "name": "Ana Esparza's remembered words shown as the record",
       "file": "sim/battles/alamo.mjs",
       "test": "tests/famous-people.test.mjs",
@@ -200,20 +180,50 @@
       "name": "the Esparzas after the fall sent to every family, wherever its people are",
       "file": "sim/famous.mjs",
       "test": "tests/famous-people.test.mjs",
-      "expect": "a family sees the Esparzas only where its own people could: on the field while it watches the Alamo, on the map only near Béxar, the Host always",
+      "expect": "a family sees a famous person on the map only where its own people could, and nobody is drawn on the map and a field at once",
       "caught": true,
       "failed": [
-        "a family sees the Esparzas only where its own people could: on the field while it watches the Alamo, on the map only near Béxar, the Host always"
+        "a family sees a famous person on the map only where its own people could, and nobody is drawn on the map and a field at once"
       ]
     },
     {
-      "name": "the engine lets a living man be carried away as a body",
+      "name": "the famous dead sent lying on the field in the phases before they fall",
       "file": "sim/battle-stage.mjs",
       "test": "tests/famous-people.test.mjs",
-      "expect": "Francisco Esparza carries his brother Gregorio's body, wrapped, to the Campo Santo on the afternoon of March 6 - and nobody is carried who did not fall here first",
+      "expect": "a fate is never sent before its minute, and nothing of a later phase is sent",
       "caught": true,
       "failed": [
-        "Francisco Esparza carries his brother Gregorio's body, wrapped, to the Campo Santo on the afternoon of March 6 - and nobody is carried who did not fall here first"
+        "a fate is never sent before its minute, and nothing of a later phase is sent"
+      ]
+    },
+    {
+      "name": "the famous drawn with no name under them",
+      "file": "public/battle-view.js",
+      "test": "tests/famous-people-view.test.mjs",
+      "expect": "at the Alamo each famous person is named under their figure, Travis's words come out of him under his name, and Crockett taken carries the \"one account\" tag",
+      "caught": true,
+      "failed": [
+        "at the Alamo each famous person is named under their figure, Travis's words come out of him under his name, and Crockett taken carries the \"one account\" tag"
+      ]
+    },
+    {
+      "name": "a stage direction left out of the bubble",
+      "file": "public/speech.js",
+      "test": "tests/famous-people-view.test.mjs",
+      "expect": "at San Jacinto the Twin Sisters are named under the gun, Emily West's words carry their stage direction, and the Napoleon of the West comes out of Santa Anna",
+      "caught": true,
+      "failed": [
+        "at San Jacinto the Twin Sisters are named under the gun, Emily West's words carry their stage direction, and the Napoleon of the West comes out of Santa Anna"
+      ]
+    },
+    {
+      "name": "the burial party drawn as a man walking alone, without the wrapped bundle",
+      "file": "public/battle-view.js",
+      "test": "tests/famous-people-view.test.mjs",
+      "expect": "at the Alamo the Esparza family is drawn as a woman and children, Ana's words come out of her under her name, and Gregorio's body is carried as a wrapped bundle, never as a body",
+      "caught": true,
+      "failed": [
+        "at the Alamo the Esparza family is drawn as a woman and children, Ana's words come out of her under her name, and Gregorio's body is carried as a wrapped bundle, never as a body"
       ]
     }
   ],

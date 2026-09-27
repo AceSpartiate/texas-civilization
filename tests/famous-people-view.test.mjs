@@ -49,14 +49,18 @@ test('at the Alamo each famous person is named under their figure, Travis\'s wor
   const crockett = end.last.people.find(one => one.id === 'crockett');
   assert.equal(crockett.tag, 'One account (de la Peña) · disputed', 'Crockett\'s tag was not drawn');
   assert.ok(end.texts.has('One account (de la Peña) · disputed'));
+  // The Esparza family named in the church (owner, 2026-09-26: "yes, add enrique and his family"), and Gregorio's brother at
+  // the burial.
+  const church = run('alamo', 'alarm', 0, cameraOn('alamo', 'sacristy', 5200), { seconds: 3 });
+  for (const name of ['Ana Esparza', 'María de Jesús', 'Enrique', 'Manuel', 'Francisco', 'Esparza', 'Mrs. Dickinson']) {
+    assert.ok(church.texts.has(name), `${name} was not written in the church`);
+    assert.ok(church.last.people.find(one => one.name === name)?.labelled, `${name} was not labelled`);
+  }
+  assert.ok(run('alamo', 'burial', 0, cameraOn('alamo', 'church-front', 1600), { seconds: 1 }).texts.has('Francisco Esparza'), 'Francisco Esparza was not named at the burial');
 });
 
-test('at the Alamo the Esparza family is named in the church, Ana\'s words come out of her under her name, and Gregorio\'s body is carried as a wrapped bundle, never as a body', () => {
+test('at the Alamo the Esparza family is drawn as a woman and children, Ana\'s words come out of her under her name, and Gregorio\'s body is carried as a wrapped bundle, never as a body', () => {
   const alarm = run('alamo', 'alarm', 0, cameraOn('alamo', 'sacristy', 5200), { seconds: 3 });
-  for (const name of ['Ana Esparza', 'María de Jesús', 'Enrique', 'Manuel', 'Francisco', 'Esparza']) {
-    assert.ok(alarm.texts.has(name), `${name} was not written in the church`);
-    assert.ok(alarm.last.people.find(one => one.name === name)?.labelled, `${name} was not labelled`);
-  }
   // The family drawn as the library's woman and children (stand-ins), the children smaller.
   const drawn = id => alarm.last.people.find(one => one.id === id)?.drawnAs;
   assert.equal(drawn('ana-esparza'), 'indigo-rest'); assert.equal(drawn('enrique-esparza'), 'boy-rest'); assert.equal(drawn('manuel-esparza'), 'smallchild-rest');
@@ -64,7 +68,6 @@ test('at the Alamo the Esparza family is named in the church, Ana\'s words come 
   const carried = run('alamo', 'burial', 0, cameraOn('alamo', 'church-front', 1600), { seconds: 2 });
   const francisco = carried.last.people.find(one => one.id === 'francisco-esparza');
   assert.equal(francisco?.bears, 'esparza'); assert.match(francisco.drawnAs || '', /\+shroud$/, 'the body is not drawn as a wrapped bundle between two bearers');
-  assert.ok(carried.texts.has('Francisco Esparza'));
   assert.ok(!carried.last.people.some(one => one.id === 'esparza'), 'Gregorio is drawn as a body as well as carried');
 });
 

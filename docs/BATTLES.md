@@ -1032,10 +1032,10 @@ S15 and S44-S49, checked 2026-09-26); claims `HIST-TEX-605`-`-609` and `FIC-GONZ
   (`frame-after-a`). `sim/alamo-battle.mjs` treats `burial` as after the fighting, as it does `after`.
 - **Stand-ins**: the library's `indigo` woman, `girl`, `boy` (fair-haired) and `smallchild`, and the settler `rust` for the bearers
   (`PERSON_ART` `woman`, `girl`, `boy`, `small-child`, `townsman`; `docs/ART_REQUESTS.md`, request 2026-09-26 "the Esparza family").
-- **Evidence**: `tests/famous-people.test.mjs` (5 new: the itinerary against the Alamo's clock; all spared; the burial and the
-  engine's refusal; the words as tradition and no reconstructed line for them; knowledge), `tests/famous-people-view.test.mjs` (1
-  new), `tests/battle-alamo.test.mjs` (the named lines); `npm run test:famous-people` (the family named in the church during the
-  assault, spared, Ana's words, the burial's bundle; 1366x768 and 1024x768); `scripts/famous-people-injections.mjs` (six unit and
-  two browser injections, each caught by the check written for it alone). Same computer only.
+- **Evidence**: `tests/famous-people.test.mjs` (4 new: the itinerary against the Alamo's clock; all spared; the burial, the tick
+  that lands on it and the engine's refusal; the words as tradition and no reconstructed line for them; and the sight test
+  extended to them), `tests/famous-people-view.test.mjs` (1 new, and the naming test extended), `tests/battle-alamo.test.mjs` (the named lines); `npm run test:famous-people` (the family named in the church during the
+  assault, spared, Ana's words, the burial's bundle; 1366x768 and 1024x768); `scripts/famous-people-injections.mjs` (seven unit
+  injections and two browser, each caught by the check written for it alone). Same computer only.
 - ceiling: the family is drawn in the sacristy with Mrs. Dickinson because the record says only "the room where we were" in the
   church; the boy killed beside Enrique (`HIST-TEX-433`) is still not drawn.

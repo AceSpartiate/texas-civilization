@@ -68,7 +68,7 @@ const UNIT = [
     expect: 'Ana\'s and Enrique\'s words are his own printed words of 1902, spoken as tradition out of their own figures; no reconstructed line speaks for the family' },
   { name: 'the Esparzas after the fall sent to every family, wherever its people are', file: 'sim/famous.mjs',
     from: 'eyes.some(at => Math.hypot(at.x - one.x, at.y - one.y) <= FAMOUS_SIGHT_MILES));', to: 'eyes.some(at => Math.hypot(at.x - one.x, at.y - one.y) <= FAMOUS_SIGHT_MILES) || one.claimId === \'HIST-TEX-609\');',
-    expect: 'a family sees the Esparzas only where its own people could: on the field while it watches the Alamo, on the map only near Béxar, the Host always' },
+    expect: 'a family sees a famous person on the map only where its own people could, and nobody is drawn on the map and a field at once' },
   { name: 'the famous dead sent lying on the field in the phases before they fall', file: 'sim/battle-stage.mjs',
     from: '    if (!fellIn || fellIn.index >= phase.index || phase.index >= until', to: '    if (!fellIn || fellIn.index === phase.index || phase.index >= until',
     expect: 'a fate is never sent before its minute, and nothing of a later phase is sent' },
@@ -81,7 +81,7 @@ const UNIT = [
     test: V, expect: 'at San Jacinto the Twin Sisters are named under the gun, Emily West\'s words carry their stage direction, and the Napoleon of the West comes out of Santa Anna' },
   { name: 'the burial party drawn as a man walking alone, without the wrapped bundle', file: 'public/battle-view.js',
     from: '    if (person.bears) return drawBearers(ctx, person, p, size, time, flip, key);\n', to: '',
-    test: V, expect: 'at the Alamo the Esparza family is named in the church, Ana\'s words come out of her under her name, and Gregorio\'s body is carried as a wrapped bundle, never as a body' },
+    test: V, expect: 'at the Alamo the Esparza family is drawn as a woman and children, Ana\'s words come out of her under her name, and Gregorio\'s body is carried as a wrapped bundle, never as a body' },
 ]);
 const BROWSER = [
   { name: 'the famous drawn without their names', file: 'public/battle-view.js',
