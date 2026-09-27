@@ -113,6 +113,8 @@ try {
   }
   const { 'hh-1': inside, 'hh-2': faraway } = students;
   await host.waitForFunction(() => window.__snapshot.connected === 2);
+  // Three seconds a tick from the Start until the card of February 23 has been pressed (below), then the proof's own pace.
+  app.setPace(3000);
   await host.getByRole('button', { name: 'Start', exact: true }).click();
   if (!(await host.waitForFunction(() => window.__snapshot.world.status === 'running', null, { timeout: 3000 }).then(() => true, () => false))) {
     await host.getByRole('button', { name: /Start/ }).first().click();
@@ -121,13 +123,14 @@ try {
   ok(`a class on the colonies map through the join flow; ${man.name} of hh-1 in the garrison at Béxar (set in process), hh-2 with nobody there`);
 
   // ---------------------------------------------------------------- February 23: the card, and Watch
-  // The card is up six ticks. The Host pauses the class the moment the page has been sent it, so it is pressed while it is
-  // there, however busy this computer is; the class runs on again once it has been.
-  const pause = async () => { await host.getByRole('button', { name: 'Pause', exact: true }).click(); await host.waitForFunction(() => window.__snapshot.world.status === 'paused'); };
-  const resume = async () => { await host.getByRole('button', { name: 'Resume', exact: true }).click(); await host.waitForFunction(() => window.__snapshot.world.status === 'running'); };
+  // The card is up six ticks (arrival and red flag, at the Alamo's background pace while a played family has a man inside).
+  // The Host pauses the class the moment the page has been sent it - through the Host's own command, which its Pause button
+  // sends, so a button redrawn under the pointer every tick cannot delay it - and it is pressed while it is there, however
+  // busy this computer is; the class runs on again once it has been. At three seconds a tick the six are eighteen seconds.
+  const hostCommand = action => host.evaluate(async action => (await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `proof-${action}-${Date.now()}`, action }) })).status, action);
+  const pause = async () => { assert.equal(await hostCommand('pause'), 200, 'the Host could not pause'); await host.waitForFunction(() => window.__snapshot.world.status === 'paused'); };
+  const resume = async () => { assert.equal(await hostCommand('resume'), 200, 'the Host could not resume'); await host.waitForFunction(() => window.__snapshot.world.status === 'running'); };
   const cardSent = key => inside.waitForFunction(key => Object.keys(window.__seen.alerts).some(id => id.includes(`:${key}:`)), key, { timeout: 300000, polling: 50 });
-  // And at the Host's Quick pace (a second a tick) until it has been, so the six ticks are six seconds to pause in.
-  app.setPace(1000);
   await cardSent('siege');
   await pause();
   const first = await inside.evaluate(() => ({ alert: window.__snapshot.world.battleAlert, sent: Object.values(window.__seen.alerts).find(one => one.id.includes(':siege:')), phase: window.__snapshot.world.battle?.phase, date: window.__snapshot.world.historicalDate }));
