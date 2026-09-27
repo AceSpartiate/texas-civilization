@@ -50,7 +50,7 @@ test('what the page asks for when a famous person is sent is what drawFamous wil
   assert.deepEqual(famousArt(TRAVIS), { sprites: ['travis-idle'], clips: ['travis-walk-e', 'volunteer-march', 'volunteer-idle-e', 'volunteer-idle-w'] });
   const houston = famousArt({ art: 'houston', side: 'texian', doing: 'ride' });
   assert.deepEqual(houston, { sprites: ['houston-mounted-idle-e'], clips: ['houston-mounted-walk-e', 'mounted-courier-e'] });
-  assert.deepEqual(famousArt({ thing: true }), { sprites: ['cannon-iron-e'], clips: [] });
+  assert.deepEqual(famousArt({ thing: true }), { sprites: ['twin-sisters-halt', 'cannon-iron-e'], clips: ['twin-sisters-limbered'] });
   // A stand-in with no sheet of its own asks only for the clips it is drawn with.
   assert.deepEqual(famousArt({ art: 'woman', side: 'texian', doing: 'stand' }).clips.slice(0, 2), ['indigo-walk', 'indigo-idle-e']);
 });
