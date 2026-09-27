@@ -3,7 +3,7 @@
 ## The milk cow's pace and a baby's short word — two owner decisions of 2026-09-27 (worktree branch; released in v2026.09.27.2)
 
 Built on `worktree-agent-a5841143559ab4e24` from main `bd460c4`, fast-forwarded to `origin/main` `c4c2461` before finishing. Not
-pushed, not merged to main, not released. Both decisions are the owner's, by multiple choice, 2026-09-27 (docs/CHILDREN.md §9,
+released in v2026.09.27.2. Both decisions are the owner's, by multiple choice, 2026-09-27 (docs/CHILDREN.md §9,
 decisions 6 and 7).
 
 **1. "Slow a family on foot"** (`FIC-GONZ-631` amended; docs/STOCK.md §8, docs/CHILDREN.md §7). With the milk cow along and no
