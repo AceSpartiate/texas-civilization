@@ -342,9 +342,10 @@
       "file": "sim/babies.mjs",
       "test": "tests/babies.test.mjs",
       "caught": true,
-      "alone": true,
+      "alone": false,
       "failed": [
-        "the rule: the only woman of age at home takes the baby with her rather than leave it, and with another she leaves it with her"
+        "the rule: the only woman of age at home takes the baby with her rather than leave it, and with another she leaves it with her",
+        "the rule: with the baby on her hip she walks a quarter slower on foot, there and back, and her row says why; on the horse or with the wagon the baby changes nothing"
       ]
     },
     {
@@ -352,9 +353,10 @@
       "file": "sim/babies.mjs",
       "test": "tests/babies.test.mjs",
       "caught": true,
-      "alone": true,
+      "alone": false,
       "failed": [
-        "the rule: the only woman of age at home takes the baby with her rather than leave it, and with another she leaves it with her"
+        "the rule: the only woman of age at home takes the baby with her rather than leave it, and with another she leaves it with her",
+        "the rule: with the baby on her hip she walks a quarter slower on foot, there and back, and her row says why; on the horse or with the wagon the baby changes nothing"
       ]
     },
     {
@@ -365,6 +367,46 @@
       "alone": true,
       "failed": [
         "the rule: the only woman of age at home takes the baby with her rather than leave it, and with another she leaves it with her"
+      ]
+    },
+    {
+      "name": "hip: she walks at her own pace with the baby on her hip",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: with the baby on her hip she walks a quarter slower on foot, there and back, and her row says why; on the horse or with the wagon the baby changes nothing"
+      ]
+    },
+    {
+      "name": "hip: the baby slows her on the horse and with the wagon too",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: with the baby on her hip she walks a quarter slower on foot, there and back, and her row says why; on the horse or with the wagon the baby changes nothing"
+      ]
+    },
+    {
+      "name": "hip: her row does not say why she is slower",
+      "file": "sim/babies.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: with the baby on her hip she walks a quarter slower on foot, there and back, and her row says why; on the horse or with the wagon the baby changes nothing"
+      ]
+    },
+    {
+      "name": "hip: she walks home at her own pace with the baby still on her hip",
+      "file": "sim/world.mjs",
+      "test": "tests/babies.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: with the baby on her hip she walks a quarter slower on foot, there and back, and her row says why; on the horse or with the wagon the baby changes nothing"
       ]
     },
     {
@@ -545,6 +587,106 @@
       "alone": true,
       "failed": [
         "the rule: a child’s flight work is a job, and a child’s obedience governs it as at home"
+      ]
+    },
+    {
+      "name": "cow: a family with no cattle is offered a milk cow",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: one milk cow on the run - only a family with cattle, driven by a child, taken out of the herd left on the range"
+      ]
+    },
+    {
+      "name": "cow: a grown man drives the cow",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: one milk cow on the run - only a family with cattle, driven by a child, taken out of the herd left on the range"
+      ]
+    },
+    {
+      "name": "cow: the cow is not taken out of the herd left on the range",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: one milk cow on the run - only a family with cattle, driven by a child, taken out of the herd left on the range"
+      ]
+    },
+    {
+      "name": "cow: the cow stays at home with the herd",
+      "file": "sim/scrape.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: one milk cow on the run - only a family with cattle, driven by a child, taken out of the herd left on the range"
+      ]
+    },
+    {
+      "name": "cow: the child’s row does not say they drive her",
+      "file": "sim/world.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: one milk cow on the run - only a family with cattle, driven by a child, taken out of the herd left on the range"
+      ]
+    },
+    {
+      "name": "cow: she gives no milk",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the milk cow gives a little milk a day, a child of a low roll lets her stray and loses the day’s milk, and she is never lost by herself"
+      ]
+    },
+    {
+      "name": "cow: obedience does not govern her",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the milk cow gives a little milk a day, a child of a low roll lets her stray and loses the day’s milk, and she is never lost by herself"
+      ]
+    },
+    {
+      "name": "cow: a child of a low roll loses her for good",
+      "file": "sim/flight-work.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the milk cow gives a little milk a day, a child of a low roll lets her stray and loses the day’s milk, and she is never lost by herself"
+      ]
+    },
+    {
+      "name": "cow: the army leaves the family its cow",
+      "file": "sim/road.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the milk cow is taken if the Mexican army comes up with the family, and home again she goes back into the herd"
+      ]
+    },
+    {
+      "name": "cow: she never comes home",
+      "file": "sim/scrape.mjs",
+      "test": "tests/flight-work.test.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: the milk cow is taken if the Mexican army comes up with the family, and home again she goes back into the herd"
       ]
     },
     {

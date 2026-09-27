@@ -5,12 +5,12 @@
   "note": "Same computer only: a real class on the colonies map with rolled families, played in process to dawn on March 14 and then served live to headless Chrome at 1366x768 (Host, first student) and 1024x768 (second student); five students joined by the class code. No LAN or district claim.",
   "checks": [
     "five students joined through the class code, two at the screen (1366x768 and 1024x768), and the Host started the class at dawn on March 14",
-    "the Host sees sesma (making for the west bank of the Colorado, opposite Beeson’s, about 750); urrea (in camp at Refugio, about 280), and sesma moved 4.0 miles in 12 hours",
+    "the Host sees sesma (making for the west bank of the Colorado, opposite Beeson’s, about 750); urrea (in camp at Refugio, about 280), and sesma moved 5.5 miles in 12 hours",
     "the second family, with nobody near any column, is sent no Mexican column",
     "the first family, inside the zone, left for Nacogdoches with what it could carry, and the rest left in the house",
     "the farm burned (Urrea’s column) while the family was away: its page still drew the house sound, with no smoke and no word; the Host was sent the smoke at once (drawn on its map); the other family saw nothing",
     "the family learned it by word 72 hours after the burning; its page now draws the farm burned, and its record says: \"Word came along the road from people fleeing east: on April 13 foragers of Urrea’s column reached the family's farm and burned the house, the field and the fences. What was left in the house went with it: 198 food, 4 powder.\"",
-    "the map draws in 3.4 ms (95th 10.5) on the Host at 1366x768 and 1.4 ms (95th 2.0) on a student's page at 1024x768",
+    "the map draws in 6.0 ms (95th 6.6) on the Host at 1366x768 and 2.6 ms (95th 3.1) on a student's page at 1024x768",
     "on the road home after San Jacinto the first family came home, and its page said: the house is ashes",
     "the second family, outside the zone, came home to its house standing and what it left in it; it was never shown its farm burned",
     "no page errors"
@@ -19,16 +19,16 @@
     "seed": "adv-proof-7",
     "columns": [
       {
-        "minute": 243520,
+        "minute": 243760,
         "armies": [
           {
             "id": "sesma",
-            "x": 1.11,
-            "y": -0.74,
+            "x": 1.435413277066932,
+            "y": -0.69,
             "commander": "sesma",
             "strength": 750,
-            "place": "in camp at Gonzales",
-            "moving": false
+            "place": "making for the west bank of the Colorado, opposite Beeson’s",
+            "moving": true
           },
           {
             "id": "urrea",
@@ -43,7 +43,7 @@
         "drawn": [
           {
             "id": "sesma",
-            "how": "camp"
+            "how": "column"
           },
           {
             "id": "urrea",
@@ -52,12 +52,12 @@
         ]
       },
       {
-        "minute": 244240,
+        "minute": 244480,
         "armies": [
           {
             "id": "sesma",
-            "x": 5.125113601582064,
-            "y": -1.1251136015820635,
+            "x": 6.722541743295704,
+            "y": -2.19,
             "commander": "sesma",
             "strength": 750,
             "place": "making for the west bank of the Colorado, opposite Beeson’s",
@@ -87,14 +87,14 @@
     ],
     "frames": {
       "host": {
-        "samples": 48,
-        "median": 3.400000035762787,
-        "p95": 10.5
+        "samples": 47,
+        "median": 6,
+        "p95": 6.600000023841858
       },
       "student1024": {
-        "samples": 48,
-        "median": 1.4000000357627869,
-        "p95": 2
+        "samples": 47,
+        "median": 2.600000023841858,
+        "p95": 3.100000023841858
       }
     },
     "burning": {

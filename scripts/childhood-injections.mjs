@@ -98,7 +98,7 @@ const INJECTIONS = [
   { name: 'the stick horse is kept past seven', file: CHILDREN, from: "Object.freeze({ 'child-stick-horse': 7, 'child-hens': 7 });", to: "Object.freeze({ 'child-hens': 7 });", test: T.children, expect: /the age ladder decides/ },
   { name: 'tag is offered at two', file: CHILDREN, from: "  'child-tag': 3,", to: "  'child-tag': 2,", test: T.children, expect: /the age ladder decides/ },
   { name: 'the lesson refuses a child marbles', file: LESSON, from: "  'chore:child-marbles', 'chore:child-hens',", to: "  'chore:child-hens',", test: T.children, expect: /the lesson never refuses a child/ },
-  { name: 'a flight work has no icon', file: PANEL, from: "    'flee-hide', 'flee-bundle', 'road-lookout',", to: "    'flee-hide', 'road-lookout',", test: T.panel, expect: /every chore and every order has an icon/ },
+  { name: 'a flight work has no icon', file: PANEL, from: "    'flee-hide', 'flee-bundle', 'flee-cow', 'road-lookout',", to: "    'flee-hide', 'flee-cow', 'road-lookout',", test: T.panel, expect: /every chore and every order has an icon/ },
 ];
 
 const failing = output => [...output.matchAll(/^✖ (.+?) \(\d/gm)].map(match => match[1]).filter((name, i, all) => name !== 'failing tests:' && all.indexOf(name) === i);

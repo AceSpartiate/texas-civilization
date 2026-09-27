@@ -15,11 +15,11 @@
     "pressing \"Practise at the mark\" sets hh-1-parent-2 to it on the server, and its icon glows",
     "it glowed through the practice (13 samples) and went out when the server said it was done (powder 5 to 3)",
     "one click selects an adult, their action bar and their map location together",
-    "pressing a portrait moves the camera onto that person and zooms in (scale 678 to 2605, 0.001 miles off)",
+    "pressing a portrait moves the camera onto that person and zooms in (scale 678 to 2605, 0.000 miles off)",
     "all 14 names changed in place and saved themselves - left by Tab, and the last by a pause in typing: Asa, Keziah, Hiram, Delia, Obed, Minerva, Levi, Soledad, Jonas, Effie, Silas, Orpha, Enos, Tomasa",
     "a name with no letters is refused in the server’s words, and the box goes back to the name the world holds",
     "after a reload every new name is in its box on the panel and in the family book",
-    "on a 400 px phone the panel is a column of portraits with one row open, taking 7% of the screen and no row outside the column and that row, with the map on top at 48% of the 192 points the guided start leaves",
+    "on a 400 px phone the panel is a column of portraits with one row open, taking 8% of the screen and no row outside the column and that row, with the map on top at 45% of the 192 points the guided start leaves",
     "on a phone, pressing another portrait opens that person’s row",
     "no page errors anywhere in the run"
   ],
@@ -64,18 +64,18 @@
         "scale": 678.1713759617705
       },
       "after": {
-        "cx": 2.6485908,
-        "cy": -10.7782576,
+        "cx": 2.6475,
+        "cy": -10.7785,
         "scale": 2605.263157894737
       },
-      "milesFromPerson": 0.0011
+      "milesFromPerson": 0
     },
     "phone": {
       "panel": {
         "x": 12,
         "y": 382.484375,
         "width": 376,
-        "height": 255
+        "height": 274
       },
       "openRows": 1,
       "columnRight": 56,
@@ -85,14 +85,14 @@
       },
       "stripBottom": 263,
       "sampled": 192,
-      "mapShare": 0.484375,
+      "mapShare": 0.453125,
       "strays": [],
       "bar": {
-        "points": 24,
-        "top": 583
+        "points": 36,
+        "top": 683
       },
       "chrome": [],
-      "covered": 0.07385397796630859,
+      "covered": 0.0759164779663086,
       "pageScrolls": false
     }
   },

@@ -1,5 +1,62 @@
 # Claude handoff — Astra foundation
 
+## Four owner decisions of 2026-09-27: the baby on the hip, one milk cow, Béxar's signs, phones a gate for the panel (worktree branch; not released)
+
+Built on `worktree-agent-a9edddbea550152b5` from main `d710d28`, merged with `origin/main` before finishing. Not pushed, not
+merged to main, not released. Every decision is the owner's, by multiple choice, 2026-09-27.
+
+**1. A woman carrying a baby walks a quarter slower - on foot only** (`FIC-GONZ-630`; docs/CHILDREN.md §6). `hipPace`
+(sim/babies.mjs), called from `beginTravel` after `takeBabyAlong` and before anything led is put on the road: whoever walks with a
+baby on the hip goes at `HIP_PACE` (0.75) of a walker's pace, to town and home again. The owner's clarification, verbatim: "if a
+mother and a child are riding on something, they would go the logical speed of that method of transportation. horse, wagon,
+wouldn't be slowed down by a baby" - so on the horse or with the wagon, cart or carreta nothing changes. Her row: *"On foot with Ana
+on her hip: walking a quarter slower for it."*; riding: *"Ana rides with her, on the horse: no slower for it."* `ceiling:` the
+family walking together on the road east (sim/company.mjs) is not slowed by a mother with a baby in her arms.
+
+**2. One milk cow on the run** (`FIC-GONZ-631`; docs/STOCK.md §8, which it amends; docs/CHILDREN.md §7). *Drive the milk cow
+along* (`flee-cow`, sim/flight-work.mjs), a child's job for seven to fifteen, offered only to a family told to leave that has
+cattle. The family leaves: one cow out of the herd goes (`takeCow`), the rest is left on the range; `MILK_A_DAY` 0.2 food a day on
+the road, at the refuge and home again (`milkCow`); a child of a low roll lets her stray and the day's milk is lost
+(`cowStrayChance`, 0.3 a day at a 1, 0.01 at a 20) - never the cow; taken if overtaken (`overtake` → `loseCow`); home, back into
+the herd (`cowHome`). Drawn a step behind the child (stand-in: the longhorn's frames). **No source for a child driving a milk cow**:
+RECONSTRUCTED. The herd sentence now reads "Nobody drives a herd ahead of an army."
+
+**3. Béxar's warning signs, seen and not explained** (`HIST-TEX-650` new, `-614`; `FIC-GONZ-632`;
+docs/battle-research/surprise-at-bexar.md §9). The town scenes (sim/town-scenes.mjs) now serve a second town: beats carry a `site`
+and a `period`, and `BEXAR_BEATS` are Béxar's four in February 1836 - families packing (Feb 20, 4 p.m.), the town emptying (to the
+23rd, 2 p.m.), fifteen Tejano volunteers riding out on the 21st (five drawn), the fandango the night of the 22nd - each at least
+twelve hours long because the winter's ticks are up to half a day and fall at shifting hours. Seen by a family with somebody in or
+within three miles of Béxar (`near`, as the bell), told once each in its journal through that person; a family elsewhere sees and
+hears nothing; the Host sees all. **Nobody says what it means**: no line, card or journal word names an army, Santa Anna, a march
+or a reason. **Verified, with a correction**: Wikipedia's *Siege of the Alamo* (Hardin p. 121, Petite p. 26) has the fifteen let go
+on the 21st at Seguín's asking to help their families - nothing read says they were Seguín's own company.
+
+**4. Phones a gate again for the family panel** (docs/GATES.md, 2026-09-27). `test:family-twenty`'s six phone checks are asserts
+again with their old thresholds. Fixed: on a phone the work bar is one row that scrolls sideways (public/style.css), and the column's
+height is measured down to the bar's top (`--phone-column`, `fitColumn` in public/app.js). 400×800: panel on top **20%** (was 35;
+under 30 asked), map **48%** below the guided start (was 26; over 40), panel ends 645 of 800, youngest of twenty reachable (was
+not). Phones stay not officially supported elsewhere.
+
+**Evidence** (same computer, headless Chrome; no LAN, district, Chromebook or real-phone claim):
+- `npm test`: **1427 passed, 0 failed** (1420 before; seven new), on the tree merged with `origin/main` (`455ca0b`).
+- New tests, each seen failing alone on its injected regression: `tests/babies.test.mjs` (the hip, 4 injections),
+  `tests/flight-work.test.mjs` (the cow, 3 tests, 10 injections) - `node scripts/childhood-injections.mjs`, **72 of 72 caught, 67
+  alone** ([record](docs/evidence/childhood-injections.json)). Of the five not alone, three were so before; two older baby
+  injections (the only woman of age leaving the baby, or taking it with another woman at home) now also fail the new hip test,
+  which rests on the same carrying. The flight-icon injection was re-aimed for `flee-cow` in the list.
+  `tests/bexar-signs.test.mjs` (3 tests, 7 unit injections) - `node scripts/surprise-injections.mjs unit signs:`.
+- Browser: `test:family-twenty` 9 (phones asserted), with `scripts/family-twenty-phone-injections.mjs` 3 of 3 caught (7 desktop
+  checks pass first each time); `test:children` 14 (the baby on the hip on foot at 0.75 with the row's line; the cow roped, going,
+  on the row and drawn, the herd left one fewer); `test:bexar-alarm` 9 (the four signs to hh-1 on their dates, drawn at Béxar,
+  told in its journal, none saying what they mean, none to hh-2), with three browser injections (24 of 24 in
+  `docs/evidence/surprise-injections.json`); `test:panels` 14, `test:family-panel` 17, `test:panel-silence`, `test:lesson`,
+  `test:scrape` 5 and `test:mexican-advance` 10 pass against the change.
+
+**For the owner.** (a) The baby slows a lone *father* on foot too - the carrying rule was already carried on to him; say if only
+a woman should be. (b) The cow goes at the family's pace; a real cow would hold a family on foot to hers. (c) Béxar's townspeople,
+volunteers and dancers are the colonists' figures until Tejano art lands (docs/ART_REQUESTS.md, request 2026-09-27). (d) Still open
+from docs/CHILDREN.md §9: obedience for ten to fifteen, the idle child in the guided start, how often a baby cries.
+
 ## Integration: the surprise at Béxar, the proofs brought back, the children, the pyres; famous people drawn on the map — 2026-09-27 (worktree branch `worktree-agent-a231238561f3f27b9` from main 6313c81; not released)
 
 Merged in order, every feature kept: `worktree-agent-a757a70ee43238054` (the surprise at Béxar), `worktree-agent-ae6b12e52c66777ca`
@@ -333,7 +390,8 @@ auto and the director give them. Left for the children's own work, which is bein
 
 **Decision for the owner:** `test:family-twenty`'s phone check is now **recorded, not a gate** (phones unsupported; it is
 measured every run and written into the record, and the thresholds are kept for the day phones are supported). Say if it
-should be dropped entirely instead, or made a gate again.
+should be dropped entirely instead, or made a gate again. **Answered 2026-09-27: a gate again**, and the phone layout fixed to
+hold it (the section at the top of this file; docs/GATES.md).
 
 **Injection harnesses re-aimed** (a stale pattern throws; a missed injection is a test gone quiet): art-wiring (three; and
 the ferry, missed because the town scenes also name the flatboat - tests/ferry-art.test.mjs), mounted-wiring (one),
