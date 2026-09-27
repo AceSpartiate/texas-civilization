@@ -95,6 +95,76 @@
       "failed": [
         "the Yucatán dead are Urrea's, in the norther of February 25: the rows corrected and no game text puts them in the snow"
       ]
+    },
+    {
+      "name": "signs: Béxar seen by a family with nobody there",
+      "file": "sim/town-scenes.mjs",
+      "test": "tests/bexar-signs.test.mjs",
+      "expect": "the rule: a family with somebody at Béxar sees the signs and is told them on their dates; a family elsewhere sees and hears nothing; the Host sees them all",
+      "caught": true,
+      "failed": [
+        "the rule: a family with somebody at Béxar sees the signs and is told them on their dates; a family elsewhere sees and hears nothing; the Host sees them all"
+      ]
+    },
+    {
+      "name": "signs: a family with nobody there told of them",
+      "file": "sim/town-scenes.mjs",
+      "test": "tests/bexar-signs.test.mjs",
+      "expect": "the rule: a family with somebody at Béxar sees the signs and is told them on their dates; a family elsewhere sees and hears nothing; the Host sees them all",
+      "caught": true,
+      "failed": [
+        "the rule: a family with somebody at Béxar sees the signs and is told them on their dates; a family elsewhere sees and hears nothing; the Host sees them all"
+      ]
+    },
+    {
+      "name": "signs: the family there never told them",
+      "file": "sim/town-scenes.mjs",
+      "test": "tests/bexar-signs.test.mjs",
+      "expect": "the rule: a family with somebody at Béxar sees the signs and is told them on their dates; a family elsewhere sees and hears nothing; the Host sees them all",
+      "caught": true,
+      "failed": [
+        "the rule: a family with somebody at Béxar sees the signs and is told them on their dates; a family elsewhere sees and hears nothing; the Host sees them all"
+      ]
+    },
+    {
+      "name": "signs: drawn in Gonzales instead of Béxar",
+      "file": "sim/town-scenes.mjs",
+      "test": "tests/bexar-signs.test.mjs",
+      "expect": "the rule: a family with somebody at Béxar sees the signs and is told them on their dates; a family elsewhere sees and hears nothing; the Host sees them all",
+      "caught": true,
+      "failed": [
+        "the rule: a family with somebody at Béxar sees the signs and is told them on their dates; a family elsewhere sees and hears nothing; the Host sees them all"
+      ]
+    },
+    {
+      "name": "signs: a card says why the families are leaving",
+      "file": "sim/town-scenes.mjs",
+      "test": "tests/bexar-signs.test.mjs",
+      "expect": "the rule: nobody says what the signs mean - no line, card or word to the family names an army, who, or why",
+      "caught": true,
+      "failed": [
+        "the rule: nobody says what the signs mean - no line, card or word to the family names an army, who, or why"
+      ]
+    },
+    {
+      "name": "signs: the fandango a night early",
+      "file": "sim/town-scenes.mjs",
+      "test": "tests/bexar-signs.test.mjs",
+      "expect": "the rule: Béxar’s signs come on their dates - families packing from the evening of the 20th, the volunteers going on the 21st, the fandango on the night of the 22nd - each long enough to be seen on the half-day calendar",
+      "caught": true,
+      "failed": [
+        "the rule: Béxar’s signs come on their dates - families packing from the evening of the 20th, the volunteers going on the 21st, the fandango on the night of the 22nd - each long enough to be seen on the half-day calendar"
+      ]
+    },
+    {
+      "name": "signs: the volunteers’ going too short for the half-day calendar",
+      "file": "sim/town-scenes.mjs",
+      "test": "tests/bexar-signs.test.mjs",
+      "expect": "the rule: Béxar’s signs come on their dates - families packing from the evening of the 20th, the volunteers going on the 21st, the fandango on the night of the 22nd - each long enough to be seen on the half-day calendar",
+      "caught": true,
+      "failed": [
+        "the rule: Béxar’s signs come on their dates - families packing from the evening of the 20th, the volunteers going on the 21st, the fandango on the night of the 22nd - each long enough to be seen on the half-day calendar"
+      ]
     }
   ],
   "browser": [
@@ -129,8 +199,32 @@
       "caught": true,
       "failure": "the caption does not tell the bell",
       "checksPassedFirst": 4
+    },
+    {
+      "name": "signs: Béxar seen by a family with nobody there",
+      "file": "sim/town-scenes.mjs",
+      "expect": "the family with nobody near Béxar was sent its signs",
+      "caught": true,
+      "failure": "the family with nobody near Béxar was sent its signs",
+      "checksPassedFirst": 2
+    },
+    {
+      "name": "signs: a card says why the families are leaving",
+      "file": "sim/town-scenes.mjs",
+      "expect": "a sign says what it means",
+      "caught": true,
+      "failure": "a sign says what it means: \"Families packing A woman of Béxar, tying up her bundles, tells you: We are going out to the ranch on the river, because the Mexican army is coming. Others on the street are loading too. It began last night.\"",
+      "checksPassedFirst": 2
+    },
+    {
+      "name": "signs: not drawn at Béxar",
+      "file": "public/app.js",
+      "expect": "the town's signs were not drawn at Béxar",
+      "caught": true,
+      "failure": "the town's signs were not drawn at Béxar: {\"cast\":[],\"spots\":[]}",
+      "checksPassedFirst": 2
     }
   ],
-  "cleanBrowserChecks": 8,
+  "cleanBrowserChecks": 9,
   "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
 }

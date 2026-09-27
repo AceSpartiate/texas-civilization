@@ -32,6 +32,7 @@
 // schedule, so nothing on the wire says what the town will do next.
 import { record } from './events.mjs';
 import { canAnswerCalls, tooYoung, sexOf } from './family.mjs';
+import { NEAR_BEXAR_MILES } from './surprise.mjs';
 
 /**
  * Minutes from dawn on September 28 to midnight on the 29th. The same number as sim/directors.mjs `ARRIVAL_MINUTES`, kept
@@ -58,7 +59,31 @@ export const sceneClock = world => world.minute - (world.director?.arrival ? SCE
  * with his rifle; `dragoon` a Mexican dragoon on his horse; `courier` a rider. The rust coat is never used: it is the mark of
  * the student's own person (public/motion.js `PRINCIPAL_VARIANT`).
  */
+/**
+ * Béxar's people in the days before February 23, 1836 (`BEXAR_BEATS`): a picture of the town, not a count, nobody named.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-27 - the milk cow on the run, and Béxar before the bell. The library has no Tejano townspeople, no
+ * dancers and no fiddler: the colonists' cast figures stand in for the families of the town, the cast's riders for the Tejano
+ * volunteers, and a man of the cast speaking for the fiddler.
+ */
+const BEXAR_CAST = Object.freeze({
+  'bx-father-1': { label: 'a man of Béxar', figure: 'ochre' },
+  'bx-mother-1': { label: 'a woman of Béxar', figure: 'teal' },
+  'bx-girl-1': { label: 'a girl of Béxar', figure: 'girl', small: .72 },
+  'bx-boy-1': { label: 'a boy of Béxar', figure: 'boy', small: .72 },
+  'bx-father-2': { label: 'a man of Béxar', figure: 'elder' },
+  'bx-mother-2': { label: 'a woman of Béxar', figure: 'indigo' },
+  'bx-neighbour': { label: 'a man of Béxar', figure: 'blue' },
+  'bx-neighbour-woman': { label: 'a woman of Béxar', figure: 'blue-girl' },
+  // "Fifteen of the Tejano volunteers" (`HIST-TEX-650`), drawn as five.
+  ...Object.fromEntries([1, 2, 3, 4, 5].map(n => [`bx-tejano-${n}`, { label: 'one of the Tejano volunteers', figure: ['elder', 'ochre', 'blue', 'ochre', 'elder'][n - 1], rides: true }])),
+  'bx-garrison-1': { label: 'a man of the garrison', figure: 'volunteer' },
+  'bx-garrison-2': { label: 'a man of the garrison', figure: 'volunteer' },
+  ...Object.fromEntries([1, 2, 3, 4, 5, 6].map(n => [`bx-dancer-${n}`, { label: 'somebody at the fandango', figure: ['teal', 'ochre', 'indigo', 'blue', 'blue-girl', 'elder'][n - 1] }])),
+  'bx-fiddler': { label: 'a fiddler', figure: 'elder' },
+});
+
 export const TOWN_CAST = Object.freeze({
+  ...BEXAR_CAST,
   'gz-townsman-1': { label: 'a man of the town', figure: 'elder' },
   'gz-townsman-2': { label: 'a man of the town', figure: 'ochre' },
   'gz-townswoman-1': { label: 'a woman of the town', figure: 'teal' },
@@ -118,7 +143,8 @@ const PLACES = Object.freeze({
 const CROSSING_REACH = 0.3;
 
 /** A place in the town, as miles from the town's point. */
-export function placeOf(world, key) {
+export function placeOf(world, key, site = 'gonzales') {
+  if (site === 'bexar') { if (BEXAR_PLACES[key]) return BEXAR_PLACES[key]; throw new Error(`No place ${key} in Béxar`); }
   if (PLACES[key]) return PLACES[key];
   const town = world.map.sites.gonzales, ford = world.map.sites.ford;
   const dx = ford ? ford.x - town.x : -1, dy = ford ? ford.y - town.y : 0, span = Math.hypot(dx, dy) || 1;
@@ -683,6 +709,147 @@ function musterOffsets() {
     .concat([1, 2, 3, 4].map(n => [`gz-mounted-${n}`, [0.05 + (n % 2) * 0.03, -0.045 + Math.floor((n - 1) / 2) * 0.03]])));
 }
 
+// ===========================================================================================================================
+// Béxar before the bell: the signs, seen and not explained (owner, 2026-09-27, by multiple choice).
+//
+// A family with somebody in or within reach of Béxar (`NEAR_BEXAR_MILES`, as the bell is heard) sees, on their dates, what the
+// record says the town was doing in the days before the Mexican army came (docs/battle-research/surprise-at-bexar.md §3): the
+// Tejano families packing up from the evening of February 20 and leaving (`HIST-TEX-650`, `-614`); fifteen of the Tejano
+// volunteers going on the 21st, let go at Seguín's asking to see to their families (`HIST-TEX-650`); and the fandango of the
+// night of the 22nd for Washington's birthday, music and lights and nearly all the garrison there (`HIST-TEX-614`).
+//
+// **Nobody says what it means.** The record's reasons - the families in the army's path, the cavalry's surprise called off by
+// the Medina's rain - are left out of every line, card and word to the family, so the bell of the 23rd still comes as the shock
+// the owner asked for (sim/surprise.mjs, `FIC-GONZ-620`). tests/bexar-signs.test.mjs holds every word to it. The reveal at the
+// ending tells the class what the signs were.
+//
+// A family elsewhere sees nothing: not the scenes, not a word. The Host sees them all. The beats are long - at least twelve hours
+// each - because the second period's calendar steps half a day at a time in February (sim/clock.mjs `campaign`), and a shorter
+// beat could fall between two ticks and never be seen (`FIC-GONZ-632`).
+// ===========================================================================================================================
+
+/** Minutes from midnight on September 29, 1835 to midnight on February 20, 1836: sim/directors.mjs's `169920 + 26 × 1440`. */
+export const FEB_20 = 207360;
+/** A moment of February 1836, in minutes from midnight on September 29, 1835. */
+export const feb = (day, hour, minute = 0) => FEB_20 + (day - 20) * DAY + hour * 60 + minute;
+
+/**
+ * Where things are in Béxar, in miles from the town's point - the middle of the Plaza de las Islas (public/bexar-layout.js
+ * `BEXAR_FRAME`). The street the families load on is off the plaza's south side; the road out runs south to the ranches on the
+ * river. ceiling: nothing here is a surveyed house or road of 1836; the families' own houses are not in the record read.
+ */
+const BEXAR_PLACES = Object.freeze({
+  plaza: { x: 0, y: 0.012 },
+  armas: { x: -0.1, y: 0.01 },
+  street: { x: -0.03, y: 0.07 },
+  'road-out': { x: 0.05, y: 0.42 },
+});
+
+const BX_PACKING = [
+  [['bx-mother-1', 'The kettle, and the blankets. Tie them tight.'], ['bx-girl-1', 'Are we going to the ranch?'], ['bx-mother-1', 'For a while.']],
+  [['bx-father-1', 'The corn goes in first.'], ['bx-boy-1', 'All of it?'], ['bx-father-1', 'All of it.']],
+  [['bx-neighbour', 'You too?'], ['bx-father-2', 'Only for a little while.']],
+];
+const BX_LEAVING = [
+  [['bx-neighbour-woman', 'Another cart gone down the road this morning.'], ['bx-neighbour', 'The street is very quiet.']],
+  [['bx-neighbour', 'Their door is shut up.'], ['bx-neighbour-woman', 'So is the next one.']],
+];
+const BX_VOLUNTEERS = [
+  [['bx-tejano-1', 'Adiós, compañeros.', said('HIST-TEX-650')], ['bx-garrison-1', 'Where are they off to?'], ['bx-garrison-2', 'Home. To see to their families.', said('HIST-TEX-650')]],
+  [['bx-garrison-1', 'Fifteen of them, all at once.', said('HIST-TEX-650')], ['bx-garrison-2', 'Captain Seguín asked it of the colonel.', said('HIST-TEX-650')]],
+];
+const BX_FANDANGO = [
+  [['bx-fiddler', '(fiddle music)'], ['bx-dancer-1', 'One more dance!']],
+  [['bx-garrison-1', 'To General Washington!', said('HIST-TEX-614')], ['bx-dancer-2', '¡Viva!']],
+  [['bx-dancer-3', '(laughing)'], ['bx-dancer-4', 'Play the next one!']],
+];
+
+const BX_PICTURE = 'The people drawn here are a picture of the town, not a count of it; what they say is written for the game. A dashed box is reconstructed.';
+const CARD_BX_PACKING = {
+  title: 'Families packing',
+  teller: 'A woman of Béxar, tying up her bundles, tells you:',
+  said: ['We are going out to the ranch on the river for a while, with what the cart will hold.', 'Others on the street are loading too. It began last night.'],
+  known: [{ label: 'STRONGLY SUPPORTED', text: 'By the evening of February 20, 1836, many of the people of Béxar had begun to pack their belongings to leave the town.', claimId: 'HIST-TEX-650' }],
+  madeUp: `${BX_PICTURE} This family is invented; how many families left, and where each went, is not recorded.`,
+};
+const CARD_BX_LEAVING = {
+  ...CARD_BX_PACKING,
+  title: 'The town emptying',
+  teller: 'A man of Béxar, standing in his doorway, tells you:',
+  said: ['Another family went out this morning with everything in the cart. Half the houses on this street are shut up.'],
+  known: [...CARD_BX_PACKING.known, { label: 'STRONGLY SUPPORTED', text: 'On the morning of February 23 carts were still being loaded and families were leaving (Sutherland).', claimId: 'HIST-TEX-614' }],
+};
+const CARD_BX_VOLUNTEERS = {
+  title: 'The Tejano volunteers going',
+  teller: 'A man of the garrison tells you:',
+  said: ['Fifteen of the Tejano volunteers have been let go - Captain Seguín asked it of Colonel Travis - to see to their families.', 'They rode out this morning, with their families\' carts.'],
+  known: [{ label: 'STRONGLY SUPPORTED', text: 'On February 21, 1836, fifteen of the Tejano volunteers at Béxar left the garrison; Juan Seguín had asked Travis to release them to help their families.', claimId: 'HIST-TEX-650' }],
+  madeUp: `${BX_PICTURE} Five riders stand for the fifteen; the words are the game's.`,
+};
+const CARD_BX_FANDANGO = {
+  title: 'A fandango',
+  teller: 'A woman at the dance tells you:',
+  said: ['A fandango for General Washington\'s birthday! Nearly all the garrison is here, and half the town.', 'There will be music until morning.'],
+  known: [{ label: 'STRONGLY SUPPORTED', text: 'On the night of February 22, 1836, all but ten of the garrison joined the people of Béxar at a fiesta for George Washington\'s birthday.', claimId: 'HIST-TEX-614' }],
+  madeUp: `${BX_PICTURE} The fiddler and the dancers are invented; what was played is not recorded.`,
+};
+
+/**
+ * Béxar's beats, in February 1836 (the second class period). `near` is the reach a family must have somebody within to see them;
+ * `told` is what the family's journal is told, once for each beat, through its first person there - in plain words, never why.
+ */
+export const BEXAR_BEATS = Object.freeze([
+  { id: 'bx-packing', site: 'bexar', period: 2, near: true, scene: 'bx-families', from: feb(20, 16), to: feb(21, 16), card: CARD_BX_PACKING, talk: BX_PACKING,
+    told: name => `${name}, at Béxar, saw Tejano families of the town packing their things into carts.`, claimId: 'HIST-TEX-650',
+    people: [at('bx-father-1', 'street', -0.012, 0, P.haul, 'e'), at('bx-mother-1', 'street', 0.006, 0.004, P.haul, 'w'), at('bx-girl-1', 'street', 0.016, 0.012, 'idle', 'w'),
+      at('bx-boy-1', 'street', -0.02, 0.012, 'idle', 'e'), at('bx-father-2', 'street', 0.05, -0.004, 'speak', 'w'), at('bx-mother-2', 'street', 0.062, 0.006, P.haul, 'w'),
+      at('bx-neighbour', 'street', 0.034, 0.016, 'listen', 'e')],
+    props: [{ kind: 'carreta', place: 'street', dx: -0.002, dy: -0.014, face: 'e' }, { kind: 'bundles', place: 'street', dx: 0.01, dy: 0.018 }, { kind: 'carreta', place: 'street', dx: 0.058, dy: -0.016, face: 'w' }] },
+  { id: 'bx-leaving', site: 'bexar', period: 2, near: true, scene: 'bx-families', from: feb(21, 16), to: feb(23, 14), card: CARD_BX_LEAVING, talk: BX_LEAVING,
+    told: name => `${name}, at Béxar, saw another family's cart go out of the town, and houses standing shut up.`, claimId: 'HIST-TEX-650',
+    people: [going('bx-father-2', 'street', 'road-out', [feb(22, 6), feb(22, 16)], { face: 's' }), going('bx-mother-2', 'street', 'road-out', [feb(22, 6), feb(22, 16)], { face: 's' }),
+      at('bx-neighbour', 'street', 0.034, 0.016, 'listen', 's'), at('bx-neighbour-woman', 'street', 0.02, 0.02, 'speak', 'e')],
+    offsets: { 'bx-father-2': [0.05, 0.004], 'bx-mother-2': [0.062, 0.01] },
+    props: [{ kind: 'carreta', going: { path: ['street', 'road-out'], span: [feb(22, 6), feb(22, 16)] }, dx: 0.056, dy: -0.012, face: 's' }] },
+  { id: 'bx-volunteers', site: 'bexar', period: 2, near: true, scene: 'bx-volunteers', from: feb(21, 6), to: feb(22, 6), card: CARD_BX_VOLUNTEERS, talk: BX_VOLUNTEERS,
+    told: name => `${name}, at Béxar, saw fifteen of the Tejano volunteers ride out of the town with their families' carts, let go at Captain Seguín's asking to see to their families.`, claimId: 'HIST-TEX-650',
+    people: [...[1, 2, 3, 4, 5].map(n => going(`bx-tejano-${n}`, 'armas', 'road-out', [feb(21, 6), feb(21, 23)], { face: 's' })),
+      at('bx-garrison-1', 'armas', 0.03, -0.01, 'speak', 'w'), at('bx-garrison-2', 'armas', 0.044, -0.004, 'listen', 'w')],
+    props: [{ kind: 'carreta', going: { path: ['armas', 'road-out'], span: [feb(21, 6), feb(21, 23)] }, dx: -0.03, dy: -0.01, face: 's' }] },
+  { id: 'bx-fandango', site: 'bexar', period: 2, near: true, scene: 'bx-fandango', from: feb(22, 18), to: feb(23, 6), card: CARD_BX_FANDANGO, talk: BX_FANDANGO,
+    told: name => `There is a fandango in the plaza at Béxar tonight for General Washington's birthday, and ${name} is there: fiddles, lights and dancing, and nearly all the garrison.`, claimId: 'HIST-TEX-614',
+    people: [at('bx-fiddler', 'plaza', -0.03, -0.012, 'speak', 'e'), at('bx-dancer-1', 'plaza', -0.008, 0, 'speak', 'e'), at('bx-dancer-2', 'plaza', 0.006, 0.002, 'idle', 'w'),
+      at('bx-dancer-3', 'plaza', -0.01, 0.018, 'speak', 'e'), at('bx-dancer-4', 'plaza', 0.008, 0.02, 'idle', 'w'), at('bx-dancer-5', 'plaza', 0.024, 0.008, 'listen', 'w'),
+      at('bx-dancer-6', 'plaza', -0.024, 0.024, 'listen', 'e'), at('bx-garrison-1', 'plaza', 0.03, -0.008, 'speak', 'w'), at('bx-garrison-2', 'plaza', 0.036, 0.018, 'listen', 'w')],
+    props: [{ kind: 'lights', place: 'plaza', dx: -0.04, dy: -0.02 }, { kind: 'lights', place: 'plaza', dx: 0.044, dy: -0.018 }, { kind: 'lights', place: 'plaza', dx: 0.002, dy: 0.036 },
+      { kind: 'table', place: 'plaza', dx: -0.04, dy: 0.02 }] },
+]);
+
+/** Everybody of this household in the beat's town or within reach of it, alive and free: who sees it. */
+function nearTown(world, household, beat) {
+  const site = world.map.sites[beat.site];
+  if (!site || !household) return [];
+  return household.members.map(id => world.entities[id]).filter(person => person?.kind === 'person' && !['dead', 'captured'].includes(person.health?.condition)
+    && (person.location?.siteId === beat.site || Math.hypot((person.location?.x ?? Infinity) - site.x, (person.location?.y ?? Infinity) - site.y) <= NEAR_BEXAR_MILES));
+}
+/**
+ * Each tick: a family with somebody at Béxar during one of its beats is told it in its journal, once, through its first person
+ * there - in plain words, and never what it means. Remembered on the director's milestones, as a family's own marks there are.
+ */
+function tellTownSigns(world) {
+  for (const beat of activeBeats(world)) {
+    if (!beat.told) continue;
+    for (const household of Object.values(world.households)) {
+      const key = `sign:${beat.id}:${household.id}`;
+      if (world.director.milestones[key]) continue;
+      const [person] = nearTown(world, household, beat);
+      if (!person) continue;
+      world.director.milestones[key] = true;
+      record(world, 'consequence', { actorId: person.id, householdId: household.id, importance: 2, classification: 'STRONGLY SUPPORTED', claimId: beat.claimId, text: beat.told(person.name) });
+    }
+  }
+}
+
 /**
  * What the family's own person may do in a scene (`FIC-GONZ-412`): lend a hand, if they are standing in Gonzales and are the
  * kind of person the record has doing it. The flag's cloth came from the women of the town (`HIST-TEX-468`) and women
@@ -708,24 +875,29 @@ export const HELP = Object.freeze({
   },
 });
 
-/** Whether the town's scenes are running at all: the first period of a class with a director and a Gonzales. */
-const inPlay = world => Boolean(world.director && (world.period ?? 1) === 1 && world.map?.sites?.gonzales);
+/**
+ * Whether a beat's town is in play at all: a class with a director, in the beat's own class period (the first for Gonzales,
+ * the second for Béxar's February), on a map with the beat's town.
+ */
+const inPlay = (world, beat) => Boolean(world.director && (world.period ?? 1) === (beat.period || 1) && world.map?.sites?.[beat.site || 'gonzales']);
+/** Every dated beat of every town: Gonzales before the fight, and Béxar in the days before February 23 (`BEXAR_BEATS`). */
+const ALL_BEATS = () => [...TOWN_BEATS, ...BEXAR_BEATS];
 /** The beats running now (one a scene at most). */
 export function activeBeats(world, at = sceneClock(world)) {
-  if (!inPlay(world)) return [];
-  return TOWN_BEATS.filter(beat => at >= beat.from && at < beat.to);
+  if (!world.director) return [];
+  return ALL_BEATS().filter(beat => at >= beat.from && at < beat.to && inPlay(world, beat));
 }
 
 const round = value => Math.round(value * 1e4) / 1e4;
 const faceOf = (world, face) => (face === 'river' ? riverward(world) : face);
-function pointAt(world, place, dx = 0, dy = 0) {
-  const town = world.map.sites.gonzales, p = placeOf(world, place);
+function pointAt(world, place, dx = 0, dy = 0, site = 'gonzales') {
+  const town = world.map.sites[site], p = placeOf(world, place, site);
   return { x: round(town.x + p.x + dx), y: round(town.y + p.y + dy) };
 }
 /** Where somebody going somewhere is at `now`, along their path of places between the two moments of their span. */
-function alongPath(world, path, span, now, dx, dy) {
+function alongPath(world, path, span, now, dx, dy, site = 'gonzales') {
   const f = Math.max(0, Math.min(1, (now - span[0]) / Math.max(1, span[1] - span[0])));
-  const points = path.map(place => pointAt(world, place, dx, dy));
+  const points = path.map(place => pointAt(world, place, dx, dy, site));
   const legs = points.slice(1).map((b, i) => Math.hypot(b.x - points[i].x, b.y - points[i].y));
   let left = f * legs.reduce((a, b) => a + b, 0);
   for (let i = 0; i < legs.length; i++) {
@@ -746,11 +918,12 @@ function beatPeople(world, beat, now) {
     // Somebody going somewhere with no place of their own set is kept a step apart from the others going with them.
     const [ox, oy] = beat.offsets?.[one.id] || (one.going ? [((index % 5) - 2) * 0.014, Math.floor(index / 5) * 0.016] : [one.dx || 0, one.dy || 0]);
     let spot, moving = false, waiting = false;
+    const site = beat.site || 'gonzales';
     if (one.going) {
-      if (now < one.going.span[0]) { spot = pointAt(world, one.going.path[0], ox, oy); waiting = true; }
+      if (now < one.going.span[0]) { spot = pointAt(world, one.going.path[0], ox, oy, site); waiting = true; }
       else if (now >= one.going.span[1] && !one.stays) return;
-      else ({ moving, ...spot } = alongPath(world, one.going.path, one.going.span, now, ox, oy));
-    } else spot = pointAt(world, one.place, ox, oy);
+      else ({ moving, ...spot } = alongPath(world, one.going.path, one.going.span, now, ox, oy, site));
+    } else spot = pointAt(world, one.place, ox, oy, site);
     // What a person is called (`label`) stays here: the page draws the figure and the card tells the scene, and a line of
     // description for each of forty people was a tenth of the snapshot.
     people.push({ id: one.id, sceneId: beat.scene, ...(cast.name && { name: cast.name }), figure: cast.figure,
@@ -761,15 +934,17 @@ function beatPeople(world, beat, now) {
 }
 function beatProps(world, beat, now) {
   return (beat.props || []).map((prop, index) => {
-    const spot = prop.going ? alongPath(world, prop.going.path, prop.going.span, now, prop.dx || 0, prop.dy || 0) : pointAt(world, prop.place, prop.dx || 0, prop.dy || 0);
-    return { id: prop.id || `${beat.id}:${index}`, kind: prop.kind, x: spot.x, y: spot.y, ...(prop.stage && { stage: prop.stage }), face: faceOf(world, prop.face || 'river') };
+    const site = beat.site || 'gonzales';
+    const spot = prop.going ? alongPath(world, prop.going.path, prop.going.span, now, prop.dx || 0, prop.dy || 0, site) : pointAt(world, prop.place, prop.dx || 0, prop.dy || 0, site);
+    return { id: prop.id || `${beat.id}:${index}`, kind: prop.kind, x: spot.x, y: spot.y, ...(prop.stage && { stage: prop.stage }), ...(spot.moving && { moving: true }),
+      face: site === 'gonzales' ? faceOf(world, prop.face || 'river') : prop.face || 'e' };
   });
 }
 /** The town's invented people a beat places (sim/town.mjs `RESIDENTS`): where it puts each, as a world point, or null. */
 export function residentSpot(world, id, now = sceneClock(world)) {
   for (const beat of activeBeats(world, now)) {
     const one = (beat.residents || []).find(entry => entry.id === id && entry.place);
-    if (one) return pointAt(world, one.place, one.dx, one.dy);
+    if (one) return pointAt(world, one.place, one.dx, one.dy, beat.site || 'gonzales');
   }
   return null;
 }
@@ -788,7 +963,9 @@ export function townScenesFor(world, householdId, role) {
   const household = householdId ? world.households[householdId] : null;
   if (!host && !household) return null;
   const places = host ? null : standingIn(world, household);
-  const seen = host ? beats : beats.filter(beat => (beat.seenFrom || ['gonzales']).some(siteId => places.has(siteId)));
+  // A beat at Béxar is seen by a family with somebody in the town or within reach of it (`near`, as the bell is heard), and by
+  // nobody else: a family elsewhere sees nothing of the town emptying (owner, 2026-09-27).
+  const seen = host ? beats : beats.filter(beat => (beat.near ? nearTown(world, household, beat).length > 0 : (beat.seenFrom || ['gonzales']).some(siteId => places.has(siteId))));
   if (!seen.length) return null;
   const now = sceneClock(world);
   const people = seen.flatMap(beat => beatPeople(world, beat, now));
@@ -832,12 +1009,13 @@ export function townScenesFor(world, householdId, role) {
   // from this same function) is the way out if the classroom's network is ever measured short.
   const cards = Object.fromEntries(seen.filter(beat => beat.card).map(beat => [beat.scene, beat.card]));
   const help = host ? {} : helpFor(world, household, seen);
-  return { siteId: 'gonzales', scenes, people, props: seen.flatMap(beat => beatProps(world, beat, now)), lines, poses, cards, help };
+  // One town at a time: Gonzales's beats are the first period's and Béxar's the second's (tests/bexar-signs.test.mjs holds it).
+  return { siteId: seen[0].site || 'gonzales', scenes, people, props: seen.flatMap(beat => beatProps(world, beat, now)), lines, poses, cards, help };
 }
 /** Where a scene is, for a click: the middle of its people and props now. */
 function beatAnchor(world, beat, now) {
   const points = [...beatPeople(world, beat, now), ...beatProps(world, beat, now)];
-  if (!points.length) return pointAt(world, beat.people?.[0]?.place || 'street');
+  if (!points.length) return pointAt(world, beat.people?.[0]?.place || (beat.site === 'bexar' ? 'plaza' : 'street'), 0, 0, beat.site || 'gonzales');
   return { x: round(points.reduce((sum, p) => sum + p.x, 0) / points.length), y: round(points.reduce((sum, p) => sum + p.y, 0) / points.length) };
 }
 /** The family's people who could lend a hand in each scene seen now, each with whether they may and why not. */
@@ -897,6 +1075,8 @@ export function helpTownScene(world, household, entity, sceneId) {
  * memory of it.
  */
 export function advanceTownScenes(world) {
+  // Béxar's signs told to a family with somebody there (`BEXAR_BEATS`).
+  tellTownSigns(world);
   for (const entity of Object.values(world.entities)) {
     if (!entity.townHelp) continue;
     const beat = activeBeats(world).find(one => one.scene === entity.townHelp.sceneId && one.help);

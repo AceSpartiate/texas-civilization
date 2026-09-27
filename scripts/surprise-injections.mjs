@@ -15,6 +15,10 @@ const BEFORE = 'before February 23 nobody hears that Santa Anna is marching; Her
 const BELL = 'on February 23 a family with somebody in or near Béxar hears the bell through them; everybody else only when a rider comes';
 const REVEALED = 'the ending reveals the snow march and why Béxar was caught unprepared, once the class has lived February 23';
 const ROWS = 'the Yucatán dead are Urrea\'s, in the norther of February 25: the rows corrected and no game text puts them in the snow';
+const SIGNS_TEST = 'tests/bexar-signs.test.mjs';
+const SIGNS_DATES = 'the rule: Béxar’s signs come on their dates - families packing from the evening of the 20th, the volunteers going on the 21st, the fandango on the night of the 22nd - each long enough to be seen on the half-day calendar';
+const SIGNS_MEANING = 'the rule: nobody says what the signs mean - no line, card or word to the family names an army, who, or why';
+const SIGNS_SEEN = 'the rule: a family with somebody at Béxar sees the signs and is told them on their dates; a family elsewhere sees and hears nothing; the Host sees them all';
 
 const OLD_RUMOUR = "  once(world, 'spring-grass', () => sendWord(world, 'winter-santa-anna', { truth: 'It is said Santa Anna himself has crossed the Rio Grande with a great army, through snow, and is marching on Béxar.', status: 'rumor', claimId: 'HIST-TEX-053', source: 'A rumour from the west' }));";
 const EVERYBODY_ON_THE_DAY = "\n  for (const one of Object.keys(world.households)) learn(world, one, 'bexar-arrival', { status: 'confirmed', source: 'Word', text: 'The Mexican army is in Béxar.' });";
@@ -43,6 +47,21 @@ const UNIT = [
     from: 'export const REVEAL = Object.freeze({', to: "export const OLD_WORDS = 'Some recruits from Yucatán died of exposure in the snow.';\nexport const REVEAL = Object.freeze({", expect: ROWS },
   { name: 'HIST-TEX-053 back to the snow by February 13', file: 'HISTORY.md',
     from: '**Santa Anna\'s march.** About 6,000 men marched north from late December 1835; they crossed', to: '**Santa Anna\'s march.** About 6,000 men marched north from late December 1835; 15–16 inches of snow had fallen on them by February 13; they crossed', expect: ROWS },
+  // Béxar's warning signs before the bell (owner, 2026-09-27; tests/bexar-signs.test.mjs, FIC-GONZ-632).
+  { name: 'signs: Béxar seen by a family with nobody there', file: 'sim/town-scenes.mjs', test: SIGNS_TEST,
+    from: '(beat.near ? nearTown(world, household, beat).length > 0 :', to: '(beat.near ? true :', expect: SIGNS_SEEN },
+  { name: 'signs: a family with nobody there told of them', file: 'sim/town-scenes.mjs', test: SIGNS_TEST,
+    from: '      const [person] = nearTown(world, household, beat);', to: '      const [person] = nearTown(world, household, beat).length ? nearTown(world, household, beat) : household.members.map(id => world.entities[id]);', expect: SIGNS_SEEN },
+  { name: 'signs: the family there never told them', file: 'sim/town-scenes.mjs', test: SIGNS_TEST,
+    from: '  tellTownSigns(world);\n', to: '', expect: SIGNS_SEEN },
+  { name: 'signs: drawn in Gonzales instead of Béxar', file: 'sim/town-scenes.mjs', test: SIGNS_TEST,
+    from: "  return { siteId: seen[0].site || 'gonzales', scenes,", to: "  return { siteId: 'gonzales', scenes,", expect: SIGNS_SEEN },
+  { name: 'signs: a card says why the families are leaving', file: 'sim/town-scenes.mjs', test: SIGNS_TEST,
+    from: "  said: ['We are going out to the ranch on the river for a while, with what the cart will hold.',", to: "  said: ['We are going out to the ranch on the river, because the Mexican army is coming.',", expect: SIGNS_MEANING },
+  { name: 'signs: the fandango a night early', file: 'sim/town-scenes.mjs', test: SIGNS_TEST,
+    from: "scene: 'bx-fandango', from: feb(22, 18), to: feb(23, 6),", to: "scene: 'bx-fandango', from: feb(21, 18), to: feb(22, 6),", expect: SIGNS_DATES },
+  { name: 'signs: the volunteers’ going too short for the half-day calendar', file: 'sim/town-scenes.mjs', test: SIGNS_TEST,
+    from: "scene: 'bx-volunteers', from: feb(21, 6), to: feb(22, 6),", to: "scene: 'bx-volunteers', from: feb(21, 6), to: feb(21, 16),", expect: SIGNS_DATES },
 ];
 
 const BROWSER = [
@@ -53,6 +72,13 @@ const BROWSER = [
   { name: 'the card without the bell', file: 'sim/alamo-battle.mjs', from: NEW_CARD, to: OLD_CARD, expect: 'the card does not tell the bell' },
   { name: 'the arrival drawn without the bell', file: 'sim/battles/alamo.mjs',
     from: "      caption: 'Early in the afternoon the bell of San Fernando rings.", to: "      caption: 'Early in the afternoon the Mexican army comes.", expect: 'the caption does not tell the bell' },
+  // Béxar's signs before the bell (owner, 2026-09-27).
+  { name: 'signs: Béxar seen by a family with nobody there', file: 'sim/town-scenes.mjs',
+    from: '(beat.near ? nearTown(world, household, beat).length > 0 :', to: '(beat.near ? true :', expect: 'the family with nobody near Béxar was sent its signs' },
+  { name: 'signs: a card says why the families are leaving', file: 'sim/town-scenes.mjs',
+    from: "  said: ['We are going out to the ranch on the river for a while, with what the cart will hold.',", to: "  said: ['We are going out to the ranch on the river, because the Mexican army is coming.',", expect: 'a sign says what it means' },
+  { name: 'signs: not drawn at Béxar', file: 'public/app.js',
+    from: "        if(world.townScenes?.siteId==='bexar')drawTownScenes(world,camera);", to: '', expect: 'the town\'s signs were not drawn at Béxar' },
 ];
 
 const CR = String.fromCharCode(13), LF = String.fromCharCode(10);
@@ -98,16 +124,17 @@ let previous = {};
 try { previous = JSON.parse(readFileSync(evidencePath, 'utf8')); } catch { /* the first run */ }
 
 if (which === 'all' || which === 'unit') {
-  const clean = runUnit(TEST);
-  if (!clean.passed) throw new Error(`${TEST} fails before any injection: ${clean.failed.join('; ')}`);
+  // Each injection runs the test file written for it: tests/surprise.test.mjs, or tests/bexar-signs.test.mjs for Béxar's signs.
+  const files = [...new Set(chosen(UNIT).map(injection => injection.test || TEST))];
+  for (const file of files) { const clean = runUnit(file); if (!clean.passed) throw new Error(`${file} fails before any injection: ${clean.failed.join('; ')}`); }
   for (const injection of chosen(UNIT)) {
-    const seen = inject(injection, () => runUnit(TEST));
+    const file = injection.test || TEST;
+    const seen = inject(injection, () => runUnit(file));
     const caught = !seen.passed && seen.failed.length === 1 && seen.failed[0] === injection.expect;
-    record.unit.push({ name: injection.name, file: injection.file, expect: injection.expect, caught, failed: seen.failed });
+    record.unit.push({ name: injection.name, file: injection.file, test: file, expect: injection.expect, caught, failed: seen.failed });
     console.log(`${caught ? 'caught' : seen.passed ? 'MISSED' : 'CAUGHT BY ANOTHER OR MORE THAN ONE'}: ${injection.name} -> ${seen.failed.join(' | ') || 'every test passed'}`);
   }
-  const after = runUnit(TEST);
-  if (!after.passed) throw new Error(`${TEST} fails after every file was put back: ${after.failed.join('; ')}`);
+  for (const file of files) { const after = runUnit(file); if (!after.passed) throw new Error(`${file} fails after every file was put back: ${after.failed.join('; ')}`); }
 }
 if (which === 'all' || which === 'browser') {
   const clean = runBrowser();

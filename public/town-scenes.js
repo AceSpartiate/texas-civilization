@@ -167,6 +167,16 @@ function drawProp(ctx, prop, p, figure, time) {
     case 'table': drawSprite(ctx, 'home-table', p.x, p.y, figure * .5); return;
     case 'flag-work': drawFlag(ctx, p.x, p.y - figure * .42, figure * .9, { stage: prop.stage || 'cloth', flat: true }); return;
     case 'flag': drawFlag(ctx, p.x, p.y, figure * 1.7, { time, stage: 'done' }); return;
+    // Béxar before the bell (sim/town-scenes.mjs `BEXAR_BEATS`): a family's carreta, loaded standing or going down the road; and
+    // the fandango's lights. stand-in: docs/ART_REQUESTS.md, request 2026-09-27 - the milk cow on the run, and Béxar before the bell: the fandango's lanterns
+    // are the camp fire's flicker drawn small until a lantern on a post is drawn.
+    case 'carreta': {
+      const heading = prop.face === 's' || prop.face === 'n' ? prop.face : 'e';
+      if (prop.moving && drawClip(ctx, `carreta-travel-${heading}`, p.x, p.y, figure * 1.1, { timeMs: time, seed: prop.id, flip: heading === 'e' && flip })) return;
+      drawSprite(ctx, 'carreta-loaded-e', p.x, p.y, figure * 1.05, { flip }) || drawSprite(ctx, 'wagon-loaded', p.x, p.y, figure * 1.1, { flip: !flip });
+      return;
+    }
+    case 'lights': drawClip(ctx, 'fire-flicker', p.x, p.y, figure * .3, { timeMs: time, seed: prop.id }) || drawSprite(ctx, 'campfire', p.x, p.y, figure * .28); return;
     default:
   }
 }

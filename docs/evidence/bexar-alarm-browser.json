@@ -6,6 +6,7 @@
   "checks": [
     "a class on the colonies map through the join flow: Thomas of hh-1 (Gonzales) in the garrison at Béxar, set in process; hh-2 (columbia) kept at home",
     "on 1836-02-20 hh-1 heard, through Thomas: \"At dark a Tejano rider, Blas Herrera, came in to Béxar saying there are Mexican soldiers on the Rio Grande. The officers…\"; hh-2 did not",
+    "before the bell hh-1 was sent Béxar's signs on their dates (bx-packing 1836-02-20, bx-leaving 1836-02-21, bx-volunteers 1836-02-21, bx-fandango 1836-02-22), drawn at Béxar (11 of the town's people) and told in its journal (\"Thomas Garrison, at Béxar, saw Tejano families of the town packing their things into carts.\"), none of it saying what it means; hh-2 was sent none of it",
     "before the bell (1836-02-23) neither family knew or was told that Santa Anna was marching; both had heard \"Word from Béxar: Colonel Travis does not look for the Mexican army before the middle of Ma…\"",
     "on 1836-02-23 the card \"The bell at Béxar: the Mexican army is here\" came through Thomas: \"At Thomas Garrison's side: the bell of San Fernando is ringing. The sentry on the church has seen the Mexican army on the heights to the wes…\" - on the screen at 1366x768",
     "Watch framed Béxar in the \"arrival\" phase: \"Early in the afternoon the bell of San Fernando rings. The sentry on the church has seen the Mexican army on the heights…\", with \"The enemy are in view!\"; hh-1's reports have it from \"Thomas Garrison, at Béxar\"",
@@ -14,11 +15,45 @@
     "hh-2 heard only when the riders came, on 1836-02-26, from \"Riders from Gonzales\": \"Riders from Gonzales say Santa Anna's army is at Béxar. It came into the town on the afternoon of the 23rd, weeks before…\""
   ],
   "screens": [
+    "test-results/bexar-alarm-signs-1366.png",
     "test-results/bexar-alarm-card-1366.png",
     "test-results/bexar-alarm-bell-1366.png",
     "test-results/bexar-alarm-host.png",
     "test-results/bexar-alarm-colonies-1024.png",
     "test-results/bexar-alarm-rider-1024.png"
   ],
+  "signs": {
+    "seen": {
+      "bx-packing": "1836-02-20",
+      "bx-leaving": "1836-02-21",
+      "bx-volunteers": "1836-02-21",
+      "bx-fandango": "1836-02-22"
+    },
+    "drawn": {
+      "cast": [
+        "bx-father-2",
+        "bx-mother-2",
+        "bx-neighbour",
+        "bx-neighbour-woman",
+        "bx-tejano-1",
+        "bx-tejano-2",
+        "bx-tejano-3",
+        "bx-tejano-4",
+        "bx-tejano-5",
+        "bx-garrison-1",
+        "bx-garrison-2"
+      ],
+      "spots": [
+        "bx-families",
+        "bx-volunteers"
+      ]
+    },
+    "told": [
+      "Thomas Garrison, at Béxar, saw Tejano families of the town packing their things into carts.",
+      "Thomas Garrison, at Béxar, saw fifteen of the Tejano volunteers ride out of the town with their families' carts, let go at Captain Seguín's asking to see to their families.",
+      "Thomas Garrison, at Béxar, saw another family's cart go out of the town, and houses standing shut up.",
+      "There is a fandango in the plaza at Béxar tonight for General Washington's birthday, and Thomas Garrison is there: fiddles, lights and dancing, and nearly all the garrison."
+    ]
+  },
   "verdict": "PASS"
 }

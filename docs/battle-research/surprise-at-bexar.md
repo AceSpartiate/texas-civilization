@@ -191,5 +191,35 @@ soldiers of Urrea's column dead in the norther of 25 February south of the Nuece
 - `ceiling:` the bell is told, not drawn; a bell-tower figure and a ringing bell are art not yet requested.
 - `ceiling:` the other settlements hear the arrival all at one moment, as they hear Travis's letter; a rider carrying it
   settlement by settlement (`docs/LIVING_INFORMATION.md`) is the way out.
-- The fandango, the Tejano families leaving and the other warnings are told only at the ending; a family with somebody in
-  Béxar could see the town empty in the days before (Sutherland's carts) if the owner wants more of the dread on screen.
+- ~~The fandango, the Tejano families leaving and the other warnings are told only at the ending.~~ **Built 2026-09-27** (§9).
+  The other warnings (Rodríguez, the Benavides courier, the San Felipe express) are still told only at the ending.
+
+## 9. The signs seen at Béxar, not explained (owner, 2026-09-27)
+
+Decided by multiple choice: **a family with somebody in or near Béxar sees the warning signs the record gives, on their dates, and
+nobody says what they mean** - so the bell of the 23rd still lands. Built in `sim/town-scenes.mjs` (`BEXAR_BEATS`), the pattern of
+Gonzales's dated scenes carried to a second town; claims `HIST-TEX-650` (new) and `-614`, and `FIC-GONZ-632`.
+
+| Beat | When (1836) | Drawn | Told in the family's journal | Claim |
+| --- | --- | --- | --- | --- |
+| Families packing | Feb 20, 4 p.m., to Feb 21, 4 p.m. | two Tejano families loading carretas on a street off the plaza; a neighbour watching | "..., at Béxar, saw Tejano families of the town packing their things into carts." | `HIST-TEX-650` ("by the evening of February 20") |
+| The town emptying | Feb 21, 4 p.m., to Feb 23, 2 p.m. | a family's carreta going down the road south; neighbours at shut doors | "... saw another family's cart go out of the town, and houses standing shut up." | `HIST-TEX-650`, `-614` (Sutherland's carts on the 23rd) |
+| The volunteers going | Feb 21, 6 a.m., to Feb 22, 6 a.m. | five riders for the fifteen, with a cart, out of the Plaza de Armas; two of the garrison watching | "... saw fifteen of the Tejano volunteers ride out of the town with their families' carts, let go at Captain Seguín's asking to see to their families." | `HIST-TEX-650` |
+| The fandango | Feb 22, 6 p.m., to Feb 23, 6 a.m. | dancers, a fiddler, lights and a table in the plaza, men of the garrison among them | "There is a fandango in the plaza at Béxar tonight for General Washington's birthday, and ... is there: fiddles, lights and dancing, and nearly all the garrison." | `HIST-TEX-614` |
+
+**Verified 2026-09-27** (Wikipedia *Siege of the Alamo*, raw wikitext): "by the evening of February 20 many of the residents of Bexar
+began to pack their belongings"; "The next day, fifteen of the Tejano volunteers at the Alamo resigned" (Hardin p. 121); "Seguin
+had asked Travis to release the men so that they could help evacuate their families, who were in the path Santa Anna would take"
+(Petite p. 26). **Correction to the brief**: nothing read says the fifteen were *Seguín's own company*; they were Tejano volunteers
+let go at his asking. The fandango is dated by Washington's birthday (the 22nd); "all but 10" of the garrison (Nofi p. 76).
+
+**What is left out on purpose**: why the families left (the army's path), the cavalry's surprise called off by the Medina's rain
+(Todish p. 36), and the Centralists who told Santa Anna of the party. `tests/bexar-signs.test.mjs` holds every line, card and
+journal word to naming no army, no Santa Anna, no march and no reason. **Who sees it**: a family with somebody in Béxar or within
+three miles of it (`NEAR_BEXAR_MILES`, as the bell); a family elsewhere sees and hears nothing; the Host sees every scene. Each beat
+is at least twelve hours long, because the winter's calendar steps up to half a day at a time and its ticks fall at whatever hour
+the last dated moment left them (Herrera's nine in the evening moves every tick after it).
+
+`stand-in:` the townspeople are the colonists' cast figures, the volunteers the cast's riders, the lanterns the fire's flicker
+(docs/ART_REQUESTS.md, request 2026-09-27). Evidence: `tests/bexar-signs.test.mjs` (3), seven unit injections and three browser
+injections in `scripts/surprise-injections.mjs`, and `npm run test:bexar-alarm`, which now holds the signs before the bell.

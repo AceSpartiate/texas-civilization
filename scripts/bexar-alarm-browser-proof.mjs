@@ -47,7 +47,11 @@ async function pageFor(viewport) {
   return page;
 }
 const shot = async (page, name) => { const path = `test-results/bexar-alarm-${name}.png`; await page.screenshot({ path }); evidence.screens.push(path); };
-const known = page => page.evaluate(() => ({ date: window.__snapshot.world.historicalDate, minute: window.__snapshot.world.minute, said: window.__snapshot.world.events.map(event => ({ minute: event.minute, text: event.text })), reports: (window.__snapshot.world.reports || []).map(report => ({ topicId: report.topicId, text: report.text, source: report.source, received: report.receivedMinute })), events: window.__snapshot.world.events.map(event => event.text), alert: window.__snapshot.world.battleAlert || null, battle: Boolean(window.__snapshot.world.battle) }));
+const known = page => page.evaluate(() => ({ date: window.__snapshot.world.historicalDate, minute: window.__snapshot.world.minute, said: window.__snapshot.world.events.map(event => ({ minute: event.minute, text: event.text })), reports: (window.__snapshot.world.reports || []).map(report => ({ topicId: report.topicId, text: report.text, source: report.source, received: report.receivedMinute })), events: window.__snapshot.world.events.map(event => event.text), alert: window.__snapshot.world.battleAlert || null, battle: Boolean(window.__snapshot.world.battle),
+  // Béxar's warning signs, if this page is sent them (sim/town-scenes.mjs `BEXAR_BEATS`, owner 2026-09-27).
+  scenes: window.__snapshot.world.townScenes ? { siteId: window.__snapshot.world.townScenes.siteId, beats: window.__snapshot.world.townScenes.scenes.map(scene => scene.beat), lines: window.__snapshot.world.townScenes.lines.map(line => line.text), cards: Object.values(window.__snapshot.world.townScenes.cards).map(card => [card.title, card.teller, ...card.said].join(' ')) } : null }));
+/** What would say what Béxar's signs mean: an army, who, where from, or why (as tests/bexar-signs.test.mjs). */
+const MEANING = /army|soldier|Santa Anna|enemy|Mexican|march|coming|Rio Grande|Medina|cavalry|surprise|in the path|danger|flee|war\b/i;
 async function fits(page, width) {
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   assert.ok(overflow <= 1, `the page scrolls sideways at ${width}x768 by ${overflow}px`);
@@ -89,14 +93,41 @@ try {
   // ---------------------------------------------------------------- the bell
   let last = null;
   const before = { inside: null, faraway: null };
+  // Béxar's signs before the bell: what each page was sent of them, on what date, and what the words were.
+  const signs = { inside: new Map(), faraway: new Map(), words: [], drawn: null };
   const giveUp = Date.now() + 300000;
   while (true) {
     assert.ok(Date.now() < giveUp, 'timed out waiting for the bell');
     const now = await known(inside);
     if (now.alert?.id?.includes(':siege:')) { last = now; break; }
     before.inside = now; before.faraway = await known(faraway);
+    for (const [who, seen] of [['inside', now], ['faraway', before.faraway]]) {
+      if (seen.scenes?.siteId !== 'bexar') continue;
+      for (const beat of seen.scenes.beats) if (!signs[who].has(beat)) signs[who].set(beat, seen.date);
+      if (who === 'inside') signs.words.push(...seen.scenes.lines, ...seen.scenes.cards);
+    }
+    // The first time the town's signs are sent, the family's man is framed as a student would (his portrait), and what the
+    // page drew of the town is read back.
+    if (!signs.drawn && now.scenes?.siteId === 'bexar') {
+      await inside.locator(`[data-portrait="${man.id}"]`).click({ force: true });
+      await inside.waitForTimeout(1500);
+      signs.drawn = await inside.evaluate(() => ({ cast: (window.__townCast || []).map(one => one.id || one), spots: Object.keys(window.__townSceneSpots || {}) }));
+      await shot(inside, 'signs-1366');
+    }
     await inside.waitForTimeout(200);
   }
+  // Seen and told by the family with its man there, on their dates; nothing of them to the family in the colonies; and nobody
+  // saying what any of it means.
+  assert.deepEqual([...signs.inside.keys()].sort(), ['bx-fandango', 'bx-leaving', 'bx-packing', 'bx-volunteers'], `hh-1 was sent ${[...signs.inside.keys()]}`);
+  assert.deepEqual([...signs.faraway.keys()], [], 'the family with nobody near Béxar was sent its signs');
+  assert.ok(signs.inside.get('bx-volunteers') >= '1836-02-21' && signs.inside.get('bx-fandango') >= '1836-02-22', `the signs came off their dates: ${JSON.stringify([...signs.inside])}`);
+  assert.ok(signs.drawn?.cast?.some(id => String(id).startsWith('bx-')), `the town's signs were not drawn at Béxar: ${JSON.stringify(signs.drawn)}`);
+  const tellings = before.inside.events.filter(text => /at Béxar, saw|fandango in the plaza at Béxar/.test(text));
+  assert.equal(tellings.length, 4, `hh-1's journal was told ${tellings.length} of the four signs: ${tellings.join(' | ')}`);
+  assert.ok(!before.faraway.events.some(text => /at Béxar, saw|fandango/.test(text)), 'hh-2\'s journal was told of Béxar\'s signs');
+  for (const text of [...new Set([...signs.words, ...tellings])]) assert.doesNotMatch(text, MEANING, `a sign says what it means: "${text}"`);
+  evidence.signs = { seen: Object.fromEntries(signs.inside), drawn: signs.drawn, told: tellings };
+  ok(`before the bell hh-1 was sent Béxar's signs on their dates (${[...signs.inside].map(([beat, date]) => `${beat} ${date}`).join(', ')}), drawn at Béxar (${signs.drawn.cast.length} of the town's people) and told in its journal ("${tellings[0]}"), none of it saying what it means; hh-2 was sent none of it`);
   for (const [who, seen] of Object.entries(before)) {
     for (const report of seen.reports) if (report.topicId !== 'herrera-report') assert.ok(!marching(report.text), `${who} knew before the bell: "${report.text}"`);
     for (const text of seen.events) assert.ok(!marching(text), `${who}'s journal said before the bell: "${text}"`);

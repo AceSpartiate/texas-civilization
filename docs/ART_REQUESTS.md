@@ -39,6 +39,8 @@ does not have:
 | A crawling baby is the infant's standing pose (`infant-idle-e`) moved over the ground a few yards a tick; a crying baby the infant's front-facing idle with a "(crying)" bubble; a napping one `infant-rest` | `littleClip` in `public/motion.js` | Same request, item 2 | `infant-crawl`, `infant-cry`, `infant-sleep` |
 | A woman (or anybody) holding a baby is the cast figure's harvest carrying pose (`-carry`) with the infant drawn at her side; a baby carried on an errand is the infant figure drawn at the carrier's hip, a little up and to the right | `littleClip` in `public/motion.js`; `carriedAt` in `drawWorld`, `public/app.js` | Same request, item 3 | `-hold-baby`, `-carry-baby-walk` |
 | Seventeen icons - seven kinds of play, the hens and the Scrape's nine works - are stroked glyphs drawn in code | `PANEL_ICONS` and `LITTLE_GLYPHS` in `public/family-panel.js` | Same request, item 5 | `icon-<key>` for each |
+| The milk cow a child drives on the Scrape is the range longhorn's `cattle-longhorn-red-idle` (on the road) and `-graze` (at the camp), drawn a step behind the child; its icon (`flee-cow`) a stroked glyph | the cow in the entities loop of `drawWorld`, `public/app.js`; `PANEL_ICONS` in `public/family-panel.js` | Request 2026-09-27 — the milk cow on the run, and Béxar before the bell, item 1 | `milk-cow-walk-*`, `milk-cow-graze`; `icon-flee-cow` |
+| Béxar's families, Tejano volunteers, dancers and fiddler are the colonists' cast figures (`ochre`, `teal`, `elder`, `indigo`, `blue`, `blue-girl`, `girl`, `boy`) and the cast's riders; the fandango's lanterns are `fire-flicker` drawn small | `BEXAR_CAST` in `sim/town-scenes.mjs`; the `lights` prop in `public/town-scenes.js` | Same request, items 2-4 | Tejano townspeople, `tejano-rider-*`, `dancers-couple`, `fiddler-play`, `lantern-post` |
 | A column's foraging parties are three `dragoon-march` riders each; a column on the march is `regular-march` men in files of three with a `dragoon-march` at the head | the parties in `drawWorld` in `public/app.js`; `drawArmy` (`moving`) in `public/army-view.js` | Request 2026-09-26 — the Mexican advance, items 1 and 3 | `forager-ride-*` / `forager-drive-*`, `regular-march-column` |
 | The smoke of a burning town or farm is the library's `smoke-rise` (chimney smoke) drawn three to four figures tall, with a painted grey plume if that clip has not loaded | `window.__firesDrawn` in `drawWorld`, `public/app.js` | Request 2026-09-26 — the Mexican advance, item 2 | `farm-smoke-rise`, `town-smoke-rise` |
 | Whole jacal stage sprites; `lean-to` shed frame; the double chimney drawn with the single stick-and-mud chimney's picture (`house-chimney-stick`; until 2026-09-24 a flat rectangle, whose width let the far pen's door show either side of it at 90 and 270 degrees). Since 2026-09-24 the saddlebag's two pens stand one behind the other along their ridge at every turn, and it stands at the middle between the far pen's front gable and the near pen's back gable, `DOUBLE_RISE` (2.7) high so that it hides the far pen's door whole, its foot behind the near pen's roof (until then, at 0 and 180 degrees behind both pens' back gables, and at 90 and 270 brought `DOUBLE_TOWARD` toward the near pen); no separate interior floor/loft display | `drawHousePlot` and `standChimneys` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney (two-sided, its foot marked), and separately registered floor and loft overlays |
@@ -159,6 +161,30 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-27 — the milk cow on the run, and Béxar before the bell
+
+**Status: open; stand-ins in use since 2026-09-27 (see *Stand-ins in use*).** Two owner decisions of 2026-09-27 put new things on
+the map ([STOCK.md](STOCK.md) §8, [CHILDREN.md](CHILDREN.md) §7; [surprise-at-bexar.md](battle-research/surprise-at-bexar.md) §6):
+a child driving one milk cow behind the family on the Runaway Scrape, and Béxar's Tejano families packing and leaving, fifteen
+Tejano volunteers riding out, and a fandango in the plaza, in the days before February 23, 1836. Delivery contract as the wildlife
+and battle-people sheets: transparent PNG on the ground anchor, east mirrored for west; cattle at the logical height of the
+delivered `cattle-longhorn-*`, people at the cast's.
+
+1. **A milk cow walking on a rope** (priority 1) - `milk-cow-walk-e` (4 frames), `-n`, `-s`, and `milk-cow-graze` (2 frames): a
+   gentle dairy cow of the 1830s, smaller and plainer than the range longhorn, a rope from her horns trailing behind (the child
+   holding the other end is drawn by the page). Plugs into the cow drawn beside the child in `drawWorld` (public/app.js,
+   `window.__cowDrawn`), which then uses the walk while the family travels.
+2. **Tejano townspeople of Béxar** (priority 1) - a man, a woman in a rebozo, a girl and a boy, each `walk`, `idle-s`, `carry`
+   (loading a cart), `speak`, `listen`, 1830s Béxar dress. Plugs into `BEXAR_CAST` (sim/town-scenes.mjs) as their `figure`.
+3. **Tejano volunteers mounted** (priority 2) - `tejano-rider-ride-e`/`-n`/`-s` (4 frames): a Tejano horseman in a short jacket and
+   wide hat with a lance or escopeta. Plugs into `bx-tejano-*`.
+4. **The fandango** (priority 2) - `dancers-couple` (a couple dancing, 4 frames), `fiddler-play` (2 frames), and a `lantern-post`
+   sprite (a lantern hung on a post, lit). Plugs into `bx-dancer-*`, `bx-fiddler` and the `lights` prop (public/town-scenes.js).
+
+**Check.** At Béxar zoomed to the plaza (a figure about 40 px), the families read as Béxar's and not as colonists, the riders as
+Tejano horsemen, the dance as a dance and not a crowd standing; on the road east the cow reads as a milk cow led, not as a steer
+from the range.
 
 ## Request 2026-09-26 — the Esparza family
 

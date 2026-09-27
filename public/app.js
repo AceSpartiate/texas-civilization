@@ -2804,6 +2804,15 @@ export function drawWorld(world) {
   const standing = [];
   // Heads in Gonzales this frame, for the words said over them (public/town-scenes.js); filled as the figures are laid out.
   townHeads.clear(); townSceneSpots.clear(); window.__townCast = []; window.__townWalkers = [];
+  // A town's dated scenes (sim/town-scenes.mjs), laid out with its own drawing: Gonzales's before the fight, Béxar's before the
+  // bell. The server sends the one town whose scenes this page may see (`townScenes.siteId`).
+  const drawTownScenes = (world, camera) => {
+    const cast = [];
+    standing.push(...townSceneDrawables(ctx, world.townScenes, { toScreen: p => camera.toScreen(p), figure: camera.figure, scale: camera.scale, now: frameNow, clock: animationTime, walker: townWalker, reducedMotion: reducedMotion.matches, frozen: world.status !== 'running', drawn: townHeads, evidence: cast }));
+    window.__townCast = cast;
+    for (const scene of world.townScenes?.scenes || []) townSceneSpots.set(scene.id, camera.toScreen(scene));
+    window.__townSceneSpots = Object.fromEntries(townSceneSpots);
+  };
   // Presentation evidence for proofs, on the same contract as `__plotsDrawn`: each family's land the Host's map drew, as drawn.
   const hostLandsDrawn = {};
   window.__hostLandsDrawn = hostLandsDrawn;
@@ -2853,10 +2862,7 @@ export function drawWorld(world) {
         window.__shopsDrawn={gonzales:(world.map?.shops?.gonzales||[]).length};
         // Gonzales before the fight: the town's people at what the days had them doing (sim/town-scenes.mjs), sent only to a
         // page with somebody standing here, and to the Host.
-        const cast=[];standing.push(...townSceneDrawables(ctx,world.townScenes,{toScreen:p=>camera.toScreen(p),figure:camera.figure,scale:camera.scale,now:frameNow,clock:animationTime,walker:townWalker,reducedMotion:reducedMotion.matches,frozen:world.status!=='running',drawn:townHeads,evidence:cast}));
-        window.__townCast=cast;
-        for(const scene of world.townScenes?.scenes||[])townSceneSpots.set(scene.id,camera.toScreen(scene));
-        window.__townSceneSpots=Object.fromEntries(townSceneSpots);
+        if((world.townScenes?.siteId||'gonzales')==='gonzales')drawTownScenes(world,camera);
       }else if(TOWN_LAYOUTS[site.id]&&camera.scale>=200){
         // A town of the colonies from its research sketch (sim/town-layouts.mjs, docs/TOWNS.md §5b), its keepers' buildings named.
         const layout=TOWN_LAYOUTS[site.id],project=p=>camera.toScreen({x:site.x+p.x,y:site.y+p.y});
@@ -2870,6 +2876,9 @@ export function drawWorld(world) {
         const project=p=>{const o=bexarToSite(p);return camera.toScreen({x:site.x+o.x,y:site.y+o.y});};
         if(ground)drawBexarGround(ground,project,camera.scale/5280,{river:false});
         standing.push(...bexarDrawables(ctx,project,camera.scale/5280,{alamoProject:p=>{const o=alamoOnMap(p);return camera.toScreen({x:site.x+o.x,y:site.y+o.y});}}));
+        // Béxar in the days before February 23 (sim/town-scenes.mjs `BEXAR_BEATS`): the town's signs, sent only to a page with
+        // somebody there, and to the Host.
+        if(world.townScenes?.siteId==='bexar')drawTownScenes(world,camera);
       }else if (ownLand && world.land?.house?.pieces && plotCatalogue) {
         // The family's house plot, piece by piece at its stage (public/house-plot.js); the camp beside it until a pen stands.
         familyHouses.push({ own: true, siteId: site.id, box: () => landHomeBox(camera, q, world.land.house, world.land.completedHouses),
@@ -3001,6 +3010,7 @@ export function drawWorld(world) {
   // so the carriers first, and where each was put kept for the babies they carry.
   // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 - a woman with a baby on her hip; until then the infant figure beside her.
   const carriedAt = new Map();
+  window.__cowDrawn = null;
   for (const entity of [...entities].sort((a, b) => Boolean(a.carriedBy) - Boolean(b.carriedBy))) {
     const carrier = entity.carriedBy ? carriedAt.get(entity.carriedBy) : null;
     // Where along the road this traveller is *drawn*, which is not where the server has them while the middle of a long
@@ -3010,7 +3020,6 @@ export function drawWorld(world) {
     const inTown = carrier ? null : townGround(world, entity, camera, frameNow, frozen);
     const ground = carrier ? carrier.ground : sight?.at || inTown?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
     carriedAt.set(entity.id, { ground, sight });
-  window.__cowDrawn = null;
     if (carrier) { point.x += camera.figure * .22; point.y -= camera.figure * .3; }
     // The place the figure was really put, beside the place the schedule asked for. Presentation evidence, read by
     // proofs and by nothing in the application: "the schedule says the right thing" and "the page drew the right thing"
@@ -3045,15 +3054,6 @@ export function drawWorld(world) {
       labels, heading: destination ? destination.x - entity.location.x : 0, ground, scale: camera.scale,
       now: frameNow, frozen, running, tickMs, sight, placed: Boolean(inTown),
     }) });
-  }
-  const margin = camera.figure * 4, shownObserved = [];
-  for (const entity of observed) {
-    // Everyone on the map, not only the student's own family (owner, 2026-09-22, by multiple choice: "Everyone on the
-    // map"): other families' people, riders, couriers and armies' men alike. Somebody else's land is not this family's, so
-    // an observed person is scheduled with no land under them (`sightOf` passes none).
-    const sight = sightOf(entity, drawnHeightOf(entity, camera.figure, host ? seatOf(entity, []) : null), { ...travelMarks, observed: !host });
-    if (sight && sight.alpha < 1) roads.push({ entity, seen: sight });
-    const inTown = townGround(world, entity, camera, frameNow, frozen);
     // The milk cow a child drives along behind the family on the Scrape (sim/flight-work.mjs, owner 2026-09-27), a step behind
     // them on the road and grazing beside them at the camp. stand-in: docs/ART_REQUESTS.md, request 2026-09-27 - the milk cow on the run, and Béxar before the bell:
     // a range longhorn's standing and grazing frames moved over the ground with the child, until a milk cow on a rope is drawn.
@@ -3070,6 +3070,15 @@ export function drawWorld(world) {
         window.__cowDrawn = { by: entity.id, x: Math.round(cow.x), y: Math.round(cow.y), clip, child: child ? { x: Math.round(feet.x), y: Math.round(feet.y) } : null };
       } });
     }
+  }
+  const margin = camera.figure * 4, shownObserved = [];
+  for (const entity of observed) {
+    // Everyone on the map, not only the student's own family (owner, 2026-09-22, by multiple choice: "Everyone on the
+    // map"): other families' people, riders, couriers and armies' men alike. Somebody else's land is not this family's, so
+    // an observed person is scheduled with no land under them (`sightOf` passes none).
+    const sight = sightOf(entity, drawnHeightOf(entity, camera.figure, host ? seatOf(entity, []) : null), { ...travelMarks, observed: !host });
+    if (sight && sight.alpha < 1) roads.push({ entity, seen: sight });
+    const inTown = townGround(world, entity, camera, frameNow, frozen);
     const ground = sight?.at || inTown?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
     if (sight) sight.painted = ground;
     // The Host's whole class: only who is on screen is drawn, and each as they truly are - at their own work, the principal
@@ -4074,6 +4083,8 @@ function renderFamilyPanel(world) {
  *   student scrolling down the list to find the youngest is not dragged back up every tick.
  */
 let columnFitQueued = false, barRoomWas = null, columnKey = null, roomKey = null, scrolledFor = null;
+/** The least a phone's column is given, in pixels: a portrait and a half, whatever the strip above it takes. */
+const PHONE_COLUMN_FLOOR = 76;
 function queueColumnFit() {
   if (columnFitQueued) return;
   columnFitQueued = true;
@@ -4087,6 +4098,10 @@ function fitColumn() {
   if (!panel || panel.hidden || !stage) {
     document.body.style.removeProperty('--column-room'); document.body.style.removeProperty('--phone-column'); columnKey = roomKey = null; return;
   }
+  // A phone puts the family below the status across the top (the stylesheet's `bottom:auto` there), so its column is not held
+  // up from the foot of the screen: it is given a height, from where it starts down to the same foot a column stops at
+  // anywhere else (owner, 2026-09-27: the family of twenty's phone checks are a gate again, docs/GATES.md).
+  const phone = matchMedia('(max-width:760px)').matches;
   const barBox = $('.panel-row[data-focused=true] .panel-icons')?.getBoundingClientRect();
   let bar = barBox && barBox.width > 0 && barBox.height > 0 ? barBox : null;
   if (bar) barRoomWas = stage.bottom - bar.top;
@@ -4094,8 +4109,6 @@ function fitColumn() {
   const box = panel.getBoundingClientRect();
   const tools = $('#map-tools')?.getBoundingClientRect();
   const room = columnRoom({ height: stage.bottom, column: { left: box.left, right: box.right }, bar, others: tools ? [tools] : [] });
-/** The least a phone's column is given, in pixels: a portrait and a half, whatever the strip above it takes. */
-const PHONE_COLUMN_FLOOR = 76;
   const roomText = `${room}px`;
   if (phone) {
     document.body.style.removeProperty('--column-room');
@@ -4117,10 +4130,6 @@ const PHONE_COLUMN_FLOOR = 76;
   }
   // The room, not the sentences: a row's auto line changing as its person waits must not scroll the list under a student.
   const roomNow = `${room}:${Math.round(stage.height)}`;
-  // A phone puts the family below the status across the top (the stylesheet's `bottom:auto` there), so its column is not held
-  // up from the foot of the screen: it is given a height, from where it starts down to the same foot a column stops at
-  // anywhere else (owner, 2026-09-27: the family of twenty's phone checks are a gate again, docs/GATES.md).
-  const phone = matchMedia('(max-width:760px)').matches;
   if (roomNow !== roomKey) { roomKey = roomNow; scrolledFor = null; }
   const chosen = focusedId ? panelRows.get(focusedId)?.item : null;
   if (chosen && scrolledFor !== focusedId) {
