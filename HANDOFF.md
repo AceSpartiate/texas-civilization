@@ -1,6 +1,6 @@
 # Claude handoff — Astra foundation
 
-## The milk cow's pace and a baby's short word — two owner decisions of 2026-09-27 (worktree branch; not released)
+## The milk cow's pace and a baby's short word — two owner decisions of 2026-09-27 (worktree branch; released in v2026.09.27.2)
 
 Built on `worktree-agent-a5841143559ab4e24` from main `bd460c4`, fast-forwarded to `origin/main` `c4c2461` before finishing. Not
 pushed, not merged to main, not released. Both decisions are the owner's, by multiple choice, 2026-09-27 (docs/CHILDREN.md §9,
@@ -2277,6 +2277,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   lesson 33 checks, panels 10 checks at 2 sizes, farm, travel-drawn and relay pass. Four other proofs failed here, and
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
+
+## Released as v2026.09.27.2 — 2026-09-27
+
+**[v2026.09.27.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.27.2)**, from `ab327ec`: a family on foot with the milk cow goes at her pace (`COW_PACE = LEAD_PACE.cattle`, 0.65 mi/tick); a baby's row keeps one word when the column is tight (`babyWord`). Set of changes from .27.1: 524 KB. Verify tree: 1429 tests; family-twenty 12, children 14, family-panel 17, panels 14, scrape 5.
 
 ## Released as v2026.09.27.1 — 2026-09-27
 
