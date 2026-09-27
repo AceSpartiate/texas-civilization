@@ -225,6 +225,7 @@ export const ROAD_ASKS = {
     requires: {
       run: { test: (world, household) => !runRefusal(world, household), why: 'The family cannot run as it is.' },
       'abandon-run': { test: (world, household) => !(household.flight.status === 'refuged' && !nextRefuge(world, household)), why: 'There is no refuge further east to run for.' },
+      'timber-run': { test: (world, household) => !household.flight.bog && !(household.flight.crossing && household.flight.mode === 'wagon'), why: 'The family cannot run as it is.' },
     },
   },
 };

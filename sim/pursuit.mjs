@@ -35,7 +35,7 @@ import { weatherAt } from './weather.mjs';
 import { dateOf, calendarMinutes } from './clock.mjs';
 import { landAround, onRealLand } from './ground.mjs';
 import { woodsRule } from './woods.mjs';
-import { share } from './shares.mjs';
+import { stirredShare } from './shares.mjs';
 import { record } from './events.mjs';
 import { roadTicks, WAGON_SPEED, WALK_SPEED, HORSE_SPEED } from './travel.mjs';
 import { canAnswerCalls, householdName } from './family.mjs';
@@ -60,6 +60,10 @@ const mphToYps = mph => mph * YARDS / 3600;
  * with children up behind, slower than a dragoon's.
  */
 export const INFANTRY_MPH = 2.5, TROT_MPH = 8, GALLOP_MPH = 11, GALLOP_YARDS = 150, FAMILY_RUN_MPH = 7;
+/** Horsemen who have called on a family to halt come up to it at a walk (Cooke: three and three-quarters) until it answers. */
+export const WALK_MPH = 3.75;
+/** How far off the family may run for the timber, in miles: a patch it can see from the road (`FIC-GONZ-663`). */
+export const TIMBER_REACH_MILES = 0.75;
 /**
  * What is seen, how far off, in miles, over open ground (`HIST-TEX-667`, `FIC-GONZ-661`, RECONSTRUCTED from the research's
  * sight table): a wagon's white top three miles, a party on horseback two, a man on foot one. In brush a quarter mile (a
@@ -96,12 +100,18 @@ export const RELOAD_SECONDS = Object.freeze({ trained: 20, recruit: 35 }), AIM_S
  */
 export const RECRUIT_SHARE = 0.5;
 /**
+ * Of a file of infantry after a family, every second man stops to fire and load; the rest run on to take it (`FIC-GONZ-664`:
+ * the game's, so that the file both fires and closes, as the owner's "the soldiers open fire" and the research's slow loading
+ * would otherwise leave every man standing to load while the family walked away).
+ */
+export const FIRING_EVERY = 2;
+/**
  * They give up (`FIC-GONZ-663`, research §5): infantry after two miles of it or half an hour, cavalry after three miles or half
  * an hour (Nolan's pursuits run "three miles"); at the timber's edge with the family into it and nobody within `TIMBER_YARDS`;
  * at dusk; and, when the family is plainly the faster and still out of hail, after `OUTRUN_MINUTES`.
  */
 export const GIVE_UP = Object.freeze({ infantry: { miles: 2, minutes: 30 }, cavalry: { miles: 3, minutes: 30 } });
-export const TIMBER_YARDS = 50, OUTRUN_MINUTES = 10;
+export const TIMBER_YARDS = 50, OUTRUN_MINUTES = 10, CLOSE_YARDS = 100;
 /** A column or patrol that has chased a family does not come after it again for this long, in minutes (`FIC-GONZ-663`). */
 export const PURSUED_AGAIN_MINUTES = 1440;
 
@@ -189,9 +199,9 @@ function aheadOf(map, column, t, ahead) {
   return null;
 }
 /** Every cavalry patrol out at this minute of the class, with where it is (sim/advance.mjs `headAt` for a detachment's own road). */
-export function patrolsNow(world) {
+export function patrolsNow(world, t = timelineOf(world)) {
   if (!world?.map?.sites) return [];
-  const t = timelineOf(world), found = [];
+  const found = [];
   for (const patrol of PATROLS) {
     if (patrol.path) {
       if (!patrol.path.every(stop => world.map.sites[stop.siteId])) continue;
@@ -209,9 +219,9 @@ export function patrolsNow(world) {
   return found;
 }
 /** Everything that can see a family now: each column on its road (infantry, or horse for a mounted one) and each patrol out. */
-export function watchersNow(world) {
+export function watchersNow(world, t = timelineOf(world)) {
   if (!world?.map?.sites?.gonzales) return [];
-  const t = timelineOf(world), found = [];
+  const found = [];
   for (const column of COLUMNS) {
     const head = headAt(world.map, column, t);
     // A column going back after San Jacinto hunts nobody; one fighting on a field the battle draws is at that.
@@ -219,7 +229,17 @@ export function watchersNow(world) {
     const mounted = MOUNTED_COLUMNS.includes(column.id);
     found.push({ id: column.id, name: column.name, kind: mounted ? 'cavalry' : 'infantry', men: mounted ? head.strength || 8 : INFANTRY_PARTY, x: head.x, y: head.y, toward: head.toward, towardName: head.towardName, column: true });
   }
-  return [...found, ...patrolsNow(world)];
+  return [...found, ...patrolsNow(world, t)];
+}
+/**
+ * How near two things came in a tick, each going straight from where it was to where it is: a column and a family that passed
+ * each other inside one long tick still met (`FIC-GONZ-661`). Miles.
+ */
+export function closestApproach(a0, a1, b0, b1) {
+  const rx = a0.x - b0.x, ry = a0.y - b0.y, vx = (a1.x - a0.x) - (b1.x - b0.x), vy = (a1.y - a0.y) - (b1.y - b0.y);
+  const v2 = vx * vx + vy * vy;
+  const tau = v2 ? Math.max(0, Math.min(1, -(rx * vx + ry * vy) / v2)) : 1;
+  return Math.hypot(rx + vx * tau, ry + vy * tau);
 }
 
 // ------------------------------------------------------------------------------------------------ what they can see
@@ -231,6 +251,17 @@ export function coverAt(world, point) {
   if (!point || !onRealLand(world)) return 'open';
   const cover = landAround().coverAt(point, woodsRule(world));
   return cover === 'timber' || cover === 'brush' ? cover : 'open';
+}
+/**
+ * Timber enough to hide in: the point and most of the ground a hundred and forty yards round it in timber (`HIDE_MILES`), not a
+ * creek's fringe the road runs through in a minute, where the soldiers would see the family come out the other side.
+ */
+export const HIDE_MILES = 0.08, HIDE_SHARE = 6 / 9;
+export function hidesIn(world, point) {
+  if (coverAt(world, point) !== 'timber') return false;
+  let timber = 1;
+  for (let k = 0; k < 8; k++) { const a = k / 8 * Math.PI * 2; if (coverAt(world, { x: point.x + Math.cos(a) * HIDE_MILES, y: point.y + Math.sin(a) * HIDE_MILES }) === 'timber') timber++; }
+  return timber / 9 >= HIDE_SHARE;
 }
 /** What the soldiers would see of the family: its wagon, a party all on horseback, or people on foot. */
 export function seenAs(world, household) {
@@ -286,7 +317,7 @@ function beginChase(world, household, watcher, miles, point) {
   const n = (flight.pursued || []).length + 1;
   const dx = watcher.x - point.x, dy = watcher.y - point.y, d = Math.hypot(dx, dy) || 1;
   const lead = Math.round(Math.max(CAUGHT_YARDS + 1, miles * YARDS));
-  const soldiers = Array.from({ length: watcher.men }, (_, i) => ({ g: lead + Math.round(share(world, household.id, `chase:${n}:spread:${i}`) * 30), busy: 0, shots: 0, ...(watcher.kind === 'infantry' && share(world, household.id, `chase:${n}:recruit:${i}`) < RECRUIT_SHARE && { recruit: true }) }));
+  const soldiers = Array.from({ length: watcher.men }, (_, i) => ({ g: lead + Math.round(stirredShare(world, household.id, `chase:${n}:spread:${i}`) * 30), busy: 0, shots: 0, ...(watcher.kind === 'infantry' && stirredShare(world, household.id, `chase:${n}:recruit:${i}`) < RECRUIT_SHARE && { recruit: true }) }));
   const leader = withFamily(world, household).people.find(one => one.travel?.purpose === 'flee');
   flight.chase = {
     id: `${household.id}:${n}`, by: watcher.id, name: watcher.name, kind: watcher.kind, men: watcher.men, toward: watcher.toward || null, towardName: watcher.towardName || null,
@@ -321,9 +352,9 @@ function fire(world, household, chase, i, yards, second, tickStart) {
   const n = chase.shotCount++;
   const soldier = chase.soldiers[i];
   const shooter = chase.kind === 'cavalry' ? 'mounted' : soldier.recruit ? 'hip' : 'trained';
-  const target = targets[Math.floor(share(world, household.id, `${chase.id}:aim:${n}`) * targets.length)];
+  const target = targets[Math.floor(stirredShare(world, household.id, `${chase.id}:aim:${n}`) * targets.length)];
   const p = hitChance(yards, { shooter, target: target.size, moving: true });
-  const hit = share(world, household.id, `${chase.id}:shot:${n}`) < p;
+  const hit = stirredShare(world, household.id, `${chase.id}:shot:${n}`) < p;
   const shot = { n, man: i, yards: Math.round(yards), shooter, target: { kind: target.kind, name: target.name }, p: round(p, 3), hit, minute: round(tickStart + second / 60, 3) };
   if (hit) {
     chase.hits++;
@@ -339,7 +370,7 @@ function strike(world, household, chase, target, n) {
   const siteId = nearestSite(world, entity?.location);
   if (target.kind === 'wagon') return 'harmless';
   if (target.kind === 'person') {
-    const killed = share(world, household.id, `${chase.id}:fate:${n}`) < KILLED_SHARE.person;
+    const killed = stirredShare(world, household.id, `${chase.id}:fate:${n}`) < KILLED_SHARE.person;
     if (killed) {
       entity.health = { condition: 'dead' }; entity.travel = null; entity.task = 'rest'; entity.chore = null;
       entity.location = { x: entity.location.x, y: entity.location.y, siteId };
@@ -350,7 +381,7 @@ function strike(world, household, chase, target, n) {
     record(world, 'consequence', { householdId: household.id, actorId: entity.id, importance: 3, claimId: 'FIC-GONZ-664', text: `${entity.name} was hit by a musket ball as the family ran from the soldiers of ${chase.name}, and is wounded. It will be weeks mending.` });
     return 'wounded';
   }
-  const killed = share(world, household.id, `${chase.id}:fate:${n}`) < KILLED_SHARE.beast;
+  const killed = stirredShare(world, household.id, `${chase.id}:fate:${n}`) < KILLED_SHARE.beast;
   if (killed) {
     entity.condition = 'dead'; entity.travel = null; entity.laden = false; entity.borrowedBy = null; delete entity.hurt;
     entity.location = { x: entity.location.x, y: entity.location.y, siteId };
@@ -398,18 +429,21 @@ function repace(world, household) {
 function runChase(world, household, chase, seconds, calendar, vF) {
   const share_ = goingShare(calendar);
   const tickStart = world.minute - calendar;
-  const firing = chase.answer === 'run' && chase.warned;
+  const firing = chase.answer === 'run' && Number.isFinite(chase.fireFrom);
+  const attendedNow = attended(world, household);
+  let hailAt = 0;
   for (let s = 0; s < seconds; s++) {
     chase.t++;
     let lead = Infinity;
     chase.soldiers.forEach((soldier, i) => {
       const loading = soldier.busy > chase.t;
-      const mph = chase.kind === 'cavalry' ? (soldier.g <= GALLOP_YARDS ? GALLOP_MPH : TROT_MPH) : INFANTRY_MPH;
-      const go = loading ? 0 : mphToYps(mph) * share_;
+      const mph = soldierMph(chase, soldier);
+      // Having called on the family to halt this tick, they stand and wait for its answer until the tick is out.
+      const go = loading || (hailAt && attendedNow) ? 0 : mphToYps(mph) * share_;
       soldier.g = Math.max(0, soldier.g + vF - go);
       soldier.run = (soldier.run || 0) + go;
       chase.chased = Math.max(chase.chased, soldier.run);
-      if (firing && soldier.g <= FIRE_YARDS[chase.kind] && soldier.g > CAUGHT_YARDS && !loading && (chase.kind === 'infantry' || soldier.shots < 1)) {
+      if (firing && chase.t >= chase.fireFrom && soldier.g <= FIRE_YARDS[chase.kind] && soldier.g > CAUGHT_YARDS && !loading && (chase.kind === 'infantry' ? i % FIRING_EVERY === 0 : soldier.shots < 1)) {
         const shot = fire(world, household, chase, i, soldier.g, s, tickStart);
         if (shot) {
           soldier.shots++;
@@ -421,9 +455,19 @@ function runChase(world, household, chase, seconds, calendar, vF) {
     });
     chase.lead = Math.round(lead);
     if (lead <= CAUGHT_YARDS) return 'caught';
-    if (chase.phase === 'seen' && lead <= HAIL_YARDS) return 'hail';
+    // Within hail: the order comes, and the rest of the tick goes on (the family does not stop going for it).
+    if (chase.phase === 'seen' && lead <= HAIL_YARDS && !hailAt) { hailAt = s + 1; chase.phase = 'hailed'; }
   }
-  return null;
+  return hailAt ? 'hail' : null;
+}
+/**
+ * A soldier's pace now: infantry at the march; horsemen at the trot coming on, at a walk once they have called on the family
+ * to halt and wait its answer, and at the trot and then the gallop within `GALLOP_YARDS` when it runs.
+ */
+function soldierMph(chase, soldier) {
+  if (chase.kind !== 'cavalry') return INFANTRY_MPH;
+  if (chase.phase === 'hailed' && !chase.answer) return WALK_MPH;
+  return chase.answer === 'run' && soldier.g <= GALLOP_YARDS ? GALLOP_MPH : TROT_MPH;
 }
 
 /** Why the soldiers give up now, or null. */
@@ -431,11 +475,12 @@ function givesUp(world, household, chase, vF) {
   // Ordered to halt and not yet answered: they are waiting on the family's answer, and come on meanwhile.
   if (chase.phase === 'hailed' && !chase.answer) return null;
   const limit = GIVE_UP[chase.kind];
-  if (chase.chased >= limit.miles * YARDS) return 'far';
-  if (chase.t >= limit.minutes * 60) return 'long';
+  // Tired of it and far enough - but not with a hand almost on the family (`CLOSE_YARDS`): then they go on and take it.
+  if (chase.lead > CLOSE_YARDS && chase.chased >= limit.miles * YARDS) return 'far';
+  if (chase.lead > CLOSE_YARDS && chase.t >= limit.minutes * 60) return 'long';
   if (isNight(world)) return 'dusk';
   const point = familyPoint(world, household);
-  if (point && coverAt(world, point) === 'timber' && chase.lead > TIMBER_YARDS) return 'timber';
+  if (point && chase.lead > TIMBER_YARDS && hidesIn(world, point)) return 'timber';
   // Plainly the faster, and still out of hail: they see they will not come up with it.
   const vS = mphToYps(chase.kind === 'cavalry' ? TROT_MPH : INFANTRY_MPH);
   if (chase.phase === 'seen' && vF > vS && chase.t >= OUTRUN_MINUTES * 60) return 'outrun';
@@ -492,6 +537,8 @@ function hail(world, household, chase) {
 
 /** The unanswered order to halt is answered for the family after this many ticks: it halts, and it is written down (`FIC-GONZ-666`). */
 export const ALTO_PATIENCE_TICKS = 3;
+/** Seconds between the second order and the first shot at a family that runs (`FIC-GONZ-663`). */
+export const WARNED_SECONDS = 10;
 /** The calendar's step while a watched chase is close (`FIC-GONZ-666`): two minutes a tick, about ten seconds each at Study. */
 export const CHASE_STEP = 2;
 /** Ticks the end of a chase stays on the page before the road's own time comes back. */
@@ -512,7 +559,11 @@ export function answerAlto(world, household, option) {
     return;
   }
   chase.answer = 'run';
+  // A second order as the family whips up, and they fire from `WARNED_SECONDS` after it.
+  chase.warned = world.minute; chase.fireFrom = chase.t + WARNED_SECONDS;
+  say(world, chase, 'warn', '¡Alto, o hacemos fuego!', 'Halt, or we fire!');
   if (option === 'abandon-run') abandonWagon(world, household);
+  if (option === 'timber-run') runForTimber(world, household);
   if (option === 'cow-run') { loseCow(household); cowPace(world, household); record(world, 'consequence', { householdId: household.id, importance: 2, claimId: 'FIC-GONZ-663', text: 'The family let the milk cow go and ran.' }); }
   // Camped at a refuge, the family runs on for the next one east.
   if (flight.status === 'refuged') { const next = nextRefuge(world, household); if (next) moveOn(world, household, next.id); }
@@ -556,6 +607,9 @@ export function advancePursuit(world, household) {
   }
   const point = familyPoint(world, household);
   if (!point) return false;
+  // Where the family stood at the end of the last tick, for what passed it inside this one (`closestApproach`).
+  const was = flight.lastPoint?.minute === world.minute - calendar ? flight.lastPoint : null;
+  flight.lastPoint = { minute: world.minute, x: round(point.x, 4), y: round(point.y, 4) };
   const fresh = !chase;
   if (!chase) {
     // Never in the day its order gives it, nor again where the army has already stripped it (as sim/road.mjs always kept).
@@ -564,15 +618,18 @@ export function advancePursuit(world, household) {
     const sight = sightMiles(world, household, point);
     if (!sight) return false;
     let best = null;
+    const before = was ? watchersNow(world, timelineOf(world) - calendar) : [];
     for (const watcher of watchersNow(world)) {
       const miles = Math.hypot(watcher.x - point.x, watcher.y - point.y);
+      const prev = before.find(one => one.id === watcher.id);
+      const nearest = prev ? Math.min(miles, closestApproach(was, point, prev, watcher)) : miles;
       const reach = Math.min(sight.miles, watcher.kind === 'infantry' ? INFANTRY_PURSUE_MILES : Infinity);
-      if (miles > reach || !mayChase(flight, watcher, world)) continue;
-      if (!best || miles < best.miles) best = { watcher, miles };
+      if (nearest > reach || !mayChase(flight, watcher, world)) continue;
+      // Seen as they passed inside the tick: they turn after it from where they are now, no further off than they could see.
+      if (!best || nearest < best.nearest) best = { watcher, nearest, miles: Math.min(miles, reach) };
     }
     if (!best) return false;
     chase = beginChase(world, household, best.watcher, best.miles, point);
-    // Seen from within hail: the order comes at once.
   }
   const vF = familyYps(world, household, seconds);
   // Seen at the end of this tick: the chase begins now, not a tick ago. A family nobody is answering for is not chased: when
@@ -582,12 +639,14 @@ export function advancePursuit(world, household) {
   if (leader) chase.leg = { from: leader.travel.from, to: leader.travel.to, progress: leader.travel.progress };
   if (ended === 'caught') { caught(world, household, chase, chase.answer === 'run' ? 'ran' : 'came-up'); return true; }
   if (ended === 'hail' || (chase.phase === 'seen' && chase.soldiers.some(one => one.g <= HAIL_YARDS))) {
+    chase.phase = 'seen';
     chase.lead = Math.round(Math.min(...chase.soldiers.map(one => one.g)));
     hail(world, household, chase);
     if (!attended(world, household)) { answerAltoFor(world, household, 'auto'); return true; }
   }
-  // A second order, and then they fire.
-  if (chase.answer === 'run' && !chase.warned) { chase.warned = world.minute; say(world, chase, 'warn', '¡Alto, o hacemos fuego!', 'Halt, or we fire!'); }
+
+  // Where the nearest timber is, for the family's answers (and never where the column is).
+  if (flight.chase && !['caught', 'escaped'].includes(flight.chase.phase)) { const timber = nearestTimber(world, familyPoint(world, household)); if (timber) flight.chase.timber = timber; else delete flight.chase.timber; }
   // The order unanswered: the family halts, as it was ordered, and that is written down.
   if (flight.ask?.id === 'alto' && world.tick - flight.ask.openedTick >= ALTO_PATIENCE_TICKS) answerAltoFor(world, household, 'silence');
   chase = flight.chase;
@@ -609,8 +668,9 @@ function stepFor(chase, vF) {
   const vS = mphToYps(chase.kind === 'cavalry' ? TROT_MPH : INFANTRY_MPH);
   const lead = Math.min(...chase.soldiers.map(one => one.g));
   if (vS <= vF) return 5;
+  // Coming on: in ticks that bring them to hail in two or three, never past it by more than a tick's closing.
   const minutes = (lead - HAIL_YARDS) / (vS - vF) / 60;
-  return [...STEPS].reverse().find(step => step <= Math.max(CHASE_STEP, minutes / 3)) || CHASE_STEP;
+  return [...STEPS].reverse().find(step => step <= Math.max(CHASE_STEP, minutes)) || CHASE_STEP;
 }
 
 /** The class's clock while a chase a student is watching runs: sim/military-pacing.mjs `chaseStep` reads `chase.step`. */
@@ -630,6 +690,7 @@ export function chaseProjection(world, household) {
     soldiers: chase.soldiers.map(one => ({ g: Math.round(one.g), ...(one.busy > chase.t && { loading: true }) })),
     lines: chase.lines, shots: chase.shots.map(({ n, man, yards, target, hit, fate, minute, p }) => ({ n, man, yards, target: target.kind, name: target.name, hit, ...(fate && { fate }), minute, p })),
     shotCount: chase.shotCount, hits: chase.hits, ...(chase.answer && { answer: chase.answer }), ...(chase.reason && { reason: chase.reason }),
+    ...(chase.timber && { timber: chase.timber }),
   };
 }
 /** Every chase in the class, for the Host's page: whose, and the scene. */
@@ -651,6 +712,57 @@ export function pursuitInvalid(world) {
 export { heldToCow };
 
 // ------------------------------------------------------------------------------------------------ the order to halt, asked
+
+/**
+ * The nearest timber to a point within `TIMBER_REACH_MILES`, or null: looked for on rings a tenth of a mile apart, sixteen
+ * ways round. What the family can run for; in it the horsemen will not follow (`HIST-TEX-667`: Coleto, Victoria, the
+ * Kuykendalls' cane-brake).
+ */
+export function nearestTimber(world, point) {
+  if (!point || !onRealLand(world)) return null;
+  for (let r = 0.05; r <= TIMBER_REACH_MILES + 1e-9; r += 0.1) {
+    let best = null;
+    for (let k = 0; k < 16; k++) {
+      const a = (k / 16) * Math.PI * 2, at = { x: point.x + Math.cos(a) * r, y: point.y + Math.sin(a) * r };
+      if (hidesIn(world, at)) { best = at; break; }
+    }
+    if (best) return { x: round(best.x, 4), y: round(best.y, 4), yards: Math.round(r * YARDS) };
+  }
+  return null;
+}
+/**
+ * The family runs for the timber (`FIC-GONZ-663`): off the road to it, and back to the road after, the rest of its way as it
+ * was. Every one of the train's journeys is given the same detour, across country and at its going. Whether the horsemen give up
+ * is theirs (`givesUp`, 'timber'). Returns the timber, or null when there is none near.
+ */
+export function runForTimber(world, household) {
+  const point = familyPoint(world, household), timber = nearestTimber(world, point);
+  if (!timber || household.flight.status !== 'fled') return null;
+  const { people, beasts } = withFamily(world, household);
+  for (const one of [...people, ...beasts]) {
+    const travel = one.travel;
+    if (travel?.purpose !== 'flee') continue;
+    let walked = 0, k = 0;
+    for (let i = 1; i < travel.points.length; i++) {
+      const length = Math.hypot(travel.points[i].x - travel.points[i - 1].x, travel.points[i].y - travel.points[i - 1].y);
+      k = i - 1;
+      if (walked + length >= travel.progress) break;
+      walked += length;
+    }
+    const here = { x: one.location.x, y: one.location.y };
+    const out = Math.hypot(timber.x - here.x, timber.y - here.y);
+    const points = [here, { x: timber.x, y: timber.y }, here, ...travel.points.slice(k + 1)];
+    const factor = travel.mode === 'wagon' ? 1.6 : 1.15;
+    const pace = [[0, factor], [1, factor], ...(travel.pace || []).filter(([i]) => i >= k).map(([i, f]) => [i - k + 2, f])];
+    const distance = points.slice(1).reduce((sum, b, i) => sum + Math.hypot(b.x - points[i].x, b.y - points[i].y), 0);
+    const offRoad = [[0, round(out * 2, 3)], ...(travel.offRoad || []).filter(([, b]) => b > travel.progress).map(([a, b]) => [round(Math.max(a, travel.progress) - travel.progress + out * 2, 3), round(b - travel.progress + out * 2, 3)])];
+    Object.assign(travel, { points, progress: 0, distance, pace, offRoad });
+    delete travel.halted;
+  }
+  if (household.flight.chase) { household.flight.chase.timber = timber; delete household.flight.chase.leg; }
+  record(world, 'consequence', { householdId: household.id, importance: 2, claimId: 'FIC-GONZ-663', text: `The family left the road and made for the timber, about ${timber.yards} yards off.` });
+  return timber;
+}
 
 /** The soldiers' pace in words: infantry's, or the trot a horseman keeps and the gallop he closes at. */
 export const pursuerMph = chase => (chase?.kind === 'cavalry' ? TROT_MPH : INFANTRY_MPH);
@@ -684,7 +796,9 @@ export function altoOptions(world, household) {
     : `After a second order they fire, each man stopping to load after every shot. A musket ball at ${FIRE_YARDS.infantry} yards seldom hits a running man; at fifty, more often.`;
   const options = [{ id: 'halt', label: 'Halt, as they order', note: 'The soldiers come up and take the wagon, the animals and what is carried, and may take the grown men prisoner. Nobody is shot.' }];
   const run = pace('run');
-  options.push({ id: 'run', label: `Run as we are (${run.mph} miles an hour)`, note: `The family goes at ${run.words}. ${fireWords} They aim at the grown people and the animals, never a child. Timber hides a family; they give up after a few miles.` });
+  options.push({ id: 'run', label: `Run as we are (${run.mph} miles an hour)`, note: `The family goes at ${run.words}. ${fireWords} They aim at the grown people and the animals, never a child. They give up after a few miles, or at dark.` });
+  const timber = chase?.timber || nearestTimber(world, familyPoint(world, household));
+  if (timber && flight.status === 'fled') options.push({ id: 'timber-run', label: `Run for the timber (${timber.yards} yards off the road)`, note: `Off the road and into the trees, at ${run.words}, slower across the rough ground. Horsemen will not follow a family into the timber, and soldiers there cannot see far. ${fireWords}` });
   const { beasts } = withFamily(world, household);
   if (drawnVehicles(beasts).length) { const foot = pace('abandon-run'); options.push({ id: 'abandon-run', label: `Leave the wagon and run on foot (${foot.mph} miles an hour)`, note: `The wagon, the oxen and what does not fit on the grown people's backs stay behind. On foot the family goes at ${foot.words}. ${fireWords}` }); }
   if (heldToCow(world, household)) { const free = pace('cow-run'); options.push({ id: 'cow-run', label: `Let the milk cow go and run (${free.mph} miles an hour)`, note: `The cow is left to the soldiers. The family goes at ${free.words}. ${fireWords}` }); }
