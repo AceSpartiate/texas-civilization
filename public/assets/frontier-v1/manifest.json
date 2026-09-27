@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 137,
-    "sprites": 1510,
-    "clips": 511,
-    "poseCycles": 285,
+    "sheets": 139,
+    "sprites": 1530,
+    "clips": 515,
+    "poseCycles": 289,
     "rigs": 4
   },
   "entrypoints": {
@@ -3582,6 +3582,188 @@
               [
                 650,
                 1232
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-ben": {
+      "image": "atlases/famous-ben.png",
+      "width": 1312,
+      "height": 1199,
+      "bytes": 1136424,
+      "sha256": "97e20a5098ceb18b32907da1ae3494cd3d5188eb515279450f6ebf030e85bf0a",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.722064,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              7,
+              291
+            ],
+            "columns": [
+              [
+                64,
+                241
+              ],
+              [
+                397,
+                579
+              ],
+              [
+                738,
+                927
+              ],
+              [
+                1082,
+                1273
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              302,
+              594
+            ],
+            "columns": [
+              [
+                81,
+                221
+              ],
+              [
+                425,
+                566
+              ],
+              [
+                765,
+                896
+              ],
+              [
+                1099,
+                1236
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              605,
+              896
+            ],
+            "columns": [
+              [
+                107,
+                199
+              ],
+              [
+                425,
+                555
+              ],
+              [
+                765,
+                950
+              ],
+              [
+                1111,
+                1229
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              902,
+              1192
+            ],
+            "columns": [
+              [
+                58,
+                242
+              ],
+              [
+                392,
+                601
+              ],
+              [
+                758,
+                959
+              ],
+              [
+                1084,
+                1282
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "twin-sisters-limbered": {
+      "image": "atlases/twin-sisters-limbered.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 999559,
+      "sha256": "7f82ae2272c38b9ac6c4e5739172d250b59db1f6075f95dea0642c0a757cbbde",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.753976,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              221,
+              478
+            ],
+            "columns": [
+              [
+                16,
+                622
+              ],
+              [
+                644,
+                1229
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              759,
+              1075
+            ],
+            "columns": [
+              [
+                16,
+                616
+              ],
+              [
+                683,
+                1230
               ]
             ]
           }
@@ -27539,6 +27721,682 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/famous-angelina-dickinson"
+    },
+    "ben-walk-e-1": {
+      "sheet": "famous-ben",
+      "x": 64,
+      "y": 9,
+      "w": 177,
+      "h": 278,
+      "anchorX": 0.4774,
+      "anchorY": 0.9281,
+      "logicalHeight": 291,
+      "label": "ben walk e 1",
+      "kind": "famous-ben",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          66,
+          11,
+          173,
+          274
+        ],
+        "visiblePixels": 21836,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ben-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben"
+    },
+    "ben-walk-e-2": {
+      "sheet": "famous-ben",
+      "x": 397,
+      "y": 7,
+      "w": 182,
+      "h": 284,
+      "anchorX": 0.544,
+      "anchorY": 0.9296,
+      "logicalHeight": 291,
+      "label": "ben walk e 2",
+      "kind": "famous-ben",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          399,
+          9,
+          178,
+          280
+        ],
+        "visiblePixels": 22263,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ben-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben"
+    },
+    "ben-walk-e-3": {
+      "sheet": "famous-ben",
+      "x": 738,
+      "y": 8,
+      "w": 189,
+      "h": 282,
+      "anchorX": 0.5079,
+      "anchorY": 0.9291,
+      "logicalHeight": 291,
+      "label": "ben walk e 3",
+      "kind": "famous-ben",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          740,
+          10,
+          185,
+          278
+        ],
+        "visiblePixels": 22459,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ben-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben"
+    },
+    "ben-walk-e-4": {
+      "sheet": "famous-ben",
+      "x": 1082,
+      "y": 8,
+      "w": 191,
+      "h": 282,
+      "anchorX": 0.4738,
+      "anchorY": 0.9291,
+      "logicalHeight": 291,
+      "label": "ben walk e 4",
+      "kind": "famous-ben",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1084,
+          10,
+          187,
+          278
+        ],
+        "visiblePixels": 22082,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ben-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben"
+    },
+    "ben-walk-s-1": {
+      "sheet": "famous-ben",
+      "x": 81,
+      "y": 305,
+      "w": 140,
+      "h": 287,
+      "anchorX": 0.45,
+      "anchorY": 0.9408,
+      "logicalHeight": 291,
+      "label": "ben walk s 1",
+      "kind": "famous-ben",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          307,
+          136,
+          283
+        ],
+        "visiblePixels": 22340,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ben-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben"
+    },
+    "ben-walk-s-2": {
+      "sheet": "famous-ben",
+      "x": 425,
+      "y": 305,
+      "w": 141,
+      "h": 289,
+      "anchorX": 0.4326,
+      "anchorY": 0.9516,
+      "logicalHeight": 291,
+      "label": "ben walk s 2",
+      "kind": "famous-ben",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          427,
+          307,
+          137,
+          285
+        ],
+        "visiblePixels": 22250,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ben-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben"
+    },
+    "ben-walk-n-1": {
+      "sheet": "famous-ben",
+      "x": 765,
+      "y": 302,
+      "w": 131,
+      "h": 288,
+      "anchorX": 0.5687,
+      "anchorY": 0.9514,
+      "logicalHeight": 291,
+      "label": "ben walk n 1",
+      "kind": "famous-ben",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          767,
+          304,
+          127,
+          284
+        ],
+        "visiblePixels": 21091,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ben-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben"
+    },
+    "ben-walk-n-2": {
+      "sheet": "famous-ben",
+      "x": 1099,
+      "y": 303,
+      "w": 137,
+      "h": 290,
+      "anchorX": 0.5547,
+      "anchorY": 0.9379,
+      "logicalHeight": 291,
+      "label": "ben walk n 2",
+      "kind": "famous-ben",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1101,
+          305,
+          133,
+          286
+        ],
+        "visiblePixels": 21647,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ben-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben"
+    },
+    "ben-idle": {
+      "sheet": "famous-ben",
+      "x": 107,
+      "y": 605,
+      "w": 92,
+      "h": 288,
+      "anchorX": 0.3859,
+      "anchorY": 0.9444,
+      "logicalHeight": 291,
+      "label": "ben idle",
+      "kind": "famous-ben",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          109,
+          607,
+          88,
+          284
+        ],
+        "visiblePixels": 17529,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben"
+    },
+    "ben-idle-s": {
+      "sheet": "famous-ben",
+      "x": 425,
+      "y": 605,
+      "w": 130,
+      "h": 287,
+      "anchorX": 0.5192,
+      "anchorY": 0.9512,
+      "logicalHeight": 291,
+      "label": "ben idle s",
+      "kind": "famous-ben",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          427,
+          607,
+          126,
+          283
+        ],
+        "visiblePixels": 23455,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben"
+    },
+    "ben-speak": {
+      "sheet": "famous-ben",
+      "x": 765,
+      "y": 607,
+      "w": 185,
+      "h": 286,
+      "anchorX": 0.3459,
+      "anchorY": 0.9266,
+      "logicalHeight": 291,
+      "label": "ben speak",
+      "kind": "famous-ben",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          767,
+          609,
+          181,
+          282
+        ],
+        "visiblePixels": 23492,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben"
+    },
+    "ben-look-back": {
+      "sheet": "famous-ben",
+      "x": 1111,
+      "y": 605,
+      "w": 118,
+      "h": 291,
+      "anchorX": 0.5678,
+      "anchorY": 0.9313,
+      "logicalHeight": 291,
+      "label": "ben look back",
+      "kind": "famous-ben",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1113,
+          607,
+          114,
+          287
+        ],
+        "visiblePixels": 20606,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben"
+    },
+    "ben-pot-carry": {
+      "sheet": "famous-ben",
+      "x": 58,
+      "y": 904,
+      "w": 184,
+      "h": 280,
+      "anchorX": 0.4918,
+      "anchorY": 0.9286,
+      "logicalHeight": 291,
+      "label": "ben pot carry",
+      "kind": "famous-ben",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          60,
+          906,
+          180,
+          276
+        ],
+        "visiblePixels": 22753,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben"
+    },
+    "ben-pot-set-down": {
+      "sheet": "famous-ben",
+      "x": 392,
+      "y": 954,
+      "w": 209,
+      "h": 213,
+      "anchorX": 0.5167,
+      "anchorY": 0.9296,
+      "logicalHeight": 291,
+      "label": "ben pot set down",
+      "kind": "famous-ben",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          394,
+          956,
+          205,
+          209
+        ],
+        "visiblePixels": 24688,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben"
+    },
+    "ben-offer-water": {
+      "sheet": "famous-ben",
+      "x": 758,
+      "y": 902,
+      "w": 201,
+      "h": 290,
+      "anchorX": 0.3284,
+      "anchorY": 0.9276,
+      "logicalHeight": 291,
+      "label": "ben offer water",
+      "kind": "famous-ben",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          760,
+          904,
+          197,
+          286
+        ],
+        "visiblePixels": 25981,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben"
+    },
+    "ben-rest": {
+      "sheet": "famous-ben",
+      "x": 1084,
+      "y": 975,
+      "w": 198,
+      "h": 213,
+      "anchorX": 0.3056,
+      "anchorY": 0.9296,
+      "logicalHeight": 291,
+      "label": "ben rest",
+      "kind": "famous-ben",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1086,
+          977,
+          194,
+          209
+        ],
+        "visiblePixels": 21822,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben"
+    },
+    "twin-sisters-roll-1": {
+      "sheet": "twin-sisters-limbered",
+      "x": 16,
+      "y": 221,
+      "w": 606,
+      "h": 256,
+      "anchorX": 0.5281,
+      "anchorY": 0.9297,
+      "label": "twin sisters roll 1",
+      "kind": "twin-sisters-limbered",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          18,
+          223,
+          602,
+          252
+        ],
+        "visiblePixels": 84530,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/twin-sisters-limbered.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "twin-sisters-limbered"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/twin-sisters-limbered"
+    },
+    "twin-sisters-roll-2": {
+      "sheet": "twin-sisters-limbered",
+      "x": 644,
+      "y": 223,
+      "w": 585,
+      "h": 255,
+      "anchorX": 0.5359,
+      "anchorY": 0.9294,
+      "label": "twin sisters roll 2",
+      "kind": "twin-sisters-limbered",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          646,
+          225,
+          581,
+          251
+        ],
+        "visiblePixels": 83678,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/twin-sisters-limbered.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "twin-sisters-limbered"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/twin-sisters-limbered"
+    },
+    "twin-sisters-halt": {
+      "sheet": "twin-sisters-limbered",
+      "x": 16,
+      "y": 818,
+      "w": 600,
+      "h": 254,
+      "anchorX": 0.5333,
+      "anchorY": 0.9291,
+      "label": "twin sisters halt",
+      "kind": "twin-sisters-limbered",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          18,
+          820,
+          596,
+          250
+        ],
+        "visiblePixels": 83741,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/twin-sisters-limbered.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/twin-sisters-limbered"
+    },
+    "twin-sisters-turn": {
+      "sheet": "twin-sisters-limbered",
+      "x": 683,
+      "y": 759,
+      "w": 547,
+      "h": 316,
+      "anchorX": 0.6618,
+      "anchorY": 0.9272,
+      "label": "twin sisters turn",
+      "kind": "twin-sisters-limbered",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          685,
+          761,
+          543,
+          312
+        ],
+        "visiblePixels": 78923,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/twin-sisters-limbered.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/twin-sisters-limbered"
     },
     "milam-walk-e-1": {
       "sheet": "famous-milam",
@@ -67343,6 +68201,78 @@
       "motion": "none",
       "direction": "front / east"
     },
+    "twin-sisters-limbered": {
+      "frames": [
+        {
+          "sprite": "twin-sisters-roll-1",
+          "duration": 300
+        },
+        {
+          "sprite": "twin-sisters-roll-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "ben-walk-e": {
+      "frames": [
+        {
+          "sprite": "ben-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "ben-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "ben-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "ben-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "ben-walk-s": {
+      "frames": [
+        {
+          "sprite": "ben-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "ben-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "ben-walk-n": {
+      "frames": [
+        {
+          "sprite": "ben-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "ben-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "milam-walk-e": {
       "frames": [
         {
@@ -78884,7 +79814,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 137,
+    "sourceCount": 139,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1510 usable sprites, 137 PNG atlases, 511 clips** (285 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1530 usable sprites, 139 PNG atlases, 515 clips** (289 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -46,6 +46,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-seguin | 16 | 1254 × 1254 | 1147292 |
 | famous-susanna-dickinson | 16 | 1254 × 1254 | 1461496 |
 | famous-angelina-dickinson | 4 | 1254 × 1254 | 1286027 |
+| famous-ben | 16 | 1312 × 1199 | 1136424 |
+| twin-sisters-limbered | 4 | 1254 × 1254 | 999559 |
 | famous-milam | 16 | 1254 × 1254 | 1519856 |
 | famous-fannin | 16 | 1254 × 1254 | 1306380 |
 | famous-crockett-fate | 4 | 1254 × 1254 | 948322 |
@@ -575,6 +577,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | angelina-dickinson-reach | famous-angelina-dickinson | angelina-dickinson-reach |
 | angelina-dickinson-step | famous-angelina-dickinson | State artwork; no motion required |
 | angelina-dickinson-sleep | famous-angelina-dickinson | State artwork; no motion required |
+| ben-walk-e-1 | famous-ben | ben-walk-e |
+| ben-walk-e-2 | famous-ben | ben-walk-e |
+| ben-walk-e-3 | famous-ben | ben-walk-e |
+| ben-walk-e-4 | famous-ben | ben-walk-e |
+| ben-walk-s-1 | famous-ben | ben-walk-s |
+| ben-walk-s-2 | famous-ben | ben-walk-s |
+| ben-walk-n-1 | famous-ben | ben-walk-n |
+| ben-walk-n-2 | famous-ben | ben-walk-n |
+| ben-idle | famous-ben | State artwork; no motion required |
+| ben-idle-s | famous-ben | State artwork; no motion required |
+| ben-speak | famous-ben | State artwork; no motion required |
+| ben-look-back | famous-ben | State artwork; no motion required |
+| ben-pot-carry | famous-ben | State artwork; no motion required |
+| ben-pot-set-down | famous-ben | State artwork; no motion required |
+| ben-offer-water | famous-ben | State artwork; no motion required |
+| ben-rest | famous-ben | State artwork; no motion required |
+| twin-sisters-roll-1 | twin-sisters-limbered | twin-sisters-limbered |
+| twin-sisters-roll-2 | twin-sisters-limbered | twin-sisters-limbered |
+| twin-sisters-halt | twin-sisters-limbered | State artwork; no motion required |
+| twin-sisters-turn | twin-sisters-limbered | State artwork; no motion required |
 | milam-walk-e-1 | famous-milam | milam-walk-e |
 | milam-walk-e-2 | famous-milam | milam-walk-e |
 | milam-walk-e-3 | famous-milam | milam-walk-e |
@@ -1830,6 +1852,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | susanna-dickinson-walk-s | Pose cycle | 2 | 580 | yes | south |
 | susanna-dickinson-walk-n | Pose cycle | 2 | 580 | yes | north |
 | angelina-dickinson-reach | Pose cycle | 2 | 1800 | yes | front / east |
+| twin-sisters-limbered | Pose cycle | 2 | 600 | yes | east; mirror for west |
+| ben-walk-e | Pose cycle | 4 | 760 | yes | east |
+| ben-walk-s | Pose cycle | 2 | 580 | yes | south |
+| ben-walk-n | Pose cycle | 2 | 580 | yes | north |
 | milam-walk-e | Pose cycle | 4 | 760 | yes | east |
 | milam-walk-s | Pose cycle | 2 | 580 | yes | south |
 | milam-walk-n | Pose cycle | 2 | 580 | yes | north |

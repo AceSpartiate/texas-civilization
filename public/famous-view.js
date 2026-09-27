@@ -4,7 +4,7 @@
 //
 // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the famous people" - the same stand-ins as the battlefield
 // (public/battle-view.js `drawPerson`): a volunteer or a regular where a person has no sheet, and the library's iron field gun
-// twice for the Twin Sisters.
+// twice for the Twin Sisters when their paired road sheet is unavailable.
 import { PERSON_ART } from '/battle-view.js';
 
 /** Draws every famous person the page was sent; returns what was drawn, for the proofs (`window.__famousDrawn`). */
@@ -19,8 +19,10 @@ export function drawFamous(ctx, list, camera, { animated, drawSprite, miniPerson
     const flip = !one.right;
     let how = null;
     if (one.thing) {
-      // The Twin Sisters: two guns side by side.
-      for (const dx of [-0.45, 0.45]) if (drawSprite(ctx, 'cannon-iron-e', p.x + dx * size, p.y, size * 1.2)) how = 'cannon-iron-e';
+      // Both Twin Sisters travel together as one named map entity.
+      if (one.moving) how = animated(ctx, 'twin-sisters-limbered', p.x, p.y, size * 2, `famous:${one.id}`, { timeMs: time, flip }) ? 'twin-sisters-limbered' : null;
+      else how = drawSprite(ctx, 'twin-sisters-halt', p.x, p.y, size * 2, { flip }) ? 'twin-sisters-halt' : null;
+      if (!how) for (const dx of [-0.45, 0.45]) if (drawSprite(ctx, 'cannon-iron-e', p.x + dx * size, p.y, size * 1.2)) how = 'cannon-iron-e';
     } else if (one.doing === 'ride') {
       const riding = own?.ride?.startsWith('clip:') ? own.ride.slice(5) : null;
       if (!one.moving && own?.rideIdle) how = drawSprite(ctx, own.rideIdle, p.x, p.y, size * 1.3, { flip }) ? own.rideIdle : null;

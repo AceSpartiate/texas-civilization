@@ -2006,6 +2006,28 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/san-fernando-1936.png",
       "postProcessing": "None. Generated PNG copied unchanged.",
       "review": "Separate 1936 discovery and later memorial visuals. Attribution of the found remains to the Alamo defenders is disputed."
+    },
+    {
+      "sheet": "famous-ben",
+      "promptId": "frontier-v1/famous-ben",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Original transparent 4x4 historical game atlas of Ben, an approximately thirty-year-old cook, cream rolled shirt, brown waistcoat, gray apron, tan trousers. Four east walking frames, two south and two north, then idle/speak/look back, then carrying and setting down a cooking pot, offering water, and resting. Consistent identity, transparent gutters, no text.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4b627ba5-2c5d-4e1c-b0ca-a78dde98cd26.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-ben.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Original depiction for the walk to Gonzales. Outfit and appearance are interpretation, not a portrait claim."
+    },
+    {
+      "sheet": "twin-sisters-limbered",
+      "promptId": "frontier-v1/twin-sisters-limbered",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Original transparent 2x2 historical game atlas. Each cell contains both Twin Sisters as a pair of small iron guns on wooden spoked-wheel traveling carriages: two rolling phases, halted, and turning. No soldiers, horses, text or scenery; generous gutters and consistent scale.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3fc5f880-37f7-4b29-ab6c-aed234767f4f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/twin-sisters-limbered.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Paired map representation; does not assert a historically verified limber or hauling method."
     }
   ]
 }

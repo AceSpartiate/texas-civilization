@@ -100,7 +100,7 @@ export const PEOPLE = Object.freeze({
       { from: 'fall-confirmed', until: 'alamo-end', site: 'gonzales', doing: 'stand', claimId: 'HIST-TEX-549' },
     ],
   }),
-  ben: person('ben', 'Ben', MX, 'rider', 2, 'HIST-TEX-548', {
+  ben: person('ben', 'Ben', MX, 'ben', 2, 'HIST-TEX-548', {
     fullName: 'Ben, a cook with the Mexican army (Almonte’s servant in the Handbook’s Dickinson entry, Santa Anna’s cook in its Joe entry)',
     map: [{ from: 'survivors-leave', until: 'fall-confirmed', road: ['bexar', 'gonzales'], doing: 'walk', claimId: 'HIST-TEX-548' }],
   }),
