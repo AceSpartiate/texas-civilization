@@ -1243,7 +1243,8 @@ export function createBattleView(art) {
       else art.animated(ctx, 'alamo-pyre-burning', p.x, p.y, pyreSize, `pyre:${plume.x}:${plume.y}`, { timeMs: time, paused: reducedMotion });
       return;
     }
-    if (art.animated(ctx, 'smoke-rise', p.x, p.y, size, `plume:${plume.x}`, { timeMs: time, paused: reducedMotion })) return;
+    if (art.animated(ctx, 'smoke-column-far-rise', p.x, p.y, size, `plume:${plume.x}`, { timeMs: time, paused: reducedMotion })
+      || art.animated(ctx, 'smoke-rise', p.x, p.y, size, `plume:${plume.x}`, { timeMs: time, paused: reducedMotion })) return;
     const g = ctx.createLinearGradient(p.x, p.y, p.x, p.y - size * 1.6);
     g.addColorStop(0, 'rgba(90,86,80,.55)'); g.addColorStop(1, 'rgba(160,156,150,0)');
     ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(p.x, p.y - size * 0.8, size * 0.28, size * 0.8, 0, 0, Math.PI * 2); ctx.fill();
@@ -1284,14 +1285,16 @@ export function createBattleView(art) {
     if (flag.kind !== 'red' && art.animated(ctx, 'flag-come-and-take-it-wind', p.x, p.y, pole, 'gonzales-flag', { timeMs: time })) {
       return { x: Math.round(p.x), y: Math.round(p.y - pole), w: Math.round(w), h: Math.round(h), words: figurePx >= 22 };
     }
+    if (flag.kind === 'red' && art.animated(ctx, 'flag-red-wind', p.x, p.y, pole, 'alamo-red-flag', { timeMs: time })) {
+      return { x: Math.round(p.x), y: Math.round(p.y - pole), w: Math.round(w), h: Math.round(h), words: false };
+    }
     const wave = Math.sin(time / 420) * 0.08 + (wind?.x || 0) * 0.3;
     ctx.save();
     ctx.strokeStyle = '#4a3a26'; ctx.lineWidth = Math.max(1.2, figurePx * 0.05);
     ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x, p.y - pole); ctx.stroke();
     ctx.translate(p.x, p.y - pole);
     ctx.transform(1, wave * 0.5, 0, 1, 0, 0);
-    // The red flag of no quarter on San Fernando's tower (`HIST-TEX-054`): a plain red field. stand-in: docs/ART_REQUESTS.md,
-    // request 2026-09-25 "the Alamo", item 5 - drawn on the canvas on a pole, without the tower.
+    // Load fallback for the red flag of no quarter (`HIST-TEX-054`); the authored sheet above is the usual path.
     if (flag.kind === 'red') {
       ctx.fillStyle = '#a3241c'; ctx.strokeStyle = '#5e140f'; ctx.lineWidth = 1;
       ctx.fillRect(0, 0, w, h); ctx.strokeRect(0, 0, w, h);

@@ -93,7 +93,7 @@ test('a family\'s man at his post fires until the moment he falls, then goes dow
   assert.ok(view.evidence.memberFalls.some(one => one.id === man.id && one.fate === 'killed'));
 });
 
-test('Travis is drawn at the north battery, says only his documented words there, and falls among the first; Joe hides, then comes out', () => {
+test('Travis falls at the north battery; Joe fires from cover, hides when found, then comes out', () => {
   const art = fakeArt(), view = createBattleView(art);
   const { last } = run(view, art, at('alarm'), { seconds: 5, perTick: 1 });
   // Travis running to the north battery; since 2026-09-26 the rest of the famous garrison at their posts too (sim/people.mjs).
@@ -103,7 +103,10 @@ test('Travis is drawn at the north battery, says only his documented words there
   assert.ok(fall.people.find(one => one.name === 'Travis')?.fell, 'Travis did not fall in the repulse');
   const artRooms = fakeArt(), rooms = createBattleView(artRooms);
   run(rooms, artRooms, at('rooms'), { seconds: 2, perTick: 2 });
-  assert.ok(artRooms.drawn.some(one => one.clip === 'joe-hide'), 'Joe was not drawn hiding');
+  assert.ok(artRooms.drawn.some(one => one.clip === 'joe-fire-door'), 'Joe was not drawn firing from cover');
+  const artHiding = fakeArt(), hiding = createBattleView(artHiding);
+  run(hiding, artHiding, at('end'), { seconds: 2, perTick: 2 });
+  assert.ok(artHiding.drawn.some(one => one.clip === 'joe-hide'), 'Joe was not drawn hiding when found');
   const artEnd = fakeArt(), end = createBattleView(artEnd);
   const said = run(end, artEnd, at('end', 5), { seconds: 12, perTick: 1 }).last;
   assert.ok(artEnd.drawn.some(one => one.clip === 'joe-emerge'), 'Joe was not drawn coming out');
@@ -125,10 +128,19 @@ test('the columns carry ladders, climb the north wall on them, and the assault i
 
 test('the red flag of no quarter flies over Béxar as a plain red field, never as the Come and Take It flag', () => {
   const art = fakeArt(), view = createBattleView(art);
-  const { ctx } = run(view, art, at('red-flag', 30), { seconds: 1, perTick: 20 });
-  assert.ok(ctx.calls.some(call => call[0] === 'fillStyle' && call[1] === '#a3241c'), 'the red flag was not drawn red');
+  run(view, art, at('red-flag', 30), { seconds: 1, perTick: 20 });
+  assert.ok(art.drawn.some(one => one.clip === 'flag-red-wind'), 'the red flag did not use its own waving sheet');
   assert.ok(!art.drawn.some(one => one.clip === 'flag-come-and-take-it-wind'), 'the Alamo was drawn with the Gonzales flag');
   assert.equal(alamo(at('red-flag', 30)).flag.kind, 'red');
+});
+
+test('the huts burn with a distant animated plume only after the fire begins', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  run(view, art, at('huts', 20), { seconds: 1 });
+  assert.ok(!art.drawn.some(one => one.clip === 'smoke-column-far-rise'), 'smoke began before the huts burned');
+  art.drawn.length = 0;
+  run(view, art, at('huts', 70), { seconds: 1, t0: 1000 });
+  assert.ok(art.drawn.some(one => one.clip === 'smoke-column-far-rise'), 'the burning huts did not draw their distant plume');
 });
 
 test('the storming\'s card goes up over the quiet reminder that somebody is inside, and not over a question', () => {

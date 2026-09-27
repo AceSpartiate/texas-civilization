@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1594 usable sprites, 149 PNG atlases, 535 clips** (307 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1602 usable sprites, 151 PNG atlases, 537 clips** (309 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -16,6 +16,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | alamo-funeral-pyre | 4 | 1254 × 1254 | 1841976 |
 | joe-story-actions | 4 | 1254 × 1254 | 787824 |
 | famous-travis-still | 1 | 1536 × 1024 | 1367838 |
+| flag-red-siege | 4 | 1254 × 1254 | 1003596 |
+| smoke-column-far | 4 | 1254 × 1254 | 572269 |
 | artillery-service | 16 | 1254 × 1254 | 1171440 |
 | white-flag-regular | 4 | 1262 × 1246 | 786638 |
 | white-flag-volunteer | 4 | 1262 × 1246 | 816882 |
@@ -180,6 +182,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | joe-hurt-e | joe-story-actions | State artwork; no motion required |
 | joe-hurt-s | joe-story-actions | State artwork; no motion required |
 | travis-still-ramp | famous-travis-still | State artwork; no motion required |
+| flag-red-still | flag-red-siege | flag-red-wind |
+| flag-red-wind-1 | flag-red-siege | flag-red-wind |
+| flag-red-wind-2 | flag-red-siege | flag-red-wind |
+| flag-red-wind-3 | flag-red-siege | flag-red-wind |
+| smoke-column-far-1 | smoke-column-far | smoke-column-far-rise |
+| smoke-column-far-2 | smoke-column-far | smoke-column-far-rise |
+| smoke-column-far-3 | smoke-column-far | smoke-column-far-rise |
+| smoke-column-far-4 | smoke-column-far | smoke-column-far-rise |
 | volunteer-rammer-carry-1 | artillery-service | volunteer-gun-ram |
 | volunteer-rammer-carry-2 | artillery-service | volunteer-gun-ram |
 | volunteer-ram-1 | artillery-service | volunteer-gun-ram |
@@ -1767,6 +1777,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | --- | --- | ---: | ---: | --- | --- |
 | alamo-pyre-burning | Pose cycle | 3 | 1080 | yes | elevation; orient with structure geometry |
 | joe-fire-door | Pose cycle | 2 | 5200 | yes | east; mirror for west |
+| flag-red-wind | Pose cycle | 4 | 1590 | yes | not applicable |
+| smoke-column-far-rise | Pose cycle | 4 | 1760 | yes | not applicable |
 | volunteer-gun-ram | Pose cycle | 4 | 1160 | one-shot | east; west by mirroring |
 | volunteer-gun-shot-carry | Pose cycle | 2 | 840 | yes | east; west by mirroring |
 | volunteer-gun-fire | Pose cycle | 2 | 1060 | one-shot | east; west by mirroring |

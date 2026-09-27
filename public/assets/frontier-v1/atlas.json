@@ -225,6 +225,122 @@
         ]
       }
     },
+    "flag-red-siege": {
+      "image": "atlases/flag-red-siege.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1003596,
+      "sha256": "cb83a566f72f50a006c973bcbc6ec7461320d2c011055a7069b541a8dc5957ef",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.682416,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              34,
+              601
+            ],
+            "columns": [
+              [
+                138,
+                549
+              ],
+              [
+                764,
+                1227
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              658,
+              1226
+            ],
+            "columns": [
+              [
+                137,
+                669
+              ],
+              [
+                765,
+                1223
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "smoke-column-far": {
+      "image": "atlases/smoke-column-far.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 572269,
+      "sha256": "91802543a39b757f715bfc4c686d3392b1122cbc4aea47e786f27985539db0d7",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.831635,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              86,
+              577
+            ],
+            "columns": [
+              [
+                195,
+                455
+              ],
+              [
+                730,
+                1052
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              674,
+              1179
+            ],
+            "columns": [
+              [
+                135,
+                534
+              ],
+              [
+                722,
+                1083
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "artillery-service": {
       "image": "atlases/artillery-service.png",
       "width": 1254,
@@ -14418,6 +14534,198 @@
           817
         ],
         "visiblePixels": 324881,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "flag-red-still": {
+      "sheet": "flag-red-siege",
+      "x": 138,
+      "y": 34,
+      "w": 411,
+      "h": 567,
+      "anchorX": 0.0669,
+      "anchorY": 0.963,
+      "label": "flag red still",
+      "kind": "flag-red-siege",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          140,
+          36,
+          407,
+          563
+        ],
+        "visiblePixels": 114963,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "flag-red-wind-1": {
+      "sheet": "flag-red-siege",
+      "x": 764,
+      "y": 34,
+      "w": 463,
+      "h": 567,
+      "anchorX": 0.0616,
+      "anchorY": 0.9594,
+      "label": "flag red wind 1",
+      "kind": "flag-red-siege",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          766,
+          36,
+          459,
+          563
+        ],
+        "visiblePixels": 114393,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "flag-red-wind-2": {
+      "sheet": "flag-red-siege",
+      "x": 137,
+      "y": 658,
+      "w": 532,
+      "h": 568,
+      "anchorX": 0.0536,
+      "anchorY": 0.9525,
+      "label": "flag red wind 2",
+      "kind": "flag-red-siege",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          139,
+          660,
+          528,
+          564
+        ],
+        "visiblePixels": 121026,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "flag-red-wind-3": {
+      "sheet": "flag-red-siege",
+      "x": 765,
+      "y": 659,
+      "w": 458,
+      "h": 567,
+      "anchorX": 0.06,
+      "anchorY": 0.9418,
+      "label": "flag red wind 3",
+      "kind": "flag-red-siege",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          767,
+          661,
+          454,
+          563
+        ],
+        "visiblePixels": 115287,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smoke-column-far-1": {
+      "sheet": "smoke-column-far",
+      "x": 195,
+      "y": 154,
+      "w": 260,
+      "h": 422,
+      "anchorX": 0.7692,
+      "anchorY": 0.9692,
+      "label": "smoke column far 1",
+      "kind": "smoke-column-far",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          197,
+          156,
+          256,
+          418
+        ],
+        "visiblePixels": 28322,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smoke-column-far-2": {
+      "sheet": "smoke-column-far",
+      "x": 730,
+      "y": 86,
+      "w": 322,
+      "h": 491,
+      "anchorX": 0.7345,
+      "anchorY": 0.9756,
+      "label": "smoke column far 2",
+      "kind": "smoke-column-far",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          732,
+          88,
+          318,
+          487
+        ],
+        "visiblePixels": 56006,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smoke-column-far-3": {
+      "sheet": "smoke-column-far",
+      "x": 135,
+      "y": 674,
+      "w": 399,
+      "h": 503,
+      "anchorX": 0.7556,
+      "anchorY": 0.9761,
+      "label": "smoke column far 3",
+      "kind": "smoke-column-far",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          137,
+          676,
+          395,
+          499
+        ],
+        "visiblePixels": 76250,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smoke-column-far-4": {
+      "sheet": "smoke-column-far",
+      "x": 722,
+      "y": 714,
+      "w": 361,
+      "h": 465,
+      "anchorX": 0.7438,
+      "anchorY": 0.9742,
+      "label": "smoke column far 4",
+      "kind": "smoke-column-far",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          724,
+          716,
+          357,
+          461
+        ],
+        "visiblePixels": 39150,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

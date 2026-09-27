@@ -38,6 +38,54 @@
       "motion": "none",
       "direction": "east; mirror for west"
     },
+    "flag-red-wind": {
+      "frames": [
+        {
+          "sprite": "flag-red-still",
+          "duration": 430
+        },
+        {
+          "sprite": "flag-red-wind-1",
+          "duration": 380
+        },
+        {
+          "sprite": "flag-red-wind-2",
+          "duration": 360
+        },
+        {
+          "sprite": "flag-red-wind-3",
+          "duration": 420
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
+    },
+    "smoke-column-far-rise": {
+      "frames": [
+        {
+          "sprite": "smoke-column-far-1",
+          "duration": 420
+        },
+        {
+          "sprite": "smoke-column-far-2",
+          "duration": 440
+        },
+        {
+          "sprite": "smoke-column-far-3",
+          "duration": 460
+        },
+        {
+          "sprite": "smoke-column-far-4",
+          "duration": 440
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
+    },
     "volunteer-gun-ram": {
       "frames": [
         {
