@@ -251,8 +251,24 @@
       "caught": true,
       "failure": "her words lost their stage direction or their tradition label",
       "checksPassedFirst": 13
+    },
+    {
+      "name": "the Esparza family drawn in the church without their names",
+      "file": "public/battle-view.js",
+      "expect": "was not drawn with a name in the church during the assault",
+      "caught": true,
+      "failure": "ana-esparza was not drawn with a name in the church during the assault",
+      "checksPassedFirst": 9
+    },
+    {
+      "name": "Gregorio Esparza's body carried as a man walking alone, no bundle",
+      "file": "public/battle-view.js",
+      "expect": "the body was not drawn as a wrapped bundle",
+      "caught": true,
+      "failure": "the body was not drawn as a wrapped bundle: rust-walk",
+      "checksPassedFirst": 10
     }
   ],
-  "cleanBrowserChecks": 17,
+  "cleanBrowserChecks": 21,
   "environment": "Same computer: node --test, and local classroom servers with headless Chrome at 1366x768 and 1024x768."
 }

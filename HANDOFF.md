@@ -1,6 +1,6 @@
 # Claude handoff — Astra foundation
 
-## Enrique Esparza and his family at the Alamo, and Gregorio's burial — 2026-09-26 (worktree branch from main 9af00d4; not released)
+## Enrique Esparza and his family at the Alamo, and Gregorio's burial — 2026-09-26 (worktree branch from main 9af00d4, local main fe8e904 and origin/main 75eb715 merged; not released)
 
 The owner asked *"is enrique esparza included in our famous person's list?"* - he was not (only his father Gregorio was drawn,
 at the church guns) - and answered *"yes, add enrique and his family"*. docs/BATTLES.md **§14.6** is the build;
@@ -36,7 +36,29 @@ Names step down up to ten places where many stand together (was six). Stand-ins:
 small child and settler (`docs/ART_REQUESTS.md`, request 2026-09-26 "the Esparza family").
 
 **Evidence** (same computer only; not physical LAN or district acceptance).
-- EVIDENCE_PLACEHOLDER
+- `npm test`: **1,381 of 1,381** after merging local `main` (fe8e904, the Alamo gunners' and Esparza's art) and `origin/main`
+  (75eb715). New: `tests/famous-people.test.mjs` 4 (the itinerary against the Alamo's clock, all spared, the burial with the
+  tick that lands on it and the engine's refusal, the words as tradition) and the sight test extended;
+  `tests/famous-people-view.test.mjs` 1 and the naming test extended; `tests/battle-alamo.test.mjs` names the two new lines.
+  **`tests/camp.test.mjs`'s drilling test** also looks at free men away from home now: the extra tick at noon on March 6 moves
+  that seed's neighbours so that no man at home had a roll the drill could improve (checked: it passes with the afternoon as one
+  phase and fails with two).
+- `npm run test:famous-people`: **21 checks** at 1366x768 and 1024x768, among them the Esparzas named in the church through the
+  assault, never hurt, Ana's words as tradition, the burial drawn as `rust-walk+shroud` on the screen, the family on the Host's
+  map after the fall (`docs/evidence/famous-people-browser.json`; `test-results/famous-alamo-burial-*.png`). The assault draws in
+  3.2 ms at its slowest 95th percentile, San Jacinto 40.8 ms (main's new sheets decoding).
+- `scripts/famous-people-injections.mjs`: **seven new unit injections and two browser** (going in by the gate; Ana killed after
+  she is brought out; the body not carried; the engine letting a living man be carried; Ana's words as the record; the
+  Esparzas sent to every family; the burial drawn without the bundle; in the browser the family unnamed in the church and the
+  body drawn as a man walking alone), each caught by the check written for it and no other: **27 of 27** in the file (22 unit, 5 browser). Two browser runs
+  stopped on a Playwright timeout before their checks (once in an injected run, once in the clean gate) and passed when re-run.
+  The runner now takes a name pattern (`node scripts/famous-people-injections.mjs browser Esparza`) and keeps the other records.
+- Re-run on this tree after the merge: `test:battle-alamo` 13 (timed out twice at the start - once on the siege alert, once on the
+  Watch card - and passed alone on the third), `test:alamo-siege` 8, `test:lesson` 33.
+- **Found in passing, not fixed:** on the campaign map every famous person is drawn as the map's mini figure - `public/app.js`
+  hands `drawFamous` wrappers that take the clip's name first while `public/famous-view.js` passes the canvas first, and the
+  proof's own evidence records `how: "mini"`. Correcting the wrapper draws them as their sheets but costs the first frames'
+  decode: San Jacinto measured 58.4 ms p95 against 31.8 without, over the proof's 50 ms gate. Reverted here; for the owner.
 
 **For the owner.**
 1. Enrique put his mother's words **at two in the morning**; every account of the assault has it begin about five. The game keeps
@@ -48,6 +70,7 @@ small child and settler (`docs/ART_REQUESTS.md`, request 2026-09-26 "the Esparza
    not mobilised after December 1835.
 5. Enrique is "about eight" as the game's existing texts have him; the Handbook's likely birth date makes him seven.
 6. The library's only boy is fair-haired; Enrique stands in with it until the requested Tejano boy is drawn.
+7. The famous on the map as their own sheets (the wrapper above): worth a first-frame hitch, or preload the sheets first?
 
 **Not done.** The boy killed beside Enrique (`HIST-TEX-433`; the existing ceiling: noncombatants killed in the storming are not
 drawn). The family before February 23 on the map. Their own art. Not released, not pushed, not merged to main.
