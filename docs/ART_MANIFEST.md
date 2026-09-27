@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1416 usable sprites, 120 PNG atlases, 493 clips** (267 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1477 usable sprites, 128 PNG atlases, 506 clips** (280 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -38,11 +38,15 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icons-family-actions-2 | 13 | 1254 × 1254 | 1706833 |
 | icons-family-service | 16 | 1254 × 1254 | 1734840 |
 | icons-family-subsistence | 8 | 1774 × 887 | 2248974 |
+| famous-bonham | 16 | 1254 × 1254 | 1241019 |
+| famous-almeron-dickinson | 16 | 1254 × 1254 | 905031 |
 | famous-seguin | 16 | 1254 × 1254 | 1147292 |
 | famous-susanna-dickinson | 16 | 1254 × 1254 | 1461496 |
 | famous-angelina-dickinson | 4 | 1254 × 1254 | 1286027 |
 | famous-milam | 16 | 1254 × 1254 | 1519856 |
 | famous-fannin | 16 | 1254 × 1254 | 1306380 |
+| famous-crockett-fate | 4 | 1254 × 1254 | 948322 |
+| famous-esparza | 16 | 1254 × 1254 | 869799 |
 | famous-crockett | 16 | 1254 × 1254 | 1237962 |
 | famous-travis | 16 | 1254 × 1254 | 1163935 |
 | famous-bowie | 16 | 1254 × 1254 | 1280882 |
@@ -56,6 +60,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
 | gonzales-log-breastwork | 1 | 1774 × 887 | 1221292 |
 | gonzales-dugout-canoe | 1 | 1536 × 1024 | 2208839 |
+| gonzales-ploughed-earth | 1 | 2172 × 724 | 1766959 |
+| gonzales-flag-work-cloth | 1 | 1774 × 887 | 1835338 |
+| gonzales-flag-work-painted | 1 | 1774 × 887 | 1777190 |
+| people-gonzales-paint | 6 | 1024 × 1536 | 1715507 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
 | people-mounted-cast1-e | 16 | 1254 × 1254 | 1086305 |
@@ -481,6 +489,38 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icon-butcher-beef | icons-family-subsistence | State artwork; no motion required |
 | icon-butcher-hog | icons-family-subsistence | State artwork; no motion required |
 | icon-look-to-stock | icons-family-subsistence | State artwork; no motion required |
+| bonham-walk-e-1 | famous-bonham | bonham-walk-e |
+| bonham-walk-e-2 | famous-bonham | bonham-walk-e |
+| bonham-walk-e-3 | famous-bonham | bonham-walk-e |
+| bonham-walk-e-4 | famous-bonham | bonham-walk-e |
+| bonham-walk-s-1 | famous-bonham | bonham-walk-s |
+| bonham-walk-s-2 | famous-bonham | bonham-walk-s |
+| bonham-walk-n-1 | famous-bonham | bonham-walk-n |
+| bonham-walk-n-2 | famous-bonham | bonham-walk-n |
+| bonham-idle | famous-bonham | State artwork; no motion required |
+| bonham-speak | famous-bonham | State artwork; no motion required |
+| bonham-point | famous-bonham | State artwork; no motion required |
+| bonham-serve-gun | famous-bonham | State artwork; no motion required |
+| bonham-aim | famous-bonham | State artwork; no motion required |
+| bonham-fire | famous-bonham | State artwork; no motion required |
+| bonham-reload | famous-bonham | State artwork; no motion required |
+| bonham-still | famous-bonham | State artwork; no motion required |
+| almeron-dickinson-walk-e-1 | famous-almeron-dickinson | almeron-dickinson-walk-e |
+| almeron-dickinson-walk-e-2 | famous-almeron-dickinson | almeron-dickinson-walk-e |
+| almeron-dickinson-walk-e-3 | famous-almeron-dickinson | almeron-dickinson-walk-e |
+| almeron-dickinson-walk-e-4 | famous-almeron-dickinson | almeron-dickinson-walk-e |
+| almeron-dickinson-walk-s-1 | famous-almeron-dickinson | almeron-dickinson-walk-s |
+| almeron-dickinson-walk-s-2 | famous-almeron-dickinson | almeron-dickinson-walk-s |
+| almeron-dickinson-walk-n-1 | famous-almeron-dickinson | almeron-dickinson-walk-n |
+| almeron-dickinson-walk-n-2 | famous-almeron-dickinson | almeron-dickinson-walk-n |
+| almeron-dickinson-idle | famous-almeron-dickinson | State artwork; no motion required |
+| almeron-dickinson-speak | famous-almeron-dickinson | State artwork; no motion required |
+| almeron-dickinson-command | famous-almeron-dickinson | State artwork; no motion required |
+| almeron-dickinson-serve-gun | famous-almeron-dickinson | State artwork; no motion required |
+| almeron-dickinson-shot-carry | famous-almeron-dickinson | State artwork; no motion required |
+| almeron-dickinson-ram | famous-almeron-dickinson | State artwork; no motion required |
+| almeron-dickinson-fire | famous-almeron-dickinson | State artwork; no motion required |
+| almeron-dickinson-still | famous-almeron-dickinson | State artwork; no motion required |
 | seguin-walk-e-1 | famous-seguin | seguin-walk-e |
 | seguin-walk-e-2 | famous-seguin | seguin-walk-e |
 | seguin-walk-e-3 | famous-seguin | seguin-walk-e |
@@ -549,6 +589,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | fannin-injured-seated | famous-fannin | State artwork; no motion required |
 | fannin-surrender | famous-fannin | State artwork; no motion required |
 | fannin-prisoner-seated | famous-fannin | State artwork; no motion required |
+| crockett-captive-1 | famous-crockett-fate | crockett-captive |
+| crockett-captive-2 | famous-crockett-fate | crockett-captive |
+| crockett-still-side | famous-crockett-fate | State artwork; no motion required |
+| crockett-still-turn | famous-crockett-fate | State artwork; no motion required |
+| esparza-walk-e-1 | famous-esparza | esparza-walk-e |
+| esparza-walk-e-2 | famous-esparza | esparza-walk-e |
+| esparza-walk-e-3 | famous-esparza | esparza-walk-e |
+| esparza-walk-e-4 | famous-esparza | esparza-walk-e |
+| esparza-walk-s-1 | famous-esparza | esparza-walk-s |
+| esparza-walk-s-2 | famous-esparza | esparza-walk-s |
+| esparza-walk-n-1 | famous-esparza | esparza-walk-n |
+| esparza-walk-n-2 | famous-esparza | esparza-walk-n |
+| esparza-idle | famous-esparza | State artwork; no motion required |
+| esparza-speak | famous-esparza | State artwork; no motion required |
+| esparza-point | famous-esparza | State artwork; no motion required |
+| esparza-serve-gun | famous-esparza | State artwork; no motion required |
+| esparza-shot-carry | famous-esparza | State artwork; no motion required |
+| esparza-aim | famous-esparza | State artwork; no motion required |
+| esparza-fire | famous-esparza | State artwork; no motion required |
+| esparza-still | famous-esparza | State artwork; no motion required |
 | crockett-walk-e-1 | famous-crockett | crockett-walk-e |
 | crockett-walk-e-2 | famous-crockett | crockett-walk-e |
 | crockett-walk-e-3 | famous-crockett | crockett-walk-e |
@@ -664,6 +724,15 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-cannon-buried | gonzales-cannon-buried | State artwork; no motion required |
 | gonzales-log-breastwork | gonzales-log-breastwork | State artwork; no motion required |
 | gonzales-dugout-canoe | gonzales-dugout-canoe | State artwork; no motion required |
+| gonzales-ploughed-earth | gonzales-ploughed-earth | State artwork; no motion required |
+| gonzales-flag-work-cloth | gonzales-flag-work-cloth | State artwork; no motion required |
+| gonzales-flag-work-painted | gonzales-flag-work-painted | State artwork; no motion required |
+| teal-paint-1 | people-gonzales-paint | teal-paint |
+| teal-paint-2 | people-gonzales-paint | teal-paint |
+| indigo-paint-1 | people-gonzales-paint | indigo-paint |
+| indigo-paint-2 | people-gonzales-paint | indigo-paint |
+| blue-girl-paint-1 | people-gonzales-paint | blue-girl-paint |
+| blue-girl-paint-2 | people-gonzales-paint | blue-girl-paint |
 | house-round-sill | house-modules | State artwork; no motion required |
 | house-round-low-walls | house-modules | State artwork; no motion required |
 | house-round-full-walls | house-modules | State artwork; no motion required |
@@ -1704,6 +1773,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | infant-idle-w | breathe | 1 | 3000 | yes | west |
 | infant-idle-e | breathe | 1 | 3000 | yes | east |
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
+| bonham-walk-e | Pose cycle | 4 | 760 | yes | east |
+| bonham-walk-s | Pose cycle | 2 | 580 | yes | south |
+| bonham-walk-n | Pose cycle | 2 | 580 | yes | north |
+| almeron-dickinson-walk-e | Pose cycle | 4 | 760 | yes | east |
+| almeron-dickinson-walk-s | Pose cycle | 2 | 580 | yes | south |
+| almeron-dickinson-walk-n | Pose cycle | 2 | 580 | yes | north |
 | seguin-walk-e | Pose cycle | 4 | 760 | yes | east |
 | seguin-walk-s | Pose cycle | 2 | 580 | yes | south |
 | seguin-walk-n | Pose cycle | 2 | 580 | yes | north |
@@ -1717,6 +1792,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | fannin-walk-e | Pose cycle | 4 | 760 | yes | east |
 | fannin-walk-s | Pose cycle | 2 | 580 | yes | south |
 | fannin-walk-n | Pose cycle | 2 | 580 | yes | north |
+| crockett-captive | Pose cycle | 2 | 3100 | yes | east; mirror for west |
+| esparza-walk-e | Pose cycle | 4 | 760 | yes | east |
+| esparza-walk-s | Pose cycle | 2 | 580 | yes | south |
+| esparza-walk-n | Pose cycle | 2 | 580 | yes | north |
 | crockett-walk-e | Pose cycle | 4 | 760 | yes | east |
 | crockett-walk-s | Pose cycle | 2 | 580 | yes | south |
 | crockett-walk-n | Pose cycle | 2 | 580 | yes | north |
@@ -1739,6 +1818,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | santa-anna-picnic-converse | Pose cycle | 3 | 3450 | yes | east-facing at a camp chair |
 | santa-anna-picnic-alarm | Pose cycle | 2 | 1750 | one-shot | east-facing; turns toward the battle |
 | flag-come-and-take-it-wind | Pose cycle | 4 | 2700 | yes | not applicable |
+| teal-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
+| indigo-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
+| blue-girl-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | rust-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | teal-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | elder-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |

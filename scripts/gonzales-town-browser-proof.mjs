@@ -144,7 +144,9 @@ try {
       // drew everybody standing would still report.
       const drawnPose = one => one.moving ? 'walking' : one.clip.replace(/^(teal|indigo|elder|ochre|blue-girl|blue|girl|boy|volunteer|dragoon|mounted-courier)-/, '').replace(/-[nesw]$/, '');
       const poses = new Set(now.cast.map(drawnPose));
-      evidence.samples.push({ clock, beats: now.beats, people: now.cast.length, poses: [...poses], idle: now.cast.filter(one => drawnPose(one) === 'idle').length });
+      evidence.samples.push({ clock, beats: now.beats, people: now.cast.length, poses: [...poses],
+        flagMakerClips: now.beats.includes('flag-cloth') ? now.cast.filter(one => ['gz-townswoman-3', 'gz-townswoman-5'].includes(one.id) && !one.moving).map(one => one.clip) : [],
+        idle: now.cast.filter(one => drawnPose(one) === 'idle').length });
     }
     // Pictures at the moments worth seeing.
     for (const [name, beat, scene] of [['alarm', 'street-alarm', 'street'], ['camp', 'camp-mound', 'camp'], ['flag', 'flag-cloth', 'flag'], ['shop', 'shop-mount', 'cannon'], ['reading', 'crossing-reading', 'crossing'], ['muster', 'muster-day', 'muster'], ['over', 'crossing-over', 'crossing'], ['return', 'street-return', 'street']]) {
@@ -211,6 +213,8 @@ try {
   const flagSamples = evidence.samples.filter(one => one.beats.includes('flag-cloth'));
   assert.ok(flagSamples.length >= 3 && flagSamples.every(one => clockOf(0) <= one.clock), `the flag-making scene was drawn at ${flagSamples.length} samples`);
   assert.ok(flagSamples.every(one => one.clock >= on(1, 14) && one.clock < on(2, 12)), 'the flag was being made outside its days');
+  assert.ok(flagSamples.some(one => one.flagMakerClips.includes('blue-girl-paint')) && flagSamples.some(one => one.flagMakerClips.includes('indigo-paint')),
+    'the two flag-makers never displayed their authored sewing animation');
   ok(`the women were making the flag on September 30 and October 1 (${flagSamples.length} samples)`);
 
   const reconstructed = Object.entries(evidence.said).filter(([key]) => key.startsWith('reconstructed:')).reduce((sum, [, n]) => sum + n, 0);

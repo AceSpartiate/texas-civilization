@@ -108,8 +108,8 @@ const read = page => page.evaluate(() => {
 function note(seen, one) {
   for (const person of one.view?.people || []) {
     const at = (seen[one.phase] ||= {}), was = (at[person.id] ||= { name: person.name, poses: new Set(), drawnAs: new Set(), fell: false, hurt: false, onScreen: false, tag: null });
-    was.poses.add(person.pose); if (person.labelled) was.labelled = true; if (person.fell) was.fell = true; if (person.hurt) was.hurt = true; if (person.onScreen) was.onScreen = true; if (person.tag) was.tag = person.tag;
-    if (person.drawnAs) was.drawnAs.add(person.drawnAs); if (person.bears) was.bears = person.bears;
+    was.poses.add(person.pose); if (person.drawnAs) was.drawnAs.add(person.drawnAs); if (person.labelled) was.labelled = true; if (person.fell) was.fell = true; if (person.hurt) was.hurt = true; if (person.onScreen) was.onScreen = true; if (person.tag) was.tag = person.tag;
+    if (person.bears) was.bears = person.bears;
   }
 }
 const plain = seen => Object.fromEntries(Object.entries(seen).map(([phase, people]) => [phase, Object.fromEntries(Object.entries(people).map(([id, one]) => [id, { ...one, poses: [...one.poses], drawnAs: [...one.drawnAs] }]))]));
@@ -187,11 +187,18 @@ try {
   assert.ok(inPhase('alarm', 'bowie')?.poses.has('sick'), 'Bowie was not on his cot at the alarm');
   assert.ok(inPhase('fallback', 'bowie')?.fell && (inPhase('fallback', 'bowie').poses.has('still-bed') || inPhase('rooms', 'bowie')?.poses.has('still-bed')), 'Bowie did not lie still on his cot');
   ok('Bowie lies ill on his cot in his room on the south side, and lies still on it when that barrack is carried');
+  for (const id of ['bonham', 'almeron-dickinson', 'esparza']) {
+    const room = inPhase('rooms', id);
+    assert.ok(room?.onScreen && [...room.drawnAs].some(how => how.startsWith(`${id}-`)), `${id} did not render from his own atlas in the church-gun scene`);
+  }
+  ok('Bonham, Dickinson and Esparza render from their own atlases at the Alamo guns');
   // Crockett fights, is taken, is tagged as one account, and both accounts are in the caption; then he falls.
   for (const phase of ['alarm', 'repulse', 'north-wall']) assert.ok(inPhase(phase, 'crockett')?.poses.has('fire'), `Crockett was not fighting in ${phase}`);
   assert.ok(inPhase('end', 'crockett')?.poses.has('captive'), 'Crockett was not drawn taken');
   assert.match(inPhase('end', 'crockett').tag || '', /One account \(de la Peña\)/);
   assert.ok(inPhase('end', 'crockett').fell, 'Crockett was not drawn killed after the fighting');
+  assert.ok(inPhase('end', 'crockett').drawnAs.has('crockett-captive') && inPhase('end', 'crockett').drawnAs.has('crockett-still-side'),
+    'Crockett did not display both the unarmed captive animation and non-graphic still art');
   assert.ok(inPhase('end', 'santa-anna') && inPhase('end', 'castrillon'), 'Santa Anna and Castrillón were not there');
   for (const words of [/de la Peña/, /Joe said/, /Susanna Dickinson/, /1955/, /not known for certain/]) assert.match(captions.end || '', words);
   ok(`Crockett fights through the assault; after it he is taken, tagged "${inPhase('end', 'crockett').tag}", brought before Santa Anna with Castrillón there, and killed; the caption gives both accounts and the dispute`);
