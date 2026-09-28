@@ -1,5 +1,41 @@
 # Claude handoff — Astra foundation
 
+## Help to another family earns hidden glory — owner, 2026-09-28 (branch `neighbours-glory`, off `integration-2026-09-28`; not released)
+
+**The decision.** Owner, 2026-09-28, answering the neighbours builder's three questions by multiple choice: **glory for help,
+"Any help"** - any help to another family earns hidden glory at the support weight; wagon room **"Goods only (as built)"**; lending
+tools not asked (left as built).
+
+**The change** (`FIC-GONZ-761`, HISTORY.md; docs/MONEY_AND_GLORY.md §4, whose "only major historical events" rule is amended).
+Every deed written into the ledger (sim/deeds.mjs `noteDeed`) awards the helping family a part through `awardGlory`
+(`awardHelp`, `HELP_ROLE`):
+
+| Deed | Part | Weight |
+|---|---|---|
+| hours at a raising | `helped` | 1 (the support weight) |
+| food carried to a family short of it, on the road or at home | `helped` | 1 |
+| room kept in a wagon on the road east | `helped` | 1 |
+| children taken in (`recordTakenIn`) | `sheltered` | 2 (the weight of being present) |
+| a trade | none | it was even when it was made |
+| the neighbours' call to Gonzales | none | it already earned its own part at Gonzales |
+
+Each times the distance multiplier from the family helped (sim/glory.mjs). **Once per family helped and kind of help**: a family
+cannot farm it by trading, or by passing food back and forth, or by sending each of its people to the same raising. `ceiling:` on
+the weights (sim/glory.mjs `GLORY_WEIGHT`, sim/deeds.mjs `HELP_ROLE`): a first guess; a balance measure is the way to move them.
+The ending counts it in the number and says it under *What earned glory* ("Amos Hale helped the Walker family raise their walls,
+10 road miles from home. (1)", sim/ending.mjs `helpWhat`), and keeps it out of who went to the war (`HELP_PARTS`), so a family
+that stayed home still reads "Nobody from the family went to Gonzales or to the army." Hidden until then: no word of it on any
+page (tests/glory-words.test.mjs passes).
+
+**Evidence** (same computer only). Two new tests in tests/neighbourly.test.mjs (12 in the file). Six injections, each put back
+alone, fail the test that guards it: help earning nothing (both fail), trades earning, no once-a-pair-and-kind cap, shelter at the
+support weight, help counted as who went, the award left unworded. `npm test` on the branch merged with `integration-2026-09-28`
+41e3f9e5: **1675 tests, 1638 pass, 0 fail, 37 skipped**. (An earlier run on the unmerged branch failed tests/host-view.test.mjs,
+which failed the same way on its base a07b95ab and is fixed on the integration branch, and tests/clock.test.mjs's rider ratio,
+13 against 8 in 100, with two browser proofs running beside it; it passes on the clean branch and in the run above.)
+`test:neighbours` **8 of 8** (new check: both families' *What earned glory* lists the raising and the wagon room with their points);
+`test:ending` **10 of 10**. Both proofs run after the merge. Not pushed.
+
 ## Each feller needs an axe — owner, 2026-09-28 (branch `axe-per-feller`, off `integration-2026-09-28`; not released)
 
 **The decision.** The owner answered FAMILY_PANEL.md §21.6's first question: *"Each needs an axe."* Felling now holds a felling axe of
