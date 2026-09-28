@@ -79,15 +79,6 @@
       ]
     },
     {
-      "name": "an automatic family's halt written as a student's answer",
-      "file": "sim/pursuit.mjs",
-      "expect": "an automatic family halts when it is ordered to, and an order nobody answers halts the family; both written down",
-      "caught": true,
-      "failed": [
-        "an automatic family halts when it is ordered to, and an order nobody answers halts the family; both written down"
-      ]
-    },
-    {
       "name": "another family sent the first family's route",
       "file": "sim/world.mjs",
       "expect": "the class's clock is held to the chase only for a family at its screen, and the chase is its own and the Host's to see, with its route its own alone",
@@ -125,6 +116,24 @@
       "failed": [
         "an automatic family halts when it is ordered to, and an order nobody answers halts the family; both written down",
         "the class's clock is held to the chase only for a family at its screen, and the chase is its own and the Host's to see, with its route its own alone"
+      ]
+    },
+    {
+      "name": "an automatic family's halt written as a student's answer",
+      "file": "sim/pursuit.mjs",
+      "expect": "an automatic family halts when it is ordered to, and an order nobody answers halts the family; both written down",
+      "caught": true,
+      "failed": [
+        "an automatic family halts when it is ordered to, and an order nobody answers halts the family; both written down"
+      ]
+    },
+    {
+      "name": "the unanswered order answered as a choice, not a lapse",
+      "file": "sim/pursuit.mjs",
+      "expect": "an automatic family halts when it is ordered to, and an order nobody answers halts the family; both written down",
+      "caught": true,
+      "failed": [
+        "an automatic family halts when it is ordered to, and an order nobody answers halts the family; both written down"
       ]
     }
   ],

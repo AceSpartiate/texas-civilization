@@ -60,8 +60,8 @@ beast hit; giving up and caught; automatic and unanswered halts; the clock and w
 and the map, a country leg, the path on the student's map and not another family's nor the Host's, a change on the road, "¡Alto!",
 run with shots drawn, halt without. Injections `npm run test:scrape-pursuit-injections`
 ([evidence](docs/evidence/scrape-pursuit-injections.json)). Study `npm run study:scrape-pursuit`; class time
-`scripts/scrape-pursuit-class-time.mjs`. Injections **17 of 17** caught by the
-check written for them (13 unit, each failing its own test - one, an absent family's chase holding the class, failing the two tests
+`scripts/scrape-pursuit-class-time.mjs`. Injections **18 of 18** caught by the
+check written for them (14 unit, each failing its own test - one, an absent family's chase holding the class, failing the two tests
 that hold that rule - and 4 browser: the path drawn for another family, for the Host, the orders and the shots never drawn); the
 children's check was found vacuous by its injection (it read the page's shot shape, not the record's) and mended. Also run:
 `test:scrape` 5/5, `test:road` 7/7, `test:children` 14/14, `test:lesson` all, `test:mexican-advance` 10/10 (its first run stopped on
@@ -69,7 +69,7 @@ a Playwright wait after check 5 with the machine loaded by other agents' studies
 first run; the two were this change's and are mended - San Jacinto's refugee family at Lynchburg now stays when warned (a family
 three miles over the river is no longer taken by a circle round Santa Anna's head), and the road's "not taken twice" check holds its
 own rule, never twice by the same column (a family that set out again from San Felipe on foot may be taken by Sesma's division
-camped there). **The second full run, after merging `origin/main`: 1442 of 1442.**
+camped there). **After merging `origin/main` twice (the second brought the lapse of unanswered questions, which the order to halt now follows): `npm test` 1462 of 1462, and `test:scrape-pursuit` 14 of 14 again.**
 
 **Not done / ceilings** (SCRAPE.md §15): the chase is a line (turning toward the soldiers is not nearer); across country is found in a
 three-lane corridor; timber looked for on rings a tenth of a mile apart; the party is a sample; patrols do not search side roads; a
