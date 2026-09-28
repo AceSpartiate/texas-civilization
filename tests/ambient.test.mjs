@@ -97,11 +97,14 @@ test('everybody a page would draw standing idle is drawn at something instead, o
 });
 
 test('a town\'s keepers keep company, and one walks to a neighbour\'s door to talk; a family\'s person is never walked', () => {
-  const world = settledClass('ambient-visit');
-  let visits = 0, familyWalked = 0, pairs = 0;
+  // Two families' people standing in the street among the keepers: a keeper may walk over to them, never they to a keeper.
+  const { world, keep } = townWithFamilies('ambient-visit');
+  let visits = 0, familyWalked = 0, pairs = 0, toFamily = 0;
   for (let t = 0; t < 400; t++) {
     stepWorld(world);
+    keep();
     const { acts } = classAmbient(world);
+    for (const [, amb] of acts) if (amb.at && world.entities[amb.with]?.householdId) toFamily++;
     for (const [id, amb] of acts) {
       if (amb.with) pairs++;
       if (!amb.at) continue;
@@ -113,7 +116,7 @@ test('a town\'s keepers keep company, and one walks to a neighbour\'s door to ta
       }
     }
   }
-  assert.ok(pairs > 50 && visits > 5, `pairs ${pairs}, visits ${visits}`);
+  assert.ok(pairs > 50 && visits > 5 && toFamily > 0, `pairs ${pairs}, visits ${visits}, to a family's person ${toFamily}`);
   assert.equal(familyWalked, 0, 'a family\'s own person was walked somewhere by ambient life');
 });
 
@@ -285,9 +288,18 @@ test('a page is sent a few exchanges a tick at most, the Host a few a place; non
     }
   }
   assert.ok(nights > 0, 'no night was sampled');
-  // Quiet while the page watches a fight or a chase, or a rider talks with one of the family.
+  // A student with somebody in a busy street, where more pairs talk on some ticks than a page is sent: the cap holds, and binds.
   const { world: quietWorld, keep } = townWithFamilies('ambient-quiet');
-  for (let t = 0; t < 30; t++) { stepWorld(quietWorld); keep(); }
+  let full = 0;
+  for (let t = 0; t < 300; t++) {
+    stepWorld(quietWorld); keep();
+    const talking = classAmbient(quietWorld).pairs.filter(pair => pair.talking && pair.group === `site:${TOWN}`).length;
+    const lines = view(quietWorld, 'hh-1').ambient?.lines || [];
+    assert.ok(lines.length <= 2 * PAGE_EXCHANGES, `${lines.length} lines to a student at tick ${quietWorld.tick}`);
+    if (talking > PAGE_EXCHANGES && lines.length === 2 * PAGE_EXCHANGES) full++;
+  }
+  assert.ok(full > 0, 'no tick had more talk in the street than a page is sent, so the cap was never tried');
+  // Quiet while the page watches a fight or a chase, or a rider talks with one of the family.
   const spoken = { host: 0, student: 0 };
   for (const [extra, roles] of [[{ battle: { sides: [{}] } }, ['host', 'student']], [{ flight: { chase: { phase: 'seen' } } }, ['student']], [{ encounter: { status: 'open' } }, ['student']]]) {
     for (let t = 0; t < 60; t++) {

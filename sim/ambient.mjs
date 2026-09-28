@@ -383,6 +383,8 @@ function fits(activity, who, { setting, band, raining, keeper, own }) {
 }
 const pick = (list, share) => list[Math.min(list.length - 1, Math.floor(share * list.length))];
 const raining = here => Boolean(here) && (here.kind === 'rain' || here.kind === 'storm' || (here.kind === 'norther' && here.wet));
+/** A person's facing as sent: only west is said (`f: 'w'`), east being what every sheet faces; a family of twenty is sent it on every tick. */
+const west = face => (face === 'w' ? { f: 'w' } : {});
 /** East or west, by the seed. */
 const sideOf = (world, id, question) => (stirredShare(world, id, question) < 0.5 ? 'e' : 'w');
 
@@ -460,8 +462,8 @@ function computeAmbient(world) {
         pairs.push({ key: pairKey, group: groupKey, ids: [first.id, second.id], setting, talking, point: host.location });
         for (const one of [a, b]) {
           const other = one === a ? b : a;
-          acts.set(one.id, { a: actId, p: activity.pose, with: other.id,
-            f: visitor ? (one === visitor ? (side > 0 ? 'w' : 'e') : (side > 0 ? 'e' : 'w')) : (other.location.x >= one.location.x ? 'e' : 'w'),
+          const face = visitor ? (one === visitor ? (side > 0 ? 'w' : 'e') : (side > 0 ? 'e' : 'w')) : (other.location.x >= one.location.x ? 'e' : 'w');
+          acts.set(one.id, { a: actId, p: activity.pose, with: other.id, ...west(face),
             ...(one === visitor && { at }), ...(activity.prop && one === a && { prop: activity.prop }) });
         }
       }
@@ -477,7 +479,7 @@ function computeAmbient(world) {
       if (!mine.length) continue;
       const phase = Math.floor(stirredShare(world, e.id, 'ambient-phase') * SLOT_TICKS);
       const [actId, activity] = pick(mine, stirredShare(world, e.id, `act:${Math.floor((world.tick + phase) / SLOT_TICKS)}`));
-      acts.set(e.id, { a: actId, p: activity.pose, f: sideOf(world, e.id, `face:${slot}`), ...(activity.pace && { pace: 1 }), ...(activity.prop && { prop: activity.prop }) });
+      acts.set(e.id, { a: actId, p: activity.pose, ...west(sideOf(world, e.id, `face:${slot}`)), ...(activity.pace && { pace: 1 }), ...(activity.prop && { prop: activity.prop }) });
     }
   }
   return { acts, pairs, band };

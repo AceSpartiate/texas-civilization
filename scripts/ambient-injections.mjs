@@ -11,7 +11,7 @@ import { spawnSync } from 'node:child_process';
 
 const AMBIENT = 'sim/ambient.mjs', MOTION = 'public/motion.js', TEST = 'tests/ambient.test.mjs';
 const INJECTIONS = [
-  { name: 'the page draws the idle standing, whatever the server sends', file: MOTION, from: "  if (entity.kind === 'person' && entity.amb?.p) return ambientClip(variant, entity.amb);", to: '', expect: /drawn standing idle is drawn at something/ },
+  { name: 'the page draws the idle standing, whatever the server sends', file: MOTION, from: "  if (entity.kind === 'person' && entity.amb?.p) return ambientClip(variant, entity.amb);", to: '', expect: /draw standing idle is drawn at something/ },
   { name: 'a family\'s own person is walked to a neighbour', file: AMBIENT, from: "        const visitor = near ? null : (!a.householdId ? a : !b.householdId ? b : null);", to: '        const visitor = near ? null : a;', expect: /one walks to a neighbour's door/ },
   { name: 'the words are chosen by chance, not the seed', file: AMBIENT, from: "  const chosen = pick(options, stirredShare(world, pair.key, `line:${world.tick}`));", to: '  const chosen = pick(options, Math.random());', expect: /same class gives the same/ },
   { name: 'the projection writes the activity into the world', file: AMBIENT, from: '    projected.amb = { ...amb };', to: '    projected.amb = e.amb = { ...amb };', expect: /changes nothing/ },
@@ -60,13 +60,16 @@ for (const injection of chosen) {
   console.log(`${caught ? (alone ? 'caught alone' : 'caught') : 'MISSED'}: ${injection.name} -> ${failed.join(' | ') || 'nothing failed'}`);
 }
 if (run().length) throw new Error(`${TEST} fails after every file was put back`);
-if (!only) {
-  mkdirSync('docs/evidence', { recursive: true });
-  writeFileSync('docs/evidence/ambient-injections.json', `${JSON.stringify({
-    record: 'ambient-injections',
-    date: new Date().toISOString().slice(0, 10),
-    note: 'Ambient life and chatter (docs/AMBIENT.md, 2026-09-28). Each injection is run against tests/ambient.test.mjs; "alone" means the test named for the rule was the only one to fail.',
-    injections: record,
-  }, null, 2)}\n`);
-}
+// A run of some of them (a name pattern) replaces just those in the record a whole run wrote.
+mkdirSync('docs/evidence', { recursive: true });
+const PATH = 'docs/evidence/ambient-injections.json';
+let kept = [];
+if (only) { try { kept = JSON.parse(readFileSync(PATH, 'utf8')).injections.filter(one => !record.some(r => r.name === one.name)); } catch { kept = []; } }
+const all = [...kept, ...record].sort((a, b) => INJECTIONS.findIndex(i => i.name === a.name) - INJECTIONS.findIndex(i => i.name === b.name));
+writeFileSync(PATH, `${JSON.stringify({
+  record: 'ambient-injections',
+  date: new Date().toISOString().slice(0, 10),
+  note: 'Ambient life and chatter (docs/AMBIENT.md, 2026-09-28). Each injection is run against tests/ambient.test.mjs; "alone" means the test named for the rule was the only one to fail.',
+  injections: all,
+}, null, 2)}\n`);
 console.log(`\n${record.filter(r => r.caught).length} of ${record.length} caught, ${record.filter(r => r.alone).length} alone${only ? '' : '; wrote docs/evidence/ambient-injections.json'}`);

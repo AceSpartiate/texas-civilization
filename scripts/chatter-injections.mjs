@@ -54,12 +54,15 @@ for (const injection of chosen) {
     for (const [file, original] of originals) writeFileSync(file, original);
   }
 }
-if (!only) {
-  mkdirSync('docs/evidence', { recursive: true });
-  writeFileSync('docs/evidence/chatter-injections.json', `${JSON.stringify({
-    record: 'chatter-injections', date: new Date().toISOString().slice(0, 10),
-    note: 'Ambient life and chatter in the browser (docs/AMBIENT.md, 2026-09-28). Each injection runs the whole of scripts/chatter-browser-proof.mjs; "alone" means only checks of the kind written for it failed. Same computer only.',
-    injections: record,
-  }, null, 2)}\n`);
-}
+// A run of some of them (a name pattern) replaces just those in the record a whole run wrote.
+mkdirSync('docs/evidence', { recursive: true });
+const PATH = 'docs/evidence/chatter-injections.json';
+let kept = [];
+if (only) { try { kept = JSON.parse(readFileSync(PATH, 'utf8')).injections.filter(one => !record.some(r => r.name === one.name)); } catch { kept = []; } }
+const all = [...kept, ...record].sort((a, b) => INJECTIONS.findIndex(i => i.name === a.name) - INJECTIONS.findIndex(i => i.name === b.name));
+writeFileSync(PATH, `${JSON.stringify({
+  record: 'chatter-injections', date: new Date().toISOString().slice(0, 10),
+  note: 'Ambient life and chatter in the browser (docs/AMBIENT.md, 2026-09-28). Each injection runs the whole of scripts/chatter-browser-proof.mjs; "alone" means only checks of the kind written for it failed. Same computer only.',
+  injections: all,
+}, null, 2)}\n`);
 console.log(`\n${record.filter(r => r.caught).length} of ${record.length} caught, ${record.filter(r => r.alone).length} alone`);

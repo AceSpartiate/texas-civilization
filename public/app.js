@@ -688,7 +688,7 @@ function townGround(world, entity, camera, now, frozen) {
     const one = ambientGround(entity, home, { walker: townWalker, now, time: animationTime, figure: camera.figure, scale: camera.scale, frozen, reducedMotion: reducedMotion.matches, whereIs: id => ambientSpots.get(id) });
     if (one) {
       ambientSpots.set(entity.id, one.at);
-      window.__townWalkers?.push({ id: entity.id, stepping: one.stepping, pose: one.amb?.p || null, x: one.at.x, y: one.at.y, ambient: one.amb?.a || null, ...(entity.amb?.at && { visit: true }) });
+      window.__townWalkers?.push({ id: entity.id, stepping: one.stepping, pose: one.amb?.p || null, x: one.at.x, y: one.at.y, ambient: one.amb?.a || null, ...(entity.amb?.at && { visit: true, arrived: Math.hypot(one.at.x - entity.amb.at.x, one.at.y - entity.amb.at.y) < 0.004 }) });
       return { at: one.at, stepping: one.stepping, pose: null, amb: one.amb, base: one.base };
     }
   }

@@ -219,9 +219,13 @@ test('a family of twenty fits the tick: what it is sent grows by the person, and
     const view = projectWorld(world, 'hh-1', 'student', { includeMap: false });
     // What the family's wagons and oxen cost, apart: they grow by the wagon, not by the person.
     const beasts = view.entities.filter(entity => entity.kind !== 'person').reduce((sum, entity) => sum + JSON.stringify(entity).length + 1, 0);
-    return { all: JSON.stringify(view).length, people: JSON.stringify(view).length - beasts };
+    // What the idle are seen doing (sim/ambient.mjs, 2026-09-28: `amb` on each person with nothing to do), apart too: it is a
+    // few words a person and is held to its own bound below, so the per-person bound still catches the kin carried twice.
+    const ambient = view.entities.reduce((sum, entity) => sum + (entity.amb ? JSON.stringify({ amb: entity.amb }).length - 1 : 0), 0) + (view.ambient ? JSON.stringify({ ambient: view.ambient }).length - 1 : 0);
+    return { all: JSON.stringify(view).length, people: JSON.stringify(view).length - beasts - ambient, ambient };
   };
   const four = sent(4), twenty = sent(20);
+  assert.ok(twenty.ambient / 20 < 60, `the idle's activities cost ${Math.round(twenty.ambient / 20)} bytes a person a tick`);
   assert.ok(twenty.all < 26600, `a family of twenty is sent ${twenty.all} bytes a tick`);
   // Since 2026-09-27 a person who has had the measles carries it (sim/disease.mjs `hadMeasles`, shown on the card), about half the
   // people: measured on these seeds at 1,143 a person. The bound moves to 1,160, which the kin carried twice still breaks.

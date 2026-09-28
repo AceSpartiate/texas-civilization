@@ -106,7 +106,7 @@ async function classroom(seed, factory) {
  * each person with an activity as the page drew them (the clip, from `__clipsDrawn`, not the pose the server asked for).
  */
 const watch = (page, ms, { ids = null } = {}) => page.evaluate(async ([ms, ids]) => {
-  const frames = [], bubbles = [], drawn = {}, most = { count: 0 }, overlaps = [], outside = [], walking = new Set(), camps = new Set();
+  const frames = [], bubbles = [], drawn = {}, most = { count: 0 }, overlaps = [], outside = [], walking = new Set(), arrived = new Set(), camps = new Set();
   let last = window.__animation;
   const end = performance.now() + ms;
   const canvas = document.querySelector('#world-map');
@@ -127,7 +127,7 @@ const watch = (page, ms, { ids = null } = {}) => page.evaluate(async ([ms, ids])
       const clip = window.__clipsDrawn?.[one.id];
       if (clip && window.__drawnAt?.[one.id]) (drawn[one.id] ??= new Set()).add(`${one.amb.a}:${clip}`);
     }
-    for (const one of window.__townWalkers || []) if (one.visit && one.stepping) walking.add(one.id);
+    for (const one of window.__townWalkers || []) { if (one.visit && one.stepping) walking.add(one.id); if (one.visit && one.arrived && !one.stepping) arrived.add(one.id); }
     // Only a camp drawn on the screen: its men are counted where a student could see them.
     for (const army of window.__armiesDrawn || []) if (army.x >= 0 && army.y >= 0 && army.x <= canvas.width && army.y <= canvas.height) for (const clip of army.men || []) camps.add(`${army.id}:${clip}`);
   }
@@ -135,7 +135,7 @@ const watch = (page, ms, { ids = null } = {}) => page.evaluate(async ([ms, ids])
   const at = q => (frames.length ? +frames[Math.min(frames.length - 1, Math.floor(q * frames.length))].toFixed(2) : null);
   return { frames: { count: frames.length, median: at(0.5), p95: at(0.95), max: frames.length ? +frames.at(-1).toFixed(2) : null },
     bubbles: [...new Map(bubbles.map(one => [one.id, one])).values()], most: most.count, overlaps, outside,
-    drawn: Object.fromEntries(Object.entries(drawn).map(([id, set]) => [id, [...set]])), walking: [...walking], camps: [...camps] };
+    drawn: Object.fromEntries(Object.entries(drawn).map(([id, set]) => [id, [...set]])), walking: [...walking], arrived: [...arrived], camps: [...camps] };
 }, [ms, ids]);
 
 const standingIdle = clip => /-idle-[nsew]$/.test(clip);
@@ -177,7 +177,9 @@ try {
     const town = await watch(host, 45000);
     await shot(host, 'town');
     judge('town', town, { people: 5, lines: 2 });
-    check('town: a keeper walked to a neighbour\'s door to talk', town.walking.length >= 1, `walking: ${town.walking.join(', ')}`);
+    // Seen walking on a visit, and seen standing at the neighbour's door it walked to: the walk went somewhere.
+    const visited = town.walking.filter(id => town.arrived.includes(id));
+    check('town: a keeper walked to a neighbour\'s door to talk', visited.length >= 1, `walked and arrived: ${visited.join(', ') || 'nobody'} (walking ${town.walking.length}, arrived ${town.arrived.length})`);
     await early.app.close();
   }
   // ------------------------------------------------------------------------------------------------ the camp
