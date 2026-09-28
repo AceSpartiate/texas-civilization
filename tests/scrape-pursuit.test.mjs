@@ -215,7 +215,7 @@ test('the shots are the researched table: by range, shooter and target, a moving
 });
 
 test('children are never hit, and most shots miss: the soldiers aim at the grown people, the animals and the wagon', () => {
-  let shots = 0, hits = 0;
+  let shots = 0, hits = 0, aimedAtPeople = 0;
   for (const [kind, householdId] of [['infantry', 'hh-1'], ['infantry', 'hh-2'], ['infantry', 'hh-6'], ['infantry', 'hh-8'], ['cavalry', 'hh-2'], ['cavalry', 'hh-8']]) {
     const world = spring();
     const scene = sceneFor(world, { kind, how: 'wagon', householdId });
@@ -224,14 +224,17 @@ test('children are never hit, and most shots miss: the soldiers aim at the grown
     assert.ok(children.length, `${householdId} has no children to test by`);
     const seen = play(world, scene.household, scene.main, 'run');
     shots += seen.shots.length; hits += seen.shots.filter(shot => shot.hit).length;
-    for (const shot of seen.shots.filter(one => one.target === 'person')) {
-      const person = scene.household.members.map(id => world.entities[id]).find(one => (one.given || one.name) === shot.name && grown(one));
-      assert.ok(person, `a shot was aimed at ${shot.name}, who is no grown person of the family`);
+    // Every shot at a person was at a grown one of the family (the record's own shot, which keeps whom it was aimed at).
+    for (const shot of seen.shots.filter(one => one.target.kind === 'person')) {
+      const person = world.entities[shot.target.id];
+      assert.ok(person && scene.household.members.includes(person.id) && grown(person), `a shot was aimed at ${shot.target.name} (${person?.age}), who is no grown person of the family`);
+      aimedAtPeople++;
     }
     for (const child of children) assert.ok(!['dead', 'wounded'].includes(child.health.condition), `${child.name} (${child.age}) was hurt in the chase`);
     validateWorld(world);
   }
   assert.ok(shots >= 20, `only ${shots} shots were fired in six chases`);
+  assert.ok(aimedAtPeople >= 10, `only ${aimedAtPeople} shots were aimed at anybody: the check would pass with nobody to check`);
   assert.ok(hits / shots < 0.3, `${hits} of ${shots} shots hit`);
 });
 

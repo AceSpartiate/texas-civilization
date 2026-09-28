@@ -355,7 +355,8 @@ function fire(world, household, chase, i, yards, second, tickStart) {
   const target = targets[Math.floor(stirredShare(world, household.id, `${chase.id}:aim:${n}`) * targets.length)];
   const p = hitChance(yards, { shooter, target: target.size, moving: true });
   const hit = stirredShare(world, household.id, `${chase.id}:shot:${n}`) < p;
-  const shot = { n, man: i, yards: Math.round(yards), shooter, target: { kind: target.kind, name: target.name }, p: round(p, 3), hit, minute: round(tickStart + second / 60, 3) };
+  // The target's id is kept with the shot for the record's own checks; a page is sent its kind and name only (`chaseProjection`).
+  const shot = { n, man: i, yards: Math.round(yards), shooter, target: { kind: target.kind, name: target.name, id: target.id }, p: round(p, 3), hit, minute: round(tickStart + second / 60, 3) };
   if (hit) {
     chase.hits++;
     shot.fate = strike(world, household, chase, target, n);

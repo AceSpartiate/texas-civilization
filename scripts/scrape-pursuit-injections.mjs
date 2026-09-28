@@ -50,7 +50,7 @@ const UNIT = [
   { name: 'an automatic family\'s halt written as a student\'s answer', file: 'sim/pursuit.mjs',
     from: "  answerRoad(world, household, roadAutoAnswer(world, household) || 'halt', how);", to: "  answerRoad(world, household, roadAutoAnswer(world, household) || 'halt', 'answered');", expect: NAMES.auto },
   { name: 'an absent family\'s chase holds the class', file: 'sim/military-pacing.mjs',
-    from: '    if (!step || !household.played || household.absent) continue;', to: '    if (!step || !household.played) continue;', expect: NAMES.seen },
+    from: '    if (!step || !household.played || household.absent) continue;', to: '    if (!step || !household.played) continue;', expect: [NAMES.seen, NAMES.auto] },
   { name: 'another family sent the first family\'s route', file: 'sim/world.mjs',
     from: "    ...(household?.flight ? { flight: flightProjection(world, household) } : {}),",
     to: "    ...(household?.flight ? { flight: { ...flightProjection(world, household), ...(household.id !== 'hh-1' && world.households['hh-1']?.flight && { route: flightProjection(world, world.households['hh-1']).route }) } } : {}),", expect: NAMES.seen },
@@ -99,6 +99,9 @@ function runBrowser() {
 }
 
 const which = process.argv[2] || 'all';
+// `unit children`: only the injections whose name has the word, for a check mended after a run (each gate still run clean first).
+const only = process.argv[3] || null;
+if (only) UNIT.splice(0, UNIT.length, ...UNIT.filter(injection => injection.name.includes(only)));
 const record = { unit: [], browser: [] };
 const evidencePath = 'docs/evidence/scrape-pursuit-injections.json';
 let previous = {};
@@ -107,7 +110,10 @@ if (which === 'all' || which === 'unit') {
   const clean = runUnit(T); if (!clean.passed) throw new Error(`${T} fails before any injection: ${clean.failed.join('; ')}`);
   for (const injection of UNIT) {
     const seen = inject(injection, () => runUnit(T));
-    const caught = !seen.passed && seen.failed.length === 1 && seen.failed[0] === injection.expect;
+    // The named test and no other; or, where one regression breaks a rule two checks hold (an absent family's chase holding the
+    // class is both the clock's check and the automatic family's), exactly the set named.
+    const expected = [injection.expect].flat();
+    const caught = !seen.passed && seen.failed.length === expected.length && expected.every(name => seen.failed.includes(name));
     record.unit.push({ name: injection.name, file: injection.file, expect: injection.expect, caught, failed: seen.failed });
     console.log(`${caught ? 'caught' : seen.passed ? 'MISSED' : 'CAUGHT BY ANOTHER OR MORE THAN ONE'}: ${injection.name} -> ${seen.failed.join(' | ') || 'every test passed'}`);
   }
@@ -128,7 +134,8 @@ mkdirSync('docs/evidence', { recursive: true });
 const merged = {
   record: 'scrape-pursuit-injections', date: new Date().toISOString().slice(0, 10),
   gates: { unit: `node --test ${T}, the named test and no other`, browser: 'scripts/scrape-pursuit-browser-proof.mjs' },
-  unit: record.unit.length ? record.unit : previous.unit || [],
+  // A run of some of them keeps the rest from the last run, each replaced by name.
+  unit: only ? [...(previous.unit || []).filter(one => !record.unit.some(now => now.name === one.name)), ...record.unit] : record.unit.length ? record.unit : previous.unit || [],
   browser: record.browser.length ? record.browser : previous.browser || [],
   cleanBrowserChecks: record.cleanBrowserChecks ?? previous.cleanBrowserChecks ?? null,
   environment: 'Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768.',

@@ -1,0 +1,167 @@
+{
+  "record": "scrape-pursuit-injections",
+  "date": "2026-09-28",
+  "gates": {
+    "unit": "node --test tests/scrape-pursuit.test.mjs, the named test and no other",
+    "browser": "scripts/scrape-pursuit-browser-proof.mjs"
+  },
+  "unit": [
+    {
+      "name": "the family stops at its first stop and never goes on to the next",
+      "file": "sim/flight-route.mjs",
+      "expect": "the family chooses where it goes and by which way, with stops, and changes it on the road; the train goes as one",
+      "caught": true,
+      "failed": [
+        "the family chooses where it goes and by which way, with stops, and changes it on the road; the train goes as one"
+      ]
+    },
+    {
+      "name": "a family across country seen from as far as on the road",
+      "file": "sim/pursuit.mjs",
+      "expect": "the road is quicker; across country is slower by its going, a wagon cannot cross timber, and a family off the road is seen from half as far",
+      "caught": true,
+      "failed": [
+        "the road is quicker; across country is slower by its going, a wagon cannot cross timber, and a family off the road is seen from half as far"
+      ]
+    },
+    {
+      "name": "the patrols out a day before the record has them",
+      "file": "sim/pursuit.mjs",
+      "expect": "only a column on its dated road or a patrol out ahead of one can see a family, on the record's days",
+      "caught": true,
+      "failed": [
+        "only a column on its dated road or a patrol out ahead of one can see a family, on the record's days"
+      ]
+    },
+    {
+      "name": "the order to halt in Spanish with no English under it",
+      "file": "sim/pursuit.mjs",
+      "expect": "Mexican horsemen come on, order the family to halt in Spanish with the English under it, and a family that halts is taken without a shot",
+      "caught": true,
+      "failed": [
+        "Mexican horsemen come on, order the family to halt in Spanish with the English under it, and a family that halts is taken without a shot"
+      ]
+    },
+    {
+      "name": "infantry faster than a family on foot",
+      "file": "sim/pursuit.mjs",
+      "expect": "the chase goes at the record's paces: an ox wagon slower than infantry, a family on foot or on horseback faster, cavalry faster than all",
+      "caught": true,
+      "failed": [
+        "the chase goes at the record's paces: an ox wagon slower than infantry, a family on foot or on horseback faster, cavalry faster than all"
+      ]
+    },
+    {
+      "name": "a running target as easy to hit as a still one",
+      "file": "sim/pursuit.mjs",
+      "expect": "the shots are the researched table: by range, shooter and target, a moving target at six in ten, nothing past two hundred yards",
+      "caught": true,
+      "failed": [
+        "the shots are the researched table: by range, shooter and target, a moving target at six in ten, nothing past two hundred yards"
+      ]
+    },
+    {
+      "name": "a lamed ox pulls at its full pace",
+      "file": "sim/pursuit.mjs",
+      "expect": "a beast hit slows the train: a lamed ox halves the wagon's pace, and an ox shot down leaves a running family on foot",
+      "caught": true,
+      "failed": [
+        "a beast hit slows the train: a lamed ox halves the wagon's pace, and an ox shot down leaves a running family on foot"
+      ]
+    },
+    {
+      "name": "the horsemen follow a family into the timber",
+      "file": "sim/pursuit.mjs",
+      "expect": "they give up at the timber, after their miles, and at dark; they take a family they come up with",
+      "caught": true,
+      "failed": [
+        "they give up at the timber, after their miles, and at dark; they take a family they come up with"
+      ]
+    },
+    {
+      "name": "an automatic family's halt written as a student's answer",
+      "file": "sim/pursuit.mjs",
+      "expect": "an automatic family halts when it is ordered to, and an order nobody answers halts the family; both written down",
+      "caught": true,
+      "failed": [
+        "an automatic family halts when it is ordered to, and an order nobody answers halts the family; both written down"
+      ]
+    },
+    {
+      "name": "another family sent the first family's route",
+      "file": "sim/world.mjs",
+      "expect": "the class's clock is held to the chase only for a family at its screen, and the chase is its own and the Host's to see, with its route its own alone",
+      "caught": true,
+      "failed": [
+        "the class's clock is held to the chase only for a family at its screen, and the chase is its own and the Host's to see, with its route its own alone"
+      ]
+    },
+    {
+      "name": "the save version moved",
+      "file": "server/app.mjs",
+      "expect": "an old save opens: a flight with no route, no chase, no path fields validates and runs, and no save version moved",
+      "caught": true,
+      "failed": [
+        "an old save opens: a flight with no route, no chase, no path fields validates and runs, and no save version moved"
+      ]
+    },
+    {
+      "name": "the children among the targets",
+      "file": "sim/pursuit.mjs",
+      "expect": "children are never hit, and most shots miss: the soldiers aim at the grown people, the animals and the wagon",
+      "caught": true,
+      "failed": [
+        "children are never hit, and most shots miss: the soldiers aim at the grown people, the animals and the wagon"
+      ]
+    },
+    {
+      "name": "an absent family's chase holds the class",
+      "file": "sim/military-pacing.mjs",
+      "expect": [
+        "the class's clock is held to the chase only for a family at its screen, and the chase is its own and the Host's to see, with its route its own alone",
+        "an automatic family halts when it is ordered to, and an order nobody answers halts the family; both written down"
+      ],
+      "caught": true,
+      "failed": [
+        "an automatic family halts when it is ordered to, and an order nobody answers halts the family; both written down",
+        "the class's clock is held to the chase only for a family at its screen, and the chase is its own and the Host's to see, with its route its own alone"
+      ]
+    }
+  ],
+  "browser": [
+    {
+      "name": "another family's map drew the first family's path",
+      "file": "sim/world.mjs",
+      "expect": "another family's map drew the first family's way",
+      "caught": true,
+      "failure": "another family's map drew the first family's way",
+      "checksPassedFirst": 1
+    },
+    {
+      "name": "the Host's map drew a family's path",
+      "file": "public/app.js",
+      "expect": "the Host's map drew a family's way",
+      "caught": true,
+      "failure": "the Host's map drew a family's way",
+      "checksPassedFirst": 1
+    },
+    {
+      "name": "the orders never drawn over the horsemen",
+      "file": "public/chase-view.js",
+      "expect": "\"¡Alto!\" was not drawn over the horsemen",
+      "caught": true,
+      "failure": "\"¡Alto!\" was not drawn over the horsemen",
+      "checksPassedFirst": 4
+    },
+    {
+      "name": "the shots never drawn",
+      "file": "public/chase-view.js",
+      "expect": "no shot was drawn",
+      "caught": true,
+      "failure": "no shot was drawn: {\"view\":{\"drawn\":[],\"shotsSeen\":0,\"flashes\":0,\"dust\":0,\"lines\":[\"alto\",\"warn\",\"fire\"]}}",
+      "checksPassedFirst": 6
+    }
+  ],
+  "cleanBrowserChecks": 14,
+  "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x768."
+}
