@@ -15,6 +15,7 @@ import { drawFieldSurface } from '/field-surface.js';
 import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
 import { TOWN_WALK, TownWalker, drawTownSpeech, renderSceneCard, townSceneAt, townSceneDrawables } from '/town-scenes.js';
 import { drawSpeech } from '/speech.js';
+import { ambientGround, campMan, crowdDrawables, drawAmbientSpeech, propItem } from '/ambient.js';
 import { drawTownGround, townDrawables } from '/town-art.js';
 import { placeSprite } from '/place-art.js';
 import { renderInterior, clearInteriorChoice } from '/interior.js';
@@ -59,6 +60,9 @@ const motionProjection = new ProjectionMotion();
 // people and each town person's head as drawn this frame (for the words over them), and the scene whose card is open.
 const townWalker = new TownWalker(), townHeads = new Map(), townSceneSpots = new Map();
 let townSceneOpen = null, townSceneShown = '';
+// Ambient life (public/ambient.js, sim/ambient.mjs): the heads of the camps' men and the refuges' crowd as drawn this frame, for
+// the words over them, and where each person at an activity was drawn, so two keeping company are turned to each other.
+const ambientHeads = new Map(), ambientSpots = new Map();
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 // The one battle renderer (public/battle-view.js, docs/BATTLES.md §3): drawn with the page's own art, and asked by
 // `drawFigure` which pose a family's own person in the force is in. Declared up here, above the page's first `connect`, so a
@@ -674,6 +678,18 @@ function drawnHeightOf(entity, size, seat) {
  * standing in the town.
  */
 function townGround(world, entity, camera, now, frozen) {
+  // Somebody at an ambient activity, anywhere (public/ambient.js): walked to a neighbour's door and home again, a load carried
+  // back and forth, turned to whoever they keep company with. Walked by the same walker as Gonzales, so nobody slides.
+  if (!entity.travel && entity.kind === 'person' && Number.isFinite(entity.location?.x) && (entity.amb || townWalker.seen(entity.id)?.away)) {
+    const offset = stableOffset(entity.id), miles = PERSON_MILES / 26;
+    const home = { x: entity.location.x + offset.x * miles, y: entity.location.y + offset.y * miles * .8 };
+    const one = ambientGround(entity, home, { walker: townWalker, now, time: animationTime, figure: camera.figure, scale: camera.scale, frozen, reducedMotion: reducedMotion.matches, whereIs: id => ambientSpots.get(id) });
+    if (one) {
+      ambientSpots.set(entity.id, one.at);
+      window.__townWalkers?.push({ id: entity.id, stepping: one.stepping, pose: one.amb?.p || null, x: one.at.x, y: one.at.y, ambient: one.amb?.a || null });
+      return { at: one.at, stepping: one.stepping, pose: null, amb: one.amb, base: one.base };
+    }
+  }
   if (entity.travel || entity.kind !== 'person' || entity.location?.siteId !== 'gonzales' || !Number.isFinite(entity.location.x)) return null;
   const posed = world.townScenes?.poses?.[entity.id] || null;
   const offset = posed ? { x: 0, y: 0 } : stableOffset(entity.id), miles = PERSON_MILES / 26;
@@ -939,11 +955,13 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
   // works out from where the two of them actually are.
   // Somebody walking across Gonzales faces the way they are walking, and somebody in one of its scenes the way the scene has
   // them turned (public/town-scenes.js).
-  const flip = entity.facing ? entity.facing === 'w' : entity.stepping ? entity.stepping === 'w' : entity.scenePose ? entity.scenePose.face === 'w' : travelDirection(entity) === 'w';
+  // Somebody at an ambient activity the way the server or their company has them turned (public/ambient.js).
+  const flip = entity.facing ? entity.facing === 'w' : entity.stepping ? entity.stepping === 'w' : entity.scenePose ? entity.scenePose.face === 'w' : entity.amb ? entity.amb.f === 'w' : travelDirection(entity) === 'w';
   // Somebody on the road steps at the rate the ground drawn under them goes past (public/motion.js `gaitStep`),
   // measured in their own drawn height: a child's shorter stride, a horse's longer one.
   const onFoot = entity.kind === 'person' && !mounted(entity);
-  const gait = (entity.travel && !entity.travel.halted && !entity.facing || entity.stepping) && marks.ground && marks.scale > 0
+  // Not somebody halted on the road at an ambient activity: their pose plays by the clock, not by ground that is not going past.
+  const gait = (entity.travel && !entity.travel.halted && !entity.facing && !entity.amb || entity.stepping) && marks.ground && marks.scale > 0
     ? { id: entity.id, at: marks.ground, bodyMiles: height * (onFoot ? figureScale(entity) : 1) / marks.scale, stride: onFoot ? STRIDE.foot : STRIDE.hoof }
     : null;
   if (seat) drawSeated(ctx, x, y, size, entity, seat, marks.entities || [], flip, gait);
@@ -2901,6 +2919,7 @@ export function drawWorld(world) {
   const standing = [];
   // Heads in Gonzales this frame, for the words said over them (public/town-scenes.js); filled as the figures are laid out.
   townHeads.clear(); townSceneSpots.clear(); window.__townCast = []; window.__townWalkers = [];
+  ambientHeads.clear();
   // A town's dated scenes (sim/town-scenes.mjs), laid out with its own drawing: Gonzales's before the fight, Béxar's before the
   // bell. The server sends the one town whose scenes this page may see (`townScenes.siteId`).
   const drawTownScenes = (world, camera) => {
@@ -3149,7 +3168,10 @@ export function drawWorld(world) {
       }) });
       window.__quarryDrawn = { id: entity.id, kind, x: spot.x, y: spot.y };
     }
-    standing.push({ y: point.y, draw: () => drawEntity(ctx, inTown ? { ...entity, stepping: inTown.stepping, scenePose: inTown.pose } : stepping ? { ...entity, stepping } : entity, point, roomForNames, camera.figure, {
+    // The thing beside somebody at an ambient activity - the fire, the pot, the bucket, the hens, the woodpile (public/ambient.js).
+    const beside = inTown?.amb && (!inTown.stepping || inTown.amb.pace) && propItem(ctx, inTown.amb, camera.toScreen(inTown.base || inTown.at), camera.figure, { time: animationTime, flip: inTown.amb.f === 'w' });
+    if (beside) standing.push(beside);
+    standing.push({ y: point.y, draw: () => drawEntity(ctx, inTown ? { ...entity, stepping: inTown.stepping, scenePose: inTown.pose, ...(inTown.amb && { amb: inTown.amb }) } : stepping ? { ...entity, stepping } : entity, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark, entities,
       labels, heading: destination ? destination.x - entity.location.x : 0, ground, scale: camera.scale,
       now: frameNow, frozen, running, tickMs, sight, placed: Boolean(inTown),
@@ -3189,7 +3211,9 @@ export function drawWorld(world) {
       const spot = camera.toScreen(entity.chore.quarry);
       standing.push({ y: spot.y, draw: () => miniQuarry(ctx, spot.x, spot.y, camera.figure * (QUARRY_SIZE[kind] || QUARRY_SIZE.deer), { kind, flip: spot.x < point.x, seed: entity.id }) });
     }
-    standing.push({ y: point.y, draw: () => drawEntity(ctx, { ...entity, health: { condition: entity.condition }, ...(inTown && { stepping: inTown.stepping, scenePose: inTown.pose }), ...(!inTown && sight?.stepping && { stepping: sight.stepping }) }, point, roomForNames, camera.figure, {
+    const beside = inTown?.amb && (!inTown.stepping || inTown.amb.pace) && propItem(ctx, inTown.amb, camera.toScreen(inTown.base || inTown.at), camera.figure, { time: animationTime, flip: inTown.amb.f === 'w' });
+    if (beside) standing.push(beside);
+    standing.push({ y: point.y, draw: () => drawEntity(ctx, { ...entity, health: { condition: entity.condition }, ...(inTown && { stepping: inTown.stepping, scenePose: inTown.pose, ...(inTown.amb && { amb: inTown.amb }) }), ...(!inTown && sight?.stepping && { stepping: sight.stepping }) }, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark: null, labels, observed: !host, ground, scale: camera.scale,
       now: frameNow, frozen, running, tickMs, sight, placed: Boolean(inTown),
     }) });
@@ -3242,6 +3266,10 @@ export function drawWorld(world) {
   // family goes across, thin, dashed and pale, under every figure. Only a student's page is sent one (sim/flight-route.mjs
   // `routeProjection`), and only for its own family; the Host's is sent none, so its map is not thirty lines at once.
   window.__routeDrawn = drawRouteLine(ctx, host ? null : world.flight, camera, canvas);
+  // The crowd of families from the west camped round a fire at a refuge (public/ambient.js, sim/ambient.mjs `crowdAt`).
+  const crowd = [];
+  if (world.ambient?.crowds && camera.figure > 8) standing.push(...crowdDrawables(ctx, world.ambient.crowds, { toScreen: p => camera.toScreen(p), figure: camera.figure, time: animationTime, reducedMotion: reducedMotion.matches, heads: ambientHeads, evidence: crowd }));
+  window.__ambientCrowd = crowd;
   standing.sort((a, b) => a.y - b.y);
   for (const item of standing) item.draw();
   // What is being said in Gonzales, over whoever is saying it (public/speech.js), above every figure and building.
@@ -3257,12 +3285,15 @@ export function drawWorld(world) {
   // bubbles as the town's (public/speech.js), dashed, because every word of it is reconstructed.
   // Both halves of an exchange at once, over the two who say them, for the tick it is said: the child's line and the reply are
   // over different heads, and a tick of the class is the nine seconds they are read in (not the town's staggered scene).
+  // Where the family's own bubbles went, so the neighbours' talk is never drawn over them (public/ambient.js).
+  const familyBoxes = [];
   if (world.familyTalk?.lines?.length && camera.figure > 14) {
     const said = [];
     for (const line of world.familyTalk.lines) {
       const head = drawnAt.get(line.speakerId);
       if (!head) continue;
-      if (drawSpeech(ctx, line, head.x, head.y - head.size * .55, { bounds: { width: canvas.width, height: canvas.height } })) said.push({ id: line.id, speakerId: line.speakerId, kind: line.kind, text: line.text, ...(line.manner && { manner: line.manner }) });
+      const box = drawSpeech(ctx, line, head.x, head.y - head.size * .55, { bounds: { width: canvas.width, height: canvas.height } });
+      if (box) { familyBoxes.push(box); said.push({ id: line.id, speakerId: line.speakerId, kind: line.kind, text: line.text, ...(line.manner && { manner: line.manner }) }); }
     }
     window.__familySaid = said;
   } else window.__familySaid = [];
@@ -3289,6 +3320,12 @@ export function drawWorld(world) {
       scale: camera.scale, figure: camera.figure, time: animationTime,
       draw: (clip, x, y, size, key, options) => animated(ctx, clip, x, y, size, key, options), mini: miniPerson,
       smoke: campMix && inGale(campMix) ? (x, y, size) => drawSprite(ctx, GALE_SMOKE, x, y, size) : null,
+      // What each man is doing and the words over their heads (public/ambient.js, sim/ambient.mjs `campAmbient`).
+      ...(world.ambient?.camps?.[army.id] && {
+        man: index => campMan(world.ambient.camps[army.id], index, { time: animationTime, reducedMotion: reducedMotion.matches, key: army.id }),
+        prop: (index, doing, p, size) => propItem(ctx, { prop: doing.prop }, p, size, { time: animationTime, flip: doing.flip })?.draw(),
+        onMan: (index, x, y, size) => ambientHeads.set(`camp:${army.id}:${index}`, { x, y: y - size, size }),
+      }),
     });
     // The steamboat Yellow Stone on the Brazos at Groce's, in the fortnight of the record's own (sim/houston.mjs
     // `yellowStone`, `HIST-TEX-089`): loading cotton for Captain Ross until the army takes her on April 12, then under way
@@ -3321,8 +3358,19 @@ export function drawWorld(world) {
       }
       return { x: Math.round(p.x), y: Math.round(p.y) };
     });
-    return { id: army.id, side: army.side, ours: army.ours, strength: army.strength, how, boat, x: Math.round(at.x), y: Math.round(at.y), camp: Boolean(army.camp), foragers };
+    return { id: army.id, side: army.side, ours: army.ours, strength: army.strength, how, boat, x: Math.round(at.x), y: Math.round(at.y), camp: Boolean(army.camp), foragers,
+      ...(how === 'camp' && world.ambient?.camps?.[army.id] && { acts: world.ambient.camps[army.id].acts.map(one => one.a) }) };
   });
+  // Neighbours talking (public/ambient.js, sim/ambient.mjs `EXCHANGES`): after the camps, whose men's heads are laid out with
+  // them, and never over the family's own bubbles or a mark asking the student something. Quiet in a fight or a chase.
+  // Called whether or not this tick brought words, so an exchange begun on the last one is finished.
+  if (camera.figure > 14 && !world.battle?.sides && !world.flight?.chase) {
+    const said = [];
+    const headOf = id => ambientHeads.get(id) || (drawnAt.has(id) ? { x: drawnAt.get(id).x, y: drawnAt.get(id).y - drawnAt.get(id).size * .55 } : null);
+    const avoid = [...familyBoxes, ...pending.map(mark => ({ x: mark.x - mark.size * .5, y: mark.y - mark.size * 1.1, w: mark.size, h: mark.size * 1.2 }))];
+    drawAmbientSpeech(ctx, world.ambient?.lines || [], headOf, { now: frameNow, bounds: { width: canvas.width, height: canvas.height }, avoid, evidence: said });
+    window.__ambientSaid = said;
+  } else window.__ambientSaid = [];
   // Smoke over a burning town or farm, where the server says this page could see it (sim/advance.mjs `firesSeen`): a column
   // of smoke seen from afar, never what is burning (VISION.md §16). stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the
   // Mexican advance", item 2 - the library's rising chimney smoke, drawn large, until a burning-farm plume exists.

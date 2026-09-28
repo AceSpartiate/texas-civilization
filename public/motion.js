@@ -445,6 +445,9 @@ function grownClip(entity, observed) {
   // Walking across Gonzales from one place in it to another (public/town-scenes.js `TownWalker`): the page, not the server,
   // knows the figure is between the two, because it is the page that walks them there instead of sliding them.
   if (entity.kind === 'person' && entity.stepping) {
+    // Carrying water or wood a few steps back and forth (sim/ambient.mjs `pace`, public/ambient.js): the carry cycle, which has
+    // an east sheet only, so it is only ever walked east and west.
+    if (entity.amb?.p === 'carry' && (entity.stepping === 'e' || entity.stepping === 'w')) return { id: `${variant}-carry` };
     return entity.stepping === 'n' || entity.stepping === 's' ? { id: `${variant}-walk-${entity.stepping}`, upright: true } : { id: `${variant}-walk` };
   }
   // Doing something in one of the town's scenes before the fight (sim/town-scenes.mjs): the pose the server names, which is
@@ -462,6 +465,11 @@ function grownClip(entity, observed) {
     const little = littleClip(entity, variant);
     if (little) return little;
   }
+  // Somebody with nothing to do, at something anyway (sim/ambient.mjs, docs/AMBIENT.md; owner 2026-09-28: "i don't want to see
+  // npc just standing around"): the pose the server names, which is a delivered one of every cast figure. The idle poses are
+  // turned by their own sheets; everything else is east, mirrored for west. Never somebody with work of their own on their own
+  // family's page, whom the server sends no `amb`.
+  if (entity.kind === 'person' && entity.amb?.p) return ambientClip(variant, entity.amb);
   if (entity.kind === 'animal') {
     // A class saved before there were horses has no `species` on anything, and every
     // animal in it is an ox - so the absent field reads correctly as one.
@@ -530,6 +538,19 @@ export function littleClip(entity, variant) {
   if (/playing house|lying on their back/.test(doing)) return { id: `${variant}-rest`, upright: true };
   if (/marbles|toy cart|fort of sticks|edge of the water|scattering corn/.test(doing)) return { id: `${variant}-rest-e` };
   return null;
+}
+/**
+ * The clip for somebody at an ambient activity (sim/ambient.mjs `ACTIVITIES`): `amb.p` is a pose every cast figure holds and
+ * `amb.f` the way they are turned. A child's pose (`rest-e`, `idle-n`) is taken from the child's own sheet by `entityClip`.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-28 - ambient life: whittling, harness, sewing, shelling corn and a rifle
+ * cleaned are the seated repair; washing the kneeling care; a pipe and cards the seated rest; sweeping the hoe's swing.
+ */
+export function ambientClip(variant, amb) {
+  const pose = amb.p, face = amb.f === 'w' ? 'w' : 'e';
+  if (pose === 'idle') return { id: `${variant}-idle-${face}`, upright: true };
+  if (pose.startsWith('idle-')) return { id: `${variant}-${pose}`, upright: true };
+  if (pose === 'listen') return { id: `${variant}-listen-s`, upright: true };
+  return { id: `${variant}-${pose}` };
 }
 /** The point `miles` along a road, for a caller drawing somebody somewhere other than where `position` puts them. */
 export const alongRoute = (points, miles) => along(points, miles);

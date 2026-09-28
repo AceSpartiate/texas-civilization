@@ -48,6 +48,7 @@ import { asideWhy } from './aside.mjs';
 import { hostLiveProjection } from './host.mjs';
 import { advanceTown, createTownspeople, observedBy, seenAs } from './town.mjs';
 import { helpTownScene, townScenesFor } from './town-scenes.mjs';
+import { ambientFor } from './ambient.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceDepartures, advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, listeningOf, riderName, spotName } from './encounters.mjs';
@@ -1315,6 +1316,11 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   // A copy, so that nothing holding a view can change the world through it. `copy: false` is for a caller that only
   // serialises the view at once (server/app.mjs `view`), where the copy was a sixth of the projection's time and changes
   // not one byte of the text (docs/PERFORMANCE_SERVER.md; tests/save-text.test.mjs).
+  // Ambient life (sim/ambient.mjs, docs/AMBIENT.md; owner, 2026-09-28): what everybody idle this page is sent is doing, put on
+  // each of them as `amb`, the camps' men and the crowd at a refuge, and this tick's few words between neighbours - read from
+  // the view just built, so nothing is drawn busy that this page could not already see. A picture only: never stored, never read.
+  const ambient = ambientFor(world, householdId, role, view);
+  if (ambient) view.ambient = ambient;
   return copy ? structuredClone(view) : view;
 }
 const townScenesView = (world, householdId, role) => { const townScenes = townScenesFor(world, householdId, role); return townScenes ? { townScenes } : {}; };
