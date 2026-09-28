@@ -1,4 +1,4 @@
-// The bell, on the Host page (design audit 2026-09-28 B2, docs/HOST_PAGE.md §2.7).
+// The bell, on the Host page (design audit 2026-09-28 B2, docs/HOST_PAGE.md §2.8).
 //
 // tests/lifecycle.test.mjs proves the rules: Stop for today saves the class paused and stops a server that can stop, and the next
 // launch opens the same class paused for Resume. This proves what a teacher meets: End Game pressed once does nothing but ask,
@@ -125,7 +125,7 @@ try {
     date: new Date().toISOString().slice(0, 10),
     verdict: 'PASS',
     browser: await browser.version(),
-    task: 'Design audit 2026-09-28 B2: End Game asked twice in words; Stop for today saves the class paused and stops the server; the next launch opens it paused and Resume goes on (docs/HOST_PAGE.md §2.7).',
+    task: 'Design audit 2026-09-28 B2: End Game asked twice in words; Stop for today saves the class paused and stops the server; the next launch opens it paused and Resume goes on (docs/HOST_PAGE.md §2.8).',
     environment: 'Same computer: two local classroom servers one after the other on one save file, at 200 ms a tick, five families joined by request, headless Chrome. The server\'s stop is a callback here; the launcher\'s own exit is Stop Server\'s, proved by tests/lifecycle.test.mjs. Not a physical LAN or a classroom.',
     checks: pass,
     measured,

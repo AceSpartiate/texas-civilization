@@ -66,6 +66,8 @@
     "test:solo-game": "node scripts/solo-game-browser-proof.mjs",
     "test:host-live": "node scripts/host-live-browser-proof.mjs",
     "test:host-bell": "node scripts/host-bell-browser-proof.mjs",
+    "test:classes": "node scripts/classes-browser-proof.mjs",
+    "test:reconnect": "node scripts/reconnect-browser-proof.mjs",
     "test:road": "node scripts/road-browser-proof.mjs",
     "test:armies": "node scripts/armies-browser-proof.mjs",
     "test:map-accuracy": "node scripts/map-accuracy-browser-proof.mjs",

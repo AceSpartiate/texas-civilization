@@ -63,6 +63,9 @@ function New-Source([string]$Folder) {
   foreach ($name in @('package.ps1', 'release-changes.ps1', 'launch.ps1', 'stop.ps1', 'appinfo.mjs')) {
     Copy-Item -LiteralPath (Join-Path $repo "scripts\$name") -Destination (Join-Path $Folder 'scripts') -Force
   }
+  # The one document a package ships (scripts/package.ps1, 2026-09-28).
+  New-Item -ItemType Directory -Force (Join-Path $Folder 'docs') | Out-Null
+  Copy-Item -LiteralPath (Join-Path $repo 'docs\RECOVERY.md') -Destination (Join-Path $Folder 'docs') -Force
   Copy-Item -LiteralPath $Runtime -Destination (Join-Path $Folder 'runtime') -Recurse -Force
   New-Item -ItemType Directory -Force (Join-Path $Folder 'launcher') | Out-Null
   foreach ($item in Get-ChildItem -LiteralPath (Join-Path $repo 'launcher') | Where-Object { $_.Name -notin @('bin', 'obj', 'payload.zip') }) {

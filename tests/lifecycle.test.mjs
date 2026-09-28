@@ -187,7 +187,7 @@ test('a live class cannot be discarded, and New Class archives it, clears studen
 
     const live = await command(host, 'new-class');
     assert.equal(live.status, 400);
-    assert.match(live.body.error, /End the current class/);
+    assert.match(live.body.error, /Pause this class first/);
     assert.equal(app.state.sessionId, firstSession);
 
     await command(host, 'end');

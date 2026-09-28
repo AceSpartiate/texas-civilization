@@ -12,7 +12,9 @@ Play Solo (since 2026-09-27, [DEPLOYMENT.md](DEPLOYMENT.md#solo-mode-playtesting
 
 Atomic replacement prevents clients from being told that an uncommitted mutation succeeded, and the previous main checkpoint survives an ordinary write/rename failure. This is not a rotating backup system or a guarantee against every power-loss/filesystem failure: the parent directory is not explicitly flushed after rename. Keep independent backups before migrations. Do not restore, edit, copy over, or delete the active save while its server owns it.
 
-The one exception is the `archive` subfolder. Choosing **New Class** on the Host page copies the last completed checkpoint to `archive\classroom-<sessionId>-<timestamp>.json` before the new class replaces it. Those files are deliberate, additive copies of finished classes; nothing reads them automatically, and nothing removes them. There is still no rotating backup of an ongoing class and no UI for restoring an archive — to inspect one, stop the server and open the file, and involve a developer before copying it over a live save.
+The one exception is the `archive` subfolder. Choosing **New Class** on the Host page copies the last completed checkpoint to `archive\classroom-<sessionId>-<timestamp>.json` before the new class replaces it, and a class opened after an unclean stop is copied to `archive\classroom-before-lock-recovery-<timestamp>.json` first (below). Those files are deliberate, additive copies; nothing reads them automatically, and nothing removes them. There is still no rotating backup of an ongoing class — to inspect one, stop the server and open the file, and involve a developer before copying it over a live save.
+
+**Several classes (2026-09-28).** `classroom.json` is the class that is open. Every other class a teacher has made on this computer is kept in the `classes` subfolder as `classes\<sessionId>.json`, written when **New class** or **Open** (the Host page's **Classes**) puts another class in its place, and read back when the teacher opens it again: the same code, students, credentials and family keys, paused where it was left. Only the server holding the save's lock writes there, so the one lock guards both. A class that is open is listed from memory; its own file in `classes`, if it has one, is the copy from when it was last put away and is overwritten the next time it is. A class nobody joined and nobody named is not kept. Nothing removes a kept class; delete one by hand with the server stopped.
 
 The `revision` is the latest committed revision; the save on disk is at most the five seconds described above behind it, and `fault.lastSavedRevision` names the last completed checkpoint when a write fails. Headless `createClassroom()` instances without `savePath` are intentionally ephemeral; they have no disk persistence or save lease. Normal `server/main.mjs` always supplies a save path.
 
@@ -24,11 +26,13 @@ Paths are canonicalized before lock acquisition. Use ordinary local files in a w
 
 Clean `app.close()` stops the timer and connections and removes only the lock bearing its own token and PID. Failed initial save loading, failed initialization, and failed HTTP listening release the acquired lease as well. Never delete a live server's lock: existing servers do not revalidate it on every write, so removing it would permit a second writer.
 
+**A lock whose owner has certainly gone is taken over on start (2026-09-28).** See *Recovering a stale lock* below: the server itself does it, backing the save up first, only when the process that wrote the lock has ended or its number now belongs to a process that began after the lock was written.
+
 ## Clean stop and restart
 
 For a teacher-run hidden server, use either graceful stop. Both authenticate as the Host, checkpoint the class as paused, tell connected browsers what happened, and let the process exit so the save lease is released:
 
-- **Host page → Stop for today** while a class is under way (since 2026-09-28, docs/HOST_PAGE.md §2.7), confirmed with a second
+- **Host page → Stop for today** while a class is under way (since 2026-09-28, docs/HOST_PAGE.md §2.8), confirmed with a second
   click: the same checkpointed pause and stop, never an end, with every page told the class stopped for today. **Stop Server**,
   confirmed with a second click, is the same stop offered in the lobby and after the end.
 - **Stop.vbs**, when the Host window is already closed.
@@ -86,11 +90,15 @@ Every household is given a **family key** when it joins: eight letters and numbe
 | *Someone is already playing that family. If that is you on another device, close it there first.* | A family with a live connection is not a family that got locked out. This is what stops a key read off a neighbour's screen from evicting them. | Close the other tab or device, wait a moment, try again. |
 | *Too many tries. Wait N seconds, then try again.* | Five wrong keys from one address start a thirty-second cooldown, so guessing is expensive. | Wait it out, then read the key back carefully. |
 
-**What this does not fix.** A key from an archived class opens nothing, because **New Class** rotates the session the key is derived from — after a New Class, everybody joins again with the new class code. Rejoining is not joining: it never creates a household, so it cannot get a latecomer into a class that has already started.
+**The student has neither a cookie nor a key** — a cart or guest Chromebook, the day after (since 2026-09-28 on the page). At the join address, choose **I was already in this class**, type the class code, press **Show the names** and tap your own name. Only the students whose family nobody is playing at that moment are listed, so a family in front of its own student can never be taken, and the Host's page is told on the class's record when a family moves device.
+
+**What this does not fix.** A key from another class opens nothing: the key is derived from the class's own session. A class put away by **New class** and opened again from **Classes** keeps its session, its keys and its students' credentials. Rejoining is not joining: it never creates a household. **A latecomer joins** (since 2026-09-28): after Start the join form puts a student into the family the teacher chose on the Host page (**Late students**) or the first family nobody plays, and it is theirs from then on.
+
+**A page that lost the server** — Wi-Fi dropping, a Chromebook asleep, the server stopped or restarted — says *Reconnecting* over the game and asks again every few seconds (never more than five apart) for as long as it takes, then carries on with the same family from the same cookie. Only a real sign-out (the family taken up on another device, or another class opened on the Host) goes to the join screen, and even there the page keeps listening: when that student's class is opened again, it carries on by itself.
 
 ## Was that student disconnected, or did they leave?
 
-The Host line reads **`12 here · 1 away of 15`**. *Here* means a live connection right now. *Away* means a household whose connection closed within the last ninety seconds and has not come back.
+The Host line reads **`12 here · 1 away of 15 joined · 30 families`**. *Here* means a live connection right now. *Away* means a household whose connection closed within the last ninety seconds and has not come back.
 
 A phone drops its connection within seconds of the screen locking, and picks it up again on unlock. That is normal mobile behaviour and it is why the count separates the two: a number that simply fell would have told you a student had left when they had not. A household that stays away past the grace window drops out of both counts; only *joined* still includes them.
 
@@ -98,7 +106,26 @@ Presence is held in memory and never saved. Restarting the server resets it to n
 
 ## Recovering a stale lock after an abnormal stop
 
-The application never automatically removes an existing lock. When the recorded PID definitely no longer exists it reports a stale lock. An active PID, inaccessible process information, reused PID, malformed lock, or interrupted lock write is treated as ambiguous ownership and startup is refused. This conservative behavior avoids races between competing recovery attempts.
+### For a teacher (an installed copy)
+
+A class whose server was not stopped cleanly — the laptop shut or restarted with the class up, Windows Update overnight, End Task — **opens by itself the next time the class is started** (since 2026-09-28). The server checks the lock it left: if the process that wrote it has ended, or its number now belongs to a program that began after the lock was written (which is what a restart does), the class is copied to the data folder's `archive` as `classroom-before-lock-recovery-<time>.json` and opened, and the server's log says *"The last server on this class did not stop cleanly … The class was backed up … and opened."* Nothing is asked of the teacher.
+
+If the launcher still says the class's save is in use:
+
+1. Close every launcher window, and every Host window.
+2. **Restart the computer.** After a restart no class server can still be running, and the next start can prove it.
+3. Start the class from the launcher again. It opens by itself.
+4. If it still will not open, do not delete anything in the data folder. Ask the developer, and keep the folder as it is: the lock names the process it belongs to, and the save is intact.
+
+### What the server does, and what it still refuses
+
+When the lock is judged, the server takes it over only when the owner is **certainly gone**: `process.kill(pid, 0)` says there is no such process, or the process now carrying that number began more than two seconds after the lock's `createdAt` (read from Windows through WMI, `Get-CimInstance Win32_Process`, or `/proc` on Linux). The save is backed up into `archive` first. The old lock is then moved aside by one atomic rename, its content checked to be the very text judged gone (if another start recovered it in between, the moved lock is put back by hard link and this start refuses), and the new lock is made with the same `wx` create every start uses — so of several starts racing to recover one lock, exactly one owns the class (`tests/stale-lock.test.mjs`).
+
+Everything less certain still refuses: a malformed or interrupted lock, a lock with no time, a process that began before the lock was written (which may be the owner itself), or a start time that cannot be read. The rest of this section is for those, and is a developer's.
+
+### For a developer (a repository checkout)
+
+The following predates the automatic recovery and is kept for the cases it still refuses. An active PID, inaccessible process information, malformed lock, or interrupted lock write is treated as ambiguous ownership and startup is refused.
 
 Only recover after confirming the classroom process has exited and nobody is launching another instance. Keep the launcher closed during recovery. Do not kill a process solely because a lock contains its PID: Windows can reuse PIDs. If the PID exists, inspect its executable/start time and the launcher metadata with a developer before proceeding. An existing unrelated process does not make deleting a lock automatically safe.
 
@@ -159,7 +186,7 @@ After recovery, relaunch the application with the same save. Confirm the expecte
 
 `Launch.vbs` starts the server hidden through `scripts/launch.ps1`. Reopening the launcher reuses a verified existing process when its recorded project, port, save, executable, PID/start time, health identity, and session agree. The separate `data/launcher.lock` only serializes launcher startup; it is not the lifetime save lock described here.
 
-The launcher now has a graceful **Stop Server** control on the Host page and a `Stop.vbs` helper, and a graceful stop removes its own `launcher-process.json` record. What is still missing is an always-visible running/stopped indicator while the server is hidden: the Host page is the only status surface, so a teacher who closes it has no window telling them the class is still running. A tray icon or small native lifecycle window remains operational work. An abnormal stop — power loss, Task Manager, `Stop-Process` — can still require the stale-lock recovery above.
+The launcher now has a graceful **Stop Server** control on the Host page and a `Stop.vbs` helper, and a graceful stop removes its own `launcher-process.json` record. What is still missing is an always-visible running/stopped indicator while the server is hidden: the Host page is the only status surface, so a teacher who closes it has no window telling them the class is still running. A tray icon or small native lifecycle window remains operational work. An abnormal stop — power loss, Task Manager, `Stop-Process` — is recovered by the next start when its process has certainly gone (above); the launcher's message for a class that still will not start points to this file, which ships in the installed copy as `docsRECOVERY.md` (the one document `scripts/package.ps1` ships).
 
 An update never touches the class data folder, whichever way it comes: only what changed (the release's list of files and one set of changes, from 2026-09-26) or the whole setup program. Nothing in the installation is replaced until the new build is complete in `%TEMP%\TexasRevolutionUpdate`, so a download cut off part way leaves the installed copy as it was, and a swap that fails part way - or is cut off by the power - is rolled back, on the spot or at the next launch, from `.update-backup` beside the launcher. If the small update cannot be used, the launcher says why in one line and downloads the whole setup program instead. See [DEPLOYMENT: Updating](DEPLOYMENT.md#updating-launcher-included).
 
@@ -176,6 +203,6 @@ node --test tests/reliability.test.mjs
 npm test
 ```
 
-`tests/reliability.test.mjs` checks competing save owners, clean release/reload, stale and malformed locks that fail closed, lease cleanup on failed initialization, filesystem fault injection without OS-specific permission assumptions, durable rollback, failed and successful Resume retries, continued timer progression, unchanged launcher health fields, and recovery from a failed lobby join without bypassing minimum class size. `tests/network.test.mjs` also exercises restart and credential-based household continuity.
+`tests/reliability.test.mjs` checks competing save owners, clean release/reload, malformed locks and live owners that fail closed, lease cleanup on failed initialization, filesystem fault injection without OS-specific permission assumptions, durable rollback, failed and successful Resume retries, continued timer progression, unchanged launcher health fields, and recovery from a failed lobby join without bypassing minimum class size. `tests/stale-lock.test.mjs` checks the takeover of a lock whose owner has certainly gone (an ended process, a reused number), the save backed up first, every doubt still refusing, a start that judged a lock gone while another recovered it first, six starts racing to one owner, and the real `server/main.mjs` killed outright and started again on the same class. `tests/classes.test.mjs` checks the classes kept in `classes/`. `tests/network.test.mjs` also exercises restart and credential-based household continuity.
 
 These tests do not simulate sudden power loss, all filesystem failure modes, a district-managed device, or two independent physical computers. Keep those acceptance limits visible in `HANDOFF.md`.

@@ -124,7 +124,7 @@ async function settle(done, limitMs = 30000) {
 // it by hand, so "inside the grace" and "past it" are exact. It once slept 80 ms against a 150 ms grace and failed under a
 // loaded machine (2026-09-18) because the sleep overran. The ticks, the stream and its close stay real and are waited for.
 test('a class stopped for today and opened again keeps who is absent: a family saved absent stays so, and one whose student does not come back becomes so', async t => {
-  // Classroom audit 2026-09-28, with Stop for today (docs/HOST_PAGE.md §2.7): a relaunch began presence afresh, and with nothing
+  // Classroom audit 2026-09-28, with Stop for today (docs/HOST_PAGE.md §2.8): a relaunch began presence afresh, and with nothing
   // seen every joined family counted as present - one saved absent was handed back to nobody and its questions held the class.
   const dir = mkdtempSync(join(tmpdir(), 'texas-absent-relaunch-'));
   const savePath = join(dir, 'save.json'), absentMs = 150;
