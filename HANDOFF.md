@@ -54,15 +54,15 @@ market"**. Built on the worktree branch, origin/main merged, **not pushed, not m
   class of 210 won (five families), none of fifteen or thirty, as before. Staying in the burn zone beats going again (0.81 against
   0.70); a prisoner weight of 1.5 would put it back below. Food does not constrain more (S11 not addressed by seasons). Deaths 301
   against 274 (the war's, re-rolled). Class time: unchanged (1,252 ticks a class); the guided start is shorter on the real land.
-- After merging origin/main: **`npm test` 1,597 of 1,597 pass** (818 s); injections 17 of 17 again; **`test:ending` 12 checks,
-  `test:lesson` passes, `test:auto` 14 checks** (evidence re-written). **`test:errand` is not green**: updated for the market (the
-  cotton line shows the store's price and its room, *"The store is buying: full price for about 10 bales more, then half until it has
-  20 bales."*; fourteen bales bring 24 reales - ten at two, four at one), it passed its first 13 checks, those two included, twice,
-  then failed on races later in the proof - the popup's lines are redrawn on every snapshot that changes the family's stock (food
-  changes every tick), so a `+` press can find its button detached, and the riders sent for seed can be home before the new-wagon
-  step expects both horses out. **origin/main's own `test:errand` fails earlier** (check 3: the tutorial's tip drawn over the popup's
-  controls), so the proof is red on main regardless of this branch; `test:trade` does not exist (`test:trade-animation` is the
-  neighbours' trade and was not touched).
+- After merging origin/main (twice; last at ef4d4f73): **`npm test` 1,575 pass, 0 fail, 37 skipped** (the guided start's, switched
+  off; 867 s); injections 16 of 16; **`test:ending` 12 checks, `test:auto` 14 checks** (one run of auto under load timed out at its
+  planting step and passed alone), `test:lesson` skips itself (tutorial off). **`test:errand` is not green**: updated for the market
+  (the cotton line shows the store's price and its room, *"The store is buying: full price for about 10 bales more, then half until
+  it has 20 bales."*; fourteen bales bring 24 reales - ten at two, four at one), it passed its first 13 checks, those two included,
+  on the first merge; on the tree merged with ef4d4f73 it fails at check 3 exactly as origin/main's own run does (the first-meeting
+  tip drawn over the popup's controls). Other races later in it: the popup's lines are redrawn whenever the family's stock changes
+  (food every tick), and the new-wagon step can find a rider home already. A task was offered to steady it. `test:trade` does not
+  exist (`test:trade-animation` is the neighbours' trade and was not touched).
 
 **Questions for the owner** (BALANCE.md §10.9, each with a recommendation): (1) what the crop choice should mean when nothing sown in
 its season comes in before the war ends - recommended: count a standing crop at the ending; (2) selling decides more than it did -
