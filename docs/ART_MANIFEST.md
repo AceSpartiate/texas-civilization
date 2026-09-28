@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1666 usable sprites, 161 PNG atlases, 553 clips** (325 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1686 usable sprites, 163 PNG atlases, 557 clips** (329 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -68,6 +68,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-burleson-mounted | 4 | 1254 × 1254 | 1242276 |
 | famous-castrillon | 4 | 1254 × 1254 | 925993 |
 | famous-castrillon-fate | 4 | 1254 × 1254 | 975586 |
+| famous-cos | 16 | 1254 × 1254 | 1237092 |
+| famous-cos-mounted | 4 | 1226 × 1283 | 1307008 |
 | famous-crockett-fate | 4 | 1254 × 1254 | 948322 |
 | famous-esparza | 16 | 1254 × 1254 | 869799 |
 | famous-houston-mounted | 4 | 1254 × 1254 | 1158924 |
@@ -759,6 +761,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | castrillon-stumble | famous-castrillon-fate | castrillon-fall |
 | castrillon-kneel | famous-castrillon-fate | castrillon-fall |
 | castrillon-still | famous-castrillon-fate | State artwork; no motion required |
+| cos-walk-e-1 | famous-cos | cos-walk-e |
+| cos-walk-e-2 | famous-cos | cos-walk-e |
+| cos-walk-e-3 | famous-cos | cos-walk-e |
+| cos-walk-e-4 | famous-cos | cos-walk-e |
+| cos-walk-s-1 | famous-cos | cos-walk-s |
+| cos-walk-s-2 | famous-cos | cos-walk-s |
+| cos-walk-n-1 | famous-cos | cos-walk-n |
+| cos-walk-n-2 | famous-cos | cos-walk-n |
+| cos-idle | famous-cos | State artwork; no motion required |
+| cos-command | famous-cos | State artwork; no motion required |
+| cos-point | famous-cos | State artwork; no motion required |
+| cos-map | famous-cos | State artwork; no motion required |
+| cos-sign-terms | famous-cos | State artwork; no motion required |
+| cos-hand-document | famous-cos | State artwork; no motion required |
+| cos-sword-down | famous-cos | State artwork; no motion required |
+| cos-prisoner | famous-cos | State artwork; no motion required |
+| cos-mounted-walk-e-1 | famous-cos-mounted | cos-mounted-walk-e |
+| cos-mounted-walk-e-2 | famous-cos-mounted | cos-mounted-walk-e |
+| cos-mounted-idle-e | famous-cos-mounted | State artwork; no motion required |
+| cos-mounted-idle-s | famous-cos-mounted | State artwork; no motion required |
 | crockett-captive-1 | famous-crockett-fate | crockett-captive |
 | crockett-captive-2 | famous-crockett-fate | crockett-captive |
 | crockett-still-side | famous-crockett-fate | State artwork; no motion required |
@@ -2047,6 +2069,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | burleson-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | castrillon-walk-e | Pose cycle | 2 | 540 | yes | east |
 | castrillon-fall | Pose cycle | 3 | 700 | one-shot | east; mirror for west |
+| cos-walk-e | Pose cycle | 4 | 760 | yes | east |
+| cos-walk-s | Pose cycle | 2 | 580 | yes | south |
+| cos-walk-n | Pose cycle | 2 | 580 | yes | north |
+| cos-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | crockett-captive | Pose cycle | 2 | 3100 | yes | east; mirror for west |
 | esparza-walk-e | Pose cycle | 4 | 760 | yes | east |
 | esparza-walk-s | Pose cycle | 2 | 580 | yes | south |

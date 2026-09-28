@@ -82,6 +82,12 @@ test('Burleson rides into the Béxar talks on his own mounted sheet', () => {
   assert.ok(!art.drawn.some(one => one.clip === 'mounted-courier-e'));
 });
 
+test('Cos leaves Béxar on his own mounted sheet', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  play(view, 'marching-out', { seconds: 2, into: tick => 20 + tick });
+  assert.ok(art.drawn.some(one => one.clip === 'cos-mounted-walk-e'));
+});
+
 test('into the houses: the columns go down the streets, men on the Veramendi roof, and the officer\'s words before each volley at the barricade', () => {
   const view = createBattleView(fakeArt());
   const words = new Set();

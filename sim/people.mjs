@@ -123,7 +123,7 @@ export const PEOPLE = Object.freeze({
     // With his column in the spring (sim/road.mjs `columns`), where the game already draws it.
     map: [{ from: on(1836, 3, 6, 18), until: 'san-jacinto-field', with: 'column:santa-anna', doing: 'ride', claimId: 'HIST-TEX-559' }],
   }),
-  cos: person('cos', 'Cos', MX, 'general', 1, 'HIST-TEX-557', { fullName: 'Martín Perfecto de Cos' }),
+  cos: person('cos', 'Cos', MX, 'cos', 1, 'HIST-TEX-557', { fullName: 'Martín Perfecto de Cos' }),
   // ---------------------------------------------------------------- 1835
   moore: person('moore', 'Moore', TX, 'officer', 1, 'HIST-TEX-474', { fullName: 'John Henry Moore' }),
   castaneda: person('castaneda', 'Castañeda', MX, 'general', 1, 'HIST-TEX-474', { fullName: 'Francisco de Castañeda' }),

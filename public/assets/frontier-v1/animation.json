@@ -3190,6 +3190,78 @@
       "motion": "none",
       "direction": "east; mirror for west"
     },
+    "cos-walk-e": {
+      "frames": [
+        {
+          "sprite": "cos-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "cos-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "cos-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "cos-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "cos-walk-s": {
+      "frames": [
+        {
+          "sprite": "cos-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "cos-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "cos-walk-n": {
+      "frames": [
+        {
+          "sprite": "cos-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "cos-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "cos-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "cos-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "cos-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
     "crockett-captive": {
       "frames": [
         {

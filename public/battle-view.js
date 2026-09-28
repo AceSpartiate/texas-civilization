@@ -88,6 +88,7 @@ export const PERSON_ART = Object.freeze({
   castrillon: { stand: 'castrillon-idle', command: 'castrillon-command', walk: 'castrillon-walk-e', fall: 'castrillon-fall', still: 'castrillon-still' },
   almonte: { stand: 'almonte-idle', command: 'almonte-command', surrender: 'almonte-surrender', 'offer-sword': 'almonte-offer-sword', prisoner: 'almonte-prisoner', interpret: 'almonte-interpret', write: 'almonte-journal', walk: 'almonte-walk-e' },
   burleson: { stand: 'burleson-idle', command: 'burleson-command', point: 'burleson-point', listen: 'burleson-listen', 'receive-sword': 'burleson-receive-sword', 'sword-down': 'burleson-sword-down', seated: 'burleson-rest', ride: 'clip:burleson-mounted-walk-e', rideIdle: 'burleson-mounted-idle-e', walk: 'burleson-walk-e' },
+  cos: { stand: 'cos-idle', command: 'cos-command', point: 'cos-point', write: 'cos-sign-terms', surrender: 'cos-sword-down', prisoner: 'cos-prisoner', ride: 'clip:cos-mounted-walk-e', rideIdle: 'cos-mounted-idle-e', walk: 'cos-walk-e' },
 });
 const lerp = (a, b, t) => a + (b - a) * t;
 

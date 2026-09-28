@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 161,
-    "sprites": 1666,
-    "clips": 553,
-    "poseCycles": 325,
+    "sheets": 163,
+    "sprites": 1686,
+    "clips": 557,
+    "poseCycles": 329,
     "rigs": 4
   },
   "entrypoints": {
@@ -5254,6 +5254,188 @@
               [
                 538,
                 1228
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-cos": {
+      "image": "atlases/famous-cos.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1237092,
+      "sha256": "3ae9a13a1a043e3ad32da253c080fba72c1cc583febb9dcf8cc0e0d89630b420",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.679698,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              1,
+              319
+            ],
+            "columns": [
+              [
+                88,
+                277
+              ],
+              [
+                401,
+                589
+              ],
+              [
+                704,
+                902
+              ],
+              [
+                1028,
+                1215
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              324,
+              639
+            ],
+            "columns": [
+              [
+                81,
+                240
+              ],
+              [
+                392,
+                555
+              ],
+              [
+                706,
+                874
+              ],
+              [
+                1031,
+                1194
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              635,
+              949
+            ],
+            "columns": [
+              [
+                95,
+                207
+              ],
+              [
+                388,
+                617
+              ],
+              [
+                697,
+                949
+              ],
+              [
+                1035,
+                1211
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              944,
+              1248
+            ],
+            "columns": [
+              [
+                64,
+                277
+              ],
+              [
+                396,
+                643
+              ],
+              [
+                715,
+                857
+              ],
+              [
+                1048,
+                1166
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-cos-mounted": {
+      "image": "atlases/famous-cos-mounted.png",
+      "width": 1226,
+      "height": 1283,
+      "bytes": 1307008,
+      "sha256": "6ff1e27baba0a3d8fc4faa3486d77ebba70fc15bba34bb6b417db3146dafb53d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.662437,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              12,
+              590
+            ],
+            "columns": [
+              [
+                23,
+                607
+              ],
+              [
+                634,
+                1216
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              624,
+              1240
+            ],
+            "columns": [
+              [
+                59,
+                622
+              ],
+              [
+                794,
+                1033
               ]
             ]
           }
@@ -34687,6 +34869,686 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/famous-castrillon-fate"
+    },
+    "cos-walk-e-1": {
+      "sheet": "famous-cos",
+      "x": 88,
+      "y": 1,
+      "w": 189,
+      "h": 317,
+      "anchorX": 0.5106,
+      "anchorY": 0.9274,
+      "logicalHeight": 318,
+      "label": "cos walk e 1",
+      "kind": "famous-cos",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          90,
+          3,
+          185,
+          313
+        ],
+        "visiblePixels": 27762,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-walk-e-2": {
+      "sheet": "famous-cos",
+      "x": 401,
+      "y": 1,
+      "w": 188,
+      "h": 317,
+      "anchorX": 0.508,
+      "anchorY": 0.9274,
+      "logicalHeight": 318,
+      "label": "cos walk e 2",
+      "kind": "famous-cos",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          403,
+          3,
+          184,
+          313
+        ],
+        "visiblePixels": 27631,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-walk-e-3": {
+      "sheet": "famous-cos",
+      "x": 704,
+      "y": 1,
+      "w": 198,
+      "h": 318,
+      "anchorX": 0.5025,
+      "anchorY": 0.9277,
+      "logicalHeight": 318,
+      "label": "cos walk e 3",
+      "kind": "famous-cos",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          706,
+          3,
+          194,
+          314
+        ],
+        "visiblePixels": 25088,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-walk-e-4": {
+      "sheet": "famous-cos",
+      "x": 1028,
+      "y": 1,
+      "w": 187,
+      "h": 317,
+      "anchorX": 0.5107,
+      "anchorY": 0.9274,
+      "logicalHeight": 318,
+      "label": "cos walk e 4",
+      "kind": "famous-cos",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1030,
+          3,
+          183,
+          313
+        ],
+        "visiblePixels": 27369,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-walk-s-1": {
+      "sheet": "famous-cos",
+      "x": 81,
+      "y": 325,
+      "w": 159,
+      "h": 311,
+      "anchorX": 0.4937,
+      "anchorY": 0.9357,
+      "logicalHeight": 318,
+      "label": "cos walk s 1",
+      "kind": "famous-cos",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          327,
+          155,
+          307
+        ],
+        "visiblePixels": 26357,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-walk-s-2": {
+      "sheet": "famous-cos",
+      "x": 392,
+      "y": 326,
+      "w": 163,
+      "h": 309,
+      "anchorX": 0.4877,
+      "anchorY": 0.932,
+      "logicalHeight": 318,
+      "label": "cos walk s 2",
+      "kind": "famous-cos",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          394,
+          328,
+          159,
+          306
+        ],
+        "visiblePixels": 26707,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-walk-n-1": {
+      "sheet": "famous-cos",
+      "x": 706,
+      "y": 326,
+      "w": 168,
+      "h": 311,
+      "anchorX": 0.5476,
+      "anchorY": 0.9293,
+      "logicalHeight": 318,
+      "label": "cos walk n 1",
+      "kind": "famous-cos",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          708,
+          328,
+          164,
+          307
+        ],
+        "visiblePixels": 27985,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-walk-n-2": {
+      "sheet": "famous-cos",
+      "x": 1031,
+      "y": 324,
+      "w": 163,
+      "h": 315,
+      "anchorX": 0.5153,
+      "anchorY": 0.927,
+      "logicalHeight": 318,
+      "label": "cos walk n 2",
+      "kind": "famous-cos",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1033,
+          326,
+          159,
+          311
+        ],
+        "visiblePixels": 27772,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-idle": {
+      "sheet": "famous-cos",
+      "x": 95,
+      "y": 637,
+      "w": 112,
+      "h": 312,
+      "anchorX": 0.5625,
+      "anchorY": 0.9455,
+      "logicalHeight": 318,
+      "label": "cos idle",
+      "kind": "famous-cos",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          97,
+          639,
+          108,
+          308
+        ],
+        "visiblePixels": 22253,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-command": {
+      "sheet": "famous-cos",
+      "x": 388,
+      "y": 635,
+      "w": 229,
+      "h": 311,
+      "anchorX": 0.3668,
+      "anchorY": 0.955,
+      "logicalHeight": 318,
+      "label": "cos command",
+      "kind": "famous-cos",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          390,
+          637,
+          225,
+          308
+        ],
+        "visiblePixels": 29872,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-point": {
+      "sheet": "famous-cos",
+      "x": 697,
+      "y": 637,
+      "w": 252,
+      "h": 308,
+      "anchorX": 0.3313,
+      "anchorY": 0.961,
+      "logicalHeight": 318,
+      "label": "cos point",
+      "kind": "famous-cos",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          699,
+          639,
+          248,
+          306
+        ],
+        "visiblePixels": 29728,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-map": {
+      "sheet": "famous-cos",
+      "x": 1035,
+      "y": 647,
+      "w": 176,
+      "h": 297,
+      "anchorX": 0.4318,
+      "anchorY": 0.9663,
+      "logicalHeight": 318,
+      "label": "cos map",
+      "kind": "famous-cos",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1037,
+          649,
+          172,
+          295
+        ],
+        "visiblePixels": 26940,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-sign-terms": {
+      "sheet": "famous-cos",
+      "x": 64,
+      "y": 953,
+      "w": 213,
+      "h": 295,
+      "anchorX": 0.5634,
+      "anchorY": 0.9288,
+      "logicalHeight": 318,
+      "label": "cos sign terms",
+      "kind": "famous-cos",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          66,
+          955,
+          209,
+          291
+        ],
+        "visiblePixels": 34235,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-hand-document": {
+      "sheet": "famous-cos",
+      "x": 396,
+      "y": 946,
+      "w": 247,
+      "h": 299,
+      "anchorX": 0.332,
+      "anchorY": 0.9465,
+      "logicalHeight": 318,
+      "label": "cos hand document",
+      "kind": "famous-cos",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          398,
+          948,
+          243,
+          295
+        ],
+        "visiblePixels": 28332,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-sword-down": {
+      "sheet": "famous-cos",
+      "x": 715,
+      "y": 945,
+      "w": 142,
+      "h": 301,
+      "anchorX": 0.5599,
+      "anchorY": 0.9435,
+      "logicalHeight": 318,
+      "label": "cos sword down",
+      "kind": "famous-cos",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          717,
+          945,
+          138,
+          299
+        ],
+        "visiblePixels": 25919,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-prisoner": {
+      "sheet": "famous-cos",
+      "x": 1048,
+      "y": 944,
+      "w": 118,
+      "h": 303,
+      "anchorX": 0.5212,
+      "anchorY": 0.9703,
+      "logicalHeight": 318,
+      "label": "cos prisoner",
+      "kind": "famous-cos",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1050,
+          945,
+          114,
+          300
+        ],
+        "visiblePixels": 23493,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-mounted-walk-e-1": {
+      "sheet": "famous-cos-mounted",
+      "x": 23,
+      "y": 12,
+      "w": 584,
+      "h": 578,
+      "anchorX": 0.512,
+      "anchorY": 0.9343,
+      "logicalHeight": 616,
+      "label": "cos mounted walk e 1",
+      "kind": "famous-cos-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          25,
+          14,
+          580,
+          574
+        ],
+        "visiblePixels": 134853,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos-mounted"
+    },
+    "cos-mounted-walk-e-2": {
+      "sheet": "famous-cos-mounted",
+      "x": 634,
+      "y": 14,
+      "w": 582,
+      "h": 572,
+      "anchorX": 0.4845,
+      "anchorY": 0.9301,
+      "logicalHeight": 616,
+      "label": "cos mounted walk e 2",
+      "kind": "famous-cos-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          636,
+          16,
+          578,
+          568
+        ],
+        "visiblePixels": 133225,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos-mounted"
+    },
+    "cos-mounted-idle-e": {
+      "sheet": "famous-cos-mounted",
+      "x": 59,
+      "y": 632,
+      "w": 563,
+      "h": 600,
+      "anchorX": 0.4245,
+      "anchorY": 0.9633,
+      "logicalHeight": 616,
+      "label": "cos mounted idle e",
+      "kind": "famous-cos-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          61,
+          634,
+          559,
+          596
+        ],
+        "visiblePixels": 140974,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos-mounted"
+    },
+    "cos-mounted-idle-s": {
+      "sheet": "famous-cos-mounted",
+      "x": 794,
+      "y": 624,
+      "w": 239,
+      "h": 616,
+      "anchorX": 0.5021,
+      "anchorY": 0.9773,
+      "logicalHeight": 616,
+      "label": "cos mounted idle s",
+      "kind": "famous-cos-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          796,
+          626,
+          235,
+          612
+        ],
+        "visiblePixels": 77353,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos-mounted"
     },
     "crockett-captive-1": {
       "sheet": "famous-crockett-fate",
@@ -75065,6 +75927,78 @@
       "motion": "none",
       "direction": "east; mirror for west"
     },
+    "cos-walk-e": {
+      "frames": [
+        {
+          "sprite": "cos-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "cos-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "cos-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "cos-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "cos-walk-s": {
+      "frames": [
+        {
+          "sprite": "cos-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "cos-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "cos-walk-n": {
+      "frames": [
+        {
+          "sprite": "cos-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "cos-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "cos-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "cos-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "cos-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
     "crockett-captive": {
       "frames": [
         {
@@ -86690,7 +87624,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 161,
+    "sourceCount": 163,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"
