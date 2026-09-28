@@ -114,7 +114,7 @@ S3 / playthrough §3. B4 (End Game confirm), "Stop for today" and S2 (absences a
   switched elsewhere (public/app.js).
 - **B5 unclean stop.** server/storage.mjs `acquireSaveLock` takes over a lock whose owner is **certainly gone** (`ownerGone`:
   the PID has ended, or the process with that PID began after the lock was written - WMI through PowerShell on Windows, /proc on
-  Linux), after backing the save up to `archive/…-before-lock-recovery-…json`; the old lock is moved aside by rename and checked
+  Linux), after backing the save up to `archive/…-before-lock-recovery-…json`; the old lock is removed only by the start holding a `wx` recovery latch (amended 2026-09-28 from a rename that let two of three or more racers win) and checked
   to be the text judged gone, so racing starts cannot both win. Every doubt still refuses. main.mjs logs the recovery.
   **docs/RECOVERY.md now ships** in the package (scripts/package.ps1; scripts/verify-delta-update.ps1 copies it), with teacher
   steps that work in an installed copy (restart, start again), because the launcher's stale-lock message names it.
