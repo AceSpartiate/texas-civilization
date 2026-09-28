@@ -132,7 +132,8 @@ test('made, it takes three logs, the poorest first, and a hide, and stands in th
 test('it is used as the wagon is, one person at a time, and carries less: twelve on a trip, ten in the flight, two riders', () => {
   const { world, household } = home();
   const carreta = make(world, household);
-  // A trip to town with the ox and carreta: twelve loads, and a load of fifteen is refused in its own words.
+  // A trip to town with the ox and carreta: twelve loads, and a load of sixteen - four lots of food, four food a lot since
+  // 2026-09-28 (sim/market.mjs; five until then) - is refused in its own words.
   const driver = hand(world, household);
   household.resources.food = 60;
   const ways = errandFor(world, 'hh-1', driver.id, [{ id: 'store:food', n: 2, pay: 'coin' }], 'wagon').quote;
@@ -140,9 +141,9 @@ test('it is used as the wagon is, one person at a time, and carries less: twelve
   assert.equal(cart.carry, CARRETA_CARRY);
   assert.equal(cart.name, 'With the ox and carreta');
   assert.equal(ways.can, true, ways.why);
-  const tooMuch = errandFor(world, 'hh-1', driver.id, [{ id: 'store:food', n: 3, pay: 'coin' }]).quote.ways.find(way => way.id === 'wagon');
+  const tooMuch = errandFor(world, 'hh-1', driver.id, [{ id: 'store:food', n: 4, pay: 'coin' }]).quote.ways.find(way => way.id === 'wagon');
   assert.equal(tooMuch.can, false);
-  assert.equal(tooMuch.why, `The carreta carries ${CARRETA_CARRY}, and this is 15 loads.`);
+  assert.equal(tooMuch.why, `The carreta carries ${CARRETA_CARRY}, and this is 16 loads.`);
   // Taken: held by one person, and the next is told who has it.
   applyAction(world, 'hh-1', { action: 'chore', entityId: driver.id, chore: 'visit-shop', errand: [{ id: 'store:food', n: 2, pay: 'coin' }], errandMode: 'wagon' });
   stepWorld(world);
