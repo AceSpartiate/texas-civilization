@@ -73,7 +73,7 @@ export const PERSON_ART = Object.freeze({
   bowie: { stand: 'bowie-idle', command: 'bowie-command', sick: 'bowie-sick-bed', 'still-bed': 'bowie-still-bed', seated: 'bowie-sick-seated', walk: 'bowie-walk-e' },
   crockett: { stand: 'crockett-idle', command: 'crockett-command', fire: ['crockett-aim', 'crockett-fire', 'crockett-reload'], seated: 'crockett-rest-seated', captive: 'clip:crockett-captive', still: 'crockett-still-side', walk: 'crockett-walk-e' },
   joe: { stand: 'clip:joe-idle', hide: 'clip:joe-hide', fireHidden: 'joe-fire-door', emerge: 'clip:joe-emerge', seated: 'clip:joe-rest', wounded: 'joe-hurt-e', walk: 'joe-walk' },
-  seguin: { stand: 'seguin-idle', command: 'seguin-command', ride: 'clip:seguin-mounted-walk-e', rideIdle: 'seguin-mounted-e', walk: 'seguin-walk-e' },
+  seguin: { stand: 'seguin-idle', command: 'seguin-command', ride: 'clip:seguin-mounted-walk-e', rideNorth: 'clip:seguin-mounted-walk-n', rideSouth: 'clip:seguin-mounted-walk-s', rideIdle: 'seguin-mounted-e', walk: 'seguin-walk-e' },
   'susanna-dickinson': { stand: 'susanna-dickinson-hold-angelina', carry: 'susanna-dickinson-carry-angelina', sick: 'susanna-dickinson-shelter-with-angelina', seated: 'susanna-dickinson-rest-with-angelina', walk: 'susanna-dickinson-walk-e' },
   'angelina-dickinson': { stand: 'angelina-dickinson-sit', seated: 'angelina-dickinson-sleep' },
   ben: { stand: 'ben-idle', seated: 'ben-rest', carry: 'ben-pot-carry', speak: 'ben-speak', walk: 'ben-walk-e' },
@@ -1223,7 +1223,8 @@ export function createBattleView(art) {
       return clip(`${kind}-march`);
     }
     if (pose === 'ride') {
-      if (typeof named === 'string' && named.startsWith('clip:')) return clip(named.slice(5), time, { size: figurePx * 1.35 });
+      const directed = (person.heading === 'north' ? own?.rideNorth : person.heading === 'south' ? own?.rideSouth : null) || named;
+      if (typeof directed === 'string' && directed.startsWith('clip:')) return clip(directed.slice(5), time, { size: figurePx * 1.35, flip: person.heading ? person.heading === 'west' : !person.right });
       if (named) return sprite(named);
       return clip(mexican ? 'dragoon-march' : 'mounted-courier-e', time, { size: figurePx * 1.35 });
     }

@@ -58,7 +58,14 @@ test('the garrison stands along its walls, evenly, each wall facing out over its
 
 test('Seguín rides out on his own animated horse at the Alamo', () => {
   const art = fakeArt(), view = createBattleView(art);
-  run(view, art, at('night-25', 180), { seconds: 2, perTick: 2 });
+  const south = alamo(at('night-25', 170)).people.find(one => one.id === 'seguin');
+  const east = alamo(at('night-25', 190)).people.find(one => one.id === 'seguin');
+  assert.equal(south.heading, 'south');
+  assert.equal(east.heading, 'east');
+  run(view, art, at('night-25', 170), { seconds: 2, perTick: 2 });
+  assert.ok(art.drawn.some(one => one.clip === 'seguin-mounted-walk-s'));
+  art.drawn.length = 0;
+  run(view, art, at('night-25', 190), { seconds: 2, perTick: 2 });
   assert.ok(art.drawn.some(one => one.clip === 'seguin-mounted-walk-e'));
 });
 

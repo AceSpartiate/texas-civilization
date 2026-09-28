@@ -582,9 +582,15 @@ function peopleNow(state, phase, into, ground) {
     const who = PEOPLE[entry.id], fate = who.fate?.battle === state.def.id && who.fate.phase === phase.id && !who.fate.told ? who.fate : null;
     const place = personPlace(ground, phase, entry, into);
     const moving = entry.with ? unitMoving(phase, entry.with, into) : specMoving(entry, into);
+    // Direction of keyed travel is presentation data. Face-to-enemy remains separate for firing and dialogue.
+    const nextKey = moving && entry.keys?.findIndex(([minute]) => minute > into);
+    const fromKey = nextKey > 0 ? ground[entry.keys[nextKey - 1][1]] : null;
+    const toKey = nextKey > 0 ? ground[entry.keys[nextKey][1]] : null;
+    const dx = toKey && fromKey ? toKey.x - fromKey.x : 0, dy = toKey && fromKey ? toKey.y - fromKey.y : 0;
+    const heading = Math.abs(dy) > Math.abs(dx) ? (dy >= 0 ? 'south' : 'north') : dx ? (dx >= 0 ? 'east' : 'west') : null;
     out.push({
       id: who.id, name: who.name, side: who.side, art: who.art, x: place.x, y: place.y, pose: entry.pose || (moving ? 'walk' : 'stand'),
-      moving, right: faces(entry, place), claimId: entry.claimId || who.claimId, ...(entry.tag && { tag: entry.tag }),
+      moving, right: faces(entry, place), ...(heading && { heading }), claimId: entry.claimId || who.claimId, ...(entry.tag && { tag: entry.tag }),
       ...(who.thing && { thing: true }), ...(who.child && { child: true }),
       ...(fate && ['killed', 'executed'].includes(fate.kind) && into >= fate.at && { fell: phase.from + fate.at, ...(fate.pose && { still: fate.pose }) }),
       ...(fate && fate.kind === 'wounded' && into >= fate.at && { hurt: phase.from + fate.at }),

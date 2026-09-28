@@ -7130,6 +7130,64 @@
         ]
       }
     },
+    "famous-seguin-mounted-ns": {
+      "image": "atlases/famous-seguin-mounted-ns.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 798415,
+      "sha256": "422125d50fa7431fe709c9e8d3a1589d7d0874c6fb2ecca49f846c43b24dcdac",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.786874,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              13,
+              608
+            ],
+            "columns": [
+              [
+                238,
+                481
+              ],
+              [
+                772,
+                1016
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              634,
+              1232
+            ],
+            "columns": [
+              [
+                226,
+                485
+              ],
+              [
+                769,
+                1030
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-urrea": {
       "image": "atlases/famous-urrea.png",
       "width": 1254,
@@ -35374,6 +35432,106 @@
           526
         ],
         "visiblePixels": 114728,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-mounted-walk-s-1": {
+      "sheet": "famous-seguin-mounted-ns",
+      "x": 238,
+      "y": 13,
+      "w": 243,
+      "h": 595,
+      "anchorX": 0.4568,
+      "anchorY": 0.9294,
+      "logicalHeight": 598,
+      "label": "seguin mounted walk s 1",
+      "kind": "famous-seguin-mounted-ns",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          240,
+          15,
+          239,
+          591
+        ],
+        "visiblePixels": 80820,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-mounted-walk-s-2": {
+      "sheet": "famous-seguin-mounted-ns",
+      "x": 772,
+      "y": 14,
+      "w": 244,
+      "h": 594,
+      "anchorX": 0.5205,
+      "anchorY": 0.9293,
+      "logicalHeight": 598,
+      "label": "seguin mounted walk s 2",
+      "kind": "famous-seguin-mounted-ns",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          774,
+          16,
+          240,
+          590
+        ],
+        "visiblePixels": 80718,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-mounted-walk-n-1": {
+      "sheet": "famous-seguin-mounted-ns",
+      "x": 226,
+      "y": 634,
+      "w": 259,
+      "h": 598,
+      "anchorX": 0.5656,
+      "anchorY": 0.9699,
+      "logicalHeight": 598,
+      "label": "seguin mounted walk n 1",
+      "kind": "famous-seguin-mounted-ns",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          228,
+          636,
+          255,
+          594
+        ],
+        "visiblePixels": 76241,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "seguin-mounted-walk-n-2": {
+      "sheet": "famous-seguin-mounted-ns",
+      "x": 769,
+      "y": 637,
+      "w": 261,
+      "h": 594,
+      "anchorX": 0.5785,
+      "anchorY": 0.968,
+      "logicalHeight": 598,
+      "label": "seguin mounted walk n 2",
+      "kind": "famous-seguin-mounted-ns",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          771,
+          639,
+          257,
+          590
+        ],
+        "visiblePixels": 76526,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
