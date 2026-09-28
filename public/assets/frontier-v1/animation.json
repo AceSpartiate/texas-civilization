@@ -22,6 +22,90 @@
       "motion": "none",
       "direction": "elevation; orient with structure geometry"
     },
+    "cannon-18pdr-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-18pdr-e",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-18pdr-recoil-e",
+          "duration": 210
+        },
+        {
+          "sprite": "cannon-18pdr-e",
+          "duration": 450
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "recoilSign": 1
+    },
+    "cannon-18pdr-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-18pdr-w",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-18pdr-recoil-w",
+          "duration": 210
+        },
+        {
+          "sprite": "cannon-18pdr-w",
+          "duration": 450
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "recoilSign": -1
+    },
+    "cannon-siege-battery-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-siege-battery-e",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-siege-battery-recoil-e",
+          "duration": 210
+        },
+        {
+          "sprite": "cannon-siege-battery-e",
+          "duration": 450
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "recoilSign": 1
+    },
+    "cannon-siege-battery-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-siege-battery-w",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-siege-battery-recoil-w",
+          "duration": 210
+        },
+        {
+          "sprite": "cannon-siege-battery-w",
+          "duration": 450
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "recoilSign": -1
+    },
     "joe-fire-door": {
       "frames": [
         {
@@ -37,6 +121,94 @@
       "authored": true,
       "motion": "none",
       "direction": "east; mirror for west"
+    },
+    "flag-red-wind": {
+      "frames": [
+        {
+          "sprite": "flag-red-still",
+          "duration": 430
+        },
+        {
+          "sprite": "flag-red-wind-1",
+          "duration": 380
+        },
+        {
+          "sprite": "flag-red-wind-2",
+          "duration": 360
+        },
+        {
+          "sprite": "flag-red-wind-3",
+          "duration": 420
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
+    },
+    "smoke-column-far-rise": {
+      "frames": [
+        {
+          "sprite": "smoke-column-far-1",
+          "duration": 420
+        },
+        {
+          "sprite": "smoke-column-far-2",
+          "duration": 440
+        },
+        {
+          "sprite": "smoke-column-far-3",
+          "duration": 460
+        },
+        {
+          "sprite": "smoke-column-far-4",
+          "duration": 440
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
+    },
+    "ladder-carried-e": {
+      "frames": [
+        {
+          "sprite": "ladder-carried-e-1",
+          "duration": 330
+        },
+        {
+          "sprite": "ladder-carried-e-2",
+          "duration": 330
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "regular-climb": {
+      "frames": [
+        {
+          "sprite": "regular-climb-1",
+          "duration": 220
+        },
+        {
+          "sprite": "regular-climb-2",
+          "duration": 220
+        },
+        {
+          "sprite": "regular-climb-3",
+          "duration": 220
+        },
+        {
+          "sprite": "regular-climb-4",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north/up"
     },
     "volunteer-gun-ram": {
       "frames": [
@@ -149,6 +321,62 @@
       "authored": true,
       "motion": "none",
       "direction": "east; west by mirroring"
+    },
+    "regular-bugler-call": {
+      "frames": [
+        {
+          "sprite": "regular-bugler-idle",
+          "duration": 170
+        },
+        {
+          "sprite": "regular-bugler-raise",
+          "duration": 220
+        },
+        {
+          "sprite": "regular-bugler-sound",
+          "duration": 650
+        },
+        {
+          "sprite": "regular-bugler-lower",
+          "duration": 300
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "white-flag-regular-walk-e": {
+      "frames": [
+        {
+          "sprite": "white-flag-regular-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "white-flag-regular-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "white-flag-volunteer-walk-e": {
+      "frames": [
+        {
+          "sprite": "white-flag-volunteer-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "white-flag-volunteer-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
     },
     "cane-wind": {
       "frames": [
@@ -329,6 +557,30 @@
       "authored": false,
       "motion": "sway",
       "direction": "not applicable"
+    },
+    "canister-burst": {
+      "frames": [
+        {
+          "sprite": "canister-burst-1",
+          "duration": 110
+        },
+        {
+          "sprite": "canister-burst-2",
+          "duration": 170
+        },
+        {
+          "sprite": "canister-burst-3",
+          "duration": 230
+        },
+        {
+          "sprite": "canister-burst-4",
+          "duration": 310
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
     },
     "cannon-cartwheels-e-recoil": {
       "frames": [
@@ -2270,6 +2522,30 @@
       "motion": "none",
       "direction": "stationary"
     },
+    "cart-baggage-tip": {
+      "frames": [
+        {
+          "sprite": "cart-baggage",
+          "duration": 550
+        },
+        {
+          "sprite": "cart-baggage-tilt-1",
+          "duration": 450
+        },
+        {
+          "sprite": "cart-baggage-tilt-2",
+          "duration": 450
+        },
+        {
+          "sprite": "cart-tipped",
+          "duration": 1200
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "bonham-walk-e": {
       "frames": [
         {
@@ -2566,6 +2842,62 @@
       "motion": "none",
       "direction": "north"
     },
+    "almonte-walk-e": {
+      "frames": [
+        {
+          "sprite": "almonte-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "almonte-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "almonte-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "almonte-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "almonte-walk-s": {
+      "frames": [
+        {
+          "sprite": "almonte-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "almonte-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "almonte-walk-n": {
+      "frames": [
+        {
+          "sprite": "almonte-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "almonte-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "twin-sisters-limbered": {
       "frames": [
         {
@@ -2750,6 +3082,258 @@
       "motion": "none",
       "direction": "north"
     },
+    "burleson-walk-e": {
+      "frames": [
+        {
+          "sprite": "burleson-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "burleson-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "burleson-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "burleson-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "burleson-walk-s": {
+      "frames": [
+        {
+          "sprite": "burleson-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "burleson-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "burleson-walk-n": {
+      "frames": [
+        {
+          "sprite": "burleson-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "burleson-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "burleson-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "burleson-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "burleson-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "castaneda-walk-e": {
+      "frames": [
+        {
+          "sprite": "castaneda-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "castaneda-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "castaneda-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "castaneda-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "castaneda-walk-s": {
+      "frames": [
+        {
+          "sprite": "castaneda-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "castaneda-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "castaneda-walk-n": {
+      "frames": [
+        {
+          "sprite": "castaneda-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "castaneda-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "castaneda-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "castaneda-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "castaneda-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "castrillon-walk-e": {
+      "frames": [
+        {
+          "sprite": "castrillon-walk-e-1",
+          "duration": 270
+        },
+        {
+          "sprite": "castrillon-walk-e-2",
+          "duration": 270
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "castrillon-fall": {
+      "frames": [
+        {
+          "sprite": "castrillon-turn-away",
+          "duration": 180
+        },
+        {
+          "sprite": "castrillon-stumble",
+          "duration": 220
+        },
+        {
+          "sprite": "castrillon-kneel",
+          "duration": 300
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "cos-walk-e": {
+      "frames": [
+        {
+          "sprite": "cos-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "cos-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "cos-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "cos-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "cos-walk-s": {
+      "frames": [
+        {
+          "sprite": "cos-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "cos-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "cos-walk-n": {
+      "frames": [
+        {
+          "sprite": "cos-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "cos-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "cos-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "cos-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "cos-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
     "crockett-captive": {
       "frames": [
         {
@@ -2814,6 +3398,62 @@
         },
         {
           "sprite": "esparza-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "moore-walk-e": {
+      "frames": [
+        {
+          "sprite": "moore-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "moore-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "moore-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "moore-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "moore-walk-s": {
+      "frames": [
+        {
+          "sprite": "moore-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "moore-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "moore-walk-n": {
+      "frames": [
+        {
+          "sprite": "moore-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "moore-walk-n-2",
           "duration": 290
         }
       ],
@@ -5289,6 +5929,106 @@
       "authored": false,
       "motion": "sway",
       "direction": "not applicable"
+    },
+    "twin-crew-gun-ram": {
+      "frames": [
+        {
+          "sprite": "twin-crew-rammer-carry",
+          "duration": 280
+        },
+        {
+          "sprite": "twin-crew-ram",
+          "duration": 420
+        },
+        {
+          "sprite": "twin-crew-rammer-carry",
+          "duration": 330
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "twin-crew-gun-shot-carry": {
+      "frames": [
+        {
+          "sprite": "twin-crew-shot-carry",
+          "duration": 360
+        }
+      ],
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "twin-crew-gun-ready": {
+      "frames": [
+        {
+          "sprite": "twin-crew-rammer-carry",
+          "duration": 360
+        }
+      ],
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "twin-crew-gun-fire": {
+      "frames": [
+        {
+          "sprite": "twin-crew-rammer-carry",
+          "duration": 160
+        },
+        {
+          "sprite": "twin-crew-fire",
+          "duration": 440
+        },
+        {
+          "sprite": "twin-crew-rammer-carry",
+          "duration": 260
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "regular-drummer-start": {
+      "frames": [
+        {
+          "sprite": "regular-drummer-idle",
+          "duration": 250
+        },
+        {
+          "sprite": "regular-drummer-raise",
+          "duration": 250
+        },
+        {
+          "sprite": "regular-drummer-beat-1",
+          "duration": 250
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "regular-drummer-beat": {
+      "frames": [
+        {
+          "sprite": "regular-drummer-beat-1",
+          "duration": 240
+        },
+        {
+          "sprite": "regular-drummer-beat-2",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
     },
     "twin-sister-painted-e-recoil": {
       "frames": [

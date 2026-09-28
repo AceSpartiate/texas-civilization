@@ -35,6 +35,64 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null } = {}) 
   return last;
 }
 
+test('only the named Twin Sisters use their dedicated service crew', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const guns = [
+    { id: 'twin-sister-1', side: 'texian', x: -0.05, y: 0, facing: { x: 1, y: 0 }, crew: 3, shots: [] },
+    { id: 'mexican-gun', side: 'mexican', x: 0.05, y: 0, facing: { x: -1, y: 0 }, crew: 3, shots: [] },
+  ];
+  run(view, minute => battle(minute, { guns }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'twin-crew-gun-ram'));
+  assert.ok(art.drawn.some(one => one.clip === 'twin-crew-gun-shot-carry'));
+  assert.ok(art.drawn.some(one => one.clip === 'twin-crew-gun-ready'));
+  assert.ok(art.drawn.some(one => one.clip === 'regular-gun-ram'));
+  assert.ok(!art.drawn.some(one => one.clip === 'volunteer-gun-ram'), 'a generic crew still serves a Twin Sister');
+});
+
+test('Castrillón keeps his own command, walk, fall and still art at San Jacinto', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const person = { id: 'castrillon', art: 'castrillon', name: 'Castrillón', side: 'mexican', x: 0, y: 0, right: true, pose: 'command' };
+  run(view, minute => battle(minute, { people: [person] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.sprite === 'castrillon-command'));
+  art.drawn.length = 0;
+  run(view, minute => battle(minute, { people: [{ ...person, moving: true }] }), { seconds: 1, from: 1000 });
+  assert.ok(art.drawn.some(one => one.clip === 'castrillon-walk-e'));
+  art.drawn.length = 0;
+  run(view, minute => battle(minute, { people: [{ ...person, fell: 2 }] }), { seconds: 2, from: 2000 });
+  assert.ok(art.drawn.some(one => one.clip === 'castrillon-fall'));
+  assert.ok(art.drawn.some(one => one.sprite === 'castrillon-still'));
+  assert.ok(!art.drawn.some(one => one.sprite === 'regular-reclining'));
+});
+
+test('Almonte uses his own surrender and interpreter poses', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const person = { id: 'almonte', art: 'almonte', name: 'Almonte', side: 'mexican', x: 0, y: 0, right: true };
+  run(view, minute => battle(minute, { people: [{ ...person, pose: 'surrender' }] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.sprite === 'almonte-surrender'));
+  art.drawn.length = 0;
+  run(view, minute => battle(minute, { people: [{ ...person, pose: 'interpret' }] }), { seconds: 1, from: 1000 });
+  assert.ok(art.drawn.some(one => one.sprite === 'almonte-interpret'));
+  assert.ok(!art.drawn.some(one => one.clip === 'regular-surrender'));
+});
+
+test('Burleson commands in his own officer art', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const person = { id: 'burleson', art: 'burleson', name: 'Burleson', side: 'texian', x: 0, y: 0, right: true, pose: 'command' };
+  run(view, minute => battle(minute, { people: [person] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.sprite === 'burleson-command'));
+});
+
+test('the San Jacinto sword exchange uses both named figures', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const people = [
+    { id: 'almonte', art: 'almonte', name: 'Almonte', side: 'mexican', x: -0.01, y: 0, right: true, pose: 'offer-sword' },
+    { id: 'burleson', art: 'burleson', name: 'Burleson', side: 'texian', x: 0.01, y: 0, right: false, pose: 'receive-sword' },
+  ];
+  run(view, minute => battle(minute, { people }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.sprite === 'almonte-offer-sword'));
+  assert.ok(art.drawn.some(one => one.sprite === 'burleson-receive-sword'));
+});
+
 test('a camp at rest (pose `rest`) is scattered and unformed, some standing and some sitting, and fires nothing; the formed line against it stands in even ranks', () => {
   const art = fakeArt(), view = createBattleView(art);
   const shown = run(view, minute => battle(minute), { seconds: 3 });

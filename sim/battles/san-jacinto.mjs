@@ -478,8 +478,12 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       mexican: { style: 'loose', at: 'prisonerGround', action: 'hold', fire: 'none', surrendering: 1, spread: { width: 0.22, depth: 0.14 }, count: 730 },
       // Almonte surrenders the men still with him to Burleson at dusk (the Handbook's Burleson and Almonte, `HIST-TEX-568`).
       people: [
-        { id: 'almonte', with: 'mexican', offset: { along: 0.03, across: 0 }, pose: 'surrender' },
-        { id: 'burleson', with: 'mexican', offset: { along: 0.055, across: 0.01 }, pose: 'command', face: 'prisonerGround' },
+        { id: 'almonte', with: 'mexican', offset: { along: 0.03, across: 0 }, pose: 'surrender', during: [0, 20] },
+        { id: 'burleson', with: 'mexican', offset: { along: 0.055, across: 0.01 }, pose: 'command', face: 'prisonerGround', during: [0, 20] },
+        { id: 'almonte', with: 'mexican', offset: { along: 0.03, across: 0 }, pose: 'offer-sword', during: [20, 40] },
+        { id: 'burleson', with: 'mexican', offset: { along: 0.055, across: 0.01 }, pose: 'receive-sword', face: 'prisonerGround', during: [20, 40] },
+        { id: 'almonte', with: 'mexican', offset: { along: 0.03, across: 0 }, pose: 'prisoner', during: [40, 60] },
+        { id: 'burleson', with: 'mexican', offset: { along: 0.055, across: 0.01 }, pose: 'sword-down', face: 'prisonerGround', during: [40, 60] },
         { id: 'houston', with: 'texian', offset: { along: -0.06, across: 0.03 }, pose: 'wounded' },
       ],
       lines: [say('sj-over-now', 20, TEX, 'volunteer', 'reconstructed', 'It’s over.')],
@@ -504,7 +508,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'loose', at: 'prisonerGround', action: 'hold', fire: 'none', surrendering: 1, spread: { width: 0.22, depth: 0.14 }, count: 730 },
       parley: { at: 'texianCamp', people: [{ side: TEX, id: 'houston', pose: 'injured' }, { side: MEX, id: 'santa-anna' }] },
-      people: [{ id: 'almonte', with: 'texian', offset: { along: 0.006, across: 0.012 }, pose: 'prisoner', during: [20, 60] }],
+      people: [{ id: 'almonte', with: 'texian', offset: { along: 0.006, across: 0.012 }, pose: 'interpret', during: [20, 60] }],
       lines: [
         say('sj-napoleon', 32, MEX, 'commander', 'tradition', 'That man may consider himself born to no common destiny who has conquered the Napoleon of the West; and it now remains for him to be generous to the vanquished.', { person: 'santa-anna', claimId: 'HIST-TEX-559', gloss: 'told later: as W. C. Crane printed it in 1884, from those who were there' }),
         say('sj-remember', 40, TEX, 'commander', 'tradition', 'You should have remembered that at the Alamo.', { person: 'houston', claimId: 'HIST-TEX-559', gloss: 'told later: Houston’s answer, as Crane printed it in 1884' }),

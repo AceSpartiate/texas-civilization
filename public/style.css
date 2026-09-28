@@ -998,28 +998,48 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 
 /* The curtain over the whole page while a family is made (public/creation.js): the scene, the game's name, and whichever step
    is being answered on top of it. The map is not drawn behind it at all. */
-#creation{position:fixed;inset:0;z-index:40;background:#1d2218;overflow:hidden}
-#creation-scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#creation{position:fixed;inset:0;z-index:40;background:#1d2218 url('assets/creation-title-landscape.png') center center/cover no-repeat;overflow:hidden}
+#creation[data-step=join]::before,#creation[data-step=begin]::before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#0d1b16dc 0%,#14211bbb 26%,#1c261c38 57%,#1c211a68 100%),linear-gradient(0deg,#121a13ad,transparent 29%)}
 #creation[data-roll-visible=true]{background:#30291d url('assets/creation-roll-landscape.png') center center/cover no-repeat}
 #creation[data-roll-visible=true]::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#171d17a6 0%,#1d231e52 40%,#1d231e52 60%,#171d17a6 100%),linear-gradient(180deg,#12191472,#12191400 40%,#171b14a3 100%)}
-#creation[data-roll-visible=true] #creation-scene{visibility:hidden}
-#creation-banner{position:absolute;left:0;right:0;top:6vh;text-align:center;color:#f7ecd2;text-shadow:0 2px 14px #10140e}
-#creation-name{font-size:clamp(28px,5.2vw,54px);margin:0;letter-spacing:.01em;font-weight:700}
-#creation-tagline{margin:8px 0 0;font-size:clamp(13px,1.6vw,17px);color:#e4d6b4;letter-spacing:.04em}
+#creation-banner{position:absolute;z-index:1;left:clamp(28px,5.5vw,96px);top:10vh;width:min(720px,56vw);color:#fff1d6;text-shadow:0 3px 18px #0c170f}
+#creation-kicker{display:block;margin-bottom:15px;color:#eacb8c;font:700 12px/1.3 system-ui,sans-serif;letter-spacing:.26em}
+#creation-name{font-size:clamp(46px,5.6vw,82px);line-height:.98;margin:0;letter-spacing:-.025em;font-weight:700}
+#creation-name span{display:block;color:#f4d395;font-size:.72em;letter-spacing:.035em;margin-top:5px}
+#creation-tagline{max-width:640px;margin:19px 0 0;font-size:clamp(17px,1.65vw,22px);line-height:1.35;color:#f4ead3}
+#creation-landscape-caption{position:absolute;z-index:1;bottom:20px;left:clamp(28px,5.5vw,96px);margin:0;color:#e9d7ac;font:700 11px/1.2 system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;text-shadow:0 2px 10px #142018}
 #creation[data-roll-visible=true] #creation-banner{z-index:1;top:17px;left:28px;right:auto;text-align:left}
 #creation[data-roll-visible=true] #creation-name{font-size:clamp(23px,2.5vw,32px);letter-spacing:.025em}
-#creation[data-roll-visible=true] #creation-tagline{display:none}
-/* On the title screen the name stands in the middle of the scene; once a step is being answered it sits up out of the way. */
-#creation[data-step=join] #creation-banner,#creation[data-step=begin] #creation-banner{top:14vh}
-#creation-begin{position:fixed;left:50%;top:auto;bottom:12vh;transform:translateX(-50%);z-index:41;width:min(30rem,calc(100% - 32px));background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:10px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:16px 20px 18px;color:#3b3221}
-#creation-begin h2{font-size:22px;margin:0 0 8px;color:#4b3e28}
-#creation-begin p{margin:0;font-size:14.5px;line-height:1.5}
-#creation-begin p+p{margin-top:9px}
-/* What the guided beginning actually does, said on the title card since 2026-09-21 (docs/LESSON.md). */
-.creation-begin-after{color:#5a4a2e}
-#creation-begin-button{margin-top:12px;width:100%;min-height:44px;font-size:16px;background:#4b3e28;border-color:#6b5836;color:#fdf0dd}
-/* Joining a class is the title screen's own card, so a student sees the game's name first (owner, 2026-09-17). */
-body[data-creating=true] #join,body[data-creating=true] #rejoin{position:relative;z-index:41;margin:38vh auto 0;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259}
+#creation[data-roll-visible=true] #creation-name span{display:inline;color:inherit;font-size:inherit;margin:0}
+#creation[data-roll-visible=true] #creation-kicker,#creation[data-roll-visible=true] #creation-tagline,#creation[data-roll-visible=true] #creation-landscape-caption{display:none}
+#creation:not([data-step=join]):not([data-step=begin]):not([data-roll-visible=true]) #creation-banner{top:22px}
+#creation:not([data-step=join]):not([data-step=begin]):not([data-roll-visible=true]) #creation-name{font-size:clamp(27px,3vw,38px)}
+#creation:not([data-step=join]):not([data-step=begin]):not([data-roll-visible=true]) #creation-name span{display:inline;color:inherit;font-size:inherit;margin:0}
+#creation:not([data-step=join]):not([data-step=begin]):not([data-roll-visible=true]) #creation-kicker,#creation:not([data-step=join]):not([data-step=begin]):not([data-roll-visible=true]) #creation-tagline,#creation:not([data-step=join]):not([data-step=begin]):not([data-roll-visible=true]) #creation-landscape-caption{display:none}
+#creation-begin{position:fixed;right:clamp(24px,5vw,88px);left:auto;top:50%;bottom:auto;transform:translateY(-34%);z-index:41;width:min(430px,calc(100% - 40px));max-height:calc(100dvh - 36px);overflow:auto;box-sizing:border-box;background:linear-gradient(145deg,#fff9e9,#ecdcba);border:2px solid #c9a974;border-radius:15px;box-shadow:0 0 0 5px #241a0d75,0 24px 65px #11180ee0;padding:25px 28px 27px;color:#382f20}
+.creation-card-kicker{display:block;color:#795b2c;font:800 11px/1.3 system-ui,sans-serif;letter-spacing:.19em;margin-bottom:8px}
+#creation-begin h2{font-size:clamp(27px,2.6vw,36px);line-height:1.08;margin:0 0 12px;color:#3d3323}
+#creation-begin p{margin:0;font-size:14px;line-height:1.45}
+#creation-begin .creation-begin-lead{font-size:15px;color:#4d402e}
+.creation-begin-steps{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:20px 0;padding:0;list-style:none}
+.creation-begin-steps li{display:flex;align-items:center;gap:9px;min-height:43px;padding:6px 9px;background:#f7edd4;border:1px solid #d5bd8d;border-radius:7px;font:600 12px/1.2 system-ui,sans-serif;color:#483825}
+.creation-begin-steps li span{color:#9b6536;font:800 15px/1 Georgia,serif}
+.creation-begin-after{padding-top:11px;border-top:1px solid #c8b18a;color:#655338}
+#creation-begin-button{margin-top:17px;width:100%;min-height:52px;display:flex;align-items:center;justify-content:center;gap:15px;font-size:17px;font-weight:700;background:#355243;border-color:#233b30;color:#fff8e9;box-shadow:0 4px 0 #1d3329}
+#creation-begin-button:hover,#join>button:hover,#rejoin>button:hover{background:#42664f}
+#creation-begin-button:focus-visible,#join button:focus-visible,#rejoin button:focus-visible{outline:3px solid #f3ca76;outline-offset:3px}
+body[data-creating=true] #join,body[data-creating=true] #rejoin{position:fixed;z-index:41;right:clamp(24px,5vw,88px);left:auto;top:50%;transform:translateY(-29%);width:min(410px,calc(100% - 40px));max-height:calc(100dvh - 36px);overflow:auto;box-sizing:border-box;margin:0;padding:25px 28px 22px;background:linear-gradient(145deg,#fff9e9,#ecdcba);border:2px solid #c9a974;border-radius:15px;box-shadow:0 0 0 5px #241a0d75,0 24px 65px #11180ee0;color:#382f20}
+body[data-creating=true] #join h1,body[data-creating=true] #rejoin h1{font-size:clamp(30px,2.7vw,38px);line-height:1.08;margin:7px 0 10px;color:#3d3323}
+body[data-creating=true] #join .eyebrow,body[data-creating=true] #rejoin .eyebrow{color:#795b2c;font-weight:800;letter-spacing:.17em}
+.join-intro{font-size:14px;line-height:1.4;color:#635036;margin:0 0 15px}
+body[data-creating=true] #join label,body[data-creating=true] #rejoin label{font-size:13px;font-weight:700;color:#4d402e}
+body[data-creating=true] #join input,body[data-creating=true] #rejoin input{border-color:#b9a073;background:#fffdf5}
+body[data-creating=true] #join>button,body[data-creating=true] #rejoin>button{min-height:50px;background:#355243;border-color:#233b30;color:#fff8e9;font-weight:700;box-shadow:0 4px 0 #1d3329}
+@media (min-width:761px) and (max-width:1200px){
+  #creation-banner{width:51vw}
+  #creation-name{font-size:clamp(46px,5vw,60px)}
+  #creation-begin,body[data-creating=true] #join,body[data-creating=true] #rejoin{right:32px;width:min(390px,calc(100% - 40px))}
+}
 /* Every step's card stands above the curtain. */
 body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[data-creating=true] #looks,#names{z-index:41}
 #names{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:41;width:min(30rem,calc(100% - 32px));max-height:min(80vh,44rem);display:flex;flex-direction:column;overflow:hidden;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:10px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:14px 18px 18px;color:#3b3221}
@@ -1042,7 +1062,11 @@ body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[dat
    The error line sits with the button, so a refusal is read whatever the list is scrolled to. */
 #names-done{flex:none;margin-top:12px;width:100%;min-height:44px;background:#4b3e28;border-color:#6b5836;color:#fdf0dd}
 @media (max-width:760px){
-  #creation-begin{bottom:6vh;width:calc(100% - 20px)}
+  #creation-banner{left:24px;top:7vh;width:calc(100% - 48px)}
+  #creation-name{font-size:clamp(38px,7vw,56px)}
+  #creation-tagline{font-size:15px;margin-top:10px}
+  #creation-begin,body[data-creating=true] #join,body[data-creating=true] #rejoin{right:50%;top:auto;bottom:24px;transform:translateX(50%);width:min(430px,calc(100% - 28px));padding:19px 20px;max-height:62dvh}
+  #creation-landscape-caption{display:none}
   .names-row{grid-template-columns:1fr;gap:2px}
 }
 

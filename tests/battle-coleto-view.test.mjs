@@ -80,6 +80,15 @@ test('the square is four faces of three ranks, each man facing out of his own fa
   assert.ok(hollowness(points(loose)) < 0.4, 'the marksmen stand in a ring of their own');
 });
 
+test('Coleto baggage carts stand without oxen, tip during the small hours, and remain a barricade at dawn', () => {
+  for (const [phase, expected] of [['assault-1', 'cart-baggage'], ['small-hours', 'cart-baggage-tip'], ['before-dawn', 'cart-tipped']]) {
+    const art = fakeArt();
+    run(createBattleView(art), () => projected(COLETO, phase, 2), { seconds: 1 });
+    assert.ok(art.drawn.some(one => one.sprite === expected || one.clip === expected), `${phase} did not draw ${expected}`);
+    assert.ok(!art.drawn.some(one => one.sprite === 'ox-cart'), `${phase} still paints an ox into the square's carts`);
+  }
+});
+
 test('the Mexicans come on from four sides, drawn apart from their side; the officer\'s words over the men firing, and the square has its own', () => {
   const assault = projected(COLETO, 'assault-1', 18);
   assert.deepEqual(assault.groups.map(group => group.id), ['left', 'right', 'rear']);
@@ -175,6 +184,7 @@ test('the surrender is drawn with hands raised and a white flag at a corner; Pal
   const art = fakeArt();
   run(createBattleView(art), () => surrender, { seconds: 2 });
   assert.ok(art.drawn.some(one => one.clip === 'volunteer-surrender'), 'nobody in the square put up his hands');
+  assert.ok(art.drawn.some(one => one.sprite === 'white-flag-volunteer-idle-e'), 'Coleto uses a Mexican regular for the Texian white flag');
   const eve = projected(GOLIAD_MASSACRE, 'eve', 20);
   const guard = eve.sides.find(side => side.side === 'mexican');
   assert.equal(guard.count, null, 'the guard was given a number the record does not');

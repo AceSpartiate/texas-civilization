@@ -2070,6 +2070,307 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/goliad-prisoner.png",
       "postProcessing": "No raster post-processing. Initial generated atlas had raised hands in two requested idle cells; built-in imagegen edit corrected those cells, then the accepted PNG was copied unchanged.",
       "review": "Hands free and no weapons in every accepted frame; down poses are non-graphic. This generic figure is not a named prisoner."
+    },
+    {
+      "sheet": "coleto-baggage-cart",
+      "promptId": "frontier-v1/coleto-baggage-cart",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/cart-open.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4814d39b-de4d-46e9-8e32-4091221055a0.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/coleto-baggage-cart.png",
+      "postProcessing": "None. Generated PNG copied unchanged; measured atlas validation only.",
+      "review": "Distinct upright and tipped frames with a non-looping tip sequence; no ox painted into the cart."
+    },
+    {
+      "sheet": "white-flag-regular",
+      "promptId": "frontier-v1/white-flag-regular",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f6bdfb96-8664-405b-99a2-b9f61138aa7b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/white-flag-regular.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "A regular bears the Béxar truce flag; two distinct walk steps. Cloth remains plain white."
+    },
+    {
+      "sheet": "white-flag-volunteer",
+      "promptId": "frontier-v1/white-flag-volunteer",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f6bdfb96-8664-405b-99a2-b9f61138aa7b.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-35737e97-fa92-45b4-ba06-d19595b2bd5e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/white-flag-volunteer.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "Texian side-specific bearer for Coleto; do not put a Mexican uniform under its flag."
+    },
+    {
+      "sheet": "regular-bugler",
+      "promptId": "frontier-v1/regular-bugler",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f6bdfb96-8664-405b-99a2-b9f61138aa7b.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b9e0456d-d0d4-4e56-9723-b231e59175fd.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/regular-bugler.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "The visible bugler sounds existing documented calls; no new audible signal or historical claim is added."
+    },
+    {
+      "sheet": "twin-sisters-crew",
+      "promptId": "frontier-v1/twin-sisters-crew",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/artillery-service.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3133ff80-b994-4155-889a-45830819a996.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/twin-sisters-crew.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "Dedicated service figure for the two named Twin Sisters; no claim about their transport team or crew identity."
+    },
+    {
+      "sheet": "regular-drummer",
+      "promptId": "frontier-v1/regular-drummer",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/regular-bugler.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1686c9c7-e840-4cc8-8f3a-275e60cf5131.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/regular-drummer.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "Animation-ready drummer; no undocumented drum cue added to the battle timeline."
+    },
+    {
+      "sheet": "flag-red-siege",
+      "promptId": "frontier-v1/flag-red-siege",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/flag-come-and-take-it.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-d9921be6-db86-4961-b2dd-117076e489fd.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/flag-red-siege.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "Plain red cloth for the documented no-quarter signal; the flag sheet itself does not depict San Fernando tower."
+    },
+    {
+      "sheet": "smoke-column-far",
+      "promptId": "frontier-v1/smoke-column-far",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/effects.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3a17ed24-1e3b-444e-8e37-c52436bafd57.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/smoke-column-far.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "Distant atmospheric plume for the February 25 huts; it shows no invented casualties or hut structure."
+    },
+    {
+      "sheet": "alamo-scaling-ladders",
+      "promptId": "frontier-v1/alamo-scaling-ladders",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ea508634-203f-4f9b-ad22-1a3d47423b80.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-scaling-ladders.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "Two carrier steps and two set facings; the number of rendered ladders follows existing assault data."
+    },
+    {
+      "sheet": "regular-ladder-climb",
+      "promptId": "frontier-v1/regular-ladder-climb",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military-vertical.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c44a56e1-cea3-4dfa-adec-9fffd3e06262.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/regular-ladder-climb.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "Two alternating limb positions repeated across four frames; world movement along the ladder comes from the renderer."
+    },
+    {
+      "sheet": "cannon-18pdr",
+      "promptId": "frontier-v1/cannon-18pdr",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/cannon-sixpounder.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/alamo-modules.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-98a15778-6b36-4b66-8c31-c4246a48dfbb.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/cannon-18pdr.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "Heavy garrison carriage, distinct from field six-pounder. This is an interpretive period silhouette, not an exact surviving gun portrait."
+    },
+    {
+      "sheet": "cannon-siege-battery",
+      "promptId": "frontier-v1/cannon-siege-battery",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/cannon-sixpounder.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/fortifications.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9ec3d3ba-438e-4875-8c2b-4a0b05250940.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/cannon-siege-battery.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "Alamo Mexican batteries only; no claim that each battery had identical guns or earthwork."
+    },
+    {
+      "sheet": "canister-burst",
+      "promptId": "frontier-v1/canister-burst",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/effects.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3a2e35e1-022c-4c58-af87-d644528424ce.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/canister-burst.png",
+      "postProcessing": "None. Copied unchanged; measured atlas validation only.",
+      "review": "Selected the smoke-only generation after two flash-bearing drafts produced backward flash direction and saturated edge fringing. Existing muzzle flash remains in code; four-frame sheet carries the widening dust cone without graphic impacts."
+    },
+    {
+      "sheet": "famous-castrillon",
+      "promptId": "frontier-v1/famous-castrillon",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1a0905a8-6409-4713-a37e-c5bee353a226.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-castrillon.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct command silhouette and two authored walking steps; costume and face are interpretive."
+    },
+    {
+      "sheet": "famous-castrillon-fate",
+      "promptId": "frontier-v1/famous-castrillon-fate",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1a0905a8-6409-4713-a37e-c5bee353a226.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-6d8bd711-9708-4eb2-8b29-b571ecdb1cfe.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-castrillon-fate.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Non-graphic three-stage fall and separate still frame for the existing San Jacinto fate. The simulation owns timing and position."
+    },
+    {
+      "sheet": "famous-almonte",
+      "promptId": "frontier-v1/famous-almonte",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-travis.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-29f825d0-b156-4a43-91d2-99eb8aa69d51.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-almonte.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct no-hat staff officer with authored surrender, sword offer and interpreter gestures. Costume and face are game interpretations. These gestures do not add a historical line of dialogue."
+    },
+    {
+      "sheet": "famous-burleson",
+      "promptId": "frontier-v1/famous-burleson",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-travis.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-76383f06-9718-48d2-aef6-f5b9abcdab55.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-burleson.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct older volunteer commander with both field-command and surrender-reception gestures."
+    },
+    {
+      "sheet": "famous-burleson-mounted",
+      "promptId": "frontier-v1/famous-burleson-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-76383f06-9718-48d2-aef6-f5b9abcdab55.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-houston-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2d04777c-1a1f-4914-81ab-ea8ded779bc1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-burleson-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Own horse and two-step mounted walk for Béxar arrival; horse appearance is an artistic interpretation."
+    },
+    {
+      "sheet": "famous-cos",
+      "promptId": "frontier-v1/famous-cos",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-santa-anna.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-db844c2b-3302-431d-a63e-2bce8b4af95b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-cos.png",
+      "postProcessing": "ImageGen gutter correction from first draft; corrected sheet copied unchanged. Atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct crossbelt and shako silhouette; command, capitulation and prisoner poses stay available to historically dated scenes."
+    },
+    {
+      "sheet": "famous-cos-mounted",
+      "promptId": "frontier-v1/famous-cos-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f0ef9f94-bf6a-442d-85ff-63c498f8ccef.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-santa-anna-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0854f310-00eb-4911-be39-b45974b84aef.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-cos-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct iron-grey mount and two-step walking clip for Cos at Béxar and San Jacinto."
+    },
+    {
+      "sheet": "famous-castaneda",
+      "promptId": "frontier-v1/famous-castaneda",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-cos.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9c5837c2-5d3f-4698-aab8-aa849e70ec67.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-castaneda.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dragoon helmet and short cavalry jacket give Castañeda a distinct silhouette at Gonzales."
+    },
+    {
+      "sheet": "famous-castaneda-mounted",
+      "promptId": "frontier-v1/famous-castaneda-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9c5837c2-5d3f-4698-aab8-aa849e70ec67.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-cos-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3663bf07-018e-45fc-933a-51abb7bcd6e3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-castaneda-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Own chestnut mount and two-step travel clip for Gonzales arrival and withdrawal."
+    },
+    {
+      "sheet": "famous-moore",
+      "promptId": "frontier-v1/famous-moore",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-burleson.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7268ebf0-1bd8-4907-bf51-d36bcce64ed5.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-moore.png",
+      "postProcessing": "ImageGen gutter correction from first draft; corrected sheet copied unchanged. Atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct dark-bearded militia commander with parley and field-command poses for Gonzales."
     }
   ],
   "rejectedAttempts": [

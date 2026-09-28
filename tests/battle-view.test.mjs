@@ -56,6 +56,15 @@ test('the Gonzales gun and completed flag select their delivered animated art', 
   assert.ok(art.drawn.some(one => one.clip === 'cannon-cartwheels-e-recoil'), 'Gonzales shot used the old carriage gun');
   assert.ok(art.drawn.some(one => one.clip === 'flag-come-and-take-it-wind'), 'the completed flag stayed canvas art');
 });
+
+test('the named Gonzales parley draws Moore and Castañeda in their own art', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const parley = { x: 0, y: 0, people: [{ side: 'texian', id: 'moore', name: 'Moore' }, { side: 'mexican', id: 'castaneda', name: 'Castañeda', mounted: true }] };
+  view.draw(fakeContext(), battle(0, { parley }), { camera, time: 0, now: 0, tickMs: 1000, bounds: { width: 1366, height: 768 } });
+  assert.ok(art.drawn.some(one => one.sprite === 'castaneda-mounted-idle-e'));
+  assert.ok(art.drawn.some(one => one.sprite === 'moore-idle'));
+  assert.ok(!art.drawn.some(one => one.clip?.startsWith('dragoon-idle-')));
+});
 /** Run the renderer for `seconds` of frames at 60 a second, a new tick every `tickMs`. */
 function run(view, make, { seconds, from = 0, tickMs = 1000, wind = { x: 0, y: 0 } }) {
   let last = null;
