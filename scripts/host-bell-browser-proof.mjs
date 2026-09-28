@@ -60,7 +60,7 @@ try {
   measured.endArmed = armed;
   assert.equal(armed.label, 'Confirm: end the whole game');
   assert.ok(armed.noticeShown, 'End Game armed says nothing on the page');
-  assert.match(armed.notice, /ends the whole game for everyone and shows the ending\. It can't be undone\./);
+  assert.match(armed.notice, /ends the whole game for everyone and shows everybody the ending\. If it was a mistake, Classes can take the class up again/);
   assert.match(armed.notice, /Stop for today/, 'the words do not point a teacher at the bell to Stop for today');
   await host.waitForTimeout(400);
   assert.equal(app.state.world.status, 'running', 'one press of End Game ended the class');
@@ -111,6 +111,37 @@ try {
   await host.waitForFunction(minute => window.__snapshot.world.minute > minute, stoppedAt, { timeout: 30000 });
   ok('Resume carries the class on from where it stopped');
 
+  // ------------------------------------------------------------------------------------------- End Game by mistake, and Continue
+  // Owner, 2026-09-28: "Yes, allow Continue" (docs/HOST_PAGE.md §2.8). End Game, asked twice, ends the class and shows the
+  // ending; Classes takes it up again where it was, paused, and the ending goes.
+  await button(host, 'pause').click();
+  await host.waitForFunction(() => window.__snapshot?.world.status === 'paused', null, { timeout: 10000 });
+  const beforeEnd = { minute: app.state.world.minute, date: (await host.locator('#world').textContent()).trim() };
+  await button(host, 'end').click();
+  await button(host, 'end').click();
+  await host.waitForFunction(() => window.__snapshot?.world.status === 'ended' && window.__snapshot.world.ending?.host, null, { timeout: 10000 });
+  await host.locator('#ending').waitFor({ state: 'visible', timeout: 10000 });
+  if (await host.locator('#ending-close').isVisible()) await host.locator('#ending-close').click();
+  await host.locator('#classes-toggle').click();
+  const again = host.locator('[data-class-continue]');
+  await again.waitFor({ state: 'visible', timeout: 15000 });
+  measured.ended = { line: (await host.locator('.class-entry[data-open=true] .class-line').textContent()).trim(), label: (await again.textContent()).trim() };
+  assert.match(measured.ended.line, /ended part-way/, `the Classes list does not say the class was ended part-way: ${measured.ended.line}`);
+  await shot(host, 'ended-continue');
+  await again.click();
+  assert.match((await again.textContent()).trim(), /^Confirm: continue /, 'Continue did not ask a second time');
+  assert.equal(app.state.world.status, 'ended', 'one press of Continue took the class up again');
+  await again.click();
+  await host.waitForFunction(() => window.__snapshot?.world.status === 'paused' && !window.__snapshot.world.ending, null, { timeout: 15000 });
+  assert.equal(app.state.world.minute, beforeEnd.minute, 'the class was not taken up again where it was ended');
+  assert.equal(await host.locator('#ending').isVisible(), false, 'the ending is still on the Host page');
+  measured.continued = { note: (await host.locator('#classes-note').textContent()).trim(), date: (await host.locator('#world').textContent()).trim(), controls: await shown(host) };
+  assert.ok(measured.continued.controls.includes('resume'), `Resume is not offered after Continue: ${measured.continued.controls}`);
+  await shot(host, 'continued');
+  await button(host, 'resume').click();
+  await host.waitForFunction(minute => window.__snapshot?.world.status === 'running' && window.__snapshot.world.minute > minute, beforeEnd.minute, { timeout: 30000 });
+  ok(`End Game asked twice ends the class ("${measured.ended.line}"); Classes' "${measured.ended.label}", asked twice, takes it up again where it was (${measured.continued.date}), the ending gone, and Resume goes on`);
+
   // At phone width the controls wrap and the page does not scroll sideways.
   await host.setViewportSize({ width: 400, height: 800 });
   await host.waitForTimeout(400);
@@ -125,7 +156,7 @@ try {
     date: new Date().toISOString().slice(0, 10),
     verdict: 'PASS',
     browser: await browser.version(),
-    task: 'Design audit 2026-09-28 B2: End Game asked twice in words; Stop for today saves the class paused and stops the server; the next launch opens it paused and Resume goes on (docs/HOST_PAGE.md §2.8).',
+    task: 'Design audit 2026-09-28 B2: End Game asked twice in words; Stop for today saves the class paused and stops the server; the next launch opens it paused and Resume goes on; a class ended by mistake continued from Classes (owner 2026-09-28) (docs/HOST_PAGE.md §2.8).',
     environment: 'Same computer: two local classroom servers one after the other on one save file, at 200 ms a tick, five families joined by request, headless Chrome. The server\'s stop is a callback here; the launcher\'s own exit is Stop Server\'s, proved by tests/lifecycle.test.mjs. Not a physical LAN or a classroom.',
     checks: pass,
     measured,

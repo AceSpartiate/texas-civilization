@@ -10,7 +10,7 @@ import { setAbsent } from '../sim/absence.mjs';
 import { CALL_BUDGET_MS, DECISION_BUDGET_MS, realTimeMeter } from '../sim/decision-budget.mjs';
 import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld, projectFamily, rollFamily, errandFor, goingFor } from '../sim/world.mjs';
 import { familyMaking, householdName, rollRefusal } from '../sim/family.mjs';
-import { beginNextPeriod, periodOf } from '../sim/periods.mjs';
+import { beginNextPeriod, continueEnded, endedEarly, periodOf } from '../sim/periods.mjs';
 import { dateOf } from '../sim/directors.mjs';
 import { choreCatalogue, modeCatalogue } from '../sim/chores.mjs';
 import { GOODS } from '../sim/trade.mjs';
@@ -438,7 +438,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     const at = world.status === 'lobby' ? null : dateOf(world, world.minute);
     return {
       id: saved.sessionId, name: saved.className || null, code: saved.sessionCode, open,
-      families: world.playerCount, joined: Object.keys(saved.clients || {}).length, status: world.status, period: periodOf(world),
+      families: world.playerCount, joined: Object.keys(saved.clients || {}).length, status: world.status, period: periodOf(world), continuable: endedEarly(world),
       date: at && `${MONTH_NAMES[at.getUTCMonth()]} ${at.getUTCDate()}, ${at.getUTCFullYear()}`, savedAt,
     };
   }
@@ -1229,7 +1229,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         if (typeof input.id !== 'string' || !/^[\w-]{8,80}$/.test(input.id)) return json(res, 400, { error: 'Command ID required' });
         const commands = identity.role === 'host' ? state.hostCommands : state.clients[identity.credentialHash].commands;
         if (commands.includes(input.id)) return json(res, 200, { ok: true, duplicate: true });
-        let archived = null, rotatedSession = null, stopping = false, wantedPace = null, forToday = false;
+        let archived = null, rotatedSession = null, stopping = false, wantedPace = null, forToday = false, continued = null;
         const priorSession = state.sessionId;
         // The solo player's own Pause, Resume and Save (owner, 2026-09-27: "i shouldn't need to open the class view to pause,
         // save or shut down the server"). Written at once, as the Host's commands are, rather than within SAVE_WITHIN_MS.
@@ -1264,6 +1264,9 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
             else if (input.action === 'end') s.world.status = 'ended';
             // The second class period (sim/periods.mjs): the same class carried on into the winter, never a new one.
             else if (input.action === 'next-period') beginNextPeriod(s.world);
+            // A class ended by mistake, part-way through a period, taken up again where it was, paused (owner, 2026-09-28: "Yes,
+            // allow Continue"; docs/HOST_PAGE.md §2.8). Its flashbacks go after the commit (`continued`).
+            else if (input.action === 'continue-class') { continueEnded(s.world); continued = s.sessionId; }
             else if (input.action === 'new-class') {
               // Never put away a class while it is being played: the teacher pauses it first (2026-09-28). A paused class is
               // no longer lost by this - it is kept on the shelf (`shelve`) and opened again from the Host's list of classes.
@@ -1391,6 +1394,8 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
           // family it was left with absent stays absent until its page opens (`seedPresence`, as at a launch).
           seedPresence();
         }
+        // The flashbacks told the class as it was ended; continued, they are thrown away and made again at its next end.
+        if (continued) flashbacks.discard(continued);
         if (wantedPace) setPace(wantedPace);
         if (stopping) requestStop(forToday ? STOPPED_FOR_TODAY : null);
         return json(res, 200, { ok: true, ...(archived && { archived: basename(archived) }), ...(stopping && { stopping: true }), ...(forToday && { stoppedForToday: true }), ...(soloControl && { saved: state.revision }) });

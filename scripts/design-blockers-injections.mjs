@@ -12,7 +12,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
 const FILES = ['tests/lifecycle.test.mjs', 'tests/absence.test.mjs', 'tests/periods.test.mjs', 'tests/scrape.test.mjs', 'tests/scrape-pursuit.test.mjs',
-  'tests/family-commands.test.mjs', 'tests/family-panel.test.mjs', 'tests/ending.test.mjs'];
+  'tests/family-commands.test.mjs', 'tests/family-panel.test.mjs', 'tests/ending.test.mjs', 'tests/classes.test.mjs'];
 const STOP_TODAY = [
   'Stop for today saves the class paused and stops the server; the next launch opens the same class paused, and Resume goes on',
   'Stop for today on a server that cannot close itself still saves the class paused, and says it is not stopping',
@@ -25,6 +25,7 @@ const INTERIM = [
 ];
 const PACKED = ['the family\'s card opens on the packing a family deciding alone takes - food first, as much as fits - and a load far under it is told apart'];
 const CHOOSING = ['choosing somebody shows their bar and leaves the main person as it was; only a living person chosen takes the bar'];
+const CONTINUED = ['a class ended part-way through a period is continued from Classes where it was, paused; its ending and flashbacks go'];
 const ANSWERS = ['who answers the soldiers is the main person every rule reads: somebody else on auto never answers for a family by hand, and a dead choice gives way'];
 
 const INJECTIONS = [
@@ -156,8 +157,52 @@ const INJECTIONS = [
     to: "  if (portrait) { const id = portrait.dataset.portrait; if (id !== focusedId) await chooseFocus(id); goToPerson(id); return; }",
     browser: 'test:scrape-pursuit',
   },
+  // Continue: a class ended by mistake, part-way through a period (owner, 2026-09-28: "Yes, allow Continue"; HOST_PAGE §2.8).
+  {
+    name: 'Continue: there is no Continue; a class ended by mistake stays ended',
+    file: 'server/app.mjs',
+    from: "            else if (input.action === 'continue-class') {",
+    to: "            else if (input.action === 'continue-class-never') {",
+    expect: CONTINUED,
+  },
+  {
+    name: 'Continue: the class is taken up again running, not paused for the teacher',
+    file: 'sim/periods.mjs',
+    from: "  world.status = 'paused';\n  record(world, 'lifecycle'",
+    to: "  world.status = 'running';\n  record(world, 'lifecycle'",
+    expect: CONTINUED,
+  },
+  {
+    name: 'Continue: the flashback videos of the mistaken ending are kept',
+    file: 'server/app.mjs',
+    from: '        if (continued) flashbacks.discard(continued);',
+    to: '',
+    expect: CONTINUED,
+  },
+  {
+    name: 'Continue: the Classes list does not say which class can be continued',
+    file: 'server/app.mjs',
+    from: ' continuable: endedEarly(world),',
+    to: ' continuable: false,',
+    expect: CONTINUED,
+  },
+  {
+    name: 'Continue: a class that came to its own end - the war over - is continued too',
+    file: 'sim/periods.mjs',
+    from: "  if (world.director?.complete) return canContinue(world)",
+    to: "  if (false) return canContinue(world)",
+    expect: ['a class that came to its own end is not continued: a period goes on by its own button, the war not at all'],
+  },
+  {
+    name: 'Continue: the Classes panel has no Continue button',
+    file: 'public/class-panel.js',
+    from: '          if (entry.continuable) {',
+    to: '          if (false) {',
+    browser: 'test:host-bell',
+  },
 ];
 
+const only = process.argv.includes('--only') ? process.argv[process.argv.indexOf('--only') + 1] : null;
 const browser = process.argv.includes('--browser');
 const failing = output => [...output.matchAll(/^✖ (.+?) \(\d/gm)].map(match => match[1]).filter((name, i, all) => name !== 'failing tests:' && all.indexOf(name) === i);
 const runTests = () => { const result = spawnSync(process.execPath, ['--test', ...FILES], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }); return failing(`${result.stdout}${result.stderr}`); };
@@ -179,6 +224,7 @@ const clean = runTests();
 if (clean.length) throw new Error(`The tests fail before any injection: ${clean.join('; ')}`);
 const record = [];
 for (const injection of INJECTIONS) {
+  if (only && !injection.name.startsWith(only)) continue;
   if (!injection.expect && !(browser && injection.browser)) continue;
   const original = readFileSync(injection.file, 'utf8');
   writeFileSync(injection.file, original.replace(ends(original, injection.from), ends(original, injection.to)));
@@ -198,6 +244,6 @@ for (const injection of INJECTIONS) {
 if (runTests().length) throw new Error('The tests fail after every file was put back');
 const missed = record.filter(entry => (entry.failed && !entry.alone) || (entry.proof && !entry.proof.failed));
 mkdirSync('docs/evidence', { recursive: true });
-writeFileSync(`docs/evidence/design-blockers-injections${browser ? '-browser' : ''}.json`, `${JSON.stringify({ record: 'design-blockers-injections', date: new Date().toISOString().slice(0, 10), files: FILES, browser, injections: record }, null, 2)}\n`);
-console.log(`\n${record.length - missed.length} of ${record.length} caught as they should be; wrote docs/evidence/design-blockers-injections${browser ? '-browser' : ''}.json`);
+writeFileSync(`docs/evidence/design-blockers-injections${only ? `-${only.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '')}` : ''}${browser ? '-browser' : ''}.json`, `${JSON.stringify({ record: 'design-blockers-injections', date: new Date().toISOString().slice(0, 10), files: FILES, browser, injections: record }, null, 2)}\n`);
+console.log(`\n${record.length - missed.length} of ${record.length} caught as they should be; wrote docs/evidence/design-blockers-injections${only ? `-${only.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '')}` : ''}${browser ? '-browser' : ''}.json`);
 if (missed.length) process.exit(1);

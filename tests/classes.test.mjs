@@ -3,11 +3,12 @@
 // could ever open it again, so period 2's class and period 4's could not both be played across the days of the game.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, rmSync, readdirSync, readFileSync, existsSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, rmSync, readdirSync, readFileSync, existsSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
 import { createClassroom } from '../server/app.mjs';
+import { continueEnded, continueRefusal } from '../sim/periods.mjs';
 
 function client(port) {
   const jar = new Map();
@@ -137,4 +138,81 @@ test('an unnamed class nobody joined is not kept, and a student only ever reache
     assert.equal((await student.call('/api/join', { name: 'Sam', code: app.state.sessionCode })).status, 200);
     assert.equal((await student.call('/api/classes')).status, 403, 'only the teacher sees the list of classes');
   } finally { await app.close(); rmSync(dir, { recursive: true, force: true }); }
+});
+
+/** The world as it stands, less what End Game and Continue themselves change: its status and the Host's own record of it. */
+const worldApartFromTheEnd = world => {
+  const lifecycle = world.events.filter(event => event.type === 'lifecycle').length;
+  return JSON.stringify({ ...world, status: null, nextEventId: world.nextEventId - lifecycle, events: world.events.filter(event => event.type !== 'lifecycle') });
+};
+
+test('a class ended part-way through a period is continued from Classes where it was, paused; its ending and flashbacks go', async () => {
+  // Owner, 2026-09-28: "Yes, allow Continue" (docs/HOST_PAGE.md §2.8).
+  const dir = mkdtempSync(join(tmpdir(), 'texas-continue-'));
+  const savePath = join(dir, 'classroom.json');
+  const app = createClassroom({ seed: 'continue', savePath, tickMs: 40, playerCount: 5 });
+  const port = await app.listen(0, '127.0.0.1');
+  try {
+    const host = client(port), students = [];
+    await host.call('/api/host', { key: app.state.hostKey });
+    for (let i = 0; i < 5; i++) { const student = client(port); await student.call('/api/join', { name: `Family ${i}`, code: app.state.sessionCode }); students.push(student); }
+    await command(host, 'start');
+    await delay(200);
+    // Not ended: nothing to continue.
+    const live = await command(host, 'continue-class');
+    assert.equal(live.status, 400);
+    assert.match(live.body.error, /has not ended/);
+    await command(host, 'pause');
+    const before = worldApartFromTheEnd(app.state.world), minute = app.state.world.minute;
+    assert.equal((await command(host, 'end')).status, 200);
+    assert.equal(app.state.world.status, 'ended');
+    assert.notEqual(app.state.world.director?.complete, true, 'the class came to its own end, not End Game\'s');
+    const ended = (await host.call('/api/state')).body;
+    assert.ok(ended.world.ending?.host, 'End Game showed no ending');
+    assert.equal(ended.flashback?.ready, true, 'End Game did not make the flashbacks ready');
+    const listed = (await host.call('/api/classes')).body.classes.find(one => one.open);
+    assert.equal(listed.continuable, true, 'the Classes list does not offer the class ended part-way to be continued');
+    // A video made for that ending, as the Host's page would have kept it.
+    const videos = join(dir, 'flashbacks', app.state.sessionId);
+    mkdirSync(videos, { recursive: true });
+    writeFileSync(join(videos, 'hh-1.webm'), 'a video of the ending that was');
+    writeFileSync(join(videos, 'hh-1.json'), JSON.stringify({ householdId: 'hh-1', bytes: 30, durationMs: 60000 }));
+    // Only the teacher continues a class.
+    assert.equal((await command(students[0], 'continue-class', { entityId: 'hh-1-parent-1' })).status, 400);
+    assert.equal(app.state.world.status, 'ended');
+
+    const again = await command(host, 'continue-class');
+    assert.equal(again.status, 200, again.body.error);
+    assert.equal(app.state.world.status, 'paused', 'the class was not taken up again paused');
+    assert.equal(worldApartFromTheEnd(app.state.world), before, 'the class taken up again is not the class as it was the moment before End Game');
+    assert.equal(app.state.world.minute, minute);
+    assert.ok(app.state.world.events.some(event => event.type === 'lifecycle' && event.visibility === 'host'), 'the Host\'s record does not say the class was taken up again');
+    assert.equal(JSON.parse(readFileSync(savePath, 'utf8')).world.status, 'paused', 'the save still holds the class ended');
+    const shown = (await host.call('/api/state')).body;
+    assert.equal(shown.world.ending, undefined, 'the ending is still shown to the Host');
+    assert.equal(shown.flashback, undefined, 'the flashbacks are still offered');
+    assert.equal((await students[0].call('/api/state')).body.world.ending, undefined, 'the ending is still shown to a student');
+    assert.equal(existsSync(videos), false, 'the flashback made for the mistaken ending was kept');
+    assert.equal((await host.call('/api/classes')).body.classes.find(one => one.open).continuable, false);
+    assert.equal((await command(host, 'continue-class')).status, 400, 'a class was continued twice');
+
+    // Resumed, it goes on from where it was; ended again, it ends afresh, with no video of the first ending.
+    assert.equal((await command(host, 'resume')).status, 200);
+    await delay(200);
+    assert.ok(app.state.world.minute > minute, 'the class did not go on');
+    await command(host, 'end');
+    const endedAgain = (await host.call('/api/state')).body;
+    assert.ok(endedAgain.world.ending?.host, 'ended again, it showed no ending');
+    assert.ok(endedAgain.flashback.families.every(family => !family.made), 'the first ending\'s video came back');
+  } finally { await app.close(); rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('a class that came to its own end is not continued: a period goes on by its own button, the war not at all', () => {
+  assert.equal(continueRefusal({ status: 'running', director: { complete: false } }), 'This class has not ended.');
+  assert.equal(continueRefusal({ status: 'ended', director: { complete: false } }), null);
+  assert.match(continueRefusal({ status: 'ended', director: { complete: true }, map: { source: 'colonies' }, period: 1 }), /own end|Continue to the winter/);
+  assert.match(continueRefusal({ status: 'ended', director: { complete: true } }), /came to its own end/);
+  const world = { status: 'ended', director: { complete: true }, events: [], nextEventId: 1, tick: 0, minute: 0 };
+  assert.throws(() => continueEnded(world), /came to its own end/);
+  assert.equal(world.status, 'ended');
 });

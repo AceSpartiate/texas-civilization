@@ -1,0 +1,67 @@
+{
+  "record": "design-blockers-injections",
+  "date": "2026-09-28",
+  "files": [
+    "tests/lifecycle.test.mjs",
+    "tests/absence.test.mjs",
+    "tests/periods.test.mjs",
+    "tests/scrape.test.mjs",
+    "tests/scrape-pursuit.test.mjs",
+    "tests/family-commands.test.mjs",
+    "tests/family-panel.test.mjs",
+    "tests/ending.test.mjs",
+    "tests/classes.test.mjs"
+  ],
+  "browser": true,
+  "injections": [
+    {
+      "name": "Continue: there is no Continue; a class ended by mistake stays ended",
+      "file": "server/app.mjs",
+      "failed": [
+        "a class ended part-way through a period is continued from Classes where it was, paused; its ending and flashbacks go"
+      ],
+      "alone": true
+    },
+    {
+      "name": "Continue: the class is taken up again running, not paused for the teacher",
+      "file": "sim/periods.mjs",
+      "failed": [
+        "a class ended part-way through a period is continued from Classes where it was, paused; its ending and flashbacks go"
+      ],
+      "alone": true
+    },
+    {
+      "name": "Continue: the flashback videos of the mistaken ending are kept",
+      "file": "server/app.mjs",
+      "failed": [
+        "a class ended part-way through a period is continued from Classes where it was, paused; its ending and flashbacks go"
+      ],
+      "alone": true
+    },
+    {
+      "name": "Continue: the Classes list does not say which class can be continued",
+      "file": "server/app.mjs",
+      "failed": [
+        "a class ended part-way through a period is continued from Classes where it was, paused; its ending and flashbacks go"
+      ],
+      "alone": true
+    },
+    {
+      "name": "Continue: a class that came to its own end - the war over - is continued too",
+      "file": "sim/periods.mjs",
+      "failed": [
+        "a class that came to its own end is not continued: a period goes on by its own button, the war not at all"
+      ],
+      "alone": true
+    },
+    {
+      "name": "Continue: the Classes panel has no Continue button",
+      "file": "public/class-panel.js",
+      "proof": {
+        "script": "test:host-bell",
+        "failed": true,
+        "why": "TimeoutError'"
+      }
+    }
+  ]
+}

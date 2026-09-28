@@ -155,8 +155,10 @@ next class".
   class is saved paused all the same and the Host is told to close the server in its own window. The next launch opens the same
   save - the same class, day, families and keys - paused, with **Resume** offered.
 - **End Game** is asked twice, like New Class and Stop Server. Pressed once it reads *Confirm: end the whole game* and the
-  notice line says *"This ends the whole game for everyone and shows the ending. It can't be undone. To stop at the bell and
-  carry on next class, use Stop for today instead."*; left alone it disarms itself after six seconds and the words go.
+  notice line says *"This ends the whole game for everyone and shows everybody the ending. If it was a mistake, Classes can take
+  the class up again where it was, but the ending will have been seen. To stop at the bell and carry on next class, use Stop
+  for today instead."*; left alone it disarms itself after six seconds and the words go. (Until the owner's answer below the
+  words said *"It can't be undone."*)
 - **Who is absent is kept across the stop** (classroom audit S2, playthrough audit #2, 2026-09-28). What a page was last seen
   lives only in memory, and a relaunch began it empty, so every joined family counted as present: one saved absent was handed
   back to a student who was not there, the director stopped running it and its questions held the class; one whose student did
@@ -167,9 +169,26 @@ next class".
 - **Stop Server** is offered only in the lobby and after the end; while a class is under way Stop for today is the stop, with
   the words. The server still takes `stop-server` in any state (`Stop.vbs` uses it).
 
-`ceiling:` a class ended part-way through a period still cannot be continued: the confirmation and Stop for today make it hard
-to do by accident, but it is still final. Letting `canContinue` accept a class ended early (the audit's third direction) is the
-way out if a class is ever ended by mistake anyway.
+**A class ended by mistake is continued (owner, 2026-09-28, asked whether a class ended part-way through a period may be
+continued: *"Yes, allow Continue"*).** This replaces the `ceiling:` that stood here, *"a class ended part-way through a period
+still cannot be continued"*. End Game keeps its two presses.
+
+- **Which class.** One ended by End Game before its period reached its own end (`endedEarly` in `sim/periods.mjs`: ended, and
+  the director not `complete`). A period that ended where it ends goes on by its own button (*Continue to the winter of 1836*,
+  *… spring …*); the last period's end, the war's, is final. Those are refused in words (`continueRefusal`).
+- **Where.** In **Classes**, beside the class that is open, **Continue this class** (two presses; the list says *ended
+  part-way*). A class put away ended is opened first, then continued. Host action `continue-class`.
+- **What it restores.** End Game changes nothing in the world but its status, and while a class is ended nothing ticks and no
+  order is taken, so the class taken up again is the class the moment before End Game - its day, its people, its questions -
+  **paused**, for the teacher's Resume (`continueEnded`); the Host's record (`visibility: 'host'`) says it was taken up again.
+  Proved field by field: the world after is the world before but for the status and that one line
+  (`tests/classes.test.mjs`).
+- **What goes.** Everything End Game showed is read from the ended status and goes with it: the ending and the standings on
+  every page, the Host's winner, the offer of the flashbacks. **The flashback videos made for that ending are thrown away**
+  (`flashbacks.discard`, `server/flashback.mjs`: the class's folder under `flashbacks/`), and a Host page left open forgets what
+  it made and played (`public/flashback.js`); when the class ends again they are made afresh from the class as it then stands.
+- **What cannot be undone.** Everybody has seen the ending: students saw their numbers and the Host the winner. That is why End
+  Game still asks twice, and says so.
 
 ## 3. Proof
 
