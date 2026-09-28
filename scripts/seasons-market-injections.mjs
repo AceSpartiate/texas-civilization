@@ -6,6 +6,7 @@
 // Run: node scripts/seasons-market-injections.mjs  → writes docs/evidence/seasons-market-injections.json
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
+import { LESSON_ENABLED } from '../sim/lesson.mjs';
 
 const FILES = ['tests/seasons.test.mjs', 'tests/market.test.mjs'];
 const INJECTIONS = [
@@ -59,13 +60,13 @@ const INJECTIONS = [
     from: '  const chosen = ask.options.find(candidate => candidate.id === option) || (option === \'leave\' && ASKS[ask.id]?.noneOpen) || ask.options[0];',
     to: '  const chosen = ask.options.find(candidate => candidate.id === option) || ask.options[0];',
   },
-  // The guided start (sim/lesson.mjs).
-  {
+  // The guided start (sim/lesson.mjs): only while it is switched on - its test is skipped while the owner has it off (2026-09-28).
+  ...(LESSON_ENABLED ? [{
     name: 'the guided start waits at the harvest step for a crop weeks off',
     file: 'sim/lesson.mjs',
     from: '    done: (world, household) => harvested(household) || growing(world, household),',
     to: '    done: (world, household) => harvested(household),',
-  },
+  }] : []),
   // The market (sim/market.mjs).
   {
     name: 'the store pays full price however much it holds, and never fills',

@@ -41,7 +41,8 @@ market"**. Built on the worktree branch, origin/main merged, **not pushed, not m
 
 **Evidence**
 
-- `tests/seasons.test.mjs` (8) and `tests/market.test.mjs` (4); **17 of 17 injections caught**,
+- `tests/seasons.test.mjs` (8; the guided-start one skipped while the owner has it off) and `tests/market.test.mjs` (4); **16 of 16
+  injections caught** with the guided start off (17 of 17 before the suspension was merged),
   [docs/evidence/seasons-market-injections.json](docs/evidence/seasons-market-injections.json) (`node scripts/seasons-market-injections.mjs`).
 - Tests changed with reasons: `tests/errands.test.mjs` (twenty bales for food fetch thirty food at a filling store, not forty),
   `tests/rumour-story.test.mjs` (resolved to origin/main's wider rule for the latest word).

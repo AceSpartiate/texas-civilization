@@ -10,7 +10,7 @@ import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/worl
 import { settleMeans } from '../sim/means.mjs';
 import { createSettledWorld, settle, taught } from './support/settled.mjs';
 import { CROPS, RIPEN_TICKS, cropNow, inSeason, plantingRefusal, ripe, ripensAt } from '../sim/seasons.mjs';
-import { advanceLessons } from '../sim/lesson.mjs';
+import { LESSON_ENABLED, advanceLessons } from '../sim/lesson.mjs';
 import { clearedOf } from '../sim/improvements.mjs';
 
 const DAY = 1440;
@@ -160,7 +160,8 @@ test('what a save may hold of the field: a garden, the sown minute on a crop in 
   }
 });
 
-test('the guided start on the real land: the autumn\'s garden is planted, the harvest step says when it will be ready, and the sale is of food', () => {
+// Skipped while the owner has the guided start switched off (2026-09-28, sim/lesson.mjs `LESSON_ENABLED`), kept for its rebuilding.
+test('the guided start on the real land: the autumn\'s garden is planted, the harvest step says when it will be ready, and the sale is of food', { skip: !LESSON_ENABLED && 'the guided start is switched off (owner, 2026-09-28)' }, () => {
   const world = realLand('seasons-lesson');
   const household = first(world);
   household.played = true;
