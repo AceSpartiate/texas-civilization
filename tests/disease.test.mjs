@@ -385,12 +385,14 @@ test('step 3: who has had the measles is dealt by age from the class seed, shown
   assert.equal(canTake(world, person, 'measles'), false, 'somebody who has had the measles can take it');
 });
 
-test('step 3: whooping cough is a child\'s sickness, dangerous only to babies', () => {
+test('step 3: whooping cough is a child\'s sickness, dangerous to babies above all, to small children, and to nobody past five', () => {
   const world = landed('sick-whoop');
   for (let i = 0; i < 50; i++) assert.equal(canTake(world, { id: `w-12-${i}`, age: 12, health: { condition: 'well' } }, 'whooping-cough'), false, 'a child of twelve can take whooping cough');
   assert.equal(canTake(world, { id: 'w-0', age: 0, health: { condition: 'well' } }, 'whooping-cough'), true);
-  assert.equal(riskWeight({ age: 4 }, 'whooping-cough'), 0, 'whooping cough can turn a child of four very sick');
-  assert.ok(riskWeight({ age: 0 }, 'whooping-cough') > 0, 'whooping cough cannot turn a baby very sick');
+  // "Measles and cough lead" (owner, 2026-09-27): with no vaccine, a small child can turn very sick of it too, a baby most.
+  assert.ok(riskWeight({ age: 4 }, 'whooping-cough') > 0, 'whooping cough cannot turn a child of four very sick');
+  assert.ok(riskWeight({ age: 0 }, 'whooping-cough') > 2 * riskWeight({ age: 4 }, 'whooping-cough'), 'a baby is not in much more danger of it than a child of four');
+  assert.equal(riskWeight({ age: 7 }, 'whooping-cough'), 0, 'whooping cough can turn a child of seven very sick');
 });
 
 // ------------------------------------------------------------------------------------------------ step 4: the crowded places
@@ -684,5 +686,9 @@ test('step 8: the measured deaths over the flight are about three in a hundred, 
   assert.ok(young / Math.max(1, mixed.died) >= 0.5, `only ${young} of ${mixed.died} deaths were of children under six`);
   const perYoung = young / (mixed.byBand['0-1'].people + mixed.byBand['2-5'].people), perGrown = mixed.byBand['16+'].died / mixed.byBand['16+'].people;
   assert.ok(perYoung > 3 * perGrown, 'a small child is not much more likely to die of it than a grown person');
+  // "Measles and cough lead" (owner, 2026-09-27): the two the record names on the Scrape kill more than the flux or a chill.
+  const deaths = id => mixed.byDisease[id]?.died || 0;
+  const leading = ['measles', 'whooping-cough'], others = Object.keys(mixed.byDisease).filter(id => !leading.includes(id));
+  for (const id of leading) for (const other of others) assert.ok(deaths(id) > deaths(other), `${other} killed ${deaths(other)}, ${id} ${deaths(id)}: the measles and whooping cough do not lead`);
   for (const one of study.autumnWinter) assert.equal(one.autumn.died, 0, `somebody died of sickness in the first period of ${one.seed}`);
 });

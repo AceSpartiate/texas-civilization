@@ -194,7 +194,7 @@ two real minutes: long enough to see and answer, too short to be a chore.
 | Id | Name on the row | Where and when it can start | How it spreads in the game | Days sick (base) | Can it turn very sick? | Rest matters? |
 | --- | --- | --- | --- | --- | --- | --- |
 | `measles` | "has the measles" | Period 3: the crowded places of the record while the record has it there (§3.4). From one member to the rest of the family. From a man sent home from the army's camp with it (Labadie). | Contact: within the family, and at the listed crowded places on the listed days | 7, then weak (§3.3) | Yes. Most for under-twos, never-had grown people, the hungry and the cold | Strongly |
-| `whooping-cough` | "has the whooping cough" | Period 3: the same crowded places. From child to child in a family. | Contact, among children under ten | 21 (it is long) | Babies under one only | Yes. A sick baby also needs holding (existing rule) |
+| `whooping-cough` | "has the whooping cough" | Period 3: the same crowded places. From child to child in a family. | Contact, among children under ten | 21 (it is long) | Babies under one only (*since §9.5: babies most, and small children under five*) | Yes. A sick baby also needs holding (existing rule) |
 | `ague` | "has the chills and fever" | Period 1, from arrival to the first hard norther after November 1 (the frost), for a family whose house stands in `bottomland` or `bottomland-cane` (`sim/woods.mjs` `standAt`), and much less on the prairie. Relapses in period 2. | Not between people (mosquitoes, unknown to them). The game says "*the fever of the river bottoms*". | 6, with one relapse chance in the next 60 days | Seldom. Small children only | Yes |
 | `flux` | "has the flux" | Any crowded camp after two days in it: Houston's camp, a refuge, a long wait at a crossing among many families (Lynch's ferry, the Trinity), and the siege of Béxar (**no deaths there**, `HIST-TEX-029`). | "*The camp's water is fouled*": the crowd and the days in it. Moving on, or camping apart, clears it. | 5 | Small children and the weakened | Yes |
 | `lung-fever` | "has a chill on the chest" | Today's causes, unchanged: a norther with no roof and no fire, hunger, and the road. Also the usual way measles turns very sick. | Exposure, not between people | 5 (today's `SICK_DAYS`) | Yes, as today's sickness can kill | Yes |
@@ -711,7 +711,8 @@ hooks named here; the plan's §3 is what was built unless this section says othe
    shown on the card, and written (`had`) only when taken. Whooping cough is taken only under ten and turns only babies very sick.
 4. **The crowded places.** The Trinity (the Atascosito crossing and Liberty, March 25 to April 30) and Lynch's ferry (March 22 to
    April 22, **RECONSTRUCTED**): a family camped there, not apart, may catch measles (1 in 10 a day) or whooping cough (8 in 100)
-   for those who can take them. The flux after two days camped at a refuge (2 in 100 a day at a weight of one). Houston's camp,
+   for those who can take them. The flux after two days camped at a refuge (2 in 100 a day at a weight of one). *(Since §9.5:
+   measles 15 in 100, whooping cough 30 in 100, the flux half a one in 100.)* Houston's camp,
    April 1 to 20: measles and the flux; a sick man there does no camp work. The siege of Béxar: the flux, and nobody dies of any
    sickness in the first period. "Camp apart from the crowd" (`camp-apart`) keeps a family out of all of it at that place, costs
    its trading there and, at a crossing, half a day of its turn. **Word** of the Trinity's and Lynch's sickness goes along the
@@ -743,6 +744,31 @@ from the same winter on two seeds: **twelve flights, 1,956 people**. Each spring
 their sick as the director does (nurse, rest a day for the very sick, never send the sick to work) and half never nurse or rest,
 the halves swapped between the two springs so every family is measured both ways - the owner's option C, "still weighted to the
 small and the uncared-for".
+
+**As measured now** (2026-09-27/28, on the tree with the Scrape's routes and chases merged in, and the rates retuned on the owner's
+answers of §9.5 - the evidence file is this run):
+
+| | People | Fell sick (episodes) | Very sick | Died | In a hundred |
+| --- | --- | --- | --- | --- | --- |
+| **The whole flight** | 1,956 | 1,049 | 199 | **58** | **2.97** |
+| Families that saw to their sick | 978 | | | 5 | 0.51 |
+| Families that did not | 978 | | | 53 | 5.42 |
+| Under two | 140 | 161 | 45 | 8 | 5.7 |
+| Two to five | 348 | 345 | 88 | 32 | 9.2 |
+| Six to fifteen | 788 | 375 | 39 | 12 | 1.5 |
+| Sixteen and over | 680 | 168 | 27 | 6 | 0.9 |
+
+Of the 58 deaths, **40 were children under six** (69 in 100). By disease: **the measles 250 cases, 90 very sick, 30 died; the
+whooping cough 176, 58, 14**; a chill on the chest 426, 35, 8; the flux 197, 16, 6. The twelve flights ran from 0 to 8.1 in a
+hundred. In the autumns: 205 cases of the chills and fever among about 1,000 people, 12 of the siege's flux, 8 chills on the
+chest, **nobody dead of a sickness**; in the winters, 32 relapses.
+
+**On the merged tree before the retuning** (the rates as first built, the Scrape's routes, halts and chases in): 2.97 in a hundred
+again (58 of 1,956); careful 0.41, careless 5.52; under two 8.6, two to five 9.8, six to fifteen 0.9, grown 0.7; the flux 41
+deaths, a chill on the chest 12, the measles 5, the whooping cough 0 - within a death or two of the first measurement below, so
+the routes and chases, which families nobody plays do not choose and which are rare, moved nothing that could be seen.
+
+**As first measured** (before the merge, the rates as first built):
 
 | | People | Fell sick (episodes) | Very sick | Died | In a hundred |
 | --- | --- | --- | --- | --- | --- |
@@ -782,14 +808,36 @@ fell **2.0 a day through "Stop and rest a day" and 0.5 a day walking** after it 
   plan's three days.
 - **Cholera, smallpox and yellow fever as words in the towns' talk** (§3.9) were not written: they are out of play, as decided,
   and `HIST-TEX-673`/`675` say why. Town lines are the way to add them.
-- **The flux kills most** (43 of 58): families sit at their refuges for weeks, and the flux is the camp's. The record's named
-  killers of the Scrape are the measles and whooping cough; if the owner wants them to weigh more, the flux's rate comes down and
-  the measles' death rate goes up, and the study is run again.
+- **The flux killed most** as first built (43 of 58): families sit at their refuges for weeks, and the flux is the camp's. The
+  record's named killers of the Scrape are the measles and whooping cough; the owner chose that they lead (§9.5), and the rates
+  were moved.
 
 ### 9.4 For the owner
 
 - The whole-flight figure is **2.97 in a hundred** in a class where half the families neglect their sick; a class that nurses
   and rests loses about **0.4 in a hundred**. Whether the owner's "about three in a hundred" was meant for a careless class, a
-  mixed one (as measured) or a careful one decides whether the rates should move.
+  mixed one (as measured) or a careful one decides whether the rates should move. **Answered: a mixed class (§9.5).**
 - Nursing is still a certainty for the day (the old `FIC-GONZ-052` promise). Making it a strong reduction rather than a
-  certainty would raise the careful families' losses toward the whole-flight figure.
+  certainty would raise the careful families' losses toward the whole-flight figure. *Still open.*
+
+### 9.5 The owner's answers, 2026-09-27, by multiple choice (built the same night, not released)
+
+1. **"3 in 100" describes a mixed class** - half the families seeing to their sick, half not - as measured. Kept.
+2. **"Yes, measles and cough lead."** The measles and whooping cough are the Scrape's leading killers, as the record names them
+   (`HIST-TEX-639`), with the whole flight still about three in a hundred in a mixed class. What moved (`sim/disease.mjs`, tuned
+   against scripts/disease-study.mjs, not claimed):
+
+   | | Was | Now |
+   | --- | --- | --- |
+   | The measles: turning very sick / dying, a day at a weight of one | 0.03 / 0.2 | **0.09 / 0.6** |
+   | The whooping cough: the same | 0.02 / 0.2 | **0.07 / 0.8** |
+   | The whooping cough: who it turns very sick | babies under one | **babies under one (six times), under two (three), under five (one and a half)** - RECONSTRUCTED: with no vaccine, small children too |
+   | Taking them among the crowds, a day (`CROWD_CATCH`) | measles 0.1, whooping cough 0.08 | **0.15, 0.3** |
+   | The flux in a fouled camp, a day (`FLUX_PER_DAY`) | 0.02 | **0.005** |
+   | The flux: turning very sick / dying | 0.03 / 0.16 | **0.015 / 0.06** |
+   | A chill on the chest: the same | 0.02 / 0.16 | **0.012 / 0.08** |
+
+   Measured (§9.2): **2.97 in a hundred**; the measles 30 of the 58 deaths, the whooping cough 14, a chill on the chest 8, the
+   flux 6; careful families 0.51, careless 5.42; 40 of the 58 under six. `tests/disease.test.mjs` step 8 now also fails unless the
+   measles and the whooping cough each killed more than every other sickness in the evidence (seen failing against the first
+   build's rates and evidence: "lung-fever killed 10, measles 5").

@@ -80,17 +80,22 @@ export const CLAIMS = Object.freeze({
  *
  * The rates are tuned rather than claimed, against the owner's three in a hundred over the flight (scripts/disease-study.mjs,
  * docs/evidence/disease-study.json); the ratios between the ages are the record's (§2.2: babies and small children).
+ * Retuned 2026-09-27 on the owner's answers (docs/DISEASE.md §9.5): the three in a hundred is a **mixed** class's, as
+ * measured, and **"measles and cough lead"** - the two the record names at the Trinity are the Scrape's leading killers, so
+ * the measles and whooping cough turn very sick and kill more, and go round the crowds more (`CROWD_CATCH`), while the flux
+ * (`FLUX_PER_DAY`) and a chill on the chest were brought down to keep the whole flight at about three.
  */
 export const DISEASES = Object.freeze({
   measles: {
-    name: 'the measles', short: 'measles', days: 7, worsen: 0.03, death: 0.2, household: 0.9, weak: true, claimId: CLAIMS.scrape,
+    name: 'the measles', short: 'measles', days: 7, worsen: 0.09, death: 0.6, household: 0.9, weak: true, claimId: CLAIMS.scrape,
     // Babies and small children above all, and a grown person who never had it as a child (CDC: "<5 years" and adults).
     grave: age => (age < 2 ? 3 : age < 6 ? 2 : age >= 16 ? 2 : 1),
   },
   'whooping-cough': {
-    name: 'the whooping cough', short: 'whooping cough', days: 21, worsen: 0.02, death: 0.2, household: 0.8, under: 10, weak: true, claimId: CLAIMS.scrape,
-    // Dangerous to babies under a year, and to nobody else (CDC).
-    grave: age => (age < 1 ? 6 : 0),
+    name: 'the whooping cough', short: 'whooping cough', days: 21, worsen: 0.07, death: 0.8, household: 0.8, under: 10, weak: true, claimId: CLAIMS.scrape,
+    // Dangerous to babies under a year above all (CDC); with no vaccine, to small children under five as well (the owner's
+    // "measles and cough lead", 2026-09-27: RECONSTRUCTED, as the weight of the ages always was); to nobody older.
+    grave: age => (age < 1 ? 6 : age < 2 ? 3 : age < 5 ? 1.5 : 0),
   },
   ague: {
     name: 'the chills and fever', short: 'chills and fever', days: 6, worsen: 0.015, death: 0.1, claimId: CLAIMS.ague,
@@ -98,11 +103,11 @@ export const DISEASES = Object.freeze({
     grave: age => (age < 6 ? 2 : 0),
   },
   flux: {
-    name: 'the flux', short: 'flux', days: 5, worsen: 0.03, death: 0.16, claimId: CLAIMS.flux,
+    name: 'the flux', short: 'flux', days: 5, worsen: 0.015, death: 0.06, claimId: CLAIMS.flux,
     grave: age => (age < 5 ? 3 : 1),
   },
   'lung-fever': {
-    name: 'a chill on the chest', short: 'chill on the chest', days: 5, worsen: 0.02, death: 0.16, claimId: CLAIMS.diseases,
+    name: 'a chill on the chest', short: 'chill on the chest', days: 5, worsen: 0.012, death: 0.08, claimId: CLAIMS.diseases,
     grave: age => (age < 2 ? 3 : age < 6 ? 2 : 1),
   },
 });
@@ -276,12 +281,12 @@ export const CROWDS = Object.freeze([
  * The daily chance, at a crowded place in its window and not camped apart, that somebody who can take it takes it home with
  * them (`FIC-GONZ-670`); the sickness itself comes ten to twelve days on, as it does within a family.
  */
-export const CROWD_CATCH = Object.freeze({ measles: 0.1, 'whooping-cough': 0.08 });
+export const CROWD_CATCH = Object.freeze({ measles: 0.15, 'whooping-cough': 0.3 });
 /**
  * The camp's water fouled (`FIC-GONZ-675`): after two days camped among the families at a refuge in the third period, the
  * daily chance at a weight of one of the flux. Moving on, or camping apart, clears it.
  */
-export const FLUX_PER_DAY = 0.02, FLUX_AFTER_DAYS = 2;
+export const FLUX_PER_DAY = 0.005, FLUX_AFTER_DAYS = 2;
 /**
  * Houston's army, April 1 to 20, 1836: measles "had broken out in the army" and "the increase of diarrhoea" (Labadie,
  * `HIST-TEX-669`). The daily chances for a man serving there.

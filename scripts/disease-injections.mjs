@@ -200,6 +200,14 @@ const INJECTIONS = [
     to: '',
     expect: ['step 3: whooping cough is a child'],
   },
+  {
+    // As it was before the owner's "measles and cough lead" (2026-09-27): dangerous to babies under a year and nobody else.
+    name: 'the whooping cough dangerous to babies only',
+    file: 'sim/disease.mjs',
+    from: '    grave: age => (age < 1 ? 6 : age < 2 ? 3 : age < 5 ? 1.5 : 0),',
+    to: '    grave: age => (age < 1 ? 6 : 0),',
+    expect: ['step 3: whooping cough is a child'],
+  },
 
   // Build step 4: the crowded places.
   {
@@ -219,8 +227,8 @@ const INJECTIONS = [
   {
     name: 'the camp\'s water is fouled after a day',
     file: 'sim/disease.mjs',
-    from: 'export const FLUX_PER_DAY = 0.02, FLUX_AFTER_DAYS = 2;',
-    to: 'export const FLUX_PER_DAY = 0.02, FLUX_AFTER_DAYS = 1;',
+    from: 'export const FLUX_PER_DAY = 0.005, FLUX_AFTER_DAYS = 2;',
+    to: 'export const FLUX_PER_DAY = 0.005, FLUX_AFTER_DAYS = 1;',
     expect: ['step 4: the flux comes after two days', 'step 8: the measured deaths'],
   },
   {
