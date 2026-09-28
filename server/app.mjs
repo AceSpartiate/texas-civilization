@@ -25,6 +25,9 @@ import { fellFacts } from '../sim/felling.mjs';
 import { TERRAIN_FILES } from '../sim/province.mjs';
 import { gunzipSync } from 'node:zlib';
 import { readSave, writeSave, acquireSaveLock, archiveSave } from './storage.mjs';
+// The end-of-game flashback's videos, kept beside the save (docs/FLASHBACK.md): the routes are `/api/flashback/...` below.
+import { bodyBytes, createFlashbackStore, flashbackPayload, scriptCache } from './flashback.mjs';
+import { flashbackReady } from '../sim/flashback.mjs';
 import { classSchedule } from './class-days.mjs';
 
 const token = () => randomBytes(24).toString('hex');
@@ -74,6 +77,9 @@ const files = new Map([
   ['/ground-classes.js', ['../public/ground-classes.js', 'text/javascript']],
   ['/land-levels.js', ['../public/land-levels.js', 'text/javascript']],
   ['/ending.js', ['../public/ending.js', 'text/javascript']],
+  // The end-of-game flashback, drawn and recorded on the Host's page and played on every page (docs/FLASHBACK.md).
+  ['/flashback.js', ['../public/flashback.js', 'text/javascript']],
+  ['/webm-writer.js', ['../public/webm-writer.js', 'text/javascript']],
   // The family's neighbours and help offered back between families (sim/neighbourly.mjs, owner 2026-09-28).
   ['/neighbours.js', ['../public/neighbours.js', 'text/javascript']],
   ['/appearance.js', ['../public/appearance.js', 'text/javascript']],
@@ -213,7 +219,7 @@ export const WOODS_BATCH_MAX = 64;
  * `LESSON_RESUME_MS`, five minutes when not given). Both are options only so a test or a browser proof can hold the clock,
  * jump it, or shorten the window; a real class passes neither.
  */
-export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS, decisionBudgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, now = Date.now, lessonResumeMs, soloWatch = null } = {}) {
+export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS, decisionBudgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, now = Date.now, lessonResumeMs, soloWatch = null, flashbackDir } = {}) {
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
   if (!Number.isFinite(decisionBudgetMs) || decisionBudgetMs <= 0) throw new Error('A decision budget must be a positive number of milliseconds');
   if (!Number.isFinite(callBudgetMs) || callBudgetMs <= 0) throw new Error('A call budget must be a positive number of milliseconds');
@@ -260,6 +266,10 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     writeSave(savePath, committed);
   } catch (error) { lease.release(); throw error; }
   let durable = committed, unsavedTicks = 0, saveTimer = null;
+  // The flashback videos (server/flashback.mjs): in `flashbacks/` beside the save, a folder a class. A server with no save keeps
+  // none unless it is given a folder, and its pages are told so.
+  const flashbacks = createFlashbackStore(flashbackDir !== undefined ? flashbackDir : savePath ? join(dirname(savePath), 'flashbacks') : null);
+  const flashbackScriptsOf = scriptCache();
   // Cookies are host/path scoped, not port scoped; separate class namespaces prevent
   // collisions. A new class rotates the session ID, so the names are read per request.
   const hostCookie = () => `tr_host_${state.sessionId}`, studentCookie = () => `tr_student_${state.sessionId}`;
@@ -462,6 +472,8 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     // A page has to know it is a solo game: there is no teacher on it, so its own "Done packing" is the Start
     // (owner, 2026-09-21). One boolean rather than a role of its own - a solo player is a student in every other way.
     if (solo) payload.solo = true;
+    // The end-of-game flashbacks: which are made, for the Host every family's and for a student their own (server/flashback.mjs).
+    Object.assign(payload, flashbackPayload(flashbacks, state.sessionId, state.world, identity));
     // The class's size, name, the families a late student could take and how many class days the game takes (2026-09-28).
     if (identity.role === 'host') Object.assign(payload, {
       sessionCode: state.sessionCode, joinUrls, canStop: Boolean(onStopRequested), presence: presence(),
@@ -886,6 +898,24 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         res.writeHead(303, { 'Set-Cookie': setCookie(studentCookie(), entry.credential, 604800), Location: '/', 'Cache-Control': 'no-store' });
         return res.end();
       }
+      // A family's flashback, sent by the page that recorded it (docs/FLASHBACK.md §5): a WebM body rather than JSON, so it is
+      // taken before the JSON rule below and held to the same origin rule itself.
+      if (req.method === 'POST' && url.pathname === '/api/flashback/video') {
+        if (req.headers.origin && req.headers.origin !== `http://${req.headers.host}`) return json(res, 403, { error: 'Same-origin requests only' });
+        if (!req.headers['content-type']?.startsWith('video/webm')) return json(res, 415, { error: 'A WebM video is required.' });
+        const identity = identify(req);
+        if (!identity) return json(res, 401, { error: 'Join this class first.' });
+        const householdId = url.searchParams.get('household') || '';
+        if (!state.world.households[householdId]) return json(res, 404, { error: 'No such family.' });
+        // The teacher's computer makes them; on Play Solo the player's computer is the teacher's, and makes its own.
+        if (identity.role !== 'host' && !(solo && identity.householdId === householdId)) return json(res, 403, { error: 'Only the teacher’s computer makes the flashbacks.' });
+        if (!flashbackReady(state.world)) return json(res, 409, { error: 'The class has not ended.' });
+        const bytes = await bodyBytes(req);
+        const version = Number(url.searchParams.get('version')), madeMs = Number(url.searchParams.get('madeMs'));
+        const note = flashbacks.save(state.sessionId, householdId, bytes, { ...(Number.isInteger(version) && version > 0 && { scriptVersion: version }), ...(Number.isFinite(madeMs) && { madeMs }) });
+        broadcast();
+        return json(res, 200, { ok: true, ...note });
+      }
       if (req.method === 'POST') {
         if (req.headers.origin && req.headers.origin !== `http://${req.headers.host}`) return json(res, 403, { error: 'Same-origin requests only' });
         if (!req.headers['content-type']?.startsWith('application/json')) return json(res, 415, { error: 'JSON required' });
@@ -1044,6 +1074,18 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       const identity = identify(req);
       if (!identity) return json(res, 401, { error: 'Join this class first.' });
       if (req.method === 'GET' && url.pathname === '/api/state') return json(res, 200, snapshot(identity));
+      // The flashback (docs/FLASHBACK.md): a family's script, which the page that makes the video draws, and the video itself. The
+      // Host any family's; a student their own and no other. Nothing before the class has ended for good.
+      if (req.method === 'GET' && (url.pathname === '/api/flashback/script' || url.pathname === '/api/flashback/video')) {
+        const householdId = url.searchParams.get('household') || identity.householdId || '';
+        if (identity.role !== 'host' && householdId !== identity.householdId) return json(res, 403, { error: 'Only your own family’s flashback.' });
+        if (!state.world.households[householdId]) return json(res, 404, { error: 'No such family.' });
+        if (!flashbackReady(state.world)) return json(res, 409, { error: 'The class has not ended.' });
+        if (url.pathname === '/api/flashback/video') return flashbacks.serve(req, res, state.sessionId, householdId);
+        const script = flashbackScriptsOf(state.world)[householdId];
+        if (url.searchParams.get('part') === 'transcript') return json(res, 200, { householdId, name: script.name, beats: script.beats.map(beat => ({ date: beat.date, caption: beat.caption, ...(beat.meanwhile && { meanwhile: `${beat.meanwhile.text} ${beat.meanwhile.heard}` }) })) });
+        return json(res, 200, { mapId: state.sessionId, script });
+      }
       // Who is in this class, by the name they chose. No keys: this is the list a teacher
       // reads to find the student in front of them, and it is safe to leave on screen.
       if (req.method === 'GET' && url.pathname === '/api/families') {
