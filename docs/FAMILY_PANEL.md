@@ -1338,6 +1338,25 @@ untouched - there the column runs across the top and the property is removed.
 
 Proved in a browser by `npm run test:children` at 1366x768 and 1024x768 (docs/evidence/children-browser.json).
 
+## 19. Sickness on the row — owner 2026-09-27 (docs/DISEASE.md), built the same day
+
+- **The row's line** (`.panel-sick-line`, its own line under the others): the server's sentence (`sicknessShown`, sim/disease.mjs,
+  sent as `sickness.line`) - what they have, what they are doing, and what rest would do: "Has the measles: resting, well in about
+  3 days.", "Has a chill on the chest: riding. Resting would mend it sooner.", "Has the flux: working. Resting would mend it
+  sooner, and she may get worse." Very sick is said in bold red: "Very sick with the measles: could die without nursing and
+  warmth. Nurse her and let her rest." (in the first period, when nobody dies of it, "the worst is not past"). The page writes none
+  of it (§14.2's rule).
+- **The badge**: a small disc on the portrait's corner while the server says the person is sick (stand-in: the road's nursing
+  picture, request 2026-09-27 in docs/ART_REQUESTS.md); its title is the line.
+- **The "!"**: somebody very sick carries it (`needsOf` kind `sick`, last in `NEED_KINDS`), with the line as its words; it opens
+  their card at the work. A day to answer: nobody dies the day they are seen very sick.
+- **Work while sick**: allowed (the owner: "yes, with a warning"); every work icon of a sick person carries the server's warning
+  first in its note ("Mary is sick. Working slows her mending and she may get worse."), except calling the halt to rest. Very sick:
+  every work and journey refused, "Mary is too sick to get up."
+- **The card** adds the line, and "has had the measles" for anybody who has - dealt by age from the class seed, as a family knew.
+- **The new work**: "Stop and rest a day" (`rest-road`) on the road; "Camp apart from the crowd" (`camp-apart`) at a crossing or a
+  refuge; "Nurse the sick" at home (`nurse-home`) beside the road's `tend-sick`.
+
 ## Usability amendment — 2026-09-21
 
 The owner's subsequent request grants freedom to improve usability. This supersedes the icon-only and double-click selection details above:

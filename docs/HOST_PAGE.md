@@ -96,6 +96,18 @@ other change to it is. Each stop and resume is also written to the world's event
 `lesson-resumed` with `visibility: 'host'` and `about` naming the family and no `householdId`, so neither the family's
 own journal nor any public record carries it. See [LESSON.md](LESSON.md) §1, second amendment.
 
+### 2.6 Sickness on the class panel (2026-09-27)
+
+The owner's diseases (docs/DISEASE.md, sim/disease.mjs): a person's words name the sickness - *"sick with the measles, at Liberty,
+fled from home"*, *"very sick with the flux, ..."* (`sickWords`); over the families, one line counts the class's sick in words -
+*"Measles: 4 sick, 1 very sick. Flux: 2 sick."* - and how many have died of sickness (`classSickness`, `#host-sickness`), never
+who. **A child who died of a sickness is never named on the projector** (the owner, 2026-09-27: "not drawn, not spotlighted, no
+name on the Host's projector"): the child is left out of the family's people and the family's row says *"A child of this family
+died of sickness."* (`lost`); the dead of a sickness are not on the Host's map (sim/overview.mjs) or anybody else's
+(sim/town.mjs `observedBy`); the spotlight never goes to a death from sickness. The word of the sickness going round the Trinity
+and Lynch's ferry reaches the Rumor Mill as the families hear it (`sickness-trinity`, `sickness-lynchburg`). Proof: `npm run
+test:disease`.
+
 ## 3. Proof
 
 - `tests/absence.test.mjs` (4): the marker; the director's, questions answered at once, nothing held; back again; the

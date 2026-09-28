@@ -158,6 +158,11 @@ docs/FAMILY_PANEL.md, docs/SETTLING_IN.md). An infant is still given no work. In
   or resting as she was, her automation as it was. Two ticks for a well baby (the tick she picks it up and the tick she lays it down),
   three for a sick one.
 - **At night** a baby sleeps ("Asleep for the night.") and wakes nobody in the game's dark.
+- **Sick** (since 2026-09-27, docs/DISEASE.md, sim/disease.mjs): a sick baby **held or carried is nursed** that day (`FIC-GONZ-665`)
+  - the carer is doing it already - so nobody holding it lets it die that day or the next. Babies and small children are the ones a
+  sickness turns very sick most (the whooping cough only them; the measles three times a grown person's weight under two), and a
+  child can die of it: told to the family in one plain sentence, not drawn, not spotlighted, never named on the Host's projector
+  (the owner, 2026-09-27). A sick baby is drawn as it is (a lying infant is request 2026-09-27 item 3, docs/ART_REQUESTS.md).
 
 **Not annoying, not a time sink.** A well baby takes at most `COMFORT_CAP_TICKS` - four ticks, two comfortings, forty minutes - of
 any one person's day; past it the next nearest comes, or it settles. The record hears of a person's comforting once a day, out of the

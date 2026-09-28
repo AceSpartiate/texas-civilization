@@ -30,6 +30,9 @@ does not have:
 
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
+| The sick badge on a portrait is the road's nursing icon (`icon-tend-sick`, or its stroked glyph) in a cream disc | `panelRow` and the row update in `public/app.js` (`.panel-sick-mark`) | Request 2026-09-27 — sickness, item 1 | `mark-sick` |
+| "Stop and rest a day" is the rest order's picture (`icon-rest`); "Nurse the sick" at home the road's nursing (`icon-tend-sick`); "Camp apart from the crowd" a stroked glyph (three tents on a bank and one up the stream) | `PANEL_ICONS` and `drawGlyph` in `public/family-panel.js` | Request 2026-09-27 — sickness, item 2 | `icon-rest-road`, `icon-nurse-home`, `icon-camp-apart` |
+| Somebody sick and resting is drawn in the delivered `-injured-rest` pose, as the hurt are; a sick baby is drawn as it is | `restingSick` and `grownClip` in `public/motion.js` | Request 2026-09-27 — sickness, item 3 | `-sick-rest`, `infant-sick` |
 | ~~Six children's action glyphs drawn in code~~ | `PANEL_ICONS` in `public/family-panel.js` | Delivered 2026-09-22 in `icons-children.png` | All six keys now name their production sprite directly |
 | ~~A trash can drawn in code with a pen~~ | `DrawBin` in `launcher/SoloGameDialog.cs` | Delivered 2026-09-22 in `launcher/art/icon-delete-save.png` | Illustrated frontier pail is embedded and tinted; line drawing is packaging fallback only |
 | ~~Gathering glyphs drawn in code~~ | `PANEL_ICONS` in `public/family-panel.js` | Existing `icons-family-subsistence.png` art wired 2026-09-26 | Four production sprites selected directly; `fish-road` reuses the water-fishing icon |
@@ -161,6 +164,29 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-27 — sickness: the sick badge, the sickness icons, and the sick lying down
+
+**Status: open; stand-ins in use since 2026-09-27 (see *Stand-ins in use*).** The owner's diseases of 2026-09-27
+([DISEASE.md](DISEASE.md), `sim/disease.mjs`) put three new things in front of a student: a person who is sick, the new work the
+family can give (stop the family on the road to rest a day, camp apart from a crowd, nurse the sick at home), and the sick
+resting. Nothing gory and nothing of the body: a blanket, a cup, a bed of blankets on the ground. Delivery contract as the action
+icons (request 2026-09-15: a 64 px square frame, transparent, the illustrated icon style) and the cast (people at the cast's
+logical height on the ground anchor).
+
+1. **The sick badge** (priority 1) - `mark-sick`: a small round mark in the family panel's mark style (`mark-need`, `mark-idle`):
+   a folded blanket and a cup, or a cool cloth, readable at 22 px on a portrait's corner. Plugs into `.panel-sick-mark` in
+   `panelRow` (public/app.js), which today draws the road's nursing icon in a disc.
+2. **The sickness icons** (priority 1) - `icon-rest-road` (the family's wagon stopped, somebody lying by it under a blanket),
+   `icon-camp-apart` (a camp up a bank on its own, away from a crowd of tents), `icon-nurse-home` (somebody sitting by a bed in a
+   cabin with a cup). Plug into `PANEL_ICONS` in public/family-panel.js by their keys; registered frames replace the stand-ins
+   with no change there.
+3. **The sick lying down** (priority 2) - for each cast figure and the children's sheets, `-sick-rest` (lying under a blanket on
+   the ground, head on a bundle, 1 frame; `-s` and `-e`), and `infant-sick` (a baby wrapped and lying). Plugs into `restingSick` in
+   public/motion.js, which today draws the delivered `-injured-rest`.
+
+**Check.** On a family's row at 1366x768 and 1024x768 the badge reads as "sick" and not as "hurt" or "idle"; on the map at a figure
+of about 40 px the resting sick read as resting ill and not as wounded or dead.
 
 ## Request 2026-09-27 — the milk cow on the run, and Béxar before the bell
 
