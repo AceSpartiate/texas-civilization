@@ -148,13 +148,58 @@ test('each tip is due when its thing is on the family\'s own screen, and never o
   assert.deepEqual(tipsPresent(withThing(seen, { ...cases.call, ...cases.alto, lessonResume: cases.resume.lessonResume })).slice(0, 3), ['alto', 'call', 'resume']);
 });
 
+// ------------------------------------------------------------- the house, the field and the town (owner, 2026-09-28: "Yes, add them")
+test('the house, the field and going to town each have a tip the first time the family can do them, and not before', () => {
+  // Words first: what to do and what it costs, true whichever way the work goes (one wood pile or none, auto or by hand,
+  // crops ripening by the calendar or by the minute).
+  assert.match(TIPS.house, /Choose a house/);
+  assert.match(TIPS.house, /Fell trees/);
+  assert.match(TIPS.house, /auto/);
+  assert.match(TIPS.house, /camps/, 'the house\'s tip does not say what waiting for it costs');
+  assert.match(TIPS.field, /Plant the field/);
+  assert.match(TIPS.field, /seed/, 'the field\'s tip does not say planting uses seed');
+  assert.match(TIPS.field, /time to ripen/);
+  assert.doesNotMatch(TIPS.field, /\d+ (minutes|days|weeks)/, 'the field\'s tip names a ripening time the seasons rework may change');
+  assert.match(TIPS.town, /Go to town to trade/);
+  assert.match(TIPS.town, /away from the farm/);
+  assert.match(TIPS.town, /coin/);
+
+  // On the road in: none of the three, though every work is listed (refused) on the family's bar.
+  const road = createGonzalesWorld('tips-farm', 5);
+  road.households['hh-1'].played = true;
+  road.status = 'running';
+  const coming = view(road, 'hh-1');
+  assert.ok(coming.land.arriving, 'the family is not on the road in, so this proves nothing');
+  for (const id of ['house', 'field', 'town']) assert.ok(!tipsPresent(coming).includes(id), `the ${id} tip is due before the family is on its land`);
+
+  // On its land, camped, with a plan to choose and work open: all three.
+  const world = running('tips-farm');
+  const seen = view(world, 'hh-1');
+  assert.equal(seen.land.shelter, 'camp', 'the family already has a roof, so this proves nothing');
+  const due = tipsPresent(seen);
+  for (const id of ['house', 'field', 'town']) assert.ok(due.includes(id), `the ${id} tip is not due on the family's land: ${due.join(', ')}`);
+  // After how to give an order, and before the star.
+  assert.ok(due.indexOf('order') < due.indexOf('house') && due.indexOf('town') < due.indexOf('star'), `out of order: ${due.join(', ')}`);
+
+  // The house: not while a site is still to choose, and not once a roof stands.
+  assert.ok(!tipsPresent({ ...seen, land: { ...seen.land, choosingSite: { can: true } } }).includes('house'), 'the house tip came before the house site was chosen');
+  assert.ok(!tipsPresent({ ...seen, land: { ...seen.land, shelter: 'cabin' } }).includes('house'), 'the house tip came with a roof already up');
+  // The field and the town: only work the server says can be done now.
+  const refused = ids => ({ ...seen, work: Object.fromEntries(Object.entries(seen.work).map(([id, list]) => [id, list.map(entry => (ids.includes(entry.id) ? { ...entry, can: false } : entry))])) });
+  assert.ok(!tipsPresent(refused(['clear-plot', 'plant-field'])).includes('field'), 'the field tip came when nobody could clear or plant');
+  assert.ok(!tipsPresent(refused(['visit-shop'])).includes('town'), 'the town tip came when nobody could go to town');
+  // Never on the Host's page, and never over the errand: its own tip, or nothing.
+  assert.deepEqual(tipsPresent({ ...seen, role: 'host' }), []);
+  assert.deepEqual(tipToShow({ ...seen, lesson: undefined }, { seen: ['store'], errandOpen: true }), { show: null, retire: null });
+});
+
 // ---------------------------------------------------------------------------------------------- shown once, one at a time
 test('a tip is shown once: until it is put away or its thing goes, and never again after, even across a reload', () => {
   const world = running('tips-once');
   const call = { request: { status: 'open', kind: 'call', answerers: { [world.households['hh-1'].members[0]]: [{ id: 'turn-out', can: true }] } } };
   const flight = { flight: { status: 'ordered' } };
   // The start of the game's own tips already put away, as a student in the middle of a class has.
-  for (const tip of ['order', 'star']) send(world, 'hh-1', { action: 'seen-tip', tip });
+  for (const tip of ['order', 'house', 'field', 'town', 'star']) send(world, 'hh-1', { action: 'seen-tip', tip });
   let seen = view(world, 'hh-1');
   // The call appears: its tip is shown.
   let now = tipToShow(withThing(seen, call), { seen: [], showing: null });
