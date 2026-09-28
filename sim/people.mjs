@@ -203,7 +203,7 @@ export const PEOPLE = Object.freeze({
 });
 
 /** The poses a person may be given in a phase (public/battle-view.js draws each; a stand-in where the art has none). */
-export const PERSON_POSES = Object.freeze(['stand', 'command', 'fire', 'fire-hidden', 'hide', 'emerge', 'walk', 'ride', 'sick', 'captive', 'wounded', 'write', 'seated', 'point', 'surrender', 'prisoner', 'carry', 'gun']);
+export const PERSON_POSES = Object.freeze(['stand', 'command', 'fire', 'fire-hidden', 'hide', 'emerge', 'walk', 'ride', 'sick', 'captive', 'wounded', 'write', 'seated', 'point', 'surrender', 'prisoner', 'interpret', 'carry', 'gun']);
 /** What may befall a famous person in the window. `told` fates are never drawn. */
 export const FATE_KINDS = Object.freeze(['killed', 'executed', 'wounded', 'captured']);
 /** A person by id, or throw: every name the engine draws is one of these. */

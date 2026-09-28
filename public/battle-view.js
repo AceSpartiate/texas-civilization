@@ -86,6 +86,7 @@ export const PERSON_ART = Object.freeze({
   'santa-anna': { stand: 'santa-anna-idle', command: 'santa-anna-command', prisoner: 'santa-anna-disguised-seated', ride: 'clip:santa-anna-mounted-walk-e', rideIdle: 'santa-anna-mounted-idle-e', walk: 'santa-anna-walk-e' },
   'emily-west': { stand: 'emily-west-idle', carry: 'emily-west-carry-bundle', seated: 'emily-west-sit-converse', walk: 'emily-west-walk-e' },
   castrillon: { stand: 'castrillon-idle', command: 'castrillon-command', walk: 'castrillon-walk-e', fall: 'castrillon-fall', still: 'castrillon-still' },
+  almonte: { stand: 'almonte-idle', command: 'almonte-command', surrender: 'almonte-surrender', prisoner: 'almonte-prisoner', interpret: 'almonte-interpret', journal: 'almonte-journal', walk: 'almonte-walk-e' },
 });
 const lerp = (a, b, t) => a + (b - a) * t;
 

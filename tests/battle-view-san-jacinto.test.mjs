@@ -64,6 +64,17 @@ test('Castrillón keeps his own command, walk, fall and still art at San Jacinto
   assert.ok(!art.drawn.some(one => one.sprite === 'regular-reclining'));
 });
 
+test('Almonte uses his own surrender and interpreter poses', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const person = { id: 'almonte', art: 'almonte', name: 'Almonte', side: 'mexican', x: 0, y: 0, right: true };
+  run(view, minute => battle(minute, { people: [{ ...person, pose: 'surrender' }] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.sprite === 'almonte-surrender'));
+  art.drawn.length = 0;
+  run(view, minute => battle(minute, { people: [{ ...person, pose: 'interpret' }] }), { seconds: 1, from: 1000 });
+  assert.ok(art.drawn.some(one => one.sprite === 'almonte-interpret'));
+  assert.ok(!art.drawn.some(one => one.clip === 'regular-surrender'));
+});
+
 test('a camp at rest (pose `rest`) is scattered and unformed, some standing and some sitting, and fires nothing; the formed line against it stands in even ranks', () => {
   const art = fakeArt(), view = createBattleView(art);
   const shown = run(view, minute => battle(minute), { seconds: 3 });

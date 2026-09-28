@@ -4392,6 +4392,130 @@
         ]
       }
     },
+    "famous-almonte": {
+      "image": "atlases/famous-almonte.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1260800,
+      "sha256": "8cc5d1fe46b8c440b2e611c9030098b16ce5673dceea0ae875104b4255957c03",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.686383,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              3,
+              319
+            ],
+            "columns": [
+              [
+                79,
+                283
+              ],
+              [
+                389,
+                590
+              ],
+              [
+                703,
+                911
+              ],
+              [
+                1028,
+                1229
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              322,
+              639
+            ],
+            "columns": [
+              [
+                93,
+                250
+              ],
+              [
+                403,
+                559
+              ],
+              [
+                719,
+                877
+              ],
+              [
+                1036,
+                1195
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              639,
+              950
+            ],
+            "columns": [
+              [
+                101,
+                229
+              ],
+              [
+                405,
+                559
+              ],
+              [
+                711,
+                949
+              ],
+              [
+                1031,
+                1212
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              951,
+              1252
+            ],
+            "columns": [
+              [
+                68,
+                287
+              ],
+              [
+                411,
+                531
+              ],
+              [
+                707,
+                911
+              ],
+              [
+                1050,
+                1185
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-ben": {
       "image": "atlases/famous-ben.png",
       "width": 1312,
@@ -26524,6 +26648,406 @@
           249
         ],
         "visiblePixels": 31013,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-walk-e-1": {
+      "sheet": "famous-almonte",
+      "x": 79,
+      "y": 4,
+      "w": 204,
+      "h": 315,
+      "anchorX": 0.5,
+      "anchorY": 0.927,
+      "logicalHeight": 316,
+      "label": "almonte walk e 1",
+      "kind": "famous-almonte",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          81,
+          6,
+          200,
+          311
+        ],
+        "visiblePixels": 26893,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-walk-e-2": {
+      "sheet": "famous-almonte",
+      "x": 389,
+      "y": 3,
+      "w": 201,
+      "h": 316,
+      "anchorX": 0.4876,
+      "anchorY": 0.9272,
+      "logicalHeight": 316,
+      "label": "almonte walk e 2",
+      "kind": "famous-almonte",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          391,
+          5,
+          197,
+          312
+        ],
+        "visiblePixels": 26744,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-walk-e-3": {
+      "sheet": "famous-almonte",
+      "x": 703,
+      "y": 3,
+      "w": 208,
+      "h": 316,
+      "anchorX": 0.4904,
+      "anchorY": 0.9272,
+      "logicalHeight": 316,
+      "label": "almonte walk e 3",
+      "kind": "famous-almonte",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          705,
+          5,
+          204,
+          312
+        ],
+        "visiblePixels": 27099,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-walk-e-4": {
+      "sheet": "famous-almonte",
+      "x": 1028,
+      "y": 5,
+      "w": 201,
+      "h": 314,
+      "anchorX": 0.4975,
+      "anchorY": 0.9299,
+      "logicalHeight": 316,
+      "label": "almonte walk e 4",
+      "kind": "famous-almonte",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1030,
+          7,
+          197,
+          310
+        ],
+        "visiblePixels": 27027,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-walk-s-1": {
+      "sheet": "famous-almonte",
+      "x": 93,
+      "y": 322,
+      "w": 157,
+      "h": 313,
+      "anchorX": 0.465,
+      "anchorY": 0.9649,
+      "logicalHeight": 316,
+      "label": "almonte walk s 1",
+      "kind": "famous-almonte",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          95,
+          324,
+          153,
+          309
+        ],
+        "visiblePixels": 26424,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-walk-s-2": {
+      "sheet": "famous-almonte",
+      "x": 403,
+      "y": 323,
+      "w": 156,
+      "h": 312,
+      "anchorX": 0.4199,
+      "anchorY": 0.9327,
+      "logicalHeight": 316,
+      "label": "almonte walk s 2",
+      "kind": "famous-almonte",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          405,
+          325,
+          152,
+          308
+        ],
+        "visiblePixels": 25721,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-walk-n-1": {
+      "sheet": "famous-almonte",
+      "x": 719,
+      "y": 325,
+      "w": 158,
+      "h": 314,
+      "anchorX": 0.5127,
+      "anchorY": 0.9299,
+      "logicalHeight": 316,
+      "label": "almonte walk n 1",
+      "kind": "famous-almonte",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          721,
+          327,
+          154,
+          310
+        ],
+        "visiblePixels": 26398,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-walk-n-2": {
+      "sheet": "famous-almonte",
+      "x": 1036,
+      "y": 324,
+      "w": 159,
+      "h": 315,
+      "anchorX": 0.5252,
+      "anchorY": 0.927,
+      "logicalHeight": 316,
+      "label": "almonte walk n 2",
+      "kind": "famous-almonte",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1038,
+          326,
+          155,
+          311
+        ],
+        "visiblePixels": 26088,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-idle": {
+      "sheet": "famous-almonte",
+      "x": 101,
+      "y": 639,
+      "w": 128,
+      "h": 311,
+      "anchorX": 0.5273,
+      "anchorY": 0.955,
+      "logicalHeight": 316,
+      "label": "almonte idle",
+      "kind": "famous-almonte",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          103,
+          641,
+          124,
+          307
+        ],
+        "visiblePixels": 25476,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-journal": {
+      "sheet": "famous-almonte",
+      "x": 405,
+      "y": 642,
+      "w": 154,
+      "h": 308,
+      "anchorX": 0.4675,
+      "anchorY": 0.961,
+      "logicalHeight": 316,
+      "label": "almonte journal",
+      "kind": "famous-almonte",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          407,
+          644,
+          150,
+          304
+        ],
+        "visiblePixels": 26596,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-command": {
+      "sheet": "famous-almonte",
+      "x": 711,
+      "y": 643,
+      "w": 238,
+      "h": 307,
+      "anchorX": 0.334,
+      "anchorY": 0.9577,
+      "logicalHeight": 316,
+      "label": "almonte command",
+      "kind": "famous-almonte",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          713,
+          645,
+          234,
+          303
+        ],
+        "visiblePixels": 29737,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-surrender": {
+      "sheet": "famous-almonte",
+      "x": 1031,
+      "y": 645,
+      "w": 181,
+      "h": 305,
+      "anchorX": 0.4724,
+      "anchorY": 0.9508,
+      "logicalHeight": 316,
+      "label": "almonte surrender",
+      "kind": "famous-almonte",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1033,
+          647,
+          177,
+          301
+        ],
+        "visiblePixels": 28908,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-offer-sword": {
+      "sheet": "famous-almonte",
+      "x": 68,
+      "y": 952,
+      "w": 219,
+      "h": 298,
+      "anchorX": 0.3562,
+      "anchorY": 0.9564,
+      "logicalHeight": 316,
+      "label": "almonte offer sword",
+      "kind": "famous-almonte",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          70,
+          954,
+          215,
+          294
+        ],
+        "visiblePixels": 26354,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-prisoner": {
+      "sheet": "famous-almonte",
+      "x": 411,
+      "y": 951,
+      "w": 120,
+      "h": 299,
+      "anchorX": 0.4958,
+      "anchorY": 0.9599,
+      "logicalHeight": 316,
+      "label": "almonte prisoner",
+      "kind": "famous-almonte",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          413,
+          953,
+          116,
+          295
+        ],
+        "visiblePixels": 23525,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-interpret": {
+      "sheet": "famous-almonte",
+      "x": 707,
+      "y": 953,
+      "w": 204,
+      "h": 298,
+      "anchorX": 0.3873,
+      "anchorY": 0.9597,
+      "logicalHeight": 316,
+      "label": "almonte interpret",
+      "kind": "famous-almonte",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          709,
+          955,
+          200,
+          294
+        ],
+        "visiblePixels": 27603,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-listen": {
+      "sheet": "famous-almonte",
+      "x": 1050,
+      "y": 954,
+      "w": 135,
+      "h": 298,
+      "anchorX": 0.4963,
+      "anchorY": 0.9497,
+      "logicalHeight": 316,
+      "label": "almonte listen",
+      "kind": "famous-almonte",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1052,
+          956,
+          131,
+          294
+        ],
+        "visiblePixels": 23213,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

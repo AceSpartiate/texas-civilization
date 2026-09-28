@@ -504,7 +504,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       texian: { style: 'camp', at: 'texianCamp', action: 'stand', fire: 'none', pose: 'rest', spread: { width: 0.4, depth: 0.22 } },
       mexican: { style: 'loose', at: 'prisonerGround', action: 'hold', fire: 'none', surrendering: 1, spread: { width: 0.22, depth: 0.14 }, count: 730 },
       parley: { at: 'texianCamp', people: [{ side: TEX, id: 'houston', pose: 'injured' }, { side: MEX, id: 'santa-anna' }] },
-      people: [{ id: 'almonte', with: 'texian', offset: { along: 0.006, across: 0.012 }, pose: 'prisoner', during: [20, 60] }],
+      people: [{ id: 'almonte', with: 'texian', offset: { along: 0.006, across: 0.012 }, pose: 'interpret', during: [20, 60] }],
       lines: [
         say('sj-napoleon', 32, MEX, 'commander', 'tradition', 'That man may consider himself born to no common destiny who has conquered the Napoleon of the West; and it now remains for him to be generous to the vanquished.', { person: 'santa-anna', claimId: 'HIST-TEX-559', gloss: 'told later: as W. C. Crane printed it in 1884, from those who were there' }),
         say('sj-remember', 40, TEX, 'commander', 'tradition', 'You should have remembered that at the Alamo.', { person: 'houston', claimId: 'HIST-TEX-559', gloss: 'told later: Houston’s answer, as Crane printed it in 1884' }),

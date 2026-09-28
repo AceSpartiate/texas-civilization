@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1630 usable sprites, 158 PNG atlases, 546 clips** (318 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1646 usable sprites, 159 PNG atlases, 549 clips** (321 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -59,6 +59,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-susanna-dickinson | 16 | 1254 × 1254 | 1461496 |
 | famous-angelina-dickinson | 4 | 1254 × 1254 | 1286027 |
 | famous-alavez | 16 | 1254 × 1254 | 1276763 |
+| famous-almonte | 16 | 1254 × 1254 | 1260800 |
 | famous-ben | 16 | 1312 × 1199 | 1136424 |
 | twin-sisters-limbered | 4 | 1254 × 1254 | 1010968 |
 | famous-milam | 16 | 1254 × 1254 | 1519856 |
@@ -660,6 +661,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | alavez-beckon | famous-alavez | State artwork; no motion required |
 | alavez-guide | famous-alavez | State artwork; no motion required |
 | alavez-rest | famous-alavez | State artwork; no motion required |
+| almonte-walk-e-1 | famous-almonte | almonte-walk-e |
+| almonte-walk-e-2 | famous-almonte | almonte-walk-e |
+| almonte-walk-e-3 | famous-almonte | almonte-walk-e |
+| almonte-walk-e-4 | famous-almonte | almonte-walk-e |
+| almonte-walk-s-1 | famous-almonte | almonte-walk-s |
+| almonte-walk-s-2 | famous-almonte | almonte-walk-s |
+| almonte-walk-n-1 | famous-almonte | almonte-walk-n |
+| almonte-walk-n-2 | famous-almonte | almonte-walk-n |
+| almonte-idle | famous-almonte | State artwork; no motion required |
+| almonte-journal | famous-almonte | State artwork; no motion required |
+| almonte-command | famous-almonte | State artwork; no motion required |
+| almonte-surrender | famous-almonte | State artwork; no motion required |
+| almonte-offer-sword | famous-almonte | State artwork; no motion required |
+| almonte-prisoner | famous-almonte | State artwork; no motion required |
+| almonte-interpret | famous-almonte | State artwork; no motion required |
+| almonte-listen | famous-almonte | State artwork; no motion required |
 | ben-walk-e-1 | famous-ben | ben-walk-e |
 | ben-walk-e-2 | famous-ben | ben-walk-e |
 | ben-walk-e-3 | famous-ben | ben-walk-e |
@@ -1989,6 +2006,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | alavez-walk-e | Pose cycle | 4 | 760 | yes | east |
 | alavez-walk-s | Pose cycle | 2 | 580 | yes | south |
 | alavez-walk-n | Pose cycle | 2 | 580 | yes | north |
+| almonte-walk-e | Pose cycle | 4 | 760 | yes | east |
+| almonte-walk-s | Pose cycle | 2 | 580 | yes | south |
+| almonte-walk-n | Pose cycle | 2 | 580 | yes | north |
 | twin-sisters-limbered | Pose cycle | 2 | 600 | yes | east; mirror for west |
 | ben-walk-e | Pose cycle | 4 | 760 | yes | east |
 | ben-walk-s | Pose cycle | 2 | 580 | yes | south |
