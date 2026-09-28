@@ -1300,6 +1300,8 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (!chore) return { can: false, why: 'No such work.' };
   if (entity.kind !== 'person' || entity.householdId !== household.id) return { can: false, why: 'Not one of your family.' };
   if (entity.health.condition === 'dead' || entity.health.condition === 'captured') return { can: false, why: 'This person cannot work.' };
+  // Very sick is too sick to get up (sim/disease.mjs, the owner 2026-09-27); only sick may work, and the row says what it costs.
+  if (entity.health.grave) return { can: false, why: `${entity.name} is too sick to get up.` };
   // A child under ten is refused every work but the children's own (`chore.child`, sim/children.mjs), which carry their own
   // age ladder in their own `refusal` (owner, 2026-09-21; docs/FAMILY_CREATION.md §3's amendment).
   if (tooYoung(entity) && !chore.child) return { can: false, why: tooYoungWhy(entity) };

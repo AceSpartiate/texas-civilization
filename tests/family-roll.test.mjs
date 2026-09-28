@@ -223,7 +223,9 @@ test('a family of twenty fits the tick: what it is sent grows by the person, and
   };
   const four = sent(4), twenty = sent(20);
   assert.ok(twenty.all < 26600, `a family of twenty is sent ${twenty.all} bytes a tick`);
-  assert.ok((twenty.people - four.people) / 16 < 1140,`each person past four costs ${Math.round((twenty.people - four.people) / 16)} bytes a tick`);
+  // Since 2026-09-27 a person who has had the measles carries it (sim/disease.mjs `hadMeasles`, shown on the card), about half the
+  // people: measured on these seeds at 1,143 a person. The bound moves to 1,160, which the kin carried twice still breaks.
+  assert.ok((twenty.people - four.people) / 16 < 1160,`each person past four costs ${Math.round((twenty.people - four.people) / 16)} bytes a tick`);
 });
 
 test('the hidden stats differ on average between men and women, and people overlap', () => {

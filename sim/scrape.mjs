@@ -35,6 +35,8 @@ import { learnOwnBurning, recordFarmBurned } from './advance-word.mjs';
 // What the family does on the road besides run (sim/flight-work.mjs, docs/CHILDREN.md §7): what it hid, the children's bundles, the
 // fire at the camp, and a sick child let over first at the ferry.
 import { bundleRoom, cowHome, cowPace, crossingHoursFor, digUpCache, fireKept, heldToCow, hideAtLeaving, milkCow, takeCow } from './flight-work.mjs';
+// The road's day of sickness (sim/disease.mjs, docs/DISEASE.md): one call, so the disease's rules live in one module.
+import { roadSickness } from './disease.mjs';
 
 const GONE = ['dead', 'captured'];
 const DAY = 1440;
@@ -79,9 +81,12 @@ export const CROSSING_HOURS = 18;
 /** Whoever is at home when the Mexican army comes through is taken prisoner at this share. */
 export const CAPTURED_AT_HOME = 0.5;
 /**
- * Sickness on the road (owner: "rarely fatal", about one person in a hundred over the whole flight): the chance a person falls
- * sick in a day, doubled for a child under six and doubled again for a family out of food; the sick mend in five days, and
- * each day sick carries this chance of dying. Both are weighted by hidden strength and health like every risk.
+ * Sickness on the road: the chance a person falls sick of a chill on the chest in a day, doubled for a child under six and
+ * doubled again for a family out of food, weighted by hidden strength and health like every risk; the sick mend in five days.
+ * Since 2026-09-27 everything after falling sick - getting worse, nursing, rest, and the deaths (the owner's "about three in a
+ * hundred over the whole flight", which replaced the "one in a hundred" of docs/COLONIES.md) - is sim/disease.mjs's.
+ * `DEATH_PER_SICK_DAY` is kept for what reads it and is no longer the road's rule: nobody dies of being sick, only of being
+ * very sick (sim/disease.mjs `DISEASES`).
  */
 export const SICK_PER_DAY = 0.004, SICK_DAYS = 5, DEATH_PER_SICK_DAY = 0.02;
 /**
@@ -394,28 +399,9 @@ export function advanceFlight(world, minutes) {
     const day = Math.floor(world.minute / DAY);
     if (flight.status !== 'home' && day !== flight.sickDay) {
       flight.sickDay = day;
-      // A norther over the road: the cold of "disease, cold, rain and hunger" (`COLD_WEIGHT`, `FIC-GONZ-135`). Read
-      // where the family actually is, which on a flight across four hundred miles is not where it set out from.
-      const where = alive[0]?.location || world.map.sites[household.homeSiteId];
-      // A fire kept at the camp tonight or last night (sim/flight-work.mjs `camp-fire`): the norther finds nobody out in the cold.
-      const cold = coldSky(world, where, day) && !fireKept(household, day);
-      if (cold && !flight.coldDay) { flight.coldDay = day; tell(world, household, 'A norther came down on the road, and the family has no roof to get under.', { importance: 2, claimId: 'FIC-GONZ-135' }); }
-      // Somebody nursing the sick today (sim/road.mjs `tend-sick`, `FIC-GONZ-052`): nobody in their care dies; the mending comes when the day's nursing is done.
-      const tended = alive.some(person => person.chore?.id === 'tend-sick');
-      for (const person of alive) {
-        const weight = sicknessWeight(person, { hungry, cold });
-        if (person.health.condition === 'sick') {
-          if (!tended && share(world, person.id, `sick-death:${day}`) < 1 - (1 - DEATH_PER_SICK_DAY) ** weight) {
-            person.health = { condition: 'dead' }; person.travel = null; person.task = 'rest';
-            person.location = { x: person.location.x, y: person.location.y, siteId: person.location.siteId || flight.refuge };
-            tell(world, household, `${person.name} died of the sickness on the road, and was buried where they fell.`, { actorId: person.id, claimId: 'HIST-TEX-065' });
-          }
-          // The mending is sim/disease.mjs's, for everybody wherever they are (docs/DISEASE.md build step 0).
-        } else if (['well', 'tired'].includes(person.health.condition) && share(world, person.id, `sick:${day}`) < 1 - (1 - SICK_PER_DAY) ** weight) {
-          person.health = { condition: 'sick', recoversAt: world.minute + SICK_DAYS * DAY };
-          tell(world, household, `${person.name} has fallen sick on the road${hungry ? ', with nothing to eat' : ''}.`, { actorId: person.id, importance: 2 });
-        }
-      }
+      // The day's sickness for everybody with the family - the norther over the road, a chill on the chest, the crowded places,
+      // getting worse, nursing and the rare death - is sim/disease.mjs's, one rule for the road, home and the camp (docs/DISEASE.md).
+      roadSickness(world, household, alive, { hungry, day });
     }
     // Arrived at the refuge, or home again.
     if (flight.status === 'fled' && !travellers.length) {

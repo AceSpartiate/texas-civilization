@@ -4,7 +4,8 @@ import { eatenADay, housekeepingSaving } from './family.mjs';
 import { shelterOf } from './houses.mjs';
 import { furnitureShares } from './furniture.mjs';
 import { advanceStock } from './stock.mjs';
-import { SICK_DAYS, SICK_PER_DAY, coldSky, sicknessWeight } from './scrape.mjs';
+import { SICK_PER_DAY, coldSky, sicknessWeight } from './scrape.mjs';
+import { fallSick } from './disease.mjs';
 import { share } from './shares.mjs';
 import { campRestShare } from './shops.mjs';
 import { calledAside } from './aside.mjs';
@@ -139,11 +140,9 @@ function coldAtHome(world, household) {
     // the road in the same weather. Found 2026-09-21 by a test that put a roofless family through forty days of it and
     // watched nothing whatever happen.
     if (share(world, person.id, `cold-sick:${day}`) >= 1 - (1 - SICK_PER_DAY) ** weight) continue;
-    person.health = { condition: 'sick', recoversAt: world.minute + SICK_DAYS * 1440 };
-    record(world, 'consequence', {
-      actorId: person.id, householdId: household.id, importance: 2, claimId: 'FIC-GONZ-135',
-      text: `${person.name} has fallen sick: a norther came through and the family has no roof up yet.`,
-    });
+    // A chill on the chest, named and mended by sim/disease.mjs as the road's is (docs/DISEASE.md).
+    fallSick(world, person, 'lung-fever', { claimId: 'FIC-GONZ-135',
+      text: `${person.name} has fallen sick with a chill on the chest: a norther came through and the family has no roof up yet.` });
     said = true;
   }
   return said;

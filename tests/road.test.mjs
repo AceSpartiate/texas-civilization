@@ -212,7 +212,8 @@ test('the pursuit: a family camped at San Felipe is warned as Santa Anna’s col
   assert.equal(calendarMinutes(world), battleMinutes(world, 20), 'the calendar did not hold for the warning');
   assert.ok(world.events.some(event => event.householdId === household.id && /Word along the road: Santa Anna/.test(event.text)), 'the warning is not in the family\'s record');
   // Sick or well by now, as the road has left them (since 2026-09-26 the column comes on the record's April 6, not March 24).
-  assert.match(whereWords(world, person, household), /^(sick, )?at San Felipe de Austin, fled from home$/);
+  // Named since 2026-09-27 (sim/disease.mjs): "sick with a chill on the chest, at San Felipe ...".
+  assert.match(whereWords(world, person, household), /^((very )?sick( with [a-z ]+)?, )?at San Felipe de Austin, fled from home$/);
   applyAction(world, household.id, { action: 'road-answer', entityId: person.id, option: 'press-on' });
   assert.equal(household.flight.status, 'fled');
   assert.equal(household.flight.refuge, 'lynchburg');
@@ -373,7 +374,9 @@ test('nursing the sick keeps them alive that day and mends them sooner, and a re
   assert.equal(view(world, household.id).flight.camp, 'Nurse the sick');
   until(world, () => !nurse.chore, 15);
   assert.equal(nurse.chore, null, 'the nursing never ended');
-  assert.equal(patient.health.recoversAt, mends - DAY, `the sick did not mend a day sooner for the nursing: ${patient.health.recoversAt} against ${mends}`);
+  // A day sooner for the nursing, and sooner again for the rest the halt gave them (sim/disease.mjs, since 2026-09-27: a sick
+  // person resting mends two days a day), so at least a day.
+  assert.ok(patient.health.recoversAt <= mends - DAY, `the sick did not mend a day sooner for the nursing: ${patient.health.recoversAt} against ${mends}`);
   assert.notEqual(patient.health.condition, 'dead', 'somebody nursed died');
   assert.ok(world.events.some(event => event.householdId === household.id && /a day nearer mending/.test(event.text)));
   // Trading.

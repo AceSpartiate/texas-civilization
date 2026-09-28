@@ -28,6 +28,13 @@ import { purseOf, purseHeld } from './town.mjs';
 import { addTool, allWorn, toolCount } from './tools.mjs';
 import { BEASTS_MOST, BEAST_WORDS, LEAD_MOST, addBeast, beastsOf, kept } from './beasts.mjs';
 import { addToHerd } from './stock.mjs';
+// What the doctor does for the sick (sim/disease.mjs): used only inside the counter's `give`, so the cycle through it is safe.
+import { doctorSees } from './disease.mjs';
+/**
+ * Rice and tea for sickness at the store (`FIC-GONZ-668`, invented): a real buys this many portions, and a trip brings home at
+ * most this many lots. ceiling: a price and a count of the game's own; Harris names the goods and not what they cost.
+ */
+export const SICK_FOOD_PORTIONS = 3, SICK_FOOD_MOST = 2;
 
 const reales = amount => `${amount} ${amount === 1 ? 'real' : 'reales'}`;
 const round = value => Math.round(value * 10000) / 10000;
@@ -123,6 +130,14 @@ export const TRADES = Object.freeze({
         give: (world, household, entity) => { const worn = allWorn(household, 'hoe'); addTool(household, 'hoe'); return `${entity.name} bought a sound hoe at the store${worn ? ', and the worn one waits to be mended' : ''}.`; },
       },
       {
+        // Rice and tea kept back "for hard times and sickness" (Dilue Rose Harris's mother, `HIST-TEX-663`; `FIC-GONZ-668`): each
+        // portion given to somebody sick counts a day as nursed for the mending, not for the danger (sim/disease.mjs `sickFood`).
+        id: 'sick-food', kind: 'sell', label: 'Buy a little rice and tea, for sickness', coin: 1, food: null, most: SICK_FOOD_MOST,
+        does: `${SICK_FOOD_PORTIONS} portions kept back for whoever falls sick: each is a day nearer mending. Nobody is kept alive by it; nursing does that.`,
+        refuse: () => null,
+        give: (world, household, entity) => { household.sickFood = (household.sickFood || 0) + SICK_FOOD_PORTIONS; return `${entity.name} bought a little rice and tea at the store, and the family keeps it for sickness.`; },
+      },
+      {
         // Five food a real, and the sixth stays in the house: `per` is the lot the keeper pays for, so no part of a real is
         // ever paid. This is the errand's own arithmetic (`COIN.foodPerReal`), moved to the counter.
         id: 'food', kind: 'buy', label: 'Sell food', coinEach: 1, per: 5, good: 'food',
@@ -178,10 +193,14 @@ export const TRADES = Object.freeze({
     name: 'doctor', shop: "the doctor's",
     offers: [{
       id: 'see', kind: 'sell', label: 'See the doctor', coin: 2, food: 3, once: true,
-      does: 'Somebody tired is set right at once; somebody hurt mends in half the time left.',
-      refuse: (world, household, entity) => ['tired', 'minor-injury'].includes(entity.health?.condition) ? null : `${entity.name} is well, and the doctor has nothing to do.`,
+      // The sick too, since 2026-09-27 (sim/disease.mjs `doctorSees`, the owner's answer): the bark really helps the chills and
+      // fever; for any other sickness the doctor gives calomel and bleeds, as doctors did, and the patient is weaker for it.
+      // Said before the choice, so the student is never surprised, and never endorsed.
+      does: 'Somebody tired is set right at once; somebody hurt mends in half the time left. For the chills and fever the doctor gives the bark, quinine, which works: half the time. For any other sickness he gives calomel and bleeds, as doctors did then, which does no good and leaves the sick two days further from mending. Rest is what mends.',
+      refuse: (world, household, entity) => ['tired', 'minor-injury', 'sick'].includes(entity.health?.condition) ? null : `${entity.name} is well, and the doctor has nothing to do.`,
       give: (world, household, entity) => {
         if (entity.health.condition === 'tired') { entity.health = { condition: 'well' }; entity.exertion = 0; return `The doctor saw ${entity.name}, who is rested and well again.`; }
+        if (entity.health.condition === 'sick') return doctorSees(world, entity);
         const left = Math.max(0, (entity.health.recoversAt ?? world.minute) - world.minute);
         entity.health = { ...entity.health, recoversAt: world.minute + Math.round(left / 2) };
         return `The doctor saw ${entity.name}, and the hurt will mend in half the time.`;

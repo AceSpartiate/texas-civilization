@@ -59,6 +59,10 @@ export const PANEL_SUMMARIES = Object.freeze({
   'join-houston': 'Go to the camp of General Houston\'s army and stay with it.',
   'hunt-road': 'Halt the family on the road east and go out from the camp for game, powder in hand.',
   'tend-sick': 'Halt the family for a day and nurse whoever is sick, so nobody in their care dies and the sick mend sooner.',
+  // The owner's "stopping to rest should help characters recover" (sim/disease.mjs, docs/DISEASE.md §3.7).
+  'rest-road': 'Stop the family on the road a day so its sick rest: twice the mending and half the risk, and no miles made.',
+  'camp-apart': 'Move the camp upstream, away from the crowd and the sickness going round it, and trade with nobody there.',
+  'nurse-home': 'Stay by whoever is sick at home and nurse them, so nobody in their care dies and the sick mend sooner.',
   'trade-crossing': 'Buy food with a real among the families camped at the crossing or the refuge, dear as it is.',
   'winter-recall': 'Send for them to leave where they serve and come home.',
   'camp-drill': 'Spend a day drilling with the company at the camp; three days make them steady in the line.',
@@ -126,6 +130,10 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   ['camp-drill', { glyph: 'drill' }], ['camp-forage', { glyph: 'forage' }], ['camp-guard', { glyph: 'guard' }], ['camp-scout', { glyph: 'scout' }],
   // The road's chores (sim/road.mjs, docs/ROAD_EAST.md) have registered `icon-<key>` frames; glyphs are load fallbacks.
   ['hunt-road', { glyph: 'hunt-road' }], ['tend-sick', { glyph: 'tend-sick' }], ['trade-crossing', { glyph: 'trade-crossing' }],
+  // Sickness (sim/disease.mjs). stand-in: docs/ART_REQUESTS.md, request 2026-09-27 "the sickness icons" - resting a day on the
+  // road draws the rest order's picture, nursing at home the road's nursing, and camping apart a drawn glyph (two camps, one
+  // up the bank alone); Astra's `icon-rest-road`, `icon-nurse-home` and `icon-camp-apart` replace them on registration.
+  ['rest-road', { sprite: 'icon-rest' }], ['nurse-home', { sprite: 'icon-tend-sick', glyph: 'tend-sick' }], ['camp-apart', { glyph: 'camp-apart' }],
   // Fetching logs from the timber uses registered `icon-fetch-logs`; the glyph is a load fallback.
   ['fetch-logs', { glyph: 'fetch-logs' }],
   ['make-carreta', { sprite: 'icon-make-carreta' }],
@@ -225,6 +233,10 @@ const whyOf = (entry, offered) => (entry.id === 'hunt-land' && !entry.can && !en
  * note. `settable` is whether orders may be given at all (running, or the lobby). Each icon says what it sends; nothing is
  * sent from here.
  */
+/** Work that is rest for whoever holds it, so a sick person is not warned off it (sim/disease.mjs `RESTING_CHORES`). */
+const REST_WORK = Object.freeze(['rest-road']);
+/** The sickness line on a row (sim/disease.mjs `sicknessShown`): the server's words, or nothing. */
+export const sickLine = entity => (entity?.sickness?.line ? String(entity.sickness.line) : '');
 export function panelActions({ entity, offered = [], catalogue = new Map(), main = false, homeId = null, homesteads = [], atHome = false,
   settable = true, carry = null } = {}) {
   if (!entity || ['dead', 'captured'].includes(entity.health?.condition)) return [];
@@ -265,10 +277,13 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
     // Refused work that somebody on auto may still be given, to wait for (sim/auto.mjs `waitingWork`): open to press, and its
     // popup says the server's reason and the server's words for what pressing it does.
     const waits = Boolean(entry.waits && !entry.can && active !== entry.id);
+    // Somebody sick may still be sent, with the server's warning on the work (sim/disease.mjs `sicknessShown`, the owner
+    // 2026-09-27): working slows the mending and they may get worse. Calling the family's halt to rest is not work.
+    const warn = entry.can && entity.sickness?.warn && !REST_WORK.includes(entry.id) ? entity.sickness.warn : '';
     icons.push({
       key: entry.id, kind: 'chore', name: spec.name || entry.id,
       summary: PANEL_SUMMARIES[entry.id] || firstSentence(spec.describe),
-      note: waits ? [why, entry.waits].filter(Boolean).join(' ') : [entry.cost ? `Costs ${entry.cost}.` : '', haul, crop, entry.estimate || ''].filter(Boolean).join(' '),
+      note: waits ? [why, entry.waits].filter(Boolean).join(' ') : [warn, entry.cost ? `Costs ${entry.cost}.` : '', haul, crop, entry.estimate || ''].filter(Boolean).join(' '),
       can: Boolean(settable && (entry.can || waits)), why: entry.can ? '' : why || '',
       onMap: ON_MAP.includes(entry.id), active: active === entry.id, ...(waits && { waits: true }),
     });
@@ -398,7 +413,7 @@ export function meetingFor(world, entity) {
 }
 
 /** Which card section answers each need, in the order a need is shown when a person has more than one. */
-export const NEED_KINDS = Object.freeze(['rider', 'flight', 'army', 'camp', 'courier', 'call', 'asking', 'offer']);
+export const NEED_KINDS = Object.freeze(['rider', 'flight', 'army', 'camp', 'courier', 'call', 'asking', 'offer', 'sick']);
 
 /**
  * What this person is waiting on the student for, most pressing first: a rider standing with them (who will not wait for
@@ -431,6 +446,8 @@ export function needsOf(world, entityId) {
   for (const offer of world.offers || []) {
     if (offer.direction === 'received' && offer.ourEntityId === entityId) { needs.push({ kind: 'offer', text: `${offer.theirName || 'A neighbour'} has offered ${name} a trade.` }); break; }
   }
+  // Turned very sick (sim/disease.mjs): the moment to answer, with a day to do it - nurse, keep warm, rest. The server's own line.
+  if (entity.sickness?.grave) needs.push({ kind: 'sick', text: `${name}: ${entity.sickness.line || 'very sick.'}` });
   return needs;
 }
 
@@ -671,6 +688,15 @@ function drawGlyph(ctx, glyph, size) {
     ctx.fillStyle = '#8a6a3d';
     ctx.fillRect(38, 22, 6, 7);
     ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(6, 42); ctx.lineTo(44, 42); ctx.stroke();
+  } else if (glyph === 'camp-apart') {
+    // stand-in: docs/ART_REQUESTS.md, request 2026-09-27 "the sickness icons". Three tents crowded on the bank below, and one
+    // up the stream on its own, with the water between: the family's camp moved away from the crowd (sim/disease.mjs).
+    ctx.strokeStyle = '#41556b'; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(4, 44); ctx.quadraticCurveTo(20, 36, 30, 28); ctx.quadraticCurveTo(38, 20, 44, 18); ctx.stroke();
+    ctx.fillStyle = '#8a6a3d';
+    for (const [x, y] of [[8, 38], [16, 40], [12, 32]]) { ctx.beginPath(); ctx.moveTo(x - 5, y); ctx.lineTo(x, y - 7); ctx.lineTo(x + 5, y); ctx.closePath(); ctx.fill(); }
+    ctx.fillStyle = '#5f7a8a';
+    ctx.beginPath(); ctx.moveTo(30, 16); ctx.lineTo(37, 6); ctx.lineTo(44, 16); ctx.closePath(); ctx.fill();
   } else if (glyph === 'trade-crossing') {
     // A ferry's rail over the water, and a coin passed across it.
     ctx.strokeStyle = '#41556b'; ctx.lineWidth = 2.5;

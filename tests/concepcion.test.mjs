@@ -162,7 +162,9 @@ test('each fighter at Concepción is rolled on their own at the record\'s 1 kill
   for (let n = 0; n < 60; n++) {
     const mid = crowdedFight(`concepcion-rate-${n}`, { strength: 10, health: 2, all: n % 4 !== 0 });
     assert.ok(mid.result.fought.length > 30, 'the crowd did not fight');
-    for (const id of mid.result.present) assert.equal(mid.world.entities[id].health?.condition ?? 'well', 'well', 'somebody at Espada was hurt');
+    // Hurt, not sick: since 2026-09-27 a man may come to the muster with the autumn's chills and fever (sim/disease.mjs), which
+    // the fight neither gives nor takes away.
+    for (const id of mid.result.present) assert.ok(['well', 'tired', 'sick'].includes(mid.world.entities[id].health?.condition ?? 'well'), 'somebody at Espada was hurt');
     fighters += mid.result.fought.length; killed += mid.result.killed.length; wounded += mid.result.wounded.length;
     const frail = crowdedFight(`concepcion-frail-${n}`, { strength: 1, health: 2 });
     const hardy = crowdedFight(`concepcion-hardy-${n}`, { strength: 10, health: 18 });

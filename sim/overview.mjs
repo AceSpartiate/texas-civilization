@@ -121,7 +121,8 @@ function overviewLand(world, household) {
  */
 export function hostOverview(world) {
   return {
-    everyone: Object.values(world.entities).filter(entity => entity.location).map(entity => overviewEntity(world, entity)),
+    // Somebody who died of a sickness is not drawn, nor named under a figure on the projector (the owner, 2026-09-27, sim/disease.mjs).
+    everyone: Object.values(world.entities).filter(entity => entity.location && !(entity.health?.condition === 'dead' && entity.health.disease)).map(entity => overviewEntity(world, entity)),
     lands: Object.fromEntries(Object.values(world.households).map(household => [household.id, overviewLand(world, household)])),
     ...(world.army && { army: { phase: world.army.phase, x: round(world.army.x), y: round(world.army.y), strength: world.army.members.length, ...(world.army.camp && { camp: world.army.camp }) } }),
   };

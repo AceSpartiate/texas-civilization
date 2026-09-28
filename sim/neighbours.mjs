@@ -230,7 +230,8 @@ export function thinkFor(world, household, { project, act }) {
   // A man with Houston's army (sim/camp.mjs, docs/HOUSTON_CAMP.md): the camp's work at documented rates, chosen by a hashed
   // share of the day - mostly drill, as the army did at Groce's - so a man whose family does nothing never sits idle.
   for (const person of people) {
-    if (person.service?.kind !== 'houston' || person.service.status !== 'serving' || person.chore || person.travel) continue;
+    // A man sick in the camp is relieved of duty and rests (sim/disease.mjs).
+    if (person.service?.kind !== 'houston' || person.service.status !== 'serving' || person.chore || person.travel || person.health?.condition === 'sick') continue;
     const chore = campChoice(world, world.entities[person.id], view.work?.[person.id] || []);
     if (chore) attempt({ action: 'chore', entityId: person.id, chore });
   }
@@ -258,6 +259,13 @@ export function thinkFor(world, household, { project, act }) {
       // a family with neither powder nor coin can get on the road (sim/road.mjs `fish-road`, `FIC-GONZ-178`).
       if (short && !busy('hunt-road') && !busy('fish-road')) send('fish-road');
       if (people.some(person => person.health?.condition === 'sick') && !busy('tend-sick')) send('tend-sick');
+      // Somebody very sick: the family stops a day to rest as well, unless the army is close behind (`flight.danger`, above),
+      // when a family "does nothing but go" (sim/disease.mjs `rest-road`, docs/DISEASE.md §3.11).
+      if (people.some(person => person.health?.grave) && !busy('rest-road')) {
+        // Another hand than the one just sent to nurse: this view was made before either was sent (`tried` is what went through).
+        const hand = free.find(person => offer(person, 'rest-road') && !tried.some(input => input.entityId === person.id));
+        if (hand) attempt({ action: 'chore', entityId: hand.id, chore: 'rest-road' });
+      }
       if (short && (resources.money || 0) >= 1 && !busy('trade-crossing')) send('trade-crossing');
     }
     return tried;
@@ -309,8 +317,14 @@ export function thinkFor(world, household, { project, act }) {
   // that leaves room for it (sim/wagon.mjs), so nothing is taken out of the wagon to make room.
   dealStock(world, view.household);
 
+  // Nobody sick is sent to work at home (sim/disease.mjs, docs/DISEASE.md §3.11): a sick person left alone is resting, and mends
+  // twice as fast for it. Somebody sick at home is nursed by the first hand free, as a family on the road nurses.
   const idle = people.filter(person => !tooYoung(person) && !person.chore && !person.travel
-    && person.health?.condition !== 'dead' && person.health?.condition !== 'captured');
+    && person.health?.condition !== 'dead' && person.health?.condition !== 'captured' && person.health?.condition !== 'sick');
+  if (people.some(person => person.health?.condition === 'sick' && person.location?.siteId === view.household.homeSiteId && !person.travel) && !people.some(person => person.chore?.id === 'nurse-home')) {
+    const nurse = idle.find(person => person.location?.siteId === view.household.homeSiteId && (view.work?.[person.id] || []).some(entry => entry.id === 'nurse-home' && entry.can));
+    if (nurse && attempt({ action: 'chore', entityId: nurse.id, chore: 'nurse-home' })) idle.splice(idle.indexOf(nurse), 1);
+  }
   // One person at a time on a one-person errand, and a hunt only with a shot in the house: a family short of food sent
   // everybody to the timber with no powder and never built or planted, and a live class sent a whole family to town
   // for seed (both found 2026-09-14). The house, the planting and the harvest are the work many hands help with.

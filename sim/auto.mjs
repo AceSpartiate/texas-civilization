@@ -172,6 +172,9 @@ export function advanceAuto(world, { beginTravel, modeAvailability }) {
       if (heldByBattle(world, person)) continue;
       // Called aside by the family's little ones (sim/aside.mjs): nothing is taken up until they are back, and then it is.
       if (calledAside(person)) continue;
+      // Sick: nothing is taken up, and nobody works about the place; resting mends twice as fast (sim/disease.mjs, the owner
+      // 2026-09-27). The task is taken up again the tick they are well.
+      if (person.health?.condition === 'sick') { if (!person.chore && !person.travel && person.task === 'work') person.task = 'rest'; continue; }
       // A man on auto with Houston's army takes up the camp's work as his neighbours do (sim/camp.mjs `campChoice`): the
       // director's day, read from the same offered list a student sees. A refusal is simply a day with nothing to do.
       if (person.service?.kind === 'houston' && person.service.status === 'serving' && !person.chore && !person.travel) {

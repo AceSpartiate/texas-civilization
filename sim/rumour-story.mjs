@@ -49,6 +49,9 @@ export const STORY_LINES = Object.freeze({
   'goliad-massacre': { told: 'the prisoners taken with Fannin were marched out of Goliad and shot' },
   'santa-anna-brazos': { told: 'Santa Anna crossed the Brazos at Fort Bend and made for Harrisburg' },
   'san-jacinto': { told: 'General Houston destroyed Santa Anna\'s army at San Jacinto and took Santa Anna prisoner, and the war was won' },
+  // The sickness going round the crowded places of the flight (sim/disease.mjs `CROWDS`, docs/DISEASE.md §3.4).
+  'sickness-trinity': { told: 'measles, whooping cough and sore eyes broke out among the families camped at the Trinity' },
+  'sickness-lynchburg': { told: 'there was measles and whooping cough among the families waiting at Lynch\'s ferry' },
   // The Mexican advance (sim/advance.mjs, sim/advance-word.mjs, 2026-09-26): the towns burned, and where the columns came.
   'burned:gonzales': { told: 'General Houston had Gonzales burned as the army left it' },
   'burned:refugio': { told: 'King\'s men at Refugio set fire to the houses round the mission church' },
