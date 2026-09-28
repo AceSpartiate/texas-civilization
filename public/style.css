@@ -1123,3 +1123,14 @@ body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{left
   .panel-row[data-focused=true] .panel-icons{left:8px;right:8px;transform:none;width:auto;max-width:none;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:60px;justify-content:safe center;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:thin}
   .panel-icons .panel-icon{min-height:64px}
 }
+/* The sound control beside the Journal (public/audio.js, docs/AUDIO.md): a button and a small panel of sliders above it. */
+#sound-control{position:relative;display:flex;align-items:flex-end}
+#sound-toggle{display:flex;align-items:center;gap:7px;background:#51462f;color:#fff2d2;border-color:#b7a279}
+#sound-toggle[data-muted="true"]{background:#6b6150}
+#sound-panel{position:absolute;bottom:calc(100% + 6px);left:0;min-width:220px;background:#fbf6e9;color:#2d2618;border:1px solid #b7a279;border-radius:8px;padding:10px 12px;box-shadow:0 6px 18px rgba(0,0,0,.25);display:grid;gap:7px;font-size:13px;z-index:30}
+#sound-panel[hidden]{display:none}
+.sound-mute{font-weight:600}
+.sound-row{display:grid;grid-template-columns:64px 1fr;align-items:center;gap:8px}
+.sound-note{margin:2px 0 0;font-size:11.5px;line-height:1.3;color:#5b4f38;max-width:220px}
+.sound-note:empty{display:none}
+@media (max-width:700px){#sound-toggle{padding:7px}}

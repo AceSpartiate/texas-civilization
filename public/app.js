@@ -69,6 +69,15 @@ const battleView = createBattleView({ animated: (...args) => animated(...args), 
 // Up here with the battle's renderer, above the page's first `connect`, for the same TDZ guard.
 const chaseView = createChaseView({ animated: (...args) => animated(...args), miniPerson: (...args) => miniPerson(...args) });
 let routeDraft = null, routePicking = false, routeEditorKey = '';
+// The page's sound (public/audio.js, docs/AUDIO.md): told every snapshot and every frame, and given its button beside the
+// Journal. Fetched alongside the page rather than before it, so it never delays the first picture; until it has come the
+// page is simply silent. Up here with the battle's renderer, above the page's first `connect`, for the same TDZ guard.
+let soundscape = null;
+import('/audio.js').then(({ createSoundscape }) => {
+  soundscape = createSoundscape({ hostPage });
+  soundscape.mount($('#map-tools'));
+  if (window.__snapshot) soundscape.observe(window.__snapshot);
+}).catch(error => console.warn('The page has no sound:', error));
 let animationTime = 0, previousFrame = 0, paintedFrame = 0, animationDrawMs = 0;
 // A traveller's cycle is played from their own place in their stride rather than the shared clock (public/motion.js `GaitClock`).
 const gaitClock = new GaitClock(), gaits = new Map();
@@ -3348,14 +3357,14 @@ export function drawWorld(world) {
   // fought, the fire, the smoke on the day's wind, the words, the cannon. It replaced `drawFormations` on 2026-09-25.
   const fight = world.battle?.sides ? world.battle : null;
   const fightWind = fight && weather ? weatherMix(weather, fight.sides[0].x, world.minute).wind : null;
-  window.__battleView = battleView.draw(ctx, fight, {
+  const battleSeen = window.__battleView = battleView.draw(ctx, fight, {
     camera, time: animationTime, now: frameNow, tickMs: window.__snapshot?.tickMs ?? 1000, wind: fightWind,
     reducedMotion: reducedMotion.matches, paused: world.status !== 'running', bounds: { width: canvas.width, height: canvas.height }, named: camera.named,
   });
   if (fight) drawBattleCaption(ctx, fight, canvas);
   // Mexican troops after a family (public/chase-view.js): the student's own family's, and every one on the Host's map.
   const chases = host ? world.chases || [] : world.flight?.chase ? [world.flight.chase] : [];
-  window.__chaseView = chaseView.draw(ctx, chases, { camera, now: frameNow, time: animationTime, tickMs: window.__snapshot?.tickMs ?? 1000, bounds: { width: canvas.width, height: canvas.height }, reducedMotion: reducedMotion.matches, paused: world.status !== 'running' });
+  const chaseSeen = window.__chaseView = chaseView.draw(ctx, chases, { camera, now: frameNow, time: animationTime, tickMs: window.__snapshot?.tickMs ?? 1000, bounds: { width: canvas.width, height: canvas.height }, reducedMotion: reducedMotion.matches, paused: world.status !== 'running' });
   window.__viewFormations = fight ? fight.formations.map(formation => formation.id) : [];
   canvas.dataset.formationIds = window.__viewFormations.join(' ');
   window.__viewEntities = entities.map(entity => entity.id);
@@ -3367,6 +3376,7 @@ export function drawWorld(world) {
   // tick while the figure is drawn every frame between.
   window.__seatedDrawn = Object.fromEntries(seatedDrawn);
   window.__drawnAt = Object.fromEntries([...drawnAt].map(([id, spot]) => [id, { x: spot.x, y: spot.y, size: spot.size }]));
+  soundscape?.frame({ camera, canvas, world, battle: battleSeen, chase: chaseSeen, drawnAt });
   // Presentation evidence, same contract as __viewEntities: who was drawn because they
   // were seen, kept as a separate list so a proof can tell the two apart.
   // On the Host's map, the ones inside the view.
@@ -6352,6 +6362,7 @@ function render(snapshot) {
   renderTownScene(world);
   renderInteriorPanel(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderLesson(world); renderMilitaryNotice(world); renderTutorial(world);
   renderPanelBackdrop();
+  soundscape?.observe(snapshot);
 }
 /**
  * The dim behind a panel that stands where the family's own column is (owner, 2026-09-21). It is read off the panels
