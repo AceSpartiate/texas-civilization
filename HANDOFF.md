@@ -23,8 +23,8 @@ controls: Got it") and flaky on branches (a + press on a detached button; the ne
   rebuilt under the student while the family ate"; `tests/errands.test.mjs`'s new test fails alone (shape keyed on price, or
   the key on all resources). No slowdown plus a 10 s pause before the new wagon: fails "a rider is home again"; the slowdown
   with the same pause passes.
-- **Evidence** (same computer only): `npm run test:errand` 15 of 15, twice; `npm run test:tips` 11 of 11; `npm test` — see
-  the commit message. `docs/evidence/errand-browser.json` rewritten by the proof.
+- **Evidence** (same computer only): `npm run test:errand` 15 of 15, twice; `npm run test:tips` 11 of 11; `npm test` 1645 tests, 1609 pass, 0 fail, 36 skipped. origin/main had
+  nothing new at the final merge. `docs/evidence/errand-browser.json` rewritten by the proof.
 
 ## Ambient life and chatter: nobody idle stands about, and neighbours talk in short lines — owner, 2026-09-28 (worktree branch; not released)
 
