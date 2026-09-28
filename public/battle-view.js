@@ -102,6 +102,7 @@ export const PERSON_ART = Object.freeze({
   hockley: { stand: 'hockley-idle', command: 'hockley-point', point: 'hockley-point', gun: 'clip:hockley-battery-command', walk: 'hockley-walk-e' },
   mcculloch: { stand: 'mcculloch-idle', gun: 'clip:mcculloch-gun-service', listen: 'mcculloch-listen', walk: 'mcculloch-walk-e' },
   johnson: { stand: 'johnson-idle', command: 'clip:johnson-command', point: 'johnson-point', escape: 'clip:johnson-escape-e', walk: 'johnson-walk-e' },
+  grant: { stand: 'grant-idle', point: 'grant-point-herd', write: 'grant-read-map', wounded: 'grant-bandaged-seated', ride: 'clip:grant-mounted-walk-e', rideIdle: 'grant-mounted-idle-e', rideGallop: 'grant-mounted-gallop-e', walk: 'grant-walk-e' },
 });
 const lerp = (a, b, t) => a + (b - a) * t;
 
@@ -1170,7 +1171,8 @@ export function createBattleView(art) {
       const lamarRescue = battle.id === 'san-jacinto' && battle.phase === 'skirmish' && person.id === 'lamar' && phaseMinute >= 44 && phaseMinute < 50;
       const shermanRally = battle.id === 'san-jacinto' && battle.phase === 'skirmish' && person.id === 'sherman' && phaseMinute >= 22 && phaseMinute < 25;
       const johnsonCommand = battle.id === 'bexar-storming' && battle.phase === 'night-7' && person.id === 'johnson' && phaseMinute >= 180;
-      const shownPerson = completedKarnesBreach ? { ...person, pose: 'stand' } : lamarRescue ? { ...person, rescue: true } : shermanRally ? { ...person, rally: true } : johnsonCommand ? { ...person, pose: 'command', moving: false } : person;
+      const grantGallop = battle.id === 'agua-dulce' && battle.phase === 'ambush' && person.id === 'grant' && person.pose === 'ride';
+      const shownPerson = completedKarnesBreach ? { ...person, pose: 'stand' } : lamarRescue ? { ...person, rescue: true } : shermanRally ? { ...person, rally: true } : johnsonCommand ? { ...person, pose: 'command', moving: false } : grantGallop ? { ...person, gallop: true } : person;
       const how = drawPerson(ctx, shownPerson, p, figurePx, time, { fell, fellAgo: fell ? now - fellAt : 0, hurt, now });
       view.peopleSpots[person.id] = view.peopleSpots[person.name] = { x: p.x, y: p.y - figurePx * (person.pose === 'ride' && !fell ? 1.35 : 1) };
       view.peopleShown.add(person.id);
@@ -1238,6 +1240,7 @@ export function createBattleView(art) {
       return clip(`${kind}-march`);
     }
     if (pose === 'ride') {
+      if (person.gallop && own?.rideGallop) return clip(own.rideGallop, time, { size: figurePx * 1.35 });
       if (person.rescue && own?.rideRescue) return sprite(own.rideRescue);
       if (person.rally && own?.rideRally) return sprite(own.rideRally);
       const directed = (person.heading === 'north' ? own?.rideNorth : person.heading === 'south' ? own?.rideSouth : null) || named;

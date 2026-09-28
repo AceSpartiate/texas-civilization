@@ -40,6 +40,16 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null, ctx = n
   return last;
 }
 
+test('Grant rides his own horse and gallops only during the Agua Dulce ambush', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const grant = { id: 'grant', art: 'grant', name: 'Grant', side: 'texian', x: 0, y: 0, right: true, pose: 'ride', moving: true };
+  run(view, minute => night(minute, [], { id: 'agua-dulce', phase: 'herd', light: undefined, people: [grant] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'grant-mounted-walk-e'));
+  art.drawn.length = 0;
+  run(view, minute => night(minute, [], { id: 'agua-dulce', phase: 'ambush', light: undefined, people: [grant] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'grant-mounted-gallop-e'));
+});
+
 test('Johnson escapes through the back door in his own running animation', () => {
   const art = fakeArt(), view = createBattleView(art);
   const johnson = { id: 'johnson', art: 'johnson', name: 'Johnson', side: 'texian', x: 0.04, y: 0, right: true, pose: 'escape', moving: true };

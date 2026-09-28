@@ -163,7 +163,7 @@ export const PEOPLE = Object.freeze({
   condelle: person('condelle', 'Condelle', MX, 'general', 2, 'HIST-TEX-491', { fullName: 'Colonel Nicolás Condelle' }),
   'sanchez-navarro': person('sanchez-navarro', 'Sánchez Navarro', MX, 'general', 2, 'HIST-TEX-491', { fullName: 'José Juan Sánchez Navarro' }),
   // ---------------------------------------------------------------- the south and Goliad
-  grant: person('grant', 'Grant', TX, 'rider', 2, 'HIST-TEX-556', {
+  grant: person('grant', 'Grant', TX, 'grant', 2, 'HIST-TEX-556', {
     fullName: 'James Grant',
     // Killed after he had surrendered and dismounted: told, not drawn; last seen riding with the lancers after him.
     fate: { kind: 'killed', told: true, battle: 'agua-dulce', phase: 'ambush', at: 16, claimId: 'HIST-TEX-556' },

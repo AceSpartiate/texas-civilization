@@ -6096,6 +6096,246 @@
         ]
       }
     },
+    "famous-grant": {
+      "image": "atlases/famous-grant.png",
+      "width": 1225,
+      "height": 1284,
+      "bytes": 1191949,
+      "sha256": "020f78557e3f234d5e85b49644f2d5bbeae6d8939b3cd7246b95dbcf0771e9ab",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.700864,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              0,
+              303
+            ],
+            "columns": [
+              [
+                73,
+                268
+              ],
+              [
+                372,
+                579
+              ],
+              [
+                670,
+                874
+              ],
+              [
+                972,
+                1183
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              321,
+              624
+            ],
+            "columns": [
+              [
+                88,
+                226
+              ],
+              [
+                408,
+                542
+              ],
+              [
+                696,
+                831
+              ],
+              [
+                1011,
+                1160
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              631,
+              948
+            ],
+            "columns": [
+              [
+                93,
+                227
+              ],
+              [
+                388,
+                561
+              ],
+              [
+                702,
+                848
+              ],
+              [
+                1009,
+                1147
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              952,
+              1271
+            ],
+            "columns": [
+              [
+                81,
+                252
+              ],
+              [
+                364,
+                547
+              ],
+              [
+                648,
+                892
+              ],
+              [
+                1025,
+                1147
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-grant-mounted": {
+      "image": "atlases/famous-grant-mounted.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1312009,
+      "sha256": "251df1da796894d96995f9edbb826b9b9a3f82f90bab5452c0413cff327ca8ad",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.653193,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              16,
+              579
+            ],
+            "columns": [
+              [
+                38,
+                615
+              ],
+              [
+                650,
+                1223
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              613,
+              1211
+            ],
+            "columns": [
+              [
+                86,
+                658
+              ],
+              [
+                814,
+                1057
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-grant-gallop": {
+      "image": "atlases/famous-grant-gallop.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1420237,
+      "sha256": "3372949799975df14a1c1b0bc0d9380f978798cd4bacca4b6993f074a0eed0f1",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.623714,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              56,
+              576
+            ],
+            "columns": [
+              [
+                9,
+                616
+              ],
+              [
+                616,
+                1253
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              633,
+              1168
+            ],
+            "columns": [
+              [
+                9,
+                619
+              ],
+              [
+                619,
+                1247
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-hockley": {
       "image": "atlases/famous-hockley.png",
       "width": 1246,
@@ -33944,6 +34184,606 @@
         "visiblePixels": 15044,
         "trimmedPixels": 0,
         "retainedFraction": 1
+      }
+    },
+    "grant-walk-e-1": {
+      "sheet": "famous-grant",
+      "x": 73,
+      "y": 0,
+      "w": 195,
+      "h": 302,
+      "anchorX": 0.4897,
+      "anchorY": 0.9272,
+      "logicalHeight": 315,
+      "label": "grant walk e 1",
+      "kind": "famous-grant",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          75,
+          1,
+          191,
+          299
+        ],
+        "visiblePixels": 25755,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-walk-e-2": {
+      "sheet": "famous-grant",
+      "x": 372,
+      "y": 3,
+      "w": 207,
+      "h": 298,
+      "anchorX": 0.4686,
+      "anchorY": 0.9295,
+      "logicalHeight": 315,
+      "label": "grant walk e 2",
+      "kind": "famous-grant",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          374,
+          5,
+          203,
+          294
+        ],
+        "visiblePixels": 25074,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-walk-e-3": {
+      "sheet": "famous-grant",
+      "x": 670,
+      "y": 4,
+      "w": 204,
+      "h": 299,
+      "anchorX": 0.4877,
+      "anchorY": 0.9298,
+      "logicalHeight": 315,
+      "label": "grant walk e 3",
+      "kind": "famous-grant",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          672,
+          6,
+          200,
+          295
+        ],
+        "visiblePixels": 25032,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-walk-e-4": {
+      "sheet": "famous-grant",
+      "x": 972,
+      "y": 5,
+      "w": 211,
+      "h": 297,
+      "anchorX": 0.4692,
+      "anchorY": 0.9293,
+      "logicalHeight": 315,
+      "label": "grant walk e 4",
+      "kind": "famous-grant",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          974,
+          7,
+          207,
+          293
+        ],
+        "visiblePixels": 24694,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-walk-s-1": {
+      "sheet": "famous-grant",
+      "x": 88,
+      "y": 327,
+      "w": 138,
+      "h": 295,
+      "anchorX": 0.442,
+      "anchorY": 0.939,
+      "logicalHeight": 315,
+      "label": "grant walk s 1",
+      "kind": "famous-grant",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          90,
+          329,
+          134,
+          291
+        ],
+        "visiblePixels": 22655,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-walk-s-2": {
+      "sheet": "famous-grant",
+      "x": 408,
+      "y": 324,
+      "w": 134,
+      "h": 298,
+      "anchorX": 0.4254,
+      "anchorY": 0.9396,
+      "logicalHeight": 315,
+      "label": "grant walk s 2",
+      "kind": "famous-grant",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          410,
+          326,
+          130,
+          294
+        ],
+        "visiblePixels": 23432,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-walk-n-1": {
+      "sheet": "famous-grant",
+      "x": 696,
+      "y": 324,
+      "w": 135,
+      "h": 296,
+      "anchorX": 0.4926,
+      "anchorY": 0.9291,
+      "logicalHeight": 315,
+      "label": "grant walk n 1",
+      "kind": "famous-grant",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          698,
+          326,
+          131,
+          292
+        ],
+        "visiblePixels": 24295,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-walk-n-2": {
+      "sheet": "famous-grant",
+      "x": 1011,
+      "y": 321,
+      "w": 149,
+      "h": 303,
+      "anchorX": 0.4161,
+      "anchorY": 0.9274,
+      "logicalHeight": 315,
+      "label": "grant walk n 2",
+      "kind": "famous-grant",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1013,
+          323,
+          145,
+          299
+        ],
+        "visiblePixels": 25733,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-idle": {
+      "sheet": "famous-grant",
+      "x": 93,
+      "y": 631,
+      "w": 134,
+      "h": 315,
+      "anchorX": 0.5448,
+      "anchorY": 0.9429,
+      "logicalHeight": 315,
+      "label": "grant idle",
+      "kind": "famous-grant",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          95,
+          633,
+          130,
+          311
+        ],
+        "visiblePixels": 26022,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-point-herd": {
+      "sheet": "famous-grant",
+      "x": 388,
+      "y": 641,
+      "w": 173,
+      "h": 305,
+      "anchorX": 0.3439,
+      "anchorY": 0.9279,
+      "logicalHeight": 315,
+      "label": "grant point herd",
+      "kind": "famous-grant",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          390,
+          643,
+          169,
+          301
+        ],
+        "visiblePixels": 25563,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-read-map": {
+      "sheet": "famous-grant",
+      "x": 702,
+      "y": 638,
+      "w": 146,
+      "h": 310,
+      "anchorX": 0.5034,
+      "anchorY": 0.929,
+      "logicalHeight": 315,
+      "label": "grant read map",
+      "kind": "famous-grant",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          704,
+          640,
+          142,
+          306
+        ],
+        "visiblePixels": 25301,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-satchel": {
+      "sheet": "famous-grant",
+      "x": 1009,
+      "y": 641,
+      "w": 138,
+      "h": 303,
+      "anchorX": 0.5761,
+      "anchorY": 0.9505,
+      "logicalHeight": 315,
+      "label": "grant satchel",
+      "kind": "famous-grant",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1011,
+          643,
+          134,
+          299
+        ],
+        "visiblePixels": 25225,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-call": {
+      "sheet": "famous-grant",
+      "x": 81,
+      "y": 960,
+      "w": 171,
+      "h": 303,
+      "anchorX": 0.5088,
+      "anchorY": 0.9274,
+      "logicalHeight": 315,
+      "label": "grant call",
+      "kind": "famous-grant",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          962,
+          167,
+          299
+        ],
+        "visiblePixels": 25854,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-track": {
+      "sheet": "famous-grant",
+      "x": 364,
+      "y": 1040,
+      "w": 183,
+      "h": 187,
+      "anchorX": 0.3333,
+      "anchorY": 0.9251,
+      "logicalHeight": 315,
+      "label": "grant track",
+      "kind": "famous-grant",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          366,
+          1042,
+          179,
+          183
+        ],
+        "visiblePixels": 21253,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-bandaged-seated": {
+      "sheet": "famous-grant",
+      "x": 648,
+      "y": 1045,
+      "w": 244,
+      "h": 226,
+      "anchorX": 0.8156,
+      "anchorY": 0.9292,
+      "logicalHeight": 315,
+      "label": "grant bandaged seated",
+      "kind": "famous-grant",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          650,
+          1047,
+          240,
+          222
+        ],
+        "visiblePixels": 25329,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-arm-sling": {
+      "sheet": "famous-grant",
+      "x": 1025,
+      "y": 952,
+      "w": 122,
+      "h": 311,
+      "anchorX": 0.5451,
+      "anchorY": 0.9357,
+      "logicalHeight": 315,
+      "label": "grant arm sling",
+      "kind": "famous-grant",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1027,
+          954,
+          118,
+          307
+        ],
+        "visiblePixels": 23376,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-mounted-walk-e-1": {
+      "sheet": "famous-grant-mounted",
+      "x": 38,
+      "y": 16,
+      "w": 577,
+      "h": 562,
+      "anchorX": 0.4385,
+      "anchorY": 0.9288,
+      "logicalHeight": 598,
+      "label": "grant mounted walk e 1",
+      "kind": "famous-grant-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          40,
+          18,
+          573,
+          558
+        ],
+        "visiblePixels": 136130,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-mounted-walk-e-2": {
+      "sheet": "famous-grant-mounted",
+      "x": 650,
+      "y": 16,
+      "w": 573,
+      "h": 563,
+      "anchorX": 0.514,
+      "anchorY": 0.929,
+      "logicalHeight": 598,
+      "label": "grant mounted walk e 2",
+      "kind": "famous-grant-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          652,
+          18,
+          569,
+          559
+        ],
+        "visiblePixels": 136728,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-mounted-idle-e": {
+      "sheet": "famous-grant-mounted",
+      "x": 86,
+      "y": 613,
+      "w": 572,
+      "h": 592,
+      "anchorX": 0.4318,
+      "anchorY": 0.9611,
+      "logicalHeight": 598,
+      "label": "grant mounted idle e",
+      "kind": "famous-grant-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          88,
+          615,
+          568,
+          588
+        ],
+        "visiblePixels": 143768,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-mounted-idle-s": {
+      "sheet": "famous-grant-mounted",
+      "x": 814,
+      "y": 613,
+      "w": 243,
+      "h": 598,
+      "anchorX": 0.5185,
+      "anchorY": 0.9365,
+      "logicalHeight": 598,
+      "label": "grant mounted idle s",
+      "kind": "famous-grant-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          816,
+          615,
+          239,
+          594
+        ],
+        "visiblePixels": 82395,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-mounted-gallop-e-1": {
+      "sheet": "famous-grant-gallop",
+      "x": 9,
+      "y": 56,
+      "w": 607,
+      "h": 508,
+      "anchorX": 0.6096,
+      "anchorY": 0.9291,
+      "logicalHeight": 535,
+      "label": "grant mounted gallop e 1",
+      "kind": "famous-grant-gallop",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          11,
+          58,
+          604,
+          504
+        ],
+        "visiblePixels": 132343,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-mounted-gallop-e-2": {
+      "sheet": "famous-grant-gallop",
+      "x": 616,
+      "y": 69,
+      "w": 637,
+      "h": 507,
+      "anchorX": 0.478,
+      "anchorY": 0.9645,
+      "logicalHeight": 535,
+      "label": "grant mounted gallop e 2",
+      "kind": "famous-grant-gallop",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          618,
+          71,
+          633,
+          503
+        ],
+        "visiblePixels": 138243,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-mounted-gallop-e-3": {
+      "sheet": "famous-grant-gallop",
+      "x": 9,
+      "y": 633,
+      "w": 610,
+      "h": 535,
+      "anchorX": 0.3943,
+      "anchorY": 0.9308,
+      "logicalHeight": 535,
+      "label": "grant mounted gallop e 3",
+      "kind": "famous-grant-gallop",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          11,
+          635,
+          615,
+          531
+        ],
+        "visiblePixels": 135984,
+        "trimmedPixels": 142,
+        "retainedFraction": 0.998956
+      }
+    },
+    "grant-mounted-gallop-e-4": {
+      "sheet": "famous-grant-gallop",
+      "x": 619,
+      "y": 673,
+      "w": 628,
+      "h": 480,
+      "anchorX": 0.4952,
+      "anchorY": 0.9542,
+      "logicalHeight": 535,
+      "label": "grant mounted gallop e 4",
+      "kind": "famous-grant-gallop",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          613,
+          675,
+          632,
+          476
+        ],
+        "visiblePixels": 130560,
+        "trimmedPixels": 70,
+        "retainedFraction": 0.999464
       }
     },
     "hockley-walk-e-1": {

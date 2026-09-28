@@ -3550,6 +3550,102 @@
       "motion": "none",
       "direction": "north"
     },
+    "grant-walk-e": {
+      "frames": [
+        {
+          "sprite": "grant-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "grant-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "grant-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "grant-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "grant-walk-s": {
+      "frames": [
+        {
+          "sprite": "grant-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "grant-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "grant-walk-n": {
+      "frames": [
+        {
+          "sprite": "grant-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "grant-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "grant-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "grant-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "grant-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "grant-mounted-gallop-e": {
+      "frames": [
+        {
+          "sprite": "grant-mounted-gallop-e-1",
+          "duration": 135
+        },
+        {
+          "sprite": "grant-mounted-gallop-e-2",
+          "duration": 135
+        },
+        {
+          "sprite": "grant-mounted-gallop-e-3",
+          "duration": 135
+        },
+        {
+          "sprite": "grant-mounted-gallop-e-4",
+          "duration": 135
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "hockley-walk-e": {
       "frames": [
         {

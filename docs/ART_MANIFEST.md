@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1930 usable sprites, 185 PNG atlases, 615 clips** (387 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1954 usable sprites, 188 PNG atlases, 620 clips** (392 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -77,6 +77,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-deaf-smith | 16 | 1254 × 1254 | 1316988 |
 | famous-deaf-smith-mounted | 4 | 1254 × 1254 | 1298123 |
 | famous-esparza | 16 | 1254 × 1254 | 869799 |
+| famous-grant | 16 | 1225 × 1284 | 1191949 |
+| famous-grant-mounted | 4 | 1254 × 1254 | 1312009 |
+| famous-grant-gallop | 4 | 1254 × 1254 | 1420237 |
 | famous-hockley | 16 | 1246 × 1262 | 904693 |
 | famous-johnson | 16 | 1312 × 1199 | 1121505 |
 | famous-karnes | 16 | 1246 × 1263 | 1230841 |
@@ -879,6 +882,30 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-aim | famous-esparza | State artwork; no motion required |
 | esparza-fire | famous-esparza | State artwork; no motion required |
 | esparza-still | famous-esparza | State artwork; no motion required |
+| grant-walk-e-1 | famous-grant | grant-walk-e |
+| grant-walk-e-2 | famous-grant | grant-walk-e |
+| grant-walk-e-3 | famous-grant | grant-walk-e |
+| grant-walk-e-4 | famous-grant | grant-walk-e |
+| grant-walk-s-1 | famous-grant | grant-walk-s |
+| grant-walk-s-2 | famous-grant | grant-walk-s |
+| grant-walk-n-1 | famous-grant | grant-walk-n |
+| grant-walk-n-2 | famous-grant | grant-walk-n |
+| grant-idle | famous-grant | State artwork; no motion required |
+| grant-point-herd | famous-grant | State artwork; no motion required |
+| grant-read-map | famous-grant | State artwork; no motion required |
+| grant-satchel | famous-grant | State artwork; no motion required |
+| grant-call | famous-grant | State artwork; no motion required |
+| grant-track | famous-grant | State artwork; no motion required |
+| grant-bandaged-seated | famous-grant | State artwork; no motion required |
+| grant-arm-sling | famous-grant | State artwork; no motion required |
+| grant-mounted-walk-e-1 | famous-grant-mounted | grant-mounted-walk-e |
+| grant-mounted-walk-e-2 | famous-grant-mounted | grant-mounted-walk-e |
+| grant-mounted-idle-e | famous-grant-mounted | State artwork; no motion required |
+| grant-mounted-idle-s | famous-grant-mounted | State artwork; no motion required |
+| grant-mounted-gallop-e-1 | famous-grant-gallop | grant-mounted-gallop-e |
+| grant-mounted-gallop-e-2 | famous-grant-gallop | grant-mounted-gallop-e |
+| grant-mounted-gallop-e-3 | famous-grant-gallop | grant-mounted-gallop-e |
+| grant-mounted-gallop-e-4 | famous-grant-gallop | grant-mounted-gallop-e |
 | hockley-walk-e-1 | famous-hockley | hockley-walk-e |
 | hockley-walk-e-2 | famous-hockley | hockley-walk-e |
 | hockley-walk-e-3 | famous-hockley | hockley-walk-e |
@@ -2355,6 +2382,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-walk-e | Pose cycle | 4 | 760 | yes | east |
 | esparza-walk-s | Pose cycle | 2 | 580 | yes | south |
 | esparza-walk-n | Pose cycle | 2 | 580 | yes | north |
+| grant-walk-e | Pose cycle | 4 | 760 | yes | east |
+| grant-walk-s | Pose cycle | 2 | 580 | yes | south |
+| grant-walk-n | Pose cycle | 2 | 580 | yes | north |
+| grant-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| grant-mounted-gallop-e | Pose cycle | 4 | 540 | yes | east; mirror for west |
 | hockley-walk-e | Pose cycle | 4 | 760 | yes | east |
 | hockley-walk-s | Pose cycle | 2 | 580 | yes | south |
 | hockley-walk-n | Pose cycle | 2 | 580 | yes | north |

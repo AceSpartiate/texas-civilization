@@ -1470,3 +1470,7 @@ The public 1837 collection and funeral are documented; Seguín alone with a clot
 6. **Pack mules under grass** `mule-packed-grass-walk` (east, north, south, four frames) and `grass-bundle-cut` (a pack slit open, grass spilling). Replaces the `packhorse` figure.
 7. **A dry creek bed in thick mesquite** `creek-bed-dry` (a ground piece, about 40 yards of bed) and `creek-ford` (water over a crossing, for Jack's men at the trot).
 8. **Mules harnessed to a gun or caisson** `limber-mules-walk`, men riding them off ("two or three on a mule", Smithwick), and **a padre with carts** for the Mexican dead and wounded after Concepción: today told in the caption, not drawn.
+## Delivered 2026-09-28 — James Grant
+
+The famous-person delivery in `scripts/art-deliveries/famous-grant.mjs` adds sixteen foot frames, four mounted-walk frames and four mounted-gallop frames. Grant's own horse now appears in the existing Agua Dulce approach and pursuit, with the faster gait confined to the visible ambush interval. His later surrender and death remain off-screen as already staged. The clean bandage and arm-sling poses can support his earlier Béxar injury without graphic treatment. The generated manifest lists every frame and animation clip; the source and prompt records are in the art JSON files. Costume, face and horse are interpretive game art, not portrait evidence.
+
