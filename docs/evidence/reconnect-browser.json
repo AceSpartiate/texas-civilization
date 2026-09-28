@@ -8,9 +8,9 @@
   "checks": [
     "a class of five started from the Host page on the real server",
     "5 s with the server gone: both pages kept the game on screen under \"Connection lost. Reconnecting…\", and never the join screen",
-    "the server started again on the same class (lock taken over, save backed up); the student's page was back with hh-1 1412 ms after, the Host's 1577 ms after, and the class went on",
+    "the server started again on the same class (lock taken over, save backed up); the student's page was back with hh-1 1126 ms after, the Host's 1178 ms after, and the class went on",
     "30 s with the server gone: both pages kept the game on screen under \"Connection lost. Reconnecting…\" then \"Still reconnecting (22 seconds). Your family is safe; this page carries on by itself when the class server answers again.\" then \"Still reconnecting (27 seconds). Your family is safe; this page carries on by itself when the class server answers again.\", and never the join screen",
-    "the server started again on the same class (lock taken over, save backed up); the student's page was back with hh-1 6022 ms after, the Host's 6845 ms after, and the class went on",
+    "the server started again on the same class (lock taken over, save backed up); the student's page was back with hh-1 1068 ms after, the Host's 1070 ms after, and the class went on",
     "a student on a new Chromebook with no cookie and no key typed the class code, saw 4 names (not the student playing), tapped their own and got hh-5 back",
     "no page errors"
   ],
@@ -21,8 +21,8 @@
         "words": [
           "Connection lost. Reconnecting…"
         ],
-        "studentBackMs": 1412,
-        "hostBackMs": 1577,
+        "studentBackMs": 1126,
+        "hostBackMs": 1178,
         "samples": 5
       },
       {
@@ -32,9 +32,9 @@
           "Still reconnecting (22 seconds). Your family is safe; this page carries on by itself when the class server answers again.",
           "Still reconnecting (27 seconds). Your family is safe; this page carries on by itself when the class server answers again."
         ],
-        "studentBackMs": 6022,
-        "hostBackMs": 6845,
-        "samples": 28
+        "studentBackMs": 1068,
+        "hostBackMs": 1070,
+        "samples": 29
       }
     ],
     "awayList": [
