@@ -486,6 +486,16 @@ measure); a family that never chooses at the counter holds 284 reales and wins a
 default); a family that means to grow cotton holds 636 reales against 324 at a real a bale, and wins as often as it did (index 1.33
 against 1.32) - cotton's difference to winning was already there once the measure really sold it. Deaths 274 against 268.
 
+### 8.4 Seasons and a limited market (2026-09-28, not released)
+
+The owner's answer to the design audit's B9, by multiple choice: **"Seasons and a limited market"**. On the real land a crop goes in
+only in its season and ripens in its real calendar days (`sim/seasons.mjs`: a garden in the autumn, winter and spring; corn from the
+middle of February, cotton from the twentieth of March, neither in before the war ends), and each town's store and weaver buy only
+what they can use, at a price that halves when half full and stops when full (`sim/market.mjs`). Coin earned in a class fell from 495
+reales a family to 8; class winners from 122,138 / 231,219 / 347,413 to about 2,044 / 4,800 / 8,212 (five / fifteen / thirty
+families). The means die now matters (index 0.53 for three reales, 1.46 for ten); farming harder matters; the crop chosen does not;
+a family that sends nobody still wins no class of ordinary size. Measured and questioned in [BALANCE.md](BALANCE.md) §10.
+
 
 - **A patriotism meter.** `VISION.md` §11 still forbids it, and this is the mechanic most likely to
   turn into one by accident.

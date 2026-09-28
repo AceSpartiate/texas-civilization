@@ -620,7 +620,7 @@ with. See §10.9, question 2.
 - **Class time**: none. Every class ran the same 1,252 ticks. The guided start is shorter on the real land - its harvest step no
   longer waits for a crop (docs/LESSON.md, amended 2026-09-28) - and a garden sown the first morning comes in about November 9,
   about an hour into the first period at the Study pace.
-- **Runtime**: 4,970 s on 18 worker threads (CPU seconds by size: five 9,075, fifteen 34,476, thirty 45,296), the machine shared.
+- **Runtime**: 4,970 s on 18 worker threads (CPU seconds by size: five 9,075, fifteen 34,476, thirty 45,296), the machine shared. Measured on the branch at fbdba106 (before origin/main's "who acts for a family" and "neighbours remember and repay" were merged); those change who answers the road east and who helps whom, so a re-run on main will move these numbers a little.
 
 ### 10.8 The older study, run again
 
