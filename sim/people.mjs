@@ -156,7 +156,7 @@ export const PEOPLE = Object.freeze({
   johnson: person('johnson', 'Johnson', TX, 'officer', 2, 'HIST-TEX-039', { fullName: 'Francis W. Johnson' }),
   karnes: person('karnes', 'Karnes', TX, 'frontiersman', 2, 'HIST-TEX-038', { fullName: 'Henry Wax Karnes', art: 'karnes' }),
   'deaf-smith': person('deaf-smith', 'Deaf Smith', TX, 'deaf-smith', 2, 'HIST-TEX-555', { fullName: 'Erastus (Deaf) Smith' }),
-  neill: person('neill', 'Neill', TX, 'officer', 2, 'HIST-TEX-565', {
+  neill: person('neill', 'Neill', TX, 'neill', 2, 'HIST-TEX-565', {
     fullName: 'James C. Neill',
     fate: { kind: 'wounded', battle: 'san-jacinto', phase: 'skirmish', at: 13, claimId: 'HIST-TEX-565' },
   }),

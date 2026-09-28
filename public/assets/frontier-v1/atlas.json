@@ -6518,6 +6518,130 @@
         ]
       }
     },
+    "famous-neill": {
+      "image": "atlases/famous-neill.png",
+      "width": 1246,
+      "height": 1263,
+      "bytes": 1260451,
+      "sha256": "6ebaebcc765a5479fb9651a3f879d9e36e3b8443995630e8fb6a3575419e6b91",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.697408,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              11,
+              300
+            ],
+            "columns": [
+              [
+                79,
+                256
+              ],
+              [
+                382,
+                562
+              ],
+              [
+                697,
+                874
+              ],
+              [
+                1007,
+                1196
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              323,
+              615
+            ],
+            "columns": [
+              [
+                72,
+                240
+              ],
+              [
+                390,
+                556
+              ],
+              [
+                690,
+                858
+              ],
+              [
+                1012,
+                1176
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              631,
+              923
+            ],
+            "columns": [
+              [
+                60,
+                220
+              ],
+              [
+                360,
+                600
+              ],
+              [
+                628,
+                964
+              ],
+              [
+                975,
+                1196
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              943,
+              1224
+            ],
+            "columns": [
+              [
+                49,
+                236
+              ],
+              [
+                363,
+                547
+              ],
+              [
+                673,
+                947
+              ],
+              [
+                989,
+                1166
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-crockett": {
       "image": "atlases/famous-crockett.png",
       "width": 1254,
@@ -34000,6 +34124,406 @@
           613
         ],
         "visiblePixels": 74754,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "neill-walk-e-1": {
+      "sheet": "famous-neill",
+      "x": 79,
+      "y": 12,
+      "w": 177,
+      "h": 283,
+      "anchorX": 0.822,
+      "anchorY": 0.9293,
+      "logicalHeight": 292,
+      "label": "neill walk e 1",
+      "kind": "famous-neill",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          81,
+          14,
+          173,
+          279
+        ],
+        "visiblePixels": 24437,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "neill-walk-e-2": {
+      "sheet": "famous-neill",
+      "x": 382,
+      "y": 12,
+      "w": 180,
+      "h": 286,
+      "anchorX": 0.8222,
+      "anchorY": 0.9266,
+      "logicalHeight": 292,
+      "label": "neill walk e 2",
+      "kind": "famous-neill",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          384,
+          14,
+          176,
+          282
+        ],
+        "visiblePixels": 24340,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "neill-walk-e-3": {
+      "sheet": "famous-neill",
+      "x": 697,
+      "y": 11,
+      "w": 177,
+      "h": 289,
+      "anchorX": 0.8136,
+      "anchorY": 0.9273,
+      "logicalHeight": 292,
+      "label": "neill walk e 3",
+      "kind": "famous-neill",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          699,
+          13,
+          173,
+          285
+        ],
+        "visiblePixels": 24954,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "neill-walk-e-4": {
+      "sheet": "famous-neill",
+      "x": 1007,
+      "y": 12,
+      "w": 189,
+      "h": 287,
+      "anchorX": 0.8122,
+      "anchorY": 0.9268,
+      "logicalHeight": 292,
+      "label": "neill walk e 4",
+      "kind": "famous-neill",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1009,
+          14,
+          185,
+          283
+        ],
+        "visiblePixels": 26039,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "neill-walk-s-1": {
+      "sheet": "famous-neill",
+      "x": 72,
+      "y": 324,
+      "w": 168,
+      "h": 291,
+      "anchorX": 0.494,
+      "anchorY": 0.9278,
+      "logicalHeight": 292,
+      "label": "neill walk s 1",
+      "kind": "famous-neill",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          74,
+          326,
+          164,
+          287
+        ],
+        "visiblePixels": 25080,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "neill-walk-s-2": {
+      "sheet": "famous-neill",
+      "x": 390,
+      "y": 323,
+      "w": 166,
+      "h": 292,
+      "anchorX": 0.4277,
+      "anchorY": 0.9281,
+      "logicalHeight": 292,
+      "label": "neill walk s 2",
+      "kind": "famous-neill",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          392,
+          325,
+          162,
+          288
+        ],
+        "visiblePixels": 24901,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "neill-walk-n-1": {
+      "sheet": "famous-neill",
+      "x": 690,
+      "y": 324,
+      "w": 168,
+      "h": 290,
+      "anchorX": 0.5833,
+      "anchorY": 0.9276,
+      "logicalHeight": 292,
+      "label": "neill walk n 1",
+      "kind": "famous-neill",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          692,
+          326,
+          164,
+          286
+        ],
+        "visiblePixels": 24426,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "neill-walk-n-2": {
+      "sheet": "famous-neill",
+      "x": 1012,
+      "y": 325,
+      "w": 164,
+      "h": 290,
+      "anchorX": 0.436,
+      "anchorY": 0.9276,
+      "logicalHeight": 292,
+      "label": "neill walk n 2",
+      "kind": "famous-neill",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1014,
+          327,
+          160,
+          286
+        ],
+        "visiblePixels": 23888,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "neill-idle": {
+      "sheet": "famous-neill",
+      "x": 60,
+      "y": 631,
+      "w": 160,
+      "h": 292,
+      "anchorX": 0.5437,
+      "anchorY": 0.9315,
+      "logicalHeight": 292,
+      "label": "neill idle",
+      "kind": "famous-neill",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          62,
+          633,
+          156,
+          288
+        ],
+        "visiblePixels": 27748,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "neill-command": {
+      "sheet": "famous-neill",
+      "x": 360,
+      "y": 635,
+      "w": 240,
+      "h": 286,
+      "anchorX": 0.3688,
+      "anchorY": 0.9266,
+      "logicalHeight": 292,
+      "label": "neill command",
+      "kind": "famous-neill",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          362,
+          637,
+          236,
+          282
+        ],
+        "visiblePixels": 29338,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "neill-rammer": {
+      "sheet": "famous-neill",
+      "x": 628,
+      "y": 638,
+      "w": 336,
+      "h": 282,
+      "anchorX": 0.311,
+      "anchorY": 0.9326,
+      "logicalHeight": 292,
+      "label": "neill rammer",
+      "kind": "famous-neill",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          630,
+          640,
+          332,
+          278
+        ],
+        "visiblePixels": 32006,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "neill-sight": {
+      "sheet": "famous-neill",
+      "x": 975,
+      "y": 650,
+      "w": 221,
+      "h": 270,
+      "anchorX": 0.0928,
+      "anchorY": 0.9333,
+      "logicalHeight": 292,
+      "label": "neill sight",
+      "kind": "famous-neill",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          977,
+          652,
+          217,
+          266
+        ],
+        "visiblePixels": 26631,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "neill-brace": {
+      "sheet": "famous-neill",
+      "x": 49,
+      "y": 956,
+      "w": 187,
+      "h": 263,
+      "anchorX": 0.1123,
+      "anchorY": 0.9278,
+      "logicalHeight": 292,
+      "label": "neill brace",
+      "kind": "famous-neill",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          51,
+          958,
+          183,
+          259
+        ],
+        "visiblePixels": 27009,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "neill-pass-shot": {
+      "sheet": "famous-neill",
+      "x": 363,
+      "y": 943,
+      "w": 184,
+      "h": 278,
+      "anchorX": 0.4538,
+      "anchorY": 0.9281,
+      "logicalHeight": 292,
+      "label": "neill pass shot",
+      "kind": "famous-neill",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          365,
+          945,
+          180,
+          274
+        ],
+        "visiblePixels": 27623,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "neill-wounded-seated": {
+      "sheet": "famous-neill",
+      "x": 673,
+      "y": 987,
+      "w": 274,
+      "h": 237,
+      "anchorX": 0.6551,
+      "anchorY": 0.9283,
+      "logicalHeight": 292,
+      "label": "neill wounded seated",
+      "kind": "famous-neill",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          675,
+          989,
+          270,
+          233
+        ],
+        "visiblePixels": 30739,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "neill-recover": {
+      "sheet": "famous-neill",
+      "x": 989,
+      "y": 945,
+      "w": 177,
+      "h": 270,
+      "anchorX": 0.6243,
+      "anchorY": 0.9296,
+      "logicalHeight": 292,
+      "label": "neill recover",
+      "kind": "famous-neill",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          991,
+          947,
+          173,
+          266
+        ],
+        "visiblePixels": 26626,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

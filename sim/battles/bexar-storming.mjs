@@ -227,7 +227,7 @@ export const BEXAR_STORMING = Object.freeze({
       // yards out; over the brush fence; a sentinel challenges and is shot - Deaf Smith fired (`HIST-TEX-494`).
       id: 'feint', minutes: 30, step: 5, contact: true, title: 'Neill’s gun, and the fence', claimId: 'HIST-TEX-494',
       // Deaf Smith, guiding the columns in, fires on the sentinel (`HIST-TEX-494`, `-555`).
-      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }, { id: 'neill', with: 'neill', offset: { along: 0.01, across: 0 } }, { id: 'deaf-smith', with: 'texian', offset: { along: 0.03, across: 0.01 } }],
+      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }, { id: 'neill', with: 'neill', offset: { along: 0.01, across: 0 }, pose: 'gun' }, { id: 'deaf-smith', with: 'texian', offset: { along: 0.03, across: 0.01 } }],
       caption: 'Five o’clock. Neill’s gun opens on the Alamo from the north to draw the Mexicans’ eyes. The volunteers drop their blankets and coats, climb a brush fence, and a sentinel calls out and is shot.',
       texian: { style: 'column', keys: [[0, 'fence'], [16, 'fence'], [30, 'acequia']], action: 'advance', fire: 'none' },
       mexican: { style: 'street', spread: { width: 0.07, depth: 0.05 }, at: 'barricade', action: 'hold', fire: 'picket' },

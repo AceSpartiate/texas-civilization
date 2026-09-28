@@ -2539,6 +2539,20 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-karnes-mounted.png",
       "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
       "review": "Horse gait and mounted rest are available for later scout and cavalry staging; horse appearance is an artistic interpretation."
+    },
+    {
+      "sheet": "famous-neill",
+      "promptId": "frontier-v1/famous-neill",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 painterly Texas Revolution sprite atlas of an original interpretive James C. Neill, stocky middle-aged artillery officer in tan hat, indigo jacket, cream shirt, buff trousers and black boots. Four east walks, two south, two north, then idle, command, rammer, cannon sight, brace at gun report, offer round, non-graphic seated hip wound and recover. Same identity and scale, clear alpha gutters, no background or exact portrait claim. Reference the shipped Karnes sheet for art style only.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-karnes.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c3ca2fe6-1a72-444c-bd07-964f3bbeca62.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-neill.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct artillery command and gun-service poses; non-graphic hip wound for the existing April 20 fate. Costume is interpretive."
     }
   ]
 }

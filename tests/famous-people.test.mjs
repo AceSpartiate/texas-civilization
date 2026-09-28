@@ -246,6 +246,7 @@ test('the Twin Sisters are named and fire where the record puts them: before the
   assert.equal(twins.length, 2); assert.ok(twins.some(gun => gun.named && gun.name === 'Twin Sisters'));
   assert.ok(twins.reduce((sum, gun) => sum + gun.shots.length, 0) >= 3, 'the Twin Sisters did not answer on the 20th');
   const neill = personIn(fieldAt('san-jacinto', 'skirmish', PEOPLE.neill.fate.at).view, 'neill');
+  assert.equal(neill.art, 'neill');
   assert.ok(Number.isFinite(neill.hurt), 'Neill is not wounded at the guns');
   assert.ok(!personIn(fieldAt('san-jacinto', 'skirmish', PEOPLE.neill.fate.at - 1).view, 'neill').hurt);
   // The skirmish's Texian hurt: Neill at the guns, and two of Sherman's horsemen (Houston: "two men severely wounded").

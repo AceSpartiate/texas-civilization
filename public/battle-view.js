@@ -95,6 +95,7 @@ export const PERSON_ART = Object.freeze({
   urrea: { stand: 'urrea-idle', command: 'urrea-command', point: 'urrea-point', speak: 'urrea-address', ride: 'clip:urrea-mounted-walk-e', rideIdle: 'urrea-mounted-idle-e', walk: 'urrea-walk-e' },
   'deaf-smith': { stand: 'deaf-smith-idle', report: 'deaf-smith-report', point: 'deaf-smith-point', wounded: 'deaf-smith-wounded-seated', ride: 'clip:deaf-smith-mounted-walk-e', rideIdle: 'deaf-smith-mounted-idle-e', walk: 'deaf-smith-walk-e' },
   karnes: { stand: 'karnes-idle', command: 'karnes-command', point: 'karnes-command', listen: 'karnes-listen', work: 'clip:karnes-crowbar-work', fire: ['karnes-aim', 'karnes-fire', 'karnes-aim'], ride: 'clip:karnes-mounted-walk-e', rideIdle: 'karnes-mounted-idle-e', walk: 'karnes-walk-e' },
+  neill: { stand: 'neill-idle', command: 'neill-command', point: 'neill-command', gun: 'clip:neill-gun-service', wounded: 'neill-wounded-seated', walk: 'neill-walk-e' },
 });
 const lerp = (a, b, t) => a + (b - a) * t;
 

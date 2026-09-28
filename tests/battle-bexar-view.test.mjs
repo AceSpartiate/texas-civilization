@@ -75,6 +75,12 @@ test('in the houses most men are out of sight: the fire is flashes and smoke at 
   assert.ok(art.drawn.some(one => one.clip === 'rust-work' || one.clip === 'teal-work'), 'nobody digs the trench at night');
 });
 
+test('Neill serves his own gun during the Béxar feint', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  play(view, 'feint', { seconds: 2, into: tick => 4 + tick });
+  assert.ok(art.drawn.some(one => one.clip === 'neill-gun-service'), 'Neill was not drawn serving his own gun');
+});
+
 test('Burleson rides into the Béxar talks on his own mounted sheet', () => {
   const art = fakeArt(), view = createBattleView(art);
   play(view, 'parley', { seconds: 2, into: tick => 55 + tick });

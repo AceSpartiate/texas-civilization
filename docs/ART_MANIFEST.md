@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1806 usable sprites, 175 PNG atlases, 585 clips** (357 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1822 usable sprites, 176 PNG atlases, 589 clips** (361 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -82,6 +82,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-moore | 16 | 1254 × 1254 | 1092408 |
 | famous-houston-mounted | 4 | 1254 × 1254 | 1158924 |
 | famous-santa-anna-mounted | 4 | 1226 × 1283 | 1192703 |
+| famous-neill | 16 | 1246 × 1263 | 1260451 |
 | famous-crockett | 16 | 1254 × 1254 | 1237962 |
 | famous-travis | 16 | 1254 × 1254 | 1163935 |
 | famous-bowie | 16 | 1254 × 1254 | 1280882 |
@@ -913,6 +914,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | santa-anna-mounted-walk-e-2 | famous-santa-anna-mounted | santa-anna-mounted-walk-e |
 | santa-anna-mounted-idle-e | famous-santa-anna-mounted | State artwork; no motion required |
 | santa-anna-mounted-walk-s | famous-santa-anna-mounted | State artwork; no motion required |
+| neill-walk-e-1 | famous-neill | neill-walk-e |
+| neill-walk-e-2 | famous-neill | neill-walk-e |
+| neill-walk-e-3 | famous-neill | neill-walk-e |
+| neill-walk-e-4 | famous-neill | neill-walk-e |
+| neill-walk-s-1 | famous-neill | neill-walk-s |
+| neill-walk-s-2 | famous-neill | neill-walk-s |
+| neill-walk-n-1 | famous-neill | neill-walk-n |
+| neill-walk-n-2 | famous-neill | neill-walk-n |
+| neill-idle | famous-neill | State artwork; no motion required |
+| neill-command | famous-neill | State artwork; no motion required |
+| neill-rammer | famous-neill | neill-gun-service |
+| neill-sight | famous-neill | neill-gun-service |
+| neill-brace | famous-neill | neill-gun-service |
+| neill-pass-shot | famous-neill | State artwork; no motion required |
+| neill-wounded-seated | famous-neill | State artwork; no motion required |
+| neill-recover | famous-neill | State artwork; no motion required |
 | crockett-walk-e-1 | famous-crockett | crockett-walk-e |
 | crockett-walk-e-2 | famous-crockett | crockett-walk-e |
 | crockett-walk-e-3 | famous-crockett | crockett-walk-e |
@@ -2231,6 +2248,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | moore-walk-n | Pose cycle | 2 | 580 | yes | north |
 | houston-mounted-walk-e | Pose cycle | 2 | 640 | yes | east |
 | santa-anna-mounted-walk-e | Pose cycle | 2 | 640 | yes | east |
+| neill-walk-e | Pose cycle | 4 | 760 | yes | east |
+| neill-walk-s | Pose cycle | 2 | 580 | yes | south |
+| neill-walk-n | Pose cycle | 2 | 580 | yes | north |
+| neill-gun-service | Pose cycle | 3 | 1120 | yes | east; mirror for west |
 | crockett-walk-e | Pose cycle | 4 | 760 | yes | east |
 | crockett-walk-s | Pose cycle | 2 | 580 | yes | south |
 | crockett-walk-n | Pose cycle | 2 | 580 | yes | north |
