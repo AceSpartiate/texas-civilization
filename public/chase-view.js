@@ -68,6 +68,9 @@ export function createChaseView(art) {
    */
   function draw(ctx, chases, { camera, now, time, tickMs, bounds = null, reducedMotion = false, paused = false }) {
     evidence.drawn = [];
+    // What the page's sound hears this frame (public/audio.js): each shot where its muzzle was drawn, each order when it is
+    // first shown.
+    const heard = [], spoken = [];
     const live = new Set();
     for (const chase of chases || []) {
       if (!Number.isFinite(chase.x) || !chase.dir) continue;
@@ -96,6 +99,7 @@ export function createChaseView(art) {
         const from = soldierAt(view, Math.min(shot.man, view.soldiers.length - 1), now);
         const muzzle = { x: from.x - view.dir.x * 0.01, y: from.y - view.dir.y * 0.01 - 0.008 };
         shot.flash = { ...muzzle, until: now + FLASH_MS };
+        const at = camera.toScreen(muzzle); heard.push({ x: Math.round(at.x), y: Math.round(at.y), size: 1 });
         view.smoke.push({ x: muzzle.x, y: muzzle.y, born: now, seed: (shot.n * 7919) % 97 / 97 });
         if (view.smoke.length > SMOKE_CAP) view.smoke.splice(0, view.smoke.length - SMOKE_CAP);
         if (!shot.hit) { const k = (shot.n * 131) % 17 / 17 - 0.5; view.dust.push({ x: from.family.x + view.dir.x * 0.012 + k * 0.02, y: from.family.y + view.dir.y * 0.012 + 0.004, born: now + 250 }); evidence.dust++; }
@@ -131,12 +135,12 @@ export function createChaseView(art) {
       if (said && drawnSoldiers.length && figurePx >= 9) {
         const lead = drawnSoldiers.reduce((best, one) => (view.soldiers[one.i].to < view.soldiers[best.i].to ? one : best), drawnSoldiers[0]);
         drawSpeech(ctx, { ...said, speaker: { side: 'mexican' } }, lead.x, lead.y - lead.size * 1.05, { bounds, alpha: clamp01((LINE_MS - (now - said.at)) / 1500) });
-        if (!evidence.lines.includes(said.id)) evidence.lines.push(said.id);
+        if (!evidence.lines.includes(said.id)) { evidence.lines.push(said.id); spoken.push({ id: said.id, x: lead.x, y: lead.y }); }
       }
       evidence.drawn.push({ id: chase.id, kind: view.kind, phase: view.phase, soldiers: drawnSoldiers.length, smoke: view.smoke.length, shotsSent: (chase.shots || []).length });
     }
     for (const id of views.keys()) if (!live.has(id)) views.delete(id);
-    return { drawn: evidence.drawn, shotsSeen: evidence.shotsSeen, flashes: evidence.flashes, dust: evidence.dust, lines: [...evidence.lines] };
+    return { drawn: evidence.drawn, shotsSeen: evidence.shotsSeen, flashes: evidence.flashes, dust: evidence.dust, lines: [...evidence.lines], heard, spoken };
   }
   return { draw };
 }

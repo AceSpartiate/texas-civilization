@@ -32,6 +32,7 @@ import { ENGAGEMENTS, projectBattle, schedule } from './battle-stage.mjs';
 import { columnsNow } from './advance.mjs';
 import { findWay } from './ways.mjs';
 import { thinLine } from './flight-route.mjs';
+import { neighbourLines } from './neighbourly.mjs';
 
 /** The video's length, which every family's beats share out. The owner's "1 minute video". */
 export const FLASHBACK_MS = 60000;
@@ -413,6 +414,18 @@ function candidates(world, household, trip) {
         ? { type: 'road', route: roadBetween(world, household.homeSiteId, flight.refuge, flight.mode), people: at((gave || took).minute), wagon: flight.mode === 'wagon', from: 0.6, to: 0.7, crowd: true }
         : { type: 'home', house: { shelter: built && (gave || took).minute >= built.minute ? 'house' : 'camp', layout: houseLayout }, people: at((gave || took).minute), neighbours: true } });
     }
+  }
+  // What the family did for its neighbours and they for it (sim/neighbourly.mjs, owner 2026-09-28), where the road gave no help.
+  if (!found.some(beat => beat.kind === 'help')) {
+    let lines = [];
+    try { lines = neighbourLines(world, household.id); } catch { lines = []; }
+    if (lines.length) {
+      const first = lines[0], second = lines.find(line => line.kind !== first.kind && line.text !== first.text);
+      add({ kind: 'help', weight: 66, minute: first.minute, place: home, caption: [first.text, second?.text].filter(Boolean).map(text => sentence(firstSentence(text))).join(' '),
+        scene: { type: 'home', house: { shelter: built && first.minute >= built.minute ? 'house' : 'camp', layout: houseLayout }, people: at(first.minute), neighbours: true } });
+    }
+  }
+  if (flight) {
     if (Number.isFinite(flight.arrivedMinute) && flight.refuge) {
       add({ kind: 'refuge', weight: 60, minute: flight.arrivedMinute, place: place(world, flight.refuge), caption: `They reached ${world.map.sites[flight.refuge]?.name} and camped there with the other families from the west.`,
         scene: { type: 'map', miles: 14, people: at(flight.arrivedMinute), crowd: true } });

@@ -17,6 +17,7 @@
 import { record } from './events.mjs';
 import { recordLapse } from './lapse.mjs';
 import { takeToWar, warRifleWords } from './keeping.mjs';
+import { leavesLittleOnes } from './acting.mjs';
 import { canAnswerCalls, canFight, cannotAnswerWhy, cannotFightWhy, tooYoung, tooYoungWhy } from './family.mjs';
 
 /** What a volunteer takes of the family's powder: the settlers brought their own arms (`HIST-GONZ-020`), and powder was short. */
@@ -117,8 +118,10 @@ export function callOptions(world, householdId, call, entity) {
   const place = world.map.sites[call.gather]?.name || 'the gathering';
   const offer = (id, label, note) => ({ id, label, note, ...callAvailability(world, householdId, entity, id) });
   const tired = entity.health.condition === 'tired' ? ` ${entity.name} is already tired.` : '';
+  // Who is left at home if he goes, when nobody of ten or more would be (sim/acting.mjs, design audit S14, 2026-09-28).
+  const leaves = leavesLittleOnes(world, world.households[householdId], entity);
   return [
-    offer('turn-out', COAST.includes(call.settlementId) ? `Go: ride west to join them, toward ${place}` : `Go: ride for ${place}`, `${entity.name} takes the family's rifle and up to ${VOLUNTEER_POWDER} powder, and is away from the farm until called home.${tired}`),
+    offer('turn-out', COAST.includes(call.settlementId) ? `Go: ride west to join them, toward ${place}` : `Go: ride for ${place}`, `${entity.name} takes the family's rifle and up to ${VOLUNTEER_POWDER} powder, and is away from the farm until called home.${tired}${leaves ? ` ${leaves}` : ''}`),
     COAST.includes(call.settlementId)
       ? offer('stay-put', 'Stay and keep the coast', `The coast has few men left on it. ${entity.name} stays, and the farm keeps its hands.`)
       : offer('stay-put', 'Stay home', `${entity.name} stays, and the farm keeps its hands.`),

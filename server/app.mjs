@@ -68,6 +68,10 @@ const files = new Map([
   // The one battle renderer and the one speech bubble (docs/BATTLES.md §3): every fight drawn, every line said over its speaker.
   ['/battle-view.js', ['../public/battle-view.js', 'text/javascript']],
   ['/chase-view.js', ['../public/chase-view.js', 'text/javascript']],
+  // The game's sound, made by the page (docs/AUDIO.md): the mixer, the events heard, the effects and the music.
+  ['/audio.js', ['../public/audio.js', 'text/javascript']], ['/audio-mix.js', ['../public/audio-mix.js', 'text/javascript']],
+  ['/audio-cues.js', ['../public/audio-cues.js', 'text/javascript']], ['/audio-synth.js', ['../public/audio-synth.js', 'text/javascript']],
+  ['/audio-music.js', ['../public/audio-music.js', 'text/javascript']],
   ['/speech.js', ['../public/speech.js', 'text/javascript']],
   ['/creation.js', ['../public/creation.js', 'text/javascript']],
   ['/ground-classes.js', ['../public/ground-classes.js', 'text/javascript']],
@@ -76,6 +80,8 @@ const files = new Map([
   // The end-of-game flashback, drawn and recorded on the Host's page and played on every page (docs/FLASHBACK.md).
   ['/flashback.js', ['../public/flashback.js', 'text/javascript']],
   ['/webm-writer.js', ['../public/webm-writer.js', 'text/javascript']],
+  // The family's neighbours and help offered back between families (sim/neighbourly.mjs, owner 2026-09-28).
+  ['/neighbours.js', ['../public/neighbours.js', 'text/javascript']],
   ['/appearance.js', ['../public/appearance.js', 'text/javascript']],
   ['/looks-art.js', ['../public/looks-art.js', 'text/javascript']],
   ['/avatar-art.js', ['../public/avatar-art.js', 'text/javascript']],
