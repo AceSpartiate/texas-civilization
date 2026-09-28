@@ -6,12 +6,12 @@
     {
       "label": "farm: people at activities, none drawn standing idle",
       "pass": true,
-      "detail": "6 people, poses repair, care, rest, carry, walk"
+      "detail": "6 people, poses rest, repair, care, carry, walk"
     },
     {
       "label": "farm: bubbles drawn, short, reconstructed",
       "pass": true,
-      "detail": "6 lines: \"Will you trade me some salt?\" \"For a little coffee, I will.\" \"Supper is nearly ready.\" \"Mind the snakes by the creek.\" \"I can smell it from here.\" \"I saw a big one yesterday.\""
+      "detail": "4 lines: \"Supper is nearly ready.\" \"Mind the snakes by the creek.\" \"I can smell it from here.\" \"I saw a big one yesterday.\""
     },
     {
       "label": "farm: at most 3 bubbles at once, never over each other, on the screen",
@@ -21,7 +21,7 @@
     {
       "label": "farm: the map draws inside the gate",
       "pass": true,
-      "detail": "{\"count\":480,\"median\":6.4,\"p95\":9,\"max\":14}"
+      "detail": "{\"count\":481,\"median\":5.4,\"p95\":9.1,\"max\":15.3}"
     },
     {
       "label": "town: people at activities, none drawn standing idle",
@@ -31,7 +31,7 @@
     {
       "label": "town: bubbles drawn, short, reconstructed",
       "pass": true,
-      "detail": "16 lines: \"Slow day for trade.\" \"This rain will not quit.\" \"It will pick up.\" \"Mud up to our knees.\" \"More families came this week.\" \"The store has new cloth.\""
+      "detail": "15 lines: \"Slow day for trade.\" \"This rain will not quit.\" \"It will pick up.\" \"Mud up to our knees.\" \"More families came this week.\" \"The store has new cloth.\""
     },
     {
       "label": "town: at most 3 bubbles at once, never over each other, on the screen",
@@ -41,7 +41,7 @@
     {
       "label": "town: the map draws inside the gate",
       "pass": true,
-      "detail": "{\"count\":481,\"median\":4.2,\"p95\":7,\"max\":19.7}"
+      "detail": "{\"count\":480,\"median\":5.3,\"p95\":7.7,\"max\":13.8}"
     },
     {
       "label": "town: a keeper walked to a neighbour's door to talk",
@@ -61,7 +61,7 @@
     {
       "label": "camp: people at activities, none drawn standing idle",
       "pass": true,
-      "detail": "1 people, poses carry, walk, rest, sow, care"
+      "detail": "1 people, poses carry, walk, rest, sow, care, repair"
     },
     {
       "label": "camp: bubbles drawn, short, reconstructed",
@@ -76,7 +76,7 @@
     {
       "label": "camp: the map draws inside the gate",
       "pass": true,
-      "detail": "{\"count\":475,\"median\":3.8,\"p95\":13.6,\"max\":23.4}"
+      "detail": "{\"count\":471,\"median\":5.8,\"p95\":18.1,\"max\":29.5}"
     },
     {
       "label": "no page error",
@@ -92,14 +92,12 @@
   "evidence": {
     "farm": {
       "frames": {
-        "count": 480,
-        "median": 6.4,
-        "p95": 9,
-        "max": 14
+        "count": 481,
+        "median": 5.4,
+        "p95": 9.1,
+        "max": 15.3
       },
       "bubbles": [
-        "hh-1-child-4: Will you trade me some salt?",
-        "hh-1-child-5: For a little coffee, I will.",
         "hh-1-child-4: Supper is nearly ready.",
         "hh-1-child-3: Mind the snakes by the creek.",
         "hh-1-child-3: I can smell it from here.",
@@ -109,11 +107,6 @@
       "overlaps": [],
       "outside": [],
       "drawn": {
-        "hh-1-parent-2": [
-          "whittle:indigo-repair",
-          "fire:indigo-care",
-          "sleep:indigo-rest"
-        ],
         "hh-1-child-1": [
           "pipe:indigo-rest",
           "whittle:indigo-repair",
@@ -129,22 +122,29 @@
           "fire:indigo-care"
         ],
         "hh-1-child-3": [
+          "shell:indigo-repair",
           "fire:indigo-care",
           "dominoes:indigo-rest",
           "fireside:indigo-rest",
           "sleep:indigo-rest"
         ],
         "hh-1-child-4": [
+          "company:indigo-rest",
           "dominoes:indigo-rest",
           "fireside:indigo-rest",
           "fire:indigo-care",
           "sleep:indigo-rest"
         ],
         "hh-1-child-5": [
+          "company:indigo-rest",
           "dominoes:indigo-rest",
           "sit:indigo-rest",
           "shell:indigo-repair",
           "fire:indigo-care"
+        ],
+        "hh-1-parent-2": [
+          "fire:indigo-care",
+          "sleep:indigo-rest"
         ]
       },
       "walking": [],
@@ -153,10 +153,10 @@
     },
     "town": {
       "frames": {
-        "count": 481,
-        "median": 4.2,
-        "p95": 7,
-        "max": 19.7
+        "count": 480,
+        "median": 5.3,
+        "p95": 7.7,
+        "max": 13.8
       },
       "bubbles": [
         "town-wheelwright-san-felipe: Slow day for trade.",
@@ -173,8 +173,7 @@
         "town-wheelwright-san-felipe: Blue, or only brown again?",
         "town-store-san-felipe: More families came this week.",
         "town-tanner-san-felipe: How long have you been in Texas?",
-        "town-gunsmith-san-felipe: Texas fills up fast.",
-        "town-weaver-san-felipe: Three years this spring."
+        "town-gunsmith-san-felipe: Texas fills up fast."
       ],
       "most": 2,
       "overlaps": [],
@@ -182,6 +181,7 @@
       "drawn": {
         "town-store-san-felipe": [
           "sleep:ochre-rest",
+          "sleep:ochre-walk",
           "talk:ochre-walk",
           "talk:ochre-speak",
           "dominoes:ochre-rest"
@@ -193,6 +193,7 @@
           "watch:elder-search",
           "goods:elder-carry",
           "water:elder-carry",
+          "dominoes:elder-walk",
           "dominoes:elder-rest",
           "cards:elder-rest",
           "cards:elder-walk"
@@ -209,6 +210,7 @@
         ],
         "town-gunsmith-san-felipe": [
           "sleep:ochre-rest",
+          "sleep:ochre-walk",
           "talk:ochre-walk",
           "talk:ochre-speak",
           "dominoes:ochre-rest"
@@ -250,6 +252,7 @@
         ],
         "town-wheelwright-san-felipe": [
           "sleep:elder-rest",
+          "sleep:elder-walk",
           "talk:elder-walk",
           "talk:elder-speak",
           "company:elder-rest",
@@ -282,6 +285,7 @@
         ],
         "town-stockman-san-felipe": [
           "sleep:elder-rest",
+          "sleep:elder-walk",
           "talk:elder-walk",
           "talk:elder-speak",
           "company:elder-rest",
@@ -329,10 +333,10 @@
     },
     "camp": {
       "frames": {
-        "count": 475,
-        "median": 3.8,
-        "p95": 13.6,
-        "max": 23.4
+        "count": 471,
+        "median": 5.8,
+        "p95": 18.1,
+        "max": 29.5
       },
       "bubbles": [
         "camp:force:0: I miss my own bed.",
@@ -355,7 +359,8 @@
           "cook:rust-woman-care",
           "cook:rust-woman-walk",
           "wash:rust-woman-walk",
-          "wash:rust-woman-care"
+          "wash:rust-woman-care",
+          "shell:rust-woman-repair"
         ]
       },
       "walking": [],
@@ -383,8 +388,8 @@
             "strength": 3,
             "how": "camp",
             "boat": null,
-            "x": 683,
-            "y": 384,
+            "x": 656,
+            "y": -876,
             "camp": false,
             "foragers": [],
             "men": [
