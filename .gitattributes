@@ -1,0 +1,12 @@
+# Audio is binary: never converted between CRLF and LF, never diffed as text (docs/AUDIO.md). The game's own sounds are
+# made by the page and ship no files today; this is here so the first recording that does arrive cannot be corrupted by
+# the checkout's line endings (core.autocrlf=true on the owner's machine). tests/audio-licenses.test.mjs checks it.
+*.ogg binary
+*.oga binary
+*.opus binary
+*.mp3 binary
+*.wav binary
+*.flac binary
+*.m4a binary
+*.aac binary
+*.webm binary

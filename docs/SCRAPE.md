@@ -397,3 +397,24 @@ sim/advance.mjs are each their own (`ceiling:` at `armyOf` - Sesma's two legs, U
 (f) **Families nobody plays camped at Lynchburg as Santa Anna nears.** *As built:* such a family answers the warning at once by
 pressing on, and nearly all go on to Liberty (noticed 2026-09-26; every seed of `sj-proof-91` to `-120` searched on 2026-09-28).
 **Answered 2026-09-28: "Yes, most move on"** - kept as built, no change.
+
+## 17. Who answers for the family on the road, and who is left behind — 2026-09-28 (owner: "fix the blockers"; not released)
+
+docs/audits/2026-09-28-interactions.md B1 (the blocker), S1 and M4; docs/audits/2026-09-28-design.md S19 and S22. Built in
+sim/acting.mjs; the rule is docs/FAMILY_PANEL.md §20.
+
+- **The family's decisions are made by whoever is with it** (`actingFor`, `FIC-GONZ-730`): the order to leave, the route, making for
+  the timber, staying, the bog, the army close behind and "¡Alto!". A father serving with Houston, a prisoner or a man gone to a
+  call answers none of them - the mother at home does, or the next grown person with the family, or the oldest child of seven or
+  more (owner, 2026-09-28: "The oldest child steps up"). The page's card and "!" are on that person. `attended` (sim/pursuit.mjs)
+  reads the same person's auto switch, so a man on auto in Houston's camp no longer makes his family halt at the soldiers' first
+  word; the road's patience and auto's day read the same person; the overtaken glory is charged to whoever was answering.
+- **The clock** is held for the order and the road's questions only while somebody is with the family to answer.
+- **Everybody at home goes** when the family leaves, **the wounded too** - in the wagon with the sick, or on foot at a small child's
+  pace - and they go home with it after San Jacinto (`FIC-GONZ-732`; until 2026-09-28 a wounded man was left at home, and one
+  wounded in a chase was left at the refuge).
+- **Left behind** (`advanceStragglers`, `FIC-GONZ-732`): anybody of the family away when it left - in town, on an errand, sent home
+  from the army - and idle away from it is told where it went, once, and follows to its refuge on foot or on the horse they have
+  with them; never a beast on the family's own road.
+- **A family taken in** by its neighbours (`FIC-GONZ-731`) has no road of its own: its little ones go with their neighbours', and its
+  flight card says so.

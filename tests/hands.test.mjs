@@ -1,4 +1,4 @@
-// More hands, faster (owner, 2026-09-28, docs/FAMILY_PANEL.md §20, sim/hands.mjs): "If I add another person to the task it
+// More hands, faster (owner, 2026-09-28, docs/FAMILY_PANEL.md §21, sim/hands.mjs): "If I add another person to the task it
 // should speed the task up."
 //
 // Work into one thing - the house, a clearing, the lane, felling - goes at `crewPace(n)` of one person's work, each hand a little

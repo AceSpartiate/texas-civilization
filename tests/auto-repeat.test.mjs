@@ -5,6 +5,7 @@
 // that task becomes available again. i'm thinking that i could put a character on planting autoplay, and another one on
 // harvest. then they'd naturally keep going until i turned off autoplay for them."
 import test from 'node:test';
+import { LESSON_ENABLED } from '../sim/lesson.mjs';
 import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -142,7 +143,8 @@ test('the exits: off, called away, dead, and the family on the road east', () =>
   validateWorld(world);
 });
 
-test('the guided start holds the gate for auto: a task the step does not allow is not taken up, nor taken as a task to wait for', () => {
+// Skipped while the guided start is switched off (owner, 2026-09-28): it exercises only the guided start.
+test('the guided start holds the gate for auto: a task the step does not allow is not taken up, nor taken as a task to wait for', { skip: !LESSON_ENABLED && 'the guided start is switched off (owner, 2026-09-28; sim/lesson.mjs LESSON_ENABLED)' }, () => {
   const world = running('auto-lesson');
   const household = world.households['hh-1'];
   household.played = true;
@@ -173,7 +175,7 @@ test('the guided start holds the gate for auto: a task the step does not allow i
 });
 
 test('what repeats: the owner\'s field and hunts, the gathering, the house and the rest of the work at home; never the errand, the herd or the war', () => {
-  // The owner, 2026-09-28 (docs/FAMILY_PANEL.md §20.2): felling, clearing, fencing, the carreta, furniture and the hoe repeat too.
+  // The owner, 2026-09-28 (docs/FAMILY_PANEL.md §21.2): felling, clearing, fencing, the carreta, furniture and the hoe repeat too.
   for (const id of ['plant-field', 'harvest-field', 'hunt-timber', 'hunt-land', 'fish-the-water', 'build-house', 'fell-trees', 'clear-plot', 'fence-plot', 'make-carreta', 'make-furniture', 'mend-hoe']) assert.ok(REPEATED.includes(id), id);
   for (const id of ['visit-shop', 'buy-furniture', 'butcher-beef', 'butcher-hog', 'practise-shooting', 'survey-plot', 'haul-logs', 'fetch-logs', 'enlist-regular', 'join-houston', 'go-vote', 'child-eggs']) assert.ok(!REPEATED.includes(id), id);
   // Work done once leaves the task as it was: sent to practise at the mark, the hunter goes back to hunting when it is done.

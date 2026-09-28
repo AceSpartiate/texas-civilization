@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { choresFor } from '../sim/chores.mjs';
-import { lessonRefusal } from '../sim/lesson.mjs';
+import { LESSON_ENABLED, lessonRefusal } from '../sim/lesson.mjs';
 import { mindingBaby } from '../sim/furniture.mjs';
 import { CHILD_WORKS, CHILD_WORK_FROM, PLAYS, childWorks, childrenInvalid, eggsFor } from '../sim/children.mjs';
 import { SENT_FROM_AGE } from '../sim/family.mjs';
@@ -256,9 +256,12 @@ test('the rule: the lesson never refuses a child their own work, and a saved cla
   assert.ok(kid, 'no child in the family');
   kid.age = 8;
   stepWorld(world);
-  assert.ok(household.lesson && household.lesson.step !== 'done', 'the family is not on the lesson, so this proves nothing');
-  // An adult work not on this step is refused, which is the lesson doing its job; the child's is not.
-  assert.match(lessonRefusal(world, household, { action: 'chore', entityId: kid.id, chore: 'harvest-field' }) || '', /Not yet/);
+  // The guided start's part only while there is one (switched off by the owner, 2026-09-28; sim/lesson.mjs LESSON_ENABLED).
+  if (LESSON_ENABLED) {
+    assert.ok(household.lesson && household.lesson.step !== 'done', 'the family is not on the lesson, so this proves nothing');
+    // An adult work not on this step is refused, which is the lesson doing its job; the child's is not.
+    assert.match(lessonRefusal(world, household, { action: 'chore', entityId: kid.id, chore: 'harvest-field' }) || '', /Not yet/);
+  }
   for (const id of CHILD_WORKS) assert.equal(lessonRefusal(world, household, { action: 'chore', entityId: kid.id, chore: id }), null, `the lesson refused ${id}`);
   applyAction(world, household.id, { action: 'chore', entityId: kid.id, chore: 'child-play' });
   validateWorld(world);

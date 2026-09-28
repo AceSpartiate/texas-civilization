@@ -666,7 +666,7 @@ second thing made from the log pile, and docs/SETTLING_IN.md §4b with a vehicle
 [auto-house](../tests/auto-house.test.mjs), [hands](../tests/hands.test.mjs)). Claims `FIC-GONZ-902` (the drag folded into felling),
 `FIC-GONZ-903` (enough, and the margin), `FIC-GONZ-904` (furniture and rails from the pile). **This amends §6.1 and §6.1.1**
 (hauling), **docs/BIOME_GAMEPLAY.md §3.2** (fetching logs is no longer an order of its own) and **§6.6** (a second carreta maker
-works alongside the first). The panel and auto side is [FAMILY_PANEL.md §20](FAMILY_PANEL.md).
+works alongside the first). The panel and auto side is [FAMILY_PANEL.md §21](FAMILY_PANEL.md).
 
 - **One wood pile.** Every log a family has is on one pile at the house (`household.logs = { wall, sill, poor }`, as before). A felled
   tree's logs go **straight onto it**: `fellTree` stacks them and leaves nothing lying (`left: 0`); dragging them in is part of felling
@@ -706,7 +706,7 @@ works alongside the first). The panel and auto side is [FAMILY_PANEL.md §20](FA
 - `ceiling:` dragging a tree's logs in is one tick whatever the distance and whether or not the ox is home; the walk out is still
   walked. A drag that grew with the distance, or went quicker behind the ox, is the way out.
 
-**Open for the owner** (see the report and FAMILY_PANEL.md §20.6): whether a second feller should need a second felling axe.
+**Open for the owner** (see the report and FAMILY_PANEL.md §21.6): whether a second feller should need a second felling axe.
 
 ## 7. Old saves
 

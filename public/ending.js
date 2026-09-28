@@ -45,6 +45,12 @@ function familyView(family) {
   const story = make('section');
   story.append(make('h3', 'Our story'));
   for (const line of family.story) story.append(make('p', line));
+  // Questions about the family's own story (sim/ending-story.mjs), the server's words.
+  if (family.questions?.length && !family.interim) {
+    const asked = make('ul', null, 'ending-questions');
+    for (const question of family.questions) asked.append(make('li', question, 'ending-ask'));
+    story.append(asked);
+  }
   parts.push(story);
   const coin = make('section');
   coin.append(make('h3', 'Where the coin came from and went'));
@@ -71,6 +77,15 @@ function familyView(family) {
     glory.append(list);
   } else glory.append(make('p', 'Nobody in the family took part in the events of that October.'));
   parts.push(glory);
+  // What the family did for its neighbours and they for it (sim/neighbourly.mjs, owner 2026-09-28): the server's words.
+  if (family.neighbours?.length) {
+    const neighbours = make('section', null, 'ending-neighbours');
+    neighbours.append(make('h3', 'Neighbours'));
+    const list = make('ul');
+    for (const line of family.neighbours) list.append(make('li', `${line.date}: ${line.text}`));
+    neighbours.append(list);
+    parts.push(neighbours);
+  }
   if (family.reveal) parts.push(revealView(family.reveal));
   return parts;
 }
@@ -113,6 +128,15 @@ function hostView(closing) {
   wrap.append(table);
   parts.push(wrap, make('p', 'Final number = coin × (1 + glory) + land. A family with no coin is counted as having 1 real. Land promised for enlisting counts a real for every 20 acres, if the person is alive and served it out or is serving still; being sent for home forfeits it.', 'ending-sum'));
   if (closing.prisonerRule) parts.push(make('p', closing.prisonerRule, 'ending-sum'));
+  // Who helped whom across the class (sim/neighbourly.mjs `helpedLines`), one line a pair, the server's words.
+  if (closing.helped?.length) {
+    const helped = make('section', null, 'ending-helped');
+    helped.append(make('h3', 'Who helped whom'));
+    const list = make('ul');
+    for (const line of closing.helped) list.append(make('li', line));
+    helped.append(list);
+    parts.push(helped);
+  }
   const talk = make('section');
   talk.append(make('h3', 'For the class'));
   const list = make('ol');

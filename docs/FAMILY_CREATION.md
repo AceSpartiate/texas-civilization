@@ -846,3 +846,13 @@ origins, the poor band's vehicle could be a carreta for a Tejano family and a ca
 | Never blocked | It does the whole lesson, brings in a big crop by hand and slower, goes to town twice for a big load, flees on foot. |
 | The horse ridden | One seat a horse after the vehicles', the sick then the youngest; a baby in arms; tired and drawn as a rider. |
 | Hidden hidden | Planted hidden stats reach no payload; another family's rider, coin and carreta reach no student. |
+
+## Amendment, 2026-09-28 — a child of seven or more may act for the family
+
+Owner, 2026-09-28, by multiple choice: **"The oldest child steps up"** - a child of about seven or older can act for the family in an
+emergency (flee, fetch water, mind the little ones, go for help), as frontier children really did; with none, the student follows a
+neighbour family that takes them in. This amends §3's "not on a road, not to answer for the family" for one case only: **when nobody
+grown is with the family**, the oldest child of seven or more answers its own decisions - the order to leave, the route, staying,
+the road's questions and "¡Alto!" - and may run to the nearest neighbours for help. Who may be sent to fight, who answers a call and
+who may be sent on the family's other roads are unchanged. The rule and its evidence are docs/FAMILY_PANEL.md §20 (`FIC-GONZ-730`,
+`-731`); a man sent to the war with only children under ten at home is told so first (`FIC-GONZ-733`).

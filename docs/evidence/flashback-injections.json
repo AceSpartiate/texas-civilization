@@ -1,0 +1,154 @@
+{
+ "at": "2026-09-28T14:02:16.109Z",
+ "results": [
+  {
+   "file": "sim/flashback.mjs",
+   "test": "tests/flashback.test.mjs",
+   "expected": "no word in any family's flashback is a virtue or gore",
+   "failed": [
+    "no word in any family's flashback is a virtue or gore, and glory is never in it"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/flashback.mjs",
+   "test": "tests/flashback.test.mjs",
+   "expected": "a death in battle is one plain sentence",
+   "failed": [
+    "no word in any family's flashback is a virtue or gore, and glory is never in it",
+    "a death in battle is one plain sentence, and nothing about it is a reward"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/flashback.mjs",
+   "test": "tests/flashback.test.mjs",
+   "expected": "a death of sickness is told without the name",
+   "failed": [
+    "a death of sickness is told without the name of who died"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/flashback.mjs",
+   "test": "tests/flashback.test.mjs",
+   "expected": "every \"meanwhile\" is a true happening",
+   "failed": [
+    "every \"meanwhile\" is a true happening, dated as it happened, that the family had not yet heard of"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/flashback.mjs",
+   "test": "tests/flashback.test.mjs",
+   "expected": "the flashback exists only once the class has ended for good",
+   "failed": [
+    "the flashback exists only once the class has ended for good"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/flashback.mjs",
+   "test": "tests/flashback.test.mjs",
+   "expected": "every family gets a story of ten to fifteen beats",
+   "failed": [
+    "every family gets a story of ten to fifteen beats that share out exactly one minute, in the order it happened"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/homecoming.mjs",
+   "test": "tests/flashback.test.mjs",
+   "expected": "the trip home is deterministic and leaves the saved class as it was",
+   "failed": [
+    "every family gets a story of ten to fifteen beats that share out exactly one minute, in the order it happened",
+    "no word in any family's flashback is a virtue or gore, and glory is never in it",
+    "every \"meanwhile\" is a true happening, dated as it happened, that the family had not yet heard of",
+    "the trip home is deterministic and leaves the saved class as it was",
+    "every family on the road comes home, to the house as it truly stands"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/homecoming.mjs",
+   "test": "tests/flashback.test.mjs",
+   "expected": "every family on the road comes home, to the house as it truly stands",
+   "failed": [
+    "every family on the road comes home, to the house as it truly stands"
+   ],
+   "ok": true
+  },
+  {
+   "file": "server/app.mjs",
+   "test": "tests/flashback-video.test.mjs",
+   "expected": "served to the Host and to that family alone",
+   "failed": [
+    "a family's video is kept in the class's own folder and served to the Host and to that family alone"
+   ],
+   "ok": true
+  },
+  {
+   "file": "server/flashback.mjs",
+   "test": "tests/flashback-video.test.mjs",
+   "expected": "served to the Host and to that family alone",
+   "failed": [
+    "a family's video is kept in the class's own folder and served to the Host and to that family alone"
+   ],
+   "ok": true
+  },
+  {
+   "file": "server/app.mjs",
+   "test": "tests/flashback-video.test.mjs",
+   "expected": "the flashback routes answer nothing before the class has ended",
+   "failed": [
+    "the flashback routes answer nothing before the class has ended"
+   ],
+   "ok": true
+  },
+  {
+   "file": "server/webm.mjs",
+   "test": "tests/flashback-video.test.mjs",
+   "expected": "a live recorder",
+   "failed": [
+    "a live recorder's WebM - no duration, and a Segment of unknown size - is read by its last frame"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/ending-story.mjs",
+   "test": "tests/ending-story.test.mjs",
+   "expected": "the spring is said as it was",
+   "failed": [
+    "the spring is said as it was: stayed or went, burned or standing, home or on the road (S25)"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/ending-story.mjs",
+   "test": "tests/ending-story.test.mjs",
+   "expected": "somebody taken prisoner in the war is named",
+   "failed": [
+    "somebody taken prisoner in the war is named at the ending, with where and what the record says, and is not weighed (S27)"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/ending.mjs",
+   "test": "tests/ending-story.test.mjs",
+   "expected": "the debrief begins with this class",
+   "failed": [
+    "the debrief begins with this class's own story, named, asking why (S24)"
+   ],
+   "ok": true
+  },
+  {
+   "file": "public/webm-writer.js",
+   "test": "tests/flashback-video.test.mjs",
+   "expected": "the WebM written is the WebM read",
+   "failed": [
+    "the WebM written is the WebM read: its codec, size, length, frames and keyframes"
+   ],
+   "ok": true
+  }
+ ]
+}

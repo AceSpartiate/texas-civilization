@@ -36,7 +36,7 @@
 // - the switch stays on and the task is taken up again the tick they are home and free; **dead or taken** - the switch goes
 // off and the task is forgotten, since nobody can press it for them any more.
 //
-// **Amended by the owner, 2026-09-28** (docs/FAMILY_PANEL.md §20): "I should be able to set one person on felling trees, and one
+// **Amended by the owner, 2026-09-28** (docs/FAMILY_PANEL.md §21): "I should be able to set one person on felling trees, and one
 // person on building the house, set each to auto, and eventually get a house. ... Apply the logic described for felling trees and
 // building houses to the other tasks too." So felling repeats - out to the nearest timber on the family's land each time, until the
 // wood pile has enough for the house still to be built and a margin (sim/woodpile.mjs `pileFull`) - and so do clearing and fencing
@@ -51,7 +51,8 @@ import { beastsOf, kept } from './beasts.mjs';
 import { pileFull } from './woodpile.mjs';
 import { campChoice } from './camp.mjs';
 import { record } from './events.mjs';
-import { mainPersonId } from './family.mjs';
+// Who is with the family and answers its own decisions (sim/acting.mjs, 2026-09-28): the main person when they are with it.
+import { actingId } from './acting.mjs';
 import { lessonRefusal } from './lesson.mjs';
 import { autoFlee } from './scrape.mjs';
 import { answerRoad, roadAutoAnswer } from './road.mjs';
@@ -119,7 +120,7 @@ export function noteOrder(entity, choreId, mode, extra = {}, household = null) {
 }
 
 /**
- * The plot a clearer or fencer on auto takes up (owner, 2026-09-28; docs/FAMILY_PANEL.md §20.3): the plot they were given while
+ * The plot a clearer or fencer on auto takes up (owner, 2026-09-28; docs/FAMILY_PANEL.md §21.3): the plot they were given while
  * there is still that work on it, and then the nearest to the house of the family's staked plots (clearing) or cleared plots with
  * no sound fence (fencing). Nothing is surveyed for them: where the family's next ten acres lie is the student's to choose.
  */
@@ -212,13 +213,13 @@ export function advanceAuto(world, { beginTravel, modeAvailability }) {
     const flight = household.flight;
     // The day's patience is a played family's: a family nobody plays is fled by its director (sim/neighbours.mjs) or,
     // in a class without one, left as it was.
-    if (household.played && !household.absent && flight?.status === 'ordered' && !flight.burned) {
-      const main = world.entities[mainPersonId(world, household)];
+    if (household.played && !household.absent && flight?.status === 'ordered' && !flight.burned && !household.takenIn) {
+      const main = world.entities[actingId(world, household)];
       if (main?.auto || world.minute - flight.orderedMinute >= FLIGHT_PATIENCE) autoFlee(world, household, { why: main?.auto ? 'auto' : 'waited' });
     }
     // The road's questions (sim/road.mjs) - the bogged wagon, the army close behind - are the family's, answered the tick after
     // they are put when its main person is on auto or nobody is at its screen (sim/absence.mjs), as its neighbours answer.
-    if (flight?.ask && (household.absent || world.entities[mainPersonId(world, household)]?.auto)) {
+    if (flight?.ask && (household.absent || world.entities[actingId(world, household)]?.auto)) {
       const option = roadAutoAnswer(world, household);
       if (option) answerRoad(world, household, option, 'auto');
     }

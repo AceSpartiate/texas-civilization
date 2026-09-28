@@ -29,6 +29,7 @@
     "test:family-twenty-injections": "node scripts/family-twenty-phone-injections.mjs",
     "test:army": "node scripts/army-browser-proof.mjs",
     "test:ending": "node scripts/ending-browser-proof.mjs",
+    "test:flashback": "node scripts/flashback-browser-proof.mjs",
     "test:looks": "node scripts/looks-browser-proof.mjs",
     "test:creation": "node scripts/creation-browser-proof.mjs",
     "test:furniture": "node scripts/furniture-browser-proof.mjs",
@@ -56,6 +57,7 @@
     "test:surprise-reveal": "node scripts/surprise-reveal-browser-proof.mjs",
     "test:surprise-injections": "node scripts/surprise-injections.mjs",
     "test:scrape": "node scripts/scrape-browser-proof.mjs",
+    "test:neighbours": "node scripts/neighbours-browser-proof.mjs",
     "test:scrape-pursuit": "node scripts/scrape-pursuit-browser-proof.mjs",
     "test:scrape-pursuit-injections": "node scripts/scrape-pursuit-injections.mjs",
     "study:scrape-pursuit": "node scripts/scrape-pursuit-study.mjs",
@@ -85,6 +87,7 @@
     "test:panels": "node scripts/panels-browser-proof.mjs",
     "test:gonzales-town": "node scripts/gonzales-town-browser-proof.mjs",
     "test:battle-gonzales": "node scripts/battle-gonzales-browser-proof.mjs",
+    "test:audio": "node scripts/audio-browser-proof.mjs",
     "test:battle-bexar": "node scripts/battle-bexar-browser-proof.mjs",
     "test:battle-injections": "node scripts/battle-injections.mjs",
     "test:battle-san-jacinto": "node scripts/battle-san-jacinto-browser-proof.mjs",
@@ -106,6 +109,10 @@
     "test:children-injections": "node scripts/childhood-injections.mjs",
     "test:disease": "node scripts/disease-browser-proof.mjs",
     "test:disease-injections": "node scripts/disease-injections.mjs",
-    "study:disease": "node scripts/disease-study.mjs"
+    "test:acting": "node scripts/acting-browser-proof.mjs",
+    "test:acting-injections": "node scripts/acting-injections.mjs",
+    "study:disease": "node scripts/disease-study.mjs",
+    "test:tips": "node scripts/tips-browser-proof.mjs",
+    "test:tips-injections": "node scripts/tips-injections.mjs"
   }
 }

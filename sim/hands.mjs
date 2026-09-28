@@ -1,5 +1,5 @@
 // More hands, faster: the one rule for how much a second, third and fourth person add to work at home (owner, 2026-09-28,
-// docs/FAMILY_PANEL.md §20: "If I add another person to the task it should speed the task up").
+// docs/FAMILY_PANEL.md §21: "If I add another person to the task it should speed the task up").
 //
 // Every work at home that many can share goes faster by the same curve. Two kinds of sharing use it:
 //

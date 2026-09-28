@@ -1,5 +1,5 @@
 // Injections for the one wood pile, felling and building on auto, and more hands faster (owner, 2026-09-28;
-// docs/WOODS_AND_BUILDING.md §6.7, docs/FAMILY_PANEL.md §20). CLAUDE.md: "a new test is not evidence until it has failed". Each
+// docs/WOODS_AND_BUILDING.md §6.7, docs/FAMILY_PANEL.md §21). CLAUDE.md: "a new test is not evidence until it has failed". Each
 // injection puts back one exact mistake, the new test files are run, the failing tests are recorded against the test the injection
 // was written for, and every file is restored.
 // Run: node scripts/wood-pile-injections.mjs

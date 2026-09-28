@@ -15,7 +15,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { projectWorld } from '../sim/world.mjs';
-import { advanceLessons, lessonRefusal } from '../sim/lesson.mjs';
+import { LESSON_ENABLED, advanceLessons, lessonRefusal } from '../sim/lesson.mjs';
 import { OPENING_HERD } from '../sim/stock.mjs';
 import { wagonCatalogue } from '../sim/wagon.mjs';
 import { TOWN_TRADES, TRADES } from '../sim/shops.mjs';
@@ -42,27 +42,27 @@ function panel(id) {
     .trim();
 }
 
-test('the title card does not promise the freedom the guided beginning refuses', () => {
-  // What the lesson actually does to a family that has just been made: every order that is not the step it is on comes
-  // back refused, in words (docs/LESSON.md, sim/lesson.mjs).
+test('the title card says what the game does at the start: no guide while the guided start is off, and the tips', () => {
+  // The guided start is switched off (owner, 2026-09-28: "The starting tutorial needs to be removed for now"; sim/lesson.mjs
+  // `LESSON_ENABLED`): a family that has just been made is refused nothing by it. Until then the card said a guide would walk
+  // the student through the farm one task at a time, and it must not promise a guide that is not there.
   const world = createGonzalesWorld('creation-words', 5);
   world.households['hh-1'].played = true;
   world.status = 'running';
   const household = world.households['hh-1'];
   advanceLessons(world);
-  for (const chore of ['hunt-timber', 'build-house', 'plant-field']) {
-    const refused = lessonRefusal(world, household, { action: 'chore', entityId: household.members[0], chore });
-    assert.match(String(refused), /^Not yet - first,/, `the lesson lets a fresh family ${chore} at once, so this card has nothing to warn about`);
-  }
-
+  const refused = ['survey-plot', 'build-house', 'plant-field'].map(chore => lessonRefusal(world, household, { action: 'chore', entityId: household.members[0], chore }));
   const card = panel('creation-begin');
-  // The card may still end on the country being the student's - that is true, once the lesson is done. What it may not do
-  // is say so without first saying there is a guided beginning in the way.
-  assert.match(card, /one task at a time/, 'the title card does not say the game walks the student through the farm');
-  const walks = card.indexOf('one task at a time');
-  const free = card.indexOf('yours to work');
-  assert.ok(free === -1 || walks < free, 'the title card promises the country is yours to work before it says the lesson holds the gate');
-  // And it may not offer the town or the timber as things to do now: the lesson refuses both until its eighth and third steps.
+  if (LESSON_ENABLED) {
+    // Were it on again, the card would have to say so before it said the country was the student's.
+    for (const why of refused) assert.match(String(why), /^Not yet - first,/);
+    assert.match(card, /one task at a time/, 'the title card does not say the game walks the student through the farm');
+  } else {
+    assert.deepEqual(refused, [null, null, null], 'the guided start is off and still refuses a fresh family');
+    assert.doesNotMatch(card, /guide|one task at a time/i, 'the title card promises a guided start that is switched off');
+    assert.match(card, /tip/, 'the title card does not say the tips will come up');
+  }
+  // It may not offer the town or the timber as things to do now in the old unqualified words either way.
   assert.doesNotMatch(card, /yours to work: the field, the timber, the town/, 'the old unqualified promise is back on the title card');
 });
 

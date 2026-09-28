@@ -1,4 +1,4 @@
-// One wood pile, felling on auto and building on auto (owner, 2026-09-28; docs/WOODS_AND_BUILDING.md §6.7, docs/FAMILY_PANEL.md §20).
+// One wood pile, felling on auto and building on auto (owner, 2026-09-28; docs/WOODS_AND_BUILDING.md §6.7, docs/FAMILY_PANEL.md §21).
 //
 // "the tasks are way too complicated. Why do we need multiple action buttons for moving logs? That should be consolidated and an
 // automatic part of felling trees. Any task that pulls from wood should be able to pull from the universal wood pile. I should be

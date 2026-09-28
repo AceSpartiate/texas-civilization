@@ -22,7 +22,7 @@ import { PACK_SPACE } from '../sim/wagon.mjs';
 import { WALK_SPEED } from '../sim/travel.mjs';
 import { beastsOf } from '../sim/beasts.mjs';
 import { HAND_CARRY_TICKS, choreAvailability } from '../sim/chores.mjs';
-import { advanceLessons } from '../sim/lesson.mjs';
+import { LESSON_ENABLED, advanceLessons } from '../sim/lesson.mjs';
 import { RIPEN_TICKS } from '../sim/chores.mjs';
 import { clearedPlots, plotsOf } from '../sim/fields.mjs';
 import { houseSettled } from '../sim/houses.mjs';
@@ -177,7 +177,8 @@ test('a family that is hard up walks in: its kit on the ox, its food on its own 
   assert.equal(household.stock, undefined);
 });
 
-test('a family with no vehicle does the whole of its lesson, and sells its crop in town on foot', () => {
+// Skipped while the guided start is switched off (owner, 2026-09-28): it exercises only the guided start.
+test('a family with no vehicle does the whole of its lesson, and sells its crop in town on foot', { skip: !LESSON_ENABLED && 'the guided start is switched off (owner, 2026-09-28; sim/lesson.mjs LESSON_ENABLED)' }, () => {
   const world = rolled(1, 5, { stem: 'lesson' });
   const household = world.households['hh-1'];
   household.played = true;

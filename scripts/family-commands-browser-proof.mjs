@@ -245,7 +245,7 @@ try {
       await page.waitForTimeout(300);
       const wantErrand = !plan.some(entry => errands.includes(entry.key));
       // Work somebody before them was given is left for the next: since 2026-09-28 a second person given it works alongside the
-      // first (docs/FAMILY_PANEL.md §20.4), and a job the first leaves off - a piece of furniture nobody chose - ends for both.
+      // first (docs/FAMILY_PANEL.md §21.4), and a job the first leaves off - a piece of furniture nobody chose - ends for both.
       const key = await page.evaluate(({ id, preferred, errands, wantErrand, principalId, tried, given }) => {
         const row = document.querySelector(`.panel-row[data-entity-id="${id}"]`);
         const open = k => !tried.includes(k) && row.querySelector(`.panel-icon[data-key="${k}"]:not([aria-disabled="true"])`);
@@ -277,7 +277,7 @@ try {
   // takes the principal's *work* icon off the screen, and with it the glow that says what they are doing.
   await asMain(page, principalId);
   const orderable = plan.map(entry => entry.id);
-  // A press that joined a job somebody was already at and was finishing (docs/FAMILY_PANEL.md §20.4) may be done, for both, before
+  // A press that joined a job somebody was already at and was finishing (docs/FAMILY_PANEL.md §21.4) may be done, for both, before
   // the page is next told: the server's own story says it was taken and finished, which is the answer the glow stands for.
   const joinedAndDone = id => { const said = world().events.filter(event => event.actorId === id).map(event => event.text); const at = said.findIndex(text => / went to work alongside /.test(text)); return at >= 0 && said.slice(at).some(text => / finished: /.test(text)); };
   const notGlowing = plan.filter(entry => !entry.glowed && !joinedAndDone(entry.id));
@@ -314,7 +314,7 @@ try {
   const atChore = plan.filter(entry => entry.key !== 'work' && entry.id !== principalId && world().entities[entry.id].chore);
   let busyId = (atChore.find(entry => !errands.includes(entry.key)) || atChore[0])?.id;
   // Everybody's work already done: since 2026-09-28 hands given the same job work alongside and finish it together, sooner
-  // (docs/FAMILY_PANEL.md §20.4). One of them is given a piece of furniture of their own, as a student would, to hold it.
+  // (docs/FAMILY_PANEL.md §21.4). One of them is given a piece of furniture of their own, as a student would, to hold it.
   if (!busyId) {
     const again = plan.find(entry => entry.key === 'make-furniture' && !world().entities[entry.id].chore);
     if (again) {

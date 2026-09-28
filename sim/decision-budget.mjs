@@ -105,6 +105,25 @@ export function spendDecisionBudget(world, realMs, { budgetMs = DECISION_BUDGET_
 /** Whether this person has a question open that has used most of its budget: the page says what will happen if unanswered. */
 export const decisionPressing = (world, personId) => Object.entries(world.decisionClock || {})
   .some(([key, entry]) => !key.startsWith('call:') && entry.personId === personId && entry.spent >= entry.of * PRESSING_SHARE);
+/**
+ * The real milliseconds left before this person's soonest open question lapses, or null when none has started to spend
+ * (docs/audits/2026-09-28-design.md S33: "a visible countdown on every timed question"). The page counts it down from the
+ * moment it hears it; the server's own clock is what lapses the question, so a slow count on the page decides nothing.
+ */
+export function decisionLeft(world, personId) {
+  let left = null;
+  for (const [key, entry] of Object.entries(world.decisionClock || {})) {
+    if (key.startsWith('call:') || entry.personId !== personId) continue;
+    const now = Math.max(0, Math.round(entry.of - entry.spent));
+    left = left === null ? now : Math.min(left, now);
+  }
+  return left;
+}
+/** The real milliseconds left of this family's settlement call, or null while its minutes have not begun to run. */
+export function callLeft(world, householdId) {
+  const entry = world.decisionClock?.[`call:${householdId}`];
+  return entry ? Math.max(0, Math.round(entry.of - entry.spent)) : null;
+}
 /** Whether this family's settlement call has used most of its five minutes: its card says the call will lapse. */
 export const callPressing = (world, householdId) => {
   const entry = world.decisionClock?.[`call:${householdId}`];

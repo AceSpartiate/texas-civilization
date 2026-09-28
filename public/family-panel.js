@@ -99,6 +99,7 @@ export const PANEL_SUMMARIES = Object.freeze({
   'child-eggs': 'Send them round the hens’ nests, which brings a little food into the house once a day.',
   'child-water': 'Send them between the water and the house with a pail all morning.',
   'child-mind': 'Set them to watch the little ones, which takes the baby off a parent while it lasts.',
+  'child-help': 'Send them running to the nearest neighbours to ask them to take the family in.',
   'travel-gonzales': 'Go into the town of Gonzales and stay there until sent somewhere else.',
   'travel-home': 'Come back to the family’s own land.',
   visit: 'Choose a neighbour’s homestead and go there, to trade or to help raise their walls.',
@@ -155,6 +156,8 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   // `icon-<key>` frames are registered, which replace them with no change here.
   ...['child-stick-horse', 'child-doll', 'child-tag', 'child-hide', 'child-cart', 'child-hoop', 'child-marbles', 'child-hens',
     'flee-hide', 'flee-bundle', 'flee-cow', 'road-lookout', 'road-sing', 'road-little-ones', 'camp-fire', 'ferry-help', 'share-food', 'ford-carry',
+    // stand-in: docs/ART_REQUESTS.md, request 2026-09-28 - the oldest child going for help (sim/acting.mjs).
+    'child-help',
   ].map(key => [key, { glyph: key }]),
 ]));
 /** The camp's work, the chores a man serving with Houston's army is offered (sim/camp.mjs); the only work a serving row shows. */
@@ -295,7 +298,8 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
     icons.push({
       key: entry.id, kind: 'chore', name: spec.name || entry.id,
       summary: PANEL_SUMMARIES[entry.id] || firstSentence(spec.describe),
-      note: waits ? [why, entry.waits].filter(Boolean).join(' ') : [warn, entry.cost ? `Costs ${entry.cost}.` : '', haul, crop, entry.estimate || ''].filter(Boolean).join(' '),
+      // Who would be left at home if they go to the war (sim/acting.mjs `leavesLittleOnes`, design audit S14): the server's words, first.
+      note: waits ? [why, entry.waits].filter(Boolean).join(' ') : [entry.leaves || '', warn, entry.cost ? `Costs ${entry.cost}.` : '', haul, crop, entry.estimate || ''].filter(Boolean).join(' '),
       can: Boolean(settable && (entry.can || waits)), why: entry.can ? '' : why || '',
       onMap: ON_MAP.includes(entry.id), active: active === entry.id, ...(waits && { waits: true }),
     });
@@ -424,43 +428,105 @@ export function meetingFor(world, entity) {
   return entity && encounter?.status === 'open' && encounter.listenerId === entity.id ? encounter : null;
 }
 
-/** Which card section answers each need, in the order a need is shown when a person has more than one. */
-export const NEED_KINDS = Object.freeze(['rider', 'flight', 'army', 'camp', 'courier', 'call', 'asking', 'offer', 'sick']);
+/**
+ * Every kind of need, **most urgent first** (docs/audits/2026-09-28-design.md S33, the owner's "fix the blockers"): the
+ * soldiers' ¡Alto! (a few ticks before silence halts the family), the road's question, the order to leave, somebody very
+ * sick (a day to nurse them), a rider standing with them (who rides on, and whose word is often what the call is about),
+ * the settlement's call (five real minutes), the army's and the camp's and Travis's questions (ninety real seconds each),
+ * work that has stopped to ask, an offer. A person with more than one shows the first, and across the whole column the rows
+ * are ranked by it (`rankNeeds`). Also which card section answers each (`NEED_SECTIONS` in public/app.js).
+ */
+export const NEED_KINDS = Object.freeze(['alto', 'road', 'flight', 'sick', 'rider', 'call', 'army', 'camp', 'courier', 'asking', 'offer']);
 
 /**
- * What this person is waiting on the student for, most pressing first: a rider standing with them (who will not wait for
- * ever), a question from the army they are with, a call to answer, work that has stopped to ask, an offer made to them.
- * Every one is a thing the server has already sent this family and will take an answer to; the words say who and what,
- * and never what an answer risks (docs/COLONIES.md §7a).
+ * Who is with the family and answers its own decisions - the order to leave, the route, the road's questions, "¡Alto!" - as the
+ * server resolved it (sim/acting.mjs `actingFor`; `household.actingId`, sent only when it is not the main person): the main
+ * person when they are with the family, else the next grown person there, else the oldest child of seven or more.
  */
-export function needsOf(world, entityId) {
+export const actingOf = world => world?.household?.actingId || world?.household?.mainId || world?.household?.principalId || null;
+/** The family taken in by a neighbour family, in words (sim/acting.mjs `takeIn`), or ''. */
+export function takenInWords(world) {
+  const taken = world?.household?.takenIn;
+  if (!taken) return '';
+  return `With nobody grown of the family left to see to them, ${taken.name} took the little ones in. They live with them now and go where they go, until somebody grown of the family comes for them.`;
+}
+
+/**
+ * What this person is waiting on the student for, most urgent first (`NEED_KINDS`). Every one is a thing the server has
+ * already sent this family and will take an answer to; the words say who and what, and never what an answer risks
+ * (docs/COLONIES.md §7a). Where the question will lapse, `leftMs` is how long it has in real time, as the server last said:
+ * real milliseconds for the call and the army's questions, and ticks at the class's pace (`tickMs`, which the snapshot
+ * carries) for the road's, ¡Alto! and the order to leave. Absent where nothing lapses or the clock has not begun.
+ */
+export function needsOf(world, entityId, { tickMs = null } = {}) {
   const entity = (world?.entities || []).find(one => one.id === entityId);
   if (gone(entity) || world.role === 'host') return [];
   const name = entity.name || 'Somebody';
   const needs = [];
+  const ticks = count => (Number.isFinite(count) && Number.isFinite(tickMs) && tickMs > 0 ? { leftMs: count * tickMs } : {});
+  const ms = value => (Number.isFinite(value) ? { leftMs: value } : {});
   const meeting = meetingFor(world, entity);
   if (meeting) needs.push({ kind: 'rider', text: `${meeting.carrierName || 'A rider'} has stopped to speak with ${name}.` });
-  // Told to leave (sim/scrape.mjs): the family's decision, on its main person's row.
-  if (world.flight?.status === 'ordered' && entityId === (world.household?.mainId || world.household?.principalId)) needs.push({ kind: 'flight', text: 'The family has been told to leave for the east.' });
-  // The road's question (sim/road.mjs): the bogged wagon, the army close behind - the family's, on its main person's row.
-  if (world.flight?.ask && entityId === (world.household?.mainId || world.household?.principalId)) needs.push({ kind: 'road', text: world.flight.ask.text || 'The road is asking the family something.' });
+  // Told to leave (sim/scrape.mjs): the family's decision, on the row of whoever is with the family and answers for it - the main
+  // person when they are with it, else the next grown person there, else the oldest child of seven or more (sim/acting.mjs,
+  // `actingOf`). Not on a father away with the army (interactions B1, 2026-09-28). Nothing while neighbours have taken it in.
+  const acting = actingOf(world);
+  if (world.flight?.status === 'ordered' && !world.household?.takenIn && entityId === acting) needs.push({ kind: 'flight', text: 'The family has been told to leave for the east.', ...ticks(world.flight.ticksLeft) });
+  // The road's question (sim/road.mjs): the bogged wagon, the army close behind - the family's, on the same row. The soldiers'
+  // ¡Alto! is its own kind: it is the most urgent thing in the game.
+  if (world.flight?.ask && !world.household?.takenIn && entityId === acting) needs.push({ kind: world.flight.ask.id === 'alto' ? 'alto' : 'road', text: world.flight.ask.text || 'The road is asking the family something.', ...ticks(world.flight.ask.ticksLeft) });
   const ours = world.army?.ours?.find(one => one.id === entityId);
   if (ours && (ours.detachment === 'open' || (ours.questions || []).some(question => question.answer === 'open'))) {
-    needs.push({ kind: 'army', text: `The army is asking ${name} something.` });
+    needs.push({ kind: 'army', text: `The army is asking ${name} something.`, ...ms(entity.decisionLeftMs) });
   }
   // With Houston's army, asked whether they leave for the family, or which road at the fork (sim/camp.mjs).
-  if (entity.service?.leave === 'open') needs.push({ kind: 'camp', text: `The army is asking whether ${name} goes home to the family.` });
-  else if (entity.service?.road === 'open') needs.push({ kind: 'camp', text: `The army is asking ${name} which road it takes.` });
+  if (entity.service?.leave === 'open') needs.push({ kind: 'camp', text: `The army is asking whether ${name} goes home to the family.`, ...ms(entity.decisionLeftMs) });
+  else if (entity.service?.road === 'open') needs.push({ kind: 'camp', text: `The army is asking ${name} which road it takes.`, ...ms(entity.decisionLeftMs) });
   // Inside the Alamo, asked whether they will carry Travis's letters out (sim/alamo.mjs).
-  if (entity.service?.courier === 'open') needs.push({ kind: 'courier', text: `Travis is asking whether ${name} will ride out with his letters.` });
-  if (requestFor(world, entity)?.options?.length) needs.push({ kind: 'call', text: `${name} can answer what the family is being asked.` });
+  if (entity.service?.courier === 'open') needs.push({ kind: 'courier', text: `Travis is asking whether ${name} will ride out with his letters.`, ...ms(entity.decisionLeftMs) });
+  const asked = requestFor(world, entity);
+  if (asked?.options?.length) needs.push({ kind: 'call', text: `${name} can answer what the family is being asked.`, ...ms(asked.leftMs) });
   if (entity.chore?.ask) needs.push({ kind: 'asking', text: `${name}’s work has stopped to ask something.` });
   for (const offer of world.offers || []) {
     if (offer.direction === 'received' && offer.ourEntityId === entityId) { needs.push({ kind: 'offer', text: `${offer.theirName || 'A neighbour'} has offered ${name} a trade.` }); break; }
   }
   // Turned very sick (sim/disease.mjs): the moment to answer, with a day to do it - nurse, keep warm, rest. The server's own line.
   if (entity.sickness?.grave) needs.push({ kind: 'sick', text: `${name}: ${entity.sickness.line || 'very sick.'}` });
-  return needs;
+  return needs.sort(byUrgency);
+}
+
+/** Most urgent first: by kind (`NEED_KINDS`), then by the least time left; a need with no clock after one with one. */
+function byUrgency(a, b) {
+  const kind = NEED_KINDS.indexOf(a.kind) - NEED_KINDS.indexOf(b.kind);
+  if (kind) return kind;
+  return (a.leftMs ?? Infinity) - (b.leftMs ?? Infinity);
+}
+
+/**
+ * The "!"s of the whole column in one order (S33, "one order across all rows"): each person's most urgent need, the most
+ * urgent person first, numbered from 1. `ids` are the rows top to bottom; a row with nothing waiting is left out. The rows
+ * themselves keep the family's order (father, mother, children oldest first - docs/FAMILY_PANEL.md): it is the "!" that
+ * says which to answer first, with its number and, where the question will lapse, the time it has left.
+ */
+export function rankNeeds(world, ids = [], options = {}) {
+  const ranked = [];
+  for (const id of ids) {
+    const needs = needsOf(world, id, options);
+    if (needs.length) ranked.push({ id, ...needs[0], more: needs.length - 1 });
+  }
+  ranked.sort(byUrgency);
+  return ranked.map((need, at) => ({ ...need, rank: at + 1 }));
+}
+
+/**
+ * Time left, in the fewest characters a twelve-year-old reads at a glance on the "!": "28s", "4 min", "2 h". Rounded up, so a
+ * question with any time left never reads as none; null when there is no clock.
+ */
+export function leftWords(ms) {
+  if (!Number.isFinite(ms) || ms < 0) return null;
+  if (ms < 60_000) return `${Math.max(1, Math.ceil(ms / 1000))}s`;
+  if (ms < 3_600_000) return `${Math.ceil(ms / 60_000)} min`;
+  return `${Math.ceil(ms / 3_600_000)} h`;
 }
 
 /**
@@ -911,6 +977,8 @@ const LITTLE_GLYPHS = Object.freeze({
   // A loaf passed from one hand to another.
   'share-food': ctx => { ctx.beginPath(); ctx.ellipse(24, 20, 10, 6, 0, 0, Math.PI * 2); ctx.fill(); line(ctx, [4, 34], [16, 30], [22, 32]); line(ctx, [44, 34], [32, 30], [26, 32]); },
   // Water, and a grown one wading with a small one on their back.
+  // A child running, an arm out, toward a house with its door open.
+  'child-help': ctx => { dot(ctx, 12, 14, 4); line(ctx, [12, 18], [14, 30], [8, 42]); line(ctx, [14, 30], [20, 40]); line(ctx, [13, 22], [24, 18]); ctx.beginPath(); ctx.moveTo(28, 26); ctx.lineTo(37, 16); ctx.lineTo(46, 26); ctx.closePath(); ctx.fill(); ctx.fillRect(30, 26, 14, 16); ctx.fillStyle = '#e9dcb8'; ctx.fillRect(35, 32, 5, 10); },
   'ford-carry': ctx => { dot(ctx, 22, 8, 4.5); line(ctx, [22, 13], [22, 30]); dot(ctx, 30, 12, 3.5); line(ctx, [22, 18], [30, 16]); ctx.lineWidth = 2; for (const y of [32, 40]) { ctx.beginPath(); ctx.moveTo(4, y); ctx.quadraticCurveTo(14, y - 4, 24, y); ctx.quadraticCurveTo(34, y + 4, 44, y); ctx.stroke(); } },
 });
 
