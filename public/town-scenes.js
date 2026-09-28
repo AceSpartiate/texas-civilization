@@ -257,7 +257,7 @@ export function drawTownSpeech(ctx, scenes, pointOf, { now, tickMs = 9500, bound
       const at = pointOf(line.speakerId);
       if (!at) return;
       const box = drawSpeech(ctx, line, at.x, at.y, { alpha, bounds, scale });
-      if (box) { boxes.push(box); shown.push({ id: line.id, speakerId: line.speakerId, kind: line.kind, text: line.text }); }
+      if (box) { boxes.push(box); shown.push({ id: line.id, speakerId: line.speakerId, kind: line.kind, text: line.text, box }); }
     });
     sceneIndex++;
   }

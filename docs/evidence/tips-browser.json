@@ -107,8 +107,8 @@
         "text": "Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in a day, and the family packs and goes.",
         "box": {
           "left": 324,
-          "top": 316,
-          "right": 536,
+          "top": 356,
+          "right": 606,
           "bottom": 510
         },
         "fontPx": 14,

@@ -1,5 +1,68 @@
 # Claude handoff — Astra foundation
 
+## Nothing on the screen stands on anything else — owner, 2026-09-28 (worktree branch; not released)
+
+**The ask.** Owner, 2026-09-28: *"Check for UI elements that block others. Move them somewhere else."* Students play on
+Chromebooks (1366x768 and 1280x800, often inside a browser window with its bars, sometimes smaller); the Host goes on a projector.
+
+**The instrument.** `npm run test:overlap` (`scripts/overlap-browser-proof.mjs`, measuring with
+`scripts/support/screen-furniture.mjs`) walks five real classes - the guided start on the morning the call arrives (meeting, call's
+menu, site chooser, card, tip, refusal, journal, Resume tutorial), a settled class (lobby and wagon, the Host's lobby with Classes and
+Recover open, at home, the card, errand, going, journal, paused, the ending and "How it ended" on both pages, the Host's spotlight),
+the fight at Gonzales at first light (the Host's view and a late student's first screen), Gonzales with its town talk, and Play Solo
+(Pause/Save, the lobby's wagon and the card) - at student sizes 1366x768, 1366x657, 1280x800, 1280x689, 1024x600 and 1920x1080, and
+Host sizes 1920x1080, 1280x720, 1280x800, 1024x768, 1366x768. It fails on any two pieces sharing pixels that are not listed as
+deliberate (a dialog with its dim, the tip, the house panels with theirs), on a control with something over its middle or three of
+five points, on a piece off the screen, on a control cut away by a box that does not scroll, and on a panel over the person the
+student has put the camera on, the person a rider is talking to (a quarter), the fight's caption (a tenth) or a speech bubble (half).
+Speech bubbles now carry their box in the page's evidence (`__familySaid`, `__townSaid`). Every state asserts its own panel is drawn.
+
+**Before: 981 faults over 167 screens** (docs/evidence/overlap-before.json, the final proof run against 3087b8b's layout). **After:
+none** (overlap-after.json). What was found, and where it went (docs/FAMILY_PANEL.md §21, docs/HOST_PAGE.md §2.9):
+
+- **The card beside a person** stood on the bar's right-hand icons (1366x768), ran off the foot of 1366x657 and 1280x689 over Journal
+  and Follow, and at 1024x600 stood on its own person. Now held to the room between the strip and what is below it (capped, it
+  scrolls), steps sideways off the bar, turns back from the panels down the right, narrows to 190px, goes above or below its person.
+- **The meeting** (bottom middle, over the person being spoken to, the card and the chooser) and **the call's menu** (top middle, over
+  the person asked, the card, the chooser and the bar's top row) now stand **down the right** under the strip, the menu stopping
+  above the bar where the bar reaches under it (`--right-foot`). **The card stands aside** while either is open.
+- **The refusal line** (and save fault, stopping line, Host notice) was inside the strip at `top:118px`: now in the **status column**
+  under the status lines (public/index.html).
+- **Packing the wagon** stood over the family and the food and seed lines; short, its Done button was cut away. Now **down the right**,
+  scrolling as a whole; a message waits until the wagon is packed.
+- **"How it ended"** sat on Gonzales, + and -: now on top of the map's buttons. **The small print** moved to the bottom left.
+- **Land chooser** ran over the bar at 1024x600 and stood on the chosen person: stops above the bar (`--bar-room`, measured by
+  fitColumn) and short of the middle. **Journal** opens under the strip. **Walk-through** stands above the bar.
+- **Messages vs the card** on a small window: the messages fold to their button while that card is open (`cardCrowding`); folded they
+  are only as wide as their button; opening them anyway holds.
+- **Speech bubbles**: town talk was 89% under the land chooser (1280x800). A bubble now slides into the room clear of the panels at its
+  height (`speechRoom` in app.js, `bounds.room` in public/speech.js). After: 12 measured, none under anything.
+- **Host**: the spotlight's banner stood across *The class* (1024, and every projector size during a fight): now **bottom middle**.
+  The teacher's column ran off the foot with Classes open: it stops 200px up and scrolls. The fight's caption was 15-40% under *The
+  class*: it keeps between the two sides.
+
+**Evidence** (same computer, headless Chrome at emulated sizes). `npm run test:overlap` passes, 167 screens, 31 states, 0 faults, 42 overlaps that are deliberate (dialogs and the tip).
+**Injections** (`npm run test:overlap-injections`, docs/evidence/overlap-injections.json): **7 of 8 caught, each by the check written for it**: "How it ended" back on the map's buttons; the meeting back in the bottom middle (over the person spoken to, and the chooser); the card not standing aside (every button under the meeting and the menu); the card uncapped (off the foot of 1366x657, over Journal); the refusal line back out of the status column; the teacher's column unbounded (off the screen); the wagon back over the family. **Missed: a bubble no longer sliding out from under a panel** - nothing failed, because no bubble happened to be behind a panel at a measured moment of that run. The bubble check is real (it read 89% under the chooser before the fix) but it depends on who is talking when, so it is a measurement more than a gate. `test:panels` 14
+(the meeting now shares nothing with the column at 1024, the pair §12.13 left open), `test:family-panel` 17, `test:navigation` 13
+(one failure of its hold check under the load of `npm test` running beside it, "the map jumped 30 px"; 0.3 px alone). `npm test`
+**1531 of 1533**: `capacity` timed out under that same load and passes alone; *of several starts racing to recover one stale lock,
+exactly one owns the class* (tests/stale-lock.test.mjs) fails alone too, **2 won** - server/storage.mjs, which this branch does not
+touch (no file under server/, sim/ or tests/ changed); it is the B5 builder's race and needs looking at. Screenshots:
+docs/evidence/overlap-*.png (before and after), all of them in test-results/overlap and overlap-before.
+
+**After merging main (tips at first meeting, sound, the tutorial switched off, the flashback), the same day.** The walk now holds the first-meeting tip (`#tip`) and the sound button and panel. Found and moved: the **sound panel** opened up into the ability bar (4-8 icons covered at every size) - it opens over the right end of the map's buttons; the **tip** now keeps clear of every popup (`TIP_CLEAR_OF` in `placeTip`, public/app.js: errand, going, choosers, wagon, house panels, town scene, journal, ending), is placed again when the card moves and on resize, and tries first to keep off the person the card is about - its builder's last resort (at the bar, the card over it) is listed deliberate; the **messages** stop above the bar where it reaches under them and are pushed down only by what stands on their side. **Coordinator's errand item:** `test:errand` check 3 failed because its measure read the store tip's *hidden* Got it (box 0,0) as covered - scripts/errand-browser-proof.mjs now skips undrawn buttons and holds the over-map tip off the open popup (`overTip`, seen failing alone with the old `TIP_CLEAR_OF`). The real fault underneath is the order's tip standing *under* the open errand (z-index 13 over the tip): by the coordinator's later word it is the errand builder's, so `test:errand` now fails on `overTip` at 1024x768 and `test:overlap` prints it as PENDING with its owner. **No change to public/tips.js or public/errand.js.** On the merged tree: `test:overlap` 0 faults (167 screens, one PENDING); injections 7 of 8 by their own check (the card-cap one caught by the card over the bar, expectation widened); `test:tips` 11, `test:audio` 11, `test:panels` 14, `test:family-panel` 17, `test:navigation` 13 alone (24 px jump under npm test's load); `npm test` 1580 pass, 0 fail, 36 skipped (the lesson-off skips from main). FAMILY_PANEL's overlap section is §21 (main's §20 is who acts for the family).
+
+**After merging `integration-2026-09-28` (the errand's fix, audio, the axe, crops, Continue, neighbours' glory and talk).** One rule for tips: `placeTip` keeps the tip clear of every card, question, popup and panel open, and where there is no room it **waits** (hidden, neither retired nor seen) - the same wait `tipToShow` (public/tips.js) already gave the errand; so the tip-over-errand PENDING entry and the tip's last-resort allowances are gone from the proof. The neighbours' talk (public/ambient.js) is said only where no panel stands, and every speech bubble now slides into the free stretch nearest its speaker at its height, around the middle pieces (the bar, the tip, the Host's banner) as well as the sides (`speechRoom`). On this tree: `test:overlap` 0 faults, 167 screens; `test:errand` 16 and 16 (twice); `test:tips` 11; `test:family-panel` 18; `test:panels` stops at its family-of-twenty column step (`chooseLater`: a `set-main` never shows as focused) after its 10 layout checks pass - **the same on integration's own public/**, so not this branch's; `npm test` on db6d908a plus this work: 1638 pass, 2 fail, 36 skipped. Both fail with sim/, server/ and tests/ identical to db6d908a, and both are fixed on the integration branch after it (not merged here, as asked): *a student is sent exactly what it was before* (tests/host-view.test.mjs, the neighbours' `amb` field) and *families nobody plays on the real land ... raise houses of pieces* (tests/house-plot.test.mjs, 13a08439 gives it 400 ticks). Not re-run here: the injections (last run before this merge, 7 of 8). HANDOFF's link to `seasons-market-injections.json` is broken on integration itself (the file is `crops-market-injections.json`); left alone.
+
+**Not proved.** No Chromebook, projector or touch screen. The family frame (Follow) may put a family member under a panel; pressing
+their portrait brings them to the middle, and only that is held. A student's own view of a fight is not reached. Phones are not in
+the walk (unsupported). `ceiling:` the save fault, stopping line and refusal stack in the status column's flow.
+
+**Other builders.** The tutorial, work-order, chatter, audio and video builders were at work at the same time. The proof skips a
+piece that is not drawn, and every new piece of furniture should be added to `STUDENT_FURNITURE`/`HOST_FURNITURE` in
+scripts/support/screen-furniture.mjs (a mute control, a video player). The walk-through offered to a late student on the morning of
+the fight ("sets your family up for the day ... when the class starts") reads wrong; that is the tutorial builder's.
+
 ## Tips for the house, the field and going to town — owner, 2026-09-28 (branch `tips-house-field-store`; not released)
 
 **The decision.** Owner, 2026-09-28, answering "is the road in and how to give an order enough for the first minutes?": **"Yes, add

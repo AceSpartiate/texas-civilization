@@ -666,7 +666,6 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #flashback-transcript{padding-left:22px;font-size:14px}
 .flashback-meanwhile{display:block;color:#384e63;font-style:italic}
 #flashback-status{font-size:14px;color:#5a4a2e}
-#ending-open{position:absolute;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:29}
 @media(max-width:760px){#ending{padding:12px}.ending-numbers dd{font-size:21px}}
 /* The flight east (public/app.js renderFlight). */
 .flight-form{display:grid;gap:4px;margin:6px 0}
@@ -1229,3 +1228,69 @@ body[data-creating=true] #away>button{min-height:50px;background:#355243;border-
 #class-new label{display:flex;gap:6px;align-items:center;justify-content:space-between}
 #class-new input{flex:1;min-width:0}
 .class-help{font-size:12px;opacity:.85}
+/* Nothing stands on anything else (owner, 2026-09-28: "Check for UI elements that block others. Move them somewhere
+   else."). `npm run test:overlap` (scripts/overlap-browser-proof.mjs) walks every kind of thing this page puts on the screen
+   at a Chromebook's 1366x768 and 1280x800, each with and without the browser's own bars, a smaller window and 1080p, and the
+   Host's page at projector sizes, and fails on any two that share pixels unless that pair is listed there as meant to, with
+   its reason. Each piece keeps to a place of its own:
+   - top left: the status lines, and under them the family's column (owner-decided, docs/FAMILY_PANEL.md §7);
+   - top right: the connection line and Play Solo's controls (the teacher's controls on the Host), the guided start's strip,
+     then the messages;
+   - down the right, under those: what a student answers or fills in - the meeting, the call's menu, packing the wagon - as a
+     town scene and the house plot already were; the card that asked the question stands aside while its answer is open, as
+     the messages already did;
+   - bottom middle: the ability bar (on the Host, the spotlight's banner: the Host has no bar); bottom right: the map's
+     buttons, with "How it ended" standing on top of them; bottom left: the small print about the map;
+   - the lines the page says (a refusal, a save fault, the server stopping) in the status column, under the status lines.
+   `--bar-room` is the height from the foot of the screen to the ability bar's top, measured (fitColumn in public/app.js), so
+   a panel over the map stops above the bar rather than being given a number for each screen. */
+@media (min-width:761px){
+  /* The meeting stood in the bottom middle, over the very person the rider was talking to - where the camera keeps them -
+     and over the card and the land chooser at every size. On the right it covers neither; the bar still steps aside while
+     a rider talks (owner, 2026-09-22), and its max-height still stops it under the guided start's strip. */
+  #encounter{left:auto;right:12px;transform:none;width:min(520px,calc(50% - 48px))}
+  /* The call's menu stood in the top middle over the person being asked, the card, the land chooser's words and the top row
+     of the bar. It goes down the right, under the strip, and stops above the bar. */
+  #call-menu{left:auto;right:12px;transform:none;width:min(440px,calc(50% - 48px));max-height:min(72vh,600px,calc(100% - 60px - var(--right-foot,74px)))}
+  body[data-lesson=true] #call-menu{max-height:min(62vh,520px,calc(100% - 18px - var(--lesson-room,116px) - var(--right-foot,74px)))}
+  /* Packing the wagon stood over the whole family and the status lines above it - the food and the seed it is packed
+     against. The lobby has nothing else down the right. */
+  #wagon-load{left:auto;right:12px;top:64px;max-height:calc(100% - 72px - var(--right-foot,74px));overflow-y:auto}
+  /* Short, the panel scrolls as a whole and keeps a few rows of the load in sight: its list was squeezed to nothing and
+     "Done packing" cut off below the fold at 1280x689 (overflow hidden, no scroll). */
+  #wagon-items{min-height:132px}
+  /* The walk-through stands above the bar, not across its right-hand icons (1024x600). */
+  #tutorial{bottom:calc(var(--bar-room,132px) + 8px)}
+  /* The small print about the map, from under the map's buttons (they reach the middle at 1024) to the bottom left, which
+     the family's column and the Host's class always stop above. */
+  #map-framing{left:12px;transform:none}
+  /* The Host's spotlight stood in the top middle across the class panel on a 1024 screen and during a fight at every
+     projector size. The Host has no ability bar, so the banner takes the bottom middle, over the map's buttons. */
+  #host-spotlight{top:auto;bottom:72px}
+  /* The teacher's column down the right ran off the foot of the screen and over the map's buttons with Classes open
+     (1366x768, 1280x720): it scrolls inside itself above the spotlight's banner instead. */
+  #hud-right:has(#host-controls:not([hidden])){max-height:calc(100% - 212px);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain}
+}
+/* Packing the wagon and the messages share the right-hand side. Packing is before the class begins, when no message can
+   have come in a class as it is played; one that has (a class handed over in the lobby, as the proofs do) waits until the
+   wagon is packed rather than standing on its Done button. */
+body:has(#wagon-load:not([hidden])) #military-notice{display:none}
+/* Folded, the messages are their button and no wider: the folded card kept its 330px and stood over the map for nothing. */
+#military-notice:has(#military-message[hidden]){width:auto}
+/* The card that asked a question stands aside while the question is answered (it held the same words, and the meeting and
+   the call's menu stood on every one of its buttons), and is back the moment the answer closes. */
+body:has(#encounter:not([hidden])) #selection,body:has(#call-menu:not([hidden])) #selection{display:none}
+/* The land choosers stop above the bar (at 1024x600 the site chooser ran 127px down over its icons), and short of the
+   middle of the screen, where the camera keeps the person the student has chosen (at 1024 it stood on them). */
+body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{max-height:calc(100% - var(--place-top,64px) - var(--bar-room,12px) - 8px)}
+@media (min-width:761px){body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{width:min(24rem,calc(100% - var(--place-left,12px) - 12px),calc(40% - var(--place-left,12px)))}}
+/* The lines the page says, in the status column (public/index.html): as wide as the column at most, in its flow. */
+#hud-left #error,#hud-left #save-fault,#hud-left #lifecycle,#hud-left #host-notice{position:static;left:auto;top:auto;transform:none;max-width:min(19rem,calc(100vw - 24px));padding:7px 12px;font-size:13px;text-align:left;box-sizing:border-box}
+/* The journal opens under the guided start's strip rather than over its lower half, where "Show placement controls" was. */
+body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px + var(--lesson-room,108px)))}
+/* The sound's panel of sliders opens over the right-hand end of the map's buttons, where "How it ended" stands, rather than
+   up from the sound button into the ability bar (it covered four to eight of the bar's icons at every size). */
+#sound-control{position:static}
+#sound-panel{left:auto;right:0;bottom:calc(100% + 8px)}
+/* "How it ended" stands on the map's buttons, right-aligned, instead of across Gonzales, + and - (public/index.html). */
+#ending-open{position:absolute;right:0;bottom:calc(100% + 8px);z-index:1;white-space:nowrap}
