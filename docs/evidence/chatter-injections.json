@@ -59,9 +59,11 @@
       "files": [
         "public/ambient.js"
       ],
-      "caught": false,
-      "alone": false,
-      "failed": []
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "town: a keeper walked to a neighbour's door to talk"
+      ]
     },
     {
       "name": "the talk is slow to draw",

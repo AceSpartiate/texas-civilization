@@ -20,6 +20,8 @@ export const ON_SCREEN = 3, EXCHANGES_AT_ONCE = 2;
 export const LINE_MS = 3800, REPLY_AFTER_MS = LINE_MS + 600;
 /** A load is carried this many drawn heights each way, a leg taking this long. */
 export const PACE_HEIGHTS = 1.5, PACE_MS = 4200;
+/** A drawn person's height on the ground, in miles: sim/house-footprint.mjs `PERSON_MILES`, which the page passes where it can. */
+const PERSON_WIDTH_MILES = 0.019;
 /** How near to where a person belongs counts as home again after a visit, in miles. */
 const HOME_MILES = 0.002;
 
@@ -30,7 +32,7 @@ const HOME_MILES = 0.002;
  * else draws them. Returns `{ at, stepping, amb }`: `stepping` a heading while the feet are moving, `amb` the activity as
  * drawn this frame (turned to whoever they keep company with).
  */
-export function ambientGround(entity, home, { walker, now, time, figure, scale, frozen, reducedMotion, whereIs }) {
+export function ambientGround(entity, home, { walker, now, time, figure, scale, frozen, reducedMotion, whereIs, personMiles = PERSON_WIDTH_MILES }) {
   const amb = entity.amb;
   const one = walker.seen(entity.id);
   if (!amb && !one?.away) return null;
@@ -44,8 +46,11 @@ export function ambientGround(entity, home, { walker, now, time, figure, scale, 
   // Carrying something back and forth: a few steps east, a few west, the feet kept to the ground by the page's gait.
   // ceiling: the steps are the page's, a drawing a step and a half either side of where the server has them, like the
   // separation `stableOffset` gives; a well or a woodpile the server places is the way out if the carrying is to go somewhere.
-  if (amb.pace && !frozen && !reducedMotion) {
-    const span = PACE_HEIGHTS * figure / Math.max(1, scale);
+  // Measured on the ground (`personMiles`, a person's width of it, as the page's separation is), never in screen heights: a
+  // zoom or a smaller window must not move a carrier across the yard in a frame. Held where they are while the class is paused
+  // (the page's clock stands still), and not paced at all under reduced motion.
+  if (amb.pace && !reducedMotion) {
+    const span = PACE_HEIGHTS * personMiles;
     const phase = ((time + seedOf(entity.id) * PACE_MS * 2) % (PACE_MS * 2)) / PACE_MS;
     const out = phase < 1 ? phase : 2 - phase;
     return { at: { x: base.x + (out - .5) * span, y: base.y }, base, stepping: phase < 1 ? 'e' : 'w', amb };
@@ -127,9 +132,10 @@ export function crowdDrawables(ctx, crowds, { toScreen, figure, time = 0, reduce
     const fire = toScreen(crowd.fire);
     items.push({ y: fire.y, draw: () => drawClip(ctx, 'fire-flicker', fire.x, fire.y, figure * .5, { timeMs: time, seed: crowd.siteId }) || drawSprite(ctx, 'campfire', fire.x, fire.y, figure * .44) });
     for (const one of crowd.people) {
-      const base = toScreen(one), height = figure * (one.small || 1);
+      const height = figure * (one.small || 1);
       const step = one.pace ? paced(one.id, time, reducedMotion) : { dx: 0, stepping: null };
-      const p = { x: base.x + step.dx * figure, y: base.y };
+      // The steps on the ground (a person's width of it a height, as `ambientGround`), so a zoom moves nobody.
+      const p = toScreen({ x: one.x + step.dx * PERSON_WIDTH_MILES, y: one.y });
       const clip = figureClip(one, step.stepping);
       heads.set(one.id, { x: p.x, y: p.y - height, size: height });
       items.push({ y: p.y, draw: () => { if (!drawClip(ctx, clip.id, p.x, p.y, height, { timeMs: time, seed: one.id, flip: clip.flip })) fallback(ctx, p.x, p.y, height); } });

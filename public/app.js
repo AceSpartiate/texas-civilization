@@ -695,7 +695,7 @@ function townGround(world, entity, camera, now, frozen) {
   if (!entity.travel && entity.kind === 'person' && Number.isFinite(entity.location?.x) && (entity.amb || townWalker.seen(entity.id)?.away)) {
     const offset = stableOffset(entity.id), miles = PERSON_MILES / 26;
     const home = { x: entity.location.x + offset.x * miles, y: entity.location.y + offset.y * miles * .8 };
-    const one = ambientGround(entity, home, { walker: townWalker, now, time: animationTime, figure: camera.figure, scale: camera.scale, frozen, reducedMotion: reducedMotion.matches, whereIs: id => ambientSpots.get(id) });
+    const one = ambientGround(entity, home, { walker: townWalker, now, time: animationTime, figure: camera.figure, scale: camera.scale, frozen, reducedMotion: reducedMotion.matches, whereIs: id => ambientSpots.get(id), personMiles: PERSON_MILES });
     if (one) {
       ambientSpots.set(entity.id, one.at);
       window.__townWalkers?.push({ id: entity.id, stepping: one.stepping, pose: one.amb?.p || null, x: one.at.x, y: one.at.y, ambient: one.amb?.a || null, ...(entity.amb?.at && { visit: true, arrived: Math.hypot(one.at.x - entity.amb.at.x, one.at.y - entity.amb.at.y) < 0.004 }) });
