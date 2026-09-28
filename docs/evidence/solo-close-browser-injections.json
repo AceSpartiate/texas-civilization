@@ -1,0 +1,36 @@
+{
+  "record": "solo-close-browser-injections",
+  "date": "2026-09-27",
+  "method": "Each injected into the file, the proof run once, the file put back byte for byte (a scratch runner, not kept).",
+  "injections": [
+    {
+      "name": "the solo player's controls are never shown",
+      "proof": "scripts/solo-browser-proof.mjs",
+      "exit": 1,
+      "passes": 9,
+      "failure": "AssertionError [ERR_ASSERTION]: the solo player has no controls of their own"
+    },
+    {
+      "name": "Pause/Resume/Save buttons send nothing",
+      "proof": "scripts/solo-browser-proof.mjs",
+      "exit": 1,
+      "passes": 10,
+      "failure": "TimeoutError'"
+    },
+    {
+      "name": "the real solo server is started without its watch",
+      "proof": "scripts/solo-window-close-proof.mjs",
+      "exit": 1,
+      "passes": 1,
+      "failure": "AssertionError [ERR_ASSERTION]: x-button: the game was not written paused within the wait: {\"scenario\":\"x-button\",\"openedStatus\":\"paused\",\"windowClosedAt\":\"2026-09-28T01:22:52.894Z\",\"pausedWrittenAfterMs\":null,\"serverExit\":null,\"serverGoneWithinMs\":38810,\"leaveMs\":3000,\"applicationStillRunning\":true,\"lockLeft\":true,\"statusOnDisk\":\"running\",\"tickOnDisk\":0}"
+    },
+    {
+      "name": "the page does not close its own stream on pagehide (the build before it was added)",
+      "proof": "scripts/solo-browser-proof.mjs",
+      "exit": 1,
+      "passes": 11,
+      "failure": "AssertionError [ERR_ASSERTION]: closing the page did not pause and save the game before the wait was over (null ms) - seen twice in a row, 2026-09-27, headless Chrome holding the closed page's stream open past five seconds; not a timed injection, the build as it was",
+      "note": "The launcher's WebView2 window closed its stream in 115-253 ms without it (npm run test:solo-window, same day)."
+    }
+  ]
+}

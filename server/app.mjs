@@ -7,7 +7,7 @@ import { basename, dirname, isAbsolute, join, relative, resolve, sep } from 'nod
 import { fileURLToPath } from 'node:url';
 import { etagFor, fileFacts, notModified, PIN_LENGTH, PINNED_CACHE, REVALIDATE_CACHE, sendBody } from './delivery.mjs';
 import { setAbsent } from '../sim/absence.mjs';
-import { DECISION_BUDGET_MS, realTimeMeter } from '../sim/decision-budget.mjs';
+import { CALL_BUDGET_MS, DECISION_BUDGET_MS, realTimeMeter } from '../sim/decision-budget.mjs';
 import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld, projectFamily, rollFamily, errandFor, goingFor } from '../sim/world.mjs';
 import { familyMaking, householdName, rollRefusal } from '../sim/family.mjs';
 import { beginNextPeriod, periodOf } from '../sim/periods.mjs';
@@ -173,6 +173,27 @@ export const ABSENT_MS = 120000;
  */
 export const SAVE_WITHIN_MS = 5000;
 const SAVE_EVERY_TICKS = 3;
+/** The solo player's own controls, sent from their page as orders (`/api/command`). */
+const SOLO_CONTROLS = new Set(['solo-pause', 'solo-resume', 'solo-save']);
+/**
+ * Play Solo looks after itself when its player goes (owner, 2026-09-27: "i shouldn't need to open the class view to pause,
+ * save or shut down the server. i should be able to just X off the window and it'll automatically save, pause, and shut
+ * down"). The player's page holds an event stream open for as long as it is open; when the last one closes - the window's
+ * X, the launcher closed, the window or its browser killed, Windows logging off - the game is paused and written at once,
+ * and if no page of the player's has come back `leaveMs` later the server stops itself as the Host's Stop does.
+ *
+ * - `leaveMs`: after the player's page closes. Long enough for a reload or the window going to a new game, which close the
+ *   stream and open it again within a second or two; the game is paused and on the disk for all of it, and runs again the
+ *   moment the page is back.
+ * - `enterMs`: after a game is dealt or continued (`POST /api/solo`) and no page has opened it - its one-use ticket's life.
+ * - `chooseMs`: after the launcher asked for the list of saved games, which it does before asking New game or Continue. A
+ *   player reading that list is not a player who has gone.
+ *
+ * Only the real solo server watches (server/main.mjs passes `soloWatch`); a class never does, and a class's student closing
+ * a window changes nothing but their presence (docs/HOST_PAGE.md).
+ * ceiling: a player whose page stays open but who has walked away is still here; the Pause on their page is for that.
+ */
+export const SOLO_WATCH = Object.freeze({ leaveMs: 30000, enterMs: 120000, chooseMs: 600000 });
 
 /** The most woods tiles one request may ask for. */
 export const WOODS_BATCH_MAX = 64;
@@ -181,9 +202,10 @@ export const WOODS_BATCH_MAX = 64;
  * `LESSON_RESUME_MS`, five minutes when not given). Both are options only so a test or a browser proof can hold the clock,
  * jump it, or shorten the window; a real class passes neither.
  */
-export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS, decisionBudgetMs = DECISION_BUDGET_MS, now = Date.now, lessonResumeMs } = {}) {
+export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS, decisionBudgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, now = Date.now, lessonResumeMs, soloWatch = null } = {}) {
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
   if (!Number.isFinite(decisionBudgetMs) || decisionBudgetMs <= 0) throw new Error('A decision budget must be a positive number of milliseconds');
+  if (!Number.isFinite(callBudgetMs) || callBudgetMs <= 0) throw new Error('A call budget must be a positive number of milliseconds');
   // The real seconds between running ticks, for the budget of an unanswered military question (sim/decision-budget.mjs).
   // Forgotten whenever a tick does not run, so a Host's pause is never counted against anybody's answer.
   const realTime = realTimeMeter({ now });
@@ -458,10 +480,55 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   // never the only evidence that the teacher stopped the server deliberately.
   function requestStop() {
     if (lifecycle) return false;
-    lifecycle = { state: 'stopping', message: 'Your teacher stopped the classroom server. The class was saved and paused; it continues when the server is opened again.' };
+    clearTimeout(soloTimer); soloTimer = null;
+    lifecycle = { state: 'stopping', message: solo
+      ? 'Play Solo stopped. Your game was saved and paused: press Play Solo on the launcher and choose Continue to go on.'
+      : 'Your teacher stopped the classroom server. The class was saved and paused; it continues when the server is opened again.' };
     broadcast();
     setTimeout(() => { try { onStopRequested?.(); } catch (error) { console.error('Stop request failed:', error.message); } }, stopDelayMs).unref();
     return true;
+  }
+  /**
+   * The solo server's watch on its player (`SOLO_WATCH`). Off unless this is a solo server that can stop itself and was
+   * given a watch: the in-process classrooms of the tests and browser proofs are never stopped from under them.
+   */
+  const watch = solo && soloWatch && onStopRequested ? { ...SOLO_WATCH, ...soloWatch } : null;
+  let soloTimer = null, soloAwayPaused = false;
+  const playerHere = () => [...streams].some(stream => stream.identity.role === 'student');
+  /** Stop in `ms` unless the player's page has opened by then. */
+  function soloExpect(ms) {
+    if (!watch || lifecycle || closing) return;
+    clearTimeout(soloTimer);
+    soloTimer = setTimeout(soloGone, ms);
+    soloTimer.unref();
+  }
+  /** Nobody came back: saved and paused, then the same graceful stop as the Host's. */
+  function soloGone() {
+    soloTimer = null;
+    if (playerHere() || lifecycle || closing) return;
+    // The stop writes the game (`close`), paused, as every stop of a solo server does.
+    console.log('Play Solo: the player\'s page has gone. Saving the game paused and stopping.');
+    requestStop();
+  }
+  /** The player's last page has closed: pause and write at once, then wait `leaveMs` for it to come back. */
+  function soloLeft() {
+    if (!watch || lifecycle || closing || playerHere()) return;
+    try {
+      if (state.world.status === 'running') { commit(s => { s.world.status = 'paused'; }); soloAwayPaused = true; }
+      else flush();
+      // Said once it is on the disk, with the time, which is what the proofs read rather than racing the save file for it.
+      console.log(`Play Solo: the player's page closed; the game is saved (${state.world.status}, revision ${state.revision}) at ${new Date().toISOString()}.`);
+    } catch (error) { console.error('Play Solo could not save when its page closed:', error.cause?.message || error.message); }
+    soloExpect(watch.leaveMs);
+  }
+  /** A page of the player's has opened: nothing is stopping, and a game paused only because the page went goes on. */
+  function soloCame() {
+    if (!watch) return;
+    clearTimeout(soloTimer); soloTimer = null;
+    if (!soloAwayPaused || lifecycle || closing) return;
+    soloAwayPaused = false;
+    try { if (state.world.status === 'paused' && !runtimeFault) commit(s => { s.world.status = 'running'; }); }
+    catch (error) { console.error('Play Solo could not go on when its page came back:', error.cause?.message || error.message); }
   }
   /**
    * Solo Mode: a class of one, for the owner to playtest without running a lesson.
@@ -579,9 +646,10 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     if (typeof id !== 'string' || !SOLO_GAME_ID.test(id)) throw new Error('That is not a saved solo game.');
     const credential = token();
     let identity;
+    soloAwayPaused = false;
     if (id === state.sessionId && Object.keys(state.clients).length) {
       identity = { ...Object.values(state.clients)[0], commands: [] };
-      commit(s => { s.clients = { [hash(credential)]: identity }; });
+      commit(s => { s.clients = { [hash(credential)]: identity }; if (s.world.status === 'running') s.world.status = 'paused'; });
     } else {
       let saved = null;
       try { saved = gamesDir && readSave(join(gamesDir, `${id}.json`)); } catch (error) { throw new Error(`That saved game cannot be opened: ${error.message}`); }
@@ -595,8 +663,11 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         s.hostCommands = saved.hostCommands || [];
         s.world = saved.world;
         s.clients = { [hash(credential)]: identity };
-        // A game left paused by a stop goes on when it is continued; an ended one is shown as it ended.
-        if (s.world.status === 'paused') s.world.status = 'running';
+        // A continued game opens paused, where it was left, and goes on when the player presses Resume on their own page
+        // (2026-09-27; until then it opened running, because only the class view could resume it). A game saved running -
+        // kept when another took its place, or left by a server that was killed - opens paused too. An ended one is shown as
+        // it ended, and one still in its lobby waits for Done packing as it did.
+        if (s.world.status === 'running') s.world.status = 'paused';
       });
     }
     return soloEntry(credential, identity.householdId);
@@ -605,6 +676,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     if (!solo) throw new Error('This is not a Play Solo server.');
     if (lifecycle) throw new Error('This server is stopping.');
     const credential = token(), identity = { name, householdId: 'hh-1', commands: [] };
+    soloAwayPaused = false;
     keepSoloGame();
     commit(s => {
       s.sessionId = token().slice(0, 12);
@@ -697,12 +769,15 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       if (solo && req.method === 'POST' && url.pathname === '/api/solo/games') {
         const input = await body(req);
         if (!equal(input.key, state.hostKey)) return json(res, 403, { error: 'Host key required.' });
+        // The launcher is about to ask New game or Continue: the player is choosing, not gone (`SOLO_WATCH`).
+        if (watch && !playerHere()) soloExpect(watch.chooseMs);
         return json(res, 200, { games: soloGames() });
       }
       // One saved solo game set aside, from the trash can beside it in the Play Solo menu (owner, 2026-09-21).
       if (solo && req.method === 'POST' && url.pathname === '/api/solo/games/delete') {
         const input = await body(req);
         if (!equal(input.key, state.hostKey)) return json(res, 403, { error: 'Host key required.' });
+        if (watch && !playerHere()) soloExpect(watch.chooseMs);
         return json(res, 200, deleteSoloGame(input.id));
       }
       // A new solo game, or a saved one continued, asked for with the Host key the solo server wrote to its own data folder.
@@ -712,6 +787,8 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         const game = input.continue !== undefined
           ? continueSoloGame(input.continue)
           : newSoloGame(typeof input.name === 'string' && input.name.trim() ? input.name.trim().slice(0, 40) : undefined);
+        // Its page is on its way (the one-use ticket); if it never opens, nobody is playing (`SOLO_WATCH`).
+        if (watch && !playerHere()) soloExpect(watch.enterMs);
         return json(res, 200, { playUrl: `http://127.0.0.1:${server.address().port}${game.path}`, householdId: game.householdId, sessionId: game.sessionId });
       }
       if (req.method === 'POST' && url.pathname === '/api/join') {
@@ -918,14 +995,14 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache, no-transform', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
         const stream = { res, identity };
         streams.add(stream);
-        if (identity.role === 'student') lastSeen.set(identity.householdId, Date.now());
+        if (identity.role === 'student') { lastSeen.set(identity.householdId, Date.now()); soloCame(); }
         // The page that opened is shown the class at once; the others hear the count change with the next broadcast.
         if (!closing) send(stream);
         broadcastSoon();
         const heartbeat = setInterval(() => res.write(': keepalive\n\n'), 15000);
         req.on('close', () => {
           clearInterval(heartbeat); streams.delete(stream);
-          if (identity.role === 'student') lastSeen.set(identity.householdId, Date.now());
+          if (identity.role === 'student') { lastSeen.set(identity.householdId, Date.now()); soloLeft(); }
           broadcastSoon();
         });
         return;
@@ -937,6 +1014,9 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         if (commands.includes(input.id)) return json(res, 200, { ok: true, duplicate: true });
         let archived = null, rotatedSession = null, stopping = false, wantedPace = null;
         const priorSession = state.sessionId;
+        // The solo player's own Pause, Resume and Save (owner, 2026-09-27: "i shouldn't need to open the class view to pause,
+        // save or shut down the server"). Written at once, as the Host's commands are, rather than within SAVE_WITHIN_MS.
+        const soloControl = identity.role === 'student' && SOLO_CONTROLS.has(input.action);
         commit(s => {
           if (identity.role === 'host') {
             if (input.action === 'start' && s.world.status === 'lobby') {
@@ -1002,6 +1082,18 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
               if (household && rollRefusal(s.world, household) === null) rollFamily(s.world, household);
             }
             s.world.status = 'running';
+          } else if (soloControl) {
+            // Solo only: in a class the teacher pauses, and a student's page has no say over the whole class's clock.
+            if (!solo) throw new Error('Only the teacher pauses or resumes a class.');
+            if (input.action === 'solo-pause') {
+              if (s.world.status !== 'running') throw new Error('The game is not running.');
+              s.world.status = 'paused';
+            } else if (input.action === 'solo-resume') {
+              if (s.world.status !== 'paused') throw new Error('The game is not paused.');
+              s.world.status = runtimeFault?.resumeStatus || 'running';
+            }
+            // 'solo-save' changes nothing: this commit is written and fsynced before it is answered, and with it everything
+            // shown and not yet written.
           } else {
             // The lobby is not dead time. A family may set its own people to work while
             // the class fills up, and none of it moves until the teacher starts; which
@@ -1011,7 +1103,9 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
           }
           const ledger = identity.role === 'host' ? s.hostCommands : s.clients[identity.credentialHash].commands;
           ledger.push(input.id); if (ledger.length > 256) ledger.shift();
-        }, { actor: identity, when: identity.role === 'host' ? 'now' : 'order' });
+        }, { actor: identity, when: identity.role === 'host' || soloControl ? 'now' : 'order' });
+        // Pressed by the player, the pause is theirs: a page that closes and comes back does not undo it (`soloCame`).
+        if (soloControl && input.action !== 'solo-save') soloAwayPaused = false;
         if (rotatedSession) {
           res.setHeader('Set-Cookie', [setCookie(`tr_host_${rotatedSession}`, state.hostKey, 604800), setCookie(`tr_host_${priorSession}`, '', 0)]);
           // Credentials belong to the archived class. End those streams so a previous
@@ -1020,7 +1114,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         }
         if (wantedPace) setPace(wantedPace);
         if (stopping) requestStop();
-        return json(res, 200, { ok: true, ...(archived && { archived: basename(archived) }), ...(stopping && { stopping: true }) });
+        return json(res, 200, { ok: true, ...(archived && { archived: basename(archived) }), ...(stopping && { stopping: true }), ...(soloControl && { saved: state.revision }) });
       }
       json(res, 404, { error: 'Not found' });
     } catch (error) { if (!res.headersSent) json(res, error.status || 400, { error: error.message }); else res.destroy(); }
@@ -1033,7 +1127,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     // Measured before anything else, so a paused or waiting class is always a lap not run (`realTimeMeter`).
     const realMs = realTime.lap(running, Math.max(3 * pace, 2000));
     if (!running) return;
-    try { commit(s => { markAbsences(s.world); stepWorld(s.world, { realMs, decisionBudgetMs }); }, { when: 'tick' }); }
+    try { commit(s => { markAbsences(s.world); stepWorld(s.world, { realMs, decisionBudgetMs, callBudgetMs }); }, { when: 'tick' }); }
     catch (error) { if (!runtimeFault) suspend('SIMULATION_FAILED'); console.error('Simulation paused:', error.cause?.message || error.message); }
   }
   let timer = setInterval(tick, pace);
@@ -1066,7 +1160,13 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       catch (error) { clearInterval(timer); lease.release(); throw error; }
     },
     async close() {
-      closing = true; clearInterval(timer); clearTimeout(broadcastTimer);
+      // A solo game is never left running on the disk, whatever stopped its server: Ctrl+C, the launcher, the watch. After a
+      // save that failed (`SAVE_FAILED`: the file held open a moment by something else) this is also the retry: the class in
+      // memory has been put back to what the disk holds, so there would otherwise be nothing left to write.
+      if (solo && !closing && (state.world.status === 'running' || runtimeFault)) {
+        try { commit(s => { if (s.world.status === 'running') s.world.status = 'paused'; }); } catch (error) { console.error('The solo game could not be saved paused:', error.message); }
+      }
+      closing = true; clearInterval(timer); clearTimeout(broadcastTimer); clearTimeout(soloTimer);
       // Whatever was shown and not yet written is written before the save is let go (`commit`).
       try { flush(); } catch (error) { console.error('The last changes could not be saved:', error.cause?.message || error.message); }
       for (const s of streams) s.res.destroy(); streams.clear();

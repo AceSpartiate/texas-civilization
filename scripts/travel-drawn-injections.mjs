@@ -46,13 +46,13 @@ const INJECTIONS = [
   },
   {
     name: 'a journey too short for the walked ends fades anyway, so a short errand is a blink',
-    from: '  if (!(lead >= seen / 2) || !(tail >= seen / 2)) return whole;',
-    to: '  if (!(lead > 0) || !(tail > 0)) return whole;',
+    from: '  if (!(lead >= seen / 2) || !(tail >= seen / 2)) return land > 0 ? pacedSight({ far, v: miles, rate, fade, onLead, onTail }) : whole;',
+    to: '  if (!(lead > 0) || !(tail > 0)) return land > 0 ? pacedSight({ far, v: miles, rate, fade, onLead, onTail }) : whole;',
   },
   {
     name: 'the drawn place creeps a fraction ahead of the road, so somebody reaches the far end before the server does',
-    from: '  return { miles: Math.min(far, Math.max(0, drawn)), alpha, rate, lead, tail, faded: true };',
-    to: '  return { miles: Math.min(far, Math.max(0, drawn * 1.002)), alpha, rate, lead, tail, faded: true };',
+    from: '  return { miles: Math.min(far, Math.max(0, drawn)), alpha, rate, lead, tail, faded: true, end: far };',
+    to: '  return { miles: Math.min(far, Math.max(0, drawn * 1.002)), alpha, rate, lead, tail, faded: true, end: far };',
   },
   // ------------------------------------------------------------------------------------------ the family's own land
   {
@@ -70,7 +70,7 @@ const INJECTIONS = [
     // before the land, and the land given only what was left. On a hurried short errand it starts the fade a long way
     // inside the family's own farm, which is the one thing the correction says may never happen.
     name: 'the hundred yards are paid for before the land, so a figure begins to fade while still on its own farm',
-    from: '  if (!(room >= land)) return whole;',
+    from: '  if (!(room >= land)) return land > 0 ? pacedSight({ far, v: miles, rate, fade, onLead, onTail }) : whole;',
     to: '  if (!(room >= 0)) return whole;',
   },
   {
@@ -95,6 +95,28 @@ const INJECTIONS = [
     name: 'the ease is fast enough to be a pop: a zoom wheel can take a figure from whole to gone in one frame',
     from: 'export const FADE_RATE = 2, FADE_STALE_MS = 250;',
     to: 'export const FADE_RATE = 100, FADE_STALE_MS = 250;',
+  },
+  // ------------------------------------------ each at their own pace on their own land (owner, 2026-09-27, FIC-GONZ-635)
+  {
+    name: 'a rider or a wagon is held only to its own figure\'s cycle again, so a wagon crosses the farm at half again a walker',
+    from: '  return Math.min(own, gaitMilesASecond({ scale, heightPx: personPx }) * speed / WALK_MILES_A_TICK);',
+    to: '  return own;',
+  },
+  {
+    file: 'public/app.js',
+    name: 'the page draws a traveller at its figure\'s gait and not at its own pace',
+    from: '  const gait = paceMilesASecond({ scale: marks.scale, heightPx: height, personPx: marks.figure, speed: journey.speed });',
+    to: '  const gait = paceMilesASecond({ scale: marks.scale, heightPx: height });',
+  },
+  {
+    name: 'coming home onto the land, the last of it is hurried at twice the pace',
+    from: '  else { drawn = far - onTail + rate * (at - home); alpha = 1; }',
+    to: '  else { drawn = far - onTail + 2 * rate * (at - home); alpha = 1; }',
+  },
+  {
+    name: 'the old ceiling put back: a journey that cannot pay for its own land is drawn across it at the server\'s pace',
+    from: '  if (!(room >= land)) return land > 0 ? pacedSight({ far, v: miles, rate, fade, onLead, onTail }) : whole;',
+    to: '  if (!(room >= land)) return whole;',
   },
   // ------------------------------------------------------------------------------------------ Travelling on the panel
   {

@@ -154,11 +154,13 @@ the same line as everywhere else in the game — however he came to be inside, s
 until the word reaches it — at Gonzales the rumour on the 11th and Dickinson's confirmation on the 13th, elsewhere that
 evening. A spared woman or child walking home is the word, arriving in person.
 
-**Nobody answered** (`FIC-GONZ-384`, `-385`): if a student does not answer Travis's runner within the question's real-time
-budget (90 seconds by default, not counted while the Host has paused), or before the riders go that night, the person decides
-alone at auto's share — the owner's standing rule that auto takes over a choice not made in time (`FIC-GONZ-048`) — and the
-journal says so in plain words. The review would also defend **staying at one's post** as the fallback (Travis chose his
-riders from men who offered); which of the two is the owner's to choose.
+**Nobody answered** (`FIC-GONZ-384`, `-385`, `-633`): if a student does not answer Travis's runner within the question's
+real-time budget (90 seconds by default, not counted while the Host has paused), or before the riders go that night, **the
+question lapses** and the person **stays at their post** — the alternative this review also defended (Travis chose his riders
+from men who offered). The owner chose it on 2026-09-27: *"questions that are not answered fast enough disappear."* Nothing
+is chosen for the family, the runner says so and walks back to the colonel's quarters and goes in, and the journal says
+plainly that nobody answered and what that meant (sim/lapse.mjs). From 2026-09-22 to 2026-09-27 the person decided alone at
+auto's share instead. Somebody on auto, or of a family whose student has gone, is still answered at auto's share when asked.
 
 **Deterministic** (`FIC-GONZ-008`, `-045`): who offers on auto, who is chosen, and each person's place inside the walls come
 from `share(world, personId, question)` — the same for the same class every time, nothing hidden and re-rolled.

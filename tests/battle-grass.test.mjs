@@ -69,10 +69,10 @@ test('a yes is a departure: a rider goes with Bowie\'s horsemen and a man on foo
   assert.equal(world.entities[walker.personId].travel, null, 'he never left the ranks');
   untilMinute(world, from(world, 'ride-out'));
   assert.equal(world.army.questions.grass.closed, true, 'the question did not shut when they rode out');
+  // Nobody answered for him: the question lapses and he stays in camp (owner, 2026-09-27; sim/lapse.mjs).
   if (silent) {
-    const decided = world.army.questions.grass.asks[silent.personId];
-    assert.ok(['yes', 'no'].includes(decided));
-    assert.equal(Boolean(battle.participants[silent.personId]), decided === 'yes', 'an auto yes did not ride out, or a no did');
+    assert.equal(world.army.questions.grass.asks[silent.personId], 'silent', 'somebody nobody answered for was answered for');
+    assert.equal(Boolean(battle.participants[silent.personId]), false, 'somebody nobody answered for rode out');
   }
   // Out in the line at contact, and held there.
   untilMinute(world, from(world, 'bowie') + 6);

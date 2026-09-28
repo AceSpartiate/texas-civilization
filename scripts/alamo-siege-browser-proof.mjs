@@ -5,7 +5,7 @@
 // student sees when somebody of theirs is inside: their row has no order and says why; the message card opens the person;
 // on the day Travis wants riders a man of the garrison is seen walking across the compound to them, step by step, and the
 // card leads to him; the meeting shows what he says and the two answers; while the Host has paused the class the question's
-// budget does not run; after Resume, left unanswered, it runs out and the journal says the choice was made for them; and on
+// budget does not run; after Resume, left unanswered, it runs out, lapses with nothing chosen and the journal says so, and the runner walks back and goes in; and on
 // the next day Travis sends riders he comes again (unless the fallback's offer was chosen and the man has ridden out), and
 // the answer given in the meeting is the one the server takes. The layout is checked at a Chromebook's 1366 by 768.
 //
@@ -130,7 +130,7 @@ try {
   observed.meeting = (await student.locator('#encounter').innerText()).replace(/\s+/g, ' ').trim();
   assert.match(observed.meeting, /Colonel Travis/);
   assert.match(observed.meeting, /leaves the fort tonight/);
-  assert.match(observed.meeting, /decided for/, 'the fallback is not said before it happens');
+  assert.match(observed.meeting, /the question lapses: nothing is chosen/, 'what an unanswered question comes to is not said before it happens');
   assert.doesNotMatch(observed.meeting, /killed|die|death|will fall/i, 'the meeting foretells the fall');
   assert.equal(server().entities[father.id].service.courier, 'open', 'looking at the meeting answered it');
   await student.screenshot({ path: 'docs/evidence/alamo-runner-meeting.png' });
@@ -162,19 +162,39 @@ try {
   ok('at a Chromebook\'s 1366 by 768 the meeting and both answers are on the screen, and the page does not scroll sideways');
   await student.setViewportSize({ width: 1440, height: 950 });
 
-  // Resume, and leave it unanswered: the budget runs out, the fallback decides, and the journal says so.
+  // Resume, and leave it unanswered: the budget runs out, the question lapses with nothing chosen - he stays at his post -
+  // and the journal says so (owner, 2026-09-27: "questions that are not answered fast enough disappear"; sim/lapse.mjs).
   await host.locator('#host-controls [data-action="resume"]').click();
   await student.waitForFunction(() => window.__snapshot?.world.status === 'running', null, { timeout: 10000 });
   const resumed = Date.now();
   await student.waitForFunction(id => !['open', 'coming'].includes((window.__snapshot?.world.entities || []).find(one => one.id === id)?.service?.courier), father.id, { timeout: BUDGET_MS + 30000 });
   const tookMs = Date.now() - resumed;
-  await student.waitForFunction(() => /Nobody answered for .* in time/.test(document.querySelector('#event-log')?.textContent || ''), null, { timeout: 15000 });
-  observed.journal = await student.evaluate(() => [...document.querySelectorAll('#event-log li')].map(li => li.textContent).find(text => /Nobody answered for/.test(text)));
+  await student.waitForFunction(() => /Nobody answered Travis's runner for .* in time, and the question lapsed/.test(document.querySelector('#event-log')?.textContent || ''), null, { timeout: 15000 });
+  observed.journal = await student.evaluate(() => [...document.querySelectorAll('#event-log li')].map(li => li.textContent).find(text => /the question lapsed/.test(text)));
   observed.note = await student.locator('#encounter-note').innerText().catch(() => null);
   const afterFirst = server().entities[father.id].service.courier;
+  assert.equal(afterFirst, 'stays', `the question that nobody answered chose something for him: ${afterFirst}`);
   assert.ok(tookMs >= BUDGET_MS - spentBefore - 6000, `the question ran out ${tookMs} ms after Resume, before its budget`);
   await student.screenshot({ path: 'docs/evidence/alamo-runner-expired.png' });
-  ok(`left unanswered, it ran out ${Math.round(tookMs / 1000)} s after Resume and was decided for them (${afterFirst}); the journal says: "${observed.journal}"`);
+  ok(`left unanswered, it ran out ${Math.round(tookMs / 1000)} s after Resume and lapsed with nothing chosen (${afterFirst}); the journal says: "${observed.journal}"`);
+  // Riders leave when done (owner, 2026-09-27): the runner walks back across the plaza, away from him, and goes in - the page
+  // stops drawing him once he is back inside the colonel's quarters.
+  const leaving = [];
+  for (let i = 0; i < 160; i++) {
+    const seen = await student.evaluate(([id, who]) => {
+      const world = window.__snapshot?.world;
+      const runner = (world?.others || []).find(one => one.id === id), person = (world?.entities || []).find(one => one.id === who);
+      return { tick: world?.tick, runner: runner ? runner.location : null, person: person?.location || null };
+    }, [runnerId, father.id]);
+    if (!leaving.length || leaving.at(-1).tick !== seen.tick) leaving.push(seen);
+    if (!seen.runner) break;
+    await student.waitForTimeout(500);
+  }
+  const away = leaving.filter(step => step.runner).map(step => Math.round(feet(step.runner, step.person)));
+  observed.runnerLeavingFeet = away;
+  assert.ok(away.length >= 2 && away.at(-1) > away[0], `the runner did not walk away from ${father.name}: ${away.join(' → ')}`);
+  assert.equal(leaving.at(-1).runner, null, 'the runner is still drawn standing about at the colonel\'s door');
+  ok(`the runner walked back across the plaza (${away.join(' → ')} ft from ${father.name}) and went in: no longer drawn`);
 
   // The next day Travis sends riders, the runner comes again - unless the fallback's offer was chosen and the man is gone.
   const sentFirst = () => server().entities[father.id].service.courier === 'sent';

@@ -26,6 +26,7 @@ import { reliefEstimate } from './alamo.mjs';
 import { houstonCamp, joinEstimateWords } from './houston.mjs';
 import { southSite } from './south.mjs';
 import { record } from './events.mjs';
+import { answeredFor, recordLapse } from './lapse.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
 import { awayProjection, milesATick, tooFastToFollow } from './sight.mjs';
 import { purseHeld, purseOf, recordTrade, traderAt } from './town.mjs';
@@ -70,7 +71,7 @@ export { TOOL_LIFE };
 export const SKILLS = ['farming', 'hunting', 'hands'];
 
 /**
- * How long somebody downwind will hold before they decide for themselves.
+ * How long somebody downwind will hold before the question lapses (`lapsedChoice`, owner 2026-09-27).
  *
  * Two fictional hours. A hunt that waited for ever on a student who had gone to look at
  * something else would be a chore that silently stopped being work, and a class where one
@@ -83,8 +84,9 @@ export const ASK_PATIENCE = 120;
  * What somebody left to decide alone decides (sim/auto.mjs, docs/FAMILY_PANEL.md §11.7): the shot is taken when the hand
  * is steady or the rifle has been put in order, and waited for when it is not - what a hunter who knows their own hand
  * does - and every other question falls to the family's own answer, the fallback silence always took. Nothing impossible
- * is chosen: a person with no powder comes away. The same rule answers a person on auto at once and a player by hand whose
- * patience (`ASK_PATIENCE`) has run out, so the switch changes when the question is answered and never how.
+ * is chosen: a person with no powder comes away. The same rule answers a person on auto at once and a family whose student
+ * has gone. A player by hand whose patience (`ASK_PATIENCE`) has run out is not answered by it any more: since 2026-09-27 the
+ * question lapses (`lapsedChoice`, sim/lapse.mjs).
  */
 export function autoChoice(world, household, entity) {
   const ask = entity.chore?.ask;
@@ -92,6 +94,25 @@ export function autoChoice(world, household, entity) {
   const steady = steadyHand(entity) || (rifleTrue(household) && entity.health?.condition !== 'tired');
   const preferred = ask.id === 'shot' ? (steady ? ['take', 'wait', 'leave'] : ['wait', 'take', 'leave']) : [].concat(ask.fallback);
   return preferred.find(option => askAvailability(world, household, entity, option).can) || 'leave';
+}
+
+/**
+ * What a question in the middle of work comes to when nobody answered it in time and it lapses (owner, 2026-09-27;
+ * sim/lapse.mjs): nothing new is chosen.
+ *
+ * - **The shot** is the one question here that was a new act decided on the spot, and since 2026-09-16 auto's to take: the
+ *   moment passes, the hunter leaves it and comes home, and no powder is spent.
+ * - **Every other** is *how* to do work the family already ordered - pay for the powder it was sent for in food or coin,
+ *   take food or coin for the cotton it was sent to sell, which crop the planting puts in, which term the enlisting man
+ *   signs for, what the carpenter's errand makes, and the shops' questions, whose answer is to come home again - and the work
+ *   goes on as it was begun, by the question's own fallback: the answer silence always gave (`ASKS`), never a choice auto
+ *   would make.
+ */
+export function lapsedChoice(world, household, entity) {
+  const ask = entity.chore?.ask;
+  if (!ask) return null;
+  if (ask.id === 'shot') return 'leave';
+  return [].concat(ask.fallback).find(option => askAvailability(world, household, entity, option).can) || 'leave';
 }
 
 /**
@@ -1778,6 +1799,11 @@ function settleAsk(world, household, entity, option, how = 'answered') {
   option = chosen.id;
   state.ask = null;
   state.flags = [...(state.flags || []), option, ...(option === 'leave' ? ['empty'] : [])];
+  if (how === 'lapse') {
+    const went = option === 'leave' ? `${entity.name} did nothing more: ${chosen.label.toLowerCase()}.` : `${entity.name} went on with the work as it was begun: ${chosen.label.toLowerCase()}.`;
+    recordLapse(world, { householdId: household.id, actorId: entity.id, text: `Nobody answered ${entity.name} in time, and the question lapsed. Nothing new was chosen: ${went}` });
+    return option;
+  }
   record(world, 'choice', {
     actorId: entity.id, householdId: household.id, decision: option, importance: how === 'auto' ? 1 : 2,
     text: how === 'silence' ? `Nobody answered. ${entity.name} decided alone: ${chosen.label.toLowerCase()}.`
@@ -1908,10 +1934,12 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
   if (state.ask) {
     // A family whose student has gone (sim/absence.mjs) is not waited for.
     if (!household.absent && world.minute - state.ask.openedMinute < ASK_PATIENCE) return;
-    // Nobody answered in time: auto takes over for this one question (`autoChoice`). Deciding alone still cannot do the
-    // impossible - a person with nothing to fire comes away - and a counter nobody answered pays the first way the family
-    // can: food, as it always was, and coin if there is not the food.
-    settleAsk(world, household, entity, autoChoice(world, household, entity), household.absent ? 'auto' : 'silence');
+    // Nobody answered in time. For a family a student is answering for, **the question lapses** (owner, 2026-09-27;
+    // sim/lapse.mjs): nothing new is chosen (`lapsedChoice`: the shot is left, and ordered work goes on by the question's own
+    // fallback). A family nobody is answering for - gone from its screen, or nobody plays it - is decided as auto decides
+    // (`autoChoice`), as its neighbours are.
+    if (answeredFor(world, entity)) settleAsk(world, household, entity, lapsedChoice(world, household, entity), 'lapse');
+    else settleAsk(world, household, entity, autoChoice(world, household, entity), household.absent ? 'auto' : 'silence');
   }
   // Spend a tick of the current step, and only move on once it is actually paid for.
   // Returning here whenever the counter was non-zero would cost one extra tick per step,

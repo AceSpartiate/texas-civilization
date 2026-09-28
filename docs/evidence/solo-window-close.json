@@ -1,0 +1,79 @@
+{
+  "record": "solo-window-close",
+  "date": "2026-09-28",
+  "command": "npm run test:solo-window",
+  "environment": "Same computer: launcher/TeacherWindow.cs compiled unchanged into scripts/support/solo-window-harness.cs, the installed WebView2 runtime, and server/main.mjs --solo with SOLO_LEAVE_MS=3000 in a scratch data folder.",
+  "checks": [
+    "launcher/TeacherWindow.cs and launcher/Branding.cs compile unchanged into the window harness",
+    "x-button: written paused 319 ms after the window closed, server gone within 3.9 s (wait 3 s), exit 0, lock released, the application still running; offered again paused (September 28, 1835)",
+    "application-exit: written paused 81 ms after the window closed, server gone within 3.5 s (wait 3 s), exit 0, lock released; offered again paused (September 28, 1835)",
+    "process-killed: written paused 34 ms after the window closed, server gone within 3.4 s (wait 3 s), exit 0, lock released; offered again paused (September 28, 1835)"
+  ],
+  "results": [
+    {
+      "scenario": "x-button",
+      "openedStatus": "paused",
+      "windowClosedAt": "2026-09-28T02:12:31.223Z",
+      "pausedWrittenAfterMs": 319,
+      "serverExit": 0,
+      "serverGoneWithinMs": 3923,
+      "leaveMs": 3000,
+      "applicationStillRunning": true,
+      "lockLeft": false,
+      "statusOnDisk": "paused",
+      "tickOnDisk": 0,
+      "listedAgain": {
+        "id": "38de3c25a57e",
+        "family": "Trinidad's family",
+        "date": "September 28, 1835",
+        "period": 1,
+        "status": "paused",
+        "savedAt": "2026-09-28T02:12:31.416Z"
+      }
+    },
+    {
+      "scenario": "application-exit",
+      "openedStatus": "paused",
+      "windowClosedAt": "2026-09-28T02:12:48.567Z",
+      "pausedWrittenAfterMs": 81,
+      "serverExit": 0,
+      "serverGoneWithinMs": 3511,
+      "leaveMs": 3000,
+      "lockLeft": false,
+      "statusOnDisk": "paused",
+      "tickOnDisk": 0,
+      "listedAgain": {
+        "id": "38de3c25a57e",
+        "family": "Trinidad's family",
+        "date": "September 28, 1835",
+        "period": 1,
+        "status": "paused",
+        "savedAt": "2026-09-28T02:12:48.642Z"
+      }
+    },
+    {
+      "scenario": "process-killed",
+      "openedStatus": "paused",
+      "windowClosedAt": "2026-09-28T02:12:59.281Z",
+      "pausedWrittenAfterMs": 34,
+      "serverExit": 0,
+      "serverGoneWithinMs": 3383,
+      "leaveMs": 3000,
+      "lockLeft": false,
+      "statusOnDisk": "paused",
+      "tickOnDisk": 0,
+      "listedAgain": {
+        "id": "38de3c25a57e",
+        "family": "Trinidad's family",
+        "date": "September 28, 1835",
+        "period": 1,
+        "status": "paused",
+        "savedAt": "2026-09-28T02:12:59.311Z"
+      }
+    }
+  ],
+  "notProved": [
+    "LauncherForm itself: its Play Solo button and dialog were not pressed, because a launcher run from a scratch folder rewrites the real installation's shortcuts and install stamp.",
+    "Windows logging off or shutting down: not driven. When the window goes first the game is written paused within the times above; when the server process is ended first it can lose up to SAVE_WITHIN_MS of play, and its save may say running - a continued game opens paused either way."
+  ]
+}

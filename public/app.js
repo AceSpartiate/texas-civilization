@@ -2,7 +2,7 @@
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame, spriteReady } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, gaitMilesASecond, landRuns, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
 import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, standing, travellingLine, awayLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
@@ -43,6 +43,12 @@ import { createChaseView } from '/chase-view.js';
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
 let events;
+// A page going away ends its own stream (2026-09-27). Play Solo's server takes the stream closing as its player leaving
+// (server/app.mjs `SOLO_WATCH`), and Chrome, with a page closed, was seen holding the stream open for more than five seconds
+// (scripts/solo-browser-proof.mjs); the launcher's WebView2 window closed it in under a second either way.
+addEventListener('pagehide', () => { events?.close(); events = null; });
+// And a page brought back from the browser's back-forward cache opens it again.
+addEventListener('pageshow', event => { if (event.persisted && !events && window.__snapshot) connect(); });
 let joinPending = false;
 window.__received = [];
 window.__viewEntities = [];
@@ -771,15 +777,20 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
 function sightOf(entity, height, marks) {
   const seen = travelSeen.get(entity.id) || { alpha: 1 };
   const since = marks.now - (seen.shownAt ?? marks.now), wasAt = seen.miles;
-  seen.heightsPerSecond = 0; seen.journey = null; seen.drawn = false; seen.shownAt = marks.now;
+  seen.heightsPerSecond = 0; seen.journey = null; seen.drawn = false; seen.trailing = false; seen.shownAt = marks.now;
   travelSeen.set(entity.id, seen);
   // Only somebody the server has on the road now is scheduled. On the tick they arrive they are still drawn walking the last
   // of the road in, at the pace the schedule left them at, and whole - which is how a hunter is drawn reading the ground.
   const journey = entity.facing || entity.speaking ? null : motionProjection.journey(entity, marks.frozen);
-  if (!journey?.points?.length || !marks.running || reducedMotion.matches) { seen.alpha = 1; return null; }
+  if (!marks.running || reducedMotion.matches) { seen.alpha = 1; delete seen.trail; return null; }
+  // Home before the drawing is (a journey paced on the family's own land, public/motion.js `pacedSight`): still walking the
+  // last of the land in at their own pace, never hurried to where the server already has them.
+  if (!journey?.points?.length) return trailOf(entity, height, marks, seen, since);
   const miles = motionProjection.drawnMiles(entity, marks.now, marks.frozen);
   const milesATick = travelMilesATick(journey, minutesATick);
-  const gait = gaitMilesASecond({ scale: marks.scale, heightPx: height });
+  // Their own pace, not only what their figure's cycle can cover (owner, 2026-09-27): the horse's on horseback, the team's
+  // with the wagon, a walker's on foot, in proportion to a grown person's walk (public/motion.js `paceMilesASecond`).
+  const gait = paceMilesASecond({ scale: marks.scale, heightPx: height, personPx: marks.figure, speed: journey.speed });
   // The family's own land under this road, once a journey rather than once a frame: a road is a few hundred points and this
   // is asked of every traveller on every painted frame.
   const key = `${entity.id}|${journey.from}|${journey.to}|${journey.points.length}|${journey.base || 0}|${Boolean(ownGrant)}`;
@@ -789,7 +800,17 @@ function sightOf(entity, height, marks) {
     runs = landRuns(journey.points, marks.observed ? null : ownGrant, journey.distance, journey.base || 0);
     landRunCache.set(key, runs);
   }
-  const sight = travelSight({ distance: journey.distance, miles, milesASecond: drawnMilesASecond({ milesATick, tickMs: marks.tickMs }), gait, ...runs });
+  const milesASecond = drawnMilesASecond({ milesATick, tickMs: marks.tickMs });
+  // Land already walked is behind them: once this journey has been drawn past the line out of the family's land, a schedule
+  // that changes under it (the camera pressed closer, the class pace, the calendar) must not walk them back onto it to pay
+  // for it again - which a paced schedule would (public/motion.js `pacedSight`).
+  const past = seen.journeyKey === key && Number.isFinite(wasAt) && wasAt > runs.leaves + 1e-9;
+  seen.journeyKey = key;
+  const lands = past ? { leaves: 0, enters: runs.enters } : runs;
+  const sight = travelSight({ distance: journey.distance, miles, milesASecond, gait, ...lands });
+  // A paced journey whose drawn arrival falls after the server's is carried on past it by `trailOf`.
+  if (sight.end > journey.distance + 1e-9) seen.trail = { journey, args: { distance: journey.distance, milesASecond, gait, ...lands }, v: miles, end: sight.end };
+  else delete seen.trail;
   // Eased toward what the schedule asks for rather than taken from it, so the schedule changing under a student's hand -
   // rolling the zoom wheel in on somebody halfway across the country moves the gait past the server's pace in one frame -
   // is a short fade and not a figure vanishing between two frames (public/motion.js `fadeToward`). At once for a page with
@@ -815,6 +836,31 @@ function sightOf(entity, height, marks) {
   seen.shownHeightsPerSecond = sight.rate * seen.heightsPerSecond;
   seen.faded = sight.faded; seen.lead = sight.lead; seen.tail = sight.tail;
   seen.at = alongRoute(journey.points, sight.miles - (journey.base || 0)) || null;
+  return seen;
+}
+/**
+ * The last of a paced journey, drawn after the server has put them where it ends (owner, 2026-09-27: on the family's own land
+ * nobody is drawn faster than their own pace; public/motion.js `pacedSight`). The server's miles run on from the end of the
+ * road at the rate they were carried, the same schedule is asked where that puts them, and the figure walks the rest of its
+ * land in at its pace until the drawn arrival. Given up - the figure drawn where the server has it - the moment they set out
+ * again, stop to speak, the class is paused, or the page was not painting (a hidden tab), since a trail is for somebody
+ * watched walking in.
+ * ceiling: a trail is a frame-to-frame walk kept by this page, not a server journey: a student who gives an order to somebody
+ * still being drawn walking in sees the new journey start from where the server has them, which is the house. Only a journey
+ * that cannot walk its own land in the time the class clock gives it trails at all; the way out is a slower class pace.
+ */
+function trailOf(entity, height, marks, seen, since) {
+  const trail = seen.trail;
+  if (!trail || entity.travel || entity.facing || entity.speaking || !(since > 0) || since > 1000) { delete seen.trail; seen.alpha = 1; return null; }
+  trail.v += since / 1000 * trail.args.milesASecond;
+  if (!(trail.v < trail.end)) { delete seen.trail; seen.alpha = 1; return null; }
+  const sight = travelSight({ ...trail.args, miles: trail.v });
+  seen.alpha = fadeToward(seen.alpha ?? 1, sight.alpha, since);
+  seen.wanted = sight.alpha; seen.miles = sight.miles; seen.serverMiles = trail.args.distance; seen.journey = trail.journey; seen.leapt = false;
+  seen.heightsPerSecond = drawnHeightsPerSecond({ milesATick: trail.args.milesASecond, tickMs: 1000, scale: marks.scale, heightPx: height });
+  seen.shownHeightsPerSecond = sight.rate * seen.heightsPerSecond;
+  seen.faded = sight.faded; seen.lead = sight.lead; seen.tail = sight.tail; seen.trailing = true;
+  seen.at = alongRoute(trail.journey.points, sight.miles - (trail.journey.base || 0)) || null;
   return seen;
 }
 /** The figure itself, at `alpha` of itself: the whole of it, or fading out of view and back on a long journey (`sightOf`). */
@@ -3024,7 +3070,7 @@ export function drawWorld(world) {
   ownGrant = bounds && Number.isFinite(bounds.minX)
     ? at => at.x >= bounds.minX && at.x <= bounds.maxX && at.y >= bounds.minY && at.y <= bounds.maxY
     : null;
-  const travelMarks = { frozen, running, tickMs, scale: camera.scale, now: frameNow };
+  const travelMarks = { frozen, running, tickMs, scale: camera.scale, figure: camera.figure, now: frameNow };
   // A baby carried on an errand (sim/babies.mjs `takeBabyAlong`) is drawn on its carrier's hip, wherever the carrier is drawn:
   // so the carriers first, and where each was put kept for the babies they carry.
   // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 - a woman with a baby on her hip; until then the infant figure beside her.
@@ -5553,6 +5599,10 @@ const lessonRoom = () => {
   document.body.style.setProperty('--lesson-room', `${Math.round(panel.getBoundingClientRect().height)}px`);
 };
 addEventListener('resize', lessonRoom);
+/** What a paused game says to its player: a class waits for its teacher; Play Solo's player resumes it themselves. */
+function pausedWords() {
+  return window.__snapshot?.solo ? 'The game is paused. Press Resume, top right, to go on.' : 'The class is paused. Work continues when the teacher resumes.';
+}
 function guideLesson(world) {
   const lesson = lessonShowing(world), help = $('#lesson-help'), action = $('#lesson-action');
   lessonTarget = null;
@@ -5562,7 +5612,7 @@ function guideLesson(world) {
   const reveal = (target, label, text) => {
     lessonTarget = target; action.textContent = label; action.hidden = false; help.textContent = text;
   };
-  if (world.status === 'paused') { help.textContent = 'The class is paused. Work continues when the teacher resumes.'; return; }
+  if (world.status === 'paused') { help.textContent = pausedWords(); return; }
   // A map placement or a question already in progress takes precedence over starting more work.
   for (const [selector, text] of [
     ['#site-choose', 'Click a spot inside your land on the map, review the site, then press “Set the house here”.'],
@@ -5595,7 +5645,7 @@ function guideLesson(world) {
     }
   }
   const busy = world.entities?.find(person => world.household?.members?.includes(person.id) && person.chore);
-  help.textContent = world.status === 'paused' ? 'The class is paused. Work continues when the teacher resumes.'
+  help.textContent = world.status === 'paused' ? pausedWords()
     : world.land?.arriving ? 'Your wagon is travelling to your land. The next instruction appears when it arrives.'
     : busy ? `${busy.given || busy.name} is working. Watch their progress, or select another adult to help. A ! beside a portrait means they need an answer.`
     : 'Select an adult’s portrait, then read the named actions at the bottom. Unavailable actions explain what is missing when selected.';
@@ -5977,7 +6027,7 @@ function renderEncounter(world) {
   }
   $('#encounter-note').textContent = runner
     ? live ? `${encounter.pressing ? `${encounter.carrierName} cannot wait much longer.` : `${encounter.carrierName} is waiting for an answer to take back.`} ${encounter.ifUnanswered || ''}`.trim()
-      : encounter.reason === 'unanswered' ? `Nobody answered ${encounter.carrierName} in time, and it was decided for ${name}. The journal says what.` : `${name} gave ${encounter.carrierName} an answer, and he has gone back to Colonel Travis.`
+      : encounter.reason === 'unanswered' ? `Nobody answered ${encounter.carrierName} in time, and the question lapsed: ${name} stays at their post, and he has gone back to Colonel Travis.` : `${name} gave ${encounter.carrierName} an answer, and he has gone back to Colonel Travis.`
     : live
       ? 'They will not wait for ever. Closing this does not unhear anything already said.'
       : encounter.reason === 'unanswered' ? `${encounter.carrierName} would wait no longer and rode on.`
@@ -6018,7 +6068,8 @@ function renderSlice(world) {
     const said = request.kind === 'march'
       ? { open: 'Your family can choose how to respond.', accepted: 'Your family went upriver with them.', refused: 'Your family stayed in Gonzales.', expired: 'They crossed without an answer.' }
       : request.kind === 'call'
-      ? { open: 'Your family can choose how to respond.', accepted: 'Somebody from your family went with the volunteers.', refused: 'Your family stayed home.', expired: 'Nobody from your family answered.' }
+      // A played family's call lapses after its minutes (sim/decision-budget.mjs `CALL_BUDGET_MS`): the server's words for it.
+      ? { open: `Your family can choose how to respond.${request.pressing ? ' The call will not stand much longer.' : ''}${request.lapses ? ` ${request.lapses}` : ''}`, accepted: 'Somebody from your family went with the volunteers.', refused: 'Your family stayed home.', expired: request.lapsed ? 'Nobody answered in time, and the call lapsed: nobody from your family turned out.' : 'Nobody from your family answered.' }
       : request.kind === 'rumor'
       ? { open: 'Your family can choose how to respond.', accepted: 'Your family went to see for itself.', refused: 'Your family stayed home.', expired: 'Nobody went to find out.' }
       : { open: 'Your family can choose how to respond.', accepted: 'Your family chose to help.', refused: 'Your family chose to stay home.', expired: 'This request has passed.' };
@@ -6187,6 +6238,12 @@ function render(snapshot) {
     : '';
   $('#host-controls').hidden = !host;
   $('#host-pace').hidden = !host;
+  // Play Solo's own Pause, Resume and Save (owner, 2026-09-27), on the player's page only and never once the server is stopping.
+  const soloControls = Boolean(snapshot.solo) && !host && !snapshot.lifecycle;
+  $('#solo-controls').hidden = !soloControls;
+  if (soloControls) for (const button of $('#solo-controls').querySelectorAll('button')) {
+    button.hidden = button.dataset.solo === 'solo-pause' ? world.status !== 'running' : button.dataset.solo === 'solo-resume' ? world.status !== 'paused' : false;
+  }
   renderHostLive(snapshot, host);
   // Named paces rather than a number, because milliseconds a tick is not a thing a teacher
   // should have to hold in their head.
@@ -6316,6 +6373,7 @@ function connect(snapshot) {
       catch {
         const stopped = window.__snapshot?.lifecycle?.state === 'stopping';
         showJoin(hostPage ? 'This Host session ended. Reopen the Host page from the launcher.'
+          : stopped && window.__snapshot?.solo ? 'Play Solo stopped. Your game was saved and paused: press Play Solo on the launcher and choose Continue to go on.'
           : stopped ? 'Your teacher stopped the classroom server. Your family\'s story was saved.'
             : 'You are no longer joined to this class. Use your family key to come back, or ask your teacher for the current class code.');
       }
@@ -6349,6 +6407,16 @@ $('#join').addEventListener('submit', async event => {
 document.addEventListener('click', async event => {
   const viewButton = event.target.closest('[data-view]');
   if (viewButton) { applyMapView(viewButton.dataset.view); return; }
+  // Play Solo's own Pause, Resume and Save: orders of the player's, which the server takes only on a solo game.
+  const soloButton = event.target.closest('[data-solo]');
+  if (soloButton) {
+    say('');
+    try {
+      await api('/api/command', { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action: soloButton.dataset.solo });
+      if (soloButton.dataset.solo === 'solo-save') $('#solo-saved').textContent = `Saved ${new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
+    } catch (error) { say(error.message); }
+    return;
+  }
   // How fast the class watches. Sent like any other Host command, and deliberately not a
   // world change: a class reopened tomorrow opens at the pace the build ships with.
   const paceButton = event.target.closest('[data-pace]');

@@ -44,6 +44,7 @@ import { abandonWagon, answerRoad, familyPoint, moveOn, nextRefuge, overtake, ro
 import { acrossCountry } from './flight-route.mjs';
 import { heldToCow, loseCow, cowPace } from './flight-work.mjs';
 import { drawnVehicles } from './company.mjs';
+import { recordLapse } from './lapse.mjs';
 
 const YARDS = 1760;
 const round = (value, places = 2) => Math.round(value * 10 ** places) / 10 ** places;
@@ -662,9 +663,17 @@ export function advancePursuit(world, household) {
   chase.step = stepFor(chase, vF);
   return false;
 }
-/** The order answered for the family, by its fallback (halt), through the road's own answer so it is written down as every road answer is. */
+/**
+ * The order answered for the family. A family nobody is answering for halts by its fallback, through the road's own answer so it
+ * is written down as every road answer is. Unanswered by its student in its time, the question **lapses** (owner, 2026-09-27,
+ * sim/lapse.mjs, `FIC-GONZ-633`): nothing new is chosen, the family stands as it was ordered to, and the soldiers come up - the
+ * halt, written down as a lapse.
+ */
 function answerAltoFor(world, household, how) {
-  answerRoad(world, household, roadAutoAnswer(world, household) || 'halt', how);
+  if (how !== 'silence') { answerRoad(world, household, roadAutoAnswer(world, household) || 'halt', how); return; }
+  delete household.flight.ask;
+  recordLapse(world, { householdId: household.id, text: 'Nobody answered for the family in time, and the question lapsed. The family stood where it was, as the soldiers ordered, and they came up with it.' });
+  answerAlto(world, household, 'halt');
 }
 
 /** The calendar's step for a chase a student is watching: small once the soldiers are close, larger while they come on. */

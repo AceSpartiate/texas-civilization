@@ -1576,6 +1576,12 @@ export function directorProjection(world, householdId, role, { seen = [] } = {})
   const call = householdId && world.calls?.[householdId];
   const request = (march && march.status === 'open' ? march : null) || call || (householdId && world.requests[householdId]) || (rumor && rumor.status !== 'overtaken' ? rumor : null);
   const shown = request ? { id: request.id, text: request.text, status: request.status, kind: request === march ? 'march' : request === call ? 'call' : request === rumor ? 'rumor' : 'supplies' } : null;
+  // A played family's settlement call lapses after its five real minutes (sim/decision-budget.mjs `CALL_BUDGET_MS`): said
+  // before it happens, pressing once most of them are gone, and said after if it did.
+  if (shown?.kind === 'call' && world.households[householdId]?.played) {
+    if (call.status === 'open') { shown.lapses = 'If nobody answers within a few minutes, the call lapses and nobody from the family turns out. The minutes do not run while the class is paused or while you are in the guided start.'; const clock = world.decisionClock?.[`call:${householdId}`]; if (clock && clock.spent >= clock.of * (2 / 3)) shown.pressing = true; }
+    if (call.lapsed) shown.lapsed = true;
+  }
   if (shown && shown.kind === 'march' && march.status === 'open') {
     // The stored text, not a fresh reading: the button must not quietly change its price
     // while a student is looking at it.

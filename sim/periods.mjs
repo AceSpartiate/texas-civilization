@@ -80,6 +80,10 @@ export function beginSecondPeriod(world) {
     delete carrier.report;
     const at = carrier.travel?.to || report?.destination || carrier.location.siteId;
     setDown(world, carrier, world.map.sites[at] ? at : carrier.location.siteId || Object.keys(world.map.sites)[0]);
+    // And gone home over the winter, errand done (owner, 2026-09-27; sim/encounters.mjs `advanceDepartures`): nobody finds a
+    // rider from October still standing where he stopped when January opens.
+    // An express still carrying word between settlements keeps it, and brings it in as before.
+    if (!carrier.express) { delete carrier.leaving; carrier.gone = true; }
   }
   // An offer is a thing said face to face (sim/trade.mjs), and nobody stood together over the winter.
   world.offers = {};

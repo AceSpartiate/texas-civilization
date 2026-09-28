@@ -96,6 +96,10 @@ other change to it is. Each stop and resume is also written to the world's event
 `lesson-resumed` with `visibility: 'host'` and `about` naming the family and no `householdId`, so neither the family's
 own journal nor any public record carries it. See [LESSON.md](LESSON.md) §1, second amendment.
 
+The line is to be read, not acted on: **the teacher cannot reopen a family's guided start** once its five minutes are gone
+(owner, 2026-09-27, verbatim: *"no, the teacher can not reopen the tutorial."*). The Host page has no such control and is
+not to be given one ([LESSON.md](LESSON.md) §6).
+
 ## 3. Proof
 
 - `tests/absence.test.mjs` (4): the marker; the director's, questions answered at once, nothing held; back again; the

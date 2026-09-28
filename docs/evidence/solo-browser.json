@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-09-27T13:05:40.065Z",
+  "recordedAt": "2026-09-28T02:11:45.989Z",
   "scope": "same computer, headless Chrome",
   "command": "npm run test:solo",
   "pass": [
@@ -12,14 +12,19 @@
     "a second npm run solo reuses the running solo server, deals a new game (new session) and opens it joined, in its own lobby",
     "a real class running from the same data folder is untouched: same session, same code, save unchanged; solo saved to solo\\classroom.json on its own port",
     "the solo server stops gracefully from its class view and releases its save lock",
+    "Continue opens the saved game paused where it was left (tick 1), and the player's page has its own Resume and Save",
+    "the page's own Resume runs the game, Pause holds it (tick 4 for 1.5 s, written paused), Save writes it (revision 7, \"Saved 9:11 PM\"), and Resume runs it on",
+    "closing the page paused and saved the game at once (on the disk paused 20 ms after; tick 5) and the server stopped itself 3.6 s later (wait 3 s), exit 0, lock released",
+    "relaunched and continued, the game is where it was closed (tick 5), paused, and Resume runs it on",
+    "the page's browser killed outright (taskkill /F /T): the game was on the disk paused 1608 ms after and the server stopped itself 5.1 s later, lock released",
     "no page errors"
   ],
   "observed": {
-    "play": "http://127.0.0.1:49564/solo/enter?ticket=…",
+    "play": "http://127.0.0.1:56467/solo/enter?ticket=…",
     "asked": {
       "wagon": true,
       "stock": 2,
-      "says": "Drive cattle and hogs in. The family holds a league and a labor, 4,606 acres - about 26 times as much land - and the herd's keep takes 2 spaces of the wagon. The family arrives with 6 cattle and 12 hogs, which feed themselves on the range and feed the family.",
+      "says": "Drive cattle and hogs in. The family holds a league and a labor, 4,606 acres - about 26 times as much land - and the herd's keep takes 2 spaces of the ox's packs. The family arrives with 6 cattle and 12 hogs, which feed themselves on the range and feed the family.",
       "tick": 0
     },
     "held": {
@@ -31,6 +36,25 @@
       "status": "running",
       "joined": 1,
       "households": 0
+    },
+    "controls": {
+      "openedAt": 1,
+      "pausedAt": 4,
+      "held": "1.5 s",
+      "pausedHelp": "The game is paused. Press Resume, top right, to go on.",
+      "savedRevision": 7,
+      "savedLabel": "Saved 9:11 PM"
+    },
+    "closed": {
+      "pausedOnDiskAfterMs": 20,
+      "stoppedAfterMs": 3646,
+      "leaveMs": 3000,
+      "tick": 5
+    },
+    "crash": {
+      "pausedOnDiskAfterMs": 1608,
+      "stoppedAfterMs": 5117,
+      "tick": 10
     }
   }
 }

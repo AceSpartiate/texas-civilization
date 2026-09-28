@@ -177,7 +177,11 @@ try {
         out.push(frame);
         if (frame.alpha === 0 && !window.__blind) window.__blind = frame.t;
         const settled = out.filter(one => one.arrived);
-        if ((settled.length && settled.at(-1).t - settled[0].t > 2500) || out.length > 20000) resolve(out); else requestAnimationFrame(step);
+        // A whole tick after the server's arrival, and a little more: the page draws a tick behind, so at the Study pace the
+        // walk in can fall as late as nine seconds into the arrival tick. Two and a half seconds, which this was, caught it
+        // only on a road played quick (found 2026-09-27 on a 2.9- and a 10.7-mile road).
+        const wait = Math.max(2500, (settled[0]?.tickMs || 0) + 1500);
+        if ((settled.length && settled.at(-1).t - settled[0].t > wait) || out.length > 40000) resolve(out); else requestAnimationFrame(step);
       };
       requestAnimationFrame(step);
     });
@@ -251,6 +255,7 @@ try {
   // the last stretch is walked *during* the tick the server calls the arrival - at the Study pace, where a tick is nine and
   // a half seconds, the whole walk in falls inside it. What matters is that the figure is back, in view and walking before
   // it is drawn *at the destination*, which is what these read.
+  if (process.env.PROOF_DEBUG) console.log(JSON.stringify({ road, frames: journey.filter((frame, i) => i % 5 === 0 || frame.arrived).slice(-120).map(frame => [frame.t && Math.round(frame.t), frame.alpha, frame.miles, frame.serverMiles, frame.faded, frame.lead, frame.arrived, frame.leapt, frame.scale]) }));
   const walked = journey.filter(frame => frame.alpha === 1 && frame.miles !== null);
   const fading = journey.filter(frame => frame.alpha > 0 && frame.alpha < 1);
   const blind = journey.filter(frame => frame.alpha === 0);

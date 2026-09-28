@@ -311,8 +311,9 @@ test('an automatic family halts when it is ordered to, and an order nobody answe
   seen = play(world, scene.household, scene.main, null, { each: () => { if (scene.household.flight.ask?.id === 'alto' && asked === null) asked = world.tick; } });
   assert.equal(seen.outcome.outcome, 'caught');
   assert.equal(seen.shots.length, 0);
-  const silence = world.events.find(event => event.householdId === scene.household.id && event.decision === 'road-alto-halt');
-  assert.match(silence?.text || '', /Nobody answered/);
+  // It lapses (sim/lapse.mjs, `FIC-GONZ-633`): nothing new is chosen, and the family stands as it was ordered to.
+  const silence = world.events.find(event => event.householdId === scene.household.id && event.lapsed && /soldiers ordered/.test(event.text));
+  assert.match(silence?.text || '', /Nobody answered for the family in time, and the question lapsed/);
   assert.ok(ALTO_PATIENCE_TICKS <= 4, 'the order waits too long for an answer');
   // A family nobody plays is not held for either.
   world = spring();

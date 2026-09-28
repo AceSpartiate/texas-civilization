@@ -124,6 +124,15 @@
         <button data-action="new-class" class="careful">New Class</button>
         <button data-action="stop-server" class="careful">Stop Server</button>
       </nav>
+      <!-- Play Solo's own controls (owner, 2026-09-27: "i shouldn't need to open the class view to pause, save or shut down
+           the server"). Only on a solo player's page. There is no Quit: closing the window saves the game, pauses it and
+           stops the server (server/app.mjs `SOLO_WATCH`). -->
+      <nav id="solo-controls" aria-label="Your game" hidden>
+        <button type="button" data-solo="solo-pause">Pause</button>
+        <button type="button" data-solo="solo-resume">Resume</button>
+        <button type="button" data-solo="solo-save" title="The game also saves itself every few seconds, and closing this window saves it, pauses it and stops the server.">Save</button>
+        <span id="solo-saved" role="status"></span>
+      </nav>
       <!-- How fast the class watches its own afternoon. The day, the distances and the
            arrivals are identical in all three; only the number of real minutes spent
            watching them changes. Study is the honest one and the default: at that pace a
