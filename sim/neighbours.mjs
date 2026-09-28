@@ -408,7 +408,7 @@ export function thinkFor(world, household, { project, act }) {
       // The team left standing at the timber, fetched home first by one hand with a load (above).
       teamLeft && 'fetch-logs',
       'harvest-field', 'plant-field', 'build-house',
-      land.logs?.lying > 0 && 'haul-logs',
+      // Nothing to haul since 2026-09-28: felling puts the logs on the pile (sim/felling.mjs).
       moreLogs && fellAt().length && 'fell-trees',
       moreLogs && !fellAt().length && 'fetch-logs',
       // The range ridden before the month is out, so nothing strays. A herd nobody looks to is the one that goes.

@@ -38,7 +38,7 @@ import { householdName } from './family.mjs';
 import { improvementsOf, setImprovement } from './improvements.mjs';
 import { CAMP_REST_SHARE, CAMP_SPOILAGE_PER_DAY } from './settling.mjs';
 import {
-  PIECES, PLANS, PLAN_IDS, nextStage, pieceDone, pieceWords, placeRefusal, planPieces, plotBuildRefusal, plotBuildSpell,
+  PIECES, PLANS, PLAN_IDS, logsShort, nextStage, pieceDone, pieceWords, placeRefusal, planPieces, plotBuildRefusal, plotBuildSpell,
   plotInvalid, plotLayout, plotNeeds, plotPhase, plotRaising, plotShelter, stageWants, weatherHold,
 } from './houseplot.mjs';
 import { weatherAt } from './weather.mjs';
@@ -323,6 +323,17 @@ export function editPlot(world, household, input) {
   else household.house.pieces.push({ type: input.piece, x: Number(input.x), y: Number(input.y), stage: 0, progress: 0 });
   household.house.plan = 'own';
   return household.house;
+}
+
+/**
+ * Whether the house is held up only for want of logs: the next stage it would work, not yet begun, wants logs the pile has not
+ * got (sim/houseplot.mjs `logsShort`). Read by auto, which says so on a waiting builder's row (owner, 2026-09-28: "waiting for
+ * logs"), and never true of a house chosen whole, which takes no logs from a pile.
+ */
+export function houseWaitsForLogs(household, world = null) {
+  if (!pieced(household) || houseBuilt(household)) return false;
+  const next = nextStage(household.house.pieces, skyAtHome(world, household));
+  return Boolean(next && next.piece.progress === 0 && logsShort(household.logs, next.stage.logs));
 }
 
 /** Why nobody in this family can work on the house right now, or null. Read by `choreAvailability`. */

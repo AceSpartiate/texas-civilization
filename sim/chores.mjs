@@ -35,6 +35,8 @@ import {
   COTTON_SEED_PER_PLOT, SEED_PER_PLOT, clearSpell, clearedOf, harvestShare, needsWagonToHarvest, raiseFence, standingCrop,
 } from './improvements.mjs';
 import { fenceWork, groundAt, plotsOf } from './fields.mjs';
+import { MOST_HANDS, crewPace, crowdedWhy, handShare } from './hands.mjs';
+import { FURNITURE_LOGS, fenceBy, furnitureFromPile, pileFull, shortOfSound, takeSpare } from './woodpile.mjs';
 import { landAround, onRealLand } from './ground.mjs';
 import { distanceToPolyline } from './terrain.mjs';
 import { OVERLAND_REACH } from './ways.mjs';
@@ -44,7 +46,7 @@ import { GAME, gameDrawn, huntWait, huntingPlace, huntRefusal, killYield, placeW
 import { weatherAt } from './weather.mjs';
 import { FORAGE, FORAGE_REACH, fishingWater, forageFacts, onSaltWater } from './gathering.mjs';
 import { BEEF_FAMILIES, BEEF_FOOD, BEEF_KEPT, BEEF_MILES, LOOKED_TO_DAYS, PORK_FOOD, butcherRefusal, divideBeef, herdOf, herdWords, killHog, lookedToStock } from './stock.mjs';
-import { fellRefusal, fellTicks, fellTree, logsLeftOut, logsLying, nextTree, oxFree, recordFelling, stackLogs, takeUpLogs } from './felling.mjs';
+import { fellAndCarryTicks, fellRefusal, fellTree, fellingGround, logsLeftOut, logsLying, nextTree, oxFree, recordFelling, stackLogs, takeUpLogs } from './felling.mjs';
 import { KINDS, countsTrees, woodsRule } from './woods.mjs';
 import { STORE_BALE_COIN, TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
 import { carryOutErrand, planErrand } from './errands.mjs';
@@ -55,7 +57,7 @@ import { holdingOf } from './grants.mjs';
 import { TOOL_LIFE, allWorn, anyWorn, mendWorst, soundestFirst, toolCount } from './tools.mjs';
 import { plotNeeds } from './houseplot.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
-import { HOUSES, SPELL_TICKS, buildRefusal, buildSpell, helpRefusal, hostOf, houseBuilt, houseOf, houseSettled, pieced, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
+import { HOUSES, SPELL_TICKS, buildRefusal, buildSpell, handsOn, helpRefusal, hostOf, houseBuilt, houseOf, houseSettled, pieced, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
 
 const round = value => Math.round(value * 10000) / 10000;
@@ -412,6 +414,15 @@ export function skillsFor(id) {
 // A better hand works faster, never instantly, and never below one tick.
 const paceFor = (ticks, skill, strength = 1) => Math.max(1, Math.round(ticks * (skill === 3 ? .7 : skill === 2 ? 1 : 1.35) * strength));
 const yieldFor = (amount, skill) => round(amount * (skill === 3 ? 1.4 : skill === 2 ? 1.15 : 1));
+/**
+ * A step of work begun: `ticks` of this person's own work, less what the crew already did past the end of the last step (`over`),
+ * spent at the pace of the hands on it (`advanceChore`, sim/hands.mjs). Never nothing, so the step is still a step.
+ */
+function workFor(state, ticks) {
+  state.wait = round(Math.max(0.0001, ticks - (state.over || 0)));
+  delete state.over;
+  state.crewed = true;
+}
 
 /**
  * The extra work of carrying a big crop in by hand, in ticks: as long as the cutting again (`FIC-GONZ-397`, invented), so a family
@@ -434,7 +445,7 @@ export const CHORES = {
   // The lane to the road (sim/homesite.mjs, owner 2026-09-14): marked when the site is chosen, and cut by the family, a spell
   // at a time from the house outward, until it reaches the road. Many hands may work at it, like the house.
   'cut-lane': {
-    name: 'Cut the lane to the road', skill: 'hands', where: 'home', heavy: true, onSite: true, lane: true,
+    name: 'Cut the lane to the road', skill: 'hands', where: 'home', heavy: true, onSite: true, lane: true, crew: 'into',
     describe: 'Clear a way for the wagon from the house to the road: brush and timber out of it, a stretch at a time. Until it is cut, going along it is as slow as the country it crosses.',
     steps: [
       { walk: 'lane', doing: 'walking out to where the lane is being cut' },
@@ -446,7 +457,7 @@ export const CHORES = {
   // A well, for a house set too far from running water to carry it (sim/homesite.mjs, docs/LAND_GRANTS.md §8.2). Offered only
   // where one is wanted. Its length is the family's own: deeper the higher the house stands above the water.
   'dig-well': {
-    name: 'Dig a well', skill: 'hands', where: 'home', heavy: true, onSite: true, well: true,
+    name: 'Dig a well', skill: 'hands', where: 'home', heavy: true, onSite: true, well: true, crew: 'join',
     describe: 'Dig down by the house until there is water. Long, hard work, and deeper the higher the house stands; after it, nobody carries water from the creek.',
     steps: [
       { walk: 'yard', doing: 'marking out the well by the house' },
@@ -457,7 +468,7 @@ export const CHORES = {
   // The field is every cleared plot, wherever the family staked them (docs/LAND_GRANTS.md §5): planting and harvest walk
   // out to each in turn and back, so ten acres a mile off cost the walk there that ten acres by the house do not.
   'plant-field': {
-    name: 'Plant the field', skill: 'farming', tool: 'hoe', where: 'home', heavy: true,
+    name: 'Plant the field', skill: 'farming', tool: 'hoe', where: 'home', heavy: true, crew: 'join',
     // Two seed for every cleared plot: a family that clears more has more to put in, and more to find.
     needsPerPlot: { seed: SEED_PER_PLOT }, field: 'bare',
     describe: 'Walk out to every cleared plot, turn the rows and put in seed.',
@@ -476,7 +487,7 @@ export const CHORES = {
     ],
   },
   'harvest-field': {
-    name: 'Bring in the crop', skill: 'farming', tool: 'hoe', where: 'home', heavy: true,
+    name: 'Bring in the crop', skill: 'farming', tool: 'hoe', where: 'home', heavy: true, crew: 'join',
     field: 'ripe', wantsWagon: true,
     // A crop that wants the wagon holds it and the ox in the field until it is in (owner, 2026-09-24; sim/keeping.mjs):
     // shared with everybody else bringing in the same crop, and nobody else's to drive away.
@@ -499,7 +510,7 @@ export const CHORES = {
   // house, by as many of the family as are set to it, until the ground is cleared or they are called home; the work done
   // stays on the plot. Prairie ten spells, brush twenty, timber thirty and the felling axe (HIST-GONZ-039, FIC-GONZ-025).
   'clear-plot': {
-    name: 'Clear a staked plot', skill: 'farming', where: 'home', heavy: true, plotWork: true,
+    name: 'Clear a staked plot', skill: 'farming', where: 'home', heavy: true, plotWork: true, crew: 'into',
     describe: 'Walk out to ten acres the family staked, and grub, cut and break them for planting. Prairie is ten spells of work, brush twenty, timber thirty and wants the felling axe. Choose the plot on the map.',
     steps: [
       { stroll: 'plot', doing: 'walking out to the ground being cleared' },
@@ -510,8 +521,8 @@ export const CHORES = {
     ],
   },
   'fence-plot': {
-    name: 'Fence a cleared plot', skill: 'hands', where: 'home', heavy: true, plotWork: true,
-    describe: 'Split rails and lay them round ten cleared acres. Stock here run loose, and an unfenced plot feeds them first. Rails come from the nearest timber, so a plot out on the open prairie takes longer; the plot on the map says how long. Choose the plot on the map.',
+    name: 'Fence a cleared plot', skill: 'hands', where: 'home', heavy: true, plotWork: true, crew: 'join',
+    describe: 'Split rails and lay them round ten cleared acres. Stock here run loose, and an unfenced plot feeds them first. Rails come from the nearest timber, or from logs the pile at the house can spare when the timber is far, so a plot out on the open prairie takes longer; the plot on the map says how long. Choose the plot on the map.',
     steps: [
       // ceiling: rails are split with an axe and a maul, and nothing here asks for either or wears them; the house and
       // the lane read the felling axe, and this should when tools wear by the job.
@@ -528,7 +539,7 @@ export const CHORES = {
   // one amount of work that the family puts in together, and a student who had to send somebody
   // back to it every hour would be clicking, not building.
   'build-house': {
-    name: 'Work on the house', skill: 'hands', where: 'home', heavy: true, house: true,
+    name: 'Work on the house', skill: 'hands', where: 'home', heavy: true, house: true, crew: 'into',
     describe: 'Put in work on the house the family has chosen. They keep at it until the house stands or they are called off, and anybody else set to it works alongside.',
     steps: [
       { walk: 'yard', doing: 'going over to where the house is going up' },
@@ -540,7 +551,7 @@ export const CHORES = {
   // the person is standing there already, so there is no walk, and every spell they put in goes into
   // that family's house. They stop when the walls are up.
   'help-raise': {
-    name: 'Help raise the walls', skill: 'hands', where: 'neighbour', heavy: true, helps: true,
+    name: 'Help raise the walls', skill: 'hands', where: 'neighbour', heavy: true, helps: true, crew: 'into',
     describe: 'Put in work raising the walls of the house going up on this land. Every hour of it is an hour off that family’s own, and both families will remember it.',
     steps: [
       { houseWork: true, work: SPELL_TICKS },
@@ -758,7 +769,7 @@ export const CHORES = {
     ],
   },
   'mend-hoe': {
-    name: 'Mend the hoe', skill: 'hands', where: 'home',
+    name: 'Mend the hoe', skill: 'hands', where: 'home', crew: 'join',
     needsTool: 'worn',
     describe: 'Set the hoe right again at home. Needs a steady hand.',
     steps: [
@@ -804,13 +815,18 @@ export const CHORES = {
     ],
   },
   'make-furniture': {
-    name: 'Make furniture', skill: 'hands', where: 'home', furniture: 'make',
-    describe: 'Make a table, benches, a bedstead, shelves or a cradle from a small tree, with the tools the wagon brought. Each piece does one small thing once there is a roof over it.',
+    name: 'Make furniture', skill: 'hands', where: 'home', furniture: 'make', crew: 'join',
+    describe: 'Make a table, benches, a bedstead, shelves or a cradle from a log the pile at the house can spare, or from a small tree fetched from the timber when it cannot, with the tools the wagon brought. Each piece does one small thing once there is a roof over it.',
+    // From the family's one wood pile when it can spare a log (owner, 2026-09-28: "Any task that pulls from wood should be able to
+    // pull from the universal wood pile"; sim/woodpile.mjs): then nobody goes anywhere, so nobody is asked how they will go.
+    noJourney: (world, household) => furnitureFromPile(world, household),
     steps: [
       { ask: 'furniture-make' },
-      { when: PIECES, travel: 'timber', doing: 'on the road to {cover} for a small tree' },
-      { when: PIECES, work: 2, doing: 'felling and splitting a small tree' },
-      { when: PIECES, travel: 'home', doing: 'carrying the timber home' },
+      { when: PIECES, woodFrom: 'furniture' },
+      { when: ['from-pile'], walk: 'yard', doing: 'taking a log off the pile' },
+      { when: ['from-timber'], travel: 'timber', doing: 'on the road to {cover} for a small tree' },
+      { when: ['from-timber'], work: 2, doing: 'felling and splitting a small tree' },
+      { when: ['from-timber'], travel: 'home', doing: 'carrying the timber home' },
       ...PIECES.map(piece => ({ when: [piece], work: FURNITURE[piece].work, doing: `making ${FURNITURE[piece].a}` })),
       ...PIECES.map(piece => ({ when: [piece], furnish: piece, how: 'made' })),
     ],
@@ -849,10 +865,12 @@ export const CHORES = {
 // Hunting on the family's own land (docs/WOODS_AND_BUILDING.md §5, sim/hunting.mjs): the hunt's own stages, at a place the
 // student chose inside the family's line. Its `travel` steps are walks about the land (`advanceChore`), and how good the
 // ground is decides how long the hunter waits still.
-// Felling the family's own trees and hauling the logs to the house (docs/WOODS_AND_BUILDING.md §6.1, sim/felling.mjs).
+// Felling the family's own trees, their logs onto the pile at the house (docs/WOODS_AND_BUILDING.md §6.1 and §6.7, sim/felling.mjs).
+// One press: out to the nearest timber on the family's land, or where the student chose (the families nobody plays still choose);
+// and where the land has none, out with the ox and wagon to the nearest timber off it (`fetch-logs`, begun in its place).
 CHORES['fell-trees'] = {
-  name: 'Fell trees', skill: 'hands', where: 'home', heavy: true, fells: true,
-  describe: 'Out with the felling axe to a place in timber on the family\'s own land that you choose. The trees within a few rods come down one by one, straight wall timber first, and their logs lie where they fell until they are hauled to the house.',
+  name: 'Fell trees', skill: 'hands', where: 'home', heavy: true, fells: true, crew: 'into',
+  describe: 'Out with the felling axe to the nearest timber on the family\'s own land. The trees come down one by one, straight wall timber first, and their logs are dragged onto the pile at the house as each comes down: every work that wants wood takes it from there. Where the land has no timber, out with the ox and wagon to the nearest timber off it for a load.',
   steps: [
     { stroll: 'ground', doing: 'walking out to the timber with the axe' },
     { fell: true, doing: 'felling' },
@@ -861,6 +879,11 @@ CHORES['fell-trees'] = {
   ],
 };
 CHORES['haul-logs'] = {
+  // Retired 2026-09-28 (owner: "Why do we need multiple action buttons for moving logs? That should be consolidated and an
+  // automatic part of felling trees"): felling puts the logs on the pile, and logs a class saved before left lying are folded
+  // onto it at the save's door (sim/felling.mjs `foldLyingLogs`). Kept only so somebody saved in the middle of a haul carries the
+  // load in their arms to the house, and glows on their row as felling (`partOf`). Never offered to anybody.
+  retired: true, partOf: 'fell-trees',
   // The ox, when nobody else has it: dragged loads of six, and the ox the hauler's until the hauling is done (owner,
   // 2026-09-24; sim/keeping.mjs). With the ox taken, a log a trip on the shoulder, as before.
   takes: (world, household, entity) => oxFree(world, household, entity) ? ['ox'] : [],
@@ -886,6 +909,10 @@ export const FETCH_LOGS = 6;
 export const FETCH_FELL_TICKS = 6;
 CHORES['fetch-logs'] = {
   // Out with the team; or on foot to the team where somebody called away left it at the timber, and home with it and a load.
+  // Since 2026-09-28 not a button of its own: *Fell trees* begins it for a family whose land has no timber to fell (owner: "That
+  // should be consolidated and an automatic part of felling trees"), and it glows on the row as felling (`partOf`). The families
+  // nobody plays still send it by name (sim/neighbours.mjs).
+  directorOnly: true, partOf: 'fell-trees',
   name: 'Fetch logs from the timber', skill: 'hands', where: 'home', heavy: true, fetchesLogs: true,
   forceMode: (world, household) => fetchLogsFacts(world, household).teamLeft ? DEFAULT_MODE : 'wagon',
   describe: `With the felling axe and the ox and wagon, out to the nearest timber, off the family's land if need be, to fell ${FETCH_LOGS} sound logs, load them and bring them to the house. The ox and wagon go at their own pace, so the further the timber, the longer it takes.`,
@@ -1087,7 +1114,7 @@ CHORES['butcher-hog'] = {
   ],
 };
 CHORES['look-to-stock'] = {
-  name: 'Ride the range after the stock', skill: 'hands', where: 'home', stock: 'look',
+  name: 'Ride the range after the stock', skill: 'hands', where: 'home', stock: 'look', crew: 'join',
   offered: (world, household) => herdOf(household).cattle + herdOf(household).hogs > 0,
   describe: `A day out on the range and through the timber: the stock is counted, the calves are marked, and nothing strays for ${LOOKED_TO_DAYS} days. A herd nobody rides out after loses head every month, because a league of grazing land is open range and always was.`,
   steps: [
@@ -1321,6 +1348,76 @@ function timberFor(world, household) {
  */
 /** Whether this person is with the family on its flight east: on its road with it, or camped with it at its refuge (sim/scrape.mjs). */
 const withFlight = (household, entity) => (household.flight?.status === 'fled' && entity.travel?.purpose === 'flee') || (household.flight?.status === 'refuged' && !entity.travel && entity.location?.siteId === household.flight.refuge);
+
+/**
+ * The work a chore is part of, for the row that glows and the task auto remembers: fetching logs from off the land and the retired
+ * haul are both felling since 2026-09-28 (`partOf`); every other work is itself.
+ */
+export const workOf = choreId => CHORES[choreId]?.partOf || choreId;
+
+/**
+ * Everybody of the family at this work now (owner, 2026-09-28: "If I add another person to the task it should speed the task up";
+ * sim/hands.mjs): the same work and, where it is on a plot, the same plot - the one leading a job and the hands alongside them.
+ */
+export function atWork(world, household, choreId, plotId = undefined) {
+  return household.members.map(id => world.entities[id]).filter(person => person?.chore?.id === choreId
+    && (plotId === undefined || person.chore.plotId === plotId) && !['dead', 'captured'].includes(person.health?.condition));
+}
+
+/** The one of the family leading this job, whom a second pair of hands would work alongside (`crew: 'join'`), or null. */
+function leadOf(world, household, entity, choreId, plotId) {
+  return atWork(world, household, choreId, plotId).find(person => person !== entity && !person.chore.alongside) || null;
+}
+
+/**
+ * How fast this person's work goes this tick, in their own ticks of it (sim/hands.mjs): the lead of a job done together at the
+ * pace of everybody alongside them (`crewPace`); each of several working into one thing - the house, a clearing, the lane, the
+ * felling - at their share of the hands on it (`handShare`), neighbours raising the walls counted among the house's hands.
+ */
+function handsPace(world, household, entity, chore, state) {
+  if (chore.crew === 'join') return crewPace(1 + household.members.filter(id => world.entities[id]?.chore?.alongside === entity.id).length);
+  if (chore.crew !== 'into') return 1;
+  if (chore.house) return handShare(handsOn(world, household));
+  if (chore.helps) { const host = world.households[state.hostHouseholdId]; return host ? handShare(handsOn(world, host)) : 1; }
+  return handShare(atWork(world, household, state.id, chore.plotWork ? state.plotId : undefined).length);
+}
+
+/** A second pair of hands takes up a job somebody of the family is already at: alongside them, the job done once, faster. */
+function joinAlongside(world, household, entity, chore, choreId, lead, extra) {
+  entity.chore = { id: choreId, step: -1, wait: 0, doing: lead.chore.doing, alongside: lead.id, ...(extra.plotId && { plotId: extra.plotId }), ...(extra.plot && { plot: { ...extra.plot } }) };
+  entity.task = 'work';
+  standBeside(world, household, entity, lead);
+  record(world, 'assignment', { actorId: entity.id, householdId: household.id, text: `${entity.name} went to work alongside ${lead.name}: ${chore.name.toLowerCase()}.` });
+  return entity.chore;
+}
+/** Beside the one they work alongside, while that one is on the family's own land: never carried off it with them. */
+function standBeside(world, household, entity, lead) {
+  if (lead.travel || lead.location?.siteId !== household.homeSiteId || entity.location?.siteId !== household.homeSiteId) return;
+  entity.location = { x: round(lead.location.x + 0.004), y: round(lead.location.y + 0.003), siteId: household.homeSiteId };
+}
+/**
+ * A tick of somebody working alongside the lead of a job: beside them, doing what they are doing. When the lead has left off -
+ * called away, stopped, taken ill - the job is theirs, taken up from its beginning as the lead's would be (the work so far went
+ * with the lead, as it always did); when it cannot be, or the lead finished it (`finishChore`), they are done.
+ */
+function workAlongside(world, household, entity, chore, deps) {
+  const state = entity.chore;
+  const lead = world.entities[state.alongside];
+  const leading = lead && lead.householdId === household.id && lead.chore?.id === state.id && !lead.chore.alongside && lead.chore.plotId === state.plotId;
+  if (leading) {
+    standBeside(world, household, entity, lead);
+    state.doing = lead.chore.doing;
+    return;
+  }
+  const plotId = state.plotId;
+  entity.chore = null;
+  try {
+    beginChore(world, household, entity, state.id, deps, DEFAULT_MODE, plotId ? { plotId } : {});
+  } catch {
+    entity.task = 'rest';
+    record(world, 'consequence', { actorId: entity.id, householdId: household.id, text: `${entity.name} left off ${chore.name.toLowerCase()}: there is nobody to work alongside, and it cannot be taken up now.` });
+  }
+}
 export function choreAvailability(world, household, entity, choreId, logsOut = null) {
   const chore = CHORES[choreId];
   if (!chore) return { can: false, why: 'No such work.' };
@@ -1361,7 +1458,7 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (chore.where === 'home' && entity.location.siteId !== household.homeSiteId && !withTheFlight && !chore.alsoFrom?.includes(entity.location.siteId)) return { can: false, why: `${entity.name} is not at home.` };
   if (chore.helps) { const why = helpRefusal(world, entity); if (why) return { can: false, why }; }
   // On the real land the house, the field and the well wait for the family to say where the house stands (sim/homesite.mjs).
-  if ((chore.onSite || chore.house || chore.field || chore.plotWork) && choosing(household)) return { can: false, why: 'Choose where the house will stand first.' };
+  if ((chore.onSite || chore.house || chore.field || chore.plotWork || chore.fells) && choosing(household)) return { can: false, why: 'Choose where the house will stand first.' };
   if (chore.well) { const why = wellRefusal(household); if (why) return { can: false, why }; }
   if (chore.survey && world.status === 'lobby') return { can: false, why: 'The family surveys its land once the class has begun.' };
   if (chore.huntLand && world.status === 'lobby') return { can: false, why: 'The family hunts its land once the class has begun.' };
@@ -1370,6 +1467,18 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (chore.furniture === 'make' && household.tools?.axe === undefined) return { can: false, why: 'Making furniture wants a felling axe, and there is none in the house.' };
   if (chore.furniture === 'buy' && !Object.values(world.entities).some(one => one.deals?.includes('furniture'))) return { can: false, why: 'There is no carpenter in this country.' };
   if (chore.fells && household.tools?.axe === undefined) return { can: false, why: 'Felling wants an axe, and there is none in the house.' };
+  // Nothing standing to fell on the family's own land: the felling goes to the nearest timber off it with the ox and wagon
+  // (`fetch-logs`, begun in its place), and is refused in that work's own words when the team cannot go.
+  if (chore.fells && world.status !== 'lobby' && countsTrees(woodsRule(world)) && !fellingGround(world, household)) {
+    const facts = fetchLogsFacts(world, household);
+    if (!facts.can) return { can: false, why: `No timber stands on the family's land to fell, and none can be fetched from off it: ${facts.why.charAt(0).toLowerCase()}${facts.why.slice(1)}` };
+  }
+  // More hands than can usefully work at one thing (owner, 2026-09-28; sim/hands.mjs): a fifth of the family is refused it. Work on
+  // a plot is counted by the plot, when it is chosen (`beginChore`).
+  if (chore.crew && !chore.plotWork && !chore.helps) {
+    const on = atWork(world, household, choreId).filter(other => other !== entity);
+    if (on.length >= MOST_HANDS) return { can: false, why: crowdedWhy(on.map(other => other.name)) };
+  }
   if (chore.fetchesLogs) {
     if (world.status === 'lobby') return { can: false, why: 'The family fetches logs once the class has begun.' };
     if (choosing(household)) return { can: false, why: 'Choose where the house will stand first.' };
@@ -1471,6 +1580,8 @@ function journeyTarget(world, household, travel) {
 export function choreJourney(world, household, entity, choreId) {
   const chore = CHORES[choreId];
   if (!makesJourney(chore)) return null;
+  // Work whose road is only taken when the wood pile cannot give what it wants: none from here while it can (sim/woodpile.mjs).
+  if (chore.noJourney?.(world, household)) return null;
   const place = journeyTarget(world, household, chore.steps.find(step => step.travel).travel);
   if (place && entity.location?.siteId === place.id) return null;
   const kept = Boolean(place && world.map.sites[place.id]);
@@ -1551,6 +1662,8 @@ function axeFor(world, household, choreId, extra = {}) {
   if (choreId === 'cut-lane') return laneState(world, household)?.route?.ground?.some(([, timber]) => timber > 0) ? 'home' : null;
   if (choreId === 'clear-plot') return plotsOf(world, household).find(plot => plot.id === extra.plotId)?.ground === 'timber' ? 'home' : null;
   if (choreId === 'fetch-logs') return place(logwoodGround(world, household, false));
+  // A piece of furniture made from a log off the pile is made at home (sim/woodpile.mjs), with the axe shared as the house's is.
+  if (choreId === 'make-furniture' && furnitureFromPile(world, household)) return 'home';
   if (choreId === 'cut-bee-tree' || choreId === 'make-furniture') return place(timberSite(world, household));
   return null;
 }
@@ -1846,6 +1959,27 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   if (!can) throw new Error(why || 'That work is not available.');
   // Survey needs the place; it is sent as its own order with the place in it (sim/survey.mjs).
   if (chore.survey && !extra.plot) throw new Error('Choose a place on your land to survey.');
+  // Felling with no place chosen goes to the nearest timber on the family's own land (owner, 2026-09-28: one press, and auto keeps
+  // at it; sim/felling.mjs `fellingGround`), and where the land has none, to the nearest timber off it with the ox and wagon:
+  // fetching logs, begun in its place and shown as felling (`partOf`). `choreAvailability` has already refused it when neither can.
+  // The same where only poor timber is left standing on the land and the house is short of sound logs: a wagon load of sound logs
+  // from the timber off it serves the walls, and a pile of poor ones never would.
+  if (chore.fells && !Number.isFinite(extra.ground?.x)) {
+    const ground = fellingGround(world, household);
+    if (!ground || (!ground.sound && shortOfSound(world, household) && fetchLogsFacts(world, household).can)) return beginChore(world, household, entity, 'fetch-logs', { beginTravel, modeAvailability });
+    extra = { ground: { x: round(ground.x), y: round(ground.y) } };
+  }
+  // A plot's work is counted by the plot (sim/hands.mjs): a fifth of the family is refused it.
+  if (chore.crew && chore.plotWork) {
+    const on = atWork(world, household, choreId, extra.plotId).filter(other => other !== entity);
+    if (on.length >= MOST_HANDS) throw new Error(crowdedWhy(on.map(other => other.name)));
+  }
+  // A job somebody of the family is already at is joined, not begun again (owner, 2026-09-28: "If I add another person to the task
+  // it should speed the task up"): the field is planted once, with the seed spent once, and quicker for every pair of hands.
+  if (chore.crew === 'join') {
+    const lead = leadOf(world, household, entity, choreId, extra.plotId);
+    if (lead) return joinAlongside(world, household, entity, chore, choreId, lead, extra);
+  }
   // Felling needs the place too, and is refused for that place first (sim/felling.mjs).
   if (chore.fells) {
     const why = fellRefusal(world, household, extra.ground);
@@ -1930,6 +2064,8 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
   const state = entity.chore;
   // A child who has not started yet (sim/obedience.mjs `beginsJob`): the job waits the ticks they dawdle, then goes on.
   if (state.dawdle > 0) { state.dawdle--; if (!state.dawdle) delete state.dawdle; return; }
+  // Working alongside the one leading a job (sim/hands.mjs): beside them, until it is done or theirs to take up.
+  if (state.alongside) return workAlongside(world, household, entity, chore, { beginTravel, modeAvailability });
   // Somebody working beside them finished the house: nobody goes on thatching a roof that is on.
   if (chore.house && houseBuilt(household)) return finishChore(world, household, entity, chore);
   // A neighbour stops when the walls are up, or when they are no longer standing on that land.
@@ -1951,9 +2087,18 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
   // Spend a tick of the current step, and only move on once it is actually paid for.
   // Returning here whenever the counter was non-zero would cost one extra tick per step,
   // so a four-tick job would quietly take five.
+  //
+  // Work itself (`crewed`: a `work` step, a tree) goes at the pace of the hands on it (owner, 2026-09-28; sim/hands.mjs), which
+  // may be more or less than a tick of it a tick; what a faster crew does past the end of a step is carried into the next work
+  // (`over`), so the whole job comes out at the crew's pace and not a tick longer for every step. Walking is never quicker for
+  // company. Work saved before 2026-09-28 has no `crewed` and goes a tick a tick, exactly as it did.
   if (state.wait > 0) {
-    state.wait--;
+    const pace = state.crewed ? handsPace(world, household, entity, chore, state) : 1;
+    state.wait = round(state.wait - pace);
     if (state.wait > 0) return;
+    if (state.crewed && state.wait < 0) state.over = round(-state.wait);
+    state.wait = 0;
+    delete state.crewed;
   }
   while (true) {
     state.step++;
@@ -2118,9 +2263,16 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
     if (step.work) {
       let fence = null;
       if (step.work === 'fence') {
-        fence = fenceWork(world, household, plotsOf(world, household).find(candidate => candidate.id === state.plotId));
+        const plot = plotsOf(world, household).find(candidate => candidate.id === state.plotId);
+        fence = fenceBy(world, household, plot);
+        // Rails split from logs off the family's pile, taken once, when the splitting begins (sim/woodpile.mjs).
+        if (fence.how === 'pile' && !state.rails) {
+          if (takeSpare(world, household, fence.logs)) state.rails = fence.logs;
+          else fence = fenceWork(world, household, plot);
+        }
         if (fence.how === 'mesquite') state.doing = 'cutting mesquite posts and brush';
         else if (fence.how === 'hauled') state.doing = 'carrying rails from the timber';
+        else if (fence.how === 'pile') state.doing = 'splitting rails from logs off the pile';
       }
       // The wait downwind is the ground's and the sky's together (sim/hunting.mjs `huntWait`, `FIC-GONZ-135`): game lies
       // up in the rain and a fog hides the approach.
@@ -2130,7 +2282,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // A parent with a baby at home and no cradle does heavy work slower, and it says so (sim/furniture.mjs).
       const baby = chore.heavy && chore.where === 'home' && entity.location.siteId === household.homeSiteId && mindingBaby(world, household, entity) ? BABY_BURDEN : 1;
       if (baby > 1 && state.doing && !state.doing.includes('the baby')) state.doing = `${state.doing}, with the baby to mind`;
-      state.wait = paceFor(ticks, skill, (chore.heavy ? heavyWorkPace(entity) : 1) * burden * baby);
+      workFor(state, paceFor(ticks, skill, (chore.heavy ? heavyWorkPace(entity) : 1) * burden * baby));
       return;
     }
     if (step.consume) {
@@ -2260,15 +2412,29 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       return;
     }
     if (step.fell) {
-      // One tree at a time, until none is left in reach. A tree whose work is paid for comes down first.
+      // One tree at a time, until none is left in reach. A tree whose work is paid for comes down first, its logs onto the pile.
       if (entity.location.siteId !== household.homeSiteId) return abandonChore(world, household, entity, chore);
       if (state.felling) { fellTree(world, household, entity, state.felling); delete state.felling; }
-      const tree = nextTree(world, household, entity);
+      // On auto (owner, 2026-09-28), until the pile has enough (sim/woodpile.mjs `pileFull`), and on from one stand of timber to
+      // the next nearest without walking home between: nobody need press anything for the house to get its logs.
+      if (entity.auto && pileFull(world, household)) continue;
+      let tree = nextTree(world, household, entity);
+      if (!tree && entity.auto) {
+        const next = fellingGround(world, household);
+        // Not on to poor timber while the house wants sound logs: home, and out again with the wagon for them (`beginChore`).
+        const fetchInstead = next && !next.sound && shortOfSound(world, household) && fetchLogsFacts(world, household).can;
+        if (next && !fetchInstead && (next.x !== state.ground.x || next.y !== state.ground.y)) {
+          const was = state.ground;
+          state.ground = { x: round(next.x), y: round(next.y) };
+          tree = nextTree(world, household, entity);
+          if (!tree) state.ground = was;
+        }
+      }
       if (!tree) continue;
       if (!stroll(world, household, entity, { x: tree.x, y: tree.y })) { state.step--; return; }
       state.felling = tree.id;
       state.doing = `felling ${/^[aeiou]/.test(KINDS[tree.kind].name) ? 'an' : 'a'} ${KINDS[tree.kind].name}`;
-      state.wait = paceFor(fellTicks(tree), skill, heavyWorkPace(entity) * waterBurden(household));
+      workFor(state, paceFor(fellAndCarryTicks(tree), skill, heavyWorkPace(entity) * waterBurden(household)));
       state.step--;
       return;
     }
@@ -2446,6 +2612,15 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       if (chosen) takeCounter(world, household, entity, chosen);
       continue;
     }
+    // Where the wood for a piece of furniture comes from (owner, 2026-09-28; sim/woodpile.mjs): a log the pile can spare, taken now,
+    // or a small tree from the timber as before - and then the road's beasts, if any were taken, go with them as they always did.
+    if (step.woodFrom) {
+      const pile = furnitureFromPile(world, household) && takeSpare(world, household, FURNITURE_LOGS);
+      state.flags = [...(state.flags || []), pile ? 'from-pile' : 'from-timber'];
+      // Nobody goes anywhere: whatever was held for a road is let go at once (sim/keeping.mjs).
+      if (pile && state.mode) { releaseBeasts(state); delete state.mode; }
+      continue;
+    }
     if (step.furnish) {
       furnish(household, step.furnish, step.how);
       const kind = FURNITURE[step.furnish];
@@ -2483,6 +2658,11 @@ function finishChore(world, household, entity, chore) {
   record(world, 'consequence', { actorId: entity.id, householdId: household.id, text: `${entity.name} finished: ${chore.name.toLowerCase()}.` });
   // A chore kept in its own module may have something to do once the work is done (sim/road.mjs, the sick nursed a day).
   chore.done?.(world, household, entity);
+  // Whoever worked alongside them finished it with them (sim/hands.mjs): the job is done once, for everybody at it.
+  for (const id of household.members) {
+    const helper = world.entities[id];
+    if (helper?.chore?.alongside === entity.id) finishChore(world, household, helper, chore);
+  }
 }
 
 /**

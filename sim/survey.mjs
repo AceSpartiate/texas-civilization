@@ -21,7 +21,8 @@ import { COVER_PACE, landAround, onRealLand } from './ground.mjs';
 import { holdingOf } from './grants.mjs';
 import { choosing } from './homesite.mjs';
 import { housesOnLand } from './house-placement.mjs';
-import { CLEARING_SPELLS, GROUNDS, PLOT_SIDE, clearingSpells, clearingTool, fenceWork, fenceWords, groundAt, keepPlots, overlaps, plotAt, plotsOf, squareOf } from './fields.mjs';
+import { CLEARING_SPELLS, GROUNDS, PLOT_SIDE, clearingSpells, clearingTool, fenceWords, groundAt, keepPlots, overlaps, plotAt, plotsOf, squareOf } from './fields.mjs';
+import { fenceBy } from './woodpile.mjs';
 export { PLOT_ACRES, PLOT_SIDE, groundAt, plotsOf } from './fields.mjs';
 
 /** A plot comes no nearer the house than this: the yard, the woodpile and the path to the door. */
@@ -113,8 +114,8 @@ export function plotWorkRefusal(world, household, job, plot, { entity = null } =
   if (job === 'fence-plot') {
     if (plot.state !== 'cleared') return 'Clear that ground before it is fenced.';
     if (plot.fence === 'sound') return 'That plot is already fenced.';
-    const fencer = household.members.map(id => world.entities[id]).find(person => person && person !== entity && person.chore?.id === 'fence-plot' && person.chore.plotId === plot.id);
-    if (fencer) return `${fencer.name} is already fencing that plot.`;
+    // Somebody already fencing it is joined, not refused (owner, 2026-09-28: "If I add another person to the task it should speed
+    // the task up"; sim/chores.mjs `joins`): the second pair of hands works alongside the first, up to four (sim/hands.mjs).
     return null;
   }
   return 'No such work.';
@@ -123,8 +124,9 @@ export function plotWorkRefusal(world, household, job, plot, { entity = null } =
 /** What a plot is, in words, for the family choosing it: its ground, where it lies, and how far the clearing has got. */
 export function plotWords(world, household, plot) {
   const what = `Ten acres of ${plot.ground} ${whereFromHouse(world, household, plot)}`;
-  // A plot still to fence says how its fence would go up, and how long it would take (sim/fields.mjs `fenceWork`).
-  if (plot.state === 'cleared') return `${what}, cleared${plot.fence === 'sound' ? ' and fenced' : plot.fence === 'ruined' ? ', the rails pulled down' : ', with no fence'}.${plot.fence === 'sound' ? '' : ` ${fenceWords(fenceWork(world, household, plot))}`}`;
+  // A plot still to fence says how its fence would go up, and how long it would take (sim/fields.mjs `fenceWork`), rails from the
+  // family's own wood pile where the timber is far (sim/woodpile.mjs `fenceBy`).
+  if (plot.state === 'cleared') return `${what}, cleared${plot.fence === 'sound' ? ' and fenced' : plot.fence === 'ruined' ? ', the rails pulled down' : ', with no fence'}.${plot.fence === 'sound' ? '' : ` ${fenceWords(fenceBy(world, household, plot))}`}`;
   const spells = clearingSpells(plot), done = plot.work || 0;
   return `${what}, staked. ${done ? `${done} of ${spells}` : spells} spells of clearing${done ? ' done' : ''}${plot.ground === 'timber' ? ', felling timber with the axe' : ', with the hoe'}.`;
 }

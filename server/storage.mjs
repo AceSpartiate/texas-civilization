@@ -4,6 +4,7 @@ import { uptime } from 'node:os';
 import { STARTING_POWDER } from '../sim/world.mjs';
 import { widenPassages } from '../sim/houseplot.mjs';
 import { deriveUses } from '../sim/chores.mjs';
+import { foldLyingLogs } from '../sim/felling.mjs';
 import { dirname, basename, join, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { openSouth } from '../sim/south.mjs';
@@ -145,7 +146,14 @@ export function readSave(path) {
   // and reads nothing another way.
   for (const entity of Object.values(save.world?.entities || {})) {
     if (entity?.chore?.id === 'visit-shop' && entity.chore.errand === undefined) entity.chore.id = 'visit-shop-street';
+    // Hauling logs is part of felling since 2026-09-28 (owner: "That should be consolidated and an automatic part of felling
+    // trees"): somebody on auto who remembered hauling as their task remembers felling, the work it became.
+    if (entity?.order?.chore === 'haul-logs') { entity.order = { chore: 'fell-trees', mode: entity.order.mode }; }
   }
+  // And logs lying where their trees fell, waiting to be hauled, go onto their family's one pile (sim/felling.mjs
+  // `foldLyingLogs`, docs/WOODS_AND_BUILDING.md §6.7). No version moved: the pile is the field those classes already had, and a
+  // log lying out and a log on the pile are the same log to every work that uses it now.
+  if (save.world?.households) foldLyingLogs(save.world);
   if (save.world?.households && save.world.entities) deriveUses(save.world);
   // A class on the real land saved before the map went south to the Nueces (2026-09-25, docs/MAP_ACCURACY.md §13) gains San
   // Patricio, the Agua Dulce ground and the roads to them from the built map - added, nothing it had moved - so its Matamoros men

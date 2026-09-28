@@ -974,9 +974,13 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
     beginChore(world, household, entity, 'survey-plot', { beginTravel, modeAvailability }, DEFAULT_MODE, { plot });
     return;
   }
-  // Felling at a place on the family's own land, chosen on the map (sim/felling.mjs).
+  // Felling at a place on the family's own land, chosen on the map (sim/felling.mjs) - the families nobody plays still choose it.
+  // A student's *Fell trees* is an ordinary `chore` order since 2026-09-28, to the nearest timber, and one with no place here is
+  // the same. Remembered for auto without the place: a feller on auto goes to the nearest timber left each time (sim/auto.mjs).
   if (input.action === 'fell-trees') {
-    beginChore(world, household, entity, 'fell-trees', { beginTravel, modeAvailability }, DEFAULT_MODE, { ground: { x: Number(input.x), y: Number(input.y) } });
+    const placed = input.x !== undefined && input.y !== undefined;
+    beginChore(world, household, entity, 'fell-trees', { beginTravel, modeAvailability }, DEFAULT_MODE, placed ? { ground: { x: Number(input.x), y: Number(input.y) } } : {});
+    noteOrder(entity, 'fell-trees', DEFAULT_MODE, {}, household);
     return;
   }
   // Hunting a place on the family's own land, chosen on the map (sim/hunting.mjs). The server decides whether it can be.
@@ -989,6 +993,8 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   if (input.action === 'clear-plot' || input.action === 'fence-plot') {
     const plot = plotAt(world, household, { x: Number(input.x), y: Number(input.y) });
     beginChore(world, household, entity, input.action, { beginTravel, modeAvailability }, DEFAULT_MODE, { plotId: plot?.id });
+    // On auto, the plot and then the next nearest the house (owner, 2026-09-28; sim/auto.mjs `plotFor`).
+    noteOrder(entity, input.action, DEFAULT_MODE, { plotId: plot?.id }, household);
     return;
   }
   // Trading is a household's own business and any member standing there can do it. It is
