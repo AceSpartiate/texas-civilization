@@ -10,7 +10,7 @@ import { ENGAGEMENTS, battleState, checkEngagement, phaseOffset, projectBattle, 
 import { SAN_JACINTO_BATTLE } from '../sim/battles/san-jacinto.mjs';
 import { houstonCamp, fightSanJacinto } from '../sim/houston.mjs';
 import { joinService } from '../sim/winter.mjs';
-import { withFamily, overtake, PRISONER_SHARE } from '../sim/road.mjs';
+import { answerRoad, withFamily, overtake, PRISONER_SHARE } from '../sim/road.mjs';
 import { share } from '../sim/scrape.mjs';
 import { armiesNow } from '../sim/armies.mjs';
 import { resolveTimeJump } from '../sim/time.mjs';
@@ -368,8 +368,12 @@ test('afterwards: the account through the man in plain words, the families at th
   const refugees = Object.values(world.households).find(one => !men.some(man => man.householdId === one.id) && !one.members.some(id => world.entities[id].service?.kind === 'houston'));
   for (const id of refugees.members) { const one = world.entities[id]; if (one.kind !== 'person' || ['dead', 'captured'].includes(one.health.condition)) continue; one.travel = null; one.chore = null; one.location = { x: lynchburg.x, y: lynchburg.y, siteId: 'lynchburg' }; }
   refugees.flight = { ...(refugees.flight || {}), status: 'refuged', refuge: 'lynchburg', crossed: [] };
+  // Warned as Santa Anna's column comes to the prairie across the river, it stays (since 2026-09-27 a family is taken only by
+  // soldiers who can see it, sim/pursuit.mjs, and three miles over the San Jacinto nobody sees it; unanswered, the warning's
+  // silence would take it on east to Liberty, out of hearing).
+  const stay = () => { if (refugees.flight.ask?.id === 'danger') answerRoad(world, refugees, 'stay'); return false; };
   // A mile and a half off, across the ferry: they do not see the men in the line, who are out on the field.
-  until(world, () => world.minute >= at(world, 'rout'));
+  until(world, () => stay() || world.minute >= at(world, 'rout'));
   assert.ok(!JSON.stringify(view(world, refugees.id)).includes(men[0].id), 'the family at Lynchburg was sent a man who is out on the field');
   untilMoment(world, 'victory-word'); stepWorld(world);
   const heard = world.events.filter(event => event.householdId === refugees.id && /At Lynchburg, .+ hears/.test(event.text));

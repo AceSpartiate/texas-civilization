@@ -40,6 +40,7 @@ does not have:
 | A woman (or anybody) holding a baby is the cast figure's harvest carrying pose (`-carry`) with the infant drawn at her side; a baby carried on an errand is the infant figure drawn at the carrier's hip, a little up and to the right | `littleClip` in `public/motion.js`; `carriedAt` in `drawWorld`, `public/app.js` | Same request, item 3 | `-hold-baby`, `-carry-baby-walk` |
 | Seventeen icons - seven kinds of play, the hens and the Scrape's nine works - are stroked glyphs drawn in code | `PANEL_ICONS` and `LITTLE_GLYPHS` in `public/family-panel.js` | Same request, item 5 | `icon-<key>` for each |
 | The milk cow a child drives on the Scrape is the range longhorn's `cattle-longhorn-red-idle` (on the road) and `-graze` (at the camp), drawn a step behind the child; its icon (`flee-cow`) a stroked glyph | the cow in the entities loop of `drawWorld`, `public/app.js`; `PANEL_ICONS` in `public/family-panel.js` | Request 2026-09-27 — the milk cow on the run, and Béxar before the bell, item 1 | `milk-cow-walk-*`, `milk-cow-graze`; `icon-flee-cow` |
+| The Mexican soldiers after a family on the Scrape: a dragoon riding and firing is the line's `dragoon-march` with a flash and a puff at his hands; an infantryman stopped to load is `regular-fire-reload`, running `regular-march`; a hit is told in words, nobody drawn falling | `public/chase-view.js` | Request 2026-09-27 — Mexican troops after a family on the road | `dragoon-gallop-*`, `dragoon-carbine-fire`, `skirmisher-run-*`, `skirmisher-kneel-fire` |
 | Béxar's families, Tejano volunteers, dancers and fiddler are the colonists' cast figures (`ochre`, `teal`, `elder`, `indigo`, `blue`, `blue-girl`, `girl`, `boy`) and the cast's riders; the fandango's lanterns are `fire-flicker` drawn small | `BEXAR_CAST` in `sim/town-scenes.mjs`; the `lights` prop in `public/town-scenes.js` | Same request, items 2-4 | Tejano townspeople, `tejano-rider-*`, `dancers-couple`, `fiddler-play`, `lantern-post` |
 | A column's foraging parties are three `dragoon-march` riders each; a column on the march is `regular-march` men in files of three with a `dragoon-march` at the head | the parties in `drawWorld` in `public/app.js`; `drawArmy` (`moving`) in `public/army-view.js` | Request 2026-09-26 — the Mexican advance, items 1 and 3 | `forager-ride-*` / `forager-drive-*`, `regular-march-column` |
 | The smoke of a burning town or farm is the library's `smoke-rise` (chimney smoke) drawn three to four figures tall, with a painted grey plume if that clip has not loaded | `window.__firesDrawn` in `drawWorld`, `public/app.js` | Request 2026-09-26 — the Mexican advance, item 2 | `farm-smoke-rise`, `town-smoke-rise` |
@@ -161,6 +162,24 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-27 — Mexican troops after a family on the road
+
+**Status: open; stand-ins in use since 2026-09-27 (see *Stand-ins in use*).** The owner's decisions of 2026-09-27
+([SCRAPE.md](SCRAPE.md) §11-§13): a Mexican column's file or a patrol of dragoons comes after a fleeing family, calls on it to halt
+and, if it runs, fires. Drawn on the map at the battle figures' size (public/chase-view.js). Delivery contract as the battle-people
+sheets: transparent PNG on the ground anchor, east mirrored for west, the regulars' and dragoons' own uniforms.
+
+1. **A dragoon at the gallop** (priority 1) - `dragoon-gallop-e` (4 frames), `-n`, `-s`: the escort dragoon of 1836 riding hard,
+   carbine slung. Plugs into the horsemen's clip in `createChaseView` (`dragoon-march` now).
+2. **A dragoon firing from the saddle** (priority 1) - `dragoon-carbine-fire` (3 frames: raise, fire, lower), the horse moving.
+   Plugs into the shot's moment (a flash at the hands of `dragoon-march` now).
+3. **An infantryman running, and kneeling to fire** (priority 2) - `skirmisher-run-e` (4 frames) and `skirmisher-kneel-fire`
+   (aim, fire, load; 4 frames), the line's regular. Plugs into the running and loading soldiers (`regular-march`,
+   `regular-fire-reload` now).
+
+**Check.** On the road east zoomed so a figure is about 40 px, eight horsemen read as coming at the gallop and firing from the
+saddle, a file of infantry as men running and stopping to load, and nobody is drawn hurt.
 
 ## Request 2026-09-27 — the milk cow on the run, and Béxar before the bell
 

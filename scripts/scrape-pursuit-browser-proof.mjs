@@ -82,6 +82,11 @@ async function tapPlace(page, siteId) {
   return at;
 }
 
+/** Wait as a page waits, and fail in words a check can be recognised by (scripts/scrape-pursuit-injections.mjs). */
+async function until(page, message, fn, arg, options) {
+  try { return await page.waitForFunction(fn, arg, options); } catch (error) { if (/Timeout/i.test(error.message)) throw new assert.AssertionError({ message }); throw error; }
+}
+
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 mkdirSync('docs/evidence', { recursive: true });
 
@@ -153,7 +158,7 @@ async function run({ width, height, answer }) {
     assert.deepEqual(household().flight.route.ways, ['country', 'road']);
     ok(`${tag}: the student chose two stops, one from the list and one by tapping the map, the first across country, and the family set out`);
     // The path on the student's own map, and on nobody else's.
-    await student.waitForFunction(() => window.__routeDrawn?.legs >= 2, null, { timeout: 15000 });
+    await until(student, 'the student’s own map drew no path', () => window.__routeDrawn?.legs >= 2, null, { timeout: 15000 });
     observed[`${tag}-route`] = await student.evaluate(() => window.__routeDrawn);
     assert.ok(observed[`${tag}-route`].width <= 2.4, 'the path is not thin');
     await other.waitForFunction(() => window.__snapshot?.world.status === 'running');
@@ -204,14 +209,14 @@ async function run({ width, height, answer }) {
     const card = await student.locator('#selection-flight').textContent();
     assert.match(card, /¡Alto!/);
     assert.match(card, /Halt!/);
-    await student.waitForFunction(() => window.__chaseView?.lines?.includes('alto'), null, { timeout: 15000 });
+    await until(student, '"¡Alto!" was not drawn over the horsemen', () => window.__chaseView?.lines?.includes('alto'), null, { timeout: 15000 });
     observed[`${tag}-alto`] = await student.evaluate(() => ({ view: window.__chaseView, ask: window.__snapshot.world.flight.ask.options.map(option => option.id) }));
     assert.ok(observed[`${tag}-alto`].view.drawn[0]?.soldiers > 0, 'the horsemen were not drawn');
     await shot(student, 'alto');
     await noSideways(student, 'the order to halt');
     ok(`${tag}: the dragoons came on and called "¡Alto!", with the English under it, over the lead horseman and on the card`);
     // The Host sees it.
-    await host.waitForFunction(() => window.__chaseView?.drawn?.length > 0, null, { timeout: 15000 });
+    await until(host, 'the Host’s map did not draw the chase', () => window.__chaseView?.drawn?.length > 0, null, { timeout: 15000 });
     ok(`${tag}: the Host's map drew the chase`);
 
     if (answer === 'run') {

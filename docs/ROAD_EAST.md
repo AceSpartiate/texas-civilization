@@ -1,3 +1,10 @@
+**Amended 2026-09-27 ([SCRAPE.md](SCRAPE.md) §11-§16, not released):** a family is no longer overtaken by sitting within five miles
+(or moving within a mile and a half) of a column's head. Only a column on its dated road or a cavalry patrol out ahead of one can
+see a family, from how far depending on the wagon, the road, the cover, the weather and the hour (sim/pursuit.mjs); the soldiers come
+after it, call on it to halt ("¡Alto!"), take it if it halts or they catch it (`overtake`, as before), and fire on it if it runs.
+The warning at twenty miles and its question stand. The family also chooses its own way east and changes it on the road
+(sim/flight-route.mjs).
+
 # The road east: what a family does besides run, and what runs behind it
 
 **Amended 2026-09-26 ([SCRAPE.md](SCRAPE.md), not released):** the pursuit's columns are now the record's (docs/battle-research/mexican-advance.md,

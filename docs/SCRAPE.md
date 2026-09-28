@@ -1,6 +1,6 @@
 # The Mexican advance, the burn zone, and the land dealt half inside it
 
-**Status: owner-asked 2026-09-25, the land's rule chosen by the owner 2026-09-26, built 2026-09-26 (not released).** Amends
+**Status: owner-asked 2026-09-25, the land's rule chosen by the owner 2026-09-26, built 2026-09-26. Amended 2026-09-27 (§11-§16, not released): the family's own way east, and Mexican troops who can see it, order it to halt and fire on it if it runs.** Amends
 `docs/COLONIES.md` §6p and §7g (who burns a family's farm in the Runaway Scrape, and when), `docs/ROAD_EAST.md` §2 (the pursuit's
 dated places, and "the game's burning of a family's farm stays the Texas army's"), `docs/COLONIES.md` §5.1 (how the land is
 dealt) and `docs/STOCK.md` §5 (the herd left on the range). Research: [battle-research/mexican-advance.md](battle-research/mexican-advance.md);
@@ -217,3 +217,149 @@ drawn in the smoke and the word. 2. Places on the map a family can go to.
 
 (d) **The forager range**: 1. *As built:* five miles (three for a detachment). 2. Eight. 3. Three. (Wider puts more of every
 settlement inside; the land's dealing follows it.)
+
+---
+
+## 11. The family's own way, and Mexican troops on it — owner-asked and decided 2026-09-27 (built 2026-09-27, not released)
+
+> "during the runaway scrape, does the player have control over where the family goes? they should. the wagon(s), horse(s), etc
+> should all move as a train with the player choosing destination spots. staying on a road is faster, but more visible to
+> Mexican troops. vice versa is also true. if Mexican troops get too close, they'll begin ordering the player to stop. if the
+> player keeps trying to run, the soldiers open fire. bullets should be modeled, and accuracy should be era appropriate. the
+> player should be a little faster than the Mexican troops, but Mexican Cavalry should be faster. Cavalry should be uncommon."
+>
+> "i still like the choose a destination idea. then maybe there's a thin, subtle line as a path for directions that only the
+> player can see?"
+>
+> — the owner, 2026-09-27
+
+Put by multiple choice after a breakdown the same day, the owner chose:
+
+- **How often: "Rare, where columns were"** — only near where a column really was, on its dates, mostly on the roads it used; most
+  families never meet one; mud, rivers and sickness stay the main dangers. The Mexican army was chasing Houston, not families.
+- **Speeds: "Historical"** — an ox wagon (about 2 mph) slower than marching infantry (about 2.5); a family on foot (3) or on horses a
+  little faster; cavalry (6-8, faster in a short dash) outruns everyone. Keeping the wagon is a real risk. Cavalry uncommon.
+- **Who can be hit: "Adults and animals only"** — shots with period accuracy, mostly missing; a hit can wound or kill a grown-up, a
+  horse or an ox, no gore; children are never hit.
+- **The chase: "A short held scene"** — the clock slows as in a battle: "¡Alto!", the choice to halt or run, the chase with shots
+  and smoke, then back to the road's own time; about one to two real minutes.
+
+Research: [battle-research/scrape-pursuit.md](battle-research/scrape-pursuit.md), claims `HIST-TEX-660` to `-668`; the game's
+own `FIC-GONZ-660` to `-667`. Code: `sim/flight-route.mjs` (the route), `sim/pursuit.mjs` (who can see a family, the patrols,
+the chase, the shots), `sim/road.mjs` (the order to halt as a road question, `ROAD_ASKS.alto`; the chase in the road's tick),
+`sim/ways.mjs` (`findWay`'s options for a route from a point and across country), `sim/scrape.mjs` (leaving by a route, a stop and
+on), `sim/military-pacing.mjs` (`chaseStep`), `public/chase-view.js` (the chase drawn), `public/app.js` (the route editor, the path,
+the flight card).
+
+**Said plainly, as the game never says otherwise:** no source read has Mexican troops firing on fleeing refugees. At New
+Washington Almonte held his men's fire so as not to endanger Burnet's family; at Fort Bend the Kuykendall families ran for the
+river bottom and hid in a cane-brake. That soldiers fire on a family that runs is the owner's rule (`FIC-GONZ-665`,
+`HIST-TEX-665`); decision (a) in §16 asks whether to keep it.
+
+## 12. The route (`FIC-GONZ-660`, `-667`)
+
+- **Where.** Any place a family could make for (`flightPlaces`, 46 on the colonies map): the towns, villages and landings, the
+  plantations the columns passed (Stafford's, Mrs. Powell's), the named ferries - not a creek's ford or a stand of timber. A
+  destination and up to five stops before it (`MAX_STOPS` six).
+- **By which way, each stretch.** **By the road**: the quickest way, as every journey goes (`findWay`). **Across country**: through
+  waypoints three lanes wide between the two places, slower by the ground's going and the off-road share (foot 1.15, horse 1.2,
+  wagon 1.6; `OFF_ROAD`), a road costing four times its going (`COUNTRY_ROAD_COST`) so it is taken only to cross a big river at its
+  crossing (`BANK_MILES`) or where nothing else goes; **a wagon never through timber or brush**. Where the country has no way the
+  route is refused in words. Measured on the map: Harrisburg to Lynchburg on foot 14.5 miles by the road, or 13.0 across country
+  that take 16.3 miles' going; San Felipe to Lynchburg 68.1 by the road, 65.2 across country (64.0 of it off the road) taking 78.8.
+- **Chosen and changed.** Leaving (the order's card: "Make for" any place, "How": by the road or across country) and on the road
+  ("Change where we go": the stops in order, a way for each, a place added from the list or by tapping the map, "Set out this way").
+  On the road the train turns where it stands, the way already come kept in front of the new one so it can be turned back along
+  again. Each later stop is planned again when it is reached, for the train as it is then.
+- **As a train.** Everybody and everything goes together (sim/company.mjs `setOut`): the wagons and oxen, the horses and riders,
+  the walkers, the cow; at the slowest, and at a horse's pace only when every one rides (`mountedPace`).
+- **The card** says where the family is making for, the next stop, the miles and the pace, and **how far off Mexican troops could
+  see it** ("from about 3 miles: the wagon on the road, in the open").
+- **The path** (owner: "a thin, subtle line... that only the player can see"): from the train through every stop to the
+  destination, road legs along the road and country legs as the family goes, dashed, pale and a little wider only as the map is
+  zoomed in, under every figure (`drawRouteLine`). Sent only in the family's own projection. **The Host is sent none**: a class's
+  map of thirty lines helps a teacher nobody, and "only the player" is the owner's word; the Host still sees where every family is.
+- **Automatic families** keep the automatic route: the nearest refuge east, by the road (sim/scrape.mjs `packFlight`, unchanged).
+
+## 13. Who can see a family, and the chase (`FIC-GONZ-661` to `-664`, `-666`)
+
+- **Only a column on its dated road** (sim/advance.mjs) **or a patrol** can see a family. **The patrols** (`PATROLS`), the record's
+  own episodes on their days: Sesma's scouts eight miles ahead of his column March 15-20; Urrea's cavalry six ahead into Victoria, to
+  Texana and to Matagorda; Santa Anna's dragoons five ahead from Thompson's to Harrisburg, April 14-15; Almonte to New Washington and
+  Lynchburg, April 16-18; Barragán to Lynchburg, April 19. About four hundred horsemen in all of Texas (Filisola's return).
+- **How far off** (`sightMiles`): a wagon three miles over open ground, riders two, people on foot one; a quarter or a tenth in
+  brush, fifty yards in timber; **half as far off the roads**; no further than 200 yards in rain or fog, 50 at night. A column sends
+  a file of eight after a family within a mile; a patrol rides after anything it sees. Two things that passed inside one long tick
+  still met (`closestApproach`). **Nothing is rolled to be seen.**
+- **The chase.** Each soldier his own distance behind the family; infantry at 2.5 mph; horsemen at the trot, 8, and the gallop, 11,
+  within 150 yards. **"¡Alto!"** within 200 yards (by night **"¿Quién vive?"**), in Spanish with the English under it, over the
+  lead man; the soldiers stand for the answer (horsemen come up at a walk). The family's answers, each with its price in miles an
+  hour: **halt** (taken as a column always took a family: wagon, beasts and goods, grown men prisoner at one in two, glory as a
+  desertion; nobody shot); **run as we are**; **leave the wagon and run on foot**; **let the milk cow go and run**; **run for the
+  timber** when there is timber within three quarters of a mile to hide in. While the soldiers are still coming on, the card offers
+  **"Make for the timber"** too. Running, after a second order ("¡Alto, o hacemos fuego!") they fire.
+- **The shots** (`HIT_TABLE`, research §4): every shot a real event, rolled once, at one of the grown people, the oxen, the horses
+  or the wagon - **never a child**; by range (nothing past 200 yards), shooter (half the infantry recruits firing from the hip;
+  horsemen at the gallop, one carbine shot each) and target, times 0.6 on the move. Every second man of a file stops to fire and
+  load (20 seconds trained, 35 a recruit), the rest run on. A grown person hit is killed one time in five and otherwise wounded for
+  three weeks; a beast killed one in four, else lamed - a lamed ox halves the wagon's pace, an ox down stops it and a running family
+  leaves it, a lamed horse puts its rider down. No blood; nobody is drawn falling.
+- **The end.** Taken within 15 yards. Got away when the soldiers give up: after two miles or half an hour on foot, three or half an
+  hour mounted (not with a hand almost on the family, within 100 yards), at dusk, at the timber's edge when the family is in timber
+  enough to hide in and nobody within fifty yards, or when plainly outrun. Written in the family's record; a public line goes along
+  the road ("Mexican horsemen of ... chased the ... family on the road and fired on them; the family got away").
+- **Kept from before:** the warning at twenty miles and its question (press on, stay, leave the wagon); the lookout, who sees the
+  riders further off; never twice by the same column or patrol in a day, never in the day the order gives, never again where the
+  family was stripped until it sets out. A bogged wagon, or one waiting its turn at a crossing, cannot run (on foot, a family fords at
+  once). Whatever question was open when the soldiers call is put back after, if it still stands.
+- **Seen by** the family's own student and the Host (the chase drawn on the Host's map, the camera's spotlight on a played family,
+  the row "running from Mexican horsemen on the road to ..."). Other families learn by the word. **Never where the column is**: the
+  chase is sent as the soldiers' distances behind the family.
+- **Drawn** (`public/chase-view.js`): the soldiers behind the family on the map, each shot a flash at the muzzle and smoke that
+  drifts and thins at the real moment of the tick it was fired in, dust where a ball fell short, the orders over the lead man.
+  `stand-in:` docs/ART_REQUESTS.md, request 2026-09-27 - a dragoon firing from the saddle and an infantryman running and kneeling.
+
+## 14. Pacing, rarity and class time (`FIC-GONZ-666`)
+
+- **Held** for a played family at its screen only (`chaseStep`): two minutes a tick once the soldiers are within hail, and in ticks
+  that bring them to hail in two or three while they come on. The order waits three ticks (`ALTO_PATIENCE_TICKS`, about 28 seconds
+  at Study); then **the family halts, and it is written down** ("Nobody answered for the family. It did what most did: halt, as
+  they order."). A family nobody plays, one whose student has gone, or whose main person is on auto **halts when it is ordered
+  to**, at once, and holds nothing ("The family, deciding for itself, chose: halt, as they order."). This is "an unanswered question
+  lapses" applied to the road's newest question.
+- **Rarity** (`npm run study:scrape-pursuit`, [evidence](evidence/scrape-pursuit-study.json)): ten classes of fifteen families
+  nobody plays, through the spring: of **123 families that fled, 17 (13.8%) were seen and followed, 15 (12.2%) were called on to
+  halt, 9 (7.3%) met horsemen**; 106 never met Mexican troops at all. The rule before this, asked in the same classes and not
+  applied, would have overtaken 21 (17.1%). About 2.3 chases a class.
+- **Class time at Study** (`scripts/scrape-pursuit-class-time.mjs`, [evidence](evidence/scrape-pursuit-class-time.json)): a chase
+  holds the class **38 to 133 real seconds, 83 on average** (dragoons after a wagon that runs, 67; that halts, 57; left unanswered,
+  86; infantry after a wagon that runs, 133 with 17 shots, none hitting). As if every family of a class of fifteen were played and at
+  its screen, **about 3.2 minutes a class**; a class with nobody at a chase, nothing.
+
+## 15. Ceilings
+
+- `ceiling:` the chase is a line: the soldiers come on from the way they saw the family, and a family turning toward them is not
+  nearer for it. A two-dimensional chase would want the soldiers' own ground.
+- `ceiling:` across country goes through waypoints three lanes wide between two places (`LANE_MILES`), so a way round a river's
+  bend wider than that is not found and the road is taken there at its cost.
+- `ceiling:` the timber a family can run for is looked for on rings a tenth of a mile apart to three quarters of a mile; a nearer
+  patch between the rings is missed.
+- `ceiling:` the party that comes after a family is a sample (eight of a column's advance guard, six to ten of a patrol), the same
+  for a column of 300 or 1,400.
+- `ceiling:` a patrol rides a fixed distance ahead of its column's head; it does not search side roads.
+- `ceiling:` a wounded person keeps the seat they had when the family set out (sim/company.mjs plans seats once a journey).
+
+## 16. Decisions for the owner
+
+(a) **Do soldiers fire on a family that runs?** 1. *As built:* yes, after a second order (the owner's rule). 2. They fire only at
+the men and the animals, and hold their fire where women and children are in the way (Almonte at New Washington). 3. They never
+fire on refugees (the record); running only risks being ridden down and taken.
+
+(b) **How rare?** *As built:* 13.8% of fleeing families met Mexican troops, 7.3% horsemen. 1. Keep. 2. Rarer: patrols only on
+Santa Anna's dash (Thompson's to New Washington, April 14-19). 3. Commoner: every column's cavalry out ahead on every march.
+
+(c) **What does a hit do?** *As built:* a grown person killed one time in five, else wounded three weeks; a beast one in four, else
+lamed. 1. Keep. 2. Wounds only, nobody killed. 3. As in battle (sim/army.mjs's severe and dangerous wounds).
+
+(d) **Running for the timber.** *As built:* offered while there is timber within three quarters of a mile, and horsemen give up at
+the timber's edge. 1. Keep. 2. Infantry follow into the timber and cavalry do not. 3. No timber rule.

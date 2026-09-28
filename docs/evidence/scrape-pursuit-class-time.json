@@ -1,0 +1,112 @@
+{
+  "measured": "2026-09-28",
+  "pace": "Study, 9.5 s a tick",
+  "summary": {
+    "meanChaseSeconds": 83,
+    "longestChaseSeconds": 133,
+    "familiesPerClass": 15,
+    "chasesPerClass": 2.3,
+    "addedMinutesPerClassIfEveryFamilyPlayed": 3.2
+  },
+  "rows": [
+    {
+      "kind": "cavalry",
+      "how": "wagon",
+      "answer": "run",
+      "outcome": "caught",
+      "shots": 8,
+      "hits": 0,
+      "heldTicks": 7,
+      "heldGameMinutes": 20,
+      "studySeconds": 67
+    },
+    {
+      "kind": "cavalry",
+      "how": "wagon",
+      "answer": "halt",
+      "outcome": "caught",
+      "shots": 0,
+      "hits": 0,
+      "heldTicks": 6,
+      "heldGameMinutes": 18,
+      "studySeconds": 57
+    },
+    {
+      "kind": "cavalry",
+      "how": "wagon",
+      "answer": "unanswered",
+      "outcome": "caught",
+      "shots": 0,
+      "hits": 0,
+      "heldTicks": 9,
+      "heldGameMinutes": 24,
+      "studySeconds": 86
+    },
+    {
+      "kind": "cavalry",
+      "how": "mounted",
+      "answer": "run",
+      "outcome": "escaped",
+      "shots": 0,
+      "hits": 0,
+      "heldTicks": 4,
+      "heldGameMinutes": 29,
+      "studySeconds": 38
+    },
+    {
+      "kind": "infantry",
+      "how": "wagon",
+      "answer": "run",
+      "outcome": "caught",
+      "shots": 17,
+      "hits": 0,
+      "heldTicks": 14,
+      "heldGameMinutes": 39,
+      "studySeconds": 133
+    },
+    {
+      "kind": "infantry",
+      "how": "wagon",
+      "answer": "abandon-run",
+      "outcome": "escaped",
+      "shots": 0,
+      "hits": 0,
+      "heldTicks": 12,
+      "heldGameMinutes": 35,
+      "studySeconds": 114
+    },
+    {
+      "kind": "infantry",
+      "how": "wagon",
+      "answer": "halt",
+      "outcome": "caught",
+      "shots": 0,
+      "hits": 0,
+      "heldTicks": 7,
+      "heldGameMinutes": 25,
+      "studySeconds": 67
+    },
+    {
+      "kind": "infantry",
+      "how": "wagon",
+      "answer": "unanswered",
+      "outcome": "caught",
+      "shots": 0,
+      "hits": 0,
+      "heldTicks": 10,
+      "heldGameMinutes": 31,
+      "studySeconds": 95
+    },
+    {
+      "kind": "timber",
+      "how": "mounted",
+      "answer": "run",
+      "outcome": "escaped",
+      "shots": 0,
+      "hits": 0,
+      "heldTicks": 9,
+      "heldGameMinutes": 29,
+      "studySeconds": 86
+    }
+  ]
+}
