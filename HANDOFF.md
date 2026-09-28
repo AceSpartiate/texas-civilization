@@ -1,5 +1,27 @@
 # Claude handoff — Astra foundation
 
+## A drawn axe at the work — owner, 2026-09-28 (branch work-axe-2026-09-28 off integration-2026-09-28; not released)
+
+**The ask.** Owner, answering the work-drawing question: *"Add a drawn axe"* - until Astra delivers `-chop`, `-notch` and
+`-split`, felling, the lane, the bee tree, the carreta's wheels, raising the house and splitting rails show a felling axe in
+hand, moving with the swing, in place of the hoe look; a maul for splitting rails. The chips stay.
+
+- `public/work-art.js`: `chop` and `notch` carry `tool: 'axe'`, `split` `tool: 'maul'`. `HAFTS` holds, for each of the eight
+  cast figures and each frame of its hoeing cycle (`-work`), where the hands and the hoe's head are, in figure heights from the
+  feet, read by eye off each frame at the atlas's own anchor. `drawHaftTool` draws the haft from the hands through the hoe's
+  head and the axe's bit (or the maul's block) on the side the hoe blade hangs, over it: a few paths, no allocation, held at
+  frame 0 under reduced motion. `public/app.js` `drawAtWork` passes the figure the pose is drawn in. `stand-in:` against request
+  2026-09-28 items 1-3; the three rows under *Stand-ins in use* say so. `ceiling:` read by eye to about a fiftieth of a height,
+  so the painted hoe's edge can show by a pixel or two. A figure missing from `HAFTS` keeps the hoe.
+- A duplicate `'child-help'` key in `WORK` (from the merge) is gone; the later one, walking, was already the one in force.
+- Tests: `tests/work-art.test.mjs` 8 (a new one: the axe and the maul on the right work, every figure's hands for every frame,
+  the tool moving with the swing, mirrored, held under reduced motion). `npm run test:work` 4/4, twice, now asserting a drawn
+  axe in the hands of the three on the house; the survey is sampled before the mark so each is watched at its work.
+  `node scripts/work-injections.mjs`: **24 of 24 caught** (16 unit injections by their test alone; the new ones: felling with
+  the hoe, the axe held still, the maul drawn as the axe, the page never putting the axe in hand). `npm test` 1628 of 1667 run,
+  2 failing, both on files this branch does not touch and present at its base 92fb2509: `tests/host-view.test.mjs` (a student
+  sent the idle builder's `amb` for people it cannot see) and the 15-minute news-phase test in `tests/clock.test.mjs`.
+
 ## Seasons and a limited market: crops in their real season, a store that fills — owner, 2026-09-28 (worktree branch; not released)
 
 The owner's answer to the design audit's blocker B9 (docs/audits/2026-09-28-design.md §3.1: *farming is a money pump - crops ripen
