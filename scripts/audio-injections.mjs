@@ -94,7 +94,12 @@ for (const one of INJECTIONS) {
   const original = one.file ? readFileSync(one.file) : null;
   try {
     if (one.create) { if (existsSync(one.create.path)) throw new Error(`${one.create.path} already exists`); writeFileSync(one.create.path, one.create.content); }
-    else writeFileSync(one.file, one.apply(original.toString('utf8')));
+    else {
+      // A CRLF checkout (core.autocrlf) is matched as LF and written back as it was.
+      const text = original.toString('utf8'), crlf = text.includes('\r\n');
+      const changed = one.apply(crlf ? text.replace(/\r\n/g, '\n') : text);
+      writeFileSync(one.file, crlf ? changed.replace(/\n/g, '\r\n') : changed);
+    }
     const { failed } = run(one.test);
     const exact = failed.length === 1 && failed[0] === one.expect;
     good &&= exact;
