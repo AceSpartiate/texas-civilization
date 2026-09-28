@@ -42,6 +42,8 @@ export function ambientGround(entity, home, { walker, now, time, figure, scale, 
   if (!amb) return { at: base, base, stepping: walked.moving ? walked.dir : null, amb: null };
   if (walked.moving) return { at: base, base, stepping: walked.dir, amb };
   // Carrying something back and forth: a few steps east, a few west, the feet kept to the ground by the page's gait.
+  // ceiling: the steps are the page's, a drawing a step and a half either side of where the server has them, like the
+  // separation `stableOffset` gives; a well or a woodpile the server places is the way out if the carrying is to go somewhere.
   if (amb.pace && !frozen && !reducedMotion) {
     const span = PACE_HEIGHTS * figure / Math.max(1, scale);
     const phase = ((time + seedOf(entity.id) * PACE_MS * 2) % (PACE_MS * 2)) / PACE_MS;

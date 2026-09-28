@@ -30,6 +30,9 @@ does not have:
 
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
+| Somebody idle at an activity is drawn in the nearest delivered cast pose: whittling, mending harness, sewing, shelling corn and cleaning a rifle the seated `-repair` (a hammer at a hoe); washing the kneeling `-care`; a pipe, cards and dominoes the seated `-rest` (no pipe, no cards); sweeping a step the hoe's swing `-work`; carrying water the harvest's `-carry` (a sack, a basket, a bucket by figure) | `ambientClip` in `public/motion.js`; `ACTIVITIES` in `sim/ambient.mjs` | Request 2026-09-28 — ambient life, item 1 | `-whittle`, `-mend-harness`, `-sew`, `-shell-corn`, `-clean-rifle`, `-wash`, `-pipe`, `-cards`, `-sweep`, `-carry-water` for each cast figure |
+| The washtub is the plain `bucket`; the woodpile the Alamo's `alamo-firewood`; the hens `chicken-idle` | `propItem` in `public/ambient.js` | Same request, item 2 | `washtub`, `woodpile-frontier`, `hens-pecking` |
+| A soldier in camp cleaning his rifle is the ramrod's stroke (`volunteer-gun-ram`, `regular-gun-ram`); the volunteers at the fire, the cards and the wood are the cast's civilian men (`elder`, `ochre`, `blue`) | `CAMP_TEXIAN`, `CAMP_MEXICAN` in `sim/ambient.mjs`; `figureClip` in `public/ambient.js` | Same request, item 3 | `volunteer-clean-rifle`, `volunteer-camp-sit`, `volunteer-camp-cook` |
 | The sick badge on a portrait is the road's nursing icon (`icon-tend-sick`, or its stroked glyph) in a cream disc | `panelRow` and the row update in `public/app.js` (`.panel-sick-mark`) | Request 2026-09-27 — sickness, item 1 | `mark-sick` |
 | "Stop and rest a day" is the rest order's picture (`icon-rest`); "Nurse the sick" at home the road's nursing (`icon-tend-sick`); "Camp apart from the crowd" a stroked glyph (three tents on a bank and one up the stream) | `PANEL_ICONS` and `drawGlyph` in `public/family-panel.js` | Request 2026-09-27 — sickness, item 2 | `icon-rest-road`, `icon-nurse-home`, `icon-camp-apart` |
 | Somebody sick and resting is drawn in the delivered `-injured-rest` pose, as the hurt are; a sick baby is drawn as it is | `restingSick` and `grownClip` in `public/motion.js` | Request 2026-09-27 — sickness, item 3 | `-sick-rest`, `infant-sick` |
@@ -165,6 +168,28 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-28 — ambient life
+
+**Status: open; stand-ins in use since 2026-09-28 (see *Stand-ins in use*).** Owner, 2026-09-28: *"i don't want to see npc just
+standing around when they're idle. they should participate in various things to make them appear active."* Every idle person a page
+sees is now drawn at an activity ([AMBIENT.md](AMBIENT.md), `sim/ambient.mjs`), and most of them borrow a pose. Delivery contract as
+the cast sheets: transparent PNG on the ground anchor, the cast's logical height, east-facing mirrored for west, two to four frames
+looping; props as the equipment sheet.
+
+1. **Everyday work in the cast's poses** (priority 1) - for each of `rust`, `rust-woman`, `teal`, `indigo`, `blue`, `blue-girl`,
+   `ochre`, `elder`: `-whittle` (seated, a knife at a stick, 2 frames), `-mend-harness` (seated, leather across the knees, 2),
+   `-sew` (seated, needle and cloth, 2), `-shell-corn` (seated, an ear over a basket, 2), `-clean-rifle` (seated, a rifle across the
+   knees and a rod, 2), `-wash` (kneeling at a tub, 2), `-pipe` (seated, a pipe raised, 2), `-cards` (seated, cards in hand, 2),
+   `-sweep` (a broom, 4), `-carry-water` (walking with a bucket in each hand, 4, east). Plugs into `ambientClip` (public/motion.js):
+   the server already names the activity (`amb.a`), so each lands by a one-word change to the pose it asks for.
+2. **Props** (priority 2) - `washtub` (a wooden tub with a board), `woodpile-frontier` (split rails stacked by a cabin),
+   `hens-pecking` (two hens, 2 frames). Plugs into `propItem` (public/ambient.js).
+3. **Soldiers at rest** (priority 2) - `volunteer-clean-rifle`, `volunteer-camp-sit`, `volunteer-camp-cook` (2 frames each) and the
+   same for `regular-`. Plugs into `CAMP_TEXIAN` / `CAMP_MEXICAN` (sim/ambient.mjs).
+
+**Check.** At a town's street and a family's yard zoomed to a figure of about 40 px, a keeper whittling reads as whittling and not as
+somebody mending a hoe; a woman washing reads as washing; a man with a pipe as smoking; at a camp a rifle is being cleaned, not loaded.
 
 ## Request 2026-09-27 — Mexican troops after a family on the road
 

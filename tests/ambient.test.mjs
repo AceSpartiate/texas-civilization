@@ -60,7 +60,7 @@ function wouldStandIdle(world, v, one, role) {
   if (e.task === 'rest') return false;
   if (e.travel && !(e.travel.halted || world.minute < e.travel.waitUntil)) return false;
   if (e.travel && (e.travel.drives || e.travel.rides || e.travel.saddle || e.travel.carried)) return false;
-  if ((own || role === 'host') && e.chore) return false;
+  if (e.chore) return false;
   if (e.householdId && Number.isFinite(e.age) && e.age < 10 && (own || role === 'host')) return false;
   if (Number.isFinite(e.age) && e.age < 2) return false;
   if (e.talk || e.aside || e.carriedBy || e.townHelp || one.facing || one.speaking || one.held || one.fallen) return false;
@@ -195,7 +195,6 @@ test('nobody named in the record is ever given a line: every speaker is invented
         if (e) {
           assert.ok(e.householdId || e.resident, `${line.speakerId} is neither a family's person nor an invented townsperson`);
           assert.ok(!e.runner && !e.courier && !e.report, `${line.speakerId} carries word and was given a line`);
-          assert.ok(!e.principal, `${line.speakerId}, a student's own person, was given words`);
         } else assert.match(line.speakerId, /^(camp|crowd):/, `${line.speakerId} is nobody drawn`);
         assert.ok(EXCHANGES.some(one => [...one.lines, ...(one.hedged || [])].includes(line.text)), `"${line.text}" is no line of the table`);
       }
@@ -326,20 +325,21 @@ test('the family\'s own: the student\'s person stands ready, the busy are at the
   assert.ok(seen > 100, `only ${seen} of the families' own were seen at something`);
 });
 
-test('a neighbour\'s person at work is drawn at something on another family\'s page, and never at their own work', () => {
+test('a neighbour\'s person at work is left at their work on every page: only the idle are given something to do', () => {
   const { world, two, keep } = townWithFamilies('ambient-private');
-  let compared = 0;
+  let compared = 0, idle = 0;
   for (let t = 0; t < 120; t++) {
     stepWorld(world);
     keep();
-    // The same moment twice over, the neighbour at two different pieces of work: what the page is sent is the same.
-    const at = chore => { const copy = JSON.parse(JSON.stringify(world)); copy.entities[two.id].chore = chore; return view(copy, 'hh-1').others.find(o => o.id === two.id); };
-    const trading = at({ id: 'visit-shop', doing: 'trading for seed' }), hunting = at({ id: 'hunt', doing: 'hunting in the timber' });
-    assert.ok(trading.amb && hunting.amb, `${two.id}, busy, was drawn at nothing on a neighbour's page`);
-    assert.deepEqual(trading.amb, hunting.amb, 'a neighbour\'s page drew them by what their work is');
+    // The same moment three times over: the neighbour idle, trading, and hunting.
+    const at = chore => { const copy = JSON.parse(JSON.stringify(world)); copy.entities[two.id].chore = chore; return ['hh-1', null].map(id => peopleOf(view(copy, id, id ? 'student' : 'host')).find(o => o.id === two.id)); };
+    for (const busy of [at({ id: 'visit-shop', doing: 'trading for seed' }), at({ id: 'hunt', doing: 'hunting in the timber' })]) {
+      for (const seen of busy) assert.equal(seen.amb, undefined, `${two.id}, at work, was drawn at ${seen.amb?.a} instead`);
+    }
+    if (at(null).every(seen => seen.amb)) idle++;
     compared++;
   }
-  assert.ok(compared > 100);
+  assert.ok(compared > 100 && idle > 100, `idle ${idle} of ${compared}`);
 });
 
 test('the camps\' men are at the fire, the cards, a rifle or the drill, and the page and the server count the same men', () => {

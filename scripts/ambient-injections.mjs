@@ -22,8 +22,9 @@ const INJECTIONS = [
   { name: 'a rumour is said as sure', file: AMBIENT, from: "  return statuses.every(status => status === 'confirmed') ? 'sure' : 'hedged';", to: "  return 'sure';", expect: /a rumour is spoken as a rumour/ },
   { name: 'no cap on the exchanges a page is sent', file: AMBIENT, from: '      if (lines.length / 2 >= most) break;', to: '', expect: /a few exchanges a tick at most/ },
   { name: 'talk goes on through a fight', file: AMBIENT, from: '  const quiet = Boolean(view.battle?.sides || ', to: '  const quiet = Boolean(', expect: /a few exchanges a tick at most/ },
-  { name: 'the family\'s own busy people are drawn at an activity', file: AMBIENT, from: '    if ((own || host) && (busy(e) || littleOne(e))) return;', to: '', expect: /the family's own/ },
-  { name: 'a neighbour is drawn by their chore', file: AMBIENT, from: '      const [actId, activity] = pick(mine, stirredShare(world, e.id, `act:', to: '      const [actId, activity] = pick(mine, e.chore ? 0 : stirredShare(world, e.id, `act:', expect: /a neighbour's person at work/ },
+  { name: 'the student\'s own person is put to an activity', file: AMBIENT, from: "  if (e?.kind !== 'person' || !e.location || e.principal) return false;", to: "  if (e?.kind !== 'person' || !e.location) return false;", expect: /the family's own/ },
+  { name: 'a neighbour at work is drawn at an idle activity', file: AMBIENT, from: '    if (!ambientable(world, e, held) || busy(e)) continue;', to: '    if (!ambientable(world, e, held)) continue;',
+    and: { from: '    if (busy(e) || ((own || host) && littleOne(e))) return;', to: '    if ((own || host) && (busy(e) || littleOne(e))) return;' }, expect: /a neighbour's person at work/ },
   { name: 'the server draws a different number of camp men', file: AMBIENT, from: 'export const CAMP_MEN = 18;', to: 'export const CAMP_MEN = 12;', expect: /camps' men/ },
   { name: 'every family sees every refuge\'s crowd', file: AMBIENT, from: '.filter(siteId => host || mineAt.has(siteId))', to: '', expect: /crowd at a refuge/ },
   { name: 'an activity in a pose nobody holds', file: AMBIENT, from: "  whittle: act('whittling', 'repair', { standIn: 'whittle' }),", to: "  whittle: act('whittling', 'whittle', { standIn: 'whittle' }),", expect: /pose the cast holds/ },
@@ -42,10 +43,15 @@ for (const injection of chosen) {
   const original = readFileSync(file, 'utf8');
   const CR = String.fromCharCode(13), LF = String.fromCharCode(10);
   const ends = text => (original.includes(CR + LF) ? text.split(LF).join(CR + LF) : text);
-  const from = ends(injection.from), to = ends(injection.to);
-  const count = original.split(from).length - 1;
-  if (count !== 1) throw new Error(`${injection.name}: the text to replace is in ${file} ${count} times`);
-  writeFileSync(file, original.replace(from, to));
+  // An injection may make a second edit to the same file (`and`): two guards of one rule taken out together.
+  let changed = original;
+  for (const edit of [injection, ...(injection.and ? [injection.and] : [])]) {
+    const from = ends(edit.from), to = ends(edit.to);
+    const count = changed.split(from).length - 1;
+    if (count !== 1) throw new Error(`${injection.name}: the text to replace is in ${file} ${count} times`);
+    changed = changed.replace(from, to);
+  }
+  writeFileSync(file, changed);
   let failed;
   try { failed = run(); } finally { writeFileSync(file, original); }
   const caught = failed.some(name => injection.expect.test(name));

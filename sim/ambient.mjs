@@ -18,10 +18,9 @@
 // listening to a rider or posed by one of the towns' dated scenes (sim/town-scenes.mjs, whose own people and words win).
 // The family's own small children and babies are sim/childhood.mjs's and sim/babies.mjs's, never this file's.
 //
-// **Privacy.** On a family's own page (and the Host's) somebody with work is drawn at the work, and gets nothing here. On
-// another family's page the same person is drawn at an activity chosen from the seed and the setting alone - never from
-// their chore - because a neighbour sees what a glance shows and a family's private work is its own (sim/town.mjs
-// `observedBy`).
+// **Only the idle.** Somebody with work of their own gets nothing here, on any page: they are drawn at the work however the
+// page draws work (the coordinator's word of 2026-09-28, for the parallel build that draws people at work), and their work is
+// never read to choose anything. An activity is chosen from the seed, the place, the hour and the weather alone.
 //
 // **Talk.** Two people near each other, or a townsperson who walks over to a neighbour, sometimes say two short lines
 // (`EXCHANGES`, `FIC-GONZ-731`): eight words at most, plain words for a middle-school reader, of the place, the season, the
@@ -96,8 +95,9 @@ export function seasonOf(world) {
  *
  * `where` the settings it belongs to, `hours` when, `who` whom (`man`, `woman`, `grown` - the default - or `child`), `dry` not
  * in the rain, `keeper` a townsperson's only, `pace` walked back and forth a few steps (a load carried), `prop` a thing drawn
- * beside them, `social` done by two together. `standIn` names the pose the library lacks: until it lands the nearest delivered
- * pose stands in (docs/ART_REQUESTS.md, request 2026-09-28 - ambient life; public/ambient.js marks it).
+ * beside them, `social` done by two together. `standIn` names the pose the library lacks.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-28 - ambient life, item 1: until each `standIn` pose lands the nearest delivered
+ * pose stands in (public/motion.js `ambientClip`).
  *
  * Never on a family's people: `work` and `sow` without the hens, which read as the field's own work a student orders
  * (`homeSafe`), so an idle man is never taken for somebody already hoeing.
@@ -142,6 +142,8 @@ const homeSafe = one => one.pose !== 'work' && (one.pose !== 'sow' || one.prop =
  * a pose of the military or cast sheets. The 1835 volunteers and Houston's men were in their own clothes, so the cast's
  * civilian men stand among the riflemen at the fire, the cards and the wood; Houston drilled his army at Groce's
  * (`HIST-TEX-075`), so his camp drills. A Mexican column's camp is the regulars' own sheet only, and says nothing here.
+ * ceiling: the Mexican camps are silent - their talk would be Spanish with an English gloss (docs/BATTLES.md §2.5), and a
+ * line of it written for idle soldiers is the owner's to ask for (docs/AMBIENT.md, decisions).
  * stand-in: docs/ART_REQUESTS.md, request 2026-09-28 - ambient life, item 3: cleaning a rifle is the ramrod's stroke.
  */
 const CAMP_TEXIAN = Object.freeze([
@@ -338,7 +340,7 @@ function heldNow(world) {
   for (const beat of activeBeats(world)) for (const one of beat.residents || []) held.add(one.id);
   return held;
 }
-/** Whether somebody has work of their own: drawn at it on their family's page and the Host's, never given an activity there. */
+/** Whether somebody has work of their own: drawn at it, however the page draws work, and never given an activity. */
 const busy = e => Boolean(e.chore);
 /** A child of the family's own too small for work: the play and talk of sim/childhood.mjs are theirs. */
 const littleOne = e => Boolean(e.householdId) && isSmallChild(e);
@@ -407,7 +409,7 @@ function computeAmbient(world) {
   const band = hourBand(world), slot = Math.floor(world.tick / SLOT_TICKS), inSlot = world.tick % SLOT_TICKS;
   const groups = new Map();
   for (const e of Object.values(world.entities)) {
-    if (!ambientable(world, e, held)) continue;
+    if (!ambientable(world, e, held) || busy(e)) continue;
     const key = groupOf(world, e);
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(e);
@@ -420,7 +422,7 @@ function computeAmbient(world) {
     const wet = raining(here);
     // Who keeps company this spell: the free grown people of the place, in an order the seed shuffles each spell, each with
     // the nearest one left. Nobody visits or talks at night.
-    const free = people.filter(e => !busy(e) && whoOf(e).grown && !littleOne(e))
+    const free = people.filter(e => whoOf(e).grown && !littleOne(e))
       .map(e => [stirredShare(world, e.id, `pair:${slot}`), e]).sort((a, b) => a[0] - b[0]).map(([, e]) => e);
     const used = new Set();
     let visits = 0;
@@ -437,6 +439,8 @@ function computeAmbient(world) {
         const b = best.b;
         const near = best.d <= NEAR_MILES || groupKey.startsWith('road:') || groupKey.startsWith('army:');
         // Somebody walks over only if one of the two is a townsperson (never a family's own person, whom only a student moves).
+        // ceiling: the visit is drawn, not lived - the keeper's `location` stays at the door, so a trade or a rider finds them
+        // there. Moving them in the world (sim/town.mjs's rounds) is the way out if a visit is ever to matter.
         const visitor = near ? null : (!a.householdId ? a : !b.householdId ? b : null);
         if (!near && (!visitor || best.d > VISIT_MILES || visits >= VISITS_A_TOWN)) continue;
         const pairKey = [a.id, b.id].sort().join('+');
@@ -601,14 +605,14 @@ export function ambientFor(world, householdId, role, view) {
   if (!host && !world.households?.[householdId]) return null;
   const state = classAmbient(world);
   const { acts, band } = state;
-  // The activity on everybody this page is sent: its own family's idle people (never somebody with work of their own, nor a
-  // small child or a baby of its own), and everybody else it sees.
+  // The activity on everybody idle this page is sent: its own family's (never a small child or a baby of its own, whose play is
+  // sim/childhood.mjs's), and everybody else's it sees. Never somebody given work since the tick's life was worked out.
   const seen = new Set();
   const give = (projected, own) => {
     const e = world.entities[projected.id];
     const amb = e && acts.get(e.id);
     if (!amb) return;
-    if ((own || host) && (busy(e) || littleOne(e))) return;
+    if (busy(e) || ((own || host) && littleOne(e))) return;
     projected.amb = { ...amb };
     seen.add(e.id);
   };
