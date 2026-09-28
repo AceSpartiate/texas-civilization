@@ -119,6 +119,12 @@ try {
   ok(`the icon opens the popup and sends nobody: ${listed.length} shops of Gonzales listed, "${opened.stock}"`);
 
   // ------------------------------------------------------------------------------------ fourteen bales takes the wagon
+  // The store's price now and how full it is, on the line itself (sim/market.mjs, 2026-09-28).
+  const cottonLine = await page.evaluate(() => { const line = document.querySelector('#errand [data-line="store:cotton"]'); return { price: line.querySelector('.errand-price').textContent, title: line.querySelector('.errand-price').parentElement.title }; });
+  observed.cottonLine = cottonLine;
+  assert.match(cottonLine.price, /pays 2 reales or 2 food for 1 bale/, `the store's price is not on the line: ${cottonLine.price}`);
+  assert.match(cottonLine.title, /The store is buying: full price for about 10 bales more, then half until it has 20 bales\./, `the store's room is not said: ${cottonLine.title}`);
+  ok(`the store's line says its price now and how much it wants: "${cottonLine.price}", "${cottonLine.title.split('. ').slice(-1)[0]}"`);
   await setCount(page, 'store:cotton', 14);
   // Coin is pressed before anybody chooses (owner, 2026-09-27: "Make coin the default"): a sale is paid in coin unless the
   // student chooses food.
@@ -238,7 +244,9 @@ try {
   await page.waitForFunction(id => { const one = window.__snapshot?.world.entities.find(e => e.id === id); return one && !one.chore && !one.travel; }, first.id, { timeout: 120000 });
   const home = await page.evaluate(() => window.__snapshot.world.household.resources);
   observed.home = home;
-  const cottonPaid = 14 * COIN.cottonBale;
+  // The store wants four bales for each of Gonzales's five families (sim/market.mjs, owner 2026-09-28: "the store buys only what it
+  // can use and its price falls as it fills"): ten bales at two reales, and the four after them at one, half price as it fills.
+  const cottonPaid = 10 * COIN.cottonBale + 4 * (COIN.cottonBale / 2);
   assert.equal(home.money, 150 + cottonPaid - 1, `the ${cottonPaid} reales for the cotton, less the one the seed cost, did not come home beside the 150: ${home.money}`);
   assert.equal(home.seed, 4, `the seed did not come home: ${home.seed}`);
   assert.equal(app.state.world.entities['hh-1-wagon'].borrowedBy, null, 'the wagon is still held now it is home');
