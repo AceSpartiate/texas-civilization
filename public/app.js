@@ -1371,19 +1371,35 @@ function speechRoom(canvas) {
   let boxes = null;
   const measure = () => {
     const frame = canvas.getBoundingClientRect(), k = canvas.width / (frame.width || 1);
-    return [...document.querySelectorAll('#hud-left > *, #site-choose, #survey-choose, #hud-right > *, #lesson, #lesson-resume, #military-notice, #encounter, #call-menu, #town-scene, #wagon-load')]
+    return [...document.querySelectorAll('#hud-left > *, #site-choose, #survey-choose, #hud-right > *, #lesson, #lesson-resume, #military-notice, #encounter, #call-menu, #town-scene, #wagon-load, #tip, #host-spotlight, #map-tools, .panel-row[data-focused=true] .panel-icons')]
       .filter(one => !one.hidden).map(one => one.getBoundingClientRect()).filter(box => box.width && box.height)
       .map(box => ({ left: (box.left - frame.left) * k, right: (box.right - frame.left) * k, top: (box.top - frame.top) * k, bottom: (box.bottom - frame.top) * k }));
   };
-  return (top, bottom) => {
+  // The stretch clear of every piece at the bubble's height nearest where it wants to stand, wide enough for it (`w`), or null.
+  return (top, bottom, x = canvas.width / 2, w = 0) => {
     boxes ||= measure();
-    let left = 2, right = canvas.width - 2;
+    let free = [[2, canvas.width - 2]];
     for (const box of boxes) {
       if (box.bottom <= top || box.top >= bottom) continue;
-      if ((box.left + box.right) / 2 < canvas.width / 2) left = Math.max(left, box.right + 6); else right = Math.min(right, box.left - 6);
+      free = free.flatMap(([a, b]) => [[a, Math.min(b, box.left - 6)], [Math.max(a, box.right + 6), b]]).filter(([a, b]) => b - a > 0);
     }
+    const fits = free.filter(([a, b]) => b - a >= w);
+    if (!fits.length) return null;
+    const away = ([a, b]) => (x - w / 2 < a ? a - (x - w / 2) : x + w / 2 > b ? x + w / 2 - b : 0);
+    const [left, right] = fits.reduce((best, span) => (away(span) < away(best) ? span : best));
     return { left, right };
   };
+}
+/**
+ * Everything the page has standing over the map, as boxes in the canvas's own pixels: the neighbours' talk (public/ambient.js)
+ * is said only where none of it stands - it is the map's life, not a message, and a line with nowhere clear to go is not said
+ * here rather than said under a panel (the overlap proof, 2026-09-28: "The geese are flying south" was 71% under a tip).
+ */
+function panelBoxes(canvas) {
+  const frame = canvas.getBoundingClientRect(), k = canvas.width / (frame.width || 1);
+  return [...document.querySelectorAll('#hud-left > *, #hud-right > *, #site-choose, #survey-choose, #lesson, #lesson-resume, #military-notice, #encounter, #call-menu, #errand, #going, #town-scene, #wagon-load, #selection, #tip, #host-spotlight, #map-tools, .panel-row[data-focused=true] .panel-icons')]
+    .filter(one => !one.hidden).map(one => one.getBoundingClientRect()).filter(box => box.width && box.height)
+    .map(box => ({ x: (box.left - frame.left) * k, y: (box.top - frame.top) * k, w: box.width * k, h: box.height * k }));
 }
 function drawBattleCaption(ctx, battle, canvas) {
   const text = battle.caption || '', title = battle.title || '';
@@ -3544,7 +3560,7 @@ export function drawWorld(world) {
   if (camera.figure > 14 && !world.battle?.sides && !world.flight?.chase) {
     const said = [];
     const headOf = id => ambientHeads.get(id) || (drawnAt.has(id) ? { x: drawnAt.get(id).x, y: drawnAt.get(id).y - drawnAt.get(id).size * .55 } : null);
-    const avoid = [...familyBoxes, ...pending.map(mark => ({ x: mark.x - mark.size * .5, y: mark.y - mark.size * 1.1, w: mark.size, h: mark.size * 1.2 }))];
+    const avoid = [...familyBoxes, ...pending.map(mark => ({ x: mark.x - mark.size * .5, y: mark.y - mark.size * 1.1, w: mark.size, h: mark.size * 1.2 })), ...panelBoxes(canvas)];
     drawAmbientSpeech(ctx, world.ambient?.lines || [], headOf, { now: frameNow, bounds: { width: canvas.width, height: canvas.height, room: speechRoom(canvas) }, avoid, evidence: said });
     window.__ambientSaid = said;
   } else window.__ambientSaid = [];

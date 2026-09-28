@@ -68,7 +68,7 @@ const INJECTIONS = [
   {
     name: 'a speech bubble no longer slides out from under a panel',
     file: 'public/speech.js',
-    from: '    const room = bounds.room?.(top, top + h);\n',
+    from: '    const room = bounds.room?.(top, top + h, x, w);\n',
     to: '    const room = null;\n',
     expect: /bubble .* under/,
   },

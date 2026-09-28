@@ -55,7 +55,7 @@ export function drawSpeech(ctx, line, x, y, { alpha = 1, bounds = null, scale = 
   // slides along into it, its tail still to the speaker, rather than being drawn under the family's column or a chooser
   // (the overlap proof, owner 2026-09-28). Where the room is narrower than the bubble, the whole width is used as before.
   if (bounds) {
-    const room = bounds.room?.(top, top + h);
+    const room = bounds.room?.(top, top + h, x, w);
     const fits = room && room.right - room.left >= w;
     left = Math.max(fits ? room.left : 2, Math.min((fits ? room.right : bounds.width - 2) - w, left));
   }
