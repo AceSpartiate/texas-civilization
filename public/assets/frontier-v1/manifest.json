@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 163,
-    "sprites": 1686,
-    "clips": 557,
-    "poseCycles": 329,
+    "sheets": 165,
+    "sprites": 1706,
+    "clips": 561,
+    "poseCycles": 333,
     "rigs": 4
   },
   "entrypoints": {
@@ -5138,6 +5138,188 @@
               [
                 848,
                 1082
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-castaneda": {
+      "image": "atlases/famous-castaneda.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1167969,
+      "sha256": "2c43eaa84ee4f37ffc6df9ce70a46654088e70f429ae35caf43896bb0ba6c30f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.71039,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              2,
+              312
+            ],
+            "columns": [
+              [
+                100,
+                279
+              ],
+              [
+                401,
+                580
+              ],
+              [
+                718,
+                901
+              ],
+              [
+                1041,
+                1220
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              318,
+              634
+            ],
+            "columns": [
+              [
+                88,
+                241
+              ],
+              [
+                406,
+                561
+              ],
+              [
+                719,
+                877
+              ],
+              [
+                1042,
+                1192
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              630,
+              941
+            ],
+            "columns": [
+              [
+                113,
+                224
+              ],
+              [
+                419,
+                620
+              ],
+              [
+                719,
+                918
+              ],
+              [
+                1057,
+                1187
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              940,
+              1250
+            ],
+            "columns": [
+              [
+                108,
+                228
+              ],
+              [
+                370,
+                560
+              ],
+              [
+                732,
+                887
+              ],
+              [
+                1070,
+                1190
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-castaneda-mounted": {
+      "image": "atlases/famous-castaneda-mounted.png",
+      "width": 1226,
+      "height": 1283,
+      "bytes": 1274697,
+      "sha256": "42afc098fe3b4935e5c773125bb10d088895d46f15e48f7da6e37d00b7c6f96b",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.665252,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              6,
+              589
+            ],
+            "columns": [
+              [
+                35,
+                611
+              ],
+              [
+                638,
+                1206
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              626,
+              1236
+            ],
+            "columns": [
+              [
+                59,
+                614
+              ],
+              [
+                815,
+                1052
               ]
             ]
           }
@@ -34595,6 +34777,686 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/famous-burleson-mounted"
+    },
+    "castaneda-walk-e-1": {
+      "sheet": "famous-castaneda",
+      "x": 100,
+      "y": 3,
+      "w": 179,
+      "h": 308,
+      "anchorX": 0.4944,
+      "anchorY": 0.9286,
+      "logicalHeight": 315,
+      "label": "castaneda walk e 1",
+      "kind": "famous-castaneda",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          102,
+          5,
+          175,
+          304
+        ],
+        "visiblePixels": 24448,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-walk-e-2": {
+      "sheet": "famous-castaneda",
+      "x": 401,
+      "y": 2,
+      "w": 179,
+      "h": 309,
+      "anchorX": 0.4916,
+      "anchorY": 0.9288,
+      "logicalHeight": 315,
+      "label": "castaneda walk e 2",
+      "kind": "famous-castaneda",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          403,
+          4,
+          175,
+          305
+        ],
+        "visiblePixels": 24304,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-walk-e-3": {
+      "sheet": "famous-castaneda",
+      "x": 718,
+      "y": 2,
+      "w": 183,
+      "h": 310,
+      "anchorX": 0.4891,
+      "anchorY": 0.929,
+      "logicalHeight": 315,
+      "label": "castaneda walk e 3",
+      "kind": "famous-castaneda",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          720,
+          4,
+          179,
+          306
+        ],
+        "visiblePixels": 23853,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-walk-e-4": {
+      "sheet": "famous-castaneda",
+      "x": 1041,
+      "y": 2,
+      "w": 179,
+      "h": 309,
+      "anchorX": 0.4972,
+      "anchorY": 0.9288,
+      "logicalHeight": 315,
+      "label": "castaneda walk e 4",
+      "kind": "famous-castaneda",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1043,
+          4,
+          175,
+          305
+        ],
+        "visiblePixels": 24375,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-walk-s-1": {
+      "sheet": "famous-castaneda",
+      "x": 88,
+      "y": 318,
+      "w": 153,
+      "h": 312,
+      "anchorX": 0.4902,
+      "anchorY": 0.9391,
+      "logicalHeight": 315,
+      "label": "castaneda walk s 1",
+      "kind": "famous-castaneda",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          90,
+          320,
+          149,
+          308
+        ],
+        "visiblePixels": 23623,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-walk-s-2": {
+      "sheet": "famous-castaneda",
+      "x": 406,
+      "y": 318,
+      "w": 155,
+      "h": 311,
+      "anchorX": 0.4774,
+      "anchorY": 0.9357,
+      "logicalHeight": 315,
+      "label": "castaneda walk s 2",
+      "kind": "famous-castaneda",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          408,
+          320,
+          151,
+          307
+        ],
+        "visiblePixels": 23473,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-walk-n-1": {
+      "sheet": "famous-castaneda",
+      "x": 719,
+      "y": 319,
+      "w": 158,
+      "h": 313,
+      "anchorX": 0.5633,
+      "anchorY": 0.9553,
+      "logicalHeight": 315,
+      "label": "castaneda walk n 1",
+      "kind": "famous-castaneda",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          721,
+          321,
+          154,
+          311
+        ],
+        "visiblePixels": 24621,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-walk-n-2": {
+      "sheet": "famous-castaneda",
+      "x": 1042,
+      "y": 319,
+      "w": 150,
+      "h": 315,
+      "anchorX": 0.59,
+      "anchorY": 0.9556,
+      "logicalHeight": 315,
+      "label": "castaneda walk n 2",
+      "kind": "famous-castaneda",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1044,
+          321,
+          146,
+          311
+        ],
+        "visiblePixels": 24076,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-idle": {
+      "sheet": "famous-castaneda",
+      "x": 113,
+      "y": 630,
+      "w": 111,
+      "h": 311,
+      "anchorX": 0.5676,
+      "anchorY": 0.9421,
+      "logicalHeight": 315,
+      "label": "castaneda idle",
+      "kind": "famous-castaneda",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          115,
+          632,
+          107,
+          309
+        ],
+        "visiblePixels": 21246,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-halt": {
+      "sheet": "famous-castaneda",
+      "x": 419,
+      "y": 632,
+      "w": 201,
+      "h": 308,
+      "anchorX": 0.3433,
+      "anchorY": 0.9448,
+      "logicalHeight": 315,
+      "label": "castaneda halt",
+      "kind": "famous-castaneda",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          421,
+          634,
+          197,
+          304
+        ],
+        "visiblePixels": 26159,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-parley": {
+      "sheet": "famous-castaneda",
+      "x": 719,
+      "y": 632,
+      "w": 199,
+      "h": 307,
+      "anchorX": 0.3442,
+      "anchorY": 0.9479,
+      "logicalHeight": 315,
+      "label": "castaneda parley",
+      "kind": "famous-castaneda",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          721,
+          633,
+          195,
+          304
+        ],
+        "visiblePixels": 25377,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-read-orders": {
+      "sheet": "famous-castaneda",
+      "x": 1057,
+      "y": 634,
+      "w": 130,
+      "h": 304,
+      "anchorX": 0.4462,
+      "anchorY": 0.9441,
+      "logicalHeight": 315,
+      "label": "castaneda read orders",
+      "kind": "famous-castaneda",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1059,
+          636,
+          126,
+          300
+        ],
+        "visiblePixels": 22181,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-listen": {
+      "sheet": "famous-castaneda",
+      "x": 108,
+      "y": 941,
+      "w": 120,
+      "h": 308,
+      "anchorX": 0.5542,
+      "anchorY": 0.9383,
+      "logicalHeight": 315,
+      "label": "castaneda listen",
+      "kind": "famous-castaneda",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          110,
+          942,
+          116,
+          305
+        ],
+        "visiblePixels": 21632,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-withdraw": {
+      "sheet": "famous-castaneda",
+      "x": 370,
+      "y": 940,
+      "w": 190,
+      "h": 308,
+      "anchorX": 0.6579,
+      "anchorY": 0.9383,
+      "logicalHeight": 315,
+      "label": "castaneda withdraw",
+      "kind": "famous-castaneda",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          372,
+          942,
+          186,
+          304
+        ],
+        "visiblePixels": 24842,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-look": {
+      "sheet": "famous-castaneda",
+      "x": 732,
+      "y": 940,
+      "w": 155,
+      "h": 305,
+      "anchorX": 0.4484,
+      "anchorY": 0.9443,
+      "logicalHeight": 315,
+      "label": "castaneda look",
+      "kind": "famous-castaneda",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          734,
+          942,
+          151,
+          301
+        ],
+        "visiblePixels": 25745,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-at-ease": {
+      "sheet": "famous-castaneda",
+      "x": 1070,
+      "y": 940,
+      "w": 120,
+      "h": 310,
+      "anchorX": 0.4958,
+      "anchorY": 0.9484,
+      "logicalHeight": 315,
+      "label": "castaneda at ease",
+      "kind": "famous-castaneda",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1072,
+          942,
+          116,
+          306
+        ],
+        "visiblePixels": 21444,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-mounted-walk-e-1": {
+      "sheet": "famous-castaneda-mounted",
+      "x": 35,
+      "y": 6,
+      "w": 576,
+      "h": 583,
+      "anchorX": 0.5113,
+      "anchorY": 0.9365,
+      "logicalHeight": 610,
+      "label": "castaneda mounted walk e 1",
+      "kind": "famous-castaneda-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          37,
+          8,
+          572,
+          579
+        ],
+        "visiblePixels": 131411,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda-mounted"
+    },
+    "castaneda-mounted-walk-e-2": {
+      "sheet": "famous-castaneda-mounted",
+      "x": 638,
+      "y": 8,
+      "w": 568,
+      "h": 581,
+      "anchorX": 0.4974,
+      "anchorY": 0.9294,
+      "logicalHeight": 610,
+      "label": "castaneda mounted walk e 2",
+      "kind": "famous-castaneda-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          640,
+          10,
+          564,
+          577
+        ],
+        "visiblePixels": 129946,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda-mounted"
+    },
+    "castaneda-mounted-idle-e": {
+      "sheet": "famous-castaneda-mounted",
+      "x": 59,
+      "y": 627,
+      "w": 555,
+      "h": 607,
+      "anchorX": 0.4459,
+      "anchorY": 0.9605,
+      "logicalHeight": 610,
+      "label": "castaneda mounted idle e",
+      "kind": "famous-castaneda-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          61,
+          629,
+          551,
+          603
+        ],
+        "visiblePixels": 141123,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda-mounted"
+    },
+    "castaneda-mounted-idle-s": {
+      "sheet": "famous-castaneda-mounted",
+      "x": 815,
+      "y": 626,
+      "w": 237,
+      "h": 610,
+      "anchorX": 0.5021,
+      "anchorY": 0.9754,
+      "logicalHeight": 610,
+      "label": "castaneda mounted idle s",
+      "kind": "famous-castaneda-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          817,
+          628,
+          233,
+          606
+        ],
+        "visiblePixels": 73119,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda-mounted"
     },
     "castrillon-idle": {
       "sheet": "famous-castrillon",
@@ -75891,6 +76753,78 @@
       "motion": "none",
       "direction": "east"
     },
+    "castaneda-walk-e": {
+      "frames": [
+        {
+          "sprite": "castaneda-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "castaneda-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "castaneda-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "castaneda-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "castaneda-walk-s": {
+      "frames": [
+        {
+          "sprite": "castaneda-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "castaneda-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "castaneda-walk-n": {
+      "frames": [
+        {
+          "sprite": "castaneda-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "castaneda-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "castaneda-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "castaneda-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "castaneda-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
     "castrillon-walk-e": {
       "frames": [
         {
@@ -87624,7 +88558,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 163,
+    "sourceCount": 165,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

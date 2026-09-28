@@ -2370,6 +2370,35 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-cos-mounted.png",
       "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
       "review": "Distinct iron-grey mount and two-step walking clip for Cos at Béxar and San Jacinto."
+    },
+    {
+      "sheet": "famous-castaneda",
+      "promptId": "frontier-v1/famous-castaneda",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 painterly ink-line game sprite atlas. Original interpretation of Lieutenant Francisco de Castañeda at Gonzales in 1835, distinct from Cos: lean younger Mexican dragoon officer, medium-brown complexion, close black hair, pointed moustache, dark navy short cavalry jacket with red standing collar and cuffs, brass crossbelt, tan trousers, black knee boots, tall black dragoon helmet with brass crest and short red plume. Same identity in all 16 equal cells with broad alpha gutters. Four east walking steps; two south and two north walking steps; idle, cautious halt, speaking at parley, reading orders; listening, signaling withdrawal, looking toward other bank, standing at ease. No horse, extra figures, text, grid, scenery, gore, or exact portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-cos.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9c5837c2-5d3f-4698-aab8-aa849e70ec67.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-castaneda.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dragoon helmet and short cavalry jacket give Castañeda a distinct silhouette at Gonzales."
+    },
+    {
+      "sheet": "famous-castaneda-mounted",
+      "promptId": "frontier-v1/famous-castaneda-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 2x2 mounted companion preserving the supplied Castañeda face, dragoon helmet and navy/red uniform; same chestnut horse with black mane and tail, white nose marking and simple period tack in all four cells. East walking step A and B, east halt, south halt. Match the supplied game horse and rider scale and painterly ink lines. One complete figure per equal cell with broad clear alpha gutters. No extra figure, text, grid, scenery, gore or exact historical portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9c5837c2-5d3f-4698-aab8-aa849e70ec67.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-cos-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3663bf07-018e-45fc-933a-51abb7bcd6e3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-castaneda-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Own chestnut mount and two-step travel clip for Gonzales arrival and withdrawal."
     }
   ]
 }

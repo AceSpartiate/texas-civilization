@@ -89,6 +89,7 @@ export const PERSON_ART = Object.freeze({
   almonte: { stand: 'almonte-idle', command: 'almonte-command', surrender: 'almonte-surrender', 'offer-sword': 'almonte-offer-sword', prisoner: 'almonte-prisoner', interpret: 'almonte-interpret', write: 'almonte-journal', walk: 'almonte-walk-e' },
   burleson: { stand: 'burleson-idle', command: 'burleson-command', point: 'burleson-point', listen: 'burleson-listen', 'receive-sword': 'burleson-receive-sword', 'sword-down': 'burleson-sword-down', seated: 'burleson-rest', ride: 'clip:burleson-mounted-walk-e', rideIdle: 'burleson-mounted-idle-e', walk: 'burleson-walk-e' },
   cos: { stand: 'cos-idle', command: 'cos-command', point: 'cos-point', write: 'cos-sign-terms', surrender: 'cos-sword-down', prisoner: 'cos-prisoner', ride: 'clip:cos-mounted-walk-e', rideIdle: 'cos-mounted-idle-e', walk: 'cos-walk-e' },
+  castaneda: { stand: 'castaneda-idle', command: 'castaneda-halt', speak: 'castaneda-parley', listen: 'castaneda-listen', point: 'castaneda-withdraw', ride: 'clip:castaneda-mounted-walk-e', rideIdle: 'castaneda-mounted-idle-e', walk: 'castaneda-walk-e' },
 });
 const lerp = (a, b, t) => a + (b - a) * t;
 
@@ -1355,10 +1356,11 @@ export function createBattleView(art) {
       // A man lying hurt (`pose: 'injured'`): Houston, his ankle shattered, when Santa Anna is brought before him (`HIST-TEX-526`).
       const kind = spot.side === 'mexican' ? 'regular' : 'volunteer';
       const clip = who?.pose === 'injured' ? `${kind}-injured-rest` : spot.side === 'mexican' ? (who?.mounted ? `dragoon-idle-${faceRight ? 'e' : 'w'}` : `regular-idle-${faceRight ? 'e' : 'w'}`) : `volunteer-idle-${faceRight ? 'e' : 'w'}`;
-      // The capture parley is the first battle scene to use the named roster art. Santa Anna is in the plain soldier's
-      // clothes he wore when found, while Houston sits with his bandaged ankle; all other parley figures retain stand-ins.
+      // Named parley participants use their own sheet when delivered. Santa Anna is in the plain soldier's
+      // clothes he wore when found, while Houston sits with his bandaged ankle.
       const namedSprite = who?.name === 'Houston' && who.pose === 'injured' ? 'houston-injured-seated'
-        : who?.name === 'Santa Anna' && !who.mounted ? 'santa-anna-disguised-idle' : null;
+        : who?.name === 'Santa Anna' && !who.mounted ? 'santa-anna-disguised-idle'
+          : who?.mounted ? PERSON_ART[who.id]?.rideIdle : PERSON_ART[who.id]?.stand;
       if (!(namedSprite && art.drawSprite(ctx, namedSprite, x, p.y, size, { flip: !faceRight }))
         && !art.animated(ctx, clip, x, p.y, size, `parley:${spot.side}`, { timeMs: time, ...(who?.pose === 'injured' && { flip: !faceRight }) })) {
         art.miniPerson(ctx, x, p.y, size, { side: spot.side });

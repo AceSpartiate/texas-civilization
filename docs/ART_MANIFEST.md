@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1686 usable sprites, 163 PNG atlases, 557 clips** (329 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1706 usable sprites, 165 PNG atlases, 561 clips** (333 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -66,6 +66,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-fannin | 16 | 1254 × 1254 | 1306380 |
 | famous-burleson | 16 | 1254 × 1254 | 1243988 |
 | famous-burleson-mounted | 4 | 1254 × 1254 | 1242276 |
+| famous-castaneda | 16 | 1254 × 1254 | 1167969 |
+| famous-castaneda-mounted | 4 | 1226 × 1283 | 1274697 |
 | famous-castrillon | 4 | 1254 × 1254 | 925993 |
 | famous-castrillon-fate | 4 | 1254 × 1254 | 975586 |
 | famous-cos | 16 | 1254 × 1254 | 1237092 |
@@ -753,6 +755,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | burleson-mounted-walk-e-2 | famous-burleson-mounted | burleson-mounted-walk-e |
 | burleson-mounted-idle-e | famous-burleson-mounted | State artwork; no motion required |
 | burleson-mounted-idle-s | famous-burleson-mounted | State artwork; no motion required |
+| castaneda-walk-e-1 | famous-castaneda | castaneda-walk-e |
+| castaneda-walk-e-2 | famous-castaneda | castaneda-walk-e |
+| castaneda-walk-e-3 | famous-castaneda | castaneda-walk-e |
+| castaneda-walk-e-4 | famous-castaneda | castaneda-walk-e |
+| castaneda-walk-s-1 | famous-castaneda | castaneda-walk-s |
+| castaneda-walk-s-2 | famous-castaneda | castaneda-walk-s |
+| castaneda-walk-n-1 | famous-castaneda | castaneda-walk-n |
+| castaneda-walk-n-2 | famous-castaneda | castaneda-walk-n |
+| castaneda-idle | famous-castaneda | State artwork; no motion required |
+| castaneda-halt | famous-castaneda | State artwork; no motion required |
+| castaneda-parley | famous-castaneda | State artwork; no motion required |
+| castaneda-read-orders | famous-castaneda | State artwork; no motion required |
+| castaneda-listen | famous-castaneda | State artwork; no motion required |
+| castaneda-withdraw | famous-castaneda | State artwork; no motion required |
+| castaneda-look | famous-castaneda | State artwork; no motion required |
+| castaneda-at-ease | famous-castaneda | State artwork; no motion required |
+| castaneda-mounted-walk-e-1 | famous-castaneda-mounted | castaneda-mounted-walk-e |
+| castaneda-mounted-walk-e-2 | famous-castaneda-mounted | castaneda-mounted-walk-e |
+| castaneda-mounted-idle-e | famous-castaneda-mounted | State artwork; no motion required |
+| castaneda-mounted-idle-s | famous-castaneda-mounted | State artwork; no motion required |
 | castrillon-idle | famous-castrillon | State artwork; no motion required |
 | castrillon-walk-e-1 | famous-castrillon | castrillon-walk-e |
 | castrillon-walk-e-2 | famous-castrillon | castrillon-walk-e |
@@ -2067,6 +2089,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | burleson-walk-s | Pose cycle | 2 | 580 | yes | south |
 | burleson-walk-n | Pose cycle | 2 | 580 | yes | north |
 | burleson-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| castaneda-walk-e | Pose cycle | 4 | 760 | yes | east |
+| castaneda-walk-s | Pose cycle | 2 | 580 | yes | south |
+| castaneda-walk-n | Pose cycle | 2 | 580 | yes | north |
+| castaneda-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | castrillon-walk-e | Pose cycle | 2 | 540 | yes | east |
 | castrillon-fall | Pose cycle | 3 | 700 | one-shot | east; mirror for west |
 | cos-walk-e | Pose cycle | 4 | 760 | yes | east |
