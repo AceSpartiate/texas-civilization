@@ -19,7 +19,7 @@ const INJECTIONS = [
     { file: AMBIENT, from: 'export const LINE_MS = 3800, REPLY_AFTER_MS = LINE_MS + 600;', to: 'export const LINE_MS = 9000, REPLY_AFTER_MS = 0;' },
     { file: AMBIENT, from: '    if (!box || boxes.some(other => overlaps(box, other))) continue;', to: '    if (!box) continue;' },
   ], expect: /at most 3 bubbles/ },
-  { name: 'a visitor stays at their own door', edits: [{ file: AMBIENT, from: '  const target = amb?.at || home;', to: '  const target = home;' }], expect: /walked to a neighbour/ },
+  { name: 'a visitor stays at their own door', edits: [{ file: AMBIENT, from: '  let target = amb?.at || home;', to: '  let target = home;' }], expect: /walked to a neighbour/ },
   { name: 'the talk is slow to draw', edits: [{ file: AMBIENT, from: '  const showing = [];', to: '  const showing = []; { const until = performance.now() + 70; while (performance.now() < until); }' }], expect: /inside the gate/ },
 ];
 

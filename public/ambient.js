@@ -36,29 +36,30 @@ export function ambientGround(entity, home, { walker, now, time, figure, scale, 
   const amb = entity.amb;
   const one = walker.seen(entity.id);
   if (!amb && !one?.away) return null;
-  const target = amb?.at || home;
   const pace = TOWN_WALK * figure / Math.max(1, scale);
+  // Carrying something back and forth: to a spot a few steps east of their place, then a few steps west, walked there by the
+  // same walker at the same pace as everybody, so the carrier never slides or jumps - not at the turn, not when the carrying
+  // begins or ends, not at a zoom. The steps are measured on the ground (`personMiles`, a person's width of it, as the page's
+  // separation is). Standing still while the class is paused (the page's clock stands still); not paced under reduced motion.
+  // ceiling: the steps are the page's, a drawing a step and a half either side of where the server has them, like the
+  // separation `stableOffset` gives; a well or a woodpile the server places is the way out if the carrying is to go somewhere.
+  let target = amb?.at || home;
+  if (amb?.pace && !amb.at && !reducedMotion) {
+    const span = PACE_HEIGHTS * personMiles;
+    // A leg is the walk across and a breath at the end, whatever the zoom makes the walk.
+    const leg = span / Math.max(1e-9, pace) * 1000 + 400;
+    const east = Math.floor((time + seedOf(entity.id) * leg * 2) / leg) % 2 === 0;
+    target = { x: home.x + (east ? .5 : -.5) * span, y: home.y };
+  }
   const walked = walker.step(entity.id, target, now, frozen || reducedMotion ? 1e3 : pace);
   walked.away = Boolean(amb?.at) || Math.hypot(walked.at.x - home.x, walked.at.y - home.y) > HOME_MILES;
   const base = walked.at;
   if (!amb) return { at: base, base, stepping: walked.moving ? walked.dir : null, amb: null };
-  if (walked.moving) return { at: base, base, stepping: walked.dir, amb };
-  // Carrying something back and forth: a few steps east, a few west, the feet kept to the ground by the page's gait.
-  // ceiling: the steps are the page's, a drawing a step and a half either side of where the server has them, like the
-  // separation `stableOffset` gives; a well or a woodpile the server places is the way out if the carrying is to go somewhere.
-  // Measured on the ground (`personMiles`, a person's width of it, as the page's separation is), never in screen heights: a
-  // zoom or a smaller window must not move a carrier across the yard in a frame. Held where they are while the class is paused
-  // (the page's clock stands still), and not paced at all under reduced motion.
-  if (amb.pace && !reducedMotion) {
-    const span = PACE_HEIGHTS * personMiles;
-    const phase = ((time + seedOf(entity.id) * PACE_MS * 2) % (PACE_MS * 2)) / PACE_MS;
-    const out = phase < 1 ? phase : 2 - phase;
-    return { at: { x: base.x + (out - .5) * span, y: base.y }, base, stepping: phase < 1 ? 'e' : 'w', amb };
-  }
+  if (walked.moving) return { at: base, base: amb.pace ? home : base, stepping: walked.dir, amb };
   // Keeping company: turned to the other, wherever the page drew them last.
   const other = amb.with && whereIs?.(amb.with);
   const turned = other ? { ...amb, f: other.x >= base.x ? 'e' : 'w' } : amb;
-  return { at: base, base, stepping: null, amb: turned };
+  return { at: base, base: amb.pace ? home : base, stepping: null, amb: turned };
 }
 const seedOf = id => { let n = 0; for (const c of String(id)) n = (Math.imul(n, 31) + c.charCodeAt(0)) >>> 0; return (n % 1000) / 1000; };
 
