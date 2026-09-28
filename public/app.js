@@ -7,6 +7,8 @@ import { familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner }
 import { actingOf, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { mountErrand } from '/errand.js';
+import { reconnector, reconnectWords } from '/reconnect.js';
+import { mountClassPanel } from '/class-panel.js';
 import { asksTheWay, mountGoing } from '/going.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {alamoOnMap,bexarToSite} from '/bexar-layout.js';
@@ -40,7 +42,7 @@ const $ = selector => document.querySelector(selector);
 import { militaryNotices } from '/military-attention.js';
 import { createBattleView } from '/battle-view.js';
 import { createChaseView } from '/chase-view.js';
-const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
+const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error', '#away-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
 let events;
 // A page going away ends its own stream (2026-09-27). Play Solo's server takes the stream closing as its player leaving
@@ -6326,14 +6328,15 @@ function render(snapshot) {
   window.__render = render;
   window.__received.push({ revision: snapshot.revision, tick: snapshot.world.tick });
   if (window.__received.length > 2000) window.__received.shift();
-  $('#join').hidden = true; $('#rejoin').hidden = true; $('#game').hidden = false;
+  $('#join').hidden = true; $('#rejoin').hidden = true; $('#away').hidden = true; $('#game').hidden = false;
   const world = snapshot.world, host = world.role === 'host';
   // "Connected" alone made a locked phone look like a student who had left. Away is a
   // household whose stream has closed within the grace window; it is not a count of who
   // is paying attention, and the Host line says so by naming the two separately.
+  // And how many families the class has (2026-09-28): the students joined of the families there are.
   const presence = snapshot.presence;
   $('#connection').textContent = host
-    ? (presence ? `${presence.here} here${presence.away ? ` · ${presence.away} away` : ''} of ${presence.joined}` : `${snapshot.connected} connected`)
+    ? (presence ? `${presence.here} here${presence.away ? ` · ${presence.away} away` : ''} of ${presence.joined} joined${snapshot.classSize ? ` · ${snapshot.classSize} families` : ''}` : `${snapshot.connected} connected`)
     : '';
   // The family's own name, not the row number it used to carry and not the raw id it fell
   // back to the moment households stopped being called "Family N".
@@ -6379,6 +6382,7 @@ function render(snapshot) {
     if (!host) { $('#recover-panel').hidden = true; clearRevealedKey(); }
   }
   renderJoinLinks(snapshot);
+  renderClassPanel(snapshot);
   renderSlice(world);
   renderEnding(world);
   // Making the family comes before the world is seen (public/creation.js): the curtain, and no map drawn behind it.
@@ -6460,34 +6464,57 @@ $('#panel-backdrop')?.addEventListener('click', () => {
   $('#house-open')?.focus();
 });
 function showJoin(message) {
+  // Called on a sign-out, while the reconnector goes on listening for this page's class to come back (public/reconnect.js).
+  showReconnecting('');
   events?.close(); events = null;
-  $('#game').hidden = true; $('#rejoin').hidden = true; $('#join').hidden = hostPage;
+  $('#game').hidden = true; $('#rejoin').hidden = true; $('#away').hidden = true; $('#join').hidden = hostPage;
   // The title screen is the join form's own backdrop (public/creation.js): the game's name is the first thing a student sees.
   if (!hostPage) showTitle();
   $('#connection').textContent = hostPage ? 'Host access required' : 'Ready to join';
   say(message);
 }
+/** The banner over the page while it is out of reach of the server; empty hides it. */
+function showReconnecting(text) {
+  const banner = $('#reconnecting');
+  if (!banner) return;
+  if (banner.textContent !== text) banner.textContent = text;
+  banner.hidden = !text;
+  document.body.dataset.reconnecting = String(Boolean(text));
+}
+/**
+ * The page's way back to its class after the stream breaks (2026-09-28, public/reconnect.js, the classroom audit's B3): it
+ * keeps asking, a few seconds apart, with the game left on the screen behind a "Reconnecting" banner, and carries on with the
+ * same family when the server answers - after a Wi-Fi drop, a Chromebook asleep, a restarted or stopped-and-started server.
+ * Only a 401 goes to the join screen, where a student who has nothing but the class code can find their own name.
+ * Declared above the page's first `connect`, which reaches it (the TDZ rule, tests/page-startup.test.mjs).
+ * ceiling: the Host's cookie is named for the class that is open, and a new one is set only in the browser that opened
+ * another class; a Host page in another browser (the launcher's own window) is signed out then, and is opened again from
+ * the launcher. A host cookie that does not name the class is the way out if a teacher runs two Host browsers.
+ */
+const reconnect = reconnector({
+  connected: snapshot => { showReconnecting(''); connect(snapshot); },
+  signedOut: () => showJoin(hostPage
+    ? 'This Host session ended. Reopen the Host page from the launcher.'
+    : 'You are no longer joined to this class: your family was taken up on another device, or your teacher opened another class. If you were in this class, choose “I was already in this class” and tap your name.'),
+  waiting: (tries, since) => {
+    const stopped = window.__snapshot?.lifecycle?.state === 'stopping';
+    showReconnecting(reconnectWords({ host: hostPage, stopped, solo: Boolean(window.__snapshot?.solo), seconds: (Date.now() - since) / 1000 }));
+    if (hostPage) $('#connection').textContent = 'Reconnecting…';
+    window.__reconnecting = { tries, since };
+  },
+});
+// The Host's class controls (public/class-panel.js): class days, class size, late students and the classes on this computer.
+const renderClassPanel = mountClassPanel({ $, api, element, command: (action, extra = {}) => api('/api/command', { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action, ...extra }) });
 function connect(snapshot) {
+  reconnect.stop();
   if (snapshot) render(snapshot);
   events?.close(); events = new EventSource('/api/events');
-  events.onmessage = event => { render(JSON.parse(event.data)); };
+  events.onmessage = event => { showReconnecting(''); render(JSON.parse(event.data)); };
+  // The stream is closed here and the page asks for itself (`reconnect`), rather than leaving the browser's own retry to run
+  // alongside: one way back, and a 401 always read as one.
   events.onerror = () => {
-    $('#connection').textContent = 'Connection interrupted. Reconnecting…';
-    // A new class or a stopped server ends this stream permanently. Ask once, then
-    // say which happened instead of leaving a stale page claiming to be connected.
-    if (authRecheck) return;
-    authRecheck = true;
-    setTimeout(async () => {
-      authRecheck = false;
-      try { connect(await api('/api/state')); }
-      catch {
-        const stopped = window.__snapshot?.lifecycle?.state === 'stopping';
-        showJoin(hostPage ? 'This Host session ended. Reopen the Host page from the launcher.'
-          : stopped && window.__snapshot?.solo ? 'Play Solo stopped. Your game was saved and paused: press Play Solo on the launcher and choose Continue to go on.'
-          : stopped ? 'Your teacher stopped the classroom server. Your family\'s story was saved.'
-            : 'You are no longer joined to this class. Use your family key to come back, or ask your teacher for the current class code.');
-      }
-    }, 1500);
+    events?.close(); events = null;
+    reconnect.start();
   };
 }
 // Two doors, one at a time. The toggle is a plain button so the pages stay usable with
@@ -6496,10 +6523,43 @@ function showDoor(which) {
   say('');
   $('#join').hidden = which !== 'join';
   $('#rejoin').hidden = which !== 'rejoin';
-  $(which === 'join' ? '#join input[name="name"]' : '#rejoin input[name="key"]')?.focus();
+  $('#away').hidden = which !== 'away';
+  $(which === 'join' ? '#join input[name="name"]' : which === 'away' ? '#away input[name="away-code"]' : '#rejoin input[name="key"]')?.focus();
 }
 $('#rejoin-toggle').addEventListener('click', () => showDoor('rejoin'));
 $('#join-toggle').addEventListener('click', () => showDoor('join'));
+$('#away-toggle')?.addEventListener('click', () => showDoor('away'));
+$('#away-join-toggle')?.addEventListener('click', () => showDoor('join'));
+$('#away-key-toggle')?.addEventListener('click', () => showDoor('rejoin'));
+// A third door (2026-09-28, the classroom audit's B3 and S5): the class code, then your own name off the list of students
+// whose family nobody is playing now (server/app.mjs `/api/away`), then that family on this device (`/api/claim`). For a
+// student on a cart or guest Chromebook who has no cookie and never wrote their family key down.
+$('#away').addEventListener('submit', async event => {
+  event.preventDefault(); if (joinPending) return;
+  joinPending = true; const code = new FormData(event.target).get('away-code').trim().toUpperCase(), button = $('#away-find');
+  button.disabled = true; say('');
+  try {
+    const { families } = await api('/api/away', { code });
+    $('#away-names').replaceChildren(...families.map(family => {
+      const item = element('li', '');
+      const pick = element('button', family.name);
+      pick.type = 'button'; pick.dataset.claim = family.householdId; pick.dataset.code = code;
+      pick.append(element('span', family.family, 'away-family'));
+      item.append(pick);
+      return item;
+    }));
+    if (!families.length) say('Nobody in this class is waiting to come back. If you are new to it, choose “I am joining for the first time”.');
+  } catch (error) { say(error.message); }
+  finally { joinPending = false; button.disabled = false; }
+});
+$('#away-names').addEventListener('click', async event => {
+  const pick = event.target.closest('[data-claim]');
+  if (!pick || joinPending) return;
+  joinPending = true; say('');
+  try { connect(await api('/api/claim', { code: pick.dataset.code, householdId: pick.dataset.claim })); $('#away-names').replaceChildren(); }
+  catch (error) { say(error.message); }
+  finally { joinPending = false; }
+});
 $('#rejoin').addEventListener('submit', async event => {
   event.preventDefault(); if (joinPending) return;
   joinPending = true; const form = new FormData(event.target), button = event.target.querySelector('button');
