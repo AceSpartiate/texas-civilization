@@ -45,6 +45,7 @@ const $ = selector => document.querySelector(selector);
 import { militaryNotices } from '/military-attention.js';
 import { createBattleView } from '/battle-view.js';
 import { createChaseView } from '/chase-view.js';
+import { activityOf, drawsAtWork, drawWorkLayer, strokeClock, strokeFace, strokeLean, strokeShift, workBeat, workSlot } from '/work-art.js';
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error', '#away-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
 let events;
@@ -90,6 +91,9 @@ let animationTime = 0, previousFrame = 0, paintedFrame = 0, animationDrawMs = 0;
 let flashbackClock = null, landMaking = 0;
 // A traveller's cycle is played from their own place in their stride rather than the shared clock (public/motion.js `GaitClock`).
 const gaitClock = new GaitClock(), gaits = new Map();
+// People at their work (public/work-art.js): where each stands round a shared piece of work and where in its stroke they are,
+// written into these once a figure rather than made new, and each pose's frame lengths read once from the library.
+const workSlotOut = { x: 0, y: 0, face: null }, workClockOut = { period: 0, since: 0, count: 0, frame: 0 }, workFrames = new Map(), workSeeds = new Map();
 /**
  * What was drawn of each traveller this frame (public/motion.js `travelSight`): how much of them was drawn (1 in view, 0
  * away), where along the road they were drawn, how fast they were drawn going in their own heights a second and what the
@@ -293,6 +297,55 @@ function groundShadow(ctx, x, y, radius) {
 // name. Guessing either from a name would be a claim the simulation never made.
 const SKIN = ['#e0b48c', '#c9915f', '#a76c41', '#7d4d2c', '#f0cba6'];
 const CLOTH = ['#7d6a4c', '#5d6b52', '#8a6a4a', '#6d5a68', '#4f6570'];
+/**
+ * Somebody at their work, in the pose the one table chose (public/work-art.js `WORK`), timed so its tool and effect land on the
+ * pose's own strike: a cycle of the work where the library has one, and where it has not the nearest pose with the stand-in's
+ * tool, lean, pace and chips or earth drawn with it. Walking to the work and carrying from it are the ordinary cycles, stepped
+ * at the pace they are moved (`gait`). Returns whether the figure was drawn.
+ * stand-in: docs/ART_REQUESTS.md, "Request 2026-09-28 — people at work" - every stroke marked 'stand-in' there.
+ */
+/**
+ * Somebody as the drawing of their work needs them: whether they stand at their own home (working about the place happens nowhere
+ * else, sim/routines.mjs) and which way the server is stepping them over their land this frame (`ProjectionMotion.heading`).
+ * Only for somebody the work table draws, so nobody else is copied.
+ */
+function atTheirWork(entity, homeSiteId, now, frozen) {
+  if (entity.kind !== 'person' || !(entity.chore || entity.task === 'work' || entity.task === 'help')) return entity;
+  const shown = { ...entity, atHome: Boolean(homeSiteId) && entity.location?.siteId === homeSiteId };
+  if (drawsAtWork(shown)) shown.strolling = motionProjection.heading(entity, now, frozen);
+  return shown;
+}
+function drawAtWork(ctx, binding, clip, x, y, size, entity) {
+  const stroke = binding.work;
+  if (stroke.art === 'journey' || entity.strolling) {
+    return animated(ctx, clip, x, y, size, entity.id, { paused: binding.frozen, flip: binding.upright ? false : entity.flip, gait: entity.gait, appearance: entity.appearance });
+  }
+  const id = entity.id || '';
+  let seed = workSeeds.get(id);
+  if (seed === undefined) { seed = (hashOf(id) % 997) * 7; workSeeds.set(id, seed); }
+  let frames = workFrames.get(clip);
+  if (frames === undefined) { const info = clipInfo(clip); frames = info?.frames ? info.frames.map(frame => frame.duration) : null; if (info) workFrames.set(clip, frames); }
+  const still = reducedMotion.matches || Boolean(binding.frozen);
+  strokeClock(stroke, frames, animationTime + seed, workClockOut);
+  const shift = still ? 0 : strokeShift(stroke, workClockOut) * size, face = still ? null : strokeFace(stroke, workClockOut);
+  const flip = face ? face === 'w' : binding.upright ? false : Boolean(entity.flip), dir = flip ? -1 : 1;
+  const width = animated(ctx, clip, x + shift, y, size, 0, {
+    paused: binding.frozen, flip, appearance: entity.appearance,
+    timeMs: animationTime + seed, lean: still ? 0 : -strokeLean(stroke, workClockOut) * dir,
+  });
+  if (!width) return 0;
+  const marks = drawWorkLayer(ctx, stroke, x + shift, y, size, dir, workClockOut, still);
+  // Presentation evidence for the proofs (npm run test:work), read by nothing in the application: what each of the family at work
+  // was last drawn doing, which frame of it, and how many marks of its tool and effect. One record a person, kept and rewritten.
+  if (id) {
+    const seen = (window.__workDrawn ??= {})[id] ??= {};
+    seen.activity = activityOf(entity); seen.stroke = binding.stroke; seen.art = stroke.art; seen.clip = clip;
+    seen.frame = workClockOut.frame; seen.since = Math.round(workClockOut.since); seen.count = workClockOut.count; seen.marks = marks;
+    seen.shift = Math.round(shift * 10) / 10; seen.flip = flip; seen.request = stroke.request || null;
+    if (!still) workBeat(id, seen.activity, binding.stroke, workClockOut, x + dir * size * .5, y);
+  }
+  return width;
+}
 function miniPerson(ctx, x, y, size, entity) {
   // A child is drawn smaller than a grown person, in their own figure or a grown one (public/motion.js `entityClip`).
   if (!entity.side) size *= figureScale(entity);
@@ -303,16 +356,18 @@ function miniPerson(ctx, x, y, size, entity) {
     // The pose each of the family was last drawn in, by id: presentation evidence for the proofs (npm run test:children), read by
     // nothing in the application.
     if (entity.id) (window.__clipsDrawn ??= {})[entity.id] = clip;
-    if (animated(ctx, clip, x, y, size, entity.id, {
+    if (binding.work) { if (drawAtWork(ctx, binding, clip, x, y, size, entity)) return; }
+    else if (animated(ctx, clip, x, y, size, entity.id, {
       paused: binding.frozen, flip: binding.upright ? false : entity.flip,
       gait: entity.gait, appearance: entity.appearance,
     })) return;
   }
   const binding = entity.side ? { id: `${entity.side === 'mexican' ? 'regular' : 'volunteer'}-idle-e` } : entityClip(entity, entity.observed);
   if (entity.id && !entity.side) (window.__clipsDrawn ??= {})[entity.id] = binding.id;
+  if (binding.work && drawAtWork(ctx, binding, binding.id, x, y, size, entity)) return;
   // A north or south cycle is drawn facing that way already; mirroring it would turn a
   // person walking away into a person walking away backwards.
-  if (animated(ctx, binding.id, x, y, size, entity.id || entity.side, { paused: binding.frozen, flip: binding.upright ? false : entity.flip, gait: entity.gait })) return;
+  if (!binding.work && animated(ctx, binding.id, x, y, size, entity.id || entity.side, { paused: binding.frozen, flip: binding.upright ? false : entity.flip, gait: entity.gait })) return;
   const tint = hashOf(entity.id || entity.name || 'person');
   const coat = entity.side === 'mexican' ? '#4a6079' : entity.side === 'texian' ? '#7d5f45'
     // The principal's rust coat marks the one person a student directs, and nobody who is
@@ -733,6 +788,7 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // vehicles - or behind the ox under its packs on a family with none - so horse, ox and cart are not drawn one on another.
   // The ox of a family on foot carries its own visible packs a length behind the walkers.
   const saddled = entity.kind === 'person' && entity.travel?.saddle && !entity.travel.carried;
+  const atWork = !saddled && !entity.travel && !marks.placed && !marks.observed && drawsAtWork(entity) && workSlot(entity, marks.workmates, workSlotOut);
   const rigs = saddled ? wagonTeams(entity.householdId, marks.entities || []).length : 0;
   const offset = saddled ? { x: behind.x * (rigs ? 82 * rigs : 64), y: behind.y * (rigs ? 60 * rigs : 56) + 4 }
     : entity.travel
@@ -741,7 +797,12 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
       : walker >= 0 ? (vertical ? { x: 30 + (walker % 2) * 12, y: behind.y * (8 + 20 * walker) } : { x: behind.x * (-10 + 17 * walker), y: 14 + (walker % 2) * 5 })
       : { x: 0, y: 0 })
     // Somebody standing in Gonzales has been walked to their spot, the separation included (`townGround`).
-    : marks.placed ? { x: 0, y: 0 } : stableOffset(entity.id);
+    : marks.placed ? { x: 0, y: 0 }
+    // Somebody at work stands at it, facing it, and several at one piece of work stand round it (public/work-art.js `workSlot`).
+    : atWork ? { x: workSlotOut.x * 26, y: workSlotOut.y * 26 }
+    : stableOffset(entity.id);
+  // Facing the work: read by `drawFigure` for this figure only (`marks` is made for each).
+  marks.workFace = atWork ? workSlotOut.face : null;
   const x = point.x + offset.x * spread, y = point.y + offset.y * spread * .8;
   // Everything is drawn standing on (x, y), so `size` is a height and the click target
   // is the body above that point, not a circle centred on the feet.
@@ -957,11 +1018,13 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
   // works out from where the two of them actually are.
   // Somebody walking across Gonzales faces the way they are walking, and somebody in one of its scenes the way the scene has
   // them turned (public/town-scenes.js).
-  const flip = entity.facing ? entity.facing === 'w' : entity.stepping ? entity.stepping === 'w' : entity.scenePose ? entity.scenePose.face === 'w' : travelDirection(entity) === 'w';
+  // Somebody at work faces it (`workSlot`), and somebody the server is stepping over their own land to it faces the way they go.
+  const flip = entity.facing ? entity.facing === 'w' : entity.stepping ? entity.stepping === 'w' : entity.scenePose ? entity.scenePose.face === 'w'
+    : entity.strolling ? entity.strolling === 'w' : marks.workFace ? marks.workFace === 'w' : travelDirection(entity) === 'w';
   // Somebody on the road steps at the rate the ground drawn under them goes past (public/motion.js `gaitStep`),
   // measured in their own drawn height: a child's shorter stride, a horse's longer one.
   const onFoot = entity.kind === 'person' && !mounted(entity);
-  const gait = (entity.travel && !entity.travel.halted && !entity.facing || entity.stepping) && marks.ground && marks.scale > 0
+  const gait = (entity.travel && !entity.travel.halted && !entity.facing || entity.stepping || entity.strolling) && marks.ground && marks.scale > 0
     ? { id: entity.id, at: marks.ground, bodyMiles: height * (onFoot ? figureScale(entity) : 1) / marks.scale, stride: onFoot ? STRIDE.foot : STRIDE.hoof }
     : null;
   if (seat) drawSeated(ctx, x, y, size, entity, seat, marks.entities || [], flip, gait);
@@ -3189,8 +3252,9 @@ export function drawWorld(world) {
       }) });
       window.__quarryDrawn = { id: entity.id, kind, x: spot.x, y: spot.y };
     }
-    standing.push({ y: point.y, draw: () => drawEntity(ctx, inTown ? { ...entity, stepping: inTown.stepping, scenePose: inTown.pose } : stepping ? { ...entity, stepping } : entity, point, roomForNames, camera.figure, {
-      selected: entity.id === chosen?.id, mark, entities,
+    const shown = inTown ? { ...entity, stepping: inTown.stepping, scenePose: inTown.pose } : stepping ? { ...entity, stepping } : carrier ? entity : atTheirWork(entity, world.household?.homeSiteId, frameNow, frozen);
+    standing.push({ y: point.y, draw: () => drawEntity(ctx, shown, point, roomForNames, camera.figure, {
+      selected: entity.id === chosen?.id, mark, entities, workmates: entities,
       labels, heading: destination ? destination.x - entity.location.x : 0, ground, scale: camera.scale,
       now: frameNow, frozen, running, tickMs, sight, placed: Boolean(inTown),
     }) });
@@ -3229,8 +3293,11 @@ export function drawWorld(world) {
       const spot = camera.toScreen(entity.chore.quarry);
       standing.push({ y: spot.y, draw: () => miniQuarry(ctx, spot.x, spot.y, camera.figure * (QUARRY_SIZE[kind] || QUARRY_SIZE.deer), { kind, flip: spot.x < point.x, seed: entity.id }) });
     }
-    standing.push({ y: point.y, draw: () => drawEntity(ctx, { ...entity, health: { condition: entity.condition }, ...(inTown && { stepping: inTown.stepping, scenePose: inTown.pose }), ...(!inTown && sight?.stepping && { stepping: sight.stepping }) }, point, roomForNames, camera.figure, {
-      selected: entity.id === chosen?.id, mark: null, labels, observed: !host, ground, scale: camera.scale,
+    const seen = { ...entity, health: { condition: entity.condition }, ...(inTown && { stepping: inTown.stepping, scenePose: inTown.pose }), ...(!inTown && sight?.stepping && { stepping: sight.stepping }) };
+    // The Host sees every family at its work as the family does (public/work-art.js); a student's neighbour is seen at no work.
+    const shown = host && !inTown && !seen.stepping ? atTheirWork(seen, world.overview?.lands?.[entity.householdId]?.homeSiteId, frameNow, frozen) : seen;
+    standing.push({ y: point.y, draw: () => drawEntity(ctx, shown, point, roomForNames, camera.figure, {
+      selected: entity.id === chosen?.id, mark: null, labels, observed: !host, ground, scale: camera.scale, workmates: host ? observed : null,
       now: frameNow, frozen, running, tickMs, sight, placed: Boolean(inTown),
     }) });
     shownObserved.push(entity.id);

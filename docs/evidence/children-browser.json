@@ -119,17 +119,17 @@
       "row": "Driving the milk cow along behind the family.",
       "drawn": {
         "by": "hh-1-child-4",
-        "x": 379,
-        "y": 2280,
+        "x": 536,
+        "y": 1019,
         "clip": "cattle-longhorn-red-idle",
         "child": {
-          "x": 459,
-          "y": 2274
+          "x": 617,
+          "y": 1013
         }
       },
       "child": {
-        "x": 458.8808802333315,
-        "y": 2234.3348812102713,
+        "x": 616.5397187577742,
+        "y": 973.0641730147313,
         "size": 89.10000000000001
       },
       "herdLeft": {
