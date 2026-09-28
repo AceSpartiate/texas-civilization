@@ -1,0 +1,41 @@
+{
+  "record": "Help between families, remembered and repaid, in a browser: sim/neighbourly.mjs, owner 2026-09-28 (\"Yes: they remember and repay\")",
+  "date": "2026-09-28",
+  "verdict": "PASS",
+  "note": "Same computer only. A real class on the colonies map with rolled families; the raising played live in the browser, the months to the spring played in process with the two families set down as unplayed, and the spring and the ending live. Planted and said: the helped house at its last course with its logs, and each family's stores at the spring. No LAN or district claim.",
+  "checks": [
+    "the Neighbours list shows the family 6.2 miles off raising its walls, and \"Send Amos there\" sends them",
+    "there, \"Help raise the walls\" puts Amos Hale to it: 6 hours, written in the ledger",
+    "told to leave, the helped family is asked: \"The Hale family have more than their wagon will carry east. Offer them room for 8 in your wagon? Your family remembers Amos Hale helping raise your walls. Offer\"",
+    "the helper is offered it by name and accepts: \"Feliciano Walker of the Walker family offers room for 8 in their wagon: they remember Amos Hale helping raise their walls. AcceptSay no\"; the wagon's room goes from 20 to 28, the lender's from 40 to 32",
+    "at phone width, with the Neighbours sheet open, the page does not scroll sideways",
+    "the ending names it: family \"Neighbours September 28: Amos Hale helped the Walker family raise their walls (6 hours). March 27: The Walker family kept room for 8 of the family's goods in their wagon on the road east.\"; Host \"Who helped whom The Hale family → the Walker family: helped raise their walls (6 hours). The Walker family → the Hale family: kept room for 8 in their wagon.\"",
+    "no page errors"
+  ],
+  "observed": {
+    "row": "The neighbours at Family 1 home · 6.2 miles\n\nRaising their walls now\n\nSend Amos there",
+    "goButton": "Send Amos there",
+    "raised": {
+      "hours": 6,
+      "person": "Amos Hale"
+    },
+    "own": {
+      "helped": 40,
+      "helper": 20,
+      "helperGoods": 27.75
+    },
+    "asked": "The Hale family have more than their wagon will carry east. Offer them room for 8 in your wagon? Your family remembers Amos Hale helping raise your walls. Offer itNot this time",
+    "offered": "Feliciano Walker of the Walker family offers room for 8 in their wagon: they remember Amos Hale helping raise their walls. AcceptSay no",
+    "lent": "The Walker family are keeping room for 8 of your goods in their wagon on the road east. It is counted in your wagon's room until either family leaves.",
+    "helperEnding": "Neighbours September 28: Amos Hale helped the Walker family raise their walls (6 hours). March 27: The Walker family kept room for 8 of the family's goods in their wagon on the road east.",
+    "helpedEnding": "Neighbours September 28: Amos Hale of the Hale family helped raise the family's walls (6 hours). March 27: The family kept room for 8 of the Hale family's goods in its wagon on the road east.",
+    "hostEnding": "Who helped whom The Hale family → the Walker family: helped raise their walls (6 hours). The Walker family → the Hale family: kept room for 8 in their wagon."
+  },
+  "screenshots": [
+    "docs/evidence/neighbours-raising.png",
+    "docs/evidence/neighbours-asked.png",
+    "docs/evidence/neighbours-room.png",
+    "docs/evidence/neighbours-ending.png",
+    "docs/evidence/neighbours-ending-host.png"
+  ]
+}

@@ -24,6 +24,8 @@ import { dateOf } from './directors.mjs';
 import { canContinue, interimStandings, nextPeriodLabel } from './periods.mjs';
 import { landPromised } from './winter.mjs';
 import { surpriseReveal } from './surprise.mjs';
+// What families did for each other (sim/neighbourly.mjs, owner 2026-09-28: "helping is recorded in the ending").
+import { helpedLines, neighbourLines } from './neighbourly.mjs';
 
 /**
  * The coin the final number multiplies: what is in the house, and never less than one real.
@@ -202,6 +204,9 @@ export function familyEnding(world, householdId) {
     counted, kept, prisoners, ...(prisoners.length && { prisonerRule: PRISONER_RULE }),
     sum: `${coinWords} × (1 + ${glory < 0 ? `${glory} glory, counted as 0` : `${glory} glory`})${land.reales ? ` + ${reales(land.reales)} of land (${land.acres} acres promised)` : ''} = ${final}`,
     story, coin, awards,
+    // What the family did for its neighbours and they for it, in plain words and in the order it happened. Counted in no number:
+    // whether helping earns glory is the owner's open question (docs/MONEY_AND_GLORY.md, the support tier).
+    neighbours: neighbourLines(world, householdId).map(line => ({ date: day(world, line.minute), kind: line.kind, text: line.text })),
     // The fog lifted on the other side too (owner, 2026-09-26, docs/battle-research/surprise-at-bexar.md): the snow march and
     // why Béxar was caught unprepared, once the class has lived February 23. Absent before, and for a class that never reached it.
     ...(surpriseReveal(world) && { reveal: surpriseReveal(world) }),
@@ -239,16 +244,22 @@ export function hostEnding(world) {
       name: own.name,
       money: own.money, glory: own.glory, land: own.land, final: own.final, prisoners: own.prisoners.length,
       automatic: automatic(world, household),
+      // Nobody of the family living (playthrough audit 7, 2026-09-28): counted and shown, never named the winner.
+      ...(livingOf(world, household) === 0 && { wiped: true }),
       miles: milesFromGonzales(world, household),
       heard: firstWord(world, household)?.date || null,
       went: [...new Set(parts.map(part => part.name))],
     };
   });
-  const contenders = families.filter(family => !family.automatic);
+  // A family with nobody living cannot finish first (2026-09-28): a lone father killed at the Alamo was named the class's winner
+  // by the Alamo's glory on his coin, and "the family where everybody died wins" is the lesson the ending would teach.
+  const contenders = families.filter(family => !family.automatic && !family.wiped);
   const best = contenders.length ? Math.max(...contenders.map(family => family.final)) : null;
   const winners = best === null ? [] : contenders.filter(family => family.final === best).map(family => family.householdId);
   const reveal = surpriseReveal(world);
-  return { families, winners, best, discussion: DISCUSSION, prisonerRule: PRISONER_RULE, ...(reveal && { reveal }) };
+  // Who helped whom across the class, one line a pair, in plain words (sim/neighbourly.mjs `helpedLines`).
+  const helped = helpedLines(world).map(line => line.text);
+  return { families, winners, best, discussion: DISCUSSION, prisonerRule: PRISONER_RULE, helped, ...(reveal && { reveal }) };
 }
 
 /**

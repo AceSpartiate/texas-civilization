@@ -79,6 +79,8 @@ export const ALWAYS = Object.freeze([
   'stop-chore', 'answer-chore', 'ask-rider', 'leave-rider',
   'roll-family', 'load-wagon', 'bring-stock',
   'offer', 'accept-offer', 'decline-offer', 'withdraw-offer', 'chore:help-raise',
+  // And help offered back between families (sim/neighbourly.mjs): an answer to a neighbour, like a trade's.
+  'neighbour-answer',
   'help', 'stay', 'go-see', 'stay-home', 'go-upriver', 'stay-in-town', 'turn-out', 'stay-put',
   'send-for', 'detachment-go', 'detachment-stay', 'army-answer', 'houston-answer', 'alamo-courier',
   'road-answer', 'flee', 'flight-stay', 'flight-route', 'flight-timber', 'winter-recall',

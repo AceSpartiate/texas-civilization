@@ -112,6 +112,32 @@ died of sickness."* (`lost`); the dead of a sickness are not on the Host's map (
 and Lynch's ferry reaches the Rumor Mill as the families hear it (`sickness-trinity`, `sickness-lynchburg`). Proof: `npm run
 test:disease`.
 
+### 2.7 The class's size, late students, several classes and several days (2026-09-28)
+
+From the classroom audit (docs/audits/2026-09-28-classroom.md B1, B2, B3, B6) and the owner's answer on class length, by
+multiple choice: **"Plan for several class days"** - keep the pacing, make stopping and resuming across class days smooth and
+clear, and tell the teacher up front how many class days a game takes at each pace. All of it is drawn by
+`public/class-panel.js` from what the server sends; nothing on the page decides.
+
+- **How many families.** The connection line reads *"12 here · 1 away of 24 joined · 30 families"*. In the lobby,
+  **Families in this class** (5-30) sets the size; a new class has 30. Changing it deals the world again with the same seed:
+  a student who has joined keeps their place and rolls again, and the page says so before the second press.
+- **Class days.** Before Start: *"A whole game takes about 6–11 class days at Study · 3–5 at Brisk · 1–2 at Quick, counting
+  40 minutes of play a day."* Once begun: *"Now: the autumn of 1835 (period 1 of 3), about 42% of the way through. Left:
+  about 5–9 class days at Study (now) · …"*. The ticks behind it are measured (`server/class-days.mjs` `PERIOD_TICKS`,
+  from the playthrough audit's whole classes with students answering and not answering); the share is of the period's
+  calendar. `ceiling:` the range is wide because readers differ; a class's own ticks so far would narrow it.
+- **Late students.** After Start, a student joining with the class code is given a family: the one chosen here (**Late
+  students: the next to join is given**, a family nobody plays or one whose student is not here, used once), or else the
+  first family nobody plays. Taking over a family whose student is not here signs that student's old device out; the class
+  is told on its record either way.
+- **Classes.** **Classes** lists every class kept on this computer - name, code, joined of families, where in 1835-36 it was
+  left - with **Open** beside each (two presses), and **Start a new class** with a name and a size (two presses). A running
+  class is paused first; the class that was open is kept. See docs/RECOVERY.md *Several classes*.
+- **Coming back.** A page that loses the server - student or Host - says *Reconnecting* over the game and keeps asking
+  (public/reconnect.js); only a sign-out goes to the join screen, which has **I was already in this class** (the class
+  code, then your own name) beside the family key.
+
 ## 3. Proof
 
 - `tests/absence.test.mjs` (4): the marker; the director's, questions answered at once, nothing held; back again; the
@@ -126,6 +152,11 @@ test:disease`.
   the row reading *playing itself* after the grace while the family goes on; the page opened again and *here*; the
   spotlight at the fight at Gonzales taking the camera there and *Whole class* bringing it back; the Rumor Mill filling;
   nothing sideways at 400 px; the student's page carrying none of it.
+- §2.7: `tests/late-join.test.mjs`, `tests/classes.test.mjs`, `tests/class-days.test.mjs`, `tests/reconnect.test.mjs`,
+  `tests/stale-lock.test.mjs`; `npm run test:classes` (class days before and after Start, 30 families from the Host, late
+  students free and chosen, the thirty-first refused, a new class and the first opened again, a signed-out page carrying on)
+  and `npm run test:reconnect` (the real server killed for 5 s and for 30 s, both pages back by themselves, the away list on
+  a page with no cookie). Each was seen failing against the code it guards (HANDOFF).
 
 ## 4. Ceilings
 

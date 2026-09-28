@@ -31,6 +31,9 @@ import { landAround } from './ground.mjs';
 import { toolCount } from './tools.mjs';
 import { RIFLE_COIN, RIFLE_FOOD, STORE_BALE_COIN, tradesAt } from './shops.mjs';
 import { findWay } from './ways.mjs';
+// Help between families (sim/neighbourly.mjs): a hand at the raising of a family it owes, and holding its going east for an
+// answer about room in a wagon.
+import { raisingHand, waitingOnNeighbour } from './deeds.mjs';
 
 /** Decisions are spread over ticks: each family thinks every third tick, not all of them on the same one. */
 export const THINK_EVERY = 3;
@@ -230,8 +233,11 @@ export function thinkFor(world, household, { project, act }) {
     const free = person => person && person.location?.siteId === view.household.homeSiteId && !person.travel
       && !['dead', 'captured'].includes(person.health?.condition) && person.service?.status !== 'serving';
     const byId = id => people.find(person => person.id === id);
-    const giver = [byId(view.household.mainId), byId(view.household.principalId), ...people].find(free);
-    if (giver) attempt({ action: 'flee', entityId: giver.id, take, refuge });
+    // Whoever the server says is with the family and answers for it comes first (sim/acting.mjs, 2026-09-28): with nobody grown
+    // at home, the oldest child of seven or more, whom the order is taken from.
+    const giver = [byId(view.household.actingId), byId(view.household.mainId), byId(view.household.principalId), ...people].find(free);
+    // Unless a neighbour's answer about room in a wagon is awaited: half a day at most (`waitingOnNeighbour`).
+    if (giver && !waitingOnNeighbour(world, household.id)) attempt({ action: 'flee', entityId: giver.id, take, refuge });
   }
   // A man with Houston's army (sim/camp.mjs, docs/HOUSTON_CAMP.md): the camp's work at documented rates, chosen by a hashed
   // share of the day - mostly drill, as the army did at Groce's - so a man whose family does nothing never sits idle.
@@ -248,7 +254,8 @@ export function thinkFor(world, household, { project, act }) {
   // been warned does nothing but go.
   const flight = view.flight;
   if (flight && ['fled', 'refuged'].includes(flight.status)) {
-    const mainId = view.household.mainId || view.household.principalId;
+    // The road's question is answered by whoever is with the family (sim/acting.mjs): not a father away with the army.
+    const mainId = view.household.actingId || view.household.mainId || view.household.principalId;
     if (flight.ask) {
       const option = (flight.ask.fallback || []).find(id => flight.ask.options.some(choice => choice.id === id && choice.can !== false)) || flight.ask.options.find(choice => choice.can !== false)?.id;
       if (option) attempt({ action: 'road-answer', entityId: mainId, option });
@@ -373,6 +380,8 @@ export function thinkFor(world, household, { project, act }) {
     // Somebody who went with the volunteers, or to help at Gonzales, is where the family sent them (task 'help'), and stays;
     // so does somebody serving (sim/winter.mjs), whose day at the camp was chosen above.
     if (person.task === 'help' || person.service) continue;
+    // A family it owes is raising its walls (sim/neighbourly.mjs): one of its people goes to help, as it was helped.
+    if (raisingHand(view, household, person, ride)) continue;
     if (person.location?.siteId !== view.household.homeSiteId) { ride({ action: 'travel', entityId: person.id, destination: view.household.homeSiteId }); continue; }
     const can = chore => Boolean(available({ person: person.id, chore }));
     const food = view.household.resources.food || 0;

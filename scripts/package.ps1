@@ -80,6 +80,12 @@ Set-Content -LiteralPath (Join-Path $app 'release.txt') -Value $Tag -Encoding ut
 foreach ($forbidden in @('data', 'node_modules', 'test-results', '.git', 'tests', 'docs', 'CLAUDE.md', 'HANDOFF.md', 'TECH.md', 'VISION.md')) {
   if (Test-Path -LiteralPath (Join-Path $app $forbidden)) { throw "$forbidden must not ship" }
 }
+# One development document does ship, and only one (2026-09-28, docs/audits/2026-09-28-classroom.md B5): recovery. The
+# launcher's message for a class that will not start names docs/RECOVERY.md, and README.md sends a teacher there, so it has
+# to be in the installed copy. Copied after the check above, which still refuses the rest of `docs`.
+New-Item -ItemType Directory -Force (Join-Path $app 'docs') | Out-Null
+Copy-Item -LiteralPath (Join-Path $root 'docs\RECOVERY.md') -Destination (Join-Path $app 'docs') -Force
+if (@(Get-ChildItem -LiteralPath (Join-Path $app 'docs') -Recurse -Force).Count -ne 1) { throw 'Only docs\RECOVERY.md ships from docs' }
 
 # ---------------------------------------------------------------- the list of files
 # Last thing written into the package, so it lists everything else in it. The launcher's id goes

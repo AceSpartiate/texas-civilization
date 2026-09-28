@@ -52,6 +52,8 @@ import { stirredShare } from './shares.mjs';
 import { walkingPace } from './company.mjs';
 import { WAGON_SPEED, WALK_SPEED } from './travel.mjs';
 import { WATER_SHUT, waterAt } from './weather.mjs';
+// The ledger of what families did for each other (sim/neighbourly.mjs): food shared on the road is one of its deeds.
+import { noteDeed } from './deeds.mjs';
 
 const GONE = Object.freeze(['dead', 'captured']);
 const DAY = 1440;
@@ -414,6 +416,7 @@ const FLIGHT_WORK = {
       const other = campNeighbour(world, household);
       if (!other) { household.resources.food = round((household.resources.food ?? 0) + SHARED_FOOD); return; }
       other.resources.food = Math.round(((other.resources.food ?? 0) + SHARED_FOOD) * 10000) / 10000;
+      noteDeed(world, { kind: 'food', fromId: household.id, toId: other.id, personId: entity.id, amount: SHARED_FOOD });
       tell(world, household, entity, `${entity.name} carried ${SHARED_FOOD} food over to a family camped near, who had less.`, 'FIC-GONZ-489');
       record(world, 'consequence', { householdId: other.id, importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-489', text: `A family camped near sent ${SHARED_FOOD} food over to yours.` });
     } }],

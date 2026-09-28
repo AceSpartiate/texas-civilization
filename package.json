@@ -56,6 +56,7 @@
     "test:surprise-reveal": "node scripts/surprise-reveal-browser-proof.mjs",
     "test:surprise-injections": "node scripts/surprise-injections.mjs",
     "test:scrape": "node scripts/scrape-browser-proof.mjs",
+    "test:neighbours": "node scripts/neighbours-browser-proof.mjs",
     "test:scrape-pursuit": "node scripts/scrape-pursuit-browser-proof.mjs",
     "test:scrape-pursuit-injections": "node scripts/scrape-pursuit-injections.mjs",
     "study:scrape-pursuit": "node scripts/scrape-pursuit-study.mjs",
@@ -65,6 +66,8 @@
     "test:whole-game": "node scripts/whole-game-browser-proof.mjs",
     "test:solo-game": "node scripts/solo-game-browser-proof.mjs",
     "test:host-live": "node scripts/host-live-browser-proof.mjs",
+    "test:classes": "node scripts/classes-browser-proof.mjs",
+    "test:reconnect": "node scripts/reconnect-browser-proof.mjs",
     "test:road": "node scripts/road-browser-proof.mjs",
     "test:armies": "node scripts/armies-browser-proof.mjs",
     "test:map-accuracy": "node scripts/map-accuracy-browser-proof.mjs",
@@ -83,6 +86,7 @@
     "test:panels": "node scripts/panels-browser-proof.mjs",
     "test:gonzales-town": "node scripts/gonzales-town-browser-proof.mjs",
     "test:battle-gonzales": "node scripts/battle-gonzales-browser-proof.mjs",
+    "test:audio": "node scripts/audio-browser-proof.mjs",
     "test:battle-bexar": "node scripts/battle-bexar-browser-proof.mjs",
     "test:battle-injections": "node scripts/battle-injections.mjs",
     "test:battle-san-jacinto": "node scripts/battle-san-jacinto-browser-proof.mjs",
@@ -104,6 +108,8 @@
     "test:children-injections": "node scripts/childhood-injections.mjs",
     "test:disease": "node scripts/disease-browser-proof.mjs",
     "test:disease-injections": "node scripts/disease-injections.mjs",
+    "test:acting": "node scripts/acting-browser-proof.mjs",
+    "test:acting-injections": "node scripts/acting-injections.mjs",
     "study:disease": "node scripts/disease-study.mjs"
   }
 }
