@@ -12,6 +12,13 @@
 // has gone. What it holds is read off the class's calendar, so the weeks the class skips over the winter empty it as they would.
 // Every family in the town - played, gone, or run by the neighbours' director - sells into the same store.
 //
+// **No limit until the Runaway Scrape** (owner, 2026-09-28: "no limit on selling until the runaway scrape. after that, limit it to 4
+// per family"). Until the spring of 1836 opens - the third class period, dawn on March 14, when the families of Gonzales are told to
+// leave (sim/periods.mjs `beginThirdPeriod`) - every store and weaver buys all it is brought, at its full price, and nothing is
+// written down. From then on each wants its share for every family near the town (`MARKET`, `want`) and the rule above holds: full
+// price to half of it, half price to all of it, nothing when full, a month to sell it on. The invented Gonzales country, one September
+// afternoon, never reaches the spring and is never limited.
+//
 // **All of it is invented** (`FIC-GONZ-722`): no quantity a Gonzales or San Felipe store took, nor any price for a bale or a
 // bushel, is in this project's research, and `HIST-GONZ-022` warns against claiming one. The shape is documented: coin was scarce
 // and barter usual (`HIST-GONZ-023`), and a store in the colonies sold on what it bought, shipping cotton to the coast.
@@ -20,7 +27,23 @@
 // State: `world.markets[siteId][trade:good] = { held, minute }`, written only when something is sold. Absent on every class saved
 // before today, which is a store that holds nothing yet - the correct empty value - so no save version moved.
 
+import { eatenADay } from './family.mjs';
+
 const DAY = 1440;
+/**
+ * The food a family can spare for the store: what it holds beyond three weeks of its own eating (owner, 2026-09-28: "Sell spare corn
+ * too" - the neighbours' director and the families whose student has gone sell it, as a student who chose would; `SPARE_KEEP_DAYS`
+ * is the balance measure's own keep, `SELL_KEEP_DAYS`). Never below nothing.
+ */
+export const SPARE_KEEP_DAYS = 21;
+/** The food a family keeps back: three weeks of what its living people at liberty eat. */
+export function foodKept(world, household) {
+  const people = household.members.map(id => world.entities[id]).filter(person => person && !['dead', 'captured'].includes(person.health?.condition));
+  return round(eatenADay(world, people) * SPARE_KEEP_DAYS);
+}
+export const spareFood = (world, household) => Math.max(0, round((household.resources?.food ?? 0) - foodKept(world, household)));
+/** Whether the stores are limited now: from the Runaway Scrape, the third class period, on (owner, 2026-09-28). */
+export const limited = world => (world?.period || 1) >= 3;
 /** A month to sell on or ship everything a shop wants. */
 export const SELLS_ON_DAYS = 30;
 
@@ -30,11 +53,11 @@ export const SELLS_ON_DAYS = 30;
  * real); `coinEach` the coin a payment is; `foodEach` the food a unit fetches. `FIC-GONZ-722`.
  */
 export const MARKET = Object.freeze({
-  // Re-tuned 2026-09-28 when crops went to real minutes (owner: "adjust prices to compensate"; docs/BALANCE.md §11): food a real for
-  // four (five until then), and the store's want of cotton three bales a family (four), so a corn family that sells has a price and
-  // cotton, the dearer crop, does not have the store to itself.
-  'store:food': Object.freeze({ want: 30, tiers: Object.freeze([{ coinEach: 1, per: 4 }, { coinEach: 1, per: 8 }]) }),
-  'store:cotton': Object.freeze({ want: 3, tiers: Object.freeze([{ coinEach: 2, foodEach: 2 }, { coinEach: 1, foodEach: 1 }]) }),
+  // The wants hold from the Runaway Scrape on (`limited`). Four bales of cotton a family, the owner's own number (2026-09-28: "limit
+  // it to 4 per family"); food 32, read by analogy as what four bales fetch at full price - eight reales, at four food a real - and
+  // flagged to the owner as a reading (docs/BALANCE.md §12). Food a real for four since the re-tuning of the same day (five before).
+  'store:food': Object.freeze({ want: 32, tiers: Object.freeze([{ coinEach: 1, per: 4 }, { coinEach: 1, per: 8 }]) }),
+  'store:cotton': Object.freeze({ want: 4, tiers: Object.freeze([{ coinEach: 2, foodEach: 2 }, { coinEach: 1, foodEach: 1 }]) }),
   'weaver:cotton': Object.freeze({ want: 2, tiers: Object.freeze([{ coinEach: 2, foodEach: 3 }, { coinEach: 1, foodEach: 1.5 }]) }),
 });
 const KEEPER_WORDS = Object.freeze({ store: 'The store', weaver: 'The weaver' });
@@ -80,8 +103,10 @@ export function marketSale(world, siteId, trade, offer, units, pay, { coinLimit 
   }
   const want = wantAt(world, siteId, key);
   let held = heldAt(world, siteId, key);
+  // Before the Runaway Scrape the shop takes all it is brought, at its full price (`limited`).
+  const open = !limited(world);
   for (;;) {
-    const tier = tierAt(held, want);
+    const tier = open ? 0 : tierAt(held, want);
     if (tier < 0) { full = true; break; }
     const price = market.tiers[tier], per = price.per ?? 1;
     // Paid in food, the part of a bale goes too, as the store's barter always took it; coin is paid only for whole lots.
@@ -101,7 +126,8 @@ export function marketSale(world, siteId, trade, offer, units, pay, { coinLimit 
 /** Write down what the shop took (and what it has sold on since it last bought). */
 export function recordSale(world, siteId, trade, good, units) {
   const key = `${trade}:${good}`;
-  if (!MARKET[key] || !(units > 0)) return;
+  // Nothing is held against the shop until the Scrape: it buys without limit until then.
+  if (!MARKET[key] || !(units > 0) || !limited(world)) return;
   const held = heldAt(world, siteId, key);
   world.markets ||= {};
   world.markets[siteId] = { ...(world.markets[siteId] || {}), [key]: { held: round(held + units), minute: world.minute } };
@@ -111,8 +137,9 @@ export function recordSale(world, siteId, trade, good, units) {
 export function marketWords(world, siteId, trade, good) {
   const key = `${trade}:${good}`, market = MARKET[key];
   if (!market) return null;
-  const want = wantAt(world, siteId, key), held = heldAt(world, siteId, key), tier = tierAt(held, want);
   const [one, many] = UNIT[good] || [good, good];
+  if (!limited(world)) return `${KEEPER_WORDS[trade]} buys all the ${good} it is brought, at full price, until the Runaway Scrape; after that only what it can use.`;
+  const want = wantAt(world, siteId, key), held = heldAt(world, siteId, key), tier = tierAt(held, want);
   const n = amount => { const shown = Math.max(1, Math.floor(amount)); return `${shown} ${shown === 1 ? one : many}`; };
   const week = Math.round(want / SELLS_ON_DAYS * 7 * 10) / 10;
   if (tier < 0) return `${KEEPER_WORDS[trade]} has all the ${good} it can use, and sells on about ${week} ${week === 1 ? one : many} a week.`;
@@ -123,6 +150,7 @@ export function marketWords(world, siteId, trade, good) {
 export function priceNow(world, siteId, trade, offer) {
   const market = MARKET[`${trade}:${offer.good}`];
   if (!market) return { coinEach: offer.coinEach, per: offer.per ?? 1, foodEach: offer.foodEach };
+  if (!limited(world)) return { per: 1, ...market.tiers[0] };
   const tier = tierAt(heldAt(world, siteId, `${trade}:${offer.good}`), wantAt(world, siteId, `${trade}:${offer.good}`));
   if (tier < 0) return null;
   return { per: 1, ...market.tiers[tier] };
@@ -130,7 +158,7 @@ export function priceNow(world, siteId, trade, offer) {
 /** Why the shop in this town will not take this good now, or null. */
 export function marketRefusal(world, siteId, trade, good) {
   const key = `${trade}:${good}`;
-  if (!MARKET[key]) return null;
+  if (!MARKET[key] || !limited(world)) return null;
   return tierAt(heldAt(world, siteId, key), wantAt(world, siteId, key)) < 0 ? marketWords(world, siteId, trade, good) : null;
 }
 

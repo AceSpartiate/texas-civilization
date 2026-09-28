@@ -30,6 +30,9 @@ import { landAround } from './ground.mjs';
 import { toolCount } from './tools.mjs';
 import { RIFLE_COIN, RIFLE_FOOD, STORE_BALE_COIN, tradesAt } from './shops.mjs';
 import { findWay } from './ways.mjs';
+import { MARKET, spareFood } from './market.mjs';
+/** The food one payment at the store is for: the least worth carrying there. */
+const FOOD_LOT = MARKET['store:food'].tiers[0].per;
 // Help between families (sim/neighbourly.mjs): a hand at the raising of a family it owes, and holding its going east for an
 // answer about room in a wagon.
 import { raisingHand, waitingOnNeighbour } from './deeds.mjs';
@@ -428,6 +431,9 @@ export function thinkFor(world, household, { project, act }) {
       // corn's count written here, a cotton family never gathered enough, never planted, and its cotton economy collapsed.
       view.household.field?.state === 'bare' && (resources.seed || 0) < (view.household.field?.crop === 'cotton' ? COTTON_SEED_PER_PLOT : SEED_PER_PLOT) * Math.max(1, land.cleared || 0) && 'fetch-seed',
       (resources.cotton || 0) >= 1 && 'sell-cotton',
+      // And spare corn, as cotton is sold (owner, 2026-09-28: "Sell spare corn too"): what the family holds beyond three weeks of its
+      // eating (sim/market.mjs `spareFood`), a lot or more, while the store wants it.
+      spareFood(world, world.households[view.household.id]) >= FOOD_LOT && 'sell-food',
       // Then more ground, a plot at a time: clear what is staked, and stake more while it has fewer than it keeps.
       staked && 'clear-plot',
       !staked && plots.length < NEIGHBOUR_PLOTS && 'survey-plot',

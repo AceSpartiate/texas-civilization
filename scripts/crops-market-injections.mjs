@@ -7,7 +7,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
-const FILES = ['tests/crop-minutes.test.mjs', 'tests/market.test.mjs', 'tests/ending.test.mjs'];
+const FILES = ['tests/crop-minutes.test.mjs', 'tests/market.test.mjs', 'tests/ending.test.mjs', 'tests/money.test.mjs'];
 const INJECTIONS = [
   // Crops in real minutes (sim/crops.mjs).
   {
@@ -19,14 +19,26 @@ const INJECTIONS = [
   {
     name: 'every tick counts as a Study-pace tick, whatever the server measured: the class speed changes a crop\'s minutes',
     file: 'sim/crops.mjs',
-    from: '  household.field = { ...field, grownMs: grownOf(world, field) + (realMs > 0 ? realMs : STUDY_TICK_MS) };',
+    from: '  household.field = { ...field, grownMs: grownOf(world, field) + (Number.isFinite(realMs) ? realMs : STUDY_TICK_MS) };',
     to: '  household.field = { ...field, grownMs: grownOf(world, field) + STUDY_TICK_MS };',
   },
   {
     name: 'cotton ripens as fast as corn',
     file: 'sim/crops.mjs',
-    from: "  cotton: Object.freeze({ minutes: 5, seed: COTTON_SEED_PER_PLOT, yields: 'cotton' }),",
-    to: "  cotton: Object.freeze({ minutes: 3, seed: COTTON_SEED_PER_PLOT, yields: 'cotton' }),",
+    from: "  cotton: Object.freeze({ minutes: 6, seed: COTTON_SEED_PER_PLOT, yields: 'cotton' }),",
+    to: "  cotton: Object.freeze({ minutes: 4, seed: COTTON_SEED_PER_PLOT, yields: 'cotton' }),",
+  },
+  {
+    name: 'corn keeps the three minutes of the first answer, not the four the owner asked for',
+    file: 'sim/crops.mjs',
+    from: "  corn: Object.freeze({ minutes: 4, seed: SEED_PER_PLOT, yields: 'food' }),",
+    to: "  corn: Object.freeze({ minutes: 3, seed: SEED_PER_PLOT, yields: 'food' }),",
+  },
+  {
+    name: 'a tick the server measured as nothing - the first after a pause - grows the crop a Study tick anyway',
+    file: 'sim/crops.mjs',
+    from: '  household.field = { ...field, grownMs: grownOf(world, field) + (Number.isFinite(realMs) ? realMs : STUDY_TICK_MS) };',
+    to: '  household.field = { ...field, grownMs: grownOf(world, field) + (realMs > 0 ? realMs : STUDY_TICK_MS) };',
   },
   {
     name: 'a crop sown in a class saved before this starts growing from nothing',
@@ -101,6 +113,43 @@ const INJECTIONS = [
     file: 'sim/errands.mjs',
     from: '      if (sale.sold > 0) recordSale(world, siteId, trade, offer.good, sale.sold);',
     to: '',
+  },
+  // No limit until the Runaway Scrape, then four a family; spare corn sold too (sim/market.mjs, sim/chores.mjs, sim/neighbours.mjs).
+  {
+    name: 'the stores are limited from the first day, not from the Runaway Scrape',
+    file: 'sim/market.mjs',
+    from: 'export const limited = world => (world?.period || 1) >= 3;',
+    to: 'export const limited = world => true;',
+  },
+  {
+    name: 'the stores are never limited, even in the Scrape',
+    file: 'sim/market.mjs',
+    from: 'export const limited = world => (world?.period || 1) >= 3;',
+    to: 'export const limited = world => false;',
+  },
+  {
+    name: 'a sale before the Scrape is held against the store, so it opens the spring already full',
+    file: 'sim/market.mjs',
+    from: '  if (!MARKET[key] || !(units > 0) || !limited(world)) return;',
+    to: '  if (!MARKET[key] || !(units > 0)) return;',
+  },
+  {
+    name: 'the store wants three bales a family in the Scrape, not the owner\'s four',
+    file: 'sim/market.mjs',
+    from: "  'store:cotton': Object.freeze({ want: 4, tiers: Object.freeze([{ coinEach: 2, foodEach: 2 }, { coinEach: 1, foodEach: 1 }]) }),",
+    to: "  'store:cotton': Object.freeze({ want: 3, tiers: Object.freeze([{ coinEach: 2, foodEach: 2 }, { coinEach: 1, foodEach: 1 }]) }),",
+  },
+  {
+    name: 'the neighbours\' director never sells spare corn',
+    file: 'sim/neighbours.mjs',
+    from: "      spareFood(world, world.households[view.household.id]) >= FOOD_LOT && 'sell-food',",
+    to: '',
+  },
+  {
+    name: 'the food errand sells all it can carry, into the family\'s three weeks of eating',
+    file: 'sim/chores.mjs',
+    from: "      const carried = round(Math.min(good === 'food' ? spareFood(world, household) : household.resources[good] ?? 0, household.resources[good] ?? 0, vehicleCarry(world, entity, state.mode)));",
+    to: "      const carried = round(Math.min(household.resources[good] ?? 0, vehicleCarry(world, entity, state.mode)));",
   },
   // The ending (sim/ending.mjs).
   {

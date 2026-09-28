@@ -5,6 +5,7 @@
 // is food, and the store now buys a family's surplus food for coin outside its small purse, as it buys cotton. Nobody
 // answering keeps the family's own crop, so a family nobody plays, and a student who never looks, grow what they grew.
 import test from 'node:test';
+import { foodKept } from '../sim/market.mjs';
 import assert from 'node:assert/strict';
 import { createSettledWorld, withoutStartingCoin } from './support/settled.mjs';
 import { applyAction, projectWorld, stepWorld } from '../sim/world.mjs';
@@ -73,7 +74,8 @@ test('the store buys a family\'s food for coin outside its purse, as it buys cot
   const household = Object.values(world.households)[0];
   const marta = world.entities['town-ibarra'];
   marta.purse = 0;
-  household.resources.food = 30;
+  // Spare food: the director's errand sells only what is beyond three weeks of the family's eating (sim/market.mjs, 2026-09-28).
+  household.resources.food = foodKept(world, household) + 30;
   const person = planter(world, household);
   applyAction(world, household.id, { action: 'chore', entityId: person.id, chore: 'sell-food', mode: 'horse' });
   finish(world, person);

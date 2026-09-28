@@ -6,6 +6,7 @@
 // shape is documented - coin was scarce enough in Mexican Texas that not ten transactions in a
 // hundred used it (`HIST-GONZ-023`) - and every number is invented (`FIC-GONZ-022`).
 import test from 'node:test';
+import { foodKept } from '../sim/market.mjs';
 import assert from 'node:assert/strict';
 import { createSettledWorld, withoutStartingCoin } from './support/settled.mjs';
 import { applyAction, stepWorld, projectWorld, validateWorld } from '../sim/world.mjs';
@@ -187,7 +188,8 @@ test('food can be sold for coin, in whole reales, and what is left over stays in
   // sim/market.mjs), and the fifth comes home.
   const walked = running('sell-food-foot');
   const walker = Object.values(walked.households)[0];
-  walker.resources.food = 12;
+  // Twelve spare beyond three weeks of the family's eating: the director's errand sells nothing below that (sim/market.mjs).
+  walker.resources.food = foodKept(walked, walker) + 12;
   const onFoot = toCounter(walked, walker.id, walker.members[1], 'sell-food');
   finish(walked, onFoot);
   assert.equal(walker.resources.money, 1, 'five carried, four sold, one real');
@@ -196,7 +198,7 @@ test('food can be sold for coin, in whole reales, and what is left over stays in
   // On the horse, seven: four sold, one real, and three come home.
   const world = running('sell-food-horse');
   const household = Object.values(world.households)[0];
-  household.resources.food = 12;
+  household.resources.food = foodKept(world, household) + 12;
   const rider = household.members[1];
   applyAction(world, household.id, { action: 'chore', entityId: rider, chore: 'sell-food', mode: 'horse' });
   finish(world, world.entities[rider]);
@@ -233,7 +235,7 @@ test('the store buys food and cotton for coin whatever its purse holds, pays eve
   assert.equal(marta.purse, 2 * world.playerCount, 'the store starts with two reales a family');
   marta.purse = 0;
   const [first, second, third] = Object.values(world.households);
-  first.resources.food = 12;
+  first.resources.food = foodKept(world, first) + 12;
   // On the horse, seven carried: five sold for a real, and the empty purse does not stop it (owner, 2026-09-16,
   // docs/MONEY_AND_GLORY.md §8.1): the store ships the corn on its own credit.
   applyAction(world, first.id, { action: 'chore', entityId: first.members[1], chore: 'sell-food', mode: 'horse' });

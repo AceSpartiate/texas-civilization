@@ -1,5 +1,5 @@
 // Crops in real minutes (owner, 2026-09-28, by multiple choice: "have crops be independent of the seasons. say, 5 minutes for
-// cotton and 3 for corn? adjust prices to compensate"; sim/crops.mjs). Either crop goes in in any month and ripens after its real
+// cotton and 3 for corn? adjust prices to compensate"; then "i want 4 minutes for corn and 6 minutes for cotton in real life"; sim/crops.mjs). Either crop goes in in any month and ripens after its real
 // minutes of a running class - the real time the server measured for each tick, or the Study pace for a tick stepped in process -
 // so changing the class's speed changes the ticks a crop takes and never its minutes. Replaced the farming year of the same
 // morning (the garden went with it). `FIC-GONZ-721`.
@@ -28,9 +28,9 @@ const sown = (world, household, crop) => { household.field = { ...household.fiel
 /** Step until the field is ripe, each tick `ms` of real time; the ticks it took, or null. */
 const ticksToRipe = (world, household, ms, limit = 400) => { for (let t = 1; t <= limit; t++) { stepWorld(world, { realMs: ms }); if (household.field.state === 'ripe') return t; } return null; };
 
-test('corn ripens after three real minutes and cotton after five, counted from the real time each tick took', () => {
-  assert.deepEqual([CROPS.corn.minutes, CROPS.cotton.minutes], [3, 5]);
-  for (const [crop, minutes] of [['corn', 3], ['cotton', 5]]) {
+test('corn ripens after four real minutes and cotton after six, counted from the real time each tick took', () => {
+  assert.deepEqual([CROPS.corn.minutes, CROPS.cotton.minutes], [4, 6]);
+  for (const [crop, minutes] of [['corn', 4], ['cotton', 6]]) {
     const world = running(`minutes-${crop}`);
     const household = first(world);
     sown(world, household, crop);
@@ -49,8 +49,8 @@ test('the class\'s speed changes the ticks a crop takes and never its minutes; a
   for (let t = 0; t < 90; t++) stepWorld(world, { realMs: 1000 });
   assert.equal(household.field.state, 'planted', 'corn came in after ninety seconds');
   assert.equal(ticksToRipe(world, household, STUDY_TICK_MS), Math.ceil((growMs('corn') - 90000) / STUDY_TICK_MS));
-  // Stepped in process, with no real time handed in: the Study pace, nineteen ticks for corn and thirty-two for cotton.
-  for (const [crop, ticks] of [['corn', RIPEN_TICKS], ['cotton', Math.ceil(5 * MINUTE / STUDY_TICK_MS)]]) {
+  // Stepped in process, with no real time handed in: the Study pace, twenty-six ticks for corn and thirty-eight for cotton.
+  for (const [crop, ticks] of [['corn', RIPEN_TICKS], ['cotton', Math.ceil(6 * MINUTE / STUDY_TICK_MS)]]) {
     const other = running(`minutes-headless-${crop}`);
     const family = first(other);
     sown(other, family, crop);
@@ -58,7 +58,18 @@ test('the class\'s speed changes the ticks a crop takes and never its minutes; a
     for (; taken < 200 && family.field.state !== 'ripe'; taken++) stepWorld(other);
     assert.equal(taken, ticks, `${crop} stepped in process took ${taken} ticks`);
   }
-  assert.equal(RIPEN_TICKS, 19);
+  assert.equal(RIPEN_TICKS, 26);
+  // The class's speed changed half way through a crop (the Host's Brisk, then Study, then Quick) and a tick the server measured as
+  // nothing - the first after a pause - adds nothing: the crop still takes its four minutes, whatever the ticks.
+  const changing = running('minutes-changing');
+  const field = first(changing);
+  sown(changing, field, 'corn');
+  for (let t = 0; t < 30; t++) stepWorld(changing, { realMs: 4000 });
+  stepWorld(changing, { realMs: 0 });
+  for (let t = 0; t < 10; t++) stepWorld(changing, { realMs: STUDY_TICK_MS });
+  assert.equal(field.field.grownMs, 30 * 4000 + 10 * STUDY_TICK_MS, 'the minutes a crop has stood are not the real time its ticks took');
+  assert.equal(field.field.state, 'planted');
+  assert.equal(ticksToRipe(changing, field, 1000), Math.ceil((4 * MINUTE - 30 * 4000 - 10 * STUDY_TICK_MS) / 1000));
 });
 
 test('either crop goes in in any month on the real land, and the harvest says how many minutes are left', () => {
@@ -78,7 +89,7 @@ test('either crop goes in in any month on the real land, and the harvest says ho
   for (let t = 0; t < 400 && !person.chore?.ask; t++) stepWorld(world);
   const options = view(world, household.id).entities.find(one => one.id === person.id).chore.ask.options;
   assert.deepEqual(options.map(option => [option.id, option.can]), [['corn', true], ['cotton', true]]);
-  assert.match(options.find(option => option.id === 'cotton').note, /ripe in 5 minutes/);
+  assert.match(options.find(option => option.id === 'cotton').note, /ripe in 6 minutes/);
   applyAction(world, household.id, { action: 'answer-chore', entityId: person.id, option: 'cotton' });
   for (let t = 0; t < 400 && person.chore; t++) stepWorld(world);
   assert.equal(household.field.state, 'planted');
@@ -92,7 +103,7 @@ test('either crop goes in in any month on the real land, and the harvest says ho
 test('a crop sown in a class saved before this comes in about when it was promised; what a save may hold of the field', () => {
   const world = running('minutes-old');
   const household = first(world);
-  // Planted nineteen ticks ago with no real time kept: read as nineteen Study-pace ticks, which is corn's three minutes.
+  // Planted twenty-six ticks ago with no real time kept: read as twenty-six Study-pace ticks, which is corn's four minutes.
   household.field = { crop: 'corn', state: 'planted', changedTick: world.tick - RIPEN_TICKS };
   validateWorld(world);
   stepWorld(world);

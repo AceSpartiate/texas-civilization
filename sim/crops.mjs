@@ -2,11 +2,15 @@
 // of the seasons. say, 5 minutes for cotton and 3 for corn? adjust prices to compensate"). The market that compensates is
 // sim/market.mjs.
 //
-// **Cotton ripens after five real minutes of a running class, corn after three**, in any month. What is counted is the real time
-// the server says each running tick took (`realMs`, handed to `stepWorld` by server/app.mjs), summed on the field while the crop
-// stands: so the Host changing the class's speed changes how many ticks a crop takes and never how many minutes, and a paused
-// class grows nothing. A tick stepped in process (the tests, the balance measure, a solo world stepped headless) says nothing of
-// real time and is counted at the Study pace (`STUDY_TICK_MS`), the pace a class is played at.
+// **Cotton ripens after six real minutes of a running class, corn after four**, in any month (owner, 2026-09-28: "i want 4 minutes
+// for corn and 6 minutes for cotton in real life"; five and three before that). **How it is measured, in plain words**: every time
+// the class moves on a tick, the server notes how long that tick really took on its own clock (`realMs`, handed to `stepWorld` by
+// server/app.mjs `tick`), and that many real milliseconds are added to the crop in the ground (`grownMs`). When the total reaches
+// four or six minutes the crop is ripe. So when the Host makes the class faster or slower - even half way through a crop - each
+// tick adds what it really took and the crop still takes its minutes; a paused class runs no ticks and grows nothing; and a tick
+// the server's meter will not count (a stall longer than three ticks, `realTimeMeter`) adds only what it caps it at. A tick stepped
+// in process (the tests, the balance measure, a solo world stepped headless) says nothing of real time and counts as one tick at
+// the Study pace (`STUDY_TICK_MS`), the pace a class is played at.
 //
 // This replaced the farming year of the same morning (a garden in the autumn, corn from the middle of February, cotton from the
 // end of March, each ripening in its real calendar days; `HIST-TEX-720`). The record it read is kept in `HIST-TEX-720`; **the
@@ -23,8 +27,10 @@ const MINUTE_MS = 60000;
 
 /** The two crops (`HIST-GONZ-013`): real minutes in the field, seed a plot, and what comes in. `FIC-GONZ-721`. */
 export const CROPS = Object.freeze({
-  corn: Object.freeze({ minutes: 3, seed: SEED_PER_PLOT, yields: 'food' }),
-  cotton: Object.freeze({ minutes: 5, seed: COTTON_SEED_PER_PLOT, yields: 'cotton' }),
+  // Four and six since the owner's second word of 2026-09-28 ("i want 4 minutes for corn and 6 minutes for cotton in real life"); three and
+  // five until then.
+  corn: Object.freeze({ minutes: 4, seed: SEED_PER_PLOT, yields: 'food' }),
+  cotton: Object.freeze({ minutes: 6, seed: COTTON_SEED_PER_PLOT, yields: 'cotton' }),
 });
 /** Seed a plot of this crop takes. */
 export const seedFor = crop => CROPS[crop]?.seed ?? SEED_PER_PLOT;
@@ -42,10 +48,10 @@ export function grownOf(world, field) {
   return Math.max(0, (world.tick - (field?.changedTick ?? world.tick))) * STUDY_TICK_MS;
 }
 /** One running tick of growth for a crop in the ground: the real time the server says it took, or a Study-pace tick. */
-export function growCrop(world, household, realMs = 0) {
+export function growCrop(world, household, realMs = null) {
   const field = household.field;
   if (field?.state !== 'planted') return;
-  household.field = { ...field, grownMs: grownOf(world, field) + (realMs > 0 ? realMs : STUDY_TICK_MS) };
+  household.field = { ...field, grownMs: grownOf(world, field) + (Number.isFinite(realMs) ? realMs : STUDY_TICK_MS) };
 }
 /** Whether a planted field has come on. */
 export const ripe = (world, field) => field?.state === 'planted' && grownOf(world, field) >= growMs(field.crop);

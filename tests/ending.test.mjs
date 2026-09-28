@@ -7,6 +7,7 @@
 // erases coin; a neighbour nobody played is counted and never ranked; ties name everybody; each
 // coin that moved is accounted for; and no word on either screen names a virtue.
 import test from 'node:test';
+import { foodKept } from '../sim/market.mjs';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { createSettledWorld, withoutStartingCoin } from './support/settled.mjs';
@@ -158,7 +159,8 @@ test('every coin that came into the house or went out of it is in the family\'s 
   const start = one.means.coin;
   assert.ok(start >= 3 && one.resources.money === start, 'the family did not come with its coin');
   // Food sold for coin.
-  one.resources.food = 20;
+  // Twenty spare beyond three weeks of eating: the food errand sells only what the family can spare (sim/market.mjs, 2026-09-28).
+  one.resources.food = foodKept(world, one) + 20;
   const seller = world.entities[one.members[1]];
   applyAction(world, one.id, { action: 'chore', entityId: seller.id, chore: 'sell-food' });
   finish(seller);

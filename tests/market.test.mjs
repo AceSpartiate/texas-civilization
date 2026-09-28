@@ -3,22 +3,74 @@
 // while it holds less than half of that, half price from half to full, and nothing when full; it sells on a month's want in a
 // month of the calendar. Every family of the town sells into the same store, by the errand, the counter and the director's own
 // errands. Invented to the last number (`FIC-GONZ-722`).
+//
+// **Only from the Runaway Scrape** (owner, 2026-09-28: "no limit on selling until the runaway scrape. after that, limit it to 4 per
+// family"): before the third class period every shop buys all it is brought at full price. So the limited tests below are played
+// in the spring (`period` 3), and the first test is the open market before it.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createSettledWorld, modestMeans, taught } from './support/settled.mjs';
 import { applyAction, errandFor, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { TRADES } from '../sim/shops.mjs';
-import { MARKET, SELLS_ON_DAYS, familiesAt, heldAt, marketRefusal, marketSale, recordSale, tierAt, wantAt } from '../sim/market.mjs';
+import { MARKET, SELLS_ON_DAYS, familiesAt, foodKept, heldAt, limited, marketRefusal, marketSale, marketWords, recordSale, spareFood, tierAt, wantAt } from '../sim/market.mjs';
 import { thinkFor } from '../sim/neighbours.mjs';
 
 const DAY = 1440;
+const round2 = value => Math.round(value * 10000) / 10000;
 const offer = (trade, good) => TRADES[trade].offers.find(one => one.kind === 'buy' && one.good === good);
-function running(seed) {
+function running(seed, { spring = true } = {}) {
   const world = modestMeans(taught(createSettledWorld(seed, 5)));
   world.status = 'running';
   world.households['hh-1'].played = true;
+  // The spring of 1836, the Runaway Scrape's period, when the stores are limited.
+  if (spring) world.period = 3;
   return world;
 }
+
+test('before the Runaway Scrape the store buys all it is brought, at its full price, and nothing is held against it', () => {
+  const world = running('market-open', { spring: false });
+  const town = 'gonzales';
+  assert.equal(limited(world), false);
+  const cotton = offer('store', 'cotton'), food = offer('store', 'food');
+  assert.deepEqual(marketSale(world, town, 'store', cotton, 60, 'coin'), { sold: 60, got: 120, lots: 60, full: false }, 'the store did not take sixty bales at two reales');
+  assert.deepEqual(marketSale(world, town, 'store', food, 400, 'coin'), { sold: 400, got: 100, lots: 100, full: false }, 'the store did not take four hundred food at four a real');
+  recordSale(world, town, 'store', 'cotton', 60);
+  assert.equal(world.markets, undefined, 'a sale before the Scrape was held against the store');
+  assert.equal(marketRefusal(world, town, 'store', 'cotton'), null);
+  assert.match(marketWords(world, town, 'store', 'cotton'), /buys all the cotton it is brought, at full price, until the Runaway Scrape/);
+  // And from the spring, four bales a family: twenty in a town of five, and the store full after them.
+  world.period = 3;
+  assert.equal(limited(world), true);
+  assert.equal(wantAt(world, town, 'store:cotton'), 4 * 5);
+  assert.deepEqual(marketSale(world, town, 'store', cotton, 60, 'coin'), { sold: 20, got: 10 * 2 + 10 * 1, lots: 20, full: true });
+});
+
+test('the neighbours\' director sells a family\'s spare corn - beyond three weeks of its eating - as it sells cotton, and never below it', () => {
+  const world = running('market-spare', { spring: false });
+  world.neighbours = true;
+  modestMeans(world, 'hh-2');
+  const family = world.households['hh-2'];
+  // The field already in, so the director's plan comes down to the trips to town.
+  family.field = { ...family.field, state: 'planted', changedTick: world.tick, grownMs: 0 };
+  const view2 = view(world, family.id);
+  const keep = foodKept(world, family);
+  family.resources.food = keep + 2;
+  const sent = [];
+  thinkFor(world, family, { project: id => view(world, id), act: input => { sent.push(input.chore || input.action); return true; } });
+  assert.ok(!sent.includes('sell-food'), 'the director sold food the family needs');
+  // Six spare, and the wagon sent, which carries twenty: the errand must stop at the keep, not at the load.
+  family.resources.food = keep + 6;
+  const seller = world.entities[family.members[1]] || world.entities[family.members[0]];
+  const sold = [];
+  thinkFor(world, family, { project: id => view(world, id), act: input => { sold.push(input.chore || input.action); if (input.chore === 'sell-food' && !sold.done) { sold.done = true; applyAction(world, family.id, { ...input, mode: 'wagon' }); } return true; } });
+  assert.ok(sold.includes('sell-food'), `the director did not sell spare food: ${sold.join(', ')}`);
+  const who = Object.values(world.entities).find(one => one.chore?.id === 'sell-food' && one.householdId === family.id);
+  for (let t = 0; t < 900 && who?.chore; t++) stepWorld(world);
+  assert.ok(family.resources.food >= keep - 1e-6, `the errand sold into the family's keep: ${family.resources.food} against ${keep}`);
+  assert.ok(family.resources.money > 0, 'nothing was sold');
+  assert.equal(spareFood(world, family), round2(family.resources.food - keep), 'spare food is not what is beyond the keep');
+  void view2; void seller;
+});
 const send = (world, who, errand, householdId = 'hh-1') => applyAction(world, householdId, { action: 'chore', entityId: who.id, chore: 'visit-shop', errand });
 const finish = (world, who) => { for (let t = 0; t < 900 && who.chore; t++) stepWorld(world); assert.equal(who.chore, null, `${who.name} never finished`); };
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
@@ -29,17 +81,16 @@ test('the price curve: full price to half the want, half price to the want, and 
   assert.equal(familiesAt(world, town), 5);
   assert.equal(wantAt(world, town, 'store:cotton'), MARKET['store:cotton'].want * 5);
   assert.deepEqual([tierAt(0, 20), tierAt(9.9, 20), tierAt(10, 20), tierAt(19.9, 20), tierAt(20, 20)], [0, 0, 1, 1, -1]);
-  // Cotton: fifteen bales wanted in a town of five families (three a family since 2026-09-28) - eight at two reales while it holds
-  // under seven and a half, seven at one, and not a bale more.
+  // Cotton: twenty bales wanted in a town of five families (four a family, the owner's number) - ten at two reales, ten at one, and
+  // not a bale more.
   const cotton = offer('store', 'cotton');
   const all = marketSale(world, town, 'store', cotton, 30, 'coin');
-  assert.deepEqual(all, { sold: 15, got: 8 * 2 + 7 * 1, lots: 15, full: true });
+  assert.deepEqual(all, { sold: 20, got: 10 * 2 + 10 * 1, lots: 20, full: true });
   // Paid in food: two food a bale, then one.
-  assert.deepEqual(marketSale(world, town, 'store', cotton, 12, 'food'), { sold: 12, got: 8 * 2 + 4 * 1, lots: 12, full: false });
-  // Food for coin: a real for four to seventy-five, then a real for eight; a hundred and fifty wanted, and the last lot of each
-  // price taken while there was room for part of it.
+  assert.deepEqual(marketSale(world, town, 'store', cotton, 12, 'food'), { sold: 12, got: 10 * 2 + 2 * 1, lots: 12, full: false });
+  // Food for coin: a real for four to eighty, then a real for eight; a hundred and sixty wanted (thirty-two a family).
   const food = offer('store', 'food');
-  assert.deepEqual(marketSale(world, town, 'store', food, 200, 'coin'), { sold: 156, got: 19 + 10, lots: 29, full: true });
+  assert.deepEqual(marketSale(world, town, 'store', food, 200, 'coin'), { sold: 160, got: 20 + 10, lots: 30, full: true });
   // The weaver wants its own, smaller share and pays its own prices.
   const weaver = marketSale(world, town, 'weaver', offer('weaver', 'cotton'), 30, 'food');
   assert.equal(weaver.sold, MARKET['weaver:cotton'].want * 5);
