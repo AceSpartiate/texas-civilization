@@ -35,19 +35,21 @@ browser is noticed that late (the launcher's own window killed: 0.1-0.4 s).
 
 **Evidence** (same computer; no LAN, district or Chromebook claim; Windows log-off not driven; `LauncherForm` itself not
 driven, because running it from a scratch folder rewrites the real install's shortcuts and stamp):
-- `npm test`: **1436 passed, 0 failed, 1 cancelled** of 1437 — the cancelled one is `capacity.test.mjs` *"30 HTTP
-  households"* timing out at its 30 s under the full suite, a class test this change does not reach and already recorded as
-  timing out under load; alone it passes in 11.5 s. `tests/solo.test.mjs` 19 (12 before; seven new).
+- `npm test` on the merged tree (with `origin/main` `b9daabb`): **1449 passed, 0 failed, 1 cancelled** of 1450 — the
+  cancelled one is `capacity.test.mjs` *"30 HTTP households"* timing out at its 30 s under the full suite (also before the
+  merge, 1436/1437), a class test this change does not reach and already recorded as timing out under load; alone it passes
+  in 11.5 s. `tests/solo.test.mjs` 19 (12 before; seven new).
 - `node scripts/solo-close-injections.mjs`: **12 of 12 caught, 9 alone** ([record](docs/evidence/solo-close-injections.json)).
-- `npm run test:solo`: **15 PASS** ([record](docs/evidence/solo-browser.json)) — 5 new: Continue opens paused with the page's
-  own Resume and Save; Resume runs, Pause holds (1.5 s, written paused), Save writes (revision +1); the page closed: written
-  paused 1.3 s after, server gone 4.8 s after (wait 3 s), exit 0, lock released; relaunched and continued on the same tick,
-  paused; Chrome killed (`taskkill /F /T`): written paused 20.9 s after, server gone 24.4 s after.
-- `npm run test:solo-window` (new): the launcher's `TeacherWindow.cs` compiled unchanged into
+- `npm run test:solo` (merged tree): **15 PASS** ([record](docs/evidence/solo-browser.json)) — 5 new: Continue opens paused
+  with the page's own Resume and Save; Resume runs, Pause holds (1.5 s, written paused), Save writes (revision +1); the page
+  closed: written paused 20 ms after, server gone 3.6 s after (wait 3 s), exit 0, lock released; relaunched and continued on
+  the same tick, paused; Chrome killed (`taskkill /F /T`): written paused 1.6 s after, server gone 5.1 s after. Across five
+  passing runs: page closed 20-1263 ms; Chrome killed 1.6-20.9 s (Windows' reset of the dead connection).
+- `npm run test:solo-window` (new; merged tree): the launcher's `TeacherWindow.cs` compiled unchanged into
   `scripts/support/solo-window-harness.cs` against the real `server/main.mjs --solo`: **X** (WM_SYSCOMMAND/SC_CLOSE, the
-  application left running) written paused 731 ms after, server gone 4.8 s; **application exit** with the window open 114 ms,
-  4.2 s; **process killed** 117 ms, 3.7 s; each exit 0, lock released, offered again paused
-  ([record](docs/evidence/solo-window-close.json)). Measured across runs: X 115-731 ms.
+  application left running) written paused 319 ms after, server gone 3.9 s; **application exit** with the window open 81 ms,
+  3.5 s; **process killed** 34 ms, 3.4 s; each exit 0, lock released, offered again paused
+  ([record](docs/evidence/solo-window-close.json)). Across four runs: X 115-731 ms, exit 81-200 ms, killed 34-413 ms.
 - `npm run test:solo-game`: **fails after 4 PASS**, at `scripts/support/whole-game.mjs` *"not everybody with a switch is on
   auto"* (the children's auto switches) — and fails the same way on the base commit `e937b72` without this change (run in a
   scratch worktree, 2026-09-27), so it is the children's automation against the whole-game driver, not Play Solo. Not mended here.

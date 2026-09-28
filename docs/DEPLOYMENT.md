@@ -225,7 +225,7 @@ for as long as it is open, and whatever ends the page ends the stream:
 | --- | --- |
 | presses the game window's **X** | the game is paused and written at once; the server stops itself 30 s later if the page has not come back |
 | closes the **launcher** (the window goes with it) | the same; and the launcher's own stop of a server it started still runs |
-| has the window or its browser **killed** (crash, Task Manager) | the same, once Windows ends the connection (a quarter of a second for the launcher's window; up to about twenty seconds for a killed Chrome) |
+| has the window or its browser **killed** (crash, Task Manager) | the same, once Windows ends the connection (under half a second for the launcher's window; 1.6 to 21 s for a killed Chrome) |
 | **Windows logs off or shuts down** | the same if the window goes before the server is ended; if the server is ended first, up to five seconds of play is lost and its save may say running — Continue opens it paused either way. Not driven by any proof. |
 | **reloads**, or the window goes to a new game | the page is back within the 30 s: the game goes on, nothing stops |
 | presses **Play Solo** again straight away | the launcher's list holds the stop off for ten minutes while the player chooses; a game dealt and never opened stops the server after two |
