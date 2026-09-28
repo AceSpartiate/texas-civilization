@@ -10,6 +10,7 @@ import { calendarMinutes } from '../sim/clock.mjs';
 import { MILITARY_DECISION_MINUTES } from '../sim/military-pacing.mjs';
 import { COURIER_OFFERED, settleUnanswered, share } from '../sim/alamo.mjs';
 import { DECISION_BUDGET_MS, decisionPressing, realTimeMeter, spendDecisionBudget } from '../sim/decision-budget.mjs';
+import { stormedIn } from '../sim/army.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -47,7 +48,7 @@ const scene = () => ({
   entities: { p: { id: 'p', name: 'Amos', kind: 'person', householdId: 'h', health: { condition: 'well' }, service: { kind: 'houston', status: 'serving', siteId: 'gonzales' } } },
 });
 
-test('an unanswered courier question runs out after ninety real seconds: decided by the fallback, said in the journal, the runner gone, and the class no longer slowed', () => {
+test('an unanswered courier question runs out after ninety real seconds: it lapses, said in the journal, the runner gone, and the class no longer slowed', () => {
   const { world, man } = waiting();
   assert.equal(DECISION_BUDGET_MS, 90_000);
   assert.equal(calendarMinutes(world), MILITARY_DECISION_MINUTES, 'an open question did not hold reading pace');
@@ -59,8 +60,8 @@ test('an unanswered courier question runs out after ninety real seconds: decided
   assert.equal(view(world, man.householdId).encounter.pressing, true, 'two thirds of the way through, the page was not told it is pressing');
   // The rest of it in one tick, so this test holds whether or not the ticks add up (that is the save test's rule).
   stepWorld(world, { realMs: 90_000 });
-  assert.ok(['volunteered', 'stays'].includes(man.service.courier), `the question did not close: ${man.service.courier}`);
-  assert.ok(world.events.some(event => event.actorId === man.id && /Nobody answered for .* in time, and it was decided for them/.test(event.text)), 'the journal does not say the choice was made for them');
+  assert.ok(!['open', 'coming'].includes(man.service.courier), `the question did not close: ${man.service.courier}`);
+  assert.ok(world.events.some(event => event.actorId === man.id && /the question lapsed/.test(event.text)), 'the journal does not say the question lapsed');
   const meeting = Object.values(world.encounters).find(one => one.kind === 'alamo-runner' && one.listenerId === man.id);
   assert.equal(meeting.status, 'closed', 'the runner is still standing there');
   assert.equal(meeting.reason, 'unanswered');
@@ -68,12 +69,25 @@ test('an unanswered courier question runs out after ninety real seconds: decided
   validateWorld(world);
 });
 
-test('the courier fallback is auto\'s answer at auto\'s share, for everybody alike', () => {
-  const people = Array.from({ length: 12 }, (_, i) => ({ id: `p${i}`, name: `Man ${i}`, householdId: 'h', service: { kind: 'garrison', status: 'serving', besieged: true, courier: 'open' } }));
+// Owner, 2026-09-27: "questions that are not answered fast enough disappear." (sim/lapse.mjs)
+test('an unanswered courier question lapses with nothing chosen: nobody is offered, and each man stays at his post, said plainly', () => {
+  const people = Array.from({ length: 12 }, (_, i) => ({ id: `p${i}`, name: `Man ${i}`, householdId: 'h', health: { condition: 'well' }, service: { kind: 'garrison', status: 'serving', besieged: true, courier: 'open' } }));
   const world = { seed: 'fallback', tick: 0, minute: 0, events: [], nextEventId: 1, households: { h: { id: 'h', played: true } }, entities: Object.fromEntries(people.map(person => [person.id, person])) };
+  // Somebody the share would have offered, so a fallback that still decided for the family could not pass by luck.
+  assert.ok(people.some(person => share(world, person.id, 'courier-offer') < COURIER_OFFERED), 'nobody here would have offered at auto\'s share');
   for (const person of people) settleUnanswered(world, person, 'budget');
-  for (const person of people) assert.equal(person.service.courier === 'volunteered', share(world, person.id, 'courier-offer') < COURIER_OFFERED, `${person.name}'s fallback did not follow the share`);
-  assert.ok(people.some(person => person.service.courier === 'volunteered') && people.some(person => person.service.courier === 'stays'), 'the share is not a share');
+  for (const person of people) {
+    assert.equal(person.service.courier, 'stays', `${person.name} was offered as a courier by nobody`);
+    assert.ok(world.events.some(event => event.actorId === person.id && event.lapsed && /Nobody answered Travis's runner for .* in time, and the question lapsed\. Nothing was chosen: .* stays at their post/.test(event.text)), `${person.name}'s record does not say plainly that the question lapsed and what it meant`);
+  }
+  assert.ok(!world.events.some(event => event.decision), 'a lapsed question was written down as a choice');
+});
+
+test('somebody nobody is answering for is still decided as auto decides when the riders go: that rule never depended on the fallback', () => {
+  const people = Array.from({ length: 12 }, (_, i) => ({ id: `p${i}`, name: `Man ${i}`, householdId: 'h', health: { condition: 'well' }, service: { kind: 'garrison', status: 'serving', besieged: true, courier: 'open' } }));
+  const world = { seed: 'fallback', tick: 0, minute: 0, events: [], nextEventId: 1, households: { h: { id: 'h', played: true, absent: true } }, entities: Object.fromEntries(people.map(person => [person.id, person])) };
+  for (const person of people) settleUnanswered(world, person, 'deadline');
+  for (const person of people) assert.equal(person.service.courier === 'volunteered', share(world, person.id, 'courier-offer') < COURIER_OFFERED, `${person.name} did not decide at auto's share`);
 });
 
 test('a Host\'s pause is never counted: the meter forgets where it was whenever a tick does not run', () => {
@@ -90,36 +104,45 @@ test('a Host\'s pause is never counted: the meter forgets where it was whenever 
 test('the budget is configurable: a server option carried through the tick decides it', () => {
   const { world, man } = waiting();
   stepWorld(world, { realMs: 1_500, decisionBudgetMs: 1_000 });
-  assert.ok(['volunteered', 'stays'].includes(man.service.courier), 'a one-second budget did not run out in a second and a half');
+  assert.ok(!['open', 'coming'].includes(man.service.courier), 'a one-second budget did not run out in a second and a half');
 });
 
-test('Houston\'s camp question runs out into auto\'s answer, with the journal line', () => {
-  const world = scene();
-  world.entities.p.service.road = 'open';
-  spendDecisionBudget(world, 89_999);
-  assert.equal(world.entities.p.service.road, 'open');
-  delete world.decisionClock;
-  spendDecisionBudget(world, 90_000);
-  assert.ok(['yes', 'no'].includes(world.entities.p.service.road), 'the camp question did not run out');
-  assert.ok(world.events.some(event => /Nobody answered for Amos in time/.test(event.text)));
+test('Houston\'s camp question runs out and lapses: he does not leave, and the journal says so', () => {
+  for (const key of ['leave', 'road']) {
+    const world = scene();
+    world.entities.p.service[key] = 'open';
+    spendDecisionBudget(world, 89_999);
+    assert.equal(world.entities.p.service[key], 'open');
+    delete world.decisionClock;
+    spendDecisionBudget(world, 90_000);
+    assert.equal(world.entities.p.service[key], 'no', `the camp question ${key} did not run out into nothing`);
+    assert.equal(world.entities.p.service.status, 'serving', 'a man nobody answered for left the army');
+    assert.ok(world.events.some(event => event.lapsed && /Nobody answered for Amos in time, and the question lapsed\. Nothing was chosen/.test(event.text)), 'the journal does not say the question lapsed');
+    assert.ok(!world.events.some(event => event.decision), 'a lapsed question was written down as a choice');
+  }
 });
 
-test('an army question runs out into auto\'s answer, with the journal line', () => {
-  const world = scene();
-  world.entities.p.service = undefined;
-  world.army = { members: ['p'], questions: { storm: { asks: { p: 'open' }, closed: false, openedMinute: 0 } } };
-  spendDecisionBudget(world, 90_000);
-  assert.ok(['yes', 'no'].includes(world.army.questions.storm.asks.p), 'the army question did not run out');
-  assert.ok(world.events.some(event => /Nobody answered for Amos in time/.test(event.text)));
+test('an army question runs out and lapses: nobody is sent, nobody starts home, and the journal says so', () => {
+  for (const key of ['storm', 'pledge', 'grass', 'winter', 'milam', 'reinforce']) {
+    const world = scene();
+    world.entities.p.service = undefined;
+    world.army = { members: ['p'], questions: { [key]: { asks: { p: 'open' }, closed: false, openedMinute: 0 } } };
+    spendDecisionBudget(world, 90_000);
+    assert.equal(world.army.questions[key].asks.p, 'silent', `the ${key} question did not lapse`);
+    assert.deepEqual(world.army.members, ['p'], `a lapsed ${key} question took Amos out of the ranks`);
+    assert.ok(!stormedIn(world, 'p'), `a lapsed ${key} question sent Amos into the town`);
+    assert.ok(world.events.some(event => event.lapsed && /Nobody answered for Amos in time, and the question lapsed\. Nothing was chosen/.test(event.text)), `the journal does not say the ${key} question lapsed`);
+    assert.ok(!world.events.some(event => event.decision), 'a lapsed question was written down as a choice');
+  }
 });
 
-test('Bowie and Fannin\'s division question runs out into auto\'s answer, with the journal line', () => {
+test('Bowie and Fannin\'s division question runs out and lapses: he stays with the main army, and the journal says so', () => {
   const world = scene();
   world.entities.p.service = undefined;
   world.army = { members: ['p'], detachment: { asks: { p: 'open' }, closed: false } };
   spendDecisionBudget(world, 90_000);
-  assert.ok(['go', 'stay'].includes(world.army.detachment.asks.p), 'the detachment question did not run out');
-  assert.ok(world.events.some(event => /Nobody answered for Amos in time/.test(event.text)));
+  assert.equal(world.army.detachment.asks.p, 'stay', 'the detachment question sent him ahead, or did not run out');
+  assert.ok(world.events.some(event => event.lapsed && /Nobody answered for Amos in time, and the question lapsed\. Nothing was chosen: Amos did not go ahead/.test(event.text)), 'the journal does not say the question lapsed');
 });
 
 test('nobody\'s budget runs for a family whose student has gone or a person on auto: they are the director\'s', () => {

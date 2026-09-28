@@ -44,7 +44,7 @@ import { advanceTown, createTownspeople, observedBy, seenAs } from './town.mjs';
 import { helpTownScene, townScenesFor } from './town-scenes.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
-import { advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, listeningOf, riderName, spotName } from './encounters.mjs';
+import { advanceDepartures, advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, listeningOf, riderName, spotName } from './encounters.mjs';
 import { DEFAULT_MODE, HIGH_WATER_TIMES, MODES, WADE_WRONG_MINUTES, WADE_WRONG_SHARE, fordMinutes, modeOf, moveOnGround, propertyId, RIDER_SPEED } from './travel.mjs';
 import { paceOf } from './ground.mjs';
 import { findWay } from './ways.mjs';
@@ -377,7 +377,8 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
   // stays exactly as it was: relays must never start depending on whether some family
   // happens to own an animal.
   // An express rider between settlements (sim/expresses.mjs) rides the same way, for the same reason.
-  const riding = Boolean(entity.report || entity.express);
+  // So does a rider whose errand is done, riding home (sim/encounters.mjs `advanceDepartures`).
+  const riding = Boolean(entity.report || entity.express || entity.leaving);
   const mode = riding ? MODES.horse : MODES[modeId];
   if (!mode) throw new Error('No such way of going.');
   // A rider carrying word keeps to the roads, where word is carried and met (sim/geography.mjs `findPath`). Anybody else
@@ -683,6 +684,9 @@ export function stepWorld(world, { realMs = 0, decisionBudgetMs } = {}) {
   // thing that happens between two people who are standing together, so they are settled
   // once everybody has finished moving for the tick.
   advanceEncounters(world);
+  // A rider whose errand is done - the word said, handed on or brought in - rides home and is gone, rather than standing about
+  // (owner, 2026-09-27; sim/encounters.mjs `advanceDepartures`).
+  advanceDepartures(world, { beginTravel });
   // Days of the calendar: what is eaten, what spoils, what mends, whatever the tick was worth.
   advanceRoutine(world, calendar); deliverReports(world);
   // The families on the road east (sim/scrape.mjs): the rivers, the food, the sickness, arriving.
@@ -747,7 +751,8 @@ function sendRider(world, { topicId, audience, status, originSiteId, fromSiteId,
   // list is the fix if a class ever takes one rider for another.
   let named = number;
   while (inPerson && (provenance || []).some(hop => hop.name === riderName(named))) named++;
-  const entity = { id, name: inPerson ? riderName(named) : `Rider ${number}`, kind: 'person', householdId: null, depth: 'moderate', principal: false, courier: true, location: { x: from.x, y: from.y, siteId: fromSiteId }, task: 'rest', health: { condition: 'well' }, travel: null, report: { topicId, audience, destination: leg ? leg.id : homeSiteId, homeSiteId, status, originSiteId, departedMinute: world.minute, ...(inPerson && { inPerson: true, provenance }) } };
+  // `base` is where he rides home to once the word is off his hands (sim/encounters.mjs `advanceDepartures`).
+  const entity = { id, name: inPerson ? riderName(named) : `Rider ${number}`, kind: 'person', householdId: null, depth: 'moderate', principal: false, courier: true, base: fromSiteId, location: { x: from.x, y: from.y, siteId: fromSiteId }, task: 'rest', health: { condition: 'well' }, travel: null, report: { topicId, audience, destination: leg ? leg.id : homeSiteId, homeSiteId, status, originSiteId, departedMinute: world.minute, ...(inPerson && { inPerson: true, provenance }) } };
   world.entities[id] = entity;
   beginTravel(world, entity, entity.report.destination, causeId, 'report');
   return entity;

@@ -120,6 +120,19 @@ page is told it is pressing and says what will happen. On expiry the question fa
 deadline — auto's answer at the record's share, the owner's standing rule `FIC-GONZ-048` — and the journal says "Nobody
 answered for … in time, and it was decided for them". The question is then closed, so `sim/military-pacing.mjs` stops slowing
 the class for it: one unanswered question costs the class at most a minute and a half, not the rest of the dated window.
+**Amended 2026-09-27** (owner: *"questions that are not answered fast enough disappear."*; `sim/lapse.mjs`, `FIC-GONZ-633`):
+on expiry, and at the dated close, the question **lapses** instead - nothing is chosen for the family. The man in the Alamo
+stays at his post and is not offered; Bowie and Fannin's division goes without him; the army's question is left `'silent'`,
+so nobody goes in with Milam or the reinforcement, out after the pack train, or home from the pledge or winter quarters; the
+man with Houston does not leave and calls for no road. The journal says *"Nobody answered for … in time, and the question
+lapsed. Nothing was chosen: …"* and what that leaves the person doing. A person on auto, or of a family whose student has
+gone, is still answered at auto's share, as when asked.
+
+**Riders leave when done** (owner, 2026-09-27: *"riders delivering messages should leave after their interactions are
+complete."*; `FIC-GONZ-634`). Travis's runner, once answered or once the question has lapsed, walks back across the plaza and
+goes into the colonel's quarters, and is not seen standing at the door (`goneFromSight`, sim/encounters.mjs); the news
+riders, the riders who hand the word on and the express riders ride home and are gone (`advanceDepartures`). There are no
+other messengers in the military chain: the Watch and Follow alerts before a fight come through the family's own person.
 
 **Volunteers asked again** (`FIC-GONZ-382`): every played fighter still inside is asked on each of the four days, once a day,
 whatever they said before; a volunteer passed over is reminded of it. Never a courier already gone, the dead or captured, a

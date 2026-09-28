@@ -28,6 +28,8 @@
 import { record } from './events.mjs';
 import { learn, wouldLearn } from './knowledge.mjs';
 import { TICK_MINUTES, calendarMinutes } from './clock.mjs';
+import { courierIfUnanswered } from './lapse.mjs';
+import { RIDER_SPEED } from './travel.mjs';
 
 /**
  * How far the calendar has been stretched, as a multiplier (sim/clock.mjs, docs/COLONIES.md §5.7).
@@ -426,7 +428,9 @@ function finish(world, encounter, reason) {
     // delivered by being said. Only to the family it was for, though - somebody told on
     // the way is told and the rider goes on, still carrying it to the people it is for.
     if (encounter.householdId === carrier.report?.audience) delete carrier.report;
-    if (carrier.travel) { delete carrier.travel.halted; carrier.travel.scannedProgress = carrier.travel.progress; }
+    // Still carrying it: back on the road he was on. Discharged: he stays where he reined in until he turns for home
+    // (`advanceDepartures`), rather than riding on up to a gate he no longer has any business at.
+    if (carrier.travel && carrier.report) { delete carrier.travel.halted; carrier.travel.scannedProgress = carrier.travel.progress; }
   }
   const listener = world.entities[encounter.listenerId]?.name || 'The family';
   const count = encounter.asked.length;
@@ -546,6 +550,80 @@ export function advanceEncounters(world) {
   return opened;
 }
 
+/**
+ * Riders whose errand is done leave (owner, 2026-09-27, verbatim: "riders delivering messages should leave after their
+ * interactions are complete."; `FIC-GONZ-634`).
+ *
+ * Until this a rider who had said his piece - to the family the word was for, answered or let go or given up waiting on - had
+ * nothing left to carry and simply stood where he was, at the family's gate, for the rest of the class; so did a rider who
+ * handed the word on at a fork (`advanceRelays`, sim/world.mjs) and an express rider who brought it to a settlement
+ * (sim/expresses.mjs). Now each rides back the way he came, on the road and in sight while he is (`ridersInSight`), to where he
+ * set out from (`base`), and is gone: nobody sees him standing about there either.
+ *
+ * - With the family met on the road, short of where he was riding: he turns round where he reined in and rides back along
+ *   the road he came by (`turnBack`).
+ * - Standing at a place - the family's gate, the fork, the settlement - he takes the road home from there.
+ * - A rider still carrying word for somebody further on is still on his errand and rides on, as before; one still in a
+ *   conversation waits for it to end.
+ *
+ * Every tick, after the tick's meetings are settled, so a rider who has finished speaking goes the tick after he finished and
+ * a word said is never ridden away from in the same update. ceiling: a rider ridden home is kept in the world (`gone`),
+ * because the family's record and its meetings name him; he is not drawn, sent, or met again. A rider of a class saved before
+ * this, with nowhere recorded to ride home to (`base`), rides for Gonzales, where the word began, or is simply gone if he
+ * stands there already. The road back is the road he came by, at his pace, without its fords' waits.
+ */
+export function advanceDepartures(world, { beginTravel }) {
+  for (const carrier of Object.values(world.entities)) {
+    if (!carrier.courier || carrier.gone || carrier.report || carrier.express) continue;
+    if (carrier.leaving) {
+      if (!carrier.travel) goneHome(carrier);
+      continue;
+    }
+    if (Object.values(world.encounters || {}).some(e => e.carrierId === carrier.id && e.status === 'open')) continue;
+    if (carrier.travel) { turnBack(world, carrier); continue; }
+    const here = carrier.location.siteId;
+    const base = world.map.sites[carrier.base] ? carrier.base : world.map.sites.gonzales ? 'gonzales' : null;
+    if (!base || !here || base === here) { goneHome(carrier); continue; }
+    carrier.leaving = { to: base };
+    try { beginTravel(world, carrier, base, null, 'leave'); } catch { goneHome(carrier); continue; }
+    carrier.travel.silent = true;
+  }
+}
+/**
+ * A messenger whose errand is done and who has left: a rider ridden home (`gone`), or Travis's runner back inside the colonel's
+ * quarters waiting to be sent (sim/alamo-runner.mjs, phase `waiting`). Seen by nobody - no family and not the Host.
+ */
+export const goneFromSight = entity => Boolean(entity?.gone) || entity?.runner?.phase === 'waiting';
+function goneHome(carrier) {
+  delete carrier.leaving;
+  carrier.gone = true;
+  carrier.task = 'rest';
+}
+/** Back along the road just ridden, from where he stands to where the leg began. */
+function turnBack(world, carrier) {
+  const travel = carrier.travel, points = travel.points;
+  const here = { x: carrier.location.x, y: carrier.location.y };
+  let index = 0, ridden = 0;
+  for (; index < points.length - 1; index++) {
+    const length = between(points[index], points[index + 1]);
+    if (ridden + length >= travel.progress) break;
+    ridden += length;
+  }
+  const back = [here];
+  for (let k = index; k >= 0; k--) if (between(back.at(-1), points[k]) > 1e-9) back.push({ x: points[k].x, y: points[k].y });
+  const from = world.map.sites[travel.from];
+  carrier.leaving = { to: travel.from };
+  if (back.length < 2 || !from) {
+    carrier.travel = null;
+    if (from) carrier.location = { x: from.x, y: from.y, siteId: from.id };
+    goneHome(carrier);
+    return;
+  }
+  const distance = back.slice(1).reduce((sum, point, i) => sum + between(back[i], point), 0);
+  carrier.travel = { from: travel.to, to: travel.from, points: back, progress: 0, distance, speed: RIDER_SPEED, mode: 'horse', purpose: 'leave', causeId: travel.causeId || null, silent: true };
+  carrier.task = 'travel';
+}
+
 /** Everything the listener could still ask, and nothing they could not. */
 export function questionsFor(encounter) {
   return (CONVERSATIONS[encounter.topicId]?.lines || []).filter(line => !encounter.asked.includes(line.id));
@@ -593,7 +671,7 @@ export function encounterProjection(world, householdId, role) {
   if (!encounter) return null;
   const open = encounter.status === 'open';
   // Travis's runner (sim/alamo-runner.mjs): what he said, the two answers while he waits, and what happens if nobody gives
-  // one - the documented fallback, in words, before it happens. `pressing` once most of the real-time budget is gone
+  // one - the question lapses and nothing is chosen (sim/lapse.mjs), in words, before it happens. `pressing` once most of the real-time budget is gone
   // (sim/decision-budget.mjs). Nothing of any other family's runner, and nothing of what Travis will choose.
   if (encounter.kind === 'alamo-runner') {
     const listener = world.entities[encounter.listenerId];
@@ -604,7 +682,7 @@ export function encounterProjection(world, householdId, role) {
       origin: 'From Colonel Travis’s quarters, inside the Alamo',
       said: encounter.said.map(({ speaker, text, minute }) => ({ speaker, text, minute })), questions: [],
       choices: open ? [{ answer: 'volunteer', label: `${listener?.name || 'They'} offers to ride out with the letters` }, { answer: 'stay', label: `${listener?.name || 'They'} stays inside the walls` }] : [],
-      ifUnanswered: open && listener ? `If nobody answers in time, it will be decided for ${listener.name}, as a person on auto decides.` : null,
+      ifUnanswered: open && listener ? courierIfUnanswered(listener) : null,
       pressing: Boolean(open && clock && clock.spent >= clock.of * (2 / 3)),
     };
   }
@@ -654,10 +732,11 @@ export function ridersInSight(world, householdId) {
   // Standing with them, or riding away and still in sight. Watching somebody go is the
   // other half of watching them come, and it is how a student sees that the rider they
   // were talking to has now gone on to tell somebody else.
-  if (spokenWith && (met.status === 'open' || inSight(spokenWith))) seen.push(spokenWith);
+  if (spokenWith && !goneFromSight(spokenWith) && (met.status === 'open' || inSight(spokenWith))) seen.push(spokenWith);
   for (const carrier of Object.values(world.entities)) {
     if (seen.includes(carrier)) continue;
-    if (!carrier.report?.inPerson) continue;
+    // Carrying word, or riding home with his errand done (`advanceDepartures`): a rider on the road is seen going by either way.
+    if (!carrier.report?.inPerson && !carrier.leaving) continue;
     if (inSight(carrier)) seen.push(carrier);
   }
   return seen;

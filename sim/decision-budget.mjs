@@ -14,25 +14,25 @@
 //   the paused minutes are never counted: the first tick after Resume carries none.
 // - **Kept in the save** (`world.decisionClock`), so reloading or reconnecting does not start a question's budget again.
 //   Absent on every class saved before this, which correctly reads as nothing spent.
-// - **On expiry, the documented fallback**, with a line in the family's journal saying the choice was made for them because
-//   nobody answered in time: the courier question by `settleUnanswered` (sim/alamo.mjs, docs/ALAMO_FATES.md), the army's and
-//   Houston's by auto's answer at the record's share - the owner's standing rule that auto takes over a choice not made.
-//   Once decided, the question is closed and the class stops being slowed for it.
+// - **On expiry the question lapses** (owner, 2026-09-27: "questions that are not answered fast enough disappear";
+//   sim/lapse.mjs, `FIC-GONZ-633`). Nothing is chosen for the family - the man in the Alamo stays at his post, the volunteer
+//   is not sent in, the man with Houston does not leave - and the family's journal says plainly that nobody answered and what
+//   that meant: the courier question by `settleUnanswered` (sim/alamo.mjs), Bowie and Fannin's division by
+//   `decideDetachmentFor`, the army's by `decideQuestionFor` (sim/army.mjs), Houston's by `decideCampQuestionFor`
+//   (sim/camp.mjs). Until 2026-09-27 auto answered at the record's share (`FIC-GONZ-048`). Once lapsed, the question is
+//   closed and the class stops being slowed for it.
 import { settleUnanswered } from './alamo.mjs';
 import { decideDetachmentFor, decideQuestionFor } from './army.mjs';
 import { decideCampQuestionFor } from './camp.mjs';
+import { answeredFor } from './lapse.mjs';
 
 /** Real milliseconds an unanswered military question may stay open. A server option or `DECISION_BUDGET_MS` overrides it. */
 export const DECISION_BUDGET_MS = 90_000;
 /** The share of the budget after which the question is said to be pressing: the page warns, in words, what will happen. */
 export const PRESSING_SHARE = 2 / 3;
 
-const GONE = ['dead', 'captured'];
-/** Somebody a student is actually answering for: a played, present family, not on auto, alive and free. */
-function attended(world, person) {
-  const household = world.households?.[person.householdId];
-  return Boolean(household?.played && !household.absent && !person.auto && !GONE.includes(person.health?.condition));
-}
+/** Somebody a student is actually answering for: a played, present family, not on auto, alive and free (sim/lapse.mjs). */
+const attended = (world, person) => Boolean(world.households?.[person.householdId]?.played) && answeredFor(world, person);
 
 /** Every military question open to somebody a student is answering for, each with what happens if nobody answers. */
 export function openDecisions(world) {

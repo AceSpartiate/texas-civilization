@@ -19,7 +19,9 @@ test('Gate C: truth stays server-side, households learn unevenly, courier delive
   const courierId = dispatchReport(world, 'private-news', 'hh-2');
   assert.ok(world.entities[courierId].travel);
   for (let i = 0; i < 30; i++) stepWorld(world);
-  assert.equal(world.entities[courierId].location.siteId, 'home-2');
+  // He rode to the family's gate - and, the word delivered, has turned for home since 2026-09-27 (sim/encounters.mjs
+  // `advanceDepartures`), so it is his arrival there that is asked, not where he stands now.
+  assert.ok(world.events.some(event => event.type === 'arrival' && event.actorId === courierId && event.destination === 'home-2'), 'the courier never reached the family');
   assert.equal(reportsFor(world, 'hh-2')[0].status, 'confirmed');
   assert.equal(reportsFor(world, 'hh-1')[0].ageMinutes, 600);
   assert.deepEqual(reportsFor(world, 'public'), []);

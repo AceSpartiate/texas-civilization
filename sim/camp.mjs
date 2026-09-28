@@ -33,6 +33,7 @@
 // `leave`, `road` and `camp` on the service are absent until earned or asked.
 import { CHORES, abandonChore, registerChores } from './chores.mjs';
 import { record } from './events.mjs';
+import { answeredFor, recordLapse } from './lapse.mjs';
 import { awardGlory } from './glory.mjs';
 import { WOUND_GRADES } from './army.mjs';
 import { modeWith } from './keeping.mjs';
@@ -181,6 +182,7 @@ export const CAMP_QUESTIONS = Object.freeze({
     note: entity => entity.service?.bound ? 'A regular who leaves has deserted: the family loses the glory of enlisting twice over, and they will not be taken again.'
       : entity.service?.acres ? 'They start home at once, and the promise of land goes with it.' : 'They start home at once. Whatever the army does next happens without them.',
     said: { yes: name => `${name} left the army to see to the family, as many did.`, no: name => `${name} stayed with the army.` },
+    lapsed: name => `${name} did not leave, and is still with the army.`,
   },
   // April 16, the fork at Roberts', beyond Spring Creek: the right-hand road to Harrisburg and the enemy, the left to the Trinity
   // and Nacogdoches (`HIST-TEX-082`, `HIST-TEX-088`).
@@ -190,6 +192,7 @@ export const CAMP_QUESTIONS = Object.freeze({
     yes: name => `${name} calls for the right-hand road, to Harrisburg`, no: name => `${name} would take the left-hand road, for Nacogdoches`,
     note: () => 'The army takes the road the most of the men shout for.',
     said: { yes: name => `${name} shouted for the right-hand road, to Harrisburg and the enemy.`, no: name => `${name} would have taken the left-hand road, for Nacogdoches.` },
+    lapsed: name => `${name} called for neither road, and goes the way the army goes.`,
   },
 });
 const autoAnswer = (world, key, entity) => share(world, entity.id, `camp-${key}`) < CAMP_QUESTIONS[key].unplayed ? 'yes' : 'no';
@@ -238,8 +241,7 @@ function settleCampAnswer(world, key, entity, answer, how, { beginTravel, modeWi
   const spec = CAMP_QUESTIONS[key];
   entity.service[key] = answer;
   const decision = `camp-${key}-${answer}`;
-  const text = how === 'unplayed' ? spec.said[answer](entity.name) : how === 'auto' ? `${entity.name}, deciding for themself: ${spec.said[answer](entity.name)}`
-    : how === 'silence' ? `Nobody answered for ${entity.name} in time, and it was decided for them. ${spec.said[answer](entity.name)}` : spec.said[answer](entity.name);
+  const text = how === 'unplayed' ? spec.said[answer](entity.name) : how === 'auto' ? `${entity.name}, deciding for themself: ${spec.said[answer](entity.name)}` : spec.said[answer](entity.name);
   const eventId = record(world, how === 'unplayed' ? 'army' : 'choice', { actorId: entity.id, householdId: entity.householdId, importance: 2, ...(how === 'unplayed' ? { classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-054' } : { decision }), text });
   if (key === 'leave' && answer === 'yes') {
     const household = household_(world, entity);
@@ -253,15 +255,25 @@ function settleCampAnswer(world, key, entity, answer, how, { beginTravel, modeWi
   }
 }
 
-/** Close a question: anybody not answered for in time is decided as auto decides (sim/auto.mjs), and what that does is done. */
+/** Close a question: for anybody not answered for in time it lapses, and nothing is done (`decideCampQuestionFor`). */
 export function closeCampQuestion(world, key, { beginTravel } = {}) {
   for (const entity of Object.values(world.entities)) decideCampQuestionFor(world, key, entity, { beginTravel });
 }
 
-/** Nobody answered for this one man in time: decided as auto decides. Also when the real-time budget runs out (sim/decision-budget.mjs). */
+/**
+ * Nobody answered for this one man in time: at the question's close, and when the real-time budget runs out
+ * (sim/decision-budget.mjs). **The question lapses** (owner, 2026-09-27; sim/lapse.mjs): nothing is chosen, so he does not
+ * leave and calls for no road, and the family's record says so. A man nobody is answering for (on auto, or a family whose
+ * student has gone) is decided as auto decides, as when asked.
+ */
 export function decideCampQuestionFor(world, key, entity, { beginTravel } = {}) {
   if (entity?.service?.kind !== 'houston' || entity.service[key] !== 'open') return;
-  settleCampAnswer(world, key, entity, autoAnswer(world, key, entity), 'silence', { beginTravel });
+  if (answeredFor(world, entity)) {
+    entity.service[key] = 'no';
+    recordLapse(world, { householdId: entity.householdId, actorId: entity.id, text: `Nobody answered for ${entity.name} in time, and the question lapsed. Nothing was chosen: ${CAMP_QUESTIONS[key].lapsed(entity.name)}` });
+    return;
+  }
+  settleCampAnswer(world, key, entity, autoAnswer(world, key, entity), 'auto', { beginTravel });
 }
 
 /** A saved camp that cannot be, or null. */

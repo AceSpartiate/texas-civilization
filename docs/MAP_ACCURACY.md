@@ -1077,6 +1077,12 @@ journey's end to the journey's end: at the mile the server calls arrival, the fi
    was drawn: `GAIT_CEILING`, 1.2 of its own drawn height a real second. Because it is counted in the figure's *own* height
    it is already the pace of whatever they are on - a rider and horse are drawn 1.8 of a person and may cross 1.8 times the
    ground, a driver the wagon's height. That is the owner's "unless on horseback or wagon", and it needs no second number.
+   **Amended 2026-09-27** (owner, by multiple choice: on the family's own land a rider or a wagon goes at "the horse or
+   wagon's own speed", never sped up beyond it; walkers at normal walking speed): the pace is now the traveller's *own*
+   (`paceMilesASecond`) - a grown person's walk, 1.2 of a person's height a second, times their journey's speed against a
+   walk from the server: five thirds on the horse, the team's 0.65 with a wagon, cart or carreta, a small child's half -
+   and never above the figure's own cycle. The height rule had drawn a wagon at 1.55 of a walker (two and a half times the
+   ox) and a rider at 1.8 (the horse is 1.67).
 2. **Slow enough already, and nothing happens.** In the family's own view of its farming day a walker is drawn at 0.13 of
    their height a second. Below the gait the journey is drawn exactly where the server has it, whole, all the way - which is
    what a student has always seen of their own farm, and it does not change.
@@ -1094,10 +1100,16 @@ journey's end to the journey's end: at the mile the server calls arrival, the fi
    `rate` of its own length to spend on being watched, and walking half a mile of farm at a walk costs about thirteen real
    seconds. The owner's correction is absolute, so the land comes first: a figure may never *begin* to fade while it is
    still on its own land, whatever that costs. The hundred yards off the land are a target and not a promise — they shorten,
-   and go to nothing, rather than start a fade a foot inside the family's own line. And where the road cannot pay even for
-   the land, **there is no fade at all**: the whole journey is drawn where the server has it, in view, which is the same
-   answer §12a.3 gives a journey that never leaves their land. In the farming day there is room for the land *and* the
-   hundred yards from about two and a half miles up, which is where a student is looking.
+   and go to nothing, rather than start a fade a foot inside the family's own line. ~~And where the road cannot pay even for
+   the land, there is no fade at all: the whole journey is drawn where the server has it, in view~~ - that hurried the land,
+   and was a `ceiling:` until **2026-09-27**, when the owner decided nobody on their own land is sped up beyond their own
+   pace. Now such a journey is **paced** (`pacedSight`): the land walked at the pace, the fades off it as short as the
+   journey leaves room for, the middle crossed out of sight, and - where the journey cannot walk its own land in the time the
+   server gives it - the drawn arrival **late**: the figure is still walking the last of its land in, at its pace, after the
+   server has them home (`trailOf` in `public/app.js`), and never ahead of the server's arrival. A journey that never leaves
+   their land is walked at the pace end to end. In the farming day there is room for the land *and* the hundred yards from
+   about two and a half miles up, which is where a student is looking; a hurried class pressed close in is where the pacing
+   shows.
 
 ### 12a.3 The family's own land is never sped up and never faded
 
@@ -1107,17 +1119,18 @@ comes back onto it. The walked stretch at the start is *all* of the on-land road
 however long that is; the fade-in at the end is finished before the line rather than on it. A journey that never leaves
 their own land is never faded at all.
 
-- `ceiling:` **a journey whose own-land stretches the road cannot pay for is drawn at the server's pace, in view, from end
-  to end.** That covers both a journey that lies wholly on the family's own land and a short errand at a hurried class pace
-  that begins at the house: either can still outrun the gait. It is one rule and not two, and nothing else is possible — on
-  their own land nobody may be faded, and the arrival is the server's. The ways out are the class clock
-  ([evidence/pace.json](evidence/pace.json)) or fading on the farm too, which the owner refused.
+- **Decided by the owner, 2026-09-27 (replacing the `ceiling:` that stood here): on their own land nobody is sped up beyond
+  their own pace** - a walker at a walk, a rider at "the horse or wagon's own speed", a wagon, cart or carreta at the team's.
+  A journey whose own-land stretches the road cannot pay for - one wholly on the family's land, or a short errand at a hurried
+  class pace that begins at the house - was drawn at the server's pace, in view, and outran the walk. It is now paced
+  (§12a.2 item 6): walked at the pace on the land, faded off it, and drawn arriving late rather than quick. The arrival the
+  server decided is unchanged; the drawing of it trails. `ceiling:` a figure still being drawn walking in when the student
+  sends them out again starts the new journey from where the server has them; a slower class pace is the way out.
 - `ceiling:` only the run at the start and the run at the end are found. A journey that crosses its own land in the
   **middle** - which no road on this map does - is drawn crossing it invisibly.
-- `ceiling:` the owner's "(unless on horseback or wagon)" is read here as *the pace you hold them to on their own land is
-  the pace of what they are on*, and **not** as *a horse or wagon may still be sped up or faded on their own land*. Nothing
-  on their own land is sped up or faded, on foot or otherwise. The other reading is a question for the owner and is in
-  `HANDOFF.md`.
+- ~~`ceiling:` the owner's "(unless on horseback or wagon)" is read here as *the pace you hold them to on their own land is
+  the pace of what they are on*~~ **Answered by the owner, 2026-09-27**: yes, that reading - the horse's or the wagon's own
+  speed, never sped up beyond it, and nothing on their own land faded.
 - `ceiling:` while they walk the last stretch in, the figure is drawn nearer the destination than the server has them - up
   to about a quarter of a mile at a farming tick pressed close in. It can be no other way if the last hundred yards are to
   be walked *and* the arrival is to be the server's. They are never drawn **at** the destination before the server puts them

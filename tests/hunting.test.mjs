@@ -421,13 +421,16 @@ test('nobody stands in a wood for ever waiting on a student who has gone elsewhe
   assert.ok(waiting >= 5, `the question stood for ${waiting} ticks before it settled itself`);
   assert.ok(waiting <= 9, `the question stood for ${waiting} ticks, which is nobody's patience`);
   assert.ok(world.events.some(event => /Nobody answered/.test(event.text)),
-    'somebody decided alone and the family record does not say so');
+    'the question ran out and the family record does not say so');
   // "We chose this" and "nobody was listening" are two different stories about the same
   // family, and the epilogue is built out of exactly these.
-  const decided = world.events.find(event => /Nobody answered/.test(event.text));
-  assert.equal(decided.type, 'choice');
-  // Decided as auto decides (sim/chores.mjs `autoChoice`): Mateo has no knack for it, so the long shot is waited for.
-  assert.equal(decided.decision, 'wait');
+  const lapsed = world.events.find(event => /Nobody answered/.test(event.text));
+  // Since 2026-09-27 the question lapses (sim/lapse.mjs, `lapsedChoice`): nothing is chosen, so no powder is spent on a
+  // shot nobody took, and the hunter comes away. Before, it was decided as auto decides.
+  assert.equal(lapsed.type, 'consequence');
+  assert.equal(lapsed.lapsed, true);
+  assert.match(lapsed.text, /the question lapsed\. Nothing new was chosen: .* did nothing more: leave it and come home/);
+  assert.ok(!world.events.some(event => event.decision && event.actorId === 'hh-1-mateo'), 'something was chosen for Mateo');
 });
 
 test('an answer nobody was offered is refused, and so is answering for another family', () => {

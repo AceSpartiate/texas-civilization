@@ -9,7 +9,7 @@
   "slow": {
     "person": "hh-1-thomas",
     "seen": {
-      "minute": 280,
+      "minute": 260,
       "tickMs": 2500,
       "location": {
         "x": 99.65775777832971,
@@ -26,8 +26,8 @@
         "points": 256
       },
       "drawn": {
-        "x": -151,
-        "y": 1035
+        "x": -582,
+        "y": 1380
       },
       "card": "On the road to Gonzales · 1%",
       "row": "Travelling",
@@ -68,7 +68,7 @@
       "drawn": null,
       "card": "Away on the road to Gonzales · about 95 miles off · should be there about October 8",
       "row": "Amos is away on the road to Gonzales, about 95 miles off, and should be there about October 8.",
-      "spoken": "At Family 1 home: Mahala (work), Delia (rest), Ruperto (rest), Juniper the ox (animal), Bess the mare (animal), Family wagon (wagon). Also here: Ned Falk, Ned Falk. Amos is away on the road to Gonzales, about 95 miles off, and should be there about October 8."
+      "spoken": "At Family 1 home: Mahala (work), Delia (rest), Ruperto (rest), Juniper the ox (animal), Bess the mare (animal), Family wagon (wagon). Also here: Perla Zamarripa, Ned Falk. Amos is away on the road to Gonzales, about 95 miles off, and should be there about October 8."
     },
     "teacher": {
       "location": {

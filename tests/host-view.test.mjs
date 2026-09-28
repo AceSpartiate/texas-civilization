@@ -12,6 +12,7 @@ import { join } from 'node:path';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { observedBy } from '../sim/town.mjs';
+import { goneFromSight } from '../sim/encounters.mjs';
 import { landView, pieced } from '../sim/houses.mjs';
 import { holdingOf } from '../sim/grants.mjs';
 import { plotsOf } from '../sim/fields.mjs';
@@ -53,7 +54,10 @@ test('the Host is sent everybody in the class where they truly are, and every fa
   const { world } = played(10, 150);
   const view = host(world);
   const sent = new Map(view.others.map(entity => [entity.id, entity]));
-  const placed = Object.values(world.entities).filter(entity => entity.location);
+  // Everybody still in the world: a rider whose errand is done and who has ridden home is not (owner, 2026-09-27;
+  // sim/encounters.mjs `goneFromSight`), and is sent to nobody.
+  const placed = Object.values(world.entities).filter(entity => entity.location && !goneFromSight(entity));
+  for (const entity of Object.values(world.entities)) if (goneFromSight(entity)) assert.ok(!sent.has(entity.id), `${entity.id} has gone home and is still on the Host's map`);
   // The premise: there is somebody a family cannot see, so this is a test of fog and not of a class all standing together.
   const seenByFirst = new Set([...student(world, 'hh-1').entities, ...observedBy(world, 'hh-1')].map(entity => entity.id));
   assert.ok(placed.some(entity => !seenByFirst.has(entity.id) && entity.householdId), 'every family was in sight of the first; nothing here tests fog');
@@ -107,7 +111,10 @@ test('a student is sent exactly what it was before: its own people, who it can s
     // own business, not another family's. (Found 2026-09-19: the test's wire scan had no allowance for it, and any change
     // of timing that let an errand finish inside the 150 ticks would have tripped it.)
     const dealtWith = new Set(view.entities.flatMap(own => own.chore?.traderId ? [own.chore.traderId] : []));
-    const hidden = [...everyone].filter(id => !view.others.some(other => other.id === id) && !view.entities.some(own => own.id === id) && !dealtWith.has(id));
+    // And the rider the family last spoke with, named in its own record of the meeting, which stays re-readable after he has
+    // ridden away out of sight (sim/encounters.mjs `encounterProjection`; riders leave since 2026-09-27).
+    const metWith = view.encounter?.status === 'closed' ? view.encounter.carrierId : null;
+    const hidden = [...everyone].filter(id => !view.others.some(other => other.id === id) && !view.entities.some(own => own.id === id) && !dealtWith.has(id) && id !== metWith);
     assert.ok(hidden.length > everyone.size / 2, `${householdId} could see most of the class`);
     for (const id of hidden) assert.ok(!wire.includes(`"${id}"`), `${householdId} was sent ${id}, whom it cannot see`);
     // Whoever it is, they keep a shop: a keeper is known by their counter, not by the shape of their id. Marta Ibarra's is
