@@ -37,7 +37,11 @@ import { findPath } from './geography.mjs';
 // the first time a man does any of it and weighted like carrying supplies, so it never rivals the fight's own award; `forward`
 // is a man who called for the right-hand road to Harrisburg and the enemy at the fork on April 16, weighted like `willing`
 // (owner, 2026-09-16, docs/HOUSTON_CAMP.md, sim/camp.mjs).
-export const GLORY_WEIGHT = Object.freeze({ supplied: 1, present: 2, fought: 3, willing: 2, enlisted: 2, voted: 1, served: 1, forward: 2 });
+// `helped` and `sheltered` are help given to another family (owner, 2026-09-28, by multiple choice: "Any help"; sim/deeds.mjs
+// `HELP_ROLE`): the support tier of docs/MONEY_AND_GLORY.md §4 - a raising, food, room in a wagon at the support weight, and
+// children taken in at the weight of being present. ceiling: the two weights are this game's own first guess (`FIC-GONZ-761`); a
+// balance measure (docs/BALANCE.md) that finds help outweighing the war, or a lone mother still unable to win, is the way to move them.
+export const GLORY_WEIGHT = Object.freeze({ supplied: 1, present: 2, fought: 3, willing: 2, enlisted: 2, voted: 1, served: 1, forward: 2, helped: 1, sheltered: 2 });
 /** Every fifteen road miles a family lived from where it happened multiplies the part once more. */
 export const GLORY_MILES_STEP = 15;
 

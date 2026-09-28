@@ -172,7 +172,7 @@ in the fighting counts for more than supporting it. Every number below is invent
 | --- | --- | --- | --- |
 | Support | Answering the call and carrying food or powder to Gonzales | 1 | Yes — `handleChoice` in `sim/directors.mjs` |
 | Support | Carrying word onward that reached another family | 1 | Yes — the relay chain in `sim/world.mjs` |
-| Support | Helping a neighbour who asked; sheltering or feeding another household | 1 | Recorded, not awarded (2026-09-28): `sim/neighbourly.mjs` keeps every raising, food carried, wagon room and children taken in, and the ending names them; whether any earns glory against "only major historical events earn glory" is the owner's open question |
+| Support | Helping a neighbour who asked; sheltering or feeding another household | 1 (children taken in: 2) | **Yes, since 2026-09-28** (owner, by multiple choice: *"Any help"*, `FIC-GONZ-761`): the ledger's deeds (`sim/neighbourly.mjs`, `sim/deeds.mjs` `HELP_ROLE`) - a raising, food carried, room kept in a wagon at 1 (`helped`), children taken in at 2 (`sheltered`), times the distance multiplier from the family helped. Once per family helped and kind of help; a trade earns nothing (it was even), nor the neighbours' call (it earned its own part at Gonzales). Said in *What earned glory* at the ending, never in who went to the war. `ceiling:` the two weights are a first guess, to be moved by a balance measure |
 | Present | Being where a documented event happened when it happened | 2 | Yes — `witnessing()` in `sim/directors.mjs` |
 | Present | Going upriver to the camp | 2 | Yes — `handleMarch` |
 | Fighting | A family member taking part in a battle | 3 | Partly — `world.participation.gonzales` records `supplied` and `present` per person (2026-09-12); nobody fights at Gonzales, so `fought` waits for a later battle |
@@ -180,7 +180,8 @@ in the fighting counts for more than supporting it. Every number below is invent
 Rules that apply to every row:
 
 - **Only major historical events earn glory**, meaning events registered as `HIST-GONZ-*` (and
-  later arcs' equivalents). Farm work, hunting and ordinary trade never do.
+  later arcs' equivalents). Farm work, hunting and ordinary trade never do. *Amended by the owner 2026-09-28:* help to another
+  family earns the support tier too (the row above), once per family helped and kind of help.
 - **Weight by what it cost the family, as well as by tier.** A household nineteen miles out that
   walked its food in did more than one two miles out, and the code already knows both distances.
 - **A casualty never adds glory.** A family member hurt, captured or lost earns the household

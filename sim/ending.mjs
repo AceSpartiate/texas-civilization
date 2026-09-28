@@ -27,7 +27,7 @@ import { surpriseReveal } from './surprise.mjs';
 // The spring said as it was, the war's prisoners named, and a debrief from the class's own story (sim/ending-story.mjs).
 import { classHooks, familyQuestions, flightLine, nobodyWentLine, warPrisoners } from './ending-story.mjs';
 // What families did for each other (sim/neighbourly.mjs, owner 2026-09-28: "helping is recorded in the ending").
-import { helpedLines, neighbourLines } from './neighbourly.mjs';
+import { helpWhat, helpedLines, neighbourLines } from './neighbourly.mjs';
 
 /**
  * The coin the final number multiplies: what is in the house, and never less than one real.
@@ -112,7 +112,12 @@ const PART_WORDS = Object.freeze({
   voted: 'voted in',
   served: 'did the camp\'s work at',
   forward: 'called for the enemy\'s road at',
+  // Help to another family (owner, 2026-09-28, "Any help"; sim/deeds.mjs `HELP_ROLE`): what follows is said by `helpWhat`.
+  helped: 'helped',
+  sheltered: 'took in the children of',
 });
+/** The parts that are help to another family (sim/deeds.mjs `HELP_ROLE`), kept out of who went to the war. */
+const HELP_PARTS = Object.freeze(['helped', 'sheltered']);
 
 /** How far a family lived from Gonzales by road, where the news and the army both started. */
 function milesFromGonzales(world, household) {
@@ -142,7 +147,8 @@ function partsTaken(world, household) {
     }
   }
   for (const [key, award] of Object.entries(world.glory?.[household.id]?.awards || {})) {
-    if (parts.has(key) || !award.personId) continue;
+    // Help to another family is not going to Gonzales or to the army: it is said in the family's Neighbours, not as who went.
+    if (parts.has(key) || !award.personId || HELP_PARTS.includes(award.role)) continue;
     parts.set(key, { event: award.event, personId: award.personId, name: world.entities[award.personId]?.name || 'Somebody', role: award.role, minute: award.minute ?? 0 });
   }
   return [...parts.values()].sort((a, b) => a.minute - b.minute);
@@ -172,7 +178,7 @@ export function familyEnding(world, householdId) {
     .sort((a, b) => a.minute - b.minute)
     .map(award => {
       const name = world.entities[award.personId]?.name || 'Somebody';
-      const what = EVENT_NAMES[award.event] || award.event;
+      const what = helpWhat(world, award.event) || EVENT_NAMES[award.event] || award.event;
       const far = award.miles >= 1 ? `, ${Math.round(award.miles)} road miles from home` : '';
       return { date: day(world, award.minute), points: award.points, role: award.role, text: `${name} ${PART_WORDS[award.role] || 'took part in'} ${what}${far}.${award.note ? ` ${award.note}` : ''}` };
     });

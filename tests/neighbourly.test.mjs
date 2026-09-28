@@ -326,3 +326,65 @@ test('the family that would take children in is the one that owes most; taking t
   assert.match(storyOf(world, helper.id), /took in .*they remember/);
   validateWorld(world);
 });
+
+// Help earns hidden glory (owner, 2026-09-28, by multiple choice: "Any help"; sim/deeds.mjs `HELP_ROLE`).
+const helpAwards = (world, householdId) => Object.values(world.glory?.[householdId]?.awards || {}).filter(award => ['helped', 'sheltered'].includes(award.role));
+
+test('help to another family earns the helper glory at the support weight, counted and said at the ending, and never in who went', () => {
+  const { world, helped, helper } = running('help-glory');
+  // A raising, through the chore a student sends.
+  applyAction(world, helped.id, { action: 'plan-house', layout: 'round-log' });
+  helped.house.work = Math.ceil(HOUSES['round-log'].work * RAISING_FROM);
+  const hand = grown(world, helper);
+  at(world, hand, helped.homeSiteId);
+  applyAction(world, helper.id, { action: 'chore', entityId: hand.id, chore: 'help-raise' });
+  for (let tick = 0; tick < 40 && hand.chore; tick++) stepWorld(world);
+  if (hand.chore) applyAction(world, helper.id, { action: 'stop-chore', entityId: hand.id });
+  const [raised] = helpAwards(world, helper.id);
+  assert.ok(raised, 'a raising earned nothing');
+  assert.deepEqual([raised.role, raised.points, raised.personId], ['helped', 1, hand.id]);
+  assert.equal(helpAwards(world, helped.id).length, 0, 'the family helped earned for being helped');
+  // Children taken in weigh as being present.
+  recordTakenIn(world, helped.id, helper.id, []);
+  assert.equal(helpAwards(world, helped.id)[0]?.points, 2);
+  // Nothing of it on a page while the class runs.
+  assert.doesNotMatch(JSON.stringify(view(world, helper.id)), /help:raising|"helped"/);
+  // At the ending: counted in the number, said in words, and not who went to the war.
+  world.status = 'ended';
+  const ending = familyEnding(world, helper.id);
+  assert.equal(ending.glory, world.glory[helper.id].total);
+  assert.ok(ending.awards.some(award => award.text.startsWith(`${hand.name} helped `) && /raise their walls/.test(award.text) && award.points === 1), JSON.stringify(ending.awards));
+  assert.ok(!hostEnding(world).families.find(family => family.householdId === helper.id).went.includes(hand.name), 'help was counted as going to the war');
+  assert.match(ending.story.join(' '), /Nobody from the family went to Gonzales or to the army/);
+});
+
+test('glory for help cannot be farmed: trades earn nothing, and each kind of help to one family counts once', () => {
+  const { world, helped, helper } = running('help-farm');
+  const one = grown(world, helped), other = grown(world, helper);
+  at(world, one, 'gonzales'); at(world, other, 'gonzales');
+  helped.resources.seed = 20; helper.resources.seed = 20;
+  // Trading the same goods back and forth.
+  for (let round = 0; round < 3; round++) {
+    applyAction(world, helped.id, { action: 'offer', entityId: one.id, toEntityId: other.id, give: { seed: 2 }, ask: { food: 2 } });
+    applyAction(world, helper.id, { action: 'accept-offer', entityId: other.id, offerId: view(world, helper.id).offers[0].id });
+    applyAction(world, helper.id, { action: 'offer', entityId: other.id, toEntityId: one.id, give: { seed: 2 }, ask: { food: 2 } });
+    applyAction(world, helped.id, { action: 'accept-offer', entityId: one.id, offerId: view(world, helped.id).offers[0].id });
+  }
+  assert.equal(deedsOf(world).filter(deed => deed.kind === 'trade').length, 6);
+  assert.equal(world.glory?.[helped.id]?.total ?? 0, 0, 'trading earned glory');
+  assert.equal(world.glory?.[helper.id]?.total ?? 0, 0, 'trading earned glory');
+  // Food passed back and forth, by different people: once each way, however often.
+  const people = household => household.members.map(id => world.entities[id]).filter(person => !tooYoung(person));
+  for (const person of people(helped)) noteDeed(world, { kind: 'food', fromId: helped.id, toId: helper.id, personId: person.id, amount: 1 });
+  for (const person of people(helper)) noteDeed(world, { kind: 'food', fromId: helper.id, toId: helped.id, personId: person.id, amount: 1 });
+  noteDeed(world, { kind: 'food', fromId: helped.id, toId: helper.id, amount: 1 });
+  assert.equal(helpAwards(world, helped.id).length, 1, 'food to one family counted more than once');
+  assert.equal(helpAwards(world, helper.id).length, 1);
+  // A different kind of help to the same family is its own.
+  noteDeed(world, { kind: 'room', fromId: helped.id, toId: helper.id, amount: 4 });
+  assert.equal(helpAwards(world, helped.id).length, 2);
+  // The neighbours' call is not help to a family: it earned its own part at Gonzales.
+  helped.relationships.neighbor = 2;
+  assert.equal(helpAwards(world, helped.id).length, 2);
+  validateWorld(world);
+});

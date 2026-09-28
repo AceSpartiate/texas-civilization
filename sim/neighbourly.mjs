@@ -437,6 +437,18 @@ export function deedLine(world, deed, householdId) {
   }
 }
 
+/**
+ * The words after "helped" (or "took in the children of") for an award for help to another family (sim/deeds.mjs `helpEvent`):
+ * "the Walker family raise their walls". Null for any other part.
+ */
+export function helpWhat(world, event) {
+  const [, kind, toId] = /^help:(\w+):(.+)$/.exec(event || '') || [];
+  const other = kind && world.households[toId];
+  if (!other) return null;
+  const them = named(world, other);
+  return { raising: `${them} raise their walls`, food: `${them} with food when they were short`, room: `${them} with room in the wagon on the road east`, shelter: them }[kind] || null;
+}
+
 /** Every deed this family did or was done, in the order they happened, in words: the ending's "Neighbours" section. */
 export function neighbourLines(world, householdId) {
   return deedsOf(world).filter(deed => deed.fromId === householdId || deed.toId === householdId)
