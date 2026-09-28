@@ -257,7 +257,7 @@ async function theSpring() {
     const flight = await waitForTip(student, 'flight', 'the family was told to leave and no tip said what to do');
     placed('1024 touch, the order to leave', flight);
     assert.match(flight.text, /No answer in a day/);
-    const main = household().mainId || household().principalId;
+    const main = household().actingId || household().mainId || household().principalId;
     await until(student, 'the order to leave has no "!" ranked first with its time left', id => {
       const mark = document.querySelector(`[data-attention="${id}"]`);
       return mark && !mark.hidden && /\d+ (min|h)|\d+s/.test(mark.querySelector('.panel-attention-badge')?.textContent || '');
@@ -290,7 +290,7 @@ async function theSpring() {
     const alto = await waitForTip(student, 'alto', 'the soldiers called ¡Alto! and no tip said what to do');
     placed('1024 touch, ¡Alto!', alto);
     assert.match(alto.text, /Halt/);
-    const altoMain = household().mainId || household().principalId;
+    const altoMain = household().actingId || household().mainId || household().principalId;
     await until(student, '¡Alto! is not the first "!" with its seconds on it', id => {
       const mark = document.querySelector(`[data-attention="${id}"]`);
       return mark && !mark.hidden && /\d+s|\d+ min/.test(mark.querySelector('.panel-attention-badge')?.textContent || '') && (window.__familyPanel || []).find(row => row.id === id)?.need === 'alto';

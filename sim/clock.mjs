@@ -18,6 +18,8 @@
 
 /** One tick of a person's own time, the same in every phase. Effort is paid in these. */
 import { battleMinutes, militaryMinutes } from './military-pacing.mjs';
+// Whether anybody of a family is with it to answer (sim/acting.mjs, 2026-09-28). Read only inside `deciding`.
+import { actingFor } from './acting.mjs';
 export const TICK_MINUTES = 20;
 
 // Movement, encounters and the director must use the SAME calendar interval during
@@ -111,11 +113,15 @@ function deciding(world) {
   if (Object.values(world.encounters || {}).some(encounter => encounter.status === 'open' && world.households[encounter.householdId]?.played && !world.households[encounter.householdId].absent)) return true;
   // A played family told to leave in the spring (sim/scrape.mjs): the calendar holds at the farming scale until it has gone, or
   // the army has passed and burned it out, which is at most two days.
-  if (Object.values(world.households).some(household => household.played && !household.absent && household.flight?.status === 'ordered' && !household.flight.burned)) return true;
+  // Only a family with somebody with it to answer (sim/acting.mjs `actingFor`): a family wiped out, with nobody at home but a man
+  // away with the army, or taken in by its neighbours holds nobody (playthrough audit 7, 2026-09-28: a dead family held the class
+  // at twenty minutes a tick for 144 ticks).
+  const answering = household => !household.takenIn && ['main', 'grown', 'child'].includes(actingFor(world, household)?.how);
+  if (Object.values(world.households).some(household => household.played && !household.absent && household.flight?.status === 'ordered' && !household.flight.burned && answering(household))) return true;
   // A played family with the road's question in front of it (sim/road.mjs): the bogged wagon, the army close behind. Only
   // while it is deciding - `ROAD_PATIENCE_TICKS` at most - and never for the road itself; a family nobody is at the screen
   // for (sim/absence.mjs) is answered the next tick and holds nothing.
-  if (Object.values(world.households).some(household => household.played && !household.absent && household.flight?.ask)) return true;
+  if (Object.values(world.households).some(household => household.played && !household.absent && household.flight?.ask && answering(household))) return true;
   // A question Houston's army has put to a played family's man (sim/camp.mjs: leaving after the word of Goliad, the fork of
   // the road) holds the calendar while that family decides - never for the camp itself, and never for a family whose
   // student has gone, which is answered the tick it is asked. Read here without importing, as the flight is.

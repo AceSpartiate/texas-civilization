@@ -615,13 +615,19 @@ export const tooYoungWhy = entity => `${entity.name} is too young to be sent.`;
  * reads as the principal, so no save version moved. Resolved on every read rather than rewritten on a death: a chosen
  * person who has died or been captured gives way to the principal if they can act, otherwise to the oldest living member
  * old enough to be sent, so a family with anybody left is never without one. Somebody in the army or on a road is still
- * the main person: their army questions are the detailed work the owner chose them for.
+ * the main person: their army questions are the detailed work the owner chose them for. A prisoner of the Mexican army is not
+ * (sim/fannin.mjs): nothing can be asked of him (2026-09-28).
+ *
+ * **The family's own decisions are not the main person's alone** (2026-09-28, docs/audits/2026-09-28-interactions.md B1): the
+ * order to leave, the route, the road's questions and "¡Alto!" go to whoever is with the family - the main person when they are,
+ * else the next grown person there, else the oldest child of seven or more (owner: "The oldest child steps up"). That is
+ * sim/acting.mjs `actingFor`.
  */
 export function mainPersonId(world, household) {
   const usable = id => {
     const entity = id && world.entities?.[id];
     return Boolean(entity) && entity.kind === 'person' && household.members.includes(id)
-      && !['dead', 'captured'].includes(entity.health?.condition) && !tooYoung(entity);
+      && !['dead', 'captured'].includes(entity.health?.condition) && entity.service?.status !== 'prisoner' && !tooYoung(entity);
   };
   if (usable(household.mainId)) return household.mainId;
   if (usable(household.principalId)) return household.principalId;
