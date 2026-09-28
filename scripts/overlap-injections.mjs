@@ -41,7 +41,8 @@ const INJECTIONS = [
     file: 'public/app.js',
     from: "  if (cap !== placement.cap) { panel.style.maxHeight = cap; placement.cap = cap; }\n",
     to: '',
-    expect: /off the screen: person card|(journal button|map buttons) and person card share/,
+    // Uncapped, the card runs off a short window's foot, or down over whatever stands below it: the map's buttons or the bar.
+    expect: /off the screen: person card|(journal button|map buttons|ability bar) and person card share/,
   },
   {
     name: 'the lines the page says back in the middle of the top, under the guided start\'s strip',
