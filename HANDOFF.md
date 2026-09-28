@@ -41,8 +41,7 @@ refused and the helper taking the job up). **Seen failing**: `scripts/wood-pile-
 deadlock found while building (acceptance and enough tests), *no "Waiting for logs"* and *building not repeated* (the acceptance
 test alone), *a flat curve* and *a second planter planting again*. Updated on purpose: felling (logs on the pile; the haul kept for a
 saved haul), biome-game (fetch-logs is the director's by name), biomes, carreta and clearing (a second maker or fencer joins),
-auto-repeat (what repeats). `npm test` **1543 of 1544**; the one, *of several starts racing to recover one stale lock*, fails
-alone and on e549ec1 too, and is not this branch's. Browser: `test:auto` 14, `test:biome-game` 6 (one felling icon, no fetch or
+auto-repeat (what repeats), flashback (its check for the Alamo award's 30 matched a family's own 30 food on the wagon). **Merged with origin/main and the people-at-work branch** (2026-09-28): `npm test` **1597 of 1597 run, 36 skipped, 0 failing** (1634 tests; the stale-lock race is fixed on main); work-art draws acting's `child-help`; acting's §20 kept and this section renumbered FAMILY_PANEL.md §21. After the merge: `test:auto` 14, `test:family-panel`, `test:children` 14, `test:work` 4, `test:biome-game` 6, all passing. Before the merge: `npm test` 1543 of 1544, the stale-lock race failing on e549ec1 too. Browser: `test:auto` 14, `test:biome-game` 6 (one felling icon, no fetch or
 haul icon), `test:family-panel` 17, `test:children` 14, `test:slice` 12, `test:family-commands` 23, `test:means`, `test:furniture`
 5, `test:farm` passed. Proofs fixed: auto (recorded the field one state short when it turned between samples), family-commands
 (a fresh work a person; a joined job finished before the page drew it; the little ones given their play before the principal is
