@@ -1,5 +1,76 @@
 # Claude handoff — Astra foundation
 
+## Four blockers of the design audit fixed: Stop for today, no glory between periods, the load for the east, a portrait only chooses — 2026-09-28 (worktree branch `worktree-agent-a0f627ea23082156d`, origin/main merged at 59a7dad and again with the classroom blockers e549ec1; not released)
+
+Owner, 2026-09-28: *"check for problems with the game ... things that would prevent the game from being played as intended"*,
+then *"fix the blockers when they come in"*. [docs/audits/2026-09-28-design.md](docs/audits/2026-09-28-design.md) B2, B4, B7,
+B11; B2 also confirmed by the classroom and playthrough audits, whose restart-forgets-absence finding (classroom S2,
+playthrough #2) is fixed with it.
+
+- **B2 — the bell** ([HOST_PAGE §2.8](docs/HOST_PAGE.md)). **End Game** is asked twice; armed, the notice line says *"This ends
+  the whole game for everyone and shows the ending. It can't be undone. To stop at the bell and carry on next class, use Stop
+  for today instead."* New host action **Stop for today** (`stop-for-today`, `server/app.mjs`), asked twice: commits the class
+  paused, writes it, and on a server that can close itself stops with *"Your teacher stopped the class for today …"*
+  (`STOPPED_FOR_TODAY`); on one that cannot, saves it paused and says to close the server in its window. Stop Server is offered
+  only in the lobby and after the end. The next launch opens the class paused; Resume carries on. **Absences are kept across
+  the relaunch** (`seedPresence`): a family saved absent stays absent until its page opens, and one whose student does not come
+  back is absent the grace after the launch (before, every joined family counted present, and an absent family's questions held
+  the class). `ceiling:` a class ended part-way through a period is still final. **With the classroom blockers (e549ec1)**:
+  Stop for today sits beside the Classes panel; a class opened again from Classes uses the same `seedPresence` (it had started
+  every family's clock at the switch, so a family left absent was handed back to nobody); HOST_PAGE's section is §2.8, after
+  the Classes' §2.7.
+- **B4 — glory between periods.** Owner's choice by multiple choice the same day: **"Coin and land only"**. `endingProjection`
+  sends interim families `interimFamily` (coin held, land promised) and the Host `interimHost` (every family's coin and land,
+  a family nobody played marked, nobody named); no glory, final number, sum, awards, winner, story or questions on the wire
+  or either page until the last period ends ([COLONIES §6m](docs/COLONIES.md), [MONEY_AND_GLORY §7.1](docs/MONEY_AND_GLORY.md)).
+- **B7 — the load for the east.** The flight projection carries `packed` (`packFlight`: food first, then seed, cotton, powder,
+  for the nearest refuge east); the card opens on it. A load under half of it says so beside the room and is confirmed in its
+  own words (*Confirm: leave with nothing* / *… most of it behind*), and a second press inside a second does not count
+  (`lightLoad`, `SLOW_CONFIRM`); changing the load disarms a Leave pressed once ([COLONIES §6p](docs/COLONIES.md)).
+- **B11 — a portrait only chooses** ([FAMILY_PANEL, amendment 2026-09-28](docs/FAMILY_PANEL.md)). A portrait press, the "!" and
+  a notice's Go to choose the person (camera, card, their bar, `barPerson`) and send nothing; the main person changes only by
+  the star or the bar's labelled *Make … the main person*. The chase's `attended` read the raw `mainId` (audit M32); this branch
+  made it `mainPersonId`, and the merge of *who acts for a family* (origin/main f815d07e) made it `actingId`, which keeps that
+  fix and passes over a main person away from the family - the M32 test still passes and its injection was re-aimed. The
+  guided start's finder still sends `set-main` (marked `ceiling:`; the tutorial is being removed on another branch).
+
+**Evidence** (same computer only). New unit tests, each seen failing on the old behaviour and caught alone by
+`scripts/design-blockers-injections.mjs` — **13 of 13** ([evidence](docs/evidence/design-blockers-injections.json)):
+`tests/lifecycle.test.mjs` (2), `tests/absence.test.mjs` (1), `tests/periods.test.mjs` (both interims), `tests/scrape.test.mjs`
+(1), `tests/family-commands.test.mjs` (1), `tests/scrape-pursuit.test.mjs` (1). With `--browser`, the browser proofs under
+their injections — **14 of 14** caught ([evidence](docs/evidence/design-blockers-injections-browser.json), run before the owner's
+coin-and-land answer; the new proof lines were re-run after it). New proof `npm run test:host-bell` (8). After merging
+origin/main: `test:host-bell` 8, `test:family-panel` 18, `test:host-live` 11, `test:host-view` 8, `test:lesson` 33, `test:solo`
+15, `test:scrape` 7, `test:scrape-pursuit` 15, `test:ending` 10, all PASS. `tests/siege.test.mjs` read glory's awards off the
+interim wire and now reads them from `familyEnding`, asserting they are not on it.
+
+**Last merge (origin/main with the flashback, the tutorial suspended, tips and the ranked "!"s):** the only conflicts were the
+import list and two lines of the bar, where *Make … the main person* was put back beside the ranked needs. `npm test` there:
+**1585 passed, 1 failed, 36 skipped, of 1622**. The one failure was *"a save Windows refuses for a moment is tried again for about a
+third of a second, and then written"* (tests/save-retry.test.mjs, new on main); it passed twice when run on its own, so it is a
+timing test that fails under load, not this branch. The injections and proofs were not run again after this merge, at the
+coordinator's word (they passed on the tree before it, below).
+
+**Before that, after merging origin/main (f815d07e: who acts for a family, sound, the neighbours' ledger), head 3b56e2fe:** `npm
+test` **1591 of 1591**; unit injections **13 of 13** caught alone; `test:host-bell` 8, `test:family-panel` 18, `test:scrape` 7,
+`test:ending` 10, `test:scrape-pursuit` 15, `test:host-live` 11, `test:classes` 15, all PASS. The chase's `attended` is now
+origin's `actingId` (it keeps the M32 fix); the M32 injection was re-aimed at it and is still caught alone.
+
+**Earlier, after merging the classroom blockers (e549ec1):** `npm test` **1538 of 1539** (34.6 min under load); the one is
+*"of several starts racing to recover one stale lock, exactly one owns the class"* (tests/stale-lock.test.mjs, new on main) - it
+fails 4 of 4 runs with e549ec1's own `server/app.mjs` put back in this tree and 2 of 3 with this branch's, so it is the stale-lock
+work's, not this. Unit injections re-run on the merged tree: **13 of 13** caught alone. Browser: `test:host-bell` 8,
+`test:family-panel` 18, `test:host-live` 11, `test:host-view` 8, `test:scrape` 7, `test:ending` 10, `test:classes` 15,
+`test:scrape-pursuit` 15 - all PASS. `test:scrape-pursuit` needed its staging put right after the merge: `stowAway` marks the
+first family played, and since e549ec1 a played family is not given to a student joining (the student got hh-2); the proof now
+leaves it nobody's until the student joins. Other proofs that stage a family `played` before a join may meet the same.
+
+**Not mine, found:** `npm run test:family-commands` fails at *"nobody still at a chore to hold a stale order"* (7 of its checks
+pass first) — **identically with the page and proof as they were before this branch** (checked by putting back 6bb5252's
+`public/` and the proof on the merged tree): every furniture chore it sets is done before it looks. Its new B11 line (a double
+press on a portrait leaves the main person) is therefore not reached; `test:family-panel` and `test:scrape-pursuit` prove B11 in
+the browser. Also: glory is named during play in two recall notes (`sim/camp.mjs` "loses the glory of enlisting",
+`public/family-panel.js`/`app.js` "loses glory") — against MONEY_AND_GLORY §4, left for the owner.
 ## People at work, drawn at the work — owner, 2026-09-28 (worktree branch; not released)
 
 **The ask.** Owner, 2026-09-28: *"When someone is working, I should see them actually working, not just standing near their

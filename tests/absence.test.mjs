@@ -8,7 +8,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
@@ -123,6 +123,55 @@ async function settle(done, limitMs = 30000) {
 // The grace is measured on the server's clock (`Date.now` in `markAbsences`), and this test holds that clock still and moves
 // it by hand, so "inside the grace" and "past it" are exact. It once slept 80 ms against a 150 ms grace and failed under a
 // loaded machine (2026-09-18) because the sleep overran. The ticks, the stream and its close stay real and are waited for.
+test('a class stopped for today and opened again keeps who is absent: a family saved absent stays so, and one whose student does not come back becomes so', async t => {
+  // Classroom audit 2026-09-28, with Stop for today (docs/HOST_PAGE.md §2.8): a relaunch began presence afresh, and with nothing
+  // seen every joined family counted as present - one saved absent was handed back to nobody and its questions held the class.
+  const dir = mkdtempSync(join(tmpdir(), 'texas-absent-relaunch-'));
+  const savePath = join(dir, 'save.json'), absentMs = 150;
+  let app = createClassroom({ seed: 'absent-relaunch', playerCount: 5, savePath, tickMs: 20, absentMs });
+  const nextTick = async () => { const from = app.state.revision; await settle(() => app.state.revision > from); };
+  try {
+    let port = await app.listen(0, '127.0.0.1'), call = caller(port);
+    const families = await Promise.all(Array.from({ length: 5 }, (_, i) => call('/api/join', { name: `Family ${i}`, code: app.state.sessionCode })));
+    let host = await call('/api/host', { key: app.state.hostKey });
+    const [gone, back, away] = families.map(one => one.body.world.householdId);
+    t.mock.timers.enable({ apis: ['Date'], now: Date.now() });
+    // Three students at their pages; then one leaves for longer than the grace, and the family is absent when the teacher stops.
+    const pages = await Promise.all(families.slice(0, 3).map(one => openStream(port, one.cookie)));
+    assert.equal((await call('/api/command', { id: 'relaunch-host-start', action: 'start' }, host.cookie)).status, 200);
+    await pages[0].close();
+    await settle(async () => (await call('/api/state', null, host.cookie)).body.presence?.households?.[gone] === 'away');
+    t.mock.timers.tick(absentMs);
+    await nextTick();
+    assert.equal(app.state.world.households[gone].absent, true, 'the family gone past the grace was not absent before the stop');
+    assert.equal((await call('/api/command', { id: 'relaunch-host-today', action: 'stop-for-today' }, host.cookie)).status, 200);
+    assert.equal(JSON.parse(readFileSync(savePath, 'utf8')).world.households[gone].absent, true);
+    await Promise.all(pages.slice(1).map(page => page.close()));
+    await app.close();
+
+    app = createClassroom({ seed: 'absent-relaunch', playerCount: 5, savePath, tickMs: 20, absentMs });
+    port = await app.listen(0, '127.0.0.1'); call = caller(port);
+    host = await call('/api/host', { key: app.state.hostKey });
+    assert.equal(app.state.world.status, 'paused');
+    // The student of `back` comes back to class; the students of `gone` and `away` do not.
+    const stream = await openStream(port, families[1].cookie);
+    assert.equal((await call('/api/command', { id: 'relaunch-host-resume', action: 'resume' }, host.cookie)).status, 200);
+    await nextTick();
+    assert.equal(app.state.world.households[gone].absent, true, 'a family saved absent was counted present on the next launch');
+    assert.equal(app.state.world.households[back].absent, undefined, 'a family whose student came back was marked absent');
+    assert.equal(app.state.world.households[away].absent, undefined, 'a family was marked absent inside the grace after the launch');
+    t.mock.timers.tick(absentMs);
+    await nextTick();
+    assert.equal(app.state.world.households[away].absent, true, 'a family whose student never came back was never marked absent');
+    assert.equal(app.state.world.households[back].absent, undefined);
+    assert.equal(app.state.world.households[gone].absent, true);
+    await stream.close();
+  } finally {
+    await app.close();
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 test('the server marks a family absent when its page has been closed for the grace, and present the tick after it opens again', async t => {
   const dir = mkdtempSync(join(tmpdir(), 'texas-absent-'));
   const absentMs = 150;

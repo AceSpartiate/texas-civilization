@@ -275,9 +275,29 @@ export function hostEnding(world) {
  */
 export function endingProjection(world, householdId, role) {
   if (world.status !== 'ended') return {};
-  // The first of two class periods ends with interim standings, not a winner (owner, 2026-09-16, docs/COLONIES.md §7e):
-  // the same numbers, said as where the families stand with the war still to finish, and the Host offered the winter.
+  // The first and second class periods end with interim standings, not a winner (owner, 2026-09-16, docs/COLONIES.md §7e):
+  // where the families stand with the war still to finish, and the Host offered the next period. **Without glory**: VISION §20,
+  // "Glory is hidden from every student and from the Host until the ending", and the interim is not the ending (design audit
+  // 2026-09-28 B4). The owner chose, the same day, **coin and land only** (`interimFamily`, `interimHost`): nothing that is glory
+  // or shows it - the glory, the final number it multiplies, the sum, what earned it, who leads by it - goes on the wire until
+  // the last period ends.
   const interim = interimStandings(world);
-  if (role === 'host') return { ending: { host: { ...hostEnding(world), interim, canContinue: canContinue(world), ...(canContinue(world) && { nextLabel: nextPeriodLabel(world) }) } } };
-  return householdId && world.households[householdId] ? { ending: { family: { ...familyEnding(world, householdId), interim } } } : {};
+  if (role === 'host') {
+    const host = hostEnding(world);
+    return { ending: { host: { ...(interim ? interimHost(host) : host), interim, canContinue: canContinue(world), ...(canContinue(world) && { nextLabel: nextPeriodLabel(world) }) } } };
+  }
+  if (!householdId || !world.households[householdId]) return {};
+  const family = familyEnding(world, householdId);
+  return { ending: { family: { ...(interim ? interimFamily(family) : family), interim } } };
+}
+
+/**
+ * The standings between periods: **coin and land only** (owner, 2026-09-28, by multiple choice). The coin a family holds and the
+ * land it has been promised, and nothing else - no glory and nothing that shows it or lets it be worked out (the final number,
+ * the sum, what earned it, who leads, the question about it), and none of the ending's story, which is the end's to tell.
+ */
+export const interimFamily = family => ({ householdId: family.householdId, name: family.name, money: family.money, land: family.land, acres: family.acres });
+/** The Host's standings so far: every family's coin and land in household order, a family nobody played marked, nobody named. */
+export function interimHost(host) {
+  return { families: host.families.map(one => ({ householdId: one.householdId, name: one.name, money: one.money, land: one.land, automatic: one.automatic })) };
 }

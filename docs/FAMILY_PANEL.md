@@ -1437,9 +1437,46 @@ selects" from "set main person", design audit B11; this rule sits beside it, for
 
 The owner's subsequent request grants freedom to improve usability. This supersedes the icon-only and double-click selection details above:
 
-- One portrait click (or keyboard activation) selects an eligible family member as main, opens their card, follows them, and switches the action bar. The star remains a shortcut. No chore starts from selection.
+- ~~One portrait click (or keyboard activation) selects an eligible family member as main, opens their card, follows them, and switches the action bar. The star remains a shortcut. No chore starts from selection.~~ *Superseded 2026-09-28 (below): a portrait click chooses the person - card, camera, their bar - and no longer makes them main.*
 - Young children, dead and captured members remain viewable without sending an invalid `set-main` command. Their existing card and restrictions remain; viewing them does not replace the main person.
 - Every action button contains its name. Current work begins with **Now:** and retains its glow. Unavailable work keeps readable text, with a muted picture; pressing it still explains the server's refusal.
 - The bar remains one horizontally scrollable row with stable-size targets. Keyboard focus and the lesson locator reveal offscreen actions. A phone conversation reserves the measured bar height, so its last answer is not covered.
 
 No save, simulation, historical information, or progression rules changed. The bar can still be lengthy: grouping actions is a future usability task, particularly alongside young children's card-only work.
+
+## Amendment, 2026-09-28 — a portrait chooses; the main person changes only on purpose (design audit B11)
+
+Found by the design audit of 2026-09-28 (B11, [audits/2026-09-28-design.md](audits/2026-09-28-design.md) §7.2) and fixed at the
+owner's word, *"fix the blockers when they come in"*. Pressing a portrait sent `set-main` without a word, and the main person is
+more than who may be sent on a road: **on auto the main person decides for the family** - the order to leave is answered at
+once on an automatic load (`sim/auto.mjs` `advanceAuto`), every road question is answered, and a chase counts the family as
+nobody's, so it halts at once and *¡Alto!* is never put to the student (`sim/pursuit.mjs` `attended`). A student who had put a
+son on auto to hunt and pressed his face to see where he was had handed him the family's flight.
+
+- **Choosing is not making main.** A portrait press, the "!" and a notice's *Go to* choose the person: the camera goes to
+  them, their card opens and **the bar at the bottom is theirs** - anybody alive, grown or a child, as a child's already was
+  (§18; `barPerson` in `public/family-panel.js`). Nothing is sent to the server.
+- **The main person changes only by the star, or by the bar's own button.** The bar of somebody chosen who is not the main
+  person opens with a labelled button, *Make Mary the main person* (`.panel-make-main`), whose title and accessible name say
+  why it matters: *"Only the main person travels, rests and works about the place, and on auto the main person decides the
+  family's leaving and its answers on the road."* It sends `set-main` through the star's own handler. Their bar shows the work
+  anybody old enough is offered; the journeys, the yard and rest stay on the main person's, as the server has always held
+  (§11.3), and their card says *"Mary is not the main person: only the main person travels, rests and works about the place."*
+- **The guided start's finder** (*Show …*, public/app.js) still sends `set-main` when it takes the student to the person the
+  step names, since the step may be a journey only the main person can make; it is pressed on purpose, and in the first hour
+  the family is not on the road east. `ceiling:` if that ever runs into the Scrape, send `set-main` only when the pointed
+  icon is one of the main person's.
+- **Every rule reads one main person.** The chase's `attended` read the raw `household.mainId`, the road's time-out and auto
+  read `mainPersonId`: with a chosen main person dead and the principal standing in on auto, the chase asked *¡Alto!* while
+  the road counted the family answered for (audit M32). It reads `mainPersonId` now.
+
+No save, action or projection field changed; no save version moved. Proof: `tests/family-commands.test.mjs` (*choosing somebody
+shows their bar and leaves the main person as it was*), `tests/scrape-pursuit.test.mjs` (*who answers the soldiers is the main
+person every rule reads*), `npm run test:family-panel` (a portrait press sends nothing and leaves the main person; the bar's
+button makes them main), `npm run test:family-commands` (a double press on a portrait leaves the main person), `npm run
+test:scrape-pursuit` (somebody grown on auto and their portrait pressed in the chase: the main person unchanged and *¡Alto!*
+asked); each by injection in `scripts/design-blockers-injections.mjs`.
+
+The audit's second direction, *make the family's decider somebody travelling with it*, was built the same day on another
+branch (§20, `sim/acting.mjs` `actingFor`): the chase now reads `actingId`, which keeps the M32 fix above (a dead main person
+gives way) and also passes over a main person who is away. The injection for M32 was re-aimed at it.

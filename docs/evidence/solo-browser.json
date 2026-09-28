@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-09-28T05:49:08.174Z",
+  "recordedAt": "2026-09-28T12:26:15.446Z",
   "scope": "same computer, headless Chrome",
   "command": "npm run test:solo",
   "pass": [
@@ -13,14 +13,14 @@
     "a real class running from the same data folder is untouched: same session, same code, save unchanged; solo saved to solo\\classroom.json on its own port",
     "the solo server stops gracefully from its class view and releases its save lock",
     "Continue opens the saved game paused where it was left (tick 1), and the player's page has its own Resume and Save",
-    "the page's own Resume runs the game, Pause holds it (tick 3 for 1.5 s, written paused), Save writes it (revision 6, \"Saved 12:48 AM\"), and Resume runs it on",
-    "closing the page paused and saved the game at once (on the disk paused 399 ms after; tick 5) and the server stopped itself 6.0 s later (wait 3 s), exit 0, lock released",
-    "relaunched and continued, the game is where it was closed (tick 5), paused, and Resume runs it on",
-    "the page's browser killed outright (taskkill /F /T): the game was on the disk paused 20366 ms after and the server stopped itself 30.7 s later, lock released",
+    "the page's own Resume runs the game, Pause holds it (tick 3 for 1.5 s, written paused), Save writes it (revision 6, \"Saved 7:25 AM\"), and Resume runs it on",
+    "closing the page paused and saved the game at once (on the disk paused 88 ms after; tick 4) and the server stopped itself 4.0 s later (wait 3 s), exit 0, lock released",
+    "relaunched and continued, the game is where it was closed (tick 4), paused, and Resume runs it on",
+    "the page's browser killed outright (taskkill /F /T): the game was on the disk paused 10123 ms after and the server stopped itself 13.9 s later, lock released",
     "no page errors"
   ],
   "observed": {
-    "play": "http://127.0.0.1:51411/solo/enter?ticket=…",
+    "play": "http://127.0.0.1:54062/solo/enter?ticket=…",
     "asked": {
       "wagon": true,
       "stock": 2,
@@ -43,18 +43,18 @@
       "held": "1.5 s",
       "pausedHelp": "The game is paused. Press Resume, top right, to go on.",
       "savedRevision": 6,
-      "savedLabel": "Saved 12:48 AM"
+      "savedLabel": "Saved 7:25 AM"
     },
     "closed": {
-      "pausedOnDiskAfterMs": 399,
-      "stoppedAfterMs": 6047,
+      "pausedOnDiskAfterMs": 88,
+      "stoppedAfterMs": 4042,
       "leaveMs": 3000,
-      "tick": 5
+      "tick": 4
     },
     "crash": {
-      "pausedOnDiskAfterMs": 20366,
-      "stoppedAfterMs": 30689,
-      "tick": 57
+      "pausedOnDiskAfterMs": 10123,
+      "stoppedAfterMs": 13940,
+      "tick": 27
     }
   }
 }

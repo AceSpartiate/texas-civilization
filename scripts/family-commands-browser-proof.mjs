@@ -462,7 +462,9 @@ try {
   const principalBar = await page.evaluate(id => [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon`)].map(icon => icon.dataset.key), principalId);
   assert.ok(principalJourneys.every(key => principalBar.includes(key)), `the principal, main until somebody is chosen, lacks the journeys open to him (${principalJourneys}): ${principalBar}`);
   await page.locator(`.panel-row[data-entity-id="${mother}"] .panel-focus`).click();
-  await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.focused === 'true', mother);
+  // The bar moves at the press (a choice is the page's own since 2026-09-28, design audit B11); the gold edge of the main person
+  // moves only when the server's snapshot says so, which is what is waited for.
+  await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.focused === 'true' && document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.main === 'true', mother, { timeout: 15000 });
   assert.equal(world().households['hh-1'].mainId, mother, 'the star did not reach the server');
   assert.equal(await page.evaluate(() => window.__snapshot.world.household.mainId), mother, 'the projection does not carry the main person');
   assert.deepEqual(await page.evaluate(() => Object.keys(localStorage).filter(key => key.startsWith('tr_focus_'))), [], 'the browser still keeps a main person of its own');
@@ -504,11 +506,15 @@ try {
   await page.waitForTimeout(400);
   const back = await page.evaluate(id => { const e = window.__snapshot.world.entities.find(one => one.id === id); return Math.hypot(window.__camera.cx - e.location.x, window.__camera.cy - e.location.y); }, mother);
   assert.ok(back < 0.05, `the camera is ${back} miles from the main person`);
-  // Double-clicking a portrait also chooses the main person.
+  // A portrait, even pressed twice, chooses whose bar is shown and never the main person (design audit 2026-09-28 B11): the
+  // main person's auto decides the family's flight, and looking at somebody must not hand it to them.
   await page.locator(`.panel-portrait[data-portrait="${principalId}"]`).dblclick();
   await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.focused === 'true', principalId);
+  await page.waitForTimeout(600);
+  assert.equal(world().households['hh-1'].mainId, mother, 'a double press on a portrait changed the main person');
+  assert.equal(await page.locator(`.panel-row[data-entity-id="${mother}"]`).getAttribute('data-main'), 'true', 'the main person\'s star moved off her');
   await shot(page, 'main-person');
-  ok(`pressing the main person's star from Gonzales brings the camera back to them (${back.toFixed(3)} mi); a double-click on a portrait chooses another`);
+  ok(`pressing the main person's star from Gonzales brings the camera back to them (${back.toFixed(3)} mi); a double press on another's portrait shows their bar and leaves ${mother} the main person`);
 
   // ----------------------------------------------------------------------------------------- cheap on a slow computer
   // A quiet stretch of ticks: how much of the panel's DOM is rebuilt. Rows and icons are kept and changed in place.

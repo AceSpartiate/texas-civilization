@@ -794,9 +794,15 @@ about 27 more ticks when the questions are answered promptly.
 Decided by the owner by multiple choice (§7e). `FIC-GONZ-044`.
 
 - **The first period ends as it did**, on the evening of December 15 (`bexar-end`), and `world.status` is `ended`. What it
-  shows is **interim standings** (`sim/ending.mjs` `endingProjection`, `interim`): the same coin, glory and final number
-  each family and the Host were already shown, headed *The story so far*; the Host's page says which family **leads**, not
-  which finished first, and that the war goes on in the next class. Only a real-land class that reached `bexar-end` has a
+  shows is **interim standings** (`sim/ending.mjs` `endingProjection`, `interim`), headed *The story so far*, and says that
+  the war goes on in the next class. ~~The same coin, glory and final number each family and the Host were already shown;
+  the Host's page says which family **leads**.~~ **Amended 2026-09-28** (design audit B4, against VISION §20: *"Glory is
+  hidden from every student and from the Host until the ending"*, and an interim standing is not the ending): the interim
+  standings carry **no glory** - not the number, the final number it multiplies, the sum, what earned it, nor who leads by
+  it. The owner chose what they do carry the same day, by multiple choice: **"Coin and land only"** (`interimFamily`,
+  `interimHost`). A family sees the coin it holds and the land it has been promised; the Host every family's coin and land in
+  household order, nobody named. The story, the coin's account, the prisoners, the questions and glory are the final
+  reckoning's, the last period's alone. Only a real-land class that reached `bexar-end` has a
   second period (`sim/periods.mjs` `canContinue`); the invented Gonzales country ends at its fight as before.
 - **The Host continues the class** with *Continue to the winter of 1836* (host action `next-period`), offered only where
   the server says so. It is not *New Class*: the same save, session, class code, family keys, people and glory.
@@ -919,6 +925,15 @@ Decided by the owner by multiple choice (§7g). Research [goliad-scrape-san-jaci
   burns the house, the field and the fences as they leave** (`burnFarm`: `ruin`, the furniture and the room gone, what was
   not taken gone, the stock gone), and the record says they watched it burn. Somebody serving or away is not at home and stays
   where they are.
+  **The card opens loaded (2026-09-28, design audit B7).** Every box opened at 0, so "Leave for the east" pressed twice sent the
+  family east with no food, while a family nobody answered for did better (`packFlight`: food first, then seed, cotton and
+  powder, as much as fits, for the nearest refuge east). The flight projection now carries that packing as `packed`, and the
+  card opens on it, refuge and all; the student may change every number. A load under half of what that packing would carry
+  says so beside the room (*"Nothing is loaded: everything would be left behind."*) and is asked in its own words (*Confirm:
+  leave with nothing*, *Confirm: leave most of it behind*), and a second press within a second of the first does not count, so a
+  double press cannot send it (`lightLoad` in `public/family-panel.js`, `SLOW_CONFIRM` in `public/app.js`); changing the load
+  disarms a Leave already pressed once. Proof: `tests/scrape.test.mjs`, `npm run test:scrape`, injections in
+  `scripts/design-blockers-injections.mjs`.
 - **Staying**: two days after the order the army passes and burns the farm anyway (`stayed`); the family can still go with what
   it can carry. When the Mexican army comes through (`enemy`), whoever is at home is taken prisoner at one in two, by a hashed
   share.

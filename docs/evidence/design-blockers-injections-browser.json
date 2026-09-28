@@ -1,0 +1,147 @@
+{
+  "record": "design-blockers-injections",
+  "date": "2026-09-28",
+  "files": [
+    "tests/lifecycle.test.mjs",
+    "tests/periods.test.mjs",
+    "tests/scrape.test.mjs",
+    "tests/scrape-pursuit.test.mjs",
+    "tests/family-commands.test.mjs",
+    "tests/family-panel.test.mjs",
+    "tests/ending.test.mjs"
+  ],
+  "browser": true,
+  "injections": [
+    {
+      "name": "B2: there is no Stop for today; the Host has only End Game, final, and Stop Server",
+      "file": "server/app.mjs",
+      "failed": [
+        "Stop for today saves the class paused and stops the server; the next launch opens the same class paused, and Resume goes on",
+        "Stop for today on a server that cannot close itself still saves the class paused, and says it is not stopping"
+      ],
+      "alone": true
+    },
+    {
+      "name": "B2: Stop for today ends the class instead of pausing it",
+      "file": "server/app.mjs",
+      "failed": [
+        "Stop for today saves the class paused and stops the server; the next launch opens the same class paused, and Resume goes on",
+        "Stop for today on a server that cannot close itself still saves the class paused, and says it is not stopping"
+      ],
+      "alone": true
+    },
+    {
+      "name": "B2: End Game is one press again, with nothing said",
+      "file": "public/app.js",
+      "proof": {
+        "script": "test:host-bell",
+        "failed": true,
+        "why": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal: + actual - expected"
+      }
+    },
+    {
+      "name": "B4: the interim standings carry every family's glory, what earned it and who leads, as before",
+      "file": "sim/ending.mjs",
+      "failed": [
+        "the first period ends with interim standings and the winter offered to the Host; the invented country has no winter",
+        "the second period plays its own moments, none of 1835 again, and ends with interim standings and the spring offered"
+      ],
+      "alone": true,
+      "proof": {
+        "script": "test:ending",
+        "failed": true,
+        "why": "AssertionError [ERR_ASSERTION]: the Host's interim standings carry winners at file:///C:/Users/zachw/Texas%20Civilization/.claude/worktrees/agent-a0f627ea23082156d/scripts/ending-browser-proof.mjs:161:49 {"
+      }
+    },
+    {
+      "name": "B4: a family's interim standing carries its glory and the sum that shows it",
+      "file": "sim/ending.mjs",
+      "failed": [
+        "the first period ends with interim standings and the winter offered to the Host; the invented country has no winter",
+        "the second period plays its own moments, none of 1835 again, and ends with interim standings and the spring offered"
+      ],
+      "alone": true
+    },
+    {
+      "name": "B4: the Host's interim questions still ask about glory",
+      "file": "sim/ending.mjs",
+      "failed": [
+        "the first period ends with interim standings and the winter offered to the Host; the invented country has no winter",
+        "the second period plays its own moments, none of 1835 again, and ends with interim standings and the spring offered"
+      ],
+      "alone": true
+    },
+    {
+      "name": "B7: the flight card is sent no load to open with",
+      "file": "sim/scrape.mjs",
+      "failed": [
+        "the family's card opens on the packing a family deciding alone takes - food first, as much as fits - and a load far under it is told apart"
+      ],
+      "alone": true
+    },
+    {
+      "name": "B7: a load of nothing is not told apart from a full one",
+      "file": "public/family-panel.js",
+      "failed": [
+        "the family's card opens on the packing a family deciding alone takes - food first, as much as fits - and a load far under it is told apart"
+      ],
+      "alone": true
+    },
+    {
+      "name": "B7: every box on the card opens at 0 again",
+      "file": "public/app.js",
+      "proof": {
+        "script": "test:scrape",
+        "failed": true,
+        "why": "AssertionError [ERR_ASSERTION]: the card did not open on the server's packing + actual - expected"
+      }
+    },
+    {
+      "name": "B7: a double press on Leave gets through with nothing loaded",
+      "file": "public/app.js",
+      "proof": {
+        "script": "test:scrape",
+        "failed": true,
+        "why": "AssertionError [ERR_ASSERTION]: a double press sent the family east with nothing"
+      }
+    },
+    {
+      "name": "B11: pressing a portrait makes that person the main person again",
+      "file": "public/app.js",
+      "failed": [
+        "choosing somebody shows their bar and leaves the main person as it was; only a living person chosen takes the bar"
+      ],
+      "alone": true,
+      "proof": {
+        "script": "test:family-panel",
+        "failed": true,
+        "why": "AssertionError [ERR_ASSERTION]: pressing a portrait sent set-main + actual - expected"
+      }
+    },
+    {
+      "name": "B11: a grown person chosen does not get their own bar; only a child does, as before",
+      "file": "public/family-panel.js",
+      "failed": [
+        "choosing somebody shows their bar and leaves the main person as it was; only a living person chosen takes the bar"
+      ],
+      "alone": true
+    },
+    {
+      "name": "B11 (M32): the chase reads the chosen main person's raw id, dead or not",
+      "file": "sim/pursuit.mjs",
+      "failed": [
+        "who answers the soldiers is the main person every rule reads: somebody else on auto never answers for a family by hand, and a dead choice gives way"
+      ],
+      "alone": true
+    },
+    {
+      "name": "B11: a portrait pressed in the chase hands the family to somebody on auto, and ¡Alto! is never asked",
+      "file": "public/app.js",
+      "proof": {
+        "script": "test:scrape-pursuit",
+        "failed": true,
+        "why": "AssertionError [ERR_ASSERTION]: pressing Bernarda Proofwright's portrait made them the main person + actual - expected"
+      }
+    }
+  ]
+}
