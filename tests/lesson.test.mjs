@@ -19,6 +19,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { ALWAYS, FARM_WORK, LESSON_DONE_MINUTES, LESSON_RESUME_MS, STEPS, actionId, advanceLessons, inLesson, lessonInvalid, lessonProjection, lessonRefusal } from '../sim/lesson.mjs';
 import { beginSecondPeriod } from '../sim/periods.mjs';
+import { allowsIcon } from '../public/lesson.js';
 import { RIPEN_TICKS } from '../sim/chores.mjs';
 import { clearedPlots, plotsOf } from '../sim/fields.mjs';
 import { houseSettled } from '../sim/houses.mjs';
@@ -733,6 +734,14 @@ test('the guided start still holds back another farm step\'s work, and what the 
     for (const id of FARM_WORK) {
       const refused = lessonRefusal(world, household, inputOf(id));
       assert.equal(Boolean(refused), card.shut.includes(id), `${id} on the ${step.id} step: the page and the gate disagree`);
+      // And the page's own reading of the card (public/lesson.js) greys the icon that sends it exactly when the server refuses
+      // it. A work done at a place on the map (survey, clear, fence, fell) is a chore icon that sends the bare action, so it
+      // is read by the bare id; `chore:survey-plot` itself is sent by no icon.
+      const bare = id.startsWith('chore:') && FARM_WORK.includes(id.slice(6));
+      if (!bare) {
+        const icon = id.startsWith('chore:') ? { key: id.slice(6), kind: 'chore' } : { key: id, kind: 'order' };
+        assert.equal(allowsIcon(card, icon), !refused, `${id} on the ${step.id} step: the bar ${refused ? 'offers what the server refuses' : 'greys what the server allows'}`);
+      }
       if (refused) assert.equal(refused, `Not yet - first, ${step.first}`);
     }
     // And the step's own work is never shut by it.

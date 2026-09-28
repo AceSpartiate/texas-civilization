@@ -234,7 +234,7 @@ try {
   await page.locator('#lesson-action').click();
   await page.waitForFunction(key => document.activeElement?.dataset.key === key, open);
   page.off('request', capture);
-  assert.ok(commands.every(command => command.action === 'set-main'), 'the guide issued work or advanced a step');
+  assert.ok(commands.every(command => ['set-main', 'seen-tip'].includes(command.action)), 'the guide issued work or advanced a step');
   assert.equal(await page.locator('#lesson-step').textContent(), 'STEP 2 OF 10');
   ok('the guide selects the person and focuses the named action without issuing work or skipping the lesson');
   assert.match(measured.strip.read, /STEP 2 OF 10\./);
@@ -482,7 +482,8 @@ try {
   measured.stopButton.availableBefore = beforeStopKeys;
 
   const sent = [];
-  const listen = request => { if (request.url().endsWith('/api/command')) sent.push(request.postDataJSON()?.action); };
+  // A tip put away or retired (`seen-tip`, public/tips.js, 2026-09-28) is the page's bookkeeping, not an order: not counted.
+  const listen = request => { if (request.url().endsWith('/api/command') && request.postDataJSON()?.action !== 'seen-tip') sent.push(request.postDataJSON()?.action); };
   page.on('request', listen);
   // The X asks first, in the strip, and "Keep going" changes nothing.
   await page.locator('#lesson-stop').click();
@@ -542,7 +543,7 @@ try {
 
   // Pressed: the strip comes back on the step it was stopped on, and the gate with it.
   const resumeSent = [];
-  const listenResume = request => { if (request.url().endsWith('/api/command')) resumeSent.push(request.postDataJSON()?.action); };
+  const listenResume = request => { if (request.url().endsWith('/api/command') && request.postDataJSON()?.action !== 'seen-tip') resumeSent.push(request.postDataJSON()?.action); };
   page.on('request', listenResume);
   await page.locator('#lesson-resume').click();
   await page.waitForFunction(() => window.__snapshot?.world?.lesson?.done === false && !document.querySelector('#lesson').hidden, null, { timeout: 20000 });

@@ -12,7 +12,7 @@ const INJECTIONS = [
   // 1. The gate itself: the server holds it, and it is the server that refuses.
   {
     name: 'the gate never refuses anything: the page is trusted to grey the controls out',
-    from: '  if (allowed.has(actionId(input))) return null;\n  return `Not yet - first, ${current.first}`;',
+    from: '  if (current.allow(world, household).includes(id)) return null;\n  return `Not yet - first, ${current.first}`;',
     to: '  return null;',
   },
   {
@@ -33,8 +33,8 @@ const INJECTIONS = [
   // 2. What is never refused.
   {
     name: 'the answers the game itself puts to a family can be refused by a lesson',
-    from: '  const allowed = new Set([...ALWAYS, ...current.allow(world, household)]);',
-    to: '  const allowed = new Set(current.allow(world, household));',
+    from: '  if (ALWAYS.includes(id) || !FARM_WORK.includes(id)) return null;',
+    to: '',
   },
   {
     name: 'a man who has joined the army is gated at home while he is standing in a camp',
@@ -48,18 +48,18 @@ const INJECTIONS = [
   },
   {
     name: 'a family on the road east is still being taught to dig a well on the land it left',
-    from: "const teachable = (world, household) => Boolean(household?.played) && world.status !== 'lobby' && !household.flight;",
-    to: "const teachable = (world, household) => Boolean(household?.played) && world.status !== 'lobby';",
+    from: "const teachable = (world, household) => Boolean(household?.played) && world.status !== 'lobby' && !household.flight && (world.period || 1) === 1;",
+    to: "const teachable = (world, household) => Boolean(household?.played) && world.status !== 'lobby' && (world.period || 1) === 1;",
   },
   // 3. Who has a lesson at all.
   {
     name: 'every family has a lesson, including the ones nobody plays',
-    from: "const teachable = (world, household) => Boolean(household?.played) && world.status !== 'lobby' && !household.flight;",
-    to: 'const teachable = (world, household) => Boolean(household) && !household.flight;',
+    from: "const teachable = (world, household) => Boolean(household?.played) && world.status !== 'lobby' && !household.flight && (world.period || 1) === 1;",
+    to: 'const teachable = (world, household) => Boolean(household) && !household.flight && (world.period || 1) === 1;',
   },
   {
     name: 'the lesson runs in the lobby, where the wagon is not even on the road yet',
-    from: "const teachable = (world, household) => Boolean(household?.played) && world.status !== 'lobby' && !household.flight;",
+    from: "const teachable = (world, household) => Boolean(household?.played) && world.status !== 'lobby' && !household.flight && (world.period || 1) === 1;",
     to: 'const teachable = (world, household) => Boolean(household?.played) && !household.flight;',
   },
   {
@@ -254,12 +254,12 @@ const INJECTIONS = [
   },
   {
     name: 'a save may carry any value as the stop marker',
-    from: "  for (const marker of ['hunting', 'hunted', 'stopped', 'resumed']) {",
-    to: "  for (const marker of ['hunting', 'hunted', 'resumed']) {",
+    from: "  for (const marker of ['hunting', 'hunted', 'stopped', 'resumed', 'closed']) {",
+    to: "  for (const marker of ['hunting', 'hunted', 'resumed', 'closed']) {",
   },
   {
     name: 'a save may carry a stopped lesson still standing on a step, with the gate half open',
-    from: "  if (lesson.stopped && lesson.step !== 'done') return 'Invalid lesson step';",
+    from: "  if ((lesson.stopped || lesson.closed) && lesson.step !== 'done') return 'Invalid lesson step';",
     to: '',
   },
   // "Resume tutorial" (owner, 2026-09-22: "show a small 'Resume tutorial' button for five real minutes from the original

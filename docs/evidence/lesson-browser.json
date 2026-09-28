@@ -9,16 +9,16 @@
   "task": "The owner after the class of 2026-09-21: the UI covered too much of a Chromebook screen; a character’s abilities are hidden unless they are the main one and sit bottom middle, spaced out; and the tutorial is an integrated, forced, one-task-at-a-time part of the game.",
   "environment": "Same computer: a local classroom server and headless Chrome at 1366x768. Not a physical LAN, a Chromebook, a classroom or a touch screen.",
   "checks": [
-    "the main person's available work is bottom middle at 1366x768: 15 icons on 2 rows, centred at 683, 104px up, 58px each, 8.8% of the screen",
+    "the main person's available work is bottom middle at 1366x768: 13 icons on 2 rows, centred at 683, 104px up, 57px each, 7.7% of the screen",
     "a person who is not the main one has no work on the screen",
-    "the star moves the bar: it is now hh-1-parent-2's 15 icons, still centred at 683",
+    "the star moves the bar: it is now hh-1-parent-2's 13 icons, still centred at 683",
     "the server's own lesson is on the screen: \"STEP 2 OF 10 - Put somebody to work\"",
     "no lesson, nothing drawn",
     "the guide selects the person and focuses the named action without issuing work or skipping the lesson",
     "the step keeps the server's words and a navigation control: \"Put somebody to work\" - Press the axe at the bottom of the screen to start work on the house. (11% of the screen)",
     "the skippable walk-through is put away while the class is being led",
     "the step shows only 2 available actions and rings the requested one",
-    "the card is clear of the step and folds its neighbours list away: 3.4% of the screen against 4.7% open, top at 298 under a strip ending at 223, and one press brings it back",
+    "the card is clear of the step and folds its neighbours list away: 3.8% of the screen against 5.6% open, top at 298 under a strip ending at 223, and one press brings it back",
     "the action bar hides unavailable orders",
     "the one icon the server's own step leaves open sends its order, and the glow comes back on it (plant-field)",
     "the bar is still a row of buttons in reading order, each named and each showing its sentence on focus: \"Travel to Gonzales. Go into the town of Gonzales and stay th…\"",
@@ -33,7 +33,7 @@
     "at 1366x768 the X is 36x36px, inside the strip, on no word, reachable, and named \"Stop the guided start\"",
     "the X asks once, in the strip: \"Stop the guided start? You won’t be walked through the rest. For five minutes, a “Resume tutorial” button can bring it back.\" - and \"Keep going\" sends nothing",
     "\"Yes, stop it\" sends stop-lesson once; the strip goes, the snapshot carries no lesson, nothing on the bar is shut, and the old walk-through is not offered instead",
-    "stopping the lesson reveals 11 additional actions",
+    "stopping the lesson reveals 3 additional actions",
     "at 1366x768 \"Resume tutorial\" is 119x36px at 1235,10, on the screen, reachable, and on nothing else",
     "at 1024x768 \"Resume tutorial\" is 119x36px at 893,10, on the screen, reachable, and on nothing else",
     "after a reload the strip stays gone and the server sends no lesson",
@@ -47,13 +47,13 @@
     "bar": {
       "entityId": "hh-1-parent-1",
       "centre": 683,
-      "width": 496,
+      "width": 434,
       "fromBottom": 104,
       "rows": 2,
-      "count": 15,
+      "count": 13,
       "smallestGap": 4,
-      "iconSize": 58,
-      "share": 8.8,
+      "iconSize": 57,
+      "share": 7.7,
       "groupsOnScreen": 1
     },
     "otherPeopleIconsOnScreen": 0,
@@ -90,9 +90,9 @@
     "card": {
       "folded": {
         "card": {
-          "left": 1198,
+          "left": 1153,
           "top": 298,
-          "right": 1388,
+          "right": 1366,
           "bottom": 483
         },
         "strip": {
@@ -105,26 +105,26 @@
         "goingBy": false,
         "visitShown": false,
         "more": "The neighbours",
-        "share": 3.4
+        "share": 3.8
       },
       "opened": {
         "card": {
-          "left": 1189,
-          "top": 298,
-          "right": 1379,
-          "bottom": 559
+          "left": 1142,
+          "top": 231,
+          "right": 1366,
+          "bottom": 492
         },
         "strip": {
-          "left": 801,
+          "left": 810,
           "top": 10,
-          "right": 1345,
+          "right": 1354,
           "bottom": 223
         },
         "over": false,
         "goingBy": false,
         "visitShown": true,
         "more": "Put that away",
-        "share": 4.7
+        "share": 5.6
       }
     },
     "ordered": {
@@ -218,6 +218,14 @@
       },
       "step": "house",
       "availableBefore": [
+        "hunt-timber",
+        "visit-shop",
+        "make-furniture",
+        "buy-furniture",
+        "hunt-land",
+        "take-small-game",
+        "fish-the-water",
+        "cut-bee-tree",
         "travel-gonzales",
         "visit",
         "work",
@@ -243,8 +251,8 @@
       ]
     },
     "resume": {
-      "until": 1790584854926,
-      "msWhenStopped": 299812,
+      "until": 1790601936106,
+      "msWhenStopped": 299876,
       "chromebook": {
         "size": [
           119,

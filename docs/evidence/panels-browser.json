@@ -1,6 +1,6 @@
 {
   "record": "panels-browser",
-  "date": "2026-09-27",
+  "date": "2026-09-28",
   "browser": "153.0.8010.53",
   "screens": [
     {
@@ -31,7 +31,7 @@
     "1024x768: both placement panels stand clear of the folded faces, and the names open again when the stake is put away",
     "1366x768, the guided start: a family of twenty, two on auto - the column ends at 470px above the bar's top at 478px (2 rows), 5 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 394px)",
     "1024x768, the guided start: a family of twenty, two on auto - the column ends at 470px above the bar's top at 478px (2 rows), 5 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 394px)",
-    "1366x768, the full bar: a family of twenty, two on auto - the column ends at 510px above the bar's top at 518px (2 rows), 6 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 424px)",
+    "1366x768, the full bar: a family of twenty, two on auto - the column ends at 510px above the bar's top at 518px (2 rows), 6 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 425px)",
     "1024x768, the full bar: a family of twenty, two on auto - the column ends at 510px above the bar's top at 518px (2 rows), 4 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 425px)"
   ],
   "measured": {
@@ -78,18 +78,17 @@
               "label": "Go: ride west to join them, toward Victo",
               "box": {
                 "x": 653,
-                "y": 449,
+                "y": 468,
                 "w": 234,
                 "h": 101
               },
               "onScreen": true,
               "points": 5,
               "blocked": 5,
-              "centreBlockedBy": "#encounter",
+              "centreBlockedBy": "#encounter-asks",
               "by": [
-                "#encounter",
-                "#encounter-said",
-                "#encounter-asks"
+                "#encounter-asks",
+                "#encounter-said"
               ]
             },
             {
@@ -97,7 +96,7 @@
               "label": "Stay and keep the coastThe coast has few",
               "box": {
                 "x": 653,
-                "y": 550,
+                "y": 569,
                 "w": 234,
                 "h": 81
               },
@@ -114,7 +113,7 @@
               "label": "Listen to Silas Roe",
               "box": {
                 "x": 653,
-                "y": 632,
+                "y": 650,
                 "w": 234,
                 "h": 40
               },
@@ -147,10 +146,10 @@
             },
             {
               "control": "#family-rows",
-              "label": "!",
+              "label": "!2",
               "box": {
                 "x": 44,
-                "y": 184,
+                "y": 185,
                 "w": 32,
                 "h": 32
               },
@@ -183,10 +182,10 @@
             },
             {
               "control": "#family-rows",
-              "label": "!",
+              "label": "!1",
               "box": {
                 "x": 44,
-                "y": 237,
+                "y": 238,
                 "w": 32,
                 "h": 32
               },
@@ -280,10 +279,10 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 469
+                "h": 458
               },
               "overlapWidth": -163,
-              "overlapHeight": 253,
+              "overlapHeight": 242,
               "shares": false
             },
             "faces": {
@@ -325,10 +324,10 @@
                 "x": 640,
                 "y": 228,
                 "w": 260,
-                "h": 465
+                "h": 483
               },
               "overlapWidth": 260,
-              "overlapHeight": 465,
+              "overlapHeight": 476,
               "shares": true
             }
           }
@@ -357,7 +356,122 @@
           "ownControlsCovered": [],
           "words": "Who goes?× The committee at Matagorda asks the volunteers of the town and the country east of it to gather at James Kerr's on the Lavaca as ",
           "lessonRoom": "210px",
-          "covered": [],
+          "covered": [
+            {
+              "control": "#family-rows",
+              "label": "Practise at the mark",
+              "box": {
+                "x": 501,
+                "y": 490,
+                "w": 57,
+                "h": 83
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#call-menu-confirm",
+              "by": [
+                "#call-menu-confirm",
+                "#call-menu-rows",
+                "#call-menu"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Go to town to trade",
+              "box": {
+                "x": 562,
+                "y": 490,
+                "w": 57,
+                "h": 83
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#call-menu-confirm",
+              "by": [
+                "#call-menu-confirm",
+                "#call-menu-rows",
+                "#call-menu"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Make furniture",
+              "box": {
+                "x": 624,
+                "y": 490,
+                "w": 57,
+                "h": 83
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#call-menu-stay",
+              "by": [
+                "#call-menu-stay",
+                "#call-menu-rows",
+                "#call-menu"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Buy furniture from the carpenter",
+              "box": {
+                "x": 685,
+                "y": 490,
+                "w": 57,
+                "h": 83
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#call-menu-stay",
+              "by": [
+                "#call-menu-stay",
+                "#call-menu-rows",
+                "#call-menu"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Hunt on our land",
+              "box": {
+                "x": 746,
+                "y": 490,
+                "w": 57,
+                "h": 83
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#call-menu-stay",
+              "by": [
+                "#call-menu-stay",
+                "#call-menu-rows",
+                "#call-menu"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Take small game",
+              "box": {
+                "x": 808,
+                "y": 490,
+                "w": 57,
+                "h": 83
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#call-menu-stay",
+              "by": [
+                "#call-menu-stay",
+                "#call-menu-rows",
+                "#call-menu"
+              ]
+            }
+          ],
           "partly": [
             {
               "control": "#family-rows",
@@ -378,10 +492,10 @@
             },
             {
               "control": "#family-rows",
-              "label": "!",
+              "label": "!1",
               "box": {
                 "x": 44,
-                "y": 182,
+                "y": 183,
                 "w": 32,
                 "h": 32
               },
@@ -393,42 +507,6 @@
                 "#family-collapse",
                 "#family-rows",
                 "#world-map"
-              ]
-            },
-            {
-              "control": "#family-rows",
-              "label": "Travel to Gonzales",
-              "box": {
-                "x": 625,
-                "y": 501,
-                "w": 56,
-                "h": 83
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 3,
-              "centreBlockedBy": "#call-menu-stay",
-              "by": [
-                "#call-menu-stay",
-                "#call-menu-rows"
-              ]
-            },
-            {
-              "control": "#family-rows",
-              "label": "Go to a neighbour’s homestead",
-              "box": {
-                "x": 685,
-                "y": 501,
-                "w": 56,
-                "h": 83
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 3,
-              "centreBlockedBy": "#call-menu-stay",
-              "by": [
-                "#call-menu-stay",
-                "#call-menu-rows"
               ]
             },
             {
@@ -450,10 +528,10 @@
             },
             {
               "control": "#family-rows",
-              "label": "!",
+              "label": "!2",
               "box": {
                 "x": 44,
-                "y": 235,
+                "y": 238,
                 "w": 32,
                 "h": 32
               },
@@ -462,8 +540,8 @@
               "blocked": 4,
               "centreBlockedBy": null,
               "by": [
-                "#family-rows",
-                "#world-map"
+                "#world-map",
+                "#family-rows"
               ]
             },
             {
@@ -471,7 +549,7 @@
               "label": "The neighbours",
               "box": {
                 "x": 699,
-                "y": 310,
+                "y": 329,
                 "w": 234,
                 "h": 27
               },
@@ -480,7 +558,8 @@
               "blocked": 3,
               "centreBlockedBy": "#call-menu-text",
               "by": [
-                "#call-menu-text"
+                "#call-menu-text",
+                "#call-menu-how"
               ]
             },
             {
@@ -488,7 +567,7 @@
               "label": "Go: ride west to join them, toward Victo",
               "box": {
                 "x": 699,
-                "y": 485,
+                "y": 504,
                 "w": 234,
                 "h": 101
               },
@@ -507,14 +586,14 @@
               "label": "Stay and keep the coastThe coast has few",
               "box": {
                 "x": 699,
-                "y": 586,
+                "y": 605,
                 "w": 234,
                 "h": 66
               },
               "onScreen": true,
               "points": 5,
               "blocked": 2,
-              "centreBlockedBy": null,
+              "centreBlockedBy": "#family-rows",
               "by": [
                 "#family-rows"
               ]
@@ -571,16 +650,6 @@
                 "w": 26,
                 "h": 44
               }
-            },
-            {
-              "control": "#others",
-              "label": "Silas Roe, passing through: rest at Fami",
-              "box": {
-                "x": 20,
-                "y": 1673,
-                "w": 26,
-                "h": 44
-              }
             }
           ],
           "dimmedOnPurpose": 0,
@@ -590,10 +659,10 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 469
+                "h": 458
               },
               "overlapWidth": -203,
-              "overlapHeight": 253,
+              "overlapHeight": 242,
               "shares": false
             },
             "faces": {
@@ -631,13 +700,13 @@
             },
             "bar": {
               "box": {
-                "x": 621,
-                "y": 489,
-                "w": 124,
-                "h": 175
+                "x": 497,
+                "y": 478,
+                "w": 372,
+                "h": 186
               },
-              "overlapWidth": 124,
-              "overlapHeight": 86,
+              "overlapWidth": 372,
+              "overlapHeight": 97,
               "shares": true
             },
             "card": {
@@ -645,7 +714,7 @@
                 "x": 686,
                 "y": 228,
                 "w": 260,
-                "h": 445
+                "h": 464
               },
               "overlapWidth": 217,
               "overlapHeight": 347,
@@ -694,10 +763,10 @@
             },
             {
               "control": "#family-rows",
-              "label": "!",
+              "label": "!1",
               "box": {
                 "x": 44,
-                "y": 184,
+                "y": 183,
                 "w": 32,
                 "h": 32
               },
@@ -730,10 +799,10 @@
             },
             {
               "control": "#family-rows",
-              "label": "!",
+              "label": "!2",
               "box": {
                 "x": 44,
-                "y": 237,
+                "y": 238,
                 "w": 32,
                 "h": 32
               },
@@ -742,8 +811,8 @@
               "blocked": 4,
               "centreBlockedBy": null,
               "by": [
-                "#family-rows",
-                "#world-map"
+                "#world-map",
+                "#family-rows"
               ]
             }
           ],
@@ -798,16 +867,6 @@
                 "w": 26,
                 "h": 44
               }
-            },
-            {
-              "control": "#others",
-              "label": "Silas Roe, passing through: rest at Fami",
-              "box": {
-                "x": 20,
-                "y": 1673,
-                "w": 26,
-                "h": 44
-              }
             }
           ],
           "dimmedOnPurpose": 0,
@@ -817,7 +876,7 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 469
+                "h": 458
               },
               "overlapWidth": 150,
               "overlapHeight": 240,
@@ -858,13 +917,13 @@
             },
             "bar": {
               "box": {
-                "x": 621,
-                "y": 489,
-                "w": 124,
-                "h": 175
+                "x": 497,
+                "y": 478,
+                "w": 372,
+                "h": 186
               },
-              "overlapWidth": -127,
-              "overlapHeight": -21,
+              "overlapWidth": -3,
+              "overlapHeight": -10,
               "shares": false
             },
             "card": null
@@ -912,10 +971,10 @@
             },
             {
               "control": "#family-rows",
-              "label": "!",
+              "label": "!2",
               "box": {
                 "x": 44,
-                "y": 224,
+                "y": 225,
                 "w": 32,
                 "h": 32
               },
@@ -948,10 +1007,10 @@
             },
             {
               "control": "#family-rows",
-              "label": "!",
+              "label": "!1",
               "box": {
                 "x": 44,
-                "y": 277,
+                "y": 275,
                 "w": 32,
                 "h": 32
               },
@@ -1035,7 +1094,7 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 469
+                "h": 458
               },
               "overlapWidth": 150,
               "overlapHeight": 179,
@@ -1076,13 +1135,13 @@
             },
             "bar": {
               "box": {
-                "x": 590,
-                "y": 489,
-                "w": 186,
-                "h": 175
+                "x": 466,
+                "y": 478,
+                "w": 434,
+                "h": 186
               },
-              "overlapWidth": -96,
-              "overlapHeight": -60,
+              "overlapWidth": 28,
+              "overlapHeight": -49,
               "shares": false
             },
             "card": null
@@ -1144,18 +1203,17 @@
               "label": "Go: ride west to join them, toward Victo",
               "box": {
                 "x": 482,
-                "y": 449,
+                "y": 468,
                 "w": 234,
                 "h": 101
               },
               "onScreen": true,
               "points": 5,
               "blocked": 5,
-              "centreBlockedBy": "#encounter",
+              "centreBlockedBy": "#encounter-asks",
               "by": [
-                "#encounter",
-                "#encounter-said",
-                "#encounter-asks"
+                "#encounter-asks",
+                "#encounter-said"
               ]
             },
             {
@@ -1163,7 +1221,7 @@
               "label": "Stay and keep the coastThe coast has few",
               "box": {
                 "x": 482,
-                "y": 550,
+                "y": 569,
                 "w": 234,
                 "h": 81
               },
@@ -1180,7 +1238,7 @@
               "label": "Listen to Silas Roe",
               "box": {
                 "x": 482,
-                "y": 632,
+                "y": 650,
                 "w": 234,
                 "h": 40
               },
@@ -1213,10 +1271,10 @@
             },
             {
               "control": "#family-rows",
-              "label": "!",
+              "label": "!2",
               "box": {
                 "x": 44,
-                "y": 182,
+                "y": 185,
                 "w": 32,
                 "h": 32
               },
@@ -1249,7 +1307,7 @@
             },
             {
               "control": "#family-rows",
-              "label": "!",
+              "label": "!1",
               "box": {
                 "x": 44,
                 "y": 235,
@@ -1346,10 +1404,10 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 469
+                "h": 458
               },
               "overlapWidth": 8,
-              "overlapHeight": 253,
+              "overlapHeight": 242,
               "shares": true
             },
             "faces": {
@@ -1391,10 +1449,10 @@
                 "x": 469,
                 "y": 228,
                 "w": 260,
-                "h": 465
+                "h": 483
               },
               "overlapWidth": 260,
-              "overlapHeight": 465,
+              "overlapHeight": 476,
               "shares": true
             }
           }
@@ -1423,7 +1481,122 @@
           "ownControlsCovered": [],
           "words": "Who goes?× The committee at Matagorda asks the volunteers of the town and the country east of it to gather at James Kerr's on the Lavaca as ",
           "lessonRoom": "210px",
-          "covered": [],
+          "covered": [
+            {
+              "control": "#family-rows",
+              "label": "Practise at the mark",
+              "box": {
+                "x": 330,
+                "y": 490,
+                "w": 57,
+                "h": 83
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#call-menu-confirm",
+              "by": [
+                "#call-menu-confirm",
+                "#call-menu-rows",
+                "#call-menu"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Go to town to trade",
+              "box": {
+                "x": 391,
+                "y": 490,
+                "w": 57,
+                "h": 83
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#call-menu-confirm",
+              "by": [
+                "#call-menu-confirm",
+                "#call-menu-rows",
+                "#call-menu"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Make furniture",
+              "box": {
+                "x": 453,
+                "y": 490,
+                "w": 57,
+                "h": 83
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#call-menu-stay",
+              "by": [
+                "#call-menu-stay",
+                "#call-menu-rows",
+                "#call-menu"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Buy furniture from the carpenter",
+              "box": {
+                "x": 514,
+                "y": 490,
+                "w": 57,
+                "h": 83
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#call-menu-stay",
+              "by": [
+                "#call-menu-stay",
+                "#call-menu-rows",
+                "#call-menu"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Hunt on our land",
+              "box": {
+                "x": 575,
+                "y": 490,
+                "w": 57,
+                "h": 83
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#call-menu-stay",
+              "by": [
+                "#call-menu-stay",
+                "#call-menu-rows",
+                "#call-menu"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Take small game",
+              "box": {
+                "x": 637,
+                "y": 490,
+                "w": 57,
+                "h": 83
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#call-menu-stay",
+              "by": [
+                "#call-menu-stay",
+                "#call-menu-rows",
+                "#call-menu"
+              ]
+            }
+          ],
           "partly": [
             {
               "control": "#family-rows",
@@ -1444,10 +1617,10 @@
             },
             {
               "control": "#family-rows",
-              "label": "!",
+              "label": "!1",
               "box": {
                 "x": 44,
-                "y": 185,
+                "y": 182,
                 "w": 32,
                 "h": 32
               },
@@ -1459,42 +1632,6 @@
                 "#family-collapse",
                 "#family-rows",
                 "#world-map"
-              ]
-            },
-            {
-              "control": "#family-rows",
-              "label": "Travel to Gonzales",
-              "box": {
-                "x": 454,
-                "y": 501,
-                "w": 56,
-                "h": 83
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 3,
-              "centreBlockedBy": "#call-menu-stay",
-              "by": [
-                "#call-menu-stay",
-                "#call-menu-rows"
-              ]
-            },
-            {
-              "control": "#family-rows",
-              "label": "Go to a neighbour’s homestead",
-              "box": {
-                "x": 514,
-                "y": 501,
-                "w": 56,
-                "h": 83
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 3,
-              "centreBlockedBy": "#call-menu-stay",
-              "by": [
-                "#call-menu-stay",
-                "#call-menu-rows"
               ]
             },
             {
@@ -1516,7 +1653,7 @@
             },
             {
               "control": "#family-rows",
-              "label": "!",
+              "label": "!2",
               "box": {
                 "x": 44,
                 "y": 238,
@@ -1528,8 +1665,8 @@
               "blocked": 4,
               "centreBlockedBy": null,
               "by": [
-                "#family-rows",
-                "#world-map"
+                "#world-map",
+                "#family-rows"
               ]
             },
             {
@@ -1537,7 +1674,7 @@
               "label": "The neighbours",
               "box": {
                 "x": 528,
-                "y": 310,
+                "y": 329,
                 "w": 234,
                 "h": 27
               },
@@ -1546,7 +1683,8 @@
               "blocked": 3,
               "centreBlockedBy": "#call-menu-text",
               "by": [
-                "#call-menu-text"
+                "#call-menu-text",
+                "#call-menu-how"
               ]
             },
             {
@@ -1554,7 +1692,7 @@
               "label": "Go: ride west to join them, toward Victo",
               "box": {
                 "x": 528,
-                "y": 485,
+                "y": 504,
                 "w": 234,
                 "h": 101
               },
@@ -1573,14 +1711,14 @@
               "label": "Stay and keep the coastThe coast has few",
               "box": {
                 "x": 528,
-                "y": 586,
+                "y": 605,
                 "w": 234,
                 "h": 66
               },
               "onScreen": true,
               "points": 5,
               "blocked": 2,
-              "centreBlockedBy": null,
+              "centreBlockedBy": "#family-rows",
               "by": [
                 "#family-rows"
               ]
@@ -1637,16 +1775,6 @@
                 "w": 26,
                 "h": 44
               }
-            },
-            {
-              "control": "#others",
-              "label": "Silas Roe, passing through: rest at Fami",
-              "box": {
-                "x": 20,
-                "y": 1673,
-                "w": 26,
-                "h": 44
-              }
             }
           ],
           "dimmedOnPurpose": 0,
@@ -1656,10 +1784,10 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 469
+                "h": 458
               },
               "overlapWidth": -32,
-              "overlapHeight": 253,
+              "overlapHeight": 242,
               "shares": false
             },
             "faces": {
@@ -1697,13 +1825,13 @@
             },
             "bar": {
               "box": {
-                "x": 450,
-                "y": 489,
-                "w": 124,
-                "h": 175
+                "x": 326,
+                "y": 478,
+                "w": 372,
+                "h": 186
               },
-              "overlapWidth": 124,
-              "overlapHeight": 86,
+              "overlapWidth": 372,
+              "overlapHeight": 97,
               "shares": true
             },
             "card": {
@@ -1711,7 +1839,7 @@
                 "x": 515,
                 "y": 228,
                 "w": 260,
-                "h": 445
+                "h": 464
               },
               "overlapWidth": 217,
               "overlapHeight": 347,
@@ -1760,10 +1888,10 @@
             },
             {
               "control": "#family-rows",
-              "label": "!",
+              "label": "!1",
               "box": {
                 "x": 44,
-                "y": 182,
+                "y": 185,
                 "w": 32,
                 "h": 32
               },
@@ -1796,10 +1924,10 @@
             },
             {
               "control": "#family-rows",
-              "label": "!",
+              "label": "!2",
               "box": {
                 "x": 44,
-                "y": 235,
+                "y": 238,
                 "w": 32,
                 "h": 32
               },
@@ -1808,8 +1936,8 @@
               "blocked": 4,
               "centreBlockedBy": null,
               "by": [
-                "#family-rows",
-                "#world-map"
+                "#world-map",
+                "#family-rows"
               ]
             }
           ],
@@ -1864,16 +1992,6 @@
                 "w": 26,
                 "h": 44
               }
-            },
-            {
-              "control": "#others",
-              "label": "Silas Roe, passing through: rest at Fami",
-              "box": {
-                "x": 20,
-                "y": 1673,
-                "w": 26,
-                "h": 44
-              }
             }
           ],
           "dimmedOnPurpose": 0,
@@ -1883,7 +2001,7 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 469
+                "h": 458
               },
               "overlapWidth": 150,
               "overlapHeight": 240,
@@ -1924,13 +2042,13 @@
             },
             "bar": {
               "box": {
-                "x": 450,
-                "y": 489,
-                "w": 124,
-                "h": 175
+                "x": 326,
+                "y": 478,
+                "w": 372,
+                "h": 186
               },
-              "overlapWidth": 44,
-              "overlapHeight": -21,
+              "overlapWidth": 168,
+              "overlapHeight": -10,
               "shares": false
             },
             "card": null
@@ -1978,10 +2096,10 @@
             },
             {
               "control": "#family-rows",
-              "label": "!",
+              "label": "!2",
               "box": {
                 "x": 44,
-                "y": 223,
+                "y": 225,
                 "w": 32,
                 "h": 32
               },
@@ -1993,6 +2111,42 @@
                 "#family-collapse",
                 "#family-rows",
                 "#world-map"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Take small game",
+              "box": {
+                "x": 668,
+                "y": 490,
+                "w": 57,
+                "h": 83
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 3,
+              "centreBlockedBy": "#military-words",
+              "by": [
+                "#military-words",
+                "#military-title",
+                "#military-go"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Rest",
+              "box": {
+                "x": 668,
+                "y": 577,
+                "w": 57,
+                "h": 83
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 1,
+              "centreBlockedBy": null,
+              "by": [
+                "#military-go"
               ]
             },
             {
@@ -2014,10 +2168,10 @@
             },
             {
               "control": "#family-rows",
-              "label": "!",
+              "label": "!1",
               "box": {
                 "x": 44,
-                "y": 276,
+                "y": 275,
                 "w": 32,
                 "h": 32
               },
@@ -2101,7 +2255,7 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 469
+                "h": 458
               },
               "overlapWidth": 150,
               "overlapHeight": 179,
@@ -2142,13 +2296,13 @@
             },
             "bar": {
               "box": {
-                "x": 419,
-                "y": 489,
-                "w": 186,
-                "h": 175
+                "x": 295,
+                "y": 478,
+                "w": 434,
+                "h": 186
               },
-              "overlapWidth": 75,
-              "overlapHeight": -60,
+              "overlapWidth": 199,
+              "overlapHeight": -49,
               "shares": false
             },
             "card": null
@@ -2177,10 +2331,10 @@
           "x": 12,
           "y": 12,
           "w": 248,
-          "h": 469
+          "h": 458
         },
         "overlapWidth": -163,
-        "overlapHeight": 253,
+        "overlapHeight": 242,
         "shares": false
       },
       "siteOverTheColumn": {
@@ -2188,7 +2342,7 @@
           "x": 12,
           "y": 12,
           "w": 248,
-          "h": 469
+          "h": 458
         },
         "overlapWidth": 150,
         "overlapHeight": 240,
@@ -2199,7 +2353,7 @@
           "x": 12,
           "y": 12,
           "w": 248,
-          "h": 469
+          "h": 458
         },
         "overlapWidth": 150,
         "overlapHeight": 179,
@@ -2216,10 +2370,10 @@
           "x": 12,
           "y": 12,
           "w": 248,
-          "h": 469
+          "h": 458
         },
         "overlapWidth": 8,
-        "overlapHeight": 253,
+        "overlapHeight": 242,
         "shares": true
       },
       "siteOverTheColumn": {
@@ -2227,7 +2381,7 @@
           "x": 12,
           "y": 12,
           "w": 248,
-          "h": 469
+          "h": 458
         },
         "overlapWidth": 150,
         "overlapHeight": 240,
@@ -2238,7 +2392,7 @@
           "x": 12,
           "y": 12,
           "w": 248,
-          "h": 469
+          "h": 458
         },
         "overlapWidth": 150,
         "overlapHeight": 179,
@@ -2278,8 +2432,8 @@
             "bottom": 470
           },
           "bar": {
-            "left": 435,
-            "right": 931,
+            "left": 466,
+            "right": 900,
             "top": 478,
             "bottom": 664,
             "rows": 2
@@ -2339,8 +2493,8 @@
           "id": "hh-1-child-10",
           "scrollTop": 394,
           "bar": {
-            "left": 435,
-            "right": 931,
+            "left": 466,
+            "right": 900,
             "top": 478,
             "bottom": 664,
             "rows": 2
@@ -2367,8 +2521,8 @@
             "bottom": 470
           },
           "bar": {
-            "left": 264,
-            "right": 760,
+            "left": 295,
+            "right": 729,
             "top": 478,
             "bottom": 664,
             "rows": 2
@@ -2428,8 +2582,8 @@
           "id": "hh-1-child-10",
           "scrollTop": 394,
           "bar": {
-            "left": 264,
-            "right": 760,
+            "left": 295,
+            "right": 729,
             "top": 478,
             "bottom": 664,
             "rows": 2
@@ -2472,7 +2626,7 @@
           "room": "258px",
           "scrolls": true,
           "scrollTop": 0,
-          "scrollHeight": 1085,
+          "scrollHeight": 1162,
           "clientHeight": 303,
           "tight": true,
           "lesson": false,
@@ -2511,12 +2665,12 @@
           "inside": true,
           "onTop": true,
           "aboveBar": true,
-          "scrollTop": 782,
+          "scrollTop": 1015,
           "by": null
         },
         "laterMain": {
           "id": "hh-1-child-10",
-          "scrollTop": 424,
+          "scrollTop": 425,
           "bar": {
             "left": 435,
             "right": 931,
