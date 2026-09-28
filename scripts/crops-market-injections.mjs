@@ -7,7 +7,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
-const FILES = ['tests/crop-minutes.test.mjs', 'tests/market.test.mjs', 'tests/ending.test.mjs', 'tests/money.test.mjs'];
+const FILES = ['tests/crop-minutes.test.mjs', 'tests/market.test.mjs', 'tests/ending.test.mjs', 'tests/money.test.mjs', 'tests/store.test.mjs'];
 const INJECTIONS = [
   // Crops in real minutes (sim/crops.mjs).
   {
@@ -19,8 +19,8 @@ const INJECTIONS = [
   {
     name: 'every tick counts as a Study-pace tick, whatever the server measured: the class speed changes a crop\'s minutes',
     file: 'sim/crops.mjs',
-    from: '  household.field = { ...field, grownMs: grownOf(world, field) + (Number.isFinite(realMs) ? realMs : STUDY_TICK_MS) };',
-    to: '  household.field = { ...field, grownMs: grownOf(world, field) + STUDY_TICK_MS };',
+    from: '  household.field = { ...field, grownMs: grownOf(world, field) + (Number.isFinite(realMs) ? realMs : STUDY_TICK_MS) * growPace(world) };',
+    to: '  household.field = { ...field, grownMs: grownOf(world, field) + STUDY_TICK_MS * growPace(world) };',
   },
   {
     name: 'cotton ripens as fast as corn',
@@ -37,8 +37,8 @@ const INJECTIONS = [
   {
     name: 'a tick the server measured as nothing - the first after a pause - grows the crop a Study tick anyway',
     file: 'sim/crops.mjs',
-    from: '  household.field = { ...field, grownMs: grownOf(world, field) + (Number.isFinite(realMs) ? realMs : STUDY_TICK_MS) };',
-    to: '  household.field = { ...field, grownMs: grownOf(world, field) + (realMs > 0 ? realMs : STUDY_TICK_MS) };',
+    from: '  household.field = { ...field, grownMs: grownOf(world, field) + (Number.isFinite(realMs) ? realMs : STUDY_TICK_MS) * growPace(world) };',
+    to: '  household.field = { ...field, grownMs: grownOf(world, field) + (realMs > 0 ? realMs : STUDY_TICK_MS) * growPace(world) };',
   },
   {
     name: 'a crop sown in a class saved before this starts growing from nothing',
@@ -113,6 +113,37 @@ const INJECTIONS = [
     file: 'sim/errands.mjs',
     from: '      if (sale.sold > 0) recordSale(world, siteId, trade, offer.good, sale.sold);',
     to: '',
+  },
+  // Slower in the winter (sim/crops.mjs), and corn ten food a plot (sim/improvements.mjs).
+  {
+    name: 'the winter grows a crop as fast as the summer',
+    file: 'sim/crops.mjs',
+    from: 'export const growPace = world => inWinter(world) ? 1 / WINTER_SLOWER : 1;',
+    to: 'export const growPace = world => 1;',
+  },
+  {
+    name: 'the winter is read from the season a crop was sown in, not the month each tick falls in: no blend',
+    file: 'sim/crops.mjs',
+    from: '  household.field = { ...field, grownMs: grownOf(world, field) + (Number.isFinite(realMs) ? realMs : STUDY_TICK_MS) * growPace(world) };',
+    to: '  household.field = { ...field, grownMs: grownOf(world, field) + (Number.isFinite(realMs) ? realMs : STUDY_TICK_MS) * (field.sownPace ?? growPace(world)), sownPace: field.sownPace ?? growPace(world) };',
+  },
+  {
+    name: 'the winter reaches into March',
+    file: 'sim/crops.mjs',
+    from: 'export const WINTER_MONTHS = Object.freeze([12, 1, 2]);',
+    to: 'export const WINTER_MONTHS = Object.freeze([11, 12, 1, 2, 3]);',
+  },
+  {
+    name: 'the harvest\'s words count the minutes left at the summer\'s pace in the winter',
+    file: 'sim/crops.mjs',
+    from: '  const minutes = Math.ceil(Math.max(0, growMs(field.crop) - grownOf(world, field)) / growPace(world) / MINUTE_MS);',
+    to: '  const minutes = Math.ceil(Math.max(0, growMs(field.crop) - grownOf(world, field)) / MINUTE_MS);',
+  },
+  {
+    name: 'corn yields five food a plot, as cotton does bales',
+    file: 'sim/improvements.mjs',
+    from: 'export const CORN_YIELD_PER_PLOT = 10;',
+    to: 'export const CORN_YIELD_PER_PLOT = 5;',
   },
   // No limit until the Runaway Scrape, then four a family; spare corn sold too (sim/market.mjs, sim/chores.mjs, sim/neighbours.mjs).
   {

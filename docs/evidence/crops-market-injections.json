@@ -5,7 +5,8 @@
     "tests/crop-minutes.test.mjs",
     "tests/market.test.mjs",
     "tests/ending.test.mjs",
-    "tests/money.test.mjs"
+    "tests/money.test.mjs",
+    "tests/store.test.mjs"
   ],
   "injections": [
     {
@@ -13,7 +14,8 @@
       "file": "sim/crops.mjs",
       "failed": [
         "corn ripens after four real minutes and cotton after six, counted from the real time each tick took",
-        "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace"
+        "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace",
+        "in the winter a crop grows at half its pace, and one that stands across the change blends"
       ]
     },
     {
@@ -21,7 +23,8 @@
       "file": "sim/crops.mjs",
       "failed": [
         "corn ripens after four real minutes and cotton after six, counted from the real time each tick took",
-        "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace"
+        "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace",
+        "in the winter a crop grows at half its pace, and one that stands across the change blends"
       ]
     },
     {
@@ -30,7 +33,8 @@
       "failed": [
         "corn ripens after four real minutes and cotton after six, counted from the real time each tick took",
         "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace",
-        "either crop goes in in any month on the real land, and the harvest says how many minutes are left"
+        "either crop goes in in any month on the real land, and the harvest says how many minutes are left",
+        "in the winter a crop grows at half its pace, and one that stands across the change blends"
       ]
     },
     {
@@ -38,7 +42,8 @@
       "file": "sim/crops.mjs",
       "failed": [
         "corn ripens after four real minutes and cotton after six, counted from the real time each tick took",
-        "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace"
+        "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace",
+        "in the winter a crop grows at half its pace, and one that stands across the change blends"
       ]
     },
     {
@@ -138,6 +143,42 @@
       "file": "sim/errands.mjs",
       "failed": [
         "the errand to town: a list is quoted at the store's price as it fills, and what it cannot use comes home"
+      ]
+    },
+    {
+      "name": "the winter grows a crop as fast as the summer",
+      "file": "sim/crops.mjs",
+      "failed": [
+        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+      ]
+    },
+    {
+      "name": "the winter is read from the season a crop was sown in, not the month each tick falls in: no blend",
+      "file": "sim/crops.mjs",
+      "failed": [
+        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+      ]
+    },
+    {
+      "name": "the winter reaches into March",
+      "file": "sim/crops.mjs",
+      "failed": [
+        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+      ]
+    },
+    {
+      "name": "the harvest's words count the minutes left at the summer's pace in the winter",
+      "file": "sim/crops.mjs",
+      "failed": [
+        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+      ]
+    },
+    {
+      "name": "corn yields five food a plot, as cotton does bales",
+      "file": "sim/improvements.mjs",
+      "failed": [
+        "a plot of corn yields ten food, twice a plot of cotton's five bales",
+        "a bale is worth twice what it weighs in corn, and only once it reaches town; a field of corn yields twice the plot of cotton"
       ]
     },
     {

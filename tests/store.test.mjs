@@ -95,8 +95,10 @@ test('the store takes it, at a rate the control states before anybody sets out',
   assert.ok(world.events.some(event => /sold 4 cotton at the store and brought home 8 food/.test(event.text)));
 });
 
-test('a bale is worth about twice what it weighs in corn, and only once it reaches town', () => {
-  // The whole shape of a cash crop: more at the end, and nothing at all until then.
+test('a bale is worth twice what it weighs in corn, and only once it reaches town; a field of corn yields twice the plot of cotton', () => {
+  // The whole shape of a cash crop: more at the end, and nothing at all until then. Since 2026-09-28 (owner: "10 food a plot") corn
+  // yields ten food a plot to cotton's five bales, so a field of each fetches about the same food - the bale is worth two of corn, and
+  // cotton's advantage is the coin it fetches, not the food.
   assert.ok(COTTON_RATE > 1, 'cotton that trades one for one is corn with extra steps');
   const world = running('crops-9');
   const cotton = growing(world, 'cotton'), corn = growing(world, 'corn');
@@ -117,12 +119,13 @@ test('a bale is worth about twice what it weighs in corn, and only once it reach
   const bales = cotton.resources.cotton;
   assert.ok(bales > 0);
   assert.ok(cotton.resources.food - beforeHarvest <= 0, 'cutting cotton put food in the house');
-  // ...and worth about twice the corn once somebody has walked it into Gonzales.
+  // ...and worth about what the corn is, twice its weight, once somebody has walked it into Gonzales.
   const beforeTrip = cotton.resources.food;
   work(world, cotton.id, cotton.members[1], 'sell-cotton', 'wagon');
   const cottonFood = cotton.resources.food - beforeTrip;
-  assert.ok(cottonFood > cornFood * 1.5,
+  assert.ok(cottonFood > cornFood * 0.75 && cottonFood < cornFood * 1.25,
     `a cotton field fetched ${cottonFood.toFixed(1)} food against ${cornFood.toFixed(1)} from a corn field`);
+  assert.ok(cottonFood > bales * 1.5, `a bale fetched ${(cottonFood / bales).toFixed(2)} food, not about two`);
 });
 
 test('what one person can carry to market is what one person can carry', () => {

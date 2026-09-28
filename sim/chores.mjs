@@ -39,7 +39,7 @@ import {
 import { fenceWork, groundAt, plotsOf } from './fields.mjs';
 import { MOST_HANDS, crewPace, crowdedWhy, handShare } from './hands.mjs';
 import { FURNITURE_LOGS, fenceBy, furnitureFromPile, pileFull, shortOfSound, takeSpare } from './woodpile.mjs';
-import { CROPS, growCrop, readyWords, ripe, seedFor } from './crops.mjs';
+import { CROPS, growCrop, inWinter, minutesNow, readyWords, ripe, seedFor } from './crops.mjs';
 import { marketRefusal, marketSale, marketWords, recordSale, spareFood } from './market.mjs';
 import { landAround, onRealLand } from './ground.mjs';
 import { distanceToPolyline } from './terrain.mjs';
@@ -193,7 +193,7 @@ export const COTTON_RATE = 2;
 export const COIN = Object.freeze({ cottonBale: STORE_BALE_COIN, foodPerReal: 4, powder: 1, seed: 1, hoe: 2 });
 export const reales = amount => amount === 1 ? '1 real' : `${amount} reales`;
 /** What the choice at the rows says of a crop: its seed, what it is, and how many real minutes it stands (sim/crops.mjs). */
-const cropNote = crop => `${seedFor(crop)} seed a plot; ${crop === 'cotton' ? `the store pays up to ${reales(COIN.cottonBale)} a bale` : 'the crop is food'}; ripe in ${CROPS[crop].minutes} minutes`;
+const cropNote = (crop, world) => `${seedFor(crop)} seed a plot; ${crop === 'cotton' ? `the store pays up to ${reales(COIN.cottonBale)} a bale` : 'the crop is food'}; ripe in ${world ? minutesNow(world, crop) : CROPS[crop].minutes} minutes${world && inWinter(world) ? ', slower in the winter' : ''}`;
 /** A resource as a student reads it. */
 export const resourceName = (resource, amount) => resource === 'money' ? (amount === 1 ? 'real' : 'reales') : resource;
 
@@ -268,7 +268,7 @@ export const ASKS = {
     text: entity => `${entity.name} can put in corn, or cotton.`,
     options: (entity, world, household) => ['corn', 'cotton']
       .sort((a, b) => (a === (household.field?.crop || 'corn') ? -1 : b === (household.field?.crop || 'corn') ? 1 : 0))
-      .map(crop => ({ id: crop, label: `Plant ${crop}`, note: cropNote(crop) })),
+      .map(crop => ({ id: crop, label: `Plant ${crop}`, note: cropNote(crop, world) })),
     requires: Object.fromEntries(Object.keys(CROPS).map(crop => [crop, [
       { test: household => (household.resources.seed ?? 0) >= seedFor(crop) * clearedOf(household), why: household => `${crop === 'corn' ? 'Corn' : 'Cotton'} wants ${seedFor(crop) * clearedOf(household)} seed for this field, and there is not that much in the house.` },
     ]])),
