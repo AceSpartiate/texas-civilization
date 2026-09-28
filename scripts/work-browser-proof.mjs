@@ -44,6 +44,9 @@ async function closeUp(page, ids, name) {
   }, ids);
   if (!box) return;
   const path = `docs/evidence/work-${name}.png`;
+  // A first-meeting tip (public/tips.js) is put away as a student would, so the close-up shows the work and not the tip.
+  const tip = page.getByRole('button', { name: 'Got it' });
+  if (await tip.first().isVisible().catch(() => false)) { await tip.first().click(); await page.waitForTimeout(300); }
   await page.evaluate(() => { const card = document.querySelector('#selection'); if (card) card.style.visibility = 'hidden'; });
   await page.screenshot({ path, clip: box });
   await page.evaluate(() => { const card = document.querySelector('#selection'); if (card) card.style.visibility = ''; });
@@ -117,6 +120,7 @@ async function sample(page, ids, ms = 2400, every = 120) {
       strokes: [...new Set(works.map(one => one.stroke))], clips: [...new Set(mine.map(one => one.clip).filter(Boolean))],
       frames: [...new Set(works.map(one => one.frame))], marks: [...new Set(works.map(one => one.marks))],
       shifts: [...new Set(works.map(one => one.shift))], flips: [...new Set(works.map(one => one.flip))],
+      tools: [...new Set(works.map(one => one.tool))],
       prints: new Set(mine.map(one => one.print).filter(one => one !== null)).size,
       at: mine.find(one => one.at)?.at || null, art: works[0]?.art || null, request: works[0]?.request || null,
     }];
@@ -210,30 +214,38 @@ try {
     const seen = house[one.id];
     assert.ok(seen.frames.length >= 3 && seen.marks.some(n => n > 0), `${one.name} on the house: frames ${seen.frames}, marks ${seen.marks}`);
     assert.ok(seen.clips.every(clip => /-work$/.test(clip)), `${one.name} on the house is drawn in ${seen.clips}`);
+    assert.ok(seen.tools.length === 1 && ['axe', 'maul'].includes(seen.tools[0]) && seen.marks.every(n => n >= 2), `${one.name} on the house has no drawn axe in hand (the owner, 2026-09-28): tools ${seen.tools}, marks ${seen.marks}`);
     if (Math.abs(spots[i].x - middle) > figure * 0.2) assert.deepEqual(seen.flips, [spots[i].x > middle], `${one.name} does not face the house`);
     assert.ok(seen.prints >= 3, `the pixels round ${one.name} on the house changed ${seen.prints} times`);
   }
   await shot(page, 'house-1366');
   await closeUp(page, crew.map(one => one.id), 'house-close');
-  ok(`three sent to the house ("${observed.house.doing}") are drawn round it (${spots.map(spot => `${spot.x},${spot.y}`).join(' / ')}, a figure ${figure} px), each facing it, swinging with the chips flying (${crew.map(one => house[one.id].strokes.join('')).join(', ')}; stand-in: ${house[crew[0].id].request})`);
+  ok(`three sent to the house ("${observed.house.doing}") are drawn round it (${spots.map(spot => `${spot.x},${spot.y}`).join(' / ')}, a figure ${figure} px), each facing it, swinging a drawn ${house[crew[0].id].tools.join('')} with the chips flying (${crew.map(one => house[one.id].strokes.join('')).join(', ')}; stand-in: ${house[crew[0].id].request})`);
 
   // 3. Practice at the mark, and pacing out a survey: each ordered, each in its own stroke, and what is drawn changes.
   // A slower class pace, so an afternoon at the mark (five ticks) lasts long enough to be watched.
   app.setPace(2000);
-  // Whoever of the three may still learn something at the mark (the best shot on the land is refused it), and another surveys.
-  let marksman = null;
-  const refusals = [];
+  // Each ordered in turn and watched at once (a portrait pressed: the camera goes to them), so each is sampled while it is at the
+  // work: pacing out ten acres is two ticks, an afternoon at the mark five. First the survey, by the second of the three.
+  const two = {};
+  const sampleAt = async (id, stroke) => {
+    await watch(page, id);
+    await page.waitForFunction(([id, stroke]) => window.__workDrawn?.[id]?.stroke === stroke, [id, stroke], { timeout: 60000, polling: 50 })
+      .catch(async error => { console.log('DEBUG', JSON.stringify(await page.evaluate(id => ({ id, work: window.__workDrawn?.[id], clip: window.__clipsDrawn?.[id], chore: window.__snapshot.world.entities.find(e => e.id === id)?.chore }), id))); throw error; });
+    Object.assign(two, await sample(page, [id], 2400, 100));
+    await shot(page, `${stroke}-1366`);
+    await closeUp(page, [id], `${stroke}-close`);
+  };
+  // Whoever may still learn something at the mark goes to it later (the best shot on the land is refused it: sim/chores.mjs
+  // `SKILL_CAP`), read off the class as it stands; another of the three surveys first.
+  const world = app.state.world, cap = 3;
+  const marksman = crew.find(one => (world.entities[one.id].skills?.hunting ?? 1) < cap);
+  assert.ok(marksman, 'every one of the three already shoots as well as anyone on the land');
+  const surveyor = crew.find(one => one !== marksman);
   for (const one of crew) {
     const stopped = await send(page, { action: 'stop-chore', entityId: one.id });
     assert.equal(stopped.status, 200, `${one.name} could not be called off the house: ${JSON.stringify(stopped.body)}`);
-    const practice = await send(page, { action: 'chore', chore: 'practise-shooting', entityId: one.id });
-    if (practice.status === 200) { marksman = one; break; }
-    refusals.push(practice.body.error);
   }
-  assert.ok(marksman, `practice at the mark was refused to all three: ${refusals.join(' / ')}`);
-  const surveyor = crew.find(one => one !== marksman);
-  const stopped = await send(page, { action: 'stop-chore', entityId: surveyor.id });
-  assert.ok(stopped.status === 200 || stopped.body.error === 'Nothing to call off.', `${surveyor.name} could not be called off: ${JSON.stringify(stopped.body)}`);
   // The survey's place is the student's to choose on the family's own land; the first the server takes, a little way off.
   let surveyed = null;
   const surveyRefusals = new Set();
@@ -248,23 +260,16 @@ try {
   }
   assert.ok(surveyed, `nowhere near the house could be surveyed: ${[...surveyRefusals].join(' / ')}`);
   observed.surveyed = surveyed;
-  const want = { [surveyor.id]: 'pace', [marksman.id]: 'shoot' };
-  // Each watched in turn (a portrait pressed: the camera goes to them), so each is on the screen while it is sampled, and each
-  // sampled as soon as it is at the work: pacing out ten acres is two ticks.
-  const two = {};
-  for (const [id, stroke] of Object.entries(want)) {
-    await watch(page, id);
-    await page.waitForFunction(([id, stroke]) => window.__workDrawn?.[id]?.stroke === stroke, [id, stroke], { timeout: 60000, polling: 50 })
-      .catch(async error => { console.log('DEBUG', JSON.stringify(await page.evaluate(id => ({ id, work: window.__workDrawn?.[id], clip: window.__clipsDrawn?.[id], chore: window.__snapshot.world.entities.find(e => e.id === id)?.chore }), id))); throw error; });
-    Object.assign(two, await sample(page, [id], 2400, 100));
-    await shot(page, `${stroke}-1366`);
-    await closeUp(page, [id], `${stroke}-close`);
-  }
+  await sampleAt(surveyor.id, 'pace');
+  // Then the mark.
+  const practice = await send(page, { action: 'chore', chore: 'practise-shooting', entityId: marksman.id });
+  assert.equal(practice.status, 200, `practice at the mark was refused: ${JSON.stringify(practice.body)}`);
+  await sampleAt(marksman.id, 'shoot');
   observed.two = two;
   const shooter = two[marksman.id], pacer = two[surveyor.id];
   assert.ok(shooter.clips.every(clip => /-idle-e$/.test(clip)) && shooter.marks.some(n => n > 1) && shooter.marks.includes(1), `at the mark: rifle ${shooter.clips}, smoke ${shooter.marks}`);
   assert.ok(pacer.clips.every(clip => /-walk$/.test(clip)) && pacer.shifts.length >= 5 && pacer.flips.length === 2, `pacing: ${pacer.clips}, shifts ${pacer.shifts}, facing ${pacer.flips}`);
-  for (const id of Object.keys(want)) assert.ok(two[id].prints >= 3, `the pixels round ${id} changed ${two[id].prints} times`);
+  for (const id of Object.keys(two)) assert.ok(two[id].prints >= 3, `the pixels round ${id} changed ${two[id].prints} times`);
   ok(`at the mark ${marksman.name} is drawn with the rifle up and a puff of smoke once a cycle (${shooter.clips}; marks ${shooter.marks.join('/')}); surveying, ${surveyor.name} paces the ground to and fro (${pacer.shifts.length} places, turning both ways)`);
   assert.deepEqual(errors, [], `a page threw: ${errors.join(' | ')}`);
   ok('no page errors');

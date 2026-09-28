@@ -15,12 +15,13 @@ const T = {
   ring: 'several people at one piece of work stand round it and face it; one alone stands at it',
   strike: 'the tool and its effect land on the pose’s own strike, and change from frame to frame',
   beat: 'each strike is told once to whoever listens (the work sounds)',
+  axe: 'felling, the lane, the bee tree, the carreta, the house and splitting rails show an axe or a maul, not the hoe, moving with the swing',
 };
 const one = (file, from, to) => ({ file, from, to });
 const UNIT = [
   { name: 'a chore the table does not draw (felling left out)', expect: T.table, edits: [one('public/work-art.js', "  'fell-trees': { stroke: 'chop', spread: 0.45 },\n", '')] },
   { name: 'working about the place not drawn', expect: T.table, edits: [one('public/work-art.js', "  'task:work': { stroke: 'about', spread: 0.9 },\n", '')] },
-  { name: 'a stand-in that shows nothing (chopping in a one-frame idle, no chips)', expect: T.strokes, edits: [one('public/work-art.js', "  chop: { pose: 'work', art: 'stand-in', effect: 'chips', beat: 2, request: item(1) },", "  chop: { pose: 'idle-e', art: 'stand-in', request: item(1) },")] },
+  { name: 'a stand-in that shows nothing (chopping in a one-frame idle, no chips)', expect: T.strokes, edits: [one('public/work-art.js', "  chop: { pose: 'work', art: 'stand-in', tool: 'axe', effect: 'chips', beat: 2, request: item(1) },", "  chop: { pose: 'idle-e', art: 'stand-in', request: item(1) },")] },
   { name: 'a stand-in with no request', expect: T.strokes, edits: [one('public/work-art.js', "  dig: { pose: 'work', art: 'stand-in', effect: 'earth', beat: 2, request: item(4) },", "  dig: { pose: 'work', art: 'stand-in', effect: 'earth', beat: 2 },")] },
   { name: 'a pose the library does not hold', expect: T.strokes, edits: [one('public/work-art.js', "  fish: { pose: 'rest', art: 'stand-in',", "  fish: { pose: 'fish', art: 'stand-in',")] },
   { name: 'the renderer never asks the work table', expect: T.drawn, edits: [one('public/motion.js', '    const work = workClip(entity, variant);\n', '    const work = null;\n')] },
@@ -33,13 +34,17 @@ const UNIT = [
   { name: 'the chips fly a frame late', expect: T.strike, edits: [one('public/work-art.js', '  if (!own && Number.isFinite(stroke.beat)) for (let i = 0; i < stroke.beat && i < durations.length; i++) beatAt += durations[i];', '  if (!own && Number.isFinite(stroke.beat)) for (let i = 0; i <= stroke.beat && i < durations.length; i++) beatAt += durations[i];')] },
   { name: 'the chips frozen in the air', expect: T.strike, edits: [one('public/work-art.js', '    const px = sx + dir * size * effect.out * (0.35 + 0.65 * a) * u;', '    const px = sx + dir * size * effect.out * (0.35 + 0.65 * a);'), one('public/work-art.js', '    const py = sy - size * effect.up * (0.5 + b) * (u - u * u * 1.6);', '    const py = sy - size * effect.up * (0.5 + b);')] },
   { name: 'the float does not bob', expect: T.strike, edits: [one('public/work-art.js', '    const bob = still ? 0 : Math.sin((since / clock.period) * Math.PI * 2) * size * 0.025;', '    const bob = 0;'), one('public/work-art.js', "      ctx.strokeStyle = `rgba(230,240,245,${(0.6 * (1 - u)).toFixed(3)})`; ctx.lineWidth = 1;\n      ctx.beginPath(); ctx.ellipse(floatX, floatY + size * 0.01, size * (0.04 + 0.16 * u), size * (0.015 + 0.05 * u), 0, 0, Math.PI * 2); ctx.stroke();", "      ctx.beginPath(); ctx.ellipse(floatX, floatY, size * 0.1, size * 0.03, 0, 0, Math.PI * 2); ctx.stroke();")] },
+  { name: 'felling drawn with the hoe (no axe)', expect: T.axe, edits: [one('public/work-art.js', "  chop: { pose: 'work', art: 'stand-in', tool: 'axe', effect: 'chips', beat: 2, request: item(1) },", "  chop: { pose: 'work', art: 'stand-in', effect: 'chips', beat: 2, request: item(1) },")] },
+  { name: 'the axe held still while the swing goes on', expect: T.axe, edits: [one('public/work-art.js', "drawn += drawHaftTool(ctx, stroke.tool, figure, still ? 0 : clock.frame, x, y, size, dir);", "drawn += drawHaftTool(ctx, stroke.tool, figure, 0, x, y, size, dir);")] },
+  { name: 'splitting rails drawn with the axe', expect: T.axe, edits: [one('public/work-art.js', "  split: { pose: 'work', art: 'stand-in', tool: 'maul',", "  split: { pose: 'work', art: 'stand-in', tool: 'axe',")] },
   { name: 'every frame a strike to the work sounds', expect: T.beat, edits: [one('public/work-art.js', '  if (beatSeen.get(id) === clock.count) return;\n', '')] },
 ];
 // In the browser (the proof's own assertion is what is expected to fail).
 const BROWSER = [
-  { name: 'at work drawn frozen, with nothing over it', expect: /hoeing cycle showed|dust was never thrown|pixels round the hoer/, edits: [one('public/app.js', "    paused: binding.frozen, flip, appearance: entity.appearance,\n    timeMs: animationTime + seed,", "    paused: true, flip, appearance: entity.appearance,\n    timeMs: animationTime + seed,"), one('public/app.js', '  const marks = drawWorkLayer(ctx, stroke, x + shift, y, size, dir, workClockOut, still);', '  const marks = 0;')] },
+  { name: 'at work drawn frozen, with nothing over it', expect: /hoeing cycle showed|dust was never thrown|pixels round the hoer/, edits: [one('public/app.js', "    paused: binding.frozen, flip, appearance: entity.appearance,\n    timeMs: animationTime + seed,", "    paused: true, flip, appearance: entity.appearance,\n    timeMs: animationTime + seed,"), one('public/app.js', '  const marks = drawWorkLayer(ctx, stroke, x + shift, y, size, dir, workClockOut, still, clip.slice(0, clip.length - stroke.pose.length - 1));', '  const marks = 0;')] },
   { name: 'the page never draws anybody at the work', expect: /working about the place|__workDrawn|Timeout/, edits: [one('public/app.js', '    if (binding.work) { if (drawAtWork(ctx, binding, clip, x, y, size, entity)) return; }\n    else if (animated(', '    if (animated(')] },
   { name: 'three on the house drawn on one spot', expect: /stacked on one spot/, edits: [one('public/app.js', '    : atWork ? { x: workSlotOut.x * 26, y: workSlotOut.y * 26 }', '    : atWork ? { x: 0, y: 0 }')] },
+  { name: 'the page never puts the axe in their hands', expect: /no drawn axe in hand/, edits: [one('public/app.js', "workClockOut, still, clip.slice(0, clip.length - stroke.pose.length - 1));", "workClockOut, still, null);")] },
   { name: 'the survey drawn standing still', expect: /pacing:/, edits: [one('public/app.js', '  const shift = still ? 0 : strokeShift(stroke, workClockOut) * size, face = still ? null : strokeFace(stroke, workClockOut);', '  const shift = 0, face = null;')] },
 ];
 

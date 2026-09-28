@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { STROKES, WORK, WORK_REQUEST, activityOf, drawWorkLayer, strokeClock, strokeOf, workClip, workSlot, onWorkBeat, workBeat } from '../public/work-art.js';
+import { HAFTS, STROKES, WORK, WORK_REQUEST, activityOf, drawWorkLayer, strokeClock, strokeOf, workClip, workSlot, onWorkBeat, workBeat } from '../public/work-art.js';
 import { entityClip, visualVariant, RIDING_FIGURES } from '../public/motion.js';
 
 const simDir = fileURLToPath(new URL('../sim/', import.meta.url));
@@ -179,6 +179,33 @@ test('the tool and its effect land on the pose’s own strike, and change from f
   // Under reduced motion nothing flies.
   clock.since = 60; clock.period = 800;
   assert.equal(drawWorkLayer(ctx, STROKES.chop, 0, 0, 40, 1, clock, true), 0);
+});
+
+test('felling, the lane, the bee tree, the carreta, the house and splitting rails show an axe or a maul, not the hoe, moving with the swing', () => {
+  // Owner, 2026-09-28: "Add a drawn axe" - until `-chop`, `-notch` and `-split` land (docs/ART_REQUESTS.md request 2026-09-28).
+  for (const activity of ['fell-trees', 'cut-lane', 'cut-bee-tree', 'make-carreta', 'build-house', 'help-raise']) {
+    assert.equal(STROKES[strokeOf(activity, '')].tool, 'axe', `${activity} is not drawn with an axe`);
+  }
+  assert.equal(STROKES[strokeOf('build-house', 'felling and hauling logs')].tool, 'axe', 'felling for the house');
+  assert.equal(STROKES[strokeOf('fence-plot', 'splitting rails')].tool, 'maul', 'splitting rails is not drawn with a maul');
+  // The tool is put in the hoeing cycle's hands: every cast figure, every frame of it.
+  for (const figure of RIDING_FIGURES) {
+    assert.equal(HAFTS[figure]?.length, clips[`${figure}-work`].frames.length, `${figure}: no hands for each frame of its hoeing cycle`);
+  }
+  // Drawn: a haft and a head in each frame, in a different place in each (the swing), and mirrored for somebody facing west.
+  const heads = [];
+  const ctx = new Proxy({}, { get: (target, name) => name in target ? target[name] : (...args) => { if (name === 'moveTo' || name === 'lineTo') heads.push(args.map(Math.round).join(',')); }, set: (target, name, value) => { target[name] = value; return true; } });
+  const clock = { period: 800, since: 600, count: 1, frame: 0 };
+  const drawnAt = (frame, dir = 1, figure = 'rust', tool = STROKES.chop) => { heads.length = 0; clock.frame = frame; const marks = drawWorkLayer(ctx, tool, 100, 200, 40, dir, clock, false, figure); return { marks, path: heads.join('|') }; };
+  const frames = [0, 1, 2, 3].map(frame => drawnAt(frame));
+  assert.ok(frames.every(one => one.marks >= 2), `the axe was not drawn in every frame: ${frames.map(one => one.marks)}`);
+  assert.equal(new Set(frames.map(one => one.path)).size, 4, 'the axe does not move with the swing');
+  assert.notEqual(drawnAt(1, -1).path, drawnAt(1, 1).path, 'the axe is not mirrored for somebody facing west');
+  assert.notEqual(drawnAt(1, 1, 'rust', STROKES.split).path, drawnAt(1, 1, 'rust', STROKES.chop).path, 'the maul is drawn as the axe');
+  assert.equal(drawnAt(1, 1, 'nobody-we-know').marks, 0, 'a figure with no hands measured keeps its hoe');
+  // Under reduced motion the pose is held at its first frame, and the axe with it.
+  heads.length = 0; clock.frame = 2; drawWorkLayer(ctx, STROKES.chop, 100, 200, 40, 1, clock, true, 'rust');
+  assert.equal(heads.join('|'), frames[0].path);
 });
 
 test('each strike is told once to whoever listens (the work sounds)', () => {

@@ -6,9 +6,9 @@
     "tests/motion-binding.test.mjs",
     "tests/animation.test.mjs"
   ],
-  "caught": 20,
-  "onlyThat": 13,
-  "of": 20,
+  "caught": 24,
+  "onlyThat": 16,
+  "of": 24,
   "results": [
     {
       "kind": "unit",
@@ -19,7 +19,8 @@
       "failed": [
         "every activity the server can report is in the one table",
         "somebody at each piece of work is drawn at it, not standing beside it",
-        "the part of the work is told by its own words, and going to it or carrying from it is walking"
+        "the part of the work is told by its own words, and going to it or carrying from it is walking",
+        "felling, the lane, the bee tree, the carreta, the house and splitting rails show an axe or a maul, not the hoe, moving with the swing"
       ]
     },
     {
@@ -41,7 +42,8 @@
       "onlyThat": false,
       "failed": [
         "every stroke is a pose the library holds, moving, and every stand-in names its request and shows the work",
-        "the tool and its effect land on the pose’s own strike, and change from frame to frame"
+        "the tool and its effect land on the pose’s own strike, and change from frame to frame",
+        "felling, the lane, the bee tree, the carreta, the house and splitting rails show an axe or a maul, not the hoe, moving with the swing"
       ]
     },
     {
@@ -166,6 +168,36 @@
     },
     {
       "kind": "unit",
+      "name": "felling drawn with the hoe (no axe)",
+      "expect": "felling, the lane, the bee tree, the carreta, the house and splitting rails show an axe or a maul, not the hoe, moving with the swing",
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "felling, the lane, the bee tree, the carreta, the house and splitting rails show an axe or a maul, not the hoe, moving with the swing"
+      ]
+    },
+    {
+      "kind": "unit",
+      "name": "the axe held still while the swing goes on",
+      "expect": "felling, the lane, the bee tree, the carreta, the house and splitting rails show an axe or a maul, not the hoe, moving with the swing",
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "felling, the lane, the bee tree, the carreta, the house and splitting rails show an axe or a maul, not the hoe, moving with the swing"
+      ]
+    },
+    {
+      "kind": "unit",
+      "name": "splitting rails drawn with the axe",
+      "expect": "felling, the lane, the bee tree, the carreta, the house and splitting rails show an axe or a maul, not the hoe, moving with the swing",
+      "caught": true,
+      "onlyThat": true,
+      "failed": [
+        "felling, the lane, the bee tree, the carreta, the house and splitting rails show an axe or a maul, not the hoe, moving with the swing"
+      ]
+    },
+    {
+      "kind": "unit",
       "name": "every frame a strike to the work sounds",
       "expect": "each strike is told once to whoever listens (the work sounds)",
       "caught": true,
@@ -194,6 +226,13 @@
       "expect": "/stacked on one spot/",
       "caught": true,
       "failed": "AssertionError [ERR_ASSERTION]: two on the house are drawn 0.0 px apart, a figure being 77 px: stacked on one spot\r /   code: 'ERR_ASSERTION',\r"
+    },
+    {
+      "kind": "browser",
+      "name": "the page never puts the axe in their hands",
+      "expect": "/no drawn axe in hand/",
+      "caught": true,
+      "failed": "AssertionError [ERR_ASSERTION]: Barnabas Proofwright on the house has no drawn axe in hand (the owner, 2026-09-28): tools axe, marks 5,0\r /   code: 'ERR_ASSERTION',\r"
     },
     {
       "kind": "browser",

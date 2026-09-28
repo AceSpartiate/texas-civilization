@@ -364,14 +364,15 @@ function drawAtWork(ctx, binding, clip, x, y, size, entity) {
     timeMs: animationTime + seed, lean: still ? 0 : -strokeLean(stroke, workClockOut) * dir,
   });
   if (!width) return 0;
-  const marks = drawWorkLayer(ctx, stroke, x + shift, y, size, dir, workClockOut, still);
+  // The cast figure the pose is drawn in (`rust-work` is rust's), whose hands a drawn axe is put in (public/work-art.js `HAFTS`).
+  const marks = drawWorkLayer(ctx, stroke, x + shift, y, size, dir, workClockOut, still, clip.slice(0, clip.length - stroke.pose.length - 1));
   // Presentation evidence for the proofs (npm run test:work), read by nothing in the application: what each of the family at work
   // was last drawn doing, which frame of it, and how many marks of its tool and effect. One record a person, kept and rewritten.
   if (id) {
     const seen = (window.__workDrawn ??= {})[id] ??= {};
     seen.activity = activityOf(entity); seen.stroke = binding.stroke; seen.art = stroke.art; seen.clip = clip;
     seen.frame = workClockOut.frame; seen.since = Math.round(workClockOut.since); seen.count = workClockOut.count; seen.marks = marks;
-    seen.shift = Math.round(shift * 10) / 10; seen.flip = flip; seen.request = stroke.request || null;
+    seen.shift = Math.round(shift * 10) / 10; seen.flip = flip; seen.request = stroke.request || null; seen.tool = stroke.tool || null;
     if (!still) workBeat(id, seen.activity, binding.stroke, workClockOut, x + dir * size * .5, y);
   }
   return width;

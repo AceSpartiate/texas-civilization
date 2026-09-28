@@ -5,8 +5,8 @@
   "note": "Same computer only, headless Chrome at 1366x768. A real class through the join flow on the invented country (seed work-proof-3). The well, the house, the felling, the mark and the water are the server's own chore state set in process; working about the place is the server's own. No LAN or district claim.",
   "checks": [
     "Barnabas Proofwright working about the place is drawn hoeing (rust-work): frames 2/3/0/1, dust on the strike, 20 different pictures in 2.4 s",
-    "three sent to the house (\"felling and hauling logs\") are drawn round it (738,409 / 859,384 / 617,384, a figure 77 px), each facing it, swinging with the chips flying (chop, chop, chop; stand-in: Request 2026-09-28 — people at work, item 1)",
-    "at the mark Serafina Proofwright is drawn with the rifle up and a puff of smoke once a cycle (teal-idle-e; marks 1/5/4); surveying, Barnabas Proofwright paces the ground to and fro (24 places, turning both ways)",
+    "three sent to the house (\"felling and hauling logs\") are drawn round it (738,409 / 859,384 / 617,384, a figure 77 px), each facing it, swinging a drawn axe with the chips flying (chop, chop, chop; stand-in: Request 2026-09-28 — people at work, item 1)",
+    "at the mark Serafina Proofwright is drawn with the rifle up and a puff of smoke once a cycle (teal-idle-e; marks 4/1/5); surveying, Barnabas Proofwright paces the ground to and fro (24 places, turning both ways)",
     "no page errors"
   ],
   "observed": {
@@ -112,6 +112,9 @@
       "flips": [
         false
       ],
+      "tools": [
+        null
+      ],
       "prints": 20,
       "at": {
         "x": 672,
@@ -132,20 +135,23 @@
           "rust-work"
         ],
         "frames": [
-          0,
-          1,
           2,
-          3
+          3,
+          0,
+          1
         ],
         "marks": [
-          0,
-          5
+          7,
+          2
         ],
         "shifts": [
           0
         ],
         "flips": [
           false
+        ],
+        "tools": [
+          "axe"
         ],
         "prints": 20,
         "at": {
@@ -164,20 +170,23 @@
           "teal-work"
         ],
         "frames": [
-          0,
-          1,
           2,
-          3
+          3,
+          0,
+          1
         ],
         "marks": [
-          0,
-          5
+          7,
+          2
         ],
         "shifts": [
           0
         ],
         "flips": [
           true
+        ],
+        "tools": [
+          "axe"
         ],
         "prints": 20,
         "at": {
@@ -196,20 +205,23 @@
           "rust-work"
         ],
         "frames": [
-          2,
-          3,
           0,
-          1
+          1,
+          2,
+          3
         ],
         "marks": [
-          5,
-          0
+          2,
+          7
         ],
         "shifts": [
           0
         ],
         "flips": [
           false
+        ],
+        "tools": [
+          "axe"
         ],
         "prints": 20,
         "at": {
@@ -240,34 +252,37 @@
           0
         ],
         "shifts": [
-          4.3,
-          1.3,
-          -1.7,
-          -4.7,
-          -10.8,
-          -13.2,
+          -18,
+          -19.7,
+          -19.8,
+          -19.4,
+          -17,
           -15.3,
-          -17.7,
-          -19,
-          -19.6,
-          -19.5,
-          -18.7,
-          -17.5,
-          -13.5,
-          -11.1,
-          -8.4,
-          -5.6,
-          0.5,
-          3.6,
-          6.5,
+          -12.2,
+          -9.1,
+          -3.3,
+          -0.2,
+          2.8,
           9.3,
-          14.3,
-          16.2,
-          17.8
+          11.9,
+          14.2,
+          18,
+          19.1,
+          19.7,
+          19.4,
+          18.6,
+          15.6,
+          13.5,
+          11.1,
+          5.5,
+          2.5
         ],
         "flips": [
           true,
           false
+        ],
+        "tools": [
+          null
         ],
         "prints": 24,
         "at": {
@@ -289,15 +304,18 @@
           0
         ],
         "marks": [
+          4,
           1,
-          5,
-          4
+          5
         ],
         "shifts": [
           0
         ],
         "flips": [
           false
+        ],
+        "tools": [
+          "rifle"
         ],
         "prints": 24,
         "at": {

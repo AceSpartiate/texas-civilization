@@ -49,9 +49,10 @@ export const STROKES = Object.freeze({
   hold: { pose: 'idle-s', art: 'still', frozen: true, upright: true, why: 'a hunter waiting downwind holds still, or he is seen' },
   rest: { pose: 'rest', art: 'still', upright: true, why: 'a day of rest on the road is rest' },
   wait: { pose: 'idle-s', art: 'still', upright: true, why: 'standing in a line to sign the roll, vote or report' },
-  chop: { pose: 'work', art: 'stand-in', effect: 'chips', beat: 2, request: item(1) },
-  split: { pose: 'work', art: 'stand-in', effect: 'chips', beat: 2, request: item(2) },
-  notch: { pose: 'work', art: 'stand-in', effect: 'chips', beat: 2, request: item(3) },
+  // A felling axe (a maul, splitting rails) drawn over the hoe in the hoeing cycle's hands (owner, 2026-09-28: "Add a drawn axe").
+  chop: { pose: 'work', art: 'stand-in', tool: 'axe', effect: 'chips', beat: 2, request: item(1) },
+  split: { pose: 'work', art: 'stand-in', tool: 'maul', effect: 'chips', beat: 2, request: item(2) },
+  notch: { pose: 'work', art: 'stand-in', tool: 'axe', effect: 'chips', beat: 2, request: item(3) },
   dig: { pose: 'work', art: 'stand-in', effect: 'earth', beat: 2, request: item(4) },
   grub: { pose: 'work', art: 'stand-in', effect: 'earth', beat: 2, request: item(4) },
   reap: { pose: 'work', art: 'stand-in', effect: 'chaff', beat: 2, request: item(5) },
@@ -152,9 +153,6 @@ export const WORK = Object.freeze({
   'child-eggs': { stroke: 'gather', spread: 0.5 },
   'child-water': { stroke: 'carry', spread: 0.5 },
   'child-mind': { stroke: 'tend', spread: 0.5 },
-  // The oldest child run for help (sim/acting.mjs, merged 2026-09-28): the run is a road, drawn walking; at the neighbours'
-  // door, standing to tell them.
-  'child-help': { stroke: 'wait', spread: 0.3 },
   // The Runaway Scrape's own work (sim/flight-work.mjs).
   'flee-hide': { stroke: 'carry', spread: 0.6 },
   'flee-bundle': { stroke: 'gather', spread: 0.5 },
@@ -332,14 +330,80 @@ const EFFECTS = Object.freeze({
 });
 
 /**
+ * Where the hoe is in each frame of each cast figure's hoeing cycle (`-work`), so a tool drawn over it is in the same hands:
+ * `[gripX, gripY, headX, headY]` in figure heights from the feet (x toward the way they face, y down), for frames 0-3
+ * (raised, swinging, down, back). Read by eye off each frame over a tenth-of-a-height grid, drawn at the atlas's own anchor
+ * and logical height.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-28 — people at work, items 1 (`-chop`), 2 (`-split`) and 3 (`-notch`): the
+ * felling axe and the maul drawn over the hoe until those sheets land; then `tool` goes and this table with it.
+ * ceiling: read by eye to about a fiftieth of a height; the painted hoe's edge can show past the axe head by a pixel or two at
+ * the classroom zoom. A figure missing here keeps the hoe.
+ */
+export const HAFTS = Object.freeze({
+  rust: [[-0.144, -0.707, -0.375, -0.875], [0.096, -0.298, 0.375, -0.072], [0.11, -0.178, 0.298, -0.02], [0.048, -0.298, 0.279, -0.043]],
+  teal: [[-0.144, -0.683, -0.375, -0.875], [0.168, -0.288, 0.375, -0.072], [0.11, -0.178, 0.298, -0.02], [0.072, -0.298, 0.279, -0.043]],
+  elder: [[-0.144, -0.707, -0.375, -0.875], [0.313, -0.274, 0.529, -0.091], [0.192, -0.154, 0.313, -0.024], [0.096, -0.274, 0.279, -0.034]],
+  blue: [[-0.168, -0.707, -0.375, -0.875], [0.313, -0.346, 0.553, -0.144], [0.168, -0.178, 0.337, -0.034], [0.192, -0.298, 0.394, -0.139]],
+  'rust-woman': [[-0.168, -0.707, -0.442, -0.827], [0.087, -0.284, 0.327, -0.043], [0.072, -0.202, 0.279, -0.024], [0.024, -0.322, 0.279, -0.043]],
+  indigo: [[-0.144, -0.731, -0.337, -0.899], [0.096, -0.274, 0.313, -0.043], [0.072, -0.154, 0.288, -0.01], [0.024, -0.298, 0.264, -0.024]],
+  ochre: [[-0.04, -0.56, -0.36, -0.9], [0.096, -0.274, 0.327, -0.043], [0.096, -0.154, 0.28, -0.024], [0.024, -0.346, 0.279, -0.043]],
+  'blue-girl': [[-0.168, -0.707, -0.394, -0.851], [0.072, -0.298, 0.327, -0.043], [0.072, -0.178, 0.28, -0.024], [-0.024, -0.346, 0.288, -0.043]],
+});
+/**
+ * A felling axe or a maul in the hands of the hoeing cycle's `frame`, over the painted hoe: the haft from the hands through the
+ * hoe's head, the axe's bit (the maul's block) on the side the hoe blade hangs, so it covers it. No allocation: a few paths.
+ * Returns how many marks it drew (0 for a figure `HAFTS` does not know, which keeps its hoe).
+ */
+export function drawHaftTool(ctx, tool, figure, frame, x, y, size, dir) {
+  const haft = HAFTS[figure]?.[frame];
+  if (!haft) return 0;
+  const gx = x + dir * haft[0] * size, gy = y + haft[1] * size, hx = x + dir * haft[2] * size, hy = y + haft[3] * size;
+  let ux = hx - gx, uy = hy - gy;
+  const length = Math.hypot(ux, uy) || 1;
+  ux /= length; uy /= length;
+  // The side the hoe blade hangs: the perpendicular that points down the screen.
+  let px = -uy, py = ux;
+  if (py < 0) { px = -px; py = -py; }
+  // The head sits at the haft's end, a little back from the hoe blade's middle so the bit lies over the blade.
+  const tx = hx - px * size * 0.03, ty = hy - py * size * 0.03;
+  const ax = (along, side) => tx + ux * size * along + px * size * side, ay = (along, side) => ty + uy * size * along + py * size * side;
+  ctx.save();
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.strokeStyle = '#2b2117'; ctx.lineWidth = Math.max(1.8, size * 0.05);
+  ctx.beginPath(); ctx.moveTo(gx - ux * size * 0.06, gy - uy * size * 0.06); ctx.lineTo(ax(0.03, 0), ay(0.03, 0)); ctx.stroke();
+  ctx.strokeStyle = '#8a6238'; ctx.lineWidth = Math.max(0.9, size * 0.03); ctx.stroke();
+  ctx.fillStyle = tool === 'maul' ? '#4d4945' : '#71757a'; ctx.strokeStyle = '#231d17'; ctx.lineWidth = Math.max(0.8, size * 0.012);
+  ctx.beginPath();
+  if (tool === 'maul') {
+    // A heavy block across the haft's end, as long on the one side as the other.
+    ctx.moveTo(ax(0.04, -0.065), ay(0.04, -0.065)); ctx.lineTo(ax(0.04, 0.075), ay(0.04, 0.075));
+    ctx.lineTo(ax(-0.035, 0.075), ay(-0.035, 0.075)); ctx.lineTo(ax(-0.035, -0.065), ay(-0.035, -0.065));
+  } else {
+    // The eye round the haft, the poll behind it, and the bit flaring out to its edge.
+    ctx.moveTo(ax(0.03, -0.025), ay(0.03, -0.025)); ctx.lineTo(ax(0.055, 0.085), ay(0.055, 0.085));
+    ctx.lineTo(ax(-0.065, 0.085), ay(-0.065, 0.085)); ctx.lineTo(ax(-0.03, -0.025), ay(-0.03, -0.025));
+  }
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  if (tool !== 'maul') {
+    // The ground edge, bright.
+    ctx.strokeStyle = '#d5d8d4'; ctx.lineWidth = Math.max(0.7, size * 0.01);
+    ctx.beginPath(); ctx.moveTo(ax(0.05, 0.08), ay(0.05, 0.08)); ctx.lineTo(ax(-0.06, 0.08), ay(-0.06, 0.08)); ctx.stroke();
+  }
+  ctx.restore();
+  return 2;
+}
+
+/**
  * Draw the stand-in's tool and effect over (and, for the rod's line and ripples, in front of) the figure just drawn at
  * (x, y), `size` tall, facing `dir` (1 east, -1 west). Does nothing for a delivered stroke with no effect, or under reduced
  * motion except the still tool. Returns how many marks it drew, which the proofs read.
  */
-export function drawWorkLayer(ctx, stroke, x, y, size, dir, clock, still = false) {
+export function drawWorkLayer(ctx, stroke, x, y, size, dir, clock, still = false, figure = null) {
   let drawn = 0;
   const since = clock.since;
-  if (stroke.tool === 'rifle') {
+  // Under reduced motion the pose is held at its first frame, and so is the tool in its hands.
+  if (stroke.tool === 'axe' || stroke.tool === 'maul') drawn += drawHaftTool(ctx, stroke.tool, figure, still ? 0 : clock.frame, x, y, size, dir);
+  else if (stroke.tool === 'rifle') {
     // A long rifle held to the shoulder, level at the mark (practice) or, standing guard, sloped up.
     const up = stroke === STROKES.guard ? 0.3 : 0.04;
     ctx.save();
