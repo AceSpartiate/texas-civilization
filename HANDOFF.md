@@ -1,5 +1,35 @@
 # Claude handoff — Astra foundation
 
+## A child at play is drawn at the play: the late arrival's trail lets go when the server moves them — 2026-09-28 (worktree branch; not released)
+
+**The fault.** `npm run test:children` failed at "the child at tag was drawn in 1 places": in every sample the child was drawn a
+fixed (-46, -18) px from the parent. Not the children's code, and not the projection - the server moved the child about the yard
+every tick (`playStep`) and sent it. The page was still drawing the **whole family walking in down its road**: a family that
+comes home by wagon faster than its land can be walked is drawn arriving late (`trailOf`, public/app.js, since 7ca3bde on
+2026-09-27), and the trail ran on - about twenty seconds at the proof's 500 ms tick - whatever the server did with them meanwhile.
+The child and the parent were both on the same trail point, so the only thing between them was `stableOffset`'s spread. The
+cause is public/app.js `trailOf` (its give-up test, the line after `const trail = seen.trail;`), which let go of a trail only for a
+journey, speaking, a pause or a hidden tab.
+
+**The fix.** A trail now remembers where the server had them as it was laid (`stood`, the arrival place) and holds only while
+the server leaves them there (public/motion.js `trailHolds`). Once the server moves them anywhere at home - play, a parent's
+elbow, a baby crawling, a chore in the field - the figure is **walked** from where it is drawn to where the server has them at
+its own pace, 1.2 of its own drawn height a second (`figureScale`, so a small child at 0.55 of a grown walk; public/app.js
+`walkOn`, public/motion.js `walkToward`), drawn stepping the way it goes, and handed back to `ProjectionMotion` when there. Given
+up like a trail (set out, speaking, paused, hidden tab) or when the server's place is more than 0.6 mi off (a Host's time jump).
+Nothing in sim/ changed; carried babies (on the carrier's hip), wagon and horse riders (`seatOf`/`carriedWithRider`), the idle
+child's walk to a parent and the own-land pace rules are untouched - a parent left where the road put them still trails in.
+The children proof now waits for the child to reach the yard before looking for the doll's sitting pose. Docs: MAP_ACCURACY.md
+§12a.2 item 6, CHILDREN.md §2.
+
+**Evidence** (same computer only). `npm test` **1501 of 1501** (1500 before, and the new test). New test in tests/travel-drawn.test.mjs (*somebody still drawn walking in off their road is
+let go of it ...*), seen failing alone against both regressions: `trailHolds` answering yes to any place ("a child the server sent
+to play in the yard is still drawn walking in down the road") and `trailOf` not asking it ("the page keeps a trail whatever the
+server does"); 16 of 16 in the file. `test:children` **14 of 14, twice** (tag: 19 and 20 places in four seconds, `smallchild-walk-n`;
+doll `smallchild-rest`). `test:family-panel` 17, `test:riding` 16, `test:lesson` pass. `test:travel-drawn` failed once on a
+2.9-mile road ("they walk in view at the start (out to 0 miles)" - the proof's known flake on short roads, recorded since
+v2026.09.25.1; a journey's start is never a trail) and passed 17 of 17 on the next two runs (139.8 and 115.8 miles).
+
 ## The diseases merged with the Scrape's routes and chases; the owner's answers on firing, deaths and saving — 2026-09-27/28 (worktree branch; not released)
 
 Built on `worktree-agent-afb989c37cd01607a` at `62aa53d` (then `origin/main`); `origin/main` `f7b7f7d` (the owner's four balance

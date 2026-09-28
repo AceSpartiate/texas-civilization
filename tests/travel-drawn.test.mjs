@@ -379,3 +379,40 @@ test('the marker is gone: no disc, no pin, no portrait on a road, and nothing le
   assert.ok(!/marker-pin|marker-dot|marker-end/.test(requests), 'the marker\'s stand-in row is still listed in docs/ART_REQUESTS.md');
   assert.ok(!/^\| A traveller faster than a walk/m.test(requests), 'the marker\'s row is still in the stand-ins table');
 });
+
+test('somebody still drawn walking in off their road is let go of it the moment the server moves them about the home, and walked to where it has them at their own pace - a child at play is drawn at the play', () => {
+  // Found 2026-09-28 by scripts/children-browser-proof.mjs: a family came home by wagon faster than its land could be walked, so
+  // it was drawn arriving late (`trailOf`) - and went on being drawn walking in down the road while the server had the child
+  // running at tag in the yard, every frame in one place a fixed step from the parent walking in beside them.
+  const { trailHolds, walkToward, figureScale } = motion;
+  assert.equal(typeof trailHolds, 'function', 'there is no asking whether a trail still holds');
+  assert.equal(typeof walkToward, 'function', 'there is no walk from where a figure is drawn to where the server has it');
+  // The places are the proof's: where the wagon put the child, the first spot of tag, and where the child was drawn on the road.
+  const arrived = { x: 5.7848, y: -20.6308 }, tag = { x: 5.757, y: -20.6234, siteId: 'home-1' }, road = { x: 5.7199, y: -20.4032 };
+  assert.equal(trailHolds(arrived, { ...arrived, siteId: 'home-1' }), true, 'somebody the server left where the road put them was not drawn walking in');
+  assert.equal(trailHolds(arrived, tag), false, 'a child the server sent to play in the yard is still drawn walking in down the road');
+  assert.equal(trailHolds(arrived, { x: arrived.x + 0.0001, y: arrived.y }), false, 'a step across the yard was taken for standing still');
+  assert.equal(trailHolds(null, arrived), false, 'a trail with nowhere it began holds anyway');
+  // From the road to the play at a child's pace, a frame at a time: never a step longer than the pace, never past the place,
+  // and there in the end, facing the way they walked.
+  const child = gaitMilesASecond({ ...CLOSE, heightPx: CLOSE.heightPx * figureScale({ band: 'small' }) });
+  assert.ok(child < gaitMilesASecond(CLOSE), 'a small child is not walked at a child\'s pace');
+  const frame = child / 60;
+  let at = road, frames = 0, arrivedAt = null;
+  const faced = new Set();
+  for (; frames < 100000 && !arrivedAt; frames++) {
+    const step = walkToward(at, tag, frame);
+    assert.ok(Math.hypot(step.at.x - at.x, step.at.y - at.y) <= frame * (1 + 1e-9), 'a step was longer than a child\'s pace allows');
+    if (step.arrived) arrivedAt = step.at; else { faced.add(step.dir); at = step.at; }
+  }
+  assert.deepEqual(arrivedAt, { x: tag.x, y: tag.y }, 'the child never reached the play');
+  const seconds = frames / 60, far = Math.hypot(tag.x - road.x, tag.y - road.y);
+  assert.ok(Math.abs(seconds - far / child) < 0.05, `the walk took ${seconds.toFixed(2)} s, not a child's ${(far / child).toFixed(2)}`);
+  assert.deepEqual([...faced], ['n'], 'the child did not face the way they walked');
+  // And the page does it: the trail is given up on the server's word, and the walk is at the figure's own height's pace.
+  const app = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8');
+  assert.match(app, /if \(!trailHolds\(trail\.stood, entity\.location\)\)/, 'the page keeps a trail whatever the server does');
+  assert.match(app, /stood: entity\.location \? \{ x: entity\.location\.x, y: entity\.location\.y \} : null/, 'the page does not remember where the road put them');
+  assert.match(app, /gaitMilesASecond\(\{ scale: marks\.scale, heightPx: height \* figureScale\(entity\) \}\)/, 'the walk is not at the figure\'s own pace');
+  assert.match(app, /walkToward\(seen\.walk\.at, to, pace \* since \/ 1000\)/, 'the page does not walk them to where the server has them');
+});

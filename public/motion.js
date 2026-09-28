@@ -879,6 +879,34 @@ export function travelSight({ distance, miles, milesASecond, gait, leaves = 0, e
   return { miles: Math.min(far, Math.max(0, drawn)), alpha, rate, lead, tail, faded: true, end: far };
 }
 /**
+ * Whether somebody still drawn walking the last of their road in (public/app.js `trailOf`) is still, as the server has it, where
+ * that road put them (`stood`, their place on the tick they arrived). A trail walks the figure to the end of the road; once the
+ * server has moved them anywhere else at home - a child sent to play about the yard, or over to a parent's elbow, a baby
+ * crawling - the end of the road is not where they are going any more, and the trail is given up for a walk to where they are
+ * (`walkToward`). Kept on, it drew a family walking in down its road for as long as the late arrival lasted while the server had
+ * the child running at tag in the yard: the child in one place, a fixed step from the parent walking in beside them (found
+ * 2026-09-28 by scripts/children-browser-proof.mjs).
+ */
+export function trailHolds(stood, location) {
+  if (!stood || !location || !Number.isFinite(location.x) || !Number.isFinite(location.y)) return false;
+  return Math.hypot(location.x - stood.x, location.y - stood.y) < 1e-6;
+}
+/**
+ * One frame of walking from where somebody is drawn (`from`) toward where the server has them (`to`), no more than `miles` of
+ * ground: the place they are drawn at now, the way they face (the four ways the walk cycles are drawn in, as public/town-scenes.js
+ * `TownWalker` turns them), and whether they are there. Never past `to`, and never a step longer than `miles`.
+ */
+export function walkToward(from, to, miles) {
+  const dx = to.x - from.x, dy = to.y - from.y, far = Math.hypot(dx, dy);
+  if (!(far > miles)) return { at: { x: to.x, y: to.y }, dir: null, arrived: true };
+  const go = Math.max(0, miles);
+  return {
+    at: { x: from.x + dx / far * go, y: from.y + dy / far * go },
+    dir: Math.abs(dx) >= Math.abs(dy) * 0.8 ? (dx < 0 ? 'w' : 'e') : (dy < 0 ? 'n' : 's'),
+    arrived: false,
+  };
+}
+/**
  * A journey the ordinary schedule cannot draw without hurrying somebody on their own land (owner, 2026-09-27): paced.
  *
  * `v` is the server's miles along the road, and past `far` the miles it would have carried them since it put them there.

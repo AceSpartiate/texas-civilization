@@ -1106,7 +1106,12 @@ journey's end to the journey's end: at the mile the server calls arrival, the fi
    pace. Now such a journey is **paced** (`pacedSight`): the land walked at the pace, the fades off it as short as the
    journey leaves room for, the middle crossed out of sight, and - where the journey cannot walk its own land in the time the
    server gives it - the drawn arrival **late**: the figure is still walking the last of its land in, at its pace, after the
-   server has them home (`trailOf` in `public/app.js`), and never ahead of the server's arrival. A journey that never leaves
+   server has them home (`trailOf` in `public/app.js`), and never ahead of the server's arrival. **The trail holds only while
+   the server leaves them where the road put them** (2026-09-28, `trailHolds` in `public/motion.js`): once it moves them
+   anywhere else at home - a child sent to play about the yard, or over to a parent's elbow, a baby crawling - the figure is
+   walked from where it is drawn to where the server has them, at its own pace (1.2 of its own drawn height a second, so a
+   child at a child's; `walkOn`), and then drawn where the server has them. Before this a family that came home late went on
+   being drawn walking in down the road while the server had the child running at tag in the yard. A journey that never leaves
    their land is walked at the pace end to end. In the farming day there is room for the land *and* the hundred yards from
    about two and a half miles up, which is where a student is looking; a hurried class pressed close in is where the pacing
    shows.

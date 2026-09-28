@@ -41,7 +41,10 @@ four at play stood in the yard exactly as a child with nothing to do; and an inf
 Play has kinds. Each is a work of its own on the one chore table, with its own icon on the family panel that glows while the server
 says the child is at it, and each is **drawn as what it is**: `playStep` moves the child about the yard every tick by the kind of play,
 and the page walks them from one place to the next over the tick and picks the pose from what they are doing (public/motion.js
-`littleClip`).
+`littleClip`). A child sent to play while the family is still being drawn walking in off its road (a family home faster than its
+land can be walked is drawn arriving late, docs/MAP_ACCURACY.md §12a.2) is let go of the road at once and walked to the play at a
+child's pace (public/app.js `walkOn`, 2026-09-28): until then the child was drawn walking in beside the parent for as long as the
+late arrival lasted, and never seen at the play.
 
 | From | Until | Work | Drawn as |
 | --- | --- | --- | --- |

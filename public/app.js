@@ -2,7 +2,7 @@
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame, spriteReady } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
 import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
@@ -777,15 +777,16 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
 function sightOf(entity, height, marks) {
   const seen = travelSeen.get(entity.id) || { alpha: 1 };
   const since = marks.now - (seen.shownAt ?? marks.now), wasAt = seen.miles;
-  seen.heightsPerSecond = 0; seen.journey = null; seen.drawn = false; seen.trailing = false; seen.shownAt = marks.now;
+  seen.heightsPerSecond = 0; seen.journey = null; seen.drawn = false; seen.trailing = false; seen.stepping = null; seen.shownAt = marks.now;
   travelSeen.set(entity.id, seen);
   // Only somebody the server has on the road now is scheduled. On the tick they arrive they are still drawn walking the last
   // of the road in, at the pace the schedule left them at, and whole - which is how a hunter is drawn reading the ground.
   const journey = entity.facing || entity.speaking ? null : motionProjection.journey(entity, marks.frozen);
-  if (!marks.running || reducedMotion.matches) { seen.alpha = 1; delete seen.trail; return null; }
+  if (!marks.running || reducedMotion.matches) { seen.alpha = 1; delete seen.trail; delete seen.walk; return null; }
   // Home before the drawing is (a journey paced on the family's own land, public/motion.js `pacedSight`): still walking the
   // last of the land in at their own pace, never hurried to where the server already has them.
   if (!journey?.points?.length) return trailOf(entity, height, marks, seen, since);
+  delete seen.walk;
   const miles = motionProjection.drawnMiles(entity, marks.now, marks.frozen);
   const milesATick = travelMilesATick(journey, minutesATick);
   // Their own pace, not only what their figure's cycle can cover (owner, 2026-09-27): the horse's on horseback, the team's
@@ -809,7 +810,8 @@ function sightOf(entity, height, marks) {
   const lands = past ? { leaves: 0, enters: runs.enters } : runs;
   const sight = travelSight({ distance: journey.distance, miles, milesASecond, gait, ...lands });
   // A paced journey whose drawn arrival falls after the server's is carried on past it by `trailOf`.
-  if (sight.end > journey.distance + 1e-9) seen.trail = { journey, args: { distance: journey.distance, milesASecond, gait, ...lands }, v: miles, end: sight.end };
+  // `stood` is where the server has them as the trail is laid, which on the tick they arrive is where the road put them (`trailHolds`).
+  if (sight.end > journey.distance + 1e-9) seen.trail = { journey, args: { distance: journey.distance, milesASecond, gait, ...lands }, v: miles, end: sight.end, stood: entity.location ? { x: entity.location.x, y: entity.location.y } : null };
   else delete seen.trail;
   // Eased toward what the schedule asks for rather than taken from it, so the schedule changing under a student's hand -
   // rolling the zoom wheel in on somebody halfway across the country moves the gait past the server's pace in one frame -
@@ -844,14 +846,25 @@ function sightOf(entity, height, marks) {
  * road at the rate they were carried, the same schedule is asked where that puts them, and the figure walks the rest of its
  * land in at its pace until the drawn arrival. Given up - the figure drawn where the server has it - the moment they set out
  * again, stop to speak, the class is paused, or the page was not painting (a hidden tab), since a trail is for somebody
- * watched walking in.
+ * watched walking in. And given up the moment the server has them anywhere else at home (public/motion.js `trailHolds`) - a
+ * child sent off to play, or to a parent's elbow - for a walk from where they are drawn to where the server has them, at their
+ * own pace (`walkOn`): the end of the road is not where they are going any more.
  * ceiling: a trail is a frame-to-frame walk kept by this page, not a server journey: a student who gives an order to somebody
  * still being drawn walking in sees the new journey start from where the server has them, which is the house. Only a journey
  * that cannot walk its own land in the time the class clock gives it trails at all; the way out is a slower class pace.
  */
 function trailOf(entity, height, marks, seen, since) {
   const trail = seen.trail;
-  if (!trail || entity.travel || entity.facing || entity.speaking || !(since > 0) || since > 1000) { delete seen.trail; seen.alpha = 1; return null; }
+  if (!trail) return seen.walk ? walkOn(entity, height, marks, seen, since) : null;
+  if (entity.travel || entity.facing || entity.speaking || !(since > 0) || since > 1000) { delete seen.trail; seen.alpha = 1; return null; }
+  if (!trailHolds(trail.stood, entity.location)) {
+    delete seen.trail;
+    // Walked on from where they were drawn last frame, if they were drawn whole there; a figure faded off its land is not walked.
+    const from = seen.painted || seen.at;
+    if (!(seen.alpha > .99) || !from) { seen.alpha = 1; return null; }
+    seen.walk = { at: { x: from.x, y: from.y } };
+    return walkOn(entity, height, marks, seen, since);
+  }
   trail.v += since / 1000 * trail.args.milesASecond;
   if (!(trail.v < trail.end)) { delete seen.trail; seen.alpha = 1; return null; }
   const sight = travelSight({ ...trail.args, miles: trail.v });
@@ -861,6 +874,25 @@ function trailOf(entity, height, marks, seen, since) {
   seen.shownHeightsPerSecond = sight.rate * seen.heightsPerSecond;
   seen.faded = sight.faded; seen.lead = sight.lead; seen.tail = sight.tail; seen.trailing = true;
   seen.at = alongRoute(trail.journey.points, sight.miles - (trail.journey.base || 0)) || null;
+  return seen;
+}
+/**
+ * Somebody the server moved about their home while they were still drawn walking in (`trailOf`), walked from where they were
+ * drawn to where it has them - and on after it, as it moves them - at their own pace: `GAIT_CEILING` of their own drawn height
+ * a second (public/motion.js `gaitMilesASecond`), so a child at a child's. Handed back to `ProjectionMotion` once there. Given
+ * up, the figure drawn where the server has it, as a trail is: when they set out, stop to speak, the page was not painting, or
+ * the server's place is more than a walk away (a Host's jump in time, `TownWalker`'s same six tenths of a mile).
+ */
+function walkOn(entity, height, marks, seen, since) {
+  const to = motionProjection.position(entity, marks.now, marks.frozen);
+  const pace = gaitMilesASecond({ scale: marks.scale, heightPx: height * figureScale(entity) });
+  if (entity.travel || entity.facing || entity.speaking || !to || !(since > 0) || since > 1000 || !(pace > 0)
+    || Math.hypot(to.x - seen.walk.at.x, to.y - seen.walk.at.y) > 0.6) { delete seen.walk; seen.alpha = 1; return null; }
+  const step = walkToward(seen.walk.at, to, pace * since / 1000);
+  if (step.arrived) { delete seen.walk; seen.alpha = 1; return null; }
+  seen.walk.at = step.at;
+  seen.alpha = 1; seen.wanted = 1; seen.leapt = false; seen.faded = false;
+  seen.at = step.at; seen.stepping = step.dir;
   return seen;
 }
 /** The figure itself, at `alpha` of itself: the whole of it, or fading out of view and back on a long journey (`sightOf`). */
@@ -3086,6 +3118,8 @@ export function drawWorld(world) {
     const inTown = carrier ? null : townGround(world, entity, camera, frameNow, frozen);
     const ground = carrier ? carrier.ground : sight?.at || inTown?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
     carriedAt.set(entity.id, { ground, sight });
+    // Walked on about their home from where they were drawn walking in (`walkOn`): drawn stepping the way they are going.
+    const stepping = !carrier && sight?.stepping;
     if (carrier) { point.x += camera.figure * .22; point.y -= camera.figure * .3; }
     // The place the figure was really put, beside the place the schedule asked for. Presentation evidence, read by
     // proofs and by nothing in the application: "the schedule says the right thing" and "the page drew the right thing"
@@ -3115,7 +3149,7 @@ export function drawWorld(world) {
       }) });
       window.__quarryDrawn = { id: entity.id, kind, x: spot.x, y: spot.y };
     }
-    standing.push({ y: point.y, draw: () => drawEntity(ctx, inTown ? { ...entity, stepping: inTown.stepping, scenePose: inTown.pose } : entity, point, roomForNames, camera.figure, {
+    standing.push({ y: point.y, draw: () => drawEntity(ctx, inTown ? { ...entity, stepping: inTown.stepping, scenePose: inTown.pose } : stepping ? { ...entity, stepping } : entity, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark, entities,
       labels, heading: destination ? destination.x - entity.location.x : 0, ground, scale: camera.scale,
       now: frameNow, frozen, running, tickMs, sight, placed: Boolean(inTown),
@@ -3155,7 +3189,7 @@ export function drawWorld(world) {
       const spot = camera.toScreen(entity.chore.quarry);
       standing.push({ y: spot.y, draw: () => miniQuarry(ctx, spot.x, spot.y, camera.figure * (QUARRY_SIZE[kind] || QUARRY_SIZE.deer), { kind, flip: spot.x < point.x, seed: entity.id }) });
     }
-    standing.push({ y: point.y, draw: () => drawEntity(ctx, { ...entity, health: { condition: entity.condition }, ...(inTown && { stepping: inTown.stepping, scenePose: inTown.pose }) }, point, roomForNames, camera.figure, {
+    standing.push({ y: point.y, draw: () => drawEntity(ctx, { ...entity, health: { condition: entity.condition }, ...(inTown && { stepping: inTown.stepping, scenePose: inTown.pose }), ...(!inTown && sight?.stepping && { stepping: sight.stepping }) }, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark: null, labels, observed: !host, ground, scale: camera.scale,
       now: frameNow, frozen, running, tickMs, sight, placed: Boolean(inTown),
     }) });

@@ -139,6 +139,10 @@ try {
   ok(`given tag, the parent went back to work at once; the icon glows and the child is drawn in ${playing.places} places in four seconds, as ${playing.clips.join(', ')}`);
   // The doll: a different pose, sitting.
   await page.waitForFunction(id => !window.__snapshot.world.entities.find(one => one.id === id)?.chore, kid.id, { timeout: 30000 });
+  // The family came home by wagon faster than its land can be walked, so it is drawn arriving late (public/app.js `trailOf`), and
+  // a child the server sent to play before the drawing got home walks the rest of the way to the yard at a child's pace
+  // (`walkOn`). Sitting down with a doll is looked for once they are there, not while they are still walking up.
+  await page.waitForFunction(id => { const seen = window.__travelSight?.get(id); return !seen?.walk && !seen?.trail; }, kid.id, { timeout: 60000 });
   await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="child-doll"]').click();
   await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.chore?.id === 'child-doll', kid.id, { timeout: 15000 });
   const sitting = await drawnOver(page, kid.id, 2000);
