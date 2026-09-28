@@ -8,7 +8,7 @@
 //     minute (read back by server/webm.mjs) and a sane size;
 //   - the student's page plays its own family's video from the server, with the captions below it as words, and cannot fetch
 //     another family's;
-//   - the Host plays a family's video, and the whole class's in turn.
+//   - the Host's screen shows and plays no video by itself; the teacher can look up one family and Watch it (owner, 2026-09-28).
 // Frames of the student's video are photographed into docs/evidence as the proof's pictures.
 //
 // `--measure 15,30` also makes every video of a class of 15 and of 30 families and reports how long it took on this computer.
@@ -158,15 +158,20 @@ try {
   ok(`frames of the student's video photographed: ${shots.join(', ')}`);
   await student.screenshot({ path: 'docs/evidence/flashback-student.png' });
 
-  // ---------------------------------------------------------------------------------------- the Host plays any, and all
-  await host.locator('#flashback-families button').nth(2).click();
-  await host.waitForFunction(() => /household=hh-3/.test(document.querySelector('#flashback-video').currentSrc || ''));
-  ok('the Host played one family\'s video from the list');
-  await host.locator('#flashback-play-all').click();
-  await host.waitForFunction(() => /household=hh-1/.test(document.querySelector('#flashback-video').currentSrc || '') && document.querySelector('#flashback-now').textContent.startsWith('Now playing'));
-  const next = await host.evaluate(async () => { const video = document.querySelector('#flashback-video'); video.currentTime = video.duration - 0.3; await new Promise(resolve => setTimeout(resolve, 2500)); return video.currentSrc; });
-  assert.ok(/household=hh-2/.test(next), `after the first ended the Host played ${next}`);
-  ok('Play the whole class in turn goes on to the next family when one ends');
+  // ------------------------------------------------------------------ the Host's screen plays nothing, until one is looked up
+  // Owner, 2026-09-28: "play3rs see it in their screens, not the host screen. host can look up and watch one though."
+  const idle = await host.evaluate(() => {
+    const video = document.querySelector('#flashback-video');
+    return { hidden: video.hidden, src: video.currentSrc || video.getAttribute('src') || '', playing: !video.paused, open: document.querySelector('#flashback-host').open, videos: [...document.querySelectorAll('video')].filter(one => !one.paused).length, playAll: Boolean(document.querySelector('#flashback-play-all')) };
+  });
+  assert.deepEqual(idle, { hidden: true, src: '', playing: false, open: false, videos: 0, playAll: false }, `the Host's screen showed a video by itself: ${JSON.stringify(idle)}`);
+  ok('with every video made, the Host\'s screen shows and plays none, and has no "play the whole class"; the look-up list is closed');
+  await host.locator('#flashback-host summary').click();
+  await host.locator('#flashback-families button', { hasText: 'Watch' }).nth(2).click();
+  await host.waitForFunction(() => /household=hh-3/.test(document.querySelector('#flashback-video').currentSrc || '') && document.querySelector('#flashback-now').textContent.startsWith('Watching'));
+  const watched = await host.evaluate(async () => { const video = document.querySelector('#flashback-video'); const start = video.currentTime; await new Promise(resolve => setTimeout(resolve, 2000)); return { hidden: video.hidden, advanced: video.currentTime - start }; });
+  assert.ok(!watched.hidden && watched.advanced > 0.5, `the family the Host chose did not play: ${JSON.stringify(watched)}`);
+  ok('the teacher looked up one family and watched its video, and only when chosen');
 
   // -------------------------------------------------------------------------------------------------- measurements
   for (const size of measure) {

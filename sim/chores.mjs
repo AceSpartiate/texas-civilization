@@ -1663,6 +1663,9 @@ function takenWhy(world, household, entity, choreId, extra = {}) {
     if (item === 'rifle' && !toolCount(household, 'rifle')) return 'There is no rifle in the house. The gunsmith sells them.';
     const holder = userOf(world, household, item, entity, { work: choreId, shares });
     if (!holder) continue;
+    // Every felling axe in the family's hands (owner, 2026-09-28: "Each needs an axe"; docs/TOWNS.md §4b, amended): who has them,
+    // and where another is to be had.
+    if (item === 'axe' && axe === 'own') return `There is no free felling axe: ${hasWords(holder, ['axe'], world, entity)} Buy another in town.`;
     // Every copy out: named all at once ("Alvin and Mateo have both rifles.").
     if (holder.kind === 'group') return hasWords(holder, [item], world, entity);
     const alsoHeld = own.filter(other => userOf(world, household, other, entity, { work: choreId, shares }) === holder);
@@ -1691,14 +1694,17 @@ function houseWantsAxe(household) {
 }
 /**
  * The felling axe for this work (owner, 2026-09-24, docs/TOWNS.md §4b): 'home' for work that uses it on the family's own land,
- * where everybody at it shares it (felling, the house, a lane or a clearing through timber); 'away' for work that carries it
+ * where everybody at it shares it (the house, a lane or a clearing through timber, the carreta, furniture from the pile); 'own' for
+ * felling, which holds a copy of its own at home since 2026-09-28 (owner: "Each needs an axe"); 'away' for work that carries it
  * off the land (logs, a bee tree or a small tree fetched from timber past the family's line), which is one person's until
  * they are home; null for work that wants no axe, or a family that has none (the work's own refusal says so).
  */
 function axeFor(world, household, choreId, extra = {}) {
   if (household.tools?.axe === undefined) return null;
   const place = site => (site && !onTheLand(world, household, site) ? 'away' : 'home');
-  if (choreId === 'fell-trees') return 'home';
+  // Felling holds a felling axe of its own, one copy a feller, never shared (owner, 2026-09-28: "Each needs an axe"; docs/TOWNS.md
+  // §4b, amended): a second feller needs a second axe. The rest of the work at home shares one copy among all of it, as before.
+  if (choreId === 'fell-trees') return 'own';
   // The carreta is made at home with the felling axe (sim/carreta.mjs), shared with whoever else works it there.
   if (choreId === 'make-carreta') return 'home';
   if (choreId === 'build-house') return houseWantsAxe(household) ? 'home' : null;
@@ -1745,7 +1751,7 @@ export function deriveUses(world) {
         const axe = axeFor(world, household, state.id, { plotId: state.plotId });
         const home = person.location?.siteId === household.homeSiteId && !person.travel;
         const ahead = (chore.steps || []).slice(Math.max(0, state.step + (person.travel ? 1 : 0))).some(step => step.travel);
-        if (axe === 'home' || (axe === 'away' && (!home || ahead))) {
+        if (axe === 'home' || axe === 'own' || (axe === 'away' && (!home || ahead))) {
           state.with = [...(state.with || []), 'axe'];
           if (axe === 'home') state.shares = [...(state.shares || []), 'axe'];
         }

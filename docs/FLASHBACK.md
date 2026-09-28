@@ -2,7 +2,7 @@
 
 **Status: owner-asked 2026-09-28, built 2026-09-28 on a worktree branch (not released).** Fixes the design audit's **B3** (no
 epilogue, no revelation, no dead) and **B6** (the homecoming almost never happens in class time), and with them **S24**, **S25**
-and **S27** (docs/audits/2026-09-28-design.md). The owner decisions it leaves open are §10.
+and **S27** (docs/audits/2026-09-28-design.md). The owner's answers to its questions are §10.
 
 Code: `sim/flashback.mjs` (the story), `sim/homecoming.mjs` (the trip home), `sim/ending-story.mjs` (the ending's words),
 `server/flashback.mjs` and `server/webm.mjs` (keeping and checking the videos), `public/flashback.js` (drawing, recording and
@@ -127,9 +127,12 @@ made once per revision of the class (`scriptCache`); the world and the save neve
 - **A student's page**, in the ending panel: *"Our story, looking back"* - the video plays by itself (muted, so the browser allows
   it; captions are in the picture), with **Replay**, and **the story in words** below it (every caption and "meanwhile", for
   accessibility and for reading). Until it is made: *"Your family's flashback is being made on the teacher's computer."*
-- **The Host's page**: every family, made or waiting, with its length and size and a **Play** button; **Play the whole class in
-  turn** (the families students played first) goes on to the next when one ends. The Host's page makes the videos by itself as soon
-  as the class has ended - students' families first - with its progress in words.
+- **The Host's page shows the class no video.** Owner, 2026-09-28, answering §10: *"keep as built. videos are prepared and saved on
+  host computer. play3rs see it in their screens, not the host screen. host can look up and watch one though. automatically plays
+  for players."* So the Host's page makes the videos by itself as soon as the class has ended - students' families first - with its
+  progress in words, and plays none: its video stays hidden and nothing plays until the teacher opens **Look up one family's
+  flashback** (closed by default) and presses **Watch** beside one family (each listed made or waiting, with its length and size).
+  There is no "play the whole class". (Until 2026-09-28 there was: *Play the whole class in turn*; removed at the owner's word.)
 
 ## 7. Measured (this computer, 2026-09-28)
 
@@ -175,10 +178,18 @@ test suites and an 18-worker balance study held all 24 logical processors at 100
 - `scripts/flashback-injections.mjs`: **16 of 16** injected regressions caught by their own test
   (`docs/evidence/flashback-injections.json`).
 - `npm run test:flashback`: a class played headless to its end, the Host's page makes every video, the files are on disk with
-  sane lengths and sizes, the student's page plays its own with Replay and the words below, the Host plays one and all in turn;
+  sane lengths and sizes, the student's page plays its own with Replay and the words below, the Host's screen shows and plays no video by itself
+  (and has no "play the whole class"), and the teacher looks one family up and watches it;
   frames in `docs/evidence/flashback-frame-*.png`.
 
-## 10. Open decisions for the owner
+## 10. The owner's decisions
+
+**Answered 2026-09-28:** *"keep as built. videos are prepared and saved on host computer. play3rs see it in their screens, not the host
+screen. host can look up and watch one though. automatically plays for players."* Every choice below stays as built - (a) A, (b) A,
+(c) A, (d) A, (e) A, (f) A - with one change: the Host's screen shows no video by itself and has no *Play the whole class* (§6); the
+teacher can look one family up and watch it.
+
+The questions as they were put:
 
 (a) **The Host plays a family's video to the class.** A death of sickness is never named in it; a death in battle is, as the
 ending always named who went. (A) keep; (B) the Host's *Play the whole class* skips families with a death; (C) name nobody who died.
@@ -191,7 +202,7 @@ itself on the homecoming (the audit's B6 direction), so the trip is played rathe
 
 (d) **Length.** (A) one minute for every family (built); (B) longer for a family with more to tell, up to two minutes.
 
-(f) **How fast a class of thirty is made.** (A) one video at a time (built: about 50 s each under heavy load); (B) two at once on a
+(f) **How fast a class of thirty is made.** (A) one video at a time (about 50 s each under heavy load); (B) two at once on a
 teacher PC with cores to spare; (C) a smaller picture (640 × 360) for a faster encode.
 
 (e) **What the Matamoros prisoners' families are told.** The record found says they were marched to Matamoros (`HIST-TEX-059`) and
