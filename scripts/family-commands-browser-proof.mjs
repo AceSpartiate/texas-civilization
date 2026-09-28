@@ -462,7 +462,9 @@ try {
   const principalBar = await page.evaluate(id => [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon`)].map(icon => icon.dataset.key), principalId);
   assert.ok(principalJourneys.every(key => principalBar.includes(key)), `the principal, main until somebody is chosen, lacks the journeys open to him (${principalJourneys}): ${principalBar}`);
   await page.locator(`.panel-row[data-entity-id="${mother}"] .panel-focus`).click();
-  await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.focused === 'true', mother);
+  // The bar moves at the press (a choice is the page's own since 2026-09-28, design audit B11); the gold edge of the main person
+  // moves only when the server's snapshot says so, which is what is waited for.
+  await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.focused === 'true' && document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.main === 'true', mother, { timeout: 15000 });
   assert.equal(world().households['hh-1'].mainId, mother, 'the star did not reach the server');
   assert.equal(await page.evaluate(() => window.__snapshot.world.household.mainId), mother, 'the projection does not carry the main person');
   assert.deepEqual(await page.evaluate(() => Object.keys(localStorage).filter(key => key.startsWith('tr_focus_'))), [], 'the browser still keeps a main person of its own');

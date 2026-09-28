@@ -785,9 +785,10 @@ Decided by the owner by multiple choice (§7e). `FIC-GONZ-044`.
   the Host's page says which family **leads**.~~ **Amended 2026-09-28** (design audit B4, against VISION §20: *"Glory is
   hidden from every student and from the Host until the ending"*, and an interim standing is not the ending): the interim
   standings carry **no glory** - not the number, the final number it multiplies, the sum, what earned it, nor who leads by
-  it, nor the question about it (`interimFamily`, `interimHost`). A family sees its coin, any land promised, its story, what
-  moved the coin and who was taken; the Host every family's coin, land and facts and the questions for the class, nobody
-  named. The final reckoning, glory and winner, is the last period's alone. Only a real-land class that reached `bexar-end` has a
+  it. The owner chose what they do carry the same day, by multiple choice: **"Coin and land only"** (`interimFamily`,
+  `interimHost`). A family sees the coin it holds and the land it has been promised; the Host every family's coin and land in
+  household order, nobody named. The story, the coin's account, the prisoners, the questions and glory are the final
+  reckoning's, the last period's alone. Only a real-land class that reached `bexar-end` has a
   second period (`sim/periods.mjs` `canContinue`); the invented Gonzales country ends at its fight as before.
 - **The Host continues the class** with *Continue to the winter of 1836* (host action `next-period`), offered only where
   the server says so. It is not *New Class*: the same save, session, class code, family keys, people and glory.

@@ -16,6 +16,8 @@ const FILES = ['tests/lifecycle.test.mjs', 'tests/absence.test.mjs', 'tests/peri
 const STOP_TODAY = [
   'Stop for today saves the class paused and stops the server; the next launch opens the same class paused, and Resume goes on',
   'Stop for today on a server that cannot close itself still saves the class paused, and says it is not stopping',
+  // It stops the class for today on its way to the relaunch, so it fails with Stop for today too.
+  'a class stopped for today and opened again keeps who is absent: a family saved absent stays so, and one whose student does not come back becomes so',
 ];
 const INTERIM = [
   'the first period ends with interim standings and the winter offered to the Host; the invented country has no winter',

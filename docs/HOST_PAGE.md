@@ -131,6 +131,13 @@ next class".
 - **End Game** is asked twice, like New Class and Stop Server. Pressed once it reads *Confirm: end the whole game* and the
   notice line says *"This ends the whole game for everyone and shows the ending. It can't be undone. To stop at the bell and
   carry on next class, use Stop for today instead."*; left alone it disarms itself after six seconds and the words go.
+- **Who is absent is kept across the stop** (classroom audit S2, playthrough audit #2, 2026-09-28). What a page was last seen
+  lives only in memory, and a relaunch began it empty, so every joined family counted as present: one saved absent was handed
+  back to a student who was not there, the director stopped running it and its questions held the class; one whose student did
+  not come back was never marked absent. Now each launch counts every joined family as seen at the launch, and one saved absent
+  as gone the whole grace already (`seedPresence`, `server/app.mjs`): it stays absent until its page opens, and a family whose
+  student does not come back is absent the grace (§2.4) after the launch, as if the server had never stopped. New Class forgets
+  the last class's with it. Proof: `tests/absence.test.mjs`, *a class stopped for today and opened again keeps who is absent*.
 - **Stop Server** is offered only in the lobby and after the end; while a class is under way Stop for today is the stop, with
   the words. The server still takes `stop-server` in any state (`Stop.vbs` uses it).
 

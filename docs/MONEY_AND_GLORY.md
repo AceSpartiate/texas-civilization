@@ -389,10 +389,10 @@ Bounded steps, each shippable and provable alone, in order. This mirrors
 (docs/COLONIES.md §6m). Until the design audit of 2026-09-28 (B4) they were this whole reckoning - glory, the final number,
 the sum, *What earned glory*, and the Host naming the family that **leads** - twice before the ending, against §4 above and
 VISION §20: after day 1 every student knew glory existed, what earned it and who led, and could play days 2 and 3 for it.
-Now `endingProjection` sends an interim family `interimFamily` - its coin, any land promised, its story, what moved the coin
-and who was taken - and the Host `interimHost` - every family's coin, land and facts in household order, the questions that
-are not about glory, and nobody named or marked first. No `glory`, `final`, `sum`, `awards`, `winners` or `best` is on the
-wire, and the word itself is on neither page (`tests/periods.test.mjs` for both interims, `npm run test:ending` on both
+Now, by the owner's choice of the same day (multiple choice: **"Coin and land only"**), `endingProjection` sends an interim
+family `interimFamily` - the coin it holds and the land it has been promised, nothing else - and the Host `interimHost` -
+every family's coin and land in household order, a family nobody played marked, nobody named or marked first. No `glory`,
+`final`, `sum`, `awards`, `winners` or `best` is on the wire, nor the ending's story, and the word itself is on neither page (`tests/periods.test.mjs` for both interims, `npm run test:ending` on both
 pages; injections in `scripts/design-blockers-injections.mjs`). Only the end of the last period reveals glory.
 
 ---

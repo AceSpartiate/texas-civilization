@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-27",
+  "date": "2026-09-28",
   "command": "npm run test:host-view",
   "scope": "Same computer only: headless Chrome 1440x950, a server on 127.0.0.1. Not a physical LAN, a phone or a classroom.",
   "class": {
@@ -13,8 +13,8 @@
     "the Host zoomed to Trinidad's family's farm (house, round-log) and drew 4 of its people, 2 plot(s) and its line",
     "the Host zooms in as far as a student does (4737 pixels a mile)",
     "the Host looks at Rhoda: \"of Trinidad's family · felling timber on the clearing · at home · well\", with no order offered",
-    "the Host went to San Felipe de Austin: 11 shops and 12 people drawn, keepers among them",
-    "Whole class: The whole class: 112 people, 150 figures in view, 12 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
+    "the Host went to San Felipe de Austin: 11 shops and 11 people drawn, keepers among them",
+    "Whole class: The whole class: 99 people, 137 figures in view, 13 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
     "at 400 pixels wide the list of places is on screen and the page does not scroll sideways",
     "no page error on either page"
   ],
@@ -31,7 +31,7 @@
         "hh-10-mateo"
       ]
     },
-    "studentOthers": 1,
+    "studentOthers": 0,
     "farm": {
       "camera": {
         "kind": "region",
@@ -69,8 +69,8 @@
       },
       "plotsDrawn": 2,
       "holdings": 1,
-      "snapshotBytes": 65126,
-      "description": "The whole class: 112 people, 7 figures in view, 10 people on the road."
+      "snapshotBytes": 62523,
+      "description": "The whole class: 98 people, 7 figures in view, 10 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations."
     },
     "closestScale": {
       "host": 4736.842105263158,
@@ -119,8 +119,7 @@
         "town-wheelwright-san-felipe",
         "town-mill-san-felipe",
         "town-weaver-san-felipe",
-        "town-stockman-san-felipe",
-        "courier-7"
+        "town-stockman-san-felipe"
       ],
       "drawn": [
         {
@@ -177,11 +176,6 @@
           "id": "town-stockman-san-felipe",
           "name": "Amos Birdwell",
           "keeper": true
-        },
-        {
-          "id": "courier-7",
-          "name": "Ada Swinney",
-          "keeper": false
         }
       ]
     },
@@ -201,7 +195,7 @@
         }
       },
       "follow": "Whole class",
-      "description": "The whole class: 112 people, 150 figures in view, 12 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
+      "description": "The whole class: 99 people, 137 figures in view, 13 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
       "land": true
     },
     "phone": {

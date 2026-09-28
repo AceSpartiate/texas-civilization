@@ -7,6 +7,7 @@
     "1366: the path is drawn thin on the student's own map, and not on another family's nor the Host's",
     "1366: the family is going across country, and the card says how far off Mexican troops could see it",
     "1366: changed on the road, the family turned for New Washington from where it was",
+    "1366: Bernarda Proofwright on auto and their portrait pressed: chosen, and Gregorio Proofwright is still the main person",
     "1366: the dragoons came on and called \"¡Alto!\", with the English under it, over the lead horseman and on the card",
     "1366: the Host's map drew the chase",
     "1366: the family ran; the horsemen fired - 8 shots, flashes and smoke drawn - and it was taken",
@@ -37,6 +38,11 @@
     "1366-card": {
       "route": "Making for New Washington, by way of Lynchburg. Next, Lynchburg: 12.7 miles across country, at about 1.5 miles an hour.",
       "seen": "Mexican troops could see the family from about 200 yards: people on foot off the road, in the open, in the rain."
+    },
+    "lookedAt": {
+      "son": "hh-1-parent-2",
+      "onAuto": true,
+      "main": "hh-1-parent-1"
     },
     "1366-alto": {
       "view": {
