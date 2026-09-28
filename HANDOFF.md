@@ -1,5 +1,40 @@
 # Claude handoff — Astra foundation
 
+## The teaching blockers: tips at first meeting, the guided start's gate narrowed to the farm, the "!"s ranked — owner, 2026-09-28 (worktree branch; not released)
+
+**The decision.** Owner, 2026-09-28: "fix the blockers", and by multiple choice on how the later systems are taught, **"Short
+tips at first meeting"** - the first time each new thing appears, a one-line tip shows what to do and what it costs; nothing
+blocks play; each tip shown once. From the design audit (B8, S4, S5, S6, S8, S33, S35) and the playthrough audit (§5).
+
+**1. Tips at first meeting** (docs/LESSON.md §9). Eighteen tips (`public/tips.js` `TIPS`, ids in `sim/tips.mjs`): ¡Alto!, the
+road's question, the order to leave, sickness, the settlement's call (and that it lapses), the army's questions, the Watch card,
+Resume tutorial, "Stop and rest a day", choosing the route, the milk cow, the milk, a crying baby, a child with nothing to do, the
+winter's enlisting and voting, trading, the store (coin as the score; shown inside the errand) and the main person's star. Each
+is due when its thing is in the family's own projection, shown one at a time over the map above the action bar (placed clear of
+the column, the card, the call, the messages and the strip; the words let clicks through; "Got it" or Escape), never to the Host,
+never in the lobby or over the ending. Put away - or retired because its thing went while it stood - the page sends `seen-tip`
+and the server keeps `household.tipsSeen` (absent = seen none; validated; **no `saveVersion` move**), so a reload or another
+Chromebook never repeats one. S6: what was hover-only is in the tips, and each line of the town errand opens what it does on a
+tap.
+
+**2. The guided start stops refusing the rest of the game** (docs/LESSON.md §4a). `lessonRefusal` now refuses only another farm
+step's own work (`FARM_WORK`: house, survey, clear, fence, plant, harvest, sale, well), never food, the town, hunting, nursing,
+resting, the winter's enlisting/joining/voting, Houston, any call or question, the flight or its road. The projection sends
+`shut` (what the page greys; `allow` is now the step's own work). The lesson ends for every family when the first period does
+(`teachable` reads `world.period`; `closeLessons` from `beginSecondPeriod` writes `{ step: 'done', closed: true }`), so a winter
+save with a family on step 3 opens ungated and its call's minutes run.
+
+**3. The "!"s ranked** (S33, S35). `NEED_KINDS` is the order of urgency (¡Alto!, road, flight order, very sick, rider, call, army,
+camp, courier, asking, offer), `rankNeeds` orders every row's "!" by it (ties by time left); the "!" carries its number and its
+time left ("28s", "4 min"), counted down on the page from `request.leftMs`, the person's `decisionLeftMs`, `flight.ask.ticksLeft`
+and `flight.ticksLeft` at the class's pace. The first is ringed. Watch waits behind the order to leave, the road and ¡Alto!.
+
+**Evidence** (same computer only). EVIDENCE_PLACEHOLDER
+
+**Left for the owner.** The old "New to this?" walk-through and the design audit's S4 "What can I do?" reference are untouched.
+`ceiling:` a tip with under 200px beside an open card waits under the card. The tips' words are the page's; changing one is a
+change to `public/tips.js` and its test's reading-level limits.
+
 ## One army: a column and its patrols strip a family once between them; families at Lynchburg move on — owner, 2026-09-28 (worktree branch; not released)
 
 **The decision.** Owner, 2026-09-28, by multiple choice: **"One army"** - once a Mexican column or one of its patrols has
