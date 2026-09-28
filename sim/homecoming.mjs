@@ -77,7 +77,7 @@ function turnAround(world, household) {
   const all = beastsAll(world, household), with_ = movers.filter(entity => entity.kind !== 'person');
   const mode = flight.mode === 'wagon' && with_.some(entity => entity.kind === 'wagon') && with_.some(entity => entity.kind === 'animal' && entity.species !== 'horse') ? 'wagon' : 'foot';
   const place = nearestPlace(world, at);
-  const causeId = record(world, 'consequence', { householdId: household.id, importance: 2, claimId: 'FIC-GONZ-760', text: `With the news from San Jacinto the family turned for home on the road${place ? ` near ${place.name}` : ''}.` });
+  const causeId = record(world, 'consequence', { householdId: household.id, importance: 2, claimId: 'FIC-GONZ-780', text: `With the news from San Jacinto the family turned for home on the road${place ? ` near ${place.name}` : ''}.` });
   for (const entity of movers) delete entity.travel;
   delete flight.crossing; delete flight.route; delete flight.bog; delete flight.ask;
   const path = sendHome(world, household, movers.filter(entity => entity.kind === 'person' ? free(entity) : true), at, { mode, causeId });

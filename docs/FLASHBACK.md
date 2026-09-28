@@ -71,7 +71,7 @@ a copy of the ended class** (`structuredClone`), four hours a step for up to six
 home. The saved class is never touched, and the same save always gives the same homecoming (tested).
 
 What it adds is only what the class never had to decide:
-- a family still going **east** when the class ended turns for home where it stands (`FIC-GONZ-760`: the victory reached every
+- a family still going **east** when the class ended turns for home where it stands (`FIC-GONZ-780`: the victory reached every
   family; the game turned only those already at a refuge);
 - somebody of the family apart from it and free - a man let go from the army - walks home on his own;
 - `ceiling:` **the road home rolls no sickness.** A death on a road the class never played would be one the reckoning never

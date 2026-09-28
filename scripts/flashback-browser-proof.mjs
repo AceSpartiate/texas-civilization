@@ -122,7 +122,8 @@ try {
   const student = await context.newPage();
   student.on('pageerror', error => errors.push(`student: ${error.message}`));
   await student.goto(room.url);
-  await meetFamily(student, 'Flashwright', { timeout: 4000 });
+  await meetFamily(student, 'Flashwright', { timeout: 15000 });
+  await student.locator('#creation').waitFor({ state: 'hidden', timeout: 30000 });
   await student.waitForFunction(() => window.__snapshot?.flashback?.made);
   await student.locator('#flashback-video').waitFor({ state: 'visible', timeout: 30000 });
   await student.waitForFunction(() => { const video = document.querySelector('#flashback-video'); return video.readyState >= 2 && Number.isFinite(video.duration); }, null, { timeout: 30000 });

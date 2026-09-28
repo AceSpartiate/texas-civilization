@@ -29,6 +29,8 @@ export const VIDEO = Object.freeze({ width: 854, height: 480, fps: 20, bitrate: 
 /** The ground is drawn this much larger than the picture, so the camera can move slowly over it within a beat. */
 const OVERSCAN = 1.12;
 const FADE_MS = 280;
+/** How long the encoder may take no frames before a video is given up (`recordFlashback`). */
+const ENCODER_STALL_MS = 30000;
 
 let art = null;
 /** The page's own drawing, from public/app.js: the ground, the camera, the figures and the houses. */
@@ -451,12 +453,18 @@ export async function recordFlashback(script, world, { onProgress = () => {} } =
       encoder.encode(frame, { keyFrame: i % keyEvery === 0 });
       frame.close();
       const waitStart = performance.now();
-      while (encoder.encodeQueueSize > 6) await yieldNow();
+      // An encoder that has failed, or stopped taking frames for half a minute, fails this video rather than holding the page.
+      while (encoder.encodeQueueSize > 6) {
+        if (failed) throw failed;
+        if (performance.now() - waitStart > ENCODER_STALL_MS) throw new Error('The video encoder stopped.');
+        // Woken by the encoder taking a frame (its `dequeue` event, which a tab in the background still gets), or after 50 ms.
+        await new Promise(resolve => { encoder.addEventListener('dequeue', resolve, { once: true }); setTimeout(resolve, 50); });
+      }
       paintMs.encodeWait = (paintMs.encodeWait || 0) + performance.now() - waitStart;
       if (i % 10 === 0) { onProgress(i / total); await yieldNow(); }
     }
     const flushStart = performance.now();
-    await encoder.flush();
+    await Promise.race([encoder.flush(), sleep(ENCODER_STALL_MS * 2).then(() => { throw new Error('The video encoder did not finish.'); })]);
     paintMs.flush = performance.now() - flushStart;
     encoder.close();
     if (failed) throw failed;
@@ -568,6 +576,7 @@ function play(householdId, made, { autoplay = true } = {}) {
   video.hidden = false;
   document.querySelector('#flashback-replay').hidden = false;
   showTranscript(householdId);
+  document.querySelector('#flashback-words').hidden = false;
   if (autoplay) { video.currentTime = 0; video.play().catch(() => { /* the student presses play */ }); }
 }
 function replay() {
@@ -634,6 +643,9 @@ export function renderFlashback(snapshot) {
   const host = snapshot.world.role === 'host';
   document.querySelector('#flashback-host').hidden = !host;
   document.querySelector('#flashback-title').textContent = host ? 'The families’ flashbacks' : 'Our story, looking back';
+  // The story in words is the family's from the moment the class ends, video or no video; the Host's, once a family is chosen.
+  document.querySelector('#flashback-words').hidden = host && !transcriptOf;
+  if (!host) showTranscript(flashback.householdId);
   if (host) renderHostList(snapshot);
   else if (flashback.made) {
     const key = `${flashback.householdId}:${flashback.made.bytes}`;
