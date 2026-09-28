@@ -1,5 +1,31 @@
 # Claude handoff — Astra foundation
 
+## Delete a kept class from Classes, into the archive — owner, 2026-09-28 (branch `delete-kept-class` off `integration-2026-09-28` db6d908a; not released)
+
+The owner: **"Yes, with a confirm"**. [HOST_PAGE §2.9](docs/HOST_PAGE.md); how to get one back: [RECOVERY, *A deleted
+class*](docs/RECOVERY.md).
+
+- **Delete** beside **Open** on each kept class in Classes (`public/class-panel.js`), asked twice, red while armed. The open
+  class has none, and the server refuses it (host action `delete-class`, `server/app.mjs`).
+- **Never destroyed** (`deleteKept`): the save is moved from `classes/<session>.json` to
+  `archive/classes-<session>-deleted-<time>.json`, and its flashbacks from `flashbacks/<session>/` to
+  `archive/classes-<session>-deleted-<time>-flashbacks/` (`moveTo`, `server/flashback.mjs`). The panel says where both went and
+  points to RECOVERY. Putting it back is moving them back by hand with the server stopped; the session id in the name is what
+  that needs.
+
+**Evidence** (same computer only). `tests/classes.test.mjs` (1 new): refused for the open class, a student and a class that is
+not there; moved with its flashbacks; off the list; put back as RECOVERY says and opened again with its student.
+`scripts/design-blockers-injections.mjs --only Delete`: the open class deletable, the save not in the archive, the flashbacks left
+behind, the session id lost from the name - **4 of 4** caught alone; with `--browser`, one press deletes and the panel not saying
+where - both fail `test:classes` at the delete step (line 157 and the note's words), re-run after the fix below.
+`test:classes` **16** (new: the open class has no Delete, two presses, off the list, into the archive, the panel's words),
+`test:host-bell` **9**. `npm test`: **1639 of 1677 pass, 36 skipped, 2 fail**, both inherited - this branch changes nothing in
+`sim/`: *"a student is sent exactly what it was before"* (tests/host-view.test.mjs, a07b95ab onward) and *"families nobody plays
+on the real land fell, haul and raise houses of pieces …"* (tests/house-plot.test.mjs, fails the same run on its own).
+
+**Also:** `test:classes` raced its own first tick - it asserted `tick > 0` the moment a late student's page opened, at 1.5 s a
+tick, and failed about half the runs here (twice under injection runs and once plain). It now waits up to 15 s for it.
+
 ## Crops in real minutes, the market re-tuned, prisoners weighed 1.5; the clock test's riders pooled — owner, 2026-09-28 (branch `crops-real-minutes` off `integration-2026-09-28`; not released)
 
 Two branches, off `integration-2026-09-28` (92fb2509), not pushed:

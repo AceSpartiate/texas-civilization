@@ -3,7 +3,7 @@
 // could ever open it again, so period 2's class and period 4's could not both be played across the days of the game.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, rmSync, readdirSync, readFileSync, existsSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, renameSync, rmSync, readdirSync, readFileSync, existsSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
@@ -215,4 +215,56 @@ test('a class that came to its own end is not continued: a period goes on by its
   const world = { status: 'ended', director: { complete: true }, events: [], nextEventId: 1, tick: 0, minute: 0 };
   assert.throws(() => continueEnded(world), /came to its own end/);
   assert.equal(world.status, 'ended');
+});
+
+test('a kept class is deleted from the list into the archive with its flashbacks, never the open one, and put back by hand', async () => {
+  // Owner, 2026-09-28: "Yes, with a confirm" (docs/HOST_PAGE.md §2.9; docs/RECOVERY.md, "A deleted class").
+  const dir = mkdtempSync(join(tmpdir(), 'texas-delete-'));
+  const savePath = join(dir, 'classroom.json');
+  const app = createClassroom({ seed: 'delete', savePath, tickMs: 40, playerCount: 5 });
+  const port = await app.listen(0, '127.0.0.1');
+  try {
+    const host = client(port), student = client(port);
+    await host.call('/api/host', { key: app.state.hostKey });
+    await student.call('/api/join', { name: 'Sam', code: app.state.sessionCode });
+    const kept = app.state.sessionId;
+    // Its flashbacks, as the Host's page keeps them.
+    const videos = join(dir, 'flashbacks', kept);
+    mkdirSync(videos, { recursive: true });
+    writeFileSync(join(videos, 'hh-1.webm'), 'a video');
+    writeFileSync(join(videos, 'hh-1.json'), '{}');
+    assert.equal((await command(host, 'new-class', { name: 'Period 7' })).status, 200);
+    const open = app.state.sessionId;
+    assert.ok(existsSync(join(dir, 'classes', `${kept}.json`)), 'the class put away was not kept');
+
+    // Never the class that is open, never a student, never a class that is not there.
+    const refusedOpen = await command(host, 'delete-class', { classId: open });
+    assert.equal(refusedOpen.status, 400);
+    assert.match(refusedOpen.body.error, /That class is open/);
+    const newcomer = client(port);
+    await newcomer.call('/api/join', { name: 'Ana', code: app.state.sessionCode });
+    assert.equal((await command(newcomer, 'delete-class', { classId: kept })).status, 400, 'a student deleted a class');
+    assert.equal((await command(host, 'delete-class', { classId: 'no-such-class' })).status, 400);
+    assert.ok(existsSync(join(dir, 'classes', `${kept}.json`)));
+
+    const deleted = await command(host, 'delete-class', { classId: kept });
+    assert.equal(deleted.status, 200, deleted.body.error);
+    const { save, flashbacks } = deleted.body.deleted;
+    assert.match(save, new RegExp(`^archive/classes-${kept}-deleted-[\\w-]+\\.json$`), `the save went to ${save}`);
+    assert.equal(flashbacks, save.replace(/\.json$/, '-flashbacks'));
+    assert.equal(existsSync(join(dir, 'classes', `${kept}.json`)), false, 'the class is still on the shelf');
+    assert.equal(JSON.parse(readFileSync(join(dir, save), 'utf8')).sessionId, kept, 'the save in the archive is not the class');
+    assert.ok(existsSync(join(dir, flashbacks, 'hh-1.webm')), 'the flashbacks were not kept with it');
+    assert.equal(existsSync(videos), false, 'the flashbacks were left behind');
+    assert.ok(!(await host.call('/api/classes')).body.classes.some(one => one.id === kept), 'the deleted class is still listed');
+    assert.equal(app.state.sessionId, open, 'deleting a class changed the class that is open');
+
+    // Put back as RECOVERY says: the save into classes/<session>.json and the flashbacks into flashbacks/<session>.
+    renameSync(join(dir, save), join(dir, 'classes', `${kept}.json`));
+    renameSync(join(dir, flashbacks), videos);
+    assert.ok((await host.call('/api/classes')).body.classes.some(one => one.id === kept), 'the class put back is not listed');
+    assert.equal((await command(host, 'open-class', { classId: kept })).status, 200, 'the class put back cannot be opened');
+    assert.equal(app.state.sessionId, kept);
+    assert.equal((await student.call('/api/state')).status, 200, 'its student cannot come back to it');
+  } finally { await app.close(); rmSync(dir, { recursive: true, force: true }); }
 });

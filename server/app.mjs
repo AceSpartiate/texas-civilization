@@ -432,6 +432,23 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     writeSave(path, { ...s, shelvedAt: new Date().toISOString() });
     return path;
   }
+  /**
+   * Take a kept class off the list: its save moved (not copied) to `archive/classes-<session>-deleted-<time>.json` and its
+   * flashbacks, if any, to `archive/classes-<session>-deleted-<time>-flashbacks/`. The session id stays in the name, which is
+   * what putting it back needs (docs/RECOVERY.md). Returns where each went, relative to the class data folder.
+   */
+  function deleteKept(classId) {
+    const from = join(shelfDir, `${classId}.json`);
+    if (!existsSync(from)) throw new Error('That saved class is not there.');
+    const home = dirname(savePath), folder = join(home, 'archive');
+    mkdirSync(folder, { recursive: true });
+    const base = `classes-${classId}-deleted-${new Date().toISOString().replace(/[:.]/g, '-')}`;
+    const save = join(folder, `${base}.json`);
+    renameSync(from, save);
+    shelfSummaries.delete(`${classId}.json`);
+    const videos = flashbacks.moveTo(classId, join(folder, `${base}-flashbacks`));
+    return { save: relative(home, save).split(sep).join('/'), ...(videos && { flashbacks: relative(home, videos).split(sep).join('/') }) };
+  }
   /** One line of the Host's list of classes: its name, code, size, and where in 1835-36 it was left. */
   function classSummary(saved, savedAt, open) {
     const world = saved.world;
@@ -1229,7 +1246,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         if (typeof input.id !== 'string' || !/^[\w-]{8,80}$/.test(input.id)) return json(res, 400, { error: 'Command ID required' });
         const commands = identity.role === 'host' ? state.hostCommands : state.clients[identity.credentialHash].commands;
         if (commands.includes(input.id)) return json(res, 200, { ok: true, duplicate: true });
-        let archived = null, rotatedSession = null, stopping = false, wantedPace = null, forToday = false, continued = null;
+        let archived = null, rotatedSession = null, stopping = false, wantedPace = null, forToday = false, continued = null, deleted = null;
         const priorSession = state.sessionId;
         // The solo player's own Pause, Resume and Save (owner, 2026-09-27: "i shouldn't need to open the class view to pause,
         // save or shut down the server"). Written at once, as the Host's commands are, rather than within SAVE_WITHIN_MS.
@@ -1285,6 +1302,14 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
               // The seed is new so the next class is its own world.
               s.world = worldFactory(token().slice(0, 16), size);
               rotatedSession = s.sessionId;
+            } else if (input.action === 'delete-class') {
+              // A kept class taken off the Host's list (owner, 2026-09-28: "Yes, with a confirm"; docs/HOST_PAGE.md §2.9). Never
+              // destroyed: its save and its flashbacks are moved into `archive/` beside the other backups, and put back by hand
+              // (docs/RECOVERY.md *A deleted class*). Never the class that is open - the one being played or waiting to be.
+              if (!shelfDir) throw new Error('This server keeps no other classes.');
+              if (typeof input.classId !== 'string' || !CLASS_ID.test(input.classId)) throw new Error('That is not a saved class.');
+              if (input.classId === s.sessionId) throw new Error('That class is open. Open another class first, then delete this one.');
+              deleted = deleteKept(input.classId);
             } else if (input.action === 'open-class') {
               // Another section's class, put away by New Class or by opening this one (`shelve`), opened again where it was.
               if (!shelfDir) throw new Error('This server keeps no other classes.');
@@ -1398,7 +1423,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         if (continued) flashbacks.discard(continued);
         if (wantedPace) setPace(wantedPace);
         if (stopping) requestStop(forToday ? STOPPED_FOR_TODAY : null);
-        return json(res, 200, { ok: true, ...(archived && { archived: basename(archived) }), ...(stopping && { stopping: true }), ...(forToday && { stoppedForToday: true }), ...(soloControl && { saved: state.revision }) });
+        return json(res, 200, { ok: true, ...(archived && { archived: basename(archived) }), ...(deleted && { deleted }), ...(stopping && { stopping: true }), ...(forToday && { stoppedForToday: true }), ...(soloControl && { saved: state.revision }) });
       }
       json(res, 404, { error: 'Not found' });
     } catch (error) { if (!res.headersSent) json(res, error.status || 400, { error: error.message }); else res.destroy(); }

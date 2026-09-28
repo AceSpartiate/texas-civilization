@@ -33,6 +33,12 @@ export function seatLabel(seat) {
   return `${seat.family} (${seat.student}, ${seat.presence === 'absent' ? 'absent' : seat.presence === 'away' ? 'away' : 'not here'})`;
 }
 
+/** What the teacher is told when a kept class is deleted: that it was moved, not destroyed, and where to (server `deleted`). */
+export function deletedWords(name, deleted) {
+  if (!deleted?.save) return `${name} was taken off the list.`;
+  return `${name} was taken off the list and kept: its save is now ${deleted.save}${deleted.flashbacks ? ` and its flashbacks ${deleted.flashbacks}` : ''}, in this computer's class data folder. To bring it back, see "A deleted class" in RECOVERY.`;
+}
+
 /** Where a kept class was left, in words. */
 export function classLine(entry) {
   const name = entry.name || `Class ${entry.code}`;
@@ -78,7 +84,12 @@ export function mountClassPanel({ $, api, command, element }) {
           const open = element('button', 'Open');
           open.type = 'button'; open.dataset.classOpen = entry.id;
           open.dataset.name = entry.name || `Class ${entry.code}`;
-          item.append(open);
+          // Delete (owner, 2026-09-28: "Yes, with a confirm"): asked twice, never for the open class, and never destroyed - the
+          // server moves it to the archive folder, and says where (docs/RECOVERY.md, *A deleted class*).
+          const remove = element('button', 'Delete', 'class-delete');
+          remove.type = 'button'; remove.dataset.classDelete = entry.id;
+          remove.dataset.name = open.dataset.name;
+          item.append(open, remove);
         }
         return item;
       }));
@@ -92,6 +103,16 @@ export function mountClassPanel({ $, api, command, element }) {
     if (open) { listKey = ''; refreshList(); }
   });
   $('#classes-list')?.addEventListener('click', async event => {
+    const remove = event.target.closest('[data-class-delete]');
+    if (remove) {
+      if (!confirmed(remove, `Confirm: delete ${remove.dataset.name}`)) return;
+      try {
+        const result = await command('delete-class', { classId: remove.dataset.classDelete });
+        note(deletedWords(remove.dataset.name, result.deleted));
+        listKey = ''; refreshList();
+      } catch (error) { note(error.message); }
+      return;
+    }
     const again = event.target.closest('[data-class-continue]');
     if (again) {
       if (!confirmed(again, `Confirm: continue ${again.dataset.name}`)) return;

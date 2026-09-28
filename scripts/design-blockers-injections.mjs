@@ -26,6 +26,7 @@ const INTERIM = [
 const PACKED = ['the family\'s card opens on the packing a family deciding alone takes - food first, as much as fits - and a load far under it is told apart'];
 const CHOOSING = ['choosing somebody shows their bar and leaves the main person as it was; only a living person chosen takes the bar'];
 const CONTINUED = ['a class ended part-way through a period is continued from Classes where it was, paused; its ending and flashbacks go'];
+const DELETED = ['a kept class is deleted from the list into the archive with its flashbacks, never the open one, and put back by hand'];
 const ANSWERS = ['who answers the soldiers is the main person every rule reads: somebody else on auto never answers for a family by hand, and a dead choice gives way'];
 
 const INJECTIONS = [
@@ -199,6 +200,49 @@ const INJECTIONS = [
     from: '          if (entry.continuable) {',
     to: '          if (false) {',
     browser: 'test:host-bell',
+  },
+  // Delete a kept class (owner, 2026-09-28: "Yes, with a confirm"; HOST_PAGE §2.9, RECOVERY "A deleted class").
+  {
+    name: 'Delete: the open class can be deleted too',
+    file: 'server/app.mjs',
+    from: "              if (input.classId === s.sessionId) throw new Error('That class is open. Open another class first, then delete this one.');",
+    to: '',
+    expect: DELETED,
+  },
+  {
+    name: 'Delete: the save is not moved to the archive (put out of the way where nobody will look)',
+    file: 'server/app.mjs',
+    from: '    renameSync(from, save);\n    shelfSummaries.delete',
+    to: '    renameSync(from, `${from}.gone`);\n    shelfSummaries.delete',
+    expect: DELETED,
+  },
+  {
+    name: 'Delete: the flashbacks are left behind',
+    file: 'server/app.mjs',
+    from: "    const videos = flashbacks.moveTo(classId, join(folder, `${base}-flashbacks`));",
+    to: '    const videos = null;',
+    expect: DELETED,
+  },
+  {
+    name: 'Delete: the archived save loses the session id RECOVERY puts it back by',
+    file: 'server/app.mjs',
+    from: "    const base = `classes-${classId}-deleted-${new Date().toISOString().replace(/[:.]/g, '-')}`;",
+    to: "    const base = `classes-deleted-${new Date().toISOString().replace(/[:.]/g, '-')}`;",
+    expect: DELETED,
+  },
+  {
+    name: 'Delete: one press deletes',
+    file: 'public/class-panel.js',
+    from: "      if (!confirmed(remove, `Confirm: delete ${remove.dataset.name}`)) return;",
+    to: '',
+    browser: 'test:classes',
+  },
+  {
+    name: 'Delete: the panel does not say where the class went',
+    file: 'public/class-panel.js',
+    from: '        note(deletedWords(remove.dataset.name, result.deleted));',
+    to: '        note(`${remove.dataset.name} was deleted.`);',
+    browser: 'test:classes',
   },
 ];
 

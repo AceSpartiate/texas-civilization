@@ -190,6 +190,25 @@ still cannot be continued"*. End Game keeps its two presses.
 - **What cannot be undone.** Everybody has seen the ending: students saw their numbers and the Host the winner. That is why End
   Game still asks twice, and says so.
 
+### 2.9 Deleting a kept class (2026-09-28)
+
+The owner, asked whether the Classes panel should let a teacher delete a kept class: **"Yes, with a confirm"**.
+
+- **Delete** beside **Open** on every kept class in **Classes** (`public/class-panel.js`, host action `delete-class`). Asked twice
+  (*Confirm: delete Period 4*, red while it waits). The class that is open - the one being played, paused or waiting to begin -
+  has no Delete, and the server refuses it (*"That class is open. Open another class first, then delete this one."*).
+- **Never destroyed**: its save is moved to `archive/classes-<session>-deleted-<time>.json` and its flashback videos to
+  `archive/classes-<session>-deleted-<time>-flashbacks/`, beside the other backups in the class data folder (`deleteKept` in
+  `server/app.mjs`, `moveTo` in `server/flashback.mjs`). The panel says where: *"Period 4 was taken off the list and kept: its
+  save is now archive/classes-…-deleted-….json, in this computer's class data folder. To bring it back, see "A deleted class" in
+  RECOVERY."* Getting it back is moving the two back by hand with the server stopped ([RECOVERY.md](RECOVERY.md), *A deleted
+  class*).
+- Proof: `tests/classes.test.mjs` (*a kept class is deleted from the list into the archive with its flashbacks, never the open
+  one, and put back by hand*: refused for the open class, a student and a class not there; moved with its flashbacks; off the
+  list; put back as RECOVERY says and opened again with its student); `npm run test:classes` (the open class has no Delete; two
+  presses; off the list and into the archive; the panel's words); injections in `scripts/design-blockers-injections.mjs --only
+  Delete`.
+
 ## 3. Proof
 
 - `tests/absence.test.mjs` (4): the marker; the director's, questions answered at once, nothing held; back again; the
