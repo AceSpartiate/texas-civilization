@@ -4516,6 +4516,130 @@
         ]
       }
     },
+    "famous-austin": {
+      "image": "atlases/famous-austin.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1051380,
+      "sha256": "0fc55fc92a447c478fd6463a06e570bde886552556579cf434b454fd362404d8",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.720913,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              45,
+              327
+            ],
+            "columns": [
+              [
+                82,
+                277
+              ],
+              [
+                392,
+                583
+              ],
+              [
+                686,
+                880
+              ],
+              [
+                994,
+                1191
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              351,
+              632
+            ],
+            "columns": [
+              [
+                90,
+                247
+              ],
+              [
+                407,
+                563
+              ],
+              [
+                709,
+                853
+              ],
+              [
+                1018,
+                1164
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              650,
+              926
+            ],
+            "columns": [
+              [
+                95,
+                235
+              ],
+              [
+                407,
+                583
+              ],
+              [
+                717,
+                917
+              ],
+              [
+                1032,
+                1224
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              938,
+              1216
+            ],
+            "columns": [
+              [
+                92,
+                231
+              ],
+              [
+                397,
+                545
+              ],
+              [
+                713,
+                880
+              ],
+              [
+                1030,
+                1168
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-ben": {
       "image": "atlases/famous-ben.png",
       "width": 1312,
@@ -27718,6 +27842,406 @@
           294
         ],
         "visiblePixels": 23213,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-walk-e-1": {
+      "sheet": "famous-austin",
+      "x": 82,
+      "y": 46,
+      "w": 195,
+      "h": 281,
+      "anchorX": 0.4897,
+      "anchorY": 0.9288,
+      "logicalHeight": 281,
+      "label": "austin walk e 1",
+      "kind": "famous-austin",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          84,
+          48,
+          191,
+          277
+        ],
+        "visiblePixels": 25906,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-walk-e-2": {
+      "sheet": "famous-austin",
+      "x": 392,
+      "y": 46,
+      "w": 191,
+      "h": 280,
+      "anchorX": 0.4948,
+      "anchorY": 0.9286,
+      "logicalHeight": 281,
+      "label": "austin walk e 2",
+      "kind": "famous-austin",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          394,
+          48,
+          187,
+          276
+        ],
+        "visiblePixels": 25366,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-walk-e-3": {
+      "sheet": "famous-austin",
+      "x": 686,
+      "y": 45,
+      "w": 194,
+      "h": 281,
+      "anchorX": 0.4923,
+      "anchorY": 0.9288,
+      "logicalHeight": 281,
+      "label": "austin walk e 3",
+      "kind": "famous-austin",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          688,
+          47,
+          190,
+          277
+        ],
+        "visiblePixels": 25246,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-walk-e-4": {
+      "sheet": "famous-austin",
+      "x": 994,
+      "y": 46,
+      "w": 197,
+      "h": 280,
+      "anchorX": 0.4975,
+      "anchorY": 0.9286,
+      "logicalHeight": 281,
+      "label": "austin walk e 4",
+      "kind": "famous-austin",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          996,
+          48,
+          193,
+          276
+        ],
+        "visiblePixels": 25596,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-walk-s-1": {
+      "sheet": "famous-austin",
+      "x": 90,
+      "y": 351,
+      "w": 157,
+      "h": 280,
+      "anchorX": 0.4299,
+      "anchorY": 0.9393,
+      "logicalHeight": 281,
+      "label": "austin walk s 1",
+      "kind": "famous-austin",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          92,
+          353,
+          153,
+          276
+        ],
+        "visiblePixels": 24478,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-walk-s-2": {
+      "sheet": "famous-austin",
+      "x": 407,
+      "y": 351,
+      "w": 156,
+      "h": 281,
+      "anchorX": 0.4872,
+      "anchorY": 0.9395,
+      "logicalHeight": 281,
+      "label": "austin walk s 2",
+      "kind": "famous-austin",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          409,
+          353,
+          152,
+          277
+        ],
+        "visiblePixels": 24339,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-walk-n-1": {
+      "sheet": "famous-austin",
+      "x": 709,
+      "y": 353,
+      "w": 144,
+      "h": 279,
+      "anchorX": 0.5729,
+      "anchorY": 0.9498,
+      "logicalHeight": 281,
+      "label": "austin walk n 1",
+      "kind": "famous-austin",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          711,
+          355,
+          140,
+          275
+        ],
+        "visiblePixels": 23306,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-walk-n-2": {
+      "sheet": "famous-austin",
+      "x": 1018,
+      "y": 352,
+      "w": 146,
+      "h": 280,
+      "anchorX": 0.589,
+      "anchorY": 0.9571,
+      "logicalHeight": 281,
+      "label": "austin walk n 2",
+      "kind": "famous-austin",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1020,
+          354,
+          142,
+          276
+        ],
+        "visiblePixels": 23542,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-idle": {
+      "sheet": "famous-austin",
+      "x": 95,
+      "y": 652,
+      "w": 140,
+      "h": 274,
+      "anchorX": 0.5393,
+      "anchorY": 0.938,
+      "logicalHeight": 281,
+      "label": "austin idle",
+      "kind": "famous-austin",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          97,
+          654,
+          136,
+          270
+        ],
+        "visiblePixels": 24166,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-command": {
+      "sheet": "famous-austin",
+      "x": 407,
+      "y": 650,
+      "w": 176,
+      "h": 276,
+      "anchorX": 0.4318,
+      "anchorY": 0.942,
+      "logicalHeight": 281,
+      "label": "austin command",
+      "kind": "famous-austin",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          409,
+          652,
+          172,
+          272
+        ],
+        "visiblePixels": 26105,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-point": {
+      "sheet": "famous-austin",
+      "x": 717,
+      "y": 650,
+      "w": 200,
+      "h": 276,
+      "anchorX": 0.37,
+      "anchorY": 0.9384,
+      "logicalHeight": 281,
+      "label": "austin point",
+      "kind": "famous-austin",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          719,
+          652,
+          196,
+          272
+        ],
+        "visiblePixels": 26099,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-speak": {
+      "sheet": "famous-austin",
+      "x": 1032,
+      "y": 650,
+      "w": 192,
+      "h": 276,
+      "anchorX": 0.3932,
+      "anchorY": 0.9384,
+      "logicalHeight": 281,
+      "label": "austin speak",
+      "kind": "famous-austin",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1034,
+          652,
+          188,
+          272
+        ],
+        "visiblePixels": 25899,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-read-letter": {
+      "sheet": "famous-austin",
+      "x": 92,
+      "y": 945,
+      "w": 139,
+      "h": 270,
+      "anchorX": 0.5216,
+      "anchorY": 0.937,
+      "logicalHeight": 281,
+      "label": "austin read letter",
+      "kind": "famous-austin",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          94,
+          947,
+          135,
+          266
+        ],
+        "visiblePixels": 24031,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-write": {
+      "sheet": "famous-austin",
+      "x": 397,
+      "y": 945,
+      "w": 148,
+      "h": 271,
+      "anchorX": 0.5203,
+      "anchorY": 0.9299,
+      "logicalHeight": 281,
+      "label": "austin write",
+      "kind": "famous-austin",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          399,
+          947,
+          144,
+          267
+        ],
+        "visiblePixels": 23486,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-map": {
+      "sheet": "famous-austin",
+      "x": 713,
+      "y": 944,
+      "w": 167,
+      "h": 271,
+      "anchorX": 0.4671,
+      "anchorY": 0.9336,
+      "logicalHeight": 281,
+      "label": "austin map",
+      "kind": "famous-austin",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          715,
+          946,
+          163,
+          267
+        ],
+        "visiblePixels": 24650,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-rest": {
+      "sheet": "famous-austin",
+      "x": 1030,
+      "y": 938,
+      "w": 138,
+      "h": 276,
+      "anchorX": 0.5145,
+      "anchorY": 0.9457,
+      "logicalHeight": 281,
+      "label": "austin rest",
+      "kind": "famous-austin",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1032,
+          940,
+          134,
+          272
+        ],
+        "visiblePixels": 23785,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

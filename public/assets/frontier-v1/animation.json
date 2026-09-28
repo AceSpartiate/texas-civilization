@@ -2898,6 +2898,62 @@
       "motion": "none",
       "direction": "north"
     },
+    "austin-walk-e": {
+      "frames": [
+        {
+          "sprite": "austin-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "austin-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "austin-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "austin-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "austin-walk-s": {
+      "frames": [
+        {
+          "sprite": "austin-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "austin-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "austin-walk-n": {
+      "frames": [
+        {
+          "sprite": "austin-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "austin-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "twin-sisters-limbered": {
       "frames": [
         {

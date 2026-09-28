@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1722 usable sprites, 166 PNG atlases, 564 clips** (336 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1738 usable sprites, 167 PNG atlases, 567 clips** (339 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -60,6 +60,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-angelina-dickinson | 4 | 1254 × 1254 | 1286027 |
 | famous-alavez | 16 | 1254 × 1254 | 1276763 |
 | famous-almonte | 16 | 1254 × 1254 | 1260800 |
+| famous-austin | 16 | 1254 × 1254 | 1051380 |
 | famous-ben | 16 | 1312 × 1199 | 1136424 |
 | twin-sisters-limbered | 4 | 1254 × 1254 | 1010968 |
 | famous-milam | 16 | 1254 × 1254 | 1519856 |
@@ -684,6 +685,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | almonte-prisoner | famous-almonte | State artwork; no motion required |
 | almonte-interpret | famous-almonte | State artwork; no motion required |
 | almonte-listen | famous-almonte | State artwork; no motion required |
+| austin-walk-e-1 | famous-austin | austin-walk-e |
+| austin-walk-e-2 | famous-austin | austin-walk-e |
+| austin-walk-e-3 | famous-austin | austin-walk-e |
+| austin-walk-e-4 | famous-austin | austin-walk-e |
+| austin-walk-s-1 | famous-austin | austin-walk-s |
+| austin-walk-s-2 | famous-austin | austin-walk-s |
+| austin-walk-n-1 | famous-austin | austin-walk-n |
+| austin-walk-n-2 | famous-austin | austin-walk-n |
+| austin-idle | famous-austin | State artwork; no motion required |
+| austin-command | famous-austin | State artwork; no motion required |
+| austin-point | famous-austin | State artwork; no motion required |
+| austin-speak | famous-austin | State artwork; no motion required |
+| austin-read-letter | famous-austin | State artwork; no motion required |
+| austin-write | famous-austin | State artwork; no motion required |
+| austin-map | famous-austin | State artwork; no motion required |
+| austin-rest | famous-austin | State artwork; no motion required |
 | ben-walk-e-1 | famous-ben | ben-walk-e |
 | ben-walk-e-2 | famous-ben | ben-walk-e |
 | ben-walk-e-3 | famous-ben | ben-walk-e |
@@ -2092,6 +2109,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | almonte-walk-e | Pose cycle | 4 | 760 | yes | east |
 | almonte-walk-s | Pose cycle | 2 | 580 | yes | south |
 | almonte-walk-n | Pose cycle | 2 | 580 | yes | north |
+| austin-walk-e | Pose cycle | 4 | 760 | yes | east |
+| austin-walk-s | Pose cycle | 2 | 580 | yes | south |
+| austin-walk-n | Pose cycle | 2 | 580 | yes | north |
 | twin-sisters-limbered | Pose cycle | 2 | 600 | yes | east; mirror for west |
 | ben-walk-e | Pose cycle | 4 | 760 | yes | east |
 | ben-walk-s | Pose cycle | 2 | 580 | yes | south |

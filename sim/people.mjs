@@ -129,7 +129,7 @@ export const PEOPLE = Object.freeze({
   castaneda: person('castaneda', 'Castañeda', MX, 'castaneda', 1, 'HIST-TEX-474', { fullName: 'Francisco de Castañeda' }),
   'wp-smith': person('wp-smith', 'W. P. Smith', TX, 'officer', 2, 'HIST-TEX-470', { fullName: 'the Reverend W. P. Smith' }),
   smither: person('smither', 'Smither', TX, 'rider', 2, 'HIST-TEX-474', { fullName: 'Launcelot Smither' }),
-  austin: person('austin', 'Austin', TX, 'officer', 1, 'HIST-TEX-553', {
+  austin: person('austin', 'Austin', TX, 'austin', 1, 'HIST-TEX-553', {
     fullName: 'Stephen F. Austin',
     // Commander of the volunteer army from October 11 to November 25, 1835: with the army wherever it marches (sim/army.mjs).
     map: [{ from: 'organised', until: 'austin-leaves', with: 'army:force', doing: 'command', claimId: 'HIST-TEX-553' }],

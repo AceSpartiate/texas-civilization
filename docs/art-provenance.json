@@ -2371,6 +2371,19 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-moore.png",
       "postProcessing": "ImageGen gutter correction from first draft; corrected sheet copied unchanged. Atlas builder measures alpha components and reading-order cells.",
       "review": "Distinct dark-bearded militia commander with parley and field-command poses for Gonzales."
+    },
+    {
+      "sheet": "famous-austin",
+      "promptId": "frontier-v1/famous-austin",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-moore.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ec22fa53-375e-4576-b5cf-be800e6c7b7e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-austin.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct clean-shaven civilian commander with campaign-letter and map gestures for the 1835 volunteer army."
     }
   ],
   "rejectedAttempts": [

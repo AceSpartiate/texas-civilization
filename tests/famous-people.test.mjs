@@ -19,6 +19,10 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { projectWorld } from '../sim/world.mjs';
 
 const copy = value => JSON.parse(JSON.stringify(value));
+test('Austin has his own art throughout his 1835 army itinerary', () => {
+  assert.equal(PEOPLE.austin.art, 'austin');
+  assert.equal(PEOPLE.austin.map[0].doing, 'command');
+});
 /** A bare world holding one engagement from minute 0, on a map with the places the engagements stand at. */
 const SITES = { bexar: { x: -61.6, y: 4.6, name: 'Béxar' }, lynchburg: { x: 144.4, y: -19.1, name: 'Lynchburg' }, gonzales: { x: 1.1, y: -0.7, name: 'Gonzales' },
   ford: { x: 0.9, y: -0.5, name: 'the ford' }, 'williams-camp': { x: 0.8, y: 1.8, name: 'Williams' }, 'san-patricio': { x: -18.4, y: 104.3, name: 'San Patricio' },

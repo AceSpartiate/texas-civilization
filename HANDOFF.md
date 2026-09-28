@@ -4457,3 +4457,7 @@ Francisco de Castañeda has a 16-frame directional foot sheet and four-frame che
 ## Moore character art, 2026-09-28
 
 John Henry Moore now has a 16-frame directional foot sheet with point, command, listen and open-hand parley gestures. `sim/people.mjs` binds his named roster entry to `moore`; `public/battle-view.js` uses the new poses and draws his own idle frame opposite Castañeda at the documented Gonzales parley. This changes no words or battle outcome. `scripts/art-deliveries/famous-moore.mjs` records the source, prompts and walking clips; `docs/ART_MANIFEST.md` lists the frames. The first sheet failed the alpha-cell audit, so a corrected version was generated and registered. The final sheet has zero overlap trimming and 100% object retention. It is an original interpretation, not a portrait claim.
+
+## Austin character art, 2026-09-28
+
+Stephen F. Austin has a 16-frame directional foot sheet, including field-command, speaking, letter and map poses. His roster entry in `sim/people.mjs` now uses the `austin` art key, so `public/famous-view.js` draws his own figure while he commands the army from its organization until his departure. `public/battle-view.js` maps the same poses for any existing field projection. The art creates no undocumented speech or extra itinerary. Full source, prompt and clip record: `scripts/art-deliveries/famous-austin.mjs`; frames: `docs/ART_MANIFEST.md`. This is an original interpretation rather than an exact portrait. The sheet passed the alpha audit with zero overlap and 100% object retention.
