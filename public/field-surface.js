@@ -83,12 +83,14 @@ export function drawFieldSurface(ctx, bounds, { identity, growing = null, figure
       ctx.beginPath(); ctx.ellipse(left + c.x * w, top + c.y * h, Math.max(.35, w * c.size), Math.max(.25, h * c.size * .45), -.2, 0, Math.PI * 2); ctx.fill();
     }
     if (growing && growing.state !== 'bare' && !clearing) {
-      const ripe = growing.state === 'ripe', cotton = growing.crop === 'cotton';
-      const crop = `${growing.crop}-${ripe ? 'mature' : 'young'}`;
-      const height = Math.min(figure * (ripe ? .8 : .55), detail * (ripe ? .078 : .055));
+      const ripe = growing.state === 'ripe', cotton = growing.crop === 'cotton', garden = growing.crop === 'garden';
+      // stand-in: a garden of turnips and greens (sim/seasons.mjs) is drawn with the young cotton's low leaves, kept low even
+      // ripe, until `garden-young` / `garden-mature` land (docs/ART_REQUESTS.md, Request 2026-09-28 — the garden).
+      const crop = garden ? 'cotton-young' : `${growing.crop}-${ripe ? 'mature' : 'young'}`;
+      const height = garden ? Math.min(figure * (ripe ? .45 : .35), detail * (ripe ? .045 : .035)) : Math.min(figure * (ripe ? .8 : .55), detail * (ripe ? .078 : .055));
       if (detail < 70) {
         // At settlement scale, resolve rows instead of hundreds of subpixel leaves.
-        ctx.strokeStyle = ripe ? (cotton ? '#dcd9ab' : '#829049') : '#637b3e';
+        ctx.strokeStyle = ripe && !garden ? (cotton ? '#dcd9ab' : '#829049') : '#637b3e';
         ctx.lineWidth = Math.max(.6, h * .022);
         for (const row of layout.rows) {
           ctx.beginPath(); ctx.moveTo(left + w * row.inset, top + h * row.y);
@@ -100,12 +102,12 @@ export function drawFieldSurface(ctx, bounds, { identity, growing = null, figure
         const x = left + p.x * w, y = top + p.y * h, size = height * p.size;
         ctx.fillStyle = '#3b39234d'; ctx.beginPath(); ctx.ellipse(x + size * .1, y, size * .28, size * .10, 0, 0, Math.PI * 2); ctx.fill();
         if (size > 7 && drawSprite(ctx, crop, x, y, size)) continue;
-        ctx.strokeStyle = ripe && !cotton ? '#798441' : '#3f6334'; ctx.lineWidth = Math.max(.7, size * .12);
+        ctx.strokeStyle = ripe && !cotton && !garden ? '#798441' : '#3f6334'; ctx.lineWidth = Math.max(.7, size * .12);
         ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y - size * .8); ctx.stroke();
-        ctx.fillStyle = ripe && !cotton ? '#9da457' : '#779747';
+        ctx.fillStyle = ripe && !cotton && !garden ? '#9da457' : '#779747';
         ctx.beginPath(); ctx.ellipse(x - size * .18, y - size * .4, size * .3, size * .11, .5, 0, Math.PI * 2); ctx.fill();
         ctx.beginPath(); ctx.ellipse(x + size * .18, y - size * .58, size * .3, size * .11, -.5, 0, Math.PI * 2); ctx.fill();
-        if (ripe) {
+        if (ripe && !garden) {
           ctx.fillStyle = cotton ? '#eee2bd' : '#d3b15e';
           ctx.beginPath(); ctx.ellipse(x, y - size * .75, size * (cotton ? .23 : .08), size * .18, 0, 0, Math.PI * 2); ctx.fill();
         }

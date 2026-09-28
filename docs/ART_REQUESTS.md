@@ -49,6 +49,7 @@ does not have:
 | Somebody idle at an activity is drawn in the nearest delivered cast pose: whittling, mending harness, sewing, shelling corn and cleaning a rifle the seated `-repair` (a hammer at a hoe); washing the kneeling `-care`; a pipe, cards and dominoes the seated `-rest` (no pipe, no cards); sweeping a step the hoe's swing `-work`; carrying water the harvest's `-carry` (a sack, a basket, a bucket by figure) | `ambientClip` in `public/motion.js`; `ACTIVITIES` in `sim/ambient.mjs` | Request 2026-09-28 — ambient life, item 1 | `-whittle`, `-mend-harness`, `-sew`, `-shell-corn`, `-clean-rifle`, `-wash`, `-pipe`, `-cards`, `-sweep`, `-carry-water` for each cast figure |
 | The washtub is the plain `bucket`; the woodpile the Alamo's `alamo-firewood`; the hens `chicken-idle` | `propItem` in `public/ambient.js` | Same request, item 2 | `washtub`, `woodpile-frontier`, `hens-pecking` |
 | A soldier in camp cleaning his rifle is the ramrod's stroke (`volunteer-gun-ram`, `regular-gun-ram`); the volunteers at the fire, the cards and the wood are the cast's civilian men (`elder`, `ochre`, `blue`) | `CAMP_TEXIAN`, `CAMP_MEXICAN` in `sim/ambient.mjs`; `figureClip` in `public/ambient.js` | Same request, item 3 | `volunteer-clean-rifle`, `volunteer-camp-sit`, `volunteer-camp-cook` |
+| A garden of turnips and greens is drawn with the young cotton's low leaves (`cotton-young`), kept low even ripe, with no boll | the growing crop in `public/field-surface.js` | Request 2026-09-28 — the garden | `garden-young`, `garden-mature` |
 | The sick badge on a portrait is the road's nursing icon (`icon-tend-sick`, or its stroked glyph) in a cream disc | `panelRow` and the row update in `public/app.js` (`.panel-sick-mark`) | Request 2026-09-27 — sickness, item 1 | `mark-sick` |
 | "Stop and rest a day" is the rest order's picture (`icon-rest`); "Nurse the sick" at home the road's nursing (`icon-tend-sick`); "Camp apart from the crowd" a stroked glyph (three tents on a bank and one up the stream) | `PANEL_ICONS` and `drawGlyph` in `public/family-panel.js` | Request 2026-09-27 — sickness, item 2 | `icon-rest-road`, `icon-nurse-home`, `icon-camp-apart` |
 | Somebody sick and resting is drawn in the delivered `-injured-rest` pose, as the hurt are; a sick baby is drawn as it is | `restingSick` and `grownClip` in `public/motion.js` | Request 2026-09-27 — sickness, item 3 | `-sick-rest`, `infant-sick` |
@@ -207,6 +208,20 @@ looping; props as the equipment sheet.
 
 **Check.** At a town's street and a family's yard zoomed to a figure of about 40 px, a keeper whittling reads as whittling and not as
 somebody mending a hoe; a woman washing reads as washing; a man with a pipe as smoking; at a camp a rifle is being cleaned, not loaded.
+## Request 2026-09-28 — the garden
+
+**Status: open; stand-in in use since 2026-09-28 (see *Stand-ins in use*).** The farming year (owner, 2026-09-28: "Seasons and a
+limited market"; `sim/seasons.mjs`): on the real land the autumn's and the winter's crop is a garden of turnips and greens, planted
+on the family's cleared plots and six weeks in the ground. Drawn by the field surface exactly as corn and cotton are
+(`public/field-surface.js`, docs/FIELD_ART.md): selected from the projected crop and state, many small plants in rows over a plot.
+Delivery contract as `corn-young` / `cotton-young` in the nature atlas: transparent PNG, ground anchor at the stem's foot, the same
+size in the sheet as the young corn, with a `-wind` sway if it is cheap.
+
+1. **Young garden** (priority 1) - `garden-young`: a low rosette of turnip and mustard leaves, dark green, a hand high.
+2. **Ripe garden** (priority 1) - `garden-mature`: the same, fuller, the white-and-purple shoulder of a turnip showing at the soil.
+
+**Check.** At field zoom a planted garden reads as low leafy greens, not as young cotton, and a ripe one as ready to pull; a
+bare field still draws no crop.
 
 ## Request 2026-09-28 — the oldest child going for help
 

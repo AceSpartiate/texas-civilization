@@ -147,8 +147,8 @@ As built:
 | 3 | `house` | Keep them at the house until it stands | `houseSettled` — a roof over the family (`sim/houses.mjs`) |
 | 4 | `survey` | Choose a place on your own land and stake ten acres | the family has a plot it staked itself |
 | 5 | `clear` | Clear that plot; fence it if you like | the family has cleared ground it broke itself |
-| 6 | `plant` | Plant the field, **and choose the crop at the rows** | the field is sown (`sim/improvements.mjs`) |
-| 7 | `harvest` | Bring it in when it is ripe; fence while it stands | the field is bare again, having been sown |
+| 6 | `plant` | Plant the field, **and choose the crop at the rows** (on the real land, what the season lets in: a garden in the autumn) | the field is sown (`sim/improvements.mjs`) |
+| 7 | `harvest` | Bring it in when it is ripe; fence while it stands | the field is bare again, having been sown, **or**, on the real land, a crop stands that ripens on the calendar - the step says when (2026-09-28) |
 | 8 | `sell` | Send somebody to town to trade, with some of the crop on the list for the store (chosen before they go, since 2026-09-24: [TOWNS.md §4b](TOWNS.md)) | there is coin in the house, or the crop left the house in trade |
 | 9 | `hunt` | Choose a place on your own land and send somebody hunting | somebody went out after game and came home |
 | 10 | `well` | Dig a well by the house | the well is dug, **or the house has running water within carrying distance** |
@@ -308,6 +308,32 @@ only on a stopped lesson and only naming a real step, `stoppedAt` and `resumeBy`
   the X — and there the gate holds back only the farm.
 - ~~**Selling is finished by coin, not by the crop leaving the house.**~~ Out of date since 2026-09-21: the crop leaving the
   house in trade finishes it too (`sold` in `sim/lesson.mjs`; design audit M6).
+
+### Amended 2026-09-28: the farming year
+
+**Dormant while the guided start is suspended** (owner, 2026-09-28: switched off by `LESSON_ENABLED`). Built the same day, before the
+suspension reached this branch, and kept for whoever rebuilds it: what the seasons do to the ten steps as they stood.
+
+The owner chose **"Seasons and a limited market"** (docs/audits/2026-09-28-design.md B9): on the real land a crop goes in only in
+its season and takes its real time on the calendar (`sim/seasons.mjs`, `HIST-TEX-720`, `FIC-GONZ-721`). What that does to the
+guided start, as built:
+
+- **Step 6 plants a garden.** A family that reaches its land at the end of September can put in only a garden of turnips and
+  greens; the step says so (*"This late in the year only a garden of turnips and greens will grow, and it feeds the family; corn
+  goes in at the end of the winter and cotton in the spring."*) and the question at the rows offers the garden open and corn and
+  cotton closed, each with the words for its season. *"A crop of their choosing"* is a choice only from the middle of February.
+- **Step 7 does not wait for the crop.** A garden is six weeks of the calendar - sown the first morning, ready about November 9,
+  some sixty real minutes at the Study pace - and a step that waited would hold a student at one control for most of the hour.
+  On the real land a crop in the ground finishes the step, and the step after says when it will be ready (*"The garden is growing
+  and will be ready about November 9: the family's journal will say so, and then somebody brings it in."*). The journal says it
+  again that day (*"The garden is ready to bring in."*).
+- **The harvest is allowed on every step after step 7** (`AFTER_HARVEST`), so a crop that ripens while a student is on the hunt
+  or the well is never refused.
+- **Step 8 sells what the family can spare.** While the crop grows, the step asks for food on the list (*"food will do until the
+  crop is in"*); the store buys it only while it wants it (`sim/market.mjs`), and a class's families near one town share its want.
+- **`ceiling:` the harvest is taught by its words, not walked through, on the real land.** The owner may prefer the step moved
+  last, or an autumn crop quicker than six weeks: both are in HANDOFF.md's decisions. The invented country's lesson is unchanged:
+  corn or cotton, ripe in eighteen ticks.
 
 ## 7. What is invented, and what is not
 

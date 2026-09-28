@@ -18,7 +18,7 @@
     "the step keeps the server's words and a navigation control: \"Put somebody to work\" - Press the axe at the bottom of the screen to start work on the house. (11% of the screen)",
     "the skippable walk-through is put away while the class is being led",
     "the step shows only 2 available actions and rings the requested one",
-    "the card is clear of the step and folds its neighbours list away: 3.4% of the screen against 4.8% open, top at 298 under a strip ending at 223, and one press brings it back",
+    "the card is clear of the step and folds its neighbours list away: 3.4% of the screen against 4.7% open, top at 298 under a strip ending at 223, and one press brings it back",
     "the action bar hides unavailable orders",
     "the one icon the server's own step leaves open sends its order, and the glow comes back on it (plant-field)",
     "the bar is still a row of buttons in reading order, each named and each showing its sentence on focus: \"Travel to Gonzales. Go into the town of Gonzales and stay th…\"",
@@ -90,9 +90,9 @@
     "card": {
       "folded": {
         "card": {
-          "left": 1179,
+          "left": 1200,
           "top": 298,
-          "right": 1369,
+          "right": 1390,
           "bottom": 483
         },
         "strip": {
@@ -109,22 +109,22 @@
       },
       "opened": {
         "card": {
-          "left": 1172,
-          "top": 231,
-          "right": 1366,
-          "bottom": 492
+          "left": 1189,
+          "top": 298,
+          "right": 1379,
+          "bottom": 559
         },
         "strip": {
-          "left": 810,
+          "left": 801,
           "top": 10,
-          "right": 1354,
+          "right": 1345,
           "bottom": 223
         },
         "over": false,
         "goingBy": false,
         "visitShown": true,
         "more": "Put that away",
-        "share": 4.8
+        "share": 4.7
       }
     },
     "ordered": {
@@ -243,8 +243,8 @@
       ]
     },
     "resume": {
-      "until": 1790602477788,
-      "msWhenStopped": 299772,
+      "until": 1790614910476,
+      "msWhenStopped": 299803,
       "chromebook": {
         "size": [
           119,
