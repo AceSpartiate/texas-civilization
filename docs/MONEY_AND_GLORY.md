@@ -393,7 +393,7 @@ Nothing here is finished until all of these hold.
 
 | Gate | What it means |
 | --- | --- |
-| Hidden means hidden | A planted glory value appears in no student and no Host payload at any tick before the ending, asserted by searching the serialised wire the way trade and relay isolation already are, and does appear once the ending is reached. |
+| Hidden means hidden | A planted glory value appears in no student and no Host payload at any tick before the ending, asserted by searching the serialised wire the way trade and relay isolation already are, and does appear once the ending is reached. **Nor the word** (2026-09-28, after notes on sending a regular home said the family "loses glory"): no string a page draws or the server writes names glory outside the ending's screen and module, and no student, family-book or Host payload of a whole class carries it before the end (`tests/glory-words.test.mjs`). |
 | Nothing reads glory | No director or opportunity rule consults `household.glory`. |
 | Money is used | At least one thing a family will want is bought only with coin. |
 | Barter survives | A family that never touches coin can still plant, harvest, hunt, trade, answer the call and reach the end. |
