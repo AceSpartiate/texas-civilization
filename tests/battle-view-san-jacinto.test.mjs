@@ -73,6 +73,13 @@ test('Rusk rides in his own art and uses his open-hand stop gesture on the bank'
   assert.ok(art.drawn.some(one => one.clip === 'rusk-stop'));
 });
 
+test('Hockley commands the Twin Sisters with his own battery poses', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const hockley = { id: 'hockley', art: 'hockley', name: 'Hockley', side: 'texian', x: 0, y: 0, right: true, pose: 'gun' };
+  run(view, minute => battle(minute, { phase: 'guns', people: [hockley] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'hockley-battery-command'));
+});
+
 test('only the named Twin Sisters use their dedicated service crew', () => {
   const art = fakeArt(), view = createBattleView(art);
   const guns = [

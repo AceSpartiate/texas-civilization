@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 182,
-    "sprites": 1882,
-    "clips": 602,
-    "poseCycles": 374,
+    "sheets": 183,
+    "sprites": 1898,
+    "clips": 606,
+    "poseCycles": 378,
     "rigs": 4
   },
   "entrypoints": {
@@ -6106,6 +6106,130 @@
               [
                 952,
                 1202
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-hockley": {
+      "image": "atlases/famous-hockley.png",
+      "width": 1246,
+      "height": 1262,
+      "bytes": 904693,
+      "sha256": "9f1f25e49ecb9d16e7c28d05ee4324b770bfef2dbefe6b3d9f47ec48be3d5298",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.789606,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              29,
+              293
+            ],
+            "columns": [
+              [
+                91,
+                236
+              ],
+              [
+                394,
+                557
+              ],
+              [
+                703,
+                864
+              ],
+              [
+                1003,
+                1174
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              336,
+              601
+            ],
+            "columns": [
+              [
+                104,
+                217
+              ],
+              [
+                413,
+                530
+              ],
+              [
+                721,
+                835
+              ],
+              [
+                1025,
+                1144
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              625,
+              919
+            ],
+            "columns": [
+              [
+                100,
+                216
+              ],
+              [
+                396,
+                597
+              ],
+              [
+                715,
+                841
+              ],
+              [
+                1021,
+                1180
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              954,
+              1220
+            ],
+            "columns": [
+              [
+                67,
+                248
+              ],
+              [
+                402,
+                552
+              ],
+              [
+                685,
+                892
+              ],
+              [
+                1016,
+                1206
               ]
             ]
           }
@@ -39899,6 +40023,556 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/famous-esparza"
+    },
+    "hockley-walk-e-1": {
+      "sheet": "famous-hockley",
+      "x": 91,
+      "y": 35,
+      "w": 145,
+      "h": 258,
+      "anchorX": 0.8276,
+      "anchorY": 0.9264,
+      "logicalHeight": 294,
+      "label": "hockley walk e 1",
+      "kind": "famous-hockley",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          93,
+          37,
+          141,
+          254
+        ],
+        "visiblePixels": 16508,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "hockley-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley"
+    },
+    "hockley-walk-e-2": {
+      "sheet": "famous-hockley",
+      "x": 394,
+      "y": 35,
+      "w": 163,
+      "h": 251,
+      "anchorX": 0.5184,
+      "anchorY": 0.9283,
+      "logicalHeight": 294,
+      "label": "hockley walk e 2",
+      "kind": "famous-hockley",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          396,
+          37,
+          159,
+          247
+        ],
+        "visiblePixels": 15484,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "hockley-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley"
+    },
+    "hockley-walk-e-3": {
+      "sheet": "famous-hockley",
+      "x": 703,
+      "y": 35,
+      "w": 161,
+      "h": 250,
+      "anchorX": 0.4969,
+      "anchorY": 0.928,
+      "logicalHeight": 294,
+      "label": "hockley walk e 3",
+      "kind": "famous-hockley",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          705,
+          37,
+          157,
+          246
+        ],
+        "visiblePixels": 15656,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "hockley-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley"
+    },
+    "hockley-walk-e-4": {
+      "sheet": "famous-hockley",
+      "x": 1003,
+      "y": 29,
+      "w": 171,
+      "h": 259,
+      "anchorX": 0.4649,
+      "anchorY": 0.9266,
+      "logicalHeight": 294,
+      "label": "hockley walk e 4",
+      "kind": "famous-hockley",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1005,
+          31,
+          167,
+          255
+        ],
+        "visiblePixels": 17814,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "hockley-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley"
+    },
+    "hockley-walk-s-1": {
+      "sheet": "famous-hockley",
+      "x": 104,
+      "y": 341,
+      "w": 113,
+      "h": 260,
+      "anchorX": 0.6062,
+      "anchorY": 0.9346,
+      "logicalHeight": 294,
+      "label": "hockley walk s 1",
+      "kind": "famous-hockley",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          106,
+          343,
+          109,
+          256
+        ],
+        "visiblePixels": 16064,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "hockley-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley"
+    },
+    "hockley-walk-s-2": {
+      "sheet": "famous-hockley",
+      "x": 413,
+      "y": 344,
+      "w": 117,
+      "h": 254,
+      "anchorX": 0.4573,
+      "anchorY": 0.937,
+      "logicalHeight": 294,
+      "label": "hockley walk s 2",
+      "kind": "famous-hockley",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          415,
+          346,
+          113,
+          250
+        ],
+        "visiblePixels": 15822,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "hockley-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley"
+    },
+    "hockley-walk-n-1": {
+      "sheet": "famous-hockley",
+      "x": 721,
+      "y": 337,
+      "w": 114,
+      "h": 261,
+      "anchorX": 0.5482,
+      "anchorY": 0.9655,
+      "logicalHeight": 294,
+      "label": "hockley walk n 1",
+      "kind": "famous-hockley",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          723,
+          339,
+          110,
+          257
+        ],
+        "visiblePixels": 15543,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "hockley-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley"
+    },
+    "hockley-walk-n-2": {
+      "sheet": "famous-hockley",
+      "x": 1025,
+      "y": 336,
+      "w": 119,
+      "h": 262,
+      "anchorX": 0.5798,
+      "anchorY": 0.9275,
+      "logicalHeight": 294,
+      "label": "hockley walk n 2",
+      "kind": "famous-hockley",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1027,
+          338,
+          115,
+          258
+        ],
+        "visiblePixels": 16451,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "hockley-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley"
+    },
+    "hockley-idle": {
+      "sheet": "famous-hockley",
+      "x": 100,
+      "y": 647,
+      "w": 116,
+      "h": 270,
+      "anchorX": 0.5474,
+      "anchorY": 0.9296,
+      "logicalHeight": 294,
+      "label": "hockley idle",
+      "kind": "famous-hockley",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          102,
+          649,
+          112,
+          266
+        ],
+        "visiblePixels": 16357,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley"
+    },
+    "hockley-point": {
+      "sheet": "famous-hockley",
+      "x": 396,
+      "y": 656,
+      "w": 201,
+      "h": 260,
+      "anchorX": 0.3433,
+      "anchorY": 0.9308,
+      "logicalHeight": 294,
+      "label": "hockley point",
+      "kind": "famous-hockley",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          398,
+          658,
+          197,
+          256
+        ],
+        "visiblePixels": 19411,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "hockley-battery-command"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley"
+    },
+    "hockley-fire-signal": {
+      "sheet": "famous-hockley",
+      "x": 715,
+      "y": 625,
+      "w": 126,
+      "h": 294,
+      "anchorX": 0.5794,
+      "anchorY": 0.9456,
+      "logicalHeight": 294,
+      "label": "hockley fire signal",
+      "kind": "famous-hockley",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          717,
+          627,
+          122,
+          290
+        ],
+        "visiblePixels": 19139,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "hockley-battery-command"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley"
+    },
+    "hockley-observe": {
+      "sheet": "famous-hockley",
+      "x": 1021,
+      "y": 663,
+      "w": 159,
+      "h": 256,
+      "anchorX": 0.1164,
+      "anchorY": 0.9453,
+      "logicalHeight": 294,
+      "label": "hockley observe",
+      "kind": "famous-hockley",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1023,
+          665,
+          155,
+          252
+        ],
+        "visiblePixels": 18157,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley"
+    },
+    "hockley-brace": {
+      "sheet": "famous-hockley",
+      "x": 67,
+      "y": 997,
+      "w": 181,
+      "h": 219,
+      "anchorX": 0.0967,
+      "anchorY": 0.9269,
+      "logicalHeight": 294,
+      "label": "hockley brace",
+      "kind": "famous-hockley",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          69,
+          999,
+          177,
+          215
+        ],
+        "visiblePixels": 16884,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "hockley-battery-command"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley"
+    },
+    "hockley-reload-signal": {
+      "sheet": "famous-hockley",
+      "x": 402,
+      "y": 954,
+      "w": 150,
+      "h": 259,
+      "anchorX": 0.4267,
+      "anchorY": 0.9421,
+      "logicalHeight": 294,
+      "label": "hockley reload signal",
+      "kind": "famous-hockley",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          404,
+          956,
+          146,
+          255
+        ],
+        "visiblePixels": 19621,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley"
+    },
+    "hockley-plan": {
+      "sheet": "famous-hockley",
+      "x": 685,
+      "y": 1020,
+      "w": 207,
+      "h": 200,
+      "anchorX": 0.57,
+      "anchorY": 0.93,
+      "logicalHeight": 294,
+      "label": "hockley plan",
+      "kind": "famous-hockley",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          687,
+          1022,
+          203,
+          196
+        ],
+        "visiblePixels": 21349,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley"
+    },
+    "hockley-speak": {
+      "sheet": "famous-hockley",
+      "x": 1016,
+      "y": 960,
+      "w": 190,
+      "h": 253,
+      "anchorX": 0.15,
+      "anchorY": 0.9328,
+      "logicalHeight": 294,
+      "label": "hockley speak",
+      "kind": "famous-hockley",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1018,
+          962,
+          186,
+          249
+        ],
+        "visiblePixels": 18907,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley"
     },
     "karnes-walk-e-1": {
       "sheet": "famous-karnes",
@@ -84739,6 +85413,82 @@
       "motion": "none",
       "direction": "north"
     },
+    "hockley-walk-e": {
+      "frames": [
+        {
+          "sprite": "hockley-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "hockley-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "hockley-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "hockley-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "hockley-walk-s": {
+      "frames": [
+        {
+          "sprite": "hockley-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "hockley-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "hockley-walk-n": {
+      "frames": [
+        {
+          "sprite": "hockley-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "hockley-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "hockley-battery-command": {
+      "frames": [
+        {
+          "sprite": "hockley-point",
+          "duration": 470
+        },
+        {
+          "sprite": "hockley-fire-signal",
+          "duration": 300
+        },
+        {
+          "sprite": "hockley-brace",
+          "duration": 330
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "karnes-walk-e": {
       "frames": [
         {
@@ -96880,7 +97630,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 182,
+    "sourceCount": 183,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

@@ -3550,6 +3550,82 @@
       "motion": "none",
       "direction": "north"
     },
+    "hockley-walk-e": {
+      "frames": [
+        {
+          "sprite": "hockley-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "hockley-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "hockley-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "hockley-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "hockley-walk-s": {
+      "frames": [
+        {
+          "sprite": "hockley-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "hockley-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "hockley-walk-n": {
+      "frames": [
+        {
+          "sprite": "hockley-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "hockley-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "hockley-battery-command": {
+      "frames": [
+        {
+          "sprite": "hockley-point",
+          "duration": 470
+        },
+        {
+          "sprite": "hockley-fire-signal",
+          "duration": 300
+        },
+        {
+          "sprite": "hockley-brace",
+          "duration": 330
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "karnes-walk-e": {
       "frames": [
         {

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1882 usable sprites, 182 PNG atlases, 602 clips** (374 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1898 usable sprites, 183 PNG atlases, 606 clips** (378 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -77,6 +77,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-deaf-smith | 16 | 1254 × 1254 | 1316988 |
 | famous-deaf-smith-mounted | 4 | 1254 × 1254 | 1298123 |
 | famous-esparza | 16 | 1254 × 1254 | 869799 |
+| famous-hockley | 16 | 1246 × 1262 | 904693 |
 | famous-karnes | 16 | 1246 × 1263 | 1230841 |
 | famous-karnes-mounted | 4 | 1246 × 1263 | 1175856 |
 | famous-lamar | 16 | 1312 × 1199 | 932028 |
@@ -876,6 +877,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-aim | famous-esparza | State artwork; no motion required |
 | esparza-fire | famous-esparza | State artwork; no motion required |
 | esparza-still | famous-esparza | State artwork; no motion required |
+| hockley-walk-e-1 | famous-hockley | hockley-walk-e |
+| hockley-walk-e-2 | famous-hockley | hockley-walk-e |
+| hockley-walk-e-3 | famous-hockley | hockley-walk-e |
+| hockley-walk-e-4 | famous-hockley | hockley-walk-e |
+| hockley-walk-s-1 | famous-hockley | hockley-walk-s |
+| hockley-walk-s-2 | famous-hockley | hockley-walk-s |
+| hockley-walk-n-1 | famous-hockley | hockley-walk-n |
+| hockley-walk-n-2 | famous-hockley | hockley-walk-n |
+| hockley-idle | famous-hockley | State artwork; no motion required |
+| hockley-point | famous-hockley | hockley-battery-command |
+| hockley-fire-signal | famous-hockley | hockley-battery-command |
+| hockley-observe | famous-hockley | State artwork; no motion required |
+| hockley-brace | famous-hockley | hockley-battery-command |
+| hockley-reload-signal | famous-hockley | State artwork; no motion required |
+| hockley-plan | famous-hockley | State artwork; no motion required |
+| hockley-speak | famous-hockley | State artwork; no motion required |
 | karnes-walk-e-1 | famous-karnes | karnes-walk-e |
 | karnes-walk-e-2 | famous-karnes | karnes-walk-e |
 | karnes-walk-e-3 | famous-karnes | karnes-walk-e |
@@ -2304,6 +2321,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-walk-e | Pose cycle | 4 | 760 | yes | east |
 | esparza-walk-s | Pose cycle | 2 | 580 | yes | south |
 | esparza-walk-n | Pose cycle | 2 | 580 | yes | north |
+| hockley-walk-e | Pose cycle | 4 | 760 | yes | east |
+| hockley-walk-s | Pose cycle | 2 | 580 | yes | south |
+| hockley-walk-n | Pose cycle | 2 | 580 | yes | north |
+| hockley-battery-command | Pose cycle | 3 | 1100 | yes | east; mirror for west |
 | karnes-walk-e | Pose cycle | 4 | 760 | yes | east |
 | karnes-walk-s | Pose cycle | 2 | 580 | yes | south |
 | karnes-walk-n | Pose cycle | 2 | 580 | yes | north |

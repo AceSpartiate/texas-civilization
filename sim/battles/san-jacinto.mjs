@@ -363,7 +363,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       guns: { 'twin-sister-1': [0, 3], 'twin-sister-2': [1, 4], 'mexican-gun': [5] },
       people: [
         ...LINE_OFFICERS,
-        { id: 'hockley', at: 'hockleyAt', face: 'breastwork', pose: 'command' },
+        { id: 'hockley', at: 'hockleyAt', face: 'breastwork', pose: 'gun' },
         { id: 'mcculloch', at: 'mccullochAt', face: 'breastwork' },
         { id: 'castrillon', at: 'crate', face: 'close', pose: 'command', during: [3, 6] },
       ],
@@ -385,7 +385,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       guns: { 'twin-sister-1': [1], 'twin-sister-2': [1], 'mexican-gun': [] },
       people: [
         ...LINE_OFFICERS,
-        { id: 'hockley', at: 'hockleyAt', face: 'breastwork', pose: 'command' },
+        { id: 'hockley', at: 'hockleyAt', face: 'breastwork', pose: 'gun' },
         { id: 'mcculloch', at: 'mccullochAt', face: 'breastwork' },
         { id: 'castrillon', at: 'crate', face: 'close', pose: 'command' },
       ],

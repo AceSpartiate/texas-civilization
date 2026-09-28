@@ -1,3 +1,7 @@
+## Art update — George W. Hockley (2026-09-28)
+
+Hockley has a dedicated 4×4 transparent atlas in `scripts/art-deliveries/famous-hockley.mjs`: directional walking, field gestures, and a three-frame point/signal/brace battery-command animation. His roster key and `PERSON_ART.hockley` select it. The existing San Jacinto Twin Sisters gun phases now assign him `pose: gun`, which draws the command cycle; the named McCulloch and generic gun crews remain responsible for physical service. No gun timing or historical outcome changed. Frames and clips appear in `docs/ART_MANIFEST.md`; prompt and source are in the art JSON records. Face and costume are interpretive.
+
 ## Art update — Thomas J. Rusk (2026-09-28)
 
 Rusk now has his own 4×4 foot atlas and 2×2 mounted companion in `scripts/art-deliveries/famous-rusk.mjs`. The manifest registers directional foot walking, mounted gait, command/document poses and a two-frame open-hand stop animation. `sim/people.mjs` and `PERSON_ART.rusk` bind the same identity on foot and horseback. His existing April 20 skirmish uses the named mounted art; the existing San Jacinto `killing` phase now gives him `pose: stop`, replacing a generic command gesture as he tries unsuccessfully to halt the shooting. No line, outcome or timing was added. A mounted stop frame remains available for later staging. Face, costume and horse are artistic interpretations, with sources and prompt in the art provenance JSON files.
