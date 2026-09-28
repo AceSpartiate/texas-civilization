@@ -39,6 +39,7 @@ import { frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, ta
 const $ = selector => document.querySelector(selector);
 import { militaryNotices } from '/military-attention.js';
 import { createBattleView } from '/battle-view.js';
+import { createChaseView } from '/chase-view.js';
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
 let events;
@@ -57,6 +58,11 @@ const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 // `drawFigure` which pose a family's own person in the force is in. Declared up here, above the page's first `connect`, so a
 // page opened in the middle of a fight has it (the TDZ guard in tests/app-module.test.mjs).
 const battleView = createBattleView({ animated: (...args) => animated(...args), drawSprite: (...args) => drawSprite(...args), miniPerson: (...args) => miniPerson(...args) });
+// Mexican troops after a family on the Scrape (public/chase-view.js, sim/pursuit.mjs), and the family's own route: the stops it
+// is choosing (`routeDraft`), whether a tap on the map adds one (`routePicking`), and the key its editor was last drawn for.
+// Up here with the battle's renderer, above the page's first `connect`, for the same TDZ guard.
+const chaseView = createChaseView({ animated: (...args) => animated(...args), miniPerson: (...args) => miniPerson(...args) });
+let routeDraft = null, routePicking = false, routeEditorKey = '';
 let animationTime = 0, previousFrame = 0, paintedFrame = 0, animationDrawMs = 0;
 // A traveller's cycle is played from their own place in their stride rather than the shared clock (public/motion.js `GaitClock`).
 const gaitClock = new GaitClock(), gaits = new Map();
@@ -1606,6 +1612,19 @@ function installMapNavigation() {
     // land is looked over, because the town is never anybody's land and a tap on it is never a house site.
     const townScene = window.__snapshot && townSceneAt(window.__snapshot.world.townScenes, townSceneSpots, point, window.__camera?.figure || 18, townHeads);
     if (townScene && !entityAt(point)) { townSceneOpen = townScene; townSceneShown = ''; renderTownScene(window.__snapshot.world); return; }
+    // Choosing the family's stops on the Scrape (the flight card's "Pick on the map"): a tap adds the nearest place it may make
+    // for, within a finger's width. The server says whether the route can be gone; this only fills the list.
+    if (routePicking && routeDraft) {
+      const view = currentView(), snapshot = window.__snapshot;
+      if (view && snapshot) {
+        const at = worldAt(view, point, size()), sites = snapshot.world.map?.sites || {};
+        const reach = 36 / Math.max(1, view.scale);
+        const near = routePlacesOf(snapshot.world).map(id => sites[id]).filter(Boolean).map(site => ({ site, d: Math.hypot(site.x - at.x, site.y - at.y) })).filter(one => one.d <= reach).sort((a, b) => a.d - b.d)[0];
+        if (near && routeDraft.stops.at(-1) !== near.site.id && routeDraft.stops.length < 6) { routeDraft.stops.push(near.site.id); routeDraft.ways.push('road'); routeEditorKey = ''; renderSelection(snapshot.world); requestMapDraw(); }
+        else say(near ? 'That place is already the last stop, or there are six.' : 'Tap nearer a town, a landing, a ferry or a plantation.');
+      }
+      return;
+    }
     if (siteLooking() || surveyLooking()) {
       // Looking over the family's own land for a house site or ten acres to survey: a tap is a place, not a person.
       const view = currentView();
@@ -3137,6 +3156,11 @@ export function drawWorld(world) {
     drawWeatherVeil(main, weatherNow, fogBase.shapes ? fogBase.canvas : null, world.minute, farEmphasis(camera.scale));
   }
   applyDrawState(main, mapBase.state);
+  // The family's own route (owner, 2026-09-27: "a thin, subtle line as a path for directions that only the player can see"):
+  // from the train through every stop to where it is making for, the road legs along the road and the country legs as the
+  // family goes across, thin, dashed and pale, under every figure. Only a student's page is sent one (sim/flight-route.mjs
+  // `routeProjection`), and only for its own family; the Host's is sent none, so its map is not thirty lines at once.
+  window.__routeDrawn = drawRouteLine(ctx, host ? null : world.flight, camera, canvas);
   standing.sort((a, b) => a.y - b.y);
   for (const item of standing) item.draw();
   // What is being said in Gonzales, over whoever is saying it (public/speech.js), above every figure and building.
@@ -3248,6 +3272,9 @@ export function drawWorld(world) {
     reducedMotion: reducedMotion.matches, paused: world.status !== 'running', bounds: { width: canvas.width, height: canvas.height }, named: camera.named,
   });
   if (fight) drawBattleCaption(ctx, fight, canvas);
+  // Mexican troops after a family (public/chase-view.js): the student's own family's, and every one on the Host's map.
+  const chases = host ? world.chases || [] : world.flight?.chase ? [world.flight.chase] : [];
+  window.__chaseView = chaseView.draw(ctx, chases, { camera, now: frameNow, time: animationTime, tickMs: window.__snapshot?.tickMs ?? 1000, bounds: { width: canvas.width, height: canvas.height }, reducedMotion: reducedMotion.matches, paused: world.status !== 'running' });
   window.__viewFormations = fight ? fight.formations.map(formation => formation.id) : [];
   canvas.dataset.formationIds = window.__viewFormations.join(' ');
   window.__viewEntities = entities.map(entity => entity.id);
@@ -3626,6 +3653,115 @@ function populateTrade(world, chosen, running) {
  * burns behind them. Once gone, the card says where the family is on the road.
  */
 let flightFormKey = '';
+/** The places the family may make for (sim/flight-route.mjs `flightPlaces`): on the road, or in the order to leave. */
+const routePlacesOf = world => world.flight?.route?.places || world.flight?.places || [];
+/** A distance in words: yards close in, miles further off. */
+const farWords = miles => (miles < 0.5 ? `${Math.max(10, Math.round(miles * 1760 / 10) * 10)} yards` : miles < 1.5 ? `${Math.round(miles * 4) / 4} of a mile`.replace('0.25', 'a quarter').replace('0.5', 'half').replace('0.75', 'three quarters').replace(/^1 of a mile$/, 'a mile').replace('1.25 of a mile', 'a mile and a quarter') : `${Math.round(miles)} miles`);
+/**
+ * The family's route as a line on the map, for its own page: `flight.route.line` is a list of legs, the first from where the
+ * train stands. Thin, dashed and pale, a little wider as the map is zoomed in; the stops as small rings. Returns what it drew.
+ */
+function drawRouteLine(ctx, flight, camera, canvas) {
+  const legs = flight?.route?.line;
+  if (!legs?.length) return null;
+  const width = Math.max(1, Math.min(2.4, camera.figure * 0.05));
+  ctx.save();
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.setLineDash([width * 3, width * 4]);
+  ctx.strokeStyle = 'rgba(96,72,40,0.42)'; ctx.lineWidth = width;
+  let points = 0;
+  for (const leg of legs) {
+    if (leg.length < 2) continue;
+    ctx.beginPath();
+    leg.forEach((point, i) => { const q = camera.toScreen(point); if (i) ctx.lineTo(q.x, q.y); else ctx.moveTo(q.x, q.y); });
+    ctx.stroke();
+    points += leg.length;
+  }
+  ctx.setLineDash([]);
+  const stops = [];
+  for (const leg of legs) {
+    const end = leg.at(-1); if (!end) continue;
+    const q = camera.toScreen(end);
+    ctx.fillStyle = 'rgba(250,244,230,0.7)'; ctx.strokeStyle = 'rgba(96,72,40,0.55)'; ctx.lineWidth = Math.max(1, width * 0.8);
+    ctx.beginPath(); ctx.arc(q.x, q.y, Math.max(2.5, width * 2.2), 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    stops.push({ x: Math.round(q.x), y: Math.round(q.y) });
+  }
+  ctx.restore();
+  return { legs: legs.length, points, stops, width: Math.round(width * 100) / 100 };
+}
+/**
+ * The route editor under the flight card (sim/flight-route.mjs): the stops in order, each stretch by the road or across
+ * country, a place added from the list or by tapping the map, and "Set out this way". Its own element beside the card, so a
+ * tick redrawing the card does not close a list a student has open.
+ */
+function renderRouteEditor(world, chosen, running) {
+  const card = $('#selection-flight');
+  let editor = $('#flight-route-editor');
+  // Presentation evidence, read by scripts/scrape-pursuit-browser-proof.mjs and by nothing in the page.
+  window.__routeEditor = { open: Boolean(routeDraft), picking: routePicking, stops: routeDraft ? [...routeDraft.stops] : [] };
+  const onRoad = world.flight && ['fled', 'refuged'].includes(world.flight.status) && world.role !== 'host' && chosen?.id === (world.household?.mainId || world.household?.principalId);
+  if (!onRoad || !routeDraft) {
+    routePicking = false;
+    if (editor) { editor.hidden = true; editor.replaceChildren(); }
+    routeEditorKey = '';
+    return;
+  }
+  if (!editor) { editor = document.createElement('div'); editor.id = 'flight-route-editor'; editor.className = 'flight-route'; card.after(editor); }
+  editor.hidden = false;
+  const sites = world.map?.sites || {};
+  const places = routePlacesOf(world);
+  const key = JSON.stringify([routeDraft, routePicking, places.length, running]);
+  if (routeEditorKey === key) return;
+  routeEditorKey = key;
+  editor.replaceChildren(element('p', 'Where the family goes, stop by stop. Each stretch by the road - quicker, but seen from further off - or across country, slower over the rough ground and seen from half as far; a wagon cannot cross timber.', 'work-note'));
+  const list = element('ol', '', 'flight-route-stops');
+  routeDraft.stops.forEach((id, i) => {
+    const row = element('li', '', 'flight-route-stop');
+    row.append(element('span', sites[id]?.name || id, 'flight-route-name'));
+    const way = document.createElement('select');
+    way.dataset.routeWay = String(i); way.setAttribute('aria-label', `How the family goes to ${sites[id]?.name || id}`);
+    for (const [value, label] of [['road', 'By the road'], ['country', 'Across country']]) { const option = element('option', label); option.value = value; option.selected = routeDraft.ways[i] === value; way.append(option); }
+    const remove = element('button', '✕', 'flight-route-remove');
+    remove.type = 'button'; remove.dataset.routeRemove = String(i); remove.setAttribute('aria-label', `Remove ${sites[id]?.name || id}`);
+    row.append(way, remove);
+    list.append(row);
+  });
+  if (!routeDraft.stops.length) list.append(element('li', 'No stops yet.', 'work-note'));
+  const add = document.createElement('select'); add.id = 'flight-route-place'; add.setAttribute('aria-label', 'A place to add');
+  for (const id of [...places].sort((a, b) => (sites[a]?.name || a).localeCompare(sites[b]?.name || b))) { const option = element('option', sites[id]?.name || id); option.value = id; add.append(option); }
+  const addButton = element('button', 'Add this stop', 'work-option'); addButton.type = 'button'; addButton.id = 'flight-route-add';
+  const pick = element('button', routePicking ? 'Stop picking on the map' : 'Pick stops on the map', 'work-option'); pick.type = 'button'; pick.id = 'flight-route-pick'; pick.setAttribute('aria-pressed', String(routePicking));
+  const go = element('button', 'Set out this way', 'work-stop'); go.dataset.action = 'flight-route'; go.dataset.entityId = chosen.id; go.disabled = !running || !routeDraft.stops.length;
+  const cancel = element('button', 'Keep the way we are going', 'work-option'); cancel.type = 'button'; cancel.id = 'flight-route-cancel';
+  const adding = element('div', '', 'flight-route-add'); adding.append(add, addButton);
+  editor.append(list, adding, pick, ...(routePicking ? [element('p', 'Tap a town, a landing, a ferry or a plantation on the map to add it.', 'work-note')] : []), go, cancel);
+}
+document.addEventListener('click', event => {
+  const editor = event.target.closest?.('#flight-route-editor');
+  if (!editor || !routeDraft) return;
+  const snapshot = window.__snapshot;
+  if (event.target.dataset.routeRemove !== undefined) { const i = Number(event.target.dataset.routeRemove); routeDraft.stops.splice(i, 1); routeDraft.ways.splice(i, 1); }
+  else if (event.target.id === 'flight-route-add') { const id = $('#flight-route-place')?.value; if (id && routeDraft.stops.at(-1) !== id && routeDraft.stops.length < 6) { routeDraft.stops.push(id); routeDraft.ways.push('road'); } }
+  else if (event.target.id === 'flight-route-pick') routePicking = !routePicking;
+  else if (event.target.id === 'flight-route-cancel') { routeDraft = null; routePicking = false; }
+  else return;
+  routeEditorKey = '';
+  if (snapshot) { renderSelection(snapshot.world); requestMapDraw(); }
+});
+document.addEventListener('click', event => {
+  if (event.target.id !== 'flight-route-open') return;
+  const flight = window.__snapshot?.world?.flight;
+  // On the road the draft begins as the way it is going; camped, it begins empty (the family is at its last stop already).
+  const stops = flight?.status === 'fled' ? flight?.route?.stops || [] : [];
+  routeDraft = { stops: stops.map(stop => stop.id), ways: stops.map(stop => stop.way) };
+  routeEditorKey = '';
+  if (window.__snapshot) renderSelection(window.__snapshot.world);
+});
+document.addEventListener('change', event => {
+  if (event.target.dataset?.routeWay === undefined || !routeDraft) return;
+  routeDraft.ways[Number(event.target.dataset.routeWay)] = event.target.value;
+  routeEditorKey = '';
+});
 function renderFlight(world, chosen, running) {
   const wrap = $('#selection-flight');
   const flight = world.flight;
@@ -3647,10 +3783,38 @@ function renderFlight(world, chosen, running) {
       flight.danger && flight.ask?.id !== 'danger' ? `${flight.danger.name} is about ${flight.danger.miles} miles off, making for ${flight.danger.towardName}.` : '',
       flight.overtaken ? 'The Mexican army has come up with the family and taken what it had.' : '',
     ].filter(Boolean).join(' ');
-    const said = JSON.stringify([where, road, flight.ask?.openedMinute ?? null, (flight.ask?.options || []).map(option => [option.id, option.can]), running]);
+    // Its own way (sim/flight-route.mjs): where it is making for, the next stop, the pace; and how far off it can be seen.
+    const route = flight.route, stops = route?.stops || [];
+    const routeWords = flight.status === 'fled' && route?.next ? `Making for ${stops.at(-1)?.name}${stops.length > 1 ? `, by way of ${stops.slice(0, -1).map(stop => stop.name).join(' and ')}` : ''}. Next, ${route.next.name}: ${route.next.miles} miles ${route.way === 'country' ? 'across country' : 'by the road'}, at about ${route.mph} miles an hour.` : '';
+    const seen = flight.seen;
+    const seenWords = seen && ['fled', 'refuged'].includes(flight.status) ? `Mexican troops could see the family from about ${farWords(seen.miles)}: ${seen.what === 'wagon' ? 'the wagon' : seen.what === 'mounted' ? 'riders' : 'people on foot'} ${seen.way === 'country' ? 'off the road' : 'on the road'}${seen.cover === 'timber' ? ', in the timber' : seen.cover === 'brush' ? ', in the brush' : ', in the open'}${['rain', 'storm'].includes(seen.weather) ? ', in the rain' : seen.weather === 'fog' ? ', in the fog' : ''}${seen.night ? ', at night' : ''}.` : '';
+    // The soldiers after it (sim/pursuit.mjs), as the family sees them.
+    const chase = flight.chase;
+    const who = chase ? `${chase.kind === 'cavalry' ? `${chase.men} Mexican horsemen` : 'Mexican soldiers'} of ${chase.name}` : '';
+    const hitWords = chase?.hits ? ` ${chase.shots.filter(shot => shot.hit).map(shot => `One hit ${shot.target === 'wagon' ? 'the wagon' : shot.target === 'beast' ? `the ${shot.name}` : shot.name}${shot.fate === 'killed' ? ', killed' : shot.fate === 'wounded' ? ', wounded' : shot.fate === 'lamed' ? ', lamed' : ''}.`).join(' ')}` : '';
+    const chaseWords = !chase ? ''
+      : chase.phase === 'seen' ? `${who} have seen the family and are coming after it, about ${farWords(chase.lead / 1760)} behind.${chase.timber ? ` There is timber about ${chase.timber.yards} yards off the road.` : ''}`
+      : chase.phase === 'hailed' && chase.answer === 'run' ? `Running: ${who} are about ${chase.lead} yards behind. ${chase.shotCount ? `They have fired ${chase.shotCount} ${chase.shotCount === 1 ? 'shot' : 'shots'}; ${chase.hits ? `${chase.hits} hit` : 'none has hit'}.` : ''}${hitWords}`
+      : chase.phase === 'caught' ? `${who} have the family.${chase.shotCount ? ` They fired ${chase.shotCount} ${chase.shotCount === 1 ? 'shot' : 'shots'}.` : ''}`
+      : chase.phase === 'escaped' ? `The family got away from ${who}.${chase.shotCount ? ` They fired ${chase.shotCount} ${chase.shotCount === 1 ? 'shot' : 'shots'}; ${chase.hits ? `${chase.hits} hit` : 'none hit'}.` : ''}${hitWords}` : '';
+    const canTimber = chase?.phase === 'seen' && chase.timber && flight.status === 'fled' && !flight.bog;
+    const said = JSON.stringify([where, road, routeWords, seenWords, chaseWords, canTimber, flight.ask?.openedMinute ?? null, (flight.ask?.options || []).map(option => [option.id, option.can]), running, Boolean(routeDraft)]);
     if (wrap.dataset.said !== said) {
       wrap.replaceChildren(element('p', where, 'ask-text'));
       if (road) wrap.append(element('p', road, 'work-note'));
+      if (routeWords) wrap.append(element('p', routeWords, 'work-note flight-route-words'));
+      if (seenWords) wrap.append(element('p', seenWords, 'work-note flight-seen'));
+      if (chaseWords) wrap.append(element('p', chaseWords, 'ask-text flight-chase'));
+      if (canTimber) {
+        const timber = element('button', '', 'work-option ask-option-work'); timber.dataset.action = 'flight-timber'; timber.dataset.entityId = chosen.id; timber.disabled = !running;
+        timber.append(element('span', `Make for the timber, ${chase.timber.yards} yards off`, 'work-name'), element('span', 'Off the road and into the trees before they come up: horsemen will not follow a family into the timber, and soldiers cannot see far in it.', 'work-note'));
+        wrap.append(timber);
+      }
+      // Not while the soldiers' order is the question in front of the family: that is answered first.
+      if (['fled', 'refuged'].includes(flight.status) && !routeDraft && !(chase && ['caught'].includes(chase.phase)) && flight.ask?.id !== 'alto') {
+        const change = element('button', 'Change where we go', 'work-option'); change.type = 'button'; change.id = 'flight-route-open'; change.disabled = !running;
+        wrap.append(change);
+      }
       if (flight.ask) {
         wrap.append(element('p', flight.ask.text, 'ask-text'));
         for (const option of flight.ask.options) {
@@ -3666,8 +3830,10 @@ function renderFlight(world, chosen, running) {
       wrap.dataset.said = said;
     }
     flightFormKey = '';
+    renderRouteEditor(world, chosen, running);
     return;
   }
+  renderRouteEditor(world, null, running);
   const key = JSON.stringify([flight.room, flight.mode, flight.have, flight.refuges, flight.burned, flight.decidedToStay, running]);
   if (flightFormKey === key) return;
   flightFormKey = key;
@@ -3690,6 +3856,12 @@ function renderFlight(world, chosen, running) {
   const room = element('p', '', 'work-note'); room.id = 'flight-room';
   const refuge = document.createElement('select'); refuge.id = 'flight-refuge';
   for (const option of flight.refuges) { const choice = element('option', `${option.name} · about ${option.miles} miles`); choice.value = option.id; refuge.append(choice); }
+  // Or any other place a family could make for (sim/flight-route.mjs), and whether it goes by the road or across country.
+  const sites = world.map?.sites || {};
+  const others = (flight.places || []).filter(id => !flight.refuges.some(one => one.id === id) && sites[id]).sort((a, b) => sites[a].name.localeCompare(sites[b].name));
+  if (others.length) { const group = document.createElement('optgroup'); group.label = 'Other places'; for (const id of others) { const choice = element('option', sites[id].name); choice.value = id; group.append(choice); } refuge.append(group); }
+  const way = document.createElement('select'); way.id = 'flight-way';
+  for (const [value, label] of [['road', 'By the road (quicker, seen from further off)'], ['country', 'Across country (slower, seen from half as far)']]) { const option = element('option', label); option.value = value; way.append(option); }
   const go = element('button', 'Leave for the east', 'work-stop');
   go.dataset.action = 'flee'; go.dataset.entityId = chosen.id; go.disabled = !running;
   const tally = () => {
@@ -3698,7 +3870,7 @@ function renderFlight(world, chosen, running) {
     room.dataset.over = String(used > flight.room + 1e-9);
   };
   form.addEventListener('input', tally); tally();
-  wrap.append(form, room, element('label', 'Make for', 'flight-where'), refuge, go);
+  wrap.append(form, room, element('label', 'Make for', 'flight-where'), refuge, element('label', 'How', 'flight-where'), way, go);
   // Refusing to go is an answer of its own (sim/scrape.mjs `stayHome`), offered only while the order stands unanswered.
   if (flight.status === 'ordered') {
     const stay = element('button', 'Stay, and take the risk', 'work-stop');
@@ -6286,7 +6458,9 @@ document.addEventListener('click', async event => {
     if (button.dataset.destination) input.destination = button.dataset.destination === 'home' ? homeOf(world) : button.dataset.destination;
     if (button.dataset.chore) input.chore = button.dataset.chore;
     // The flight's load and refuge come from the card's own form (sim/scrape.mjs).
-    if (action === 'flee') { input.refuge = $('#flight-refuge')?.value; input.take = Object.fromEntries([...document.querySelectorAll('#selection-flight .flight-amount')].map(one => [one.dataset.take, Number(one.value) || 0])); }
+    if (action === 'flee') { input.refuge = $('#flight-refuge')?.value; input.take = Object.fromEntries([...document.querySelectorAll('#selection-flight .flight-amount')].map(one => [one.dataset.take, Number(one.value) || 0])); input.route = { stops: [input.refuge], ways: [$('#flight-way')?.value || 'road'] }; }
+    // The family's own route, from the editor (sim/flight-route.mjs); closed once the server has it.
+    if (action === 'flight-route') input.route = { stops: [...(routeDraft?.stops || [])], ways: [...(routeDraft?.ways || [])] };
     if (button.dataset.option) input.option = button.dataset.option;
     if (button.dataset.question) { input.question = button.dataset.question; input.answer = button.dataset.answer; }
     if (button.dataset.lineId) input.lineId = button.dataset.lineId;
@@ -6298,6 +6472,7 @@ document.addEventListener('click', async event => {
   }
   try {
     const result = await api('/api/command', input);
+    if (action === 'flight-route') { routeDraft = null; routePicking = false; routeEditorKey = ''; }
     $('#host-notice').hidden = !(result.archived || result.stopping);
     if (result.archived) $('#host-notice').textContent = `New class ready. The previous class was archived as ${result.archived}. Share the new class code; students join again.`;
     if (result.stopping) $('#host-notice').textContent = 'Stopping the classroom server. The class was saved and paused.';

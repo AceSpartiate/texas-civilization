@@ -1,0 +1,167 @@
+{
+  "measured": "2026-09-28",
+  "summary": {
+    "classes": 10,
+    "families": 15,
+    "fled": 123,
+    "met": 17,
+    "hailed": 15,
+    "cavalry": 9,
+    "taken": 15,
+    "oldRule": 21,
+    "metShare": 0.138,
+    "hailedShare": 0.122,
+    "cavalryShare": 0.073,
+    "oldRuleShare": 0.171
+  },
+  "rows": [
+    {
+      "seed": "pursuit-0",
+      "families": 15,
+      "fled": 12,
+      "met": 1,
+      "hailed": 1,
+      "cavalry": 0,
+      "taken": 1,
+      "chases": 1,
+      "oldRule": 3,
+      "byWatcher": {
+        "sesma": 1
+      }
+    },
+    {
+      "seed": "pursuit-1",
+      "families": 15,
+      "fled": 11,
+      "met": 1,
+      "hailed": 1,
+      "cavalry": 1,
+      "taken": 1,
+      "chases": 1,
+      "oldRule": 0,
+      "byWatcher": {
+        "sesma-scouts": 1
+      }
+    },
+    {
+      "seed": "pursuit-2",
+      "families": 15,
+      "fled": 9,
+      "met": 0,
+      "hailed": 0,
+      "cavalry": 0,
+      "taken": 0,
+      "chases": 0,
+      "oldRule": 1,
+      "byWatcher": {}
+    },
+    {
+      "seed": "pursuit-3",
+      "families": 15,
+      "fled": 13,
+      "met": 1,
+      "hailed": 0,
+      "cavalry": 1,
+      "taken": 0,
+      "chases": 1,
+      "oldRule": 3,
+      "byWatcher": {
+        "sesma-scouts": 1
+      }
+    },
+    {
+      "seed": "pursuit-4",
+      "families": 15,
+      "fled": 12,
+      "met": 2,
+      "hailed": 2,
+      "cavalry": 2,
+      "taken": 2,
+      "chases": 3,
+      "oldRule": 2,
+      "byWatcher": {
+        "sesma-scouts": 1,
+        "santa-anna": 1,
+        "almonte": 1
+      }
+    },
+    {
+      "seed": "pursuit-5",
+      "families": 15,
+      "fled": 12,
+      "met": 1,
+      "hailed": 1,
+      "cavalry": 1,
+      "taken": 1,
+      "chases": 2,
+      "oldRule": 1,
+      "byWatcher": {
+        "sesma": 1,
+        "santa-anna-dragoons": 1
+      }
+    },
+    {
+      "seed": "pursuit-6",
+      "families": 15,
+      "fled": 13,
+      "met": 2,
+      "hailed": 2,
+      "cavalry": 1,
+      "taken": 2,
+      "chases": 2,
+      "oldRule": 2,
+      "byWatcher": {
+        "sesma": 1,
+        "almonte": 1
+      }
+    },
+    {
+      "seed": "pursuit-7",
+      "families": 15,
+      "fled": 14,
+      "met": 5,
+      "hailed": 4,
+      "cavalry": 1,
+      "taken": 4,
+      "chases": 6,
+      "oldRule": 4,
+      "byWatcher": {
+        "sesma": 1,
+        "sesma-scouts": 1,
+        "santa-anna": 3,
+        "sesma-brazos": 1
+      }
+    },
+    {
+      "seed": "pursuit-8",
+      "families": 15,
+      "fled": 13,
+      "met": 2,
+      "hailed": 2,
+      "cavalry": 2,
+      "taken": 2,
+      "chases": 4,
+      "oldRule": 2,
+      "byWatcher": {
+        "sesma-scouts": 1,
+        "santa-anna": 1,
+        "santa-anna-dragoons": 1,
+        "almonte": 1
+      }
+    },
+    {
+      "seed": "pursuit-9",
+      "families": 15,
+      "fled": 14,
+      "met": 2,
+      "hailed": 2,
+      "cavalry": 0,
+      "taken": 2,
+      "chases": 3,
+      "oldRule": 3,
+      "byWatcher": {
+        "sesma": 3
+      }
+    }
+  ]
+}

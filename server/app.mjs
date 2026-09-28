@@ -63,6 +63,7 @@ const files = new Map([
   ['/famous-view.js', ['../public/famous-view.js', 'text/javascript']],
   // The one battle renderer and the one speech bubble (docs/BATTLES.md §3): every fight drawn, every line said over its speaker.
   ['/battle-view.js', ['../public/battle-view.js', 'text/javascript']],
+  ['/chase-view.js', ['../public/chase-view.js', 'text/javascript']],
   ['/speech.js', ['../public/speech.js', 'text/javascript']],
   ['/creation.js', ['../public/creation.js', 'text/javascript']],
   ['/intro-art.js', ['../public/intro-art.js', 'text/javascript']],

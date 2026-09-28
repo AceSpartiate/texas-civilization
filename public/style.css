@@ -640,6 +640,16 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 @media(max-width:760px){#ending{padding:12px}.ending-numbers dd{font-size:21px}}
 /* The flight east (public/app.js renderFlight). */
 .flight-form{display:grid;gap:4px;margin:6px 0}
+.flight-route{display:grid;gap:6px;margin:6px 0;padding:6px;border:1px dashed #b8a47c;border-radius:6px}
+.flight-route-stops{margin:0;padding-left:20px;display:grid;gap:4px}
+.flight-route-stop{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:13px}
+.flight-route-name{flex:1 1 8em;min-width:0}
+#flight-route-editor .flight-route-remove{padding:2px 8px;font-size:12px;line-height:1.4;min-height:0;background:#efe6d2;color:#4b3a22;border:1px solid #b8a47c;border-radius:4px;box-shadow:none}
+.flight-route-add{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.flight-route-add select{flex:1 1 10em;min-width:0}
+#flight-route-editor .work-option{padding:4px 8px;min-height:0}
+.flight-route select,.selection #flight-way{max-width:100%}
+.flight-chase{color:#6b2f1d}
 .flight-take{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}
 .flight-amount{width:64px}
 #flight-room[data-over=true]{color:#8a3b22}
