@@ -45,7 +45,10 @@ export function militaryNotices(world) {
   // Watch, which frames the camera on the field. Never put up over a decision that is open - the family's call, a rider
   // standing with one of them, any question above - so it never stacks on something waiting for an answer.
   // The quiet reminder that somebody is inside the Alamo is not a decision: the storming's card goes up over it.
-  const deciding = notices.some(notice => notice.kind !== 'siege') || world.request?.status === 'open' || meeting?.status === 'open';
+  // And never over the family's own road (docs/audits/2026-09-28-design.md S35): the order to leave, the road's question and
+  // the soldiers' ¡Alto! are the family's to answer in time, and a Watch card sprung open over them took the student away.
+  const roadAsking = Boolean(world.flight && (world.flight.status === 'ordered' || world.flight.ask));
+  const deciding = notices.some(notice => notice.kind !== 'siege') || world.request?.status === 'open' || meeting?.status === 'open' || roadAsking;
   const alert = world.battleAlert;
   if (alert && !deciding && own.some(person => person.id === alert.entityId)) {
     // Watch for a fight; Follow for a march or a muster (Coleto's march out, the prisoners formed on Palm Sunday), which frames

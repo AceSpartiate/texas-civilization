@@ -46,6 +46,98 @@ camps silent (or Spanish with a gloss); two exchanges a tick and three bubbles (
 person does anything new (the famous people keep their own art); phones and a Chromebook not measured; no LAN claim.
 
 
+
+## The tutorial suspended; tips at first meeting; the "!"s ranked — owner, 2026-09-28 (worktree branch; not released)
+
+**The decisions.** Owner, 2026-09-28: "fix the blockers" (design audit B8, S4-S6, S8, S33, S35; playthrough audit §5), and by
+multiple choice on how the later systems are taught, **"Short tips at first meeting"** - the first time each new thing appears,
+a one-line tip shows what to do and what it costs; nothing blocks play; each tip shown once. Later the same day, **"The starting
+tutorial needs to be removed for now. We'll redo it from scratch later. It currently just gets in the way of things."**
+
+**1. The guided start suspended** (docs/LESSON.md, top). `LESSON_ENABLED = false` in `sim/lesson.mjs` (`ceiling:`) makes
+`teachable` false for every family: no gate, no stored step, no `lesson`/`lessonResume` on the projection (no strip, pips, ring,
+X or Resume), and `inLesson` false, so a settlement's call spends its five minutes from the moment it arrives. The old "New to
+this?" walk-through is off too (`OLD_WALKTHROUGH_OFFERED` in `public/app.js`, which would otherwise have been offered to every
+family), and the title card now says tips will come instead of a guide. The code is kept as built for the rework, including
+the same day's narrowing of the gate to the farm steps (`FARM_WORK`, `NEVER_HELD`, `shut` on the projection, the lesson ending
+with the first period via `closeLessons`) - done before the owner's second word, tested and injected (34 of 34) while it was on,
+and now switched off with the rest. **Skipped while off, and said so:** `tests/lesson.test.mjs` (all 32 tests), the gate test in
+`tests/lesson-usability.test.mjs`; `npm run test:lesson` and `scripts/lesson-injections.mjs` exit at once with "SKIPPED". Held
+instead by `tests/lesson-off.test.mjs` (always runs). `scripts/means-browser-proof.mjs` no longer waits for an X that is not there.
+
+**2. Tips at first meeting** (docs/LESSON.md §9) - now the only guidance a new student has. Twenty tips (`public/tips.js`
+`TIPS`, ids in `sim/tips.mjs`): on the road in, how to give an order (both added for the suspension), the star, ¡Alto!, the
+road's question, the order to leave, sickness and nursing, the settlement's call and that it lapses, the army's questions, Watch,
+Resume tutorial (dormant), "Stop and rest a day", the route, the milk cow, the milk, a crying baby, a child with nothing to do,
+enlisting and voting, trading, the store (coin as the score; inside the errand). Due when its thing is in the family's own
+projection; one at a time over the map above the action bar, placed clear of the column, the card, the call, the messages and
+the strip (`placeTip`); the words let clicks through; "Got it" or Escape; never to the Host, never in the lobby or over the
+ending or the curtain. Put away, or retired when its thing goes while it stands, the page sends `seen-tip` and the server keeps
+`household.tipsSeen` (absent = seen none; validated; **no `saveVersion` move**). S6: hover-only costs are in the tips, and each
+line of the town errand opens what it does on a tap. `server/app.mjs` serves `/tips.js`.
+
+**3. The "!"s ranked** (S33, S35). `NEED_KINDS` is the order of urgency (¡Alto!, road, order to leave, very sick, rider, call, army,
+camp, courier, asking, offer); `rankNeeds` orders every row's "!" by it, ties by time left; the "!" carries its number and time
+left ("28s", "4 min"), counted down from `request.leftMs`, the person's `decisionLeftMs`, `flight.ask.ticksLeft`
+(`askTicksLeft`) and `flight.ticksLeft` at the class's pace; the first is ringed. Watch waits behind the order to leave, the
+road and ¡Alto!.
+
+**Evidence** (same computer only). `npm test` **1600 tests: 1562 pass, 36 skipped, 2 fail** on the tree merged with origin/main f815d07e: `tests/acting.test.mjs`'s ¡Alto! check read the "!" as kind `road`, which is `alto` since this work's ranking - brought up to date, 14 of 14; and `tests/solo.test.mjs`'s own Pause/Resume/Save saw a stop under the full suite's load and **passes alone**. (The run before, on bc8ead09: 1549 pass, 36 skipped, 0 fail, `tests/capacity.test.mjs` cancelled at its 30 s under load as recorded below before this work, passes alone.) (The run before, on origin/main e549ec1, found `tests/means.test.mjs` asserting a cart family is given a lesson; made conditional, 14 of 14.) The 36 skipped are the guided start's own: `tests/lesson.test.mjs` 32, and one each in `lesson-usability`, `afoot` (the cart/no-vehicle family's whole lesson), `call-lapse` (the call held during the lesson) and `auto-repeat` (auto and the gate); the lesson halves of one test each in `childhood`, `children` and `means` run only when it is on. New: `tests/tips.test.mjs` 5, `tests/need-ranking.test.mjs` 4, `tests/lesson-off.test.mjs` 2 (the switch), each **seen failing** by injection: [tips-injections.json](docs/evidence/tips-injections.json) **29 of 29 caught** by the test written for each (before the switch-off the harness ran 34 of 34, including the narrowed gate's nine, now not run). Browser: `npm run test:tips` **11 of 11** (1366 keyboard: no strip and no walk-through, the arrival's and the order's tips, the call's tip placed clear of everything and passed through to the map, Escape, kept by the server, not shown after a reload, nothing says "Not yet" in the first hour, nothing on the Host; 1024 touch: the order to leave with "3 min" on the "!", the route, ¡Alto! with "30s", each tapped away, none shown again after a reload); `test:family-panel` 17, `test:panels` 14, `test:scrape` 5 (one run of two failed on food 31.65 against 32 - a tick of eating between leaving and the check at the proof's 4-second pace; the rerun passed); `test:lesson` now prints SKIPPED.
+
+**Questions for the owner.** (a) With the tutorial gone, the tips are all a new student gets: is "on the road in" and "how to give
+an order" enough for the first minutes, or do you want the house, the field and the store taught as tips too until the tutorial
+is rebuilt? (b) The "Resume tutorial" tip and the lesson's narrowed gate stay in the tree, switched off - keep them for the rework
+or delete them? (c) `ceiling:` a tip with under 200px beside an open card waits under the card.
+
+## Who acts for a family: the one with it answers the flight; the oldest child steps up — owner, 2026-09-28 (worktree branch; not released)
+
+**The decision.** Owner, 2026-09-28: "fix the blockers", and by multiple choice for a family left with nobody who can act: **"The
+oldest child steps up"** - a child of about seven or older can act for the family in an emergency (flee, fetch water, mind the
+little ones, go for help), as frontier children really did; with none, the student follows a neighbour family that takes them in.
+Recorded as `FIC-GONZ-730` to `-734` (HISTORY.md); the rule is docs/FAMILY_PANEL.md §20, with amendments in docs/CHILDREN.md §11,
+docs/SCRAPE.md §17, docs/FAMILY_CREATION.md (2026-09-28) and docs/DISEASE.md §10. Built on the direction another builder is
+taking for B11 (the portrait selects; the star sets the main person): the main person is not moved by any of this.
+
+**What changed** (the audits' ids in brackets):
+
+1. **Interactions B1 (blocker), design S22, M32.** New sim/acting.mjs `actingFor`: the family's own decisions go to whoever is
+   *with the family* - the main person if with it and able, else the next able grown person there, else anybody grown there, else
+   the oldest child of seven or more. Nobody serving, a prisoner, marching or at a call's gathering (`awayWithTheArmy`) decides.
+   sim/world.mjs `applyOneAction` takes flee, the route, the timber, stay and road-answer from the child who steps up, refuses a
+   smaller child and anybody away from the family while somebody is with it, and names who answers when it refuses a serving man or
+   a prisoner. `projectHousehold` sends `actingId` (only while the family has a flight, and only when it is not the main person) and
+   `steppedUp`. sim/auto.mjs, sim/pursuit.mjs `attended`, sim/road.mjs (the patience and the overtaken glory) and the director
+   (sim/neighbours.mjs) read the same person. sim/family.mjs `mainPersonId` now passes over a prisoner. The page (public/app.js
+   `renderFlight`, `renderRouteEditor`; public/family-panel.js `actingOf`, `needsOf`) puts the card and the "!" on that person.
+2. **Design B10, interactions S3, playthrough 8: the oldest child steps up; taken in.** `STEPS_UP_FROM` 7; `child-help` (go for
+   help: a run on foot to the nearest neighbours, the one child's work with a road in it, `modeAvailability`); `advanceTakenIn`:
+   with no grown person free anywhere and no child of seven or more with the family, the nearest neighbour family with somebody
+   grown at home (or at the same refuge) takes the little ones in; they go where it goes (`goWith`) until somebody grown of their
+   own comes to where they are (`release`: camped at that refuge, or walked home together).
+3. **Interactions S1, design S19, M4: left behind.** `advanceStragglers`: anybody idle away from a fled or refuged family is told
+   once and follows to its refuge (never on a beast of the family's road - found by the chase's women-and-children test); `flee`
+   and `turnHome` take the wounded (company seats them first; on foot `walkingPace` is a small child's).
+4. **Interactions S4, design S14: a baby never marches.** `takeBabyAlong` leaves the baby at home on a journey to the war
+   (`goingToWar`); `leavesLittleOnes` is on the enlist/join controls (`leaves`) and the call's note.
+5. **Interactions S6, design S34, S36: very sick means in bed.** sim/babies.mjs `settleTheUnable` (last in the tick) stops work in
+   hand at home, sets a held baby down and lets a talking child go; `whoComes` and `talkTarget` pass over the very sick and wounded;
+   the very sick "!" opens `#selection-nurse` (public/app.js `renderNurse`) from `nurses` (sim/world.mjs `nursesFor`).
+6. **Playthrough 7: a wiped-out family.** `orderOut` skips a family with nobody living; sim/clock.mjs `deciding` holds only for a
+   family with somebody with it to answer; sim/ending.mjs `hostEnding` marks `wiped` and never names it winner.
+7. **Interactions M1.** `settleTheUnable` also lets the dead and the taken, and anybody put on a road without `beginTravel` (the
+   flight, the march), let go of the little ones; `talkLines` and `babyLines` give no line to anybody gone.
+
+**Evidence** (same computer only). tests/acting.test.mjs, 13 tests, **every one failing on the code before this change** (all 13 run against main 6bb5252 extracted apart, each with its own message: e.g. "the family was never asked to halt (caught)" - the serving father on auto made the family halt unasked). `npm run test:acting-injections`: **25 of 25 injections caught, 17 alone** (the rest fail the neighbouring test of the same rule too, e.g. "a child steps up only at ten" also fails going for help), docs/evidence/acting-injections.json. `npm test` **1544 of 1546** after merging origin/main e549ec1: the two failures are the load-timed `capacity` test (30 s limit; passes alone, and fails the same way on origin/main under the same load) and origin/main's new `stale-lock` race test, which fails identically on origin/main's own tree extracted apart. Browser (headless Chrome, 1366x768): `test:acting` **7 of 7** (the father serving - the order and "¡Alto!" on the mother, her "run" taken with him on auto in the camp; a family of children - the nine-year-old gives the order and answers "¡Alto!"; a very sick girl's "!" opens nursing and sends her father to it), `test:scrape` 5 of 5, `test:scrape-pursuit` 14 of 14 (it first failed at the route editor: the proof's family, stepped unplayed through April and captured but for a boy of five, had had him taken in by hh-3; `stowAway` in tests/support/scrape-scene.mjs now clears `takenIn`), `test:children` 14 of 14, `test:disease` 8 of 8, `test:family-panel` 17 of 17, `test:lesson` 33 of 33, at most two at once. Two tests moved: tests/rumour-story.test.mjs (this seed's word of Urrea at Brazoria now first reaches a family on April 23, after San Jacinto's; the latest word may be any first heard from April 21 on) and the chase's women-and-children test caught a real bug on the way (a man left at home took the ox off the family's road to follow it; stragglers now go on foot or their own standing horse). Found and fixed on the way: sim/chores.mjs importing sim/acting.mjs made a cycle that broke nine house tests (`registerActingChores` is handed `registerChores`); and the director (sim/neighbours.mjs) now sends the flight and the road's answer through `actingId`.
+
+**Not proved / limits.** `ceiling:` the taken-in little ones are set down at the neighbours' at once and eat nothing of either store;
+a student sending somebody elsewhere on purpose while the family is fled sees them go on to the refuge when they arrive; the
+child's glyph is a stand-in (docs/ART_REQUESTS.md request 2026-09-28). No physical LAN or classroom run.
+
+**Decisions for the owner** (docs/FAMILY_PANEL.md §20): what a student whose little ones were taken in may do for the family that
+took them in (A watch / B the road's children's works / C that family's road questions when nobody plays it); the age a child
+steps up at (A seven / B eight / C five for the order only); a lone father sent to the war with only small children at home (A
+warned / B refused / C only once a neighbour agrees).
+
 ## Sound and music, made by the page — owner, 2026-09-28 (worktree branch; not released)
 
 **The request.** Owner, 2026-09-28: *"also: we need audio. we need sound effects, music, etc. everything has to be free, and
@@ -106,7 +198,7 @@ recorded in the ending. S7 (trading and raisings nearly undiscoverable) answered
   and may say no; a student offered help **accepts or says no** (`neighbour-answer`, any of the family, allowed through the lesson
   gate). Families nobody plays offer and take at once, **hold their going east half a day** for a wagon answer, and **send one
   person to the raising** of a family they owe (sim/neighbours.mjs, from their own projection). `takesIn` / `recordTakenIn` are the
-  hook for the other builder's "oldest child steps up / taken in by a neighbour" rule - not wired, since that rule is not on main.
+  hook for the "taken in by a neighbour" rule: **wired at the merge (2026-09-28)** - sim/acting.mjs `hostsFor` puts the family that owes most first, then the nearest (sim/world.mjs `registerTakenInLedger`, no import cycle), and `takeIn` writes the shelter deed quietly (acting tells both families itself); tests/acting.test.mjs "the family that owes this one most", seen failing under two injections.
 - **Finding and helping neighbours (S7).** public/neighbours.js, a **Neighbours** button beside Journal: families within 8 miles or
   already dealt with, "Raising their walls now", "They helped your family", what lies between you, **Send … there** and **Help raise
   the walls**; offers at the top, opening the sheet once when new. A journal line when a near family starts raising walls.

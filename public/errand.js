@@ -108,6 +108,18 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
         const words = element('div', '', 'errand-words');
         words.append(element('span', line.label, 'errand-label'), element('span', line.why || line.price, 'errand-price'));
         words.title = line.does;
+        // What it does, on a tap as well as a hover (docs/audits/2026-09-28-design.md S6: a Chromebook touch screen has no
+        // hover, and sim/shops.mjs says each line's `does` "before the choice"): the words are a button that opens the line.
+        if (line.does) {
+          const open = state.open.has(line.id);
+          words.dataset.act = 'does';
+          words.setAttribute('role', 'button');
+          words.tabIndex = 0;
+          words.setAttribute('aria-expanded', String(open));
+          const does = element('span', line.does, 'errand-does');
+          does.hidden = !open;
+          words.append(does);
+        }
         const controls = element('div', '', 'errand-controls');
         if (line.pays?.length > 1) {
           const pay = state.pays.get(line.id) || line.pays[0];
@@ -161,6 +173,13 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
     drawWays(host, { ways, quickest: quote.quickest || null, chosen: state.mode || quote.quickest || null }, element);
   }
 
+  function toggleDoes(id) {
+    if (!state || !id) return;
+    if (state.open.has(id)) state.open.delete(id); else state.open.add(id);
+    draw();
+    root.querySelector(`[data-line="${CSS.escape(id)}"] [data-act="does"]`)?.focus({ preventScroll: true });
+  }
+
   async function send() {
     if (!state || state.busy || $('#errand-send').disabled) return;
     const list = currentList();
@@ -193,6 +212,8 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
     }
     const button = event.target.closest('[data-act]'), row = event.target.closest('[data-line]');
     if (!button || !row || button.disabled) return;
+    // Opening what a line does changes no list: nothing is asked of the server again.
+    if (button.dataset.act === 'does') { toggleDoes(row.dataset.line); return; }
     const id = row.dataset.line, line = state.facts?.lines.find(one => one.id === id);
     if (!line) return;
     const act = button.dataset.act;
@@ -210,12 +231,18 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
   root.addEventListener('keydown', event => {
     if (!state) return;
     if (event.key === 'Escape') { event.preventDefault(); close(); return; }
+    // Enter or Space on a line's words opens what it does, as a click does; it never sends the list from there.
+    if ((event.key === 'Enter' || event.key === ' ') && event.target.dataset?.act === 'does') {
+      event.preventDefault();
+      toggleDoes(event.target.closest('[data-line]')?.dataset.line);
+      return;
+    }
     if (event.key === 'Enter' && !event.target.closest('#errand-close, #errand-cancel')) { event.preventDefault(); send(); }
   });
 
   return {
     open(entityId) {
-      state = { entityId, facts: null, quote: null, counts: new Map(), pays: new Map(), mode: null, seq: 0, busy: false, error: '', key: null, quotedKey: null };
+      state = { entityId, facts: null, quote: null, counts: new Map(), pays: new Map(), open: new Set(), mode: null, seq: 0, busy: false, error: '', key: null, quotedKey: null };
       draw();
       fetchFacts();
       root.querySelector('#errand-cancel')?.focus({ preventScroll: true });

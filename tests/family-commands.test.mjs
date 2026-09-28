@@ -92,14 +92,16 @@ test('a call and an army question are "!"s on whoever may answer them, and nothi
   assert.deepEqual(needsOf({ entities: [entity], army: { ours: [{ id: 'a', detachment: 'open' }] } }, 'a').map(need => need.kind), ['army']);
   // Nothing about what an answer risks, which the owner hid (docs/COLONIES.md §7a).
   assert.doesNotMatch(needsOf({ entities: [entity], army: army('open') }, 'a')[0].text, /kill|die|death|danger|risk|wound/i);
-  // The most pressing first: a rider who will not wait, then the army, Travis asking for riders, a call, work asking, an offer.
+  // The most urgent first (docs/audits/2026-09-28-design.md S33, 2026-09-28): the road's question, the order to leave, very
+  // sick, a rider who will ride on, the call, the army, Houston's camp, Travis asking for riders, work asking, an offer.
   const everything = {
-    // Very sick last (sim/disease.mjs, 2026-09-27): the server's line on the person.
     entities: [{ ...entity, chore: { ask: { id: 'shot' } }, service: { kind: 'garrison', status: 'serving', besieged: true, courier: 'open', leave: 'open' }, sickness: { grave: true, line: 'Very sick with the measles.' } }], request: call, army: army('open'),
     encounter: { status: 'open', listenerId: 'a', carrierName: 'Ben' }, offers: [{ direction: 'received', ourEntityId: 'a', theirName: 'Cy' }],
-    flight: { status: 'ordered' }, household: { mainId: 'a' },
+    flight: { status: 'ordered', ask: { id: 'bog', text: 'The wagon is fast in the mud.' } }, household: { mainId: 'a' },
   };
-  assert.deepEqual(needsOf(everything, 'a').map(need => need.kind), NEED_KINDS);
+  assert.deepEqual(needsOf(everything, 'a').map(need => need.kind), NEED_KINDS.filter(kind => kind !== 'alto'));
+  // And the soldiers' ¡Alto!, which takes the road question's place, before everything.
+  assert.equal(needsOf({ ...everything, flight: { status: 'fled', ask: { id: 'alto', text: '¡Alto!' } } }, 'a')[0].kind, 'alto');
   // The Host is never waited on, and the dead and captured are not asked anything.
   assert.deepEqual(needsOf({ ...everything, role: 'host' }, 'a'), []);
   assert.deepEqual(needsOf({ ...everything, entities: [{ ...everything.entities[0], health: { condition: 'dead' } }] }, 'a'), []);

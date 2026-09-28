@@ -11,6 +11,7 @@
 // families nobody plays get means on the first tick and live their lives; a class made before opens as it was; nothing hidden
 // is read or sent, no other family's seats reach a student, and the seats cost the tick little.
 import test from 'node:test';
+import { LESSON_ENABLED } from '../sim/lesson.mjs';
 import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -393,7 +394,8 @@ test('a family with a cart does its first steps, brings in a crop that wants the
   fresh.status = 'running';
   for (let t = 0; t < 300 && fresh.households['hh-1'].arriving; t++) stepWorld(fresh);
   assert.equal(fresh.households['hh-1'].arriving, undefined);
-  assert.ok(fresh.households['hh-1'].lesson, 'the cart family was given no lesson');
+  // Given the lesson only while there is one (switched off by the owner, 2026-09-28; sim/lesson.mjs LESSON_ENABLED).
+  if (LESSON_ENABLED) assert.ok(fresh.households['hh-1'].lesson, 'the cart family was given no lesson');
   validateWorld(fresh);
 });
 

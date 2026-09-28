@@ -167,7 +167,10 @@ function idleChild(world, household, child) {
 export function talkTarget(world, household, child) {
   const here = child.location;
   const candidates = household.members.map(id => world.entities[id])
-    .filter(person => person && person.id !== child.id && present(household, person) && !tooYoung(person) && person.aside?.kind !== 'baby');
+    // Not somebody too sick to get up or lying wounded (interactions S6, 2026-09-28): a child with nothing to do does not come to stop
+    // their rest, and goes to the next nearest, or plays by themself.
+    .filter(person => person && person.id !== child.id && present(household, person) && !tooYoung(person) && person.aside?.kind !== 'baby'
+      && !person.health?.grave && person.health?.condition !== 'wounded');
   const dist = person => Math.hypot(person.location.x - here.x, person.location.y - here.y);
   const nearest = list => list.sort((a, b) => dist(a) - dist(b) || a.id.localeCompare(b.id))[0] || null;
   return nearest(candidates.filter(person => (child.kin?.parents || []).includes(person.id))) || nearest(candidates);
@@ -329,7 +332,8 @@ export function talkLines(world, household) {
     const child = world.entities[id];
     if (child?.talk?.phase !== 'talking' || !speaking.has(child.id)) continue;
     const grown = world.entities[child.talk.withId];
-    if (!grown) continue;
+    // Nobody gone says anything (interactions M1): a grown-up who died or was taken this tick has let the child go already.
+    if (!grown || GONE.includes(grown.health?.condition) || GONE.includes(child.health?.condition)) continue;
     const n = world.tick - (child.talk.from ?? child.talk.since);
     const said = pick(world, child.id, `say:${n}`, CHILD_SAYS).replace('{p}', calledBy(world, child, grown));
     lines.push({ id: `${child.id}:talk:${world.tick}`, sceneId: `talk:${child.id}`, speakerId: child.id, text: said, kind: 'reconstructed', claimId: 'FIC-GONZ-481' });

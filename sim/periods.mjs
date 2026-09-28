@@ -18,6 +18,7 @@ import { learn } from './knowledge.mjs';
 import { expireCalls } from './calls.mjs';
 import { momentOf } from './directors.mjs';
 import { eatenADay } from './family.mjs';
+import { closeLessons } from './lesson.mjs';
 
 /** The period a class is in: absent on every class saved before there were two, which were all the first. */
 export const periodOf = world => world.period || 1;
@@ -87,6 +88,9 @@ export function beginSecondPeriod(world) {
   }
   // An offer is a thing said face to face (sim/trade.mjs), and nobody stood together over the winter.
   world.offers = {};
+  // The guided start is the first period's (owner, 2026-09-28: "end the tutorial for a family when the first period ends"):
+  // every family still on a step is let go, and the winter's choices are never met with "Not yet" (sim/lesson.mjs).
+  closeLessons(world);
 
   // Everyone who went home arrives home; anyone still lying wounded stays where the surgeon has them until the wound mends.
   for (const household of Object.values(world.households)) {

@@ -1,5 +1,31 @@
 # The guided beginning
 
+> **Suspended by the owner, 2026-09-28, to be redone from scratch:** *"The starting tutorial needs to be removed for now. We'll
+> redo it from scratch later. It currently just gets in the way of things."* It is switched off by one constant,
+> `LESSON_ENABLED = false` in `sim/lesson.mjs` (marked `ceiling:`): the server holds no gate, a new family starts with every order
+> open, nothing of a lesson is projected (no strip, pips, ring, X or Resume), no step is stored, and a settlement's call spends
+> its five minutes from the moment it arrives. The old "New to this?" walk-through is off too (`OLD_WALKTHROUGH_OFFERED` in
+> `public/app.js`), and the title card no longer promises a guide. The code, the steps and everything below are kept as they
+> were built, for the rework to start from or throw away; **everything below describes the suspended tutorial**, except §9. The
+> only guidance a new student is given now is **the tips at first meeting (§9)**, which gained two for the start of the game:
+> the road in, and how to give an order.
+>
+> Suspended with it: `tests/lesson.test.mjs` (32 tests, skipped while the switch is off), one test each in
+> `tests/lesson-usability.test.mjs`, `tests/afoot.test.mjs`, `tests/call-lapse.test.mjs` and `tests/auto-repeat.test.mjs` (skipped),
+> the lesson halves of one test each in `tests/childhood.test.mjs`, `tests/children.test.mjs` and `tests/means.test.mjs`, `npm run test:lesson` and `scripts/lesson-injections.mjs` (each exits at once
+> saying so). Held instead by `tests/lesson-off.test.mjs`, which always runs and fails if the switch is turned back on.
+
+**Amended 2026-09-28 — the owner: "fix the blockers".** Two changes, from the design audit's B8, S4–S6, S8, S33 and S35 and the
+playthrough audit's §5 (`docs/audits/2026-09-28-*.md`):
+
+- **The gate holds back the farm and nothing else** (§4a). It refuses only another farm step's own work — the house, staking,
+  clearing, fencing, planting, the harvest, the sale, the well. Food of every kind, going to town, hunting, nursing the sick,
+  resting on the road, the winter's enlisting, joining and voting, Houston's army, every call and question, the flight and its
+  road are never refused, on any step. **The lesson ends for every family when the first period does**, whatever step it is on.
+- **Tips at first meeting teach what comes after the farm** (§9). The owner chose, by multiple choice on how the later systems
+  are taught, **"Short tips at first meeting"**: the first time each new thing appears — a call, the flight, a chase, sickness,
+  a child's orders… — a one-line tip shows what to do and what it costs; nothing blocks play; each tip is shown once.
+
 **What is drawn over what:** [FAMILY_PANEL.md §12.11](FAMILY_PANEL.md) — the strip is top right and never on the family's
 column; a panel that covers the column dims what it covers and says so; the names under the icons are clear of the map's
 own buttons. Measured by `npm run study:overlap` at three screen sizes, gated by `npm run test:lesson`.
@@ -151,10 +177,16 @@ view.lesson = {
   title: 'Put somebody to work',        // three or four words
   says: 'One sentence in the game’s voice telling the student what to do next.',
   did: 'What has just happened, one sentence, or null',   // the step before this one, finished
-  allow: ['chore:build-house', 'chore:plant-field'],      // every action id the student may take now
+  allow: ['chore:build-house', 'chore:plant-field'],      // this step's own work: what the ring and the words point at
+  shut: ['chore:dig-well', 'survey-plot', ...],           // since 2026-09-28: the farm work this step holds back
   done: false,         // true on the closing card; then the lesson goes away entirely
 }
 ```
+
+**Changed 2026-09-28.** `allow` was every action the student might take, and everything off it was shut; now `shut` is the whole
+of what is shut (`FARM_WORK` less the step's own, `sim/lesson.mjs`) and `allow` is only the step's own work. The page
+(`public/lesson.js` `allowsIcon`) reads `shut` where it is sent and a lesson without it the old way, so an older server is drawn
+as it always was. `tests/lesson.test.mjs` holds that what the bar greys is exactly what the server refuses, step by step.
 
 An **action id** is the action's own name (`survey-plot`, `choose-site`, `hunt-land`), or `chore:<id>` for the `chore`
 action (`chore:build-house`). `actionId` in `sim/lesson.mjs` is the one place that is written down.
@@ -190,6 +222,29 @@ knows the game is theirs.
   none of those. A lesson that refused a five-year-old their hour of play because the house was not raised yet would be
   refusing the one thing that family member is for.
 - **The X itself** (added 2026-09-22): `stop-lesson`, the order that ends the lesson for the student's own family.
+
+### 4a. Amended 2026-09-28: the gate is the farm's alone
+
+`ALWAYS` let through every *question* the game puts, but the winter's choices, nursing and every food work are *chores*, and
+before today a chore was refused on every step but the one about giving an order. A student following the steps — the students
+this lesson was built for — could not feed a family of fourteen while the house went up, nurse a sick child, enlist, vote, go
+to the Alamo or join Houston, and "Not yet - first, bring the crop in" was still the answer in February, because nothing ended
+the lesson (playthrough audit §5: the three families that followed it were on the house step all game, and had no food by the
+end of period 2). That broke this file's own rule, "nothing the game itself asks a family is ever refused".
+
+As built (`sim/lesson.mjs`):
+
+- **`FARM_WORK`** — every action a farm step names (`STEPS[].allow`, the `order` step's any-work list left out), less
+  **`NEVER_HELD`**: going to town (`chore:visit-shop`: food, seed, the doctor) and hunting (`hunt-land`, `chore:hunt-land`,
+  `chore:hunt-timber`), which is how most families eat while the house goes up. `lessonRefusal` refuses an action only when it
+  is in `FARM_WORK` and not the current step's own; everything else goes through, on every step. A hunt made early still
+  finishes the hunt step (the hunt is watched on every step); a sale made early is made again at the sell step.
+- **The period ends it.** `teachable` is false after the first period (`world.period`), so a class saved in the winter with a
+  family still on step 3 opens with no gate, no strip and its call's minutes running. `closeLessons` (called by
+  `sim/periods.mjs` `beginSecondPeriod`) writes each running lesson down as `{ step: 'done', at, closed: true }` — no closing
+  card, no Resume. `closed` is validated as `true` on a finished lesson or absent; **no save version moved**.
+- **Not changed:** the X, Resume tutorial, the steps and their order, what finishes each, and the `order` step's any-work list.
+  The placements on the map (survey, clear, fence) are still refused off their steps.
 
 Two more exemptions are not in the list because they are conditions rather than actions. An order to somebody who has
 **joined the army, the garrison or the expedition** is never the lesson's business — they are not at home to be taught,
@@ -248,9 +303,11 @@ only on a stopped lesson and only naming a real step, `stoppedAt` and `resumeBy`
 - **The `allow` list is complete rather than minimal** — about four hundred bytes on the tick channel for a family in
   the lesson. A shorter list naming only the work would be cheaper and would risk the page greying out a control that
   must never be greyed. Correctness was chosen; `tests/chores.test.mjs` holds the whole payload's budget.
-- **The lesson does not end when the class moves to the second period.** A family still mid-lesson in January is still
-  mid-lesson. Nothing in the steps is seasonal except the crop, which will not ripen in the winter; if a class ever ends
-  its first period with families still on step 6, that is the thing to look at.
+- ~~**The lesson does not end when the class moves to the second period.**~~ Replaced 2026-09-28 (§4a): it ends for every
+  family when the first period does. The invented Gonzales country has one period, so there it ends only by the ten steps or
+  the X — and there the gate holds back only the farm.
+- ~~**Selling is finished by coin, not by the crop leaving the house.**~~ Out of date since 2026-09-21: the crop leaving the
+  house in trade finishes it too (`sold` in `sim/lesson.mjs`; design audit M6).
 
 ## 7. What is invented, and what is not
 
@@ -279,6 +336,74 @@ want the wagon is carried in by hand).
 | The screen | `public/` — the other half, built against §3 |
 | The X | `sim/lesson.mjs` `stopLesson` and `ALWAYS`; `sim/world.mjs` `applyOneAction`; `#lesson-stop` and `#lesson-stop-ask` in `public/index.html`, `public/style.css`, `public/app.js` |
 | Resume tutorial | `sim/lesson.mjs` `LESSON_RESUME_MS`, `resumeLesson`, `lessonResumeOffer`, `lessonHostWords`; `sim/world.mjs` (`applyAction`'s `realTime`, `projectWorld`'s `now` and `lessonResume`); `sim/host.mjs` `familiesOverview` (`guided`); `server/app.mjs` `createClassroom({ now, lessonResumeMs })`; `#lesson-resume` and `renderLessonResume` in `public/index.html`, `public/style.css`, `public/app.js`; `.host-guided` in `public/live-page.js` and `renderHostLive` |
-| Tests | `tests/lesson.test.mjs`, 28 tests (5 for the X, 9 for Resume tutorial) |
+| The gate narrowed (2026-09-28) | `sim/lesson.mjs` `NEVER_HELD`, `FARM_WORK`, `shut` on the projection, `teachable`'s period, `closeLessons` (called by `sim/periods.mjs` `beginSecondPeriod`); `public/lesson.js` `allowsIcon` reads `shut` |
+| Tips at first meeting (2026-09-28) | §9: `sim/tips.mjs`, `public/tips.js`, `renderTip`/`placeTip` in `public/app.js`, `#tip` and `#errand-tip` in `public/index.html`, `public/style.css`, `server/app.mjs` serves `/tips.js` |
+| Tests | `tests/lesson.test.mjs`, 32 tests (5 for the X, 9 for Resume tutorial, 4 for the narrowed gate and the period); `tests/tips.test.mjs`, 5; `tests/need-ranking.test.mjs`, 4 |
 | Evidence | [lesson-injections.json](evidence/lesson-injections.json) — 56 regressions injected, 55 caught (all 7 for the X and all 10 for Resume tutorial caught; the miss is the older absent-family gap named in the record); [lesson-browser.json](evidence/lesson-browser.json) — `npm run test:lesson` presses the X, confirms, sees the strip go and "Resume tutorial" in its place, a refused order accepted, the button still there after a reload, the strip back on the same step when it is pressed, a second X inside the first window, and the button gone without a reload when the test server's clock passes the window |
 | Claims | `FIC-GONZ-210` to `-215` in [HISTORY.md](../HISTORY.md) |
+
+## 9. Tips at first meeting — owner, 2026-09-28
+
+**The decision.** The design audit's B8: nothing after the ten farm steps taught the calls, the army, the flight, the road or
+sickness, and every one of them is met cold, most at the moments of greatest pressure. The owner, asked by multiple choice how
+the later systems are taught, chose **"Short tips at first meeting"**: the first time each new thing appears, a one-line tip
+shows what to do and what it costs; nothing blocks play; each tip is shown once.
+
+**The tips** (`public/tips.js` `TIPS`; ids in `sim/tips.mjs` `TIP_IDS`, and a test fails if the two part), in the order they
+take when several are due at once (the same order as the "!"s):
+
+| id | due when (the family's own projection) | says (abridged) |
+|---|---|---|
+| `alto` | the soldiers' ¡Alto! is the road's question | answer fast on the ★ card; halting loses the wagon and goods, running risks shots; no answer means you halt |
+| `road` | any other road question | answer on the ★ card; each answer says its cost; no answer and nothing is done |
+| `flight` | told to leave | load and press Leave, or stay; no answer in a day and the family packs and goes |
+| `sick` | anybody of the family sick | rest mends; another grown-up's "Nurse the sick" keeps them alive; very sick can die in a day |
+| `call` | the settlement's call, answerable by one of the family | press the "!" and tick who goes; each takes powder and the rifle; closes in about 5 minutes |
+| `army` | the army's, Houston's camp's or Travis's question | press the "!"; no answer in about a minute and a half and nothing is chosen |
+| `watch` | a Watch card for a fight one of the family is in | Watch shows it and changes nothing |
+| `resume` | the five minutes after the X | "Resume tutorial" brings the guide back on the same step |
+| `rest` | "Stop and rest a day" is offered on the road | the sick mend twice as fast; no miles are made and the army keeps coming |
+| `route` | on the road east | the road is quicker and seen farther; across country slower and harder to see |
+| `cow`, `milk` | "Drive the milk cow along" offered; the cow with the family | a little food a day at her pace; a careless child loses the day's milk; soldiers take her |
+| `baby` | a baby crying | a grown-up stops to pick it up; a child of seven can "Mind the younger ones" |
+| `child` | a child with nothing to do has come to talk | tap the child and give a job or a game |
+| `enlist` | the winter's enlisting, joining or voting offered, or somebody serving | gone until "Send for"; a soldier takes the rifle |
+| `trade` | another family's person where one of ours is, or an offer made | tap their person to offer a trade |
+| `store` | the town errand open (shown inside it) | choose before they go; tap a line to read what it does; coin at the end counts toward the score |
+| `arrive` | the family on the road in to its land (added when the guided start was suspended) | on the way; choose a house and set the family to work |
+| `order` | on the land, with a family to set to work (the same) | tap one of the family, then a job along the bottom; "Idle" means nothing to do |
+| `star` | the farm is the student's (no guided start running) | ★ is the main person; ☆ changes who; "!" means somebody needs an answer |
+
+**The rules.**
+
+- **Shown once per family, remembered by the server.** A tip goes away when the student presses "Got it" or Escape on it, or when
+  its thing goes while it stands (retired: the student had it in front of them). Either way the page sends `seen-tip`, and
+  `household.tipsSeen` keeps it, so a reload, another Chromebook or a rejoin never shows it again. Only the family's own student
+  can mark one (the Host has no family; a family whose student has gone is refused). Absent on every save before today — "seen
+  none" — and validated as a list of known ids without repeats; **no save version moved**. `seen-tip` is on `ALWAYS`.
+- **Decides nothing.** When a thing has appeared is read on the page from the family's own projection, the same fields its
+  screen is drawn from; the tip opens nothing and shuts nothing. One at a time: the tip being read is never pulled away for a
+  more urgent one; the next comes when it is put away.
+- **Not on the projector.** The Host is never due a tip. Not in the lobby, not over the ending, not over the curtain of making
+  a family.
+- **On the screen** (`#tip`, `placeTip` in `public/app.js`): above the action bar, clear of the family's column, centred in what
+  is left; beside or above the person's card, the call's menu, a rider, the messages, the guided start or the old walk-through
+  when one stands there (`ceiling:` below 200px of room it waits under the card, which the student opened). The words let every
+  click through to the map; only "Got it" (36px, keyboard-reachable) takes a press; Enter on it never sends the town errand it
+  stands in. The store's tip stands at the top of the errand itself (`#errand-tip`).
+- **Touch has no hover (S6).** What decided a choice and was only in a hover popup is said in a tip (resting on the road, the
+  star, the "!"), and each line of the town errand opens what it does on a tap (`public/errand.js`, the doctor's bark and
+  calomel among them).
+
+**The "!"s ranked (S33, S35)**, done with the tips: `NEED_KINDS` in `public/family-panel.js` is now the order of urgency —
+¡Alto!, the road's question, the order to leave, very sick, a rider, the call, the army's questions, Houston's camp, Travis,
+work asking, an offer — and `rankNeeds` puts every row's first need in one order, ties broken by time left. The "!" carries its
+number when there is more than one, and the time left where the question lapses ("28s", "4 min"), counted down on the page
+between ticks from what the server sends: `request.leftMs` for the call, `decisionLeftMs` on the person for the army's
+questions (`sim/decision-budget.mjs`), `flight.ask.ticksLeft` (`sim/road.mjs` `askTicksLeft`) and `flight.ticksLeft` for the
+order to leave, turned into seconds at the class's pace. The first to answer is ringed; the others stop bouncing. The Watch
+card now waits behind the order to leave, the road's question and ¡Alto! as it already did behind the army's (`public/military-attention.js`).
+
+**Evidence.** `tests/tips.test.mjs`, `tests/need-ranking.test.mjs` and the four new tests in `tests/lesson.test.mjs`, each
+injected against in [tips-injections.json](evidence/tips-injections.json) (`npm run test:tips-injections`);
+[tips-browser.json](evidence/tips-browser.json) (`npm run test:tips`).

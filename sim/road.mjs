@@ -33,6 +33,8 @@ import { REGIONS, WATER_SHUT, rainingAt, waterAt, weatherAt, weatherOn } from '.
 import { record } from './events.mjs';
 import { familyAnsweredFor, recordLapse } from './lapse.mjs';
 import { canAnswerCalls, householdName, mainPersonId, tooYoung } from './family.mjs';
+// Who is with the family and answers for it (sim/acting.mjs, 2026-09-28): the road's questions are theirs.
+import { actingId } from './acting.mjs';
 import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
 import { beastsOf } from './beasts.mjs';
 import { findWay } from './ways.mjs';
@@ -44,7 +46,7 @@ import { COLUMNS, ORDER_GRACE_MINUTES, ROAD_DETOUR, clockOf, columnLeg as advanc
 import { bundleRoom, cowPace, lookoutMiles, lookoutOf, loseCow } from './flight-work.mjs';
 // The soldiers who can see a family, the order to halt and the chase (sim/pursuit.mjs, owner 2026-09-27), and the family's own
 // route (sim/flight-route.mjs): a cycle through these, safe because each side uses the other only inside functions.
-import { advancePursuit, altoOptions, altoText, answerAlto, chaseProjection, runRefusal, sightMiles, strippedBy } from './pursuit.mjs';
+import { ALTO_PATIENCE_TICKS, advancePursuit, altoOptions, altoText, answerAlto, chaseProjection, runRefusal, sightMiles, strippedBy } from './pursuit.mjs';
 import { flightPlaces, routeProjection } from './flight-route.mjs';
 import { campedApart } from './disease.mjs';
 
@@ -271,7 +273,8 @@ export function roadAskProjection(world, household) {
   const ask = household.flight?.ask;
   if (!ask) return null;
   const spec = ROAD_ASKS[ask.id];
-  return { id: ask.id, openedMinute: ask.openedMinute, text: spec.text(world, household), fallback: spec.fallback, options: spec.options(world, household).map(option => ({ ...option, ...roadAskAvailability(world, household, option.id) })) };
+  const ticksLeft = askTicksLeft(world, ask);
+  return { id: ask.id, openedMinute: ask.openedMinute, ...(ticksLeft !== null && { ticksLeft }), text: spec.text(world, household), fallback: spec.fallback, options: spec.options(world, household).map(option => ({ ...option, ...roadAskAvailability(world, household, option.id) })) };
 }
 
 /** What the family decides when nobody answers for it: the fallback in order, the first that is open (`FIC-GONZ-048`'s rule). */
@@ -457,7 +460,8 @@ export function overtake(world, household, near) {
   const eventId = record(world, 'consequence', { householdId: household.id, importance: 3, claimId: 'HIST-TEX-073', classification: 'FICTIONAL FOR GAMEPLAY', text });
   // Caught costs the family glory as a desertion does (owner, 2026-09-17: "Keep as it is, but with a minus glory
   // consequence", "Like a desertion"): twice what enlisting is worth, by the miles from home, once for each column.
-  const principal = mainPersonId(world, household) || household.members[0];
+  // Charged to whoever was answering for the family on the road, not to a father away with the army (interactions B1).
+  const principal = actingId(world, household) || mainPersonId(world, household) || household.members[0];
   awardGlory(world, { event: `overtaken-${near.id}`, claimId: 'HIST-TEX-073', personId: principal, householdId: household.id, role: 'enlisted', fromSiteId: siteNear(world, familyPoint(world, household)) || siteId, causes: eventId ? [eventId] : [], adjust: earned => -2 * earned, note: 'They stayed too long on the road and the Mexican army caught them.' });
   for (const one of prisoners) record(world, 'consequence', { actorId: one.id, householdId: household.id, importance: 3, claimId: 'HIST-TEX-073', text: `${one.name} was taken prisoner by the Mexican army ${where}.` });
   if (household.played) spotlight(world, { key: `overtaken:${household.id}:${near.id}`, text: `${near.name} overtakes ${householdName(world, household)} ${where === 'on the road' ? 'on the road east' : where} and takes the wagon, the animals and the goods${prisoners.length ? `, and ${prisoners.map(one => one.name).join(' and ')} prisoner` : ''}.`, x: familyPoint(world, household)?.x, y: familyPoint(world, household)?.y, claimId: 'HIST-TEX-073', householdId: household.id });
@@ -533,7 +537,7 @@ export function advanceRoad(world, household) {
   // A question nobody answered in its time. For a family a student is answering for, **it lapses** (owner, 2026-09-27;
   // sim/lapse.mjs): nothing new is done (`lapseRoad`). A family nobody is answering for is decided as auto decides.
   if (flight.ask && world.tick - flight.ask.openedTick >= ROAD_PATIENCE_TICKS) {
-    if (familyAnsweredFor(world, household) && !world.entities[mainPersonId(world, household)]?.auto) lapseRoad(world, household);
+    if (familyAnsweredFor(world, household) && !world.entities[actingId(world, household)]?.auto) lapseRoad(world, household);
     else {
       const option = roadAutoAnswer(world, household);
       if (option) answerRoad(world, household, option, 'silence'); else delete flight.ask;
@@ -560,6 +564,17 @@ export function roadProjection(world, household) {
     ...(() => { const route = routeProjection(world, household); return route ? { route: { ...route, places: flightPlaces(world.map) } } : {}; })(),
     ...(() => { const sight = flight.status === 'fled' || flight.status === 'refuged' ? sightMiles(world, household) : null; return sight ? { seen: sight } : {}; })(),
   };
+}
+
+/**
+ * How many ticks the road's open question has left before silence answers it (`ROAD_PATIENCE_TICKS`, or the soldiers'
+ * `ALTO_PATIENCE_TICKS`), or null for a question with no opening tick. The page turns them into seconds at the class's pace
+ * for the countdown on the "!" (docs/audits/2026-09-28-design.md S33); the tick is still what lapses it.
+ */
+export function askTicksLeft(world, ask) {
+  if (!ask || !Number.isFinite(ask.openedTick)) return null;
+  const patience = ask.id === 'alto' ? ALTO_PATIENCE_TICKS : ROAD_PATIENCE_TICKS;
+  return Math.max(0, patience - (world.tick - ask.openedTick));
 }
 
 /** A saved road that cannot be, or null. */

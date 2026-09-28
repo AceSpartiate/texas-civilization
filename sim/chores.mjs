@@ -27,6 +27,8 @@ import { houstonCamp, joinEstimateWords } from './houston.mjs';
 import { southSite } from './south.mjs';
 import { record } from './events.mjs';
 import { answeredFor, recordLapse } from './lapse.mjs';
+// Who is left at home when a man goes to the war (sim/acting.mjs, design audit S14, 2026-09-28): said on the control.
+import { WAR_CHORES, leavesLittleOnes } from './acting.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
 import { awayProjection, milesATick, tooFastToFollow } from './sight.mjs';
 import { purseHeld, purseOf, recordTrade, traderAt } from './town.mjs';
@@ -1780,8 +1782,10 @@ export function choresFor(world, household, entity, logsOut = null) {
     // at all - thirty-six copies a tick of a number with no reader.
     // An honest estimate of getting there in time, where a work has one (the relief for the Alamo): words, from the server.
     const estimate = chore.estimate && can ? chore.estimate(world, household, entity) : null;
+    // Going to the war leaves only children under ten at home: said plainly before he is sent (design audit S14), never refused.
+    const leaves = can && WAR_CHORES.includes(id) ? leavesLittleOnes(world, household, entity) : null;
     return can
-      ? { id, can: true, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }), ...(estimate && { estimate }) }
+      ? { id, can: true, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }), ...(estimate && { estimate }), ...(leaves && { leaves }) }
       : { id, can: false, why, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }) };
   });
   // A hunt on the family's land refused for the same reason as the hunt in the timber says so once: the page reads it there.
@@ -2000,7 +2004,9 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
         // Houston's camp is wherever it is when they set out (sim/houston.mjs).
         : step.travel === 'houston-camp' ? houstonCamp(world)
         // The Matamoros men, wherever this class's map has them (sim/south.mjs).
-        : step.travel === 'south' ? southSite(world) : step.travel;
+        : step.travel === 'south' ? southSite(world)
+        // The nearest neighbour family's place, chosen when a child went for help (sim/acting.mjs `child-help`).
+        : step.travel === 'neighbour' ? state.neighbour : step.travel;
       // Already standing there: nothing to walk, so fall through to the next step.
       if (!destination || entity.location.siteId === destination) continue;
       // How they meant to go may not be theirs any more: a chore that began with the horse can

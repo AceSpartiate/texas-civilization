@@ -395,14 +395,18 @@ export function takesIn(world, householdId) {
     .sort((a, b) => b.owe - a.owe || a.miles - b.miles);
   return ranked[0]?.id || null;
 }
-/** Children taken in by a neighbour, written into the ledger and both stories. */
-export function recordTakenIn(world, takerId, familyId, childIds = []) {
+/**
+ * Children taken in by a neighbour, written into the ledger and both stories. sim/acting.mjs `takeIn` calls it with `quiet`, since
+ * it tells both families itself; the deed is what counts at the ending.
+ */
+export function recordTakenIn(world, takerId, familyId, childIds = [], { quiet = false } = {}) {
   const taker = world.households[takerId], family = world.households[familyId];
   if (!taker || !family) return null;
   const forDeed = remembered(world, takerId, familyId);
   const deed = noteDeed(world, { kind: 'shelter', fromId: takerId, toId: familyId, childIds: [...childIds], forId: forDeed?.id || null });
   const names = childIds.map(id => world.entities[id]?.name).filter(Boolean);
   const who = names.length ? names.join(' and ') : 'the children';
+  if (quiet) return deed;
   const memory = memoryWords(world, forDeed);
   say(world, familyId, `${cap(named(world, taker))} took in ${who}${memory ? `: ${memory}` : ''}.`);
   say(world, takerId, `The family took in ${who} of ${named(world, family)}.`);

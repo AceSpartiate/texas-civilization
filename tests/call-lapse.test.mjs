@@ -11,7 +11,7 @@ import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/worl
 // Read through the module, so the old code fails these tests one by one rather than the whole file on a missing name.
 import * as budget from '../sim/decision-budget.mjs';
 const CALL_BUDGET_MS = budget.CALL_BUDGET_MS ?? 300_000;
-import { STEPS, inLesson, stopLesson } from '../sim/lesson.mjs';
+import { LESSON_ENABLED, STEPS, inLesson, stopLesson } from '../sim/lesson.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 let shared = null;
@@ -57,7 +57,8 @@ test('a played family\'s settlement call lapses after five real minutes: nobody 
   validateWorld(world);
 });
 
-test('the call\'s minutes do not run while the family\'s student is in the guided start, and do once they have closed it', () => {
+// Skipped while the guided start is switched off (owner, 2026-09-28): it exercises only the guided start.
+test('the call\'s minutes do not run while the family\'s student is in the guided start, and do once they have closed it', { skip: !LESSON_ENABLED && 'the guided start is switched off (owner, 2026-09-28; sim/lesson.mjs LESSON_ENABLED)' }, () => {
   const { world, household, call } = asked();
   household.lesson = { step: STEPS[2].id };
   assert.equal(inLesson(world, household), true);

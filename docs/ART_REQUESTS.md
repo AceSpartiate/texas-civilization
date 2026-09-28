@@ -44,6 +44,7 @@ does not have:
 | Children at play are drawn in the poses their sheets already hold: running play (a stick horse, tag, hide-and-seek going and coming, a hoop) the child's walk; a doll and lying in the grass the sitting rest; a toy cart, marbles and the hens the side-on rest; hiding the back-turned idle. A child talking with a parent is the standing idle, and the parent the cast listening pose | `littleClip` in `public/motion.js` | Request 2026-09-26 — children at play, babies, and the Scrape's own work, items 1 and 4 | `-play-*`, `-scatter`, `-speak`, `-tug` for each child's sheet |
 | A crawling baby is the infant's standing pose (`infant-idle-e`) moved over the ground a few yards a tick; a crying baby the infant's front-facing idle with a "(crying)" bubble; a napping one `infant-rest` | `littleClip` in `public/motion.js` | Same request, item 2 | `infant-crawl`, `infant-cry`, `infant-sleep` |
 | A woman (or anybody) holding a baby is the cast figure's harvest carrying pose (`-carry`) with the infant drawn at her side; a baby carried on an errand is the infant figure drawn at the carrier's hip, a little up and to the right | `littleClip` in `public/motion.js`; `carriedAt` in `drawWorld`, `public/app.js` | Same request, item 3 | `-hold-baby`, `-carry-baby-walk` |
+| "Go for help" (`child-help`, the oldest child running to the neighbours) is a stroked glyph drawn in code: a running figure and a house with its door open | `PANEL_ICONS` and `LITTLE_GLYPHS` in `public/family-panel.js` | Request 2026-09-28 — the oldest child going for help | `icon-child-help` |
 | Seventeen icons - seven kinds of play, the hens and the Scrape's nine works - are stroked glyphs drawn in code | `PANEL_ICONS` and `LITTLE_GLYPHS` in `public/family-panel.js` | Same request, item 5 | `icon-<key>` for each |
 | The milk cow a child drives on the Scrape is the range longhorn's `cattle-longhorn-red-idle` (on the road) and `-graze` (at the camp), drawn a step behind the child; its icon (`flee-cow`) a stroked glyph | the cow in the entities loop of `drawWorld`, `public/app.js`; `PANEL_ICONS` in `public/family-panel.js` | Request 2026-09-27 — the milk cow on the run, and Béxar before the bell, item 1 | `milk-cow-walk-*`, `milk-cow-graze`; `icon-flee-cow` |
 | The Mexican soldiers after a family on the Scrape: a dragoon riding and firing is the line's `dragoon-march` with a flash and a puff at his hands; an infantryman stopped to load is `regular-fire-reload`, running `regular-march`; a hit is told in words, nobody drawn falling | `public/chase-view.js` | Request 2026-09-27 — Mexican troops after a family on the road | `dragoon-gallop-*`, `dragoon-carbine-fire`, `skirmisher-run-*`, `skirmisher-kneel-fire` |
@@ -190,6 +191,18 @@ looping; props as the equipment sheet.
 
 **Check.** At a town's street and a family's yard zoomed to a figure of about 40 px, a keeper whittling reads as whittling and not as
 somebody mending a hoe; a woman washing reads as washing; a man with a pipe as smoking; at a camp a rifle is being cleaned, not loaded.
+
+## Request 2026-09-28 — the oldest child going for help
+
+**Status: open; stand-in in use since 2026-09-28 (see *Stand-ins in use*).** The owner's decision of 2026-09-28, "The oldest child
+steps up" ([FAMILY_PANEL.md](FAMILY_PANEL.md) §20, sim/acting.mjs): a child of seven or more acting for a family with nobody grown
+at home may run to the nearest neighbours for help (`child-help`). Delivery contract as the children's icons of 2026-09-26: one
+frame in the family icon atlas, 48 px, the family panel's stroke and palette.
+
+1. **Going for help** (priority 2) - `icon-child-help`: a child running along a track toward a neighbour's cabin, an arm out.
+   Plugs into `PANEL_ICONS['child-help']` in public/family-panel.js (a stroked glyph now: a running figure and a house).
+
+**Check.** On a child's row among the children's works, the icon reads as a child going somewhere for somebody, not as play.
 
 ## Request 2026-09-27 — Mexican troops after a family on the road
 
