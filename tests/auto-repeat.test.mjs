@@ -172,22 +172,24 @@ test('the guided start holds the gate for auto: a task the step does not allow i
   assert.equal(thomas.chore?.id, 'plant-field', 'the gate open, auto did not take the field up again');
 });
 
-test('what repeats: the owner\'s field and hunts, the gathering and the house; never the errand, the herd or the war', () => {
-  for (const id of ['plant-field', 'harvest-field', 'hunt-timber', 'hunt-land', 'fish-the-water', 'build-house']) assert.ok(REPEATED.includes(id), id);
-  for (const id of ['visit-shop', 'butcher-beef', 'butcher-hog', 'practise-shooting', 'survey-plot', 'clear-plot', 'enlist-regular', 'join-houston', 'go-vote', 'child-eggs']) assert.ok(!REPEATED.includes(id), id);
-  // Work done once leaves the task as it was: sent to mend the hoe, the hunter goes back to hunting when it is mended.
+test('what repeats: the owner\'s field and hunts, the gathering, the house and the rest of the work at home; never the errand, the herd or the war', () => {
+  // The owner, 2026-09-28 (docs/FAMILY_PANEL.md §20.2): felling, clearing, fencing, the carreta, furniture and the hoe repeat too.
+  for (const id of ['plant-field', 'harvest-field', 'hunt-timber', 'hunt-land', 'fish-the-water', 'build-house', 'fell-trees', 'clear-plot', 'fence-plot', 'make-carreta', 'make-furniture', 'mend-hoe']) assert.ok(REPEATED.includes(id), id);
+  for (const id of ['visit-shop', 'buy-furniture', 'butcher-beef', 'butcher-hog', 'practise-shooting', 'survey-plot', 'haul-logs', 'fetch-logs', 'enlist-regular', 'join-houston', 'go-vote', 'child-eggs']) assert.ok(!REPEATED.includes(id), id);
+  // Work done once leaves the task as it was: sent to practise at the mark, the hunter goes back to hunting when it is done.
   const world = running('auto-once');
   const household = world.households['hh-1'];
-  household.tools.hoe = TOOL_LIFE; household.resources.powder = 3;
+  household.resources.powder = 5;
   const elena = world.entities['hh-1-elena'];
+  elena.skills = { ...elena.skills, hunting: 1 };
   autoOn(world, elena.id);
   elena.order = { chore: 'hunt-timber', mode: 'foot' };
-  order(world, elena.id, 'mend-hoe');
-  assert.equal(elena.chore?.id, 'mend-hoe');
+  order(world, elena.id, 'practise-shooting');
+  assert.equal(elena.chore?.id, 'practise-shooting');
   assert.equal(elena.order.chore, 'hunt-timber', 'work done once replaced the task');
   assert.match(shown(world, elena.id).autoTask.says, /^Auto: hunt in the timber, once the work in hand is done\.$/);
   for (let t = 0; t < 60 && elena.chore?.id !== 'hunt-timber'; t++) stepWorld(world);
-  assert.equal(elena.chore?.id, 'hunt-timber', 'the hoe mended, she did not go back to hunting');
+  assert.equal(elena.chore?.id, 'hunt-timber', 'the practice done, she did not go back to hunting');
   // A family whose student has gone is played by the director (sim/absence.mjs): what it orders is not the student's task.
   for (let t = 0; t < 400 && elena.chore; t++) stepWorld(world);
   household.absent = true; household.resources.seed = 20;

@@ -1421,6 +1421,8 @@ function workAlongside(world, household, entity, chore, deps) {
 export function choreAvailability(world, household, entity, choreId, logsOut = null) {
   const chore = CHORES[choreId];
   if (!chore) return { can: false, why: 'No such work.' };
+  // Kept only for somebody saved in the middle of it (the old walk to the shops, the haul that felling became): never begun again.
+  if (chore.retired) return { can: false, why: 'Nobody does that work any more.' };
   if (entity.kind !== 'person' || entity.householdId !== household.id) return { can: false, why: 'Not one of your family.' };
   if (entity.health.condition === 'dead' || entity.health.condition === 'captured') return { can: false, why: 'This person cannot work.' };
   // Very sick is too sick to get up (sim/disease.mjs, the owner 2026-09-27); only sick may work, and the row says what it costs.

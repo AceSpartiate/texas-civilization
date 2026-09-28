@@ -144,15 +144,19 @@ try {
   assert.equal(kill.quarry, facts.comes);
   ok(`the family is told what was brought down: "${kill.text}"`);
 
-  // ------------------------------------------------------------------ fetching logs, on the panel
+  // ------------------------------------------------------------------ felling, one icon, on the panel
+  // Since 2026-09-28 (owner: "Why do we need multiple action buttons for moving logs? That should be consolidated and an automatic
+  // part of felling trees") fetching logs from the timber off the land is part of *Fell trees*, begun by it where the land has
+  // none, and has no icon of its own; nor has hauling (docs/WOODS_AND_BUILDING.md §6.7).
   await until(() => !world().entities[principal].chore, 'the hunter home', 120000);
-  const icon = `.panel-row[data-entity-id="${principal}"] .panel-icon[data-key="fetch-logs"]`;
+  const icon = `.panel-row[data-entity-id="${principal}"] .panel-icon[data-key="fell-trees"]`;
   await page.waitForSelector(icon, { timeout: 30000 });
   const fetchLogs = await page.locator(icon).evaluate(button => ({ name: button.dataset.name, note: button.dataset.note, summary: button.dataset.summary, why: button.dataset.why, painted: [...button.querySelectorAll('canvas')].some(canvas => { const data = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data; for (let i = 3; i < data.length; i += 4) if (data[i] > 0) return true; return false; }) }));
-  assert.equal(fetchLogs.name, 'Fetch logs from the timber');
-  assert.match(fetchLogs.note || fetchLogs.why || '', /Costs the ox and wagon for about \d+ hours?, to the timber|ox and wagon at home|no timber within reach|axe/);
-  assert.ok(fetchLogs.painted, 'the fetch-logs glyph was not painted');
-  ok(`the family panel offers "${fetchLogs.name}": "${fetchLogs.note || fetchLogs.why}", its glyph painted`);
+  assert.equal(fetchLogs.name, 'Fell trees');
+  assert.match(fetchLogs.summary || '', /nearest timber on the family’s land; the logs go onto the pile at the house/);
+  assert.ok(fetchLogs.painted, 'the felling icon was not painted');
+  for (const gone of ['fetch-logs', 'haul-logs']) assert.equal(await page.locator(`.panel-row[data-entity-id="${principal}"] .panel-icon[data-key="${gone}"]`).count(), 0, `${gone} still has an icon`);
+  ok(`the family panel offers one felling icon, "${fetchLogs.name}": "${fetchLogs.summary}", painted; no fetch or haul icon`);
 
   // ------------------------------------------------------------------ a plot says how its fence goes up
   const spots = grid(bounds, 6).filter(point => plotFacts(world(), household(), point).can).map(point => ({ point, work: fenceWork(world(), household(), point) }));

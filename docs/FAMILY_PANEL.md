@@ -1199,7 +1199,8 @@ work went on through every step after it (found by the browser proof, which stop
 
 - **One task.** A person remembers the last work at home the student gave them that can be repeated (`REPEATED`): *plant the
   field*, *bring in the crop*, the two hunts, small game, fishing, oysters, a bee tree, riding the range, *work on the house*, the
-  lane, the well and hauling logs. Each runs out by itself when there is nothing left to do. The next repeatable order replaces
+  lane, the well and hauling logs (*amended 2026-09-28, §20: hauling is gone, and felling, clearing, fencing, the carreta, furniture
+  and mending the hoe repeat too*). Each runs out by itself when there is nothing left to do. The next repeatable order replaces
   it; nothing else does. **Not repeated** (`ceiling:` in `sim/auto.mjs`): the errand to town and furniture (coin), practice at the
   mark (powder on purpose), killing a beef or a hog (the herd), survey, clearing and fencing (a plot chosen on the map each time; owner-decided, §16.1),
   felling and fetching logs (the family's timber), enlisting, joining and voting, a neighbour's raising, the road east's work and
@@ -1263,6 +1264,10 @@ for it, 11 of them by that test alone (the other seven are foundational - forget
 proofs re-run.
 
 ### 16.1 Clearing and fencing stay one at a time — owner decision, 2026-09-25
+
+**Overturned by the owner, 2026-09-28** (§20): *"Apply the logic described for felling trees and building houses to the other tasks
+too."* Clearing and fencing now repeat on auto - the plot given, then the next nearest the house - and so does felling, which §16 left
+out as "the family's timber". What follows is the decision as it stood.
 
 **Owner, 2026-09-25:** autoplay does **not** repeat clearing or fencing; **they stay one at a time.** A plot is staked on the map and
 cleared or fenced once, by a student's choice each time; given to somebody on auto, either is done once and the person goes back to
@@ -1364,6 +1369,100 @@ Proved in a browser by `npm run test:children` at 1366x768 and 1024x768 (docs/ev
 - **The card** adds the line, and "has had the measles" for anybody who has - dealt by age from the class seed, as a family knew.
 - **The new work**: "Stop and rest a day" (`rest-road`) on the road; "Camp apart from the crowd" (`camp-apart`) at a crossing or a
   refuge; "Nurse the sick" at home (`nurse-home`) beside the road's `tend-sick`.
+
+## 20. Amended by the owner, 2026-09-28: fewer buttons, auto on the work at home, and more hands faster
+
+> "the tasks are way too complicated. Why do we need multiple action buttons for moving logs? That should be consolidated and an
+> automatic part of felling trees. Any task that pulls from wood should be able to pull from the universal wood pile. I should be
+> able to set one person on felling trees, and one person on building the house, set each to auto, and eventually get a house. If
+> I add another person to the task it should speed the task up."
+>
+> "Apply the logic described for felling trees and building houses to the other tasks too."
+>
+> — the owner, 2026-09-28
+
+**Status: built the same day** (`sim/auto.mjs`, `sim/hands.mjs`, `sim/chores.mjs`, `sim/woodpile.mjs`, `public/family-panel.js`;
+[tests](../tests/auto-house.test.mjs), [hands](../tests/hands.test.mjs)). Claims `FIC-GONZ-901` (the hands curve) and `FIC-GONZ-905`
+(what repeats, and the plots). **This amends §16 and overturns §16.1**; the wood pile itself is
+[WOODS_AND_BUILDING.md §6.7](WOODS_AND_BUILDING.md). No save version moved.
+
+### 20.1 What left the panel, and what was merged
+
+- **Haul logs to the house** - gone. Felling puts the logs on the pile; there is nothing to haul. (Kept, offered to nobody, only for a
+  row saved in the middle of a haul; it glows as felling, `GLOWS_AS`.)
+- **Fetch logs from the timber** - merged into **Fell trees**, which begins it where the family's land has no timber to fell (or
+  only poor timber while the house wants sound logs). It glows as felling. The families nobody plays still send it by name.
+- **Fell trees** - **one press**, no longer a place tapped on the map (`ON_MAP` lost it): the nearest timber on the family's land.
+- **Make furniture** - no longer a trip to the timber and a "how will they go?" window while the pile can spare a log: a log off the
+  pile and the work at home (`noJourney`). Its question - which piece - stays: that is a decision.
+- **Kept, and why.** *Survey* then *Clear* stay two orders: where the next ten acres lie is the student's to choose each time. *Mend
+  the hoe* stays (auto already mends first when a hoe-work is waiting on it). *Buy furniture* and the errand to town stay separate: the
+  carpenter's counter is not one of the errand's shops, and both spend coin. The icons still glow while the server says the person is
+  doing that; the one icon for felling glows for fetching too.
+
+### 20.2 What repeats on auto
+
+`REPEATED` now: planting, the harvest, the two hunts, small game, fishing, oysters, a bee tree, riding the range, the house, the lane,
+the well, **felling**, **clearing**, **fencing**, **the carreta** (while the family has no cart or wagon at all: `ceiling:` a second
+vehicle is a student's order), **furniture** (while a piece is wanted; auto answers which piece as the family would) and **mending the
+hoe** (while a hoe is worn). **Not repeated** (`ceiling:` in sim/auto.mjs), because each spends coin, powder or the herd, or is a
+decision a student makes each time (owner: less clicking, not less deciding): the errands to town and buying furniture, practice at
+the mark, killing a beef or a hog, surveying, enlisting, joining and voting, a neighbour's raising, the road east's work and the
+children's own works.
+
+- **Felling** stops when the pile has **enough** - every kind the house still wants and ten logs more (WOODS §6.7) - and the row says
+  *"Auto: fell trees. The log pile has enough: 62 logs at the house, and the house still wants 50. Working about the place
+  meanwhile."* It takes the axe up again the tick the pile falls below.
+- **The house**, waiting on the pile, says **"Waiting for logs."** in the row's own line (the reason mechanism of §16, `order.held`):
+  *"Auto: work on the house. Waiting for logs. Laying the sills on the round-log pen wants 4 sill logs, and the log pile has not got
+  them. Working about the place meanwhile."* The carreta says the same when the pile is short of its three logs.
+
+### 20.3 Clearing and fencing on auto (a rule chosen, and an owner question)
+
+The simplest good rule: **the plot the student gave, until its work is done; then the family's next plot with that work in it
+nearest the house** - the next staked plot for a clearer, the next cleared plot with no sound fence for a fencer (`plotFor`), remembered
+as theirs. **Nothing is surveyed for them**: with no staked ground left the clearer works about the place and says *"There is no staked
+ground to clear. Survey ten acres first."* A plot's work refused for that plot (a timber plot wants the felling axe, the hoe worn out)
+is said in the plot's own words. Clearing and fencing are never given to wait for (`waitForTask`): they are pressed on the map.
+
+### 20.4 More hands, faster (sim/hands.mjs, `FIC-GONZ-901`)
+
+Any number of the family may be given the same work, and each extra hand speeds it: **the first is a whole hand, the second adds four
+fifths of one, the third three fifths, the fourth two fifths** - together 1, 1.8, 2.4 and 2.8 times one person's pace. **Four is the
+most**: a fifth of the family is refused in words, *"Thomas, Elena, Rosa and Mateo are at it already. More than 4 of the family at one
+work only get in each other's way."* Two kinds of sharing use the one curve:
+
+- **Work into one thing** - the house, a clearing (by the plot), the lane, felling (for the pile). Each hand puts their own spells in, at
+  their share of the hands on it (`handShare`: 0.9 each of two, 0.8 of three, 0.7 of four). **Neighbours helping raise the walls count
+  among the house's hands** (`handsOn`, sim/houses.mjs, unchanged) and are never refused: a raising is theirs to join. The two-handed
+  upper courses (WOODS §6.3) still go at a third alone.
+- **One job done together** - planting, the harvest, the well, a fence (by the plot), the carreta, a piece of furniture, mending the hoe,
+  riding the range. The first given it **leads**; whoever is given it after **works alongside them** (`chore.alongside`): the job is done
+  once - the seed spent once, one fence, one carreta - at the crew's pace, the lead's work quicker by `crewPace`; walking is never
+  quicker for company. The row of the one alongside glows at the same work and says what the lead is doing. When the lead finishes,
+  everybody alongside finishes with them; when the lead is called away, the one alongside takes the job up as their own. Until
+  2026-09-28 two planters each planted, spending the seed twice, and a second fencer or carreta-maker was refused.
+- `ceiling:` one curve for every work, and a helper's own knack and strength do not count, only the lead's.
+
+### 20.5 Exclusive property
+
+Unchanged, and decided as it stood (docs/TOWNS.md §4b, 1): **the felling axe is shared at home** by everybody felling, building, cutting
+a lane or clearing timber, so a second feller on the family's own land needs no second axe. Fetching logs from off the land carries it
+away and is one person's, and holds the ox and wagon, so a second feller whose land has no timber waits for the team (on auto, about
+the place). The rifle, the ox and the wagon are held as before.
+
+### 20.6 Open for the owner
+
+1. **A second feller with one axe.** (a) The axe is shared at home, as TOWNS.md §4b decided for all work at home - *built, recommended*;
+   (b) every feller needs a felling axe of their own, so a second is refused until the family buys another; (c) a second feller without
+   an axe of their own trims and drags, adding half what a feller adds.
+2. **Clearing and fencing on auto.** (a) The plot given, then the nearest to the house with that work in it; never survey - *built,
+   recommended*; (b) the plot given, then the plot touching it, else stop; (c) survey and clear new ground next to the last plot when
+   none is staked.
+3. **How many hands, and how much each adds.** (a) 1, 0.8, 0.6, 0.4, four at most, a fifth refused - *built, recommended*; (b) the same,
+   but a fifth allowed and adding nothing; (c) every hand a whole hand, as the house and clearing were until today, with the cap of four.
+4. **Enough logs.** (a) What the house still wants and ten more - *built, recommended*; (b) what the house still wants only; (c) no cap:
+   a feller on auto fells until the family's land is bare.
 
 ## Usability amendment — 2026-09-21
 

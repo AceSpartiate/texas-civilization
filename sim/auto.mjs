@@ -81,7 +81,7 @@ export const REPEATED = Object.freeze([
 ]);
 /** Work sent to a place chosen on the map, which a student presses the map for and cannot give to wait for (`waitingWork`). */
 const ON_MAP = Object.freeze(['hunt-land', 'clear-plot', 'fence-plot']);
-/** Work on a plot: taken up again on the plot it was given, and then the next nearest the house (`plotFor`). */
+/** Work on a plot: taken up again on the plot it was given, and then the next nearest the house (`plotFor`, `FIC-GONZ-905`). */
 const PLOT_WORK = Object.freeze(['clear-plot', 'fence-plot']);
 /** The hunts that go out with nothing to fire and leave the deer standing: held for a shot in the house, as a neighbour hunts. */
 const SHOOTS = Object.freeze(['hunt-timber', 'hunt-land']);

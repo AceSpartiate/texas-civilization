@@ -3,7 +3,8 @@
 // A student taps timber on the family's own land, is told what stands there, and sends somebody with the axe. The trees
 // within a few rods come down one at a time, wall timber first, each a real tree of the woods that becomes a stump with
 // its logs lying beside it. Hauling brings them to the house, one on the shoulder or six behind the ox, onto the log pile.
-// Only a class that counts its trees one by one fells them.
+// Only a class that counts its trees one by one fells them. Amended 2026-09-28 (docs/WOODS_AND_BUILDING.md §6.7): the logs go
+// onto the pile as each tree comes down, and hauling is kept only for a haul saved in the middle.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync } from 'node:fs';
@@ -74,7 +75,7 @@ test('the family is told what stands to fell, and cannot fell off its land, with
   assert.equal(world.entities[household.principalId].chore, null);
 });
 
-test('the trees come down one at a time, wall timber first, each a stump with its logs lying, until none is left in reach', () => {
+test('the trees come down one at a time, wall timber first, each a stump with its logs on the pile, until none is left in reach', () => {
   const { world, household, bounds } = onTheLand('fell-down-2');
   const { point } = timberOn(world, household, bounds).find(entry => entry.facts.trees >= 2 && entry.facts.trees <= 6);
   const before = standingTrees(world, point);
@@ -94,7 +95,8 @@ test('the trees come down one at a time, wall timber first, each a stump with it
   assert.deepEqual(uses, [...uses].sort((a, b) => a - b), 'wall timber first');
   for (const id of order) {
     const tree = treeById(id, woods()), entry = world.woods.felled[id];
-    assert.deepEqual({ by: entry.by, kind: entry.kind, use: entry.use, logs: entry.logs, left: entry.left }, { by: 'hh-1', kind: tree.kind, use: tree.use, logs: tree.logs, left: tree.logs });
+    // Nothing left lying: the logs went onto the pile as the tree came down (2026-09-28, docs/WOODS_AND_BUILDING.md §6.7).
+    assert.deepEqual({ by: entry.by, kind: entry.kind, use: entry.use, logs: entry.logs, left: entry.left }, { by: 'hh-1', kind: tree.kind, use: tree.use, logs: tree.logs, left: 0 });
   }
   assert.equal(standingTrees(world, point).length, 0);
   assert.equal(world.woods.revision, order.length);
@@ -104,9 +106,10 @@ test('the trees come down one at a time, wall timber first, each a stump with it
   const said = world.events.filter(event => event.actorId === axe.id && event.text.includes(' felled '));
   assert.equal(said.length, 1, 'said once');
   assert.ok(said[0].text.startsWith(`${axe.name} felled ${order.length} trees `), said[0].text);
-  assert.ok(said[0].text.endsWith(`house. ${logs} logs lie where they fell, to be hauled to the house.`), said[0].text);
-  assert.deepEqual(projectWorld(world, 'hh-1', 'student', { includeMap: false }).land.logs, { wall: 0, sill: 0, poor: 0, lying: logs });
-  assert.equal(logsLying(world, household).length, order.length);
+  assert.ok(said[0].text.endsWith(`house. ${logs} logs went onto the pile at the house.`), said[0].text);
+  const byUse = use => before.filter(tree => tree.use === use).reduce((sum, tree) => sum + tree.logs, 0);
+  assert.deepEqual(projectWorld(world, 'hh-1', 'student', { includeMap: false }).land.logs, { wall: byUse('wall'), sill: byUse('sill'), poor: byUse('poor'), lying: 0 });
+  assert.equal(logsLying(world, household).length, 0);
 });
 
 test('two people felling one place never fell the same tree, and called in, what came down is still said', () => {
@@ -127,21 +130,28 @@ test('two people felling one place never fell the same tree, and called in, what
   const down = people[0].chore.trees;
   assert.ok(down >= 1);
   applyAction(world, 'hh-1', { action: 'stop-chore', entityId: people[0].id });
-  assert.ok(world.events.some(event => event.actorId === people[0].id && event.text.startsWith(`${people[0].name} felled ${down} ${down === 1 ? 'tree' : 'trees'} `) && event.text.includes('lie where they fell')), 'called in, the trees down are said');
+  assert.ok(world.events.some(event => event.actorId === people[0].id && event.text.startsWith(`${people[0].name} felled ${down} ${down === 1 ? 'tree' : 'trees'} `) && event.text.includes('onto the pile at the house')), 'called in, the trees down are said');
 });
 
-test('hauling brings the logs to the house, six behind the ox or one on the shoulder, onto the log pile by use', () => {
+// Hauling is part of felling since 2026-09-28 (owner: "Why do we need multiple action buttons for moving logs?"): it is offered to
+// nobody and refused by hand. What is left of it is for a class saved with somebody in the middle of a haul and logs still lying
+// out - the save's door folds lying logs onto the pile (tests/auto-house.test.mjs), and a world that never went through it still
+// hauls as it did, six behind the ox or one on the shoulder.
+test('hauling is retired: not offered, refused by hand, and a haul saved in the middle still brings its logs in by use', () => {
   const setup = () => {
     const { world, household, bounds } = onTheLand('fell-haul');
     const { point } = timberOn(world, household, bounds).find(entry => entry.facts.logs >= 8 && entry.facts.trees <= 8);
     const axe = world.entities[household.principalId];
     applyAction(world, 'hh-1', { action: 'fell-trees', entityId: axe.id, ...point });
     for (let tick = 0; tick < 200 && axe.chore; tick++) stepWorld(world);
+    // As a class saved before 2026-09-28 had it: the logs lying where they fell, none on the pile.
+    for (const entry of Object.values(world.woods.felled)) entry.left = entry.logs;
+    household.logs = { wall: 0, sill: 0, poor: 0 };
     return { world, household, axe };
   };
-  // Nothing lies out: hauling is not a thing to do.
-  const { world: bare, household: bareHousehold } = onTheLand('fell-haul');
-  assert.ok(!choresFor(bare, bareHousehold, bare.entities[bareHousehold.principalId]).some(chore => chore.id === 'haul-logs'));
+  const { world: bare, household: bareHousehold } = setup();
+  assert.ok(!choresFor(bare, bareHousehold, bare.entities[bareHousehold.principalId]).some(chore => chore.id === 'haul-logs'), 'hauling offered');
+  assert.throws(() => applyAction(bare, 'hh-1', { action: 'chore', entityId: bareHousehold.principalId, chore: 'haul-logs' }), /Nobody does that work any more/);
   const trips = {};
   for (const withOx of [true, false]) {
     const { world, household, axe } = setup();
@@ -151,8 +161,9 @@ test('hauling brings the logs to the house, six behind the ox or one on the shou
     // Every ox of the family's out, since a family of more means has more than one (sim/means.mjs).
     if (!withOx) for (const one of household.property.map(id => world.entities[id]).filter(beast => beast.species === 'ox')) one.borrowedBy = 'hh-1';
     assert.equal(oxFree(world, household), withOx);
-    assert.ok(choresFor(world, household, axe).some(chore => chore.id === 'haul-logs' && chore.can));
-    applyAction(world, 'hh-1', { action: 'chore', entityId: axe.id, chore: 'haul-logs' });
+    // In the middle of a haul, as the save left them: the chore's own first step, the ox taken as it was taken then.
+    axe.chore = { id: 'haul-logs', step: -1, wait: 0, doing: 'hauling logs', ...(withOx && { with: ['ox'] }) };
+    axe.task = 'work';
     let loads = 0, biggest = 0, carrying = false;
     for (let tick = 0; tick < 400 && axe.chore; tick++) {
       const load = axe.chore.load;
@@ -189,7 +200,8 @@ test('the map is told what was felled: stumps with their logs in the tile, fetch
   assert.ok(felled.length > 0);
   assert.equal(tile.stumps.length, felled.length);
   assert.equal(tile.trees.length, standing - felled.length);
-  assert.ok(tile.stumps.every(([, , , left]) => left > 0));
+  // Nothing lies beside a stump any more: the logs are on the pile at the house (2026-09-28).
+  assert.ok(tile.stumps.every(([, , , left]) => left === 0));
   // The page drops only the close-up tiles when the woods change, and draws the stumps it is sent.
   const realFetch = globalThis.fetch;
   const asked = [];

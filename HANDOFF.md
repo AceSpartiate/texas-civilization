@@ -1,5 +1,43 @@
 # Claude handoff — Astra foundation
 
+## One wood pile, felling and building on auto, more hands faster — owner, 2026-09-28 (worktree branch; not released)
+
+**The ask.** Owner, 2026-09-28: *"the tasks are way too complicated. Why do we need multiple action buttons for moving logs? That
+should be consolidated and an automatic part of felling trees. Any task that pulls from wood should be able to pull from the
+universal wood pile. I should be able to set one person on felling trees, and one person on building the house, set each to auto,
+and eventually get a house. If I add another person to the task it should speed the task up."* Then: *"Apply the logic described
+for felling trees and building houses to the other tasks too."* Amends docs/WOODS_AND_BUILDING.md §6 (new §6.7), docs/FAMILY_PANEL.md
+§16 and overturns §16.1 (new §20), and `REPEATED` in sim/auto.mjs. Claims **FIC-GONZ-901 to 905** (taken well above the 710 then
+highest, as others register in parallel).
+
+- **One pile** (sim/felling.mjs, new sim/woodpile.mjs). A felled tree's logs go straight onto `household.logs`; the drag is one tick
+  more a tree (`CARRY_TICKS`). Clearing timber does the same. `haul-logs` retired (kept only for a row saved mid-haul);
+  `fetch-logs` is no button - *Fell trees* begins it where the land has no timber (or only poor timber while the house wants sound
+  logs), and it glows as felling (`partOf`, `GLOWS_AS`). Furniture takes one spare log and is made at home (no journey asked); a
+  fence takes six spare logs where its rails would be carried from far timber (`fenceBy`). Nothing but the house takes a log the
+  house still wants (`spareLogs`). Old saves: lying logs folded onto the pile and a hauler's auto order made felling at the save's
+  door (`foldLyingLogs`, server/storage.mjs); **no `saveVersion` move**.
+- **Fell trees is one press**: the nearest standing sound tree on the family's land (`fellingGround`, cached until that tree falls),
+  no map tap (`ON_MAP` lost it). The `fell-trees` action with `x`, `y` still works (the director uses it).
+- **Auto** (sim/auto.mjs): `REPEATED` gains `fell-trees`, `clear-plot`, `fence-plot`, `make-carreta`, `make-furniture`, `mend-hoe`
+  and loses `haul-logs`. Felling stops at **enough** - every kind the house still wants and `WOOD_MARGIN` (10) more (`pileFull`) - and
+  moves stand to stand without walking home. A builder short of logs says *"Waiting for logs."* on the row. Clearing and fencing:
+  the plot given, then the next nearest the house (`plotFor`); nothing surveyed. The carreta only while the family has no vehicle;
+  furniture while a piece is wanted.
+- **More hands** (new sim/hands.mjs): 1, 0.8, 0.6, 0.4 of a hand; four at most, a fifth refused in words. Work into one thing (house,
+  clearing, lane, felling) at each hand's share; a job done once (field, harvest, well, fence, carreta, furniture, hoe, range) is
+  joined - `chore.alongside` - done once at the crew's pace, the helper taking it up if the lead is called away. Neighbours raising
+  the walls count among the house's hands. Work waits are now fractional for crews (`crewed`, `over`); one person's work is exactly
+  as before but for felling's drag tick.
+- **Found on the way**: a feller on auto stopped at seventeen logs, fifteen of them poor, and the roof waited for six sound ones for
+  ever - `pileFull` now asks for every kind the house wants. And two planters each planted, spending the seed twice; now they join.
+
+**Evidence** (same computer only): see *Tests* at the end of this section once filled in.
+
+**Open for the owner** (FAMILY_PANEL.md §20.6, multiple choice there): a second feller with one axe (built: shared at home, as
+TOWNS §4b); clearing and fencing on auto (built: next nearest plot, never survey); the hands curve (built: 1/.8/.6/.4, four, a fifth
+refused); the pile cap (built: the house's want plus ten).
+
 ## Classroom blockers: class size, late students, reconnecting, an unclean stop, several classes, several class days — owner, 2026-09-28 (worktree branch; not released)
 
 **The ask.** Owner, 2026-09-28: *"check for problems with the game ... things that would prevent the game from being played as

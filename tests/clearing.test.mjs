@@ -103,7 +103,10 @@ test('clearing and fencing are sent to a plot the family has, and refused in a s
   assert.equal(facts('clear-plot', brush).why, 'The hoe is worn out and wants mending.');
   household.tools.hoe = 0;
   send(world, 'hh-1', 'hh-1-thomas', 'fence-plot', patch);
-  assert.throws(() => send(world, 'hh-1', 'hh-1-mateo', 'fence-plot', patch), /Thomas is already fencing that plot/);
+  // A second fencer of the same plot works alongside the first (owner, 2026-09-28; sim/hands.mjs), where until then they were
+  // refused, "Thomas is already fencing that plot."
+  send(world, 'hh-1', 'hh-1-mateo', 'fence-plot', patch);
+  assert.equal(world.entities['hh-1-mateo'].chore.alongside, 'hh-1-thomas');
   assert.throws(() => applyAction(world, 'hh-1', { action: 'chore', entityId: 'hh-1-mateo', chore: 'clear-plot' }), /Choose one of your staked plots/, 'never sent without a plot');
   const lobby = createSettledWorld('clear-lobby', 5);
   const [lobbyPatch] = plotsOf(lobby, lobby.households['hh-1']);
@@ -222,10 +225,11 @@ test('a family asks the server about clearing or fencing its own plots only', as
   }
 });
 
-test('clearing ten acres of timber fells the trees standing on it and leaves their logs lying, ready to haul and build with', async () => {
+test('clearing ten acres of timber fells the trees standing on it and puts their logs on the pile, ready to build with', async () => {
   // Owner, 2026-09-17, playtesting: "instead of having survey just magically clearing trees, there should be a way to cut
   // those trees down, and use those to build with." The trees are the woods' own (sim/woods.mjs) and are marked felled
-  // exactly as the axe marks them, so the map loses them and the logs can be hauled; nothing is made that the land had not.
+  // exactly as the axe marks them, so the map loses them; nothing is made that the land had not. Since 2026-09-28 their logs go
+  // onto the family's one pile, as felling's do (docs/WOODS_AND_BUILDING.md §6.7), and nothing lies out to haul.
   const { standingTrees, logsLying } = await import('../sim/felling.mjs');
   const { clearSpell } = await import('../sim/improvements.mjs');
   const { PLOT_SIDE } = await import('../sim/fields.mjs');
@@ -248,9 +252,12 @@ test('clearing ten acres of timber fells the trees standing on it and leaves the
   for (let spell = 0; spell < 60 && household.plots[0].state === 'staked'; spell++) clearSpell(world, household, person, 'plot-1');
   assert.equal(household.plots[0].state, 'cleared');
   assert.equal(standingTrees(world, where, PLOT_SIDE / 2).length, 0, 'trees are still standing on ground the family cleared');
-  const lying = logsLying(world, household);
-  assert.ok(lying.length >= before, `${before} trees came down and ${lying.length} logs lie where they fell`);
-  assert.ok(world.events.some(event => event.householdId === household.id && /trees? came down with it/.test(event.text)), 'the family was not told the trees came down');
+  assert.equal(logsLying(world, household).length, 0, 'nothing lies out');
+  const felled = Object.values(world.woods.felled).filter(entry => entry.by === household.id);
+  assert.ok(felled.length >= before, `${before} trees stood and ${felled.length} came down`);
+  const pile = household.logs;
+  assert.equal(pile.wall + pile.sill + pile.poor, felled.reduce((sum, entry) => sum + entry.logs, 0), 'every log is on the pile');
+  assert.ok(world.events.some(event => event.householdId === household.id && /trees? came down with it, and .* onto the pile at the house\./.test(event.text)), 'the family was not told the trees came down');
   validateWorld(world);
   // On the invented country, where the trees are not counted one by one, clearing is what it always was.
   const invented = createGonzalesWorld('clearing-invented', 5);
