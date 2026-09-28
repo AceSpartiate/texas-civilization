@@ -32,7 +32,22 @@ highest, as others register in parallel).
 - **Found on the way**: a feller on auto stopped at seventeen logs, fifteen of them poor, and the roof waited for six sound ones for
   ever - `pileFull` now asks for every kind the house wants. And two planters each planted, spending the seed twice; now they join.
 
-**Evidence** (same computer only): see *Tests* at the end of this section once filled in.
+**Evidence** (same computer only). New tests: tests/auto-house.test.mjs (7: the owner's acceptance test - one feller and one
+builder on auto, two presses, a round-log cabin standing about 270 ticks later with nothing else pressed; felling as one press;
+the treeless family fetching; furniture from the pile; enough and the axe taken up again; clearing on auto; an old save folded)
+and tests/hands.test.mjs (4: the curve; 1, 2, 3, 4 builders at 1, 1.8, 2.4, 2.8; planting joined, the seed spent once; a fifth
+refused and the helper taking the job up). **Seen failing**: `scripts/wood-pile-injections.mjs`, **14 of 14 regressions caught**,
+8 by their own test alone ([record](docs/evidence/wood-pile-injections.json)) - among them *enough counts every log alike*, the
+deadlock found while building (acceptance and enough tests), *no "Waiting for logs"* and *building not repeated* (the acceptance
+test alone), *a flat curve* and *a second planter planting again*. Updated on purpose: felling (logs on the pile; the haul kept for a
+saved haul), biome-game (fetch-logs is the director's by name), biomes, carreta and clearing (a second maker or fencer joins),
+auto-repeat (what repeats). `npm test` **1543 of 1544**; the one, *of several starts racing to recover one stale lock*, fails
+alone and on e549ec1 too, and is not this branch's. Browser: `test:auto` 14, `test:biome-game` 6 (one felling icon, no fetch or
+haul icon), `test:family-panel` 17, `test:children` 14, `test:slice` 12, `test:family-commands` 23, `test:means`, `test:furniture`
+5, `test:farm` passed. Proofs fixed: auto (recorded the field one state short when it turned between samples), family-commands
+(a fresh work a person; a joined job finished before the page drew it; the little ones given their play before the principal is
+sent to town), biome-game. `scripts/house-plot-browser-proof.mjs` stops at *the refused spot is not over the first house as drawn*
+- the same on e549ec1, after its construction checks (logs consumed) pass.
 
 **Open for the owner** (FAMILY_PANEL.md §20.6, multiple choice there): a second feller with one axe (built: shared at home, as
 TOWNS §4b); clearing and fencing on auto (built: next nearest plot, never survey); the hands curve (built: 1/.8/.6/.4, four, a fifth
