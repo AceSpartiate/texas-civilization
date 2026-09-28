@@ -8,7 +8,7 @@
     "given tag, the parent went back to work at once; the icon glows and the child is drawn in 20 places in four seconds, as smallchild-walk-n",
     "with a corn-husk doll the child is drawn sitting (smallchild-rest)",
     "the child's automation turned itself off, and the row says \"Auto went off: Cayetano has been good as long as a child can be.\"",
-    "the baby crawled (14 places in three seconds), cried and was picked up by Paz, 36, who said \"There, there. I have you.\" and was drawn indigo-carry; the baby was put down to nap and she went back to where she stood, at \"work\"",
+    "the baby crawled (13 places in three seconds), cried and was picked up by Paz, 36, who said \"There, there. I have you.\" and was drawn indigo-carry; the baby was put down to nap and she went back to where she stood, at \"work\"",
     "on foot with the baby on her hip Paz walks at three quarters of her pace (0.75 a tick): her row says \"On foot with Docia on her hip: walking a quarter slower for it.\", the baby's \"Carried by Paz.\"",
     "at 1024x768 the child's own bar is on the screen and nothing scrolls sideways",
     "told to leave, hiding what the wagon cannot carry is on the main person's bar and glows when pressed; the child's bar has a bundle to make up (child-play, child-doll, child-cart, child-tag, child-hide, child-hoop, child-marbles, child-kindling, child-eggs, child-water, child-mind, flee-bundle, flee-cow)",
@@ -76,7 +76,7 @@
     },
     "autoOff": "Auto went off: Cayetano has been good as long as a child can be.",
     "crawl": {
-      "places": 14,
+      "places": 13,
       "clips": [
         "infant-idle-e"
       ]
@@ -119,17 +119,17 @@
       "row": "Driving the milk cow along behind the family.",
       "drawn": {
         "by": "hh-1-child-4",
-        "x": 536,
-        "y": 1019,
+        "x": 529,
+        "y": 1079,
         "clip": "cattle-longhorn-red-idle",
         "child": {
-          "x": 617,
-          "y": 1013
+          "x": 609,
+          "y": 1074
         }
       },
       "child": {
-        "x": 616.5397187577742,
-        "y": 973.0641730147313,
+        "x": 608.9885697454104,
+        "y": 1033.4733651136387,
         "size": 89.10000000000001
       },
       "herdLeft": {

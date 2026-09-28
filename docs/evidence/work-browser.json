@@ -4,9 +4,9 @@
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768. A real class through the join flow on the invented country (seed work-proof-3). The well, the house, the felling, the mark and the water are the server's own chore state set in process; working about the place is the server's own. No LAN or district claim.",
   "checks": [
-    "Barnabas Proofwright working about the place is drawn hoeing (rust-work): frames 0/1/2/3, dust on the strike, 20 different pictures in 2.4 s",
+    "Barnabas Proofwright working about the place is drawn hoeing (rust-work): frames 1/2/3/0, dust on the strike, 20 different pictures in 2.4 s",
     "three sent to the house (\"felling and hauling logs\") are drawn round it (738,409 / 859,384 / 617,384, a figure 77 px), each facing it, swinging with the chips flying (chop, chop, chop; stand-in: Request 2026-09-28 — people at work, item 1)",
-    "at the mark Serafina Proofwright is drawn with the rifle up and a puff of smoke once a cycle (teal-idle-e; marks 1/5/4); surveying, Barnabas Proofwright paces the ground to and fro (23 places, turning both ways)",
+    "at the mark Serafina Proofwright is drawn with the rifle up and a puff of smoke once a cycle (teal-idle-e; marks 1/5/4); surveying, Barnabas Proofwright paces the ground to and fro (24 places, turning both ways)",
     "no page errors"
   ],
   "observed": {
@@ -97,14 +97,14 @@
         "rust-work"
       ],
       "frames": [
-        0,
         1,
         2,
-        3
-      ],
-      "marks": [
         3,
         0
+      ],
+      "marks": [
+        0,
+        3
       ],
       "shifts": [
         0
@@ -132,10 +132,10 @@
           "rust-work"
         ],
         "frames": [
+          2,
           3,
           0,
-          1,
-          2
+          1
         ],
         "marks": [
           5,
@@ -164,10 +164,10 @@
           "teal-work"
         ],
         "frames": [
+          2,
           3,
           0,
-          1,
-          2
+          1
         ],
         "marks": [
           5,
@@ -240,33 +240,34 @@
           0
         ],
         "shifts": [
-          -19.7,
-          -19.1,
-          -16.6,
-          -12.5,
-          -10,
-          -3,
-          0.1,
-          6.1,
-          9,
-          13.9,
-          15.9,
-          18.8,
-          19.5,
-          18.7,
-          15.8,
-          13.8,
-          8.8,
-          5.9,
-          -0.2,
-          -3.3,
-          -9.1,
-          -11.7,
-          -16.1
+          8.2,
+          2.3,
+          -0.8,
+          -6.2,
+          -12.7,
+          -16.7,
+          -19.2,
+          -19.8,
+          -18.5,
+          -15.5,
+          -10.9,
+          -5.3,
+          -2.3,
+          3.8,
+          9.6,
+          12.7,
+          17.3,
+          19.4,
+          19.7,
+          19.1,
+          16.1,
+          14.2,
+          8.7,
+          2.8
         ],
         "flips": [
-          false,
-          true
+          true,
+          false
         ],
         "prints": 24,
         "at": {
@@ -298,7 +299,7 @@
         "flips": [
           false
         ],
-        "prints": 24,
+        "prints": 23,
         "at": {
           "x": 653,
           "y": 362,

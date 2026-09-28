@@ -159,6 +159,8 @@ export const WORK = Object.freeze({
   'road-lookout': { stroke: 'walk' },
   'road-sing': { stroke: 'walk' },
   'road-little-ones': { stroke: 'walk' },
+  // A child of seven or more running to the neighbours for help (sim/acting.mjs, 2026-09-28): the work is the going.
+  'child-help': { stroke: 'walk' },
   'camp-fire': { stroke: 'fire', spread: 0.6 },
   'ferry-help': { stroke: 'carry', spread: 0.7 },
   'share-food': { stroke: 'carry', spread: 0.6 },

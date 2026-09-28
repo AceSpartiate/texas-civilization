@@ -13,13 +13,13 @@
     "hovering an icon shows a small popup with one sentence: \"Rest\" - \"Sit still at home, which is the only thing that mends tiredness.\"",
     "focusing an icon from the keyboard shows the same popup, and Escape puts it away",
     "pressing \"Practise at the mark\" sets hh-1-parent-2 to it on the server, and its icon glows",
-    "it glowed through the practice (9 samples) and went out when the server said it was done (powder 5 to 3)",
+    "it glowed through the practice (13 samples) and went out when the server said it was done (powder 5 to 3)",
     "one click selects an adult, their action bar and their map location together",
-    "pressing a portrait moves the camera onto that person and zooms in (scale 678 to 2605, 0.002 miles off)",
+    "pressing a portrait moves the camera onto that person and zooms in (scale 678 to 2605, 0.000 miles off)",
     "all 14 names changed in place and saved themselves - left by Tab, and the last by a pause in typing: Asa, Keziah, Hiram, Delia, Obed, Minerva, Levi, Soledad, Jonas, Effie, Silas, Orpha, Enos, Tomasa",
     "a name with no letters is refused in the server’s words, and the box goes back to the name the world holds",
     "after a reload every new name is in its box on the panel and in the family book",
-    "on a 400 px phone the panel is a column of portraits with one row open, taking 8% of the screen and no row outside the column and that row, with the map on top at 45% of the 192 points the guided start leaves",
+    "on a 400 px phone the panel is a column of portraits with one row open, taking 15% of the screen and no row outside the column and that row, with the map on top at 62% of the 288 points the guided start leaves",
     "on a phone, pressing another portrait opens that person’s row",
     "no page errors anywhere in the run"
   ],
@@ -53,7 +53,7 @@
     },
     "glow": {
       "worker": "hh-1-parent-2",
-      "samplesGlowingWhileBusy": 9,
+      "samplesGlowingWhileBusy": 13,
       "powderBefore": 5,
       "powderAfter": 3
     },
@@ -64,35 +64,35 @@
         "scale": 678.1713759617705
       },
       "after": {
-        "cx": 2.6498032000000475,
-        "cy": -10.778607040000105,
+        "cx": 2.6493,
+        "cy": -10.7781,
         "scale": 2605.263157894737
       },
-      "milesFromPerson": 0.0024
+      "milesFromPerson": 0
     },
     "phone": {
       "panel": {
         "x": 12,
-        "y": 382.484375,
+        "y": 127.484375,
         "width": 376,
-        "height": 274
+        "height": 529
       },
       "openRows": 1,
       "columnRight": 56,
       "openRow": {
-        "y": 408,
-        "height": 46
+        "y": 153,
+        "height": 89
       },
-      "stripBottom": 263,
-      "sampled": 192,
-      "mapShare": 0.453125,
+      "stripBottom": 0,
+      "sampled": 288,
+      "mapShare": 0.6215277777777778,
       "strays": [],
       "bar": {
         "points": 36,
         "top": 683
       },
       "chrome": [],
-      "covered": 0.0759164779663086,
+      "covered": 0.1474427734375,
       "pageScrolls": false
     }
   },
