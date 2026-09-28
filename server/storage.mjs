@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync, renameSync, existsSync, openSync, fsyncSync, closeSync, unlinkSync, realpathSync, linkSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync, renameSync, existsSync, openSync, fsyncSync, closeSync, unlinkSync, realpathSync, statSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { uptime } from 'node:os';
 import { STARTING_POWDER } from '../sim/world.mjs';
@@ -62,13 +62,19 @@ export function ownerGone(existing, { startedAt = processStartedAt } = {}) {
 // **A lock whose owner has certainly gone is taken over (2026-09-28).** Until then every leftover lock refused to start,
 // and the only way on was a developer following docs/RECOVERY.md - so a laptop shut with the class up, a Windows Update
 // restart overnight or an End Task left the next day's class unable to open. Now, when `ownerGone` is certain, the save is
-// backed up into `archive/`, the old lock is moved aside by rename (one atomic step: of two starts racing to recover, one
-// moves it and the other finds nothing to move), its words checked to be the very ones judged gone, and the new lock is
-// made with `wx` as any start makes it. Every doubt still refuses, as before.
-// ceiling: a start that moves aside a lock written a moment earlier by a third start racing the same recovery puts it back
-// by a hard link; if yet another start has made one in that instant, this refuses and says so rather than guessing. Three
-// servers started on one save in the same second is the case left open; the launcher's own lock and the one port make it
-// unreachable from the launcher.
+// backed up into `archive/`, and the old lock is removed only by the start holding the recovery latch (`<lock>.recover`,
+// made with `wx`, so of any number of starts racing to recover exactly one holds it), and only while the lock's words are
+// still the very ones judged gone; the new lock is then made with `wx` as any start makes it. A start that finds the latch
+// held refuses, as does one that finds the lock changed under it. Every doubt still refuses, as before.
+// (Amended 2026-09-28: the first version moved the lock aside by rename and put back a lock it moved by mistake; with three
+// or more starts racing, one could make a new lock in the instant another's was aside, and two starts both owned the class.
+// tests/stale-lock.test.mjs races six.)
+// ceiling: a start killed while holding the latch leaves it behind; a latch older than `LATCH_STALE_MS` is taken as that
+// leftover and cleared. Two starts both clearing one leftover latch in the same instant, a minute after a third died holding
+// it, is the case left open.
+/** How old a recovery latch must be before it is taken as left behind by a start that died holding it. Recovery takes milliseconds. */
+const LATCH_STALE_MS = 60_000;
+
 export function acquireSaveLock(path, { startedAt = processStartedAt, judged = null } = {}) {
   if (!path) return { path, release() {} };
   const requested = resolve(path);
@@ -87,18 +93,29 @@ export function acquireSaveLock(path, { startedAt = processStartedAt, judged = n
       if (!gone) {
         throw new Error(`Save already owned, or ownership cannot be verified: ${lockPath}. Another classroom server may still be using this class. Close it, or restart the computer, and start again: a class whose server has certainly gone opens by itself.`, { cause: error });
       }
-      const backup = archiveSave(canonical, 'before-lock-recovery');
-      // Only a test uses this: another start doing its whole recovery in the instant between this judgement and the move.
+      // Only a test uses this: another start doing its whole recovery in the instant between this judgement and the latch.
       judged?.();
-      const aside = `${lockPath}.stale-${randomBytes(6).toString('hex')}`;
-      try { renameSync(lockPath, aside); } catch (move) { if (move.code === 'ENOENT') continue; throw move; }
-      if (readFileSync(aside, 'utf8') !== text) {
-        // Not the lock that was judged: another start recovered first and this moved its new lock. Put it back.
-        try { linkSync(aside, lockPath); unlinkSync(aside); } catch { /* the aside file is kept as the evidence */ }
-        throw new Error(`Save ownership changed while it was being recovered: ${lockPath}. Another classroom server is starting on this class.`, { cause: error });
+      const latchPath = `${lockPath}.recover`;
+      let latch;
+      try { latch = openSync(latchPath, 'wx'); }
+      catch (taken) {
+        if (taken.code !== 'EEXIST') throw taken;
+        let age = 0;
+        try { age = Date.now() - statSync(latchPath).mtimeMs; } catch { /* released as it was looked at */ }
+        if (age > LATCH_STALE_MS) { try { unlinkSync(latchPath); } catch { /* another start cleared it */ } continue; }
+        throw new Error(`Save ownership is being recovered by another start: ${lockPath}. Another classroom server is starting on this class.`, { cause: error });
       }
-      unlinkSync(aside);
-      recovered = { reason: gone, processId: existing.processId, backup };
+      try {
+        let now = null;
+        try { now = readFileSync(lockPath, 'utf8'); } catch (read) { if (read.code !== 'ENOENT') throw read; }
+        if (now !== null && now !== text) {
+          throw new Error(`Save ownership changed while it was being recovered: ${lockPath}. Another classroom server is starting on this class.`, { cause: error });
+        }
+        const backup = archiveSave(canonical, 'before-lock-recovery');
+        if (now !== null) unlinkSync(lockPath);
+        fd = openSync(lockPath, 'wx');
+        recovered = { reason: gone, processId: existing.processId, backup };
+      } finally { closeSync(latch); unlinkSync(latchPath); }
     }
   }
   try { writeFileSync(fd, JSON.stringify(owner)); fsyncSync(fd); }

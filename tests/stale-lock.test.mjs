@@ -107,16 +107,22 @@ test('of several starts racing to recover one stale lock, exactly one owns the c
     writeFileSync(savePath, '{}');
     writeFileSync(lockPath, lockOf(deadPid()));
     const script = `import { acquireSaveLock } from ${JSON.stringify(new URL('../server/storage.mjs', import.meta.url).href)};
-      try { acquireSaveLock(${JSON.stringify(savePath)}); console.log('won'); setTimeout(() => {}, 1500); }
+      try { acquireSaveLock(${JSON.stringify(savePath)}); console.log('won'); setInterval(() => {}, 1000); }
       catch (error) { console.log('refused: ' + error.message.split('\\n')[0]); }`;
-    const racers = Array.from({ length: 6 }, () => new Promise(done => {
-      const child = spawn(process.execPath, ['--input-type=module', '-e', script], { stdio: ['ignore', 'pipe', 'inherit'] });
-      let out = '';
-      child.stdout.on('data', chunk => { out += chunk; });
-      child.on('exit', () => done(out.trim()));
-    }));
-    const results = await Promise.all(racers);
-    assert.equal(results.filter(result => result === 'won').length, 1, results.join('\n'));
+    // The winner stays alive until every racer has answered. A winner that exited would leave a lock that is stale again,
+    // and a racer started late under load would rightly take it over (seen in a loaded full suite, 2026-09-28).
+    const children = [];
+    try {
+      const racers = Array.from({ length: 6 }, () => new Promise(done => {
+        const child = spawn(process.execPath, ['--input-type=module', '-e', script], { stdio: ['ignore', 'pipe', 'inherit'] });
+        children.push(child);
+        let out = '';
+        child.stdout.on('data', chunk => { out += chunk; if (out.includes('\n')) done(out.trim()); });
+        child.on('exit', () => done(out.trim()));
+      }));
+      const results = await Promise.all(racers);
+      assert.equal(results.filter(result => result === 'won').length, 1, results.join('\n'));
+    } finally { for (const child of children) child.kill(); }
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 
