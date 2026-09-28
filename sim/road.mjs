@@ -44,7 +44,7 @@ import { COLUMNS, ORDER_GRACE_MINUTES, ROAD_DETOUR, clockOf, columnLeg as advanc
 import { bundleRoom, cowPace, lookoutMiles, lookoutOf, loseCow } from './flight-work.mjs';
 // The soldiers who can see a family, the order to halt and the chase (sim/pursuit.mjs, owner 2026-09-27), and the family's own
 // route (sim/flight-route.mjs): a cycle through these, safe because each side uses the other only inside functions.
-import { advancePursuit, altoOptions, altoText, answerAlto, chaseProjection, runRefusal, sightMiles } from './pursuit.mjs';
+import { advancePursuit, altoOptions, altoText, answerAlto, chaseProjection, runRefusal, sightMiles, strippedBy } from './pursuit.mjs';
 import { flightPlaces, routeProjection } from './flight-route.mjs';
 import { campedApart } from './disease.mjs';
 
@@ -511,7 +511,8 @@ export function advanceRoad(world, household) {
   // Somebody of the family watching the road behind sees the riders further off (sim/flight-work.mjs `road-lookout`).
   const warnAt = lookoutMiles(world, household, WARNING_MILES);
   const near = kept && kept.miles <= warnAt ? kept : nearest;
-  if (near && near.miles <= warnAt && !(flight.overtakenBy || []).includes(near.id)) {
+  // Never of a column whose army has stripped the family, it or one of its patrols (owner, 2026-09-28, "One army"; `strippedBy`).
+  if (near && near.miles <= warnAt && !strippedBy(flight, near.id)) {
     if (!flight.danger || flight.danger.id !== near.id) {
       flight.danger = { id: near.id, name: near.name, miles: near.miles, towardName: near.towardName, minute: world.minute };
       const watcher = near.miles > WARNING_MILES ? lookoutOf(world, household) : null;
@@ -519,13 +520,13 @@ export function advanceRoad(world, household) {
     } else Object.assign(flight.danger, { miles: near.miles, towardName: near.towardName });
     // Put to the family once for each column, after any bog it is in has been answered.
     if (!flight.danger.asked && !flight.ask) { flight.danger.asked = true; openAsk(world, household, 'danger', `${near.name} is close behind.`); }
-  } else if (flight.danger && (!near || near.miles > warnAt || (flight.overtakenBy || []).includes(near.id))) {
+  } else if (flight.danger && (!near || near.miles > warnAt || strippedBy(flight, near.id))) {
     delete flight.danger;
     if (flight.ask?.id === 'danger') delete flight.ask;
   }
   // Coming up with the family (owner, 2026-09-27; sim/pursuit.mjs): no longer a circle round each column's head, but the
   // soldiers who can see the family - a column on its road, or a patrol out ahead of one - coming after it, calling on it to
-  // halt, and taking it if it halts or they catch it. The rules kept from before are there: never twice by the same column,
+  // halt, and taking it if it halts or they catch it. The rules kept from before are there: never twice by the same army,
   // not again where it was stripped until it has set out (three columns pass San Felipe in ten days), and never in the day its
   // order gives it (`ORDER_GRACE_MINUTES`, `FIC-GONZ-465`: the record's Gonzales families left the night before Sesma came in).
   const chased = advancePursuit(world, household);

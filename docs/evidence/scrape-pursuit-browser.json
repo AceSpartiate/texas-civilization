@@ -71,13 +71,13 @@
             "kind": "cavalry",
             "phase": "caught",
             "soldiers": 8,
-            "smoke": 8,
+            "smoke": 6,
             "shotsSent": 8
           }
         ],
-        "shotsSeen": 8,
-        "flashes": 8,
-        "dust": 8,
+        "shotsSeen": 6,
+        "flashes": 6,
+        "dust": 6,
         "lines": [
           "alto",
           "warn",
