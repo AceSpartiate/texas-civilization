@@ -296,9 +296,13 @@ test('a family that stays is overtaken: the wagon, the animals and the goods tak
   assert.equal(caught[0].points, -2 * GLORY_WEIGHT.enlisted * distanceMultiplier(caught[0].miles), 'being overtaken did not cost what a desertion costs');
   assert.doesNotMatch(JSON.stringify(view(world, household.id)), /overtaken-santa-anna/, 'the glory rode the wire');
   validateWorld(world);
-  const once = world.events.filter(event => event.householdId === household.id && /came up with the family/.test(event.text)).length;
+  // Never twice by the same column. Since 2026-09-27 (sim/pursuit.mjs) a family that sets out again on foot from San Felipe with
+  // Sesma's division camped in the town may be seen and taken by that other column while it waits its turn at the crossing;
+  // the rule held here is Santa Anna's own.
+  const byHim = event => event.householdId === household.id && /Santa Anna’s column came up with the family/.test(event.text);
+  const once = world.events.filter(byHim).length;
   until(world, () => world.director.milestones['victory-word'], 2000);
-  assert.equal(world.events.filter(event => event.householdId === household.id && /came up with the family/.test(event.text)).length, once, 'the same column took the family twice');
+  assert.equal(world.events.filter(byHim).length, once, 'the same column took the family twice');
   assert.equal(household.flight.status, 'returning', 'the family did not turn home with the news');
   assert.equal(household.flight.mode, 'foot');
   validateWorld(world);
