@@ -170,7 +170,7 @@ Built on both maps, in `sim/fields.mjs` (the plots as the field), `sim/improveme
   plot only (`harvestShare` is 1 − ⅓ × unfenced share of what is sown). A family with more cleared ground than seed for all
   of it cannot plant until it has the seed, and is told so (`ceiling:` below).
   **Since 2026-09-28 a crop stands real minutes** (owner: "i want 4 minutes for corn and 6 minutes for cotton in real life";
-  `sim/crops.mjs`): corn four minutes of the running class, cotton six, in any month, measured from the real time each tick took.
+  `sim/crops.mjs`): corn four minutes of the running class, cotton six, in any month, measured from the real time each tick took; half as fast in December to February (corn eight, cotton twelve). A plot of corn brings in ten food, of cotton five bales.
 - **Drawn** on the family's own map plot by plot: a cleared plot as field — turned earth, or the crop in rows where it was
   sown — with the rail fence round it only if it was fenced; a staked plot as the square with corner posts, the spells done
   shown as turned earth growing from its middle; no wild scrub or oak scattered in cleared ground. A neighbour's field is still
