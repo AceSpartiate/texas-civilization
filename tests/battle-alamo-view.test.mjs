@@ -56,6 +56,12 @@ test('the garrison stands along its walls, evenly, each wall facing out over its
   assert.ok(battle.groups.filter(group => group.side === 'mexican').every(group => group.style !== 'wall'));
 });
 
+test('Seguín rides out on his own animated horse at the Alamo', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  run(view, art, at('night-25', 180), { seconds: 2, perTick: 2 });
+  assert.ok(art.drawn.some(one => one.clip === 'seguin-mounted-walk-e'));
+});
+
 test('the guns fire each dated shot once, the defenders\' canister throws a cone of smoke, and the batteries bombard all day', () => {
   const art = fakeArt(), view = createBattleView(art);
   const { last } = run(view, art, at('repulse'), { seconds: 12, perTick: 2 });

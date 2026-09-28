@@ -2456,6 +2456,20 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-urrea-mounted.png",
       "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
       "review": "Dedicated mounted travel and halt for Agua Dulce and Coleto; mount appearance is artistic interpretation."
+    },
+    {
+      "sheet": "famous-seguin-mounted-motion",
+      "promptId": "frontier-v1/famous-seguin-mounted-motion",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "New genuinely transparent 2x2 companion sprite atlas for the existing Juan Nepomuceno Seguín game character. Preserve the reference exact established young Tejano face, plain brown hat, dark indigo jacket, cream shirt and tan trousers, and the same compact chestnut horse with dark mane, plain tack and rolled grey blanket. Four complete horse-and-rider figures in equal cells with broad alpha gutters. Top row: east walking gait A and opposite-leg east walking gait B. Bottom row: east canter A with forelegs gathered and hindlegs extended; east canter B with forelegs reaching and hindlegs gathered. No extra people, letters, borders, grid, ground, scenery, gore or portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-seguin.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b0c155f8-34d3-43eb-846e-a0590890615c.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-seguin-mounted-motion.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "The original mounted east/south key poses remain; new walk and canter clips add distinct leg and stride silhouettes while preserving Seguín and his horse."
     }
   ]
 }

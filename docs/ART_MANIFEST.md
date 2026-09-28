@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1758 usable sprites, 169 PNG atlases, 571 clips** (343 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1762 usable sprites, 170 PNG atlases, 573 clips** (345 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -87,6 +87,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-emily-west-picnic | 4 | 1254 × 1254 | 1381954 |
 | famous-santa-anna-picnic | 4 | 1254 × 1254 | 1236551 |
 | famous-picnic-props | 4 | 1254 × 1254 | 1557526 |
+| famous-seguin-mounted-motion | 4 | 1254 × 1254 | 1217137 |
 | famous-urrea | 16 | 1254 × 1254 | 955697 |
 | famous-urrea-mounted | 4 | 1226 × 1283 | 1293956 |
 | flag-come-and-take-it | 4 | 1254 × 1254 | 1140674 |
@@ -975,6 +976,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | picnic-blanket | famous-picnic-props | State artwork; no motion required |
 | picnic-basket | famous-picnic-props | State artwork; no motion required |
 | picnic-jug-cups | famous-picnic-props | State artwork; no motion required |
+| seguin-mounted-walk-e-1 | famous-seguin-mounted-motion | seguin-mounted-walk-e |
+| seguin-mounted-walk-e-2 | famous-seguin-mounted-motion | seguin-mounted-walk-e |
+| seguin-mounted-canter-e-1 | famous-seguin-mounted-motion | seguin-mounted-canter-e |
+| seguin-mounted-canter-e-2 | famous-seguin-mounted-motion | seguin-mounted-canter-e |
 | urrea-walk-e-1 | famous-urrea | urrea-walk-e |
 | urrea-walk-e-2 | famous-urrea | urrea-walk-e |
 | urrea-walk-e-3 | famous-urrea | urrea-walk-e |
@@ -2188,6 +2193,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | emily-west-picnic-converse | Pose cycle | 4 | 4300 | yes | west-facing at a camp table |
 | santa-anna-picnic-converse | Pose cycle | 3 | 3450 | yes | east-facing at a camp chair |
 | santa-anna-picnic-alarm | Pose cycle | 2 | 1750 | one-shot | east-facing; turns toward the battle |
+| seguin-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| seguin-mounted-canter-e | Pose cycle | 2 | 380 | yes | east; mirror for west |
 | urrea-walk-e | Pose cycle | 4 | 760 | yes | east |
 | urrea-walk-s | Pose cycle | 2 | 580 | yes | south |
 | urrea-walk-n | Pose cycle | 2 | 580 | yes | north |
