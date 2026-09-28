@@ -17,6 +17,7 @@ import { flightPlaces, planLeg, acrossCountry } from '../sim/flight-route.mjs';
 import { withFamily, familyPoint } from '../sim/road.mjs';
 import { activityOf, mendSickness, sicknessDay } from '../sim/disease.mjs';
 import { choreAvailability } from '../sim/chores.mjs';
+import { sexOf } from '../sim/family.mjs';
 import { spring, until } from './support/scrape-spring.mjs';
 import { placeFamily, sceneFor, stowAway } from './support/scrape-scene.mjs';
 
@@ -216,28 +217,71 @@ test('the shots are the researched table: by range, shooter and target, a moving
   assert.ok(Math.abs(hits / 2000 - 0.102) < 0.02, `the rolls hit ${hits} in 2000 at a chance of 0.102`);
 });
 
-test('children are never hit, and most shots miss: the soldiers aim at the grown people, the animals and the wagon', () => {
+test('only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss', () => {
   let shots = 0, hits = 0, aimedAtPeople = 0;
-  for (const [kind, householdId] of [['infantry', 'hh-1'], ['infantry', 'hh-2'], ['infantry', 'hh-6'], ['infantry', 'hh-8'], ['cavalry', 'hh-2'], ['cavalry', 'hh-8']]) {
+  for (const [kind, householdId, how] of [['infantry', 'hh-1', 'wagon'], ['infantry', 'hh-2', 'wagon'], ['infantry', 'hh-6', 'wagon'], ['infantry', 'hh-8', 'wagon'], ['cavalry', 'hh-2', 'wagon'], ['cavalry', 'hh-8', 'wagon'], ['cavalry', 'hh-4', 'mounted']]) {
     const world = spring();
-    const scene = sceneFor(world, { kind, how: 'wagon', householdId });
-    // The living children going with the family (a baby the sickness took before the scene is not one of them).
-    const children = scene.household.members.map(id => world.entities[id]).filter(one => one.kind === 'person' && !grown(one) && !['dead', 'captured'].includes(one.health?.condition));
-    assert.ok(children.length, `${householdId} has no children to test by`);
-    const seen = play(world, scene.household, scene.main, 'run');
+    const scene = sceneFor(world, { kind, how, householdId });
+    // The living women and children going with the family (a baby the sickness took before the scene is not one of them).
+    const spared = scene.household.members.map(id => world.entities[id]).filter(one => one.kind === 'person' && (!grown(one) || sexOf(one) !== 'male') && !['dead', 'captured'].includes(one.health?.condition));
+    assert.ok(spared.some(one => !grown(one)) && spared.some(one => grown(one)), `${householdId} has no women and children to test by`);
+    // Who is with them, as the shots are aimed (the seats as they were when the soldiers fired).
+    const withThem = new Set();
+    const seen = play(world, scene.household, scene.main, 'run', { each: () => { for (const one of spared) { if (one.travel?.rides) withThem.add(one.travel.rides); if (one.travel?.carried) withThem.add(one.travel.carried); } } });
     shots += seen.shots.length; hits += seen.shots.filter(shot => shot.hit).length;
-    // Every shot at a person was at a grown one of the family (the record's own shot, which keeps whom it was aimed at).
-    for (const shot of seen.shots.filter(one => one.target.kind === 'person')) {
+    for (const shot of seen.shots) {
+      assert.notEqual(shot.target.kind, 'wagon', 'a shot was fired at the wagon the women and children ride in');
+      if (shot.target.kind === 'beast') { assert.ok(!withThem.has(shot.target.id), `a shot was fired at the ${shot.target.name} a woman or a child was on`); continue; }
+      // Every shot at a person was at a grown man of the family (the record's own shot, which keeps whom it was aimed at).
       const person = world.entities[shot.target.id];
-      assert.ok(person && scene.household.members.includes(person.id) && grown(person), `a shot was aimed at ${shot.target.name} (${person?.age}), who is no grown person of the family`);
+      assert.ok(person && scene.household.members.includes(person.id) && grown(person) && sexOf(person) === 'male', `a shot was aimed at ${shot.target.name} (${person?.age}, ${sexOf(person)}), who is no grown man of the family`);
+      assert.ok(!withThem.has(person.id), `a shot was aimed at ${person.name}, who was carrying a baby`);
       aimedAtPeople++;
     }
-    for (const child of children) assert.ok(!['dead', 'wounded'].includes(child.health.condition), `${child.name} (${child.age}) was hurt in the chase`);
+    for (const one of spared) assert.ok(!['dead', 'wounded'].includes(one.health.condition), `${one.name} (${one.age}) was hurt in the chase`);
     validateWorld(world);
   }
-  assert.ok(shots >= 20, `only ${shots} shots were fired in six chases`);
-  assert.ok(aimedAtPeople >= 10, `only ${aimedAtPeople} shots were aimed at anybody: the check would pass with nobody to check`);
+  assert.ok(shots >= 20, `only ${shots} shots were fired in seven chases`);
+  assert.ok(aimedAtPeople >= 5, `only ${aimedAtPeople} shots were aimed at anybody: the check would pass with nobody to check`);
   assert.ok(hits / shots < 0.3, `${hits} of ${shots} shots hit`);
+});
+
+test('women and children alone: the soldiers fire at the animals or hold their fire, and say so, as Almonte did at New Washington', () => {
+  const alone = (how, kind = 'cavalry', householdId = 'hh-2', ahead = null) => {
+    const world = spring();
+    const household = world.households[householdId];
+    const scene = sceneFor(world, { kind, how, householdId, ahead });
+    // The grown men stayed behind at the house, with any horse they rode: the family on the road is its women and children.
+    const home = world.map.sites[household.homeSiteId];
+    for (const one of household.members.map(id => world.entities[id])) {
+      if (one.kind !== 'person' || !grown(one) || sexOf(one) !== 'male') continue;
+      const horse = one.travel?.saddle && world.entities[one.travel.rides];
+      for (const left of [one, horse].filter(Boolean)) { left.travel = null; left.location = { x: home.x, y: home.y, siteId: home.id }; }
+      one.task = 'rest';
+    }
+    if (scene.main.travel === null) scene.main = withFamily(world, household).people.find(grown);
+    assert.ok(withFamily(world, household).people.length && withFamily(world, household).people.every(one => sexOf(one) !== 'male' || !grown(one)), 'a grown man is with the family');
+    const ridden = new Set();
+    const seen = play(world, household, scene.main, 'run', { each: () => { for (const one of withFamily(world, household).people) if (one.travel?.saddle) ridden.add(one.travel.rides); } });
+    return { world, household, seen, ridden };
+  };
+  // On horseback (the dragoons a sixth of a mile behind, near enough to come up), no horse a woman or a child is on is fired at.
+  const mounted = alone('mounted', 'cavalry', 'hh-4', 0.15);
+  assert.ok(mounted.ridden.size, 'nobody of the family rode');
+  assert.ok(mounted.seen.hailed, 'the dragoons never came up with the riders: the check would pass with nothing to check');
+  for (const shot of mounted.seen.shots) assert.ok(!mounted.ridden.has(shot.target.id), `a shot was fired at the ${shot.target.name} a woman or a child was on`);
+  validateWorld(mounted.world);
+  // On foot there is nothing they may fire at: no shot, and the order to hold fire said, and written down.
+  const afoot = alone('foot');
+  assert.equal(afoot.seen.shots.length, 0, `${afoot.seen.shots.length} shots were fired at women and children`);
+  const held = afoot.seen.lines.find(line => line.id === 'hold');
+  assert.ok(held && held.text.startsWith('¡') && /women and children/.test(held.gloss), 'the soldiers did not say they held their fire');
+  assert.ok(afoot.world.events.some(event => event.householdId === afoot.household.id && /held their fire/.test(event.text) && /Almonte/.test(event.text)), 'the family\'s record does not say the soldiers held their fire, nor why');
+  // With the wagon, at the ox only.
+  const wagon = alone('wagon');
+  assert.ok(wagon.seen.shots.length > 0, 'nothing was fired at the oxen of a family of women and children');
+  for (const shot of wagon.seen.shots) assert.equal(shot.target.kind, 'beast', `a shot was fired at the ${shot.target.name}`);
+  validateWorld(afoot.world); validateWorld(wagon.world);
 });
 
 test('a beast hit slows the train: a lamed ox halves the wagon\'s pace, and an ox shot down leaves a running family on foot', () => {

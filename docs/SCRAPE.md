@@ -240,7 +240,8 @@ Put by multiple choice after a breakdown the same day, the owner chose:
 - **Speeds: "Historical"** — an ox wagon (about 2 mph) slower than marching infantry (about 2.5); a family on foot (3) or on horses a
   little faster; cavalry (6-8, faster in a short dash) outruns everyone. Keeping the wagon is a real risk. Cavalry uncommon.
 - **Who can be hit: "Adults and animals only"** — shots with period accuracy, mostly missing; a hit can wound or kill a grown-up, a
-  horse or an ox, no gore; children are never hit.
+  horse or an ox, no gore; children are never hit. **Narrowed the same day (§16 a): "Only at men and animals"** - never a woman
+  or a child, and the fire held where one is in the way.
 - **The chase: "A short held scene"** — the clock slows as in a battle: "¡Alto!", the choice to halt or run, the chase with shots
   and smoke, then back to the road's own time; about one to two real minutes.
 
@@ -254,7 +255,8 @@ the flight card).
 **Said plainly, as the game never says otherwise:** no source read has Mexican troops firing on fleeing refugees. At New
 Washington Almonte held his men's fire so as not to endanger Burnet's family; at Fort Bend the Kuykendall families ran for the
 river bottom and hid in a cane-brake. That soldiers fire on a family that runs is the owner's rule (`FIC-GONZ-665`,
-`HIST-TEX-665`); decision (a) in §16 asks whether to keep it.
+`HIST-TEX-665`); decision (a) in §16 asked whether to keep it, and the owner narrowed it the same day: **only at the men and the
+animals, holding their fire where women and children are in the way, as Almonte did.**
 
 ## 12. The route (`FIC-GONZ-660`, `-667`)
 
@@ -298,8 +300,13 @@ river bottom and hid in a cane-brake. That soldiers fire on a family that runs i
   desertion; nobody shot); **run as we are**; **leave the wagon and run on foot**; **let the milk cow go and run**; **run for the
   timber** when there is timber within three quarters of a mile to hide in. While the soldiers are still coming on, the card offers
   **"Make for the timber"** too. Running, after a second order ("¡Alto, o hacemos fuego!") they fire.
-- **The shots** (`HIT_TABLE`, research §4): every shot a real event, rolled once, at one of the grown people, the oxen, the horses
-  or the wagon - **never a child**; by range (nothing past 200 yards), shooter (half the infantry recruits firing from the hip;
+- **The shots** (`HIT_TABLE`, research §4): every shot a real event, rolled once, at one of the grown men, the oxen or the horses
+  - **never a woman or a child, nor a man or a horse with one of them** (a man carrying a baby or riding in the wagon among them, a
+  horse a woman or a child is on), **nor the wagon** (§16 a, owner 2026-09-27: "Only at men and animals"). With nothing else to
+  fire at - a family of women and children on foot - they **hold their fire**, say so over the lead man ("¡Alto el fuego! Hay
+  mujeres y niños.", "Hold your fire! There are women and children."), and the family's record says why (Almonte at New
+  Washington); they still come on, and a family they come up with is taken. `ceiling:` "in the way" is read from who rides with
+  whom, not where each walks (the chase is a line); by range (nothing past 200 yards), shooter (half the infantry recruits firing from the hip;
   horsemen at the gallop, one carbine shot each) and target, times 0.6 on the move. Every second man of a file stops to fire and
   load (20 seconds trained, 35 a recruit), the rest run on. A grown person hit is killed one time in five and otherwise wounded for
   three weeks; a beast killed one in four, else lamed - a lamed ox halves the wagon's pace, an ox down stops it and a running family
@@ -352,10 +359,13 @@ river bottom and hid in a cane-brake. That soldiers fire on a family that runs i
 
 (a) **Do soldiers fire on a family that runs?** 1. *As built:* yes, after a second order (the owner's rule). 2. They fire only at
 the men and the animals, and hold their fire where women and children are in the way (Almonte at New Washington). 3. They never
-fire on refugees (the record); running only risks being ridden down and taken.
+fire on refugees (the record); running only risks being ridden down and taken. **Answered 2026-09-27, by multiple choice: 2, "Only
+at men and animals"** - built the same day (§13 *The shots*; `targetsOf`, `holdFire` in sim/pursuit.mjs; `FIC-GONZ-664`, `-665`),
+not released.
 
 (b) **How rare?** *As built:* 13.8% of fleeing families met Mexican troops, 7.3% horsemen. 1. Keep. 2. Rarer: patrols only on
 Santa Anna's dash (Thompson's to New Washington, April 14-19). 3. Commoner: every column's cavalry out ahead on every march.
+**Answered 2026-09-27: 1, "Keep as built."**
 
 (c) **What does a hit do?** *As built:* a grown person killed one time in five, else wounded three weeks; a beast one in four, else
 lamed. 1. Keep. 2. Wounds only, nobody killed. 3. As in battle (sim/army.mjs's severe and dangerous wounds).

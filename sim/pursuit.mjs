@@ -38,7 +38,7 @@ import { woodsRule } from './woods.mjs';
 import { stirredShare } from './shares.mjs';
 import { record } from './events.mjs';
 import { roadTicks, WAGON_SPEED, WALK_SPEED, HORSE_SPEED } from './travel.mjs';
-import { canAnswerCalls, householdName } from './family.mjs';
+import { canAnswerCalls, householdName, sexOf } from './family.mjs';
 import { spotlight } from './host.mjs';
 import { abandonWagon, answerRoad, breakCamp, familyPoint, moveOn, nextRefuge, overtake, roadAutoAnswer, withFamily } from './road.mjs';
 import { acrossCountry } from './flight-route.mjs';
@@ -337,19 +337,43 @@ function say(world, chase, id, text, gloss, minute = world.minute) {
   if (chase.lines.length > 8) chase.lines.splice(0, chase.lines.length - 8);
 }
 
-/** What a soldier aims at: a grown person with the family, an ox, a horse, or the wagon, as they come. Never a child. */
+/** Nobody fires at a woman or a child (`FIC-GONZ-665`): whoever is not a grown man is spared. */
+const spared = one => !grown(one) || sexOf(one) !== 'male';
+/**
+ * What a soldier aims at (owner, 2026-09-27, by multiple choice: "Only at men and animals"): a grown man of the family, an ox
+ * or a horse, as they come - never a woman or a child, and never a man or a horse with one of them: a man carrying a baby, a
+ * man riding in the wagon or cart the women and children ride in, a horse a woman or a child is on; and never the wagon, which
+ * carries them. Almonte held his men's fire at New Washington so as not to endanger Burnet's family (`HIST-TEX-665`).
+ * ceiling: "in the way" is read from who rides with whom, not from where each walks - the chase is a line, so a man walking
+ * beside the women is fired at, and so is the ox at the head of their wagon. Places within the train would justify reading
+ * it from them.
+ */
 function targetsOf(world, household) {
   const { people, beasts } = withFamily(world, household);
-  const targets = people.filter(one => grown(one) && one.health?.condition !== 'dead' && !one.travel?.carried).map(one => ({ kind: 'person', id: one.id, name: one.given || one.name, size: 'man' }));
-  for (const beast of beasts) if (beast.kind === 'animal' && ['ox', 'horse'].includes(beast.species || 'ox')) targets.push({ kind: 'beast', id: beast.id, name: beast.species === 'horse' ? 'horse' : 'ox', size: 'beast' });
-  if (drawnVehicles(beasts).length) targets.push({ kind: 'wagon', id: drawnVehicles(beasts)[0].id, name: 'wagon', size: 'wagon' });
+  const living = people.filter(one => one.health?.condition !== 'dead');
+  // Where the women and children are: the vehicles and horses they ride, and whoever carries a baby.
+  const withThem = new Set();
+  for (const one of living.filter(spared)) { if (one.travel?.rides) withThem.add(one.travel.rides); if (one.travel?.carried) withThem.add(one.travel.carried); }
+  const targets = living.filter(one => !spared(one) && !withThem.has(one.id) && !(one.travel?.rides && withThem.has(one.travel.rides)))
+    .map(one => ({ kind: 'person', id: one.id, name: one.given || one.name, size: 'man' }));
+  for (const beast of beasts) if (beast.kind === 'animal' && ['ox', 'horse'].includes(beast.species || 'ox') && !withThem.has(beast.id)) targets.push({ kind: 'beast', id: beast.id, name: beast.species === 'horse' ? 'horse' : 'ox', size: 'beast' });
   return targets;
+}
+/**
+ * Nothing to fire at but women and children: the soldiers hold their fire, once said and once written down, as Almonte ordered
+ * at New Washington (`HIST-TEX-665`, `FIC-GONZ-665`). They still come on, and a family they come up with is taken.
+ */
+function holdFire(world, household, chase) {
+  if (chase.held) return;
+  chase.held = world.minute;
+  say(world, chase, 'hold', '¡Alto el fuego! Hay mujeres y niños.', 'Hold your fire! There are women and children.');
+  record(world, 'consequence', { householdId: household.id, importance: 3, claimId: 'FIC-GONZ-665', text: `The soldiers of ${chase.name} held their fire: there were only women and children to hit, as Almonte held his men's fire at New Washington so as not to endanger Burnet's family. They came on all the same.` });
 }
 
 /** One shot, fired by soldier `i` at this range: a real event, rolled once against the table, and what it did. */
 function fire(world, household, chase, i, yards, second, tickStart) {
   const targets = targetsOf(world, household);
-  if (!targets.length) return null;
+  if (!targets.length) { if (withFamily(world, household).people.some(one => one.health?.condition !== 'dead')) holdFire(world, household, chase); return null; }
   const n = chase.shotCount++;
   const soldier = chase.soldiers[i];
   const shooter = chase.kind === 'cavalry' ? 'mounted' : soldier.recruit ? 'hip' : 'trained';
@@ -829,7 +853,7 @@ export function altoOptions(world, household) {
     : `After a second order they fire, each man stopping to load after every shot. A musket ball at ${FIRE_YARDS.infantry} yards seldom hits a running man; at fifty, more often.`;
   const options = [{ id: 'halt', label: 'Halt, as they order', note: 'The soldiers come up and take the wagon, the animals and what is carried, and may take the grown men prisoner. Nobody is shot.' }];
   const run = pace('run');
-  options.push({ id: 'run', label: `Run as we are (${run.mph} miles an hour)`, note: `The family goes at ${run.words}. ${fireWords} They aim at the grown people and the animals, never a child. They give up after a few miles, or at dark.` });
+  options.push({ id: 'run', label: `Run as we are (${run.mph} miles an hour)`, note: `The family goes at ${run.words}. ${fireWords} They aim at the men and the animals, never at a woman or a child, and hold their fire where one is in the way. They give up after a few miles, or at dark.` });
   const timber = chase?.timber || nearestTimber(world, familyPoint(world, household));
   if (timber && flight.status === 'fled') options.push({ id: 'timber-run', label: `Run for the timber (${timber.yards} yards off the road)`, note: `Off the road and into the trees, at ${run.words}, slower across the rough ground. Horsemen will not follow a family into the timber, and soldiers there cannot see far. ${fireWords}` });
   const { beasts } = withFamily(world, household);
