@@ -1,0 +1,40 @@
+{
+  "date": "2026-09-28",
+  "files": [
+    "tests/axe-per-feller.test.mjs",
+    "tests/auto-house.test.mjs",
+    "tests/felling.test.mjs",
+    "tests/tools.test.mjs",
+    "tests/war-rifle.test.mjs"
+  ],
+  "caught": 3,
+  "of": 3,
+  "results": [
+    {
+      "injection": "felling shares the axe at home, as before the owner's decision",
+      "caught": true,
+      "failed": [
+        "a second feller needs a second felling axe: refused in plain words, and each holds a copy of their own until they stop",
+        "a feller on auto with no free axe works about the place, says why, and takes the axe up the tick it is free",
+        "the felling axe carried off the land is one person's until home, and nobody fells or builds with it meanwhile"
+      ]
+    },
+    {
+      "injection": "the refusal names the holder but not where another axe is to be had",
+      "caught": true,
+      "failed": [
+        "a second feller needs a second felling axe: refused in plain words, and each holds a copy of their own until they stop",
+        "a feller on auto with no free axe works about the place, says why, and takes the axe up the tick it is free",
+        "the felling axe carried off the land is one person's until home, and nobody fells or builds with it meanwhile"
+      ]
+    },
+    {
+      "injection": "felling holds no axe at all",
+      "caught": true,
+      "failed": [
+        "a second feller needs a second felling axe: refused in plain words, and each holds a copy of their own until they stop",
+        "a feller on auto with no free axe works about the place, says why, and takes the axe up the tick it is free"
+      ]
+    }
+  ]
+}

@@ -1,5 +1,24 @@
 # Claude handoff — Astra foundation
 
+## Each feller needs an axe — owner, 2026-09-28 (branch `axe-per-feller`, off `integration-2026-09-28`; not released)
+
+**The decision.** The owner answered FAMILY_PANEL.md §21.6's first question: *"Each needs an axe."* Felling now holds a felling axe of
+its own, one copy a feller (sim/chores.mjs `axeFor` 'own': held, never shared), released however the felling ends (§4c's counted
+tools). A second feller with no free axe is refused - *"There is no free felling axe: Mateo has the felling axe, felling a post oak.
+Buy another in town."*, or *"… Mateo and Rosa have both felling axes. …"* - and on auto works about the place, says so on the row,
+and takes the axe up the tick one is free. **The house builders were checked**: by the rule as it stood (TOWNS §4b, 1; WOODS §6.2) a
+pen that wants the felling axe holds one copy, shared among the builders, the lane and a timber clearing; kept. So with a family's
+starting tools (one axe) the feller and the builder take turns, and **the owner's acceptance test still holds**: one feller and one
+builder on auto, two presses, raise the round-log cabin by themselves (about 370 ticks on the test's land, about 270 before). Amended:
+docs/TOWNS.md §4b (1), docs/FAMILY_PANEL.md §21.5 and §21.6, docs/WOODS_AND_BUILDING.md §6.7, GAME.md, sim/keeping.mjs's header. Old
+saves: a felling saved shared keeps sharing until it stops; no save version moved.
+
+**Evidence** (same computer only): tests/axe-per-feller.test.mjs (2: the refusal, a copy each, the third told both have them, freed
+on stopping; a feller on auto waiting about the place and taking the axe up). **Seen failing**: `scripts/axe-per-feller-injections.mjs`,
+3 of 3 caught - felling sharing the axe again, the refusal without "Buy another in town", felling holding no axe - each failing both
+new tests. Updated on purpose: felling (two fellers are given two axes), tools and war-rifle (the refusal's new words; the
+shared-at-home test uses the lane). `npm test` **1631 of 1631 run pass** (1668 tests, 37 skipped). Browser, same computer: `test:auto` 14, `test:family-panel`, `test:biome-game` 6, all passing.
+
 ## The errand proof green again: the list stands still, no tip over the popup, the horses held out — 2026-09-28 (not released)
 
 **The ask** (owner, 2026-09-28): `npm run test:errand` was red on main (check 3, "something is drawn over the popup's own

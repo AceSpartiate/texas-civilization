@@ -202,6 +202,19 @@ Built the same day on v2026.09.24.4 ([tests](../tests/war-rifle.test.mjs), [inje
    it (*"Mateo has the felling axe, felling a post oak."*). House work stops by itself when the log pile runs short
    (sim/houseplot.mjs), so fetching logs is never locked out for good. The hoe, broadaxe, froe and auger never leave the land
    and are not held. Every way the trip ends lets it go: home, called off, dropped, the person dead or taken.
+   **Amended by the owner, 2026-09-28: "Each needs an axe."** Felling is no longer shared: **each feller holds a felling axe of
+   their own** - one copy a feller, as §4c counts tools - from the moment the felling is given until it ends however it ends, so a
+   second, third or fourth feller needs a second, third or fourth axe. A feller with no free axe is refused in plain words: *"There
+   is no free felling axe: Mateo has the felling axe, felling a post oak. Buy another in town."* (or *"… Mateo and Rosa have both
+   felling axes. …"*); on auto they work about the place, say so on the row, and take the axe up the tick one is free (sim/chores.mjs
+   `axeFor` 'own', docs/FAMILY_PANEL.md §21.6). **The rest of the work at home still shares one copy among all of it**: the house
+   when its pieces want the axe, a lane or a clearing through timber, the carreta, furniture from the pile - the rule as it stood,
+   checked and kept, since a round-log or hewn-log pen *wants the felling axe* (docs/WOODS_AND_BUILDING.md §6.2). So a family with
+   one axe takes turns between its feller and its builders. With a family's starting tools - one felling axe - one feller and one
+   builder on auto still raise the house by themselves: the builder works about the place (*"Mateo has the felling axe, felling a
+   post oak."*) until the pile holds the house's logs and the feller stops, and then builds it (tests/auto-house.test.mjs; about 370
+   ticks on the test's land, where before this about 270). A class saved with two fellers sharing one axe keeps them at it until
+   they stop; no save version moved.
 2. **"The rifle and the war: he takes the rifle."** A man who turns out for his settlement's call (sim/calls.mjs), goes
    upriver with the march (sim/directors.mjs `handleMarch`), or leaves to enlist or to join the garrison, the relief, the
    Matamoros men or Houston (the winter's chores, `war`) carries the family's rifle for as long as he is away

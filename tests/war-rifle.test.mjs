@@ -202,11 +202,12 @@ test('the felling axe carried off the land is one person\'s until home, and nobo
   assert.deepEqual(rosa.chore.with, ['axe'], 'going for a small tree off the land did not take the axe');
   assert.equal(rosa.chore.shares, undefined, 'an axe carried off the land was shared');
   // At home meanwhile: the work that wants the axe is refused, in her name.
-  assert.equal(choreAvailability(world, household, mateo, 'fell-trees').why, `${rosa.name} has the felling axe, deciding what to make.`);
+  // Felling, which needs an axe of its own since 2026-09-28 (owner: "Each needs an axe"), says where another is to be had.
+  assert.equal(choreAvailability(world, household, mateo, 'fell-trees').why, `There is no free felling axe: ${rosa.name} has the felling axe, deciding what to make. Buy another in town.`);
   assert.match(choreAvailability(world, household, thomas, 'make-furniture').why, new RegExp(`^${rosa.name} has the felling axe`));
   applyAction(world, 'hh-1', { action: 'answer-chore', entityId: rosa.id, option: 'benches' });
   until(world, () => rosa.travel);
-  assert.match(choreAvailability(world, household, mateo, 'fell-trees').why, new RegExp(`^${rosa.name} has the felling axe, on the road to `));
+  assert.match(choreAvailability(world, household, mateo, 'fell-trees').why, new RegExp(`^There is no free felling axe: ${rosa.name} has the felling axe, on the road to `));
   // Home with the tree: the axe is the family's again while she makes the benches at home.
   until(world, () => !rosa.travel && rosa.location.siteId === household.homeSiteId && rosa.chore?.doing === 'making benches', 800);
   assert.equal(userOf(world, household, 'axe', mateo, { shares: ['axe'] }), null, 'home again, and the axe is still off the land');
@@ -215,12 +216,13 @@ test('the felling axe carried off the land is one person\'s until home, and nobo
 
 test('at home the felling axe is shared by the work at home, and cannot be carried off while it is at work there', () => {
   const { world, household, rosa, mateo, thomas } = axeWorld('axe-home');
-  // Mateo felling on the family's own land.
-  mateo.chore = { id: 'fell-trees', step: 1, wait: 2, doing: 'felling a post oak', ground: { x: 0, y: 0 }, with: ['axe'], shares: ['axe'] };
+  // Mateo cutting the lane through timber on the family's own land: work at home that shares the axe (felling, since 2026-09-28,
+  // holds one of its own - tests/axe-per-feller.test.mjs).
+  mateo.chore = { id: 'cut-lane', step: 1, wait: 2, doing: 'cutting the lane', with: ['axe'], shares: ['axe'] };
   mateo.task = 'work';
   // Another at work at home shares it; nobody carries it off.
   assert.equal(userOf(world, household, 'axe', thomas, { shares: ['axe'] }), null, 'two at work at home could not share the axe');
-  assert.equal(choreAvailability(world, household, rosa, 'make-furniture').why, `${mateo.name} has the felling axe, felling a post oak.`);
+  assert.equal(choreAvailability(world, household, rosa, 'make-furniture').why, `${mateo.name} has the felling axe, cutting the lane.`);
   assert.throws(() => applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'make-furniture' }), new RegExp(`${mateo.name} has the felling axe`));
   // Done felling: it is free to go.
   mateo.chore = null; mateo.task = 'rest';
