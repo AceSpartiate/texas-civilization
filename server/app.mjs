@@ -94,6 +94,8 @@ const files = new Map([
   // Gonzales before the fight (sim/town-scenes.mjs) and the one speech bubble every scene that talks uses.
   ['/town-scenes.js', ['../public/town-scenes.js', 'text/javascript']],
   ['/speech.js', ['../public/speech.js', 'text/javascript']],
+  // Ambient life (sim/ambient.mjs, docs/AMBIENT.md): the activities of the idle, the camps' men, a refuge's crowd and their talk.
+  ['/ambient.js', ['../public/ambient.js', 'text/javascript']],
   ['/landscape-art.js', ['../public/landscape-art.js', 'text/javascript']],
   // The weather, drawn: rain, a norther, a storm, fog and high water (docs/WEATHER.md, public/weather-art.js).
   ['/weather-art.js', ['../public/weather-art.js', 'text/javascript']],

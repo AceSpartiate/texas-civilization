@@ -75,7 +75,7 @@ function fire(ctx, x, y, size, time, smoke = null) {
  * the page's own person drawing: `draw(clip, x, y, size, key, options)` returns false when the art has not arrived, so the
  * camp falls back to the plain figures the map already uses for anybody.
  */
-export function drawArmy(ctx, army, at, { scale, figure, time = 0, draw = null, mini = null, smoke = null }) {
+export function drawArmy(ctx, army, at, { scale, figure, time = 0, draw = null, mini = null, smoke = null, man = null, onMan = null, prop = null }) {
   const colours = army.side === 'mexican' ? MEXICAN : TEXIAN;
   if (scale < CAMP_SCALE) { drawArmyMark(ctx, army, at, colours, Math.max(11, Math.min(20, figure))); return 'mark'; }
   const size = Math.max(10, Math.min(46, figure * 1.1));
@@ -105,10 +105,16 @@ export function drawArmy(ctx, army, at, { scale, figure, time = 0, draw = null, 
   const role = army.side === 'mexican' ? 'regular' : 'volunteer';
   for (let index = 0; index < men; index++) {
     const column = index % 6, row = Math.floor(index / 6);
-    const x = at.x + (column - 2.5) * size * 0.95, y = at.y + size * (0.5 + row * 0.55);
-    const flip = army.side === 'mexican';
-    const drawn = draw && draw(`${role}-idle-${flip ? 'w' : 'e'}`, x, y, size, `${army.id}:${index}`, { flip });
+    // What the man is doing, where the server sent it (public/ambient.js `campMan`, sim/ambient.mjs `campAmbient`): at the fire,
+    // the cards, a rifle, the wood or the drill, a step off his place while he carries or marches. Standing, as before, when
+    // nothing was sent.
+    const doing = man ? man(index) : null;
+    const x = at.x + (column - 2.5) * size * 0.95 + (doing?.dx || 0) * size, y = at.y + size * (0.5 + row * 0.55);
+    const flip = doing ? doing.flip : army.side === 'mexican';
+    if (doing?.prop && prop) prop(index, doing, { x, y }, size);
+    const drawn = draw && draw(doing ? doing.id : `${role}-idle-${flip ? 'w' : 'e'}`, x, y, size, `${army.id}:${index}`, { flip });
     if (!drawn && mini) mini(ctx, x, y, size, { side: army.side, flip });
+    onMan?.(index, x, y, size);
   }
   drawArmyLabel(ctx, army, { x: at.x, y: at.y - size * 1.5 }, colours);
   return 'camp';
