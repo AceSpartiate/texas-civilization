@@ -19,6 +19,7 @@ import {
   DRAG_LOGS, FELL_REACH, USE_ORDER, fellFacts, fellRefusal, fellTicks, logsLying, oxFree, standingTrees,
 } from '../sim/felling.mjs';
 import { treeById } from '../sim/woods.mjs';
+import { addTool } from '../sim/tools.mjs';
 import { landAround } from '../sim/ground.mjs';
 import { woodsCatalogue, woodsTile } from '../sim/woods-view.mjs';
 import { ensureWoods, stumpsVisible, treesVisible } from '../public/woods-view.js';
@@ -116,6 +117,8 @@ test('two people felling one place never fell the same tree, and called in, what
   const { world, household, bounds } = onTheLand('fell-two');
   const { point, facts } = timberOn(world, household, bounds).at(-1);
   assert.ok(facts.trees > 10);
+  // Each feller needs a felling axe of their own (owner, 2026-09-28: "Each needs an axe"): a second one bought in town.
+  addTool(household, 'axe');
   const people = household.members.map(id => world.entities[id]).filter(person => person.kind === 'person' && choreAvailability(world, household, person, 'fell-trees').can).slice(0, 2);
   assert.equal(people.length, 2);
   // Side by side, so both would reach for the same nearest tree.

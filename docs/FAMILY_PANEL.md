@@ -1514,16 +1514,21 @@ work only get in each other's way."* Two kinds of sharing use the one curve:
 
 ### 21.5 Exclusive property
 
-Unchanged, and decided as it stood (docs/TOWNS.md §4b, 1): **the felling axe is shared at home** by everybody felling, building, cutting
-a lane or clearing timber, so a second feller on the family's own land needs no second axe. Fetching logs from off the land carries it
+**Amended by the owner, 2026-09-28 (§21.6, question 1: "Each needs an axe"; docs/TOWNS.md §4b, 1):** each feller holds a felling axe of
+their own, so a second feller needs a second axe and is refused without one - *"There is no free felling axe: Mateo has the felling axe,
+felling a post oak. Buy another in town."* - and on auto waits about the place. Building, a lane and clearing timber still share one
+copy among them at home, so with one axe a feller and a builder take turns. Fetching logs from off the land carries it
 away and is one person's, and holds the ox and wagon, so a second feller whose land has no timber waits for the team (on auto, about
 the place). The rifle, the ox and the wagon are held as before.
 
 ### 21.6 Open for the owner
 
-1. **A second feller with one axe.** (a) The axe is shared at home, as TOWNS.md §4b decided for all work at home - *built, recommended*;
-   (b) every feller needs a felling axe of their own, so a second is refused until the family buys another; (c) a second feller without
-   an axe of their own trims and drags, adding half what a feller adds.
+1. **A second feller with one axe.** ~~(a) The axe is shared at home - built then, recommended~~. **Decided by the owner, 2026-09-28:
+   "Each needs an axe" - (b)**, built the same day: every feller holds a felling axe of their own, released when they stop; a feller
+   with no free axe is refused, *"There is no free felling axe: … has it. Buy another in town."*, and on auto works about the place until
+   one is free (tests/axe-per-feller.test.mjs; `scripts/axe-per-feller-injections.mjs`, 3 of 3 caught). The house builders were checked:
+   by the rule as it stood (§21.5) a pen that wants the felling axe holds one copy shared among the builders, the lane and clearing, so a
+   family with only its starting axe takes turns - and one feller and one builder on auto still get a house.
 2. **Clearing and fencing on auto.** (a) The plot given, then the nearest to the house with that work in it; never survey - *built,
    recommended*; (b) the plot given, then the plot touching it, else stop; (c) survey and clear new ground next to the last plot when
    none is staked.
