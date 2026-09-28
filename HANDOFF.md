@@ -185,7 +185,9 @@ driven, because running it from a scratch folder rewrites the real install's sho
   at Resume; `server/main.mjs` starting the solo server without its watch → `test:solo-window` fails at the X (not paused,
   server still running after 38 s: the old behaviour). The `pagehide` close was seen missing twice before it existed.
 
-**Open for the owner** (none blocks release):
+**Open for the owner** (none blocks release). **Answered 2026-09-27, by multiple choice: 1 (A), 2 (A), 3 (A) - all as
+built; 4 (B) "Retry briefly", built (not released): server/storage.mjs `writeSave` tries a held file again for up to 333 ms
+(docs/DEPLOYMENT.md, *Closing the game*; tests/save-retry.test.mjs).** 5 and 6 are still open.
 1. Continue opens the game paused. (A) keep — Resume is one press and says where you are; (B) open running as before.
 2. The wait after the window closes before the server stops: (A) 30 s; (B) 10 s; (C) 2 min. The game is paused and saved at
    once in every case; this only decides how long a reload or a second thought has.

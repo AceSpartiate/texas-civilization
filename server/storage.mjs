@@ -103,14 +103,37 @@ export function archiveSave(path, label) {
   return target;
 }
 
+/**
+ * How long a save Windows refuses is tried again before it is a failure (owner, 2026-09-27, by multiple choice: "Retry
+ * briefly"; docs/DEPLOYMENT.md §Solo Mode, *Closing the game*). Another program holding the file for a moment - an antivirus
+ * scanning it, a backup copying it, anything reading it - makes Windows refuse the write or the rename with one of `HELD`.
+ * Until then the first refusal paused the class (`SAVE_FAILED`, server/app.mjs `flush`). Longer than this is a failure, as
+ * before; the class waits at most this long, once, on a save that will fail anyway.
+ */
+export const SAVE_RETRY_MS = 333;
+const HELD = new Set(['EPERM', 'EBUSY', 'EACCES']);
+const pause = new Int32Array(new SharedArrayBuffer(4));
+/** `step`, tried again while Windows says the file is held, for up to `SAVE_RETRY_MS`: 10 ms, then 20, 40, 80, ... */
+function whileHeld(step) {
+  const until = Date.now() + SAVE_RETRY_MS;
+  for (let wait = 10; ; wait *= 2) {
+    try { return step(); }
+    catch (error) {
+      const left = until - Date.now();
+      if (!HELD.has(error?.code) || left <= 0) throw error;
+      Atomics.wait(pause, 0, 0, Math.min(wait, left));
+    }
+  }
+}
 // `save` is the class, or its save text already written out: the classroom serialises each commit once and both keeps that
 // text (what a failed change goes back to) and writes it here (server/app.mjs `commit`).
 export function writeSave(path, save) {
   if (!path) return;
   mkdirSync(dirname(path), { recursive: true });
   const temp = `${path}.tmp`;
-  writeFileSync(temp, typeof save === 'string' ? save : JSON.stringify(save));
+  const text = typeof save === 'string' ? save : JSON.stringify(save);
+  whileHeld(() => writeFileSync(temp, text));
   const fd = openSync(temp, 'r+');
   try { fsyncSync(fd); } finally { closeSync(fd); }
-  renameSync(temp, path);
+  whileHeld(() => renameSync(temp, path));
 }

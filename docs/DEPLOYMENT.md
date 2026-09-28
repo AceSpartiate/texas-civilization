@@ -241,6 +241,21 @@ server/app.mjs, written at once and refused by a class). Save says when it saved
 seconds. There is no Quit: the window's X is the quit. The paused guide says *"Press Resume, top right, to go on"* rather
 than waiting for a teacher.
 
+**The owner's answers, 2026-09-27, by multiple choice** (the questions the solo builder left open):
+
+- **Continue opens the game paused** - kept as built; Resume is one press.
+- **The wait before the solo server stops** after its window goes: **30 seconds**, as built.
+- **No "Save and quit" button** - as built: the window's X is the quit.
+- **A save Windows refuses for a moment: "Retry briefly"** - built 2026-09-27 (not released). Found by the solo builder: a
+  save read by another program at the moment the server renames over it is refused by Windows (EPERM), and until then the
+  first refusal was `SAVE_FAILED` (the class paused and put back to its last save). Any class is exposed to it from an
+  antivirus or a backup tool holding the file. Now every class's save (`server/storage.mjs` `writeSave`) tries the write and
+  the rename again while Windows says the file is held (EPERM, EBUSY, EACCES), at 10, 20, 40, 80 ... ms, for up to
+  `SAVE_RETRY_MS` (333 ms), and only then calls it a failure, exactly as before; any other error is not retried. The class
+  waits at most a third of a second, once, on a save that fails anyway. Proved: `tests/save-retry.test.mjs` (the refusals
+  made by standing in for node:fs; seen failing before the retry existed).
+- Still open: Windows log-off, and the Class view left open when the window closes (HANDOFF.md, *Play Solo closes itself*).
+
 **Launcher unchanged.** Nothing under `launcher/` changed, so the launcher id is the same and the next release can still
 be *Only what changed*. It was not needed: the window closing is seen from the server, and the launcher's window was proved
 to end the stream in under a second (34-731 ms) by compiling its own `TeacherWindow.cs`, unchanged, into a small host and
