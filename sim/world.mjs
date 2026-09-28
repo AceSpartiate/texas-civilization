@@ -24,7 +24,7 @@ import { advanceFlight, flee, flightProjection, householdAsKnown, scrapeInvalid,
 import { answerRoad, registerRoadChores } from './road.mjs';
 // The family's own route on the Scrape, and the chases the Host watches (owner, 2026-09-27).
 import { setRoute } from './flight-route.mjs';
-import { chasesForHost } from './pursuit.mjs';
+import { chasesForHost, makeForTimber } from './pursuit.mjs';
 // What the family does on the Runaway Scrape besides run, children and grown-ups (sim/flight-work.mjs, docs/CHILDREN.md §7).
 import { advanceFlightWork, cowLine, flightWorkInvalid, registerFlightWork, walkingShare } from './flight-work.mjs';
 import { WATER_HIGH, WATER_SHUT, waterAt, weatherAt, weatherOn } from './weather.mjs';
@@ -928,6 +928,8 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   if (input.action === 'flee') { flee(world, household, { take: input.take || {}, refuge: input.refuge, ...(input.route && { route: routeInput(input.route) }) }); return; }
   // Where the family goes on the road, and by which way (sim/flight-route.mjs): set, or changed, by its own main person.
   if (input.action === 'flight-route') { setRoute(world, household, routeInput(input.route || input)); return; }
+  // Off the road for the timber while soldiers are coming (sim/pursuit.mjs): where horsemen will not follow a family.
+  if (input.action === 'flight-timber') { makeForTimber(world, household); return; }
   // Or decides to stay and take what comes: its own answer, since silence now packs the wagon after a day (sim/auto.mjs).
   if (input.action === 'flight-stay') { stayHome(world, household); return; }
   // The road's questions (sim/road.mjs): the bogged wagon, the army close behind - the family's answer, given by anybody of it.

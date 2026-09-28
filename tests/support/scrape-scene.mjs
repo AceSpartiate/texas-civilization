@@ -91,8 +91,8 @@ export const SCENES = Object.freeze({
   // Almonte's dragoons riding for New Washington on the morning of the 16th, a belt of timber a few hundred yards off the road.
   timber: { minute: on(1836, 4, 16, 10), watcher: 'almonte', from: 'harrisburg', to: 'new-washington', ahead: 1.05 },
 });
-export function sceneFor(world, { kind = 'cavalry', how = 'wagon', ahead = null, householdId = 'hh-1' } = {}) {
-  const scene = SCENES[kind];
+export function sceneFor(world, { kind = 'cavalry', how = 'wagon', ahead = null, householdId = 'hh-1', minute = null } = {}) {
+  const scene = { ...SCENES[kind], ...(minute !== null && { minute }) };
   const household = world.households[householdId];
   // Out of the way until the scene's day: camped at Nacogdoches, where no column comes, so nothing happens to it at home.
   stowAway(world, household);

@@ -144,7 +144,7 @@ export function hitChance(yards, { shooter = 'trained', target = 'man', moving =
   if (yards > HIT_RANGES[0]) {
     const i = HIT_RANGES.findIndex(r => r >= yards);
     const a = HIT_RANGES[i - 1], b = HIT_RANGES[i];
-    p = row[i - 1] + (row[i] - row[i - 1]) * (yards - a) / (b - a);
+    p = yards === b ? row[i] : row[i - 1] + (row[i] - row[i - 1]) * (yards - a) / (b - a);
   }
   return Math.min(1, Math.max(0, p * (moving ? MOVING_SHARE : 1)));
 }
@@ -456,7 +456,11 @@ function runChase(world, household, chase, seconds, calendar, vF) {
     chase.lead = Math.round(lead);
     if (lead <= CAUGHT_YARDS) return 'caught';
     // Within hail: the order comes, and the rest of the tick goes on (the family does not stop going for it).
-    if (chase.phase === 'seen' && lead <= HAIL_YARDS && !hailAt) { hailAt = s + 1; chase.phase = 'hailed'; }
+    if (chase.phase === 'seen' && lead <= HAIL_YARDS && !hailAt) {
+      hailAt = s + 1; chase.phase = 'hailed'; chase.hailYards = Math.round(lead);
+      // A family nobody is answering for halts when it is called on to: there is nothing more of the tick to run.
+      if (!attendedNow) return 'hail';
+    }
   }
   return hailAt ? 'hail' : null;
 }
@@ -526,7 +530,7 @@ function closeChase(household) {
 /** The order to halt, and the family asked (sim/road.mjs `ROAD_ASKS.alto`). */
 function hail(world, household, chase) {
   const flight = household.flight;
-  chase.phase = 'hailed'; chase.hailed = world.minute;
+  chase.phase = 'hailed'; chase.hailed = world.minute; chase.hailYards = chase.hailYards ?? chase.lead;
   // By night the sentry's challenge (`HIST-TEX-666`: "Quién vive" from retreat until dawn), by day the order.
   if (isNight(world)) say(world, chase, 'alto', '¿Quién vive?', 'Who goes there?'); else say(world, chase, 'alto', '¡Alto!', 'Halt!');
   if (flight.ask && flight.ask.id !== 'alto') { chase.deferredAsk = flight.ask; delete flight.ask; }
@@ -762,6 +766,23 @@ export function runForTimber(world, household) {
   if (household.flight.chase) { household.flight.chase.timber = timber; delete household.flight.chase.leg; }
   record(world, 'consequence', { householdId: household.id, importance: 2, claimId: 'FIC-GONZ-663', text: `The family left the road and made for the timber, about ${timber.yards} yards off.` });
   return timber;
+}
+
+/** Why the family cannot make for the timber now, or null (the flight card's button while soldiers are coming, `flight-timber`). */
+export function timberRefusal(world, household) {
+  const flight = household.flight, chase = flight?.chase;
+  if (!chase || ['caught', 'escaped'].includes(chase.phase)) return 'Nobody is after the family.';
+  if (flight.status !== 'fled') return 'The family is camped; answer the soldiers.';
+  if (flight.bog) return 'The wagon is fast in the mud.';
+  if (flight.crossing && flight.mode === 'wagon') return 'The wagon is waiting its turn at the crossing.';
+  if (!nearestTimber(world, familyPoint(world, household))) return `There is no timber within ${TIMBER_REACH_MILES} of a mile to hide in.`;
+  return null;
+}
+/** The family makes for the timber while the soldiers are still coming on: its own choice, on the card. */
+export function makeForTimber(world, household) {
+  const why = timberRefusal(world, household);
+  if (why) throw new Error(why);
+  return runForTimber(world, household);
 }
 
 /** The soldiers' pace in words: infantry's, or the trot a horseman keeps and the gallop he closes at. */

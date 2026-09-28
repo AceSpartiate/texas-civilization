@@ -245,6 +245,38 @@ export function planRoute(world, household, { stops, ways }, { mode = trainMode(
   return { legs, start };
 }
 
+/**
+ * A new way from a point on a journey, with the journey's own road so far in front of it: its points from where it set out to
+ * the point, their going and their stretches across country, then the new way's, and `progress` at the point.
+ */
+function withPrefix(travel, path) {
+  let walked = 0, k = 0;
+  for (let i = 1; i < travel.points.length; i++) {
+    const length = Math.hypot(travel.points[i].x - travel.points[i - 1].x, travel.points[i].y - travel.points[i - 1].y);
+    k = i - 1;
+    if (walked + length >= travel.progress) break;
+    walked += length;
+  }
+  const here = path.points[0];
+  const prefix = [...travel.points.slice(0, k + 1), { x: here.x, y: here.y }];
+  const done = prefix.length - 1;
+  const points = [...prefix, ...path.points.slice(1)];
+  const pace = [...(travel.pace || []).filter(([i]) => i <= k).map(run => [...run]), ...(path.pace || []).map(([i, f]) => [i + done, f])];
+  const progress = prefix.slice(1).reduce((sum, b, i) => sum + Math.hypot(b.x - prefix[i].x, b.y - prefix[i].y), 0);
+  const offRoad = [...(travel.offRoad || []).filter(([a]) => a < progress).map(([a, b]) => [a, Math.min(b, progress)]), ...(path.offRoad || []).map(([a, b]) => [round(a + progress, 3), round(b + progress, 3)])];
+  const distance = points.slice(1).reduce((sum, b, i) => sum + Math.hypot(b.x - points[i].x, b.y - points[i].y), 0);
+  return { ...path, points, pace, distance, progress, ...(offRoad.length && { offRoad }) };
+}
+const pointOn = (points, at) => {
+  let walked = 0;
+  for (let i = 1; i < points.length; i++) {
+    const length = Math.hypot(points[i].x - points[i - 1].x, points[i].y - points[i - 1].y);
+    if (walked + length >= at) { const f = length ? (at - walked) / length : 0; return { x: points[i - 1].x + (points[i].x - points[i - 1].x) * f, y: points[i - 1].y + (points[i].y - points[i - 1].y) * f }; }
+    walked += length;
+  }
+  return { ...points.at(-1) };
+};
+
 /** A leg's line thinned to at most `LINE_POINTS` points, for the page: the path is a hint drawn under the figures. */
 export function thinLine(points, most = LINE_POINTS) {
   if (points.length <= most) return points.map(point => ({ x: round(point.x, 3), y: round(point.y, 3) }));
@@ -308,13 +340,20 @@ export function setRoute(world, household, input, how = 'answered') {
   const names = stops.map(id => world.map.sites[id].name);
   const text = `The family ${flight.status === 'refuged' ? `broke camp at ${world.map.sites[flight.refuge].name} and set out` : 'turned on the road'} for ${names.at(-1)}${names.length > 1 ? `, by way of ${names.slice(0, -1).join(' and ')}` : ''}, ${ways[0] === 'country' ? 'across country, keeping off the roads' : 'by the road'}.`;
   const causeId = record(world, 'choice', { householdId: household.id, decision: 'flight-route', importance: how === 'answered' ? 2 : 1, claimId: 'FIC-GONZ-660', text });
+  // Who goes, taken before the family is marked on the road (sim/road.mjs `withFamily` reads the camp or the road by it).
+  const train = withFamily(world, household);
   if (flight.status === 'refuged') { flight.crossed = [flight.refuge]; flight.leftMinute = world.minute; delete flight.arrivedMinute; delete flight.danger; }
   // A family that leaves the queue at a crossing goes; if the new way comes back to it, it waits its turn again.
   delete flight.crossing;
   flight.status = 'fled';
   flight.refuge = stops.at(-1);
   flight.route = { stops, ways, lines: planned.legs.slice(1).map(leg => thinLine(leg.points)) };
-  setOutOnLeg(world, household, planned.legs[0], { from: fromId, to: stops[0], way: ways[0], causeId });
+  // Turning on the road: the way already come is kept in front of the new one, so the journey still begins at the place it
+  // left and can be turned back along again (`roadFrom`); the family goes on from where it is along it.
+  const first = leader?.travel && household.flight.status === 'fled' ? withPrefix(leader.travel, planned.legs[0]) : planned.legs[0];
+  setOutOnLeg(world, household, first, { from: fromId, to: stops[0], way: ways[0], causeId, train });
+  if (first.progress) for (const one of [...train.people, ...train.beasts]) if (one.travel) { one.travel.progress = first.progress; one.location = { ...pointOn(first.points, first.progress), siteId: null }; }
+  if (flight.chase) delete flight.chase.leg;
   return causeId;
 }
 

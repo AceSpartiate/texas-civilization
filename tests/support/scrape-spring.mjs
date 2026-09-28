@@ -5,6 +5,7 @@ import { createGonzalesWorld } from '../../sim/gonzales.mjs';
 import { rollFamily, stepWorld } from '../../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../../sim/periods.mjs';
 import { timelineOf } from '../../sim/advance.mjs';
+import { calendarMinutes, withCalendarStep } from '../../sim/clock.mjs';
 
 export const SPRING_SEED = 'road-1638';
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -23,7 +24,11 @@ function build() {
 export const spring = () => structuredClone(shared ??= build());
 /** Steps the world on until the record's timeline reaches `minute` (sim/advance.mjs `timelineOf`). */
 export function atTimeline(world, minute, limit = 6000) {
-  until(world, () => timelineOf(world) >= minute, limit);
+  // On to the minute itself: the last tick is cut to land on it, as a battle's first minute is landed on.
+  for (let t = 0; t < limit && timelineOf(world) < minute && world.status === 'running'; t++) {
+    const left = minute - timelineOf(world);
+    if (calendarMinutes(world) > left) withCalendarStep(world, left, () => stepWorld(world)); else stepWorld(world);
+  }
   return world;
 }
 export { until };
