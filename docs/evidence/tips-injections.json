@@ -2,6 +2,7 @@
   "record": "tips-injections",
   "date": "2026-09-28",
   "files": [
+    "tests/lesson-off.test.mjs",
     "tests/tips.test.mjs",
     "tests/need-ranking.test.mjs",
     "tests/lesson.test.mjs",
@@ -12,8 +13,8 @@
     "tests/lesson-screen.test.mjs",
     "tests/military-attention.test.mjs"
   ],
-  "caught": 34,
-  "of": 34,
+  "caught": 29,
+  "of": 29,
   "injections": [
     {
       "name": "putting a tip away is not kept: the next snapshot, or a reload, shows it again",
@@ -22,7 +23,7 @@
       "caught": true,
       "failed": [
         "a family's seen tips are kept by the server, go to its own page, survive a save, and are the family's alone",
-        "putting a tip away is never refused by the guided start, and works in the lobby before the class begins",
+        "putting a tip away works in the lobby before the class begins, and in the first minute of a running class",
         "a tip is shown once: until it is put away or its thing goes, and never again after, even across a reload"
       ]
     },
@@ -73,18 +74,6 @@
       ]
     },
     {
-      "name": "the guided start refuses the order to put a tip away",
-      "file": "sim/lesson.mjs",
-      "expected": "putting a tip away is never refused",
-      "caught": true,
-      "failed": [
-        "the guided start never refuses food, nursing, the war, the flight or a question with a clock, on any step",
-        "a family's seen tips are kept by the server, go to its own page, survive a save, and are the family's alone",
-        "putting a tip away is never refused by the guided start, and works in the lobby before the class begins",
-        "a tip is shown once: until it is put away or its thing goes, and never again after, even across a reload"
-      ]
-    },
-    {
       "name": "the Host - the projector - is shown tips",
       "file": "public/tips.js",
       "expected": "each tip is due when its thing",
@@ -108,8 +97,7 @@
       "expected": "each tip is due when its thing",
       "caught": true,
       "failed": [
-        "each tip is due when its thing is on the family's own screen, and never on the Host's",
-        "a tip is shown once: until it is put away or its thing goes, and never again after, even across a reload"
+        "each tip is due when its thing is on the family's own screen, and never on the Host's"
       ]
     },
     {
@@ -260,88 +248,45 @@
       ]
     },
     {
-      "name": "the gate is as strict as it was: everything off the step is refused, food, nursing and the war with it",
+      "name": "the guided start is switched back on, gating every new family and holding its call's minutes",
       "file": "sim/lesson.mjs",
-      "expected": "never refuses food, nursing",
+      "expected": "the guided start is off",
       "caught": true,
       "failed": [
-        "the seed can be bought on the guided start's planting step, and no step of it shuts the town",
-        "the guided start never refuses food, nursing, the war, the flight or a question with a clock, on any step"
+        "the title card says what the game does at the start: no guide while the guided start is off, and the tips",
+        "the guided start is off: a new family is refused nothing by it, is sent no lesson, and has none stored",
+        "the settlement's call spends its minutes from the moment it arrives: nothing holds it for a guided start",
+        "each tip is due when its thing is on the family's own screen, and never on the Host's"
       ]
     },
     {
-      "name": "the town and the hunt are held back again, so a family on the house step cannot get food",
+      "name": "an old save's stored lesson still gates and holds the call, whatever the switch says",
       "file": "sim/lesson.mjs",
-      "expected": "never refuses food, nursing",
+      "expected": "spends its minutes from the moment it arrives",
       "caught": true,
       "failed": [
-        "the seed can be bought on the guided start's planting step, and no step of it shuts the town",
-        "the guided start never refuses food, nursing, the war, the flight or a question with a clock, on any step"
+        "the title card says what the game does at the start: no guide while the guided start is off, and the tips",
+        "the guided start is off: a new family is refused nothing by it, is sent no lesson, and has none stored",
+        "the settlement's call spends its minutes from the moment it arrives: nothing holds it for a guided start",
+        "each tip is due when its thing is on the family's own screen, and never on the Host's"
       ]
     },
     {
-      "name": "the page is told nothing is shut while the server still refuses the other farm steps",
-      "file": "sim/lesson.mjs",
-      "expected": "still holds back another farm step",
+      "name": "how to give an order is told while the family is still on the road in",
+      "file": "public/tips.js",
+      "expected": "each tip is due when its thing",
       "caught": true,
       "failed": [
-        "the server refuses what is not this step's work, in words a child can read, and allows what is",
-        "the guided start still holds back another farm step's work, and what the page greys is exactly what the server refuses"
+        "each tip is due when its thing is on the family's own screen, and never on the Host's"
       ]
     },
     {
-      "name": "the page reads the old `allow` and greys everything off the step",
-      "file": "public/lesson.js",
-      "expected": "still holds back another farm step",
+      "name": "the star comes before how to give an order",
+      "file": "public/tips.js",
+      "expected": "each tip is due when its thing",
       "caught": true,
       "failed": [
-        "the guided start still holds back another farm step's work, and what the page greys is exactly what the server refuses"
-      ]
-    },
-    {
-      "name": "the gate forgets the farm entirely: no farm step's work is held back",
-      "file": "sim/lesson.mjs",
-      "expected": "still holds back another farm step",
-      "caught": true,
-      "failed": [
-        "the title card does not promise the freedom the guided beginning refuses",
-        "tutorial gate accepts the actual chore commands needed to finish each map step",
-        "the server refuses what is not this step's work, in words a child can read, and allows what is",
-        "the whole of it, played through: the family ends with a house, a field it cleared, the crop it chose, coin for it, and a hunt",
-        "on the real land the family chooses where the house stands before anything else, and digs the well where one is wanted",
-        "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back",
-        "stopping the guided start opens the gate: an order the step refused a moment ago now goes through",
-        "a student can stop only their own family's guided start",
-        "\"Resume tutorial\" puts the family back on the step it stopped on, with everything it had gathered, and the gate shuts again",
-        "the guided start still holds back another farm step's work, and what the page greys is exactly what the server refuses",
-        "the guided start ends for every family when the first period does, whatever step it is on"
-      ]
-    },
-    {
-      "name": "the guided start goes on past the first period",
-      "file": "sim/lesson.mjs",
-      "expected": "a class saved in the winter",
-      "caught": true,
-      "failed": [
-        "a class saved in the winter with a family still on a farm step opens with no gate and no lesson, and its call is not held"
-      ]
-    },
-    {
-      "name": "going on to the winter does not close the lessons still running",
-      "file": "sim/periods.mjs",
-      "expected": "ends for every family when the first period does",
-      "caught": true,
-      "failed": [
-        "the guided start ends for every family when the first period does, whatever step it is on"
-      ]
-    },
-    {
-      "name": "a save may carry a lesson closed by the period still standing on a step",
-      "file": "sim/lesson.mjs",
-      "expected": "ends for every family when the first period does",
-      "caught": true,
-      "failed": [
-        "the guided start ends for every family when the first period does, whatever step it is on"
+        "each tip is due when its thing is on the family's own screen, and never on the Host's"
       ]
     }
   ]
