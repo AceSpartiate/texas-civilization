@@ -15,6 +15,7 @@
 //
 // Every sentence a family reads here is the game's wording (`FIC-GONZ-031`); what each settlement asked is `HIST-TEX-014`.
 import { record } from './events.mjs';
+import { recordLapse } from './lapse.mjs';
 import { takeToWar, warRifleWords } from './keeping.mjs';
 import { canAnswerCalls, canFight, cannotAnswerWhy, cannotFightWhy, tooYoung, tooYoungWhy } from './family.mjs';
 
@@ -201,6 +202,20 @@ export function settleCalls(world) {
       remember(world, world.households[householdId], entity, consequence, `${entity.name} went with the volunteers.`);
     }
   }
+}
+
+/**
+ * A played family's call nobody answered in its five real minutes (sim/decision-budget.mjs `CALL_BUDGET_MS`; owner,
+ * 2026-09-27: "Lapse after a while"; `FIC-GONZ-636`). It lapses, as every unanswered question does (sim/lapse.mjs): nothing is
+ * chosen - nobody turns out and nobody is said to have stayed - and the family's record says so plainly. A family nobody plays,
+ * or whose student has gone, is answered by the neighbours' director and never lapses here.
+ */
+export function lapseCall(world, householdId) {
+  const call = world.calls?.[householdId];
+  if (!call || call.status !== 'open') return;
+  call.status = 'expired';
+  call.lapsed = true;
+  recordLapse(world, { householdId, causes: [call.id], text: 'Nobody from this family answered the settlement\'s call in time, and it lapsed. Nothing was chosen: nobody from the family turned out.' });
 }
 
 /** A call nobody answered, closed when the class ends and written down: silence is an answer too. */

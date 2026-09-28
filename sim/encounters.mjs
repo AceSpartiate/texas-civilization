@@ -624,6 +624,15 @@ function turnBack(world, carrier) {
   carrier.task = 'travel';
 }
 
+/**
+ * A rider still standing with this family when the question he brought lapses (sim/calls.mjs `lapseCall`): the meeting ends
+ * as a rider who will wait no longer ends it, and he turns for home (`advanceDepartures`). Nothing a rider carries decides it.
+ */
+export function sendOnFrom(world, householdId) {
+  const encounter = openFor(world, householdId);
+  if (encounter && !encounter.kind) finish(world, encounter, 'unanswered');
+}
+
 /** Everything the listener could still ask, and nothing they could not. */
 export function questionsFor(encounter) {
   return (CONVERSATIONS[encounter.topicId]?.lines || []).filter(line => !encounter.asked.includes(line.id));

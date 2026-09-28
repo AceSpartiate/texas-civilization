@@ -5886,7 +5886,8 @@ function renderSlice(world) {
     const said = request.kind === 'march'
       ? { open: 'Your family can choose how to respond.', accepted: 'Your family went upriver with them.', refused: 'Your family stayed in Gonzales.', expired: 'They crossed without an answer.' }
       : request.kind === 'call'
-      ? { open: 'Your family can choose how to respond.', accepted: 'Somebody from your family went with the volunteers.', refused: 'Your family stayed home.', expired: 'Nobody from your family answered.' }
+      // A played family's call lapses after its minutes (sim/decision-budget.mjs `CALL_BUDGET_MS`): the server's words for it.
+      ? { open: `Your family can choose how to respond.${request.pressing ? ' The call will not stand much longer.' : ''}${request.lapses ? ` ${request.lapses}` : ''}`, accepted: 'Somebody from your family went with the volunteers.', refused: 'Your family stayed home.', expired: request.lapsed ? 'Nobody answered in time, and the call lapsed: nobody from your family turned out.' : 'Nobody from your family answered.' }
       : request.kind === 'rumor'
       ? { open: 'Your family can choose how to respond.', accepted: 'Your family went to see for itself.', refused: 'Your family stayed home.', expired: 'Nobody went to find out.' }
       : { open: 'Your family can choose how to respond.', accepted: 'Your family chose to help.', refused: 'Your family chose to stay home.', expired: 'This request has passed.' };

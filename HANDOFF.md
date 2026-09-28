@@ -1,5 +1,50 @@
 # Claude handoff — Astra foundation
 
+## A settlement's call lapses after five real minutes; only students' questions lapse — owner decisions of 2026-09-27 (branch `settlement-call-lapse`; not released)
+
+Built on branch `settlement-call-lapse` from the lapse/riders/pace work below (`c0e9dff`, which the coordinator was merging to
+main). **Not merged to main and not released.** The owner, by multiple choice, 2026-09-27: (1) **"Yes, only students' lapse"**
+- families on auto, absent or run by the neighbours' director keep being answered at auto's share, as built below, now
+recorded in `sim/lapse.mjs` and `FIC-GONZ-048`'s amendment; (2) settlement calls: **"Lapse after a while"**, the option's own
+example five minutes after the rider arrives (`FIC-GONZ-636`).
+
+**What changed.** A played, present family's call to turn out (`world.calls`, sim/calls.mjs) now has a real-time budget,
+`CALL_BUDGET_MS` = **300 000 ms** (sim/decision-budget.mjs; `createClassroom({ callBudgetMs })`, `CALL_BUDGET_MS=` for
+`npm start`), on the same clock as the military questions:
+- **Counted from when the call is put to the family** - for a far family that is the tick the rider's word reaches it
+  (`offerCalls` asks on the report's arrival); for a Gonzales family, the gathering.
+- **Suspended during a Host pause** (a paused class runs no ticks and the meter forgets the gap), and **kept in the save**
+  (`world.decisionClock['call:<household>']`).
+- **Not counted while that family's student is in the guided start.** `stepWorld` hands `spendDecisionBudget` a `heldFor`
+  that is sim/lesson.mjs `inLesson` (on a step, not finished, not closed with the X); a held call's clock is not advanced at
+  all that tick. A student who closes the tutorial with the X is counted from then; one who finishes it, from then.
+  (`heldFor` is passed in rather than imported because importing sim/lesson.mjs into sim/decision-budget.mjs made a module
+  cycle through sim/chores.mjs.)
+- **On lapse** (`lapseCall`): status `expired` with `lapsed: true`; **nothing is chosen** - nobody turns out, nobody is
+  recorded as staying, no `decision` event; the journal says *"Nobody from this family answered the settlement's call in
+  time, and it lapsed. Nothing was chosen: nobody from the family turned out."*; a rider still at the gate ends the meeting
+  as one who will wait no longer and rides home (`sendOnFrom`, sim/encounters.mjs). Turning out is refused afterwards
+  ("Nobody is asking that.").
+- **Said on the card** (`request.lapses` before, `request.pressing` past two thirds, `request.lapsed` after; the status line
+  under the call in public/app.js). The panel's "!" and the call menu are unchanged.
+- Families nobody plays or whose student has gone never get the budget: the neighbours' director answers them as before.
+
+**Evidence** (same computer; headless Chrome for the proofs):
+- `tests/call-lapse.test.mjs`, 4 tests: the lapse after five minutes (open at 200 s and pressing, lapsed at 300 s, nothing
+  chosen, journal line, rider gone, turning out refused); held while in the guided start and running once it is closed with
+  the X; never for an absent or unplayed family; its own server option apart from the military one. Run against the code
+  before this (`c0e9dff`): **3 of 4 fail** (the absent/unplayed guard passes there, as it must: it guards the new rule's
+  edge and is proved by injection).
+- `node scripts/military-regression-check.mjs` with `ONLY=`: the 5 new rows (`call-lapse-chooses`, `call-rider-stays`,
+  `call-in-lesson`, `call-absent`, `call-own-budget`) and the re-aimed `budget-config` are **each caught alone, 6 of 6**. No
+  budget at all is the old behaviour and is proved by the run against `c0e9dff` rather than injected.
+- `npm test`: **1443 passed, 0 failed** (1439 + the 4 new). `test:lesson`: **33 checks pass**. `test:family-commands` (the proof that drives the call menu):
+  its two call checks pass (the call marks everybody who may answer; answering from the menu clears the "!"), and the proof
+  then fails further on, at "nobody still at a chore to hold a stale order" (7 checks passed) - **the same failure at the same
+  point on `ed4147b`**, before any of this work, so it is not this change; one of three runs instead timed out a step earlier
+  on a hidden "Make furniture" icon. It wants its own look. `test:information` and `test:slice` do not touch settlement calls
+  (checked by search) and were not run.
+
 ## Unanswered questions lapse, messengers leave, each at their own pace on the land — owner decisions of 2026-09-27 (worktree branch; not released)
 
 Built on a worktree branch from main `ed4147b`, with `origin/main` `e937b72` (the balance fix to the neighbours' flight, docs/DISEASE.md) merged in before finishing. **Not merged to main and not released.**

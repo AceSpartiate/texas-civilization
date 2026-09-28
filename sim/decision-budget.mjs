@@ -25,9 +25,21 @@ import { settleUnanswered } from './alamo.mjs';
 import { decideDetachmentFor, decideQuestionFor } from './army.mjs';
 import { decideCampQuestionFor } from './camp.mjs';
 import { answeredFor } from './lapse.mjs';
+import { lapseCall } from './calls.mjs';
+import { sendOnFrom } from './encounters.mjs';
 
 /** Real milliseconds an unanswered military question may stay open. A server option or `DECISION_BUDGET_MS` overrides it. */
 export const DECISION_BUDGET_MS = 90_000;
+/**
+ * Real milliseconds a settlement's call to turn out stays open to a played family (owner, 2026-09-27, by multiple choice:
+ * "Lapse after a while", with the option's own example of five minutes after the rider arrives; `FIC-GONZ-636`). Counted
+ * from when the call is put to the family - for a far family that is the moment the rider's word reaches it - on the same
+ * clock as the military questions: suspended while the Host has paused the class, kept in the save, and **not counted while
+ * that family's student is still in the guided start** (`heldFor`, which sim/world.mjs answers with sim/lesson.mjs `inLesson`: on a step, not finished and not
+ * closed with the X), so nobody is shut out of the war while learning to farm. A server option (`callBudgetMs`) or
+ * `CALL_BUDGET_MS` in the environment overrides it. On lapse nothing is chosen (sim/calls.mjs `lapseCall`).
+ */
+export const CALL_BUDGET_MS = 5 * 60_000;
 /** The share of the budget after which the question is said to be pressing: the page warns, in words, what will happen. */
 export const PRESSING_SHARE = 2 / 3;
 
@@ -35,7 +47,7 @@ export const PRESSING_SHARE = 2 / 3;
 const attended = (world, person) => Boolean(world.households?.[person.householdId]?.played) && answeredFor(world, person);
 
 /** Every military question open to somebody a student is answering for, each with what happens if nobody answers. */
-export function openDecisions(world) {
+export function openDecisions(world, { heldFor } = {}) {
   const open = [];
   const army = world.army;
   for (const person of Object.values(world.entities || {})) {
@@ -50,6 +62,15 @@ export function openDecisions(world) {
       if (!question.closed && question.asks?.[person.id] === 'open') open.push({ key: `army:${key}:${person.id}`, personId: person.id, expire: context => decideQuestionFor(world, key, person.id, context) });
     }
   }
+  // A settlement's call to turn out (sim/calls.mjs), put to a played family whose student is at the screen: `CALL_BUDGET_MS`
+  // from when the word reached them, not counted while that student is still in the guided start (`held`).
+  for (const [householdId, call] of Object.entries(world.calls || {})) {
+    const household = world.households?.[householdId];
+    if (call?.status !== 'open' || !household?.played || household.absent) continue;
+    const personId = [household.mainId, household.principalId, ...(household.members || [])].find(id => world.entities[id]);
+    if (!personId) continue;
+    open.push({ key: `call:${householdId}`, personId, call: true, held: Boolean(heldFor?.(household)), expire: () => { lapseCall(world, householdId); sendOnFrom(world, householdId); } });
+  }
   return open;
 }
 
@@ -57,18 +78,21 @@ export function openDecisions(world) {
  * Spend this tick's real milliseconds on every open question, and decide the ones whose budget is gone. Returns the keys
  * decided. A question answered or closed since the last tick is forgotten, so a new one opened later starts at nothing.
  */
-export function spendDecisionBudget(world, realMs, { budgetMs = DECISION_BUDGET_MS, beginTravel } = {}) {
-  const open = openDecisions(world);
+export function spendDecisionBudget(world, realMs, { budgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, heldFor, beginTravel } = {}) {
+  const open = openDecisions(world, { heldFor });
   const keys = new Set(open.map(decision => decision.key));
   for (const key of Object.keys(world.decisionClock || {})) if (!keys.has(key)) delete world.decisionClock[key];
   const decided = [];
   if (Number.isFinite(realMs) && realMs > 0) {
     for (const decision of open) {
+      // A family whose student is still being walked through the guided start: the call waits, and none of its time goes.
+      if (decision.held) continue;
+      const of = decision.call ? (callBudgetMs ?? CALL_BUDGET_MS) : (budgetMs ?? DECISION_BUDGET_MS);
       world.decisionClock ??= {};
-      const entry = world.decisionClock[decision.key] ??= { personId: decision.personId, spent: 0, of: budgetMs };
+      const entry = world.decisionClock[decision.key] ??= { personId: decision.personId, spent: 0, of };
       entry.spent += realMs;
-      entry.of = budgetMs;
-      if (entry.spent < budgetMs) continue;
+      entry.of = of;
+      if (entry.spent < of) continue;
       decision.expire({ beginTravel });
       delete world.decisionClock[decision.key];
       decided.push(decision.key);
@@ -79,8 +103,13 @@ export function spendDecisionBudget(world, realMs, { budgetMs = DECISION_BUDGET_
 }
 
 /** Whether this person has a question open that has used most of its budget: the page says what will happen if unanswered. */
-export const decisionPressing = (world, personId) => Object.values(world.decisionClock || {})
-  .some(entry => entry.personId === personId && entry.spent >= entry.of * PRESSING_SHARE);
+export const decisionPressing = (world, personId) => Object.entries(world.decisionClock || {})
+  .some(([key, entry]) => !key.startsWith('call:') && entry.personId === personId && entry.spent >= entry.of * PRESSING_SHARE);
+/** Whether this family's settlement call has used most of its five minutes: its card says the call will lapse. */
+export const callPressing = (world, householdId) => {
+  const entry = world.decisionClock?.[`call:${householdId}`];
+  return Boolean(entry && entry.spent >= entry.of * PRESSING_SHARE);
+};
 
 /**
  * The real milliseconds between the ticks a server runs, for `spendDecisionBudget`. `lap(false)` on a tick that does not run -

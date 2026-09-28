@@ -1,6 +1,6 @@
 {
   "record": "lesson-browser",
-  "date": "2026-09-27",
+  "date": "2026-09-28",
   "browser": "153.0.8010.53",
   "screen": {
     "width": 1366,
@@ -18,7 +18,7 @@
     "the step keeps the server's words and a navigation control: \"Put somebody to work\" - Press the axe at the bottom of the screen to start work on the house. (11% of the screen)",
     "the skippable walk-through is put away while the class is being led",
     "the step shows only 2 available actions and rings the requested one",
-    "the card is clear of the step and folds its neighbours list away: 3% of the screen against 4.4% open, top at 317 under a strip ending at 223, and one press brings it back",
+    "the card is clear of the step and folds its neighbours list away: 3.3% of the screen against 5.3% open, top at 347 under a strip ending at 223, and one press brings it back",
     "the action bar hides unavailable orders",
     "the one icon the server's own step leaves open sends its order, and the glow comes back on it (plant-field)",
     "the bar is still a row of buttons in reading order, each named and each showing its sentence on focus: \"Travel to Gonzales. Go into the town of Gonzales and stay th…\"",
@@ -33,7 +33,7 @@
     "at 1366x768 the X is 36x36px, inside the strip, on no word, reachable, and named \"Stop the guided start\"",
     "the X asks once, in the strip: \"Stop the guided start? You won’t be walked through the rest. For five minutes, a “Resume tutorial” button can bring it back.\" - and \"Keep going\" sends nothing",
     "\"Yes, stop it\" sends stop-lesson once; the strip goes, the snapshot carries no lesson, nothing on the bar is shut, and the old walk-through is not offered instead",
-    "stopping the lesson reveals 11 additional actions",
+    "stopping the lesson reveals 10 additional actions",
     "at 1366x768 \"Resume tutorial\" is 119x36px at 1235,10, on the screen, reachable, and on nothing else",
     "at 1024x768 \"Resume tutorial\" is 119x36px at 893,10, on the screen, reachable, and on nothing else",
     "after a reload the strip stays gone and the server sends no lesson",
@@ -90,9 +90,9 @@
     "card": {
       "folded": {
         "card": {
-          "left": 1179,
-          "top": 317,
-          "right": 1369,
+          "left": 1065,
+          "top": 347,
+          "right": 1319,
           "bottom": 483
         },
         "strip": {
@@ -105,14 +105,14 @@
         "goingBy": false,
         "visitShown": false,
         "more": "The neighbours",
-        "share": 3
+        "share": 3.3
       },
       "opened": {
         "card": {
-          "left": 1177,
-          "top": 317,
-          "right": 1367,
-          "bottom": 559
+          "left": 1049,
+          "top": 271,
+          "right": 1309,
+          "bottom": 483
         },
         "strip": {
           "left": 810,
@@ -124,7 +124,7 @@
         "goingBy": false,
         "visitShown": true,
         "more": "Put that away",
-        "share": 4.4
+        "share": 5.3
       }
     },
     "ordered": {
@@ -150,14 +150,14 @@
           "x": 810,
           "y": 10,
           "width": 544,
-          "height": 193.109375,
+          "height": 212.703125,
           "top": 10,
           "right": 1354,
-          "bottom": 203.109375,
+          "bottom": 222.703125,
           "left": 810
         },
         "overlapWidth": -494,
-        "overlapHeight": 191
+        "overlapHeight": 211
       },
       {
         "where": "1024x768",
@@ -165,14 +165,14 @@
           "x": 468,
           "y": 10,
           "width": 544,
-          "height": 193.109375,
+          "height": 212.703125,
           "top": 10,
           "right": 1012,
-          "bottom": 203.109375,
+          "bottom": 222.703125,
           "left": 468
         },
         "overlapWidth": -152,
-        "overlapHeight": 191
+        "overlapHeight": 211
       }
     ],
     "names": [
@@ -193,7 +193,7 @@
       "x": 8,
       "y": 8,
       "width": 374,
-      "height": 218.375
+      "height": 188.375
     },
     "stopButton": {
       "phone": {
@@ -226,7 +226,6 @@
       "asks": "Stop the guided start? You won’t be walked through the rest. For five minutes, a “Resume tutorial” button can bring it back.",
       "availableAfter": [
         "survey-plot",
-        "plant-field",
         "fence-plot",
         "hunt-timber",
         "visit-shop",
@@ -243,8 +242,8 @@
       ]
     },
     "resume": {
-      "until": 1790552743794,
-      "msWhenStopped": 299843,
+      "until": 1790557478729,
+      "msWhenStopped": 299783,
       "chromebook": {
         "size": [
           119,

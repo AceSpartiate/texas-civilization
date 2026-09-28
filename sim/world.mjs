@@ -28,7 +28,7 @@ import { WATER_HIGH, WATER_SHUT, waterAt, weatherAt, weatherOn } from './weather
 // The road's chores join the one table here, once every module above is made (sim/road.mjs says why not at its own load).
 registerRoadChores();
 registerFlightWork();
-import { advanceLesson, advanceLessons, lessonHostWords, lessonInvalid, lessonProjection, lessonRefusal, lessonResumeOffer, resumeLesson, stopLesson } from './lesson.mjs';
+import { advanceLesson, advanceLessons, inLesson, lessonHostWords, lessonInvalid, lessonProjection, lessonRefusal, lessonResumeOffer, resumeLesson, stopLesson } from './lesson.mjs';
 import { REPEATED, advanceAuto, autoShown, noteOrder, setAuto, waitForTask, waitingWork } from './auto.mjs';
 import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
 // The children's own works (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21). Imported here as well
@@ -631,7 +631,7 @@ export function progressTravel(world, entity, units = 1) {
     record(world, 'arrival', { actorId: entity.id, householdId: entity.householdId, text: `${entity.name} arrived at ${world.map.sites[travel.to].name}.`, destination: travel.to, purpose: travel.purpose, causes: [travel.progressEventId || travel.causeId] });
   }
 }
-export function stepWorld(world, { realMs = 0, decisionBudgetMs } = {}) {
+export function stepWorld(world, { realMs = 0, decisionBudgetMs, callBudgetMs } = {}) {
   if (world.status !== 'running') return;
   // One tick of everybody's own time; on the real land the calendar it carries can be
   // longer than the twenty minutes of work in it (sim/clock.mjs, docs/COLONIES.md §5.7).
@@ -644,7 +644,7 @@ export function stepWorld(world, { realMs = 0, decisionBudgetMs } = {}) {
   // The real seconds the server says passed since its last running tick are spent on every open military question, and a
   // question out of time is decided by its documented fallback before anything moves (sim/decision-budget.mjs). A tick
   // stepped in process carries none.
-  spendDecisionBudget(world, realMs, { budgetMs: decisionBudgetMs, beginTravel });
+  spendDecisionBudget(world, realMs, { budgetMs: decisionBudgetMs, callBudgetMs, heldFor: household => inLesson(world, household), beginTravel });
   for (const entity of Object.values(world.entities)) progressTravel(world, entity);
   // A baby carried on an errand is where its carrier is, and is set down when they are home (sim/babies.mjs).
   carryBabies(world);

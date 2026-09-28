@@ -14,6 +14,9 @@
 //   - a question asked in the middle of a person's work (sim/chores.mjs `ASK_PATIENCE`, `lapsedChoice`): the shot is left, and
 //     work already ordered goes on by the question's own fallback (paying in food, the family's own crop);
 //   - the road's questions on the way east (sim/road.mjs `ROAD_PATIENCE_TICKS`).
+//   - a played family's settlement call to turn out, after five real minutes (sim/decision-budget.mjs `CALL_BUDGET_MS`,
+//     sim/calls.mjs `lapseCall`; owner 2026-09-27, `FIC-GONZ-636`): nobody turns out.
+// Confirmed by the owner the same day, by multiple choice: "Yes, only students' lapse".
 // A family nobody is answering for - nobody plays it, nobody is at its screen (sim/absence.mjs), or the person is on auto
 // (sim/auto.mjs) - is decided as before, as its neighbours are: that is the director's and the switch's rule, and it never
 // depended on the fallback.
