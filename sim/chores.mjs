@@ -1511,7 +1511,10 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   // What the work takes, if somebody else has it (owner, 2026-09-24: "If someone is using the wagon (or horse, or any item
   // really), then no one else can use it"). The one rule is sim/keeping.mjs `userOf`; the sentence names who has it and what
   // they are doing with it.
-  { const why = takenWhy(world, household, entity, choreId); if (why) return { can: false, why }; }
+  // Somebody joining a job already begun works with the lead's things (sim/hands.mjs): the felling axe the lead carries to the
+  // timber for a piece of furniture is not refused to the hands that will work alongside them.
+  const joining = chore.crew === 'join' && !chore.plotWork && leadOf(world, household, entity, choreId);
+  if (!joining) { const why = takenWhy(world, household, entity, choreId); if (why) return { can: false, why }; }
   // A missing hoe used to read as a sound one. Now planting, harvest and breaking ground want it
   // in the house before they will start; mending wants it there to mend, but buying one is
   // exactly how a family without a hoe gets one, so that is not refused for want of a hoe.
