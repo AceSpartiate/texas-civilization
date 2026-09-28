@@ -3264,7 +3264,9 @@ export function drawWorld(world) {
     for (const line of world.familyTalk.lines) {
       const head = drawnAt.get(line.speakerId);
       if (!head) continue;
-      if (drawSpeech(ctx, line, head.x, head.y - head.size * .55, { bounds: { width: canvas.width, height: canvas.height } })) said.push({ id: line.id, speakerId: line.speakerId, kind: line.kind, text: line.text, ...(line.manner && { manner: line.manner }) });
+      // The bubble's box goes with it, for the overlap proof: whether a panel stands over words a student has to read.
+      const box = drawSpeech(ctx, line, head.x, head.y - head.size * .55, { bounds: { width: canvas.width, height: canvas.height } });
+      if (box) said.push({ id: line.id, speakerId: line.speakerId, kind: line.kind, text: line.text, ...(line.manner && { manner: line.manner }), box });
     }
     window.__familySaid = said;
   } else window.__familySaid = [];
