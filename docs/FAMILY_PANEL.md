@@ -1419,8 +1419,8 @@ selects" from "set main person", design audit B11; this rule sits beside it, for
   child is let go; nobody very sick or wounded is sent to a crying baby or talked to by an idle child. The dead and the taken let go
   in the same tick, so nobody gone is heard.
 
-**Evidence.** tests/acting.test.mjs (13 tests, every one seen failing on the code before it), `npm run test:acting` (the father
-serving and a family of children, in the browser). HANDOFF.md, "Who acts for a family".
+**Evidence.** tests/acting.test.mjs (13 tests, every one seen failing on the code before it), `npm run test:acting-injections`
+(25 of 25 caught), `npm run test:acting` (the father serving, a family of children and the nursing card, in the browser). HANDOFF.md, "Who acts for a family".
 
 **Decisions for the owner**, by multiple choice:
 
