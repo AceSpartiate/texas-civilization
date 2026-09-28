@@ -53,9 +53,10 @@ test('more hands on the house go faster, each a little less than the last: 1, 1.
   const [one, two, three, four] = [1, 2, 3, 4].map(jacal);
   // The spells are the house's own; the walk over to it is the same for everybody, so allow it a tick or two either way.
   const near = (ticks, share) => Math.abs(ticks - one / share) <= 3;
-  assert.ok(near(two, crewPace(2)), `two took ${two} ticks where one took ${one}: not 1.8 times as fast`);
-  assert.ok(near(three, crewPace(3)), `three took ${three} ticks where one took ${one}: not 2.4 times as fast`);
-  assert.ok(near(four, crewPace(4)), `four took ${four} ticks where one took ${one}: not 2.8 times as fast`);
+  // The owner's numbers written out, not read back from the module, so a curve changed there is caught here in the house itself.
+  assert.ok(near(two, 1.8), `two took ${two} ticks where one took ${one}: not 1.8 times as fast`);
+  assert.ok(near(three, 2.4), `three took ${three} ticks where one took ${one}: not 2.4 times as fast`);
+  assert.ok(near(four, 2.8), `four took ${four} ticks where one took ${one}: not 2.8 times as fast`);
   assert.ok(one > two && two > three && three > four, 'every hand added made it sooner');
   assert.ok(one / two > two / three && two / three > three / four, 'each hand added less than the one before');
 });
