@@ -54,8 +54,8 @@ market"**. Built on the worktree branch, origin/main merged, **not pushed, not m
   class of 210 won (five families), none of fifteen or thirty, as before. Staying in the burn zone beats going again (0.81 against
   0.70); a prisoner weight of 1.5 would put it back below. Food does not constrain more (S11 not addressed by seasons). Deaths 301
   against 274 (the war's, re-rolled). Class time: unchanged (1,252 ticks a class); the guided start is shorter on the real land.
-- After merging origin/main (ef4d4f73; then 7b4218d3, the flashback, after which `npm test` was run again): **`npm test` 1,575 pass, 0 fail, 37 skipped** (the guided start's, switched
-  off; 867 s); injections 16 of 16; **`test:ending` 12 checks, `test:auto` 14 checks** (one run of auto under load timed out at its
+- After merging origin/main (ef4d4f73; then 7b4218d3, the flashback, after which `npm test` was run again): **`npm test` 1,591 pass, 0 fail, 37 skipped** after the last merge (the guided start's, switched
+  off; 784 s); injections 16 of 16; **`test:ending` 12 checks, `test:auto` 14 checks** (one run of auto under load timed out at its
   planting step and passed alone), `test:lesson` skips itself (tutorial off). **`test:errand` is not green**: updated for the market
   (the cotton line shows the store's price and its room, *"The store is buying: full price for about 10 bales more, then half until
   it has 20 bales."*; fourteen bales bring 24 reales - ten at two, four at one), it passed its first 13 checks, those two included,
