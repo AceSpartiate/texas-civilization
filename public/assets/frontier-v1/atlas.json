@@ -5790,6 +5790,188 @@
         ]
       }
     },
+    "famous-deaf-smith": {
+      "image": "atlases/famous-deaf-smith.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1316988,
+      "sha256": "49e45af7a848d9ee48d745d53b577d9c7f8f2a4df2aa21800e013285dc5d5845",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.678153,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              31,
+              327
+            ],
+            "columns": [
+              [
+                78,
+                286
+              ],
+              [
+                393,
+                587
+              ],
+              [
+                691,
+                892
+              ],
+              [
+                1006,
+                1206
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              339,
+              638
+            ],
+            "columns": [
+              [
+                85,
+                248
+              ],
+              [
+                405,
+                571
+              ],
+              [
+                717,
+                868
+              ],
+              [
+                1029,
+                1179
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              648,
+              941
+            ],
+            "columns": [
+              [
+                92,
+                242
+              ],
+              [
+                408,
+                628
+              ],
+              [
+                710,
+                934
+              ],
+              [
+                1033,
+                1186
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              939,
+              1217
+            ],
+            "columns": [
+              [
+                52,
+                274
+              ],
+              [
+                383,
+                643
+              ],
+              [
+                711,
+                901
+              ],
+              [
+                992,
+                1214
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-deaf-smith-mounted": {
+      "image": "atlases/famous-deaf-smith-mounted.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1298123,
+      "sha256": "665701949bee74cd026ade8c5a794b9f18e413125614b0c226f6cf5458707f74",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.645284,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              34,
+              603
+            ],
+            "columns": [
+              [
+                12,
+                627
+              ],
+              [
+                649,
+                1253
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              640,
+              1222
+            ],
+            "columns": [
+              [
+                55,
+                622
+              ],
+              [
+                830,
+                1059
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-esparza": {
       "image": "atlases/famous-esparza.png",
       "width": 1254,
@@ -31636,6 +31818,506 @@
           241
         ],
         "visiblePixels": 80539,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-walk-e-1": {
+      "sheet": "famous-deaf-smith",
+      "x": 78,
+      "y": 32,
+      "w": 208,
+      "h": 294,
+      "anchorX": 0.4976,
+      "anchorY": 0.9286,
+      "logicalHeight": 299,
+      "label": "deaf smith walk e 1",
+      "kind": "famous-deaf-smith",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          80,
+          34,
+          204,
+          290
+        ],
+        "visiblePixels": 29191,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-walk-e-2": {
+      "sheet": "famous-deaf-smith",
+      "x": 393,
+      "y": 33,
+      "w": 194,
+      "h": 293,
+      "anchorX": 0.4974,
+      "anchorY": 0.9283,
+      "logicalHeight": 299,
+      "label": "deaf smith walk e 2",
+      "kind": "famous-deaf-smith",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          395,
+          35,
+          190,
+          289
+        ],
+        "visiblePixels": 27720,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-walk-e-3": {
+      "sheet": "famous-deaf-smith",
+      "x": 691,
+      "y": 31,
+      "w": 201,
+      "h": 294,
+      "anchorX": 0.5,
+      "anchorY": 0.9286,
+      "logicalHeight": 299,
+      "label": "deaf smith walk e 3",
+      "kind": "famous-deaf-smith",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          693,
+          33,
+          197,
+          290
+        ],
+        "visiblePixels": 27579,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-walk-e-4": {
+      "sheet": "famous-deaf-smith",
+      "x": 1006,
+      "y": 32,
+      "w": 200,
+      "h": 295,
+      "anchorX": 0.4875,
+      "anchorY": 0.9288,
+      "logicalHeight": 299,
+      "label": "deaf smith walk e 4",
+      "kind": "famous-deaf-smith",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1008,
+          34,
+          196,
+          291
+        ],
+        "visiblePixels": 28215,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-walk-s-1": {
+      "sheet": "famous-deaf-smith",
+      "x": 85,
+      "y": 339,
+      "w": 163,
+      "h": 299,
+      "anchorX": 0.5184,
+      "anchorY": 0.9532,
+      "logicalHeight": 299,
+      "label": "deaf smith walk s 1",
+      "kind": "famous-deaf-smith",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          87,
+          341,
+          159,
+          295
+        ],
+        "visiblePixels": 26704,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-walk-s-2": {
+      "sheet": "famous-deaf-smith",
+      "x": 405,
+      "y": 339,
+      "w": 166,
+      "h": 298,
+      "anchorX": 0.503,
+      "anchorY": 0.9463,
+      "logicalHeight": 299,
+      "label": "deaf smith walk s 2",
+      "kind": "famous-deaf-smith",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          407,
+          341,
+          162,
+          294
+        ],
+        "visiblePixels": 26582,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-walk-n-1": {
+      "sheet": "famous-deaf-smith",
+      "x": 717,
+      "y": 340,
+      "w": 151,
+      "h": 296,
+      "anchorX": 0.5397,
+      "anchorY": 0.9493,
+      "logicalHeight": 299,
+      "label": "deaf smith walk n 1",
+      "kind": "famous-deaf-smith",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          719,
+          342,
+          147,
+          292
+        ],
+        "visiblePixels": 25168,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-walk-n-2": {
+      "sheet": "famous-deaf-smith",
+      "x": 1029,
+      "y": 340,
+      "w": 150,
+      "h": 297,
+      "anchorX": 0.5267,
+      "anchorY": 0.9293,
+      "logicalHeight": 299,
+      "label": "deaf smith walk n 2",
+      "kind": "famous-deaf-smith",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1031,
+          342,
+          146,
+          293
+        ],
+        "visiblePixels": 25474,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-idle": {
+      "sheet": "famous-deaf-smith",
+      "x": 92,
+      "y": 648,
+      "w": 150,
+      "h": 291,
+      "anchorX": 0.5567,
+      "anchorY": 0.9519,
+      "logicalHeight": 299,
+      "label": "deaf smith idle",
+      "kind": "famous-deaf-smith",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          94,
+          650,
+          146,
+          287
+        ],
+        "visiblePixels": 27227,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-report": {
+      "sheet": "famous-deaf-smith",
+      "x": 408,
+      "y": 650,
+      "w": 220,
+      "h": 291,
+      "anchorX": 0.3591,
+      "anchorY": 0.945,
+      "logicalHeight": 299,
+      "label": "deaf smith report",
+      "kind": "famous-deaf-smith",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          410,
+          652,
+          216,
+          287
+        ],
+        "visiblePixels": 29517,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-point": {
+      "sheet": "famous-deaf-smith",
+      "x": 710,
+      "y": 650,
+      "w": 224,
+      "h": 289,
+      "anchorX": 0.3728,
+      "anchorY": 0.9343,
+      "logicalHeight": 299,
+      "label": "deaf smith point",
+      "kind": "famous-deaf-smith",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          712,
+          652,
+          220,
+          286
+        ],
+        "visiblePixels": 29230,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-read-dispatch": {
+      "sheet": "famous-deaf-smith",
+      "x": 1033,
+      "y": 654,
+      "w": 153,
+      "h": 287,
+      "anchorX": 0.5065,
+      "anchorY": 0.9268,
+      "logicalHeight": 299,
+      "label": "deaf smith read dispatch",
+      "kind": "famous-deaf-smith",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1035,
+          656,
+          149,
+          283
+        ],
+        "visiblePixels": 25703,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-track": {
+      "sheet": "famous-deaf-smith",
+      "x": 52,
+      "y": 990,
+      "w": 222,
+      "h": 213,
+      "anchorX": 0.491,
+      "anchorY": 0.9296,
+      "logicalHeight": 299,
+      "label": "deaf smith track",
+      "kind": "famous-deaf-smith",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          54,
+          992,
+          218,
+          209
+        ],
+        "visiblePixels": 27481,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-wounded-seated": {
+      "sheet": "famous-deaf-smith",
+      "x": 383,
+      "y": 985,
+      "w": 260,
+      "h": 225,
+      "anchorX": 0.6827,
+      "anchorY": 0.9289,
+      "logicalHeight": 299,
+      "label": "deaf smith wounded seated",
+      "kind": "famous-deaf-smith",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          385,
+          987,
+          256,
+          221
+        ],
+        "visiblePixels": 26823,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-axe-ready": {
+      "sheet": "famous-deaf-smith",
+      "x": 711,
+      "y": 939,
+      "w": 190,
+      "h": 275,
+      "anchorX": 0.4711,
+      "anchorY": 0.9455,
+      "logicalHeight": 299,
+      "label": "deaf smith axe ready",
+      "kind": "famous-deaf-smith",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          713,
+          941,
+          186,
+          271
+        ],
+        "visiblePixels": 26529,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-axe-chop": {
+      "sheet": "famous-deaf-smith",
+      "x": 992,
+      "y": 952,
+      "w": 222,
+      "h": 265,
+      "anchorX": 0.4482,
+      "anchorY": 0.9396,
+      "logicalHeight": 299,
+      "label": "deaf smith axe chop",
+      "kind": "famous-deaf-smith",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          994,
+          954,
+          218,
+          261
+        ],
+        "visiblePixels": 27240,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-mounted-walk-e-1": {
+      "sheet": "famous-deaf-smith-mounted",
+      "x": 12,
+      "y": 35,
+      "w": 615,
+      "h": 568,
+      "anchorX": 0.4561,
+      "anchorY": 0.9366,
+      "logicalHeight": 582,
+      "label": "deaf smith mounted walk e 1",
+      "kind": "famous-deaf-smith-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          14,
+          37,
+          611,
+          564
+        ],
+        "visiblePixels": 148945,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-mounted-walk-e-2": {
+      "sheet": "famous-deaf-smith-mounted",
+      "x": 649,
+      "y": 34,
+      "w": 604,
+      "h": 569,
+      "anchorX": 0.5215,
+      "anchorY": 0.9578,
+      "logicalHeight": 582,
+      "label": "deaf smith mounted walk e 2",
+      "kind": "famous-deaf-smith-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          651,
+          36,
+          600,
+          565
+        ],
+        "visiblePixels": 147886,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-mounted-idle-e": {
+      "sheet": "famous-deaf-smith-mounted",
+      "x": 55,
+      "y": 648,
+      "w": 567,
+      "h": 561,
+      "anchorX": 0.4418,
+      "anchorY": 0.9626,
+      "logicalHeight": 582,
+      "label": "deaf smith mounted idle e",
+      "kind": "famous-deaf-smith-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          57,
+          650,
+          563,
+          557
+        ],
+        "visiblePixels": 139434,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-mounted-idle-s": {
+      "sheet": "famous-deaf-smith-mounted",
+      "x": 830,
+      "y": 640,
+      "w": 229,
+      "h": 582,
+      "anchorX": 0.4585,
+      "anchorY": 0.9296,
+      "logicalHeight": 582,
+      "label": "deaf smith mounted idle s",
+      "kind": "famous-deaf-smith-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          832,
+          642,
+          225,
+          578
+        ],
+        "visiblePixels": 79390,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

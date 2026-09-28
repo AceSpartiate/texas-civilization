@@ -3406,6 +3406,94 @@
       "motion": "none",
       "direction": "east; mirror for west"
     },
+    "deaf-smith-walk-e": {
+      "frames": [
+        {
+          "sprite": "deaf-smith-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "deaf-smith-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "deaf-smith-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "deaf-smith-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "deaf-smith-walk-s": {
+      "frames": [
+        {
+          "sprite": "deaf-smith-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "deaf-smith-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "deaf-smith-walk-n": {
+      "frames": [
+        {
+          "sprite": "deaf-smith-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "deaf-smith-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "deaf-smith-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "deaf-smith-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "deaf-smith-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "deaf-smith-axe-work": {
+      "frames": [
+        {
+          "sprite": "deaf-smith-axe-ready",
+          "duration": 400
+        },
+        {
+          "sprite": "deaf-smith-axe-chop",
+          "duration": 300
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "esparza-walk-e": {
       "frames": [
         {

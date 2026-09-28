@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1766 usable sprites, 171 PNG atlases, 575 clips** (347 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1786 usable sprites, 173 PNG atlases, 580 clips** (352 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -74,6 +74,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-cos | 16 | 1254 × 1254 | 1237092 |
 | famous-cos-mounted | 4 | 1226 × 1283 | 1307008 |
 | famous-crockett-fate | 4 | 1254 × 1254 | 948322 |
+| famous-deaf-smith | 16 | 1254 × 1254 | 1316988 |
+| famous-deaf-smith-mounted | 4 | 1254 × 1254 | 1298123 |
 | famous-esparza | 16 | 1254 × 1254 | 869799 |
 | famous-moore | 16 | 1254 × 1254 | 1092408 |
 | famous-houston-mounted | 4 | 1254 × 1254 | 1158924 |
@@ -829,6 +831,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | crockett-captive-2 | famous-crockett-fate | crockett-captive |
 | crockett-still-side | famous-crockett-fate | State artwork; no motion required |
 | crockett-still-turn | famous-crockett-fate | State artwork; no motion required |
+| deaf-smith-walk-e-1 | famous-deaf-smith | deaf-smith-walk-e |
+| deaf-smith-walk-e-2 | famous-deaf-smith | deaf-smith-walk-e |
+| deaf-smith-walk-e-3 | famous-deaf-smith | deaf-smith-walk-e |
+| deaf-smith-walk-e-4 | famous-deaf-smith | deaf-smith-walk-e |
+| deaf-smith-walk-s-1 | famous-deaf-smith | deaf-smith-walk-s |
+| deaf-smith-walk-s-2 | famous-deaf-smith | deaf-smith-walk-s |
+| deaf-smith-walk-n-1 | famous-deaf-smith | deaf-smith-walk-n |
+| deaf-smith-walk-n-2 | famous-deaf-smith | deaf-smith-walk-n |
+| deaf-smith-idle | famous-deaf-smith | State artwork; no motion required |
+| deaf-smith-report | famous-deaf-smith | State artwork; no motion required |
+| deaf-smith-point | famous-deaf-smith | State artwork; no motion required |
+| deaf-smith-read-dispatch | famous-deaf-smith | State artwork; no motion required |
+| deaf-smith-track | famous-deaf-smith | State artwork; no motion required |
+| deaf-smith-wounded-seated | famous-deaf-smith | State artwork; no motion required |
+| deaf-smith-axe-ready | famous-deaf-smith | deaf-smith-axe-work |
+| deaf-smith-axe-chop | famous-deaf-smith | deaf-smith-axe-work |
+| deaf-smith-mounted-walk-e-1 | famous-deaf-smith-mounted | deaf-smith-mounted-walk-e |
+| deaf-smith-mounted-walk-e-2 | famous-deaf-smith-mounted | deaf-smith-mounted-walk-e |
+| deaf-smith-mounted-idle-e | famous-deaf-smith-mounted | State artwork; no motion required |
+| deaf-smith-mounted-idle-s | famous-deaf-smith-mounted | State artwork; no motion required |
 | esparza-walk-e-1 | famous-esparza | esparza-walk-e |
 | esparza-walk-e-2 | famous-esparza | esparza-walk-e |
 | esparza-walk-e-3 | famous-esparza | esparza-walk-e |
@@ -2169,6 +2191,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | cos-walk-n | Pose cycle | 2 | 580 | yes | north |
 | cos-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | crockett-captive | Pose cycle | 2 | 3100 | yes | east; mirror for west |
+| deaf-smith-walk-e | Pose cycle | 4 | 760 | yes | east |
+| deaf-smith-walk-s | Pose cycle | 2 | 580 | yes | south |
+| deaf-smith-walk-n | Pose cycle | 2 | 580 | yes | north |
+| deaf-smith-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| deaf-smith-axe-work | Pose cycle | 2 | 700 | one-shot | east; mirror for west |
 | esparza-walk-e | Pose cycle | 4 | 760 | yes | east |
 | esparza-walk-s | Pose cycle | 2 | 580 | yes | south |
 | esparza-walk-n | Pose cycle | 2 | 580 | yes | north |

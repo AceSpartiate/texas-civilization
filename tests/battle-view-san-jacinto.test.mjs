@@ -82,6 +82,14 @@ test('Burleson commands in his own officer art', () => {
   assert.ok(art.drawn.some(one => one.sprite === 'burleson-command'));
 });
 
+test('Deaf Smith rides on his own scout sheet', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const person = { id: 'deaf-smith', art: 'deaf-smith', name: 'Deaf Smith', side: 'texian', x: 0, y: 0, right: true, pose: 'ride' };
+  run(view, minute => battle(minute, { people: [person] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'deaf-smith-mounted-walk-e'));
+  assert.ok(!art.drawn.some(one => one.clip === 'mounted-courier-e'));
+});
+
 test('the San Jacinto sword exchange uses both named figures', () => {
   const art = fakeArt(), view = createBattleView(art);
   const people = [
