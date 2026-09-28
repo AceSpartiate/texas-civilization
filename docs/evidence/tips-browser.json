@@ -35,8 +35,8 @@
       "shown": true,
       "text": "Your settlement is calling for men: press the “!” and tick who goes. Each one leaves the farm with powder and the rifle. No answer in about 5 minutes, and the call closes.",
       "box": {
-        "left": 920,
-        "top": 416,
+        "left": 973,
+        "top": 396,
         "right": 1354,
         "bottom": 510
       },
@@ -93,8 +93,8 @@
         "text": "Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in a day, and the family packs and goes.",
         "box": {
           "left": 324,
-          "top": 316,
-          "right": 536,
+          "top": 356,
+          "right": 606,
           "bottom": 510
         },
         "fontPx": 14,
