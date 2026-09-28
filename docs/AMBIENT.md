@@ -6,7 +6,7 @@
 > participate in various things to make them appear active. they should talk to each other too via chat bubbles over their
 > heads, very short, easy to read sentences."
 
-Built 2026-09-28 in a worktree branch (not released). Claims `FIC-GONZ-730` to `-733` in [HISTORY.md](../HISTORY.md).
+Built 2026-09-28 in a worktree branch (not released). Claims `FIC-GONZ-820` to `-823` in [HISTORY.md](../HISTORY.md).
 
 ## What a class sees
 
@@ -44,11 +44,11 @@ Built 2026-09-28 in a worktree branch (not released). Claims `FIC-GONZ-730` to `
    sick, taken or in a fight, called aside by a child, listening to a rider, or posed by a town's dated scene. The family's own
    small children and babies are sim/childhood.mjs's and sim/babies.mjs's. A family's people are never given the hoe's swing
    or bare sowing, which read as work a student orders.
-3. **Words.** Every line is `reconstructed` (`FIC-GONZ-731`) and said by a family's person, an invented townsperson
+3. **Words.** Every line is `reconstructed` (`FIC-GONZ-821`) and said by a family's person, an invented townsperson
    (`FIC-GONZ-009`), a camp's unnamed man or a refuge's unnamed crowd. **No named historical person is ever given a line.**
 4. **News only as far as people could know it.** A news line is said only when the viewing family has heard the topic (the Host
    hears what the speakers could say), every speaker of a family has heard it, and a townsperson or soldier has it only once
-   word could have walked from where it happened at fifteen miles a day after a quarter of a day (`FIC-GONZ-732`; never the
+   word could have walked from where it happened at fifteen miles a day after a quarter of a day (`FIC-GONZ-822`; never the
    Host's public reports). A rumour is said as a rumour ("They say ...") until everyone at the table has it for sure.
 5. **Pacing.** A student's page is sent at most two exchanges a tick, the Host's twelve (one a place). The page lets two
    exchanges run at once and draws at most three bubbles, each held 3.8 seconds; a bubble is never drawn over another, over

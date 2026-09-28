@@ -4,7 +4,7 @@
 
 **The ask**, verbatim: *"introduce "chatter" while you're at it. i don't want to see npc just standing around when they're idle.
 they should participate in various things to make them appear active. they should talk to each other too via chat bubbles over
-their heads, very short, easy to read sentences."* Design, rules and decisions: **docs/AMBIENT.md**. Claims `FIC-GONZ-730` to `-733`.
+their heads, very short, easy to read sentences."* Design, rules and decisions: **docs/AMBIENT.md**. Claims `FIC-GONZ-820` to `-823`.
 
 **Built.** `sim/ambient.mjs` works out once a tick (kept beside the world, never in it) what every idle person is doing - keepers,
 residents, a family's own idle grown people and youths (never the principal, never anybody with work: a parallel build draws

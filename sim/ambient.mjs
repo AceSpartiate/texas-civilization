@@ -23,10 +23,10 @@
 // never read to choose anything. An activity is chosen from the seed, the place, the hour and the weather alone.
 //
 // **Talk.** Two people near each other, or a townsperson who walks over to a neighbour, sometimes say two short lines
-// (`EXCHANGES`, `FIC-GONZ-731`): eight words at most, plain words for a middle-school reader, of the place, the season, the
+// (`EXCHANGES`, `FIC-GONZ-821`): eight words at most, plain words for a middle-school reader, of the place, the season, the
 // weather and the hour. War news is said **only** when every one of them could know it: the viewing family must have heard
 // it (sim/knowledge.mjs), a speaker of a family must have heard it, and a townsperson or a soldier has it only once word
-// could have walked to them (`WORD_MILES_A_DAY`, `FIC-GONZ-732`). Every line is `reconstructed` and every speaker is an
+// could have walked to them (`WORD_MILES_A_DAY`, `FIC-GONZ-822`). Every line is `reconstructed` and every speaker is an
 // invented or unnamed person: no named historical person is ever given a line here (docs/BATTLES.md §2.5, §6.5).
 import { stirredShare } from './shares.mjs';
 import { dateOf } from './clock.mjs';
@@ -38,7 +38,7 @@ import { heldByBattle } from './battle-stage.mjs';
 import { activeBeats } from './town-scenes.mjs';
 
 /** The activities are invented for the game; the chatter's words are reconstructed; how far the war's word has walked. */
-export const AMBIENT_CLAIM = 'FIC-GONZ-730', CHATTER_CLAIM = 'FIC-GONZ-731', HEARSAY_CLAIM = 'FIC-GONZ-732', CROWD_CLAIM = 'FIC-GONZ-733';
+export const AMBIENT_CLAIM = 'FIC-GONZ-820', CHATTER_CLAIM = 'FIC-GONZ-821', HEARSAY_CLAIM = 'FIC-GONZ-822', CROWD_CLAIM = 'FIC-GONZ-823';
 /** Ticks one activity lasts before a person turns to another: about a minute at the Study pace (9.5 s a tick). */
 export const SLOT_TICKS = 6;
 /** Closer than this, in miles, two people can talk where they stand (a yard's width, or two cabins' doors on one street). */
@@ -169,7 +169,7 @@ const CROWD_FIGURES = Object.freeze([
 // The words
 // ---------------------------------------------------------------------------------------------------------------------------
 /**
- * Two short lines, the first said by one of a pair and the second by the other (`FIC-GONZ-731`). Each is at most eight
+ * Two short lines, the first said by one of a pair and the second by the other (`FIC-GONZ-821`). Each is at most eight
  * plain words; `where`, `hours`, `seasons`, `weather` and `camp` narrow when it may be said. A line with a `topic` is war
  * news: said only when every one at the table could know it (`knownTo`), `hedged` while the word is a rumour or not yet
  * sure and `lines` once it is confirmed. None is anybody's documented words and none is put in a named mouth.
@@ -270,7 +270,7 @@ const CONFIDENCE = Object.freeze({ rumor: 0, unconfirmed: 1, confirmed: 2 });
 
 /**
  * How sure somebody nobody told could be of a topic, standing at `point`: once word could have walked to them from where it
- * happened, a rumour for two days and then sure (`FIC-GONZ-732`). Never the Host's public reports (sim/knowledge.mjs
+ * happened, a rumour for two days and then sure (`FIC-GONZ-822`). Never the Host's public reports (sim/knowledge.mjs
  * `public`), which are what the teacher's page is told and not what a storekeeper eighty miles off has heard.
  */
 export function hearsayOf(world, topicId, point) {
@@ -530,7 +530,7 @@ function refugesInUse(world) {
   return [...found].filter(siteId => world.map?.sites?.[siteId]).sort();
 }
 /**
- * The crowd at a refuge (`FIC-GONZ-733`): a few unnamed people of the families from the west camped round a fire a little off
+ * The crowd at a refuge (`FIC-GONZ-823`): a few unnamed people of the families from the west camped round a fire a little off
  * the town, a picture of the thousands the record puts at the crossings (`HIST-TEX-070`) and never a count.
  */
 export function crowdAt(world, siteId, band = hourBand(world)) {

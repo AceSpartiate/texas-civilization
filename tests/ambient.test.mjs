@@ -192,7 +192,7 @@ test('nobody named in the record is ever given a line: every speaker is invented
       for (const line of view(world, householdId, role).ambient?.lines || []) {
         heard++;
         assert.equal(line.kind, 'reconstructed');
-        assert.equal(line.claimId, 'FIC-GONZ-731');
+        assert.equal(line.claimId, 'FIC-GONZ-821');
         assert.ok(!named.has(line.speakerId), `${line.speakerId}, a named person, was given "${line.text}"`);
         const e = world.entities[line.speakerId];
         if (e) {
