@@ -39,7 +39,7 @@ a patient four days from mending is well in **2.0 days resting, 8.0 working**; o
 injections caught by exactly the tests each names**, docs/evidence/disease-injections.json; one guard not injectable, said why there); `npm run test:disease` (1366x768 and 1024x768: the row,
 the badge and the card; the "!"; "Stop and rest a day" glowing and halting, the row saying resting; the Host's words, the count and
 the unnamed child; the word of the sickness in the journal and the Rumor Mill; no page errors; docs/evidence/disease-browser.json).
-Same computer only; no LAN or district claim. `npm test` 1,473 of 1,473 after the merge of origin/main; `test:scrape`,
+Same computer only; no LAN or district claim. `npm test` 1,480 of 1,480 after the merge of origin/main e86b281; `test:scrape`,
 `test:family-panel`, `test:lesson`, `test:winter` pass. **`test:children` fails** at "the child at tag was drawn in 1 places in four
 seconds" - **and fails the same on origin/main b9daabb** (run in a scratch worktree), so it is not this branch's; left for its owner.
 
