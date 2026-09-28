@@ -65,7 +65,6 @@ const files = new Map([
   ['/battle-view.js', ['../public/battle-view.js', 'text/javascript']],
   ['/speech.js', ['../public/speech.js', 'text/javascript']],
   ['/creation.js', ['../public/creation.js', 'text/javascript']],
-  ['/intro-art.js', ['../public/intro-art.js', 'text/javascript']],
   ['/ground-classes.js', ['../public/ground-classes.js', 'text/javascript']],
   ['/land-levels.js', ['../public/land-levels.js', 'text/javascript']],
   ['/ending.js', ['../public/ending.js', 'text/javascript']],

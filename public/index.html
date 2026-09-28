@@ -13,26 +13,25 @@
      scene behind every step of it - joining or beginning, the die, the family's last name, everybody's first name, the
      parents' looks. The map is not drawn at all while this is up. -->
 <div id="creation" hidden>
-  <canvas id="creation-scene" width="1600" height="900" aria-hidden="true"></canvas>
   <div id="creation-banner">
-    <h1 id="creation-name">Family: Texas 1835/36</h1>
-    <p id="creation-tagline">A family of settlers in the last year of Mexican Texas.</p>
+    <span id="creation-kicker">A LIVING HISTORY GAME · AUTUMN 1835</span>
+    <h1 id="creation-name">Family: Texas <span>1835/36</span></h1>
+    <p id="creation-tagline">Build a home. Hear the riders. Choose where your family stands.</p>
   </div>
+  <p id="creation-landscape-caption">A new home, on the edge of a changing world.</p>
 </div>
 <section id="creation-begin" hidden role="dialog" aria-modal="true" aria-labelledby="creation-begin-title">
-  <h2 id="creation-begin-title">Your family</h2>
-  <!-- Only the four steps this card can promise. The wagon and the stock choice are a class's lobby and do not exist in
-       Play Solo (measured 2026-09-21), so they are explained on their own panel, where they are real. -->
-  <p>You are one family among the settlers of Texas in the autumn of 1835. First you make them, in four steps: roll the die
-    for who they are, give the family a last name, name each of them, and choose how the parents look.</p>
-  <!-- True since the forced tutorial of 2026-09-21 (docs/LESSON.md): the server refuses every order that is not the step
-       the family is on, so the old line "after that the country is yours to work" promised a freedom the simulation does
-       not give for the first hour. Since 2026-09-22 a student may X the guide off (docs/LESSON.md §1), and the card says
-       that too rather than "will not let you jump ahead". -->
-  <p class="creation-begin-after">From the moment the wagon starts in, the game walks you through the farm one task at a
-    time - the house, the field, the crop, the town, the hunt and the well. The country is yours to work once that is
-    done, or at once if you press the X on the guide to stop it.</p>
-  <button type="button" id="creation-begin-button">Begin</button>
+  <span class="creation-card-kicker">YOUR STORY BEGINS HERE</span>
+  <h2 id="creation-begin-title">Who will your family be?</h2>
+  <p class="creation-begin-lead">Autumn 1835. Your wagon has reached Texas. The people who step off it—and what they bring—are about to become your story.</p>
+  <ol class="creation-begin-steps" aria-label="Make your family in four steps">
+    <li><span>01</span> Roll your household</li>
+    <li><span>02</span> Give it a surname</li>
+    <li><span>03</span> Name each person</li>
+    <li><span>04</span> Choose the parents' looks</li>
+  </ol>
+  <p class="creation-begin-after">A short guide leads you through the first farm tasks, one task at a time. Close it whenever you are ready.</p>
+  <button type="button" id="creation-begin-button">Make my family <span aria-hidden="true">→</span></button>
 </section>
 <!-- Everybody's first name, on one card, already filled in with the names the game dealt (owner, 2026-09-17). -->
 <section id="names" hidden role="dialog" aria-modal="true" aria-labelledby="names-title">
@@ -53,8 +52,9 @@
      scene behind every step of it - joining or beginning, the die, the family's last name, everybody's first name, the
      parents' looks. The map is not drawn at all while this is up. -->
 <form id="join" hidden>
-  <span class="eyebrow">TEXAS · 1835</span>
-  <h1>A family. A home.<br>A changing world.</h1>
+  <span class="eyebrow">ENTER YOUR CLASSROOM WORLD</span>
+  <h1>Join the story.</h1>
+  <p class="join-intro">Your family begins here. Enter the class code your teacher gave you.</p>
   <label>Your name <input name="name" required maxlength="40" autocomplete="off"></label>
   <label>Class code <input name="code" required maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
   <button>Join</button>
@@ -65,8 +65,8 @@
 <!-- Recovering a family is its own door, not a variation on joining: it needs no class
      code and it works after the class has started. -->
 <form id="rejoin" hidden>
-  <span class="eyebrow">TEXAS &middot; 1835</span>
-  <h1>Back to your<br>own family.</h1>
+  <span class="eyebrow">RETURN TO YOUR STORY</span>
+  <h1>Welcome back.</h1>
   <label>Family key <input name="key" required maxlength="11" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXX XXXX"></label>
   <button>Rejoin my family</button>
   <p id="rejoin-error" role="alert"></p>
