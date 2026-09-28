@@ -1,5 +1,35 @@
 # Claude handoff — Astra foundation
 
+## Ambient life and chatter: nobody idle stands about, and neighbours talk in short lines — owner, 2026-09-28 (worktree branch; not released)
+
+**The ask**, verbatim: *"introduce "chatter" while you're at it. i don't want to see npc just standing around when they're idle.
+they should participate in various things to make them appear active. they should talk to each other too via chat bubbles over
+their heads, very short, easy to read sentences."* Design, rules and decisions: **docs/AMBIENT.md**. Claims `FIC-GONZ-730` to `-733`.
+
+**Built.** `sim/ambient.mjs` works out once a tick (kept beside the world, never in it) what every idle person is doing - keepers,
+residents, a family's own idle grown people and youths (never the principal, never anybody with work: a parallel build draws
+work), other families' people, family men halted with the 1835 force in camp, families halted on the road - from about twenty
+activities by place, hour, weather and sex; pairs near each other keep company (talk, cards, dominoes, a pipe, the fire), and a
+keeper walks to a neighbour's door (at most two a town). The camps' drawn men (`campAmbient`) and six unnamed refugees round a
+fire at a refuge in use (`crowdAt`). About eighty two-line exchanges (≤ 8 words, ≤ 48 characters, a syllable bound), war news
+gated on the viewing family's knowledge, each speaker family's, and word walking to townspeople at 15 miles a day (`hearsayOf`);
+two exchanges a tick to a student, twelve to the Host. Quiet at night, in a fight, a chase, a rider's meeting, and where a
+town scene talks. Hooks: `sim/world.mjs` (end of `projectWorld`: `amb` on each person, `view.ambient`), `public/motion.js`
+(`ambientClip`; carry while pacing), `public/ambient.js` (walker, pacing, props, crowd, bubbles: two exchanges, three bubbles at
+once, never overlapping, never over the family's bubbles or a mark), `public/app.js` (`townGround`, the two entity loops, the
+crowd, the army draw, the talk after the camps), `public/army-view.js` (`man`/`onMan`/`prop`), `public/speech.js` (`measure`),
+`server/app.mjs` (`/ambient.js`). **No saveVersion move**: nothing stored. Stand-ins (poses, washtub, woodpile, rifle cleaning)
+in docs/ART_REQUESTS.md, request 2026-09-28 - ambient life.
+
+**Evidence** (same computer only). EVIDENCE_PLACEHOLDER
+
+**Owner, please choose** (docs/AMBIENT.md, each one place to change): the principal stands ready (or at an activity too); war
+news in chatter as far as people could know it (or none); the refuge crowd of six (or none, or Lynch's ferry only); Mexican
+camps silent (or Spanish with a gloss); two exchanges a tick and three bubbles (or half, or twice).
+
+**Not done.** Chatter is not in the family panel's words or a person's card; the activity is not said anywhere in text; no named
+person does anything new (the famous people keep their own art); phones and a Chromebook not measured; no LAN claim.
+
 ## Classroom blockers: class size, late students, reconnecting, an unclean stop, several classes, several class days — owner, 2026-09-28 (worktree branch; not released)
 
 **The ask.** Owner, 2026-09-28: *"check for problems with the game ... things that would prevent the game from being played as
