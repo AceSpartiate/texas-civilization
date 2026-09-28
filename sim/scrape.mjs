@@ -409,7 +409,8 @@ export function advanceFlight(world, minutes) {
             person.health = { condition: 'dead' }; person.travel = null; person.task = 'rest';
             person.location = { x: person.location.x, y: person.location.y, siteId: person.location.siteId || flight.refuge };
             tell(world, household, `${person.name} died of the sickness on the road, and was buried where they fell.`, { actorId: person.id, claimId: 'HIST-TEX-065' });
-          } else if (world.minute >= person.health.recoversAt) person.health = { condition: 'well' };
+          }
+          // The mending is sim/disease.mjs's, for everybody wherever they are (docs/DISEASE.md build step 0).
         } else if (['well', 'tired'].includes(person.health.condition) && share(world, person.id, `sick:${day}`) < 1 - (1 - SICK_PER_DAY) ** weight) {
           person.health = { condition: 'sick', recoversAt: world.minute + SICK_DAYS * DAY };
           tell(world, household, `${person.name} has fallen sick on the road${hungry ? ', with nothing to eat' : ''}.`, { actorId: person.id, importance: 2 });

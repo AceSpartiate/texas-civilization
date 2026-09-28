@@ -21,6 +21,7 @@ import { answerCourier } from './alamo.mjs';
 import { advanceRunners, runnerInvalid } from './alamo-runner.mjs';
 import { decisionClockInvalid, decisionPressing, spendDecisionBudget } from './decision-budget.mjs';
 import { advanceFlight, flee, flightProjection, householdAsKnown, scrapeInvalid, share, stayHome } from './scrape.mjs';
+import { advanceDisease } from './disease.mjs';
 import { answerRoad, registerRoadChores } from './road.mjs';
 // What the family does on the Runaway Scrape besides run, children and grown-ups (sim/flight-work.mjs, docs/CHILDREN.md §7).
 import { advanceFlightWork, cowLine, flightWorkInvalid, registerFlightWork, walkingShare } from './flight-work.mjs';
@@ -687,6 +688,8 @@ export function stepWorld(world, { realMs = 0, decisionBudgetMs } = {}) {
   advanceRoutine(world, calendar); deliverReports(world);
   // The families on the road east (sim/scrape.mjs): the rivers, the food, the sickness, arriving.
   advanceFlight(world, calendar);
+  // Sickness for everybody the road's own day did not reach, and the mending for all (sim/disease.mjs, docs/DISEASE.md).
+  advanceDisease(world, calendar);
   advanceDirectors(world, { beginTravel, dispatchReport });
   // Whatever somebody rode to the army marches with them (sim/keeping.mjs), once the army has moved.
   keepWithRiders(world);
