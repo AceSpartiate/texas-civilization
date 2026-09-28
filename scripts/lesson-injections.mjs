@@ -5,6 +5,12 @@
 // Run: node scripts/lesson-injections.mjs  → writes docs/evidence/lesson-injections.json
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
+import { LESSON_ENABLED } from '../sim/lesson.mjs';
+
+// The guided start is switched off (owner, 2026-09-28: "The starting tutorial needs to be removed for now. We'll redo it from
+// scratch later."; sim/lesson.mjs `LESSON_ENABLED`). Everything here exercises it, so nothing is run while it is off; the
+// switch itself is held by tests/lesson-off.test.mjs.
+if (!LESSON_ENABLED) { console.log('SKIPPED: the guided start is switched off (sim/lesson.mjs LESSON_ENABLED, owner 2026-09-28).'); process.exit(0); }
 
 const FILES = ['tests/lesson.test.mjs'];
 const FILE = 'sim/lesson.mjs';

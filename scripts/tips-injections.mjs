@@ -8,8 +8,8 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
-const FILES = ['tests/tips.test.mjs', 'tests/need-ranking.test.mjs', 'tests/lesson.test.mjs', 'tests/family-commands.test.mjs', 'tests/lesson-usability.test.mjs', 'tests/errands.test.mjs', 'tests/creation-words.test.mjs', 'tests/lesson-screen.test.mjs', 'tests/military-attention.test.mjs'];
-const T = { words: 'every tip the server can remember', kept: 'seen tips are kept by the server', lobby: 'putting a tip away is never refused', due: 'each tip is due when its thing', once: 'a tip is shown once', order: 'every "!" of the column is in one order', left: 'the time left is read from what the server said', sent: 'the server sends the time left', watch: 'the Watch alert waits', never: 'never refuses food, nursing', held: 'still holds back another farm step', ends: 'ends for every family when the first period does', winter: 'a class saved in the winter' };
+const FILES = ['tests/lesson-off.test.mjs', 'tests/tips.test.mjs', 'tests/need-ranking.test.mjs', 'tests/lesson.test.mjs', 'tests/family-commands.test.mjs', 'tests/lesson-usability.test.mjs', 'tests/errands.test.mjs', 'tests/creation-words.test.mjs', 'tests/lesson-screen.test.mjs', 'tests/military-attention.test.mjs'];
+const T = { words: 'every tip the server can remember', kept: 'seen tips are kept by the server', lobby: 'putting a tip away is never refused', due: 'each tip is due when its thing', once: 'a tip is shown once', order: 'every "!" of the column is in one order', left: 'the time left is read from what the server said', sent: 'the server sends the time left', watch: 'the Watch alert waits', never: 'never refuses food, nursing', held: 'still holds back another farm step', ends: 'ends for every family when the first period does', winter: 'a class saved in the winter', off: 'the guided start is off', offCall: 'spends its minutes from the moment it arrives' };
 const INJECTIONS = [
   // Tips: the server's memory.
   { name: 'putting a tip away is not kept: the next snapshot, or a reload, shows it again', file: 'sim/tips.mjs', from: '  household.tipsSeen = [...seen, id];', to: '', expect: T.kept },
@@ -18,7 +18,6 @@ const INJECTIONS = [
   { name: 'the director marks tips seen for a family whose student has gone', file: 'sim/tips.mjs', from: '  if (!household || household.absent || !household.played) throw', to: '  if (!household) throw', expect: T.kept },
   { name: 'a save may carry anything as the tips seen', file: 'sim/tips.mjs', from: "  if (!Array.isArray(seen) || seen.some(id => !TIP_IDS.includes(id)) || new Set(seen).size !== seen.length) return 'Invalid tips seen';", to: '', expect: T.kept },
   { name: 'the tips seen never reach the family\'s page, so every reload shows them all again', file: 'sim/world.mjs', from: '  delete shown.mainId;\n', to: '  delete shown.mainId;\n  delete shown.tipsSeen;\n', expect: T.kept },
-  { name: 'the guided start refuses the order to put a tip away', file: 'sim/lesson.mjs', from: "  if (ALWAYS.includes(id) || !FARM_WORK.includes(id)) return null;", to: "  if (id !== 'seen-tip' && (ALWAYS.includes(id) || !FARM_WORK.includes(id))) return null;", expect: T.lobby },
   // Tips: the page's reading.
   { name: 'the Host - the projector - is shown tips', file: 'public/tips.js', from: "  if (!world || world.role === 'host' || !world.householdId || !world.household) return [];", to: '  if (!world || !world.householdId || !world.household) return [];', expect: T.due },
   { name: 'tips come up in the lobby and over the ending', file: 'public/tips.js', from: "  if (!['running', 'paused'].includes(world.status)) return [];", to: '', expect: T.due },
@@ -40,15 +39,14 @@ const INJECTIONS = [
   { name: 'the order to leave goes to the page without its time left', file: 'sim/world.mjs', from: "...(household.flight.status === 'ordered' && Number.isFinite(household.flight.orderedMinute) && { ticksLeft", to: "...(false && { ticksLeft", expect: T.sent },
   { name: 'the soldiers\' ¡Alto! is given the road\'s twelve ticks', file: 'sim/road.mjs', from: "  const patience = ask.id === 'alto' ? ALTO_PATIENCE_TICKS : ROAD_PATIENCE_TICKS;", to: '  const patience = ROAD_PATIENCE_TICKS;', expect: T.sent },
   { name: 'Watch springs open over the family\'s own road', file: 'public/military-attention.js', from: ' || meeting?.status === \'open\' || roadAsking;', to: " || meeting?.status === 'open';", expect: T.watch },
-  // The gate narrowed, and ended with the period.
-  { name: 'the gate is as strict as it was: everything off the step is refused, food, nursing and the war with it', file: 'sim/lesson.mjs', from: "  if (ALWAYS.includes(id) || !FARM_WORK.includes(id)) return null;", to: '  if (ALWAYS.includes(id)) return null;', expect: T.never },
-  { name: 'the town and the hunt are held back again, so a family on the house step cannot get food', file: 'sim/lesson.mjs', from: "export const NEVER_HELD = Object.freeze(['chore:visit-shop', 'hunt-land', 'chore:hunt-land', 'chore:hunt-timber']);", to: 'export const NEVER_HELD = Object.freeze([]);', expect: T.never },
-  { name: 'the page is told nothing is shut while the server still refuses the other farm steps', file: 'sim/lesson.mjs', from: '    shut: shutBy(current, world, household),', to: '    shut: [],', expect: T.held },
-  { name: 'the page reads the old `allow` and greys everything off the step', file: 'public/lesson.js', from: '  if (Array.isArray(lesson.shut)) return !names(lesson.shut, icon);\n', to: '', expect: T.held },
-  { name: 'the gate forgets the farm entirely: no farm step\'s work is held back', file: 'sim/lesson.mjs', from: '  if (current.allow(world, household).includes(id)) return null;\n  return `Not yet - first, ${current.first}`;', to: '  return null;', expect: T.held },
-  { name: 'the guided start goes on past the first period', file: 'sim/lesson.mjs', from: " && !household.flight && (world.period || 1) === 1;", to: ' && !household.flight;', expect: T.winter },
-  { name: 'going on to the winter does not close the lessons still running', file: 'sim/periods.mjs', from: '  closeLessons(world);\n', to: '', expect: T.ends },
-  { name: 'a save may carry a lesson closed by the period still standing on a step', file: 'sim/lesson.mjs', from: "  if ((lesson.stopped || lesson.closed) && lesson.step !== 'done') return 'Invalid lesson step';", to: "  if (lesson.stopped && lesson.step !== 'done') return 'Invalid lesson step';", expect: T.ends },
+  // The guided start switched off (owner, 2026-09-28: "The starting tutorial needs to be removed for now"). The gate's own
+  // injections of the same day are not run while it is off: every test that caught them is skipped (tests/lesson.test.mjs,
+  // 32 tests; docs/LESSON.md). They were 34 of 34 caught before the switch (git history of docs/evidence/tips-injections.json).
+  { name: 'the guided start is switched back on, gating every new family and holding its call\'s minutes', file: 'sim/lesson.mjs', from: 'export const LESSON_ENABLED = false;', to: 'export const LESSON_ENABLED = true;', expect: T.off },
+  { name: 'an old save\'s stored lesson still gates and holds the call, whatever the switch says', file: 'sim/lesson.mjs', from: 'const teachable = (world, household) => LESSON_ENABLED && ', to: 'const teachable = (world, household) => ', expect: T.offCall },
+  // With the guided start gone, the start of the game has tips of its own.
+  { name: 'how to give an order is told while the family is still on the road in', file: 'public/tips.js', from: 'Boolean(world.land) && !world.land.arriving && own.length > 0,', to: 'Boolean(world.land) && own.length > 0,', expect: T.due },
+  { name: 'the star comes before how to give an order', file: 'public/tips.js', from: "'arrive', 'order', 'star']);", to: "'arrive', 'star', 'order']);", expect: T.due },
 ];
 
 const failing = output => [...new Set([...output.matchAll(/^\s*✖ (.+?) \(\d/gm)].map(match => match[1].trim()).filter(name => !/^tests[\\/]/.test(name) && name !== 'failing tests:'))];

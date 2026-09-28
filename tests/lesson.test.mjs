@@ -13,11 +13,11 @@
 // on its land, and every class saved before today have no lesson at all.
 //
 // Each test here was proven by injecting the regression it guards (scripts/lesson-injections.mjs).
-import test from 'node:test';
+import nodeTest from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
-import { ALWAYS, FARM_WORK, LESSON_DONE_MINUTES, LESSON_RESUME_MS, STEPS, actionId, advanceLessons, inLesson, lessonInvalid, lessonProjection, lessonRefusal } from '../sim/lesson.mjs';
+import { LESSON_ENABLED, ALWAYS, FARM_WORK, LESSON_DONE_MINUTES, LESSON_RESUME_MS, STEPS, actionId, advanceLessons, inLesson, lessonInvalid, lessonProjection, lessonRefusal } from '../sim/lesson.mjs';
 import { beginSecondPeriod } from '../sim/periods.mjs';
 import { allowsIcon } from '../public/lesson.js';
 import { RIPEN_TICKS } from '../sim/chores.mjs';
@@ -29,6 +29,11 @@ import { huntRefusal } from '../sim/hunting.mjs';
 import { siteFactsFor } from '../sim/homesite.mjs';
 import { settle, taught } from './support/settled.mjs';
 
+// Switched off (owner, 2026-09-28: "The starting tutorial needs to be removed for now. We'll redo it from scratch later.";
+// sim/lesson.mjs `LESSON_ENABLED`): every test here exercises the guided start and is skipped while it is off, kept for the
+// rework to start from. What holds the switch itself is tests/lesson-off.test.mjs, which always runs.
+const off = !LESSON_ENABLED && 'the guided start is switched off (owner, 2026-09-28; sim/lesson.mjs LESSON_ENABLED)';
+const test = (name, fn) => nodeTest(name, { skip: off }, fn);
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const send = (world, householdId, input) => applyAction(world, householdId, input);
 /** One class under way, with the first family a student's and the rest nobody's. */

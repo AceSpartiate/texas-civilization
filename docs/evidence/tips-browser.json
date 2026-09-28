@@ -3,7 +3,7 @@
   "date": "2026-09-28",
   "environment": "Same computer: a local classroom server and headless Chrome, 1366x768 with a keyboard and 1024x768 with a touch screen.",
   "pass": [
-    "the guided start is running (step \"order\")",
+    "the guided start is running (step \"arrive\")",
     "the call's tip is on the screen: \"Your settlement is calling for men: press the “!” and tick who goes. Each one leaves the farm with powder and the rifle. No answer in about 5 minutes, and the call closes.\" - above the bar, clear of the column and the guided start, 14px, and a click on its words reaches the map",
     "the Host's page shows no tip",
     "Escape put the tip away, and the server keeps it as seen",
@@ -12,10 +12,10 @@
     "the order to leave: its tip (\"Your family is told to leave. On your ★ person’s card, choose what to load and press “Leave for the east”, or choose to stay. No answer in a day, and the family packs and goes.\"), put away with a tap, and the \"!\" on the main person with \"3 min\" left on it",
     "on the road: the route's tip (\"On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.\"), put away with a tap",
     "¡Alto!: its tip (\"Soldiers shout “¡Alto!”, which means “Halt!”. Answer fast on your ★ person’s card: halting loses the wagon and goods, and running risks their shots. No answer means you halt.\"), the \"!\" with \"30s\" on it, put away with a tap",
-    "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, star, flight, child, road, rest, route, alto)"
+    "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, star, flight, rest, road, route, alto)"
   ],
   "observed": {
-    "lessonStep": "order",
+    "lessonStep": "arrive",
     "call": {
       "id": "call",
       "shown": true,
@@ -75,8 +75,8 @@
     "putAwayOnTheWay": [
       "enlist",
       "star",
-      "road",
-      "rest"
+      "rest",
+      "road"
     ],
     "flight": {
       "tip": {
@@ -148,9 +148,8 @@
         "enlist",
         "star",
         "flight",
-        "child",
-        "road",
         "rest",
+        "road",
         "route",
         "alto"
       ],

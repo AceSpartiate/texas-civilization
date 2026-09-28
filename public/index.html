@@ -30,7 +30,9 @@
     <li><span>03</span> Name each person</li>
     <li><span>04</span> Choose the parents' looks</li>
   </ol>
-  <p class="creation-begin-after">A short guide leads you through the first farm tasks, one task at a time. Close it whenever you are ready.</p>
+  <!-- The guided start is switched off (owner, 2026-09-28: "The starting tutorial needs to be removed for now"; sim/lesson.mjs
+       LESSON_ENABLED), so the card promises no guide: short tips come up the first time each new thing appears (public/tips.js). -->
+  <p class="creation-begin-after">The first time something new happens, a short tip says what to do and what it costs.</p>
   <button type="button" id="creation-begin-button">Make my family <span aria-hidden="true">→</span></button>
 </section>
 <!-- Everybody's first name, on one card, already filled in with the names the game dealt (owner, 2026-09-17). -->

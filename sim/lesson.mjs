@@ -51,6 +51,22 @@
 // aside for it is deliberately unused; docs/LESSON.md §7 says so.
 import { record } from './events.mjs';
 import { CHORES } from './chores.mjs';
+
+/**
+ * **The guided start is switched off** (owner, 2026-09-28: "The starting tutorial needs to be removed for now. We'll redo it
+ * from scratch later. It currently just gets in the way of things.").
+ *
+ * With this false no family is ever taught (`teachable`): the server holds no gate and every order is open from the first
+ * tick, nothing is projected (`lesson`, `lessonResume`), so no strip, pips, ring or Resume button appears, no step is stored,
+ * and a settlement's call spends its five minutes from the moment it arrives (`inLesson`, read by sim/decision-budget.mjs, is
+ * always false). A stored lesson in an old save is kept and read by nothing. Everything below is left as it was built - the
+ * steps, the gate narrowed to the farm on the same day, the X, Resume, the period's end - for the owner's rework to start from
+ * or throw away; its tests are skipped while this is false (tests/lesson.test.mjs `off`).
+ *
+ * ceiling: the tutorial is off for every class, solo games included. Turning it back on is this one line, and the owner has
+ * said it is to be redone from scratch rather than turned back on as it is.
+ */
+export const LESSON_ENABLED = false;
 import { choosing } from './homesite.mjs';
 import { houseOf, houseSettled } from './houses.mjs';
 import { clearedPlots, plotsOf, sownPlots } from './fields.mjs';
@@ -351,7 +367,7 @@ export const actionId = input => input?.action === 'chore' ? `chore:${input.chor
  * the second or third period with families mid-lesson opens with the gate gone: the stored step is kept for the record and
  * read by nothing. `closeLessons` writes the end down when the Host continues the class.
  */
-const teachable = (world, household) => Boolean(household?.played) && world.status !== 'lobby' && !household.flight && (world.period || 1) === 1;
+const teachable = (world, household) => LESSON_ENABLED && Boolean(household?.played) && world.status !== 'lobby' && !household.flight && (world.period || 1) === 1;
 
 /**
  * The step a family that has never been looked at is on.

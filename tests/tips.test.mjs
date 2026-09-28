@@ -84,15 +84,17 @@ test('a family\'s seen tips are kept by the server, go to its own page, survive 
   validateWorld(reopened);
 });
 
-test('putting a tip away is never refused by the guided start, and works in the lobby before the class begins', () => {
+test('putting a tip away works in the lobby before the class begins, and in the first minute of a running class', () => {
   const lobby = createGonzalesWorld('tips-lobby', 5);
   lobby.households['hh-1'].played = true;
   send(lobby, 'hh-1', { action: 'seen-tip', tip: 'star' });
   assert.deepEqual(lobby.households['hh-1'].tipsSeen, ['star']);
-  const world = createGonzalesWorld('tips-lesson', 5);
+  // The wagon still on the track in - where the guided start stood until the owner switched it off (2026-09-28), and where
+  // `seen-tip` is on its `ALWAYS` should it come back.
+  const world = createGonzalesWorld('tips-first-minute', 5);
   world.households['hh-1'].played = true;
   world.status = 'running';
-  assert.equal(view(world, 'hh-1').lesson.step, 'arrive', 'the family was not in the guided start, so this proves nothing');
+  assert.ok(world.households['hh-1'].arriving, 'the family is not arriving, so this proves nothing');
   send(world, 'hh-1', { action: 'seen-tip', tip: 'sick' });
   assert.deepEqual(world.households['hh-1'].tipsSeen, ['sick']);
 });
@@ -125,6 +127,12 @@ test('each tip is due when its thing is on the family\'s own screen, and never o
   assert.ok(tipsPresent(person({ baby: { state: 'cry' } })).includes('baby'));
   assert.ok(tipsPresent(person({ talk: { with: 'x', phase: 'talking' } })).includes('child'));
   assert.ok(tipsPresent(seen, { errandOpen: true }).includes('store'));
+  // The start of the game - the only guidance a new student has since the guided start was switched off (2026-09-28): on the
+  // road in, and then how to give an order, before the star.
+  assert.ok(tipsPresent({ ...seen, land: { ...seen.land, arriving: true } }).includes('arrive'));
+  assert.ok(!tipsPresent({ ...seen, land: { ...seen.land, arriving: true } }).includes('order'), 'told how to give an order before anybody is there to be given one');
+  const start = tipsPresent({ ...seen, lesson: undefined });
+  assert.ok(start.indexOf('order') >= 0 && start.indexOf('order') < start.indexOf('star'), `the order comes after the star: ${start.join(', ')}`);
   // The star waits until the farm is the student's: not during the guided start.
   assert.ok(!tipsPresent({ ...seen, lesson: { step: 'house', done: false } }).includes('star'));
   assert.ok(tipsPresent({ ...seen, lesson: undefined }).includes('star'));
@@ -145,6 +153,8 @@ test('a tip is shown once: until it is put away or its thing goes, and never aga
   const world = running('tips-once');
   const call = { request: { status: 'open', kind: 'call', answerers: { [world.households['hh-1'].members[0]]: [{ id: 'turn-out', can: true }] } } };
   const flight = { flight: { status: 'ordered' } };
+  // The start of the game's own tips already put away, as a student in the middle of a class has.
+  for (const tip of ['order', 'star']) send(world, 'hh-1', { action: 'seen-tip', tip });
   let seen = view(world, 'hh-1');
   // The call appears: its tip is shown.
   let now = tipToShow(withThing(seen, call), { seen: [], showing: null });

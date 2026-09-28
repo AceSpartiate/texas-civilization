@@ -5887,8 +5887,17 @@ function shutByLesson(world, key, kind = 'order') {
   const lesson = lessonShowing(world);
   return lessonLocks(lesson) && !allowsIcon(lesson, { key, kind });
 }
+/**
+ * The old skippable walk-through ("New to this?") is not offered either (owner, 2026-09-28: "The starting tutorial needs to be
+ * removed for now. We'll redo it from scratch later."). It was offered to every family with no guided start, which with the
+ * guided start switched off (sim/lesson.mjs `LESSON_ENABLED`) would have been every family. The tips at first meeting
+ * (public/tips.js) are the only guidance a new student is given now.
+ * ceiling: off for everybody; the owner's rework of the tutorial replaces both.
+ */
+const OLD_WALKTHROUGH_OFFERED = false;
 function renderTutorial(world) {
   const panel = $('#tutorial');
+  if (!OLD_WALKTHROUGH_OFFERED) { if (panel) panel.hidden = true; return; }
   // A rider standing in the yard outranks a lesson in how to hold a hoe, and the two use
   // the same corner of the screen.
   // The die comes first: the walk-through sets people to work, and a family that has been

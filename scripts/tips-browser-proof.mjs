@@ -1,14 +1,16 @@
 // Tips at first meeting, in a real browser (owner, 2026-09-28: "Short tips at first meeting" - the first time each new thing
-// appears, a one-line tip shows what to do and what it costs; nothing blocks play; each tip shown once), and the guided start
-// no longer refusing the rest of the game (the design audit's S8, the playthrough audit's §5).
+// appears, a one-line tip shows what to do and what it costs; nothing blocks play; each tip shown once). The same day the
+// owner switched the guided start off ("The starting tutorial needs to be removed for now"; sim/lesson.mjs `LESSON_ENABLED`),
+// so these tips are the only guidance a new student is given.
 //
-// tests/tips.test.mjs, tests/need-ranking.test.mjs and tests/lesson.test.mjs prove the rules. What only a browser shows is here:
+// tests/tips.test.mjs, tests/need-ranking.test.mjs and tests/lesson-off.test.mjs prove the rules. What only a browser shows is here:
 //
-// 1. **The first period, at 1366x768, the guided start running.** The settlement's call reaches the family: the call's tip is on
-//    the screen, above the action bar and clear of the family's column, its words letting a click through to the map, and on
-//    the Host's page nothing. The student puts it away with the keyboard (Tab to "Got it", Escape); the server keeps it; a
-//    reload with the call still open does not show it again. And, still mid-tutorial, the family nurses its sick and goes out
-//    for food, and a winter's enlisting is refused for its own reasons and never with "Not yet"; another farm step's work still is.
+// 1. **The first period, at 1366x768.** No guided start and no old walk-through: on the road in, the arrival's tip; on the land,
+//    how to give an order. The settlement's call reaches the family: the call's tip is on the screen, above the action bar and
+//    clear of the family's column, its words letting a click through to the map, and on the Host's page nothing. The student
+//    puts it away with the keyboard (Tab to "Got it", Escape); the server keeps it; a reload with the call still open does not
+//    show it again. In the first hour nothing says "Not yet": the sick are nursed, food got, enlisting and the well answered by
+//    their own rules.
 // 2. **The spring, at 1024x768 on a touch screen.** The family is told to leave: the flight's tip, and the "!" on the main
 //    person ranked first with the time it has left; put away with a tap. On the road, the route's tip. Then Santa Anna's
 //    dragoons: "¡Alto!" and its tip, tapped away; a reload while the soldiers are still waiting shows none of the three again.
@@ -118,12 +120,23 @@ async function firstPeriod() {
     await host.waitForFunction(() => window.__snapshot?.world.role === 'host');
     await host.getByRole('button', { name: 'Start' }).click();
     await student.waitForFunction(() => window.__snapshot?.world.status === 'running');
-    // In to the land and the house site chosen where the family's mark stands, as a student would at the first step.
+    // ------------------------------------------------------------------------ the start of the game, with no guided start
+    // The guided start is switched off (owner, 2026-09-28: "The starting tutorial needs to be removed for now"): on the road in,
+    // the first tip, and nothing else - no strip, no old walk-through.
+    const arrive = await waitForTip(student, 'arrive', 'the family is on the road in and no tip said so');
+    placed('1366, on the road in', arrive);
+    observed.start = await student.evaluate(() => ({ lesson: 'lesson' in window.__snapshot.world, strip: !document.querySelector('#lesson').hidden, walkThrough: !document.querySelector('#tutorial').hidden, resume: !document.querySelector('#lesson-resume').hidden }));
+    assert.deepEqual(observed.start, { lesson: false, strip: false, walkThrough: false, resume: false }, 'a tutorial is still on the screen');
+    await student.locator('#tip .tip-close').click();
+    ok(`no guided start and no walk-through: the first thing said is the arrival's tip ("${arrive.text}")`);
+    // In to the land and the house site chosen where the family's mark stands, as a student would.
     for (let t = 0; t < 4000 && household().arriving; t++) stepWorld(world());
     if (household().choosingSite) { const mark = world().map.sites[household().homeSiteId]; chooseSite(world(), household(), { x: mark.x, y: mark.y }); }
-    await until(student, 'the guided start never came up', () => window.__snapshot?.world.lesson && !window.__snapshot.world.lesson.done && !document.querySelector('#lesson').hidden);
-    observed.lessonStep = await student.evaluate(() => window.__snapshot.world.lesson.step);
-    ok(`the guided start is running (step "${observed.lessonStep}")`);
+    const order = await waitForTip(student, 'order', 'the family reached its land and no tip said how to give an order');
+    placed('1366, on the land', order);
+    assert.match(order.text, /job along the bottom/);
+    await student.locator('#tip .tip-close').click();
+    ok(`on the land, how to give an order: "${order.text}"`);
 
     // ------------------------------------------------------------------------------------------- the call's tip
     for (let t = 0; t < 9000 && !(world().calls?.['hh-1']?.status === 'open'); t++) stepWorld(world());
@@ -154,25 +167,26 @@ async function firstPeriod() {
     assert.ok(!(await student.evaluate(() => window.__tipsShown || [])).includes('call'), 'the reload showed the call\'s tip again');
     ok('after a reload, with the call still open, its tip is not shown again');
 
-    // ------------------------------------------------------------------------------ the guided start refuses nothing that matters
+    // ------------------------------------------------------------------------------- nothing refuses a new family anything
+    // With the guided start off, a family in its first hour is refused nothing by it: the sick nursed, food got, the enlisting
+    // answered by its own rule, and the farm's later work (the well) open as well.
     const people = household().members.map(id => world().entities[id]).filter(one => one.kind === 'person' && (one.age ?? 30) >= 16 && one.health.condition !== 'dead');
     const [sick, nurse, hunter] = people;
     sick.health = { condition: 'sick', recoversAt: world().minute + 2 * 1440 };
     for (const one of [nurse, hunter]) if (one?.chore) await command(student, { action: 'stop-chore', entityId: one.id });
-    const lessonNow = world().households['hh-1'].lesson?.step;
-    assert.ok(lessonNow && lessonNow !== 'done', 'the guided start is over, so this proves nothing');
     const nursed = await command(student, { action: 'chore', chore: 'nurse-home', entityId: nurse.id });
-    assert.equal(nursed.status, 200, `nursing the sick was refused on the "${lessonNow}" step: ${nursed.error}`);
+    assert.equal(nursed.status, 200, `nursing the sick was refused: ${nursed.error}`);
     const fed = hunter ? await command(student, { action: 'chore', chore: 'take-small-game', entityId: hunter.id }) : { status: 200 };
-    assert.doesNotMatch(fed.error || '', /Not yet/, `going out for food was refused by the guided start: ${fed.error}`);
+    assert.doesNotMatch(fed.error || '', /Not yet/, `going out for food was refused by a guided start: ${fed.error}`);
     // Called off the pot first, so what answers the enlisting is the enlisting's own rule and not a busy man.
     if (hunter) await command(student, { action: 'stop-chore', entityId: hunter.id });
     const enlisted = await command(student, { action: 'chore', chore: 'enlist-regular', entityId: (hunter || nurse).id });
-    assert.doesNotMatch(enlisted.error || '', /Not yet/, `enlisting was refused by the guided start: ${enlisted.error}`);
+    assert.doesNotMatch(enlisted.error || '', /Not yet/, `enlisting was refused by a guided start: ${enlisted.error}`);
     const well = await command(student, { action: 'chore', chore: 'dig-well', entityId: (hunter || nurse).id });
-    assert.match(well.error || '', /Not yet/, `another farm step's work went through: the gate is gone, not narrowed (${well.status} ${well.error})`);
-    observed.gate = { step: lessonNow, nursed, fed, enlisted, well };
-    ok(`on the "${lessonNow}" step: nursing the sick goes through, food is not refused by the guided start, enlisting is refused only for its own reason ("${enlisted.error}"), and another farm step's work is still "${well.error}"`);
+    assert.doesNotMatch(well.error || '', /Not yet/, `the farm's later work was refused by a guided start: ${well.error}`);
+    observed.gate = { stored: world().households['hh-1'].lesson ?? null, nursed, fed, enlisted, well };
+    assert.equal(observed.gate.stored, null, 'a lesson was stored for the family');
+    ok(`in the first hour, nothing says "Not yet": nursing the sick goes through, food ${fed.status === 200 ? 'goes through' : `is refused only for its own reason ("${fed.error}")`}, enlisting ${enlisted.status === 200 ? 'goes through' : `only for its own reason ("${enlisted.error}")`}, the well ${well.status === 200 ? 'goes through' : `only for its own reason ("${well.error}")`}`);
     await until(student, 'the sickness has no tip', () => window.__tip === 'sick' || (window.__tipsShown || []).includes('sick'));
     observed.sick = await tipNow(student);
     await noSideways(student, 'the first period');

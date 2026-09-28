@@ -39,6 +39,10 @@ export const TIPS = Object.freeze({
   enlist: 'A grown man can enlist, join a fight or go vote from his actions. He is gone from the farm until you “Send for” him, and a soldier takes the family’s rifle.',
   trade: 'Someone from another family is here. Tap their person to offer a trade from one of yours. They choose yes or no.',
   store: 'Choose what to buy and sell before they go. Tap a line to read what it does. Coin in the house at the end counts toward your score, so spend it with care.',
+  // The first two a new student meets, since the guided start was switched off (owner, 2026-09-28: "The starting tutorial
+  // needs to be removed for now"): with it gone, nothing else says how to give an order.
+  arrive: 'Your family is on its way to its own land. When they get there, choose a house and set your family to work.',
+  order: 'Tap one of your family on the left, then tap a job along the bottom to set them to it. “Idle” means they have nothing to do.',
   star: 'The ★ is your main person: the family’s big choices, like leaving, come to them. Tap ☆ on another row to change who. A “!” means someone needs an answer.',
 });
 
@@ -46,7 +50,7 @@ export const TIPS = Object.freeze({
  * Which tip goes first when several are due at once: the ones whose thing will not wait (¡Alto!, the road, the order to leave,
  * sickness, the call, the army) before the ones that will. The same order as the "!"s (public/family-panel.js `NEED_KINDS`).
  */
-export const TIP_ORDER = Object.freeze(['alto', 'road', 'flight', 'sick', 'call', 'army', 'watch', 'resume', 'rest', 'route', 'cow', 'milk', 'baby', 'child', 'enlist', 'trade', 'store', 'star']);
+export const TIP_ORDER = Object.freeze(['alto', 'road', 'flight', 'sick', 'call', 'army', 'watch', 'resume', 'rest', 'route', 'cow', 'milk', 'baby', 'child', 'enlist', 'trade', 'store', 'arrive', 'order', 'star']);
 
 /** The winter's joining, enlisting and voting (sim/winter.mjs `WINTER_CHORES`), as the page sees them on a work list. */
 const WINTER_WORK = new Set(['enlist-regular', 'enlist-auxiliary', 'join-garrison', 'join-matamoros', 'go-vote', 'join-relief', 'join-houston']);
@@ -85,7 +89,11 @@ export function tipsPresent(world, { errandOpen = false } = {}) {
     trade: (world.offers || []).some(offer => offer.direction === 'received')
       || (world.others || []).some(other => other.kind === 'person' && other.householdId && other.householdId !== world.householdId && !other.resident && !other.carrier && !other.travel && here.has(other.location?.siteId)),
     store: Boolean(errandOpen),
-    // The star is everywhere from the start, so it is met when the farm is the student's: the guided start over or stopped.
+    // The start of the game: on the road in, and then on the land with the family to set to work. The star comes after
+    // (it is everywhere from the start, so it is met when the farm is the student's). None of the three while a guided start
+    // is running, should one ever run again.
+    arrive: !(world.lesson && !world.lesson.done) && Boolean(world.land?.arriving),
+    order: world.status === 'running' && !(world.lesson && !world.lesson.done) && Boolean(world.land) && !world.land.arriving && own.length > 0,
     star: world.status === 'running' && !(world.lesson && !world.lesson.done) && !world.land?.arriving && own.length > 1,
   };
   return TIP_ORDER.filter(id => present[id]);
