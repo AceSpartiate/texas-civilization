@@ -89,6 +89,12 @@ test('Coleto baggage carts stand without oxen, tip during the small hours, and r
   }
 });
 
+test('Urrea rides his own mount during the Coleto assault', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  run(view, () => projected(COLETO, 'assault-1', 18), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'urrea-mounted-walk-e'));
+});
+
 test('the Mexicans come on from four sides, drawn apart from their side; the officer\'s words over the men firing, and the square has its own', () => {
   const assault = projected(COLETO, 'assault-1', 18);
   assert.deepEqual(assault.groups.map(group => group.id), ['left', 'right', 'rear']);

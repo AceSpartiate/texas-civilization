@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1738 usable sprites, 167 PNG atlases, 567 clips** (339 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1758 usable sprites, 169 PNG atlases, 571 clips** (343 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -87,6 +87,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-emily-west-picnic | 4 | 1254 × 1254 | 1381954 |
 | famous-santa-anna-picnic | 4 | 1254 × 1254 | 1236551 |
 | famous-picnic-props | 4 | 1254 × 1254 | 1557526 |
+| famous-urrea | 16 | 1254 × 1254 | 955697 |
+| famous-urrea-mounted | 4 | 1226 × 1283 | 1293956 |
 | flag-come-and-take-it | 4 | 1254 × 1254 | 1140674 |
 | goliad-prisoner | 16 | 1254 × 1254 | 1028392 |
 | gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
@@ -973,6 +975,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | picnic-blanket | famous-picnic-props | State artwork; no motion required |
 | picnic-basket | famous-picnic-props | State artwork; no motion required |
 | picnic-jug-cups | famous-picnic-props | State artwork; no motion required |
+| urrea-walk-e-1 | famous-urrea | urrea-walk-e |
+| urrea-walk-e-2 | famous-urrea | urrea-walk-e |
+| urrea-walk-e-3 | famous-urrea | urrea-walk-e |
+| urrea-walk-e-4 | famous-urrea | urrea-walk-e |
+| urrea-walk-s-1 | famous-urrea | urrea-walk-s |
+| urrea-walk-s-2 | famous-urrea | urrea-walk-s |
+| urrea-walk-n-1 | famous-urrea | urrea-walk-n |
+| urrea-walk-n-2 | famous-urrea | urrea-walk-n |
+| urrea-idle | famous-urrea | State artwork; no motion required |
+| urrea-command | famous-urrea | State artwork; no motion required |
+| urrea-point | famous-urrea | State artwork; no motion required |
+| urrea-map | famous-urrea | State artwork; no motion required |
+| urrea-dispatch | famous-urrea | State artwork; no motion required |
+| urrea-address | famous-urrea | State artwork; no motion required |
+| urrea-receive-paper | famous-urrea | State artwork; no motion required |
+| urrea-rest | famous-urrea | State artwork; no motion required |
+| urrea-mounted-walk-e-1 | famous-urrea-mounted | urrea-mounted-walk-e |
+| urrea-mounted-walk-e-2 | famous-urrea-mounted | urrea-mounted-walk-e |
+| urrea-mounted-idle-e | famous-urrea-mounted | State artwork; no motion required |
+| urrea-mounted-idle-s | famous-urrea-mounted | State artwork; no motion required |
 | flag-come-and-take-it | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-1 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-2 | flag-come-and-take-it | flag-come-and-take-it-wind |
@@ -2166,6 +2188,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | emily-west-picnic-converse | Pose cycle | 4 | 4300 | yes | west-facing at a camp table |
 | santa-anna-picnic-converse | Pose cycle | 3 | 3450 | yes | east-facing at a camp chair |
 | santa-anna-picnic-alarm | Pose cycle | 2 | 1750 | one-shot | east-facing; turns toward the battle |
+| urrea-walk-e | Pose cycle | 4 | 760 | yes | east |
+| urrea-walk-s | Pose cycle | 2 | 580 | yes | south |
+| urrea-walk-n | Pose cycle | 2 | 580 | yes | north |
+| urrea-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | flag-come-and-take-it-wind | Pose cycle | 4 | 2700 | yes | not applicable |
 | prisoner-walk-e | Pose cycle | 4 | 840 | yes | east |
 | prisoner-walk-s | Pose cycle | 2 | 600 | yes | south |

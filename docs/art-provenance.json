@@ -2384,6 +2384,33 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-austin.png",
       "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
       "review": "Distinct clean-shaven civilian commander with campaign-letter and map gestures for the 1835 volunteer army."
+    },
+    {
+      "sheet": "famous-urrea",
+      "promptId": "frontier-v1/famous-urrea",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-castaneda.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a066890d-34b1-4989-b714-5a05631d60ff.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-urrea.png",
+      "postProcessing": "ImageGen gutter correction from first draft; corrected sheet copied unchanged. Atlas builder measures alpha components and reading-order cells.",
+      "review": "A distinct bicorne, deep-indigo coat and pale-blue sash establish Urrea across the southern campaign scenes."
+    },
+    {
+      "sheet": "famous-urrea-mounted",
+      "promptId": "frontier-v1/famous-urrea-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-6cb8d87f-3f20-4d44-a193-6a2682b2ca3e.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-castaneda-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7fd22476-39ab-42aa-9d79-0e4e6cc89128.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-urrea-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dedicated mounted travel and halt for Agua Dulce and Coleto; mount appearance is artistic interpretation."
     }
   ],
   "rejectedAttempts": [

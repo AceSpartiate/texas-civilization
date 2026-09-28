@@ -7072,6 +7072,188 @@
         ]
       }
     },
+    "famous-urrea": {
+      "image": "atlases/famous-urrea.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 955697,
+      "sha256": "229e6786a475fae7b81ddebf81c7bd06ba69b8798a3155a4d078e4f18dc77442",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.769497,
+        "cornerAlpha": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              51,
+              304
+            ],
+            "columns": [
+              [
+                101,
+                250
+              ],
+              [
+                416,
+                565
+              ],
+              [
+                728,
+                880
+              ],
+              [
+                1042,
+                1192
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              354,
+              629
+            ],
+            "columns": [
+              [
+                94,
+                237
+              ],
+              [
+                416,
+                555
+              ],
+              [
+                724,
+                865
+              ],
+              [
+                1040,
+                1174
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              664,
+              927
+            ],
+            "columns": [
+              [
+                111,
+                211
+              ],
+              [
+                423,
+                591
+              ],
+              [
+                730,
+                912
+              ],
+              [
+                1055,
+                1179
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              953,
+              1222
+            ],
+            "columns": [
+              [
+                107,
+                229
+              ],
+              [
+                413,
+                595
+              ],
+              [
+                728,
+                914
+              ],
+              [
+                1051,
+                1169
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-urrea-mounted": {
+      "image": "atlases/famous-urrea-mounted.png",
+      "width": 1226,
+      "height": 1283,
+      "bytes": 1293956,
+      "sha256": "6e5117155485f3eab74210381ca46f8645f4737ed6d6ef2da8d8e78d457a2a7a",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.655166,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              11,
+              594
+            ],
+            "columns": [
+              [
+                21,
+                603
+              ],
+              [
+                643,
+                1216
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              630,
+              1237
+            ],
+            "columns": [
+              [
+                56,
+                622
+              ],
+              [
+                820,
+                1057
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "flag-come-and-take-it": {
       "image": "atlases/flag-come-and-take-it.png",
       "width": 1254,
@@ -35034,6 +35216,506 @@
           422
         ],
         "visiblePixels": 117093,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-walk-e-1": {
+      "sheet": "famous-urrea",
+      "x": 101,
+      "y": 51,
+      "w": 149,
+      "h": 252,
+      "anchorX": 0.5,
+      "anchorY": 0.9286,
+      "logicalHeight": 275,
+      "label": "urrea walk e 1",
+      "kind": "famous-urrea",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          103,
+          53,
+          145,
+          248
+        ],
+        "visiblePixels": 17799,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-walk-e-2": {
+      "sheet": "famous-urrea",
+      "x": 416,
+      "y": 51,
+      "w": 149,
+      "h": 252,
+      "anchorX": 0.5067,
+      "anchorY": 0.9286,
+      "logicalHeight": 275,
+      "label": "urrea walk e 2",
+      "kind": "famous-urrea",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          418,
+          53,
+          145,
+          248
+        ],
+        "visiblePixels": 17087,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-walk-e-3": {
+      "sheet": "famous-urrea",
+      "x": 728,
+      "y": 51,
+      "w": 152,
+      "h": 253,
+      "anchorX": 0.5099,
+      "anchorY": 0.9289,
+      "logicalHeight": 275,
+      "label": "urrea walk e 3",
+      "kind": "famous-urrea",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          730,
+          53,
+          148,
+          249
+        ],
+        "visiblePixels": 17680,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-walk-e-4": {
+      "sheet": "famous-urrea",
+      "x": 1042,
+      "y": 51,
+      "w": 150,
+      "h": 252,
+      "anchorX": 0.51,
+      "anchorY": 0.9286,
+      "logicalHeight": 275,
+      "label": "urrea walk e 4",
+      "kind": "famous-urrea",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1044,
+          53,
+          146,
+          248
+        ],
+        "visiblePixels": 17186,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-walk-s-1": {
+      "sheet": "famous-urrea",
+      "x": 94,
+      "y": 356,
+      "w": 143,
+      "h": 271,
+      "anchorX": 0.5,
+      "anchorY": 0.9557,
+      "logicalHeight": 275,
+      "label": "urrea walk s 1",
+      "kind": "famous-urrea",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          96,
+          358,
+          139,
+          267
+        ],
+        "visiblePixels": 19633,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-walk-s-2": {
+      "sheet": "famous-urrea",
+      "x": 416,
+      "y": 357,
+      "w": 139,
+      "h": 269,
+      "anchorX": 0.482,
+      "anchorY": 0.948,
+      "logicalHeight": 275,
+      "label": "urrea walk s 2",
+      "kind": "famous-urrea",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          418,
+          359,
+          135,
+          265
+        ],
+        "visiblePixels": 18883,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-walk-n-1": {
+      "sheet": "famous-urrea",
+      "x": 724,
+      "y": 356,
+      "w": 141,
+      "h": 273,
+      "anchorX": 0.5284,
+      "anchorY": 0.9451,
+      "logicalHeight": 275,
+      "label": "urrea walk n 1",
+      "kind": "famous-urrea",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          726,
+          358,
+          137,
+          269
+        ],
+        "visiblePixels": 20163,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-walk-n-2": {
+      "sheet": "famous-urrea",
+      "x": 1040,
+      "y": 354,
+      "w": 134,
+      "h": 275,
+      "anchorX": 0.5634,
+      "anchorY": 0.9491,
+      "logicalHeight": 275,
+      "label": "urrea walk n 2",
+      "kind": "famous-urrea",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1042,
+          356,
+          130,
+          271
+        ],
+        "visiblePixels": 19915,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-idle": {
+      "sheet": "famous-urrea",
+      "x": 111,
+      "y": 664,
+      "w": 100,
+      "h": 261,
+      "anchorX": 0.505,
+      "anchorY": 0.9387,
+      "logicalHeight": 275,
+      "label": "urrea idle",
+      "kind": "famous-urrea",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          113,
+          666,
+          96,
+          257
+        ],
+        "visiblePixels": 16605,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-command": {
+      "sheet": "famous-urrea",
+      "x": 423,
+      "y": 664,
+      "w": 168,
+      "h": 261,
+      "anchorX": 0.3482,
+      "anchorY": 0.9502,
+      "logicalHeight": 275,
+      "label": "urrea command",
+      "kind": "famous-urrea",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          425,
+          666,
+          164,
+          257
+        ],
+        "visiblePixels": 20086,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-point": {
+      "sheet": "famous-urrea",
+      "x": 730,
+      "y": 664,
+      "w": 182,
+      "h": 262,
+      "anchorX": 0.3242,
+      "anchorY": 0.9427,
+      "logicalHeight": 275,
+      "label": "urrea point",
+      "kind": "famous-urrea",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          732,
+          666,
+          178,
+          258
+        ],
+        "visiblePixels": 20185,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-map": {
+      "sheet": "famous-urrea",
+      "x": 1055,
+      "y": 664,
+      "w": 124,
+      "h": 263,
+      "anchorX": 0.4395,
+      "anchorY": 0.9544,
+      "logicalHeight": 275,
+      "label": "urrea map",
+      "kind": "famous-urrea",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1057,
+          666,
+          120,
+          259
+        ],
+        "visiblePixels": 19127,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-dispatch": {
+      "sheet": "famous-urrea",
+      "x": 107,
+      "y": 955,
+      "w": 122,
+      "h": 266,
+      "anchorX": 0.4508,
+      "anchorY": 0.9549,
+      "logicalHeight": 275,
+      "label": "urrea dispatch",
+      "kind": "famous-urrea",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          109,
+          957,
+          118,
+          262
+        ],
+        "visiblePixels": 19224,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-address": {
+      "sheet": "famous-urrea",
+      "x": 413,
+      "y": 955,
+      "w": 182,
+      "h": 266,
+      "anchorX": 0.3709,
+      "anchorY": 0.9436,
+      "logicalHeight": 275,
+      "label": "urrea address",
+      "kind": "famous-urrea",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          415,
+          957,
+          178,
+          262
+        ],
+        "visiblePixels": 21276,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-receive-paper": {
+      "sheet": "famous-urrea",
+      "x": 728,
+      "y": 953,
+      "w": 186,
+      "h": 266,
+      "anchorX": 0.3253,
+      "anchorY": 0.9398,
+      "logicalHeight": 275,
+      "label": "urrea receive paper",
+      "kind": "famous-urrea",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          730,
+          955,
+          182,
+          262
+        ],
+        "visiblePixels": 20396,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-rest": {
+      "sheet": "famous-urrea",
+      "x": 1051,
+      "y": 955,
+      "w": 118,
+      "h": 267,
+      "anchorX": 0.4915,
+      "anchorY": 0.9401,
+      "logicalHeight": 275,
+      "label": "urrea rest",
+      "kind": "famous-urrea",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1053,
+          957,
+          114,
+          263
+        ],
+        "visiblePixels": 18173,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-mounted-walk-e-1": {
+      "sheet": "famous-urrea-mounted",
+      "x": 21,
+      "y": 12,
+      "w": 582,
+      "h": 582,
+      "anchorX": 0.512,
+      "anchorY": 0.9502,
+      "logicalHeight": 607,
+      "label": "urrea mounted walk e 1",
+      "kind": "famous-urrea-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          23,
+          14,
+          578,
+          578
+        ],
+        "visiblePixels": 137533,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-mounted-walk-e-2": {
+      "sheet": "famous-urrea-mounted",
+      "x": 643,
+      "y": 11,
+      "w": 573,
+      "h": 583,
+      "anchorX": 0.5236,
+      "anchorY": 0.94,
+      "logicalHeight": 607,
+      "label": "urrea mounted walk e 2",
+      "kind": "famous-urrea-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          645,
+          13,
+          569,
+          579
+        ],
+        "visiblePixels": 134670,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-mounted-idle-e": {
+      "sheet": "famous-urrea-mounted",
+      "x": 56,
+      "y": 634,
+      "w": 566,
+      "h": 594,
+      "anchorX": 0.4452,
+      "anchorY": 0.9747,
+      "logicalHeight": 607,
+      "label": "urrea mounted idle e",
+      "kind": "famous-urrea-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          58,
+          636,
+          562,
+          590
+        ],
+        "visiblePixels": 141576,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-mounted-idle-s": {
+      "sheet": "famous-urrea-mounted",
+      "x": 820,
+      "y": 630,
+      "w": 237,
+      "h": 607,
+      "anchorX": 0.4979,
+      "anchorY": 0.9802,
+      "logicalHeight": 607,
+      "label": "urrea mounted idle s",
+      "kind": "famous-urrea-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          822,
+          632,
+          233,
+          603
+        ],
+        "visiblePixels": 73386,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

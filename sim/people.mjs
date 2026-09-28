@@ -168,7 +168,7 @@ export const PEOPLE = Object.freeze({
     // Killed after he had surrendered and dismounted: told, not drawn; last seen riding with the lancers after him.
     fate: { kind: 'killed', told: true, battle: 'agua-dulce', phase: 'ambush', at: 16, claimId: 'HIST-TEX-556' },
   }),
-  urrea: person('urrea', 'Urrea', MX, 'general', 2, 'HIST-TEX-063', { fullName: 'José de Urrea' }),
+  urrea: person('urrea', 'Urrea', MX, 'urrea', 2, 'HIST-TEX-063', { fullName: 'José de Urrea' }),
   horton: person('horton', 'Horton', TX, 'rider', 2, 'HIST-TEX-563', { fullName: 'Albert Clinton Horton' }),
   // ---------------------------------------------------------------- San Jacinto
   houston: person('houston', 'Houston', TX, 'houston', 1, 'HIST-TEX-564', {
