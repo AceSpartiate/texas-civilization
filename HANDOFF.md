@@ -36,8 +36,8 @@ Two branches, off `integration-2026-09-28` (92fb2509), not pushed:
     `scripts/balance-study.mjs`, before (the seasons, on the integration tree) and after: first families 1,152 / 164 / 199 / 384 / 309
     / 772 → 6,200 / 8,364 / 9,548 / 3,584 / 5,459 / 9,922; the stay-home family 12 / 1 / 9 / 1 / 6 / 12 → 16 / 7 / 69 / 24 / 72 / 20,
     placed 13th, 13th, 7th, 14th, 12th, 11th; deaths 9 and 9.
-  - **Proofs**: `npm test` 1,626 pass, 2 fail, 36 skipped before the carreta test was mended; of the two, the carreta test followed the
-    four-food lot (mended since), and `tests/host-view.test.mjs` "a student is sent exactly what it was before" **fails on the
+  - **Proofs**: `npm test` **1,627 pass, 1 fail, 36 skipped** at the head (1,626 and 2 before the carreta test was mended: it followed the
+    four-food lot). The one: `tests/host-view.test.mjs` "a student is sent exactly what it was before" **fails on the
     integration tree without this branch too** (the `amb` field on a keeper; not this work). `test:ending` passes (10 checks);
     `test:errand` passes the store's line (*"full price for about 7 bales more, then half until it has 15 bales."*) and fails at check
     3 on the first-meeting tip over the popup, as on origin/main.
