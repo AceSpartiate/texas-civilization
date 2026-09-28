@@ -3,7 +3,8 @@
 // nobody else can reach, and that can never be the teacher's real class.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, mkdtempSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import http from 'node:http';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createClassroom } from '../server/app.mjs';
@@ -338,4 +339,235 @@ test('deleting is refused without the Host key, for anything that is not an id, 
     const plainCall = caller(await plain.app.listen());
     assert.notEqual((await plainCall('/api/solo/games/delete', { key: plain.app.state.hostKey, id: live })).status, 200, 'a class deletes a solo game');
   } finally { await soloRoom.dispose(); await plain.dispose(); }
+});
+
+// ------------------------------------------------------------------------------------------------------------------------
+// Closing the game (owner, 2026-09-27: "i shouldn't need to open the class view to pause, save or shut down the server. i
+// should be able to just X off the window and it'll automatically save, pause, and shut down"). The window's X, the launcher
+// closed, the window killed: each ends the page's event stream, which is what the server watches (server/app.mjs `SOLO_WATCH`).
+const WATCH = { leaveMs: 400, enterMs: 400, chooseMs: 1500 };
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+async function until(check, ms = 3000) {
+  const end = Date.now() + ms;
+  while (Date.now() < end) { if (await check()) return true; await sleep(20); }
+  return Boolean(await check());
+}
+/** A solo server as server/main.mjs starts one: it can stop itself, and it watches its player. */
+function watchedRoom(options = {}) {
+  const dir = mkdtempSync(join(tmpdir(), 'texas-solo-watch-'));
+  const savePath = join(dir, 'save.json');
+  const stops = [];
+  const make = () => createClassroom({
+    seed: 'solo-watch', playerCount: 5, savePath, tickMs: 20, solo: true, stopDelayMs: 0,
+    onStopRequested: () => stops.push(Date.now()), soloWatch: WATCH,
+    worldFactory: (seed, count) => createGonzalesWorld(seed, count, { neighbours: true }), ...options,
+  });
+  const room = { dir, savePath, stops, app: make(), closed: false };
+  room.close = async () => { if (!room.closed) { room.closed = true; await room.app.close(); } };
+  room.reopen = async () => { await room.close(); room.app = make(); room.closed = false; return room.app; };
+  room.dispose = async () => { await room.close(); rmSync(dir, { recursive: true, force: true }); };
+  return room;
+}
+/** The player's page: its event stream, held open until `close()` - which is all a closed window is, to the server. */
+function openPage(port, cookie) {
+  return new Promise((resolve, reject) => {
+    const req = http.get({ host: '127.0.0.1', port, path: '/api/events', headers: { Cookie: cookie } }, res => {
+      if (res.statusCode !== 200) { reject(new Error(`the page was refused: ${res.statusCode}`)); return; }
+      res.once('data', () => resolve({ close: () => req.destroy() }));
+      res.on('error', () => {});
+    });
+    req.on('error', () => {});
+  });
+}
+const onDisk = path => JSON.parse(readFileSync(path, 'utf8'));
+/** A dealt game, entered and begun: running, with the player's cookie. */
+async function begun(app, call) {
+  const game = await call('/api/solo', { key: app.state.hostKey });
+  const cookie = (await call(`/solo/enter?ticket=${new URL(game.body.playUrl).searchParams.get('ticket')}`)).cookie;
+  assert.equal((await call('/api/command', { id: `begin-${Date.now()}`, action: 'begin-solo' }, cookie)).status, 200);
+  assert.equal(app.state.world.status, 'running');
+  return cookie;
+}
+
+test('closing the solo game\'s page pauses and saves it at once, and the server stops itself when the page does not come back', async () => {
+  const room = watchedRoom();
+  try {
+    const port = await room.app.listen();
+    const call = caller(port);
+    const cookie = await begun(room.app, call);
+    const page = await openPage(port, cookie);
+    await sleep(WATCH.enterMs + 200);
+    assert.equal(room.stops.length, 0, 'the server stopped while the player\'s page was open');
+    assert.equal(room.app.state.world.status, 'running');
+    const closedAt = Date.now();
+    page.close();
+    // Paused and on the disk before the wait is over - Windows logging off may not leave the server the rest of it.
+    assert.ok(await until(() => onDisk(room.savePath).world.status === 'paused', WATCH.leaveMs - 100), 'the game was not paused and saved when its page closed');
+    assert.equal(room.stops.length, 0, 'the server stopped at once, leaving no time for a reload');
+    assert.equal(onDisk(room.savePath).revision, room.app.state.revision, 'what was shown was not all written');
+    assert.ok(await until(() => room.stops.length === 1, 3000), 'the server never stopped itself once the page had gone');
+    assert.ok(room.stops[0] - closedAt >= WATCH.leaveMs - 50, 'the server stopped before the page had had its chance to come back');
+    assert.equal((await call('/health')).body.stopping, true, 'the server did not say it was stopping');
+    await room.close();
+    const kept = onDisk(room.savePath);
+    assert.equal(kept.world.status, 'paused', 'the save the server left behind is running');
+    assert.equal(existsSync(`${room.savePath}.tmp`), false, 'a half-written save was left behind');
+    assert.equal(existsSync(`${room.savePath}.lock`), false, 'the save lock was left behind');
+
+    // Opened again, it is the same game, paused where it was; and continued, it stays paused until the player resumes it.
+    const again = await room.reopen();
+    const againCall = caller(await again.listen());
+    assert.equal(again.state.world.status, 'paused');
+    assert.equal(again.state.world.tick, kept.world.tick, 'the game moved while it was closed');
+    const back = await againCall('/api/solo', { key: again.state.hostKey, continue: kept.sessionId });
+    assert.equal(back.status, 200, JSON.stringify(back.body));
+    assert.equal(again.state.world.status, 'paused', 'continuing the game set it running before the player was looking');
+    const backCookie = (await againCall(`/solo/enter?ticket=${new URL(back.body.playUrl).searchParams.get('ticket')}`)).cookie;
+    assert.equal((await againCall('/api/command', { id: 'resume-after', action: 'solo-resume' }, backCookie)).status, 200);
+    assert.equal(again.state.world.status, 'running', 'the player could not resume the game they came back to');
+  } finally { await room.dispose(); }
+});
+
+test('a continued solo game opens paused even when it was kept running', async () => {
+  const room = watchedRoom();
+  try {
+    const call = caller(await room.app.listen());
+    const key = room.app.state.hostKey;
+    await begun(room.app, call);
+    const first = room.app.state.sessionId;
+    await call('/api/solo', { key });
+    assert.equal(onDisk(join(room.dir, 'games', `${first}.json`)).world.status, 'running', 'the kept game was not kept running, so this proves nothing');
+    assert.equal((await call('/api/solo', { key, continue: first })).status, 200);
+    assert.equal(room.app.state.sessionId, first);
+    assert.equal(room.app.state.world.status, 'paused', 'a continued game opened running');
+  } finally { await room.dispose(); }
+});
+
+test('a solo page that comes back in time finds its game going on, and a pause the player pressed stays pressed', async () => {
+  const room = watchedRoom();
+  try {
+    const port = await room.app.listen();
+    const call = caller(port);
+    const cookie = await begun(room.app, call);
+    const page = await openPage(port, cookie);
+    page.close();
+    assert.ok(await until(() => room.app.state.world.status === 'paused', WATCH.leaveMs - 100));
+    const reloaded = await openPage(port, cookie);
+    assert.ok(await until(() => room.app.state.world.status === 'running', 300), 'a reloaded page found its game still paused');
+    await sleep(WATCH.leaveMs + 300);
+    assert.equal(room.stops.length, 0, 'the server stopped although the page came back');
+
+    // The player's own Pause is theirs: a reload does not undo it.
+    assert.equal((await call('/api/command', { id: 'pause-own', action: 'solo-pause' }, cookie)).status, 200);
+    reloaded.close();
+    await sleep(100);
+    const third = await openPage(port, cookie);
+    await sleep(200);
+    assert.equal(room.app.state.world.status, 'paused', 'a page coming back resumed a game the player had paused');
+    // Even when the pause pressed follows one the page's leaving made: the stream dropped, the orders still reach the server.
+    assert.equal((await call('/api/command', { id: 'resume-own', action: 'solo-resume' }, cookie)).status, 200);
+    third.close();
+    assert.ok(await until(() => room.app.state.world.status === 'paused', WATCH.leaveMs - 100));
+    assert.equal((await call('/api/command', { id: 'resume-away', action: 'solo-resume' }, cookie)).status, 200);
+    assert.equal((await call('/api/command', { id: 'pause-away', action: 'solo-pause' }, cookie)).status, 200);
+    const fourth = await openPage(port, cookie);
+    await sleep(200);
+    assert.equal(room.app.state.world.status, 'paused', 'a page coming back undid the pause the player pressed while it was away');
+    fourth.close();
+  } finally { await room.dispose(); }
+});
+
+test('the launcher asking for the saved games holds the stop off while the player chooses, and a game dealt that nobody opens stops', async () => {
+  const listing = watchedRoom();
+  const dealtRoom = watchedRoom();
+  try {
+    const port = await listing.app.listen();
+    const call = caller(port);
+    const cookie = await begun(listing.app, call);
+    (await openPage(port, cookie)).close();
+    await sleep(50);
+    // Play Solo pressed again at once: the launcher lists the games and asks New game or Continue.
+    assert.equal((await call('/api/solo/games', { key: listing.app.state.hostKey })).status, 200);
+    await sleep(WATCH.leaveMs + 400);
+    assert.equal(listing.stops.length, 0, 'the server stopped while the player was choosing a game');
+    assert.ok(await until(() => listing.stops.length === 1, WATCH.chooseMs + 1000), 'a server whose player chose nothing never stopped');
+
+    const dealtCall = caller(await dealtRoom.app.listen());
+    assert.equal((await dealtCall('/api/solo', { key: dealtRoom.app.state.hostKey })).status, 200);
+    assert.ok(await until(() => dealtRoom.stops.length === 1, WATCH.enterMs + 1000), 'a game dealt and never opened kept its server running');
+  } finally { await listing.dispose(); await dealtRoom.dispose(); }
+});
+
+test('a class never pauses or stops when a student\'s page closes, even given the watch', async () => {
+  const room = watchedRoom({ solo: false });
+  try {
+    const port = await room.app.listen();
+    const call = caller(port);
+    const joined = await call('/api/join', { name: 'Student', code: room.app.state.sessionCode });
+    assert.equal(joined.status, 200);
+    const host = (await call('/api/host', { key: room.app.state.hostKey })).cookie;
+    assert.equal((await call('/api/command', { id: 'start-class', action: 'start', anyway: true }, host)).status, 200);
+    assert.equal(room.app.state.world.status, 'running');
+    const page = await openPage(port, joined.cookie);
+    page.close();
+    await sleep(WATCH.leaveMs + WATCH.enterMs + 400);
+    assert.equal(room.stops.length, 0, 'a class stopped because one student closed a window');
+    assert.equal(room.app.state.world.status, 'running', 'a class paused because one student closed a window');
+  } finally { await room.dispose(); }
+});
+
+test('the solo player\'s own Pause, Resume and Save; a student in a class has none of them', async () => {
+  // Orders are written within a minute here, so only the Save can be what put them on the disk.
+  const room = watchedRoom({ saveWithinMs: 60000 });
+  const plain = classroom();
+  try {
+    const port = await room.app.listen();
+    const call = caller(port);
+    const cookie = await begun(room.app, call);
+    // The player's page is open throughout, as it is when they press these.
+    const page = await openPage(port, cookie);
+    assert.equal((await call('/api/command', { id: 'order-name', action: 'rename', surname: 'Navarro' }, cookie)).status, 200);
+    assert.ok(onDisk(room.savePath).revision < room.app.state.revision, 'the order was written at once, so Save proves nothing');
+    const saved = await call('/api/command', { id: 'save-own', action: 'solo-save' }, cookie);
+    assert.equal(saved.status, 200, JSON.stringify(saved.body));
+    assert.equal(saved.body.saved, room.app.state.revision);
+    assert.equal(onDisk(room.savePath).revision, room.app.state.revision, 'Save did not write what the player had done');
+    assert.equal(onDisk(room.savePath).world.households['hh-1'].surname, 'Navarro');
+
+    assert.equal((await call('/api/command', { id: 'pause-own', action: 'solo-pause' }, cookie)).status, 200);
+    assert.equal(onDisk(room.savePath).world.status, 'paused', 'the pause was not written at once');
+    const twice = await call('/api/command', { id: 'pause-twice', action: 'solo-pause' }, cookie);
+    assert.notEqual(twice.status, 200, 'a paused game was paused again');
+    assert.equal((await call('/api/command', { id: 'resume-own', action: 'solo-resume' }, cookie)).status, 200);
+    assert.equal(room.app.state.world.status, 'running');
+    assert.equal(onDisk(room.savePath).world.status, 'running', 'the resume was not written at once');
+    assert.equal(room.stops.length, 0);
+    page.close();
+
+    const plainCall = caller(await plain.app.listen());
+    const joined = await plainCall('/api/join', { name: 'Student', code: plain.app.state.sessionCode });
+    const host = (await plainCall('/api/host', { key: plain.app.state.hostKey })).cookie;
+    await plainCall('/api/command', { id: 'start-plain', action: 'start', anyway: true }, host);
+    const refused = await plainCall('/api/command', { id: 'pause-class', action: 'solo-pause' }, joined.cookie);
+    assert.notEqual(refused.status, 200, 'a student paused the whole class');
+    assert.match(refused.body.error, /teacher/);
+    assert.equal(plain.app.state.world.status, 'running');
+  } finally { await room.dispose(); await plain.dispose(); }
+});
+
+test('stopping a solo server writes everything it showed, paused, whole', async () => {
+  const room = watchedRoom({ saveWithinMs: 60000 });
+  try {
+    const call = caller(await room.app.listen());
+    const cookie = await begun(room.app, call);
+    assert.equal((await call('/api/command', { id: 'order-last', action: 'rename', surname: 'Arocha' }, cookie)).status, 200);
+    const shown = room.app.state.revision;
+    assert.ok(onDisk(room.savePath).revision < shown, 'the order was written at once, so the stop proves nothing');
+    await room.close();
+    const kept = onDisk(room.savePath);
+    assert.ok(kept.revision >= shown, 'the stop did not write the order the player was shown');
+    assert.equal(kept.world.households['hh-1'].surname, 'Arocha');
+    assert.equal(kept.world.status, 'paused', 'a stopped solo server left its game running on the disk');
+    assert.equal(existsSync(`${room.savePath}.tmp`), false, 'a half-written save was left behind');
+  } finally { await room.dispose(); }
 });

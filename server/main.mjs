@@ -47,6 +47,9 @@ const app = createClassroom({
   // country and could never reach either. MAP=gonzales still starts the invented country.
   worldFactory: (seed, playerCount) => createGonzalesWorld(seed, playerCount, { map: process.env.MAP || 'colonies', neighbours: true }),
   onStopRequested: () => shutdown('Host requested a graceful stop'),
+  // Play Solo saves, pauses and stops itself when its player's page has gone (server/app.mjs `SOLO_WATCH`, owner 2026-09-27).
+  // SOLO_LEAVE_MS shortens the wait after the page closes, for a browser proof; nobody else needs it.
+  ...(solo && { soloWatch: Number(process.env.SOLO_LEAVE_MS) > 0 ? { leaveMs: Number(process.env.SOLO_LEAVE_MS) } : {} }),
   // Real milliseconds an unanswered military question may stay open (sim/decision-budget.mjs, 90 000 by default).
   ...(Number(process.env.DECISION_BUDGET_MS) > 0 && { decisionBudgetMs: Number(process.env.DECISION_BUDGET_MS) }),
 });
@@ -54,6 +57,6 @@ await app.listen(port, solo ? '127.0.0.1' : '0.0.0.0');
 const hostUrl = `http://localhost:${port}/host#${app.state.hostKey}`;
 writeFileSync(join(dataDir, 'host-url.txt'), hostUrl);
 console.log(solo
-  ? `Texas Revolution PLAY SOLO (this computer only). Host: ${hostUrl}\nNew solo game: npm run solo\nData: ${dataDir}\nSave: ${savePath}`
+  ? `Texas Revolution PLAY SOLO (this computer only). Host: ${hostUrl}\nNew solo game: npm run solo\nClosing the player's page saves and pauses the game, and stops this server if it does not come back.\nData: ${dataDir}\nSave: ${savePath}`
   : `Texas Revolution PROTOTYPE. Host: ${hostUrl}\nJoin: ${joinUrls[0]?.url || `http://localhost:${port}/`}\nData (${origin}): ${dataDir}\nSave: ${savePath}`);
 for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => shutdown(signal));
