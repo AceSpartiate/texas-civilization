@@ -1,0 +1,257 @@
+{
+  "date": "2026-09-28",
+  "pass": [
+    "before any gesture no page has an AudioContext; both students start muted (\"Sound off\") and made none through the whole join flow; the Host starts on",
+    "the Host's press of Start unlocked sound: one AudioContext, \"farm\" music playing (28 sources started)",
+    "the student turned sound on with the button beside the Journal; it was kept on this device across a reload, and waited for the next press to start",
+    "the Gonzales fight's own projection: 49 shots drawn were heard as 29 muskets, 0 volleys and 1 cannon (19 folded or refused by the mixer); the music went to \"battle\"; the page's sound took 0.1 ms a frame (median), 0.6 ms p95",
+    "a chase on the road: its shot and ¡Alto! were heard (alto, musket), and the music went to the Scrape's",
+    "a storm over the family: rain at 1 and thunder, wind at 0.314",
+    "the family's own man at Béxar heard the bell: bell",
+    "the family's baby crying was heard",
+    "the muted student page was given the same fight, chase, storm, bell and baby: it saw them (alto, bell, baby) and played nothing - no AudioContext, no source started",
+    "every effect (24) and a stretch of every piece (7) rendered in Chrome's own Web Audio engine: all make sound, none out of proportion",
+    "no page error on any page"
+  ],
+  "evidence": {
+    "host": {
+      "mood": "farm",
+      "sourcesStartedIn1500ms": 28
+    },
+    "battle": {
+      "ticks": [
+        "dawn-skirmish 5765",
+        "dawn-skirmish 5770",
+        "dawn-skirmish 5775",
+        "dawn-skirmish 5780",
+        "dawn-skirmish 5785",
+        "dawn-skirmish 5790",
+        "dawn-skirmish 5795",
+        "lull 5800"
+      ],
+      "shotsDrawn": 49,
+      "heard": {
+        "musket": 29,
+        "cannon": 1
+      },
+      "dropped": 19,
+      "soundFrameMs": {
+        "median": 0.1,
+        "p95": 0.6,
+        "max": 1.3,
+        "frames": 77
+      }
+    },
+    "chase": [
+      "alto",
+      "musket"
+    ],
+    "storm": {
+      "beds": {
+        "rain": 1,
+        "wind": 0.314,
+        "river": 0,
+        "fire": 0
+      }
+    },
+    "muted": {
+      "contexts": 0,
+      "starts": 0,
+      "cuesSeen": [
+        "alto",
+        "bell",
+        "baby"
+      ]
+    },
+    "rendered": {
+      "effects": {
+        "musket": {
+          "seconds": 0.45,
+          "peak": 0.311,
+          "rms": 0.0246,
+          "finite": true
+        },
+        "volley": {
+          "seconds": 1.2,
+          "peak": 0.368,
+          "rms": 0.0335,
+          "finite": true
+        },
+        "cannon": {
+          "seconds": 2.6,
+          "peak": 0.865,
+          "rms": 0.0871,
+          "finite": true
+        },
+        "bugle": {
+          "seconds": 2.47,
+          "peak": 0.253,
+          "rms": 0.0805,
+          "finite": true
+        },
+        "drum": {
+          "seconds": 2.09,
+          "peak": 0.325,
+          "rms": 0.0285,
+          "finite": true
+        },
+        "hoof": {
+          "seconds": 0.3,
+          "peak": 0.215,
+          "rms": 0.0191,
+          "finite": true
+        },
+        "horse-snort": {
+          "seconds": 0.55,
+          "peak": 0.178,
+          "rms": 0.0166,
+          "finite": true
+        },
+        "wagon": {
+          "seconds": 2.2,
+          "peak": 0.172,
+          "rms": 0.0413,
+          "finite": true
+        },
+        "ox": {
+          "seconds": 1.5,
+          "peak": 0.296,
+          "rms": 0.0485,
+          "finite": true
+        },
+        "cattle": {
+          "seconds": 1.1,
+          "peak": 0.294,
+          "rms": 0.0517,
+          "finite": true
+        },
+        "hens": {
+          "seconds": 1.16,
+          "peak": 0.13,
+          "rms": 0.0113,
+          "finite": true
+        },
+        "step": {
+          "seconds": 0.1,
+          "peak": 0.022,
+          "rms": 0.0025,
+          "finite": true
+        },
+        "axe": {
+          "seconds": 0.2,
+          "peak": 0.379,
+          "rms": 0.0329,
+          "finite": true
+        },
+        "tree-fall": {
+          "seconds": 2.5,
+          "peak": 0.34,
+          "rms": 0.0187,
+          "finite": true
+        },
+        "hammer": {
+          "seconds": 0.2,
+          "peak": 0.489,
+          "rms": 0.035,
+          "finite": true
+        },
+        "thunder": {
+          "seconds": 4.5,
+          "peak": 0.489,
+          "rms": 0.0692,
+          "finite": true
+        },
+        "baby": {
+          "seconds": 3.01,
+          "peak": 0.14,
+          "rms": 0.0298,
+          "finite": true
+        },
+        "bell": {
+          "seconds": 8.85,
+          "peak": 0.728,
+          "rms": 0.0911,
+          "finite": true
+        },
+        "alto": {
+          "seconds": 2.4,
+          "peak": 0.431,
+          "rms": 0.0616,
+          "finite": true
+        },
+        "click": {
+          "seconds": 0.05,
+          "peak": 0.119,
+          "rms": 0.0093,
+          "finite": true
+        },
+        "card": {
+          "seconds": 0.2,
+          "peak": 0.087,
+          "rms": 0.0071,
+          "finite": true
+        },
+        "question": {
+          "seconds": 1.1,
+          "peak": 0.184,
+          "rms": 0.0275,
+          "finite": true
+        },
+        "lapse": {
+          "seconds": 0.65,
+          "peak": 0.205,
+          "rms": 0.0252,
+          "finite": true
+        },
+        "news": {
+          "seconds": 0.5,
+          "peak": 0.2,
+          "rms": 0.0207,
+          "finite": true
+        }
+      },
+      "music": {
+        "folia": {
+          "peak": 0.353,
+          "rms": 0.0903,
+          "finite": true
+        },
+        "brazos-morning": {
+          "peak": 0.323,
+          "rms": 0.0788,
+          "finite": true
+        },
+        "muster": {
+          "peak": 0.378,
+          "rms": 0.1077,
+          "finite": true
+        },
+        "before-the-guns": {
+          "peak": 0.302,
+          "rms": 0.0546,
+          "finite": true
+        },
+        "long-road-east": {
+          "peak": 0.284,
+          "rms": 0.0857,
+          "finite": true
+        },
+        "new-britain": {
+          "peak": 0.313,
+          "rms": 0.1184,
+          "finite": true
+        },
+        "auld-lang-syne": {
+          "peak": 0.276,
+          "rms": 0.0802,
+          "finite": true
+        }
+      }
+    },
+    "listener": {
+      "played": 35,
+      "contexts": 1,
+      "sourcesStarted": 348
+    }
+  }
+}

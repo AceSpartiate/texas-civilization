@@ -1,5 +1,46 @@
 # Claude handoff — Astra foundation
 
+## Sound and music, made by the page — owner, 2026-09-28 (worktree branch; not released)
+
+**The request.** Owner, 2026-09-28: *"also: we need audio. we need sound effects, music, etc. everything has to be free, and
+shouldn't prevent me from selling the game in the future."* Design, sound list and owner questions: **docs/AUDIO.md**;
+licences: **docs/AUDIO_LICENSES.md**; claim `FIC-GONZ-711`.
+
+**What was built.** Every effect and every note of music is **synthesised by the page with the Web Audio API** from code
+here: no recording, sample or score is downloaded or shipped, so no third party's licence touches the sound. 24 effects
+(musket, volley, cannon, bugle, drum, hoofs, horse, wagon, ox, cattle, hens, footsteps, axe, tree falling, hammer, thunder,
+baby, church bell, ¡Alto!, click, card, question, lapse, news) and 4 lasting beds (rain, wind, river, fire), each mapped
+from what the page is sent or drew (`public/audio-cues.js`): shots where the battle and chase views drew their flashes
+(`heard`, new in `public/battle-view.js` / `public/chase-view.js`), a rank's shots folded into a volley, the bell only for a
+family whose own person heard it at Béxar (FIC-GONZ-622), bugles only where a battle line or caption has one, never the
+degüello or the Bower. Positional: quieter, duller and panned by distance from the middle of the screen and by zoom; at
+most 12 voices, each sound's own limit and gap, a loudness budget and a limiter. 7 pieces of music by moment (title, farm,
+war, battle, the Scrape, the ending): 4 written for the game, and La Folía, "New Britain" (1829) and "Auld Lang Syne"
+(1799), public-domain compositions played by the page's own instruments; music held under the effects and ducked under
+the big moments. A **Sound** button beside the Journal (Sound on, Volume, Music, Effects, Buttons), remembered per device
+and kind of page. **A student in a class starts muted and makes no AudioContext; the Host and a solo player start on**
+(owner question AU1). Nothing sounds before a gesture. `public/app.js` gains three one-line hooks and loads `/audio.js`
+with `import()` after itself. No `saveVersion` move; no server behaviour change beyond serving five modules.
+
+**Size.** No audio file. +82 KB page modules (28 KB gzipped), +20 KB manifest; a first load adds 28 KB in five requests
+after `app.js`; thirty cold Chromebooks about 0.8 MB against ~470 MB.
+
+**Evidence** (same computer only). 28 new unit tests (`tests/audio-licenses`, `-mix`, `-music`, `-cues`), **each seen
+failing** alone under its own injection (`node scripts/audio-injections.mjs`, 28 of 28, `docs/evidence/audio-injections.json`).
+`npm run test:audio` 11 of 11 (a real class; the Gonzales fight's own projection heard as muskets and the cannon; a chase's
+shot and ¡Alto!; a storm; the bell; the baby; the muted page given the same plays nothing and makes no context; every sound
+and a stretch of every piece rendered in Chrome's Web Audio and measured), **seen failing** under two hand injections (no
+`heard` from the battle view; a muted page starting its engine). The page's sound cost 0.1 ms a frame median, 0.4-0.6 ms
+p95, through the fight. `test:battle-gonzales` 12/12, `test:scrape-pursuit` 14/14 (its first run, beside
+battle-gonzales, timed out waiting; alone it passed), `test:solo` 15/15, `test:lesson` 33/33. `npm test` 1560 of 1561: the one failure is main's new tests/stale-lock.test.mjs 'of several starts racing to recover one stale lock, exactly one owns the class' (merged from origin/main; alone it failed 1 run of 3 with no change of ours in its path - a race in that test, not the sound) after
+merging origin/main (1541 of 1541 before the merge).
+
+**Not claimed.** How it sounds on a Chromebook speaker, in a real room, or thirty pages at once. The animals and the baby
+are formant sketches (`ceiling:`; AU3 is the way out).
+
+**Owner questions** (docs/AUDIO.md §9, recommendations built): AU1 student default; AU2 what the projector plays; AU3
+CC0 recordings for animals and the baby; AU4 the music list; AU5 reduced motion; AU6 solo default; AU7 documented bugle calls.
+
 ## Neighbours remember and repay: one ledger of help between families, repaid when needed, named at the ending — owner, 2026-09-28 (worktree branch; not released)
 
 **The decision.** Owner, 2026-09-28, by multiple choice on docs/audits/2026-09-28-design.md B5 ("help between families is recorded
