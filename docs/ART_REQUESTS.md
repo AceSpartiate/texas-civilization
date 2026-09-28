@@ -30,7 +30,7 @@ does not have:
 
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
-| **Felling** (and cutting the lane, clearing timber, the bee tree, fetching logs, a carreta's wheels) is the cast's hoeing cycle (`-work`: raised, swing, down, back) with pale wood chips drawn flying from the frame the blade lands; the one felling stands at the tree's west side facing it | `STROKES.chop` in `public/work-art.js`, drawn by `drawAtWork` in `public/app.js` | Request 2026-09-28 — people at work, items 1 and 15 | `-chop` for the eight cast figures; `fx-wood-chips` |
+| **Felling** (and cutting the lane, clearing timber, the bee tree, fetching logs - folded into felling since 2026-09-28, begun by *Fell trees* where the land has no timber and drawn as felling - a carreta's wheels) is the cast's hoeing cycle (`-work`: raised, swing, down, back) with pale wood chips drawn flying from the frame the blade lands; the one felling stands at the tree's west side facing it | `STROKES.chop` in `public/work-art.js`, drawn by `drawAtWork` in `public/app.js` | Request 2026-09-28 — people at work, items 1 and 15 | `-chop` for the eight cast figures; `fx-wood-chips` |
 | **Splitting rails** is the same hoeing cycle with wood chips | `STROKES.split` in `public/work-art.js` | Same request, item 2 | `-split` |
 | **Working on the house, or helping raise it** is the hoeing cycle with wood chips; several at it stand in a ring round the place the server puts them (`workSlot`), each facing it | `STROKES.notch` and `workSlot` in `public/work-art.js`; the offset in `drawEntity`, `public/app.js` | Same request, item 3 | `-notch`, `-lift` |
 | **Digging the well, and grubbing out brush** is the hoeing cycle with dark clods of earth thrown up from the strike | `STROKES.dig`, `STROKES.grub` | Same request, items 4 and 15 | `-dig`, `-dig-well`; `fx-earth-toss` |
@@ -959,7 +959,7 @@ natural biomes of Texas (docs/BIOMES.md, built the same day).
 
 **Status: delivered in `icons-family-service.png`; glyph remains only as a load fallback.** A family with no timber of its own
 can take the ox and wagon to the nearest timber and bring six logs home (`fetch-logs`, docs/BIOME_GAMEPLAY.md §3.2). The
-order is on the family panel with the registered `icon-fetch-logs` art.
+order is on the family panel with the registered `icon-fetch-logs` art. **2026-09-28: fetching is folded into felling** (docs/WOODS_AND_BUILDING.md §6.7): *Fell trees* begins it where the family's land has no timber, and it glows on the felling icon, so `icon-fetch-logs` is no longer drawn on a student's panel. Keep the frame: the families nobody plays still send it by name, and a saved class may show it.
 
 - **Why.** One stroke-drawn glyph beside the illustrated icons reads as a placeholder, and it must be told from *Fell trees*
   and *Haul logs to the house* (log hauling is being removed, 2026-09-28: felling puts its logs on the one wood pile).

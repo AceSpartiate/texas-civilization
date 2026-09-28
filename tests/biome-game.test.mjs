@@ -11,7 +11,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
-import { CHORES, FETCH_LOGS, choresFor, logwoodGround } from '../sim/chores.mjs';
+import { CHORES, FETCH_LOGS, choreAvailability, choresFor, fetchLogsFacts, logwoodGround } from '../sim/chores.mjs';
 import { holdingOf } from '../sim/grants.mjs';
 import { siteFactsFor, choosing } from '../sim/homesite.mjs';
 import { DRAWN_GAME, GAME, THIN, WATERFOWL_MILES, gameDrawn, huntFacts, huntingPlace, quarryAt, quarryGame, quarryWords, stillTicks, westOfTheLavaca } from '../sim/hunting.mjs';
@@ -383,7 +383,13 @@ test('a family can fetch logs from the nearest timber with the ox and wagon, tol
   const household = Object.values(world.households).filter(home).map(h => ({ h, logs: soundLogsNear(world, world.map.sites[h.homeSiteId], holdingOf(world, h).bounds) }))
     .filter(entry => entry.h.tools?.axe !== undefined).sort((a, b) => a.logs - b.logs)[0].h;
   const person = world.entities[household.principalId];
+  // Since 2026-09-28 fetching logs is not a button of its own for a family somebody plays (owner: "Why do we need multiple action
+  // buttons for moving logs?"): *Fell trees* begins it where the land has no timber (tests/auto-house.test.mjs). A family nobody
+  // plays still sends it by name, and its cost is still said in hours and miles.
+  assert.equal(choresFor(world, household, person).find(chore => chore.id === 'fetch-logs'), undefined, 'no fetch-logs icon for a played family');
+  household.played = false;
   const entry = choresFor(world, household, person).find(chore => chore.id === 'fetch-logs');
+  household.played = true;
   assert.ok(entry?.can, JSON.stringify(entry));
   assert.match(entry.cost, /^the ox and wagon for about \d+ hours?, to the timber( on (the )?[A-Z][\w ]+)?, (beside the house|[\d.]+ miles off)$/);
   const pile = (household.logs?.wall || 0) + (household.logs?.sill || 0);
@@ -398,10 +404,10 @@ test('a family can fetch logs from the nearest timber with the ox and wagon, tol
   // Refused, and said why: no axe; no ox and wagon at home; the lobby; a class where the trees are not counted.
   const axe = household.tools.axe;
   delete household.tools.axe;
-  assert.match(choresFor(world, household, person).find(chore => chore.id === 'fetch-logs').why, /axe/);
+  assert.match(choreAvailability(world, household, person, 'fetch-logs').why, /axe/);
   household.tools.axe = axe;
   world.entities[`${household.id}-wagon`].location = { ...world.entities[`${household.id}-wagon`].location, siteId: 'gonzales' };
-  assert.match(choresFor(world, household, person).find(chore => chore.id === 'fetch-logs').why, /ox and wagon at home/);
+  assert.match(choreAvailability(world, household, person, 'fetch-logs').why, /ox and wagon at home/);
   const invented = createGonzalesWorld('biome-game-invented', 5);
   assert.equal(choresFor(invented, invented.households['hh-1'], invented.entities[invented.households['hh-1'].principalId]).find(chore => chore.id === 'fetch-logs'), undefined);
   assert.equal(CHORES['fetch-logs'].forceMode(world, household), 'wagon', 'with no team left at the timber it goes in the wagon');
@@ -417,7 +423,7 @@ test('a team left at the timber by somebody called away is walked out to and dri
   const wood = logwoodGround(world, household);
   const leave = () => { for (const id of [`${household.id}-wagon`, `${household.id}-animal`]) world.entities[id].location = { x: wood.x, y: wood.y, siteId: wood.id }; };
   leave();
-  const entry = choresFor(world, household, person).find(chore => chore.id === 'fetch-logs');
+  const entry = fetchLogsFacts(world, household);
   assert.ok(entry?.can, JSON.stringify(entry));
   assert.match(entry.cost, /^about \d+ hours?, on foot to the ox and wagon left at the timber.*, and home with them$/);
   const pile = (household.logs?.wall || 0) + (household.logs?.sill || 0);
@@ -431,6 +437,8 @@ test('a team left at the timber by somebody called away is walked out to and dri
   // The director sends somebody for it, logs wanted or not.
   leave();
   household.resources = { ...household.resources, food: 60, powder: 6 };
+  // The director plays a family nobody plays (fetching logs by name is theirs alone since 2026-09-28).
+  household.played = false;
   thinkFor(world, household, { project: id => projectWorld(world, id, 'student', { includeMap: false }), act: input => applyAction(world, household.id, input) });
   assert.equal(household.members.filter(id => world.entities[id].chore?.id === 'fetch-logs').length, 1, 'one of the family goes for the team');
 });
@@ -506,7 +514,9 @@ test('asking where the timber is, is not a change to the map', () => {
   const household = world.households['hh-1'];
   const revision = world.map.revision;
   const view = projectWorld(world, household.id, 'student', { includeMap: false });
-  assert.ok(view.work[household.principalId].some(entry => entry.id === 'fetch-logs'));
+  // Felling is on the family's row (and would fetch where the land has none, 2026-09-28); what fetching would cost is asked too.
+  assert.ok(view.work[household.principalId].some(entry => entry.id === 'fell-trees'));
+  assert.ok(fetchLogsFacts(world, household).cost);
   stepWorld(world);
   // Asking what it costs writes nothing into the map, so no browser is told a homestead changed; going there does.
   assert.equal(world.map.revision, revision, 'the map changed because a control said what it would cost');

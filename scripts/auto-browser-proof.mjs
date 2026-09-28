@@ -260,6 +260,9 @@ try {
       await page.setViewportSize({ width: 1440, height: 950 });
     }
   }
+  // The state the loop's own test last read (found 2026-09-28: the field turned planted between the body's sample and the test,
+  // and the season was recorded one state short though the second planting had finished).
+  if (household().field?.state && fieldStates.at(-1) !== household().field.state) fieldStates.push(household().field.state);
   measured.season = { seconds: Math.round((Date.now() - seasonStarted) / 100) / 10, fieldStates, plantings: finishedCount(planterId, 'plant the field'), harvests: finishedCount(reaperId, 'bring in the crop'), said: { planter: [...said.planter], reaper: [...said.reaper] }, glowSeen };
   assert.deepEqual(fieldStates.slice(0, 5), ['bare', 'planted', 'ripe', 'bare', 'planted'], `the field went ${fieldStates.join(' > ')} in ${measured.season.seconds} s (planter ${JSON.stringify(world().entities[planterId].order)} ${world().entities[planterId].task} ${JSON.stringify(world().entities[planterId].chore)}; seed ${JSON.stringify(measured.seedTrace)}, cleared ${clearedOf(household())}; ${world().events.filter(event => event.actorId === planterId).slice(-4).map(event => event.text).join(' / ')})`);
   assert.ok(finishedCount(planterId, 'plant the field') >= 2 && finishedCount(reaperId, 'bring in the crop') >= 1, `planted ${finishedCount(planterId, 'plant the field')}, brought in ${finishedCount(reaperId, 'bring in the crop')}`);

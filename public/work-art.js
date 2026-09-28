@@ -152,6 +152,9 @@ export const WORK = Object.freeze({
   'child-eggs': { stroke: 'gather', spread: 0.5 },
   'child-water': { stroke: 'carry', spread: 0.5 },
   'child-mind': { stroke: 'tend', spread: 0.5 },
+  // The oldest child run for help (sim/acting.mjs, merged 2026-09-28): the run is a road, drawn walking; at the neighbours'
+  // door, standing to tell them.
+  'child-help': { stroke: 'wait', spread: 0.3 },
   // The Runaway Scrape's own work (sim/flight-work.mjs).
   'flee-hide': { stroke: 'carry', spread: 0.6 },
   'flee-bundle': { stroke: 'gather', spread: 0.5 },

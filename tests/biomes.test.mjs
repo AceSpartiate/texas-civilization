@@ -16,7 +16,7 @@ import { holdingOf } from '../sim/grants.mjs';
 import { siteFactsFor } from '../sim/homesite.mjs';
 import { houseBuilt, shelterOf } from '../sim/houses.mjs';
 import { choreAvailability } from '../sim/chores.mjs';
-import { fellFacts, fellRefusal, fellTree, logsLying, standingTrees } from '../sim/felling.mjs';
+import { felledAt, fellFacts, fellRefusal, fellTree, logsLying, standingTrees } from '../sim/felling.mjs';
 import { huntFacts } from '../sim/hunting.mjs';
 import { landAround } from '../sim/ground.mjs';
 import { milesFrom, realTerrain } from '../sim/terrain-data.mjs';
@@ -209,12 +209,13 @@ test('a class made in the week of 2026-09-15 opens on its own grid, its felled t
   const opened = JSON.parse(JSON.stringify(world));
   validateWorld(opened);
   assert.equal(woodsRule(opened), 'landfire');
-  const lying = logsLying(opened, opened.households['hh-1']);
-  assert.equal(lying.length, trees.length);
-  for (const entry of lying) {
-    const tree = trees.find(t => t.id === entry.id);
-    assert.equal(entry.x, tree.x); assert.equal(entry.y, tree.y);
-  }
+  // Each felled tree where it stood on the 2016 grid, and its logs on the family's pile (since 2026-09-28 nothing lies out:
+  // docs/WOODS_AND_BUILDING.md §6.7).
+  assert.deepEqual(new Set(Object.keys(opened.woods.felled)), new Set(trees.map(tree => tree.id)));
+  for (const tree of trees) assert.deepEqual(felledAt(tree.id, opened), { x: tree.x, y: tree.y });
+  assert.equal(logsLying(opened, opened.households['hh-1']).length, 0);
+  const pile = opened.households['hh-1'].logs;
+  assert.equal(pile.wall + pile.sill + pile.poor, trees.reduce((sum, tree) => sum + tree.logs, 0));
   // The map's close-up tile shows them as stumps, from the same grid.
   const size = 0.25, tx = Math.floor(trees[0].x / size), ty = Math.floor(trees[0].y / size);
   const tile = woodsTile(opened, 'trees', tx, ty);

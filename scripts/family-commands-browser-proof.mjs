@@ -244,12 +244,15 @@ try {
     for (let attempt = 0; attempt < 3; attempt++) {
       await page.waitForTimeout(300);
       const wantErrand = !plan.some(entry => errands.includes(entry.key));
-      const key = await page.evaluate(({ id, preferred, errands, wantErrand, principalId, tried }) => {
+      // Work somebody before them was given is left for the next: since 2026-09-28 a second person given it works alongside the
+      // first (docs/FAMILY_PANEL.md §21.4), and a job the first leaves off - a piece of furniture nobody chose - ends for both.
+      const key = await page.evaluate(({ id, preferred, errands, wantErrand, principalId, tried, given }) => {
         const row = document.querySelector(`.panel-row[data-entity-id="${id}"]`);
         const open = k => !tried.includes(k) && row.querySelector(`.panel-icon[data-key="${k}"]:not([aria-disabled="true"])`);
         if (id === principalId) return open('work') ? 'work' : null;
-        return (wantErrand && errands.find(open)) || preferred.find(open) || null;
-      }, { id, preferred, errands, wantErrand, principalId, tried: [...tried] });
+        const fresh = k => !given.includes(k) && open(k);
+        return (wantErrand && errands.find(open)) || preferred.find(fresh) || preferred.find(open) || null;
+      }, { id, preferred, errands, wantErrand, principalId, tried: [...tried], given: plan.map(entry => entry.key) });
       if (!key) break;
       tried.add(key);
       await asMain(page, id);
@@ -274,8 +277,11 @@ try {
   // takes the principal's *work* icon off the screen, and with it the glow that says what they are doing.
   await asMain(page, principalId);
   const orderable = plan.map(entry => entry.id);
-  const notGlowing = plan.filter(entry => !entry.glowed);
-  assert.deepEqual(notGlowing, [], `pressed and never glowed: ${JSON.stringify(notGlowing)} (server: ${JSON.stringify(notGlowing.map(({ id }) => world().entities[id].chore))})`);
+  // A press that joined a job somebody was already at and was finishing (docs/FAMILY_PANEL.md §21.4) may be done, for both, before
+  // the page is next told: the server's own story says it was taken and finished, which is the answer the glow stands for.
+  const joinedAndDone = id => { const said = world().events.filter(event => event.actorId === id).map(event => event.text); const at = said.findIndex(text => / went to work alongside /.test(text)); return at >= 0 && said.slice(at).some(text => / finished: /.test(text)); };
+  const notGlowing = plan.filter(entry => !entry.glowed && !joinedAndDone(entry.id));
+  assert.deepEqual(notGlowing, [], `pressed and never glowed: ${JSON.stringify(notGlowing)} (server: ${JSON.stringify(notGlowing.map(({ id }) => world().entities[id].chore))}; ${notGlowing.map(({ id }) => world().events.filter(event => event.actorId === id).slice(-4).map(event => event.text).join(' / ')).join(' | ')}; plan ${JSON.stringify(plan)})`);
   assert.ok(orderable.length >= 4, `only ${orderable.length} people could be given work; this seed was chosen for a large family. Refused: ${JSON.stringify(refusals)}`);
   // Everybody given work, still at it, is not idle; the panel says so of every row at once.
   await page.waitForTimeout(600);
@@ -306,7 +312,20 @@ try {
   // Somebody still at a chore: furniture is quick, so it is often only the trip to the carpenter. A refused order changes
   // nothing (asserted below), so that trip's question further down is not disturbed by it.
   const atChore = plan.filter(entry => entry.key !== 'work' && entry.id !== principalId && world().entities[entry.id].chore);
-  const busyId = (atChore.find(entry => !errands.includes(entry.key)) || atChore[0])?.id;
+  let busyId = (atChore.find(entry => !errands.includes(entry.key)) || atChore[0])?.id;
+  // Everybody's work already done: since 2026-09-28 hands given the same job work alongside and finish it together, sooner
+  // (docs/FAMILY_PANEL.md §21.4). One of them is given a piece of furniture of their own, as a student would, to hold it.
+  if (!busyId) {
+    const again = plan.find(entry => entry.key === 'make-furniture' && !world().entities[entry.id].chore);
+    if (again) {
+      await asMain(page, again.id);
+      await page.locator(`.panel-row[data-entity-id="${again.id}"] .panel-icon[data-key="make-furniture"]`).click();
+      await sendTheWay(page, { way: 'foot' });
+      await page.waitForFunction(id => Boolean(window.__snapshot?.world.entities.find(e => e.id === id)?.chore), again.id, { timeout: 15000 });
+      busyId = again.id;
+      measured.busyGivenAgain = again.id;
+    }
+  }
   assert.ok(busyId, 'nobody still at a chore to hold a stale order');
   await asMain(page, busyId);
   const busyBar = await page.evaluate(id => [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon`)]
@@ -411,11 +430,20 @@ try {
   const book = await page.evaluate(async () => (await (await fetch('/api/family')).json()).family.people);
   const tradedWith = principalId;
   const neighbour = app.state.world.households['hh-2'].principalId;
+  // Little ones with nothing to do call the principal aside, and he is sent nowhere until they have something (docs/CHILDREN.md;
+  // FAMILY_PANEL.md §18). Since 2026-09-28 the family's work at home ends sooner with more hands at it, so the proof may reach
+  // here with him already called: the children are given their play, as a student would, before he is sent.
+  const asideCookie = (await context.cookies()).map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
+  for (const child of world().entities[principalId].aside?.childIds || []) {
+    await fetch(url + '/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json', Cookie: asideCookie }, body: JSON.stringify({ id: `proof-play-${crypto.randomUUID()}`, action: 'chore', entityId: child, chore: 'child-play' }) }).catch(() => {});
+  }
+  if (world().entities[principalId].aside) measured.asideLeft = world().entities[principalId].aside;
   await asMain(page, principalId);
   await page.locator(`.panel-row[data-entity-id="${principalId}"] .panel-icon[data-key="travel-gonzales"]`).click();
   await sendTheWay(page, { way: 'foot' });
   await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="travel-gonzales"]`)?.dataset.active === 'true'
-    || window.__snapshot.world.entities.find(e => e.id === id)?.location?.siteId === 'gonzales', principalId, { timeout: 15000 });
+    || window.__snapshot.world.entities.find(e => e.id === id)?.location?.siteId === 'gonzales', principalId, { timeout: 15000 })
+    .catch(async error => { throw new Error(`${principalId} never set out for Gonzales: "${await page.evaluate(() => document.querySelector('#error')?.textContent || '')}" (${JSON.stringify(app.state.world.entities[principalId].aside || null)}; ${world().events.filter(event => event.actorId === principalId).slice(-3).map(event => event.text).join(' / ')})`, { cause: error }); });
   await post('/api/command', { id: `proof-travel-${crypto.randomUUID()}`, action: 'travel', entityId: neighbour, destination: 'gonzales' }, neighbourCookie);
   const inTown = id => { const e = app.state.world.entities[id]; return !e.travel && e.location?.siteId === 'gonzales'; };
   for (let i = 0; i < 600 && !(inTown(tradedWith) && inTown(neighbour)); i++) await page.waitForTimeout(200);

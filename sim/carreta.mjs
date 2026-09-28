@@ -30,7 +30,9 @@
 // so logs lie in a pile (sim/woods.mjs `countsTrees`): every class of the real land.
 // ceiling: on the invented country, which has no log pile, the carreta is not offered; a family there with no vehicle carries its
 // crop in by hand (sim/chores.mjs `byHand`). The way out is the furniture chore's trip to the timber for a tree.
-// ceiling: one person makes it, and a second is refused while it is being made; a house-raising's many hands are not modelled here.
+// Amended 2026-09-28 (owner: "If I add another person to the task it should speed the task up"): a second of the family given it
+// while one is making it works alongside them, and the one carreta is made sooner (sim/hands.mjs, sim/chores.mjs `crew: 'join'`),
+// where until then the second was refused.
 import { registerChores } from './chores.mjs';
 import { record } from './events.mjs';
 import { addBeast, beastsOf, yardSpot, BEASTS_MOST } from './beasts.mjs';
@@ -50,7 +52,6 @@ export const CARRETA_TICKS = 12;
 const LOG_ORDER = Object.freeze(['poor', 'sill', 'wall']);
 
 const logsIn = household => LOG_ORDER.reduce((sum, use) => sum + (household.logs?.[use] ?? 0), 0);
-const maker = (world, household) => household.members.map(id => world.entities[id]).find(person => person?.chore?.id === 'make-carreta') || null;
 
 /** Whether this class offers the carreta at all: the second table, and a log pile to make it from. */
 export const carretaOffered = world => secondTable(world) && countsTrees(woodsRule(world));
@@ -59,12 +60,10 @@ export const carretaOffered = world => secondTable(world) && countsTrees(woodsRu
 export function carretaRefusal(world, household, entity = null) {
   if (world.status === 'lobby') return 'The family makes a carreta once the class has begun.';
   if (choosing(household)) return 'Choose where the house will stand first.';
-  const already = maker(world, household);
-  if (already && already !== entity) return `${already.name} is already making a carreta.`;
   if (beastsOf(world, household, 'wagon').length >= BEASTS_MOST) return 'The family has as many carts and wagons as it can keep.';
   if (household.tools?.axe === undefined) return 'A carreta wants the felling axe, and there is none in the house.';
   const logs = logsIn(household);
-  if (logs < CARRETA_LOGS) return `A carreta wants ${CARRETA_LOGS} logs from the pile at the house: two wheels cut from one, the axle and the frame from the others. There ${logs === 1 ? 'is 1' : `are ${logs}`}. Fell and haul some first.`;
+  if (logs < CARRETA_LOGS) return `A carreta wants ${CARRETA_LOGS} logs from the pile at the house: two wheels cut from one, the axle and the frame from the others. There ${logs === 1 ? 'is 1' : `are ${logs}`}. Fell some first.`;
   if ((household.resources?.hides ?? 0) < CARRETA_HIDES) return 'A carreta is lashed together with rawhide, and there is no hide in the house. A hunt brings one home.';
   return null;
 }
@@ -106,7 +105,7 @@ export function makeCarreta(world, household, entity) {
 
 registerChores({
   'make-carreta': {
-    name: 'Make a carreta', skill: 'hands', where: 'home', heavy: true, carreta: true,
+    name: 'Make a carreta', skill: 'hands', where: 'home', heavy: true, carreta: true, crew: 'join',
     offered: world => carretaOffered(world),
     refusal: (world, household, entity) => carretaRefusal(world, household, entity),
     describe: `Make an ox cart at home: two solid wheels cut from a log, an axle and a frame from two more, lashed with rawhide. It wants the felling axe, ${CARRETA_LOGS} logs from the pile and a hide, and takes about ${Math.round(CARRETA_TICKS / 3)} hours. An ox draws it; it carries ${CARRETA_CARRY} loads to a wagon's ${MODES.wagon.carry}, holds ${CARRETA_SPACE} to a cart's ${CART_SPACE} and a wagon's ${WAGON_SPACE} when the family has to leave, and seats two beside its driver.`,

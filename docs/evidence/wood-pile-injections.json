@@ -1,0 +1,146 @@
+{
+  "date": "2026-09-28",
+  "files": [
+    "tests/auto-house.test.mjs",
+    "tests/hands.test.mjs"
+  ],
+  "caught": 14,
+  "of": 14,
+  "results": [
+    {
+      "injection": "enough counts every log alike: a pile of poor logs stops the feller while the walls want sound ones",
+      "expect": "one person felling on auto and one building on auto, left alone, raise the house with no further clicks",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "one person felling on auto and one building on auto, left alone, raise the house with no further clicks",
+        "a feller on auto calls it enough when the house has its logs and a margin, and takes the axe up again when the pile falls"
+      ]
+    },
+    {
+      "injection": "the builder waiting on the pile is not told it is waiting for logs",
+      "expect": "one person felling on auto and one building on auto, left alone, raise the house with no further clicks",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "one person felling on auto and one building on auto, left alone, raise the house with no further clicks"
+      ]
+    },
+    {
+      "injection": "building is not repeated on auto",
+      "expect": "one person felling on auto and one building on auto, left alone, raise the house with no further clicks",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "one person felling on auto and one building on auto, left alone, raise the house with no further clicks"
+      ]
+    },
+    {
+      "injection": "the logs lie where the tree fell, not on the pile",
+      "expect": "felling is one press: the nearest timber on the family's land, the logs onto the pile, and nothing to haul or fetch on the panel",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "one person felling on auto and one building on auto, left alone, raise the house with no further clicks",
+        "felling is one press: the nearest timber on the family's land, the logs onto the pile, and nothing to haul or fetch on the panel",
+        "an old save with logs lying out and a hauler on auto opens with the logs on the pile and the hauler felling"
+      ]
+    },
+    {
+      "injection": "felling still wants a place tapped on the map",
+      "expect": "felling is one press: the nearest timber on the family's land, the logs onto the pile, and nothing to haul or fetch on the panel",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "one person felling on auto and one building on auto, left alone, raise the house with no further clicks",
+        "felling is one press: the nearest timber on the family's land, the logs onto the pile, and nothing to haul or fetch on the panel",
+        "a family whose land has no timber fells at the nearest timber off it, with the ox and wagon, and it glows as felling",
+        "a feller on auto calls it enough when the house has its logs and a margin, and takes the axe up again when the pile falls"
+      ]
+    },
+    {
+      "injection": "no cap: a feller on auto fells for ever",
+      "expect": "a feller on auto calls it enough when the house has its logs and a margin, and takes the axe up again when the pile falls",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "one person felling on auto and one building on auto, left alone, raise the house with no further clicks",
+        "a feller on auto calls it enough when the house has its logs and a margin, and takes the axe up again when the pile falls"
+      ]
+    },
+    {
+      "injection": "an old save opens with its logs still lying out",
+      "expect": "an old save with logs lying out and a hauler on auto opens with the logs on the pile and the hauler felling",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "an old save with logs lying out and a hauler on auto opens with the logs on the pile and the hauler felling"
+      ]
+    },
+    {
+      "injection": "a clearer on auto stops after the plot given",
+      "expect": "clearing on auto: the plot given, then the next staked plot nearest the house, until none is left",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "clearing on auto: the plot given, then the next staked plot nearest the house, until none is left"
+      ]
+    },
+    {
+      "injection": "every hand a whole hand: no diminishing return",
+      "expect": "more hands on the house go faster, each a little less than the last: 1, 1.8, 2.4 and 2.8 of one",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "the curve: each hand adds a little less than the last, and four is the most that help",
+        "more hands on the house go faster, each a little less than the last: 1, 1.8, 2.4 and 2.8 of one"
+      ]
+    },
+    {
+      "injection": "more hands go no faster on work into one thing",
+      "expect": "more hands on the house go faster, each a little less than the last: 1, 1.8, 2.4 and 2.8 of one",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "more hands on the house go faster, each a little less than the last: 1, 1.8, 2.4 and 2.8 of one"
+      ]
+    },
+    {
+      "injection": "a second planter plants again rather than working alongside",
+      "expect": "a second pair of hands at the planting works alongside the first: the field is planted once, sooner, and the seed spent once",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "a second pair of hands at the planting works alongside the first: the field is planted once, sooner, and the seed spent once",
+        "a fifth of the family is refused a work four are at, in words; the hands alongside take the job up if its lead is called away"
+      ]
+    },
+    {
+      "injection": "the lead goes no faster for the hands alongside",
+      "expect": "a second pair of hands at the planting works alongside the first: the field is planted once, sooner, and the seed spent once",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a second pair of hands at the planting works alongside the first: the field is planted once, sooner, and the seed spent once"
+      ]
+    },
+    {
+      "injection": "no cap: a fifth of the family is given the work",
+      "expect": "a fifth of the family is refused a work four are at, in words; the hands alongside take the job up if its lead is called away",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a fifth of the family is refused a work four are at, in words; the hands alongside take the job up if its lead is called away"
+      ]
+    },
+    {
+      "injection": "the lead called away, the hand alongside stops",
+      "expect": "a fifth of the family is refused a work four are at, in words; the hands alongside take the job up if its lead is called away",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a fifth of the family is refused a work four are at, in words; the hands alongside take the job up if its lead is called away"
+      ]
+    }
+  ]
+}

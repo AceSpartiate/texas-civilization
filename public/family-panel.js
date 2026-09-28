@@ -44,9 +44,12 @@ export const PANEL_SUMMARIES = Object.freeze({
   'visit-shop': 'Choose what they should buy and sell at the shops in town, then send them with the list.',
   // The old walk to the shops, kept only for a class saved in the middle of it (docs/TOWNS.md §4b): offered to nobody.
   'visit-shop-street': 'Walk the street in town, choosing a shop there and what to buy at its counter.',
-  'make-furniture': 'Fetch a small tree from the timber and make a piece of furniture for the house.',
+  'make-furniture': 'Make a piece of furniture for the house from a log off the pile, or a small tree from the timber when the pile has none to spare.',
   'buy-furniture': 'Go to the carpenter in town and buy a piece of furniture for coin or food.',
-  'fell-trees': 'Fell the trees at a place in timber you choose on the family’s land.',
+  // One press since 2026-09-28 (owner: "Why do we need multiple action buttons for moving logs?"): out to the nearest timber, the
+  // logs onto the pile. Hauling and fetching logs are part of it and have no icon of their own; the two below are only for a row
+  // in the middle of one in a class saved before (they glow as felling, `GLOWS_AS`).
+  'fell-trees': 'Go out with the felling axe to the nearest timber on the family’s land; the logs go onto the pile at the house.',
   'haul-logs': 'Bring the felled logs lying out to the house.',
   'fetch-logs': 'Take the ox and wagon to the nearest timber, off your land if need be, and bring six logs home.',
   'make-carreta': 'Make an ox cart at home from three logs of the pile and a rawhide, which carries less than a wagon.',
@@ -160,8 +163,17 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
 /** The camp's work, the chores a man serving with Houston's army is offered (sim/camp.mjs); the only work a serving row shows. */
 export const CAMP_CHORES = Object.freeze(['camp-drill', 'camp-forage', 'camp-guard', 'camp-scout']);
 
-/** Chores sent with a place the student taps on the map: their icon starts choosing the place (sim/survey.mjs). */
-export const ON_MAP = Object.freeze(['survey-plot', 'clear-plot', 'fence-plot', 'hunt-land', 'fell-trees']);
+/**
+ * Chores sent with a place the student taps on the map: their icon starts choosing the place (sim/survey.mjs). Felling was one
+ * until 2026-09-28; it is one press now, to the nearest timber on the family's land (owner: "I should be able to set one person on
+ * felling trees ... set each to auto, and eventually get a house").
+ */
+export const ON_MAP = Object.freeze(['survey-plot', 'clear-plot', 'fence-plot', 'hunt-land']);
+/**
+ * Work that glows as another on the row (sim/chores.mjs `partOf`): fetching logs from off the land, which *Fell trees* begins for a
+ * family whose land has no timber, and the retired haul of a class saved in the middle of one, are both felling.
+ */
+export const GLOWS_AS = Object.freeze({ 'fetch-logs': 'fell-trees', 'haul-logs': 'fell-trees' });
 /**
  * Refusals that are not a choice at all. A sound hoe cannot be mended and a corn family has no cotton; a dimmed icon saying
  * so all afternoon is clutter pretending to be a choice, the same rule the work list on the card had.
@@ -204,7 +216,7 @@ export function panelOrder(members = [], people = []) {
  */
 export function activeKey(entity, { homeId = null, main = false, homesteads = [] } = {}) {
   if (!entity || ['dead', 'captured'].includes(entity.health?.condition)) return null;
-  if (entity.chore?.id) return entity.chore.id;
+  if (entity.chore?.id) return GLOWS_AS[entity.chore.id] || entity.chore.id;
   if (entity.travel) {
     if (!main) return null;
     if (entity.travel.to === 'gonzales') return 'travel-gonzales';
@@ -294,7 +306,7 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
   }
   // Somebody doing a chore the server no longer lists (it happens: a field planted is a field not to plant) is still shown
   // doing it, so nobody is ever busy at something the row cannot show.
-  if (active && entity.chore?.id === active && !icons.some(icon => icon.key === active)) {
+  if (active && entity.chore && (GLOWS_AS[entity.chore.id] || entity.chore.id) === active && !icons.some(icon => icon.key === active)) {
     const spec = catalogue.get?.(active) || {};
     icons.unshift({ key: active, kind: 'chore', name: spec.name || active, summary: PANEL_SUMMARIES[active] || firstSentence(spec.describe),
       note: '', can: false, why: '', onMap: ON_MAP.includes(active), active: true });

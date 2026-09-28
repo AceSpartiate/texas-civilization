@@ -35,7 +35,20 @@
 // about the place goes on doing it; **called away** - a call, the march, an errand, the army, the family leaving for the east
 // - the switch stays on and the task is taken up again the tick they are home and free; **dead or taken** - the switch goes
 // off and the task is forgotten, since nobody can press it for them any more.
-import { CHORES, beginChore, choreAvailability, choresFor, quickestForChore } from './chores.mjs';
+//
+// **Amended by the owner, 2026-09-28** (docs/FAMILY_PANEL.md §21): "I should be able to set one person on felling trees, and one
+// person on building the house, set each to auto, and eventually get a house. ... Apply the logic described for felling trees and
+// building houses to the other tasks too." So felling repeats - out to the nearest timber on the family's land each time, until the
+// wood pile has enough for the house still to be built and a margin (sim/woodpile.mjs `pileFull`) - and so do clearing and fencing
+// (the plot chosen, then the next nearest the house: `plotFor`), the carreta while the family has nothing to draw, furniture while
+// a piece is wanted, and mending the hoe. A builder whose house wants logs the pile has not got says so - *"Waiting for logs."* -
+// and works about the place until the feller brings them.
+import { CHORES, beginChore, choreAvailability, choresFor, quickestForChore, workOf } from './chores.mjs';
+import { plotsOf } from './fields.mjs';
+import { houseWaitsForLogs } from './houses.mjs';
+import { plotWorkRefusal } from './survey.mjs';
+import { beastsOf, kept } from './beasts.mjs';
+import { pileFull } from './woodpile.mjs';
 import { campChoice } from './camp.mjs';
 import { record } from './events.mjs';
 // Who is with the family and answers its own decisions (sim/acting.mjs, 2026-09-28): the main person when they are with it.
@@ -48,23 +61,29 @@ import { heldByBattle } from './battle-stage.mjs';
 import { calledAside } from './aside.mjs';
 
 /**
- * The work a person on auto takes up again, over and over (owner, 2026-09-16 for the hunts; 2026-09-25 for the rest): work at
- * home that gives the family something each time, and that runs out by itself when there is nothing left to do - the field
- * planted and the crop in, the house raised, the lane cut, the well dug, the logs hauled.
- * ceiling: not repeated, because each changes what the family has in a way a student should decide each time - the errand
- * to town and the furniture (coin), practice at the mark (powder on purpose), killing a beef or a hog (the herd), surveying,
- * clearing and fencing (a plot chosen on the map each time; not a ceiling for these two - the owner decided on 2026-09-25 that
- * they stay one at a time, docs/FAMILY_PANEL.md §16.1), felling and fetching logs (the family's timber), enlisting,
- * joining and voting (once), help at a neighbour's raising (their land), the road east's work, and the children's own
- * works (a child cannot be set to work about the place). An order of any of those given to somebody on auto is done once and
- * leaves the remembered task as it was, so they go back to it when it is done.
+ * The work a person on auto takes up again, over and over (owner, 2026-09-16 for the hunts; 2026-09-25 for the field, the house,
+ * the lane and the well; 2026-09-28 for felling, clearing, fencing, the carreta, furniture and the hoe): work at home that gives
+ * the family something each time, and that runs out by itself when there is nothing left to do - the field planted and the crop
+ * in, the house raised, the lane cut, the well dug, the pile full, every staked plot cleared and every cleared plot fenced.
+ * ceiling: not repeated, because each spends what the family has or is a decision a student makes each time (owner, 2026-09-28:
+ * "less clicking, not less deciding") - the errands to town and buying furniture (coin), practice at the mark (powder on purpose),
+ * killing a beef or a hog (the herd), surveying (where the family's next ten acres lie), enlisting, joining and voting (once), help
+ * at a neighbour's raising (their land), the road east's work, and the children's own works (a child cannot be set to work about
+ * the place). An order of any of those given to somebody on auto is done once and leaves the remembered task as it was, so they go
+ * back to it when it is done. `haul-logs` was here until 2026-09-28; an old save's hauler on auto is remembered as a feller
+ * (server/storage.mjs `readSave`).
  */
 export const REPEATED = Object.freeze([
   'plant-field', 'harvest-field',
   'hunt-timber', 'hunt-land', 'take-small-game', 'fish-the-water', 'gather-oysters', 'cut-bee-tree',
   'look-to-stock',
-  'build-house', 'cut-lane', 'dig-well', 'haul-logs',
+  'build-house', 'cut-lane', 'dig-well', 'fell-trees',
+  'clear-plot', 'fence-plot', 'make-carreta', 'make-furniture', 'mend-hoe',
 ]);
+/** Work sent to a place chosen on the map, which a student presses the map for and cannot give to wait for (`waitingWork`). */
+const ON_MAP = Object.freeze(['hunt-land', 'clear-plot', 'fence-plot']);
+/** Work on a plot: taken up again on the plot it was given, and then the next nearest the house (`plotFor`, `FIC-GONZ-905`). */
+const PLOT_WORK = Object.freeze(['clear-plot', 'fence-plot']);
 /** The hunts that go out with nothing to fire and leave the deer standing: held for a shot in the house, as a neighbour hunts. */
 const SHOOTS = Object.freeze(['hunt-timber', 'hunt-land']);
 const GONE = Object.freeze(['dead', 'captured']);
@@ -97,7 +116,22 @@ export function setAuto(world, household, entity, on) {
 export function noteOrder(entity, choreId, mode, extra = {}, household = null) {
   if (!REPEATED.includes(choreId)) return;
   if (household?.absent) return;
-  entity.order = { chore: choreId, mode, ...(extra.ground && { ground: { x: extra.ground.x, y: extra.ground.y } }) };
+  entity.order = { chore: choreId, mode, ...(extra.ground && { ground: { x: extra.ground.x, y: extra.ground.y } }), ...(extra.plotId && { plotId: extra.plotId }) };
+}
+
+/**
+ * The plot a clearer or fencer on auto takes up (owner, 2026-09-28; docs/FAMILY_PANEL.md §21.3): the plot they were given while
+ * there is still that work on it, and then the nearest to the house of the family's staked plots (clearing) or cleared plots with
+ * no sound fence (fencing). Nothing is surveyed for them: where the family's next ten acres lie is the student's to choose.
+ */
+export function plotFor(world, household, order) {
+  const open = order.chore === 'clear-plot' ? plot => plot.state === 'staked' : plot => plot.state === 'cleared' && plot.fence !== 'sound';
+  const plots = plotsOf(world, household).filter(open);
+  const given = plots.find(plot => plot.id === order.plotId);
+  if (given) return given;
+  const home = world.map.sites[household.homeSiteId];
+  if (!home) return null;
+  return plots.sort((a, b) => Math.hypot(a.x - home.x, a.y - home.y) - Math.hypot(b.x - home.x, b.y - home.y))[0] || null;
 }
 
 /**
@@ -109,8 +143,9 @@ export function noteOrder(entity, choreId, mode, extra = {}, household = null) {
  * allow before this is asked (sim/world.mjs `applyAction`), so the lesson is never walked round.
  */
 export function waitForTask(world, household, entity, choreId, mode, error) {
-  if (!entity.auto || !REPEATED.includes(choreId) || choreId === 'hunt-land' || household.absent) return false;
-  const why = error?.message || 'That work is not available.';
+  if (!entity.auto || !REPEATED.includes(choreId) || ON_MAP.includes(choreId) || household.absent) return false;
+  const refused = error?.message || 'That work is not available.';
+  const why = WANTS_LOGS[choreId]?.(world, household, refused) ? `Waiting for logs. ${refused}` : refused;
   entity.order = { chore: choreId, mode, held: why };
   if (homeAndFree(household, entity) && entity.task !== 'work') entity.task = 'work';
   record(world, 'assignment', { actorId: entity.id, householdId: household.id, importance: 1, text: `${entity.name} will ${taskWords(choreId)} when it can be done, and works about the place until then: ${why}` });
@@ -121,8 +156,23 @@ export function waitForTask(world, household, entity, choreId, mode, error) {
 export const WAITS = 'On auto, this is remembered and done when it can be; until then they work about the place.';
 export function waitingWork(person, entries = []) {
   if (!person?.auto || GONE.includes(person.health?.condition)) return entries;
-  return entries.map(entry => (entry.can || !REPEATED.includes(entry.id) || entry.id === 'hunt-land') ? entry : { ...entry, waits: WAITS });
+  return entries.map(entry => (entry.can || !REPEATED.includes(entry.id) || ON_MAP.includes(entry.id)) ? entry : { ...entry, waits: WAITS });
 }
+
+/**
+ * Work that stops when the family has enough of what it makes (owner, 2026-09-28), and the words that say so: felling when the
+ * pile holds what the house still wants and a margin (sim/woodpile.mjs), a carreta when the family has a vehicle to draw.
+ * ceiling: the carreta is made on auto only for a family with no cart or wagon at all; a second vehicle is a student's order.
+ */
+const ENOUGH = Object.freeze({
+  'fell-trees': (world, household) => pileFull(world, household),
+  'make-carreta': (world, household) => (beastsOf(world, household, 'wagon').some(kept) ? 'The family has a cart or wagon to draw; another carreta is not wanted.' : null),
+});
+/** Work that waits on the wood pile, whose refusal is said as waiting for logs: the house and the carreta. */
+const WANTS_LOGS = Object.freeze({
+  'build-house': (world, household) => houseWaitsForLogs(household, world),
+  'make-carreta': (world, household, why) => /logs from the pile/.test(why),
+});
 
 /** Why this person cannot take their task up right now, or null: the lesson's step, the work's own refusal, the powder. */
 function heldWhy(world, household, person, order) {
@@ -132,11 +182,19 @@ function heldWhy(world, household, person, order) {
   const notYet = lessonRefusal(world, household, { action: 'chore', chore: order.chore, entityId: person.id });
   if (notYet) return notYet;
   if (chore?.offered && !chore.offered(world, household, person)) return 'There is none of that work to be had here now.';
+  const enough = ENOUGH[order.chore]?.(world, household);
+  if (enough) return enough;
   const open = choreAvailability(world, household, person, order.chore);
-  if (!open.can) return open.why;
+  if (!open.can) return WANTS_LOGS[order.chore]?.(world, household, open.why) ? `Waiting for logs. ${open.why}` : open.why;
   // A hunt only with a shot in the house, as a family nobody plays hunts (sim/neighbours.mjs): a hunter sent out with
   // nothing to fire walks to the timber to leave the deer standing, and would do it every afternoon.
   if (SHOOTS.includes(order.chore) && (household.resources?.powder ?? 0) < 1) return 'There is no powder in the house to hunt with.';
+  // A plot's work, on the plot it goes to next: refused for that plot in the plot's own words (sim/survey.mjs).
+  if (PLOT_WORK.includes(order.chore)) {
+    const plot = plotFor(world, household, order);
+    const why = plotWorkRefusal(world, household, order.chore, plot, { entity: person });
+    if (why) return why;
+  }
   return null;
 }
 
@@ -214,7 +272,12 @@ export function advanceAuto(world, { beginTravel, modeAvailability }) {
         // The way is chosen again each time by the one rule (sim/going.mjs, owner 2026-09-24): the quickest that can go now, so a
         // hunter on auto whose horse is out walks rather than waiting for it, and rides when it is home. Not the way the
         // student last chose (`order.mode`, kept for an old save): an open question for the owner (docs/FAMILY_PANEL.md §15).
-        beginChore(world, household, person, order.chore, { beginTravel, modeAvailability }, quickestForChore(world, household, person, order.chore, modeAvailability), order.ground ? { ground: { ...order.ground } } : {});
+        // A plot's work goes to the plot it was given, then the next nearest the house, which is remembered as theirs (`plotFor`).
+        // Felling is never sent back to the place it was given: each time it is the nearest timber left (sim/felling.mjs).
+        const plot = PLOT_WORK.includes(order.chore) ? plotFor(world, household, order) : null;
+        if (plot) order.plotId = plot.id;
+        const extra = plot ? { plotId: plot.id } : order.ground && order.chore !== 'fell-trees' ? { ground: { ...order.ground } } : {};
+        beginChore(world, household, person, order.chore, { beginTravel, modeAvailability }, quickestForChore(world, household, person, order.chore, modeAvailability), extra);
         delete order.held;
       } catch (error) { hold(error.message); }
     }
@@ -230,7 +293,8 @@ export function autoShown(world, household, person) {
   if (!order) return { chore: null, says: `Auto: nothing to repeat yet. Give ${person.name} work at home - the field, a hunt, the house - and they will keep at it.` };
   const task = taskWords(order.chore);
   const shown = (says, waiting = false) => ({ chore: order.chore, says, ...(waiting && { waiting: true }) });
-  if (person.chore?.id === order.chore) return shown(`Auto: ${task}, over and over.`);
+  // Fetching logs from off the land is felling, for a family whose land has none (sim/chores.mjs `workOf`).
+  if (person.chore && workOf(person.chore.id) === order.chore) return shown(`Auto: ${task}, over and over.`);
   if (person.chore?.id === 'mend-hoe' && order.held) return shown(`Auto: ${task}. ${order.held} Mending it first.`, true);
   if (person.chore) return shown(`Auto: ${task}, once the work in hand is done.`);
   if (!household || !homeAndFree(household, person)) return shown(`Auto: ${task}, taken up again when they are home.`);
