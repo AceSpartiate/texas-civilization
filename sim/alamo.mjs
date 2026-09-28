@@ -8,7 +8,8 @@
 //   inside the walls, and cannot be sent for. On each of the four days Travis sent riders out (owner, 2026-09-22: volunteers
 //   are reconsidered on later courier dates), Travis's runner walks to every played man inside who could carry a letter
 //   (sim/alamo-runner.mjs) and asks, once that day; about one volunteer in four is chosen that night, rides out to Gonzales,
-//   and lives. An answer nobody gives is decided by the documented fallback (`settleUnanswered`, docs/ALAMO_FATES.md).
+//   and lives. An answer nobody gives lapses: nothing is chosen, and the person stays at their post (`settleUnanswered`,
+//   owner 2026-09-27, sim/lapse.mjs).
 // - **The relief**: every family that has heard Travis's letter may send a grown member to Gonzales; whoever is there by two in
 //   the afternoon of February 27 rides with Kimbell and Martin and is inside the Alamo before dawn on March 1.
 // - **The fall** (March 6): by role and place, not by sex (owner, 2026-09-22; docs/ALAMO_FATES.md). Every man of fighting age
@@ -27,6 +28,7 @@ import { frailty } from './army.mjs';
 import { modeWith } from './keeping.mjs';
 import { canAnswerCalls } from './family.mjs';
 import { closeRunner, sendRunner, takePost } from './alamo-runner.mjs';
+import { answeredFor, recordLapse } from './lapse.mjs';
 import { endShortOf, leaveBy, onMap, pointAlong, postLabel, wayOut } from './alamo-posts.mjs';
 import { MODES, milesADay, roadTicks } from './travel.mjs';
 import { findWay } from './ways.mjs';
@@ -166,26 +168,33 @@ export function answerCourier(world, person, answer) {
 }
 
 /**
- * Nobody answered the runner: the documented fallback (owner, 2026-09-22: "with a documented fallback"; docs/ALAMO_FATES.md;
- * `FIC-GONZ-384`). Used when the decision's real-time budget runs out (`why` 'budget', sim/decision-budget.mjs) and when the
- * riders go that night with the question still open (`why` 'deadline').
+ * Nobody answered the runner. Used when the decision's real-time budget runs out (`why` 'budget', sim/decision-budget.mjs)
+ * and when the riders go that night with the question still open (`why` 'deadline').
  *
- * The fallback is the owner's standing rule for every choice not made in time (`FIC-GONZ-048`, 2026-09-16): **auto takes
- * over**. The person decides alone, at auto's share - about a third offer - exactly as a person on auto and a family nobody is
- * at the screen for decide, and the army's and Houston's questions fall back the same way. One rule for every military
- * question, said in the journal in plain words. ceiling: an earlier offer is not carried forward - a volunteer passed over
- * who is not answered for on a later day decides afresh at the share. Staying at one's post is the alternative the historical
- * review would also defend (docs/ALAMO_FATES.md §4, "Nobody answered"); it is the owner's to choose, not this code's.
+ * **The question lapses** (owner, 2026-09-27: "questions that are not answered fast enough disappear"; sim/lapse.mjs,
+ * `FIC-GONZ-633`, amending `FIC-GONZ-384`). Nothing is chosen for the family: the person is not offered as a courier and
+ * stays at their post inside the walls, the runner says so and walks back to the colonel, and the family's record says
+ * plainly that nobody answered and what that meant. An earlier offer on another night is not carried forward to this one.
+ * Until 2026-09-27 the person decided alone at auto's share, about a third offering (`FIC-GONZ-048`); the owner chose the
+ * alternative the historical review also defended (docs/ALAMO_FATES.md §4, "Nobody answered").
+ *
+ * Somebody nobody is answering for - on auto, or of a family whose student has gone - is still decided as such a person is
+ * decided when asked (`askCouriers`), at auto's share: that is the switch's rule and the director's, not a fallback.
  */
 export function settleUnanswered(world, person, why = 'deadline') {
   const service = person.service;
   if (!courierPending(person)) return;
+  const when = why === 'budget' ? 'in time' : 'in time, before the riders went';
+  if (answeredFor(world, person)) {
+    service.courier = 'stays';
+    recordLapse(world, { householdId: person.householdId, actorId: person.id, text: `Nobody answered Travis's runner for ${person.name} ${when}, and the question lapsed. Nothing was chosen: ${person.name} was not offered as a courier and stays at their post inside the walls.` });
+    closeRunner(world, person, 'unanswered', false);
+    return;
+  }
   const offers = autoOffers(world, person);
   service.courier = offers ? 'volunteered' : 'stays';
   service.courierOffer = offers;
-  const when = why === 'budget' ? 'in time' : 'in time, before the riders went';
-  const text = `Nobody answered for ${person.name} ${when}, and it was decided for them, as a person on auto decides. ${offerSaid(person, offers)}`;
-  record(world, 'choice', { actorId: person.id, householdId: person.householdId, importance: 2, decision: `courier-${offers ? 'volunteer' : 'stay'}`, claimId: 'FIC-GONZ-384', text });
+  record(world, 'choice', { actorId: person.id, householdId: person.householdId, importance: 2, decision: `courier-${offers ? 'volunteer' : 'stay'}`, claimId: 'FIC-GONZ-048', text: `${person.name}, deciding alone: ${offerSaid(person, offers)}` });
   closeRunner(world, person, 'unanswered', offers);
 }
 

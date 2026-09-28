@@ -2,7 +2,7 @@
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame, spriteReady } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, gaitMilesASecond, landRuns, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
 import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, standing, travellingLine, awayLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
@@ -771,15 +771,20 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
 function sightOf(entity, height, marks) {
   const seen = travelSeen.get(entity.id) || { alpha: 1 };
   const since = marks.now - (seen.shownAt ?? marks.now), wasAt = seen.miles;
-  seen.heightsPerSecond = 0; seen.journey = null; seen.drawn = false; seen.shownAt = marks.now;
+  seen.heightsPerSecond = 0; seen.journey = null; seen.drawn = false; seen.trailing = false; seen.shownAt = marks.now;
   travelSeen.set(entity.id, seen);
   // Only somebody the server has on the road now is scheduled. On the tick they arrive they are still drawn walking the last
   // of the road in, at the pace the schedule left them at, and whole - which is how a hunter is drawn reading the ground.
   const journey = entity.facing || entity.speaking ? null : motionProjection.journey(entity, marks.frozen);
-  if (!journey?.points?.length || !marks.running || reducedMotion.matches) { seen.alpha = 1; return null; }
+  if (!marks.running || reducedMotion.matches) { seen.alpha = 1; delete seen.trail; return null; }
+  // Home before the drawing is (a journey paced on the family's own land, public/motion.js `pacedSight`): still walking the
+  // last of the land in at their own pace, never hurried to where the server already has them.
+  if (!journey?.points?.length) return trailOf(entity, height, marks, seen, since);
   const miles = motionProjection.drawnMiles(entity, marks.now, marks.frozen);
   const milesATick = travelMilesATick(journey, minutesATick);
-  const gait = gaitMilesASecond({ scale: marks.scale, heightPx: height });
+  // Their own pace, not only what their figure's cycle can cover (owner, 2026-09-27): the horse's on horseback, the team's
+  // with the wagon, a walker's on foot, in proportion to a grown person's walk (public/motion.js `paceMilesASecond`).
+  const gait = paceMilesASecond({ scale: marks.scale, heightPx: height, personPx: marks.figure, speed: journey.speed });
   // The family's own land under this road, once a journey rather than once a frame: a road is a few hundred points and this
   // is asked of every traveller on every painted frame.
   const key = `${entity.id}|${journey.from}|${journey.to}|${journey.points.length}|${journey.base || 0}|${Boolean(ownGrant)}`;
@@ -789,7 +794,17 @@ function sightOf(entity, height, marks) {
     runs = landRuns(journey.points, marks.observed ? null : ownGrant, journey.distance, journey.base || 0);
     landRunCache.set(key, runs);
   }
-  const sight = travelSight({ distance: journey.distance, miles, milesASecond: drawnMilesASecond({ milesATick, tickMs: marks.tickMs }), gait, ...runs });
+  const milesASecond = drawnMilesASecond({ milesATick, tickMs: marks.tickMs });
+  // Land already walked is behind them: once this journey has been drawn past the line out of the family's land, a schedule
+  // that changes under it (the camera pressed closer, the class pace, the calendar) must not walk them back onto it to pay
+  // for it again - which a paced schedule would (public/motion.js `pacedSight`).
+  const past = seen.journeyKey === key && Number.isFinite(wasAt) && wasAt > runs.leaves + 1e-9;
+  seen.journeyKey = key;
+  const lands = past ? { leaves: 0, enters: runs.enters } : runs;
+  const sight = travelSight({ distance: journey.distance, miles, milesASecond, gait, ...lands });
+  // A paced journey whose drawn arrival falls after the server's is carried on past it by `trailOf`.
+  if (sight.end > journey.distance + 1e-9) seen.trail = { journey, args: { distance: journey.distance, milesASecond, gait, ...lands }, v: miles, end: sight.end };
+  else delete seen.trail;
   // Eased toward what the schedule asks for rather than taken from it, so the schedule changing under a student's hand -
   // rolling the zoom wheel in on somebody halfway across the country moves the gait past the server's pace in one frame -
   // is a short fade and not a figure vanishing between two frames (public/motion.js `fadeToward`). At once for a page with
@@ -815,6 +830,31 @@ function sightOf(entity, height, marks) {
   seen.shownHeightsPerSecond = sight.rate * seen.heightsPerSecond;
   seen.faded = sight.faded; seen.lead = sight.lead; seen.tail = sight.tail;
   seen.at = alongRoute(journey.points, sight.miles - (journey.base || 0)) || null;
+  return seen;
+}
+/**
+ * The last of a paced journey, drawn after the server has put them where it ends (owner, 2026-09-27: on the family's own land
+ * nobody is drawn faster than their own pace; public/motion.js `pacedSight`). The server's miles run on from the end of the
+ * road at the rate they were carried, the same schedule is asked where that puts them, and the figure walks the rest of its
+ * land in at its pace until the drawn arrival. Given up - the figure drawn where the server has it - the moment they set out
+ * again, stop to speak, the class is paused, or the page was not painting (a hidden tab), since a trail is for somebody
+ * watched walking in.
+ * ceiling: a trail is a frame-to-frame walk kept by this page, not a server journey: a student who gives an order to somebody
+ * still being drawn walking in sees the new journey start from where the server has them, which is the house. Only a journey
+ * that cannot walk its own land in the time the class clock gives it trails at all; the way out is a slower class pace.
+ */
+function trailOf(entity, height, marks, seen, since) {
+  const trail = seen.trail;
+  if (!trail || entity.travel || entity.facing || entity.speaking || !(since > 0) || since > 1000) { delete seen.trail; seen.alpha = 1; return null; }
+  trail.v += since / 1000 * trail.args.milesASecond;
+  if (!(trail.v < trail.end)) { delete seen.trail; seen.alpha = 1; return null; }
+  const sight = travelSight({ ...trail.args, miles: trail.v });
+  seen.alpha = fadeToward(seen.alpha ?? 1, sight.alpha, since);
+  seen.wanted = sight.alpha; seen.miles = sight.miles; seen.serverMiles = trail.args.distance; seen.journey = trail.journey; seen.leapt = false;
+  seen.heightsPerSecond = drawnHeightsPerSecond({ milesATick: trail.args.milesASecond, tickMs: 1000, scale: marks.scale, heightPx: height });
+  seen.shownHeightsPerSecond = sight.rate * seen.heightsPerSecond;
+  seen.faded = sight.faded; seen.lead = sight.lead; seen.tail = sight.tail; seen.trailing = true;
+  seen.at = alongRoute(trail.journey.points, sight.miles - (trail.journey.base || 0)) || null;
   return seen;
 }
 /** The figure itself, at `alpha` of itself: the whole of it, or fading out of view and back on a long journey (`sightOf`). */
@@ -3011,7 +3051,7 @@ export function drawWorld(world) {
   ownGrant = bounds && Number.isFinite(bounds.minX)
     ? at => at.x >= bounds.minX && at.x <= bounds.maxX && at.y >= bounds.minY && at.y <= bounds.maxY
     : null;
-  const travelMarks = { frozen, running, tickMs, scale: camera.scale, now: frameNow };
+  const travelMarks = { frozen, running, tickMs, scale: camera.scale, figure: camera.figure, now: frameNow };
   // A baby carried on an errand (sim/babies.mjs `takeBabyAlong`) is drawn on its carrier's hip, wherever the carrier is drawn:
   // so the carriers first, and where each was put kept for the babies they carry.
   // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 - a woman with a baby on her hip; until then the infant figure beside her.
@@ -5815,7 +5855,7 @@ function renderEncounter(world) {
   }
   $('#encounter-note').textContent = runner
     ? live ? `${encounter.pressing ? `${encounter.carrierName} cannot wait much longer.` : `${encounter.carrierName} is waiting for an answer to take back.`} ${encounter.ifUnanswered || ''}`.trim()
-      : encounter.reason === 'unanswered' ? `Nobody answered ${encounter.carrierName} in time, and it was decided for ${name}. The journal says what.` : `${name} gave ${encounter.carrierName} an answer, and he has gone back to Colonel Travis.`
+      : encounter.reason === 'unanswered' ? `Nobody answered ${encounter.carrierName} in time, and the question lapsed: ${name} stays at their post, and he has gone back to Colonel Travis.` : `${name} gave ${encounter.carrierName} an answer, and he has gone back to Colonel Travis.`
     : live
       ? 'They will not wait for ever. Closing this does not unhear anything already said.'
       : encounter.reason === 'unanswered' ? `${encounter.carrierName} would wait no longer and rode on.`
@@ -5856,7 +5896,8 @@ function renderSlice(world) {
     const said = request.kind === 'march'
       ? { open: 'Your family can choose how to respond.', accepted: 'Your family went upriver with them.', refused: 'Your family stayed in Gonzales.', expired: 'They crossed without an answer.' }
       : request.kind === 'call'
-      ? { open: 'Your family can choose how to respond.', accepted: 'Somebody from your family went with the volunteers.', refused: 'Your family stayed home.', expired: 'Nobody from your family answered.' }
+      // A played family's call lapses after its minutes (sim/decision-budget.mjs `CALL_BUDGET_MS`): the server's words for it.
+      ? { open: `Your family can choose how to respond.${request.pressing ? ' The call will not stand much longer.' : ''}${request.lapses ? ` ${request.lapses}` : ''}`, accepted: 'Somebody from your family went with the volunteers.', refused: 'Your family stayed home.', expired: request.lapsed ? 'Nobody answered in time, and the call lapsed: nobody from your family turned out.' : 'Nobody from your family answered.' }
       : request.kind === 'rumor'
       ? { open: 'Your family can choose how to respond.', accepted: 'Your family went to see for itself.', refused: 'Your family stayed home.', expired: 'Nobody went to find out.' }
       : { open: 'Your family can choose how to respond.', accepted: 'Your family chose to help.', refused: 'Your family chose to stay home.', expired: 'This request has passed.' };

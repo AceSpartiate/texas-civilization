@@ -31,6 +31,7 @@ import { CHORES, COIN, abandonChore, reales, registerChores } from './chores.mjs
 import { dateOf } from './clock.mjs';
 import { REGIONS, WATER_SHUT, rainingAt, waterAt, weatherAt, weatherOn } from './weather.mjs';
 import { record } from './events.mjs';
+import { familyAnsweredFor, recordLapse } from './lapse.mjs';
 import { canAnswerCalls, householdName, mainPersonId, tooYoung } from './family.mjs';
 import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
 import { beastsOf } from './beasts.mjs';
@@ -69,7 +70,7 @@ export const DIG_HOURS = 8;
 export const DIG_MILES = 8;
 /** After a dig-out the ox is spent: the wagon goes at this share of its pace for `OX_SPENT_HOURS`, and a second dig-out takes twice the hours. */
 export const OX_SPENT_HOURS = 24, SPENT_PACE = 0.5;
-/** A road question waits this many ticks for the family before it is decided as auto decides (the calendar holds for a played family). */
+/** A road question waits this many ticks for the family before it lapses (`lapseRoad`; the calendar holds for a played family). */
 export const ROAD_PATIENCE_TICKS = 12;
 /** A column within this many miles is a warning; within `OVERTAKEN_MILES` it has come up with a family that is not moving. */
 export const WARNING_MILES = 20, OVERTAKEN_MILES = 5;
@@ -294,6 +295,23 @@ export function answerRoad(world, household, option, how = 'answered') {
   return option;
 }
 
+/**
+ * Nobody answered the road's question in its time, and it lapses (owner, 2026-09-27: "questions that are not answered fast
+ * enough disappear"; sim/lapse.mjs). Nothing new is done. The wagon in the mud stays in the mud until the ground dries, which
+ * is what it does with nobody at the wheels (the same state as waiting, though nobody chose to wait); with the army close
+ * behind, whatever the family was doing goes on - moving if it was moving, camped if it was camped - and it is not asked again
+ * about that column.
+ */
+export function lapseRoad(world, household) {
+  const flight = household.flight, ask = flight?.ask;
+  if (!ask) return;
+  delete flight.ask;
+  if (ask.id === 'bog' && flight.bog) flight.bog.waiting = true;
+  recordLapse(world, { householdId: household.id, text: ask.id === 'bog'
+    ? 'Nobody answered for the family in time, and the question lapsed. Nothing was done: the wagon stays in the mud where it is until the ground dries.'
+    : 'Nobody answered for the family in time, and the question lapsed. Nothing new was done: whatever the family was doing goes on, with the army behind it.' });
+}
+
 /** The family presses on: a camp is broken, a refuge left for the next east; a family already moving simply goes on. */
 export function pressOn(world, household) {
   const flight = household.flight;
@@ -403,7 +421,10 @@ export function overtake(world, household, near) {
     } else if (person.travel) { person.travel.mode = 'foot'; person.travel.speed = WALK_SPEED; delete person.travel.halted; }
   }
   if (flight.crossing) { flight.crossed = [...(flight.crossed || []), flight.crossing.siteId]; delete flight.crossing; }
-  if (flight.status === 'fled') flight.mode = 'foot';
+  // On foot from here, whether caught on the road or at a refuge: the wagon and the ox are the column's. A family caught at its
+  // refuge was once left 'wagon' and went home in 'the wagon' the soldiers took - hidden while a question nobody answered pressed
+  // it on east on foot (auto's answer), and found when such a question began to lapse (2026-09-27).
+  flight.mode = 'foot';
   // The cow taken, nobody is held to her pace any longer.
   cowPace(world, household);
   const where = flight.status === 'refuged' ? `at ${world.map.sites[flight.refuge].name}` : 'on the road';
@@ -487,10 +508,14 @@ export function advanceRoad(world, household) {
   const graced = Number.isFinite(flight.orderedMinute) && world.minute < flight.orderedMinute + ORDER_GRACE_MINUTES;
   const caught = !strippedHere && !graced && [near, nearest].find(one => one && !(flight.overtakenBy || []).includes(one.id) && one.miles <= (still ? OVERTAKEN_MILES : CLOSE_MILES));
   if (caught) overtake(world, household, caught);
-  // A question nobody answered in its time is decided as auto decides.
+  // A question nobody answered in its time. For a family a student is answering for, **it lapses** (owner, 2026-09-27;
+  // sim/lapse.mjs): nothing new is done (`lapseRoad`). A family nobody is answering for is decided as auto decides.
   if (flight.ask && world.tick - flight.ask.openedTick >= ROAD_PATIENCE_TICKS) {
-    const option = roadAutoAnswer(world, household);
-    if (option) answerRoad(world, household, option, 'silence'); else delete flight.ask;
+    if (familyAnsweredFor(world, household) && !world.entities[mainPersonId(world, household)]?.auto) lapseRoad(world, household);
+    else {
+      const option = roadAutoAnswer(world, household);
+      if (option) answerRoad(world, household, option, 'silence'); else delete flight.ask;
+    }
   }
   return Boolean(flight.bog) || camping(world, household);
 }

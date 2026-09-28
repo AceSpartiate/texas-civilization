@@ -91,7 +91,7 @@ function sendOnward(world, topicId, siteId, provenance, causeId, beginTravel) {
     let named = number;
     while (provenance.some(hop => hop.name === riderName(named))) named++;
     const site = world.map.sites[siteId];
-    const entity = { id: `courier-${number}`, name: riderName(named), kind: 'person', householdId: null, depth: 'moderate', principal: false, courier: true, location: { x: site.x, y: site.y, siteId }, task: 'rest', health: { condition: 'well' }, travel: null, express: { topicId, from: siteId, to: stop, provenance } };
+    const entity = { id: `courier-${number}`, name: riderName(named), kind: 'person', householdId: null, depth: 'moderate', principal: false, courier: true, base: siteId, location: { x: site.x, y: site.y, siteId }, task: 'rest', health: { condition: 'well' }, travel: null, express: { topicId, from: siteId, to: stop, provenance } };
     world.entities[entity.id] = entity;
     beginTravel(world, entity, stop, causeId, 'express');
   }
@@ -142,7 +142,8 @@ export function advanceExpresses(world, { beginTravel, relayReport }) {
         relayReport(world, { topicId: express.topicId, householdId: household.id, fromSiteId: express.to, originSiteId: SOURCE, status: 'unconfirmed', provenance, causeId });
       }
     }
-    // The rider's errand is done; they are somebody standing in town now, like any courier after theirs.
+    // The rider's errand is done, and he rides home to where he set out from (owner, 2026-09-27; sim/encounters.mjs
+    // `advanceDepartures`), like any courier after theirs.
     delete carrier.express;
   }
 }

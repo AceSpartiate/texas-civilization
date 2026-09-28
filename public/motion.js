@@ -735,6 +735,26 @@ export function drawnMilesASecond({ milesATick, tickMs }) {
 export function gaitMilesASecond({ scale, heightPx, ceiling = GAIT_CEILING }) {
   return !(scale > 0) || !(heightPx > 0) ? 0 : ceiling * heightPx / scale;
 }
+/** A grown person's walk in the server's miles a farming tick (sim/travel.mjs `WALK_SPEED`; the page imports nothing from sim/). */
+export const WALK_MILES_A_TICK = 1;
+/**
+ * The pace a traveller is drawn at, in miles of ground a real second (owner, 2026-09-27, by multiple choice: on the family's
+ * own land somebody on a horse or driving a wagon goes at "the horse or wagon's own speed", never sped up beyond it, and a
+ * walker at an ordinary walk).
+ *
+ * A grown person's walk is `GAIT_CEILING` of a person's drawn height a second (`personPx`), and everybody else goes at their
+ * own journey's pace against that walk: the server's `speed`, miles a farming tick - five thirds of a walk on the horse, the
+ * team's not-quite-two-thirds with the wagon, cart or carreta, a small child's half (sim/travel.mjs, sim/company.mjs). So a
+ * rider is drawn at the horse's pace and a wagon at the ox's, in the same proportion to a walker as the server moves them.
+ * Never above what the figure's own cycle can cover without skating (`gaitMilesASecond` of its drawn height): a wagon drawn
+ * tall is still drawn at the ox's pace, not at 1.2 wagon-heights a second, which was half again a walker's.
+ * Without a pace from the server (the Host's page, somebody else's family) it is the figure's own gait, as before.
+ */
+export function paceMilesASecond({ scale, heightPx, personPx = heightPx, speed }) {
+  const own = gaitMilesASecond({ scale, heightPx });
+  if (!(Number.isFinite(speed) && speed > 0)) return own;
+  return Math.min(own, gaitMilesASecond({ scale, heightPx: personPx }) * speed / WALK_MILES_A_TICK);
+}
 /**
  * The first point of `points` lying beyond `miles` along them, or `points.length` when none does: where the road still ahead
  * of a traveller begins. Allocates nothing, since it runs for every road drawn on every frame.
@@ -796,16 +816,21 @@ export function landRuns(points, inside, distance, base = 0, step = SEEN_MILES /
  * where the server has it. `rate` is the one over the other: how much drawn road a mile of the server's progress buys while
  * the figure is in view.
  *
- * ceiling: **a journey whose own-land stretches the road cannot pay for is drawn at the server's pace, in view, from end to
- * end** - a farm crossing pressed close in, and a hurried short errand that begins on the farm, can both still outrun the
- * gait. That is one rule and not two, and nothing else is possible: on their own land nobody may be faded (owner,
- * 2026-09-22), and the arrival is the server's. The ways out are the class clock (docs/evidence/pace.json) or fading on the
- * farm too, which the owner refused.
+ * **On the family's own land nobody is ever drawn faster than their own pace** (owner, 2026-09-27: a rider at "the horse or
+ * wagon's own speed", never sped up beyond it; `gait` is `paceMilesASecond`). Until then a journey whose own-land stretches
+ * the road could not pay for was drawn at the server's pace, in view, end to end - a farm crossing pressed close in, and a
+ * hurried short errand that began on the farm, outran the walk (the `ceiling:` this replaces). Now such a journey is
+ * **paced** (`pacedSight`): the land is walked at the pace wherever it lies, the off-land middle is crossed out of sight with
+ * a fade as long as the journey can spare, and a journey that cannot walk its own land in the time the server gives it is
+ * drawn arriving *late* - still walking the last of its land, at its pace, after the server has it there. `miles` past the
+ * end of the road is how far the server would have carried them since (`sightOf` in public/app.js keeps counting), and
+ * `end` is where the drawn arrival falls in those miles. Nothing of the server's changes: the arrival it decided is still the
+ * arrival, and a figure is never drawn ahead of it.
  */
 export function travelSight({ distance, miles, milesASecond, gait, leaves = 0, enters = null, fadeMs = TRAVEL_FADE_MS, seen = SEEN_MILES }) {
   const far = Number.isFinite(distance) && distance > 0 ? distance : 0;
   const at = Math.min(Math.max(0, miles || 0), far);
-  const whole = { miles: at, alpha: 1, rate: 1, lead: far, tail: far, faded: false };
+  const whole = { miles: at, alpha: 1, rate: 1, lead: far, tail: far, faded: false, end: far };
   if (!far || !(milesASecond > 0) || !(gait > 0) || milesASecond <= gait) return whole;
   const rate = gait / milesASecond;
   // One fade, counted in the server's own miles, because that is the clock everything here is a function of.
@@ -819,10 +844,10 @@ export function travelSight({ distance, miles, milesASecond, gait, leaves = 0, e
   // land" - so a figure may never *begin* to fade while it is still on its own land, whatever that costs. Walking a farm's
   // own half mile at the gait costs about thirteen real seconds, and a journey has only `rate` of its length to spend, so
   // at a hurried class pace pressed right in a five-mile errand cannot pay for it. Then there is no fade at all and the
-  // whole journey is drawn where the server has it, in view: the same answer a journey that never leaves their land gets,
-  // and the price of it is that a hurried short errand is visibly quick.
+  // whole journey is paced instead (`pacedSight`, owner 2026-09-27): never faster than the pace on the land, and late rather
+  // than quick.
   const room = rate * (far - 2 * fade), land = onLead + onTail;
-  if (!(room >= land)) return whole;
+  if (!(room >= land)) return land > 0 ? pacedSight({ far, v: miles, rate, fade, onLead, onTail }) : whole;
   // The hundred yards off the land at each end, out of whatever is left. Off their land it is a target and not a promise:
   // it shortens, and goes to nothing, rather than start a fade a foot inside the family's own line.
   const give = Math.min(seen, (room - land) / 2);
@@ -831,15 +856,53 @@ export function travelSight({ distance, miles, milesASecond, gait, leaves = 0, e
   // and what is left is a figure that blinks out and back. Better drawn whole and brisk than blinking, so there is no fade
   // at all: that is the owner's "a journey shorter than about 200 yards is simply walked the whole way", arrived at from the
   // road left rather than from a second constant. Pressed close in at a farming tick it falls at about seven hundred yards.
-  // A journey that carries its own land at an end has already paid for a walk there, so the land counts toward this.
-  if (!(lead >= seen / 2) || !(tail >= seen / 2)) return whole;
+  // A journey that carries its own land at an end has already paid for a walk there, so the land counts toward this - and
+  // one with land on it is paced rather than drawn brisk, since brisk on the land is the one thing it may not be.
+  if (!(lead >= seen / 2) || !(tail >= seen / 2)) return land > 0 ? pacedSight({ far, v: miles, rate, fade, onLead, onTail }) : whole;
   const out = lead / rate, back = far - tail / rate - fade;
   const alpha = Math.max(0, Math.min(1, Math.max((out + fade - at) / fade, (at - back) / fade)));
   const held = rate * (out + fade), rejoin = far - rate * (far - back);
   const drawn = at <= out + fade ? rate * at
     : at >= back ? far - rate * (far - at)
     : held + (rejoin - held) * (at - out - fade) / Math.max(1e-9, back - out - fade);
-  return { miles: Math.min(far, Math.max(0, drawn)), alpha, rate, lead, tail, faded: true };
+  return { miles: Math.min(far, Math.max(0, drawn)), alpha, rate, lead, tail, faded: true, end: far };
+}
+/**
+ * A journey the ordinary schedule cannot draw without hurrying somebody on their own land (owner, 2026-09-27): paced.
+ *
+ * `v` is the server's miles along the road, and past `far` the miles it would have carried them since it put them there.
+ *
+ *   - the land at the start is walked at the pace (`rate` drawn miles to the server's one) from the house to the line;
+ *   - just past the line the figure fades, still walking, over as much of a fade as the off-land middle leaves room for - a
+ *     start off the land fades at once;
+ *   - the middle is crossed with nobody watching;
+ *   - the figure fades back in just short of the land at the end (or of the place, with no land there), and walks the land at
+ *     the pace to the end of the road.
+ *
+ * The walk in is timed to finish on the server's arrival when the journey has the time for it; when it has not, it finishes
+ * after (`end` > `far`), and never starts before the walk out is done. A journey wholly on the family's land is simply walked
+ * at the pace from end to end. On the land the figure is always whole and never faster than `rate`; every fade is off it.
+ */
+function pacedSight({ far, v, rate, fade, onLead, onTail }) {
+  const at = Math.max(0, Number.isFinite(v) ? v : 0);
+  const clamp = drawn => Math.min(far, Math.max(0, drawn));
+  if (onLead + onTail >= far - 1e-9) {
+    return { miles: clamp(rate * at), alpha: 1, rate, lead: far, tail: far, faded: false, paced: true, end: far / rate };
+  }
+  const middle = far - onLead - onTail;
+  // How far a fade carries the figure, in drawn miles: a fade's worth at the pace, or half the middle, whichever is less.
+  const walkOut = Math.min(rate * fade, middle / 2), walkIn = Math.min(rate * fade, middle / 2);
+  const out = onLead / rate, gone = out + fade;
+  const back = Math.max(gone, far - onTail / rate - fade), home = back + fade;
+  const end = home + onTail / rate;
+  const from = onLead + walkOut, to = far - onTail - walkIn;
+  let drawn, alpha;
+  if (at <= out) { drawn = rate * at; alpha = 1; }
+  else if (at < gone) { drawn = onLead + walkOut * (at - out) / fade; alpha = 1 - (at - out) / fade; }
+  else if (at < back) { drawn = from + (to - from) * (at - gone) / Math.max(1e-9, back - gone); alpha = 0; }
+  else if (at < home) { drawn = to + walkIn * (at - back) / fade; alpha = (at - back) / fade; }
+  else { drawn = far - onTail + rate * (at - home); alpha = 1; }
+  return { miles: clamp(drawn), alpha: Math.max(0, Math.min(1, alpha)), rate, lead: onLead, tail: onTail, faded: true, paced: true, end };
 }
 /**
  * How much ground one loop of a travel cycle covers, in the drawn height of whoever is doing it.

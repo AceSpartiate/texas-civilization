@@ -431,6 +431,14 @@ one behind the parent, **the main person's switch** decides, a family by hand be
   riders go, the wagon `FLIGHT_PATIENCE` (a day). Then **auto decides that one question**, said so in the record (*"Nobody
   answered for … in time, and it was decided for them."*) — where silence used to count as a no, a stay, or the first fallback.
   So a class saved before this rule may still carry `'silent'` answers; none are made now.
+  **Amended by the owner, 2026-09-27: "questions that are not answered fast enough disappear."** Auto no longer steps in when
+  a window closes on a player by hand: **the question lapses** and nothing is chosen (`sim/lapse.mjs`, `FIC-GONZ-633`) — the
+  hunter leaves the shot and comes home, the man in the Alamo stays at his post, the volunteer is
+  not sent in and does not start home (an army question's answer is `'silent'` again), the man with Houston does not leave,
+  and the bogged wagon stays in the mud until the ground dries. The record says *"Nobody answered … in time, and the question
+  lapsed. Nothing was chosen: …"* and what that meant. Work the family already ordered goes on as it was begun, by the question's own fallback (the counter paid in food as it always was; the planting
+  puts in the family's own crop). The switch itself is unchanged: a person on auto answers at once, at the same shares. The
+  wagon's day (`FLIGHT_PATIENCE`) is an order to leave rather than a question, and still packs the wagon when it is out.
 - **Refusing to go is an answer.** Since silence now packs the wagon after a day, a family that means to stay says so: *Stay,
   and take the risk* on the flight card (`flight-stay`, `sim/scrape.mjs` `stayHome`), which releases the calendar, keeps the
   farm to be burned when the army passes and the family at risk when the enemy comes, and leaves the road east open.

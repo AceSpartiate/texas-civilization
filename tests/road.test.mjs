@@ -110,6 +110,27 @@ test('rain bogs the wagon: the family is halted and asked, the calendar holds wh
   validateWorld(world);
 });
 
+// Owner, 2026-09-27: "questions that are not answered fast enough disappear." (sim/lapse.mjs, sim/road.mjs `lapseRoad`)
+test('a road question nobody answers lapses with nothing chosen: the wagon stays in the mud until the ground dries, said plainly', () => {
+  const world = spring();
+  const household = fled(world);
+  until(world, () => household.flight.ask?.id === 'bog', 200);
+  const opened = world.tick, wagon = world.entities[`${household.id}-wagon`];
+  until(world, () => !household.flight.ask, 40);
+  assert.equal(household.flight.ask, undefined, 'the question never closed');
+  assert.ok(world.tick - opened >= 12, 'the question closed before its twelve ticks');
+  assert.ok(household.flight.bog, 'the wagon was freed by nobody');
+  assert.equal(household.flight.bog.freeing, undefined, 'the family was set to dig by nobody');
+  assert.notEqual(wagon.condition, 'lost', 'the wagon was left behind by nobody');
+  assert.ok(world.events.some(event => event.householdId === household.id && event.lapsed && /Nobody answered for the family in time, and the question lapsed\. Nothing was done: the wagon stays in the mud/.test(event.text)), 'the record does not say the question lapsed');
+  assert.ok(!world.events.some(event => event.householdId === household.id && /^road-bog-/.test(event.decision || '')), 'a lapsed question was written down as a choice');
+  until(world, () => !household.flight.bog, 200);
+  assert.equal(household.flight.bog, undefined, 'the family was left in the mud for ever');
+  assert.ok(world.events.some(event => event.householdId === household.id && /The ground has dried enough; the ox drew the wagon out/.test(event.text)), 'the wagon did not come out of the mud when the ground dried');
+  assert.equal(household.flight.oxSpentUntil, undefined, 'nobody dug, and the ox was spent');
+  validateWorld(world);
+});
+
 test('a bogged family can wait for a dry day, or leave the wagon and go on on foot with what it can carry, faster', () => {
   // Waiting.
   let world = spring();

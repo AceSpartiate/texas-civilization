@@ -69,6 +69,137 @@ driven, because running it from a scratch folder rewrites the real install's sho
 6. The Class view open when the game window closes: (A) the server still stops (as built — the class view is only for
    looking); (B) keep it running while any solo page is open.
 
+## A settlement's call lapses after five real minutes; only students' questions lapse — owner decisions of 2026-09-27 (branch `settlement-call-lapse`; not released)
+
+Built on branch `settlement-call-lapse` from the lapse/riders/pace work below (`c0e9dff`, which the coordinator was merging to
+main). **Not merged to main and not released.** The owner, by multiple choice, 2026-09-27: (1) **"Yes, only students' lapse"**
+- families on auto, absent or run by the neighbours' director keep being answered at auto's share, as built below, now
+recorded in `sim/lapse.mjs` and `FIC-GONZ-048`'s amendment; (2) settlement calls: **"Lapse after a while"**, the option's own
+example five minutes after the rider arrives (`FIC-GONZ-636`).
+
+**What changed.** A played, present family's call to turn out (`world.calls`, sim/calls.mjs) now has a real-time budget,
+`CALL_BUDGET_MS` = **300 000 ms** (sim/decision-budget.mjs; `createClassroom({ callBudgetMs })`, `CALL_BUDGET_MS=` for
+`npm start`), on the same clock as the military questions:
+- **Counted from when the call is put to the family** - for a far family that is the tick the rider's word reaches it
+  (`offerCalls` asks on the report's arrival); for a Gonzales family, the gathering.
+- **Suspended during a Host pause** (a paused class runs no ticks and the meter forgets the gap), and **kept in the save**
+  (`world.decisionClock['call:<household>']`).
+- **Not counted while that family's student is in the guided start.** `stepWorld` hands `spendDecisionBudget` a `heldFor`
+  that is sim/lesson.mjs `inLesson` (on a step, not finished, not closed with the X); a held call's clock is not advanced at
+  all that tick. A student who closes the tutorial with the X is counted from then; one who finishes it, from then.
+  (`heldFor` is passed in rather than imported because importing sim/lesson.mjs into sim/decision-budget.mjs made a module
+  cycle through sim/chores.mjs.)
+- **On lapse** (`lapseCall`): status `expired` with `lapsed: true`; **nothing is chosen** - nobody turns out, nobody is
+  recorded as staying, no `decision` event; the journal says *"Nobody from this family answered the settlement's call in
+  time, and it lapsed. Nothing was chosen: nobody from the family turned out."*; a rider still at the gate ends the meeting
+  as one who will wait no longer and rides home (`sendOnFrom`, sim/encounters.mjs). Turning out is refused afterwards
+  ("Nobody is asking that.").
+- **Said on the card** (`request.lapses` before, `request.pressing` past two thirds, `request.lapsed` after; the status line
+  under the call in public/app.js). The panel's "!" and the call menu are unchanged.
+- Families nobody plays or whose student has gone never get the budget: the neighbours' director answers them as before.
+
+**Evidence** (same computer; headless Chrome for the proofs):
+- `tests/call-lapse.test.mjs`, 4 tests: the lapse after five minutes (open at 200 s and pressing, lapsed at 300 s, nothing
+  chosen, journal line, rider gone, turning out refused); held while in the guided start and running once it is closed with
+  the X; never for an absent or unplayed family; its own server option apart from the military one. Run against the code
+  before this (`c0e9dff`): **3 of 4 fail** (the absent/unplayed guard passes there, as it must: it guards the new rule's
+  edge and is proved by injection).
+- `node scripts/military-regression-check.mjs` with `ONLY=`: the 5 new rows (`call-lapse-chooses`, `call-rider-stays`,
+  `call-in-lesson`, `call-absent`, `call-own-budget`) and the re-aimed `budget-config` are **each caught alone, 6 of 6**. No
+  budget at all is the old behaviour and is proved by the run against `c0e9dff` rather than injected.
+- `npm test`: **1443 passed, 0 failed** (1439 + the 4 new). `test:lesson`: **33 checks pass**. `test:family-commands` (the proof that drives the call menu):
+  its two call checks pass (the call marks everybody who may answer; answering from the menu clears the "!"), and the proof
+  then fails further on, at "nobody still at a chore to hold a stale order" (7 checks passed) - **the same failure at the same
+  point on `ed4147b`**, before any of this work, so it is not this change; one of three runs instead timed out a step earlier
+  on a hidden "Make furniture" icon. It wants its own look. `test:information` and `test:slice` do not touch settlement calls
+  (checked by search) and were not run.
+
+## Unanswered questions lapse, messengers leave, each at their own pace on the land — owner decisions of 2026-09-27 (worktree branch; not released)
+
+Built on a worktree branch from main `ed4147b`, with `origin/main` `e937b72` (the balance fix to the neighbours' flight, docs/DISEASE.md) merged in before finishing. **Not merged to main and not released.**
+The owner, verbatim: *"questions that are not answered fast enough disappear. riders delivering messages should leave after
+their interactions are complete. i think that answers your runner question? no, the teacher can not reopen the tutorial."*
+Then by multiple choice: on the family's own land a rider or a wagon goes at *"the horse or wagon's own speed"* (never sped
+up beyond it; walkers at a walk); the fighting age stays **16**; grown children at home stay **up to 22**.
+
+**1. A question nobody answers in time lapses** (`sim/lapse.mjs`, `FIC-GONZ-633`, amending `FIC-GONZ-048` and `-384`).
+For a family that answers its own questions (not absent, not one the neighbours' director answers for, the person not on
+auto) a question that runs out closes with **nothing chosen**, and the record says so in a `consequence` line (`lapsed: true`):
+*"Nobody answered for … in time, and the question lapsed. Nothing was chosen: …"*. Every timed question, and what lapsing does:
+
+| Question | Where its time runs out | On lapse (before: auto's answer) |
+| --- | --- | --- |
+| Travis's runner (courier) | 90 real s (`sim/decision-budget.mjs`), or the riders going that night | `courier: 'stays'` - not offered, stays at his post; runner says so and walks back (`settleUnanswered`) |
+| Bowie and Fannin's division | 90 s, or the army moving | `'stay'` - with the main army (`decideDetachmentFor`) |
+| Army: storm, pledge, pack train, winter quarters, Milam, reinforcement | 90 s, or each question's dated close | `'silent'` (the vocabulary already had it) - nobody goes in, out or home; no glory (`decideQuestionFor`, `said.silent`) |
+| Houston's camp: leave, which road | 90 s, or March 28 / April 17 | `'no'` - does not leave, calls for no road (`decideCampQuestionFor`) |
+| The shot on a hunt | `ASK_PATIENCE` (2 fictional hours) | `'leave'` - the moment passes, no powder spent (`lapsedChoice`) |
+| Other questions inside ordered work (counters, crop, terms, carpenter, shops) | `ASK_PATIENCE` | the question's own fallback, as silence always gave: the counter paid in food, the family's own crop - the work ordered goes on as begun |
+| The road east: bog, army close behind | `ROAD_PATIENCE_TICKS` (12 ticks) | bog: stays in the mud until the ground dries; danger: whatever the family was doing goes on (`lapseRoad`) |
+| News riders' conversation | `PATIENCE_MINUTES` | already lapsed ("would wait no longer and rode on"); now he actually leaves (2) |
+
+Automatic and absent families are unchanged: answered at once at auto's shares when asked; if one goes absent or on auto
+while a question stands, the close still decides it by auto (text now *"X, deciding alone: …"*). Not changed, and not a
+question: the day a family by hand is given when **told to leave** (`FLIGHT_PATIENCE`) still packs the wagon at its end.
+**Settlement calls** (`sim/calls.mjs`) have no time of their own - they stay open until the period ends and then close with
+"Nobody from this family answered" (already nothing chosen); the Gonzales calls (the neighbour, the rumour, the march upriver)
+close on their dated moments the same way. **Giving calls a real-time budget was not done**: 90 seconds would shut a far
+family out of the war while its student is in the guided start - the owner's call if wanted.
+
+Found by the change and fixed: a family **overtaken at its refuge** kept `flight.mode: 'wagon'` and went home after San Jacinto
+"with the wagon" the soldiers took (sim/road.mjs `overtake` now sets foot wherever it is caught). Hidden until now because the
+next danger question's auto answer always pressed it on east on foot.
+
+**2. Messengers leave when done** (`advanceDepartures`, `goneFromSight` in sim/encounters.mjs, `FIC-GONZ-634`). A news rider
+let go or given up waiting turns for home the next tick: from the gate or fork by road (`beginTravel`, purpose `leave`, to
+`base` = where he set out, stored on new riders), or, met out on the road, turned round where he reined in (`turnBack`; a
+discharged rider is no longer un-halted and sent on to the gate). A rider who hands the word on at a fork and an express rider
+once the word is read ride home the same way. He is seen going while in sight (`ridersInSight` now includes `leaving`), and on
+arriving is `gone`: filtered from every family's `others`, the rider-sight list and the Host overview; kept in the world
+because the record names him. Old saves: a rider with no `base` rides for Gonzales, or is simply gone there; at the winter
+every courier not carrying an express is gone. **Travis's runner**, answered or lapsed, walks back to the colonel's door as
+before and now goes in: in phase `waiting` he is drawn by nobody. There are no other messenger entities: the Watch/Follow
+battle alerts come through the family's own person.
+
+**3. Own-land pace** (`FIC-GONZ-635`). Findings: the **server** already moves each way of going at its own speed everywhere
+(walk 1, horse 5/3, wagon/company 0.65 miles a farming tick; nothing hurries anybody on their land). The **drawing** did not:
+the pace cap was 1.2 of the figure's *own drawn height* a second, so a wagon was drawn at 1.55 of a walker (2.4× the ox) and a
+rider at 1.8 (the horse is 1.67); and a journey that could not pay for its own land was drawn at the server's pace (the old
+`ceiling:`). Now `paceMilesASecond` (public/motion.js) = a person's walk × the journey's server `speed` / walk, never above
+the figure's own cycle; and `pacedSight` + `trailOf` (public/app.js) draw such a journey walked at the pace on the land,
+faded only off it, arriving **late** rather than hurried (never early). The ceiling in MAP_ACCURACY §12a.3 is replaced by the
+decision; the remaining `ceiling:` is that a figure still being drawn walking in when sent out again starts from the house.
+
+**4. Recorded, no change**: the teacher cannot reopen the tutorial (docs/LESSON.md §6, HOST_PAGE.md §2.5); fighting age 16
+(FAMILY_CREATION.md §5); grown children at home to 22 (FAMILY_CREATION.md, the 2026-09-22 amendment's open question 2).
+CLAUDE.md item 15 no longer calls the tutorial "forced".
+
+**Evidence** (same computer; no LAN, Chromebook or classroom claim):
+- `npm test`: **1439 passed, 0 failed** after merging `origin/main` (1438 before the merge; 1429 before this work; new: `tests/riders-leave.test.mjs` 4, decision-budget +1, alamo-runner
+  +1, road +1, travel-drawn +2; updated to the new rule: auto, concepcion, hunting, siege, camp, alamo, battle-grass,
+  host-view, information-time, military-attention). Every new or changed check was run against the old code (a `git archive`
+  of `ed4147b`) and failed there.
+- `node scripts/military-regression-check.mjs`: **49 of 52 caught alone** ([record](docs/evidence/military-injections.json)).
+  All 18 new rows (`lapse-courier`, `-keeps-auto`, `-army`, `-detachment`, `-camp`, `-shot`, `-road`, `runner-goes-in`,
+  `rider-gone-unseen`, `-standing-unseen`, `-host-unseen`, `-turn-back`, `-fork`, `express-home`, and the re-aimed
+  `budget-close-runner`, `absent-budget`, `auto-budget`) are caught alone - several are the old behaviour itself (auto's answer
+  put back; the rider left standing). Two older rows, `runner-walk` and `runner-return`, now fail two tests each: the new runner
+  test walks through the same rules. **`sex-fate` is missed, and was before this**: the fates moved to sim/alamo-battle.mjs on
+  2026-09-25 and the mutated line in sim/alamo.mjs no longer decides anything - it wants re-aiming at `alamo-battle.mjs`. Five
+  rows whose targets had gone stale since 2026-09-22 were re-aimed (`priority`, `auto-person`, `absent-family`,
+  `alamo-origin`, `warn-garrison`); the harness had not run whole since then. `ONLY=a,b` runs a few without writing the record.
+- `node scripts/travel-drawn-injections.mjs`: **21 of 21 caught** ([record](docs/evidence/travel-drawn-injections.json)); the
+  four new pace rows caught alone except the old ceiling put back, which fails three tests (it is the old behaviour itself).
+- Browser (headless Chrome, `PLAYWRIGHT_MODULE`/`BROWSER_EXECUTABLE` as usual): `test:alamo-siege` **9** (now asserts the
+  lapse - `stays`, the journal line, "the question lapses" in the meeting - and the runner walking away, 96 → 186 → 276 → 366
+  → 456 ft, then not drawn), `test:battle-alamo` **13**, `test:lesson` **33**, `test:riding` **16**, `test:travel-sight` **12**,
+  `test:travel-drawn` **17** (run eight times on eight dealt worlds: 2.9 to 167 miles).
+- `test:travel-drawn` failed twice before it passed, on a 10.7- and a 2.9-mile road at the Study pace: it stopped reading 2.5 s
+  after the server's arrival, and the page draws a tick (9.5 s) behind, so a short road's walk in was never read. The proof now
+  reads a whole tick past the arrival. Found alongside it and fixed in the page: once a journey has been drawn past the family's
+  land line, a schedule that changes under it (the camera pressed closer) no longer walks the figure back onto its land to pay
+  for it again (`sightOf`, `past`). Neither is caught by a unit test; the proof is what shows them.
+
 ## The milk cow's pace and a baby's short word — two owner decisions of 2026-09-27 (worktree branch; released in v2026.09.27.2)
 
 Built on `worktree-agent-a5841143559ab4e24` from main `bd460c4`, fast-forwarded to `origin/main` `c4c2461` before finishing; merged to main and

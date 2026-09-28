@@ -220,7 +220,8 @@ only on a stopped lesson and only naming a real step, `stoppedAt` and `resumeBy`
 
 - ~~**`ceiling:` the X is for good**~~ Replaced 2026-09-22 by the owner's second amendment (§1): five real minutes from
   the first X to press **Resume tutorial**. After that the X is for good again; there is no teacher's control to reopen
-  a family's guided start. A Host command that clears `stopped` for one family is the way out if a teacher asks for it.
+  a family's guided start. **And there will not be one: the owner, 2026-09-27, verbatim: "no, the teacher can not reopen
+  the tutorial."** A Host command that clears `stopped` is not a way out any more; it is ruled out.
 - ~~**The Host is not told when a student presses the X.**~~ Done 2026-09-22: a line on the class panel and a Host-only
   event (§1, second amendment).
 - **The resume window is counted by the page once heard.** The server sends how many milliseconds are left; the page

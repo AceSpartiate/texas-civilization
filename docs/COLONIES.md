@@ -494,7 +494,17 @@ Each step ends with tests that failed first, a browser proof where it touches wh
   quickest way to the gathering place (`sim/ways.mjs`), and on arriving the family's story says where they are, in words:
   *"Jethro reached Victoria, on the road the volunteers from Matagorda and the Lavaca are gathering on."* They wait there
   (task `help`, commitment `volunteer`) for step 5's gathering and march. A call nobody answered closes when the class
-  ends, and says so.
+  ends, and says so. **Amended 2026-09-27** (owner, by multiple choice: *"Lapse after a while"*, the option's example five
+  minutes after the rider arrives; `FIC-GONZ-636`): a **played** family's call now lapses after **five real minutes**
+  (`CALL_BUDGET_MS`, sim/decision-budget.mjs; `createClassroom({ callBudgetMs })`, `CALL_BUDGET_MS=` for `npm start`),
+  counted from when it is put to the family - the moment the rider's word reaches a far family, the gathering for a Gonzales
+  family - on the military questions' clock: not while the Host has paused, kept in the save, and **not while that family's
+  student is still in the guided start** (sim/lesson.mjs `inLesson`, handed in by `stepWorld` as `heldFor`; a student who
+  has closed it with the X is counted from then). On lapse nothing is chosen - nobody turns out and nobody is said to have
+  stayed (`lapseCall`: status `expired`, `lapsed: true`) - the journal says *"Nobody from this family answered the
+  settlement's call in time, and it lapsed. Nothing was chosen: nobody from the family turned out."*, the card says it
+  before (`lapses`) and when nearly out (`pressing`), and a rider still at the gate rides on (`sendOnFrom`). A family nobody
+  plays or whose student has gone is still answered by the neighbours' director, and never lapses.
 - **Neighbours answer as the settlements did** (`FIC-GONZ-028`): on the coast they stay; inland, a family with a second
   person who can answer sends one of its men and keeps the rest home; no die. A volunteer they send is not called home by
   their own routine.

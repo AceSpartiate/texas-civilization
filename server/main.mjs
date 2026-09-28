@@ -52,6 +52,8 @@ const app = createClassroom({
   ...(solo && { soloWatch: Number(process.env.SOLO_LEAVE_MS) > 0 ? { leaveMs: Number(process.env.SOLO_LEAVE_MS) } : {} }),
   // Real milliseconds an unanswered military question may stay open (sim/decision-budget.mjs, 90 000 by default).
   ...(Number(process.env.DECISION_BUDGET_MS) > 0 && { decisionBudgetMs: Number(process.env.DECISION_BUDGET_MS) }),
+  // Real milliseconds a played family's settlement call stays open (sim/decision-budget.mjs, 300 000 by default).
+  ...(Number(process.env.CALL_BUDGET_MS) > 0 && { callBudgetMs: Number(process.env.CALL_BUDGET_MS) }),
 });
 await app.listen(port, solo ? '127.0.0.1' : '0.0.0.0');
 const hostUrl = `http://localhost:${port}/host#${app.state.hostKey}`;

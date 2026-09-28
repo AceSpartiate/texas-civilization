@@ -1,8 +1,8 @@
 {
-  "date": "2026-09-22",
+  "date": "2026-09-27",
   "note": "Same computer only. Each mutation applied by a load hook in a child process; the whole test file runs and exactly the named test must fail.",
-  "caught": 39,
-  "of": 39,
+  "caught": 49,
+  "of": 52,
   "checks": [
     {
       "name": "ownership",
@@ -156,7 +156,7 @@
     },
     {
       "name": "alamo-origin",
-      "file": "sim/alamo-runner.mjs",
+      "file": "sim/alamo-posts.mjs",
       "testFile": "tests/alamo-runner.test.mjs",
       "expected": "the simulation lays the Alamo where the map draws it",
       "failed": [
@@ -170,9 +170,10 @@
       "testFile": "tests/alamo-runner.test.mjs",
       "expected": "runner walks from the colonel",
       "failed": [
-        "Travis's runner walks from the colonel's door, and the question opens only when he stands beside the person"
+        "Travis's runner walks from the colonel's door, and the question opens only when he stands beside the person",
+        "the runner leaves once the question has lapsed: he walks back across the plaza and goes in, and nobody sees him standing at the door"
       ],
-      "detected": true
+      "detected": false
     },
     {
       "name": "runner-privacy",
@@ -190,9 +191,10 @@
       "testFile": "tests/alamo-runner.test.mjs",
       "expected": "an answer closes the meeting in words",
       "failed": [
-        "an answer closes the meeting in words, and the runner walks back to the colonel's door"
+        "an answer closes the meeting in words, and the runner walks back to the colonel's door",
+        "the runner leaves once the question has lapsed: he walks back across the plaza and goes in, and nobody sees him standing at the door"
       ],
-      "detected": true
+      "detected": false
     },
     {
       "name": "noncombatant-asked",
@@ -269,18 +271,16 @@
       "file": "sim/alamo.mjs",
       "testFile": "tests/alamo-runner.test.mjs",
       "expected": "at the assault a fighter inside is killed",
-      "failed": [
-        "at the assault a fighter inside is killed and a woman and a boy are spared; a courier sent out lives; no family sees it before the word"
-      ],
-      "detected": true
+      "failed": [],
+      "detected": false
     },
     {
       "name": "warn-garrison",
       "file": "sim/directors.mjs",
       "testFile": "tests/alamo-runner.test.mjs",
-      "expected": "when Santa Anna is said to be marching",
+      "expected": "when Herrera",
       "failed": [
-        "when Santa Anna is said to be marching, a family with somebody in the garrison is told they can still send for them"
+        "when Herrera's warning comes to Béxar, a family with somebody in the garrison is told they can still send for them"
       ],
       "detected": true
     },
@@ -290,17 +290,147 @@
       "testFile": "tests/decision-budget.test.mjs",
       "expected": "an unanswered courier question runs out after ninety real seconds",
       "failed": [
-        "an unanswered courier question runs out after ninety real seconds: decided by the fallback, said in the journal, the runner gone, and the class no longer slowed"
+        "an unanswered courier question runs out after ninety real seconds: it lapses, said in the journal, the runner gone, and the class no longer slowed"
       ],
       "detected": true
     },
     {
-      "name": "fallback-share",
+      "name": "lapse-courier",
       "file": "sim/alamo.mjs",
       "testFile": "tests/decision-budget.test.mjs",
-      "expected": "the courier fallback is auto's answer",
+      "expected": "an unanswered courier question lapses with nothing chosen",
       "failed": [
-        "the courier fallback is auto's answer at auto's share, for everybody alike"
+        "an unanswered courier question lapses with nothing chosen: nobody is offered, and each man stays at his post, said plainly"
+      ],
+      "detected": true
+    },
+    {
+      "name": "lapse-keeps-auto",
+      "file": "sim/alamo.mjs",
+      "testFile": "tests/decision-budget.test.mjs",
+      "expected": "somebody nobody is answering for is still decided as auto decides",
+      "failed": [
+        "somebody nobody is answering for is still decided as auto decides when the riders go: that rule never depended on the fallback"
+      ],
+      "detected": true
+    },
+    {
+      "name": "lapse-army",
+      "file": "sim/army.mjs",
+      "testFile": "tests/decision-budget.test.mjs",
+      "expected": "an army question runs out and lapses",
+      "failed": [
+        "an army question runs out and lapses: nobody is sent, nobody starts home, and the journal says so"
+      ],
+      "detected": true
+    },
+    {
+      "name": "lapse-detachment",
+      "file": "sim/army.mjs",
+      "testFile": "tests/decision-budget.test.mjs",
+      "expected": "Bowie and Fannin's division question runs out and lapses",
+      "failed": [
+        "Bowie and Fannin's division question runs out and lapses: he stays with the main army, and the journal says so"
+      ],
+      "detected": true
+    },
+    {
+      "name": "lapse-camp",
+      "file": "sim/camp.mjs",
+      "testFile": "tests/decision-budget.test.mjs",
+      "expected": "Houston's camp question runs out and lapses",
+      "failed": [
+        "Houston's camp question runs out and lapses: he does not leave, and the journal says so"
+      ],
+      "detected": true
+    },
+    {
+      "name": "lapse-shot",
+      "file": "sim/chores.mjs",
+      "testFile": "tests/hunting.test.mjs",
+      "expected": "nobody stands in a wood for ever",
+      "failed": [
+        "nobody stands in a wood for ever waiting on a student who has gone elsewhere"
+      ],
+      "detected": true
+    },
+    {
+      "name": "lapse-road",
+      "file": "sim/road.mjs",
+      "testFile": "tests/road.test.mjs",
+      "expected": "a road question nobody answers lapses",
+      "failed": [
+        "a road question nobody answers lapses with nothing chosen: the wagon stays in the mud until the ground dries, said plainly"
+      ],
+      "detected": true
+    },
+    {
+      "name": "runner-goes-in",
+      "file": "sim/encounters.mjs",
+      "testFile": "tests/alamo-runner.test.mjs",
+      "expected": "the runner leaves once the question has lapsed",
+      "failed": [
+        "the runner leaves once the question has lapsed: he walks back across the plaza and goes in, and nobody sees him standing at the door"
+      ],
+      "detected": true
+    },
+    {
+      "name": "rider-gone-unseen",
+      "file": "sim/encounters.mjs",
+      "testFile": "tests/riders-leave.test.mjs",
+      "expected": "a rider rides away once the meeting is over",
+      "failed": [
+        "a rider rides away once the meeting is over - let go, or given up waiting - seen going, and is then gone from every view"
+      ],
+      "detected": true
+    },
+    {
+      "name": "rider-standing-unseen",
+      "file": "sim/town.mjs",
+      "testFile": "tests/riders-leave.test.mjs",
+      "expected": "a rider rides away once the meeting is over",
+      "failed": [
+        "a rider rides away once the meeting is over - let go, or given up waiting - seen going, and is then gone from every view"
+      ],
+      "detected": true
+    },
+    {
+      "name": "rider-host-unseen",
+      "file": "sim/overview.mjs",
+      "testFile": "tests/riders-leave.test.mjs",
+      "expected": "a rider rides away once the meeting is over",
+      "failed": [
+        "a rider rides away once the meeting is over - let go, or given up waiting - seen going, and is then gone from every view"
+      ],
+      "detected": true
+    },
+    {
+      "name": "rider-turn-back",
+      "file": "sim/encounters.mjs",
+      "testFile": "tests/riders-leave.test.mjs",
+      "expected": "a rider met out on the road turns round",
+      "failed": [
+        "a rider met out on the road turns round where he reined in and rides back the way he came"
+      ],
+      "detected": true
+    },
+    {
+      "name": "rider-fork",
+      "file": "sim/world.mjs",
+      "testFile": "tests/riders-leave.test.mjs",
+      "expected": "a rider who handed the word on at a fork rides home",
+      "failed": [
+        "a rider who handed the word on at a fork rides home from there, rather than standing at the fork"
+      ],
+      "detected": true
+    },
+    {
+      "name": "express-home",
+      "file": "sim/expresses.mjs",
+      "testFile": "tests/riders-leave.test.mjs",
+      "expected": "an express rider who brought the word to a settlement rides home",
+      "failed": [
+        "an express rider who brought the word to a settlement rides home once it is read, rather than standing in the town"
       ],
       "detected": true
     },
@@ -330,7 +460,7 @@
       "testFile": "tests/decision-budget.test.mjs",
       "expected": "Houston's camp question runs out",
       "failed": [
-        "Houston's camp question runs out into auto's answer, with the journal line"
+        "Houston's camp question runs out and lapses: he does not leave, and the journal says so"
       ],
       "detected": true
     },
@@ -340,7 +470,7 @@
       "testFile": "tests/decision-budget.test.mjs",
       "expected": "an army question runs out",
       "failed": [
-        "an army question runs out into auto's answer, with the journal line"
+        "an army question runs out and lapses: nobody is sent, nobody starts home, and the journal says so"
       ],
       "detected": true
     },
@@ -350,7 +480,7 @@
       "testFile": "tests/decision-budget.test.mjs",
       "expected": "Bowie and Fannin's division question runs out",
       "failed": [
-        "Bowie and Fannin's division question runs out into auto's answer, with the journal line"
+        "Bowie and Fannin's division question runs out and lapses: he stays with the main army, and the journal says so"
       ],
       "detected": true
     },

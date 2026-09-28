@@ -11,6 +11,7 @@
 // a battle: what happens at Béxar, and at Concepción and the Grass Fight on the way, is build
 // step 6, researched before it is built.
 import { record } from './events.mjs';
+import { answeredFor, recordLapse } from './lapse.mjs';
 import { findWay } from './ways.mjs';
 import { MODES, WALK_SPEED, moveOnGround } from './travel.mjs';
 import { awardGlory } from './glory.mjs';
@@ -598,16 +599,23 @@ export function closeDetachment(world) {
 }
 
 /**
- * Nobody answered for this one person in time: decided as auto decides (sim/auto.mjs), not by silence. Used when the army
- * moves (`closeDetachment`) and when the question's real-time budget runs out (sim/decision-budget.mjs).
+ * Nobody answered for this one person in time. Used when the army moves (`closeDetachment`) and when the question's
+ * real-time budget runs out (sim/decision-budget.mjs). **The question lapses** (owner, 2026-09-27; sim/lapse.mjs): nothing
+ * is chosen, and the person stays with the main army, which is where they already were. Somebody nobody is answering for (on
+ * auto, or a family whose student has gone) is decided as auto decides (sim/auto.mjs), as when asked.
  */
 export function decideDetachmentFor(world, id) {
   const detachment = world.army?.detachment;
   if (!detachment || detachment.closed || detachment.asks[id] !== 'open') return;
   const person = world.entities[id];
+  if (person && answeredFor(world, person)) {
+    detachment.asks[id] = 'stay';
+    recordLapse(world, { householdId: person.householdId, actorId: id, text: `Nobody answered for ${person.name} in time, and the question lapsed. Nothing was chosen: ${person.name} did not go ahead with Bowie and Fannin's division, and stays with the main army.` });
+    return;
+  }
   const go = person ? autoDetachment(world, person) : false;
   detachment.asks[id] = go ? 'go' : 'stay';
-  if (person) record(world, 'choice', { actorId: id, householdId: person.householdId, importance: 2, decision: go ? 'detachment-go' : 'detachment-stay', text: `Nobody answered for ${person.name} in time, and it was decided for them. ${detachmentSaid(person, go)}` });
+  if (person) record(world, 'choice', { actorId: id, householdId: person.householdId, importance: 2, decision: go ? 'detachment-go' : 'detachment-stay', text: `${person.name}, deciding alone: ${detachmentSaid(person, go)}` });
 }
 
 /**
@@ -737,21 +745,23 @@ export function moveCamp(world, key) {
  * the family member away serving is asked). What either answer risks is never said. A family nobody plays answers for
  * itself about as often as the army did.
  */
-// Frozen once the storming's questions have joined it, below.
+// Frozen once the storming's questions have joined it, below. `said.silent` is what the family's record says when nobody
+// answered in time and the question lapsed (sim/lapse.mjs): nothing chosen, and what that leaves the person doing.
+const lapsed = name => `Nobody answered for ${name} in time, and the question lapsed. Nothing was chosen:`;
 export const ARMY_QUESTIONS = {
   // Austin's order of November 21 to storm next morning: "not more than 100 men" of about six hundred would go.
   storm: {
     claimId: 'HIST-TEX-028', unplayed: 0.17,
     ask: name => `Austin has ordered Béxar stormed at dawn. Will ${name} go in?`,
     yes: name => `${name} goes in when the order comes`, no: name => `${name} will not go in`,
-    said: { yes: name => `${name} said they would go in when Béxar was stormed.`, no: name => `${name} would not go in.` },
+    said: { yes: name => `${name} said they would go in when Béxar was stormed.`, no: name => `${name} would not go in.`, silent: name => `${lapsed(name)} ${name} is not among the men who said they would go in.` },
   },
   // The parade of November 24: 405 of about six hundred "pledged themselves to remain".
   pledge: {
     claimId: 'HIST-TEX-028', unplayed: 0.68,
     ask: name => `The army is paraded to see who will stay before Béxar under a commander they elect. Does ${name} pledge to stay?`,
     yes: name => `${name} pledges to stay`, no: name => `${name} goes home`,
-    said: { yes: name => `${name} pledged to stay before Béxar.`, no: name => `${name} did not pledge, and started home.` },
+    said: { yes: name => `${name} pledged to stay before Béxar.`, no: name => `${name} did not pledge, and started home.`, silent: name => `${lapsed(name)} ${name} made no pledge and did not start home, and is still in the ranks before Béxar.` },
   },
   // November 26: Bowie's horsemen and Jack's infantry "from different companies", about a third of the camp.
   // Since 2026-09-25 a yes is a departure: the man goes out with Bowie's horsemen if his horse is with him, or with Jack's
@@ -761,11 +771,11 @@ export const ARMY_QUESTIONS = {
     claimId: 'HIST-TEX-032', unplayed: 0.33, who: (world, person) => person.travel?.purpose === 'march' && !withAForce(world, person.id),
     ask: name => `Deaf Smith has ridden in: there's a Mexican pack train coming in from the west with cavalry, and the camp says it carries the silver to pay the garrison. Bowie is taking the horsemen and Jack the men on foot. Does ${name} go?`,
     yes: name => `${name} goes out after the train`, no: name => `${name} stays in camp`,
-    said: { yes: name => `${name} went out after the pack train.`, no: name => `${name} stayed in camp.` },
+    said: { yes: name => `${name} went out after the pack train.`, no: name => `${name} stayed in camp.`, silent: name => `${lapsed(name)} ${name} did not go out after the pack train, and stays in camp.` },
   },
 };
 
-/** What a person answers when nobody plays them, or they are on auto, or nobody answered for them in time: the record's share. */
+/** What a person answers when nobody plays them, or they are on auto, or nobody is at the family's screen: the record's share. */
 const autoAnswer = (world, key, person) => unit(`${world.seed}:${person.id}:${key}`) < ARMY_QUESTIONS[key].unplayed ? 'yes' : 'no';
 
 /** Open a question to every volunteer in the ranks. */
@@ -834,9 +844,9 @@ function settleAnswer(world, key, person, answer, { beginTravel } = {}) {
 }
 
 /**
- * Close a question: anybody not answered for in time is answered as auto answers (sim/auto.mjs) - the owner's rule that
- * auto takes over when the choice is not made - and what that answer does is done, so somebody decided out of the pledge
- * starts home. 'silent' stays in the saved vocabulary for classes closed before this rule.
+ * Close a question: anybody not answered for in time has the question lapse (`decideQuestionFor`, sim/lapse.mjs) - nothing is
+ * chosen, and nothing is done - and anybody nobody is answering for is answered as auto answers. 'silent' is the lapsed
+ * answer, as it was for classes closed before auto took over (2026-09-16) and again since the owner's rule of 2026-09-27.
  */
 export function closeQuestion(world, key, { beginTravel } = {}) {
   const question = world.army?.questions?.[key];
@@ -846,17 +856,24 @@ export function closeQuestion(world, key, { beginTravel } = {}) {
 }
 
 /**
- * Nobody answered this question for this one person in time: answered as auto answers, and what that does is done. Used when
- * the question closes (`closeQuestion`) and when its real-time budget runs out (sim/decision-budget.mjs).
+ * Nobody answered this question for this one person in time. Used when the question closes (`closeQuestion`) and when its
+ * real-time budget runs out (sim/decision-budget.mjs). **The question lapses** (owner, 2026-09-27; sim/lapse.mjs): the answer
+ * is 'silent', nothing is done - nobody is sent in, nobody starts home - and the family's record says so (`said.silent`).
+ * Somebody nobody is answering for (on auto, or a family whose student has gone) is answered as auto answers, as when asked,
+ * and what that answer does is done.
  */
 export function decideQuestionFor(world, key, id, { beginTravel } = {}) {
   const question = world.army?.questions?.[key];
   if (!question || question.closed || question.asks[id] !== 'open') return;
   const person = world.entities[id];
-  const decided = person ? autoAnswer(world, key, person) : 'silent';
+  if (!person || answeredFor(world, person)) {
+    question.asks[id] = 'silent';
+    if (person) recordLapse(world, { householdId: person.householdId, actorId: id, text: ARMY_QUESTIONS[key].said.silent(person.name) });
+    return;
+  }
+  const decided = autoAnswer(world, key, person);
   question.asks[id] = decided;
-  if (!person) return;
-  record(world, 'choice', { actorId: id, householdId: person.householdId, importance: 2, decision: `${key}-${decided}`, text: `Nobody answered for ${person.name} in time, and it was decided for them. ${ARMY_QUESTIONS[key].said[decided](person.name)}` });
+  record(world, 'choice', { actorId: id, householdId: person.householdId, importance: 2, decision: `${key}-${decided}`, text: `${person.name}, deciding alone: ${ARMY_QUESTIONS[key].said[decided](person.name)}` });
   settleAnswer(world, key, person, decided, { beginTravel });
 }
 
@@ -1053,21 +1070,21 @@ Object.assign(ARMY_QUESTIONS, {
     claimId: 'HIST-TEX-036', unplayed: 0.6,
     ask: name => `The army has been ordered into winter quarters, and men are setting off for home in squads. Does ${name} stay in camp?`,
     yes: name => `${name} stays in camp`, no: name => `${name} goes home for the winter`,
-    said: { yes: name => `${name} stayed in camp when the army was ordered into winter quarters.`, no: name => `${name} set off for home when the army was ordered into winter quarters.` },
+    said: { yes: name => `${name} stayed in camp when the army was ordered into winter quarters.`, no: name => `${name} set off for home when the army was ordered into winter quarters.`, silent: name => `${lapsed(name)} ${name} did not set off for home, and is still in camp.` },
   },
   // December 4, the afternoon: "Who will go with old Ben Milam into San Antonio?"
   milam: {
     claimId: 'HIST-TEX-036', unplayed: 0.4,
     ask: name => `Ben Milam is calling for men to go into San Antonio with him before dawn. Does ${name} go?`,
     yes: name => `${name} goes in with Milam`, no: name => `${name} stays with the camp`,
-    said: { yes: name => `${name} said they would go into San Antonio with Milam.`, no: name => `${name} stayed with Burleson at the camp.` },
+    said: { yes: name => `${name} said they would go into San Antonio with Milam.`, no: name => `${name} stayed with Burleson at the camp.`, silent: name => `${lapsed(name)} ${name} did not go in with Milam, and stays with Burleson at the camp.` },
   },
   // December 8: Cheshire's, Sutherland's and Lewis's companies, about a hundred of the reserve, sent in.
   reinforce: {
     claimId: 'HIST-TEX-037', unplayed: 0.2, who: (world, person) => world.army?.questions?.milam?.asks?.[person.id] !== 'yes',
     ask: name => `Burleson is sending men from the camp into the town to join the fighting. Does ${name} go in?`,
     yes: name => `${name} goes into the town`, no: name => `${name} stays at the camp`,
-    said: { yes: name => `${name} went into the town with the men sent from the camp.`, no: name => `${name} stayed at the camp.` },
+    said: { yes: name => `${name} went into the town with the men sent from the camp.`, no: name => `${name} stayed at the camp.`, silent: name => `${lapsed(name)} ${name} was not sent into the town, and stays at the camp.` },
   },
 });
 Object.freeze(ARMY_QUESTIONS);

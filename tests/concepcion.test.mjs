@@ -119,11 +119,10 @@ test('an unanswered family\'s volunteer stays with the main army, and a voluntee
   untilMinute(world, momentOf(world, 'to-espada') + 1);
   assert.equal(world.army.detachment.asks[person.id], 'open', 'the question shut when the army moved to Espada');
   untilMinute(world, momentOf(world, 'detachment-out'));
-  // Nobody answering in time is answered as auto answers (sim/auto.mjs), at the detachment's share, and the story says so.
-  const decided = world.army.detachment.asks[person.id];
-  assert.ok(['go', 'stay'].includes(decided), `the unanswered volunteer was left ${decided}`);
-  assert.ok(storyOf(world, household.id).some(text => new RegExp(`Nobody answered for .* in time, and it was decided for them\\. .* ${decided === 'go' ? 'went ahead' : 'stayed with the main army'}`).test(text)), 'the story does not say the choice was made for them');
-  // Refused either way: the question is shut, or (decided go) he is already marching with the division.
+  // Nobody answering in time: the question lapses (owner, 2026-09-27; sim/lapse.mjs) - nothing chosen, he stays with the main
+  // army - and the story says so.
+  assert.equal(world.army.detachment.asks[person.id], 'stay', 'the unanswered volunteer was sent ahead by nobody');
+  assert.ok(storyOf(world, household.id).some(text => /Nobody answered for .* in time, and the question lapsed\. Nothing was chosen: .* stays with the main army/.test(text)), 'the story does not say the question lapsed');
   assert.throws(() => applyAction(world, household.id, { action: 'detachment-go', entityId: person.id }), /Nobody is being asked|Bowie and Fannin's division/);
 
   const again = withVolunteer('concepcion-sent-for');

@@ -9,7 +9,8 @@
     "the message card opens the meeting with the runner: \"A MEETING Vicente Proofwright and Asa Linthicum × From Colonel Travis’s quarters, inside the Alamo ASA LINTHICUM Colonel Travis is sending a letter out tonight to the people of Texas, and he wants riders who will carry it through the Mexica…\"",
     "paused for 20 s, longer than the whole budget: the question is still open, 5 s spent before the pause and none during it",
     "at a Chromebook's 1366 by 768 the meeting and both answers are on the screen, and the page does not scroll sideways",
-    "left unanswered, it ran out 14 s after Resume and was decided for them (stays); the journal says: \"Nobody answered for Vicente Proofwright in time, and it was decided for them, as a person on auto decides. Vicente Proofwright will stay inside the walls. (149.1 days into the story)\"",
+    "left unanswered, it ran out 13 s after Resume and lapsed with nothing chosen (stays); the journal says: \"Nobody answered Travis's runner for Vicente Proofwright in time, and the question lapsed. Nothing was chosen: Vicente Proofwright was not offered as a courier and stays at their post inside the walls. (149.1 days into the story)\"",
+    "the runner walked back across the plaza (96 → 186 → 276 → 366 → 456 ft from Vicente) and went in: no longer drawn",
     "the runner came again on the next day Travis sent riders, and offering to ride in the meeting is the answer the server took",
     "no page errors"
   ],
@@ -25,9 +26,16 @@
       20,
       6
     ],
-    "meeting": "A MEETING Vicente Proofwright and Asa Linthicum × From Colonel Travis’s quarters, inside the Alamo ASA LINTHICUM Colonel Travis is sending a letter out tonight to the people of Texas, and he wants riders who will carry it through the Mexican lines. He asks whether you will offer to go. He chooses his riders from the men who offer, and not every man who offers is sent. A man who is sent leaves the fort tonight and rides for help. A man who stays keeps his post inside the walls. Vicente Proofwright offers to ride out with the letters Vicente Proofwright stays inside the walls Asa Linthicum is waiting for an answer to take back. If nobody answers in time, it will be decided for Vicente Proofwright, as a person on auto decides.",
-    "journal": "Nobody answered for Vicente Proofwright in time, and it was decided for them, as a person on auto decides. Vicente Proofwright will stay inside the walls. (149.1 days into the story)",
-    "note": "Nobody answered Asa Linthicum in time, and it was decided for Vicente Proofwright. The journal says what.",
+    "meeting": "A MEETING Vicente Proofwright and Asa Linthicum × From Colonel Travis’s quarters, inside the Alamo ASA LINTHICUM Colonel Travis is sending a letter out tonight to the people of Texas, and he wants riders who will carry it through the Mexican lines. He asks whether you will offer to go. He chooses his riders from the men who offer, and not every man who offers is sent. A man who is sent leaves the fort tonight and rides for help. A man who stays keeps his post inside the walls. Vicente Proofwright offers to ride out with the letters Vicente Proofwright stays inside the walls Asa Linthicum is waiting for an answer to take back. If nobody answers in time, the question lapses: nothing is chosen, and Vicente Proofwright stays at their post.",
+    "journal": "Nobody answered Travis's runner for Vicente Proofwright in time, and the question lapsed. Nothing was chosen: Vicente Proofwright was not offered as a courier and stays at their post inside the walls. (149.1 days into the story)",
+    "note": "Nobody answered Asa Linthicum in time, and the question lapsed: Vicente Proofwright stays at their post, and he has gone back to Colonel Travis.",
+    "runnerLeavingFeet": [
+      96,
+      186,
+      276,
+      366,
+      456
+    ],
     "secondDay": "asked again on the next day (courier-2); offering in the meeting was taken"
   },
   "screenshots": [
