@@ -41,6 +41,8 @@ import { flightPlaces, mountedPace, nextLeg, planRoute, routeInvalid, routeRefus
 import { pursuitInvalid } from './pursuit.mjs';
 // The road's day of sickness (sim/disease.mjs, docs/DISEASE.md): one call, so the disease's rules live in one module.
 import { roadSickness } from './disease.mjs';
+// Room kept in a neighbour's wagon, or lent to one (sim/neighbourly.mjs, owner 2026-09-28): added to or taken from the room here.
+import { lentRoom } from './deeds.mjs';
 
 const GONE = ['dead', 'captured'];
 const DAY = 1440;
@@ -137,8 +139,15 @@ const tell = (world, household, text, extra = {}) => record(world, 'consequence'
 /** Whether the flight is on: the third class period. */
 export const scrapeOn = world => world.period === 3 && !world.director?.complete;
 
-/** The room this family has to carry things away in: the wagon and ox standing at home, or what its grown people carry. */
+/**
+ * The room this family has to carry things away in: the wagon and ox standing at home, or what its grown people carry - and room
+ * a neighbour keeps for it in their wagon, less room it keeps for a neighbour in its own (sim/neighbourly.mjs `lentRoom`).
+ */
 export function flightRoom(world, household) {
+  const own = ownRoom(world, household), lent = lentRoom(world, household);
+  return lent ? { ...own, room: Math.max(0, Math.round((own.room + lent) * 100) / 100), lent } : own;
+}
+function ownRoom(world, household) {
   const standing = beast => beast && !beast.travel && beast.location.siteId === household.homeSiteId && (!beast.condition || beast.condition === 'sound');
   // Every wagon standing at home that an ox standing there can draw, one ox to a wagon (sim/beasts.mjs): a family fitted out
   // with two wagons loads two, and the room is the wagons' together - the same rule as the load in (owner, 2026-09-25).

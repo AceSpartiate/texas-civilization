@@ -69,6 +69,8 @@ const files = new Map([
   ['/ground-classes.js', ['../public/ground-classes.js', 'text/javascript']],
   ['/land-levels.js', ['../public/land-levels.js', 'text/javascript']],
   ['/ending.js', ['../public/ending.js', 'text/javascript']],
+  // The family's neighbours and help offered back between families (sim/neighbourly.mjs, owner 2026-09-28).
+  ['/neighbours.js', ['../public/neighbours.js', 'text/javascript']],
   ['/appearance.js', ['../public/appearance.js', 'text/javascript']],
   ['/looks-art.js', ['../public/looks-art.js', 'text/javascript']],
   ['/avatar-art.js', ['../public/avatar-art.js', 'text/javascript']],

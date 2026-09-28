@@ -56,6 +56,7 @@
     "test:surprise-reveal": "node scripts/surprise-reveal-browser-proof.mjs",
     "test:surprise-injections": "node scripts/surprise-injections.mjs",
     "test:scrape": "node scripts/scrape-browser-proof.mjs",
+    "test:neighbours": "node scripts/neighbours-browser-proof.mjs",
     "test:scrape-pursuit": "node scripts/scrape-pursuit-browser-proof.mjs",
     "test:scrape-pursuit-injections": "node scripts/scrape-pursuit-injections.mjs",
     "study:scrape-pursuit": "node scripts/scrape-pursuit-study.mjs",

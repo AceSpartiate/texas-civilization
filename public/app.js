@@ -27,6 +27,7 @@ import { drawHousePlot, houseFootprint, plotCell, plotted, renderHousePlot } fro
 import { CABIN_PEOPLE, PERSON_MILES, houseOnGround, spacingRefusal, standingAt } from '/sim/house-footprint.mjs';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
+import { bindNeighbours, renderNeighbours } from '/neighbours.js';
 import { bindLooks, renderLooks } from '/appearance.js';
 import { avatarVariant, drawAvatar, drawAvatarPortrait } from '/avatar-art.js';
 import { decodeAppearance } from '/look-vocabulary.js';
@@ -6112,6 +6113,7 @@ document.addEventListener('click', event => {
   if (window.__snapshot) renderEncounter(window.__snapshot.world);
 });
 bindEnding();
+bindNeighbours({ command: order => api('/api/command', { ...order, id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}` }) });
 bindCreation({
   command: order => api('/api/command', { ...order, id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}` }),
   refresh: () => { forgetFamily(); if (window.__snapshot) render(window.__snapshot); },
@@ -6343,6 +6345,7 @@ function render(snapshot) {
   renderJoinLinks(snapshot);
   renderSlice(world);
   renderEnding(world);
+  renderNeighbours(world);
   // Making the family comes before the world is seen (public/creation.js): the curtain, and no map drawn behind it.
   const creating = renderCreation(world, familyCache);
   renderLooks(familyCache, { blocked: creating !== 'looks' });

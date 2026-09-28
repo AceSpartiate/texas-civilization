@@ -464,6 +464,19 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .journal-note{margin:0 0 8px;font-size:11px;color:#6d5f43}
 /* A mark on the book, not a card over the map: something new is written in here. */
 #journal-toggle{position:relative}
+/* The neighbours (public/neighbours.js): the journal's look, a sheet of its own. */
+#neighbours-toggle{position:relative;display:flex;align-items:center;gap:7px;background:#4b5133;color:#fff2d2;border-color:#b7a279}
+#neighbours-toggle[hidden]{display:none}
+#neighbours-unread{position:absolute;top:3px;right:3px;min-width:8px;height:8px;border-radius:5px;background:#c2582c;border:1px solid #f7e8c8}
+#neighbours[data-open=false]{display:none}
+#neighbours[data-open=true]{position:absolute;right:18px;top:100px;bottom:82px;width:min(400px,calc(100% - 36px));z-index:22;overflow:auto;background:var(--paper);border:double 4px #8f9b6b;box-shadow:0 16px 60px #241e1a66;border-radius:6px}
+.neighbour-ask{background:#f3e3bd;border:1px solid #c2582c;border-radius:5px;padding:8px 10px;margin:12px 0}
+.neighbour-ask p{margin:0 0 8px;font-size:14px}.neighbour-ask button{margin-right:6px}
+#neighbours-lent{font-size:13px;background:#e8ecd6;border-radius:5px;padding:6px 8px}
+.neighbour-head{margin:0;font-size:14px}.neighbour-tags{margin:3px 0;font-size:12px;color:#6b4a26}
+.neighbour-between{margin:2px 0;font-size:12px;color:#5c5442}.neighbour-buttons{margin-top:5px}
+#neighbours-note{font-size:12px;color:#6b4a26}
+@media(max-width:760px){#neighbours-toggle{padding:7px;font-size:12px}#neighbours[data-open=true]{top:70px;right:8px;bottom:64px;width:calc(100% - 16px)}}
 #journal-unread{position:absolute;top:3px;right:3px;min-width:8px;height:8px;border-radius:5px;background:#c2582c;border:1px solid #f7e8c8}
 /* Somebody is waiting to speak with this person. It sits with their other instructions
    because that is what it is - an instruction to one of your family, not a notification. */
