@@ -61,9 +61,20 @@ const HOST_SIZES = [{ width: 1920, height: 1080 }, { width: 1280, height: 720 },
 const DELIBERATE = [
   { kind: 'dialog', why: 'A dialog stands over the map on purpose and says so: the journal behind its own dimmed backdrop, the ending, the inside of the house, "reconnecting". Its own controls are held clear of everything (the covered check), and the guided start is not in this allowance - see below.', except: /^guided start$/ },
   { kind: 'tip', why: 'The tip is drawn at the icon the pointer or the keyboard is on, over whatever is beside it; it goes the moment the pointer leaves (docs/FAMILY_PANEL.md §4).' },
+  { a: /^first-meeting tip$/, b: /^(person card|call menu|meeting|messages|going popup|site chooser|stake chooser|town scene|wagon load|sound panel)$/,
+    why: 'Where there is no room anywhere clear, the tip at first meeting stands at the bar with the card or panel the student opened over it: "a card the student opened outranks a tip" (placeTip in public/app.js, the rule of the tips’ builder, docs/LESSON.md §9). It is placed clear of all of them first, and again whenever the card moves or the screen changes size.' },
   { a: /^(house plans|house plot)$/, b: /^(family: |ability bar|map buttons|journal button|status: |wagon button|house button)/, when: flags => flags.backdrop,
     why: 'Choosing a house and packing the wagon want the whole screen: the map behind goes dim and the panel says the family is behind it (docs/FAMILY_PANEL.md §12.11).' },
 ];
+/**
+ * Pairs that are faults, found here, and owned by another builder by the coordinator's say (2026-09-28): reported as PENDING on
+ * every run and written to the evidence, never passed over in silence, and not failing this gate while that work is open.
+ * Delete an entry the moment its owner's fix lands; the check is already written.
+ */
+const PENDING = [
+  { a: /^errand popup$/, b: /^first-meeting tip$/, owner: 'the errand builder (test:errand; public/tips.js, public/errand.js): keeping the first-meeting tip off the open errand popup' },
+];
+const pending = pair => PENDING.find(rule => (rule.a.test(pair.a) && rule.b.test(pair.b)) || (rule.a.test(pair.b) && rule.b.test(pair.a)));
 const deliberate = (pair, flags) => DELIBERATE.find(rule => {
   if (rule.when && !rule.when(flags)) return false;
   if (rule.except && (rule.except.test(pair.a) || rule.except.test(pair.b))) return false;
@@ -130,6 +141,8 @@ async function sayARefusal(page) {
     const response = await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `overlap-refused-${Date.now()}`, action: 'travel', entityId: id, destination: 'nowhere-at-all' }) });
     const words = (await response.json().catch(() => ({}))).error || 'The server refused that order.';
     document.querySelector('#error').textContent = words;
+    // As a refusal is followed by the page's next render, which places what stands beside the line again.
+    if (window.__render && window.__snapshot) window.__render(window.__snapshot);
     return words;
   });
 }
@@ -276,6 +289,15 @@ try {
       await host.waitForFunction(() => !document.querySelector('#host-spotlight')?.hidden, null, { timeout: 10000 }).catch(() => {});
       if (await host.locator('#host-spotlight').isVisible()) await walk(host, 'running-spotlight', { sizes: HOST_SIZES, furniture: HOST_FURNITURE, host: true, expect: 'spotlight' });
       else { notReached.push('host running-spotlight: the banner was not drawn'); await walk(host, 'running', { sizes: HOST_SIZES, furniture: HOST_FURNITURE, host: true }); }
+
+      // The sound's panel of sliders, opened from its button beside the Journal.
+      await page.setViewportSize(STUDENT_SIZES[0]);
+      if (await page.locator('#sound-toggle').isVisible().catch(() => false)) {
+        await page.locator('#sound-toggle').click();
+        await page.waitForTimeout(300);
+        if (await page.locator('#sound-panel').isVisible()) await walk(page, 'sound-panel', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'sound panel' });
+        await page.locator('#sound-toggle').click().catch(() => {});
+      } else notReached.push('student sound-panel: no sound control');
 
       await sayARefusal(page);
       await walk(page, 'at-home-refused', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'error line' });
@@ -445,16 +467,23 @@ try {
 // -------------------------------------------------------------------------------------------------------- the verdict
 const faults = [];
 const allowed = [];
+const held = [];
 for (const one of record) {
   const where = `${one.page} ${one.state} ${one.at}`;
   for (const pair of one.overlaps) {
     const rule = deliberate(pair, one.flags);
+    const theirs = pending(pair);
     if (rule) allowed.push({ where, a: pair.a, b: pair.b, shared: pair.shared, why: rule.why });
+    else if (theirs) held.push({ where, a: pair.a, b: pair.b, shared: pair.shared, owner: theirs.owner });
     else faults.push({ where, what: 'overlap', text: `${pair.a} and ${pair.b} share ${pair.shared.w}x${pair.shared.h}px at ${pair.at.x},${pair.at.y}` });
   }
   for (const entry of one.covered) {
     if (!entry.centre && entry.points < 3) continue;
     if (entry.by.every(by => DELIBERATE_COVER.test(by))) continue;
+    // The tip's own Got it under a card the student opened: the same rule as the tip's box above.
+    if (entry.in === 'first-meeting tip' && entry.by.every(by => deliberate({ a: entry.in, b: by, kinds: [] }, one.flags))) continue;
+    const theirs = entry.by.every(by => pending({ a: entry.in, b: by }));
+    if (theirs) { held.push({ where, a: entry.in, b: entry.by.join(', '), shared: { w: 0, h: 0 }, owner: pending({ a: entry.in, b: entry.by[0] }).owner, control: entry.control }); continue; }
     faults.push({ where, what: 'covered', text: `"${entry.control}" in ${entry.in} is under ${entry.by.join(', ')} (${entry.points} of ${entry.of} points${entry.centre ? ', the middle too' : ''})` });
   }
   for (const entry of one.offScreen) faults.push({ where, what: 'off the screen', text: `${entry.name} at ${JSON.stringify(entry.box)}` });
@@ -467,6 +496,10 @@ for (const one of record) {
     // The family frame is the camera's own (Follow): a person it happens to put under a panel is one press on their
     // portrait from the middle of the screen. What is held is the person the student has put the camera on.
     if (/being ordered/.test(entry.what) && one.following) continue;
+    // The tip in its last resort (no room clear of anything, so at the bar with the card over it, the rule above) may lie
+    // over the person too; everywhere it has any room, it keeps off them (placeTip).
+    const lastResort = entry.under === 'first-meeting tip' && one.overlaps.some(pair => (pair.a === 'first-meeting tip' || pair.b === 'first-meeting tip') && deliberate(pair, one.flags));
+    if (lastResort) { allowed.push({ where, a: entry.what, b: entry.under, shared: { w: 0, h: 0 }, why: 'the tip at first meeting in its last resort, under the card, with no room clear anywhere' }); continue; }
     faults.push({ where, what: 'canvas', text: `${entry.what} is ${Math.round(entry.share * 100)}% under ${entry.under}` });
   }
 }
@@ -478,6 +511,7 @@ for (const fault of faults) { const key = `${fault.what}: ${fault.text.replace(/
 console.log(`\n${record.length} screens measured (${new Set(record.map(one => `${one.page} ${one.state}`)).size} states), ${faults.length} faults, ${allowed.length} deliberate overlaps`);
 for (const [key, where] of byWhat) console.log(`FAULT ${key}\n      at ${where.join('; ')}`);
 for (const line of notReached) console.log(`NOT REACHED ${line}`);
+for (const one of held) console.log(`PENDING ${one.where}: ${one.a} and ${one.b} share ${one.shared.w}x${one.shared.h}px - owned by ${one.owner}`);
 console.log(`speech bubbles: ${bubblesSeen} measured, ${bubbles.length} partly under a panel${bubbles.length ? `: ${bubbles.map(one => `${one.where} ${one.what} under ${one.under} ${Math.round(one.share * 100)}%`).join('; ')}` : ''}`);
 if (errors.length) console.log(`page errors: ${errors.join(' | ')}`);
 
@@ -488,7 +522,7 @@ writeFileSync(OUT, `${JSON.stringify({
   studentSizes: STUDENT_SIZES, hostSizes: HOST_SIZES, deliberate: DELIBERATE.map(rule => ({ ...(rule.kind ? { kind: rule.kind } : { a: String(rule.a), b: String(rule.b) }), why: rule.why })),
   summary: { screens: record.length, faults: faults.length, allowed: allowed.length, bubblesMeasured: bubblesSeen, bubblesUnderAPanel: bubbles.length },
   // Grouped: one entry per thing wrong, with every screen it was wrong on.
-  faults: [...byWhat].map(([what, where]) => ({ what, where })), notReached, bubbles, pageErrors: errors,
+  faults: [...byWhat].map(([what, where]) => ({ what, where })), pendingElsewhere: held, notReached, bubbles, pageErrors: errors,
   // Each screen as measured, kept small: what was drawn where, every pair that shared pixels, and the controls that count.
   screens: record.map(one => ({ page: one.page, state: one.state, at: one.at, shot: one.shot, following: one.following, unreachable: one.unreachable, drawn: one.drawn.map(piece => `${piece.name} ${piece.box.x},${piece.box.y} ${piece.box.w}x${piece.box.h}`), overlaps: one.overlaps.map(pair => `${pair.a} x ${pair.b} ${pair.shared.w}x${pair.shared.h}`), covered: one.covered.filter(entry => entry.centre || entry.points >= 3).map(entry => `"${entry.control}" in ${entry.in} under ${entry.by.join(', ')}`), offScreen: one.offScreen, canvas: one.canvas.hidden, ...(Object.values(one.flags).some(Boolean) && { flags: one.flags }) })),
 }, null, 2)}\n`);

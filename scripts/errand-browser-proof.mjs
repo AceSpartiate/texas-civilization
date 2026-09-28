@@ -72,12 +72,17 @@ const measure = page => page.evaluate(() => {
   const covered = [...document.querySelectorAll('#errand button')].filter(button => {
     const r = button.getBoundingClientRect();
     if (r.bottom < 0 || r.top > innerHeight) return false;
+    // A button that is not drawn has no box and nothing can be over it: the store's tip inside the popup is hidden whenever
+    // another tip is the one showing, and its Got it read as covered at 0,0 (found 2026-09-28).
+    if (!r.width || !r.height) return false;
     const list = document.querySelector('#errand-lines').getBoundingClientRect();
     if (button.closest('#errand-lines') && (r.top < list.top || r.bottom > list.bottom)) return false; // scrolled inside the list
     const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
     return !(hit && (hit === button || button.contains(hit)));
   }).map(button => button.id || button.getAttribute('aria-label') || button.textContent);
-  return { screen: { w: innerWidth, h: innerHeight }, errand, fits: Boolean(errand) && errand.x >= 0 && errand.y >= 0 && errand.r <= innerWidth && errand.b <= innerHeight, overColumn: overlap(column), overBar: overlap(bar), covered };
+  // The tip at first meeting over the map (public/tips.js) must not stand under, or on, the open popup (owner, 2026-09-28).
+  const tip = document.querySelector('#tip'), tipBox = tip && !tip.hidden ? box(tip) : null;
+  return { screen: { w: innerWidth, h: innerHeight }, errand, overTip: overlap(tipBox), fits: Boolean(errand) && errand.x >= 0 && errand.y >= 0 && errand.r <= innerWidth && errand.b <= innerHeight, overColumn: overlap(column), overBar: overlap(bar), covered };
 });
 
 try {
@@ -141,6 +146,7 @@ try {
   assert.deepEqual(wide.covered, [], `at 1366x768 something is drawn over the popup's own controls: ${wide.covered}`);
   assert.equal(wide.overColumn, 0, 'at 1366x768 the popup covers the family\'s column');
   assert.equal(wide.overBar, 0, 'at 1366x768 the popup is drawn over the ability bar, which steps aside while it is open');
+  assert.equal(wide.overTip, 0, 'at 1366x768 a tip at first meeting stands under the open popup');
   ok(`the popup says how they will go, in the server's words: "${quoted.how}" (1366x768: ${wide.errand.w}x${wide.errand.h}, clear of the column, nothing over its controls)`);
 
   // ------------------------------------------------------------------------------------------------- Enter sends it
@@ -199,6 +205,7 @@ try {
   assert.deepEqual(narrow.covered, [], `at 1024x768 something is drawn over the popup's own controls: ${narrow.covered}`);
   assert.equal(narrow.overColumn, 0, 'at 1024x768 the popup covers the family\'s column');
   assert.equal(narrow.overBar, 0, 'at 1024x768 the popup is drawn over the ability bar');
+  assert.equal(narrow.overTip, 0, 'at 1024x768 a tip at first meeting stands under the open popup');
   await page.keyboard.press('Escape');
   await page.setViewportSize({ width: 1366, height: 768 });
   ok(`at 1024x768 the popup fits (${narrow.errand.w}x${narrow.errand.h}), keeps off the column and has nothing over its controls`);

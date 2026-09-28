@@ -4,7 +4,7 @@
     "before any gesture no page has an AudioContext; both students start muted (\"Sound off\") and made none through the whole join flow; the Host starts on",
     "the Host's press of Start unlocked sound: one AudioContext, \"farm\" music playing (28 sources started)",
     "the student turned sound on with the button beside the Journal; it was kept on this device across a reload, and waited for the next press to start",
-    "the Gonzales fight's own projection: 49 shots drawn were heard as 29 muskets, 0 volleys and 1 cannon (19 folded or refused by the mixer); the music went to \"battle\"; the page's sound took 0.1 ms a frame (median), 0.6 ms p95",
+    "the Gonzales fight's own projection: 42 shots drawn were heard as 24 muskets, 0 volleys and 1 cannon (16 folded or refused by the mixer); the music went to \"battle\"; the page's sound took 0 ms a frame (median), 0.3 ms p95",
     "a chase on the road: its shot and ¡Alto! were heard (alto, musket), and the music went to the Scrape's",
     "a storm over the family: rain at 1 and thunder, wind at 0.314",
     "the family's own man at Béxar heard the bell: bell",
@@ -29,17 +29,17 @@
         "dawn-skirmish 5795",
         "lull 5800"
       ],
-      "shotsDrawn": 49,
+      "shotsDrawn": 42,
       "heard": {
-        "musket": 29,
+        "musket": 24,
         "cannon": 1
       },
-      "dropped": 19,
+      "dropped": 16,
       "soundFrameMs": {
-        "median": 0.1,
-        "p95": 0.6,
-        "max": 1.3,
-        "frames": 77
+        "median": 0,
+        "p95": 0.3,
+        "max": 1,
+        "frames": 70
       }
     },
     "chase": [
@@ -249,9 +249,9 @@
       }
     },
     "listener": {
-      "played": 35,
+      "played": 30,
       "contexts": 1,
-      "sourcesStarted": 348
+      "sourcesStarted": 323
     }
   }
 }

@@ -1281,5 +1281,9 @@ body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{max-
 #hud-left #error,#hud-left #save-fault,#hud-left #lifecycle,#hud-left #host-notice{position:static;left:auto;top:auto;transform:none;max-width:min(19rem,calc(100vw - 24px));padding:7px 12px;font-size:13px;text-align:left;box-sizing:border-box}
 /* The journal opens under the guided start's strip rather than over its lower half, where "Show placement controls" was. */
 body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px + var(--lesson-room,108px)))}
+/* The sound's panel of sliders opens over the right-hand end of the map's buttons, where "How it ended" stands, rather than
+   up from the sound button into the ability bar (it covered four to eight of the bar's icons at every size). */
+#sound-control{position:static}
+#sound-panel{left:auto;right:0;bottom:calc(100% + 8px)}
 /* "How it ended" stands on the map's buttons, right-aligned, instead of across Gonzales, + and - (public/index.html). */
 #ending-open{position:absolute;right:0;bottom:calc(100% + 8px);z-index:1;white-space:nowrap}

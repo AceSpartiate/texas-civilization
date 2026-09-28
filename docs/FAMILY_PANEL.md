@@ -1471,6 +1471,19 @@ the fight's caption and the speech bubbles.
 
 The Host's page is in `docs/HOST_PAGE.md` §2.8.
 
+**After main's tips, sound and tutorial switch-off (merged the same day).** The walk now holds the tip at first meeting
+(`#tip`), the sound button and its panel of sliders too:
+- **The sound panel** opened up from the sound button into the ability bar (four to eight icons under it at every size): it
+  opens over the right-hand end of the map's buttons instead (`#sound-control{position:static}`); the card keeps off both.
+- **The tip at first meeting** keeps clear of every popup and panel over the map, not only the card and the questions
+  (`TIP_CLEAR_OF` in `placeTip`: the errand, the way of going, the choosers, the wagon, the house panels, a town scene, the
+  journal, the ending), is placed again whenever the card moves and on every new size, and tries first to keep off the
+  person the card is about. Where there is no room anywhere its builder's rule stands: at the bar, with the card over it
+  (listed deliberate, with that reason). **The tip under the open errand is the errand builder's** (the coordinator,
+  2026-09-28): it is printed on every run as PENDING with its owner, written to the evidence, and does not fail this gate.
+- **The messages** stop above the bar where the bar reaches under them (1024x600), and are pushed down only by what stands on
+  their own side of the screen - a land chooser beside the faces pushed them onto the bar.
+
 **Gates.** `npm run test:overlap` - every state and size above, nothing reached-but-empty (each state asserts its own panel is
 drawn), no page errors. `npm run test:overlap-injections` (`docs/evidence/overlap-injections.json`) puts eight of the moves
 back one at a time: seven caught by the check written for each; the eighth, a bubble no longer sliding out from under a

@@ -37,6 +37,9 @@ export const STUDENT_FURNITURE = [
   // Bottom right: the map's own buttons, and the ending's way back.
   { name: 'journal button', selector: '#journal-toggle', kind: 'control' },
   { name: 'map buttons', selector: '#map-nav', kind: 'control' },
+  // The sound control beside the Journal, and its panel of sliders (public/audio.js, 2026-09-28).
+  { name: 'sound button', selector: '#sound-toggle', kind: 'control' },
+  { name: 'sound panel', selector: '#sound-panel', kind: 'popup' },
   { name: 'ending button', selector: '#ending-open', kind: 'control' },
   { name: 'map framing', selector: '#map-framing', kind: 'caption' },
   // Top right: the connection line, Play Solo's own controls, the guided start and the messages.
@@ -65,6 +68,9 @@ export const STUDENT_FURNITURE = [
   { name: 'house placement', selector: '#house-placement', kind: 'popup' },
   { name: 'wagon load', selector: '#wagon-load', kind: 'popup' },
   { name: 'icon tip', selector: '#panel-tip', kind: 'tip' },
+  // The tip at first meeting over the map (public/tips.js, owner 2026-09-28). Not a tooltip: it stays until put away, so it is
+  // held like any other piece - it may stand on nothing and nothing may stand on it.
+  { name: 'first-meeting tip', selector: '#tip', kind: 'notice' },
   // Dialogs that stand over everything on purpose.
   { name: 'journal', selector: '#family-journal[data-open=true]', kind: 'dialog' },
   { name: 'ending', selector: '#ending', kind: 'dialog' },

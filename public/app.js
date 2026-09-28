@@ -5205,7 +5205,7 @@ function placementBoxes() {
     // The ability bar (owner, 2026-09-21) stands across the bottom middle; the card beside a person is kept off it, as it
     // is kept off the map's own buttons.
     // "How it ended" and the walk-through stand along the bottom too (the overlap proof, owner 2026-09-28).
-    controls: ['#journal-toggle', '#map-nav', '#ending-open', '#tutorial', '.panel-row[data-focused=true] .panel-icons'].map(selector => document.querySelector(selector)?.getBoundingClientRect()).filter(box => box?.height),
+    controls: ['#journal-toggle', '#map-nav', '#sound-control', '#sound-panel:not([hidden])', '#ending-open', '#tutorial', '.panel-row[data-focused=true] .panel-icons'].map(selector => document.querySelector(selector)?.getBoundingClientRect()).filter(box => box?.height),
     // The guided start's strip is **overhead**, not underfoot: it stands across the top middle, so the card is kept
     // *below* it rather than above it. Counting it among the controls pushed the card up to the top of the screen and
     // straight under the strip, which is the one thing that has to stay readable while a step is running (2026-09-21).
@@ -5305,8 +5305,11 @@ function positionSelection(world, chosen = selectedEntity(world)) {
   // Never off the foot of the screen, whatever else gives.
   const top = `${Math.round(Math.min(rect.height - 8 - tall, Math.max(from, Math.min(to - tall, wanted))))}px`;
   // Written only when it changes: a style written every frame is a layout every frame.
+  const moved = left !== placement.left || top !== placement.top;
   if (left !== placement.left) { panel.style.left = left; placement.left = left; }
   if (top !== placement.top) { panel.style.top = top; placement.top = top; }
+  // A tip at first meeting keeps clear of the card wherever the card goes (the overlap proof, 2026-09-28).
+  if (moved && tipShowing && !$('#tip')?.hidden) placeTip($('#tip'));
 }
 /**
  * Naming the family (owner, 2026-09-17): once the die is rolled, a student's family with no last name is asked for one in a
@@ -6172,8 +6175,15 @@ function renderMilitaryNotice(world) {
   $('#military-next').hidden = notices.length < 2;
   // Below the guided start and below an open land chooser, never over either one's words or buttons (panels proof, 390px).
   const above = ['#lesson', '#lesson-resume', '#site-choose', '#survey-choose'].map(selector => $(selector)).filter(one => one && !one.hidden);
-  const top = Math.max(44, ...above.map(one => one.getBoundingClientRect().bottom + 8));
+  // Only what stands in the notice's own stretch of the screen: a land chooser beside the faces on the left no longer pushes
+  // the messages on the right down onto the bar (the overlap proof, 1024x600, 2026-09-28). A phone's notice is as wide as
+  // the screen, so there everything counts.
+  const reach = innerWidth < 760 ? 0 : innerWidth - 12 - panel.offsetWidth;
+  const top = Math.max(44, ...above.map(one => one.getBoundingClientRect()).filter(box => box.right > reach).map(box => box.bottom + 8));
   panel.style.top = `${top}px`;
+  // And never down over the ability bar where it reaches under the right-hand side (1024x600): it scrolls instead.
+  const foot = `calc(100% - ${Math.round(top)}px - var(--right-foot, 74px))`;
+  if (panel.style.maxHeight !== foot) { panel.style.maxHeight = foot; panel.style.overflowY = 'auto'; }
   // On a phone the card is as wide as the screen, so it starts right of the family's faces and their "!": it must never
   // cover the other way to the same question (panels proof, 390px).
   const faces = innerWidth < 760 ? [...document.querySelectorAll('#family-panel .panel-portrait, #family-panel .panel-attention:not([hidden])')]
@@ -6247,7 +6257,11 @@ function renderTip(world, { hidden = false } = {}) {
  * rather than hidden under them. Where there is no room above one, it stays above the bar and the card stands over it: a
  * card the student opened outranks a tip.
  */
-const TIP_CLEAR_OF = ['#selection', '#call-menu', '#encounter', '#military-notice', '#lesson', '#lesson-resume', '#tutorial'];
+// Every popup and panel over the map, not only the card and the questions (the overlap proof, owner 2026-09-28): the order's
+// tip stood under the open errand at 1366x768, its words behind the popup and its Got it half under it (test:errand).
+const TIP_CLEAR_OF = ['#selection', '#call-menu', '#encounter', '#military-notice', '#lesson', '#lesson-resume', '#tutorial',
+  '#errand', '#going', '#site-choose', '#survey-choose', '#wagon-load', '#house-plan', '#house-plot', '#house-placement', '#town-scene',
+  '#interior', '#ending', '#family-journal[data-open=true]'];
 function placeTip(panel) {
   const bar = document.querySelector('.panel-row[data-focused=true] .panel-icons');
   const barBox = bar ? bar.getBoundingClientRect() : null;
@@ -6265,28 +6279,42 @@ function placeTip(panel) {
   const over = (a, b) => a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
   const standing = TIP_CLEAR_OF.map(selector => $(selector)).filter(one => one && !one.hidden && getComputedStyle(one).visibility !== 'hidden' && getComputedStyle(one).display !== 'none')
     .map(one => one.getBoundingClientRect()).filter(box => box.width > 1 && box.height > 1);
-  const clear = box => box.top >= 48 && !standing.some(one => over(box, one));
-  let box = put();
-  if (clear(box)) return;
-  const hit = standing.filter(one => over(box, one));
-  // Beside whatever stands at the bar's height, in the widest stretch left free there...
-  let free = [[left, innerWidth - edge]];
-  for (const one of standing.filter(other => other.top < box.bottom && box.top < other.bottom)) {
-    free = free.flatMap(([a, b]) => [[a, Math.min(b, one.left - 8)], [Math.max(a, one.right + 8), b]]).filter(([a, b]) => b - a > 0);
+  // Tried first clear of the person the card is about as well, where the map drew them (the overlap proof, 2026-09-28: at
+  // 1024x600 the tip stood on the person being given an order), and only then as before, clear of the panels alone.
+  const card = $('#selection'), spot = card && !card.hidden && drawnAt.get(card.dataset.entityId);
+  const person = [];
+  if (spot) {
+    const canvas = $('#world-map'), frame = canvas.getBoundingClientRect(), k = frame.width / (canvas.width || 1);
+    person.push({ left: frame.left + (spot.x - spot.size * .35) * k, right: frame.left + (spot.x + spot.size * .35) * k, top: frame.top + (spot.y - spot.size * .6) * k, bottom: frame.top + (spot.y + spot.size * .55) * k });
   }
-  const [from, to] = free.reduce((best, span) => (span[1] - span[0] > best[1] - best[0] ? span : best), [0, 0]);
-  // ceiling: 200px, where the words stand on their own lines under "Tip" and "Got it" (public/style.css); narrower than that a
-  // tip is a column of single words, and it waits under the card instead. A card that could make room is the way out.
-  if (to - from >= 200) {
-    box = put({ from: Math.round(from), to: Math.round(innerWidth - to) });
-    if (clear(box)) return;
-  }
-  // ...or above it...
-  box = put({ bottom: Math.round(innerHeight - Math.min(...hit.map(one => one.top)) + 8) });
-  if (clear(box)) return;
+  const attempt = obstacles => {
+    const clear = box => box.top >= 48 && !obstacles.some(one => over(box, one));
+    let box = put();
+    if (clear(box)) return true;
+    const hit = obstacles.filter(one => over(box, one));
+    // Beside whatever stands at the bar's height, in the widest stretch left free there...
+    let free = [[left, innerWidth - edge]];
+    for (const one of obstacles.filter(other => other.top < box.bottom && box.top < other.bottom)) {
+      free = free.flatMap(([a, b]) => [[a, Math.min(b, one.left - 8)], [Math.max(a, one.right + 8), b]]).filter(([a, b]) => b - a > 0);
+    }
+    const [from, to] = free.reduce((best, span) => (span[1] - span[0] > best[1] - best[0] ? span : best), [0, 0]);
+    // ceiling: 200px, where the words stand on their own lines under "Tip" and "Got it" (public/style.css); narrower than that a
+    // tip is a column of single words, and it waits under the card instead. A card that could make room is the way out.
+    if (to - from >= 200) {
+      box = put({ from: Math.round(from), to: Math.round(innerWidth - to) });
+      if (clear(box)) return true;
+    }
+    // ...or above it...
+    box = put({ bottom: Math.round(innerHeight - Math.min(...hit.map(one => one.top)) + 8) });
+    return clear(box);
+  };
+  if (person.length && attempt([...standing, ...person])) return;
+  if (attempt(standing)) return;
   // ...and where there is no room anywhere, at the bar with the card over it: a card the student opened outranks a tip.
   put();
 }
+// On a new size the tip is placed again with the rest, not left where the old size put it.
+addEventListener('resize', () => { if (tipShowing && window.__snapshot?.world) renderTip(window.__snapshot.world); });
 function putTipAway(id) {
   if (!id || tipPutAway.has(id)) return;
   tipPutAway.add(id);
