@@ -6,6 +6,8 @@
 // the principal's mark existed solely when the art failed to load - and worse, 'rust' was
 // in the shared pool, so a neighbour could be drawn in the colour that means "this is
 // you". Keeping the principal's palette out of the pool is what makes the mark true.
+import { workClip } from './work-art.js';
+
 export const PRINCIPAL_VARIANT = 'rust';
 export const VARIANTS = ['teal', 'elder', 'blue'];
 export function visualVariant(id, principal = false) {
@@ -481,6 +483,13 @@ function grownClip(entity, observed) {
     if (!entity.travel || entity.condition !== 'sound') return { id: 'wagon-idle' };
     return { id: entity.laden ? 'wagon-loaded-travel' : 'wagon-travel' };
   }
+  // At the work, doing it (owner, 2026-09-28): every activity the server reports is in one table, public/work-art.js `WORK`,
+  // which picks the pose - a delivered cycle of the work, or the nearest one with a stand-in tool and effect drawn with it -
+  // and says when they are walking to it or carrying from it instead. Only the family's own, and the Host's whole class.
+  if (!observed && entity.kind === 'person') {
+    const work = workClip(entity, variant);
+    if (work) return work;
+  }
   // Other households expose only broad task. Never infer their private chore/cargo.
   const doing = observed ? '' : entity.chore?.doing || '';
   // Coming back with something, from the field or out of the timber. The carry cycle has
@@ -510,8 +519,8 @@ function grownClip(entity, observed) {
  * sim/babies.mjs), or null. Every pose named here is one the children's sheets and the cast figures already hold; the children's
  * figure is taken wherever it has the pose (`entityClip`).
  * stand-in: docs/ART_REQUESTS.md, request 2026-09-26 - children at play, a baby crawling, and a woman holding a baby. Until they
- * land: running play is the child's walk, a doll or the grass the child's sitting rest, a toy cart, marbles and the hens the
- * side-on rest, hiding the back-turned idle; a crawling baby is the infant's standing pose moved over the ground; a woman holding
+ * land: running play is the child's walk, a doll or the grass the child's sitting rest, a toy cart and marbles the side-on
+ * rest (the hens are work since 2026-09-28: public/work-art.js `scatter`), hiding the back-turned idle; a crawling baby is the infant's standing pose moved over the ground; a woman holding
  * a baby is the harvest's carrying pose with the infant beside her.
  */
 export function littleClip(entity, variant) {
@@ -528,7 +537,8 @@ export function littleClip(entity, variant) {
   if (/galloping|running at tag|running off to hide|coming out to be found|rolling a hoop/.test(doing)) return { id: `${variant}-walk` };
   if (/hiding behind the house/.test(doing)) return { id: `${variant}-idle-n`, upright: true };
   if (/playing house|lying on their back/.test(doing)) return { id: `${variant}-rest`, upright: true };
-  if (/marbles|toy cart|fort of sticks|edge of the water|scattering corn/.test(doing)) return { id: `${variant}-rest-e` };
+  // The hens are work, not play: public/work-art.js draws the scattering (`child-hens`).
+  if (/marbles|toy cart|fort of sticks|edge of the water/.test(doing)) return { id: `${variant}-rest-e` };
   return null;
 }
 /** The point `miles` along a road, for a caller drawing somebody somewhere other than where `position` puts them. */
@@ -623,6 +633,22 @@ export class ProjectionMotion {
       return { x: previous.location.x + (entity.location.x - previous.location.x) * f, y: previous.location.y + (entity.location.y - previous.location.y) * f };
     }
     return entity.location;
+  }
+  /**
+   * Which way somebody not on a journey is being moved over the ground this frame - 'e', 'w', 'n' or 's' - or null while they
+   * stand: the server stepping them across their own land a tick at a time (a stroll out to a tree, round the fields), which
+   * `position` draws them walking along. Read only for people at work (public/work-art.js), who are drawn walking while it
+   * moves them and at the work once it stops. A quarter tick's grace, so the next tick arriving a moment late is not a flicker.
+   */
+  heading(entity, now, reducedMotion = false) {
+    const record = this.records.get(entity.id), previous = record?.previous;
+    if (!previous || reducedMotion || entity.travel || previous.travel) return null;
+    if (!(now - record.at < record.duration * 1.25)) return null;
+    const from = previous.location, to = entity.location;
+    if (!from || !to || from.siteId !== to.siteId) return null;
+    const dx = to.x - from.x, dy = to.y - from.y, far = Math.hypot(dx, dy);
+    if (!(far > 1e-6) || far >= .6) return null;
+    return Math.abs(dy) > Math.abs(dx) * 1.2 ? (dy > 0 ? 's' : 'n') : dx < 0 ? 'w' : 'e';
   }
   /**
    * The journey somebody is drawn along now, or null: the one `position` walks them down. On the tick they arrive it is the
