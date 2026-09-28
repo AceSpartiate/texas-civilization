@@ -20,6 +20,7 @@ import { LOOKED_TO_DAYS, herdOf } from './stock.mjs';
 import { share } from './shares.mjs';
 import { STOCK_SPACE, spaceOf, wagonRoom } from './wagon.mjs';
 import { COTTON_SEED_PER_PLOT, SEED_PER_PLOT } from './improvements.mjs';
+import { cropNow, seasonal, seedFor } from './seasons.mjs';
 import { huntingPlace } from './hunting.mjs';
 import { packFlight } from './scrape.mjs';
 import { campChoice } from './camp.mjs';
@@ -417,7 +418,8 @@ export function thinkFor(world, household, { project, act }) {
       view.household.field?.state === 'planted' && unfenced && 'fence-plot',
       // Seed enough for the family's own crop: cotton wants more a plot than corn (sim/improvements.mjs). Measured 2026-09-16: with
       // corn's count written here, a cotton family never gathered enough, never planted, and its cotton economy collapsed.
-      view.household.field?.state === 'bare' && (resources.seed || 0) < (view.household.field?.crop === 'cotton' ? COTTON_SEED_PER_PLOT : SEED_PER_PLOT) * Math.max(1, land.cleared || 0) && 'fetch-seed',
+      // On the real land, the seed for what would go in now, and none bought out of every season (sim/seasons.mjs).
+      view.household.field?.state === 'bare' && (!seasonal(world) || cropNow(world, world.households[view.household.id])) && (resources.seed || 0) < (seasonal(world) ? seedFor(cropNow(world, world.households[view.household.id])) : view.household.field?.crop === 'cotton' ? COTTON_SEED_PER_PLOT : SEED_PER_PLOT) * Math.max(1, land.cleared || 0) && 'fetch-seed',
       (resources.cotton || 0) >= 1 && 'sell-cotton',
       // Then more ground, a plot at a time: clear what is staked, and stake more while it has fewer than it keeps.
       staked && 'clear-plot',

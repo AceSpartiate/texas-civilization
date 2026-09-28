@@ -25,6 +25,7 @@ import { TOWN_LAYOUTS, townPoint } from './town-layouts.mjs';
 import { learn } from './knowledge.mjs';
 import { vehicleCarry } from './keeping.mjs';
 import { purseOf, purseHeld } from './town.mjs';
+import { marketRefusal, marketSale, recordSale } from './market.mjs';
 import { addTool, allWorn, toolCount } from './tools.mjs';
 import { BEASTS_MOST, BEAST_WORDS, LEAD_MOST, addBeast, beastsOf, kept } from './beasts.mjs';
 import { addToHerd } from './stock.mjs';
@@ -104,6 +105,11 @@ export const STORE_BALE_COIN = 2;
 export const WEAVER_BALE_COIN = STORE_BALE_COIN, WEAVER_BALE_FOOD = 3;
 /** Coin a buying keeper holds for each family near the town. */
 export const KEEPER_PURSE_PER_FAMILY = 1;
+/**
+ * The store buys a family's cotton and food for coin outside its purse (owner, 2026-09-16, docs/MONEY_AND_GLORY.md §8.1): it ships
+ * them down to the coast on its own credit. Since 2026-09-28 only as much as it can use (sim/market.mjs).
+ */
+export const OUTSIDE_PURSE = Object.freeze({ store: Object.freeze(['cotton', 'food']) });
 
 const gear = household => household.gear || {};
 const TOOL_NAMES = { axe: 'a felling axe', auger: 'an auger', broadaxe: 'a broadaxe', froe: 'a froe' };
@@ -153,12 +159,13 @@ export const TRADES = Object.freeze({
         // Five food a real, and the sixth stays in the house: `per` is the lot the keeper pays for, so no part of a real is
         // ever paid. This is the errand's own arithmetic (`COIN.foodPerReal`), moved to the counter.
         id: 'food', kind: 'buy', label: 'Sell food', coinEach: 1, per: 5, good: 'food',
-        does: 'The store pays a real for every five food it can sell on, whole reales only.',
+        // Only as much as the store can use, and less as it fills (sim/market.mjs, 2026-09-28).
+        does: 'The store pays a real for every five food it can sell on, every ten once it is filling, whole reales only; full, it takes no more until it has sold some on.',
         refuse: (world, household) => (household.resources.food ?? 0) >= 5 ? null : 'There is not five food in the house to sell.',
       },
       {
         id: 'cotton', kind: 'buy', label: 'Sell the cotton', coinEach: STORE_BALE_COIN, foodEach: 2, good: 'cotton',
-        does: `${STORE_BALE_COIN === 1 ? 'A real' : reales(STORE_BALE_COIN)} a whole bale, or two food. The weaver, where there is one, gives three food.`,
+        does: `${STORE_BALE_COIN === 1 ? 'A real' : reales(STORE_BALE_COIN)} a whole bale, or two food, while the store wants cotton; half that as it fills, and none once it has all it can ship. The weaver, where there is one, gives three food.`,
         refuse: (world, household) => (household.resources.cotton ?? 0) >= 1 ? null : 'There is no whole bale of cotton in the house.',
       },
     ],
@@ -298,7 +305,7 @@ export const TRADES = Object.freeze({
     offers: [
       {
         id: 'cotton', kind: 'buy', label: 'Sell cotton to the weaver', coinEach: WEAVER_BALE_COIN, foodEach: WEAVER_BALE_FOOD, good: 'cotton',
-        does: `${reales(WEAVER_BALE_COIN)} or ${WEAVER_BALE_FOOD} food a whole bale: the weaver pays more food than the store.`,
+        does: `${reales(WEAVER_BALE_COIN)} or ${WEAVER_BALE_FOOD} food a whole bale while the weaver wants cotton, half as the loft fills: the weaver pays more food than the store.`,
         refuse: (world, household) => (household.resources.cotton ?? 0) >= 1 ? null : 'There is no whole bale of cotton in the house.',
       },
       {
@@ -570,7 +577,9 @@ export function counterRefusal(world, household, entity, optionId) {
   if (offer.kind === 'sell' && !Number.isFinite(pay === 'coin' ? offer.coin : offer.food)) return pay === 'food' ? `${TRADES[parse(optionId).trade].shop.replace(/^the /, 'The ')} wants coin for it, not food.` : 'That is not sold for coin.';
   if (offer.kind === 'sell' && pay === 'coin' && (household.resources.money ?? 0) < offer.coin) return `It costs ${reales(offer.coin)}, and there is not that much coin in the house.`;
   if (offer.kind === 'sell' && pay === 'food' && (household.resources.food ?? 0) < offer.food) return 'There is not enough food to pay with.';
-  if (offer.kind === 'buy' && pay === 'coin' && purseHeld(world, world.entities[entity.chore?.traderId]) < offer.coinEach) return 'The keeper has no coin left to pay out.';
+  // A shop that has all it can use of a good takes no more of it, for coin or for food (sim/market.mjs).
+  if (offer.kind === 'buy') { const full = marketRefusal(world, entity.location?.siteId || household.settlementId || 'gonzales', parse(optionId).trade, offer.good); if (full) return full; }
+  if (offer.kind === 'buy' && pay === 'coin' && !OUTSIDE_PURSE[parse(optionId).trade]?.includes(offer.good) && purseHeld(world, world.entities[entity.chore?.traderId]) < offer.coinEach) return 'The keeper has no coin left to pay out.';
   return null;
 }
 
@@ -586,21 +595,23 @@ export function takeCounter(world, household, entity, optionId) {
   if (offer.kind === 'buy') {
     // Sold by the lot: `per` is how many go to one payment (the store's five food a real, 2026-09-17; one of anything else),
     // every whole lot carried, and no more than the keeper's purse pays for. What will not make a whole lot stays at home.
-    const per = offer.per ?? 1;
+    // Since 2026-09-28 (sim/market.mjs) the store and the weaver take only what they can use, at a price that falls as they fill;
+    // the store pays for cotton and food outside its purse (owner, 2026-09-16), every other keeper from the purse.
     const carried = Math.floor(Math.min(household.resources[offer.good] ?? 0, vehicleCarry(world, entity, entity.chore?.mode)));
-    const lots = pay === 'coin'
-      ? Math.min(Math.floor(carried / per), Math.floor(purseOf(world, trader) / offer.coinEach))
-      : Math.floor(carried / per);
-    const units = lots * per;
+    const siteId = trader?.townSiteId || entity.location?.siteId || household.settlementId || 'gonzales';
+    const outside = OUTSIDE_PURSE[trade]?.includes(offer.good);
+    const sale = marketSale(world, siteId, trade, offer, carried, pay, { coinLimit: pay === 'coin' && !outside ? purseOf(world, trader) : Infinity });
+    const units = sale.sold;
     if (units < 1) return;
+    recordSale(world, siteId, trade, offer.good, units);
     household.resources[offer.good] = round((household.resources[offer.good] ?? 0) - units);
     if (pay === 'coin') {
-      const got = lots * offer.coinEach;
-      trader.purse -= got;
+      const got = sale.got;
+      if (!outside) trader.purse -= got;
       household.resources.money = (household.resources.money ?? 0) + got;
       record(world, 'consequence', { actorId: entity.id, householdId: household.id, importance: 2, coin: got, text: `${entity.name} sold ${units} ${offer.good} to ${trader.name} for ${reales(got)}.` });
     } else {
-      const got = units * offer.foodEach;
+      const got = sale.got;
       household.resources.food = round((household.resources.food ?? 0) + got);
       record(world, 'consequence', { actorId: entity.id, householdId: household.id, importance: 2, text: `${entity.name} sold ${units} ${offer.good} to ${trader.name} for ${got} food.` });
     }

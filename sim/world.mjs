@@ -76,6 +76,8 @@ import { furnitureInvalid } from './furniture.mjs';
 import { interiorInvalid, interiorProjection, placeItem } from './interior.mjs';
 import { gearExertionShare, shopsInvalid, wagonSpeedShare } from './shops.mjs';
 import { errandOffers, errandQuote, errandsInvalid } from './errands.mjs';
+import { marketsInvalid } from './market.mjs';
+import { fieldInvalid } from './seasons.mjs';
 import { quickestOf, quickestWay, shownWays, waysFor } from './going.mjs';
 import { toolsInvalid } from './tools.mjs';
 import { fellingInvalid, logsLeftOut, logsProjection, recordFelling } from './felling.mjs';
@@ -1449,7 +1451,9 @@ export function validateWorld(world) {
     if (household.settlementId !== undefined && world.map.sites[household.settlementId]?.kind !== 'town') throw new Error('A family belongs to a settlement that is not there');
     if (household.name !== undefined && (typeof household.name !== 'string' || !household.name.trim() || household.name.length > NAME_LIMIT)) throw new Error('Invalid household name');
     if (household.surname !== undefined && (typeof household.surname !== 'string' || !household.surname.trim() || household.surname.length > NAME_LIMIT)) throw new Error('Invalid family last name');
-    if (!household.field || !['bare', 'planted', 'ripe'].includes(household.field.state) || !['corn', 'cotton'].includes(household.field.crop)) throw new Error('Invalid field state');
+    // A garden since 2026-09-28, with the minute it was sown and the family's own crop kept beside it (sim/seasons.mjs): both absent on
+    // every class saved before the farming year, whose crop ripens as it was promised when it went in. No save version moved.
+    { const bad = fieldInvalid(household.field); if (bad) throw new Error(bad); }
     // Absent on a class saved before a family could break new ground, and the empty value
     // is the one every family used to have: the first patch, and no fence. So no save
     // version moved. Present, both have to mean something. A class whose field has become plots
@@ -1495,7 +1499,7 @@ export function validateWorld(world) {
   if (badExpress) throw new Error(badExpress);
   const badCall = callsInvalid(world);
   if (badCall) throw new Error(badCall);
-  const badShops = shopsInvalid(world) || errandsInvalid(world);
+  const badShops = shopsInvalid(world) || errandsInvalid(world) || marketsInvalid(world);
   if (badShops) throw new Error(badShops);
   const badUse = usesInvalid(world) || toolsInvalid(world) || beastsInvalid(world);
   if (badUse) throw new Error(badUse);

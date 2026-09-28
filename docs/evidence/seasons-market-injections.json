@@ -1,0 +1,136 @@
+{
+  "record": "seasons-market-injections",
+  "date": "2026-09-28",
+  "files": [
+    "tests/seasons.test.mjs",
+    "tests/market.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "a crop ripens in eighteen ticks on the real land too, as it did before the seasons",
+      "file": "sim/seasons.mjs",
+      "failed": [
+        "a crop takes its real time on the calendar: a garden is six weeks, not eighteen ticks, and says when it will be ready",
+        "a ripe field is read from the calendar and nothing else"
+      ]
+    },
+    {
+      "name": "every crop is in season all year on the real land",
+      "file": "sim/seasons.mjs",
+      "failed": [
+        "the farming year: a garden from September to April, corn from the middle of February, cotton from the end of March",
+        "on the real land the autumn planting is a garden: corn and cotton are refused in words, and silence keeps the family's own crop for the spring",
+        "a class saved before the farming year: its crop in the ground comes in as it was promised, and the invented country keeps its afternoon",
+        "the guided start on the real land: the autumn's garden is planted, the harvest step says when it will be ready, and the sale is of food"
+      ]
+    },
+    {
+      "name": "a crop sown in a class saved before the seasons never comes in (no sown minute read as sown at nothing)",
+      "file": "sim/seasons.mjs",
+      "failed": [
+        "a class saved before the farming year: its crop in the ground comes in as it was promised, and the invented country keeps its afternoon"
+      ]
+    },
+    {
+      "name": "a save may hold a crop the game does not grow",
+      "file": "sim/seasons.mjs",
+      "failed": [
+        "what a save may hold of the field: a garden, the sown minute on a crop in the ground, the family's own crop beside it"
+      ]
+    },
+    {
+      "name": "the garden is never the silent answer: silence tries only the family's own crop and the other",
+      "file": "sim/seasons.mjs",
+      "failed": [
+        "the farming year: a garden from September to April, corn from the middle of February, cotton from the end of March",
+        "on the real land the autumn planting is a garden: corn and cotton are refused in words, and silence keeps the family's own crop for the spring",
+        "the guided start on the real land: the autumn's garden is planted, the harvest step says when it will be ready, and the sale is of food"
+      ]
+    },
+    {
+      "name": "planting a garden forgets the crop the family came meaning to grow",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "on the real land the autumn planting is a garden: corn and cotton are refused in words, and silence keeps the family's own crop for the spring"
+      ]
+    },
+    {
+      "name": "the answer at the rows is not checked against the season",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "on the real land the autumn planting is a garden: corn and cotton are refused in words, and silence keeps the family's own crop for the spring",
+        "the guided start on the real land: the autumn's garden is planted, the harvest step says when it will be ready, and the sale is of food"
+      ]
+    },
+    {
+      "name": "the guided start waits at the harvest step for a crop weeks off",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "the guided start on the real land: the autumn's garden is planted, the harvest step says when it will be ready, and the sale is of food"
+      ]
+    },
+    {
+      "name": "the store pays full price however much it holds, and never fills",
+      "file": "sim/market.mjs",
+      "failed": [
+        "the price curve: full price to half the want, half price to the want, and then nothing",
+        "what the store holds is written when it buys, and sold on over the calendar: a month clears what it wants",
+        "the errand to town: a list is quoted at the store's price as it fills, and what it cannot use comes home",
+        "one store for the whole town: a neighbour's sale lowers what the next family is paid, and the director's errand stops at a full store"
+      ]
+    },
+    {
+      "name": "the store never sells anything on: once full, full for ever",
+      "file": "sim/market.mjs",
+      "failed": [
+        "what the store holds is written when it buys, and sold on over the calendar: a month clears what it wants"
+      ]
+    },
+    {
+      "name": "what the store bought is never written down",
+      "file": "sim/market.mjs",
+      "failed": [
+        "what the store holds is written when it buys, and sold on over the calendar: a month clears what it wants",
+        "the errand to town: a list is quoted at the store's price as it fills, and what it cannot use comes home",
+        "one store for the whole town: a neighbour's sale lowers what the next family is paid, and the director's errand stops at a full store"
+      ]
+    },
+    {
+      "name": "a full store is never said to be full",
+      "file": "sim/market.mjs",
+      "failed": [
+        "what the store holds is written when it buys, and sold on over the calendar: a month clears what it wants",
+        "one store for the whole town: a neighbour's sale lowers what the next family is paid, and the director's errand stops at a full store"
+      ]
+    },
+    {
+      "name": "a save may hold a market for a town that is not there, or held below nothing",
+      "file": "sim/market.mjs",
+      "failed": [
+        "what the store holds is written when it buys, and sold on over the calendar: a month clears what it wants"
+      ]
+    },
+    {
+      "name": "the director's own errand is sent to a full store",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "one store for the whole town: a neighbour's sale lowers what the next family is paid, and the director's errand stops at a full store"
+      ]
+    },
+    {
+      "name": "the errand's list shows the store's first price, not what it pays now",
+      "file": "sim/errands.mjs",
+      "failed": [
+        "the errand to town: a list is quoted at the store's price as it fills, and what it cannot use comes home",
+        "one store for the whole town: a neighbour's sale lowers what the next family is paid, and the director's errand stops at a full store"
+      ]
+    },
+    {
+      "name": "a sale by the errand is not the store's: the next family finds it as empty as before",
+      "file": "sim/errands.mjs",
+      "failed": [
+        "the errand to town: a list is quoted at the store's price as it fills, and what it cannot use comes home"
+      ]
+    }
+  ]
+}
