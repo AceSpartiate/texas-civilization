@@ -15,7 +15,7 @@
     "the order to leave: its tip (\"Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in a day, and the family packs and goes.\"), put away with a tap, and the \"!\" on the main person with \"3 min\" left on it",
     "on the road: the route's tip (\"On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.\"), put away with a tap",
     "¡Alto!: its tip (\"Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, and running risks their shots. No answer means you halt.\"), the \"!\" with \"30s\" on it, put away with a tap",
-    "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, order, flight, house, field, rest, road, route, star, alto)"
+    "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, order, flight, house, road, rest, route, star, alto)"
   ],
   "observed": {
     "start": {
@@ -40,8 +40,8 @@
       "enlist",
       "order",
       "house",
-      "rest",
       "road",
+      "rest",
       "star"
     ],
     "call": {
@@ -171,9 +171,8 @@
         "order",
         "flight",
         "house",
-        "field",
-        "rest",
         "road",
+        "rest",
         "route",
         "star",
         "alto"
