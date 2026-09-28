@@ -1,5 +1,85 @@
 # Claude handoff — Astra foundation
 
+## The family's own way east, and Mexican troops on it — the owner's request and choices of 2026-09-27 (worktree branch; not released)
+
+Built on `worktree-agent-afb989c37cd01607a` from main `ed4147b`, `origin/main` (`e937b72`) merged before finishing. Not pushed, not merged to
+main, not released. Design and the owner's words: [docs/SCRAPE.md](docs/SCRAPE.md) §11-§16; research
+[docs/battle-research/scrape-pursuit.md](docs/battle-research/scrape-pursuit.md) (`HIST-TEX-660` to `-668`); the game's own
+`FIC-GONZ-660` to `-667`.
+
+**The owner** asked for control of where the family goes, as a train, with the road faster but more visible; soldiers who order a
+family to stop when close and fire if it runs, bullets modelled with era accuracy; a family a little faster than infantry, cavalry
+faster and uncommon; and later "a thin, subtle line as a path for directions that only the player can see". By multiple choice:
+**rare, where columns were**; **historical speeds**; **adults and animals only**; **a short held scene**.
+
+**The record, said plainly** (research §1): no source read has Mexican troops firing on fleeing refugees; at New Washington Almonte
+held his men's fire for Burnet's family. The firing is the owner's rule (`FIC-GONZ-665`), and SCRAPE.md §16 (a) asks whether to keep it.
+
+**Built.**
+- **The route** (`sim/flight-route.mjs`): destination and up to five stops among 46 places (towns, villages, landings, the
+  plantations the columns passed, named ferries); each stretch by the road (`findWay`) or across country (waypoints three lanes wide,
+  the ground's going and `OFF_ROAD`, a big river crossed only at its crossing, a wagon never through timber); set leaving ("Make
+  for" any place, "How") and changed on the road ("Change where we go": stops, a way each, from the list or by tapping the map);
+  the train turns where it stands; each stop planned again when reached; a family all mounted goes at a horse's pace.
+  `sim/ways.mjs` `findWay` gained origin, road-cost, across-all, waypoint and extra-edge options, returns `offRoad`, and keeps
+  place-to-place lines on the map.
+- **The path** (`drawRouteLine`, public/app.js): thin, dashed, pale, under the figures, from the train through every stop; sent only
+  in the family's own projection; **the Host is sent none** (chosen: thirty lines on a teacher's map help nobody; "only the player").
+- **Who can see a family** (`sim/pursuit.mjs`): only a column on its dated road or one of five documented patrols (Sesma's scouts,
+  Urrea's cavalry, Santa Anna's dragoons, Almonte, Barragán) on their days; a wagon three miles over open ground, riders two, on foot
+  one; half off the roads; a quarter or a tenth in brush, fifty yards in timber; 200 yards in rain or fog, 50 at night; closest
+  approach inside a long tick. Nothing is rolled to be seen.
+- **The chase**: "¡Alto!" (by night "¿Quién vive?") within 200 yards with the English under it; the road question `alto` - halt,
+  run as we are, leave the wagon and run, let the cow go and run, run for the timber - each with its miles an hour; "Make for the
+  timber" on the card while they come on. Halt: taken as a column always took a family (`overtake`), no shot. Run: after "¡Alto, o
+  hacemos fuego!" they fire - every shot rolled once against the researched table by range, shooter (trained, a recruit from the hip,
+  a horseman at the gallop) and target, times 0.6 on the move; at grown people, oxen, horses and the wagon, never a child; a person hit
+  killed one in five else wounded three weeks; a beast one in four else lamed (the ox halves the wagon, down stops it and a running
+  family leaves it). Taken within 15 yards; they give up after 2 miles/30 minutes on foot or 3 miles/30 minutes mounted (not within
+  100 yards), at dusk, at timber enough to hide in, or plainly outrun. Kept: the twenty-mile warning, the lookout, the bog, the
+  crossings, the cow, sickness, the day's grace, never twice by the same column in a day.
+- **Held and lapsing**: a played family at its screen holds the class at two minutes a tick near the soldiers (`chaseStep`); the order
+  waits three ticks and **the family halts, written "Nobody answered..."**; a family nobody plays, absent, or on auto halts at once
+  and holds nothing - compatible with the concurrent "unanswered questions lapse" work.
+- **Drawn** (`public/chase-view.js`): the soldiers behind the family, a flash and drifting smoke at each shot's real moment, dust
+  where a ball fell short, the orders over the lead man; the Host's map draws every chase. `stand-in:` request 2026-09-27 "Mexican
+  troops after a family on the road" (a galloping dragoon firing from the saddle, a skirmisher running and kneeling).
+
+**Numbers.** Speeds: ox wagon 2 mph < infantry 2.5 < a family on foot 3 < on horseback 5 (7 running) < cavalry trot 8, gallop 11
+within 150 yards. Hit table (trained, still, a man): 0.75 / 0.45 / 0.17 / 0.08 / 0.03 at 25 / 50 / 100 / 150 / 200 yards; a running
+man at 100 yards about one in ten. **Rarity** (10 classes of 15, nobody played): of 123 families that fled, **17 (13.8%) met
+Mexican troops, 15 (12.2%) were ordered to halt, 9 (7.3%) met horsemen**; the old rule would have overtaken 21 (17.1%); 2.3 chases a
+class. **Class time at Study**: a chase holds 38-133 real seconds (mean 83; infantry after a running wagon 133 with 17 shots, none
+hitting; dragoons after a running wagon 67 with 8 shots); as if every family of a class of fifteen were played, about **3.2 minutes a
+class**, and nothing where nobody is at a chase.
+
+**Evidence** (same computer only; no physical LAN or district claim). `tests/scrape-pursuit.test.mjs` (12: route and mid-road
+change; road vs country and sight; only columns and patrols on their days; the halt; the paces; the table; children never hit; a
+beast hit; giving up and caught; automatic and unanswered halts; the clock and who sees the chase and the route; old saves).
+`npm run test:scrape-pursuit` at 1366x768 and 1024x768 ([evidence](docs/evidence/scrape-pursuit-browser.json)): stops from the list
+and the map, a country leg, the path on the student's map and not another family's nor the Host's, a change on the road, "¡Alto!",
+run with shots drawn, halt without. Injections `npm run test:scrape-pursuit-injections`
+([evidence](docs/evidence/scrape-pursuit-injections.json)). Study `npm run study:scrape-pursuit`; class time
+`scripts/scrape-pursuit-class-time.mjs`. Injections **17 of 17** caught by the
+check written for them (13 unit, each failing its own test - one, an absent family's chase holding the class, failing the two tests
+that hold that rule - and 4 browser: the path drawn for another family, for the Host, the orders and the shots never drawn); the
+children's check was found vacuous by its injection (it read the page's shot shape, not the record's) and mended. Also run:
+`test:scrape` 5/5, `test:road` 7/7, `test:children` 14/14, `test:lesson` all, `test:mexican-advance` 10/10 (its first run stopped on
+a Playwright wait after check 5 with the machine loaded by other agents' studies; the rerun passed). `npm test`: 1439 of 1441 on the
+first run; the two were this change's and are mended - San Jacinto's refugee family at Lynchburg now stays when warned (a family
+three miles over the river is no longer taken by a circle round Santa Anna's head), and the road's "not taken twice" check holds its
+own rule, never twice by the same column (a family that set out again from San Felipe on foot may be taken by Sesma's division
+camped there). **The second full run, after merging `origin/main`: 1442 of 1442.**
+
+**Not done / ceilings** (SCRAPE.md §15): the chase is a line (turning toward the soldiers is not nearer); across country is found in a
+three-lane corridor; timber looked for on rings a tenth of a mile apart; the party is a sample; patrols do not search side roads; a
+wounded person keeps their seat. No `saveVersion` moved: `flight.route`, `flight.chase`, `flight.pursued`, `flight.lastPoint`,
+`travel.offRoad`, beasts' `dead`/`hurt` are all absent on an old save, which runs as before.
+
+**Decisions for the owner** (SCRAPE.md §16, multiple choice): (a) fire on a family that runs - as built / only men and animals, held
+where women and children are in the way / never; (b) rarity - keep / rarer / commoner; (c) what a hit does - keep / wounds only / as
+in battle; (d) running for the timber - keep / infantry follow and cavalry do not / no timber rule.
+
 ## The milk cow's pace and a baby's short word — two owner decisions of 2026-09-27 (worktree branch; released in v2026.09.27.2)
 
 Built on `worktree-agent-a5841143559ab4e24` from main `bd460c4`, fast-forwarded to `origin/main` `c4c2461` before finishing; merged to main and
