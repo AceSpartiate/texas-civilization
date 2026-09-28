@@ -8,7 +8,8 @@
     "serving: \"¡Alto!\" was on Bernarda Proofwright's card with Gregorio Proofwright on auto in the camp, and she answered \"run\" - no lapse, no capture unasked",
     "children: everybody of ten or more taken, the order is a \"!\" on Jasper Proofwright, 9, whose card says the oldest answers for the family",
     "children: Jasper Proofwright gave the order to leave, and the children set out",
-    "children: \"¡Alto!\" was on Jasper Proofwright's card, and his \"halt\" was taken"
+    "children: \"¡Alto!\" was on Jasper Proofwright's card, and his \"halt\" was taken",
+    "nurse: Loreta Proofwright's \"!\" opened a card offering nursing; Gregorio Proofwright was sent to nurse her (nurse-home)"
   ],
   "observed": {
     "servingShown": {
@@ -21,12 +22,18 @@
     },
     "childrenHalt": {
       "answer": "halt"
+    },
+    "nurse": {
+      "sick": "Loreta Proofwright",
+      "nurse": "Gregorio Proofwright",
+      "chore": "nurse-home"
     }
   },
   "shots": [
     "docs/evidence/acting-serving-order-on-mother.png",
     "docs/evidence/acting-serving-alto-on-mother.png",
     "docs/evidence/acting-children-order-on-child.png",
-    "docs/evidence/acting-children-alto-on-child.png"
+    "docs/evidence/acting-children-alto-on-child.png",
+    "docs/evidence/acting-nurse-nurse-card.png"
   ]
 }

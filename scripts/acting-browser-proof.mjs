@@ -9,6 +9,8 @@
 //      the mother, and her "run" is taken - the family is not caught by a question nobody could answer.
 //   2. **A family of children.** Everybody of ten or more taken: the "!" is on the nine-year-old, the oldest, whose card says he
 //      answers for the family; he gives the order to leave, and on the road he answers "¡Alto!".
+//   3. **Very sick.** A girl of twelve very sick at home: her "!" opens her card at who can nurse her, and pressing one sends them
+//      to it (design audit S34) - not at her own work, all of which is refused to somebody too sick to get up.
 //
 // Nothing on the page scrolls sideways and no page error is thrown. Same computer only: headless Chrome. Run: npm run test:acting
 import assert from 'node:assert/strict';
@@ -191,6 +193,30 @@ try {
       observed.childrenHalt = { answer: household().flight.chase?.answer || household().flight.pursued?.at(-1)?.outcome || null };
       app.setPace(1500);
       ok(`children: "¡Alto!" was on ${oldest.name}'s card, and his "halt" was taken`);
+    },
+  });
+  // ------------------------------------------------------------------------------------------ 3. very sick, and who nurses
+  await run({
+    tag: 'nurse',
+    prepare: (world, household) => {
+      const sick = household.members.map(id => world.entities[id]).find(one => one.age === 12);
+      sick.health = { condition: 'sick', disease: 'measles', recoversAt: world.minute + 7 * 1440, grave: true, graveDay: Math.floor(world.minute / 1440) };
+    },
+    prove: async ({ app, student, world, household, shot, noSideways }) => {
+      app.setPace(8000);
+      const sick = household().members.map(id => world().entities[id]).find(one => one.age === 12);
+      await until(student, 'no "!" on the very sick girl\'s row', id => { const mark = document.querySelector(`[data-attention="${id}"]`); return mark && !mark.hidden; }, sick.id, { timeout: 30000 });
+      await student.locator(`[data-attention="${sick.id}"]`).click({ force: true });
+      await student.locator('#selection-nurse [data-chore]').first().waitFor({ state: 'visible', timeout: 10000 });
+      const card = await student.locator('#selection-nurse').textContent();
+      assert.match(card, /too sick to get up\. Somebody of the family can nurse them/);
+      const nurseId = await student.locator('#selection-nurse [data-chore]').first().getAttribute('data-entity-id');
+      await shot(student, 'nurse-card');
+      await noSideways(student, 'the nursing card');
+      await student.locator('#selection-nurse [data-chore]').first().click();
+      await until(student, 'the nurse was not sent', id => ['nurse-home', 'tend-sick'].includes(window.__snapshot?.world.entities.find(one => one.id === id)?.chore?.id), nurseId, { timeout: 20000 });
+      observed.nurse = { sick: sick.name, nurse: world().entities[nurseId].name, chore: world().entities[nurseId].chore?.id };
+      ok(`nurse: ${sick.name}'s "!" opened a card offering nursing; ${observed.nurse.nurse} was sent to nurse her (${observed.nurse.chore})`);
     },
   });
   assert.deepEqual(errors, [], `page errors: ${errors.join('; ')}`);

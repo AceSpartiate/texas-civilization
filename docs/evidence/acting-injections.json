@@ -37,7 +37,7 @@
     {
       "name": "a man with the army is counted with the family",
       "file": "sim/acting.mjs",
-      "caught": false,
+      "caught": true,
       "alone": false,
       "failed": [
         "with nobody of seven or more, the nearest neighbours take the little ones in; they go where that family goes; and the father home from the army fetches them",
@@ -178,9 +178,11 @@
     {
       "name": "a very sick woman is sent to the crying baby",
       "file": "sim/babies.mjs",
-      "caught": false,
-      "alone": false,
-      "failed": []
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "very sick is in bed: the work in hand stops at once, a crying baby is not brought to her, and the card offers nursing by somebody else"
+      ]
     },
     {
       "name": "an idle child goes to stop a very sick parent's rest",
