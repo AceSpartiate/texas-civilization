@@ -221,9 +221,15 @@ try {
   assert.match(observed.helpedEnding, new RegExp(`${observed.raised.person} of .* helped raise the family's walls`));
   assert.match(observed.hostEnding, /helped raise their walls/);
   assert.match(observed.hostEnding, /kept room for \d+ in their wagon/);
+  // Help earns glory (owner, 2026-09-28, "Any help"): said under What earned glory on each family's page, with its points.
+  observed.helperGlory = (await helper.locator('#ending-body').innerText()).match(new RegExp(`[^\\n]*${observed.raised.person} helped [^\\n]*raise their walls[^\\n]*`))?.[0];
+  observed.helpedGlory = (await helped.locator('#ending-body').innerText()).match(/[^\n]* helped [^\n]*with room in the wagon on the road east[^\n]*/)?.[0];
+  assert.match(observed.helperGlory || '', /\(\d+\)$/, 'the helper\'s raising is not among what earned glory');
+  assert.match(observed.helpedGlory || '', /\(\d+\)$/, 'the wagon room is not among what earned glory');
   await helper.screenshot({ path: 'docs/evidence/neighbours-ending.png' });
   await host.screenshot({ path: 'docs/evidence/neighbours-ending-host.png' });
   ok(`the ending names it: family "${observed.helperEnding.slice(0, 200)}"; Host "${observed.hostEnding.slice(0, 200)}"`);
+  ok(`and counts it: "${observed.helperGlory}" and "${observed.helpedGlory}" under What earned glory`);
 
   assert.deepEqual(errors, [], `a page threw: ${errors.join(' | ')}`);
   ok('no page errors');

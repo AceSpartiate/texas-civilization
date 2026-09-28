@@ -10,6 +10,7 @@
     "the helper is offered it by name and accepts: \"Feliciano Walker of the Walker family offers room for 8 in their wagon: they remember Amos Hale helping raise their walls. AcceptSay no\"; the wagon's room goes from 20 to 28, the lender's from 40 to 32",
     "at phone width, with the Neighbours sheet open, the page does not scroll sideways",
     "the ending names it: family \"Neighbours September 28: Amos Hale helped the Walker family raise their walls (6 hours). March 27: The Walker family kept room for 8 of the family's goods in their wagon on the road east.\"; Host \"Who helped whom The Hale family → the Walker family: helped raise their walls (6 hours). The Walker family → the Hale family: kept room for 8 in their wagon.\"",
+    "and counts it: \"September 28: Amos Hale helped the Walker family raise their walls, 10 road miles from home. (1)\" and \"March 27: Feliciano Walker helped the Hale family with room in the wagon on the road east, 10 road miles from home. (1)\" under What earned glory",
     "no page errors"
   ],
   "observed": {
@@ -29,7 +30,9 @@
     "lent": "The Walker family are keeping room for 8 of your goods in their wagon on the road east. It is counted in your wagon's room until either family leaves.",
     "helperEnding": "Neighbours September 28: Amos Hale helped the Walker family raise their walls (6 hours). March 27: The Walker family kept room for 8 of the family's goods in their wagon on the road east.",
     "helpedEnding": "Neighbours September 28: Amos Hale of the Hale family helped raise the family's walls (6 hours). March 27: The family kept room for 8 of the Hale family's goods in its wagon on the road east.",
-    "hostEnding": "Who helped whom The Hale family → the Walker family: helped raise their walls (6 hours). The Walker family → the Hale family: kept room for 8 in their wagon."
+    "hostEnding": "Who helped whom The Hale family → the Walker family: helped raise their walls (6 hours). The Walker family → the Hale family: kept room for 8 in their wagon.",
+    "helperGlory": "September 28: Amos Hale helped the Walker family raise their walls, 10 road miles from home. (1)",
+    "helpedGlory": "March 27: Feliciano Walker helped the Hale family with room in the wagon on the road east, 10 road miles from home. (1)"
   },
   "screenshots": [
     "docs/evidence/neighbours-raising.png",
