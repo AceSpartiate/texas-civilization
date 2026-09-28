@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1786 usable sprites, 173 PNG atlases, 580 clips** (352 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1806 usable sprites, 175 PNG atlases, 585 clips** (357 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -77,6 +77,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-deaf-smith | 16 | 1254 × 1254 | 1316988 |
 | famous-deaf-smith-mounted | 4 | 1254 × 1254 | 1298123 |
 | famous-esparza | 16 | 1254 × 1254 | 869799 |
+| famous-karnes | 16 | 1246 × 1263 | 1230841 |
+| famous-karnes-mounted | 4 | 1246 × 1263 | 1175856 |
 | famous-moore | 16 | 1254 × 1254 | 1092408 |
 | famous-houston-mounted | 4 | 1254 × 1254 | 1158924 |
 | famous-santa-anna-mounted | 4 | 1226 × 1283 | 1192703 |
@@ -867,6 +869,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-aim | famous-esparza | State artwork; no motion required |
 | esparza-fire | famous-esparza | State artwork; no motion required |
 | esparza-still | famous-esparza | State artwork; no motion required |
+| karnes-walk-e-1 | famous-karnes | karnes-walk-e |
+| karnes-walk-e-2 | famous-karnes | karnes-walk-e |
+| karnes-walk-e-3 | famous-karnes | karnes-walk-e |
+| karnes-walk-e-4 | famous-karnes | karnes-walk-e |
+| karnes-walk-s-1 | famous-karnes | karnes-walk-s |
+| karnes-walk-s-2 | famous-karnes | karnes-walk-s |
+| karnes-walk-n-1 | famous-karnes | karnes-walk-n |
+| karnes-walk-n-2 | famous-karnes | karnes-walk-n |
+| karnes-idle | famous-karnes | State artwork; no motion required |
+| karnes-command | famous-karnes | State artwork; no motion required |
+| karnes-aim | famous-karnes | State artwork; no motion required |
+| karnes-fire | famous-karnes | State artwork; no motion required |
+| karnes-crowbar-set | famous-karnes | karnes-crowbar-work |
+| karnes-crowbar-lever | famous-karnes | karnes-crowbar-work |
+| karnes-listen | famous-karnes | State artwork; no motion required |
+| karnes-rest | famous-karnes | State artwork; no motion required |
+| karnes-mounted-walk-e-1 | famous-karnes-mounted | karnes-mounted-walk-e |
+| karnes-mounted-walk-e-2 | famous-karnes-mounted | karnes-mounted-walk-e |
+| karnes-mounted-idle-e | famous-karnes-mounted | State artwork; no motion required |
+| karnes-mounted-idle-s | famous-karnes-mounted | State artwork; no motion required |
 | moore-walk-e-1 | famous-moore | moore-walk-e |
 | moore-walk-e-2 | famous-moore | moore-walk-e |
 | moore-walk-e-3 | famous-moore | moore-walk-e |
@@ -2199,6 +2221,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-walk-e | Pose cycle | 4 | 760 | yes | east |
 | esparza-walk-s | Pose cycle | 2 | 580 | yes | south |
 | esparza-walk-n | Pose cycle | 2 | 580 | yes | north |
+| karnes-walk-e | Pose cycle | 4 | 760 | yes | east |
+| karnes-walk-s | Pose cycle | 2 | 580 | yes | south |
+| karnes-walk-n | Pose cycle | 2 | 580 | yes | north |
+| karnes-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| karnes-crowbar-work | Pose cycle | 2 | 680 | yes | east; mirror for west |
 | moore-walk-e | Pose cycle | 4 | 760 | yes | east |
 | moore-walk-s | Pose cycle | 2 | 580 | yes | south |
 | moore-walk-n | Pose cycle | 2 | 580 | yes | north |

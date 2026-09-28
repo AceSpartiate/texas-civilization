@@ -94,6 +94,7 @@ export const PERSON_ART = Object.freeze({
   austin: { stand: 'austin-idle', command: 'austin-command', point: 'austin-point', speak: 'austin-speak', write: 'austin-write', walk: 'austin-walk-e' },
   urrea: { stand: 'urrea-idle', command: 'urrea-command', point: 'urrea-point', speak: 'urrea-address', ride: 'clip:urrea-mounted-walk-e', rideIdle: 'urrea-mounted-idle-e', walk: 'urrea-walk-e' },
   'deaf-smith': { stand: 'deaf-smith-idle', report: 'deaf-smith-report', point: 'deaf-smith-point', wounded: 'deaf-smith-wounded-seated', ride: 'clip:deaf-smith-mounted-walk-e', rideIdle: 'deaf-smith-mounted-idle-e', walk: 'deaf-smith-walk-e' },
+  karnes: { stand: 'karnes-idle', command: 'karnes-command', point: 'karnes-command', listen: 'karnes-listen', work: 'clip:karnes-crowbar-work', fire: ['karnes-aim', 'karnes-fire', 'karnes-aim'], ride: 'clip:karnes-mounted-walk-e', rideIdle: 'karnes-mounted-idle-e', walk: 'karnes-walk-e' },
 });
 const lerp = (a, b, t) => a + (b - a) * t;
 
@@ -1107,7 +1108,7 @@ export function createBattleView(art) {
       if (now >= breach.openAt) {
         if (!art.drawSprite(ctx, 'wall-breach', p.x, p.y, figurePx * 1.3)) { ctx.fillStyle = '#2d2620'; ctx.fillRect(p.x - figurePx * 0.25, p.y - figurePx * 0.6, figurePx * 0.5, figurePx * 0.6); }
         view.breachesSeen.add(id); shown++;
-      } else {
+      } else if (!(battle.id === 'bexar-storming' && battle.phase === 'karnes' && (battle.people || []).some(person => person.id === 'karnes' && person.pose === 'work'))) {
         const who = breach.side === 'mexican' ? 'regular' : 'volunteer';
         art.drawSprite(ctx, 'tools', p.x + figurePx * 0.5, p.y, figurePx * 0.6);
         art.animated(ctx, `${who}-gun-ram`, p.x - figurePx * 0.35, p.y, figurePx, `bar:${id}`, { timeMs: time, paused: reducedMotion });
@@ -1157,11 +1158,13 @@ export function createBattleView(art) {
       const p = camera.toScreen(person), fellAt = view.peopleFellAt.get(person.id);
       const fell = Number.isFinite(fellAt) && fellAt <= now;
       const hurt = Number.isFinite(person.hurt) && person.hurt <= battle.minute;
-      const how = drawPerson(ctx, person, p, figurePx, time, { fell, fellAgo: fell ? now - fellAt : 0, hurt, now });
+      const completedKarnesBreach = battle.id === 'bexar-storming' && battle.phase === 'karnes' && person.id === 'karnes' && (battle.breaches || []).some(breach => breach.open && Math.hypot(breach.x - person.x, breach.y - person.y) < 0.003);
+      const shownPerson = completedKarnesBreach ? { ...person, pose: 'stand' } : person;
+      const how = drawPerson(ctx, shownPerson, p, figurePx, time, { fell, fellAgo: fell ? now - fellAt : 0, hurt, now });
       view.peopleSpots[person.id] = view.peopleSpots[person.name] = { x: p.x, y: p.y - figurePx * (person.pose === 'ride' && !fell ? 1.35 : 1) };
       view.peopleShown.add(person.id);
       labels.push({ person, x: p.x, y: p.y });
-      shown.push({ id: person.id, name: person.name, fell, hurt, pose: fell ? person.still || 'still' : hurt ? 'wounded' : person.moving ? 'walk' : person.pose, drawnAs: how, x: Math.round(p.x), y: Math.round(p.y), labelled: false, onScreen: !bounds || (p.x >= 0 && p.y >= 0 && p.x <= bounds.width && p.y <= bounds.height) });
+      shown.push({ id: person.id, name: person.name, fell, hurt, pose: fell ? person.still || 'still' : hurt ? 'wounded' : person.moving ? 'walk' : shownPerson.pose, drawnAs: how, x: Math.round(p.x), y: Math.round(p.y), labelled: false, onScreen: !bounds || (p.x >= 0 && p.y >= 0 && p.x <= bounds.width && p.y <= bounds.height) });
     }
     // Every famous person's name under them (owner, docs/BATTLES.md §2c.2: "names on the map, no cards"), stepped down out of
     // each other's way where several stand together (the church guns at the Alamo), and a dashed tag under a name where the

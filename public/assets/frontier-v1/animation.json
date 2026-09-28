@@ -3550,6 +3550,94 @@
       "motion": "none",
       "direction": "north"
     },
+    "karnes-walk-e": {
+      "frames": [
+        {
+          "sprite": "karnes-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "karnes-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "karnes-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "karnes-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "karnes-walk-s": {
+      "frames": [
+        {
+          "sprite": "karnes-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "karnes-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "karnes-walk-n": {
+      "frames": [
+        {
+          "sprite": "karnes-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "karnes-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "karnes-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "karnes-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "karnes-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "karnes-crowbar-work": {
+      "frames": [
+        {
+          "sprite": "karnes-crowbar-set",
+          "duration": 360
+        },
+        {
+          "sprite": "karnes-crowbar-lever",
+          "duration": 320
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "moore-walk-e": {
       "frames": [
         {

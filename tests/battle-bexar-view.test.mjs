@@ -105,7 +105,9 @@ test('Karnes\'s door: a man at the bar until it gives, then the hole; the family
   const art = fakeArt(), view = createBattleView(art);
   // Minute by minute through the door (the bar from minute 1, open at 5) and the family let out.
   const shown = play(view, 'karnes', { seconds: 30, into: tick => tick });
-  assert.ok(art.drawn.some(one => one.clip === 'volunteer-gun-ram' && one.paused !== undefined), 'nobody worked at the door with the bar');
+  assert.ok(art.drawn.some(one => one.clip === 'karnes-crowbar-work'), `Karnes did not work at the door with his crowbar: ${JSON.stringify([...new Set(art.drawn.map(one => one.clip || one.sprite).filter(name => /karnes|gun-ram/.test(name)))])}`);
+  assert.ok(!art.drawn.some(one => one.clip === 'volunteer-gun-ram'), 'a generic worker was duplicated beside Karnes');
+  assert.ok(art.drawn.some(one => one.sprite === 'karnes-idle'), 'Karnes did not return to an idle pose after the door gave');
   assert.ok(art.drawn.some(one => one.sprite === 'wall-breach'), 'the door never gave');
   assert.ok(shown.breachesOpened >= 1);
   assert.ok(shown.civiliansSeen >= 3, `the family inside was not seen: ${shown.civiliansSeen}`);

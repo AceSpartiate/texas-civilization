@@ -6096,6 +6096,188 @@
         ]
       }
     },
+    "famous-karnes": {
+      "image": "atlases/famous-karnes.png",
+      "width": 1246,
+      "height": 1263,
+      "bytes": 1230841,
+      "sha256": "cf22286ae53613954cd9e34116580de8a21190728edb63171f4cd609bcd7dc6b",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.700845,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              13,
+              300
+            ],
+            "columns": [
+              [
+                89,
+                258
+              ],
+              [
+                385,
+                548
+              ],
+              [
+                698,
+                859
+              ],
+              [
+                998,
+                1173
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              318,
+              616
+            ],
+            "columns": [
+              [
+                86,
+                240
+              ],
+              [
+                396,
+                546
+              ],
+              [
+                693,
+                847
+              ],
+              [
+                997,
+                1148
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              632,
+              915
+            ],
+            "columns": [
+              [
+                75,
+                223
+              ],
+              [
+                358,
+                582
+              ],
+              [
+                647,
+                920
+              ],
+              [
+                952,
+                1244
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              919,
+              1222
+            ],
+            "columns": [
+              [
+                50,
+                298
+              ],
+              [
+                364,
+                611
+              ],
+              [
+                666,
+                866
+              ],
+              [
+                1010,
+                1149
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-karnes-mounted": {
+      "image": "atlases/famous-karnes-mounted.png",
+      "width": 1246,
+      "height": 1263,
+      "bytes": 1175856,
+      "sha256": "4d4de4a5ca7cb37ad18fd66f79b0965ccb0fbc25a6879c2f633645535b249646",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.675366,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              30,
+              584
+            ],
+            "columns": [
+              [
+                37,
+                593
+              ],
+              [
+                664,
+                1223
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              620,
+              1200
+            ],
+            "columns": [
+              [
+                73,
+                615
+              ],
+              [
+                810,
+                1052
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-moore": {
       "image": "atlases/famous-moore.png",
       "width": 1254,
@@ -32718,6 +32900,506 @@
           82
         ],
         "visiblePixels": 15044,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-walk-e-1": {
+      "sheet": "famous-karnes",
+      "x": 89,
+      "y": 14,
+      "w": 169,
+      "h": 280,
+      "anchorX": 0.8254,
+      "anchorY": 0.9286,
+      "logicalHeight": 298,
+      "label": "karnes walk e 1",
+      "kind": "famous-karnes",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          91,
+          16,
+          165,
+          276
+        ],
+        "visiblePixels": 22602,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-walk-e-2": {
+      "sheet": "famous-karnes",
+      "x": 385,
+      "y": 13,
+      "w": 163,
+      "h": 286,
+      "anchorX": 0.8252,
+      "anchorY": 0.9336,
+      "logicalHeight": 298,
+      "label": "karnes walk e 2",
+      "kind": "famous-karnes",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          387,
+          15,
+          159,
+          282
+        ],
+        "visiblePixels": 21856,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-walk-e-3": {
+      "sheet": "famous-karnes",
+      "x": 698,
+      "y": 14,
+      "w": 161,
+      "h": 285,
+      "anchorX": 0.8137,
+      "anchorY": 0.9298,
+      "logicalHeight": 298,
+      "label": "karnes walk e 3",
+      "kind": "famous-karnes",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          700,
+          16,
+          157,
+          281
+        ],
+        "visiblePixels": 22861,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-walk-e-4": {
+      "sheet": "famous-karnes",
+      "x": 998,
+      "y": 13,
+      "w": 175,
+      "h": 287,
+      "anchorX": 0.8171,
+      "anchorY": 0.9268,
+      "logicalHeight": 298,
+      "label": "karnes walk e 4",
+      "kind": "famous-karnes",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1000,
+          15,
+          171,
+          283
+        ],
+        "visiblePixels": 24337,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-walk-s-1": {
+      "sheet": "famous-karnes",
+      "x": 86,
+      "y": 327,
+      "w": 154,
+      "h": 283,
+      "anchorX": 0.4643,
+      "anchorY": 0.9293,
+      "logicalHeight": 298,
+      "label": "karnes walk s 1",
+      "kind": "famous-karnes",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          88,
+          329,
+          150,
+          279
+        ],
+        "visiblePixels": 22234,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-walk-s-2": {
+      "sheet": "famous-karnes",
+      "x": 396,
+      "y": 325,
+      "w": 150,
+      "h": 290,
+      "anchorX": 0.4467,
+      "anchorY": 0.9276,
+      "logicalHeight": 298,
+      "label": "karnes walk s 2",
+      "kind": "famous-karnes",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          398,
+          327,
+          146,
+          286
+        ],
+        "visiblePixels": 22573,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-walk-n-1": {
+      "sheet": "famous-karnes",
+      "x": 693,
+      "y": 322,
+      "w": 154,
+      "h": 292,
+      "anchorX": 0.5617,
+      "anchorY": 0.9281,
+      "logicalHeight": 298,
+      "label": "karnes walk n 1",
+      "kind": "famous-karnes",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          695,
+          324,
+          150,
+          288
+        ],
+        "visiblePixels": 22551,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-walk-n-2": {
+      "sheet": "famous-karnes",
+      "x": 997,
+      "y": 318,
+      "w": 151,
+      "h": 298,
+      "anchorX": 0.447,
+      "anchorY": 0.9362,
+      "logicalHeight": 298,
+      "label": "karnes walk n 2",
+      "kind": "famous-karnes",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          999,
+          320,
+          147,
+          294
+        ],
+        "visiblePixels": 22123,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-idle": {
+      "sheet": "famous-karnes",
+      "x": 75,
+      "y": 632,
+      "w": 148,
+      "h": 283,
+      "anchorX": 0.2804,
+      "anchorY": 0.9293,
+      "logicalHeight": 298,
+      "label": "karnes idle",
+      "kind": "famous-karnes",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          77,
+          634,
+          144,
+          279
+        ],
+        "visiblePixels": 24300,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-command": {
+      "sheet": "famous-karnes",
+      "x": 358,
+      "y": 636,
+      "w": 224,
+      "h": 278,
+      "anchorX": 0.1362,
+      "anchorY": 0.9317,
+      "logicalHeight": 298,
+      "label": "karnes command",
+      "kind": "famous-karnes",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          360,
+          638,
+          220,
+          274
+        ],
+        "visiblePixels": 25126,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-aim": {
+      "sheet": "famous-karnes",
+      "x": 647,
+      "y": 639,
+      "w": 273,
+      "h": 273,
+      "anchorX": 0.2949,
+      "anchorY": 0.9267,
+      "logicalHeight": 298,
+      "label": "karnes aim",
+      "kind": "famous-karnes",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          649,
+          641,
+          269,
+          269
+        ],
+        "visiblePixels": 25538,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-fire": {
+      "sheet": "famous-karnes",
+      "x": 952,
+      "y": 641,
+      "w": 292,
+      "h": 269,
+      "anchorX": 0.0599,
+      "anchorY": 0.9405,
+      "logicalHeight": 298,
+      "label": "karnes fire",
+      "kind": "famous-karnes",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          954,
+          643,
+          288,
+          265
+        ],
+        "visiblePixels": 31351,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-crowbar-set": {
+      "sheet": "famous-karnes",
+      "x": 50,
+      "y": 923,
+      "w": 248,
+      "h": 292,
+      "anchorX": 0.502,
+      "anchorY": 0.9281,
+      "logicalHeight": 298,
+      "label": "karnes crowbar set",
+      "kind": "famous-karnes",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          52,
+          925,
+          244,
+          288
+        ],
+        "visiblePixels": 37029,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-crowbar-lever": {
+      "sheet": "famous-karnes",
+      "x": 364,
+      "y": 923,
+      "w": 247,
+      "h": 298,
+      "anchorX": 0.9291,
+      "anchorY": 0.9295,
+      "logicalHeight": 298,
+      "label": "karnes crowbar lever",
+      "kind": "famous-karnes",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          366,
+          925,
+          243,
+          294
+        ],
+        "visiblePixels": 37144,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-listen": {
+      "sheet": "famous-karnes",
+      "x": 666,
+      "y": 939,
+      "w": 200,
+      "h": 265,
+      "anchorX": 0.545,
+      "anchorY": 0.9283,
+      "logicalHeight": 298,
+      "label": "karnes listen",
+      "kind": "famous-karnes",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          668,
+          941,
+          196,
+          261
+        ],
+        "visiblePixels": 25099,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-rest": {
+      "sheet": "famous-karnes",
+      "x": 1010,
+      "y": 919,
+      "w": 139,
+      "h": 303,
+      "anchorX": 0.3345,
+      "anchorY": 0.9274,
+      "logicalHeight": 298,
+      "label": "karnes rest",
+      "kind": "famous-karnes",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1012,
+          921,
+          135,
+          299
+        ],
+        "visiblePixels": 24189,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-mounted-walk-e-1": {
+      "sheet": "famous-karnes-mounted",
+      "x": 37,
+      "y": 30,
+      "w": 556,
+      "h": 550,
+      "anchorX": 0.6304,
+      "anchorY": 0.9291,
+      "logicalHeight": 580,
+      "label": "karnes mounted walk e 1",
+      "kind": "famous-karnes-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          39,
+          32,
+          552,
+          546
+        ],
+        "visiblePixels": 133890,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-mounted-walk-e-2": {
+      "sheet": "famous-karnes-mounted",
+      "x": 664,
+      "y": 33,
+      "w": 559,
+      "h": 551,
+      "anchorX": 0.5018,
+      "anchorY": 0.9292,
+      "logicalHeight": 580,
+      "label": "karnes mounted walk e 2",
+      "kind": "famous-karnes-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          666,
+          35,
+          555,
+          547
+        ],
+        "visiblePixels": 132615,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-mounted-idle-e": {
+      "sheet": "famous-karnes-mounted",
+      "x": 73,
+      "y": 628,
+      "w": 542,
+      "h": 570,
+      "anchorX": 0.4382,
+      "anchorY": 0.9333,
+      "logicalHeight": 580,
+      "label": "karnes mounted idle e",
+      "kind": "famous-karnes-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          75,
+          630,
+          538,
+          566
+        ],
+        "visiblePixels": 134241,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-mounted-idle-s": {
+      "sheet": "famous-karnes-mounted",
+      "x": 810,
+      "y": 620,
+      "w": 242,
+      "h": 580,
+      "anchorX": 0.5062,
+      "anchorY": 0.9707,
+      "logicalHeight": 580,
+      "label": "karnes mounted idle s",
+      "kind": "famous-karnes-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          812,
+          622,
+          238,
+          576
+        ],
+        "visiblePixels": 76619,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

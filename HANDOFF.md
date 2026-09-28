@@ -1,3 +1,7 @@
+## Art update — Henry Wax Karnes (2026-09-28)
+
+Karnes now has his own 4×4 foot atlas and 2×2 mounted companion in `scripts/art-deliveries/famous-karnes.mjs`, with directional travel, musket, field gestures, and a two-frame iron crowbar cycle. `PERSON_ART.karnes` binds the sprites. During the Béxar door phase, the named Karnes performs the crowbar action; the duplicate generic worker is suppressed, and he returns to idle when that door opens. This changes presentation only, preserving the dated breach, York’s company, and the townspeople. Source/provenance and the complete sprite/clip inventory are in `docs/art-prompts.json`, `docs/art-provenance.json`, and `docs/ART_MANIFEST.md`. The outfit and horse are artistic interpretations, not portrait claims. A generic reusable crowbar worker and additional facings remain in `docs/ART_REQUESTS.md`.
+
 # Claude handoff — Astra foundation
 
 ## The famous people: one roster, drawn and named on every field and on the map, dying as the record has them — 2026-09-26 (worktree branch from main 9e7aa74, main merged at db9d268; released in v2026.09.26.5)

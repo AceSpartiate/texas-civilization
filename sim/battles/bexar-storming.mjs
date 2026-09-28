@@ -357,7 +357,7 @@ export const BEXAR_STORMING = Object.freeze({
       // the act; the words are not his.
       id: 'karnes', minutes: 40, step: 5, contact: true, title: 'Karnes and the crowbar', claimId: 'HIST-TEX-038',
       // Karnes at the door he forced with a crowbar about noon on the 7th (`HIST-TEX-038`).
-      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }, { id: 'karnes', at: 'karnes', pose: 'command', face: 'plaza' }],
+      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }, { id: 'karnes', at: 'karnes', pose: 'work', face: 'plaza' }],
       caption: 'About noon. Henry Karnes of York’s company runs to the door of a house ahead with a crowbar, forces it, and the whole company follows him in. The family inside is let go.',
       texian: inTheHouse(),
       mexican: atTheBarricade(),
