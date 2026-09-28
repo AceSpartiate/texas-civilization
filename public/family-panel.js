@@ -412,43 +412,90 @@ export function meetingFor(world, entity) {
   return entity && encounter?.status === 'open' && encounter.listenerId === entity.id ? encounter : null;
 }
 
-/** Which card section answers each need, in the order a need is shown when a person has more than one. */
-export const NEED_KINDS = Object.freeze(['rider', 'flight', 'army', 'camp', 'courier', 'call', 'asking', 'offer', 'sick']);
+/**
+ * Every kind of need, **most urgent first** (docs/audits/2026-09-28-design.md S33, the owner's "fix the blockers"): the
+ * soldiers' ¡Alto! (a few ticks before silence halts the family), the road's question, the order to leave, somebody very
+ * sick (a day to nurse them), a rider standing with them (who rides on, and whose word is often what the call is about),
+ * the settlement's call (five real minutes), the army's and the camp's and Travis's questions (ninety real seconds each),
+ * work that has stopped to ask, an offer. A person with more than one shows the first, and across the whole column the rows
+ * are ranked by it (`rankNeeds`). Also which card section answers each (`NEED_SECTIONS` in public/app.js).
+ */
+export const NEED_KINDS = Object.freeze(['alto', 'road', 'flight', 'sick', 'rider', 'call', 'army', 'camp', 'courier', 'asking', 'offer']);
 
 /**
- * What this person is waiting on the student for, most pressing first: a rider standing with them (who will not wait for
- * ever), a question from the army they are with, a call to answer, work that has stopped to ask, an offer made to them.
- * Every one is a thing the server has already sent this family and will take an answer to; the words say who and what,
- * and never what an answer risks (docs/COLONIES.md §7a).
+ * What this person is waiting on the student for, most urgent first (`NEED_KINDS`). Every one is a thing the server has
+ * already sent this family and will take an answer to; the words say who and what, and never what an answer risks
+ * (docs/COLONIES.md §7a). Where the question will lapse, `leftMs` is how long it has in real time, as the server last said:
+ * real milliseconds for the call and the army's questions, and ticks at the class's pace (`tickMs`, which the snapshot
+ * carries) for the road's, ¡Alto! and the order to leave. Absent where nothing lapses or the clock has not begun.
  */
-export function needsOf(world, entityId) {
+export function needsOf(world, entityId, { tickMs = null } = {}) {
   const entity = (world?.entities || []).find(one => one.id === entityId);
   if (gone(entity) || world.role === 'host') return [];
   const name = entity.name || 'Somebody';
   const needs = [];
+  const ticks = count => (Number.isFinite(count) && Number.isFinite(tickMs) && tickMs > 0 ? { leftMs: count * tickMs } : {});
+  const ms = value => (Number.isFinite(value) ? { leftMs: value } : {});
   const meeting = meetingFor(world, entity);
   if (meeting) needs.push({ kind: 'rider', text: `${meeting.carrierName || 'A rider'} has stopped to speak with ${name}.` });
+  const main = entityId === (world.household?.mainId || world.household?.principalId);
   // Told to leave (sim/scrape.mjs): the family's decision, on its main person's row.
-  if (world.flight?.status === 'ordered' && entityId === (world.household?.mainId || world.household?.principalId)) needs.push({ kind: 'flight', text: 'The family has been told to leave for the east.' });
-  // The road's question (sim/road.mjs): the bogged wagon, the army close behind - the family's, on its main person's row.
-  if (world.flight?.ask && entityId === (world.household?.mainId || world.household?.principalId)) needs.push({ kind: 'road', text: world.flight.ask.text || 'The road is asking the family something.' });
+  if (world.flight?.status === 'ordered' && main) needs.push({ kind: 'flight', text: 'The family has been told to leave for the east.', ...ticks(world.flight.ticksLeft) });
+  // The road's question (sim/road.mjs): the bogged wagon, the army close behind - the family's, on its main person's row. The
+  // soldiers' ¡Alto! is its own kind: it is the most urgent thing in the game.
+  if (world.flight?.ask && main) needs.push({ kind: world.flight.ask.id === 'alto' ? 'alto' : 'road', text: world.flight.ask.text || 'The road is asking the family something.', ...ticks(world.flight.ask.ticksLeft) });
   const ours = world.army?.ours?.find(one => one.id === entityId);
   if (ours && (ours.detachment === 'open' || (ours.questions || []).some(question => question.answer === 'open'))) {
-    needs.push({ kind: 'army', text: `The army is asking ${name} something.` });
+    needs.push({ kind: 'army', text: `The army is asking ${name} something.`, ...ms(entity.decisionLeftMs) });
   }
   // With Houston's army, asked whether they leave for the family, or which road at the fork (sim/camp.mjs).
-  if (entity.service?.leave === 'open') needs.push({ kind: 'camp', text: `The army is asking whether ${name} goes home to the family.` });
-  else if (entity.service?.road === 'open') needs.push({ kind: 'camp', text: `The army is asking ${name} which road it takes.` });
+  if (entity.service?.leave === 'open') needs.push({ kind: 'camp', text: `The army is asking whether ${name} goes home to the family.`, ...ms(entity.decisionLeftMs) });
+  else if (entity.service?.road === 'open') needs.push({ kind: 'camp', text: `The army is asking ${name} which road it takes.`, ...ms(entity.decisionLeftMs) });
   // Inside the Alamo, asked whether they will carry Travis's letters out (sim/alamo.mjs).
-  if (entity.service?.courier === 'open') needs.push({ kind: 'courier', text: `Travis is asking whether ${name} will ride out with his letters.` });
-  if (requestFor(world, entity)?.options?.length) needs.push({ kind: 'call', text: `${name} can answer what the family is being asked.` });
+  if (entity.service?.courier === 'open') needs.push({ kind: 'courier', text: `Travis is asking whether ${name} will ride out with his letters.`, ...ms(entity.decisionLeftMs) });
+  const asked = requestFor(world, entity);
+  if (asked?.options?.length) needs.push({ kind: 'call', text: `${name} can answer what the family is being asked.`, ...ms(asked.leftMs) });
   if (entity.chore?.ask) needs.push({ kind: 'asking', text: `${name}’s work has stopped to ask something.` });
   for (const offer of world.offers || []) {
     if (offer.direction === 'received' && offer.ourEntityId === entityId) { needs.push({ kind: 'offer', text: `${offer.theirName || 'A neighbour'} has offered ${name} a trade.` }); break; }
   }
   // Turned very sick (sim/disease.mjs): the moment to answer, with a day to do it - nurse, keep warm, rest. The server's own line.
   if (entity.sickness?.grave) needs.push({ kind: 'sick', text: `${name}: ${entity.sickness.line || 'very sick.'}` });
-  return needs;
+  return needs.sort(byUrgency);
+}
+
+/** Most urgent first: by kind (`NEED_KINDS`), then by the least time left; a need with no clock after one with one. */
+function byUrgency(a, b) {
+  const kind = NEED_KINDS.indexOf(a.kind) - NEED_KINDS.indexOf(b.kind);
+  if (kind) return kind;
+  return (a.leftMs ?? Infinity) - (b.leftMs ?? Infinity);
+}
+
+/**
+ * The "!"s of the whole column in one order (S33, "one order across all rows"): each person's most urgent need, the most
+ * urgent person first, numbered from 1. `ids` are the rows top to bottom; a row with nothing waiting is left out. The rows
+ * themselves keep the family's order (father, mother, children oldest first - docs/FAMILY_PANEL.md): it is the "!" that
+ * says which to answer first, with its number and, where the question will lapse, the time it has left.
+ */
+export function rankNeeds(world, ids = [], options = {}) {
+  const ranked = [];
+  for (const id of ids) {
+    const needs = needsOf(world, id, options);
+    if (needs.length) ranked.push({ id, ...needs[0], more: needs.length - 1 });
+  }
+  ranked.sort(byUrgency);
+  return ranked.map((need, at) => ({ ...need, rank: at + 1 }));
+}
+
+/**
+ * Time left, in the fewest characters a twelve-year-old reads at a glance on the "!": "28s", "4 min", "2 h". Rounded up, so a
+ * question with any time left never reads as none; null when there is no clock.
+ */
+export function leftWords(ms) {
+  if (!Number.isFinite(ms) || ms < 0) return null;
+  if (ms < 60_000) return `${Math.max(1, Math.ceil(ms / 1000))}s`;
+  if (ms < 3_600_000) return `${Math.ceil(ms / 60_000)} min`;
+  return `${Math.ceil(ms / 3_600_000)} h`;
 }
 
 /**

@@ -12,7 +12,8 @@ test('tutorial gate accepts the actual chore commands needed to finish each map 
   for (const [step, chore] of [['house','fell-trees'], ['survey','survey-plot'], ['clear','clear-plot'], ['clear','fence-plot'], ['harvest','fence-plot'], ['hunt','hunt-land']]) {
     family.lesson = { step };
     assert.equal(lessonRefusal(world, family, { action: 'chore', chore, entityId: family.principalId }), null, `${step}: ${chore}`);
-    assert.ok(lessonRefusal(world, family, { action: 'chore', chore: 'practise-shooting', entityId: family.principalId }));
+    // Another farm step's work is still held back (2026-09-28: the gate is the farm steps' and nothing else's).
+    assert.ok(lessonRefusal(world, family, { action: 'chore', chore: 'dig-well', entityId: family.principalId }));
   }
 });
 

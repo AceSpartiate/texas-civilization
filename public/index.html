@@ -113,6 +113,14 @@
         <button type="button" id="military-next">Next message</button>
       </div>
     </section>
+    <!-- A tip at first meeting (owner, 2026-09-28: "Short tips at first meeting"; public/tips.js). One short line the first
+         time a thing appears for this family: what to do and what it costs. It blocks nothing - the words let clicks through
+         to the map - and "Got it" or Escape puts it away for good (the server keeps which were seen, sim/tips.mjs). -->
+    <section id="tip" hidden role="status" aria-live="polite" aria-label="Tip">
+      <strong class="tip-mark" aria-hidden="true">Tip</strong>
+      <p class="tip-words"></p>
+      <button type="button" class="tip-close" aria-label="Got it: put this tip away">Got it</button>
+    </section>
     <div id="hud-right" class="hud">
       <span id="connection" role="status"></span>
       <nav id="host-controls" aria-label="Teacher controls" hidden>
@@ -231,6 +239,13 @@
          draws them and sends the one order. Escape sends nobody; Enter sends the list. -->
     <div id="errand" hidden role="dialog" aria-labelledby="errand-title" aria-describedby="errand-text">
       <div id="errand-head"><span id="errand-title">To town</span><button type="button" id="errand-close" aria-label="Close, and send nobody">×</button></div>
+      <!-- The store's tip, the first time this family opens the errand (public/tips.js): here rather than over the map, where
+           the errand itself would cover it. -->
+      <div id="errand-tip" class="tip-inline" hidden role="status" aria-live="polite" aria-label="Tip">
+        <strong class="tip-mark" aria-hidden="true">Tip</strong>
+        <p class="tip-words"></p>
+        <button type="button" class="tip-close" aria-label="Got it: put this tip away">Got it</button>
+      </div>
       <p id="errand-text" class="ask-text"></p>
       <p id="errand-stock"></p>
       <div id="errand-lines"></div>

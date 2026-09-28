@@ -19,7 +19,9 @@ import { beastsInvalid, beastsOf, fitOut, ledPace, yardSpot } from './beasts.mjs
 import { SERVING_ACTIONS, recallFromService, recallRefusal, servingWhy, winterInvalid } from './winter.mjs';
 import { answerCourier } from './alamo.mjs';
 import { advanceRunners, runnerInvalid } from './alamo-runner.mjs';
-import { decisionClockInvalid, decisionPressing, spendDecisionBudget } from './decision-budget.mjs';
+import { decisionClockInvalid, decisionLeft, decisionPressing, spendDecisionBudget } from './decision-budget.mjs';
+// The tips a family has seen go to its own page as `household.tipsSeen`, with the rest of the household (`projectHousehold`).
+import { markTipSeen, tipsInvalid } from './tips.mjs';
 import { advanceFlight, flee, flightProjection, householdAsKnown, scrapeInvalid, share, stayHome } from './scrape.mjs';
 import { advanceDisease, diseaseInvalid, mendSickness, registerDiseaseChores, sickRefusal, sicknessShown } from './disease.mjs';
 import { answerRoad, registerRoadChores } from './road.mjs';
@@ -35,7 +37,7 @@ registerFlightWork();
 // Resting a day on the road, camping apart from a crowd, nursing at home (sim/disease.mjs), on the same terms.
 registerDiseaseChores();
 import { advanceLesson, advanceLessons, inLesson, lessonHostWords, lessonInvalid, lessonProjection, lessonRefusal, lessonResumeOffer, resumeLesson, stopLesson } from './lesson.mjs';
-import { REPEATED, advanceAuto, autoShown, noteOrder, setAuto, waitForTask, waitingWork } from './auto.mjs';
+import { FLIGHT_PATIENCE, REPEATED, advanceAuto, autoShown, noteOrder, setAuto, waitForTask, waitingWork } from './auto.mjs';
 import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
 // The children's own works (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21). Imported here as well
 // as for its gates, because importing it is what registers them into the chore table.
@@ -880,6 +882,8 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // back up inside the five real minutes after (`resumeLesson`), by the same rule.
   if (input.action === 'stop-lesson') { stopLesson(world, household, { now, ...(resumeWindowMs !== undefined && { windowMs: resumeWindowMs }) }); return; }
   if (input.action === 'resume-lesson') { resumeLesson(world, household, { now }); return; }
+  // A tip put away (sim/tips.mjs, owner 2026-09-28): the family's own, naming nobody in it, and kept so it is never shown again.
+  if (input.action === 'seen-tip') { markTipSeen(world, household, input.tip); return; }
   if (input.action === 'roll-family') { rollFamily(world, household); return; }
   // Packing the wagon is the household's, like the roll, and names nobody in it.
   if (input.action === 'load-wagon') { setLoad(world, household, input.item, input.amount); return; }
@@ -1218,6 +1222,9 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
   const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.kind === 'person' && seenAs(e, world)), ...(Number.isFinite(e.age) && { age: e.age }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, chore: choreShown(world, household, e), condition: e.condition, species: e.species, laden: e.laden, ...(e.cart && { cart: true }), ...(e.carreta && { carreta: true }), borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(Number.isFinite(e.service.fellAt) && e.service.fellAt <= world.minute && { seenFall: true }), ...(Number.isFinite(e.service.offMap) && { offMap: true }), ...(e.service.riding && { riding: true }), ...(['coming', 'open'].includes(e.service.courier) && { courier: e.service.courier }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }), ...(e.service.down && { down: true }), ...(e.service.kind === 'matamoros' && (e.service.fight || e.service.fate) && e.service.status === 'serving' && { unreachable: recallRefusal(e, world) }) } }), ...(e.voted && { voted: true }), ...(e.kind === 'person' && heldByBattle(world, e) && { held: heldByBattle(world, e) }), ...(e.kind === 'person' && lyingOnField(world, e) && { fallen: true }), ...(e.auto && { auto: true, autoTask: autoShown(world, world.households[e.householdId], e) }), ...(e.kind === 'person' && decisionPressing(world, e.id) && { pressing: true }),
+    // How many real milliseconds their soonest open question has left before it lapses (sim/decision-budget.mjs), for the
+    // countdown on the "!" (docs/audits/2026-09-28-design.md S33). Absent when nothing is spending, the correct empty value.
+    ...(() => { const left = e.kind === 'person' ? decisionLeft(world, e.id) : null; return left === null ? {} : { decisionLeftMs: left }; })(),
     // Which way somebody a rider has reined in for is turned, and whether they are the one talking (sim/encounters.mjs
     // `listeningOf`): the other half of the rider's own `facing`/`speaking`, so the page can draw the delivered speaking
     // and listening poses. Absent for everybody not in an open meeting, which is the correct empty value and why no save
@@ -1297,7 +1304,9 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // family what its own people are near enough to see. Absent when there is none, which is also every class before.
     ...(() => { const fires = firesSeen(world, householdId, role); return fires.length ? { fires } : {}; })(),
     // The family's flight east, once it has been told to go (sim/scrape.mjs).
-    ...(household?.flight ? { flight: flightProjection(world, household) } : {}),
+    // With, while the order to leave stands unanswered, how many ticks are left before the family is packed off by silence
+    // (sim/auto.mjs `FLIGHT_PATIENCE`), for the countdown on the "!" (docs/audits/2026-09-28-design.md S33).
+    ...(household?.flight ? { flight: { ...flightProjection(world, household), ...(household.flight.status === 'ordered' && Number.isFinite(household.flight.orderedMinute) && { ticksLeft: Math.max(0, Math.ceil((household.flight.orderedMinute + FLIGHT_PATIENCE - world.minute) / Math.max(1, calendarMinutes(world)))) }) } } : {}),
     // Every family's land as it truly stands, and where the army is, for the Host's map only (sim/overview.mjs).
     ...(overview && { overview: { lands: overview.lands, ...(overview.army && { army: overview.army }) } }),
     // The Host's live page (sim/host.mjs): the class in words, the Rumor Mill and the spotlight. Never a student's.
@@ -1437,7 +1446,9 @@ export function validateWorld(world) {
     // correct empty value: it has what it was founded with. So no save version moved.
     // Absent on every class saved before the guided beginning (sim/lesson.mjs), which is the correct empty value: a family
     // standing in its own house has nothing to be walked through, so no save version moved.
-    const badLoad = loadInvalid(household) || houseInvalid(world, household) || grantInvalid(world, household) || siteInvalid(world, household) || plotsInvalid(world, household) || lessonInvalid(world, household);
+    const badLoad = loadInvalid(household) || houseInvalid(world, household) || grantInvalid(world, household) || siteInvalid(world, household) || plotsInvalid(world, household) || lessonInvalid(world, household)
+      // Absent on every class saved before tips (sim/tips.mjs, 2026-09-28): "seen none", so no save version moved.
+      || tipsInvalid(household);
     if (badLoad) throw new Error(badLoad);
     // Absent on a class nobody has named, which is the correct empty value and why no save
     // version moved. Present, it is a name somebody typed and has to stay one.
