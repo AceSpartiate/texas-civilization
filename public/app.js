@@ -7019,7 +7019,8 @@ document.addEventListener('click', async event => {
     if (panelButton.getAttribute('aria-disabled') === 'true') { showPanelTip(panelButton); return; }
     // Sending for somebody who serves is asked twice, on their card, where there is room to say what it costs.
     // Going to town to trade asks first what to buy and sell (docs/TOWNS.md §4b, owner 2026-09-24): the popup sends the order.
-    if (panelButton.dataset.chore === 'visit-shop') { hidePanelTip(); errandPopup.open(panelButton.dataset.entityId); return; }
+    // The tip over the map waits at once, not on the next second's look (public/tips.js `tipToShow`): never over the popup.
+    if (panelButton.dataset.chore === 'visit-shop') { hidePanelTip(); errandPopup.open(panelButton.dataset.entityId); if (window.__snapshot?.world) renderTip(window.__snapshot.world); return; }
     if (panelButton.dataset.visit || panelButton.dataset.key === 'winter-recall') {
       selectedId = panelButton.dataset.entityId; selectionDismissed = false;
       const world = window.__snapshot?.world;

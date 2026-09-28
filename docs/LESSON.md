@@ -416,7 +416,11 @@ take when several are due at once (the same order as the "!"s):
   is left; beside or above the person's card, the call's menu, a rider, the messages, the guided start or the old walk-through
   when one stands there (`ceiling:` below 200px of room it waits under the card, which the student opened). The words let every
   click through to the map; only "Got it" (36px, keyboard-reachable) takes a press; Enter on it never sends the town errand it
-  stands in. The store's tip stands at the top of the errand itself (`#errand-tip`).
+  stands in. The store's tip stands at the top of the errand itself (`#errand-tip`). **While the errand is open, that is the
+  only tip** (2026-09-28, `tipToShow`): the popup stands over the map where `#tip` is drawn, and `npm run test:errand` found the
+  order tip under it at 1366×768. A tip standing over the map when the errand opens waits, neither retired nor seen, and stands
+  again when the popup closes if its thing is still there. The one exception to "never pulled away": the student opened a popup
+  over it.
 - **Touch has no hover (S6).** What decided a choice and was only in a hover popup is said in a tip (resting on the road, the
   star, the "!"), and each line of the town errand opens what it does on a tap (`public/errand.js`, the doctor's bark and
   calomel among them).

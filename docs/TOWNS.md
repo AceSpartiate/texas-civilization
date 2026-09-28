@@ -128,7 +128,10 @@ own sentence**: *"Takes the wagon: 14 of 20 loads, more than the horse carries (
 shown in the popup, and Send stays shut. Enter sends; Escape closes and sends nobody. While it is open the ability bar steps
 aside, as it does for a rider (owner, 2026-09-22, FAMILY_PANEL.md §12.13), and is back the instant it closes. Everything in
 it comes from `GET /api/errand` (the family's own person and town only; fetched when it opens and whenever the list, the
-family's stock or that person's ways of going change - never on the tick). The one order is `{ action: 'chore', chore:
+family's stock as the popup shows it or that person's ways of going change - never on the tick; food is keyed to the tenth the
+stock line shows, since the family eats a crumb every tick, `stockKey`). Its lines are built once for a shape of list
+(`listShape`) and only rewritten in place after, so a + or − is never replaced under a student's press (2026-09-28; before, a
+press could land on a detached button, which failed `npm run test:errand` at random). The one order is `{ action: 'chore', chore:
 'visit-shop', entityId, errand: [{ id: 'trade:offer', n, pay }] }`, its id made as every command's is, after the spread.
 
 ### The rules (sim/errands.mjs)

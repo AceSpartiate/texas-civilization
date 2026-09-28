@@ -38,6 +38,24 @@ export function byShop(lines = []) {
 }
 
 /**
+ * The shape of the list: which shops, which lines in them and which buttons each line has. The lines' elements are built
+ * again only when this changes; everything else about a line - its price or refusal, its count, which way of paying is
+ * pressed, what may be pressed - is written into the elements already there.
+ */
+export function listShape(lines = []) {
+  return JSON.stringify(byShop(lines).map(shop => [shop.trade, shop.shop, shop.keeper, shop.lines.map(line => [line.id, Boolean(line.does), line.pays?.length > 1 ? line.pays : []])]));
+}
+
+/**
+ * What of the family's stock the popup shows, as the popup shows it (`stockWords`): the goods alone, food to the tenth. The
+ * popup asks the server again when this changes, not when anything else in the house does - the eating that moves the food
+ * by a crumb every tick asked it every tick before (2026-09-28).
+ */
+export function stockKey(resources = {}) {
+  return JSON.stringify(['food', 'seed', 'powder', 'money', 'cotton', 'hides'].map(good => (good === 'food' ? Math.floor((resources?.food ?? 0) * 10) / 10 : resources?.[good] ?? 0)));
+}
+
+/**
  * The popup itself. `deps`: `$`, `element`, `api` (GET), `say`, `send(input)` (public/app.js's, which gives the order its id
  * the way every command's is made) and `onSent(entityId)`. Returns `{ open(entityId), render(world), close() }`.
  */
@@ -93,61 +111,7 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
     $('#errand-stock').textContent = facts ? `${stockWords(quote?.stock || facts.stock)}${facts.tools?.length ? ` Tools: ${facts.tools.join(' · ')}.` : ''}${facts.animals?.length ? ` Animals: ${facts.animals.join(' · ')}.` : ''}` : '';
     const after = quote?.can ? quote.after : null;
     $('#errand-after').textContent = after ? `${stockWords(after).replace('The family has', 'After it, the family will have')}` : '';
-    const host = $('#errand-lines');
-    const focused = document.activeElement?.closest?.('#errand-lines') ? { id: document.activeElement.closest('[data-line]')?.dataset.line, act: document.activeElement.dataset.act } : null;
-    host.replaceChildren(...byShop(facts?.lines).map(shop => {
-      const section = element('section', '', 'errand-shop');
-      section.append(element('h3', shop.keeper ? `${shop.shop} · ${shop.keeper}` : shop.shop, 'errand-shop-name'));
-      const list = element('ul', '', 'errand-shop-lines');
-      for (const line of shop.lines) {
-        const count = state.counts.get(line.id) || 0;
-        const item = element('li', '', 'errand-line');
-        item.dataset.line = line.id;
-        item.dataset.count = String(count);
-        if (line.why) item.dataset.shut = 'true';
-        const words = element('div', '', 'errand-words');
-        words.append(element('span', line.label, 'errand-label'), element('span', line.why || line.price, 'errand-price'));
-        words.title = line.does;
-        // What it does, on a tap as well as a hover (docs/audits/2026-09-28-design.md S6: a Chromebook touch screen has no
-        // hover, and sim/shops.mjs says each line's `does` "before the choice"): the words are a button that opens the line.
-        if (line.does) {
-          const open = state.open.has(line.id);
-          words.dataset.act = 'does';
-          words.setAttribute('role', 'button');
-          words.tabIndex = 0;
-          words.setAttribute('aria-expanded', String(open));
-          const does = element('span', line.does, 'errand-does');
-          does.hidden = !open;
-          words.append(does);
-        }
-        const controls = element('div', '', 'errand-controls');
-        if (line.pays?.length > 1) {
-          const pay = state.pays.get(line.id) || line.pays[0];
-          for (const way of line.pays) {
-            const button = element('button', way === 'coin' ? 'Coin' : 'Food', 'errand-pay');
-            button.type = 'button'; button.dataset.act = `pay-${way}`;
-            button.setAttribute('aria-pressed', String(pay === way));
-            button.setAttribute('aria-label', `${line.label}: pay in ${way}`);
-            button.disabled = Boolean(line.why);
-            controls.append(button);
-          }
-        }
-        const less = element('button', '−', 'errand-step'), more = element('button', '+', 'errand-step');
-        less.type = more.type = 'button';
-        less.dataset.act = 'less'; more.dataset.act = 'more';
-        less.setAttribute('aria-label', `One fewer: ${line.label}`); more.setAttribute('aria-label', `One more: ${line.label}`);
-        less.disabled = count <= 0;
-        more.disabled = Boolean(line.why) || count >= line.most;
-        const shown = element('span', String(count), 'errand-count');
-        shown.setAttribute('aria-label', `${count} of ${line.label}`);
-        controls.append(less, shown, more);
-        item.append(words, controls);
-        list.append(item);
-      }
-      section.append(list);
-      return section;
-    }));
-    if (focused?.id) host.querySelector(`[data-line="${CSS.escape(focused.id)}"] [data-act="${focused.act}"]`)?.focus({ preventScroll: true });
+    drawLines(facts?.lines);
     $('#errand-how').textContent = !list.length ? 'Nothing is on the list yet.' : !quote ? 'Reckoning the load…' : quote.can ? quote.how : '';
     drawWaysHere(quote, list);
     const why = state.error || facts?.shut || (quote && !quote.can ? quote.why : '');
@@ -157,6 +121,90 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
     send.textContent = state.busy ? 'Sending…' : `Send ${name}`;
     // What a proof reads: the server's sentences as drawn, and the list as the page would send it.
     window.__errand = { entityId: state.entityId, list, mode: state.mode, ways: quote?.ways || null, quickest: quote?.quickest || null, how: $('#errand-how').textContent, why, can: !send.disabled, lines: (facts?.lines || []).map(line => ({ id: line.id, why: line.why || null, count: state.counts.get(line.id) || 0 })) };
+  }
+
+  /**
+   * The lines, drawn **in place** (2026-09-28): the shops, lines and buttons are built once for a shape of list
+   * (`listShape`), and every later draw - each quote, each change of the family's stock - only rewrites their words, counts
+   * and switches. A student pressing + or − never has the button replaced under the press; before, the whole list was
+   * rebuilt on every draw, which the family's eating made about every tick, and a press could land on a detached button.
+   */
+  function drawLines(lines = []) {
+    const host = $('#errand-lines');
+    const shape = listShape(lines);
+    if (host.dataset.shape !== shape) {
+      const focused = document.activeElement?.closest?.('#errand-lines') ? { id: document.activeElement.closest('[data-line]')?.dataset.line, act: document.activeElement.dataset.act } : null;
+      host.dataset.shape = shape;
+      host.replaceChildren(...byShop(lines).map(shop => {
+        const section = element('section', '', 'errand-shop');
+        section.append(element('h3', shop.keeper ? `${shop.shop} · ${shop.keeper}` : shop.shop, 'errand-shop-name'));
+        const list = element('ul', '', 'errand-shop-lines');
+        for (const line of shop.lines) {
+          const item = element('li', '', 'errand-line');
+          item.dataset.line = line.id;
+          const words = element('div', '', 'errand-words');
+          words.append(element('span', '', 'errand-label'), element('span', '', 'errand-price'));
+          // What it does, on a tap as well as a hover (docs/audits/2026-09-28-design.md S6: a Chromebook touch screen has no
+          // hover, and sim/shops.mjs says each line's `does` "before the choice"): the words are a button that opens the line.
+          if (line.does) {
+            words.dataset.act = 'does';
+            words.setAttribute('role', 'button');
+            words.tabIndex = 0;
+            words.append(element('span', '', 'errand-does'));
+          }
+          const controls = element('div', '', 'errand-controls');
+          if (line.pays?.length > 1) {
+            for (const way of line.pays) {
+              const button = element('button', way === 'coin' ? 'Coin' : 'Food', 'errand-pay');
+              button.type = 'button'; button.dataset.act = `pay-${way}`;
+              controls.append(button);
+            }
+          }
+          const less = element('button', '−', 'errand-step'), more = element('button', '+', 'errand-step');
+          less.type = more.type = 'button';
+          less.dataset.act = 'less'; more.dataset.act = 'more';
+          controls.append(less, element('span', '', 'errand-count'), more);
+          item.append(words, controls);
+          list.append(item);
+        }
+        section.append(list);
+        return section;
+      }));
+      if (focused?.id) host.querySelector(`[data-line="${CSS.escape(focused.id)}"] [data-act="${focused.act}"]`)?.focus({ preventScroll: true });
+    }
+    // Only what differs is written, so a line nothing has changed is not touched at all.
+    const put = (node, key, value) => { if (node && node[key] !== value) node[key] = value; };
+    const attr = (node, key, value) => { if (node && node.getAttribute(key) !== value) node.setAttribute(key, value); };
+    for (const line of lines) {
+      const item = host.querySelector(`[data-line="${CSS.escape(line.id)}"]`);
+      if (!item) continue;
+      const count = state.counts.get(line.id) || 0;
+      if (item.dataset.count !== String(count)) item.dataset.count = String(count);
+      if (line.why) { if (item.dataset.shut !== 'true') item.dataset.shut = 'true'; } else if ('shut' in item.dataset) delete item.dataset.shut;
+      const words = item.querySelector('.errand-words');
+      put(words.querySelector('.errand-label'), 'textContent', line.label);
+      put(words.querySelector('.errand-price'), 'textContent', line.why || line.price);
+      put(words, 'title', line.does || '');
+      if (line.does) {
+        const open = state.open.has(line.id), does = words.querySelector('.errand-does');
+        attr(words, 'aria-expanded', String(open));
+        put(does, 'textContent', line.does);
+        put(does, 'hidden', !open);
+      }
+      const pay = state.pays.get(line.id) || line.pays?.[0];
+      for (const button of item.querySelectorAll('.errand-pay')) {
+        const way = button.dataset.act.slice(4);
+        attr(button, 'aria-pressed', String(pay === way));
+        attr(button, 'aria-label', `${line.label}: pay in ${way}`);
+        put(button, 'disabled', Boolean(line.why));
+      }
+      const less = item.querySelector('[data-act="less"]'), more = item.querySelector('[data-act="more"]'), shown = item.querySelector('.errand-count');
+      attr(less, 'aria-label', `One fewer: ${line.label}`); attr(more, 'aria-label', `One more: ${line.label}`);
+      put(less, 'disabled', count <= 0);
+      put(more, 'disabled', Boolean(line.why) || count >= line.most);
+      put(shown, 'textContent', String(count));
+      attr(shown, 'aria-label', `${count} of ${line.label}`);
+    }
   }
 
   /**
@@ -247,11 +295,14 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
       fetchFacts();
       root.querySelector('#errand-cancel')?.focus({ preventScroll: true });
     },
-    /** On every snapshot: when the family's stock or this person's ways of going change, ask the server again. */
+    /**
+     * On every snapshot: when the family's stock as the popup shows it (`stockKey`) or this person's ways of going change,
+     * ask the server again - not on every crumb of food eaten.
+     */
     render(current) {
       if (!state || !current) return;
       if (current.role === 'host') { close(); return; }
-      const key = JSON.stringify([current.household?.resources, current.travelModes?.[state.entityId], Boolean(current.entities?.find(one => one.id === state.entityId)?.chore)]);
+      const key = JSON.stringify([stockKey(current.household?.resources), current.travelModes?.[state.entityId], Boolean(current.entities?.find(one => one.id === state.entityId)?.chore)]);
       if (state.key === key) return;
       const first = state.key === null;
       state.key = key;
