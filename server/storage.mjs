@@ -69,7 +69,7 @@ export function ownerGone(existing, { startedAt = processStartedAt } = {}) {
 // by a hard link; if yet another start has made one in that instant, this refuses and says so rather than guessing. Three
 // servers started on one save in the same second is the case left open; the launcher's own lock and the one port make it
 // unreachable from the launcher.
-export function acquireSaveLock(path, { startedAt = processStartedAt } = {}) {
+export function acquireSaveLock(path, { startedAt = processStartedAt, judged = null } = {}) {
   if (!path) return { path, release() {} };
   const requested = resolve(path);
   mkdirSync(dirname(requested), { recursive: true });
@@ -88,6 +88,8 @@ export function acquireSaveLock(path, { startedAt = processStartedAt } = {}) {
         throw new Error(`Save already owned, or ownership cannot be verified: ${lockPath}. Another classroom server may still be using this class. Close it, or restart the computer, and start again: a class whose server has certainly gone opens by itself.`, { cause: error });
       }
       const backup = archiveSave(canonical, 'before-lock-recovery');
+      // Only a test uses this: another start doing its whole recovery in the instant between this judgement and the move.
+      judged?.();
       const aside = `${lockPath}.stale-${randomBytes(6).toString('hex')}`;
       try { renameSync(lockPath, aside); } catch (move) { if (move.code === 'ENOENT') continue; throw move; }
       if (readFileSync(aside, 'utf8') !== text) {

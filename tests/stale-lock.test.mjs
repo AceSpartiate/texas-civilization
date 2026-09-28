@@ -82,6 +82,24 @@ test('every doubt still refuses: a malformed lock, a start time that cannot be r
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 
+test('a start that judged a lock gone, while another start recovered it first, leaves the other\'s new lock alone', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'texas-stale-between-'));
+  const savePath = join(dir, 'classroom.json'), lockPath = `${savePath}.lock`;
+  try {
+    writeFileSync(savePath, '{}');
+    writeFileSync(lockPath, lockOf(deadPid()));
+    let first = null;
+    // In the instant between this start's judgement and its move, another start does its whole recovery.
+    assert.throws(() => acquireSaveLock(savePath, { judged: () => { first = acquireSaveLock(savePath); } }), /ownership changed while it was being recovered/);
+    assert.ok(first, 'the other start recovered the lock');
+    const held = JSON.parse(readFileSync(lockPath, 'utf8'));
+    assert.equal(held.processId, process.pid);
+    first.release();
+    assert.equal(existsSync(lockPath), false, 'and the lock on the disk was the other start\'s own, which it released');
+    assert.equal(readdirSync(dir).filter(file => file.includes('.stale-')).length, 0, 'nothing left beside the save');
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
 test('of several starts racing to recover one stale lock, exactly one owns the class', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'texas-stale-race-'));
   const savePath = join(dir, 'classroom.json'), lockPath = `${savePath}.lock`;
