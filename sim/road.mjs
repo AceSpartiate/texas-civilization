@@ -570,6 +570,13 @@ export function roadInvalid(world) {
 function haltFamily(world, household, entity) {
   for (const one of [...withFamily(world, household).people, ...withFamily(world, household).beasts]) if (one.travel) one.travel.halted = true;
 }
+/**
+ * The family runs from the soldiers (sim/pursuit.mjs `answerAlto`): whoever held the camp - a hunt, a line in the river, the
+ * nursing, a day's rest - leaves it off unfinished, or the camp would halt the train again on the next tick.
+ */
+export function breakCamp(world, household) {
+  for (const one of people(world, household)) if (one.chore && CHORES[one.chore.id]?.road && CHORES[one.chore.id]?.halts) abandonChore(world, household, one);
+}
 
 /**
  * Why nobody of this family can be sent on a road chore now, or null (sim/chores.mjs `choreAvailability` asks first).
@@ -580,6 +587,9 @@ export function roadChoreRefusal(world, household, entity, chore) {
   const onRoad = flight && (flight.status === 'fled' ? entity.travel?.purpose === 'flee' : flight.status === 'refuged' && !entity.travel && entity.location?.siteId === flight.refuge);
   if (!onRoad) return 'The family is not on the road east.';
   if (flight.bog) return 'The wagon is fast in the mud; free it first.';
+  // No camp is made with soldiers coming after the family (sim/pursuit.mjs): a halt to rest, hunt or nurse would only let them
+  // up with it, and a chase is no rest for the sick (sim/disease.mjs `activityOf`).
+  if (chore.halts && flight.chase && !['caught', 'escaped'].includes(flight.chase.phase)) return 'Soldiers are coming after the family: this is no time to stop.';
   // 'campsite', not 'camp': that key is Houston's camp work (sim/camp.mjs), which the army's march breaks off.
   if (chore.campsite && !(flight.crossing || flight.status === 'refuged')) return 'There are no other families camped here to trade with; there are at a crossing or a refuge.';
   // Camped apart from the crowd, away from its sickness (sim/disease.mjs `camp-apart`): the other families are a mile off.

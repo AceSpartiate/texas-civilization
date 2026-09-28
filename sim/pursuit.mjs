@@ -40,7 +40,7 @@ import { record } from './events.mjs';
 import { roadTicks, WAGON_SPEED, WALK_SPEED, HORSE_SPEED } from './travel.mjs';
 import { canAnswerCalls, householdName } from './family.mjs';
 import { spotlight } from './host.mjs';
-import { abandonWagon, answerRoad, familyPoint, moveOn, nextRefuge, overtake, roadAutoAnswer, withFamily } from './road.mjs';
+import { abandonWagon, answerRoad, breakCamp, familyPoint, moveOn, nextRefuge, overtake, roadAutoAnswer, withFamily } from './road.mjs';
 import { acrossCountry } from './flight-route.mjs';
 import { heldToCow, loseCow, cowPace } from './flight-work.mjs';
 import { drawnVehicles } from './company.mjs';
@@ -568,6 +568,8 @@ export function answerAlto(world, household, option) {
   // A second order as the family whips up, and they fire from `WARNED_SECONDS` after it.
   chase.warned = world.minute; chase.fireFrom = chase.t + WARNED_SECONDS;
   say(world, chase, 'warn', '¡Alto, o hacemos fuego!', 'Halt, or we fire!');
+  // Whoever held a camp by the road leaves it off: nothing halts a family running (sim/road.mjs `breakCamp`).
+  breakCamp(world, household);
   if (option === 'abandon-run') abandonWagon(world, household);
   if (option === 'timber-run') runForTimber(world, household);
   if (option === 'cow-run') { loseCow(household); cowPace(world, household); record(world, 'consequence', { householdId: household.id, importance: 2, claimId: 'FIC-GONZ-663', text: 'The family let the milk cow go and ran.' }); }

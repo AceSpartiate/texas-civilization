@@ -15,6 +15,8 @@ import { COUNTRY_SIGHT, FAMILY_RUN_MPH, GALLOP_MPH, HIT_RANGES, HIT_TABLE, INFAN
 import { chaseStep } from '../sim/military-pacing.mjs';
 import { flightPlaces, planLeg, acrossCountry } from '../sim/flight-route.mjs';
 import { withFamily, familyPoint } from '../sim/road.mjs';
+import { activityOf, mendSickness, sicknessDay } from '../sim/disease.mjs';
+import { choreAvailability } from '../sim/chores.mjs';
 import { spring, until } from './support/scrape-spring.mjs';
 import { placeFamily, sceneFor, stowAway } from './support/scrape-scene.mjs';
 
@@ -369,4 +371,46 @@ test('an old save opens: a flight with no route, no chase, no path fields valida
   validateWorld(world);
   assert.equal(household.flight.refuge, 'lynchburg');
   assert.match(readFileSync(new URL('../server/app.mjs', import.meta.url), 'utf8'), /saveVersion: 3,/, 'the save version moved');
+});
+
+test('rest and the chase (docs/DISEASE.md §3.7): a chase is never rest, no camp is made with soldiers after the family, a camp that runs goes, and a wound is the wound\'s', () => {
+  const world = spring();
+  const { household, main } = sceneFor(world, { kind: 'infantry', how: 'wagon' });
+  const chase = household.flight.chase;
+  assert.ok(chase, 'the column did not see the wagon');
+  const { people, beasts } = withFamily(world, household);
+  const patient = people.find(one => one.id !== main.id && grown(one));
+  patient.health = { condition: 'sick', recoversAt: world.minute + 5 * 1440, disease: 'lung-fever' };
+  // Stood still in the chase - the ox down in the traces, or a camp the soldiers came up on - the sick are not resting.
+  for (const one of [...people, ...beasts]) if (one.travel) one.travel.halted = true;
+  assert.notEqual(activityOf(world, patient), 'rest', 'a sick person was resting with soldiers coming after the family');
+  for (const one of [...people, ...beasts]) if (one.travel) delete one.travel.halted;
+  // Nobody stops the family to rest or to nurse while they come on.
+  for (const id of ['rest-road', 'tend-sick']) {
+    const offered = choreAvailability(world, household, main, id);
+    assert.equal(offered.can, false, `${id} was offered with soldiers after the family`);
+    assert.match(offered.why, /soldiers/i, `${id}: ${offered.why}`);
+  }
+  // A family camped by the road nursing its sick when the soldiers see it, that runs: the camp breaks, and the train goes. (A day's
+  // rest is two ticks, which a chase's two-minute ticks end at once; the nursing is six.)
+  delete household.flight.chase;
+  applyAction(world, household.id, { action: 'chore', entityId: main.id, chore: 'tend-sick' });
+  assert.equal(main.chore?.id, 'tend-sick', 'the nursing was not given before the soldiers came');
+  household.flight.chase = chase;
+  until(world, () => household.flight.ask?.id === 'alto', 30);
+  assert.equal(household.flight.ask?.id, 'alto', 'the soldiers never called on the camped family to halt');
+  applyAction(world, household.id, { action: 'road-answer', entityId: main.id, option: 'run' });
+  const leader = withFamily(world, household).people.find(one => one.travel?.purpose === 'flee');
+  const from = leader.travel.progress;
+  stepWorld(world);
+  assert.notEqual(main.chore?.id, 'tend-sick', 'the family ran and went on nursing where it stood');
+  assert.ok(!leader.travel?.halted && leader.travel.progress > from, 'the family ran, and the camp held it where it was');
+  // A person wounded in a chase is on the wound's own clock: the sickness neither mends it nor makes it sick.
+  const hit = withFamily(world, household).people.find(one => one.id !== patient.id && grown(one) && one.health.condition !== 'dead');
+  hit.health = { condition: 'wounded', recoversAt: world.minute + 21 * 1440 };
+  const wound = structuredClone(hit.health);
+  mendSickness(world, 24 * 60);
+  sicknessDay(world, household, hit, { day: Math.floor(world.minute / 1440) + 1, causes: [{ disease: 'lung-fever', key: 'wounded-test', chance: 1, text: 'x' }], where: 'road' });
+  assert.deepEqual(hit.health, wound, 'the sickness touched a wound');
+  validateWorld(world);
 });

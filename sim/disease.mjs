@@ -128,8 +128,11 @@ const RESTING_CHORES = new Set(['rest-road']);
 
 export function activityOf(world, person) {
   const chore = person.chore;
-  if (chore) return RESTING_CHORES.has(chore.id) ? 'rest' : 'work';
   const travel = person.travel;
+  // Soldiers after the family (sim/pursuit.mjs, docs/SCRAPE.md §13): a chase is never rest, even for a train stood still in it
+  // (the ox shot down in the traces, a camp the soldiers came up on). Whoever rides rides; everybody else is running.
+  if (travel?.purpose === 'flee' && chasedNow(world, person)) return travel.carried || travel.rides || travel.drives || travel.saddle ? 'ride' : 'work';
+  if (chore) return RESTING_CHORES.has(chore.id) ? 'rest' : 'work';
   if (travel) {
     // A family held on the road - at a flooded river, in the mud, camped to hunt or nurse or rest - is resting, all but
     // whoever is at the work. Digging a wagon out is work for everybody grown (sim/road.mjs `DIG_MILES`).
@@ -143,6 +146,11 @@ export function activityOf(world, person) {
   }
   if (person.task === 'work' || person.task === 'help') return 'work';
   return 'rest';
+}
+/** Whether soldiers are after this person's family now: a chase begun and not yet over (sim/pursuit.mjs `flight.chase`). */
+export function chasedNow(world, person) {
+  const chase = world.households[person.householdId]?.flight?.chase;
+  return Boolean(chase) && !['caught', 'escaped'].includes(chase.phase);
 }
 
 // ------------------------------------------------------------------------------------------------ who has had it

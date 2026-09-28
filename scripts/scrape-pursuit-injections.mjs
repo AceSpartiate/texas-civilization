@@ -24,6 +24,7 @@ const NAMES = {
   auto: 'an automatic family halts when it is ordered to, and an order nobody answers halts the family; both written down',
   seen: 'the class\'s clock is held to the chase only for a family at its screen, and the chase is its own and the Host\'s to see, with its route its own alone',
   old: 'an old save opens: a flight with no route, no chase, no path fields validates and runs, and no save version moved',
+  rest: 'rest and the chase (docs/DISEASE.md §3.7): a chase is never rest, no camp is made with soldiers after the family, a camp that runs goes, and a wound is the wound\'s',
 };
 const UNIT = [
   { name: 'the family stops at its first stop and never goes on to the next', file: 'sim/flight-route.mjs',
@@ -58,6 +59,15 @@ const UNIT = [
     to: "    ...(household?.flight ? { flight: { ...flightProjection(world, household), ...(household.id !== 'hh-1' && world.households['hh-1']?.flight && { route: flightProjection(world, world.households['hh-1']).route }) } } : {}),", expect: NAMES.seen },
   { name: 'the save version moved', file: 'server/app.mjs',
     from: 'saveVersion: 3,', to: 'saveVersion: 4,', expect: NAMES.old },
+  // Rest and the chase, since the diseases were merged in (docs/DISEASE.md §3.7): every halt is rest, but a chase is not.
+  { name: 'a sick person stood still in a chase counted as resting', file: 'sim/disease.mjs',
+    from: "  if (travel?.purpose === 'flee' && chasedNow(world, person)) return travel.carried || travel.rides || travel.drives || travel.saddle ? 'ride' : 'work';", to: '', expect: NAMES.rest },
+  { name: 'a camp to rest or nurse given with soldiers after the family', file: 'sim/road.mjs',
+    from: "  if (chore.halts && flight.chase && !['caught', 'escaped'].includes(flight.chase.phase)) return 'Soldiers are coming after the family: this is no time to stop.';", to: '', expect: NAMES.rest },
+  { name: 'a family that runs leaves its camp standing, and the camp halts it again', file: 'sim/pursuit.mjs',
+    from: '  breakCamp(world, household);', to: '', expect: NAMES.rest },
+  { name: 'a wound from a chase taken for a sickness', file: 'sim/disease.mjs',
+    from: "    if (!['well', 'tired'].includes(health.condition)) return;", to: "    if (!['well', 'tired', 'wounded'].includes(health.condition)) return;", expect: NAMES.rest },
 ];
 const BROWSER = [
   { name: 'another family\'s map drew the first family\'s path', file: 'sim/world.mjs',
