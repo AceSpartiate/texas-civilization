@@ -13,13 +13,15 @@
 //   - which controls something else is drawn over (the middle, where a student presses, or three of five points);
 //   - which pieces hang off the screen's edge;
 //   - whether a panel stands over what the canvas draws for a student to read: the person being given an order, the person
-//     a rider is talking to, the fight's caption. Speech bubbles are measured and reported; they move with their speakers.
+//     a rider is talking to (a quarter of them under a panel fails), the fight's caption (a tenth), and the speech bubbles over heads in
+//     Gonzales and at home (half of one under a panel fails; a bubble walks with its speaker, so its edge may touch one).
 //
 // Robust to furniture that does not exist: a panel another builder removes is simply never drawn, and a state that cannot
 // be reached is reported as not reached, never as clean. Every state first asserts that what it opened is on the screen.
 //
 // Same computer only: headless Chrome at emulated sizes, not a Chromebook or a projector.
-// Run: npm run test:overlap   (OVERLAP_SHOTS=dir for the screenshots; OVERLAP_RECORD=before|after names the evidence file)
+// Run: npm run test:overlap   (OVERLAP_SHOTS=dir for the screenshots; OVERLAP_RECORD=before|after names the evidence file,
+// OVERLAP_OUT=path writes it elsewhere - the injections do, so a broken run never lands in docs/evidence)
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
@@ -31,6 +33,9 @@ import { gonzalesClass, stepUntil } from '../tests/support/battle.mjs';
 import { battleState } from '../sim/battle-stage.mjs';
 import { spotlight } from '../sim/host.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { applyAction, stepWorld } from '../sim/world.mjs';
+import { on, sceneClock } from '../sim/town-scenes.mjs';
 import { playedToTheCall, startClassroom, openClass, openEncounter, openCallMenu, openSite } from './support/panel-states.mjs';
 import { STUDENT_FURNITURE, HOST_FURNITURE, measureScreen } from './support/screen-furniture.mjs';
 
@@ -56,7 +61,7 @@ const HOST_SIZES = [{ width: 1920, height: 1080 }, { width: 1280, height: 720 },
 const DELIBERATE = [
   { kind: 'dialog', why: 'A dialog stands over the map on purpose and says so: the journal behind its own dimmed backdrop, the ending, the inside of the house, "reconnecting". Its own controls are held clear of everything (the covered check), and the guided start is not in this allowance - see below.', except: /^guided start$/ },
   { kind: 'tip', why: 'The tip is drawn at the icon the pointer or the keyboard is on, over whatever is beside it; it goes the moment the pointer leaves (docs/FAMILY_PANEL.md §4).' },
-  { a: /^(house plans|house plot|wagon load)$/, b: /^(family: |ability bar|map buttons|journal button|status: |wagon button|house button)/, when: flags => flags.backdrop,
+  { a: /^(house plans|house plot)$/, b: /^(family: |ability bar|map buttons|journal button|status: |wagon button|house button)/, when: flags => flags.backdrop,
     why: 'Choosing a house and packing the wagon want the whole screen: the map behind goes dim and the panel says the family is behind it (docs/FAMILY_PANEL.md §12.11).' },
 ];
 const deliberate = (pair, flags) => DELIBERATE.find(rule => {
@@ -68,8 +73,23 @@ const deliberate = (pair, flags) => DELIBERATE.find(rule => {
 /** What may lie over a control without that being a fault: a dialog or a tooltip, or the dim a dialog brings with it. */
 const DELIBERATE_COVER = /^(journal|ending|inside the house|reconnecting|icon tip|#journal-backdrop|#panel-backdrop)$/;
 
+/** scripts/gonzales-town-browser-proof.mjs's class: the first family's main person in Gonzales on September 29. */
+function playedToTheTown(seed, playerCount) {
+  const world = createGonzalesWorld(seed, playerCount, { map: 'colonies' });
+  world.status = 'running';
+  let guard = 0;
+  while (Object.values(world.households).some(h => h.members.some(id => world.entities[id].travel)) && guard++ < 600) stepWorld(world);
+  while (sceneClock(world) < on(0, 5) && guard++ < 2000) stepWorld(world);
+  const principal = world.entities[world.households['hh-1'].principalId];
+  applyAction(world, 'hh-1', { action: 'travel', entityId: principal.id, destination: 'gonzales' });
+  while ((principal.travel || sceneClock(world) < on(0, 11)) && guard++ < 3000) stepWorld(world);
+  world.status = 'lobby';
+  return world;
+}
+
 const SHOTS = process.env.OVERLAP_SHOTS || join('test-results', 'overlap');
 const RECORD = process.env.OVERLAP_RECORD || 'after';
+const OUT = process.env.OVERLAP_OUT || `docs/evidence/overlap-${RECORD}.json`;
 mkdirSync(SHOTS, { recursive: true });
 mkdirSync('docs/evidence', { recursive: true });
 
@@ -117,7 +137,9 @@ const unsay = page => page.evaluate(() => { document.querySelector('#error').tex
 
 async function joinAs(page, url, app, name) {
   await page.goto(url);
-  await page.locator('[name=name]').fill(name);
+  // A class stepped far in process (the fight's morning) is a large first snapshot: the join form can take a while.
+  await page.locator('#join [name=name]').waitFor({ state: 'visible', timeout: 90000 });
+  await page.locator('#join [name=name]').fill(name);
   await page.locator('[name=code]').fill(app.state.sessionCode);
   await page.getByRole('button', { name: 'Join', exact: true }).click();
   await page.waitForFunction(() => window.__snapshot?.world.householdId);
@@ -136,6 +158,23 @@ try {
       const { page, errors: pageErrors, context } = await openClass(room.app, browser, STUDENT_SIZES[0], room);
       await page.waitForTimeout(800);
       await walk(page, 'guided-start', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'ability bar' });
+
+      // The rider and the call first: a rider rides on, and the screens above take the world's minutes.
+      const meeting = await openEncounter(page);
+      if (meeting.reached) await walk(page, 'meeting', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'meeting' });
+      else notReached.push('student meeting: no rider was standing');
+      await page.locator('#encounter-close').click({ force: true, timeout: 3000 }).catch(() => {});
+      // The card comes back when the meeting closes (it stands aside while the rider talks).
+      if (meeting.reached && await page.locator('#selection').evaluate(node => !node.hidden).catch(() => false)) {
+        await page.setViewportSize(STUDENT_SIZES[0]);
+        await page.waitForTimeout(300);
+        assert.ok(await page.locator('#selection').isVisible(), 'the card did not come back when the meeting closed');
+      }
+
+      const call = await openCallMenu(page);
+      if (call.reached) await walk(page, 'call-menu', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'call menu' });
+      else notReached.push('student call-menu: the call never reached this family');
+      await page.locator('#call-menu-close').click({ force: true }).catch(() => {});
 
       await sayARefusal(page);
       await walk(page, 'guided-start-refused', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'error line' });
@@ -158,22 +197,6 @@ try {
         else notReached.push('student icon-tip: no tip on hover');
         await page.mouse.move(700, 5);
       } else notReached.push('student icon-tip: no icon on the bar');
-
-      const meeting = await openEncounter(page);
-      if (meeting.reached) await walk(page, 'meeting', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'meeting' });
-      else notReached.push('student meeting: no rider was standing');
-      await page.locator('#encounter-close').click({ force: true, timeout: 3000 }).catch(() => {});
-      // The card comes back when the meeting closes (it stands aside while the rider talks).
-      if (meeting.reached && await page.locator('#selection').evaluate(node => !node.hidden).catch(() => false)) {
-        await page.setViewportSize(STUDENT_SIZES[0]);
-        await page.waitForTimeout(300);
-        assert.ok(await page.locator('#selection').isVisible(), 'the card did not come back when the meeting closed');
-      }
-
-      const call = await openCallMenu(page);
-      if (call.reached) await walk(page, 'call-menu', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'call menu' });
-      else notReached.push('student call-menu: the call never reached this family');
-      await page.locator('#call-menu-close').click({ force: true }).catch(() => {});
 
       const site = await openSite(page);
       if (site.reached) await walk(page, 'site-chooser', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'site chooser' });
@@ -234,7 +257,16 @@ try {
       page.on('pageerror', error => errors.push(error.message));
       await joinAs(page, url, app, 'Chromebook');
       for (let i = 2; i <= 5; i++) await poster(url)('/api/join', { name: `Reader ${i}`, code: app.state.sessionCode });
-      if (await page.locator('#wagon-done').isVisible().catch(() => false)) await page.locator('#wagon-done').click();
+      // The lobby: packing the wagon, then "Repack the wagon" once it is done, until the teacher presses Start.
+      await page.waitForTimeout(600);
+      if (await page.locator('#wagon-load').isVisible().catch(() => false)) {
+        await walk(page, 'lobby-wagon', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'wagon load' });
+        await page.setViewportSize(STUDENT_SIZES[0]);
+        await page.locator('#wagon-done').click();
+        await page.waitForTimeout(500);
+      } else notReached.push('student lobby-wagon: no wagon to pack');
+      await walk(page, 'lobby', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE });
+      await page.setViewportSize(STUDENT_SIZES[0]);
       await send('/api/command', { id: `overlap-start-${Date.now()}`, action: 'start', anyway: true });
       await page.waitForFunction(() => window.__snapshot?.world.status === 'running', null, { timeout: 20000 });
       if (await page.locator('#tutorial-skip').isVisible().catch(() => false)) await page.locator('#tutorial-skip').click();
@@ -288,15 +320,6 @@ try {
       else notReached.push('student home-journal: did not open');
       await page.locator('#journal-close').click({ force: true }).catch(() => {});
 
-      // The town, where people talk over their heads (public/speech.js): zoomed in until the town is drawn close enough.
-      await page.setViewportSize(STUDENT_SIZES[0]);
-      await page.locator('#map-nav [data-view=gonzales]').click().catch(() => {});
-      await page.waitForFunction(() => window.__camera?.scale >= 200, null, { timeout: 10000 }).catch(() => {});
-      const talking = await page.waitForFunction(() => (window.__townSaid || []).some(line => line.box), null, { timeout: 30000, polling: 100 }).then(() => true, () => false);
-      if (talking) await walk(page, 'town-talk', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, settle: 250 });
-      else notReached.push(`student town-talk: nobody spoke in Gonzales within 30s (camera ${JSON.stringify(await page.evaluate(() => window.__camera?.scale))})`);
-      await page.locator('#map-nav [data-view=home]').click().catch(() => {});
-
       // Paused by the teacher.
       await send('/api/command', { id: `overlap-pause-${Date.now()}`, action: 'pause' });
       await page.waitForFunction(() => window.__snapshot?.world.status === 'paused', null, { timeout: 15000 }).catch(() => {});
@@ -342,7 +365,49 @@ try {
       const fighting = await host.waitForFunction(() => window.__snapshot?.world.battle && window.__battleCaption, null, { timeout: 20000 }).then(() => true, () => false);
       if (fighting) await walk(host, 'fight', { sizes: HOST_SIZES, furniture: HOST_FURNITURE, host: true, settle: 700 });
       else notReached.push('host fight: no fight was drawn');
+      // A student who comes late, into a class already running on the morning of the fight (B2 of the classroom audit):
+      // the first screen they see, whatever their family is doing.
+      const context = await browser.newContext({ reducedMotion: 'no-preference', viewport: STUDENT_SIZES[0] });
+      const page = await context.newPage();
+      page.on('pageerror', error => errors.push(`late: ${error.message}`));
+      await joinAs(page, url, app, 'Late');
+      await page.waitForFunction(() => document.querySelector('#family-panel') && !document.querySelector('#family-panel').hidden, null, { timeout: 20000 }).catch(() => {});
+      await page.waitForTimeout(800);
+      await walk(page, 'late-on-the-fight-morning', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE });
+      await context.close();
       await hostContext.close();
+    } finally { await app.close(); }
+  }
+
+  // ======================================================================= Gonzales, where people talk over their heads
+  // The class scripts/gonzales-town-browser-proof.mjs builds: the real land, played to the morning of September 29 with the
+  // first family's main person walked into town, where the town's scenes are said in bubbles over the speakers
+  // (public/speech.js). Measured, not held: a bubble goes where its speaker stands.
+  {
+    const app = createClassroom({ seed: 'gonzales-town-proof', playerCount: 5, tickMs: 1400, worldFactory: playedToTheTown });
+    const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
+    try {
+      const hostCookie = (await poster(url)('/api/host', { key: app.state.hostKey })).headers.get('set-cookie').split(';')[0];
+      const context = await browser.newContext({ reducedMotion: 'no-preference', viewport: STUDENT_SIZES[0] });
+      const page = await context.newPage();
+      page.on('pageerror', error => errors.push(`town: ${error.message}`));
+      await joinAs(page, url, app, 'Watcher');
+      for (let i = 2; i <= 5; i++) await poster(url)('/api/join', { name: `Student ${i}`, code: app.state.sessionCode });
+      if (await page.locator('#wagon-done').isVisible().catch(() => false)) await page.locator('#wagon-done').click();
+      await poster(url, hostCookie)('/api/command', { id: `overlap-town-start-${Date.now()}`, action: 'start', anyway: true });
+      await page.waitForFunction(() => window.__snapshot?.world.status === 'running', null, { timeout: 20000 });
+      if (await page.locator('#lesson-stop').isVisible().catch(() => false)) {
+        await page.locator('#lesson-stop').click();
+        await page.locator('#lesson-stop-yes').click();
+        await page.waitForFunction(() => !window.__snapshot.world.lesson, null, { timeout: 15000 }).catch(() => {});
+      }
+      if (await page.locator('#selection-close').isVisible().catch(() => false)) await page.locator('#selection-close').click();
+      await page.locator('#map-nav [data-view=gonzales]').click();
+      await page.waitForFunction(() => window.__camera?.scale >= 200, null, { timeout: 10000 }).catch(() => {});
+      const talking = await page.waitForFunction(() => (window.__townSaid || []).some(line => line.box), null, { timeout: 45000, polling: 100 }).then(() => true, () => false);
+      if (talking) await walk(page, 'town-talk', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, settle: 250 });
+      else notReached.push('student town-talk: nobody spoke in Gonzales within 45s');
+      await context.close();
     } finally { await app.close(); }
   }
 
@@ -393,9 +458,15 @@ for (const one of record) {
     faults.push({ where, what: 'covered', text: `"${entry.control}" in ${entry.in} is under ${entry.by.join(', ')} (${entry.points} of ${entry.of} points${entry.centre ? ', the middle too' : ''})` });
   }
   for (const entry of one.offScreen) faults.push({ where, what: 'off the screen', text: `${entry.name} at ${JSON.stringify(entry.box)}` });
+  for (const entry of one.unreachable || []) faults.push({ where, what: 'cut away', text: `"${entry.control}" in ${entry.in} is cut off by ${entry.cutBy}, which does not scroll` });
   for (const entry of one.canvas.hidden) {
-    if (/^bubble/.test(entry.what)) continue; // measured and reported below, not held: a bubble moves with its speaker
-    if (entry.share < 0.25) continue;
+    // A bubble goes where its speaker stands, so its edge may touch a panel as they walk; half of it under one is words a
+    // student cannot read, which `speechRoom` in public/app.js exists to prevent.
+    // The fight's caption is a paragraph a student reads: a tenth of it under a panel is a line gone.
+    if (entry.share < (/^bubble/.test(entry.what) ? 0.5 : /caption/.test(entry.what) ? 0.1 : 0.25)) continue;
+    // The family frame is the camera's own (Follow): a person it happens to put under a panel is one press on their
+    // portrait from the middle of the screen. What is held is the person the student has put the camera on.
+    if (/being ordered/.test(entry.what) && one.following) continue;
     faults.push({ where, what: 'canvas', text: `${entry.what} is ${Math.round(entry.share * 100)}% under ${entry.under}` });
   }
 }
@@ -410,7 +481,7 @@ for (const line of notReached) console.log(`NOT REACHED ${line}`);
 console.log(`speech bubbles: ${bubblesSeen} measured, ${bubbles.length} partly under a panel${bubbles.length ? `: ${bubbles.map(one => `${one.where} ${one.what} under ${one.under} ${Math.round(one.share * 100)}%`).join('; ')}` : ''}`);
 if (errors.length) console.log(`page errors: ${errors.join(' | ')}`);
 
-writeFileSync(`docs/evidence/overlap-${RECORD}.json`, `${JSON.stringify({
+writeFileSync(OUT, `${JSON.stringify({
   record: `overlap-${RECORD}`, date: new Date().toISOString().slice(0, 10),
   task: 'Owner, 2026-09-28: "Check for UI elements that block others. Move them somewhere else." Every kind of thing the student\'s and the Host\'s page put on the screen, at Chromebook, smaller-window, 1080p and projector sizes; pairs sharing pixels, controls drawn over, pieces off the screen, and panels over what the canvas draws for a student to read.',
   environment: 'Same computer: local classroom servers and headless Chrome at emulated sizes. Not a Chromebook, a projector, a physical LAN or a touch screen.',
@@ -419,9 +490,9 @@ writeFileSync(`docs/evidence/overlap-${RECORD}.json`, `${JSON.stringify({
   // Grouped: one entry per thing wrong, with every screen it was wrong on.
   faults: [...byWhat].map(([what, where]) => ({ what, where })), notReached, bubbles, pageErrors: errors,
   // Each screen as measured, kept small: what was drawn where, every pair that shared pixels, and the controls that count.
-  screens: record.map(one => ({ page: one.page, state: one.state, at: one.at, shot: one.shot, drawn: one.drawn.map(piece => `${piece.name} ${piece.box.x},${piece.box.y} ${piece.box.w}x${piece.box.h}`), overlaps: one.overlaps.map(pair => `${pair.a} x ${pair.b} ${pair.shared.w}x${pair.shared.h}`), covered: one.covered.filter(entry => entry.centre || entry.points >= 3).map(entry => `"${entry.control}" in ${entry.in} under ${entry.by.join(', ')}`), offScreen: one.offScreen, canvas: one.canvas.hidden, ...(Object.values(one.flags).some(Boolean) && { flags: one.flags }) })),
+  screens: record.map(one => ({ page: one.page, state: one.state, at: one.at, shot: one.shot, following: one.following, unreachable: one.unreachable, drawn: one.drawn.map(piece => `${piece.name} ${piece.box.x},${piece.box.y} ${piece.box.w}x${piece.box.h}`), overlaps: one.overlaps.map(pair => `${pair.a} x ${pair.b} ${pair.shared.w}x${pair.shared.h}`), covered: one.covered.filter(entry => entry.centre || entry.points >= 3).map(entry => `"${entry.control}" in ${entry.in} under ${entry.by.join(', ')}`), offScreen: one.offScreen, canvas: one.canvas.hidden, ...(Object.values(one.flags).some(Boolean) && { flags: one.flags }) })),
 }, null, 2)}\n`);
-console.log(`wrote docs/evidence/overlap-${RECORD}.json`);
+console.log(`wrote ${OUT}`);
 
 assert.deepEqual(errors, [], `the pages threw: ${errors.join(' | ')}`);
 assert.deepEqual(faults.map(one => `${one.where}: ${one.what}: ${one.text}`), [], `${faults.length} things on the screen stand on something else`);

@@ -51,7 +51,14 @@ export function drawSpeech(ctx, line, x, y, { alpha = 1, bounds = null, scale = 
   const w = inner + PAD * 2, h = headH + words.length * LINE * scale + gloss.length * GLOSS_LINE * scale + PAD * 2;
   let left = x - w / 2;
   const top = Math.max(2, y - GAP * scale - h);
-  if (bounds) left = Math.max(2, Math.min(bounds.width - w - 2, left));
+  // `bounds.room(top, bottom)`, when given, is the part of the canvas no panel stands over at the bubble's height: the bubble
+  // slides along into it, its tail still to the speaker, rather than being drawn under the family's column or a chooser
+  // (the overlap proof, owner 2026-09-28). Where the room is narrower than the bubble, the whole width is used as before.
+  if (bounds) {
+    const room = bounds.room?.(top, top + h);
+    const fits = room && room.right - room.left >= w;
+    left = Math.max(fits ? room.left : 2, Math.min((fits ? room.right : bounds.width - 2) - w, left));
+  }
   ctx.fillStyle = line.speaker?.side === 'mexican' ? '#f6efe2' : '#fbf6ea';
   ctx.strokeStyle = '#4c422e';
   ctx.lineWidth = 1.2;

@@ -98,6 +98,13 @@
       <div id="world"></div>
       <div id="food"></div>
       <div id="supplies"></div>
+      <!-- The lines the page says - a refusal in the server's words, a save fault, the server stopping, the Host's notice - stand
+           in this column under the status lines, where nothing else is (owner, 2026-09-28: "Check for UI elements that block
+           others"). In the middle of the top they fell under the guided start's strip, the card and the land chooser. -->
+      <p id="error" role="alert"></p>
+      <p id="save-fault" role="alert" hidden></p>
+      <p id="lifecycle" role="status" hidden></p>
+      <p id="host-notice" role="status" hidden></p>
       <button type="button" id="wagon-open" hidden>Repack the wagon</button>
       <button type="button" id="house-open" hidden>Choose a house</button>
       <!-- The family panel (docs/FAMILY_PANEL.md, owner 2026-09-15): father, mother, then the children oldest first, each
@@ -206,6 +213,9 @@
     </div>
 
     <div id="map-tools">
+      <!-- "How it ended" stands on the map's buttons, right-aligned above them (public/style.css), rather than across them:
+           it was drawn over Gonzales, + and - (scripts/overlap-browser-proof.mjs, owner 2026-09-28). -->
+      <button id="ending-open" hidden>How it ended</button>
       <button id="journal-toggle" aria-expanded="false" aria-controls="family-journal" title="Journal"><span id="journal-unread" hidden aria-hidden="true"></span>
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5c-3-2-7-2-10-1v15c3-1 7-1 10 1 3-2 7-2 10-1V4c-3-1-7-1-10 1Z"/><path d="M12 5v15M5 8h4M5 11h4M15 8h4M15 11h4"/></svg>
         <span>Journal</span>
@@ -494,7 +504,6 @@
       </header>
       <div id="ending-body"></div>
     </section>
-    <button id="ending-open" hidden>How it ended</button>
     <!-- Naming the family (owner, 2026-09-17): once the die is rolled, a family with no last name is asked for one. It cannot
          be closed until it is answered; the class goes on underneath, as it does with any open question. -->
     <!-- The last name is set once (sim/family.mjs `nameFamily` refuses a second one), which until 2026-09-21 a student only
@@ -555,10 +564,6 @@
          by clicking the scene; it never takes the camera and never stops the class. -->
     <section id="town-scene" hidden role="dialog" aria-labelledby="town-scene-title"></section>
 
-    <p id="error" role="alert"></p>
-    <p id="save-fault" role="alert" hidden></p>
-    <p id="lifecycle" role="status" hidden></p>
-    <p id="host-notice" role="status" hidden></p>
     <div id="map-framing"></div>
 
     <div id="journal-backdrop" hidden aria-hidden="true"></div>

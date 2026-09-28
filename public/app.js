@@ -1236,11 +1236,50 @@ function entityAt(point) { return nearestSpot(drawnNow(drawnAt), point); }
  * who has only watched still has the sentence that says what they are watching (owner: "players should walk away
  * understanding what happened").
  */
+/**
+ * Where on the canvas a speech bubble can be read, at a given height: between whatever stands down the left (the status lines,
+ * the family's column, a land chooser) and down the right (the teacher's or Play Solo's controls, the guided start, the
+ * messages, the meeting, the call's menu, a town scene, packing the wagon). `drawSpeech` slides a bubble into it (the overlap
+ * proof, owner 2026-09-28: a line of the town's talk was 89% under the land chooser at 1280x800). Read once per frame, and
+ * only when a bubble is actually drawn.
+ */
+function speechRoom(canvas) {
+  let boxes = null;
+  const measure = () => {
+    const frame = canvas.getBoundingClientRect(), k = canvas.width / (frame.width || 1);
+    return [...document.querySelectorAll('#hud-left > *, #site-choose, #survey-choose, #hud-right > *, #lesson, #lesson-resume, #military-notice, #encounter, #call-menu, #town-scene, #wagon-load')]
+      .filter(one => !one.hidden).map(one => one.getBoundingClientRect()).filter(box => box.width && box.height)
+      .map(box => ({ left: (box.left - frame.left) * k, right: (box.right - frame.left) * k, top: (box.top - frame.top) * k, bottom: (box.bottom - frame.top) * k }));
+  };
+  return (top, bottom) => {
+    boxes ||= measure();
+    let left = 2, right = canvas.width - 2;
+    for (const box of boxes) {
+      if (box.bottom <= top || box.top >= bottom) continue;
+      if ((box.left + box.right) / 2 < canvas.width / 2) left = Math.max(left, box.right + 6); else right = Math.min(right, box.left - 6);
+    }
+    return { left, right };
+  };
+}
 function drawBattleCaption(ctx, battle, canvas) {
   const text = battle.caption || '', title = battle.title || '';
   if (!text) return;
   ctx.save();
-  const width = Math.min(560, canvas.width - 40);
+  // Between the two sides of the screen, not under them: the family's column or the Host's class down the left, the
+  // teacher's controls and the messages down the right (the overlap proof, owner 2026-09-28: at 1024x768 the Host's class
+  // panel stood over 40% of it). Only what stands in the caption's band near the top counts.
+  const frame = canvas.getBoundingClientRect(), scale = canvas.height / (frame.height || 1);
+  let fromX = frame.left + 12, toX = frame.right - 12;
+  for (const one of document.querySelectorAll('#family-panel, #host-live, #hud-left > *, #hud-right > *, #military-notice')) {
+    if (one.hidden) continue;
+    const at = one.getBoundingClientRect();
+    if (!at.width || !at.height || at.top > frame.top + 260 || at.bottom < frame.top + 50) continue;
+    if (at.left + at.width / 2 < frame.left + frame.width / 2) fromX = Math.max(fromX, at.right + 12); else toX = Math.min(toX, at.left - 12);
+  }
+  const between = toX - fromX >= 240;
+  const room = between ? (toX - fromX) * scale : canvas.width - 40;
+  const width = Math.min(560, canvas.width - 40, room);
+  const middle = between ? ((fromX + toX) / 2 - frame.left) * scale : canvas.width / 2;
   ctx.font = '14px Georgia';
   const words = text.split(/\s+/), lines = [];
   let line = '';
@@ -1254,9 +1293,10 @@ function drawBattleCaption(ctx, battle, canvas) {
     const element = $(selector);
     if (!element || element.hidden) continue;
     const at = element.getBoundingClientRect();
-    if (at.height && at.left < box.left + (canvas.width / k + width / k) / 2 && at.right > box.left + (canvas.width / k - width / k) / 2) top = Math.max(top, (at.bottom - box.top) * k + 8);
+    // Only what stands at the top: the Host's banner has stood at the bottom since 2026-09-28.
+    if (at.height && at.top < box.top + box.height / 3 && at.left < box.left + (middle + width / 2) / k && at.right > box.left + (middle - width / 2) / k) top = Math.max(top, (at.bottom - box.top) * k + 8);
   }
-  const left = (canvas.width - width) / 2;
+  const left = middle - width / 2;
   ctx.fillStyle = 'rgba(251,246,234,.9)'; ctx.strokeStyle = '#8a7a58'; ctx.lineWidth = 1;
   ctx.beginPath(); ctx.roundRect ? ctx.roundRect(left, top, width, height, 7) : ctx.rect(left, top, width, height); ctx.fill(); ctx.stroke();
   ctx.fillStyle = '#2f2a1f'; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
@@ -1264,7 +1304,7 @@ function drawBattleCaption(ctx, battle, canvas) {
   ctx.font = '14px Georgia';
   lines.forEach((one, index) => ctx.fillText(one, left + 12, top + 8 + (title ? 20 : 0) + index * 18));
   ctx.restore();
-  window.__battleCaption = { title, text, top, height };
+  window.__battleCaption = { title, text, top, height, left, width };
 }export function visibleEntityIds(world, siteId = null) {
   return entitiesOf(world).filter(entity => !siteId || entity.location?.siteId === siteId).map(entity => entity.id);
 }
@@ -3251,7 +3291,7 @@ export function drawWorld(world) {
     const said = [];
     // Over the head as walked into the town, or else as the figure was drawn at all (`drawnAt` keeps its middle).
     const headOf = id => townHeads.get(id) || (drawnAt.has(id) ? { x: drawnAt.get(id).x, y: drawnAt.get(id).y - drawnAt.get(id).size * .55 } : null);
-    drawTownSpeech(ctx, world.townScenes, headOf, { now: frameNow, tickMs: window.__snapshot?.tickMs ?? 9500, bounds: { width: canvas.width, height: canvas.height }, evidence: said });
+    drawTownSpeech(ctx, world.townScenes, headOf, { now: frameNow, tickMs: window.__snapshot?.tickMs ?? 9500, bounds: { width: canvas.width, height: canvas.height, room: speechRoom(canvas) }, evidence: said });
     window.__townSaid = said;
   } else window.__townSaid = [];
   // What the family's own children and babies are saying, over them (sim/childhood.mjs `talkLines`, sim/babies.mjs `babyLines`):
@@ -3260,12 +3300,12 @@ export function drawWorld(world) {
   // Both halves of an exchange at once, over the two who say them, for the tick it is said: the child's line and the reply are
   // over different heads, and a tick of the class is the nine seconds they are read in (not the town's staggered scene).
   if (world.familyTalk?.lines?.length && camera.figure > 14) {
-    const said = [];
+    const said = [], room = speechRoom(canvas);
     for (const line of world.familyTalk.lines) {
       const head = drawnAt.get(line.speakerId);
       if (!head) continue;
       // The bubble's box goes with it, for the overlap proof: whether a panel stands over words a student has to read.
-      const box = drawSpeech(ctx, line, head.x, head.y - head.size * .55, { bounds: { width: canvas.width, height: canvas.height } });
+      const box = drawSpeech(ctx, line, head.x, head.y - head.size * .55, { bounds: { width: canvas.width, height: canvas.height, room } });
       if (box) said.push({ id: line.id, speakerId: line.speakerId, kind: line.kind, text: line.text, ...(line.manner && { manner: line.manner }), box });
     }
     window.__familySaid = said;
@@ -4374,7 +4414,7 @@ function fitColumn() {
   const stage = column?.offsetParent?.getBoundingClientRect();
   // A page with no family has no column.
   if (!panel || panel.hidden || !stage) {
-    document.body.style.removeProperty('--column-room'); document.body.style.removeProperty('--phone-column'); columnKey = roomKey = null; return;
+    document.body.style.removeProperty('--column-room'); document.body.style.removeProperty('--phone-column'); document.body.style.removeProperty('--bar-room'); document.body.style.removeProperty('--right-foot'); columnKey = roomKey = null; return;
   }
   // A phone puts the family below the status across the top (the stylesheet's `bottom:auto` there), so its column is not held
   // up from the foot of the screen: it is given a height, from where it starts down to the same foot a column stops at
@@ -4384,6 +4424,16 @@ function fitColumn() {
   let bar = barBox && barBox.width > 0 && barBox.height > 0 ? barBox : null;
   if (bar) barRoomWas = stage.bottom - bar.top;
   else if (barRoomWas !== null) bar = { top: stage.bottom - barRoomWas, left: stage.left, right: stage.right, width: stage.width, height: barRoomWas };
+  // How far up from the foot of the screen the bar reaches, for the panels over the map that stop above it rather than run
+  // down over its icons (`--bar-room`: the call's menu, the land choosers, the walk-through, packing the wagon; the overlap
+  // proof, owner 2026-09-28). While the bar steps aside, the height it last had, as the column keeps it.
+  const barRoom = bar ? `${Math.round(stage.bottom - bar.top)}px` : '';
+  if (document.body.style.getPropertyValue('--bar-room') !== barRoom) { if (barRoom) document.body.style.setProperty('--bar-room', barRoom); else document.body.style.removeProperty('--bar-room'); }
+  // And the foot of the right-hand side (`--right-foot`), where the meeting, the call's menu and packing the wagon stand:
+  // above the bar when the bar reaches under them (a long bar on a narrow screen), otherwise above the map's buttons only,
+  // so a panel on the right is not cut short for a bar that stands in the middle.
+  const rightFoot = `${bar && bar.right > stage.right - 12 - Math.min(532, stage.width / 2 - 36) ? Math.round(stage.bottom - bar.top + 8) : 74}px`;
+  if (document.body.style.getPropertyValue('--right-foot') !== rightFoot) document.body.style.setProperty('--right-foot', rightFoot);
   const box = panel.getBoundingClientRect();
   const tools = $('#map-tools')?.getBoundingClientRect();
   const room = columnRoom({ height: stage.bottom, column: { left: box.left, right: box.right }, bar, others: tools ? [tools] : [] });
@@ -5017,7 +5067,18 @@ $('#selection-more')?.addEventListener('click', () => {
  * ceiling: the family panel and the buttons along the bottom are measured when they resize, not when they move without
  * resizing; nothing moves them today.
  */
-const placement = { boxes: null, observer: null, left: null, top: null, docked: null };
+const placement = { boxes: null, observer: null, left: null, top: null, docked: null, cap: null, width: null };
+/** The card's width as the stylesheet has it (`#selection` max-width), and the least it is narrowed to when short of room. */
+const CARD_WIDTH = 260, CARD_LEAST = 190;
+/**
+ * The messages fold to their button while a card has no room beside them (`cardCrowding`, the card's person and the screen's
+ * size): on a small window, with the guided start's strip over the top and a land chooser down the left, the card the student
+ * has just asked for and the messages' invitation wanted the same corner (1024x600, the overlap proof, owner 2026-09-28). The
+ * card is what the student pressed; the messages are one press away on their button, and open again when the card closes.
+ * A student who opens them anyway has chosen (`crowdingRefused`), and they stay open.
+ */
+let cardCrowding = null, crowdingRefused = null;
+function releaseCrowding() { if (!cardCrowding) return; cardCrowding = null; placement.boxes = null; renderMilitaryNotice(window.__snapshot?.world); }
 // The window's own size is checked too, and costs nothing: a resize is seen by the observer only after the next layout, and a
 // card placed in between used the wide screen's boxes on a phone (found by the art proof, 2026-09-17).
 function placementBoxes() {
@@ -5029,30 +5090,38 @@ function placementBoxes() {
     family: family && !family.hidden ? family.getBoundingClientRect() : null,
     // The ability bar (owner, 2026-09-21) stands across the bottom middle; the card beside a person is kept off it, as it
     // is kept off the map's own buttons.
-    controls: ['#journal-toggle', '#map-nav', '.panel-row[data-focused=true] .panel-icons'].map(selector => document.querySelector(selector)?.getBoundingClientRect()).filter(box => box?.height),
+    // "How it ended" and the walk-through stand along the bottom too (the overlap proof, owner 2026-09-28).
+    controls: ['#journal-toggle', '#map-nav', '#ending-open', '#tutorial', '.panel-row[data-focused=true] .panel-icons'].map(selector => document.querySelector(selector)?.getBoundingClientRect()).filter(box => box?.height),
     // The guided start's strip is **overhead**, not underfoot: it stands across the top middle, so the card is kept
     // *below* it rather than above it. Counting it among the controls pushed the card up to the top of the screen and
     // straight under the strip, which is the one thing that has to stay readable while a step is running (2026-09-21).
-    overhead: ['#lesson', '#military-notice'].map(selector => document.querySelector(selector)?.getBoundingClientRect()).filter(box => box?.height),
+    // Play Solo's Pause and Save, the connection line and the lines the page says (in the column above the family) too.
+    overhead: ['#lesson', '#lesson-resume', '#connection', '#solo-controls', '#session', '#world', '#food', '#supplies', '#error', '#save-fault', '#lifecycle'].map(selector => document.querySelector(selector)?.getBoundingClientRect()).filter(box => box?.height),
+    // Panels that stand down the right-hand side - the messages, packing the wagon, a town scene, the house plot, the
+    // walk-through - are a wall the card turns back from, as it turns back from the screen's edge. (The messages were a
+    // roof until 2026-09-28, and a card under a long message had 76px left above the map's buttons at 1280x689.)
+    beside: ['#military-notice', '#wagon-load', '#town-scene', '#house-plot', '#house-placement', '#tutorial'].map(selector => document.querySelector(selector)).filter(element => element && !element.hidden).map(element => element.getBoundingClientRect()).filter(box => box.height && box.left > innerWidth / 2),
+    // And on the left, a land chooser standing beside the folded faces (docs/FAMILY_PANEL.md §12.13) is part of the family's side.
+    aside: ['#site-choose', '#survey-choose'].map(selector => document.querySelector(selector)).filter(element => element && !element.hidden).map(element => element.getBoundingClientRect()).filter(box => box.height && box.right < innerWidth / 2 + 80),
   };
   if (!placement.observer && typeof ResizeObserver === 'function') {
     placement.observer = new ResizeObserver(() => { placement.boxes = null; });
-    for (const element of [canvas, panel, family, $('#journal-toggle'), $('#map-nav'), $('#lesson'), $('#military-notice'), ...document.querySelectorAll('.panel-icons')]) if (element) placement.observer.observe(element);
+    for (const element of [canvas, panel, family, $('#journal-toggle'), $('#map-nav'), $('#ending-open'), $('#tutorial'), $('#lesson'), $('#military-notice'), $('#solo-controls'), $('#wagon-load'), $('#town-scene'), $('#house-plot'), $('#house-placement'), $('#error'), $('#site-choose'), $('#survey-choose'), ...document.querySelectorAll('.panel-icons')]) if (element) placement.observer.observe(element);
     window.addEventListener('resize', () => { placement.boxes = null; });
   }
   return placement.boxes;
 }
 function positionSelection(world, chosen = selectedEntity(world)) {
   const panel = $('#selection');
-  if (panel.hidden || !chosen) return;
+  if (panel.hidden || !chosen) { releaseCrowding(); return; }
   // Beside the person on a wide screen; docked on a phone, where a floating card would
   // simply cover the family it is describing.
   const canvas = $('#world-map'), spot = drawnAt.get(chosen.id);
-  const { rect, panelWidth, panelHeight, family: familyBox, controls, overhead } = placementBoxes();
+  const { rect, panelWidth, panelHeight, family: familyBox, controls, overhead, beside, aside } = placementBoxes();
   const docked = rect.width < 760 || !spot;
   if (docked !== placement.docked) {
     placement.docked = docked; placement.left = null; placement.top = null;
-    if (docked) { panel.dataset.docked = 'true'; panel.style.left = ''; panel.style.top = ''; } else { delete panel.dataset.docked; panel.style.bottom = ''; }
+    if (docked) { panel.dataset.docked = 'true'; panel.style.left = ''; panel.style.top = ''; panel.style.maxHeight = ''; panel.style.width = ''; placement.cap = placement.width = null; } else { delete panel.dataset.docked; panel.style.bottom = ''; }
     placement.boxes = null;
   }
   if (docked) {
@@ -5064,20 +5133,63 @@ function positionSelection(world, chosen = selectedEntity(world)) {
     return;
   }
   const scaleX = rect.width / canvas.width, scaleY = rect.height / canvas.height;
-  const right = spot.x * scaleX + 26, flip = right + panelWidth > rect.width - 8;
+  const px = spot.x * scaleX, py = spot.y * scaleY, reach = spot.size * scaleY;
+  // The room across: from the family's column (and a land chooser standing beside its faces) to the panels down the right.
   // And never over the family panel down the left, when there is room beside it (docs/FAMILY_PANEL.md §7).
-  const margin = familyBox?.width && familyBox.right - rect.left + panelWidth + 16 < rect.width ? familyBox.right - rect.left + 8 : 8;
-  const left = `${Math.round(Math.max(margin, flip ? spot.x * scaleX - panelWidth - 26 : right))}px`;
+  const wall = Math.min(rect.width, ...beside.map(box => box.left - rect.left));
+  const leftmost = Math.max(familyBox?.width ? familyBox.right - rect.left : 0, ...aside.map(box => box.right - rect.left));
+  const margin = leftmost && leftmost + CARD_LEAST + 16 < wall ? leftmost + 8 : 8;
+  // Narrower, down to its least, when that is all the room there is (1024 wide, with a land chooser on one side and the
+  // messages on the other) - written from the room, never from the card's own measured width, or it would read as fitting
+  // once narrowed and widen again on the next frame.
+  const gap = Math.round(wall - 8 - margin);
+  const width = gap < CARD_WIDTH ? `${Math.max(CARD_LEAST, gap)}px` : '';
+  if (width !== placement.width) { panel.style.width = width; placement.width = width; }
+  const wide = width ? Math.max(CARD_LEAST, gap) : panelWidth;
+  const right = px + 26, flip = right + wide > wall - 8;
+  let at = Math.round(Math.max(margin, flip ? px - wide - 26 : right));
+  const across = box => at < box.right - rect.left && box.left - rect.left < at + wide;
+  // The ability bar stands in the bottom middle, and the person the card is about is usually just above it, where the camera
+  // keeps them: a card that would reach into the bar's side by a little steps off it sideways rather than standing on its
+  // icons (the overlap proof, owner 2026-09-28: 30px of the bar's right-hand icons were under the card at 1366x768).
+  for (const box of controls) {
+    if (!across(box)) continue;
+    const off = flip ? Math.round(box.left - rect.left - 8 - wide) : Math.round(box.right - rect.left + 8);
+    if (Math.abs(off - at) <= wide / 2 && off >= margin && off + wide <= wall - 8) at = off;
+  }
+  const left = `${at}px`;
   // Never down over the row of buttons along the bottom: clamped to the canvas alone, a person standing low on a wide
-  // screen put this card over Family, Follow and Land, and the journal could not be opened (found 2026-09-14).
-  const floor = Math.min(rect.height, ...controls.map(box => box.top - rect.top));
+  // screen put this card over Family, Follow and Land, and the journal could not be opened (found 2026-09-14). Only what
+  // stands below the card itself counts, so a card beside the bar is not held up by the bar.
+  const floor = Math.min(rect.height - 8, ...controls.filter(across).map(box => box.top - rect.top));
   // And never up under the guided start's strip: only the part of it the card would actually stand in front of counts, so
   // a card out at the right edge is not pushed down for a strip that ends in the middle.
-  const at = Number.parseInt(left, 10);
-  const roof = Math.max(8, ...overhead
-    .filter(box => at < box.right - rect.left && box.left - rect.left < at + panelWidth)
-    .map(box => box.bottom - rect.top + 8));
-  const top = `${Math.round(Math.max(roof, Math.min(floor - panelHeight - 8, spot.y * scaleY - panelHeight / 2)))}px`;
+  const roof = Math.max(8, ...overhead.filter(across).map(box => box.bottom - rect.top + 8));
+  // And never on the person it is about: on a narrow screen, with the family's column on one side and a panel on the other,
+  // beside them can be where they stand. Then it goes above them, or below them, whichever has the room.
+  let from = roof, to = floor - 8, pinned = null;
+  if (at < px + reach * .4 && at + wide > px - reach * .4) {
+    const head = py - reach * .6 - 8, feet = py + reach * .55 + 8;
+    const above = Math.min(to, head) - from, below = to - Math.max(from, feet);
+    if (above >= Math.min(panelHeight, 220) || above >= below) { to = Math.min(to, head); pinned = 'above'; } else { from = Math.max(from, feet); pinned = 'below'; }
+  }
+  // Between the two it is never taller than the room there is: it scrolls inside itself, as it already could, rather than
+  // running down over the map's buttons or off the foot of a short window (1366x657, a Chromebook with the browser's bars:
+  // the overlap proof, 2026-09-28). Written every time and not only when short, or the capped height would read as fitting
+  // and the cap would come off again on the next frame.
+  const crowd = `${chosen.id}:${innerWidth}x${innerHeight}`;
+  if (cardCrowding && cardCrowding !== crowd) releaseCrowding();
+  const notice = $('#military-notice');
+  if (!cardCrowding && crowdingRefused !== crowd && to - from < Math.min(panelHeight, 220) && notice && !notice.hidden && !$('#military-message')?.hidden) {
+    cardCrowding = crowd; placement.boxes = null; renderMilitaryNotice(world);
+  }
+  const room = Math.max(120, Math.round(to - from));
+  const cap = `min(76vh, 640px, ${room}px)`;
+  if (cap !== placement.cap) { panel.style.maxHeight = cap; placement.cap = cap; }
+  const tall = Math.min(panelHeight, room);
+  const wanted = pinned === 'above' ? to - tall : pinned === 'below' ? from : py - tall / 2;
+  // Never off the foot of the screen, whatever else gives.
+  const top = `${Math.round(Math.min(rect.height - 8 - tall, Math.max(from, Math.min(to - tall, wanted))))}px`;
   // Written only when it changes: a style written every frame is a layout every frame.
   if (left !== placement.left) { panel.style.left = left; placement.left = left; }
   if (top !== placement.top) { panel.style.top = top; placement.top = top; }
@@ -5927,9 +6039,10 @@ function renderMilitaryNotice(world) {
   const notice = notices.find(one => one.id === militarySelected) || notices[0];
   militarySelected = notice.id;
   const write = (id, text) => { if ($(id).textContent !== text) $(id).textContent = text; };
-  write('#military-toggle', `${militaryCollapsed ? 'Open messages' : 'Keep playing'} · ${notices.length}`);
-  $('#military-toggle').setAttribute('aria-expanded', String(!militaryCollapsed));
-  $('#military-message').hidden = militaryCollapsed;
+  const folded = militaryCollapsed || Boolean(cardCrowding);
+  write('#military-toggle', `${folded ? 'Open messages' : 'Keep playing'} · ${notices.length}`);
+  $('#military-toggle').setAttribute('aria-expanded', String(!folded));
+  $('#military-message').hidden = folded;
   write('#military-title', notice.title);
   write('#military-words', notice.text);
   write('#military-go', notice.action);
@@ -5946,7 +6059,8 @@ function renderMilitaryNotice(world) {
   if (panel.style.left !== left) panel.style.left = left;
 }
 $('#military-toggle')?.addEventListener('click', () => {
-  militaryCollapsed = !militaryCollapsed;
+  // Folded to make room for a card: opening them is the student's choice, and it stands for as long as that card does.
+  if (cardCrowding) { crowdingRefused = cardCrowding; cardCrowding = null; militaryCollapsed = false; placement.boxes = null; } else militaryCollapsed = !militaryCollapsed;
   renderMilitaryNotice(window.__snapshot?.world);
 });
 $('#military-next')?.addEventListener('click', () => {

@@ -118,17 +118,35 @@ export const measureScreen = (page, furniture) => page.evaluate(({ list, control
     const box = element.getBoundingClientRect();
     return box.width >= 3 && box.height >= 3;
   };
-  /** The box a student can actually see: cut to every box that scrolls it, stopping at a fixed box (trap (b)). */
-  const seen = element => {
+  /** The box as its own scrolling ancestors leave it, stopping at a fixed box (trap (b)); not yet cut to the screen. */
+  const inside = element => {
     let box = element.getBoundingClientRect();
     box = { left: box.left, top: box.top, right: box.right, bottom: box.bottom };
-    if (getComputedStyle(element).position === 'fixed') return cut(box, screen);
+    if (getComputedStyle(element).position === 'fixed') return box;
     for (let node = element.parentElement; node && node !== document.body; node = node.parentElement) {
       const style = getComputedStyle(node);
       if (style.overflowX !== 'visible' || style.overflowY !== 'visible') box = cut(box, node.getBoundingClientRect());
       if (style.position === 'fixed') break;
     }
-    return cut(box, screen);
+    return box;
+  };
+  /** The box a student can actually see: cut to every box that scrolls it, and to the screen. */
+  const seen = element => cut(inside(element), screen);
+  /**
+   * Whether a control is cut away by a box that does not scroll (overflow hidden or clip): a control a student can never
+   * bring into view, which is worse than covered. One in a box that scrolls is only scrolled away, and that is the box working.
+   */
+  const cutAway = element => {
+    const own = element.getBoundingClientRect();
+    for (let node = element.parentElement; node && node !== document.body; node = node.parentElement) {
+      const style = getComputedStyle(node);
+      const edge = node.getBoundingClientRect();
+      const outside = own.bottom > edge.bottom + 1 || own.top < edge.top - 1 || own.right > edge.right + 1 || own.left < edge.left - 1;
+      if (outside && ['hidden', 'clip'].includes(style.overflowY) && ['hidden', 'clip'].includes(style.overflowX)) return `#${node.id || node.className}`;
+      if (outside && (style.overflowY === 'auto' || style.overflowY === 'scroll')) return null;
+      if (style.position === 'fixed') break;
+    }
+    return null;
   };
   /** Whether `inner` sits in `outer`'s box in the page, rather than being lifted out of it by `position:fixed`. */
   const nested = (outer, inner) => {
@@ -178,11 +196,13 @@ export const measureScreen = (page, furniture) => page.evaluate(({ list, control
     const id = element.id || element.closest('[id]')?.id;
     return id ? `#${id}` : element.tagName.toLowerCase();
   };
-  const covered = [], asked = new Set();
+  const covered = [], asked = new Set(), unreachable = [];
   for (const piece of drawn) {
     for (const control of piece.element.querySelectorAll(controls)) {
       if (asked.has(control) || !shown(control)) continue;
       asked.add(control);
+      const clip = cutAway(control);
+      if (clip) { unreachable.push({ control: label(control), in: owner(control)?.name || piece.name, cutBy: clip }); continue; }
       const box = seen(control);
       if (box.right - box.left < 6 || box.bottom - box.top < 6) continue; // scrolled out of its list, or off the screen
       const inset = 3, cx = (box.left + box.right) / 2, cy = (box.top + box.bottom) / 2;
@@ -207,10 +227,12 @@ export const measureScreen = (page, furniture) => page.evaluate(({ list, control
   }
 
   // ----------------------------------------------------------------------------------------------- off the screen
+  // What is left of a piece once whatever scrolls it has cut it: a panel scrolled inside a column that scrolls is the column
+  // working, not a panel off the screen.
   const offScreen = drawn
-    .filter(one => one.kind !== 'family') // the column scrolls inside itself; its rows are cut to it above
-    .filter(one => one.raw.left < -2 || one.raw.top < -2 || one.raw.right > innerWidth + 2 || one.raw.bottom > innerHeight + 2)
-    .map(one => ({ name: one.name, box: round(one.raw) }));
+    .map(one => ({ one, box: inside(one.element) }))
+    .filter(({ box }) => box.left < -2 || box.top < -2 || box.right > innerWidth + 2 || box.bottom > innerHeight + 2)
+    .map(({ one, box }) => ({ name: one.name, box: round(box) }));
 
   // --------------------------------------------------------------------------- what the canvas draws, under the DOM
   const canvas = document.querySelector('#world-map');
@@ -220,11 +242,13 @@ export const measureScreen = (page, furniture) => page.evaluate(({ list, control
   for (const line of [...(window.__familySaid || []), ...(window.__townSaid || [])]) if (line.box) read.push({ what: `bubble "${String(line.text).slice(0, 30)}"`, box: toScreen(line.box) });
   const caption = window.__battleCaption;
   if (caption && window.__snapshot?.world?.battle) {
-    const width = Math.min(560, canvas.width - 40);
-    read.push({ what: 'fight caption', box: toScreen({ x: (canvas.width - width) / 2, y: caption.top, w: width, h: caption.height }) });
+    // Where the page says it drew it; a page from before it said so drew it in the middle, 560 wide.
+    const width = caption.width ?? Math.min(560, canvas.width - 40);
+    read.push({ what: 'fight caption', box: toScreen({ x: caption.left ?? (canvas.width - width) / 2, y: caption.top, w: width, h: caption.height }) });
   }
   // The person the card is about - the one a student has pressed to give an order to - where the map drew them.
-  const chosen = document.querySelector('#selection:not([hidden])')?.dataset.entityId;
+  const card = document.querySelector('#selection');
+  const chosen = card && shown(card) ? card.dataset.entityId : null;
   const spot = chosen && window.__drawnAt?.[chosen];
   if (spot) read.push({ what: 'the person being ordered', box: toScreen({ x: spot.x - spot.size * .3, y: spot.y - spot.size * .5, w: spot.size * .6, h: spot.size }) });
   // And while a rider talks, the one of the family he is talking to.
@@ -247,7 +271,11 @@ export const measureScreen = (page, furniture) => page.evaluate(({ list, control
   return {
     screen: { width: innerWidth, height: innerHeight },
     drawn: drawn.map(one => ({ name: one.name, kind: one.kind, box: round(one.box) })),
-    overlaps, covered, offScreen, canvas: { read: read.map(one => ({ what: one.what, box: round(one.box) })), hidden },
+    overlaps, covered, unreachable, offScreen, canvas: { read: read.map(one => ({ what: one.what, box: round(one.box) })), hidden },
+    // Whether the camera is framing the family by itself (Follow), rather than on a person the student pressed or a place
+    // they moved it to: the family frame is the camera's, and a person it happens to put under a panel is pressed to bring
+    // them to the middle.
+    following: Boolean(window.__camera?.following),
     flags: {
       panel: document.body.dataset.panel || null, meeting: document.body.dataset.meeting || null, placing: document.body.dataset.placing || null,
       backdrop: shown(document.querySelector('#panel-backdrop')), journalBackdrop: shown(document.querySelector('#journal-backdrop')),
