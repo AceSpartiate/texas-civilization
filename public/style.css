@@ -1135,3 +1135,36 @@ body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{left
   .panel-row[data-focused=true] .panel-icons{left:8px;right:8px;transform:none;width:auto;max-width:none;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:60px;justify-content:safe center;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:thin}
   .panel-icons .panel-icon{min-height:64px}
 }
+/* Coming back by name (2026-09-28, public/app.js `#away`): the same card as the family key's door. */
+#away{max-width:420px;margin:12vh auto;padding:26px 28px;background:var(--paper);border-radius:10px}
+#away .eyebrow{letter-spacing:.14em;font-size:11px;color:#62736b}
+#away label{display:block;margin:14px 0}
+#away input{display:block;width:100%;font:inherit;padding:10px 12px;border:1px solid #85988a;border-radius:6px;background:#fff;color:#273833;margin-top:4px;box-sizing:border-box}
+#away>button{width:100%;margin-top:8px}
+#away-error{color:#a43222;min-height:1.2em;margin:12px 0 0}
+#away-names{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:6px;max-height:38vh;overflow:auto}
+#away-names button{width:100%;text-align:left;min-height:44px;font-size:15px}
+#away-names .away-family{display:block;font-size:12px;opacity:.8}
+body[data-creating=true] #away{position:fixed;z-index:41;right:clamp(24px,5vw,88px);left:auto;top:50%;transform:translateY(-29%);width:min(410px,calc(100% - 40px));max-height:calc(100dvh - 36px);overflow:auto;box-sizing:border-box;margin:0;padding:25px 28px 22px;background:linear-gradient(145deg,#fff9e9,#ecdcba);border:2px solid #c9a974;border-radius:15px;box-shadow:0 0 0 5px #241a0d75,0 24px 65px #11180ee0;color:#382f20}
+body[data-creating=true] #away h1{font-size:clamp(30px,2.7vw,38px);line-height:1.08;margin:7px 0 10px;color:#3d3323}
+body[data-creating=true] #away>button{min-height:50px;background:#355243;border-color:#233b30;color:#fff8e9;font-weight:700;box-shadow:0 4px 0 #1d3329}
+/* The page is out of reach of the server and trying again (public/reconnect.js): over everything, the game left behind it. */
+#reconnecting{position:fixed;z-index:60;left:50%;top:10px;transform:translateX(-50%);width:max-content;max-width:min(92%,640px);margin:0;padding:10px 18px;border-radius:8px;background:#fff2cc;color:#3b2f12;border:1px solid #b89a4b;box-shadow:0 6px 18px #0006;font-size:15px;line-height:1.35;text-align:center}
+/* The teacher's class controls (public/class-panel.js). */
+#class-days,#class-size-row,#late,#classes-panel{background:var(--shade);color:#f2f0e2;border-radius:10px;padding:8px 12px;font-size:12px;line-height:1.35;max-width:340px;text-align:left;margin:0}
+#class-size-row label,#late label{display:block;font-size:12px;margin-bottom:3px}
+#class-size-row select,#late select,#classes-panel select,#classes-panel input{font:inherit;padding:5px 7px;border-radius:6px;border:1px solid #85988a}
+#late select{width:100%}
+#class-size-hint,#class-size-note,#late-note{margin:4px 0 0;font-size:12px;opacity:.9}
+#late-note:empty,#class-size-note:empty,#classes-note:empty{display:none}
+#classes{max-width:340px}
+#classes-panel{margin-top:6px;max-height:52vh;overflow:auto}
+#classes-panel p{margin:4px 0}
+#classes-list{list-style:none;padding:0;margin:6px 0;display:grid;gap:5px;max-height:30vh;overflow:auto}
+.class-entry{display:flex;gap:8px;align-items:center;justify-content:space-between;background:#ffffff14;border-radius:6px;padding:5px 7px}
+.class-entry[data-open=true]{outline:1px solid #ffe6b0}
+.class-open{color:#ffe6b0;white-space:nowrap}
+#class-new{display:grid;gap:5px;margin-top:6px}
+#class-new label{display:flex;gap:6px;align-items:center;justify-content:space-between}
+#class-new input{flex:1;min-width:0}
+.class-help{font-size:12px;opacity:.85}

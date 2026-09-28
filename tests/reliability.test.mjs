@@ -28,16 +28,21 @@ test('save ownership excludes another server regardless of port and releases on 
   } finally { await app?.close(); rmSync(dir, { recursive: true, force: true }); }
 });
 
-test('stale or malformed locks fail closed without deleting another owner; failed initialization releases its lease', async () => {
+test('malformed locks and live owners fail closed without deleting another owner; failed initialization releases its lease', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'texas-stale-'));
   const savePath = join(dir, 'class.json'), lockPath = `${savePath}.lock`;
   try {
-    // An exited child gives an actual dead PID, without assuming PID ranges on Windows.
+    // A lock whose process has certainly ended is taken over since 2026-09-28 (tests/stale-lock.test.mjs). One whose owner
+    // is alive is not: this very process, written just now.
+    const live = JSON.stringify({ version: 1, processId: process.pid, token: 'c'.repeat(48), createdAt: new Date(Date.now() + 5000).toISOString() });
+    writeFileSync(lockPath, live);
+    assert.throws(() => acquireSaveLock(savePath), /ownership cannot be verified/);
+    assert.equal(readFileSync(lockPath, 'utf8'), live);
+    // An exited child gives an actual dead PID, without assuming PID ranges on Windows; a lock with no token is malformed.
     const child = spawnSync(process.execPath, ['-e', 'process.exit(0)']);
     assert.equal(child.status, 0);
-    writeFileSync(lockPath, JSON.stringify({ version: 1, processId: child.pid, token: 'departed' }));
-    assert.throws(() => acquireSaveLock(savePath), /Stale save lock|ownership cannot be verified/);
-    assert.equal(JSON.parse(readFileSync(lockPath, 'utf8')).token, 'departed');
+    writeFileSync(lockPath, JSON.stringify({ version: 1, processId: child.pid }));
+    assert.throws(() => acquireSaveLock(savePath), /ownership cannot be verified/);
     writeFileSync(lockPath, 'interrupted lock write');
     assert.throws(() => acquireSaveLock(savePath), /ownership cannot be verified/);
     rmSync(lockPath);

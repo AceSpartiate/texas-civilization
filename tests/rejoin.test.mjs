@@ -123,7 +123,7 @@ test('a family that is being played right now cannot be taken over by its key', 
   } finally { if (stream) await stream.close(); await dispose(); }
 });
 
-test('a family key works after the class has started, where joining does not', async () => {
+test('a family key works after the class has started, and is never a join', async () => {
   const { app, dispose } = classroom();
   const call = caller(await app.listen());
   try {
@@ -132,11 +132,12 @@ test('a family key works after the class has started, where joining does not', a
     await call('/api/command', { id: 'host-start-rejoin', action: 'start' }, host.cookie);
     await delay(40);
     assert.equal(app.state.world.status, 'running');
-    // A new family cannot appear mid-class...
-    assert.equal((await call('/api/join', { name: 'Latecomer', code: app.state.sessionCode })).status, 409);
-    // ...but an existing one is not a new one, and being locked out mid-class is exactly
+    // A latecomer joins a family nobody plays since 2026-09-28 (tests/late-join.test.mjs); a key never makes one...
+    const joined = Object.keys(app.state.clients).length;
+    // ...and an existing family is not a new one, and being locked out mid-class is exactly
     // when getting back in matters.
     const back = await call('/api/rejoin', { key: families[4].body.familyKey });
+    assert.equal(Object.keys(app.state.clients).length, joined, 'rejoining made no new student');
     assert.equal(back.status, 200);
     assert.equal(back.body.world.householdId, families[4].body.world.householdId);
     assert.ok(back.body.world.tick > 0, 'and the family rejoins the class already in progress');
