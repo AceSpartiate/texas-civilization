@@ -163,6 +163,8 @@ const at = (siteId, minute) => ({ siteId, minute });
  * in all of Texas (Filisola's return of April 24), sent out on a column's own line and at most a day's ride ahead; so these
  * are few. `ahead` rides that many miles in front of the column's head along its road for the window `from`–`until`
  * (timeline minutes); `path` is a detachment's own dated road. `men` is the party that rides after a family, not the whole.
+ * `column` is the column the patrol is of: the one it rides ahead of, or, for a detachment on its own road, the one it was sent
+ * out from. A family it strips is that column's (`armyOf`, owner 2026-09-28 "One army").
  */
 export const PATROLS = Object.freeze([
   // Sesma's Dolores cavalry, scouting to the Navidad as he marched on the Colorado: they met Deaf Smith and Karnes on the 18th-19th.
@@ -172,12 +174,24 @@ export const PATROLS = Object.freeze([
   // Santa Anna's escort dragoons, ahead of the dash from Thompson's to Harrisburg.
   { id: 'santa-anna-dragoons', column: 'santa-anna', name: 'Santa Anna’s dragoons', ahead: 5, from: on(1836, 4, 14, 15), until: on(1836, 4, 15, 22), men: 8, claimId: 'HIST-TEX-662' },
   // Almonte with the fifty dragoons of the escort to the crossings at New Washington and Lynchburg (Santa Anna's report, p. 75).
-  { id: 'almonte', name: 'Almonte’s dragoons', path: [at('harrisburg', on(1836, 4, 16, 8)), at('new-washington', on(1836, 4, 16, 16)), at('new-washington', on(1836, 4, 17, 8)), at('lynchburg', on(1836, 4, 17, 14)), at('harrisburg', on(1836, 4, 18, 10))], men: 10, claimId: 'HIST-TEX-662' },
+  { id: 'almonte', column: 'santa-anna', name: 'Almonte’s dragoons', path: [at('harrisburg', on(1836, 4, 16, 8)), at('new-washington', on(1836, 4, 16, 16)), at('new-washington', on(1836, 4, 17, 8)), at('lynchburg', on(1836, 4, 17, 14)), at('harrisburg', on(1836, 4, 18, 10))], men: 10, claimId: 'HIST-TEX-662' },
   // Captain Barragán's dragoons from New Washington to Lynchburg, "three leagues distant", on the 19th.
-  { id: 'barragan', name: 'Barragán’s dragoons', path: [at('new-washington', on(1836, 4, 19, 8)), at('lynchburg', on(1836, 4, 19, 13)), at('new-washington', on(1836, 4, 19, 19))], men: 8, claimId: 'HIST-TEX-662' },
+  { id: 'barragan', column: 'santa-anna', name: 'Barragán’s dragoons', path: [at('new-washington', on(1836, 4, 19, 8)), at('lynchburg', on(1836, 4, 19, 13)), at('new-washington', on(1836, 4, 19, 19))], men: 8, claimId: 'HIST-TEX-662' },
 ]);
 /** The column entries of sim/advance.mjs that are horsemen only: Urrea's eight dragoons to Cox's Point. */
 export const MOUNTED_COLUMNS = Object.freeze(['urrea-coxs']);
+
+/**
+ * Whose army a column or patrol is, for who has stripped a family (owner, 2026-09-28, by multiple choice, **"One army"**): a
+ * patrol is its column's, a column its own. Once a column or one of its patrols has stripped a family, neither the column nor
+ * any of its patrols warns it or comes after it again (sim/road.mjs's warning, `mayChase`). `flight.overtakenBy` keeps the id
+ * that did it, as it always has, and is read through this, so a class saved before reads the same way.
+ * `ceiling:` only `PATROLS` are tied to a column; the column entries of sim/advance.mjs are each their own (Sesma's two legs,
+ * Urrea's detachment to the Juntas and his dragoons to Cox's Point), and would want an `army` of their own to be one with it.
+ */
+export const armyOf = id => PATROLS.find(patrol => patrol.id === id)?.column || id;
+/** Whether the army this column or patrol is of has already stripped the family. */
+export const strippedBy = (flight, id) => (flight?.overtakenBy || []).some(one => armyOf(one) === armyOf(id));
 
 const inWindow = (patrol, t) => (patrol.windows || [[patrol.from, patrol.until]]).some(([from, until]) => t >= from && t < until);
 /** Where a point is `ahead` miles on along a column's road from its head at timeline minute `t`, or null. */
@@ -617,7 +631,8 @@ function caught(world, household, chase, how) {
 
 /** Whether this watcher may begin a chase of this family now. */
 function mayChase(flight, watcher, world) {
-  if ((flight.overtakenBy || []).includes(watcher.id)) return false;
+  // Stripped by this column or any of its patrols, never again by any of them ("One army").
+  if (strippedBy(flight, watcher.id)) return false;
   return !(flight.pursued || []).some(one => one.by === watcher.id && world.minute - one.minute < PURSUED_AGAIN_MINUTES);
 }
 

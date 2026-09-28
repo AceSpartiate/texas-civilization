@@ -1,5 +1,33 @@
 # Claude handoff — Astra foundation
 
+## One army: a column and its patrols strip a family once between them; families at Lynchburg move on — owner, 2026-09-28 (worktree branch; not released)
+
+**The decision.** Owner, 2026-09-28, by multiple choice: **"One army"** - once a Mexican column or one of its patrols has
+stripped a family, neither the column nor any of its patrols troubles that family again (docs/SCRAPE.md §16 e). Before, "never
+twice" counted a patrol apart from its column, so a family Santa Anna's dragoons took was warned of his column a tick later, a
+mile off (found by the proof fixer, below). Also answered, **no change**: families nobody plays camped at Lynchburg mostly move on
+to Liberty as Santa Anna nears - "Yes, most move on" (§16 f).
+
+**The change.** sim/pursuit.mjs: every patrol names its column (`PATROLS[].column`; Almonte's and Barragán's dragoons, detached
+from Santa Anna's escort on their own roads, now `santa-anna`), and `armyOf` / `strippedBy` read who has stripped the family by
+army. Used by `mayChase` (who may come after the family) and by sim/road.mjs `advanceRoad`'s warning (set and cleared).
+`flight.overtakenBy` keeps the id that did it, as before, so saved classes read the same way; **no `saveVersion` move**. Not
+changed: an escaped chase still counts per column or patrol for its day; the column entries of sim/advance.mjs stay each their own
+(`ceiling:` at `armyOf` - Sesma's two legs, Urrea's detachment and his dragoons to Cox's Point).
+
+**Evidence** (same computer only). New test in tests/scrape-pursuit.test.mjs (*one army ...*; `sceneFor` gained a `prepare`
+hook in tests/support/scrape-scene.mjs): stripped by the dragoons (a real halt), no warning of the column in twelve ticks with it
+inside twenty miles; staged as set out again since, the column does not chase or warn a family the dragoons stripped, the
+dragoons do not chase one the column stripped, Almonte does not chase one the dragoons stripped; one Urrea's cavalry or Sesma's
+column stripped is still chased by Santa Anna's. **Seen failing on main's code** (warned one tick after the dragoons; every staged
+case chased), and caught **alone** (1 of 28 in scrape-pursuit + road tests) by each of four injections put back one at a time: the
+warning by raw id, `mayChase` by raw id, Almonte not tied to Santa Anna, every army one. `npm test` **1513 of 1513**. `test:road`
+7 of 7, `test:scrape-pursuit` 14 of 14, `test:battle-san-jacinto` 15 of 15 (its first run, alongside `npm test` and an in-process
+probe, failed at the alert: the page pressed the father late and he met the army at Lynchburg on April 20 after the armies met,
+"about April 20" against the usual "Harrisburg about April 18"; rerun with two jobs, as the brief allows, it passed). In process
+the proof's first family is stripped by the dragoons at tick 1146 and, no longer warned of the column, stays at Lynchburg of
+itself; its staging (markPlayed, "stay") is kept and its comment says so.
+
 ## Two proofs that failed on main 9ae8bfd: the road's and San Jacinto's, both the proof's; and "1 miles" — 2026-09-28 (worktree branch; released in v2026.09.28.1)
 
 **`test:road`: the proof, not the product.** It waited for the first warning of any kind after the hunt and asserted it was

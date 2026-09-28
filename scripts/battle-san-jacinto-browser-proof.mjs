@@ -60,6 +60,9 @@ function beforeHarrisburg(seed, playerCount) {
   // Liberty (the director, by the question's own fallback: sim/road.mjs `ROAD_ASKS.danger`). Before, the column itself had taken it near San Felipe, and never warned it again.
   // From its arrival it is its student's (`markPlayed`), so the warning waits for an answer, and the answer is "stay" - one the
   // student has on the card. None of sj-proof-91 to -120 had the family and a grown man at a refuge on April 17 by themselves.
+  // Since 2026-09-28 ("One army", docs/SCRAPE.md §16 e) a family Santa Anna's dragoons stripped is not warned of his column
+  // again, and this one, left to itself, stays at Lynchburg (in process: stripped at tick 1146, camped there at 1151, no warning
+  // to the lobby); the staging is kept for any other column's warning.
   const first = world.households['hh-1'];
   for (let i = 0; i < 2000 && world.minute < momentOf(world, 'houston-harrisburg'); i++) {
     stepWorld(world);
