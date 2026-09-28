@@ -1,6 +1,6 @@
 # Claude handoff — Astra foundation
 
-## Two proofs that failed on main 9ae8bfd: the road's and San Jacinto's, both the proof's; and "1 miles" — 2026-09-28 (worktree branch; not released)
+## Two proofs that failed on main 9ae8bfd: the road's and San Jacinto's, both the proof's; and "1 miles" — 2026-09-28 (worktree branch; released in v2026.09.28.1)
 
 **`test:road`: the proof, not the product.** It waited for the first warning of any kind after the hunt and asserted it was
 Santa Anna's at San Felipe; it got **Sesma's column, about 19 miles off, on the road** 29.5 miles short of San Felipe. The card
@@ -49,7 +49,7 @@ a tick later, a mile off, because a patrol is its own for "never twice" (SCRAPE.
 nobody plays at Lynchburg on April 17 nearly always goes on to Liberty - noticed on 2026-09-26 and now the rule for every seed
 searched.
 
-## A child at play is drawn at the play: the late arrival's trail lets go when the server moves them — 2026-09-28 (worktree branch; not released)
+## A child at play is drawn at the play: the late arrival's trail lets go when the server moves them — 2026-09-28 (worktree branch; released in v2026.09.28.1)
 
 **The fault.** `npm run test:children` failed at "the child at tag was drawn in 1 places": in every sample the child was drawn a
 fixed (-46, -18) px from the parent. Not the children's code, and not the projection - the server moved the child about the yard
@@ -79,10 +79,10 @@ doll `smallchild-rest`). `test:family-panel` 17, `test:riding` 16, `test:lesson`
 2.9-mile road ("they walk in view at the start (out to 0 miles)" - the proof's known flake on short roads, recorded since
 v2026.09.25.1; a journey's start is never a trail) and passed 17 of 17 on the next two runs (139.8 and 115.8 miles).
 
-## The diseases merged with the Scrape's routes and chases; the owner's answers on firing, deaths and saving — 2026-09-27/28 (worktree branch; not released)
+## The diseases merged with the Scrape's routes and chases; the owner's answers on firing, deaths and saving — 2026-09-27/28 (worktree branch; released in v2026.09.28.1)
 
 Built on `worktree-agent-afb989c37cd01607a` at `62aa53d` (then `origin/main`); `origin/main` `f7b7f7d` (the owner's four balance
-answers, the section after this one) merged at the finish. Not pushed, not merged to main, not released. Local `main` carries 14 art commits `origin/main` does not have; they were not touched.
+answers, the section after this one) merged at the finish. Merged to main and released in v2026.09.28.1. Local `main` carries 14 art commits `origin/main` does not have; they were not touched.
 
 **The merge** of `worktree-agent-a52ab4e2e5e711853` (the diseases, whose own section is further down) into the Scrape's routes and
 chases. Conflicts in `sim/road.mjs` and `sim/scrape.mjs` were imports and the road's daily sickness loop: kept both - the day's
@@ -147,7 +147,7 @@ Not a timing flake: sampled every 200 ms over ticks 9-16, the server moved the c
 5.757 → 5.7482 → 5.7665) while the page drew it at a fixed offset from its parent (-46, -18 px) the whole time - the page is not
 drawing the play moves. Not mended here (a presentation bug, not a proof's).
 
-## The owner's four balance answers: staying home left as it is, coin the counter's default, the Scrape's prisoners weighed, cotton at two reales — 2026-09-27/28 (worktree branch `worktree-agent-a2d928659c5242006`, the balance measure's branch 363fb33 merged; not released)
+## The owner's four balance answers: staying home left as it is, coin the counter's default, the Scrape's prisoners weighed, cotton at two reales — 2026-09-27/28 (worktree branch `worktree-agent-a2d928659c5242006`, the balance measure's branch 363fb33 merged; released in v2026.09.28.1)
 
 The owner answered `docs/BALANCE.md` §6 by multiple choice on 2026-09-27. All four are built and the same 210 classes were
 measured again (`docs/BALANCE.md` §9, the full before/after).
@@ -185,7 +185,7 @@ measured again (`docs/BALANCE.md` §9, the full before/after).
   against glory, not the price. Outside the burn zone staying still beats going (nobody is taken there). The measure's runs are slow
   when the OS parks background node on efficiency cores: raising the process priority tripled the throughput here.
 
-## The family's own way east, and Mexican troops on it — the owner's request and choices of 2026-09-27 (worktree branch; not released)
+## The family's own way east, and Mexican troops on it — the owner's request and choices of 2026-09-27 (worktree branch; released in v2026.09.28.1)
 
 Built on `worktree-agent-afb989c37cd01607a` from main `ed4147b`, `origin/main` (`e937b72`) merged before finishing. Not pushed, not merged to
 main, not released. Design and the owner's words: [docs/SCRAPE.md](docs/SCRAPE.md) §11-§16; research
@@ -265,7 +265,7 @@ wounded person keeps their seat. No `saveVersion` moved: `flight.route`, `flight
 on 2026-09-27, built in the section above**): (a) fire on a family that runs - as built / only men and animals, held
 where women and children are in the way / never; (b) rarity - keep / rarer / commoner; (c) what a hit does - keep / wounds only / as
 in battle; (d) running for the timber - keep / infantry follow and cavalry do not / no timber rule.
-## Disease: the five sicknesses of 1835–36, and rest that mends — the owner's request and answers of 2026-09-27 (worktree branch from main e937b72, origin/main e86b281 merged; not released)
+## Disease: the five sicknesses of 1835–36, and rest that mends — the owner's request and answers of 2026-09-27 (worktree branch from main e937b72, origin/main e86b281 merged; released in v2026.09.28.1)
 
 **The owner** (2026-09-27): *"also, plan for diseases. keep it historical as to which ones. stopping to rest should help characters
 recover."* The plan is docs/DISEASE.md; the owner answered its questions the same day by multiple choice (§7, recorded there), and
@@ -314,9 +314,9 @@ towns' talk. **For the owner** (*the first two answered 2026-09-27 - a mixed cla
 section at the top*): the flux kills most (43 of 58); whether "three in a hundred" is meant for a careless, a mixed or a
 careful class; whether nursing should stay a certainty for the day (docs/DISEASE.md §9.3–9.4).
 
-## Play Solo closes itself: the window's X saves, pauses and stops — owner, 2026-09-27 (worktree branch; not released)
+## Play Solo closes itself: the window's X saves, pauses and stops — owner, 2026-09-27 (worktree branch; released in v2026.09.28.1)
 
-Built on `worktree-agent-a3b8bb75e279c09cb` from main `e937b72`. Not pushed, not merged, not released. Owner, verbatim:
+Built on `worktree-agent-a3b8bb75e279c09cb` from main `e937b72`. Merged to main and released in v2026.09.28.1. Owner, verbatim:
 *"solo mode needs some work. i shouldn't need to open the class view to pause, save or shut down the server. i should be
 able to just X off the window and it'll automatically save, pause, and shut down."* Full account: docs/DEPLOYMENT.md §Solo
 Mode, *Closing the game*.
@@ -373,7 +373,7 @@ driven, because running it from a scratch folder rewrites the real install's sho
   server still running after 38 s: the old behaviour). The `pagehide` close was seen missing twice before it existed.
 
 **Open for the owner** (none blocks release). **Answered 2026-09-27, by multiple choice: 1 (A), 2 (A), 3 (A) - all as
-built; 4 (B) "Retry briefly", built (not released): server/storage.mjs `writeSave` tries a held file again for up to 333 ms
+built; 4 (B) "Retry briefly", built (released in v2026.09.28.1): server/storage.mjs `writeSave` tries a held file again for up to 333 ms
 (docs/DEPLOYMENT.md, *Closing the game*; tests/save-retry.test.mjs).** 5 and 6 are still open.
 1. Continue opens the game paused. (A) keep — Resume is one press and says where you are; (B) open running as before.
 2. The wait after the window closes before the server stops: (A) 30 s; (B) 10 s; (C) 2 min. The game is paused and saved at
@@ -387,10 +387,10 @@ built; 4 (B) "Retry briefly", built (not released): server/storage.mjs `writeSav
 6. The Class view open when the game window closes: (A) the server still stops (as built — the class view is only for
    looking); (B) keep it running while any solo page is open.
 
-## A settlement's call lapses after five real minutes; only students' questions lapse — owner decisions of 2026-09-27 (branch `settlement-call-lapse`; not released)
+## A settlement's call lapses after five real minutes; only students' questions lapse — owner decisions of 2026-09-27 (branch `settlement-call-lapse`; released in v2026.09.28.1)
 
 Built on branch `settlement-call-lapse` from the lapse/riders/pace work below (`c0e9dff`, which the coordinator was merging to
-main). **Not merged to main and not released.** The owner, by multiple choice, 2026-09-27: (1) **"Yes, only students' lapse"**
+main). **Merged to main and released in v2026.09.28.1.** The owner, by multiple choice, 2026-09-27: (1) **"Yes, only students' lapse"**
 - families on auto, absent or run by the neighbours' director keep being answered at auto's share, as built below, now
 recorded in `sim/lapse.mjs` and `FIC-GONZ-048`'s amendment; (2) settlement calls: **"Lapse after a while"**, the option's own
 example five minutes after the rider arrives (`FIC-GONZ-636`).
@@ -432,9 +432,9 @@ example five minutes after the rider arrives (`FIC-GONZ-636`).
   on a hidden "Make furniture" icon. It wants its own look. `test:information` and `test:slice` do not touch settlement calls
   (checked by search) and were not run.
 
-## Unanswered questions lapse, messengers leave, each at their own pace on the land — owner decisions of 2026-09-27 (worktree branch; not released)
+## Unanswered questions lapse, messengers leave, each at their own pace on the land — owner decisions of 2026-09-27 (worktree branch; released in v2026.09.28.1)
 
-Built on a worktree branch from main `ed4147b`, with `origin/main` `e937b72` (the balance fix to the neighbours' flight, docs/DISEASE.md) merged in before finishing. **Not merged to main and not released.**
+Built on a worktree branch from main `ed4147b`, with `origin/main` `e937b72` (the balance fix to the neighbours' flight, docs/DISEASE.md) merged in before finishing. **Merged to main and released in v2026.09.28.1.**
 The owner, verbatim: *"questions that are not answered fast enough disappear. riders delivering messages should leave after
 their interactions are complete. i think that answers your runner question? no, the teacher can not reopen the tutorial."*
 Then by multiple choice: on the family's own land a rider or a wagon goes at *"the horse or wagon's own speed"* (never sped
@@ -2795,6 +2795,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   lesson 33 checks, panels 10 checks at 2 sizes, farm, travel-drawn and relay pass. Four other proofs failed here, and
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
+
+## Released as v2026.09.28.1 — 2026-09-28
+
+**[v2026.09.28.1](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.28.1)**, from `a8e36b6`: the Scrape's chosen routes, detection, "¡Alto!" and chases (soldiers fire only at men and animals, holding fire near women and children); the five historical diseases with rest (measles and whooping cough leading; ~2.8 in 100 in a mixed class); unanswered questions lapse and riders leave (settlement calls after 5 minutes, not during the tutorial); own-land pace; Solo saves, pauses and stops when its window closes, with Pause/Resume/Save on the page and a brief save retry; balance: coin the counter's default, prisoners weighed at the ending, cotton at 2 reales, staying home left as it is (VISION §20 amended); a neighbour family whose main person serves still flees; children at play drawn moving; "1 mile"; Astra's art (Moore, Castañeda, Cos, Almonte, Castrillón, Burleson; ladders, heavy gun, red flag; Twin Sisters' crew; drummers, buglers, flag bearers; Coleto's carts; title screen). Sets of changes: 27.7 MB from .27.2. Verify tree: 1512 tests; road 7, san-jacinto 15, scrape-pursuit 14, children 14, disease 8, scrape 5, mexican-advance 10, solo pass, family-panel 17, ending 12, lesson 33, famous-people 22, battle-alamo 13, alamo-siege 9.
 
 ## Released as v2026.09.27.2 — 2026-09-27
 
