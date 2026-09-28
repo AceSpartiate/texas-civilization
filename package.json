@@ -48,6 +48,7 @@
     "test:storming": "node scripts/storming-browser-proof.mjs",
     "test:interior": "node scripts/interior-browser-proof.mjs",
     "test:solo": "node scripts/solo-browser-proof.mjs",
+    "test:solo-window": "node scripts/solo-window-close-proof.mjs",
     "test:family-commands": "node scripts/family-commands-browser-proof.mjs",
     "test:winter": "node scripts/winter-browser-proof.mjs",
     "test:alamo-siege": "node scripts/alamo-siege-browser-proof.mjs",

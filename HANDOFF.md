@@ -1,6 +1,6 @@
 # Claude handoff — Astra foundation
 
-## Disease: the five sicknesses of 1835–36, and rest that mends — the owner's request and answers of 2026-09-27 (worktree branch from main e937b72, origin/main b9daabb merged; not released)
+## Disease: the five sicknesses of 1835–36, and rest that mends — the owner's request and answers of 2026-09-27 (worktree branch from main e937b72, origin/main e86b281 merged; not released)
 
 **The owner** (2026-09-27): *"also, plan for diseases. keep it historical as to which ones. stopping to rest should help characters
 recover."* The plan is docs/DISEASE.md; the owner answered its questions the same day by multiple choice (§7, recorded there), and
@@ -47,6 +47,77 @@ seconds" - **and fails the same on origin/main b9daabb** (run in a scratch workt
 builder had the flight open); Labadie's men sent home with the measles (docs/HOUSTON_CAMP.md §5); nursing in the camp; cholera as the
 towns' talk. **For the owner**: the flux kills most (43 of 58); whether "three in a hundred" is meant for a careless, a mixed or a
 careful class; whether nursing should stay a certainty for the day (docs/DISEASE.md §9.3–9.4).
+
+## Play Solo closes itself: the window's X saves, pauses and stops — owner, 2026-09-27 (worktree branch; not released)
+
+Built on `worktree-agent-a3b8bb75e279c09cb` from main `e937b72`. Not pushed, not merged, not released. Owner, verbatim:
+*"solo mode needs some work. i shouldn't need to open the class view to pause, save or shut down the server. i should be
+able to just X off the window and it'll automatically save, pause, and shut down."* Full account: docs/DEPLOYMENT.md §Solo
+Mode, *Closing the game*.
+
+**Before.** The game window (`launcher/TeacherWindow.cs`, WebView2) closing did nothing to the hidden `server/main.mjs --solo`:
+the clock ran on, the family went absent after two minutes, and only the Class view could pause or stop it. Closing the
+launcher stopped the server only if that launcher had started it. Continue opened a paused game running.
+
+**Now (server and page only; `launcher/` untouched, so the launcher id and the small update are unaffected).**
+- `SOLO_WATCH` (server/app.mjs; passed by server/main.mjs `--solo` only): the player's last event stream closing pauses the
+  game and writes it at once (`soloLeft`, which logs *"the game is saved (paused, revision N) at <time>"*); no page back in
+  30 s (`SOLO_LEAVE_MS` for proofs) and the server stops itself through `requestStop` (`soloGone`). A page back in time
+  resumes a game paused only by its leaving (`soloCame`); the player's own Pause is kept. `POST /api/solo` waits two minutes
+  for its page, `POST /api/solo/games` ten while the launcher's dialog is open. Only with `solo` + `soloWatch` +
+  `onStopRequested`, so no class and no in-process test classroom is ever watched.
+- A solo `close()` writes the game `paused` first, whatever stopped it, and retries a save that failed (`SAVE_FAILED`).
+- A continued solo game opens **paused** (was: running); the player presses Resume.
+- The solo player's page: **Pause / Resume / Save** (`#solo-controls`; `solo-pause`, `solo-resume`, `solo-save`, written
+  at once; a class refuses them). No Quit — the X is the quit. The paused guide says to press Resume, not to wait for a
+  teacher; the stopped message says to press Play Solo and Continue.
+- public/app.js closes its event stream on `pagehide` (and reopens it on a `pageshow` from the back-forward cache): Chrome
+  was seen holding a closed page's stream open for more than five seconds, twice, which failed the proof. The launcher's
+  WebView2 closed it in 115-253 ms without it.
+
+**Found on the way.** A save read by another process at the moment the server renames over it fails on Windows (EPERM →
+`SAVE_FAILED`, the class paused in memory and put back to its last save). The proofs polled the save and caused it; they now
+read the server's own report instead. Any class is exposed to the same thing from an antivirus or backup tool holding the
+file; see the owner decisions below. And Windows took ~19-21 s to reset the connection of a killed Chrome, so a crashed
+browser is noticed that late (the launcher's own window killed: 0.1-0.4 s).
+
+**Evidence** (same computer; no LAN, district or Chromebook claim; Windows log-off not driven; `LauncherForm` itself not
+driven, because running it from a scratch folder rewrites the real install's shortcuts and stamp):
+- `npm test` on the merged tree (with `origin/main` `b9daabb`): **1449 passed, 0 failed, 1 cancelled** of 1450 — the
+  cancelled one is `capacity.test.mjs` *"30 HTTP households"* timing out at its 30 s under the full suite (also before the
+  merge, 1436/1437), a class test this change does not reach and already recorded as timing out under load; alone it passes
+  in 11.5 s. `tests/solo.test.mjs` 19 (12 before; seven new).
+- `node scripts/solo-close-injections.mjs`: **12 of 12 caught, 9 alone** ([record](docs/evidence/solo-close-injections.json)).
+- `npm run test:solo` (merged tree): **15 PASS** ([record](docs/evidence/solo-browser.json)) — 5 new: Continue opens paused
+  with the page's own Resume and Save; Resume runs, Pause holds (1.5 s, written paused), Save writes (revision +1); the page
+  closed: written paused 20 ms after, server gone 3.6 s after (wait 3 s), exit 0, lock released; relaunched and continued on
+  the same tick, paused; Chrome killed (`taskkill /F /T`): written paused 1.6 s after, server gone 5.1 s after. Across five
+  passing runs: page closed 20-1263 ms; Chrome killed 1.6-20.9 s (Windows' reset of the dead connection).
+- `npm run test:solo-window` (new; merged tree): the launcher's `TeacherWindow.cs` compiled unchanged into
+  `scripts/support/solo-window-harness.cs` against the real `server/main.mjs --solo`: **X** (WM_SYSCOMMAND/SC_CLOSE, the
+  application left running) written paused 319 ms after, server gone 3.9 s; **application exit** with the window open 81 ms,
+  3.5 s; **process killed** 34 ms, 3.4 s; each exit 0, lock released, offered again paused
+  ([record](docs/evidence/solo-window-close.json)). Across four runs: X 115-731 ms, exit 81-200 ms, killed 34-413 ms.
+- `npm run test:solo-game`: **fails after 4 PASS**, at `scripts/support/whole-game.mjs` *"not everybody with a switch is on
+  auto"* (the children's auto switches) — and fails the same way on the base commit `e937b72` without this change (run in a
+  scratch worktree, 2026-09-27), so it is the children's automation against the whole-game driver, not Play Solo. Not mended here.
+- Browser injections, each run once and put back ([record](docs/evidence/solo-close-browser-injections.json)): controls
+  never shown → `test:solo` fails *"the solo player has no controls of their own"*; the buttons sending nothing → times out
+  at Resume; `server/main.mjs` starting the solo server without its watch → `test:solo-window` fails at the X (not paused,
+  server still running after 38 s: the old behaviour). The `pagehide` close was seen missing twice before it existed.
+
+**Open for the owner** (none blocks release):
+1. Continue opens the game paused. (A) keep — Resume is one press and says where you are; (B) open running as before.
+2. The wait after the window closes before the server stops: (A) 30 s; (B) 10 s; (C) 2 min. The game is paused and saved at
+   once in every case; this only decides how long a reload or a second thought has.
+3. A "Save and quit" button on the page: (A) no, the X is the quit (as built); (B) yes, stopping the server and saying to close
+   the window; (C) yes, and the launcher closes its window too — a launcher change, so that release is a whole download.
+4. A save refused by Windows because something held the file (antivirus, backup): (A) leave it — the class pauses and says
+   so, as now; (B) retry the rename a few times over a third of a second before calling it a failure (every class's save).
+5. Windows log-off/shutdown: (A) leave it (at most five seconds lost; the game reopens paused); (B) next time the launcher
+   changes for another reason, have it tell the solo server to stop directly as Windows ends the session.
+6. The Class view open when the game window closes: (A) the server still stops (as built — the class view is only for
+   looking); (B) keep it running while any solo page is open.
 
 ## A settlement's call lapses after five real minutes; only students' questions lapse — owner decisions of 2026-09-27 (branch `settlement-call-lapse`; not released)
 

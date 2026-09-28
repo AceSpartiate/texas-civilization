@@ -3,6 +3,8 @@
 // Starts the solo playtest server if one is not already answering - in this terminal, so
 // Ctrl+C stops it - deals a new solo game, and opens the player's page already joined, with
 // the class running. `-- --no-open` prints the address instead of opening a browser.
+// Closing the player's page stops it too, once the page has not come back for thirty seconds
+// (server/app.mjs `SOLO_WATCH`); the game is saved and paused the moment the page closes.
 //
 // It asks for the game over HTTP with the Host key the solo server wrote to its own folder,
 // which is exactly what the launcher's Play Solo button does, so the two cannot drift.

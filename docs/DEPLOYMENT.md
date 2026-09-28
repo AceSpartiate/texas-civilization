@@ -207,13 +207,61 @@ already used, with Cancel now the default.
 
 ## Solo Mode (playtesting)
 
+**Closing the game, 2026-09-27 (not released).** Owner: *"solo mode needs some work. i shouldn't need to open the class view
+to pause, save or shut down the server. i should be able to just X off the window and it'll automatically save, pause, and
+shut down."*
+
+*How it was.* The player plays in the launcher's **Play Solo** window (`launcher/TeacherWindow.cs`, a WebView2), against a
+hidden `node server/main.mjs --solo` started by `scripts/launch.ps1 -Solo`. Closing that window did nothing to the server:
+it kept running hidden, the game's clock kept going (the family set absent after two minutes and run by the director), and
+the game was saved only as it went, within five seconds. Pause and Stop Server were on the **Class view** only. Closing the
+launcher stopped the solo server only if that launcher had started it (`stop.ps1 -Solo`, not awaited); a launcher that had
+reused a running one left it running. Continue opened a paused game running.
+
+*How it is.* The server watches its player (`SOLO_WATCH` in `server/app.mjs`). The player's page holds an event stream open
+for as long as it is open, and whatever ends the page ends the stream:
+
+| The player... | What happens |
+| --- | --- |
+| presses the game window's **X** | the game is paused and written at once; the server stops itself 30 s later if the page has not come back |
+| closes the **launcher** (the window goes with it) | the same; and the launcher's own stop of a server it started still runs |
+| has the window or its browser **killed** (crash, Task Manager) | the same, once Windows ends the connection (under half a second for the launcher's window; 1.6 to 21 s for a killed Chrome) |
+| **Windows logs off or shuts down** | the same if the window goes before the server is ended; if the server is ended first, up to five seconds of play is lost and its save may say running — Continue opens it paused either way. Not driven by any proof. |
+| **reloads**, or the window goes to a new game | the page is back within the 30 s: the game goes on, nothing stops |
+| presses **Play Solo** again straight away | the launcher's list holds the stop off for ten minutes while the player chooses; a game dealt and never opened stops the server after two |
+
+The stop is the Host's own graceful stop: everything written, `paused`, the save lock released, the launcher's record
+cleared; a solo server stopped any other way (Ctrl+C, `stop.ps1`) also writes its game paused first. Reopened (**Play Solo**
+→ **Continue**), the game is where it was, **paused**; the player presses **Resume**. A class is never watched: a student
+closing a window changes their presence and nothing else (tests/solo.test.mjs).
+
+**The player's own controls.** The solo player's page has **Pause**, **Resume** and **Save** at the top right, in the Host's
+button style, only on a solo game (`#solo-controls`, public/app.js; `solo-pause`, `solo-resume`, `solo-save` in
+server/app.mjs, written at once and refused by a class). Save says when it saved; the game also saves itself every few
+seconds. There is no Quit: the window's X is the quit. The paused guide says *"Press Resume, top right, to go on"* rather
+than waiting for a teacher.
+
+**Launcher unchanged.** Nothing under `launcher/` changed, so the launcher id is the same and the next release can still
+be *Only what changed*. It was not needed: the window closing is seen from the server, and the launcher's window was proved
+to end the stream in under a second (34-731 ms) by compiling its own `TeacherWindow.cs`, unchanged, into a small host and
+closing it (below).
+
+Proved (same computer): `tests/solo.test.mjs` (seven new tests) with
+[`evidence/solo-close-injections.json`](evidence/solo-close-injections.json); `npm run test:solo` (the page's controls,
+the page closed, relaunch and continue, the browser killed; [`evidence/solo-browser.json`](evidence/solo-browser.json));
+`npm run test:solo-window` (the launcher's own window: its X, the application exiting, the process killed;
+[`evidence/solo-window-close.json`](evidence/solo-window-close.json)). `ceiling:` `LauncherForm` itself was not driven:
+running it from a scratch folder rewrites the real installation's Start menu shortcut and install stamp. `ceiling:` a
+player whose page stays open but who has walked away is still "here"; the Pause is for that.
+
 **Saved games, 2026-09-17.** Owner: *"When pressing Solo Game, a popup should ask if the player wants to start a new game, or
 continue an old one. they can't continue a multiplayer game from there."* By multiple choice, a list of every saved solo game.
 Every solo game is kept in `data/solo/games/<session>.json`: written when another game takes its place, and when the solo
 server starts over a game left in its live save (`server/main.mjs`). **Play Solo** starts the server, asks it for the list
 (`POST /api/solo/games` with the solo Host key), and, if there is any, asks **New game** or **Continue** with the newest
 selected (`launcher/SoloGameDialog.cs`); Continue reopens that game where it was left (`POST /api/solo` with `continue`),
-a paused game running again. Only solo games are in that folder, so a class cannot be continued from here. Headless:
+**paused** since 2026-09-27 (it opened running until then, when only the class view could resume it; see *Closing the
+game* below). Only solo games are in that folder, so a class cannot be continued from here. Headless:
 `TexasRevolution.exe --solo --list` and `--solo --continue <id>`. Proved: `tests/solo.test.mjs`;
 on this computer the built launcher against a scratch data folder dealt two games, listed three (one kept from the live
 save at start), continued the oldest on its own date, and after a stop and restart listed it again, paused. `ceiling:` the
@@ -257,8 +305,9 @@ chosen it. The player's own **Done packing** is the Start (`begin-solo`, a stude
 solo server and only in the lobby); a class still has a teacher, and this is not another way to start one. The other families of the class
 are there as automatic neighbours, exactly as in a class nobody else joined. The window has
 **Class view** (the solo Host page, for inspecting what the teacher would see), **New solo game**,
-and developer tools. Closing the launcher stops a solo server it started, through the same
-graceful stop as a class.
+and developer tools. Closing that window, or the launcher, saves the game paused and stops the solo server
+(*Closing the game*, above); the launcher also still stops a solo server it started, through the same graceful stop as a
+class, when it closes.
 
 It cannot disturb a real class, by construction rather than by care:
 
@@ -287,7 +336,8 @@ ceiling: every Play Solo is a new game, and the last solo game is not archived o
 a solo save is a scratch pad. "Continue the last solo game" would be reopening the same save.
 
 For development without the launcher: `npm run solo` (add `-- --no-open` to print instead of
-opening a browser). It starts `server/main.mjs --solo` in the terminal (Ctrl+C stops it) or
+opening a browser). It starts `server/main.mjs --solo` in the terminal (Ctrl+C stops it, and so does closing the player's
+page for thirty seconds) or
 reuses one already answering, deals a new game and opens the play address. The solo Host address
 is printed with it. `npm run test:solo` is the browser proof; `tests/solo.test.mjs` the server's.
 

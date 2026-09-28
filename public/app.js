@@ -42,6 +42,12 @@ import { createBattleView } from '/battle-view.js';
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
 let events;
+// A page going away ends its own stream (2026-09-27). Play Solo's server takes the stream closing as its player leaving
+// (server/app.mjs `SOLO_WATCH`), and Chrome, with a page closed, was seen holding the stream open for more than five seconds
+// (scripts/solo-browser-proof.mjs); the launcher's WebView2 window closed it in under a second either way.
+addEventListener('pagehide', () => { events?.close(); events = null; });
+// And a page brought back from the browser's back-forward cache opens it again.
+addEventListener('pageshow', event => { if (event.persisted && !events && window.__snapshot) connect(); });
 let joinPending = false;
 window.__received = [];
 window.__viewEntities = [];
@@ -5457,6 +5463,10 @@ const lessonRoom = () => {
   document.body.style.setProperty('--lesson-room', `${Math.round(panel.getBoundingClientRect().height)}px`);
 };
 addEventListener('resize', lessonRoom);
+/** What a paused game says to its player: a class waits for its teacher; Play Solo's player resumes it themselves. */
+function pausedWords() {
+  return window.__snapshot?.solo ? 'The game is paused. Press Resume, top right, to go on.' : 'The class is paused. Work continues when the teacher resumes.';
+}
 function guideLesson(world) {
   const lesson = lessonShowing(world), help = $('#lesson-help'), action = $('#lesson-action');
   lessonTarget = null;
@@ -5466,7 +5476,7 @@ function guideLesson(world) {
   const reveal = (target, label, text) => {
     lessonTarget = target; action.textContent = label; action.hidden = false; help.textContent = text;
   };
-  if (world.status === 'paused') { help.textContent = 'The class is paused. Work continues when the teacher resumes.'; return; }
+  if (world.status === 'paused') { help.textContent = pausedWords(); return; }
   // A map placement or a question already in progress takes precedence over starting more work.
   for (const [selector, text] of [
     ['#site-choose', 'Click a spot inside your land on the map, review the site, then press “Set the house here”.'],
@@ -5499,7 +5509,7 @@ function guideLesson(world) {
     }
   }
   const busy = world.entities?.find(person => world.household?.members?.includes(person.id) && person.chore);
-  help.textContent = world.status === 'paused' ? 'The class is paused. Work continues when the teacher resumes.'
+  help.textContent = world.status === 'paused' ? pausedWords()
     : world.land?.arriving ? 'Your wagon is travelling to your land. The next instruction appears when it arrives.'
     : busy ? `${busy.given || busy.name} is working. Watch their progress, or select another adult to help. A ! beside a portrait means they need an answer.`
     : 'Select an adult’s portrait, then read the named actions at the bottom. Unavailable actions explain what is missing when selected.';
@@ -6092,6 +6102,12 @@ function render(snapshot) {
     : '';
   $('#host-controls').hidden = !host;
   $('#host-pace').hidden = !host;
+  // Play Solo's own Pause, Resume and Save (owner, 2026-09-27), on the player's page only and never once the server is stopping.
+  const soloControls = Boolean(snapshot.solo) && !host && !snapshot.lifecycle;
+  $('#solo-controls').hidden = !soloControls;
+  if (soloControls) for (const button of $('#solo-controls').querySelectorAll('button')) {
+    button.hidden = button.dataset.solo === 'solo-pause' ? world.status !== 'running' : button.dataset.solo === 'solo-resume' ? world.status !== 'paused' : false;
+  }
   renderHostLive(snapshot, host);
   // Named paces rather than a number, because milliseconds a tick is not a thing a teacher
   // should have to hold in their head.
@@ -6221,6 +6237,7 @@ function connect(snapshot) {
       catch {
         const stopped = window.__snapshot?.lifecycle?.state === 'stopping';
         showJoin(hostPage ? 'This Host session ended. Reopen the Host page from the launcher.'
+          : stopped && window.__snapshot?.solo ? 'Play Solo stopped. Your game was saved and paused: press Play Solo on the launcher and choose Continue to go on.'
           : stopped ? 'Your teacher stopped the classroom server. Your family\'s story was saved.'
             : 'You are no longer joined to this class. Use your family key to come back, or ask your teacher for the current class code.');
       }
@@ -6254,6 +6271,16 @@ $('#join').addEventListener('submit', async event => {
 document.addEventListener('click', async event => {
   const viewButton = event.target.closest('[data-view]');
   if (viewButton) { applyMapView(viewButton.dataset.view); return; }
+  // Play Solo's own Pause, Resume and Save: orders of the player's, which the server takes only on a solo game.
+  const soloButton = event.target.closest('[data-solo]');
+  if (soloButton) {
+    say('');
+    try {
+      await api('/api/command', { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action: soloButton.dataset.solo });
+      if (soloButton.dataset.solo === 'solo-save') $('#solo-saved').textContent = `Saved ${new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
+    } catch (error) { say(error.message); }
+    return;
+  }
   // How fast the class watches. Sent like any other Host command, and deliberately not a
   // world change: a class reopened tomorrow opens at the pace the build ships with.
   const paceButton = event.target.closest('[data-pace]');

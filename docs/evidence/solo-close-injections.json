@@ -1,0 +1,121 @@
+{
+  "record": "solo-close-injections",
+  "date": "2026-09-28",
+  "files": [
+    "tests/solo.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "the page closing writes nothing and pauses nothing; only the stop, thirty seconds on, does",
+      "guards": "closing the solo game's page pauses and saves it at once",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "closing the solo game's page pauses and saves it at once, and the server stops itself when the page does not come back",
+        "a solo page that comes back in time finds its game going on, and a pause the player pressed stays pressed"
+      ]
+    },
+    {
+      "name": "the watch never stops the server: the player gone, it runs on hidden",
+      "guards": "closing the solo game's page pauses and saves it at once",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "closing the solo game's page pauses and saves it at once, and the server stops itself when the page does not come back",
+        "the launcher asking for the saved games holds the stop off while the player chooses, and a game dealt that nobody opens stops"
+      ]
+    },
+    {
+      "name": "the server stops the moment the page closes, so a reload finds it gone",
+      "guards": "closing the solo game's page pauses and saves it at once",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "closing the solo game's page pauses and saves it at once, and the server stops itself when the page does not come back",
+        "a solo page that comes back in time finds its game going on, and a pause the player pressed stays pressed",
+        "the launcher asking for the saved games holds the stop off while the player chooses, and a game dealt that nobody opens stops"
+      ]
+    },
+    {
+      "name": "a page that comes back finds its game still paused by its own leaving",
+      "guards": "a solo page that comes back in time finds its game going on",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a solo page that comes back in time finds its game going on, and a pause the player pressed stays pressed"
+      ]
+    },
+    {
+      "name": "a pause the player pressed while the page was away is undone when it comes back",
+      "guards": "a solo page that comes back in time finds its game going on",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a solo page that comes back in time finds its game going on, and a pause the player pressed stays pressed"
+      ]
+    },
+    {
+      "name": "a continued game opens running, before the player is looking (the old rule)",
+      "guards": "a continued solo game opens paused even when it was kept running",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a continued solo game opens paused even when it was kept running"
+      ]
+    },
+    {
+      "name": "a class watches too, and one student closing a window pauses and stops everybody's class",
+      "guards": "a class never pauses or stops when a student's page closes",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a class never pauses or stops when a student's page closes, even given the watch"
+      ]
+    },
+    {
+      "name": "the launcher listing the saved games does not hold the stop off, so a player choosing loses the server",
+      "guards": "the launcher asking for the saved games holds the stop off",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the launcher asking for the saved games holds the stop off while the player chooses, and a game dealt that nobody opens stops"
+      ]
+    },
+    {
+      "name": "a game dealt that no page ever opens keeps its server running hidden",
+      "guards": "the launcher asking for the saved games holds the stop off",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the launcher asking for the saved games holds the stop off while the player chooses, and a game dealt that nobody opens stops"
+      ]
+    },
+    {
+      "name": "the player's Save and Pause are written only within SAVE_WITHIN_MS, like any order",
+      "guards": "the solo player's own Pause, Resume and Save",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the solo player's own Pause, Resume and Save; a student in a class has none of them"
+      ]
+    },
+    {
+      "name": "a student in a class can pause the whole class",
+      "guards": "the solo player's own Pause, Resume and Save",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the solo player's own Pause, Resume and Save; a student in a class has none of them"
+      ]
+    },
+    {
+      "name": "a solo server stopped leaves its game running on the disk",
+      "guards": "stopping a solo server writes everything it showed, paused, whole",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "stopping a solo server writes everything it showed, paused, whole"
+      ]
+    }
+  ]
+}
