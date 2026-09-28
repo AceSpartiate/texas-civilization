@@ -50,6 +50,8 @@ import { advanceTown, createTownspeople, observedBy, seenAs } from './town.mjs';
 import { helpTownScene, townScenesFor } from './town-scenes.mjs';
 import { ambientFor } from './ambient.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
+// What families did for each other, and the help they offer back (sim/neighbourly.mjs, owner 2026-09-28).
+import { advanceNeighbourly, answerNeighbour, neighbourlyInvalid, neighbourlyView } from './neighbourly.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceDepartures, advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, listeningOf, riderName, spotName } from './encounters.mjs';
 import { DEFAULT_MODE, HIGH_WATER_TIMES, MODES, WADE_WRONG_MINUTES, WADE_WRONG_SHARE, fordMinutes, modeOf, moveOnGround, propertyId, RIDER_SPEED } from './travel.mjs';
@@ -716,6 +718,9 @@ export function stepWorld(world, { realMs = 0, decisionBudgetMs, callBudgetMs } 
   // Each student's own guided beginning moves on by what the tick actually did (sim/lesson.mjs): a house that now
   // stands, ground now cleared, a crop now in. Last, so a step is never called finished a tick before it is.
   advanceLessons(world);
+  // Families that owe a family in need offer help back (sim/neighbourly.mjs), before the families nobody plays think, so one
+  // told to leave this tick holds its going for an answer about room in its wagon.
+  advanceNeighbourly(world);
   // Families nobody plays decide last, from what the tick has left them able to see, through the actions a student sends.
   advanceNeighbours(world, { project: id => projectWorld(world, id, 'student', { includeMap: false }), apply: (id, input) => applyAction(world, id, input) });
   });
@@ -996,6 +1001,8 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // deliberately not the principal's alone: the whole point is that a family without the
   // handy member can ask the neighbour who is actually present.
   if (input.action === 'offer') { makeOffer(world, householdId, entity, input); return; }
+  // Help offered back between families (sim/neighbourly.mjs): whether to offer it, and whether to take it - any of the family.
+  if (input.action === 'neighbour-answer') { answerNeighbour(world, household, entity, String(input.askId || ''), input.answer); return; }
   if (['accept-offer', 'decline-offer', 'withdraw-offer'].includes(input.action)) {
     respondToOffer(world, householdId, entity, input.action, input.offerId, input.reason);
     return;
@@ -1284,6 +1291,9 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // one of this family is standing where it can be seen, and to the Host. Absent otherwise, which is also a class saved
     // before it existed.
     ...townScenesView(world, householdId, role),
+    // The family's neighbours, the help offered back and room kept in a wagon (sim/neighbourly.mjs). Absent for the Host and for a
+    // family with none of it.
+    ...neighbourlyView(world, householdId, role),
     // What the family's own children and babies are saying, over them, for its own page only (sim/childhood.mjs, sim/babies.mjs).
     ...(() => { if (!household || role === 'host') return {}; const lines = [...talkLines(world, household), ...babyLines(world, household)]; return lines.length ? { familyTalk: { lines } } : {}; })(),
     // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
@@ -1528,6 +1538,8 @@ export function validateWorld(world) {
   if (badRunner) throw new Error(badRunner);
   const badChildren = childrenInvalid(world) || childhoodInvalid(world) || babiesInvalid(world) || flightWorkInvalid(world);
   if (badChildren) throw new Error(badChildren);
+  const badLedger = neighbourlyInvalid(world);
+  if (badLedger) throw new Error(badLedger);
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');
   if (world.nextEventId !== world.events.length + 1) throw new Error('Event sequence would duplicate an ID');
