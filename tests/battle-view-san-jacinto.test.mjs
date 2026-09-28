@@ -38,7 +38,7 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null } = {}) 
 test('Lamar rides in his own art and reaches down during the April 20 rescue beat', () => {
   const art = fakeArt(), view = createBattleView(art);
   const lamar = { id: 'lamar', art: 'lamar', name: 'Lamar', side: 'texian', x: 0, y: 0, right: true, pose: 'ride' };
-  const scene = minute => battle(minute, { phase: 'skirmish', people: [lamar] });
+  const scene = minute => battle(minute + 100000, { phase: 'skirmish', phaseMinute: minute, people: [lamar] });
   run(view, scene, { seconds: 1, from: 20000 });
   assert.ok(art.drawn.some(one => one.clip === 'lamar-mounted-walk-e'));
   art.drawn.length = 0;
@@ -52,7 +52,7 @@ test('Lamar rides in his own art and reaches down during the April 20 rescue bea
 test('Sherman rides in his own art and signals the April 20 sortie', () => {
   const art = fakeArt(), view = createBattleView(art);
   const sherman = { id: 'sherman', art: 'sherman', name: 'Sherman', side: 'texian', x: 0, y: 0, right: true, pose: 'ride' };
-  const scene = minute => battle(minute, { phase: 'skirmish', people: [sherman] });
+  const scene = minute => battle(minute + 100000, { phase: 'skirmish', phaseMinute: minute, people: [sherman] });
   run(view, scene, { seconds: 1, from: 20000 });
   assert.ok(art.drawn.some(one => one.clip === 'sherman-mounted-walk-e'));
   art.drawn.length = 0;

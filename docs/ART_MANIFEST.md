@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1914 usable sprites, 184 PNG atlases, 610 clips** (382 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1930 usable sprites, 185 PNG atlases, 615 clips** (387 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -78,6 +78,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-deaf-smith-mounted | 4 | 1254 × 1254 | 1298123 |
 | famous-esparza | 16 | 1254 × 1254 | 869799 |
 | famous-hockley | 16 | 1246 × 1262 | 904693 |
+| famous-johnson | 16 | 1312 × 1199 | 1121505 |
 | famous-karnes | 16 | 1246 × 1263 | 1230841 |
 | famous-karnes-mounted | 4 | 1246 × 1263 | 1175856 |
 | famous-lamar | 16 | 1312 × 1199 | 932028 |
@@ -894,6 +895,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | hockley-reload-signal | famous-hockley | State artwork; no motion required |
 | hockley-plan | famous-hockley | State artwork; no motion required |
 | hockley-speak | famous-hockley | State artwork; no motion required |
+| johnson-walk-e-1 | famous-johnson | johnson-walk-e |
+| johnson-walk-e-2 | famous-johnson | johnson-walk-e |
+| johnson-walk-e-3 | famous-johnson | johnson-walk-e |
+| johnson-walk-e-4 | famous-johnson | johnson-walk-e |
+| johnson-walk-s-1 | famous-johnson | johnson-walk-s |
+| johnson-walk-s-2 | famous-johnson | johnson-walk-s |
+| johnson-walk-n-1 | famous-johnson | johnson-walk-n |
+| johnson-walk-n-2 | famous-johnson | johnson-walk-n |
+| johnson-idle | famous-johnson | State artwork; no motion required |
+| johnson-point | famous-johnson | johnson-command |
+| johnson-gather | famous-johnson | johnson-command |
+| johnson-map | famous-johnson | State artwork; no motion required |
+| johnson-escape-e-1 | famous-johnson | johnson-escape-e |
+| johnson-escape-e-2 | famous-johnson | johnson-escape-e |
+| johnson-door-crouch | famous-johnson | State artwork; no motion required |
+| johnson-look-back | famous-johnson | State artwork; no motion required |
 | karnes-walk-e-1 | famous-karnes | karnes-walk-e |
 | karnes-walk-e-2 | famous-karnes | karnes-walk-e |
 | karnes-walk-e-3 | famous-karnes | karnes-walk-e |
@@ -2342,6 +2359,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | hockley-walk-s | Pose cycle | 2 | 580 | yes | south |
 | hockley-walk-n | Pose cycle | 2 | 580 | yes | north |
 | hockley-battery-command | Pose cycle | 3 | 1100 | yes | east; mirror for west |
+| johnson-walk-e | Pose cycle | 4 | 760 | yes | east |
+| johnson-walk-s | Pose cycle | 2 | 580 | yes | south |
+| johnson-walk-n | Pose cycle | 2 | 580 | yes | north |
+| johnson-command | Pose cycle | 2 | 1020 | yes | east; mirror for west |
+| johnson-escape-e | Pose cycle | 2 | 350 | yes | east; mirror for west |
 | karnes-walk-e | Pose cycle | 4 | 760 | yes | east |
 | karnes-walk-s | Pose cycle | 2 | 580 | yes | south |
 | karnes-walk-n | Pose cycle | 2 | 580 | yes | north |

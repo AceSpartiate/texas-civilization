@@ -2650,6 +2650,17 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-mcculloch.png",
       "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
       "review": "Named physical service cycle for one Twin Sister, visually distinct from Hockley commanding the battery."
+    },
+    {
+      "sheet": "famous-johnson",
+      "promptId": "frontier-v1/famous-johnson",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 painterly game atlas of original interpretive Francis White Johnson, slim middle-aged dark-haired mustached officer in charcoal hat, pale gray frock, dark blue vest, cream shirt, rust-red neckcloth, brown trousers and black boots. Four east walks, two south and two north, idle, division point, gather, map, two east running frames, door crouch and look back. Equal isolated full-body cells with clear alpha gutters; no background, words, weapon firing or exact portrait claim.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2af4c8cb-181e-4d1d-8d62-30b78aacd8fa.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-johnson.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dedicated Béxar command loop and San Patricio back-door escape gait, with historical route and timing owned by the simulation."
     }
   ]
 }

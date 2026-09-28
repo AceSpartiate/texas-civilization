@@ -153,7 +153,7 @@ export const PEOPLE = Object.freeze({
     // Killed passing into the Veramendi yard (`HIST-TEX-039`): the phase's own named fall draws him down there.
     fate: { kind: 'killed', battle: 'bexar-storming', phase: 'milam', at: 0, claimId: 'HIST-TEX-039', byFall: true },
   }),
-  johnson: person('johnson', 'Johnson', TX, 'officer', 2, 'HIST-TEX-039', { fullName: 'Francis W. Johnson' }),
+  johnson: person('johnson', 'Johnson', TX, 'johnson', 2, 'HIST-TEX-039', { fullName: 'Francis W. Johnson' }),
   karnes: person('karnes', 'Karnes', TX, 'frontiersman', 2, 'HIST-TEX-038', { fullName: 'Henry Wax Karnes', art: 'karnes' }),
   'deaf-smith': person('deaf-smith', 'Deaf Smith', TX, 'deaf-smith', 2, 'HIST-TEX-555', { fullName: 'Erastus (Deaf) Smith' }),
   neill: person('neill', 'Neill', TX, 'neill', 2, 'HIST-TEX-565', {
@@ -203,7 +203,7 @@ export const PEOPLE = Object.freeze({
 });
 
 /** The poses a person may be given in a phase (public/battle-view.js draws each; a stand-in where the art has none). */
-export const PERSON_POSES = Object.freeze(['stand', 'command', 'fire', 'fire-hidden', 'hide', 'emerge', 'walk', 'ride', 'sick', 'captive', 'wounded', 'write', 'seated', 'point', 'surrender', 'offer-sword', 'receive-sword', 'sword-down', 'prisoner', 'interpret', 'carry', 'gun', 'work', 'stop']);
+export const PERSON_POSES = Object.freeze(['stand', 'command', 'fire', 'fire-hidden', 'hide', 'emerge', 'walk', 'ride', 'sick', 'captive', 'wounded', 'write', 'seated', 'point', 'surrender', 'offer-sword', 'receive-sword', 'sword-down', 'prisoner', 'interpret', 'carry', 'gun', 'work', 'stop', 'escape']);
 /** What may befall a famous person in the window. `told` fates are never drawn. */
 export const FATE_KINDS = Object.freeze(['killed', 'executed', 'wounded', 'captured']);
 /** A person by id, or throw: every name the engine draws is one of these. */

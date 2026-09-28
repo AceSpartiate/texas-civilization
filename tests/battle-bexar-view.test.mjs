@@ -81,6 +81,13 @@ test('Neill serves his own gun during the Béxar feint', () => {
   assert.ok(art.drawn.some(one => one.clip === 'neill-gun-service'), 'Neill was not drawn serving his own gun');
 });
 
+test('Johnson takes command in his own art at seven on the seventh', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  play(view, 'night-7', { seconds: 2, into: tick => 179 + tick });
+  assert.ok(art.drawn.some(one => one.sprite === 'johnson-idle' || one.clip === 'johnson-walk-e'), JSON.stringify([...new Set(art.drawn.map(one => one.sprite || one.clip).filter(name => /johnson/.test(name)))]));
+  assert.ok(art.drawn.some(one => one.clip === 'johnson-command'));
+});
+
 test('Burleson rides into the Béxar talks on his own mounted sheet', () => {
   const art = fakeArt(), view = createBattleView(art);
   play(view, 'parley', { seconds: 2, into: tick => 55 + tick });

@@ -242,6 +242,7 @@ test('the legends are spoken on the field as tradition, glossed as told later: t
 
 test('the Twin Sisters are named and fire where the record puts them: before the camp on April 20 under Neill, who is hit, and within two hundred yards on the 21st under Hockley', () => {
   const skirmish = fieldAt('san-jacinto', 'skirmish', 20);
+  assert.equal(skirmish.view.phaseMinute, 20);
   const twins = skirmish.view.guns.filter(gun => gun.id.startsWith('twins-20'));
   assert.equal(twins.length, 2); assert.ok(twins.some(gun => gun.named && gun.name === 'Twin Sisters'));
   assert.ok(twins.reduce((sum, gun) => sum + gun.shots.length, 0) >= 3, 'the Twin Sisters did not answer on the 20th');

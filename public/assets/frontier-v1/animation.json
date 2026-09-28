@@ -3626,6 +3626,94 @@
       "motion": "none",
       "direction": "east; mirror for west"
     },
+    "johnson-walk-e": {
+      "frames": [
+        {
+          "sprite": "johnson-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "johnson-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "johnson-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "johnson-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "johnson-walk-s": {
+      "frames": [
+        {
+          "sprite": "johnson-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "johnson-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "johnson-walk-n": {
+      "frames": [
+        {
+          "sprite": "johnson-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "johnson-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "johnson-command": {
+      "frames": [
+        {
+          "sprite": "johnson-point",
+          "duration": 480
+        },
+        {
+          "sprite": "johnson-gather",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "johnson-escape-e": {
+      "frames": [
+        {
+          "sprite": "johnson-escape-e-1",
+          "duration": 175
+        },
+        {
+          "sprite": "johnson-escape-e-2",
+          "duration": 175
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "karnes-walk-e": {
       "frames": [
         {

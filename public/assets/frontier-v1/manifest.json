@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 184,
-    "sprites": 1914,
-    "clips": 610,
-    "poseCycles": 382,
+    "sheets": 185,
+    "sprites": 1930,
+    "clips": 615,
+    "poseCycles": 387,
     "rigs": 4
   },
   "entrypoints": {
@@ -6230,6 +6230,130 @@
               [
                 1016,
                 1206
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-johnson": {
+      "image": "atlases/famous-johnson.png",
+      "width": 1312,
+      "height": 1199,
+      "bytes": 1121505,
+      "sha256": "702986c44145793de656015122aec813bc04132fce412826833e338da1b6aa28",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.733447,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              8,
+              286
+            ],
+            "columns": [
+              [
+                105,
+                291
+              ],
+              [
+                418,
+                598
+              ],
+              [
+                746,
+                946
+              ],
+              [
+                1076,
+                1274
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              301,
+              586
+            ],
+            "columns": [
+              [
+                108,
+                235
+              ],
+              [
+                424,
+                554
+              ],
+              [
+                760,
+                892
+              ],
+              [
+                1073,
+                1208
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              590,
+              892
+            ],
+            "columns": [
+              [
+                119,
+                244
+              ],
+              [
+                407,
+                623
+              ],
+              [
+                738,
+                908
+              ],
+              [
+                1076,
+                1242
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              904,
+              1163
+            ],
+            "columns": [
+              [
+                77,
+                292
+              ],
+              [
+                408,
+                627
+              ],
+              [
+                719,
+                921
+              ],
+              [
+                1066,
+                1252
               ]
             ]
           }
@@ -40697,6 +40821,558 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/famous-hockley"
+    },
+    "johnson-walk-e-1": {
+      "sheet": "famous-johnson",
+      "x": 105,
+      "y": 10,
+      "w": 186,
+      "h": 276,
+      "anchorX": 0.4973,
+      "anchorY": 0.9275,
+      "logicalHeight": 301,
+      "label": "johnson walk e 1",
+      "kind": "famous-johnson",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          107,
+          12,
+          182,
+          272
+        ],
+        "visiblePixels": 20549,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-johnson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "johnson-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-johnson"
+    },
+    "johnson-walk-e-2": {
+      "sheet": "famous-johnson",
+      "x": 418,
+      "y": 8,
+      "w": 180,
+      "h": 278,
+      "anchorX": 0.5083,
+      "anchorY": 0.9281,
+      "logicalHeight": 301,
+      "label": "johnson walk e 2",
+      "kind": "famous-johnson",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          420,
+          10,
+          176,
+          274
+        ],
+        "visiblePixels": 19438,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-johnson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "johnson-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-johnson"
+    },
+    "johnson-walk-e-3": {
+      "sheet": "famous-johnson",
+      "x": 746,
+      "y": 13,
+      "w": 200,
+      "h": 271,
+      "anchorX": 0.495,
+      "anchorY": 0.9299,
+      "logicalHeight": 301,
+      "label": "johnson walk e 3",
+      "kind": "famous-johnson",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          748,
+          15,
+          196,
+          267
+        ],
+        "visiblePixels": 20858,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-johnson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "johnson-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-johnson"
+    },
+    "johnson-walk-e-4": {
+      "sheet": "famous-johnson",
+      "x": 1076,
+      "y": 12,
+      "w": 198,
+      "h": 273,
+      "anchorX": 0.5051,
+      "anchorY": 0.9267,
+      "logicalHeight": 301,
+      "label": "johnson walk e 4",
+      "kind": "famous-johnson",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1078,
+          14,
+          194,
+          269
+        ],
+        "visiblePixels": 20710,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-johnson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "johnson-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-johnson"
+    },
+    "johnson-walk-s-1": {
+      "sheet": "famous-johnson",
+      "x": 108,
+      "y": 301,
+      "w": 127,
+      "h": 285,
+      "anchorX": 0.4567,
+      "anchorY": 0.9614,
+      "logicalHeight": 301,
+      "label": "johnson walk s 1",
+      "kind": "famous-johnson",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          110,
+          303,
+          123,
+          281
+        ],
+        "visiblePixels": 20754,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-johnson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "johnson-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-johnson"
+    },
+    "johnson-walk-s-2": {
+      "sheet": "famous-johnson",
+      "x": 424,
+      "y": 301,
+      "w": 130,
+      "h": 285,
+      "anchorX": 0.4692,
+      "anchorY": 0.9509,
+      "logicalHeight": 301,
+      "label": "johnson walk s 2",
+      "kind": "famous-johnson",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          426,
+          303,
+          126,
+          281
+        ],
+        "visiblePixels": 20739,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-johnson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "johnson-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-johnson"
+    },
+    "johnson-walk-n-1": {
+      "sheet": "famous-johnson",
+      "x": 760,
+      "y": 305,
+      "w": 132,
+      "h": 281,
+      "anchorX": 0.4053,
+      "anchorY": 0.9466,
+      "logicalHeight": 301,
+      "label": "johnson walk n 1",
+      "kind": "famous-johnson",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          762,
+          307,
+          128,
+          277
+        ],
+        "visiblePixels": 21607,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-johnson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "johnson-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-johnson"
+    },
+    "johnson-walk-n-2": {
+      "sheet": "famous-johnson",
+      "x": 1073,
+      "y": 302,
+      "w": 135,
+      "h": 284,
+      "anchorX": 0.5444,
+      "anchorY": 0.9296,
+      "logicalHeight": 301,
+      "label": "johnson walk n 2",
+      "kind": "famous-johnson",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1075,
+          304,
+          131,
+          280
+        ],
+        "visiblePixels": 21713,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-johnson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "johnson-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-johnson"
+    },
+    "johnson-idle": {
+      "sheet": "famous-johnson",
+      "x": 119,
+      "y": 598,
+      "w": 125,
+      "h": 292,
+      "anchorX": 0.5,
+      "anchorY": 0.9555,
+      "logicalHeight": 301,
+      "label": "johnson idle",
+      "kind": "famous-johnson",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          121,
+          600,
+          121,
+          288
+        ],
+        "visiblePixels": 20766,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-johnson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-johnson"
+    },
+    "johnson-point": {
+      "sheet": "famous-johnson",
+      "x": 407,
+      "y": 602,
+      "w": 216,
+      "h": 285,
+      "anchorX": 0.3935,
+      "anchorY": 0.9579,
+      "logicalHeight": 301,
+      "label": "johnson point",
+      "kind": "famous-johnson",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          409,
+          604,
+          212,
+          281
+        ],
+        "visiblePixels": 24723,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-johnson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "johnson-command"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-johnson"
+    },
+    "johnson-gather": {
+      "sheet": "famous-johnson",
+      "x": 738,
+      "y": 590,
+      "w": 170,
+      "h": 301,
+      "anchorX": 0.5765,
+      "anchorY": 0.9468,
+      "logicalHeight": 301,
+      "label": "johnson gather",
+      "kind": "famous-johnson",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          740,
+          592,
+          166,
+          297
+        ],
+        "visiblePixels": 25056,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-johnson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "johnson-command"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-johnson"
+    },
+    "johnson-map": {
+      "sheet": "famous-johnson",
+      "x": 1076,
+      "y": 607,
+      "w": 166,
+      "h": 285,
+      "anchorX": 0.506,
+      "anchorY": 0.9333,
+      "logicalHeight": 301,
+      "label": "johnson map",
+      "kind": "famous-johnson",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1078,
+          609,
+          162,
+          281
+        ],
+        "visiblePixels": 23502,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-johnson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-johnson"
+    },
+    "johnson-escape-e-1": {
+      "sheet": "famous-johnson",
+      "x": 77,
+      "y": 907,
+      "w": 215,
+      "h": 254,
+      "anchorX": 0.3326,
+      "anchorY": 0.9291,
+      "logicalHeight": 301,
+      "label": "johnson escape e 1",
+      "kind": "famous-johnson",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          79,
+          909,
+          211,
+          250
+        ],
+        "visiblePixels": 24122,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-johnson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "johnson-escape-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-johnson"
+    },
+    "johnson-escape-e-2": {
+      "sheet": "famous-johnson",
+      "x": 408,
+      "y": 913,
+      "w": 219,
+      "h": 243,
+      "anchorX": 0.8425,
+      "anchorY": 0.9259,
+      "logicalHeight": 301,
+      "label": "johnson escape e 2",
+      "kind": "famous-johnson",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          410,
+          915,
+          215,
+          239
+        ],
+        "visiblePixels": 22378,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-johnson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "johnson-escape-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-johnson"
+    },
+    "johnson-door-crouch": {
+      "sheet": "famous-johnson",
+      "x": 719,
+      "y": 966,
+      "w": 202,
+      "h": 194,
+      "anchorX": 0.5272,
+      "anchorY": 0.9381,
+      "logicalHeight": 301,
+      "label": "johnson door crouch",
+      "kind": "famous-johnson",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          721,
+          968,
+          198,
+          190
+        ],
+        "visiblePixels": 21737,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-johnson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-johnson"
+    },
+    "johnson-look-back": {
+      "sheet": "famous-johnson",
+      "x": 1066,
+      "y": 904,
+      "w": 186,
+      "h": 259,
+      "anchorX": 0.4301,
+      "anchorY": 0.9266,
+      "logicalHeight": 301,
+      "label": "johnson look back",
+      "kind": "famous-johnson",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1068,
+          906,
+          182,
+          255
+        ],
+        "visiblePixels": 21138,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-johnson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-johnson"
     },
     "karnes-walk-e-1": {
       "sheet": "famous-karnes",
@@ -86163,6 +86839,94 @@
       "motion": "none",
       "direction": "east; mirror for west"
     },
+    "johnson-walk-e": {
+      "frames": [
+        {
+          "sprite": "johnson-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "johnson-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "johnson-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "johnson-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "johnson-walk-s": {
+      "frames": [
+        {
+          "sprite": "johnson-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "johnson-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "johnson-walk-n": {
+      "frames": [
+        {
+          "sprite": "johnson-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "johnson-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "johnson-command": {
+      "frames": [
+        {
+          "sprite": "johnson-point",
+          "duration": 480
+        },
+        {
+          "sprite": "johnson-gather",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "johnson-escape-e": {
+      "frames": [
+        {
+          "sprite": "johnson-escape-e-1",
+          "duration": 175
+        },
+        {
+          "sprite": "johnson-escape-e-2",
+          "duration": 175
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "karnes-walk-e": {
       "frames": [
         {
@@ -98380,7 +99144,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 184,
+    "sourceCount": 185,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

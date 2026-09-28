@@ -40,6 +40,13 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null, ctx = n
   return last;
 }
 
+test('Johnson escapes through the back door in his own running animation', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const johnson = { id: 'johnson', art: 'johnson', name: 'Johnson', side: 'texian', x: 0.04, y: 0, right: true, pose: 'escape', moving: true };
+  run(view, minute => night(minute, [part('back-door', 4, 0.04, { moving: true })], { phase: 'houses', people: [johnson] }), { seconds: 1, art });
+  assert.ok(art.drawn.some(one => one.clip === 'johnson-escape-e'));
+});
+
 test('a side in parts is drawn part by part: men asleep lying down, men in a house unseen but firing from it, men giving up with their hands up', () => {
   const art = fakeArt(), view = createBattleView(art);
   const texParts = [

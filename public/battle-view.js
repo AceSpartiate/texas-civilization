@@ -101,6 +101,7 @@ export const PERSON_ART = Object.freeze({
   rusk: { stand: 'rusk-idle', command: 'rusk-command', point: 'rusk-command', stop: 'clip:rusk-stop', write: 'rusk-write', ride: 'clip:rusk-mounted-walk-e', rideIdle: 'rusk-mounted-idle-e', walk: 'rusk-walk-e' },
   hockley: { stand: 'hockley-idle', command: 'hockley-point', point: 'hockley-point', gun: 'clip:hockley-battery-command', walk: 'hockley-walk-e' },
   mcculloch: { stand: 'mcculloch-idle', gun: 'clip:mcculloch-gun-service', listen: 'mcculloch-listen', walk: 'mcculloch-walk-e' },
+  johnson: { stand: 'johnson-idle', command: 'clip:johnson-command', point: 'johnson-point', escape: 'clip:johnson-escape-e', walk: 'johnson-walk-e' },
 });
 const lerp = (a, b, t) => a + (b - a) * t;
 
@@ -1160,14 +1161,16 @@ export function createBattleView(art) {
   function drawPeople(ctx, battle, camera, figurePx, time, now, bounds) {
     view.peopleSpots = {};
     const shown = [], labels = [];
+    const phaseMinute = battle.phaseMinute ?? battle.minute;
     for (const person of battle.people || []) {
       const p = camera.toScreen(person), fellAt = view.peopleFellAt.get(person.id);
       const fell = Number.isFinite(fellAt) && fellAt <= now;
       const hurt = Number.isFinite(person.hurt) && person.hurt <= battle.minute;
       const completedKarnesBreach = battle.id === 'bexar-storming' && battle.phase === 'karnes' && person.id === 'karnes' && (battle.breaches || []).some(breach => breach.open && Math.hypot(breach.x - person.x, breach.y - person.y) < 0.003);
-      const lamarRescue = battle.id === 'san-jacinto' && battle.phase === 'skirmish' && person.id === 'lamar' && battle.minute >= 44 && battle.minute < 50;
-      const shermanRally = battle.id === 'san-jacinto' && battle.phase === 'skirmish' && person.id === 'sherman' && battle.minute >= 22 && battle.minute < 25;
-      const shownPerson = completedKarnesBreach ? { ...person, pose: 'stand' } : lamarRescue ? { ...person, rescue: true } : shermanRally ? { ...person, rally: true } : person;
+      const lamarRescue = battle.id === 'san-jacinto' && battle.phase === 'skirmish' && person.id === 'lamar' && phaseMinute >= 44 && phaseMinute < 50;
+      const shermanRally = battle.id === 'san-jacinto' && battle.phase === 'skirmish' && person.id === 'sherman' && phaseMinute >= 22 && phaseMinute < 25;
+      const johnsonCommand = battle.id === 'bexar-storming' && battle.phase === 'night-7' && person.id === 'johnson' && phaseMinute >= 180;
+      const shownPerson = completedKarnesBreach ? { ...person, pose: 'stand' } : lamarRescue ? { ...person, rescue: true } : shermanRally ? { ...person, rally: true } : johnsonCommand ? { ...person, pose: 'command', moving: false } : person;
       const how = drawPerson(ctx, shownPerson, p, figurePx, time, { fell, fellAgo: fell ? now - fellAt : 0, hurt, now });
       view.peopleSpots[person.id] = view.peopleSpots[person.name] = { x: p.x, y: p.y - figurePx * (person.pose === 'ride' && !fell ? 1.35 : 1) };
       view.peopleShown.add(person.id);
@@ -1228,7 +1231,7 @@ export function createBattleView(art) {
       if (fellAgo < 700 && !person.still) return sprite(`${kind}-injured`);
       return sprite(`${kind}-reclining`);
     }
-    const pose = hurt ? 'wounded' : person.moving && person.pose !== 'ride' ? 'walk' : person.pose || 'stand';
+    const pose = hurt ? 'wounded' : person.moving && !['ride', 'escape'].includes(person.pose) ? 'walk' : person.pose || 'stand';
     const named = own?.[pose];
     if (pose === 'walk') {
       if (own?.walk) return clip(own.walk) || clip(`${kind}-march`);

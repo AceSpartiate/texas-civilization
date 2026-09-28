@@ -669,7 +669,7 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
   });
   const view = {
     id, name: def.name, phase: phase.id, title: phase.title || null, legacyPhase, caption: phase.caption, claimId: phase.claimId,
-    minute: world.minute, live: state.live, over: state.over, contact: state.live && world.minute >= state.contact,
+    minute: world.minute, phaseMinute: into, live: state.live, over: state.over, contact: state.live && world.minute >= state.contact,
     step: phase.step || null, sides,
     lines: state.over ? [] : linesSaid(state, world.minute),
     commands: def.commands || null,
