@@ -27,6 +27,7 @@ import { drawHousePlot, houseFootprint, plotCell, plotted, renderHousePlot } fro
 import { CABIN_PEOPLE, PERSON_MILES, houseOnGround, spacingRefusal, standingAt } from '/sim/house-footprint.mjs';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
+import { bindFlashback, renderFlashback } from '/flashback.js';
 import { bindLooks, renderLooks } from '/appearance.js';
 import { avatarVariant, drawAvatar, drawAvatarPortrait } from '/avatar-art.js';
 import { decodeAppearance } from '/look-vocabulary.js';
@@ -70,6 +71,10 @@ const battleView = createBattleView({ animated: (...args) => animated(...args), 
 const chaseView = createChaseView({ animated: (...args) => animated(...args), miniPerson: (...args) => miniPerson(...args) });
 let routeDraft = null, routePicking = false, routeEditorKey = '';
 let animationTime = 0, previousFrame = 0, paintedFrame = 0, animationDrawMs = 0;
+// The end-of-game flashback's recorder (public/flashback.js): the video's own clock while it draws a frame, which the figures'
+// cycles are timed by instead of the page's, and how many pictures of the land are still being made. Up here, above the page's
+// first `connect`, for the TDZ guard.
+let flashbackClock = null, landMaking = 0;
 // A traveller's cycle is played from their own place in their stride rather than the shared clock (public/motion.js `GaitClock`).
 const gaitClock = new GaitClock(), gaits = new Map();
 /**
@@ -96,7 +101,7 @@ function gaitTime(clip, gait) {
 }
 function animated(ctx, clip, x, y, size, seed = 0, { gait, ...options } = {}) {
   const own = gait && !options.paused && !('timeMs' in options) ? gaitTime(clip, gait) : undefined;
-  const width = drawClip(ctx, clip, x, y, size, { timeMs: own ?? animationTime, seed, reducedMotion: reducedMotion.matches, ...options });
+  const width = drawClip(ctx, clip, x, y, size, { timeMs: own ?? flashbackClock ?? animationTime, seed, reducedMotion: reducedMotion.matches, ...options });
   if (width) window.__animationClips?.add(clip);
   return width;
 }
@@ -2117,12 +2122,13 @@ function landPicture(grid) {
     return pictures;
   }
   landPictures.set(grid, LAND_MAKING);
+  landMaking++;
   smoothOffThread({ kind: 'land', grid: { columns: grid.columns, rows: grid.rows, cells: grid.cells, shade: grid.shade }, palette, upscale })
     .then(async ({ pictures: data }) => {
       const [wash, shade] = await Promise.all([toBitmap(data.wash), toBitmap(data.shade)]);
       landPictures.set(grid, { upscale, wash, shade });
       redrawForArrival();
-    });
+    }).finally(() => { landMaking--; });
   return null;
 }
 function layLandPicture(ctx, camera, grid, canvas, upscale, alpha) {
@@ -2763,6 +2769,27 @@ function noteTick(world) {
   if (!world || world.tick === lastTickSeen?.tick) return;
   if (lastTickSeen && world.tick === lastTickSeen.tick + 1 && world.minute > lastTickSeen.minute) minutesATick = world.minute - lastTickSeen.minute;
   lastTickSeen = { tick: world.tick, minute: world.minute };
+}
+/**
+ * A camera for the flashback (public/flashback.js): centred where it is told, at `scale` pixels a mile, on a canvas that is not
+ * the map's. The same shape `cameraFor` gives, so the ground, the houses and the figures are drawn at the sizes they always are.
+ */
+function flashbackCamera(canvas, cx, cy, scale) {
+  return {
+    cx, cy, scale, following: false, kind: 'flashback',
+    toScreen: p => ({ x: canvas.width / 2 + (p.x - cx) * scale, y: canvas.height / 2 + (p.y - cy) * scale }),
+    toWorld: s => ({ x: cx + (s.x - canvas.width / 2) / scale, y: cy + (s.y - canvas.height / 2) / scale }),
+    figure: Math.max(7, Math.min(150, scale * PERSON_MILES)), house: houseScale(scale), named: scale > 3.2,
+  };
+}
+/** The ground under a flashback's picture: the map's own land, water, scatter, terrain and fields, as the kept ground is drawn. */
+function flashbackGround(ctx, world, camera) {
+  ctx.fillStyle = '#9fbe73'; ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  drawRelief(ctx, world, camera);
+  // The scatter and the fields read the page's woods and plots; a flashback drawn before either has loaded is drawn without them.
+  try { drawGroundDetail(ctx, world, camera); } catch { /* the ground without its scatter */ }
+  drawTerrain(ctx, world, camera);
+  try { drawPlots(ctx, world, camera); } catch { /* the ground without the fields */ }
 }
 export function drawWorld(world) {
   noteTick(world);
@@ -6112,6 +6139,13 @@ document.addEventListener('click', event => {
   if (window.__snapshot) renderEncounter(window.__snapshot.world);
 });
 bindEnding();
+// The end-of-game flashback (public/flashback.js, docs/FLASHBACK.md): drawn with this page's own ground, houses and figures, on
+// a camera of its own, at the video's own clock.
+bindFlashback({
+  camera: flashbackCamera, ground: flashbackGround, miniPerson, miniAnimal, miniWagon, homesteadHouse, animated,
+  withClock: (ms, draw) => { const was = flashbackClock; flashbackClock = ms; try { return draw(); } finally { flashbackClock = was; } },
+  landSettled: () => landMaking === 0 && !landLevels.pending,
+});
 bindCreation({
   command: order => api('/api/command', { ...order, id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}` }),
   refresh: () => { forgetFamily(); if (window.__snapshot) render(window.__snapshot); },
@@ -6343,6 +6377,7 @@ function render(snapshot) {
   renderJoinLinks(snapshot);
   renderSlice(world);
   renderEnding(world);
+  renderFlashback(snapshot);
   // Making the family comes before the world is seen (public/creation.js): the curtain, and no map drawn behind it.
   const creating = renderCreation(world, familyCache);
   renderLooks(familyCache, { blocked: creating !== 'looks' });

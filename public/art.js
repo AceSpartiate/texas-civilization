@@ -80,15 +80,20 @@ function ensureManifests() {
   }
   return manifestPending;
 }
+/** How many sheets are on their way now: the flashback's recorder waits for none before it draws a frame (public/flashback.js). */
+let sheetsLoading = 0;
+export const sheetsInFlight = () => sheetsLoading;
 function requestSheet(name) {
   if (!art.sheets[name]) return Promise.resolve(null);
   if (!sheetPending.has(name)) {
+    sheetsLoading++;
     sheetPending.set(name, (async () => {
       const { image: source, sha256 } = art.sheets[name];
       // The manifest's own hash of the sheet pins the URL: the server lets the browser keep a pinned sheet for a year, so a
       // class's second day - or a reload - downloads no art at all, and a changed sheet has a new URL (server/delivery.mjs).
       const pin = typeof sha256 === 'string' && /^[0-9a-f]{64}$/.test(sha256) ? `?v=${sha256.slice(0, 16)}` : '';
       const image = await loadImage(`${source.startsWith('/') ? source : BASE + source}${pin}`);
+      sheetsLoading--;
       if (image) art.images[name] = image;
       art.status = Object.keys(art.images).length ? 'ready' : 'unavailable';
       notifyReady();
