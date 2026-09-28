@@ -44,10 +44,12 @@ docs/evidence/disease-study.json):
 | | Died | In a hundred | Under 2 | 2-5 | 6-15 | 16+ | Careful | Careless | Measles | Whooping cough | Chill | Flux |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Merged, rates as first built | 58 | 2.97 | 8.6 | 9.8 | 0.9 | 0.7 | 0.41 | 5.52 | 5 | 0 | 12 | 41 |
-| **Merged, retuned (the evidence)** | **58** | **2.97** | **5.7** | **9.2** | **1.5** | **0.9** | **0.51** | **5.42** | **30** | **14** | **8** | **6** |
+| Merged, retuned | 58 | 2.97 | 5.7 | 9.2 | 1.5 | 0.9 | 0.51 | 5.42 | 30 | 14 | 8 | 6 |
+| **Retuned, after merging `origin/main` `f7b7f7d` (the evidence)** | **54** | **2.76** | **4.3** | **8.9** | **1.5** | **0.7** | **0.51** | **5.01** | **28** | **14** | **6** | **6** |
 
 (Deaths in a hundred of each age and group; deaths by disease.) The routes and chases moved nothing visible: families nobody plays
-do not choose routes, and chases are rare. 40 of the 58 deaths were children under six; nobody died of a sickness in any autumn.
+do not choose routes, and chases are rare; the balance answers moved it by four deaths. 37 of the 54 deaths were children under
+six; nobody died of a sickness in any autumn.
 
 **Evidence** (same computer only; no LAN or district claim). `npm test` **1495 of 1495** (on `92418a6`; only docs changed since).
 Browser proofs on the merged tree: `test:disease` 8/8, `test:scrape-pursuit` 14/14 (8 shots fired and drawn at the running

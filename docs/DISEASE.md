@@ -745,23 +745,24 @@ their sick as the director does (nurse, rest a day for the very sick, never send
 the halves swapped between the two springs so every family is measured both ways - the owner's option C, "still weighted to the
 small and the uncared-for".
 
-**As measured now** (2026-09-27/28, on the tree with the Scrape's routes and chases merged in, and the rates retuned on the owner's
-answers of §9.5 - the evidence file is this run):
+**As measured now** (2026-09-28, on the tree with the Scrape's routes and chases merged in, the rates retuned on the owner's
+answers of §9.5, and `origin/main`'s balance answers merged - the evidence file is this run):
 
 | | People | Fell sick (episodes) | Very sick | Died | In a hundred |
 | --- | --- | --- | --- | --- | --- |
-| **The whole flight** | 1,956 | 1,049 | 199 | **58** | **2.97** |
+| **The whole flight** | 1,956 | 1,038 | 199 | **54** | **2.76** |
 | Families that saw to their sick | 978 | | | 5 | 0.51 |
-| Families that did not | 978 | | | 53 | 5.42 |
-| Under two | 140 | 161 | 45 | 8 | 5.7 |
-| Two to five | 348 | 345 | 88 | 32 | 9.2 |
-| Six to fifteen | 788 | 375 | 39 | 12 | 1.5 |
-| Sixteen and over | 680 | 168 | 27 | 6 | 0.9 |
+| Families that did not | 978 | | | 49 | 5.01 |
+| Under two | 140 | 160 | 50 | 6 | 4.3 |
+| Two to five | 348 | 342 | 86 | 31 | 8.9 |
+| Six to fifteen | 788 | 371 | 37 | 12 | 1.5 |
+| Sixteen and over | 680 | 165 | 26 | 5 | 0.7 |
 
-Of the 58 deaths, **40 were children under six** (69 in 100). By disease: **the measles 250 cases, 90 very sick, 30 died; the
-whooping cough 176, 58, 14**; a chill on the chest 426, 35, 8; the flux 197, 16, 6. The twelve flights ran from 0 to 8.1 in a
-hundred. In the autumns: 205 cases of the chills and fever among about 1,000 people, 12 of the siege's flux, 8 chills on the
-chest, **nobody dead of a sickness**; in the winters, 32 relapses.
+Of the 54 deaths, **37 were children under six** (69 in 100). By disease: **the measles 251 cases, 87 very sick, 28 died; the
+whooping cough 174, 61, 14**; a chill on the chest 419, 37, 6; the flux 194, 14, 6. The twelve flights ran from 0 to 8.1 in a
+hundred. In the autumns: 207 cases of the chills and fever among about 1,000 people, 12 of the siege's flux, 8 chills on the
+chest, **nobody dead of a sickness**; in the winters, 32 relapses. (Tuned before the balance merge, the same rates measured 2.97:
+58 deaths, the measles 30, the whooping cough 14, a chill 8, the flux 6; careful 0.51, careless 5.42.)
 
 **On the merged tree before the retuning** (the rates as first built, the Scrape's routes, halts and chases in): 2.97 in a hundred
 again (58 of 1,956); careful 0.41, careless 5.52; under two 8.6, two to five 9.8, six to fifteen 0.9, grown 0.7; the flux 41
@@ -838,7 +839,7 @@ fell **2.0 a day through "Stop and rest a day" and 0.5 a day walking** after it 
    | The flux: turning very sick / dying | 0.03 / 0.16 | **0.015 / 0.06** |
    | A chill on the chest: the same | 0.02 / 0.16 | **0.012 / 0.08** |
 
-   Measured (§9.2): **2.97 in a hundred**; the measles 30 of the 58 deaths, the whooping cough 14, a chill on the chest 8, the
-   flux 6; careful families 0.51, careless 5.42; 40 of the 58 under six. `tests/disease.test.mjs` step 8 now also fails unless the
+   Measured (§9.2): **2.76 in a hundred**; the measles 28 of the 54 deaths, the whooping cough 14, a chill on the chest 6, the
+   flux 6; careful families 0.51, careless 5.01; 37 of the 54 under six. `tests/disease.test.mjs` step 8 now also fails unless the
    measles and the whooping cough each killed more than every other sickness in the evidence (seen failing against the first
    build's rates and evidence: "lung-fever killed 10, measles 5").
