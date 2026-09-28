@@ -35,6 +35,8 @@ import { checkHousePlacement } from './house-placement.mjs';
 // the day the four houses get stages of their own.
 import { record } from './events.mjs';
 import { householdName } from './family.mjs';
+// The ledger of what families did for each other (sim/neighbourly.mjs): a raising's hours are one of its deeds.
+import { noteDeed } from './deeds.mjs';
 import { improvementsOf, setImprovement } from './improvements.mjs';
 import { CAMP_REST_SHARE, CAMP_SPOILAGE_PER_DAY } from './settling.mjs';
 import {
@@ -234,6 +236,7 @@ export function recordHelpDone(world, helperHousehold, entity, host, spells) {
   }
   const hours = spells * SPELL_TICKS * 20 / 60;
   const done = !raising(host);
+  noteDeed(world, { kind: 'raising', fromId: helperHousehold.id, toId: host.id, personId: entity.id, hours });
   record(world, 'raising', {
     actorId: entity.id, householdId: helperHousehold.id, importance: 2, claimId: 'FIC-GONZ-024',
     text: `${entity.name} put ${hours} ${hours === 1 ? 'hour' : 'hours'} into raising ${householdName(world, host)}'s walls${done ? ', and saw them up' : ''}.`,

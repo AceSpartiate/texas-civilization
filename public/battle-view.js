@@ -749,8 +749,11 @@ export function createBattleView(art) {
     if (DIM[battle.light] && bounds) { ctx.save(); ctx.fillStyle = DIM[battle.light]; ctx.fillRect(0, 0, bounds.width, bounds.height); ctx.restore(); }
     // Flashes: a tenth of a second each, over the figures.
     view.flashes = view.flashes.filter(f => now - f.born < 130);
+    // Each flash once, where it was drawn, for the page's sound (public/audio.js): a size of 2 or more is a gun.
+    const heard = [];
     for (const f of view.flashes) {
       const p = camera.toScreen(f), s = figurePx * 0.34 * f.size;
+      if (!f.heard) { f.heard = true; heard.push({ x: Math.round(p.x), y: Math.round(p.y), size: f.size }); }
       if (night) glow(ctx, p.x, p.y - figurePx * 0.55, figurePx * 1.6, 'rgba(255,200,120,.45)');
       if (!art.drawSprite(ctx, f.right ? 'muzzle-flash-e' : 'muzzle-flash-w', p.x, p.y - figurePx * 0.55, s)) {
         ctx.fillStyle = 'rgba(255,214,120,.9)'; ctx.beginPath(); ctx.arc(p.x, p.y - figurePx * 0.55, s * 0.35, 0, Math.PI * 2); ctx.fill();
@@ -772,7 +775,7 @@ export function createBattleView(art) {
     view.evidence = {
       id: battle.id, phase: battle.phase, minute: battle.minute, figures: { texian: drawn.texian.length, mexican: drawn.mexican.length },
       regularity: { texian: regularity(drawn.texian), mexican: regularity(drawn.mexican) },
-      flashes, shots, shotsTotal: view.shotsTotal, shotsBy: { ...view.shotsBy }, smoke: smokeDrawn.alive, smokeInView: smokeDrawn.inView, smokeCentre: smokeDrawn.centre, bubbles, linesShown: [...view.linesShown],
+      flashes, heard, shots, shotsTotal: view.shotsTotal, shotsBy: { ...view.shotsBy }, smoke: smokeDrawn.alive, smokeInView: smokeDrawn.inView, smokeCentre: smokeDrawn.centre, bubbles, linesShown: [...view.linesShown],
       members: [...view.members.keys()], memberClips: [...view.memberClips],
       memberPoses: [...view.members.keys()].map(id => ({ id, drawn: view.memberSpots.has(id) })),
       cannon: cannonShown, flag: flagShown, cannonShots: view.cannonFiredAt.length, fallen: [...fallenSlots.values()].reduce((s, m) => s + m.size, 0),
