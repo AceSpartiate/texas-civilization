@@ -706,7 +706,9 @@ works alongside the first). The panel and auto side is [FAMILY_PANEL.md §21](FA
 - `ceiling:` dragging a tree's logs in is one tick whatever the distance and whether or not the ox is home; the walk out is still
   walked. A drag that grew with the distance, or went quicker behind the ox, is the way out.
 
-**Open for the owner** (see the report and FAMILY_PANEL.md §21.6): whether a second feller should need a second felling axe.
+**Decided by the owner, 2026-09-28: "Each needs an axe."** Each feller holds a felling axe of their own; a second feller needs a
+second axe (docs/TOWNS.md §4b, amended; FAMILY_PANEL.md §21.6). The house's builders share one copy with the lane and clearing, as
+before, so a family with one axe takes turns, and one feller and one builder on auto still raise the house.
 
 ## 7. Old saves
 

@@ -519,17 +519,15 @@
         <button id="ending-close" aria-label="Close, to look at the map">&times;</button>
       </header>
       <!-- The flashback (public/flashback.js, docs/FLASHBACK.md): the family's story as a minute of video, made and kept on the
-           Host's computer; a student's own family's plays here, and the Host can play any family's or the whole class's. The
-           captions are in the picture and, below it, as words. -->
+           Host's computer; a student's own family's plays here by itself. The Host's screen shows no video unless the teacher looks
+           one family up and presses Watch (owner, 2026-09-28: "play3rs see it in their screens, not the host screen. host can look
+           up and watch one though"). The captions are in the picture and, below it, as words. -->
       <section id="flashback" hidden aria-labelledby="flashback-title">
         <h3 id="flashback-title">Our story, looking back</h3>
         <p id="flashback-status" role="status"></p>
         <video id="flashback-video" hidden controls playsinline muted preload="auto" aria-describedby="flashback-words"></video>
         <div class="flashback-controls"><button id="flashback-replay" hidden>Replay</button><span id="flashback-now"></span></div>
-        <div id="flashback-host" hidden>
-          <button id="flashback-play-all">Play the whole class in turn</button>
-          <ol id="flashback-families"></ol>
-        </div>
+        <details id="flashback-host" hidden><summary>Look up one family's flashback</summary><ol id="flashback-families"></ol></details>
         <details id="flashback-words" open><summary>The story in words</summary><ol id="flashback-transcript"></ol></details>
       </section>
       <div id="ending-body"></div>

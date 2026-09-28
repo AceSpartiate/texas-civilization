@@ -160,7 +160,7 @@ test('a second felling axe goes off the land while the first fells at home', () 
   const home = world.map.sites[family.homeSiteId];
   family.stock = true; // the whole grant is the land; drawn tight so the timber is off it
   family.grant = { minX: home.x - 0.02, minY: home.y - 0.02, maxX: home.x + 0.02, maxY: home.y + 0.02 };
-  feller.chore = { id: 'fell-trees', step: 1, wait: 2, doing: 'felling a post oak', ground: { x: home.x, y: home.y }, with: ['axe'], shares: ['axe'] };
+  feller.chore = { id: 'fell-trees', step: 1, wait: 2, doing: 'felling a post oak', ground: { x: home.x, y: home.y }, with: ['axe'] };
   feller.task = 'work';
   assert.equal(choreAvailability(world, family, carrier, 'make-furniture').why, `${feller.name} has the felling axe, felling a post oak.`);
   addTool(family, 'axe');

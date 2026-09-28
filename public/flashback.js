@@ -13,8 +13,8 @@
 //     encoded frames put into a file by public/webm-writer.js. A browser without WebCodecs (the Host page opened on a LAN
 //     address, which is not a secure context) records it in real time with MediaRecorder instead. The file is sent to the
 //     server, which keeps it in the class's data folder (server/flashback.mjs).
-//   - **Play** it: on a student's page their own family's, with a replay button and the captions as text below; on the Host's any
-//     family's, and the whole class's in turn.
+//   - **Play** it: on a student's page their own family's, by itself, with a replay button and the captions as text below. The
+//     Host's page plays nothing by itself: the teacher can look one family up and Watch it (owner, 2026-09-28).
 //
 // Nothing here decides anything about the story: the beats, their words and their order are the server's.
 import { muxWebM } from '/webm-writer.js';
@@ -36,7 +36,6 @@ let art = null;
 /** The page's own drawing, from public/app.js: the ground, the camera, the figures and the houses. */
 export function bindFlashback(hooks) {
   art = hooks;
-  document.querySelector('#flashback-play-all')?.addEventListener('click', () => playAll());
   document.querySelector('#flashback-replay')?.addEventListener('click', () => replay());
   document.querySelector('#flashback-make-again')?.addEventListener('click', () => { makeAgain = true; if (lastSnapshot) renderFlashback(lastSnapshot); });
 }
@@ -549,7 +548,7 @@ async function makeMissing() {
 
 // --------------------------------------------------------------------------------------------------------------- playing
 
-let lastSnapshot = null, autoplayed = false, shownKey = '', transcriptOf = null, queue = [];
+let lastSnapshot = null, autoplayed = false, shownKey = '', transcriptOf = null;
 const nameOf = (snapshot, householdId) => snapshot.world.ending?.host?.families?.find(family => family.householdId === householdId)?.name || snapshot.world.ending?.family?.name || householdId;
 const videoUrl = (householdId, made) => `/api/flashback/video?household=${encodeURIComponent(householdId)}&v=${made?.bytes || 0}`;
 
@@ -584,19 +583,6 @@ function replay() {
   if (!video?.src) return;
   video.currentTime = 0; video.play().catch(() => {});
 }
-/** The Host plays the whole class's in turn, the families students played first. */
-function playAll() {
-  const families = lastSnapshot?.flashback?.families?.filter(family => family.made) || [];
-  queue = families.sort((a, b) => Number(b.played) - Number(a.played)).map(family => family.householdId);
-  playNext();
-}
-function playNext() {
-  const next = queue.shift();
-  if (!next) return;
-  const family = lastSnapshot.flashback.families.find(one => one.householdId === next);
-  document.querySelector('#flashback-now').textContent = `Now playing: ${nameOf(lastSnapshot, next)}`;
-  play(next, family.made);
-}
 
 function renderStatus() {
   const status = document.querySelector('#flashback-status');
@@ -624,8 +610,10 @@ function renderHostList(snapshot) {
     row.append(make('span', `${nameOf(snapshot, family.householdId)}${family.played ? '' : ' (nobody played them)'}`, 'flashback-family'));
     if (family.made) {
       row.append(make('span', ` · ${Math.round(family.made.durationMs / 1000)} s · ${round1(family.made.bytes / 1048576)} MB `, 'flashback-facts'));
-      const button = make('button', 'Play');
-      button.addEventListener('click', () => { queue = []; document.querySelector('#flashback-now').textContent = `Now playing: ${nameOf(snapshot, family.householdId)}`; play(family.householdId, family.made); });
+      // Only when the teacher chooses one: the Host's screen plays nothing by itself (owner, 2026-09-28: "players see it in
+      // their screens, not the host screen. host can look up and watch one though").
+      const button = make('button', 'Watch');
+      button.addEventListener('click', () => { document.querySelector('#flashback-now').textContent = `Watching: ${nameOf(snapshot, family.householdId)}`; play(family.householdId, family.made); });
       row.append(button);
     } else row.append(make('span', making.failed.has(family.householdId) ? ` · not made: ${making.failed.get(family.householdId)}` : ' · waiting to be made', 'flashback-facts'));
     return row;
@@ -655,6 +643,3 @@ export function renderFlashback(snapshot) {
   // The Host's page makes every family's; a Play Solo player's page makes its own, its computer being the Host's.
   if (flashback.keeps && (host || snapshot.solo) && wanted(snapshot).length) makeMissing();
 }
-
-// The Host's queue goes on to the next family when one ends.
-document.querySelector('#flashback-video')?.addEventListener('ended', () => { if (queue.length) playNext(); });
