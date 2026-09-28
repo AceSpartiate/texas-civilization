@@ -18,6 +18,7 @@ import { CHORES } from './chores.mjs';
 import { SERVICE } from './winter.mjs';
 import { campName } from './houston.mjs';
 import { rumourStory } from './rumour-story.mjs';
+import { classSickness, diedAChild, sickWords } from './disease.mjs';
 // A cycle with sim/directors.mjs (which calls `spotlight`), safe because both sides use the other only inside functions.
 import { dateOf } from './directors.mjs';
 
@@ -55,7 +56,8 @@ export function whereWords(world, person, household) {
   const condition = person.health?.condition;
   if (condition === 'dead') return 'dead';
   if (condition === 'captured') return 'a prisoner';
-  const sick = condition === 'sick' ? 'sick, ' : '';
+  // Named, and very sick said so (sim/disease.mjs): "sick with the measles, at Liberty, fled from home".
+  const sick = sickWords(person);
   const service = person.service;
   if (service?.status === 'serving' || service?.status === 'prisoner') {
     if (service.besieged) return `${sick}shut in the Alamo`;
@@ -133,13 +135,18 @@ export function familiesOverview(world, guidedOf = () => null) {
     // Whether the student pressed the X on the guided start, or took it back up (owner, 2026-09-22: "quietly show
     // dismissal/resumption to the teacher"): a line of words on the row, absent for every family that did neither.
     ...(guidedOf(household) && { guided: guidedOf(household) }),
-    people: household.members.map(id => world.entities[id]).filter(person => person?.kind === 'person').map(person => ({
+    // A child who died of a sickness is never named on the projector (the owner, 2026-09-27, docs/DISEASE.md §4): the family's
+    // own record has the one plain sentence, and the class panel only counts it.
+    people: household.members.map(id => world.entities[id]).filter(person => person?.kind === 'person' && !diedAChild(person)).map(person => ({
       name: person.name, role: person.kin?.role || (person.principal ? 'principal' : ''), where: whereWords(world, person, household),
     })),
+    ...(household.members.some(id => diedAChild(world.entities[id] || {})) && { lost: household.members.filter(id => diedAChild(world.entities[id] || {})).length }),
   }));
 }
 
 /** What the Host's live page is sent, beside the map: never a student. */
 export function hostLiveProjection(world, guidedOf) {
-  return { families: familiesOverview(world, guidedOf), story: rumourStory(world), ...(spotlightProjection(world) && { spotlight: spotlightProjection(world) }) };
+  // The class's sickness counted in words (sim/disease.mjs `classSickness`): how many, never who.
+  const sickness = classSickness(world);
+  return { families: familiesOverview(world, guidedOf), story: rumourStory(world), ...(spotlightProjection(world) && { spotlight: spotlightProjection(world) }), ...((sickness.lines.length || sickness.died) && { sickness }) };
 }

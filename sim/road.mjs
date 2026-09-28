@@ -46,6 +46,7 @@ import { bundleRoom, cowPace, lookoutMiles, lookoutOf, loseCow } from './flight-
 // route (sim/flight-route.mjs): a cycle through these, safe because each side uses the other only inside functions.
 import { advancePursuit, altoOptions, altoText, answerAlto, chaseProjection, runRefusal, sightMiles } from './pursuit.mjs';
 import { flightPlaces, routeProjection } from './flight-route.mjs';
+import { campedApart } from './disease.mjs';
 
 const DAY = 1440;
 const round = value => Math.round(value * 100) / 100;
@@ -581,6 +582,8 @@ export function roadChoreRefusal(world, household, entity, chore) {
   if (flight.bog) return 'The wagon is fast in the mud; free it first.';
   // 'campsite', not 'camp': that key is Houston's camp work (sim/camp.mjs), which the army's march breaks off.
   if (chore.campsite && !(flight.crossing || flight.status === 'refuged')) return 'There are no other families camped here to trade with; there are at a crossing or a refuge.';
+  // Camped apart from the crowd, away from its sickness (sim/disease.mjs `camp-apart`): the other families are a mile off.
+  if (chore.skill === 'trade' && campedApart(world, household)) return 'The family is camped apart from the others, and there is nobody near to trade with.';
   if (chore.nurses && !people(world, household).some(one => one.health?.condition === 'sick')) return 'Nobody of the family is sick.';
   // A line goes in where there is water to put it in: at a crossing the family is standing at the river, and every refuge
   // the flight makes for stands on one - San Felipe and Washington on the Brazos, Lynchburg on the San Jacinto, Liberty on

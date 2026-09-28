@@ -3,8 +3,8 @@ import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtRea
 import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
-import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
-import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, standing, travellingLine, awayLine, RENAME_PAUSE_MS } from '/family-panel.js';
+import { familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
+import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { mountErrand } from '/errand.js';
 import { asksTheWay, mountGoing } from '/going.js';
@@ -3048,6 +3048,7 @@ export function drawWorld(world) {
   window.__familyHousesHidden = apart.hidden.map(each => each.siteId);
   // Somebody away on the road is sent no `location` at all (sim/world.mjs `seenTravel`): there is nothing here to draw
   // them at, and nothing to decide - the server already decided.
+  // Nor anybody of the family who died of a sickness, whom the server sends with no place (sim/disease.mjs, owner 2026-09-27).
   const entities = entitiesOf(world).filter(entity => entity.location);
   // Everyone else standing where your family is standing. Drawn plainly, never with a
   // request mark and never with a selection ring that implies you can order them.
@@ -4187,6 +4188,18 @@ function renderFamilyPanel(world) {
     if (row.word.hidden !== !shortWord) row.word.hidden = !shortWord;
     if (row.word.title !== life) row.word.title = life;
     setData(row.autoSays, 'waiting', String(Boolean(onAuto && entity.autoTask?.waiting)));
+    // The sickness (sim/disease.mjs): the server's line under the rest, and the badge on the portrait; very sick is said in red.
+    const sickSays = sickLine(entity);
+    if (row.sick.textContent !== sickSays) row.sick.textContent = sickSays;
+    if (row.sick.hidden !== !sickSays) row.sick.hidden = !sickSays;
+    setData(row.sick, 'grave', String(Boolean(entity.sickness?.grave)));
+    setData(row.item, 'sick', String(Boolean(entity.sickness)));
+    if (row.sickMark.hidden !== !entity.sickness) {
+      row.sickMark.hidden = !entity.sickness;
+      if (entity.sickness) drawIcon(row.sickMark.querySelector('canvas'), 'tend-sick', { drawSprite, spriteFrame });
+    }
+    const badgeLabel = entity.sickness ? sickSays : '';
+    if (row.sickMark.title !== badgeLabel) row.sickMark.title = badgeLabel;
     // The rooms of the house are set out from the main person's row: one place for the family's own detailed work.
     const houseShown = focused && house;
     if (row.house.hidden !== !houseShown) row.house.hidden = !houseShown;
@@ -4394,10 +4407,15 @@ function renderHostLive(snapshot, host) {
       people.append(...row.people.map(person => { const line = element('li', ''); line.append(element('span', `${person.name} `), element('span', person.where)); return line; }));
       // The guided start, only when the student stopped it or took it back up (owner, 2026-09-22): a line of words, never
       // a banner, a sound or an alert, and not a live region either - the teacher reads it when they look.
-      item.append(head, ...(row.guided ? [element('p', row.guided, 'host-guided')] : []), people);
+      // A child lost to sickness, counted and not named (the owner, 2026-09-27; sim/host.mjs).
+      const lost = row.lost ? [element('p', `${row.lost === 1 ? 'A child' : `${row.lost} children`} of this family died of sickness.`, 'host-lost')] : [];
+      item.append(head, ...(row.guided ? [element('p', row.guided, 'host-guided')] : []), people, ...lost);
       return item;
     }));
   }
+  // The class's sickness, counted in words (sim/disease.mjs `classSickness`): "Measles: 4 sick, 1 very sick."
+  const classSick = sicknessView(live), sickNode = $('#host-sickness');
+  if (sickNode) { if (sickNode.textContent !== classSick) sickNode.textContent = classSick; sickNode.hidden = !classSick; }
   // The Rumor Mill: one running story, rewritten only when it changes (sim/rumour-story.mjs, docs/HOST_PAGE.md §2.2).
   const story = storyView(live.story);
   if (hostLiveKeys.rumours !== story.key) {
@@ -4421,7 +4439,7 @@ function renderHostLive(snapshot, host) {
     }
     if (!shown) hostLiveKeys.spotlight = null;
   }
-  window.__hostLive = { families: rows, story: { paragraphs: story.paragraphs.length, topics: live.story?.topics || [], latest: story.latest }, spotlight: shown?.key || null };
+  window.__hostLive = { families: rows, story: { paragraphs: story.paragraphs.length, topics: live.story?.topics || [], latest: story.latest }, spotlight: shown?.key || null, sickness: classSick };
 }
 $('#host-spotlight-back')?.addEventListener('click', () => applyMapView('follow'));
 /** A data- attribute written only when it changes: the panel is redrawn every tick on a slow computer. */
@@ -4452,7 +4470,7 @@ function goToPerson(id) {
   if (world) { drawWorld(world); renderFamilyPanel(world); renderSelection(world); renderTutorial(world); }
 }
 /** Where on the card each need is answered. A rider has a panel of their own. */
-const NEED_SECTIONS = { army: '#selection-army', camp: '#selection-work', courier: '#selection-work', flight: '#selection-flight', road: '#selection-flight', call: '#selection-call', asking: '#selection-work', offer: '#selection-trade' };
+const NEED_SECTIONS = { army: '#selection-army', camp: '#selection-work', courier: '#selection-work', flight: '#selection-flight', road: '#selection-flight', call: '#selection-call', asking: '#selection-work', offer: '#selection-trade', sick: '#selection-work' };
 /**
  * The "!" on a row: go to the person and open what is waiting on them - the rider's conversation, or their card at the
  * question with its answers - and put the keyboard on the first answer. Nothing is decided here: the answers are the card's
@@ -4604,7 +4622,16 @@ function panelRow(id) {
   // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - the marks drawn are Claude-drawn; Astra's
   // mark-need, mark-need-rider, mark-main, mark-idle and mark-auto of the same names replace them when registered.
   const star = panelMark('span', '★', 'panel-star', 'mark-main'), idleMark = panelMark('span', 'idle', 'panel-idle-mark', 'mark-idle');
-  portrait.append(canvas, star, idleMark);
+  // The sick badge (sim/disease.mjs, docs/DISEASE.md §3.10): shown while the server says the person is sick.
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-27 "the sick badge" - the road's nursing picture (`icon-tend-sick`, or its
+  // drawn glyph) in a small disc; Astra's `mark-sick` replaces it when registered.
+  const sickMark = element('span', '', 'panel-sick-mark');
+  const sickCanvas = document.createElement('canvas');
+  sickCanvas.width = sickCanvas.height = 48;
+  sickCanvas.setAttribute('aria-hidden', 'true');
+  sickMark.append(sickCanvas);
+  sickMark.hidden = true;
+  portrait.append(canvas, star, idleMark, sickMark);
   // The "!": its own button beside the portrait (a button cannot hold a button), shown only while somebody waits on them.
   const attention = panelMark('button', '!', 'panel-attention', 'mark-need');
   attention.type = 'button';
@@ -4661,9 +4688,13 @@ function panelRow(id) {
   // What the family's little ones are doing to or with this person (docs/CHILDREN.md, owner 2026-09-26): the server's sentence.
   const life = element('span', '', 'panel-life-line');
   life.hidden = true;
-  body.append(label, input, tools, note, why, autoSays, life);
+  // The sickness in the server's words (sim/disease.mjs `sicknessShown`): what they have, what they are doing, and what rest
+  // would do - "Has the measles: walking. Resting would mend it sooner."
+  const sick = element('span', '', 'panel-sick-line');
+  sick.hidden = true;
+  body.append(label, input, tools, note, why, autoSays, life, sick);
   item.append(portrait, attention, body, icons);
-  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, autoSays, life, word, note, why, face: null, iconsKey: null };
+  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, autoSays, life, sick, sickMark, word, note, why, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
 }
@@ -4864,6 +4895,11 @@ function renderSelection(world) {
       : `${chosen.task || 'resting'} · ${placeName(world, chosen.location?.siteId)} · ${chosen.health?.condition === 'wounded' ? `${chosen.health.grade || 'badly'} wounded` : chosen.health?.condition || 'well'}`;
   // A lasting mark from a wound (sim/army.mjs `WOUND_GRADES`): part of who this person is now, so it stays on their card.
   if (chosen.marks?.length && world.role !== 'host') $('#selection-state').textContent += ` · ${chosen.marks.join(', ')}`;
+  // The sickness in the server's words, and who has had the measles, which a family knew (sim/disease.mjs `sicknessShown`).
+  if (!chosen.observed && world.role !== 'host') {
+    if (chosen.sickness?.line) $('#selection-state').textContent += ` · ${chosen.sickness.line}`;
+    if (chosen.hadMeasles) $('#selection-state').textContent += ' · has had the measles';
+  }
   // The call panel below carries the question itself. This line is what is left for a
   // person who has been asked something that is not open to them to answer any more.
   const calling = task?.status === 'open' && task.options?.length && !chosen.observed && world.role !== 'host';

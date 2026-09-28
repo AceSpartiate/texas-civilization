@@ -1,0 +1,1533 @@
+{
+  "record": "disease-study",
+  "date": "2026-09-28",
+  "families": 15,
+  "classes": 6,
+  "springs": 2,
+  "modes": [
+    "mixed"
+  ],
+  "rates": {
+    "diseases": {
+      "measles": {
+        "days": 7,
+        "worsen": 0.03,
+        "death": 0.2,
+        "household": 0.9
+      },
+      "whooping-cough": {
+        "days": 21,
+        "worsen": 0.02,
+        "death": 0.2,
+        "household": 0.8
+      },
+      "ague": {
+        "days": 6,
+        "worsen": 0.015,
+        "death": 0.1,
+        "household": null
+      },
+      "flux": {
+        "days": 5,
+        "worsen": 0.03,
+        "death": 0.16,
+        "household": null
+      },
+      "lung-fever": {
+        "days": 5,
+        "worsen": 0.02,
+        "death": 0.16,
+        "household": null
+      }
+    },
+    "crowdCatch": {
+      "measles": 0.1,
+      "whooping-cough": 0.08
+    },
+    "flux": 0.02,
+    "fluxAfterDays": 2,
+    "camp": {
+      "measles": 0.012,
+      "flux": 0.01
+    },
+    "siegeFlux": 0.01,
+    "ague": 0.012,
+    "agueRelapse": 0.4,
+    "sickPerDay": 0.004,
+    "mend": {
+      "rest": 2,
+      "ride": 1,
+      "work": 0.5
+    },
+    "risk": {
+      "rest": 0.5,
+      "ride": 1,
+      "work": 2
+    }
+  },
+  "autumnWinter": [
+    {
+      "seed": "disease-a",
+      "autumn": {
+        "people": 170,
+        "fell": 50,
+        "grave": 1,
+        "died": 0,
+        "perHundred": 0,
+        "byBand": {
+          "0-1": {
+            "people": 12,
+            "fell": 6,
+            "grave": 1,
+            "died": 0
+          },
+          "2-5": {
+            "people": 31,
+            "fell": 18,
+            "grave": 0,
+            "died": 0
+          },
+          "6-15": {
+            "people": 66,
+            "fell": 16,
+            "grave": 0,
+            "died": 0
+          },
+          "16+": {
+            "people": 61,
+            "fell": 10,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "lung-fever": {
+            "fell": 7,
+            "grave": 1,
+            "died": 0
+          },
+          "ague": {
+            "fell": 43,
+            "grave": 0,
+            "died": 0
+          }
+        }
+      },
+      "winter": {
+        "people": 170,
+        "fell": 5,
+        "grave": 0,
+        "died": 0,
+        "perHundred": 0,
+        "byBand": {
+          "0-1": {
+            "people": 12,
+            "fell": 1,
+            "grave": 0,
+            "died": 0
+          },
+          "2-5": {
+            "people": 31,
+            "fell": 1,
+            "grave": 0,
+            "died": 0
+          },
+          "6-15": {
+            "people": 66,
+            "fell": 1,
+            "grave": 0,
+            "died": 0
+          },
+          "16+": {
+            "people": 61,
+            "fell": 2,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "ague": {
+            "fell": 5,
+            "grave": 0,
+            "died": 0
+          }
+        }
+      }
+    },
+    {
+      "seed": "disease-b",
+      "autumn": {
+        "people": 202,
+        "fell": 51,
+        "grave": 1,
+        "died": 0,
+        "perHundred": 0,
+        "byBand": {
+          "0-1": {
+            "people": 14,
+            "fell": 5,
+            "grave": 1,
+            "died": 0
+          },
+          "2-5": {
+            "people": 34,
+            "fell": 21,
+            "grave": 0,
+            "died": 0
+          },
+          "6-15": {
+            "people": 80,
+            "fell": 11,
+            "grave": 0,
+            "died": 0
+          },
+          "16+": {
+            "people": 74,
+            "fell": 14,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "ague": {
+            "fell": 49,
+            "grave": 1,
+            "died": 0
+          },
+          "flux": {
+            "fell": 2,
+            "grave": 0,
+            "died": 0
+          }
+        }
+      },
+      "winter": {
+        "people": 202,
+        "fell": 9,
+        "grave": 1,
+        "died": 0,
+        "perHundred": 0,
+        "byBand": {
+          "0-1": {
+            "people": 14,
+            "fell": 1,
+            "grave": 1,
+            "died": 0
+          },
+          "2-5": {
+            "people": 34,
+            "fell": 5,
+            "grave": 0,
+            "died": 0
+          },
+          "6-15": {
+            "people": 80,
+            "fell": 0,
+            "grave": 0,
+            "died": 0
+          },
+          "16+": {
+            "people": 74,
+            "fell": 3,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "ague": {
+            "fell": 9,
+            "grave": 1,
+            "died": 0
+          }
+        }
+      }
+    },
+    {
+      "seed": "disease-c",
+      "autumn": {
+        "people": 161,
+        "fell": 39,
+        "grave": 0,
+        "died": 0,
+        "perHundred": 0,
+        "byBand": {
+          "0-1": {
+            "people": 12,
+            "fell": 1,
+            "grave": 0,
+            "died": 0
+          },
+          "2-5": {
+            "people": 23,
+            "fell": 15,
+            "grave": 0,
+            "died": 0
+          },
+          "6-15": {
+            "people": 66,
+            "fell": 16,
+            "grave": 0,
+            "died": 0
+          },
+          "16+": {
+            "people": 60,
+            "fell": 7,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "ague": {
+            "fell": 38,
+            "grave": 0,
+            "died": 0
+          },
+          "flux": {
+            "fell": 1,
+            "grave": 0,
+            "died": 0
+          }
+        }
+      },
+      "winter": {
+        "people": 161,
+        "fell": 7,
+        "grave": 1,
+        "died": 0,
+        "perHundred": 0,
+        "byBand": {
+          "0-1": {
+            "people": 12,
+            "fell": 1,
+            "grave": 1,
+            "died": 0
+          },
+          "2-5": {
+            "people": 23,
+            "fell": 2,
+            "grave": 0,
+            "died": 0
+          },
+          "6-15": {
+            "people": 66,
+            "fell": 1,
+            "grave": 0,
+            "died": 0
+          },
+          "16+": {
+            "people": 60,
+            "fell": 3,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "ague": {
+            "fell": 7,
+            "grave": 1,
+            "died": 0
+          }
+        }
+      }
+    },
+    {
+      "seed": "disease-d",
+      "autumn": {
+        "people": 159,
+        "fell": 32,
+        "grave": 2,
+        "died": 0,
+        "perHundred": 0,
+        "byBand": {
+          "0-1": {
+            "people": 14,
+            "fell": 4,
+            "grave": 0,
+            "died": 0
+          },
+          "2-5": {
+            "people": 30,
+            "fell": 10,
+            "grave": 1,
+            "died": 0
+          },
+          "6-15": {
+            "people": 61,
+            "fell": 6,
+            "grave": 0,
+            "died": 0
+          },
+          "16+": {
+            "people": 54,
+            "fell": 12,
+            "grave": 1,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "ague": {
+            "fell": 29,
+            "grave": 1,
+            "died": 0
+          },
+          "flux": {
+            "fell": 3,
+            "grave": 1,
+            "died": 0
+          }
+        }
+      },
+      "winter": {
+        "people": 159,
+        "fell": 4,
+        "grave": 0,
+        "died": 0,
+        "perHundred": 0,
+        "byBand": {
+          "0-1": {
+            "people": 14,
+            "fell": 2,
+            "grave": 0,
+            "died": 0
+          },
+          "2-5": {
+            "people": 30,
+            "fell": 0,
+            "grave": 0,
+            "died": 0
+          },
+          "6-15": {
+            "people": 61,
+            "fell": 0,
+            "grave": 0,
+            "died": 0
+          },
+          "16+": {
+            "people": 54,
+            "fell": 2,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "ague": {
+            "fell": 4,
+            "grave": 0,
+            "died": 0
+          }
+        }
+      }
+    },
+    {
+      "seed": "disease-e",
+      "autumn": {
+        "people": 164,
+        "fell": 24,
+        "grave": 0,
+        "died": 0,
+        "perHundred": 0,
+        "byBand": {
+          "0-1": {
+            "people": 8,
+            "fell": 4,
+            "grave": 0,
+            "died": 0
+          },
+          "2-5": {
+            "people": 27,
+            "fell": 6,
+            "grave": 0,
+            "died": 0
+          },
+          "6-15": {
+            "people": 67,
+            "fell": 9,
+            "grave": 0,
+            "died": 0
+          },
+          "16+": {
+            "people": 62,
+            "fell": 5,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "ague": {
+            "fell": 23,
+            "grave": 0,
+            "died": 0
+          },
+          "flux": {
+            "fell": 1,
+            "grave": 0,
+            "died": 0
+          }
+        }
+      },
+      "winter": {
+        "people": 164,
+        "fell": 2,
+        "grave": 0,
+        "died": 0,
+        "perHundred": 0,
+        "byBand": {
+          "0-1": {
+            "people": 8,
+            "fell": 0,
+            "grave": 0,
+            "died": 0
+          },
+          "2-5": {
+            "people": 27,
+            "fell": 1,
+            "grave": 0,
+            "died": 0
+          },
+          "6-15": {
+            "people": 67,
+            "fell": 0,
+            "grave": 0,
+            "died": 0
+          },
+          "16+": {
+            "people": 62,
+            "fell": 1,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "ague": {
+            "fell": 2,
+            "grave": 0,
+            "died": 0
+          }
+        }
+      }
+    },
+    {
+      "seed": "disease-f",
+      "autumn": {
+        "people": 145,
+        "fell": 29,
+        "grave": 1,
+        "died": 0,
+        "perHundred": 0,
+        "byBand": {
+          "0-1": {
+            "people": 10,
+            "fell": 1,
+            "grave": 0,
+            "died": 0
+          },
+          "2-5": {
+            "people": 29,
+            "fell": 11,
+            "grave": 1,
+            "died": 0
+          },
+          "6-15": {
+            "people": 54,
+            "fell": 7,
+            "grave": 0,
+            "died": 0
+          },
+          "16+": {
+            "people": 52,
+            "fell": 10,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "ague": {
+            "fell": 23,
+            "grave": 1,
+            "died": 0
+          },
+          "flux": {
+            "fell": 5,
+            "grave": 0,
+            "died": 0
+          },
+          "lung-fever": {
+            "fell": 1,
+            "grave": 0,
+            "died": 0
+          }
+        }
+      },
+      "winter": {
+        "people": 145,
+        "fell": 5,
+        "grave": 0,
+        "died": 0,
+        "perHundred": 0,
+        "byBand": {
+          "0-1": {
+            "people": 10,
+            "fell": 0,
+            "grave": 0,
+            "died": 0
+          },
+          "2-5": {
+            "people": 29,
+            "fell": 2,
+            "grave": 0,
+            "died": 0
+          },
+          "6-15": {
+            "people": 54,
+            "fell": 2,
+            "grave": 0,
+            "died": 0
+          },
+          "16+": {
+            "people": 52,
+            "fell": 1,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "ague": {
+            "fell": 5,
+            "grave": 0,
+            "died": 0
+          }
+        }
+      }
+    }
+  ],
+  "spring": {
+    "mixed": [
+      {
+        "seed": "disease-a",
+        "people": 164,
+        "fell": 134,
+        "grave": 17,
+        "died": 4,
+        "perHundred": 2.44,
+        "byBand": {
+          "0-1": {
+            "people": 12,
+            "fell": 23,
+            "grave": 4,
+            "died": 1
+          },
+          "2-5": {
+            "people": 31,
+            "fell": 43,
+            "grave": 9,
+            "died": 2
+          },
+          "6-15": {
+            "people": 66,
+            "fell": 47,
+            "grave": 2,
+            "died": 1
+          },
+          "16+": {
+            "people": 55,
+            "fell": 21,
+            "grave": 2,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "lung-fever": {
+            "fell": 49,
+            "grave": 6,
+            "died": 0
+          },
+          "flux": {
+            "fell": 67,
+            "grave": 11,
+            "died": 4
+          },
+          "measles": {
+            "fell": 16,
+            "grave": 0,
+            "died": 0
+          },
+          "whooping-cough": {
+            "fell": 2,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "groups": {
+          "careful": {
+            "people": 95,
+            "died": 0,
+            "diedUnderSix": 0
+          },
+          "careless": {
+            "people": 69,
+            "died": 4,
+            "diedUnderSix": 3
+          }
+        }
+      },
+      {
+        "seed": "disease-a~1",
+        "people": 164,
+        "fell": 106,
+        "grave": 11,
+        "died": 4,
+        "perHundred": 2.44,
+        "byBand": {
+          "0-1": {
+            "people": 12,
+            "fell": 19,
+            "grave": 3,
+            "died": 1
+          },
+          "2-5": {
+            "people": 31,
+            "fell": 29,
+            "grave": 4,
+            "died": 2
+          },
+          "6-15": {
+            "people": 66,
+            "fell": 33,
+            "grave": 3,
+            "died": 1
+          },
+          "16+": {
+            "people": 55,
+            "fell": 25,
+            "grave": 1,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "lung-fever": {
+            "fell": 34,
+            "grave": 3,
+            "died": 0
+          },
+          "flux": {
+            "fell": 50,
+            "grave": 5,
+            "died": 4
+          },
+          "measles": {
+            "fell": 19,
+            "grave": 3,
+            "died": 0
+          },
+          "whooping-cough": {
+            "fell": 3,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "groups": {
+          "careful": {
+            "people": 69,
+            "died": 0,
+            "diedUnderSix": 0
+          },
+          "careless": {
+            "people": 95,
+            "died": 4,
+            "diedUnderSix": 3
+          }
+        }
+      },
+      {
+        "seed": "disease-b",
+        "people": 195,
+        "fell": 138,
+        "grave": 17,
+        "died": 4,
+        "perHundred": 2.05,
+        "byBand": {
+          "0-1": {
+            "people": 14,
+            "fell": 23,
+            "grave": 1,
+            "died": 0
+          },
+          "2-5": {
+            "people": 34,
+            "fell": 45,
+            "grave": 9,
+            "died": 2
+          },
+          "6-15": {
+            "people": 80,
+            "fell": 41,
+            "grave": 4,
+            "died": 0
+          },
+          "16+": {
+            "people": 67,
+            "fell": 29,
+            "grave": 3,
+            "died": 2
+          }
+        },
+        "byDisease": {
+          "lung-fever": {
+            "fell": 46,
+            "grave": 6,
+            "died": 1
+          },
+          "flux": {
+            "fell": 79,
+            "grave": 9,
+            "died": 3
+          },
+          "measles": {
+            "fell": 9,
+            "grave": 2,
+            "died": 0
+          },
+          "whooping-cough": {
+            "fell": 4,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "groups": {
+          "careful": {
+            "people": 106,
+            "died": 0,
+            "diedUnderSix": 0
+          },
+          "careless": {
+            "people": 89,
+            "died": 4,
+            "diedUnderSix": 2
+          }
+        }
+      },
+      {
+        "seed": "disease-b~1",
+        "people": 195,
+        "fell": 122,
+        "grave": 20,
+        "died": 8,
+        "perHundred": 4.1,
+        "byBand": {
+          "0-1": {
+            "people": 14,
+            "fell": 15,
+            "grave": 3,
+            "died": 1
+          },
+          "2-5": {
+            "people": 34,
+            "fell": 42,
+            "grave": 7,
+            "died": 5
+          },
+          "6-15": {
+            "people": 80,
+            "fell": 39,
+            "grave": 6,
+            "died": 1
+          },
+          "16+": {
+            "people": 67,
+            "fell": 26,
+            "grave": 4,
+            "died": 1
+          }
+        },
+        "byDisease": {
+          "lung-fever": {
+            "fell": 31,
+            "grave": 6,
+            "died": 3
+          },
+          "flux": {
+            "fell": 67,
+            "grave": 13,
+            "died": 5
+          },
+          "measles": {
+            "fell": 17,
+            "grave": 1,
+            "died": 0
+          },
+          "whooping-cough": {
+            "fell": 7,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "groups": {
+          "careful": {
+            "people": 89,
+            "died": 0,
+            "diedUnderSix": 0
+          },
+          "careless": {
+            "people": 106,
+            "died": 8,
+            "diedUnderSix": 6
+          }
+        }
+      },
+      {
+        "seed": "disease-c",
+        "people": 159,
+        "fell": 87,
+        "grave": 15,
+        "died": 9,
+        "perHundred": 5.66,
+        "byBand": {
+          "0-1": {
+            "people": 12,
+            "fell": 11,
+            "grave": 4,
+            "died": 4
+          },
+          "2-5": {
+            "people": 23,
+            "fell": 23,
+            "grave": 5,
+            "died": 2
+          },
+          "6-15": {
+            "people": 66,
+            "fell": 36,
+            "grave": 4,
+            "died": 2
+          },
+          "16+": {
+            "people": 58,
+            "fell": 17,
+            "grave": 2,
+            "died": 1
+          }
+        },
+        "byDisease": {
+          "lung-fever": {
+            "fell": 29,
+            "grave": 4,
+            "died": 3
+          },
+          "flux": {
+            "fell": 40,
+            "grave": 8,
+            "died": 6
+          },
+          "whooping-cough": {
+            "fell": 7,
+            "grave": 0,
+            "died": 0
+          },
+          "measles": {
+            "fell": 11,
+            "grave": 3,
+            "died": 0
+          }
+        },
+        "groups": {
+          "careful": {
+            "people": 83,
+            "died": 0,
+            "diedUnderSix": 0
+          },
+          "careless": {
+            "people": 76,
+            "died": 9,
+            "diedUnderSix": 6
+          }
+        }
+      },
+      {
+        "seed": "disease-c~1",
+        "people": 159,
+        "fell": 87,
+        "grave": 14,
+        "died": 6,
+        "perHundred": 3.77,
+        "byBand": {
+          "0-1": {
+            "people": 12,
+            "fell": 16,
+            "grave": 5,
+            "died": 0
+          },
+          "2-5": {
+            "people": 23,
+            "fell": 19,
+            "grave": 5,
+            "died": 5
+          },
+          "6-15": {
+            "people": 66,
+            "fell": 34,
+            "grave": 2,
+            "died": 0
+          },
+          "16+": {
+            "people": 58,
+            "fell": 18,
+            "grave": 2,
+            "died": 1
+          }
+        },
+        "byDisease": {
+          "lung-fever": {
+            "fell": 30,
+            "grave": 3,
+            "died": 1
+          },
+          "flux": {
+            "fell": 38,
+            "grave": 7,
+            "died": 4
+          },
+          "whooping-cough": {
+            "fell": 5,
+            "grave": 0,
+            "died": 0
+          },
+          "measles": {
+            "fell": 14,
+            "grave": 4,
+            "died": 1
+          }
+        },
+        "groups": {
+          "careful": {
+            "people": 76,
+            "died": 1,
+            "diedUnderSix": 1
+          },
+          "careless": {
+            "people": 83,
+            "died": 5,
+            "diedUnderSix": 4
+          }
+        }
+      },
+      {
+        "seed": "disease-d",
+        "people": 157,
+        "fell": 121,
+        "grave": 20,
+        "died": 4,
+        "perHundred": 2.55,
+        "byBand": {
+          "0-1": {
+            "people": 14,
+            "fell": 18,
+            "grave": 4,
+            "died": 2
+          },
+          "2-5": {
+            "people": 30,
+            "fell": 37,
+            "grave": 10,
+            "died": 2
+          },
+          "6-15": {
+            "people": 61,
+            "fell": 48,
+            "grave": 3,
+            "died": 0
+          },
+          "16+": {
+            "people": 52,
+            "fell": 18,
+            "grave": 3,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "lung-fever": {
+            "fell": 38,
+            "grave": 5,
+            "died": 0
+          },
+          "flux": {
+            "fell": 63,
+            "grave": 12,
+            "died": 3
+          },
+          "measles": {
+            "fell": 14,
+            "grave": 3,
+            "died": 1
+          },
+          "whooping-cough": {
+            "fell": 6,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "groups": {
+          "careful": {
+            "people": 85,
+            "died": 0,
+            "diedUnderSix": 0
+          },
+          "careless": {
+            "people": 72,
+            "died": 4,
+            "diedUnderSix": 4
+          }
+        }
+      },
+      {
+        "seed": "disease-d~1",
+        "people": 157,
+        "fell": 127,
+        "grave": 17,
+        "died": 4,
+        "perHundred": 2.55,
+        "byBand": {
+          "0-1": {
+            "people": 14,
+            "fell": 17,
+            "grave": 6,
+            "died": 1
+          },
+          "2-5": {
+            "people": 30,
+            "fell": 38,
+            "grave": 7,
+            "died": 3
+          },
+          "6-15": {
+            "people": 61,
+            "fell": 51,
+            "grave": 2,
+            "died": 0
+          },
+          "16+": {
+            "people": 52,
+            "fell": 21,
+            "grave": 2,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "lung-fever": {
+            "fell": 45,
+            "grave": 7,
+            "died": 1
+          },
+          "flux": {
+            "fell": 63,
+            "grave": 10,
+            "died": 3
+          },
+          "whooping-cough": {
+            "fell": 9,
+            "grave": 0,
+            "died": 0
+          },
+          "measles": {
+            "fell": 10,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "groups": {
+          "careful": {
+            "people": 72,
+            "died": 0,
+            "diedUnderSix": 0
+          },
+          "careless": {
+            "people": 85,
+            "died": 4,
+            "diedUnderSix": 4
+          }
+        }
+      },
+      {
+        "seed": "disease-e",
+        "people": 161,
+        "fell": 128,
+        "grave": 11,
+        "died": 2,
+        "perHundred": 1.24,
+        "byBand": {
+          "0-1": {
+            "people": 8,
+            "fell": 10,
+            "grave": 0,
+            "died": 0
+          },
+          "2-5": {
+            "people": 27,
+            "fell": 53,
+            "grave": 7,
+            "died": 2
+          },
+          "6-15": {
+            "people": 67,
+            "fell": 42,
+            "grave": 2,
+            "died": 0
+          },
+          "16+": {
+            "people": 59,
+            "fell": 23,
+            "grave": 2,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "lung-fever": {
+            "fell": 27,
+            "grave": 1,
+            "died": 0
+          },
+          "flux": {
+            "fell": 66,
+            "grave": 7,
+            "died": 2
+          },
+          "measles": {
+            "fell": 25,
+            "grave": 3,
+            "died": 0
+          },
+          "whooping-cough": {
+            "fell": 10,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "groups": {
+          "careful": {
+            "people": 92,
+            "died": 0,
+            "diedUnderSix": 0
+          },
+          "careless": {
+            "people": 69,
+            "died": 2,
+            "diedUnderSix": 2
+          }
+        }
+      },
+      {
+        "seed": "disease-e~1",
+        "people": 161,
+        "fell": 161,
+        "grave": 15,
+        "died": 6,
+        "perHundred": 3.73,
+        "byBand": {
+          "0-1": {
+            "people": 8,
+            "fell": 19,
+            "grave": 1,
+            "died": 0
+          },
+          "2-5": {
+            "people": 27,
+            "fell": 50,
+            "grave": 9,
+            "died": 5
+          },
+          "6-15": {
+            "people": 67,
+            "fell": 67,
+            "grave": 4,
+            "died": 1
+          },
+          "16+": {
+            "people": 59,
+            "fell": 25,
+            "grave": 1,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "lung-fever": {
+            "fell": 46,
+            "grave": 4,
+            "died": 1
+          },
+          "flux": {
+            "fell": 79,
+            "grave": 8,
+            "died": 4
+          },
+          "whooping-cough": {
+            "fell": 8,
+            "grave": 0,
+            "died": 0
+          },
+          "measles": {
+            "fell": 28,
+            "grave": 3,
+            "died": 1
+          }
+        },
+        "groups": {
+          "careful": {
+            "people": 69,
+            "died": 0,
+            "diedUnderSix": 0
+          },
+          "careless": {
+            "people": 92,
+            "died": 6,
+            "diedUnderSix": 5
+          }
+        }
+      },
+      {
+        "seed": "disease-f",
+        "people": 142,
+        "fell": 76,
+        "grave": 7,
+        "died": 1,
+        "perHundred": 0.7,
+        "byBand": {
+          "0-1": {
+            "people": 10,
+            "fell": 10,
+            "grave": 0,
+            "died": 0
+          },
+          "2-5": {
+            "people": 29,
+            "fell": 24,
+            "grave": 6,
+            "died": 1
+          },
+          "6-15": {
+            "people": 54,
+            "fell": 31,
+            "grave": 1,
+            "died": 0
+          },
+          "16+": {
+            "people": 49,
+            "fell": 11,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "lung-fever": {
+            "fell": 16,
+            "grave": 0,
+            "died": 0
+          },
+          "flux": {
+            "fell": 46,
+            "grave": 3,
+            "died": 1
+          },
+          "measles": {
+            "fell": 12,
+            "grave": 4,
+            "died": 0
+          },
+          "whooping-cough": {
+            "fell": 2,
+            "grave": 0,
+            "died": 0
+          }
+        },
+        "groups": {
+          "careful": {
+            "people": 79,
+            "died": 1,
+            "diedUnderSix": 1
+          },
+          "careless": {
+            "people": 63,
+            "died": 0,
+            "diedUnderSix": 0
+          }
+        }
+      },
+      {
+        "seed": "disease-f~1",
+        "people": 142,
+        "fell": 91,
+        "grave": 16,
+        "died": 6,
+        "perHundred": 4.23,
+        "byBand": {
+          "0-1": {
+            "people": 10,
+            "fell": 17,
+            "grave": 4,
+            "died": 1
+          },
+          "2-5": {
+            "people": 29,
+            "fell": 29,
+            "grave": 6,
+            "died": 4
+          },
+          "6-15": {
+            "people": 54,
+            "fell": 24,
+            "grave": 3,
+            "died": 1
+          },
+          "16+": {
+            "people": 49,
+            "fell": 21,
+            "grave": 3,
+            "died": 0
+          }
+        },
+        "byDisease": {
+          "flux": {
+            "fell": 50,
+            "grave": 11,
+            "died": 4
+          },
+          "lung-fever": {
+            "fell": 26,
+            "grave": 2,
+            "died": 0
+          },
+          "measles": {
+            "fell": 12,
+            "grave": 2,
+            "died": 2
+          },
+          "whooping-cough": {
+            "fell": 3,
+            "grave": 1,
+            "died": 0
+          }
+        },
+        "groups": {
+          "careful": {
+            "people": 63,
+            "died": 2,
+            "diedUnderSix": 2
+          },
+          "careless": {
+            "people": 79,
+            "died": 4,
+            "diedUnderSix": 3
+          }
+        }
+      }
+    ]
+  },
+  "parts": [
+    {
+      "date": "2026-09-28",
+      "seeds": [
+        "disease-a"
+      ]
+    },
+    {
+      "date": "2026-09-28",
+      "seeds": [
+        "disease-b"
+      ]
+    },
+    {
+      "date": "2026-09-28",
+      "seeds": [
+        "disease-c"
+      ]
+    },
+    {
+      "date": "2026-09-28",
+      "seeds": [
+        "disease-d"
+      ]
+    },
+    {
+      "date": "2026-09-28",
+      "seeds": [
+        "disease-e"
+      ]
+    },
+    {
+      "date": "2026-09-28",
+      "seeds": [
+        "disease-f"
+      ]
+    }
+  ],
+  "pooled": {
+    "mixed": {
+      "flights": 12,
+      "people": 1956,
+      "fell": 1378,
+      "grave": 180,
+      "died": 58,
+      "perHundred": 2.97,
+      "byBand": {
+        "0-1": {
+          "people": 140,
+          "fell": 198,
+          "grave": 35,
+          "died": 11
+        },
+        "2-5": {
+          "people": 348,
+          "fell": 432,
+          "grave": 84,
+          "died": 35
+        },
+        "6-15": {
+          "people": 788,
+          "fell": 493,
+          "grave": 36,
+          "died": 7
+        },
+        "16+": {
+          "people": 680,
+          "fell": 255,
+          "grave": 25,
+          "died": 5
+        }
+      },
+      "byDisease": {
+        "lung-fever": {
+          "fell": 417,
+          "grave": 47,
+          "died": 10
+        },
+        "flux": {
+          "fell": 708,
+          "grave": 104,
+          "died": 43
+        },
+        "measles": {
+          "fell": 187,
+          "grave": 28,
+          "died": 5
+        },
+        "whooping-cough": {
+          "fell": 66,
+          "grave": 1,
+          "died": 0
+        }
+      },
+      "groups": {
+        "careful": {
+          "people": 978,
+          "died": 4,
+          "diedUnderSix": 4,
+          "perHundred": 0.41
+        },
+        "careless": {
+          "people": 978,
+          "died": 54,
+          "diedUnderSix": 42,
+          "perHundred": 5.52
+        }
+      }
+    }
+  }
+}

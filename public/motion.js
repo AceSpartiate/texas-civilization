@@ -97,9 +97,18 @@ export const HURT_CONDITIONS = ['minor-injury', 'injured', 'wounded'];
 export const STILL_CONDITIONS = ['dead', 'captured'];
 // Conditions that need no pose of their own: the person is drawn doing whatever they are
 // doing, and the state is carried in words.
-// ceiling: somebody sick on the road (sim/scrape.mjs) is drawn as they are, travelling or resting; the sickness is carried in
-// words on their card. A sick pose is nobody's request yet.
+// Somebody sick is drawn as they are while they travel or work, and lying down while they rest (`restingSick`, below; since
+// 2026-09-27, sim/disease.mjs, docs/DISEASE.md §3.10), in the delivered `injured-rest` clip the battles already bind to pose
+// `sick`. The sickness itself is carried in words on their row and card.
 export const ORDINARY_CONDITIONS = ['well', 'tired', 'sick'];
+/**
+ * Whether a sick person is drawn lying down: sick, resting where they are (not on a road, not at work, not carried), and not a
+ * baby, whose sheet has no lying pose.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-27 "sickness", item 3 - the delivered `-injured-rest` pose, as the hurt are
+ * drawn; `-sick-rest` replaces it, and `infant-sick` puts a sick baby down too.
+ */
+export const restingSick = entity => (entity.health?.condition || entity.condition) === 'sick' && !entity.travel && !entity.chore
+  && (entity.task || 'rest') === 'rest' && !entity.carriedBy && entity.band !== 'infant';
 /**
  * A rider, drawn as a rider.
  *
@@ -416,6 +425,8 @@ function grownClip(entity, observed) {
   const condition = entity.health?.condition || entity.condition;
   // Somebody hurt is drawn hurt, and a condition outranks whatever they were doing.
   if (HURT_CONDITIONS.includes(condition)) return { id: `${variant}-injured-rest`, frozen: true, upright: true };
+  // Sick and resting: lying down, as the hurt are (`restingSick`).
+  if (restingSick({ ...entity, condition })) return { id: `${variant}-injured-rest`, frozen: true, upright: true };
   // Capture and death stay a still upright pose; a lying-down figure would be a depiction
   // this project never chose.
   if (STILL_CONDITIONS.includes(condition)) return { id: `${variant}-idle-s`, frozen: true, upright: true };

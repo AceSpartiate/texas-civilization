@@ -21,6 +21,7 @@ import { answerCourier } from './alamo.mjs';
 import { advanceRunners, runnerInvalid } from './alamo-runner.mjs';
 import { decisionClockInvalid, decisionPressing, spendDecisionBudget } from './decision-budget.mjs';
 import { advanceFlight, flee, flightProjection, householdAsKnown, scrapeInvalid, share, stayHome } from './scrape.mjs';
+import { advanceDisease, diseaseInvalid, mendSickness, registerDiseaseChores, sickRefusal, sicknessShown } from './disease.mjs';
 import { answerRoad, registerRoadChores } from './road.mjs';
 // The family's own route on the Scrape, and the chases the Host watches (owner, 2026-09-27).
 import { setRoute } from './flight-route.mjs';
@@ -31,6 +32,8 @@ import { WATER_HIGH, WATER_SHUT, waterAt, weatherAt, weatherOn } from './weather
 // The road's chores join the one table here, once every module above is made (sim/road.mjs says why not at its own load).
 registerRoadChores();
 registerFlightWork();
+// Resting a day on the road, camping apart from a crowd, nursing at home (sim/disease.mjs), on the same terms.
+registerDiseaseChores();
 import { advanceLesson, advanceLessons, inLesson, lessonHostWords, lessonInvalid, lessonProjection, lessonRefusal, lessonResumeOffer, resumeLesson, stopLesson } from './lesson.mjs';
 import { REPEATED, advanceAuto, autoShown, noteOrder, setAuto, waitForTask, waitingWork } from './auto.mjs';
 import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
@@ -371,6 +374,8 @@ export const STANDING_APART_MILES = 0.25;
 export function beginTravel(world, entity, destination, causeId, purpose = 'visit', modeId = DEFAULT_MODE) {
   // Somebody severely or dangerously wounded lies where the surgeon has them until they mend (sim/army.mjs `WOUND_GRADES`).
   if (entity.health?.condition === 'wounded') throw new Error(`${entity.name} is lying wounded and cannot travel yet.`);
+  // Very sick: too sick to get up (sim/disease.mjs, the owner 2026-09-27). Somebody only sick may go, and the row says what it costs.
+  { const why = sickRefusal(entity); if (why) throw new Error(why); }
   if (entity.travel || !entity.location.siteId) throw new Error('Already traveling.');
   if (!world.map.sites[destination]) throw new Error('No known route to that destination.');
   if (entity.location.siteId === destination) throw new Error('Already there.');
@@ -651,6 +656,9 @@ export function stepWorld(world, { realMs = 0, decisionBudgetMs, callBudgetMs } 
   // stepped in process carries none.
   spendDecisionBudget(world, realMs, { budgetMs: decisionBudgetMs, callBudgetMs, heldFor: household => inLesson(world, household), beginTravel });
   for (const entity of Object.values(world.entities)) progressTravel(world, entity);
+  // The sick mend by what they did this tick - rested where the road held them, rode or walked where it did not - wherever they
+  // are (sim/disease.mjs `mendSickness`, docs/DISEASE.md build step 0 and §3.7).
+  mendSickness(world, calendar);
   // A baby carried on an errand is where its carrier is, and is set down when they are home (sim/babies.mjs).
   carryBabies(world);
   // Travis's runner crosses the Alamo's plaza (sim/alamo-runner.mjs): before the director, so one sent this tick is seen at
@@ -696,6 +704,9 @@ export function stepWorld(world, { realMs = 0, decisionBudgetMs, callBudgetMs } 
   advanceRoutine(world, calendar); deliverReports(world);
   // The families on the road east (sim/scrape.mjs): the rivers, the food, the sickness, arriving.
   advanceFlight(world, calendar);
+  // Sickness for everybody the road's own day did not reach: nursing seen, a sickness caught coming out, the day's roll, the
+  // word of the crowded places (sim/disease.mjs, docs/DISEASE.md).
+  advanceDisease(world);
   advanceDirectors(world, { beginTravel, dispatchReport });
   // Whatever somebody rode to the army marches with them (sim/keeping.mjs), once the army has moved.
   keepWithRiders(world);
@@ -1216,6 +1227,12 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // the map draws - a child talking and with whom, a grown-up called aside, a baby's state and who carries it. Never a child's
     // obedience and never how long their automation has left.
     ...(e.kind === 'person' && household ? littleOnes(world, household, e) : {}),
+    // The sickness in words (sim/disease.mjs): the row's line, very sick for the "!", the warning for work, and who has had the
+    // measles for the card. Never a chance or a weight.
+    ...(e.kind === 'person' ? sicknessShown(world, e) : {}),
+    // Somebody of the family who died of a sickness is told in one plain sentence and not drawn (the owner, 2026-09-27): sent with
+    // no place, as somebody away is, so the page has nothing to draw them at and nothing to decide.
+    ...(e.kind === 'person' && e.health?.condition === 'dead' && e.health.disease && { location: null }),
   }));
   // What each person could be asked to do, with the reason for anything refused, is
   // computed on the server. The client must never decide for itself what is possible:
@@ -1496,6 +1513,9 @@ export function validateWorld(world) {
   if (badService) throw new Error(badService);
   const badFlight = scrapeInvalid(world);
   if (badFlight) throw new Error(badFlight);
+  // The named sicknesses (sim/disease.mjs): every field checked only when present, so a class saved before them opens.
+  const badSickness = diseaseInvalid(world);
+  if (badSickness) throw new Error(badSickness);
   const badCamp = campInvalid(world);
   if (badCamp) throw new Error(badCamp);
   const badRunner = runnerInvalid(world) || decisionClockInvalid(world);

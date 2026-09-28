@@ -213,7 +213,9 @@ test('rain, cold and hunger make people sick on the road, the sick mend, and a f
   }, 4000);
   assert.ok(fell.size > 0, 'nobody fell sick on the road');
   assert.ok(mended.size > 0, 'nobody mended');
-  const died = world.events.filter(event => /died of the sickness on the road/.test(event.text));
+  // Since 2026-09-27 the sickness has a name, and a death one plain sentence with it (sim/disease.mjs): "died of the flux at Liberty,
+  // and was buried there", or on the road "and was buried where they fell".
+  const died = world.events.filter(event => event.sickness === 'died' && / died of .+, and was buried /.test(event.text));
   assert.ok(died.every(event => fell.has(event.actorId)), 'somebody died of a sickness they never had');
   const travellers = Object.values(world.entities).filter(one => one.householdId && one.kind === 'person').length;
   assert.ok(died.length <= Math.ceil(travellers * 0.05), `too many died: ${died.length} of ${travellers}`);

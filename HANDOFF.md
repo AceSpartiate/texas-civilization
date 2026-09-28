@@ -79,6 +79,53 @@ wounded person keeps their seat. No `saveVersion` moved: `flight.route`, `flight
 **Decisions for the owner** (SCRAPE.md §16, multiple choice): (a) fire on a family that runs - as built / only men and animals, held
 where women and children are in the way / never; (b) rarity - keep / rarer / commoner; (c) what a hit does - keep / wounds only / as
 in battle; (d) running for the timber - keep / infantry follow and cavalry do not / no timber rule.
+## Disease: the five sicknesses of 1835–36, and rest that mends — the owner's request and answers of 2026-09-27 (worktree branch from main e937b72, origin/main e86b281 merged; not released)
+
+**The owner** (2026-09-27): *"also, plan for diseases. keep it historical as to which ones. stopping to rest should help characters
+recover."* The plan is docs/DISEASE.md; the owner answered its questions the same day by multiple choice (§7, recorded there), and
+§9 says what was built. Everything is `sim/disease.mjs`; the road calls it once a day (`roadSickness`, from `advanceFlight`),
+`stepWorld` twice (`mendSickness` after the roads move, `advanceDisease` after the flight).
+
+- **Step 0, a bug fixed first**: a sickness was mended only inside the road's loop, so somebody made sick at home by a norther, or a
+  man serving with the army, **never got well**. Seen failing on `main` (three tests), fixed in its own commit.
+- **The five**: measles, whooping cough, the chills and fever, the flux, a chill on the chest - named on the row, in the record, on
+  the Host's page; cholera, smallpox and yellow fever are not in play (`HIST-TEX-673`, `-675`).
+- **Stages**: sick → very sick (the "!", a red line, a day to answer) → past the worst → well; **only the very sick can die**, never
+  on the day they are seen, never nursed that day or the day before, never in the first period (the siege of Béxar with it).
+- **Rest**: resting mends two days a day and halves the risk; riding one and the ordinary risk; walking or working half and double.
+  Every halt is rest; idle is rest; whoever was working about the place goes to bed when the sickness comes. **"Stop and rest a
+  day"** on the road (`rest-road`). A sick person may work, with the server's warning on every work icon; a very sick one cannot
+  get up or go anywhere.
+- **Spread**: within a family, measles and whooping cough ten to twelve days on to whoever can take them; who has had the measles
+  is dealt by age and shown on the card. Between families **only at the record's places and dates** - the Trinity (March 25 to
+  April 30) and Lynch's ferry (March 22 to April 22, reconstructed) - with the word going along the road at fifteen miles a day
+  into the journal and the Rumor Mill, and **"Camp apart from the crowd"** to stay out of it. The flux after two days at a refuge;
+  measles and the flux in Houston's camp April 1 to 20; the flux before Béxar, never fatal.
+- **The ague**: the first period, at a house on river-bottom land, until the first norther after November 1; four in ten again in
+  the winter; **the doctor's bark cures it** and stops its coming back; for anything else calomel and bleeding, two days further
+  from mending, said plainly. **Rice and tea for sickness** at the store (a real, three portions, a day nearer mending each).
+- **Automatic families** never send the sick to work, nurse at home and on the road, and rest a day for the very sick unless the army
+  is close. **The Host**: "sick with the measles, at Liberty …", the class's sick counted in words (`#host-sickness`), and **a child
+  dead of a sickness is never named on the projector** ("A child of this family died of sickness."), never drawn, never spotlit.
+
+**Measured** (`scripts/disease-study.mjs`, docs/evidence/disease-study.json): twelve flights, 1,956 people, in classes where half the
+families see to their sick and half do not: **2.97 in a hundred died over the whole flight** (careful families 0.41, careless 5.52);
+**46 of the 58 deaths were children under six** (7.9 in a hundred of those under two, 10.1 of two to five, 0.7 of the grown). Rest:
+a patient four days from mending is well in **2.0 days resting, 8.0 working**; on the road in the browser the days to mending fell
+**2.0 a day through a day's rest, 0.5 walking** after it. No sickness death in any autumn.
+
+**Evidence**: `tests/disease.test.mjs` (30 tests, one or more for each build step); `scripts/disease-injections.mjs` (**47 of 47
+injections caught by exactly the tests each names**, docs/evidence/disease-injections.json; one guard not injectable, said why there); `npm run test:disease` (1366x768 and 1024x768: the row,
+the badge and the card; the "!"; "Stop and rest a day" glowing and halting, the row saying resting; the Host's words, the count and
+the unnamed child; the word of the sickness in the journal and the Rumor Mill; no page errors; docs/evidence/disease-browser.json).
+Same computer only; no LAN or district claim. `npm test` 1,480 of 1,480 after the merge of origin/main e86b281; `test:scrape`,
+`test:family-panel`, `test:lesson`, `test:winter` pass. **`test:children` fails** at "the child at tag was drawn in 1 places in four
+seconds" - **and fails the same on origin/main b9daabb** (run in a scratch worktree), so it is not this branch's; left for its owner.
+
+**Not built**, each said where it is: re-seating the sick in the wagon mid-road (`sim/company.mjs`'s `ceiling:` stands - another
+builder had the flight open); Labadie's men sent home with the measles (docs/HOUSTON_CAMP.md §5); nursing in the camp; cholera as the
+towns' talk. **For the owner**: the flux kills most (43 of 58); whether "three in a hundred" is meant for a careless, a mixed or a
+careful class; whether nursing should stay a certainty for the day (docs/DISEASE.md §9.3–9.4).
 
 ## Play Solo closes itself: the window's X saves, pauses and stops — owner, 2026-09-27 (worktree branch; not released)
 

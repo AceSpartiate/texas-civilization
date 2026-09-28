@@ -102,9 +102,12 @@ Each is **chosen by default; the owner may change it.** The historical grounding
 
 ## 5. Ceilings
 
-- `ceiling:` no sickness in the camp. The record has the sick left opposite Harrisburg and the maladies of the spring rains
-  (`HIST-TEX-078`); the road's sickness (`sim/scrape.mjs`) stays the road's. A daily roll at the road's rate for a man in
-  camp, and being left with the camp guard when the army marches for the field, is the way out.
+- ~~`ceiling:` no sickness in the camp.~~ Lifted 2026-09-27 (docs/DISEASE.md, sim/disease.mjs `homeCauses`): from April 1 to
+  20 a man serving in the camp may take the measles (if he never had it) or the flux, as Labadie records (`HIST-TEX-669`); a
+  sick man is relieved of the camp's work and rests (a family nobody plays and a man on auto send him to none), mends at the
+  rested pace, and is left with the baggage at Harrisburg as before (`BAGGAGE_CONDITIONS`). Nobody nurses him in the camp.
+  `ceiling:` Labadie's men "discharged" home with the measles are not: a sick man stays with the army until he mends. A permit to
+  go home, carrying the measles to his family, is the way out (docs/DISEASE.md §3.4).
 - ~~Groce's is words, not a place.~~ Done 2026-09-17: Groce's is the army's camp west of the Brazos (`HIST-TEX-086`).
   ~~The army leaves it for Harrisburg through San Felipe.~~ Done 2026-09-18: it crosses to Bernardo on April 12 and marches
   east from there (`HIST-TEX-088`, `-089`). ~~The army waits at Bernardo until April 18.~~ Done 2026-09-18: it leaves on

@@ -262,6 +262,8 @@ export function observedBy(world, householdId) {
     .filter(entity => !(Number.isFinite(entity.service?.fellAt) && entity.service.fellAt <= world.minute))
     // Nor is a prisoner walked south out of sight down the road to Matamoros (sim/south.mjs `marchPrisoners`).
     .filter(entity => !Number.isFinite(entity.service?.offMap))
+    // Nor another family's dead of a sickness, buried where they fell (sim/disease.mjs): not drawn, and not named.
+    .filter(entity => !(entity.health?.condition === 'dead' && entity.health.disease))
     // Nor a messenger whose errand is done and who has gone (owner, 2026-09-27: "riders delivering messages should leave after
     // their interactions are complete"): a rider ridden home (sim/encounters.mjs `advanceDepartures`), or Travis's runner back
     // inside the colonel's quarters (sim/encounters.mjs `goneFromSight`).

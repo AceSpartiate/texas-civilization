@@ -1,8 +1,8 @@
 # Disease — which sicknesses, where, and what rest does
 
-**Status: plan, not built.** Written 2026-09-27 for the owner's request of that day. No code has changed. The owner
-questions in §7 must be answered before build step 1 (§6) begins, except for build step 0, which fixes a real bug found
-while writing this and could go ahead now.
+**Status: built 2026-09-27 (not released).** Written 2026-09-27 for the owner's request of that day; the owner answered §7
+the same day, by multiple choice; build steps 0–9 (§6) are built, as §9 says, with what differs from the plan said there.
+The plan (§1–§6) is kept as it was written, so the reasoning stays readable; where it and §9 disagree, §9 is what the game does.
 
 > "also, plan for diseases. keep it historical as to which ones. stopping to rest should help characters recover."
 > — the owner, 2026-09-27
@@ -463,6 +463,12 @@ take a **deliberately distant block, `HIST-TEX-700`–`-706` and `FIC-GONZ-700`�
 the next free IDs when registered**, and the registry test will catch a clash. They are proposed here only and are not
 in `HISTORY.md`.
 
+**Registered 2026-09-27, renumbered twice**: `HIST-TEX-700`–`706` are `HIST-TEX-669`–`675` and `FIC-GONZ-700`–`706` are
+`FIC-GONZ-669`–`675`, in the same order; `FIC-GONZ-676` is new (rice and tea at the store). They were first renumbered to
+`-661`–`-667` (and `FIC-GONZ-668`), which the Scrape's routes and chases had registered the same day (`HIST-TEX-660`–`-668`,
+`FIC-GONZ-660`–`-667`, docs/SCRAPE.md §11–§16); on merging the two the Scrape kept its numbers and these moved on by eight. The rows as registered are in
+`HISTORY.md`, amended from these where the build differs (§9).
+
 | Stable ID | Exact historical claim | Classification and direct citation | Implementation note |
 | --- | --- | --- | --- |
 | **HIST-TEX-700** | **Measles and diarrhoea in Houston's army, March–April 1836.** On the march from the Trinity to the Colorado Labadie treated "cramps, colics and diarrhoea"; at Groce's "a great deal of sickness prevailed" and "the increase of diarrhoea" brought discontent; about April 16, near Roberts', "the measles had broken out in the army" and "some eight men were discharged" to go home; he gave a measles patient his cloak in the rain. | **DOCUMENTED** — N. D. Labadie, "San Jacinto Campaign", *Texas Almanac* 1859, transcribed at [sonsofdewittcolony.org/sanjacintolabadie.htm](http://www.sonsofdewittcolony.org/sanjacintolabadie.htm); read 2026-09-27 through a fetching tool that returns summaries, **wording to be checked before it is quoted to a class**. Upgrades `HIST-TEX-078`'s "measles … in search summaries only". | Measles and flux in Houston's camp (§3.4); a man sent home sick carries measles to his family (build step 4). |
@@ -553,9 +559,30 @@ district acceptance.
 
 ---
 
-## 7. Questions for the owner
+## 7. Questions for the owner — answered 2026-09-27
 
-Each has a recommended option. None is decided here.
+**The owner answered by multiple choice on 2026-09-27.** The answers, in the owner's order (the numbering of the questions
+below is the plan's):
+
+1. **Diseases**: **the five the record supports** — measles, whooping cough, camp dysentery (the flux), chills and fever (the
+   ague) and a chill on the chest; cholera, smallpox and yellow fever only as the memory of earlier years (Q1 A).
+2. **Children can die of disease**: **yes, told plainly** — one plain sentence to the family; not drawn, not spotlighted, no name
+   on the Host's projector (Q2 A).
+3. **Rest**: **twice the mending, half the risk**; an idle sick person counts as resting (Q3 A).
+4. **Spread between families**: **only at the record's places and dates** (the Trinity, Liberty, Lynch's ferry, Houston's
+   camp …), announced as news so a family can choose to camp apart; within a family, anywhere (Q8 A).
+5. **A sick person can work**: **yes, with a warning** (slower mending, higher risk); a very sick person can't get up (Q4 A).
+6. **Deaths**: **about 3 in 100 over the whole flight** for all diseases together — the owner chose the harsher option over the
+   recommended 1 in 100 — mostly babies and small children, as history had it; none at the Béxar siege per the history notes
+   (Q5 C). This replaces the "one in a hundred" of `docs/COLONIES.md` L1072, which now says so.
+7. **Remedies**: **quinine helps chills and fever; calomel and bleeding leave the patient weak for two days**, shown plainly and
+   never endorsed (Q6 C).
+8. **The ague**: **in the first period, on river-bottom land**, until the first hard norther after November 1, with relapses into
+   the winter (Q10 A).
+9. The recommended answers taken, and recorded as such: **rice and tea kept "for sickness"** (Harris) as a small store item that
+   helps mending (Q7 B); **no Host setting** for a gentler class (Q9 A).
+
+What was built from them is §9 below. The questions as they were put follow, unchanged.
 
 1. **Which diseases?**
    (A) **Recommended**: measles, whooping cough, chills and fever (ague), camp flux and lung fever in play; sore eyes as
@@ -650,4 +677,119 @@ Each has a recommended option. None is decided here.
 **Not reached**: Pat Ireland Nixon, *The Medical Story of Early Texas, 1528–1853* (1946); Anson Jones's *Memoranda*;
 Alexander Ewing's reports; Houston's camp orders of April 1836; Haggard's article itself; the unexpurgated Harris
 notebooks. Reading Nixon and Haggard would firm up §2.1's ague and cholera rows. Hardin p. 188 must be read before
-`HIST-TEX-701` is used for anything.
+`HIST-TEX-701` (registered as `HIST-TEX-670`) is used for anything.
+
+---
+
+## 9. As built — 2026-09-27 (not released)
+
+Built on a worktree branch from `main` `e937b72` for the owner's answers of §7. Everything is `sim/disease.mjs` except the
+hooks named here; the plan's §3 is what was built unless this section says otherwise.
+
+### 9.1 What was built, step by step
+
+0. **Sickness mends everywhere.** `mendSickness` (called by `stepWorld` straight after the roads move) mends everybody sick in a
+   family, wherever they are; the road's own loop no longer mends anybody. Seen failing first on `main`: somebody sick at home
+   stayed sick; a serving man stayed sick; somebody sick of the cold at home stayed sick.
+1. **The names.** `DISEASES`: measles (7 days), whooping cough (21, children under ten), the chills and fever (6), the flux (5),
+   a chill on the chest (5). A sickness saved before today has no name and mends and worsens as a chill on the chest, shown as
+   plain "Sick". The cold at home and the road's rain-cold-hunger roll give a chill on the chest. `health.disease`, `grave`,
+   `graveDay`, `since`, `day`, `nursed`, `credited`, `barked`, `relapse`; `person.had`, `exposed`, `caughtAt`, `relapse`;
+   `household.sickFood`; `flight.apart`; `world.diseaseDay` - each checked by `diseaseInvalid` only when present. **No save
+   version moved.**
+2. **Rest.** `MEND` 2 / 1 / 0.5 and `RISK` 0.5 / 1 / 2 for resting / riding / walking or working (`activityOf`); every halt of
+   the family is rest for all but whoever is at the work; idle is rest; **somebody working about the place goes to bed when the
+   sickness comes**. `sicknessDay`: a sick person may turn **very sick** (`worse` at the day's chance raised to the weight: frailty
+   × the disease's age multiplier × hunger × cold × `RISK`), is told so with a "!", and **only a very sick person can die** - on
+   a day after the one it was seen, not nursed that day or the day before, and never in the first period; after two days, or on
+   a day nursed while resting, the worst is past. "Stop and rest a day" (`rest-road`): two ticks, a day at the road's pace, the
+   family halted; a very sick person refuses every work and journey ("too sick to get up"); every work icon of somebody sick
+   carries the server's warning. The resting sick are drawn lying down (`restingSick`, stand-in: `-injured-rest`).
+3. **Within a family.** Measles and whooping cough expose everybody together with the sick one who can take them (9 in 10,
+   8 in 10), each on a hashed day ten to twelve days on (`person.exposed`); "Measles is in the family …" said when it reaches
+   somebody new. Who has had the measles is dealt by age from the class seed (`hadShare`: 2 in 100 under two to 85 over thirty),
+   shown on the card, and written (`had`) only when taken. Whooping cough is taken only under ten and turns only babies very sick.
+4. **The crowded places.** The Trinity (the Atascosito crossing and Liberty, March 25 to April 30) and Lynch's ferry (March 22 to
+   April 22, **RECONSTRUCTED**): a family camped there, not apart, may catch measles (1 in 10 a day) or whooping cough (8 in 100)
+   for those who can take them. The flux after two days camped at a refuge (2 in 100 a day at a weight of one). Houston's camp,
+   April 1 to 20: measles and the flux; a sick man there does no camp work. The siege of Béxar: the flux, and nobody dies of any
+   sickness in the first period. "Camp apart from the crowd" (`camp-apart`) keeps a family out of all of it at that place, costs
+   its trading there and, at a crossing, half a day of its turn. **Word** of the Trinity's and Lynch's sickness goes along the
+   road at fifteen miles a day (`WORD_MILES_A_DAY`) into the families' journals, `confirmed` at the place and `unconfirmed` off
+   it, and so into the Rumor Mill.
+5. **The ague.** In the first period, at a house on river-bottom land (`bottomland`, `bottomland-cane` under the grid's woods
+   rules), until the first norther on or after November 1 there: 12 in 1,000 a day at a weight of one (a child under six twice).
+   Four in ten have it again thirty to ninety days on (the winter); a relapse whose day fell in the unplayed weeks comes in the
+   first twenty days of the winter.
+6. **The doctor and the rice and tea.** The doctor sees the sick: the bark halves the days of the chills and fever left and stops
+   its coming back; for anything else calomel and bleeding, two days further from mending, said plainly. The store sells "a
+   little rice and tea, for sickness" (one real, three portions); a portion is given on a day nobody nursed the sick person and
+   is a day nearer mending; it keeps nobody alive.
+7. **Automatic families and the Host.** Families nobody plays and people on auto never send the sick to work at home or in the
+   camp; a family nobody plays nurses the sick at home (`nurse-home`) and on the road (`tend-sick`, as before), and rests a day
+   for the very sick unless a column is close behind. The Host's words name the sickness; the class panel counts the class's
+   sick in words; **a child who died of a sickness is never named on the projector** (left out of the family's people, counted
+   as "A child of this family died of sickness."), and the dead of a sickness are drawn nowhere and never spotlighted.
+8. **The measurement** (below).
+9. **The documents**: `HISTORY.md` (`HIST-TEX-669`–`675`, `FIC-GONZ-669`–`676`; `HIST-TEX-078` and `FIC-GONZ-052` amended),
+   `docs/COLONIES.md` (the one in a hundred replaced), `docs/HOUSTON_CAMP.md` §5, `docs/ROAD_EAST.md`, `docs/CHILDREN.md` §6,
+   `docs/FAMILY_PANEL.md` §19, `docs/HOST_PAGE.md` §2.6, `docs/ART_REQUESTS.md` (request 2026-09-27, three stand-ins), `GAME.md`,
+   `TECH.md`, `HANDOFF.md`.
+
+### 9.2 The measurement (`scripts/disease-study.mjs`, docs/evidence/disease-study.json)
+
+Six classes of fifteen rolled families nobody plays on the colonies, the autumn and winter played once each, the spring twice
+from the same winter on two seeds: **twelve flights, 1,956 people**. Each spring is a **mixed class**: half the families see to
+their sick as the director does (nurse, rest a day for the very sick, never send the sick to work) and half never nurse or rest,
+the halves swapped between the two springs so every family is measured both ways - the owner's option C, "still weighted to the
+small and the uncared-for".
+
+| | People | Fell sick (episodes) | Very sick | Died | In a hundred |
+| --- | --- | --- | --- | --- | --- |
+| **The whole flight** | 1,956 | 1,378 | 180 | **58** | **2.97** |
+| Families that saw to their sick | 978 | | | 4 | 0.41 |
+| Families that did not | 978 | | | 54 | 5.52 |
+| Under two | 140 | 198 | 35 | 11 | 7.9 |
+| Two to five | 348 | 432 | 84 | 35 | 10.1 |
+| Six to fifteen | 788 | 493 | 36 | 7 | 0.9 |
+| Sixteen and over | 680 | 255 | 25 | 5 | 0.7 |
+
+Of the 58 deaths, **46 were children under six** (79 in 100). By disease: the flux 708 cases, 104 very sick, 43 died; a chill
+on the chest 417, 47, 10; the measles 187, 28, 5; the whooping cough 66, 1, 0. The twelve flights ran from 0.7 to 5.7 in a
+hundred. In the autumns: 205 cases of the chills and fever among about 1,000 people (23 to 49 a class), 12 of the siege's flux,
+**nobody dead of a sickness**; in the winters, 32 relapses.
+
+**Injections** (`scripts/disease-injections.mjs`, docs/evidence/disease-injections.json): 47 of 47 caught by exactly the tests each
+names. The one guard not injected - that nobody dies the day they are seen very sick - is held twice over by the shape of
+`sicknessDay`, and taking it out changes nothing; the script says so.
+
+`tests/disease.test.mjs` step 8 reads the evidence and fails if the rates it was measured against (`studiedRates`) are not the
+module's, so the measurement cannot go stale silently. **Rest's effect**, measured: over a real `stepWorld` run an adult four days
+from mending is well in **2.0 days resting and 8.0 working** (tests, step 2); on the road in the browser proof the days to mending
+fell **2.0 a day through "Stop and rest a day" and 0.5 a day walking** after it (docs/evidence/disease-browser.json).
+
+### 9.3 Where the build differs from the plan
+
+- **Death only from very sick, and nursing** as planned: nobody nursed that day or the day before dies (`FIC-GONZ-673`). The
+  owner's three in a hundred is therefore met by the families that do not nurse: a careful family lost 0.4 in a hundred, a
+  careless one 5.5. The plan's per-case targets (§3.6) were not used; the whole-flight figure was.
+- **Re-seating the sick on the road** (plan step 2, lifting `sim/company.mjs`'s `ceiling:`) was **not built**: another builder
+  was rebuilding the flight that day, and the seat plan stays made once when the family sets out. `ceiling:` somebody who falls
+  sick on the road keeps their seat or their feet; a halt, "Stop and rest a day", or nursing is the family's answer.
+- **The men Labadie discharged home with the measles** were not built: `ceiling:` in docs/HOUSTON_CAMP.md §5.
+- **Nursing in Houston's camp** was not built: a sick man there rests, and nobody nurses him.
+- **"Weak" after the measles and whooping cough** is `tired` with 30 miles of weariness, which rest mends in hours, not the
+  plan's three days.
+- **Cholera, smallpox and yellow fever as words in the towns' talk** (§3.9) were not written: they are out of play, as decided,
+  and `HIST-TEX-673`/`675` say why. Town lines are the way to add them.
+- **The flux kills most** (43 of 58): families sit at their refuges for weeks, and the flux is the camp's. The record's named
+  killers of the Scrape are the measles and whooping cough; if the owner wants them to weigh more, the flux's rate comes down and
+  the measles' death rate goes up, and the study is run again.
+
+### 9.4 For the owner
+
+- The whole-flight figure is **2.97 in a hundred** in a class where half the families neglect their sick; a class that nurses
+  and rests loses about **0.4 in a hundred**. Whether the owner's "about three in a hundred" was meant for a careless class, a
+  mixed one (as measured) or a careful one decides whether the rates should move.
+- Nursing is still a certainty for the day (the old `FIC-GONZ-052` promise). Making it a strong reduction rather than a
+  certainty would raise the careful families' losses toward the whole-flight figure.

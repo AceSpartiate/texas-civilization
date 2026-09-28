@@ -25,7 +25,20 @@ export function familyRows(live, presence) {
     // said quietly under the family's name, and empty for every family whose student did neither.
     guided: family.guided || '',
     people: family.people.map(person => ({ name: person.name, role: person.role, where: person.where })),
+    // A child who died of a sickness is counted and never named (sim/host.mjs, the owner 2026-09-27).
+    ...(family.lost && { lost: family.lost }),
   }));
+}
+
+/**
+ * The class's sickness in words, for the class panel (sim/disease.mjs `classSickness`): how many of each, never who. Empty when
+ * nobody is sick and nobody has died of it.
+ */
+export function sicknessView(live) {
+  const sickness = live?.sickness;
+  if (!sickness) return '';
+  const died = sickness.died ? `${sickness.died} ${sickness.died === 1 ? 'has' : 'have'} died of sickness.` : '';
+  return [...(sickness.lines || []), died].filter(Boolean).join(' ');
 }
 
 const STATUS_WORDS = Object.freeze({ rumor: 'a rumour', unconfirmed: 'not yet sure', confirmed: 'confirmed', contradicted: 'contradicted' });

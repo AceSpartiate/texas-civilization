@@ -1,0 +1,566 @@
+{
+  "record": "disease-injections",
+  "date": "2026-09-28",
+  "files": [
+    "tests/disease.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "nobody is mended off the road, as it was until 2026-09-27",
+      "file": "sim/world.mjs",
+      "failed": [
+        "step 0: somebody sick at home is well again once the sickness has run its course",
+        "step 0: a man serving with the army who is sick mends in the camp",
+        "step 0: somebody made sick by a norther with no roof up mends",
+        "step 0: on the road a sickness is still mended, and exactly once",
+        "step 1: a class saved before the diseases opens, and its bare sickness mends as a chill on the chest; a sickness that cannot be is refused",
+        "step 2: on the calendar, a resting patient is well in half the days, and a working one takes twice as long",
+        "step 2: \"Stop and rest a day\" halts the family on the road, for its sick or tired, and not at its refuge"
+      ],
+      "expected": [
+        "step 0: somebody sick at home",
+        "step 0: a man serving",
+        "step 0: somebody made sick by a norther",
+        "step 0: on the road a sickness",
+        "step 1: a class saved before",
+        "step 2: on the calendar",
+        "step 2: \"Stop and rest a day\""
+      ],
+      "ok": true
+    },
+    {
+      "name": "the sick mend by what the family does after the roads have moved, not by what the road did",
+      "file": "sim/world.mjs",
+      "failed": [
+        "step 2: \"Stop and rest a day\" halts the family on the road, for its sick or tired, and not at its refuge"
+      ],
+      "expected": [
+        "step 2: \"Stop and rest a day\""
+      ],
+      "ok": true
+    },
+    {
+      "name": "the sick are mended in two places, one of them silent",
+      "file": "sim/world.mjs",
+      "failed": [
+        "step 0: on the road a sickness is still mended, and exactly once"
+      ],
+      "expected": [
+        "step 0: on the road a sickness"
+      ],
+      "ok": true
+    },
+    {
+      "name": "a disease's claim is an ID nobody registered",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 1: five diseases, each with a name, a course and a registered claim; cholera, smallpox and yellow fever are not among them"
+      ],
+      "expected": [
+        "step 1: five diseases"
+      ],
+      "ok": true
+    },
+    {
+      "name": "a sickness of no known name is let into a saved class",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 1: a class saved before the diseases opens, and its bare sickness mends as a chill on the chest; a sickness that cannot be is refused"
+      ],
+      "expected": [
+        "step 1: a class saved before"
+      ],
+      "ok": true
+    },
+    {
+      "name": "the Host is told \"sick\" and never what of",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 1: the family and the Host are told the sickness by name"
+      ],
+      "expected": [
+        "step 1: the family and the Host"
+      ],
+      "ok": true
+    },
+    {
+      "name": "rest and work swapped: resting mends at half pace and working at double",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 2: rest is twice the mending and half the risk; riding once; walking or working half and double",
+        "step 2: on the calendar, a resting patient is well in half the days, and a working one takes twice as long",
+        "step 2: \"Stop and rest a day\" halts the family on the road, for its sick or tired, and not at its refuge",
+        "step 8: the measured deaths over the flight are about three in a hundred, mostly the youngest, measured against these rates"
+      ],
+      "expected": [
+        "step 2: rest is twice",
+        "step 2: on the calendar",
+        "step 2: \"Stop and rest a day\"",
+        "step 8: the measured deaths"
+      ],
+      "ok": true
+    },
+    {
+      "name": "rest does nothing for the risk: resting weighs as much as walking",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 2: rest is twice the mending and half the risk; riding once; walking or working half and double",
+        "step 8: the measured deaths over the flight are about three in a hundred, mostly the youngest, measured against these rates"
+      ],
+      "expected": [
+        "step 2: rest is twice",
+        "step 8: the measured deaths"
+      ],
+      "ok": true
+    },
+    {
+      "name": "somebody idle at home is not resting (the owner: \"an idle sick person counts as resting\")",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 1: the family and the Host are told the sickness by name",
+        "step 2: rest is twice the mending and half the risk; riding once; walking or working half and double",
+        "step 2: on the calendar, a resting patient is well in half the days, and a working one takes twice as long",
+        "step 2: nursing keeps the very sick alive, and brings one who also rests past the worst",
+        "step 2: sick and left alone at home is resting: work about the place stops when the sickness comes, and the sick lie down"
+      ],
+      "expected": [
+        "step 1: the family and the Host",
+        "step 2: rest is twice",
+        "step 2: on the calendar",
+        "step 2: nursing keeps",
+        "step 2: sick and left alone"
+      ],
+      "ok": true
+    },
+    {
+      "name": "somebody only sick may die of it, as the road's sickness always could",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 2: nobody dies of being sick - only of being very sick, which the family saw a day before",
+        "step 2: nursing keeps the very sick alive, and brings one who also rests past the worst"
+      ],
+      "expected": [
+        "step 2: nobody dies of being sick",
+        "step 2: nursing keeps"
+      ],
+      "ok": true
+    },
+    {
+      "name": "nursing keeps nobody alive",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 2: nursing keeps the very sick alive, and brings one who also rests past the worst"
+      ],
+      "expected": [
+        "step 2: nursing keeps"
+      ],
+      "ok": true
+    },
+    {
+      "name": "nursed and resting, still very sick",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 2: nursing keeps the very sick alive, and brings one who also rests past the worst"
+      ],
+      "expected": [
+        "step 2: nursing keeps"
+      ],
+      "ok": true
+    },
+    {
+      "name": "\"Stop and rest a day\" halts nobody",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 2: \"Stop and rest a day\" halts the family on the road, for its sick or tired, and not at its refuge"
+      ],
+      "expected": [
+        "step 2: \"Stop and rest a day\""
+      ],
+      "ok": true
+    },
+    {
+      "name": "\"Stop and rest a day\" is offered with nobody sick or tired",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 2: \"Stop and rest a day\" halts the family on the road, for its sick or tired, and not at its refuge"
+      ],
+      "expected": [
+        "step 2: \"Stop and rest a day\""
+      ],
+      "ok": true
+    },
+    {
+      "name": "somebody very sick is sent to work",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "step 2: a sick person may work, with the warning; a very sick person cannot get up or go anywhere"
+      ],
+      "expected": [
+        "step 2: a sick person may work"
+      ],
+      "ok": true
+    },
+    {
+      "name": "somebody very sick is sent on a journey",
+      "file": "sim/world.mjs",
+      "failed": [
+        "step 2: a sick person may work, with the warning; a very sick person cannot get up or go anywhere"
+      ],
+      "expected": [
+        "step 2: a sick person may work"
+      ],
+      "ok": true
+    },
+    {
+      "name": "the warning is not on the work a sick person is sent to",
+      "file": "public/family-panel.js",
+      "failed": [
+        "step 2: a sick person may work, with the warning; a very sick person cannot get up or go anywhere"
+      ],
+      "expected": [
+        "step 2: a sick person may work"
+      ],
+      "ok": true
+    },
+    {
+      "name": "somebody very sick carries no \"!\"",
+      "file": "public/family-panel.js",
+      "failed": [
+        "step 2: a sick person may work, with the warning; a very sick person cannot get up or go anywhere"
+      ],
+      "expected": [
+        "step 2: a sick person may work"
+      ],
+      "ok": true
+    },
+    {
+      "name": "work about the place goes on when the sickness comes",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 1: the family and the Host are told the sickness by name",
+        "step 2: sick and left alone at home is resting: work about the place stops when the sickness comes, and the sick lie down"
+      ],
+      "expected": [
+        "step 1: the family and the Host",
+        "step 2: sick and left alone"
+      ],
+      "ok": true
+    },
+    {
+      "name": "the resting sick are drawn standing about",
+      "file": "public/motion.js",
+      "failed": [
+        "step 2: sick and left alone at home is resting: work about the place stops when the sickness comes, and the sick lie down"
+      ],
+      "expected": [
+        "step 2: sick and left alone"
+      ],
+      "ok": true
+    },
+    {
+      "name": "the measles comes out in the family at once, not ten days on",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 3: measles in the family: who can take it does, ten to twelve days on, and nobody who has had it"
+      ],
+      "expected": [
+        "step 3: measles in the family"
+      ],
+      "ok": true
+    },
+    {
+      "name": "somebody who has had the measles takes it again",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 3: measles in the family: who can take it does, ten to twelve days on, and nobody who has had it",
+        "step 3: who has had the measles is dealt by age from the class seed, shown, and never written until taken",
+        "step 4: measles and whooping cough go round only at the record's places, on the record's dates"
+      ],
+      "expected": [
+        "step 3: measles in the family",
+        "step 3: who has had the measles",
+        "step 4: measles and whooping cough go round"
+      ],
+      "ok": true
+    },
+    {
+      "name": "who has had the measles is dealt the same at every age",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 3: measles in the family: who can take it does, ten to twelve days on, and nobody who has had it",
+        "step 3: who has had the measles is dealt by age from the class seed, shown, and never written until taken"
+      ],
+      "expected": [
+        "step 3: measles in the family",
+        "step 3: who has had the measles"
+      ],
+      "ok": true
+    },
+    {
+      "name": "the whooping cough is taken at any age",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 3: whooping cough is a child's sickness, dangerous only to babies"
+      ],
+      "expected": [
+        "step 3: whooping cough is a child"
+      ],
+      "ok": true
+    },
+    {
+      "name": "the crowded places have their sickness all the spring, not on the record's dates",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 4: measles and whooping cough go round only at the record's places, on the record's dates"
+      ],
+      "expected": [
+        "step 4: measles and whooping cough go round"
+      ],
+      "ok": true
+    },
+    {
+      "name": "measles goes round at every refuge, not only the record's",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 4: measles and whooping cough go round only at the record's places, on the record's dates"
+      ],
+      "expected": [
+        "step 4: measles and whooping cough go round"
+      ],
+      "ok": true
+    },
+    {
+      "name": "the camp's water is fouled after a day",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 4: the flux comes after two days camped in a crowd, not one, and camping apart keeps a family out of it",
+        "step 8: the measured deaths over the flight are about three in a hundred, mostly the youngest, measured against these rates"
+      ],
+      "expected": [
+        "step 4: the flux comes after two days",
+        "step 8: the measured deaths"
+      ],
+      "ok": true
+    },
+    {
+      "name": "camping apart does not keep a family out of the fouled water",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 4: the flux comes after two days camped in a crowd, not one, and camping apart keeps a family out of it"
+      ],
+      "expected": [
+        "step 4: the flux comes after two days"
+      ],
+      "ok": true
+    },
+    {
+      "name": "camped apart, the family still trades with the crowd",
+      "file": "sim/road.mjs",
+      "failed": [
+        "step 4: the flux comes after two days camped in a crowd, not one, and camping apart keeps a family out of it"
+      ],
+      "expected": [
+        "step 4: the flux comes after two days"
+      ],
+      "ok": true
+    },
+    {
+      "name": "the sick die in the first period, at the siege of Béxar with it",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 4: nobody dies of a sickness in the first period - not at the siege of Béxar"
+      ],
+      "expected": [
+        "step 4: nobody dies of a sickness in the first period"
+      ],
+      "ok": true
+    },
+    {
+      "name": "word of the Trinity's sickness is everywhere at once",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 4: word of the sickness at the Trinity goes along the road with the families, and not faster"
+      ],
+      "expected": [
+        "step 4: word of the sickness"
+      ],
+      "ok": true
+    },
+    {
+      "name": "Houston's camp has no sickness in April",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 4: Houston's camp in April has its measles and flux, and a sick man there rests"
+      ],
+      "expected": [
+        "step 4: Houston's camp"
+      ],
+      "ok": true
+    },
+    {
+      "name": "the fever of the bottoms comes to the prairie too",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 5: the chills and fever come to river-bottom homes in the autumn, not the prairie, and stop with the frost"
+      ],
+      "expected": [
+        "step 5: the chills and fever come to river-bottom"
+      ],
+      "ok": true
+    },
+    {
+      "name": "the frost does not end the fever",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 5: the chills and fever come to river-bottom homes in the autumn, not the prairie, and stop with the frost"
+      ],
+      "expected": [
+        "step 5: the chills and fever come to river-bottom"
+      ],
+      "ok": true
+    },
+    {
+      "name": "the bark does not keep the fever from coming back",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 5: the chills and fever come back in the winter only to somebody who had them, and never after the bark"
+      ],
+      "expected": [
+        "step 5: the chills and fever come back"
+      ],
+      "ok": true
+    },
+    {
+      "name": "the doctor turns the sick away, as he did until 2026-09-27",
+      "file": "sim/shops.mjs",
+      "failed": [
+        "step 6: the doctor sees the sick: the bark halves the chills and fever; calomel and bleeding leave the sick weaker"
+      ],
+      "expected": [
+        "step 6: the doctor sees the sick"
+      ],
+      "ok": true
+    },
+    {
+      "name": "the bark does nothing for the chills and fever",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 6: the doctor sees the sick: the bark halves the chills and fever; calomel and bleeding leave the sick weaker"
+      ],
+      "expected": [
+        "step 6: the doctor sees the sick"
+      ],
+      "ok": true
+    },
+    {
+      "name": "calomel and bleeding do no harm",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 6: the doctor sees the sick: the bark halves the chills and fever; calomel and bleeding leave the sick weaker"
+      ],
+      "expected": [
+        "step 6: the doctor sees the sick"
+      ],
+      "ok": true
+    },
+    {
+      "name": "the rice and tea do nothing",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 6: rice and tea kept for sickness count a day nearer mending, and keep nobody alive"
+      ],
+      "expected": [
+        "step 6: rice and tea"
+      ],
+      "ok": true
+    },
+    {
+      "name": "a family nobody plays sends its sick to work at home",
+      "file": "sim/neighbours.mjs",
+      "failed": [
+        "step 7: a family nobody plays never sends its sick to work, and nurses them at home"
+      ],
+      "expected": [
+        "step 7: a family nobody plays never sends"
+      ],
+      "ok": true
+    },
+    {
+      "name": "a family nobody plays leaves its sick at home un-nursed",
+      "file": "sim/neighbours.mjs",
+      "failed": [
+        "step 7: a family nobody plays never sends its sick to work, and nurses them at home"
+      ],
+      "expected": [
+        "step 7: a family nobody plays never sends"
+      ],
+      "ok": true
+    },
+    {
+      "name": "a family nobody plays never stops for its very sick",
+      "file": "sim/neighbours.mjs",
+      "failed": [
+        "step 7: on the road a family nobody plays rests a day for the very sick, but not with the army close behind"
+      ],
+      "expected": [
+        "step 7: on the road a family nobody plays"
+      ],
+      "ok": true
+    },
+    {
+      "name": "a family nobody plays stops to rest with the army close behind",
+      "file": "sim/neighbours.mjs",
+      "failed": [
+        "step 7: on the road a family nobody plays rests a day for the very sick, but not with the army close behind"
+      ],
+      "expected": [
+        "step 7: on the road a family nobody plays"
+      ],
+      "ok": true
+    },
+    {
+      "name": "a child dead of a sickness is named on the Host's class panel",
+      "file": "sim/host.mjs",
+      "failed": [
+        "step 7: a child who died of a sickness is never named on the Host's projector nor drawn; the class panel counts the sick"
+      ],
+      "expected": [
+        "step 7: a child who died"
+      ],
+      "ok": true
+    },
+    {
+      "name": "somebody dead of a sickness is on the Host's map",
+      "file": "sim/overview.mjs",
+      "failed": [
+        "step 7: a child who died of a sickness is never named on the Host's projector nor drawn; the class panel counts the sick"
+      ],
+      "expected": [
+        "step 7: a child who died"
+      ],
+      "ok": true
+    },
+    {
+      "name": "somebody of the family dead of a sickness is sent with a place, and drawn",
+      "file": "sim/world.mjs",
+      "failed": [
+        "step 7: a child who died of a sickness is never named on the Host's projector nor drawn; the class panel counts the sick"
+      ],
+      "expected": [
+        "step 7: a child who died"
+      ],
+      "ok": true
+    },
+    {
+      "name": "a death rate moved and the study not run again",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 8: the measured deaths over the flight are about three in a hundred, mostly the youngest, measured against these rates"
+      ],
+      "expected": [
+        "step 8: the measured deaths"
+      ],
+      "ok": true
+    }
+  ]
+}
