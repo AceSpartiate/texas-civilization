@@ -309,7 +309,7 @@ try {
 
   // A crash: the browser holding the page killed outright, with no page event to say so. Windows was seen to take up to
   // twenty seconds to reset a killed Chrome's connection (measured 2026-09-27: 19 s, with the server writing every second),
-  // so the server may learn of it that late; a closed page or the launcher's window is a quarter of a second.
+  // so the server may learn of it that late; a closed page or the launcher's window is under a second.
   const crashed = crashServer.process();
   const crashedAt = Date.now();
   spawn('taskkill', ['/F', '/T', '/PID', String(crashed.pid)], { stdio: 'ignore' });

@@ -44,7 +44,7 @@ const hostPage = location.pathname === '/host';
 let events;
 // A page going away ends its own stream (2026-09-27). Play Solo's server takes the stream closing as its player leaving
 // (server/app.mjs `SOLO_WATCH`), and Chrome, with a page closed, was seen holding the stream open for more than five seconds
-// (scripts/solo-browser-proof.mjs); the launcher's WebView2 window closed it within a quarter of a second either way.
+// (scripts/solo-browser-proof.mjs); the launcher's WebView2 window closed it in under a second either way.
 addEventListener('pagehide', () => { events?.close(); events = null; });
 // And a page brought back from the browser's back-forward cache opens it again.
 addEventListener('pageshow', event => { if (event.persisted && !events && window.__snapshot) connect(); });

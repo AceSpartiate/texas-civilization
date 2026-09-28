@@ -25,7 +25,7 @@ launcher stopped the server only if that launcher had started it. Continue opene
   teacher; the stopped message says to press Play Solo and Continue.
 - public/app.js closes its event stream on `pagehide` (and reopens it on a `pageshow` from the back-forward cache): Chrome
   was seen holding a closed page's stream open for more than five seconds, twice, which failed the proof. The launcher's
-  WebView2 closed it in a quarter of a second without it.
+  WebView2 closed it in 115-253 ms without it.
 
 **Found on the way.** A save read by another process at the moment the server renames over it fails on Windows (EPERM →
 `SAVE_FAILED`, the class paused in memory and put back to its last save). The proofs polled the save and caused it; they now

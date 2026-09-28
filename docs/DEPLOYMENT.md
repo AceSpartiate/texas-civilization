@@ -243,7 +243,7 @@ than waiting for a teacher.
 
 **Launcher unchanged.** Nothing under `launcher/` changed, so the launcher id is the same and the next release can still
 be *Only what changed*. It was not needed: the window closing is seen from the server, and the launcher's window was proved
-to end the stream within a quarter of a second by compiling its own `TeacherWindow.cs`, unchanged, into a small host and
+to end the stream in under a second (34-731 ms) by compiling its own `TeacherWindow.cs`, unchanged, into a small host and
 closing it (below).
 
 Proved (same computer): `tests/solo.test.mjs` (seven new tests) with
