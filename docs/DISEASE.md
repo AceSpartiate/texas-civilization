@@ -757,6 +757,10 @@ on the chest 417, 47, 10; the measles 187, 28, 5; the whooping cough 66, 1, 0. T
 hundred. In the autumns: 205 cases of the chills and fever among about 1,000 people (23 to 49 a class), 12 of the siege's flux,
 **nobody dead of a sickness**; in the winters, 32 relapses.
 
+**Injections** (`scripts/disease-injections.mjs`, docs/evidence/disease-injections.json): 47 of 47 caught by exactly the tests each
+names. The one guard not injected - that nobody dies the day they are seen very sick - is held twice over by the shape of
+`sicknessDay`, and taking it out changes nothing; the script says so.
+
 `tests/disease.test.mjs` step 8 reads the evidence and fails if the rates it was measured against (`studiedRates`) are not the
 module's, so the measurement cannot go stale silently. **Rest's effect**, measured: over a real `stepWorld` run an adult four days
 from mending is well in **2.0 days resting and 8.0 working** (tests, step 2); on the road in the browser proof the days to mending

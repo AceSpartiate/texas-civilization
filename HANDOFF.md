@@ -35,16 +35,19 @@ families see to their sick and half do not: **2.97 in a hundred died over the wh
 a patient four days from mending is well in **2.0 days resting, 8.0 working**; on the road in the browser the days to mending fell
 **2.0 a day through a day's rest, 0.5 walking** after it. No sickness death in any autumn.
 
-**Evidence**: `tests/disease.test.mjs` (30 tests, one or more for each build step); `scripts/disease-injections.mjs` (each injection
-caught by exactly the tests it names, docs/evidence/disease-injections.json); `npm run test:disease` (1366x768 and 1024x768: the row,
+**Evidence**: `tests/disease.test.mjs` (30 tests, one or more for each build step); `scripts/disease-injections.mjs` (**47 of 47
+injections caught by exactly the tests each names**, docs/evidence/disease-injections.json; one guard not injectable, said why there); `npm run test:disease` (1366x768 and 1024x768: the row,
 the badge and the card; the "!"; "Stop and rest a day" glowing and halting, the row saying resting; the Host's words, the count and
 the unnamed child; the word of the sickness in the journal and the Rumor Mill; no page errors; docs/evidence/disease-browser.json).
-Same computer only; no LAN or district claim.
+Same computer only; no LAN or district claim. `npm test` 1,473 of 1,473 after the merge of origin/main; `test:scrape`,
+`test:family-panel`, `test:lesson`, `test:winter` pass. **`test:children` fails** at "the child at tag was drawn in 1 places in four
+seconds" - **and fails the same on origin/main b9daabb** (run in a scratch worktree), so it is not this branch's; left for its owner.
 
 **Not built**, each said where it is: re-seating the sick in the wagon mid-road (`sim/company.mjs`'s `ceiling:` stands - another
 builder had the flight open); Labadie's men sent home with the measles (docs/HOUSTON_CAMP.md §5); nursing in the camp; cholera as the
 towns' talk. **For the owner**: the flux kills most (43 of 58); whether "three in a hundred" is meant for a careless, a mixed or a
 careful class; whether nursing should stay a certainty for the day (docs/DISEASE.md §9.3–9.4).
+
 ## A settlement's call lapses after five real minutes; only students' questions lapse — owner decisions of 2026-09-27 (branch `settlement-call-lapse`; not released)
 
 Built on branch `settlement-call-lapse` from the lapse/riders/pace work below (`c0e9dff`, which the coordinator was merging to

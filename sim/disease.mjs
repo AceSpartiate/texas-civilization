@@ -154,7 +154,8 @@ export function activityOf(world, person) {
  */
 export function hadShare(disease, age) {
   if (disease === 'measles') return age < 2 ? 0.02 : age < 6 ? 0.15 : age < 10 ? 0.35 : age < 16 ? 0.55 : age < 30 ? 0.75 : 0.85;
-  if (disease === 'whooping-cough') return age < 1 ? 0 : age < 5 ? 0.2 : age < 10 ? 0.45 : 1;
+  // Nobody of ten or more takes the whooping cough at all (`under`), whatever was dealt.
+  if (disease === 'whooping-cough') return age < 1 ? 0 : age < 5 ? 0.2 : 0.45;
   return 0;
 }
 export function hadIt(world, person, disease) {

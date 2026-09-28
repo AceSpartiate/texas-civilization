@@ -17,7 +17,7 @@ const INJECTIONS = [
     file: 'sim/world.mjs',
     from: '  mendSickness(world, calendar);\n',
     to: '',
-    expect: ['step 0: somebody sick at home', 'step 0: a man serving', 'step 0: somebody made sick by a norther', 'step 0: on the road a sickness', 'step 2: on the calendar', 'step 2: "Stop and rest a day"'],
+    expect: ['step 0: somebody sick at home', 'step 0: a man serving', 'step 0: somebody made sick by a norther', 'step 0: on the road a sickness', 'step 1: a class saved before', 'step 2: on the calendar', 'step 2: "Stop and rest a day"'],
   },
   {
     // The mending read after the day's work rather than after the roads: a halt that ends in a tick counts that tick, stood still,
@@ -30,11 +30,11 @@ const INJECTIONS = [
     expect: ['step 2: "Stop and rest a day"'],
   },
   {
-    // The road's day mending its own again, silently, as it did before 2026-09-27: two places mend, and the one that tells is late.
-    name: 'the road\'s day mends its own sick as well, so a sickness is mended in two places',
-    file: 'sim/disease.mjs',
-    from: '  if (health.day === day) return;\n  health.day = day;\n',
-    to: '  if (health.day === day) return;\n  health.day = day;\n  if (where === \'road\' && world.minute >= health.recoversAt) { person.health = { condition: \'well\' }; return; }\n',
+    // A second, silent mending ahead of the one that tells, as the road's own loop mended before 2026-09-27: two places mend.
+    name: 'the sick are mended in two places, one of them silent',
+    file: 'sim/world.mjs',
+    from: '  mendSickness(world, calendar);\n',
+    to: "  for (const one of Object.values(world.entities)) if (one.health?.condition === 'sick' && world.minute >= one.health.recoversAt) one.health = { condition: 'well' };\n  mendSickness(world, calendar);\n",
     expect: ['step 0: on the road a sickness'],
   },
 
@@ -68,7 +68,7 @@ const INJECTIONS = [
     from: 'export const MEND = Object.freeze({ rest: 2, ride: 1, work: 0.5 });',
     to: 'export const MEND = Object.freeze({ rest: 0.5, ride: 1, work: 2 });',
     // The rates the study measured move with it, so the evidence is stale too (tests/disease.test.mjs step 8).
-    expect: ['step 2: rest is twice', 'step 2: on the calendar', 'step 8: the measured deaths'],
+    expect: ['step 2: rest is twice', 'step 2: on the calendar', 'step 2: "Stop and rest a day"', 'step 8: the measured deaths'],
   },
   {
     name: 'rest does nothing for the risk: resting weighs as much as walking',
@@ -82,21 +82,21 @@ const INJECTIONS = [
     file: 'sim/disease.mjs',
     from: "  if (person.task === 'work' || person.task === 'help') return 'work';\n  return 'rest';\n",
     to: "  if (person.task === 'work' || person.task === 'help') return 'work';\n  return 'ride';\n",
-    expect: ['step 2: rest is twice', 'step 2: on the calendar', 'step 2: sick and left alone'],
+    // And every test that reads a resting line or rests somebody at home.
+    expect: ['step 1: the family and the Host', 'step 2: rest is twice', 'step 2: on the calendar', 'step 2: nursing keeps', 'step 2: sick and left alone'],
   },
-  {
-    name: 'somebody very sick may die the very day it is seen, with no day to answer',
-    file: 'sim/disease.mjs',
-    from: '  if (day <= health.graveDay) return;\n',
-    to: '',
-    expect: ['step 2: nobody dies of being sick'],
-  },
+  // Not injected, and worth saying why: "a day to answer" is held twice by the shape of `sicknessDay` - the day somebody turns
+  // very sick ends that day's roll inside the not-yet-very-sick branch, and `health.day` rolls a person once a day - so
+  // taking out `if (day <= health.graveDay) return;`, even with the turning's own `return`, changes no outcome (both were tried
+  // on 2026-09-27 and nothing failed). The guard is belt and braces, and an injection that cannot fail proves nothing. What the
+  // test does catch is a death from being only sick, below.
   {
     name: 'somebody only sick may die of it, as the road\'s sickness always could',
     file: 'sim/disease.mjs',
     from: '    sickFood(world, household, person, day);\n    return;\n',
     to: "    if (deathsAllowed(world) && roll(world, person.id, `sick-death:${day}`) < chance(spec.death, weight)) { die(world, household, person, where); return; }\n    sickFood(world, household, person, day);\n    return;\n",
-    expect: ['step 2: nobody dies of being sick'],
+    // The nursed die too, being only sick, which the nursing test counts.
+    expect: ['step 2: nobody dies of being sick', 'step 2: nursing keeps'],
   },
   {
     name: 'nursing keeps nobody alive',
@@ -159,7 +159,8 @@ const INJECTIONS = [
     file: 'sim/disease.mjs',
     from: "  if (person.task === 'work' && !person.chore && !person.travel) person.task = 'rest';\n",
     to: '',
-    expect: ['step 2: sick and left alone'],
+    // The family's line says resting only when the sick one has gone to bed.
+    expect: ['step 1: the family and the Host', 'step 2: sick and left alone'],
   },
   {
     name: 'the resting sick are drawn standing about',
@@ -182,14 +183,15 @@ const INJECTIONS = [
     file: 'sim/disease.mjs',
     from: '  return !hadIt(world, person, disease);\n',
     to: '  return true;\n',
-    expect: ['step 3: measles in the family', 'step 3: who has had the measles'],
+    // Nobody has had it, so the crowds catch it from those who have as well.
+    expect: ['step 3: measles in the family', 'step 3: who has had the measles', 'step 4: measles and whooping cough go round'],
   },
   {
     name: 'who has had the measles is dealt the same at every age',
     file: 'sim/disease.mjs',
     from: "  if (disease === 'measles') return age < 2 ? 0.02 : age < 6 ? 0.15 : age < 10 ? 0.35 : age < 16 ? 0.55 : age < 30 ? 0.75 : 0.85;\n",
     to: "  if (disease === 'measles') return 0.5;\n",
-    expect: ['step 3: who has had the measles'],
+    expect: ['step 3: measles in the family', 'step 3: who has had the measles'],
   },
   {
     name: 'the whooping cough is taken at any age',
@@ -314,8 +316,8 @@ const INJECTIONS = [
   {
     name: 'a family nobody plays sends its sick to work at home',
     file: 'sim/neighbours.mjs',
-    from: " && person.health?.condition !== 'captured' && person.health?.condition !== 'sick');\n",
-    to: " && person.health?.condition !== 'captured');\n",
+    from: "\n    && person.health?.condition !== 'dead' && person.health?.condition !== 'captured' && person.health?.condition !== 'sick');\n",
+    to: "\n    && person.health?.condition !== 'dead' && person.health?.condition !== 'captured');\n",
     expect: ['step 7: a family nobody plays never sends'],
   },
   {
@@ -349,8 +351,8 @@ const INJECTIONS = [
   {
     name: 'somebody dead of a sickness is on the Host\'s map',
     file: 'sim/overview.mjs',
-    from: "filter(entity => entity.location && !(entity.health?.condition === 'dead' && entity.health.disease))",
-    to: 'filter(entity => entity.location)',
+    from: " && !(entity.health?.condition === 'dead' && entity.health.disease)).map(entity => overviewEntity(world, entity)),",
+    to: ').map(entity => overviewEntity(world, entity)),',
     expect: ['step 7: a child who died'],
   },
 

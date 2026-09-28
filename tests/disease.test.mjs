@@ -387,7 +387,7 @@ test('step 3: who has had the measles is dealt by age from the class seed, shown
 
 test('step 3: whooping cough is a child\'s sickness, dangerous only to babies', () => {
   const world = landed('sick-whoop');
-  assert.equal(canTake(world, { id: 'w-12', age: 12, health: { condition: 'well' } }, 'whooping-cough'), false, 'a child of twelve can take whooping cough');
+  for (let i = 0; i < 50; i++) assert.equal(canTake(world, { id: `w-12-${i}`, age: 12, health: { condition: 'well' } }, 'whooping-cough'), false, 'a child of twelve can take whooping cough');
   assert.equal(canTake(world, { id: 'w-0', age: 0, health: { condition: 'well' } }, 'whooping-cough'), true);
   assert.equal(riskWeight({ age: 4 }, 'whooping-cough'), 0, 'whooping cough can turn a child of four very sick');
   assert.ok(riskWeight({ age: 0 }, 'whooping-cough') > 0, 'whooping cough cannot turn a baby very sick');
@@ -465,13 +465,16 @@ test('step 4: word of the sickness at the Trinity goes along the road with the f
   const world = landed('sick-word', 6);
   world.period = 3;
   world.minute = minuteOn(world, 1836, 2, 25);
-  const [there, far] = Object.values(world.households);
+  const liberty0 = world.map.sites.liberty;
+  // The family furthest from the Trinity, so the word has miles to come.
+  const [there, far] = [Object.values(world.households)[0], Object.values(world.households).slice(1).sort((a, b) => { const d = h => Math.hypot(world.map.sites[h.homeSiteId].x - liberty0.x, world.map.sites[h.homeSiteId].y - liberty0.y); return d(b) - d(a); })[0]];
   const liberty = world.map.sites.liberty;
   there.flight = { status: 'refuged', refuge: 'liberty', arrivedMinute: world.minute - DAY };
   for (const person of people(world, there)) { person.travel = null; person.location = { x: liberty.x, y: liberty.y, siteId: 'liberty' }; }
   far.flight = { status: 'ordered', orderedMinute: world.minute };
   const home = world.map.sites[far.homeSiteId];
   const miles = Math.hypot(home.x - liberty.x, home.y - liberty.y);
+  assert.ok(miles > 2 * WORD_MILES_A_DAY, `the family furthest from the Trinity is only ${Math.round(miles)} miles off: nothing is being tested`);
   const knows = household => world.knowledge.households[household.id]['sickness-trinity'];
   let heardOn = null;
   for (let day = 1; day <= 30 && heardOn === null; day++) {
