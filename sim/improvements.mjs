@@ -36,7 +36,7 @@ export const YIELD_PER_PLOT = 5;
 /** Seed ten cleared acres swallow at planting. */
 export const SEED_PER_PLOT = 2;
 /**
- * Cotton takes half again the seed a plot: the dearer crop, and the more profitable, a real a bale (owner, 2026-09-16,
+ * Cotton takes half again the seed a plot: the dearer crop, and the more profitable, two reales a bale since 2026-09-27 (a real until then; owner, 2026-09-16,
  * docs/MONEY_AND_GLORY.md §8.1). Twice the seed was tried first and measured: a family nobody plays could no longer gather the
  * seed for its field between harvests, and the cotton economy collapsed to a load or two a class.
  */

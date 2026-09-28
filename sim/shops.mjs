@@ -88,8 +88,20 @@ export const TAVERN_REST_MILES = 8;
 export const MILL_RETURN = 1.2;
 /** A hide from a deer taken, sold to the tanner. */
 export const HIDE_COIN = 1, HIDE_FOOD = 2;
-/** The weaver pays for a whole bale. */
-export const WEAVER_BALE_COIN = 1, WEAVER_BALE_FOOD = 3;
+/**
+ * What the store pays in coin for a whole bale of cotton (`FIC-GONZ-047`; sim/chores.mjs `COIN.cottonBale` is this number, for
+ * the families nobody plays, who sell by the old errand).
+ *
+ * **Two reales since 2026-09-27** (owner, by multiple choice over docs/BALANCE.md §6: *"Raise the cotton price"*), one until then.
+ * The smallest whole raise, and chosen by measurement (docs/BALANCE.md §9): once the balance measure really planted and sold
+ * cotton, a real a bale already made cotton the crop that pays - a plot's five bales five reales against the one real its five
+ * food fetch - and two doubles that without making cotton the whole of the economy. Invented, as every price at the store is:
+ * no price for a bale is in this project's research, and `HIST-GONZ-022` warns against claiming one. On the game's own scale
+ * (a real to the record's dollar, `HIST-TEX-440`) a plot's harvest now fetches what a cow and calf costs at the pens.
+ */
+export const STORE_BALE_COIN = 2;
+/** The weaver pays for a whole bale: the store's coin, and more food than the store. */
+export const WEAVER_BALE_COIN = STORE_BALE_COIN, WEAVER_BALE_FOOD = 3;
 /** Coin a buying keeper holds for each family near the town. */
 export const KEEPER_PURSE_PER_FAMILY = 1;
 
@@ -145,8 +157,8 @@ export const TRADES = Object.freeze({
         refuse: (world, household) => (household.resources.food ?? 0) >= 5 ? null : 'There is not five food in the house to sell.',
       },
       {
-        id: 'cotton', kind: 'buy', label: 'Sell the cotton', coinEach: 1, foodEach: 2, good: 'cotton',
-        does: 'A real a whole bale, or two food. The weaver, where there is one, gives three food.',
+        id: 'cotton', kind: 'buy', label: 'Sell the cotton', coinEach: STORE_BALE_COIN, foodEach: 2, good: 'cotton',
+        does: `${STORE_BALE_COIN === 1 ? 'A real' : reales(STORE_BALE_COIN)} a whole bale, or two food. The weaver, where there is one, gives three food.`,
         refuse: (world, household) => (household.resources.cotton ?? 0) >= 1 ? null : 'There is no whole bale of cotton in the house.',
       },
     ],

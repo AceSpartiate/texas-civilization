@@ -75,6 +75,8 @@ const townOf = household => household.settlementId || 'gonzales';
 const MODE_WORDS = Object.freeze({ foot: 'Goes on foot', horse: 'Rides the horse', wagon: 'Takes the wagon' });
 
 const parse = id => { const [trade, offerId] = String(id || '').split(':'); const offer = TRADES[trade]?.offers.find(o => o.id === offerId); return offer ? { trade, offer } : null; };
+// Coin first: the popup presses the first way before the student chooses (public/errand.js `errandList`), so a sale is paid in
+// coin unless the student chooses food (owner, 2026-09-27).
 const pays = offer => offer.kind === 'service' ? [] : offer.kind === 'sell'
   ? ['coin', 'food'].filter(pay => Number.isFinite(pay === 'coin' ? offer.coin : offer.food) && (pay === 'coin' ? offer.coin : offer.food) > 0)
   : ['coin', 'food'].filter(pay => pay === 'coin' ? offer.coinEach > 0 : offer.foodEach > 0);
@@ -167,7 +169,9 @@ function reckon(world, household, entity, list, town = null) {
     if (!Number.isInteger(n) || n < 1) return { why: `Say how many of "${offer.label}", in whole numbers.` };
     if (n > most) return { why: most === 1 ? `${offer.label}: one is all anybody needs.` : `${offer.label}: at most ${most} on one trip.` };
     const payWays = pays(offer);
-    const pay = payWays.length ? String(raw.pay || '') : null;
+    // A sale the list does not say how to be paid for is paid in coin (owner, 2026-09-27: "Make coin the default"), as the popup
+    // presses Coin before the student chooses (`pays` puts it first). A purchase must still say how it is paid.
+    const pay = payWays.length ? String(raw.pay || (offer.kind === 'buy' && payWays.includes('coin') ? 'coin' : '')) : null;
     if (payWays.length && !payWays.includes(pay)) return { why: payWays.length === 1 ? `${offer.label} is paid in ${payWays[0]} only.` : `${offer.label}: say whether it is paid in ${payWays.join(' or ')}.` };
     const refused = offer.refuse(world, household, entity);
     if (refused) return { why: refused };

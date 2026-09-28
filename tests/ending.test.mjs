@@ -15,7 +15,8 @@ import { applyAction, stepWorld, projectWorld, validateWorld } from '../sim/worl
 import { learn } from '../sim/knowledge.mjs';
 import { makeOffer, respondToOffer } from '../sim/trade.mjs';
 import { COIN } from '../sim/chores.mjs';
-import { DISCUSSION, familyEnding, finalNumber, hostEnding } from '../sim/ending.mjs';
+import { DISCUSSION, PRISONER_WEIGHT, familyEnding, finalNumber, hostEnding } from '../sim/ending.mjs';
+import { CAPTURED_AT_HOME, burnByForagers, share } from '../sim/scrape.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const host = world => projectWorld(world, undefined, 'host', { includeMap: false });
@@ -179,6 +180,55 @@ test('every coin that came into the house or went out of it is in the family\'s 
   assert.deepEqual(familyEnding(world, one.id).coin.map(line => line.coin), [start, earned, -COIN.hoe, -2]);
   assert.equal(familyEnding(world, one.id).coin[0].text, `The family came with ${start} reales.`);
   assert.deepEqual(familyEnding(world, two.id).coin.map(line => line.coin), [two.means.coin, 2]);
+});
+
+test('the people taken prisoner in the Scrape, at home and on the road, are named and weighed; the army\'s prisoners are not', () => {
+  // Owner, 2026-09-27, by multiple choice over docs/BALANCE.md §6: "Weigh the prisoners". Each person taken prisoner at home or
+  // on the road east takes PRISONER_WEIGHT times their part of the family's coin out of the count.
+  const world = createSettledWorld('ending-prisoners', 5);
+  for (const household of Object.values(world.households)) household.resources.money = 20;
+  world.glory = { 'hh-1': { total: 4, awards: { 'gonzales:hh-1': { event: 'gonzales', personId: world.households['hh-1'].principalId, role: 'present', miles: 16, points: 4, minute: 10 } } } };
+  // Taken at home by the real path: the foragers reach the farm with the family in it (sim/scrape.mjs `burnByForagers`).
+  const household = Object.values(world.households).find(one => {
+    const home = one.members.map(id => world.entities[id]).filter(person => person.location.siteId === one.homeSiteId && !person.travel);
+    return home.some(person => share(world, person.id, 'enemy') < CAPTURED_AT_HOME) && home.filter(person => share(world, person.id, 'enemy') >= CAPTURED_AT_HOME).length >= 2;
+  });
+  assert.ok(household, 'no family here has somebody the foragers take and two they leave');
+  const before = familyEnding(world, household.id);
+  assert.deepEqual(before.prisoners, [], 'a family nobody took has prisoners');
+  burnByForagers(world, household, { columnId: 'urrea' }, { name: 'Urrea\'s division' });
+  const home = household.members.map(id => world.entities[id]).filter(person => person.health.condition === 'captured');
+  assert.ok(home.length > 0, 'the foragers took nobody');
+  // One more of the family taken on the road east, as `overtake` (sim/road.mjs) leaves him: a prisoner, moved to the column.
+  const free = household.members.map(id => world.entities[id]).filter(person => person.health.condition === 'well');
+  const road = free[0];
+  Object.assign(road, { health: { condition: 'captured' }, location: { ...world.map.sites.gonzales, siteId: 'gonzales' } });
+  // And one taken in the war, who is the war's and not the Scrape's (sim/houston.mjs: spared at Goliad).
+  const soldier = free[1];
+  Object.assign(soldier, { health: { condition: 'captured' }, service: { kind: 'fannin', status: 'captured' } });
+  world.status = 'ended';
+  const after = familyEnding(world, household.id);
+  const taken = [...home, road];
+  assert.deepEqual(after.prisoners.map(one => one.personId).sort(), taken.map(one => one.id).sort(), 'the prisoners named are not the Scrape\'s');
+  for (const one of home) assert.ok(after.story.includes(`${one.name} was taken prisoner at home.`), `${one.name} was not named as taken at home`);
+  assert.ok(after.story.includes(`${road.name} was taken prisoner on the road east.`), 'the prisoner taken on the road was not named');
+  assert.ok(!after.story.some(line => line.includes(soldier.name)), 'the army\'s prisoner was counted with the Scrape\'s');
+  // Weighed: the family's living people, less PRISONER_WEIGHT parts for each taken.
+  const living = household.members.filter(id => world.entities[id].health.condition !== 'dead').length;
+  const kept = 1 - (PRISONER_WEIGHT * taken.length) / living;
+  assert.ok(PRISONER_WEIGHT > 0 && kept < 1, 'the prisoners took nothing from the count');
+  assert.equal(after.final, Math.round(20 * kept * (1 + after.glory)) + after.land);
+  assert.ok(after.final < before.final, `the prisoners cost the family nothing: ${before.final} before, ${after.final} after`);
+  assert.match(after.sum, new RegExp(`^20 reales, less ${PRISONER_WEIGHT * taken.length} of ${living} parts for the ${taken.length === 1 ? 'one' : taken.length} taken prisoner, counted as `));
+  assert.ok(after.prisonerRule, 'the rule was not said');
+  // The Host's table counts them; a family nobody took shows none and loses nothing.
+  const closing = hostEnding(world);
+  assert.equal(closing.families.find(family => family.householdId === household.id).prisoners, taken.length);
+  const other = Object.values(world.households).find(one => one !== household);
+  assert.equal(closing.families.find(family => family.householdId === other.id).prisoners, 0);
+  assert.equal(familyEnding(world, other.id).final, finalNumber(20, world.glory[other.id]?.total ?? 0));
+  assert.equal(finalNumber(20, 4, 0, 0.5), 50, 'half the coin counted, multiplied by glory');
+  validateWorld(world);
 });
 
 test('no word on either screen names a virtue', () => {

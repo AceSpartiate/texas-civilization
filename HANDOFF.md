@@ -2,8 +2,8 @@
 
 ## The diseases merged with the Scrape's routes and chases; the owner's answers on firing, deaths and saving — 2026-09-27/28 (worktree branch; not released)
 
-Built on `worktree-agent-afb989c37cd01607a` at `62aa53d` (= `origin/main`, merged: nothing newer on it at the finish). Not pushed,
-not merged to main, not released. Local `main` carries 14 art commits `origin/main` does not have; they were not touched.
+Built on `worktree-agent-afb989c37cd01607a` at `62aa53d` (then `origin/main`); `origin/main` `f7b7f7d` (the owner's four balance
+answers, the section after this one) merged at the finish. Not pushed, not merged to main, not released. Local `main` carries 14 art commits `origin/main` does not have; they were not touched.
 
 **The merge** of `worktree-agent-a52ab4e2e5e711853` (the diseases, whose own section is further down) into the Scrape's routes and
 chases. Conflicts in `sim/road.mjs` and `sim/scrape.mjs` were imports and the road's daily sickness loop: kept both - the day's
@@ -64,6 +64,44 @@ docs/evidence/disease-injections.json.
 Not a timing flake: sampled every 200 ms over ticks 9-16, the server moved the child about the yard every tick (x 5.7848 →
 5.757 → 5.7482 → 5.7665) while the page drew it at a fixed offset from its parent (-46, -18 px) the whole time - the page is not
 drawing the play moves. Not mended here (a presentation bug, not a proof's).
+
+## The owner's four balance answers: staying home left as it is, coin the counter's default, the Scrape's prisoners weighed, cotton at two reales — 2026-09-27/28 (worktree branch `worktree-agent-a2d928659c5242006`, the balance measure's branch 363fb33 merged; not released)
+
+The owner answered `docs/BALANCE.md` §6 by multiple choice on 2026-09-27. All four are built and the same 210 classes were
+measured again (`docs/BALANCE.md` §9, the full before/after).
+
+- **1. Staying home: "Leave it."** No rule changed. `VISION.md` §20 carries a dated amendment (a family that sends nobody does not win a
+  class of fifteen or more; it can, rarely, in the smallest), and `docs/MONEY_AND_GLORY.md` §8's gate and §8.3 say the same. After the
+  other three answers: 1 class of 100 won at five families, none of 110 at fifteen and thirty.
+- **2. Coin the default.** `sim/chores.mjs` `cotton-counter`: coin offered first and the fallback `['coin', 'food']`, so silence, auto,
+  an absent family, a lapsed question and the neighbours' director (first open answer) all take coin; `sim/errands.mjs`: a sale on
+  an errand list with no `pay` is paid in coin (a purchase must still say). The popup already pressed Coin first; now proved in
+  `scripts/errand-browser-proof.mjs`. Measured: a family that never chooses holds 284 reales (4 before) and wins at index 0.62 (0.10).
+- **3. The prisoners weighed.** `sim/ending.mjs` `scrapePrisoners` / `keptShare` / `PRISONER_WEIGHT` = 1 (`FIC-GONZ-710`): everybody
+  taken prisoner at home or on the road east (condition 'captured', `service.status` not 'captured' - the war's prisoners are not
+  weighed) is named in the story, a "Taken prisoner" section and the Host's new column, and takes their part (one share of the living
+  people) of the coin out of the count: `final = round(max(coin,1) × kept × (1 + glory)) + land`. No `sim/scrape.mjs` edit: where
+  they were taken is read from where they are. Weight 1 is the smallest that leaves staying in the burn zone below going in both win
+  index and mean place, in both the mended-harness run and the after run (after: stay 0.70 / 0.519 against flee 0.78 / 0.481; 0.5
+  fails on place at step 1). 18 of 2,750 families finished at 0 (every living person taken).
+- **4. Cotton two reales a bale.** `sim/shops.mjs` `STORE_BALE_COIN` = 2 (`COIN.cottonBale` reads it; the weaver's coin follows it);
+  `sim/neighbours.mjs` `TRADE_VALUE.cotton` = the store's coin × 3, so a neighbour's bale cannot be bought for a food and sold for coin.
+  No period price exists in the research (`HIST-GONZ-022` warns against one); `FIC-GONZ-047` records the choice. Measured: cotton
+  families hold 636 reales against 324, and win as often (index 1.33 against 1.32) - the price changes no order.
+- **Found and mended in the measure itself** (`scripts/balance-measure.mjs`, BALANCE.md §9.1): the first run never sold a bale for coin
+  and never planted cotton for a corn family - absent families' questions are answered the tick they are asked, before the harness
+  could. Cotton is now set as the family's crop at the start and sold by the errand. New: `--rescore <record> --weight w` (exact),
+  per-family prisoners, living people and cotton grown/sold in the record, a prisoner-weight reading, `log(max(1, final))`.
+- **Evidence.** `npm test` 1467/1467 (before the last test-only edit; `tests/money.test.mjs` re-run 10/10). New checks, each seen
+  failing on its own injection: the counter's fallback and order, the errand's server default and `pays` order, the prisoner weight,
+  naming, war prisoners excluded, road vs home, the cotton price, the neighbours' bale value; in the browser the prisoner section
+  and the pressed Coin. `test:ending` 12/12 (a prisoner planted in process, as the coin is), `test:errand` 14/14 - **it failed twice
+  of three runs here at the wheelwright step's `scrollIntoViewIfNeeded` ("element is not stable": the popup redraws about five times
+  a second); the base tree passed it twice; after my checks, and passing on the third run and under instrumentation** - `test:lesson`
+  33 checks. Records: `docs/evidence/balance-measure.json` (after), `-step1-harness.json`, `-step2-coin.json`, `balance-study.json`.
+- **Not done / for the owner.** Cotton's price doubles coin but not who wins; if cotton should change *who wins*, it is its size
+  against glory, not the price. Outside the burn zone staying still beats going (nobody is taken there). The measure's runs are slow
+  when the OS parks background node on efficiency cores: raising the process priority tripled the throughput here.
 
 ## The family's own way east, and Mexican troops on it — the owner's request and choices of 2026-09-27 (worktree branch; not released)
 

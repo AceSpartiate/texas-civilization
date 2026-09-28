@@ -3,8 +3,9 @@
  *
  * When a class ends the fog lifts (VISION.md §20). Each family sees, for the first time, its own
  * coin and its own glory, what earned each, and the two multiplied - `money × (1 + glory)`, the
- * owner's formula of 2026-09-12, with no coin counted as one real (owner, 2026-09-16) - shown as a
- * sum and never as a bare total. The Host sees every
+ * owner's formula of 2026-09-12, with no coin counted as one real (owner, 2026-09-16) and the part
+ * of it that went with each person taken prisoner in the Runaway Scrape taken out (owner, 2026-09-27,
+ * `PRISONER_WEIGHT`) - shown as a sum and never as a bare total. The Host sees every
  * family's three numbers in household order and names the family that finished first.
  *
  * **Nothing here exists until the class has ended.** `projectWorld` asks for it only when
@@ -39,7 +40,41 @@ export const countedCoin = money => Math.max(COIN_FLOOR, money);
 // "multiplies money and cannot erase it" (docs/MONEY_AND_GLORY.md §2) still holds of the coin.
 // Land promised for enlisting is added after glory multiplies the coin, never multiplied by it (owner, 2026-09-16,
 // docs/COLONIES.md §7e): a family that never fought can still, rarely, finish first by what it sold.
-export const finalNumber = (money, glory, land = 0) => countedCoin(money) * (1 + Math.max(0, glory)) + land;
+// People taken prisoner in the Runaway Scrape take their part of the coin with them (owner, 2026-09-27, below): `kept` is the
+// share of the coin still counted, 1 when nobody was taken, and the number is then a whole one.
+export const finalNumber = (money, glory, land = 0, kept = 1) => Math.round(countedCoin(money) * kept * (1 + Math.max(0, glory))) + land;
+
+/**
+ * People taken prisoner in the Runaway Scrape, weighed against the family (owner, 2026-09-27, by multiple choice over
+ * docs/BALANCE.md §6: *"Weigh the prisoners"*). Measured over 210 classes before this, a family inside the burn zone that stayed
+ * finished above one that fled (win index 1.06 against 0.83): the road spends coin, the zone burns a farm whether the family
+ * stays or goes, and the people the Mexican army took at home counted for nothing at the end. Now each person taken prisoner at
+ * home or on the road east takes `PRISONER_WEIGHT` times their part of the family's coin out of the count - their part being
+ * one share among the family's living people - so staying is the gamble it was and not the safe choice. The weight was chosen by
+ * measurement (docs/BALANCE.md §9): the smallest that leaves a family that stayed in the burn zone below one that fled, on
+ * average, in both how often it finishes first and where it finishes.
+ *
+ * Only the Scrape's prisoners, not the army's: a man taken at San Patricio, Agua Dulce or Goliad is a casualty of the war, and
+ * glory neither rewards nor punishes a casualty (`VISION.md` §20, *A casualty never earns extra*). They are told apart by
+ * `service.status`, which the war sets to 'captured' for its own (sim/alamo.mjs, sim/houston.mjs) and the Scrape never sets.
+ * The words say who was taken and where, and nothing about what it says of anybody. Invented, `FIC-GONZ-710`.
+ */
+export const PRISONER_WEIGHT = 1;
+/** The rule in the words both screens show it in. */
+export const PRISONER_RULE = `Each person taken prisoner at home or on the road east in the spring takes ${PRISONER_WEIGHT === 1 ? 'their part' : `${PRISONER_WEIGHT} times their part`} of the family's coin out of the count, a part being one share among the family's living people.`;
+const GONE_FOR_GOOD = 'dead';
+/** The family's people taken prisoner in the Scrape: at home (where they were taken) or on the road east (moved to the column). */
+export function scrapePrisoners(world, household) {
+  return household.members.map(id => world.entities[id])
+    .filter(person => person?.health?.condition === 'captured' && person.service?.status !== 'captured')
+    .map(person => ({ personId: person.id, name: person.name, where: person.location?.siteId === household.homeSiteId ? 'home' : 'road' }));
+}
+/** The share of the coin still counted with `taken` of `living` people prisoners: never below nothing. */
+export const keptFor = (taken, living, weight = PRISONER_WEIGHT) => taken ? Math.max(0, 1 - (weight * taken) / Math.max(1, living)) : 1;
+/** The family's living people - the prisoners among them - whom a prisoner's part is one share of. */
+const livingOf = (world, household) => household.members.filter(id => world.entities[id] && world.entities[id].health?.condition !== GONE_FOR_GOOD).length;
+/** The share of the family's coin still counted: its living people less the prisoners' parts, weighed. */
+export const keptShare = (world, household) => keptFor(scrapePrisoners(world, household).length, livingOf(world, household));
 
 const reales = amount => `${amount} ${amount === 1 ? 'real' : 'reales'}`;
 const day = (world, minute) => dateOf(world, minute).toLocaleDateString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' });
@@ -141,19 +176,31 @@ export function familyEnding(world, householdId) {
   const heard = firstWord(world, household);
   const parts = partsTaken(world, household);
   const land = landPromised(world, household);
-  const final = finalNumber(money, glory, land.reales);
+  const taken = scrapePrisoners(world, household);
+  const kept = keptShare(world, household);
+  const final = finalNumber(money, glory, land.reales, kept);
+  const prisoners = taken.map(one => ({ ...one, text: `${one.name} was taken prisoner ${one.where === 'home' ? 'at home' : 'on the road east'}.` }));
   const story = [
     miles === null ? null : `The family lived ${miles} road miles from Gonzales.`,
     heard ? `Word that soldiers had come for the cannon reached them on ${heard.date}.` : 'Word of the cannon never reached them before the end.',
     parts.length ? null : 'Nobody from the family went to Gonzales or to the army. They stayed with the land.',
     household.flight?.status === 'home' ? 'They fled east in the spring, and came home to a burned farm.' : household.flight ? 'They were told to leave in the spring.' : null,
+    ...prisoners.map(one => one.text),
   ].filter(Boolean);
+  // The coin as it is counted: the floor of one real, then the prisoners' parts taken out of it, each step said.
+  const floored = money < COIN_FLOOR ? `${reales(money)}, counted as ${reales(COIN_FLOOR)}` : reales(money);
+  const living = livingOf(world, household);
+  const counted = Math.round(countedCoin(money) * kept * 100) / 100;
+  const lostParts = Math.round(PRISONER_WEIGHT * taken.length * 100) / 100;
+  const coinWords = taken.length
+    ? `${floored}, less ${lostParts} of ${living} parts for the ${taken.length === 1 ? 'one' : taken.length} taken prisoner, counted as ${reales(counted)}`
+    : floored;
   return {
     householdId,
     name: householdName(world, household),
     money, glory, final, land: land.reales, acres: land.acres,
-    counted: countedCoin(money),
-    sum: `${money < COIN_FLOOR ? `${reales(money)}, counted as ${reales(COIN_FLOOR)}` : reales(money)} × (1 + ${glory < 0 ? `${glory} glory, counted as 0` : `${glory} glory`})${land.reales ? ` + ${reales(land.reales)} of land (${land.acres} acres promised)` : ''} = ${final}`,
+    counted, kept, prisoners, ...(prisoners.length && { prisonerRule: PRISONER_RULE }),
+    sum: `${coinWords} × (1 + ${glory < 0 ? `${glory} glory, counted as 0` : `${glory} glory`})${land.reales ? ` + ${reales(land.reales)} of land (${land.acres} acres promised)` : ''} = ${final}`,
     story, coin, awards,
     // The fog lifted on the other side too (owner, 2026-09-26, docs/battle-research/surprise-at-bexar.md): the snow march and
     // why Béxar was caught unprepared, once the class has lived February 23. Absent before, and for a class that never reached it.
@@ -190,7 +237,7 @@ export function hostEnding(world) {
     return {
       householdId: household.id,
       name: own.name,
-      money: own.money, glory: own.glory, land: own.land, final: own.final,
+      money: own.money, glory: own.glory, land: own.land, final: own.final, prisoners: own.prisoners.length,
       automatic: automatic(world, household),
       miles: milesFromGonzales(world, household),
       heard: firstWord(world, household)?.date || null,
@@ -201,7 +248,7 @@ export function hostEnding(world) {
   const best = contenders.length ? Math.max(...contenders.map(family => family.final)) : null;
   const winners = best === null ? [] : contenders.filter(family => family.final === best).map(family => family.householdId);
   const reveal = surpriseReveal(world);
-  return { families, winners, best, discussion: DISCUSSION, ...(reveal && { reveal }) };
+  return { families, winners, best, discussion: DISCUSSION, prisonerRule: PRISONER_RULE, ...(reveal && { reveal }) };
 }
 
 /**

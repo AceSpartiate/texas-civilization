@@ -33,9 +33,14 @@ function growing(world, crop) {
   for (const household of Object.values(world.households)) if (household.field.crop === crop) return household;
   return null;
 }
+// The cotton is taken for food here, answered at the counter: coin is the counter's own answer since 2026-09-27 (owner, "Make
+// coin the default"; tests/money.test.mjs), and what these tests weigh is the food a bale fetches.
 function work(world, householdId, entityId, chore, mode) {
   applyAction(world, householdId, { action: 'chore', entityId, chore, ...(mode && { mode }) });
-  for (let tick = 0; tick < 600 && world.entities[entityId].chore; tick++) stepWorld(world);
+  for (let tick = 0; tick < 600 && world.entities[entityId].chore; tick++) {
+    if (world.entities[entityId].chore?.ask?.id === 'cotton-counter') applyAction(world, householdId, { action: 'answer-chore', entityId, option: 'food' });
+    stepWorld(world);
+  }
   assert.equal(world.entities[entityId].chore, null, `${chore} never finished`);
 }
 const ripen = household => { household.field = { ...household.field, state: 'ripe', changedTick: 0 }; };

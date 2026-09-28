@@ -54,6 +54,15 @@ function familyView(family) {
     coin.append(list);
   } else coin.append(make('p', 'Nothing was bought or sold for coin.'));
   parts.push(coin);
+  // Who was taken prisoner in the spring, and what it took from the count: the server's words (sim/ending.mjs), none of its own.
+  if (family.prisoners?.length) {
+    const taken = make('section', null, 'ending-prisoners');
+    taken.append(make('h3', 'Taken prisoner'));
+    const list = make('ul');
+    for (const one of family.prisoners) list.append(make('li', one.text));
+    taken.append(list, make('p', family.prisonerRule, 'ending-sum'));
+    parts.push(taken);
+  }
   const glory = make('section');
   glory.append(make('h3', 'What earned glory'));
   if (family.awards.length) {
@@ -79,7 +88,7 @@ function hostView(closing) {
   const wrap = make('div', null, 'ending-table-wrap');
   const table = make('table', null, 'ending-table');
   const head = make('tr');
-  for (const label of ['Family', 'Road miles from Gonzales', 'Heard of the cannon', 'Who went', 'Coin', 'Glory', 'Land', 'Final']) head.append(make('th', label));
+  for (const label of ['Family', 'Road miles from Gonzales', 'Heard of the cannon', 'Who went', 'Taken prisoner', 'Coin', 'Glory', 'Land', 'Final']) head.append(make('th', label));
   const thead = make('thead');
   thead.append(head);
   table.append(thead);
@@ -92,6 +101,7 @@ function hostView(closing) {
       make('td', family.miles ?? '—'),
       make('td', family.heard || 'never'),
       make('td', family.went.length ? family.went.join(', ') : 'nobody'),
+      make('td', family.prisoners ? String(family.prisoners) : '—'),
       make('td', reales(family.money)),
       make('td', String(family.glory)),
       make('td', family.land ? reales(family.land) : '—'),
@@ -102,6 +112,7 @@ function hostView(closing) {
   table.append(body);
   wrap.append(table);
   parts.push(wrap, make('p', 'Final number = coin × (1 + glory) + land. A family with no coin is counted as having 1 real. Land promised for enlisting counts a real for every 20 acres, if the person is alive and served it out or is serving still; being sent for home forfeits it.', 'ending-sum'));
+  if (closing.prisonerRule) parts.push(make('p', closing.prisonerRule, 'ending-sum'));
   const talk = make('section');
   talk.append(make('h3', 'For the class'));
   const list = make('ol');

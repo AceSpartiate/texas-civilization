@@ -60,7 +60,7 @@ Coin in either direction is in the ending's account.
 | | powder and lead 1 / 2 | Three powder. The gunsmith gives five for its two. |
 | | a sound hoe 2 reales, coin only | Iron comes a long way. Beside a worn hoe the new one goes into use (§4c). |
 | | sell food, a real for every 5, coin only | Whole reales only: what will not make five stays in the house. |
-| | sell cotton, 1 real or 2 food a whole bale | The weaver, where there is one, gives three food. |
+| | sell cotton, 2 reales or 2 food a whole bale (1 real until 2026-09-27) | Coin unless the student chooses food (owner, 2026-09-27). The weaver, where there is one, gives three food. |
 | **Blacksmith** | felling axe 3 reales / 6 food; auger 2 / 4; broadaxe 3 / 6; froe 1 / 2 | The tool; another beside one the family has (§4c). The auger is what most furniture wants. |
 | **Gunsmith** | powder and lead 2 / 4 | Five powder. |
 | | a rifle 8 / 16 (§4c) | Another hunter out at once, or a rifle at home while a man is at the war. |
@@ -73,12 +73,20 @@ Coin in either direction is in the ending's account.
 | **Wheelwright** | the wagon put in good order 2 / 4 | The ox and wagon go 15% faster. Refused with no wagon. |
 | | a new wagon 100 reales, coin only (§4f) | Driven home behind an ox bought with it at the stock pens; two wagons are two loads out at once. |
 | **Mill** | have corn ground (the miller's toll is taken in meal) | The food carried goes a fifth further. |
-| **Weaver** | sell cotton, 1 real or 3 food a whole bale | More food a bale than the store's two. |
+| **Weaver** | sell cotton, 2 reales or 3 food a whole bale (the store's coin; 1 real until 2026-09-27) | More food a bale than the store's two. |
 | | blankets 1 / 2 | Sleeping by the wagon mends a quarter better. |
 | **Stock pens** (§4d) | a horse 25 reales, coin only | Led home on a halter; another rider out at once. |
 | | an ox 15, coin only | Led home at an ox's pace; drags logs, or pulls the wagon while the other ox is out. |
 | | a cow and calf 10, coin only | Driven home to the herd (docs/STOCK.md). |
 | | a hog 4 / 14 | Driven home to the herd. |
+
+**Coin is the store's own answer, and cotton fetches two reales** (owner, 2026-09-27, by multiple choice over
+[BALANCE.md](BALANCE.md) §6). *"Make coin the default"*: a sale at the store is paid in coin unless the student chooses food -
+the errand's popup presses Coin before anybody chooses, a list that does not say how a sale is paid is paid in coin
+(`sim/errands.mjs`), and the cotton counter the families nobody plays still stop at answers coin when nobody answers
+(`cotton-counter` in `sim/chores.mjs`; it answered food until then, and the neighbours' director, which takes the first answer
+open, follows it). *"Raise the cotton price"*: two reales a whole bale at the store and at the weaver (`STORE_BALE_COIN` in
+`sim/shops.mjs`), and a neighbour nobody plays values a bale at what the store pays for it. Measured in BALANCE.md §9.
 
 Until 2026-09-17 the five things the store does were also five errands of their own on the family panel - fetch seed,
 buy powder, sell food, take the cotton to the store, buy a hoe - so a student had two ways to the same counter, with the

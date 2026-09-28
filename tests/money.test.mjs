@@ -9,8 +9,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createSettledWorld, withoutStartingCoin } from './support/settled.mjs';
 import { applyAction, stepWorld, projectWorld, validateWorld } from '../sim/world.mjs';
-import { COIN, COTTON_RATE, choreAvailability, choresFor } from '../sim/chores.mjs';
+import { ASKS, COIN, COTTON_RATE, choreAvailability, choresFor } from '../sim/chores.mjs';
 import { makeOffer, respondToOffer, describeGoods } from '../sim/trade.mjs';
+import { judgeOffer, thinkFor } from '../sim/neighbours.mjs';
+import { TRADES } from '../sim/shops.mjs';
 
 // Coin from nothing: the three to ten reales a family's means start it with (sim/means.mjs) are taken out, so each rule here is
 // held against the empty purse every family had before 2026-09-25. The starting coin is tests/means.test.mjs's.
@@ -56,7 +58,7 @@ test('cotton is sold at the counter for food or for coin, and coin only for whol
     household.resources.cotton = 3.6;
     const person = toCounter(world, household.id, household.members[1], 'sell-cotton');
     const asked = view(world, household.id).entities.find(e => e.id === person.id).chore.ask;
-    assert.deepEqual(asked.options.map(option => option.id), ['food', 'coin', 'leave']);
+    assert.deepEqual(asked.options.map(option => option.id), ['coin', 'food', 'leave'], 'coin is not the counter\'s first answer');
     const food = household.resources.food;
     applyAction(world, household.id, { action: 'answer-chore', entityId: person.id, option: answer });
     finish(world, person);
@@ -70,6 +72,63 @@ test('cotton is sold at the counter for food or for coin, and coin only for whol
     }
     validateWorld(world);
   }
+});
+
+test('nobody answering at the cotton counter is paid in coin: silence, auto, a family gone from its screen, and the neighbours\' director', () => {
+  // Owner, 2026-09-27, by multiple choice over docs/BALANCE.md §6: "Make coin the default". Food until then.
+  for (const who of ['silence', 'auto', 'absent', 'director', 'lapse']) {
+    const world = running(`cotton-default-${who}`);
+    const household = Object.values(world.households)[0];
+    household.resources.cotton = 3.6;
+    const food = household.resources.food;
+    const person = toCounter(world, household.id, household.members[1], 'sell-cotton');
+    if (who === 'auto') person.auto = true;
+    // A student's family whose student has gone (sim/absence.mjs): answered as auto answers.
+    if (who === 'absent') Object.assign(household, { played: true, absent: true });
+    // A student's family whose question nobody answered in time: it lapses to the question's own answer (sim/lapse.mjs).
+    if (who === 'lapse') household.played = true;
+    if (who === 'director') {
+      // The director answers with the first answer open, as it answers every question at work (sim/neighbours.mjs `thinkFor`).
+      assert.ok(person.chore?.ask, 'nobody was asked at the counter');
+      const answered = [];
+      thinkFor(world, household, { project: id => view(world, id), act: input => { if (input.action === 'answer-chore') { answered.push(input.option); applyAction(world, household.id, input); } else throw new Error('only the counter here'); } });
+      assert.deepEqual(answered, ['coin'], 'the director did not take coin at the counter');
+    }
+    finish(world, person);
+    assert.equal(household.resources.money, 3 * COIN.cottonBale, `${who}: the cotton was not sold for coin (${household.resources.money} reales)`);
+    assert.ok(household.resources.food <= food, `${who}: food came home for the cotton`);
+    assert.ok(Math.abs(household.resources.cotton - 0.6) < 1e-9, `${who}: the part of a bale came home`);
+    validateWorld(world);
+  }
+  assert.doesNotMatch(ASKS['cotton-counter'].text({ name: 'Rosa' }), /rather/, 'the storekeeper still says he would rather pay food');
+});
+
+test('the store pays two reales a bale for cotton, and the weaver the same coin and more food', () => {
+  // Owner, 2026-09-27, by multiple choice over docs/BALANCE.md §6: "Raise the cotton price". A real a bale until then.
+  assert.equal(COIN.cottonBale, 2, 'the cotton price was not raised');
+  assert.equal(TRADES.store.offers.find(offer => offer.id === 'cotton').coinEach, COIN.cottonBale, 'the store and the old errand pay different prices');
+  const weaver = TRADES.weaver.offers.find(offer => offer.id === 'cotton');
+  assert.equal(weaver.coinEach, COIN.cottonBale, 'the weaver pays less coin than the store');
+  assert.ok(weaver.foodEach > TRADES.store.offers.find(offer => offer.id === 'cotton').foodEach, 'the weaver no longer pays more food');
+  // Said where it is chosen: at the field, at the counter, and on the errand's list.
+  const world = running('cotton-price');
+  const household = Object.values(world.households)[0];
+  household.resources.cotton = 2;
+  const person = toCounter(world, household.id, household.members[1], 'sell-cotton');
+  assert.match(view(world, household.id).entities.find(e => e.id === person.id).chore.ask.options.find(option => option.id === 'coin').note, /^2 reales a bale/);
+  assert.match(TRADES.store.offers.find(offer => offer.id === 'cotton').does, /^2 reales a whole bale/);
+  applyAction(world, household.id, { action: 'answer-chore', entityId: person.id, option: 'coin' });
+  finish(world, person);
+  assert.equal(household.resources.money, 4, 'two bales did not fetch four reales');
+});
+
+test('a neighbour nobody plays will not part with a bale for less than the store pays for it', () => {
+  // Valued at one food until 2026-09-27, a bale could be had from a neighbour for a food and sold at the store for coin.
+  const view = { household: { members: ['a', 'b'], resources: { cotton: 6, food: 60 }, field: { state: 'planted' } } };
+  const offer = (weGet) => ({ weGive: { cotton: 1 }, weGet });
+  assert.equal(judgeOffer(view, offer({ food: 2 }), 2).take, false, 'a bale went for two food');
+  assert.equal(judgeOffer(view, offer({ money: COIN.cottonBale - 1 || 0, food: 1 }), 2).take, false, 'a bale went for less than the store pays');
+  assert.equal(judgeOffer(view, offer({ money: COIN.cottonBale }), 2).take, true, 'a bale was refused for what the store pays');
 });
 
 test('powder and seed can be paid for in food or coin, and nobody answering pays whichever the family can', () => {
