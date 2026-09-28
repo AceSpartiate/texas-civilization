@@ -24,7 +24,7 @@ export function createSoundscape({ hostPage = false, win = globalThis.window, do
   const mixer = new Mixer();
   const cueState = createCueState();
   const beds = new Map();
-  const evidence = { role, settings: { ...settings }, context: false, unlocked: false, mood: null, played: [], cues: [], beds: {}, dropped: 0, frameMs: [] };
+  const evidence = { role, settings: { ...settings }, levels: busLevels(settings), context: false, unlocked: false, mood: null, played: [], cues: [], beds: {}, dropped: 0, frameMs: [] };
   if (win) win.__audio = evidence;
 
   function record(list, item) { list.push(item); if (list.length > 300) list.shift(); }
@@ -52,6 +52,7 @@ export function createSoundscape({ hostPage = false, win = globalThis.window, do
   }
   function applyLevels() {
     evidence.settings = { ...settings };
+    evidence.levels = busLevels(settings);
     if (!ctx) return;
     const levels = busLevels(settings);
     const now = ctx.currentTime;
@@ -220,7 +221,7 @@ export function createSoundscape({ hostPage = false, win = globalThis.window, do
     button.title = settings.muted ? 'Sound is off. Press to turn it on or set the volume.' : 'Sound on. Press to set the volume.';
     muteBox.checked = !settings.muted;
     for (const [key, input] of Object.entries(sliders)) input.value = String(Math.round(settings[key] * 100));
-    note.textContent = role === 'student' ? 'Sound starts off in class. Use headphones if you turn it on.' : role === 'host' ? 'The projector plays the class’s music and the big moments.' : '';
+    note.textContent = role === 'student' ? 'Sound starts quiet in class. Turn it down or off here; headphones if you turn it up.' : role === 'host' ? 'The projector plays the class’s music and the big moments.' : '';
   }
   function change(patch) {
     settings = settingsFor(role, { ...settings, ...patch });

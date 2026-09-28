@@ -1,5 +1,27 @@
 # Claude handoff — Astra foundation
 
+## Sound in class: everything on, quiet — owner, 2026-09-28 (branch `audio-quiet-default` from `integration-2026-09-28`; not released)
+
+**The decision.** Owner, answering AU1 (docs/AUDIO.md §9): **"Everything on, quiet."** A student's page in a class now
+starts with music and effects on and the master volume at **30%** (`STUDENT_MASTER`, public/audio-mix.js), against 80% for
+the Host and a solo player: effects 0.21 of full and music 0.068, where the Host's are 0.64 and 0.216. The engine still
+starts only on the first gesture (in a class, the join form's Join). The student can change it with the Sound button, and
+a saved per-device choice (quieter, louder or off) wins over the default; a page its student muted still makes no
+AudioContext. The panel's note reads "Sound starts quiet in class. Turn it down or off here; headphones if you turn it up."
+Other owner questions (AU2-AU7) stay as built. No `saveVersion` move; no server change.
+
+**Evidence** (same computer only). `tests/audio-mix.test.mjs`'s first test now asserts the quiet default (on, master
+`STUDENT_MASTER` between 0.2 and 0.4, music and effects on and at most half the Host's, a saved choice winning); **seen
+failing** alone under two injections in `node scripts/audio-injections.mjs` (the old muted default; `STUDENT_MASTER` at 0.8)
+- 29 of 29 injections each failed exactly their own test. `npm run test:audio` 11 of 11, now holding: no AudioContext before
+a gesture, the student page already at the quiet default; the join flow's first press starts each student's engine at that
+level; a student who turns sound off is remembered across a reload and makes no context even after a press. **Seen failing**
+under two hand injections: `STUDENT_MASTER` 0.8 → *"hh-1: a student page starts at master 0.8, not the quiet 30%"*; a
+student's press not starting the engine → *"the join flow's presses did not start a student page's sound engine"*.
+`npm test` 1627 pass, 2 fail, 37 skipped of 1666 - neither failure is the sound's (this change touches no sim/ or server/ file): tests/host-view.test.mjs 'a student is sent exactly what it was before' fails alone on the integration branch's own projection (the new `amb` field on town people, against the test's expected list), and tests/clock.test.mjs 'the news phase gives a student as many ticks ...' ran 629 s under the full suite's load.
+
+**Not claimed.** Whether 30% is right in a real room of thirty Chromebooks; `STUDENT_MASTER` is the one number to move.
+
 ## Seasons and a limited market: crops in their real season, a store that fills — owner, 2026-09-28 (worktree branch; not released)
 
 The owner's answer to the design audit's blocker B9 (docs/audits/2026-09-28-design.md §3.1: *farming is a money pump - crops ripen
@@ -439,8 +461,8 @@ most 12 voices, each sound's own limit and gap, a loudness budget and a limiter.
 war, battle, the Scrape, the ending): 4 written for the game, and La Folía, "New Britain" (1829) and "Auld Lang Syne"
 (1799), public-domain compositions played by the page's own instruments; music held under the effects and ducked under
 the big moments. A **Sound** button beside the Journal (Sound on, Volume, Music, Effects, Buttons), remembered per device
-and kind of page. **A student in a class starts muted and makes no AudioContext; the Host and a solo player start on**
-(owner question AU1). Nothing sounds before a gesture. `public/app.js` gains three one-line hooks and loads `/audio.js`
+and kind of page. **A student in a class starts with everything on, quiet (master 30%); the Host and a solo player start
+on at 80%** (owner's AU1 answer, below; first built as muted). Nothing sounds before a gesture. `public/app.js` gains three one-line hooks and loads `/audio.js`
 with `import()` after itself. No `saveVersion` move; no server behaviour change beyond serving five modules.
 
 **Size.** No audio file. +82 KB page modules (28 KB gzipped), +20 KB manifest; a first load adds 28 KB in five requests

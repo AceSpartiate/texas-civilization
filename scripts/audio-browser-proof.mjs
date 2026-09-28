@@ -2,10 +2,12 @@
 // tests/support/mock-audio.mjs). Owner, 2026-09-28: "we need audio. we need sound effects, music, etc."
 //
 // A class through the real join flow: the Host and two students on Chromebook-sized pages. It holds:
-//   - no page makes an AudioContext before a gesture; a student's page starts muted and makes none at all, even after
-//     presses; the Host's page starts with sound on and plays music once pressed;
-//   - a student who turns sound on with the button beside the Journal is remembered on that device after a reload;
-//   - on that page: a real fight (the Gonzales fight's own projection, sim/battle-stage.mjs, moved under the camera) is
+//   - no page makes an AudioContext before a gesture; a student's page starts with everything on, quiet (owner, AU1,
+//     2026-09-28: "Everything on, quiet" - the master at 30%) and its engine starts at that level on the first press of the
+//     join flow; the Host's page starts with sound on at full level and plays music once pressed;
+//   - a student who turns sound off with the button beside the Journal is remembered on that device after a reload, and
+//     the saved choice wins over the quiet default: no engine at all, even after a press;
+//   - on the quiet student's page: a real fight (the Gonzales fight's own projection, sim/battle-stage.mjs, moved under the camera) is
 //     heard as musket fire and the cannon; a chase on the Scrape is heard as its shot and ¡Alto!; a storm as rain and
 //     thunder; the bell at Béxar for a family whose own man heard it; the family's baby crying;
 //   - the muted student's page, given every one of the same, plays nothing and makes no AudioContext - while its cues
@@ -72,6 +74,12 @@ try {
   for (const [householdId, viewport] of Object.entries({ 'hh-1': { width: 1366, height: 768 }, 'hh-2': { width: 1024, height: 768 } })) {
     const page = await pageFor(viewport);
     await page.goto(url);
+    // Before any gesture: the quiet default is set, and nothing is made.
+    const before = await audioOf(page);
+    assert.equal(before.role, 'student');
+    assert.equal(before.mock.contexts, 0, `${householdId}: a student page made an AudioContext before any gesture`);
+    assert.equal(before.settings.muted, false, `${householdId}: a student page starts muted`);
+    assert.equal(before.settings.master, 0.3, `${householdId}: a student page starts at master ${before.settings.master}, not the quiet 30%`);
     await page.locator('[name=name]').fill(`Student ${householdId}`);
     await page.locator('[name=code]').fill(app.state.sessionCode);
     await page.getByRole('button', { name: 'Join', exact: true }).click();
@@ -85,13 +93,18 @@ try {
   const hostBefore = await audioOf(host);
   assert.equal(hostBefore.role, 'host'); assert.equal(hostBefore.settings.muted, false);
   assert.equal(hostBefore.mock.contexts, 0, 'the Host page made an AudioContext before any gesture');
+  const hostLevels = hostBefore.levels;
   for (const page of [listener, quiet]) {
     const one = await audioOf(page);
-    assert.equal(one.role, 'student'); assert.equal(one.settings.muted, true, 'a student page did not start muted');
-    assert.equal(one.mock.contexts, 0, 'a muted student page made an AudioContext after the join flow\'s presses');
-    assert.equal(await page.locator('#sound-toggle').textContent(), 'Sound off');
+    assert.equal(one.role, 'student'); assert.equal(one.settings.muted, false, 'a student page did not start with sound on');
+    assert.equal(one.mock.contexts, 1, 'the join flow\'s presses did not start a student page\'s sound engine');
+    assert.ok(one.levels.fx > 0 && one.levels.music > 0, `a student page starts with music and effects on: ${JSON.stringify(one.levels)}`);
+    assert.ok(one.levels.fx <= hostLevels.fx * 0.5 && one.levels.music <= hostLevels.music * 0.5, `a student page is not quiet: ${JSON.stringify(one.levels)} against the Host's ${JSON.stringify(hostLevels)}`);
+    assert.equal(await page.locator('#sound-toggle').textContent(), 'Sound');
   }
-  ok('before any gesture no page has an AudioContext; both students start muted ("Sound off") and made none through the whole join flow; the Host starts on');
+  const studentNow = await audioOf(listener);
+  evidence.studentDefault = { settings: studentNow.settings, levels: studentNow.levels, hostLevels };
+  ok(`before any gesture no page has an AudioContext; each student's first press started its engine at the quiet default (master 30%: effects ${studentNow.levels.fx.toFixed(2)}, music ${studentNow.levels.music.toFixed(3)} against the Host's ${hostLevels.fx.toFixed(2)} and ${hostLevels.music.toFixed(3)}); the Host starts on`);
 
   await host.waitForFunction(() => window.__snapshot.connected === 2);
   await host.getByRole('button', { name: 'Start', exact: true }).click();
@@ -111,23 +124,22 @@ try {
   await listener.waitForFunction(() => window.__snapshot.world.status === 'paused');
   await quiet.waitForFunction(() => window.__snapshot.world.status === 'paused');
 
-  // ------------------------------------------------------------------ a student turns sound on, and it is remembered
-  await listener.locator('#sound-toggle').click();
-  await listener.locator('#sound-on').check();
-  await listener.locator('#sound-toggle').click();
-  assert.equal(await listener.locator('#sound-toggle').textContent(), 'Sound');
-  assert.equal((await audioOf(listener)).mock.contexts, 1);
-  const stored = await listener.evaluate(() => JSON.parse(localStorage.getItem('tr-audio:student')));
-  assert.equal(stored.muted, false);
-  await listener.reload();
-  await listener.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
-  await meetFamily(listener, 'Listener', { timeout: 1500 });
-  const reloaded = await audioOf(listener);
-  assert.equal(reloaded.settings.muted, false, 'the student\'s choice was not remembered across a reload');
-  assert.equal(reloaded.mock.contexts, 0, 'a reloaded page made an AudioContext before a gesture');
-  await listener.locator('#world-map').click({ position: { x: 40, y: 700 } }).catch(() => listener.mouse.click(40, 700));
-  await listener.waitForFunction(() => window.__mockAudio.contexts === 1);
-  ok('the student turned sound on with the button beside the Journal; it was kept on this device across a reload, and waited for the next press to start');
+  // ------------------------------------------------------------------ a student turns sound off, and it is remembered
+  await quiet.locator('#sound-toggle').click();
+  await quiet.locator('#sound-on').uncheck();
+  await quiet.locator('#sound-toggle').click();
+  assert.equal(await quiet.locator('#sound-toggle').textContent(), 'Sound off');
+  const stored = await quiet.evaluate(() => JSON.parse(localStorage.getItem('tr-audio:student')));
+  assert.equal(stored.muted, true);
+  await quiet.reload();
+  await quiet.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-2');
+  await meetFamily(quiet, 'Quiet', { timeout: 1500 });
+  await quiet.locator('#world-map').click({ position: { x: 40, y: 700 } }).catch(() => quiet.mouse.click(40, 700));
+  await quiet.waitForTimeout(500);
+  const reloaded = await audioOf(quiet);
+  assert.equal(reloaded.settings.muted, true, 'the student\'s choice was not remembered across a reload: the quiet default won');
+  assert.equal(reloaded.mock.contexts, 0, 'a page its student muted made an AudioContext after a press');
+  ok('a student turned sound off with the button beside the Journal; after a reload the saved choice won over the quiet default, and the page made no AudioContext even after a press');
 
   // ------------------------------------------------------------------ the fight, heard
   const camera = await listener.evaluate(() => window.__camera);
