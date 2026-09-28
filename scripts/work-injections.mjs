@@ -21,7 +21,7 @@ const one = (file, from, to) => ({ file, from, to });
 const UNIT = [
   { name: 'a chore the table does not draw (felling left out)', expect: T.table, edits: [one('public/work-art.js', "  'fell-trees': { stroke: 'chop', spread: 0.45 },\n", '')] },
   { name: 'working about the place not drawn', expect: T.table, edits: [one('public/work-art.js', "  'task:work': { stroke: 'about', spread: 0.9 },\n", '')] },
-  { name: 'a stand-in that shows nothing (chopping in a one-frame idle, no chips)', expect: T.strokes, edits: [one('public/work-art.js', "  chop: { pose: 'work', art: 'stand-in', effect: 'chips', beat: 2, request: item(1) },", "  chop: { pose: 'idle-e', art: 'stand-in', request: item(1) },")] },
+  { name: 'a stand-in that shows nothing (chopping in a one-frame idle, no chips)', expect: T.strokes, edits: [one('public/work-art.js', "  chop: { pose: 'work', art: 'stand-in', tool: 'axe', effect: 'chips', beat: 2, request: item(1) },", "  chop: { pose: 'idle-e', art: 'stand-in', request: item(1) },")] },
   { name: 'a stand-in with no request', expect: T.strokes, edits: [one('public/work-art.js', "  dig: { pose: 'work', art: 'stand-in', effect: 'earth', beat: 2, request: item(4) },", "  dig: { pose: 'work', art: 'stand-in', effect: 'earth', beat: 2 },")] },
   { name: 'a pose the library does not hold', expect: T.strokes, edits: [one('public/work-art.js', "  fish: { pose: 'rest', art: 'stand-in',", "  fish: { pose: 'fish', art: 'stand-in',")] },
   { name: 'the renderer never asks the work table', expect: T.drawn, edits: [one('public/motion.js', '    const work = workClip(entity, variant);\n', '    const work = null;\n')] },
