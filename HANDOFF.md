@@ -47,6 +47,57 @@ person does anything new (the famous people keep their own art); phones and a Ch
 
 
 
+
+## The flashback: each family's story as a minute of video, made and kept on the Host's computer, with the trip home — owner, 2026-09-28 (worktree branch; not released)
+
+**The ask.** Owner, 2026-09-28: *"a full family recap and flashback story. it should be a 1 minute video generated from key
+points and decisions they made, recorded and saved on the host computer and played back for the student at the [end] of the
+game"*, and *"add their trip home as part of the end of game video flashback"*. Fixes the design audit's **B3** and **B6**, and
+**S24, S25, S27**. Full design, numbers and the open decisions: **docs/FLASHBACK.md**.
+
+- **The story** (`sim/flashback.mjs`): from the ended class's record, 10-15 beats sharing exactly 60 s - the arrival and the roll,
+  the house, the fields, the first call answered or not, who went to which fight and what came of it (the battle engine's own
+  projections), deaths and captures in plain words, the order to leave, the load, soldiers behind, a flooded river, sickness, help
+  given and taken, the refuge, the farm burned and when the family learned it, the news and how late - and the trip home. A
+  **"meanwhile"** on a beat is a true happening the family did not know yet (`world.truth` and the record's dates; never the
+  family's knowledge), with when it heard; the Mexican columns are drawn where they truly were. No gore, no virtue words, **no
+  glory at all**, and a death of sickness is never named (the Host may play any family's video).
+- **The trip home** (`sim/homecoming.mjs`): the game's own `turnHome` and `advanceFlight` run on a `structuredClone` of the ended
+  class until every family that can is home - house standing or ashes, cache dug up, cow home, stock found. Deterministic; the
+  save untouched. New: a family still going east turns home where it stands; a man let go from the army walks home;
+  `ceiling:` no sickness on this road (FIC-GONZ-780).
+- **The video** (`public/flashback.js`, `public/webm-writer.js`): drawn in the **Host's own page** with the game's drawing and art
+  (`bindFlashback` lends `flashbackCamera`, `flashbackGround`, `miniPerson`, `homesteadHouse`, `animated`, a video clock), each
+  frame encoded by the browser's **WebCodecs VP8** encoder at its own timestamp, muxed to WebM by our own ~120-line writer - faster
+  than real time, exact length, no library, no headless browser or ffmpeg on the teacher's PC. MediaRecorder is the fallback
+  (non-secure contexts). 854×480, 20 fps, ~600 kbit/s: **4.4-4.6 MB a video**. The Host's page makes them by itself when the class
+  ends, played families first; on Play Solo the player's page makes its own.
+- **Kept and served** (`server/flashback.mjs`, `server/webm.mjs`, routes in `server/app.mjs`): `POST /api/flashback/video` (WebM
+  body; checked as WebM with a video track, 20-120 s, ≤ 40 MB) → `<data>/flashbacks/<session>/hh-N.webm` + `.json`; `GET` with
+  ranges, the Host any family's, a student their own only; `GET /api/flashback/script` (and `?part=transcript`); each snapshot's
+  `flashback` says what is made. Nothing before the class has ended for good. No `saveVersion` moved: the save holds no video.
+- **Playback**: the student's ending panel plays its own video (autoplay, muted; captions in the picture), **Replay**, and **the
+  story in words** below; the Host lists every family with Play and **Play the whole class in turn**.
+- **The ending's words** (`sim/ending-story.mjs`, three calls from `sim/ending.mjs`): S25 the spring as it was (stayed/went,
+  burned by whom or standing, home or on the road - no more "came home to a burned farm" for a farm that stands); S27 the war's
+  prisoners named (`HIST-TEX-059`), not weighed; S24 the Host's debrief begins with this class's own named hooks, and each family
+  is asked two questions about its own story. `tests/ending.test.mjs` updated for S27 (the army's prisoner is now named).
+
+**Evidence.** `tests/flashback.test.mjs` (8), `tests/flashback-video.test.mjs` (5), `tests/ending-story.test.mjs` (3);
+`node scripts/flashback-injections.mjs`: **16 of 16** injected regressions caught (`docs/evidence/flashback-injections.json`).
+`npm run test:flashback` (11 checks; frames `docs/evidence/flashback-frame-*.png`), re-run after the last merge. `test:ending`
+12/12 and `test:whole-game` 13/13 after the last merge (whole-game failed twice at its children's auto switches under 100% CPU and
+passed alone). `test:solo-game` 14/14 after the first merge; after the second it fails at the children's auto switches, **the same
+way on origin/main f815d07e without this branch** - not the flashback's. `npm test` after the last merge: **1,600 of 1,601**; the
+one, `capacity: 30 HTTP households`, ran out its 30 s under load and passes alone (22 s).
+
+**Measured** (this computer, all 24 logical processors held near 100% by other builders' suites and a balance study, so these are
+worst cases): 5 families in 66 s (51 s at a quiet moment), 15 in 369 s (24.6 s each, 65.8 MB), 30 in 1,556 s (51.9 s each, 131.4 MB); every file 60.0 s and 4.27-4.56 MB. Drawing is 1.5-12 s of a video; the VP8 encoder is the rest (`docs/evidence/flashback-measure.json`).
+
+**Not done / next.** The owner's decisions in docs/FLASHBACK.md §10 (Host playing a family's video to the class; when videos are
+made; sickness on the road home; length; the Matamoros prisoners). Not tried on a Chromebook or a real teacher PC: same-computer
+headless Chrome only. A class that ends with the Host page closed makes no videos until the Host page is opened.
+
 ## The tutorial suspended; tips at first meeting; the "!"s ranked — owner, 2026-09-28 (worktree branch; not released)
 
 **The decisions.** Owner, 2026-09-28: "fix the blockers" (design audit B8, S4-S6, S8, S33, S35; playthrough audit §5), and by
