@@ -217,7 +217,15 @@ export function thinkFor(world, household, { project, act }) {
   // seed, for the nearest refuge east.
   if (view.flight?.status === 'ordered' && view.flight.refuges?.length) {
     const { take, refuge } = packFlight(view.flight);
-    attempt({ action: 'flee', entityId: view.household.mainId || view.household.principalId, take, refuge });
+    // The word to go is given by somebody at home and free to give it - the main person first. A main person serving (the
+    // auxiliary, the garrison, Houston's army) can only be sent for (sim/winter.mjs `SERVING_ACTIONS`), so the flee sent
+    // through him was refused every think and the family sat at home until the foragers burned the farm (found 2026-09-27 by
+    // scripts/balance-measure.mjs, seed measure-5-0). A student's page already sends it through whoever is selected.
+    const free = person => person && person.location?.siteId === view.household.homeSiteId && !person.travel
+      && !['dead', 'captured'].includes(person.health?.condition) && person.service?.status !== 'serving';
+    const byId = id => people.find(person => person.id === id);
+    const giver = [byId(view.household.mainId), byId(view.household.principalId), ...people].find(free);
+    if (giver) attempt({ action: 'flee', entityId: giver.id, take, refuge });
   }
   // A man with Houston's army (sim/camp.mjs, docs/HOUSTON_CAMP.md): the camp's work at documented rates, chosen by a hashed
   // share of the day - mostly drill, as the army did at Groce's - so a man whose family does nothing never sits idle.
