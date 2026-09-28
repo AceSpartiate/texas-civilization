@@ -1,3 +1,7 @@
+## Art update — Mirabeau B. Lamar (2026-09-28)
+
+Lamar now has a distinct 4×4 foot sheet and 2×2 mounted sheet in `scripts/art-deliveries/famous-lamar.mjs`. Four east, two south and two north walking poses, command/salute/saber/reach gestures, two mounted gait frames and a mounted rescue reach are registered in the art manifest. `sim/people.mjs` and `PERSON_ART.lamar` bind the same identity on foot and on horseback. His existing San Jacinto cavalry scenes use his mounted gait; the April 20 skirmish briefly selects the reaching pose during the already staged rescue of Rusk and Walter P. Lane. That visual interval is presentation timing, not a new historical claim. Source/provenance live in the art JSON records. Clothing, face and horse are artistic interpretations, not a portrait claim.
+
 ## Art update — James C. Neill (2026-09-28)
 
 Neill now has a dedicated 4×4 transparent atlas in `scripts/art-deliveries/famous-neill.mjs`: directional walking, artillery command, a three-pose gun-service cycle, and a non-graphic seated hip wound. His roster art key and `PERSON_ART.neill` select it; the existing Béxar feint uses his gun cycle, and the existing April 20 San Jacinto scene uses his command and wounded poses without changing its timing. All 16 frames and four clips are registered in `docs/ART_MANIFEST.md`; source and prompt records are in the art provenance JSON files. These are costume and face interpretations, not an exact likeness. The historical claims remain in `docs/battle-research/famous-people.md`.

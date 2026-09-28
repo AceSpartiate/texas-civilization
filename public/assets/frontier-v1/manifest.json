@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 176,
-    "sprites": 1822,
-    "clips": 589,
-    "poseCycles": 361,
+    "sheets": 178,
+    "sprites": 1842,
+    "clips": 593,
+    "poseCycles": 365,
     "rigs": 4
   },
   "entrypoints": {
@@ -6288,6 +6288,188 @@
               [
                 810,
                 1052
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-lamar": {
+      "image": "atlases/famous-lamar.png",
+      "width": 1312,
+      "height": 1199,
+      "bytes": 932028,
+      "sha256": "1b373cad43726c6b4f180cfdadbd09cc9d3cb9d67e5fecc738aec88ac4c2f54f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.776676,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              11,
+              272
+            ],
+            "columns": [
+              [
+                141,
+                288
+              ],
+              [
+                431,
+                579
+              ],
+              [
+                736,
+                904
+              ],
+              [
+                1047,
+                1210
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              293,
+              562
+            ],
+            "columns": [
+              [
+                146,
+                268
+              ],
+              [
+                448,
+                563
+              ],
+              [
+                755,
+                870
+              ],
+              [
+                1067,
+                1179
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              575,
+              863
+            ],
+            "columns": [
+              [
+                127,
+                243
+              ],
+              [
+                441,
+                639
+              ],
+              [
+                739,
+                874
+              ],
+              [
+                1000,
+                1224
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              887,
+              1172
+            ],
+            "columns": [
+              [
+                94,
+                287
+              ],
+              [
+                406,
+                589
+              ],
+              [
+                743,
+                877
+              ],
+              [
+                1078,
+                1186
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-lamar-mounted": {
+      "image": "atlases/famous-lamar-mounted.png",
+      "width": 1312,
+      "height": 1199,
+      "bytes": 1099794,
+      "sha256": "7fa6d4cf18bca2d646cbc6e3bacc47045a5b2c9021e9b66e5919ac0d9205c43b",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.718927,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              88,
+              566
+            ],
+            "columns": [
+              [
+                93,
+                590
+              ],
+              [
+                736,
+                1228
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              646,
+              1111
+            ],
+            "columns": [
+              [
+                128,
+                595
+              ],
+              [
+                763,
+                1232
               ]
             ]
           }
@@ -40037,6 +40219,686 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/famous-karnes-mounted"
+    },
+    "lamar-walk-e-1": {
+      "sheet": "famous-lamar",
+      "x": 141,
+      "y": 11,
+      "w": 147,
+      "h": 261,
+      "anchorX": 0.5442,
+      "anchorY": 0.9272,
+      "logicalHeight": 288,
+      "label": "lamar walk e 1",
+      "kind": "famous-lamar",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          143,
+          13,
+          143,
+          257
+        ],
+        "visiblePixels": 16553,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lamar-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar"
+    },
+    "lamar-walk-e-2": {
+      "sheet": "famous-lamar",
+      "x": 431,
+      "y": 11,
+      "w": 148,
+      "h": 254,
+      "anchorX": 0.5,
+      "anchorY": 0.9291,
+      "logicalHeight": 288,
+      "label": "lamar walk e 2",
+      "kind": "famous-lamar",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          433,
+          13,
+          144,
+          250
+        ],
+        "visiblePixels": 16987,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lamar-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar"
+    },
+    "lamar-walk-e-3": {
+      "sheet": "famous-lamar",
+      "x": 736,
+      "y": 11,
+      "w": 168,
+      "h": 254,
+      "anchorX": 0.4821,
+      "anchorY": 0.9291,
+      "logicalHeight": 288,
+      "label": "lamar walk e 3",
+      "kind": "famous-lamar",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          738,
+          13,
+          164,
+          250
+        ],
+        "visiblePixels": 14860,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lamar-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar"
+    },
+    "lamar-walk-e-4": {
+      "sheet": "famous-lamar",
+      "x": 1047,
+      "y": 13,
+      "w": 163,
+      "h": 253,
+      "anchorX": 0.4877,
+      "anchorY": 0.9289,
+      "logicalHeight": 288,
+      "label": "lamar walk e 4",
+      "kind": "famous-lamar",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1049,
+          15,
+          159,
+          249
+        ],
+        "visiblePixels": 15826,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lamar-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar"
+    },
+    "lamar-walk-s-1": {
+      "sheet": "famous-lamar",
+      "x": 146,
+      "y": 294,
+      "w": 122,
+      "h": 265,
+      "anchorX": 0.459,
+      "anchorY": 0.9283,
+      "logicalHeight": 288,
+      "label": "lamar walk s 1",
+      "kind": "famous-lamar",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          148,
+          296,
+          118,
+          261
+        ],
+        "visiblePixels": 16290,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lamar-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar"
+    },
+    "lamar-walk-s-2": {
+      "sheet": "famous-lamar",
+      "x": 448,
+      "y": 300,
+      "w": 115,
+      "h": 261,
+      "anchorX": 0.5696,
+      "anchorY": 0.9387,
+      "logicalHeight": 288,
+      "label": "lamar walk s 2",
+      "kind": "famous-lamar",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          450,
+          302,
+          111,
+          257
+        ],
+        "visiblePixels": 16330,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lamar-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar"
+    },
+    "lamar-walk-n-1": {
+      "sheet": "famous-lamar",
+      "x": 755,
+      "y": 293,
+      "w": 115,
+      "h": 269,
+      "anchorX": 0.5391,
+      "anchorY": 0.9294,
+      "logicalHeight": 288,
+      "label": "lamar walk n 1",
+      "kind": "famous-lamar",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          757,
+          295,
+          111,
+          265
+        ],
+        "visiblePixels": 17431,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lamar-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar"
+    },
+    "lamar-walk-n-2": {
+      "sheet": "famous-lamar",
+      "x": 1067,
+      "y": 295,
+      "w": 112,
+      "h": 263,
+      "anchorX": 0.567,
+      "anchorY": 0.943,
+      "logicalHeight": 288,
+      "label": "lamar walk n 2",
+      "kind": "famous-lamar",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1069,
+          297,
+          108,
+          259
+        ],
+        "visiblePixels": 16603,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lamar-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar"
+    },
+    "lamar-idle": {
+      "sheet": "famous-lamar",
+      "x": 127,
+      "y": 575,
+      "w": 116,
+      "h": 288,
+      "anchorX": 0.5431,
+      "anchorY": 0.9306,
+      "logicalHeight": 288,
+      "label": "lamar idle",
+      "kind": "famous-lamar",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          129,
+          577,
+          112,
+          284
+        ],
+        "visiblePixels": 19586,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar"
+    },
+    "lamar-command": {
+      "sheet": "famous-lamar",
+      "x": 441,
+      "y": 578,
+      "w": 198,
+      "h": 285,
+      "anchorX": 0.3232,
+      "anchorY": 0.9298,
+      "logicalHeight": 288,
+      "label": "lamar command",
+      "kind": "famous-lamar",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          443,
+          580,
+          194,
+          281
+        ],
+        "visiblePixels": 20968,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar"
+    },
+    "lamar-salute": {
+      "sheet": "famous-lamar",
+      "x": 739,
+      "y": 582,
+      "w": 135,
+      "h": 279,
+      "anchorX": 0.5667,
+      "anchorY": 0.9319,
+      "logicalHeight": 288,
+      "label": "lamar salute",
+      "kind": "famous-lamar",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          741,
+          584,
+          131,
+          275
+        ],
+        "visiblePixels": 19374,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar"
+    },
+    "lamar-saber-low": {
+      "sheet": "famous-lamar",
+      "x": 1000,
+      "y": 583,
+      "w": 224,
+      "h": 280,
+      "anchorX": 0.7031,
+      "anchorY": 0.9286,
+      "logicalHeight": 288,
+      "label": "lamar saber low",
+      "kind": "famous-lamar",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1002,
+          585,
+          220,
+          276
+        ],
+        "visiblePixels": 20590,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar"
+    },
+    "lamar-reach": {
+      "sheet": "famous-lamar",
+      "x": 94,
+      "y": 903,
+      "w": 193,
+      "h": 269,
+      "anchorX": 0.2513,
+      "anchorY": 0.9294,
+      "logicalHeight": 288,
+      "label": "lamar reach",
+      "kind": "famous-lamar",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          96,
+          905,
+          189,
+          265
+        ],
+        "visiblePixels": 20049,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar"
+    },
+    "lamar-withdraw-signal": {
+      "sheet": "famous-lamar",
+      "x": 406,
+      "y": 892,
+      "w": 183,
+      "h": 276,
+      "anchorX": 0.7869,
+      "anchorY": 0.9275,
+      "logicalHeight": 288,
+      "label": "lamar withdraw signal",
+      "kind": "famous-lamar",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          408,
+          894,
+          179,
+          272
+        ],
+        "visiblePixels": 19723,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar"
+    },
+    "lamar-listen": {
+      "sheet": "famous-lamar",
+      "x": 743,
+      "y": 892,
+      "w": 134,
+      "h": 277,
+      "anchorX": 0.3694,
+      "anchorY": 0.9278,
+      "logicalHeight": 288,
+      "label": "lamar listen",
+      "kind": "famous-lamar",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          745,
+          894,
+          130,
+          273
+        ],
+        "visiblePixels": 18197,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar"
+    },
+    "lamar-rest": {
+      "sheet": "famous-lamar",
+      "x": 1078,
+      "y": 887,
+      "w": 108,
+      "h": 285,
+      "anchorX": 0.213,
+      "anchorY": 0.9333,
+      "logicalHeight": 288,
+      "label": "lamar rest",
+      "kind": "famous-lamar",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1080,
+          889,
+          104,
+          281
+        ],
+        "visiblePixels": 18632,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar"
+    },
+    "lamar-mounted-walk-e-1": {
+      "sheet": "famous-lamar-mounted",
+      "x": 93,
+      "y": 88,
+      "w": 497,
+      "h": 478,
+      "anchorX": 0.5231,
+      "anchorY": 0.9289,
+      "logicalHeight": 478,
+      "label": "lamar mounted walk e 1",
+      "kind": "famous-lamar-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          95,
+          90,
+          493,
+          474
+        ],
+        "visiblePixels": 102411,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lamar-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar-mounted"
+    },
+    "lamar-mounted-walk-e-2": {
+      "sheet": "famous-lamar-mounted",
+      "x": 736,
+      "y": 95,
+      "w": 492,
+      "h": 471,
+      "anchorX": 0.5234,
+      "anchorY": 0.9533,
+      "logicalHeight": 478,
+      "label": "lamar mounted walk e 2",
+      "kind": "famous-lamar-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          738,
+          97,
+          488,
+          467
+        ],
+        "visiblePixels": 101149,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lamar-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar-mounted"
+    },
+    "lamar-mounted-idle-e": {
+      "sheet": "famous-lamar-mounted",
+      "x": 128,
+      "y": 646,
+      "w": 467,
+      "h": 465,
+      "anchorX": 0.4711,
+      "anchorY": 0.9591,
+      "logicalHeight": 478,
+      "label": "lamar mounted idle e",
+      "kind": "famous-lamar-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          130,
+          648,
+          463,
+          461
+        ],
+        "visiblePixels": 98617,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar-mounted"
+    },
+    "lamar-mounted-rescue-e": {
+      "sheet": "famous-lamar-mounted",
+      "x": 763,
+      "y": 705,
+      "w": 469,
+      "h": 406,
+      "anchorX": 0.4861,
+      "anchorY": 0.9606,
+      "logicalHeight": 478,
+      "label": "lamar mounted rescue e",
+      "kind": "famous-lamar-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          765,
+          707,
+          465,
+          402
+        ],
+        "visiblePixels": 98245,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar-mounted"
     },
     "moore-walk-e-1": {
       "sheet": "famous-moore",
@@ -82237,6 +83099,78 @@
       "motion": "none",
       "direction": "east; mirror for west"
     },
+    "lamar-walk-e": {
+      "frames": [
+        {
+          "sprite": "lamar-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "lamar-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "lamar-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "lamar-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "lamar-walk-s": {
+      "frames": [
+        {
+          "sprite": "lamar-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "lamar-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "lamar-walk-n": {
+      "frames": [
+        {
+          "sprite": "lamar-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "lamar-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "lamar-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "lamar-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "lamar-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
     "moore-walk-e": {
       "frames": [
         {
@@ -94058,7 +94992,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 176,
+    "sourceCount": 178,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

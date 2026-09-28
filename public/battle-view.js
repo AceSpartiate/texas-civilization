@@ -96,6 +96,7 @@ export const PERSON_ART = Object.freeze({
   'deaf-smith': { stand: 'deaf-smith-idle', report: 'deaf-smith-report', point: 'deaf-smith-point', wounded: 'deaf-smith-wounded-seated', ride: 'clip:deaf-smith-mounted-walk-e', rideIdle: 'deaf-smith-mounted-idle-e', walk: 'deaf-smith-walk-e' },
   karnes: { stand: 'karnes-idle', command: 'karnes-command', point: 'karnes-command', listen: 'karnes-listen', work: 'clip:karnes-crowbar-work', fire: ['karnes-aim', 'karnes-fire', 'karnes-aim'], ride: 'clip:karnes-mounted-walk-e', rideIdle: 'karnes-mounted-idle-e', walk: 'karnes-walk-e' },
   neill: { stand: 'neill-idle', command: 'neill-command', point: 'neill-command', gun: 'clip:neill-gun-service', wounded: 'neill-wounded-seated', walk: 'neill-walk-e' },
+  lamar: { stand: 'lamar-idle', command: 'lamar-command', point: 'lamar-command', salute: 'lamar-salute', ride: 'clip:lamar-mounted-walk-e', rideIdle: 'lamar-mounted-idle-e', rideRescue: 'lamar-mounted-rescue-e', walk: 'lamar-walk-e' },
 });
 const lerp = (a, b, t) => a + (b - a) * t;
 
@@ -1160,7 +1161,8 @@ export function createBattleView(art) {
       const fell = Number.isFinite(fellAt) && fellAt <= now;
       const hurt = Number.isFinite(person.hurt) && person.hurt <= battle.minute;
       const completedKarnesBreach = battle.id === 'bexar-storming' && battle.phase === 'karnes' && person.id === 'karnes' && (battle.breaches || []).some(breach => breach.open && Math.hypot(breach.x - person.x, breach.y - person.y) < 0.003);
-      const shownPerson = completedKarnesBreach ? { ...person, pose: 'stand' } : person;
+      const lamarRescue = battle.id === 'san-jacinto' && battle.phase === 'skirmish' && person.id === 'lamar' && battle.minute >= 44 && battle.minute < 50;
+      const shownPerson = completedKarnesBreach ? { ...person, pose: 'stand' } : lamarRescue ? { ...person, rescue: true } : person;
       const how = drawPerson(ctx, shownPerson, p, figurePx, time, { fell, fellAgo: fell ? now - fellAt : 0, hurt, now });
       view.peopleSpots[person.id] = view.peopleSpots[person.name] = { x: p.x, y: p.y - figurePx * (person.pose === 'ride' && !fell ? 1.35 : 1) };
       view.peopleShown.add(person.id);
@@ -1228,6 +1230,7 @@ export function createBattleView(art) {
       return clip(`${kind}-march`);
     }
     if (pose === 'ride') {
+      if (person.rescue && own?.rideRescue) return sprite(own.rideRescue);
       const directed = (person.heading === 'north' ? own?.rideNorth : person.heading === 'south' ? own?.rideSouth : null) || named;
       if (typeof directed === 'string' && directed.startsWith('clip:')) return clip(directed.slice(5), time, { size: figurePx * 1.35, flip: person.heading ? person.heading === 'west' : !person.right });
       if (named) return sprite(named);

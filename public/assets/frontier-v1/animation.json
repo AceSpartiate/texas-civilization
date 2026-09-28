@@ -3638,6 +3638,78 @@
       "motion": "none",
       "direction": "east; mirror for west"
     },
+    "lamar-walk-e": {
+      "frames": [
+        {
+          "sprite": "lamar-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "lamar-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "lamar-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "lamar-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "lamar-walk-s": {
+      "frames": [
+        {
+          "sprite": "lamar-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "lamar-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "lamar-walk-n": {
+      "frames": [
+        {
+          "sprite": "lamar-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "lamar-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "lamar-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "lamar-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "lamar-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
     "moore-walk-e": {
       "frames": [
         {

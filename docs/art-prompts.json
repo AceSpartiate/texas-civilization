@@ -2553,6 +2553,31 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-neill.png",
       "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
       "review": "Distinct artillery command and gun-service poses; non-graphic hip wound for the existing April 20 fate. Costume is interpretive."
+    },
+    {
+      "sheet": "famous-lamar",
+      "promptId": "frontier-v1/famous-lamar",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 elevated painterly 1836 Texas game atlas of original interpretive Mirabeau B. Lamar. Slender dark-haired man with sideburns, dark hat, long muted teal coat, buff waistcoat, rust-red neckcloth, tan trousers, tall dark boots. Four east walks, two south and two north, idle, command, salute, saber low, reach to unseen person, withdrawal signal, listen and rest. Same identity, alpha gutters, no background, text or portrait claim.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9ecd14e1-d4e5-4937-93a8-f47838623372.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-lamar.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct dark-teal cavalry figure and command, salute, reach and signal poses. Clothing and face are artistic interpretations."
+    },
+    {
+      "sheet": "famous-lamar-mounted",
+      "promptId": "frontier-v1/famous-lamar-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 2x2 mounted companion of same Lamar identity. Same light gray horse with charcoal mane and tail and simple 1836 tack throughout. Two east walk gait frames, east idle, east mounted reach down to unseen person. Full cutouts with clear margins, no background, text or portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9ecd14e1-d4e5-4937-93a8-f47838623372.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ebd41b8f-e585-4490-9970-0a1632453282.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-lamar-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dedicated mounted gait and reach for the existing April 20 rescue beat; horse coat is interpretive."
     }
   ]
 }

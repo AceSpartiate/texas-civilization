@@ -35,6 +35,20 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null } = {}) 
   return last;
 }
 
+test('Lamar rides in his own art and reaches down during the April 20 rescue beat', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const lamar = { id: 'lamar', art: 'lamar', name: 'Lamar', side: 'texian', x: 0, y: 0, right: true, pose: 'ride' };
+  const scene = minute => battle(minute, { phase: 'skirmish', people: [lamar] });
+  run(view, scene, { seconds: 1, from: 20000 });
+  assert.ok(art.drawn.some(one => one.clip === 'lamar-mounted-walk-e'));
+  art.drawn.length = 0;
+  run(view, scene, { seconds: 1, from: 45000 });
+  assert.ok(art.drawn.some(one => one.sprite === 'lamar-mounted-rescue-e'));
+  art.drawn.length = 0;
+  run(view, scene, { seconds: 1, from: 51000 });
+  assert.ok(art.drawn.some(one => one.clip === 'lamar-mounted-walk-e'));
+});
+
 test('only the named Twin Sisters use their dedicated service crew', () => {
   const art = fakeArt(), view = createBattleView(art);
   const guns = [
