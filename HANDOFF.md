@@ -15,7 +15,10 @@ playthrough #2) is fixed with it.
   only in the lobby and after the end. The next launch opens the class paused; Resume carries on. **Absences are kept across
   the relaunch** (`seedPresence`): a family saved absent stays absent until its page opens, and one whose student does not come
   back is absent the grace after the launch (before, every joined family counted present, and an absent family's questions held
-  the class). `ceiling:` a class ended part-way through a period is still final.
+  the class). `ceiling:` a class ended part-way through a period is still final. **With the classroom blockers (e549ec1)**:
+  Stop for today sits beside the Classes panel; a class opened again from Classes uses the same `seedPresence` (it had started
+  every family's clock at the switch, so a family left absent was handed back to nobody); HOST_PAGE's section is §2.8, after
+  the Classes' §2.7.
 - **B4 — glory between periods.** Owner's choice by multiple choice the same day: **"Coin and land only"**. `endingProjection`
   sends interim families `interimFamily` (coin held, land promised) and the Host `interimHost` (every family's coin and land,
   a family nobody played marked, nobody named); no glory, final number, sum, awards, winner, story or questions on the wire
