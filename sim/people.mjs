@@ -177,7 +177,7 @@ export const PEOPLE = Object.freeze({
     fate: { kind: 'wounded', battle: 'san-jacinto', phase: 'charge', at: 3, claimId: 'HIST-TEX-564' },
     map: [{ from: on(1836, 3, 11, 16), until: 'san-jacinto-field', with: 'houston', doing: 'command', claimId: 'HIST-TEX-564' }],
   }),
-  rusk: person('rusk', 'Rusk', TX, 'officer', 2, 'HIST-TEX-524', { fullName: 'Thomas J. Rusk' }),
+  rusk: person('rusk', 'Rusk', TX, 'rusk', 2, 'HIST-TEX-524', { fullName: 'Thomas J. Rusk' }),
   sherman: person('sherman', 'Sherman', TX, 'sherman', 2, 'HIST-TEX-565', { fullName: 'Sidney Sherman' }),
   lamar: person('lamar', 'Lamar', TX, 'lamar', 2, 'HIST-TEX-565', { fullName: 'Mirabeau B. Lamar' }),
   hockley: person('hockley', 'Hockley', TX, 'officer', 2, 'HIST-TEX-558', { fullName: 'George W. Hockley' }),
@@ -203,7 +203,7 @@ export const PEOPLE = Object.freeze({
 });
 
 /** The poses a person may be given in a phase (public/battle-view.js draws each; a stand-in where the art has none). */
-export const PERSON_POSES = Object.freeze(['stand', 'command', 'fire', 'fire-hidden', 'hide', 'emerge', 'walk', 'ride', 'sick', 'captive', 'wounded', 'write', 'seated', 'point', 'surrender', 'offer-sword', 'receive-sword', 'sword-down', 'prisoner', 'interpret', 'carry', 'gun', 'work']);
+export const PERSON_POSES = Object.freeze(['stand', 'command', 'fire', 'fire-hidden', 'hide', 'emerge', 'walk', 'ride', 'sick', 'captive', 'wounded', 'write', 'seated', 'point', 'surrender', 'offer-sword', 'receive-sword', 'sword-down', 'prisoner', 'interpret', 'carry', 'gun', 'work', 'stop']);
 /** What may befall a famous person in the window. `told` fates are never drawn. */
 export const FATE_KINDS = Object.freeze(['killed', 'executed', 'wounded', 'captured']);
 /** A person by id, or throw: every name the engine draws is one of these. */

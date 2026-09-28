@@ -1,3 +1,7 @@
+## Art update — Thomas J. Rusk (2026-09-28)
+
+Rusk now has his own 4×4 foot atlas and 2×2 mounted companion in `scripts/art-deliveries/famous-rusk.mjs`. The manifest registers directional foot walking, mounted gait, command/document poses and a two-frame open-hand stop animation. `sim/people.mjs` and `PERSON_ART.rusk` bind the same identity on foot and horseback. His existing April 20 skirmish uses the named mounted art; the existing San Jacinto `killing` phase now gives him `pose: stop`, replacing a generic command gesture as he tries unsuccessfully to halt the shooting. No line, outcome or timing was added. A mounted stop frame remains available for later staging. Face, costume and horse are artistic interpretations, with sources and prompt in the art provenance JSON files.
+
 ## Art update — Sidney Sherman (2026-09-28)
 
 Sherman has his own 4×4 foot atlas and 2×2 mounted companion in `scripts/art-deliveries/famous-sherman.mjs`. His directional walks, command/rally gestures, mounted gait and halted raised-hand signal are in the art manifest. `sim/people.mjs` and `PERSON_ART.sherman` bind the identity to the existing San Jacinto scenes. A brief mounted signal marks the already staged April 20 sortie; it gives Sherman no disputed line. His folded cloth pose is deliberately unmarked and is **not** a reconstruction of the Kentucky volunteers’ flag. A historically researched flag remains a separate art request. Prompt and source records are in the art JSON files; face, clothing and horse are interpretations, not portrait claims.

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1862 usable sprites, 180 PNG atlases, 597 clips** (369 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1882 usable sprites, 182 PNG atlases, 602 clips** (374 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -94,6 +94,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-emily-west-picnic | 4 | 1254 × 1254 | 1381954 |
 | famous-santa-anna-picnic | 4 | 1254 × 1254 | 1236551 |
 | famous-picnic-props | 4 | 1254 × 1254 | 1557526 |
+| famous-rusk | 16 | 1312 × 1199 | 1052054 |
+| famous-rusk-mounted | 4 | 1312 × 1199 | 1471219 |
 | famous-seguin-mounted-motion | 4 | 1254 × 1254 | 1217137 |
 | famous-seguin-mounted-ns | 4 | 1254 × 1254 | 798415 |
 | famous-sherman | 16 | 1239 × 1269 | 1115350 |
@@ -1062,6 +1064,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | picnic-blanket | famous-picnic-props | State artwork; no motion required |
 | picnic-basket | famous-picnic-props | State artwork; no motion required |
 | picnic-jug-cups | famous-picnic-props | State artwork; no motion required |
+| rusk-walk-e-1 | famous-rusk | rusk-walk-e |
+| rusk-walk-e-2 | famous-rusk | rusk-walk-e |
+| rusk-walk-e-3 | famous-rusk | rusk-walk-e |
+| rusk-walk-e-4 | famous-rusk | rusk-walk-e |
+| rusk-walk-s-1 | famous-rusk | rusk-walk-s |
+| rusk-walk-s-2 | famous-rusk | rusk-walk-s |
+| rusk-walk-n-1 | famous-rusk | rusk-walk-n |
+| rusk-walk-n-2 | famous-rusk | rusk-walk-n |
+| rusk-idle | famous-rusk | State artwork; no motion required |
+| rusk-command | famous-rusk | State artwork; no motion required |
+| rusk-stop-one | famous-rusk | rusk-stop |
+| rusk-stop-both | famous-rusk | rusk-stop |
+| rusk-reach | famous-rusk | State artwork; no motion required |
+| rusk-read | famous-rusk | State artwork; no motion required |
+| rusk-write | famous-rusk | State artwork; no motion required |
+| rusk-rest | famous-rusk | State artwork; no motion required |
+| rusk-mounted-walk-e-1 | famous-rusk-mounted | rusk-mounted-walk-e |
+| rusk-mounted-walk-e-2 | famous-rusk-mounted | rusk-mounted-walk-e |
+| rusk-mounted-idle-e | famous-rusk-mounted | State artwork; no motion required |
+| rusk-mounted-stop-e | famous-rusk-mounted | State artwork; no motion required |
 | seguin-mounted-walk-e-1 | famous-seguin-mounted-motion | seguin-mounted-walk-e |
 | seguin-mounted-walk-e-2 | famous-seguin-mounted-motion | seguin-mounted-walk-e |
 | seguin-mounted-canter-e-1 | famous-seguin-mounted-motion | seguin-mounted-canter-e |
@@ -2321,6 +2343,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | emily-west-picnic-converse | Pose cycle | 4 | 4300 | yes | west-facing at a camp table |
 | santa-anna-picnic-converse | Pose cycle | 3 | 3450 | yes | east-facing at a camp chair |
 | santa-anna-picnic-alarm | Pose cycle | 2 | 1750 | one-shot | east-facing; turns toward the battle |
+| rusk-walk-e | Pose cycle | 4 | 760 | yes | east |
+| rusk-walk-s | Pose cycle | 2 | 580 | yes | south |
+| rusk-walk-n | Pose cycle | 2 | 580 | yes | north |
+| rusk-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| rusk-stop | Pose cycle | 2 | 1120 | yes | east; mirror for west |
 | seguin-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | seguin-mounted-canter-e | Pose cycle | 2 | 380 | yes | east; mirror for west |
 | seguin-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |

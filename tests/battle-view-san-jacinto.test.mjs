@@ -63,6 +63,16 @@ test('Sherman rides in his own art and signals the April 20 sortie', () => {
   assert.ok(art.drawn.some(one => one.clip === 'sherman-mounted-walk-e'));
 });
 
+test('Rusk rides in his own art and uses his open-hand stop gesture on the bank', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const rusk = { id: 'rusk', art: 'rusk', name: 'Rusk', side: 'texian', x: 0, y: 0, right: true };
+  run(view, minute => battle(minute, { phase: 'skirmish', people: [{ ...rusk, pose: 'ride' }] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'rusk-mounted-walk-e'));
+  art.drawn.length = 0;
+  run(view, minute => battle(minute, { phase: 'killing', people: [{ ...rusk, pose: 'stop' }] }), { seconds: 1, from: 1000 });
+  assert.ok(art.drawn.some(one => one.clip === 'rusk-stop'));
+});
+
 test('only the named Twin Sisters use their dedicated service crew', () => {
   const art = fakeArt(), view = createBattleView(art);
   const guns = [

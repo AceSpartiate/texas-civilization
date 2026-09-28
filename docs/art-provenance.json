@@ -2547,6 +2547,29 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-sherman-mounted.png",
       "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
       "review": "Dedicated horse-and-rider walk and rally signal for the existing April 20 skirmish."
+    },
+    {
+      "sheet": "famous-rusk",
+      "promptId": "frontier-v1/famous-rusk",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-682d1146-3c92-4c58-867b-a927f3f10778.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-rusk.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Two-stage nonverbal halt gesture for the existing San Jacinto aftermath, and period document poses available for later scenes."
+    },
+    {
+      "sheet": "famous-rusk-mounted",
+      "promptId": "frontier-v1/famous-rusk-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-682d1146-3c92-4c58-867b-a927f3f10778.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7c303667-e4f1-4ae0-94b0-0d7c23d38fe8.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-rusk-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Identity-preserving mounted gait for April 20; mounted stop available to later staging. Horse is interpretive."
     }
   ],
   "rejectedAttempts": [

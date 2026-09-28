@@ -7742,6 +7742,188 @@
         ]
       }
     },
+    "famous-rusk": {
+      "image": "atlases/famous-rusk.png",
+      "width": 1312,
+      "height": 1199,
+      "bytes": 1052054,
+      "sha256": "ececcf42866b6941803445f864c89cae9068477fd7933aba6db3efd4843fb298",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.743406,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              5,
+              279
+            ],
+            "columns": [
+              [
+                90,
+                242
+              ],
+              [
+                416,
+                580
+              ],
+              [
+                749,
+                906
+              ],
+              [
+                1067,
+                1233
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              291,
+              580
+            ],
+            "columns": [
+              [
+                98,
+                228
+              ],
+              [
+                424,
+                557
+              ],
+              [
+                755,
+                886
+              ],
+              [
+                1088,
+                1219
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              593,
+              882
+            ],
+            "columns": [
+              [
+                98,
+                214
+              ],
+              [
+                405,
+                618
+              ],
+              [
+                738,
+                929
+              ],
+              [
+                1045,
+                1257
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              890,
+              1183
+            ],
+            "columns": [
+              [
+                71,
+                292
+              ],
+              [
+                426,
+                556
+              ],
+              [
+                749,
+                879
+              ],
+              [
+                1073,
+                1232
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-rusk-mounted": {
+      "image": "atlases/famous-rusk-mounted.png",
+      "width": 1312,
+      "height": 1199,
+      "bytes": 1471219,
+      "sha256": "07807c662e65108df5d634e3f31b55602c9df68642230f71d16ca0523244394b",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.602181,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              6,
+              582
+            ],
+            "columns": [
+              [
+                31,
+                634
+              ],
+              [
+                690,
+                1286
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              612,
+              1178
+            ],
+            "columns": [
+              [
+                80,
+                624
+              ],
+              [
+                727,
+                1296
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-seguin-mounted-motion": {
       "image": "atlases/famous-seguin-mounted-motion.png",
       "width": 1254,
@@ -38084,6 +38266,506 @@
           422
         ],
         "visiblePixels": 117093,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-walk-e-1": {
+      "sheet": "famous-rusk",
+      "x": 90,
+      "y": 5,
+      "w": 152,
+      "h": 273,
+      "anchorX": 0.5658,
+      "anchorY": 0.9267,
+      "logicalHeight": 288,
+      "label": "rusk walk e 1",
+      "kind": "famous-rusk",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          92,
+          7,
+          148,
+          269
+        ],
+        "visiblePixels": 19388,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-walk-e-2": {
+      "sheet": "famous-rusk",
+      "x": 416,
+      "y": 5,
+      "w": 164,
+      "h": 268,
+      "anchorX": 0.4909,
+      "anchorY": 0.9291,
+      "logicalHeight": 288,
+      "label": "rusk walk e 2",
+      "kind": "famous-rusk",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          418,
+          7,
+          160,
+          264
+        ],
+        "visiblePixels": 17989,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-walk-e-3": {
+      "sheet": "famous-rusk",
+      "x": 749,
+      "y": 5,
+      "w": 157,
+      "h": 273,
+      "anchorX": 0.5032,
+      "anchorY": 0.9267,
+      "logicalHeight": 288,
+      "label": "rusk walk e 3",
+      "kind": "famous-rusk",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          751,
+          7,
+          153,
+          269
+        ],
+        "visiblePixels": 18814,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-walk-e-4": {
+      "sheet": "famous-rusk",
+      "x": 1067,
+      "y": 6,
+      "w": 166,
+      "h": 273,
+      "anchorX": 0.5663,
+      "anchorY": 0.9267,
+      "logicalHeight": 288,
+      "label": "rusk walk e 4",
+      "kind": "famous-rusk",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1069,
+          8,
+          162,
+          269
+        ],
+        "visiblePixels": 18915,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-walk-s-1": {
+      "sheet": "famous-rusk",
+      "x": 98,
+      "y": 291,
+      "w": 130,
+      "h": 285,
+      "anchorX": 0.4192,
+      "anchorY": 0.9439,
+      "logicalHeight": 288,
+      "label": "rusk walk s 1",
+      "kind": "famous-rusk",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          100,
+          293,
+          126,
+          281
+        ],
+        "visiblePixels": 21212,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-walk-s-2": {
+      "sheet": "famous-rusk",
+      "x": 424,
+      "y": 291,
+      "w": 133,
+      "h": 281,
+      "anchorX": 0.3684,
+      "anchorY": 0.9609,
+      "logicalHeight": 288,
+      "label": "rusk walk s 2",
+      "kind": "famous-rusk",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          426,
+          293,
+          129,
+          277
+        ],
+        "visiblePixels": 21181,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-walk-n-1": {
+      "sheet": "famous-rusk",
+      "x": 755,
+      "y": 292,
+      "w": 131,
+      "h": 288,
+      "anchorX": 0.5153,
+      "anchorY": 0.9306,
+      "logicalHeight": 288,
+      "label": "rusk walk n 1",
+      "kind": "famous-rusk",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          757,
+          294,
+          127,
+          284
+        ],
+        "visiblePixels": 19961,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-walk-n-2": {
+      "sheet": "famous-rusk",
+      "x": 1088,
+      "y": 293,
+      "w": 131,
+      "h": 284,
+      "anchorX": 0.4542,
+      "anchorY": 0.9472,
+      "logicalHeight": 288,
+      "label": "rusk walk n 2",
+      "kind": "famous-rusk",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1090,
+          295,
+          127,
+          280
+        ],
+        "visiblePixels": 19524,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-idle": {
+      "sheet": "famous-rusk",
+      "x": 98,
+      "y": 593,
+      "w": 116,
+      "h": 288,
+      "anchorX": 0.5474,
+      "anchorY": 0.934,
+      "logicalHeight": 288,
+      "label": "rusk idle",
+      "kind": "famous-rusk",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          100,
+          595,
+          112,
+          284
+        ],
+        "visiblePixels": 20137,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-command": {
+      "sheet": "famous-rusk",
+      "x": 405,
+      "y": 595,
+      "w": 213,
+      "h": 287,
+      "anchorX": 0.3897,
+      "anchorY": 0.9408,
+      "logicalHeight": 288,
+      "label": "rusk command",
+      "kind": "famous-rusk",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          407,
+          597,
+          209,
+          283
+        ],
+        "visiblePixels": 24494,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-stop-one": {
+      "sheet": "famous-rusk",
+      "x": 738,
+      "y": 596,
+      "w": 191,
+      "h": 285,
+      "anchorX": 0.3848,
+      "anchorY": 0.9298,
+      "logicalHeight": 288,
+      "label": "rusk stop one",
+      "kind": "famous-rusk",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          740,
+          598,
+          187,
+          281
+        ],
+        "visiblePixels": 24061,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-stop-both": {
+      "sheet": "famous-rusk",
+      "x": 1045,
+      "y": 594,
+      "w": 212,
+      "h": 288,
+      "anchorX": 0.4811,
+      "anchorY": 0.9375,
+      "logicalHeight": 288,
+      "label": "rusk stop both",
+      "kind": "famous-rusk",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1047,
+          596,
+          208,
+          284
+        ],
+        "visiblePixels": 24386,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-reach": {
+      "sheet": "famous-rusk",
+      "x": 71,
+      "y": 890,
+      "w": 221,
+      "h": 284,
+      "anchorX": 0.138,
+      "anchorY": 0.9401,
+      "logicalHeight": 288,
+      "label": "rusk reach",
+      "kind": "famous-rusk",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          73,
+          892,
+          217,
+          280
+        ],
+        "visiblePixels": 24624,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-read": {
+      "sheet": "famous-rusk",
+      "x": 426,
+      "y": 893,
+      "w": 130,
+      "h": 284,
+      "anchorX": 0.4923,
+      "anchorY": 0.9296,
+      "logicalHeight": 288,
+      "label": "rusk read",
+      "kind": "famous-rusk",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          428,
+          895,
+          126,
+          280
+        ],
+        "visiblePixels": 21230,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-write": {
+      "sheet": "famous-rusk",
+      "x": 749,
+      "y": 894,
+      "w": 130,
+      "h": 289,
+      "anchorX": 0.5,
+      "anchorY": 0.9308,
+      "logicalHeight": 288,
+      "label": "rusk write",
+      "kind": "famous-rusk",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          751,
+          896,
+          126,
+          285
+        ],
+        "visiblePixels": 22786,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-rest": {
+      "sheet": "famous-rusk",
+      "x": 1073,
+      "y": 927,
+      "w": 159,
+      "h": 240,
+      "anchorX": 0.5472,
+      "anchorY": 0.9292,
+      "logicalHeight": 288,
+      "label": "rusk rest",
+      "kind": "famous-rusk",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1075,
+          929,
+          155,
+          236
+        ],
+        "visiblePixels": 20643,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-mounted-walk-e-1": {
+      "sheet": "famous-rusk-mounted",
+      "x": 31,
+      "y": 6,
+      "w": 603,
+      "h": 573,
+      "anchorX": 0.4859,
+      "anchorY": 0.9407,
+      "logicalHeight": 576,
+      "label": "rusk mounted walk e 1",
+      "kind": "famous-rusk-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          33,
+          8,
+          599,
+          569
+        ],
+        "visiblePixels": 141041,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-mounted-walk-e-2": {
+      "sheet": "famous-rusk-mounted",
+      "x": 690,
+      "y": 6,
+      "w": 596,
+      "h": 576,
+      "anchorX": 0.4664,
+      "anchorY": 0.9288,
+      "logicalHeight": 576,
+      "label": "rusk mounted walk e 2",
+      "kind": "famous-rusk-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          692,
+          8,
+          592,
+          572
+        ],
+        "visiblePixels": 143918,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-mounted-idle-e": {
+      "sheet": "famous-rusk-mounted",
+      "x": 80,
+      "y": 612,
+      "w": 544,
+      "h": 563,
+      "anchorX": 0.4357,
+      "anchorY": 0.968,
+      "logicalHeight": 576,
+      "label": "rusk mounted idle e",
+      "kind": "famous-rusk-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          82,
+          614,
+          540,
+          559
+        ],
+        "visiblePixels": 134239,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-mounted-stop-e": {
+      "sheet": "famous-rusk-mounted",
+      "x": 727,
+      "y": 612,
+      "w": 569,
+      "h": 566,
+      "anchorX": 0.4112,
+      "anchorY": 0.9629,
+      "logicalHeight": 576,
+      "label": "rusk mounted stop e",
+      "kind": "famous-rusk-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          729,
+          614,
+          565,
+          562
+        ],
+        "visiblePixels": 145856,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
