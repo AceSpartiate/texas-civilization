@@ -31,7 +31,7 @@ page and the 1835 force's siege camp at Concepción, each watched 45 s: **16 of 
 search, speak; keepers walked to a neighbour's door and seen arriving; the camp's men at nine things and talking; 5 to 16 lines a
 place, at most 2 bubbles at once, never overlapping; map draw p95 **9.0 ms** farm, **7.0** town, **13.6** camp (max 23.4) against
 the 50 ms gate (the same scenes with ambient switched off measured 7.5, 7.6 and 19.9). Browser injections **6 of 6 caught, 6
-alone** (`npm run test:chatter-injections`, docs/evidence/chatter-injections.json). `npm test` **1585 of 1585** after merging
+alone** (`npm run test:chatter-injections`, docs/evidence/chatter-injections.json). `npm test` on the tree merged with origin/main cb3af7da: **1593 pass, 36 skipped (the suspended lesson), 1 fail** - `save-retry` ("a save Windows refuses for a moment", a timing test under the full suite's load; 3 of 3 alone). Before that merge 1585 of 1585 after merging
 origin/main. `test:children` 14, `test:family-panel` 17, `test:lesson` 33, `test:panels` 14 PASS. **`test:gonzales-town` caught
 a regression of mine** (a resident drawn crossing the town at 2.4 heights a second: the carrying's steps jumped when they began
 or met a walk) - fixed, the carrier is now walked by the town's walker, and the residents are back under the proof's 1.6. That
