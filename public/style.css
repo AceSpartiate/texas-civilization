@@ -1180,8 +1180,6 @@ body[data-creating=true] #away>button{min-height:50px;background:#355243;border-
      of the bar. It goes down the right, under the strip, and stops above the bar. */
   #call-menu{left:auto;right:12px;transform:none;width:min(440px,calc(50% - 48px));max-height:min(72vh,600px,calc(100% - 60px - var(--right-foot,74px)))}
   body[data-lesson=true] #call-menu{max-height:min(62vh,520px,calc(100% - 18px - var(--lesson-room,116px) - var(--right-foot,74px)))}
-  /* Short, the menu scrolls and its answer stays in sight at its foot. */
-  #call-menu-answer{position:sticky;bottom:-12px;margin-bottom:-12px;padding:8px 0 12px;background:var(--paper)}
   /* Packing the wagon stood over the whole family and the status lines above it - the food and the seed it is packed
      against. The lobby has nothing else down the right. */
   #wagon-load{left:auto;right:12px;top:64px;max-height:calc(100% - 72px - var(--right-foot,74px));overflow-y:auto}
