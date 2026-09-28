@@ -179,7 +179,7 @@ export const CAMP_QUESTIONS = Object.freeze({
     claimId: 'HIST-TEX-076', unplayed: 0.5, closes: 'goliad-leave-close',
     ask: name => `Word has come that Fannin's whole command is taken on the prairie. Many of the men are leaving the army to see to their families. Does ${name} go home?`,
     yes: name => `${name} leaves for home`, no: name => `${name} stays with the army`,
-    note: entity => entity.service?.bound ? 'A regular who leaves has deserted: the family loses the glory of enlisting twice over, and they will not be taken again.'
+    note: entity => entity.service?.bound ? 'A regular who leaves goes before their time is up and without a discharge: they have deserted, the promise of land goes with it, and they will not be taken again.'
       : entity.service?.acres ? 'They start home at once, and the promise of land goes with it.' : 'They start home at once. Whatever the army does next happens without them.',
     said: { yes: name => `${name} left the army to see to the family, as many did.`, no: name => `${name} stayed with the army.` },
     lapsed: name => `${name} did not leave, and is still with the army.`,

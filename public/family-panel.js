@@ -256,7 +256,7 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
         note: entry.cost ? `Costs ${entry.cost}.` : '', can: Boolean(settable && entry.can), why: entry.can ? '' : entry.why || '', onMap: false, active: entity.chore?.id === entry.id };
     });
     return [...camp, { key: 'winter-recall', kind: 'order', name: ORDER_NAMES['winter-recall'], summary: PANEL_SUMMARIES['winter-recall'],
-      note: entity.service.kind === 'regular' ? 'A regular who leaves has deserted, and loses glory.' : entity.service.acres ? 'The promise of land is lost.' : '',
+      note: entity.service.kind === 'regular' ? 'A regular who leaves before their time is up has deserted: the land is lost, and they will not be taken again.' : entity.service.acres ? 'The promise of land is lost.' : '',
       why: shut, can: settable && !entity.travel && !shut, active: false },
     ...(entity.chore ? [{ key: 'stop-chore', kind: 'order', name: ORDER_NAMES['stop-chore'], summary: PANEL_SUMMARIES['stop-chore'], note: '', why: '', can: settable, active: false }] : [])];
   }
