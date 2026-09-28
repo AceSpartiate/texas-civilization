@@ -10,7 +10,7 @@ import { IN_THE_WATER, landAround, onRealLand, siteFacts } from './ground.mjs';
 import { woodsRule } from './woods.mjs';
 import { plotCatalogue } from './houseplot.mjs';
 import { plotsOf, squareOf } from './fields.mjs';
-import { houseOnGround, overlaps, spacingRefusal, standingAt } from './house-footprint.mjs';
+import { PERSON_MILES, houseOnGround, overlaps, spacingRefusal, standingAt } from './house-footprint.mjs';
 
 let catalogue = null;
 /** The plot's pieces and plans, as the page is sent them: what a footprint is worked out from on both sides. */
@@ -55,4 +55,20 @@ export function checkHousePlacement(world, household, placement, layout) {
   const why = spacingRefusal(house, housesOnLand(world, household, household.completedHouses || []));
   if (why) throw new Error(why);
   return at;
+}
+
+/**
+ * Where the people raising the house stand: at the middle of its front, the side toward the viewer, a little way out from its
+ * ground as the map draws it (owner, 2026-09-28: "When someone is working, I should see them actually working, not just
+ * standing near their task"). Until then they were walked to the yard, two people's height from the site and off the corner
+ * of the house they were building. Null for a family with no house begun, or one standing nowhere.
+ */
+export function houseFront(world, household) {
+  const house = household.house, site = world.map.sites[household.homeSiteId];
+  const at = house && standingAt(house, site);
+  if (!at) return null;
+  const { footprint } = houseOnGround(house, pieceCatalogue(), at);
+  if (![footprint.minX, footprint.maxX, footprint.maxY].every(Number.isFinite)) return null;
+  const round = value => Math.round(value * 10000) / 10000;
+  return { x: round((footprint.minX + footprint.maxX) / 2), y: round(footprint.maxY + PERSON_MILES * 0.3) };
 }

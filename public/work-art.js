@@ -75,23 +75,26 @@ export const STROKES = Object.freeze({
  * the one person alone stands that far to its west, facing it. An activity whose work *is* walking (`walk`) is drawn walking
  * whether or not the ground is moving under them.
  */
+const HOUSE_PARTS = Object.freeze([[/waiting/, 'wait'], [/felling|hewing|cutting and setting/, 'chop']]);
 export const WORK = Object.freeze({
   // At home: the land, the field, the house and the well (docs/LAND_GRANTS.md, docs/WOODS_AND_BUILDING.md).
   'survey-plot': { stroke: 'pace', spread: 0.6 },
   'cut-lane': { stroke: 'chop', spread: 0.6, by: [[/brush|grub/, 'grub']] },
   'dig-well': { stroke: 'dig', spread: 0.45 },
   'plant-field': { stroke: 'hoe', spread: 0.8, by: [[/putting in seed|seed/, 'sow']] },
-  'harvest-field': { stroke: 'reap', spread: 0.8 },
+  'harvest-field': { stroke: 'reap', spread: 0.8, by: [[/carrying/, 'carry']] },
   'clear-plot': { stroke: 'grub', spread: 0.8, by: [[/felling|timber/, 'chop'], [/prairie sod|breaking/, 'hoe']] },
-  'fence-plot': { stroke: 'split', spread: 0.8, by: [[/mesquite|cutting/, 'chop']] },
-  'build-house': { stroke: 'notch', spread: 1.3 },
-  'help-raise': { stroke: 'notch', spread: 1.3 },
+  'fence-plot': { stroke: 'split', spread: 0.8, by: [[/mesquite|cutting/, 'chop'], [/carrying/, 'carry']] },
+  // The house's stage, in the server's words (sim/houses.mjs `stageOf`): felling for it first, then the walls and the roof.
+  // The server walks them to the middle of the house's front (sim/house-placement.mjs `houseFront`): they stand along it.
+  'build-house': { stroke: 'notch', spread: 1.8, arc: 'front', by: HOUSE_PARTS },
+  'help-raise': { stroke: 'notch', spread: 1.8, arc: 'front', by: HOUSE_PARTS },
   'fell-trees': { stroke: 'chop', spread: 0.45 },
   // Retiring (2026-09-28: felling drops its logs on the one wood pile); kept while a saved class may be in the middle of it.
   'haul-logs': { stroke: 'carry', spread: 0.6 },
   'fetch-logs': { stroke: 'chop', spread: 0.45 },
   'make-carreta': { stroke: 'chop', spread: 0.7, by: [[/shaping|axle/, 'whittle']] },
-  'make-furniture': { stroke: 'whittle', spread: 0.6, by: [[/felling|splitting/, 'chop']] },
+  'make-furniture': { stroke: 'whittle', spread: 0.6, by: [[/felling|splitting/, 'chop'], [/carrying/, 'carry']] },
   'mend-hoe': { stroke: 'mend', spread: 0.6 },
   'practise-shooting': { stroke: 'shoot', spread: 0.6 },
   // Hunting and the country's food (docs/WOODS_AND_BUILDING.md §5, sim/gathering.mjs).
@@ -218,7 +221,6 @@ export function workClip(entity, variant) {
     if (CARRYING.test(doing) || key === 'carry') return bound(variant, 'carry', 'carry', false);
     return heading ? bound(variant, `walk-${heading}`, 'walk', true) : bound(variant, 'walk', 'walk', false);
   }
-  if (CARRYING.test(doing)) return bound(variant, 'carry', 'carry', false);
   return bound(variant, stroke.pose, key, Boolean(stroke.upright));
 }
 function bound(variant, pose, key, upright) {
@@ -265,7 +267,8 @@ export function workSlot(entity, workmates, out) {
   }
   if (!count) count = 1;
   // The first stands to the west of the work facing east; the others round it, evenly, the ring flattened as the ground is.
-  const angle = Math.PI + (Math.PI * 2 * index) / count;
+  // Work with a front (the house) is stood along that side only, west to east, never inside it.
+  const angle = WORK[activity].arc === 'front' ? Math.PI * (1 - (index + 0.5) / count) : Math.PI + (Math.PI * 2 * index) / count;
   out.x = Math.cos(angle) * spread;
   out.y = Math.sin(angle) * spread * 0.45;
   out.face = out.x > 0.01 ? 'w' : 'e';

@@ -43,6 +43,7 @@ const files = new Map([
   ['/app.js', ['../public/app.js', 'text/javascript']], ['/style.css', ['../public/style.css', 'text/css']],
   ['/art.js', ['../public/art.js', 'text/javascript']], ['/interface.js', ['../public/interface.js', 'text/javascript']],
   ['/motion.js', ['../public/motion.js', 'text/javascript']],
+  ['/work-art.js', ['../public/work-art.js', 'text/javascript']],
   ['/alamo-layout.js', ['../public/alamo-layout.js', 'text/javascript']],
   ['/alamo-faces.js', ['../public/alamo-faces.js', 'text/javascript']],
   ['/alamo-collapse.js', ['../public/alamo-collapse.js', 'text/javascript']],

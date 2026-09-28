@@ -107,6 +107,9 @@ test('the part of the work is told by its own words, and going to it or carrying
   assert.equal(strokeOf('clear-plot', 'breaking prairie sod'), 'hoe');
   assert.equal(strokeOf('fence-plot', 'cutting mesquite posts and brush'), 'chop');
   assert.equal(strokeOf('plant-field', 'putting in seed'), 'sow');
+  assert.equal(strokeOf('build-house', 'felling and hauling logs'), 'chop', 'the house is felled for before it is raised (sim/houses.mjs `stageOf`)');
+  assert.equal(strokeOf('build-house', 'raising the walls'), 'notch');
+  assert.equal(strokeOf('harvest-field', 'carrying the crop in by hand, a load at a time'), 'carry');
   assert.equal(strokeOf('hunt-land', 'waiting downwind, and still'), 'hold');
   assert.equal(strokeOf('hunt-land', 'the shot'), 'shot');
   // A change in the words leaves the base stroke: never standing.
@@ -126,17 +129,22 @@ test('the part of the work is told by its own words, and going to it or carrying
 
 test('several people at one piece of work stand round it and face it; one alone stands at it', () => {
   const at = { x: 1, y: 1, siteId: 'home-1' };
-  const builder = id => ({ id, kind: 'person', task: 'work', location: at, chore: { id: 'build-house', doing: 'raising the walls' } });
+  const builder = id => ({ id, kind: 'person', task: 'work', location: at, chore: { id: 'dig-well', doing: 'digging the well' } });
   const crew = [builder('hh-1-a'), builder('hh-1-b'), builder('hh-1-c')];
   const out = { x: 0, y: 0, face: null };
   const places = crew.map(person => { workSlot(person, crew, out); return { ...out }; });
-  assert.equal(new Set(places.map(place => `${place.x.toFixed(2)},${place.y.toFixed(2)}`)).size, 3, `three builders stand in one spot: ${JSON.stringify(places)}`);
+  assert.equal(new Set(places.map(place => `${place.x.toFixed(2)},${place.y.toFixed(2)}`)).size, 3, `three at the well stand in one spot: ${JSON.stringify(places)}`);
   for (const place of places) {
-    assert.ok(Math.hypot(place.x, place.y / 0.45) > 1, 'a builder is not round the house');
-    assert.equal(place.face, place.x > 0.01 ? 'w' : 'e', 'a builder does not face the house');
+    assert.ok(Math.abs(Math.hypot(place.x, place.y / 0.45) - WORK['dig-well'].spread) < 1e-9, 'a digger is not round the well');
+    assert.equal(place.face, place.x > 0.01 ? 'w' : 'e', 'a digger does not face the well');
   }
   workSlot(crew[0], [crew[0]], out);
-  assert.ok(out.x < 0 && out.face === 'e', 'one builder alone stands to the west of it facing it');
+  assert.ok(out.x < 0 && out.face === 'e', 'one digger alone stands to the west of it facing it');
+  // The house has a front: those at it stand along it, west to east, south of the point the server walked them to, facing in.
+  const house = crew.map(one => ({ ...one, chore: { id: 'build-house', doing: 'raising the walls' } }));
+  const along = house.map(person => { workSlot(person, house, out); return { ...out }; });
+  assert.ok(along.every(place => place.y > 0), `a builder stands inside the house: ${JSON.stringify(along)}`);
+  assert.ok(along[0].x < along[1].x && along[1].x < along[2].x && along[0].face === 'e' && along[2].face === 'w', `the builders do not stand along the front facing in: ${JSON.stringify(along)}`);
   // Somebody at other work, or at the same work somewhere else, is not in the ring.
   const felling = { ...builder('hh-1-d'), chore: { id: 'fell-trees', doing: 'felling' } }, far = { ...builder('hh-1-e'), location: { x: 1.2, y: 1, siteId: 'home-1' } };
   workSlot(crew[0], [crew[0], felling, far], out);

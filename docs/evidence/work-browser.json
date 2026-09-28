@@ -1,0 +1,321 @@
+{
+  "record": "People at work, drawn at the work, in a browser (docs/ART_REQUESTS.md, request 2026-09-28 — people at work)",
+  "date": "2026-09-28",
+  "verdict": "PASS",
+  "note": "Same computer only, headless Chrome at 1366x768. A real class through the join flow on the invented country (seed work-proof-3). The well, the house, the felling, the mark and the water are the server's own chore state set in process; working about the place is the server's own. No LAN or district claim.",
+  "checks": [
+    "Barnabas Proofwright working about the place is drawn hoeing (rust-work): frames 3/0/1/2, dust on the strike, 20 different pictures in 2.4 s",
+    "three sent to the house (\"felling and hauling logs\") are drawn round it (738,409 / 859,384 / 617,384, a figure 77 px), each facing it, swinging with the chips flying (chop, chop, chop; stand-in: Request 2026-09-28 — people at work, item 1)",
+    "at the mark Serafina Proofwright is drawn with the rifle up and a puff of smoke once a cycle (teal-idle-e; marks 1/4); surveying, Barnabas Proofwright paces the ground to and fro (24 places, turning both ways)",
+    "no page errors"
+  ],
+  "observed": {
+    "family": [
+      {
+        "id": "hh-1-parent-1",
+        "name": "Barnabas Proofwright",
+        "age": 42,
+        "band": "adult"
+      },
+      {
+        "id": "hh-1-parent-2",
+        "name": "Serafina Proofwright",
+        "age": 42,
+        "band": "adult"
+      },
+      {
+        "id": "hh-1-child-1",
+        "name": "Basilio Proofwright",
+        "age": 22,
+        "band": "adult"
+      },
+      {
+        "id": "hh-1-child-2",
+        "name": "Enos Proofwright",
+        "age": 20,
+        "band": "adult"
+      },
+      {
+        "id": "hh-1-child-3",
+        "name": "Paulita Proofwright",
+        "age": 18,
+        "band": "adult"
+      },
+      {
+        "id": "hh-1-child-4",
+        "name": "Winnie Proofwright",
+        "age": 15,
+        "band": "youth"
+      },
+      {
+        "id": "hh-1-child-5",
+        "name": "Tomasa Proofwright",
+        "age": 13,
+        "band": "youth"
+      },
+      {
+        "id": "hh-1-child-6",
+        "name": "Prudence Proofwright",
+        "age": 10,
+        "band": "youth"
+      },
+      {
+        "id": "hh-1-child-7",
+        "name": "Levi Proofwright",
+        "age": 8,
+        "band": "child"
+      },
+      {
+        "id": "hh-1-child-8",
+        "name": "Emeterio Proofwright",
+        "age": 6,
+        "band": "child"
+      },
+      {
+        "id": "hh-1-child-9",
+        "name": "Minerva Proofwright",
+        "age": 4,
+        "band": "small"
+      },
+      {
+        "id": "hh-1-child-10",
+        "name": "Rufino Proofwright",
+        "age": 2,
+        "band": "small"
+      }
+    ],
+    "camera": {
+      "figure": 7.633529411764704,
+      "focused": "hh-1-parent-1"
+    },
+    "figure": 39.95263763626115,
+    "about": {
+      "strokes": [
+        "about"
+      ],
+      "clips": [
+        "rust-work"
+      ],
+      "frames": [
+        3,
+        0,
+        1,
+        2
+      ],
+      "marks": [
+        3,
+        0
+      ],
+      "shifts": [
+        0
+      ],
+      "flips": [
+        false
+      ],
+      "prints": 20,
+      "at": {
+        "x": 672,
+        "y": 371,
+        "size": 40
+      },
+      "art": "delivered",
+      "request": null
+    },
+    "houseFigure": 77.45928530252208,
+    "house": {
+      "doing": "felling and hauling logs",
+      "hh-1-parent-1": {
+        "strokes": [
+          "chop"
+        ],
+        "clips": [
+          "rust-work"
+        ],
+        "frames": [
+          3,
+          0,
+          1,
+          2
+        ],
+        "marks": [
+          5,
+          0
+        ],
+        "shifts": [
+          0
+        ],
+        "flips": [
+          false
+        ],
+        "prints": 20,
+        "at": {
+          "x": 738,
+          "y": 409,
+          "size": 77
+        },
+        "art": "stand-in",
+        "request": "Request 2026-09-28 — people at work, item 1"
+      },
+      "hh-1-parent-2": {
+        "strokes": [
+          "chop"
+        ],
+        "clips": [
+          "teal-work"
+        ],
+        "frames": [
+          3,
+          0,
+          1,
+          2
+        ],
+        "marks": [
+          5,
+          0
+        ],
+        "shifts": [
+          0
+        ],
+        "flips": [
+          true
+        ],
+        "prints": 20,
+        "at": {
+          "x": 859,
+          "y": 384,
+          "size": 77
+        },
+        "art": "stand-in",
+        "request": "Request 2026-09-28 — people at work, item 1"
+      },
+      "hh-1-child-1": {
+        "strokes": [
+          "chop"
+        ],
+        "clips": [
+          "rust-work"
+        ],
+        "frames": [
+          1,
+          2,
+          3,
+          0
+        ],
+        "marks": [
+          0,
+          5
+        ],
+        "shifts": [
+          0
+        ],
+        "flips": [
+          false
+        ],
+        "prints": 20,
+        "at": {
+          "x": 617,
+          "y": 384,
+          "size": 77
+        },
+        "art": "stand-in",
+        "request": "Request 2026-09-28 — people at work, item 1"
+      }
+    },
+    "surveyed": {
+      "dx": -0.12,
+      "dy": 0
+    },
+    "two": {
+      "hh-1-parent-1": {
+        "strokes": [
+          "pace"
+        ],
+        "clips": [
+          "rust-walk"
+        ],
+        "frames": [
+          0
+        ],
+        "marks": [
+          0
+        ],
+        "shifts": [
+          13.1,
+          15.5,
+          17.4,
+          19.6,
+          19.8,
+          18.8,
+          17.5,
+          15.6,
+          13.2,
+          7.4,
+          4.1,
+          0.6,
+          -6.2,
+          -9.4,
+          -12.2,
+          -14.8,
+          -18.4,
+          -19.4,
+          -19.8,
+          -18.8,
+          -17.5,
+          -15.6,
+          -13.2,
+          -7.4
+        ],
+        "flips": [
+          false,
+          true
+        ],
+        "prints": 24,
+        "at": {
+          "x": 653,
+          "y": 362,
+          "size": 50
+        },
+        "art": "stand-in",
+        "request": "Request 2026-09-28 — people at work, item 12"
+      },
+      "hh-1-parent-2": {
+        "strokes": [
+          "shoot"
+        ],
+        "clips": [
+          "teal-idle-e"
+        ],
+        "frames": [
+          0
+        ],
+        "marks": [
+          1,
+          4
+        ],
+        "shifts": [
+          0
+        ],
+        "flips": [
+          false
+        ],
+        "prints": 23,
+        "at": {
+          "x": 653,
+          "y": 362,
+          "size": 50
+        },
+        "art": "stand-in",
+        "request": "Request 2026-09-28 — people at work, item 7"
+      }
+    }
+  },
+  "screenshots": [
+    "docs/evidence/work-about-close.png",
+    "docs/evidence/work-house-1366.png",
+    "docs/evidence/work-house-close.png",
+    "docs/evidence/work-pace-1366.png",
+    "docs/evidence/work-pace-close.png",
+    "docs/evidence/work-shoot-1366.png",
+    "docs/evidence/work-shoot-close.png"
+  ]
+}
