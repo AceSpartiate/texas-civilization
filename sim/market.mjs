@@ -30,8 +30,11 @@ export const SELLS_ON_DAYS = 30;
  * real); `coinEach` the coin a payment is; `foodEach` the food a unit fetches. `FIC-GONZ-722`.
  */
 export const MARKET = Object.freeze({
-  'store:food': Object.freeze({ want: 30, tiers: Object.freeze([{ coinEach: 1, per: 5 }, { coinEach: 1, per: 10 }]) }),
-  'store:cotton': Object.freeze({ want: 4, tiers: Object.freeze([{ coinEach: 2, foodEach: 2 }, { coinEach: 1, foodEach: 1 }]) }),
+  // Re-tuned 2026-09-28 when crops went to real minutes (owner: "adjust prices to compensate"; docs/BALANCE.md §11): food a real for
+  // four (five until then), and the store's want of cotton three bales a family (four), so a corn family that sells has a price and
+  // cotton, the dearer crop, does not have the store to itself.
+  'store:food': Object.freeze({ want: 30, tiers: Object.freeze([{ coinEach: 1, per: 4 }, { coinEach: 1, per: 8 }]) }),
+  'store:cotton': Object.freeze({ want: 3, tiers: Object.freeze([{ coinEach: 2, foodEach: 2 }, { coinEach: 1, foodEach: 1 }]) }),
   'weaver:cotton': Object.freeze({ want: 2, tiers: Object.freeze([{ coinEach: 2, foodEach: 3 }, { coinEach: 1, foodEach: 1.5 }]) }),
 });
 const KEEPER_WORDS = Object.freeze({ store: 'The store', weaver: 'The weaver' });

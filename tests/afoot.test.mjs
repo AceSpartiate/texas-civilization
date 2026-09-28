@@ -271,10 +271,11 @@ test('a family with no vehicle goes to town more than once for a big load, and f
   household.played = true;
   household.resources.food = 40;
   const seller = people(world, household).find(one => one.age >= 16);
-  // Ten lots of food is more than a horse carries: refused in words that do not tell it to wait for a wagon it has not got.
+  // Two lots of food (four food each since 2026-09-28), and the coin nothing: more than a horse carries - eight loads - refused
+  // in words that do not tell it to wait for a wagon it has not got.
   const big = errandFor(world, 'hh-1', seller.id, [{ id: 'store:food', n: 2, pay: 'coin' }]).quote;
   assert.equal(big.can, false);
-  assert.match(big.why, /This wants the wagon: 10 loads, and the horse carries 7\. Your family has no wagon\. Send a smaller load, and go again for the rest\./);
+  assert.match(big.why, /This wants the wagon: 8 loads, and the horse carries 7\. Your family has no wagon\. Send a smaller load, and go again for the rest\./);
   const small = errandFor(world, 'hh-1', seller.id, [{ id: 'store:food', n: 1, pay: 'coin' }]).quote;
   assert.equal(small.can, true, small.why);
   // The flight: on foot, room for what its grown people carry, one of it on the horse.

@@ -189,7 +189,8 @@ export const COTTON_RATE = 2;
 // Food at five a real (owner, 2026-09-16, docs/MONEY_AND_GLORY.md §8.1, measured: at three a corn family that sold everything
 // placed second in most classes; corn is the modest path and cotton, a real a bale - two since 2026-09-27, sim/shops.mjs
 // `STORE_BALE_COIN` - the profitable one).
-export const COIN = Object.freeze({ cottonBale: STORE_BALE_COIN, foodPerReal: 5, powder: 1, seed: 1, hoe: 2 });
+// Food at four a real since 2026-09-28 (sim/market.mjs, docs/BALANCE.md §11), five until then.
+export const COIN = Object.freeze({ cottonBale: STORE_BALE_COIN, foodPerReal: 4, powder: 1, seed: 1, hoe: 2 });
 export const reales = amount => amount === 1 ? '1 real' : `${amount} reales`;
 /** What the choice at the rows says of a crop: its seed, what it is, and how many real minutes it stands (sim/crops.mjs). */
 const cropNote = crop => `${seedFor(crop)} seed a plot; ${crop === 'cotton' ? `the store pays up to ${reales(COIN.cottonBale)} a bale` : 'the crop is food'}; ripe in ${CROPS[crop].minutes} minutes`;
@@ -2341,7 +2342,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // carrying rule in one place.
       const { good, want, rate, per, gives } = step.sell;
       const carried = round(Math.min(household.resources[good] ?? 0, vehicleCarry(world, entity, state.mode)));
-      // Coin is paid only for whole bundles - a whole bale, five food - so what is sold for
+      // Coin is paid only for whole bundles - a whole bale, four food - so what is sold for
       // coin is the whole bundles carried, and anything left over stays in the house.
       // Cotton and food go to the store's own market since 2026-09-28 (owner: "Seasons and a limited market"; sim/market.mjs):
       // outside the keeper's purse as the owner decided on 2026-09-16 (docs/MONEY_AND_GLORY.md §8.1), but only as much as the store

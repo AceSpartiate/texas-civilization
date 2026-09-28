@@ -158,10 +158,10 @@ export const TRADES = Object.freeze({
       {
         // Five food a real, and the sixth stays in the house: `per` is the lot the keeper pays for, so no part of a real is
         // ever paid. This is the errand's own arithmetic (`COIN.foodPerReal`), moved to the counter.
-        id: 'food', kind: 'buy', label: 'Sell food', coinEach: 1, per: 5, good: 'food',
+        id: 'food', kind: 'buy', label: 'Sell food', coinEach: 1, per: 4, good: 'food',
         // Only as much as the store can use, and less as it fills (sim/market.mjs, 2026-09-28).
-        does: 'The store pays a real for every five food it can sell on, every ten once it is filling, whole reales only; full, it takes no more until it has sold some on.',
-        refuse: (world, household) => (household.resources.food ?? 0) >= 5 ? null : 'There is not five food in the house to sell.',
+        does: 'The store pays a real for every four food it can sell on, every eight once it is filling, whole reales only; full, it takes no more until it has sold some on.',
+        refuse: (world, household) => (household.resources.food ?? 0) >= 4 ? null : 'There is not four food in the house to sell.',
       },
       {
         id: 'cotton', kind: 'buy', label: 'Sell the cotton', coinEach: STORE_BALE_COIN, foodEach: 2, good: 'cotton',
@@ -593,7 +593,7 @@ export function takeCounter(world, household, entity, optionId) {
     return;
   }
   if (offer.kind === 'buy') {
-    // Sold by the lot: `per` is how many go to one payment (the store's five food a real, 2026-09-17; one of anything else),
+    // Sold by the lot: `per` is how many go to one payment (the store's four food a real - five 2026-09-17 to -28; one of anything else),
     // every whole lot carried, and no more than the keeper's purse pays for. What will not make a whole lot stays at home.
     // Since 2026-09-28 (sim/market.mjs) the store and the weaver take only what they can use, at a price that falls as they fill;
     // the store pays for cotton and food outside its purse (owner, 2026-09-16), every other keeper from the purse.
