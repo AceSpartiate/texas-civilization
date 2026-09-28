@@ -75,6 +75,13 @@ test('in the houses most men are out of sight: the fire is flashes and smoke at 
   assert.ok(art.drawn.some(one => one.clip === 'rust-work' || one.clip === 'teal-work'), 'nobody digs the trench at night');
 });
 
+test('Burleson rides into the Béxar talks on his own mounted sheet', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  play(view, 'parley', { seconds: 2, into: tick => 55 + tick });
+  assert.ok(art.drawn.some(one => one.clip === 'burleson-mounted-walk-e'));
+  assert.ok(!art.drawn.some(one => one.clip === 'mounted-courier-e'));
+});
+
 test('into the houses: the columns go down the streets, men on the Veramendi roof, and the officer\'s words before each volley at the barricade', () => {
   const view = createBattleView(fakeArt());
   const words = new Set();

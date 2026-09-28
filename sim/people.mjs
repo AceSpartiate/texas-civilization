@@ -110,7 +110,7 @@ export const PEOPLE = Object.freeze({
   kimbell: person('kimbell', 'Kimbell', TX, 'rider', 2, 'HIST-TEX-057', { fullName: 'George C. Kimbell' }),
   martin: person('martin', 'Martin', TX, 'rider', 2, 'HIST-TEX-057', { fullName: 'Albert Martin' }),
   'jw-smith': person('jw-smith', 'J. W. Smith', TX, 'rider', 2, 'HIST-TEX-552', { fullName: 'John W. Smith' }),
-  castrillon: person('castrillon', 'Castrillón', MX, 'general', 2, 'HIST-TEX-561', {
+  castrillon: person('castrillon', 'Castrillón', MX, 'castrillon', 2, 'HIST-TEX-561', {
     fullName: 'Manuel Fernández Castrillón',
     // At San Jacinto he stood on an ammunition crate trying to rally his men, then turned and walked away from the Texians and
     // was shot (Rusk's report, as the Handbook gives it).
@@ -134,7 +134,7 @@ export const PEOPLE = Object.freeze({
     // Commander of the volunteer army from October 11 to November 25, 1835: with the army wherever it marches (sim/army.mjs).
     map: [{ from: 'organised', until: 'austin-leaves', with: 'army:force', doing: 'command', claimId: 'HIST-TEX-553' }],
   }),
-  burleson: person('burleson', 'Burleson', TX, 'officer', 1, 'HIST-TEX-554', {
+  burleson: person('burleson', 'Burleson', TX, 'burleson', 1, 'HIST-TEX-554', {
     fullName: 'Edward Burleson',
     // With the army from Austin's leaving, except while the Grass Fight (its 215 minutes from Deaf Smith's ride in) and the
     // storming of Béxar draw him on their own fields.
@@ -182,7 +182,7 @@ export const PEOPLE = Object.freeze({
   lamar: person('lamar', 'Lamar', TX, 'rider', 2, 'HIST-TEX-565', { fullName: 'Mirabeau B. Lamar' }),
   hockley: person('hockley', 'Hockley', TX, 'officer', 2, 'HIST-TEX-558', { fullName: 'George W. Hockley' }),
   mcculloch: person('mcculloch', 'McCulloch', TX, 'officer', 2, 'HIST-TEX-558', { fullName: 'Ben McCulloch' }),
-  almonte: person('almonte', 'Almonte', MX, 'general', 2, 'HIST-TEX-568', { fullName: 'Juan Nepomuceno Almonte' }),
+  almonte: person('almonte', 'Almonte', MX, 'almonte', 2, 'HIST-TEX-568', { fullName: 'Juan Nepomuceno Almonte' }),
   'emily-west': person('emily-west', 'Emily West', TX, 'emily-west', 1, 'HIST-TEX-569', {
     fullName: 'Emily D. West',
     // A free woman of color from New York, under contract to James Morgan at New Washington; taken there by Santa Anna's army
@@ -203,7 +203,7 @@ export const PEOPLE = Object.freeze({
 });
 
 /** The poses a person may be given in a phase (public/battle-view.js draws each; a stand-in where the art has none). */
-export const PERSON_POSES = Object.freeze(['stand', 'command', 'fire', 'fire-hidden', 'hide', 'emerge', 'walk', 'ride', 'sick', 'captive', 'wounded', 'write', 'seated', 'point', 'surrender', 'prisoner', 'interpret', 'carry', 'gun']);
+export const PERSON_POSES = Object.freeze(['stand', 'command', 'fire', 'fire-hidden', 'hide', 'emerge', 'walk', 'ride', 'sick', 'captive', 'wounded', 'write', 'seated', 'point', 'surrender', 'offer-sword', 'receive-sword', 'sword-down', 'prisoner', 'interpret', 'carry', 'gun']);
 /** What may befall a famous person in the window. `told` fates are never drawn. */
 export const FATE_KINDS = Object.freeze(['killed', 'executed', 'wounded', 'captured']);
 /** A person by id, or throw: every name the engine draws is one of these. */

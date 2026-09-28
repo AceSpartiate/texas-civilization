@@ -86,7 +86,8 @@ export const PERSON_ART = Object.freeze({
   'santa-anna': { stand: 'santa-anna-idle', command: 'santa-anna-command', prisoner: 'santa-anna-disguised-seated', ride: 'clip:santa-anna-mounted-walk-e', rideIdle: 'santa-anna-mounted-idle-e', walk: 'santa-anna-walk-e' },
   'emily-west': { stand: 'emily-west-idle', carry: 'emily-west-carry-bundle', seated: 'emily-west-sit-converse', walk: 'emily-west-walk-e' },
   castrillon: { stand: 'castrillon-idle', command: 'castrillon-command', walk: 'castrillon-walk-e', fall: 'castrillon-fall', still: 'castrillon-still' },
-  almonte: { stand: 'almonte-idle', command: 'almonte-command', surrender: 'almonte-surrender', prisoner: 'almonte-prisoner', interpret: 'almonte-interpret', journal: 'almonte-journal', walk: 'almonte-walk-e' },
+  almonte: { stand: 'almonte-idle', command: 'almonte-command', surrender: 'almonte-surrender', 'offer-sword': 'almonte-offer-sword', prisoner: 'almonte-prisoner', interpret: 'almonte-interpret', write: 'almonte-journal', walk: 'almonte-walk-e' },
+  burleson: { stand: 'burleson-idle', command: 'burleson-command', point: 'burleson-point', listen: 'burleson-listen', 'receive-sword': 'burleson-receive-sword', 'sword-down': 'burleson-sword-down', seated: 'burleson-rest', ride: 'clip:burleson-mounted-walk-e', rideIdle: 'burleson-mounted-idle-e', walk: 'burleson-walk-e' },
 });
 const lerp = (a, b, t) => a + (b - a) * t;
 

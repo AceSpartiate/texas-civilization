@@ -4946,6 +4946,188 @@
         ]
       }
     },
+    "famous-burleson": {
+      "image": "atlases/famous-burleson.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1243988,
+      "sha256": "270bac2de3f9c4883bf0839eba1b7fedf83ce2d96c1d502b76b2e43d69583ab8",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.676202,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              6,
+              315
+            ],
+            "columns": [
+              [
+                81,
+                276
+              ],
+              [
+                396,
+                586
+              ],
+              [
+                697,
+                894
+              ],
+              [
+                1017,
+                1213
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              320,
+              633
+            ],
+            "columns": [
+              [
+                85,
+                251
+              ],
+              [
+                399,
+                566
+              ],
+              [
+                713,
+                869
+              ],
+              [
+                1032,
+                1185
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              632,
+              942
+            ],
+            "columns": [
+              [
+                96,
+                233
+              ],
+              [
+                399,
+                607
+              ],
+              [
+                709,
+                936
+              ],
+              [
+                1040,
+                1179
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              943,
+              1246
+            ],
+            "columns": [
+              [
+                79,
+                287
+              ],
+              [
+                395,
+                558
+              ],
+              [
+                718,
+                859
+              ],
+              [
+                1034,
+                1219
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-burleson-mounted": {
+      "image": "atlases/famous-burleson-mounted.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1242276,
+      "sha256": "83f22fe3ade88011030cd2b5d76f00f05fe5cb9368811bfcea361debead9303c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.645041,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              16,
+              605
+            ],
+            "columns": [
+              [
+                20,
+                635
+              ],
+              [
+                648,
+                1251
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              632,
+              1219
+            ],
+            "columns": [
+              [
+                72,
+                648
+              ],
+              [
+                848,
+                1082
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-castrillon": {
       "image": "atlases/famous-castrillon.png",
       "width": 1254,
@@ -28344,6 +28526,506 @@
           210
         ],
         "visiblePixels": 23878,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-walk-e-1": {
+      "sheet": "famous-burleson",
+      "x": 81,
+      "y": 6,
+      "w": 195,
+      "h": 309,
+      "anchorX": 0.4923,
+      "anchorY": 0.9288,
+      "logicalHeight": 312,
+      "label": "burleson walk e 1",
+      "kind": "famous-burleson",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          8,
+          191,
+          305
+        ],
+        "visiblePixels": 29316,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-walk-e-2": {
+      "sheet": "famous-burleson",
+      "x": 396,
+      "y": 6,
+      "w": 190,
+      "h": 308,
+      "anchorX": 0.5026,
+      "anchorY": 0.9286,
+      "logicalHeight": 312,
+      "label": "burleson walk e 2",
+      "kind": "famous-burleson",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          398,
+          8,
+          186,
+          304
+        ],
+        "visiblePixels": 28232,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-walk-e-3": {
+      "sheet": "famous-burleson",
+      "x": 697,
+      "y": 6,
+      "w": 197,
+      "h": 309,
+      "anchorX": 0.5051,
+      "anchorY": 0.9288,
+      "logicalHeight": 312,
+      "label": "burleson walk e 3",
+      "kind": "famous-burleson",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          699,
+          8,
+          193,
+          305
+        ],
+        "visiblePixels": 28556,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-walk-e-4": {
+      "sheet": "famous-burleson",
+      "x": 1017,
+      "y": 6,
+      "w": 196,
+      "h": 308,
+      "anchorX": 0.5102,
+      "anchorY": 0.9286,
+      "logicalHeight": 312,
+      "label": "burleson walk e 4",
+      "kind": "famous-burleson",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1019,
+          8,
+          192,
+          304
+        ],
+        "visiblePixels": 26193,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-walk-s-1": {
+      "sheet": "famous-burleson",
+      "x": 85,
+      "y": 320,
+      "w": 166,
+      "h": 312,
+      "anchorX": 0.4127,
+      "anchorY": 0.9519,
+      "logicalHeight": 312,
+      "label": "burleson walk s 1",
+      "kind": "famous-burleson",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          87,
+          322,
+          162,
+          309
+        ],
+        "visiblePixels": 29619,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-walk-s-2": {
+      "sheet": "famous-burleson",
+      "x": 399,
+      "y": 321,
+      "w": 167,
+      "h": 312,
+      "anchorX": 0.518,
+      "anchorY": 0.9519,
+      "logicalHeight": 312,
+      "label": "burleson walk s 2",
+      "kind": "famous-burleson",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          401,
+          323,
+          163,
+          309
+        ],
+        "visiblePixels": 28467,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-walk-n-1": {
+      "sheet": "famous-burleson",
+      "x": 713,
+      "y": 322,
+      "w": 156,
+      "h": 310,
+      "anchorX": 0.5256,
+      "anchorY": 0.929,
+      "logicalHeight": 312,
+      "label": "burleson walk n 1",
+      "kind": "famous-burleson",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          715,
+          324,
+          152,
+          307
+        ],
+        "visiblePixels": 27784,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-walk-n-2": {
+      "sheet": "famous-burleson",
+      "x": 1032,
+      "y": 321,
+      "w": 153,
+      "h": 312,
+      "anchorX": 0.5588,
+      "anchorY": 0.9295,
+      "logicalHeight": 312,
+      "label": "burleson walk n 2",
+      "kind": "famous-burleson",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1034,
+          323,
+          149,
+          308
+        ],
+        "visiblePixels": 27552,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-idle": {
+      "sheet": "famous-burleson",
+      "x": 96,
+      "y": 632,
+      "w": 137,
+      "h": 309,
+      "anchorX": 0.5438,
+      "anchorY": 0.9385,
+      "logicalHeight": 312,
+      "label": "burleson idle",
+      "kind": "famous-burleson",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          98,
+          634,
+          133,
+          305
+        ],
+        "visiblePixels": 27044,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-command": {
+      "sheet": "famous-burleson",
+      "x": 399,
+      "y": 633,
+      "w": 208,
+      "h": 305,
+      "anchorX": 0.4038,
+      "anchorY": 0.941,
+      "logicalHeight": 312,
+      "label": "burleson command",
+      "kind": "famous-burleson",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          401,
+          634,
+          204,
+          302
+        ],
+        "visiblePixels": 30869,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-point": {
+      "sheet": "famous-burleson",
+      "x": 709,
+      "y": 632,
+      "w": 227,
+      "h": 308,
+      "anchorX": 0.3656,
+      "anchorY": 0.9448,
+      "logicalHeight": 312,
+      "label": "burleson point",
+      "kind": "famous-burleson",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          711,
+          634,
+          223,
+          304
+        ],
+        "visiblePixels": 31094,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-listen": {
+      "sheet": "famous-burleson",
+      "x": 1040,
+      "y": 633,
+      "w": 139,
+      "h": 309,
+      "anchorX": 0.5324,
+      "anchorY": 0.9482,
+      "logicalHeight": 312,
+      "label": "burleson listen",
+      "kind": "famous-burleson",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1042,
+          635,
+          135,
+          305
+        ],
+        "visiblePixels": 27851,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-receive-sword": {
+      "sheet": "famous-burleson",
+      "x": 79,
+      "y": 945,
+      "w": 208,
+      "h": 300,
+      "anchorX": 0.3846,
+      "anchorY": 0.9467,
+      "logicalHeight": 312,
+      "label": "burleson receive sword",
+      "kind": "famous-burleson",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          81,
+          947,
+          204,
+          296
+        ],
+        "visiblePixels": 29386,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-sword-down": {
+      "sheet": "famous-burleson",
+      "x": 395,
+      "y": 943,
+      "w": 163,
+      "h": 301,
+      "anchorX": 0.4969,
+      "anchorY": 0.9502,
+      "logicalHeight": 312,
+      "label": "burleson sword down",
+      "kind": "famous-burleson",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          397,
+          945,
+          159,
+          297
+        ],
+        "visiblePixels": 27882,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-read-note": {
+      "sheet": "famous-burleson",
+      "x": 718,
+      "y": 943,
+      "w": 141,
+      "h": 303,
+      "anchorX": 0.5461,
+      "anchorY": 0.9373,
+      "logicalHeight": 312,
+      "label": "burleson read note",
+      "kind": "famous-burleson",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          720,
+          945,
+          137,
+          299
+        ],
+        "visiblePixels": 26384,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-rest": {
+      "sheet": "famous-burleson",
+      "x": 1034,
+      "y": 993,
+      "w": 185,
+      "h": 253,
+      "anchorX": 0.4108,
+      "anchorY": 0.9289,
+      "logicalHeight": 312,
+      "label": "burleson rest",
+      "kind": "famous-burleson",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1036,
+          995,
+          181,
+          249
+        ],
+        "visiblePixels": 26962,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-mounted-walk-e-1": {
+      "sheet": "famous-burleson-mounted",
+      "x": 20,
+      "y": 16,
+      "w": 615,
+      "h": 587,
+      "anchorX": 0.5098,
+      "anchorY": 0.9727,
+      "logicalHeight": 587,
+      "label": "burleson mounted walk e 1",
+      "kind": "famous-burleson-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          22,
+          18,
+          611,
+          583
+        ],
+        "visiblePixels": 150636,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-mounted-walk-e-2": {
+      "sheet": "famous-burleson-mounted",
+      "x": 648,
+      "y": 21,
+      "w": 603,
+      "h": 584,
+      "anchorX": 0.4245,
+      "anchorY": 0.9298,
+      "logicalHeight": 587,
+      "label": "burleson mounted walk e 2",
+      "kind": "famous-burleson-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          650,
+          23,
+          599,
+          580
+        ],
+        "visiblePixels": 147361,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-mounted-idle-e": {
+      "sheet": "famous-burleson-mounted",
+      "x": 72,
+      "y": 634,
+      "w": 576,
+      "h": 577,
+      "anchorX": 0.4323,
+      "anchorY": 0.9619,
+      "logicalHeight": 587,
+      "label": "burleson mounted idle e",
+      "kind": "famous-burleson-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          74,
+          636,
+          572,
+          573
+        ],
+        "visiblePixels": 143663,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-mounted-idle-s": {
+      "sheet": "famous-burleson-mounted",
+      "x": 848,
+      "y": 632,
+      "w": 234,
+      "h": 587,
+      "anchorX": 0.5064,
+      "anchorY": 0.9574,
+      "logicalHeight": 587,
+      "label": "burleson mounted idle s",
+      "kind": "famous-burleson-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          850,
+          634,
+          230,
+          583
+        ],
+        "visiblePixels": 76468,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

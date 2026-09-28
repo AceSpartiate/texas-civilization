@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1646 usable sprites, 159 PNG atlases, 549 clips** (321 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1666 usable sprites, 161 PNG atlases, 553 clips** (325 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -64,6 +64,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | twin-sisters-limbered | 4 | 1254 × 1254 | 1010968 |
 | famous-milam | 16 | 1254 × 1254 | 1519856 |
 | famous-fannin | 16 | 1254 × 1254 | 1306380 |
+| famous-burleson | 16 | 1254 × 1254 | 1243988 |
+| famous-burleson-mounted | 4 | 1254 × 1254 | 1242276 |
 | famous-castrillon | 4 | 1254 × 1254 | 925993 |
 | famous-castrillon-fate | 4 | 1254 × 1254 | 975586 |
 | famous-crockett-fate | 4 | 1254 × 1254 | 948322 |
@@ -729,6 +731,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | fannin-injured-seated | famous-fannin | State artwork; no motion required |
 | fannin-surrender | famous-fannin | State artwork; no motion required |
 | fannin-prisoner-seated | famous-fannin | State artwork; no motion required |
+| burleson-walk-e-1 | famous-burleson | burleson-walk-e |
+| burleson-walk-e-2 | famous-burleson | burleson-walk-e |
+| burleson-walk-e-3 | famous-burleson | burleson-walk-e |
+| burleson-walk-e-4 | famous-burleson | burleson-walk-e |
+| burleson-walk-s-1 | famous-burleson | burleson-walk-s |
+| burleson-walk-s-2 | famous-burleson | burleson-walk-s |
+| burleson-walk-n-1 | famous-burleson | burleson-walk-n |
+| burleson-walk-n-2 | famous-burleson | burleson-walk-n |
+| burleson-idle | famous-burleson | State artwork; no motion required |
+| burleson-command | famous-burleson | State artwork; no motion required |
+| burleson-point | famous-burleson | State artwork; no motion required |
+| burleson-listen | famous-burleson | State artwork; no motion required |
+| burleson-receive-sword | famous-burleson | State artwork; no motion required |
+| burleson-sword-down | famous-burleson | State artwork; no motion required |
+| burleson-read-note | famous-burleson | State artwork; no motion required |
+| burleson-rest | famous-burleson | State artwork; no motion required |
+| burleson-mounted-walk-e-1 | famous-burleson-mounted | burleson-mounted-walk-e |
+| burleson-mounted-walk-e-2 | famous-burleson-mounted | burleson-mounted-walk-e |
+| burleson-mounted-idle-e | famous-burleson-mounted | State artwork; no motion required |
+| burleson-mounted-idle-s | famous-burleson-mounted | State artwork; no motion required |
 | castrillon-idle | famous-castrillon | State artwork; no motion required |
 | castrillon-walk-e-1 | famous-castrillon | castrillon-walk-e |
 | castrillon-walk-e-2 | famous-castrillon | castrillon-walk-e |
@@ -2019,6 +2041,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | fannin-walk-e | Pose cycle | 4 | 760 | yes | east |
 | fannin-walk-s | Pose cycle | 2 | 580 | yes | south |
 | fannin-walk-n | Pose cycle | 2 | 580 | yes | north |
+| burleson-walk-e | Pose cycle | 4 | 760 | yes | east |
+| burleson-walk-s | Pose cycle | 2 | 580 | yes | south |
+| burleson-walk-n | Pose cycle | 2 | 580 | yes | north |
+| burleson-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | castrillon-walk-e | Pose cycle | 2 | 540 | yes | east |
 | castrillon-fall | Pose cycle | 3 | 700 | one-shot | east; mirror for west |
 | crockett-captive | Pose cycle | 2 | 3100 | yes | east; mirror for west |

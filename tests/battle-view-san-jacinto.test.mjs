@@ -75,6 +75,24 @@ test('Almonte uses his own surrender and interpreter poses', () => {
   assert.ok(!art.drawn.some(one => one.clip === 'regular-surrender'));
 });
 
+test('Burleson commands in his own officer art', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const person = { id: 'burleson', art: 'burleson', name: 'Burleson', side: 'texian', x: 0, y: 0, right: true, pose: 'command' };
+  run(view, minute => battle(minute, { people: [person] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.sprite === 'burleson-command'));
+});
+
+test('the San Jacinto sword exchange uses both named figures', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const people = [
+    { id: 'almonte', art: 'almonte', name: 'Almonte', side: 'mexican', x: -0.01, y: 0, right: true, pose: 'offer-sword' },
+    { id: 'burleson', art: 'burleson', name: 'Burleson', side: 'texian', x: 0.01, y: 0, right: false, pose: 'receive-sword' },
+  ];
+  run(view, minute => battle(minute, { people }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.sprite === 'almonte-offer-sword'));
+  assert.ok(art.drawn.some(one => one.sprite === 'burleson-receive-sword'));
+});
+
 test('a camp at rest (pose `rest`) is scattered and unformed, some standing and some sitting, and fires nothing; the formed line against it stands in even ranks', () => {
   const art = fakeArt(), view = createBattleView(art);
   const shown = run(view, minute => battle(minute), { seconds: 3 });

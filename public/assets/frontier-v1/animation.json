@@ -3082,6 +3082,78 @@
       "motion": "none",
       "direction": "north"
     },
+    "burleson-walk-e": {
+      "frames": [
+        {
+          "sprite": "burleson-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "burleson-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "burleson-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "burleson-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "burleson-walk-s": {
+      "frames": [
+        {
+          "sprite": "burleson-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "burleson-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "burleson-walk-n": {
+      "frames": [
+        {
+          "sprite": "burleson-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "burleson-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "burleson-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "burleson-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "burleson-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
     "castrillon-walk-e": {
       "frames": [
         {
