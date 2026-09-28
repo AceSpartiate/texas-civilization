@@ -102,10 +102,7 @@ test('a student is sent exactly what it was before: its own people, who it can s
   for (const householdId of Object.keys(world.households)) {
     const view = student(world, householdId);
     assert.equal(view.overview, undefined, `${householdId} was sent the class overview`);
-    // Each is sent as before, but for `amb`: what somebody idle this page can already see is doing, put on them since 2026-09-28
-    // (sim/ambient.mjs, a picture recomputed from the view itself, never stored). It is on nobody the family cannot see.
-    const bare = view.others.map(({ amb, ...other }) => other);
-    assert.deepEqual(bare, structuredClone(observedBy(world, householdId)), `${householdId} was sent people it cannot see`);
+    assert.deepEqual(view.others, structuredClone(observedBy(world, householdId)), `${householdId} was sent people it cannot see`);
     assert.ok(view.entities.every(entity => entity.householdId === householdId), `${householdId} was sent another family's people as its own`);
     // The fog is real: most of the class is not in this family's payload at all.
     const wire = JSON.stringify(view);
