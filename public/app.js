@@ -6449,6 +6449,9 @@ function showReconnecting(text) {
  * same family when the server answers - after a Wi-Fi drop, a Chromebook asleep, a restarted or stopped-and-started server.
  * Only a 401 goes to the join screen, where a student who has nothing but the class code can find their own name.
  * Declared above the page's first `connect`, which reaches it (the TDZ rule, tests/page-startup.test.mjs).
+ * ceiling: the Host's cookie is named for the class that is open, and a new one is set only in the browser that opened
+ * another class; a Host page in another browser (the launcher's own window) is signed out then, and is opened again from
+ * the launcher. A host cookie that does not name the class is the way out if a teacher runs two Host browsers.
  */
 const reconnect = reconnector({
   connected: snapshot => { showReconnecting(''); connect(snapshot); },
