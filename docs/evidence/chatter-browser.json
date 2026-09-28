@@ -6,12 +6,12 @@
     {
       "label": "farm: people at activities, none drawn standing idle",
       "pass": true,
-      "detail": "6 people, poses rest, repair, care, carry, walk"
+      "detail": "6 people, poses rest, care, repair, carry, walk"
     },
     {
       "label": "farm: bubbles drawn, short, reconstructed",
       "pass": true,
-      "detail": "4 lines: \"Supper is nearly ready.\" \"Mind the snakes by the creek.\" \"I can smell it from here.\" \"I saw a big one yesterday.\""
+      "detail": "6 lines: \"My back aches today.\" \"That horse of yours looks thin.\" \"Mind the snakes by the creek.\" \"Supper is nearly ready.\" \"I can smell it from here.\" \"I saw a big one yesterday.\""
     },
     {
       "label": "farm: at most 3 bubbles at once, never over each other, on the screen",
@@ -21,7 +21,7 @@
     {
       "label": "farm: the map draws inside the gate",
       "pass": true,
-      "detail": "{\"count\":481,\"median\":5.4,\"p95\":9.1,\"max\":15.3}"
+      "detail": "{\"count\":490,\"median\":3.8,\"p95\":6.1,\"max\":8.7}"
     },
     {
       "label": "town: people at activities, none drawn standing idle",
@@ -31,7 +31,7 @@
     {
       "label": "town: bubbles drawn, short, reconstructed",
       "pass": true,
-      "detail": "15 lines: \"Slow day for trade.\" \"This rain will not quit.\" \"It will pick up.\" \"Mud up to our knees.\" \"More families came this week.\" \"The store has new cloth.\""
+      "detail": "12 lines: \"Slow day for trade.\" \"This rain will not quit.\" \"It will pick up.\" \"Mud up to our knees.\" \"More families came this week.\" \"The store has new cloth.\""
     },
     {
       "label": "town: at most 3 bubbles at once, never over each other, on the screen",
@@ -41,12 +41,12 @@
     {
       "label": "town: the map draws inside the gate",
       "pass": true,
-      "detail": "{\"count\":480,\"median\":5.3,\"p95\":7.7,\"max\":13.8}"
+      "detail": "{\"count\":489,\"median\":3.3,\"p95\":11,\"max\":14.2}"
     },
     {
       "label": "town: a keeper walked to a neighbour's door to talk",
       "pass": true,
-      "detail": "walked and arrived: town-store-liberty, town-carpenter-columbia, town-ibarra, town-tavern-columbia, town-blacksmith-matagorda, town-store-matagorda, town-blacksmith-liberty, town-carpenter-liberty, town-crandall, town-mill-san-felipe, town-weaver-gonzales, town-doctor-san-felipe, town-store-columbia (walking 16, arrived 13)"
+      "detail": "walked and arrived: town-store-liberty, town-carpenter-columbia, town-ibarra, town-tavern-columbia, town-blacksmith-matagorda, town-store-matagorda, town-blacksmith-liberty, town-carpenter-liberty, town-crandall, town-mill-san-felipe, town-weaver-gonzales, town-doctor-san-felipe (walking 16, arrived 12)"
     },
     {
       "label": "camp: the force's men at the fire, the cards, a rifle - not a body of men standing",
@@ -56,17 +56,17 @@
     {
       "label": "camp: the men talk among themselves",
       "pass": true,
-      "detail": "camp:force:0, camp:force:0"
+      "detail": "camp:force:0, camp:force:0, camp:force:1"
     },
     {
       "label": "camp: people at activities, none drawn standing idle",
       "pass": true,
-      "detail": "1 people, poses carry, walk, rest, sow, care, repair"
+      "detail": "1 people, poses carry, rest, walk, sow, care, repair"
     },
     {
       "label": "camp: bubbles drawn, short, reconstructed",
       "pass": true,
-      "detail": "2 lines: \"I miss my own bed.\" \"The geese are flying south.\""
+      "detail": "3 lines: \"I miss my own bed.\" \"The geese are flying south.\" \"Winter is coming, then.\""
     },
     {
       "label": "camp: at most 3 bubbles at once, never over each other, on the screen",
@@ -76,7 +76,7 @@
     {
       "label": "camp: the map draws inside the gate",
       "pass": true,
-      "detail": "{\"count\":471,\"median\":5.8,\"p95\":18.1,\"max\":29.5}"
+      "detail": "{\"count\":466,\"median\":7.8,\"p95\":21.6,\"max\":37.3}"
     },
     {
       "label": "no page error",
@@ -92,14 +92,16 @@
   "evidence": {
     "farm": {
       "frames": {
-        "count": 481,
-        "median": 5.4,
-        "p95": 9.1,
-        "max": 15.3
+        "count": 490,
+        "median": 3.8,
+        "p95": 6.1,
+        "max": 8.7
       },
       "bubbles": [
-        "hh-1-child-4: Supper is nearly ready.",
+        "hh-1-parent-2: My back aches today.",
+        "hh-1-child-3: That horse of yours looks thin.",
         "hh-1-child-3: Mind the snakes by the creek.",
+        "hh-1-child-4: Supper is nearly ready.",
         "hh-1-child-3: I can smell it from here.",
         "hh-1-child-4: I saw a big one yesterday."
       ],
@@ -107,6 +109,11 @@
       "overlaps": [],
       "outside": [],
       "drawn": {
+        "hh-1-parent-2": [
+          "sit:indigo-rest",
+          "fire:indigo-care",
+          "sleep:indigo-rest"
+        ],
         "hh-1-child-1": [
           "pipe:indigo-rest",
           "whittle:indigo-repair",
@@ -122,6 +129,7 @@
           "fire:indigo-care"
         ],
         "hh-1-child-3": [
+          "pipe:indigo-rest",
           "shell:indigo-repair",
           "fire:indigo-care",
           "dominoes:indigo-rest",
@@ -141,10 +149,6 @@
           "sit:indigo-rest",
           "shell:indigo-repair",
           "fire:indigo-care"
-        ],
-        "hh-1-parent-2": [
-          "fire:indigo-care",
-          "sleep:indigo-rest"
         ]
       },
       "walking": [],
@@ -153,10 +157,10 @@
     },
     "town": {
       "frames": {
-        "count": 480,
-        "median": 5.3,
-        "p95": 7.7,
-        "max": 13.8
+        "count": 489,
+        "median": 3.3,
+        "p95": 11,
+        "max": 14.2
       },
       "bubbles": [
         "town-wheelwright-san-felipe: Slow day for trade.",
@@ -170,10 +174,7 @@
         "town-store-san-felipe: Busy at the smithy?",
         "town-doctor-san-felipe: The store has new cloth.",
         "town-gunsmith-san-felipe: Horses always need shoes.",
-        "town-wheelwright-san-felipe: Blue, or only brown again?",
-        "town-store-san-felipe: More families came this week.",
-        "town-tanner-san-felipe: How long have you been in Texas?",
-        "town-gunsmith-san-felipe: Texas fills up fast."
+        "town-wheelwright-san-felipe: Blue, or only brown again?"
       ],
       "most": 2,
       "overlaps": [],
@@ -193,10 +194,8 @@
           "watch:elder-search",
           "goods:elder-carry",
           "water:elder-carry",
-          "dominoes:elder-walk",
           "dominoes:elder-rest",
-          "cards:elder-rest",
-          "cards:elder-walk"
+          "cards:elder-rest"
         ],
         "town-blacksmith-san-felipe": [
           "sleep:elder-rest",
@@ -204,9 +203,7 @@
           "talk:elder-speak",
           "talk:elder-walk",
           "company:elder-rest",
-          "water:elder-carry",
-          "watch:elder-walk",
-          "watch:elder-search"
+          "water:elder-carry"
         ],
         "town-gunsmith-san-felipe": [
           "sleep:ochre-rest",
@@ -238,8 +235,7 @@
           "company:teal-rest",
           "dominoes:teal-walk",
           "dominoes:teal-rest",
-          "cards:teal-rest",
-          "cards:teal-walk"
+          "cards:teal-rest"
         ],
         "town-tanner-san-felipe": [
           "sleep:elder-rest",
@@ -247,8 +243,7 @@
           "talk:elder-walk",
           "talk:elder-speak",
           "company:elder-rest",
-          "dominoes:elder-rest",
-          "dominoes:elder-walk"
+          "dominoes:elder-rest"
         ],
         "town-wheelwright-san-felipe": [
           "sleep:elder-rest",
@@ -269,8 +264,7 @@
           "whittle:elder-repair",
           "talk:elder-speak",
           "talk:elder-walk",
-          "sit:elder-walk-s",
-          "pipe:elder-walk-s"
+          "sit:elder-walk-s"
         ],
         "town-weaver-san-felipe": [
           "sleep:teal-rest",
@@ -280,8 +274,7 @@
           "talk:teal-walk",
           "talk:teal-speak",
           "company:teal-rest",
-          "dominoes:teal-rest",
-          "dominoes:teal-walk"
+          "dominoes:teal-rest"
         ],
         "town-stockman-san-felipe": [
           "sleep:elder-rest",
@@ -292,8 +285,7 @@
           "harness:elder-walk",
           "harness:elder-repair",
           "whittle:elder-repair",
-          "whittle:elder-walk",
-          "watch:elder-search"
+          "whittle:elder-walk"
         ]
       },
       "walking": [
@@ -326,21 +318,21 @@
         "town-crandall",
         "town-weaver-gonzales",
         "town-doctor-san-felipe",
-        "town-mill-san-felipe",
-        "town-store-columbia"
+        "town-mill-san-felipe"
       ],
       "camps": []
     },
     "camp": {
       "frames": {
-        "count": 471,
-        "median": 5.8,
-        "p95": 18.1,
-        "max": 29.5
+        "count": 466,
+        "median": 7.8,
+        "p95": 21.6,
+        "max": 37.3
       },
       "bubbles": [
         "camp:force:0: I miss my own bed.",
-        "camp:force:0: The geese are flying south."
+        "camp:force:0: The geese are flying south.",
+        "camp:force:1: Winter is coming, then."
       ],
       "most": 1,
       "overlaps": [],
@@ -349,7 +341,6 @@
         "hh-1-parent-2": [
           "wood:rust-woman-carry",
           "water:rust-woman-carry",
-          "sit:rust-woman-walk",
           "sit:rust-woman-rest",
           "sleep:rust-woman-rest",
           "pipe:rust-woman-rest",
@@ -360,7 +351,8 @@
           "cook:rust-woman-walk",
           "wash:rust-woman-walk",
           "wash:rust-woman-care",
-          "shell:rust-woman-repair"
+          "shell:rust-woman-repair",
+          "fire:rust-woman-care"
         ]
       },
       "walking": [],
@@ -388,8 +380,8 @@
             "strength": 3,
             "how": "camp",
             "boat": null,
-            "x": 656,
-            "y": -876,
+            "x": 664,
+            "y": -474,
             "camp": false,
             "foragers": [],
             "men": [

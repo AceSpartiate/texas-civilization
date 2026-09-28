@@ -1371,7 +1371,7 @@ function speechRoom(canvas) {
   let boxes = null;
   const measure = () => {
     const frame = canvas.getBoundingClientRect(), k = canvas.width / (frame.width || 1);
-    return [...document.querySelectorAll('#hud-left > *, #site-choose, #survey-choose, #hud-right > *, #lesson, #lesson-resume, #military-notice, #encounter, #call-menu, #town-scene, #wagon-load, #tip, #host-spotlight, #map-tools, .panel-row[data-focused=true] .panel-icons')]
+    return [...document.querySelectorAll('#hud-left > *, #site-choose, #survey-choose, #hud-right > *, #lesson, #lesson-resume, #military-notice, #encounter, #call-menu, #town-scene, #wagon-load, #tip, #host-spotlight, #map-tools, #selection, #errand, #going, .panel-row[data-focused=true] .panel-icons')]
       .filter(one => !one.hidden).map(one => one.getBoundingClientRect()).filter(box => box.width && box.height)
       .map(box => ({ left: (box.left - frame.left) * k, right: (box.right - frame.left) * k, top: (box.top - frame.top) * k, bottom: (box.bottom - frame.top) * k }));
   };
@@ -1389,17 +1389,6 @@ function speechRoom(canvas) {
     const [left, right] = fits.reduce((best, span) => (away(span) < away(best) ? span : best));
     return { left, right };
   };
-}
-/**
- * Everything the page has standing over the map, as boxes in the canvas's own pixels: the neighbours' talk (public/ambient.js)
- * is said only where none of it stands - it is the map's life, not a message, and a line with nowhere clear to go is not said
- * here rather than said under a panel (the overlap proof, 2026-09-28: "The geese are flying south" was 71% under a tip).
- */
-function panelBoxes(canvas) {
-  const frame = canvas.getBoundingClientRect(), k = canvas.width / (frame.width || 1);
-  return [...document.querySelectorAll('#hud-left > *, #hud-right > *, #site-choose, #survey-choose, #lesson, #lesson-resume, #military-notice, #encounter, #call-menu, #errand, #going, #town-scene, #wagon-load, #selection, #tip, #host-spotlight, #map-tools, .panel-row[data-focused=true] .panel-icons')]
-    .filter(one => !one.hidden).map(one => one.getBoundingClientRect()).filter(box => box.width && box.height)
-    .map(box => ({ x: (box.left - frame.left) * k, y: (box.top - frame.top) * k, w: box.width * k, h: box.height * k }));
 }
 function drawBattleCaption(ctx, battle, canvas) {
   const text = battle.caption || '', title = battle.title || '';
@@ -3559,8 +3548,11 @@ export function drawWorld(world) {
   // Called whether or not this tick brought words, so an exchange begun on the last one is finished.
   if (camera.figure > 14 && !world.battle?.sides && !world.flight?.chase) {
     const said = [];
+    // Everybody talks; the bubble slides into the room clear of the panels at its height (`speechRoom`), its tail still to the
+    // speaker. Suppressing a line whose bubble touched a panel - or whose speaker stood under one, the card beside a family
+    // stands over the rest of it - silenced the farm entirely (test:chatter, 2026-09-28).
     const headOf = id => ambientHeads.get(id) || (drawnAt.has(id) ? { x: drawnAt.get(id).x, y: drawnAt.get(id).y - drawnAt.get(id).size * .55 } : null);
-    const avoid = [...familyBoxes, ...pending.map(mark => ({ x: mark.x - mark.size * .5, y: mark.y - mark.size * 1.1, w: mark.size, h: mark.size * 1.2 })), ...panelBoxes(canvas)];
+    const avoid = [...familyBoxes, ...pending.map(mark => ({ x: mark.x - mark.size * .5, y: mark.y - mark.size * 1.1, w: mark.size, h: mark.size * 1.2 }))];
     drawAmbientSpeech(ctx, world.ambient?.lines || [], headOf, { now: frameNow, bounds: { width: canvas.width, height: canvas.height, room: speechRoom(canvas) }, avoid, evidence: said });
     window.__ambientSaid = said;
   } else window.__ambientSaid = [];

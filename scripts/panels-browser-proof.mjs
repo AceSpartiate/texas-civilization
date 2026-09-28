@@ -229,7 +229,9 @@ async function measureTheColumn(browser) {
           whole: plain(whole), underBar: Boolean(bar && bar.width && inView && across(whole, { left: 0, right: innerWidth }) && visibleBottom > bar.top),
           offScreen: inView && (visibleBottom > innerHeight || whole.left < 0) };
       });
-      const main = rows.find(row => row.dataset.focused === 'true');
+      // The main person's row. Since the design audit's B11 (2026-09-28) the bar is the row whose portrait was chosen
+      // (`data-focused`) and the main person is marked apart (`data-main`); a page from before has only the one.
+      const main = rows.find(row => row.dataset.main === 'true') || rows.find(row => row.dataset.focused === 'true');
       const mainBox = main?.getBoundingClientRect();
       const switches = rows.filter(row => row.dataset.onAuto === 'true').map(row => {
         const button = row.querySelector('.panel-auto'), line = row.querySelector('.panel-auto-line');
@@ -293,7 +295,8 @@ async function measureTheColumn(browser) {
         const response = await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `column-main-${Math.random().toString(36).slice(2)}`, action: 'set-main', entityId: id }) });
         if (response.status !== 200) throw new Error(await response.text());
       }, later);
-      await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.focused === 'true', later, { timeout: 15000 });
+      // Main, by the server's word: the row marked main (the bar stays on the row the student last chose, B11).
+      await page.waitForFunction(id => { const row = document.querySelector(`.panel-row[data-entity-id="${id}"]`); return (row?.dataset.main ?? row?.dataset.focused) === 'true'; }, later, { timeout: 15000 });
       await page.waitForTimeout(400);
       return later;
     };
