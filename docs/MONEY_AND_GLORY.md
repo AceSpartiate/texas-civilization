@@ -172,7 +172,7 @@ in the fighting counts for more than supporting it. Every number below is invent
 | --- | --- | --- | --- |
 | Support | Answering the call and carrying food or powder to Gonzales | 1 | Yes — `handleChoice` in `sim/directors.mjs` |
 | Support | Carrying word onward that reached another family | 1 | Yes — the relay chain in `sim/world.mjs` |
-| Support | Helping a neighbour who asked; sheltering or feeding another household | 1 | Partly — trading exists; asking and sheltering need later work |
+| Support | Helping a neighbour who asked; sheltering or feeding another household | 1 | Recorded, not awarded (2026-09-28): `sim/neighbourly.mjs` keeps every raising, food carried, wagon room and children taken in, and the ending names them; whether any earns glory against "only major historical events earn glory" is the owner's open question |
 | Present | Being where a documented event happened when it happened | 2 | Yes — `witnessing()` in `sim/directors.mjs` |
 | Present | Going upriver to the camp | 2 | Yes — `handleMarch` |
 | Fighting | A family member taking part in a battle | 3 | Partly — `world.participation.gonzales` records `supplied` and `present` per person (2026-09-12); nobody fights at Gonzales, so `fought` waits for a later battle |

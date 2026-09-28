@@ -1356,14 +1356,82 @@ Proved in a browser by `npm run test:children` at 1366x768 and 1024x768 (docs/ev
   of it (§14.2's rule).
 - **The badge**: a small disc on the portrait's corner while the server says the person is sick (stand-in: the road's nursing
   picture, request 2026-09-27 in docs/ART_REQUESTS.md); its title is the line.
-- **The "!"**: somebody very sick carries it (`needsOf` kind `sick`, last in `NEED_KINDS`), with the line as its words; it opens
-  their card at the work. A day to answer: nobody dies the day they are seen very sick.
+- **The "!"**: somebody very sick carries it (`needsOf` kind `sick`, last in `NEED_KINDS`), with the line as its words. Since
+  2026-09-28 (design audit S34) it opens their card at **who can nurse them** (`#selection-nurse`, public/app.js `renderNurse`):
+  one button for each of the family the server says could nurse them now (`nurses` on the sick person, sim/world.mjs `nursesFor`,
+  asked of `choreAvailability` for `nurse-home` at home or `tend-sick` on the road), each sending that person to it - "Bernarda
+  nurses Gregorio" - or, with nobody, that nobody of the family can right now. Until then it opened their own work, every piece of
+  which is refused to somebody too sick to get up. A day to answer: nobody dies the day they are seen very sick.
 - **Work while sick**: allowed (the owner: "yes, with a warning"); every work icon of a sick person carries the server's warning
   first in its note ("Mary is sick. Working slows her mending and she may get worse."), except calling the halt to rest. Very sick:
   every work and journey refused, "Mary is too sick to get up."
 - **The card** adds the line, and "has had the measles" for anybody who has - dealt by age from the class seed, as a family knew.
 - **The new work**: "Stop and rest a day" (`rest-road`) on the road; "Camp apart from the crowd" (`camp-apart`) at a crossing or a
   refuge; "Nurse the sick" at home (`nurse-home`) beside the road's `tend-sick`.
+
+## 20. Who acts for the family, and the oldest child — owner 2026-09-28 ("fix the blockers"; "The oldest child steps up"), built the same day
+
+The owner, 2026-09-28: "fix the blockers", and by multiple choice for a family left with nobody who can act: **"The oldest child
+steps up"** - a child of about seven or older can act for the family in an emergency (flee, fetch water, mind the little ones, go
+for help), as frontier children really did; with none, the student follows a neighbour family that takes them in. Built in
+sim/acting.mjs (`FIC-GONZ-730` to `-734`); the audits are docs/audits/2026-09-28-interactions.md B1, S1, S3, S4, S6, M1,
+docs/audits/2026-09-28-design.md B10, S14, S19, S22, S34, S36, and docs/audits/2026-09-28-playthrough.md 7 and 8.
+
+**What was wrong.** The family's own decisions - the order to leave, the route, staying, the road's questions and "¡Alto!" -
+were the main person's alone (§11.3). A father starred in October and serving with Houston in March kept the whole flight card
+and the "!"; every answer through him was refused ("can only be sent for"), "¡Alto!" lapsed in three ticks and the family was
+caught; and with him on auto in the camp the soldiers took the family without asking at all (`attended` read his switch). A
+family of children under ten could answer nothing.
+
+**The rule** (`actingFor`). The family's decisions go to whoever is **with the family** - at home before it leaves, on its road,
+at its refuge, on the road home: the main person when they are with it and able (not very sick, not lying wounded); else the
+next able grown person there, the principal first, then oldest first; else anybody grown there; else **the oldest child of seven
+or more** (`STEPS_UP_FROM`). Nobody serving, a prisoner, marching or gone to a call decides for the family. **The main person does
+not move**: the star, the camera, the bar and the army's own questions stay theirs (another builder is separating "the portrait
+selects" from "set main person", design audit B11; this rule sits beside it, for the family's decisions only).
+
+- **The page** puts the flight card, the route editor, and the "!" for the order and for the road's questions and "¡Alto!" on
+  that person's row and card (`actingOf`, public/family-panel.js; the server sends `household.actingId` only when it is not the
+  main person, and `steppedUp` when it is a child). A child's card says so: "Jasper Proofwright is the oldest with the family,
+  with nobody grown here, and answers for it."
+- **The server** takes those five orders from the child who steps up (and refuses a smaller child in words that name who
+  answers), refuses them from somebody away from the family while somebody is with it ("Gregorio is not with the family.
+  Bernarda is, and answers for it."), and names who answers when it refuses a man serving or a prisoner. Auto's day of patience,
+  the road's patience and the chase's `attended` read the same person, so a serving man's switch is his own.
+- **The clock** holds for a family told to leave, or asked on the road, only while somebody is with it to answer: a family wiped
+  out, with nobody at home but a man away with the army, or taken in holds nobody (playthrough audit 7).
+- **Going for help** (`child-help`, a stroked glyph `stand-in:` - docs/ART_REQUESTS.md request 2026-09-28): offered only to the
+  oldest child when they are acting for the family at home and a neighbour family is there to go to. A run on foot to the
+  nearest neighbours - the one child's work with a road in it (sim/world.mjs `modeAvailability`) - and they take the family in.
+- **Taken in** (`advanceTakenIn`): with nobody who can act - no grown person free anywhere, no child of seven or more with the
+  family - the nearest neighbour family with somebody grown at home (or at the same refuge) takes the little ones in, said in both
+  families' records. They go where that family goes; the flight card says so and offers nothing to decide; when somebody grown of
+  their own comes to where they are, the family is its own again (camped at that refuge, or walked home together). The student
+  follows them: their own rows are the little ones, with the neighbours. `ceiling:` they can watch; what they may do to help the
+  family that took them in is an owner's decision (below).
+- **Left behind** (`advanceStragglers`): anybody of the family away when it left and standing idle away from it is told where it
+  went and follows it to its refuge on foot, or on the horse they have with them.
+- **A baby never goes to the war** (`goingToWar` in `takeBabyAlong`), and a man going to it with only children under ten left at
+  home is told so on the control first (`leaves` on the chore's entry, the call's own note): "If Elias goes, nobody older than
+  nine is left at home: Benita, 4; Chana, 3 and Rosa, 1. With nobody of seven or more, the nearest neighbour family would take them
+  in."
+- **Very sick is in bed** (`settleTheUnable`, last in the tick): work in hand at home stops, a held baby is set down, a talking
+  child is let go; nobody very sick or wounded is sent to a crying baby or talked to by an idle child. The dead and the taken let go
+  in the same tick, so nobody gone is heard.
+
+**Evidence.** tests/acting.test.mjs (13 tests, every one seen failing on the code before it), `npm run test:acting-injections`
+(25 of 25 caught), `npm run test:acting` (the father serving, a family of children and the nursing card, in the browser). HANDOFF.md, "Who acts for a family".
+
+**Decisions for the owner**, by multiple choice:
+
+1. **What a student whose little ones were taken in may do for the family that took them in**: (A) watch only, as built; (B)
+   their children of three or more may be given the road's children's works (singing, keeping the little ones walking, the fire)
+   for the family they are with; (C) the student may answer that family's road questions when nobody plays it.
+2. **The age a child steps up at**: (A) seven, as built (the pail and the baby's age on the children's ladder); (B) eight; (C) five,
+   for the order to leave only.
+3. **A lone father sent to the war with only small children at home**: (A) warned on the control, as built; (B) refused, as a
+   last woman of age with a baby once was proposed (interactions S3's direction); (C) allowed only once a neighbour has agreed to
+   take them in.
 
 ## Usability amendment — 2026-09-21
 
@@ -1409,6 +1477,6 @@ button makes them main), `npm run test:family-commands` (a double press on a por
 test:scrape-pursuit` (somebody grown on auto and their portrait pressed in the chase: the main person unchanged and *¡Alto!*
 asked); each by injection in `scripts/design-blockers-injections.mjs`.
 
-`ceiling:` the main person may still be somebody away from the family - in Houston's camp, say - and so the one whose switch
-decides its flight (the audit's second direction, *make the family's decider somebody travelling with it*). That is a rule of
-the world, not of the panel, and is the owner's to decide.
+The audit's second direction, *make the family's decider somebody travelling with it*, was built the same day on another
+branch (§20, `sim/acting.mjs` `actingFor`): the chase now reads `actingId`, which keeps the M32 fix above (a dead main person
+gives way) and also passes over a main person who is away. The injection for M32 was re-aimed at it.

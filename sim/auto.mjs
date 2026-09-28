@@ -38,7 +38,8 @@
 import { CHORES, beginChore, choreAvailability, choresFor, quickestForChore } from './chores.mjs';
 import { campChoice } from './camp.mjs';
 import { record } from './events.mjs';
-import { mainPersonId } from './family.mjs';
+// Who is with the family and answers its own decisions (sim/acting.mjs, 2026-09-28): the main person when they are with it.
+import { actingId } from './acting.mjs';
 import { lessonRefusal } from './lesson.mjs';
 import { autoFlee } from './scrape.mjs';
 import { answerRoad, roadAutoAnswer } from './road.mjs';
@@ -154,13 +155,13 @@ export function advanceAuto(world, { beginTravel, modeAvailability }) {
     const flight = household.flight;
     // The day's patience is a played family's: a family nobody plays is fled by its director (sim/neighbours.mjs) or,
     // in a class without one, left as it was.
-    if (household.played && !household.absent && flight?.status === 'ordered' && !flight.burned) {
-      const main = world.entities[mainPersonId(world, household)];
+    if (household.played && !household.absent && flight?.status === 'ordered' && !flight.burned && !household.takenIn) {
+      const main = world.entities[actingId(world, household)];
       if (main?.auto || world.minute - flight.orderedMinute >= FLIGHT_PATIENCE) autoFlee(world, household, { why: main?.auto ? 'auto' : 'waited' });
     }
     // The road's questions (sim/road.mjs) - the bogged wagon, the army close behind - are the family's, answered the tick after
     // they are put when its main person is on auto or nobody is at its screen (sim/absence.mjs), as its neighbours answer.
-    if (flight?.ask && (household.absent || world.entities[mainPersonId(world, household)]?.auto)) {
+    if (flight?.ask && (household.absent || world.entities[actingId(world, household)]?.auto)) {
       const option = roadAutoAnswer(world, household);
       if (option) answerRoad(world, household, option, 'auto');
     }

@@ -141,10 +141,12 @@ const INJECTIONS = [
     expect: CHOOSING,
   },
   {
+    // Since the merge of "who acts for a family" (origin/main f815d07e) the chase reads `actingId`, which supersedes this branch's
+    // `mainPersonId` read and keeps what it fixed.
     name: 'B11 (M32): the chase reads the chosen main person\'s raw id, dead or not',
     file: 'sim/pursuit.mjs',
-    from: '  const main = world.entities[mainPersonId(world, household)];\n  return Boolean(household.played',
-    to: '  const main = world.entities[household.mainId || household.principalId];\n  return Boolean(household.played',
+    from: '  const actor = world.entities[actingId(world, household)];',
+    to: '  const actor = world.entities[household.mainId || household.principalId];',
     expect: ANSWERS,
   },
   {

@@ -12,7 +12,7 @@ import { calendarMinutes, dateOf, withCalendarStep } from './clock.mjs';
 import { awayProjection, milesATick, roadTicksFor, tooFastToFollow } from './sight.mjs';
 import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection, CAMP_SITE } from './directors.mjs';
 import { heldByBattle, lyingOnField } from './battle-stage.mjs';
-import { abandonChore, advanceChores, answerChore, askProjection, beginChore, choreAvailability, choreJourney, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
+import { abandonChore, advanceChores, answerChore, askProjection, beginChore, registerChores, choreAvailability, choreJourney, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
 import { GAME } from './hunting.mjs';
 import { axeHome, beastFor, bringAlong, hasWords, holderOf, homeAgain, intoTheRoad, keepWithRiders, leaveBehind, modeWith, NOUN, ROLES as BEASTS, userOf, usesInvalid } from './keeping.mjs';
 import { beastsInvalid, beastsOf, fitOut, ledPace, yardSpot } from './beasts.mjs';
@@ -34,6 +34,11 @@ registerRoadChores();
 registerFlightWork();
 // Resting a day on the road, camping apart from a crowd, nursing at home (sim/disease.mjs), on the same terms.
 registerDiseaseChores();
+// Who acts for a family, a child who steps up and goes for help, a family taken in, and anybody left behind (sim/acting.mjs,
+// owner 2026-09-28: "The oldest child steps up").
+import { FAMILY_DECISIONS, actingFor, actingInvalid, advanceStragglers, advanceTakenIn, registerActingChores, registerTakenInLedger, takenInRefusal, withTheFamily } from './acting.mjs';
+registerActingChores(registerChores);
+registerTakenInLedger({ owes: (world, debtorId, creditorId) => owes(standings(world), debtorId, creditorId), recorded: (world, takerId, familyId, ids) => recordTakenIn(world, takerId, familyId, ids, { quiet: true }) });
 import { advanceLesson, advanceLessons, inLesson, lessonHostWords, lessonInvalid, lessonProjection, lessonRefusal, lessonResumeOffer, resumeLesson, stopLesson } from './lesson.mjs';
 import { REPEATED, advanceAuto, autoShown, noteOrder, setAuto, waitForTask, waitingWork } from './auto.mjs';
 import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
@@ -43,12 +48,14 @@ import { childAction, childrenInvalid } from './children.mjs';
 // A child's day when nobody is telling them what to do, and the family's babies (owner, 2026-09-26; docs/CHILDREN.md): the idle
 // child who goes to a parent, a child's own automation and obedience, and a baby that crawls, cries and is held.
 import { advanceChildhood, childAutoShown, childLine, childhoodInvalid, isSmallChild, released, setChildAuto, talkLines } from './childhood.mjs';
-import { advanceBabies, babiesInvalid, babyLine, babyLines, babyWord, carryBabies, hipPace, isBaby, takeBabyAlong } from './babies.mjs';
+import { advanceBabies, babiesInvalid, babyLine, babyLines, babyWord, carryBabies, hipPace, isBaby, settleTheUnable, takeBabyAlong } from './babies.mjs';
 import { asideWhy } from './aside.mjs';
 import { hostLiveProjection } from './host.mjs';
 import { advanceTown, createTownspeople, observedBy, seenAs } from './town.mjs';
 import { helpTownScene, townScenesFor } from './town-scenes.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
+// What families did for each other, and the help they offer back (sim/neighbourly.mjs, owner 2026-09-28).
+import { advanceNeighbourly, answerNeighbour, neighbourlyInvalid, neighbourlyView, owes, recordTakenIn, standings } from './neighbourly.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceDepartures, advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, listeningOf, riderName, spotName } from './encounters.mjs';
 import { DEFAULT_MODE, HIGH_WATER_TIMES, MODES, WADE_WRONG_MINUTES, WADE_WRONG_SHARE, fordMinutes, modeOf, moveOnGround, propertyId, RIDER_SPEED } from './travel.mjs';
@@ -283,7 +290,9 @@ const usesFord = (world, path) => path.routeIds.some(id => world.map.routes[id]?
 export function modeAvailability(world, entity, modeId, path = null) {
   const mode = MODES[modeId];
   if (!mode) return { can: false, why: 'No such way of going.' };
-  if (tooYoung(entity)) return { can: false, why: tooYoungWhy(entity) };
+  // A child under ten is sent nowhere - except the oldest child at home running on foot to the neighbours for help, the one
+  // child's work with a road in it (sim/acting.mjs `child-help`, owner 2026-09-28: "The oldest child steps up").
+  if (tooYoung(entity) && !(modeId === 'foot' && entity.chore?.id === 'child-help')) return { can: false, why: tooYoungWhy(entity) };
   for (const role of mode.needs) {
     // A class saved before there were horses has no horse, which is a true thing about
     // that class rather than a broken one, and the control says so plainly.
@@ -704,6 +713,10 @@ export function stepWorld(world, { realMs = 0, decisionBudgetMs, callBudgetMs } 
   advanceRoutine(world, calendar); deliverReports(world);
   // The families on the road east (sim/scrape.mjs): the rivers, the food, the sickness, arriving.
   advanceFlight(world, calendar);
+  // A family with nobody who can act is taken in by its nearest neighbours and goes where they go; and anybody of a family left
+  // behind when it went is told where, and follows (sim/acting.mjs, 2026-09-28).
+  advanceTakenIn(world, { beginTravel });
+  advanceStragglers(world, { beginTravel, modeWith });
   // Sickness for everybody the road's own day did not reach: nursing seen, a sickness caught coming out, the day's roll, the
   // word of the crowded places (sim/disease.mjs, docs/DISEASE.md).
   advanceDisease(world);
@@ -712,9 +725,15 @@ export function stepWorld(world, { realMs = 0, decisionBudgetMs, callBudgetMs } 
   keepWithRiders(world);
   // Whoever went to the war with the rifle and is home again, or is dead or taken, has let it go (sim/keeping.mjs).
   homeAgain(world);
+  // Last of what happens to people this tick: the dead and the taken let go of the little ones, and the very sick and the wounded
+  // are put to bed, their work in hand stopped (sim/babies.mjs `settleTheUnable`, interactions M1 and S6).
+  settleTheUnable(world);
   // Each student's own guided beginning moves on by what the tick actually did (sim/lesson.mjs): a house that now
   // stands, ground now cleared, a crop now in. Last, so a step is never called finished a tick before it is.
   advanceLessons(world);
+  // Families that owe a family in need offer help back (sim/neighbourly.mjs), before the families nobody plays think, so one
+  // told to leave this tick holds its going for an answer about room in its wagon.
+  advanceNeighbourly(world);
   // Families nobody plays decide last, from what the tick has left them able to see, through the actions a student sends.
   advanceNeighbours(world, { project: id => projectWorld(world, id, 'student', { includeMap: false }), apply: (id, input) => applyAction(world, id, input) });
   });
@@ -910,7 +929,22 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // They can still be named, rest, and be spoken to - and, since the owner's amendment of 2026-09-21, be set to the
   // children's own works and call them off again (`childAction`, sim/children.mjs), which are the only work in the game
   // that never leaves the family's own land and never touches an axe or a gun.
-  if (tooYoung(entity) && !['rename', 'rest', 'ask-rider', 'leave-rider'].includes(input.action) && !childAction(input)) throw new Error(tooYoungWhy(entity));
+  // The family's own decisions - the order to leave, the route, staying, the road's questions and "¡Alto!" - are made by whoever
+  // is with the family (sim/acting.mjs `actingFor`, 2026-09-28): with nobody grown there, the oldest child of seven or more
+  // (owner: "The oldest child steps up"). A family taken in by its neighbours goes where they go, and decides none of it.
+  const deciding = FAMILY_DECISIONS.includes(input.action);
+  if (deciding) { const why = takenInRefusal(world, household); if (why) throw new Error(why); }
+  const acting = deciding ? actingFor(world, household) : null;
+  if (deciding && tooYoung(entity) && acting?.id !== entity.id) {
+    const who = acting && world.entities[acting.id];
+    throw new Error(`${entity.name} is too young to answer for the family.${who && who.id !== entity.id ? ` ${who.name} ${acting.how === 'child' ? 'is the oldest with the family, and answers for it' : 'answers for it'}.` : ''}`);
+  }
+  if (tooYoung(entity) && !['rename', 'rest', 'ask-rider', 'leave-rider'].includes(input.action) && !childAction(input) && !(deciding && acting?.id === entity.id)) throw new Error(tooYoungWhy(entity));
+  // Somebody away from the family - on the road to the army, in town - does not decide for the family while somebody is with it
+  // (interactions B1): the answer is whoever's there. With nobody with the family, whoever is away still may, as always.
+  if (deciding && acting && acting.how !== 'away' && acting.id !== entity.id && !withTheFamily(world, household, entity) && !['serving', 'prisoner'].includes(entity.service?.status)) {
+    throw new Error(`${entity.name} is not with the family. ${world.entities[acting.id].name} is, and answers for it.`);
+  }
   // Somebody the family's little ones have called aside - talking with a child who has nothing to do, holding a crying baby -
   // is not given new work or sent anywhere until the child has something to do or the baby is down (sim/aside.mjs, owner
   // 2026-09-26: "this conversation stops the parent from doing their task until the kid is given a new task"). The family's
@@ -925,10 +959,12 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // A child's own automation, which does not go on for ever (sim/childhood.mjs, owner 2026-09-26).
   if (input.action === 'set-auto') { if (tooYoung(entity)) setChildAuto(world, household, entity, input.auto); else setAuto(world, household, entity, input.auto); return; }
   // Somebody who has joined the army, the garrison or the expedition is in one place until the family sends for them (sim/winter.mjs).
-  if (entity.service?.status === 'serving' && !SERVING_ACTIONS.includes(input.action)) throw new Error(servingWhy(world, entity));
+  // Asked for one of the family's own decisions, the refusal names who is with the family and answers for it (interactions B1).
+  const answersInstead = () => { const who = acting && acting.id !== entity.id && world.entities[acting.id]; return who ? ` ${who.name} is with the family, and answers for it.` : ''; };
+  if (entity.service?.status === 'serving' && !SERVING_ACTIONS.includes(input.action)) throw new Error(`${servingWhy(world, entity)}${deciding ? answersInstead() : ''}`);
   // A prisoner of the Mexican army (Fannin's men after Coleto, sim/fannin.mjs) can be given no order at all: he is not the
   // family's to send. Being sent for says its own words (sim/winter.mjs `recallRefusal`). Until 2026-09-25 nothing refused him.
-  if (entity.service?.status === 'prisoner' && !['rename', 'winter-recall'].includes(input.action)) throw new Error(`${entity.name} is a prisoner of the Mexican army at ${world.map.sites[entity.service.siteId]?.name || 'Goliad'}, and can do nothing the family asks.`);
+  if (entity.service?.status === 'prisoner' && !['rename', 'winter-recall'].includes(input.action)) throw new Error(`${entity.name} is a prisoner of the Mexican army at ${world.map.sites[entity.service.siteId]?.name || 'Goliad'}, and can do nothing the family asks.${deciding ? answersInstead() : ''}`);
   // Somebody who went to a fight is in it until it is over, and comes back with the men (sim/battle-stage.mjs `heldByBattle`,
   // docs/BATTLES.md §2.6): no order sends them home from the line before the shooting starts.
   const held = heldByBattle(world, entity);
@@ -995,6 +1031,8 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // deliberately not the principal's alone: the whole point is that a family without the
   // handy member can ask the neighbour who is actually present.
   if (input.action === 'offer') { makeOffer(world, householdId, entity, input); return; }
+  // Help offered back between families (sim/neighbourly.mjs): whether to offer it, and whether to take it - any of the family.
+  if (input.action === 'neighbour-answer') { answerNeighbour(world, household, entity, String(input.askId || ''), input.answer); return; }
   if (['accept-offer', 'decline-offer', 'withdraw-offer'].includes(input.action)) {
     respondToOffer(world, householdId, entity, input.action, input.offerId, input.reason);
     return;
@@ -1176,7 +1214,27 @@ function projectHousehold(world, household) {
   const shown = { ...householdAsKnown(household) };
   delete shown.mainId;
   const main = mainPersonId(world, household);
-  return { ...shown, ...(main !== household.principalId && { mainId: main }) };
+  // Who is with the family and answers its own decisions (sim/acting.mjs `actingFor`): sent only when it is not the main person,
+  // and `steppedUp` when it is the oldest child - absent is the main person, so a family whose main person is at home sends nothing
+  // new. Taken in by neighbours, whose family it is with, by name (`takenIn`).
+  // Only while the family has a flight to decide: nothing else on the page reads it, and the per-tick channel is budgeted.
+  const acting = household.flight ? actingFor(world, household) : null;
+  const taken = household.takenIn && world.households[household.takenIn.by];
+  delete shown.takenIn;
+  return { ...shown, ...(main !== household.principalId && { mainId: main }),
+    ...(acting && acting.id !== main && { actingId: acting.id }), ...(acting?.how === 'child' && { steppedUp: true }),
+    ...(taken && { takenIn: { householdId: taken.id, name: householdName(world, taken), ids: [...household.takenIn.ids] } }) };
+}
+/**
+ * Who of the family could nurse this very sick person right now, each with the work that would do it: nursing at home, or halting
+ * the family a day to nurse on the road east (sim/disease.mjs `nurse-home`, sim/road.mjs `tend-sick`). Asked of the one rule every
+ * work is asked of (`choreAvailability`), so a person called aside, sick themself, too young or away is not offered.
+ */
+function nursesFor(world, household, sick) {
+  const chore = ['fled', 'refuged'].includes(household.flight?.status) ? 'tend-sick' : 'nurse-home';
+  return household.members.map(id => world.entities[id])
+    .filter(one => one && one.id !== sick.id && one.kind === 'person' && choreAvailability(world, household, one, chore).can)
+    .map(one => ({ id: one.id, name: one.name, chore }));
 }
 /**
  * A person's work as their family sees it: the question it has stopped on, with what is open now. What the work holds
@@ -1230,6 +1288,8 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // The sickness in words (sim/disease.mjs): the row's line, very sick for the "!", the warning for work, and who has had the
     // measles for the card. Never a chance or a weight.
     ...(e.kind === 'person' ? sicknessShown(world, e) : {}),
+    // Somebody very sick: who of the family could nurse them now (design audit S34, 2026-09-28), which the sick person's "!" opens.
+    ...(e.kind === 'person' && e.health?.grave && household && { nurses: nursesFor(world, household, e) }),
     // Somebody of the family who died of a sickness is told in one plain sentence and not drawn (the owner, 2026-09-27): sent with
     // no place, as somebody away is, so the page has nothing to draw them at and nothing to decide.
     ...(e.kind === 'person' && e.health?.condition === 'dead' && e.health.disease && { location: null }),
@@ -1283,6 +1343,9 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // one of this family is standing where it can be seen, and to the Host. Absent otherwise, which is also a class saved
     // before it existed.
     ...townScenesView(world, householdId, role),
+    // The family's neighbours, the help offered back and room kept in a wagon (sim/neighbourly.mjs). Absent for the Host and for a
+    // family with none of it.
+    ...neighbourlyView(world, householdId, role),
     // What the family's own children and babies are saying, over them, for its own page only (sim/childhood.mjs, sim/babies.mjs).
     ...(() => { if (!household || role === 'host') return {}; const lines = [...talkLines(world, household), ...babyLines(world, household)]; return lines.length ? { familyTalk: { lines } } : {}; })(),
     // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
@@ -1520,8 +1583,10 @@ export function validateWorld(world) {
   if (badCamp) throw new Error(badCamp);
   const badRunner = runnerInvalid(world) || decisionClockInvalid(world);
   if (badRunner) throw new Error(badRunner);
-  const badChildren = childrenInvalid(world) || childhoodInvalid(world) || babiesInvalid(world) || flightWorkInvalid(world);
+  const badChildren = childrenInvalid(world) || childhoodInvalid(world) || babiesInvalid(world) || flightWorkInvalid(world) || actingInvalid(world);
   if (badChildren) throw new Error(badChildren);
+  const badLedger = neighbourlyInvalid(world);
+  if (badLedger) throw new Error(badLedger);
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');
   if (world.nextEventId !== world.events.length + 1) throw new Error('Event sequence would duplicate an ID');

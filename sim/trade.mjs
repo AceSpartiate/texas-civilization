@@ -18,6 +18,8 @@
  */
 import { record } from './events.mjs';
 import { householdName } from './family.mjs';
+// The ledger of what families did for each other (sim/neighbourly.mjs): a trade is one of its deeds, and weighs nothing.
+import { noteDeed } from './deeds.mjs';
 
 // The two things a household actually keeps. Tools are not traded: a hoe is a wear count
 // rather than a countable stock, and the pressure the design wants from a worn hoe is
@@ -178,6 +180,7 @@ export function respondToOffer(world, householdId, entity, action, offerId, reas
   move(giver, taker, offer.give);
   move(taker, giver, offer.ask);
   delete world.offers[offerId];
+  noteDeed(world, { kind: 'trade', fromId: offer.fromHouseholdId, toId: offer.toHouseholdId, personId: from.id, give: { ...offer.give }, ask: { ...offer.ask } });
   const given = describeGoods(offer.give), asked = describeGoods(offer.ask);
   // Coin that changed hands is tagged on each side's record, for the ending's account of where it came from.
   const coinIn = (offer.give.money ?? 0) - (offer.ask.money ?? 0);

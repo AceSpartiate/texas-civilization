@@ -481,6 +481,20 @@ Each step ends with tests that failed first, a browser proof where it touches wh
   control to hand a student's abandoned family to the director, and answering the war (steps 5–6). Automatic families are not
   yet excluded from the ending's rankings because the ending is not built; `played` is what will exclude them.
 
+### 5.9b As built: neighbours remember and repay (owner, 2026-09-28, `FIC-GONZ-760`; not released)
+
+The owner's answer to docs/audits/2026-09-28-design.md B5: **"Yes: they remember and repay."** `sim/deeds.mjs` (the ledger's leaf
+the hooks write into) and `sim/neighbourly.mjs` (offers, words, the page, the ending). What a family owes another is the other's
+deeds for it less its own (`standings`); a family that owes one it can see in need offers back through a named person - food,
+room in its wagon in the Scrape, a hand at its raising - asked of a student, answered by a student, done at once by families
+nobody plays (which also hold their going east half a day for a wagon answer, and send one person to a raising they owe).
+`takesIn` / `recordTakenIn` are the connection for "the oldest child steps up, or a neighbour takes them in". The page's
+**Neighbours** sheet (public/neighbours.js) lists families within 8 miles or already dealt with, whose walls are going up, what
+lies between them and a "Send … there" / "Help raise the walls" button (S7); a journal line says a near raising has begun.
+`ceiling:` food is carried over in the telling (nobody drawn on the road with it); room lent is counted whole once the helped
+family has gone, though it may have loaded less; the word of a raising reaches near families at once; no seat for people in
+another family's wagon, no loan of a tool or a horse (owner questions).
+
 ### 6f. As built: step 4 part 2, each settlement's call (2026-09-14)
 
 - **`sim/calls.mjs`.** When the express has brought the call for help to a family far from Gonzales, its settlement's own
