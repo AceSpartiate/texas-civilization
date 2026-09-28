@@ -186,7 +186,7 @@ try {
   assert.deepEqual(errors, []);
   ok('no page error on either page');
 } finally {
-  writeFileSync('docs/evidence/flashback-browser.json', JSON.stringify({ at: new Date().toISOString(), pass, errors, ...evidence }, null, 1));
+  writeFileSync(measure.length ? 'docs/evidence/flashback-measure.json' : 'docs/evidence/flashback-browser.json', JSON.stringify({ at: new Date().toISOString(), pass, errors, ...evidence }, null, 1));
   await browser.close();
   for (const room of rooms) { await room.app.close(); if (!keep) rmSync(room.folder, { recursive: true, force: true }); }
 }

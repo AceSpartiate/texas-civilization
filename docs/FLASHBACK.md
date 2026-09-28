@@ -37,7 +37,7 @@ that share out exactly **60 seconds**: a title card, then, in the order it happe
 | The first call, answered or not, and by whom | the `FIC-GONZ-031` call and the answers | a rider at the house |
 | Who went to which fight, and what came of it | participation and awards (who), the battle's staged fates (what) | the **battle engine's own projection** at seven moments through the fight |
 | A death, a capture | the person's own record | plain words; nobody is drawn falling |
-| The order to leave; the flight and its load; soldiers behind; a flooded river; sickness; help given and taken; the refuge | the flight, its record (`FIC-GONZ-046`, `-049`, `-051`, `-489`, `-663`) | the road, the family and the wagon going along it, dragoons behind in a chase |
+| The order to leave; the flight and its load; soldiers behind; a flooded river; sickness; help given and taken (on the road, and between neighbours, `sim/neighbourly.mjs`); the refuge | the flight, its record (`FIC-GONZ-046`, `-049`, `-051`, `-489`, `-663`), the neighbours' deeds | the road, the family and the wagon going along it, dragoons behind in a chase |
 | The farm burned, and when the family learned it | `flight.burned`, `burnedBy`, `burnKnown` | the ruin, smoke |
 | The news as it reached them, and how late | `world.knowledge` against the true date | a rider at the house |
 | **The trip home** and what they found | `sim/homecoming.mjs` (§3) | the road home; the house standing or in ashes |
@@ -133,13 +133,26 @@ made once per revision of the class (`scriptCache`); the world and the save neve
 
 ## 7. Measured (this computer, 2026-09-28)
 
-See `docs/evidence/flashback-browser.json`. **Measure again on a quiet machine**: every number here was taken while other builders'
-test suites and an 18-worker balance study held all 24 logical processors at 100%.
+`docs/evidence/flashback-measure.json` (`node scripts/flashback-browser-proof.mjs --measure 15,30`) and
+`docs/evidence/flashback-browser.json`. **Measure again on a quiet machine**: every number here was taken while other builders'
+test suites and an 18-worker balance study held all 24 logical processors at 100%, and they swing with that load.
 
-- Five families: all five made and saved, each 60.0 s, 4.38-4.56 MB; the student's page played its own at once.
-- Where a video's time goes: drawing all 1,200 frames is 1.5-12 s (a chase or a battle costs the most); the rest is the VP8
-  encoder. With the machine idle the first run made five videos in 51 s (about 10 s each).
-- 15 and 30 families: §7.1, filled by `npm run test:flashback -- --measure 15,30`.
+| Families | Made in | Each | Sizes | Lengths |
+| --- | --- | --- | --- | --- |
+| 5 (quiet moment, first run) | 51 s | ~10 s | 7.1-7.3 MB (at 1 Mbit/s, before it was lowered) | 60 s |
+| 5 | 66 s | ~13 s | 4.38-4.54 MB | 60.0 s |
+| 15 | 369 s (6 min) | 24.6 s | 4.30-4.43 MB, 65.8 MB in all | 60.0 s |
+| 30 | 1,556 s (26 min) | 51.9 s | 4.27-4.43 MB, 131.4 MB in all | 60.0 s |
+
+- **Where a video's time goes:** drawing all 1,200 frames is 1.5-12 s (a chase or a battle costs the most); making the beats'
+  ground and waiting for the art, 0.4-14 s (the first video waits longest); the rest is the VP8 encoder. Once, in the loaded runs,
+  one video's encoder took 340 s in all (many short waits). The recorder gives a video up only when the encoder takes no frame for 30 s
+  (`ENCODER_STALL_MS`) and goes on to the next, which the Host page lists as not made.
+- The families students played are made first, so a student's own video is usually ready within the first minutes.
+- `ceiling:` one video at a time. Two at once, on a teacher PC with cores to spare, is the way out if a class of thirty waits too
+  long (decision (f)).
+- Playing the class's scripts: the server works out every family's script once (the homecoming of the whole class and every
+  beat) in about 0.7 s for fifteen families on a quiet moment and up to 8 s under this load.
 
 ## 8. The ending's words (S24, S25, S27; `sim/ending-story.mjs`)
 
@@ -177,6 +190,9 @@ Make the flashbacks; (C) overnight, a teacher leaving the Host page open.
 itself on the homecoming (the audit's B6 direction), so the trip is played rather than shown.
 
 (d) **Length.** (A) one minute for every family (built); (B) longer for a family with more to tell, up to two minutes.
+
+(f) **How fast a class of thirty is made.** (A) one video at a time (built: about 50 s each under heavy load); (B) two at once on a
+teacher PC with cores to spare; (C) a smaller picture (640 × 360) for a faster encode.
 
 (e) **What the Matamoros prisoners' families are told.** The record found says they were marched to Matamoros (`HIST-TEX-059`) and
 nothing of their release. (A) leave it there (built); (B) research and add what became of them.
