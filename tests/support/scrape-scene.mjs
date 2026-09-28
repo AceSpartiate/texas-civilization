@@ -76,6 +76,8 @@ export function stowAway(world, household, at = 'nacogdoches') {
     one.location = { x: site.x, y: site.y, siteId: at };
   }
   household.played = true; delete household.absent;
+  // The family together at its camp: not taken in by neighbours while it was stepped here unplayed (sim/acting.mjs).
+  delete household.takenIn;
   household.flight = { status: 'refuged', refuge: at, orderedMinute: world.minute, leftMinute: world.minute, arrivedMinute: world.minute, mode: 'wagon', took: {}, crossed: [] };
 }
 

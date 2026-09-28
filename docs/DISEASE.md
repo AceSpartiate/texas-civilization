@@ -843,3 +843,14 @@ fell **2.0 a day through "Stop and rest a day" and 0.5 a day walking** after it 
    flux 6; careful families 0.51, careless 5.01; 37 of the 54 under six. `tests/disease.test.mjs` step 8 now also fails unless the
    measles and the whooping cough each killed more than every other sickness in the evidence (seen failing against the first
    build's rates and evidence: "lung-fever killed 10, measles 5").
+
+## 10. Amendment, 2026-09-28 — very sick means in bed (not released)
+
+docs/audits/2026-09-28-interactions.md S6, docs/audits/2026-09-28-design.md S34 and S36; `FIC-GONZ-734`. "Too sick to get up" was
+checked only when work or a journey began, so a man turned very sick at the mark went on shooting and a very sick woman was sent
+to a crying baby. Now, last in the tick (sim/babies.mjs `settleTheUnable`): somebody very sick or lying wounded stops their work in
+hand at home at once ("Gregorio is too sick to go on with practice at the mark, and has gone to bed."), sets down a baby they held
+and lets go a child talking with them; nobody very sick or wounded is brought to a crying baby or talked to by an idle child. The
+very sick person's "!" opens their card at **who can nurse them** - one button for each of the family who could, sending them to
+`nurse-home` (or `tend-sick` on the road) - instead of their own work, all refused (docs/FAMILY_PANEL.md §19). Somebody on a road
+goes on to where they were going; the road east carries its sick in the wagon.
