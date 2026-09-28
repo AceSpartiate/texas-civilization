@@ -1,0 +1,27 @@
+{
+  "record": "design-blockers-injections",
+  "date": "2026-09-28",
+  "files": [
+    "tests/lifecycle.test.mjs",
+    "tests/absence.test.mjs",
+    "tests/periods.test.mjs",
+    "tests/scrape.test.mjs",
+    "tests/scrape-pursuit.test.mjs",
+    "tests/family-commands.test.mjs",
+    "tests/family-panel.test.mjs",
+    "tests/ending.test.mjs",
+    "tests/classes.test.mjs"
+  ],
+  "browser": true,
+  "injections": [
+    {
+      "name": "Delete: one press deletes",
+      "file": "public/class-panel.js",
+      "proof": {
+        "script": "test:classes",
+        "failed": true,
+        "why": "TimeoutError'"
+      }
+    }
+  ]
+}

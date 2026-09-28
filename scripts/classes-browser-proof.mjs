@@ -85,7 +85,8 @@ try {
   const late = await studentJoins('Late student');
   await late.waitForFunction(() => window.__snapshot?.world.householdId && !document.querySelector('#game').hidden, null, { timeout: 30000 });
   assert.equal(await late.evaluate(() => window.__snapshot.world.householdId), 'hh-25');
-  assert.ok(await late.evaluate(() => window.__snapshot.world.tick > 0), 'into the class already going');
+  // The class's first tick can still be on its way (1.5 s a tick here) when the late student's page opens: waited for, not raced.
+  assert.ok(await late.waitForFunction(() => window.__snapshot?.world.tick > 0, null, { timeout: 15000 }).then(() => true, () => false), 'into the class already going');
   ok('a student who joins from the join form after Start plays hh-25, the first family nobody plays, in the class already going');
   await host.waitForFunction(() => [...document.querySelectorAll('#late-seat option')].some(option => option.value === 'hh-30'));
   assert.equal(await host.evaluate(() => !document.querySelector('#late').hidden), true);

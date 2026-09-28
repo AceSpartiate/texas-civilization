@@ -1,0 +1,68 @@
+{
+  "record": "design-blockers-injections",
+  "date": "2026-09-28",
+  "files": [
+    "tests/lifecycle.test.mjs",
+    "tests/absence.test.mjs",
+    "tests/periods.test.mjs",
+    "tests/scrape.test.mjs",
+    "tests/scrape-pursuit.test.mjs",
+    "tests/family-commands.test.mjs",
+    "tests/family-panel.test.mjs",
+    "tests/ending.test.mjs",
+    "tests/classes.test.mjs"
+  ],
+  "browser": true,
+  "injections": [
+    {
+      "name": "Delete: the open class can be deleted too",
+      "file": "server/app.mjs",
+      "failed": [
+        "a kept class is deleted from the list into the archive with its flashbacks, never the open one, and put back by hand"
+      ],
+      "alone": true
+    },
+    {
+      "name": "Delete: the save is not moved to the archive (put out of the way where nobody will look)",
+      "file": "server/app.mjs",
+      "failed": [
+        "a kept class is deleted from the list into the archive with its flashbacks, never the open one, and put back by hand"
+      ],
+      "alone": true
+    },
+    {
+      "name": "Delete: the flashbacks are left behind",
+      "file": "server/app.mjs",
+      "failed": [
+        "a kept class is deleted from the list into the archive with its flashbacks, never the open one, and put back by hand"
+      ],
+      "alone": true
+    },
+    {
+      "name": "Delete: the archived save loses the session id RECOVERY puts it back by",
+      "file": "server/app.mjs",
+      "failed": [
+        "a kept class is deleted from the list into the archive with its flashbacks, never the open one, and put back by hand"
+      ],
+      "alone": true
+    },
+    {
+      "name": "Delete: one press deletes",
+      "file": "public/class-panel.js",
+      "proof": {
+        "script": "test:classes",
+        "failed": true,
+        "why": "AssertionError [ERR_ASSERTION]: into the class already going at file:///C:/Users/zachw/Texas%20Civilization/.claude/worktrees/agent-a0f627ea23082156d/scripts/classes-browser-proof.mjs:88:10 {"
+      }
+    },
+    {
+      "name": "Delete: the panel does not say where the class went",
+      "file": "public/class-panel.js",
+      "proof": {
+        "script": "test:classes",
+        "failed": true,
+        "why": "AssertionError [ERR_ASSERTION]: into the class already going at file:///C:/Users/zachw/Texas%20Civilization/.claude/worktrees/agent-a0f627ea23082156d/scripts/classes-browser-proof.mjs:88:10 {"
+      }
+    }
+  ]
+}

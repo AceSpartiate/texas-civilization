@@ -14,12 +14,12 @@
     "the teacher chose hh-30 from \"The first family nobody plays\", …, and the next late student was given it",
     "thirty students in thirty families",
     "the thirty-first is told in words that every family has a student and to ask the teacher",
-    "a new class \"Period 4\" of 8 families, and the first kept: Class AC5539 · code AC5539 · 30 of 30 families joined · paused, September 28, 1835 (period 1)",
+    "a new class \"Period 4\" of 8 families, and the first kept: Class 3C0244 · code 3C0244 · 30 of 30 families joined · paused, September 28, 1835 (period 1)",
     "the first class's student is told: \"You are no longer joined to this class: your family was taken up on another device, or your teacher opened another class. If you were in this class, choose “I was already in this class” and tap your name.\"",
-    "the first class opened again: the same code AC5539, paused, thirty students",
-    "and its student's page, left on the join screen, carried on with hh-1 by itself 4913 ms later",
+    "the first class opened again: the same code 3C0244, paused, thirty students",
+    "and its student's page, left on the join screen, carried on with hh-1 by itself 4927 ms later",
     "Resume plays the class on",
-    "Delete, asked twice, took \"Period 4\" off the list and into the archive, and the panel says so: \"Period 4 was taken off the list and kept: its save is now archive/classes-f5ad78480033-deleted-2026-09-28T20-51-56-015Z.json, in this computer's class data folder. To bring it back, see \"A deleted class\" in RECOVERY.\"",
+    "Delete, asked twice, took \"Period 4\" off the list and into the archive, and the panel says so: \"Period 4 was taken off the list and kept: its save is now archive/classes-7d3f981ee837-deleted-2026-09-28T21-04-30-457Z.json, in this computer's class data folder. To bring it back, see \"A deleted class\" in RECOVERY.\"",
     "at 400 px the Host page does not scroll sideways",
     "no page errors"
   ],
@@ -63,12 +63,12 @@
       "Caleb's family (nobody's)"
     ],
     "classes": [
-      "Period 4 · code 34DB8D · 0 of 8 families joined · not startedOpen now",
-      "Class AC5539 · code AC5539 · 30 of 30 families joined · paused, September 28, 1835 (period 1)OpenDelete"
+      "Period 4 · code E3F2C7 · 0 of 8 families joined · not startedOpen now",
+      "Class 3C0244 · code 3C0244 · 30 of 30 families joined · paused, September 28, 1835 (period 1)OpenDelete"
     ],
     "signedOutWords": "You are no longer joined to this class: your family was taken up on another device, or your teacher opened another class. If you were in this class, choose “I was already in this class” and tap your name.",
-    "studentBackMs": 4913,
-    "deleted": "Period 4 was taken off the list and kept: its save is now archive/classes-f5ad78480033-deleted-2026-09-28T20-51-56-015Z.json, in this computer's class data folder. To bring it back, see \"A deleted class\" in RECOVERY."
+    "studentBackMs": 4927,
+    "deleted": "Period 4 was taken off the list and kept: its save is now archive/classes-7d3f981ee837-deleted-2026-09-28T21-04-30-457Z.json, in this computer's class data folder. To bring it back, see \"A deleted class\" in RECOVERY."
   },
   "screenshots": [
     "docs/evidence/classes-lobby.png",
