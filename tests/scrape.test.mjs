@@ -17,6 +17,7 @@ import { CAPTURED_AT_HOME, FLIGHT_ROOM, SETTLEMENT_DAYS, share } from '../sim/sc
 import { needsOf } from '../public/family-panel.js';
 import { beastsOf } from '../sim/beasts.mjs';
 import { burnMinute, farmFate } from '../sim/advance.mjs';
+import { thinkFor } from '../sim/neighbours.mjs';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -175,6 +176,22 @@ test('a family that stays is burned out when a column\'s foragers reach the farm
   // Burned out, the family can still go with what it can carry.
   assert.equal(view(world, household.id).flight.burned, true);
   validateWorld(world);
+});
+
+test('a family nobody plays whose main person is serving still leaves when it is told to go', () => {
+  // Found 2026-09-27 by scripts/balance-measure.mjs (seed measure-5-0): the neighbours' director sent the flee through the
+  // main person, who was with the auxiliary and could only be sent for, so it was refused every think and the family sat at
+  // home until the foragers burned the farm. The word is now given by somebody at home and free to give it.
+  const world = spring();
+  const household = families(world, 'gonzales').find(one => one.members.map(id => world.entities[id]).filter(person => person.age >= 10 && person.health.condition !== 'dead').length >= 2);
+  assert.ok(household, 'no Gonzales family has two people old enough to give the word');
+  until(world, () => household.flight?.status === 'ordered');
+  const head = main(world, household);
+  head.service = { kind: 'auxiliary-war', status: 'serving', siteId: 'san-felipe' };
+  const others = household.members.map(id => world.entities[id]).filter(person => person.id !== head.id);
+  assert.ok(others.some(person => person.location.siteId === household.homeSiteId && !person.travel && person.health.condition !== 'dead'), 'nobody else is at home to give the word');
+  thinkFor(world, household, { project: id => view(world, id), act: input => applyAction(world, household.id, input) });
+  assert.equal(household.flight.status, 'fled', 'the family stayed at home because its main person was serving');
 });
 
 test('rain, cold and hunger make people sick on the road, the sick mend, and a few die', () => {
