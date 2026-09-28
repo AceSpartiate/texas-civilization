@@ -1,0 +1,217 @@
+{
+ "at": "2026-09-28T13:11:14.458Z",
+ "pass": [
+  "a class of five families was played headless to its end in 82.1 s (1252 ticks)",
+  "a student cannot read another family's flashback, nor send one in a class",
+  "the Host's page made all five videos in 370 s (webcodecs), each about a minute: hh-1.webm 60 s 4543 KB, hh-2.webm 60 s 4481 KB, hh-3.webm 60 s 4489 KB, hh-4.webm 60 s 4386 KB, hh-5.webm 60 s 4466 KB",
+  "the videos are on the Host's disk in the class's own folder: C:\\Users\\zachw\\AppData\\Local\\Temp\\flashback-proof-6ZxE8T\\flashbacks\\c74ee6ad7813",
+  "the student's page played its own family's video by itself: 60 s, 854×480, 2.5 s played in 2.5 s",
+  "the captions are below the video as words, 15 lines: \"September 28, 1835. Ramón Flashwright and Manuela Flashwright came to new land near San Fe…\"",
+  "Replay plays it again from the start",
+  "frames of the student's video photographed: docs/evidence/flashback-frame-02s.png, docs/evidence/flashback-frame-09s.png, docs/evidence/flashback-frame-21s.png, docs/evidence/flashback-frame-33s.png, docs/evidence/flashback-frame-45s.png, docs/evidence/flashback-frame-57s.png",
+  "the Host played one family's video from the list",
+  "Play the whole class in turn goes on to the next family when one ends",
+  "no page error on either page"
+ ],
+ "errors": [],
+ "runs": [
+  {
+   "families": 5,
+   "seconds": 370.485,
+   "made": {
+    "done": [
+     {
+      "householdId": "hh-1",
+      "madeMs": 46366,
+      "bytes": 4651893,
+      "durationMs": 60000,
+      "frames": 1200,
+      "how": "webcodecs",
+      "warm": {
+       "rounds": 2,
+       "waitedMs": 7299.899999976158,
+       "unsettled": 0,
+       "ms": 7977
+      },
+      "paintMs": {
+       "title": 30,
+       "home": 1031,
+       "battle": 307,
+       "road": 1708,
+       "map": 26,
+       "closing": 48
+      }
+     },
+     {
+      "householdId": "hh-2",
+      "madeMs": 80505,
+      "bytes": 4588234,
+      "durationMs": 60000,
+      "frames": 1200,
+      "how": "webcodecs",
+      "warm": {
+       "rounds": 2,
+       "waitedMs": 8814.300000011921,
+       "unsettled": 0,
+       "ms": 9525
+      },
+      "paintMs": {
+       "title": 27,
+       "home": 2746,
+       "battle": 677,
+       "road": 478,
+       "map": 30,
+       "closing": 41
+      }
+     },
+     {
+      "householdId": "hh-3",
+      "madeMs": 94485,
+      "bytes": 4597232,
+      "durationMs": 60000,
+      "frames": 1200,
+      "how": "webcodecs",
+      "warm": {
+       "rounds": 2,
+       "waitedMs": 0,
+       "unsettled": 0,
+       "ms": 591
+      },
+      "paintMs": {
+       "title": 23,
+       "home": 249,
+       "map": 52,
+       "road": 600,
+       "closing": 51
+      }
+     },
+     {
+      "householdId": "hh-4",
+      "madeMs": 77733,
+      "bytes": 4490945,
+      "durationMs": 60000,
+      "frames": 1200,
+      "how": "webcodecs",
+      "warm": {
+       "rounds": 2,
+       "waitedMs": 1311.699999988079,
+       "unsettled": 0,
+       "ms": 2094
+      },
+      "paintMs": {
+       "title": 26,
+       "home": 373,
+       "map": 65,
+       "battle": 10520,
+       "road": 190,
+       "closing": 35
+      }
+     },
+     {
+      "householdId": "hh-5",
+      "madeMs": 68768,
+      "bytes": 4573610,
+      "durationMs": 60000,
+      "frames": 1200,
+      "how": "webcodecs",
+      "warm": {
+       "rounds": 2,
+       "waitedMs": 0,
+       "unsettled": 0,
+       "ms": 524
+      },
+      "paintMs": {
+       "title": 28,
+       "home": 188,
+       "battle": 826,
+       "road": 10971,
+       "map": 26,
+       "closing": 32
+      }
+     }
+    ],
+    "failed": [],
+    "how": "webcodecs",
+    "stacks": null
+   },
+   "disk": [
+    {
+     "file": "hh-1.webm",
+     "bytes": 4651893,
+     "durationMs": 60000,
+     "codec": "V_VP8",
+     "width": 854,
+     "height": 480,
+     "frames": 1200,
+     "keyframes": 30,
+     "lastFrameMs": 59950
+    },
+    {
+     "file": "hh-2.webm",
+     "bytes": 4588234,
+     "durationMs": 60000,
+     "codec": "V_VP8",
+     "width": 854,
+     "height": 480,
+     "frames": 1200,
+     "keyframes": 30,
+     "lastFrameMs": 59950
+    },
+    {
+     "file": "hh-3.webm",
+     "bytes": 4597232,
+     "durationMs": 60000,
+     "codec": "V_VP8",
+     "width": 854,
+     "height": 480,
+     "frames": 1200,
+     "keyframes": 30,
+     "lastFrameMs": 59950
+    },
+    {
+     "file": "hh-4.webm",
+     "bytes": 4490945,
+     "durationMs": 60000,
+     "codec": "V_VP8",
+     "width": 854,
+     "height": 480,
+     "frames": 1200,
+     "keyframes": 30,
+     "lastFrameMs": 59950
+    },
+    {
+     "file": "hh-5.webm",
+     "bytes": 4573610,
+     "durationMs": 60000,
+     "codec": "V_VP8",
+     "width": 854,
+     "height": 480,
+     "frames": 1200,
+     "keyframes": 30,
+     "lastFrameMs": 59950
+    }
+   ]
+  }
+ ],
+ "class": {
+  "families": 5,
+  "seconds": 82.1,
+  "ticks": 1252,
+  "events": 6163,
+  "flights": {
+   "hh-1": "returning",
+   "hh-2": "returning",
+   "hh-3": "returning",
+   "hh-4": "fled",
+   "hh-5": "returning"
+  }
+ },
+ "frames": [
+  "docs/evidence/flashback-frame-02s.png",
+  "docs/evidence/flashback-frame-09s.png",
+  "docs/evidence/flashback-frame-21s.png",
+  "docs/evidence/flashback-frame-33s.png",
+  "docs/evidence/flashback-frame-45s.png",
+  "docs/evidence/flashback-frame-57s.png"
+ ]
+}
