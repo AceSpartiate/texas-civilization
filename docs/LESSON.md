@@ -1,5 +1,19 @@
 # The guided beginning
 
+> **Suspended by the owner, 2026-09-28, to be redone from scratch:** *"The starting tutorial needs to be removed for now. We'll
+> redo it from scratch later. It currently just gets in the way of things."* It is switched off by one constant,
+> `LESSON_ENABLED = false` in `sim/lesson.mjs` (marked `ceiling:`): the server holds no gate, a new family starts with every order
+> open, nothing of a lesson is projected (no strip, pips, ring, X or Resume), no step is stored, and a settlement's call spends
+> its five minutes from the moment it arrives. The old "New to this?" walk-through is off too (`OLD_WALKTHROUGH_OFFERED` in
+> `public/app.js`), and the title card no longer promises a guide. The code, the steps and everything below are kept as they
+> were built, for the rework to start from or throw away; **everything below describes the suspended tutorial**, except §9. The
+> only guidance a new student is given now is **the tips at first meeting (§9)**, which gained two for the start of the game:
+> the road in, and how to give an order.
+>
+> Suspended with it: `tests/lesson.test.mjs` (32 tests, skipped while the switch is off), the gate test of
+> `tests/lesson-usability.test.mjs` (skipped), `npm run test:lesson` and `scripts/lesson-injections.mjs` (each exits at once
+> saying so). Held instead by `tests/lesson-off.test.mjs`, which always runs and fails if the switch is turned back on.
+
 **Amended 2026-09-28 — the owner: "fix the blockers".** Two changes, from the design audit's B8, S4–S6, S8, S33 and S35 and the
 playthrough audit's §5 (`docs/audits/2026-09-28-*.md`):
 
@@ -355,6 +369,8 @@ take when several are due at once (the same order as the "!"s):
 | `enlist` | the winter's enlisting, joining or voting offered, or somebody serving | gone until "Send for"; a soldier takes the rifle |
 | `trade` | another family's person where one of ours is, or an offer made | tap their person to offer a trade |
 | `store` | the town errand open (shown inside it) | choose before they go; tap a line to read what it does; coin at the end counts toward the score |
+| `arrive` | the family on the road in to its land (added when the guided start was suspended) | on the way; choose a house and set the family to work |
+| `order` | on the land, with a family to set to work (the same) | tap one of the family, then a job along the bottom; "Idle" means nothing to do |
 | `star` | the farm is the student's (no guided start running) | ★ is the main person; ☆ changes who; "!" means somebody needs an answer |
 
 **The rules.**

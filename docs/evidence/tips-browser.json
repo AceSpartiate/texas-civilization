@@ -3,28 +3,42 @@
   "date": "2026-09-28",
   "environment": "Same computer: a local classroom server and headless Chrome, 1366x768 with a keyboard and 1024x768 with a touch screen.",
   "pass": [
-    "the guided start is running (step \"arrive\")",
+    "no guided start and no walk-through: the first thing said is the arrival's tip (\"Your family is on its way to its own land. When they get there, choose a house and set your family to work.\")",
+    "on the land, how to give an order: \"Tap one of your family on the left, then tap a job along the bottom to set them to it. “Idle” means they have nothing to do.\"",
     "the call's tip is on the screen: \"Your settlement is calling for men: press the “!” and tick who goes. Each one leaves the farm with powder and the rifle. No answer in about 5 minutes, and the call closes.\" - above the bar, clear of the column and the guided start, 14px, and a click on its words reaches the map",
     "the Host's page shows no tip",
     "Escape put the tip away, and the server keeps it as seen",
     "after a reload, with the call still open, its tip is not shown again",
-    "on the \"order\" step: nursing the sick goes through, food is not refused by the guided start, enlisting is refused only for its own reason (\"Paz Proofwright is already nursing the sick.\"), and another farm step's work is still \"Not yet - first, get the house up.\"",
+    "in the first hour, nothing says \"Not yet\": nursing the sick goes through, food goes through, enlisting only for its own reason (\"Paz Proofwright is already nursing the sick.\"), the well only for its own reason (\"Paz Proofwright is already nursing the sick.\")",
     "the order to leave: its tip (\"Your family is told to leave. On your ★ person’s card, choose what to load and press “Leave for the east”, or choose to stay. No answer in a day, and the family packs and goes.\"), put away with a tap, and the \"!\" on the main person with \"3 min\" left on it",
     "on the road: the route's tip (\"On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.\"), put away with a tap",
     "¡Alto!: its tip (\"Soldiers shout “¡Alto!”, which means “Halt!”. Answer fast on your ★ person’s card: halting loses the wagon and goods, and running risks their shots. No answer means you halt.\"), the \"!\" with \"30s\" on it, put away with a tap",
-    "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, star, flight, rest, road, route, alto)"
+    "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, order, flight, star, road, rest, route, alto)"
   ],
   "observed": {
-    "lessonStep": "arrive",
+    "start": {
+      "lesson": false,
+      "strip": false,
+      "walkThrough": false,
+      "resume": false
+    },
+    "putAwayOnTheWay": [
+      "star",
+      "enlist",
+      "order",
+      "star",
+      "road",
+      "rest"
+    ],
     "call": {
       "id": "call",
       "shown": true,
       "text": "Your settlement is calling for men: press the “!” and tick who goes. Each one leaves the farm with powder and the rifle. No answer in about 5 minutes, and the call closes.",
       "box": {
         "left": 324,
-        "top": 356,
-        "right": 703,
-        "bottom": 470
+        "top": 396,
+        "right": 710,
+        "bottom": 510
       },
       "fontPx": 14,
       "onScreen": true,
@@ -36,7 +50,7 @@
       "closeReached": true
     },
     "gate": {
-      "step": "order",
+      "stored": null,
       "nursed": {
         "status": 200,
         "error": ""
@@ -50,7 +64,7 @@
       },
       "well": {
         "status": 400,
-        "error": "Not yet - first, get the house up."
+        "error": "Paz Proofwright is already nursing the sick."
       }
     },
     "sick": {
@@ -59,9 +73,9 @@
       "text": "Someone is sick, and resting helps them mend. Have another grown-up choose “Nurse the sick”: nobody dies while being nursed. A very sick person can die within a day.",
       "box": {
         "left": 324,
-        "top": 356,
-        "right": 703,
-        "bottom": 470
+        "top": 396,
+        "right": 710,
+        "bottom": 510
       },
       "fontPx": 14,
       "onScreen": true,
@@ -72,12 +86,6 @@
       "overStrip": false,
       "closeReached": true
     },
-    "putAwayOnTheWay": [
-      "enlist",
-      "star",
-      "rest",
-      "road"
-    ],
     "flight": {
       "tip": {
         "id": "flight",
@@ -146,10 +154,11 @@
       "stillAsked": true,
       "shownBefore": [
         "enlist",
-        "star",
+        "order",
         "flight",
-        "rest",
+        "star",
         "road",
+        "rest",
         "route",
         "alto"
       ],

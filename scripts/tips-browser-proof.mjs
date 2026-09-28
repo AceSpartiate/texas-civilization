@@ -156,7 +156,7 @@ async function firstPeriod() {
     await student.locator('#tip .tip-close').focus();
     assert.equal(await student.evaluate(() => document.activeElement?.classList.contains('tip-close')), true, 'the keyboard cannot reach "Got it"');
     await student.keyboard.press('Escape');
-    await until(student, 'Escape did not put the tip away', () => document.querySelector('#tip').hidden);
+    await until(student, 'Escape did not put the tip away', () => window.__tip !== 'call' && !(window.__tipsShown || []).slice(-1).includes('call'));
     for (let i = 0; i < 40 && !seenOnServer(world()).includes('call'); i++) await student.waitForTimeout(100);
     assert.ok(seenOnServer(world()).includes('call'), `the server did not keep the call's tip as seen: ${JSON.stringify(seenOnServer(world()))}`);
     ok('Escape put the tip away, and the server keeps it as seen');
@@ -170,7 +170,13 @@ async function firstPeriod() {
     // ------------------------------------------------------------------------------- nothing refuses a new family anything
     // With the guided start off, a family in its first hour is refused nothing by it: the sick nursed, food got, the enlisting
     // answered by its own rule, and the farm's later work (the well) open as well.
-    const people = household().members.map(id => world().entities[id]).filter(one => one.kind === 'person' && (one.age ?? 30) >= 16 && one.health.condition !== 'dead');
+    // Grown people not called aside by a child with nothing to do (sim/aside.mjs: that has its own refusal, and its own tip).
+    const people = household().members.map(id => world().entities[id]).filter(one => one.kind === 'person' && (one.age ?? 30) >= 16 && one.health.condition !== 'dead')
+      .sort((a, b) => Number(Boolean(a.aside)) - Number(Boolean(b.aside)));
+    // The children given something to do, as the "child" tip says, so nobody is called aside while this is asked.
+    for (const child of household().members.map(id => world().entities[id]).filter(one => one.kind === 'person' && one.talk)) {
+      await command(student, { action: 'chore', chore: 'child-play', entityId: child.id });
+    }
     const [sick, nurse, hunter] = people;
     sick.health = { condition: 'sick', recoversAt: world().minute + 2 * 1440 };
     for (const one of [nurse, hunter]) if (one?.chore) await command(student, { action: 'stop-chore', entityId: one.id });

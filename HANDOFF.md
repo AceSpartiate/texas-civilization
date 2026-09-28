@@ -1,39 +1,46 @@
 # Claude handoff — Astra foundation
 
-## The teaching blockers: tips at first meeting, the guided start's gate narrowed to the farm, the "!"s ranked — owner, 2026-09-28 (worktree branch; not released)
+## The tutorial suspended; tips at first meeting; the "!"s ranked — owner, 2026-09-28 (worktree branch; not released)
 
-**The decision.** Owner, 2026-09-28: "fix the blockers", and by multiple choice on how the later systems are taught, **"Short
-tips at first meeting"** - the first time each new thing appears, a one-line tip shows what to do and what it costs; nothing
-blocks play; each tip shown once. From the design audit (B8, S4, S5, S6, S8, S33, S35) and the playthrough audit (§5).
+**The decisions.** Owner, 2026-09-28: "fix the blockers" (design audit B8, S4-S6, S8, S33, S35; playthrough audit §5), and by
+multiple choice on how the later systems are taught, **"Short tips at first meeting"** - the first time each new thing appears,
+a one-line tip shows what to do and what it costs; nothing blocks play; each tip shown once. Later the same day, **"The starting
+tutorial needs to be removed for now. We'll redo it from scratch later. It currently just gets in the way of things."**
 
-**1. Tips at first meeting** (docs/LESSON.md §9). Eighteen tips (`public/tips.js` `TIPS`, ids in `sim/tips.mjs`): ¡Alto!, the
-road's question, the order to leave, sickness, the settlement's call (and that it lapses), the army's questions, the Watch card,
-Resume tutorial, "Stop and rest a day", choosing the route, the milk cow, the milk, a crying baby, a child with nothing to do, the
-winter's enlisting and voting, trading, the store (coin as the score; shown inside the errand) and the main person's star. Each
-is due when its thing is in the family's own projection, shown one at a time over the map above the action bar (placed clear of
-the column, the card, the call, the messages and the strip; the words let clicks through; "Got it" or Escape), never to the Host,
-never in the lobby or over the ending. Put away - or retired because its thing went while it stood - the page sends `seen-tip`
-and the server keeps `household.tipsSeen` (absent = seen none; validated; **no `saveVersion` move**), so a reload or another
-Chromebook never repeats one. S6: what was hover-only is in the tips, and each line of the town errand opens what it does on a
-tap.
+**1. The guided start suspended** (docs/LESSON.md, top). `LESSON_ENABLED = false` in `sim/lesson.mjs` (`ceiling:`) makes
+`teachable` false for every family: no gate, no stored step, no `lesson`/`lessonResume` on the projection (no strip, pips, ring,
+X or Resume), and `inLesson` false, so a settlement's call spends its five minutes from the moment it arrives. The old "New to
+this?" walk-through is off too (`OLD_WALKTHROUGH_OFFERED` in `public/app.js`, which would otherwise have been offered to every
+family), and the title card now says tips will come instead of a guide. The code is kept as built for the rework, including
+the same day's narrowing of the gate to the farm steps (`FARM_WORK`, `NEVER_HELD`, `shut` on the projection, the lesson ending
+with the first period via `closeLessons`) - done before the owner's second word, tested and injected (34 of 34) while it was on,
+and now switched off with the rest. **Skipped while off, and said so:** `tests/lesson.test.mjs` (all 32 tests), the gate test in
+`tests/lesson-usability.test.mjs`; `npm run test:lesson` and `scripts/lesson-injections.mjs` exit at once with "SKIPPED". Held
+instead by `tests/lesson-off.test.mjs` (always runs). `scripts/means-browser-proof.mjs` no longer waits for an X that is not there.
 
-**2. The guided start stops refusing the rest of the game** (docs/LESSON.md §4a). `lessonRefusal` now refuses only another farm
-step's own work (`FARM_WORK`: house, survey, clear, fence, plant, harvest, sale, well), never food, the town, hunting, nursing,
-resting, the winter's enlisting/joining/voting, Houston, any call or question, the flight or its road. The projection sends
-`shut` (what the page greys; `allow` is now the step's own work). The lesson ends for every family when the first period does
-(`teachable` reads `world.period`; `closeLessons` from `beginSecondPeriod` writes `{ step: 'done', closed: true }`), so a winter
-save with a family on step 3 opens ungated and its call's minutes run.
+**2. Tips at first meeting** (docs/LESSON.md §9) - now the only guidance a new student has. Twenty tips (`public/tips.js`
+`TIPS`, ids in `sim/tips.mjs`): on the road in, how to give an order (both added for the suspension), the star, ¡Alto!, the
+road's question, the order to leave, sickness and nursing, the settlement's call and that it lapses, the army's questions, Watch,
+Resume tutorial (dormant), "Stop and rest a day", the route, the milk cow, the milk, a crying baby, a child with nothing to do,
+enlisting and voting, trading, the store (coin as the score; inside the errand). Due when its thing is in the family's own
+projection; one at a time over the map above the action bar, placed clear of the column, the card, the call, the messages and
+the strip (`placeTip`); the words let clicks through; "Got it" or Escape; never to the Host, never in the lobby or over the
+ending or the curtain. Put away, or retired when its thing goes while it stands, the page sends `seen-tip` and the server keeps
+`household.tipsSeen` (absent = seen none; validated; **no `saveVersion` move**). S6: hover-only costs are in the tips, and each
+line of the town errand opens what it does on a tap. `server/app.mjs` serves `/tips.js`.
 
-**3. The "!"s ranked** (S33, S35). `NEED_KINDS` is the order of urgency (¡Alto!, road, flight order, very sick, rider, call, army,
-camp, courier, asking, offer), `rankNeeds` orders every row's "!" by it (ties by time left); the "!" carries its number and its
-time left ("28s", "4 min"), counted down on the page from `request.leftMs`, the person's `decisionLeftMs`, `flight.ask.ticksLeft`
-and `flight.ticksLeft` at the class's pace. The first is ringed. Watch waits behind the order to leave, the road and ¡Alto!.
+**3. The "!"s ranked** (S33, S35). `NEED_KINDS` is the order of urgency (¡Alto!, road, order to leave, very sick, rider, call, army,
+camp, courier, asking, offer); `rankNeeds` orders every row's "!" by it, ties by time left; the "!" carries its number and time
+left ("28s", "4 min"), counted down from `request.leftMs`, the person's `decisionLeftMs`, `flight.ask.ticksLeft`
+(`askTicksLeft`) and `flight.ticksLeft` at the class's pace; the first is ringed. Watch waits behind the order to leave, the
+road and ¡Alto!.
 
 **Evidence** (same computer only). EVIDENCE_PLACEHOLDER
 
-**Left for the owner.** The old "New to this?" walk-through and the design audit's S4 "What can I do?" reference are untouched.
-`ceiling:` a tip with under 200px beside an open card waits under the card. The tips' words are the page's; changing one is a
-change to `public/tips.js` and its test's reading-level limits.
+**Questions for the owner.** (a) With the tutorial gone, the tips are all a new student gets: is "on the road in" and "how to give
+an order" enough for the first minutes, or do you want the house, the field and the store taught as tips too until the tutorial
+is rebuilt? (b) The "Resume tutorial" tip and the lesson's narrowed gate stay in the tree, switched off - keep them for the rework
+or delete them? (c) `ceiling:` a tip with under 200px beside an open card waits under the card.
 
 ## Classroom blockers: class size, late students, reconnecting, an unclean stop, several classes, several class days — owner, 2026-09-28 (worktree branch; not released)
 
