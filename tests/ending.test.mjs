@@ -212,7 +212,9 @@ test('the people taken prisoner in the Scrape, at home and on the road, are name
   assert.deepEqual(after.prisoners.map(one => one.personId).sort(), taken.map(one => one.id).sort(), 'the prisoners named are not the Scrape\'s');
   for (const one of home) assert.ok(after.story.includes(`${one.name} was taken prisoner at home.`), `${one.name} was not named as taken at home`);
   assert.ok(after.story.includes(`${road.name} was taken prisoner on the road east.`), 'the prisoner taken on the road was not named');
-  assert.ok(!after.story.some(line => line.includes(soldier.name)), 'the army\'s prisoner was counted with the Scrape\'s');
+  // The army's prisoner is named too (docs/audits/2026-09-28-design.md S27, sim/ending-story.mjs) - as the war's, not the Scrape's, and not weighed.
+  assert.ok(!after.story.some(line => line.startsWith(`${soldier.name} was taken prisoner at home`) || line.startsWith(`${soldier.name} was taken prisoner on the road`)), 'the army\'s prisoner was counted with the Scrape\'s');
+  assert.ok(after.story.some(line => line.startsWith(`${soldier.name} was taken prisoner by the Mexican army`)), 'the army\'s prisoner is not named at the ending');
   // Weighed: the family's living people, less PRISONER_WEIGHT parts for each taken.
   const living = household.members.filter(id => world.entities[id].health.condition !== 'dead').length;
   const kept = 1 - (PRISONER_WEIGHT * taken.length) / living;

@@ -1,0 +1,257 @@
+{
+ "at": "2026-09-28T15:49:17.450Z",
+ "pass": [
+  "a class of five families was played headless to its end in 54.4 s (1252 ticks)",
+  "a student cannot read another family's flashback, nor send one in a class",
+  "the Host's page made all five videos in 407 s (webcodecs), each about a minute: hh-1.webm 60 s 4541 KB, hh-2.webm 60 s 4464 KB, hh-3.webm 60 s 4495 KB, hh-4.webm 60 s 4390 KB, hh-5.webm 60 s 4466 KB",
+  "the videos are on the Host's disk in the class's own folder: C:\\Users\\zachw\\AppData\\Local\\Temp\\flashback-proof-1wIFNS\\flashbacks\\e83e7f7d588d",
+  "the student's page played its own family's video by itself: 60 s, 854×480, 2.5 s played in 2.5 s",
+  "the captions are below the video as words, 15 lines: \"September 28, 1835. Ramón and Manuela came to new land near San Felipe de Austin with thei…\"",
+  "Replay plays it again from the start",
+  "frames of the student's video photographed: docs/evidence/flashback-frame-02s.png, docs/evidence/flashback-frame-09s.png, docs/evidence/flashback-frame-21s.png, docs/evidence/flashback-frame-33s.png, docs/evidence/flashback-frame-45s.png, docs/evidence/flashback-frame-57s.png",
+  "the Host played one family's video from the list",
+  "Play the whole class in turn goes on to the next family when one ends",
+  "measured: 15 families' videos made in 369 s (24.6 s each), 65.8 MB in all, 4.3–4.43 MB each",
+  "measured: 30 families' videos made in 1556 s (51.9 s each), 131.4 MB in all, 4.27–4.43 MB each",
+  "no page error on either page"
+ ],
+ "errors": [],
+ "runs": [
+  {
+   "families": 5,
+   "seconds": 407.404,
+   "made": {
+    "done": [
+     {
+      "householdId": "hh-1",
+      "madeMs": 17143,
+      "bytes": 4650372,
+      "durationMs": 60000,
+      "frames": 1200,
+      "how": "webcodecs",
+      "warm": {
+       "rounds": 2,
+       "waitedMs": 5057,
+       "unsettled": 0,
+       "ms": 5900
+      },
+      "paintMs": {
+       "title": 35,
+       "encodeWait": 8844,
+       "home": 301,
+       "battle": 311,
+       "road": 206,
+       "map": 39,
+       "closing": 56,
+       "flush": 80
+      }
+     },
+     {
+      "householdId": "hh-2",
+      "madeMs": 17185,
+      "bytes": 4570779,
+      "durationMs": 60000,
+      "frames": 1200,
+      "how": "webcodecs",
+      "warm": {
+       "rounds": 2,
+       "waitedMs": 2189.300000011921,
+       "unsettled": 0,
+       "ms": 2926
+      },
+      "paintMs": {
+       "title": 32,
+       "encodeWait": 12253,
+       "home": 268,
+       "battle": 547,
+       "road": 302,
+       "map": 63,
+       "closing": 58,
+       "flush": 59
+      }
+     },
+     {
+      "householdId": "hh-3",
+      "madeMs": 15080,
+      "bytes": 4603131,
+      "durationMs": 60000,
+      "frames": 1200,
+      "how": "webcodecs",
+      "warm": {
+       "rounds": 2,
+       "waitedMs": 0,
+       "unsettled": 0,
+       "ms": 404
+      },
+      "paintMs": {
+       "title": 34,
+       "encodeWait": 13234,
+       "home": 291,
+       "map": 71,
+       "road": 300,
+       "closing": 51,
+       "flush": 78
+      }
+     },
+     {
+      "householdId": "hh-4",
+      "madeMs": 14012,
+      "bytes": 4495497,
+      "durationMs": 60000,
+      "frames": 1200,
+      "how": "webcodecs",
+      "warm": {
+       "rounds": 2,
+       "waitedMs": 468.9000000357628,
+       "unsettled": 0,
+       "ms": 1035
+      },
+      "paintMs": {
+       "title": 40,
+       "encodeWait": 11064,
+       "home": 257,
+       "map": 104,
+       "battle": 578,
+       "road": 134,
+       "closing": 52,
+       "flush": 73
+      }
+     },
+     {
+      "householdId": "hh-5",
+      "madeMs": 343029,
+      "bytes": 4572977,
+      "durationMs": 60000,
+      "frames": 1200,
+      "how": "webcodecs",
+      "warm": {
+       "rounds": 2,
+       "waitedMs": 0,
+       "unsettled": 0,
+       "ms": 444
+      },
+      "paintMs": {
+       "title": 32,
+       "encodeWait": 340073,
+       "home": 306,
+       "battle": 663,
+       "road": 222,
+       "map": 39,
+       "closing": 46,
+       "flush": 435
+      }
+     }
+    ],
+    "failed": [],
+    "how": "webcodecs",
+    "stacks": null
+   },
+   "disk": [
+    {
+     "file": "hh-1.webm",
+     "bytes": 4650372,
+     "durationMs": 60000,
+     "codec": "V_VP8",
+     "width": 854,
+     "height": 480,
+     "frames": 1200,
+     "keyframes": 30,
+     "lastFrameMs": 59950
+    },
+    {
+     "file": "hh-2.webm",
+     "bytes": 4570779,
+     "durationMs": 60000,
+     "codec": "V_VP8",
+     "width": 854,
+     "height": 480,
+     "frames": 1200,
+     "keyframes": 30,
+     "lastFrameMs": 59950
+    },
+    {
+     "file": "hh-3.webm",
+     "bytes": 4603131,
+     "durationMs": 60000,
+     "codec": "V_VP8",
+     "width": 854,
+     "height": 480,
+     "frames": 1200,
+     "keyframes": 30,
+     "lastFrameMs": 59950
+    },
+    {
+     "file": "hh-4.webm",
+     "bytes": 4495497,
+     "durationMs": 60000,
+     "codec": "V_VP8",
+     "width": 854,
+     "height": 480,
+     "frames": 1200,
+     "keyframes": 30,
+     "lastFrameMs": 59950
+    },
+    {
+     "file": "hh-5.webm",
+     "bytes": 4572977,
+     "durationMs": 60000,
+     "codec": "V_VP8",
+     "width": 854,
+     "height": 480,
+     "frames": 1200,
+     "keyframes": 30,
+     "lastFrameMs": 59950
+    }
+   ]
+  },
+  {
+   "families": 15,
+   "playSeconds": 345,
+   "makeSeconds": 369,
+   "perVideoSeconds": 24.6,
+   "mbTotal": 65.8,
+   "mbSmallest": 4.3,
+   "mbLargest": 4.43,
+   "durations": [
+    60000,
+    60000
+   ],
+   "how": "webcodecs"
+  },
+  {
+   "families": 30,
+   "playSeconds": 425,
+   "makeSeconds": 1556,
+   "perVideoSeconds": 51.9,
+   "mbTotal": 131.4,
+   "mbSmallest": 4.27,
+   "mbLargest": 4.43,
+   "durations": [
+    60000,
+    60000
+   ],
+   "how": "webcodecs"
+  }
+ ],
+ "class": {
+  "families": 5,
+  "seconds": 54.4,
+  "ticks": 1252,
+  "events": 6163,
+  "flights": {
+   "hh-1": "returning",
+   "hh-2": "returning",
+   "hh-3": "returning",
+   "hh-4": "fled",
+   "hh-5": "returning"
+  }
+ },
+ "frames": [
+  "docs/evidence/flashback-frame-02s.png",
+  "docs/evidence/flashback-frame-09s.png",
+  "docs/evidence/flashback-frame-21s.png",
+  "docs/evidence/flashback-frame-33s.png",
+  "docs/evidence/flashback-frame-45s.png",
+  "docs/evidence/flashback-frame-57s.png"
+ ]
+}
