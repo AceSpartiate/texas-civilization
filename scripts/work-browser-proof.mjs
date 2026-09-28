@@ -44,6 +44,9 @@ async function closeUp(page, ids, name) {
   }, ids);
   if (!box) return;
   const path = `docs/evidence/work-${name}.png`;
+  // A first-meeting tip (public/tips.js) is put away as a student would, so the close-up shows the work and not the tip.
+  const tip = page.getByRole('button', { name: 'Got it' });
+  if (await tip.first().isVisible().catch(() => false)) { await tip.first().click(); await page.waitForTimeout(300); }
   await page.evaluate(() => { const card = document.querySelector('#selection'); if (card) card.style.visibility = 'hidden'; });
   await page.screenshot({ path, clip: box });
   await page.evaluate(() => { const card = document.querySelector('#selection'); if (card) card.style.visibility = ''; });
@@ -117,6 +120,7 @@ async function sample(page, ids, ms = 2400, every = 120) {
       strokes: [...new Set(works.map(one => one.stroke))], clips: [...new Set(mine.map(one => one.clip).filter(Boolean))],
       frames: [...new Set(works.map(one => one.frame))], marks: [...new Set(works.map(one => one.marks))],
       shifts: [...new Set(works.map(one => one.shift))], flips: [...new Set(works.map(one => one.flip))],
+      tools: [...new Set(works.map(one => one.tool))],
       prints: new Set(mine.map(one => one.print).filter(one => one !== null)).size,
       at: mine.find(one => one.at)?.at || null, art: works[0]?.art || null, request: works[0]?.request || null,
     }];
@@ -210,12 +214,13 @@ try {
     const seen = house[one.id];
     assert.ok(seen.frames.length >= 3 && seen.marks.some(n => n > 0), `${one.name} on the house: frames ${seen.frames}, marks ${seen.marks}`);
     assert.ok(seen.clips.every(clip => /-work$/.test(clip)), `${one.name} on the house is drawn in ${seen.clips}`);
+    assert.ok(seen.tools.length === 1 && ['axe', 'maul'].includes(seen.tools[0]) && seen.marks.every(n => n >= 2), `${one.name} on the house has no drawn axe in hand (the owner, 2026-09-28): tools ${seen.tools}, marks ${seen.marks}`);
     if (Math.abs(spots[i].x - middle) > figure * 0.2) assert.deepEqual(seen.flips, [spots[i].x > middle], `${one.name} does not face the house`);
     assert.ok(seen.prints >= 3, `the pixels round ${one.name} on the house changed ${seen.prints} times`);
   }
   await shot(page, 'house-1366');
   await closeUp(page, crew.map(one => one.id), 'house-close');
-  ok(`three sent to the house ("${observed.house.doing}") are drawn round it (${spots.map(spot => `${spot.x},${spot.y}`).join(' / ')}, a figure ${figure} px), each facing it, swinging with the chips flying (${crew.map(one => house[one.id].strokes.join('')).join(', ')}; stand-in: ${house[crew[0].id].request})`);
+  ok(`three sent to the house ("${observed.house.doing}") are drawn round it (${spots.map(spot => `${spot.x},${spot.y}`).join(' / ')}, a figure ${figure} px), each facing it, swinging a drawn ${house[crew[0].id].tools.join('')} with the chips flying (${crew.map(one => house[one.id].strokes.join('')).join(', ')}; stand-in: ${house[crew[0].id].request})`);
 
   // 3. Practice at the mark, and pacing out a survey: each ordered, each in its own stroke, and what is drawn changes.
   // A slower class pace, so an afternoon at the mark (five ticks) lasts long enough to be watched.
