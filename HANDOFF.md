@@ -18,7 +18,7 @@ student has put the camera on, the person a rider is talking to (a quarter), the
 Speech bubbles now carry their box in the page's evidence (`__familySaid`, `__townSaid`). Every state asserts its own panel is drawn.
 
 **Before: 981 faults over 167 screens** (docs/evidence/overlap-before.json, the final proof run against 3087b8b's layout). **After:
-none** (overlap-after.json). What was found, and where it went (docs/FAMILY_PANEL.md §21, docs/HOST_PAGE.md §2.9):
+none** (overlap-after.json). What was found, and where it went (docs/FAMILY_PANEL.md §21, docs/HOST_PAGE.md §2.10):
 
 - **The card beside a person** stood on the bar's right-hand icons (1366x768), ran off the foot of 1366x657 and 1280x689 over Journal
   and Follow, and at 1024x600 stood on its own person. Now held to the room between the strip and what is below it (capped, it

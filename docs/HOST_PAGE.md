@@ -251,7 +251,7 @@ Gonzales at first light, the ending and "How it ended". Found and moved:
   students free and chosen, the thirty-first refused, a new class and the first opened again, a signed-out page carrying on)
   and `npm run test:reconnect` (the real server killed for 5 s and for 30 s, both pages back by themselves, the away list on
   a page with no cookie). Each was seen failing against the code it guards (HANDOFF).
-- §2.9: `npm run test:overlap` (the Host's page at five sizes in five states, nothing sharing pixels that is not meant to)
+- §2.10: `npm run test:overlap` (the Host's page at five sizes in five states, nothing sharing pixels that is not meant to)
   and `npm run test:overlap-injections`.
 
 ## 4. Ceilings

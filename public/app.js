@@ -6452,7 +6452,7 @@ function renderTip(world, { hidden = false } = {}) {
  */
 const TIP_CLEAR_OF = ['#selection', '#call-menu', '#encounter', '#military-notice', '#lesson', '#lesson-resume', '#tutorial',
   '#errand', '#going', '#site-choose', '#survey-choose', '#wagon-load', '#house-plan', '#house-plot', '#house-placement', '#town-scene',
-  '#interior', '#ending', '#family-journal[data-open=true]', ...TIP_HELD_BY.filter(one => !['#going', '#site-choose', '#survey-choose', '#wagon-load', '#house-plan', '#house-plot'].includes(one))];
+  '#interior', '#ending', '#family-journal[data-open=true]', ...TIP_HELD_BY];
 function placeTip(panel) {
   const bar = document.querySelector('.panel-row[data-focused=true] .panel-icons');
   const barBox = bar ? bar.getBoundingClientRect() : null;
