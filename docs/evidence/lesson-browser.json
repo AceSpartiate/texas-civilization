@@ -18,7 +18,7 @@
     "the step keeps the server's words and a navigation control: \"Put somebody to work\" - Press the axe at the bottom of the screen to start work on the house. (11% of the screen)",
     "the skippable walk-through is put away while the class is being led",
     "the step shows only 2 available actions and rings the requested one",
-    "the card is clear of the step and folds its neighbours list away: 3.3% of the screen against 5.3% open, top at 347 under a strip ending at 223, and one press brings it back",
+    "the card is clear of the step and folds its neighbours list away: 3.8% of the screen against 5.7% open, top at 328 under a strip ending at 223, and one press brings it back",
     "the action bar hides unavailable orders",
     "the one icon the server's own step leaves open sends its order, and the glow comes back on it (plant-field)",
     "the bar is still a row of buttons in reading order, each named and each showing its sentence on focus: \"Travel to Gonzales. Go into the town of Gonzales and stay th…\"",
@@ -90,9 +90,9 @@
     "card": {
       "folded": {
         "card": {
-          "left": 1065,
-          "top": 347,
-          "right": 1319,
+          "left": 1080,
+          "top": 328,
+          "right": 1340,
           "bottom": 483
         },
         "strip": {
@@ -105,13 +105,13 @@
         "goingBy": false,
         "visitShown": false,
         "more": "The neighbours",
-        "share": 3.3
+        "share": 3.8
       },
       "opened": {
         "card": {
-          "left": 1049,
-          "top": 271,
-          "right": 1309,
+          "left": 1070,
+          "top": 252,
+          "right": 1330,
           "bottom": 483
         },
         "strip": {
@@ -124,7 +124,7 @@
         "goingBy": false,
         "visitShown": true,
         "more": "Put that away",
-        "share": 5.3
+        "share": 5.7
       }
     },
     "ordered": {
@@ -150,14 +150,14 @@
           "x": 810,
           "y": 10,
           "width": 544,
-          "height": 212.703125,
+          "height": 193.109375,
           "top": 10,
           "right": 1354,
-          "bottom": 222.703125,
+          "bottom": 203.109375,
           "left": 810
         },
         "overlapWidth": -494,
-        "overlapHeight": 211
+        "overlapHeight": 191
       },
       {
         "where": "1024x768",
@@ -165,14 +165,14 @@
           "x": 468,
           "y": 10,
           "width": 544,
-          "height": 212.703125,
+          "height": 193.109375,
           "top": 10,
           "right": 1012,
-          "bottom": 222.703125,
+          "bottom": 203.109375,
           "left": 468
         },
         "overlapWidth": -152,
-        "overlapHeight": 211
+        "overlapHeight": 191
       }
     ],
     "names": [
@@ -193,7 +193,7 @@
       "x": 8,
       "y": 8,
       "width": 374,
-      "height": 188.375
+      "height": 218.375
     },
     "stopButton": {
       "phone": {
@@ -242,8 +242,8 @@
       ]
     },
     "resume": {
-      "until": 1790557478729,
-      "msWhenStopped": 299783,
+      "until": 1790560880225,
+      "msWhenStopped": 299823,
       "chromebook": {
         "size": [
           119,
