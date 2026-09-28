@@ -1,6 +1,6 @@
 {
   "record": "whole-game-browser",
-  "date": "2026-09-27",
+  "date": "2026-09-28",
   "verdict": "PASS",
   "browser": "153.0.8010.53",
   "task": "One class from the lobby to the road home through all three periods, a student and the Host in the browser the whole way: nothing stalls, refuses wrongly or throws.",
@@ -12,29 +12,29 @@
     "8 of the family set to auto from the panel: Amos Proofwright, Mahala Proofwright, Nieves Proofwright, Jonas Proofwright, Simeon Proofwright, Lavinia Proofwright, Docia Proofwright, Teodoro Proofwright",
     "4 orders given from the panel and taken",
     "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Amos Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (843 ticks, 92.2 s)",
+    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (841 ticks, 91.5 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
-    "the second period ended on its own at minute 241920 (300 ticks, 33 s)",
+    "the second period ended on its own at minute 241920 (300 ticks, 33.5 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (735 ticks, 80.8 s)",
+    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (815 ticks, 106.8 s)",
     "no page errors on either page across the whole game"
   ],
   "measured": {
     "periods": {
       "first": {
-        "ticks": 843,
-        "seconds": 92.2,
+        "ticks": 841,
+        "seconds": 91.5,
         "endedAtMinute": 114060
       },
       "second": {
         "ticks": 300,
-        "seconds": 33,
+        "seconds": 33.5,
         "endedAtMinute": 241920
       },
       "third": {
-        "ticks": 735,
-        "seconds": 80.8,
+        "ticks": 815,
+        "seconds": 106.8,
         "endedAtMinute": 302580
       }
     },
@@ -90,12 +90,12 @@
       "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs w"
     },
     "ending": {
-      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 483. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final the Proofwright family 164 October 2 Amos Proofwright 3 reales 160 — 483 Asa's family 138 October 1 n",
-      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 3 reales GLORY 160 FINAL NUMBER 483 3 reales × (1 + 160 glory) = 483 Our story The family lived 164 road miles from Gonzales. Word that soldiers had come for the cannon reached them on October 2. They were told to leave in the spring. W",
+      "host": "THE END OF THE STORY × The families’ flashbacks This server keeps no videos: it was started without a save folder. Play the whole class in turn the Proofwright family · waiting to be made Asa's family · waiting to be made Ignacio's family · waiting to be made Ezra's family · waiting to be made Vicen",
+      "family": "THE END OF THE STORY × Our story, looking back This server keeps no videos: it was started without a save folder. The story in words the Proofwright family COIN IN THE HOUSE 3 reales GLORY 132 FINAL NUMBER 349 3 reales, less 1 of 8 parts for the one taken prisoner, counted as 2.63 reales × (1 + 132 ",
       "flight": "returning",
       "minute": 302580
     },
-    "totalSeconds": 206
+    "totalSeconds": 231.8
   },
   "screenshots": [
     "docs/evidence/whole-game-at-work.png",

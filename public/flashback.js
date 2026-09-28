@@ -334,7 +334,7 @@ function drawWords(ctx, beat, local) {
     const x = VIDEO.width - 356, y = 14;
     ctx.fillStyle = 'rgba(38,52,66,.88)'; ctx.fillRect(x, y, 342, height);
     ctx.fillStyle = '#e9d9a8'; ctx.textAlign = 'left'; ctx.font = 'bold 12px Georgia, serif';
-    ctx.fillText('MEANWHILE · WHAT THE FAMILY DID NOT KNOW YET', x + 12, y + 20);
+    ctx.fillText('MEANWHILE, UNKNOWN TO THE FAMILY', x + 12, y + 20);
     ctx.fillStyle = '#f4eee0'; ctx.font = '14px Georgia, serif';
     body.forEach((line, i) => ctx.fillText(line, x + 12, y + 40 + i * 18));
     ctx.font = 'italic 13px Georgia, serif'; ctx.fillStyle = '#cbd5dc';

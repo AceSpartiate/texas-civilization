@@ -81,6 +81,8 @@ function whoTo(person) {
 }
 
 /** Each engagement a family's person can be in, by the event its glory and participation are kept under. */
+/** The news of each fight a family's person can be in (`world.truth`'s topic), so its beat does not also carry it as a "meanwhile". */
+const FIGHT_TOPIC = Object.freeze({ gonzales: 'gonzales-outcome', concepcion: 'concepcion-fight', 'grass-fight': 'grass-fight', 'bexar-storming': 'bexar-storming', alamo: 'alamo-fall', 'san-patricio': 'san-patricio', 'agua-dulce': 'agua-dulce', coleto: 'goliad-defeat', goliad: 'goliad-massacre', 'san-jacinto': 'san-jacinto' });
 const ENGAGEMENT_OF = Object.freeze({ gonzales: 'gonzales', concepcion: 'concepcion', 'grass-fight': 'grass-fight', 'bexar-storming': 'bexar-storming', alamo: 'alamo', 'san-patricio': 'san-patricio', 'agua-dulce': 'agua-dulce', coleto: 'coleto', goliad: 'goliad-massacre', 'san-jacinto': 'san-jacinto' });
 /**
  * What each thing a family's person took part in is called in a caption: by what they did there (`fought`) and by having been
@@ -522,7 +524,8 @@ export function flashbackScript(world, householdId, { trips = null } = {}) {
     return true;
   }).slice(0, MOST_BEATS - 2).sort((a, b) => a.minute - b.minute || a.weight - b.weight);
   const pool = happenings(world, householdId);
-  const used = new Set(chosen.filter(beat => beat.topicId).map(beat => beat.topicId));
+  // A fight the family's own person was in is its own beat, and is not shown again beside itself as a "meanwhile".
+  const used = new Set([...chosen.filter(beat => beat.topicId).map(beat => beat.topicId), ...chosen.filter(beat => beat.kind === 'fight').map(beat => FIGHT_TOPIC[beat.event]).filter(Boolean)]);
   // Somebody who died of sickness is never named in the video (docs/DISEASE.md §4: "never on the projector as a name", and the
   // Host may play any family's to the class): wherever the story would say their name, it says who they were to the family.
   const members = people(world, household);
