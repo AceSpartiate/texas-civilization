@@ -398,6 +398,9 @@ take when several are due at once (the same order as the "!"s):
 | `store` | the town errand open (shown inside it) | choose before they go; tap a line to read what it does; coin at the end counts toward the score |
 | `arrive` | the family on the road in to its land (added when the guided start was suspended) | on the way; choose a house and set the family to work |
 | `order` | on the land, with a family to set to work (the same) | tap one of the family, then a job along the bottom; "Idle" means nothing to do |
+| `house` | on its land, site chosen, still camped, with a plan to choose or the house open to work (owner, 2026-09-28: "Yes, add them") | "Choose a house", then "Work on the house"; where it needs logs one on "Fell trees", with auto on; until it stands the family camps |
+| `field` | somebody can clear ground or plant (the server's own `can`) | clear ground and "Plant the field"; corn feeds, cotton sells; planting uses seed and the crop takes time to ripen |
+| `town` | somebody can be sent to town | "Go to town to trade" buys and sells at the store; they are away for the trip, and coin spent is gone from the score |
 | `star` | the farm is the student's (no guided start running) | ★ is the main person; ☆ changes who; "!" means somebody needs an answer |
 
 **The rules.**
@@ -412,6 +415,11 @@ take when several are due at once (the same order as the "!"s):
   more urgent one; the next comes when it is put away.
 - **Not on the projector.** The Host is never due a tip. Not in the lobby, not over the ending, not over the curtain of making
   a family.
+- **Never over a popup** (owner, 2026-09-28). The town errand holds every tip but its own (`tipToShow`). The house plan, the house
+  plot, how they go, the wagon and a place being chosen (`TIP_HELD_BY`) are placed clear of, and where there is no room the tip
+  waits hidden, neither retired nor seen, and stands again when the popup closes.
+- **The house, the field and the town are worded to stay true** while the work and the seasons are reworked: no ripening time,
+  no count of logs or axes, "where it needs logs" for land with timber and land without.
 - **On the screen** (`#tip`, `placeTip` in `public/app.js`): above the action bar, clear of the family's column, centred in what
   is left; beside or above the person's card, the call's menu, a rider, the messages, the guided start or the old walk-through
   when one stands there (`ceiling:` below 200px of room it waits under the card, which the student opened). The words let every
