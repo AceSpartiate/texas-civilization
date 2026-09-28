@@ -400,6 +400,34 @@ test('the class\'s clock is held to the chase only for a family at its screen, a
   assert.equal(own.armies?.some(army => army.id === 'santa-anna') ?? false, own.armies?.some(army => army.id === 'santa-anna') ?? false);
 });
 
+test('who answers the soldiers is the main person every rule reads: somebody else on auto never answers for a family by hand, and a dead choice gives way', () => {
+  // Design audit 2026-09-28 B11 and M32. A grown son on auto who is not the main person: the family is by hand, and the order
+  // to halt is put to the student - the auto of somebody the student only looked at never answers for the family.
+  let world = spring();
+  let scene = sceneFor(world, { kind: 'cavalry', how: 'wagon' });
+  const other = scene.household.members.map(id => world.entities[id]).find(one => one.id !== scene.main.id && one.kind === 'person' && grown(one) && one.travel);
+  assert.ok(other, 'the family has nobody else grown on the road');
+  other.auto = true;
+  until(world, () => scene.household.flight.ask?.id === 'alto' || scene.household.flight.chase?.phase === 'caught', 20);
+  assert.equal(scene.household.flight.ask?.id, 'alto', 'somebody on auto who is not the main person answered the soldiers for the family');
+  // The chosen main person dead: the principal stands in for them (`mainPersonId`), and on auto the principal answers at once,
+  // as the road's own time-out already read it. Until 2026-09-28 the chase read the dead man's raw id, not on auto, and asked.
+  world = spring();
+  scene = sceneFor(world, { kind: 'cavalry', how: 'wagon' });
+  const chosen = scene.household.members.map(id => world.entities[id]).find(one => one.id !== scene.household.principalId && one.kind === 'person' && grown(one) && one.travel);
+  assert.ok(chosen, 'the family has nobody grown but the principal on the road');
+  scene.household.mainId = chosen.id;
+  Object.assign(chosen, { health: { condition: 'dead' }, travel: null, task: 'rest' });
+  world.entities[scene.household.principalId].auto = true;
+  let putToStudent = false;
+  const seen = play(world, scene.household, world.entities[scene.household.principalId], null, { each: () => { if (scene.household.flight.ask?.id === 'alto') putToStudent = true; } });
+  assert.equal(seen.outcome.outcome, 'caught');
+  assert.equal(putToStudent, false, 'the order to halt was put to a student whose main person, standing in for a dead one, is on auto');
+  const answered = world.events.find(event => event.householdId === scene.household.id && event.decision === 'road-alto-halt');
+  assert.match(answered?.text || '', /deciding for itself/, 'the principal on auto, standing in for a dead main person, did not answer the soldiers');
+  assert.ok(!world.events.some(event => event.householdId === scene.household.id && event.lapsed && /soldiers ordered/.test(event.text)), 'the order to halt lapsed for a family whose main person is on auto');
+});
+
 test('an old save opens: a flight with no route, no chase, no path fields validates and runs, and no save version moved', () => {
   const world = spring();
   const household = world.households['hh-1'];

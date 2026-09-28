@@ -29,7 +29,7 @@ function wrap(ctx, text, width) {
  * and out; `bounds` ({ width, height }) keeps the bubble on the canvas, sliding it sideways rather than cutting it.
  * Returns the bubble's box, so a caller can keep two bubbles from covering each other.
  */
-export function drawSpeech(ctx, line, x, y, { alpha = 1, bounds = null, scale = 1 } = {}) {
+export function drawSpeech(ctx, line, x, y, { alpha = 1, bounds = null, scale = 1, measure = false } = {}) {
   if (!line?.text || alpha <= 0) return null;
   ctx.save();
   ctx.globalAlpha *= Math.min(1, alpha);
@@ -59,6 +59,8 @@ export function drawSpeech(ctx, line, x, y, { alpha = 1, bounds = null, scale = 
     const fits = room && room.right - room.left >= w;
     left = Math.max(fits ? room.left : 2, Math.min((fits ? room.right : bounds.width - 2) - w, left));
   }
+  // Only where it would go (public/ambient.js asks first, so a bubble is never drawn over another).
+  if (measure) { ctx.restore(); return { x: left, y: top, w, h }; }
   ctx.fillStyle = line.speaker?.side === 'mexican' ? '#f6efe2' : '#fbf6ea';
   ctx.strokeStyle = '#4c422e';
   ctx.lineWidth = 1.2;

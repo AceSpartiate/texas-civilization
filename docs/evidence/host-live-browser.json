@@ -1,6 +1,6 @@
 {
   "record": "host-live-browser",
-  "date": "2026-09-27",
+  "date": "2026-09-28",
   "verdict": "PASS",
   "browser": "153.0.8010.53",
   "task": "docs/HOST_PAGE.md: the class panel in words with presence and what waits; an absent family playing itself and back; the Rumor Mill; the spotlight taking the camera to the fight at Gonzales; the student sent none of it.",
@@ -8,7 +8,7 @@
   "checks": [
     "the class panel lists all five families in words: the student's family here, the four joined with no page open gone; Asa on the road home",
     "the student's page has no class panel and is sent no live page",
-    "the student's page closed: after 2675 ms the row says the family is playing itself, and the world has it absent",
+    "the student's page closed: after 2549 ms the row says the family is playing itself, and the world has it absent",
     "the absent family goes on by itself: somebody of it is at work or on a road with nobody at the screen",
     "the page opened again: the row says here the next tick, the family is the student's again, and the record says so",
     "the fight at Gonzales lit the spotlight: the camera went to the field and the banner reads \"October 2: On Williams’s land above Gonzales, the Texians fire the cann…\"",
@@ -40,36 +40,36 @@
         "id": "hh-2",
         "presence": "gone",
         "people": [
-          "Amos on the road home",
-          "Almira on the road home",
-          "Jonas on the road home",
-          "Soledad on the road home",
-          "Docia on the road home"
+          "Amos at home: working",
+          "Almira at home: working",
+          "Jonas at home",
+          "Soledad at home",
+          "Docia at home"
         ]
       },
       {
         "id": "hh-3",
         "presence": "gone",
         "people": [
-          "Feliciano on the road home",
-          "Drusilla on the road home",
-          "Cayetano on the road home",
-          "Nieves on the road home",
-          "Lavinia on the road home",
-          "Mateo on the road home",
-          "Winnie on the road home",
-          "Jasper on the road home",
-          "Emeterio on the road home",
-          "Prudence on the road home",
-          "Loreta on the road home",
-          "Effie on the road home",
-          "Obed on the road home",
-          "Zadok on the road home",
-          "Ruperto on the road home",
-          "Benita on the road home",
-          "Chana on the road home",
-          "Ramona on the road home",
-          "Paulita on the road home"
+          "Feliciano at home: working",
+          "Drusilla at home: working",
+          "Cayetano at home: working",
+          "Nieves at home: working",
+          "Lavinia at home: working",
+          "Mateo at home: working",
+          "Winnie at home: working",
+          "Jasper at home",
+          "Emeterio at home",
+          "Prudence at home",
+          "Loreta at home",
+          "Effie at home",
+          "Obed at home",
+          "Zadok at home",
+          "Ruperto at home",
+          "Benita at home",
+          "Chana at home",
+          "Ramona at home",
+          "Paulita at home"
         ]
       },
       {
@@ -111,7 +111,7 @@
         ]
       }
     ],
-    "absentAfterMs": 2675,
+    "absentAfterMs": 2549,
     "spotlight": {
       "date": "October 2",
       "text": "On Williams’s land above Gonzales, the Texians fire the cannon and advance, and the Mexican dragoons wheel and ride away toward Béxar. The war has begun.",

@@ -32,7 +32,9 @@
 //   - **The felling axe is held off the land.** Whoever carries it away from the family's own land - fetching logs, a bee
 //     tree, a small tree for furniture from timber off the land - has it until they are home, and nobody fells or builds
 //     with it meanwhile. At home the tools stay the family's together: everybody working the axe at home shares it
-//     (`chore.shares`), and one of them cannot carry it off while the others are at it.
+//     (`chore.shares`), and one of them cannot carry it off while the others are at it. **Amended by the owner, 2026-09-28**:
+//     "Each needs an axe" - felling shares with nobody and holds a copy of its own (sim/chores.mjs `axeFor` 'own'), so each feller
+//     is one more copy out and a second feller needs a second axe.
 //   - **He takes the rifle to war.** A man who turns out for a call, goes upriver with the march, or leaves to enlist or join
 //     a garrison, the relief, the Matamoros men or Houston carries the family's rifle for as long as he is away
 //     (`person.carries`, written by `takeToWar`), and the refusal names him. He has it until he is home again; the dead and

@@ -169,6 +169,8 @@ Built on both maps, in `sim/fields.mjs` (the plots as the field), `sim/improveme
   for the whole field would otherwise harvest ground nobody planted. The stock take a third of what grows on each unfenced
   plot only (`harvestShare` is 1 − ⅓ × unfenced share of what is sown). A family with more cleared ground than seed for all
   of it cannot plant until it has the seed, and is told so (`ceiling:` below).
+  **Since 2026-09-28 a crop stands real minutes** (owner: "have crops be independent of the seasons. say, 5 minutes for cotton
+  and 3 for corn"; `sim/crops.mjs`): corn three minutes of the running class, cotton five, in any month.
 - **Drawn** on the family's own map plot by plot: a cleared plot as field — turned earth, or the crop in rows where it was
   sown — with the rail fence round it only if it was fenced; a staked plot as the square with corner posts, the spells done
   shown as turned earth growing from its middle; no wild scrub or oak scattered in cleared ground. A neighbour's field is still

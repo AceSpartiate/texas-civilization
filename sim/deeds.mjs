@@ -2,9 +2,32 @@
 // sim/flight-work.mjs, sim/scrape.mjs, sim/neighbours.mjs). A leaf that imports nothing, so none of those modules is pulled into
 // an import cycle through sim/neighbourly.mjs, which is the rest of it: the offers, the words, the ending, the page.
 // Owner, 2026-09-28: "Yes: they remember and repay". Every number is this game's own (`FIC-GONZ-760`).
+// Glory (sim/glory.mjs) is written from here and read nowhere in play: help to another family is part of the family's hidden count.
+import { awardGlory } from './glory.mjs';
 
 /** What each kind of deed weighs in what one family owes another. A trade was even when it was made, so it weighs nothing. */
 export const DEED_WEIGHT = Object.freeze({ raising: 2, food: 1, room: 2, shelter: 3, call: 1, trade: 0 });
+/**
+ * Help that earns the helping family glory (owner, 2026-09-28, by multiple choice: **"Any help"** - any help to another family, at
+ * the support weight of docs/MONEY_AND_GLORY.md §4). The part each kind of deed is (sim/glory.mjs `GLORY_WEIGHT`): a raising, food
+ * and room in a wagon are `helped` (the support weight, 1); children taken in are `sheltered` (2, the weight of being present).
+ * A trade earns nothing - it was even when it was made - and neither does the neighbours' call to Gonzales, which already earned
+ * its own part at Gonzales (sim/directors.mjs). **Once for each family helped and each kind of help**: a family that raises a
+ * neighbour's walls twice, or two families passing food back and forth, earn it once, as a person's part in an event is counted once.
+ * ceiling: once a pair and kind, not once a need met; weights by how much was given (hours, food, room) are the way out if a class
+ * finds a single afternoon's help worth as much as a winter's.
+ */
+export const HELP_ROLE = Object.freeze({ raising: 'helped', food: 'helped', room: 'helped', shelter: 'sheltered' });
+export const helpEvent = (kind, toId) => `help:${kind}:${toId}`;
+function awardHelp(world, deed) {
+  const role = HELP_ROLE[deed.kind];
+  if (!role || !deed.toId) return;
+  const event = helpEvent(deed.kind, deed.toId);
+  if (Object.values(world.glory?.[deed.fromId]?.awards || {}).some(award => award.event === event)) return;
+  const helper = world.households[deed.fromId], helped = world.households[deed.toId];
+  const personId = world.entities[deed.personId] ? deed.personId : helper.principalId;
+  awardGlory(world, { event, claimId: 'FIC-GONZ-761', personId, householdId: helper.id, role, fromSiteId: helped.homeSiteId });
+}
 /** How long a family nobody plays holds its going east for an answer about room in a wagon. */
 export const ROOM_WAIT_MINUTES = 720;
 /** The ledger and its offers, made the first time anything is written. Absent on every class before, which is the empty ledger. */
@@ -23,6 +46,7 @@ export function noteDeed(world, { kind, fromId, toId = null, personId = null, ..
   const s = state(world);
   const deed = { id: `deed-${s.next++}`, kind, fromId, toId, ...(personId && { personId }), minute: world.minute, ...more };
   s.deeds.push(deed);
+  awardHelp(world, deed);
   return deed;
 }
 

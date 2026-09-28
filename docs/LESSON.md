@@ -309,6 +309,36 @@ only on a stopped lesson and only naming a real step, `stoppedAt` and `resumeBy`
 - ~~**Selling is finished by coin, not by the crop leaving the house.**~~ Out of date since 2026-09-21: the crop leaving the
   house in trade finishes it too (`sold` in `sim/lesson.mjs`; design audit M6).
 
+### Amended 2026-09-28: the farming year — superseded the same day
+
+**Superseded 2026-09-28** (owner: "have crops be independent of the seasons. say, 5 minutes for cotton and 3 for corn"; `sim/crops.mjs`):
+the seasons are gone, a crop ripens in three or five real minutes, and `sim/lesson.mjs` is back to the steps as they were before
+this amendment (the harvest step waits for the crop; the plant step offers corn or cotton). Kept below as it was written.
+
+**Dormant while the guided start is suspended** (owner, 2026-09-28: switched off by `LESSON_ENABLED`). Built the same day, before the
+suspension reached this branch, and kept for whoever rebuilds it: what the seasons do to the ten steps as they stood.
+
+The owner chose **"Seasons and a limited market"** (docs/audits/2026-09-28-design.md B9): on the real land a crop goes in only in
+its season and takes its real time on the calendar (`sim/seasons.mjs`, `HIST-TEX-720`, `FIC-GONZ-721`). What that does to the
+guided start, as built:
+
+- **Step 6 plants a garden.** A family that reaches its land at the end of September can put in only a garden of turnips and
+  greens; the step says so (*"This late in the year only a garden of turnips and greens will grow, and it feeds the family; corn
+  goes in at the end of the winter and cotton in the spring."*) and the question at the rows offers the garden open and corn and
+  cotton closed, each with the words for its season. *"A crop of their choosing"* is a choice only from the middle of February.
+- **Step 7 does not wait for the crop.** A garden is six weeks of the calendar - sown the first morning, ready about November 9,
+  some sixty real minutes at the Study pace - and a step that waited would hold a student at one control for most of the hour.
+  On the real land a crop in the ground finishes the step, and the step after says when it will be ready (*"The garden is growing
+  and will be ready about November 9: the family's journal will say so, and then somebody brings it in."*). The journal says it
+  again that day (*"The garden is ready to bring in."*).
+- **The harvest is allowed on every step after step 7** (`AFTER_HARVEST`), so a crop that ripens while a student is on the hunt
+  or the well is never refused.
+- **Step 8 sells what the family can spare.** While the crop grows, the step asks for food on the list (*"food will do until the
+  crop is in"*); the store buys it only while it wants it (`sim/market.mjs`), and a class's families near one town share its want.
+- **`ceiling:` the harvest is taught by its words, not walked through, on the real land.** The owner may prefer the step moved
+  last, or an autumn crop quicker than six weeks: both are in HANDOFF.md's decisions. The invented country's lesson is unchanged:
+  corn or cotton, ripe in eighteen ticks.
+
 ## 7. What is invented, and what is not
 
 **All of it is invented** (`FIC-GONZ-210` to `-215`). Every step is a thing the game already does — the arrival, the
@@ -390,7 +420,11 @@ take when several are due at once (the same order as the "!"s):
   is left; beside or above the person's card, the call's menu, a rider, the messages, the guided start or the old walk-through
   when one stands there (`ceiling:` below 200px of room it waits under the card, which the student opened). The words let every
   click through to the map; only "Got it" (36px, keyboard-reachable) takes a press; Enter on it never sends the town errand it
-  stands in. The store's tip stands at the top of the errand itself (`#errand-tip`).
+  stands in. The store's tip stands at the top of the errand itself (`#errand-tip`). **While the errand is open, that is the
+  only tip** (2026-09-28, `tipToShow`): the popup stands over the map where `#tip` is drawn, and `npm run test:errand` found the
+  order tip under it at 1366×768. A tip standing over the map when the errand opens waits, neither retired nor seen, and stands
+  again when the popup closes if its thing is still there. The one exception to "never pulled away": the student opened a popup
+  over it.
 - **Touch has no hover (S6).** What decided a choice and was only in a hover popup is said in a tip (resting on the road, the
   star, the "!"), and each line of the town errand opens what it does on a tap (`public/errand.js`, the doctor's bark and
   calomel among them).

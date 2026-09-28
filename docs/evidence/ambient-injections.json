@@ -1,0 +1,152 @@
+{
+  "record": "ambient-injections",
+  "date": "2026-09-28",
+  "note": "Ambient life and chatter (docs/AMBIENT.md, 2026-09-28). Each injection is run against tests/ambient.test.mjs; \"alone\" means the test named for the rule was the only one to fail.",
+  "injections": [
+    {
+      "name": "the page draws the idle standing, whatever the server sends",
+      "file": "public/motion.js",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "everybody a page would draw standing idle is drawn at something instead, on every page, across a played class"
+      ]
+    },
+    {
+      "name": "a family's own person is walked to a neighbour",
+      "file": "sim/ambient.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a town's keepers keep company, and one walks to a neighbour's door to talk; a family's person is never walked"
+      ]
+    },
+    {
+      "name": "the words are chosen by chance, not the seed",
+      "file": "sim/ambient.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the same class gives the same activities and the same words: from the seed, the tick and nothing else"
+      ]
+    },
+    {
+      "name": "the projection writes the activity into the world",
+      "file": "sim/ambient.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "ambient life changes nothing: the world projected every tick is the world never projected"
+      ]
+    },
+    {
+      "name": "a long line",
+      "file": "sim/ambient.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "every line is short and plain: eight words, 48 characters, short words, no modern talk"
+      ]
+    },
+    {
+      "name": "the words are passed off as on record",
+      "file": "sim/ambient.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "nobody named in the record is ever given a line: every speaker is invented or unnamed, every line reconstructed"
+      ]
+    },
+    {
+      "name": "a family hears news it never heard",
+      "file": "sim/ambient.mjs",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "war news is said only to a family that has heard it, only by people who could know it",
+        "a rumour is spoken as a rumour: hedged words until every one at the table has it for sure"
+      ]
+    },
+    {
+      "name": "a townsperson knows what the Host's public reports say",
+      "file": "sim/ambient.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "war news is said only to a family that has heard it, only by people who could know it"
+      ]
+    },
+    {
+      "name": "a rumour is said as sure",
+      "file": "sim/ambient.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a rumour is spoken as a rumour: hedged words until every one at the table has it for sure"
+      ]
+    },
+    {
+      "name": "no cap on the exchanges a page is sent",
+      "file": "sim/ambient.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a page is sent a few exchanges a tick at most, the Host a few a place; none at night, in a fight or a chase"
+      ]
+    },
+    {
+      "name": "talk goes on through a fight",
+      "file": "sim/ambient.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a page is sent a few exchanges a tick at most, the Host a few a place; none at night, in a fight or a chase"
+      ]
+    },
+    {
+      "name": "the student's own person is put to an activity",
+      "file": "sim/ambient.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the family's own: the student's person stands ready, the busy are at their work, and nothing reads as ordered work"
+      ]
+    },
+    {
+      "name": "a neighbour at work is drawn at an idle activity",
+      "file": "sim/ambient.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a neighbour's person at work is left at their work on every page: only the idle are given something to do"
+      ]
+    },
+    {
+      "name": "the server draws a different number of camp men",
+      "file": "sim/ambient.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the camps' men are at the fire, the cards, a rifle or the drill, and the page and the server count the same men"
+      ]
+    },
+    {
+      "name": "every family sees every refuge's crowd",
+      "file": "sim/ambient.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the crowd at a refuge: a few unnamed people round a fire, seen by the families camped there and the Host only"
+      ]
+    },
+    {
+      "name": "an activity in a pose nobody holds",
+      "file": "sim/ambient.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "every activity is drawn in a pose the cast holds, and a child's in a pose the children's sheets hold"
+      ]
+    }
+  ]
+}

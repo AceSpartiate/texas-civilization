@@ -10,7 +10,7 @@ import { setAbsent } from '../sim/absence.mjs';
 import { CALL_BUDGET_MS, DECISION_BUDGET_MS, realTimeMeter } from '../sim/decision-budget.mjs';
 import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld, projectFamily, rollFamily, errandFor, goingFor } from '../sim/world.mjs';
 import { familyMaking, householdName, rollRefusal } from '../sim/family.mjs';
-import { beginNextPeriod, periodOf } from '../sim/periods.mjs';
+import { beginNextPeriod, continueEnded, endedEarly, periodOf } from '../sim/periods.mjs';
 import { dateOf } from '../sim/directors.mjs';
 import { choreCatalogue, modeCatalogue } from '../sim/chores.mjs';
 import { GOODS } from '../sim/trade.mjs';
@@ -46,6 +46,7 @@ const files = new Map([
   ['/app.js', ['../public/app.js', 'text/javascript']], ['/style.css', ['../public/style.css', 'text/css']],
   ['/art.js', ['../public/art.js', 'text/javascript']], ['/interface.js', ['../public/interface.js', 'text/javascript']],
   ['/motion.js', ['../public/motion.js', 'text/javascript']],
+  ['/work-art.js', ['../public/work-art.js', 'text/javascript']],
   ['/alamo-layout.js', ['../public/alamo-layout.js', 'text/javascript']],
   ['/alamo-faces.js', ['../public/alamo-faces.js', 'text/javascript']],
   ['/alamo-collapse.js', ['../public/alamo-collapse.js', 'text/javascript']],
@@ -93,6 +94,8 @@ const files = new Map([
   // Gonzales before the fight (sim/town-scenes.mjs) and the one speech bubble every scene that talks uses.
   ['/town-scenes.js', ['../public/town-scenes.js', 'text/javascript']],
   ['/speech.js', ['../public/speech.js', 'text/javascript']],
+  // Ambient life (sim/ambient.mjs, docs/AMBIENT.md): the activities of the idle, the camps' men, a refuge's crowd and their talk.
+  ['/ambient.js', ['../public/ambient.js', 'text/javascript']],
   ['/landscape-art.js', ['../public/landscape-art.js', 'text/javascript']],
   // The weather, drawn: rain, a norther, a storm, fog and high water (docs/WEATHER.md, public/weather-art.js).
   ['/weather-art.js', ['../public/weather-art.js', 'text/javascript']],
@@ -192,6 +195,8 @@ export const SAVE_WITHIN_MS = 5000;
 const SAVE_EVERY_TICKS = 3;
 /** The solo player's own controls, sent from their page as orders (`/api/command`). */
 const SOLO_CONTROLS = new Set(['solo-pause', 'solo-resume', 'solo-save']);
+/** What every page is told when the teacher stops the class for today (Host's *Stop for today*, docs/HOST_PAGE.md §2.8). */
+export const STOPPED_FOR_TODAY = 'Your teacher stopped the class for today. It was saved and paused just as it stands, and it goes on from here next class.';
 /**
  * Play Solo looks after itself when its player goes (owner, 2026-09-27: "i shouldn't need to open the class view to pause,
  * save or shut down the server. i should be able to just X off the window and it'll automatically save, pause, and shut
@@ -295,6 +300,22 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   // who left; a household whose stream has closed is *away* until the grace window passes.
   const AWAY_GRACE_MS = 90000;
   const lastSeen = new Map();
+  /**
+   * Presence begins again with every launch, and a family's absence must not be forgotten with it (classroom audit
+   * 2026-09-28, with *Stop for today*, docs/HOST_PAGE.md §2.8): with nothing seen, `markAbsences` counted every joined family
+   * present - a family saved absent was handed back to a student who is not there, and the director stopped running it while
+   * its questions held the class. So each joined family is counted as last seen at launch, and one saved absent as gone for the
+   * whole grace already: it stays absent until its page opens, and a family whose student does not come back is absent the
+   * grace after the class resumes, as it would have been had the server never stopped.
+   */
+  function seedPresence() {
+    lastSeen.clear();
+    const launched = Date.now();
+    for (const client of Object.values(state.clients)) {
+      if (client.householdId) lastSeen.set(client.householdId, state.world.households[client.householdId]?.absent ? launched - absentMs : launched);
+    }
+  }
+  seedPresence();
   const streaming = () => new Set([...streams].filter(s => s.identity.role === 'student').map(s => s.identity.householdId));
   const connected = () => streaming().size;
   function presence() {
@@ -417,7 +438,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     const at = world.status === 'lobby' ? null : dateOf(world, world.minute);
     return {
       id: saved.sessionId, name: saved.className || null, code: saved.sessionCode, open,
-      families: world.playerCount, joined: Object.keys(saved.clients || {}).length, status: world.status, period: periodOf(world),
+      families: world.playerCount, joined: Object.keys(saved.clients || {}).length, status: world.status, period: periodOf(world), continuable: endedEarly(world),
       date: at && `${MONTH_NAMES[at.getUTCMonth()]} ${at.getUTCDate()}, ${at.getUTCFullYear()}`, savedAt,
     };
   }
@@ -621,12 +642,12 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   }
   // A graceful stop tells the class before the streams end, so a closed browser is
   // never the only evidence that the teacher stopped the server deliberately.
-  function requestStop() {
+  function requestStop(message = null) {
     if (lifecycle) return false;
     clearTimeout(soloTimer); soloTimer = null;
-    lifecycle = { state: 'stopping', message: solo
+    lifecycle = { state: 'stopping', message: message || (solo
       ? 'Play Solo stopped. Your game was saved and paused: press Play Solo on the launcher and choose Continue to go on.'
-      : 'Your teacher stopped the classroom server. The class was saved and paused; it continues when the server is opened again.' };
+      : 'Your teacher stopped the classroom server. The class was saved and paused; it continues when the server is opened again.') };
     broadcast();
     setTimeout(() => { try { onStopRequested?.(); } catch (error) { console.error('Stop request failed:', error.message); } }, stopDelayMs).unref();
     return true;
@@ -1208,7 +1229,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         if (typeof input.id !== 'string' || !/^[\w-]{8,80}$/.test(input.id)) return json(res, 400, { error: 'Command ID required' });
         const commands = identity.role === 'host' ? state.hostCommands : state.clients[identity.credentialHash].commands;
         if (commands.includes(input.id)) return json(res, 200, { ok: true, duplicate: true });
-        let archived = null, rotatedSession = null, stopping = false, wantedPace = null;
+        let archived = null, rotatedSession = null, stopping = false, wantedPace = null, forToday = false, continued = null;
         const priorSession = state.sessionId;
         // The solo player's own Pause, Resume and Save (owner, 2026-09-27: "i shouldn't need to open the class view to pause,
         // save or shut down the server"). Written at once, as the Host's commands are, rather than within SAVE_WITHIN_MS.
@@ -1243,6 +1264,9 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
             else if (input.action === 'end') s.world.status = 'ended';
             // The second class period (sim/periods.mjs): the same class carried on into the winter, never a new one.
             else if (input.action === 'next-period') beginNextPeriod(s.world);
+            // A class ended by mistake, part-way through a period, taken up again where it was, paused (owner, 2026-09-28: "Yes,
+            // allow Continue"; docs/HOST_PAGE.md §2.8). Its flashbacks go after the commit (`continued`).
+            else if (input.action === 'continue-class') { continueEnded(s.world); continued = s.sessionId; }
             else if (input.action === 'new-class') {
               // Never put away a class while it is being played: the teacher pauses it first (2026-09-28). A paused class is
               // no longer lost by this - it is kept on the shelf (`shelve`) and opened again from the Host's list of classes.
@@ -1310,6 +1334,14 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
               // Checkpoint a real Pause first: a saved running class starts advancing on restart.
               if (s.world.status === 'running') s.world.status = 'paused';
               stopping = true;
+            } else if (input.action === 'stop-for-today') {
+              // The bell (docs/HOST_PAGE.md §2.8, design audit 2026-09-28 B2): the class is paused and written now, never ended,
+              // so the next class opens it paused where it stopped and Resume carries on. A server that can close itself does;
+              // one that cannot (a developer's terminal) is left running with the class saved and paused, and the page says so.
+              if (!['running', 'paused'].includes(s.world.status)) throw new Error('There is no class under way to stop for today.');
+              if (s.world.status === 'running') s.world.status = 'paused';
+              forToday = true;
+              stopping = Boolean(onStopRequested);
             } else throw new Error('Host action unavailable');
           } else if (input.action === 'begin-solo') {
             // Play Solo has no teacher to press Start, so the player's own "Done packing" is the Start (owner,
@@ -1358,14 +1390,15 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
           // student cannot silently inherit a household in the new one.
           for (const stream of [...streams]) if (stream.identity.role === 'student') { streams.delete(stream); stream.res.end(); }
           // Presence belongs to the class that was open. A class opened again starts every student's absence clock now,
-          // so a student who does not come back to it is handed to the director after the usual grace (`markAbsences`).
-          lastSeen.clear();
-          const opened = Date.now();
-          for (const client of Object.values(state.clients)) if (client.householdId) lastSeen.set(client.householdId, opened);
+          // so a student who does not come back to it is handed to the director after the usual grace (`markAbsences`); a
+          // family it was left with absent stays absent until its page opens (`seedPresence`, as at a launch).
+          seedPresence();
         }
+        // The flashbacks told the class as it was ended; continued, they are thrown away and made again at its next end.
+        if (continued) flashbacks.discard(continued);
         if (wantedPace) setPace(wantedPace);
-        if (stopping) requestStop();
-        return json(res, 200, { ok: true, ...(archived && { archived: basename(archived) }), ...(stopping && { stopping: true }), ...(soloControl && { saved: state.revision }) });
+        if (stopping) requestStop(forToday ? STOPPED_FOR_TODAY : null);
+        return json(res, 200, { ok: true, ...(archived && { archived: basename(archived) }), ...(stopping && { stopping: true }), ...(forToday && { stoppedForToday: true }), ...(soloControl && { saved: state.revision }) });
       }
       json(res, 404, { error: 'Not found' });
     } catch (error) { if (!res.headersSent) json(res, error.status || 400, { error: error.message }); else res.destroy(); }

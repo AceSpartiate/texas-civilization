@@ -44,9 +44,12 @@ export const PANEL_SUMMARIES = Object.freeze({
   'visit-shop': 'Choose what they should buy and sell at the shops in town, then send them with the list.',
   // The old walk to the shops, kept only for a class saved in the middle of it (docs/TOWNS.md §4b): offered to nobody.
   'visit-shop-street': 'Walk the street in town, choosing a shop there and what to buy at its counter.',
-  'make-furniture': 'Fetch a small tree from the timber and make a piece of furniture for the house.',
+  'make-furniture': 'Make a piece of furniture for the house from a log off the pile, or a small tree from the timber when the pile has none to spare.',
   'buy-furniture': 'Go to the carpenter in town and buy a piece of furniture for coin or food.',
-  'fell-trees': 'Fell the trees at a place in timber you choose on the family’s land.',
+  // One press since 2026-09-28 (owner: "Why do we need multiple action buttons for moving logs?"): out to the nearest timber, the
+  // logs onto the pile. Hauling and fetching logs are part of it and have no icon of their own; the two below are only for a row
+  // in the middle of one in a class saved before (they glow as felling, `GLOWS_AS`).
+  'fell-trees': 'Go out with the felling axe to the nearest timber on the family’s land; the logs go onto the pile at the house.',
   'haul-logs': 'Bring the felled logs lying out to the house.',
   'fetch-logs': 'Take the ox and wagon to the nearest timber, off your land if need be, and bring six logs home.',
   'make-carreta': 'Make an ox cart at home from three logs of the pile and a rawhide, which carries less than a wagon.',
@@ -160,8 +163,17 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
 /** The camp's work, the chores a man serving with Houston's army is offered (sim/camp.mjs); the only work a serving row shows. */
 export const CAMP_CHORES = Object.freeze(['camp-drill', 'camp-forage', 'camp-guard', 'camp-scout']);
 
-/** Chores sent with a place the student taps on the map: their icon starts choosing the place (sim/survey.mjs). */
-export const ON_MAP = Object.freeze(['survey-plot', 'clear-plot', 'fence-plot', 'hunt-land', 'fell-trees']);
+/**
+ * Chores sent with a place the student taps on the map: their icon starts choosing the place (sim/survey.mjs). Felling was one
+ * until 2026-09-28; it is one press now, to the nearest timber on the family's land (owner: "I should be able to set one person on
+ * felling trees ... set each to auto, and eventually get a house").
+ */
+export const ON_MAP = Object.freeze(['survey-plot', 'clear-plot', 'fence-plot', 'hunt-land']);
+/**
+ * Work that glows as another on the row (sim/chores.mjs `partOf`): fetching logs from off the land, which *Fell trees* begins for a
+ * family whose land has no timber, and the retired haul of a class saved in the middle of one, are both felling.
+ */
+export const GLOWS_AS = Object.freeze({ 'fetch-logs': 'fell-trees', 'haul-logs': 'fell-trees' });
 /**
  * Refusals that are not a choice at all. A sound hoe cannot be mended and a corn family has no cotton; a dimmed icon saying
  * so all afternoon is clutter pretending to be a choice, the same rule the work list on the card had.
@@ -204,7 +216,7 @@ export function panelOrder(members = [], people = []) {
  */
 export function activeKey(entity, { homeId = null, main = false, homesteads = [] } = {}) {
   if (!entity || ['dead', 'captured'].includes(entity.health?.condition)) return null;
-  if (entity.chore?.id) return entity.chore.id;
+  if (entity.chore?.id) return GLOWS_AS[entity.chore.id] || entity.chore.id;
   if (entity.travel) {
     if (!main) return null;
     if (entity.travel.to === 'gonzales') return 'travel-gonzales';
@@ -256,7 +268,7 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
         note: entry.cost ? `Costs ${entry.cost}.` : '', can: Boolean(settable && entry.can), why: entry.can ? '' : entry.why || '', onMap: false, active: entity.chore?.id === entry.id };
     });
     return [...camp, { key: 'winter-recall', kind: 'order', name: ORDER_NAMES['winter-recall'], summary: PANEL_SUMMARIES['winter-recall'],
-      note: entity.service.kind === 'regular' ? 'A regular who leaves has deserted, and loses glory.' : entity.service.acres ? 'The promise of land is lost.' : '',
+      note: entity.service.kind === 'regular' ? 'A regular who leaves before their time is up has deserted: the land is lost, and they will not be taken again.' : entity.service.acres ? 'The promise of land is lost.' : '',
       why: shut, can: settable && !entity.travel && !shut, active: false },
     ...(entity.chore ? [{ key: 'stop-chore', kind: 'order', name: ORDER_NAMES['stop-chore'], summary: PANEL_SUMMARIES['stop-chore'], note: '', why: '', can: settable, active: false }] : [])];
   }
@@ -294,7 +306,7 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
   }
   // Somebody doing a chore the server no longer lists (it happens: a field planted is a field not to plant) is still shown
   // doing it, so nobody is ever busy at something the row cannot show.
-  if (active && entity.chore?.id === active && !icons.some(icon => icon.key === active)) {
+  if (active && entity.chore && (GLOWS_AS[entity.chore.id] || entity.chore.id) === active && !icons.some(icon => icon.key === active)) {
     const spec = catalogue.get?.(active) || {};
     icons.unshift({ key: active, kind: 'chore', name: spec.name || active, summary: PANEL_SUMMARIES[active] || firstSentence(spec.describe),
       note: '', can: false, why: '', onMap: ON_MAP.includes(active), active: true });
@@ -1031,4 +1043,37 @@ export function drawPortrait(canvas, { clip, figure = null, band, principal = fa
   ctx.beginPath(); ctx.ellipse(size / 2, size * 1.02, size * .42, size * .36, 0, Math.PI, 0); ctx.closePath(); ctx.fillStyle = coat; ctx.fill(); ctx.stroke();
   ctx.beginPath(); ctx.arc(size / 2, size * .44, size * .2, 0, Math.PI * 2); ctx.fillStyle = skin; ctx.fill(); ctx.stroke();
   return false;
+}
+
+// ---------------------------------------------------------------------------------------------- the load for the east
+// Design audit 2026-09-28 B7: "Leave for the east" opened with every good at 0, so the obvious two presses sent a family east
+// with no food. The card now opens on the server's packing (`flight.packed`, sim/scrape.mjs `packFlight`: food first, then seed,
+// cotton and powder, as a family that decides alone packs), and a load far under that is asked in its own words and cannot be
+// sent by a double press (public/app.js `SLOW_CONFIRM`).
+
+/** How much room a load takes, by the flight's own space for each good. */
+export const loadSpace = (space = {}, take = {}) => Object.entries(take || {}).reduce((sum, [good, amount]) => sum + (space?.[good] ?? 0) * (Number(amount) || 0), 0);
+
+/**
+ * Whether a load leaves most of what the family could carry: `'empty'` when it takes nothing, `'light'` when it takes less than
+ * half the room the server's own packing would fill, otherwise null - and null when there was nothing to take in the first place.
+ */
+export function lightLoad(flight, take) {
+  const full = loadSpace(flight?.space, flight?.packed?.take);
+  if (!(full > 0)) return null;
+  const used = loadSpace(flight.space, take);
+  return used <= 0 ? 'empty' : used < full / 2 ? 'light' : null;
+}
+
+// ---------------------------------------------------------------------------------------------- whose bar is shown
+/**
+ * Whose icons are the bar at the bottom (design audit 2026-09-28 B11): the person the student chose on the panel - by their
+ * portrait, the "!", a notice's Go to - if they are alive and free to be looked at, otherwise the main person. Choosing somebody
+ * never changes who the main person is: that is `set-main`, sent only by the star and the bar's *Make … the main person*,
+ * because the main person is who travels, rests, works about the place and - on auto - decides the family's flight and its
+ * answers on the road (sim/auto.mjs, sim/pursuit.mjs).
+ */
+export function barPerson({ viewedId = null, mainId = null, entities = new Map() } = {}) {
+  const viewed = viewedId ? entities.get(viewedId) : null;
+  return viewed && !['dead', 'captured'].includes(viewed.health?.condition) ? viewedId : mainId;
 }

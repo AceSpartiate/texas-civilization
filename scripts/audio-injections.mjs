@@ -31,8 +31,10 @@ const INJECTIONS = [
   { name: 'audio no longer binary to git', test: LICENCES, expect: 'audio files are binary to git, so a CRLF checkout cannot corrupt them',
     file: '.gitattributes', apply: swap('*.ogg binary\n', '') },
   // --- the mixer and a page's starting levels
-  { name: 'a student page starts with sound on', test: MIX, expect: 'a student in a class starts muted; the Host and a solo player start with sound on',
-    file: 'public/audio-mix.js', apply: swap("  student: Object.freeze({ master: 0.6, music: 0.5, fx: 0.7, ui: 0.5, muted: true }),", "  student: Object.freeze({ master: 0.6, music: 0.5, fx: 0.7, ui: 0.5, muted: false }),") },
+  { name: 'a student page starts muted (the old default, before the owner\'s AU1)', test: MIX, expect: 'a student in a class starts with everything on, quiet; the Host and a solo player start on at full level (owner, AU1)',
+    file: 'public/audio-mix.js', apply: swap("  student: Object.freeze({ master: STUDENT_MASTER, music: 0.5, fx: 0.7, ui: 0.5, muted: false }),", "  student: Object.freeze({ master: STUDENT_MASTER, music: 0.5, fx: 0.7, ui: 0.5, muted: true }),") },
+  { name: 'a student page starts as loud as the Host\'s', test: MIX, expect: 'a student in a class starts with everything on, quiet; the Host and a solo player start on at full level (owner, AU1)',
+    file: 'public/audio-mix.js', apply: swap('export const STUDENT_MASTER = 0.3;', 'export const STUDENT_MASTER = 0.8;') },
   { name: 'the music is let above the effects', test: MIX, expect: 'music is never louder than the effects, at any slider setting',
     file: 'public/audio-mix.js', apply: swap('export const MUSIC_CEILING = 0.45;', 'export const MUSIC_CEILING = 1.5;') },
   { name: 'a blocked store throws out of the page', test: MIX, expect: 'settings are remembered per device and per kind of page, and a broken store falls back',

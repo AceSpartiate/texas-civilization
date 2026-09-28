@@ -85,6 +85,25 @@ try {
   assert.match(observed.card, new RegExp(`Room for ${room.room} in the ${room.cart ? 'cart' : room.wagons ? `${room.wagons} wagons` : 'wagon'}`));
   ok(`the "!" opens the family's decision: "${observed.card.slice(0, 120)}…"`);
 
+  // The card opens loaded (design audit 2026-09-28 B7): the packing a family deciding alone takes, food first, for the nearest
+  // refuge east - never every box at 0, which two presses sent east with nothing.
+  const packed = await student.evaluate(() => window.__snapshot.world.flight.packed);
+  const boxes = await student.locator('#selection-flight .flight-amount').evaluateAll(inputs => Object.fromEntries(inputs.map(input => [input.dataset.take, Number(input.value)])));
+  assert.ok(packed?.take?.food > 0, `the server sent no load with food in it: ${JSON.stringify(packed)}`);
+  assert.deepEqual(boxes, packed.take, 'the card did not open on the server\'s packing');
+  assert.equal(await student.locator('#flight-refuge').inputValue(), packed.refuge, 'the card did not open on the nearest refuge');
+  observed.opened = { boxes, refuge: packed.refuge, room: await student.locator('#flight-room').textContent() };
+  ok(`the card opens loaded as a family deciding alone packs: ${JSON.stringify(boxes)} for ${packed.refuge} (${observed.opened.room})`);
+  // Emptied, a double press does not send the family east with nothing: it is asked in its own words and waits for a second thought.
+  for (const good of Object.keys(boxes)) await student.locator(`#selection-flight .flight-amount[data-take="${good}"]`).fill('0');
+  assert.match(await student.locator('#flight-room').textContent(), /Nothing is loaded/);
+  await student.locator('#selection-flight [data-action="flee"]').dblclick();
+  await student.waitForTimeout(1500);
+  assert.equal(app.state.world.households['hh-1'].flight.status, 'ordered', 'a double press sent the family east with nothing');
+  observed.emptyConfirm = await student.locator('#selection-flight [data-action="flee"]').textContent();
+  assert.equal(observed.emptyConfirm, 'Confirm: leave with nothing');
+  ok(`emptied, a double press on Leave does not go: the button asks "${observed.emptyConfirm}" and the family is still at home`);
+
   // Load the wagon and choose where to make for; too much is said to be too much.
   await student.locator('#selection-flight .flight-amount[data-take="food"]').fill('60');
   await student.locator('#selection-flight .flight-amount[data-take="seed"]').fill('4');

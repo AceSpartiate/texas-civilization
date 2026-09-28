@@ -209,11 +209,33 @@ try {
 
   // --------------------------------------------------------------------------------- the portrait takes the camera there
   const youngest = rows.at(-1).id;
-  const otherAdult = rows[0].id;
+  // A portrait chooses and never makes main (design audit 2026-09-28 B11): the main person's auto decides the family's flight
+  // and its answers to soldiers, so looking at somebody must not hand those to them. The bar's labelled button does that.
+  const otherAdult = rows.find(person => person.id !== worker && !(person.age < 16))?.id || rows[0].id;
+  const mainNow = () => page.evaluate(() => window.__snapshot.world.household.mainId || window.__snapshot.world.household.principalId);
+  assert.equal(await mainNow(), worker);
+  const sent = [];
+  const capture = request => { if (request.url().endsWith('/api/command')) sent.push(request.postDataJSON()); };
+  page.on('request', capture);
   await page.locator(`.panel-portrait[data-portrait="${otherAdult}"]`).click();
-  await page.waitForFunction(id => (window.__snapshot.world.household.mainId || window.__snapshot.world.household.principalId) === id, otherAdult, { timeout: 4000 });
-  assert.equal(await page.locator('.panel-row[data-focused=true]').getAttribute('data-entity-id'), otherAdult, 'one portrait click must also select the action bar');
-  ok('one click selects an adult, their action bar and their map location together');
+  await page.waitForFunction(id => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId === id, otherAdult, { timeout: 4000 });
+  await page.waitForTimeout(800);
+  page.off('request', capture);
+  assert.deepEqual(sent.map(command => command.action), [], `pressing a portrait sent ${sent.map(command => command.action).join(', ')}`);
+  assert.equal(await mainNow(), worker, 'pressing a portrait changed the main person');
+  assert.equal(await page.locator(`.panel-row[data-entity-id="${worker}"]`).getAttribute('data-main'), 'true', 'the main person\'s star moved to the person looked at');
+  assert.equal(await page.locator(`#selection`).getAttribute('data-entity-id'), otherAdult, 'their card did not open');
+  const make = page.locator(`.panel-row[data-entity-id="${otherAdult}"] .panel-make-main`);
+  await make.waitFor({ state: 'visible', timeout: 10000 });
+  const makeWords = (await make.innerText()).trim();
+  assert.match(makeWords, /^Make .+ the main person$/, `the bar's way to make them main says "${makeWords}"`);
+  await page.screenshot({ path: 'test-results/family-panel-make-main.png' });
+  ok(`one click selects an adult, their action bar and their map location together, sends nothing and leaves ${worker} the main person; their bar opens with "${makeWords}"`);
+  await make.click();
+  await page.waitForFunction(id => (window.__snapshot.world.household.mainId || window.__snapshot.world.household.principalId) === id, otherAdult, { timeout: 10000 });
+  await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.main === 'true' && !document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-make-main`), otherAdult, { timeout: 10000 });
+  measured.portrait = { looked: otherAdult, mainKept: worker, sent: sent.length, make: makeWords };
+  ok(`"${makeWords}" makes them the main person on the server, and the button goes from their bar`);
   // Back out first. Choosing the practising worker as the main person (§12: their work has to be on the screen to be
   // pressed) took the camera to them and zoomed it to the stop, and a camera already at the stop cannot zoom in again.
   for (let step = 0; step < 4; step++) await page.locator('#map-nav [data-view=out]').click();
@@ -236,7 +258,7 @@ try {
   await page.screenshot({ path: 'test-results/family-panel-portrait.png' });
 
   // ---------------------------------------------------------------------------------- every name, saved without a button
-  assert.equal(await page.locator('#family-panel button:not(.panel-portrait):not(.panel-icon):not(.panel-attention):not(.panel-focus):not(.panel-house):not(.panel-auto):not(#family-collapse)').count(), 0, 'the panel has a button that is not a portrait, an icon, one of the §11 controls (the "!", the star, House, auto) or §12\u2019s Hide names');
+  assert.equal(await page.locator('#family-panel button:not(.panel-portrait):not(.panel-icon):not(.panel-attention):not(.panel-focus):not(.panel-make-main):not(.panel-house):not(.panel-auto):not(#family-collapse)').count(), 0, 'the panel has a button that is not a portrait, an icon, one of the §11 controls (the "!", the star and its labelled twin in the bar, House, auto) or §12\u2019s Hide names');
   assert.equal(await page.locator('#family-journal .name-row button, #family-name-form button').count(), 0, 'the family book still has Rename buttons');
   // Twenty, because a family may now be twenty (owner, 2026-09-22: the number rolled is the family); this seed rolls fourteen.
   const newNames = ['Asa', 'Keziah', 'Hiram', 'Delia', 'Obed', 'Minerva', 'Levi', 'Soledad', 'Jonas', 'Effie',
@@ -383,7 +405,7 @@ try {
     environment: 'Same computer: a local classroom server and headless Chrome. Not a physical LAN, a classroom or a real phone.',
     checks: pass,
     measured,
-    screenshots: ['test-results/family-panel-lobby.png', 'test-results/family-panel-glow.png', 'test-results/family-panel-portrait.png', 'test-results/family-panel-desktop.png', 'test-results/family-panel-phone.png', 'test-results/family-panel-phone-open.png'],
+    screenshots: ['test-results/family-panel-lobby.png', 'test-results/family-panel-glow.png', 'test-results/family-panel-make-main.png', 'test-results/family-panel-portrait.png', 'test-results/family-panel-desktop.png', 'test-results/family-panel-phone.png', 'test-results/family-panel-phone-open.png'],
     notProved: [
       'Portraits and icons as art: both are stand-ins (docs/ART_REQUESTS.md, requests 2026-09-15).',
       'A real phone or tablet, touch scrolling of the icon strip, or a screen reader: the phone here is Chrome at 400 by 800 pixels.',

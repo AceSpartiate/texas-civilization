@@ -278,13 +278,13 @@ export const STEPS = Object.freeze([
     says: () => 'Send somebody to plant the field. At the rows they will ask which crop goes in - corn, which the family eats, or cotton, which the store buys. It is your choice. If there is not seed enough, somebody can buy more at the store in town.',
     allow: () => ['chore:plant-field', 'chore:visit-shop'],
     done: (world, household) => planted(household),
-    did: (world, household) => `The ${household.field?.crop === 'cotton' ? 'cotton' : 'corn'} is in the ground, and it will be some weeks ripening.`,
+    did: (world, household) => `The ${household.field?.crop === 'cotton' ? 'cotton' : 'corn'} is in the ground, and it will be a few minutes ripening.`,
   },
   {
     id: 'harvest',
     title: 'Bring in the crop',
     first: 'bring the crop in.',
-    // The crop is some weeks ripening (sim/chores.mjs `RIPEN_TICKS`) and a step with one control on
+    // The crop is a few real minutes ripening (sim/crops.mjs) and a step with one control on
     // it would be a family standing about. Fencing is the thing worth doing while they wait, and it
     // is worth a third of the harvest: stock in this colony ran loose and ate what was not fenced.
     says: () => 'Send somebody to bring the crop in when it is ripe. While it stands, rails round the plot are worth having: loose stock take a third of an unfenced crop.',

@@ -1107,6 +1107,10 @@ body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[dat
 .panel-icon[aria-disabled=true],.panel-icon[data-shut=true]{opacity:1;filter:none;background:#d8d0b8;border-color:#93886d;box-shadow:none}
 .panel-icon[aria-disabled=true] canvas{opacity:.4;filter:grayscale(.7)}
 .panel-icon[data-active=true]{background:#fff3c4;border-color:#f0b43a}
+/* The bar of somebody chosen who is not the main person opens with the labelled way to make them main (design audit
+   2026-09-28 B11): a portrait only chooses. Across the top of the bar's grid; a double-width tile in a phone's single row. */
+.panel-make-main{grid-column:1/-1;pointer-events:auto;min-height:30px;padding:4px 10px;font-size:12px;line-height:1.2;border-radius:8px;border:1px solid #b08a2e;background:#fff3c4;color:#3d3020;box-shadow:0 2px 7px #29251b70;cursor:pointer}
+@media(max-width:760px){.panel-row[data-focused=true] .panel-icons .panel-make-main{grid-column:auto/span 2;min-height:64px}}
 
 /* Nonblocking dispatch invitation: never changes the camera until the player accepts. */
 #military-notice{position:absolute;z-index:16;right:12px;width:min(330px,calc(100vw - 24px));padding:10px;background:#fff5dc;color:#3d3020;border:1px solid #987849;border-left:5px solid #a9532d;border-radius:7px;box-shadow:0 5px 18px #30291f44;font-size:13px;line-height:1.4}

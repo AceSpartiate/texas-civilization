@@ -5,13 +5,26 @@
   "note": "Same computer only. A real class on the colonies map with rolled families, played in process through two periods and continued into the spring, the seed one whose first family lives at Gonzales; then served live: the student pressed the \"!\", loaded the wagon, chose a refuge and left. No LAN or district claim.",
   "checks": [
     "the \"!\" opens the family's decision: \"The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answ…\"",
+    "the card opens loaded as a family deciding alone packs: {\"food\":59,\"seed\":0,\"cotton\":0,\"powder\":2} for san-felipe (Loaded 14.95 of 15.)",
+    "emptied, a double press on Leave does not go: the button asks \"Confirm: leave with nothing\" and the family is still at home",
     "the load is tallied against the room (Loaded 22 of 15. → Loaded 15 of 15.); making for san-felipe",
     "asked twice, the family loads 32 food, 4 seed and 6 cotton and sets out with its cart; the house stands behind it with 27 food left in it",
     "at phone width the page does not scroll sideways",
     "no page errors"
   ],
   "observed": {
-    "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs what it can and goes by itself. Room for 15 in the cart. Food takes 0.25 each, seed 1, cotton 0.5, powder 0.1. food (59 in the house) seed (4 in the house) cotton (6 in the house) powder (2 in the house) Loaded 0 of 15. Make for San Felipe de Austin · about 86 miles Washington · about 99 miles Lynchburg · about 146 miles Liberty · about 167 miles Nacogdoches · about 225 miles Anahuac Beeson's crossing Bernardo Béxar Brazoria Brigham's ferry Burnett's Columbia Donoho's Gaines's ferry Goliad Gonzales Groce's Groce's ferry Harrisburg Lynch's ferry Matagorda McCarley's Mina Mrs. Powell's New Washington Old Fort Refugio Robbins's ferry Roberts' Robinson's ferry San Patricio Stafford's The Atascosito crossing The Colorado crossing The ferry at Matagorda The ferry at Matamoros The ferry at Victoria The Harrisburg ferry The lower Colorado crossing The San Felipe ferry Thompson's Thompson's ferry Velasco Victoria Vince's bridge How By the road (quicker, seen from further off) Across country (slower, seen from half as far) Leave for the eastStay, and take the risk",
+    "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs what it can and goes by itself. Room for 15 in the cart. Food takes 0.25 each, seed 1, cotton 0.5, powder 0.1. food (59 in the house) seed (4 in the house) cotton (6 in the house) powder (2 in the house) Loaded 14.95 of 15. Make for San Felipe de Austin · about 86 miles Washington · about 99 miles Lynchburg · about 146 miles Liberty · about 167 miles Nacogdoches · about 225 miles Anahuac Beeson's crossing Bernardo Béxar Brazoria Brigham's ferry Burnett's Columbia Donoho's Gaines's ferry Goliad Gonzales Groce's Groce's ferry Harrisburg Lynch's ferry Matagorda McCarley's Mina Mrs. Powell's New Washington Old Fort Refugio Robbins's ferry Roberts' Robinson's ferry San Patricio Stafford's The Atascosito crossing The Colorado crossing The ferry at Matagorda The ferry at Matamoros The ferry at Victoria The Harrisburg ferry The lower Colorado crossing The San Felipe ferry Thompson's Thompson's ferry Velasco Victoria Vince's bridge How By the road (quicker, seen from further off) Across country (slower, seen from half as far) Leave for the eastStay, and take the risk",
+    "opened": {
+      "boxes": {
+        "food": 59,
+        "seed": 0,
+        "cotton": 0,
+        "powder": 2
+      },
+      "refuge": "san-felipe",
+      "room": "Loaded 14.95 of 15."
+    },
+    "emptyConfirm": "Confirm: leave with nothing",
     "over": {
       "text": "Loaded 22 of 15.",
       "over": "true"

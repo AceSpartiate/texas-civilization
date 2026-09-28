@@ -1,0 +1,82 @@
+{
+  "record": "chatter-injections",
+  "date": "2026-09-28",
+  "note": "Ambient life and chatter in the browser (docs/AMBIENT.md, 2026-09-28). Each injection runs the whole of scripts/chatter-browser-proof.mjs; \"alone\" means only checks of the kind written for it failed. Same computer only.",
+  "injections": [
+    {
+      "name": "the page draws the idle standing",
+      "files": [
+        "public/motion.js"
+      ],
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "farm: people at activities, none drawn standing idle",
+        "town: people at activities, none drawn standing idle",
+        "camp: people at activities, none drawn standing idle"
+      ]
+    },
+    {
+      "name": "the camp's men stand as a body of men",
+      "files": [
+        "public/army-view.js"
+      ],
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "camp: the force's men at the fire, the cards, a rifle"
+      ]
+    },
+    {
+      "name": "nobody talks",
+      "files": [
+        "public/app.js"
+      ],
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "farm: bubbles drawn, short, reconstructed",
+        "town: bubbles drawn, short, reconstructed",
+        "camp: the men talk among themselves",
+        "camp: bubbles drawn, short, reconstructed"
+      ]
+    },
+    {
+      "name": "bubbles pile up, both halves at once and over each other",
+      "files": [
+        "public/ambient.js"
+      ],
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "farm: at most 3 bubbles at once, never over each other, on the screen",
+        "town: at most 3 bubbles at once, never over each other, on the screen",
+        "camp: at most 3 bubbles at once, never over each other, on the screen"
+      ]
+    },
+    {
+      "name": "a visitor stays at their own door",
+      "files": [
+        "public/ambient.js"
+      ],
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "town: a keeper walked to a neighbour's door to talk"
+      ]
+    },
+    {
+      "name": "the talk is slow to draw",
+      "files": [
+        "public/ambient.js"
+      ],
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "farm: the map draws inside the gate",
+        "town: the map draws inside the gate",
+        "camp: the map draws inside the gate"
+      ]
+    }
+  ]
+}

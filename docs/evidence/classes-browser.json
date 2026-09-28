@@ -14,10 +14,10 @@
     "the teacher chose hh-30 from \"The first family nobody plays\", …, and the next late student was given it",
     "thirty students in thirty families",
     "the thirty-first is told in words that every family has a student and to ask the teacher",
-    "a new class \"Period 4\" of 8 families, and the first kept: Class FEE57F · code FEE57F · 30 of 30 families joined · paused, September 28, 1835 (period 1)",
+    "a new class \"Period 4\" of 8 families, and the first kept: Class EF3769 · code EF3769 · 30 of 30 families joined · paused, September 28, 1835 (period 1)",
     "the first class's student is told: \"You are no longer joined to this class: your family was taken up on another device, or your teacher opened another class. If you were in this class, choose “I was already in this class” and tap your name.\"",
-    "the first class opened again: the same code FEE57F, paused, thirty students",
-    "and its student's page, left on the join screen, carried on with hh-1 by itself 3893 ms later",
+    "the first class opened again: the same code EF3769, paused, thirty students",
+    "and its student's page, left on the join screen, carried on with hh-1 by itself 5580 ms later",
     "Resume plays the class on",
     "at 400 px the Host page does not scroll sideways",
     "no page errors"
@@ -62,11 +62,11 @@
       "Caleb's family (nobody's)"
     ],
     "classes": [
-      "Period 4 · code A62787 · 0 of 8 families joined · not startedOpen now",
-      "Class FEE57F · code FEE57F · 30 of 30 families joined · paused, September 28, 1835 (period 1)Open"
+      "Period 4 · code D5CB61 · 0 of 8 families joined · not startedOpen now",
+      "Class EF3769 · code EF3769 · 30 of 30 families joined · paused, September 28, 1835 (period 1)Open"
     ],
     "signedOutWords": "You are no longer joined to this class: your family was taken up on another device, or your teacher opened another class. If you were in this class, choose “I was already in this class” and tap your name.",
-    "studentBackMs": 3893
+    "studentBackMs": 5580
   },
   "screenshots": [
     "docs/evidence/classes-lobby.png",

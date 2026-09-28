@@ -13,6 +13,7 @@ import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { momentOf } from '../sim/directors.mjs';
+import { familyEnding } from '../sim/ending.mjs';
 import { CLOTHING_RETURN_SHARE, CLOTHING_SHARE, GRASS_RUN_RISK, GRASS_WOUND_RISK, SIEGE_CAMPS, armyInvalid, fightGrass, goForClothing, openQuestion, returnFromClothing, withTheArmy } from '../sim/army.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
@@ -203,7 +204,10 @@ test('the siege runs to Milam\'s call on December 4, at the mill, with the siege
   assert.ok(world.minute >= momentOf(world, 'bexar-end'));
   assert.ok(world.events.some(e => e.visibility === 'public' && /Ben Milam is calling/.test(e.text)), 'Milam never called for men');
   assert.equal(world.army.camp, 'the old mill above Béxar');
-  const ending = projectWorld(world, a.household.id, 'student', { includeMap: false }).ending.family;
+  // The first period ends with interim standings, coin and land only (owner, 2026-09-28): the parts are the final reckoning's,
+  // read from it directly, and nowhere on the interim wire.
+  assert.equal(projectWorld(world, a.household.id, 'student', { includeMap: false }).ending.family.awards, undefined, 'the interim standings name what earned glory');
+  const ending = familyEnding(world, a.household.id);
   assert.ok(ending.awards.some(award => /order to storm Béxar/.test(award.text)), 'the ending does not name the storm order');
   assert.ok(ending.awards.some(award => /Grass Fight/.test(award.text)), 'the ending does not name the Grass Fight');
 });

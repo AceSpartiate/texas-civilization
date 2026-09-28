@@ -71,7 +71,9 @@ test('a death in battle is one plain sentence, and nothing about it is a reward'
   assert.ok(death, 'the death is not in the story');
   assert.match(death.caption, new RegExp(`${man.name.split(' ')[0]} was killed`));
   for (const text of words(script)) {
-    assert.ok(!/\bglory\b|\bpoints?\b|\b30\b/.test(text), `a number or glory beside a death: "${text}"`);
+    // The award's 30, not the family's own 30 food on the wagon east (found 2026-09-28 on the merge with more hands at the field,
+    // when this family happened to load exactly 30 food).
+    assert.ok(!/\bglory\b|\bpoints?\b|\b30\b(?! (food|powder|seed|cotton|reales?|loads?)\b)/.test(text), `a number or glory beside a death: "${text}"`);
     for (const word of GORE_WORDS) assert.ok(!hasWord(text, word), `"${word}" in "${text}"`);
   }
   assert.match(script.beats.at(-1).caption, /did not come home/);

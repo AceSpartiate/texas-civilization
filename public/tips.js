@@ -108,10 +108,14 @@ export function tipsPresent(world, { errandOpen = false } = {}) {
  * - A tip whose thing has gone while it stood is **retired**: the student had it in front of them, and the thing it was about
  *   is not coming back as a first meeting. Returned as `retire`, for the page to send `seen-tip`.
  * - Otherwise the most urgent present tip not yet seen, or none.
+ * - **While the town errand is open, only its own tip.** The popup stands over the map where a tip is drawn, and a tip must
+ *   never cover a popup's controls (docs/FAMILY_PANEL.md §12.11): the store's tip, drawn inside the popup, or none. A tip that
+ *   stood over the map waits, neither retired nor seen, and stands again when the popup closes if its thing is still there.
  */
 export function tipToShow(world, { seen = [], showing = null, errandOpen = false } = {}) {
   const done = new Set(seen);
   const present = tipsPresent(world, { errandOpen });
+  if (errandOpen) return { show: present.includes('store') && !done.has('store') ? 'store' : null, retire: null };
   if (showing && !done.has(showing)) {
     if (present.includes(showing)) return { show: showing, retire: null };
     done.add(showing);

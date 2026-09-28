@@ -238,7 +238,7 @@ which makes where they are legible, not a meter that empties.
 
 | Idea | Verdict |
 | --- | --- |
-| Seasons and a crop calendar | **Refused.** The whole simulated slice is one afternoon. `RIPEN_TICKS` is already a lesson rhythm and says so. |
+| Seasons and a crop calendar | **Refused** while the slice was one afternoon. **Taken and dropped the same day, 2026-09-28, both by the owner's own decision**, not from this project: "Seasons and a limited market" put a crop in its season, ripening in calendar days; then "have crops be independent of the seasons" put it back to real minutes of the class (`sim/crops.mjs`: corn three, cotton five). The limited market stayed. |
 | Weather affecting travel and yield | **Refused for now** — VISION.md Tier 3 lists complex weather explicitly. High water at the ford is the one weather-shaped idea worth keeping in view, because it is about the river being a barrier rather than about weather as a system. |
 | Stamina bars, hunger bars, needs meters | **Refused.** Exertion already exists, is measured in miles, and surfaces as a condition in words — "Thomas is tired after 23 miles on the road" — not as a bar. |
 | Tool and equipment tiers | **Refused.** One hoe, sound or worn, is the whole tool model and it is enough to make a household with nobody handy go into town. |

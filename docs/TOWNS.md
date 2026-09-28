@@ -128,21 +128,30 @@ own sentence**: *"Takes the wagon: 14 of 20 loads, more than the horse carries (
 shown in the popup, and Send stays shut. Enter sends; Escape closes and sends nobody. While it is open the ability bar steps
 aside, as it does for a rider (owner, 2026-09-22, FAMILY_PANEL.md §12.13), and is back the instant it closes. Everything in
 it comes from `GET /api/errand` (the family's own person and town only; fetched when it opens and whenever the list, the
-family's stock or that person's ways of going change - never on the tick). The one order is `{ action: 'chore', chore:
+family's stock as the popup shows it or that person's ways of going change - never on the tick; food is keyed to the tenth the
+stock line shows, since the family eats a crumb every tick, `stockKey`). Its lines are built once for a shape of list
+(`listShape`) and only rewritten in place after, so a + or − is never replaced under a student's press (2026-09-28; before, a
+press could land on a detached button, which failed `npm run test:errand` at random). The one order is `{ action: 'chore', chore:
 'visit-shop', entityId, errand: [{ id: 'trade:offer', n, pay }] }`, its id made as every command's is, after the spread.
 
 ### The rules (sim/errands.mjs)
 
-- **What a line counts**: purchases of what a shop sells (two seed a purchase), lots of what it buys (five food a real, a
+- **What a line counts**: purchases of what a shop sells (two seed a purchase), lots of what it buys (four food a real since 2026-09-28, a
   bale, a hide), food for the mill. Things bought once - a tool, shoes, the rifle put in order, the doctor - one at most.
 - **In what order**: what the family sells first, then the mill, then what it buys, each in the list's order - so the coin or
   food a sale brings can pay for a purchase, whichever the student put first.
 - **Checked when it is sent**, against what the family has now: the shop is standing there; the shop's own refusal; the
   family has what it sells and can pay what it buys; the load fits a way of going it has free. **Not** checked: a keeper's
   purse, which a family finds out at the counter (owner, 2026-09-12, MONEY_AND_GLORY.md §3). The store buys cotton and food
-  for coin outside its purse (owner, 2026-09-16, §8.1); the tanner and the weaver pay from theirs.
-- **If things differ on arrival** (the honest rule, deterministic, no chance in it): prices never move, so a price cannot
-  differ. What can is what the house holds, whether a keeper is at the shop, and a keeper's purse. At each line as many are
+  for coin outside its purse (owner, 2026-09-16, §8.1); the tanner and the weaver pay from theirs. **Since 2026-09-28 the store
+  and the weaver buy only what they can use** (owner: "Seasons and a limited market"; `sim/market.mjs`, `FIC-GONZ-722`): a want
+  for every family near the town, full price to half of it, half price to all of it, nothing when full, sold on in a month. A
+  line the store is full for is shut in its own words (*"The store has all the cotton it can use, and sells on about 3.5 bales a
+  week."*), and the list shows the price now and the room left.
+- **If things differ on arrival** (the honest rule, deterministic, no chance in it): what a shop sells never changes price;
+  what the store and the weaver pay does since 2026-09-28, as they fill and sell on, so a sale is paid at the price when the person
+  gets there (another family may have sold first) and what the shop will not take comes home. What else can differ is what the
+  house holds, whether a keeper is at the shop, and a keeper's purse. At each line as many are
   done as can still be paid for, **nothing is paid for anything not received**, and what was not done is said in the family's
   story with the reason (*"could do only 1 of 3: buy seed - It costs 1 real, and there is not that much coin in the house."*).
 - **The load**: every good a load a unit, in the house's own units (`sim/travel.mjs` `carry`: foot 5, horse 7, wagon 20); coin
@@ -193,6 +202,19 @@ Built the same day on v2026.09.24.4 ([tests](../tests/war-rifle.test.mjs), [inje
    it (*"Mateo has the felling axe, felling a post oak."*). House work stops by itself when the log pile runs short
    (sim/houseplot.mjs), so fetching logs is never locked out for good. The hoe, broadaxe, froe and auger never leave the land
    and are not held. Every way the trip ends lets it go: home, called off, dropped, the person dead or taken.
+   **Amended by the owner, 2026-09-28: "Each needs an axe."** Felling is no longer shared: **each feller holds a felling axe of
+   their own** - one copy a feller, as §4c counts tools - from the moment the felling is given until it ends however it ends, so a
+   second, third or fourth feller needs a second, third or fourth axe. A feller with no free axe is refused in plain words: *"There
+   is no free felling axe: Mateo has the felling axe, felling a post oak. Buy another in town."* (or *"… Mateo and Rosa have both
+   felling axes. …"*); on auto they work about the place, say so on the row, and take the axe up the tick one is free (sim/chores.mjs
+   `axeFor` 'own', docs/FAMILY_PANEL.md §21.6). **The rest of the work at home still shares one copy among all of it**: the house
+   when its pieces want the axe, a lane or a clearing through timber, the carreta, furniture from the pile - the rule as it stood,
+   checked and kept, since a round-log or hewn-log pen *wants the felling axe* (docs/WOODS_AND_BUILDING.md §6.2). So a family with
+   one axe takes turns between its feller and its builders. With a family's starting tools - one felling axe - one feller and one
+   builder on auto still raise the house by themselves: the builder works about the place (*"Mateo has the felling axe, felling a
+   post oak."*) until the pile holds the house's logs and the feller stops, and then builds it (tests/auto-house.test.mjs; about 370
+   ticks on the test's land, where before this about 270). A class saved with two fellers sharing one axe keeps them at it until
+   they stop; no save version moved.
 2. **"The rifle and the war: he takes the rifle."** A man who turns out for his settlement's call (sim/calls.mjs), goes
    upriver with the march (sim/directors.mjs `handleMarch`), or leaves to enlist or to join the garrison, the relief, the
    Matamoros men or Houston (the winter's chores, `war`) carries the family's rifle for as long as he is away

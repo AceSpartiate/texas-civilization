@@ -245,7 +245,7 @@ export const measureScreen = (page, furniture) => page.evaluate(({ list, control
   const frame = canvas.getBoundingClientRect(), k = canvas.width / (frame.width || 1);
   const toScreen = box => ({ left: frame.left + box.x / k, top: frame.top + box.y / k, right: frame.left + (box.x + box.w) / k, bottom: frame.top + (box.y + box.h) / k });
   const read = [];
-  for (const line of [...(window.__familySaid || []), ...(window.__townSaid || [])]) if (line.box) read.push({ what: `bubble "${String(line.text).slice(0, 30)}"`, box: toScreen(line.box) });
+  for (const line of [...(window.__familySaid || []), ...(window.__townSaid || []), ...(window.__ambientSaid || [])]) if (line.box) read.push({ what: `bubble "${String(line.text).slice(0, 30)}"`, box: toScreen(line.box) });
   const caption = window.__battleCaption;
   if (caption && window.__snapshot?.world?.battle) {
     // Where the page says it drew it; a page from before it said so drew it in the middle, 560 wide.

@@ -19,7 +19,7 @@
  *
  * **What the list can hold** is what the family's own town deals in today: every offer of every shop standing there
  * (sim/shops.mjs `TRADES`), at the prices those shops ask, each line `{ id: 'trade:offer', n, pay: 'coin' | 'food' }`.
- * `n` counts purchases for what a shop sells (two seed a purchase), lots for what it buys (five food a real, a bale, a hide)
+ * `n` counts purchases for what a shop sells (two seed a purchase), lots for what it buys (four food a real, a bale, a hide)
  * and food for the mill.
  *
  * **The order at the shops** (`inTurn`): what the family sells first, then the mill, then what it buys, each in the list's
@@ -30,8 +30,10 @@
  * of going the family has free. **Not** checked: the keeper's purse, which is the keeper's business and found out at the
  * counter (owner, 2026-09-12, docs/MONEY_AND_GLORY.md §3).
  *
- * **What happens if things differ on arrival** (the honest rule, 2026-09-24, deterministic, no chance in it): prices never
- * move, so a price cannot differ. What can is what the house holds - somebody at home ate the food meant to pay, a sibling
+ * **What happens if things differ on arrival** (the honest rule, 2026-09-24, deterministic, no chance in it): what a shop sells
+ * never changes price. What the store and the weaver pay for cotton and food does since 2026-09-28 (sim/market.mjs): they take
+ * only what they can use and pay less as they fill, so the list is quoted at the price when it is sent and paid at the price
+ * when the person gets there, if another family sold first. What else can differ is what the house holds - somebody at home ate the food meant to pay, a sibling
  * spent the coin - whether a keeper is still at the shop, and a keeper's purse. At each line, in turn, as many of it are
  * done as can still be paid for, and **nothing is paid for anything not received**; what was not done is said in the
  * family's story with the reason, and comes home again.
@@ -49,7 +51,8 @@
  * goods are not carried as a separate load that could be lost on the road home. A load held on the road is the way out.
  */
 import { record } from './events.mjs';
-import { MILL_RETURN, TRADES, counterRefusal, tradesAt } from './shops.mjs';
+import { MILL_RETURN, OUTSIDE_PURSE, TRADES, counterRefusal, tradesAt } from './shops.mjs';
+import { marketSale, marketWords, priceNow, recordSale } from './market.mjs';
 import { MODES } from './travel.mjs';
 import { hasWords, holderOf, userOf } from './keeping.mjs';
 import { toolWords } from './tools.mjs';
@@ -63,8 +66,6 @@ export const ERRAND_LINES = 12;
 export const LINE_MOST = 20;
 /** What the family's stock line shows beside the list, and what the list can move. */
 export const STOCK = Object.freeze(['food', 'seed', 'powder', 'money', 'cotton', 'hides']);
-/** The store buys a family's cotton and food for coin outside its purse (owner, 2026-09-16, docs/MONEY_AND_GLORY.md §8.1). */
-const OUTSIDE_PURSE = Object.freeze({ store: ['cotton', 'food'] });
 
 const round = value => Math.round(value * 10000) / 10000;
 const reales = amount => `${amount} ${amount === 1 ? 'real' : 'reales'}`;
@@ -89,10 +90,12 @@ function eachWords(offer) {
   if (offer.kind === 'buy') return per(offer) === 1 ? `1 ${offer.good === 'cotton' ? 'bale' : offer.good === 'hides' ? 'hide' : offer.good}` : `${per(offer)} ${offer.good}`;
   return offer.brings ? Object.entries(offer.brings).map(([good, amount]) => `${amount} ${good}`).join(', ') : null;
 }
-function priceWords(offer) {
+function priceWords(offer, now = null) {
   if (offer.kind === 'service') return 'the miller takes his toll in meal';
   if (offer.kind === 'buy') {
-    const got = pays(offer).map(pay => pay === 'coin' ? reales(offer.coinEach) : `${offer.foodEach * per(offer)} food`);
+    // What the store or the weaver pays now, as it fills (sim/market.mjs): the base lot at today's price.
+    const price = now || offer;
+    const got = pays(offer).map(pay => pay === 'coin' ? `${reales(price.coinEach)}${(price.per ?? 1) !== per(offer) ? ` for every ${price.per}` : ''}` : `${Math.round(price.foodEach * per(offer) * 100) / 100} food`);
     return `pays ${got.join(' or ')} for ${eachWords(offer)}`;
   }
   return pays(offer).map(pay => pay === 'coin' ? reales(offer.coin) : `${offer.food} food`).join(' or ') + (offer.brings ? ` for ${eachWords(offer)}` : '');
@@ -121,12 +124,16 @@ export function errandOffers(world, household, entity, town = null) {
   const lines = [];
   for (const trade of tradesAt(world, siteId)) {
     for (const offer of TRADES[trade].offers) {
+      // A shop that has all it can use of what it buys is shut to it, and says how fast it sells on (sim/market.mjs).
+      const now = offer.kind === 'buy' ? priceNow(world, siteId, trade, offer) : null;
       const shut = offer.refuse(world, household, entity)
+        || (offer.kind === 'buy' && !now ? marketWords(world, siteId, trade, offer.good) : null)
         || (offer.takes && userOf(world, household, offer.takes, entity) ? hasWords(userOf(world, household, offer.takes, entity), [offer.takes], world, entity) : null);
       const most = mostOf(offer);
+      const market = offer.kind === 'buy' ? marketWords(world, siteId, trade, offer.good) : null;
       lines.push({
         id: `${trade}:${offer.id}`, trade, shop: cap(TRADES[trade].shop), keeper: keeperAt(world, siteId, trade)?.name || null,
-        label: offer.label, kind: offer.kind, does: offer.does, price: priceWords(offer), each: eachWords(offer), pays: pays(offer), most,
+        label: offer.label, kind: offer.kind, does: market ? `${offer.does} ${market}` : offer.does, price: priceWords(offer, now), each: eachWords(offer), pays: pays(offer), most,
         ...(shut && { why: shut }),
       });
     }
@@ -193,11 +200,14 @@ function reckon(world, household, entity, list, town = null) {
     } else if (offer.kind === 'buy') {
       const units = n * per(offer);
       if (have[offer.good] + 1e-9 < units) return { why: `There will not be ${units} ${offer.good} in the house to sell.` };
-      have[offer.good] = round(have[offer.good] - units);
-      if (offer.good === 'food') foodFrom(units); else out += units;
-      const got = pay === 'coin' ? offer.coinEach * n : offer.foodEach * units;
+      // What the shop will take and pay today, as it fills (sim/market.mjs); what it will not take comes home again.
+      const sale = marketSale(world, siteId, trade, offer, units, pay);
+      if (sale.sold <= 0) return { why: sale.full ? marketWords(world, siteId, trade, offer.good) : `${offer.label}: the ${shop.replace(/^the /, '')} will not pay for so little.` };
+      have[offer.good] = round(have[offer.good] - sale.sold);
+      if (offer.good === 'food') { foodFrom(units); pack.food += round(units - sale.sold); } else { out += units; pack.other += round(units - sale.sold); }
+      const got = sale.got;
       if (pay === 'coin') have.money = round(have.money + got); else { have.food = round(have.food + got); pack.food += got; }
-      lines.push({ ...line, gives: pay === 'coin' ? reales(got) : `${got} food`, costs: `${units} ${offer.good}` });
+      lines.push({ ...line, gives: pay === 'coin' ? reales(got) : `${got} food`, costs: `${sale.sold} ${offer.good}`, ...(sale.sold < units && { back: `${round(units - sale.sold)} ${offer.good} would come home: ${sale.full ? `${cap(TRADES[trade].shop)} would have all it can use` : 'not enough for another payment'}.` }) });
     } else {
       if (have.food + 1e-9 < n) return { why: `There will not be ${n} food in the house to take to the mill.` };
       const back = round(n * MILL_RETURN);
@@ -357,26 +367,29 @@ export function carryOutErrand(world, household, entity, state) {
       const inHouse = Math.floor((household.resources[offer.good] ?? 0) / lot + 1e-9);
       let lots = Math.min(wanted, inHouse), short = lots < wanted ? `there were only ${inHouse * lot} ${offer.good} in the house by then` : null;
       const outside = OUTSIDE_PURSE[trade]?.includes(offer.good);
-      if (line.pay === 'coin' && !outside) {
-        const affordable = Math.floor(purseOf(world, keeper) / offer.coinEach);
-        if (affordable < lots) { lots = affordable; short = `${keeper.name} had coin for only ${affordable === 0 ? 'none of it' : `${affordable * lot} ${offer.good}`}`; }
-      }
-      if (lots > 0) {
-        const units = lots * lot;
+      // What the shop takes today, at what it pays as it fills (sim/market.mjs), and no more than a keeper's own purse can pay.
+      const purse = line.pay === 'coin' && !outside ? purseOf(world, keeper) : Infinity;
+      const sale = marketSale(world, siteId, trade, offer, lots * lot, line.pay, { coinLimit: purse });
+      if (sale.sold > 0) recordSale(world, siteId, trade, offer.good, sale.sold);
+      // Said after the sale is written down, so the words are the shop as the person left it: full, and how fast it sells on.
+      if (sale.full && sale.sold < lots * lot) short = marketWords(world, siteId, trade, offer.good).replace(/\.$/, '');
+      else if (sale.sold < lots * lot && Number.isFinite(purse)) short = `${keeper.name} had coin for only ${sale.sold === 0 ? 'none of it' : `${sale.sold} ${offer.good}`}`;
+      if (sale.sold > 0) {
+        const units = sale.sold;
         household.resources[offer.good] = round((household.resources[offer.good] ?? 0) - units);
         if (line.pay === 'coin') {
-          const got = lots * offer.coinEach;
+          const got = sale.got;
           if (!outside) keeper.purse -= got;
           household.resources.money = (household.resources.money ?? 0) + got;
           say(`${entity.name} sold ${units} ${offer.good} to ${keeper.name} for ${reales(got)}.`, { coin: got });
         } else {
-          const got = units * offer.foodEach;
+          const got = sale.got;
           household.resources.food = round((household.resources.food ?? 0) + got);
           carried = true;
           say(`${entity.name} sold ${units} ${offer.good} to ${keeper.name} for ${got} food.`);
         }
       }
-      if (short) say(`${cap(short)}, and ${lots ? 'the rest' : `the ${offer.good}`} came home again.`);
+      if (short) say(`${cap(short)}, and ${sale.sold > 0 ? 'the rest' : `the ${offer.good}`} came home again.`);
       continue;
     }
     // The mill: corn carried in, meal carried home, the miller's toll taken in meal.

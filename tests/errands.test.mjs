@@ -21,7 +21,7 @@ import { propertyId } from '../sim/travel.mjs';
 import { userOf } from '../sim/keeping.mjs';
 import { REFUGES, flee } from '../sim/scrape.mjs';
 import { readSave, writeSave } from '../server/storage.mjs';
-import { byShop, errandList, stockWords } from '../public/errand.js';
+import { byShop, errandList, listShape, stockKey, stockWords } from '../public/errand.js';
 import { COIN } from '../sim/chores.mjs';
 
 /** A settled class under way, its first family a student's and past the guided start. */
@@ -208,7 +208,10 @@ test('the way of going is the quickest that carries the load, said with the serv
   family.resources = { ...family.resources, food: 60, money: 10, cotton: 30, seed: 0 };
   assert.equal(quote(world, buyer, [{ id: 'store:seed', n: 1, pay: 'coin' }]).how, 'Rides the horse: 2 of 7 loads.');
   assert.equal(quote(world, buyer, [{ id: 'store:cotton', n: 14, pay: 'coin' }]).how, 'Takes the wagon: 14 of 20 loads, more than the horse carries (7).');
-  assert.match(quote(world, buyer, [{ id: 'store:cotton', n: 20, pay: 'food' }]).why, /That is 40 loads, and the wagon carries 20\. Send less\./);
+  // Twenty bales for food bring home what the store pays as it fills (sim/market.mjs, 2026-09-28): five families' want is fifteen
+  // bales, eight at two food and seven at one, twenty-three food, and the five it will not take come home too - twenty-eight loads,
+  // more than the wagon carries - where a store that never filled paid forty.
+  assert.match(quote(world, buyer, [{ id: 'store:cotton', n: 20, pay: 'food' }]).why, /That is 28 loads, and the wagon carries 20\. Send less\./);
   assert.equal(quote(world, buyer, [{ id: 'wheelwright:wagon', n: 1, pay: 'coin' }]).how, 'Takes the wagon: 0 of 20 loads, and the wheelwright works on the wagon itself.');
   // The horse taken: a small load walks, and says who has the horse; one the legs cannot carry takes the wagon.
   beginTravel(world, other, 'gonzales', null, 'visit', 'horse');
@@ -423,4 +426,20 @@ test('the page sends exactly the list on the screen, grouped as the server sent 
   assert.deepEqual(errandList(lines, new Map([['store:hoe', 1]]), new Map([['store:hoe', 'food']])), [{ id: 'store:hoe', n: 1, pay: 'coin' }], 'the page sent a way of paying the shop does not take');
   assert.deepEqual(byShop(lines).map(shop => [shop.shop, shop.lines.length]), [['The store', 2], ['The mill', 1]]);
   assert.equal(stockWords({ food: 7.96, seed: 2, powder: 3, money: 1 }), 'The family has 7.9 food · 2 seed · 3 powder · 1 real.');
+});
+
+test('the popup is not rebuilt, nor the server asked again, for what it does not show (2026-09-28)', () => {
+  const lines = [{ id: 'store:seed', trade: 'store', shop: 'The store', does: 'Two seed.', price: '1 real', most: 20, pays: ['coin', 'food'] }, { id: 'mill:grind', trade: 'mill', shop: 'The mill', price: '1 food', most: 20, pays: [] }];
+  // A price, a refusal or a most that moves is written into the line already there: the buttons under a student's press stay.
+  const moved = lines.map(line => ({ ...line, price: '2 reales', why: 'There is not that much coin in the house.', most: 3 }));
+  assert.equal(listShape(moved), listShape(lines), 'a line whose words changed would be built again, and its buttons with it');
+  // A line come or gone, or a way of paying offered, is a new shape.
+  assert.notEqual(listShape(lines.slice(0, 1)), listShape(lines));
+  assert.notEqual(listShape([lines[0], { ...lines[1], pays: ['coin', 'food'] }]), listShape(lines));
+  // The family eating a crumb of food is not a change the popup shows; a tenth of one is, and so is any other good.
+  const house = { food: 30.06, seed: 2, powder: 3, money: 150, cotton: 14, fieldState: 'bare' };
+  assert.equal(stockKey({ ...house, food: 30.01 }), stockKey(house), 'the server is asked again for food nobody sees go');
+  assert.equal(stockKey({ ...house, fieldState: 'planted' }), stockKey(house), 'the server is asked again for what the popup does not show');
+  assert.notEqual(stockKey({ ...house, food: 29.9 }), stockKey(house));
+  assert.notEqual(stockKey({ ...house, money: 149 }), stockKey(house));
 });

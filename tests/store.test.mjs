@@ -19,6 +19,7 @@ import { createSettledWorld, modestMeans } from './support/settled.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { COTTON_RATE, CHORES, choreAvailability } from '../sim/chores.mjs';
 import { MODES } from '../sim/travel.mjs';
+import { wantAt } from '../sim/market.mjs';
 import { GOODS } from '../sim/trade.mjs';
 import { traderAt } from '../sim/town.mjs';
 import { findPath } from '../sim/geography.mjs';
@@ -136,8 +137,11 @@ test('what one person can carry to market is what one person can carry', () => {
   };
   const afoot = trip('foot'), hauled = trip('wagon');
   assert.equal(afoot.sold, MODES.foot.carry, `a person carried ${afoot.sold} bales in their arms`);
-  assert.equal(hauled.sold, MODES.wagon.carry, `the wagon took ${hauled.sold} bales`);
-  assert.ok(hauled.got > afoot.got * 3, 'the wagon is the difference between a trip and a load');
+  // The wagon carries twenty; the store takes only what it can use (sim/market.mjs, 2026-09-28) - fifteen bales in a town of five
+  // families - and the rest comes home.
+  assert.equal(hauled.sold, Math.min(MODES.wagon.carry, wantAt(running('crops-want'), 'gonzales', 'store:cotton')), `the wagon took ${hauled.sold} bales`);
+  // Twice what an armful fetches and more, where it was three times before the store filled (half price past half its want).
+  assert.ok(hauled.got > afoot.got * 2, 'the wagon is the difference between a trip and a load');
 });
 
 test('a family with no cotton is not offered the trip', () => {

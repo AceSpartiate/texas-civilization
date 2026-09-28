@@ -4,18 +4,26 @@
 // Each proven by injection on 2026-09-28 (docs/AUDIO.md §7).
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DEFAULTS, LOUDNESS_BUDGET, MAX_VOICES, MUSIC_CEILING, Mixer, SOUNDS, audioRole, busLevels, hearShots, loadSettings, placeSound, saveSettings, settingsFor } from '../public/audio-mix.js';
+import { DEFAULTS, LOUDNESS_BUDGET, STUDENT_MASTER, MAX_VOICES, MUSIC_CEILING, Mixer, SOUNDS, audioRole, busLevels, hearShots, loadSettings, placeSound, saveSettings, settingsFor } from '../public/audio-mix.js';
 
 const screen = { width: 1200, height: 800 };
 
-test('a student in a class starts muted; the Host and a solo player start with sound on', () => {
+test('a student in a class starts with everything on, quiet; the Host and a solo player start on at full level (owner, AU1)', () => {
   assert.equal(audioRole({ hostPage: true }), 'host');
   assert.equal(audioRole({ solo: true }), 'solo');
   assert.equal(audioRole({}), 'student');
-  assert.equal(settingsFor('student', null).muted, true);
-  assert.equal(settingsFor('host', null).muted, false);
+  const student = settingsFor('student', null), host = settingsFor('host', null);
+  assert.equal(student.muted, false);
+  assert.equal(host.muted, false);
   assert.equal(settingsFor('solo', null).muted, false);
-  assert.deepEqual(busLevels(settingsFor('student', null)), { music: 0, fx: 0, ui: 0 });
+  assert.equal(student.master, STUDENT_MASTER);
+  assert.ok(STUDENT_MASTER >= 0.2 && STUDENT_MASTER <= 0.4, `a student's master is ${STUDENT_MASTER}, not quiet`);
+  const levels = busLevels(student), full = busLevels(host);
+  assert.ok(levels.music > 0 && levels.fx > 0, 'a student page starts with music and effects on');
+  assert.ok(levels.fx <= full.fx * 0.5 && levels.music <= full.music * 0.5, `a student page is not quieter than the Host's: ${JSON.stringify(levels)} against ${JSON.stringify(full)}`);
+  // A student's own choice on this device wins over the quiet default.
+  assert.equal(settingsFor('student', { master: 0.9, muted: true }).master, 0.9);
+  assert.equal(settingsFor('student', { master: 0.9, muted: true }).muted, true);
 });
 
 test('music is never louder than the effects, at any slider setting', () => {
@@ -32,8 +40,8 @@ test('music is never louder than the effects, at any slider setting', () => {
 test('settings are remembered per device and per kind of page, and a broken store falls back', () => {
   const store = new Map();
   const storage = { getItem: key => store.get(key) ?? null, setItem: (key, value) => store.set(key, value) };
-  assert.equal(saveSettings('student', { ...DEFAULTS.student, muted: false, fx: 0.3 }, storage), true);
-  assert.equal(loadSettings('student', storage).muted, false);
+  assert.equal(saveSettings('student', { ...DEFAULTS.student, muted: true, fx: 0.3 }, storage), true);
+  assert.equal(loadSettings('student', storage).muted, true);
   assert.equal(loadSettings('student', storage).fx, 0.3);
   // The same Chromebook's solo game keeps its own.
   assert.equal(loadSettings('solo', storage).fx, DEFAULTS.solo.fx);

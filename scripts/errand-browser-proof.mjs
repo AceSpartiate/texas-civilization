@@ -68,21 +68,22 @@ const measure = page => page.evaluate(() => {
   const errand = box(document.querySelector('#errand'));
   const overlap = other => other && errand ? Math.max(0, Math.min(errand.r, other.r) - Math.max(errand.x, other.x)) * Math.max(0, Math.min(errand.b, other.b) - Math.max(errand.y, other.y)) : 0;
   const column = box(document.querySelector('#family-rows')), bar = box(document.querySelector('.panel-row[data-focused=true] .panel-icons'));
-  // Every control of the popup, sampled at its middle: what is actually drawn there must be the control itself.
+  // Every control of the popup, sampled at its middle: what is actually drawn there must be the control itself. A control not
+  // drawn at all (the store's tip once it is put away) has no middle to sample, and is not counted as covered.
   const covered = [...document.querySelectorAll('#errand button')].filter(button => {
     const r = button.getBoundingClientRect();
+    if (r.width < 1 || r.height < 1) return false;
     if (r.bottom < 0 || r.top > innerHeight) return false;
-    // A button that is not drawn has no box and nothing can be over it: the store's tip inside the popup is hidden whenever
-    // another tip is the one showing, and its Got it read as covered at 0,0 (found 2026-09-28).
-    if (!r.width || !r.height) return false;
     const list = document.querySelector('#errand-lines').getBoundingClientRect();
     if (button.closest('#errand-lines') && (r.top < list.top || r.bottom > list.bottom)) return false; // scrolled inside the list
     const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
     return !(hit && (hit === button || button.contains(hit)));
   }).map(button => button.id || button.getAttribute('aria-label') || button.textContent);
-  // The tip at first meeting over the map (public/tips.js) must not stand under, or on, the open popup (owner, 2026-09-28).
-  const tip = document.querySelector('#tip'), tipBox = tip && !tip.hidden ? box(tip) : null;
-  return { screen: { w: innerWidth, h: innerHeight }, errand, overTip: overlap(tipBox), fits: Boolean(errand) && errand.x >= 0 && errand.y >= 0 && errand.r <= innerWidth && errand.b <= innerHeight, overColumn: overlap(column), overBar: overlap(bar), covered };
+  // The tip over the map, measured as a box: its words let clicks through (pointer-events: none), so `elementFromPoint` above
+  // never finds them over a control, and only a box can say a tip stands on the popup (2026-09-28: the order tip did).
+  const tip = document.querySelector('#tip');
+  const overTip = tip && !tip.hidden && getComputedStyle(tip).display !== 'none' ? overlap(box(tip)) : 0;
+  return { screen: { w: innerWidth, h: innerHeight }, errand, fits: Boolean(errand) && errand.x >= 0 && errand.y >= 0 && errand.r <= innerWidth && errand.b <= innerHeight, overColumn: overlap(column), overBar: overlap(bar), overTip, covered };
 });
 
 try {
@@ -124,6 +125,12 @@ try {
   ok(`the icon opens the popup and sends nobody: ${listed.length} shops of Gonzales listed, "${opened.stock}"`);
 
   // ------------------------------------------------------------------------------------ fourteen bales takes the wagon
+  // The store's price now and how full it is, on the line itself (sim/market.mjs, 2026-09-28).
+  const cottonLine = await page.evaluate(() => { const line = document.querySelector('#errand [data-line="store:cotton"]'); return { price: line.querySelector('.errand-price').textContent, title: line.querySelector('.errand-price').parentElement.title }; });
+  observed.cottonLine = cottonLine;
+  assert.match(cottonLine.price, /pays 2 reales or 2 food for 1 bale/, `the store's price is not on the line: ${cottonLine.price}`);
+  assert.match(cottonLine.title, /The store is buying: full price for about 7 bales more, then half until it has 15 bales\./, `the store's room is not said: ${cottonLine.title}`);
+  ok(`the store's line says its price now and how much it wants: "${cottonLine.price}", "${cottonLine.title.split('. ').slice(-1)[0]}"`);
   await setCount(page, 'store:cotton', 14);
   // Coin is pressed before anybody chooses (owner, 2026-09-27: "Make coin the default"): a sale is paid in coin unless the
   // student chooses food.
@@ -144,10 +151,30 @@ try {
   observed.at1366 = wide;
   assert.ok(wide.fits, `at 1366x768 the popup hangs off the screen: ${JSON.stringify(wide.errand)}`);
   assert.deepEqual(wide.covered, [], `at 1366x768 something is drawn over the popup's own controls: ${wide.covered}`);
+  assert.equal(wide.overTip, 0, `at 1366x768 a tip over the map stands on the popup (${wide.overTip} px²): "${await page.locator('#tip .tip-words').textContent()}"`);
   assert.equal(wide.overColumn, 0, 'at 1366x768 the popup covers the family\'s column');
   assert.equal(wide.overBar, 0, 'at 1366x768 the popup is drawn over the ability bar, which steps aside while it is open');
-  assert.equal(wide.overTip, 0, 'at 1366x768 a tip at first meeting stands under the open popup');
-  ok(`the popup says how they will go, in the server's words: "${quoted.how}" (1366x768: ${wide.errand.w}x${wide.errand.h}, clear of the column, nothing over its controls)`);
+  ok(`the popup says how they will go, in the server's words: "${quoted.how}" (1366x768: ${wide.errand.w}x${wide.errand.h}, clear of the column, nothing over its controls, no tip over the map standing on it)`);
+
+  // ------------------------------------------------ the list stands still while the family eats (2026-09-28)
+  // The family eats every tick, and the popup used to redraw every line whenever the house's stock moved: a press on + could
+  // land on a button already replaced ("element was detached from the DOM"). Marked, the same + must still be the one on the
+  // screen after the food has moved enough for the stock line to change and the server to have been asked again.
+  const marked = await page.evaluate(() => {
+    const more = document.querySelector('#errand [data-line="store:cotton"] [data-act="more"]');
+    more.dataset.proofKept = 'true';
+    window.__errand.proofOld = true;
+    return { food: window.__snapshot.world.household.resources.food, stock: document.querySelector('#errand-stock').textContent };
+  });
+  await page.waitForFunction(before => Math.floor(window.__snapshot.world.household.resources.food * 10) !== Math.floor(before * 10) && !window.__errand.proofOld && document.querySelector('#errand-stock').textContent !== '', marked.food, { timeout: 60000 })
+    .catch(error => { throw new Error(`the family's food never moved while the popup stood open, so this proves nothing (${error.message.split('\n')[0]})`); });
+  // One more draw after the food moved, so the server's answer to the new stock is on the screen too.
+  await page.evaluate(() => { window.__errand.proofOld = true; });
+  await page.waitForFunction(() => !window.__errand.proofOld, null, { timeout: 30000 });
+  const kept = await page.evaluate(() => { const more = document.querySelector('#errand [data-line="store:cotton"] [data-act="more"]'); return { same: more?.dataset.proofKept === 'true', stock: document.querySelector('#errand-stock').textContent, food: window.__snapshot.world.household.resources.food }; });
+  observed.keptWhileEating = { before: marked, after: kept };
+  assert.ok(kept.same, `the list was rebuilt under the student while the family ate (food ${marked.food} → ${kept.food}): the + pressed would have been a detached button`);
+  ok(`the list stands still while the family eats: food ${marked.food} → ${kept.food}, the stock redrawn ("${kept.stock.slice(0, 40)}…"), and the + on the cotton is the same button`);
 
   // ------------------------------------------------------------------------------------------------- Enter sends it
   await page.locator('#errand [data-line="store:cotton"] [data-act="more"]').focus();
@@ -203,9 +230,9 @@ try {
   observed.at1024 = narrow;
   assert.ok(narrow.fits, `at 1024x768 the popup hangs off the screen: ${JSON.stringify(narrow.errand)}`);
   assert.deepEqual(narrow.covered, [], `at 1024x768 something is drawn over the popup's own controls: ${narrow.covered}`);
+  assert.equal(narrow.overTip, 0, `at 1024x768 a tip over the map stands on the popup (${narrow.overTip} px²)`);
   assert.equal(narrow.overColumn, 0, 'at 1024x768 the popup covers the family\'s column');
   assert.equal(narrow.overBar, 0, 'at 1024x768 the popup is drawn over the ability bar');
-  assert.equal(narrow.overTip, 0, 'at 1024x768 a tip at first meeting stands under the open popup');
   await page.keyboard.press('Escape');
   await page.setViewportSize({ width: 1366, height: 768 });
   ok(`at 1024x768 the popup fits (${narrow.errand.w}x${narrow.errand.h}), keeps off the column and has nothing over its controls`);
@@ -233,7 +260,7 @@ try {
   assert.equal(observed.chosen, 'Goes on foot: 3 of 5 loads, as you chose. The horse would be quicker.');
   await page.screenshot({ path: join(SHOTS, 'errand-ways-1366.png') });
   const chose = await measure(page);
-  assert.ok(chose.fits && !chose.covered.length && chose.overColumn === 0, `the popup with its ways does not fit or is covered: ${JSON.stringify(chose)}`);
+  assert.ok(chose.fits && !chose.covered.length && !chose.overTip && chose.overColumn === 0, `the popup with its ways does not fit or is covered: ${JSON.stringify(chose)}`);
   await page.locator('#errand-send').click();
   await page.locator('#errand').waitFor({ state: 'hidden', timeout: 10000 });
   const walker = app.state.world.entities[second.id];
@@ -245,7 +272,9 @@ try {
   await page.waitForFunction(id => { const one = window.__snapshot?.world.entities.find(e => e.id === id); return one && !one.chore && !one.travel; }, first.id, { timeout: 120000 });
   const home = await page.evaluate(() => window.__snapshot.world.household.resources);
   observed.home = home;
-  const cottonPaid = 14 * COIN.cottonBale;
+  // The store wants three bales for each of Gonzales's five families (sim/market.mjs, owner 2026-09-28: "the store buys only what it
+  // can use and its price falls as it fills"): eight bales at two reales, and the six after them at one, half price as it fills.
+  const cottonPaid = 8 * COIN.cottonBale + 6 * (COIN.cottonBale / 2);
   assert.equal(home.money, 150 + cottonPaid - 1, `the ${cottonPaid} reales for the cotton, less the one the seed cost, did not come home beside the 150: ${home.money}`);
   assert.equal(home.seed, 4, `the seed did not come home: ${home.seed}`);
   assert.equal(app.state.world.entities['hh-1-wagon'].borrowedBy, null, 'the wagon is still held now it is home');
@@ -324,7 +353,7 @@ try {
   await page.screenshot({ path: join(SHOTS, 'errand-animals-1366.png') });
   const pensFit = await measure(page);
   observed.animalsAt1366 = pensFit;
-  assert.ok(pensFit.fits && !pensFit.covered.length && pensFit.overColumn === 0, `the popup with the stock pens does not fit or is covered: ${JSON.stringify(pensFit)}`);
+  assert.ok(pensFit.fits && !pensFit.covered.length && !pensFit.overTip && pensFit.overColumn === 0, `the popup with the stock pens does not fit or is covered: ${JSON.stringify(pensFit)}`);
   await page.locator('#errand-send').click();
   await page.locator('#errand').waitFor({ state: 'hidden', timeout: 10000 });
   // Led home: the new horse on the road beside its buyer, walking, while she rides Bess; drawn on the map as a horse of its own.
@@ -353,6 +382,13 @@ try {
   await page.screenshot({ path: join(SHOTS, 'errand-two-horses-1366.png') });
   ok(`a second horse is bought at the stock pens (${pens.map(one => `${one.label}: ${one.price}`).join(', ')}): "${buying.how}"; ${inYard.name} is seen led home beside ${first.name}, who rides Bess, and stands drawn in the yard beside her`);
   // Two riders at once, each sent from their own popup on a horse of their own.
+  // The clock slowed while they are out (2026-09-28): a rider going for one seed is home again in about twenty ticks - four
+  // seconds at this proof's pace - and the first rider could be back before the second left, or both before the new wagon
+  // below was quoted, which then read "Rides the horse". Slowed, the popups here (which ask the server, and wait on no tick)
+  // are done long before either rider turns round; the pace is put back once the new wagon is sent. Slowing the clock changes
+  // nothing that happens, only when (server/app.mjs `setPace`).
+  const pace = app.pace;
+  app.setPace(5000);
   for (const rider of [first, second]) {
     await asMain(page, rider.id);
     await page.locator(`.panel-row[data-entity-id="${rider.id}"] .panel-icon[data-key="visit-shop"]`).click();
@@ -376,6 +412,10 @@ try {
   // whoever goes walks: the wagon cannot be the way there (one person drives one wagon home).
   const third = grown.find(one => one !== first && one !== second);
   assert.ok(third, 'this family has not a third grown person at home, so this proves nothing');
+  const horsesOut = () => ['hh-1-horse', 'hh-1-horse-2'].map(id => app.state.world.entities[id].borrowedBy).sort();
+  assert.deepEqual(horsesOut(), [first.id, second.id].sort(), `a rider is home again before the new wagon was asked about: ${horsesOut()}`);
+  // A neighbour's question to a rider on the road can open her card over the column while they are out: closed, as a student would.
+  if (await page.locator('#selection-close').isVisible().catch(() => false)) await page.locator('#selection-close').click();
   await asMain(page, third.id);
   await page.locator(`.panel-row[data-entity-id="${third.id}"] .panel-icon[data-key="visit-shop"]`).click();
   await page.locator('#errand').waitFor({ state: 'visible' });
@@ -396,14 +436,16 @@ try {
   const wagonCards = await page.evaluate(() => [...document.querySelectorAll('#errand [data-way]')].map(button => ({ way: button.dataset.way, open: !button.disabled, why: button.title || null })));
   observed.wagonCards = wagonCards;
   assert.match(wagonCards.find(one => one.way === 'wagon').why, /^One person drives one wagon home/);
+  assert.deepEqual(horsesOut(), [first.id, second.id].sort(), `a rider came home while the new wagon was being quoted, so the quote is not about both horses out: ${horsesOut()}`);
   assert.match(wagonBuy.how, /^Goes on foot: 0 of 5 loads/);
   await page.locator('#errand [data-line="wheelwright:buy-wagon"]').scrollIntoViewIfNeeded();
   await page.screenshot({ path: join(SHOTS, 'errand-new-wagon-1366.png') });
   const wagonFit = await measure(page);
   observed.newWagonAt1366 = wagonFit;
-  assert.ok(wagonFit.fits && !wagonFit.covered.length && wagonFit.overColumn === 0, `the popup with the wheelwright's wagon does not fit or is covered: ${JSON.stringify(wagonFit)}`);
+  assert.ok(wagonFit.fits && !wagonFit.covered.length && !wagonFit.overTip && wagonFit.overColumn === 0, `the popup with the wheelwright's wagon does not fit or is covered: ${JSON.stringify(wagonFit)}`);
   await page.locator('#errand-send').click();
   await page.locator('#errand').waitFor({ state: 'hidden', timeout: 10000 });
+  app.setPace(pace);
   // Driven home: the new wagon behind the new ox, the buyer drawn on it.
   await page.waitForFunction(id => { const w = window.__snapshot?.world; const wagon = w?.entities.find(e => e.id === 'hh-1-wagon-2'); const driver = w?.entities.find(e => e.id === id); return wagon?.travel && driver?.travel?.mode === 'wagon'; }, third.id, { timeout: 180000 });
   assert.equal(app.state.world.entities['hh-1-wagon-2'].borrowedBy, third.id);

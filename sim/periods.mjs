@@ -2,7 +2,8 @@
 //
 // "Day 1 ends after Béxar and saves; day 2 opens the same families in January 1836." The first period is the class every
 // real-land class has always been, ending on the evening of December 15 when word of Béxar reaches the government. It
-// ends with **interim standings** - each family's glory and a provisional ranking - rather than a winner, because the war
+// ends with **interim standings** - since 2026-09-28 without glory or a ranking, which VISION §20 keeps for the ending
+// (sim/ending.mjs `interimFamily`, `interimHost`) - rather than a winner, because the war
 // is not over. The Host then **continues** the class instead of starting a new one: the same save, the same family keys,
 // the same people.
 //
@@ -36,6 +37,28 @@ export function canContinue(world) {
 }
 /** What the Host's button says: the period that follows this one. */
 export const nextPeriodLabel = world => periodOf(world) === 1 ? 'Continue to the winter of 1836' : 'Continue to the spring of 1836';
+
+/**
+ * A class ended part-way through a period (owner, 2026-09-28: "Yes, allow Continue"; docs/HOST_PAGE.md §2.8): the teacher's
+ * End Game, before the period reached its own end. Every period's own end (the director's four, sim/directors.mjs) sets
+ * `director.complete` in the same step as `ended`; End Game sets only `status`, and nothing ticks or takes an order while a class
+ * is ended, so the world is the world the moment before - its status apart. The ending, the standings and the flashbacks are all
+ * read from that status (sim/ending.mjs `endingProjection`, sim/flashback.mjs `flashbackReady`), and go with it.
+ */
+export const endedEarly = world => world?.status === 'ended' && !world.director?.complete;
+/** Why this class cannot be taken up again, or null. */
+export function continueRefusal(world) {
+  if (world?.status !== 'ended') return 'This class has not ended.';
+  if (world.director?.complete) return canContinue(world) ? `This period ended where it ends: press ${nextPeriodLabel(world)} instead.` : 'This class came to its own end, and cannot be taken up again.';
+  return null;
+}
+/** Take up a class ended by mistake where it was ended, paused for the teacher's Resume. Written in the Host's record only. */
+export function continueEnded(world) {
+  const why = continueRefusal(world);
+  if (why) throw new Error(why);
+  world.status = 'paused';
+  record(world, 'lifecycle', { visibility: 'host', importance: 2, text: 'The teacher took the class up again where End Game had ended it, paused.' });
+}
 
 /** Whether the standings a class ends with are interim: the first period, which a second follows. */
 export const interimStandings = world => Boolean(world.map?.source) && ((periodOf(world) === 1 && Boolean(world.director?.milestones?.['bexar-end'])) || (periodOf(world) === 2 && Boolean(world.director?.milestones?.['alamo-end'])));

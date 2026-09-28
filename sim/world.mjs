@@ -55,6 +55,7 @@ import { asideWhy } from './aside.mjs';
 import { hostLiveProjection } from './host.mjs';
 import { advanceTown, createTownspeople, observedBy, seenAs } from './town.mjs';
 import { helpTownScene, townScenesFor } from './town-scenes.mjs';
+import { ambientFor } from './ambient.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 // What families did for each other, and the help they offer back (sim/neighbourly.mjs, owner 2026-09-28).
 import { advanceNeighbourly, answerNeighbour, neighbourlyInvalid, neighbourlyView, owes, recordTakenIn, standings } from './neighbourly.mjs';
@@ -85,6 +86,8 @@ import { furnitureInvalid } from './furniture.mjs';
 import { interiorInvalid, interiorProjection, placeItem } from './interior.mjs';
 import { gearExertionShare, shopsInvalid, wagonSpeedShare } from './shops.mjs';
 import { errandOffers, errandQuote, errandsInvalid } from './errands.mjs';
+import { marketsInvalid } from './market.mjs';
+import { fieldInvalid } from './crops.mjs';
 import { quickestOf, quickestWay, shownWays, waysFor } from './going.mjs';
 import { toolsInvalid } from './tools.mjs';
 import { fellingInvalid, logsLeftOut, logsProjection, recordFelling } from './felling.mjs';
@@ -691,7 +694,7 @@ export function stepWorld(world, { realMs = 0, decisionBudgetMs, callBudgetMs } 
   advanceCamp(world);
   // Chores run after travel resolves, so a person who arrived this tick picks up the
   // next step of their work in the same tick rather than idling for one.
-  advanceChores(world, { beginTravel, modeAvailability });
+  advanceChores(world, { beginTravel, modeAvailability, realMs });
   // The family's children (sim/childhood.mjs): play drawn about the yard, a job wandered from, a child's own automation, and a
   // child with nothing to do gone to a parent. Then the babies (sim/babies.mjs), and the little ones kept walking on the road
   // east (sim/flight-work.mjs). Before auto, so a grown-up called aside this tick is not given work by it.
@@ -1014,9 +1017,13 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
     beginChore(world, household, entity, 'survey-plot', { beginTravel, modeAvailability }, DEFAULT_MODE, { plot });
     return;
   }
-  // Felling at a place on the family's own land, chosen on the map (sim/felling.mjs).
+  // Felling at a place on the family's own land, chosen on the map (sim/felling.mjs) - the families nobody plays still choose it.
+  // A student's *Fell trees* is an ordinary `chore` order since 2026-09-28, to the nearest timber, and one with no place here is
+  // the same. Remembered for auto without the place: a feller on auto goes to the nearest timber left each time (sim/auto.mjs).
   if (input.action === 'fell-trees') {
-    beginChore(world, household, entity, 'fell-trees', { beginTravel, modeAvailability }, DEFAULT_MODE, { ground: { x: Number(input.x), y: Number(input.y) } });
+    const placed = input.x !== undefined && input.y !== undefined;
+    beginChore(world, household, entity, 'fell-trees', { beginTravel, modeAvailability }, DEFAULT_MODE, placed ? { ground: { x: Number(input.x), y: Number(input.y) } } : {});
+    noteOrder(entity, 'fell-trees', DEFAULT_MODE, {}, household);
     return;
   }
   // Hunting a place on the family's own land, chosen on the map (sim/hunting.mjs). The server decides whether it can be.
@@ -1029,6 +1036,8 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   if (input.action === 'clear-plot' || input.action === 'fence-plot') {
     const plot = plotAt(world, household, { x: Number(input.x), y: Number(input.y) });
     beginChore(world, household, entity, input.action, { beginTravel, modeAvailability }, DEFAULT_MODE, { plotId: plot?.id });
+    // On auto, the plot and then the next nearest the house (owner, 2026-09-28; sim/auto.mjs `plotFor`).
+    noteOrder(entity, input.action, DEFAULT_MODE, { plotId: plot?.id }, household);
     return;
   }
   // Trading is a household's own business and any member standing there can do it. It is
@@ -1387,6 +1396,11 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   // A copy, so that nothing holding a view can change the world through it. `copy: false` is for a caller that only
   // serialises the view at once (server/app.mjs `view`), where the copy was a sixth of the projection's time and changes
   // not one byte of the text (docs/PERFORMANCE_SERVER.md; tests/save-text.test.mjs).
+  // Ambient life (sim/ambient.mjs, docs/AMBIENT.md; owner, 2026-09-28): what everybody idle this page is sent is doing, put on
+  // each of them as `amb`, the camps' men and the crowd at a refuge, and this tick's few words between neighbours - read from
+  // the view just built, so nothing is drawn busy that this page could not already see. A picture only: never stored, never read.
+  const ambient = ambientFor(world, householdId, role, view);
+  if (ambient) view.ambient = ambient;
   return copy ? structuredClone(view) : view;
 }
 const townScenesView = (world, householdId, role) => { const townScenes = townScenesFor(world, householdId, role); return townScenes ? { townScenes } : {}; };
@@ -1523,7 +1537,9 @@ export function validateWorld(world) {
     if (household.settlementId !== undefined && world.map.sites[household.settlementId]?.kind !== 'town') throw new Error('A family belongs to a settlement that is not there');
     if (household.name !== undefined && (typeof household.name !== 'string' || !household.name.trim() || household.name.length > NAME_LIMIT)) throw new Error('Invalid household name');
     if (household.surname !== undefined && (typeof household.surname !== 'string' || !household.surname.trim() || household.surname.length > NAME_LIMIT)) throw new Error('Invalid family last name');
-    if (!household.field || !['bare', 'planted', 'ripe'].includes(household.field.state) || !['corn', 'cotton'].includes(household.field.crop)) throw new Error('Invalid field state');
+    // Corn or cotton, and since 2026-09-28 the real time a crop in the ground has stood (`grownMs`, sim/crops.mjs): absent on every class
+    // saved before, whose crop is read as having stood its ticks at the Study pace. No save version moved.
+    { const bad = fieldInvalid(household.field); if (bad) throw new Error(bad); }
     // Absent on a class saved before a family could break new ground, and the empty value
     // is the one every family used to have: the first patch, and no fence. So no save
     // version moved. Present, both have to mean something. A class whose field has become plots
@@ -1569,7 +1585,7 @@ export function validateWorld(world) {
   if (badExpress) throw new Error(badExpress);
   const badCall = callsInvalid(world);
   if (badCall) throw new Error(badCall);
-  const badShops = shopsInvalid(world) || errandsInvalid(world);
+  const badShops = shopsInvalid(world) || errandsInvalid(world) || marketsInvalid(world);
   if (badShops) throw new Error(badShops);
   const badUse = usesInvalid(world) || toolsInvalid(world) || beastsInvalid(world);
   if (badUse) throw new Error(badUse);
@@ -1604,9 +1620,9 @@ export function validateWorld(world) {
   // Glory (sim/glory.mjs) is optional state: a class saved before it existed has none. When it
   // is there, a family's total is exactly the sum of its awards, in whole points.
   for (const [householdId, ledger] of Object.entries(world.glory || {})) {
-    if (!world.households[householdId]) throw new Error('Glory for a household that does not exist');
+    if (!world.households[householdId]) throw new Error('A sealed record for a household that does not exist');
     const sum = Object.values(ledger.awards || {}).reduce((total, award) => total + award.points, 0);
-    if (!Number.isInteger(ledger.total) || ledger.total !== sum) throw new Error('Glory does not add up');
+    if (!Number.isInteger(ledger.total) || ledger.total !== sum) throw new Error('A family\'s sealed record does not add up');
   }
   for (const [audience, reports] of Object.entries({ ...world.knowledge.households, public: world.knowledge.public })) {
     if (audience !== 'public' && !world.households[audience]) throw new Error('Unknown knowledge audience');

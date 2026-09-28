@@ -57,14 +57,17 @@ test('the carreta is offered where logs lie in a pile, and refused in words for 
   assert.equal(offered.can, true, offered.why);
   const why = change => { const copy = structuredClone(world); change(copy, copy.households['hh-1']); return choreAvailability(copy, copy.households['hh-1'], copy.entities[worker.id], 'make-carreta').why; };
   assert.match(why((w, h) => { delete h.tools.axe; }), /^A carreta wants the felling axe, and there is none in the house\.$/);
-  assert.match(why((w, h) => { h.logs = { wall: 0, sill: 1, poor: 1 }; }), new RegExp(`^A carreta wants ${CARRETA_LOGS} logs from the pile at the house: two wheels cut from one, the axle and the frame from the others\\. There are 2\\. Fell and haul some first\\.$`));
+  assert.match(why((w, h) => { h.logs = { wall: 0, sill: 1, poor: 1 }; }), new RegExp(`^A carreta wants ${CARRETA_LOGS} logs from the pile at the house: two wheels cut from one, the axle and the frame from the others\\. There are 2\\. Fell some first\\.$`));
   assert.match(why((w, h) => { h.resources.hides = 0; }), /^A carreta is lashed together with rawhide, and there is no hide in the house\. A hunt brings one home\.$/);
   assert.match(why(w => { w.status = 'lobby'; }), /once the class has begun/);
-  // One at a time: a second hand is told who is at it.
+  // A second hand works alongside the first, and the one carreta is made sooner (owner, 2026-09-28; sim/hands.mjs). Until then
+  // the second was refused, "... is already making a carreta."
   const first = worker;
   applyAction(world, 'hh-1', { action: 'chore', entityId: first.id, chore: 'make-carreta' });
   const second = hand(world, household);
-  assert.equal(choreAvailability(world, household, second, 'make-carreta').why, `${first.name} is already making a carreta.`);
+  assert.equal(choreAvailability(world, household, second, 'make-carreta').can, true);
+  applyAction(world, 'hh-1', { action: 'chore', entityId: second.id, chore: 'make-carreta' });
+  assert.equal(second.chore.alongside, first.id, 'the second works alongside the first');
   // Not on the invented country, which has no log pile, and not in a class of the first table.
   const invented = home([1, 2], { map: 'gonzales', stem: 'carreta-inv' });
   assert.equal(choresFor(invented.world, invented.household, hand(invented.world, invented.household)).some(entry => entry.id === 'make-carreta'), false, 'the carreta was offered with no log pile');
@@ -129,7 +132,8 @@ test('made, it takes three logs, the poorest first, and a hide, and stands in th
 test('it is used as the wagon is, one person at a time, and carries less: twelve on a trip, ten in the flight, two riders', () => {
   const { world, household } = home();
   const carreta = make(world, household);
-  // A trip to town with the ox and carreta: twelve loads, and a load of fifteen is refused in its own words.
+  // A trip to town with the ox and carreta: twelve loads, and a load of sixteen - four lots of food, four food a lot since
+  // 2026-09-28 (sim/market.mjs; five until then) - is refused in its own words.
   const driver = hand(world, household);
   household.resources.food = 60;
   const ways = errandFor(world, 'hh-1', driver.id, [{ id: 'store:food', n: 2, pay: 'coin' }], 'wagon').quote;
@@ -137,9 +141,9 @@ test('it is used as the wagon is, one person at a time, and carries less: twelve
   assert.equal(cart.carry, CARRETA_CARRY);
   assert.equal(cart.name, 'With the ox and carreta');
   assert.equal(ways.can, true, ways.why);
-  const tooMuch = errandFor(world, 'hh-1', driver.id, [{ id: 'store:food', n: 3, pay: 'coin' }]).quote.ways.find(way => way.id === 'wagon');
+  const tooMuch = errandFor(world, 'hh-1', driver.id, [{ id: 'store:food', n: 4, pay: 'coin' }]).quote.ways.find(way => way.id === 'wagon');
   assert.equal(tooMuch.can, false);
-  assert.equal(tooMuch.why, `The carreta carries ${CARRETA_CARRY}, and this is 15 loads.`);
+  assert.equal(tooMuch.why, `The carreta carries ${CARRETA_CARRY}, and this is 16 loads.`);
   // Taken: held by one person, and the next is told who has it.
   applyAction(world, 'hh-1', { action: 'chore', entityId: driver.id, chore: 'visit-shop', errand: [{ id: 'store:food', n: 2, pay: 'coin' }], errandMode: 'wagon' });
   stepWorld(world);

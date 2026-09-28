@@ -1,23 +1,31 @@
-// Felling the family's own trees and hauling the logs home: docs/WOODS_AND_BUILDING.md §6.1, build step 4.
+// Felling the family's own trees, and their logs onto the pile at the house: docs/WOODS_AND_BUILDING.md §6.1, build step 4,
+// and §6.7 (the owner, 2026-09-28).
 //
-// The owner: "players should have to cut down trees to build their houses." A student picks one of the family, *Fell
-// trees*, taps a place in timber on the family's own land, is told what stands there, and sends them with the felling
-// axe. They fell the trees within a few rods of the place one at a time - straight wall timber first, then timber that
-// will not rot on the ground for sills, then the rest - until none is left in reach or they are called in. Every tree is
-// one real tree of the woods (sim/woods.mjs): it becomes a stump, and its logs lie where it fell until somebody hauls
-// them to the house, one on a person's shoulder or a load behind the ox. What is at the house is the family's log pile,
-// which the house plot will build from (step 5).
+// The owner: "players should have to cut down trees to build their houses." A student picks one of the family and presses
+// *Fell trees*. They go out with the felling axe to the nearest timber on the family's own land (`fellingGround`) - or to a
+// place the student chose, which a family nobody plays still does - and fell the trees within a few rods of it one at a time:
+// straight wall timber first, then timber that will not rot on the ground for sills, then the rest, until none is left in
+// reach or they are called in. Every tree is one real tree of the woods (sim/woods.mjs): it becomes a stump.
+//
+// **Amended by the owner, 2026-09-28**: "Why do we need multiple action buttons for moving logs? That should be consolidated and
+// an automatic part of felling trees. Any task that pulls from wood should be able to pull from the universal wood pile." So a
+// felled tree's logs go **straight onto the family's one wood pile** at the house (`household.logs`, sim/woodpile.mjs), and
+// dragging them in is part of felling it (`CARRY_TICKS`, folded into the tree's own time). There is no hauling order any more:
+// `haul-logs` is kept only for a class saved with somebody in the middle of it, and logs a class saved before lay out are
+// folded onto the pile at the save's door (`foldLyingLogs`). A family whose land has no timber at all fells at the nearest
+// timber off it with the ox and wagon (`fetch-logs` in sim/chores.mjs, begun by *Fell trees*).
 //
 // Only a class whose woods come from the land (`countsTrees`: the biomes, or the 2016 grid) counts its trees one by one, so only such a class
 // fells them. Settlers felled their own trees for their houses (`HIST-TEX-017`); every number here is invented
-// (`FIC-GONZ-032`): how long a tree takes, how many logs it gives, how far round the place a person fells, what a person
-// or the ox drags.
+// (`FIC-GONZ-032`, `FIC-GONZ-902`): how long a tree takes, how many logs it gives, how far round the place a person fells, how
+// long its logs take to drag in.
 // ceiling: a tree is felled in one to three ticks, not the hour or more it took, because a class lasts under two days
 // (docs/WOODS_AND_BUILDING.md, owner 2026-09-15: real counts, compressed time). Undo it if the class clock covers weeks.
-// ceiling: the ox is not drawn going out with the hauler, and is not lent while hauling; it only has to be at home and
-// free when a load is taken up. Lending it for the trip, like the wagon on a journey, is the way out.
-// ceiling: felling a patch does not make it open ground for the going or for clearing; clearing a timber plot does not
-// fell its trees into logs. Joining them is the way out when the house plot needs more logs than a family can fell.
+// ceiling: dragging a tree's logs to the pile is one tick of the feller's own, however far the tree stands from the house and
+// whether or not the ox is at home. The walk out to the timber is still walked; a drag that grew with the distance, or went
+// quicker behind the ox, is the way out if near timber and far timber should differ more than the walk makes them.
+// ceiling: felling a patch does not make it open ground for the going or for clearing. Joining them is the way out when the
+// house plot needs more logs than a family can fell.
 import { record } from './events.mjs';
 import { userOf } from './keeping.mjs';
 import { PLOT_SIDE } from './fields.mjs';
@@ -31,8 +39,10 @@ import { KINDS, countsTrees, parseTreeId, patchAt, standOf, treeById, treesIn, w
 export const FELL_REACH = 0.05;
 /** Ticks of an ordinary hand's work to fell and trim a tree, by its size, before its kind's own effort. */
 export const FELL_TICKS = Object.freeze({ pole: 1, log: 2, large: 3 });
-/** How many logs one trip brings to the house: on a person's shoulder, or dragged behind the ox. */
+/** How many logs one trip brings to the house: on a person's shoulder, or dragged behind the ox. Read only by the retired hauling. */
 export const DRAG_LOGS = Object.freeze({ hand: 1, ox: 6 });
+/** Ticks of an ordinary hand's work to drag a felled tree's logs onto the pile at the house, part of felling it (`FIC-GONZ-902`). */
+export const CARRY_TICKS = 1;
 /** Which logs are felled first: those for walls, then sills, then the rest. */
 export const USE_ORDER = Object.freeze(['wall', 'sill', 'poor']);
 
@@ -92,30 +102,87 @@ export function nextTree(world, household, entity) {
     .sort((a, b) => USE_ORDER.indexOf(a.use) - USE_ORDER.indexOf(b.use) || Math.hypot(a.x - here.x, a.y - here.y) - Math.hypot(b.x - here.x, b.y - here.y))[0] || null;
 }
 
-/** How many ticks this tree takes an ordinary hand, before their skill and strength. */
+/** How many ticks this tree takes an ordinary hand to fell, before their skill and strength. */
 export const fellTicks = tree => Math.max(1, Math.round(FELL_TICKS[tree.size] * KINDS[tree.kind].fell));
+/** And to fell it and drag its logs onto the pile, which is all one work since 2026-09-28 (`CARRY_TICKS`). */
+export const fellAndCarryTicks = tree => fellTicks(tree) + CARRY_TICKS;
 
-/** The tree comes down: a stump, and its logs lying where it fell. False if somebody felled it first. */
+/** The tree comes down: a stump, and its logs on the family's pile at the house. False if somebody felled it first. */
 export function fellTree(world, household, entity, treeId) {
   const tree = treeById(treeId, options(world));
   if (!tree || felledOf(world)[treeId]) return false;
   world.woods ||= { felled: {}, revision: 0 };
-  world.woods.felled[treeId] = { by: household.id, minute: world.minute, kind: tree.kind, use: tree.use, logs: tree.logs, left: tree.logs };
+  // Nothing is left lying (owner, 2026-09-28): the logs are dragged in as part of the felling, and go onto the one pile.
+  world.woods.felled[treeId] = { by: household.id, minute: world.minute, kind: tree.kind, use: tree.use, logs: tree.logs, left: 0 };
   world.woods.revision += 1;
+  stackLogs(household, { [tree.use]: tree.logs });
   const state = entity.chore;
   state.trees = (state.trees || 0) + 1;
   state.logs = (state.logs || 0) + tree.logs;
   return true;
 }
 
-/** Said once, when the felling is done: how many trees and logs, and where they lie. */
+/** Said once, when the felling is done: how many trees and logs, and where they came from. */
 export function recordFelling(world, household, entity) {
   const state = entity.chore;
   if (!state?.trees) return;
   record(world, 'improvement', {
     actorId: entity.id, householdId: household.id, importance: 2, claimId: 'FIC-GONZ-032',
-    text: `${entity.name} felled ${state.trees} ${state.trees === 1 ? 'tree' : 'trees'} ${whereFromHouse(world, household, state.ground)}. ${state.logs} logs lie where they fell, to be hauled to the house.`,
+    text: `${entity.name} felled ${state.trees} ${state.trees === 1 ? 'tree' : 'trees'} ${whereFromHouse(world, household, state.ground)}. ${state.logs} ${state.logs === 1 ? 'log went' : 'logs went'} onto the pile at the house.`,
   });
+}
+
+/**
+ * Where a feller goes when nobody chose a place: the nearest standing tree on the family's own land that gives a sound log - wall
+ * or sill timber - and the nearest of any kind where the land has none (owner, 2026-09-28: "I should be able to set one person
+ * on felling trees ... set each to auto, and eventually get a house"). Looked for in growing circles round the house to the edge
+ * of the holding, a quarter mile of woods at a time, and remembered until that tree is felled: trees are only ever taken away,
+ * so the nearest cannot change until it is down, and land with none to fell never has any. Null where nothing stands to fell;
+ * `{ x, y, sound }` otherwise, `sound` false when the land has only poor timber left.
+ */
+const RINGS = Object.freeze([0.1, 0.2, 0.4, 0.8, 1.6, 3.2, 6.4]);
+const groundKept = new WeakMap();
+export function fellingGround(world, household) {
+  if (!household || !countsTrees(woodsRule(world)) || choosing(household)) return null;
+  const home = world.map.sites[household.homeSiteId];
+  const bounds = home && holdingOf(world, household)?.bounds;
+  if (!bounds) return null;
+  if (!groundKept.has(world)) groundKept.set(world, new Map());
+  const kept = groundKept.get(world), key = `${household.id}|${home.x}|${home.y}`;
+  const was = kept.get(key);
+  const place = tree => ({ x: tree.x, y: tree.y, sound: tree.use === 'wall' || tree.use === 'sill' });
+  if (was && (was.none || !felledOf(world)[was.id])) return was.none ? null : place(was);
+  const found = nearestToFell(world, household, home, bounds);
+  kept.set(key, found || { none: true });
+  return found && place(found);
+}
+function nearestToFell(world, household, home, bounds) {
+  const felled = felledOf(world), opts = options(world);
+  const sound = tree => (tree.use === 'wall' || tree.use === 'sill');
+  // Asked of the land only - never of the axe or the class's state, which change: what is found here is remembered.
+  const land = onRealLand(world) ? landAround() : null;
+  const wet = tree => Boolean(land) && !(land.heightAt(tree.x, tree.y) >= 0.3);
+  let poor = null;
+  for (const ring of RINGS) {
+    const box = { minX: Math.max(bounds.minX, home.x - ring), maxX: Math.min(bounds.maxX, home.x + ring), minY: Math.max(bounds.minY, home.y - ring), maxY: Math.min(bounds.maxY, home.y + ring) };
+    const found = [];
+    for (let x = box.minX; x < box.maxX; x += 0.25) for (let y = box.minY; y < box.maxY; y += 0.25) {
+      for (const tree of treesIn({ minX: x, minY: y, maxX: Math.min(box.maxX, x + 0.25), maxY: Math.min(box.maxY, y + 0.25) }, opts) || []) {
+        if (tree.logs > 0 && !felled[tree.id] && Math.hypot(tree.x - home.x, tree.y - home.y) <= ring) found.push(tree);
+      }
+    }
+    found.sort((a, b) => (sound(a) ? 0 : 1) - (sound(b) ? 0 : 1) || Math.hypot(a.x - home.x, a.y - home.y) - Math.hypot(b.x - home.x, b.y - home.y));
+    for (const tree of found) {
+      // Not a tree standing in the water, where nobody is sent to fell (`fellRefusal`).
+      if (wet(tree)) continue;
+      if (sound(tree)) return tree;
+      poor ||= tree;
+      break;
+    }
+    // The whole holding looked over: nothing sound anywhere, and the nearest of anything else.
+    if (box.minX <= bounds.minX && box.maxX >= bounds.maxX && box.minY <= bounds.minY && box.maxY >= bounds.maxY) break;
+  }
+  return poor;
 }
 
 /** Where a felled tree lay, from its id: the tree's own spot. */
@@ -210,12 +277,14 @@ export function fellingInvalid(world) {
 }
 
 /**
- * Every tree standing on a plot brought down at once, with its logs left lying where it fell.
+ * Every tree standing on a plot brought down at once, its logs onto the family's pile at the house.
  *
  * Clearing ten acres of timber is felling the trees on them (owner, 2026-09-17: "instead of having survey just magically
  * clearing trees, there should be a way to cut those trees down, and use those to build with"). The trees are the woods' own
- * (sim/woods.mjs), marked felled exactly as the axe marks them one by one, so the map loses them, the logs can be hauled and
- * built with, and nothing is made that the land did not hold. Returns what came down.
+ * (sim/woods.mjs), marked felled exactly as the axe marks them one by one, so the map loses them, the logs are built with, and
+ * nothing is made that the land did not hold. Since 2026-09-28 the logs go onto the one pile, as felling's do: nobody hauls
+ * them in as work of its own (owner: "Any task that pulls from wood should be able to pull from the universal wood pile").
+ * Returns what came down.
  */
 export function fellStanding(world, household, plot) {
   // Only a class whose woods come from the land has trees to bring down; on the invented country the ground is cleared as it
@@ -229,9 +298,30 @@ export function fellStanding(world, household, plot) {
   world.woods ||= { felled: {}, revision: 0 };
   let logs = 0;
   for (const tree of trees) {
-    world.woods.felled[tree.id] = { by: household.id, minute: world.minute, kind: tree.kind, use: tree.use, logs: tree.logs, left: tree.logs };
+    world.woods.felled[tree.id] = { by: household.id, minute: world.minute, kind: tree.kind, use: tree.use, logs: tree.logs, left: 0 };
+    stackLogs(household, { [tree.use]: tree.logs });
     logs += tree.logs;
   }
   world.woods.revision += 1;
   return { trees: trees.length, logs };
+}
+
+/**
+ * A class saved before 2026-09-28 may have logs lying where their trees fell, waiting to be hauled. Called once at the save's
+ * door (server/storage.mjs `readSave`): every log still lying goes onto its family's pile, by its kind, and nothing lies out any
+ * more - exactly what felling does now. Somebody saved in the middle of a haul keeps the load in their arms and stacks it when
+ * they reach the house (`haul-logs`, kept for them). No save version moved: the pile is a field every such class already had,
+ * and nothing is read another way. Returns how many logs were folded in.
+ */
+export function foldLyingLogs(world) {
+  let folded = 0;
+  for (const entry of Object.values(world?.woods?.felled || {})) {
+    const household = world.households?.[entry?.by];
+    if (!household || !(entry.left > 0) || !USE_ORDER.includes(entry.use)) continue;
+    stackLogs(household, { [entry.use]: entry.left });
+    folded += entry.left;
+    entry.left = 0;
+  }
+  if (folded) world.woods.revision += 1;
+  return folded;
 }

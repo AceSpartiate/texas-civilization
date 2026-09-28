@@ -61,8 +61,6 @@ const HOST_SIZES = [{ width: 1920, height: 1080 }, { width: 1280, height: 720 },
 const DELIBERATE = [
   { kind: 'dialog', why: 'A dialog stands over the map on purpose and says so: the journal behind its own dimmed backdrop, the ending, the inside of the house, "reconnecting". Its own controls are held clear of everything (the covered check), and the guided start is not in this allowance - see below.', except: /^guided start$/ },
   { kind: 'tip', why: 'The tip is drawn at the icon the pointer or the keyboard is on, over whatever is beside it; it goes the moment the pointer leaves (docs/FAMILY_PANEL.md §4).' },
-  { a: /^first-meeting tip$/, b: /^(person card|call menu|meeting|messages|going popup|site chooser|stake chooser|town scene|wagon load|sound panel)$/,
-    why: 'Where there is no room anywhere clear, the tip at first meeting stands at the bar with the card or panel the student opened over it: "a card the student opened outranks a tip" (placeTip in public/app.js, the rule of the tips’ builder, docs/LESSON.md §9). It is placed clear of all of them first, and again whenever the card moves or the screen changes size.' },
   { a: /^(house plans|house plot)$/, b: /^(family: |ability bar|map buttons|journal button|status: |wagon button|house button)/, when: flags => flags.backdrop,
     why: 'Choosing a house and packing the wagon want the whole screen: the map behind goes dim and the panel says the family is behind it (docs/FAMILY_PANEL.md §12.11).' },
 ];
@@ -72,7 +70,7 @@ const DELIBERATE = [
  * Delete an entry the moment its owner's fix lands; the check is already written.
  */
 const PENDING = [
-  { a: /^errand popup$/, b: /^first-meeting tip$/, owner: 'the errand builder (test:errand; public/tips.js, public/errand.js): keeping the first-meeting tip off the open errand popup' },
+  // The tip over the open errand was here until 2026-09-28, owned by the errand builder: fixed (a tip with no room waits).
 ];
 const pending = pair => PENDING.find(rule => (rule.a.test(pair.a) && rule.b.test(pair.b)) || (rule.a.test(pair.b) && rule.b.test(pair.a)));
 const deliberate = (pair, flags) => DELIBERATE.find(rule => {
@@ -480,8 +478,6 @@ for (const one of record) {
   for (const entry of one.covered) {
     if (!entry.centre && entry.points < 3) continue;
     if (entry.by.every(by => DELIBERATE_COVER.test(by))) continue;
-    // The tip's own Got it under a card the student opened: the same rule as the tip's box above.
-    if (entry.in === 'first-meeting tip' && entry.by.every(by => deliberate({ a: entry.in, b: by, kinds: [] }, one.flags))) continue;
     const theirs = entry.by.every(by => pending({ a: entry.in, b: by }));
     if (theirs) { held.push({ where, a: entry.in, b: entry.by.join(', '), shared: { w: 0, h: 0 }, owner: pending({ a: entry.in, b: entry.by[0] }).owner, control: entry.control }); continue; }
     faults.push({ where, what: 'covered', text: `"${entry.control}" in ${entry.in} is under ${entry.by.join(', ')} (${entry.points} of ${entry.of} points${entry.centre ? ', the middle too' : ''})` });
@@ -496,10 +492,6 @@ for (const one of record) {
     // The family frame is the camera's own (Follow): a person it happens to put under a panel is one press on their
     // portrait from the middle of the screen. What is held is the person the student has put the camera on.
     if (/being ordered/.test(entry.what) && one.following) continue;
-    // The tip in its last resort (no room clear of anything, so at the bar with the card over it, the rule above) may lie
-    // over the person too; everywhere it has any room, it keeps off them (placeTip).
-    const lastResort = entry.under === 'first-meeting tip' && one.overlaps.some(pair => (pair.a === 'first-meeting tip' || pair.b === 'first-meeting tip') && deliberate(pair, one.flags));
-    if (lastResort) { allowed.push({ where, a: entry.what, b: entry.under, shared: { w: 0, h: 0 }, why: 'the tip at first meeting in its last resort, under the card, with no room clear anywhere' }); continue; }
     faults.push({ where, what: 'canvas', text: `${entry.what} is ${Math.round(entry.share * 100)}% under ${entry.under}` });
   }
 }

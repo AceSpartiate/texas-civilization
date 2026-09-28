@@ -9,6 +9,7 @@
 // crossed keeps every one of its twenty-four ticks because a question is open in it. The invented
 // Gonzales country, and so every class saved before this, runs the one clock it always ran.
 import test from 'node:test';
+import { Worker } from 'node:worker_threads';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { projectWorld, stepWorld } from '../sim/world.mjs';
@@ -74,40 +75,34 @@ test('a rider comes into view the same distance up the road - counted in ticks -
   assert.equal(ticksOff('news'), ticksOff('home'), 'the news brought riders into view later in the ride');
 });
 
-test('the news phase gives a student as many ticks of watching a rider come as the farming phase does', () => {
-  // The same class played twice: once with the calendar allowed to speed up at the news, once
+test('the news phase gives a student as many ticks of watching a rider come as the farming phase does', async () => {
+  // The same classes played twice: once with the calendar allowed to speed up at the news, once
   // held at the farming scale throughout. What is asserted is not that every rider is always
   // seen coming - one who crosses a river is genuinely out of sight until he is over it, and
   // that is older than this change - but that speeding up the calendar takes nothing away.
-  const approaches = hold => {
-    const world = colonies('clock-approach', 30, { neighbours: true });
-    const seen = {}, ticksOfApproach = [];
-    for (let tick = 0; tick < 2000 && !world.director.complete; tick++) {
-      stepWorld(world);
-      if (hold && world.director.phase === 'news') world.director.phase = hold;
-      for (const household of Object.values(world.households)) {
-        for (const other of projectWorld(world, household.id, 'student', { includeMap: false }).others) {
-          const key = `${household.id}:${other.id}`;
-          if (other.carrier && seen[key] === undefined) seen[key] = world.tick;
-        }
-      }
-      for (const encounter of Object.values(world.encounters || {})) {
-        if (encounter.openedMinute !== world.minute) continue;
-        const first = seen[`${encounter.householdId}:${encounter.carrierId}`];
-        ticksOfApproach.push(first === undefined ? 0 : world.tick - first);
-      }
-    }
-    return ticksOfApproach;
-  };
-  const farming = approaches('home'), news = approaches(null);
-  assert.ok(news.length > 5, `only ${news.length} riders spoke to anybody`);
+  //
+  // **Pooled over three classes** (2026-09-28). It was one class, about fifty-three riders, where one rider is two points of the
+  // five allowed: merging the farming year (sim/seasons.mjs) moved where families were when riders came, and that one class
+  // crossed the line at 13 in 100 against 8 (4 riders of 53 held, 7 of 55 free) while the rest did not move against it - over
+  // five classes 35 of 272 appeared without an approach with the calendar free and 33 of 258 held (12.9 against 12.8 in 100).
+  // Each class runs in a worker of its own (tests/support/rider-approach.mjs), side by side. The three here, before and after that
+  // merge: free 44 of 164 against held 54 of 159 before; 20 of 163 against 17 of 157 after.
+  const SEEDS = ['clock-approach', 'clock-approach-2', 'clock-approach-3'];
+  const run = (seed, hold) => new Promise((resolve, reject) => {
+    const worker = new Worker(new URL('./support/rider-approach.mjs', import.meta.url), { workerData: { seed, hold } });
+    worker.once('message', resolve); worker.once('error', reject);
+    worker.once('exit', code => { if (code) reject(new Error(`${seed}: the worker stopped with ${code}`)); });
+  });
+  const runs = await Promise.all(SEEDS.flatMap(seed => [run(seed, 'home'), run(seed, null)]));
+  const farming = runs.filter((_, at) => at % 2 === 0).flat(), news = runs.filter((_, at) => at % 2 === 1).flat();
+  assert.ok(news.length > 5 * SEEDS.length, `only ${news.length} riders spoke to anybody`);
   // About two in five appear with no approach already, farming or not: a rider whose whole leg
   // is short, or who comes over a river. That is older than the two clocks and is not what this
   // guards. What it guards is that the faster calendar adds none of its own - without sight and
   // the first tick stretching with it, this is most of them rather than a point or two.
   const appearances = list => list.filter(ticks => ticks === 0).length / list.length;
   assert.ok(appearances(news) <= appearances(farming) + 0.05,
-    `${(appearances(news) * 100).toFixed(0)} in 100 riders appeared without an approach in the news phase, against ${(appearances(farming) * 100).toFixed(0)} while farming`);
+    `${(appearances(news) * 100).toFixed(0)} in 100 riders appeared without an approach in the news phase (${news.filter(ticks => ticks === 0).length} of ${news.length}), against ${(appearances(farming) * 100).toFixed(0)} while farming (${farming.filter(ticks => ticks === 0).length} of ${farming.length}), over ${SEEDS.length} classes`);
 });
 
 test('a student gets the same ticks to answer a rider whatever the date is doing', () => {

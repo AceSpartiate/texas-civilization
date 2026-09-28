@@ -219,6 +219,8 @@ because there's no woods. thats okay"*; and, by multiple choice, the woods round
 - A felled tree leaves a **stump** and its logs lie where it fell. **Hauling** brings them to the house plot: a person
   drags one log a trip; the ox, or the wagon with the ox, brings six. Logs on the house plot are the family's
   **log pile** (`household.logs`, by kind: wall logs, sill logs, poor logs).
+  **Amended by the owner, 2026-09-28 (§6.7):** nothing lies out any more - the logs go onto the pile as each tree comes down,
+  the drag folded into the felling - and there is no hauling order.
 - Felling on a staked plot is also clearing it: a plot whose trees are all felled needs only the grubbing left.
 
 ### 6.1.1 As built: step 4 (2026-09-15)
@@ -648,6 +650,65 @@ second thing made from the log pile, and docs/SETTLING_IN.md §4b with a vehicle
 - `ceiling:` offered only where the trees are counted and logs lie in a pile (every class of the real land); on the invented country
   a family with no vehicle carries its crop in by hand. `ceiling:` one person makes it; the many hands of a raising are not modelled.
   `ceiling:` a cart (the poor band's) still carries a wagon's 20 on a trip, as it always has.
+
+### 6.7 Amended by the owner, 2026-09-28: one wood pile, felling as one press, and felling and building on auto
+
+> "the tasks are way too complicated. Why do we need multiple action buttons for moving logs? That should be consolidated and an
+> automatic part of felling trees. Any task that pulls from wood should be able to pull from the universal wood pile. I should be
+> able to set one person on felling trees, and one person on building the house, set each to auto, and eventually get a house. If
+> I add another person to the task it should speed the task up."
+>
+> "Apply the logic described for felling trees and building houses to the other tasks too."
+>
+> — the owner, 2026-09-28
+
+**Status: built the same day** (`sim/felling.mjs`, `sim/woodpile.mjs`, `sim/hands.mjs`, `sim/auto.mjs`; tests
+[auto-house](../tests/auto-house.test.mjs), [hands](../tests/hands.test.mjs)). Claims `FIC-GONZ-902` (the drag folded into felling),
+`FIC-GONZ-903` (enough, and the margin), `FIC-GONZ-904` (furniture and rails from the pile). **This amends §6.1 and §6.1.1**
+(hauling), **docs/BIOME_GAMEPLAY.md §3.2** (fetching logs is no longer an order of its own) and **§6.6** (a second carreta maker
+works alongside the first). The panel and auto side is [FAMILY_PANEL.md §21](FAMILY_PANEL.md).
+
+- **One wood pile.** Every log a family has is on one pile at the house (`household.logs = { wall, sill, poor }`, as before). A felled
+  tree's logs go **straight onto it**: `fellTree` stacks them and leaves nothing lying (`left: 0`); dragging them in is part of felling
+  that tree - **one tick more** a tree (`CARRY_TICKS`), so a pole is two ticks, a log tree three, a large tree four, before the kind's
+  effort, the person's pace and the water they carry. Clearing a timber plot puts its trees' logs on the pile the same way
+  (`fellStanding`). The story says *"Rosa felled 6 trees a quarter mile south of the house. 11 logs went onto the pile at the house."*
+- **No hauling, no fetching.** *Haul logs to the house* (`haul-logs`) is retired: offered to nobody, kept only for somebody saved in the
+  middle of a haul, who carries the load in their arms to the house. *Fetch logs from the timber* (`fetch-logs`) is no longer a button:
+  *Fell trees* begins it for a family whose land has no timber to fell, or only poor timber when the house is short of sound logs, and
+  it glows on the row as felling. The families nobody plays still send it by name (sim/neighbours.mjs), and it works as §3.2 of
+  BIOME_GAMEPLAY has it.
+- **Fell trees is one press.** No place is tapped on the map any more: the feller goes to **the nearest standing tree on the family's
+  own land that gives a sound log** (wall or sill timber), and the nearest of any kind where none is sound (`fellingGround`, looked for
+  in growing circles round the house to the edge of the holding, remembered until that tree is down). They fell what stands within
+  260 feet of it, as before. A place chosen on the map is still honoured (`fell-trees` with `x`, `y`: the families nobody plays use it).
+- **Everything that uses wood takes it from the pile.** The house takes each stage's logs of the kinds the stage wants (§6.3, as
+  before). **Nothing else takes a log the house still wants** (`spareLogs`: what is on the pile beyond `houseStillWants`, the poorest
+  first): **a piece of furniture** takes one spare log and is made at home, nobody going to the timber and nobody asked how they will go
+  (the old trip for a small tree where the pile has none to spare); **a fence** takes six spare logs for its rails **where the rails
+  would otherwise be carried from far timber** (`fenceBy`: the plot on the map says *"Rails split from 6 logs off the pile at the
+  house: about 3 hours."*) - rails at hand and mesquite on the spot are quicker and cost the pile nothing, so they stay as the country
+  gives them. **The carreta** keeps its own rule: three logs of any kind, poorest first. Firewood is not modelled.
+- **Felling on auto.** A feller on auto goes out to the nearest timber each time and on **from one stand to the next without walking
+  home**, until the pile has **enough**: every kind of log the house still wants (poor logs are no pile for walls) **and ten more**
+  (`WOOD_MARGIN`, `pileFull`). A family that has not chosen its house yet is counted for a round-log cabin. Then they work about the
+  place, and take the axe up again the tick the pile falls below it - after a carreta, a fence, a piece of furniture.
+  `ceiling:` the margin is one number for every family; a margin that grew with the plots staked is the way out.
+- **Building on auto.** A builder on auto keeps raising the house from the pile. When the next stage wants logs the pile has not got,
+  the row says so - *"Auto: work on the house. Waiting for logs. Laying the sills on the round-log pen wants 4 sill logs, and the log
+  pile has not got them. Working about the place meanwhile."* - and they resume the tick the logs are there.
+- **The owner's acceptance test** (`tests/auto-house.test.mjs`): one person on felling on auto, one on the house on auto, two presses,
+  and left alone the round-log cabin stands (about 270 ticks for one of each on the test's land; about 100 with two of each, because two
+  hands also take away the lone builder's third of a pace on the upper courses, §6.3).
+- **Old saves.** Logs a class saved before 2026-09-28 left lying are folded onto their family's pile at the save's door
+  (`foldLyingLogs`, server/storage.mjs `readSave`); somebody on auto who remembered hauling remembers felling. No save version moved:
+  the pile is a field every such class already had, and a log lying out and a log on the pile are the same log to every work now.
+- `ceiling:` dragging a tree's logs in is one tick whatever the distance and whether or not the ox is home; the walk out is still
+  walked. A drag that grew with the distance, or went quicker behind the ox, is the way out.
+
+**Decided by the owner, 2026-09-28: "Each needs an axe."** Each feller holds a felling axe of their own; a second feller needs a
+second axe (docs/TOWNS.md §4b, amended; FAMILY_PANEL.md §21.6). The house's builders share one copy with the lane and clearing, as
+before, so a family with one axe takes turns, and one feller and one builder on auto still raise the house.
 
 ## 7. Old saves
 

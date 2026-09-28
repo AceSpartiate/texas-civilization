@@ -1,0 +1,134 @@
+{
+  "record": "crops-market-injections",
+  "date": "2026-09-28",
+  "files": [
+    "tests/crop-minutes.test.mjs",
+    "tests/market.test.mjs",
+    "tests/ending.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "a crop ripens in ticks, whatever real time they took, as it did before",
+      "file": "sim/crops.mjs",
+      "failed": [
+        "corn ripens after three real minutes and cotton after five, counted from the real time each tick took",
+        "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace"
+      ]
+    },
+    {
+      "name": "every tick counts as a Study-pace tick, whatever the server measured: the class speed changes a crop's minutes",
+      "file": "sim/crops.mjs",
+      "failed": [
+        "corn ripens after three real minutes and cotton after five, counted from the real time each tick took",
+        "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace"
+      ]
+    },
+    {
+      "name": "cotton ripens as fast as corn",
+      "file": "sim/crops.mjs",
+      "failed": [
+        "corn ripens after three real minutes and cotton after five, counted from the real time each tick took",
+        "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace",
+        "either crop goes in in any month on the real land, and the harvest says how many minutes are left"
+      ]
+    },
+    {
+      "name": "a crop sown in a class saved before this starts growing from nothing",
+      "file": "sim/crops.mjs",
+      "failed": [
+        "a crop sown in a class saved before this comes in about when it was promised; what a save may hold of the field"
+      ]
+    },
+    {
+      "name": "a save may hold a crop the game does not grow",
+      "file": "sim/crops.mjs",
+      "failed": [
+        "a crop sown in a class saved before this comes in about when it was promised; what a save may hold of the field"
+      ]
+    },
+    {
+      "name": "the real time a crop has stood is never checked in a save",
+      "file": "sim/crops.mjs",
+      "failed": [
+        "a crop sown in a class saved before this comes in about when it was promised; what a save may hold of the field"
+      ]
+    },
+    {
+      "name": "a planter who finds no crop open at the rows falls to the first answer and plants it, out of season or without seed",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "the seed gone while a planter stands at the rows: nothing is planted, and no crop goes in without its seed"
+      ]
+    },
+    {
+      "name": "the store pays full price however much it holds, and never fills",
+      "file": "sim/market.mjs",
+      "failed": [
+        "the price curve: full price to half the want, half price to the want, and then nothing",
+        "what the store holds is written when it buys, and sold on over the calendar: a month clears what it wants",
+        "the errand to town: a list is quoted at the store's price as it fills, and what it cannot use comes home",
+        "one store for the whole town: a neighbour's sale lowers what the next family is paid, and the director's errand stops at a full store"
+      ]
+    },
+    {
+      "name": "the store never sells anything on: once full, full for ever",
+      "file": "sim/market.mjs",
+      "failed": [
+        "what the store holds is written when it buys, and sold on over the calendar: a month clears what it wants"
+      ]
+    },
+    {
+      "name": "what the store bought is never written down",
+      "file": "sim/market.mjs",
+      "failed": [
+        "what the store holds is written when it buys, and sold on over the calendar: a month clears what it wants",
+        "the errand to town: a list is quoted at the store's price as it fills, and what it cannot use comes home",
+        "one store for the whole town: a neighbour's sale lowers what the next family is paid, and the director's errand stops at a full store"
+      ]
+    },
+    {
+      "name": "a full store is never said to be full",
+      "file": "sim/market.mjs",
+      "failed": [
+        "what the store holds is written when it buys, and sold on over the calendar: a month clears what it wants",
+        "one store for the whole town: a neighbour's sale lowers what the next family is paid, and the director's errand stops at a full store"
+      ]
+    },
+    {
+      "name": "a save may hold a market for a town that is not there, or held below nothing",
+      "file": "sim/market.mjs",
+      "failed": [
+        "what the store holds is written when it buys, and sold on over the calendar: a month clears what it wants"
+      ]
+    },
+    {
+      "name": "the director's own errand is sent to a full store",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "one store for the whole town: a neighbour's sale lowers what the next family is paid, and the director's errand stops at a full store"
+      ]
+    },
+    {
+      "name": "the errand's list shows the store's first price, not what it pays now",
+      "file": "sim/errands.mjs",
+      "failed": [
+        "the errand to town: a list is quoted at the store's price as it fills, and what it cannot use comes home",
+        "one store for the whole town: a neighbour's sale lowers what the next family is paid, and the director's errand stops at a full store"
+      ]
+    },
+    {
+      "name": "a sale by the errand is not the store's: the next family finds it as empty as before",
+      "file": "sim/errands.mjs",
+      "failed": [
+        "the errand to town: a list is quoted at the store's price as it fills, and what it cannot use comes home"
+      ]
+    },
+    {
+      "name": "the Scrape's prisoners weigh as they did before the owner weighed them more",
+      "file": "sim/ending.mjs",
+      "failed": [
+        "the people taken prisoner in the Scrape, at home and on the road, are named and weighed; the army's prisoners are not"
+      ]
+    }
+  ]
+}

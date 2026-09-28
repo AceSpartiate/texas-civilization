@@ -1,6 +1,6 @@
 {
   "record": "means-browser",
-  "date": "2026-09-27",
+  "date": "2026-09-28",
   "browser": "153.0.8010.53",
   "ownerDirection": "\"introduce rolling for starting wealth. tie it into the extra wagons. part of wealth will be number of wagons. if a family doesn't have enough wagons, older family members walk. have this potentially affect travelling speed.\" (2026-09-25)",
   "checks": [

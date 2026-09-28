@@ -105,14 +105,14 @@ export function clearSpell(world, household, entity, plotId) {
   if (plot.work < clearingSpells(plot)) return false;
   delete plot.work;
   plot.state = 'cleared';
-  // The trees that stood on it come down with it and the logs lie where they fell (owner, 2026-09-17: "instead of having
-  // survey just magically clearing trees, there should be a way to cut those trees down, and use those to build with").
-  // The same felling the axe does tree by tree (sim/felling.mjs), done here because the ground itself was cleared: the trees
-  // leave the map, the logs are there to haul, and nothing is created that the woods did not hold.
+  // The trees that stood on it come down with it (owner, 2026-09-17: "instead of having survey just magically clearing trees,
+  // there should be a way to cut those trees down, and use those to build with"). The same felling the axe does tree by tree
+  // (sim/felling.mjs), done here because the ground itself was cleared: the trees leave the map, their logs go onto the family's
+  // one pile (owner, 2026-09-28), and nothing is created that the woods did not hold.
   const felled = fellStanding(world, household, plot);
   record(world, 'property', {
     actorId: entity?.id, householdId: household.id, importance: 2, claimId: 'FIC-GONZ-025',
-    text: `${entity ? entity.name : 'The family'} finished clearing ten acres of ${plot.ground} ${whereFromHouse(world, household, plot)}. The field is ${clearedOf(household) * 10} acres now.${felled.trees ? ` ${felled.trees === 1 ? 'One tree came down' : `${felled.trees} trees came down`} with it, and ${felled.logs === 1 ? 'one log lies' : `${felled.logs} logs lie`} where they fell.` : ''}`,
+    text: `${entity ? entity.name : 'The family'} finished clearing ten acres of ${plot.ground} ${whereFromHouse(world, household, plot)}. The field is ${clearedOf(household) * 10} acres now.${felled.trees ? ` ${felled.trees === 1 ? 'One tree came down' : `${felled.trees} trees came down`} with it, and ${felled.logs === 1 ? 'one log went' : `${felled.logs} logs went`} onto the pile at the house.` : ''}`,
   });
   return true;
 }
@@ -149,7 +149,7 @@ export function ruin(world, household, kinds, { by = null, text = null, visibili
       // clearing, not the land itself: every plot goes back to staked and uncleared (docs/LAND_GRANTS.md §5).
       if (!clearedOf(household) && !fieldPlots(household).some(plot => plot.work) && (household.field?.state ?? 'bare') === 'bare') continue;
       for (const plot of keepPlots(world, household)) { plot.state = 'staked'; delete plot.work; delete plot.sown; delete plot.fence; }
-      household.field = { ...household.field, state: 'bare', changedTick: world.tick };
+      { const { grownMs: _grown, ...field } = household.field || {}; household.field = { ...field, state: 'bare', changedTick: world.tick }; }
       ruined.push('field');
       continue;
     }

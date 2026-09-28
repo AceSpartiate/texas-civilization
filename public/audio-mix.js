@@ -52,7 +52,7 @@ export const BEDS = Object.freeze({
 
 /**
  * The most the page plays at once, whatever is happening. A thirty-man volley is a handful of voices; the rest are
- * folded into it. ceiling: one page's own limit; the room's thirty pages are kept quiet by starting muted (`DEFAULTS`),
+ * folded into it. ceiling: one page's own limit; the room's thirty pages are kept quiet by starting quiet (`DEFAULTS`),
  * not by talking to each other.
  */
 export const MAX_VOICES = 12;
@@ -65,13 +65,15 @@ export const DUCK_TO = 0.4;
 export const DUCKING = new Set(['cannon', 'bell', 'alto', 'volley', 'thunder']);
 
 /**
- * How loud a page starts, by who is looking at it (owner question AU1 in docs/AUDIO.md; the recommendation is built).
- * A student's page in a class starts **muted**: thirty Chromebooks in one room each playing the war is a wall of noise,
- * and the teacher's projector carries the class's music and big moments. A student who turns it on (with headphones) is
- * remembered on that device. The Host's page and a solo player start with everything on.
+ * How loud a page starts, by who is looking at it (docs/AUDIO.md §5). Owner, 2026-09-28, answering AU1: **"Everything on,
+ * quiet"**. A student's page in a class starts with music and effects on and the master volume at `STUDENT_MASTER` (30%,
+ * against the Host's and a solo player's 80%): thirty Chromebooks in one room at full volume are a wall of noise, and the
+ * teacher's projector carries the class's music and big moments. A student who changes it with the Sound button is
+ * remembered on that device, and what is remembered wins. Nothing plays before the first gesture on any page.
  */
+export const STUDENT_MASTER = 0.3;
 export const DEFAULTS = Object.freeze({
-  student: Object.freeze({ master: 0.6, music: 0.5, fx: 0.7, ui: 0.5, muted: true }),
+  student: Object.freeze({ master: STUDENT_MASTER, music: 0.5, fx: 0.7, ui: 0.5, muted: false }),
   host: Object.freeze({ master: 0.8, music: 0.6, fx: 0.8, ui: 0.4, muted: false }),
   solo: Object.freeze({ master: 0.8, music: 0.6, fx: 0.8, ui: 0.5, muted: false }),
 });

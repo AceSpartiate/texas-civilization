@@ -4,7 +4,7 @@ import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
-import { actingOf, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS } from '/family-panel.js';
+import { actingOf, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { TIPS, tipToShow } from '/tips.js';
 import { mountErrand } from '/errand.js';
@@ -18,6 +18,7 @@ import { drawFieldSurface } from '/field-surface.js';
 import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
 import { TOWN_WALK, TownWalker, drawTownSpeech, renderSceneCard, townSceneAt, townSceneDrawables } from '/town-scenes.js';
 import { drawSpeech } from '/speech.js';
+import { ambientGround, campMan, crowdDrawables, drawAmbientSpeech, propItem } from '/ambient.js';
 import { drawTownGround, townDrawables } from '/town-art.js';
 import { placeSprite } from '/place-art.js';
 import { renderInterior, clearInteriorChoice } from '/interior.js';
@@ -45,6 +46,7 @@ const $ = selector => document.querySelector(selector);
 import { militaryNotices } from '/military-attention.js';
 import { createBattleView } from '/battle-view.js';
 import { createChaseView } from '/chase-view.js';
+import { activityOf, drawsAtWork, drawWorkLayer, strokeClock, strokeFace, strokeLean, strokeShift, workBeat, workSlot } from '/work-art.js';
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error', '#away-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
 let events;
@@ -64,6 +66,9 @@ const motionProjection = new ProjectionMotion();
 // people and each town person's head as drawn this frame (for the words over them), and the scene whose card is open.
 const townWalker = new TownWalker(), townHeads = new Map(), townSceneSpots = new Map();
 let townSceneOpen = null, townSceneShown = '';
+// Ambient life (public/ambient.js, sim/ambient.mjs): the heads of the camps' men and the refuges' crowd as drawn this frame, for
+// the words over them, and where each person at an activity was drawn, so two keeping company are turned to each other.
+const ambientHeads = new Map(), ambientSpots = new Map();
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 // The one battle renderer (public/battle-view.js, docs/BATTLES.md §3): drawn with the page's own art, and asked by
 // `drawFigure` which pose a family's own person in the force is in. Declared up here, above the page's first `connect`, so a
@@ -90,6 +95,9 @@ let animationTime = 0, previousFrame = 0, paintedFrame = 0, animationDrawMs = 0;
 let flashbackClock = null, landMaking = 0;
 // A traveller's cycle is played from their own place in their stride rather than the shared clock (public/motion.js `GaitClock`).
 const gaitClock = new GaitClock(), gaits = new Map();
+// People at their work (public/work-art.js): where each stands round a shared piece of work and where in its stroke they are,
+// written into these once a figure rather than made new, and each pose's frame lengths read once from the library.
+const workSlotOut = { x: 0, y: 0, face: null }, workClockOut = { period: 0, since: 0, count: 0, frame: 0 }, workFrames = new Map(), workSeeds = new Map();
 /**
  * What was drawn of each traveller this frame (public/motion.js `travelSight`): how much of them was drawn (1 in view, 0
  * away), where along the road they were drawn, how fast they were drawn going in their own heights a second and what the
@@ -147,9 +155,33 @@ function element(tag, content, className) { const el = document.createElement(ta
 // itself, so a browser dialog never blocks the projected Host.
 // Sending for somebody is asked twice, like the other two that cannot be taken back: they lose
 // their place in the ranks and whatever the army does next happens without them.
-const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop', 'send-for': 'Confirm: bring them home', 'winter-recall': 'Confirm: send for them', flee: 'Confirm: leave, and let it burn', 'flight-stay': 'Confirm: stay, and take the risk', 'road-abandon': 'Confirm: leave the wagon behind' };
-/** Which confirmation an action wants: leaving the wagon in the mud is the one road answer asked twice (sim/road.mjs). */
-const confirmKeyOf = button => button.dataset.action === 'road-answer' ? (button.dataset.option === 'abandon' ? 'road-abandon' : null) : button.dataset.action;
+// End Game is asked twice too, and says what it does (design audit 2026-09-28 B2): it was one press, final, at the moment a
+// teacher reaches for a button at the bell. *Stop for today* is the button for the bell (docs/HOST_PAGE.md §2.8).
+const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop', end: 'Confirm: end the whole game', 'stop-for-today': 'Confirm: save and stop for today', 'send-for': 'Confirm: bring them home', 'winter-recall': 'Confirm: send for them', flee: 'Confirm: leave, and let it burn', 'flee-light': 'Confirm: leave most of it behind', 'flee-empty': 'Confirm: leave with nothing', 'flight-stay': 'Confirm: stay, and take the risk', 'road-abandon': 'Confirm: leave the wagon behind' };
+/** What an armed Host button does, said on the Host's notice line while it waits for the second press. */
+const confirmWords = {
+  end: 'This ends the whole game for everyone and shows everybody the ending. If it was a mistake, Classes can take the class up again where it was, but the ending will have been seen. To stop at the bell and carry on next class, use Stop for today instead.',
+  'stop-for-today': 'This pauses the class and saves it where it stands, then closes the server. Next class, open the Host as usual: the class is there, paused, and Resume carries on.',
+};
+/**
+ * Confirmations a double press must not get through (design audit 2026-09-28 B7): leaving for the east with almost nothing
+ * loaded. The second press counts only once this long has passed since the first armed it.
+ */
+const SLOW_CONFIRM = new Set(['flee-light', 'flee-empty']);
+const SLOW_CONFIRM_MS = 1000;
+/**
+ * Which confirmation an action wants: leaving the wagon in the mud is the one road answer asked twice (sim/road.mjs); leaving for
+ * the east with a load far under what the family could take is asked in its own words (`lightLoad`, public/flight-load.js).
+ */
+const confirmKeyOf = button => {
+  if (button.dataset.action === 'road-answer') return button.dataset.option === 'abandon' ? 'road-abandon' : null;
+  if (button.dataset.action === 'flee') {
+    const flight = window.__snapshot?.world?.flight;
+    const light = flight ? lightLoad(flight, Object.fromEntries([...document.querySelectorAll('#selection-flight .flight-amount')].map(one => [one.dataset.take, Number(one.value) || 0]))) : null;
+    return light ? `flee-${light}` : 'flee';
+  }
+  return button.dataset.action;
+};
 let confirming = null, confirmTimer = null, authRecheck = false, startAnyway = false;
 // The map is public geography that never changes during a class, so it is fetched once
 // and re-attached to each snapshot. A new class rotates the session id and invalidates it.
@@ -272,7 +304,9 @@ function ensureHomes(snapshot) {
 function resetConfirm(button) {
   if (!button?.dataset.confirming) return;
   button.textContent = button.dataset.label || button.textContent;
-  delete button.dataset.confirming;
+  const notice = $('#host-notice');
+  if (notice?.dataset.confirmFor && notice.dataset.confirmFor === button.dataset.confirmKey) { notice.hidden = true; notice.textContent = ''; delete notice.dataset.confirmFor; }
+  delete button.dataset.confirming; delete button.dataset.confirmKey; delete button.dataset.armedAt;
   if (confirming === button) { clearTimeout(confirmTimer); confirming = null; }
 }
 function stableOffset(id) {
@@ -293,6 +327,56 @@ function groundShadow(ctx, x, y, radius) {
 // name. Guessing either from a name would be a claim the simulation never made.
 const SKIN = ['#e0b48c', '#c9915f', '#a76c41', '#7d4d2c', '#f0cba6'];
 const CLOTH = ['#7d6a4c', '#5d6b52', '#8a6a4a', '#6d5a68', '#4f6570'];
+/**
+ * Somebody at their work, in the pose the one table chose (public/work-art.js `WORK`), timed so its tool and effect land on the
+ * pose's own strike: a cycle of the work where the library has one, and where it has not the nearest pose with the stand-in's
+ * tool, lean, pace and chips or earth drawn with it. Walking to the work and carrying from it are the ordinary cycles, stepped
+ * at the pace they are moved (`gait`). Returns whether the figure was drawn.
+ * stand-in: docs/ART_REQUESTS.md, "Request 2026-09-28 — people at work" - every stroke marked 'stand-in' there.
+ */
+/**
+ * Somebody as the drawing of their work needs them: whether they stand at their own home (working about the place happens nowhere
+ * else, sim/routines.mjs) and which way the server is stepping them over their land this frame (`ProjectionMotion.heading`).
+ * Only for somebody the work table draws, so nobody else is copied.
+ */
+function atTheirWork(entity, homeSiteId, now, frozen) {
+  if (entity.kind !== 'person' || !(entity.chore || entity.task === 'work' || entity.task === 'help')) return entity;
+  const shown = { ...entity, atHome: Boolean(homeSiteId) && entity.location?.siteId === homeSiteId };
+  if (drawsAtWork(shown)) shown.strolling = motionProjection.heading(entity, now, frozen);
+  return shown;
+}
+function drawAtWork(ctx, binding, clip, x, y, size, entity) {
+  const stroke = binding.work;
+  if (stroke.art === 'journey' || entity.strolling) {
+    return animated(ctx, clip, x, y, size, entity.id, { paused: binding.frozen, flip: binding.upright ? false : entity.flip, gait: entity.gait, appearance: entity.appearance });
+  }
+  const id = entity.id || '';
+  let seed = workSeeds.get(id);
+  if (seed === undefined) { seed = (hashOf(id) % 997) * 7; workSeeds.set(id, seed); }
+  let frames = workFrames.get(clip);
+  if (frames === undefined) { const info = clipInfo(clip); frames = info?.frames ? info.frames.map(frame => frame.duration) : null; if (info) workFrames.set(clip, frames); }
+  const still = reducedMotion.matches || Boolean(binding.frozen);
+  strokeClock(stroke, frames, animationTime + seed, workClockOut);
+  const shift = still ? 0 : strokeShift(stroke, workClockOut) * size, face = still ? null : strokeFace(stroke, workClockOut);
+  const flip = face ? face === 'w' : binding.upright ? false : Boolean(entity.flip), dir = flip ? -1 : 1;
+  const width = animated(ctx, clip, x + shift, y, size, 0, {
+    paused: binding.frozen, flip, appearance: entity.appearance,
+    timeMs: animationTime + seed, lean: still ? 0 : -strokeLean(stroke, workClockOut) * dir,
+  });
+  if (!width) return 0;
+  // The cast figure the pose is drawn in (`rust-work` is rust's), whose hands a drawn axe is put in (public/work-art.js `HAFTS`).
+  const marks = drawWorkLayer(ctx, stroke, x + shift, y, size, dir, workClockOut, still, clip.slice(0, clip.length - stroke.pose.length - 1));
+  // Presentation evidence for the proofs (npm run test:work), read by nothing in the application: what each of the family at work
+  // was last drawn doing, which frame of it, and how many marks of its tool and effect. One record a person, kept and rewritten.
+  if (id) {
+    const seen = (window.__workDrawn ??= {})[id] ??= {};
+    seen.activity = activityOf(entity); seen.stroke = binding.stroke; seen.art = stroke.art; seen.clip = clip;
+    seen.frame = workClockOut.frame; seen.since = Math.round(workClockOut.since); seen.count = workClockOut.count; seen.marks = marks;
+    seen.shift = Math.round(shift * 10) / 10; seen.flip = flip; seen.request = stroke.request || null; seen.tool = stroke.tool || null;
+    if (!still) workBeat(id, seen.activity, binding.stroke, workClockOut, x + dir * size * .5, y);
+  }
+  return width;
+}
 function miniPerson(ctx, x, y, size, entity) {
   // A child is drawn smaller than a grown person, in their own figure or a grown one (public/motion.js `entityClip`).
   if (!entity.side) size *= figureScale(entity);
@@ -303,16 +387,18 @@ function miniPerson(ctx, x, y, size, entity) {
     // The pose each of the family was last drawn in, by id: presentation evidence for the proofs (npm run test:children), read by
     // nothing in the application.
     if (entity.id) (window.__clipsDrawn ??= {})[entity.id] = clip;
-    if (animated(ctx, clip, x, y, size, entity.id, {
+    if (binding.work) { if (drawAtWork(ctx, binding, clip, x, y, size, entity)) return; }
+    else if (animated(ctx, clip, x, y, size, entity.id, {
       paused: binding.frozen, flip: binding.upright ? false : entity.flip,
       gait: entity.gait, appearance: entity.appearance,
     })) return;
   }
   const binding = entity.side ? { id: `${entity.side === 'mexican' ? 'regular' : 'volunteer'}-idle-e` } : entityClip(entity, entity.observed);
   if (entity.id && !entity.side) (window.__clipsDrawn ??= {})[entity.id] = binding.id;
+  if (binding.work && drawAtWork(ctx, binding, binding.id, x, y, size, entity)) return;
   // A north or south cycle is drawn facing that way already; mirroring it would turn a
   // person walking away into a person walking away backwards.
-  if (animated(ctx, binding.id, x, y, size, entity.id || entity.side, { paused: binding.frozen, flip: binding.upright ? false : entity.flip, gait: entity.gait })) return;
+  if (!binding.work && animated(ctx, binding.id, x, y, size, entity.id || entity.side, { paused: binding.frozen, flip: binding.upright ? false : entity.flip, gait: entity.gait })) return;
   const tint = hashOf(entity.id || entity.name || 'person');
   const coat = entity.side === 'mexican' ? '#4a6079' : entity.side === 'texian' ? '#7d5f45'
     // The principal's rust coat marks the one person a student directs, and nobody who is
@@ -692,6 +778,18 @@ function drawnHeightOf(entity, size, seat) {
  * standing in the town.
  */
 function townGround(world, entity, camera, now, frozen) {
+  // Somebody at an ambient activity, anywhere (public/ambient.js): walked to a neighbour's door and home again, a load carried
+  // back and forth, turned to whoever they keep company with. Walked by the same walker as Gonzales, so nobody slides.
+  if (!entity.travel && entity.kind === 'person' && Number.isFinite(entity.location?.x) && (entity.amb || townWalker.seen(entity.id)?.away)) {
+    const offset = stableOffset(entity.id), miles = PERSON_MILES / 26;
+    const home = { x: entity.location.x + offset.x * miles, y: entity.location.y + offset.y * miles * .8 };
+    const one = ambientGround(entity, home, { walker: townWalker, now, time: animationTime, figure: camera.figure, scale: camera.scale, frozen, reducedMotion: reducedMotion.matches, whereIs: id => ambientSpots.get(id), personMiles: PERSON_MILES });
+    if (one) {
+      ambientSpots.set(entity.id, one.at);
+      window.__townWalkers?.push({ id: entity.id, stepping: one.stepping, pose: one.amb?.p || null, x: one.at.x, y: one.at.y, ambient: one.amb?.a || null, ...(entity.amb?.at && { visit: true, arrived: Math.hypot(one.at.x - entity.amb.at.x, one.at.y - entity.amb.at.y) < 0.004 }) });
+      return { at: one.at, stepping: one.stepping, pose: null, amb: one.amb, base: one.base };
+    }
+  }
   if (entity.travel || entity.kind !== 'person' || entity.location?.siteId !== 'gonzales' || !Number.isFinite(entity.location.x)) return null;
   const posed = world.townScenes?.poses?.[entity.id] || null;
   const offset = posed ? { x: 0, y: 0 } : stableOffset(entity.id), miles = PERSON_MILES / 26;
@@ -733,6 +831,7 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // vehicles - or behind the ox under its packs on a family with none - so horse, ox and cart are not drawn one on another.
   // The ox of a family on foot carries its own visible packs a length behind the walkers.
   const saddled = entity.kind === 'person' && entity.travel?.saddle && !entity.travel.carried;
+  const atWork = !saddled && !entity.travel && !marks.placed && !marks.observed && drawsAtWork(entity) && workSlot(entity, marks.workmates, workSlotOut);
   const rigs = saddled ? wagonTeams(entity.householdId, marks.entities || []).length : 0;
   const offset = saddled ? { x: behind.x * (rigs ? 82 * rigs : 64), y: behind.y * (rigs ? 60 * rigs : 56) + 4 }
     : entity.travel
@@ -741,7 +840,12 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
       : walker >= 0 ? (vertical ? { x: 30 + (walker % 2) * 12, y: behind.y * (8 + 20 * walker) } : { x: behind.x * (-10 + 17 * walker), y: 14 + (walker % 2) * 5 })
       : { x: 0, y: 0 })
     // Somebody standing in Gonzales has been walked to their spot, the separation included (`townGround`).
-    : marks.placed ? { x: 0, y: 0 } : stableOffset(entity.id);
+    : marks.placed ? { x: 0, y: 0 }
+    // Somebody at work stands at it, facing it, and several at one piece of work stand round it (public/work-art.js `workSlot`).
+    : atWork ? { x: workSlotOut.x * 26, y: workSlotOut.y * 26 }
+    : stableOffset(entity.id);
+  // Facing the work: read by `drawFigure` for this figure only (`marks` is made for each).
+  marks.workFace = atWork ? workSlotOut.face : null;
   const x = point.x + offset.x * spread, y = point.y + offset.y * spread * .8;
   // Everything is drawn standing on (x, y), so `size` is a height and the click target
   // is the body above that point, not a circle centred on the feet.
@@ -957,11 +1061,15 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
   // works out from where the two of them actually are.
   // Somebody walking across Gonzales faces the way they are walking, and somebody in one of its scenes the way the scene has
   // them turned (public/town-scenes.js).
-  const flip = entity.facing ? entity.facing === 'w' : entity.stepping ? entity.stepping === 'w' : entity.scenePose ? entity.scenePose.face === 'w' : travelDirection(entity) === 'w';
+  // Somebody at work faces it (`workSlot`), somebody the server is stepping over their own land to it faces the way they go, and
+  // somebody at an ambient activity is turned the way the server or their company has them (public/ambient.js).
+  const flip = entity.facing ? entity.facing === 'w' : entity.stepping ? entity.stepping === 'w' : entity.scenePose ? entity.scenePose.face === 'w'
+    : entity.strolling ? entity.strolling === 'w' : entity.amb ? entity.amb.f === 'w' : marks.workFace ? marks.workFace === 'w' : travelDirection(entity) === 'w';
   // Somebody on the road steps at the rate the ground drawn under them goes past (public/motion.js `gaitStep`),
   // measured in their own drawn height: a child's shorter stride, a horse's longer one.
   const onFoot = entity.kind === 'person' && !mounted(entity);
-  const gait = (entity.travel && !entity.travel.halted && !entity.facing || entity.stepping) && marks.ground && marks.scale > 0
+  // Not somebody halted on the road at an ambient activity: their pose plays by the clock, not by ground that is not going past.
+  const gait = (entity.travel && !entity.travel.halted && !entity.facing && !entity.amb || entity.stepping || entity.strolling) && marks.ground && marks.scale > 0
     ? { id: entity.id, at: marks.ground, bodyMiles: height * (onFoot ? figureScale(entity) : 1) / marks.scale, stride: onFoot ? STRIDE.foot : STRIDE.hoof }
     : null;
   if (seat) drawSeated(ctx, x, y, size, entity, seat, marks.entities || [], flip, gait);
@@ -2981,6 +3089,7 @@ export function drawWorld(world) {
   const standing = [];
   // Heads in Gonzales this frame, for the words said over them (public/town-scenes.js); filled as the figures are laid out.
   townHeads.clear(); townSceneSpots.clear(); window.__townCast = []; window.__townWalkers = [];
+  ambientHeads.clear();
   // A town's dated scenes (sim/town-scenes.mjs), laid out with its own drawing: Gonzales's before the fight, Béxar's before the
   // bell. The server sends the one town whose scenes this page may see (`townScenes.siteId`).
   const drawTownScenes = (world, camera) => {
@@ -3229,8 +3338,12 @@ export function drawWorld(world) {
       }) });
       window.__quarryDrawn = { id: entity.id, kind, x: spot.x, y: spot.y };
     }
-    standing.push({ y: point.y, draw: () => drawEntity(ctx, inTown ? { ...entity, stepping: inTown.stepping, scenePose: inTown.pose } : stepping ? { ...entity, stepping } : entity, point, roomForNames, camera.figure, {
-      selected: entity.id === chosen?.id, mark, entities,
+    // The thing beside somebody at an ambient activity - the fire, the pot, the bucket, the hens, the woodpile (public/ambient.js).
+    const beside = inTown?.amb && (!inTown.stepping || inTown.amb.pace) && propItem(ctx, inTown.amb, camera.toScreen(inTown.base || inTown.at), camera.figure, { time: animationTime, flip: inTown.amb.f === 'w' });
+    if (beside) standing.push(beside);
+    const shown = inTown ? { ...entity, stepping: inTown.stepping, scenePose: inTown.pose, ...(inTown.amb && { amb: inTown.amb }) } : stepping ? { ...entity, stepping } : carrier ? entity : atTheirWork(entity, world.household?.homeSiteId, frameNow, frozen);
+    standing.push({ y: point.y, draw: () => drawEntity(ctx, shown, point, roomForNames, camera.figure, {
+      selected: entity.id === chosen?.id, mark, entities, workmates: entities,
       labels, heading: destination ? destination.x - entity.location.x : 0, ground, scale: camera.scale,
       now: frameNow, frozen, running, tickMs, sight, placed: Boolean(inTown),
     }) });
@@ -3269,8 +3382,13 @@ export function drawWorld(world) {
       const spot = camera.toScreen(entity.chore.quarry);
       standing.push({ y: spot.y, draw: () => miniQuarry(ctx, spot.x, spot.y, camera.figure * (QUARRY_SIZE[kind] || QUARRY_SIZE.deer), { kind, flip: spot.x < point.x, seed: entity.id }) });
     }
-    standing.push({ y: point.y, draw: () => drawEntity(ctx, { ...entity, health: { condition: entity.condition }, ...(inTown && { stepping: inTown.stepping, scenePose: inTown.pose }), ...(!inTown && sight?.stepping && { stepping: sight.stepping }) }, point, roomForNames, camera.figure, {
-      selected: entity.id === chosen?.id, mark: null, labels, observed: !host, ground, scale: camera.scale,
+    const beside = inTown?.amb && (!inTown.stepping || inTown.amb.pace) && propItem(ctx, inTown.amb, camera.toScreen(inTown.base || inTown.at), camera.figure, { time: animationTime, flip: inTown.amb.f === 'w' });
+    if (beside) standing.push(beside);
+    const seen = { ...entity, health: { condition: entity.condition }, ...(inTown && { stepping: inTown.stepping, scenePose: inTown.pose, ...(inTown.amb && { amb: inTown.amb }) }), ...(!inTown && sight?.stepping && { stepping: sight.stepping }) };
+    // The Host sees every family at its work as the family does (public/work-art.js); a student's neighbour is seen at no work.
+    const shown = host && !inTown && !seen.stepping ? atTheirWork(seen, world.overview?.lands?.[entity.householdId]?.homeSiteId, frameNow, frozen) : seen;
+    standing.push({ y: point.y, draw: () => drawEntity(ctx, shown, point, roomForNames, camera.figure, {
+      selected: entity.id === chosen?.id, mark: null, labels, observed: !host, ground, scale: camera.scale, workmates: host ? observed : null,
       now: frameNow, frozen, running, tickMs, sight, placed: Boolean(inTown),
     }) });
     shownObserved.push(entity.id);
@@ -3322,6 +3440,10 @@ export function drawWorld(world) {
   // family goes across, thin, dashed and pale, under every figure. Only a student's page is sent one (sim/flight-route.mjs
   // `routeProjection`), and only for its own family; the Host's is sent none, so its map is not thirty lines at once.
   window.__routeDrawn = drawRouteLine(ctx, host ? null : world.flight, camera, canvas);
+  // The crowd of families from the west camped round a fire at a refuge (public/ambient.js, sim/ambient.mjs `crowdAt`).
+  const crowd = [];
+  if (world.ambient?.crowds && camera.figure > 8) standing.push(...crowdDrawables(ctx, world.ambient.crowds, { toScreen: p => camera.toScreen(p), figure: camera.figure, time: animationTime, reducedMotion: reducedMotion.matches, heads: ambientHeads, evidence: crowd }));
+  window.__ambientCrowd = crowd;
   standing.sort((a, b) => a.y - b.y);
   for (const item of standing) item.draw();
   // What is being said in Gonzales, over whoever is saying it (public/speech.js), above every figure and building.
@@ -3337,6 +3459,8 @@ export function drawWorld(world) {
   // bubbles as the town's (public/speech.js), dashed, because every word of it is reconstructed.
   // Both halves of an exchange at once, over the two who say them, for the tick it is said: the child's line and the reply are
   // over different heads, and a tick of the class is the nine seconds they are read in (not the town's staggered scene).
+  // Where the family's own bubbles went, so the neighbours' talk is never drawn over them (public/ambient.js).
+  const familyBoxes = [];
   if (world.familyTalk?.lines?.length && camera.figure > 14) {
     const said = [], room = speechRoom(canvas);
     for (const line of world.familyTalk.lines) {
@@ -3344,7 +3468,7 @@ export function drawWorld(world) {
       if (!head) continue;
       // The bubble's box goes with it, for the overlap proof: whether a panel stands over words a student has to read.
       const box = drawSpeech(ctx, line, head.x, head.y - head.size * .55, { bounds: { width: canvas.width, height: canvas.height, room } });
-      if (box) said.push({ id: line.id, speakerId: line.speakerId, kind: line.kind, text: line.text, ...(line.manner && { manner: line.manner }), box });
+      if (box) { familyBoxes.push(box); said.push({ id: line.id, speakerId: line.speakerId, kind: line.kind, text: line.text, ...(line.manner && { manner: line.manner }), box }); }
     }
     window.__familySaid = said;
   } else window.__familySaid = [];
@@ -3367,10 +3491,18 @@ export function drawWorld(world) {
     // norther has not reached keeps its rising puffs. The camp is drawn on the page's canvas every frame, not into the
     // kept ground, so this one reads the weather with its fade (no `STEADY`) and the smoke goes over as the day comes up.
     const campMix = weather ? weatherMix(weather, army.x, world.minute) : null;
+    // The clip each of the camp's men was drawn in: presentation evidence for the proofs (npm run test:chatter).
+    const menDrawn = [];
     const how = drawArmy(ctx, army, at, {
       scale: camera.scale, figure: camera.figure, time: animationTime,
-      draw: (clip, x, y, size, key, options) => animated(ctx, clip, x, y, size, key, options), mini: miniPerson,
+      draw: (clip, x, y, size, key, options) => { if (/^[^:]+:\d+$/.test(String(key))) menDrawn.push(clip); return animated(ctx, clip, x, y, size, key, options); }, mini: miniPerson,
       smoke: campMix && inGale(campMix) ? (x, y, size) => drawSprite(ctx, GALE_SMOKE, x, y, size) : null,
+      // What each man is doing and the words over their heads (public/ambient.js, sim/ambient.mjs `campAmbient`).
+      ...(world.ambient?.camps?.[army.id] && {
+        man: index => campMan(world.ambient.camps[army.id], index, { time: animationTime, reducedMotion: reducedMotion.matches, key: army.id }),
+        prop: (index, doing, p, size) => propItem(ctx, { prop: doing.prop }, p, size, { time: animationTime, flip: doing.flip })?.draw(),
+        onMan: (index, x, y, size) => ambientHeads.set(`camp:${army.id}:${index}`, { x, y: y - size, size }),
+      }),
     });
     // The steamboat Yellow Stone on the Brazos at Groce's, in the fortnight of the record's own (sim/houston.mjs
     // `yellowStone`, `HIST-TEX-089`): loading cotton for Captain Ross until the army takes her on April 12, then under way
@@ -3403,8 +3535,19 @@ export function drawWorld(world) {
       }
       return { x: Math.round(p.x), y: Math.round(p.y) };
     });
-    return { id: army.id, side: army.side, ours: army.ours, strength: army.strength, how, boat, x: Math.round(at.x), y: Math.round(at.y), camp: Boolean(army.camp), foragers };
+    return { id: army.id, side: army.side, ours: army.ours, strength: army.strength, how, boat, x: Math.round(at.x), y: Math.round(at.y), camp: Boolean(army.camp), foragers,
+      ...(how === 'camp' && { men: menDrawn }) };
   });
+  // Neighbours talking (public/ambient.js, sim/ambient.mjs `EXCHANGES`): after the camps, whose men's heads are laid out with
+  // them, and never over the family's own bubbles or a mark asking the student something. Quiet in a fight or a chase.
+  // Called whether or not this tick brought words, so an exchange begun on the last one is finished.
+  if (camera.figure > 14 && !world.battle?.sides && !world.flight?.chase) {
+    const said = [];
+    const headOf = id => ambientHeads.get(id) || (drawnAt.has(id) ? { x: drawnAt.get(id).x, y: drawnAt.get(id).y - drawnAt.get(id).size * .55 } : null);
+    const avoid = [...familyBoxes, ...pending.map(mark => ({ x: mark.x - mark.size * .5, y: mark.y - mark.size * 1.1, w: mark.size, h: mark.size * 1.2 }))];
+    drawAmbientSpeech(ctx, world.ambient?.lines || [], headOf, { now: frameNow, bounds: { width: canvas.width, height: canvas.height, room: speechRoom(canvas) }, avoid, evidence: said });
+    window.__ambientSaid = said;
+  } else window.__ambientSaid = [];
   // Smoke over a burning town or farm, where the server says this page could see it (sim/advance.mjs `firesSeen`): a column
   // of smoke seen from afar, never what is burning (VISION.md §16). stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the
   // Mexican advance", item 2 - the library's rising chimney smoke, drawn large, until a burning-farm plume exists.
@@ -4029,7 +4172,9 @@ function renderFlight(world, chosen, running) {
     const label = element('label', '', 'flight-take');
     label.append(element('span', `${good} (${flight.have[good]} in the house)`));
     const input = document.createElement('input');
-    input.type = 'number'; input.min = '0'; input.max = String(flight.have[good]); input.step = '1'; input.value = '0';
+    // Opened on the server's own packing (sim/scrape.mjs `packFlight`, design audit 2026-09-28 B7): food first, then seed, cotton
+    // and powder, as much as fits. Until then every box opened at 0, and the obvious two presses left all the food behind.
+    input.type = 'number'; input.min = '0'; input.max = String(flight.have[good]); input.step = '1'; input.value = String(flight.packed?.take?.[good] ?? 0);
     input.dataset.take = good; input.className = 'flight-amount';
     label.append(input);
     form.append(label);
@@ -4041,16 +4186,22 @@ function renderFlight(world, chosen, running) {
   const sites = world.map?.sites || {};
   const others = (flight.places || []).filter(id => !flight.refuges.some(one => one.id === id) && sites[id]).sort((a, b) => sites[a].name.localeCompare(sites[b].name));
   if (others.length) { const group = document.createElement('optgroup'); group.label = 'Other places'; for (const id of others) { const choice = element('option', sites[id].name); choice.value = id; group.append(choice); } refuge.append(group); }
+  // The nearest refuge east, as the packing is for (`packFlight`).
+  if (flight.packed?.refuge) refuge.value = flight.packed.refuge;
   const way = document.createElement('select'); way.id = 'flight-way';
   for (const [value, label] of [['road', 'By the road (quicker, seen from further off)'], ['country', 'Across country (slower, seen from half as far)']]) { const option = element('option', label); option.value = value; way.append(option); }
   const go = element('button', 'Leave for the east', 'work-stop');
   go.dataset.action = 'flee'; go.dataset.entityId = chosen.id; go.disabled = !running;
   const tally = () => {
-    const used = [...form.querySelectorAll('.flight-amount')].reduce((sum, input) => sum + (Number(input.value) || 0) * flight.space[input.dataset.take], 0);
-    room.textContent = `Loaded ${Math.round(used * 100) / 100} of ${flight.room}.`;
+    const take = Object.fromEntries([...form.querySelectorAll('.flight-amount')].map(input => [input.dataset.take, Number(input.value) || 0]));
+    const used = loadSpace(flight.space, take), light = lightLoad(flight, take);
+    // A load far under what the family could take is said so, beside the room (design audit 2026-09-28 B7).
+    room.textContent = `Loaded ${Math.round(used * 100) / 100} of ${flight.room}.${light === 'empty' ? ' Nothing is loaded: everything would be left behind.' : light === 'light' ? ' Most of what the family could carry would be left behind.' : ''}`;
     room.dataset.over = String(used > flight.room + 1e-9);
+    room.dataset.light = light || '';
   };
-  form.addEventListener('input', tally); tally();
+  // A changed load disarms a Leave already pressed once, so the second press always confirms the load it is shown.
+  form.addEventListener('input', () => { tally(); resetConfirm(go); }); tally();
   wrap.append(form, room, element('label', 'Make for', 'flight-where'), refuge, element('label', 'How', 'flight-where'), way, go);
   // Refusing to go is an answer of its own (sim/scrape.mjs `stayHome`), offered only while the order stands unanswered.
   if (flight.status === 'ordered') {
@@ -4201,7 +4352,7 @@ function populateWork(world, chosen, running) {
     // record; the card says what leaving costs the family and nothing of what staying risks (docs/COLONIES.md §7a).
     for (const [question, ask, yes, no, note] of [
       ['leave', `Word has come that Fannin's whole command is taken on the prairie. Many of the men are leaving the army to see to their families. Does ${chosen.name} go home?`, `${chosen.name} leaves for home`, `${chosen.name} stays with the army`,
-        chosen.service.bound ? 'A regular who leaves has deserted: the family loses the glory of enlisting twice over, and they will not be taken again.' : chosen.service.acres ? 'They start home at once, and the promise of land goes with it.' : 'They start home at once. Whatever the army does next happens without them.'],
+        chosen.service.bound ? 'A regular who leaves goes before their time is up and without a discharge: they have deserted, the promise of land goes with it, and they will not be taken again.' : chosen.service.acres ? 'They start home at once, and the promise of land goes with it.' : 'They start home at once. Whatever the army does next happens without them.'],
       ['road', `The army has come to a fork of the road: the left-hand road goes to Nacogdoches and safety, the right to Harrisburg and the enemy. The men are shouting which. What does ${chosen.name} call for?`, `${chosen.name} calls for the right-hand road, to Harrisburg`, `${chosen.name} would take the left-hand road, for Nacogdoches`, 'The army takes the road the most of the men shout for.'],
     ]) {
       if (chosen.service[question] !== 'open') continue;
@@ -4236,7 +4387,7 @@ function populateWork(world, chosen, running) {
     recall.dataset.entityId = chosen.id;
     recall.disabled = !running || Boolean(chosen.travel);
     host.append(recall);
-    host.append(element('p', chosen.service.kind === 'regular' ? 'A regular who leaves has deserted: the family loses glory, and they will not be taken again.' : chosen.service.acres ? 'The promise of land is lost.' : 'They start home at once.', 'work-note'));
+    host.append(element('p', chosen.service.kind === 'regular' ? 'A regular who leaves goes before their time is up and without a discharge: they have deserted, the promise of land goes with it, and they will not be taken again.' : chosen.service.acres ? 'The promise of land is lost.' : 'They start home at once.', 'work-note'));
     // The chance to leave Béxar, said before it closes (sim/alamo.mjs `warnGarrison`, docs/ALAMO_FATES.md).
     if (chosen.service.kind === 'garrison') host.append(element('p', 'If the Mexican army comes to Béxar, the garrison will be shut in, and nobody can be sent for then.', 'work-note'));
   }
@@ -4277,8 +4428,9 @@ function renderFamilyPanel(world) {
   // (docs/CHILDREN.md §2, 2026-09-26). A child under ten cannot be the main person (the server refuses `set-main`), so until this
   // no page could show a child's own works at all: the row's icons are only ever drawn as the bar. The main person stays main
   // for journeys and the house; the child's bar goes back to theirs the moment their portrait or star is chosen.
-  const viewed = byId.get(panelExpanded);
-  const barId = viewed && Number.isFinite(viewed.age) && viewed.age < 10 && !['dead', 'captured'].includes(viewed.health?.condition) ? panelExpanded : focusedId;
+  // Since 2026-09-28 (design audit B11) that is anybody's portrait, not only a child's: choosing a person shows their bar and never
+  // makes them main (`barPerson`, public/family-panel.js).
+  const barId = barPerson({ viewedId: panelExpanded, mainId: focusedId, entities: byId });
   const land = world.land;
   const house = Boolean(land?.interior?.kind);
   const army = new Set((world.army?.ours || []).map(one => one.id));
@@ -4327,9 +4479,9 @@ function renderFamilyPanel(world) {
     if (need && row.attention.dataset.need !== need.kind) { row.attention.dataset.need = need.kind; paintMark(row.attention, need.kind === 'rider' ? 'mark-need-rider' : 'mark-need'); }
     if (row.attention.getAttribute('aria-label') !== needLabel) { row.attention.setAttribute('aria-label', needLabel); row.attention.title = needLabel; }
     const canLead = !(entity.age < 10) && !['dead', 'captured'].includes(entity.health?.condition);
-    const portraitLabel = `${entity.name}, ${role}${age}${focused ? ', selected' : ''}. ${canLead ? 'Select and follow' : 'View'} ${entity.name}${canLead ? '; show their actions' : ''}${need ? '; somebody is waiting on them' : ''}.`;
+    const portraitLabel = `${entity.name}, ${role}${age}${focused ? ', your main person' : ''}${bar ? ', selected' : ''}. Select and follow ${entity.name}; show their actions${need ? '; somebody is waiting on them' : ''}.`;
     if (row.portrait.getAttribute('aria-label') !== portraitLabel) row.portrait.setAttribute('aria-label', portraitLabel);
-    row.portrait.setAttribute('aria-pressed', String(focused));
+    row.portrait.setAttribute('aria-pressed', String(bar));
     const focusLabel = focused ? `Go back to ${entity.name}, your main person` : `Make ${entity.name} your main person`;
     if (row.focus.getAttribute('aria-label') !== focusLabel) { row.focus.setAttribute('aria-label', focusLabel); row.focus.title = focusLabel; row.focus.querySelector('.panel-mark-text').textContent = focused ? '★' : '☆'; row.focus.setAttribute('aria-pressed', String(focused)); }
     // The auto switch, read from the server's `auto` on the person every tick (docs/FAMILY_PANEL.md §11.7).
@@ -4439,14 +4591,16 @@ function renderFamilyPanel(world) {
     // Somebody with the men in a fight says why nothing can be asked of them (sim/battle-stage.mjs `heldByBattle`).
     // A baby's bar says what the baby is doing (docs/CHILDREN.md §6): it is given no work, and "too young" is not news.
     const visibleReason = visibleIcons.length ? null : travelling || entity.held || (entity.baby && life) || reason || 'No actions available right now.';
-    const key = JSON.stringify([visibleReason, travelling, visibleIcons, shutting ? [lesson.step, lesson.allow, lesson.shut, pointed] : null]);
+    // Somebody chosen who is not the main person: their bar opens with the labelled way to make them main, and says why it matters.
+    const makeMain = bar && !focused && canLead && settable ? `Make ${entity.given || entity.name} the main person` : '';
+    const key = JSON.stringify([visibleReason, travelling, visibleIcons, shutting ? [lesson.step, lesson.allow, lesson.shut, pointed] : null, makeMain]);
     if (row.iconsKey !== key) {
       row.iconsKey = key;
       row.icons.setAttribute('aria-label', `What ${entity.name} can do`);
       // Changed in place, icon by icon: the button a student has focused or is pointing at stays the same button while what
       // it says changes around it, so keyboard focus and the popup survive every tick.
       const kept = new Map([...row.icons.querySelectorAll('.panel-icon')].map(button => [button.dataset.key, button]));
-      row.icons.style.setProperty('--action-columns', Math.max(1, Math.ceil(visibleIcons.length / 2)));
+      row.icons.style.setProperty('--action-columns', Math.max(makeMain ? 3 : 1, Math.ceil(visibleIcons.length / 2)));
       const wanted = visibleIcons.length ? visibleIcons.map(icon => {
         const button = kept.get(icon.key) || panelIcon(id, icon);
         kept.delete(icon.key);
@@ -4462,7 +4616,13 @@ function renderFamilyPanel(world) {
         word.textContent = travelling;
         wanted.push(word);
       }
-      for (const leftover of [...kept.values(), ...[...row.icons.querySelectorAll('.panel-reason')].filter(node => !wanted.includes(node))]) leftover.remove();
+      if (makeMain) {
+        row.makeMain.textContent = makeMain;
+        const note = 'Only the main person travels, rests and works about the place, and on auto the main person decides the family’s leaving and its answers on the road.';
+        row.makeMain.title = note; row.makeMain.setAttribute('aria-label', `${makeMain}. ${note}`);
+        wanted.unshift(row.makeMain);
+      }
+      for (const leftover of [...kept.values(), ...[...row.icons.querySelectorAll('.panel-reason, .panel-make-main')].filter(node => !wanted.includes(node))]) leftover.remove();
       wanted.forEach((node, at) => { if (row.icons.children[at] !== node) row.icons.insertBefore(node, row.icons.children[at] || null); });
       if (panelTipFor?.entityId === id) showPanelTip(row.icons.querySelector(`[data-key="${panelTipFor.key}"]`));
     }
@@ -4898,7 +5058,12 @@ function panelRow(id) {
   sick.hidden = true;
   body.append(label, input, tools, note, why, autoSays, life, sick);
   item.append(portrait, attention, body, icons);
-  const row = { item, portrait, canvas, label, input, icons, attention, needBadge, needDeadline: null, needRank: null, idle, house, focus, auto, autoSays, life, sick, sickMark, word, note, why, face: null, iconsKey: null };
+  // The one labelled way besides the star to change who the main person is (design audit 2026-09-28 B11): first in the bar of
+  // somebody chosen who is not main. It sends `set-main` through the star's own handler (`data-focus`).
+  const makeMain = element('button', '', 'panel-make-main');
+  makeMain.type = 'button';
+  makeMain.dataset.focus = id;
+  const row = { item, portrait, canvas, label, input, icons, attention, needBadge, needDeadline: null, needRank: null, idle, house, focus, auto, autoSays, life, sick, sickMark, word, note, why, makeMain, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
 }
@@ -5112,6 +5277,7 @@ function renderSelection(world) {
   $('#action-subject').textContent = commands ? `Ask ${chosen.name} to…`
     : hostView(world) ? 'The teacher watches; only the family gives orders.'
     : chosen.observed ? `${chosen.name} is not one of your family.`
+    : !(chosen.age < 10) && !['dead', 'captured'].includes(chosen.health?.condition) ? `${chosen.name} is not the main person: only the main person travels, rests and works about the place.`
     : `${chosen.name} follows the household's work.`;
   const running = world.status === 'running';
   // Work can be set out before the teacher begins. Nothing advances until then - the
@@ -6210,8 +6376,7 @@ $('#military-go')?.addEventListener('click', async () => {
   // Watch: the camera on the field, both sides in the frame when they are drawn (docs/BATTLES.md §2.7). Only ever on this
   // press - the card itself never moves the camera, so it cannot take the view away mid-drag or mid-order.
   if (notice.kind === 'battle') { watchField(world, notice.field); return; }
-  const person = entitiesOf(world).find(one => one.id === notice.entityId);
-  if (notice.entityId !== focusedId && person && !(person.age < 10) && !['dead', 'captured'].includes(person.health?.condition)) await chooseFocus(notice.entityId);
+  // To the person, chosen but not made main (B11, as a portrait): the army's questions are theirs to answer whoever is main.
   goToPerson(notice.entityId);
   if (notice.kind === 'siege' || notice.kind === 'account') $('#selection-close')?.focus();
   else openNeed(notice.entityId);
@@ -6252,13 +6417,13 @@ function renderTip(world, { hidden = false } = {}) {
   if (host === panel) placeTip(panel);
 }
 /**
- * The tip over the map stands above the action bar, clear of the family's column, centred in what is left - and above the
- * person's card, the call's menu, a rider's meeting or the messages if one of them stands where it would, so it is read
- * rather than hidden under them. Where there is no room above one, it stays above the bar and the card stands over it: a
- * card the student opened outranks a tip.
+ * The tip over the map stands above the action bar, clear of the family's column, centred in what is left - and clear of
+ * every card, question, popup and panel the student has open, beside it or above it, so it is read rather than hidden
+ * under them. **One rule for all of them** (the overlap proof and the errand's fix, 2026-09-28): a tip never stands on or
+ * under anything the student opened; where there is no room clear of it, the tip **waits** - hidden, neither retired nor
+ * seen - and stands again at the next render with room for it, as it already did for the town errand (public/tips.js
+ * `tipToShow`, which also puts the store's own tip inside the errand).
  */
-// Every popup and panel over the map, not only the card and the questions (the overlap proof, owner 2026-09-28): the order's
-// tip stood under the open errand at 1366x768, its words behind the popup and its Got it half under it (test:errand).
 const TIP_CLEAR_OF = ['#selection', '#call-menu', '#encounter', '#military-notice', '#lesson', '#lesson-resume', '#tutorial',
   '#errand', '#going', '#site-choose', '#survey-choose', '#wagon-load', '#house-plan', '#house-plot', '#house-placement', '#town-scene',
   '#interior', '#ending', '#family-journal[data-open=true]'];
@@ -6308,10 +6473,14 @@ function placeTip(panel) {
     box = put({ bottom: Math.round(innerHeight - Math.min(...hit.map(one => one.top)) + 8) });
     return clear(box);
   };
+  window.__tipWaiting = null;
   if (person.length && attempt([...standing, ...person])) return;
   if (attempt(standing)) return;
-  // ...and where there is no room anywhere, at the bar with the card over it: a card the student opened outranks a tip.
+  // ...and where there is no room anywhere, it waits: what the student opened outranks a tip, and a tip under it can be neither
+  // read nor put away. Not put away: the same tip, placed again when the page next draws.
   put();
+  panel.hidden = true;
+  window.__tipWaiting = tipShowing;
 }
 // On a new size the tip is placed again with the rest, not left where the old size put it.
 addEventListener('resize', () => { if (tipShowing && window.__snapshot?.world) renderTip(window.__snapshot.world); });
@@ -6715,7 +6884,9 @@ function render(snapshot) {
   if (next && world.ending?.host?.nextLabel && next.textContent !== world.ending.host.nextLabel && !next.dataset.confirming) next.textContent = world.ending.host.nextLabel;
   const statusLabel = world.slice?.complete ? 'story preserved' : { lobby: 'waiting to begin', running: '', paused: 'paused', ended: 'session ended' }[world.status] ?? world.status;
   $('#world').textContent = [world.historicalDate || timeLabel(world.minute ?? 0), statusLabel].filter(Boolean).join(' · ');
-  const whenAvailable = { start: ['lobby'], pause: ['running'], resume: ['paused'], end: ['running', 'paused'], 'new-class': ['lobby', 'ended'], 'stop-server': ['lobby', 'running', 'paused', 'ended'] };
+  // While a class is under way the stop is *Stop for today* (docs/HOST_PAGE.md §2.8): it saves the class paused, and stops the
+  // server when it can. Stop Server, which does the same without the words, is offered only when no class is under way.
+  const whenAvailable = { start: ['lobby'], pause: ['running'], resume: ['paused'], 'stop-for-today': ['running', 'paused'], end: ['running', 'paused'], 'new-class': ['lobby', 'ended'], 'stop-server': ['lobby', 'ended'] };
   for (const button of $('#host-controls').querySelectorAll('button')) {
     // Continuing to the winter is offered only where the server says this class can go on (sim/periods.mjs).
     const allowed = button.dataset.action === 'next-period' ? Boolean(world.ending?.host?.canContinue) : (whenAvailable[button.dataset.action] || []).includes(world.status);
@@ -6961,14 +7132,12 @@ document.addEventListener('click', async event => {
   // A portrait on the family panel: choose the person, and the camera goes to them and zooms in (docs/FAMILY_PANEL.md §3).
   // The same watch the roster starts - `cameraFor` centres on where they are drawn and zooms to at least 55 in 100 of the
   // closest zoom - so it walks with them until the student pans, zooms or presses Follow.
+  // Choosing only (design audit 2026-09-28 B11): the portrait selects the person - camera, card, their bar - and never makes them
+  // the main person. Until then it sent `set-main`, and the main person's auto decides the family's flight: pressing a son on
+  // auto to see where he was handed him the family's leaving and its answers to soldiers. The star and the bar's *Make … the
+  // main person* are the one way to change who that is.
   const portrait = event.target.closest('[data-portrait]');
-  if (portrait) {
-    const id = portrait.dataset.portrait;
-    const person = entitiesOf(window.__snapshot?.world).find(one => one.id === id);
-    if (id !== focusedId && person && !(person.age < 10) && !['dead', 'captured'].includes(person.health?.condition)) await chooseFocus(id);
-    goToPerson(id);
-    return;
-  }
+  if (portrait) { goToPerson(portrait.dataset.portrait); return; }
   // The "!" on a row: to the person, and open what is waiting on them (docs/FAMILY_PANEL.md §11).
   const attention = event.target.closest('[data-attention]');
   if (attention) { openNeed(attention.dataset.attention); return; }
@@ -6998,7 +7167,8 @@ document.addEventListener('click', async event => {
     if (panelButton.getAttribute('aria-disabled') === 'true') { showPanelTip(panelButton); return; }
     // Sending for somebody who serves is asked twice, on their card, where there is room to say what it costs.
     // Going to town to trade asks first what to buy and sell (docs/TOWNS.md §4b, owner 2026-09-24): the popup sends the order.
-    if (panelButton.dataset.chore === 'visit-shop') { hidePanelTip(); errandPopup.open(panelButton.dataset.entityId); return; }
+    // The tip over the map waits at once, not on the next second's look (public/tips.js `tipToShow`): never over the popup.
+    if (panelButton.dataset.chore === 'visit-shop') { hidePanelTip(); errandPopup.open(panelButton.dataset.entityId); if (window.__snapshot?.world) renderTip(window.__snapshot.world); return; }
     if (panelButton.dataset.visit || panelButton.dataset.key === 'winter-recall') {
       selectedId = panelButton.dataset.entityId; selectionDismissed = false;
       const world = window.__snapshot?.world;
@@ -7020,13 +7190,20 @@ document.addEventListener('click', async event => {
   if (action !== 'start') startAnyway = false;
   if (confirmLabel[confirmKeyOf(button)] && button.dataset.confirming !== 'true') {
     resetConfirm(confirming);
+    const key = confirmKeyOf(button);
     button.dataset.label = button.dataset.label || button.textContent;
-    button.textContent = confirmLabel[confirmKeyOf(button)];
+    button.textContent = confirmLabel[key];
     button.dataset.confirming = 'true';
+    button.dataset.confirmKey = key;
+    button.dataset.armedAt = String(Date.now());
     confirming = button;
+    // The Host's armed button says what it does, on the notice line, until it is pressed again or disarms.
+    if (confirmWords[key]) { $('#host-notice').textContent = confirmWords[key]; $('#host-notice').hidden = false; $('#host-notice').dataset.confirmFor = key; }
     confirmTimer = setTimeout(() => resetConfirm(button), 6000);
     return;
   }
+  // A double press is not a second thought: leaving for the east with next to nothing waits a moment for the second press.
+  if (button.dataset.confirming === 'true' && SLOW_CONFIRM.has(button.dataset.confirmKey) && Date.now() - Number(button.dataset.armedAt || 0) < SLOW_CONFIRM_MS) return;
   resetConfirm(button);
   const world = window.__snapshot?.world;
   const input = { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action };
@@ -7062,9 +7239,12 @@ document.addEventListener('click', async event => {
   try {
     const result = await api('/api/command', input);
     if (action === 'flight-route') { routeDraft = null; routePicking = false; routeEditorKey = ''; }
-    $('#host-notice').hidden = !(result.archived || result.stopping);
+    $('#host-notice').hidden = !(result.archived || result.stopping || result.stoppedForToday);
     if (result.archived) $('#host-notice').textContent = `New class ready. The previous class was archived as ${result.archived}. Share the new class code; students join again.`;
     if (result.stopping) $('#host-notice').textContent = 'Stopping the classroom server. The class was saved and paused.';
+    if (result.stoppedForToday) $('#host-notice').textContent = result.stopping
+      ? 'Stopped for today. The class was saved and paused where it stands, and the server is closing. Next class, open the Host as usual and press Resume.'
+      : 'Stopped for today. The class was saved and paused where it stands. This server cannot close itself from here: stop it in its own window when you are ready. Next class, press Resume.';
   } catch (error) {
     if (action === 'start' && /Press Start again/.test(error.message)) startAnyway = true;
     say(error.message);

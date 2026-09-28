@@ -1200,7 +1200,8 @@ work went on through every step after it (found by the browser proof, which stop
 
 - **One task.** A person remembers the last work at home the student gave them that can be repeated (`REPEATED`): *plant the
   field*, *bring in the crop*, the two hunts, small game, fishing, oysters, a bee tree, riding the range, *work on the house*, the
-  lane, the well and hauling logs. Each runs out by itself when there is nothing left to do. The next repeatable order replaces
+  lane, the well and hauling logs (*amended 2026-09-28, §21: hauling is gone, and felling, clearing, fencing, the carreta, furniture
+  and mending the hoe repeat too*). Each runs out by itself when there is nothing left to do. The next repeatable order replaces
   it; nothing else does. **Not repeated** (`ceiling:` in `sim/auto.mjs`): the errand to town and furniture (coin), practice at the
   mark (powder on purpose), killing a beef or a hog (the herd), survey, clearing and fencing (a plot chosen on the map each time; owner-decided, §16.1),
   felling and fetching logs (the family's timber), enlisting, joining and voting, a neighbour's raising, the road east's work and
@@ -1264,6 +1265,10 @@ for it, 11 of them by that test alone (the other seven are foundational - forget
 proofs re-run.
 
 ### 16.1 Clearing and fencing stay one at a time — owner decision, 2026-09-25
+
+**Overturned by the owner, 2026-09-28** (§21): *"Apply the logic described for felling trees and building houses to the other tasks
+too."* Clearing and fencing now repeat on auto - the plot given, then the next nearest the house - and so does felling, which §16 left
+out as "the family's timber". What follows is the decision as it stood.
 
 **Owner, 2026-09-25:** autoplay does **not** repeat clearing or fencing; **they stay one at a time.** A plot is staked on the map and
 cleared or fenced once, by a student's choice each time; given to somebody on auto, either is done once and the person goes back to
@@ -1469,7 +1474,7 @@ the fight's caption and the speech bubbles.
 | Messages on a small window with a card open: no room for both | The messages fold to their button while that card is open (`cardCrowding`); a folded message is only as wide as its button; opening them anyway is the student's choice and holds |
 | Town talk was 89% under the land chooser (1280x800) | A bubble slides along into the room clear of the panels at its height (`speechRoom`, `drawSpeech`'s `bounds.room`), its tail still to the speaker |
 
-The Host's page is in `docs/HOST_PAGE.md` §2.8.
+The Host's page is in `docs/HOST_PAGE.md` §2.9.
 
 **After main's tips, sound and tutorial switch-off (merged the same day).** The walk now holds the tip at first meeting
 (`#tip`), the sound button and its panel of sliders too:
@@ -1495,13 +1500,149 @@ frame (Follow) can put a family member under a panel; pressing their portrait br
 held. A student's own view of a fight is not reached (the Host's is). `ceiling:` the save fault and the stopping line share
 the status column with a refusal and stack in its flow; the reconnecting banner still stands over everything on purpose.
 
+## 21. Amended by the owner, 2026-09-28: fewer buttons, auto on the work at home, and more hands faster
+
+> "the tasks are way too complicated. Why do we need multiple action buttons for moving logs? That should be consolidated and an
+> automatic part of felling trees. Any task that pulls from wood should be able to pull from the universal wood pile. I should be
+> able to set one person on felling trees, and one person on building the house, set each to auto, and eventually get a house. If
+> I add another person to the task it should speed the task up."
+>
+> "Apply the logic described for felling trees and building houses to the other tasks too."
+>
+> — the owner, 2026-09-28
+
+**Status: built the same day** (`sim/auto.mjs`, `sim/hands.mjs`, `sim/chores.mjs`, `sim/woodpile.mjs`, `public/family-panel.js`;
+[tests](../tests/auto-house.test.mjs), [hands](../tests/hands.test.mjs)). Claims `FIC-GONZ-901` (the hands curve) and `FIC-GONZ-905`
+(what repeats, and the plots). **This amends §16 and overturns §16.1**; the wood pile itself is
+[WOODS_AND_BUILDING.md §6.7](WOODS_AND_BUILDING.md). No save version moved.
+
+### 21.1 What left the panel, and what was merged
+
+- **Haul logs to the house** - gone. Felling puts the logs on the pile; there is nothing to haul. (Kept, offered to nobody, only for a
+  row saved in the middle of a haul; it glows as felling, `GLOWS_AS`.)
+- **Fetch logs from the timber** - merged into **Fell trees**, which begins it where the family's land has no timber to fell (or
+  only poor timber while the house wants sound logs). It glows as felling. The families nobody plays still send it by name.
+- **Fell trees** - **one press**, no longer a place tapped on the map (`ON_MAP` lost it): the nearest timber on the family's land.
+- **Make furniture** - no longer a trip to the timber and a "how will they go?" window while the pile can spare a log: a log off the
+  pile and the work at home (`noJourney`). Its question - which piece - stays: that is a decision.
+- **Kept, and why.** *Survey* then *Clear* stay two orders: where the next ten acres lie is the student's to choose each time. *Mend
+  the hoe* stays (auto already mends first when a hoe-work is waiting on it). *Buy furniture* and the errand to town stay separate: the
+  carpenter's counter is not one of the errand's shops, and both spend coin. The icons still glow while the server says the person is
+  doing that; the one icon for felling glows for fetching too.
+
+### 21.2 What repeats on auto
+
+`REPEATED` now: planting, the harvest, the two hunts, small game, fishing, oysters, a bee tree, riding the range, the house, the lane,
+the well, **felling**, **clearing**, **fencing**, **the carreta** (while the family has no cart or wagon at all: `ceiling:` a second
+vehicle is a student's order), **furniture** (while a piece is wanted; auto answers which piece as the family would) and **mending the
+hoe** (while a hoe is worn). **Not repeated** (`ceiling:` in sim/auto.mjs), because each spends coin, powder or the herd, or is a
+decision a student makes each time (owner: less clicking, not less deciding): the errands to town and buying furniture, practice at
+the mark, killing a beef or a hog, surveying, enlisting, joining and voting, a neighbour's raising, the road east's work and the
+children's own works.
+
+- **Felling** stops when the pile has **enough** - every kind the house still wants and ten logs more (WOODS §6.7) - and the row says
+  *"Auto: fell trees. The log pile has enough: 62 logs at the house, and the house still wants 50. Working about the place
+  meanwhile."* It takes the axe up again the tick the pile falls below.
+- **The house**, waiting on the pile, says **"Waiting for logs."** in the row's own line (the reason mechanism of §16, `order.held`):
+  *"Auto: work on the house. Waiting for logs. Laying the sills on the round-log pen wants 4 sill logs, and the log pile has not got
+  them. Working about the place meanwhile."* The carreta says the same when the pile is short of its three logs.
+
+### 21.3 Clearing and fencing on auto (a rule chosen, and an owner question)
+
+The simplest good rule: **the plot the student gave, until its work is done; then the family's next plot with that work in it
+nearest the house** - the next staked plot for a clearer, the next cleared plot with no sound fence for a fencer (`plotFor`), remembered
+as theirs. **Nothing is surveyed for them**: with no staked ground left the clearer works about the place and says *"There is no staked
+ground to clear. Survey ten acres first."* A plot's work refused for that plot (a timber plot wants the felling axe, the hoe worn out)
+is said in the plot's own words. Clearing and fencing are never given to wait for (`waitForTask`): they are pressed on the map.
+
+### 21.4 More hands, faster (sim/hands.mjs, `FIC-GONZ-901`)
+
+Any number of the family may be given the same work, and each extra hand speeds it: **the first is a whole hand, the second adds four
+fifths of one, the third three fifths, the fourth two fifths** - together 1, 1.8, 2.4 and 2.8 times one person's pace. **Four is the
+most**: a fifth of the family is refused in words, *"Thomas, Elena, Rosa and Mateo are at it already. More than 4 of the family at one
+work only get in each other's way."* Two kinds of sharing use the one curve:
+
+- **Work into one thing** - the house, a clearing (by the plot), the lane, felling (for the pile). Each hand puts their own spells in, at
+  their share of the hands on it (`handShare`: 0.9 each of two, 0.8 of three, 0.7 of four). **Neighbours helping raise the walls count
+  among the house's hands** (`handsOn`, sim/houses.mjs, unchanged) and are never refused: a raising is theirs to join. The two-handed
+  upper courses (WOODS §6.3) still go at a third alone.
+- **One job done together** - planting, the harvest, the well, a fence (by the plot), the carreta, a piece of furniture, mending the hoe,
+  riding the range. The first given it **leads**; whoever is given it after **works alongside them** (`chore.alongside`): the job is done
+  once - the seed spent once, one fence, one carreta - at the crew's pace, the lead's work quicker by `crewPace`; walking is never
+  quicker for company. The row of the one alongside glows at the same work and says what the lead is doing. When the lead finishes,
+  everybody alongside finishes with them; when the lead is called away, the one alongside takes the job up as their own. Until
+  2026-09-28 two planters each planted, spending the seed twice, and a second fencer or carreta-maker was refused.
+- `ceiling:` one curve for every work, and a helper's own knack and strength do not count, only the lead's.
+
+### 21.5 Exclusive property
+
+**Amended by the owner, 2026-09-28 (§21.6, question 1: "Each needs an axe"; docs/TOWNS.md §4b, 1):** each feller holds a felling axe of
+their own, so a second feller needs a second axe and is refused without one - *"There is no free felling axe: Mateo has the felling axe,
+felling a post oak. Buy another in town."* - and on auto waits about the place. Building, a lane and clearing timber still share one
+copy among them at home, so with one axe a feller and a builder take turns. Fetching logs from off the land carries it
+away and is one person's, and holds the ox and wagon, so a second feller whose land has no timber waits for the team (on auto, about
+the place). The rifle, the ox and the wagon are held as before.
+
+### 21.6 Open for the owner
+
+1. **A second feller with one axe.** ~~(a) The axe is shared at home - built then, recommended~~. **Decided by the owner, 2026-09-28:
+   "Each needs an axe" - (b)**, built the same day: every feller holds a felling axe of their own, released when they stop; a feller
+   with no free axe is refused, *"There is no free felling axe: … has it. Buy another in town."*, and on auto works about the place until
+   one is free (tests/axe-per-feller.test.mjs; `scripts/axe-per-feller-injections.mjs`, 3 of 3 caught). The house builders were checked:
+   by the rule as it stood (§21.5) a pen that wants the felling axe holds one copy shared among the builders, the lane and clearing, so a
+   family with only its starting axe takes turns - and one feller and one builder on auto still get a house.
+2. **Clearing and fencing on auto.** (a) The plot given, then the nearest to the house with that work in it; never survey - *built,
+   recommended*; (b) the plot given, then the plot touching it, else stop; (c) survey and clear new ground next to the last plot when
+   none is staked.
+3. **How many hands, and how much each adds.** (a) 1, 0.8, 0.6, 0.4, four at most, a fifth refused - *built, recommended*; (b) the same,
+   but a fifth allowed and adding nothing; (c) every hand a whole hand, as the house and clearing were until today, with the cap of four.
+4. **Enough logs.** (a) What the house still wants and ten more - *built, recommended*; (b) what the house still wants only; (c) no cap:
+   a feller on auto fells until the family's land is bare.
+
 ## Usability amendment — 2026-09-21
 
 The owner's subsequent request grants freedom to improve usability. This supersedes the icon-only and double-click selection details above:
 
-- One portrait click (or keyboard activation) selects an eligible family member as main, opens their card, follows them, and switches the action bar. The star remains a shortcut. No chore starts from selection.
+- ~~One portrait click (or keyboard activation) selects an eligible family member as main, opens their card, follows them, and switches the action bar. The star remains a shortcut. No chore starts from selection.~~ *Superseded 2026-09-28 (below): a portrait click chooses the person - card, camera, their bar - and no longer makes them main.*
 - Young children, dead and captured members remain viewable without sending an invalid `set-main` command. Their existing card and restrictions remain; viewing them does not replace the main person.
 - Every action button contains its name. Current work begins with **Now:** and retains its glow. Unavailable work keeps readable text, with a muted picture; pressing it still explains the server's refusal.
 - The bar remains one horizontally scrollable row with stable-size targets. Keyboard focus and the lesson locator reveal offscreen actions. A phone conversation reserves the measured bar height, so its last answer is not covered.
 
 No save, simulation, historical information, or progression rules changed. The bar can still be lengthy: grouping actions is a future usability task, particularly alongside young children's card-only work.
+
+## Amendment, 2026-09-28 — a portrait chooses; the main person changes only on purpose (design audit B11)
+
+Found by the design audit of 2026-09-28 (B11, [audits/2026-09-28-design.md](audits/2026-09-28-design.md) §7.2) and fixed at the
+owner's word, *"fix the blockers when they come in"*. Pressing a portrait sent `set-main` without a word, and the main person is
+more than who may be sent on a road: **on auto the main person decides for the family** - the order to leave is answered at
+once on an automatic load (`sim/auto.mjs` `advanceAuto`), every road question is answered, and a chase counts the family as
+nobody's, so it halts at once and *¡Alto!* is never put to the student (`sim/pursuit.mjs` `attended`). A student who had put a
+son on auto to hunt and pressed his face to see where he was had handed him the family's flight.
+
+- **Choosing is not making main.** A portrait press, the "!" and a notice's *Go to* choose the person: the camera goes to
+  them, their card opens and **the bar at the bottom is theirs** - anybody alive, grown or a child, as a child's already was
+  (§18; `barPerson` in `public/family-panel.js`). Nothing is sent to the server.
+- **The main person changes only by the star, or by the bar's own button.** The bar of somebody chosen who is not the main
+  person opens with a labelled button, *Make Mary the main person* (`.panel-make-main`), whose title and accessible name say
+  why it matters: *"Only the main person travels, rests and works about the place, and on auto the main person decides the
+  family's leaving and its answers on the road."* It sends `set-main` through the star's own handler. Their bar shows the work
+  anybody old enough is offered; the journeys, the yard and rest stay on the main person's, as the server has always held
+  (§11.3), and their card says *"Mary is not the main person: only the main person travels, rests and works about the place."*
+- **The guided start's finder** (*Show …*, public/app.js) still sends `set-main` when it takes the student to the person the
+  step names, since the step may be a journey only the main person can make; it is pressed on purpose, and in the first hour
+  the family is not on the road east. `ceiling:` if that ever runs into the Scrape, send `set-main` only when the pointed
+  icon is one of the main person's.
+- **Every rule reads one main person.** The chase's `attended` read the raw `household.mainId`, the road's time-out and auto
+  read `mainPersonId`: with a chosen main person dead and the principal standing in on auto, the chase asked *¡Alto!* while
+  the road counted the family answered for (audit M32). It reads `mainPersonId` now.
+
+No save, action or projection field changed; no save version moved. Proof: `tests/family-commands.test.mjs` (*choosing somebody
+shows their bar and leaves the main person as it was*), `tests/scrape-pursuit.test.mjs` (*who answers the soldiers is the main
+person every rule reads*), `npm run test:family-panel` (a portrait press sends nothing and leaves the main person; the bar's
+button makes them main), `npm run test:family-commands` (a double press on a portrait leaves the main person), `npm run
+test:scrape-pursuit` (somebody grown on auto and their portrait pressed in the chase: the main person unchanged and *¡Alto!*
+asked); each by injection in `scripts/design-blockers-injections.mjs`.
+
+The audit's second direction, *make the family's decider somebody travelling with it*, was built the same day on another
+branch (§20, `sim/acting.mjs` `actingFor`): the chase now reads `actingId`, which keeps the M32 fix above (a dead main person
+gives way) and also passes over a main person who is away. The injection for M32 was re-aimed at it.

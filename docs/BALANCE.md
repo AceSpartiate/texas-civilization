@@ -12,6 +12,13 @@ The rule it measures is `docs/MONEY_AND_GLORY.md` §5 and §8 (*winning without 
 > measure's own faults, found while building the answers (§9.1): **no bale of cotton was ever sold for coin, and no family rolled to
 > corn ever planted cotton**, so "selling for coin" meant selling food, and "cotton made no difference" measured nothing. The record
 > in [evidence/balance-measure.json](evidence/balance-measure.json) is now the re-measure; the first is in git (commit 363fb33).
+>
+> **Crops in real minutes, the market re-tuned, prisoners weighed 1.5 (2026-09-28, not released): §11**, superseding §10's seasons the
+> same afternoon (winners at about 4,100 / 10,000 / 15,200). The record is now that run.
+>
+> **Seasons and a limited market (2026-09-28, not released): §10.** The owner's answer to the design audit's blocker B9. The same
+> 210 classes run again: winners at about 2,000 / 4,800 / 8,200 instead of 122,000 / 231,000 / 347,000. The record
+> [evidence/balance-measure.json](evidence/balance-measure.json) is now that run; §9's "after" is in git at 8db1759.
 
 ---
 
@@ -509,3 +516,252 @@ finals **174, 65, 222, 170, 202, 62** (88, 66, 216, 118, 136, 125 before), its p
 4th, 12th, 7th, 7th), **no class won**; the first family fought in every class and finished at 19,943 to 80,536 (592 to 1,152
 before), because the director's families now take coin for their cotton at the counter and sell it at two reales. Deaths 10, as
 before. The stay-home family holds more than it did and places lower: its neighbours gained more.
+
+---
+
+## 10. Seasons and a limited market, built and measured (2026-09-28, not released)
+
+The owner answered the design audit's blocker B9 (docs/audits/2026-09-28-design.md: *farming is a money pump - crops ripen in 18
+ticks in any season, the store buys without limit, winners reach 122k-347k*) by multiple choice: **"Seasons and a limited market"**
+- crops grow only in their real season; the store buys only what it can use and its price falls as it fills; farm choices and the
+means die matter again. Both are built, and the same 210 classes (same seeds, same strategies, same harness) were run again.
+**In one line: a class's winner now finishes at about 2,000 (five families), 4,800 (fifteen) and 8,200 (thirty) instead of 122,000,
+231,000 and 347,000; the means die and farming harder matter; the crop chosen at the rows does not, because no corn or cotton
+planted in its season comes in before the war ends; fighting and selling still decide, and selling decides more than it did.**
+
+### 10.1 What was built
+
+- **The farming year** (`sim/seasons.mjs`, `HIST-TEX-720`, `FIC-GONZ-721`). On the real land a crop goes in only in its window
+  and ripens after its days on the class's own calendar: a **garden of turnips and greens** September 1 to April 30, 42 days, one seed
+  a plot, food; **corn** February 15 to April 15, 120 days; **cotton** March 20 to May 15, 150 days. The record: the autumn of 1835
+  was cotton-picking and corn-gathering time for crops planted the spring before (*Telegraph*, Oct 26; Bryan, Nov 18; Harris), a
+  garden was kept "for fall and winter" (Holley, 1836), and "Every farmer was planting corn" at the end of February 1836 (Harris).
+  A family that reaches raw land at the end of September can plant only a garden; a garden sown the first morning is ready about
+  November 9. The invented Gonzales country keeps its eighteen-tick crop, and a crop sown in a class saved before today ripens as it
+  was promised. No save version moved.
+- **The limited market** (`sim/market.mjs`, `FIC-GONZ-722`). Each town's store wants 30 food and 4 bales for every family near the
+  town, and its weaver 2 bales; full price to half of that, half price to all of it (a real for ten food, a real a bale), nothing when
+  full; it sells on its whole want in 30 calendar days. The errand's list shows the price now and the room left; what the store would
+  not take comes home and the story says why. Every family of the town - played, gone or the director's - sells into the same store.
+  Coin stays the counter's own answer (owner, 2026-09-27).
+- **Found by this measure and mended before the numbers below**: two of a family sent to plant at once, the later one found the seed
+  gone, fell to the first answer at the rows and put cotton in in November (a class ran with it and was thrown away). A planter who
+  finds no crop open now plants nothing (`tests/seasons.test.mjs`).
+
+### 10.2 The winners' numbers
+
+| | before (§9 "after") | **after** |
+| --- | ---: | ---: |
+| Class winner, middle case: five / fifteen / thirty families | 122,138 / 231,219 / 347,413 | **2,044 / 4,800 / 8,212** |
+| Highest final number of any family | 1,705,300 | **38,060** |
+| Coin held at the end, mean of every family (most any family held) | 485 (4,374) | **10.0 (95)** |
+| Coin earned in the class, mean | 495 | **7.6** |
+| Cotton brought in, mean a family | 355 | **0** |
+
+Against the three to ten reales a family comes with, the money a family ends with is again of that order: selling for coin about
+triples it (16.7 against 3.7), where it had multiplied it by a hundred.
+
+### 10.3 Who wins, before and after
+
+Win % / index / top-3 % / median final / mean coin; index 1 is a fair share.
+
+| | before | **after** |
+| --- | --- | --- |
+| war: all | 16.5 / 2.14 / 38.4 / 31,500 / 407 | **16.5 / 2.14 / 39.0 / 701 / 8.9** |
+| war: one | 9.2 / 1.22 / 29.6 / 18,541 / 473 | **9.9 / 1.31 / 30.0 / 560 / 9.6** |
+| war: neighbour | 5.1 / 0.66 / 18.4 / 4,222 / 529 | **4.3 / 0.57 / 19.7 / 142 / 10.8** |
+| war: none | 0.1 / 0.02 / 5.8 / 458 / 566 | **0.1 / 0.02 / 3.8 / 8 / 11.1** |
+| sells for coin | 10.6 / 1.39 / - / 7,504 / 708 | **12.2 / 1.62 / - / 404 / 16.7** |
+| never sells | 4.8 / 0.62 / - / 1,335 / 284 | **3.1 / 0.40 / - / 136 / 3.7** |
+| farms hard (six plots) | 7.5 / 1.00 / - / 2,891 / 479 | **9.6 / 1.28 / - / 280 / 12.7** |
+| farms plain | 7.8 / 1.00 / - / 2,828 / 510 | **5.7 / 0.73 / - / 148 / 7.5** |
+| means cotton | 10.2 / 1.33 / - / 8,390 / 636 | **7.6 / 0.99 / - / 168 / 10.0** |
+| its own crop | 5.0 / 0.65 / - / 1,199 / 347 | **7.7 / 1.01 / - / 207 / 10.2** |
+
+Head to head, *all* finished above *none* 97 times in 100 (88 before), *one* above *none* 95 (84).
+
+### 10.4 Do farm choices and the means die matter again?
+
+- **Farming harder does**: six plots win at index 1.28 against 0.73 for three (1.00 against 1.00 before, when every plot's crop came
+  in every few minutes and the store took all of it). The gardens are food, and food is what a family that sells has to sell.
+- **The crop chosen does not**: 0.99 against 1.01. Nothing a class plants in corn's or cotton's season comes in before April 25, 1836,
+  so the choice at the rows is, in the class, a choice about the summer after the war. **This is the honest result of the seasons and
+  the owner's to weigh** (§10.9, question 1).
+- **The means die does**, as the owner wanted it to (2026-09-25): by the coin a family came with, index **0.53 at three reales** rising
+  to **1.46 at ten** (1.15 and 0.87 before - it did nothing); by band, hard up 0.49, poor 0.64, modest 1.00, comfortable 1.37, well to
+  do 1.47 (1.16 ... 1.18 before). Its share of where a family finishes (Shapley, place in the class) rose from 0.002 to **0.018**; the
+  family die's fell from 0.19 to **0.05** (a bigger family no longer grows and sells proportionally more cotton), the choices' rose
+  from 0.32 to **0.47**, the unexplained fell from 0.45 to 0.40.
+
+### 10.5 Does any strategy dominate?
+
+**Fighting and selling, more than before.** Every one of the fifteen best combinations sells for coin; *all, sells* wins at index
+**3.71** (2.94 before) and *one, sells* at 2.14 (1.82); a family that fights with every man and never sells wins at 0.83 (1.48). With
+coin scarce, the few reales a family earns selling its spare food and garden are most of what the ending multiplies. The coin default
+(owner, 2026-09-27) no longer rescues a family that never chooses at the counter, because there is almost no cotton for the counter
+to pay coin for: the director's families do not sell food, and the balance measure's *sell: no* families hold only what they came
+with. See §10.9, question 2.
+
+### 10.6 Staying home, and the Scrape
+
+- **A family that sends nobody**: one class won of 210 (`measure-5-66`, as before; `measure-5-40` no longer), none of fifteen or
+  thirty, and never in the top three there. Its best in each class finished, in the middle case, at 0.7 in 100 of the winner's number
+  (0.6 before), 9th. Unchanged: the owner's answer of 2026-09-27 ("Leave it") holds as it was.
+- **Staying in the burn zone beats going again.** Inside the zone a family that stays wins at index 0.81 and finishes at 0.500 on
+  average, against 0.70 and 0.534 for one that goes at once (0.70 / 0.519 against 0.78 / 0.481 before: the prisoner weight of 1, the
+  owner's answer 3, had put staying below going). With coin scarce, what the road costs is a larger part of a family's coin than what
+  its prisoners take out of it. Read again at other weights on the same families (exact, `--rescore`): at **1.5** staying wins at 0.59 /
+  0.562 against going's 0.73 / 0.520 - below it again; at 2, 0.31 / 0.655. §10.9, question 3.
+
+### 10.7 Food, deaths and class time
+
+- **Food (the audit's S11) is not made to matter by the seasons.** Working about the place still feeds a family (`sim/routines.mjs`:
+  a grown person adds a food a day and eats about a third of one), so a family with nothing in the field eats. In ten five-family
+  classes run both ways, sickness deaths 5 against 3 and families ending the war with no food 6 of 50 against 5 of 50. **Deaths 301
+  against 274** over the 210 classes (men 189 against 167, women and children 112 against 107): the men's are the war's, whose course
+  every class re-rolls once anything changes; no hunger death was found.
+- **Class time**: none. Every class ran the same 1,252 ticks. The guided start is shorter on the real land - its harvest step no
+  longer waits for a crop (docs/LESSON.md, amended 2026-09-28) - and a garden sown the first morning comes in about November 9,
+  about an hour into the first period at the Study pace.
+- **Runtime**: 4,970 s on 18 worker threads (CPU seconds by size: five 9,075, fifteen 34,476, thirty 45,296), the machine shared. Measured on the branch at fbdba106 (before origin/main's "who acts for a family" and "neighbours remember and repay" were merged); those change who answers the road east and who helps whom, so a re-run on main will move these numbers a little.
+
+### 10.8 The older study, run again
+
+`scripts/balance-study.mjs` (six classes of fifteen, fourteen run by the neighbours' director and one played to stay home and sell
+food for coin; [evidence/balance-study.json](evidence/balance-study.json)): the stay-home family's finals **32, 1, 33, 9, 33, 33**
+(174, 65, 222, 170, 202, 62 before), its place **12th, 15th, 12th, 14th, 13th, 10th** (9th, 14th, 9th, 10th, 12th, 12th); no class won.
+The first family finished at **312 to 960** (19,943 to 80,536 before) and in two of the six had fought in no battle. Deaths 9 (10).
+
+### 10.9 Questions for the owner
+
+1. **No corn or cotton the class plants comes in before the war ends, so the crop chosen at the rows makes no difference to the
+   ending (index 0.99 against 1.01).** What should the choice mean?
+   - A. Leave it: it is the history - the corn of 1836 was gathered after San Jacinto, and the Scrape left crops in the ground.
+   - **B. (Recommended)** Count a crop standing in the ground at the ending at what it would fetch, so the spring's planting, the
+     choice of crop and the Scrape's burning of a field all count.
+   - C. Let a family pick an established neighbour's cotton in the autumn for a share (hands were short at picking time: the
+     *Telegraph*, Oct 26, 1835), so cotton pays in the class.
+   - D. Give the autumn a quicker crop than a six-week garden.
+2. **Selling for coin decides more than it did (sells 1.62, never 0.40; *all, sells* 3.71).** The director's families never sell food,
+   so the coin default reaches nobody who does not choose.
+   - A. Leave it.
+   - **B. (Recommended)** Let the neighbours' director and the counter's default sell food beyond a family's winter keep, as a student
+     who chose would, within the store's want.
+   - C. Say at the counter that coin is what the family will have to show (the audit's S12).
+3. **Staying in the burn zone beats going again (0.81 / 0.500 against 0.70 / 0.534).**
+   - A. Leave it.
+   - **B. (Recommended)** Raise the prisoners' weight to 1.5 (read exactly above: 0.59 / 0.562 against 0.73 / 0.520).
+   - C. Make the road east cost less coin.
+4. **The market's numbers** (30 food and 4 bales a family, half price from half full, a month to sell on) are invented and set once,
+   by one quick run. Keep them, or make the store tighter or looser?
+
+The records: before, [balance-measure.json in git at 8db1759](evidence/balance-measure.json) (the §9 "after"); after,
+[evidence/balance-measure.json](evidence/balance-measure.json).
+
+---
+
+## 11. Crops in real minutes, the market re-tuned, prisoners weighed more (2026-09-28, not released)
+
+Two answers of the owner the same afternoon, by multiple choice. **"Have crops be independent of the seasons. say, 5 minutes for
+cotton and 3 for corn? adjust prices to compensate"** and **"Weigh prisoners more"**. Built on the branch `crops-real-minutes` off
+`integration-2026-09-28` (with the clock test's fix under it), and the same 210 classes run again. **§10's seasons are superseded;
+its market stays, re-tuned.**
+
+### 11.1 What was built
+
+- **Crops in real minutes** (`sim/crops.mjs`, `FIC-GONZ-721`): corn ripens after three real minutes of a running class, cotton after
+  five, planted in any month. The minutes are summed from the real time the server measured for each running tick, so the Host's
+  speed changes the ticks and never the minutes, and a paused class grows nothing; a tick stepped in process (as here) counts at the
+  Study pace, so corn is 19 ticks and cotton 32. The garden is gone (it was only the autumn's crop). The record of the farming year is
+  kept, not modelled (`HIST-TEX-720`).
+- **The market re-tuned** (`sim/market.mjs`, `FIC-GONZ-722`): food a real for four (five before), and the store's want of cotton three
+  bales a family (four). Chosen from two quick measures of 32 classes (§11.4).
+- **Prisoners weighed 1.5** (`sim/ending.mjs` `PRISONER_WEIGHT`, `FIC-GONZ-710`).
+
+### 11.2 The numbers, before and after
+
+"Before" is §10 (the seasons, measured on the seasons branch before `integration-2026-09-28`'s other work was merged, so not the
+same tree in every other respect); "after" is this branch. Win % / index / median final / mean coin.
+
+| | seasons (§10) | **real minutes** |
+| --- | --- | --- |
+| Class winner, middle case: five / fifteen / thirty | 2,044 / 4,800 / 8,212 | **4,144 / 10,052 / 15,152** |
+| Highest final of any family | 38,060 | **52,182** |
+| Mean coin at the end (most any family held) | 10.0 (95) | **23.6 (151)** |
+| Cotton brought in, mean a family | 0 | **114** |
+| war: all | 16.5 / 2.14 / 701 / 8.9 | **17.9 / 2.32 / 2,008 / 23.3** |
+| war: one | 9.9 / 1.31 / 560 / 9.6 | **8.8 / 1.16 / 1,142 / 22.5** |
+| war: neighbour | 4.3 / 0.57 / 142 / 10.8 | **4.2 / 0.55 / 270 / 23.9** |
+| war: none | 0.1 / 0.02 / 8 / 11.1 | **0.1 / 0.02 / 24 / 24.7** |
+| sells for coin | 12.2 / 1.62 / 404 / 16.7 | **6.8 / 0.90 / 396 / 26.4** |
+| never sells | 3.1 / 0.40 / 136 / 3.7 | **8.4 / 1.10 / 266 / 20.9** |
+| farms hard (six plots) | 9.6 / 1.28 / 280 / 12.7 | **7.8 / 1.05 / 388 / 24.4** |
+| farms plain | 5.7 / 0.73 / 148 / 7.5 | **7.4 / 0.95 / 278 / 22.8** |
+| means cotton | 7.6 / 0.99 / 168 / 10.0 | **10.1 / 1.31 / 616 / 29.3** |
+| its own crop | 7.7 / 1.01 / 207 / 10.2 | **5.1 / 0.67 / 211 / 17.7** |
+
+- **The crop choice matters again**: cotton index 1.31 against 0.67. By selling too: cotton and never selling 1.45 (25 reales), cotton
+  and selling 1.16 (34), own crop and selling 0.64 (19), own crop and never selling 0.71 (16). The director's cotton errand takes coin
+  by the counter's default; nobody who does not choose sells corn.
+- **Selling does not dominate**: 0.90 against 1.10 (1.62 against 0.40 under the seasons). A family that sells its food fills the town's
+  store with it; one that grows cotton is paid by the counter's default either way.
+- **Farming harder matters only a little, and less the bigger the class**: 1.05 against 0.95 overall; by class size 1.11 / 0.90 at
+  five families, 1.01 / 0.99 at fifteen, 0.97 / 1.03 at thirty. The store's want is per family, so in a town of many families the
+  extra plots grow what the store has no room for. §11.6, question 1.
+- **The means die** matters less than under the seasons (index 0.96 for three reales, 1.65 for ten; Shapley share 0.003) because
+  a family now earns several times what it came with.
+- **Deaths 331** (301 under the seasons, 274 before them): men 193 (189), women and children 138 (112). No hunger death was sought
+  here; the men's are the war's, re-rolled whenever anything changes.
+
+### 11.3 Prisoners at 1.5: staying in the burn zone falls below going
+
+Inside the burn zone, the family that stays against the one that goes at once (win index / mean place, 0 first and 1 last), read
+exactly on the same families at each weight (`--rescore`):
+
+| Weight | stay | go at once |
+| ---: | --- | --- |
+| 0 | 1.37 / 0.451 | 0.68 / 0.523 |
+| 1 (until today) | 0.84 / 0.503 | 0.76 / 0.512 |
+| **1.5 (chosen)** | **0.56 / 0.555** | **0.78 / 0.499** |
+| 2 | 0.33 / 0.659 | 0.81 / 0.474 |
+
+At 1 staying was above going in both measures; at 1.5 it is below in both. Across all families *stay* wins at index 1.12 against
+*flee*'s 0.86 - the families outside the zone, where nobody is taken and the road only costs, as in §9.4.
+
+### 11.4 How the prices were chosen
+
+Two quick measures of 32 classes (24 of five families, 8 of fifteen): with §10's numbers (food five a real, cotton four bales a
+family) cotton won at index 1.42 against 0.64 and families held 27 reales; with food four a real and cotton three bales, 1.35 against
+0.70 and 21 reales, the winners a fifth lower. The second was taken. Two more over 80 classes after the full run: raising the food want
+from 30 to 45 changed nothing at all (no store's food want was ever reached), and raising cotton back to four bales moved farming harder
+from 1.16 / 0.85 to 1.21 / 0.80 on those classes and the winners up a fifth. Not taken; §11.6, question 1.
+
+### 11.5 The older study, before and after
+
+`scripts/balance-study.mjs` (six classes of fifteen, fourteen run by the neighbours' director and one played to stay home and sell):
+
+| | before (the seasons, on `integration-2026-09-28`) | **after** |
+| --- | --- | --- |
+| The class's first family | 1,152 / 164 / 199 / 384 / 309 / 772 | **6,200 / 8,364 / 9,548 / 3,584 / 5,459 / 9,922** |
+| The stay-home family's final | 12 / 1 / 9 / 1 / 6 / 12 | **16 / 7 / 69 / 24 / 72 / 20** |
+| Its place | 12 / 15 / 14 / 14 / 13 / 10 | **13 / 13 / 7 / 14 / 12 / 11** |
+| Deaths | 9 | 9 |
+
+### 11.6 Questions for the owner
+
+1. **Farming harder barely matters in a class of fifteen or thirty (1.01 and 0.97), because the store's room is shared by the town.**
+   - A. Leave it: the market is what keeps the farm from being a pump again.
+   - **B. (Recommended)** Count the crop a family holds at the end - cotton in the house, food beyond the winter - at what the store
+     would pay, so a bigger farm counts even where the store is full.
+   - C. Give the store more room for cotton (four bales a family): a little more for the hard farmer, and winners a fifth higher.
+2. **Cotton is the better crop (1.31 against 0.67)**, because nobody who leaves the counter alone is paid for corn.
+   - A. Leave it: cotton is the colony's money crop.
+   - **B. (Recommended)** Let the neighbours' director and the counter's default sell corn beyond a family's winter keep too, within
+     the store's want, so corn families that do not choose are paid as cotton families are.
+   - C. Lower cotton to a real and a half a bale.
+3. **The crops' minutes** are counted from the class's real time. At the Quick pace (a second a tick) corn takes 180 ticks - most of a
+   week of the calendar - and at the Study pace 19.
+   - **A. (Recommended)** Keep real minutes, as asked.
+   - B. Count them at the Study pace whatever the class's speed (a fixed 19 and 32 ticks).
+
+The record: [evidence/balance-measure.json](evidence/balance-measure.json) (this run); §10's is in git on the seasons branch (3bcf1556).

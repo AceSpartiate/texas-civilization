@@ -39,7 +39,7 @@ test('the whole war is in the story, the third period too, a paragraph a month i
   // The latest word is the war's end, or word first heard after it: a rider from the west with Urrea at Brazoria (seen April 20)
   // can reach the colonies days behind the victory's own rider. Since 2026-09-28 (sim/acting.mjs: who answers for a family, the left
   // behind following, the wounded carried) this seed's families move differently, and that word first reaches one on April 23
-  // (hh-8, which heard it on April 21 before).
+  // (hh-8, which heard it on April 21 before); the farming year of the same day (sim/seasons.mjs) moves them too.
   assert.ok(story.latest.topicId === 'san-jacinto' || /^April (2[1-9]|30)$/.test(story.latest.date), `the latest word is not the last news of the war: ${story.latest.topicId} on ${story.latest.date}`);
   // Short enough to read aloud: no sentence of it runs past sixty words.
   for (const sentence of text.split(/(?<=\.) (?=[A-Z])/)) assert.ok(sentence.split(/\s+/).length <= 60, `a sentence runs on: ${sentence}`);

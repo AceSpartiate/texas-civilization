@@ -172,7 +172,7 @@ in the fighting counts for more than supporting it. Every number below is invent
 | --- | --- | --- | --- |
 | Support | Answering the call and carrying food or powder to Gonzales | 1 | Yes — `handleChoice` in `sim/directors.mjs` |
 | Support | Carrying word onward that reached another family | 1 | Yes — the relay chain in `sim/world.mjs` |
-| Support | Helping a neighbour who asked; sheltering or feeding another household | 1 | Recorded, not awarded (2026-09-28): `sim/neighbourly.mjs` keeps every raising, food carried, wagon room and children taken in, and the ending names them; whether any earns glory against "only major historical events earn glory" is the owner's open question |
+| Support | Helping a neighbour who asked; sheltering or feeding another household | 1 (children taken in: 2) | **Yes, since 2026-09-28** (owner, by multiple choice: *"Any help"*, `FIC-GONZ-761`): the ledger's deeds (`sim/neighbourly.mjs`, `sim/deeds.mjs` `HELP_ROLE`) - a raising, food carried, room kept in a wagon at 1 (`helped`), children taken in at 2 (`sheltered`), times the distance multiplier from the family helped. Once per family helped and kind of help; a trade earns nothing (it was even), nor the neighbours' call (it earned its own part at Gonzales). Said in *What earned glory* at the ending, never in who went to the war. `ceiling:` the two weights are a first guess, to be moved by a balance measure |
 | Present | Being where a documented event happened when it happened | 2 | Yes — `witnessing()` in `sim/directors.mjs` |
 | Present | Going upriver to the camp | 2 | Yes — `handleMarch` |
 | Fighting | A family member taking part in a battle | 3 | Partly — `world.participation.gonzales` records `supplied` and `present` per person (2026-09-12); nobody fights at Gonzales, so `fought` waits for a later battle |
@@ -180,7 +180,8 @@ in the fighting counts for more than supporting it. Every number below is invent
 Rules that apply to every row:
 
 - **Only major historical events earn glory**, meaning events registered as `HIST-GONZ-*` (and
-  later arcs' equivalents). Farm work, hunting and ordinary trade never do.
+  later arcs' equivalents). Farm work, hunting and ordinary trade never do. *Amended by the owner 2026-09-28:* help to another
+  family earns the support tier too (the row above), once per family helped and kind of help.
 - **Weight by what it cost the family, as well as by tier.** A household nineteen miles out that
   walked its food in did more than one two miles out, and the code already knows both distances.
 - **A casualty never adds glory.** A family member hurt, captured or lost earns the household
@@ -296,9 +297,11 @@ final = max(money, 1) × (1 − prisoners ÷ living people) × (1 + glory) + lan
 
 Everybody of the family taken prisoner in the Runaway Scrape - at home when the Mexican army came, or on the road east when a
 column overtook the family - is named in its reckoning and takes their part of the coin out of the count, a part being one share
-among the family's living people (`PRISONER_WEIGHT` 1, `sim/ending.mjs`, `FIC-GONZ-710`). The weight was chosen by measurement:
+among the family's living people (`PRISONER_WEIGHT`, `sim/ending.mjs`, `FIC-GONZ-710`). The weight was chosen by measurement:
 the smallest that leaves a family that stayed in the burn zone below one that went, on average, in both how often it finishes
-first and where it finishes ([BALANCE.md](BALANCE.md) §9.4). The war's prisoners are not weighed: glory neither rewards nor punishes
+first and where it finishes ([BALANCE.md](BALANCE.md) §9.4). **One and a half parts each since 2026-09-28** (owner, by multiple choice:
+*"Weigh prisoners more"*), one until then: with coin scarce once the store fills, staying had crept back above going at one
+([BALANCE.md](BALANCE.md) §10.6 and §11). A family whose prisoners weigh more than its living people counts no coin at all. The war's prisoners are not weighed: glory neither rewards nor punishes
 a casualty. The number is rounded to a whole one; nothing changes for a family nobody took.
 
 ### What each family sees
@@ -385,6 +388,16 @@ Bounded steps, each shippable and provable alone, in order. This mirrors
 
 `ceiling:` the discussion questions are fixed text, not drawn from what this class did. `ceiling:` the tutorial card and the person's controls can still show behind the ending on a student's screen; they do nothing once the class has ended.
 
+**The interim standings carry no glory (2026-09-28).** The first and second class periods end with interim standings
+(docs/COLONIES.md §6m). Until the design audit of 2026-09-28 (B4) they were this whole reckoning - glory, the final number,
+the sum, *What earned glory*, and the Host naming the family that **leads** - twice before the ending, against §4 above and
+VISION §20: after day 1 every student knew glory existed, what earned it and who led, and could play days 2 and 3 for it.
+Now, by the owner's choice of the same day (multiple choice: **"Coin and land only"**), `endingProjection` sends an interim
+family `interimFamily` - the coin it holds and the land it has been promised, nothing else - and the Host `interimHost` -
+every family's coin and land in household order, a family nobody played marked, nobody named or marked first. No `glory`,
+`final`, `sum`, `awards`, `winners` or `best` is on the wire, nor the ending's story, and the word itself is on neither page (`tests/periods.test.mjs` for both interims, `npm run test:ending` on both
+pages; injections in `scripts/design-blockers-injections.mjs`). Only the end of the last period reveals glory.
+
 ---
 
 ## 8. Gates
@@ -393,7 +406,7 @@ Nothing here is finished until all of these hold.
 
 | Gate | What it means |
 | --- | --- |
-| Hidden means hidden | A planted glory value appears in no student and no Host payload at any tick before the ending, asserted by searching the serialised wire the way trade and relay isolation already are, and does appear once the ending is reached. |
+| Hidden means hidden | A planted glory value appears in no student and no Host payload at any tick before the ending, asserted by searching the serialised wire the way trade and relay isolation already are, and does appear once the ending is reached. **Nor the word** (2026-09-28, after notes on sending a regular home said the family "loses glory"): no string a page draws or the server writes names glory outside the ending's screen and module, and no student, family-book or Host payload of a whole class carries it before the end (`tests/glory-words.test.mjs`). |
 | Nothing reads glory | No director or opportunity rule consults `household.glory`. |
 | Money is used | At least one thing a family will want is bought only with coin. |
 | Barter survives | A family that never touches coin can still plant, harvest, hunt, trade, answer the call and reach the end. |
@@ -485,6 +498,24 @@ finishes at 0.519 on average against 0.78 and 0.481 for one that goes at once (1
 measure); a family that never chooses at the counter holds 284 reales and wins at index 0.62 (4 reales and 0.10 before the coin
 default); a family that means to grow cotton holds 636 reales against 324 at a real a bale, and wins as often as it did (index 1.33
 against 1.32) - cotton's difference to winning was already there once the measure really sold it. Deaths 274 against 268.
+
+### 8.4 Seasons and a limited market (2026-09-28, not released) — the seasons superseded the same day, §8.5
+
+The owner's answer to the design audit's B9, by multiple choice: **"Seasons and a limited market"**. On the real land a crop goes in
+only in its season and ripens in its real calendar days (`sim/seasons.mjs`: a garden in the autumn, winter and spring; corn from the
+middle of February, cotton from the twentieth of March, neither in before the war ends), and each town's store and weaver buy only
+what they can use, at a price that halves when half full and stops when full (`sim/market.mjs`). Coin earned in a class fell from 495
+reales a family to 8; class winners from 122,138 / 231,219 / 347,413 to about 2,044 / 4,800 / 8,212 (five / fifteen / thirty
+families). The means die now matters (index 0.53 for three reales, 1.46 for ten); farming harder matters; the crop chosen does not;
+a family that sends nobody still wins no class of ordinary size. Measured and questioned in [BALANCE.md](BALANCE.md) §10.
+
+### 8.5 Crops in real minutes, prices re-tuned, prisoners weighed more (2026-09-28, not released)
+
+Two more answers of the owner the same day, by multiple choice. **"Have crops be independent of the seasons. say, 5 minutes for
+cotton and 3 for corn? adjust prices to compensate"**: either crop goes in in any month, corn ripens after three real minutes of the
+running class and cotton after five (`sim/crops.mjs`, `FIC-GONZ-721`); the limited market stays, re-tuned (food a real for four, the
+store's cotton three bales a family; `FIC-GONZ-722`). **"Weigh prisoners more"**: `PRISONER_WEIGHT` 1.5 (§5 above). Measured in
+[BALANCE.md](BALANCE.md) §11.
 
 
 - **A patriotism meter.** `VISION.md` §11 still forbids it, and this is the mechanic most likely to

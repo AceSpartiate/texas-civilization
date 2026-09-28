@@ -27,7 +27,7 @@ import { surpriseReveal } from './surprise.mjs';
 // The spring said as it was, the war's prisoners named, and a debrief from the class's own story (sim/ending-story.mjs).
 import { classHooks, familyQuestions, flightLine, nobodyWentLine, warPrisoners } from './ending-story.mjs';
 // What families did for each other (sim/neighbourly.mjs, owner 2026-09-28: "helping is recorded in the ending").
-import { helpedLines, neighbourLines } from './neighbourly.mjs';
+import { helpWhat, helpedLines, neighbourLines } from './neighbourly.mjs';
 
 /**
  * The coin the final number multiplies: what is in the house, and never less than one real.
@@ -63,7 +63,10 @@ export const finalNumber = (money, glory, land = 0, kept = 1) => Math.round(coun
  * `service.status`, which the war sets to 'captured' for its own (sim/alamo.mjs, sim/houston.mjs) and the Scrape never sets.
  * The words say who was taken and where, and nothing about what it says of anybody. Invented, `FIC-GONZ-710`.
  */
-export const PRISONER_WEIGHT = 1;
+// One and a half since 2026-09-28 (owner, by multiple choice: "Weigh prisoners more"; docs/BALANCE.md §10 and §11): with crops in
+// real minutes and a store that fills, coin is scarce, and at one a family that stayed in the burn zone finished above one that
+// fled again. One until then.
+export const PRISONER_WEIGHT = 1.5;
 /** The rule in the words both screens show it in. */
 export const PRISONER_RULE = `Each person taken prisoner at home or on the road east in the spring takes ${PRISONER_WEIGHT === 1 ? 'their part' : `${PRISONER_WEIGHT} times their part`} of the family's coin out of the count, a part being one share among the family's living people.`;
 const GONE_FOR_GOOD = 'dead';
@@ -112,7 +115,12 @@ const PART_WORDS = Object.freeze({
   voted: 'voted in',
   served: 'did the camp\'s work at',
   forward: 'called for the enemy\'s road at',
+  // Help to another family (owner, 2026-09-28, "Any help"; sim/deeds.mjs `HELP_ROLE`): what follows is said by `helpWhat`.
+  helped: 'helped',
+  sheltered: 'took in the children of',
 });
+/** The parts that are help to another family (sim/deeds.mjs `HELP_ROLE`), kept out of who went to the war. */
+const HELP_PARTS = Object.freeze(['helped', 'sheltered']);
 
 /** How far a family lived from Gonzales by road, where the news and the army both started. */
 function milesFromGonzales(world, household) {
@@ -142,7 +150,8 @@ function partsTaken(world, household) {
     }
   }
   for (const [key, award] of Object.entries(world.glory?.[household.id]?.awards || {})) {
-    if (parts.has(key) || !award.personId) continue;
+    // Help to another family is not going to Gonzales or to the army: it is said in the family's Neighbours, not as who went.
+    if (parts.has(key) || !award.personId || HELP_PARTS.includes(award.role)) continue;
     parts.set(key, { event: award.event, personId: award.personId, name: world.entities[award.personId]?.name || 'Somebody', role: award.role, minute: award.minute ?? 0 });
   }
   return [...parts.values()].sort((a, b) => a.minute - b.minute);
@@ -172,7 +181,7 @@ export function familyEnding(world, householdId) {
     .sort((a, b) => a.minute - b.minute)
     .map(award => {
       const name = world.entities[award.personId]?.name || 'Somebody';
-      const what = EVENT_NAMES[award.event] || award.event;
+      const what = helpWhat(world, award.event) || EVENT_NAMES[award.event] || award.event;
       const far = award.miles >= 1 ? `, ${Math.round(award.miles)} road miles from home` : '';
       return { date: day(world, award.minute), points: award.points, role: award.role, text: `${name} ${PART_WORDS[award.role] || 'took part in'} ${what}${far}.${award.note ? ` ${award.note}` : ''}` };
     });
@@ -275,9 +284,29 @@ export function hostEnding(world) {
  */
 export function endingProjection(world, householdId, role) {
   if (world.status !== 'ended') return {};
-  // The first of two class periods ends with interim standings, not a winner (owner, 2026-09-16, docs/COLONIES.md §7e):
-  // the same numbers, said as where the families stand with the war still to finish, and the Host offered the winter.
+  // The first and second class periods end with interim standings, not a winner (owner, 2026-09-16, docs/COLONIES.md §7e):
+  // where the families stand with the war still to finish, and the Host offered the next period. **Without glory**: VISION §20,
+  // "Glory is hidden from every student and from the Host until the ending", and the interim is not the ending (design audit
+  // 2026-09-28 B4). The owner chose, the same day, **coin and land only** (`interimFamily`, `interimHost`): nothing that is glory
+  // or shows it - the glory, the final number it multiplies, the sum, what earned it, who leads by it - goes on the wire until
+  // the last period ends.
   const interim = interimStandings(world);
-  if (role === 'host') return { ending: { host: { ...hostEnding(world), interim, canContinue: canContinue(world), ...(canContinue(world) && { nextLabel: nextPeriodLabel(world) }) } } };
-  return householdId && world.households[householdId] ? { ending: { family: { ...familyEnding(world, householdId), interim } } } : {};
+  if (role === 'host') {
+    const host = hostEnding(world);
+    return { ending: { host: { ...(interim ? interimHost(host) : host), interim, canContinue: canContinue(world), ...(canContinue(world) && { nextLabel: nextPeriodLabel(world) }) } } };
+  }
+  if (!householdId || !world.households[householdId]) return {};
+  const family = familyEnding(world, householdId);
+  return { ending: { family: { ...(interim ? interimFamily(family) : family), interim } } };
+}
+
+/**
+ * The standings between periods: **coin and land only** (owner, 2026-09-28, by multiple choice). The coin a family holds and the
+ * land it has been promised, and nothing else - no glory and nothing that shows it or lets it be worked out (the final number,
+ * the sum, what earned it, who leads, the question about it), and none of the ending's story, which is the end's to tell.
+ */
+export const interimFamily = family => ({ householdId: family.householdId, name: family.name, money: family.money, land: family.land, acres: family.acres });
+/** The Host's standings so far: every family's coin and land in household order, a family nobody played marked, nobody named. */
+export function interimHost(host) {
+  return { families: host.families.map(one => ({ householdId: one.householdId, name: one.name, money: one.money, land: one.land, automatic: one.automatic })) };
 }

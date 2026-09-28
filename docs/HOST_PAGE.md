@@ -138,7 +138,60 @@ clear, and tell the teacher up front how many class days a game takes at each pa
   (public/reconnect.js); only a sign-out goes to the join screen, which has **I was already in this class** (the class
   code, then your own name) beside the family key.
 
-### 2.8 Nothing on the Host's page stands on anything else (2026-09-28)
+
+### 2.8 The bell: Stop for today, and End Game asked twice (2026-09-28)
+
+Found by the design audit of 2026-09-28 (B2, [audits/2026-09-28-design.md](audits/2026-09-28-design.md) §1.2) and fixed at
+the owner's word, *"fix the blockers when they come in"*: **End Game** was one press, with no confirmation, and final - a class
+ended part-way through a period can never be continued (`sim/periods.mjs` `canContinue` wants the period's own end) - and at
+the bell it was the obvious button. The safe way (Pause, Stop Server, relaunch, Resume) was written down nowhere as "carry on
+next class".
+
+- **Stop for today** (host action `stop-for-today`, `server/app.mjs`), beside Pause while a class is running or paused. Asked
+  twice; while it waits for the second press the notice line says *"This pauses the class and saves it where it stands, then
+  closes the server. Next class, open the Host as usual: the class is there, paused, and Resume carries on."* It commits the
+  class **paused** and writes it at once, never ended; then, on a server that can close itself (the launcher's), every page is
+  told *"Your teacher stopped the class for today. It was saved and paused just as it stands, and it goes on from here next
+  class."* (`STOPPED_FOR_TODAY`) and the server stops as Stop Server does. On a server that cannot (a developer's terminal) the
+  class is saved paused all the same and the Host is told to close the server in its own window. The next launch opens the same
+  save - the same class, day, families and keys - paused, with **Resume** offered.
+- **End Game** is asked twice, like New Class and Stop Server. Pressed once it reads *Confirm: end the whole game* and the
+  notice line says *"This ends the whole game for everyone and shows everybody the ending. If it was a mistake, Classes can take
+  the class up again where it was, but the ending will have been seen. To stop at the bell and carry on next class, use Stop
+  for today instead."*; left alone it disarms itself after six seconds and the words go. (Until the owner's answer below the
+  words said *"It can't be undone."*)
+- **Who is absent is kept across the stop** (classroom audit S2, playthrough audit #2, 2026-09-28). What a page was last seen
+  lives only in memory, and a relaunch began it empty, so every joined family counted as present: one saved absent was handed
+  back to a student who was not there, the director stopped running it and its questions held the class; one whose student did
+  not come back was never marked absent. Now each launch counts every joined family as seen at the launch, and one saved absent
+  as gone the whole grace already (`seedPresence`, `server/app.mjs`): it stays absent until its page opens, and a family whose
+  student does not come back is absent the grace (§2.4) after the launch, as if the server had never stopped. New Class forgets
+  the last class's with it. Proof: `tests/absence.test.mjs`, *a class stopped for today and opened again keeps who is absent*.
+- **Stop Server** is offered only in the lobby and after the end; while a class is under way Stop for today is the stop, with
+  the words. The server still takes `stop-server` in any state (`Stop.vbs` uses it).
+
+**A class ended by mistake is continued (owner, 2026-09-28, asked whether a class ended part-way through a period may be
+continued: *"Yes, allow Continue"*).** This replaces the `ceiling:` that stood here, *"a class ended part-way through a period
+still cannot be continued"*. End Game keeps its two presses.
+
+- **Which class.** One ended by End Game before its period reached its own end (`endedEarly` in `sim/periods.mjs`: ended, and
+  the director not `complete`). A period that ended where it ends goes on by its own button (*Continue to the winter of 1836*,
+  *… spring …*); the last period's end, the war's, is final. Those are refused in words (`continueRefusal`).
+- **Where.** In **Classes**, beside the class that is open, **Continue this class** (two presses; the list says *ended
+  part-way*). A class put away ended is opened first, then continued. Host action `continue-class`.
+- **What it restores.** End Game changes nothing in the world but its status, and while a class is ended nothing ticks and no
+  order is taken, so the class taken up again is the class the moment before End Game - its day, its people, its questions -
+  **paused**, for the teacher's Resume (`continueEnded`); the Host's record (`visibility: 'host'`) says it was taken up again.
+  Proved field by field: the world after is the world before but for the status and that one line
+  (`tests/classes.test.mjs`).
+- **What goes.** Everything End Game showed is read from the ended status and goes with it: the ending and the standings on
+  every page, the Host's winner, the offer of the flashbacks. **The flashback videos made for that ending are thrown away**
+  (`flashbacks.discard`, `server/flashback.mjs`: the class's folder under `flashbacks/`), and a Host page left open forgets what
+  it made and played (`public/flashback.js`); when the class ends again they are made afresh from the class as it then stands.
+- **What cannot be undone.** Everybody has seen the ending: students saw their numbers and the Host the winner. That is why End
+  Game still asks twice, and says so.
+
+### 2.9 Nothing on the Host's page stands on anything else (2026-09-28)
 
 Owner, 2026-09-28: *"Check for UI elements that block others. Move them somewhere else."* `npm run test:overlap`
 (docs/FAMILY_PANEL.md §21) walks the Host's page at a projector's 1920x1080, 1280x720 and 1280x800, a 1024x768 one and a
@@ -164,6 +217,12 @@ Gonzales at first light, the ending and "How it ended". Found and moved:
 - `tests/host-page.test.mjs` (4): the page's words.
 - `tests/lesson.test.mjs`, *the Host's class panel says quietly that a family stopped and resumed the guided start; no
   student is told* (§2.5), proven by two injections in `scripts/lesson-injections.mjs`.
+- `tests/lifecycle.test.mjs`, *Stop for today saves the class paused and stops the server; the next launch opens the same class
+  paused, and Resume goes on* and *… on a server that cannot close itself …* (§2.7); `npm run test:host-bell`
+  (`scripts/host-bell-browser-proof.mjs`, same computer): End Game pressed once ends nothing and says what it does, then disarms;
+  Stop for today pressed twice saves the class paused, tells the page and stops the server; a second server on the same save
+  opens the class paused where it stopped, and Resume carries it on. Each is proved by injection in
+  `scripts/design-blockers-injections.mjs` (`docs/evidence/design-blockers-injections*.json`).
 - `npm run test:host-live` (`scripts/host-live-browser-proof.mjs`, same computer): the panel; a student's page closed and
   the row reading *playing itself* after the grace while the family goes on; the page opened again and *here*; the
   spotlight at the fight at Gonzales taking the camera there and *Whole class* bringing it back; the Rumor Mill filling;
@@ -173,7 +232,7 @@ Gonzales at first light, the ending and "How it ended". Found and moved:
   students free and chosen, the thirty-first refused, a new class and the first opened again, a signed-out page carrying on)
   and `npm run test:reconnect` (the real server killed for 5 s and for 30 s, both pages back by themselves, the away list on
   a page with no cookie). Each was seen failing against the code it guards (HANDOFF).
-- §2.8: `npm run test:overlap` (the Host's page at five sizes in five states, nothing sharing pixels that is not meant to)
+- §2.9: `npm run test:overlap` (the Host's page at five sizes in five states, nothing sharing pixels that is not meant to)
   and `npm run test:overlap-injections`.
 
 ## 4. Ceilings
