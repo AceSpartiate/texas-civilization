@@ -12,7 +12,7 @@
 //   not about a minute (`minMs`..`maxMs`);
 // - a video of a family the class does not have, or of another family than a student's own. Only the Host makes them; a Play
 //   Solo player's page makes its own, because on Play Solo the player's computer is the Host's (owner's "on the host computer").
-import { createReadStream, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, statSync, writeFileSync, openSync, fsyncSync, closeSync } from 'node:fs';
+import { createReadStream, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, statSync, writeFileSync, openSync, fsyncSync, closeSync } from 'node:fs';
 import { join } from 'node:path';
 import { readWebmFacts } from './webm.mjs';
 import { flashbackReady, flashbackScripts, SCRIPT_VERSION } from '../sim/flashback.mjs';
@@ -83,7 +83,16 @@ export function createFlashbackStore(dir) {
     res.writeHead(200, { ...headers, 'Content-Length': size });
     return createReadStream(path).pipe(res);
   }
-  return { dir, list, save, serve, file };
+  /**
+   * Throw away every video of a class (owner, 2026-09-28: a class ended by mistake and continued is not the class those videos
+   * told; docs/HOST_PAGE.md §2.8). They are made again, from the class as it then stands, when it ends again.
+   */
+  function discard(sessionId) {
+    facts.delete(sessionId);
+    if (!dir || !SESSION.test(sessionId)) return;
+    rmSync(join(dir, sessionId), { recursive: true, force: true });
+  }
+  return { dir, list, save, serve, file, discard };
 }
 
 /** The request's body, whole, refusing past `limit` bytes. */

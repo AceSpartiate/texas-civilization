@@ -36,7 +36,7 @@ export function seatLabel(seat) {
 /** Where a kept class was left, in words. */
 export function classLine(entry) {
   const name = entry.name || `Class ${entry.code}`;
-  const where = entry.status === 'lobby' ? 'not started' : `${entry.status === 'ended' ? 'ended' : entry.status}, ${entry.date || ''}${entry.period ? ` (period ${entry.period})` : ''}`;
+  const where = entry.status === 'lobby' ? 'not started' : `${entry.status === 'ended' ? (entry.continuable ? 'ended part-way' : 'ended') : entry.status}, ${entry.date || ''}${entry.period ? ` (period ${entry.period})` : ''}`;
   return `${name} · code ${entry.code} · ${entry.joined} of ${entry.families} families joined · ${where}`;
 }
 
@@ -65,8 +65,16 @@ export function mountClassPanel({ $, api, command, element }) {
         const item = element('li', '', 'class-entry');
         item.dataset.classId = entry.id; item.dataset.open = String(entry.open);
         item.append(element('span', classLine(entry), 'class-line'));
-        if (entry.open) item.append(element('span', 'Open now', 'class-open'));
-        else {
+        if (entry.open) {
+          item.append(element('span', 'Open now', 'class-open'));
+          // Ended by End Game part-way through a period: it can be taken up again where it was, paused (owner, 2026-09-28).
+          if (entry.continuable) {
+            const again = element('button', 'Continue this class');
+            again.type = 'button'; again.dataset.classContinue = entry.id;
+            again.dataset.name = entry.name || `Class ${entry.code}`;
+            item.append(again);
+          }
+        } else {
           const open = element('button', 'Open');
           open.type = 'button'; open.dataset.classOpen = entry.id;
           open.dataset.name = entry.name || `Class ${entry.code}`;
@@ -84,6 +92,16 @@ export function mountClassPanel({ $, api, command, element }) {
     if (open) { listKey = ''; refreshList(); }
   });
   $('#classes-list')?.addEventListener('click', async event => {
+    const again = event.target.closest('[data-class-continue]');
+    if (again) {
+      if (!confirmed(again, `Confirm: continue ${again.dataset.name}`)) return;
+      try {
+        await command('continue-class');
+        note(`${again.dataset.name} is taken up again where End Game ended it, paused. Its ending and its flashbacks are gone; press Resume when the class is ready.`);
+        listKey = ''; refreshList();
+      } catch (error) { note(error.message); }
+      return;
+    }
     const button = event.target.closest('[data-class-open]');
     if (!button) return;
     if (!confirmed(button, `Confirm: open ${button.dataset.name}`)) return;

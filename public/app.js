@@ -160,7 +160,7 @@ function element(tag, content, className) { const el = document.createElement(ta
 const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop', end: 'Confirm: end the whole game', 'stop-for-today': 'Confirm: save and stop for today', 'send-for': 'Confirm: bring them home', 'winter-recall': 'Confirm: send for them', flee: 'Confirm: leave, and let it burn', 'flee-light': 'Confirm: leave most of it behind', 'flee-empty': 'Confirm: leave with nothing', 'flight-stay': 'Confirm: stay, and take the risk', 'road-abandon': 'Confirm: leave the wagon behind' };
 /** What an armed Host button does, said on the Host's notice line while it waits for the second press. */
 const confirmWords = {
-  end: 'This ends the whole game for everyone and shows the ending. It can\'t be undone. To stop at the bell and carry on next class, use Stop for today instead.',
+  end: 'This ends the whole game for everyone and shows everybody the ending. If it was a mistake, Classes can take the class up again where it was, but the ending will have been seen. To stop at the bell and carry on next class, use Stop for today instead.',
   'stop-for-today': 'This pauses the class and saves it where it stands, then closes the server. Next class, open the Host as usual: the class is there, paused, and Resume carries on.',
 };
 /**
