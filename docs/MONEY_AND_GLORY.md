@@ -68,10 +68,10 @@ Almonte reported in 1834 not ten transactions in a hundred used it, and the coin
 included Spanish eight-real pieces, cut for change. A household deals in whole reales.
 
 **As built (prices are `FIC-GONZ-022`, invented):** every family starts with none. At the store
-counter a whole bale of cotton fetches 2 food or 1 real, and 5 food fetch 1 real (3 until 2026-09-16, §8.1); powder costs 2
+counter a whole bale of cotton fetches 2 food or 1 real (2 reales since 2026-09-27, §8.3), and 5 food fetch 1 real (3 until 2026-09-16, §8.1); powder costs 2
 food or 1 real and seed 3 food or 1 real; a new hoe is **coin only**, 2 reales. The counter asks
 how to pay or be paid, in the same shape as every other decision; nobody answering pays the first
-way the family can. The store would rather barter than pay out coin, which is the scarcity showing
+way the family can - and, since 2026-09-27, is paid in coin for a sale (owner: "Make coin the default", §8.3). The store would rather barter than pay out coin, which is the scarcity showing
 in the prices. **The store's purse is limited** (owner's choice, 2026-09-12): Marta Ibarra holds 2 reales
 a family, pays out no more than she holds — what she cannot pay for comes home again — and coin paid
 to her goes back into the purse. A family finds out she is short at the counter, not before.
@@ -288,6 +288,19 @@ bale, so that a family that never fights can, rarely, finish first by what it gr
 *"it should be balanced so that's a possible, but unlikely way to win."* Measured before deciding: families that sent somebody to
 the army finished the first period at 15-173 with no coin; families that stayed home, at 1, with their cotton unsold.
 
+**Amended by the owner, 2026-09-27 (by multiple choice over [BALANCE.md](BALANCE.md) §6: *"Weigh the prisoners"*):**
+
+```
+final = max(money, 1) × (1 − prisoners ÷ living people) × (1 + glory) + land
+```
+
+Everybody of the family taken prisoner in the Runaway Scrape - at home when the Mexican army came, or on the road east when a
+column overtook the family - is named in its reckoning and takes their part of the coin out of the count, a part being one share
+among the family's living people (`PRISONER_WEIGHT` 1, `sim/ending.mjs`, `FIC-GONZ-710`). The weight was chosen by measurement:
+the smallest that leaves a family that stayed in the burn zone below one that went, on average, in both how often it finishes
+first and where it finishes ([BALANCE.md](BALANCE.md) §9.4). The war's prisoners are not weighed: glory neither rewards nor punishes
+a casualty. The number is rounded to a whole one; nothing changes for a family nobody took.
+
 ### What each family sees
 
 At the end the fog lifts (`VISION.md` §20) and each family sees, for the first time:
@@ -385,8 +398,8 @@ Nothing here is finished until all of these hold.
 | Money is used | At least one thing a family will want is bought only with coin. |
 | Barter survives | A family that never touches coin can still plant, harvest, hunt, trade, answer the call and reach the end. |
 | No annihilation | A household with zero glory finishes with its money intact (`money × 1`). |
-| Winning without fighting is hard, not impossible | **Measured again 2026-09-27 over 210 classes ([BALANCE.md](BALANCE.md)): holds only at five families (2 wins in 126); fails at fifteen and thirty (0 wins, 0 in the top three, of 567). Put to the owner; nothing changed.** Measured 2026-09-16, §8.1: held for a cotton family, failed for a corn family. In 3E's headless runs at 5–30 players, households that send nobody to fight win **some** runs, and **well below their share of the class**; households that fight win more often than their share. If non-fighting households never win, or win as often as fighting ones, the weights are wrong. |
-| Casualties earn nothing extra | A family member hurt, captured or lost adds no glory beyond their participation. |
+| Winning without fighting is hard, not impossible | **Amended by the owner, 2026-09-27 ("Leave it", §8.3; `VISION.md` §20): a family that sends nobody does not win a class of ordinary size (fifteen or more); in the smallest classes it can, rarely. Re-measured after the owner's other answers: 1 class of 100 at five, none of 110 at fifteen and thirty.** Measured again 2026-09-27 over 210 classes ([BALANCE.md](BALANCE.md)): holds only at five families (2 wins in 126); fails at fifteen and thirty (0 wins, 0 in the top three, of 567). Put to the owner; nothing changed.** Measured 2026-09-16, §8.1: held for a cotton family, failed for a corn family. In 3E's headless runs at 5–30 players, households that send nobody to fight win **some** runs, and **well below their share of the class**; households that fight win more often than their share. If non-fighting households never win, or win as often as fighting ones, the weights are wrong. |
+| Casualties earn nothing extra | A family member hurt, captured or lost adds no glory beyond their participation. (A person taken prisoner in the Scrape takes their part of the *coin* out of the count since 2026-09-27, §5: that is the family's loss, not a judgement, and the war's prisoners are not weighed.) |
 | No virtue labels | Nothing in the interface, the epilogue or the Host view names a family good, loyal, brave or patriotic. |
 | Save compatibility | A class saved before any of this opens, and no save version moves. Absent money reads as none; absent glory reads as zero. |
 | Claims registered | Every weight, price and earning rule carries a `FIC-GONZ-*` id, and the currency a `HIST-GONZ-*` id with honest sourcing. |
@@ -451,6 +464,27 @@ classes of 210, both of five families, and never reached the top three at fiftee
 win three to four times their share; selling for coin decides more than fighting; the means die explains about 2 in 100 of where a
 family finishes; glory never rewards a death.** Four questions are put to the owner there; **no rule has changed.** Full report:
 [BALANCE.md](BALANCE.md).
+
+### 8.3 The owner's four answers, and the re-measure (2026-09-27/28)
+
+By multiple choice over [BALANCE.md](BALANCE.md) §6, on 2026-09-27:
+
+1. **Staying home: "Leave it."** No rule changed. A family that sends nobody does not win a class of ordinary size; `VISION.md`
+   §20 is amended to say so, and the gate above with it.
+2. **The counter: "Make coin the default."** A sale at the store is paid in coin unless the student chooses food: the cotton
+   counter's own answer is coin (silence, auto, an absent family, a lapsed question and the neighbours' director all take it), and an
+   errand list that does not say how a sale is paid is paid in coin. The errand's popup already pressed Coin first.
+3. **The Scrape: "Weigh the prisoners."** §5 above: each person taken prisoner at home or on the road east is named and takes their
+   part of the coin out of the count.
+4. **Cotton: "Raise the cotton price."** Two reales a whole bale at the store and the weaver, a real until then (`FIC-GONZ-047`).
+
+**Re-measured** over the same 210 classes ([BALANCE.md](BALANCE.md) §9), after mending two faults in the measure itself that had kept
+any bale from being sold for coin and any corn family from planting cotton (§9.1). After the four answers: a family that sends nobody
+wins 1 class of 100 at five families and none at fifteen or thirty; inside the burn zone a family that stays wins at index 0.70 and
+finishes at 0.519 on average against 0.78 and 0.481 for one that goes at once (1.06 / 0.464 against 0.83 / 0.518 in the first
+measure); a family that never chooses at the counter holds 284 reales and wins at index 0.62 (4 reales and 0.10 before the coin
+default); a family that means to grow cotton holds 636 reales against 324 at a real a bale, and wins as often as it did (index 1.33
+against 1.32) - cotton's difference to winning was already there once the measure really sold it. Deaths 274 against 268.
 
 
 - **A patriotism meter.** `VISION.md` §11 still forbids it, and this is the mechanic most likely to

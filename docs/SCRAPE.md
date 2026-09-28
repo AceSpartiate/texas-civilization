@@ -101,6 +101,13 @@ half (`FOUND_AFTER_FORAGERS`); and whoever of the family is at home is taken pri
 always took them (`CAPTURED_AT_HOME`). **A farm outside the zone is never reached**: the family comes home to the house standing
 and what it left in it.
 
+**The prisoners are weighed at the ending** (owner, 2026-09-27, by multiple choice over [BALANCE.md](BALANCE.md) §6: *"Weigh the
+prisoners"*). Everybody of a family taken prisoner at home or on the road east is named in its reckoning, and takes their part of
+the family's coin out of the count (`PRISONER_WEIGHT` in `sim/ending.mjs`, `FIC-GONZ-710`), so staying in the burn zone is the
+gamble it was and no longer, on average, beats going. Nothing here changed: the Scrape takes the same people it always took; the
+ending reads them (`scrapePrisoners`). The war's prisoners - San Patricio, Agua Dulce, Goliad - are not the Scrape's and are not
+weighed. Measured in BALANCE.md §9.
+
 **One milk cow goes with the family** (owner, 2026-09-27, "Yes, one cow"; [STOCK.md](STOCK.md) §8, [CHILDREN.md](CHILDREN.md) §7):
 a family with cattle may leave with one cow driven by a child, out of the herd left on the range. She gives a little milk a day on
 the road and at the refuge, and is **taken with the wagon and the animals when a column overtakes the family** (`overtake`,

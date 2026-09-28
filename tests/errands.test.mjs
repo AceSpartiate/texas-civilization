@@ -22,6 +22,7 @@ import { userOf } from '../sim/keeping.mjs';
 import { REFUGES, flee } from '../sim/scrape.mjs';
 import { readSave, writeSave } from '../server/storage.mjs';
 import { byShop, errandList, stockWords } from '../public/errand.js';
+import { COIN } from '../sim/chores.mjs';
 
 /** A settled class under way, its first family a student's and past the guided start. */
 function running(seed) {
@@ -125,9 +126,9 @@ test('the list is done exactly at the shops, the coin is in the account, and the
   const coinBefore = world.events.filter(event => event.householdId === 'hh-1' && Number.isInteger(event.coin)).reduce((sum, event) => sum + event.coin, 0);
   const from = world.events.length;
   const list = [
-    { id: 'store:cotton', n: 4, pay: 'coin' }, // 4 reales, outside Marta's empty purse (owner, 2026-09-16)
+    { id: 'store:cotton', n: 4, pay: 'coin' }, // 4 bales' coin, outside Marta's empty purse (owner, 2026-09-16)
     { id: 'tanner:hides', n: 3, pay: 'coin' }, // the tanner has a real, so one hide sold and two home again
-    { id: 'blacksmith:tool-auger', n: 1, pay: 'coin' }, // 2 reales of the 5 then in hand
+    { id: 'blacksmith:tool-auger', n: 1, pay: 'coin' }, // 2 reales of what is then in hand
     { id: 'store:seed', n: 2, pay: 'coin' }, // 2 reales, 4 seed
   ];
   const planned = quote(world, buyer, list);
@@ -138,15 +139,16 @@ test('the list is done exactly at the shops, the coin is in the account, and the
   assert.equal(family.resources.hides, 2, 'the tanner paid for hides he had no coin for');
   assert.equal(family.tools.auger, 0);
   assert.equal(family.resources.seed, 4);
-  // 1 + 4 (cotton) + 1 (a hide) - 2 (auger) - 2 (seed) = 2.
-  assert.equal(family.resources.money, 2);
+  // 1 + the cotton's coin (four bales) + 1 (a hide) - 2 (auger) - 2 (seed).
+  const cottonPaid = 4 * COIN.cottonBale;
+  assert.equal(family.resources.money, 1 + cottonPaid + 1 - 2 - 2);
   assert.equal(marta.purse, 2, 'coin paid for the seed did not go into the purse, or the cotton was paid from it');
   assert.equal(tanner.purse, 0);
   const told = story(world, from);
-  assert.ok(told.some(text => /sold 4 cotton to Marta Ibarra for 4 reales/.test(text)), told.join(' | '));
+  assert.ok(told.some(text => new RegExp(`sold 4 cotton to Marta Ibarra for ${cottonPaid} reales`).test(text)), told.join(' | '));
   assert.ok(told.some(text => /had coin for only 1 hides, and the rest came home again/.test(text)), told.join(' | '));
   const coinAfter = world.events.filter(event => event.householdId === 'hh-1' && Number.isInteger(event.coin)).reduce((sum, event) => sum + event.coin, 0);
-  assert.equal(coinAfter - coinBefore, 1, 'the ending\'s account does not add up to the coin that moved');
+  assert.equal(coinAfter - coinBefore, cottonPaid + 1 - 2 - 2, 'the ending\'s account does not add up to the coin that moved');
   validateWorld(world);
 });
 
@@ -386,6 +388,31 @@ test('the popup\'s facts are the family\'s own: its own town, its own stock, nob
   send(world, rosa, [{ id: 'store:cotton', n: 3, pay: 'coin' }]);
   const tick = JSON.stringify(projectWorld(world, 'hh-1', 'student', { includeMap: false }));
   assert.doesNotMatch(tick, /"errand"|"with"/);
+  validateWorld(world);
+});
+
+test('selling at the store is paid in coin unless the student chooses food', () => {
+  // Owner, 2026-09-27, by multiple choice over docs/BALANCE.md §6: "Make coin the default". The popup presses the first way of
+  // being paid before anybody chooses, and a list that does not say is paid in coin by the server.
+  const world = running('errand-coin-default');
+  const family = household(world), rosa = person(world, 'rosa');
+  family.resources = { ...family.resources, cotton: 3, food: 20, money: 0 };
+  const lines = errandFor(world, 'hh-1', rosa.id).lines;
+  for (const id of ['store:cotton', 'store:food']) assert.equal(lines.find(line => line.id === id).pays[0], 'coin', `${id} does not offer coin first`);
+  const cotton = lines.find(line => line.id === 'store:cotton');
+  assert.deepEqual(errandList([cotton], new Map([['store:cotton', 3]]), new Map()), [{ id: 'store:cotton', n: 3, pay: 'coin' }], 'the popup pressed food before anybody chose');
+  // The server: a sale that does not say, in coin; a purchase that does not say, refused as it always was.
+  assert.equal(quote(world, rosa, [{ id: 'store:cotton', n: 3 }]).can, true, 'a sale that did not say how it is paid was refused');
+  assert.equal(quote(world, rosa, [{ id: 'store:seed', n: 1 }]).can, false, 'a purchase that did not say how it is paid was sent');
+  send(world, rosa, [{ id: 'store:cotton', n: 3 }]);
+  finish(world, rosa);
+  assert.equal(family.resources.money, 3 * COIN.cottonBale, `the cotton was not sold for coin: ${family.resources.money} reales`);
+  // And food, when the student chooses it.
+  const other = running('errand-coin-default-food');
+  other.households['hh-1'].resources = { ...other.households['hh-1'].resources, cotton: 3, food: 20, money: 0 };
+  send(other, person(other, 'rosa'), [{ id: 'store:cotton', n: 3, pay: 'food' }]);
+  finish(other, person(other, 'rosa'));
+  assert.equal(other.households['hh-1'].resources.money, 0, 'food was chosen and coin was paid');
   validateWorld(world);
 });
 

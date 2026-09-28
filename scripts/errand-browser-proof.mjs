@@ -24,6 +24,7 @@ import { createClassroom } from '../server/app.mjs';
 import { createSettledWorld, keepFoundingFamilies, modestMeans, taught } from '../tests/support/settled.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { asMain } from './support/main-person.mjs';
+import { COIN } from '../sim/chores.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -119,6 +120,12 @@ try {
 
   // ------------------------------------------------------------------------------------ fourteen bales takes the wagon
   await setCount(page, 'store:cotton', 14);
+  // Coin is pressed before anybody chooses (owner, 2026-09-27: "Make coin the default"): a sale is paid in coin unless the
+  // student chooses food.
+  const pressed = await page.evaluate(() => ['coin', 'food'].map(way => document.querySelector(`#errand [data-line="store:cotton"] [data-act="pay-${way}"]`)?.getAttribute('aria-pressed')));
+  observed.cottonPayPressed = pressed;
+  assert.deepEqual(pressed, ['true', 'false'], `the cotton's way of being paid was not coin before anybody chose: ${pressed}`);
+  ok('selling the cotton, Coin is pressed before the student chooses, and Food is not');
   await page.locator('#errand [data-line="store:cotton"] [data-act="pay-coin"]').click();
   await setCount(page, 'store:seed', 1);
   await page.locator('#errand [data-line="store:seed"] [data-act="pay-coin"]').click();
@@ -231,13 +238,14 @@ try {
   await page.waitForFunction(id => { const one = window.__snapshot?.world.entities.find(e => e.id === id); return one && !one.chore && !one.travel; }, first.id, { timeout: 120000 });
   const home = await page.evaluate(() => window.__snapshot.world.household.resources);
   observed.home = home;
-  assert.equal(home.money, 163, `the fourteen reales, less the one the seed cost, did not come home beside the 150: ${home.money}`);
+  const cottonPaid = 14 * COIN.cottonBale;
+  assert.equal(home.money, 150 + cottonPaid - 1, `the ${cottonPaid} reales for the cotton, less the one the seed cost, did not come home beside the 150: ${home.money}`);
   assert.equal(home.seed, 4, `the seed did not come home: ${home.seed}`);
   assert.equal(app.state.world.entities['hh-1-wagon'].borrowedBy, null, 'the wagon is still held now it is home');
   const said = await page.evaluate(() => (window.__snapshot?.world.events || []).map(event => event.text).filter(text => /sold 14 cotton|bought 2 seed/.test(text)));
   observed.story = said;
   assert.equal(said.length, 2, `the family's story does not say what was done: ${said}`);
-  ok(`the goods come home: 163 reales (the 150 put by, 14 for the cotton, 1 paid for seed) and 2 more seed in the house, the wagon free again, and the story says so: "${said.join('" "')}"`);
+  ok(`the goods come home: ${home.money} reales (the 150 put by, ${cottonPaid} for the cotton, 1 paid for seed) and 2 more seed in the house, the wagon free again, and the story says so: "${said.join('" "')}"`);
 
   // ----------------------------------------------------------- a second rifle bought, and two hunters out at once
   // Owner, 2026-09-24: "players should be able to send someone to buy more rifles, hoes, tools in general" (docs/TOWNS.md §4c).

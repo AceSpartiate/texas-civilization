@@ -46,7 +46,7 @@ import { FORAGE, FORAGE_REACH, fishingWater, forageFacts, onSaltWater } from './
 import { BEEF_FAMILIES, BEEF_FOOD, BEEF_KEPT, BEEF_MILES, LOOKED_TO_DAYS, PORK_FOOD, butcherRefusal, divideBeef, herdOf, herdWords, killHog, lookedToStock } from './stock.mjs';
 import { fellRefusal, fellTicks, fellTree, logsLeftOut, logsLying, nextTree, oxFree, recordFelling, stackLogs, takeUpLogs } from './felling.mjs';
 import { KINDS, countsTrees, woodsRule } from './woods.mjs';
-import { TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
+import { STORE_BALE_COIN, TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
 import { carryOutErrand, planErrand } from './errands.mjs';
 import { quickestWay } from './going.mjs';
 import { ROLES as BEASTS, hasWords, holderOf, letGo, takeToWar, userOf, vehicleCarry, warRifleWords } from './keeping.mjs';
@@ -164,9 +164,10 @@ export function unsteadyBecause(entity) {
  * whoever goes can carry. A family that plants cotton and never takes it to the store has
  * grown something it cannot eat.
  *
- * Two food a bale is invented (`FIC-GONZ-019`). Food is still the first thing the store
- * offers: coin was scarce enough in Mexican Texas that barter was the ordinary way of doing
- * business (`HIST-GONZ-023`), so the counter will pay coin too, but less of it - see `COIN`.
+ * Two food a bale is invented (`FIC-GONZ-019`). Food was the first thing the store offered
+ * until 2026-09-27 - coin was scarce enough in Mexican Texas that barter was the ordinary way
+ * of doing business (`HIST-GONZ-023`) - and coin is since, by the owner's decision (the
+ * `cotton-counter` below): a student who does not choose is paid in coin.
  */
 export const COTTON_RATE = 2;
 /**
@@ -180,8 +181,9 @@ export const COTTON_RATE = 2;
  * the smith wants coin for it; mending the old one at home still costs none.
  */
 // Food at five a real (owner, 2026-09-16, docs/MONEY_AND_GLORY.md §8.1, measured: at three a corn family that sold everything
-// placed second in most classes; corn is the modest path and cotton, a real a bale, the profitable one).
-export const COIN = Object.freeze({ cottonBale: 1, foodPerReal: 5, powder: 1, seed: 1, hoe: 2 });
+// placed second in most classes; corn is the modest path and cotton, a real a bale - two since 2026-09-27, sim/shops.mjs
+// `STORE_BALE_COIN` - the profitable one).
+export const COIN = Object.freeze({ cottonBale: STORE_BALE_COIN, foodPerReal: 5, powder: 1, seed: 1, hoe: 2 });
 export const reales = amount => amount === 1 ? '1 real' : `${amount} reales`;
 /** A resource as a student reads it. */
 export const resourceName = (resource, amount) => resource === 'money' ? (amount === 1 ? 'real' : 'reales') : resource;
@@ -241,9 +243,9 @@ export function askProjection(world, household, entity) {
 export const ASKS = {
   // The store counter. Paying, or being paid, is a choice made at the counter rather than a
   // second chore on the list, in the one shape every decision in this game takes. Nobody
-  // answering means the old way: goods for goods.
+  // answering paid goods for goods until 2026-09-27, and coin since (the cotton counter, below).
   // Which crop goes in (owner, 2026-09-16, docs/MONEY_AND_GLORY.md §8.1): corn, which is food, or cotton, which takes twice the
-  // seed and sells at a real a bale. The family's own crop is offered first and is what silence plants, so a family nobody plays
+  // seed and sells at two reales a bale (a real until 2026-09-27). The family's own crop is offered first and is what silence plants, so a family nobody plays
   // grows what it grew.
   'crop-choice': {
     doing: 'at the field with the seed',
@@ -258,13 +260,16 @@ export const ASKS = {
       cotton: { test: household => (household.resources.seed ?? 0) >= COTTON_SEED_PER_PLOT * clearedOf(household), why: household => `Cotton wants ${COTTON_SEED_PER_PLOT * clearedOf(household)} seed for this field, and there is not that much in the house.` },
     },
   },
+  // Coin is the counter's own answer (owner, 2026-09-27, by multiple choice over docs/BALANCE.md §6: "Make coin the default"):
+  // offered first, and what silence, auto, a family whose student has gone and the neighbours' director (who takes the first
+  // answer open) all take, with food only when there is not a whole bale to pay coin for. Food until then.
   'cotton-counter': {
     doing: 'at the counter with the cotton',
-    fallback: 'food',
-    text: entity => `The storekeeper will take ${entity.name}'s cotton for food or for coin, and would rather it were food.`,
+    fallback: ['coin', 'food'],
+    text: entity => `The storekeeper will take ${entity.name}'s cotton for coin or for food.`,
     options: () => [
-      { id: 'food', label: 'Take food for it', note: `${COTTON_RATE} food a bale` },
       { id: 'coin', label: 'Take coin for it', note: `${reales(COIN.cottonBale)} a bale, whole bales only` },
+      { id: 'food', label: 'Take food for it', note: `${COTTON_RATE} food a bale` },
       { id: 'leave', label: 'Keep the cotton', note: 'Carry it home again' },
     ],
     requires: {
@@ -598,7 +603,7 @@ export const CHORES = {
     directorOnly: true,
     name: 'Take the cotton to the store', skill: 'hands', where: 'home', hauls: true,
     needs: { cotton: 1 },
-    describe: `Cotton is not food. The store in town trades ${COTTON_RATE} food for every bale, or ${reales(COIN.cottonBale)} for a whole one, and takes as much as whoever goes can carry.`,
+    describe: `Cotton is not food. The store in town pays ${reales(COIN.cottonBale)} for every whole bale, or trades ${COTTON_RATE} food for every bale, and takes as much as whoever goes can carry.`,
     steps: [
       { travel: 'town', doing: 'on the road to {town} with the cotton' },
       { work: 2, doing: 'at the store' },

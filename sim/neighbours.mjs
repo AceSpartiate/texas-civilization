@@ -28,13 +28,18 @@ import { logsShort } from './houseplot.mjs';
 import { countsTrees, treesIn, woodsRule } from './woods.mjs';
 import { landAround } from './ground.mjs';
 import { toolCount } from './tools.mjs';
-import { RIFLE_COIN, RIFLE_FOOD, tradesAt } from './shops.mjs';
+import { RIFLE_COIN, RIFLE_FOOD, STORE_BALE_COIN, tradesAt } from './shops.mjs';
 import { findWay } from './ways.mjs';
 
 /** Decisions are spread over ticks: each family thinks every third tick, not all of them on the same one. */
 export const THINK_EVERY = 3;
-/** What a family values a unit of each good at, when weighing a trade. Seed and powder are dear; coin is scarce. */
-export const TRADE_VALUE = Object.freeze({ food: 1, cotton: 1, seed: 2, powder: 3, money: 3 });
+/**
+ * What a family values a unit of each good at, when weighing a trade. Seed and powder are dear; coin is scarce. A bale is worth
+ * the coin the store pays for it (owner, 2026-09-27: coin the counter's own answer, cotton's price raised): valued at one food
+ * until then, a neighbour's bale could be had for a food and sold at the store for a real, three food's worth to any family.
+ */
+export const MONEY_VALUE = 3;
+export const TRADE_VALUE = Object.freeze({ food: 1, cotton: STORE_BALE_COIN * MONEY_VALUE, seed: 2, powder: 3, money: MONEY_VALUE });
 /** Food the family keeps back for each grown person's share it eats (`mouthsOf`) before it will trade food away or stop hunting. */
 export const FOOD_KEPT_PER_PERSON = 3;
 /** What one grown person eats in a day (sim/family.mjs `ADULT_RATION`), and how few days' food left is worth killing a beast over. */

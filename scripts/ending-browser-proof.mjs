@@ -45,6 +45,15 @@ function playedToTheEnd(seed, playerCount) {
   const end = momentOf(world, 'bexar-end');
   for (let i = 0; i < 2000 && world.minute + 3 * 720 < end && !world.director.complete; i++) stepWorld(world);
   world.households['hh-2'].resources.money = 5;
+  // One of hh-1's people at home taken prisoner, placed in process as the coin is (owner, 2026-09-27: the ending names the Scrape's
+  // prisoners and weighs them, sim/ending.mjs `PRISONER_WEIGHT`). The Scrape is the spring's and this class ends in December: the
+  // prisoner is planted to watch the page draw them; tests/ending.test.mjs takes them the real way. hh-1 has already acted, so
+  // joining it rolls nobody new (sim/family.mjs `rollRefusal`).
+  const home = world.households['hh-1'];
+  const taken = home.members.map(id => world.entities[id]).find(person => person.id !== home.principalId && !person.travel && !person.service && person.health?.condition === 'well' && person.location?.siteId === home.homeSiteId);
+  assert.ok(taken, 'nobody of hh-1 was at home to be taken');
+  Object.assign(taken, { health: { condition: 'captured' }, task: 'rest', chore: null });
+  observed.planted = { prisoner: taken.name };
   world.status = 'lobby';
   return world;
 }
@@ -104,6 +113,11 @@ try {
   assert.ok(family.awards.every(award => familyText.includes(award.text)), 'what earned the glory is not on the page');
   assert.ok(family.story.every(line => familyText.includes(line)), 'the story is not on the page');
   assert.equal(await student.evaluate(() => window.__snapshot.world.ending.host), undefined, 'a family was sent the Host view');
+  // The prisoner: named in the family's story and its own section, the rule said, and the part taken out of the coin in the sum.
+  assert.deepEqual(family.prisoners.map(one => one.name), [observed.planted.prisoner], 'the prisoner was not in the family\'s reckoning');
+  assert.ok(familyText.includes('Taken prisoner') && familyText.includes(family.prisoners[0].text) && familyText.includes(family.prisonerRule), 'the prisoner is not on the page');
+  assert.match(family.sum, /taken prisoner, counted as/, 'the sum does not take the prisoner\'s part out of the coin');
+  ok(`the family sees who was taken prisoner, and what it took: ${family.prisoners[0].text}`);
   ok(`the family sees its own reckoning: ${family.sum}`);
 
   // Closed to look at the map, and opened again.
@@ -122,6 +136,15 @@ try {
   observed.host = { winners: closing.winners, best: closing.best, families: closing.families.map(f => `${f.name}: ${f.money} × (1 + ${f.glory}) = ${f.final}`) };
   observed.hostText = hostText;
   const rows = await host.locator('#ending tbody tr td:first-child').allInnerTexts();
+  // The Host's table counts each family's prisoners: hh-1's one, and nobody else's.
+  const heads = await host.locator('#ending thead th').allInnerTexts();
+  const takenColumn = heads.indexOf('Taken prisoner');
+  assert.ok(takenColumn > 0, `the Host table has no prisoners column: ${heads.join(' | ')}`);
+  const takenCells = await host.locator(`#ending tbody tr td:nth-child(${takenColumn + 1})`).allInnerTexts();
+  assert.deepEqual(takenCells, closing.families.map(f => (f.prisoners ? String(f.prisoners) : '—')), 'the prisoners column is not the server\'s');
+  assert.equal(closing.families.find(f => f.householdId === 'hh-1').prisoners, 1);
+  assert.ok(hostText.includes(closing.prisonerRule), 'the Host is not told the rule');
+  ok(`the Host's table counts the prisoners: ${takenCells.join(', ')}`);
   assert.deepEqual(rows.map(row => row.replace(/ \(nobody played them\)$/, '')), closing.families.map(f => f.name), 'the rows are not in household order');
   assert.deepEqual(closing.families.map(f => f.householdId), ['hh-1', 'hh-2', 'hh-3', 'hh-4', 'hh-5']);
   assert.ok(closing.winners.length >= 1, 'nobody was named');
@@ -183,7 +206,7 @@ try {
     record: 'The end of the game, in a browser: docs/MONEY_AND_GLORY.md steps 4 and 5',
     date: new Date().toISOString().slice(0, 10),
     verdict: 'PASS',
-    note: 'Same computer only. A real class on the colonies map, played in process to three days before it ends, with hh-1\'s volunteer in the army and 5 reales placed in hh-2\'s house in process; then served live, a student joined as hh-1 and the Host page watched the last ticks and the ending arrive. No LAN or district claim.',
+    note: 'Same computer only. A real class on the colonies map, played in process to three days before it ends, with hh-1\'s volunteer in the army, 5 reales placed in hh-2\'s house and one of hh-1\'s people at home made a prisoner, in process; then served live, a student joined as hh-1 and the Host page watched the last ticks and the ending arrive. No LAN or district claim.',
     checks: pass,
     observed,
     screenshots: ['docs/evidence/ending-family.png', 'docs/evidence/ending-host.png', 'docs/evidence/ending-host-phone.png', 'docs/evidence/ending-winter.png'],

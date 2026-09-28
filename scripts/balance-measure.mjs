@@ -11,9 +11,12 @@
 //           one        one man in the war whenever the family has none there: the call, the gathering, enlisting for land, the
 //                      relief of the Alamo, Houston's army - whichever is offered first
 //           all        every man who may be sent is sent to every one of those that is offered
-//   sell    no | yes   yes: every bale of cotton at the counter for coin, and food beyond three weeks' eating sold for coin
+//   sell    no | yes   yes: every bale of cotton by the errand to town for coin (the student's own road to the store), and food
+//                      beyond three weeks' eating sold for coin; no: the cotton left to the director's errand and the counter's own
+//                      answer - food until 2026-09-27, coin since (owner: "Make coin the default") - and no food sold
 //   farm    plain|hard hard: the family keeps six plots under the plough, not the director's three
-//   crop    own|cotton cotton: cotton at the field whenever the seed allows, and the seed fetched for it
+//   crop    own|cotton cotton: the family's own crop made cotton at the start, as answering "Plant cotton" at the field makes it,
+//                      so silence plants cotton whenever the seed allows; and the seed fetched for it
 //   scrape  flee|stay|late  told to leave in the spring: go at once (the director), stay and take what comes, or stay three days and then go
 //
 // Each family's strategy is hashed from the class and the family (FNV-1a, as sim/neighbours.mjs `shareOf`), so a class replays
@@ -36,7 +39,13 @@
 // wants a family to ride to another's door; "sell" is the store, which is where the coin is. ceiling: a strategy is fixed for the
 // whole class; a student who changes course half way is not modelled.
 //
+// Two faults in the first run (2026-09-27), mended the same day and found by reading where each family's coin came from: the
+// strategy's answers to the field's question and the cotton counter's were sent a tick after an absent family had already been
+// answered at the question's own default, so no family planted cotton that was not rolled to it and no bale was ever sold for
+// coin (docs/BALANCE.md §9). Cotton is now made the family's crop at the start, and sold by the errand.
+//
 // Run: node scripts/balance-measure.mjs [--sizes 5,15,30] [--classes 70,70,70] [--workers N] [--out docs/evidence/balance-measure.json]
+//      node scripts/balance-measure.mjs --rescore <record> [--weight w] --out <file>   (the same classes, another prisoner weight)
 //   Deterministic: the same arguments give the same classes and the same numbers (runtime aside). Classes run in parallel
 //   worker threads; results are gathered in class order before anything is summarised.
 import { writeFileSync, mkdirSync } from 'node:fs';
@@ -44,6 +53,8 @@ import { cpus } from 'node:os';
 import { Worker, isMainThread, parentPort, workerData } from 'node:worker_threads';
 import { fileURLToPath } from 'node:url';
 import { distanceMultiplier } from '../sim/glory.mjs';
+import { PRISONER_WEIGHT, finalNumber, keptFor } from '../sim/ending.mjs';
+import { COIN, ASKS } from '../sim/chores.mjs';
 
 // ------------------------------------------------------------------------------------------------ the strategies
 
@@ -96,7 +107,10 @@ export async function runClass({ seed, size }, { keepWorld = false } = {}) {
   const { findPath } = await import('../sim/geography.mjs');
   const { herdOf } = await import('../sim/stock.mjs');
   const { GLORY_WEIGHT, distanceMultiplier } = await import('../sim/glory.mjs');
+  const { LINE_MOST: ERRAND_MOST } = await import('../sim/errands.mjs');
+  const { scrapePrisoners } = await import('../sim/ending.mjs');
 
+  const round2 = value => Math.round(value * 100) / 100;
   const started = Date.now();
   const world = createGonzalesWorld(seed, size, { map: 'colonies', neighbours: true });
   const households = Object.values(world.households);
@@ -115,7 +129,13 @@ export async function runClass({ seed, size }, { keepWorld = false } = {}) {
   for (const household of households) tryAct(household, { action: 'stop-lesson' });
   for (const household of households) household.absent = true;
   const rolledCrop = Object.fromEntries(households.map(household => [household.id, household.field?.crop || 'corn']));
-  const WAR = new Set(['turn-out', 'go-upriver', 'go-see', 'help', 'detachment-go', 'send-for']);
+  // Cotton, as a student who answered "Plant cotton" at the field leaves the family: its own crop cotton, which silence plants from
+  // then on when the seed allows (sim/chores.mjs `crop-choice`, whose `crop` step writes exactly this). The first measure answered
+  // the question in `quick` below, a tick too late: an absent family's question is decided the tick it is asked
+  // (sim/chores.mjs, `household.absent`), so no family rolled to corn ever planted cotton and "cotton" measured nothing (found
+  // 2026-09-27, docs/BALANCE.md §9).
+  for (const household of households) if (plans[household.id].crop === 'cotton' && household.field) household.field = { ...household.field, crop: 'cotton' };
+  const WAR =new Set(['turn-out', 'go-upriver', 'go-see', 'help', 'detachment-go', 'send-for']);
   const WAR_CHORES = new Set(['enlist-regular', 'enlist-auxiliary', 'join-garrison', 'join-matamoros', 'join-relief', 'join-houston']);
   // What the family is offered to send a man to, first first: the settlement's call, the Gonzales questions, then the chores.
   const SEND_CHORES = ['enlist-auxiliary', 'join-relief', 'join-houston'];
@@ -123,16 +143,12 @@ export async function runClass({ seed, size }, { keepWorld = false } = {}) {
     || world.army?.members?.includes(person.id) || ['go-upriver', 'turn-out', 'help'].includes(person.travel?.purpose));
   const alive = person => !['dead', 'captured'].includes(person?.health?.condition);
 
-  /** Every tick: the questions that are settled at the next tick if nobody answers (the counter, the field) and the Scrape. */
+  /**
+   * Every tick: the Scrape. (The counter's and the field's questions were answered here until 2026-09-27, a tick after an absent
+   * family's own answer had already been given; cotton is the family's crop from the start and is sold by the errand instead.)
+   */
   function quick(household) {
     const plan = plans[household.id];
-    for (const id of household.members) {
-      const person = world.entities[id];
-      const ask = person?.chore?.ask;
-      if (!ask) continue;
-      if (plan.sell === 'yes' && ask.id === 'cotton-counter') tryAct(household, { action: 'answer-chore', entityId: id, option: 'coin' });
-      if (plan.crop === 'cotton' && ask.id === 'crop-choice') tryAct(household, { action: 'answer-chore', entityId: id, option: 'cotton' });
-    }
     // The Scrape. The family goes by whichever of its people is at home and free to be given the order - the page sends the
     // person the student has chosen (public/app.js) - and not by the director's rule of its main person, which is refused while
     // he is serving (found by this measure, 2026-09-27: docs/BALANCE.md §5).
@@ -186,7 +202,19 @@ export async function runClass({ seed, size }, { keepWorld = false } = {}) {
       const who = request && (request.actorId || Object.keys(request.answerers || {})[0]);
       if (say && who) tryAct(household, { action: say, entityId: who });
     }
-    // The store: food beyond three weeks' eating sold for coin (scripts/balance-study.mjs, the stay-home family's rule).
+    // The store: the cotton by the student's own road to it, the errand chosen before anybody leaves (sim/errands.mjs,
+    // docs/TOWNS.md §4b) with every whole bale on the list for coin - the director's own errand (`sell-cotton`) stops at a counter
+    // that an absent family answers the tick it is asked, at the counter's own answer, so the first measure's "every bale for
+    // coin" sold them for food (found 2026-09-27, docs/BALANCE.md §9). A family that does not sell leaves its cotton to the
+    // director and that counter's own answer: food until 2026-09-27, coin since.
+    if (plan.sell === 'yes' && (household.resources.cotton ?? 0) >= 1 && !household.members.some(id => world.entities[id]?.chore?.id === 'visit-shop')) {
+      const bales = Math.min(Math.floor(household.resources.cotton), ERRAND_MOST);
+      for (const person of people) {
+        if (person.chore || person.travel || !offered(person.id, 'visit-shop')) continue;
+        if ([bales, Math.ceil(bales / 2), Math.ceil(bales / 4), 1].some(n => tryAct(household, { action: 'chore', entityId: person.id, chore: 'visit-shop', errand: [{ id: 'store:cotton', n, pay: 'coin' }] }))) break;
+      }
+    }
+    // And food beyond three weeks' eating sold for coin (scripts/balance-study.mjs, the stay-home family's rule).
     if (plan.sell === 'yes') {
       const kept = eatenADay(world, household.members.map(id => world.entities[id])) * SELL_KEEP_DAYS + 6;
       if ((household.resources.food ?? 0) > kept + 6) {
@@ -211,6 +239,7 @@ export async function runClass({ seed, size }, { keepWorld = false } = {}) {
         if (war && plan.war !== 'neighbour') throw new Error('the strategy decides the war');
         if (input.action === 'stay-put' && plan.war === 'all') throw new Error('the strategy decides the war');
         if (input.action === 'flee') throw new Error('the strategy decides the Scrape');
+        if (input.action === 'chore' && input.chore === 'sell-cotton' && plan.sell === 'yes') throw new Error('the strategy sells the cotton by the errand');
         if (input.action === 'answer-chore') {
           const ask = world.entities[input.entityId]?.chore?.ask?.id;
           if (ask === 'cotton-counter' && plan.sell === 'yes') input = { ...input, option: 'coin' };
@@ -291,6 +320,14 @@ export async function runClass({ seed, size }, { keepWorld = false } = {}) {
       coinIn: coinEvents.filter(event => event.coin > 0).reduce((sum, event) => sum + event.coin, 0),
       coinOut: coinEvents.filter(event => event.coin < 0).reduce((sum, event) => sum - event.coin, 0),
       dead: dead.length, deadMen: dead.filter(person => person.sex !== 'female' && !tooYoung(person)).length, captured: captured.length,
+      // The Scrape's prisoners as the ending weighs them (sim/ending.mjs `scrapePrisoners`), and the living people they are a
+      // part of, so another weight can be read from the record without running a class (`--rescore`).
+      prisoners: { home: scrapePrisoners(world, household).filter(one => one.where === 'home').length, road: scrapePrisoners(world, household).filter(one => one.where === 'road').length },
+      living: members.length - dead.length,
+      // Cotton: grown (every harvest says what came in), and what it was sold for - coin, or food.
+      cottonGrown: round2(world.events.filter(event => event.householdId === household.id && /brought in [\d.]+ cotton/.test(event.text)).reduce((sum, event) => sum + Number(event.text.match(/brought in ([\d.]+) cotton/)[1]), 0)),
+      cottonCoin: coinEvents.filter(event => event.coin > 0 && / cotton /.test(event.text)).reduce((sum, event) => sum + event.coin, 0),
+      cottonForFood: round2(world.events.filter(event => event.householdId === household.id && /sold [\d.]+ cotton .*(for|brought home) [\d.]+ food/.test(event.text)).reduce((sum, event) => sum + Number(event.text.match(/sold ([\d.]+) cotton/)[1]), 0)),
       flight: flight?.status ?? null, burned: Boolean(flight?.burned), burnedBy: flight?.burnedBy?.hand || (flight?.burned ? 'texian' : null),
       stockLeftDriven: Boolean(household.herdLeft?.driven), herd: { cattle: herd.cattle || 0, hogs: herd.hogs || 0 },
       overWeight,
@@ -397,6 +434,26 @@ function shapley(y, groups) {
   return { shares: out, explained: round(all, 3), unexplained: round(1 - all, 3) };
 }
 
+/**
+ * The same classes scored with another weight on the Scrape's prisoners (sim/ending.mjs `PRISONER_WEIGHT`): every family's final
+ * number again from what it held - coin, glory, land, and its prisoners among its living people - and the class re-ranked. The
+ * prisoners do not change what anybody does, so this is exact, not a guess at how a class would play (`--rescore`).
+ */
+export function rescore(classes, weight) {
+  return classes.map(one => {
+    const families = one.families.map(family => {
+      if (!family.prisoners) throw new Error(`${one.seed}: a record from before the prisoners were counted cannot be rescored`);
+      return { ...family, final: finalNumber(family.coin, family.glory, family.land, keptFor(family.prisoners.home + family.prisoners.road, family.living, weight)) };
+    });
+    const best = Math.max(...families.map(family => family.final));
+    const winners = families.filter(family => family.final === best).map(family => family.id);
+    return {
+      ...one, best, winners,
+      families: families.map(family => ({ ...family, rank: 1 + families.filter(other => other.final > family.final).length, winner: winners.includes(family.id), winners: winners.length })),
+    };
+  });
+}
+
 function analyse(classes) {
   const rows = classes.flatMap(one => one.families.map(family => ({
     ...family, size: one.size, seed: one.seed,
@@ -423,7 +480,32 @@ function analyse(classes) {
     deaths: by(rows, row => (row.dead ? 'a death in the family' : 'no death')),
     fightersByDeath: by(rows.filter(row => row.fought), row => (row.deadMen ? 'fought, and a man died' : 'fought, every man came home')),
     nobodySellers: by(nobody, row => `none / sell ${row.sell} / ${row.crop} / ${row.farm}`),
+    // Cotton: whether the family grew any, and the crop it meant against the one it was rolled with.
+    grewCotton: by(rows, row => ((row.cottonGrown ?? 0) > 0 ? 'grew cotton' : 'grew no cotton')),
+    cropByRolled: by(rows, row => `${row.crop} / rolled ${row.rolledCrop}`),
+    cropBySell: by(rows, row => `${row.crop} / sell ${row.sell}`),
   };
+  // Cotton's own numbers, by what the family meant and whether it sold for coin.
+  const cotton = Object.fromEntries(Object.entries(Object.groupBy(rows, row => `${row.crop} / sell ${row.sell}`)).sort().map(([key, list]) => [key, {
+    families: list.length, meanGrown: round(mean(list.map(row => row.cottonGrown ?? 0)), 1), meanCottonCoin: round(mean(list.map(row => row.cottonCoin ?? 0)), 1),
+    meanCottonForFood: round(mean(list.map(row => row.cottonForFood ?? 0)), 1), meanCoin: round(mean(list.map(row => row.coin)), 1),
+  }]));
+  // The Scrape's prisoners weighed at other weights than the one the classes were scored with: the same families re-ranked (exact:
+  // the weight changes no play). Stay against flee, inside the burn zone and out, and every war strategy.
+  const prisonerReading = rows[0]?.prisoners ? Object.fromEntries([0, 0.5, 1, 1.5, 2].map(weight => {
+    const again = rescore(classes, weight);
+    const rowsAgain = again.flatMap(one => one.families.map(family => ({ ...family, size: one.size, percentile: one.size > 1 ? (family.rank - 1) / (one.size - 1) : 0 })));
+    const pick = stats => ({ winIndex: stats.winIndex, winPct: stats.winPct, meanPercentile: stats.meanPercentile, families: stats.families });
+    return [weight, {
+      burnZoneByScrape: Object.fromEntries(Object.entries(by(rowsAgain, row => `${row.burnZone ? 'inside' : 'outside'} / ${row.scrape}`)).map(([k, s]) => [k, pick(s)])),
+      scrape: Object.fromEntries(Object.entries(by(rowsAgain, row => row.scrape)).map(([k, s]) => [k, pick(s)])),
+      war: Object.fromEntries(Object.entries(by(rowsAgain, row => row.war)).map(([k, s]) => [k, pick(s)])),
+    }];
+  })) : null;
+  const prisonersBy = Object.fromEntries(Object.entries(Object.groupBy(rows.filter(row => row.prisoners), row => `${row.burnZone ? 'inside' : 'outside'} / ${row.scrape}`)).sort().map(([key, list]) => [key, {
+    families: list.length, home: list.reduce((sum, row) => sum + row.prisoners.home, 0), road: list.reduce((sum, row) => sum + row.prisoners.road, 0),
+    meanLiving: round(mean(list.map(row => row.living)), 1), familiesWithAPrisoner: list.filter(row => row.prisoners.home + row.prisoners.road > 0).length,
+  }]));
   // Head to head: of every two families in one class with different war strategies, how often each finished above the other.
   const headToHead = {};
   for (const one of classes) {
@@ -452,11 +534,14 @@ function analyse(classes) {
     'where the land fell': rows.map(row => [row.miles ?? 0, row.burnZone ? 1 : 0, ...settlements.slice(1).map(s => (row.settlement === s ? 1 : 0))]),
     fates: rows.map(row => [row.dead, row.deadMen, row.captured, row.burned ? 1 : 0, row.stockLeftDriven ? 1 : 0, row.negativeGlory]),
   };
+  // A final of nothing - every living person of the family taken prisoner (sim/ending.mjs, 2026-09-27) - is read as one, so its
+  // logarithm is not minus infinity and the whole column is not lost.
+  const logFinal = final => Math.log(Math.max(1, final));
   const classMeanLog = {};
-  for (const one of classes) classMeanLog[one.seed] = mean(one.families.map(f => Math.log(f.final)));
+  for (const one of classes) classMeanLog[one.seed] = mean(one.families.map(f => logFinal(f.final)));
   const variance = {
     percentile: shapley(rows.map(row => row.percentile), groups),
-    logFinalWithinClass: shapley(rows.map(row => Math.log(row.final) - classMeanLog[row.seed]), groups),
+    logFinalWithinClass: shapley(rows.map(row => logFinal(row.final) - classMeanLog[row.seed]), groups),
   };
   // The means die with every choice held level: families of one strategy on the war and the store, by the coin they came with.
   const meansWithinStrategy = by(rows, row => `${row.war} / sell ${row.sell} / ${row.means.coin <= 4 ? 'came with 3-4' : row.means.coin <= 6 ? 'came with 5-6' : 'came with 7-10'}`);
@@ -522,7 +607,7 @@ function analyse(classes) {
   // Where glory was taken away, by the event and part it was taken for.
   const negatives = {};
   for (const row of rows) for (const n of row.negatives) { const [event, role] = n.split(':'); const key = `${event}:${role} (${row.war})`; negatives[key] = (negatives[key] || 0) + 1; }
-  return { summary, tables, headToHead, combos: combos.slice(0, 15), worstCombos: combos.slice(-8), variance, meansWithinStrategy, glory, nobodyGap, rescored, negatives, nobodyCount: nobody.length, sentNobodyCount: sentNobody.length };
+  return { summary, tables, headToHead, combos: combos.slice(0, 15), worstCombos: combos.slice(-8), variance, meansWithinStrategy, glory, nobodyGap, rescored, negatives, nobodyCount: nobody.length, sentNobodyCount: sentNobody.length, cotton, prisonersBy, prisonerReading };
 }
 
 /** The record as written: the analysis indented to be read, and each class on one line of its own (4 MB indented, far less so). */
@@ -542,7 +627,20 @@ if (!isMainThread) {
   });
 } else if (process.argv[1] && fileURLToPath(import.meta.url) === (await import('node:path')).resolve(process.argv[1])) {
   const arg = (name, fallback) => { const at = process.argv.indexOf(`--${name}`); return at >= 0 ? process.argv[at + 1] : fallback; };
-  const sizes = arg('sizes', '5,15,30').split(',').map(Number);
+  // A record read again with another weight on the Scrape's prisoners, no class run: `--rescore <record> [--weight w] --out <file>`.
+  if (arg('rescore')) {
+    const { readFileSync } = await import('node:fs');
+    const before = JSON.parse(readFileSync(arg('rescore'), 'utf8'));
+    const weight = Number(arg('weight', PRISONER_WEIGHT));
+    const classes = rescore(before.classes, weight);
+    const out = arg('out');
+    if (!out) throw new Error('--rescore wants --out');
+    const { classes: _, runtime, ...head } = before;
+    writeFileSync(out, recordText({ ...head, ...analyse(classes), rules: { ...before.rules, prisonerWeight: weight }, rescoredFrom: arg('rescore'), classes, runtime }));
+    console.log(`rescored ${arg('rescore')} at a prisoner weight of ${weight}: wrote ${out}`);
+    process.exit(0);
+  }
+  const sizes =arg('sizes', '5,15,30').split(',').map(Number);
   const counts = arg('classes', '100,70,40').split(',').map(Number);
   const workers = Number(arg('workers', Math.max(1, Math.min(20, cpus().length - 2))));
   const out = arg('out', 'docs/evidence/balance-measure.json');
@@ -587,6 +685,8 @@ if (!isMainThread) {
     record: 'The balance measure: docs/MONEY_AND_GLORY.md §8, docs/BALANCE.md', date: new Date().toISOString().slice(0, 10),
     command: `node scripts/balance-measure.mjs --sizes ${sizes.join(',')} --classes ${counts.join(',')}`,
     factors: FACTORS, hardPlots: HARD_PLOTS, lateDays: LATE_DAYS, sellKeepDays: SELL_KEEP_DAYS, crossed,
+    // The rules the classes were played and scored under, so two records can be told apart (2026-09-27: the owner's four answers).
+    rules: { cottonBale: COIN.cottonBale, counterFallback: [].concat(ASKS['cotton-counter'].fallback), prisonerWeight: PRISONER_WEIGHT },
     ...analysis,
     classes: classes.map(({ seconds, ...one }) => one),
     runtime,

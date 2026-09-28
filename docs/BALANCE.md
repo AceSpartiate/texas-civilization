@@ -6,6 +6,13 @@ Script: `scripts/balance-measure.mjs` (`npm run balance:measure`). Record: [evid
 The rule it measures is `docs/MONEY_AND_GLORY.md` §5 and §8 (*winning without fighting is hard, not impossible*) and `VISION.md`
 §8 and §20 (a family that sends nobody must be able to win, though it should be difficult).
 
+> **Answered and re-measured (2026-09-27/28).** The owner answered the four questions of §6 on 2026-09-27: leave staying home as
+> it is, make coin the store's default, weigh the prisoners, raise the cotton price. All four are built and the same 210 classes
+> were run again: **§9**. Sections 1-8 are the first measure as the owner read it, kept as it was. Two of its findings were the
+> measure's own faults, found while building the answers (§9.1): **no bale of cotton was ever sold for coin, and no family rolled to
+> corn ever planted cotton**, so "selling for coin" meant selling food, and "cotton made no difference" measured nothing. The record
+> in [evidence/balance-measure.json](evidence/balance-measure.json) is now the re-measure; the first is in git (commit 363fb33).
+
 ---
 
 ## 1. The answer, in plain words
@@ -252,6 +259,8 @@ five). The rule is "possible, but difficult". What should change?**
   about 2,400 reales held, and the best seller held 341.
 - D. Leave it, and say in `VISION.md` §20 that at fifteen families and more a family that sends nobody does not win.
 
+**Answered 2026-09-27: "Leave it" (D).** No rule changed for it; `VISION.md` §20 and `docs/MONEY_AND_GLORY.md` §8 say so. §9.7.
+
 **2. Selling for coin decides more than fighting does: families that take food at the counter win 1.4 in 100, those that sell for coin
 14 in 100. The counter's own answer is food, and a twelve-year-old cannot know that coin held is what the ending multiplies.**
 
@@ -259,6 +268,9 @@ five). The rule is "possible, but difficult". What should change?**
   over."*
 - B. Make the counter's own answer, when nobody chooses, coin rather than food.
 - C. Leave it for students to find out at the ending.
+
+**Answered 2026-09-27: "Make coin the default" (B).** Built and measured, §9.6. (The student's own road to the store, the errand's
+popup, already pressed Coin first; the counter that answered food was the one the families nobody plays stop at.)
 
 **3. Staying in the Scrape scores better than fleeing (index 1.18 against 0.79): the road spends coin (a fleeing family held 36 reales,
 a staying one 48) and the burn zone burns a farm whether the family stays or goes. Most families in 1836 fled.**
@@ -272,6 +284,8 @@ Staying does cost people: families that stayed inside the burn zone had **2,120*
   choice the numbers now make it.
 - C. Have fleeing save something staying does not - the stock, or what the wagon carried counted at the end.
 
+**Answered 2026-09-27: "Weigh the prisoners" (B).** Built with each prisoner taking their part of the coin, and measured, §9.4.
+
 **4. Farming harder helps a little (index 1.16 against 0.85); planting cotton made no difference (0.92 against 1.08), though the owner
 chose on 2026-09-16 that cotton should be "more profitable for players".**
 
@@ -279,6 +293,9 @@ chose on 2026-09-16 that cotton should be "more profitable for players".**
 - B. Leave it.
 - **C. (Recommended)** Decide after question 1: if staying home is to earn more, the field is where it would, and cotton's price
   belongs to that answer.
+
+**Answered 2026-09-27: "Raise the cotton price" (A).** Two reales a bale, §9.5. The "no difference" this question rested on was the
+measure's own fault (§9.1): with cotton really planted and sold, a real a bale already made a difference.
 
 ---
 
@@ -308,7 +325,187 @@ chose on 2026-09-16 that cotton should be "more profitable for players".**
 ```
 node scripts/balance-measure.mjs                                   # the 210 classes above, ~80 minutes on 18 workers
 node scripts/balance-measure.mjs --sizes 5 --classes 20 --workers 8 --out <file>   # a quick look
+node scripts/balance-measure.mjs --rescore <record> --weight 0.5 --out <file>  # the same classes, another prisoner weight (exact)
 ```
 
 The record carries every family's strategy, dice, coin, glory (by part, and every award with its miles), land, final number, place,
 deaths, captures, burning and ground, so any other question can be asked of it without running a class.
+
+---
+
+## 9. The owner's four answers, built and measured again (2026-09-27/28)
+
+The owner answered §6 on 2026-09-27, by multiple choice: **1. "Leave it"** (staying home), **2. "Make coin the default"**, **3. "Weigh
+the prisoners"**, **4. "Raise the cotton price"**. All four are built; the same 210 classes (same seeds, same strategies) were run
+again. **In one line: a family that sends nobody still wins no class of fifteen or thirty (and one of 100 of five); staying in the
+burn zone no longer beats going, on average; a student who never chooses at the counter is paid in coin; cotton pays twice what it
+did.**
+
+### 9.1 Two faults in the first measure, found first
+
+Building the answers meant reading where each family's coin came from, and it came from nowhere the measure said. In the first
+run **no bale of cotton was ever sold for coin, and no family rolled to corn ever planted cotton.** The strategies answered the
+cotton counter ("coin") and the field ("cotton") a tick late: every family is marked absent while the world steps (§2), and an
+absent family's question is decided the tick it is asked, at the question's own default - food at the counter, the family's rolled
+crop at the field. So in §1-§8 "sells for coin" meant *sells its spare food for coin*, and "cotton made no difference" measured
+nothing: cotton was grown only by families rolled to it, and sold only for food.
+
+Mended in `scripts/balance-measure.mjs` the same day, and re-run before any rule changed (**step 1** below):
+
+- **cotton**: the family's own crop is made cotton at the start - what answering *Plant cotton* at the field does (the `crop` step
+  in `sim/chores.mjs`) - so silence plants it whenever the seed allows;
+- **selling**: a family that sells sends its cotton by the errand to town, the student's own road to the store (docs/TOWNS.md §4b),
+  every whole bale on the list for coin. A family that does not sell leaves its cotton to the director's errand and **the counter's
+  own answer** - which is exactly what the owner's second answer changes.
+
+With cotton really planted and sold, **a real a bale already made cotton pay**: families that meant to plant cotton won 9.4 in 100
+(index 1.22) against 5.9 (0.77) for their own crop, with 231 reales held against 143. The question the owner answered (§6 q.4) had
+said "no difference"; that was this fault.
+
+### 9.2 What was run
+
+Four records of the same 210 classes (100 of five, 70 of fifteen, 40 of thirty; 2,750 families; every class reached its ending):
+
+| Record | Rules | File |
+| --- | --- | --- |
+| **first** | as built on 2026-09-27, with the two faults | git, commit 363fb33 |
+| **step 1** | faults mended; rules unchanged (food the counter's answer, a real a bale, prisoners not counted) | [evidence/balance-measure-step1-harness.json](evidence/balance-measure-step1-harness.json) |
+| **step 2** | + coin the counter's own answer | [evidence/balance-measure-step2-coin.json](evidence/balance-measure-step2-coin.json) |
+| **after** | + cotton two reales a bale, + the Scrape's prisoners weighed (`PRISONER_WEIGHT` 1) | [evidence/balance-measure.json](evidence/balance-measure.json) |
+
+The prisoners' weight changes nothing anybody does - it is read at the ending - so any weight can be applied to a record exactly
+(`--rescore`); steps 1 and 2 are scored with none, as their rules had none. The after run took 6,644 s on 12 worker threads (a
+second run beside it for part of the time; CPU seconds by size: five 4,936, fifteen 25,848, thirty 48,670).
+
+### 9.3 Who wins, before and after
+
+By what the family did about the war (win % / index / top-3 % / median final / mean coin):
+
+| War | first | step 1 | step 2 | **after** |
+| --- | --- | --- | --- | --- |
+| all | 15.4 / 2.00 / 36.6 / 1,007 / 32 | 14.4 / 1.87 / 36.0 / 1,444 / 145 | 16.8 / 2.18 / 39.5 / 19,955 / 213 | **16.5 / 2.14 / 38.4 / 31,500 / 407** |
+| one | 9.9 / 1.31 / 30.5 / 681 / 36 | 10.5 / 1.38 / 29.7 / 898 / 181 | 8.9 / 1.18 / 29.3 / 13,240 / 247 | **9.2 / 1.22 / 29.6 / 18,541 / 473** |
+| neighbour | 5.2 / 0.68 / 20.1 / 245 / 45 | 5.4 / 0.70 / 20.3 / 432 / 208 | 5.1 / 0.66 / 18.0 / 2,956 / 275 | **5.1 / 0.66 / 18.4 / 4,222 / 529** |
+| none | 0.3 / 0.04 / 5.1 / 14 / 44 | 0.6 / 0.08 / 6.2 / 21 / 215 | 0.1 / 0.02 / 5.6 / 310 / 294 | **0.1 / 0.02 / 5.8 / 458 / 566** |
+
+Fighting still decides: *all* above *none* 88 times in 100 head to head (95 before), *one* above *none* 84 (91). Every number is far
+bigger than before because coin is: a class's winner now finishes, in the middle case, at 122,138 (five), 231,219 (fifteen) and
+347,413 (thirty), against 10,123, 23,920 and 34,991 in the first measure. The dice and the choices now explain where a family
+finishes like this (Shapley shares of its place): choices 0.32 (0.46 first; 0.53 at step 1), **the family die 0.19** (0.06; 0.07 at
+step 1 - it rose with the coin default: a bigger family grows and sells more cotton whether or not anybody chooses), the means die,
+the land and the fates under 0.02 each, 0.45 unexplained.
+
+Glory still never rewards a death: no award over its part's weight, no woman sent to fight, and families whose fighting man was
+killed won less (index 1.38 against 1.61; glory 112 against 158). **Deaths: 268 first, 271, 274, 274** - the coin default did not
+leave the families nobody plays hungry.
+
+### 9.4 The prisoners: staying in the burn zone against going (answer 3)
+
+**Built** (`sim/ending.mjs`, `FIC-GONZ-710`): everybody of a family taken prisoner **at home** or **on the road east** is named in its
+reckoning ("Rhoda was taken prisoner at home.") and in the Host's table, and **takes their part of the family's coin out of the
+count**: the coin counted is multiplied by 1 − *weight* × prisoners ÷ the family's living people, before glory multiplies it, and
+the sum on the page says so ("40 reales, less 3 of 9 parts for the 3 taken prisoner, counted as 26.67 reales × (1 + 12 glory) = 347").
+The war's prisoners (San Patricio, Agua Dulce, Goliad) are not the Scrape's and are not weighed.
+
+**The weight, measured.** Inside the burn zone, the family that stays against the one that goes at once, at five weights, on step 1
+and on the after run (win index / mean place, 0 first and 1 last; lower place is better):
+
+| Weight | step 1: stay | step 1: flee | after: stay | after: flee |
+| ---: | --- | --- | --- | --- |
+| 0 (as it was) | 1.00 / 0.478 | 1.01 / 0.503 | 0.92 / 0.477 | 0.78 / 0.483 |
+| 0.5 | 0.92 / **0.496** | 1.01 / 0.502 | 0.78 / 0.495 | 0.81 / 0.483 |
+| **1 (chosen)** | **0.86 / 0.518** | **0.96 / 0.500** | **0.70 / 0.519** | **0.78 / 0.481** |
+| 1.5 | 0.59 / 0.560 | 0.96 / 0.493 | 0.50 / 0.565 | 0.81 / 0.473 |
+| 2 | 0.42 / 0.645 | 0.98 / 0.478 | 0.28 / 0.656 | 0.88 / 0.459 |
+
+**One - each prisoner takes their own part - is the smallest weight that leaves staying below going in both how often the family
+finishes first and where it finishes, in both runs.** A half does it after but not at step 1, where a staying family still finished
+higher on average (0.496 against 0.502). It is also the one that says itself in plain words. Staying three days and then going
+(*late*) is between the two (0.81 / 0.545). Two is punitive: a staying family would win a third as often as one that went.
+
+What it weighs: in the after run families that stayed inside the zone had **2,155** people taken at home (435 of 468 families had at
+least one, 4.6 a family); families there that went at once 351 at home and 33 on the road; families outside the zone only road
+prisoners (40 among those that fled). **18 families of 2,750 finished at nothing** - every living person of the family taken - and
+their land alone would have counted, had they had any. Across all families *stay* now wins 7.3 in 100 (index 0.96) against *flee* 7.4
+(0.99): no longer the safe choice (it was 9.0 against 6.0 in the first measure).
+
+Outside the burn zone the Mexican army never comes, so nobody there is taken at home and staying still does a little better than
+going (index 1.26 against 1.25; place 0.459 against 0.513): the road spends coin and time the farm would have used. That is the
+geography of 1836, not a rule this answer was asked to change.
+
+### 9.5 Cotton: two reales a bale (answer 4)
+
+**Built**: the store pays **two reales a whole bale** (`STORE_BALE_COIN`, `sim/shops.mjs`; a real until 2026-09-27), and the weaver the
+same coin with more food (3 food against the store's 2). Food a bale is unchanged. A neighbour nobody plays now values a bale at what
+the store pays for it (`TRADE_VALUE`, `sim/neighbours.mjs`), so a bale bought from a neighbour for a food can no longer be sold on at the
+store for coin.
+
+**Why two.** Step 1 showed that, once really sold, a real a bale already made cotton the crop that pays: a plot's five bales fetch five
+reales where its five food fetch one. Two is the smallest whole raise, doubles that, and keeps a plot's harvest at what a cow and calf
+costs at the pens (on the game's own scale of a real to the record's dollar, `HIST-TEX-440`). **No price for a bale is in this
+project's research**: `HIST-GONZ-022` says so and warns against claiming one, and `FIC-GONZ-019`, `-022` and `-047` register every
+store price as invented. So the price is plausible by the game's own prices, not sourced.
+
+**What it did** (step 2, a real a bale → after, two; the same play, since the price changes no order anybody gives):
+
+| | step 2 | **after** |
+| --- | --- | --- |
+| Families meaning to plant cotton: coin held / from cotton | 324 / 312 | **636 / 625** |
+| Their own crop: coin held / from cotton | 189 / 158 | **347 / 316** |
+| A family that sent nobody and sold: mean coin | 434 | **822** |
+| Cotton meant: win % (index) | 10.1 (1.32) | **10.2 (1.33)** |
+| Own crop: win % (index) | 5.0 (0.66) | **5.0 (0.65)** |
+| Grew any cotton (2,092 families): win % (index) against none (658) | 9.7 (1.28) against 1.1 (0.14) | **9.8 (1.29) against 0.8 (0.10)** |
+
+**Measurable in the coin - every family that grows cotton holds about twice what it did - and hardly at all in who finishes first**,
+because every family that grows cotton gains the same share and the final number multiplies coin. The difference cotton makes to
+winning (index 1.33 against 0.65, and 1.29 against 0.10 for families that grew none) was there at a real a bale once the measure
+really planted it (step 1: 1.22 against 0.77). If the owner wants cotton to change *who wins*, the price alone will not do it; what
+cotton earns relative to the war's glory would.
+
+### 9.6 Coin at the counter (answer 2)
+
+**Built**: the cotton counter's own answer is **coin** (`cotton-counter` in `sim/chores.mjs`: offered first, and what silence, auto, a
+family whose student has gone, a lapsed question and the neighbours' director all take; food only when there is no whole bale), and a
+list for the errand to town that does not say how a sale is paid is paid in coin (`sim/errands.mjs`). **The student's own road to the
+store - the errand's popup - already pressed Coin first** (proved now in `scripts/errand-browser-proof.mjs`); the food default was the
+counter the families nobody plays stop at, and the one any student's family met the moment its student was gone. **Automatic and
+neighbour families**: the director answers every question at work with the first answer open, so it follows the default - it now
+takes coin for cotton. Nothing else it does changed.
+
+What it did (step 1 → step 2), the families that never sell for coin of their own choosing:
+
+| | step 1 | **step 2** | after (+ two reales) |
+| --- | --- | --- | --- |
+| *sell: no* - coin held / from cotton | 4 / 0 | **142 / 142** | 284 / 283 |
+| *sell: no* - win % (index) | 0.8 (0.10) | **4.3 (0.56)** | 4.8 (0.62) |
+| *sell: yes* - win % (index) | 14.6 (1.93) | **11.0 (1.45)** | 10.6 (1.39) |
+| *all, sell: no* - win % (index) | 1.4 (0.18) | **10.6 (1.33)** | 11.8 (1.48) |
+| *all, sell: yes* - win % (index) | 28.8 (3.88) | **23.6 (3.19)** | 21.7 (2.94) |
+
+**Selling for coin no longer decides almost everything**: a family that fights and never chooses at the counter now wins more than
+its share, where it won a fifth of it. The choices' share of where a family finishes fell from 0.53 to 0.34.
+
+### 9.7 A family that sends nobody (answer 1: "Leave it")
+
+| Classes | first | step 1 | step 2 | **after** |
+| --- | --- | --- | --- | --- |
+| five families (100): won / reached the top three | 2 / 31 | 4 / 35 | 1 / 34 | **1 / 35** |
+| fifteen (70) | 0 / 0 | 0 / 4 | 0 / 0 | **0 / 0** |
+| thirty (40) | 0 / 0 | 0 / 0 | 0 / 0 | **0 / 0** |
+
+After: the one win is `measure-5-40` (a family of seventeen at 3,128, in a class whose fighting families did badly, as in the first
+measure). The best family that sent nobody in each class finished, in the middle case, with 0.6 in 100 of the winner's number and
+8th; the class's winner finished at about 880 times the coin such a family held (middle case); the most coin any of them held was
+4,374. **No rule was changed for this**, by the owner's answer; `VISION.md` §20 and `docs/MONEY_AND_GLORY.md` §8 now say that a family
+that sends nobody does not win a class of ordinary size. The cotton price and the coin default raised what such a family holds
+(median 9 reales at step 1, 331 after) without changing where it finishes, because the fighting families gained the same.
+
+### 9.8 The older study, run again
+
+`scripts/balance-study.mjs` (six classes of fifteen, fourteen families run by the neighbours' director and one played to stay home and
+sell for coin; [evidence/balance-study.json](evidence/balance-study.json)), run on the changed code on 2026-09-28: the stay-home family's
+finals **174, 65, 222, 170, 202, 62** (88, 66, 216, 118, 136, 125 before), its place **9th, 14th, 9th, 10th, 12th, 12th** (9th, 12th,
+4th, 12th, 7th, 7th), **no class won**; the first family fought in every class and finished at 19,943 to 80,536 (592 to 1,152
+before), because the director's families now take coin for their cotton at the counter and sell it at two reales. Deaths 10, as
+before. The stay-home family holds more than it did and places lower: its neighbours gained more.

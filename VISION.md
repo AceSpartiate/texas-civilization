@@ -564,7 +564,15 @@ This replaces the earlier rule **"No rankings."** The game now has a winner:
 - **Glory** is hidden from every student and from the Host until the ending. It is earned by taking part in major historical events of **every kind**, with fighting weighted above supporting. A casualty never earns extra.
 - At the ending each family sees its own money, its own glory and what earned each. The Host shows every family's numbers and **names the winner**, alongside the discussion hooks above.
 
-What still binds: no virtue labels ("best patriot", "bravest", "most loyal"), §8's rule that a family that sends nobody to battle must still have a compelling story — and must be able to win, though winning without fighting should be difficult — and §11's rules against patriotism meters and repeated requests. Full specification and gates: `docs/MONEY_AND_GLORY.md`.
+What still binds: no virtue labels ("best patriot", "bravest", "most loyal"), §8's rule that a family that sends nobody to battle must still have a compelling story — and must be able to win, though winning without fighting should be difficult (*amended 2026-09-27, below*) — and §11's rules against patriotism meters and repeated requests. Full specification and gates: `docs/MONEY_AND_GLORY.md`.
+
+### Amendment, 2026-09-27 — a family that sends nobody does not win a class of ordinary size
+
+*By the owner, by multiple choice* (question 1 of `docs/BALANCE.md` §6, after 210 whole classes were measured): **"Leave it."** Of the four answers offered — give staying home glory of its own, weaken glory's multiplication, let a farm earn far more coin, or leave it and say so here — the owner chose to leave the rules as they are and say so here.
+
+The measure the owner answered: a family that sent nobody to the war finished first in **2 of 100 classes of five families**, and in **none of 70 classes of fifteen or 40 of thirty — 0 of 567 such families, never in the top three**; the best of them in each class finished, in the middle case, with less than 1 in 100 of the winner's number. Re-measured after the owner's other three answers of the same day (coin the store's default, the Scrape's prisoners weighed, cotton at two reales a bale; `docs/BALANCE.md` §9): **1 class of 100 at five families, none at fifteen or thirty.**
+
+So the 2026-09-12 amendment's clause is amended: **a family that sends nobody to the war does not win a class of ordinary size (fifteen families or more); in the smallest classes it can, rarely, when the families that fought did badly.** Nothing else moves. Such a family must still have a compelling story (§8); its coin, its land and what it did are still counted and shown at the ending; glory is still earned only by taking part and never rewards a death; and no virtue label is ever put on staying or going.
 
 ---
 

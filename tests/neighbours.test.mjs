@@ -12,7 +12,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { CHORES, choresFor } from '../sim/chores.mjs';
 import { houseBuilt, raising } from '../sim/houses.mjs';
-import { ONE_AT_A_TIME, markPlayed, thinkFor } from '../sim/neighbours.mjs';
+import { ONE_AT_A_TIME, TRADE_VALUE, markPlayed, thinkFor } from '../sim/neighbours.mjs';
 import { createClassroom } from '../server/app.mjs';
 
 const lively = (seed, players = 5, options = {}) => {
@@ -138,7 +138,7 @@ test('a neighbour takes a fair trade, and refuses an unfair one or one it cannot
   };
   offerAndAnswer({ powder: 2 }, { food: 5 });
   assert.equal(neighbourHousehold.resources.food, 35, 'two shots for five food is fair, and taken');
-  offerAndAnswer({ cotton: 1 }, { food: 6 });
+  offerAndAnswer({ cotton: 1 }, { food: TRADE_VALUE.cotton + 1 });
   assert.ok(storyOf(world, 'hh-1').some(text => /declined .*"That's not a fair trade for us\."/.test(text)), "the student's family is told why");
   assert.ok(storyOf(world, 'hh-2').some(text => /declined .*"That's not a fair trade for us\."/.test(text)), "and so is the neighbour's");
   offerAndAnswer({ powder: 2 }, { seed: 1 });
