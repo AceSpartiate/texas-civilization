@@ -64,12 +64,22 @@
       "verdict": "only the named test failed"
     },
     {
-      "injection": "a student page starts with sound on",
+      "injection": "a student page starts muted (the old default, before the owner's AU1)",
       "file": "public/audio-mix.js",
       "test": "tests/audio-mix.test.mjs",
-      "expected": "a student in a class starts muted; the Host and a solo player start with sound on",
+      "expected": "a student in a class starts with everything on, quiet; the Host and a solo player start on at full level (owner, AU1)",
       "failed": [
-        "a student in a class starts muted; the Host and a solo player start with sound on"
+        "a student in a class starts with everything on, quiet; the Host and a solo player start on at full level (owner, AU1)"
+      ],
+      "verdict": "only the named test failed"
+    },
+    {
+      "injection": "a student page starts as loud as the Host's",
+      "file": "public/audio-mix.js",
+      "test": "tests/audio-mix.test.mjs",
+      "expected": "a student in a class starts with everything on, quiet; the Host and a solo player start on at full level (owner, AU1)",
+      "failed": [
+        "a student in a class starts with everything on, quiet; the Host and a solo player start on at full level (owner, AU1)"
       ],
       "verdict": "only the named test failed"
     },

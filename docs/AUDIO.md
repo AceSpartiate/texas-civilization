@@ -115,13 +115,18 @@ of itself while a cannon, a volley, thunder, the bell or ¡Alto! sounds.
 
 ## 5. Classroom sense
 
-- **A student's page in a class starts muted** (owner question AU1). Thirty Chromebooks in one room each playing the war
-  would be a wall of noise; the teacher's projector carries the class's music and big moments. A muted page makes **no
-  AudioContext at all** and spends nothing a frame on sound.
-- **The Host's page and a solo player start with everything on** (AU2, AU6).
+- **A student's page in a class starts with everything on, quiet.** Owner, 2026-09-28, answering AU1: *"Everything on,
+  quiet"*. Music and effects are on and the master volume starts at **30%** (`STUDENT_MASTER` in public/audio-mix.js),
+  against 80% for the Host and a solo player: effects at 0.21 of full and music at 0.068, where the Host's are 0.64 and 0.216.
+  Thirty Chromebooks in one room at full volume would be a wall of noise, and the teacher's projector carries the class's
+  big moments. The engine starts on the student's first press (in a class, the join form's Join). A student who changes
+  it with the Sound button - quieter, louder or off - is remembered on that device, and **the saved choice wins over the
+  quiet default**. A page its student has muted makes **no AudioContext at all** and spends nothing a frame on sound.
+  (Built first as muted by default, 2026-09-28; changed the same day on the owner's answer.)
+- **The Host's page and a solo player start with everything on**, master 80% (AU2, AU6).
 - **The control** is a button beside the Journal: *Sound off* / *Sound*, and a small panel with *Sound on*, Volume, Music,
   Effects and Buttons. What a person sets is remembered on that device, for that kind of page. A student page's panel
-  says "Sound starts off in class. Use headphones if you turn it on."
+  says "Sound starts quiet in class. Turn it down or off here; headphones if you turn it up."
 - **Browsers allow sound only after a gesture.** Nothing is made before the first press, key or touch; turning sound on
   with the control is itself that gesture. A hidden tab suspends its sound and resumes when shown.
 - **Reduced motion.** A battle or chase held still (reduced motion, or a paused class) fires nothing new, so it makes no
@@ -138,9 +143,10 @@ of itself while a cannon, a volley, thunder, the bell or ¡Alto! sounds.
 ## 7. Evidence (same computer only)
 
 - `tests/audio-licenses.test.mjs` (5), `tests/audio-mix.test.mjs` (7), `tests/audio-music.test.mjs` (5),
-  `tests/audio-cues.test.mjs` (11): 28 tests. **Each seen failing**: `node scripts/audio-injections.mjs` injects 28
+  `tests/audio-cues.test.mjs` (11): 28 tests. **Each seen failing**: `node scripts/audio-injections.mjs` injects 29
   regressions one at a time (an unlisted .ogg; a sound entered as NC; CC-BY with no attribution; a new sound not in the
-  manifest; a tune marked copyrighted; `.gitattributes` losing `*.ogg`; students starting unmuted; music above effects; a
+  manifest; a tune marked copyrighted; `.gitattributes` losing `*.ogg`; students starting muted, the old default; students
+  starting as loud as the Host; music above effects; a
   store that throws; no distance falloff; no volley folding; a sound's own limit ignored; the loudness budget ignored; a
   piece a note short; the war with no music; the degüello played; a slept page playing all it missed; a mid-class page
   playing everything already there; the bell for a family a rider told; every bugle the attack; the lapse repeating; the
@@ -149,17 +155,20 @@ of itself while a cannon, a volley, thunder, the bell or ¡Alto! sounds.
   (`docs/evidence/audio-injections.json`).
 - `npm run test:audio` (`scripts/audio-browser-proof.mjs`): a real class through the join flow, the Host and two students,
   the Web Audio API replaced by a counting stand-in (`tests/support/mock-audio.mjs`). Holds: no AudioContext before a
-  gesture; students start muted and make none through the join flow; the Host's Start unlocks and plays music; a student's
-  choice survives a reload and waits for the next press; the **Gonzales fight's own projection** (sim/battle-stage.mjs,
+  gesture on any page, a student's page already set at the quiet default (on, master 30%); the join flow's first press
+  starts each student's engine at that level, music and effects on and at most half the Host's; the Host's Start unlocks
+  and plays music; a student who turns sound off is remembered across a reload, the saved choice winning over the default,
+  and that page makes no AudioContext even after a press; on the quiet page the **Gonzales fight's own projection** (sim/battle-stage.mjs,
   moved under the camera) is heard as muskets and the cannon, the music going to the battle's; a chase's shot and ¡Alto!;
   a storm's rain and thunder; the bell for a family whose man was at Béxar; the baby; and the **muted page given all of the
   same plays nothing and makes no AudioContext**, while its cues show it saw each. Then every effect and a stretch of
   every piece is rendered in Chrome's own Web Audio engine (an OfflineAudioContext) and measured: all make sound, none out
-  of proportion (`docs/evidence/audio-browser-proof.json` has each one's peak and RMS). 11 checks. **Seen failing** twice,
-  each injection put in by hand and taken out: the battle view no longer reporting its shots (`heard`) → *"the fight was
-  heard as []"*; a muted page starting its sound engine at the first press (both mute guards in `public/audio.js` taken
-  out) → *"a muted student page made an AudioContext after the join flow's presses"*. Removing only one of the two guards
-  did not fail it: the page is guarded twice, on purpose.
+  of proportion (`docs/evidence/audio-browser-proof.json` has each one's peak and RMS). 11 checks. **Seen failing**, each
+  injection put in by hand and taken out: the battle view no longer reporting its shots (`heard`) → *"the fight was heard
+  as []"*; a muted page starting its sound engine at the first press → *"a muted student page made an AudioContext"*
+  (before the AU1 change); and, for the quiet default (2026-09-28): `STUDENT_MASTER` at 0.8 → *"hh-1: a student page starts
+  at master 0.8, not the quiet 30%"*; a student's first press not starting the engine (`unlock` skipping `ensureContext`
+  for a student) → *"the join flow's presses did not start a student page's sound engine"*.
 - Rerun on the change, same computer, at most two at once: `test:battle-gonzales` 12 of 12, `test:scrape-pursuit` 14 of
   14 (its first run, alongside `test:battle-gonzales`, timed out waiting; rerun alone it passed), `test:solo` 15 of 15,
   `test:lesson` 33 of 33. `npm test` in HANDOFF.
@@ -168,15 +177,14 @@ of itself while a cannon, a volley, thunder, the bell or ¡Alto! sounds.
 ## 8. Ceilings
 
 - `ceiling:` synthesis, not recordings (§1; AU3).
-- `ceiling:` one page's own limits (`MAX_VOICES`); thirty pages are kept quiet by starting muted, not by talking to each
-  other.
+- `ceiling:` one page's own limits (`MAX_VOICES`); thirty pages are kept quiet by starting quiet (30%), not by talking to
+  each other. If a real room is still too loud, the way out is a lower `STUDENT_MASTER` or the Host muting the class.
 - `ceiling:` the river is the map's own water lines and crossings; the fine land's rivers drawn from its levels are not read.
 - `ceiling:` one bell's voice for any bell the game rings.
 
 ## 9. Owner questions
 
-- **AU1. A student's page in a class starts:** (a) **muted, with a Sound button to turn on (built, recommended)**; (b) effects
-  on quietly, music off; (c) everything on quietly.
+- **AU1. A student's page in a class starts:** answered 2026-09-28, *"Everything on, quiet"* - built: on, master 30%.
 - **AU2. The Host's projector plays:** (a) **music and every effect near its camera (built)**; (b) music and only the big
   moments - the bell, cannon, bugles, ¡Alto!; (c) effects only, no music.
 - **AU3. Animals and the baby:** (a) **keep the page's own synthesised sounds (built)**; (b) add CC0 recordings (Kenney.nl

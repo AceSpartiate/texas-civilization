@@ -1,5 +1,27 @@
 # Claude handoff — Astra foundation
 
+## Sound in class: everything on, quiet — owner, 2026-09-28 (branch `audio-quiet-default` from `integration-2026-09-28`; not released)
+
+**The decision.** Owner, answering AU1 (docs/AUDIO.md §9): **"Everything on, quiet."** A student's page in a class now
+starts with music and effects on and the master volume at **30%** (`STUDENT_MASTER`, public/audio-mix.js), against 80% for
+the Host and a solo player: effects 0.21 of full and music 0.068, where the Host's are 0.64 and 0.216. The engine still
+starts only on the first gesture (in a class, the join form's Join). The student can change it with the Sound button, and
+a saved per-device choice (quieter, louder or off) wins over the default; a page its student muted still makes no
+AudioContext. The panel's note reads "Sound starts quiet in class. Turn it down or off here; headphones if you turn it up."
+Other owner questions (AU2-AU7) stay as built. No `saveVersion` move; no server change.
+
+**Evidence** (same computer only). `tests/audio-mix.test.mjs`'s first test now asserts the quiet default (on, master
+`STUDENT_MASTER` between 0.2 and 0.4, music and effects on and at most half the Host's, a saved choice winning); **seen
+failing** alone under two injections in `node scripts/audio-injections.mjs` (the old muted default; `STUDENT_MASTER` at 0.8)
+- 29 of 29 injections each failed exactly their own test. `npm run test:audio` 11 of 11, now holding: no AudioContext before
+a gesture, the student page already at the quiet default; the join flow's first press starts each student's engine at that
+level; a student who turns sound off is remembered across a reload and makes no context even after a press. **Seen failing**
+under two hand injections: `STUDENT_MASTER` 0.8 → *"hh-1: a student page starts at master 0.8, not the quiet 30%"*; a
+student's press not starting the engine → *"the join flow's presses did not start a student page's sound engine"*.
+`npm test` 1627 pass, 2 fail, 37 skipped of 1666 - neither failure is the sound's (this change touches no sim/ or server/ file): tests/host-view.test.mjs 'a student is sent exactly what it was before' fails alone on the integration branch's own projection (the new `amb` field on town people, against the test's expected list), and tests/clock.test.mjs 'the news phase gives a student as many ticks ...' ran 629 s under the full suite's load.
+
+**Not claimed.** Whether 30% is right in a real room of thirty Chromebooks; `STUDENT_MASTER` is the one number to move.
+
 ## A class ended by mistake is continued from Classes, paused — owner, 2026-09-28 (branch `continue-ended-class` off `integration-2026-09-28` a07b95ab; not released)
 
 The owner, asked whether a class ended part-way through a period may be continued: **"Yes, allow Continue"**. Removes the
