@@ -16,9 +16,8 @@
 // happens to them. Yields are likewise fixed and stated on the control that spends them.
 //
 // `HIST-GONZ-013` documents corn and cotton for this locality and buffalo as the only
-// documented local game. So a household grows corn or cotton - and, since 2026-09-28, on the
-// real land, the fall-and-winter and spring garden the record gives it (`HIST-TEX-720`,
-// sim/seasons.mjs) - and no hunted species is ever named.
+// documented local game. So a household grows corn or cotton and nothing else, and no
+// hunted species is ever named.
 import { heavyWorkPace, tooYoung, tooYoungWhy } from './family.mjs';
 // A grown-up the family's little ones have called aside (docs/CHILDREN.md): their work waits, untouched, until they are back.
 import { asideWhy, calledAside } from './aside.mjs';
@@ -40,7 +39,7 @@ import {
 import { fenceWork, groundAt, plotsOf } from './fields.mjs';
 import { MOST_HANDS, crewPace, crowdedWhy, handShare } from './hands.mjs';
 import { FURNITURE_LOGS, fenceBy, furnitureFromPile, pileFull, shortOfSound, takeSpare } from './woodpile.mjs';
-import { CROPS, cropNow, cropsInOrder, cropsOffered, inSeason, plantingRefusal, readyWords, ripe, seasonWhy, seedFor } from './seasons.mjs';
+import { CROPS, growCrop, readyWords, ripe, seedFor } from './crops.mjs';
 import { marketRefusal, marketSale, marketWords, recordSale } from './market.mjs';
 import { landAround, onRealLand } from './ground.mjs';
 import { distanceToPolyline } from './terrain.mjs';
@@ -68,10 +67,9 @@ export { MODES } from './travel.mjs';
 
 const round = value => Math.round(value * 10000) / 10000;
 
-// How long the field takes to come on. On the real land a crop goes in only in its season and takes its real time in calendar
-// days (sim/seasons.mjs, owner 2026-09-28: "Seasons and a limited market"). Eighteen ticks is the old lesson rhythm
-// (`FIC-GONZ-008`), kept for the invented country's one afternoon and for a crop sown in a class saved before the farming year.
-export { RIPEN_TICKS } from './seasons.mjs';
+// How long the field takes to come on: real minutes of the class, cotton five and corn three (sim/crops.mjs, owner 2026-09-28).
+// `RIPEN_TICKS` is corn's at the Study pace, for anything that counts in ticks.
+export { RIPEN_TICKS } from './crops.mjs';
 // A hoe gives this many field jobs, then wants mending. Fixed, and shown before use.
 // The one number lives with the counts (sim/tools.mjs), and is still read from here by everything that always read it.
 export { TOOL_LIFE };
@@ -191,21 +189,11 @@ export const COTTON_RATE = 2;
 // Food at five a real (owner, 2026-09-16, docs/MONEY_AND_GLORY.md §8.1, measured: at three a corn family that sold everything
 // placed second in most classes; corn is the modest path and cotton, a real a bale - two since 2026-09-27, sim/shops.mjs
 // `STORE_BALE_COIN` - the profitable one).
-export const COIN = Object.freeze({ cottonBale: STORE_BALE_COIN, foodPerReal: 5, powder: 1, seed: 1, hoe: 2 });
+// Food at four a real since 2026-09-28 (sim/market.mjs, docs/BALANCE.md §11), five until then.
+export const COIN = Object.freeze({ cottonBale: STORE_BALE_COIN, foodPerReal: 4, powder: 1, seed: 1, hoe: 2 });
 export const reales = amount => amount === 1 ? '1 real' : `${amount} reales`;
-/** "a, b, or c". */
-const listWords = items => items.length <= 1 ? (items[0] || '') : `${items.slice(0, -1).join(', ')}, or ${items[items.length - 1]}`;
-/**
- * What the choice at the rows says of a crop: its seed, what it is, and - on the real land - how long it stands, so a student
- * choosing corn in March is told it comes in after the war (sim/seasons.mjs).
- */
-function cropNote(world, crop) {
-  const facts = CROPS[crop], seed = `${seedFor(crop)} seed a plot`;
-  const what = crop === 'cotton' ? `the store pays up to ${reales(COIN.cottonBale)} a bale` : 'the crop is food';
-  if (!world?.map?.source) return `${seed}; ${what}`;
-  const weeks = Math.round(facts.days / 7);
-  return `${seed}; ${what}; ${weeks < 10 ? `about ${weeks} weeks` : `about ${Math.round(facts.days / 30)} months`} in the ground`;
-}
+/** What the choice at the rows says of a crop: its seed, what it is, and how many real minutes it stands (sim/crops.mjs). */
+const cropNote = crop => `${seedFor(crop)} seed a plot; ${crop === 'cotton' ? `the store pays up to ${reales(COIN.cottonBale)} a bale` : 'the crop is food'}; ripe in ${CROPS[crop].minutes} minutes`;
 /** A resource as a student reads it. */
 export const resourceName = (resource, amount) => resource === 'money' ? (amount === 1 ? 'real' : 'reales') : resource;
 
@@ -269,19 +257,20 @@ export const ASKS = {
   // seed and sells at two reales a bale (a real until 2026-09-27). The family's own crop is offered first and is what silence plants, so a family nobody plays
   // grows what it grew.
   //
-  // Since 2026-09-28 (owner: "Seasons and a limited market"; sim/seasons.mjs) the real land keeps the farming year: a crop is
-  // offered only in its season, and a garden of turnips and greens is the crop of the autumn and the late winter. Silence plants
-  // the family's own crop when it is the season for it, then the garden, then the other crop (`cropsInOrder`).
+  // Since 2026-09-28 (owner: "have crops be independent of the seasons. say, 5 minutes for cotton and 3 for corn"; sim/crops.mjs)
+  // either may go in in any month, and each says how many real minutes it stands.
   'crop-choice': {
     doing: 'at the field with the seed',
-    // When no crop is open, nothing is planted (not the first answer, as for the other questions): the work comes in.
+    // When no crop is open - the seed gone to somebody else planting the same field - nothing is planted (not the first answer, as
+    // for the other questions): the work comes in.
     noneOpen: { id: 'leave', label: 'Plant nothing' },
-    fallback: (household, world) => world ? cropsInOrder(world, household) : ((household.field?.own || household.field?.crop || 'corn') === 'cotton' ? ['cotton', 'corn'] : ['corn', 'cotton']),
-    text: (entity, world) => `${entity.name} can put in ${world ? listWords(cropsOffered(world).filter(crop => inSeason(world, crop)).map(crop => CROPS[crop].words)) || 'nothing this season' : 'corn, or cotton'}.`,
-    options: (entity, world, household) => cropsInOrder(world, household).map(crop => ({ id: crop, label: `Plant ${CROPS[crop].short === 'garden' ? 'a garden' : crop}`, note: cropNote(world, crop) })),
+    fallback: household => (household.field?.crop || 'corn') === 'cotton' ? ['cotton', 'corn'] : ['corn', 'cotton'],
+    text: entity => `${entity.name} can put in corn, or cotton.`,
+    options: (entity, world, household) => ['corn', 'cotton']
+      .sort((a, b) => (a === (household.field?.crop || 'corn') ? -1 : b === (household.field?.crop || 'corn') ? 1 : 0))
+      .map(crop => ({ id: crop, label: `Plant ${crop}`, note: cropNote(crop) })),
     requires: Object.fromEntries(Object.keys(CROPS).map(crop => [crop, [
-      { test: (household, world) => !world || inSeason(world, crop), why: () => seasonWhy(crop) },
-      { test: household => (household.resources.seed ?? 0) >= seedFor(crop) * clearedOf(household), why: household => `${CROPS[crop].short === 'garden' ? 'A garden' : crop === 'corn' ? 'Corn' : 'Cotton'} wants ${seedFor(crop) * clearedOf(household)} seed for this field, and there is not that much in the house.` },
+      { test: household => (household.resources.seed ?? 0) >= seedFor(crop) * clearedOf(household), why: household => `${crop === 'corn' ? 'Corn' : 'Cotton'} wants ${seedFor(crop) * clearedOf(household)} seed for this field, and there is not that much in the house.` },
     ]])),
   },
   // Coin is the counter's own answer (owner, 2026-09-27, by multiple choice over docs/BALANCE.md §6: "Make coin the default"):
@@ -500,16 +489,14 @@ export const CHORES = {
       // Everything after the question is the crop's: when nothing could go in - the seed gone to somebody else planting the
       // same field first, or no crop in its season - nobody plants anything (found 2026-09-28 by the balance measure: six of a
       // family sent to plant at once, the later ones found no seed, fell to the first answer, and put cotton in in November).
-      { when: ['corn', 'cotton', 'garden'], work: 4, doing: 'breaking the rows' },
+      { when: ['corn', 'cotton'], work: 4, doing: 'breaking the rows' },
       { when: ['corn'], consumePerPlot: { seed: SEED_PER_PLOT } },
       { when: ['cotton'], consumePerPlot: { seed: COTTON_SEED_PER_PLOT } },
-      { when: ['garden'], consumePerPlot: { seed: CROPS.garden.seed } },
       { when: ['corn'], crop: 'corn' },
       { when: ['cotton'], crop: 'cotton' },
-      { when: ['garden'], crop: 'garden' },
-      { when: ['corn', 'cotton', 'garden'], work: 3, doing: 'putting in seed' },
-      { when: ['corn', 'cotton', 'garden'], field: 'planted' },
-      { when: ['corn', 'cotton', 'garden'], wear: 'hoe' },
+      { when: ['corn', 'cotton'], work: 3, doing: 'putting in seed' },
+      { when: ['corn', 'cotton'], field: 'planted' },
+      { when: ['corn', 'cotton'], wear: 'hoe' },
       { stroll: 'yard', doing: 'coming in from the fields' },
     ],
   },
@@ -1518,9 +1505,9 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (chore.hauling && !(logsOut ?? logsLeftOut(world, household))) return { can: false, why: 'No felled logs lie out to haul.' };
   if (chore.lane) { const why = laneRefusal(world, household); if (why) return { can: false, why }; }
   if (chore.field && (household.field?.state ?? 'bare') !== chore.field) {
-    // The field is not ready: on the real land, when it will be (sim/seasons.mjs).
+    // The field is not ready: and when it will be, in real minutes (sim/crops.mjs).
     const when = chore.field === 'ripe' && household.field?.state === 'planted' ? readyWords(world, household.field) : null;
-    if (when) return { can: false, why: `The ${CROPS[household.field.crop]?.short || 'crop'} is not ready: it will be ${when}.` };
+    if (when) return { can: false, why: `The ${household.field.crop} is not ready: it will be ${when}.` };
     return { can: false, why: chore.field === 'ripe' ? 'The field is not ready.' : 'The field is already planted.' };
   }
   // Which plot is chosen on the map; here, only whether there is any plot this work could be sent to.
@@ -1533,8 +1520,6 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
     const why = marketRefusal(world, townOf(household), 'store', choreId === 'sell-cotton' ? 'cotton' : 'food');
     if (why) return { can: false, why };
   }
-  // Nothing goes in out of its season on the real land (sim/seasons.mjs); the refusal names the next season that opens.
-  if (chore.field === 'bare') { const why = plantingRefusal(world, household); if (why) return { can: false, why }; }
   if (chore.house) { const why = buildRefusal(household, world); if (why) return { can: false, why }; }
   if (choreId === 'practise-shooting' && (entity.skills?.hunting ?? 1) >= SKILL_CAP) {
     return { can: false, why: `${entity.name} already shoots as well as anyone on this land.` };
@@ -1581,8 +1566,7 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
 export function needsOf(household, chore, world = null) {
   // Planting is quoted at the family's own crop: cotton wants twice the seed (docs/MONEY_AND_GLORY.md §8.1), so a cotton family
   // gathers the seed for cotton before it sets out, and is not turned to corn at the field for want of it.
-  // On the real land it is quoted at the crop that would go in now (sim/seasons.mjs `cropNow`): a garden in the autumn.
-  const crop = chore.field === 'bare' ? (world?.map?.source ? cropNow(world, household) : (household.field?.crop === 'cotton' ? 'cotton' : 'corn')) : null;
+  const crop = chore.field === 'bare' ? (household.field?.crop === 'cotton' ? 'cotton' : 'corn') : null;
   const perPlot = Object.fromEntries(Object.entries(chore.needsPerPlot || {})
     .map(([resource, amount]) => [resource, (resource === 'seed' && crop ? seedFor(crop) : amount) * clearedOf(household)]));
   return { ...chore.needs, ...perPlot };
@@ -2364,7 +2348,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // carrying rule in one place.
       const { good, want, rate, per, gives } = step.sell;
       const carried = round(Math.min(household.resources[good] ?? 0, vehicleCarry(world, entity, state.mode)));
-      // Coin is paid only for whole bundles - a whole bale, five food - so what is sold for
+      // Coin is paid only for whole bundles - a whole bale, four food - so what is sold for
       // coin is the whole bundles carried, and anything left over stays in the house.
       // Cotton and food go to the store's own market since 2026-09-28 (owner: "Seasons and a limited market"; sim/market.mjs):
       // outside the keeper's purse as the owner decided on 2026-09-16 (docs/MONEY_AND_GLORY.md §8.1), but only as much as the store
@@ -2634,9 +2618,9 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       continue;
     }
     if (step.field) {
-      // The calendar minute a crop went in is what it ripens from (sim/seasons.mjs `ripensAt`); a bare field keeps none.
-      const { sownMinute: _sown, ...field } = household.field || {};
-      household.field = { ...field, state: step.field, changedTick: world.tick, ...(step.field === 'planted' && { sownMinute: world.minute }) };
+      // A crop in the ground counts the real time it has stood from nothing (sim/crops.mjs `growCrop`); a bare field keeps none.
+      const { grownMs: _grown, ...field } = household.field || {};
+      household.field = { ...field, state: step.field, changedTick: world.tick, ...(step.field === 'planted' && { grownMs: 0 }) };
       // The seed went into the plots cleared now, and a plot cleared while it grows is not in crop. Written only where
       // the plots are: a class's old field counts as sown whenever its crop is in (sim/fields.mjs).
       if (household.plots) for (const plot of household.plots) {
@@ -2682,14 +2666,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
     // The most worn copy is the one mended (sim/tools.mjs); with one hoe, that hoe, as it always was.
     if (step.mend) { mendWorst(household, step.mend); continue; }
     // The crop the family chose at the field goes in (the ask 'crop-choice').
-    // A garden keeps the crop the family came meaning to grow as its own (`own`, sim/seasons.mjs), so the spring's silence still
-    // plants corn or cotton; corn or cotton planted is the family's own again. Absent on every class saved before the farming year.
-    if (step.crop) {
-      const own = step.crop === 'garden' ? (household.field?.own || (household.field?.crop !== 'garden' ? household.field?.crop : null) || 'corn') : null;
-      const { own: _was, ...field } = household.field || {};
-      household.field = { ...field, crop: step.crop, ...(own && { own }) };
-      continue;
-    }
+    if (step.crop) { household.field = { ...household.field, crop: step.crop }; continue; }
     // A step owned by the chore's own module (`registerChores`): what the camp's work does when it is done (sim/camp.mjs).
     if (step.run) { step.run(world, household, entity, state); continue; }
     // Arrived where they meant to join or to vote (sim/winter.mjs).
@@ -2757,14 +2734,14 @@ function finishChore(world, household, entity, chore) {
  * it belongs here and not in a chore: a household that plants and then goes to war still
  * has a crop standing when someone comes back for it.
  */
-export function advanceChores(world, { beginTravel, modeAvailability }) {
+export function advanceChores(world, { beginTravel, modeAvailability, realMs = 0 }) {
   for (const household of Object.values(world.households)) {
+    // The crop stands its real minutes (sim/crops.mjs): this tick's real time, as the server measured it, is added to it first.
+    growCrop(world, household, realMs);
     const field = household.field;
-    // On the real land the crop comes on in its real time in calendar days; on the invented country, and for a crop sown in a
-    // class saved before the farming year, in the old eighteen ticks (sim/seasons.mjs `ripe`).
     if (ripe(world, field)) {
       household.field = { ...field, state: 'ripe', changedTick: world.tick };
-      record(world, 'property', { householdId: household.id, text: `The ${CROPS[field.crop]?.short || field.crop} is ready to bring in.`, importance: 2 });
+      record(world, 'property', { householdId: household.id, text: `The ${field.crop} is ready to bring in.`, importance: 2 });
     }
     for (const id of household.members) {
       const entity = world.entities[id];

@@ -297,9 +297,11 @@ final = max(money, 1) × (1 − prisoners ÷ living people) × (1 + glory) + lan
 
 Everybody of the family taken prisoner in the Runaway Scrape - at home when the Mexican army came, or on the road east when a
 column overtook the family - is named in its reckoning and takes their part of the coin out of the count, a part being one share
-among the family's living people (`PRISONER_WEIGHT` 1, `sim/ending.mjs`, `FIC-GONZ-710`). The weight was chosen by measurement:
+among the family's living people (`PRISONER_WEIGHT`, `sim/ending.mjs`, `FIC-GONZ-710`). The weight was chosen by measurement:
 the smallest that leaves a family that stayed in the burn zone below one that went, on average, in both how often it finishes
-first and where it finishes ([BALANCE.md](BALANCE.md) §9.4). The war's prisoners are not weighed: glory neither rewards nor punishes
+first and where it finishes ([BALANCE.md](BALANCE.md) §9.4). **One and a half parts each since 2026-09-28** (owner, by multiple choice:
+*"Weigh prisoners more"*), one until then: with coin scarce once the store fills, staying had crept back above going at one
+([BALANCE.md](BALANCE.md) §10.6 and §11). A family whose prisoners weigh more than its living people counts no coin at all. The war's prisoners are not weighed: glory neither rewards nor punishes
 a casualty. The number is rounded to a whole one; nothing changes for a family nobody took.
 
 ### What each family sees
@@ -497,7 +499,7 @@ measure); a family that never chooses at the counter holds 284 reales and wins a
 default); a family that means to grow cotton holds 636 reales against 324 at a real a bale, and wins as often as it did (index 1.33
 against 1.32) - cotton's difference to winning was already there once the measure really sold it. Deaths 274 against 268.
 
-### 8.4 Seasons and a limited market (2026-09-28, not released)
+### 8.4 Seasons and a limited market (2026-09-28, not released) — the seasons superseded the same day, §8.5
 
 The owner's answer to the design audit's B9, by multiple choice: **"Seasons and a limited market"**. On the real land a crop goes in
 only in its season and ripens in its real calendar days (`sim/seasons.mjs`: a garden in the autumn, winter and spring; corn from the
@@ -506,6 +508,14 @@ what they can use, at a price that halves when half full and stops when full (`s
 reales a family to 8; class winners from 122,138 / 231,219 / 347,413 to about 2,044 / 4,800 / 8,212 (five / fifteen / thirty
 families). The means die now matters (index 0.53 for three reales, 1.46 for ten); farming harder matters; the crop chosen does not;
 a family that sends nobody still wins no class of ordinary size. Measured and questioned in [BALANCE.md](BALANCE.md) §10.
+
+### 8.5 Crops in real minutes, prices re-tuned, prisoners weighed more (2026-09-28, not released)
+
+Two more answers of the owner the same day, by multiple choice. **"Have crops be independent of the seasons. say, 5 minutes for
+cotton and 3 for corn? adjust prices to compensate"**: either crop goes in in any month, corn ripens after three real minutes of the
+running class and cotton after five (`sim/crops.mjs`, `FIC-GONZ-721`); the limited market stays, re-tuned (food a real for four, the
+store's cotton three bales a family; `FIC-GONZ-722`). **"Weigh prisoners more"**: `PRISONER_WEIGHT` 1.5 (§5 above). Measured in
+[BALANCE.md](BALANCE.md) §11.
 
 
 - **A patriotism meter.** `VISION.md` §11 still forbids it, and this is the mechanic most likely to

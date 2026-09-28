@@ -136,7 +136,7 @@ press could land on a detached button, which failed `npm run test:errand` at ran
 
 ### The rules (sim/errands.mjs)
 
-- **What a line counts**: purchases of what a shop sells (two seed a purchase), lots of what it buys (five food a real, a
+- **What a line counts**: purchases of what a shop sells (two seed a purchase), lots of what it buys (four food a real since 2026-09-28, a
   bale, a hide), food for the mill. Things bought once - a tool, shoes, the rifle put in order, the doctor - one at most.
 - **In what order**: what the family sells first, then the mill, then what it buys, each in the list's order - so the coin or
   food a sale brings can pay for a purchase, whichever the student put first.
@@ -146,7 +146,7 @@ press could land on a detached button, which failed `npm run test:errand` at ran
   for coin outside its purse (owner, 2026-09-16, §8.1); the tanner and the weaver pay from theirs. **Since 2026-09-28 the store
   and the weaver buy only what they can use** (owner: "Seasons and a limited market"; `sim/market.mjs`, `FIC-GONZ-722`): a want
   for every family near the town, full price to half of it, half price to all of it, nothing when full, sold on in a month. A
-  line the store is full for is shut in its own words (*"The store has all the cotton it can use, and sells on about 4.7 bales a
+  line the store is full for is shut in its own words (*"The store has all the cotton it can use, and sells on about 3.5 bales a
   week."*), and the list shows the price now and the room left.
 - **If things differ on arrival** (the honest rule, deterministic, no chance in it): what a shop sells never changes price;
   what the store and the weaver pay does since 2026-09-28, as they fill and sell on, so a sale is paid at the price when the person

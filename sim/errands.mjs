@@ -19,7 +19,7 @@
  *
  * **What the list can hold** is what the family's own town deals in today: every offer of every shop standing there
  * (sim/shops.mjs `TRADES`), at the prices those shops ask, each line `{ id: 'trade:offer', n, pay: 'coin' | 'food' }`.
- * `n` counts purchases for what a shop sells (two seed a purchase), lots for what it buys (five food a real, a bale, a hide)
+ * `n` counts purchases for what a shop sells (two seed a purchase), lots for what it buys (four food a real, a bale, a hide)
  * and food for the mill.
  *
  * **The order at the shops** (`inTurn`): what the family sells first, then the mill, then what it buys, each in the list's

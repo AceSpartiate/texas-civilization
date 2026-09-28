@@ -1,5 +1,120 @@
 # Claude handoff — Astra foundation
 
+## Crops in real minutes, the market re-tuned, prisoners weighed 1.5; the clock test's riders pooled — owner, 2026-09-28 (branch `crops-real-minutes` off `integration-2026-09-28`; not released)
+
+Two branches, off `integration-2026-09-28` (92fb2509), not pushed:
+
+- **`clock-rider-news`** (f5424f00): `tests/clock.test.mjs` "the news phase gives a student as many ticks of watching a rider come
+  as the farming phase does" failed on the integration merge of the seasons (13 in 100 riders appeared without an approach with the
+  calendar free, against 8 held). **Seed noise, not a regression**: one class of about 53 riders, one rider two points of the five
+  allowed. Measured on five seeds, both trees: after the seasons merge free 35 of 272 against held 33 of 258 (12.9 against 12.8 in
+  100); before it (f62442d8) 71 of 271 against 85 of 261 - appearances fell by half with the merge and the news phase adds none. The
+  test now pools three classes, each in its own worker (`tests/support/rider-approach.mjs`): 20 of 163 against 17 of 157. With sight
+  not stretched by the calendar (the regression it guards) 33 of 163 against 22 of 157, caught.
+- **`crops-real-minutes`** (on top of it), the owner's two answers of the afternoon:
+  - **Crops in real minutes** (*"have crops be independent of the seasons. say, 5 minutes for cotton and 3 for corn? adjust prices to
+    compensate"*): `sim/crops.mjs` replaces `sim/seasons.mjs`. Either crop in any month; corn ripe after three real minutes of the
+    running class, cotton after five, summed on the field from the real time the server measured for each tick (`realMs`, now handed to
+    `advanceChores`), so the Host's speed changes the ticks and never the minutes and a paused class grows nothing; a tick stepped in
+    process counts at the Study pace (corn 19 ticks, cotton 32 - `RIPEN_TICKS` is now 19). An old save's crop is read as having stood
+    its ticks at that pace. The harvest's refusal: *"The cotton is not ready: it will be in about 3 minutes."* **The garden is dropped**
+    - it existed only because corn and cotton could not go in in the autumn; its art request is withdrawn and its stand-in removed.
+    `sim/lesson.mjs` is back to its steps before the seasons (it is switched off anyway). `FIC-GONZ-721` amended (the timing is
+    fictional for gameplay); `HIST-TEX-720` kept as the record, marked not modelled.
+  - **The market kept and re-tuned** (`FIC-GONZ-722`): food a real for four (five), the store's cotton want three bales a family (four).
+  - **Prisoners weighed 1.5** (*"Weigh prisoners more"*): `PRISONER_WEIGHT` 1.5 (`sim/ending.mjs`, `FIC-GONZ-710`); a family whose
+    prisoners weigh more than its living people counts no coin.
+  - Tests: `tests/crop-minutes.test.mjs` (6; replaces `tests/seasons.test.mjs`), `tests/market.test.mjs`, the prisoner weight in
+    `tests/ending.test.mjs`; **16 of 16 injections caught** ([docs/evidence/crops-market-injections.json](docs/evidence/crops-market-injections.json),
+    `node scripts/crops-market-injections.mjs`). Tests changed for the four-food lot and the three-bale want, each with its reason:
+    money, shops, store, afoot, errands, carreta.
+  - **Balance** ([docs/BALANCE.md](docs/BALANCE.md) §11; the same 210 classes): winners about **4,144 / 10,052 / 15,152** (five /
+    fifteen / thirty; 2,044 / 4,800 / 8,212 under the seasons, 122,138 / 231,219 / 347,413 before them); mean coin 23.6, most 151.
+    The crop choice matters (cotton 1.31 against 0.67); selling does not dominate (0.90 against 1.10); farming harder matters only a
+    little and less in bigger classes (1.11 / 0.90 at five families, 1.01 / 0.99 at fifteen, 0.97 / 1.03 at thirty). Inside the burn
+    zone staying now falls below going: 0.56 / 0.555 against 0.78 / 0.499 (at 1: 0.84 / 0.503 against 0.76 / 0.512). Deaths 331 (301).
+    `scripts/balance-study.mjs`, before (the seasons, on the integration tree) and after: first families 1,152 / 164 / 199 / 384 / 309
+    / 772 → 6,200 / 8,364 / 9,548 / 3,584 / 5,459 / 9,922; the stay-home family 12 / 1 / 9 / 1 / 6 / 12 → 16 / 7 / 69 / 24 / 72 / 20,
+    placed 13th, 13th, 7th, 14th, 12th, 11th; deaths 9 and 9.
+  - **Proofs**: `npm test` **1,627 pass, 1 fail, 36 skipped** at the head (1,626 and 2 before the carreta test was mended: it followed the
+    four-food lot). The one: `tests/host-view.test.mjs` "a student is sent exactly what it was before" **fails on the
+    integration tree without this branch too** (the `amb` field on a keeper; not this work). `test:ending` passes (10 checks);
+    `test:errand` passes the store's line (*"full price for about 7 bales more, then half until it has 15 bales."*) and fails at check
+    3 on the first-meeting tip over the popup, as on origin/main.
+
+**Questions for the owner** (BALANCE.md §11.6): (1) farming harder barely matters at fifteen and thirty families - recommended: count
+the crop a family holds at the end at the store's price; (2) cotton is the better crop because nobody who leaves the counter alone is
+paid for corn - recommended: the director and the counter's default sell spare corn too; (3) crops in real minutes take 180 ticks at
+the Quick pace - recommended: keep real minutes, as asked.
+
+## Seasons and a limited market: crops in their real season, a store that fills — owner, 2026-09-28 (worktree branch; not released) — the seasons superseded the same afternoon (above)
+
+The owner's answer to the design audit's blocker B9 (docs/audits/2026-09-28-design.md §3.1: *farming is a money pump - crops ripen
+in 18 ticks in any season, the store buys without limit, winners reach 122k-347k*), by multiple choice: **"Seasons and a limited
+market"**. Built on the worktree branch, origin/main merged, **not pushed, not merged to main, not released.**
+
+**What was built**
+
+- **The farming year**, `sim/seasons.mjs` (`CROPS`, `inSeason`, `cropNow`, `plantingRefusal`, `ripe`, `ripensAt`, `readyWords`,
+  `fieldInvalid`). On the real land a crop goes in only in its window and ripens after its days on the class's own calendar: a
+  **garden of turnips and greens** Sept 1 - Apr 30, 42 days, one seed a plot, food; **corn** Feb 15 - Apr 15, 120 days; **cotton**
+  Mar 20 - May 15, 150 days. A family reaching raw land in September plants a garden (ready about November 9 if sown the first
+  morning); nothing sown in corn's or cotton's season comes in before the war ends. The question at the rows offers the season's
+  crops open and the rest closed in words; silence plants the family's own crop in its season, then a garden, then the other
+  (`field.own` keeps the crop it came meaning to grow while a garden stands). The harvest's refusal says when: *"The garden is not
+  ready: it will be about November 9."* The invented Gonzales country keeps the eighteen-tick crop (`RIPEN_TICKS`, a lesson rhythm);
+  a crop sown in a class saved before today ripens as promised. `HIST-TEX-720` (Harris, the *Telegraph*, Bryan, Holley, Taylor),
+  `FIC-GONZ-721`. **No save version moved**: `sownMinute` and `own` are absent on old saves and mean "as it was".
+- **The limited market**, `sim/market.mjs` (`MARKET`, `heldAt`, `tierAt`, `marketSale`, `recordSale`, `marketWords`, `priceNow`,
+  `marketRefusal`, `marketsInvalid`). Each town's store wants 30 food and 4 bales for every family near it, its weaver 2 bales; full
+  price to half, half price to full (a real for ten food, a real a bale; the weaver a real or a food and a half), nothing when full; it
+  sells on its whole want in 30 calendar days. Used by every road to the store: the errand (`sim/errands.mjs` `reckon`,
+  `carryOutErrand`, `errandOffers` - the list shows the price now and the room left, a full store's line is shut in its words), the
+  counter (`sim/shops.mjs` `counterRefusal`, `takeCounter`) and the director's own errands (`sim/chores.mjs` the `sell` step;
+  `sell-cotton` and `sell-food` refused at a full store, so the neighbours' director does not send them). Outside the keeper's purse
+  as before (owner, 2026-09-16); coin stays the counter's default (owner, 2026-09-27). `world.markets` absent on old saves = a store
+  holding nothing. `FIC-GONZ-722`.
+- **The guided start on the real land** - **dormant**: the owner suspended the guided start the same day (`LESSON_ENABLED` off,
+  merged from origin/main after this was built); the changes stay for whoever rebuilds it (docs/LESSON.md, amended 2026-09-28; `sim/lesson.mjs`): the plant step says only a garden
+  will grow this late in the year; the harvest step finishes once a crop stands on the calendar and says when it will be ready; the
+  harvest is allowed on every step after it (`AFTER_HARVEST`); the sell step asks for food while the crop grows. The invented country's
+  lesson is unchanged. Coordination: another builder is narrowing the gate and adding tips; this touched only the plant, harvest and
+  sell steps' words and the three `allow` lists after the harvest.
+- **Found by the balance measure and mended**: a planter who reaches the rows when nothing is open (the seed gone to another planter
+  of the same field, or no crop in season) plants nothing (`noneOpen` on the `crop-choice` question, the crop's steps gated on the
+  crop chosen) - before, the first answer was planted, and cotton went in in November.
+- **Art**: a garden is drawn with the young cotton's low leaves (`stand-in:` in `public/field-surface.js`); request *Request
+  2026-09-28 — the garden* in docs/ART_REQUESTS.md (`garden-young`, `garden-mature`), listed under *Stand-ins in use*.
+
+**Evidence**
+
+- `tests/seasons.test.mjs` (8; the guided-start one skipped while the owner has it off) and `tests/market.test.mjs` (4); **16 of 16
+  injections caught** with the guided start off (17 of 17 before the suspension was merged),
+  `docs/evidence/seasons-market-injections.json` (renamed crops-market-injections.json with the crops in real minutes) (`node scripts/seasons-market-injections.mjs`).
+- Tests changed with reasons: `tests/errands.test.mjs` (twenty bales for food fetch thirty food at a filling store, not forty),
+  `tests/rumour-story.test.mjs` (resolved to origin/main's wider rule for the latest word).
+- **Balance** ([docs/BALANCE.md](docs/BALANCE.md) §10; [evidence/balance-measure.json](docs/evidence/balance-measure.json),
+  [balance-study.json](docs/evidence/balance-study.json)), measured on the branch before merging origin/main: class winners at about
+  **2,044 / 4,800 / 8,212** (five / fifteen / thirty families) against 122,138 / 231,219 / 347,413; mean coin at the end 10 against
+  485. The means die matters (three reales index 0.53, ten 1.46; it did nothing before), farming harder matters (1.28 against 0.73),
+  the crop choice does not (0.99 against 1.01). Fighting and selling dominate more than before (*all, sells* 3.71). Staying home: one
+  class of 210 won (five families), none of fifteen or thirty, as before. Staying in the burn zone beats going again (0.81 against
+  0.70); a prisoner weight of 1.5 would put it back below. Food does not constrain more (S11 not addressed by seasons). Deaths 301
+  against 274 (the war's, re-rolled). Class time: unchanged (1,252 ticks a class); the guided start is shorter on the real land.
+- After merging origin/main (ef4d4f73; then 7b4218d3, the flashback, after which `npm test` was run again): **`npm test` 1,591 pass, 0 fail, 37 skipped** after the last merge (the guided start's, switched
+  off; 784 s); injections 16 of 16; **`test:ending` 12 checks, `test:auto` 14 checks** (one run of auto under load timed out at its
+  planting step and passed alone), `test:lesson` skips itself (tutorial off). **`test:errand` is not green**: updated for the market
+  (the cotton line shows the store's price and its room, *"The store is buying: full price for about 10 bales more, then half until
+  it has 20 bales."*; fourteen bales bring 24 reales - ten at two, four at one), it passed its first 13 checks, those two included,
+  on the first merge; on the tree merged with ef4d4f73 it fails at check 3 exactly as origin/main's own run does (the first-meeting
+  tip drawn over the popup's controls). Other races later in it: the popup's lines are redrawn whenever the family's stock changes
+  (food every tick), and the new-wagon step can find a rider home already. A task was offered to steady it. `test:trade` does not
+  exist (`test:trade-animation` is the neighbours' trade and was not touched).
+
+**Questions for the owner** (BALANCE.md §10.9, each with a recommendation): (1) what the crop choice should mean when nothing sown in
+its season comes in before the war ends - recommended: count a standing crop at the ending; (2) selling decides more than it did -
+recommended: the director and the counter's default sell spare food within the store's want; (3) staying in the burn zone beats
+going again - recommended: prisoner weight 1.5; (4) the market's invented numbers.
 ## A drawn axe at the work — owner, 2026-09-28 (branch work-axe-2026-09-28 off integration-2026-09-28; not released)
 
 **The ask.** Owner, answering the work-drawing question: *"Add a drawn axe"* - until Astra delivers `-chop`, `-notch` and

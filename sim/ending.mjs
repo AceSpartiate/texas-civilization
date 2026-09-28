@@ -63,7 +63,10 @@ export const finalNumber = (money, glory, land = 0, kept = 1) => Math.round(coun
  * `service.status`, which the war sets to 'captured' for its own (sim/alamo.mjs, sim/houston.mjs) and the Scrape never sets.
  * The words say who was taken and where, and nothing about what it says of anybody. Invented, `FIC-GONZ-710`.
  */
-export const PRISONER_WEIGHT = 1;
+// One and a half since 2026-09-28 (owner, by multiple choice: "Weigh prisoners more"; docs/BALANCE.md §10 and §11): with crops in
+// real minutes and a store that fills, coin is scarce, and at one a family that stayed in the burn zone finished above one that
+// fled again. One until then.
+export const PRISONER_WEIGHT = 1.5;
 /** The rule in the words both screens show it in. */
 export const PRISONER_RULE = `Each person taken prisoner at home or on the road east in the spring takes ${PRISONER_WEIGHT === 1 ? 'their part' : `${PRISONER_WEIGHT} times their part`} of the family's coin out of the count, a part being one share among the family's living people.`;
 const GONE_FOR_GOOD = 'dead';

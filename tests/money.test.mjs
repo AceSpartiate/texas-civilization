@@ -183,24 +183,25 @@ test('a new hoe is coin only, and mending the old one at home still costs none',
 });
 
 test('food can be sold for coin, in whole reales, and what is left over stays in the house', () => {
-  // On foot a person carries five: the store buys the five for a real (five food a real, docs/MONEY_AND_GLORY.md §8.1).
+  // On foot a person carries five: the store buys four of them for a real (four food a real since 2026-09-28, five until then;
+  // sim/market.mjs), and the fifth comes home.
   const walked = running('sell-food-foot');
   const walker = Object.values(walked.households)[0];
   walker.resources.food = 12;
   const onFoot = toCounter(walked, walker.id, walker.members[1], 'sell-food');
   finish(walked, onFoot);
-  assert.equal(walker.resources.money, 1, 'five carried, five sold, one real');
-  assert.ok(walked.events.some(event => /sold 5 food at the store and brought home 1 real\./.test(event.text)));
+  assert.equal(walker.resources.money, 1, 'five carried, four sold, one real');
+  assert.ok(walked.events.some(event => /sold 4 food at the store and brought home 1 real\./.test(event.text)));
 
-  // On the horse, seven: five sold, one real, and two come home.
+  // On the horse, seven: four sold, one real, and three come home.
   const world = running('sell-food-horse');
   const household = Object.values(world.households)[0];
   household.resources.food = 12;
   const rider = household.members[1];
   applyAction(world, household.id, { action: 'chore', entityId: rider, chore: 'sell-food', mode: 'horse' });
   finish(world, world.entities[rider]);
-  assert.equal(household.resources.money, 1, 'seven carried, five sold, one real');
-  assert.ok(world.events.some(event => /sold 5 food at the store and brought home 1 real\./.test(event.text)));
+  assert.equal(household.resources.money, 1, 'seven carried, four sold, one real');
+  assert.ok(world.events.some(event => /sold 4 food at the store and brought home 1 real\./.test(event.text)));
 });
 
 test('a family that never touches a coin still farms, hunts and buys what it needs with food', () => {

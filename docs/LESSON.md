@@ -147,8 +147,8 @@ As built:
 | 3 | `house` | Keep them at the house until it stands | `houseSettled` — a roof over the family (`sim/houses.mjs`) |
 | 4 | `survey` | Choose a place on your own land and stake ten acres | the family has a plot it staked itself |
 | 5 | `clear` | Clear that plot; fence it if you like | the family has cleared ground it broke itself |
-| 6 | `plant` | Plant the field, **and choose the crop at the rows** (on the real land, what the season lets in: a garden in the autumn) | the field is sown (`sim/improvements.mjs`) |
-| 7 | `harvest` | Bring it in when it is ripe; fence while it stands | the field is bare again, having been sown, **or**, on the real land, a crop stands that ripens on the calendar - the step says when (2026-09-28) |
+| 6 | `plant` | Plant the field, **and choose the crop at the rows** | the field is sown (`sim/improvements.mjs`) |
+| 7 | `harvest` | Bring it in when it is ripe; fence while it stands | the field is bare again, having been sown |
 | 8 | `sell` | Send somebody to town to trade, with some of the crop on the list for the store (chosen before they go, since 2026-09-24: [TOWNS.md §4b](TOWNS.md)) | there is coin in the house, or the crop left the house in trade |
 | 9 | `hunt` | Choose a place on your own land and send somebody hunting | somebody went out after game and came home |
 | 10 | `well` | Dig a well by the house | the well is dug, **or the house has running water within carrying distance** |
@@ -309,7 +309,11 @@ only on a stopped lesson and only naming a real step, `stoppedAt` and `resumeBy`
 - ~~**Selling is finished by coin, not by the crop leaving the house.**~~ Out of date since 2026-09-21: the crop leaving the
   house in trade finishes it too (`sold` in `sim/lesson.mjs`; design audit M6).
 
-### Amended 2026-09-28: the farming year
+### Amended 2026-09-28: the farming year — superseded the same day
+
+**Superseded 2026-09-28** (owner: "have crops be independent of the seasons. say, 5 minutes for cotton and 3 for corn"; `sim/crops.mjs`):
+the seasons are gone, a crop ripens in three or five real minutes, and `sim/lesson.mjs` is back to the steps as they were before
+this amendment (the harvest step waits for the crop; the plant step offers corn or cotton). Kept below as it was written.
 
 **Dormant while the guided start is suspended** (owner, 2026-09-28: switched off by `LESSON_ENABLED`). Built the same day, before the
 suspension reached this branch, and kept for whoever rebuilds it: what the seasons do to the ten steps as they stood.

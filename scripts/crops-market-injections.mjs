@@ -1,72 +1,58 @@
-// The regressions tests/seasons.test.mjs and tests/market.test.mjs guard, injected one at a time (CLAUDE.md: "A new test is not
-// evidence until it has failed"). Each injection replaces one exact piece of sim/seasons.mjs, sim/market.mjs, sim/chores.mjs,
-// sim/lesson.mjs or sim/errands.mjs with the mistake a test is written against, runs the two test files, records which tests
+// The regressions tests/crop-minutes.test.mjs, tests/market.test.mjs and tests/ending.test.mjs guard, injected one at a time (CLAUDE.md: "A new test is not
+// evidence until it has failed"). Each injection replaces one exact piece of sim/crops.mjs, sim/market.mjs, sim/chores.mjs,
+// sim/errands.mjs or sim/ending.mjs with the mistake a test is written against, runs the three test files, records which tests
 // failed, and puts the file back byte for byte.
 //
-// Run: node scripts/seasons-market-injections.mjs  → writes docs/evidence/seasons-market-injections.json
+// Run: node scripts/crops-market-injections.mjs  → writes docs/evidence/crops-market-injections.json
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
-import { LESSON_ENABLED } from '../sim/lesson.mjs';
 
-const FILES = ['tests/seasons.test.mjs', 'tests/market.test.mjs'];
+const FILES = ['tests/crop-minutes.test.mjs', 'tests/market.test.mjs', 'tests/ending.test.mjs'];
 const INJECTIONS = [
-  // The farming year (sim/seasons.mjs).
+  // Crops in real minutes (sim/crops.mjs).
   {
-    name: 'a crop ripens in eighteen ticks on the real land too, as it did before the seasons',
-    file: 'sim/seasons.mjs',
-    from: '  return at === null ? world.tick - field.changedTick >= RIPEN_TICKS : world.minute >= at;',
-    to: '  return world.tick - field.changedTick >= RIPEN_TICKS;',
+    name: 'a crop ripens in ticks, whatever real time they took, as it did before',
+    file: 'sim/crops.mjs',
+    from: "export const ripe = (world, field) => field?.state === 'planted' && grownOf(world, field) >= growMs(field.crop);",
+    to: "export const ripe = (world, field) => field?.state === 'planted' && world.tick - field.changedTick >= RIPEN_TICKS;",
   },
   {
-    name: 'every crop is in season all year on the real land',
-    file: 'sim/seasons.mjs',
-    from: "  if (!seasonal(world)) return crop !== 'garden';",
-    to: '  return true;',
+    name: 'every tick counts as a Study-pace tick, whatever the server measured: the class speed changes a crop\'s minutes',
+    file: 'sim/crops.mjs',
+    from: '  household.field = { ...field, grownMs: grownOf(world, field) + (realMs > 0 ? realMs : STUDY_TICK_MS) };',
+    to: '  household.field = { ...field, grownMs: grownOf(world, field) + STUDY_TICK_MS };',
   },
   {
-    name: 'a crop sown in a class saved before the seasons never comes in (no sown minute read as sown at nothing)',
-    file: 'sim/seasons.mjs',
-    from: '  if (!seasonal(world) || !Number.isFinite(field?.sownMinute)) return null;',
-    to: '  if (!seasonal(world)) return null;',
+    name: 'cotton ripens as fast as corn',
+    file: 'sim/crops.mjs',
+    from: "  cotton: Object.freeze({ minutes: 5, seed: COTTON_SEED_PER_PLOT, yields: 'cotton' }),",
+    to: "  cotton: Object.freeze({ minutes: 3, seed: COTTON_SEED_PER_PLOT, yields: 'cotton' }),",
   },
   {
-    name: "a save may hold a crop the game does not grow",
-    file: 'sim/seasons.mjs',
+    name: 'a crop sown in a class saved before this starts growing from nothing',
+    file: 'sim/crops.mjs',
+    from: '  return Math.max(0, (world.tick - (field?.changedTick ?? world.tick))) * STUDY_TICK_MS;',
+    to: '  return 0;',
+  },
+  {
+    name: 'a save may hold a crop the game does not grow',
+    file: 'sim/crops.mjs',
     from: "  if (!field || !['bare', 'planted', 'ripe'].includes(field.state) || !CROPS[field.crop]) return 'Invalid field state';",
     to: "  if (!field || !['bare', 'planted', 'ripe'].includes(field.state)) return 'Invalid field state';",
   },
   {
-    name: 'the garden is never the silent answer: silence tries only the family\'s own crop and the other',
-    file: 'sim/seasons.mjs',
-    from: "  return [own, 'garden', other].filter(crop => cropsOffered(world).includes(crop));",
-    to: "  return [own, other, 'garden'].filter(crop => cropsOffered(world).includes(crop)).slice(0, 2);",
-  },
-  // Planting and the harvest (sim/chores.mjs).
-  {
-    name: 'planting a garden forgets the crop the family came meaning to grow',
-    file: 'sim/chores.mjs',
-    from: "      const own = step.crop === 'garden' ? (household.field?.own || (household.field?.crop !== 'garden' ? household.field?.crop : null) || 'corn') : null;",
-    to: '      const own = null;',
-  },
-  {
-    name: 'the answer at the rows is not checked against the season',
-    file: 'sim/chores.mjs',
-    from: '      { test: (household, world) => !world || inSeason(world, crop), why: () => seasonWhy(crop) },',
+    name: 'the real time a crop has stood is never checked in a save',
+    file: 'sim/crops.mjs',
+    from: "  if (field.grownMs !== undefined && (!Number.isFinite(field.grownMs) || field.grownMs < 0)) return 'Invalid field state';",
     to: '',
   },
+  // Planting (sim/chores.mjs).
   {
     name: 'a planter who finds no crop open at the rows falls to the first answer and plants it, out of season or without seed',
     file: 'sim/chores.mjs',
     from: '  const chosen = ask.options.find(candidate => candidate.id === option) || (option === \'leave\' && ASKS[ask.id]?.noneOpen) || ask.options[0];',
     to: '  const chosen = ask.options.find(candidate => candidate.id === option) || ask.options[0];',
   },
-  // The guided start (sim/lesson.mjs): only while it is switched on - its test is skipped while the owner has it off (2026-09-28).
-  ...(LESSON_ENABLED ? [{
-    name: 'the guided start waits at the harvest step for a crop weeks off',
-    file: 'sim/lesson.mjs',
-    from: '    done: (world, household) => harvested(household) || growing(world, household),',
-    to: '    done: (world, household) => harvested(household),',
-  }] : []),
   // The market (sim/market.mjs).
   {
     name: 'the store pays full price however much it holds, and never fills',
@@ -116,6 +102,13 @@ const INJECTIONS = [
     from: '      if (sale.sold > 0) recordSale(world, siteId, trade, offer.good, sale.sold);',
     to: '',
   },
+  // The ending (sim/ending.mjs).
+  {
+    name: 'the Scrape\'s prisoners weigh as they did before the owner weighed them more',
+    file: 'sim/ending.mjs',
+    from: 'export const PRISONER_WEIGHT = 1.5;',
+    to: 'export const PRISONER_WEIGHT = 1;',
+  },
 ];
 
 const failing = output => [...output.matchAll(/^✖ (.+?) \(\d/gm)].map(match => match[1]).filter((name, i, all) => name !== 'failing tests:' && all.indexOf(name) === i);
@@ -140,5 +133,5 @@ for (const injection of INJECTIONS) {
 }
 if (run().length) throw new Error('The tests fail after every file was put back');
 mkdirSync('docs/evidence', { recursive: true });
-writeFileSync('docs/evidence/seasons-market-injections.json', `${JSON.stringify({ record: 'seasons-market-injections', date: new Date().toISOString().slice(0, 10), files: FILES, injections: record }, null, 2)}\n`);
-console.log(`\n${record.filter(r => r.failed.length).length} of ${record.length} caught; wrote docs/evidence/seasons-market-injections.json`);
+writeFileSync('docs/evidence/crops-market-injections.json', `${JSON.stringify({ record: 'crops-market-injections', date: new Date().toISOString().slice(0, 10), files: FILES, injections: record }, null, 2)}\n`);
+console.log(`\n${record.filter(r => r.failed.length).length} of ${record.length} caught; wrote docs/evidence/crops-market-injections.json`);

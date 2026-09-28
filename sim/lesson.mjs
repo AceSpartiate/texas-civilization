@@ -70,7 +70,6 @@ export const LESSON_ENABLED = false;
 import { choosing } from './homesite.mjs';
 import { houseOf, houseSettled } from './houses.mjs';
 import { clearedPlots, plotsOf, sownPlots } from './fields.mjs';
-import { CROPS, cropNow, readyWords, seasonal } from './seasons.mjs';
 
 /**
  * What a student may always do, whatever step they are on.
@@ -169,22 +168,6 @@ const broken = household => clearedPlots(household).length > 1;
  */
 const harvested = household => (household.field?.state ?? 'bare') === 'bare' && (household.field?.changedTick ?? 0) > 0;
 const planted = household => sownPlots(household).length > 0 || harvested(household);
-/** Bringing in a crop that ripened after the harvest step had passed: allowed on every step after it (2026-09-28). */
-const AFTER_HARVEST = Object.freeze(['chore:harvest-field']);
-/** A crop standing in the ground that ripens on the calendar (sim/seasons.mjs): weeks off, not ticks. */
-const growing = (world, household) => household.field?.state === 'planted' && Boolean(readyWords(world, household.field));
-/**
- * What the planting step says: on the real land, what the season lets in and when the rest goes in; on the invented country,
- * corn or cotton, as it always said.
- */
-function seasonalWords(world, household) {
-  const seed = ' If there is not seed enough, somebody can buy more at the store in town.';
-  if (!seasonal(world)) return `Send somebody to plant the field. At the rows they will ask which crop goes in - corn, which the family eats, or cotton, which the store buys. It is your choice.${seed}`;
-  const now = cropNow(world, household);
-  if (now === 'garden') return `Send somebody to plant the field. This late in the year only a garden of turnips and greens will grow, and it feeds the family; corn goes in at the end of the winter and cotton in the spring.${seed}`;
-  if (now) return `Send somebody to plant the field. At the rows they will ask which crop goes in - a garden, corn or cotton, whatever the season allows. Corn and cotton stand for months before they come in.${seed}`;
-  return 'Nothing will grow if it is planted now. The field waits for its season; the planting is refused in words that say when.';
-}
 /** Sold, in the only way that leaves a mark the world keeps: coin in the house, which every family starts with none of. */
 /**
  * The crop sold.
@@ -292,46 +275,31 @@ export const STEPS = Object.freeze([
     id: 'plant',
     title: 'Put in a crop',
     first: 'put a crop in the ground.',
-    // On the real land the farming year decides what can go in (owner, 2026-09-28; sim/seasons.mjs): in the autumn a garden of
-    // turnips and greens, and corn and cotton at the end of the winter. The step says which, from the calendar.
-    says: (world, household) => seasonalWords(world, household),
+    says: () => 'Send somebody to plant the field. At the rows they will ask which crop goes in - corn, which the family eats, or cotton, which the store buys. It is your choice. If there is not seed enough, somebody can buy more at the store in town.',
     allow: () => ['chore:plant-field', 'chore:visit-shop'],
     done: (world, household) => planted(household),
-    did: (world, household) => {
-      const crop = CROPS[household.field?.crop]?.short || 'corn', ready = readyWords(world, household.field);
-      return `The ${crop} is in the ground${ready ? `, and it will be ready ${ready}` : ', and it will be some weeks ripening'}.`;
-    },
+    did: (world, household) => `The ${household.field?.crop === 'cotton' ? 'cotton' : 'corn'} is in the ground, and it will be a few minutes ripening.`,
   },
   {
     id: 'harvest',
     title: 'Bring in the crop',
     first: 'bring the crop in.',
-    // The crop is some weeks ripening (sim/chores.mjs `RIPEN_TICKS`) and a step with one control on
+    // The crop is a few real minutes ripening (sim/crops.mjs) and a step with one control on
     // it would be a family standing about. Fencing is the thing worth doing while they wait, and it
     // is worth a third of the harvest: stock in this colony ran loose and ate what was not fenced.
     says: () => 'Send somebody to bring the crop in when it is ripe. While it stands, rails round the plot are worth having: loose stock take a third of an unfenced crop.',
     allow: () => ['chore:harvest-field', 'fence-plot', 'chore:fence-plot', 'chore:visit-shop'],
-    // **On the real land a crop takes weeks of the calendar** (sim/seasons.mjs, 2026-09-28) - the autumn's garden about six, some
-    // forty minutes of a class - and a step that waited for it would hold a student at one control for most of the hour. So a
-    // crop in the ground on the calendar finishes this step, and the step after says when it will be ready; the family's journal
-    // says so again the day it is ("The garden is ready to bring in."). ceiling: the harvest is taught by its words, not walked
-    // through, on the real land; the owner may prefer the step last, or a quicker autumn crop (docs/LESSON.md §6).
-    done: (world, household) => harvested(household) || growing(world, household),
-    did: (world, household) => (harvested(household) ? 'The crop is in the house.'
-      : `The ${CROPS[household.field?.crop]?.short || 'crop'} is growing and will be ready ${readyWords(world, household.field)}: the family's journal will say so, and then somebody brings it in. Fence it meanwhile if you can.`),
+    done: (world, household) => harvested(household),
+    did: () => 'The crop is in the house.',
   },
   {
     id: 'sell',
     title: 'Sell it in town',
     first: 'sell what you grew.',
     // Since 2026-09-24 what to sell is chosen before anybody leaves (docs/TOWNS.md §4b): there is no counter to answer on arrival.
-    says: (world, household) => (growing(world, household)
-      ? 'Send somebody to town to trade, and put something the family can spare on the list for the store - food will do until the crop is in. Payment in food or coin both count.'
-      : 'Send somebody to town to trade, and put some of your crop on the list for the store before they go. Payment in food or coin both count.'),
+    says: () => 'Send somebody to town to trade, and put some of your crop on the list for the store before they go. Payment in food or coin both count.',
     // The trip to town, and the two errands that are the sale itself where a class has them.
-    // And bringing in the crop, on every step after the harvest's (2026-09-28, `AFTER_HARVEST` below): on the real
-    // land it ripens on the calendar, weeks after the harvest step has passed it by, and it is never refused when it comes.
-    allow: () => ['chore:visit-shop', 'chore:sell-cotton', 'chore:sell-food', 'shop-counter', 'cotton-counter', ...AFTER_HARVEST],
+    allow: () => ['chore:visit-shop', 'chore:sell-cotton', 'chore:sell-food', 'shop-counter', 'cotton-counter'],
     done: (world, household) => sold(household),
     did: () => 'Your family sold its crop at the store.',
   },
@@ -340,7 +308,7 @@ export const STEPS = Object.freeze([
     title: 'Go out after game',
     first: 'go out after game.',
     says: () => 'Choose a place on your own land and send somebody hunting. Timber by the water is the best ground and open prairie the poorest; a shot costs powder, and the store sells more.',
-    allow: () => ['hunt-land', 'chore:hunt-land', 'chore:hunt-timber', 'chore:visit-shop', ...AFTER_HARVEST],
+    allow: () => ['hunt-land', 'chore:hunt-land', 'chore:hunt-timber', 'chore:visit-shop'],
     done: (world, household) => hunted(household),
     did: () => 'Somebody has been out after game and come home.',
   },
@@ -349,7 +317,7 @@ export const STEPS = Object.freeze([
     title: 'Dig a well',
     first: 'dig the well.',
     says: () => 'The house is a long way from running water, and every heavy work goes slower while somebody carries it. Send the family to dig a well.',
-    allow: () => ['chore:dig-well', ...AFTER_HARVEST],
+    allow: () => ['chore:dig-well'],
     done: (world, household) => watered(household),
     did: (world, household) => household.well
       ? 'There is water in the yard, and nobody carries it from the creek again.'
