@@ -4400,7 +4400,7 @@ function renderFamilyPanel(world) {
   });
   window.__familyPanel = order.map((id, at) => {
     const row = panelRows.get(id);
-    return { id, role: row.item.dataset.role, name: byId.get(id).name, active: [...row.icons.querySelectorAll('[data-active=true]')].map(icon => icon.dataset.key), ...seen[at] };
+    return { id, role: row.item.dataset.role, name: byId.get(id).name, age: byId.get(id).age, active: [...row.icons.querySelectorAll('[data-active=true]')].map(icon => icon.dataset.key), ...seen[at] };
   });
 }
 /**

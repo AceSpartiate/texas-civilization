@@ -66,7 +66,11 @@ export async function playWholeGame(ctx) {
   // not at all, and the wait below ran out (seen 2026-09-26).
   // Read by the same rule the check below reads (the switch not hidden), not by what Playwright calls visible - a row scrolled
   // down the column was passed over and left off - and gone over again until nobody who has a switch is left off.
-  const leftOff = () => student.evaluate(() => window.__familyPanel.filter(row => !row.auto && !document.querySelector(`.panel-row[data-entity-id="${row.id}"] .panel-auto`)?.hidden).map(row => row.id));
+  // A child under ten on auto goes off it by themself after a while - 18 to 56 ticks by their obedience, or sooner when they tire of
+  // it (sim/childhood.mjs, FIC-GONZ-479/480) - which on a solo game's fast calendar can be before the check below. So a small child
+  // counts once the server has had them on auto, and is not pressed again (seen 2026-09-28: six children "left off").
+  const tookSmall = new Set();
+  const leftOff = () => student.evaluate(took => window.__familyPanel.filter(row => !row.auto && !took.includes(row.id) && !document.querySelector(`.panel-row[data-entity-id="${row.id}"] .panel-auto`)?.hidden).map(row => row.id), [...tookSmall]);
   for (let pass = 0; pass < 3; pass++) {
     const todo = await leftOff();
     if (!todo.length) break;
@@ -74,10 +78,11 @@ export async function playWholeGame(ctx) {
       const toggle = student.locator(`.panel-row[data-entity-id="${row}"] .panel-auto`);
       await toggle.scrollIntoViewIfNeeded().catch(() => {});
       await toggle.click();
-      await student.waitForFunction(id => window.__familyPanel.find(one => one.id === id)?.auto, row, { timeout: 15000 }).catch(() => {});
+      const took = await student.waitForFunction(id => window.__familyPanel.find(one => one.id === id)?.auto, row, { timeout: 15000 }).then(() => true, () => false);
+      if (took && await student.evaluate(id => window.__familyPanel.find(one => one.id === id)?.age < 10, row)) tookSmall.add(row);
     }
   }
-  await student.waitForFunction(() => window.__familyPanel.every(row => row.auto || document.querySelector(`.panel-row[data-entity-id="${row.id}"] .panel-auto`)?.hidden), null, { timeout: 15000 })
+  await student.waitForFunction(took => window.__familyPanel.every(row => row.auto || took.includes(row.id) || document.querySelector(`.panel-row[data-entity-id="${row.id}"] .panel-auto`)?.hidden), [...tookSmall], { timeout: 15000 })
     .catch(async error => { throw new Error(`not everybody with a switch is on auto: ${JSON.stringify(await leftOff())}; the page says "${await student.evaluate(() => document.querySelector('#error')?.textContent || '')}" (${error.message.split('\n')[0]})`); });
   measured.onAuto = await student.evaluate(() => window.__familyPanel.filter(row => row.auto).map(row => row.name));
   ok(`${measured.onAuto.length} of the family set to auto from the panel: ${measured.onAuto.join(', ')}`);

@@ -1,24 +1,24 @@
 {
   "record": "solo-game-browser",
-  "date": "2026-09-27",
+  "date": "2026-09-28",
   "verdict": "PASS",
   "browser": "153.0.8010.53",
   "task": "Solo Mode end to end: the real solo server dealing on the real land; a solo game played from its dealt start to the road home through all three periods, the solo class view continuing it; a new game dealt after the end.",
   "environment": "Same computer: an in-process solo classroom at 100 ms a tick with five families, four automatic, and headless Chrome; server/main.mjs --solo run for real only to check what it deals. Not the launcher's window, a real phone or a weak computer.",
   "checks": [
     "server/main.mjs --solo deals its game on the real land of the colonies (5 families, lobby)",
-    "the solo game opens joined as hh-1 in columbia, rolled, and running once the wagon was packed, no join form, no teacher's Start; the other four families automatic",
+    "the solo game opens joined as hh-1 in matagorda, rolled, and running once the wagon was packed, no join form, no teacher's Start; the other four families automatic",
     "the solo class view opens from its Host address with the game already running",
-    "the family arrived and the house site was chosen on its grant at (99.0396, 19.5696)",
-    "6 of the family set to auto from the panel: Ignacio Proofwright, Paz Proofwright, Zadok Proofwright, Paulita Proofwright, Hiram Proofwright, Minerva Proofwright",
-    "4 orders given from the panel and taken",
-    "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Ignacio Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (633 ticks, 69 s)",
+    "the family arrived and the house site was chosen on its grant at (92.9752, 50.86)",
+    "11 of the family set to auto from the panel: Thomas Proofwright, Temperance Proofwright, Zadok Proofwright, Levi Proofwright, Mateo Proofwright, Jonas Proofwright, Obed Proofwright, Silvano Proofwright, Rosa Proofwright, Docia Proofwright, Jasper Proofwright",
+    "3 orders given from the panel and taken",
+    "the call came (\"The committee at Matagorda asks the volunteers of the town and the country east of it to g…\") and Thomas Proofwright was sent from the one menu",
+    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (611 ticks, 71.2 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
-    "the second period ended on its own at minute 241920 (300 ticks, 33.3 s)",
-    "the Host continued the class into the spring: period 3 opens on 1836-03-14",
+    "the second period ended on its own at minute 241920 (300 ticks, 49.7 s)",
+    "the Host continued the class into the spring: period 3 opens on 1836-03-15",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (439 ticks, 48.8 s)",
+    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (489 ticks, 91.3 s)",
     "after the ending, a new solo game is dealt with the old pages open, and opens joined in its own lobby from the beginning",
     "no page errors on any page across the whole solo game"
   ],
@@ -30,36 +30,47 @@
     },
     "periods": {
       "first": {
-        "ticks": 633,
-        "seconds": 69,
+        "ticks": 611,
+        "seconds": 71.2,
         "endedAtMinute": 114060
       },
       "second": {
         "ticks": 300,
-        "seconds": 33.3,
+        "seconds": 49.7,
         "endedAtMinute": 241920
       },
       "third": {
-        "ticks": 439,
-        "seconds": 48.8,
+        "ticks": 489,
+        "seconds": 91.3,
         "endedAtMinute": 302580
       }
     },
     "family": [
-      "Ignacio Proofwright (father, 32)",
-      "Paz Proofwright (mother, 39)",
-      "Zadok Proofwright (son, 14)",
-      "Paulita Proofwright (daughter, 11)",
-      "Hiram Proofwright (son, 9)",
-      "Minerva Proofwright (daughter, 6)"
+      "Thomas Proofwright (father, 41)",
+      "Temperance Proofwright (mother, 39)",
+      "Zadok Proofwright (son, 21)",
+      "Levi Proofwright (son, 19)",
+      "Mateo Proofwright (son, 17)",
+      "Jonas Proofwright (son, 14)",
+      "Obed Proofwright (son, 12)",
+      "Silvano Proofwright (son, 10)",
+      "Rosa Proofwright (daughter, 7)",
+      "Docia Proofwright (daughter, 5)",
+      "Jasper Proofwright (son, 2)",
+      "Rufino Proofwright (son, 0)"
     ],
     "onAuto": [
-      "Ignacio Proofwright",
-      "Paz Proofwright",
+      "Thomas Proofwright",
+      "Temperance Proofwright",
       "Zadok Proofwright",
-      "Paulita Proofwright",
-      "Hiram Proofwright",
-      "Minerva Proofwright"
+      "Levi Proofwright",
+      "Mateo Proofwright",
+      "Jonas Proofwright",
+      "Obed Proofwright",
+      "Silvano Proofwright",
+      "Rosa Proofwright",
+      "Docia Proofwright",
+      "Jasper Proofwright"
     ],
     "orders": [
       {
@@ -79,13 +90,33 @@
       },
       {
         "id": "hh-1-child-2",
-        "key": "cut-lane",
-        "took": true
+        "key": "build-house",
+        "took": "no answer"
+      },
+      {
+        "id": "hh-1-child-3",
+        "key": "build-house",
+        "took": "no answer"
+      },
+      {
+        "id": "hh-1-child-4",
+        "key": "build-house",
+        "took": "no answer"
+      },
+      {
+        "id": "hh-1-child-5",
+        "key": "build-house",
+        "took": "no answer"
+      },
+      {
+        "id": "hh-1-child-6",
+        "key": "build-house",
+        "took": "no answer"
       }
     ],
     "call": {
-      "text": "Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca and go on from there. Does somebody from your family go?",
-      "sent": "Ignacio Proofwright"
+      "text": "The committee at Matagorda asks the volunteers of the town and the country east of it to gather at James Kerr's on the Lavaca as speedily as they can. The town is badly armed and its men are few. Does somebody from your family go?",
+      "sent": "Thomas Proofwright"
     },
     "winterOutcome": null,
     "flight": {
@@ -93,12 +124,12 @@
       "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs w"
     },
     "ending": {
-      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 195. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final the Proofwright family 166 October 2 Ignacio Proofwright 3 reales 64 — 195 Thomas's family (nobody pl",
-      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 3 reales GLORY 64 FINAL NUMBER 195 3 reales × (1 + 64 glory) = 195 Our story The family lived 166 road miles from Gonzales. Word that soldiers had come for the cannon reached them on October 2. They were told to leave in the spring. Whe",
+      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 4. Family Road miles from Gonzales Heard of the cannon Who went Taken prisoner Coin Glory Land Final the Proofwright family 136 October 1 nobody — 4 reales 0 — 4 Elias's family (nobody play",
+      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 4 reales GLORY 0 FINAL NUMBER 4 4 reales × (1 + 0 glory) = 4 Our story The family lived 136 road miles from Gonzales. Word that soldiers had come for the cannon reached them on October 1. Nobody from the family went to Gonzales or to th",
       "flight": "returning",
       "minute": 302580
     },
-    "totalSeconds": 151.1
+    "totalSeconds": 212.2
   },
   "screenshots": [
     "docs/evidence/solo-game-at-work.png",
