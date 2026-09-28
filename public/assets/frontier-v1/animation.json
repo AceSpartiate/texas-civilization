@@ -4334,6 +4334,78 @@
       "motion": "none",
       "direction": "north"
     },
+    "sherman-walk-e": {
+      "frames": [
+        {
+          "sprite": "sherman-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "sherman-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "sherman-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "sherman-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "sherman-walk-s": {
+      "frames": [
+        {
+          "sprite": "sherman-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "sherman-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "sherman-walk-n": {
+      "frames": [
+        {
+          "sprite": "sherman-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "sherman-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "sherman-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "sherman-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "sherman-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
     "urrea-walk-e": {
       "frames": [
         {

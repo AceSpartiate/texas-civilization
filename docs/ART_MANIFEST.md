@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1842 usable sprites, 178 PNG atlases, 593 clips** (365 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1862 usable sprites, 180 PNG atlases, 597 clips** (369 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -96,6 +96,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-picnic-props | 4 | 1254 × 1254 | 1557526 |
 | famous-seguin-mounted-motion | 4 | 1254 × 1254 | 1217137 |
 | famous-seguin-mounted-ns | 4 | 1254 × 1254 | 798415 |
+| famous-sherman | 16 | 1239 × 1269 | 1115350 |
+| famous-sherman-mounted | 4 | 1240 × 1269 | 1426561 |
 | famous-urrea | 16 | 1254 × 1254 | 955697 |
 | famous-urrea-mounted | 4 | 1226 × 1283 | 1293956 |
 | flag-come-and-take-it | 4 | 1254 × 1254 | 1140674 |
@@ -1068,6 +1070,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | seguin-mounted-walk-s-2 | famous-seguin-mounted-ns | seguin-mounted-walk-s |
 | seguin-mounted-walk-n-1 | famous-seguin-mounted-ns | seguin-mounted-walk-n |
 | seguin-mounted-walk-n-2 | famous-seguin-mounted-ns | seguin-mounted-walk-n |
+| sherman-walk-e-1 | famous-sherman | sherman-walk-e |
+| sherman-walk-e-2 | famous-sherman | sherman-walk-e |
+| sherman-walk-e-3 | famous-sherman | sherman-walk-e |
+| sherman-walk-e-4 | famous-sherman | sherman-walk-e |
+| sherman-walk-s-1 | famous-sherman | sherman-walk-s |
+| sherman-walk-s-2 | famous-sherman | sherman-walk-s |
+| sherman-walk-n-1 | famous-sherman | sherman-walk-n |
+| sherman-walk-n-2 | famous-sherman | sherman-walk-n |
+| sherman-idle | famous-sherman | State artwork; no motion required |
+| sherman-command | famous-sherman | State artwork; no motion required |
+| sherman-rally | famous-sherman | State artwork; no motion required |
+| sherman-glass | famous-sherman | State artwork; no motion required |
+| sherman-folded-banner | famous-sherman | State artwork; no motion required |
+| sherman-point | famous-sherman | State artwork; no motion required |
+| sherman-listen | famous-sherman | State artwork; no motion required |
+| sherman-rest | famous-sherman | State artwork; no motion required |
+| sherman-mounted-walk-e-1 | famous-sherman-mounted | sherman-mounted-walk-e |
+| sherman-mounted-walk-e-2 | famous-sherman-mounted | sherman-mounted-walk-e |
+| sherman-mounted-idle-e | famous-sherman-mounted | State artwork; no motion required |
+| sherman-mounted-rally-e | famous-sherman-mounted | State artwork; no motion required |
 | urrea-walk-e-1 | famous-urrea | urrea-walk-e |
 | urrea-walk-e-2 | famous-urrea | urrea-walk-e |
 | urrea-walk-e-3 | famous-urrea | urrea-walk-e |
@@ -2303,6 +2325,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | seguin-mounted-canter-e | Pose cycle | 2 | 380 | yes | east; mirror for west |
 | seguin-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
 | seguin-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| sherman-walk-e | Pose cycle | 4 | 760 | yes | east |
+| sherman-walk-s | Pose cycle | 2 | 580 | yes | south |
+| sherman-walk-n | Pose cycle | 2 | 580 | yes | north |
+| sherman-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | urrea-walk-e | Pose cycle | 4 | 760 | yes | east |
 | urrea-walk-s | Pose cycle | 2 | 580 | yes | south |
 | urrea-walk-n | Pose cycle | 2 | 580 | yes | north |

@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 178,
-    "sprites": 1842,
-    "clips": 593,
-    "poseCycles": 365,
+    "sheets": 180,
+    "sprites": 1862,
+    "clips": 597,
+    "poseCycles": 369,
     "rigs": 4
   },
   "entrypoints": {
@@ -7868,6 +7868,188 @@
               [
                 769,
                 1030
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-sherman": {
+      "image": "atlases/famous-sherman.png",
+      "width": 1239,
+      "height": 1269,
+      "bytes": 1115350,
+      "sha256": "2c27d919e24df0601190bfd77cf32a686ebab2f056de82e7a1c62563bdb1b1ec",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.729544,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              9,
+              293
+            ],
+            "columns": [
+              [
+                59,
+                247
+              ],
+              [
+                377,
+                565
+              ],
+              [
+                689,
+                881
+              ],
+              [
+                1003,
+                1195
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              325,
+              618
+            ],
+            "columns": [
+              [
+                91,
+                231
+              ],
+              [
+                404,
+                536
+              ],
+              [
+                706,
+                847
+              ],
+              [
+                1022,
+                1161
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              616,
+              933
+            ],
+            "columns": [
+              [
+                68,
+                214
+              ],
+              [
+                378,
+                601
+              ],
+              [
+                702,
+                865
+              ],
+              [
+                1016,
+                1180
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              949,
+              1241
+            ],
+            "columns": [
+              [
+                81,
+                262
+              ],
+              [
+                383,
+                603
+              ],
+              [
+                697,
+                843
+              ],
+              [
+                1010,
+                1186
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-sherman-mounted": {
+      "image": "atlases/famous-sherman-mounted.png",
+      "width": 1240,
+      "height": 1269,
+      "bytes": 1426561,
+      "sha256": "153d7001eb912197202cb63e1edd37a86f89552ac4919a84e58a37830a12acea",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.617959,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              30,
+              600
+            ],
+            "columns": [
+              [
+                32,
+                598
+              ],
+              [
+                631,
+                1214
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              638,
+              1234
+            ],
+            "columns": [
+              [
+                57,
+                606
+              ],
+              [
+                678,
+                1222
               ]
             ]
           }
@@ -46216,6 +46398,686 @@
       "locationKits": [],
       "promptId": "frontier-v1/famous-seguin-mounted-ns"
     },
+    "sherman-walk-e-1": {
+      "sheet": "famous-sherman",
+      "x": 59,
+      "y": 9,
+      "w": 188,
+      "h": 282,
+      "anchorX": 0.8457,
+      "anchorY": 0.9291,
+      "logicalHeight": 317,
+      "label": "sherman walk e 1",
+      "kind": "famous-sherman",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          61,
+          11,
+          184,
+          278
+        ],
+        "visiblePixels": 21690,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sherman-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman"
+    },
+    "sherman-walk-e-2": {
+      "sheet": "famous-sherman",
+      "x": 377,
+      "y": 9,
+      "w": 188,
+      "h": 284,
+      "anchorX": 0.8378,
+      "anchorY": 0.9296,
+      "logicalHeight": 317,
+      "label": "sherman walk e 2",
+      "kind": "famous-sherman",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          379,
+          11,
+          184,
+          280
+        ],
+        "visiblePixels": 21552,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sherman-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman"
+    },
+    "sherman-walk-e-3": {
+      "sheet": "famous-sherman",
+      "x": 689,
+      "y": 10,
+      "w": 192,
+      "h": 283,
+      "anchorX": 0.8438,
+      "anchorY": 0.9293,
+      "logicalHeight": 317,
+      "label": "sherman walk e 3",
+      "kind": "famous-sherman",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          691,
+          12,
+          188,
+          279
+        ],
+        "visiblePixels": 19603,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sherman-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman"
+    },
+    "sherman-walk-e-4": {
+      "sheet": "famous-sherman",
+      "x": 1003,
+      "y": 14,
+      "w": 192,
+      "h": 268,
+      "anchorX": 0.5182,
+      "anchorY": 0.9291,
+      "logicalHeight": 317,
+      "label": "sherman walk e 4",
+      "kind": "famous-sherman",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1005,
+          16,
+          188,
+          264
+        ],
+        "visiblePixels": 19937,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sherman-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman"
+    },
+    "sherman-walk-s-1": {
+      "sheet": "famous-sherman",
+      "x": 91,
+      "y": 325,
+      "w": 140,
+      "h": 291,
+      "anchorX": 0.4393,
+      "anchorY": 0.9416,
+      "logicalHeight": 317,
+      "label": "sherman walk s 1",
+      "kind": "famous-sherman",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          93,
+          327,
+          136,
+          287
+        ],
+        "visiblePixels": 21524,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sherman-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman"
+    },
+    "sherman-walk-s-2": {
+      "sheet": "famous-sherman",
+      "x": 404,
+      "y": 338,
+      "w": 132,
+      "h": 280,
+      "anchorX": 0.4545,
+      "anchorY": 0.9429,
+      "logicalHeight": 317,
+      "label": "sherman walk s 2",
+      "kind": "famous-sherman",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          406,
+          340,
+          128,
+          276
+        ],
+        "visiblePixels": 19713,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sherman-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman"
+    },
+    "sherman-walk-n-1": {
+      "sheet": "famous-sherman",
+      "x": 706,
+      "y": 331,
+      "w": 141,
+      "h": 282,
+      "anchorX": 0.5106,
+      "anchorY": 0.9291,
+      "logicalHeight": 317,
+      "label": "sherman walk n 1",
+      "kind": "famous-sherman",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          708,
+          333,
+          137,
+          278
+        ],
+        "visiblePixels": 19706,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sherman-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman"
+    },
+    "sherman-walk-n-2": {
+      "sheet": "famous-sherman",
+      "x": 1022,
+      "y": 334,
+      "w": 139,
+      "h": 284,
+      "anchorX": 0.6187,
+      "anchorY": 0.9296,
+      "logicalHeight": 317,
+      "label": "sherman walk n 2",
+      "kind": "famous-sherman",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1024,
+          336,
+          135,
+          280
+        ],
+        "visiblePixels": 20523,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sherman-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman"
+    },
+    "sherman-idle": {
+      "sheet": "famous-sherman",
+      "x": 68,
+      "y": 644,
+      "w": 146,
+      "h": 288,
+      "anchorX": 0.5822,
+      "anchorY": 0.9271,
+      "logicalHeight": 317,
+      "label": "sherman idle",
+      "kind": "famous-sherman",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          70,
+          646,
+          142,
+          284
+        ],
+        "visiblePixels": 23129,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman"
+    },
+    "sherman-command": {
+      "sheet": "famous-sherman",
+      "x": 378,
+      "y": 645,
+      "w": 223,
+      "h": 287,
+      "anchorX": 0.3475,
+      "anchorY": 0.9303,
+      "logicalHeight": 317,
+      "label": "sherman command",
+      "kind": "famous-sherman",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          380,
+          647,
+          219,
+          283
+        ],
+        "visiblePixels": 26277,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman"
+    },
+    "sherman-rally": {
+      "sheet": "famous-sherman",
+      "x": 702,
+      "y": 616,
+      "w": 163,
+      "h": 317,
+      "anchorX": 0.5245,
+      "anchorY": 0.9495,
+      "logicalHeight": 317,
+      "label": "sherman rally",
+      "kind": "famous-sherman",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          704,
+          618,
+          159,
+          313
+        ],
+        "visiblePixels": 25388,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman"
+    },
+    "sherman-glass": {
+      "sheet": "famous-sherman",
+      "x": 1016,
+      "y": 647,
+      "w": 164,
+      "h": 286,
+      "anchorX": 0.4238,
+      "anchorY": 0.9406,
+      "logicalHeight": 317,
+      "label": "sherman glass",
+      "kind": "famous-sherman",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1018,
+          649,
+          160,
+          282
+        ],
+        "visiblePixels": 24888,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman"
+    },
+    "sherman-folded-banner": {
+      "sheet": "famous-sherman",
+      "x": 81,
+      "y": 949,
+      "w": 181,
+      "h": 292,
+      "anchorX": 0.3757,
+      "anchorY": 0.9418,
+      "logicalHeight": 317,
+      "label": "sherman folded banner",
+      "kind": "famous-sherman",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          951,
+          177,
+          288
+        ],
+        "visiblePixels": 27938,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman"
+    },
+    "sherman-point": {
+      "sheet": "famous-sherman",
+      "x": 383,
+      "y": 953,
+      "w": 220,
+      "h": 279,
+      "anchorX": 0.3364,
+      "anchorY": 0.9427,
+      "logicalHeight": 317,
+      "label": "sherman point",
+      "kind": "famous-sherman",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          385,
+          955,
+          216,
+          275
+        ],
+        "visiblePixels": 24804,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman"
+    },
+    "sherman-listen": {
+      "sheet": "famous-sherman",
+      "x": 697,
+      "y": 953,
+      "w": 146,
+      "h": 284,
+      "anchorX": 0.5651,
+      "anchorY": 0.9366,
+      "logicalHeight": 317,
+      "label": "sherman listen",
+      "kind": "famous-sherman",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          699,
+          955,
+          142,
+          280
+        ],
+        "visiblePixels": 22802,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman"
+    },
+    "sherman-rest": {
+      "sheet": "famous-sherman",
+      "x": 1010,
+      "y": 995,
+      "w": 176,
+      "h": 242,
+      "anchorX": 0.2955,
+      "anchorY": 0.9298,
+      "logicalHeight": 317,
+      "label": "sherman rest",
+      "kind": "famous-sherman",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1012,
+          997,
+          172,
+          238
+        ],
+        "visiblePixels": 21337,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman"
+    },
+    "sherman-mounted-walk-e-1": {
+      "sheet": "famous-sherman-mounted",
+      "x": 32,
+      "y": 31,
+      "w": 566,
+      "h": 568,
+      "anchorX": 0.5044,
+      "anchorY": 0.9296,
+      "logicalHeight": 596,
+      "label": "sherman mounted walk e 1",
+      "kind": "famous-sherman-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          34,
+          33,
+          562,
+          564
+        ],
+        "visiblePixels": 138280,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sherman-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman-mounted"
+    },
+    "sherman-mounted-walk-e-2": {
+      "sheet": "famous-sherman-mounted",
+      "x": 631,
+      "y": 30,
+      "w": 583,
+      "h": 570,
+      "anchorX": 0.6492,
+      "anchorY": 0.9491,
+      "logicalHeight": 596,
+      "label": "sherman mounted walk e 2",
+      "kind": "famous-sherman-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          633,
+          32,
+          579,
+          566
+        ],
+        "visiblePixels": 139587,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sherman-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman-mounted"
+    },
+    "sherman-mounted-idle-e": {
+      "sheet": "famous-sherman-mounted",
+      "x": 57,
+      "y": 658,
+      "w": 549,
+      "h": 574,
+      "anchorX": 0.4672,
+      "anchorY": 0.9286,
+      "logicalHeight": 596,
+      "label": "sherman mounted idle e",
+      "kind": "famous-sherman-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          59,
+          660,
+          545,
+          570
+        ],
+        "visiblePixels": 136350,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman-mounted"
+    },
+    "sherman-mounted-rally-e": {
+      "sheet": "famous-sherman-mounted",
+      "x": 678,
+      "y": 638,
+      "w": 544,
+      "h": 596,
+      "anchorX": 0.4476,
+      "anchorY": 0.9295,
+      "logicalHeight": 596,
+      "label": "sherman mounted rally e",
+      "kind": "famous-sherman-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          680,
+          640,
+          540,
+          592
+        ],
+        "visiblePixels": 140548,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman-mounted"
+    },
     "urrea-walk-e-1": {
       "sheet": "famous-urrea",
       "x": 101,
@@ -83795,6 +84657,78 @@
       "motion": "none",
       "direction": "north"
     },
+    "sherman-walk-e": {
+      "frames": [
+        {
+          "sprite": "sherman-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "sherman-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "sherman-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "sherman-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "sherman-walk-s": {
+      "frames": [
+        {
+          "sprite": "sherman-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "sherman-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "sherman-walk-n": {
+      "frames": [
+        {
+          "sprite": "sherman-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "sherman-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "sherman-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "sherman-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "sherman-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
     "urrea-walk-e": {
       "frames": [
         {
@@ -94992,7 +95926,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 178,
+    "sourceCount": 180,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

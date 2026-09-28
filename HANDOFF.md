@@ -1,3 +1,7 @@
+## Art update — Sidney Sherman (2026-09-28)
+
+Sherman has his own 4×4 foot atlas and 2×2 mounted companion in `scripts/art-deliveries/famous-sherman.mjs`. His directional walks, command/rally gestures, mounted gait and halted raised-hand signal are in the art manifest. `sim/people.mjs` and `PERSON_ART.sherman` bind the identity to the existing San Jacinto scenes. A brief mounted signal marks the already staged April 20 sortie; it gives Sherman no disputed line. His folded cloth pose is deliberately unmarked and is **not** a reconstruction of the Kentucky volunteers’ flag. A historically researched flag remains a separate art request. Prompt and source records are in the art JSON files; face, clothing and horse are interpretations, not portrait claims.
+
 ## Art update — Mirabeau B. Lamar (2026-09-28)
 
 Lamar now has a distinct 4×4 foot sheet and 2×2 mounted sheet in `scripts/art-deliveries/famous-lamar.mjs`. Four east, two south and two north walking poses, command/salute/saber/reach gestures, two mounted gait frames and a mounted rescue reach are registered in the art manifest. `sim/people.mjs` and `PERSON_ART.lamar` bind the same identity on foot and on horseback. His existing San Jacinto cavalry scenes use his mounted gait; the April 20 skirmish briefly selects the reaching pose during the already staged rescue of Rusk and Walter P. Lane. That visual interval is presentation timing, not a new historical claim. Source/provenance live in the art JSON records. Clothing, face and horse are artistic interpretations, not a portrait claim.

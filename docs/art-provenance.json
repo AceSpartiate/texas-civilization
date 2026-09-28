@@ -2524,6 +2524,29 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-lamar-mounted.png",
       "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
       "review": "Dedicated mounted gait and reach for the existing April 20 rescue beat; horse coat is interpretive."
+    },
+    {
+      "sheet": "famous-sherman",
+      "promptId": "frontier-v1/famous-sherman",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f9f85b38-611b-4b7d-a37d-a1eb722e2ae9.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-sherman.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct field commander silhouette and signal poses. Folded cloth is deliberately unmarked; it is not a reconstruction of the Kentucky flag."
+    },
+    {
+      "sheet": "famous-sherman-mounted",
+      "promptId": "frontier-v1/famous-sherman-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f9f85b38-611b-4b7d-a37d-a1eb722e2ae9.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2b3093c7-5ef0-4630-a236-96f15dafa995.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-sherman-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dedicated horse-and-rider walk and rally signal for the existing April 20 skirmish."
     }
   ],
   "rejectedAttempts": [

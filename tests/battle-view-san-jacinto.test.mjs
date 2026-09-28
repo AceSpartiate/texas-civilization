@@ -49,6 +49,20 @@ test('Lamar rides in his own art and reaches down during the April 20 rescue bea
   assert.ok(art.drawn.some(one => one.clip === 'lamar-mounted-walk-e'));
 });
 
+test('Sherman rides in his own art and signals the April 20 sortie', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const sherman = { id: 'sherman', art: 'sherman', name: 'Sherman', side: 'texian', x: 0, y: 0, right: true, pose: 'ride' };
+  const scene = minute => battle(minute, { phase: 'skirmish', people: [sherman] });
+  run(view, scene, { seconds: 1, from: 20000 });
+  assert.ok(art.drawn.some(one => one.clip === 'sherman-mounted-walk-e'));
+  art.drawn.length = 0;
+  run(view, scene, { seconds: 1, from: 23000 });
+  assert.ok(art.drawn.some(one => one.sprite === 'sherman-mounted-rally-e'));
+  art.drawn.length = 0;
+  run(view, scene, { seconds: 1, from: 26000 });
+  assert.ok(art.drawn.some(one => one.clip === 'sherman-mounted-walk-e'));
+});
+
 test('only the named Twin Sisters use their dedicated service crew', () => {
   const art = fakeArt(), view = createBattleView(art);
   const guns = [
