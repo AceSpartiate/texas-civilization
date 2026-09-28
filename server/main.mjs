@@ -36,7 +36,12 @@ async function shutdown(reason) {
   process.exit(0);
 }
 const app = createClassroom({
-  seed: process.env.SEED || 'gonzales-1835', playerCount: Number(process.env.PLAYERS || 15),
+  seed: process.env.SEED || 'gonzales-1835',
+  // A new class has thirty families, the class this game is built and measured for (2026-09-28, the classroom audit's B1):
+  // the families no student joins are the neighbours' director's, and they are the spare families a late student joins into.
+  // The teacher changes it on the Host's page in the lobby and chooses it for every New Class; PLAYERS is a developer's.
+  // Play Solo keeps the fifteen it has always dealt.
+  playerCount: Number(process.env.PLAYERS || (solo ? 15 : 30)),
   // A settler walks three miles an hour whatever this is; this decides only how many
   // real minutes a class spends watching that. `PACES.study` makes the walk look like a
   // walk and the slice fill a class period; TICK_MS still overrides it for development.
@@ -56,6 +61,8 @@ const app = createClassroom({
   ...(Number(process.env.CALL_BUDGET_MS) > 0 && { callBudgetMs: Number(process.env.CALL_BUDGET_MS) }),
 });
 await app.listen(port, solo ? '127.0.0.1' : '0.0.0.0');
+// A class whose last server did not stop cleanly opened anyway, because that server had certainly gone (server/storage.mjs).
+if (app.recoveredLock) console.log(`The last server on this class did not stop cleanly (${app.recoveredLock.reason}). The class was backed up${app.recoveredLock.backup ? ` to ${app.recoveredLock.backup}` : ''} and opened.`);
 const hostUrl = `http://localhost:${port}/host#${app.state.hostKey}`;
 writeFileSync(join(dataDir, 'host-url.txt'), hostUrl);
 console.log(solo

@@ -1,5 +1,62 @@
 # Claude handoff — Astra foundation
 
+## Classroom blockers: class size, late students, reconnecting, an unclean stop, several classes, several class days — owner, 2026-09-28 (worktree branch; not released)
+
+**The ask.** Owner, 2026-09-28: *"check for problems with the game ... things that would prevent the game from being played as
+intended"*, then *"fix the blockers when they come in"*; on class length, by multiple choice, **"Plan for several class days"** -
+keep the pacing, make stopping and resuming across days smooth and clear, and tell the teacher up front how many class days a
+game takes at each pace. This branch fixes docs/audits/2026-09-28-classroom.md **B1, B2, B3, B5, B6** and the class-days part of
+S3 / playthrough §3. B4 (End Game confirm), "Stop for today" and S2 (absences after a restart) are another builder's.
+
+- **B1 class size.** A new class has **30 families** (server/main.mjs; `PLAYERS` still overrides, Play Solo keeps 15). The Host's
+  lobby has **Families in this class** (5-30, `class-size` in server/app.mjs): the world is dealt again with the same seed, joined
+  students keep their places and roll again; `state.deal` makes a new map id so pages drop the old map. The connection line says
+  *"… of 24 joined · 30 families"*. The full-class refusal says how many and to ask the teacher.
+- **B2 joining after Start.** `/api/join` after Start (running or paused, not ended) gives the family the teacher chose under
+  **Late students** (`late-seat`: a family nobody plays, or one whose student is not here; used once) or else the first family
+  nobody plays (`seatFor`, `seats`). Taking a student-away family signs the old device out. Told on the class's record.
+  `ceiling:` a latecomer into a family that has already arrived gets no guided start (LESSON §6's own ceiling, unchanged).
+- **B3 reconnect.** public/reconnect.js: a broken stream asks `/api/state` again every 1.5, 2, 3, then 5 s for as long as it
+  takes, with *"Connection lost. Reconnecting…"* (after 20 s *"Still reconnecting (N seconds). Your family is safe …"*) over the
+  game; only a 401 goes to the join screen, and that page **keeps listening** every 5 s and carries on when the student's class is
+  opened again. The server's away list is on the page: **I was already in this class** → class code → tap your name
+  (`/api/away`, `/api/claim`). Host page the same. `ceiling:` a Host page in another browser is signed out when a class is
+  switched elsewhere (public/app.js).
+- **B5 unclean stop.** server/storage.mjs `acquireSaveLock` takes over a lock whose owner is **certainly gone** (`ownerGone`:
+  the PID has ended, or the process with that PID began after the lock was written - WMI through PowerShell on Windows, /proc on
+  Linux), after backing the save up to `archive/…-before-lock-recovery-…json`; the old lock is moved aside by rename and checked
+  to be the text judged gone, so racing starts cannot both win. Every doubt still refuses. main.mjs logs the recovery.
+  **docs/RECOVERY.md now ships** in the package (scripts/package.ps1; scripts/verify-delta-update.ps1 copies it), with teacher
+  steps that work in an installed copy (restart, start again), because the launcher's stale-lock message names it.
+  **The launcher did not change.**
+- **B6 several classes.** `classroom.json` stays the open class (so the launcher, appinfo and launch.ps1's session check are
+  untouched); every other class is kept in `data/classes/<session>.json` (`shelve`). Host → **Classes** lists them
+  (`/api/classes`), **Open** (`open-class`, `classId`) brings one back paused with its code, students, credentials and keys,
+  **Start a new class** takes a name and a size and is allowed from paused (refused while running). New Class left the Host's
+  top buttons (M9). `state.className`, `state.lateSeat`, `state.deal` are new optional top-level fields with correct empty values:
+  **no `saveVersion` move**.
+- **Several class days.** server/class-days.mjs: the playthrough audit's measured ticks per period with students playing
+  (P1 719-999, P2 331-450, P3 481-1035), 40 minutes of play a day and 15 of lobby on day 1: **Study 6-11 class days, Brisk 3-5,
+  Quick 1-2**. The Host shows the whole game before Start and, after, the period, how far through its calendar, and the days left
+  at each pace (`#class-days`, public/class-panel.js). README (shipped) no longer says 54 minutes or "one afternoon".
+
+**Evidence** (same computer only). New tests: tests/late-join.test.mjs (3), classes.test.mjs (2), stale-lock.test.mjs (6, one
+the real server/main.mjs killed with SIGKILL and started again), class-days.test.mjs (4), reconnect.test.mjs (5). **Seen
+failing** against 6bb5252's code (late-join, classes, stale-lock all fail) and by injection, each catching only its own: join
+refused after Start (2 of the 3 late-join tests); no `class-size` (its test alone); New Class not shelving (the classes test alone);
+no schedule on the Host (its test alone, and `test:classes`); the old README (the README test); stale locks refused (4 of 6
+stale-lock; "every doubt" still passes); a takeover that deletes whatever lock is there (the interleaving test, which a real race
+of six processes did not catch reliably); the old 1.5 s one-try `connect` (the wiring test, and `test:reconnect` times out);
+sign-out on any failure (the reconnector's tests). Updated on purpose: lifecycle (running New Class message), rejoin (a latecomer
+now joins), reliability (a dead-PID lock is taken over). `npm test` **1541 of 1541** (12.7 min under load). Browser: **`test:reconnect`
+7 of 7** - the real server killed for 5 s and for 30 s, both pages kept the game under the banner and never the join screen,
+back 1.1-6.0 s after the server answered, lock recovered each time, a cookieless page got its family from the name list;
+**`test:classes` 15 of 15** - class days before/after Start, 30 families set on the Host and 30 students, late students free and
+chosen, the 31st refused in words, a new class "Period 4" of 8 and the first reopened with its code and 30 students, a signed-out
+student page carrying on by itself 4.8 s after; `test:host-view` 8, `test:host-live` 11, `test:solo` 13, `test:lesson` passed.
+(`test:join*` do not exist in package.json.) Not proved: a Chromebook asleep, Wi-Fi roaming, a real Windows restart or shutdown
+(the kill stands in), 30 real devices.
+
 ## One army: a column and its patrols strip a family once between them; families at Lynchburg move on — owner, 2026-09-28 (worktree branch; not released)
 
 **The decision.** Owner, 2026-09-28, by multiple choice: **"One army"** - once a Mexican column or one of its patrols has

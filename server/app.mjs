@@ -25,6 +25,7 @@ import { fellFacts } from '../sim/felling.mjs';
 import { TERRAIN_FILES } from '../sim/province.mjs';
 import { gunzipSync } from 'node:zlib';
 import { readSave, writeSave, acquireSaveLock, archiveSave } from './storage.mjs';
+import { classSchedule } from './class-days.mjs';
 
 const token = () => randomBytes(24).toString('hex');
 const hash = value => createHash('sha256').update(value).digest('hex');
@@ -104,6 +105,9 @@ const files = new Map([
   ['/map-camera.js', ['../public/map-camera.js', 'text/javascript']],
   // The Host's live page in words (docs/HOST_PAGE.md); named off the /host prefix, which is the Host page itself.
   ['/live-page.js', ['../public/live-page.js', 'text/javascript']],
+  // Coming back after the server was out of reach, and the teacher's class controls (2026-09-28).
+  ['/reconnect.js', ['../public/reconnect.js', 'text/javascript']],
+  ['/class-panel.js', ['../public/class-panel.js', 'text/javascript']],
   ['/alamo-workshop.html', ['../public/alamo-workshop.html', 'text/html']],
   ['/alamo-workshop.js', ['../public/alamo-workshop.js', 'text/javascript']],
   ['/alamo-workshop.css', ['../public/alamo-workshop.css', 'text/css']],
@@ -229,11 +233,20 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   let pace = tickMs;
   const lease = acquireSaveLock(savePath);
   savePath = lease.path;
+  // A lock left by a server that certainly stopped was taken over and the save backed up (server/storage.mjs); said here so
+  // the log and the Host's page can tell the teacher the class opened after an unclean stop.
+  const recoveredLock = lease.recovered || null;
   let state;
   try {
     state = readSave(savePath) || { saveVersion: 3, revision: 0, hostKey: token(), sessionId: token().slice(0, 12), sessionCode: randomBytes(3).toString('hex').toUpperCase(), clients: {}, hostCommands: [], world: worldFactory(seed, playerCount) };
     validateWorld(state.world);
   } catch (error) { lease.release(); throw error; }
+  /**
+   * Which map a page holds. The session's id, as it always was, and a count after it once the class size has been changed
+   * in the lobby (`class-size`), which deals a new world with the same session - so a page drops the map it fetched.
+   * `state.deal` is absent on every class never resized, whose map id is exactly what it was.
+   */
+  const mapKey = () => state.deal ? `${state.sessionId}.${state.deal}` : state.sessionId;
   // The last committed class as its save text, and the last one written (`commit`).
   let committed;
   try {
@@ -316,6 +329,111 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   const clearRejoinTries = address => rejoinTries.delete(address);
   /** One line on the class's own public record, which is what the Host page reads (`projectWorld`, role 'host'). */
   const tellClass = (world, text) => record(world, 'presence', { visibility: 'public', importance: 2, claimId: 'FIC-GONZ-186', text });
+  /**
+   * Who may take which family (2026-09-28, docs/audits/2026-09-28-classroom.md B1 and B2). A class has `playerCount` families
+   * and a student plays one; the rest are the neighbours' director's (sim/neighbours.mjs). A student who joins in the lobby
+   * takes the first family nobody holds. **A student who joins after Start** - late, or absent on the first day of a game
+   * that takes several class days - takes the family the teacher named on the Host's page (`lateSeat`: a family nobody
+   * plays, or one whose student is not here), or else the first family nobody plays. Either way the family is theirs from
+   * then on (`markPlayed`), exactly as if they had joined in the lobby, and the class is told on its public record.
+   *
+   * A family with nobody left alive or free in it is not offered: there is nothing in it to play.
+   * ceiling: a latecomer is never given the guided start once their family has arrived (docs/LESSON.md §6's own ceiling);
+   * a family taken while still on the road is walked through it as any family is.
+   */
+  const householdNumber = id => Number(String(id).split('-').at(-1)) || 0;
+  const livingIn = household => household.members.some(id => {
+    const person = state.world.entities[id];
+    return person && !['dead', 'captured'].includes(person.health?.condition);
+  });
+  const heldBy = () => new Map(Object.entries(state.clients).map(([credentialHash, client]) => [client.householdId, { ...client, credentialHash }]));
+  const familyWords = household => { const name = householdName(state.world, household); return name[0].toUpperCase() + name.slice(1); };
+  /** Families a student joining now could be given, for the Host's choice: nobody's (`free`) and those whose student is not here. */
+  function seats() {
+    const held = heldBy(), here = streaming(), marks = presence().households;
+    const open = [];
+    for (const household of Object.values(state.world.households).sort((a, b) => householdNumber(a.id) - householdNumber(b.id))) {
+      if (!livingIn(household)) continue;
+      const client = held.get(household.id);
+      if (!client && !household.played) open.push({ householdId: household.id, family: familyWords(household), kind: 'free' });
+      else if (client && !here.has(household.id)) open.push({ householdId: household.id, family: familyWords(household), kind: 'student-away', student: client.name, presence: marks[household.id] || 'gone' });
+    }
+    return open;
+  }
+  /** The family a student joining now is given, and the credential it takes over (a student who is not here), or null. */
+  function seatFor(late) {
+    const held = heldBy(), here = streaming();
+    if (late && state.lateSeat) {
+      const household = state.world.households[state.lateSeat], client = held.get(state.lateSeat);
+      if (household && livingIn(household) && (client ? !here.has(household.id) : !household.played)) return { householdId: household.id, previous: client || null };
+    }
+    const free = Object.values(state.world.households).sort((a, b) => householdNumber(a.id) - householdNumber(b.id))
+      .find(household => !held.has(household.id) && !household.played && livingIn(household));
+    return free ? { householdId: free.id, previous: null } : null;
+  }
+  /**
+   * **The classes kept on this computer** (2026-09-28, the classroom audit's B6: a teacher with several sections). The class
+   * being played is the save (`classroom.json`, which the launcher reads and the lock guards), exactly as before. Every other
+   * class is kept in `classes/<session>.json` beside it: written when **New Class** or **Open** puts another class in its
+   * place, and read back when the teacher opens it again from the Host's page. A class opened again is the same class - its
+   * code, its families, its students' credentials and family keys (derived from this computer's Host key and the class's own
+   * session, so they are the same keys) - paused where it was left.
+   *
+   * Only the server holding the save's lock writes here, so the one lock guards the shelf as well. A class that is open is
+   * listed from memory; its own file on the shelf, if it has one, is the copy from when it was last put away, and is written
+   * over the next time it is. A class nobody joined and nobody named is not kept: it is what a New Class leaves behind.
+   * Play Solo never keeps classes (it has its own saved games).
+   * ceiling: nothing is ever removed from the shelf by the game; a class no longer wanted is deleted by hand, with the
+   * server stopped. A Delete beside each class is the way out if a teacher's list grows long.
+   */
+  const shelfDir = !solo && savePath ? join(dirname(savePath), 'classes') : null;
+  const CLASS_ID = /^[\w-]{6,40}$/;
+  const className = value => typeof value === 'string' && value.trim() ? value.trim().replace(/\s+/g, ' ').slice(0, 40) : null;
+  function shelve(s) {
+    if (!shelfDir || (!Object.keys(s.clients).length && !s.className)) return null;
+    const path = join(shelfDir, `${s.sessionId}.json`);
+    writeSave(path, { ...s, shelvedAt: new Date().toISOString() });
+    return path;
+  }
+  /** One line of the Host's list of classes: its name, code, size, and where in 1835-36 it was left. */
+  function classSummary(saved, savedAt, open) {
+    const world = saved.world;
+    const at = world.status === 'lobby' ? null : dateOf(world, world.minute);
+    return {
+      id: saved.sessionId, name: saved.className || null, code: saved.sessionCode, open,
+      families: world.playerCount, joined: Object.keys(saved.clients || {}).length, status: world.status, period: periodOf(world),
+      date: at && `${MONTH_NAMES[at.getUTCMonth()]} ${at.getUTCDate()}, ${at.getUTCFullYear()}`, savedAt,
+    };
+  }
+  // A shelved class can be ten megabytes; each is read once and remembered by its size and time.
+  const shelfSummaries = new Map();
+  function classList() {
+    const listed = new Map();
+    let files = [];
+    try { files = readdirSync(shelfDir).filter(file => file.endsWith('.json')); } catch { /* nothing kept yet */ }
+    for (const file of files) {
+      const path = join(shelfDir, file);
+      try {
+        const info = statSync(path);
+        let known = shelfSummaries.get(file);
+        if (!known || known.mtimeMs !== info.mtimeMs || known.size !== info.size) {
+          const saved = JSON.parse(readFileSync(path, 'utf8'));
+          const summary = saved?.world && CLASS_ID.test(saved.sessionId || '') && `${saved.sessionId}.json` === file ? classSummary(saved, saved.shelvedAt || info.mtime.toISOString(), false) : null;
+          known = { mtimeMs: info.mtimeMs, size: info.size, summary };
+          shelfSummaries.set(file, known);
+        }
+        if (known.summary) listed.set(known.summary.id, known.summary);
+      } catch { /* a file that cannot be read is not offered */ }
+    }
+    listed.set(state.sessionId, classSummary(state, new Date().toISOString(), true));
+    return [...listed.values()].sort((a, b) => Number(b.open) - Number(a.open) || b.savedAt.localeCompare(a.savedAt));
+  }
+  /** Size of a class the teacher asked for, or the refusal in words. */
+  function classSize(value) {
+    const size = Number(value);
+    if (!Number.isInteger(size) || size < 5 || size > 30) throw new Error('A class has 5 to 30 families.');
+    return size;
+  }
   function identify(req) {
     const host = cookie(req, hostCookie());
     if (equal(host, state.hostKey)) return { role: 'host' };
@@ -334,11 +452,17 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     // `tickMs` rides along because the renderer has to know how long a tick lasts to
     // spread one tick's movement across it. Without it the client guesses one second and a
     // slower class walks for a second and then stands still for the rest of the tick.
-    const payload = { sessionId: state.sessionId, connected: connected(), tickMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectWorld(state.world, identity.householdId, identity.role, { includeMap: false, copy, now: now() }), mapId: state.sessionId, ...(state.world.map.revision && { mapRevision: state.world.map.revision }), ...(state.world.woods?.revision && { woodsRevision: state.world.woods.revision }) };
+    const payload = { sessionId: state.sessionId, connected: connected(), tickMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectWorld(state.world, identity.householdId, identity.role, { includeMap: false, copy, now: now() }), mapId: mapKey(), ...(state.world.map.revision && { mapRevision: state.world.map.revision }), ...(state.world.woods?.revision && { woodsRevision: state.world.woods.revision }) };
     // A page has to know it is a solo game: there is no teacher on it, so its own "Done packing" is the Start
     // (owner, 2026-09-21). One boolean rather than a role of its own - a solo player is a student in every other way.
     if (solo) payload.solo = true;
-    if (identity.role === 'host') Object.assign(payload, { sessionCode: state.sessionCode, joinUrls, canStop: Boolean(onStopRequested), presence: presence() });
+    // The class's size, name, the families a late student could take and how many class days the game takes (2026-09-28).
+    if (identity.role === 'host') Object.assign(payload, {
+      sessionCode: state.sessionCode, joinUrls, canStop: Boolean(onStopRequested), presence: presence(),
+      classSize: state.world.playerCount, className: state.className || null, keepsClasses: Boolean(shelfDir),
+      lateSeat: state.lateSeat || null, seats: seats(), schedule: classSchedule(state.world, PACES),
+      ...(recoveredLock && { recoveredLock: { reason: recoveredLock.reason, backup: recoveredLock.backup && basename(recoveredLock.backup) } }),
+    });
     // A household is told its own key and no other. The Host page deliberately carries
     // none of them, because a teacher's screen is sometimes a projector.
     // A teacher can look one up from the Host page, one family at a time, through
@@ -796,16 +920,34 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         const input = await body(req);
         const existing = identify(req);
         if (existing?.role === 'student') return json(res, 200, snapshot(existing));
-        if (state.world.status !== 'lobby') return json(res, 409, { error: 'This class has started. Existing players can reconnect.' });
-        if (input.code !== state.sessionCode) return json(res, 403, { error: 'Check the class code on the Host screen.' });
+        if (state.world.status === 'ended') return json(res, 409, { error: 'This class has ended. Ask your teacher which class to join.' });
+        if (String(input.code ?? '').trim().toUpperCase() !== state.sessionCode) return json(res, 403, { error: 'Check the class code on the Host screen.' });
         const name = typeof input.name === 'string' ? input.name.trim().slice(0, 40) : '';
         if (!name) return json(res, 400, { error: 'Choose a display name.' });
-        const count = Object.keys(state.clients).length;
-        if (count >= state.world.playerCount) return json(res, 409, { error: 'Class is full.' });
+        // After Start a student still joins (2026-09-28, the classroom audit's B2): into the family the teacher chose, or the
+        // first one nobody plays (`seatFor`). Until then a latecomer, or anybody absent on the first day, was refused for good.
+        const late = state.world.status !== 'lobby';
+        const seat = seatFor(late);
+        if (!seat) return json(res, 409, { error: late
+          ? `Every family in this class already has a student. Ask your teacher to choose a family for you on the Host's page.`
+          : `This class is full: all ${state.world.playerCount} families have a student. Ask your teacher to make the class bigger.` });
         const credential = token();
-        const identity = { name, householdId: `hh-${count + 1}`, commands: [] };
+        const identity = { name, householdId: seat.householdId, commands: [] };
         // A family a student joins is theirs for good: the neighbour director never runs it again (sim/neighbours.mjs).
-        commit(s => { s.clients[hash(credential)] = identity; markPlayed(s.world, identity.householdId); });
+        commit(s => {
+          // Taking over a family whose student is not here signs that student's old device out, as a family key does.
+          if (seat.previous) delete s.clients[seat.previous.credentialHash];
+          s.clients[hash(credential)] = identity;
+          markPlayed(s.world, identity.householdId);
+          if (s.lateSeat === identity.householdId) s.lateSeat = null;
+          if (late) {
+            const household = s.world.households[identity.householdId];
+            setAbsent(s.world, household, false);
+            tellClass(s.world, seat.previous
+              ? `${name} joined the class and is playing ${householdName(s.world, household)}, which was ${seat.previous.name}'s.`
+              : `${name} joined the class late and is playing ${householdName(s.world, household)}.`);
+          }
+        });
         res.setHeader('Set-Cookie', setCookie(studentCookie(), credential, 604800));
         return json(res, 200, snapshot({ role: 'student', ...identity }));
       }
@@ -902,6 +1044,11 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         if (identity.role !== 'host') return json(res, 403, { error: 'Teacher access required.' });
         return json(res, 200, { families: Object.values(state.clients).map(client => ({ householdId: client.householdId, name: client.name })).sort((a, b) => a.householdId.localeCompare(b.householdId, 'en', { numeric: true })) });
       }
+      // The classes kept on this computer, for the Host's list (`classList`): the open one first, then the latest put away.
+      if (req.method === 'GET' && url.pathname === '/api/classes') {
+        if (identity.role !== 'host') return json(res, 403, { error: 'Teacher access required.' });
+        return json(res, 200, { classes: shelfDir ? classList() : [] });
+      }
       // One family's key, asked for by name, one request at a time. A student who has lost
       // both their browser and their key is recovered here and nowhere else. It is a
       // separate request from the list precisely so that reading the list reveals nothing.
@@ -915,14 +1062,14 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         return json(res, 200, { householdId: client.householdId, name: client.name, familyKey: familyKey(client.householdId) });
       }
       // Static public geography, fetched once per class rather than per tick.
-      if (req.method === 'GET' && url.pathname === '/api/map') return json(res, 200, { mapId: state.sessionId, map: projectMap(state.world) });
+      if (req.method === 'GET' && url.pathname === '/api/map') return json(res, 200, { mapId: mapKey(), map: projectMap(state.world) });
       // The part of the map a family choosing its house site changes (sim/homesite.mjs): the homesteads, the lanes in to
       // them and their fields. A few kilobytes, fetched when `mapRevision` moves, instead of the whole map again.
       if (req.method === 'GET' && url.pathname === '/api/map/homes') {
         const map = state.world.map;
         const sites = Object.fromEntries(Object.entries(map.sites).filter(([, site]) => site.kind === 'homestead' || site.hunting));
         const routes = Object.fromEntries(Object.entries(map.routes).filter(([, route]) => sites[route.to]));
-        return json(res, 200, { mapId: state.sessionId, revision: map.revision || 0, sites: structuredClone(sites), routes: structuredClone(routes), fields: structuredClone(map.terrain.filter(feature => feature.kind === 'field')) });
+        return json(res, 200, { mapId: mapKey(), revision: map.revision || 0, sites: structuredClone(sites), routes: structuredClone(routes), fields: structuredClone(map.terrain.filter(feature => feature.kind === 'field')) });
       }
       // What a spot on the family's own land is like to set the house on, and the lane it would have. Only the family's
       // own holding, only while it is choosing: the refusal says so otherwise.
@@ -935,7 +1082,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         const household = state.world.households[identity.householdId];
         const point = { x: Number(url.searchParams.get('x')), y: Number(url.searchParams.get('y')) }, job = url.searchParams.get('job');
         // Or what a hunt there would find (sim/hunting.mjs).
-        return json(res, 200, { mapId: state.sessionId, facts: job === 'hunt-land' ? huntFacts(state.world, household, point) : job === 'fell-trees' ? fellFacts(state.world, household, point) : plotFacts(state.world, household, point, job) });
+        return json(res, 200, { mapId: mapKey(), facts: job === 'hunt-land' ? huntFacts(state.world, household, point) : job === 'fell-trees' ? fellFacts(state.world, household, point) : plotFacts(state.world, household, point, job) });
       }
       // One tile of the woods (sim/woods-view.mjs): the land itself, the same for everybody, so no family is needed to ask.
       if (req.method === 'GET' && url.pathname === '/api/woods') {
@@ -946,17 +1093,17 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
           if (!pairs.length || pairs.length > WOODS_BATCH_MAX || pairs.some(pair => pair.length !== 2 || !pair.every(Number.isInteger))) return json(res, 400, { error: `Ask for 1 to ${WOODS_BATCH_MAX} whole-numbered tiles.` });
           const tiles = woodsTiles(state.world, url.searchParams.get('level'), pairs);
           if (tiles.every(tile => !tile)) return json(res, 404, { error: 'This class has no woods to show there.' });
-          return json(res, 200, { mapId: state.sessionId, tiles });
+          return json(res, 200, { mapId: mapKey(), tiles });
         }
         const tile = woodsTile(state.world, url.searchParams.get('level'), Number(url.searchParams.get('tx')), Number(url.searchParams.get('ty')));
         if (!tile) return json(res, 404, { error: 'This class has no woods to show there.' });
-        return json(res, 200, { mapId: state.sessionId, tile });
+        return json(res, 200, { mapId: mapKey(), tile });
       }
       if (req.method === 'GET' && url.pathname === '/api/site') {
         if (!identity.householdId) return json(res, 403, { error: 'Only a family chooses where its house stands.' });
         const household = state.world.households[identity.householdId];
         const facts = siteFactsFor(state.world, household, { x: Number(url.searchParams.get('x')), y: Number(url.searchParams.get('y')) });
-        return json(res, 200, { mapId: state.sessionId, facts });
+        return json(res, 200, { mapId: mapKey(), facts });
       }
       // The errand to town, before it is sent (sim/errands.mjs, docs/TOWNS.md §4b): what the family's own town deals in, the
       // family's stock and, for a list, whether it can go and how the person would go. The family's own people only, read
@@ -969,7 +1116,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
           if (text.length > 2000) return json(res, 400, { error: 'That list is too long.' });
           try { list = JSON.parse(text); } catch { return json(res, 400, { error: 'That list could not be read.' }); }
         }
-        return json(res, 200, { mapId: state.sessionId, errand: errandFor(state.world, identity.householdId, url.searchParams.get('entityId'), list, url.searchParams.get('mode') || null) });
+        return json(res, 200, { mapId: mapKey(), errand: errandFor(state.world, identity.householdId, url.searchParams.get('entityId'), list, url.searchParams.get('mode') || null) });
       }
       // How they will go (docs/FAMILY_PANEL.md §15, owner 2026-09-24): every way of going for the journey an order would start,
       // with the server's facts and reasons, and the quickest marked. The order is the page's own, as it would send it.
@@ -980,16 +1127,16 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         let order;
         try { order = JSON.parse(text); } catch { return json(res, 400, { error: 'That order could not be read.' }); }
         if (!order || typeof order !== 'object' || Array.isArray(order)) return json(res, 400, { error: 'That order could not be read.' });
-        return json(res, 200, { mapId: state.sessionId, going: goingFor(state.world, identity.householdId, url.searchParams.get('entityId'), order) });
+        return json(res, 200, { mapId: mapKey(), going: goingFor(state.world, identity.householdId, url.searchParams.get('entityId'), order) });
       }
       // The list of work that exists never changes during a class; only who may do it
       // does, and that rides on the tick. Same reason the map is fetched once.
-      if (req.method === 'GET' && url.pathname === '/api/chores') return json(res, 200, { mapId: state.sessionId, chores: choreCatalogue(), modes: modeCatalogue(), goods: GOODS, wagon: wagonCatalogue(), houses: houseCatalogue(), plot: plotCatalogue(), woods: woodsCatalogue() });
+      if (req.method === 'GET' && url.pathname === '/api/chores') return json(res, 200, { mapId: mapKey(), chores: choreCatalogue(), modes: modeCatalogue(), goods: GOODS, wagon: wagonCatalogue(), houses: houseCatalogue(), plot: plotCatalogue(), woods: woodsCatalogue() });
       // Who this family is. Theirs and nobody else's, so it is read from the identity on
       // the cookie rather than from anything the request could ask for.
       if (req.method === 'GET' && url.pathname === '/api/family') {
         if (!identity.householdId) return json(res, 403, { error: 'Only a family has a family.' });
-        return json(res, 200, { mapId: state.sessionId, family: projectFamily(state.world, identity.householdId) });
+        return json(res, 200, { mapId: mapKey(), family: projectFamily(state.world, identity.householdId) });
       }
       if (req.method === 'GET' && url.pathname === '/api/events') {
         if ([...streams].filter(s => s.identity.role === identity.role && s.identity.householdId === identity.householdId).length >= 3) return json(res, 429, { error: 'Too many open tabs for this household.' });
@@ -1049,17 +1196,67 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
             // The second class period (sim/periods.mjs): the same class carried on into the winter, never a new one.
             else if (input.action === 'next-period') beginNextPeriod(s.world);
             else if (input.action === 'new-class') {
-              // Never discard a class that is still being played.
-              if (!['lobby', 'ended'].includes(s.world.status)) throw new Error('End the current class before starting a new one.');
+              // Never put away a class while it is being played: the teacher pauses it first (2026-09-28). A paused class is
+              // no longer lost by this - it is kept on the shelf (`shelve`) and opened again from the Host's list of classes.
+              if (s.world.status === 'running') throw new Error('Pause this class first. It is kept, and can be opened again from Classes.');
+              // The size the teacher asked for (5-30), or this class's; the name the teacher gave it ("Period 4"), if any.
+              const size = input.size === undefined || input.size === null || input.size === '' ? s.world.playerCount : classSize(input.size);
               // The archive copies the save on disk, which a class that ended on its own tick can trail by a few seconds.
               flush();
               archived = archiveSave(savePath, s.sessionId);
+              shelve(s);
               s.sessionId = token().slice(0, 12);
               s.sessionCode = randomBytes(3).toString('hex').toUpperCase();
               s.clients = {}; s.hostCommands = [];
-              // Class size is a kept setting; the seed is new so the next class is its own world.
-              s.world = worldFactory(token().slice(0, 16), s.world.playerCount);
+              s.className = className(input.name);
+              delete s.deal; delete s.lateSeat;
+              // The seed is new so the next class is its own world.
+              s.world = worldFactory(token().slice(0, 16), size);
               rotatedSession = s.sessionId;
+            } else if (input.action === 'open-class') {
+              // Another section's class, put away by New Class or by opening this one (`shelve`), opened again where it was.
+              if (!shelfDir) throw new Error('This server keeps no other classes.');
+              if (typeof input.classId !== 'string' || !CLASS_ID.test(input.classId)) throw new Error('That is not a saved class.');
+              if (input.classId === s.sessionId) throw new Error('That class is already open.');
+              if (s.world.status === 'running') throw new Error('Pause this class first. It is kept, and can be opened again from Classes.');
+              let saved = null;
+              try { saved = readSave(join(shelfDir, `${input.classId}.json`)); } catch (error) { throw new Error(`That class cannot be opened: ${error.message}`); }
+              if (!saved?.world || saved.sessionId !== input.classId) throw new Error('That saved class is not there.');
+              flush();
+              shelve(s);
+              s.sessionId = saved.sessionId;
+              s.sessionCode = saved.sessionCode;
+              s.clients = saved.clients || {};
+              s.hostCommands = saved.hostCommands || [];
+              s.world = saved.world;
+              s.className = saved.className || null;
+              if (saved.deal) s.deal = saved.deal; else delete s.deal;
+              if (saved.lateSeat) s.lateSeat = saved.lateSeat; else delete s.lateSeat;
+              // A class opened again waits for the teacher's Resume, whatever it was doing when it was put away.
+              if (s.world.status === 'running') s.world.status = 'paused';
+              rotatedSession = s.sessionId;
+            } else if (input.action === 'class-size') {
+              // How many families the class has (2026-09-28, the classroom audit's B1): 5 to 30, chosen in the lobby. The world
+              // is dealt again for the new number with the same seed, and a student who has joined keeps their place and
+              // makes their family again: a family is where it is in the colonies because of how many families there are.
+              if (s.world.status !== 'lobby') throw new Error('The class size is chosen in the lobby, before Start.');
+              const size = classSize(input.size);
+              const joined = Object.keys(s.clients).length;
+              if (size < joined) throw new Error(`${joined} students have joined, so the class cannot have fewer families than that.`);
+              if (size !== s.world.playerCount) {
+                s.world = worldFactory(s.world.seed, size);
+                for (const client of Object.values(s.clients)) markPlayed(s.world, client.householdId);
+                s.deal = (s.deal || 0) + 1;
+                delete s.lateSeat;
+              }
+            } else if (input.action === 'late-seat') {
+              // Which family the next student to join after Start is given: one nobody plays, or one whose student is not
+              // here (`seats`). Nothing chosen is the first family nobody plays.
+              if (!input.householdId) delete s.lateSeat;
+              else {
+                if (!seats().some(seat => seat.householdId === input.householdId)) throw new Error('That family cannot be given to a late student: somebody is playing it now.');
+                s.lateSeat = input.householdId;
+              }
             } else if (input.action === 'stop-server') {
               if (!onStopRequested) throw new Error('This build cannot stop the server from the Host page. Stop it in the developer terminal.');
               // Checkpoint a real Pause first: a saved running class starts advancing on restart.
@@ -1112,6 +1309,11 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
           // Credentials belong to the archived class. End those streams so a previous
           // student cannot silently inherit a household in the new one.
           for (const stream of [...streams]) if (stream.identity.role === 'student') { streams.delete(stream); stream.res.end(); }
+          // Presence belongs to the class that was open. A class opened again starts every student's absence clock now,
+          // so a student who does not come back to it is handed to the director after the usual grace (`markAbsences`).
+          lastSeen.clear();
+          const opened = Date.now();
+          for (const client of Object.values(state.clients)) if (client.householdId) lastSeen.set(client.householdId, opened);
         }
         if (wantedPace) setPace(wantedPace);
         if (stopping) requestStop();
@@ -1149,6 +1351,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     server,
     get state() { return structuredClone(state); },
     get savePath() { return savePath; },
+    recoveredLock,
     snapshot,
     requestStop,
     setPace,

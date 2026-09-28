@@ -1,0 +1,77 @@
+{
+  "record": "classes-browser",
+  "date": "2026-09-28",
+  "verdict": "PASS",
+  "browser": "153.0.8010.53",
+  "task": "docs/audits/2026-09-28-classroom.md B1, B2, B6 and the owner's \"Plan for several class days\": class days on the Host before Start and after; class size 30 from the Host; late students into free and chosen families; the thirty-first refused in words; several classes kept and opened again, a signed-out student page carrying on by itself.",
+  "environment": "Same computer: an in-process classroom on the real land, 1.5 s a tick, 30 families, headless Chrome at 1366x768. Not a physical LAN, a classroom or a Chromebook.",
+  "checks": [
+    "before Start the Host says \"A whole game takes about 6–11 class days at Study · 3–5 at Brisk · 1–2 at Quick, counting 40 minutes of play a day.\" and \"0 here of 0 joined · 15 families\"",
+    "the class made thirty families from the Host's page, and the Host says so",
+    "after Start: \"Now: the autumn of 1835 (period 1 of 3), about 0% of the way through. Left: about 6–10 class days at Study · 3–5 at Brisk · 1–2 at Quick. A whole game takes about 6–11 class days at Study · 3–5 at Brisk · 1–2 at Quick, counting 40 minutes of play a day.\"",
+    "the class panel lists all thirty families",
+    "a student who joins from the join form after Start plays hh-25, the first family nobody plays, in the class already going",
+    "the teacher chose hh-30 from \"The first family nobody plays\", …, and the next late student was given it",
+    "thirty students in thirty families",
+    "the thirty-first is told in words that every family has a student and to ask the teacher",
+    "a new class \"Period 4\" of 8 families, and the first kept: Class FEE57F · code FEE57F · 30 of 30 families joined · paused, September 28, 1835 (period 1)",
+    "the first class's student is told: \"You are no longer joined to this class: your family was taken up on another device, or your teacher opened another class. If you were in this class, choose “I was already in this class” and tap your name.\"",
+    "the first class opened again: the same code FEE57F, paused, thirty students",
+    "and its student's page, left on the join screen, carried on with hh-1 by itself 3893 ms later",
+    "Resume plays the class on",
+    "at 400 px the Host page does not scroll sideways",
+    "no page errors"
+  ],
+  "measured": {
+    "lobby": {
+      "days": "A whole game takes about 6–11 class days at Study · 3–5 at Brisk · 1–2 at Quick, counting 40 minutes of play a day.",
+      "daysShown": true,
+      "connection": "0 here of 0 joined · 15 families",
+      "sizeShown": true
+    },
+    "running": "Now: the autumn of 1835 (period 1 of 3), about 0% of the way through. Left: about 6–10 class days at Study · 3–5 at Brisk · 1–2 at Quick. A whole game takes about 6–11 class days at Study · 3–5 at Brisk · 1–2 at Quick, counting 40 minutes of play a day.",
+    "lateChoices": [
+      "The first family nobody plays",
+      "Barnabas's family (Student 2, not here)",
+      "Cipriano's family (Student 3, not here)",
+      "Elias's family (Student 4, not here)",
+      "Anselmo's family (Student 5, not here)",
+      "Bartolo's family (Student 6, not here)",
+      "Vicente's family (Student 7, not here)",
+      "Alvin's family (Student 8, not here)",
+      "Ignacio's family (Student 9, not here)",
+      "Caleb's family (Student 10, not here)",
+      "Ezra's family (Student 11, not here)",
+      "Nicolás's family (Student 12, not here)",
+      "Ramón's family (Student 13, not here)",
+      "Thomas's family (Student 14, not here)",
+      "Asa's family (Student 15, not here)",
+      "Feliciano's family (Student 16, not here)",
+      "Amos's family (Student 17, not here)",
+      "Hollis's family (Student 18, not here)",
+      "Trinidad's family (Student 19, not here)",
+      "Jethro's family (Student 20, not here)",
+      "Gregorio's family (Student 21, not here)",
+      "Barnabas's family (Student 22, not here)",
+      "Cipriano's family (Student 23, not here)",
+      "Elias's family (Student 24, not here)",
+      "Bartolo's family (nobody's)",
+      "Vicente's family (nobody's)",
+      "Alvin's family (nobody's)",
+      "Ignacio's family (nobody's)",
+      "Caleb's family (nobody's)"
+    ],
+    "classes": [
+      "Period 4 · code A62787 · 0 of 8 families joined · not startedOpen now",
+      "Class FEE57F · code FEE57F · 30 of 30 families joined · paused, September 28, 1835 (period 1)Open"
+    ],
+    "signedOutWords": "You are no longer joined to this class: your family was taken up on another device, or your teacher opened another class. If you were in this class, choose “I was already in this class” and tap your name.",
+    "studentBackMs": 3893
+  },
+  "screenshots": [
+    "docs/evidence/classes-lobby.png",
+    "docs/evidence/classes-late.png",
+    "docs/evidence/classes-full.png",
+    "docs/evidence/classes-classes.png"
+  ]
+}
