@@ -71,13 +71,13 @@
             "kind": "cavalry",
             "phase": "caught",
             "soldiers": 8,
-            "smoke": 6,
+            "smoke": 8,
             "shotsSent": 8
           }
         ],
-        "shotsSeen": 6,
-        "flashes": 6,
-        "dust": 6,
+        "shotsSeen": 8,
+        "flashes": 8,
+        "dust": 8,
         "lines": [
           "alto",
           "warn",
@@ -178,11 +178,11 @@
           "yards": 46,
           "shooter": "mounted",
           "target": {
-            "kind": "wagon",
-            "name": "wagon",
-            "id": "hh-1-wagon"
+            "kind": "beast",
+            "name": "ox",
+            "id": "hh-1-animal"
           },
-          "p": 0.076,
+          "p": 0.064,
           "hit": false,
           "minute": 288256.333
         },
@@ -206,11 +206,11 @@
           "yards": 46,
           "shooter": "mounted",
           "target": {
-            "kind": "wagon",
-            "name": "wagon",
-            "id": "hh-1-wagon"
+            "kind": "beast",
+            "name": "ox",
+            "id": "hh-1-animal"
           },
-          "p": 0.076,
+          "p": 0.063,
           "hit": false,
           "minute": 288256.367
         },
@@ -221,8 +221,8 @@
           "shooter": "mounted",
           "target": {
             "kind": "person",
-            "name": "Bernarda",
-            "id": "hh-1-parent-2"
+            "name": "Gregorio",
+            "id": "hh-1-parent-1"
           },
           "p": 0.042,
           "hit": false,
@@ -234,11 +234,11 @@
           "yards": 47,
           "shooter": "mounted",
           "target": {
-            "kind": "wagon",
-            "name": "wagon",
-            "id": "hh-1-wagon"
+            "kind": "beast",
+            "name": "ox",
+            "id": "hh-1-animal"
           },
-          "p": 0.073,
+          "p": 0.06,
           "hit": false,
           "minute": 288256.4
         },
@@ -248,11 +248,11 @@
           "yards": 47,
           "shooter": "mounted",
           "target": {
-            "kind": "wagon",
-            "name": "wagon",
-            "id": "hh-1-wagon"
+            "kind": "beast",
+            "name": "ox",
+            "id": "hh-1-animal"
           },
-          "p": 0.072,
+          "p": 0.06,
           "hit": false,
           "minute": 288256.433
         },
@@ -263,8 +263,8 @@
           "shooter": "mounted",
           "target": {
             "kind": "person",
-            "name": "Bernarda",
-            "id": "hh-1-parent-2"
+            "name": "Gregorio",
+            "id": "hh-1-parent-1"
           },
           "p": 0.042,
           "hit": false,

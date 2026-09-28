@@ -1,16 +1,16 @@
 {
   "record": "The Mexican advance through the Runaway Scrape, in a browser: docs/SCRAPE.md",
-  "date": "2026-09-27",
+  "date": "2026-09-28",
   "verdict": "PASS",
   "note": "Same computer only: a real class on the colonies map with rolled families, played in process to dawn on March 14 and then served live to headless Chrome at 1366x768 (Host, first student) and 1024x768 (second student); five students joined by the class code. No LAN or district claim.",
   "checks": [
     "five students joined through the class code, two at the screen (1366x768 and 1024x768), and the Host started the class at dawn on March 14",
-    "the Host sees sesma (making for the west bank of the Colorado, opposite Beeson’s, about 750); urrea (in camp at Refugio, about 280), and sesma moved 5.5 miles in 12 hours",
+    "the Host sees sesma (making for the west bank of the Colorado, opposite Beeson’s, about 750); urrea (making for Goliad, about 280), and sesma moved 11.0 miles in 24 hours, urrea moved 15.2 miles in 24 hours",
     "the second family, with nobody near any column, is sent no Mexican column",
     "the first family, inside the zone, left for Nacogdoches with what it could carry, and the rest left in the house",
     "the farm burned (Urrea’s column) while the family was away: its page still drew the house sound, with no smoke and no word; the Host was sent the smoke at once (drawn on its map); the other family saw nothing",
-    "the family learned it by word 72 hours after the burning; its page now draws the farm burned, and its record says: \"Word came along the road from people fleeing east: on April 13 foragers of Urrea’s column reached the family's farm and burned the house, the field and the fences. What was left in the house went with it: 198 food, 4 powder.\"",
-    "the map draws in 6.0 ms (95th 6.6) on the Host at 1366x768 and 2.6 ms (95th 3.1) on a student's page at 1024x768",
+    "the family learned it by word 104 hours after the burning; its page now draws the farm burned, and its record says: \"Word came along the road from people fleeing east: on April 13 foragers of Urrea’s column reached the family's farm and burned the house, the field and the fences. What was left in the house went with it: 193 food, 4 powder.\"",
+    "the map draws in 4.4 ms (95th 4.4) on the Host at 1366x768 and 1.8 ms (95th 1.8) on a student's page at 1024x768",
     "on the road home after San Jacinto the first family came home, and its page said: the house is ashes",
     "the second family, outside the zone, came home to its house standing and what it left in it; it was never shown its farm burned",
     "no page errors"
@@ -18,39 +18,6 @@
   "evidence": {
     "seed": "adv-proof-7",
     "columns": [
-      {
-        "minute": 243760,
-        "armies": [
-          {
-            "id": "sesma",
-            "x": 1.435413277066932,
-            "y": -0.69,
-            "commander": "sesma",
-            "strength": 750,
-            "place": "making for the west bank of the Colorado, opposite Beeson’s",
-            "moving": true
-          },
-          {
-            "id": "urrea",
-            "x": 11.81,
-            "y": 82.27,
-            "commander": "urrea",
-            "strength": 280,
-            "place": "in camp at Refugio",
-            "moving": false
-          }
-        ],
-        "drawn": [
-          {
-            "id": "sesma",
-            "how": "column"
-          },
-          {
-            "id": "urrea",
-            "how": "camp"
-          }
-        ]
-      },
       {
         "minute": 244480,
         "armies": [
@@ -83,28 +50,61 @@
             "how": "camp"
           }
         ]
+      },
+      {
+        "minute": 245920,
+        "armies": [
+          {
+            "id": "sesma",
+            "x": 15.915396346890008,
+            "y": -8.31,
+            "commander": "sesma",
+            "strength": 750,
+            "place": "making for the west bank of the Colorado, opposite Beeson’s",
+            "moving": true
+          },
+          {
+            "id": "urrea",
+            "x": 9.44,
+            "y": 67.2543455947644,
+            "commander": "urrea",
+            "strength": 280,
+            "place": "making for Goliad",
+            "moving": true
+          }
+        ],
+        "drawn": [
+          {
+            "id": "sesma",
+            "how": "column"
+          },
+          {
+            "id": "urrea",
+            "how": "column"
+          }
+        ]
       }
     ],
     "frames": {
       "host": {
-        "samples": 47,
-        "median": 6,
-        "p95": 6.600000023841858
+        "samples": 48,
+        "median": 4.400000035762787,
+        "p95": 4.400000035762787
       },
       "student1024": {
-        "samples": 47,
-        "median": 2.600000023841858,
-        "p95": 3.100000023841858
+        "samples": 48,
+        "median": 1.800000011920929,
+        "p95": 1.800000011920929
       }
     },
     "burning": {
-      "burnedAt": 285320,
+      "burnedAt": 285372,
       "by": {
         "hand": "mexican",
         "columnId": "urrea",
         "name": "Urrea’s column",
         "lost": [
-          "198 food",
+          "193 food",
           "4 powder"
         ]
       },
@@ -115,18 +115,18 @@
     },
     "word": {
       "how": "word",
-      "knownAt": 289640,
-      "hoursAfter": 72,
+      "knownAt": 291632,
+      "hoursAfter": 104,
       "report": {
         "topicId": "farm-burned:hh-1",
         "text": "Foragers of Urrea’s column burned the family's farm on April 13.",
         "status": "confirmed",
         "source": "People fleeing east",
-        "observedMinute": 285320,
-        "receivedMinute": 289640,
-        "eventId": "ev-5926",
-        "ageMinutes": 0,
-        "observationAgeMinutes": 4320
+        "observedMinute": 285372,
+        "receivedMinute": 291632,
+        "eventId": "ev-6151",
+        "ageMinutes": 2745,
+        "observationAgeMinutes": 9005
       }
     },
     "outside": {
