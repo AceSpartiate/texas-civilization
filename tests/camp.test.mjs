@@ -256,8 +256,10 @@ test('with the word of Goliad the army asks whether he goes home: a "!" for a pl
   assert.equal(calendarMinutes(world), TICK_MINUTES);
   untilMoment(world, 'goliad-leave-close');
   assert.notEqual(silent.service.leave, 'open', 'the question did not close');
-  assert.equal(silent.service.leave, share(world, silent.id, 'camp-leave') < CAMP_QUESTIONS.leave.unplayed ? 'yes' : 'no');
-  assert.ok(world.events.some(event => event.actorId === silent.id && /Nobody answered for .* in time/.test(event.text)));
+  // Nobody answered for him: the question lapses and he stays with the army (owner, 2026-09-27; sim/lapse.mjs).
+  assert.equal(silent.service.leave, 'no', 'somebody nobody answered for was sent home');
+  assert.equal(silent.service.status, 'serving', 'somebody nobody answered for left the army');
+  assert.ok(world.events.some(event => event.actorId === silent.id && /Nobody answered for .* in time, and the question lapsed/.test(event.text)));
   // Nothing of the camp holds the calendar now (a family told to leave that morning may, which is the flight's own rule).
   assert.equal(campQuestionOpen(world), false, 'a camp question was still open');
   validateWorld(world);

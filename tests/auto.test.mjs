@@ -110,7 +110,9 @@ test('on auto a hunt never stops to ask: the shot is decided at once, the hunt r
   validateWorld(world);
 });
 
-test('by hand the question stands for the game\'s own window and then auto decides it: a steady hand takes the shot nobody answered', () => {
+// Amended 2026-09-27 (owner: "questions that are not answered fast enough disappear"; sim/lapse.mjs): the window runs out into
+// nothing chosen, not into auto's answer.
+test('by hand the question stands for the game\'s own window and then lapses: nobody takes the shot, and the hunter comes away', () => {
   const world = running('auto-hand');
   const elena = world.entities['hh-1-elena'];
   world.households['hh-1'].resources.powder = 3;
@@ -122,11 +124,13 @@ test('by hand the question stands for the game\'s own window and then auto decid
   }
   assert.ok(opened !== null, 'the hunt never asked');
   assert.ok(waited * 20 >= ASK_PATIENCE - 20 && waited * 20 <= ASK_PATIENCE + 40, `the question stood ${waited} ticks`);
-  const decided = world.events.find(event => event.actorId === elena.id && /Nobody answered/.test(event.text));
-  assert.equal(decided?.decision, 'take', 'silence did not decide as auto decides');
+  const lapsed = world.events.find(event => event.actorId === elena.id && /Nobody answered/.test(event.text));
+  assert.ok(lapsed?.lapsed && /the question lapsed\. Nothing new was chosen: .* did nothing more: leave it and come home/.test(lapsed.text), `the record does not say plainly that the question lapsed: ${lapsed?.text}`);
+  assert.ok(!world.events.some(event => event.actorId === elena.id && event.decision), 'something was chosen for the hunter nobody answered for');
+  assert.equal(world.households['hh-1'].resources.powder, 3, 'powder was spent on a shot nobody chose');
 });
 
-test('in the ranks, a person on auto is answered the moment the army asks, at the record\'s share; nobody answered for in time is decided the same way, and the answer does what it does', () => {
+test('in the ranks, a person on auto is answered the moment the army asks, at the record\'s share, and the answer does what it does; nobody answered for in time is not answered for: the question lapses', () => {
   const base = createGonzalesWorld('auto-camp', 30, { map: 'colonies' });
   base.status = 'running';
   untilMinute(base, momentOf(base, 'organised') + 1);
@@ -148,18 +152,22 @@ test('in the ranks, a person on auto is answered the moment the army asks, at th
   assert.ok(!(view(world, onAuto.householdId).army?.ours?.find(one => one.id === onAuto.id)?.questions || []).some(q => q.answer === 'open'), 'the family of a person on auto was shown the question open');
   assert.ok(world.events.some(e => e.actorId === onAuto.id && e.type === 'choice' && e.decision === `storm-${storm[onAuto.id]}`), 'the auto answer was not written down as the family\'s choice');
   closeQuestion(world, 'storm');
-  assert.ok(['yes', 'no'].includes(storm[byHand.id]), `nobody answering left ${storm[byHand.id]}`);
-  assert.ok(world.events.some(e => e.actorId === byHand.id && /Nobody answered for .* in time, and it was decided for them/.test(e.text)));
-  // Deterministic: the same person on auto or unanswered gets the same answer, so the switch never changes the odds.
+  // Since 2026-09-27 nobody answering is not answered for: the question lapses (sim/lapse.mjs).
+  assert.equal(storm[byHand.id], 'silent', `nobody answering left ${storm[byHand.id]}`);
+  assert.ok(world.events.some(e => e.actorId === byHand.id && e.lapsed && /Nobody answered for .* in time, and the question lapsed/.test(e.text)));
+  // Deterministic: the same person on auto from the start, or put on auto while the question stood, gets the same answer, so
+  // when the switch is pressed never changes the odds.
   const again = fresh();
   openQuestion(again, 'storm', null);
+  again.entities[onAuto.id].auto = true;
   closeQuestion(again, 'storm');
-  assert.equal(again.army.questions.storm.asks[onAuto.id], storm[onAuto.id], 'auto and silence decided differently for the same person');
+  assert.equal(again.army.questions.storm.asks[onAuto.id], storm[onAuto.id], 'auto at once and auto at the close decided differently for the same person');
 
-  // The pledge: somebody decided out of it starts home, whether auto said so at once or nobody answered in time.
+  // The pledge: somebody decided out of it starts home when auto decides it; nobody is decided out of it by silence.
   const pledge = fresh();
   const homeward = [];
   const beginTravel = (w, person, destination) => { homeward.push({ id: person.id, destination }); person.travel = { from: person.location.siteId, to: destination, points: [{ x: 0, y: 0 }, { x: 1, y: 1 }], progress: 0, distance: 1, speed: 1, mode: 'foot', purpose: 'home' }; person.location = { x: 0, y: 0, siteId: null }; };
+  for (const p of people) pledge.entities[p.id].auto = true;
   openQuestion(pledge, 'pledge', null, { beginTravel });
   closeQuestion(pledge, 'pledge', { beginTravel });
   const answers = pledge.army.questions.pledge.asks;
@@ -169,6 +177,11 @@ test('in the ranks, a person on auto is answered the moment the army asks, at th
   for (const p of pledged) assert.equal(withTheArmy(pledge, p.id), true);
   const share = pledged.length / people.length;
   assert.ok(share > 0.5 && share < 0.85, `${share.toFixed(2)} pledged: not the record's two in three`);
+  const unanswered = fresh(), silentHome = [];
+  openQuestion(unanswered, 'pledge', null, { beginTravel: (w, person) => silentHome.push(person.id) });
+  closeQuestion(unanswered, 'pledge', { beginTravel: (w, person) => silentHome.push(person.id) });
+  for (const p of people) { assert.equal(unanswered.army.questions.pledge.asks[p.id], 'silent'); assert.equal(withTheArmy(unanswered, p.id), true, `${p.name} was sent home by nobody`); }
+  assert.deepEqual(silentHome, [], 'somebody nobody answered for started home');
 
   // The detachment, the same two ways.
   const division = fresh();
@@ -179,12 +192,12 @@ test('in the ranks, a person on auto is answered the moment the army asks, at th
   assert.equal(asks[byHand.id], 'open');
   assert.ok(division.events.some(e => e.actorId === onAuto.id && e.type === 'choice' && /went ahead|stayed with the main army/.test(e.text)));
   closeDetachment(division);
-  assert.ok(['go', 'stay'].includes(asks[byHand.id]));
-  assert.ok(division.events.some(e => e.actorId === byHand.id && /Nobody answered for .* in time/.test(e.text)));
+  assert.equal(asks[byHand.id], 'stay', 'nobody answering sent him ahead');
+  assert.ok(division.events.some(e => e.actorId === byHand.id && e.lapsed && /Nobody answered for .* in time, and the question lapsed/.test(e.text)));
   validateWorld(division);
 });
 
-test('inside the Alamo, a person on auto offers or stays at once at auto\'s share, and nobody answered for in time is decided the same way', () => {
+test('inside the Alamo, a person on auto offers or stays at once at auto\'s share, and nobody answered for in time is not offered: the question lapses', () => {
   const world = createGonzalesWorld('auto-alamo', 8, { map: 'colonies' });
   for (const household of Object.values(world.households)) rollFamily(world, household);
   world.status = 'running';
@@ -217,8 +230,9 @@ test('inside the Alamo, a person on auto offers or stays at once at auto\'s shar
   assert.equal(c.service.courier, 'open', 'the runner never reached the person by hand');
   assert.ok(needsOf(view(world, c.householdId), c.id).some(need => need.kind === 'courier'));
   untilMoment(world, 'courier-1');
-  assert.ok(['sent', 'passed'].includes(c.service.courier), `nobody answering left ${c.name} ${c.service.courier}: the offer auto would make was not made`);
-  assert.ok(world.events.some(e => e.actorId === c.id && /Nobody answered for .* in time/.test(e.text)));
+  assert.equal(c.service.courier, 'stays', `nobody answering left ${c.name} ${c.service.courier}: an offer was made for them`);
+  assert.equal(c.service.besieged, true, `${c.name} was sent out though nobody offered`);
+  assert.ok(world.events.some(e => e.actorId === c.id && e.lapsed && /the question lapsed/.test(e.text)));
   validateWorld(world);
 });
 

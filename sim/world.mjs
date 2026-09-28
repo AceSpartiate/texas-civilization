@@ -31,7 +31,7 @@ registerRoadChores();
 registerFlightWork();
 // Resting a day on the road, camping apart from a crowd, nursing at home (sim/disease.mjs), on the same terms.
 registerDiseaseChores();
-import { advanceLesson, advanceLessons, lessonHostWords, lessonInvalid, lessonProjection, lessonRefusal, lessonResumeOffer, resumeLesson, stopLesson } from './lesson.mjs';
+import { advanceLesson, advanceLessons, inLesson, lessonHostWords, lessonInvalid, lessonProjection, lessonRefusal, lessonResumeOffer, resumeLesson, stopLesson } from './lesson.mjs';
 import { REPEATED, advanceAuto, autoShown, noteOrder, setAuto, waitForTask, waitingWork } from './auto.mjs';
 import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
 // The children's own works (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21). Imported here as well
@@ -47,7 +47,7 @@ import { advanceTown, createTownspeople, observedBy, seenAs } from './town.mjs';
 import { helpTownScene, townScenesFor } from './town-scenes.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
-import { advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, listeningOf, riderName, spotName } from './encounters.mjs';
+import { advanceDepartures, advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, listeningOf, riderName, spotName } from './encounters.mjs';
 import { DEFAULT_MODE, HIGH_WATER_TIMES, MODES, WADE_WRONG_MINUTES, WADE_WRONG_SHARE, fordMinutes, modeOf, moveOnGround, propertyId, RIDER_SPEED } from './travel.mjs';
 import { paceOf } from './ground.mjs';
 import { findWay } from './ways.mjs';
@@ -382,7 +382,8 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
   // stays exactly as it was: relays must never start depending on whether some family
   // happens to own an animal.
   // An express rider between settlements (sim/expresses.mjs) rides the same way, for the same reason.
-  const riding = Boolean(entity.report || entity.express);
+  // So does a rider whose errand is done, riding home (sim/encounters.mjs `advanceDepartures`).
+  const riding = Boolean(entity.report || entity.express || entity.leaving);
   const mode = riding ? MODES.horse : MODES[modeId];
   if (!mode) throw new Error('No such way of going.');
   // A rider carrying word keeps to the roads, where word is carried and met (sim/geography.mjs `findPath`). Anybody else
@@ -635,7 +636,7 @@ export function progressTravel(world, entity, units = 1) {
     record(world, 'arrival', { actorId: entity.id, householdId: entity.householdId, text: `${entity.name} arrived at ${world.map.sites[travel.to].name}.`, destination: travel.to, purpose: travel.purpose, causes: [travel.progressEventId || travel.causeId] });
   }
 }
-export function stepWorld(world, { realMs = 0, decisionBudgetMs } = {}) {
+export function stepWorld(world, { realMs = 0, decisionBudgetMs, callBudgetMs } = {}) {
   if (world.status !== 'running') return;
   // One tick of everybody's own time; on the real land the calendar it carries can be
   // longer than the twenty minutes of work in it (sim/clock.mjs, docs/COLONIES.md §5.7).
@@ -648,7 +649,7 @@ export function stepWorld(world, { realMs = 0, decisionBudgetMs } = {}) {
   // The real seconds the server says passed since its last running tick are spent on every open military question, and a
   // question out of time is decided by its documented fallback before anything moves (sim/decision-budget.mjs). A tick
   // stepped in process carries none.
-  spendDecisionBudget(world, realMs, { budgetMs: decisionBudgetMs, beginTravel });
+  spendDecisionBudget(world, realMs, { budgetMs: decisionBudgetMs, callBudgetMs, heldFor: household => inLesson(world, household), beginTravel });
   for (const entity of Object.values(world.entities)) progressTravel(world, entity);
   // The sick mend by what they did this tick - rested where the road held them, rode or walked where it did not - wherever they
   // are (sim/disease.mjs `mendSickness`, docs/DISEASE.md build step 0 and §3.7).
@@ -691,6 +692,9 @@ export function stepWorld(world, { realMs = 0, decisionBudgetMs } = {}) {
   // thing that happens between two people who are standing together, so they are settled
   // once everybody has finished moving for the tick.
   advanceEncounters(world);
+  // A rider whose errand is done - the word said, handed on or brought in - rides home and is gone, rather than standing about
+  // (owner, 2026-09-27; sim/encounters.mjs `advanceDepartures`).
+  advanceDepartures(world, { beginTravel });
   // Days of the calendar: what is eaten, what spoils, what mends, whatever the tick was worth.
   advanceRoutine(world, calendar); deliverReports(world);
   // The families on the road east (sim/scrape.mjs): the rivers, the food, the sickness, arriving.
@@ -758,7 +762,8 @@ function sendRider(world, { topicId, audience, status, originSiteId, fromSiteId,
   // list is the fix if a class ever takes one rider for another.
   let named = number;
   while (inPerson && (provenance || []).some(hop => hop.name === riderName(named))) named++;
-  const entity = { id, name: inPerson ? riderName(named) : `Rider ${number}`, kind: 'person', householdId: null, depth: 'moderate', principal: false, courier: true, location: { x: from.x, y: from.y, siteId: fromSiteId }, task: 'rest', health: { condition: 'well' }, travel: null, report: { topicId, audience, destination: leg ? leg.id : homeSiteId, homeSiteId, status, originSiteId, departedMinute: world.minute, ...(inPerson && { inPerson: true, provenance }) } };
+  // `base` is where he rides home to once the word is off his hands (sim/encounters.mjs `advanceDepartures`).
+  const entity = { id, name: inPerson ? riderName(named) : `Rider ${number}`, kind: 'person', householdId: null, depth: 'moderate', principal: false, courier: true, base: fromSiteId, location: { x: from.x, y: from.y, siteId: fromSiteId }, task: 'rest', health: { condition: 'well' }, travel: null, report: { topicId, audience, destination: leg ? leg.id : homeSiteId, homeSiteId, status, originSiteId, departedMinute: world.minute, ...(inPerson && { inPerson: true, provenance }) } };
   world.entities[id] = entity;
   beginTravel(world, entity, entity.report.destination, causeId, 'report');
   return entity;

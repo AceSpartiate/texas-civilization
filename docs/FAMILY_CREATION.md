@@ -224,7 +224,8 @@ housework effect produces: a family that needs its housekeeper at home has a rea
 
 ## 5. Who can be sent to fight, and what it costs
 
-- **Parents, and children aged 16 or over.** A younger child cannot be sent, and the control says so.
+- **Parents, and children aged 16 or over.** A younger child cannot be sent, and the control says so. **The owner kept the
+  fighting age at 16 on 2026-09-27**, by multiple choice, when asked again; nothing changed.
 - **The student chooses who goes.** The food call is answered by any parent or child of sixteen or more, and
   the upriver march is put to whoever carried the food (step 4, built). Since 2026-09-16 every call is answered from one
   menu with a tick beside each person who may answer (`docs/FAMILY_PANEL.md` §11.2), and a settlement's call to turn out
@@ -652,8 +653,9 @@ computer only; no LAN and no district claim.
 
 1. **Should a birthday change the shown age and the rules of ten and sixteen too?** Now only eating reads it; a child who
    turns ten in the game still may not be sent until the next class.
-2. **Grown children at home, to 22,** was the least surprising honest way to give eighteen children natural spacing. It
-   gives large families more sons who can be sent to fight. The other honest choices were eighteen births in eighteen years
+2. ~~**Grown children at home, to 22,**~~ **Decided by the owner, 2026-09-27, by multiple choice: grown children at home
+   stay up to 22**, as built. It was the least surprising honest way to give eighteen children natural spacing, and it gives
+   large families more sons who can be sent to fight. The other honest choices were eighteen births in eighteen years
    (a birth every twelve months, which reads as the old stair) or more twins than the owner's one in a hundred.
 3. **The twin rate** is per delivery. A family whose roll gives it one child can never have twins.
 

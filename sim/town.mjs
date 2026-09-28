@@ -18,7 +18,7 @@ import { record } from './events.mjs';
 import { appearanceCode, appearanceOf } from './appearance.mjs';
 import { advanceShopkeepers, createShopkeepers, keeperSex, KEEPERS } from './shops.mjs';
 import { householdName, sexOf, bandOf } from './family.mjs';
-import { facingOf, ridersInSight } from './encounters.mjs';
+import { facingOf, goneFromSight, ridersInSight } from './encounters.mjs';
 import { heldByBattle } from './battle-stage.mjs';
 import { advanceTownScenes, residentSpot } from './town-scenes.mjs';
 
@@ -263,7 +263,11 @@ export function observedBy(world, householdId) {
     // Nor is a prisoner walked south out of sight down the road to Matamoros (sim/south.mjs `marchPrisoners`).
     .filter(entity => !Number.isFinite(entity.service?.offMap))
     // Nor another family's dead of a sickness, buried where they fell (sim/disease.mjs): not drawn, and not named.
-    .filter(entity => !(entity.health?.condition === 'dead' && entity.health.disease));
+    .filter(entity => !(entity.health?.condition === 'dead' && entity.health.disease))
+    // Nor a messenger whose errand is done and who has gone (owner, 2026-09-27: "riders delivering messages should leave after
+    // their interactions are complete"): a rider ridden home (sim/encounters.mjs `advanceDepartures`), or Travis's runner back
+    // inside the colonel's quarters (sim/encounters.mjs `goneFromSight`).
+    .filter(entity => !goneFromSight(entity));
   // A rider carrying word is visible while they are still coming, because watching
   // somebody ride up to your door is the arrival, and news that materialises at the moment
   // it is spoken has no approach at all. Anybody within sight of one of this family's own

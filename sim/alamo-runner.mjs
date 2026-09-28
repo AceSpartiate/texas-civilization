@@ -7,14 +7,17 @@
 // colonel wants. Only then is the question open (`service.courier === 'open'`), and only that family hears what he says.
 // Everybody else standing in the Alamo sees one of the garrison cross the plaza, which is all standing there would show.
 //
-// Once answered - or once nobody has answered in time (sim/decision-budget.mjs, sim/alamo.mjs `settleUnanswered`) - he
-// says so, and walks back to the door, where he waits for the next time the colonel sends him.
+// Once answered - or once nobody has answered in time and the question has lapsed (sim/decision-budget.mjs, sim/alamo.mjs
+// `settleUnanswered`, sim/lapse.mjs) - he says so, walks back across the plaza to the door, and goes in (owner, 2026-09-27:
+// "riders delivering messages should leave after their interactions are complete"). Back inside the colonel's quarters he is
+// out of sight (phase `waiting`; sim/encounters.mjs `goneFromSight`) until the next time the colonel sends him out: nobody sees him standing about.
 //
 // Invented (`FIC-GONZ-380`): the runner, his name, his words, his pace, and where each person stands inside the walls.
 // The compound's plan is the one the map draws (public/alamo-layout.js, public/bexar-layout.js `alamoOnMap`).
 import { record } from './events.mjs';
 import { establishTruth } from './knowledge.mjs';
 import { alamoRole } from './alamo.mjs';
+import { courierIfUnanswered } from './lapse.mjs';
 // Where the compound lies on the map, and each person's post on its walls: sim/alamo-posts.mjs (docs/BATTLES.md §9).
 import { ALAMO_ORIGIN, onMap, postFor, spotOf, walkToPost } from './alamo-posts.mjs';
 export { ALAMO_ORIGIN, onMap };
@@ -103,8 +106,8 @@ export function runnerOpening(day, offeredBefore) {
   const before = offeredBefore ? 'You offered before and he sent other men. ' : '';
   return `${before}${night} He asks whether you will offer to go. He chooses his riders from the men who offer, and not every man who offers is sent. A man who is sent leaves the fort tonight and rides for help. A man who stays keeps his post inside the walls.`;
 }
-/** What becomes of this person if nobody answers the runner: the documented fallback, said before it happens. */
-export const ifUnanswered = person => `If nobody answers in time, it will be decided for ${person.name}, as a person on auto decides.`;
+/** What becomes of this person if nobody answers the runner, said before it happens: the question lapses (sim/lapse.mjs). */
+export const ifUnanswered = courierIfUnanswered;
 
 function say(world, encounter, speaker, text, causes = []) {
   const who = speaker === 'rider' ? encounter.carrierName : world.entities[encounter.listenerId].name;
@@ -156,7 +159,7 @@ export function closeRunner(world, person, how, offers) {
   if (encounter) {
     if (how === 'volunteer') { say(world, encounter, 'listener', 'I will go, if he will send me.'); say(world, encounter, 'rider', 'I will tell the colonel. He chooses his riders before dark.'); }
     else if (how === 'stay') { say(world, encounter, 'listener', 'I will stay at my post.'); say(world, encounter, 'rider', 'I will tell the colonel you are staying.'); }
-    else say(world, encounter, 'rider', offers ? 'I cannot wait any longer on an answer. I will tell the colonel you will go if he sends you.' : 'I cannot wait any longer on an answer. I will tell the colonel you are staying at your post.');
+    else say(world, encounter, 'rider', offers ? 'I cannot wait any longer on an answer. I will tell the colonel you will go if he sends you.' : 'I cannot wait any longer on an answer. You are not on his list tonight: you keep your post.');
     Object.assign(encounter, { status: 'closed', closedMinute: world.minute, reason: how === 'unanswered' ? 'unanswered' : 'answered' });
   }
   if (runner?.runner && runner.runner.forId === person.id && runner.runner.phase !== 'waiting') { runner.runner.phase = 'returning'; runner.task = 'travel'; }

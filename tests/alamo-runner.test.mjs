@@ -88,7 +88,7 @@ test('Travis\'s runner walks from the colonel\'s door, and the question opens on
   assert.equal(meeting.listenerId, man.id);
   assert.match(meeting.said[0].text, /leaves the fort tonight/, 'the runner did not say that going is a way out of the fort');
   assert.deepEqual(meeting.choices.map(choice => choice.answer), ['volunteer', 'stay']);
-  assert.match(meeting.ifUnanswered, /decided for/, 'the fallback was not said before it could happen');
+  assert.match(meeting.ifUnanswered, /the question lapses: nothing is chosen, and .* stays at their post/, 'what an unanswered question comes to was not said before it could happen');
   validateWorld(world);
 });
 
@@ -127,6 +127,33 @@ test('an answer closes the meeting in words, and the runner walks back to the co
   assert.equal(runner.runner.phase, 'returning', 'the runner did not turn back');
   until(world, () => runner.runner.phase === 'waiting', 20);
   assert.ok(feet(runner.location, onMap(world, TRAVIS_DOOR)) < 1, 'the runner did not get back to the colonel\'s door');
+  validateWorld(world);
+});
+
+// Owner, 2026-09-27: "riders delivering messages should leave after their interactions are complete."
+test('the runner leaves once the question has lapsed: he walks back across the plaza and goes in, and nobody sees him standing at the door', () => {
+  const world = winter();
+  const [man, other] = menOfFamilies(world, 2);
+  garrison(world, man);
+  garrison(world, other, false);
+  untilMoment(world, 'alamo-siege');
+  untilMoment(world, 'courier-1-opens');
+  until(world, () => man.service.courier === 'open', 20);
+  const runner = runnerOf(world, man);
+  const post = { ...man.location };
+  stepWorld(world, { realMs: 90_000 });
+  assert.equal(man.service.courier, 'stays', 'the lapsed question chose something for him');
+  assert.equal(runner.runner.phase, 'returning', 'the runner did not turn back once the question lapsed');
+  const beside = feet(runner.location, man.location);
+  stepWorld(world);
+  assert.ok(feet(runner.location, man.location) > beside + 1, 'the runner did not walk away from the man');
+  assert.deepEqual({ x: man.location.x, y: man.location.y }, { x: post.x, y: post.y }, 'the man left his post');
+  until(world, () => runner.runner.phase === 'waiting', 20);
+  assert.equal(runner.runner.phase, 'waiting', 'the runner never got back');
+  for (const householdId of [man.householdId, other.householdId]) {
+    assert.ok(!view(world, householdId).others.some(one => one.id === runner.id), 'the runner is still seen standing about at the colonel\'s door');
+  }
+  assert.ok(!projectWorld(world, null, 'host', { includeMap: false }).others.some(one => one.id === runner.id), 'the Host still sees the runner standing at the door');
   validateWorld(world);
 });
 

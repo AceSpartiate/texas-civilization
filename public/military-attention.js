@@ -35,7 +35,7 @@ export function militaryNotices(world) {
       const key = service?.leave === 'open' ? 'leave' : service?.road === 'open' ? 'road'
         : world.army.ours.find(one => one.id === person.id)?.questions?.find(question => question.answer === 'open')?.key || 'detachment';
       notices.push({ id: `orders:${person.id}:${key}`, entityId: person.id, kind: 'orders', title: 'Your family member is being asked',
-        text: `At ${at}: a decision is waiting in camp. Go to them to hear the request and choose their answer.${person.pressing ? ' Nobody can wait much longer; if no answer comes, it will be decided for them.' : ''}`, action: `Go to ${person.given || person.name}` });
+        text: `At ${at}: a decision is waiting in camp. Go to them to hear the request and choose their answer.${person.pressing ? ' Nobody can wait much longer; if no answer comes, the question lapses and nothing is chosen for them.' : ''}`, action: `Go to ${person.given || person.name}` });
     } else if (service?.besieged && service.status === 'serving' && !service.seenFall) {
       notices.push({ id: `siege:${person.id}`, entityId: person.id, kind: 'siege', title: 'Inside the Alamo',
         text: `At ${at}: the garrison is surrounded. You can look in on them. Watch for requests for couriers; offering to ride is a chance to leave, not a promise of being chosen.`, action: `Go to ${person.given || person.name}` });

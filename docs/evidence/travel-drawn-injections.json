@@ -17,7 +17,8 @@
       "name": "the gait is measured against a fixed height, so a rider is held to a walker's ground and not the horse's",
       "file": "public/motion.js",
       "failed": [
-        "the gait a figure is held to is the ground its own drawn cycle covers, and it is its mount's when it has one"
+        "the gait a figure is held to is the ground its own drawn cycle covers, and it is its mount's when it has one",
+        "on the family's own land a rider goes at the horse's own pace, a wagon at the team's, and a walker at a walk"
       ]
     },
     {
@@ -25,8 +26,10 @@
       "file": "public/motion.js",
       "failed": [
         "walk, fade, cross, fade, walk: a hundred yards in view at each end and the middle crossed with nobody watching",
+        "the family's own land is never sped up and never faded, however long the road across it is",
         "not one frame of any journey is faded, or part faded, while the figure is still on its own land",
-        "the schedule rides on the server's own progress, so a tick early, a tick twice and the arrival all land right"
+        "the schedule rides on the server's own progress, so a tick early, a tick twice and the arrival all land right",
+        "on the family's own land nobody is drawn faster than their own pace, in any frame, however hurried the class; a journey that cannot walk it in time is drawn arriving late, never early"
       ]
     },
     {
@@ -56,7 +59,8 @@
       "file": "public/motion.js",
       "failed": [
         "the drawn arrival is the server's arrival, and nobody is ever drawn at the far end before the server puts them there",
-        "not one frame of any journey is faded, or part faded, while the figure is still on its own land"
+        "not one frame of any journey is faded, or part faded, while the figure is still on its own land",
+        "on the family's own land nobody is drawn faster than their own pace, in any frame, however hurried the class; a journey that cannot walk it in time is drawn arriving late, never early"
       ]
     },
     {
@@ -64,7 +68,8 @@
       "file": "public/motion.js",
       "failed": [
         "the family's own land is never sped up and never faded, however long the road across it is",
-        "not one frame of any journey is faded, or part faded, while the figure is still on its own land"
+        "not one frame of any journey is faded, or part faded, while the figure is still on its own land",
+        "on the family's own land nobody is drawn faster than their own pace, in any frame, however hurried the class; a journey that cannot walk it in time is drawn arriving late, never early"
       ]
     },
     {
@@ -78,7 +83,8 @@
       "name": "the hundred yards are paid for before the land, so a figure begins to fade while still on its own farm",
       "file": "public/motion.js",
       "failed": [
-        "not one frame of any journey is faded, or part faded, while the figure is still on its own land"
+        "not one frame of any journey is faded, or part faded, while the figure is still on its own land",
+        "on the family's own land nobody is drawn faster than their own pace, in any frame, however hurried the class; a journey that cannot walk it in time is drawn arriving late, never early"
       ]
     },
     {
@@ -86,7 +92,8 @@
       "file": "public/motion.js",
       "failed": [
         "the family's own land is never sped up and never faded, however long the road across it is",
-        "not one frame of any journey is faded, or part faded, while the figure is still on its own land"
+        "not one frame of any journey is faded, or part faded, while the figure is still on its own land",
+        "on the family's own land nobody is drawn faster than their own pace, in any frame, however hurried the class; a journey that cannot walk it in time is drawn arriving late, never early"
       ]
     },
     {
@@ -94,7 +101,8 @@
       "file": "public/motion.js",
       "failed": [
         "the family's own land is never sped up and never faded, however long the road across it is",
-        "not one frame of any journey is faded, or part faded, while the figure is still on its own land"
+        "not one frame of any journey is faded, or part faded, while the figure is still on its own land",
+        "on the family's own land nobody is drawn faster than their own pace, in any frame, however hurried the class; a journey that cannot walk it in time is drawn arriving late, never early"
       ]
     },
     {
@@ -109,6 +117,36 @@
       "file": "public/motion.js",
       "failed": [
         "the zoom wheel cannot make a figure vanish between two frames: the drawn share is eased, never taken"
+      ]
+    },
+    {
+      "name": "a rider or a wagon is held only to its own figure's cycle again, so a wagon crosses the farm at half again a walker",
+      "file": "public/motion.js",
+      "failed": [
+        "on the family's own land a rider goes at the horse's own pace, a wagon at the team's, and a walker at a walk"
+      ]
+    },
+    {
+      "name": "the page draws a traveller at its figure's gait and not at its own pace",
+      "file": "public/app.js",
+      "failed": [
+        "on the family's own land a rider goes at the horse's own pace, a wagon at the team's, and a walker at a walk"
+      ]
+    },
+    {
+      "name": "coming home onto the land, the last of it is hurried at twice the pace",
+      "file": "public/motion.js",
+      "failed": [
+        "on the family's own land nobody is drawn faster than their own pace, in any frame, however hurried the class; a journey that cannot walk it in time is drawn arriving late, never early"
+      ]
+    },
+    {
+      "name": "the old ceiling put back: a journey that cannot pay for its own land is drawn across it at the server's pace",
+      "file": "public/motion.js",
+      "failed": [
+        "the family's own land is never sped up and never faded, however long the road across it is",
+        "not one frame of any journey is faded, or part faded, while the figure is still on its own land",
+        "on the family's own land nobody is drawn faster than their own pace, in any frame, however hurried the class; a journey that cannot walk it in time is drawn arriving late, never early"
       ]
     },
     {
@@ -130,51 +168,6 @@
       "file": "public/app.js",
       "failed": [
         "the marker is gone: no disc, no pin, no portrait on a road, and nothing left of it in the page"
-      ]
-    }
-  ],
-  "browserProof": "scripts/travel-drawn-proof.mjs",
-  "browserInjections": [
-    {
-      "name": "nothing is ever faded away on the page: the figure is drawn whole through the middle of the road",
-      "file": "public/app.js",
-      "failed": [
-        "the middle is crossed wholly out of sight: 2314 painted frames with nothing of them drawn"
-      ]
-    },
-    {
-      "name": "the road is not drawn, so a traveller away in the middle leaves the map saying nothing at all",
-      "file": "public/app.js",
-      "failed": [
-        "and only the road is drawn while they are gone (0 of 3770 frames)"
-      ]
-    },
-    {
-      "name": "the cap is not applied, and the figure is drawn crossing the screen at the server's own pace",
-      "file": "public/motion.js",
-      "failed": [
-        "pressed close in the server would carry them 157.89 of their heights a second; drawn, they never pass 157.895, inside the gait's 1.2"
-      ]
-    },
-    {
-      "name": "the figure is drawn where the server has them rather than where the schedule walks them",
-      "file": "public/app.js",
-      "failed": [
-        "and the figure is painted where the schedule walked it, never where the server has them: 1475 frames, the farthest 102007 px off"
-      ]
-    },
-    {
-      "name": "the row says nothing while somebody is on a journey",
-      "file": "public/family-panel.js",
-      "failed": [
-        "their row says Travelling the whole way: [\"\"]"
-      ]
-    },
-    {
-      "name": "the grant is read a level too high, so no road is ever on the family's own land",
-      "file": "public/app.js",
-      "failed": [
-        "and the family's own land under that road is walked in view with it: a lead of 0.057 miles, which is 0 of their own land and then the 100 yards off it"
       ]
     }
   ]

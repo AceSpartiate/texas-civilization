@@ -9,6 +9,11 @@
 // for that one question; and in the Runaway Scrape the family moves as one behind its main person, whose switch decides,
 // with a family by hand given a day.
 //
+// **Amended by the owner, 2026-09-27**: "questions that are not answered fast enough disappear." A player by hand whose window
+// runs out is no longer answered by auto: the question lapses and nothing is chosen (sim/lapse.mjs). The switch itself is
+// unchanged - a person on auto still answers what they are asked, at once. The family told to leave, given a day, is not a
+// question of this kind and still goes when the day is out (`FLIGHT_PATIENCE`).
+//
 // What auto decides lives where each question lives - the shot in sim/chores.mjs (`autoChoice`), the army's questions and
 // the detachment in sim/army.mjs, Travis's couriers in sim/alamo.mjs, the wagon in sim/scrape.mjs (`autoFlee`) - at the
 // shares families nobody plays use (`FIC-GONZ-040`, `FIC-GONZ-048`), so a family on auto is played as its neighbours are
