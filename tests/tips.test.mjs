@@ -179,3 +179,16 @@ test('a tip is shown once: until it is put away or its thing goes, and never aga
   const theirs = { request: { status: 'open', kind: 'call', answerers: { [world.households['hh-2'].members[0]]: [{ id: 'turn-out', can: true }] } } };
   assert.equal(tipToShow(withThing(other, theirs), { seen: other.household.tipsSeen || [] }).show, 'call');
 });
+
+// ------------------------------------------------------------------------------ never over the errand popup (2026-09-28)
+test('while the town errand is open only its own tip stands, and the one over the map waits for it to close', () => {
+  const world = running('tips-errand');
+  const seen = view(world, 'hh-1');
+  const call = { request: { status: 'open', kind: 'call', answerers: { [world.households['hh-1'].members[0]]: [{ id: 'turn-out', can: true }] } } };
+  // The order tip stands over the map, and the student opens the errand: the store's tip, inside the popup, and not the order's.
+  assert.deepEqual(tipToShow({ ...seen, lesson: undefined }, { showing: 'order', errandOpen: true }), { show: 'store', retire: null });
+  // The store's put away, and something more urgent due: still nothing over the popup, and nothing retired or seen.
+  assert.deepEqual(tipToShow(withThing(seen, call), { seen: ['store'], showing: 'call', errandOpen: true }), { show: null, retire: null });
+  // The popup closed: the store's is retired, and the order tip, still due and never put away, stands again.
+  assert.deepEqual(tipToShow({ ...seen, lesson: undefined }, { showing: 'store' }), { show: 'order', retire: 'store' });
+});

@@ -1,5 +1,31 @@
 # Claude handoff — Astra foundation
 
+## The errand proof green again: the list stands still, no tip over the popup, the horses held out — 2026-09-28 (not released)
+
+**The ask** (owner, 2026-09-28): `npm run test:errand` was red on main (check 3, "something is drawn over the popup's own
+controls: Got it") and flaky on branches (a + press on a detached button; the new wagon quoted "Rides the horse").
+
+- **The list is drawn in place** (`public/errand.js` `drawLines`, `listShape`): shops, lines and buttons are built once for a
+  shape of list, and every later draw only rewrites words, counts and switches, so a + or − is never replaced under a press.
+  The server is asked again on the stock **as the popup shows it** (`stockKey`: the six goods, food to the tenth), not on
+  every crumb the family eats. docs/TOWNS.md §4b.
+- **No tip over the errand** (`public/tips.js` `tipToShow`): while the popup is open only the store's own tip, inside it,
+  stands; a tip over the map waits and comes back when the popup closes if its thing is still there. `public/app.js` redraws
+  the tip the instant the popup opens. docs/LESSON.md §9. What main actually showed: the order tip standing under the popup,
+  and the proof counting the hidden inline "Got it" (a 0×0 box sampled at 0,0) as covered.
+- **The proof** (`scripts/errand-browser-proof.mjs`): measures the over-map tip's box against the popup (`overTip`; its words
+  are `pointer-events:none`, invisible to `elementFromPoint`) at every measure; skips controls not drawn; a new check that the
+  cotton's + is the same element after the food has moved and the server has answered; the clock slowed to 5 s a tick
+  (`app.setPace`) while the two riders are out, put back once the new wagon is sent, with both horses asserted away before and
+  after the quote; a card a neighbour's question opens over the column is closed before choosing the third person.
+- **Failed first.** Tip rule off: check 3 fails "a tip over the map stands on the popup (21010 px²)" with the order tip's
+  words, and `tests/tips.test.mjs`'s new test fails alone. Lines rebuilt on every draw: the new check fails "the list was
+  rebuilt under the student while the family ate"; `tests/errands.test.mjs`'s new test fails alone (shape keyed on price, or
+  the key on all resources). No slowdown plus a 10 s pause before the new wagon: fails "a rider is home again"; the slowdown
+  with the same pause passes.
+- **Evidence** (same computer only): `npm run test:errand` 15 of 15, twice; `npm run test:tips` 11 of 11; `npm test` — see
+  the commit message. `docs/evidence/errand-browser.json` rewritten by the proof.
+
 ## Ambient life and chatter: nobody idle stands about, and neighbours talk in short lines — owner, 2026-09-28 (worktree branch; not released)
 
 **The ask**, verbatim: *"introduce "chatter" while you're at it. i don't want to see npc just standing around when they're idle.
