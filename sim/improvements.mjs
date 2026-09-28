@@ -149,7 +149,7 @@ export function ruin(world, household, kinds, { by = null, text = null, visibili
       // clearing, not the land itself: every plot goes back to staked and uncleared (docs/LAND_GRANTS.md §5).
       if (!clearedOf(household) && !fieldPlots(household).some(plot => plot.work) && (household.field?.state ?? 'bare') === 'bare') continue;
       for (const plot of keepPlots(world, household)) { plot.state = 'staked'; delete plot.work; delete plot.sown; delete plot.fence; }
-      { const { sownMinute: _sown, ...field } = household.field || {}; household.field = { ...field, state: 'bare', changedTick: world.tick }; }
+      { const { grownMs: _grown, ...field } = household.field || {}; household.field = { ...field, state: 'bare', changedTick: world.tick }; }
       ruined.push('field');
       continue;
     }

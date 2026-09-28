@@ -87,7 +87,7 @@ import { interiorInvalid, interiorProjection, placeItem } from './interior.mjs';
 import { gearExertionShare, shopsInvalid, wagonSpeedShare } from './shops.mjs';
 import { errandOffers, errandQuote, errandsInvalid } from './errands.mjs';
 import { marketsInvalid } from './market.mjs';
-import { fieldInvalid } from './seasons.mjs';
+import { fieldInvalid } from './crops.mjs';
 import { quickestOf, quickestWay, shownWays, waysFor } from './going.mjs';
 import { toolsInvalid } from './tools.mjs';
 import { fellingInvalid, logsLeftOut, logsProjection, recordFelling } from './felling.mjs';
@@ -694,7 +694,7 @@ export function stepWorld(world, { realMs = 0, decisionBudgetMs, callBudgetMs } 
   advanceCamp(world);
   // Chores run after travel resolves, so a person who arrived this tick picks up the
   // next step of their work in the same tick rather than idling for one.
-  advanceChores(world, { beginTravel, modeAvailability });
+  advanceChores(world, { beginTravel, modeAvailability, realMs });
   // The family's children (sim/childhood.mjs): play drawn about the yard, a job wandered from, a child's own automation, and a
   // child with nothing to do gone to a parent. Then the babies (sim/babies.mjs), and the little ones kept walking on the road
   // east (sim/flight-work.mjs). Before auto, so a grown-up called aside this tick is not given work by it.
@@ -1537,8 +1537,8 @@ export function validateWorld(world) {
     if (household.settlementId !== undefined && world.map.sites[household.settlementId]?.kind !== 'town') throw new Error('A family belongs to a settlement that is not there');
     if (household.name !== undefined && (typeof household.name !== 'string' || !household.name.trim() || household.name.length > NAME_LIMIT)) throw new Error('Invalid household name');
     if (household.surname !== undefined && (typeof household.surname !== 'string' || !household.surname.trim() || household.surname.length > NAME_LIMIT)) throw new Error('Invalid family last name');
-    // A garden since 2026-09-28, with the minute it was sown and the family's own crop kept beside it (sim/seasons.mjs): both absent on
-    // every class saved before the farming year, whose crop ripens as it was promised when it went in. No save version moved.
+    // Corn or cotton, and since 2026-09-28 the real time a crop in the ground has stood (`grownMs`, sim/crops.mjs): absent on every class
+    // saved before, whose crop is read as having stood its ticks at the Study pace. No save version moved.
     { const bad = fieldInvalid(household.field); if (bad) throw new Error(bad); }
     // Absent on a class saved before a family could break new ground, and the empty value
     // is the one every family used to have: the first patch, and no fence. So no save

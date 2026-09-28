@@ -1,6 +1,6 @@
 // What a town's store (and its weaver) can use (owner, 2026-09-28, by multiple choice on docs/audits/2026-09-28-design.md B9:
-// **"Seasons and a limited market"** - the store buys only what it can use and its price falls as it fills). The seasons are
-// sim/seasons.mjs.
+// **"Seasons and a limited market"** - the store buys only what it can use and its price falls as it fills). Kept when the seasons
+// went the same day (owner: "have crops be independent of the seasons ... adjust prices to compensate"; sim/crops.mjs).
 //
 // Until today the store bought every bale and every five food a family carried in, for coin outside its keeper's purse (owner,
 // 2026-09-16), and nothing ever filled: with a crop every eighteen ticks that was a coin pump, and a class's winners finished at

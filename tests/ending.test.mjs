@@ -217,8 +217,11 @@ test('the people taken prisoner in the Scrape, at home and on the road, are name
   assert.ok(after.story.some(line => line.startsWith(`${soldier.name} was taken prisoner by the Mexican army`)), 'the army\'s prisoner is not named at the ending');
   // Weighed: the family's living people, less PRISONER_WEIGHT parts for each taken.
   const living = household.members.filter(id => world.entities[id].health.condition !== 'dead').length;
-  const kept = 1 - (PRISONER_WEIGHT * taken.length) / living;
+  // Never below nothing: a family whose prisoners weigh more than its living people counts no coin at all (sim/ending.mjs `keptFor`).
+  const kept = Math.max(0, 1 - (PRISONER_WEIGHT * taken.length) / living);
   assert.ok(PRISONER_WEIGHT > 0 && kept < 1, 'the prisoners took nothing from the count');
+  // One and a half parts each since 2026-09-28 (owner, by multiple choice: "Weigh prisoners more"); one until then.
+  assert.equal(PRISONER_WEIGHT, 1.5, 'the prisoners do not weigh what the owner chose');
   assert.equal(after.final, Math.round(20 * kept * (1 + after.glory)) + after.land);
   assert.ok(after.final < before.final, `the prisoners cost the family nothing: ${before.final} before, ${after.final} after`);
   assert.match(after.sum, new RegExp(`^20 reales, less ${PRISONER_WEIGHT * taken.length} of ${living} parts for the ${taken.length === 1 ? 'one' : taken.length} taken prisoner, counted as `));
