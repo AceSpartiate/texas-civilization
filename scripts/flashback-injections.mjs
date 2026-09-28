@@ -14,7 +14,7 @@ const folder = mkdtempSync(join(tmpdir(), 'flashback-injections-'));
 const fixture = join(folder, 'class.json');
 writeFileSync(fixture, JSON.stringify(endedClass('flashback-test', 5, { played: 2 })));
 
-const STORY = 'tests/flashback.test.mjs', VIDEO = 'tests/flashback-video.test.mjs';
+const STORY = 'tests/flashback.test.mjs', VIDEO = 'tests/flashback-video.test.mjs', ENDING = 'tests/ending-story.test.mjs';
 const INJECTIONS = [
   { file: 'sim/flashback.mjs', test: STORY, fails: 'no word in any family\'s flashback is a virtue or gore', from: "add({ kind: 'house', weight: 82, minute: built.minute, place: home, caption: `The family raised its own house", to: "add({ kind: 'house', weight: 82, minute: built.minute, place: home, caption: `The brave family raised its own house" },
   { file: 'sim/flashback.mjs', test: STORY, fails: 'a death in battle is one plain sentence', also: ['glory is never in it'], from: "if ((staged?.fate === 'killed' || (here && fate.kind === 'dead')) && fate?.kind === 'dead') return { person, said: `${firstName(person)} was killed there.`, death: true };", to: "if ((staged?.fate === 'killed' || (here && fate.kind === 'dead')) && fate?.kind === 'dead') return { person, said: `${firstName(person)} was killed there, and earned glory.`, death: true };\n      if (fate?.kind === 'dead') return { person, said: `For it the family earned ${world.glory?.[household.id]?.awards?.[`${event}:${person.id}`]?.points} points.`, death: true };" },
@@ -28,6 +28,9 @@ const INJECTIONS = [
   { file: 'server/flashback.mjs', test: VIDEO, fails: 'served to the Host and to that family alone', from: 'if (!(read.durationMs >= FLASHBACK_LIMITS.minMs && read.durationMs <= FLASHBACK_LIMITS.maxMs))', to: 'if (false)' },
   { file: 'server/app.mjs', test: VIDEO, fails: 'the flashback routes answer nothing before the class has ended', from: "if (!flashbackReady(state.world)) return json(res, 409, { error: 'The class has not ended.' });\n        const bytes", to: "const bytes" },
   { file: 'server/webm.mjs', test: VIDEO, fails: 'a live recorder', from: 'if (size.size === null && id.id === CLUSTER) {', to: 'if (false) {' },
+  { file: 'sim/ending-story.mjs', test: ENDING, fails: 'the spring is said as it was', from: "? burned ? ' They came home to the ashes.' : ' They came home to the house standing.'", to: "? ' They came home to a burned farm.'" },
+  { file: 'sim/ending-story.mjs', test: ENDING, fails: 'somebody taken prisoner in the war is named', from: "person.health?.condition === 'captured' && person.service?.status === 'captured'", to: "person.health?.condition === 'captured' && person.service?.status === 'never'" },
+  { file: 'sim/ending.mjs', test: ENDING, fails: 'the debrief begins with this class', from: 'discussion: [...classHooks(world), ...DISCUSSION]', to: 'discussion: DISCUSSION' },
   { file: 'public/webm-writer.js', test: VIDEO, fails: 'the WebM written is the WebM read', from: "head[3] = frame.key ? 0x80 : 0x00;", to: 'head[3] = 0x00;' },
 ];
 
@@ -37,8 +40,8 @@ function run(test) {
   catch (error) { return { code: error.status, out: String(error.stdout || '') }; }
 }
 const failedNames = out => [...out.matchAll(/^not ok \d+ - (.*)$/gm)].map(match => match[1]);
-const baseline = { [STORY]: failedNames(run(STORY).out), [VIDEO]: failedNames(run(VIDEO).out) };
-if (baseline[STORY].length || baseline[VIDEO].length) throw new Error(`the tests fail before any injection: ${JSON.stringify(baseline)}`);
+const baseline = { [STORY]: failedNames(run(STORY).out), [VIDEO]: failedNames(run(VIDEO).out), [ENDING]: failedNames(run(ENDING).out) };
+if (Object.values(baseline).some(list => list.length)) throw new Error(`the tests fail before any injection: ${JSON.stringify(baseline)}`);
 let bad = 0;
 for (const injection of INJECTIONS) {
   const original = readFileSync(injection.file, 'utf8');
