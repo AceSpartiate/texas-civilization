@@ -1,5 +1,32 @@
 # Claude handoff — Astra foundation
 
+## Tips for the house, the field and going to town — owner, 2026-09-28 (branch `tips-house-field-store`; not released)
+
+**The decision.** Owner, 2026-09-28, answering "is the road in and how to give an order enough for the first minutes?": **"Yes, add
+them"** - until the tutorial is rebuilt, a first-meeting tip for the house, the field and the store.
+
+**The change** (public/tips.js, sim/tips.mjs `TIP_IDS`; docs/LESSON.md §9). Three tips, after how to give an order and before the star:
+- `house` - on its land, site chosen, still camped, with a plan to choose or the house open to work: *"Press “Choose a house”, then set
+  people to “Work on the house”. Where it needs logs, put one on “Fell trees” and turn on auto. Until it stands, the family camps."*
+- `field` - somebody can clear ground or plant (the server's own `can`): *"To farm, clear ground and set someone to “Plant the field”:
+  corn feeds the family, cotton sells. Planting uses seed, and the crop takes time to ripen."*
+- `town` - somebody can be sent to town: *"“Go to town to trade” sends someone to the store to buy and sell. They are away from the farm
+  for the trip, and coin spent is gone from your score."* (The errand's own `store` tip still stands inside the errand.)
+Worded to stay true while the work and the seasons are reworked: no ripening time, no count of logs or axes, "where it needs logs".
+**No tip over a popup:** besides the errand's hold, the tip is placed clear of the house plan, the house plot, how they go, the
+wagon and a place being chosen (`TIP_HELD_BY` in public/app.js), and where there is no room it waits hidden, neither retired
+nor seen. Never on the Host page (public/tips.js gives the Host nothing).
+
+**Evidence** (same computer only). New test in tests/tips.test.mjs (*the house, the field and going to town ...*); the tips injections
+**37 of 37** caught (eight new: each tip due on the road in, before the site, with a roof, on refused work, a ripening time named,
+the house's cost dropped, the order of the tips) - [tips-injections.json](docs/evidence/tips-injections.json). `npm test` **1674: 1637
+pass, 37 skipped, 0 fail** on the branch merged with integration-2026-09-28 41e3f9e5 (before that merge, on a07b95ab, two failures
+outside this work: tests/host-view.test.mjs's *"a student is sent exactly what it was before"* - fixed on integration by the
+flashback-host-lookup merge - and a 509-second timing test in tests/clock.test.mjs). `npm run test:tips` **13 of 13** (the house's
+tip; "Choose a house" pressed while it stands, the plan opens and the tip is placed clear of it, or waits, and is not put away; the
+field's and the town's tips), with the popup check **seen failing** when the clearance and the hold were injected away ("a tip stands
+over the open house plan"). `npm run test:errand` **16 of 16**.
+
 ## Delete a kept class from Classes, into the archive — owner, 2026-09-28 (branch `delete-kept-class` off `integration-2026-09-28` db6d908a; not released)
 
 The owner: **"Yes, with a confirm"**. [HOST_PAGE §2.9](docs/HOST_PAGE.md); how to get one back: [RECOVERY, *A deleted

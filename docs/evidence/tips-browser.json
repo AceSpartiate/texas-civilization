@@ -5,6 +5,8 @@
   "pass": [
     "no guided start and no walk-through: the first thing said is the arrival's tip (\"Your family is on its way to its own land. When they get there, choose a house and set your family to work.\")",
     "on the land, how to give an order: \"Tap one of your family on the left, then tap a job along the bottom to set them to it. “Idle” means they have nothing to do.\"",
+    "the house: \"Press “Choose a house”, then set people to “Work on the house”. Where it needs logs, put one on “Fell trees” and turn on auto. Until it stands, the family camps.\" - and with the plan open, the tip waited behind it and came back when it closed",
+    "the field: \"To farm, clear ground and set someone to “Plant the field”: corn feeds the family, cotton sells. Planting uses seed, and the crop takes time to ripen.\"; going to town: \"“Go to town to trade” sends someone to the store to buy and sell. They are away from the farm for the trip, and coin spent is gone from your score.\"",
     "the call's tip is on the screen: \"Your settlement is calling for men: press the “!” and tick who goes. Each one leaves the farm with powder and the rifle. No answer in about 5 minutes, and the call closes.\" - above the bar, clear of the column and the guided start, 14px, and a click on its words reaches the map",
     "the Host's page shows no tip",
     "Escape put the tip away, and the server keeps it as seen",
@@ -13,7 +15,7 @@
     "the order to leave: its tip (\"Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in a day, and the family packs and goes.\"), put away with a tap, and the \"!\" on the main person with \"3 min\" left on it",
     "on the road: the route's tip (\"On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.\"), put away with a tap",
     "¡Alto!: its tip (\"Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, and running risks their shots. No answer means you halt.\"), the \"!\" with \"30s\" on it, put away with a tap",
-    "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, order, flight, star, rest, road, route, alto)"
+    "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, order, flight, house, road, rest, route, star, alto)"
   ],
   "observed": {
     "start": {
@@ -22,21 +24,33 @@
       "walkThrough": false,
       "resume": false
     },
+    "houseHeld": {
+      "tipHidden": false,
+      "standing": "house",
+      "seen": false,
+      "over": false
+    },
+    "farm": {
+      "house": "Press “Choose a house”, then set people to “Work on the house”. Where it needs logs, put one on “Fell trees” and turn on auto. Until it stands, the family camps.",
+      "field": "To farm, clear ground and set someone to “Plant the field”: corn feeds the family, cotton sells. Planting uses seed, and the crop takes time to ripen.",
+      "town": "“Go to town to trade” sends someone to the store to buy and sell. They are away from the farm for the trip, and coin spent is gone from your score."
+    },
     "putAwayOnTheWay": [
       "star",
       "enlist",
       "order",
-      "star",
+      "house",
+      "road",
       "rest",
-      "road"
+      "star"
     ],
     "call": {
       "id": "call",
       "shown": true,
       "text": "Your settlement is calling for men: press the “!” and tick who goes. Each one leaves the farm with powder and the rifle. No answer in about 5 minutes, and the call closes.",
       "box": {
-        "left": 920,
-        "top": 416,
+        "left": 973,
+        "top": 396,
         "right": 1354,
         "bottom": 510
       },
@@ -156,16 +170,18 @@
         "enlist",
         "order",
         "flight",
-        "star",
-        "rest",
+        "house",
         "road",
+        "rest",
         "route",
+        "star",
         "alto"
       ],
       "shownAfter": []
     }
   },
   "shots": [
+    "docs/evidence/tips-house.png",
     "docs/evidence/tips-call.png",
     "docs/evidence/tips-flight.png",
     "docs/evidence/tips-alto.png"

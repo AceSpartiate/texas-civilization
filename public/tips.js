@@ -43,6 +43,11 @@ export const TIPS = Object.freeze({
   // needs to be removed for now"): with it gone, nothing else says how to give an order.
   arrive: 'Your family is on its way to its own land. When they get there, choose a house and set your family to work.',
   order: 'Tap one of your family on the left, then tap a job along the bottom to set them to it. “Idle” means they have nothing to do.',
+  // The farm's first works, until the tutorial is rebuilt (owner, 2026-09-28: "Yes, add them"). Worded to stay true whichever
+  // way the work goes - one wood pile or none, auto or by hand, crops ripening by the calendar or by the minute.
+  house: 'Press “Choose a house”, then set people to “Work on the house”. Where it needs logs, put one on “Fell trees” and turn on auto. Until it stands, the family camps.',
+  field: 'To farm, clear ground and set someone to “Plant the field”: corn feeds the family, cotton sells. Planting uses seed, and the crop takes time to ripen.',
+  town: '“Go to town to trade” sends someone to the store to buy and sell. They are away from the farm for the trip, and coin spent is gone from your score.',
   star: 'The ★ is your main person: the family’s big choices, like leaving, come to them. Tap ☆ on another row to change who. A “!” means someone needs an answer.',
 });
 
@@ -50,7 +55,7 @@ export const TIPS = Object.freeze({
  * Which tip goes first when several are due at once: the ones whose thing will not wait (¡Alto!, the road, the order to leave,
  * sickness, the call, the army) before the ones that will. The same order as the "!"s (public/family-panel.js `NEED_KINDS`).
  */
-export const TIP_ORDER = Object.freeze(['alto', 'road', 'flight', 'sick', 'call', 'army', 'watch', 'resume', 'rest', 'route', 'cow', 'milk', 'baby', 'child', 'enlist', 'trade', 'store', 'arrive', 'order', 'star']);
+export const TIP_ORDER = Object.freeze(['alto', 'road', 'flight', 'sick', 'call', 'army', 'watch', 'resume', 'rest', 'route', 'cow', 'milk', 'baby', 'child', 'enlist', 'trade', 'store', 'arrive', 'order', 'house', 'field', 'town', 'star']);
 
 /** The winter's joining, enlisting and voting (sim/winter.mjs `WINTER_CHORES`), as the page sees them on a work list. */
 const WINTER_WORK = new Set(['enlist-regular', 'enlist-auxiliary', 'join-garrison', 'join-matamoros', 'go-vote', 'join-relief', 'join-houston']);
@@ -67,6 +72,10 @@ export function tipsPresent(world, { errandOpen = false } = {}) {
   const members = new Set(world.household.members || []);
   const own = (world.entities || []).filter(entity => entity.kind === 'person' && members.has(entity.id) && !GONE.includes(entity.health?.condition));
   const offered = id => Object.values(world.work || {}).some(list => (list || []).some(entry => entry.id === id));
+  // Offered and open to somebody now: the server's own `can` (a work shown but refused is not yet the family's to do).
+  const open = id => Object.values(world.work || {}).some(list => (list || []).some(entry => entry.id === id && entry.can));
+  const land = world.land;
+  const leading = world.lesson && !world.lesson.done;
   const flight = world.flight;
   const onRoad = ['fled', 'refuged'].includes(flight?.status);
   const here = new Set(own.filter(one => !one.travel && one.location?.siteId).map(one => one.location.siteId));
@@ -94,6 +103,12 @@ export function tipsPresent(world, { errandOpen = false } = {}) {
     // is running, should one ever run again.
     arrive: !(world.lesson && !world.lesson.done) && Boolean(world.land?.arriving),
     order: world.status === 'running' && !(world.lesson && !world.lesson.done) && Boolean(world.land) && !world.land.arriving && own.length > 0,
+    // The house: the first time the family, on its land with its site chosen and still camped, can plan one or raise one.
+    house: !leading && Boolean(land) && !land.arriving && !land.choosingSite && land.shelter === 'camp' && Boolean(land.choices?.length || land.plot || open('build-house')),
+    // The field: the first time somebody can clear ground or plant it.
+    field: !leading && (open('clear-plot') || open('plant-field')),
+    // Going to town: the first time somebody can be sent (the errand's own tip, `store`, stands inside the errand once it opens).
+    town: !leading && open('visit-shop'),
     star: world.status === 'running' && !(world.lesson && !world.lesson.done) && !world.land?.arriving && own.length > 1,
   };
   return TIP_ORDER.filter(id => present[id]);

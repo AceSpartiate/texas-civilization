@@ -6265,6 +6265,8 @@ $('#military-go')?.addEventListener('click', async () => {
  * page (public/tips.js shows the Host nothing), so never on the projector.
  */
 let tipShowing = null, tipFamily = null, tipPutAway = new Set(), tipBottom = null;
+/** The popups a tip over the map is placed clear of, or waits behind (the errand is held in public/tips.js `tipToShow`). */
+const TIP_HELD_BY = ['#house-plan', '#house-plot', '#going', '#wagon-load', '#site-choose', '#survey-choose'];
 function renderTip(world, { hidden = false } = {}) {
   const panel = $('#tip'), inline = $('#errand-tip');
   if (!panel) return;
@@ -6289,7 +6291,15 @@ function renderTip(world, { hidden = false } = {}) {
     host.querySelector('.tip-words').textContent = TIPS[show] || '';
   }
   host.hidden = false;
-  if (host === panel) placeTip(panel);
+  if (host !== panel) return;
+  placeTip(panel);
+  // Never over a popup the student opened - the house plan, the house plot, how they go, the wagon, a place being chosen
+  // (owner, 2026-09-28: no tip may cover an open popup). Placed clear of them where there is room; where there is none it
+  // waits hidden, neither retired nor seen, and stands again when the popup closes.
+  const box = panel.getBoundingClientRect();
+  const covers = TIP_HELD_BY.map(selector => $(selector)).filter(one => one && !one.hidden && getComputedStyle(one).display !== 'none')
+    .map(one => one.getBoundingClientRect()).some(one => one.width > 1 && box.left < one.right && one.left < box.right && box.top < one.bottom && one.top < box.bottom);
+  if (covers) panel.hidden = true;
 }
 /**
  * The tip over the map stands above the action bar, clear of the family's column, centred in what is left - and above the
@@ -6297,7 +6307,7 @@ function renderTip(world, { hidden = false } = {}) {
  * rather than hidden under them. Where there is no room above one, it stays above the bar and the card stands over it: a
  * card the student opened outranks a tip.
  */
-const TIP_CLEAR_OF = ['#selection', '#call-menu', '#encounter', '#military-notice', '#lesson', '#lesson-resume', '#tutorial'];
+const TIP_CLEAR_OF = ['#selection', '#call-menu', '#encounter', '#military-notice', '#lesson', '#lesson-resume', '#tutorial', ...TIP_HELD_BY];
 function placeTip(panel) {
   const bar = document.querySelector('.panel-row[data-focused=true] .panel-icons');
   const barBox = bar ? bar.getBoundingClientRect() : null;
