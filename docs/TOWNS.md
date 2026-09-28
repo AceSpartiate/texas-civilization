@@ -144,9 +144,11 @@ press could land on a detached button, which failed `npm run test:errand` at ran
   family has what it sells and can pay what it buys; the load fits a way of going it has free. **Not** checked: a keeper's
   purse, which a family finds out at the counter (owner, 2026-09-12, MONEY_AND_GLORY.md §3). The store buys cotton and food
   for coin outside its purse (owner, 2026-09-16, §8.1); the tanner and the weaver pay from theirs. **Since 2026-09-28 the store
-  and the weaver buy only what they can use** (owner: "Seasons and a limited market"; `sim/market.mjs`, `FIC-GONZ-722`): a want
+  and the weaver buy all they are brought, at full price, until the Runaway Scrape, and only what they can use after it** (owner,
+  the same day: "no limit on selling until the runaway scrape. after that, limit it to 4 per family"; before that answer, from the first
+  day) (owner: "Seasons and a limited market"; `sim/market.mjs`, `FIC-GONZ-722`): a want
   for every family near the town, full price to half of it, half price to all of it, nothing when full, sold on in a month. A
-  line the store is full for is shut in its own words (*"The store has all the cotton it can use, and sells on about 3.5 bales a
+  line the store is full for is shut in its own words (*"The store has all the cotton it can use, and sells on about 4.7 bales a
   week."*), and the list shows the price now and the room left.
 - **If things differ on arrival** (the honest rule, deterministic, no chance in it): what a shop sells never changes price;
   what the store and the weaver pay does since 2026-09-28, as they fill and sell on, so a sale is paid at the price when the person

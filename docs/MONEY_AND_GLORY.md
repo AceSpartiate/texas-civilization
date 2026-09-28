@@ -517,6 +517,14 @@ running class and cotton after five (`sim/crops.mjs`, `FIC-GONZ-721`); the limit
 store's cotton three bales a family; `FIC-GONZ-722`). **"Weigh prisoners more"**: `PRISONER_WEIGHT` 1.5 (§5 above). Measured in
 [BALANCE.md](BALANCE.md) §11.
 
+### 8.6 No limit until the Scrape, spare corn sold, corn four minutes and cotton six (2026-09-28, not released)
+
+The owner's answers to BALANCE.md §11.6, the same day: **"no limit on selling until the runaway scrape. after that, limit it to 4 per
+family"** - every store and weaver buys all it is brought at full price until the third class period, and from then on four bales of
+cotton a family (32 food, by analogy, a reading put to the owner); **"Sell spare corn too"** - the neighbours' director, and so a family
+whose student has gone, sells food beyond three weeks of its eating; **"i want 4 minutes for corn and 6 minutes for cotton in real
+life"** - measured from the real time each tick of the class took (`sim/crops.mjs`). Measured in [BALANCE.md](BALANCE.md) §12.
+
 
 - **A patriotism meter.** `VISION.md` §11 still forbids it, and this is the mechanic most likely to
   turn into one by accident.
