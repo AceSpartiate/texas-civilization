@@ -1,0 +1,3623 @@
+{
+ "measuredFrom": "public/assets/frontier-v1/atlas.json and its atlases (Astra's shipped art); written by scripts/claude-art/kit/measure-style.mjs",
+ "geometry": {
+  "civilians": {
+   "sheet": {
+    "width": 1254,
+    "height": 1254,
+    "cell": [
+     313.5,
+     313.5
+    ]
+   },
+   "logicalHeight": {
+    "min": 294,
+    "median": 300,
+    "max": 313
+   },
+   "frameHeight": {
+    "min": 294,
+    "median": 300,
+    "max": 313
+   },
+   "frameWidth": {
+    "min": 101,
+    "median": 132,
+    "max": 165
+   },
+   "anchorX": {
+    "min": 0.444,
+    "median": 0.4966,
+    "max": 0.5547
+   },
+   "anchorY": {
+    "min": 0.9286,
+    "median": 0.9433,
+    "max": 0.9667
+   },
+   "groundOfLogical": {
+    "min": 0.9286,
+    "median": 0.9433,
+    "max": 0.9667
+   },
+   "widthOfLogical": {
+    "min": 0.3424,
+    "median": 0.4444,
+    "max": 0.5272
+   },
+   "rows": {
+    "1": [
+     {
+      "name": "rust-idle-s",
+      "w": 145,
+      "h": 302,
+      "anchorX": 0.4966,
+      "anchorY": 0.9536,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9536,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4801
+     },
+     {
+      "name": "rust-idle-e",
+      "w": 124,
+      "h": 296,
+      "anchorX": 0.4798,
+      "anchorY": 0.9291,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9291,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4189
+     },
+     {
+      "name": "rust-idle-w",
+      "w": 127,
+      "h": 295,
+      "anchorX": 0.4724,
+      "anchorY": 0.9288,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9288,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4305
+     },
+     {
+      "name": "rust-idle-n",
+      "w": 138,
+      "h": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.9433,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9433,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.46
+     }
+    ],
+    "2": [
+     {
+      "name": "teal-idle-s",
+      "w": 153,
+      "h": 300,
+      "anchorX": 0.4935,
+      "anchorY": 0.9667,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9667,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.51
+     },
+     {
+      "name": "teal-idle-e",
+      "w": 128,
+      "h": 301,
+      "anchorX": 0.5547,
+      "anchorY": 0.9535,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9535,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4252
+     },
+     {
+      "name": "teal-idle-w",
+      "w": 134,
+      "h": 301,
+      "anchorX": 0.444,
+      "anchorY": 0.9535,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9535,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4452
+     },
+     {
+      "name": "teal-idle-n",
+      "w": 145,
+      "h": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.9567,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9567,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4833
+     }
+    ],
+    "3": [
+     {
+      "name": "elder-idle-s",
+      "w": 165,
+      "h": 313,
+      "anchorX": 0.497,
+      "anchorY": 0.9585,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9585,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5272
+     },
+     {
+      "name": "elder-idle-e",
+      "w": 126,
+      "h": 310,
+      "anchorX": 0.4762,
+      "anchorY": 0.929,
+      "logicalHeight": null,
+      "groundOfLogical": 0.929,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4065
+     },
+     {
+      "name": "elder-idle-w",
+      "w": 124,
+      "h": 310,
+      "anchorX": 0.4839,
+      "anchorY": 0.929,
+      "logicalHeight": null,
+      "groundOfLogical": 0.929,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4
+     },
+     {
+      "name": "elder-idle-n",
+      "w": 158,
+      "h": 309,
+      "anchorX": 0.5127,
+      "anchorY": 0.9385,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9385,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5113
+     }
+    ],
+    "4": [
+     {
+      "name": "blue-idle-s",
+      "w": 132,
+      "h": 297,
+      "anchorX": 0.5,
+      "anchorY": 0.9529,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9529,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4444
+     },
+     {
+      "name": "blue-idle-e",
+      "w": 101,
+      "h": 295,
+      "anchorX": 0.5248,
+      "anchorY": 0.9288,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9288,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.3424
+     },
+     {
+      "name": "blue-idle-w",
+      "w": 102,
+      "h": 294,
+      "anchorX": 0.451,
+      "anchorY": 0.9286,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9286,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.3469
+     },
+     {
+      "name": "blue-idle-n",
+      "w": 128,
+      "h": 299,
+      "anchorX": 0.4922,
+      "anchorY": 0.9331,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9331,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4281
+     }
+    ]
+   }
+  },
+  "people-walk": {
+   "sheet": {
+    "width": 1254,
+    "height": 1254,
+    "cell": [
+     313.5,
+     313.5
+    ]
+   },
+   "logicalHeight": {
+    "min": 288,
+    "median": 301,
+    "max": 305
+   },
+   "frameHeight": {
+    "min": 283,
+    "median": 299,
+    "max": 305
+   },
+   "frameWidth": {
+    "min": 111,
+    "median": 185,
+    "max": 192
+   },
+   "anchorX": {
+    "min": 0.4619,
+    "median": 0.4948,
+    "max": 0.7179
+   },
+   "anchorY": {
+    "min": 0.9269,
+    "median": 0.941,
+    "max": 0.9652
+   },
+   "groundOfLogical": {
+    "min": 0.9132,
+    "median": 0.941,
+    "max": 0.9618
+   },
+   "widthOfLogical": {
+    "min": 0.3854,
+    "median": 0.6146,
+    "max": 0.6424
+   },
+   "rows": {
+    "1": [
+     {
+      "name": "rust-walk-1",
+      "w": 189,
+      "h": 301,
+      "anchorX": 0.4974,
+      "anchorY": 0.9269,
+      "logicalHeight": 301,
+      "groundOfLogical": 0.9269,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.6279
+     },
+     {
+      "name": "rust-walk-2",
+      "w": 118,
+      "h": 301,
+      "anchorX": 0.4619,
+      "anchorY": 0.9502,
+      "logicalHeight": 301,
+      "groundOfLogical": 0.9502,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.392
+     },
+     {
+      "name": "rust-walk-3",
+      "w": 192,
+      "h": 297,
+      "anchorX": 0.4948,
+      "anchorY": 0.9293,
+      "logicalHeight": 301,
+      "groundOfLogical": 0.917,
+      "heightOfLogical": 0.9867,
+      "widthOfLogical": 0.6379
+     },
+     {
+      "name": "rust-walk-4",
+      "w": 153,
+      "h": 296,
+      "anchorX": 0.6863,
+      "anchorY": 0.9595,
+      "logicalHeight": 301,
+      "groundOfLogical": 0.9436,
+      "heightOfLogical": 0.9834,
+      "widthOfLogical": 0.5083
+     }
+    ],
+    "2": [
+     {
+      "name": "teal-walk-1",
+      "w": 192,
+      "h": 298,
+      "anchorX": 0.5104,
+      "anchorY": 0.9295,
+      "logicalHeight": 301,
+      "groundOfLogical": 0.9202,
+      "heightOfLogical": 0.99,
+      "widthOfLogical": 0.6379
+     },
+     {
+      "name": "teal-walk-2",
+      "w": 137,
+      "h": 299,
+      "anchorX": 0.4818,
+      "anchorY": 0.9498,
+      "logicalHeight": 301,
+      "groundOfLogical": 0.9435,
+      "heightOfLogical": 0.9934,
+      "widthOfLogical": 0.4551
+     },
+     {
+      "name": "teal-walk-3",
+      "w": 185,
+      "h": 297,
+      "anchorX": 0.4892,
+      "anchorY": 0.9293,
+      "logicalHeight": 301,
+      "groundOfLogical": 0.917,
+      "heightOfLogical": 0.9867,
+      "widthOfLogical": 0.6146
+     },
+     {
+      "name": "teal-walk-4",
+      "w": 156,
+      "h": 301,
+      "anchorX": 0.7179,
+      "anchorY": 0.9601,
+      "logicalHeight": 301,
+      "groundOfLogical": 0.9601,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5183
+     }
+    ],
+    "3": [
+     {
+      "name": "elder-walk-1",
+      "w": 191,
+      "h": 305,
+      "anchorX": 0.4948,
+      "anchorY": 0.9279,
+      "logicalHeight": 305,
+      "groundOfLogical": 0.9279,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.6262
+     },
+     {
+      "name": "elder-walk-2",
+      "w": 118,
+      "h": 305,
+      "anchorX": 0.4703,
+      "anchorY": 0.9443,
+      "logicalHeight": 305,
+      "groundOfLogical": 0.9443,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.3869
+     },
+     {
+      "name": "elder-walk-3",
+      "w": 192,
+      "h": 300,
+      "anchorX": 0.4922,
+      "anchorY": 0.93,
+      "logicalHeight": 305,
+      "groundOfLogical": 0.9148,
+      "heightOfLogical": 0.9836,
+      "widthOfLogical": 0.6295
+     },
+     {
+      "name": "elder-walk-4",
+      "w": 154,
+      "h": 301,
+      "anchorX": 0.6916,
+      "anchorY": 0.9568,
+      "logicalHeight": 305,
+      "groundOfLogical": 0.9443,
+      "heightOfLogical": 0.9869,
+      "widthOfLogical": 0.5049
+     }
+    ],
+    "4": [
+     {
+      "name": "blue-walk-1",
+      "w": 185,
+      "h": 288,
+      "anchorX": 0.4865,
+      "anchorY": 0.9271,
+      "logicalHeight": 288,
+      "groundOfLogical": 0.9271,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.6424
+     },
+     {
+      "name": "blue-walk-2",
+      "w": 111,
+      "h": 288,
+      "anchorX": 0.5135,
+      "anchorY": 0.941,
+      "logicalHeight": 288,
+      "groundOfLogical": 0.941,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.3854
+     },
+     {
+      "name": "blue-walk-3",
+      "w": 185,
+      "h": 283,
+      "anchorX": 0.473,
+      "anchorY": 0.9293,
+      "logicalHeight": 288,
+      "groundOfLogical": 0.9132,
+      "heightOfLogical": 0.9826,
+      "widthOfLogical": 0.6424
+     },
+     {
+      "name": "blue-walk-4",
+      "w": 145,
+      "h": 287,
+      "anchorX": 0.7103,
+      "anchorY": 0.9652,
+      "logicalHeight": 288,
+      "groundOfLogical": 0.9618,
+      "heightOfLogical": 0.9965,
+      "widthOfLogical": 0.5035
+     }
+    ]
+   }
+  },
+  "people-vertical": {
+   "sheet": {
+    "width": 1254,
+    "height": 1254,
+    "cell": [
+     313.5,
+     313.5
+    ]
+   },
+   "logicalHeight": {
+    "min": 292,
+    "median": 297,
+    "max": 299
+   },
+   "frameHeight": {
+    "min": 288,
+    "median": 296,
+    "max": 299
+   },
+   "frameWidth": {
+    "min": 121,
+    "median": 142,
+    "max": 160
+   },
+   "anchorX": {
+    "min": 0.3893,
+    "median": 0.4317,
+    "max": 0.5759
+   },
+   "anchorY": {
+    "min": 0.9271,
+    "median": 0.9527,
+    "max": 0.9625
+   },
+   "groundOfLogical": {
+    "min": 0.9144,
+    "median": 0.9495,
+    "max": 0.9596
+   },
+   "widthOfLogical": {
+    "min": 0.4088,
+    "median": 0.4749,
+    "max": 0.5479
+   },
+   "rows": {
+    "1": [
+     {
+      "name": "rust-walk-s-1",
+      "w": 139,
+      "h": 297,
+      "anchorX": 0.3957,
+      "anchorY": 0.9596,
+      "logicalHeight": 297,
+      "groundOfLogical": 0.9596,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.468
+     },
+     {
+      "name": "rust-walk-s-2",
+      "w": 140,
+      "h": 296,
+      "anchorX": 0.3893,
+      "anchorY": 0.9595,
+      "logicalHeight": 297,
+      "groundOfLogical": 0.9563,
+      "heightOfLogical": 0.9966,
+      "widthOfLogical": 0.4714
+     },
+     {
+      "name": "rust-walk-n-1",
+      "w": 145,
+      "h": 296,
+      "anchorX": 0.5759,
+      "anchorY": 0.9493,
+      "logicalHeight": 297,
+      "groundOfLogical": 0.9461,
+      "heightOfLogical": 0.9966,
+      "widthOfLogical": 0.4882
+     },
+     {
+      "name": "rust-walk-n-2",
+      "w": 139,
+      "h": 296,
+      "anchorX": 0.4317,
+      "anchorY": 0.9527,
+      "logicalHeight": 297,
+      "groundOfLogical": 0.9495,
+      "heightOfLogical": 0.9966,
+      "widthOfLogical": 0.468
+     }
+    ],
+    "2": [
+     {
+      "name": "teal-walk-s-1",
+      "w": 159,
+      "h": 292,
+      "anchorX": 0.5409,
+      "anchorY": 0.9281,
+      "logicalHeight": 292,
+      "groundOfLogical": 0.9281,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5445
+     },
+     {
+      "name": "teal-walk-s-2",
+      "w": 151,
+      "h": 290,
+      "anchorX": 0.4669,
+      "anchorY": 0.9276,
+      "logicalHeight": 292,
+      "groundOfLogical": 0.9212,
+      "heightOfLogical": 0.9932,
+      "widthOfLogical": 0.5171
+     },
+     {
+      "name": "teal-walk-n-1",
+      "w": 157,
+      "h": 288,
+      "anchorX": 0.4427,
+      "anchorY": 0.9271,
+      "logicalHeight": 292,
+      "groundOfLogical": 0.9144,
+      "heightOfLogical": 0.9863,
+      "widthOfLogical": 0.5377
+     },
+     {
+      "name": "teal-walk-n-2",
+      "w": 160,
+      "h": 289,
+      "anchorX": 0.4281,
+      "anchorY": 0.9273,
+      "logicalHeight": 292,
+      "groundOfLogical": 0.9178,
+      "heightOfLogical": 0.9897,
+      "widthOfLogical": 0.5479
+     }
+    ],
+    "3": [
+     {
+      "name": "elder-walk-s-1",
+      "w": 142,
+      "h": 298,
+      "anchorX": 0.4049,
+      "anchorY": 0.953,
+      "logicalHeight": 299,
+      "groundOfLogical": 0.9498,
+      "heightOfLogical": 0.9967,
+      "widthOfLogical": 0.4749
+     },
+     {
+      "name": "elder-walk-s-2",
+      "w": 141,
+      "h": 299,
+      "anchorX": 0.4397,
+      "anchorY": 0.9532,
+      "logicalHeight": 299,
+      "groundOfLogical": 0.9532,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4716
+     },
+     {
+      "name": "elder-walk-n-1",
+      "w": 142,
+      "h": 296,
+      "anchorX": 0.5704,
+      "anchorY": 0.9595,
+      "logicalHeight": 299,
+      "groundOfLogical": 0.9499,
+      "heightOfLogical": 0.99,
+      "widthOfLogical": 0.4749
+     },
+     {
+      "name": "elder-walk-n-2",
+      "w": 144,
+      "h": 298,
+      "anchorX": 0.4236,
+      "anchorY": 0.9564,
+      "logicalHeight": 299,
+      "groundOfLogical": 0.9532,
+      "heightOfLogical": 0.9967,
+      "widthOfLogical": 0.4816
+     }
+    ],
+    "4": [
+     {
+      "name": "blue-walk-s-1",
+      "w": 128,
+      "h": 293,
+      "anchorX": 0.4258,
+      "anchorY": 0.9625,
+      "logicalHeight": 296,
+      "groundOfLogical": 0.9527,
+      "heightOfLogical": 0.9899,
+      "widthOfLogical": 0.4324
+     },
+     {
+      "name": "blue-walk-s-2",
+      "w": 121,
+      "h": 295,
+      "anchorX": 0.4091,
+      "anchorY": 0.9458,
+      "logicalHeight": 296,
+      "groundOfLogical": 0.9426,
+      "heightOfLogical": 0.9966,
+      "widthOfLogical": 0.4088
+     },
+     {
+      "name": "blue-walk-n-1",
+      "w": 128,
+      "h": 295,
+      "anchorX": 0.5469,
+      "anchorY": 0.9525,
+      "logicalHeight": 296,
+      "groundOfLogical": 0.9493,
+      "heightOfLogical": 0.9966,
+      "widthOfLogical": 0.4324
+     },
+     {
+      "name": "blue-walk-n-2",
+      "w": 125,
+      "h": 296,
+      "anchorX": 0.412,
+      "anchorY": 0.9324,
+      "logicalHeight": 296,
+      "groundOfLogical": 0.9324,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4223
+     }
+    ]
+   }
+  },
+  "people-cast2-idle": {
+   "sheet": {
+    "width": 1254,
+    "height": 1254,
+    "cell": [
+     313.5,
+     313.5
+    ]
+   },
+   "logicalHeight": {
+    "min": 254,
+    "median": 326,
+    "max": 328
+   },
+   "frameHeight": {
+    "min": 253,
+    "median": 320,
+    "max": 328
+   },
+   "frameWidth": {
+    "min": 106,
+    "median": 151,
+    "max": 170
+   },
+   "anchorX": {
+    "min": 0.4118,
+    "median": 0.4969,
+    "max": 0.5528
+   },
+   "anchorY": {
+    "min": 0.9281,
+    "median": 0.9469,
+    "max": 0.96
+   },
+   "groundOfLogical": {
+    "min": 0.9141,
+    "median": 0.9421,
+    "max": 0.9594
+   },
+   "widthOfLogical": {
+    "min": 0.3312,
+    "median": 0.4969,
+    "max": 0.5183
+   },
+   "rows": {
+    "1": [
+     {
+      "name": "rust-woman-idle-s",
+      "w": 163,
+      "h": 324,
+      "anchorX": 0.4969,
+      "anchorY": 0.9568,
+      "logicalHeight": 326,
+      "groundOfLogical": 0.9509,
+      "heightOfLogical": 0.9939,
+      "widthOfLogical": 0.5
+     },
+     {
+      "name": "rust-woman-idle-e",
+      "w": 142,
+      "h": 320,
+      "anchorX": 0.5528,
+      "anchorY": 0.9469,
+      "logicalHeight": 326,
+      "groundOfLogical": 0.9295,
+      "heightOfLogical": 0.9816,
+      "widthOfLogical": 0.4356
+     },
+     {
+      "name": "rust-woman-idle-w",
+      "w": 136,
+      "h": 318,
+      "anchorX": 0.4118,
+      "anchorY": 0.9371,
+      "logicalHeight": 326,
+      "groundOfLogical": 0.9141,
+      "heightOfLogical": 0.9755,
+      "widthOfLogical": 0.4172
+     },
+     {
+      "name": "rust-woman-idle-n",
+      "w": 162,
+      "h": 326,
+      "anchorX": 0.5031,
+      "anchorY": 0.9448,
+      "logicalHeight": 326,
+      "groundOfLogical": 0.9448,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4969
+     }
+    ],
+    "2": [
+     {
+      "name": "indigo-idle-s",
+      "w": 170,
+      "h": 328,
+      "anchorX": 0.4941,
+      "anchorY": 0.9543,
+      "logicalHeight": 328,
+      "groundOfLogical": 0.9543,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5183
+     },
+     {
+      "name": "indigo-idle-e",
+      "w": 151,
+      "h": 325,
+      "anchorX": 0.5331,
+      "anchorY": 0.96,
+      "logicalHeight": 328,
+      "groundOfLogical": 0.9512,
+      "heightOfLogical": 0.9909,
+      "widthOfLogical": 0.4604
+     },
+     {
+      "name": "indigo-idle-w",
+      "w": 151,
+      "h": 325,
+      "anchorX": 0.4669,
+      "anchorY": 0.9508,
+      "logicalHeight": 328,
+      "groundOfLogical": 0.9421,
+      "heightOfLogical": 0.9909,
+      "widthOfLogical": 0.4604
+     },
+     {
+      "name": "indigo-idle-n",
+      "w": 164,
+      "h": 325,
+      "anchorX": 0.497,
+      "anchorY": 0.9508,
+      "logicalHeight": 328,
+      "groundOfLogical": 0.9421,
+      "heightOfLogical": 0.9909,
+      "widthOfLogical": 0.5
+     }
+    ],
+    "3": [
+     {
+      "name": "ochre-idle-s",
+      "w": 159,
+      "h": 320,
+      "anchorX": 0.4874,
+      "anchorY": 0.9594,
+      "logicalHeight": 320,
+      "groundOfLogical": 0.9594,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4969
+     },
+     {
+      "name": "ochre-idle-e",
+      "w": 106,
+      "h": 320,
+      "anchorX": 0.5283,
+      "anchorY": 0.9281,
+      "logicalHeight": 320,
+      "groundOfLogical": 0.9281,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.3312
+     },
+     {
+      "name": "ochre-idle-w",
+      "w": 109,
+      "h": 319,
+      "anchorX": 0.4404,
+      "anchorY": 0.9342,
+      "logicalHeight": 320,
+      "groundOfLogical": 0.9313,
+      "heightOfLogical": 0.9969,
+      "widthOfLogical": 0.3406
+     },
+     {
+      "name": "ochre-idle-n",
+      "w": 163,
+      "h": 319,
+      "anchorX": 0.4939,
+      "anchorY": 0.9404,
+      "logicalHeight": 320,
+      "groundOfLogical": 0.9375,
+      "heightOfLogical": 0.9969,
+      "widthOfLogical": 0.5094
+     }
+    ],
+    "4": [
+     {
+      "name": "blue-girl-idle-s",
+      "w": 129,
+      "h": 254,
+      "anchorX": 0.5,
+      "anchorY": 0.9567,
+      "logicalHeight": 254,
+      "groundOfLogical": 0.9567,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5079
+     },
+     {
+      "name": "blue-girl-idle-e",
+      "w": 115,
+      "h": 253,
+      "anchorX": 0.5391,
+      "anchorY": 0.9407,
+      "logicalHeight": 254,
+      "groundOfLogical": 0.937,
+      "heightOfLogical": 0.9961,
+      "widthOfLogical": 0.4528
+     },
+     {
+      "name": "blue-girl-idle-w",
+      "w": 116,
+      "h": 253,
+      "anchorX": 0.4483,
+      "anchorY": 0.9368,
+      "logicalHeight": 254,
+      "groundOfLogical": 0.9331,
+      "heightOfLogical": 0.9961,
+      "widthOfLogical": 0.4567
+     },
+     {
+      "name": "blue-girl-idle-n",
+      "w": 128,
+      "h": 254,
+      "anchorX": 0.4961,
+      "anchorY": 0.9409,
+      "logicalHeight": 254,
+      "groundOfLogical": 0.9409,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5039
+     }
+    ]
+   }
+  },
+  "people-cast2-walk": {
+   "sheet": {
+    "width": 1254,
+    "height": 1254,
+    "cell": [
+     313.5,
+     313.5
+    ]
+   },
+   "logicalHeight": {
+    "min": 259,
+    "median": 320,
+    "max": 325
+   },
+   "frameHeight": {
+    "min": 258,
+    "median": 317,
+    "max": 325
+   },
+   "frameWidth": {
+    "min": 160,
+    "median": 188,
+    "max": 203
+   },
+   "anchorX": {
+    "min": 0.4792,
+    "median": 0.5031,
+    "max": 0.5319
+   },
+   "anchorY": {
+    "min": 0.9264,
+    "median": 0.9281,
+    "max": 0.9292
+   },
+   "groundOfLogical": {
+    "min": 0.9187,
+    "median": 0.9266,
+    "max": 0.9292
+   },
+   "widthOfLogical": {
+    "min": 0.5469,
+    "median": 0.6169,
+    "max": 0.6564
+   },
+   "rows": {
+    "1": [
+     {
+      "name": "rust-woman-walk-1",
+      "w": 201,
+      "h": 320,
+      "anchorX": 0.49,
+      "anchorY": 0.9281,
+      "logicalHeight": 320,
+      "groundOfLogical": 0.9281,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.6281
+     },
+     {
+      "name": "rust-woman-walk-2",
+      "w": 175,
+      "h": 318,
+      "anchorX": 0.4943,
+      "anchorY": 0.9277,
+      "logicalHeight": 320,
+      "groundOfLogical": 0.9219,
+      "heightOfLogical": 0.9938,
+      "widthOfLogical": 0.5469
+     },
+     {
+      "name": "rust-woman-walk-3",
+      "w": 194,
+      "h": 317,
+      "anchorX": 0.5258,
+      "anchorY": 0.9274,
+      "logicalHeight": 320,
+      "groundOfLogical": 0.9187,
+      "heightOfLogical": 0.9906,
+      "widthOfLogical": 0.6062
+     },
+     {
+      "name": "rust-woman-walk-4",
+      "w": 188,
+      "h": 319,
+      "anchorX": 0.5319,
+      "anchorY": 0.9279,
+      "logicalHeight": 320,
+      "groundOfLogical": 0.925,
+      "heightOfLogical": 0.9969,
+      "widthOfLogical": 0.5875
+     }
+    ],
+    "2": [
+     {
+      "name": "indigo-walk-1",
+      "w": 203,
+      "h": 325,
+      "anchorX": 0.5025,
+      "anchorY": 0.9292,
+      "logicalHeight": 325,
+      "groundOfLogical": 0.9292,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.6246
+     },
+     {
+      "name": "indigo-walk-2",
+      "w": 180,
+      "h": 325,
+      "anchorX": 0.4917,
+      "anchorY": 0.9292,
+      "logicalHeight": 325,
+      "groundOfLogical": 0.9292,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5538
+     },
+     {
+      "name": "indigo-walk-3",
+      "w": 194,
+      "h": 325,
+      "anchorX": 0.5052,
+      "anchorY": 0.9292,
+      "logicalHeight": 325,
+      "groundOfLogical": 0.9292,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5969
+     },
+     {
+      "name": "indigo-walk-4",
+      "w": 188,
+      "h": 325,
+      "anchorX": 0.5053,
+      "anchorY": 0.9292,
+      "logicalHeight": 325,
+      "groundOfLogical": 0.9292,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5785
+     }
+    ],
+    "3": [
+     {
+      "name": "ochre-walk-1",
+      "w": 192,
+      "h": 308,
+      "anchorX": 0.4792,
+      "anchorY": 0.9286,
+      "logicalHeight": 308,
+      "groundOfLogical": 0.9286,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.6234
+     },
+     {
+      "name": "ochre-walk-2",
+      "w": 174,
+      "h": 305,
+      "anchorX": 0.5115,
+      "anchorY": 0.9279,
+      "logicalHeight": 308,
+      "groundOfLogical": 0.9189,
+      "heightOfLogical": 0.9903,
+      "widthOfLogical": 0.5649
+     },
+     {
+      "name": "ochre-walk-3",
+      "w": 190,
+      "h": 308,
+      "anchorX": 0.5079,
+      "anchorY": 0.9286,
+      "logicalHeight": 308,
+      "groundOfLogical": 0.9286,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.6169
+     },
+     {
+      "name": "ochre-walk-4",
+      "w": 181,
+      "h": 306,
+      "anchorX": 0.4862,
+      "anchorY": 0.9281,
+      "logicalHeight": 308,
+      "groundOfLogical": 0.9221,
+      "heightOfLogical": 0.9935,
+      "widthOfLogical": 0.5877
+     }
+    ],
+    "4": [
+     {
+      "name": "blue-girl-walk-1",
+      "w": 170,
+      "h": 259,
+      "anchorX": 0.5,
+      "anchorY": 0.9266,
+      "logicalHeight": 259,
+      "groundOfLogical": 0.9266,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.6564
+     },
+     {
+      "name": "blue-girl-walk-2",
+      "w": 160,
+      "h": 258,
+      "anchorX": 0.5031,
+      "anchorY": 0.9264,
+      "logicalHeight": 259,
+      "groundOfLogical": 0.9228,
+      "heightOfLogical": 0.9961,
+      "widthOfLogical": 0.6178
+     },
+     {
+      "name": "blue-girl-walk-3",
+      "w": 165,
+      "h": 259,
+      "anchorX": 0.5061,
+      "anchorY": 0.9266,
+      "logicalHeight": 259,
+      "groundOfLogical": 0.9266,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.6371
+     },
+     {
+      "name": "blue-girl-walk-4",
+      "w": 163,
+      "h": 259,
+      "anchorX": 0.4969,
+      "anchorY": 0.9266,
+      "logicalHeight": 259,
+      "groundOfLogical": 0.9266,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.6293
+     }
+    ]
+   }
+  },
+  "people-cast2-vertical": {
+   "sheet": {
+    "width": 1254,
+    "height": 1254,
+    "cell": [
+     313.5,
+     313.5
+    ]
+   },
+   "logicalHeight": {
+    "min": 219,
+    "median": 249,
+    "max": 252
+   },
+   "frameHeight": {
+    "min": 218,
+    "median": 247,
+    "max": 252
+   },
+   "frameWidth": {
+    "min": 110,
+    "median": 124,
+    "max": 132
+   },
+   "anchorX": {
+    "min": 0.3943,
+    "median": 0.5417,
+    "max": 0.6434
+   },
+   "anchorY": {
+    "min": 0.9262,
+    "median": 0.9438,
+    "max": 0.9518
+   },
+   "groundOfLogical": {
+    "min": 0.9187,
+    "median": 0.9405,
+    "max": 0.9498
+   },
+   "widthOfLogical": {
+    "min": 0.49,
+    "median": 0.5041,
+    "max": 0.5388
+   },
+   "rows": {
+    "1": [
+     {
+      "name": "rust-woman-walk-s-1",
+      "w": 124,
+      "h": 244,
+      "anchorX": 0.5403,
+      "anchorY": 0.9262,
+      "logicalHeight": 246,
+      "groundOfLogical": 0.9187,
+      "heightOfLogical": 0.9919,
+      "widthOfLogical": 0.5041
+     },
+     {
+      "name": "rust-woman-walk-s-2",
+      "w": 123,
+      "h": 246,
+      "anchorX": 0.3943,
+      "anchorY": 0.9472,
+      "logicalHeight": 246,
+      "groundOfLogical": 0.9472,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5
+     },
+     {
+      "name": "rust-woman-walk-n-1",
+      "w": 124,
+      "h": 244,
+      "anchorX": 0.4919,
+      "anchorY": 0.9262,
+      "logicalHeight": 246,
+      "groundOfLogical": 0.9187,
+      "heightOfLogical": 0.9919,
+      "widthOfLogical": 0.5041
+     },
+     {
+      "name": "rust-woman-walk-n-2",
+      "w": 124,
+      "h": 245,
+      "anchorX": 0.4637,
+      "anchorY": 0.9265,
+      "logicalHeight": 246,
+      "groundOfLogical": 0.9227,
+      "heightOfLogical": 0.9959,
+      "widthOfLogical": 0.5041
+     }
+    ],
+    "2": [
+     {
+      "name": "indigo-walk-s-1",
+      "w": 131,
+      "h": 252,
+      "anchorX": 0.6069,
+      "anchorY": 0.9444,
+      "logicalHeight": 252,
+      "groundOfLogical": 0.9444,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5198
+     },
+     {
+      "name": "indigo-walk-s-2",
+      "w": 131,
+      "h": 251,
+      "anchorX": 0.3969,
+      "anchorY": 0.9482,
+      "logicalHeight": 252,
+      "groundOfLogical": 0.9444,
+      "heightOfLogical": 0.996,
+      "widthOfLogical": 0.5198
+     },
+     {
+      "name": "indigo-walk-n-1",
+      "w": 132,
+      "h": 249,
+      "anchorX": 0.5417,
+      "anchorY": 0.9518,
+      "logicalHeight": 252,
+      "groundOfLogical": 0.9405,
+      "heightOfLogical": 0.9881,
+      "widthOfLogical": 0.5238
+     },
+     {
+      "name": "indigo-walk-n-2",
+      "w": 126,
+      "h": 250,
+      "anchorX": 0.4802,
+      "anchorY": 0.948,
+      "logicalHeight": 252,
+      "groundOfLogical": 0.9405,
+      "heightOfLogical": 0.9921,
+      "widthOfLogical": 0.5
+     }
+    ],
+    "3": [
+     {
+      "name": "ochre-walk-s-1",
+      "w": 122,
+      "h": 249,
+      "anchorX": 0.6434,
+      "anchorY": 0.9357,
+      "logicalHeight": 249,
+      "groundOfLogical": 0.9357,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.49
+     },
+     {
+      "name": "ochre-walk-s-2",
+      "w": 123,
+      "h": 249,
+      "anchorX": 0.3943,
+      "anchorY": 0.9438,
+      "logicalHeight": 249,
+      "groundOfLogical": 0.9438,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.494
+     },
+     {
+      "name": "ochre-walk-n-1",
+      "w": 124,
+      "h": 247,
+      "anchorX": 0.5968,
+      "anchorY": 0.9312,
+      "logicalHeight": 249,
+      "groundOfLogical": 0.9237,
+      "heightOfLogical": 0.992,
+      "widthOfLogical": 0.498
+     },
+     {
+      "name": "ochre-walk-n-2",
+      "w": 122,
+      "h": 247,
+      "anchorX": 0.5943,
+      "anchorY": 0.9352,
+      "logicalHeight": 249,
+      "groundOfLogical": 0.9277,
+      "heightOfLogical": 0.992,
+      "widthOfLogical": 0.49
+     }
+    ],
+    "4": [
+     {
+      "name": "blue-girl-walk-s-1",
+      "w": 112,
+      "h": 219,
+      "anchorX": 0.5223,
+      "anchorY": 0.9269,
+      "logicalHeight": 219,
+      "groundOfLogical": 0.9269,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5114
+     },
+     {
+      "name": "blue-girl-walk-s-2",
+      "w": 110,
+      "h": 219,
+      "anchorX": 0.5545,
+      "anchorY": 0.9269,
+      "logicalHeight": 219,
+      "groundOfLogical": 0.9269,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5023
+     },
+     {
+      "name": "blue-girl-walk-n-1",
+      "w": 118,
+      "h": 219,
+      "anchorX": 0.5932,
+      "anchorY": 0.9498,
+      "logicalHeight": 219,
+      "groundOfLogical": 0.9498,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5388
+     },
+     {
+      "name": "blue-girl-walk-n-2",
+      "w": 114,
+      "h": 218,
+      "anchorX": 0.5526,
+      "anchorY": 0.945,
+      "logicalHeight": 219,
+      "groundOfLogical": 0.9407,
+      "heightOfLogical": 0.9954,
+      "widthOfLogical": 0.5205
+     }
+    ]
+   }
+  },
+  "people-children-idle": {
+   "sheet": {
+    "width": 1254,
+    "height": 1254,
+    "cell": [
+     313.5,
+     313.5
+    ]
+   },
+   "logicalHeight": {
+    "min": 197,
+    "median": 348,
+    "max": 358
+   },
+   "frameHeight": {
+    "min": 143,
+    "median": 344,
+    "max": 358
+   },
+   "frameWidth": {
+    "min": 123,
+    "median": 157,
+    "max": 254
+   },
+   "anchorX": {
+    "min": 0.4464,
+    "median": 0.4964,
+    "max": 0.5458
+   },
+   "anchorY": {
+    "min": 0.9231,
+    "median": 0.9339,
+    "max": 0.9599
+   },
+   "groundOfLogical": {
+    "min": 0.6701,
+    "median": 0.9289,
+    "max": 0.9599
+   },
+   "widthOfLogical": {
+    "min": 0.3436,
+    "median": 0.4615,
+    "max": 1.2893
+   },
+   "rows": {
+    "1": [
+     {
+      "name": "girl-idle-s",
+      "w": 165,
+      "h": 345,
+      "anchorX": 0.497,
+      "anchorY": 0.9536,
+      "logicalHeight": 348,
+      "groundOfLogical": 0.9454,
+      "heightOfLogical": 0.9914,
+      "widthOfLogical": 0.4741
+     },
+     {
+      "name": "girl-idle-e",
+      "w": 142,
+      "h": 345,
+      "anchorX": 0.5458,
+      "anchorY": 0.9304,
+      "logicalHeight": 348,
+      "groundOfLogical": 0.9224,
+      "heightOfLogical": 0.9914,
+      "widthOfLogical": 0.408
+     },
+     {
+      "name": "girl-idle-w",
+      "w": 140,
+      "h": 344,
+      "anchorX": 0.4464,
+      "anchorY": 0.939,
+      "logicalHeight": 348,
+      "groundOfLogical": 0.9282,
+      "heightOfLogical": 0.9885,
+      "widthOfLogical": 0.4023
+     },
+     {
+      "name": "girl-idle-n",
+      "w": 166,
+      "h": 348,
+      "anchorX": 0.5,
+      "anchorY": 0.9339,
+      "logicalHeight": 348,
+      "groundOfLogical": 0.9339,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.477
+     }
+    ],
+    "2": [
+     {
+      "name": "boy-idle-s",
+      "w": 161,
+      "h": 357,
+      "anchorX": 0.5031,
+      "anchorY": 0.958,
+      "logicalHeight": 358,
+      "groundOfLogical": 0.9553,
+      "heightOfLogical": 0.9972,
+      "widthOfLogical": 0.4497
+     },
+     {
+      "name": "boy-idle-e",
+      "w": 133,
+      "h": 358,
+      "anchorX": 0.5113,
+      "anchorY": 0.9274,
+      "logicalHeight": 358,
+      "groundOfLogical": 0.9274,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.3715
+     },
+     {
+      "name": "boy-idle-w",
+      "w": 123,
+      "h": 357,
+      "anchorX": 0.4715,
+      "anchorY": 0.93,
+      "logicalHeight": 358,
+      "groundOfLogical": 0.9274,
+      "heightOfLogical": 0.9972,
+      "widthOfLogical": 0.3436
+     },
+     {
+      "name": "boy-idle-n",
+      "w": 157,
+      "h": 357,
+      "anchorX": 0.4873,
+      "anchorY": 0.9496,
+      "logicalHeight": 358,
+      "groundOfLogical": 0.9469,
+      "heightOfLogical": 0.9972,
+      "widthOfLogical": 0.4385
+     }
+    ],
+    "3": [
+     {
+      "name": "smallchild-idle-s",
+      "w": 140,
+      "h": 299,
+      "anchorX": 0.4964,
+      "anchorY": 0.9599,
+      "logicalHeight": 299,
+      "groundOfLogical": 0.9599,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4682
+     },
+     {
+      "name": "smallchild-idle-e",
+      "w": 132,
+      "h": 298,
+      "anchorX": 0.5265,
+      "anchorY": 0.9295,
+      "logicalHeight": 299,
+      "groundOfLogical": 0.9264,
+      "heightOfLogical": 0.9967,
+      "widthOfLogical": 0.4415
+     },
+     {
+      "name": "smallchild-idle-w",
+      "w": 125,
+      "h": 296,
+      "anchorX": 0.476,
+      "anchorY": 0.9392,
+      "logicalHeight": 299,
+      "groundOfLogical": 0.9298,
+      "heightOfLogical": 0.99,
+      "widthOfLogical": 0.4181
+     },
+     {
+      "name": "smallchild-idle-n",
+      "w": 138,
+      "h": 299,
+      "anchorX": 0.5036,
+      "anchorY": 0.9398,
+      "logicalHeight": 299,
+      "groundOfLogical": 0.9398,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4615
+     }
+    ],
+    "4": [
+     {
+      "name": "infant-awake",
+      "w": 172,
+      "h": 197,
+      "anchorX": 0.4913,
+      "anchorY": 0.9289,
+      "logicalHeight": 197,
+      "groundOfLogical": 0.9289,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.8731
+     },
+     {
+      "name": "infant-asleep",
+      "w": 172,
+      "h": 197,
+      "anchorX": 0.4884,
+      "anchorY": 0.9289,
+      "logicalHeight": 197,
+      "groundOfLogical": 0.9289,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.8731
+     },
+     {
+      "name": "infant-idle-w",
+      "w": 254,
+      "h": 143,
+      "anchorX": 0.4941,
+      "anchorY": 0.9231,
+      "logicalHeight": 197,
+      "groundOfLogical": 0.6701,
+      "heightOfLogical": 0.7259,
+      "widthOfLogical": 1.2893
+     },
+     {
+      "name": "infant-idle-e",
+      "w": 249,
+      "h": 143,
+      "anchorX": 0.4839,
+      "anchorY": 0.9231,
+      "logicalHeight": 197,
+      "groundOfLogical": 0.6701,
+      "heightOfLogical": 0.7259,
+      "widthOfLogical": 1.264
+     }
+    ]
+   }
+  },
+  "people-children-walk": {
+   "sheet": {
+    "width": 1254,
+    "height": 1254,
+    "cell": [
+     313.5,
+     313.5
+    ]
+   },
+   "logicalHeight": {
+    "min": 285,
+    "median": 341,
+    "max": 345
+   },
+   "frameHeight": {
+    "min": 284,
+    "median": 341,
+    "max": 345
+   },
+   "frameWidth": {
+    "min": 161,
+    "median": 182,
+    "max": 189
+   },
+   "anchorX": {
+    "min": 0.4438,
+    "median": 0.4973,
+    "max": 0.5267
+   },
+   "anchorY": {
+    "min": 0.9271,
+    "median": 0.9296,
+    "max": 0.9355
+   },
+   "groundOfLogical": {
+    "min": 0.9217,
+    "median": 0.9296,
+    "max": 0.9355
+   },
+   "widthOfLogical": {
+    "min": 0.4754,
+    "median": 0.5484,
+    "max": 0.6632
+   },
+   "rows": {
+    "1": [
+     {
+      "name": "girl-walk-1",
+      "w": 189,
+      "h": 341,
+      "anchorX": 0.5238,
+      "anchorY": 0.9296,
+      "logicalHeight": 341,
+      "groundOfLogical": 0.9296,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5543
+     },
+     {
+      "name": "girl-walk-2",
+      "w": 178,
+      "h": 341,
+      "anchorX": 0.4438,
+      "anchorY": 0.9355,
+      "logicalHeight": 341,
+      "groundOfLogical": 0.9355,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.522
+     },
+     {
+      "name": "girl-walk-3",
+      "w": 187,
+      "h": 339,
+      "anchorX": 0.5107,
+      "anchorY": 0.9292,
+      "logicalHeight": 341,
+      "groundOfLogical": 0.9238,
+      "heightOfLogical": 0.9941,
+      "widthOfLogical": 0.5484
+     },
+     {
+      "name": "girl-walk-4",
+      "w": 182,
+      "h": 340,
+      "anchorX": 0.4725,
+      "anchorY": 0.9294,
+      "logicalHeight": 341,
+      "groundOfLogical": 0.9267,
+      "heightOfLogical": 0.9971,
+      "widthOfLogical": 0.5337
+     }
+    ],
+    "2": [
+     {
+      "name": "boy-walk-1",
+      "w": 187,
+      "h": 343,
+      "anchorX": 0.5267,
+      "anchorY": 0.9271,
+      "logicalHeight": 345,
+      "groundOfLogical": 0.9217,
+      "heightOfLogical": 0.9942,
+      "widthOfLogical": 0.542
+     },
+     {
+      "name": "boy-walk-2",
+      "w": 164,
+      "h": 343,
+      "anchorX": 0.5122,
+      "anchorY": 0.9271,
+      "logicalHeight": 345,
+      "groundOfLogical": 0.9217,
+      "heightOfLogical": 0.9942,
+      "widthOfLogical": 0.4754
+     },
+     {
+      "name": "boy-walk-3",
+      "w": 183,
+      "h": 345,
+      "anchorX": 0.4973,
+      "anchorY": 0.9275,
+      "logicalHeight": 345,
+      "groundOfLogical": 0.9275,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5304
+     },
+     {
+      "name": "boy-walk-4",
+      "w": 173,
+      "h": 344,
+      "anchorX": 0.4509,
+      "anchorY": 0.9331,
+      "logicalHeight": 345,
+      "groundOfLogical": 0.9304,
+      "heightOfLogical": 0.9971,
+      "widthOfLogical": 0.5014
+     }
+    ],
+    "3": [
+     {
+      "name": "smallchild-walk-1",
+      "w": 189,
+      "h": 284,
+      "anchorX": 0.5026,
+      "anchorY": 0.9296,
+      "logicalHeight": 285,
+      "groundOfLogical": 0.9263,
+      "heightOfLogical": 0.9965,
+      "widthOfLogical": 0.6632
+     },
+     {
+      "name": "smallchild-walk-2",
+      "w": 161,
+      "h": 285,
+      "anchorX": 0.4441,
+      "anchorY": 0.9298,
+      "logicalHeight": 285,
+      "groundOfLogical": 0.9298,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5649
+     },
+     {
+      "name": "smallchild-walk-3",
+      "w": 165,
+      "h": 285,
+      "anchorX": 0.4667,
+      "anchorY": 0.9298,
+      "logicalHeight": 285,
+      "groundOfLogical": 0.9298,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5789
+     },
+     {
+      "name": "smallchild-walk-4",
+      "w": 179,
+      "h": 284,
+      "anchorX": 0.4581,
+      "anchorY": 0.9331,
+      "logicalHeight": 285,
+      "groundOfLogical": 0.9298,
+      "heightOfLogical": 0.9965,
+      "widthOfLogical": 0.6281
+     }
+    ]
+   }
+  },
+  "people-children-vertical": {
+   "sheet": {
+    "width": 1254,
+    "height": 1254,
+    "cell": [
+     313.5,
+     313.5
+    ]
+   },
+   "logicalHeight": {
+    "min": 297,
+    "median": 355,
+    "max": 359
+   },
+   "frameHeight": {
+    "min": 294,
+    "median": 355,
+    "max": 359
+   },
+   "frameWidth": {
+    "min": 144,
+    "median": 174,
+    "max": 200
+   },
+   "anchorX": {
+    "min": 0.3791,
+    "median": 0.4872,
+    "max": 0.6635
+   },
+   "anchorY": {
+    "min": 0.9274,
+    "median": 0.93,
+    "max": 0.9577
+   },
+   "groundOfLogical": {
+    "min": 0.9192,
+    "median": 0.9293,
+    "max": 0.9577
+   },
+   "widthOfLogical": {
+    "min": 0.4056,
+    "median": 0.4847,
+    "max": 0.6734
+   },
+   "rows": {
+    "1": [
+     {
+      "name": "girl-walk-s-1",
+      "w": 166,
+      "h": 357,
+      "anchorX": 0.5392,
+      "anchorY": 0.93,
+      "logicalHeight": 359,
+      "groundOfLogical": 0.9248,
+      "heightOfLogical": 0.9944,
+      "widthOfLogical": 0.4624
+     },
+     {
+      "name": "girl-walk-s-2",
+      "w": 165,
+      "h": 358,
+      "anchorX": 0.5091,
+      "anchorY": 0.9274,
+      "logicalHeight": 359,
+      "groundOfLogical": 0.9248,
+      "heightOfLogical": 0.9972,
+      "widthOfLogical": 0.4596
+     },
+     {
+      "name": "girl-walk-n-1",
+      "w": 175,
+      "h": 358,
+      "anchorX": 0.4514,
+      "anchorY": 0.9274,
+      "logicalHeight": 359,
+      "groundOfLogical": 0.9248,
+      "heightOfLogical": 0.9972,
+      "widthOfLogical": 0.4875
+     },
+     {
+      "name": "girl-walk-n-2",
+      "w": 174,
+      "h": 359,
+      "anchorX": 0.4454,
+      "anchorY": 0.9276,
+      "logicalHeight": 359,
+      "groundOfLogical": 0.9276,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4847
+     }
+    ],
+    "2": [
+     {
+      "name": "boy-walk-s-1",
+      "w": 159,
+      "h": 355,
+      "anchorX": 0.6226,
+      "anchorY": 0.9577,
+      "logicalHeight": 355,
+      "groundOfLogical": 0.9577,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4479
+     },
+     {
+      "name": "boy-walk-s-2",
+      "w": 144,
+      "h": 355,
+      "anchorX": 0.6146,
+      "anchorY": 0.9577,
+      "logicalHeight": 355,
+      "groundOfLogical": 0.9577,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4056
+     },
+     {
+      "name": "boy-walk-n-1",
+      "w": 153,
+      "h": 353,
+      "anchorX": 0.3791,
+      "anchorY": 0.9547,
+      "logicalHeight": 355,
+      "groundOfLogical": 0.9493,
+      "heightOfLogical": 0.9944,
+      "widthOfLogical": 0.431
+     },
+     {
+      "name": "boy-walk-n-2",
+      "w": 156,
+      "h": 354,
+      "anchorX": 0.6635,
+      "anchorY": 0.9576,
+      "logicalHeight": 355,
+      "groundOfLogical": 0.9549,
+      "heightOfLogical": 0.9972,
+      "widthOfLogical": 0.4394
+     }
+    ],
+    "3": [
+     {
+      "name": "smallchild-walk-s-1",
+      "w": 196,
+      "h": 297,
+      "anchorX": 0.4872,
+      "anchorY": 0.9293,
+      "logicalHeight": 297,
+      "groundOfLogical": 0.9293,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.6599
+     },
+     {
+      "name": "smallchild-walk-s-2",
+      "w": 192,
+      "h": 297,
+      "anchorX": 0.4792,
+      "anchorY": 0.9293,
+      "logicalHeight": 297,
+      "groundOfLogical": 0.9293,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.6465
+     },
+     {
+      "name": "smallchild-walk-n-1",
+      "w": 200,
+      "h": 294,
+      "anchorX": 0.465,
+      "anchorY": 0.9286,
+      "logicalHeight": 297,
+      "groundOfLogical": 0.9192,
+      "heightOfLogical": 0.9899,
+      "widthOfLogical": 0.6734
+     },
+     {
+      "name": "smallchild-walk-n-2",
+      "w": 194,
+      "h": 294,
+      "anchorX": 0.4175,
+      "anchorY": 0.9456,
+      "logicalHeight": 297,
+      "groundOfLogical": 0.936,
+      "heightOfLogical": 0.9899,
+      "widthOfLogical": 0.6532
+     }
+    ]
+   }
+  },
+  "people-work": {
+   "sheet": {
+    "width": 1254,
+    "height": 1254,
+    "cell": [
+     313.5,
+     313.5
+    ]
+   },
+   "logicalHeight": {
+    "min": 243,
+    "median": 297,
+    "max": 299
+   },
+   "frameHeight": {
+    "min": 187,
+    "median": 263,
+    "max": 299
+   },
+   "frameWidth": {
+    "min": 185,
+    "median": 221,
+    "max": 269
+   },
+   "anchorX": {
+    "min": 0.3156,
+    "median": 0.4977,
+    "max": 0.6196
+   },
+   "anchorY": {
+    "min": 0.9251,
+    "median": 0.9351,
+    "max": 0.9559
+   },
+   "groundOfLogical": {
+    "min": 0.6847,
+    "median": 0.8653,
+    "max": 0.9559
+   },
+   "widthOfLogical": {
+    "min": 0.7023,
+    "median": 0.7654,
+    "max": 0.9506
+   },
+   "rows": {
+    "1": [
+     {
+      "name": "rust-work-1",
+      "w": 235,
+      "h": 295,
+      "anchorX": 0.5638,
+      "anchorY": 0.9559,
+      "logicalHeight": 295,
+      "groundOfLogical": 0.9559,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.7966
+     },
+     {
+      "name": "rust-work-2",
+      "w": 257,
+      "h": 255,
+      "anchorX": 0.4844,
+      "anchorY": 0.9333,
+      "logicalHeight": 295,
+      "groundOfLogical": 0.8068,
+      "heightOfLogical": 0.8644,
+      "widthOfLogical": 0.8712
+     },
+     {
+      "name": "rust-work-3",
+      "w": 221,
+      "h": 218,
+      "anchorX": 0.4977,
+      "anchorY": 0.9266,
+      "logicalHeight": 295,
+      "groundOfLogical": 0.6847,
+      "heightOfLogical": 0.739,
+      "widthOfLogical": 0.7492
+     },
+     {
+      "name": "rust-work-4",
+      "w": 218,
+      "h": 263,
+      "anchorX": 0.4954,
+      "anchorY": 0.943,
+      "logicalHeight": 295,
+      "groundOfLogical": 0.8407,
+      "heightOfLogical": 0.8915,
+      "widthOfLogical": 0.739
+     }
+    ],
+    "2": [
+     {
+      "name": "teal-work-1",
+      "w": 209,
+      "h": 297,
+      "anchorX": 0.6196,
+      "anchorY": 0.9495,
+      "logicalHeight": 297,
+      "groundOfLogical": 0.9495,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.7037
+     },
+     {
+      "name": "teal-work-2",
+      "w": 269,
+      "h": 266,
+      "anchorX": 0.4888,
+      "anchorY": 0.9323,
+      "logicalHeight": 297,
+      "groundOfLogical": 0.835,
+      "heightOfLogical": 0.8956,
+      "widthOfLogical": 0.9057
+     },
+     {
+      "name": "teal-work-3",
+      "w": 227,
+      "h": 226,
+      "anchorX": 0.5088,
+      "anchorY": 0.9336,
+      "logicalHeight": 297,
+      "groundOfLogical": 0.7104,
+      "heightOfLogical": 0.7609,
+      "widthOfLogical": 0.7643
+     },
+     {
+      "name": "teal-work-4",
+      "w": 212,
+      "h": 277,
+      "anchorX": 0.5071,
+      "anchorY": 0.9278,
+      "logicalHeight": 297,
+      "groundOfLogical": 0.8653,
+      "heightOfLogical": 0.9327,
+      "widthOfLogical": 0.7138
+     }
+    ],
+    "3": [
+     {
+      "name": "elder-work-1",
+      "w": 217,
+      "h": 299,
+      "anchorX": 0.6037,
+      "anchorY": 0.9532,
+      "logicalHeight": 299,
+      "groundOfLogical": 0.9532,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.7258
+     },
+     {
+      "name": "elder-work-2",
+      "w": 263,
+      "h": 271,
+      "anchorX": 0.3156,
+      "anchorY": 0.9373,
+      "logicalHeight": 299,
+      "groundOfLogical": 0.8495,
+      "heightOfLogical": 0.9064,
+      "widthOfLogical": 0.8796
+     },
+     {
+      "name": "elder-work-3",
+      "w": 230,
+      "h": 229,
+      "anchorX": 0.4978,
+      "anchorY": 0.9258,
+      "logicalHeight": 299,
+      "groundOfLogical": 0.7091,
+      "heightOfLogical": 0.7659,
+      "widthOfLogical": 0.7692
+     },
+     {
+      "name": "elder-work-4",
+      "w": 210,
+      "h": 283,
+      "anchorX": 0.4976,
+      "anchorY": 0.9293,
+      "logicalHeight": 299,
+      "groundOfLogical": 0.8796,
+      "heightOfLogical": 0.9465,
+      "widthOfLogical": 0.7023
+     }
+    ],
+    "4": [
+     {
+      "name": "blue-work-1",
+      "w": 185,
+      "h": 243,
+      "anchorX": 0.5784,
+      "anchorY": 0.9465,
+      "logicalHeight": 243,
+      "groundOfLogical": 0.9465,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.7613
+     },
+     {
+      "name": "blue-work-2",
+      "w": 231,
+      "h": 231,
+      "anchorX": 0.3268,
+      "anchorY": 0.9351,
+      "logicalHeight": 243,
+      "groundOfLogical": 0.8889,
+      "heightOfLogical": 0.9506,
+      "widthOfLogical": 0.9506
+     },
+     {
+      "name": "blue-work-3",
+      "w": 204,
+      "h": 187,
+      "anchorX": 0.4951,
+      "anchorY": 0.9251,
+      "logicalHeight": 243,
+      "groundOfLogical": 0.7119,
+      "heightOfLogical": 0.7695,
+      "widthOfLogical": 0.8395
+     },
+     {
+      "name": "blue-work-4",
+      "w": 186,
+      "h": 238,
+      "anchorX": 0.3844,
+      "anchorY": 0.9496,
+      "logicalHeight": 243,
+      "groundOfLogical": 0.9301,
+      "heightOfLogical": 0.9794,
+      "widthOfLogical": 0.7654
+     }
+    ]
+   }
+  },
+  "military": {
+   "sheet": {
+    "width": 1226,
+    "height": 1283,
+    "cell": [
+     306.5,
+     320.75
+    ]
+   },
+   "logicalHeight": {
+    "min": 270,
+    "median": 305,
+    "max": 338
+   },
+   "frameHeight": {
+    "min": 270,
+    "median": 305,
+    "max": 338
+   },
+   "frameWidth": {
+    "min": 117,
+    "median": 149,
+    "max": 300
+   },
+   "anchorX": {
+    "min": 0.3063,
+    "median": 0.4957,
+    "max": 0.6611
+   },
+   "anchorY": {
+    "min": 0.9265,
+    "median": 0.9532,
+    "max": 0.9734
+   },
+   "groundOfLogical": {
+    "min": 0.9265,
+    "median": 0.9532,
+    "max": 0.9734
+   },
+   "widthOfLogical": {
+    "min": 0.4216,
+    "median": 0.4691,
+    "max": 0.9009
+   },
+   "rows": {
+    "1": [
+     {
+      "name": "volunteer-s",
+      "w": 152,
+      "h": 279,
+      "anchorX": 0.3388,
+      "anchorY": 0.9713,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9713,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5448
+     },
+     {
+      "name": "volunteer-w",
+      "w": 122,
+      "h": 278,
+      "anchorX": 0.6311,
+      "anchorY": 0.9532,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9532,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4388
+     },
+     {
+      "name": "volunteer-e",
+      "w": 142,
+      "h": 277,
+      "anchorX": 0.3063,
+      "anchorY": 0.9495,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9495,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5126
+     },
+     {
+      "name": "volunteer-n",
+      "w": 149,
+      "h": 279,
+      "anchorX": 0.6611,
+      "anchorY": 0.957,
+      "logicalHeight": null,
+      "groundOfLogical": 0.957,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5341
+     }
+    ],
+    "2": [
+     {
+      "name": "regular-s",
+      "w": 162,
+      "h": 305,
+      "anchorX": 0.3302,
+      "anchorY": 0.9672,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9672,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5311
+     },
+     {
+      "name": "regular-w",
+      "w": 129,
+      "h": 306,
+      "anchorX": 0.5969,
+      "anchorY": 0.9444,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9444,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4216
+     },
+     {
+      "name": "regular-e",
+      "w": 144,
+      "h": 307,
+      "anchorX": 0.3264,
+      "anchorY": 0.9446,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9446,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4691
+     },
+     {
+      "name": "regular-n",
+      "w": 153,
+      "h": 308,
+      "anchorX": 0.6471,
+      "anchorY": 0.961,
+      "logicalHeight": null,
+      "groundOfLogical": 0.961,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4968
+     }
+    ],
+    "3": [
+     {
+      "name": "courier-s",
+      "w": 119,
+      "h": 275,
+      "anchorX": 0.4454,
+      "anchorY": 0.9491,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9491,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4327
+     },
+     {
+      "name": "courier-w",
+      "w": 117,
+      "h": 270,
+      "anchorX": 0.4957,
+      "anchorY": 0.9407,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9407,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4333
+     },
+     {
+      "name": "courier-e",
+      "w": 117,
+      "h": 272,
+      "anchorX": 0.4957,
+      "anchorY": 0.9265,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9265,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4301
+     },
+     {
+      "name": "courier-n",
+      "w": 117,
+      "h": 270,
+      "anchorX": 0.5556,
+      "anchorY": 0.9407,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9407,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4333
+     }
+    ],
+    "4": [
+     {
+      "name": "dragoon-s",
+      "w": 151,
+      "h": 337,
+      "anchorX": 0.4801,
+      "anchorY": 0.9703,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9703,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4481
+     },
+     {
+      "name": "dragoon-w",
+      "w": 296,
+      "h": 334,
+      "anchorX": 0.5946,
+      "anchorY": 0.9521,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9521,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.8862
+     },
+     {
+      "name": "dragoon-e",
+      "w": 300,
+      "h": 333,
+      "anchorX": 0.4167,
+      "anchorY": 0.967,
+      "logicalHeight": null,
+      "groundOfLogical": 0.967,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.9009
+     },
+     {
+      "name": "dragoon-n",
+      "w": 155,
+      "h": 338,
+      "anchorX": 0.5,
+      "anchorY": 0.9734,
+      "logicalHeight": null,
+      "groundOfLogical": 0.9734,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.4586
+     }
+    ]
+   }
+  },
+  "military-motion": {
+   "sheet": {
+    "width": 1254,
+    "height": 1254,
+    "cell": [
+     313.5,
+     313.5
+    ]
+   },
+   "logicalHeight": {
+    "min": 284,
+    "median": 319,
+    "max": 323
+   },
+   "frameHeight": {
+    "min": 278,
+    "median": 318,
+    "max": 323
+   },
+   "frameWidth": {
+    "min": 151,
+    "median": 215,
+    "max": 317
+   },
+   "anchorX": {
+    "min": 0.3967,
+    "median": 0.5068,
+    "max": 0.5363
+   },
+   "anchorY": {
+    "min": 0.9268,
+    "median": 0.9296,
+    "max": 0.9752
+   },
+   "groundOfLogical": {
+    "min": 0.9085,
+    "median": 0.9296,
+    "max": 0.9722
+   },
+   "widthOfLogical": {
+    "min": 0.5317,
+    "median": 0.7387,
+    "max": 0.9814
+   },
+   "rows": {
+    "1": [
+     {
+      "name": "volunteer-march-1",
+      "w": 215,
+      "h": 284,
+      "anchorX": 0.4907,
+      "anchorY": 0.9296,
+      "logicalHeight": 287,
+      "groundOfLogical": 0.9199,
+      "heightOfLogical": 0.9895,
+      "widthOfLogical": 0.7491
+     },
+     {
+      "name": "volunteer-march-2",
+      "w": 212,
+      "h": 287,
+      "anchorX": 0.434,
+      "anchorY": 0.9443,
+      "logicalHeight": 287,
+      "groundOfLogical": 0.9443,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.7387
+     },
+     {
+      "name": "volunteer-march-3",
+      "w": 220,
+      "h": 287,
+      "anchorX": 0.5068,
+      "anchorY": 0.9268,
+      "logicalHeight": 287,
+      "groundOfLogical": 0.9268,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.7666
+     },
+     {
+      "name": "volunteer-march-4",
+      "w": 215,
+      "h": 287,
+      "anchorX": 0.407,
+      "anchorY": 0.9477,
+      "logicalHeight": 287,
+      "groundOfLogical": 0.9477,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.7491
+     }
+    ],
+    "2": [
+     {
+      "name": "regular-march-1",
+      "w": 218,
+      "h": 319,
+      "anchorX": 0.5069,
+      "anchorY": 0.9279,
+      "logicalHeight": 319,
+      "groundOfLogical": 0.9279,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.6834
+     },
+     {
+      "name": "regular-march-2",
+      "w": 213,
+      "h": 318,
+      "anchorX": 0.4202,
+      "anchorY": 0.9277,
+      "logicalHeight": 319,
+      "groundOfLogical": 0.9248,
+      "heightOfLogical": 0.9969,
+      "widthOfLogical": 0.6677
+     },
+     {
+      "name": "regular-march-3",
+      "w": 218,
+      "h": 319,
+      "anchorX": 0.5092,
+      "anchorY": 0.9279,
+      "logicalHeight": 319,
+      "groundOfLogical": 0.9279,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.6834
+     },
+     {
+      "name": "regular-march-4",
+      "w": 213,
+      "h": 319,
+      "anchorX": 0.3967,
+      "anchorY": 0.931,
+      "logicalHeight": 319,
+      "groundOfLogical": 0.931,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.6677
+     }
+    ],
+    "3": [
+     {
+      "name": "courier-march-1",
+      "w": 186,
+      "h": 278,
+      "anchorX": 0.4785,
+      "anchorY": 0.9281,
+      "logicalHeight": 284,
+      "groundOfLogical": 0.9085,
+      "heightOfLogical": 0.9789,
+      "widthOfLogical": 0.6549
+     },
+     {
+      "name": "courier-march-2",
+      "w": 151,
+      "h": 284,
+      "anchorX": 0.5099,
+      "anchorY": 0.9296,
+      "logicalHeight": 284,
+      "groundOfLogical": 0.9296,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.5317
+     },
+     {
+      "name": "courier-march-3",
+      "w": 184,
+      "h": 279,
+      "anchorX": 0.4837,
+      "anchorY": 0.9283,
+      "logicalHeight": 284,
+      "groundOfLogical": 0.912,
+      "heightOfLogical": 0.9824,
+      "widthOfLogical": 0.6479
+     },
+     {
+      "name": "courier-march-4",
+      "w": 170,
+      "h": 279,
+      "anchorX": 0.5147,
+      "anchorY": 0.9283,
+      "logicalHeight": 284,
+      "groundOfLogical": 0.912,
+      "heightOfLogical": 0.9824,
+      "widthOfLogical": 0.5986
+     }
+    ],
+    "4": [
+     {
+      "name": "dragoon-march-1",
+      "w": 306,
+      "h": 323,
+      "anchorX": 0.4902,
+      "anchorY": 0.9628,
+      "logicalHeight": 323,
+      "groundOfLogical": 0.9628,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.9474
+     },
+     {
+      "name": "dragoon-march-2",
+      "w": 309,
+      "h": 323,
+      "anchorX": 0.5146,
+      "anchorY": 0.9721,
+      "logicalHeight": 323,
+      "groundOfLogical": 0.9721,
+      "heightOfLogical": 1,
+      "widthOfLogical": 0.9567
+     },
+     {
+      "name": "dragoon-march-3",
+      "w": 312,
+      "h": 322,
+      "anchorX": 0.5144,
+      "anchorY": 0.9565,
+      "logicalHeight": 323,
+      "groundOfLogical": 0.9535,
+      "heightOfLogical": 0.9969,
+      "widthOfLogical": 0.9659
+     },
+     {
+      "name": "dragoon-march-4",
+      "w": 317,
+      "h": 322,
+      "anchorX": 0.5363,
+      "anchorY": 0.9752,
+      "logicalHeight": 323,
+      "groundOfLogical": 0.9722,
+      "heightOfLogical": 0.9969,
+      "widthOfLogical": 0.9814
+     }
+    ]
+   }
+  }
+ },
+ "line": {
+  "civilians": {
+   "edge": "#020000",
+   "ink": "#22150c",
+   "thickness": {
+    "min": 1,
+    "median": 5,
+    "max": 12
+   },
+   "samples": 4732
+  },
+  "people-walk": {
+   "edge": "#050100",
+   "ink": "#321f12",
+   "thickness": {
+    "min": 1,
+    "median": 4,
+    "max": 12
+   },
+   "samples": 4645
+  },
+  "people-vertical": {
+   "edge": "#050201",
+   "ink": "#23180f",
+   "thickness": {
+    "min": 1,
+    "median": 3,
+    "max": 12
+   },
+   "samples": 4613
+  },
+  "people-cast2-idle": {
+   "edge": "#000000",
+   "ink": "#1b1109",
+   "thickness": {
+    "min": 1,
+    "median": 4,
+    "max": 12
+   },
+   "samples": 4779
+  },
+  "people-children-idle": {
+   "edge": "#000000",
+   "ink": "#150b05",
+   "thickness": {
+    "min": 1,
+    "median": 4,
+    "max": 12
+   },
+   "samples": 4555
+  }
+ },
+ "palette": {
+  "rust": {
+   "frame": "rust-idle-s",
+   "at": {
+    "hat": [
+     0.5,
+     0.06
+    ],
+    "hatBand": [
+     0.5,
+     0.14
+    ],
+    "skin": [
+     0.55,
+     0.19
+    ],
+    "hair": [
+     0.22,
+     0.21
+    ],
+    "beard": [
+     0.5,
+     0.3
+    ],
+    "shirt": [
+     0.2,
+     0.42
+    ],
+    "kerchief": [
+     0.5,
+     0.36
+    ],
+    "braces": [
+     0.31,
+     0.45
+    ],
+    "trousers": [
+     0.36,
+     0.7
+    ],
+    "boots": [
+     0.3,
+     0.93
+    ]
+   },
+   "regions": {
+    "hat": "#ae7e4b",
+    "hatBand": "#99502a",
+    "skin": "#b46c3b",
+    "hair": "#774c2b",
+    "beard": "#865a3a",
+    "shirt": "#893f28",
+    "kerchief": "#ce7639",
+    "braces": "#bc8d50",
+    "trousers": "#885f36",
+    "boots": "#4b2e1a"
+   },
+   "common": [
+    {
+     "colour": "#855c33",
+     "share": 0.127
+    },
+    {
+     "colour": "#764c29",
+     "share": 0.056
+    },
+    {
+     "colour": "#8b432b",
+     "share": 0.053
+    },
+    {
+     "colour": "#873d27",
+     "share": 0.049
+    },
+    {
+     "colour": "#94452c",
+     "share": 0.048
+    },
+    {
+     "colour": "#8a6237",
+     "share": 0.047
+    },
+    {
+     "colour": "#694526",
+     "share": 0.043
+    },
+    {
+     "colour": "#7b532d",
+     "share": 0.041
+    },
+    {
+     "colour": "#db9358",
+     "share": 0.039
+    },
+    {
+     "colour": "#56361d",
+     "share": 0.035
+    }
+   ]
+  },
+  "teal": {
+   "frame": "teal-idle-s",
+   "at": {
+    "hair": [
+     0.5,
+     0.05
+    ],
+    "skin": [
+     0.34,
+     0.25
+    ],
+    "blouse": [
+     0.2,
+     0.4
+    ],
+    "apron": [
+     0.5,
+     0.62
+    ],
+    "skirt": [
+     0.12,
+     0.84
+    ],
+    "shoes": [
+     0.4,
+     0.98
+    ]
+   },
+   "regions": {
+    "hair": "#3e2b1e",
+    "skin": "#ac5e2e",
+    "blouse": "#53675f",
+    "apron": "#e6c49f",
+    "skirt": "#b57828",
+    "shoes": "#4a301b"
+   },
+   "common": [
+    {
+     "colour": "#e8c8a5",
+     "share": 0.203
+    },
+    {
+     "colour": "#b87929",
+     "share": 0.109
+    },
+    {
+     "colour": "#53665d",
+     "share": 0.063
+    },
+    {
+     "colour": "#e4c29d",
+     "share": 0.062
+    },
+    {
+     "colour": "#aa5a2b",
+     "share": 0.06
+    },
+    {
+     "colour": "#586b62",
+     "share": 0.04
+    },
+    {
+     "colour": "#495b54",
+     "share": 0.026
+    },
+    {
+     "colour": "#b66432",
+     "share": 0.026
+    },
+    {
+     "colour": "#b25d2c",
+     "share": 0.022
+    },
+    {
+     "colour": "#a86a24",
+     "share": 0.02
+    }
+   ]
+  },
+  "elder": {
+   "frame": "elder-idle-s",
+   "at": {
+    "hat": [
+     0.5,
+     0.06
+    ],
+    "hatBand": [
+     0.5,
+     0.125
+    ],
+    "skin": [
+     0.47,
+     0.21
+    ],
+    "beard": [
+     0.5,
+     0.33
+    ],
+    "shirt": [
+     0.1,
+     0.45
+    ],
+    "waistcoat": [
+     0.4,
+     0.5
+    ],
+    "trousers": [
+     0.36,
+     0.72
+    ],
+    "boots": [
+     0.3,
+     0.93
+    ]
+   },
+   "regions": {
+    "hat": "#a97b4a",
+    "hatBand": "#5a321a",
+    "skin": "#734026",
+    "beard": "#7f6a5d",
+    "shirt": "#e4c29d",
+    "waistcoat": "#574b27",
+    "trousers": "#5f4028",
+    "boots": "#543722"
+   },
+   "common": [
+    {
+     "colour": "#564828",
+     "share": 0.199
+    },
+    {
+     "colour": "#593b25",
+     "share": 0.124
+    },
+    {
+     "colour": "#65432a",
+     "share": 0.106
+    },
+    {
+     "colour": "#784929",
+     "share": 0.078
+    },
+    {
+     "colour": "#48351d",
+     "share": 0.036
+    },
+    {
+     "colour": "#462c1b",
+     "share": 0.035
+    },
+    {
+     "colour": "#e7c8a4",
+     "share": 0.032
+    },
+    {
+     "colour": "#4d4223",
+     "share": 0.031
+    },
+    {
+     "colour": "#4a3822",
+     "share": 0.03
+    },
+    {
+     "colour": "#e3c39b",
+     "share": 0.022
+    }
+   ]
+  },
+  "blue": {
+   "frame": "blue-idle-s",
+   "at": {
+    "hair": [
+     0.5,
+     0.06
+    ],
+    "skin": [
+     0.4,
+     0.26
+    ],
+    "shirt": [
+     0.18,
+     0.44
+    ],
+    "braces": [
+     0.31,
+     0.44
+    ],
+    "trousers": [
+     0.37,
+     0.68
+    ],
+    "boots": [
+     0.3,
+     0.93
+    ]
+   },
+   "regions": {
+    "hair": "#36271e",
+    "skin": "#e9a062",
+    "shirt": "#5b656f",
+    "braces": "#a36b3d",
+    "trousers": "#a97f4f",
+    "boots": "#573822"
+   },
+   "common": [
+    {
+     "colour": "#a67b4c",
+     "share": 0.103
+    },
+    {
+     "colour": "#59636c",
+     "share": 0.076
+    },
+    {
+     "colour": "#ad8352",
+     "share": 0.073
+    },
+    {
+     "colour": "#e5995a",
+     "share": 0.067
+    },
+    {
+     "colour": "#e9a366",
+     "share": 0.049
+    },
+    {
+     "colour": "#545c66",
+     "share": 0.046
+    },
+    {
+     "colour": "#583a23",
+     "share": 0.041
+    },
+    {
+     "colour": "#b28756",
+     "share": 0.04
+    },
+    {
+     "colour": "#5d6772",
+     "share": 0.038
+    },
+    {
+     "colour": "#9c7346",
+     "share": 0.025
+    }
+   ]
+  },
+  "rust-woman": {
+   "frame": "rust-woman-idle-s",
+   "at": {
+    "bonnet": [
+     0.5,
+     0.035
+    ],
+    "skin": [
+     0.36,
+     0.26
+    ],
+    "hair": [
+     0.24,
+     0.26
+    ],
+    "blouse": [
+     0.18,
+     0.42
+    ],
+    "bow": [
+     0.5,
+     0.35
+    ],
+    "apron": [
+     0.5,
+     0.62
+    ],
+    "skirt": [
+     0.1,
+     0.84
+    ],
+    "shoes": [
+     0.4,
+     0.98
+    ]
+   },
+   "regions": {
+    "bonnet": "#ebbc86",
+    "skin": "#e97935",
+    "hair": "#956537",
+    "blouse": "#9d3b1e",
+    "bow": "#875337",
+    "apron": "#f5d5af",
+    "skirt": "#c77930",
+    "shoes": "#512a12"
+   },
+   "common": [
+    {
+     "colour": "#f4d2ac",
+     "share": 0.138
+    },
+    {
+     "colour": "#c97c32",
+     "share": 0.079
+    },
+    {
+     "colour": "#aa4324",
+     "share": 0.067
+    },
+    {
+     "colour": "#c5782c",
+     "share": 0.047
+    },
+    {
+     "colour": "#f2cda5",
+     "share": 0.044
+    },
+    {
+     "colour": "#f6d7b3",
+     "share": 0.04
+    },
+    {
+     "colour": "#b44726",
+     "share": 0.033
+    },
+    {
+     "colour": "#b76b26",
+     "share": 0.033
+    },
+    {
+     "colour": "#db7837",
+     "share": 0.032
+    },
+    {
+     "colour": "#e57c39",
+     "share": 0.027
+    }
+   ]
+  },
+  "indigo": {
+   "frame": "indigo-idle-s",
+   "at": {
+    "hair": [
+     0.5,
+     0.05
+    ],
+    "skin": [
+     0.33,
+     0.27
+    ],
+    "kerchief": [
+     0.5,
+     0.33
+    ],
+    "dress": [
+     0.25,
+     0.72
+    ],
+    "shoes": [
+     0.4,
+     0.98
+    ]
+   },
+   "regions": {
+    "hair": "#3e2a1e",
+    "skin": null,
+    "kerchief": "#d37239",
+    "dress": "#42576e",
+    "shoes": "#5c361c"
+   },
+   "common": [
+    {
+     "colour": "#44576c",
+     "share": 0.302
+    },
+    {
+     "colour": "#475b72",
+     "share": 0.168
+    },
+    {
+     "colour": "#364659",
+     "share": 0.085
+    },
+    {
+     "colour": "#3e5268",
+     "share": 0.073
+    },
+    {
+     "colour": "#3c4d63",
+     "share": 0.055
+    },
+    {
+     "colour": "#c8662c",
+     "share": 0.054
+    },
+    {
+     "colour": "#2a3948",
+     "share": 0.037
+    },
+    {
+     "colour": "#cb6b32",
+     "share": 0.033
+    },
+    {
+     "colour": "#d37237",
+     "share": 0.017
+    },
+    {
+     "colour": "#422d22",
+     "share": 0.009
+    }
+   ]
+  },
+  "ochre": {
+   "frame": "ochre-idle-s",
+   "at": {
+    "hair": [
+     0.5,
+     0.06
+    ],
+    "skin": [
+     0.36,
+     0.27
+    ],
+    "shirt": [
+     0.1,
+     0.44
+    ],
+    "waistcoat": [
+     0.38,
+     0.47
+    ],
+    "trousers": [
+     0.36,
+     0.7
+    ],
+    "boots": [
+     0.3,
+     0.93
+    ]
+   },
+   "regions": {
+    "hair": "#4e2f1d",
+    "skin": "#a56238",
+    "shirt": "#d6852d",
+    "waistcoat": "#4c2e1a",
+    "trousers": "#745843",
+    "boots": "#57321b"
+   },
+   "common": [
+    {
+     "colour": "#755843",
+     "share": 0.165
+    },
+    {
+     "colour": "#4a2d18",
+     "share": 0.14
+    },
+    {
+     "colour": "#54331c",
+     "share": 0.135
+    },
+    {
+     "colour": "#f48c46",
+     "share": 0.039
+    },
+    {
+     "colour": "#f99a54",
+     "share": 0.036
+    },
+    {
+     "colour": "#f7944b",
+     "share": 0.035
+    },
+    {
+     "colour": "#da8b36",
+     "share": 0.033
+    },
+    {
+     "colour": "#664b39",
+     "share": 0.032
+    },
+    {
+     "colour": "#4e301b",
+     "share": 0.027
+    },
+    {
+     "colour": "#583924",
+     "share": 0.026
+    }
+   ]
+  },
+  "blue-girl": {
+   "frame": "blue-girl-idle-s",
+   "at": {
+    "hair": [
+     0.5,
+     0.06
+    ],
+    "skin": [
+     0.36,
+     0.27
+    ],
+    "dress": [
+     0.18,
+     0.5
+    ],
+    "apron": [
+     0.5,
+     0.74
+    ],
+    "shoes": [
+     0.4,
+     0.98
+    ]
+   },
+   "regions": {
+    "hair": "#4f2d19",
+    "skin": "#fba15b",
+    "dress": "#4a6481",
+    "apron": "#f6d6b3",
+    "shoes": "#59341c"
+   },
+   "common": [
+    {
+     "colour": "#f6d6b3",
+     "share": 0.165
+    },
+    {
+     "colour": "#f5d2ad",
+     "share": 0.069
+    },
+    {
+     "colour": "#492b18",
+     "share": 0.058
+    },
+    {
+     "colour": "#56697b",
+     "share": 0.054
+    },
+    {
+     "colour": "#546c84",
+     "share": 0.049
+    },
+    {
+     "colour": "#4b637b",
+     "share": 0.047
+    },
+    {
+     "colour": "#5d7285",
+     "share": 0.046
+    },
+    {
+     "colour": "#4c6784",
+     "share": 0.043
+    },
+    {
+     "colour": "#faa864",
+     "share": 0.041
+    },
+    {
+     "colour": "#faa35c",
+     "share": 0.037
+    }
+   ]
+  },
+  "girl": {
+   "frame": "girl-idle-s",
+   "at": {
+    "hair": [
+     0.5,
+     0.06
+    ],
+    "skin": [
+     0.36,
+     0.27
+    ],
+    "dress": [
+     0.18,
+     0.48
+    ],
+    "pinafore": [
+     0.5,
+     0.64
+    ],
+    "shoes": [
+     0.4,
+     0.98
+    ]
+   },
+   "regions": {
+    "hair": "#4a2f1f",
+    "skin": "#e17833",
+    "dress": "#c2583c",
+    "pinafore": "#f8d7ae",
+    "shoes": "#543118"
+   },
+   "common": [
+    {
+     "colour": "#f8dab4",
+     "share": 0.146
+    },
+    {
+     "colour": "#f6d4ab",
+     "share": 0.126
+    },
+    {
+     "colour": "#db7934",
+     "share": 0.056
+    },
+    {
+     "colour": "#ba5439",
+     "share": 0.05
+    },
+    {
+     "colour": "#482b1b",
+     "share": 0.044
+    },
+    {
+     "colour": "#e27b36",
+     "share": 0.039
+    },
+    {
+     "colour": "#a94a33",
+     "share": 0.027
+    },
+    {
+     "colour": "#e4843c",
+     "share": 0.027
+    },
+    {
+     "colour": "#c3583c",
+     "share": 0.025
+    },
+    {
+     "colour": "#eac59a",
+     "share": 0.024
+    }
+   ]
+  },
+  "boy": {
+   "frame": "boy-idle-s",
+   "at": {
+    "hair": [
+     0.5,
+     0.06
+    ],
+    "skin": [
+     0.36,
+     0.28
+    ],
+    "shirt": [
+     0.18,
+     0.44
+    ],
+    "braces": [
+     0.4,
+     0.42
+    ],
+    "trousers": [
+     0.36,
+     0.7
+    ],
+    "feet": [
+     0.35,
+     0.95
+    ]
+   },
+   "regions": {
+    "hair": "#bf7d3f",
+    "skin": "#faa970",
+    "shirt": "#f8d8ae",
+    "braces": "#6a4123",
+    "trousers": "#7a4e2e",
+    "feet": "#d77c3f"
+   },
+   "common": [
+    {
+     "colour": "#754a2b",
+     "share": 0.17
+    },
+    {
+     "colour": "#f8a667",
+     "share": 0.108
+    },
+    {
+     "colour": "#f6d4a9",
+     "share": 0.083
+    },
+    {
+     "colour": "#6b4426",
+     "share": 0.071
+    },
+    {
+     "colour": "#f59a5a",
+     "share": 0.035
+    },
+    {
+     "colour": "#58361b",
+     "share": 0.031
+    },
+    {
+     "colour": "#f8dab4",
+     "share": 0.031
+    },
+    {
+     "colour": "#643e22",
+     "share": 0.019
+    },
+    {
+     "colour": "#eac598",
+     "share": 0.018
+    },
+    {
+     "colour": "#c98944",
+     "share": 0.017
+    }
+   ]
+  },
+  "smallchild": {
+   "frame": "smallchild-idle-s",
+   "at": {
+    "hair": [
+     0.5,
+     0.07
+    ],
+    "skin": [
+     0.36,
+     0.28
+    ],
+    "gown": [
+     0.4,
+     0.6
+    ],
+    "feet": [
+     0.4,
+     0.96
+    ]
+   },
+   "regions": {
+    "hair": "#452916",
+    "skin": "#e47a36",
+    "gown": "#f9dab2",
+    "feet": "#e27c34"
+   },
+   "common": [
+    {
+     "colour": "#f6d4aa",
+     "share": 0.229
+    },
+    {
+     "colour": "#f9dab4",
+     "share": 0.143
+    },
+    {
+     "colour": "#e4843c",
+     "share": 0.064
+    },
+    {
+     "colour": "#4b2b18",
+     "share": 0.057
+    },
+    {
+     "colour": "#db7b35",
+     "share": 0.05
+    },
+    {
+     "colour": "#ebc598",
+     "share": 0.045
+    },
+    {
+     "colour": "#57331c",
+     "share": 0.037
+    },
+    {
+     "colour": "#e27c36",
+     "share": 0.036
+    },
+    {
+     "colour": "#f2cea3",
+     "share": 0.03
+    },
+    {
+     "colour": "#f2cb9b",
+     "share": 0.022
+    }
+   ]
+  }
+ }
+}
