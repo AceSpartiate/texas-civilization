@@ -91,7 +91,7 @@ export const SCENES = Object.freeze({
   // Almonte's dragoons riding for New Washington on the morning of the 16th, a belt of timber a few hundred yards off the road.
   timber: { minute: on(1836, 4, 16, 10), watcher: 'almonte', from: 'harrisburg', to: 'new-washington', ahead: 1.05 },
 });
-export function sceneFor(world, { kind = 'cavalry', how = 'wagon', ahead = null, householdId = 'hh-1', minute = null } = {}) {
+export function sceneFor(world, { kind = 'cavalry', how = 'wagon', ahead = null, householdId = 'hh-1', minute = null, prepare = null } = {}) {
   const scene = { ...SCENES[kind], ...(minute !== null && { minute }) };
   const household = world.households[householdId];
   // Out of the way until the scene's day: camped at Nacogdoches, where no column comes, so nothing happens to it at home.
@@ -102,6 +102,8 @@ export function sceneFor(world, { kind = 'cavalry', how = 'wagon', ahead = null,
   const road = findWay(world, scene.from, scene.to, how === 'wagon' ? 'wagon' : 'foot', { ferries: false });
   const at = along(road.points, watcher);
   const placed = placeFamily(world, household, { from: scene.from, to: scene.to, atMiles: at.at + (ahead ?? scene.ahead), how });
+  // What the family has been through before it is put here (`prepare`): who has already stripped it, for "One army".
+  prepare?.(placed.household);
   // Seen where it is put: the soldiers have it in sight now, not after the class's next long tick carries everybody on.
   advancePursuit(world, household);
   return { ...placed, watcher, scene };

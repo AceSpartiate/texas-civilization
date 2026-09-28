@@ -514,3 +514,51 @@ test('one mile is a mile: a column about a mile off, and a family running behind
   assert.match(run.note, /at about 1 mile an hour;/);
   for (const option of options) assert.doesNotMatch(`${option.label} ${option.note}`, /\b1 miles\b/);
 });
+
+test('one army: a family Santa Anna\'s dragoons stripped is not warned or taken again by his column or his other patrols; another army still can', () => {
+  // Owner, 2026-09-28, by multiple choice, "One army": once a column or one of its patrols has stripped a family, neither the
+  // column nor any of its patrols troubles it again. Found by the proof fixer: taken by the dragoons, warned of the column a tick later.
+  const world = spring();
+  const { household, main } = sceneFor(world, { kind: 'cavalry', how: 'wagon' });
+  until(world, () => household.flight.ask?.id === 'alto', 20);
+  applyAction(world, household.id, { action: 'road-answer', entityId: main.id, option: 'halt' });
+  assert.deepEqual(household.flight.overtakenBy, ['santa-anna-dragoons'], 'the dragoons did not strip the family');
+  const stripped = world.events.length;
+  let nearest = Infinity;
+  for (let t = 0; t < 12; t++) {
+    stepWorld(world);
+    const at = familyPoint(world, household), head = watchersNow(world).find(one => one.id === 'santa-anna');
+    if (at && head) nearest = Math.min(nearest, Math.hypot(head.x - at.x, head.y - at.y));
+    assert.notEqual(household.flight.danger?.id, 'santa-anna', `warned of Santa Anna's column ${t + 1} ticks after his dragoons stripped the family`);
+  }
+  assert.ok(nearest < 20, `the column never came within the warning's twenty miles (${nearest.toFixed(1)}), so this proves nothing`);
+  assert.ok(!world.events.slice(stripped).some(event => event.householdId === household.id && /^Word along the road: Santa Anna/.test(event.text)), 'the family was told Santa Anna\'s column was coming');
+  assert.deepEqual(household.flight.overtakenBy, ['santa-anna-dragoons'], 'the family was stripped again');
+
+  // Put in front of them again, having set out since it was stripped (so "not again until it sets out" is not what holds them).
+  const strippedBy = id => one => {
+    one.flight.overtakenBy = [id];
+    one.flight.overtaken = { minute: one.flight.leftMinute - 1440, column: id };
+  };
+  const met = (kind, by, how = 'wagon', householdId = 'hh-1') => {
+    const world = spring();
+    const scene = sceneFor(world, { kind, how, householdId, prepare: strippedBy(by) });
+    const flight = scene.household.flight;
+    let chased = Boolean(flight.chase), warned = null;
+    for (let t = 0; t < 3; t++) {
+      stepWorld(world);
+      chased ||= Boolean(flight.chase || flight.pursued?.length || flight.overtakenBy.length > 1);
+      warned ||= flight.danger?.id || null;
+    }
+    return { chased, warned };
+  };
+  // His column, a few hundred yards behind a family his dragoons stripped: nobody sent after it, and no warning of it.
+  assert.deepEqual(met('infantry', 'santa-anna-dragoons'), { chased: false, warned: null }, 'Santa Anna\'s column troubled a family his dragoons had stripped');
+  // His dragoons, after a family his column stripped: not chased, and the column behind them not warned of.
+  assert.deepEqual(met('cavalry', 'santa-anna'), { chased: false, warned: null }, 'Santa Anna\'s dragoons troubled a family his column had stripped');
+  // Another of his patrols (Almonte with the dragoons of his escort), after a family the dragoons stripped.
+  assert.equal(met('timber', 'santa-anna-dragoons', 'mounted', 'hh-4').chased, false, 'Almonte\'s dragoons chased a family Santa Anna\'s dragoons had stripped');
+  // Another army still can: a family Urrea's cavalry or Sesma's column stripped is chased by Santa Anna's, and warned of his column.
+  assert.deepEqual(met('infantry', 'urrea-horse'), { chased: true, warned: 'santa-anna' }, 'a family Urrea\'s cavalry stripped was spared by Santa Anna\'s column');
+  assert.equal(met('cavalry', 'sesma').chased, true, 'a family Sesma\'s column stripped was spared by Santa Anna\'s dragoons');
+});

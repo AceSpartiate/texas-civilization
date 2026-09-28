@@ -323,8 +323,9 @@ animals, holding their fire where women and children are in the way, as Almonte 
   enough to hide in and nobody within fifty yards, or when plainly outrun. Written in the family's record; a public line goes along
   the road ("Mexican horsemen of ... chased the ... family on the road and fired on them; the family got away").
 - **Kept from before:** the warning at twenty miles and its question (press on, stay, leave the wagon); the lookout, who sees the
-  riders further off; never twice by the same column or patrol in a day, never in the day the order gives, never again where the
-  family was stripped until it sets out. A bogged wagon, or one waiting its turn at a crossing, cannot run (on foot, a family fords at
+  riders further off; not chased twice by the same column or patrol in a day, never in the day the order gives, never again where
+  the family was stripped until it sets out. **One army** (§16 e, owner 2026-09-28): once a column or one of its patrols has
+  stripped a family, neither the column nor any of its patrols warns it, chases it or strips it again; another column still can. A bogged wagon, or one waiting its turn at a crossing, cannot run (on foot, a family fords at
   once). Whatever question was open when the soldiers call is put back after, if it still stands.
 - **Seen by** the family's own student and the Host (the chase drawn on the Host's map, the camera's spotlight on a played family,
   the row "running from Mexican horsemen on the road to ..."). Other families learn by the word. **Never where the column is**: the
@@ -379,3 +380,20 @@ lamed. 1. Keep. 2. Wounds only, nobody killed. 3. As in battle (sim/army.mjs's s
 
 (d) **Running for the timber.** *As built:* offered while there is timber within three quarters of a mile, and horsemen give up at
 the timber's edge. 1. Keep. 2. Infantry follow into the timber and cavalry do not. 3. No timber rule.
+
+(e) **A column and its patrols: one army, or each its own?** Found by the proof fixer (2026-09-28): a family Santa Anna's dragoons
+had stripped was warned of Santa Anna's column a tick later, a mile off, because "never twice" counted a patrol apart from its
+column. 1. One army: once a column or any of its patrols has stripped a family, none of them troubles it again. 2. Each its own,
+as built. **Answered 2026-09-28, by multiple choice: 1, "One army"** - built the same day, not released. Each patrol is tied to its
+column (`PATROLS[].column`; Almonte's and Barragán's dragoons, detached from Santa Anna's escort on their own roads, are his), and
+who has stripped the family is read by army (sim/pursuit.mjs `armyOf`, `strippedBy`): the road's warning (sim/road.mjs
+`advanceRoad`) and who may come after the family (`mayChase`). `flight.overtakenBy` keeps the id that did it, as before, so a class
+saved before reads the same way and no save version moved. Tested in tests/scrape-pursuit.test.mjs (*one army ...*): stripped by
+the dragoons, the family is not warned of the column coming on within twenty miles, nor chased by the column, nor by Almonte;
+stripped by the column, not by the dragoons; stripped by Urrea's cavalry or Sesma's column, Santa Anna's still come after it.
+Not changed: a chase the family got away from still counts per column or patrol for its day; and the column entries of
+sim/advance.mjs are each their own (`ceiling:` at `armyOf` - Sesma's two legs, Urrea's detachment and his dragoons to Cox's Point).
+
+(f) **Families nobody plays camped at Lynchburg as Santa Anna nears.** *As built:* such a family answers the warning at once by
+pressing on, and nearly all go on to Liberty (noticed 2026-09-26; every seed of `sj-proof-91` to `-120` searched on 2026-09-28).
+**Answered 2026-09-28: "Yes, most move on"** - kept as built, no change.
