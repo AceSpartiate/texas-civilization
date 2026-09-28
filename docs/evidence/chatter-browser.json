@@ -6,7 +6,7 @@
     {
       "label": "farm: people at activities, none drawn standing idle",
       "pass": true,
-      "detail": "6 people, poses repair, care, rest, carry"
+      "detail": "6 people, poses repair, care, rest, carry, walk"
     },
     {
       "label": "farm: bubbles drawn, short, reconstructed",
@@ -21,12 +21,12 @@
     {
       "label": "farm: the map draws inside the gate",
       "pass": true,
-      "detail": "{\"count\":442,\"median\":6.2,\"p95\":8.6,\"max\":13.5}"
+      "detail": "{\"count\":480,\"median\":6.4,\"p95\":9,\"max\":14}"
     },
     {
       "label": "town: people at activities, none drawn standing idle",
       "pass": true,
-      "detail": "11 people, poses walk, rest, speak, search, carry, repair, walk-s, walk-n"
+      "detail": "11 people, poses rest, walk, speak, search, carry, repair, walk-s, walk-n"
     },
     {
       "label": "town: bubbles drawn, short, reconstructed",
@@ -41,7 +41,7 @@
     {
       "label": "town: the map draws inside the gate",
       "pass": true,
-      "detail": "{\"count\":441,\"median\":6.3,\"p95\":8.1,\"max\":34.1}"
+      "detail": "{\"count\":481,\"median\":4.2,\"p95\":7,\"max\":19.7}"
     },
     {
       "label": "town: a keeper walked to a neighbour's door to talk",
@@ -56,17 +56,17 @@
     {
       "label": "camp: the men talk among themselves",
       "pass": true,
-      "detail": "camp:force:0, camp:force:0, camp:force:1"
+      "detail": "camp:force:0, camp:force:0"
     },
     {
       "label": "camp: people at activities, none drawn standing idle",
       "pass": true,
-      "detail": "1 people, poses carry, rest, sow, care, repair"
+      "detail": "1 people, poses carry, walk, rest, sow, care"
     },
     {
       "label": "camp: bubbles drawn, short, reconstructed",
       "pass": true,
-      "detail": "3 lines: \"I miss my own bed.\" \"The geese are flying south.\" \"Winter is coming, then.\""
+      "detail": "2 lines: \"I miss my own bed.\" \"The geese are flying south.\""
     },
     {
       "label": "camp: at most 3 bubbles at once, never over each other, on the screen",
@@ -76,7 +76,7 @@
     {
       "label": "camp: the map draws inside the gate",
       "pass": true,
-      "detail": "{\"count\":427,\"median\":6.8,\"p95\":24.8,\"max\":36.6}"
+      "detail": "{\"count\":475,\"median\":3.8,\"p95\":13.6,\"max\":23.4}"
     },
     {
       "label": "no page error",
@@ -92,10 +92,10 @@
   "evidence": {
     "farm": {
       "frames": {
-        "count": 442,
-        "median": 6.2,
-        "p95": 8.6,
-        "max": 13.5
+        "count": 480,
+        "median": 6.4,
+        "p95": 9,
+        "max": 14
       },
       "bubbles": [
         "hh-1-child-4: Will you trade me some salt?",
@@ -123,6 +123,7 @@
         "hh-1-child-2": [
           "mend:indigo-repair",
           "wood:indigo-carry",
+          "sit:indigo-walk",
           "sit:indigo-rest",
           "sleep:indigo-rest",
           "fire:indigo-care"
@@ -152,10 +153,10 @@
     },
     "town": {
       "frames": {
-        "count": 441,
-        "median": 6.3,
-        "p95": 8.1,
-        "max": 34.1
+        "count": 481,
+        "median": 4.2,
+        "p95": 7,
+        "max": 19.7
       },
       "bubbles": [
         "town-wheelwright-san-felipe: Slow day for trade.",
@@ -180,7 +181,6 @@
       "outside": [],
       "drawn": {
         "town-store-san-felipe": [
-          "sleep:ochre-walk",
           "sleep:ochre-rest",
           "talk:ochre-walk",
           "talk:ochre-speak",
@@ -193,14 +193,13 @@
           "watch:elder-search",
           "goods:elder-carry",
           "water:elder-carry",
-          "dominoes:elder-walk",
           "dominoes:elder-rest",
           "cards:elder-rest",
           "cards:elder-walk"
         ],
         "town-blacksmith-san-felipe": [
-          "sleep:elder-walk",
           "sleep:elder-rest",
+          "sleep:elder-walk",
           "talk:elder-speak",
           "talk:elder-walk",
           "company:elder-rest",
@@ -209,7 +208,6 @@
           "watch:elder-search"
         ],
         "town-gunsmith-san-felipe": [
-          "sleep:ochre-walk",
           "sleep:ochre-rest",
           "talk:ochre-walk",
           "talk:ochre-speak",
@@ -251,7 +249,6 @@
           "dominoes:elder-walk"
         ],
         "town-wheelwright-san-felipe": [
-          "sleep:elder-walk",
           "sleep:elder-rest",
           "talk:elder-walk",
           "talk:elder-speak",
@@ -259,8 +256,8 @@
           "goods:elder-carry"
         ],
         "town-mill-san-felipe": [
-          "sleep:elder-walk",
           "sleep:elder-rest",
+          "sleep:elder-walk",
           "watch:elder-search",
           "pipe:elder-rest",
           "pipe:elder-walk",
@@ -284,7 +281,6 @@
           "dominoes:teal-walk"
         ],
         "town-stockman-san-felipe": [
-          "sleep:elder-walk",
           "sleep:elder-rest",
           "talk:elder-walk",
           "talk:elder-speak",
@@ -333,15 +329,14 @@
     },
     "camp": {
       "frames": {
-        "count": 427,
-        "median": 6.8,
-        "p95": 24.8,
-        "max": 36.6
+        "count": 475,
+        "median": 3.8,
+        "p95": 13.6,
+        "max": 23.4
       },
       "bubbles": [
         "camp:force:0: I miss my own bed.",
-        "camp:force:0: The geese are flying south.",
-        "camp:force:1: Winter is coming, then."
+        "camp:force:0: The geese are flying south."
       ],
       "most": 1,
       "overlaps": [],
@@ -350,14 +345,17 @@
         "hh-1-parent-2": [
           "wood:rust-woman-carry",
           "water:rust-woman-carry",
+          "sit:rust-woman-walk",
           "sit:rust-woman-rest",
           "sleep:rust-woman-rest",
           "pipe:rust-woman-rest",
+          "sleep:rust-woman-walk",
+          "hens:rust-woman-walk",
           "hens:rust-woman-sow",
           "cook:rust-woman-care",
-          "wash:rust-woman-care",
-          "shell:rust-woman-repair",
-          "fire:rust-woman-care"
+          "cook:rust-woman-walk",
+          "wash:rust-woman-walk",
+          "wash:rust-woman-care"
         ]
       },
       "walking": [],
@@ -385,8 +383,8 @@
             "strength": 3,
             "how": "camp",
             "boat": null,
-            "x": 667,
-            "y": -358,
+            "x": 683,
+            "y": 384,
             "camp": false,
             "foragers": [],
             "men": [

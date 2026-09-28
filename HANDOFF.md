@@ -21,7 +21,22 @@ crowd, the army draw, the talk after the camps), `public/army-view.js` (`man`/`o
 `server/app.mjs` (`/ambient.js`). **No saveVersion move**: nothing stored. Stand-ins (poses, washtub, woodpile, rifle cleaning)
 in docs/ART_REQUESTS.md, request 2026-09-28 - ambient life.
 
-**Evidence** (same computer only). EVIDENCE_PLACEHOLDER
+**Evidence** (same computer only). `tests/ambient.test.mjs` (14; nobody a page would draw standing idle is drawn so, judged
+through `public/motion.js` `entityClip` itself on every page of a played class; determinism and save; a world projected every tick
+steps as one never projected; lines short and plain; no named speaker; no news leak; rumours hedged; pacing and quiet; the
+family's own; the busy left at their work; camps; the refuge crowd; poses). **Injections: 16 of 16 caught, 15 alone**
+(`node scripts/ambient-injections.mjs`, docs/evidence/ambient-injections.json; "a family hears news it never heard" also fails the
+rumour test, which reads the same viewer's word). **`npm run test:chatter`** (new): a farm, San Felipe's street on the Host's
+page and the 1835 force's siege camp at Concepción, each watched 45 s: **16 of 16** - the idle at repair, care, rest, carry,
+search, speak; keepers walked to a neighbour's door and seen arriving; the camp's men at nine things and talking; 5 to 16 lines a
+place, at most 2 bubbles at once, never overlapping; map draw p95 **9.0 ms** farm, **7.0** town, **13.6** camp (max 23.4) against
+the 50 ms gate (the same scenes with ambient switched off measured 7.5, 7.6 and 19.9). Browser injections **6 of 6 caught, 6
+alone** (`npm run test:chatter-injections`, docs/evidence/chatter-injections.json). `npm test` **1585 of 1585** after merging
+origin/main. `test:children` 14, `test:family-panel` 17, `test:lesson` 33, `test:panels` 14 PASS. **`test:gonzales-town` caught
+a regression of mine** (a resident drawn crossing the town at 2.4 heights a second: the carrying's steps jumped when they began
+or met a walk) - fixed, the carrier is now walked by the town's walker, and the residents are back under the proof's 1.6. That
+proof then **fails the same way on a clean origin/main**: the page misses the `street-alarm`/`crossing-hold` beats and "the Host's
+page drew none of the town" - not this branch's; left for whoever owns it.
 
 **Owner, please choose** (docs/AMBIENT.md, each one place to change): the principal stands ready (or at an activity too); war
 news in chatter as far as people could know it (or none); the refuge crowd of six (or none, or Lynch's ferry only); Mexican

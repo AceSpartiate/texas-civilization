@@ -79,6 +79,8 @@ Built 2026-09-28 in a worktree branch (not released). Claims `FIC-GONZ-730` to `
   (docs/evidence/ambient-injections.json).
 - `npm run test:chatter`: a farm, a town (the Host at San Felipe) and the 1835 force's siege camp, each watched 45 s through the
   join flow; injections `npm run test:chatter-injections` (docs/evidence/chatter-browser.json, chatter-injections.json).
+- Measured 2026-09-28: unit injections 16 of 16 caught (15 alone), browser 6 of 6 (6 alone); map draw p95 9.0 ms at the farm,
+  7.0 in town, 13.6 in camp (7.5, 7.6 and 19.9 with ambient off), against the 50 ms gate. Same computer only.
 
 ## Decisions for the owner
 
