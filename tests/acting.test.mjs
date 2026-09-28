@@ -223,12 +223,15 @@ test('very sick is in bed: the work in hand stops at once, a crying baby is not 
   const shown = view(world, household.id).entities.find(one => one.id === father.id);
   assert.ok(shown.nurses?.some(nurse => nurse.id === mother.id && nurse.chore === 'nurse-home'), 'nobody is offered to nurse him on his card');
   // A crying baby is not brought to somebody very sick; a child with nothing to do does not go to stop their rest.
-  mother.health = { ...father.health };
+  // Everybody else of the family in town: at home only the very sick father, the mother, and a child of five.
+  const child = person(world, household, one => one.age === 5);
+  for (const one of household.members.map(id => world.entities[id])) if (![father.id, mother.id, child.id].includes(one.id)) { one.travel = null; one.location = { x: 0, y: 0, siteId: 'gonzales' }; }
   const baby = { id: 'baby', kind: 'person', age: 0, location: { ...mother.location }, health: { condition: 'well' } };
+  assert.equal(whoComes(world, household, baby, household.homeSiteId).carer?.id, mother.id, 'the scene proves nothing: the mother would not have come to the baby well');
+  assert.equal(talkTarget(world, household, child)?.id, mother.id, 'the scene proves nothing: the child would not have gone to the mother well');
+  mother.health = { ...father.health };
   const comes = whoComes(world, household, baby, household.homeSiteId);
   assert.notEqual(comes.carer?.id ?? comes.holder?.id, mother.id, 'the very sick mother was sent to the baby');
-  const child = person(world, household, one => one.age === 5);
-  for (const one of household.members.map(id => world.entities[id])) if (!one.health?.grave && one.id !== child.id) { one.travel = null; one.location = { x: 0, y: 0, siteId: 'gonzales' }; }
   assert.equal(talkTarget(world, household, child), null, 'the idle child went to stop a very sick parent\'s rest');
 });
 

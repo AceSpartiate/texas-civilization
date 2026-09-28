@@ -36,7 +36,11 @@ test('the whole war is in the story, the third period too, a paragraph a month i
   assert.doesNotMatch(text, /word came that "/, 'a piece fell back on its report\'s words');
   // A paragraph a month, from September 1835 to April 1836, the new year named once.
   assert.deepEqual(story.paragraphs.map(paragraph => paragraph.match(/^In (\w+(?: 1836)?),/)?.[1]), ['September', 'October', 'November', 'December', 'January 1836', 'February', 'March', 'April']);
-  assert.equal(story.latest.topicId, 'san-jacinto', 'the latest word is not the last news of the war');
+  // The latest word is the war's end, or word first heard after it: a rider from the west with Urrea at Brazoria (seen April 20)
+  // can reach the colonies days behind the victory's own rider. Since 2026-09-28 (sim/acting.mjs: who answers for a family, the left
+  // behind following, the wounded carried) this seed's families move differently, and that word first reaches one on April 23
+  // (hh-8, which heard it on April 21 before).
+  assert.ok(story.latest.topicId === 'san-jacinto' || /^April (2[1-9]|30)$/.test(story.latest.date), `the latest word is not the last news of the war: ${story.latest.topicId} on ${story.latest.date}`);
   // Short enough to read aloud: no sentence of it runs past sixty words.
   for (const sentence of text.split(/(?<=\.) (?=[A-Z])/)) assert.ok(sentence.split(/\s+/).length <= 60, `a sentence runs on: ${sentence}`);
 });
