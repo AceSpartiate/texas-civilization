@@ -17,7 +17,7 @@ saves: a felling saved shared keeps sharing until it stops; no save version move
 on stopping; a feller on auto waiting about the place and taking the axe up). **Seen failing**: `scripts/axe-per-feller-injections.mjs`,
 3 of 3 caught - felling sharing the axe again, the refusal without "Buy another in town", felling holding no axe - each failing both
 new tests. Updated on purpose: felling (two fellers are given two axes), tools and war-rifle (the refusal's new words; the
-shared-at-home test uses the lane). Full `npm test` and browser proofs: see the commit that closes this section.
+shared-at-home test uses the lane). `npm test` **1631 of 1631 run pass** (1668 tests, 37 skipped). Browser, same computer: `test:auto` 14, `test:family-panel`, `test:biome-game` 6, all passing.
 
 ## Seasons and a limited market: crops in their real season, a store that fills — owner, 2026-09-28 (worktree branch; not released)
 
