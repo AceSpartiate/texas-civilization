@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1706 usable sprites, 165 PNG atlases, 561 clips** (333 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1722 usable sprites, 166 PNG atlases, 564 clips** (336 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -74,6 +74,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-cos-mounted | 4 | 1226 × 1283 | 1307008 |
 | famous-crockett-fate | 4 | 1254 × 1254 | 948322 |
 | famous-esparza | 16 | 1254 × 1254 | 869799 |
+| famous-moore | 16 | 1254 × 1254 | 1092408 |
 | famous-houston-mounted | 4 | 1254 × 1254 | 1158924 |
 | famous-santa-anna-mounted | 4 | 1226 × 1283 | 1192703 |
 | famous-crockett | 16 | 1254 × 1254 | 1237962 |
@@ -823,6 +824,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-aim | famous-esparza | State artwork; no motion required |
 | esparza-fire | famous-esparza | State artwork; no motion required |
 | esparza-still | famous-esparza | State artwork; no motion required |
+| moore-walk-e-1 | famous-moore | moore-walk-e |
+| moore-walk-e-2 | famous-moore | moore-walk-e |
+| moore-walk-e-3 | famous-moore | moore-walk-e |
+| moore-walk-e-4 | famous-moore | moore-walk-e |
+| moore-walk-s-1 | famous-moore | moore-walk-s |
+| moore-walk-s-2 | famous-moore | moore-walk-s |
+| moore-walk-n-1 | famous-moore | moore-walk-n |
+| moore-walk-n-2 | famous-moore | moore-walk-n |
+| moore-idle | famous-moore | State artwork; no motion required |
+| moore-point | famous-moore | State artwork; no motion required |
+| moore-parley | famous-moore | State artwork; no motion required |
+| moore-listen | famous-moore | State artwork; no motion required |
+| moore-command | famous-moore | State artwork; no motion required |
+| moore-read-note | famous-moore | State artwork; no motion required |
+| moore-field-glass | famous-moore | State artwork; no motion required |
+| moore-at-ease | famous-moore | State artwork; no motion required |
 | houston-mounted-walk-e-1 | famous-houston-mounted | houston-mounted-walk-e |
 | houston-mounted-walk-e-2 | famous-houston-mounted | houston-mounted-walk-e |
 | houston-mounted-idle-e | famous-houston-mounted | State artwork; no motion required |
@@ -2103,6 +2120,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-walk-e | Pose cycle | 4 | 760 | yes | east |
 | esparza-walk-s | Pose cycle | 2 | 580 | yes | south |
 | esparza-walk-n | Pose cycle | 2 | 580 | yes | north |
+| moore-walk-e | Pose cycle | 4 | 760 | yes | east |
+| moore-walk-s | Pose cycle | 2 | 580 | yes | south |
+| moore-walk-n | Pose cycle | 2 | 580 | yes | north |
 | houston-mounted-walk-e | Pose cycle | 2 | 640 | yes | east |
 | santa-anna-mounted-walk-e | Pose cycle | 2 | 640 | yes | east |
 | crockett-walk-e | Pose cycle | 4 | 760 | yes | east |

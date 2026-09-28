@@ -3406,6 +3406,62 @@
       "motion": "none",
       "direction": "north"
     },
+    "moore-walk-e": {
+      "frames": [
+        {
+          "sprite": "moore-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "moore-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "moore-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "moore-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "moore-walk-s": {
+      "frames": [
+        {
+          "sprite": "moore-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "moore-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "moore-walk-n": {
+      "frames": [
+        {
+          "sprite": "moore-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "moore-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "houston-mounted-walk-e": {
       "frames": [
         {

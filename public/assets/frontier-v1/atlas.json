@@ -5790,6 +5790,130 @@
         ]
       }
     },
+    "famous-moore": {
+      "image": "atlases/famous-moore.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1092408,
+      "sha256": "bf5cc696428fe64f3e3534ce9e84d0f5d4d00e81ab4fd5b4e1916d1bb80c894a",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.715411,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              46,
+              327
+            ],
+            "columns": [
+              [
+                79,
+                274
+              ],
+              [
+                391,
+                578
+              ],
+              [
+                681,
+                875
+              ],
+              [
+                995,
+                1187
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              351,
+              630
+            ],
+            "columns": [
+              [
+                90,
+                247
+              ],
+              [
+                405,
+                563
+              ],
+              [
+                709,
+                855
+              ],
+              [
+                1019,
+                1165
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              650,
+              922
+            ],
+            "columns": [
+              [
+                97,
+                239
+              ],
+              [
+                405,
+                605
+              ],
+              [
+                715,
+                914
+              ],
+              [
+                1038,
+                1175
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              940,
+              1207
+            ],
+            "columns": [
+              [
+                91,
+                269
+              ],
+              [
+                399,
+                554
+              ],
+              [
+                704,
+                886
+              ],
+              [
+                1030,
+                1178
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-houston-mounted": {
       "image": "atlases/famous-houston-mounted.png",
       "width": 1254,
@@ -31090,6 +31214,406 @@
           82
         ],
         "visiblePixels": 15044,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-walk-e-1": {
+      "sheet": "famous-moore",
+      "x": 79,
+      "y": 46,
+      "w": 195,
+      "h": 281,
+      "anchorX": 0.4974,
+      "anchorY": 0.9288,
+      "logicalHeight": 281,
+      "label": "moore walk e 1",
+      "kind": "famous-moore",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          81,
+          48,
+          191,
+          277
+        ],
+        "visiblePixels": 26739,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-walk-e-2": {
+      "sheet": "famous-moore",
+      "x": 391,
+      "y": 46,
+      "w": 187,
+      "h": 280,
+      "anchorX": 0.5053,
+      "anchorY": 0.9286,
+      "logicalHeight": 281,
+      "label": "moore walk e 2",
+      "kind": "famous-moore",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          393,
+          48,
+          183,
+          276
+        ],
+        "visiblePixels": 25607,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-walk-e-3": {
+      "sheet": "famous-moore",
+      "x": 681,
+      "y": 46,
+      "w": 194,
+      "h": 279,
+      "anchorX": 0.4974,
+      "anchorY": 0.9283,
+      "logicalHeight": 281,
+      "label": "moore walk e 3",
+      "kind": "famous-moore",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          683,
+          48,
+          190,
+          275
+        ],
+        "visiblePixels": 25636,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-walk-e-4": {
+      "sheet": "famous-moore",
+      "x": 995,
+      "y": 46,
+      "w": 192,
+      "h": 279,
+      "anchorX": 0.5,
+      "anchorY": 0.9283,
+      "logicalHeight": 281,
+      "label": "moore walk e 4",
+      "kind": "famous-moore",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          997,
+          48,
+          188,
+          275
+        ],
+        "visiblePixels": 25689,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-walk-s-1": {
+      "sheet": "famous-moore",
+      "x": 90,
+      "y": 351,
+      "w": 157,
+      "h": 278,
+      "anchorX": 0.4331,
+      "anchorY": 0.9353,
+      "logicalHeight": 281,
+      "label": "moore walk s 1",
+      "kind": "famous-moore",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          92,
+          353,
+          153,
+          274
+        ],
+        "visiblePixels": 24637,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-walk-s-2": {
+      "sheet": "famous-moore",
+      "x": 405,
+      "y": 351,
+      "w": 158,
+      "h": 278,
+      "anchorX": 0.4905,
+      "anchorY": 0.946,
+      "logicalHeight": 281,
+      "label": "moore walk s 2",
+      "kind": "famous-moore",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          407,
+          353,
+          154,
+          274
+        ],
+        "visiblePixels": 24151,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-walk-n-1": {
+      "sheet": "famous-moore",
+      "x": 709,
+      "y": 351,
+      "w": 146,
+      "h": 279,
+      "anchorX": 0.5582,
+      "anchorY": 0.9462,
+      "logicalHeight": 281,
+      "label": "moore walk n 1",
+      "kind": "famous-moore",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          711,
+          353,
+          142,
+          275
+        ],
+        "visiblePixels": 23497,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-walk-n-2": {
+      "sheet": "famous-moore",
+      "x": 1019,
+      "y": 351,
+      "w": 146,
+      "h": 278,
+      "anchorX": 0.5616,
+      "anchorY": 0.9281,
+      "logicalHeight": 281,
+      "label": "moore walk n 2",
+      "kind": "famous-moore",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1021,
+          353,
+          142,
+          274
+        ],
+        "visiblePixels": 23196,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-idle": {
+      "sheet": "famous-moore",
+      "x": 97,
+      "y": 652,
+      "w": 142,
+      "h": 268,
+      "anchorX": 0.5423,
+      "anchorY": 0.9478,
+      "logicalHeight": 281,
+      "label": "moore idle",
+      "kind": "famous-moore",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          99,
+          654,
+          138,
+          264
+        ],
+        "visiblePixels": 23654,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-point": {
+      "sheet": "famous-moore",
+      "x": 405,
+      "y": 652,
+      "w": 200,
+      "h": 270,
+      "anchorX": 0.4,
+      "anchorY": 0.9444,
+      "logicalHeight": 281,
+      "label": "moore point",
+      "kind": "famous-moore",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          407,
+          654,
+          196,
+          266
+        ],
+        "visiblePixels": 26137,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-parley": {
+      "sheet": "famous-moore",
+      "x": 715,
+      "y": 650,
+      "w": 199,
+      "h": 271,
+      "anchorX": 0.392,
+      "anchorY": 0.952,
+      "logicalHeight": 281,
+      "label": "moore parley",
+      "kind": "famous-moore",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          717,
+          652,
+          195,
+          267
+        ],
+        "visiblePixels": 26310,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-listen": {
+      "sheet": "famous-moore",
+      "x": 1038,
+      "y": 651,
+      "w": 137,
+      "h": 271,
+      "anchorX": 0.5365,
+      "anchorY": 0.9373,
+      "logicalHeight": 281,
+      "label": "moore listen",
+      "kind": "famous-moore",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1040,
+          653,
+          133,
+          267
+        ],
+        "visiblePixels": 23759,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-command": {
+      "sheet": "famous-moore",
+      "x": 91,
+      "y": 940,
+      "w": 178,
+      "h": 266,
+      "anchorX": 0.4382,
+      "anchorY": 0.9398,
+      "logicalHeight": 281,
+      "label": "moore command",
+      "kind": "famous-moore",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          93,
+          942,
+          174,
+          262
+        ],
+        "visiblePixels": 26284,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-read-note": {
+      "sheet": "famous-moore",
+      "x": 399,
+      "y": 943,
+      "w": 155,
+      "h": 264,
+      "anchorX": 0.5226,
+      "anchorY": 0.9394,
+      "logicalHeight": 281,
+      "label": "moore read note",
+      "kind": "famous-moore",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          401,
+          945,
+          151,
+          260
+        ],
+        "visiblePixels": 23563,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-field-glass": {
+      "sheet": "famous-moore",
+      "x": 704,
+      "y": 940,
+      "w": 182,
+      "h": 266,
+      "anchorX": 0.4863,
+      "anchorY": 0.9511,
+      "logicalHeight": 281,
+      "label": "moore field glass",
+      "kind": "famous-moore",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          706,
+          942,
+          178,
+          262
+        ],
+        "visiblePixels": 25782,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-at-ease": {
+      "sheet": "famous-moore",
+      "x": 1030,
+      "y": 942,
+      "w": 148,
+      "h": 264,
+      "anchorX": 0.5203,
+      "anchorY": 0.9394,
+      "logicalHeight": 281,
+      "label": "moore at ease",
+      "kind": "famous-moore",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1032,
+          944,
+          144,
+          260
+        ],
+        "visiblePixels": 22784,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
