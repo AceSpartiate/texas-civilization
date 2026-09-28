@@ -61,6 +61,14 @@
         "dust": 0,
         "lines": [
           "alto"
+        ],
+        "heard": [],
+        "spoken": [
+          {
+            "id": "alto",
+            "x": 408,
+            "y": 658
+          }
         ]
       },
       "ask": [
@@ -77,17 +85,56 @@
             "kind": "cavalry",
             "phase": "caught",
             "soldiers": 8,
-            "smoke": 3,
+            "smoke": 6,
             "shotsSent": 8
           }
         ],
-        "shotsSeen": 3,
-        "flashes": 3,
-        "dust": 3,
+        "shotsSeen": 6,
+        "flashes": 6,
+        "dust": 6,
         "lines": [
           "alto",
           "warn",
           "fire"
+        ],
+        "heard": [
+          {
+            "x": 613,
+            "y": 517,
+            "size": 1
+          },
+          {
+            "x": 596,
+            "y": 490,
+            "size": 1
+          },
+          {
+            "x": 628,
+            "y": 545,
+            "size": 1
+          },
+          {
+            "x": 511,
+            "y": 398,
+            "size": 1
+          },
+          {
+            "x": 492,
+            "y": 374,
+            "size": 1
+          },
+          {
+            "x": 562,
+            "y": 477,
+            "size": 1
+          }
+        ],
+        "spoken": [
+          {
+            "id": "fire",
+            "x": 607,
+            "y": 582
+          }
         ]
       },
       "chase": {
@@ -366,6 +413,14 @@
         "dust": 0,
         "lines": [
           "alto"
+        ],
+        "heard": [],
+        "spoken": [
+          {
+            "id": "alto",
+            "x": 237,
+            "y": 658
+          }
         ]
       },
       "ask": [

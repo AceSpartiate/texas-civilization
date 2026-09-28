@@ -44,7 +44,12 @@ origin/main: `test:host-bell` 8, `test:family-panel` 18, `test:host-live` 11, `t
 15, `test:scrape` 7, `test:scrape-pursuit` 15, `test:ending` 10, all PASS. `tests/siege.test.mjs` read glory's awards off the
 interim wire and now reads them from `familyEnding`, asserting they are not on it.
 
-**After merging the classroom blockers (e549ec1):** `npm test` **1538 of 1539** (34.6 min under load); the one is
+**Final, after merging origin/main again (f815d07e: who acts for a family, sound, the neighbours' ledger), head 3b56e2fe:** `npm
+test` **1591 of 1591**; unit injections **13 of 13** caught alone; `test:host-bell` 8, `test:family-panel` 18, `test:scrape` 7,
+`test:ending` 10, `test:scrape-pursuit` 15, `test:host-live` 11, `test:classes` 15, all PASS. The chase's `attended` is now
+origin's `actingId` (it keeps the M32 fix); the M32 injection was re-aimed at it and is still caught alone.
+
+**Earlier, after merging the classroom blockers (e549ec1):** `npm test` **1538 of 1539** (34.6 min under load); the one is
 *"of several starts racing to recover one stale lock, exactly one owns the class"* (tests/stale-lock.test.mjs, new on main) - it
 fails 4 of 4 runs with e549ec1's own `server/app.mjs` put back in this tree and 2 of 3 with this branch's, so it is the stale-lock
 work's, not this. Unit injections re-run on the merged tree: **13 of 13** caught alone. Browser: `test:host-bell` 8,
