@@ -51,7 +51,8 @@ docs/evidence/disease-study.json):
 do not choose routes, and chases are rare; the balance answers moved it by four deaths. 37 of the 54 deaths were children under
 six; nobody died of a sickness in any autumn.
 
-**Evidence** (same computer only; no LAN or district claim). `npm test` **1495 of 1495** (on `92418a6`; only docs changed since).
+**Evidence** (same computer only; no LAN or district claim). `npm test` **1500 of 1500** on the finished tree, after merging `origin/main` `f7b7f7d` (1495 of 1495
+before that merge). `test:lesson` passed again after it.
 Browser proofs on the merged tree: `test:disease` 8/8, `test:scrape-pursuit` 14/14 (8 shots fired and drawn at the running
 wagon), `test:scrape` 5/5, `test:road` 7/7, `test:mexican-advance` 10/10, `test:family-panel`, `test:lesson`, `test:solo` all
 passed. Under heavy load (the full suite and the disease injections running beside them) the first runs of `test:disease` (a 15 s
