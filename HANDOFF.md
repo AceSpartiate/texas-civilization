@@ -1,5 +1,52 @@
 # Claude handoff — Astra foundation
 
+## `test:gonzales-town` on main 7b4218d: the proof's timing, not the game; and glory named during play — 2026-09-28 (worktree branch; not released)
+
+**`test:gonzales-town`: the proof, not the game.** Reproduced on a clean origin/main 7b4218d: every check passed up to the
+Host's, which got `{"beats":[],"cast":0}`. The reported misses of "street-alarm" and "crossing-hold" did not repeat on this
+computer. **No commit broke it; the proof raced the clock at both ends.**
+- The beat schedule is identical on 00d76e7f, where the proof last passed, and on 7b4218d. Checked headless over `sim/`, tick by
+  tick from noon on the 29th to 2 a.m. on October 3. The Host is sent every beat.
+- The whole 00d76e7f tree passed the proof twice on this computer, and 7b4218d passed once and failed once. Timed in the page
+  on both trees: the log of what the page was sent started 2-3 ticks after the start. The start is at 11 a.m. and
+  crossing-hold runs noon-4 p.m., so that is 4 ticks. The Host's page and the street card were opened after the walk ended at
+  5 p.m. on October 2, with 3 ticks (4.2 s) left before the day's last beat ends at 8.
+- Art grew from 189 to 233 files since the proof last passed, which adds about 250 ms to `loadArt({ all: true })`. Under other
+  builders' load, either race is lost. The lesson switch-off, the classroom's join changes, and the lapse, chatter and ambient
+  work were not involved: the page's timings were the same on both trees, and the headless schedule is the same.
+- **Fixed in the proof** (its comments say why). The log of beats sent is kept from before the class starts. The Host's page
+  is open beside the class from the start and read, without waiting, while the flag is made (40 people and six beats
+  drawn). The street card is clicked as soon as the return begins. No check changed.
+
+**Glory named during play (docs/MONEY_AND_GLORY.md §2, hidden until the end).** The note on sending for a regular (the
+person's card, `public/app.js`, and the family panel, `public/family-panel.js`) and the camp's question after Goliad
+(`sim/camp.mjs`, mirrored in `public/app.js`) said the family "loses glory". They now say what happens: the regular goes
+before their time is up, without a discharge, has deserted, loses the promised land and will not be taken again. The two
+save-integrity errors in `validateWorld` no longer say "Glory" either. Nothing else in `sim/`, `server/` or `public/` names it
+outside the ending (`public/ending.js`, `sim/ending.mjs`).
+
+**New test, `tests/glory-words.test.mjs` (3 tests).**
+- It reads every string literal in `public/` (and the pages' HTML, without comments), `sim/` and `server/` using a small
+  tokenizer, `tests/support/source-strings.mjs`, that tells a string from a name or a comment. It fails on "glory" outside the
+  ending's screen and module.
+- It watches every family's view, family book and the Host's on every tick of the Gonzales slice.
+- It does the same on every fourth tick, and every tick glory changes, of a whole class on the real land through three
+  periods. `tests/support/ended-class.mjs` gains an `onTick` hook for this.
+- It checks that the ending does name glory, so a quiet pass means something. MONEY_AND_GLORY §8's gate now names the word
+  as well as the value.
+
+**Evidence** (same computer only; other builders' suites running).
+- Injections, each put back one at a time:
+  - The old family-panel note fails the string scan alone.
+  - The old camp note fails the string scan alone.
+  - Sealed glory events made visible fail both wire walks and not the scan.
+  - For the town proof: the Host sent no town scenes fails the Host check, with the eight checks before it passing. A student never
+    sent "crossing-hold" fails the beats check.
+- `test:gonzales-town` 10/10 on the final version, run beside `npm test` and the injected run. An earlier version that waited
+  on the Host also passed 10/10.
+  `test:battle-gonzales` 12/12 and `test:family-panel` 17/17.
+- `npm test`: **1619 tests, 1583 pass, 0 fail, 36 skipped** (the guided start's, which is switched off), in 16 min.
+
 ## Seasons and a limited market: crops in their real season, a store that fills — owner, 2026-09-28 (worktree branch; not released)
 
 The owner's answer to the design audit's blocker B9 (docs/audits/2026-09-28-design.md §3.1: *farming is a money pump - crops ripen

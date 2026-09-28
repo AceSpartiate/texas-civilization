@@ -4310,7 +4310,7 @@ function populateWork(world, chosen, running) {
     // record; the card says what leaving costs the family and nothing of what staying risks (docs/COLONIES.md §7a).
     for (const [question, ask, yes, no, note] of [
       ['leave', `Word has come that Fannin's whole command is taken on the prairie. Many of the men are leaving the army to see to their families. Does ${chosen.name} go home?`, `${chosen.name} leaves for home`, `${chosen.name} stays with the army`,
-        chosen.service.bound ? 'A regular who leaves has deserted: the family loses the glory of enlisting twice over, and they will not be taken again.' : chosen.service.acres ? 'They start home at once, and the promise of land goes with it.' : 'They start home at once. Whatever the army does next happens without them.'],
+        chosen.service.bound ? 'A regular who leaves goes before their time is up and without a discharge: they have deserted, the promise of land goes with it, and they will not be taken again.' : chosen.service.acres ? 'They start home at once, and the promise of land goes with it.' : 'They start home at once. Whatever the army does next happens without them.'],
       ['road', `The army has come to a fork of the road: the left-hand road goes to Nacogdoches and safety, the right to Harrisburg and the enemy. The men are shouting which. What does ${chosen.name} call for?`, `${chosen.name} calls for the right-hand road, to Harrisburg`, `${chosen.name} would take the left-hand road, for Nacogdoches`, 'The army takes the road the most of the men shout for.'],
     ]) {
       if (chosen.service[question] !== 'open') continue;
@@ -4345,7 +4345,7 @@ function populateWork(world, chosen, running) {
     recall.dataset.entityId = chosen.id;
     recall.disabled = !running || Boolean(chosen.travel);
     host.append(recall);
-    host.append(element('p', chosen.service.kind === 'regular' ? 'A regular who leaves has deserted: the family loses glory, and they will not be taken again.' : chosen.service.acres ? 'The promise of land is lost.' : 'They start home at once.', 'work-note'));
+    host.append(element('p', chosen.service.kind === 'regular' ? 'A regular who leaves goes before their time is up and without a discharge: they have deserted, the promise of land goes with it, and they will not be taken again.' : chosen.service.acres ? 'The promise of land is lost.' : 'They start home at once.', 'work-note'));
     // The chance to leave Béxar, said before it closes (sim/alamo.mjs `warnGarrison`, docs/ALAMO_FATES.md).
     if (chosen.service.kind === 'garrison') host.append(element('p', 'If the Mexican army comes to Béxar, the garrison will be shut in, and nobody can be sent for then.', 'work-note'));
   }

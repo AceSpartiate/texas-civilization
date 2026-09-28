@@ -81,6 +81,21 @@ try {
   await page.getByRole('button', { name: 'Join', exact: true }).click();
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
   await meetFamily(page, 'Watcher', { timeout: 4000 });
+  // What the page was sent and drew, kept by the page itself ten times a second, so a beat or a line that comes and goes
+  // while this script is busy clicking a card or taking a picture is still counted. Kept from before the class starts: the
+  // class is staged at 11 in the morning of the 29th and the town's first beats begin at noon, the next tick, and
+  // "crossing-hold" lasts four ticks (5.6 s at this pace). This used to be set up after the page had loaded all the art and
+  // framed the town - about three ticks after the start on a quiet machine (2026-09-28, timed: art loaded at tick 86-87 of a
+  // start at 85, with 233 art files where there were 189 on 2026-09-27) and more under load, which is how "street-alarm" and
+  // "crossing-hold" came to be reported never sent when they had been. Whether the page was *sent* a beat does not depend on
+  // what it has drawn; what it drew is sampled below, once it is framed.
+  await page.evaluate(() => {
+    window.__townLog = { beats: {}, said: {} };
+    setInterval(() => {
+      for (const scene of window.__snapshot?.world.townScenes?.scenes || []) window.__townLog.beats[scene.beat] = (window.__townLog.beats[scene.beat] || 0) + 1;
+      for (const line of window.__townSaid || []) { const key = `${line.kind}:${line.speakerId}`; window.__townLog.said[key] = (window.__townLog.said[key] || 0) + 1; }
+    }, 100);
+  });
   // The second family: joined as any student is, never opened in a browser, and never leaves its land.
   const awayCookie = cookieOf(await post('/api/join', { name: 'Farm family', code: app.state.sessionCode }));
   for (let i = 3; i <= 5; i++) await post('/api/join', { name: `Student ${i}`, code: app.state.sessionCode });
@@ -99,15 +114,19 @@ try {
   await page.waitForFunction(() => window.__camera?.scale >= 200, null, { timeout: 10000 });
   const principalId = await page.evaluate(() => window.__snapshot.world.household.principalId || window.__snapshot.world.household.members[0]);
   const principal = await page.evaluate(id => window.__snapshot.world.entities.find(e => e.id === id), principalId);
-  // What the page was sent and drew, kept by the page itself ten times a second, so a beat or a line that comes and goes
-  // while this script is busy clicking a card or taking a picture is still counted.
-  await page.evaluate(() => {
-    window.__townLog = { beats: {}, said: {} };
-    setInterval(() => {
-      for (const scene of window.__snapshot?.world.townScenes?.scenes || []) window.__townLog.beats[scene.beat] = (window.__townLog.beats[scene.beat] || 0) + 1;
-      for (const line of window.__townSaid || []) { const key = `${line.kind}:${line.speakerId}`; window.__townLog.said[key] = (window.__townLog.said[key] || 0) + 1; }
-    }, 100);
-  });
+  assert.ok(await page.evaluate(() => Boolean(window.__townLog)), 'the page was reloaded after the class started, and lost its log of what it was sent');
+  // The Host's page, open beside the class from the start, as it is on a classroom's projector, and read while the town is
+  // busy. It used to be opened only after the student's walk ended at 5 in the evening of October 2, which left it three
+  // ticks (4.2 s) - the street card, a new browser context, the page, all the art and the click on the town - before the
+  // last beat of the day ends at 8; under load it lost that race and reported the Host's page drew none of the town, which
+  // was the proof's timing, not the page (the server sends the Host every beat a family in the town is
+  // sent: tests/town-scenes.test.mjs).
+  const hostPage = await (await browser.newContext({ viewport: { width: 1366, height: 768 } })).newPage();
+  hostPage.on('pageerror', error => errors.push(`host: ${error.message}`));
+  await hostPage.goto(`${url}/host#${app.state.hostKey}`);
+  await hostPage.waitForFunction(() => window.__snapshot?.world.role === 'host');
+  await hostPage.evaluate(async () => { const { loadArt } = await import('/art.js'); await loadArt({ all: true }); });
+  await hostPage.locator('#map-nav [data-view=gonzales]').click();
 
   // ---------------------------------------------------------------- sample the town as the days go by, from the page
   const clockOf = minute => minute - 1080;
@@ -184,16 +203,24 @@ try {
       evidence.help = { scene: helpScene, card: card.title, drawn };
       await shot(page, `help-${helpScene}`);
     }
+    // The Host's page, read while the women make the flag and the town is at its busiest: what it was sent and how many of
+    // the town's people it drew. Looked at on every pass until it has drawn somebody, never waited on: a wait here would
+    // stall the student's samples through the flag's own hours.
+    if (now.beats.includes('flag-cloth') && !(evidence.host.cast > 0)) {
+      evidence.host = await hostPage.evaluate(() => ({ clock: window.__snapshot?.world.minute - 1080, beats: (window.__snapshot?.world.townScenes?.scenes || []).map(scene => scene.beat), cast: (window.__townCast || []).length }));
+      if (evidence.host.cast > 0) await shot(hostPage, 'host');
+    }
+    // The street's card at the return, clicked as soon as the men are back. It used to be clicked after the walk ended at 5 in
+    // the evening, with three ticks left of the beat - the same race the Host's page lost.
+    if (!evidence.cards.street && now.beats.includes('street-return')) evidence.cards.street = await openCard(page, 'street');
     if (clock >= stopAt) break;
     last = now;
     await page.waitForTimeout(250);
   }
-  // The crossing card, clicked while the town waits for the men to come back is not open; the street card at the return.
   const log = await page.evaluate(() => window.__townLog);
   evidence.beats = log.beats; evidence.said = log.said;
   want.readingSeen = Boolean(log.beats['crossing-reading']);
-  evidence.cards.street = await openCard(page, 'street');
-  assert.ok(evidence.cards.street.opened && /come back/i.test(evidence.cards.street.title), `the street's card at the return did not open, or is not the return's: ${JSON.stringify(evidence.cards.street)}`);
+  assert.ok(evidence.cards.street?.opened && /come back/i.test(evidence.cards.street.title), `the street's card at the return did not open, or is not the return's: ${JSON.stringify(evidence.cards.street)}`);
 
   // ------------------------------------------------------------------------------------------------ what the page did
   const beatsSeen = Object.keys(evidence.beats);
@@ -259,16 +286,8 @@ try {
   ok(`a family out on its land (${awayState.world.householdId}) was sent nothing of the town's scenes`);
 
   // ------------------------------------------------------------------------------------------------ the Host sees it all
-  const hostPage = await (await browser.newContext({ viewport: { width: 1366, height: 768 } })).newPage();
-  hostPage.on('pageerror', error => errors.push(`host: ${error.message}`));
-  await hostPage.goto(`${url}/host#${app.state.hostKey}`);
-  await hostPage.waitForFunction(() => window.__snapshot?.world.role === 'host');
-  await hostPage.evaluate(async () => { const { loadArt } = await import('/art.js'); await loadArt({ all: true }); });
-  await hostPage.locator('#map-nav [data-view=gonzales]').click();
-  await hostPage.waitForFunction(() => (window.__townCast || []).length > 0, null, { timeout: 15000 }).catch(() => {});
-  evidence.host = await hostPage.evaluate(() => ({ beats: (window.__snapshot.world.townScenes?.scenes || []).map(scene => scene.beat), cast: (window.__townCast || []).length }));
-  assert.ok(evidence.host.beats.length && evidence.host.cast > 0, `the Host's page drew none of the town: ${JSON.stringify(evidence.host)}`);
-  await shot(hostPage, 'host');
+  // Read in the walk above, while the flag was being made.
+  assert.ok(evidence.host.beats?.length && evidence.host.cast > 0, `the Host's page drew none of the town: ${JSON.stringify(evidence.host)}`);
   ok(`the Host's page drew the town's scenes too (${evidence.host.beats.join(', ')}; ${evidence.host.cast} people)`);
 
   assert.deepEqual(errors, [], 'the pages threw');

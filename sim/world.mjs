@@ -1620,9 +1620,9 @@ export function validateWorld(world) {
   // Glory (sim/glory.mjs) is optional state: a class saved before it existed has none. When it
   // is there, a family's total is exactly the sum of its awards, in whole points.
   for (const [householdId, ledger] of Object.entries(world.glory || {})) {
-    if (!world.households[householdId]) throw new Error('Glory for a household that does not exist');
+    if (!world.households[householdId]) throw new Error('A sealed record for a household that does not exist');
     const sum = Object.values(ledger.awards || {}).reduce((total, award) => total + award.points, 0);
-    if (!Number.isInteger(ledger.total) || ledger.total !== sum) throw new Error('Glory does not add up');
+    if (!Number.isInteger(ledger.total) || ledger.total !== sum) throw new Error('A family\'s sealed record does not add up');
   }
   for (const [audience, reports] of Object.entries({ ...world.knowledge.households, public: world.knowledge.public })) {
     if (audience !== 'public' && !world.households[audience]) throw new Error('Unknown knowledge audience');
