@@ -1222,6 +1222,9 @@ body[data-creating=true] #away>button{min-height:50px;background:#355243;border-
 .class-entry{display:flex;gap:8px;align-items:center;justify-content:space-between;background:#ffffff14;border-radius:6px;padding:5px 7px}
 .class-entry[data-open=true]{outline:1px solid #ffe6b0}
 .class-open{color:#ffe6b0;white-space:nowrap}
+/* Delete a kept class (owner, 2026-09-28): asked twice, and red while it waits for the second press. */
+.class-entry .class-delete{color:#f3b8a6;border-color:#b0705c}
+.class-entry .class-delete[data-confirming=true]{background:#8a3b22;color:#fff}
 #class-new{display:grid;gap:5px;margin-top:6px}
 #class-new label{display:flex;gap:6px;align-items:center;justify-content:space-between}
 #class-new input{flex:1;min-width:0}

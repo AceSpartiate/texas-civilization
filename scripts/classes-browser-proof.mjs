@@ -12,7 +12,7 @@
 // Same computer only: headless Chrome. Run: npm run test:classes
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createClassroom } from '../server/app.mjs';
@@ -122,8 +122,8 @@ try {
   const list = await host.evaluate(() => [...document.querySelectorAll('#classes-list .class-entry')].map(item => item.textContent));
   measured.classes = list;
   assert.match(list[0], /^Period 4 · code \w{6} · 0 of 8 families joined · not startedOpen now$/);
-  assert.match(list[1], new RegExp(`^Class ${firstCode} · code ${firstCode} · 30 of 30 families joined · paused, (September|October) \\d+, 1835 \\(period 1\\)Open$`));
-  ok(`a new class "Period 4" of 8 families, and the first kept: ${list[1].replace(/Open$/, '')}`);
+  assert.match(list[1], new RegExp(`^Class ${firstCode} · code ${firstCode} · 30 of 30 families joined · paused, (September|October) \\d+, 1835 \\(period 1\\)OpenDelete$`));
+  ok(`a new class "Period 4" of 8 families, and the first kept: ${list[1].replace(/OpenDelete$/, '')}`);
   await shot(host, 'classes');
   // The first class's student was signed out by the switch; their page listens for their class to come back.
   await first.waitForFunction(() => !document.querySelector('#join').hidden, null, { timeout: 20000 });
@@ -143,6 +143,28 @@ try {
   await host.getByRole('button', { name: 'Resume' }).click();
   await host.waitForFunction(() => window.__snapshot?.world.status === 'running');
   ok('Resume plays the class on');
+
+  // ------------------------------------------------------------------------------------------- deleting a kept class
+  // Owner, 2026-09-28: "Yes, with a confirm" (docs/HOST_PAGE.md §2.9). The open class has no Delete; a kept one asks twice, goes
+  // off the list and into the archive folder, and the panel says where.
+  await host.waitForFunction(() => document.querySelectorAll('#classes-list .class-entry').length === 2);
+  assert.equal(await host.locator('#classes-list .class-entry[data-open=true] [data-class-delete]').count(), 0, 'the open class can be deleted');
+  const period4 = host.locator('#classes-list .class-entry[data-open=false]').filter({ hasText: 'Period 4' });
+  const periodId = await period4.getAttribute('data-class-id');
+  const remove = period4.locator('[data-class-delete]');
+  await remove.click();
+  assert.match(await remove.textContent(), /^Confirm: delete Period 4$/);
+  assert.ok(existsSync(join(dir, 'classes', `${periodId}.json`)), 'one press of Delete took the class away');
+  await shot(host, 'delete-armed');
+  await remove.click();
+  await host.waitForFunction(() => document.querySelectorAll('#classes-list .class-entry').length === 1, null, { timeout: 15000 });
+  measured.deleted = (await host.textContent('#classes-note')).trim();
+  assert.match(measured.deleted, new RegExp(`^Period 4 was taken off the list and kept: its save is now archive/classes-${periodId}-deleted-[\\w-]+\\.json`), `the panel says: ${measured.deleted}`);
+  assert.equal(existsSync(join(dir, 'classes', `${periodId}.json`)), false, 'the class is still on the shelf');
+  assert.ok(readdirSync(join(dir, 'archive')).some(name => name.startsWith(`classes-${periodId}-deleted-`)), 'the class is not in the archive');
+  assert.equal(app.state.world.status, 'running', 'deleting a kept class touched the class being played');
+  await shot(host, 'deleted');
+  ok(`Delete, asked twice, took "Period 4" off the list and into the archive, and the panel says so: "${measured.deleted}"`);
 
   // ------------------------------------------------------------------------------------------- phone width
   await host.setViewportSize({ width: 400, height: 800 });
