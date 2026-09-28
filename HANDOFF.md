@@ -2,7 +2,7 @@
 
 ## Unanswered questions lapse, messengers leave, each at their own pace on the land — owner decisions of 2026-09-27 (worktree branch; not released)
 
-Built on a worktree branch from main `ed4147b` (= `origin/main` when finished). **Not merged to main and not released.**
+Built on a worktree branch from main `ed4147b`, with `origin/main` `e937b72` (the balance fix to the neighbours' flight, docs/DISEASE.md) merged in before finishing. **Not merged to main and not released.**
 The owner, verbatim: *"questions that are not answered fast enough disappear. riders delivering messages should leave after
 their interactions are complete. i think that answers your runner question? no, the teacher can not reopen the tutorial."*
 Then by multiple choice: on the family's own land a rider or a wagon goes at *"the horse or wagon's own speed"* (never sped
@@ -61,7 +61,7 @@ decision; the remaining `ceiling:` is that a figure still being drawn walking in
 CLAUDE.md item 15 no longer calls the tutorial "forced".
 
 **Evidence** (same computer; no LAN, Chromebook or classroom claim):
-- `npm test`: **1438 passed, 0 failed** (1429 before; new: `tests/riders-leave.test.mjs` 4, decision-budget +1, alamo-runner
+- `npm test`: **1439 passed, 0 failed** after merging `origin/main` (1438 before the merge; 1429 before this work; new: `tests/riders-leave.test.mjs` 4, decision-budget +1, alamo-runner
   +1, road +1, travel-drawn +2; updated to the new rule: auto, concepcion, hunting, siege, camp, alamo, battle-grass,
   host-view, information-time, military-attention). Every new or changed check was run against the old code (a `git archive`
   of `ed4147b`) and failed there.
