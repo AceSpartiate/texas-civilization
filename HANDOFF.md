@@ -382,7 +382,8 @@ game"*, and *"add their trip home as part of the end of game video flashback"*. 
   ranges, the Host any family's, a student their own only; `GET /api/flashback/script` (and `?part=transcript`); each snapshot's
   `flashback` says what is made. Nothing before the class has ended for good. No `saveVersion` moved: the save holds no video.
 - **Playback**: the student's ending panel plays its own video (autoplay, muted; captions in the picture), **Replay**, and **the
-  story in words** below; the Host lists every family with Play and **Play the whole class in turn**.
+  story in words** below. The Host's screen shows no video by itself (owner, 2026-09-28: "play3rs see it in their screens, not the
+  host screen. host can look up and watch one though"): **Look up one family's flashback**, closed by default, and **Watch** on one.
 - **The ending's words** (`sim/ending-story.mjs`, three calls from `sim/ending.mjs`): S25 the spring as it was (stayed/went,
   burned by whom or standing, home or on the road - no more "came home to a burned farm" for a farm that stands); S27 the war's
   prisoners named (`HIST-TEX-059`), not weighed; S24 the Host's debrief begins with this class's own named hooks, and each family
