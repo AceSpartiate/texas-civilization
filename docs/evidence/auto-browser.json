@@ -10,11 +10,11 @@
     "off, at 1366x768 and 1024x768: every switch shown reads \"Auto\" and nothing glows; the grown people's are on the screen with their names whole; no switch on a child under ten",
     "the word \"auto\" pressed on Ramón Proofwright's row: the server holds it, the row shows pressed on the next snapshot, and the record says so",
     "a hunt sent from the panel with the switch on, and the icon glowing",
-    "Ramón Proofwright decided the shot alone with no \"!\" and went out again by themself: 2 hunts in 2 s",
+    "Ramón Proofwright decided the shot alone with no \"!\" and went out again by themself: 2 hunts in 1.9 s",
     "pressed off: the hunt in hand finished and nobody went out again",
     "Ramón Proofwright sent to plant the field from the panel, then put on auto: the row says \"Auto: plant the field\"",
     "Ysabel Proofwright on auto and given the harvest before anything is ripe: it is her task, and she waits",
-    "the field planted, grown, brought in and planted again with nobody pressing anything: bare > planted > ripe > bare > planted in 9 s",
+    "the field planted, grown, brought in and planted again with nobody pressing anything: bare > planted > ripe > bare > planted in 32.5 s",
     "each row said what auto was doing and, while it waited, why, in the server's words",
     "on, at 1366x768 and 1024x768: both switches read \"Auto ✓\", are pressed, and glow green; the others read \"Auto\" and do not",
     "pressed off: the line goes, and the switch reads \"Auto\" again",
@@ -168,7 +168,7 @@
         }
       ]
     },
-    "secondsToTwoHunts": 2,
+    "secondsToTwoHunts": 1.9,
     "huntsFinished": 2,
     "snapshotsAsking": 0,
     "glowResumed": 0,
@@ -179,7 +179,7 @@
       0
     ],
     "season": {
-      "seconds": 9,
+      "seconds": 32.5,
       "fieldStates": [
         "bare",
         "planted",
@@ -196,11 +196,17 @@
         ],
         "reaper": [
           "waiting: Auto: bring in the crop. The field is not ready. Working about the place meanwhile.",
-          "at it: Auto: bring in the crop, over and over."
+          "waiting: Auto: bring in the crop. The cotton is not ready: it will be in about 5 minutes. Working about the place meanwhile.",
+          "waiting: Auto: bring in the crop. The cotton is not ready: it will be in about 4 minutes. Working about the place meanwhile.",
+          "waiting: Auto: bring in the crop. The cotton is not ready: it will be in about 3 minutes. Working about the place meanwhile.",
+          "waiting: Auto: bring in the crop. The cotton is not ready: it will be in about 2 minutes. Working about the place meanwhile.",
+          "waiting: Auto: bring in the crop. The cotton is not ready: it will be within the minute. Working about the place meanwhile.",
+          "at it: Auto: bring in the crop, over and over.",
+          "waiting: Auto: bring in the crop. The cotton is not ready: it will be in about 6 minutes. Working about the place meanwhile."
         ]
       },
       "glowSeen": {
-        "at": 1.7,
+        "at": 1.9,
         "looks": [
           {
             "id": "hh-1-parent-1",
