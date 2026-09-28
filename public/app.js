@@ -6016,9 +6016,12 @@ function renderTip(world, { hidden = false } = {}) {
   const panel = $('#tip'), inline = $('#errand-tip');
   if (!panel) return;
   if ((world?.householdId || null) !== tipFamily) { tipFamily = world?.householdId || null; tipShowing = null; tipPutAway = new Set(); }
+  // Behind the curtain of making a family nothing is shown, and the tip standing is kept for when the curtain lifts: it is the
+  // same showing, not a second one.
+  if (hidden || document.body.dataset.creating === 'true') { panel.hidden = true; if (inline) inline.hidden = true; return; }
   const seen = [...(world?.household?.tipsSeen || []), ...tipPutAway];
   const errandOpen = document.body.dataset.errand === 'true';
-  const { show, retire } = hidden ? { show: null, retire: null } : tipToShow(world, { seen, showing: tipShowing, errandOpen });
+  const { show, retire } = tipToShow(world, { seen, showing: tipShowing, errandOpen });
   if (retire) putTipAway(retire);
   // Presentation evidence for scripts/tips-browser-proof.mjs, read by nothing in the page: the tip standing, and every tip
   // this page has put up, in order, once each time one is put up.

@@ -134,6 +134,8 @@ test('each tip is due when its thing is on the family\'s own screen, and never o
   const host = view(world, null, 'host');
   assert.deepEqual(tipsPresent({ ...host, ...cases.alto, ...cases.call }), []);
   assert.deepEqual(tipsPresent({ ...seen, ...cases.alto, role: 'host' }), []);
+  // Nor before the teacher begins, nor over the ending.
+  for (const status of ['lobby', 'ended']) assert.deepEqual(tipsPresent({ ...seen, ...cases.alto, ...cases.enlist, status }), [], `a tip was due with the class ${status}`);
   // Most urgent first when several are due at once.
   assert.deepEqual(tipsPresent(withThing(seen, { ...cases.call, ...cases.alto, lessonResume: cases.resume.lessonResume })).slice(0, 3), ['alto', 'call', 'resume']);
 });

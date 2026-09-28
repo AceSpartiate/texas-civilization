@@ -43,14 +43,14 @@ function panel(id) {
 }
 
 test('the title card does not promise the freedom the guided beginning refuses', () => {
-  // What the lesson actually does to a family that has just been made: every order that is not the step it is on comes
-  // back refused, in words (docs/LESSON.md, sim/lesson.mjs).
+  // What the lesson actually does to a family that has just been made: every farm step's work that is not the step it is on
+  // comes back refused, in words (docs/LESSON.md, sim/lesson.mjs; since 2026-09-28 food, nursing and the war never are).
   const world = createGonzalesWorld('creation-words', 5);
   world.households['hh-1'].played = true;
   world.status = 'running';
   const household = world.households['hh-1'];
   advanceLessons(world);
-  for (const chore of ['hunt-timber', 'build-house', 'plant-field']) {
+  for (const chore of ['survey-plot', 'build-house', 'plant-field']) {
     const refused = lessonRefusal(world, household, { action: 'chore', entityId: household.members[0], chore });
     assert.match(String(refused), /^Not yet - first,/, `the lesson lets a fresh family ${chore} at once, so this card has nothing to warn about`);
   }

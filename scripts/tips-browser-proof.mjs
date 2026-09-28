@@ -165,6 +165,8 @@ async function firstPeriod() {
     assert.equal(nursed.status, 200, `nursing the sick was refused on the "${lessonNow}" step: ${nursed.error}`);
     const fed = hunter ? await command(student, { action: 'chore', chore: 'take-small-game', entityId: hunter.id }) : { status: 200 };
     assert.doesNotMatch(fed.error || '', /Not yet/, `going out for food was refused by the guided start: ${fed.error}`);
+    // Called off the pot first, so what answers the enlisting is the enlisting's own rule and not a busy man.
+    if (hunter) await command(student, { action: 'stop-chore', entityId: hunter.id });
     const enlisted = await command(student, { action: 'chore', chore: 'enlist-regular', entityId: (hunter || nurse).id });
     assert.doesNotMatch(enlisted.error || '', /Not yet/, `enlisting was refused by the guided start: ${enlisted.error}`);
     const well = await command(student, { action: 'chore', chore: 'dig-well', entityId: (hunter || nurse).id });
@@ -248,7 +250,9 @@ async function theSpring() {
     ok(`the order to leave: its tip ("${flight.text}"), put away with a tap, and the "!" on the main person with "${observed.flight.badge}" left on it`);
 
     // ---------------------------------------------------------------------------------------- the road, and its tip
-    const left = await command(student, { action: 'flee', entityId: main, take: {} });
+    const refuge = await student.evaluate(() => window.__snapshot.world.flight?.refuges?.[0]?.id);
+    assert.ok(refuge, 'the family was offered nowhere to make for');
+    const left = await command(student, { action: 'flee', entityId: main, take: {}, refuge });
     assert.equal(left.status, 200, `the family could not leave: ${left.error}`);
     const route = await waitForTip(student, 'route', 'the family set out and no tip said how the way east is chosen');
     placed('1024 touch, on the road', route);

@@ -1,0 +1,165 @@
+{
+  "record": "tips-browser",
+  "date": "2026-09-28",
+  "environment": "Same computer: a local classroom server and headless Chrome, 1366x768 with a keyboard and 1024x768 with a touch screen.",
+  "pass": [
+    "the guided start is running (step \"order\")",
+    "the call's tip is on the screen: \"Your settlement is calling for men: press the “!” and tick who goes. Each one leaves the farm with powder and the rifle. No answer in about 5 minutes, and the call closes.\" - above the bar, clear of the column and the guided start, 14px, and a click on its words reaches the map",
+    "the Host's page shows no tip",
+    "Escape put the tip away, and the server keeps it as seen",
+    "after a reload, with the call still open, its tip is not shown again",
+    "on the \"order\" step: nursing the sick goes through, food is not refused by the guided start, enlisting is refused only for its own reason (\"Paz Proofwright is already nursing the sick.\"), and another farm step's work is still \"Not yet - first, get the house up.\"",
+    "the order to leave: its tip (\"Your family is told to leave. On your ★ person’s card, choose what to load and press “Leave for the east”, or choose to stay. No answer in a day, and the family packs and goes.\"), put away with a tap, and the \"!\" on the main person with \"3 min\" left on it",
+    "on the road: the route's tip (\"On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.\"), put away with a tap",
+    "¡Alto!: its tip (\"Soldiers shout “¡Alto!”, which means “Halt!”. Answer fast on your ★ person’s card: halting loses the wagon and goods, and running risks their shots. No answer means you halt.\"), the \"!\" with \"30s\" on it, put away with a tap",
+    "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, star, flight, child, road, rest, route, alto)"
+  ],
+  "observed": {
+    "lessonStep": "order",
+    "call": {
+      "id": "call",
+      "shown": true,
+      "text": "Your settlement is calling for men: press the “!” and tick who goes. Each one leaves the farm with powder and the rifle. No answer in about 5 minutes, and the call closes.",
+      "box": {
+        "left": 324,
+        "top": 356,
+        "right": 703,
+        "bottom": 470
+      },
+      "fontPx": 14,
+      "onScreen": true,
+      "wordsPassThrough": true,
+      "reachedWords": "#world-map CANVAS",
+      "overBar": false,
+      "overColumn": false,
+      "overStrip": false,
+      "closeReached": true
+    },
+    "gate": {
+      "step": "order",
+      "nursed": {
+        "status": 200,
+        "error": ""
+      },
+      "fed": {
+        "status": 200
+      },
+      "enlisted": {
+        "status": 400,
+        "error": "Paz Proofwright is already nursing the sick."
+      },
+      "well": {
+        "status": 400,
+        "error": "Not yet - first, get the house up."
+      }
+    },
+    "sick": {
+      "id": "sick",
+      "shown": true,
+      "text": "Someone is sick, and resting helps them mend. Have another grown-up choose “Nurse the sick”: nobody dies while being nursed. A very sick person can die within a day.",
+      "box": {
+        "left": 324,
+        "top": 356,
+        "right": 703,
+        "bottom": 470
+      },
+      "fontPx": 14,
+      "onScreen": true,
+      "wordsPassThrough": true,
+      "reachedWords": "#world-map CANVAS",
+      "overBar": false,
+      "overColumn": false,
+      "overStrip": false,
+      "closeReached": true
+    },
+    "putAwayOnTheWay": [
+      "enlist",
+      "star",
+      "road",
+      "rest"
+    ],
+    "flight": {
+      "tip": {
+        "id": "flight",
+        "shown": true,
+        "text": "Your family is told to leave. On your ★ person’s card, choose what to load and press “Leave for the east”, or choose to stay. No answer in a day, and the family packs and goes.",
+        "box": {
+          "left": 324,
+          "top": 316,
+          "right": 536,
+          "bottom": 510
+        },
+        "fontPx": 14,
+        "onScreen": true,
+        "wordsPassThrough": true,
+        "reachedWords": "#world-map CANVAS",
+        "overBar": false,
+        "overColumn": false,
+        "overStrip": false,
+        "closeReached": true
+      },
+      "badge": "3 min",
+      "label": "The family has been told to leave for the east. About 3 min left. Go to Gregorio Proofwright and answer."
+    },
+    "route": {
+      "id": "route",
+      "shown": true,
+      "text": "On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.",
+      "box": {
+        "left": 592,
+        "top": 383,
+        "right": 1012,
+        "bottom": 477
+      },
+      "fontPx": 14,
+      "onScreen": true,
+      "wordsPassThrough": true,
+      "reachedWords": "#world-map CANVAS",
+      "overBar": false,
+      "overColumn": false,
+      "overStrip": false,
+      "closeReached": true
+    },
+    "alto": {
+      "tip": {
+        "id": "alto",
+        "shown": true,
+        "text": "Soldiers shout “¡Alto!”, which means “Halt!”. Answer fast on your ★ person’s card: halting loses the wagon and goods, and running risks their shots. No answer means you halt.",
+        "box": {
+          "left": 324,
+          "top": 305,
+          "right": 535,
+          "bottom": 499
+        },
+        "fontPx": 14,
+        "onScreen": true,
+        "wordsPassThrough": true,
+        "reachedWords": "#world-map CANVAS",
+        "overBar": false,
+        "overColumn": false,
+        "overStrip": false,
+        "closeReached": true
+      },
+      "badge": "30s"
+    },
+    "reload": {
+      "stillAsked": true,
+      "shownBefore": [
+        "enlist",
+        "star",
+        "flight",
+        "child",
+        "road",
+        "rest",
+        "route",
+        "alto"
+      ],
+      "shownAfter": []
+    }
+  },
+  "shots": [
+    "docs/evidence/tips-call.png",
+    "docs/evidence/tips-flight.png",
+    "docs/evidence/tips-alto.png"
+  ]
+}

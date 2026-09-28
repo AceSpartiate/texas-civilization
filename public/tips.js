@@ -58,6 +58,8 @@ const GONE = ['dead', 'captured'];
  */
 export function tipsPresent(world, { errandOpen = false } = {}) {
   if (!world || world.role === 'host' || !world.householdId || !world.household) return [];
+  // Only while the class is being played: not in the lobby before the teacher begins, and not over the ending.
+  if (!['running', 'paused'].includes(world.status)) return [];
   const members = new Set(world.household.members || []);
   const own = (world.entities || []).filter(entity => entity.kind === 'person' && members.has(entity.id) && !GONE.includes(entity.health?.condition));
   const offered = id => Object.values(world.work || {}).some(list => (list || []).some(entry => entry.id === id));
