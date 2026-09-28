@@ -58,6 +58,7 @@ import { beastsOf, kept, wagonWith } from './beasts.mjs';
 import { holdingOf } from './grants.mjs';
 import { TOOL_LIFE, allWorn, anyWorn, mendWorst, soundestFirst, toolCount } from './tools.mjs';
 import { plotNeeds } from './houseplot.mjs';
+import { houseFront } from './house-placement.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
 import { HOUSES, SPELL_TICKS, buildRefusal, buildSpell, handsOn, helpRefusal, hostOf, houseBuilt, houseOf, houseSettled, pieced, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
@@ -544,7 +545,8 @@ export const CHORES = {
     name: 'Work on the house', skill: 'hands', where: 'home', heavy: true, house: true, crew: 'into',
     describe: 'Put in work on the house the family has chosen. They keep at it until the house stands or they are called off, and anybody else set to it works alongside.',
     steps: [
-      { walk: 'yard', doing: 'going over to where the house is going up' },
+      // To the front of the house as it is drawn, where the work is (sim/house-placement.mjs `houseFront`).
+      { walk: 'house', doing: 'going over to where the house is going up' },
       { houseWork: true, work: SPELL_TICKS },
       { build: true },
     ],
@@ -2128,7 +2130,8 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // somewhere else would carry them home across the map for nothing: exactly the
       // teleport the world's "returning home requires a journey" rule forbids.
       if (entity.location.siteId !== household.homeSiteId) return abandonChore(world, household, entity, chore);
-      const point = step.walk === 'field' ? fieldPoint(world, household) : step.walk === 'lane' ? (lanePoint(world, household) || yardPoint(world, household)) : yardPoint(world, household);
+      const point = step.walk === 'field' ? fieldPoint(world, household) : step.walk === 'lane' ? (lanePoint(world, household) || yardPoint(world, household))
+        : step.walk === 'house' ? (houseFront(world, household) || yardPoint(world, household)) : yardPoint(world, household);
       if (point) entity.location = { x: point.x, y: point.y, siteId: household.homeSiteId };
       state.wait = 1;
       return;

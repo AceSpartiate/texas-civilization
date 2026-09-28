@@ -30,6 +30,22 @@ does not have:
 
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
+| **Felling** (and cutting the lane, clearing timber, the bee tree, fetching logs - folded into felling since 2026-09-28, begun by *Fell trees* where the land has no timber and drawn as felling - a carreta's wheels) is the cast's hoeing cycle (`-work`: raised, swing, down, back) with pale wood chips drawn flying from the frame the blade lands; the one felling stands at the tree's west side facing it | `STROKES.chop` in `public/work-art.js`, drawn by `drawAtWork` in `public/app.js` | Request 2026-09-28 — people at work, items 1 and 15 | `-chop` for the eight cast figures; `fx-wood-chips` |
+| **Splitting rails** is the same hoeing cycle with wood chips | `STROKES.split` in `public/work-art.js` | Same request, item 2 | `-split` |
+| **Working on the house, or helping raise it** is the hoeing cycle with wood chips; several at it stand in a ring round the place the server puts them (`workSlot`), each facing it | `STROKES.notch` and `workSlot` in `public/work-art.js`; the offset in `drawEntity`, `public/app.js` | Same request, item 3 | `-notch`, `-lift` |
+| **Digging the well, and grubbing out brush** is the hoeing cycle with dark clods of earth thrown up from the strike | `STROKES.dig`, `STROKES.grub` | Same request, items 4 and 15 | `-dig`, `-dig-well`; `fx-earth-toss` |
+| **Harvesting** is the hoeing cycle with chaff | `STROKES.reap` | Same request, item 5 | `-reap` |
+| **Making furniture, and shaping a carreta's axle** is the seated mending cycle (`-repair`) with shavings | `STROKES.whittle` | Same request, items 6 and 15 | `-carpentry`; `fx-shavings` |
+| **Practice at the mark, and the hunt's shot** is the side-on idle (`-idle-e`) with a long rifle drawn in canvas at the shoulder and, at the mark, a flash and three puffs of smoke once a cycle (the hunt's shot keeps the library's `musket-smoke`) | `STROKES.shoot`, `STROKES.shot`, `drawWorkLayer` | Same request, item 7 | `-aim`, `-fire` |
+| **Fishing** (at home and on the road) is the seated rest (`-rest`) with a cane pole, a line and a bobbing float drawn in canvas, and rings spreading from the float | `STROKES.fish`, `drawWorkLayer` | Same request, items 8 and 15 | `-fish`; `fx-ripple` |
+| **Gathering** (oysters, kindling, eggs, tying a bundle on the Scrape) is the sowing crouch (`-sow`) bobbing at the ground (a lean about the feet) | `STROKES.gather` | Same request, item 9 | `-gather` (grown), and the children's `-gather` (item 13) |
+| **Butchering** a beef or a hog is the kneeling nursing pose (`-care`), bobbing; nothing of the animal is drawn | `STROKES.butcher` | Same request, item 10 | `-butcher` |
+| **Drilling in Houston's camp** is the walk cycle stepped on the spot; **standing guard** the searching pose with a rifle sloped | `STROKES.drill`, `STROKES.guard` | Same request, item 11 | `-drill`, `-guard` |
+| **Surveying** is the walk cycle paced to and fro over a few yards, turning at each end | `STROKES.pace`, `strokeShift` | Same request, item 12 | `-stake` (the pacing stays the walk) |
+| **A child keeping the birds off the corn, or catching up the milk cow**, is the walk paced to and fro; **carrying water** the grown carry drawn at the child's size | `STROKES.shoo`; `STROKES.carry` with the child scaling of `entityClip` | Same request, item 13 | `-shoo`, `-carry-water` for `girl`, `boy`, `smallchild` |
+| **A child scattering corn for the hens** is the grown sowing cycle (`-sow`) at the child's size (until 2026-09-28 the child's side-on rest) | `STROKES.scatter` | Request 2026-09-26 — children at play, babies, and the Scrape's own work, item 1 | `-scatter` |
+| **Keeping the camp's fire** is the kneeling nursing pose with a small flame and grey puffs going up in front of it | `STROKES.fire` | Request 2026-09-28 — people at work, item 14 | `-tend-fire` |
+| **The family's wood pile** by the house is `log-fallen` drawn once for every ten logs, up to four, laid side by side | the log pile in `drawWorld`, `public/app.js` (`window.__logPileDrawn`) | Request 2026-09-28 — people at work, item 16 (until then request 2026-09-15 — the trees of the colonies) | `wood-pile-1` to `-4` |
 | The sick badge on a portrait is the road's nursing icon (`icon-tend-sick`, or its stroked glyph) in a cream disc | `panelRow` and the row update in `public/app.js` (`.panel-sick-mark`) | Request 2026-09-27 — sickness, item 1 | `mark-sick` |
 | "Stop and rest a day" is the rest order's picture (`icon-rest`); "Nurse the sick" at home the road's nursing (`icon-tend-sick`); "Camp apart from the crowd" a stroked glyph (three tents on a bank and one up the stream) | `PANEL_ICONS` and `drawGlyph` in `public/family-panel.js` | Request 2026-09-27 — sickness, item 2 | `icon-rest-road`, `icon-nurse-home`, `icon-camp-apart` |
 | Somebody sick and resting is drawn in the delivered `-injured-rest` pose, as the hurt are; a sick baby is drawn as it is | `restingSick` and `grownClip` in `public/motion.js` | Request 2026-09-27 — sickness, item 3 | `-sick-rest`, `infant-sick` |
@@ -38,7 +54,7 @@ does not have:
 | ~~Gathering glyphs drawn in code~~ | `PANEL_ICONS` in `public/family-panel.js` | Existing `icons-family-subsistence.png` art wired 2026-09-26 | Four production sprites selected directly; `fish-road` reuses the water-fishing icon |
 | ~~Stock glyphs drawn in code~~ | `PANEL_ICONS` in `public/family-panel.js` | Existing `icons-family-subsistence.png` art wired 2026-09-26 | Three production sprites selected directly |
 | The sentry on San Fernando's roof is one standing volunteer at the church (`town`); the townspeople leaving are the engine's civilian figures; Sutherland rides the roster's `rider` | the `sentry` and `townsfolk` groups of `arrival` in `sim/battles/alamo.mjs`; `sutherland` in `sim/people.mjs` | Request 2026-09-26 — the bell at Béxar | `sentry-bell-ring`, `townsfolk-leave`, a Sutherland sheet |
-| Children at play are drawn in the poses their sheets already hold: running play (a stick horse, tag, hide-and-seek going and coming, a hoop) the child's walk; a doll and lying in the grass the sitting rest; a toy cart, marbles and the hens the side-on rest; hiding the back-turned idle. A child talking with a parent is the standing idle, and the parent the cast listening pose | `littleClip` in `public/motion.js` | Request 2026-09-26 — children at play, babies, and the Scrape's own work, items 1 and 4 | `-play-*`, `-scatter`, `-speak`, `-tug` for each child's sheet |
+| Children at play are drawn in the poses their sheets already hold: running play (a stick horse, tag, hide-and-seek going and coming, a hoop) the child's walk; a doll and lying in the grass the sitting rest; a toy cart and marbles the side-on rest; hiding the back-turned idle. (The hens are work since 2026-09-28: the sowing cycle, its own row above.) A child talking with a parent is the standing idle, and the parent the cast listening pose | `littleClip` in `public/motion.js` | Request 2026-09-26 — children at play, babies, and the Scrape's own work, items 1 and 4 | `-play-*`, `-scatter`, `-speak`, `-tug` for each child's sheet |
 | A crawling baby is the infant's standing pose (`infant-idle-e`) moved over the ground a few yards a tick; a crying baby the infant's front-facing idle with a "(crying)" bubble; a napping one `infant-rest` | `littleClip` in `public/motion.js` | Same request, item 2 | `infant-crawl`, `infant-cry`, `infant-sleep` |
 | A woman (or anybody) holding a baby is the cast figure's harvest carrying pose (`-carry`) with the infant drawn at her side; a baby carried on an errand is the infant figure drawn at the carrier's hip, a little up and to the right | `littleClip` in `public/motion.js`; `carriedAt` in `drawWorld`, `public/app.js` | Same request, item 3 | `-hold-baby`, `-carry-baby-walk` |
 | "Go for help" (`child-help`, the oldest child running to the neighbours) is a stroked glyph drawn in code: a running figure and a house with its door open | `PANEL_ICONS` and `LITTLE_GLYPHS` in `public/family-panel.js` | Request 2026-09-28 — the oldest child going for help | `icon-child-help` |
@@ -71,7 +87,7 @@ does not have:
 
 | A house placed at a quarter or half turn is drawn from the one front view the house-modules sheet has: each piece stands upright in its turned cells, and at 90 and 270 degrees every piece is that picture mirrored (the gable brought round to the other face, the ridge on the other diagonal). The gable facing the viewer always shows the door, in the picture and mirrored. The porch, shed room and passage are their one picture whichever way they run. Since 2026-09-24 a house's pictures are chosen for its chimneys, one picture for the whole house (`housePicture`; that morning each pen alone, `mirrorPens`): a cabin whose chimney gable is to the screen's side stands it against the doorless back gable of the unmirrored pen (to the right) or the mirrored pen (to the left), so the cabin at 180 degrees is mirrored; a dog-run or saddlebag keeps the house's mirroring, both pens the same way round along one ridge (`alongRidge`). A chimney on the gable the picture draws with its door stands in front of the door, and covers it whole, so the gable reads as the chimney's end: the cabins at 90 degrees, and at every turn the dog-run's near chimney (the near end of its ridge) and the saddlebag's double chimney (the far pen's door gable) | `drawHousePlot` (`rotation`, `turned`) in `public/house-plot.js`, called by `drawPlacedHouse` in `public/app.js` | Request 2026-09-23 — the house from its other sides | The pen's back gable (no door in the gable toward the viewer) for full walls, low walls and sill - or a pen with its door on its long side - and each piece's end-on view: passage, porch and shed room running into the screen. With them every pen takes the house's mirroring again and no chimney stands before a door at any turn |
 | A dog-run's passage roofed with the pens' own roof (`house-hewn-roof-finished`, or `house-round-roof-partial` while the walls are still to chink), seated as on a pen standing at the middle of the passage, so it runs a quarter cell into each pen's roof along their one ridge (half a cell until the passage became twelve feet, 2026-09-24; one copy still spans it); its floor laid twice to cover the twelve feet; the joins show the roof pictures' end poles. The sheet's own `house-passage-roof` (flatter, nearly square, on four posts) meets neither pen's roof and is drawn only where a passage stands between no row of pens. A saddlebag has no roof over its double chimney's cell: its two roofs meet the chimney, which rises between them | `drawHousePlot` (the passage in a row, `PASSAGE_FLOOR_HIGH`, `PASSAGE_FLOOR_DEEP`), `alongRidge` and `RIDGE` in `public/house-plot.js` | Request 2026-09-24 — one roof over a two-pen house | `house-roof-join` (and `-partial`), seated on the pens' ridge; `house-roof-join-chimney` for the saddlebag; the ridge line marked on each roof frame (replaces `RIDGE`) |
-| The mark that leads a student to the one thing to press is CSS: a triangular caret over the icon, a rust box-shadow ring round it, and ten coloured bars for the lesson’s steps | `.panel-icon[data-pointed=true]` and `.lesson-pip` in `public/style.css`; the pips built by `renderLesson` in `public/app.js` | Request 2026-09-21 — the guided start’s marks | `lesson-point`, `lesson-ring`, `lesson-pip`, `lesson-pip-done` |
+| **Parked 2026-09-28: the tutorial is removed for now**, and with it these marks; the row stays so the request can be taken up if it returns. The mark that leads a student to the one thing to press is CSS: a triangular caret over the icon, a rust box-shadow ring round it, and ten coloured bars for the lesson’s steps | `.panel-icon[data-pointed=true]` and `.lesson-pip` in `public/style.css`; the pips built by `renderLesson` in `public/app.js` | Request 2026-09-21 — the guided start’s marks | `lesson-point`, `lesson-ring`, `lesson-pip`, `lesson-pip-done` |
 
 
 | A tree or a tuft in a norther is the library's own upright sprite sheared about its foot, so it leans; nothing streams, and smoke is not drawn at all | `windLean` in `public/weather-art.js`, applied by `postOak` and `drawGroundDetail` in `public/app.js` and by `lean` in `public/art.js` | Request 2026-09-20 — the country in a norther | `oak-broad-wind`, `oak-spreading-wind`, `pecan-wind`, `grass-tuft-wind`, `smoke-streaming` |
@@ -178,6 +194,80 @@ frame in the family icon atlas, 48 px, the family panel's stroke and palette.
    Plugs into `PANEL_ICONS['child-help']` in public/family-panel.js (a stroked glyph now: a running figure and a house).
 
 **Check.** On a child's row among the children's works, the icon reads as a child going somewhere for somebody, not as play.
+
+## Request 2026-09-28 — people at work
+
+**Status: open; stand-ins in use since 2026-09-28 (see *Stand-ins in use*).** Owner, 2026-09-28: *"When someone is working, I
+should see them actually working, not just standing near their task."* Every activity the server can report - each chore's id,
+and working about the place - is now drawn **at** the work from one table, `WORK` in `public/work-art.js`, and
+`tests/work-art.test.mjs` fails if a chore appears in `sim/` that the table does not draw. The cast sheets hold painted cycles of
+hoeing (`-work`), sowing, mending, nursing (`-care`), searching, trading and carrying, and those are used as they are. For every
+other work the nearest of them stands in, with the tool, a lean or a pace, and chips or earth drawn in code on the pose's own
+strike. This asks for the work itself.
+
+**Delivery contract** - the people sheets' (request 2026-09-12, *The delivery contract*): square 1254 by 1254 transparent RGBA,
+4 columns by 4 rows, one figure a cell, the same logical height, foot baseline and identity as the figure's existing sheets,
+east-facing and mirrored for west. **Each pose is wanted for each of the eight grown cast figures** (`rust`, `teal`, `elder`,
+`blue`, `rust-woman`, `indigo`, `ochre`, `blue-girl`), so a four-frame pose is two sheets (four figures a sheet, one figure a
+row). Clip names `<figure>-<pose>`; the frame order is the one given, and **the frame on which the tool lands is named in the
+delivery note** (the renderer times the chips, the earth and the work sounds to it: `beat` in `STROKES`). Texas 1835 tools
+only (`HIST-GONZ-027`/`028`): a felling axe, a maul and wedges, a grubbing hoe or mattock, a spade, a corn knife, a drawknife, a
+long rifle, a cane pole. Nothing is ever pointed at a person, and no blood.
+
+1. **Felling with an axe** (priority 1) - `-chop`, 4 frames: the axe back over the shoulder, the swing, the bite (head in the
+   trunk at hip height), the pull back; the figure side on to a tree just off the frame's right edge. Felling, cutting the lane,
+   clearing timber, the bee tree, fetching logs, cutting a carreta's wheels.
+2. **Splitting rails** (priority 2) - `-split`, 4 frames: a maul raised, coming down, on the wedge in a log lying on the ground
+   (the log in the frame), and back. Fencing.
+3. **Raising the house** (priority 1) - `-notch`, 4 frames: astride or beside a wall log at knee height, notching its end with
+   an axe; and `-lift`, 2 frames: stooped with both hands under a log end, then the log end at the shoulder, drawn so two people
+   facing each other across the frame's middle read as one log lifted between them. Working on the house and helping raise one.
+4. **Digging** (priority 1) - `-dig`, 4 frames: a spade driven in with the foot, levered, the earth thrown to the figure's left
+   (behind), and back; and `-dig-well`, the same four drawn waist-deep in a square hole with a low bank of earth round it. The
+   well, grubbing out brush and roots (a mattock is acceptable), the trench at Béxar (replaces `rust-work` there, see
+   *Stand-ins in use*).
+5. **Harvesting corn** (priority 2) - `-reap`, 4 frames: reaching up to an ear, snapping it off, dropping it in a basket or sack
+   at the hip, stepping on. Harvesting the field.
+6. **Making things** (priority 3) - `-carpentry`, 4 frames: sitting at a shaving horse drawing a drawknife toward the body
+   (two frames), then boring with an auger (two). Furniture and a carreta's axle.
+7. **A civilian with a rifle** (priority 2) - `-aim` (1 frame: a long rifle at the shoulder, level) and `-fire` (2 frames: the
+   recoil, lowering), in the figure's own clothes, not a soldier's. Practice at the mark and the hunt's shot; the smoke stays
+   the library's `musket-smoke`.
+8. **Fishing** (priority 2) - `-fish`, 2 frames: sitting on the bank with a cane pole out over the water, the line down to a
+   float, and the pole twitched up. Fishing at home and on the road.
+9. **Stooping to gather** (priority 2) - `-gather`, 2 frames: bent to the ground picking something up, then putting it in a
+   basket or an apron. Oysters, kindling and chips, eggs, and tying up a bundle on the Scrape.
+10. **Dressing meat** (priority 3) - `-butcher`, 2 frames: at a plank table cutting a joint wrapped in cloth, or salting it
+   down in a barrel. Non-graphic: no carcass, no blood.
+11. **In the army's camp** (priority 3) - `-drill` (4 frames: stepping out with a rifle at the shoulder, a volunteer in his own
+   clothes) and `-guard` (2 frames: standing sentry, rifle sloped, turning the head). The family's man with Houston's army.
+12. **Surveying** (priority 3) - `-stake`, 2 frames: a mallet raised over a stake and driving it. Pacing the ground stays the
+   walk cycle.
+13. **Children's work** (priority 2) - for `girl`, `boy` and `smallchild`: `-shoo` (arms flung up, waving a cloth at birds or
+   a cow, 2 frames), `-gather` (2 frames, as item 9) and `-carry-water` (a small pail in each hand, walking, 4 frames east and
+   `-n`/`-s`). The hens are the existing request's `-scatter` (request 2026-09-26, item 1).
+14. **Keeping a fire** (priority 3) - `-tend-fire`, 2 frames: kneeling, feeding a stick into a small fire (the fire in the
+   frame) and blowing on it. The camp's fire on the Scrape.
+15. **The work's effects** (priority 2) - small transparent effect sheets on the same ground anchor, 3 frames each, one
+   played from the strike: `fx-wood-chips` (pale chips flying from a cut), `fx-earth-toss` (a spadeful of dark earth), `fx-dust`
+   (a low puff where a hoe strikes dry ground), `fx-shavings` (curls off a drawknife) and `fx-ripple` (rings round a float); and
+   `tree-fall` (4 frames: a hardwood of `-log` size leaning, going over, down, a last bounce), drawn once where a tree is felled.
+16. **The wood pile** (priority 1) - felling now drops its logs straight onto the family's one pile by the house (log hauling is
+   being removed, 2026-09-28): `wood-pile-1` to `wood-pile-4`, a pile of wall logs seen three-quarter on the ground anchor, at
+   about ten, twenty, thirty and forty logs, each about as long as `log-fallen` and no taller than a person's waist; sill logs
+   of cedar or live oak may lie in it darker. One sprite a size, not logs laid side by side.
+
+**How it plugs in.** Registered through `npm run build:art` (`SHEETS` and the clips in `scripts/build-atlas-manifest.mjs`, the
+`people-` prefix so row heights are measured). Then in `public/work-art.js` the stroke's `pose` becomes the new clip's name,
+its `art` becomes `'delivered'`, its `beat` the frame the delivery note names, and its `tool`, `motion` and `effect` are
+deleted - `drawWorkLayer` then draws nothing over it. An effect sheet replaces its canvas marks in `EFFECTS`; the wood pile
+replaces the `log-fallen` row in `drawWorld` (`window.__logPileDrawn`). `tests/work-art.test.mjs` fails on a pose the library
+does not hold, so a misspelt clip is caught.
+
+**Check.** At the family's own land zoomed to the yard (a figure about 40 px), with `npm run test:work`: a man felling is told
+from a man hoeing without the words; three people on the house are three people round one house, each facing it; a woman
+fishing reads as fishing at 1366 by 768; the chips and earth fly on the frame the tool lands, not a beat late; and a
+child shooing birds is not taken for a child playing tag.
 
 ## Request 2026-09-27 — Mexican troops after a family on the road
 
@@ -630,7 +720,7 @@ other diagonal); a half turn has the same silhouette. What the sheet cannot show
 
 ## Request 2026-09-21 — the guided start's marks
 
-**Status: open; CSS stand-ins in use since 2026-09-21 (see *Stand-ins in use* above).** After a real class played on
+**Status: on hold 2026-09-28 - the tutorial is removed for now; do not draw these until it comes back.** CSS stand-ins were in use from 2026-09-21. After a real class played on
 Chromebooks the owner asked for the tutorial to be "an integrated forced part of the game ... one task at a time, guided by
 the ui and unavoidable" ([FAMILY_PANEL.md](FAMILY_PANEL.md) §12). The screen now leads a student to one icon on the ability
 bar at the bottom middle. The three marks that do the leading are CSS, not art.
@@ -844,10 +934,10 @@ natural biomes of Texas (docs/BIOMES.md, built the same day).
 
 **Status: delivered in `icons-family-service.png`; glyph remains only as a load fallback.** A family with no timber of its own
 can take the ox and wagon to the nearest timber and bring six logs home (`fetch-logs`, docs/BIOME_GAMEPLAY.md §3.2). The
-order is on the family panel with the registered `icon-fetch-logs` art.
+order is on the family panel with the registered `icon-fetch-logs` art. **2026-09-28: fetching is folded into felling** (docs/WOODS_AND_BUILDING.md §6.7): *Fell trees* begins it where the family's land has no timber, and it glows on the felling icon, so `icon-fetch-logs` is no longer drawn on a student's panel. Keep the frame: the families nobody plays still send it by name, and a saved class may show it.
 
 - **Why.** One stroke-drawn glyph beside the illustrated icons reads as a placeholder, and it must be told from *Fell trees*
-  and *Haul logs to the house*.
+  and *Haul logs to the house* (log hauling is being removed, 2026-09-28: felling puts its logs on the one wood pile).
 - **What.** `icon-fetch-logs` in the action-icon contract (request 2026-09-15 — action icons, 128 by 128, one silhouette,
   reading at 38 pixels and dimmed to 40 per cent): logs loaded across an ox wagon's bed, the ox's head at the edge.
 - **How it plugs in.** Registered through `npm run build:art`; `drawIcon` in `public/family-panel.js` takes `icon-fetch-logs`
@@ -1080,7 +1170,7 @@ portraits, so each is the top of the person's map figure drawn large, which is l
 
 ## Request 2026-09-15 — action icons for the family panel
 
-**Status: delivered 2026-09-21.** Four transparent atlases now supply all 53 current `PANEL_ICONS` keys, including the later service, road, subsistence, gathering and stock actions. See [delivery note](ART_DELIVERY_2026-09-21-FAMILY-ACTION-ICONS.md). Every action a student can give a person is now an
+**Status: delivered 2026-09-21.** (2026-09-28: `icon-haul-logs` retires with log hauling; keep the frame while a saved class may show the chore.) Four transparent atlases now supply all 53 current `PANEL_ICONS` keys, including the later service, road, subsistence, gathering and stock actions. See [delivery note](ART_DELIVERY_2026-09-21-FAMILY-ACTION-ICONS.md). Every action a student can give a person is now an
 icon on that person's row ([FAMILY_PANEL.md](FAMILY_PANEL.md) §4, §6). The stand-ins are scene sprites shrunk into a square,
 so several read poorly at 38 pixels (a barrel, a crate and sacks look alike) and four are plain drawn glyphs.
 
@@ -1128,7 +1218,7 @@ west of the Guadalupe. Post oak and blackjack size variants, additional species-
   a dark bushy cone, often many-stemmed), `mesquite` (low, open, crooked, feathery), `live-oak` (low and very wide,
   dark evergreen), `post-oak` (a rounded crown of lobed leaves, stout crooked limbs), `blackjack` (smaller, darker,
   rougher than post oak), `elm` (vase-shaped). Stumps for pine and pecan to go with `stump-post-oak` and
-  `stump-cottonwood`, and a felled log lying on the ground, for step 4.
+  `stump-cottonwood`, and a felled log lying on the ground, for step 4. (2026-09-28: log hauling is being removed and felling puts its logs straight on the family's one wood pile, so a felled log lying out by its stump stops being drawn with it; the pile itself is request 2026-09-28 — people at work, item 16.)
 - **How it plugs in.** `KINDS` in `sim/woods.mjs` names each kind's picture; the page draws `picture` at the tree's size
   (`TREE_SIZES` in `public/app.js`). Registering the frames and changing the names is the whole swap.
 - **Check.** Beside `oak-broad` at the same size the crowns are comparable in width, so a closed stand still reads closed and
