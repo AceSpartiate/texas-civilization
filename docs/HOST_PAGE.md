@@ -138,6 +138,7 @@ clear, and tell the teacher up front how many class days a game takes at each pa
   (public/reconnect.js); only a sign-out goes to the join screen, which has **I was already in this class** (the class
   code, then your own name) beside the family key.
 
+
 ### 2.8 The bell: Stop for today, and End Game asked twice (2026-09-28)
 
 Found by the design audit of 2026-09-28 (B2, [audits/2026-09-28-design.md](audits/2026-09-28-design.md) §1.2) and fixed at
@@ -190,6 +191,41 @@ still cannot be continued"*. End Game keeps its two presses.
 - **What cannot be undone.** Everybody has seen the ending: students saw their numbers and the Host the winner. That is why End
   Game still asks twice, and says so.
 
+### 2.9 Deleting a kept class (2026-09-28)
+
+The owner, asked whether the Classes panel should let a teacher delete a kept class: **"Yes, with a confirm"**.
+
+- **Delete** beside **Open** on every kept class in **Classes** (`public/class-panel.js`, host action `delete-class`). Asked twice
+  (*Confirm: delete Period 4*, red while it waits). The class that is open - the one being played, paused or waiting to begin -
+  has no Delete, and the server refuses it (*"That class is open. Open another class first, then delete this one."*).
+- **Never destroyed**: its save is moved to `archive/classes-<session>-deleted-<time>.json` and its flashback videos to
+  `archive/classes-<session>-deleted-<time>-flashbacks/`, beside the other backups in the class data folder (`deleteKept` in
+  `server/app.mjs`, `moveTo` in `server/flashback.mjs`). The panel says where: *"Period 4 was taken off the list and kept: its
+  save is now archive/classes-…-deleted-….json, in this computer's class data folder. To bring it back, see "A deleted class" in
+  RECOVERY."* Getting it back is moving the two back by hand with the server stopped ([RECOVERY.md](RECOVERY.md), *A deleted
+  class*).
+- Proof: `tests/classes.test.mjs` (*a kept class is deleted from the list into the archive with its flashbacks, never the open
+  one, and put back by hand*: refused for the open class, a student and a class not there; moved with its flashbacks; off the
+  list; put back as RECOVERY says and opened again with its student); `npm run test:classes` (the open class has no Delete; two
+  presses; off the list and into the archive; the panel's words); injections in `scripts/design-blockers-injections.mjs --only
+  Delete`.
+
+### 2.10 Nothing on the Host's page stands on anything else (2026-09-28)
+
+Owner, 2026-09-28: *"Check for UI elements that block others. Move them somewhere else."* `npm run test:overlap`
+(docs/FAMILY_PANEL.md §21) walks the Host's page at a projector's 1920x1080, 1280x720 and 1280x800, a 1024x768 one and a
+1366x768 Chromebook: the lobby, Classes and Recover a student opened, a running class with the spotlight lit, the fight at
+Gonzales at first light, the ending and "How it ended". Found and moved:
+
+- **The spotlight's banner** stood in the top middle across *The class* on a 1024 screen, and across it during the fight at
+  every projector size. The Host has no ability bar, so the banner now stands in the **bottom middle**, over the map's buttons.
+- **The teacher's column** down the right, with Classes open, ran off the foot of the screen and over the map's buttons
+  (1366x768, 1280x720, 1024x768). It stops 200px above the foot, as *The class* does on the left, and scrolls inside itself.
+- **The fight's caption**, drawn at the top of the map, was 15-40% under *The class*. It keeps to the room between the class
+  on the left and the teacher's controls on the right, narrower and taller where that room is narrow.
+- **The small print** about the map sat under the Journal and map buttons at 1280 and 1024: it is at the bottom left.
+- **"How it ended"** sat on Gonzales, + and -: it stands on top of the map's buttons.
+
 ## 3. Proof
 
 - `tests/absence.test.mjs` (4): the marker; the director's, questions answered at once, nothing held; back again; the
@@ -215,6 +251,8 @@ still cannot be continued"*. End Game keeps its two presses.
   students free and chosen, the thirty-first refused, a new class and the first opened again, a signed-out page carrying on)
   and `npm run test:reconnect` (the real server killed for 5 s and for 30 s, both pages back by themselves, the away list on
   a page with no cookie). Each was seen failing against the code it guards (HANDOFF).
+- §2.10: `npm run test:overlap` (the Host's page at five sizes in five states, nothing sharing pixels that is not meant to)
+  and `npm run test:overlap-injections`.
 
 ## 4. Ceilings
 

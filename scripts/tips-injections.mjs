@@ -9,7 +9,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
 const FILES = ['tests/lesson-off.test.mjs', 'tests/tips.test.mjs', 'tests/need-ranking.test.mjs', 'tests/lesson.test.mjs', 'tests/family-commands.test.mjs', 'tests/lesson-usability.test.mjs', 'tests/errands.test.mjs', 'tests/creation-words.test.mjs', 'tests/lesson-screen.test.mjs', 'tests/military-attention.test.mjs'];
-const T = { words: 'every tip the server can remember', kept: 'seen tips are kept by the server', lobby: 'putting a tip away is never refused', due: 'each tip is due when its thing', once: 'a tip is shown once', order: 'every "!" of the column is in one order', left: 'the time left is read from what the server said', sent: 'the server sends the time left', watch: 'the Watch alert waits', never: 'never refuses food, nursing', held: 'still holds back another farm step', ends: 'ends for every family when the first period does', winter: 'a class saved in the winter', off: 'the guided start is off', offCall: 'spends its minutes from the moment it arrives' };
+const T = { words: 'every tip the server can remember', kept: 'seen tips are kept by the server', lobby: 'putting a tip away is never refused', due: 'each tip is due when its thing', once: 'a tip is shown once', order: 'every "!" of the column is in one order', left: 'the time left is read from what the server said', sent: 'the server sends the time left', watch: 'the Watch alert waits', never: 'never refuses food, nursing', held: 'still holds back another farm step', ends: 'ends for every family when the first period does', winter: 'a class saved in the winter', off: 'the guided start is off', offCall: 'spends its minutes from the moment it arrives', farm: 'the house, the field and going to town' };
 const INJECTIONS = [
   // Tips: the server's memory.
   { name: 'putting a tip away is not kept: the next snapshot, or a reload, shows it again', file: 'sim/tips.mjs', from: '  household.tipsSeen = [...seen, id];', to: '', expect: T.kept },
@@ -46,7 +46,16 @@ const INJECTIONS = [
   { name: 'an old save\'s stored lesson still gates and holds the call, whatever the switch says', file: 'sim/lesson.mjs', from: 'const teachable = (world, household) => LESSON_ENABLED && ', to: 'const teachable = (world, household) => ', expect: T.offCall },
   // With the guided start gone, the start of the game has tips of its own.
   { name: 'how to give an order is told while the family is still on the road in', file: 'public/tips.js', from: 'Boolean(world.land) && !world.land.arriving && own.length > 0,', to: 'Boolean(world.land) && own.length > 0,', expect: T.due },
-  { name: 'the star comes before how to give an order', file: 'public/tips.js', from: "'arrive', 'order', 'star']);", to: "'arrive', 'star', 'order']);", expect: T.due },
+  { name: 'the star comes before how to give an order', file: 'public/tips.js', from: "'arrive', 'order', 'house', 'field', 'town', 'star']);", to: "'arrive', 'star', 'order', 'house', 'field', 'town']);", expect: T.due },
+  // The house, the field and going to town (owner, 2026-09-28: "Yes, add them").
+  { name: 'the house\'s tip comes while the family is still on the road in', file: 'public/tips.js', from: 'Boolean(land) && !land.arriving && !land.choosingSite && ', to: 'Boolean(land) && !land.choosingSite && ', expect: T.farm },
+  { name: 'the house\'s tip comes before the house site is chosen', file: 'public/tips.js', from: ' && !land.choosingSite && land.shelter', to: ' && land.shelter', expect: T.farm },
+  { name: 'the house\'s tip comes with a roof already up', file: 'public/tips.js', from: "land.shelter === 'camp' && Boolean(", to: 'Boolean(', expect: T.farm },
+  { name: 'the field\'s tip comes when nobody can clear or plant', file: 'public/tips.js', from: "field: !leading && (open('clear-plot') || open('plant-field')),", to: "field: !leading && (offered('clear-plot') || offered('plant-field')),", expect: T.farm },
+  { name: 'the town\'s tip comes when nobody can go to town', file: 'public/tips.js', from: "town: !leading && open('visit-shop'),", to: "town: !leading && offered('visit-shop'),", expect: T.farm },
+  { name: 'the field\'s tip names a ripening time the seasons rework may change', file: 'public/tips.js', from: 'and the crop takes time to ripen.', to: 'and the crop ripens in 3 minutes.', expect: T.farm },
+  { name: 'the house\'s tip does not say what waiting for the house costs', file: 'public/tips.js', from: ' Until it stands, the family camps.', to: '', expect: T.farm },
+  { name: 'the house comes before how to give an order', file: 'public/tips.js', from: "'arrive', 'order', 'house', 'field', 'town', 'star']);", to: "'arrive', 'house', 'order', 'field', 'town', 'star']);", expect: T.farm },
 ];
 
 const failing = output => [...new Set([...output.matchAll(/^\s*✖ (.+?) \(\d/gm)].map(match => match[1].trim()).filter(name => !/^tests[\\/]/.test(name) && name !== 'failing tests:'))];

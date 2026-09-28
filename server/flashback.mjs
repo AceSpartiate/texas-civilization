@@ -92,7 +92,17 @@ export function createFlashbackStore(dir) {
     if (!dir || !SESSION.test(sessionId)) return;
     rmSync(join(dir, sessionId), { recursive: true, force: true });
   }
-  return { dir, list, save, serve, file, discard };
+  /**
+   * Move every video of a class to `target` (a class deleted from the Host's list, owner 2026-09-28: kept in `archive/` with its
+   * save, docs/RECOVERY.md). Returns where they went, or null when the class had none.
+   */
+  function moveTo(sessionId, target) {
+    facts.delete(sessionId);
+    if (!dir || !SESSION.test(sessionId) || !existsSync(join(dir, sessionId))) return null;
+    renameSync(join(dir, sessionId), target);
+    return target;
+  }
+  return { dir, list, save, serve, file, discard, moveTo };
 }
 
 /** The request's body, whole, refusing past `limit` bytes. */

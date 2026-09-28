@@ -259,7 +259,11 @@ test('families nobody plays on the real land fell, haul and raise houses of piec
   // the family that has none and fetches its logs. The director has dealt stock to three families in four since
   // 2026-09-20 (sim/neighbours.mjs `dealStock`), which is the shape Almonte's herds imply and why it has to be said.
   for (const household of Object.values(world.households)) household.herd = { cattle: 0, hogs: 0 };
-  for (let tick = 0; tick < 300; tick++) stepWorld(world);
+  // Four hundred ticks, three hundred until 2026-09-28. Measured on this class: with the felling axe shared at home the five houses
+  // stood at ticks 90, 104, 105, 262 and 298 - the slowest two ticks inside the old budget. Since the owner's "Each needs an axe"
+  // (docs/TOWNS.md §4b, amended) a family with one axe fells with one person at a time where two used to share it, and the two
+  // families with little timber of their own finish at 326 and 337; the others at 84, 119 and 130.
+  for (let tick = 0; tick < 400; tick++) stepWorld(world);
   validateWorld(world);
   const households = Object.values(world.households);
   assert.ok(households.every(pieced), 'every one planned on the plot');

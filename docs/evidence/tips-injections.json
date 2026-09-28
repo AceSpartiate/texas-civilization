@@ -13,8 +13,8 @@
     "tests/lesson-screen.test.mjs",
     "tests/military-attention.test.mjs"
   ],
-  "caught": 29,
-  "of": 29,
+  "caught": 37,
+  "of": 37,
   "injections": [
     {
       "name": "putting a tip away is not kept: the next snapshot, or a reload, shows it again",
@@ -79,7 +79,8 @@
       "expected": "each tip is due when its thing",
       "caught": true,
       "failed": [
-        "each tip is due when its thing is on the family's own screen, and never on the Host's"
+        "each tip is due when its thing is on the family's own screen, and never on the Host's",
+        "the house, the field and going to town each have a tip the first time the family can do them, and not before"
       ]
     },
     {
@@ -124,7 +125,8 @@
       "expected": "a tip is shown once",
       "caught": true,
       "failed": [
-        "a tip is shown once: until it is put away or its thing goes, and never again after, even across a reload"
+        "a tip is shown once: until it is put away or its thing goes, and never again after, even across a reload",
+        "while the town errand is open only its own tip stands, and the one over the map waits for it to close"
       ]
     },
     {
@@ -256,7 +258,8 @@
         "the title card says what the game does at the start: no guide while the guided start is off, and the tips",
         "the guided start is off: a new family is refused nothing by it, is sent no lesson, and has none stored",
         "the settlement's call spends its minutes from the moment it arrives: nothing holds it for a guided start",
-        "each tip is due when its thing is on the family's own screen, and never on the Host's"
+        "each tip is due when its thing is on the family's own screen, and never on the Host's",
+        "the house, the field and going to town each have a tip the first time the family can do them, and not before"
       ]
     },
     {
@@ -268,7 +271,8 @@
         "the title card says what the game does at the start: no guide while the guided start is off, and the tips",
         "the guided start is off: a new family is refused nothing by it, is sent no lesson, and has none stored",
         "the settlement's call spends its minutes from the moment it arrives: nothing holds it for a guided start",
-        "each tip is due when its thing is on the family's own screen, and never on the Host's"
+        "each tip is due when its thing is on the family's own screen, and never on the Host's",
+        "the house, the field and going to town each have a tip the first time the family can do them, and not before"
       ]
     },
     {
@@ -286,7 +290,82 @@
       "expected": "each tip is due when its thing",
       "caught": true,
       "failed": [
-        "each tip is due when its thing is on the family's own screen, and never on the Host's"
+        "each tip is due when its thing is on the family's own screen, and never on the Host's",
+        "the house, the field and going to town each have a tip the first time the family can do them, and not before",
+        "while the town errand is open only its own tip stands, and the one over the map waits for it to close"
+      ]
+    },
+    {
+      "name": "the house's tip comes while the family is still on the road in",
+      "file": "public/tips.js",
+      "expected": "the house, the field and going to town",
+      "caught": true,
+      "failed": [
+        "the house, the field and going to town each have a tip the first time the family can do them, and not before"
+      ]
+    },
+    {
+      "name": "the house's tip comes before the house site is chosen",
+      "file": "public/tips.js",
+      "expected": "the house, the field and going to town",
+      "caught": true,
+      "failed": [
+        "the house, the field and going to town each have a tip the first time the family can do them, and not before"
+      ]
+    },
+    {
+      "name": "the house's tip comes with a roof already up",
+      "file": "public/tips.js",
+      "expected": "the house, the field and going to town",
+      "caught": true,
+      "failed": [
+        "the house, the field and going to town each have a tip the first time the family can do them, and not before"
+      ]
+    },
+    {
+      "name": "the field's tip comes when nobody can clear or plant",
+      "file": "public/tips.js",
+      "expected": "the house, the field and going to town",
+      "caught": true,
+      "failed": [
+        "the house, the field and going to town each have a tip the first time the family can do them, and not before"
+      ]
+    },
+    {
+      "name": "the town's tip comes when nobody can go to town",
+      "file": "public/tips.js",
+      "expected": "the house, the field and going to town",
+      "caught": true,
+      "failed": [
+        "the house, the field and going to town each have a tip the first time the family can do them, and not before"
+      ]
+    },
+    {
+      "name": "the field's tip names a ripening time the seasons rework may change",
+      "file": "public/tips.js",
+      "expected": "the house, the field and going to town",
+      "caught": true,
+      "failed": [
+        "the house, the field and going to town each have a tip the first time the family can do them, and not before"
+      ]
+    },
+    {
+      "name": "the house's tip does not say what waiting for the house costs",
+      "file": "public/tips.js",
+      "expected": "the house, the field and going to town",
+      "caught": true,
+      "failed": [
+        "the house, the field and going to town each have a tip the first time the family can do them, and not before"
+      ]
+    },
+    {
+      "name": "the house comes before how to give an order",
+      "file": "public/tips.js",
+      "expected": "the house, the field and going to town",
+      "caught": true,
+      "failed": [
+        "the house, the field and going to town each have a tip the first time the family can do them, and not before",
+        "while the town errand is open only its own tip stands, and the one over the map waits for it to close"
       ]
     }
   ]

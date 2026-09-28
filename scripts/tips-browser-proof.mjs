@@ -138,6 +138,34 @@ async function firstPeriod() {
     await student.locator('#tip .tip-close').click();
     ok(`on the land, how to give an order: "${order.text}"`);
 
+    // ------------------------------------------------------------- the house, the field and going to town (owner, 2026-09-28)
+    // Each the first time the family can do it, one after another, over the map; and none over a popup the student opened.
+    const house = await waitForTip(student, 'house', 'the family is camped on its land and no tip said how to get a house up');
+    placed('1366, the house', house);
+    await shot(student, 'house');
+    // "Choose a house" pressed while the house's tip stands: the plan opens and the tip waits behind it, not over it.
+    const opener = student.locator('#house-open');
+    await opener.waitFor({ state: 'visible', timeout: 15000 });
+    await opener.click();
+    await until(student, 'the house plan did not open', () => ['#house-plan', '#house-plot'].some(one => document.querySelector(one) && !document.querySelector(one).hidden));
+    await student.waitForTimeout(1300);
+    observed.houseHeld = await student.evaluate(() => ({ tipHidden: document.querySelector('#tip').hidden, standing: window.__tip, seen: (window.__snapshot.world.household.tipsSeen || []).includes('house') }));
+    observed.houseHeld.over = await student.evaluate(() => { const t = document.querySelector('#tip'); if (t.hidden) return false; const a = t.getBoundingClientRect(); return ['#house-plan', '#house-plot'].map(s => document.querySelector(s)).filter(p => p && !p.hidden).some(p => { const b = p.getBoundingClientRect(); return a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom; }); });
+    assert.equal(observed.houseHeld.over, false, 'a tip stands over the open house plan');
+    assert.equal(observed.houseHeld.seen, false, 'opening the plan put the house tip away unread');
+    await student.locator('#house-close:visible, #plot-close:visible').first().click();
+    await until(student, 'the house tip did not come back when the plan closed', () => window.__tip === 'house' && !document.querySelector('#tip').hidden);
+    await student.locator('#tip .tip-close').click();
+    ok(`the house: "${house.text}" - and with the plan open, the tip waited behind it and came back when it closed`);
+    const field = await waitForTip(student, 'field', 'the family can plant and no tip said how to farm');
+    placed('1366, the field', field);
+    await student.locator('#tip .tip-close').click();
+    const town = await waitForTip(student, 'town', 'the family can go to town and no tip said what it costs');
+    placed('1366, going to town', town);
+    await student.locator('#tip .tip-close').click();
+    observed.farm = { house: house.text, field: field.text, town: town.text };
+    ok(`the field: "${field.text}"; going to town: "${town.text}"`);
+
     // ------------------------------------------------------------------------------------------- the call's tip
     for (let t = 0; t < 9000 && !(world().calls?.['hh-1']?.status === 'open'); t++) stepWorld(world());
     assert.equal(world().calls?.['hh-1']?.status, 'open', 'no settlement call ever reached the family, so this proves nothing');
