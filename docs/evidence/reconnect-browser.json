@@ -1,0 +1,52 @@
+{
+  "record": "reconnect-browser",
+  "date": "2026-09-28",
+  "verdict": "PASS",
+  "browser": "153.0.8010.53",
+  "task": "docs/audits/2026-09-28-classroom.md B3 and B5: a student's and the Host's pages through a server outage of 5 s and of 30 s, the real server killed outright and started again on the same class, and the away list on a page with no cookie.",
+  "environment": "Same computer: the real server/main.mjs as a child process on loopback, killed with TerminateProcess (SIGKILL), 1 s a tick, headless Chrome at 1366x768. Not a physical LAN, a Chromebook asleep, a Wi-Fi roam or the district network.",
+  "checks": [
+    "a class of five started from the Host page on the real server",
+    "5 s with the server gone: both pages kept the game on screen under \"Connection lost. Reconnecting…\", and never the join screen",
+    "the server started again on the same class (lock taken over, save backed up); the student's page was back with hh-1 1412 ms after, the Host's 1577 ms after, and the class went on",
+    "30 s with the server gone: both pages kept the game on screen under \"Connection lost. Reconnecting…\" then \"Still reconnecting (22 seconds). Your family is safe; this page carries on by itself when the class server answers again.\" then \"Still reconnecting (27 seconds). Your family is safe; this page carries on by itself when the class server answers again.\", and never the join screen",
+    "the server started again on the same class (lock taken over, save backed up); the student's page was back with hh-1 6022 ms after, the Host's 6845 ms after, and the class went on",
+    "a student on a new Chromebook with no cookie and no key typed the class code, saw 4 names (not the student playing), tapped their own and got hh-5 back",
+    "no page errors"
+  ],
+  "measured": {
+    "outages": [
+      {
+        "seconds": 5,
+        "words": [
+          "Connection lost. Reconnecting…"
+        ],
+        "studentBackMs": 1412,
+        "hostBackMs": 1577,
+        "samples": 5
+      },
+      {
+        "seconds": 30,
+        "words": [
+          "Connection lost. Reconnecting…",
+          "Still reconnecting (22 seconds). Your family is safe; this page carries on by itself when the class server answers again.",
+          "Still reconnecting (27 seconds). Your family is safe; this page carries on by itself when the class server answers again."
+        ],
+        "studentBackMs": 6022,
+        "hostBackMs": 6845,
+        "samples": 28
+      }
+    ],
+    "awayList": [
+      "Cart ChromebookGregorio's family",
+      "FourthFeliciano's family",
+      "SecondThomas's family",
+      "ThirdBarnabas's family"
+    ]
+  },
+  "screenshots": [
+    "docs/evidence/reconnect-outage-student.png",
+    "docs/evidence/reconnect-outage-host.png",
+    "docs/evidence/reconnect-names.png"
+  ]
+}

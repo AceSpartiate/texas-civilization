@@ -1,4 +1,6 @@
-import { mkdirSync, readFileSync, writeFileSync, renameSync, existsSync, openSync, fsyncSync, closeSync, unlinkSync, realpathSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync, renameSync, existsSync, openSync, fsyncSync, closeSync, unlinkSync, realpathSync, linkSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { uptime } from 'node:os';
 import { STARTING_POWDER } from '../sim/world.mjs';
 import { widenPassages } from '../sim/houseplot.mjs';
 import { deriveUses } from '../sim/chores.mjs';
@@ -7,29 +9,95 @@ import { randomBytes } from 'node:crypto';
 import { openSouth } from '../sim/south.mjs';
 import { openAdvancePlaces } from '../sim/advance-places.mjs';
 
+/**
+ * When process `pid` began, in milliseconds since 1970: a number; `undefined` when there is no such process; null when it
+ * cannot be told. Asked only when a save lock names a process that is still running (`ownerGone`), never on a normal start.
+ *
+ * Windows asks WMI through PowerShell (about a second, once); Linux reads /proc. Anything else, or any failure, is null -
+ * "cannot be told" - and the lock is then left alone, as it always was.
+ */
+export function processStartedAt(pid) {
+  if (!Number.isSafeInteger(pid) || pid <= 0) return null;
+  try {
+    if (process.platform === 'win32') {
+      const text = execFileSync('powershell.exe', ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command',
+        `$p = Get-CimInstance Win32_Process -Filter 'ProcessId=${pid}'; if ($p) { ([DateTimeOffset]$p.CreationDate).ToUnixTimeMilliseconds() } else { 'none' }`],
+      { encoding: 'utf8', timeout: 20000, windowsHide: true, stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+      if (text === 'none') return undefined;
+      return /^\d{10,}$/.test(text) ? Number(text) : null;
+    }
+    if (process.platform === 'linux') {
+      if (!existsSync(`/proc/${pid}`)) return undefined;
+      // Field 22 of /proc/<pid>/stat is the start in clock ticks after boot; the name (field 2) may hold spaces, so count
+      // from its closing bracket. ceiling: assumes the usual 100 ticks a second.
+      const fields = readFileSync(`/proc/${pid}/stat`, 'utf8').split(')').at(-1).trim().split(' ');
+      const bootAt = Date.now() - uptime() * 1000;
+      return bootAt + Number(fields[19]) * 10;
+    }
+  } catch { /* cannot be told */ }
+  return null;
+}
+/** A process that began this long after its lock was written did not write it (clock resolution and WMI's rounding). */
+const START_SLACK_MS = 2000;
+/**
+ * Whether the server that wrote this lock has certainly gone (2026-09-28, docs/audits/2026-09-28-classroom.md B5): its
+ * process has ended, or a process now carries its number that began after the lock was written - so it is not the one that
+ * wrote it, which is what a Windows restart or a long day of other programs does to a number. Anything less certain is not
+ * gone: a malformed lock, a process that began before the lock, a start time that cannot be read.
+ */
+export function ownerGone(existing, { startedAt = processStartedAt } = {}) {
+  const pid = existing?.processId;
+  if (!Number.isSafeInteger(pid) || pid <= 0 || typeof existing.token !== 'string') return null;
+  try { process.kill(pid, 0); } catch (probe) { if (probe.code === 'ESRCH') return `process ${pid} has ended`; }
+  const written = Date.parse(existing.createdAt);
+  if (!Number.isFinite(written)) return null;
+  const started = startedAt(pid);
+  if (started === undefined) return `process ${pid} has ended`;
+  if (Number.isFinite(started) && started > written + START_SLACK_MS) return `process ${pid} began after the lock was written, so it is another program`;
+  return null;
+}
+
 // A save has one server owner for its entire lifetime, independently of HTTP port.
-// Refuse ambiguous/stale ownership rather than race another process to reclaim it.
-export function acquireSaveLock(path) {
+//
+// **A lock whose owner has certainly gone is taken over (2026-09-28).** Until then every leftover lock refused to start,
+// and the only way on was a developer following docs/RECOVERY.md - so a laptop shut with the class up, a Windows Update
+// restart overnight or an End Task left the next day's class unable to open. Now, when `ownerGone` is certain, the save is
+// backed up into `archive/`, the old lock is moved aside by rename (one atomic step: of two starts racing to recover, one
+// moves it and the other finds nothing to move), its words checked to be the very ones judged gone, and the new lock is
+// made with `wx` as any start makes it. Every doubt still refuses, as before.
+// ceiling: a start that moves aside a lock written a moment earlier by a third start racing the same recovery puts it back
+// by a hard link; if yet another start has made one in that instant, this refuses and says so rather than guessing. Three
+// servers started on one save in the same second is the case left open; the launcher's own lock and the one port make it
+// unreachable from the launcher.
+export function acquireSaveLock(path, { startedAt = processStartedAt } = {}) {
   if (!path) return { path, release() {} };
   const requested = resolve(path);
   mkdirSync(dirname(requested), { recursive: true });
   const canonical = existsSync(requested) ? realpathSync(requested) : join(realpathSync(dirname(requested)), basename(requested));
   const lockPath = `${canonical}.lock`;
   const owner = { version: 1, processId: process.pid, token: randomBytes(24).toString('hex'), createdAt: new Date().toISOString() };
-  let fd;
-  try { fd = openSync(lockPath, 'wx'); }
-  catch (error) {
-    if (error.code !== 'EEXIST') throw error;
-    let existing;
-    try { existing = JSON.parse(readFileSync(lockPath, 'utf8')); } catch {}
-    let stale = false;
-    if (Number.isSafeInteger(existing?.processId) && existing.processId > 0) {
-      try { process.kill(existing.processId, 0); } catch (probe) { stale = probe.code === 'ESRCH'; }
+  let fd, recovered = null;
+  for (let attempt = 0; fd === undefined; attempt++) {
+    try { fd = openSync(lockPath, 'wx'); break; }
+    catch (error) {
+      if (error.code !== 'EEXIST' || attempt >= 2) throw error;
+      let text = null, existing;
+      try { text = readFileSync(lockPath, 'utf8'); existing = JSON.parse(text); } catch (read) { if (read.code === 'ENOENT') continue; }
+      const gone = existing && ownerGone(existing, { startedAt });
+      if (!gone) {
+        throw new Error(`Save already owned, or ownership cannot be verified: ${lockPath}. Another classroom server may still be using this class. Close it, or restart the computer, and start again: a class whose server has certainly gone opens by itself.`, { cause: error });
+      }
+      const backup = archiveSave(canonical, 'before-lock-recovery');
+      const aside = `${lockPath}.stale-${randomBytes(6).toString('hex')}`;
+      try { renameSync(lockPath, aside); } catch (move) { if (move.code === 'ENOENT') continue; throw move; }
+      if (readFileSync(aside, 'utf8') !== text) {
+        // Not the lock that was judged: another start recovered first and this moved its new lock. Put it back.
+        try { linkSync(aside, lockPath); unlinkSync(aside); } catch { /* the aside file is kept as the evidence */ }
+        throw new Error(`Save ownership changed while it was being recovered: ${lockPath}. Another classroom server is starting on this class.`, { cause: error });
+      }
+      unlinkSync(aside);
+      recovered = { reason: gone, processId: existing.processId, backup };
     }
-    const detail = stale
-      ? `Stale save lock: process ${existing.processId} is no longer running. After verifying every classroom server using this save is stopped, remove only ${lockPath} and launch again.`
-      : `Save already owned, or ownership cannot be verified: ${lockPath}. Close the owning classroom server before using this save again.`;
-    throw new Error(detail, { cause: error });
   }
   try { writeFileSync(fd, JSON.stringify(owner)); fsyncSync(fd); }
   catch (error) { closeSync(fd); unlinkSync(lockPath); throw error; }
@@ -37,6 +105,7 @@ export function acquireSaveLock(path) {
   let released = false;
   return {
     path: canonical,
+    recovered,
     release() {
       if (released) return;
       const current = JSON.parse(readFileSync(lockPath, 'utf8'));

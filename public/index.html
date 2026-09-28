@@ -59,7 +59,19 @@
   <label>Class code <input name="code" required maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
   <button>Join</button>
   <p id="join-error" role="alert"></p>
-  <p class="other-way"><button type="button" id="rejoin-toggle">I already have a family key</button></p>
+  <p class="other-way"><button type="button" id="away-toggle">I was already in this class</button> <button type="button" id="rejoin-toggle">I already have a family key</button></p>
+</form>
+
+<!-- Coming back with nothing but the class code (2026-09-28, the classroom audit's B3; the server's door since 2026-09-21,
+     FIC-GONZ-186): the names of the students whose family nobody is playing now, and a tap on your own. -->
+<form id="away" hidden>
+  <span class="eyebrow">RETURN TO YOUR STORY</span>
+  <h1>Find your name.</h1>
+  <label>Class code <input name="code" required maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
+  <button id="away-find">Show the names</button>
+  <ul id="away-names" aria-label="Students whose family is waiting for them"></ul>
+  <p id="away-error" role="alert"></p>
+  <p class="other-way"><button type="button" id="away-join-toggle">I am joining for the first time</button> <button type="button" id="away-key-toggle">I have a family key</button></p>
 </form>
 
 <!-- Recovering a family is its own door, not a variation on joining: it needs no class
@@ -72,6 +84,10 @@
   <p id="rejoin-error" role="alert"></p>
   <p class="other-way"><button type="button" id="join-toggle">I am joining for the first time</button></p>
 </form>
+
+<!-- The server is out of reach and the page is trying again by itself (public/reconnect.js): over everything, the game left
+     on the screen behind it. -->
+<p id="reconnecting" role="status" hidden></p>
 
 <div id="game" hidden>
   <div class="map-stage">
@@ -121,7 +137,7 @@
         <button data-action="resume">Resume</button>
         <button data-action="end">End Game</button>
         <button data-action="next-period">Continue to the winter of 1836</button>
-        <button data-action="new-class" class="careful">New Class</button>
+        <!-- New Class is in Classes below since 2026-09-28: it asks for a name and a size, and keeps the class it replaces. -->
         <button data-action="stop-server" class="careful">Stop Server</button>
       </nav>
       <!-- Play Solo's own controls (owner, 2026-09-27: "i shouldn't need to open the class view to pause, save or shut down
@@ -157,6 +173,36 @@
         </div>
       </div>
       <div id="join-links" hidden></div>
+      <!-- The teacher's class controls (2026-09-28, public/class-panel.js): how many class days a game takes and where the
+           class is; the class size, in the lobby; which family a late student is given; and every class kept on this
+           computer, opened again or a new one started. -->
+      <p id="class-days" role="status" hidden></p>
+      <div id="class-size-row" hidden>
+        <label for="class-size">Families in this class</label>
+        <select id="class-size"></select>
+        <button type="button" id="class-size-set">Set</button>
+        <p id="class-size-hint"></p>
+        <p id="class-size-note" role="status"></p>
+      </div>
+      <div id="late" hidden>
+        <label for="late-seat">Late students: the next to join is given</label>
+        <select id="late-seat"></select>
+        <p id="late-note" role="status"></p>
+      </div>
+      <div id="classes" hidden>
+        <button type="button" id="classes-toggle" aria-expanded="false" aria-controls="classes-panel">Classes</button>
+        <div id="classes-panel" hidden>
+          <p id="class-now"></p>
+          <ol id="classes-list"></ol>
+          <form id="class-new">
+            <label>New class name <input id="class-new-name" maxlength="40" autocomplete="off" placeholder="Period 4"></label>
+            <label>Families <select id="class-new-size"></select></label>
+            <button type="submit" id="class-new-make">Start a new class</button>
+          </form>
+          <p class="class-help">Opening a class or starting a new one keeps the class that is open now. Pause a running class first.</p>
+          <p id="classes-note" role="status"></p>
+        </div>
+      </div>
     </div>
 
     <div id="map-tools">
